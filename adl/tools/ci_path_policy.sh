@@ -831,8 +831,146 @@ manager_profile_is_release_gate_only_escalation() {
   [ "$validation_profile_escalation_lanes" = "release_gate_review" ]
 }
 
+is_warmup_guidance_patch() {
+  local path="$1"
+  local saw_warmup_marker=false
+  local line content
+  while IFS= read -r line; do
+    case "$line" in
+      diff\ --git*|index\ *|@@*|---*|+++*)
+        continue
+        ;;
+      +*|-*)
+        content="${line#?}"
+        case "$content" in
+          ""|\
+          *"warm_rust_dependency_cache.py"*|\
+          *"test_warm_rust_dependency_cache.py"*|\
+          *"HARDLINKED_RUST_DEPENDENCY_CACHE.md"*|\
+          *"dependency-cache warmup"*|\
+          *"Dependency-Cache Warmup"*|\
+          *"dependency-cache"*|\
+          *"warmup"*|\
+          *"dependency artifacts"*|\
+          *"fresh or cold"*|\
+          *"run the smallest meaningful validation"*|\
+          *"run a pre-PR subagent review"*|\
+          *"verify PR base/stack topology"*|\
+          *"use \`update_goal\`"*|\
+          *"For local issue worktrees and remote builders"*|\
+          *"ADL also provides"*|\
+          *"hardlinked dependency-cache"*|\
+          *"available:"*|\
+          *"trusted warm"*|\
+          *"source target"*|\
+          *"filesystem relationship"*|\
+          *"shared global"*|\
+          *"workspace outputs"*|\
+          *".fingerprint"*|\
+          *"build metadata"*|\
+          *"focused proof"*|\
+          *"does not prove"*|\
+          *"selected validation lane"*|\
+          *"is uncertain"*|\
+          *"do not skip"*|\
+          *"cache warmup succeeded"*|\
+          *"materially affects validation time"*|\
+          *"warm target"*|\
+          *"same host"*|\
+          *"same filesystem"*|\
+          *"same checkout family"*|\
+          *"same toolchain"*|\
+          *"same-host"*|\
+          *"same-filesystem"*|\
+          *"same-checkout-family"*|\
+          *"same-toolchain"*|\
+          *"CARGO_TARGET_DIR"*|\
+          *"build acceleration"*|\
+          *"validation proof"*|\
+          *"required validation lane"*|\
+          *"cache-warmup evidence"*|\
+          *"issue's selected validation"*|\
+          *"execution record"*|\
+          *"The reminder"*|\
+          *"skipped when no trusted"*|\
+          *"Rust-heavy validation"*|\
+          *"Rust validation"*|\
+          *"owner-lane validation"*|\
+          *"--source-target"*|\
+          *"--dest-target"*|\
+          *"--manifest-path"*|\
+          *"--dry-run"*|\
+          *"--json"*|\
+          *"<issue-worktree>/adl/target"*|\
+          *"<issue-worktree>/adl/Cargo.toml"*|\
+          *"docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md"*|\
+          *"run_owner_validation_lane.sh"*|\
+          *\`\`\`*)
+            case "$content" in
+              *"warm_rust_dependency_cache.py"*|\
+              *"test_warm_rust_dependency_cache.py"*|\
+              *"HARDLINKED_RUST_DEPENDENCY_CACHE.md"*|\
+              *"dependency-cache warmup"*|\
+              *"warmup"*)
+                saw_warmup_marker=true
+                ;;
+            esac
+            ;;
+          *)
+            return 1
+            ;;
+        esac
+        ;;
+    esac
+  done < <(git_pr_patch "$path")
+  [ "$saw_warmup_marker" = true ]
+}
+
+is_bounded_rust_dependency_cache_warmup_policy_change() {
+  local saw_warmup_surface=false
+  local saw_policy_surface=false
+  local path
+  while IFS= read -r path; do
+    [ -n "$path" ] || continue
+    case "$path" in
+      adl/tools/warm_rust_dependency_cache.py|\
+      adl/tools/test_warm_rust_dependency_cache.py|\
+      docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md)
+        saw_warmup_surface=true
+        ;;
+      AGENTS.md|\
+      adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md|\
+      adl/tools/skills/pr-run/SKILL.md|\
+      adl/tools/skills/workflow-conductor/SKILL.md)
+        is_warmup_guidance_patch "$path" || return 1
+        saw_warmup_surface=true
+        ;;
+      adl/config/validation_lane_selector.v0.91.6.json|\
+      adl/tools/ci_path_policy.sh|\
+      adl/tools/test_ci_path_policy.sh)
+        saw_policy_surface=true
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+  done <<EOF
+$changed_files
+EOF
+  [ "$saw_warmup_surface" = true ] && [ "$saw_policy_surface" = true ]
+}
+
 apply_validation_manager_routing() {
   case "$validation_profile_status:$validation_profile_run_lanes:$validation_profile_escalation_required" in
+    ready_to_run:ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts:false)
+      if is_bounded_rust_dependency_cache_warmup_policy_change; then
+        reason="bounded_rust_dependency_cache_warmup_policy_change_runs_python_and_path_policy_checks"
+      else
+        ci_contracts_required=true
+        reason="${validation_profile_primary_reason:-ci_policy_surface_requires_path_policy_contract_checks}"
+      fi
+      return 0
+      ;;
     ready_to_run:*ci_path_policy_contracts*:false)
       ci_contracts_required=true
       reason="${validation_profile_primary_reason:-ci_policy_surface_requires_path_policy_contract_checks}"
@@ -845,6 +983,12 @@ apply_validation_manager_routing() {
     ready_to_run:sprint_conductor_contracts:false|\
     ready_to_run:docs_diff_check,sprint_conductor_contracts:false)
       reason="sprint_conductor_surface_requires_helper_contract_checks"
+      return 0
+      ;;
+    ready_to_run:rust_dependency_cache_warmup_contracts:false|\
+    ready_to_run:docs_diff_check,rust_dependency_cache_warmup_contracts:false|\
+    ready_to_run:rust_dependency_cache_warmup_contracts,docs_diff_check:false)
+      reason="rust_dependency_cache_warmup_helper_requires_python_contract_checks"
       return 0
       ;;
     ready_to_run:rust_pr_fast:false)
