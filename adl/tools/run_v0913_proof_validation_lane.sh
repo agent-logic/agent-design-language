@@ -36,8 +36,13 @@ validate_card_lifecycle_bundle() {
 }
 
 validate_card_lifecycle_contract() {
-  cargo test --manifest-path "$ROOT_DIR/adl/Cargo.toml" --bin adl 'cli::tooling_cmd::tests::structured_prompt::tracked_csdlc_card_bundle_validates' -- --exact --nocapture
-  cargo test --manifest-path "$ROOT_DIR/adl/Cargo.toml" --bin adl 'cli::pr_cmd::doctor::tests::card_lifecycle_accepts_tracked_csdlc_bundle' -- --exact --nocapture
+  # Keep the proof lane bounded to one CLI target and exact test names so
+  # contract validation does not fan out across every binary that links the
+  # shared CLI test modules.
+  cargo test --manifest-path "$ROOT_DIR/adl/Cargo.toml" --bin adl \
+    'cli::tooling_cmd::tests::structured_prompt::tracked_csdlc_card_bundle_validates' -- --exact --nocapture
+  cargo test --manifest-path "$ROOT_DIR/adl/Cargo.toml" --bin adl \
+    'cli::pr_cmd::doctor::tests::card_lifecycle_accepts_tracked_csdlc_bundle' -- --exact --nocapture
 }
 
 run_check transition_dag_packet \
@@ -47,7 +52,8 @@ run_check transition_dag_contract \
   bash "$ROOT_DIR/adl/tools/test_transition_dag_packet.sh"
 
 run_check transition_manifest_schema \
-  cargo test --manifest-path "$ROOT_DIR/adl/Cargo.toml" cognitive_transition_schema -- --nocapture
+  cargo test --manifest-path "$ROOT_DIR/adl/Cargo.toml" --lib \
+    cognitive_transition_schema -- --nocapture
 
 run_check card_lifecycle_bundle validate_card_lifecycle_bundle
 
