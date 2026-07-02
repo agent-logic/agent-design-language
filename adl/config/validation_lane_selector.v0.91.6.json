@@ -460,6 +460,27 @@
       "reason": "sprint_conductor_surface_requires_helper_contract_checks"
     },
     {
+      "id": "rust_dependency_cache_warmup_contracts",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "tools",
+      "proof_role": "regression",
+      "requirement_ids": [
+        "rust_dependency_cache_warmup_contracts"
+      ],
+      "path_selectors": [
+        "adl/tools/warm_rust_dependency_cache.py",
+        "adl/tools/test_warm_rust_dependency_cache.py"
+      ],
+      "path_hints": [
+        "adl/tools/warm_rust_dependency_cache.py",
+        "adl/tools/test_warm_rust_dependency_cache.py"
+      ],
+      "command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py",
+      "run_command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py",
+      "reason": "rust_dependency_cache_warmup_helper_requires_python_contract_checks"
+    },
+    {
       "id": "docs_diff_check",
       "lane_class": "docs",
       "default_surface": "docs",
