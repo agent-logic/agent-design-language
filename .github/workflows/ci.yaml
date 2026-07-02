@@ -473,7 +473,6 @@ jobs:
           echo "Coverage authority: ${{ steps.path-policy.outputs.coverage_authority }}"
           echo "Policy coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}"
           echo "Actual adl-coverage execution state: authoritative_full_required"
-
       - name: Coverage (ADL Rust workspace lcov)
         if: github.event_name != 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'
         run: cargo llvm-cov report --lcov --output-path lcov.info
