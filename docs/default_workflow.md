@@ -221,6 +221,10 @@ and preserves metric fields as `unknown` rather than fabricating values.
 The helper validates that the discovered goal objective matches the target
 issue number and falls back to `unknown` instead of attaching a snapshot from a
 different issue or sprint thread.
+Accepted `--capture-stage` values are: `issue_init`, `doctor_readiness`,
+`card_repair`, `execution_ready`, `issue_start`, `pr_publication`,
+`review_handoff`, `merge_closeout`, and `sprint_closeout`. The helper fails
+closed before writing artifacts for any other stage name.
 
 After the summary exists, project it into the issue-local SOR metrics section
 with the SRP/SOR updater rather than copying values by hand:
