@@ -124,7 +124,7 @@ if "tool: nextest" not in workflow:
         "coverage lanes must install cargo-nextest as a required coverage toolchain dependency"
     )
 if "cargo llvm-cov nextest" in workflow:
-    raise SystemExit("adl-coverage must not use nextest as the hot coverage execution driver")
+    raise SystemExit("adl-coverage workflow must delegate coverage execution to the runner, not inline nextest")
 
 expected_coverage = (
     'bash tools/run_authoritative_coverage_lane.sh --authority "adl_coverage_always_on" '
@@ -169,7 +169,7 @@ if step_count("PR fast coverage summary (json)") != 0:
 if step_count("Determine PR fast coverage filters") != 0:
     raise SystemExit("adl-coverage must not use the old coverage-impact output filter step")
 for required_fragment in (
-    "cargo llvm-cov \\",
+    "cargo llvm-cov nextest \\",
     "    --no-clean \\",
     "    --workspace \\",
     "    --lib \\",
@@ -182,8 +182,8 @@ for required_fragment in (
             "authoritative coverage runner must execute direct library-only coverage without linking ADL binaries; "
             f"missing fragment: {required_fragment}"
         )
-if "cargo llvm-cov nextest" in runner_script_text or "    --tests \\" in runner_script_text or "    --bins \\" in runner_script_text or "    --all-targets \\" in runner_script_text:
-    raise SystemExit("authoritative coverage runner must not use nextest or link test/bin/all-target surfaces")
+if "    --tests \\" in runner_script_text or "    --bins \\" in runner_script_text or "    --all-targets \\" in runner_script_text:
+    raise SystemExit("authoritative coverage runner must not link test/bin/all-target surfaces")
 
 authoritative_gate_step = step_block("Coverage-impact changed-source gate")
 if '--summary adl/coverage-summary.json \\' not in authoritative_gate_step:

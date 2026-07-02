@@ -93,7 +93,7 @@ export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/llvm-cov-target"
 if [ "$MODE" = "full_authoritative_default_features" ]; then
   echo "Authoritative coverage mode: full_authoritative_default_features"
   echo "Features: default"
-  cargo llvm-cov \
+  cargo llvm-cov nextest \
     --no-clean \
     --workspace \
     --lib \
@@ -104,7 +104,7 @@ else
   echo "Authoritative coverage mode: bounded_policy_surface_pr"
   echo "Features: default"
   echo "Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes."
-  cargo llvm-cov \
+  cargo llvm-cov nextest \
     --no-clean \
     --workspace \
     --lib \

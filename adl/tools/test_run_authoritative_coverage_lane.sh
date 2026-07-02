@@ -35,7 +35,7 @@ esac
 
 script_text="$(cat "$SCRIPT")"
 for required_fragment in \
-  "cargo llvm-cov" \
+  "cargo llvm-cov nextest" \
   "--no-clean" \
   "--workspace" \
   "--lib" \
@@ -52,8 +52,8 @@ do
   esac
 done
 case "$script_text" in
-  *"cargo llvm-cov nextest"*|*"--tests"*|*"--bins"*|*"--all-targets"*)
-    echo "coverage runner must not use nextest, tests, bins, or all-targets" >&2
+  *"--tests"*|*"--bins"*|*"--all-targets"*)
+    echo "coverage runner must not use tests, bins, or all-targets" >&2
     exit 1
     ;;
 esac
