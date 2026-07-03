@@ -115,6 +115,29 @@ def run_command_with_timeout(args, cwd: Path, timeout_secs=None):
         }
 
 
+def parse_json_from_mixed_output(raw: str):
+    lines = raw.splitlines()
+    for index, line in enumerate(lines):
+        stripped = line.lstrip()
+        if stripped.startswith("{") or stripped.startswith("["):
+            payload = "\n".join(lines[index:])
+            decoder = json.JSONDecoder()
+            value, _ = decoder.raw_decode(payload.lstrip())
+            return value
+    raise ValueError("command output did not contain JSON")
+
+
+def adl_binary(repo_root: Path):
+    candidates = [
+        repo_root / "adl" / "target" / "debug" / "adl",
+        repo_root.parent / "agent-design-language" / "adl" / "target" / "debug" / "adl",
+    ]
+    for candidate in candidates:
+        if candidate.exists() and candidate.is_file():
+            return str(candidate)
+    return "adl"
+
+
 def read_text(path: Path):
     if not path or not path.exists():
         return ""
@@ -211,12 +234,7 @@ def find_source_prompt_for_issue(repo_root: Path, issue_number: int):
 
 
 def parse_doctor_output(raw: str):
-    lines = raw.splitlines()
-    for index, line in enumerate(lines):
-        if line.lstrip().startswith("{"):
-            payload = "\n".join(lines[index:])
-            return json.loads(payload)
-    raise ValueError("doctor output did not contain JSON")
+    return parse_json_from_mixed_output(raw)
 
 
 def frontmatter_value(text: str, key: str):
@@ -272,17 +290,22 @@ def classify_doctor_state(doctor):
     return "none"
 
 
-def gh_child_issue_wave_state(repo_root: Path, parent_issue_number: int):
+def repo_native_issue_list(repo_root: Path):
     result = run_command(
-        ["gh", "issue", "list", "--state", "all", "--limit", "200", "--json", "number,state,body,title"],
+        ["bash", "adl/tools/pr.sh", "issue", "list", "--state", "all", "--limit", "200", "--json"],
         repo_root,
     )
     if result.returncode != 0 or not result.stdout.strip():
-        return None
+        return []
     try:
-        issues = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return None
+        issues = parse_json_from_mixed_output(result.stdout)
+    except (ValueError, json.JSONDecodeError):
+        return []
+    return issues if isinstance(issues, list) else []
+
+
+def child_issue_wave_state(repo_root: Path, parent_issue_number: int):
+    issues = repo_native_issue_list(repo_root)
     children = []
     needle = f"child of #{parent_issue_number}"
     for issue in issues:
@@ -291,22 +314,13 @@ def gh_child_issue_wave_state(repo_root: Path, parent_issue_number: int):
             children.append(issue)
     if not children:
         return None
-    if all(issue.get("state") == "CLOSED" for issue in children):
+    if all(str(issue.get("state", "")).lower() == "closed" for issue in children):
         return "satisfied_by_child_issue_wave"
     return "active_child_issue_wave"
 
 
-def gh_issue_index(repo_root: Path):
-    result = run_command(
-        ["gh", "issue", "list", "--state", "all", "--limit", "200", "--json", "number,state,body,title"],
-        repo_root,
-    )
-    if result.returncode != 0 or not result.stdout.strip():
-        return {}
-    try:
-        issues = json.loads(result.stdout)
-    except json.JSONDecodeError:
-        return {}
+def issue_index(repo_root: Path):
+    issues = repo_native_issue_list(repo_root)
     return {int(issue.get("number")): issue for issue in issues if issue.get("number") is not None}
 
 
@@ -326,7 +340,7 @@ def related_issue_reference_state(texts, issue_index):
     referenced = [issue for issue in referenced if issue]
     if not referenced:
         return "none"
-    if all(issue.get("state") == "CLOSED" for issue in referenced):
+    if all(str(issue.get("state", "")).lower() == "closed" for issue in referenced):
         return "satisfied_by_related_issue_refs"
     return "related_issue_ref_active"
 
@@ -365,7 +379,7 @@ def sibling_issue_artifact_state(repo_root: Path, texts, issue_number: int, vers
     sibling_needle = f"child of #{parent_issue}"
     for sibling_issue in issue_index.values():
         sibling_number = int(sibling_issue.get("number", 0) or 0)
-        if sibling_number == issue_number or sibling_issue.get("state") != "CLOSED":
+        if sibling_number == issue_number or str(sibling_issue.get("state", "")).lower() != "closed":
             continue
         sibling_body = sibling_issue.get("body") or ""
         if sibling_needle not in sibling_body.lower():
@@ -522,8 +536,8 @@ def issue_tracker_state(repo_root: Path, bundle: Path, source_prompt: Path, issu
     is_tracker_like = bool(wp_value and wp_value != "unassigned") or bool(title and "[WP-" in title)
     if not is_tracker_like:
         return "none"
-    gh_state = gh_child_issue_wave_state(repo_root, issue_number)
-    return gh_state or "none"
+    state = child_issue_wave_state(repo_root, issue_number)
+    return state or "none"
 
 
 def collect_route_issue(repo_root: Path, payload):
@@ -557,7 +571,7 @@ def collect_route_issue(repo_root: Path, payload):
         workflow["evidence_used"].append("missing_root_bundle")
         return {"target": resolved_target, "workflow_state": workflow, "policy": payload.get("policy", {})}
 
-    issue_index = gh_issue_index(repo_root)
+    issues_by_number = issue_index(repo_root)
     tracker_state = issue_tracker_state(repo_root, bundle, source_prompt, issue_number)
     if tracker_state == "satisfied_by_child_issue_wave":
         workflow["blocker_class"] = "satisfied_by_child_issue_wave"
@@ -568,7 +582,7 @@ def collect_route_issue(repo_root: Path, payload):
 
     related_state = related_issue_reference_state(
         [read_text(source_prompt), read_text(bundle / "stp.md") if bundle else ""],
-        issue_index,
+        issues_by_number,
     )
     if workflow["blocker_class"] == "none" and related_state == "satisfied_by_related_issue_refs":
         workflow["blocker_class"] = "satisfied_by_related_issue_refs"
@@ -582,7 +596,7 @@ def collect_route_issue(repo_root: Path, payload):
         [read_text(source_prompt), read_text(bundle / "stp.md") if bundle else ""],
         issue_number,
         resolved_target.get("version"),
-        issue_index,
+        issues_by_number,
     )
     if workflow["blocker_class"] == "none" and sibling_artifact_state == "satisfied_by_sibling_issue_artifact":
         workflow["blocker_class"] = "satisfied_by_sibling_issue_artifact"
@@ -808,23 +822,44 @@ def summarize_checks(status_rollup):
     return "pass"
 
 
+def pr_from_validation_report(report):
+    checks = []
+    for check in report.get("checks", []):
+        checks.append(
+            {
+                "status": check.get("status"),
+                "conclusion": check.get("conclusion"),
+            }
+        )
+    pr_state = report.get("pr_state") or "OPEN"
+    return {
+        "state": "MERGED" if pr_state == "MERGED" else pr_state,
+        "isDraft": bool(report.get("is_draft")),
+        "reviewDecision": report.get("reviewDecision") or report.get("review_decision"),
+        "mergeStateStatus": report.get("mergeStateStatus") or report.get("merge_state_status") or "UNKNOWN",
+        "headRefName": report.get("head_ref_name"),
+        "statusCheckRollup": checks,
+    }
+
+
+def repo_native_pr_validation(repo_root: Path, pr_number: int):
+    result = run_command(
+        [adl_binary(repo_root), "pr", "validation", str(pr_number), "--json"],
+        repo_root,
+    )
+    if not result.stdout.strip():
+        fail(f"workflow-conductor: failed to inspect PR #{pr_number} with repo-native ADL validation")
+    try:
+        report = parse_json_from_mixed_output(result.stdout)
+    except (ValueError, json.JSONDecodeError) as exc:
+        fail(f"workflow-conductor: failed to parse repo-native PR #{pr_number} validation JSON: {exc}")
+    return report
+
+
 def collect_route_pr(repo_root: Path, payload):
     target = payload.get("target", {})
     pr_number = int(target["pr_number"])
-    result = run_command(
-        [
-            "gh",
-            "pr",
-            "view",
-            str(pr_number),
-            "--json",
-            "state,isDraft,reviewDecision,mergeStateStatus,headRefName,statusCheckRollup",
-        ],
-        repo_root,
-    )
-    if result.returncode != 0:
-        fail(f"workflow-conductor: failed to inspect PR #{pr_number}")
-    pr = json.loads(result.stdout)
+    pr = pr_from_validation_report(repo_native_pr_validation(repo_root, pr_number))
     resolved_target = dict(target)
     resolved_target.setdefault("branch", pr.get("headRefName"))
     identity = parse_branch_identity(pr.get("headRefName", ""))
@@ -846,7 +881,7 @@ def collect_route_pr(repo_root: Path, payload):
         "pr_state": "open_unknown",
         "blocker_class": "none",
         "subagent_assigned": bool(payload.get("observed_state", {}).get("subagent_assigned", False)),
-        "evidence_used": ["gh_pr"],
+        "evidence_used": ["repo_native_pr_validation"],
     }
     workflow["pr_state"], workflow["blocker_class"] = classify_pr_state(pr)
     if workflow["blocker_class"] == "none" and detect_tracked_adl_residue(repo_root):

@@ -115,6 +115,27 @@
       "reason": "prompt_template_or_editor_surface_requires_template_contract_checks"
     },
     {
+      "id": "workflow_conductor_contracts",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "csdlc",
+      "proof_role": "workflow_conductor_contract",
+      "requirement_ids": [
+        "workflow_conductor_contracts"
+      ],
+      "path_selectors": [
+        "adl/tools/skills/workflow-conductor/**",
+        "adl/tools/test_workflow_conductor_skill_contracts.sh"
+      ],
+      "path_hints": [
+        "adl/tools/skills/workflow-conductor/**",
+        "adl/tools/test_workflow_conductor_skill_contracts.sh"
+      ],
+      "command": "bash adl/tools/test_workflow_conductor_skill_contracts.sh",
+      "run_command": "bash adl/tools/test_workflow_conductor_skill_contracts.sh",
+      "reason": "workflow_conductor_surface_requires_conductor_contract_checks"
+    },
+    {
       "id": "pvf_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
