@@ -21,7 +21,7 @@ Remove `--dry-run` only after inspecting the JSON summary.
 
 - The tool uses `Cargo.lock` package names as a local, deterministic dependency classifier.
 - The current manifest package and explicit workspace-member packages are excluded from the eligible prefix set.
-- Only files under `target/<profile>/deps` are warmed by default; `.fingerprint` and `build` metadata are intentionally not hardlinked in this first version.
+- Files under `target/<profile>/deps` and dependency `.fingerprint` entries are eligible for warmup; `build` metadata is intentionally not hardlinked.
 - Cargo dep-info files (`*.d`) are intentionally skipped because they can encode paths from the source target.
 - Dependency package artifacts are eligible for warmup when their filenames match lockfile-derived prefixes.
 - Workspace package outputs are not selected intentionally.
@@ -32,9 +32,20 @@ Remove `--dry-run` only after inspecting the JSON summary.
 
 ## Recommended ADL Usage
 
-Use this helper before Rust-heavy validation in a fresh or cold issue worktree
-when a trusted warm source target already exists on the same host and
-filesystem. Typical places to use it:
+Use the shared shell wrapper before Rust-heavy validation in a fresh or cold
+issue worktree when a trusted warm source target already exists on the same
+host and filesystem:
+
+```sh
+bash adl/tools/rust_validation_warm_cache.sh
+```
+
+The wrapper computes deterministic defaults from the current checkout. In an
+ADL issue worktree under `.worktrees/adl-wp-*`, it automatically prefers the
+primary checkout's `adl/target` as the warm source when that target exists. It
+respects `CARGO_TARGET_DIR` for the destination target, emits one JSON status
+payload, and skips safely when no trusted source target is available. Typical
+places to use it:
 
 - after `pr run <issue>` binds a fresh issue worktree and before the first
   focused Rust validation command
@@ -47,14 +58,24 @@ For local issue worktrees, use a trusted warm source target from the same
 checkout family and toolchain:
 
 ```sh
-python3 adl/tools/warm_rust_dependency_cache.py \
-  --source-target /Users/daniel/git/agent-design-language/adl/target \
-  --dest-target /Users/daniel/git/agent-design-language/.worktrees/adl-wp-XXXX/adl/target \
-  --manifest-path /Users/daniel/git/agent-design-language/.worktrees/adl-wp-XXXX/adl/Cargo.toml \
-  --json
+ADL_RUST_WARM_CACHE_SOURCE_TARGET=/Users/daniel/git/agent-design-language/adl/target \
+ADL_RUST_WARM_CACHE_DEST_TARGET=/Users/daniel/git/agent-design-language/.worktrees/adl-wp-XXXX/adl/target \
+ADL_RUST_WARM_CACHE_MANIFEST_PATH=/Users/daniel/git/agent-design-language/.worktrees/adl-wp-XXXX/adl/Cargo.toml \
+  bash adl/tools/rust_validation_warm_cache.sh
 ```
 
 For EC2 or remote builders, warm from the local persistent target cache on that host before running focused validation. Keep the source and destination on the same filesystem so hardlinks work.
+
+The lower-level Python helper remains available for direct dry-run inspection:
+
+```sh
+python3 adl/tools/warm_rust_dependency_cache.py \
+  --source-target /path/to/warm/target \
+  --dest-target /path/to/issue/worktree/adl/target \
+  --manifest-path /path/to/issue/worktree/adl/Cargo.toml \
+  --dry-run \
+  --json
+```
 
 ## Agent Workflow Integration
 
@@ -72,11 +93,12 @@ The helper has its own focused behavior test:
 
 ```sh
 python3 adl/tools/test_warm_rust_dependency_cache.py
+bash adl/tools/test_rust_validation_warm_cache.sh
 ```
 
-That test proves dependency artifacts are linked, Cargo dep-info files are not
-linked, workspace outputs are not linked, `.fingerprint` and `build` are not
-linked, and `--replace` is explicit.
+That test proves dependency artifacts and dependency fingerprint files are
+linked, Cargo dep-info files are not linked, workspace outputs are not linked,
+`build` outputs are not linked, and `--replace` is explicit.
 
 ## Non-Claims
 
