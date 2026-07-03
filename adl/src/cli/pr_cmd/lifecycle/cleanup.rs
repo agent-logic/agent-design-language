@@ -2,6 +2,7 @@ use super::super::*;
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 
 pub(crate) fn sync_completed_output_surfaces(
     repo_root: &Path,
@@ -131,6 +132,9 @@ pub(crate) fn scrub_noncanonical_issue_bundle_residue(
                     && name.starts_with(&body_prefix)
                     && path != canonical_body
                 {
+                    if path_has_tracked_entries(worktree_root, &path)? {
+                        continue;
+                    }
                     fs::remove_file(&path).with_context(|| {
                         format!(
                             "closeout: failed to scrub noncanonical local issue prompt residue '{}'",
@@ -151,6 +155,10 @@ pub(crate) fn scrub_noncanonical_issue_bundle_residue(
                     && name.starts_with(&task_prefix)
                     && path != canonical_bundle
                 {
+                    if path_has_tracked_entries(worktree_root, &path)? {
+                        scrub_untracked_entries(worktree_root, &path)?;
+                        continue;
+                    }
                     fs::remove_dir_all(&path).with_context(|| {
                         format!(
                             "closeout: failed to scrub noncanonical local task-bundle residue '{}'",
@@ -162,6 +170,53 @@ pub(crate) fn scrub_noncanonical_issue_bundle_residue(
         }
     }
 
+    Ok(())
+}
+
+fn path_has_tracked_entries(repo_root: &Path, path: &Path) -> Result<bool> {
+    let Ok(relative) = path.strip_prefix(repo_root) else {
+        return Ok(false);
+    };
+    let output = Command::new("git")
+        .args([
+            "-C",
+            path_str(repo_root)?,
+            "ls-files",
+            "--",
+            path_str(relative)?,
+        ])
+        .output()
+        .context("closeout: failed to inspect tracked noncanonical issue residue")?;
+    if !output.status.success() {
+        bail!(
+            "closeout: failed to inspect tracked noncanonical issue residue '{}'",
+            path.display()
+        );
+    }
+    Ok(!String::from_utf8_lossy(&output.stdout).trim().is_empty())
+}
+
+fn scrub_untracked_entries(repo_root: &Path, path: &Path) -> Result<()> {
+    let Ok(relative) = path.strip_prefix(repo_root) else {
+        return Ok(());
+    };
+    let status = Command::new("git")
+        .args([
+            "-C",
+            path_str(repo_root)?,
+            "clean",
+            "-fd",
+            "--",
+            path_str(relative)?,
+        ])
+        .status()
+        .context("closeout: failed to scrub untracked noncanonical issue residue")?;
+    if !status.success() {
+        bail!(
+            "closeout: failed to scrub untracked noncanonical issue residue '{}'",
+            path.display()
+        );
+    }
     Ok(())
 }
 

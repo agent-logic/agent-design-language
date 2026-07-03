@@ -2,6 +2,7 @@ use super::super::{path_str, IssueRef};
 use super::*;
 use crate::cli::pr_cmd::lifecycle::cleanup::{
     record_worktree_prune_result, replace_worktree_only_paths_remaining,
+    scrub_noncanonical_issue_bundle_residue,
 };
 use crate::cli::pr_cmd::{card_output_path, resolve_cards_root};
 use crate::cli::pr_cmd_cards::{ensure_pre_run_bootstrap_cards, ensure_task_bundle_stp};
@@ -361,6 +362,64 @@ fn matching_task_bundle_dirs_returns_sorted_prefix_matches() {
         .collect::<Vec<_>>();
 
     assert_eq!(names, vec!["issue-1410__a-slug", "issue-1410__z-slug"]);
+}
+
+#[test]
+fn scrub_noncanonical_issue_bundle_residue_preserves_tracked_card_paths() {
+    let _guard = env_lock();
+    let temp = temp_dir("adl-pr-lifecycle-scrub-tracked");
+    let repo = temp.join("repo");
+    let origin = temp.join("origin.git");
+    init_repo_with_origin(&repo, &origin);
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+
+    let canonical_bundle = issue_ref.task_bundle_dir_path(&repo);
+    let legacy_bundle = repo
+        .join(".adl")
+        .join("v0.87")
+        .join("tasks")
+        .join("issue-1410__legacy-slug");
+    let legacy_vpp = legacy_bundle.join("vpp.md");
+    let legacy_scratch = legacy_bundle.join("scratch.tmp");
+    fs::create_dir_all(&canonical_bundle).expect("canonical bundle dir");
+    fs::create_dir_all(&legacy_bundle).expect("legacy bundle dir");
+    fs::write(canonical_bundle.join("vpp.md"), "# Canonical VPP\n").expect("canonical vpp");
+    fs::write(&legacy_vpp, "# Legacy tracked VPP\n").expect("legacy vpp");
+    assert!(Command::new("git")
+        .args(["add", ".adl"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add card bundles")
+        .success());
+    assert!(Command::new("git")
+        .args(["commit", "-q", "-m", "track legacy vpp"])
+        .current_dir(&repo)
+        .status()
+        .expect("git commit legacy vpp")
+        .success());
+    fs::write(&legacy_scratch, "untracked closeout residue\n").expect("legacy scratch");
+
+    scrub_noncanonical_issue_bundle_residue(&repo, &issue_ref).expect("scrub residue");
+
+    assert!(
+        legacy_vpp.is_file(),
+        "tracked legacy VPP must not be deleted during closeout scrub"
+    );
+    assert!(
+        !legacy_scratch.exists(),
+        "untracked residue inside a tracked legacy bundle should still be scrubbed"
+    );
+    let status = Command::new("git")
+        .args(["status", "--short", "--", ".adl"])
+        .current_dir(&repo)
+        .output()
+        .expect("git status");
+    assert!(status.status.success());
+    assert_eq!(
+        String::from_utf8_lossy(&status.stdout).trim(),
+        "",
+        "tracked card paths must remain clean after scrub"
+    );
 }
 
 #[test]
