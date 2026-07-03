@@ -1,3 +1,4 @@
+use crate::chronosense::{CommitmentDeadlineContract, COMMITMENT_DEADLINE_SCHEMA};
 use anyhow::{anyhow, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -7,6 +8,7 @@ pub const SCHEDULER_ECONOMICS_INPUT_BUNDLE_SCHEMA_V1: &str =
     "adl.scheduler.economics_input_bundle.v1";
 pub const COGNITIVE_SCHEDULER_DECISION_SCHEMA_V1: &str = "adl.scheduler.decision.v1";
 pub const COGNITIVE_SCHEDULER_PLAN_SCHEMA_V1: &str = "adl.scheduler.plan.v1";
+pub const CHRONOSENSE_SCHEDULER_CONTEXT_SCHEMA_V1: &str = "adl.scheduler.chronosense_context.v1";
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -101,6 +103,38 @@ pub enum SchedulerConfidenceV1 {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ChronosenseCommitmentStatusV1 {
+    Proposed,
+    Accepted,
+    Active,
+    Fulfilled,
+    Deferred,
+    Canceled,
+    Expired,
+    Missed,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ChronosenseDeadlineFrameV1 {
+    WallClock,
+    EventCount,
+    ReviewGate,
+    ContinuityRelative,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum ChronosenseDeadlinePostureV1 {
+    None,
+    Future,
+    Approaching,
+    Due,
+    Missed,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum CognitiveSchedulerLaneV1 {
     Local,
@@ -125,6 +159,33 @@ pub struct SchedulerDependencyRefV1 {
     pub status: SchedulerDependencyPostureV1,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub reason: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ChronosenseCommitmentSchedulingSignalV1 {
+    pub task_id: String,
+    pub commitment_id: String,
+    pub status: ChronosenseCommitmentStatusV1,
+    pub deadline_posture: ChronosenseDeadlinePostureV1,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub deadline_frame: Option<ChronosenseDeadlineFrameV1>,
+    pub temporal_urgency: SchedulerUrgencyV1,
+    #[serde(default)]
+    pub fulfillment_ready: bool,
+    #[serde(default)]
+    pub review_required: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reason: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ChronosenseSchedulerContextV1 {
+    pub schema_version: String,
+    pub contract_schema_version: String,
+    pub generated_from: String,
+    pub signals: Vec<ChronosenseCommitmentSchedulingSignalV1>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -162,6 +223,8 @@ pub struct SchedulerEconomicsInputBundleV1 {
     pub source_doc_ref: String,
     pub included_concepts: Vec<String>,
     pub deferred_concepts: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub chronosense_context: Option<ChronosenseSchedulerContextV1>,
     pub inputs: Vec<SchedulerEconomicsInputV1>,
 }
 
@@ -283,6 +346,71 @@ pub fn validate_economics_bundle(bundle: &SchedulerEconomicsInputBundleV1) -> Re
     for input in &bundle.inputs {
         validate_economics_input(input)?;
     }
+    if let Some(context) = &bundle.chronosense_context {
+        validate_chronosense_scheduler_context(context, &bundle.inputs)?;
+    }
+    Ok(())
+}
+
+pub fn validate_chronosense_scheduler_context(
+    context: &ChronosenseSchedulerContextV1,
+    inputs: &[SchedulerEconomicsInputV1],
+) -> Result<()> {
+    if context.schema_version != CHRONOSENSE_SCHEDULER_CONTEXT_SCHEMA_V1 {
+        return Err(anyhow!(
+            "unsupported chronosense scheduler context schema: {}",
+            context.schema_version
+        ));
+    }
+    if context.contract_schema_version != COMMITMENT_DEADLINE_SCHEMA {
+        return Err(anyhow!(
+            "chronosense scheduler context must reference commitment contract {COMMITMENT_DEADLINE_SCHEMA}"
+        ));
+    }
+    if context.generated_from.trim().is_empty() {
+        return Err(anyhow!(
+            "chronosense scheduler context generated_from is required"
+        ));
+    }
+    let contract = CommitmentDeadlineContract::v1();
+    for required_surface in [
+        "open commitments",
+        "approaching deadlines",
+        "missed commitments in interval",
+    ] {
+        if !contract
+            .missed_commitment_detection
+            .retrieval_surfaces
+            .iter()
+            .any(|surface| surface == required_surface)
+        {
+            return Err(anyhow!(
+                "commitment deadline contract missing scheduler retrieval surface {required_surface}"
+            ));
+        }
+    }
+    for signal in &context.signals {
+        if signal.task_id.trim().is_empty() {
+            return Err(anyhow!("chronosense signal task_id is required"));
+        }
+        if signal.commitment_id.trim().is_empty() {
+            return Err(anyhow!("chronosense signal commitment_id is required"));
+        }
+        if signal.deadline_posture != ChronosenseDeadlinePostureV1::None
+            && signal.deadline_frame.is_none()
+        {
+            return Err(anyhow!(
+                "chronosense signal {} deadline_frame is required when deadline_posture is not none",
+                signal.task_id
+            ));
+        }
+        if !inputs.iter().any(|input| input.task_id == signal.task_id) {
+            return Err(anyhow!(
+                "chronosense signal {} does not match a scheduler input task_id",
+                signal.task_id
+            ));
+        }
+    }
     Ok(())
 }
 
@@ -369,8 +497,9 @@ pub fn schedule_economics_bundle(
     bundle: &SchedulerEconomicsInputBundleV1,
 ) -> Result<CognitiveSchedulerPlanV1> {
     validate_economics_bundle(bundle)?;
-    let mut decisions = bundle
-        .inputs
+    let adjusted_inputs =
+        apply_chronosense_scheduler_context(&bundle.inputs, bundle.chronosense_context.as_ref());
+    let mut decisions = adjusted_inputs
         .iter()
         .map(schedule_economics_input)
         .collect::<Result<Vec<_>>>()?;
@@ -385,6 +514,172 @@ pub fn schedule_economics_bundle(
         decisions,
         recommended_order,
     })
+}
+
+pub fn apply_chronosense_scheduler_context(
+    inputs: &[SchedulerEconomicsInputV1],
+    context: Option<&ChronosenseSchedulerContextV1>,
+) -> Vec<SchedulerEconomicsInputV1> {
+    let Some(context) = context else {
+        return inputs.to_vec();
+    };
+    inputs
+        .iter()
+        .map(|input| {
+            let mut adjusted = input.clone();
+            for signal in context
+                .signals
+                .iter()
+                .filter(|signal| signal.task_id == input.task_id)
+            {
+                apply_chronosense_signal(&mut adjusted, signal);
+            }
+            adjusted
+        })
+        .collect()
+}
+
+fn apply_chronosense_signal(
+    input: &mut SchedulerEconomicsInputV1,
+    signal: &ChronosenseCommitmentSchedulingSignalV1,
+) {
+    input.urgency = max_urgency(&input.urgency, &signal.temporal_urgency);
+    if signal.review_required {
+        input.human_required = true;
+        input.governor_attention_pressure = max_pressure(
+            &input.governor_attention_pressure,
+            &SchedulerPressureLevelV1::High,
+        );
+    }
+    match signal.deadline_posture {
+        ChronosenseDeadlinePostureV1::Missed => {
+            input.urgency = SchedulerUrgencyV1::Immediate;
+            input.dependency_posture = SchedulerDependencyPostureV1::Blocked;
+            input.governor_attention_pressure = max_pressure(
+                &input.governor_attention_pressure,
+                &SchedulerPressureLevelV1::High,
+            );
+            ensure_chronosense_dependency(
+                input,
+                signal,
+                SchedulerDependencyPostureV1::Blocked,
+                "chronosense_missed_commitment_blocks_follow_on_until_review",
+            );
+        }
+        ChronosenseDeadlinePostureV1::Due => {
+            input.urgency = SchedulerUrgencyV1::Immediate;
+            input.governor_attention_pressure = max_pressure(
+                &input.governor_attention_pressure,
+                &SchedulerPressureLevelV1::High,
+            );
+            ensure_chronosense_dependency(
+                input,
+                signal,
+                SchedulerDependencyPostureV1::Partial,
+                "chronosense_due_commitment_requires_explicit_review",
+            );
+            if input.dependency_posture == SchedulerDependencyPostureV1::Clear {
+                input.dependency_posture = SchedulerDependencyPostureV1::Partial;
+            }
+        }
+        ChronosenseDeadlinePostureV1::Approaching => {
+            input.urgency = max_urgency(&input.urgency, &SchedulerUrgencyV1::High);
+            input.governor_attention_pressure = max_pressure(
+                &input.governor_attention_pressure,
+                &SchedulerPressureLevelV1::Medium,
+            );
+        }
+        ChronosenseDeadlinePostureV1::Future | ChronosenseDeadlinePostureV1::None => {}
+    }
+    match signal.status {
+        ChronosenseCommitmentStatusV1::Missed | ChronosenseCommitmentStatusV1::Expired => {
+            input.dependency_posture = SchedulerDependencyPostureV1::Blocked;
+            ensure_chronosense_dependency(
+                input,
+                signal,
+                SchedulerDependencyPostureV1::Blocked,
+                "chronosense_terminal_commitment_state_requires_recovery_before_scheduling",
+            );
+        }
+        ChronosenseCommitmentStatusV1::Deferred if !signal.fulfillment_ready => {
+            if input.dependency_posture == SchedulerDependencyPostureV1::Clear {
+                input.dependency_posture = SchedulerDependencyPostureV1::Partial;
+            }
+            ensure_chronosense_dependency(
+                input,
+                signal,
+                SchedulerDependencyPostureV1::Partial,
+                "chronosense_deferred_commitment_not_fulfillment_ready",
+            );
+        }
+        ChronosenseCommitmentStatusV1::Proposed
+        | ChronosenseCommitmentStatusV1::Accepted
+        | ChronosenseCommitmentStatusV1::Active
+        | ChronosenseCommitmentStatusV1::Fulfilled
+        | ChronosenseCommitmentStatusV1::Deferred
+        | ChronosenseCommitmentStatusV1::Canceled => {}
+    }
+    let capability = format!("chronosense_commitment:{}", signal.commitment_id);
+    if !input
+        .required_capabilities
+        .iter()
+        .any(|item| item == &capability)
+    {
+        input.required_capabilities.push(capability);
+    }
+}
+
+fn ensure_chronosense_dependency(
+    input: &mut SchedulerEconomicsInputV1,
+    signal: &ChronosenseCommitmentSchedulingSignalV1,
+    status: SchedulerDependencyPostureV1,
+    default_reason: &str,
+) {
+    let dependency_id = format!("chronosense:{}", signal.commitment_id);
+    let reason = signal
+        .reason
+        .clone()
+        .unwrap_or_else(|| default_reason.to_string());
+    if let Some(existing) = input
+        .dependencies
+        .iter()
+        .find(|dependency| dependency.task_id == dependency_id)
+    {
+        if dependency_posture_weight(&status) > dependency_posture_weight(&existing.status) {
+            let existing = input
+                .dependencies
+                .iter_mut()
+                .find(|dependency| dependency.task_id == dependency_id)
+                .expect("existing dependency located for mutation");
+            existing.status = status;
+            existing.reason = Some(reason);
+        }
+        return;
+    }
+    input.dependencies.push(SchedulerDependencyRefV1 {
+        task_id: dependency_id,
+        status,
+        reason: Some(reason),
+    });
+}
+
+fn max_urgency(left: &SchedulerUrgencyV1, right: &SchedulerUrgencyV1) -> SchedulerUrgencyV1 {
+    if urgency_weight(left) >= urgency_weight(right) {
+        left.clone()
+    } else {
+        right.clone()
+    }
+}
+
+fn max_pressure(
+    left: &SchedulerPressureLevelV1,
+    right: &SchedulerPressureLevelV1,
+) -> SchedulerPressureLevelV1 {
+    if pressure_weight(left) >= pressure_weight(right) {
+        left.clone()
+    } else {
+        right.clone()
+    }
 }
 
 pub fn schedule_economics_input(
@@ -826,6 +1121,259 @@ mod tests {
             blocked.dependency_status,
             SchedulerDependencyPostureV1::Blocked
         );
+    }
+
+    #[test]
+    fn chronosense_context_raises_approaching_deadline_priority() {
+        let mut bundle = parse_economics_bundle_json(FIXTURE).expect("fixture parses");
+        bundle.chronosense_context = Some(ChronosenseSchedulerContextV1 {
+            schema_version: CHRONOSENSE_SCHEDULER_CONTEXT_SCHEMA_V1.to_string(),
+            contract_schema_version: COMMITMENT_DEADLINE_SCHEMA.to_string(),
+            generated_from: "chronosense commitment retrieval fixture".to_string(),
+            signals: vec![ChronosenseCommitmentSchedulingSignalV1 {
+                task_id: "docs-status-check".to_string(),
+                commitment_id: "commitment-docs-before-review".to_string(),
+                status: ChronosenseCommitmentStatusV1::Active,
+                deadline_posture: ChronosenseDeadlinePostureV1::Approaching,
+                deadline_frame: Some(ChronosenseDeadlineFrameV1::ReviewGate),
+                temporal_urgency: SchedulerUrgencyV1::High,
+                fulfillment_ready: true,
+                review_required: false,
+                reason: Some("review gate is approaching".to_string()),
+            }],
+        });
+
+        let plan = schedule_economics_bundle(&bundle).expect("chronosense-aware plan");
+        let docs = decision(&plan, "docs-status-check");
+        assert_eq!(docs.score_breakdown.urgency, SchedulerUrgencyV1::High);
+        assert!(docs.scheduling_rank_key.contains("urgency=96"));
+        assert!(docs
+            .reason
+            .contains("low-risk, low-cost, dependency-clear work"));
+    }
+
+    #[test]
+    fn chronosense_context_blocks_missed_commitment_until_review() {
+        let mut bundle = parse_economics_bundle_json(FIXTURE).expect("fixture parses");
+        bundle.chronosense_context = Some(ChronosenseSchedulerContextV1 {
+            schema_version: CHRONOSENSE_SCHEDULER_CONTEXT_SCHEMA_V1.to_string(),
+            contract_schema_version: COMMITMENT_DEADLINE_SCHEMA.to_string(),
+            generated_from: "chronosense missed commitment retrieval fixture".to_string(),
+            signals: vec![ChronosenseCommitmentSchedulingSignalV1 {
+                task_id: "first-pass-review".to_string(),
+                commitment_id: "commitment-review-before-closeout".to_string(),
+                status: ChronosenseCommitmentStatusV1::Missed,
+                deadline_posture: ChronosenseDeadlinePostureV1::Missed,
+                deadline_frame: Some(ChronosenseDeadlineFrameV1::WallClock),
+                temporal_urgency: SchedulerUrgencyV1::Immediate,
+                fulfillment_ready: false,
+                review_required: true,
+                reason: Some("missed closeout commitment must be reviewed".to_string()),
+            }],
+        });
+
+        let adjusted = apply_chronosense_scheduler_context(
+            &bundle.inputs,
+            bundle.chronosense_context.as_ref(),
+        );
+        let review_input = adjusted
+            .iter()
+            .find(|input| input.task_id == "first-pass-review")
+            .expect("adjusted review input");
+        assert_eq!(
+            review_input.dependency_posture,
+            SchedulerDependencyPostureV1::Blocked
+        );
+        assert_eq!(review_input.urgency, SchedulerUrgencyV1::Immediate);
+        assert!(review_input.human_required);
+        assert!(review_input
+            .required_capabilities
+            .contains(&"chronosense_commitment:commitment-review-before-closeout".to_string()));
+
+        let plan = schedule_economics_bundle(&bundle).expect("chronosense-aware plan");
+        let review = decision(&plan, "first-pass-review");
+        assert_eq!(review.selected_lane, CognitiveSchedulerLaneV1::Delayed);
+        assert_eq!(
+            review.dependency_status,
+            SchedulerDependencyPostureV1::Blocked
+        );
+        assert_eq!(
+            review.reason,
+            "delayed because dependency or parallelism posture is blocked"
+        );
+        assert!(review.scheduling_rank_key.starts_with("blocked=1"));
+    }
+
+    #[test]
+    fn chronosense_context_due_commitment_requires_explicit_review() {
+        let mut bundle = parse_economics_bundle_json(FIXTURE).expect("fixture parses");
+        bundle.chronosense_context = Some(ChronosenseSchedulerContextV1 {
+            schema_version: CHRONOSENSE_SCHEDULER_CONTEXT_SCHEMA_V1.to_string(),
+            contract_schema_version: COMMITMENT_DEADLINE_SCHEMA.to_string(),
+            generated_from: "chronosense due commitment retrieval fixture".to_string(),
+            signals: vec![ChronosenseCommitmentSchedulingSignalV1 {
+                task_id: "premium-code-repair".to_string(),
+                commitment_id: "commitment-repair-before-release".to_string(),
+                status: ChronosenseCommitmentStatusV1::Active,
+                deadline_posture: ChronosenseDeadlinePostureV1::Due,
+                deadline_frame: Some(ChronosenseDeadlineFrameV1::ContinuityRelative),
+                temporal_urgency: SchedulerUrgencyV1::High,
+                fulfillment_ready: false,
+                review_required: true,
+                reason: Some("release commitment is due now".to_string()),
+            }],
+        });
+
+        let adjusted = apply_chronosense_scheduler_context(
+            &bundle.inputs,
+            bundle.chronosense_context.as_ref(),
+        );
+        let repair_input = adjusted
+            .iter()
+            .find(|input| input.task_id == "premium-code-repair")
+            .expect("adjusted repair input");
+        assert_eq!(
+            repair_input.dependency_posture,
+            SchedulerDependencyPostureV1::Partial
+        );
+        assert_eq!(repair_input.urgency, SchedulerUrgencyV1::Immediate);
+        assert!(repair_input.human_required);
+        assert!(repair_input.dependencies.iter().any(|dependency| {
+            dependency.task_id == "chronosense:commitment-repair-before-release"
+                && dependency.status == SchedulerDependencyPostureV1::Partial
+        }));
+
+        let plan = schedule_economics_bundle(&bundle).expect("chronosense-aware plan");
+        let repair = decision(&plan, "premium-code-repair");
+        assert_eq!(repair.selected_lane, CognitiveSchedulerLaneV1::Governor);
+        assert_eq!(
+            repair.dependency_status,
+            SchedulerDependencyPostureV1::Partial
+        );
+        assert_eq!(
+            repair.score_breakdown.urgency,
+            SchedulerUrgencyV1::Immediate
+        );
+        assert!(repair.scheduling_rank_key.contains("dependency=01"));
+        assert!(repair.scheduling_rank_key.contains("urgency=95"));
+    }
+
+    #[test]
+    fn chronosense_context_upgrades_repeated_commitment_dependency_truth() {
+        let mut bundle = parse_economics_bundle_json(FIXTURE).expect("fixture parses");
+        bundle.chronosense_context = Some(ChronosenseSchedulerContextV1 {
+            schema_version: CHRONOSENSE_SCHEDULER_CONTEXT_SCHEMA_V1.to_string(),
+            contract_schema_version: COMMITMENT_DEADLINE_SCHEMA.to_string(),
+            generated_from: "chronosense repeated commitment fixture".to_string(),
+            signals: vec![
+                ChronosenseCommitmentSchedulingSignalV1 {
+                    task_id: "first-pass-review".to_string(),
+                    commitment_id: "commitment-review-before-closeout".to_string(),
+                    status: ChronosenseCommitmentStatusV1::Active,
+                    deadline_posture: ChronosenseDeadlinePostureV1::Due,
+                    deadline_frame: Some(ChronosenseDeadlineFrameV1::ReviewGate),
+                    temporal_urgency: SchedulerUrgencyV1::High,
+                    fulfillment_ready: false,
+                    review_required: true,
+                    reason: Some("review commitment due".to_string()),
+                },
+                ChronosenseCommitmentSchedulingSignalV1 {
+                    task_id: "first-pass-review".to_string(),
+                    commitment_id: "commitment-review-before-closeout".to_string(),
+                    status: ChronosenseCommitmentStatusV1::Missed,
+                    deadline_posture: ChronosenseDeadlinePostureV1::Missed,
+                    deadline_frame: Some(ChronosenseDeadlineFrameV1::ReviewGate),
+                    temporal_urgency: SchedulerUrgencyV1::Immediate,
+                    fulfillment_ready: false,
+                    review_required: true,
+                    reason: Some("review commitment missed".to_string()),
+                },
+            ],
+        });
+
+        let adjusted = apply_chronosense_scheduler_context(
+            &bundle.inputs,
+            bundle.chronosense_context.as_ref(),
+        );
+        let review_input = adjusted
+            .iter()
+            .find(|input| input.task_id == "first-pass-review")
+            .expect("adjusted review input");
+        let chronosense_dependency = review_input
+            .dependencies
+            .iter()
+            .find(|dependency| {
+                dependency.task_id == "chronosense:commitment-review-before-closeout"
+            })
+            .expect("chronosense dependency");
+        assert_eq!(
+            chronosense_dependency.status,
+            SchedulerDependencyPostureV1::Blocked
+        );
+        assert_eq!(
+            chronosense_dependency.reason.as_deref(),
+            Some("review commitment missed")
+        );
+        assert_eq!(
+            review_input.dependency_posture,
+            SchedulerDependencyPostureV1::Blocked
+        );
+    }
+
+    #[test]
+    fn chronosense_context_validates_commitment_contract_surface() {
+        let bundle = parse_economics_bundle_json(FIXTURE).expect("fixture parses");
+        let context = ChronosenseSchedulerContextV1 {
+            schema_version: CHRONOSENSE_SCHEDULER_CONTEXT_SCHEMA_V1.to_string(),
+            contract_schema_version: COMMITMENT_DEADLINE_SCHEMA.to_string(),
+            generated_from: "chronosense retrieval".to_string(),
+            signals: vec![ChronosenseCommitmentSchedulingSignalV1 {
+                task_id: "premium-code-repair".to_string(),
+                commitment_id: "commitment-repair-before-release".to_string(),
+                status: ChronosenseCommitmentStatusV1::Accepted,
+                deadline_posture: ChronosenseDeadlinePostureV1::Due,
+                deadline_frame: Some(ChronosenseDeadlineFrameV1::ContinuityRelative),
+                temporal_urgency: SchedulerUrgencyV1::High,
+                fulfillment_ready: false,
+                review_required: true,
+                reason: None,
+            }],
+        };
+
+        validate_chronosense_scheduler_context(&context, &bundle.inputs)
+            .expect("context references the commitment deadline contract");
+        let mut invalid = context.clone();
+        invalid.contract_schema_version = "commitment_deadline_semantics.v0".to_string();
+        let err = validate_chronosense_scheduler_context(&invalid, &bundle.inputs)
+            .expect_err("wrong contract schema must fail");
+        assert!(err
+            .to_string()
+            .contains("chronosense scheduler context must reference commitment contract"));
+    }
+
+    #[test]
+    fn chronosense_context_rejects_signal_without_deadline_frame() {
+        let bundle = parse_economics_bundle_json(FIXTURE).expect("fixture parses");
+        let context = ChronosenseSchedulerContextV1 {
+            schema_version: CHRONOSENSE_SCHEDULER_CONTEXT_SCHEMA_V1.to_string(),
+            contract_schema_version: COMMITMENT_DEADLINE_SCHEMA.to_string(),
+            generated_from: "chronosense retrieval".to_string(),
+            signals: vec![ChronosenseCommitmentSchedulingSignalV1 {
+                task_id: "premium-code-repair".to_string(),
+                commitment_id: "commitment-repair-before-release".to_string(),
+                status: ChronosenseCommitmentStatusV1::Active,
+                deadline_posture: ChronosenseDeadlinePostureV1::Due,
+                deadline_frame: None,
+                temporal_urgency: SchedulerUrgencyV1::High,
+                fulfillment_ready: false,
+                review_required: true,
+                reason: None,
+            }],
+        };
+
+        let err = validate_chronosense_scheduler_context(&context, &bundle.inputs)
+            .expect_err("deadline frame required");
+        assert!(err.to_string().contains("deadline_frame is required"));
     }
 
     #[test]
