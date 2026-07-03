@@ -50,6 +50,14 @@ rust_pr_delegate_available() {
   if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
     return 0
   fi
+  cached_bin="$(rust_pr_delegate_cached_bin_last_resort || true)"
+  if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
+    return 0
+  fi
+  cached_bin="$(rust_pr_delegate_primary_cached_bin_last_resort "${1:-}" || true)"
+  if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
+    return 0
+  fi
   rust_pr_cargo_fallback_allowed || return 1
   command -v cargo >/dev/null 2>&1 || return 1
   return 0
@@ -135,6 +143,14 @@ rust_pr_delegate_cached_bin() {
   return 0
 }
 
+rust_pr_delegate_cached_bin_last_resort() {
+  local root candidate
+  root="$(rust_pr_delegate_root)"
+  candidate="$root/adl/target/debug/adl"
+  [[ -x "$candidate" ]] || return 1
+  printf '%s\n' "$candidate"
+}
+
 rust_pr_delegate_primary_cached_bin() {
   local root primary_root candidate
   root="$(rust_pr_delegate_root)"
@@ -144,6 +160,30 @@ rust_pr_delegate_primary_cached_bin() {
   [[ -x "$candidate" ]] || return 1
   rust_pr_delegate_bin_is_fresh "$primary_root" "$candidate" || return 1
   if rust_pr_worktree_inputs_are_newer_than_bin "$root" "$candidate" "$primary_root"; then
+    return 1
+  fi
+  printf '%s\n' "$candidate"
+}
+
+rust_pr_subcommand_allows_primary_generic_last_resort() {
+  case "${1:-}" in
+    watch)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+rust_pr_delegate_primary_cached_bin_last_resort() {
+  local subcommand="${1:-}"
+  local root primary_root candidate
+  root="$(rust_pr_delegate_root)"
+  primary_root="$(rust_pr_delegate_primary_root)"
+  [[ "$primary_root" != "$root" ]] || return 1
+  candidate="$primary_root/adl/target/debug/adl"
+  [[ -x "$candidate" ]] || return 1
+  if ! rust_pr_subcommand_allows_primary_generic_last_resort "$subcommand" &&
+      rust_pr_worktree_inputs_are_newer_than_bin "$root" "$candidate" "$primary_root"; then
     return 1
   fi
   printf '%s\n' "$candidate"
@@ -625,6 +665,16 @@ delegate_pr_command_to_rust() {
   cached_bin="$(rust_pr_delegate_path_bin || true)"
   if [[ -n "$cached_bin" ]]; then
     adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$cached_bin"
+    exec "$cached_bin" pr "$subcommand" "$@"
+  fi
+  cached_bin="$(rust_pr_delegate_cached_bin_last_resort || true)"
+  if [[ -n "$cached_bin" ]]; then
+    adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$cached_bin" "freshness" "generic_adl_last_resort"
+    exec "$cached_bin" pr "$subcommand" "$@"
+  fi
+  cached_bin="$(rust_pr_delegate_primary_cached_bin_last_resort "$subcommand" || true)"
+  if [[ -n "$cached_bin" ]]; then
+    adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$cached_bin" "freshness" "generic_adl_primary_last_resort"
     exec "$cached_bin" pr "$subcommand" "$@"
   fi
   if ! rust_pr_cargo_fallback_allowed; then

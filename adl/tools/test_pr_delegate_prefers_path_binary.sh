@@ -72,6 +72,38 @@ grep -Fqx 'path-doctor:4590 --slug path-bin --no-fetch-issue --version v0.91.6 -
 
 echo "pr.sh prefers PATH owner binary: ok"
 
+generic_adl_log="$tmpdir/generic-adl.log"
+mkdir -p "$repo/adl/target/debug"
+cat >"$repo/adl/target/debug/adl" <<'EOF_GENERIC_ADL'
+#!/usr/bin/env bash
+set -euo pipefail
+printf 'generic-adl:%s\n' "$*" >"${ADL_TEST_GENERIC_ADL_LOG}"
+EOF_GENERIC_ADL
+chmod +x "$repo/adl/target/debug/adl"
+sleep 1
+touch "$repo/adl/Cargo.toml"
+: >"$cargo_args"
+
+(
+  cd "$repo"
+  PATH="$pathbin:$mockbin:$PATH" \
+    ADL_TEST_GENERIC_ADL_LOG="$generic_adl_log" \
+    ADL_TEST_CARGO_ARGS="$cargo_args" \
+    "$BASH_BIN" adl/tools/pr.sh watch 4829 --json >/dev/null
+)
+grep -Fqx 'generic-adl:pr watch 4829 --json' "$generic_adl_log" || {
+  echo "assertion failed: generic repo-local adl binary should be the no-cargo fallback for watch" >&2
+  cat "$generic_adl_log" >&2
+  exit 1
+}
+[[ ! -s "$cargo_args" ]] || {
+  echo "assertion failed: cargo should not run when generic repo-local adl exists for watch" >&2
+  cat "$cargo_args" >&2
+  exit 1
+}
+
+echo "pr.sh uses generic repo-local adl for watch without cargo fallback: ok"
+
 repo_bin_log="$tmpdir/repo-bin-issue.log"
 path_issue_log="$tmpdir/path-issue.log"
 mkdir -p "$repo/adl/target/debug"
