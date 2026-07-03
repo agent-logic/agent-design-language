@@ -42,6 +42,11 @@ grep -Fq "rebind_to_issue_worktree_required" "${skills_root}/docs/OPERATIONAL_SK
 grep -Fq "card-local SPP issue -> \`spp-editor\`" "${skills_root}/workflow-conductor/SKILL.md"
 grep -Fq "card-local SRP issue -> \`srp-editor\`" "${skills_root}/workflow-conductor/SKILL.md"
 grep -Fq "srp-editor" "${skills_root}/workflow-conductor/references/output-contract.md"
+grep -Fq "bash adl/tools/pr.sh issue list --state all --limit 200 --json" "${skills_root}/workflow-conductor/SKILL.md"
+grep -Fq "adl pr validation <pr-number> --json" "${skills_root}/workflow-conductor/SKILL.md"
+grep -Fq "Raw \`gh\` is not a" "${skills_root}/workflow-conductor/SKILL.md"
+grep -Fq "repo_native_issue_list" "${skills_root}/workflow-conductor/references/output-contract.md"
+grep -Fq "repo_native_pr_validation" "${skills_root}/workflow-conductor/references/output-contract.md"
 
 cat >"${tmpdir}/bootstrap_missing.json" <<'EOF'
 {

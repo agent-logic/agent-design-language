@@ -13,6 +13,8 @@ workflow_state:
   blocker_class: none | open_pr_wave_only | doctor_failed_or_inconclusive | review_changes_requested | merge_conflict | checks_failed | merge_blocked | healthy_pr_waiting | satisfied_by_child_issue_wave | satisfied_by_related_issue_refs | satisfied_by_sibling_issue_artifact | active_child_issue_wave | related_issue_ref_active | tracked_adl_residue | unsafe_root_checkout_execution | mismatched_publication_surface | rebind_to_issue_worktree_required | open_linkage_only
   evidence_used:
     - <doctor_json_or_path_or_state_surface>
+    - repo_native_issue_list:<state-scope>   # when tracker/umbrella inference reads `pr.sh issue list`
+    - repo_native_pr_validation:<pr-number> # when PR inference reads `adl pr validation`
 selected_skill:
   phase: init | ready | run | finish | janitor | closeout | editor | blocked
   skill_name: pr-init | pr-ready | pr-run | pr-finish | pr-janitor | pr-closeout | stp-editor | sip-editor | spp-editor | srp-editor | sor-editor | none
