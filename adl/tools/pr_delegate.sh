@@ -46,6 +46,10 @@ rust_pr_delegate_available() {
   if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
     return 0
   fi
+  cached_bin="$(rust_pr_subcommand_primary_cached_bin_stale_last_resort "${1:-}" || true)"
+  if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
+    return 0
+  fi
   cached_bin="$(rust_pr_delegate_path_bin || true)"
   if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
     return 0
@@ -302,6 +306,20 @@ rust_pr_issue_stale_primary_cached_bin() {
   primary_root="$(rust_pr_delegate_primary_root)"
   [[ "$primary_root" != "$root" ]] || return 1
   candidate="$primary_root/adl/target/debug/adl-issue"
+  [[ -x "$candidate" ]] || return 1
+  printf '%s\n' "$candidate"
+}
+
+rust_pr_subcommand_primary_cached_bin_stale_last_resort() {
+  rust_pr_cargo_fallback_allowed && return 1
+  local subcommand="${1:-}"
+  local root primary_root binary_name candidate
+  root="$(rust_pr_delegate_root)"
+  primary_root="$(rust_pr_delegate_primary_root)"
+  [[ "$primary_root" != "$root" ]] || return 1
+  binary_name="$(rust_pr_subcommand_binary_name "$subcommand" || true)"
+  [[ -n "$binary_name" ]] || return 1
+  candidate="$primary_root/adl/target/debug/$binary_name"
   [[ -x "$candidate" ]] || return 1
   printf '%s\n' "$candidate"
 }
@@ -629,6 +647,11 @@ delegate_pr_command_to_rust() {
   direct_bin="$(rust_pr_issue_stale_primary_cached_bin "$subcommand" || true)"
   if [[ -n "$direct_bin" ]]; then
     adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$direct_bin" "freshness" "stale_allowed_issue_last_resort"
+    exec "$direct_bin" "$@"
+  fi
+  direct_bin="$(rust_pr_subcommand_primary_cached_bin_stale_last_resort "$subcommand" || true)"
+  if [[ -n "$direct_bin" ]]; then
+    adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$direct_bin" "freshness" "stale_allowed_primary_owner_last_resort"
     exec "$direct_bin" "$@"
   fi
   if rust_pr_subcommand_requires_dedicated_owner_binary "$subcommand"; then
