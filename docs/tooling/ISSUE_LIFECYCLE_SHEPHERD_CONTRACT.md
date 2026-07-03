@@ -151,6 +151,8 @@ When an issue or PR enters `pr_waiting`, `janitor_active`, or
 `merged_needs_closeout`, the owning workflow must retain one of:
 
 - a repo-native `pr.sh watch <issue-or-pr> --json` packet;
+- a repo-native post-merge closeout watcher packet under
+  `.adl/logs/post-merge-closeout/issue-<number>/` created by `pr finish`;
 - a task-bundle, SRP, SOR, or closeout summary that names the retained watcher
   packet path and its disposition; or
 - an explicit not-applicable reason when the issue never entered a wait state.
@@ -212,6 +214,8 @@ Rules:
 - `workflow-conductor` owns routing into the next bounded skill.
 - `pr-run` owns bind and bounded implementation execution.
 - `pr-finish` owns publication handoff into PR-tail shepherding.
+- `pr-finish` also attaches the post-merge closeout watcher unless the
+  operator explicitly disables it with `ADL_POST_MERGE_CLOSEOUT_DISABLE=1`.
 - `issue-watcher` owns healthy wait-state observation.
 - `pr-janitor` owns bounded blocker remediation while a PR is in flight.
 - `pr-closeout` owns terminal local settlement.

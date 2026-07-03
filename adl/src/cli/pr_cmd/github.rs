@@ -1877,52 +1877,141 @@ pub(super) fn attach_post_merge_closeout(
         return Ok(());
     }
 
-    let Some(command_path) = std::env::var("ADL_POST_MERGE_CLOSEOUT_CMD")
+    if let Some(command_path) = std::env::var("ADL_POST_MERGE_CLOSEOUT_CMD")
         .ok()
         .filter(|value| !value.trim().is_empty())
-    else {
-        observability::emit_event(
-            "adl",
-            "github_octocrab",
-            "skipped",
-            &[
-                ("operation", "post_merge_closeout.attach"),
-                ("reason", "rust_closeout_no_background_watcher"),
-            ],
-        );
+    {
+        let mut command = helper_command_with_github_context(&command_path);
+        let output = command
+            .arg("--repo-root")
+            .arg(repo_root)
+            .arg("--repo")
+            .arg(repo)
+            .arg("--issue")
+            .arg(issue.to_string())
+            .arg("--branch")
+            .arg(branch)
+            .arg("--pr-url")
+            .arg(pr_url)
+            .output()
+            .with_context(|| {
+                format!("finish: failed to spawn post-merge closeout command '{command_path}'")
+            })?;
+        if !output.status.success() {
+            let stderr = redact_for_diagnostics(&String::from_utf8_lossy(&output.stderr));
+            let stdout = redact_for_diagnostics(&String::from_utf8_lossy(&output.stdout));
+            bail!(
+                "finish: post-merge closeout auto-attach failed for issue #{} and PR '{}': {}{}",
+                issue,
+                pr_url,
+                stderr.trim(),
+                if stdout.trim().is_empty() {
+                    String::new()
+                } else {
+                    format!(" (stdout: {})", stdout.trim())
+                }
+            );
+        }
         return Ok(());
-    };
-    let mut command = helper_command_with_github_context(&command_path);
-    let output = command
-        .arg("--repo-root")
-        .arg(repo_root)
-        .arg("--repo")
-        .arg(repo)
-        .arg("--issue")
-        .arg(issue.to_string())
-        .arg("--branch")
-        .arg(branch)
-        .arg("--pr-url")
-        .arg(pr_url)
-        .output()
-        .with_context(|| {
-            format!("finish: failed to spawn post-merge closeout command '{command_path}'")
-        })?;
-    if !output.status.success() {
-        let stderr = redact_for_diagnostics(&String::from_utf8_lossy(&output.stderr));
-        let stdout = redact_for_diagnostics(&String::from_utf8_lossy(&output.stdout));
-        bail!(
-            "finish: post-merge closeout auto-attach failed for issue #{} and PR '{}': {}{}",
+    }
+
+    let artifact_root = repo_root
+        .join(".adl")
+        .join("logs")
+        .join("post-merge-closeout")
+        .join(format!("issue-{issue}"));
+    fs::create_dir_all(&artifact_root).with_context(|| {
+        format!(
+            "finish: failed to create post-merge closeout artifact root '{}'",
+            artifact_root.display()
+        )
+    })?;
+    let input_file = artifact_root.join("input.yaml");
+    let prompt_file = artifact_root.join("prompt.md");
+    let run_log = artifact_root.join("codex.log");
+    let last_message_file = artifact_root.join("last_message.md");
+    let pid_file = artifact_root.join("pid");
+
+    fs::write(
+        &input_file,
+        format!(
+            "skill_input_schema: post_merge_closeout_watcher.v1\nmode: watch_pr_until_merged_then_closeout\nrepo_root: {}\nrepo: {}\ntarget:\n  issue_number: {}\n  pr_url: {}\n  branch: {}\npolicy:\n  monitor_merge_state: true\n  route_failed_checks_to_janitor: true\n  run_closeout_after_merge: true\n  merge_authority_human_only: true\n  issue_close_authority_human_only: true\n",
+            repo_root.display(),
+            repo,
             issue,
             pr_url,
-            stderr.trim(),
-            if stdout.trim().is_empty() {
-                String::new()
-            } else {
-                format!(" (stdout: {})", stdout.trim())
-            }
-        );
-    }
+            branch,
+        ),
+    )
+    .with_context(|| {
+        format!(
+            "finish: failed to write post-merge closeout input '{}'",
+            input_file.display()
+        )
+    })?;
+    let prompt = format!(
+        "Use $issue-watcher and $pr-closeout for this post-merge closeout watcher.\n\nValidated input:\n\n```yaml\n{input}\n```\n\nRun bounded watcher passes for the PR until it is merged or blocked. If the PR is already merged, run truthful closeout for issue #{issue}. If checks fail, the PR conflicts, or review action is needed, route to $pr-janitor and stop. Preserve durable evidence in the issue records and do not claim closeout until the issue is actually settled.\n",
+        input = fs::read_to_string(&input_file).unwrap_or_default(),
+    );
+    fs::write(&prompt_file, &prompt).with_context(|| {
+        format!(
+            "finish: failed to write post-merge closeout prompt '{}'",
+            prompt_file.display()
+        )
+    })?;
+
+    let run_log_file = fs::File::create(&run_log).with_context(|| {
+        format!(
+            "finish: failed to create post-merge closeout log '{}'",
+            run_log.display()
+        )
+    })?;
+    let run_log_err = run_log_file.try_clone().with_context(|| {
+        format!(
+            "finish: failed to clone post-merge closeout log '{}'",
+            run_log.display()
+        )
+    })?;
+    let codex_command = std::env::var("ADL_POST_MERGE_CLOSEOUT_CODEX_CMD")
+        .ok()
+        .filter(|value| !value.trim().is_empty())
+        .unwrap_or_else(|| "codex".to_string());
+    let mut command = helper_command_without_secret_context(&codex_command);
+    let child = command
+        .arg("exec")
+        .arg("--full-auto")
+        .arg("--sandbox")
+        .arg("workspace-write")
+        .arg("--cd")
+        .arg(repo_root)
+        .arg("--skip-git-repo-check")
+        .arg("--add-dir")
+        .arg(repo_root)
+        .arg("--output-last-message")
+        .arg(&last_message_file)
+        .arg(&prompt)
+        .stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::from(run_log_file))
+        .stderr(std::process::Stdio::from(run_log_err))
+        .spawn()
+        .with_context(|| {
+            format!("finish: failed to launch post-merge closeout watcher '{codex_command}'")
+        })?;
+    fs::write(&pid_file, format!("{}\n", child.id())).with_context(|| {
+        format!(
+            "finish: failed to record post-merge closeout watcher pid '{}'",
+            pid_file.display()
+        )
+    })?;
+    observability::emit_event(
+        "adl",
+        "github_octocrab",
+        "attached",
+        &[
+            ("operation", "post_merge_closeout.attach"),
+            ("artifact_root", &artifact_root.display().to_string()),
+        ],
+    );
     Ok(())
 }
 
@@ -1945,6 +2034,28 @@ fn helper_command_with_github_context(command_path: &str) -> Command {
             command.env(key, value);
         } else {
             command.env_remove(key);
+        }
+    }
+    command
+}
+
+fn helper_command_without_secret_context(command_path: &str) -> Command {
+    let mut command = Command::new(command_path);
+    for key in GITHUB_CONTEXT_ENVS {
+        match *key {
+            "ADL_GITHUB_CLIENT"
+            | "ADL_GITHUB_DISABLE_GH_FALLBACK"
+            | "ADL_GITHUB_OCTOCRAB_BASE_URI"
+            | "ADL_GITHUB_OCTOCRAB_MAX_ATTEMPTS" => {
+                if let Some(value) = std::env::var_os(key) {
+                    command.env(key, value);
+                } else {
+                    command.env_remove(key);
+                }
+            }
+            _ => {
+                command.env_remove(key);
+            }
         }
     }
     command
