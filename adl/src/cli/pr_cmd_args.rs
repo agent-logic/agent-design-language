@@ -86,6 +86,7 @@ pub(crate) struct FinishArgs {
     pub(crate) title: String,
     pub(crate) extra_body: Option<String>,
     pub(crate) paths: String,
+    pub(crate) release_gate_disposition: Option<PathBuf>,
     pub(crate) no_checks: bool,
     pub(crate) no_close: bool,
     pub(crate) ready: bool,
@@ -608,6 +609,7 @@ pub(crate) fn parse_finish_args(args: &[String]) -> Result<FinishArgs> {
         title: String::new(),
         extra_body: None,
         paths: ".".to_string(),
+        release_gate_disposition: None,
         no_checks: false,
         no_close: false,
         ready: false,
@@ -632,6 +634,15 @@ pub(crate) fn parse_finish_args(args: &[String]) -> Result<FinishArgs> {
             }
             "--paths" => {
                 parsed.paths = require_value(args, i, "finish", "--paths")?;
+                i += 2;
+            }
+            "--release-gate-disposition" => {
+                parsed.release_gate_disposition = Some(PathBuf::from(require_value(
+                    args,
+                    i,
+                    "finish",
+                    "--release-gate-disposition",
+                )?));
                 i += 2;
             }
             "--no-checks" => {

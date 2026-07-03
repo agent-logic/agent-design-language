@@ -13,14 +13,15 @@ use crate::cli::pr_cmd::finish_support::{
     render_default_finish_validation, resolve_finish_issue_scope_and_slug,
     restage_finish_output_truth_paths, run_finish_validation_status,
     select_finish_validation_plan_for_finish, validate_ready_only_finish_pr_state,
-    FinishValidationMode, FinishValidationPlan, FinishValidationProfile,
-    FinishValidationProfileEscalation, FinishValidationProfileEscalationReason,
-    FinishValidationProfileRunItem, FinishValidationProfileSurfaceItem, FinishValidationVppRecord,
-    SorFactEmissionContext,
+    validate_release_gate_disposition, FinishValidationMode, FinishValidationPlan,
+    FinishValidationProfile, FinishValidationProfileEscalation,
+    FinishValidationProfileEscalationReason, FinishValidationProfileRunItem,
+    FinishValidationProfileSurfaceItem, FinishValidationVppRecord, SorFactEmissionContext,
 };
 use crate::cli::pr_cmd::git_support::commits_behind_origin_main;
 use crate::cli::pr_cmd::github::{PrValidationCheckReport, PrValidationReport};
 use std::os::unix::fs::PermissionsExt;
+use std::path::{Path, PathBuf};
 
 #[test]
 fn finish_declared_paths_for_validation_splits_operator_surface() {
@@ -168,6 +169,8 @@ fn parse_finish_args_requires_title_and_accepts_finish_flags() {
         "Example".to_string(),
         "--paths".to_string(),
         "adl,docs".to_string(),
+        "--release-gate-disposition".to_string(),
+        "docs/review/release-gate.yaml".to_string(),
         "--no-checks".to_string(),
         "--ready".to_string(),
         "--allow-gitignore".to_string(),
@@ -177,6 +180,10 @@ fn parse_finish_args_requires_title_and_accepts_finish_flags() {
     assert_eq!(parsed.issue, 1153);
     assert_eq!(parsed.title, "Example");
     assert_eq!(parsed.paths, "adl,docs");
+    assert_eq!(
+        parsed.release_gate_disposition,
+        Some(PathBuf::from("docs/review/release-gate.yaml"))
+    );
     assert!(parsed.no_checks);
     assert!(parsed.ready);
     assert!(parsed.allow_gitignore);
@@ -5035,6 +5042,121 @@ fn finish_validation_profile_accepts_ready_profile_with_registered_nessus_remote
         &["adl/tools/test_run_nessus_remote_validation.sh".to_string()],
     )
     .expect("registered nessus remote validation command should be publishable");
+}
+
+#[test]
+fn release_gate_disposition_validates_tracked_publishable_surface() {
+    let repo = unique_temp_dir("adl-pr-finish-release-gate-disposition-valid");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/release-gate.yaml"),
+        r#"issue: 4787
+disposition: approved_with_residual_ci
+changed_release_gate_surfaces:
+  - .github/workflows/ci.yaml
+reviewer_or_review_mode: bounded release-gate review
+focused_validation_run: ci policy selector lane passed locally
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("release gate disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/release-gate.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "release_gate_required_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        run: vec![FinishValidationProfileRunItem {
+            lane_id: "ci_path_policy_contracts".to_string(),
+            command: "bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh".to_string(),
+            reason: "release gate policy contracts".to_string(),
+            matched_paths: vec![".github/workflows/ci.yaml".to_string()],
+            vpp_record: None,
+        }],
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "release_gate_review".to_string(),
+                status: "release_gate_required".to_string(),
+                reason: "changed_surface_requires_release_or_ci_policy_review".to_string(),
+                matched_paths: vec![".github/workflows/ci.yaml".to_string()],
+                manifest_rule: Some("special_surfaces.release_gate_review".to_string()),
+                remediation_hint: Some(
+                    "Record a release-gate disposition before publication.".to_string(),
+                ),
+            }],
+        },
+    };
+
+    validate_release_gate_disposition(
+        &repo,
+        4787,
+        &profile,
+        Path::new("docs/review/release-gate.yaml"),
+    )
+    .expect("valid release-gate disposition should pass");
+}
+
+#[test]
+fn release_gate_disposition_fails_closed_when_surface_is_missing() {
+    let repo = unique_temp_dir("adl-pr-finish-release-gate-disposition-missing-surface");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/release-gate.yaml"),
+        r#"issue: 4787
+disposition: approved
+changed_release_gate_surfaces:
+  - docs/not-the-release-gate.md
+reviewer_or_review_mode: bounded release-gate review
+focused_validation_run: ci policy selector lane passed locally
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("release gate disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/release-gate.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "release_gate_required_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "release_gate_review".to_string(),
+                status: "release_gate_required".to_string(),
+                reason: "changed_surface_requires_release_or_ci_policy_review".to_string(),
+                matched_paths: vec![".github/workflows/ci.yaml".to_string()],
+                manifest_rule: None,
+                remediation_hint: None,
+            }],
+        },
+    };
+
+    let err = validate_release_gate_disposition(
+        &repo,
+        4787,
+        &profile,
+        Path::new("docs/review/release-gate.yaml"),
+    )
+    .expect_err("missing release-gate surface should fail closed");
+    assert!(err
+        .to_string()
+        .contains("does not cover required release-gate surface"));
 }
 
 #[test]
