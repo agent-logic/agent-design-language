@@ -212,6 +212,41 @@ args="$(cat "$TMP_ADL_ARGS")"
 
 echo "pr.sh worktree prefers primary checkout finish/validation owner binaries: ok"
 
+mkdir -p "$worktree/adl/src"
+printf 'pub fn finish_owner_last_resort_probe() {}\n' >"$worktree/adl/src/finish_owner_last_resort_probe.rs"
+sleep 1
+touch "$repo/adl/target/debug/adl-pr-finish"
+: >"$TMP_ADL_ARGS"
+: >"$TMP_CARGO_ARGS"
+finish_last_resort_log="$tmpdir/finish-last-resort.log"
+
+(
+  cd "$worktree"
+  ADL_PRIMARY_CHECKOUT_ROOT="$repo" \
+    "$BASH_BIN" adl/tools/pr.sh finish 4413 --title "worktree finish stale last resort" --output-card out.md >"$finish_last_resort_log" 2>&1
+)
+
+args="$(cat "$TMP_ADL_ARGS")"
+[[ "$args" == "finish:4413 --title worktree finish stale last resort --output-card out.md" ]] || {
+  echo "assertion failed: worktree finish should use primary adl-pr-finish as dedicated last resort when cargo fallback is disabled" >&2
+  echo "$args" >&2
+  cat "$finish_last_resort_log" >&2
+  exit 1
+}
+grep -F "freshness=stale_allowed_primary_owner_last_resort" "$finish_last_resort_log" >/dev/null || {
+  echo "assertion failed: stale primary owner-binary last resort should be observable" >&2
+  cat "$finish_last_resort_log" >&2
+  exit 1
+}
+[[ ! -s "$TMP_CARGO_ARGS" ]] || {
+  echo "assertion failed: cargo should not run when primary finish owner binary is used as disabled-fallback last resort" >&2
+  cat "$TMP_CARGO_ARGS" >&2
+  exit 1
+}
+rm -f "$worktree/adl/src/finish_owner_last_resort_probe.rs"
+
+echo "pr.sh worktree uses primary finish owner binary as explicit disabled-fallback last resort: ok"
+
 rm -f "$repo/adl/target/debug/adl-pr-doctor"
 cat >"$repo/adl/target/debug/adl" <<'EOF_ADL_GENERIC'
 #!/usr/bin/env bash
