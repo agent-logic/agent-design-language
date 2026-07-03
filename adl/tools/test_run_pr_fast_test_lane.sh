@@ -129,7 +129,7 @@ nested_cli_finish_mod="$TMP/nested_cli_finish_mod.txt"
 printf 'M\tadl/src/cli/tests/pr_cmd_inline/finish/mod.rs\n' >"$nested_cli_finish_mod"
 nested_cli_finish_mod_output="$(bash "$SCRIPT" --changed-files "$nested_cli_finish_mod" --print-plan)"
 assert_has "$nested_cli_finish_mod_output" "mode=full"
-assert_has "$nested_cli_finish_mod_output" "reason=broad_rust_surface_requires_full_nextest"
+assert_has "$nested_cli_finish_mod_output" "reason=slow_pr_cmd_e2e_surface_requires_explicit_slow_lane"
 
 non_structural_cli_mod="$TMP/non_structural_cli_mod.txt"
 printf 'M\tadl/src/cli/run_artifacts/mod.rs\n' >"$non_structural_cli_mod"
@@ -358,6 +358,26 @@ assert_has "$finish_only_output" "mode=focused"
 assert_has "$finish_only_output" "reason=bounded_rust_surface_runs_focused_nextest"
 assert_has "$finish_only_output" "filter_tokens=pr_cmd_finish"
 assert_has "$finish_only_output" "filter_expression=binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)"
+
+slow_pr_cmd_e2e_guardrail="$TMP/slow-pr-cmd-e2e-guardrail.txt"
+printf 'M\tadl/src/cli/tests/pr_cmd_inline/finish/guardrails.rs\n' >"$slow_pr_cmd_e2e_guardrail"
+slow_pr_cmd_e2e_guardrail_output="$(bash "$SCRIPT" --changed-files "$slow_pr_cmd_e2e_guardrail" --print-plan)"
+assert_has "$slow_pr_cmd_e2e_guardrail_output" "mode=full"
+assert_has "$slow_pr_cmd_e2e_guardrail_output" "reason=slow_pr_cmd_e2e_surface_requires_explicit_slow_lane"
+set +e
+slow_pr_cmd_e2e_run_output="$(bash "$SCRIPT" --changed-files "$slow_pr_cmd_e2e_guardrail" 2>&1)"
+slow_pr_cmd_e2e_run_status=$?
+set -e
+if [ "$slow_pr_cmd_e2e_run_status" -ne 3 ]; then
+  echo "expected slow pr_cmd E2E fast-lane refusal to exit 3, got $slow_pr_cmd_e2e_run_status" >&2
+  echo "$slow_pr_cmd_e2e_run_output" >&2
+  exit 1
+fi
+grep -Fq "Refusing full nextest lane in ordinary PR-fast validation: slow_pr_cmd_e2e_surface_requires_explicit_slow_lane" <<<"$slow_pr_cmd_e2e_run_output" || {
+  echo "expected slow pr_cmd E2E refusal message" >&2
+  echo "$slow_pr_cmd_e2e_run_output" >&2
+  exit 1
+}
 
 long_lived_agent_only="$TMP/long_lived_agent_only.txt"
 cat >"$long_lived_agent_only" <<'EOF'
