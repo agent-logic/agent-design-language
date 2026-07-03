@@ -1,4 +1,4 @@
-use anyhow::{bail, Context, Result};
+use anyhow::{anyhow, bail, Context, Result};
 use serde::{Deserialize, Serialize};
 use serde_yaml::{Mapping, Value};
 use std::collections::BTreeSet;
@@ -182,10 +182,11 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
             commands: Vec::new(),
         }
     } else {
-        select_finish_validation_plan_for_finish(
+        select_finish_validation_plan_for_finish_with_release_gate_disposition(
             parsed.issue,
             &parsed.paths,
             &validation_changed_paths,
+            parsed.release_gate_disposition.as_deref(),
         )?
     };
     let finish_validation_profile = if parsed.no_checks {
@@ -2532,10 +2533,25 @@ fn validate_manager_backed_retained_changed_file(
     Ok(())
 }
 
+#[allow(dead_code)]
 pub(super) fn select_finish_validation_plan_for_finish(
     issue_number: u32,
     requested_paths_csv: &str,
     changed_paths: &[String],
+) -> Result<FinishValidationPlan> {
+    select_finish_validation_plan_for_finish_with_release_gate_disposition(
+        issue_number,
+        requested_paths_csv,
+        changed_paths,
+        None,
+    )
+}
+
+pub(super) fn select_finish_validation_plan_for_finish_with_release_gate_disposition(
+    issue_number: u32,
+    requested_paths_csv: &str,
+    changed_paths: &[String],
+    release_gate_disposition: Option<&Path>,
 ) -> Result<FinishValidationPlan> {
     let requested_paths = requested_paths_csv
         .split(',')
@@ -2600,6 +2616,14 @@ pub(super) fn select_finish_validation_plan_for_finish(
                     )?;
                     return Ok(plan);
                 }
+                if let Some(plan) = release_gate_disposition_backed_finish_validation_plan(
+                    &repo_root,
+                    issue_number,
+                    finish_profile,
+                    release_gate_disposition,
+                )? {
+                    return Ok(plan);
+                }
             }
         }
         return Ok(FinishValidationPlan {
@@ -2621,6 +2645,14 @@ pub(super) fn select_finish_validation_plan_for_finish(
                 )?;
                 return Ok(plan);
             }
+            if let Some(plan) = release_gate_disposition_backed_finish_validation_plan(
+                &repo_root,
+                issue_number,
+                finish_profile,
+                release_gate_disposition,
+            )? {
+                return Ok(plan);
+            }
         }
     }
 
@@ -2640,6 +2672,14 @@ pub(super) fn select_finish_validation_plan_for_finish(
     let finish_profile = finish_profile_result?;
     if let Some(plan) = profile_backed_finish_validation_plan(issue_number, &finish_profile) {
         ensure_finish_validation_profile_is_runnable(&repo_root, &finish_profile, changed_paths)?;
+        return Ok(plan);
+    }
+    if let Some(plan) = release_gate_disposition_backed_finish_validation_plan(
+        &repo_root,
+        issue_number,
+        &finish_profile,
+        release_gate_disposition,
+    )? {
         return Ok(plan);
     }
     if !finish_validation_profile_allows_legacy_fallback(&finish_profile, changed_paths) {
@@ -2699,6 +2739,246 @@ fn profile_backed_finish_validation_plan(
     }
     let mode = profile_backed_finish_validation_mode(issue_number, profile);
     Some(FinishValidationPlan { mode, commands })
+}
+
+fn release_gate_disposition_backed_finish_validation_plan(
+    repo_root: &Path,
+    issue_number: u32,
+    profile: &FinishValidationProfile,
+    release_gate_disposition: Option<&Path>,
+) -> Result<Option<FinishValidationPlan>> {
+    if !finish_validation_profile_requires_release_gate_disposition(profile) {
+        if release_gate_disposition.is_some() {
+            bail!("finish: --release-gate-disposition was supplied, but validation manager did not report a release-gate escalation");
+        }
+        return Ok(None);
+    }
+
+    let Some(disposition_path) = release_gate_disposition else {
+        return Ok(None);
+    };
+    validate_release_gate_disposition(repo_root, issue_number, profile, disposition_path)?;
+
+    for item in &profile.run {
+        ensure_finish_validation_command_supported(repo_root, &item.command)?;
+    }
+
+    let mut commands = vec![
+        "bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string(),
+        "git diff --check".to_string(),
+    ];
+    if finish_validation_profile_runs_rust_fast_lane(profile) {
+        push_finish_validation_command(
+            &mut commands,
+            "cargo fmt --manifest-path adl/Cargo.toml --all --check",
+        );
+    }
+    for item in &profile.run {
+        push_finish_validation_command(&mut commands, &item.command);
+    }
+    let mode = profile_backed_finish_validation_mode(issue_number, profile);
+    Ok(Some(FinishValidationPlan { mode, commands }))
+}
+
+fn finish_validation_profile_requires_release_gate_disposition(
+    profile: &FinishValidationProfile,
+) -> bool {
+    profile.escalation.required
+        && profile.escalation.reasons.iter().all(|reason| {
+            reason.lane_id == "release_gate_review" && reason.status == "release_gate_required"
+        })
+        && !profile.escalation.reasons.is_empty()
+}
+
+pub(super) fn validate_release_gate_disposition(
+    repo_root: &Path,
+    issue_number: u32,
+    profile: &FinishValidationProfile,
+    disposition_path: &Path,
+) -> Result<()> {
+    if disposition_path.is_absolute() {
+        bail!("finish: --release-gate-disposition must be repo-relative");
+    }
+    let disposition_rel = disposition_path.to_string_lossy();
+    if disposition_rel.trim().is_empty() || disposition_rel.contains("..") {
+        bail!("finish: --release-gate-disposition must name a stable repo-relative file");
+    }
+    let disposition_abs = repo_root.join(disposition_path);
+    if !ensure_nonempty_file_path(&disposition_abs)? {
+        bail!(
+            "finish: release-gate disposition is missing or empty: {}",
+            disposition_path.display()
+        );
+    }
+    ensure_release_gate_disposition_is_in_index(repo_root, disposition_path)?;
+
+    let body = fs::read_to_string(&disposition_abs).with_context(|| {
+        format!(
+            "finish: failed to read release-gate disposition '{}'",
+            disposition_path.display()
+        )
+    })?;
+    reject_release_gate_disposition_path_leakage(&body)?;
+    let value: Value = serde_yaml::from_str(&body).with_context(|| {
+        format!(
+            "finish: release-gate disposition '{}' is not valid YAML/JSON",
+            disposition_path.display()
+        )
+    })?;
+    let mapping = value
+        .as_mapping()
+        .ok_or_else(|| anyhow!("finish: release-gate disposition must be a YAML/JSON mapping"))?;
+
+    let disposition_issue = yaml_number_or_string(mapping, "issue")
+        .ok_or_else(|| anyhow!("finish: release-gate disposition missing issue"))?;
+    if disposition_issue != issue_number.to_string() {
+        bail!(
+            "finish: release-gate disposition issue '{}' does not match finish issue #{}",
+            disposition_issue,
+            issue_number
+        );
+    }
+
+    let decision = yaml_string(mapping, "disposition")
+        .or_else(|| yaml_string(mapping, "decision"))
+        .ok_or_else(|| anyhow!("finish: release-gate disposition missing disposition/decision"))?;
+    let decision_lc = decision.trim().to_ascii_lowercase();
+    if decision_lc.is_empty()
+        || matches!(
+            decision_lc.as_str(),
+            "blocked" | "block" | "rejected" | "reject" | "failed" | "fail"
+        )
+    {
+        bail!("finish: release-gate disposition is not publishable: {decision}");
+    }
+
+    require_nonempty_yaml_string(
+        mapping,
+        &["reviewer_or_review_mode", "reviewer", "review_mode"],
+        "reviewer/review mode",
+    )?;
+    require_nonempty_yaml_string(
+        mapping,
+        &["focused_validation_run", "focused_validation", "validation"],
+        "focused validation run",
+    )?;
+    require_nonempty_yaml_string(
+        mapping,
+        &[
+            "residual_ci_proof_required_before_merge",
+            "residual_ci_proof",
+            "ci_proof",
+        ],
+        "residual CI proof",
+    )?;
+
+    let declared_surfaces = yaml_string_array(mapping, "changed_release_gate_surfaces")
+        .or_else(|| yaml_string_array(mapping, "release_gate_surfaces"))
+        .ok_or_else(|| {
+            anyhow!("finish: release-gate disposition missing changed_release_gate_surfaces")
+        })?;
+    if declared_surfaces.is_empty() {
+        bail!("finish: release-gate disposition declares no release-gate surfaces");
+    }
+    let missing = release_gate_matched_paths(profile)
+        .into_iter()
+        .filter(|path| !declared_surfaces.iter().any(|declared| declared == path))
+        .collect::<Vec<_>>();
+    if !missing.is_empty() {
+        bail!(
+            "finish: release-gate disposition does not cover required release-gate surface(s): {}",
+            missing.join(", ")
+        );
+    }
+    Ok(())
+}
+
+fn ensure_release_gate_disposition_is_in_index(repo_root: &Path, path: &Path) -> Result<()> {
+    let path = path_str(path)?;
+    let result = run_capture_allow_failure(
+        "git",
+        &[
+            "-C",
+            path_str(repo_root)?,
+            "ls-files",
+            "--error-unmatch",
+            path,
+        ],
+    )
+    .context("finish: failed to inspect release-gate disposition index state")?;
+    if result.is_some() {
+        return Ok(());
+    }
+    bail!("finish: release-gate disposition must be tracked or staged for publication: {path}");
+}
+
+fn release_gate_matched_paths(profile: &FinishValidationProfile) -> Vec<String> {
+    let mut paths = Vec::new();
+    for reason in &profile.escalation.reasons {
+        if reason.lane_id == "release_gate_review" && reason.status == "release_gate_required" {
+            for path in &reason.matched_paths {
+                if !paths.iter().any(|existing| existing == path) {
+                    paths.push(path.clone());
+                }
+            }
+        }
+    }
+    paths
+}
+
+fn reject_release_gate_disposition_path_leakage(body: &str) -> Result<()> {
+    for marker in ["/Users/", "/private/tmp", "/tmp/", "\\Users\\"] {
+        if body.contains(marker) {
+            bail!("finish: release-gate disposition contains machine-local path marker: {marker}");
+        }
+    }
+    Ok(())
+}
+
+fn yaml_key(name: &str) -> Value {
+    Value::String(name.to_string())
+}
+
+fn yaml_string(mapping: &Mapping, key: &str) -> Option<String> {
+    mapping
+        .get(&yaml_key(key))
+        .and_then(Value::as_str)
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .map(str::to_string)
+}
+
+fn yaml_number_or_string(mapping: &Mapping, key: &str) -> Option<String> {
+    let value = mapping.get(&yaml_key(key))?;
+    if let Some(text) = value.as_str() {
+        let text = text.trim();
+        if !text.is_empty() {
+            return Some(text.to_string());
+        }
+    }
+    value.as_i64().map(|number| number.to_string())
+}
+
+fn yaml_string_array(mapping: &Mapping, key: &str) -> Option<Vec<String>> {
+    let values = mapping.get(&yaml_key(key))?.as_sequence()?;
+    Some(
+        values
+            .iter()
+            .filter_map(Value::as_str)
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .map(str::to_string)
+            .collect(),
+    )
+}
+
+fn require_nonempty_yaml_string(mapping: &Mapping, keys: &[&str], label: &str) -> Result<String> {
+    for key in keys {
+        if let Some(value) = yaml_string(mapping, key) {
+            return Ok(value);
+        }
+    }
+    bail!("finish: release-gate disposition missing {label}")
 }
 
 fn profile_backed_finish_validation_mode(
