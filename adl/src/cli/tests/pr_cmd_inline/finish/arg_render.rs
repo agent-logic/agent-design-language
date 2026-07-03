@@ -5289,6 +5289,81 @@ fn finish_runner_executes_combined_ci_policy_selector_command() {
 }
 
 #[test]
+fn finish_runner_executes_registered_rust_warm_cache_contract_sequence() {
+    let _guard = env_lock();
+    let temp = unique_temp_dir("adl-pr-finish-registered-rust-warm-cache-contracts");
+
+    let command = "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh && bash adl/tools/test_run_pr_fast_test_lane.sh";
+    let repo = temp.join("repo");
+    fs::create_dir_all(repo.join("adl/config")).expect("adl config dir");
+    fs::create_dir_all(repo.join("adl/tools")).expect("adl tools dir");
+    fs::write(
+        repo.join("adl/config/validation_lane_selector.v0.91.6.json"),
+        format!(
+            r#"{{"schema_version":"adl.validation_lane_selector.v1","lanes":[{{"id":"rust_dependency_cache_warmup_contracts","run_command":"{}"}}]}}"#,
+            command
+        ),
+    )
+    .expect("validation manifest");
+    fs::write(
+        repo.join("adl/Cargo.toml"),
+        "[package]\nname='adl'\nversion='0.1.0'\n",
+    )
+    .expect("cargo toml");
+    write_executable(
+        &repo.join("adl/tools/check_no_tracked_adl_issue_record_residue.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\nexit 0\n",
+    );
+    fs::write(
+        repo.join("adl/tools/warm_rust_dependency_cache.py"),
+        "#!/usr/bin/env python3\nVALUE = 1\n",
+    )
+    .expect("warm cache py");
+    fs::write(
+        repo.join("adl/tools/test_warm_rust_dependency_cache.py"),
+        "#!/usr/bin/env python3\nimport os\nfrom pathlib import Path\nPath(os.environ['FOCUSED_LOG']).write_text(Path(os.environ['FOCUSED_LOG']).read_text() + 'warm-cache-python\\n' if Path(os.environ['FOCUSED_LOG']).exists() else 'warm-cache-python\\n')\n",
+    )
+    .expect("warm cache test py");
+    write_executable(
+        &repo.join("adl/tools/test_rust_validation_warm_cache.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' rust-validation-warm-cache >> \"$FOCUSED_LOG\"\n",
+    );
+    write_executable(
+        &repo.join("adl/tools/test_run_authoritative_coverage_lane.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' authoritative-coverage-lane >> \"$FOCUSED_LOG\"\n",
+    );
+    write_executable(
+        &repo.join("adl/tools/test_run_pr_fast_test_lane.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' pr-fast-test-lane >> \"$FOCUSED_LOG\"\n",
+    );
+    init_git_repo(&repo);
+
+    let focused_log = temp.join("focused.log");
+    let old_focused_log = env::var("FOCUSED_LOG").ok();
+    unsafe {
+        env::set_var("FOCUSED_LOG", &focused_log);
+    }
+
+    let plan = FinishValidationPlan {
+        mode: FinishValidationMode::SmallBinaryFocused,
+        commands: vec![command.to_string()],
+    };
+    run_finish_validation_rust(&repo, &plan)
+        .expect("registered rust warm-cache contract sequence validation");
+
+    match old_focused_log {
+        Some(value) => unsafe { env::set_var("FOCUSED_LOG", value) },
+        None => unsafe { env::remove_var("FOCUSED_LOG") },
+    }
+
+    let focused_calls = fs::read_to_string(&focused_log).expect("focused log");
+    assert!(focused_calls.contains("warm-cache-python"));
+    assert!(focused_calls.contains("rust-validation-warm-cache"));
+    assert!(focused_calls.contains("authoritative-coverage-lane"));
+    assert!(focused_calls.contains("pr-fast-test-lane"));
+}
+
+#[test]
 fn finish_runner_executes_chained_local_polis_selector_command() {
     let _guard = env_lock();
     let temp = unique_temp_dir("adl-pr-finish-chained-local-polis-selector-command");

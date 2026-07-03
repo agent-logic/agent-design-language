@@ -3231,6 +3231,9 @@ fn registered_validation_atom_supported(command: &str) -> bool {
                 | "adl/tools/test_select_validation_lanes.sh"
                 | "adl/tools/test_validation_manager.sh"
                 | "adl/tools/test_run_nessus_remote_validation.sh"
+                | "adl/tools/test_rust_validation_warm_cache.sh"
+                | "adl/tools/test_run_authoritative_coverage_lane.sh"
+                | "adl/tools/test_run_pr_fast_test_lane.sh"
                 | "adl/tools/test_check_coverage_impact.sh"
                 | "adl/tools/test_demo_v0904_csm_observatory_governed_prototype.sh"
                 | "adl/tools/test_v0916_unity_observatory_baseline.sh"
@@ -3246,21 +3249,37 @@ fn registered_validation_atom_supported(command: &str) -> bool {
             "adl/tools/polis_status_for_ssm.sh"
                 | "adl/tools/polis_status_for_ssm_qts.sh"
                 | "adl/tools/test_v0916_unity_observatory_unity65_smoke.sh"
+                | "tools/aws_remote_validation/scripts/remote_validation_runner.sh"
+                | "tools/aws_remote_validation/scripts/ssh_debug_control.sh"
         ),
         ["bash", "adl/tools/run_owner_validation_lane.sh", lane] => {
             matches!(*lane, "csdlc" | "runtime" | "review")
+        }
+        ["python3", "-m", "py_compile", scripts @ ..] => {
+            !scripts.is_empty()
+                && scripts
+                    .iter()
+                    .all(|script| script.starts_with("adl/tools/") && script.ends_with(".py"))
         }
         ["python3", script] => matches!(
             *script,
             "adl/tools/validate_polis_status_for_ssm_qts.py"
                 | "adl/tools/validate_polis_status_for_ssm_windows.py"
+                | "adl/tools/test_warm_rust_dependency_cache.py"
         ),
         ["python3", script, ..] => matches!(
             *script,
             "adl/tools/validate_polis_status_for_ssm_qts.py"
                 | "adl/tools/validate_polis_status_for_ssm_windows.py"
+                | "adl/tools/test_warm_rust_dependency_cache.py"
         ),
         ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "--test", "cli_smoke", "csm_observatory_cli_writes_unity_contract_bundle_and_matches_seeded_resource", "--", "--nocapture"] => {
+            true
+        }
+        ["cargo", "check", "--manifest-path", "tools/aws_remote_validation/Cargo.toml", "--bin", "adl-aws-remote-validation"] => {
+            true
+        }
+        ["cargo", "test", "--manifest-path", "tools/aws_remote_validation/Cargo.toml", "--bin", "adl-aws-remote-validation", "--", "--nocapture"] => {
             true
         }
         _ => false,
@@ -3316,6 +3335,14 @@ fn execute_registered_validation_atom(repo_root: &Path, command: &str) -> Result
             let refs = owned.iter().map(String::as_str).collect::<Vec<_>>();
             run_finish_validation_status("bash", &refs)
         }
+        ["python3", "-m", "py_compile", scripts @ ..] => {
+            let mut owned = vec!["-m".to_string(), "py_compile".to_string()];
+            for script in scripts {
+                owned.push(finish_registered_validation_arg(repo_root, script)?);
+            }
+            let refs = owned.iter().map(String::as_str).collect::<Vec<_>>();
+            run_finish_validation_status("python3", &refs)
+        }
         ["python3", script] => {
             let script = repo_root.join(script);
             run_finish_validation_status("python3", &[path_str(&script)?])
@@ -3329,11 +3356,11 @@ fn execute_registered_validation_atom(repo_root: &Path, command: &str) -> Result
             let refs = owned.iter().map(String::as_str).collect::<Vec<_>>();
             run_finish_validation_status("python3", &refs)
         }
-        ["cargo", "test", manifest_flag, manifest_path, args @ ..]
+        ["cargo", subcommand @ ("check" | "test"), manifest_flag, manifest_path, args @ ..]
             if *manifest_flag == "--manifest-path" =>
         {
             let mut owned = vec![
-                "test".to_string(),
+                (*subcommand).to_string(),
                 (*manifest_flag).to_string(),
                 finish_registered_validation_arg(repo_root, manifest_path)?,
             ];
