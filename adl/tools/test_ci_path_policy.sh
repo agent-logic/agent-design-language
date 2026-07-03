@@ -450,15 +450,15 @@ EOF
   assert_has "$rust_dependency_cache_policy_output" "demo_smoke_required=false"
   assert_has "$rust_dependency_cache_policy_output" "v0913_proof_required=false"
   assert_has "$rust_dependency_cache_policy_output" "release_version_only=false"
-  assert_has "$rust_dependency_cache_policy_output" "ci_contracts_required=false"
+  assert_has "$rust_dependency_cache_policy_output" "ci_contracts_required=true"
   assert_has "$rust_dependency_cache_policy_output" "validation_profile_contract_lanes_selected=true"
   assert_has "$rust_dependency_cache_policy_output" "fail_closed=false"
   assert_has "$rust_dependency_cache_policy_output" "coverage_lane=skip"
   assert_has "$rust_dependency_cache_policy_output" "coverage_authority=not_required"
-  assert_has "$rust_dependency_cache_policy_output" "reason=bounded_rust_dependency_cache_warmup_policy_change_runs_python_and_path_policy_checks"
+  assert_has "$rust_dependency_cache_policy_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
   assert_has "$rust_dependency_cache_policy_output" "validation_profile_status=ready_to_run"
   assert_has "$rust_dependency_cache_policy_output" "validation_profile_escalation_required=false"
-  assert_has "$rust_dependency_cache_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
+  assert_has "$rust_dependency_cache_policy_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts,workflow_conductor_contracts"
 
   git checkout -q -b rust-dependency-cache-warmup-mixed-policy-change "$base_sha"
   mkdir -p adl/config adl/tools docs/tooling
@@ -516,7 +516,7 @@ EOF
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_status=ready_to_run"
   assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_escalation_required=false"
-  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts"
+  assert_has "$rust_dependency_cache_unrelated_guidance_output" "validation_profile_run_lanes=ci_path_policy_contracts,docs_diff_check,rust_dependency_cache_warmup_contracts,workflow_conductor_contracts"
 
   git checkout -q -b classifier-followup "$base_sha"
   mkdir -p adl/tools/skills/sprint-conductor/scripts adl/config adl/tools

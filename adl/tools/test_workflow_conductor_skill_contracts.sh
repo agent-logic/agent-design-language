@@ -316,6 +316,20 @@ if [[ "$cmd" == "closeout" ]]; then
   echo "CLOSEOUT:${issue}" >>"${ADL_DISPATCH_LOG}"
   exit 0
 fi
+if [[ "$cmd" == "issue" && "${2:-}" == "list" ]]; then
+  cat <<'JSON'
+[
+  {"number":2011,"state":"closed","title":"child-a","body":"## Issue-Graph Notes\n- child of #2006"},
+  {"number":2012,"state":"closed","title":"child-b","body":"## Issue-Graph Notes\n- child of #2006"},
+  {"number":2013,"state":"closed","title":"covered-fix","body":"Resolved by prior child issue"},
+  {"number":2014,"state":"open","title":"active-follow-on","body":"Still in progress"},
+  {"number":2016,"state":"closed","title":"Generate WP issue waves from canonical WBS surfaces","body":"## Issue-Graph Notes\n- child of #2020"},
+  {"number":2017,"state":"closed","title":"Generate WP issue waves from canonical WBS surfaces","body":"## Issue-Graph Notes\n- child of #2021"},
+  {"number":2018,"state":"closed","title":"Unrelated closed sibling","body":"## Issue-Graph Notes\n- child of #2022"}
+]
+JSON
+  exit 0
+fi
 if [[ "$cmd" != "doctor" ]]; then
   exit 1
 fi
@@ -911,47 +925,49 @@ mkdir -p "${mock_bin}"
 cat >"${mock_bin}/gh" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-if [[ "$1" == "pr" && "$2" == "view" && "$3" == "3001" ]]; then
-  cat <<'JSON'
-{"state":"OPEN","isDraft":false,"reviewDecision":"CHANGES_REQUESTED","mergeStateStatus":"BLOCKED","headRefName":"codex/3001-pr-blocked","statusCheckRollup":[{"status":"COMPLETED","conclusion":"FAILURE"}]}
-JSON
-  exit 0
-fi
-if [[ "$1" == "issue" && "$2" == "list" ]]; then
-  cat <<'JSON'
-[
-  {"number":2011,"state":"CLOSED","title":"child-a","body":"## Issue-Graph Notes\n- child of #2006"},
-  {"number":2012,"state":"CLOSED","title":"child-b","body":"## Issue-Graph Notes\n- child of #2006"},
-  {"number":2013,"state":"CLOSED","title":"covered-fix","body":"Resolved by prior child issue"},
-  {"number":2014,"state":"OPEN","title":"active-follow-on","body":"Still in progress"},
-  {"number":2016,"state":"CLOSED","title":"Generate WP issue waves from canonical WBS surfaces","body":"## Issue-Graph Notes\n- child of #2020"},
-  {"number":2017,"state":"CLOSED","title":"Generate WP issue waves from canonical WBS surfaces","body":"## Issue-Graph Notes\n- child of #2021"},
-  {"number":2018,"state":"CLOSED","title":"Unrelated closed sibling","body":"## Issue-Graph Notes\n- child of #2022"}
-]
-JSON
-  exit 0
-fi
-if [[ "$1" == "pr" && "$2" == "view" && "$3" == "3004" ]]; then
-  cat <<'JSON'
-{"state":"OPEN","isDraft":false,"reviewDecision":null,"mergeStateStatus":"BLOCKED","headRefName":"codex/3004-pr-linkage-only","statusCheckRollup":[{"status":"COMPLETED","conclusion":"SUCCESS"}]}
-JSON
-  exit 0
-fi
-if [[ "$1" == "pr" && "$2" == "view" && "$3" == "3002" ]]; then
-  cat <<'JSON'
-{"state":"MERGED","isDraft":false,"reviewDecision":null,"mergeStateStatus":"UNKNOWN","headRefName":"codex/3002-pr-merged","statusCheckRollup":[]}
-JSON
-  exit 0
-fi
-if [[ "$1" == "pr" && "$2" == "view" && "$3" == "3003" ]]; then
-  cat <<'JSON'
-{"state":"OPEN","isDraft":false,"reviewDecision":"APPROVED","mergeStateStatus":"CLEAN","headRefName":"codex/3003-pr-clean","statusCheckRollup":[{"status":"COMPLETED","conclusion":"SUCCESS"}]}
-JSON
-  exit 0
-fi
-exit 1
+echo "unexpected gh invocation: $*" >&2
+exit 91
 EOF
 chmod +x "${mock_bin}/gh"
+
+cat >"${mock_bin}/adl" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "$1" == "pr" && "$2" == "validation" ]]; then
+  case "$3" in
+    3001)
+      cat <<'JSON'
+{"pr_number":3001,"pr_state":"OPEN","is_draft":false,"reviewDecision":"CHANGES_REQUESTED","mergeStateStatus":"BLOCKED","head_ref_name":"codex/3001-pr-blocked","checks":[{"status":"COMPLETED","conclusion":"FAILURE"}]}
+JSON
+      exit 0
+      ;;
+    3002)
+      cat <<'JSON'
+{"pr_number":3002,"pr_state":"MERGED","is_draft":false,"reviewDecision":null,"mergeStateStatus":"UNKNOWN","head_ref_name":"codex/3002-pr-merged","checks":[]}
+JSON
+      exit 0
+      ;;
+    3003)
+      cat <<'JSON'
+{"pr_number":3003,"pr_state":"OPEN","is_draft":false,"reviewDecision":"APPROVED","mergeStateStatus":"CLEAN","head_ref_name":"codex/3003-pr-clean","checks":[{"status":"COMPLETED","conclusion":"SUCCESS"}]}
+JSON
+      exit 0
+      ;;
+    3004)
+      cat <<'JSON'
+{"pr_number":3004,"pr_state":"OPEN","is_draft":false,"reviewDecision":null,"mergeStateStatus":"BLOCKED","head_ref_name":"codex/3004-pr-linkage-only","checks":[{"status":"COMPLETED","conclusion":"SUCCESS"}]}
+JSON
+      exit 0
+      ;;
+  esac
+fi
+echo "unexpected adl invocation: $*" >&2
+exit 92
+EOF
+chmod +x "${mock_bin}/adl"
+mkdir -p "${fixture_repo}/adl/target/debug"
+cp "${mock_bin}/adl" "${fixture_repo}/adl/target/debug/adl"
+chmod +x "${fixture_repo}/adl/target/debug/adl"
 
 mkdir -p "${fixture_repo}/.adl/v0.88/tasks/issue-3001__pr-blocked" "${fixture_repo}/.adl/v0.88/tasks/issue-3002__pr-merged" "${fixture_repo}/.adl/v0.88/tasks/issue-3003__pr-clean"
 mkdir -p "${fixture_repo}/.adl/v0.88/tasks/issue-3004__pr-linkage-only"
