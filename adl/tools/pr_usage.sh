@@ -299,6 +299,7 @@ Usage:
   adl/tools/pr.sh issue comment <issue-number-or-url> [--body "<markdown>" | --body-file <path>] [-R owner/repo] [--json]
   adl/tools/pr.sh issue edit <issue-number-or-url> [--title "<title>"] [--body "<markdown>" | --body-file <path>] [--label <label>]... [--labels <csv>] [-R owner/repo] [--json]
   adl/tools/pr.sh issue close <issue-number-or-url> [--reason completed|not_planned] [-R owner/repo] [--json]
+  adl/tools/pr.sh issue label ensure [--label <label>]... [--labels <csv>] [-R owner/repo] [--color <hex>] [--description "<text>"] [--json]
 
 Behavior:
 - delegates to the Rust-owned issue inspection and mutation surface

@@ -2311,10 +2311,81 @@ pub(super) fn ensure_repo_labels_exist(
     if missing.is_empty() {
         return Ok(());
     }
+    let remediation = label_ensure_command(repo, &missing);
     bail!(
-        "{operation}: repo is missing required GitHub labels: {}. Create them through the approved ADL GitHub label path before retrying so issue metadata does not mutate partially.",
-        missing.join(", ")
+        "{operation}: repo is missing required GitHub labels: {}. Run `{remediation}` before retrying so issue metadata does not mutate partially.",
+        missing.join(", "),
     );
+}
+
+fn label_ensure_command(repo: &str, labels: &[String]) -> String {
+    let mut parts = vec![
+        "adl/tools/pr.sh".to_string(),
+        "issue".to_string(),
+        "label".to_string(),
+        "ensure".to_string(),
+        "-R".to_string(),
+        shell_quote(repo),
+    ];
+    for label in labels {
+        parts.push("--label".to_string());
+        parts.push(shell_quote(label));
+    }
+    parts.join(" ")
+}
+
+fn shell_quote(value: &str) -> String {
+    if value
+        .chars()
+        .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, '_' | '-' | '.' | '/' | ':' | '@'))
+    {
+        return value.to_string();
+    }
+    format!("'{}'", value.replace('\'', "'\"'\"'"))
+}
+
+pub(super) fn gh_repo_ensure_labels(
+    repo: &str,
+    labels: &BTreeSet<String>,
+    color: &str,
+    description: Option<&str>,
+) -> Result<(Vec<String>, Vec<String>)> {
+    if labels.is_empty() {
+        return Ok((Vec::new(), Vec::new()));
+    }
+    let available = gh_repo_label_names(repo)?;
+    let existing = labels.intersection(&available).cloned().collect::<Vec<_>>();
+    let missing = labels.difference(&available).cloned().collect::<Vec<_>>();
+    if missing.is_empty() {
+        return Ok((existing, Vec::new()));
+    }
+
+    #[derive(Serialize)]
+    struct LabelCreatePayload<'a> {
+        name: &'a str,
+        color: &'a str,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        description: Option<&'a str>,
+    }
+
+    let repo_parts = parse_repo(repo)?;
+    with_octocrab("issue.label.ensure", |runtime, octo| {
+        let owner = repo_parts.owner.clone();
+        let name = repo_parts.name.clone();
+        let route = format!("/repos/{owner}/{name}/labels");
+        for label in &missing {
+            let payload = LabelCreatePayload {
+                name: label,
+                color,
+                description,
+            };
+            let _: serde_json::Value = block_on_octocrab(runtime, "issue.label.ensure", || async {
+                octo.post(route.as_str(), Some(&payload)).await
+            })
+            .with_context(|| format!("failed to create GitHub label '{label}' in repo {repo}"))?;
+        }
+        Ok((existing, missing))
+    })
 }
 
 pub(super) fn gh_issue_edit_title(repo: &str, issue: u32, title: &str) -> Result<()> {

@@ -79,6 +79,9 @@ fn spawn_issue_octocrab_test_server(
                     "]"
                 )
                 .to_string(),
+                ("POST", "/repos/owner/repo/labels") => {
+                    "{\"name\":\"version:v0.91.7\",\"color\":\"ededed\"}".to_string()
+                }
                 ("POST", "/repos/owner/repo/issues/77/comments") => {
                     "{\"html_url\":\"https://github.com/owner/repo/issues/77#issuecomment-1\"}"
                         .to_string()
@@ -101,6 +104,51 @@ fn spawn_issue_octocrab_test_server(
                         .expect("content-type header"),
                 );
             request.respond(response).expect("respond");
+        }
+        seen
+    });
+    (format!("http://{bind_addr}"), handle)
+}
+
+fn spawn_missing_label_guard_server() -> (String, std::thread::JoinHandle<Vec<String>>) {
+    let listener = std::net::TcpListener::bind("127.0.0.1:0").expect("bind listener");
+    let port = listener.local_addr().expect("local addr").port();
+    drop(listener);
+    let bind_addr = format!("127.0.0.1:{port}");
+    let server = tiny_http::Server::http(&bind_addr).expect("bind missing label guard server");
+    let handle = std::thread::spawn(move || {
+        let mut seen = Vec::new();
+        let Some(mut request) = server
+            .recv_timeout(std::time::Duration::from_secs(5))
+            .expect("missing label guard receive")
+        else {
+            return seen;
+        };
+        let method = request.method().as_str().to_string();
+        let url = request.url().to_string();
+        let mut body = String::new();
+        let _ = std::io::Read::read_to_string(&mut request.as_reader(), &mut body);
+        seen.push(format!("{method} {url} {body}"));
+        assert!(
+            method == "GET" && url.starts_with("/repos/owner/repo/labels?"),
+            "expected only repo-label lookup before fail-closed mutation guard, got {method} {url}"
+        );
+        let response = tiny_http::Response::from_string("[{\"name\":\"area:tools\"}]")
+            .with_status_code(200)
+            .with_header(
+                tiny_http::Header::from_bytes("Content-Type", "application/json")
+                    .expect("content-type header"),
+            );
+        request.respond(response).expect("respond");
+        if let Some(extra) = server
+            .recv_timeout(std::time::Duration::from_millis(250))
+            .expect("missing label extra receive")
+        {
+            panic!(
+                "missing label guard expected no mutation request, got {} {}",
+                extra.method(),
+                extra.url()
+            );
         }
         seen
     });
@@ -917,6 +965,36 @@ fn parse_issue_args_accepts_list_search_and_view_modes() {
     }
 
     let parsed = parse_issue_args(&[
+        "label".to_string(),
+        "ensure".to_string(),
+        "--label".to_string(),
+        "area:tools".to_string(),
+        "--labels".to_string(),
+        "version:v0.91.7,area:quality".to_string(),
+        "--color".to_string(),
+        "#ededed".to_string(),
+        "--description".to_string(),
+        "ADL managed label".to_string(),
+        "-R".to_string(),
+        "owner/repo".to_string(),
+        "--json".to_string(),
+    ])
+    .expect("parse issue label ensure");
+    match parsed {
+        IssueArgs::LabelEnsure(parsed) => {
+            assert_eq!(
+                parsed.labels,
+                vec!["area:tools", "version:v0.91.7", "area:quality"]
+            );
+            assert_eq!(parsed.color, "ededed");
+            assert_eq!(parsed.description.as_deref(), Some("ADL managed label"));
+            assert_eq!(parsed.repo.as_deref(), Some("owner/repo"));
+            assert!(parsed.json);
+        }
+        other => panic!("expected label ensure args, got {other:?}"),
+    }
+
+    let parsed = parse_issue_args(&[
         "comment".to_string(),
         "77".to_string(),
         "--body".to_string(),
@@ -1103,7 +1181,7 @@ fn real_pr_issue_covers_list_search_view_and_mutation_against_mock_github() {
     std::fs::write(&body_path, "Created body\n").expect("write body");
     let comment_path = repo.join("comment.md");
     std::fs::write(&comment_path, "Comment body\n").expect("write comment");
-    let (base_uri, server) = spawn_issue_octocrab_test_server(9);
+    let (base_uri, server) = spawn_issue_octocrab_test_server(11);
     unsafe {
         std::env::set_var("ADL_GITHUB_CLIENT", "octocrab");
         std::env::set_var("ADL_GITHUB_OCTOCRAB_BASE_URI", &base_uri);
@@ -1150,6 +1228,15 @@ fn real_pr_issue_covers_list_search_view_and_mutation_against_mock_github() {
     ])
     .expect("issue edit");
     real_pr_issue(&[
+        "label".to_string(),
+        "ensure".to_string(),
+        "--labels".to_string(),
+        "area:tools,version:v0.91.7".to_string(),
+        "-R".to_string(),
+        "owner/repo".to_string(),
+    ])
+    .expect("issue label ensure");
+    real_pr_issue(&[
         "close".to_string(),
         "77".to_string(),
         "--reason".to_string(),
@@ -1159,7 +1246,7 @@ fn real_pr_issue_covers_list_search_view_and_mutation_against_mock_github() {
 
     std::env::set_current_dir(prev_dir).expect("restore cwd");
     let seen = server.join().expect("server join");
-    assert_eq!(seen.len(), 9);
+    assert_eq!(seen.len(), 11);
     assert!(seen[0].starts_with("GET /repos/owner/repo/issues?"));
     assert!(seen[1].contains("/search/issues?"));
     assert!(seen[2].starts_with("GET /repos/owner/repo/issues/77"));
@@ -1171,9 +1258,57 @@ fn real_pr_issue_covers_list_search_view_and_mutation_against_mock_github() {
     assert!(seen[6].starts_with("GET /repos/owner/repo/labels?"));
     assert!(seen[7].starts_with("PATCH /repos/owner/repo/issues/77 "));
     assert!(seen[7].contains("area:tools"));
-    assert!(seen[8].starts_with("PATCH /repos/owner/repo/issues/77 "));
-    assert!(seen[8].contains("\"state\":\"closed\""));
-    assert!(seen[8].contains("\"state_reason\":\"not_planned\""));
+    assert!(seen[8].starts_with("GET /repos/owner/repo/labels?"));
+    assert!(seen[9].starts_with("POST /repos/owner/repo/labels "));
+    assert!(seen[9].contains("version:v0.91.7"));
+    assert!(seen[10].starts_with("PATCH /repos/owner/repo/issues/77 "));
+    assert!(seen[10].contains("\"state\":\"closed\""));
+    assert!(seen[10].contains("\"state_reason\":\"not_planned\""));
+}
+
+#[test]
+fn real_pr_issue_create_fails_closed_before_mutation_when_label_is_missing() {
+    let _guard = env_lock();
+    let _transport_env = force_gh_cli_transport_env();
+    let repo = unique_temp_dir("adl-pr-issue-missing-label");
+    init_git_repo(&repo);
+    let (base_uri, server) = spawn_missing_label_guard_server();
+    let previous_dir = env::current_dir().expect("cwd");
+    let old_client = env::var_os("ADL_GITHUB_CLIENT");
+    let old_token = env::var_os("GITHUB_TOKEN");
+    let old_base_uri = env::var_os("ADL_GITHUB_OCTOCRAB_BASE_URI");
+    unsafe {
+        env::set_var("ADL_GITHUB_CLIENT", "octocrab");
+        env::set_var("GITHUB_TOKEN", "test-token");
+        env::set_var("ADL_GITHUB_OCTOCRAB_BASE_URI", &base_uri);
+    }
+    env::set_current_dir(&repo).expect("enter repo");
+
+    let err = real_pr_issue(&[
+        "create".to_string(),
+        "--title".to_string(),
+        "[v0.91.7][tools] Missing label guard".to_string(),
+        "--body".to_string(),
+        "Body".to_string(),
+        "--label".to_string(),
+        "good first issue".to_string(),
+        "-R".to_string(),
+        "owner/repo".to_string(),
+    ])
+    .expect_err("missing label should fail before issue mutation");
+
+    env::set_current_dir(previous_dir).expect("restore cwd");
+    restore_env_var("ADL_GITHUB_CLIENT", old_client);
+    restore_env_var("GITHUB_TOKEN", old_token);
+    restore_env_var("ADL_GITHUB_OCTOCRAB_BASE_URI", old_base_uri);
+
+    let message = err.to_string();
+    assert!(message.contains("issue create: repo is missing required GitHub labels"));
+    assert!(message.contains("adl/tools/pr.sh issue label ensure"));
+    assert!(message.contains("--label 'good first issue'"));
+    let seen = server.join().expect("server join");
+    assert_eq!(seen.len(), 1);
+    assert!(seen[0].starts_with("GET /repos/owner/repo/labels?"));
 }
 
 #[test]
