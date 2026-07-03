@@ -136,6 +136,20 @@ When conductor routing depends on doctor/readiness/PR state:
 - when a routing result depends on wait state, queue blocking, or PR inference,
   preserve the relevant log-policy caveat in the output or handoff notes
 
+## Repo-Native Tracker And PR Inference
+
+The conductor helper must not call the GitHub CLI directly for tracker or PR
+state inference. Its supported repo-native read surfaces are:
+- issue/tracker discovery through
+  `bash adl/tools/pr.sh issue list --state all --limit 200 --json`
+- PR state discovery through `adl pr validation <pr-number> --json`
+
+Those commands may emit human `adl_event` observability alongside structured
+payloads. The helper must parse the first JSON object or array from mixed
+output, record the repo-native surface in `workflow_state.evidence_used`, and
+fail closed when those surfaces are missing or malformed. Raw `gh` is not a
+supported fallback for this skill.
+
 ## Routing Model
 
 Preferred next-skill mapping:
