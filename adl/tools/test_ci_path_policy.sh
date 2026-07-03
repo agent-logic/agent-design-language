@@ -42,7 +42,10 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'run: bash tools/setup_required_coverage_toolchain.sh verify'
   assert_file_has "$workflow" 'Coverage not required by path policy'
   assert_file_has "$workflow" "if: steps.path-policy.outputs.coverage_required != 'true'"
-  assert_file_has "$workflow" 'run: bash tools/run_authoritative_coverage_lane.sh --authority "adl_coverage_always_on" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- bash tools/run_authoritative_coverage_lane.sh --authority "adl_coverage_always_on" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'Upload ADL-owned coverage step logs'
+  assert_file_has "$workflow" "if: always() && steps.path-policy.outputs.coverage_required == 'true'"
+  assert_file_has "$workflow" 'name: adl-coverage-step-logs'
   assert_file_has "$workflow" 'Actual adl-coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}'
   assert_file_has "$workflow" 'run: bash tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
@@ -56,6 +59,7 @@ trap 'rm -rf "$tmp_dir"' EXIT
 
 python3 "$ROOT_DIR/adl/tools/test_warm_rust_dependency_cache.py"
 bash "$ROOT_DIR/adl/tools/test_run_authoritative_coverage_lane.sh"
+bash "$ROOT_DIR/adl/tools/test_run_ci_step_with_log.sh"
 bash "$ROOT_DIR/adl/tools/test_setup_required_coverage_toolchain.sh"
 assert_current_coverage_workflow_contract
 (cd "$ROOT_DIR" && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh)

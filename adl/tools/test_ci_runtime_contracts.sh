@@ -130,10 +130,14 @@ expected_coverage = (
     'bash tools/run_authoritative_coverage_lane.sh --authority "adl_coverage_always_on" '
     '--event-name "${{ github.event_name }}"'
 )
+expected_wrapped_coverage = (
+    'bash tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- '
+    + expected_coverage
+)
 coverage_step = step_run("Coverage run and summary (json)")
-if coverage_step != expected_coverage:
+if coverage_step not in {expected_coverage, expected_wrapped_coverage}:
     raise SystemExit(
-        "authoritative coverage lane must route through the bounded runner; "
+        "authoritative coverage lane must route through the bounded runner, optionally via the ADL-owned step-log wrapper; "
         f"found: {coverage_step}"
     )
 coverage_step_if = step_if("Coverage run and summary (json)")
