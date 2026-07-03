@@ -700,6 +700,10 @@ if [ "$PRINT_PLAN" = true ]; then
 fi
 
 cd "$ROOT_DIR/adl"
+ADL_RUST_WARM_CACHE_SOURCE_TARGET="${ADL_PR_FAST_TEST_WARM_SOURCE_TARGET:-}" \
+ADL_RUST_WARM_CACHE_DEST_TARGET="${CARGO_TARGET_DIR:-$ROOT_DIR/adl/target}" \
+ADL_RUST_WARM_CACHE_OUTPUT="${ADL_PR_FAST_TEST_WARM_CACHE_OUTPUT:-$ROOT_DIR/adl/pr-fast-test-warm-cache.json}" \
+  bash "$ROOT_DIR/adl/tools/rust_validation_warm_cache.sh"
 
 if [ "$mode" = "focused" ] || [ "$mode" = "family" ]; then
   echo "Running $mode nextest lane: $filter_expression"

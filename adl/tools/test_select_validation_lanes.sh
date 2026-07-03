@@ -90,6 +90,24 @@ assert_has "$TMP/aws-remote-validation-tool.out" "aggregate_status=selected"
 assert_has "$TMP/aws-remote-validation-tool.out" "aws_remote_validation_tooling status=selected"
 assert_not_has "$TMP/aws-remote-validation-tool.out" "unmapped_change_surface"
 
+rust_warm_cache_surface="$TMP/rust-warm-cache-surface.txt"
+cat >"$rust_warm_cache_surface" <<'EOF'
+M	AGENTS.md
+M	adl/config/validation_lane_selector.v0.91.6.json
+M	adl/tools/run_authoritative_coverage_lane.sh
+M	adl/tools/run_owner_validation_lane.sh
+M	adl/tools/run_pr_fast_coverage_lane.sh
+M	adl/tools/run_pr_fast_test_lane.sh
+A	adl/tools/rust_validation_warm_cache.sh
+A	adl/tools/test_rust_validation_warm_cache.sh
+M	docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md
+EOF
+bash "$SCRIPT" --changed-files "$rust_warm_cache_surface" >"$TMP/rust-warm-cache-surface.out"
+assert_has "$TMP/rust-warm-cache-surface.out" "aggregate_status=selected"
+assert_has "$TMP/rust-warm-cache-surface.out" "rust_dependency_cache_warmup_contracts status=selected"
+assert_has "$TMP/rust-warm-cache-surface.out" "ci_path_policy_contracts status=selected"
+assert_not_has "$TMP/rust-warm-cache-surface.out" "unmapped_change_surface"
+
 issue_4603_surface="$TMP/issue-4603-surface.txt"
 cat >"$issue_4603_surface" <<'EOF'
 M	adl/Cargo.lock

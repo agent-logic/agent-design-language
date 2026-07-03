@@ -195,8 +195,9 @@ For a normal tracked issue:
 8. call `create_goal` for the bound tracked issue session before implementation
    starts
 9. make the bounded change in the issue worktree, never on `main`
-10. before Rust validation in a fresh or cold issue worktree, consider warming
-   dependency artifacts with `adl/tools/warm_rust_dependency_cache.py`; see
+10. before Rust validation in a fresh or cold issue worktree, warm dependency
+   artifacts through the shared wrapper when a trusted same-host source target
+   is available: `bash adl/tools/rust_validation_warm_cache.sh`; see
    `docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md`
 11. run the smallest meaningful validation for the touched surface
 12. run a pre-PR subagent review and fix findings
@@ -215,10 +216,10 @@ For a normal tracked issue:
 - For owner-binary surfaces, prefer the focused lane runner when it matches the
   change: `bash adl/tools/run_owner_validation_lane.sh csdlc|runtime|review|all`.
 - Before Rust-heavy validation in a fresh issue worktree or on an EC2/remote
-  builder, use the dependency-cache warmup helper only when a trusted warm
+  builder, use the dependency-cache warmup wrapper only when a trusted warm
   target from the same host, same filesystem, same checkout family, and same
   toolchain is available:
-  `python3 adl/tools/warm_rust_dependency_cache.py --source-target <warm-target> --dest-target <issue-worktree>/adl/target --manifest-path <issue-worktree>/adl/Cargo.toml`.
+  `ADL_RUST_WARM_CACHE_SOURCE_TARGET=<warm-target> ADL_RUST_WARM_CACHE_DEST_TARGET=<issue-worktree>/adl/target ADL_RUST_WARM_CACHE_MANIFEST_PATH=<issue-worktree>/adl/Cargo.toml bash adl/tools/rust_validation_warm_cache.sh`.
   Treat this as build acceleration only, not validation proof, and never replace
   the required validation lane with cache-warmup evidence.
 - Keep review records and output cards truthful about what was and was not run.

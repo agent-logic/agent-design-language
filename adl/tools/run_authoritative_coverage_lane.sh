@@ -19,7 +19,6 @@ default_coverage_build_root() {
 }
 
 COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"
-WARM_SOURCE_TARGET="${ADL_COVERAGE_WARM_SOURCE_TARGET:-$ADL_DIR/target}"
 
 usage() {
   cat <<'USAGE'
@@ -88,24 +87,13 @@ cd "$ADL_DIR"
 # scratch root and warm it from the restored target. Do not delete the
 # llvm-cov target between runs; it is the expensive instrumentation build cache.
 mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target"
-if [ "${ADL_COVERAGE_WARM_CACHE:-1}" != "0" ] && [ -d "$WARM_SOURCE_TARGET/debug/deps" ]; then
-  SOURCE_REAL="$(cd "$WARM_SOURCE_TARGET" && pwd -P)"
-  DEST_REAL="$(cd "$COVERAGE_BUILD_ROOT/target" && pwd -P)"
-  if [ "$SOURCE_REAL" != "$DEST_REAL" ]; then
-    python3 "$ADL_DIR/tools/warm_rust_dependency_cache.py" \
-      --source-target "$SOURCE_REAL" \
-      --dest-target "$DEST_REAL" \
-      --manifest-path "$ADL_DIR/Cargo.toml" \
-      --replace \
-      --json | tee "$ADL_DIR/coverage-warm-cache.json"
-  else
-    printf '{"status":"skipped","reason":"source target is coverage target"}\n' | tee "$ADL_DIR/coverage-warm-cache.json"
-  fi
-else
-  printf '{"status":"skipped","reason":"source target cache missing or disabled"}\n' | tee "$ADL_DIR/coverage-warm-cache.json"
-fi
 export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
 export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target"
+ADL_RUST_WARM_CACHE="${ADL_COVERAGE_WARM_CACHE:-${ADL_RUST_WARM_CACHE:-1}}" \
+ADL_RUST_WARM_CACHE_SOURCE_TARGET="${ADL_COVERAGE_WARM_SOURCE_TARGET:-}" \
+ADL_RUST_WARM_CACHE_DEST_TARGET="$CARGO_TARGET_DIR" \
+ADL_RUST_WARM_CACHE_OUTPUT="$ADL_DIR/coverage-warm-cache.json" \
+  bash "$ADL_DIR/tools/rust_validation_warm_cache.sh"
 
 if [ "$MODE" = "full_authoritative_default_features" ]; then
   echo "Authoritative coverage mode: full_authoritative_default_features"

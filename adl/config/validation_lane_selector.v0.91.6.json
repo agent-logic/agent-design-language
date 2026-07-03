@@ -534,15 +534,27 @@
       ],
       "path_selectors": [
         "adl/tools/warm_rust_dependency_cache.py",
-        "adl/tools/test_warm_rust_dependency_cache.py"
+        "adl/tools/test_warm_rust_dependency_cache.py",
+        "adl/tools/rust_validation_warm_cache.sh",
+        "adl/tools/test_rust_validation_warm_cache.sh",
+        "adl/tools/run_authoritative_coverage_lane.sh",
+        "adl/tools/run_owner_validation_lane.sh",
+        "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/run_pr_fast_test_lane.sh"
       ],
       "path_hints": [
         "adl/tools/warm_rust_dependency_cache.py",
-        "adl/tools/test_warm_rust_dependency_cache.py"
+        "adl/tools/test_warm_rust_dependency_cache.py",
+        "adl/tools/rust_validation_warm_cache.sh",
+        "adl/tools/test_rust_validation_warm_cache.sh",
+        "adl/tools/run_authoritative_coverage_lane.sh",
+        "adl/tools/run_owner_validation_lane.sh",
+        "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/run_pr_fast_test_lane.sh"
       ],
-      "command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py",
-      "run_command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py",
-      "reason": "rust_dependency_cache_warmup_helper_requires_python_contract_checks"
+      "command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh && bash adl/tools/test_run_pr_fast_test_lane.sh",
+      "run_command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh && bash adl/tools/test_run_pr_fast_test_lane.sh",
+      "reason": "rust_dependency_cache_warmup_surface_requires_python_shell_and_runner_contract_checks"
     },
     {
       "id": "docs_diff_check",
