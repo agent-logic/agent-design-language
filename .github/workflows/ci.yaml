@@ -486,7 +486,16 @@ jobs:
           echo "Coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}"
       - name: Coverage run and summary (json)
         if: steps.path-policy.outputs.coverage_required == 'true'
-        run: bash tools/run_authoritative_coverage_lane.sh --authority "adl_coverage_always_on" --event-name "${{ github.event_name }}"
+        run: bash tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- bash tools/run_authoritative_coverage_lane.sh --authority "adl_coverage_always_on" --event-name "${{ github.event_name }}"
+
+      - name: Upload ADL-owned coverage step logs
+        if: always() && steps.path-policy.outputs.coverage_required == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: adl-coverage-step-logs
+          path: adl/ci-step-logs/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Coverage-impact changed-source gate
         if: github.event_name == 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true'
@@ -559,11 +568,12 @@ jobs:
       - name: Coverage policy annotation
         if: steps.path-policy.outputs.coverage_required != 'true'
         run: |
-          echo "Path policy did not require coverage for these changed paths, but adl-coverage is always-on and has already run authoritative coverage."
+          echo "Path policy did not require Rust coverage for these changed paths."
+          echo "The authoritative coverage command did not run in this job because coverage_required != true."
           echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
           echo "Coverage lane requested by policy: ${{ steps.path-policy.outputs.coverage_lane }}"
           echo "Coverage authority requested by policy: ${{ steps.path-policy.outputs.coverage_authority }}"
-          echo "Actual adl-coverage execution state: authoritative_full_required"
+          echo "Actual adl-coverage execution state: skipped_by_path_policy"
         working-directory: .
 
       - name: Upload coverage to Codecov
