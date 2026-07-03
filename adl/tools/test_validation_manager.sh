@@ -302,15 +302,26 @@ import sys
 
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "selected_4_lane_profile"
-assert profile["status"] == "ready_to_run"
-assert profile["pr_publication_sufficient"] is True
+assert profile["selected_profile"] == "escalated_4_lane_profile"
+assert profile["status"] == "escalation_required"
+assert profile["pr_publication_sufficient"] is False
 assert [item["lane_id"] for item in profile["run"]] == [
     "ci_path_policy_contracts",
     "csdlc_owner_lane",
     "docs_diff_check",
-    "rust_pr_fast",
 ]
+assert profile["escalation"]["required"] is True
+assert any(
+    reason["lane_id"] == "rust_pr_fast"
+    and reason["reason"] == "slow_pr_cmd_e2e_surface_requires_explicit_slow_lane"
+    and "adl/src/cli/tests/pr_cmd_inline/basics.rs" in reason["matched_paths"]
+    for reason in profile["escalation"]["reasons"]
+)
+assert any(
+    diagnostic["code"] == "rust_pr_fast_requires_escalation"
+    and diagnostic["message"] == "rust_pr_fast requires escalation because slow_pr_cmd_e2e_surface_requires_explicit_slow_lane"
+    for diagnostic in profile["diagnostics"]
+)
 PY
 
 pr_inventory_finish="$TMP/pr-inventory-finish.txt"
@@ -348,19 +359,26 @@ import sys
 
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["selected_profile"] == "selected_4_lane_profile"
-assert profile["status"] == "ready_to_run"
-assert profile["pr_publication_sufficient"] is True
-assert profile["escalation"]["required"] is False
-assert profile["diagnostics"] == []
+assert profile["selected_profile"] == "escalated_4_lane_profile"
+assert profile["status"] == "escalation_required"
+assert profile["pr_publication_sufficient"] is False
+assert profile["escalation"]["required"] is True
 assert {item["lane_id"] for item in profile["run"]} == {
     "ci_path_policy_contracts",
     "csdlc_owner_lane",
     "docs_diff_check",
-    "rust_pr_fast",
 }
-rust_lane = next(item for item in profile["run"] if item["lane_id"] == "rust_pr_fast")
-assert "adl/Cargo.toml" in rust_lane["matched_paths"]
+assert any(
+    reason["lane_id"] == "rust_pr_fast"
+    and reason["reason"] == "slow_pr_cmd_e2e_surface_requires_explicit_slow_lane"
+    and "adl/src/cli/tests/pr_cmd_inline/repo_helpers/metadata.rs" in reason["matched_paths"]
+    for reason in profile["escalation"]["reasons"]
+)
+assert any(
+    diagnostic["code"] == "pr_fast_mode_full"
+    and diagnostic["manifest_rule"] == "manager_guardrails.pr_fast.blocked_modes"
+    for diagnostic in profile["diagnostics"]
+)
 PY
 
 sprint_conductor="$TMP/sprint-conductor.txt"

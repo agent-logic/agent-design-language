@@ -158,6 +158,19 @@ is_structural_family_barrel_surface() {
   family_token_for_path "$path" >/dev/null 2>&1
 }
 
+is_slow_pr_cmd_e2e_surface() {
+  local path="$1"
+  case "$path" in
+    adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs)
+      return 1
+      ;;
+    adl/src/cli/tests/pr_cmd_inline/*|adl/src/cli/tests/pr_cmd_inline/*/*)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
 is_broad_rust_surface() {
   local path="$1"
   case "$path" in
@@ -290,7 +303,7 @@ filter_token_for_path() {
       printf 'pr_cmd::github'
       return 0
       ;;
-    adl/src/cli/pr_cmd/finish_support.rs|adl/src/cli/tests/pr_cmd_inline/finish/*)
+    adl/src/cli/pr_cmd/finish_support.rs|adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs)
       printf 'pr_cmd_finish'
       return 0
       ;;
@@ -327,8 +340,7 @@ filter_token_for_path() {
       return 0
       ;;
     adl/src/cli/tests/pr_cmd_inline/*/*|adl/src/cli/tests/pr_cmd_inline/*)
-      printf 'pr_cmd'
-      return 0
+      return 1
       ;;
     adl/src/cli/pr_cmd_cards.rs|adl/src/cli/pr_cmd_cards/*.rs)
       printf 'pr_cmd'
@@ -400,8 +412,7 @@ family_token_for_path() {
     adl/src/bin/adl_pr_*.rs|\
     adl/src/cli/pr_cmd.rs|\
     adl/src/cli/pr_cmd/*|\
-    adl/src/cli/pr_cmd_args.rs|\
-    adl/src/cli/tests/pr_cmd_inline/*)
+    adl/src/cli/pr_cmd_args.rs)
       printf 'pr_control_plane'
       return 0
       ;;
@@ -573,6 +584,14 @@ while IFS= read -r path; do
   if [ "$path" = "adl/src/runtime_v2/tests.rs" ] && [ "$saw_slow_proof_contract_surface" = true ]; then
     slow_proof_inventory_surface_count=$((slow_proof_inventory_surface_count + 1))
     continue
+  fi
+  if is_slow_pr_cmd_e2e_surface "$path"; then
+    mode="full"
+    reason="slow_pr_cmd_e2e_surface_requires_explicit_slow_lane"
+    classification_locked=true
+    tokens=()
+    family_tokens=()
+    break
   fi
   if is_broad_rust_surface "$path"; then
     mode="full"
