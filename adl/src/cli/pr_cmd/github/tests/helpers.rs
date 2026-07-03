@@ -125,6 +125,7 @@ fn helper_attach_commands_cover_disabled_success_failure_and_fallback_paths() {
 
     let janitor_success = temp.join("janitor-success.log");
     let closeout_success = temp.join("closeout-success.log");
+    let closeout_codex_success = temp.join("closeout-codex-success.log");
 
     write_executable(
         &tools_dir.join("attach_pr_janitor.sh"),
@@ -142,6 +143,13 @@ fn helper_attach_commands_cover_disabled_success_failure_and_fallback_paths() {
             closeout_success.display()
         ),
     );
+    write_executable(
+        &tools_dir.join("fake_post_merge_codex.sh"),
+        &format!(
+            "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' \"$*\" >> '{}'\n",
+            closeout_codex_success.display()
+        ),
+    );
     let failing = temp.join("failing-helper.sh");
     write_executable(
             &failing,
@@ -152,6 +160,7 @@ fn helper_attach_commands_cover_disabled_success_failure_and_fallback_paths() {
     let old_janitor_cmd = std::env::var("ADL_PR_JANITOR_CMD").ok();
     let old_closeout_disable = std::env::var("ADL_POST_MERGE_CLOSEOUT_DISABLE").ok();
     let old_closeout_cmd = std::env::var("ADL_POST_MERGE_CLOSEOUT_CMD").ok();
+    let old_closeout_codex_cmd = std::env::var("ADL_POST_MERGE_CLOSEOUT_CODEX_CMD").ok();
     let old_github_client = std::env::var("ADL_GITHUB_CLIENT").ok();
     let old_gh_token = std::env::var("GH_TOKEN").ok();
 
@@ -245,6 +254,10 @@ fn helper_attach_commands_cover_disabled_success_failure_and_fallback_paths() {
 
     unsafe {
         std::env::set_var("ADL_POST_MERGE_CLOSEOUT_CMD", "   ");
+        std::env::set_var(
+            "ADL_POST_MERGE_CLOSEOUT_CODEX_CMD",
+            tools_dir.join("fake_post_merge_codex.sh"),
+        );
     }
     attach_post_merge_closeout(
         &repo,
@@ -276,6 +289,7 @@ fn helper_attach_commands_cover_disabled_success_failure_and_fallback_paths() {
     restore_env("ADL_PR_JANITOR_CMD", old_janitor_cmd);
     restore_env("ADL_POST_MERGE_CLOSEOUT_DISABLE", old_closeout_disable);
     restore_env("ADL_POST_MERGE_CLOSEOUT_CMD", old_closeout_cmd);
+    restore_env("ADL_POST_MERGE_CLOSEOUT_CODEX_CMD", old_closeout_codex_cmd);
 
     let janitor_calls = fs::read_to_string(&janitor_success).expect("janitor success log");
     assert!(janitor_calls.contains("--expected-pr-state draft"));
@@ -283,6 +297,10 @@ fn helper_attach_commands_cover_disabled_success_failure_and_fallback_paths() {
     assert!(janitor_calls.contains("ctx ADL_GITHUB_CLIENT=octocrab GH_TOKEN_PRESENT=present"));
     let closeout_calls = fs::read_to_string(&closeout_success).expect("closeout success log");
     assert!(closeout_calls.contains("--pr-url https://github.com/owner/repo/pull/1159"));
+    let closeout_codex_calls =
+        fs::read_to_string(&closeout_codex_success).expect("closeout codex success log");
+    assert!(closeout_codex_calls.contains("--output-last-message"));
+    assert!(closeout_codex_calls.contains("post-merge closeout watcher"));
     assert!(closeout_calls.contains("ctx ADL_GITHUB_CLIENT=octocrab GH_TOKEN_PRESENT=present"));
 
     restore_env("ADL_GITHUB_CLIENT", old_github_client);
