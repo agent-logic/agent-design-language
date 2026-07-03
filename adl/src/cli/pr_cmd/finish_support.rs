@@ -2941,7 +2941,7 @@ fn yaml_key(name: &str) -> Value {
 
 fn yaml_string(mapping: &Mapping, key: &str) -> Option<String> {
     mapping
-        .get(&yaml_key(key))
+        .get(yaml_key(key))
         .and_then(Value::as_str)
         .map(str::trim)
         .filter(|value| !value.is_empty())
@@ -2949,7 +2949,7 @@ fn yaml_string(mapping: &Mapping, key: &str) -> Option<String> {
 }
 
 fn yaml_number_or_string(mapping: &Mapping, key: &str) -> Option<String> {
-    let value = mapping.get(&yaml_key(key))?;
+    let value = mapping.get(yaml_key(key))?;
     if let Some(text) = value.as_str() {
         let text = text.trim();
         if !text.is_empty() {
@@ -2960,7 +2960,7 @@ fn yaml_number_or_string(mapping: &Mapping, key: &str) -> Option<String> {
 }
 
 fn yaml_string_array(mapping: &Mapping, key: &str) -> Option<Vec<String>> {
-    let values = mapping.get(&yaml_key(key))?.as_sequence()?;
+    let values = mapping.get(yaml_key(key))?.as_sequence()?;
     Some(
         values
             .iter()
