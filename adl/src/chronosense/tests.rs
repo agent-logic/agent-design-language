@@ -514,6 +514,173 @@ fn temporal_query_retrieval_contract_matches_runtime_and_retrieval_surfaces() {
 }
 
 #[test]
+fn long_running_context_continuity_proof_exercises_integrated_surfaces() {
+    let root = unique_temp_path("long-running-context-proof");
+    let proof =
+        build_long_running_context_continuity_proof(&root).expect("long-running continuity proof");
+
+    assert_eq!(
+        proof.schema_version,
+        LONG_RUNNING_CONTEXT_CONTINUITY_PROOF_SCHEMA
+    );
+    assert_eq!(proof.memory_query_hit_count, 2);
+    assert_eq!(
+        proof.runtime_state_rel_path,
+        LONG_RUNNING_CONTEXT_CONTINUITY_RUNTIME_STATE_PATH
+    );
+    assert_eq!(
+        proof.memory_query_hit_run_ids,
+        vec![
+            "chronosense-run-before-interruption".to_string(),
+            "chronosense-run-after-resume".to_string(),
+        ]
+    );
+    assert_eq!(proof.scheduler_selected_lane, "Governor");
+    assert_eq!(proof.scheduler_dependency_status, "Partial");
+    assert!(proof
+        .scheduler_reason
+        .contains("routed to governor because human authority"));
+    assert_eq!(proof.trace_event_count, 5);
+    assert!(proof.trace_validated);
+    assert_eq!(
+        proof.trace_artifact_rel_path,
+        LONG_RUNNING_CONTEXT_CONTINUITY_TRACE_ARTIFACT_REF
+    );
+    assert!(proof.temporal_causality_review_validated);
+    assert!(proof.temporal_causality_sequence_only_count > 0);
+    assert!(proof.temporal_causality_or_dependency_count >= 4);
+    assert!(proof.temporal_causality_uncertainty_count > 0);
+    assert!(proof
+        .proof_checks
+        .iter()
+        .all(|check| check.status == "pass"));
+    validate_long_running_context_continuity_proof(&proof).expect("valid proof");
+
+    if root.exists() {
+        fs::remove_dir_all(root).expect("cleanup proof root");
+    }
+}
+
+#[test]
+fn long_running_context_continuity_proof_writes_reviewable_artifact_without_host_path_leakage() {
+    let root = unique_temp_path("long-running-context-proof-write");
+    let output = write_long_running_context_continuity_proof(&root).expect("write proof");
+
+    assert_eq!(
+        output,
+        root.join(LONG_RUNNING_CONTEXT_CONTINUITY_PROOF_PATH)
+    );
+    let proof_text = fs::read_to_string(&output).expect("proof text");
+    assert!(proof_text.contains(LONG_RUNNING_CONTEXT_CONTINUITY_PROOF_SCHEMA));
+    assert!(proof_text.contains("chronosense-run-after-resume"));
+    assert!(!proof_text.contains(root.to_string_lossy().as_ref()));
+    assert!(root
+        .join(".adl/state/chronosense/long_running_obsmem_store_v1.json")
+        .is_file());
+    assert!(root
+        .join(LONG_RUNNING_CONTEXT_CONTINUITY_RUNTIME_STATE_PATH)
+        .is_file());
+    assert!(root
+        .join(LONG_RUNNING_CONTEXT_CONTINUITY_TRACE_ARTIFACT_REF)
+        .is_file());
+
+    fs::remove_dir_all(root).expect("cleanup proof root");
+}
+
+#[test]
+fn long_running_context_continuity_proof_validator_rejects_broken_memory_order() {
+    let root = unique_temp_path("long-running-context-proof-invalid");
+    let mut proof =
+        build_long_running_context_continuity_proof(&root).expect("long-running continuity proof");
+    proof.memory_query_hit_run_ids.reverse();
+
+    let err = validate_long_running_context_continuity_proof(&proof)
+        .expect_err("broken memory order should fail");
+
+    assert!(err
+        .to_string()
+        .contains("temporal memory query did not preserve continuity order"));
+
+    if root.exists() {
+        fs::remove_dir_all(root).expect("cleanup proof root");
+    }
+}
+
+#[test]
+fn long_running_context_continuity_proof_validator_rejects_tampered_scheduler_and_paths() {
+    let root = unique_temp_path("long-running-context-proof-tampered");
+    let proof =
+        build_long_running_context_continuity_proof(&root).expect("long-running continuity proof");
+
+    let mut tampered_count = proof.clone();
+    tampered_count.memory_query_hit_count = 1;
+    let err = validate_long_running_context_continuity_proof(&tampered_count)
+        .expect_err("mismatched memory count should fail");
+    assert!(err
+        .to_string()
+        .contains("hit count does not match recorded hit ids"));
+
+    let mut tampered_path = proof.clone();
+    tampered_path.memory_store_rel_path = root
+        .join(".adl/state/chronosense/long_running_obsmem_store_v1.json")
+        .to_string_lossy()
+        .to_string();
+    let err = validate_long_running_context_continuity_proof(&tampered_path)
+        .expect_err("absolute memory store path should fail");
+    assert!(err
+        .to_string()
+        .contains("memory_store_rel_path must be repository-relative"));
+
+    let mut tampered_runtime_state = proof.clone();
+    tampered_runtime_state.runtime_state_rel_path = root
+        .join(LONG_RUNNING_CONTEXT_CONTINUITY_RUNTIME_STATE_PATH)
+        .to_string_lossy()
+        .to_string();
+    let err = validate_long_running_context_continuity_proof(&tampered_runtime_state)
+        .expect_err("absolute runtime state path should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime_state_rel_path must be repository-relative"));
+
+    let mut tampered_lane = proof.clone();
+    tampered_lane.scheduler_selected_lane = "Standard".to_string();
+    let err = validate_long_running_context_continuity_proof(&tampered_lane)
+        .expect_err("wrong scheduler lane should fail");
+    assert!(err
+        .to_string()
+        .contains("scheduler proof must preserve governor review lane"));
+
+    let mut tampered_run = proof.clone();
+    tampered_run.trace_run_id = "run-other".to_string();
+    let err = validate_long_running_context_continuity_proof(&tampered_run)
+        .expect_err("wrong trace run id should fail");
+    assert!(err
+        .to_string()
+        .contains("trace run id does not match continuity proof run"));
+
+    let mut tampered_artifact = proof;
+    tampered_artifact.trace_artifact_rel_path = "artifacts/wrong/proof.json".to_string();
+    let err = validate_long_running_context_continuity_proof(&tampered_artifact)
+        .expect_err("wrong trace artifact path should fail");
+    assert!(err
+        .to_string()
+        .contains("trace artifact path does not match validated artifact ref"));
+
+    let mut tampered_causality =
+        build_long_running_context_continuity_proof(&root).expect("long-running continuity proof");
+    tampered_causality.temporal_causality_or_dependency_count = 0;
+    let err = validate_long_running_context_continuity_proof(&tampered_causality)
+        .expect_err("missing causality dependency evidence should fail");
+    assert!(err
+        .to_string()
+        .contains("temporal causality trace review did not validate"));
+
+    if root.exists() {
+        fs::remove_dir_all(root).expect("cleanup proof root");
+    }
+}
+
+#[test]
 fn commitment_deadline_contract_matches_runtime_and_review_surfaces() {
     let contract = CommitmentDeadlineContract::v1();
 
