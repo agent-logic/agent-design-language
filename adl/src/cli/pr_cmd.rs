@@ -85,7 +85,7 @@ use self::git_support::{
 use self::github::{
     ensure_issue_metadata_parity, ensure_repo_labels_exist, format_open_pr_wave, gh_issue_comment,
     gh_issue_create, gh_issue_edit_body, gh_issue_edit_title, gh_issue_set_labels, gh_issue_title,
-    issue_version, unresolved_milestone_pr_wave, IssueRecord,
+    gh_repo_ensure_labels, issue_version, unresolved_milestone_pr_wave, IssueRecord,
 };
 
 const DEFAULT_VERSION: &str = "v0.86";
@@ -795,6 +795,31 @@ fn real_pr_issue(args: &[String]) -> Result<()> {
                 })?;
             }
         }
+        IssueArgs::LabelEnsure(parsed) => {
+            let repo = parsed.repo.unwrap_or(default_repo(&repo_root)?);
+            let labels = parsed.labels.iter().cloned().collect::<BTreeSet<_>>();
+            let (existing, created) = gh_repo_ensure_labels(
+                &repo,
+                &labels,
+                &parsed.color,
+                parsed.description.as_deref(),
+            )?;
+            let report = IssueLabelEnsureResult {
+                status: "ensured",
+                repo: repo.clone(),
+                existing,
+                created,
+            };
+            if parsed.json {
+                print_json(&report)?;
+            } else {
+                println!(
+                    "ensured labels for {repo}: existing={} created={}",
+                    report.existing.join(","),
+                    report.created.join(",")
+                );
+            }
+        }
     }
     Ok(())
 }
@@ -806,6 +831,14 @@ struct IssueMutationResult {
     url: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     reason: Option<&'static str>,
+}
+
+#[derive(Serialize)]
+struct IssueLabelEnsureResult {
+    status: &'static str,
+    repo: String,
+    existing: Vec<String>,
+    created: Vec<String>,
 }
 
 struct IssueLifecycleSnapshot {

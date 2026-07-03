@@ -245,6 +245,15 @@ pub(crate) struct IssueCloseArgs {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct IssueLabelEnsureArgs {
+    pub(crate) labels: Vec<String>,
+    pub(crate) repo: Option<String>,
+    pub(crate) color: String,
+    pub(crate) description: Option<String>,
+    pub(crate) json: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum IssueArgs {
     List(IssueListArgs),
     Search(IssueSearchArgs),
@@ -253,6 +262,7 @@ pub(crate) enum IssueArgs {
     Comment(IssueCommentArgs),
     Edit(IssueEditArgs),
     Close(IssueCloseArgs),
+    LabelEnsure(IssueLabelEnsureArgs),
 }
 
 pub(crate) fn parse_init_args(args: &[String]) -> Result<InitArgs> {
@@ -883,7 +893,9 @@ pub(crate) fn parse_closeout_args(args: &[String]) -> Result<CloseoutArgs> {
 
 pub(crate) fn parse_issue_args(args: &[String]) -> Result<IssueArgs> {
     let Some(subcommand) = args.first().map(|value| value.as_str()) else {
-        bail!("issue: missing subcommand (list | search | view | create | comment | edit | close)");
+        bail!(
+            "issue: missing subcommand (list | search | view | create | comment | edit | close | label)"
+        );
     };
 
     match subcommand {
@@ -894,6 +906,7 @@ pub(crate) fn parse_issue_args(args: &[String]) -> Result<IssueArgs> {
         "comment" => parse_issue_comment_args(&args[1..]).map(IssueArgs::Comment),
         "edit" => parse_issue_edit_args(&args[1..]).map(IssueArgs::Edit),
         "close" => parse_issue_close_args(&args[1..]).map(IssueArgs::Close),
+        "label" | "labels" => parse_issue_label_args(&args[1..]),
         other => bail!("issue: unknown subcommand: {other}"),
     }
 }
@@ -1227,6 +1240,81 @@ fn parse_issue_close_args(args: &[String]) -> Result<IssueCloseArgs> {
             other => bail!("issue close: unknown arg: {other}"),
         }
         i += 1;
+    }
+    Ok(parsed)
+}
+
+fn parse_issue_label_args(args: &[String]) -> Result<IssueArgs> {
+    let Some(subcommand) = args.first().map(|value| value.as_str()) else {
+        bail!("issue label: missing subcommand (ensure)");
+    };
+    match subcommand {
+        "ensure" => parse_issue_label_ensure_args(&args[1..]).map(IssueArgs::LabelEnsure),
+        other => bail!("issue label: unknown subcommand: {other}"),
+    }
+}
+
+fn parse_issue_label_ensure_args(args: &[String]) -> Result<IssueLabelEnsureArgs> {
+    let mut parsed = IssueLabelEnsureArgs {
+        labels: Vec::new(),
+        repo: None,
+        color: "ededed".to_string(),
+        description: None,
+        json: false,
+    };
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--label" => {
+                parsed
+                    .labels
+                    .push(require_value(args, i, "issue label ensure", "--label")?);
+                i += 1;
+            }
+            "--labels" => {
+                parsed.labels.extend(split_labels(&require_value(
+                    args,
+                    i,
+                    "issue label ensure",
+                    "--labels",
+                )?));
+                i += 1;
+            }
+            "--color" => {
+                parsed.color = require_value(args, i, "issue label ensure", "--color")?
+                    .trim_start_matches('#')
+                    .to_string();
+                i += 1;
+            }
+            "--description" => {
+                parsed.description = Some(require_value(
+                    args,
+                    i,
+                    "issue label ensure",
+                    "--description",
+                )?);
+                i += 1;
+            }
+            "-R" | "--repo" => {
+                parsed.repo = Some(require_value(
+                    args,
+                    i,
+                    "issue label ensure",
+                    args[i].as_str(),
+                )?);
+                i += 1;
+            }
+            "--json" => parsed.json = true,
+            other => bail!("issue label ensure: unknown arg: {other}"),
+        }
+        i += 1;
+    }
+    parsed.labels = split_labels(&parsed.labels.join(","));
+    if parsed.labels.is_empty() {
+        bail!("issue label ensure: --label or --labels is required");
+    }
+    if parsed.color.len() != 6 || !parsed.color.chars().all(|ch| ch.is_ascii_hexdigit()) {
+        bail!("issue label ensure: --color must be a 6-digit hex color");
     }
     Ok(parsed)
 }
