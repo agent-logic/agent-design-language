@@ -1,0 +1,252 @@
+{
+  "schema": "adl.v0917.runtime_soak2.review_blocker_register.v1",
+  "issue": 4844,
+  "umbrella_issue": 4634,
+  "version": "v0.91.7",
+  "generated_at": "2026-07-04T10:41:08Z",
+  "review_status": "blocked_before_full_soak",
+  "v092_runtime_coherence_disposition": "blocked",
+  "source_evidence": [
+    {
+      "issue": 4843,
+      "pr": 4870,
+      "commit": "2d15a0273d04d58467f1a477c9923cc6f6834b89",
+      "state": "ready_green_pr",
+      "artifact_refs": [
+        "docs/milestones/v0.91.7/review/runtime/SOAK2_FEATURE_LIST_MATRIX_4843.md",
+        "docs/milestones/v0.91.7/review/runtime/soak2_feature_list_matrix_4843.json"
+      ]
+    },
+    {
+      "issue": 4682,
+      "pr": 4873,
+      "commit": "d12db8b82be6827fb800942e641ec955c0a9e463",
+      "state": "ready_green_blocked_status_pr",
+      "artifact_refs": [
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/soak2_execution_status_4682.json",
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/blocker_register.json"
+      ]
+    },
+    {
+      "issue": 4718,
+      "pr": 4862,
+      "state": "merged_closed",
+      "artifact_refs": [
+        "docs/milestones/v0.91.7/review/observability_4718/INTEGRATED_LOGGING_OTEL_PROOF_4718.md",
+        "docs/milestones/v0.91.7/review/observability_4718/generated/proof_summary.json"
+      ]
+    },
+    {
+      "issue": 4784,
+      "pr": 4871,
+      "commit": "573307379d3e487c05ccd974eb5b29942128d8db",
+      "state": "ready_green_pr_with_blocked_dependency",
+      "artifact_refs": [
+        "docs/milestones/v0.91.7/review/runtime/v0917_integrated_resilience_failure_injection_4784/integrated_resilience_failure_injection_proof.json",
+        "docs/milestones/v0.91.7/review/runtime/v0917_integrated_resilience_failure_injection_4784/blocker_register.json"
+      ]
+    },
+    {
+      "issue": 4683,
+      "pr": 4872,
+      "commit": "6464203cc8fe33d0f448dbf5973c73c8f5750f0e",
+      "state": "ready_green_pr",
+      "artifact_refs": [
+        "docs/milestones/v0.91.7/review/runtime/RUNTIME_MODULE_DIET_MAP_4683.md",
+        "docs/milestones/v0.91.7/review/runtime/runtime_module_diet_map_4683.json"
+      ]
+    }
+  ],
+  "live_upstream_gates": [
+    {
+      "issue": 4681,
+      "pr": 4868,
+      "commit": "0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02",
+      "state": "checks_pending",
+      "pending_checks": ["adl-ci"],
+      "failed_checks": []
+    },
+    {
+      "issue": 4783,
+      "pr": 4869,
+      "commit": "cc87f735758ff78bc5a3360fe19d45c4b025552e",
+      "state": "checks_failed",
+      "pending_checks": [],
+      "failed_checks": ["adl-coverage"]
+    }
+  ],
+  "summary_counts": {
+    "integrated_proven": 0,
+    "blocked": 14,
+    "deferred": 1,
+    "routed_to_soak_3": 0
+  },
+  "findings": [
+    {
+      "id": "F-4844-01",
+      "severity": "blocker",
+      "title": "Soak 2 cannot prove v0.92 runtime coherence before upstream runtime and resilience gates are consumable",
+      "evidence": [
+        "#4682 PR #4873 records blocked_before_full_soak at d12db8b82be6827fb800942e641ec955c0a9e463.",
+        "#4681 PR #4868 still has adl-ci pending at 0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02.",
+        "#4783 PR #4869 has adl-coverage failed at cc87f735758ff78bc5a3360fe19d45c4b025552e."
+      ],
+      "disposition": "WP-07 must remain open; #4682 must rerun or refresh after prerequisites are consumable."
+    },
+    {
+      "id": "F-4844-02",
+      "severity": "blocker",
+      "title": "Logging/OTel is issue-proven but not yet final Soak-integrated",
+      "evidence": [
+        "#4718 is merged and proof_summary.json records parse-safe stdout, stderr adl_event observability, redaction hygiene, and an OTel-compatible mapping boundary.",
+        "#4682 records logging_observability as prerequisite_proven, not integrated_proven."
+      ],
+      "disposition": "Do not claim full WP-07 logging/OTel runtime integration until #4682 consumes #4718 in the final integrated Soak 2 run."
+    },
+    {
+      "id": "F-4844-03",
+      "severity": "high",
+      "title": "The current #4682 status packet is an aggregate blocker packet, so #4844 must preserve row-level matrix truth",
+      "evidence": [
+        "#4843 defines 15 matrix rows.",
+        "#4682 currently records 6 aggregate row results because the full run stopped before consumable upstreams."
+      ],
+      "disposition": "This register expands every #4843 row into blocked, deferred, or future Soak disposition without inventing integrated evidence."
+    }
+  ],
+  "row_dispositions": [
+    {
+      "id": "tokio_runtime_substrate",
+      "disposition": "blocked",
+      "owner_issues": [4681, 4842, 4682],
+      "blocking_owner": 4681,
+      "evidence": "#4682 row is blocked; #4681 PR #4868 adl-ci is still pending.",
+      "v092_impact": "Blocks v0.92 runtime-coherence claims until the assembled runtime path runs with retained evidence."
+    },
+    {
+      "id": "agent_lifecycle",
+      "disposition": "blocked",
+      "owner_issues": [4681, 4682],
+      "blocking_owner": 4681,
+      "evidence": "#4682 requires lifecycle proof through the #4681 canonical runtime path after it is consumable.",
+      "v092_impact": "Blocks startup, wake, stop, copied-state, and continuity claims."
+    },
+    {
+      "id": "aee_path",
+      "disposition": "blocked",
+      "owner_issues": [4546, 4697, 4682],
+      "blocking_owner": 4682,
+      "evidence": "#4843 marks the row ready_for_soak2, but #4682 did not run the assembled runtime consumption path.",
+      "v092_impact": "Blocks temporary-agent execution claims in the integrated runtime path."
+    },
+    {
+      "id": "acip_a2a_path",
+      "disposition": "blocked",
+      "owner_issues": [4546, 4658, 4659, 4660, 4682],
+      "blocking_owner": 4658,
+      "evidence": "#4843 marks the row blocked_before_soak2 on WP-12 protocol/access-rule disposition.",
+      "v092_impact": "Blocks ACIP/A2A activation claims unless explicitly non-claimed by the operator."
+    },
+    {
+      "id": "provider_model_substrate",
+      "disposition": "blocked",
+      "owner_issues": [4672, 4673, 4674, 4675, 4817, 4682],
+      "blocking_owner": 4682,
+      "evidence": "#4843 marks the row ready_for_soak2, but no live provider or missing-credential negative-case artifact exists under #4682.",
+      "v092_impact": "Blocks provider-backed runtime claims where v0.92 depends on live or cheapest-validated model routing."
+    },
+    {
+      "id": "scheduler",
+      "disposition": "blocked",
+      "owner_issues": [4671, 4674, 4682],
+      "blocking_owner": 4682,
+      "evidence": "#4843 marks the row ready_for_soak2, but no integrated scheduler decision packet exists under #4682.",
+      "v092_impact": "Blocks premium-capacity and cheapest-validated-outcome runtime claims in live packets."
+    },
+    {
+      "id": "resilience",
+      "disposition": "blocked",
+      "owner_issues": [4783, 4784, 4682],
+      "blocking_owner": 4783,
+      "evidence": "#4784 is ready-green with proved existing failure-injection paths, but #4783 PR #4869 has adl-coverage failed and #4682 did not consume it.",
+      "v092_impact": "Blocks resilience claims for the activation runtime path."
+    },
+    {
+      "id": "logging_observability",
+      "disposition": "blocked",
+      "owner_issues": [4718, 4682],
+      "blocking_owner": 4682,
+      "evidence": "#4718 is merged and prerequisite-proven, but #4682 has not consumed it in a final integrated Soak 2 run.",
+      "v092_impact": "Blocks sprint-level logging/OTel readiness claims beyond the #4718 proof boundary."
+    },
+    {
+      "id": "runtime_aws_signal_bridge",
+      "disposition": "blocked",
+      "owner_issues": [4635, 4684, 4685, 4686, 4687, 4688, 4682],
+      "blocking_owner": 4684,
+      "evidence": "#4843 marks the row blocked_before_soak2 pending WP-08 heartbeat, ACIP-to-SNS, AWS signal bridge, SSM, and archive-policy proof.",
+      "v092_impact": "Blocks runtime AWS/signal bridge claims unless explicitly non-claimed."
+    },
+    {
+      "id": "observatory_unity",
+      "disposition": "blocked",
+      "owner_issues": [4652, 4702, 4703, 4704, 4689, 4682],
+      "blocking_owner": 4682,
+      "evidence": "#4843 marks the row ready_for_soak2, but no Unity Soak-generated consumption artifact exists under #4682.",
+      "v092_impact": "Blocks live Observatory consumption claims for Soak 2."
+    },
+    {
+      "id": "obsmem_memory_handoff",
+      "disposition": "blocked",
+      "owner_issues": [4546, 4697, 4682],
+      "blocking_owner": 4682,
+      "evidence": "#4843 marks the row ready_for_soak2, but #4682 did not attach memory handoff proof to the current runtime path.",
+      "v092_impact": "Blocks long-running context memory continuity claims where v0.92 depends on retained handoff evidence."
+    },
+    {
+      "id": "identity_continuity",
+      "disposition": "blocked",
+      "owner_issues": [4681, 4842, 4682],
+      "blocking_owner": 4681,
+      "evidence": "#4843 marks the row pending_upstream_pr; #4681 remains checks_pending and no #4682 identity snapshot exists.",
+      "v092_impact": "Blocks continuity and birthday identity claims."
+    },
+    {
+      "id": "capability_envelope",
+      "disposition": "blocked",
+      "owner_issues": [4656, 4660, 4696, 4682],
+      "blocking_owner": 4656,
+      "evidence": "#4843 marks the row blocked_before_soak2 pending capability and WP-12 access-rule/security disposition.",
+      "v092_impact": "Blocks capability-envelope claims and witness/receipt readiness."
+    },
+    {
+      "id": "security_cav_boundary",
+      "disposition": "blocked",
+      "owner_issues": [4656, 4657, 4658, 4659, 4660, 4682],
+      "blocking_owner": 4656,
+      "evidence": "#4843 marks the row blocked_before_soak2 pending WP-12 security/protocol/access-rule resolution.",
+      "v092_impact": "Blocks security/CAV activation readiness."
+    },
+    {
+      "id": "curiosity_constructability_optional",
+      "disposition": "deferred",
+      "owner_issues": [4692, 4693, 4682],
+      "blocking_owner": null,
+      "evidence": "#4843 classifies this row as optional_non_claim unless explicitly promoted before the run; no promotion evidence was present.",
+      "operator_approval": "matrix_policy_optional_non_claim",
+      "v092_impact": "Does not block v0.92 unless later promoted into the activation path."
+    }
+  ],
+  "next_actions": [
+    "Keep #4634 open.",
+    "Keep watching #4868 until pending checks resolve and route #4869 through janitor for failed adl-coverage.",
+    "After #4681/#4783 and sequencing PRs are consumable, rerun #4682 against the #4843 row matrix.",
+    "Refresh this #4844 register after a real #4682 integrated run or after explicit operator blocker approval."
+  ],
+  "non_claims": [
+    "No row is classified integrated_proven.",
+    "This packet does not close #4682, #4844, #4845, or umbrella #4634 by itself.",
+    "This packet does not claim production OpenTelemetry collector, OTLP exporter, hosted telemetry service, or Unity editor execution.",
+    "This packet does not replace final #4682 Soak 2 runtime evidence."
+  ]
+}
