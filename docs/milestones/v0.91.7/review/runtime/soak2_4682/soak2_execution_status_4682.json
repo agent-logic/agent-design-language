@@ -30,11 +30,12 @@
     {
       "issue": 4783,
       "pr": 4869,
-      "commit": "d0e17ba2e06689d38d32cfb09704e541257665fb",
+      "commit": "46e3cdebe470c9b6d7af57c9dab8f862b9f7dc53",
       "is_draft": false,
       "projection_status": "checks_pending",
       "failed_checks": [],
       "pending_checks": [
+        "adl-ci",
         "adl-coverage"
       ]
     },
@@ -106,7 +107,7 @@
         4784,
         4682
       ],
-      "reason": "#4784 is ready-green, but #4783 has a fresh janitor retrigger with adl-ci green and adl-coverage still pending, so it is not consumable."
+      "reason": "#4784 is ready-green, but #4783 has a fresh janitor retrigger at 46e3cdebe470c9b6d7af57c9dab8f862b9f7dc53 with adl-ci and adl-coverage pending, so it is not consumable."
     },
     {
       "id": "logging_observability",
@@ -140,7 +141,7 @@
   ],
   "next_actions": [
     "Keep #4681 PR #4868 ready-green as a sequencing prerequisite until it is merged or explicitly approved for the #4682 integration base.",
-    "Continue watching #4783 PR #4869 until adl-coverage completes after the janitor retrigger.",
+    "Continue watching #4783 PR #4869 until adl-ci and adl-coverage complete after the janitor retrigger.",
     "Land or explicitly sequence #4843, #4784, and #4683 before final Soak 2 consumption.",
     "After prerequisites are consumable, rerun #4682 and convert blocked rows to integrated_proven, deferred, or routed_to_soak_3 with evidence."
   ]

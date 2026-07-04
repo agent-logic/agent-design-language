@@ -25,7 +25,7 @@
       "owner_issue": 4783,
       "owner_pr": 4869,
       "classification": "checks_pending_blocker",
-      "evidence": "PR #4869 is ready at d0e17ba2e06689d38d32cfb09704e541257665fb after a janitor retrigger, with adl-ci green and adl-coverage still in progress.",
+      "evidence": "PR #4869 is ready at 46e3cdebe470c9b6d7af57c9dab8f862b9f7dc53 after a janitor retrigger, with adl-ci and adl-coverage in progress.",
       "v092_impact": "Blocks resilience Soak 2 row and scheduler/watcher/AEE resilience claims."
     },
     {
