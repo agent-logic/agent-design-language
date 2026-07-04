@@ -3,7 +3,7 @@
   "issue": 4845,
   "umbrella_issue": 4634,
   "version": "v0.91.7",
-  "generated_at": "2026-07-04T10:58:00Z",
+  "generated_at": "2026-07-04T11:15:05Z",
   "disposition": "blocked",
   "v092_activation_decision": "not_ready",
   "wp07_closeout_instruction": "keep_umbrella_open",
@@ -29,14 +29,14 @@
       "issue": 4681,
       "pr": 4868,
       "commit": "0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02",
-      "state": "checks_pending",
-      "pending_checks": ["adl-ci"],
+      "state": "ready_green_pr_not_merged",
+      "pending_checks": [],
       "failed_checks": []
     },
     {
       "issue": 4783,
       "pr": 4869,
-      "commit": "d0e17ba2e06689d38d32cfb09704e541257665fb",
+      "commit": "46e3cdebe470c9b6d7af57c9dab8f862b9f7dc53",
       "state": "checks_pending",
       "pending_checks": ["adl-ci", "adl-coverage"],
       "failed_checks": []
@@ -56,8 +56,10 @@
     {
       "issue": 4682,
       "pr": 4873,
-      "commit": "9d00ab03aecd889d4e4756f7428c777ea6f1b0cd",
+      "commit": "7f618cb3b72eae34455d7c39258939fc3cb99252",
       "state": "ready_green_blocked_before_full_soak",
+      "pending_checks": [],
+      "failed_checks": [],
       "evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/soak2_execution_status_4682.json"
     },
     {
@@ -69,7 +71,7 @@
     {
       "issue": 4844,
       "pr": 4874,
-      "commit": "e2f16eb889648df06f6da9df1deeacef1abe05d8",
+      "commit": "335eb280b8ef4b960fdfdf6054f45cfc6e040bcc",
       "state": "ready_green_review_register",
       "row_counts": {
         "integrated_proven": 0,
@@ -124,7 +126,7 @@
     }
   ],
   "proposed_soak3_activation_scope": [
-    "Consume #4681 after PR #4868 checks pass.",
+    "Consume #4681 after it is merged or explicitly approved for sequencing.",
     "Consume #4783 after PR #4869 checks pass.",
     "Rerun #4682 against the #4843 15-row matrix from a consumable integration base.",
     "Reclassify every #4844 row with retained evidence.",
