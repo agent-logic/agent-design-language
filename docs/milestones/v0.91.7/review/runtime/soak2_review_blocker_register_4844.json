@@ -3,7 +3,7 @@
   "issue": 4844,
   "umbrella_issue": 4634,
   "version": "v0.91.7",
-  "generated_at": "2026-07-04T10:41:08Z",
+  "generated_at": "2026-07-04T10:48:05Z",
   "review_status": "blocked_before_full_soak",
   "v092_runtime_coherence_disposition": "blocked",
   "source_evidence": [
@@ -69,10 +69,10 @@
     {
       "issue": 4783,
       "pr": 4869,
-      "commit": "cc87f735758ff78bc5a3360fe19d45c4b025552e",
-      "state": "checks_failed",
-      "pending_checks": [],
-      "failed_checks": ["adl-coverage"]
+      "commit": "d0e17ba2e06689d38d32cfb09704e541257665fb",
+      "state": "checks_pending",
+      "pending_checks": ["adl-ci", "adl-coverage"],
+      "failed_checks": []
     }
   ],
   "summary_counts": {
@@ -89,7 +89,7 @@
       "evidence": [
         "#4682 PR #4873 records blocked_before_full_soak at d12db8b82be6827fb800942e641ec955c0a9e463.",
         "#4681 PR #4868 still has adl-ci pending at 0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02.",
-        "#4783 PR #4869 has adl-coverage failed at cc87f735758ff78bc5a3360fe19d45c4b025552e."
+        "#4783 PR #4869 has adl-ci and adl-coverage pending after a janitor retrigger at d0e17ba2e06689d38d32cfb09704e541257665fb."
       ],
       "disposition": "WP-07 must remain open; #4682 must rerun or refresh after prerequisites are consumable."
     },
@@ -168,7 +168,7 @@
       "disposition": "blocked",
       "owner_issues": [4783, 4784, 4682],
       "blocking_owner": 4783,
-      "evidence": "#4784 is ready-green with proved existing failure-injection paths, but #4783 PR #4869 has adl-coverage failed and #4682 did not consume it.",
+      "evidence": "#4784 is ready-green with proved existing failure-injection paths, but #4783 PR #4869 has adl-ci and adl-coverage pending after a janitor retrigger and #4682 did not consume it.",
       "v092_impact": "Blocks resilience claims for the activation runtime path."
     },
     {
@@ -239,7 +239,7 @@
   ],
   "next_actions": [
     "Keep #4634 open.",
-    "Keep watching #4868 until pending checks resolve and route #4869 through janitor for failed adl-coverage.",
+    "Keep watching #4868 and #4869 until pending checks resolve after the #4783 janitor retrigger.",
     "After #4681/#4783 and sequencing PRs are consumable, rerun #4682 against the #4843 row matrix.",
     "Refresh this #4844 register after a real #4682 integrated run or after explicit operator blocker approval."
   ],

@@ -23,8 +23,8 @@ Evidence:
   `0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02`, with `adl-coverage` green and
   `adl-ci` still pending.
 - #4783 PR #4869 is non-draft at
-  `cc87f735758ff78bc5a3360fe19d45c4b025552e`, with `adl-ci` green and
-  `adl-coverage` failed.
+  `d0e17ba2e06689d38d32cfb09704e541257665fb` after a janitor retrigger, with
+  `adl-ci` and `adl-coverage` pending.
 
 Disposition: WP-07 and #4634 must remain open. #4682 must rerun or refresh
 after prerequisites are consumable.
@@ -82,7 +82,7 @@ deferred, or future-Soak disposition without inventing integrated evidence.
 | Blocker | Owner | Evidence | Required action |
 | --- | --- | --- | --- |
 | Canonical runtime path not consumable | #4681 | PR #4868 has `adl-ci` pending. | Wait for checks, merge or explicitly route blocker, then rerun #4682. |
-| Scheduler watcher/AEE resilience middleware not consumable | #4783 | PR #4869 has `adl-coverage` failed. | Route through janitor, restore checks, merge or explicitly route blocker, then rerun #4682 resilience rows. |
+| Scheduler watcher/AEE resilience middleware not consumable | #4783 | PR #4869 has `adl-ci` and `adl-coverage` pending after a janitor retrigger. | Wait for checks, merge or explicitly route blocker, then rerun #4682 resilience rows. |
 | Matrix, failure-injection proof, and diet map are PR-bound | #4843/#4784/#4683 | PRs #4870/#4871/#4872 are ready-green but not on `main`. | Land or explicitly sequence before final #4682 consumption. |
 | Logging/OTel proof not consumed by final integrated run | #4682 | #4718 is merged, but #4682 has not run final Soak 2. | Consume #4718 during final #4682 run before claiming sprint-level integration. |
 | WP-12 and AWS/signal rows remain blocked before Soak 2 | #4656/#4658/#4684 family | #4843 matrix marks these rows blocked before Soak 2. | Keep blocked unless owner issues prove or operator explicitly approves non-claims. |
@@ -98,7 +98,7 @@ deferred, or future-Soak disposition without inventing integrated evidence.
 ## Required Next Actions
 
 1. Keep #4634 open.
-2. Continue watching #4868 until pending checks resolve and route #4869 through janitor for failed `adl-coverage`.
+2. Continue watching #4868 and #4869 until pending checks resolve.
 3. After #4681/#4783 and sequencing PRs are consumable, rerun #4682 against the
    #4843 matrix.
 4. Refresh this register after a real #4682 integrated run or after explicit
