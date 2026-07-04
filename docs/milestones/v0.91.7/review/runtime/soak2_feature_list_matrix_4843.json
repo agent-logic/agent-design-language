@@ -1,0 +1,212 @@
+{
+  "schema": "adl.v0917.runtime_soak2_feature_matrix.v1",
+  "issue": 4843,
+  "consumer_issue": 4682,
+  "umbrella_issue": 4634,
+  "version": "v0.91.7",
+  "purpose": "Executable row-level matrix for Runtime Soak #2. This artifact plans the proof run and does not claim row completion by itself.",
+  "status_policy": {
+    "allowed_pre_soak_states": [
+      "ready_for_soak2",
+      "pending_upstream_pr",
+      "blocked_before_soak2",
+      "optional_non_claim"
+    ],
+    "allowed_soak_exit_states": [
+      "integrated_proven",
+      "blocked",
+      "deferred",
+      "routed_to_soak_3"
+    ],
+    "mock_policy": "Mocks, seams, component tests, and docs are prerequisites only unless the row also runs through the assembled runtime path and emits retained evidence."
+  },
+  "setup": {
+    "local_repo_root": "Run from the repository root or from the bound issue worktree.",
+    "rust_binary": "cargo run --manifest-path adl/Cargo.toml --bin adl-runtime -- --help",
+    "standard_artifact_root": "docs/milestones/v0.91.7/review/runtime/soak2_4682/",
+    "aws_profile_policy": "AWS-backed rows must use the approved Agent Logic business profile agent-logic-admin and record account-resolution proof without printing credentials.",
+    "operator_boundary": "Rows that need live provider, AWS, Unity editor, or promoted feature credentials must either retain proof artifacts or remain blocked/non-claimed with operator approval."
+  },
+  "rows": [
+    {
+      "id": "tokio_runtime_substrate",
+      "surface": "Tokio runtime substrate",
+      "owner_issues": [4681, 4842, 4682],
+      "pre_soak_state": "pending_upstream_pr",
+      "command_or_harness": "cargo run --manifest-path adl/Cargo.toml --bin adl-runtime -- run adl/examples/v0-87-1-minimal-runtime-demo.adl.yaml --trace --run --out docs/milestones/v0.91.7/review/runtime/soak2_4682/tokio_runtime_substrate",
+      "fixture_setup": "Consume the canonical minimal runtime path from #4681 after PR #4868 lands, then run the ADL runtime compatibility binary from a clean worktree.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/tokio_runtime_substrate/",
+      "negative_case": "Repeat with a missing or malformed workflow path and require fail-closed diagnostics plus no integrated_proven row exit.",
+      "blocker_policy": "If #4681 remains unmerged or the assembled path cannot run, classify blocked with #4681/#4682 evidence; do not substitute component-only runtime tests.",
+      "v092_readiness_impact": "Blocks v0.92 runtime-coherence claims until one assembled runtime path runs with retained evidence."
+    },
+    {
+      "id": "agent_lifecycle",
+      "surface": "Agent lifecycle",
+      "owner_issues": [4681, 4682],
+      "pre_soak_state": "pending_upstream_pr",
+      "command_or_harness": "cargo run --manifest-path adl/Cargo.toml --bin run_v0916_integrated_runtime_soak -- --out docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle",
+      "fixture_setup": "Use the inherited long-lived-agent fixture from the v0.91.6 integrated soak runner until #4681 replaces it with the current canonical runtime path.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/long_lived_agent/",
+      "negative_case": "Stop the agent after proof capture and require the stop probe to distinguish stopped state from copied/restarted continuity.",
+      "blocker_policy": "If only the inherited v0.91.6 runner works, keep the row blocked or routed to Soak #3 unless #4682 proves the same lifecycle cases in the v0.91.7 assembled path.",
+      "v092_readiness_impact": "Blocks continuity and birthday-runtime claims if startup, wake, stop, and copied-state distinctions remain unproven."
+    },
+    {
+      "id": "aee_path",
+      "surface": "AEE path",
+      "owner_issues": [4546, 4697, 4682],
+      "pre_soak_state": "ready_for_soak2",
+      "command_or_harness": "cargo run --manifest-path adl/Cargo.toml --bin run_v0916_acip_aee_memory_integration -- --out docs/milestones/v0.91.7/review/runtime/soak2_4682/aee_memory",
+      "fixture_setup": "Consume the v0.91.6 ACIP/AEE/memory integration fixture as prerequisite evidence, then require #4682 to attach it to the assembled runtime path.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/aee_memory/",
+      "negative_case": "Run the AEE denial/malformed request path and require a governed rejection artifact rather than silent success.",
+      "blocker_policy": "If the command remains only a prerequisite harness and is not integrated with the assembled runtime, mark blocked with owner issue #4697 or route to Soak #3.",
+      "v092_readiness_impact": "Blocks temporary-agent execution claims if governed AEE execution cannot run in the integrated path."
+    },
+    {
+      "id": "acip_a2a_path",
+      "surface": "ACIP/A2A path",
+      "owner_issues": [4546, 4658, 4659, 4660, 4682],
+      "pre_soak_state": "blocked_before_soak2",
+      "command_or_harness": "cargo run --manifest-path adl/Cargo.toml --bin run_v0916_acip_aee_memory_integration -- --out docs/milestones/v0.91.7/review/runtime/soak2_4682/acip_a2a",
+      "fixture_setup": "Use v0.91.6 ACIP/AEE artifacts only as prerequisites; require WP-12 protocol/access-rule disposition before final row exit.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/acip_a2a/",
+      "negative_case": "Malformed, denied, and failed-delivery cases must fail closed and identify access/protocol residual ownership.",
+      "blocker_policy": "Remain blocked until WP-12 issues #4658-#4660 either prove the protocol path or record operator-approved non-claim/blocker evidence.",
+      "v092_readiness_impact": "Blocks ACIP/A2A activation claims unless operator explicitly approves a non-claim."
+    },
+    {
+      "id": "provider_model_substrate",
+      "surface": "Provider/model substrate",
+      "owner_issues": [4672, 4673, 4674, 4675, 4817, 4682],
+      "pre_soak_state": "ready_for_soak2",
+      "command_or_harness": "bash adl/tools/test_provider_demo_common.sh",
+      "fixture_setup": "Consume WP-05 provider profile, model suitability, cheapest-validated-outcome, local-agent delegation, and Fable5 suitability packets as routing inputs.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/provider_model_substrate/",
+      "negative_case": "Missing credential or provider timeout must classify as provider_auth_missing/provider_timeout without corrupting runtime state.",
+      "blocker_policy": "If live provider execution is unavailable, #4682 may retain a blocked row with credential/operator evidence; do not claim live provider readiness from mock adapters alone.",
+      "v092_readiness_impact": "Blocks provider-backed runtime claims where v0.92 depends on live or cheapest-validated model routing."
+    },
+    {
+      "id": "scheduler",
+      "surface": "Scheduler",
+      "owner_issues": [4671, 4674, 4682],
+      "pre_soak_state": "ready_for_soak2",
+      "command_or_harness": "cargo test --manifest-path adl/Cargo.toml scheduler -- --nocapture",
+      "fixture_setup": "Consume docs/milestones/v0.91.7/review/scheduler/COGNITIVE_SCHEDULER_V1_4671.md and provider cost/profile artifacts.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/scheduler/",
+      "negative_case": "Force local, cheap-remote, premium, delayed, and governor-like choices to produce explainable decisions or fail closed.",
+      "blocker_policy": "If no integrated scheduler decision appears in the runtime packet, classify blocked; component-level scheduler artifacts remain prerequisites only.",
+      "v092_readiness_impact": "Blocks premium-capacity and cheapest-validated-outcome runtime claims if not visible in live packets."
+    },
+    {
+      "id": "resilience",
+      "surface": "Resilience",
+      "owner_issues": [4783, 4784, 4682],
+      "pre_soak_state": "pending_upstream_pr",
+      "command_or_harness": "cargo run --manifest-path adl/Cargo.toml --bin run_v0916_runtime_failure_injection -- --out docs/milestones/v0.91.7/review/runtime/soak2_4682/resilience",
+      "fixture_setup": "Consume #4783 scheduler watcher/AEE middleware after PR #4869 lands, then run #4784 failure-injection proof in the assembled path.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/resilience/runtime_failure_injection_proof.json",
+      "negative_case": "Retry, timeout, cancellation, bulkhead partial failure, degraded fallback, and remote timeout must be retained and classified.",
+      "blocker_policy": "If #4783/#4784 are not landed or the proof uses only inherited v0.91.6 harnesses, block or route to Soak #3 with operator approval.",
+      "v092_readiness_impact": "Blocks resilience claims for the activation runtime path."
+    },
+    {
+      "id": "logging_observability",
+      "surface": "Logging and observability",
+      "owner_issues": [4718, 4682],
+      "pre_soak_state": "ready_for_soak2",
+      "command_or_harness": "bash adl/tools/test_pr_v0917_integrated_observability_proof.sh",
+      "fixture_setup": "Consume merged #4718 proof packet and rerun the focused verifier before or during #4682.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/observability_4718/generated/proof_summary.json",
+      "negative_case": "Machine-readable stdout must remain parse-safe while adl_event observability stays on stderr or compatibility log; retained samples must pass path/secret hygiene.",
+      "blocker_policy": "If stdout/stderr separation, redaction, heartbeat, provider/runtime correlation, or OTel boundary truth regresses, block v0.92 logging readiness.",
+      "v092_readiness_impact": "Already issue-proven by #4718, but must be consumed by #4682 before sprint closeout."
+    },
+    {
+      "id": "runtime_aws_signal_bridge",
+      "surface": "Runtime AWS and signal bridge",
+      "owner_issues": [4635, 4684, 4685, 4686, 4687, 4688, 4682],
+      "pre_soak_state": "blocked_before_soak2",
+      "command_or_harness": "AWS_PROFILE=agent-logic-admin cargo test --manifest-path adl/Cargo.toml runtime_aws_signal -- --nocapture",
+      "fixture_setup": "Verify the Agent Logic business AWS profile before live checks; local/mock heartbeat artifacts are prerequisites unless live signal evidence is retained.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/runtime_aws_signal_bridge/",
+      "negative_case": "Missing AWS profile, denied SNS/SSM access, or heartbeat publish failure must fail closed without exposing credentials.",
+      "blocker_policy": "Remain blocked until WP-08 heartbeat, ACIP-to-SNS, AWS signal bridge, SSM, and archive-policy issues prove or explicitly non-claim the signal path.",
+      "v092_readiness_impact": "Blocks runtime AWS/signal bridge claims unless operator approves a non-claim."
+    },
+    {
+      "id": "observatory_unity",
+      "surface": "Observatory / Unity live consumption",
+      "owner_issues": [4652, 4702, 4703, 4704, 4689, 4682],
+      "pre_soak_state": "ready_for_soak2",
+      "command_or_harness": "bash adl/tools/test_v0916_unity_observatory_soak_integration.sh",
+      "fixture_setup": "Use Unity 6.5 editor when available; consume #4652/#4704 retained proof summaries and feed the Soak-generated Unity contract into the staged project.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/observatory_unity/",
+      "negative_case": "Headless entitlement, readonly project database, timeout, or missing success markers must become blocked proof, not silently pass.",
+      "blocker_policy": "If Unity cannot execute in the current environment, classify blocked with retained log path and require operator approval before any non-claim.",
+      "v092_readiness_impact": "Blocks live Observatory consumption claims if it only consumes canned data or stale renders."
+    },
+    {
+      "id": "obsmem_memory_handoff",
+      "surface": "ObsMem and memory handoff",
+      "owner_issues": [4546, 4697, 4682],
+      "pre_soak_state": "ready_for_soak2",
+      "command_or_harness": "cargo run --manifest-path adl/Cargo.toml --bin run_v0916_acip_aee_memory_integration -- --out docs/milestones/v0.91.7/review/runtime/soak2_4682/obsmem_memory",
+      "fixture_setup": "Consume signed/unsigned transition-memory artifacts from the v0.91.6 ACIP/AEE/memory packet and attach the handoff to the current runtime path.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/obsmem_memory/",
+      "negative_case": "Unsigned, missing, or private-path-leaking handoff must fail validation and remain a blocker.",
+      "blocker_policy": "If memory handoff remains a request shape only, block v0.92 memory-handoff claims or route to #4697 with explicit residual risk.",
+      "v092_readiness_impact": "Blocks long-running context memory continuity claims where v0.92 depends on retained handoff evidence."
+    },
+    {
+      "id": "identity_continuity",
+      "surface": "Identity and continuity",
+      "owner_issues": [4681, 4842, 4682],
+      "pre_soak_state": "pending_upstream_pr",
+      "command_or_harness": "cargo run --manifest-path adl/Cargo.toml --bin adl-runtime -- identity now --json",
+      "fixture_setup": "Consume Runtime v2 reconciliation from #4842 and the canonical runtime path from #4681; retain identity/continuity snapshots in the #4682 packet.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/identity_continuity/",
+      "negative_case": "Copied state, stale lease overlap, stopped state, and true wake continuity must be distinguishable in retained evidence.",
+      "blocker_policy": "If identity checks are standalone and not tied to runtime start/wake/stop packets, classify as prerequisite-only and block row completion.",
+      "v092_readiness_impact": "Blocks continuity and birthday identity claims."
+    },
+    {
+      "id": "capability_envelope",
+      "surface": "Capability envelope",
+      "owner_issues": [4656, 4660, 4696, 4682],
+      "pre_soak_state": "blocked_before_soak2",
+      "command_or_harness": "cargo test --manifest-path adl/Cargo.toml acc -- --nocapture",
+      "fixture_setup": "Consume ACC/capability contract validation and WP-12 access-rule/security disposition before #4682 final row exit.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/capability_envelope/",
+      "negative_case": "Missing accountable actor, mismatched capability grant, or overbroad side-effect scope must fail closed.",
+      "blocker_policy": "Block unless the assembled runtime packet names capability/authority limits for runtime and temporary agents or operator approves a non-claim.",
+      "v092_readiness_impact": "Blocks capability-envelope claims and witness/receipt readiness if authority limits remain implicit."
+    },
+    {
+      "id": "security_cav_boundary",
+      "surface": "Security / CAV boundary",
+      "owner_issues": [4656, 4657, 4658, 4659, 4660, 4682],
+      "pre_soak_state": "blocked_before_soak2",
+      "command_or_harness": "cargo test --manifest-path adl/Cargo.toml runtime_v2 security -- --nocapture",
+      "fixture_setup": "Consume WP-12 security residual readiness and protocol/access-rule issues; security rows require fail-closed integrated behavior, not docs-only closure.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/",
+      "negative_case": "Malformed output, unauthorized access, private-state exposure, and trust-boundary violations must fail closed with retained diagnostics.",
+      "blocker_policy": "Remain blocked until WP-12 resolves activation blockers or records evidence-backed operator-approved non-claims.",
+      "v092_readiness_impact": "Blocks security/CAV activation readiness."
+    },
+    {
+      "id": "curiosity_constructability_optional",
+      "surface": "Curiosity / Constructability, if promoted before run",
+      "owner_issues": [4692, 4693, 4682],
+      "pre_soak_state": "optional_non_claim",
+      "command_or_harness": "No default command. Promote only if #4692 or #4693 lands an executable governed discovery/admissibility harness before #4682.",
+      "fixture_setup": "If promoted, require a governed discovery cycle or constructability anchor validator fixture with operator-approved scope.",
+      "expected_evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/curiosity_constructability/",
+      "negative_case": "Rejected hypotheses, inadmissible anchors, or ungoverned side effects must fail closed.",
+      "blocker_policy": "Default is explicit non-claim; promotion requires owner issue evidence and operator approval before it can block or pass Soak #2.",
+      "v092_readiness_impact": "Does not block v0.92 unless explicitly promoted into the activation path."
+    }
+  ]
+}
