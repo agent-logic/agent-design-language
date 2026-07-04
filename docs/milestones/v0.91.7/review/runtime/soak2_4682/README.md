@@ -9,8 +9,8 @@ the #4784 resilience failure-injection PR #4871, and the #4683 diet-map PR
 runtime path PR #4868 is ready at `0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02`
 with `adl-coverage` green and `adl-ci` still in progress; and the #4783
 scheduler/watcher/AEE resilience middleware PR #4869 is ready at
-`cc87f735758ff78bc5a3360fe19d45c4b025552e` with `adl-ci` green and
-`adl-coverage` still in progress.
+`d0e17ba2e06689d38d32cfb09704e541257665fb` after a janitor retrigger with
+`adl-ci` and `adl-coverage` queued or in progress.
 
 The status artifact is:
 

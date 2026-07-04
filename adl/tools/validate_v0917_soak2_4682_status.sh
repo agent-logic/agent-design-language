@@ -69,11 +69,11 @@ expected_prs = {
     },
     4869: {
         "issue": 4783,
-        "commit": "cc87f735758ff78bc5a3360fe19d45c4b025552e",
+        "commit": "d0e17ba2e06689d38d32cfb09704e541257665fb",
         "is_draft": False,
         "projection_status": "checks_pending",
         "failed_checks": [],
-        "pending_checks": ["adl-coverage"],
+        "pending_checks": ["adl-ci", "adl-coverage"],
     },
     4870: {
         "issue": 4843,
