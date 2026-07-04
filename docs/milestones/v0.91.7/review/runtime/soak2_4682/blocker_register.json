@@ -13,11 +13,11 @@
       "v092_impact": "Blocks full Soak 2 execution from main."
     },
     {
-      "id": "runtime-path-checks-pending",
+      "id": "runtime-path-not-on-main",
       "owner_issue": 4681,
       "owner_pr": 4868,
-      "classification": "checks_pending_blocker",
-      "evidence": "PR #4868 is ready at 0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02 with adl-coverage green, but adl-ci remains in progress.",
+      "classification": "sequencing_blocker",
+      "evidence": "PR #4868 is ready-green at 0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02, but the canonical runtime path is not on main in the #4682 worktree.",
       "v092_impact": "Blocks canonical runtime-path rows until consumable."
     },
     {
@@ -25,7 +25,7 @@
       "owner_issue": 4783,
       "owner_pr": 4869,
       "classification": "checks_pending_blocker",
-      "evidence": "PR #4869 is ready at d0e17ba2e06689d38d32cfb09704e541257665fb after a janitor retrigger, with adl-ci and adl-coverage queued or in progress.",
+      "evidence": "PR #4869 is ready at d0e17ba2e06689d38d32cfb09704e541257665fb after a janitor retrigger, with adl-ci green and adl-coverage still in progress.",
       "v092_impact": "Blocks resilience Soak 2 row and scheduler/watcher/AEE resilience claims."
     },
     {

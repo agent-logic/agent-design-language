@@ -63,9 +63,9 @@ expected_prs = {
         "issue": 4681,
         "commit": "0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02",
         "is_draft": False,
-        "projection_status": "checks_pending",
+        "projection_status": "ready_to_merge_or_review",
         "failed_checks": [],
-        "pending_checks": ["adl-ci"],
+        "pending_checks": [],
     },
     4869: {
         "issue": 4783,
@@ -73,7 +73,7 @@ expected_prs = {
         "is_draft": False,
         "projection_status": "checks_pending",
         "failed_checks": [],
-        "pending_checks": ["adl-ci", "adl-coverage"],
+        "pending_checks": ["adl-coverage"],
     },
     4870: {
         "issue": 4843,
@@ -121,7 +121,7 @@ if (
 blocker_by_id = {item.get("id"): item for item in blockers.get("blockers", [])}
 expected_blockers = {
     "soak2-matrix-not-on-main": (4843, 4870, "sequencing_blocker"),
-    "runtime-path-checks-pending": (4681, 4868, "checks_pending_blocker"),
+    "runtime-path-not-on-main": (4681, 4868, "sequencing_blocker"),
     "resilience-middleware-checks-pending": (4783, 4869, "checks_pending_blocker"),
     "resilience-failure-injection-not-on-main": (4784, 4871, "sequencing_blocker"),
     "runtime-diet-map-not-on-main": (4683, 4872, "sequencing_blocker"),
