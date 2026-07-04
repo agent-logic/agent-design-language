@@ -17,14 +17,14 @@ Severity: blocker
 
 Evidence:
 
-- #4682 PR #4873 records `blocked_before_full_soak` at
-  ready-green commit `7f618cb3b72eae34455d7c39258939fc3cb99252`.
+- #4682 is merged to `main` via `f1720dcb` and records
+  `blocked_before_full_soak`, not a completed integrated runtime run.
 - #4681 PR #4868 is non-draft at
-  `0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02`, with `adl-ci` and
-  `adl-coverage` green but not merged to `main`.
+  `632f4e94ceafa7ed2bf69aac2d1ecec84ff323ff`, with `adl-ci` pending and
+  `adl-coverage` green; it is not merged to `main`.
 - #4783 PR #4869 is non-draft at
-  `46e3cdebe470c9b6d7af57c9dab8f862b9f7dc53` after a janitor retrigger, with
-  `adl-ci` and `adl-coverage` pending.
+  `8c731da0978eed343df844ed88fe3cad76ee21e8`, with `adl-ci` green and
+  `adl-coverage` pending; it is not merged to `main`.
 
 Disposition: WP-07 and #4634 must remain open. #4682 must rerun or refresh
 after prerequisites are consumable.
@@ -81,9 +81,9 @@ deferred, or future-Soak disposition without inventing integrated evidence.
 
 | Blocker | Owner | Evidence | Required action |
 | --- | --- | --- | --- |
-| Canonical runtime path not consumable | #4681 | PR #4868 is ready-green but not merged or explicitly sequenced. | Merge or explicitly route sequencing, then rerun #4682. |
-| Scheduler watcher/AEE resilience middleware not consumable | #4783 | PR #4869 has `adl-ci` and `adl-coverage` pending after a janitor retrigger. | Wait for checks, merge or explicitly route blocker, then rerun #4682 resilience rows. |
-| Matrix, failure-injection proof, and diet map are PR-bound | #4843/#4784/#4683 | PRs #4870/#4871/#4872 are ready-green but not on `main`. | Land or explicitly sequence before final #4682 consumption. |
+| Canonical runtime path not consumable | #4681 | PR #4868 has `adl-ci` pending after rebase; `adl-coverage` is green. | Wait for checks, merge or explicitly route blocker, then rerun #4682. |
+| Scheduler watcher/AEE resilience middleware not consumable | #4783 | PR #4869 has `adl-coverage` pending after rebase; `adl-ci` is green. | Wait for checks, merge or explicitly route blocker, then rerun #4682 resilience rows. |
+| Matrix, failure-injection proof, and diet map are merged prerequisites | #4843/#4784/#4683 | PRs #4870/#4871/#4872 are on `main`; #4683 and #4784 still need sprint-end closeout truth cleanup. | Consume their artifacts in final #4682 evidence; repair closeout drift during sprint-end cleanup if still present. |
 | Logging/OTel proof not consumed by final integrated run | #4682 | #4718 is merged, but #4682 has not run final Soak 2. | Consume #4718 during final #4682 run before claiming sprint-level integration. |
 | WP-12 and AWS/signal rows remain blocked before Soak 2 | #4656/#4658/#4684 family | #4843 matrix marks these rows blocked before Soak 2. | Keep blocked unless owner issues prove or operator explicitly approves non-claims. |
 
@@ -98,8 +98,8 @@ deferred, or future-Soak disposition without inventing integrated evidence.
 ## Required Next Actions
 
 1. Keep #4634 open.
-2. Keep #4868 ready-green as a sequencing prerequisite and continue watching
-   #4869 until `adl-ci` and `adl-coverage` resolve.
+2. Continue watching #4868 and #4869 until required checks resolve, then merge
+   or explicitly classify blockers for the #4682 integration base.
 3. After #4681/#4783 and sequencing PRs are consumable, rerun #4682 against the
    #4843 matrix.
 4. Refresh this register after a real #4682 integrated run or after explicit
