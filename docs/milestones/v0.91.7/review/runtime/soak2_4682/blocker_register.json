@@ -17,7 +17,7 @@
       "owner_issue": 4681,
       "owner_pr": 4868,
       "classification": "checks_pending_blocker",
-      "evidence": "PR #4868 is ready with adl-coverage green, but adl-ci remains in progress.",
+      "evidence": "PR #4868 is ready at 0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02 with adl-coverage green, but adl-ci remains in progress.",
       "v092_impact": "Blocks canonical runtime-path rows until consumable."
     },
     {
@@ -25,7 +25,7 @@
       "owner_issue": 4783,
       "owner_pr": 4869,
       "classification": "checks_pending_blocker",
-      "evidence": "PR #4869 is ready with adl-ci green, but adl-coverage remains in progress.",
+      "evidence": "PR #4869 is ready at cc87f735758ff78bc5a3360fe19d45c4b025552e with adl-ci green, but adl-coverage remains in progress.",
       "v092_impact": "Blocks resilience Soak 2 row and scheduler/watcher/AEE resilience claims."
     },
     {

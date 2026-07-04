@@ -61,7 +61,7 @@ pr_index = {item["pr"]: item for item in status.get("upstream_pr_evidence", [])}
 expected_prs = {
     4868: {
         "issue": 4681,
-        "commit": "711d8bb39e5521068308eb44451b943079219278",
+        "commit": "0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02",
         "is_draft": False,
         "projection_status": "checks_pending",
         "failed_checks": [],
@@ -69,7 +69,7 @@ expected_prs = {
     },
     4869: {
         "issue": 4783,
-        "commit": "c95c45f1e019b9424fab65db2219d714fbb8650c",
+        "commit": "cc87f735758ff78bc5a3360fe19d45c4b025552e",
         "is_draft": False,
         "projection_status": "checks_pending",
         "failed_checks": [],

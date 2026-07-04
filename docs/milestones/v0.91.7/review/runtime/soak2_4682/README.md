@@ -6,9 +6,11 @@ v0.91.7 evidence. It does not claim that Runtime Soak 2 completed.
 The current result is `blocked_before_full_soak`: the #4843 matrix PR #4870,
 the #4784 resilience failure-injection PR #4871, and the #4683 diet-map PR
 #4872 are ready and green, but they are not merged to `main`; the canonical
-runtime path PR #4868 is ready with `adl-coverage` green and `adl-ci` still in
-progress; and the #4783 scheduler/watcher/AEE resilience middleware PR #4869
-is ready with `adl-ci` green and `adl-coverage` still in progress.
+runtime path PR #4868 is ready at `0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02`
+with `adl-coverage` green and `adl-ci` still in progress; and the #4783
+scheduler/watcher/AEE resilience middleware PR #4869 is ready at
+`cc87f735758ff78bc5a3360fe19d45c4b025552e` with `adl-ci` green and
+`adl-coverage` still in progress.
 
 The status artifact is:
 
