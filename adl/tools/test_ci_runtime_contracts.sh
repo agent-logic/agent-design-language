@@ -29,15 +29,17 @@ def step_run(name: str) -> str:
     return match.group(1).strip()
 
 def step_block(name: str) -> str:
-    pattern = re.compile(
-        rf"^\s*-\s+name:\s+{re.escape(name)}\s*$"
-        rf"((?:\n^\s+.*$)*?)(?=\n^\s*-\s+name:|\Z)",
+    start = re.search(
+        rf"^\s*-\s+name:\s+{re.escape(name)}\s*$",
+        workflow,
         re.MULTILINE,
     )
-    match = pattern.search(workflow)
-    if not match:
+    if not start:
         raise SystemExit(f"missing workflow step block: {name}")
-    return match.group(1)
+    next_step = re.search(r"^\s*-\s+name:\s+", workflow[start.end() :], re.MULTILINE)
+    if next_step:
+        return workflow[start.end() : start.end() + next_step.start()]
+    return workflow[start.end() :]
 
 def step_if(name: str) -> str:
     pattern = re.compile(
@@ -49,6 +51,13 @@ def step_if(name: str) -> str:
     match = pattern.search(workflow)
     if not match:
         raise SystemExit(f"missing workflow if condition for step: {name}")
+    return match.group(1).strip()
+
+def step_working_directory(name: str) -> str:
+    block = step_block(name)
+    match = re.search(r"^\s+working-directory:\s+(.+)$", block, re.MULTILINE)
+    if not match:
+        raise SystemExit(f"missing workflow working-directory for step: {name}")
     return match.group(1).strip()
 
 def step_count(name: str) -> int:
@@ -120,6 +129,19 @@ if release_version_truth != "bash adl/tools/check_release_version_surfaces.sh":
         f"found: {release_version_truth}"
     )
 
+for root_script_step in (
+    "docs command check",
+    "ci runtime contract check",
+    "ci runtime budget report contract check",
+    "ci cache/linker contract check",
+    "release version truth check",
+):
+    if step_working_directory(root_script_step) != ".":
+        raise SystemExit(
+            "adl-ci workflow steps that call repo-root adl/tools scripts must run from the repository root; "
+            f"{root_script_step!r} has working-directory: {step_working_directory(root_script_step)!r}"
+        )
+
 if "tool: nextest" not in workflow:
     raise SystemExit(
         "coverage lanes must install cargo-nextest as a required coverage toolchain dependency"
@@ -128,11 +150,11 @@ if "cargo llvm-cov nextest" in workflow:
     raise SystemExit("adl-coverage workflow must delegate coverage execution to runner scripts, not inline nextest")
 
 expected_coverage = (
-    'bash tools/run_authoritative_coverage_lane.sh --authority "${{ steps.path-policy.outputs.coverage_authority }}" '
+    'bash adl/tools/run_authoritative_coverage_lane.sh --authority "${{ steps.path-policy.outputs.coverage_authority }}" '
     '--event-name "${{ github.event_name }}"'
 )
 expected_wrapped_coverage = (
-    'bash tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- '
+    'bash adl/tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- '
     + expected_coverage
 )
 coverage_step = step_run("Coverage run and summary (json)")
@@ -147,6 +169,20 @@ if coverage_step_if != "steps.path-policy.outputs.full_coverage_required == 'tru
         "authoritative coverage execution must be limited to full_coverage_required surfaces; "
         f"found: {coverage_step_if}"
     )
+for root_script_step in (
+    "Install lld for coverage",
+    "Configure Rust acceleration for coverage",
+    "Verify required coverage toolchain",
+    "Coverage run and summary (json)",
+    "PR fast coverage summary (json)",
+    "Enforce coverage policy gates (workspace + per-file)",
+    "Rust acceleration stats for coverage",
+):
+    if step_working_directory(root_script_step) != ".":
+        raise SystemExit(
+            "coverage workflow steps that call repo-root adl/tools scripts must run from the repository root; "
+            f"{root_script_step!r} has working-directory: {step_working_directory(root_script_step)!r}"
+        )
 coverage_not_required_step = step_if("Coverage not required by path policy")
 if coverage_not_required_step != "steps.path-policy.outputs.coverage_required != 'true'":
     raise SystemExit(
@@ -185,7 +221,7 @@ for required_fragment in (
         )
 
 pr_fast_step = step_run("PR fast coverage summary (json)")
-expected_pr_fast_step = 'bash tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
+expected_pr_fast_step = 'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
 if pr_fast_step != expected_pr_fast_step:
     raise SystemExit(
         "PR-fast coverage must delegate to the bounded runner script; "
@@ -248,7 +284,6 @@ for required_fragment in (
 for required_fragment in (
     "cargo llvm-cov nextest \\",
     "    --workspace \\",
-    "    --lib \\",
     "    --no-report",
     "cargo llvm-cov report \\",
     "--json \\",
@@ -257,11 +292,11 @@ for required_fragment in (
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(
-            "authoritative coverage runner must execute direct library-only coverage without linking ADL binaries; "
+            "authoritative coverage runner must execute direct workspace coverage without narrowing source targets; "
             f"missing fragment: {required_fragment}"
         )
-if "    --tests \\" in runner_script_text or "    --bins \\" in runner_script_text or "    --all-targets \\" in runner_script_text:
-    raise SystemExit("authoritative coverage runner must not link test/bin/all-target surfaces")
+if "    --lib \\" in runner_script_text or "    --tests \\" in runner_script_text or "    --bins \\" in runner_script_text or "    --all-targets \\" in runner_script_text:
+    raise SystemExit("authoritative coverage runner must not narrow workspace coverage targets")
 
 authoritative_gate_step = step_block("Coverage-impact changed-source gate")
 if '--summary adl/coverage-summary.json \\' not in authoritative_gate_step:
