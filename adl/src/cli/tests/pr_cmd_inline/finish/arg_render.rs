@@ -3920,7 +3920,7 @@ fn finish_validation_profile_classifies_locked_cargo_fallback_slice() {
     ));
     assert!(unrelated_plan
         .commands
-        .contains(&"bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh".to_string()));
+        .contains(&"bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh && bash adl/tools/test_run_validation_manager_nessus_lane.sh".to_string()));
     assert!(unrelated_plan
         .commands
         .contains(&"bash adl/tools/test_check_coverage_impact.sh".to_string()));
@@ -5228,6 +5228,10 @@ fn finish_runner_executes_combined_ci_policy_selector_command() {
         &repo.join("adl/tools/test_run_nessus_remote_validation.sh"),
         "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' nessus-remote-runner >> \"$FOCUSED_LOG\"\n",
     );
+    write_executable(
+        &repo.join("adl/tools/test_run_validation_manager_nessus_lane.sh"),
+        "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' validation-manager-nessus-lane >> \"$FOCUSED_LOG\"\n",
+    );
     init_git_repo(&repo);
 
     let bin_dir = temp.join("bin");
@@ -5251,7 +5255,7 @@ fn finish_runner_executes_combined_ci_policy_selector_command() {
     let plan = FinishValidationPlan {
         mode: FinishValidationMode::SmallBinaryFocused,
         commands: vec![
-            "bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh".to_string(),
+            "bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh && bash adl/tools/test_run_validation_manager_nessus_lane.sh".to_string(),
         ],
     };
     run_finish_validation_rust(&repo, &plan).expect("combined ci-policy selector validation");
@@ -5275,6 +5279,7 @@ fn finish_runner_executes_combined_ci_policy_selector_command() {
     assert!(focused_calls.contains("select-validation-lanes"));
     assert!(focused_calls.contains("validation-manager"));
     assert!(focused_calls.contains("nessus-remote-runner"));
+    assert!(focused_calls.contains("validation-manager-nessus-lane"));
 }
 
 #[test]
