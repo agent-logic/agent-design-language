@@ -1,0 +1,140 @@
+{
+  "schema": "adl.v0917.wp07.pre_v092_runtime_coherence_disposition.v1",
+  "issue": 4845,
+  "umbrella_issue": 4634,
+  "version": "v0.91.7",
+  "generated_at": "2026-07-04T10:58:00Z",
+  "disposition": "blocked",
+  "v092_activation_decision": "not_ready",
+  "wp07_closeout_instruction": "keep_umbrella_open",
+  "operator_approval": {
+    "soak3_required_scope_approved": false,
+    "blocked_surface_deferrals_approved": false
+  },
+  "soak3_scope_status": "proposed_minimum_if_operator_authorizes_activation",
+  "soak3_required_by_this_packet": false,
+  "evidence_inputs": [
+    {
+      "issue": 4842,
+      "state": "merged_closed",
+      "evidence": "Runtime v2 reconciliation is on main through PR #4851."
+    },
+    {
+      "issue": 4718,
+      "state": "merged_closed",
+      "evidence": "docs/milestones/v0.91.7/review/observability_4718/INTEGRATED_LOGGING_OTEL_PROOF_4718.md",
+      "claim_boundary": "issue_proven_prerequisite_not_final_soak_integrated"
+    },
+    {
+      "issue": 4681,
+      "pr": 4868,
+      "commit": "0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02",
+      "state": "checks_pending",
+      "pending_checks": ["adl-ci"],
+      "failed_checks": []
+    },
+    {
+      "issue": 4783,
+      "pr": 4869,
+      "commit": "d0e17ba2e06689d38d32cfb09704e541257665fb",
+      "state": "checks_pending",
+      "pending_checks": ["adl-ci", "adl-coverage"],
+      "failed_checks": []
+    },
+    {
+      "issue": 4784,
+      "pr": 4871,
+      "commit": "573307379d3e487c05ccd974eb5b29942128d8db",
+      "state": "ready_green_pr_with_blocked_dependency"
+    },
+    {
+      "issue": 4843,
+      "pr": 4870,
+      "commit": "2d15a0273d04d58467f1a477c9923cc6f6834b89",
+      "state": "ready_green_pr"
+    },
+    {
+      "issue": 4682,
+      "pr": 4873,
+      "commit": "9d00ab03aecd889d4e4756f7428c777ea6f1b0cd",
+      "state": "ready_green_blocked_before_full_soak",
+      "evidence": "docs/milestones/v0.91.7/review/runtime/soak2_4682/soak2_execution_status_4682.json"
+    },
+    {
+      "issue": 4683,
+      "pr": 4872,
+      "commit": "6464203cc8fe33d0f448dbf5973c73c8f5750f0e",
+      "state": "ready_green_pre_soak_diet_map"
+    },
+    {
+      "issue": 4844,
+      "pr": 4874,
+      "commit": "e2f16eb889648df06f6da9df1deeacef1abe05d8",
+      "state": "ready_green_review_register",
+      "row_counts": {
+        "integrated_proven": 0,
+        "blocked": 14,
+        "deferred": 1,
+        "routed_to_soak_3": 0
+      }
+    }
+  ],
+  "activation_decisions": [
+    {
+      "surface": "canonical_runtime_path",
+      "decision": "blocked",
+      "owners": [4681, 4682],
+      "v092_consequence": "No runtime-coherence activation claim until assembled path runs with retained evidence."
+    },
+    {
+      "surface": "runtime_v2_reconciliation",
+      "decision": "integrated_prerequisite",
+      "owners": [4842],
+      "v092_consequence": "May be cited as substrate reconciliation only."
+    },
+    {
+      "surface": "logging_otel",
+      "decision": "integrated_prerequisite",
+      "owners": [4718, 4682],
+      "v092_consequence": "Final sprint-level claim blocked until #4682 consumes #4718."
+    },
+    {
+      "surface": "resilience_middleware",
+      "decision": "blocked",
+      "owners": [4783, 4784, 4682],
+      "v092_consequence": "No activation resilience claim until #4783 is consumable and #4682 reruns."
+    },
+    {
+      "surface": "soak2_execution",
+      "decision": "blocked",
+      "owners": [4682, 4843, 4844],
+      "v092_consequence": "Full Soak 2 remains unproven."
+    },
+    {
+      "surface": "wp08_wp12_consumers",
+      "decision": "blocked_or_non_claim_required",
+      "owners": [4684, 4656, 4658],
+      "v092_consequence": "Cannot be relied on unless owner issues prove them or operator approves non-claims."
+    },
+    {
+      "surface": "curiosity_constructability_optional",
+      "decision": "explicitly_deferred",
+      "owners": [4692, 4693, 4682],
+      "v092_consequence": "Does not block v0.92 unless promoted into activation scope."
+    }
+  ],
+  "proposed_soak3_activation_scope": [
+    "Consume #4681 after PR #4868 checks pass.",
+    "Consume #4783 after PR #4869 checks pass.",
+    "Rerun #4682 against the #4843 15-row matrix from a consumable integration base.",
+    "Reclassify every #4844 row with retained evidence.",
+    "Consume #4718 logging/OTel in the integrated #4682 path.",
+    "Record final v0.92 non-claims for WP-08/WP-12 rows if they remain outside activation scope."
+  ],
+  "non_claims": [
+    "No Soak 2 row is integrated_proven.",
+    "No full WP-07 runtime readiness claim is made.",
+    "No production OpenTelemetry collector, OTLP exporter, hosted telemetry service, Unity editor execution, AWS signal bridge, ACIP/A2A activation, or CAV/security boundary readiness is claimed.",
+    "This packet does not close umbrella #4634."
+  ]
+}
