@@ -1,6 +1,6 @@
 # WP-07 Pre-v0.92 Runtime-Coherence Disposition (#4845)
 
-Generated: 2026-07-04T11:15:05Z
+Generated: 2026-07-04T23:29:08Z
 
 This packet is the current pre-v0.92 runtime-coherence disposition for WP-07.
 It consumes current v0.91.7 evidence only and intentionally does not claim
@@ -22,10 +22,9 @@ merged/closed or explicitly blocked with operator-approved evidence.
 
 Reason: the current evidence proves important prerequisites, including #4718
 logging/OTel proof and #4842 Runtime v2 reconciliation, but it does not yet
-prove the integrated Soak 2 runtime path. #4681 is ready-green but not merged or
-explicitly sequenced, #4783 still has `adl-ci` and `adl-coverage` pending after
-a janitor retrigger, and #4682 remains a `blocked_before_full_soak` packet
-rather than a completed integrated run.
+prove the integrated Soak 2 runtime path. #4681 has `adl-ci` pending, #4783 has
+`adl-coverage` pending, and #4682 is merged only as a
+`blocked_before_full_soak` packet rather than a completed integrated run.
 
 ## Evidence Inputs
 
@@ -33,12 +32,12 @@ rather than a completed integrated run.
 | --- | --- | --- |
 | #4842 Runtime v2 reconciliation | merged/closed | PR #4851 on `main`; consumed by #4682 status packet. |
 | #4718 logging/OTel proof | merged/closed | `docs/milestones/v0.91.7/review/observability_4718/INTEGRATED_LOGGING_OTEL_PROOF_4718.md`; `proof_summary.json`. |
-| #4681 canonical runtime path | open, ready-green | PR #4868 at `0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02`; `adl-ci` and `adl-coverage` green, not merged to `main`. |
-| #4783 scheduler watcher/AEE resilience middleware | open, checks pending | PR #4869 at `46e3cdebe470c9b6d7af57c9dab8f862b9f7dc53`; `adl-ci` and `adl-coverage` pending after janitor retrigger. |
-| #4784 resilience failure injection | open, ready-green | PR #4871 at `573307379d3e487c05ccd974eb5b29942128d8db`; proof states `proved_with_blocked_dependency`. |
-| #4843 Soak 2 matrix | open, ready-green | PR #4870 at `2d15a0273d04d58467f1a477c9923cc6f6834b89`; defines 15 Soak 2 rows. |
-| #4682 Soak 2 execution | open, ready-green blocked-status PR | PR #4873 at `7f618cb3b72eae34455d7c39258939fc3cb99252`; status is `blocked_before_full_soak`. |
-| #4683 runtime module diet map | open, ready-green | PR #4872 at `6464203cc8fe33d0f448dbf5973c73c8f5750f0e`; current pre-Soak map only. |
+| #4681 canonical runtime path | open, checks pending | PR #4868 at `632f4e94ceafa7ed2bf69aac2d1ecec84ff323ff`; `adl-ci` pending, `adl-coverage` green, not merged to `main`. |
+| #4783 scheduler watcher/AEE resilience middleware | open, checks pending | PR #4869 at `8c731da0978eed343df844ed88fe3cad76ee21e8`; `adl-ci` green, `adl-coverage` pending, not merged to `main`. |
+| #4784 resilience failure injection | merged/closed with closeout cleanup pending | PR #4871 is on `main` via `1812b54b`; proof states `proved_with_blocked_dependency`. |
+| #4843 Soak 2 matrix | merged/closed | PR #4870 is on `main` via `b8ad0ce3`; defines 15 Soak 2 rows. |
+| #4682 Soak 2 execution | merged/closed blocked-status packet | PR #4873 is on `main` via `f1720dcb`; status is `blocked_before_full_soak`. |
+| #4683 runtime module diet map | merged/closed with closeout cleanup pending | PR #4872 is on `main` via `512e0f95`; current pre-Soak map only. |
 | #4844 Soak 2 review/blocker register | open, ready-green | PR #4874 at `335eb280b8ef4b960fdfdf6054f45cfc6e040bcc`; 14 blocked rows, 1 deferred optional row, 0 integrated-proven rows. |
 
 ## Activation Decision Table
@@ -48,9 +47,9 @@ rather than a completed integrated run.
 | Canonical runtime path | blocked | #4681/#4682 | No v0.92 runtime-coherence claim until the assembled path runs with retained evidence. |
 | Runtime v2 reconciliation | integrated prerequisite | #4842 | Can be cited only as substrate reconciliation, not final runtime readiness. |
 | Logging/OTel | integrated prerequisite | #4718/#4682 | #4718 is issue-proven; sprint-level logging/OTel integration remains blocked until #4682 consumes it. |
-| Scheduler watcher/AEE resilience middleware | blocked | #4783/#4682 | No activation resilience claim until PR #4869 checks pass and #4682 consumes it. |
+| Scheduler watcher/AEE resilience middleware | blocked | #4783/#4682 | No activation resilience claim until PR #4869 checks pass, it is merged or explicitly sequenced, and #4682 consumes it. |
 | Failure injection | prerequisite with blocked dependency | #4784/#4783/#4682 | Existing failure-injection proof is useful, but not final Soak 2 resilience proof. |
-| Soak 2 matrix | prerequisite | #4843/#4682 | Matrix is ready-green but not final execution evidence. |
+| Soak 2 matrix | merged prerequisite | #4843/#4682 | Matrix is on `main` but is not final execution evidence. |
 | Soak 2 execution | blocked | #4682 | Full Soak 2 must rerun or refresh after upstreams are consumable. |
 | Module diet map | prerequisite | #4683/#4844/#4845 | Diet map informs follow-on architecture work but does not unblock v0.92 activation. |
 | WP-08/WP-12 AWS/signal/security/capability rows | blocked | owning WP-08/WP-12 issues | Must stay non-claimed or blocked unless owner issues prove them and operator approves reliance. |
@@ -62,10 +61,10 @@ This packet does not approve or start Soak #3. If the operator chooses to pursue
 v0.92 runtime-coherence activation instead of keeping the blocked surfaces
 non-claimed, the proposed minimum scope is:
 
-1. Consume #4681 after the canonical runtime path is merged or otherwise
-   operator-approved for sequencing.
-2. Consume #4783 after PR #4869 checks pass and scheduler watcher/AEE
-   resilience middleware is mergeable or otherwise operator-approved for
+1. Consume #4681 after required checks pass and the canonical runtime path is
+   merged or otherwise operator-approved for sequencing.
+2. Consume #4783 after required checks pass and scheduler watcher/AEE
+   resilience middleware is merged or otherwise operator-approved for
    sequencing.
 3. Re-run #4682 against the #4843 15-row matrix from a consumable integration
    base.
