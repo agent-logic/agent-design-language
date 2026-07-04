@@ -1,0 +1,118 @@
+{
+  "schema": "adl.v0917.runtime_soak2.execution_status.v1",
+  "issue": 4682,
+  "umbrella_issue": 4634,
+  "version": "v0.91.7",
+  "generated_at": "2026-07-04T08:46:00Z",
+  "status": "blocked_before_full_soak",
+  "v092_runtime_coherence_claim": "blocked",
+  "matrix_source": {
+    "owner_issue": 4843,
+    "pr": 4870,
+    "commit": "2d15a0273d04d58467f1a477c9923cc6f6834b89",
+    "state": "draft_green",
+    "main_contains_matrix": false,
+    "artifact_refs": [
+      "docs/milestones/v0.91.7/review/runtime/SOAK2_FEATURE_LIST_MATRIX_4843.md",
+      "docs/milestones/v0.91.7/review/runtime/soak2_feature_list_matrix_4843.json"
+    ]
+  },
+  "upstream_pr_evidence": [
+    {
+      "issue": 4681,
+      "pr": 4868,
+      "commit": "485b00d26089169f39a04e8d8c5b02f1156d92d8",
+      "is_draft": true,
+      "projection_status": "checks_green_but_draft",
+      "failed_checks": [],
+      "pending_checks": []
+    },
+    {
+      "issue": 4783,
+      "pr": 4869,
+      "commit": "b711343a641bbcab2cfe6059e8d1e4e1cef157f8",
+      "is_draft": true,
+      "projection_status": "checks_failed",
+      "failed_checks": [
+        "adl-coverage"
+      ],
+      "pending_checks": []
+    },
+    {
+      "issue": 4843,
+      "pr": 4870,
+      "commit": "2d15a0273d04d58467f1a477c9923cc6f6834b89",
+      "is_draft": true,
+      "projection_status": "checks_green_but_draft",
+      "failed_checks": [],
+      "pending_checks": []
+    },
+    {
+      "issue": 4784,
+      "pr": 4871,
+      "commit": "573307379d3e487c05ccd974eb5b29942128d8db",
+      "is_draft": true,
+      "projection_status": "checks_green_but_draft",
+      "failed_checks": [],
+      "pending_checks": []
+    }
+  ],
+  "merged_evidence_consumed": [
+    {
+      "issue": 4842,
+      "status": "merged_closed",
+      "evidence": "Runtime v2 reconciliation is on main through PR #4851."
+    },
+    {
+      "issue": 4718,
+      "status": "merged_closed",
+      "evidence": "docs/milestones/v0.91.7/review/observability_4718/INTEGRATED_LOGGING_OTEL_PROOF_4718.md"
+    }
+  ],
+  "row_results": [
+    {
+      "id": "tokio_runtime_substrate",
+      "state": "blocked",
+      "owner_issues": [
+        4681,
+        4842,
+        4682
+      ],
+      "reason": "#4681 canonical runtime path is draft-green but not merged to main."
+    },
+    {
+      "id": "agent_lifecycle",
+      "state": "blocked",
+      "owner_issues": [
+        4681,
+        4682
+      ],
+      "reason": "Lifecycle proof must run through the #4681 v0.91.7 canonical runtime path before this row can exit."
+    },
+    {
+      "id": "resilience",
+      "state": "blocked",
+      "owner_issues": [
+        4783,
+        4784,
+        4682
+      ],
+      "reason": "#4784 is draft-green, but #4783 currently has failed adl-coverage and is not consumable."
+    },
+    {
+      "id": "logging_observability",
+      "state": "prerequisite_proven",
+      "owner_issues": [
+        4718,
+        4682
+      ],
+      "reason": "#4718 is merged and retained proof exists; #4682 still must consume it in the final integrated Soak 2 run."
+    }
+  ],
+  "next_actions": [
+    "Repair or re-run #4783 until PR #4869 is green and consumable.",
+    "Land or intentionally sequence #4843 so #4682 can consume the matrix from main.",
+    "Land or intentionally sequence #4681 so #4682 can run the canonical runtime path.",
+    "After prerequisites are consumable, rerun #4682 and convert blocked rows to integrated_proven, deferred, or routed_to_soak_3 with evidence."
+  ]
+}
