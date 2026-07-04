@@ -2,11 +2,15 @@
   "schema": "adl.v0917.runtime_soak2.evidence_index.v1",
   "issue": 4682,
   "artifacts": [
+    "adl/config/validation_lane_selector.v0.91.6.json",
     "README.md",
     "soak2_execution_status_4682.json",
     "blocker_register.json"
   ],
   "validation": [
-    "bash adl/tools/validate_v0917_soak2_4682_status.sh"
+    "bash adl/tools/validate_v0917_soak2_4682_status.sh",
+    "jq . adl/config/validation_lane_selector.v0.91.6.json >/dev/null",
+    "bash adl/tools/test_select_validation_lanes.sh",
+    "git diff --check"
   ]
 }

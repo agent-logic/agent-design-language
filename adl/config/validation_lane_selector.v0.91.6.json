@@ -484,6 +484,27 @@
       "reason": "aws_remote_validation_tool_surface_requires_focused_tooling_regression_checks"
     },
     {
+      "id": "v0917_soak2_status_contracts",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "runtime",
+      "proof_role": "runtime_soak_status_contract",
+      "requirement_ids": [
+        "v0917_soak2_status_contracts"
+      ],
+      "path_selectors": [
+        "adl/tools/validate_v0917_soak2_4682_status.sh",
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/**"
+      ],
+      "path_hints": [
+        "adl/tools/validate_v0917_soak2_4682_status.sh",
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/**"
+      ],
+      "command": "bash adl/tools/test_select_validation_lanes.sh",
+      "run_command": "bash adl/tools/test_select_validation_lanes.sh",
+      "reason": "v0917_soak2_status_surface_requires_selector_contract_checks; issue-local status validation runs through adl/tools/validate_v0917_soak2_4682_status.sh"
+    },
+    {
       "id": "validation_lane_selector_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

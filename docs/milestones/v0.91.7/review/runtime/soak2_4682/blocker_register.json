@@ -9,24 +9,40 @@
       "owner_issue": 4843,
       "owner_pr": 4870,
       "classification": "sequencing_blocker",
-      "evidence": "PR #4870 is draft-green, but the #4843 matrix is not on main in the #4682 worktree.",
+      "evidence": "PR #4870 is ready and green, but the #4843 matrix is not on main in the #4682 worktree.",
       "v092_impact": "Blocks full Soak 2 execution from main."
     },
     {
-      "id": "runtime-path-pr-draft",
+      "id": "runtime-path-checks-pending",
       "owner_issue": 4681,
       "owner_pr": 4868,
-      "classification": "sequencing_blocker",
-      "evidence": "PR #4868 is draft-green and still draft.",
+      "classification": "checks_pending_blocker",
+      "evidence": "PR #4868 is ready with adl-coverage green, but adl-ci remains in progress.",
       "v092_impact": "Blocks canonical runtime-path rows until consumable."
     },
     {
-      "id": "resilience-middleware-pr-failing",
+      "id": "resilience-middleware-checks-pending",
       "owner_issue": 4783,
       "owner_pr": 4869,
-      "classification": "failed_check_blocker",
-      "evidence": "PR #4869 projection_status is checks_failed with failed check adl-coverage.",
+      "classification": "checks_pending_blocker",
+      "evidence": "PR #4869 is ready with adl-ci green, but adl-coverage remains in progress.",
       "v092_impact": "Blocks resilience Soak 2 row and scheduler/watcher/AEE resilience claims."
+    },
+    {
+      "id": "resilience-failure-injection-not-on-main",
+      "owner_issue": 4784,
+      "owner_pr": 4871,
+      "classification": "sequencing_blocker",
+      "evidence": "PR #4871 is ready and green, but the integrated resilience failure-injection proof is not on main in the #4682 worktree.",
+      "v092_impact": "Blocks final Soak 2 resilience consumption from main."
+    },
+    {
+      "id": "runtime-diet-map-not-on-main",
+      "owner_issue": 4683,
+      "owner_pr": 4872,
+      "classification": "sequencing_blocker",
+      "evidence": "PR #4872 is ready and green, but the runtime module diet map is not on main in the #4682 worktree.",
+      "v092_impact": "Blocks final review/disposition inputs that depend on the diet map."
     }
   ]
 }

@@ -36,6 +36,8 @@ required_rows = {
     "agent_lifecycle",
     "resilience",
     "logging_observability",
+    "soak2_matrix",
+    "module_diet_map",
 }
 rows = {row.get("id"): row for row in status.get("row_results", [])}
 row_ids = set(rows)
@@ -59,33 +61,41 @@ pr_index = {item["pr"]: item for item in status.get("upstream_pr_evidence", [])}
 expected_prs = {
     4868: {
         "issue": 4681,
-        "commit": "485b00d26089169f39a04e8d8c5b02f1156d92d8",
-        "is_draft": True,
-        "projection_status": "checks_green_but_draft",
+        "commit": "711d8bb39e5521068308eb44451b943079219278",
+        "is_draft": False,
+        "projection_status": "checks_pending",
         "failed_checks": [],
-        "pending_checks": [],
+        "pending_checks": ["adl-ci"],
     },
     4869: {
         "issue": 4783,
-        "commit": "b711343a641bbcab2cfe6059e8d1e4e1cef157f8",
-        "is_draft": True,
-        "projection_status": "checks_failed",
-        "failed_checks": ["adl-coverage"],
-        "pending_checks": [],
+        "commit": "c95c45f1e019b9424fab65db2219d714fbb8650c",
+        "is_draft": False,
+        "projection_status": "checks_pending",
+        "failed_checks": [],
+        "pending_checks": ["adl-coverage"],
     },
     4870: {
         "issue": 4843,
         "commit": "2d15a0273d04d58467f1a477c9923cc6f6834b89",
-        "is_draft": True,
-        "projection_status": "checks_green_but_draft",
+        "is_draft": False,
+        "projection_status": "ready_to_merge_or_review",
         "failed_checks": [],
         "pending_checks": [],
     },
     4871: {
         "issue": 4784,
         "commit": "573307379d3e487c05ccd974eb5b29942128d8db",
-        "is_draft": True,
-        "projection_status": "checks_green_but_draft",
+        "is_draft": False,
+        "projection_status": "ready_to_merge_or_review",
+        "failed_checks": [],
+        "pending_checks": [],
+    },
+    4872: {
+        "issue": 4683,
+        "commit": "6464203cc8fe33d0f448dbf5973c73c8f5750f0e",
+        "is_draft": False,
+        "projection_status": "ready_to_merge_or_review",
         "failed_checks": [],
         "pending_checks": [],
     },
@@ -101,14 +111,20 @@ for pr, expected in expected_prs.items():
             )
 
 matrix = status.get("matrix_source", {})
-if matrix.get("pr") != 4870 or matrix.get("main_contains_matrix") is not False:
-    raise SystemExit("matrix source must point to draft PR #4870 and not main")
+if (
+    matrix.get("pr") != 4870
+    or matrix.get("state") != "ready_green"
+    or matrix.get("main_contains_matrix") is not False
+):
+    raise SystemExit("matrix source must point to ready-green PR #4870 and not main")
 
 blocker_by_id = {item.get("id"): item for item in blockers.get("blockers", [])}
 expected_blockers = {
     "soak2-matrix-not-on-main": (4843, 4870, "sequencing_blocker"),
-    "runtime-path-pr-draft": (4681, 4868, "sequencing_blocker"),
-    "resilience-middleware-pr-failing": (4783, 4869, "failed_check_blocker"),
+    "runtime-path-checks-pending": (4681, 4868, "checks_pending_blocker"),
+    "resilience-middleware-checks-pending": (4783, 4869, "checks_pending_blocker"),
+    "resilience-failure-injection-not-on-main": (4784, 4871, "sequencing_blocker"),
+    "runtime-diet-map-not-on-main": (4683, 4872, "sequencing_blocker"),
 }
 for blocker_id, (owner_issue, owner_pr, classification) in expected_blockers.items():
     blocker = blocker_by_id.get(blocker_id)

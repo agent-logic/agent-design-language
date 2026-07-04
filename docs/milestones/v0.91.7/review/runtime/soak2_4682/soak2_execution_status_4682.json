@@ -3,14 +3,14 @@
   "issue": 4682,
   "umbrella_issue": 4634,
   "version": "v0.91.7",
-  "generated_at": "2026-07-04T08:46:00Z",
+  "generated_at": "2026-07-04T10:05:27Z",
   "status": "blocked_before_full_soak",
   "v092_runtime_coherence_claim": "blocked",
   "matrix_source": {
     "owner_issue": 4843,
     "pr": 4870,
     "commit": "2d15a0273d04d58467f1a477c9923cc6f6834b89",
-    "state": "draft_green",
+    "state": "ready_green",
     "main_contains_matrix": false,
     "artifact_refs": [
       "docs/milestones/v0.91.7/review/runtime/SOAK2_FEATURE_LIST_MATRIX_4843.md",
@@ -21,29 +21,31 @@
     {
       "issue": 4681,
       "pr": 4868,
-      "commit": "485b00d26089169f39a04e8d8c5b02f1156d92d8",
-      "is_draft": true,
-      "projection_status": "checks_green_but_draft",
+      "commit": "711d8bb39e5521068308eb44451b943079219278",
+      "is_draft": false,
+      "projection_status": "checks_pending",
       "failed_checks": [],
-      "pending_checks": []
+      "pending_checks": [
+        "adl-ci"
+      ]
     },
     {
       "issue": 4783,
       "pr": 4869,
-      "commit": "b711343a641bbcab2cfe6059e8d1e4e1cef157f8",
-      "is_draft": true,
-      "projection_status": "checks_failed",
-      "failed_checks": [
+      "commit": "c95c45f1e019b9424fab65db2219d714fbb8650c",
+      "is_draft": false,
+      "projection_status": "checks_pending",
+      "failed_checks": [],
+      "pending_checks": [
         "adl-coverage"
-      ],
-      "pending_checks": []
+      ]
     },
     {
       "issue": 4843,
       "pr": 4870,
       "commit": "2d15a0273d04d58467f1a477c9923cc6f6834b89",
-      "is_draft": true,
-      "projection_status": "checks_green_but_draft",
+      "is_draft": false,
+      "projection_status": "ready_to_merge_or_review",
       "failed_checks": [],
       "pending_checks": []
     },
@@ -51,8 +53,17 @@
       "issue": 4784,
       "pr": 4871,
       "commit": "573307379d3e487c05ccd974eb5b29942128d8db",
-      "is_draft": true,
-      "projection_status": "checks_green_but_draft",
+      "is_draft": false,
+      "projection_status": "ready_to_merge_or_review",
+      "failed_checks": [],
+      "pending_checks": []
+    },
+    {
+      "issue": 4683,
+      "pr": 4872,
+      "commit": "6464203cc8fe33d0f448dbf5973c73c8f5750f0e",
+      "is_draft": false,
+      "projection_status": "ready_to_merge_or_review",
       "failed_checks": [],
       "pending_checks": []
     }
@@ -78,7 +89,7 @@
         4842,
         4682
       ],
-      "reason": "#4681 canonical runtime path is draft-green but not merged to main."
+      "reason": "#4681 canonical runtime path is ready, but adl-ci is still pending and the path is not merged to main."
     },
     {
       "id": "agent_lifecycle",
@@ -87,7 +98,7 @@
         4681,
         4682
       ],
-      "reason": "Lifecycle proof must run through the #4681 v0.91.7 canonical runtime path before this row can exit."
+      "reason": "Lifecycle proof must run through the #4681 v0.91.7 canonical runtime path after the PR is consumable."
     },
     {
       "id": "resilience",
@@ -97,7 +108,7 @@
         4784,
         4682
       ],
-      "reason": "#4784 is draft-green, but #4783 currently has failed adl-coverage and is not consumable."
+      "reason": "#4784 is ready-green, but #4783 still has adl-coverage pending and is not consumable."
     },
     {
       "id": "logging_observability",
@@ -107,12 +118,32 @@
         4682
       ],
       "reason": "#4718 is merged and retained proof exists; #4682 still must consume it in the final integrated Soak 2 run."
+    },
+    {
+      "id": "soak2_matrix",
+      "state": "blocked",
+      "owner_issues": [
+        4843,
+        4682
+      ],
+      "reason": "#4843 is ready-green, but the matrix is not merged to main for the #4682 run."
+    },
+    {
+      "id": "module_diet_map",
+      "state": "blocked",
+      "owner_issues": [
+        4683,
+        4682,
+        4844,
+        4845
+      ],
+      "reason": "#4683 is ready-green, but downstream review/disposition must consume it after merge or explicit operator sequencing."
     }
   ],
   "next_actions": [
-    "Repair or re-run #4783 until PR #4869 is green and consumable.",
-    "Land or intentionally sequence #4843 so #4682 can consume the matrix from main.",
-    "Land or intentionally sequence #4681 so #4682 can run the canonical runtime path.",
+    "Continue watching #4681 PR #4868 until adl-ci completes.",
+    "Continue watching #4783 PR #4869 until adl-coverage completes.",
+    "Land or explicitly sequence #4843, #4784, and #4683 before final Soak 2 consumption.",
     "After prerequisites are consumable, rerun #4682 and convert blocked rows to integrated_proven, deferred, or routed_to_soak_3 with evidence."
   ]
 }
