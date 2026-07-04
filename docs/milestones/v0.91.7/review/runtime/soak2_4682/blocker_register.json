@@ -21,11 +21,11 @@
       "v092_impact": "Blocks canonical runtime-path rows until consumable."
     },
     {
-      "id": "resilience-middleware-checks-pending",
+      "id": "resilience-middleware-not-on-main",
       "owner_issue": 4783,
       "owner_pr": 4869,
-      "classification": "checks_pending_blocker",
-      "evidence": "PR #4869 is ready at 46e3cdebe470c9b6d7af57c9dab8f862b9f7dc53 after a janitor retrigger, with adl-ci and adl-coverage in progress.",
+      "classification": "sequencing_blocker",
+      "evidence": "PR #4869 is ready-green at 2bee28ce00ca87a576d6c69ea06e1010f5cd954c, but the scheduler watcher/AEE resilience middleware is not on main in the #4682 worktree.",
       "v092_impact": "Blocks resilience Soak 2 row and scheduler/watcher/AEE resilience claims."
     },
     {

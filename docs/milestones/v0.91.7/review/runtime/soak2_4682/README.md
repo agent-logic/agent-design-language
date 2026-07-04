@@ -8,9 +8,8 @@ the #4784 resilience failure-injection PR #4871, and the #4683 diet-map PR
 #4872 are ready and green, but they are not merged to `main`; the canonical
 runtime path PR #4868 is ready at `0b8821ec1de112d3b84fa64e87d2a6fb9fb63a02`
 with `adl-ci` and `adl-coverage` green but is not merged to `main`; and the
-#4783 scheduler/watcher/AEE resilience middleware PR #4869 is ready at
-`46e3cdebe470c9b6d7af57c9dab8f862b9f7dc53` after a janitor retrigger with
-`adl-ci` and `adl-coverage` in progress.
+#4783 scheduler/watcher/AEE resilience middleware PR #4869 is ready-green at
+`2bee28ce00ca87a576d6c69ea06e1010f5cd954c` but is not merged to `main`.
 
 The status artifact is:
 
