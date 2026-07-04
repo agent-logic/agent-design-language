@@ -66,6 +66,16 @@ silently assuming them.
 
 ## Feature-List Integration Matrix
 
+Executable row-level matrix for the standard Soak #2 run:
+
+- `docs/milestones/v0.91.7/review/runtime/soak2_feature_list_matrix_4843.json`
+- `docs/milestones/v0.91.7/review/runtime/SOAK2_FEATURE_LIST_MATRIX_4843.md`
+- `bash adl/tools/validate_v0917_soak2_matrix.sh`
+
+The matrix is issue-local setup truth for `#4843`; it is not Soak #2 proof.
+Rows marked pending or blocked must remain pending or blocked until `#4682`
+emits retained evidence or records an operator-approved non-claim/blocker.
+
 | Surface | Soak #1 handoff truth consumed | Soak #2 required proof mode | Default owner lane | If unresolved before `v0.92` |
 | --- | --- | --- | --- | --- |
 | Tokio runtime substrate | `#4245` walking-skeleton runtime boot/run/stop packet | one assembled long-running integrated runtime path | Soak #2 umbrella + standard run | block |

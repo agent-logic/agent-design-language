@@ -505,6 +505,31 @@
       "reason": "v0917_soak2_status_surface_requires_selector_contract_checks; issue-local status validation runs through adl/tools/validate_v0917_soak2_4682_status.sh"
     },
     {
+      "id": "v0917_soak2_matrix_contracts",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "runtime",
+      "proof_role": "runtime_matrix_contract",
+      "requirement_ids": [
+        "v0917_soak2_matrix_contracts"
+      ],
+      "path_selectors": [
+        "adl/tools/validate_v0917_soak2_matrix.sh",
+        "docs/milestones/v0.91.7/review/runtime/SOAK2_FEATURE_LIST_MATRIX_4843.md",
+        "docs/milestones/v0.91.7/review/runtime/soak2_feature_list_matrix_4843.json",
+        "docs/milestones/v0.91.7/RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md"
+      ],
+      "path_hints": [
+        "adl/tools/validate_v0917_soak2_matrix.sh",
+        "docs/milestones/v0.91.7/review/runtime/SOAK2_FEATURE_LIST_MATRIX_4843.md",
+        "docs/milestones/v0.91.7/review/runtime/soak2_feature_list_matrix_4843.json",
+        "docs/milestones/v0.91.7/RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md"
+      ],
+      "command": "bash adl/tools/test_select_validation_lanes.sh",
+      "run_command": "bash adl/tools/test_select_validation_lanes.sh",
+      "reason": "v0917_soak2_matrix_surface_requires_selector_contract_checks; issue-local matrix validation runs through adl/tools/validate_v0917_soak2_matrix.sh"
+    },
+    {
       "id": "validation_lane_selector_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
