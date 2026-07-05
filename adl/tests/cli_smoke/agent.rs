@@ -566,6 +566,312 @@ fn csm_owns_daemon_and_adl_agent_daemon_is_removed() {
         stderr.contains("csm daemon is owned by the standalone csm runtime binary"),
         "stderr:\n{stderr}"
     );
+
+    let removed_adl_csm_service = run_adl(&["csm", "service", "install", "--help"]);
+    assert!(
+        !removed_adl_csm_service.status.success(),
+        "expected adl csm service removal, stdout:\n{}",
+        String::from_utf8_lossy(&removed_adl_csm_service.stdout)
+    );
+    let stderr = String::from_utf8_lossy(&removed_adl_csm_service.stderr);
+    assert!(
+        stderr.contains("csm service is owned by the standalone csm runtime binary"),
+        "stderr:\n{stderr}"
+    );
+}
+
+#[test]
+fn csm_service_install_writes_launchd_envelope_without_adl_runtime_owner() {
+    let root = unique_test_temp_dir("csm-service-install");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: service-install-agent
+display_name: Service Install Agent
+state_root: runtime-state
+workflow:
+  kind: demo_adapter
+  name: service_install_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 1
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/service-install-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let service_root = root.join("service");
+    let csm_bin = resolve_csm_exe();
+    let out = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "launchd",
+        "--label",
+        "com.agentlogic.csm.test-install",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--checkpoint-interval-secs",
+        "1",
+        "--json",
+    ]);
+    assert!(
+        out.status.success(),
+        "expected service install success, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let manifest: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(service_root.join("service_manifest.json")).expect("manifest"),
+    )
+    .expect("parse manifest");
+    assert_eq!(manifest["schema"], "adl.csm.service_manifest.v1");
+    assert_eq!(manifest["runtime_owner"], "csm");
+    assert_eq!(manifest["manager"], "launchd");
+    assert_eq!(manifest["checkpoint_interval_secs"], 1);
+    assert!(manifest["daemon_status"]
+        .as_str()
+        .expect("daemon status path")
+        .ends_with("runtime-state/daemon_status.json"));
+    assert!(manifest["continuity_checkpoint"]
+        .as_str()
+        .expect("checkpoint path")
+        .ends_with("runtime-state/continuity_checkpoint.json"));
+    assert!(manifest["unsupported_permanence_claims"]
+        .as_array()
+        .expect("nonclaims")
+        .iter()
+        .any(|value| value == "host_reboot_survival_not_proven"));
+
+    let plist = fs::read_to_string(service_root.join("csm.launchd.plist")).expect("plist");
+    assert!(plist.contains("<key>KeepAlive</key>"));
+    assert!(plist.contains("<string>daemon</string>"));
+    assert!(plist.contains("ADL_OTEL_STATUS"));
+    assert!(!plist.contains("adl agent daemon"));
+
+    let status: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(service_root.join("service_status.json")).expect("service status"),
+    )
+    .expect("parse service status");
+    assert_eq!(status["schema"], "adl.csm.service_status.v1");
+    assert_eq!(status["service_state"], "installed");
+    assert_eq!(status["broad_process_scan"], false);
+    assert_eq!(status["uses_ps"], false);
+}
+
+#[test]
+fn csm_service_local_start_stop_retains_status_checkpoint_and_observability() {
+    let root = unique_test_temp_dir("csm-service-local");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: service-local-agent
+display_name: Service Local Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: service_local_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 10
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/service-local-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let service_root = root.join("service");
+    let csm_bin = resolve_csm_exe();
+    let install = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "local",
+        "--label",
+        "com.agentlogic.csm.test-local",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--checkpoint-interval-secs",
+        "1",
+        "--json",
+    ]);
+    assert!(
+        install.status.success(),
+        "install stderr:\n{}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+
+    let start = run_csm(&[
+        "service",
+        "start",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        start.status.success(),
+        "start stderr:\n{}",
+        String::from_utf8_lossy(&start.stderr)
+    );
+    std::thread::sleep(std::time::Duration::from_millis(1500));
+
+    let status = run_csm(&[
+        "service",
+        "status",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        status.status.success(),
+        "status stderr:\n{}",
+        String::from_utf8_lossy(&status.stderr)
+    );
+    let service_status: serde_json::Value =
+        serde_json::from_slice(&status.stdout).expect("parse service status stdout");
+    assert_eq!(service_status["runtime_owner"], "csm");
+    assert_eq!(service_status["broad_process_scan"], false);
+    assert_eq!(service_status["uses_ps"], false);
+    assert!(root.join("state/daemon_status.json").exists());
+    assert!(root.join("state/continuity_checkpoint.json").exists());
+    assert!(service_root.join("logs/observability.log").exists());
+    assert!(service_root.join("logs/otel_status.json").exists());
+
+    let stop = run_csm(&[
+        "service",
+        "stop",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        stop.status.success(),
+        "stop stderr:\n{}",
+        String::from_utf8_lossy(&stop.stderr)
+    );
+    let service_status: serde_json::Value =
+        serde_json::from_slice(&stop.stdout).expect("parse stop status stdout");
+    assert_eq!(service_status["service_state"], "stopped_or_requested");
+    let agent_status: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(root.join("state/status.json")).unwrap())
+            .expect("parse agent status");
+    assert_eq!(agent_status["state"], "stopped");
+    assert_eq!(
+        agent_status["last_error"]["class"],
+        "operator_stop_requested"
+    );
+}
+
+#[test]
+fn csm_service_local_start_refuses_unverified_live_pid_metadata() {
+    let root = unique_test_temp_dir("csm-service-unverified-pid");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: service-unverified-pid-agent
+display_name: Service Unverified PID Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: service_unverified_pid_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 10
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/service-unverified-pid-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let service_root = root.join("service");
+    let csm_bin = resolve_csm_exe();
+    let install = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "local",
+        "--label",
+        "com.agentlogic.csm.test-unverified-pid",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--checkpoint-interval-secs",
+        "1",
+        "--json",
+    ]);
+    assert!(
+        install.status.success(),
+        "install stderr:\n{}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    fs::write(
+        service_root.join("csm-service.pid"),
+        std::process::id().to_string(),
+    )
+    .expect("write live but unowned pid");
+
+    let start = run_csm(&[
+        "service",
+        "start",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        !start.status.success(),
+        "expected unverified live pid refusal, stdout:\n{}",
+        String::from_utf8_lossy(&start.stdout)
+    );
+    let stderr = String::from_utf8_lossy(&start.stderr);
+    assert!(
+        stderr.contains("refused live but unverified pid metadata"),
+        "stderr:\n{stderr}"
+    );
 }
 
 #[test]
