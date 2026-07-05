@@ -335,7 +335,7 @@ filter_token_for_path() {
       printf 'chronosense'
       return 0
       ;;
-    adl/src/long_lived_agent.rs|adl/src/long_lived_agent/tests.rs)
+    adl/src/long_lived_agent.rs|adl/src/long_lived_agent/*.rs)
       printf 'long_lived_agent'
       return 0
       ;;
@@ -368,6 +368,10 @@ filter_token_for_path() {
       ;;
     docs/default_workflow.md|docs/milestones/v0.90/milestone_compression/FINISH_VALIDATION_PROFILES_v0.90.md)
       printf 'pr_cmd'
+      return 0
+      ;;
+    adl/tests/cli_smoke/agent.rs)
+      printf 'agent_cli_smoke'
       return 0
       ;;
     adl/tests/cli_smoke.rs|adl/tests/cli_smoke/*.rs)
@@ -485,6 +489,8 @@ TOKEN_MAP = {
     "cli_dispatch": 'test(/^cli::tests::top_level_dispatch_routes_/)',
     "cli": 'test(/^cli::/) or binary_id(adl::bin/adl-process) or binary_id(adl::bin/adl-session)',
     "cli_smoke_basics": 'binary_id(adl::cli_smoke) and test(/^basics::/)',
+    "agent_cli_smoke": 'binary_id(adl::cli_smoke) and test(/^agent::/)',
+    "agent_cmd": 'test(/^cli::agent_cmd::/)',
     "process_status": 'binary_id(adl::cli_smoke) and test(/^process_status::/)',
     "scheduler_cli": 'test(/^cli::scheduler_cmd::tests::/) or test(/^cli::tests::runtime_dispatch_exposes_help_and_version_without_csdlc_dispatch$/) or test(/^cli::tests::open_usage::usage_mentions_v0_4_and_legacy_examples$/)',
     "demo_adl_gws_context_mirror": 'binary_id(adl::bin/demo-adl-gws-context-mirror) and test(/^tests::/)',

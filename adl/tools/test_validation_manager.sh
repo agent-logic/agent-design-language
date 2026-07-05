@@ -178,6 +178,47 @@ assert node["resource_class"] == "medium"
 assert profile["diagnostics"] == []
 PY
 
+daemon_wave="$TMP/daemon-wave.txt"
+cat >"$daemon_wave" <<'EOF'
+M	adl/src/cli/agent_cmd.rs
+M	adl/src/cli/usage.rs
+M	adl/src/long_lived_agent.rs
+M	adl/src/long_lived_agent/schema.rs
+M	adl/src/long_lived_agent/storage.rs
+M	adl/src/long_lived_agent/tests.rs
+M	adl/src/long_lived_agent/types.rs
+M	adl/tests/cli_smoke/agent.rs
+M	docs/milestones/v0.91.7/review/runtime/RUNTIME_DAEMON_SUPERVISION_4885.md
+EOF
+bash "$SCRIPT" --changed-files "$daemon_wave" --json >"$TMP/daemon-wave.json"
+python3 - <<'PY' "$TMP/daemon-wave.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert [item["lane_id"] for item in profile["run"]] == [
+    "docs_diff_check",
+    "rust_pr_fast",
+]
+rust = next(item for item in profile["run"] if item["lane_id"] == "rust_pr_fast")
+assert rust["reason"] == "bounded_rust_surface_runs_focused_nextest"
+assert rust["matched_paths"] == [
+    "adl/src/cli/agent_cmd.rs",
+    "adl/src/cli/usage.rs",
+    "adl/src/long_lived_agent.rs",
+    "adl/src/long_lived_agent/schema.rs",
+    "adl/src/long_lived_agent/storage.rs",
+    "adl/src/long_lived_agent/tests.rs",
+    "adl/src/long_lived_agent/types.rs",
+    "adl/tests/cli_smoke/agent.rs",
+]
+assert profile["diagnostics"] == []
+PY
+
 release_gate="$TMP/release-gate.txt"
 printf 'M\t.github/workflows/ci.yaml\n' >"$release_gate"
 bash "$SCRIPT" --changed-files "$release_gate" --json >"$TMP/release.json"
