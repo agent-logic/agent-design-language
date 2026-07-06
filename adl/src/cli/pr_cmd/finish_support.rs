@@ -2666,6 +2666,9 @@ pub(super) fn select_finish_validation_plan_for_finish_with_release_gate_disposi
     if finish_issue_needs_gitignore_guardrail_validation(issue_number, changed_paths) {
         return Ok(build_gitignore_guardrail_validation_plan());
     }
+    if finish_issue_needs_wp08_heartbeat_validation(issue_number, changed_paths) {
+        return Ok(build_wp08_heartbeat_validation_plan());
+    }
     if finish_issue_needs_native_gws_runtime_validation(issue_number, changed_paths) {
         return Ok(build_native_gws_runtime_validation_plan());
     }
@@ -3266,6 +3269,7 @@ fn registered_validation_atom_supported(command: &str) -> bool {
                 | "adl/tools/test_ci_runtime_contracts.sh"
                 | "adl/tools/test_select_validation_lanes.sh"
                 | "adl/tools/test_run_aws_codefriend_build_lane.sh"
+                | "adl/tools/test_run_wp08_heartbeat_live_proof.sh"
                 | "adl/tools/test_validation_manager.sh"
                 | "adl/tools/test_adl_builder_image.sh"
                 | "adl/tools/test_import_adl_builder_image_from_s3_to_ecr.sh"
@@ -4266,6 +4270,75 @@ fn finish_issue_needs_gitignore_guardrail_validation(
         })
 }
 
+fn finish_issue_needs_wp08_heartbeat_validation(
+    issue_number: u32,
+    changed_paths: &[String],
+) -> bool {
+    if issue_number != 4684 {
+        return false;
+    }
+    !changed_paths.is_empty()
+        && changed_paths.iter().all(|path| {
+            let trimmed = path.trim().trim_matches('/');
+            matches!(
+                trimmed,
+                "adl/Cargo.lock"
+                    | "adl/Cargo.toml"
+                    | "adl/config/validation_lane_selector.v0.91.6.json"
+                    | "adl/src/cli/pr_cmd/finish_support.rs"
+                    | "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs"
+                    | "adl/src/runtime_aws_signal.rs"
+                    | "adl/tools/run_pr_fast_test_lane.sh"
+                    | "adl/tools/run_wp08_heartbeat_live_proof.sh"
+                    | "adl/tools/test_run_wp08_heartbeat_live_proof.sh"
+                    | "adl/tools/validate_v0917_soak2_4682_status.sh"
+                    | "adl/tools/validate_wp08_heartbeat_live_proof.py"
+                    | "docs/tooling/RUNTIME_AWS_HEARTBEAT.md"
+                    | "docs/milestones/v0.91.7/review/runtime/soak2_4682/blocker_register.json"
+                    | "docs/milestones/v0.91.7/review/runtime/soak2_4682/soak2_execution_status_4682.json"
+            ) || trimmed.starts_with("docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/")
+        })
+}
+
+fn build_wp08_heartbeat_validation_plan() -> FinishValidationPlan {
+    let mut commands = vec![
+        "bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string(),
+        "git diff --check".to_string(),
+    ];
+    push_finish_validation_command(
+        &mut commands,
+        "cargo fmt --manifest-path adl/Cargo.toml --all --check",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml runtime_aws_signal -- --nocapture --test-threads=1",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp08_heartbeat_slice -- --exact --nocapture",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "bash adl/tools/test_select_validation_lanes.sh",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "bash adl/tools/test_run_wp08_heartbeat_live_proof.sh",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "python3 adl/tools/validate_wp08_heartbeat_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "bash adl/tools/validate_v0917_soak2_4682_status.sh",
+    );
+    FinishValidationPlan {
+        mode: FinishValidationMode::LargerBinaryFocused,
+        commands,
+    }
+}
+
 fn build_tokio_manifest_runtime_validation_plan() -> FinishValidationPlan {
     let mut commands = Vec::new();
     push_finish_validation_command(
@@ -4899,6 +4972,20 @@ pub(super) fn run_finish_validation_rust(
                         &["test", "--manifest-path", path_str(&manifest)?, "long_lived_agent"],
                     )?;
                 }
+                "cargo test --manifest-path adl/Cargo.toml runtime_aws_signal -- --nocapture --test-threads=1" => {
+                    run_finish_validation_status(
+                        "cargo",
+                        &[
+                            "test",
+                            "--manifest-path",
+                            path_str(&manifest)?,
+                            "runtime_aws_signal",
+                            "--",
+                            "--nocapture",
+                            "--test-threads=1",
+                        ],
+                    )?;
+                }
                 "cargo test --manifest-path adl/Cargo.toml --bin adl octocrab_transport_" => {
                     run_finish_validation_status(
                         "cargo",
@@ -5146,6 +5233,22 @@ pub(super) fn run_finish_validation_rust(
                             "--bin",
                             "adl-pr-finish",
                             "cli::pr_cmd::tests::finish::arg_render::finish_helper_paths_run_focused_local_ci_gated_validation",
+                        ],
+                    )?;
+                }
+                "cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp08_heartbeat_slice -- --exact --nocapture" => {
+                    run_finish_validation_status(
+                        "cargo",
+                        &[
+                            "test",
+                            "--manifest-path",
+                            path_str(&manifest)?,
+                            "--bin",
+                            "adl-pr-finish",
+                            "cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp08_heartbeat_slice",
+                            "--",
+                            "--exact",
+                            "--nocapture",
                         ],
                     )?;
                 }
@@ -5435,6 +5538,25 @@ pub(super) fn run_finish_validation_rust(
                 }
                 "bash adl/tools/test_select_validation_lanes.sh" => {
                     let script = repo_root.join("adl/tools/test_select_validation_lanes.sh");
+                    run_finish_validation_status("bash", &[path_str(&script)?])?;
+                }
+                "bash adl/tools/test_run_wp08_heartbeat_live_proof.sh" => {
+                    let script = repo_root.join("adl/tools/test_run_wp08_heartbeat_live_proof.sh");
+                    run_finish_validation_status("bash", &[path_str(&script)?])?;
+                }
+                "python3 adl/tools/validate_wp08_heartbeat_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json" => {
+                    let script =
+                        repo_root.join("adl/tools/validate_wp08_heartbeat_live_proof.py");
+                    let summary = repo_root.join(
+                        "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json",
+                    );
+                    run_finish_validation_status(
+                        "python3",
+                        &[path_str(&script)?, path_str(&summary)?],
+                    )?;
+                }
+                "bash adl/tools/validate_v0917_soak2_4682_status.sh" => {
+                    let script = repo_root.join("adl/tools/validate_v0917_soak2_4682_status.sh");
                     run_finish_validation_status("bash", &[path_str(&script)?])?;
                 }
                 "bash adl/tools/test_run_aws_codefriend_build_lane.sh" => {

@@ -4144,6 +4144,53 @@ fn finish_validation_profile_rejects_unscoped_gitignore_guardrail_slice() {
 }
 
 #[test]
+fn finish_validation_profile_classifies_wp08_heartbeat_slice() {
+    let changed_paths = vec![
+        "adl/Cargo.lock".to_string(),
+        "adl/Cargo.toml".to_string(),
+        "adl/config/validation_lane_selector.v0.91.6.json".to_string(),
+        "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
+        "adl/src/runtime_aws_signal.rs".to_string(),
+        "adl/tools/run_pr_fast_test_lane.sh".to_string(),
+        "adl/tools/run_wp08_heartbeat_live_proof.sh".to_string(),
+        "adl/tools/test_run_wp08_heartbeat_live_proof.sh".to_string(),
+        "adl/tools/validate_v0917_soak2_4682_status.sh".to_string(),
+        "adl/tools/validate_wp08_heartbeat_live_proof.py".to_string(),
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/blocker_register.json".to_string(),
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/soak2_execution_status_4682.json"
+            .to_string(),
+        "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
+            .to_string(),
+        "docs/tooling/RUNTIME_AWS_HEARTBEAT.md".to_string(),
+    ];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(4684, &requested_paths, &changed_paths)
+        .expect("WP-08 heartbeat focused plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml runtime_aws_signal -- --nocapture --test-threads=1"
+            .to_string()
+    ));
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_run_wp08_heartbeat_live_proof.sh".to_string()));
+    assert!(plan.commands.contains(
+        &"python3 adl/tools/validate_wp08_heartbeat_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
+            .to_string()
+    ));
+
+    let unrelated_plan =
+        select_finish_validation_plan_for_finish(4685, &requested_paths, &changed_paths)
+            .expect("unrelated issue may use the generic mapped validation profile");
+    assert!(!unrelated_plan.commands.contains(
+        &"python3 adl/tools/validate_wp08_heartbeat_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
+            .to_string()
+    ));
+}
+
+#[test]
 fn finish_validation_profile_classifies_wuji_ddns_installer_slice() {
     let changed_paths = vec![
         "adl/src/cli/pr_cmd/finish_support.rs".to_string(),

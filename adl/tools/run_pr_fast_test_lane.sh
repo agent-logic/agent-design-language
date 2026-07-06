@@ -771,7 +771,7 @@ trap cleanup_warm_cache_temp_output EXIT
 
 run_warm_cache() {
   if [ -z "$warm_cache_output_path" ]; then
-    warm_cache_temp_output="$(mktemp "${TMPDIR:-/tmp}/adl-pr-fast-warm-cache.XXXXXX.json")"
+    warm_cache_temp_output="$(mktemp "${TMPDIR:-/tmp}/adl-pr-fast-warm-cache.XXXXXX")"
     warm_cache_output_path="$warm_cache_temp_output"
   fi
   ADL_RUST_WARM_CACHE_SOURCE_TARGET="${ADL_PR_FAST_TEST_WARM_SOURCE_TARGET:-}" \

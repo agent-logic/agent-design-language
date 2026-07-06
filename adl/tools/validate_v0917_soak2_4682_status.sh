@@ -67,7 +67,7 @@ expected_states = {
     "resilience": "integrated_proven",
     "logging_observability": "integrated_proven",
     "daemon_supervision": "integrated_proven",
-    "runtime_aws_signal_bridge": "blocked_with_evidence",
+    "runtime_aws_signal_bridge": "partially_resolved_heartbeat_live_proven",
     "observatory_unity": "blocked_with_evidence",
     "obsmem_memory_handoff": "integrated_proven",
     "identity_continuity": "integrated_proven",
@@ -112,7 +112,7 @@ if commands.get(invalid_command, {}).get("status") != "not_run_invalid_matrix_co
 
 blocker_by_id = {item.get("id"): item for item in blockers.get("blockers", [])}
 expected_blockers = {
-    "runtime-aws-signal-bridge-not-run": "blocked_with_evidence",
+    "runtime-aws-signal-bridge-not-run": "partially_resolved_heartbeat_live_proven",
     "unity-live-consumption-not-run": "blocked_with_evidence",
     "wp12-acip-a2a-activation-residual": "blocked_with_evidence",
     "runtime-v2-capability-envelope-static-proof-only": "blocked_with_evidence",
