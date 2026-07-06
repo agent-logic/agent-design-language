@@ -1,0 +1,30 @@
+{
+  "agent_instance_id": "csm-liveness-4976-full",
+  "checkpoint": {
+    "age_secs": 5,
+    "checkpoint_ref": "continuity_checkpoint.json",
+    "last_checkpoint_at": "2026-07-06T17:18:24.497627Z",
+    "status": "fresh"
+  },
+  "daemon_liveness": {
+    "last_event": "child_exit",
+    "state": "running",
+    "status": "observed",
+    "updated_at": "2026-07-06T17:18:24.497627Z"
+  },
+  "otel": {
+    "log": {
+      "bytes": 556256,
+      "ref": "ADL_OTEL_LOG",
+      "status": "retained"
+    },
+    "status": {
+      "ref": "ADL_OTEL_STATUS",
+      "schema": "adl.otel.monitor_status.v1",
+      "status": "serialized"
+    }
+  },
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.health.v1",
+  "status": "healthy"
+}

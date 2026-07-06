@@ -1,0 +1,7 @@
+{
+  "agent_instance_id": "csm-liveness-4976-full",
+  "blocking_reasons": [],
+  "ready": "ready",
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.ready.v1"
+}
