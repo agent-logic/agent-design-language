@@ -2649,6 +2649,9 @@ pub(super) fn select_finish_validation_plan_for_finish_with_release_gate_disposi
     if finish_issue_needs_locked_cargo_fallback_validation(issue_number, changed_paths) {
         return Ok(build_locked_cargo_fallback_validation_plan());
     }
+    if finish_issue_needs_gitignore_guardrail_validation(issue_number, changed_paths) {
+        return Ok(build_gitignore_guardrail_validation_plan());
+    }
     if finish_issue_needs_native_gws_runtime_validation(issue_number, changed_paths) {
         return Ok(build_native_gws_runtime_validation_plan());
     }
@@ -4176,6 +4179,22 @@ fn finish_issue_needs_wuji_ddns_installer_validation(
         })
 }
 
+fn finish_issue_needs_gitignore_guardrail_validation(
+    issue_number: u32,
+    changed_paths: &[String],
+) -> bool {
+    if issue_number != 4882 {
+        return false;
+    }
+    !changed_paths.is_empty()
+        && changed_paths.iter().all(|path| {
+            let trimmed = path.trim().trim_matches('/');
+            trimmed == ".gitignore"
+                || trimmed == "adl/.gitignore"
+                || trimmed.starts_with("docs/milestones/v0.91.7/review/gitignore_guardrail/")
+        })
+}
+
 fn build_tokio_manifest_runtime_validation_plan() -> FinishValidationPlan {
     let mut commands = Vec::new();
     push_finish_validation_command(
@@ -4215,6 +4234,19 @@ fn build_locked_cargo_fallback_validation_plan() -> FinishValidationPlan {
     );
     commands.push("bash adl/tools/test_ci_path_policy.sh".to_string());
     commands.push("bash adl/tools/run_owner_validation_lane.sh csdlc".to_string());
+    FinishValidationPlan {
+        mode: FinishValidationMode::LargerBinaryFocused,
+        commands,
+    }
+}
+
+fn build_gitignore_guardrail_validation_plan() -> FinishValidationPlan {
+    let commands = vec![
+        "bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string(),
+        "git diff --check".to_string(),
+        "bash adl/tools/test_ci_path_policy.sh".to_string(),
+        "bash adl/tools/test_validation_manager.sh".to_string(),
+    ];
     FinishValidationPlan {
         mode: FinishValidationMode::LargerBinaryFocused,
         commands,

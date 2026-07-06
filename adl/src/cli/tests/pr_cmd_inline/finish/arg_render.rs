@@ -1967,15 +1967,18 @@ fn load_finish_validation_profile_cleans_tempfile_when_profile_only_needs_render
     let _guard = env_lock();
     let repo = unique_temp_dir("adl-pr-finish-load-profile-render-cleanup");
     let tmpdir = repo.join("tmp");
+    let observed_changed_file = tmpdir.join("observed-changed-file.txt");
     fs::create_dir_all(repo.join("adl/tools")).expect("tools dir");
     fs::create_dir_all(&tmpdir).expect("tmp dir");
     write_executable(
         &repo.join("adl/tools/validation_manager.py"),
-        r#"#!/usr/bin/env python3
+        &r#"#!/usr/bin/env python3
 import json
 import sys
 
 changed_files = sys.argv[2]
+with open(r"__OBSERVED_CHANGED_FILE__", "w", encoding="utf-8") as f:
+    f.write(changed_files)
 print(json.dumps({
     "selected_profile": "selected_1_lane_profile",
     "status": "ready_to_run",
@@ -1991,7 +1994,11 @@ print(json.dumps({
     "deferred": [],
     "escalation": {"required": False, "reasons": []},
 }))
-"#,
+"#
+        .replace(
+            "__OBSERVED_CHANGED_FILE__",
+            &observed_changed_file.display().to_string(),
+        ),
     );
 
     let old_tmpdir = env::var("TMPDIR").ok();
@@ -2012,20 +2019,10 @@ print(json.dumps({
     assert!(profile.run[0]
         .command
         .contains("run_pr_fast_test_lane.sh --changed-files"));
-    let retained_manifests = fs::read_dir(&tmpdir)
-        .expect("read temp dir")
-        .filter_map(|entry| entry.ok())
-        .filter(|entry| {
-            entry
-                .file_name()
-                .to_string_lossy()
-                .starts_with("finish-validation-profile-")
-        })
-        .filter_map(|entry| fs::read_to_string(entry.path()).ok())
-        .filter(|body| body.contains("adl/src/cli/pr_cmd/doctor.rs"))
-        .count();
-    assert_eq!(
-        retained_manifests, 0,
+    let observed_changed_file_path =
+        fs::read_to_string(&observed_changed_file).expect("observed changed-file path");
+    assert!(
+        !Path::new(observed_changed_file_path.trim()).exists(),
         "render-time profile loads should not retain this test's changed-file manifest"
     );
 }
@@ -4025,6 +4022,46 @@ fn finish_validation_profile_classifies_wuji_ddns_slice() {
         select_finish_validation_plan_for_finish(4285, &requested_paths, &changed_paths)
             .expect_err("unrelated issue should not inherit the wuji ddns focused allowance");
     assert!(unrelated_err
+        .to_string()
+        .contains("selector left changed paths without validation-lane coverage"));
+}
+
+#[test]
+fn finish_validation_profile_classifies_explicit_gitignore_guardrail_slice() {
+    let changed_paths = vec![
+        ".gitignore".to_string(),
+        "docs/milestones/v0.91.7/review/gitignore_guardrail/GITIGNORE_GUARDRAIL_PROOF_4882.md"
+            .to_string(),
+    ];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(4882, &requested_paths, &changed_paths)
+        .expect("explicit gitignore guardrail focused plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_ci_path_policy.sh".to_string()));
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_validation_manager.sh".to_string()));
+
+    let unrelated_err =
+        select_finish_validation_plan_for_finish(4883, &requested_paths, &changed_paths)
+            .expect_err("unrelated issue should not inherit gitignore guardrail allowance");
+    assert!(unrelated_err
+        .to_string()
+        .contains("selector left changed paths without validation-lane coverage"));
+}
+
+#[test]
+fn finish_validation_profile_rejects_unscoped_gitignore_guardrail_slice() {
+    let changed_paths = vec![".gitignore".to_string(), "docs/random-proof.md".to_string()];
+    let requested_paths = changed_paths.join(",");
+
+    let err = select_finish_validation_plan_for_finish(4882, &requested_paths, &changed_paths)
+        .expect_err("unscoped gitignore proof should fail closed");
+    assert!(err
         .to_string()
         .contains("selector left changed paths without validation-lane coverage"));
 }
