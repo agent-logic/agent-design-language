@@ -85,6 +85,66 @@ fn content_length(headers: &[u8]) -> Option<usize> {
     })
 }
 
+fn read_http_response_body(stream: &mut std::net::TcpStream) -> String {
+    use std::io::Read;
+    let mut buf = Vec::new();
+    let mut temp = [0_u8; 4096];
+    loop {
+        let n = match stream.read(&mut temp) {
+            Ok(n) => n,
+            Err(err) if err.kind() == std::io::ErrorKind::ConnectionReset => break,
+            Err(err) => panic!("read response: {err}"),
+        };
+        if n == 0 {
+            break;
+        }
+        buf.extend_from_slice(&temp[..n]);
+        if let Some(header_end) = find_header_end(&buf) {
+            let content_length = content_length(&buf[..header_end]).unwrap_or(0);
+            if buf.len() >= header_end + 4 + content_length {
+                break;
+            }
+        }
+    }
+    if let Some(header_end) = find_header_end(&buf) {
+        String::from_utf8_lossy(&buf[header_end + 4..]).to_string()
+    } else {
+        String::new()
+    }
+}
+
+fn http_get_json(addr: &str, path: &str) -> serde_json::Value {
+    let started = std::time::Instant::now();
+    loop {
+        match std::net::TcpStream::connect(addr) {
+            Ok(mut stream) => {
+                stream
+                    .set_read_timeout(Some(std::time::Duration::from_secs(5)))
+                    .expect("set API read timeout");
+                write!(
+                    stream,
+                    "GET {path} HTTP/1.1\r\nhost: {addr}\r\nconnection: close\r\n\r\n"
+                )
+                .expect("write API request");
+                stream.flush().expect("flush API request");
+                let body = read_http_response_body(&mut stream);
+                if body.trim().is_empty() && started.elapsed() < std::time::Duration::from_secs(5) {
+                    std::thread::sleep(std::time::Duration::from_millis(25));
+                    continue;
+                }
+                return serde_json::from_str(&body).unwrap_or_else(|err| {
+                    panic!("parse API response for {path}: {err}; body:\n{body}")
+                });
+            }
+            Err(err) if started.elapsed() < std::time::Duration::from_secs(5) => {
+                let _ = err;
+                std::thread::sleep(std::time::Duration::from_millis(25));
+            }
+            Err(err) => panic!("connect to CSM API {addr} for {path}: {err}"),
+        }
+    }
+}
+
 fn otlp_attr_string<'a>(attrs: &'a serde_json::Value, key: &str) -> Option<&'a str> {
     attrs.as_array()?.iter().find_map(|attr| {
         (attr.get("key")?.as_str()? == key)
@@ -524,6 +584,181 @@ memory:
     assert_eq!(otel_status["schema"], "adl.otel.monitor_status.v1");
     assert!(otel_status["event_count"].as_u64().expect("event count") >= 4);
     assert_eq!(otel_status["last_trace_id"], "agent.daemon-agent.daemon");
+}
+
+#[test]
+fn csm_runtime_api_serves_status_health_ready_metrics_and_events() {
+    let root = unique_test_temp_dir("csm-runtime-api");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: api-agent
+display_name: API Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: wp07_api_probe
+  run_args:
+    provider_id: local_ollama
+    model: gemma4:latest
+heartbeat:
+  interval_secs: 1
+  max_cycles: 2
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+  max_consecutive_failures: 2
+memory:
+  namespace: smoke/api-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write API agent spec");
+
+    let observability_log = root.join("observability.log");
+    let otel_log = root.join("otel.jsonl");
+    let otel_status = root.join("otel-status.json");
+    let spec_str = spec.to_str().expect("utf8 spec path");
+    let daemon = run_csm_with_env(
+        &[
+            "daemon",
+            "--spec",
+            spec_str,
+            "--max-restarts",
+            "1",
+            "--checkpoint-interval-secs",
+            "1",
+            "--no-sleep",
+            "--json",
+        ],
+        &[
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            (
+                "ADL_OBSERVABILITY_LOG",
+                observability_log.to_str().expect("utf8 observability path"),
+            ),
+            ("ADL_OBSERVABILITY_HEARTBEAT_MS", "25"),
+            (
+                "ADL_OTEL_LOG",
+                otel_log.to_str().expect("utf8 otel log path"),
+            ),
+            (
+                "ADL_OTEL_STATUS",
+                otel_status.to_str().expect("utf8 otel status path"),
+            ),
+        ],
+    );
+    assert!(
+        daemon.status.success(),
+        "expected daemon success, stderr:\n{}",
+        String::from_utf8_lossy(&daemon.stderr)
+    );
+
+    let probe = std::net::TcpListener::bind("127.0.0.1:0").expect("bind API probe port");
+    let addr = probe.local_addr().expect("API probe addr");
+    drop(probe);
+    let mut child = std::process::Command::new(resolve_csm_exe())
+        .args([
+            "api",
+            "serve",
+            "--spec",
+            spec_str,
+            "--bind",
+            &addr.to_string(),
+            "--max-requests",
+            "100",
+            "--idle-timeout-ms",
+            "1000",
+            "--otel-status",
+            otel_status.to_str().expect("utf8 otel status path"),
+            "--otel-log",
+            otel_log.to_str().expect("utf8 otel log path"),
+            "--json",
+        ])
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped())
+        .spawn()
+        .expect("spawn csm api");
+    let stdout = child.stdout.take().expect("api stdout pipe");
+    let mut stdout = std::io::BufReader::new(stdout);
+    let mut startup_line = String::new();
+    std::io::BufRead::read_line(&mut stdout, &mut startup_line).expect("read API startup");
+    assert!(
+        startup_line.contains("\"status\":\"listening\""),
+        "unexpected API startup line: {startup_line}"
+    );
+
+    let status = http_get_json(&addr.to_string(), "/status");
+    let health = http_get_json(&addr.to_string(), "/health");
+    let ready = http_get_json(&addr.to_string(), "/ready");
+    let metrics = http_get_json(&addr.to_string(), "/metrics");
+    let events = http_get_json(&addr.to_string(), "/events");
+
+    let mut stderr = String::new();
+    if let Some(mut pipe) = child.stderr.take() {
+        use std::io::Read;
+        pipe.read_to_string(&mut stderr).expect("read API stderr");
+    }
+    let status_code = child.wait().expect("wait csm api");
+    let mut remaining_stdout = String::new();
+    use std::io::Read;
+    stdout
+        .read_to_string(&mut remaining_stdout)
+        .expect("read remaining API stdout");
+    assert!(
+        status_code.success(),
+        "api stdout:\n{startup_line}{remaining_stdout}\nstderr:\n{stderr}"
+    );
+
+    assert_eq!(status["schema"], "adl.csm.runtime_api.status.v1");
+    assert_eq!(status["runtime_owner"], "csm");
+    assert_eq!(status["agent_instance_id"], "api-agent");
+    assert_eq!(status["status"], "healthy");
+    assert_eq!(status["ready"], "ready");
+    assert_eq!(status["daemon_liveness"]["state"], "completed");
+    assert_eq!(status["scheduler"]["status"], "integrated");
+    assert_eq!(status["chronosense"]["status"], "integrated");
+    assert_eq!(status["aee_resilience"]["status"], "integrated");
+    assert_eq!(
+        status["otel"]["status"]["schema"],
+        "adl.otel.monitor_status.v1"
+    );
+    assert_eq!(health["schema"], "adl.csm.runtime_api.health.v1");
+    assert_eq!(health["status"], "healthy");
+    assert_eq!(ready["schema"], "adl.csm.runtime_api.ready.v1");
+    assert_eq!(ready["ready"], "ready");
+    assert_eq!(metrics["schema"], "adl.csm.runtime_api.metrics.v1");
+    assert!(
+        matches!(
+            metrics["states"]["agent_state"].as_str(),
+            Some("idle" | "completed")
+        ),
+        "unexpected metrics state: {}",
+        metrics["states"]["agent_state"]
+    );
+    assert_eq!(events["schema"], "adl.csm.runtime_api.events.v1");
+    assert!(events["events"]["entries"]
+        .as_array()
+        .expect("events array")
+        .iter()
+        .any(|event| event["event"] == "daemon_started"));
+
+    for response in [&status, &health, &ready, &metrics, &events] {
+        let raw = serde_json::to_string(response).expect("serialize API response");
+        assert!(!raw.contains("/Users/"), "leaked host path:\n{raw}");
+        assert!(
+            !raw.contains("Authorization:"),
+            "leaked auth header:\n{raw}"
+        );
+        assert!(!raw.contains("Bearer "), "leaked bearer token:\n{raw}");
+    }
 }
 
 #[test]
