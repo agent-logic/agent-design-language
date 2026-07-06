@@ -15,6 +15,39 @@ The goal of this directory is to make ADL’s tooling surfaces understandable an
 - Editor and authoring proof surfaces: `editor/README.md`
 - Root project overview: `../README.md`
 
+## Remote Build Start Here
+
+Remote validation and CodeFriend-scale build sessions should read these docs
+before launching paid or remote work:
+
+- [Validation Platform Routing](VALIDATION_PLATFORM_ROUTING.md) - scheduler
+  routing truth for local, Nessus, AWS Spot, CodeBuild, and Wuji.
+- [Remote Build How-To](REMOTE_BUILD_HOW_TO.md) - reusable operator playbook
+  for safe dry-runs, live runs, cache proof, and result recording.
+- [ADL Builder Image](ADL_BUILDER_IMAGE.md) - shared builder-image contract,
+  including the requirement to use a pre-published image instead of rebuilding
+  it inside each validation run.
+- [AWS CodeFriend Build Lane](AWS_CODEFRIEND_BUILD_LANE.md) - CodeBuild setup,
+  wrapper usage, cache posture, account checks, and live-run guardrails.
+- [AWS Spot Remote Validation Lane](AWS_SPOT_REMOTE_VALIDATION_LANE.md) - Spot
+  wrapper usage, warm EBS cache posture, SSH/debug affordances, and cleanup
+  expectations.
+- [Nessus Validation Manager Lane](NESSUS_VALIDATION_MANAGER_LANE.md) - Nessus
+  remote validation-manager wrapper and artifact contract.
+- [Build Platform Benchmarks](BUILD_PLATFORM_BENCHMARKS.md) - current retained
+  timing rows and the accepted proof posture for each platform.
+
+Operational defaults:
+
+- Use the Agent Logic AWS profile, `agent-logic-admin`, for ADL AWS work.
+- Keep AWS Spot and CodeBuild as explicit operator-triggered paths; do not wire
+  paid lanes into ordinary PR or push CI by accident.
+- Keep cache posture visible in proof: Spot should show retained warm EBS cache,
+  CodeBuild should show the fixed builder image plus stable target/cache setup,
+  and Nessus should distinguish cold image-backed from warm target-cache rows.
+- Do not claim Wuji image-backed parity until an ARM64 or multi-arch builder
+  image exists.
+
 ## Core Tooling Areas
 
 ### Prompt and Card Surfaces
