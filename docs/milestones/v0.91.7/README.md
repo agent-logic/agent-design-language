@@ -24,10 +24,14 @@ Current status: milestone issue wave opened for the final pre-`v0.92` implementa
 - WP-01 planning promotion: `#4628`.
 - WP-06 build-throughput sprint lane: `#4633` /
   `review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md`.
-  The selected child lane has merged `#4676`, `#4800`, and `#4698`; `#4726`
-  has an open draft PR with failed `adl-ci`; `#4677` and `#4678` have green
-  open PRs waiting review/merge. WP-06 is not fully closed while those PR tails
-  and remote-builder follow-ups `#4837` / `#4838` remain unresolved.
+  The selected child lane and remote-builder follow-ups are merged and
+  reconciled: `#4676`, `#4800`, `#4698`, `#4726`, `#4677`, `#4678`, `#4679`,
+  `#4680`, `#4837`, `#4838`, `#4879`, `#4928`, and `#4945` record the current
+  WP-06 implementation, operationalization, and closeout-truth path. `#4952`
+  is the final records/handoff repair that closes the remaining milestone-truth
+  drift before WP-08 execution starts.
+  Residual `pr watch` `closeout_needed` ambiguity for already-closeouted issues
+  is routed to tooling bug `#4950`, not treated as remaining WP-06 work.
 - Canonical WP issue wave: `#4628` through `#4650`.
 - Existing assigned v0.91.7 issues:
   - `#4603` routes into WP-06 build throughput / remote validation.
@@ -43,11 +47,15 @@ Current status: milestone issue wave opened for the final pre-`v0.92` implementa
   - `#4652` covers Unity demo surfaces.
   - `#4653` covers dspark speculative decoding evaluation with Qwen and Gemma.
   - `#4654` covers deepseek-v4-flash-dspark smoke testing on ephemeral 2xH100 EC2 with teardown/cost proof.
-- Execution: the issue wave is open; implementation work beyond planning/feature
-  docs and `#4549` Soak #2 execution-packet setup has not run except for the
-  WP-02 PR inventory utility implemented under `#4622`.
-- Validation: docs-readiness validation only until implementation issues run.
-- Release readiness: not applicable until `v0.91.7` executes.
+- Execution: the issue wave is active. WP-01, WP-02, WP-05, WP-06, WP-07, and
+  supporting tools/runtime child issues have executed in parallel with remaining
+  v0.91.7 work; this package should be read as a living milestone surface, not
+  as the original pre-execution planning snapshot.
+- Validation: validation truth is issue-local; completed child issues retain
+  their focused proof surfaces, while remaining open issues must provide their
+  own validation before closeout.
+- Release readiness: not claimed until all required v0.91.7 execution,
+  validation, review, and closeout surfaces converge.
 - Dependency gate: v0.91.7 execution must consume the failed-but-closed WP-15
   `#3980` external-review truth, closed WP-16 `#3981`
   remediation/final-preflight truth, closed WP-16 children `#4620` and

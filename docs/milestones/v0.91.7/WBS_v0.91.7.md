@@ -84,11 +84,12 @@ Completion standard: planned, documented, mocked, component-proven, assigned, or
 - WP-06 selected sprint-lane truth is retained in
   `review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md`.
   Merged/closed children `#4676`, `#4800`, `#4698`, `#4726`, `#4677`, and
-  `#4678` have settled PR truth; local closeout reconciliation remains needed
-  where repo-native watch still reports `closeout_needed`.
-  The `#4679` remote-builder work is split into `#4837` for AWS Spot EC2
-  integration and `#4838` for GitHub Actions plus AWS CodeFriend build-lane
-  proof.
+  `#4678` have settled PR truth. Remote-builder follow-ups `#4837`, `#4838`,
+  `#4879`, `#4928`, `#4680`, and umbrella `#4679` are merged/reconciled with
+  retained Spot, CodeBuild, builder-image, cache, routing, and benchmark proof.
+  The remaining `pr watch` `closeout_needed` ambiguity on already-closeouted
+  closed issues is tracked as tooling bug `#4950`, not as WP-06 implementation
+  residue.
 - GitHub convergence/control-plane work must be reliable enough for sprint execution or explicitly recorded as a v0.92 blocker with evidence and operator approval. The `#4622` repo-native PR inventory command removes the `missing_owner_binary_cargo_fallback_disabled` failure from release-tail issue/PR inventory.
 - Runtime integration/Soak #2 must prove one assembled minimal runtime path or name blockers before birthday activation.
 - Logging/observability is not optional polis infrastructure. `#4718` is the prerequisite proof for parse-safe JSON, stderr `adl_event` behavior, redaction hygiene, and OTel-compatible mapping; Soak #2 and Observatory/Unity consumers must consume that proof before v0.92 may rely on logging readiness.
