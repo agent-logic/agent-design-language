@@ -662,6 +662,33 @@
       "reason": "wp08_s3_obsmem_archive_policy_setup_requires_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_s3_obsmem_archive_policy.py"
     },
     {
+      "id": "wp08_aws_signal_integration_proof",
+      "lane_class": "cli_workflow",
+      "default_surface": "runtime",
+      "owner": "runtime",
+      "proof_role": "runtime_aws_signal_integration_contract",
+      "requirement_ids": [
+        "wp08_aws_signal_integration_proof"
+      ],
+      "path_selectors": [
+        "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
+        "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+        "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+        "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/**"
+      ],
+      "path_hints": [
+        "adl/tools/run_wp08_aws_signal_integration_live_proof.sh",
+        "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+        "adl/tools/validate_wp08_aws_signal_integration_live_proof.py",
+        "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/**"
+      ],
+      "command": "bash adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+      "run_command": "bash adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh",
+      "reason": "wp08_aws_signal_integration_surface_requires_integrated_heartbeat_and_acip_sns_wrapper_contract_checks; retained live summary validation runs through adl/tools/validate_wp08_aws_signal_integration_live_proof.py"
+    },
+    {
       "id": "v0917_soak2_status_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
