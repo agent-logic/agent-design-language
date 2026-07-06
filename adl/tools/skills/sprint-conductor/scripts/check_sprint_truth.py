@@ -10,9 +10,22 @@ from pathlib import Path
 from typing import Any
 
 
+def first_json_payload(text: str) -> Any:
+    decoder = json.JSONDecoder()
+    for index, char in enumerate(text):
+        if char not in '{[':
+            continue
+        try:
+            payload, _ = decoder.raw_decode(text[index:])
+            return payload
+        except json.JSONDecodeError:
+            continue
+    raise ValueError('command did not emit a JSON payload')
+
+
 def run_json(cmd: list[str], *, cwd: Path) -> Any:
     out = subprocess.check_output(cmd, cwd=cwd, text=True)
-    return json.loads(out)
+    return first_json_payload(out)
 
 
 def default_issue_command(repo_root: Path, subcommand: str) -> list[str]:
@@ -94,6 +107,10 @@ def main() -> int:
         matching = next((r for r in issue_records if r.get('pr_url') == pr_url), None)
         if matching is None:
             continue
+        live_url = pr.get('url') or pr_url
+        if live_url != pr_url:
+            drift = True
+            notes.append(f'PR URL drift for {pr_url}; repo-native validation returned {live_url}')
         matching['github_pr_state'] = pr.get('state')
         matching['github_pr_is_draft'] = pr.get('isDraft')
 

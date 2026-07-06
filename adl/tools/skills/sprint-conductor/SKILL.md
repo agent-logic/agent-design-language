@@ -80,6 +80,13 @@ Within this bundle, the operational details live in:
 - `scripts/write_sprint_closeout_artifact.py`
 - `scripts/validate_review_subagent_policy.py`
 
+GitHub transport boundary:
+- sprint-conductor helper scripts must use repo-native ADL issue/PR surfaces, not raw `gh` calls
+- `check_sprint_truth.py` uses `adl-issue view` and `adl-pr-validation` by default
+- `close_sprint_issue.py` uses `adl-issue comment` and `adl-issue close` by default
+- tests may override those covered surfaces with `ADL_SPRINT_ISSUE_VIEW_CMD`, `ADL_SPRINT_PR_VALIDATION_CMD`, `ADL_SPRINT_ISSUE_CREATE_CMD`, `ADL_SPRINT_ISSUE_COMMENT_CMD`, or `ADL_SPRINT_ISSUE_CLOSE_CMD`
+
+
 ## Entry Conditions
 
 Use this skill when all of the following are true:
