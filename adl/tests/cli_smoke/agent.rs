@@ -640,6 +640,33 @@ memory:
         .expect("artifact array")
         .iter()
         .any(|artifact| artifact["role"] == "continuity_checkpoint"));
+    let binary_segments = manifest["binary_segments"]
+        .as_array()
+        .expect("binary segment array");
+    let checkpoint_segment = binary_segments
+        .iter()
+        .find(|segment| segment["role"] == "continuity_checkpoint_snapshot")
+        .expect("continuity checkpoint binary segment");
+    assert_eq!(checkpoint_segment["schema"], "adl.csm.snapshot_segment.v1");
+    assert_eq!(
+        checkpoint_segment["format_version"],
+        "csm.snapshot-segment.v1"
+    );
+    assert_eq!(
+        checkpoint_segment["source_ref"],
+        "continuity_checkpoint.json"
+    );
+    assert!(checkpoint_segment["hash_address"]
+        .as_str()
+        .expect("hash address")
+        .starts_with("sha256:"));
+    assert!(bundle
+        .join(
+            checkpoint_segment["segment_ref"]
+                .as_str()
+                .expect("segment ref")
+        )
+        .exists());
     assert!(bundle.join("state/continuity_checkpoint.json").exists());
     assert!(bundle.join("state/operator_events.jsonl").exists());
 
@@ -881,6 +908,63 @@ memory:
             .expect("write manifest");
         },
         "credential-like key",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("missing-binary-segment-manifest-entry"),
+        &root.join("missing-binary-segment-manifest-entry-stage"),
+        |bad| {
+            let path = bad.join("continuity_capsule_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read manifest"))
+                    .expect("parse manifest");
+            value["binary_segments"] = serde_json::json!([]);
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize manifest"),
+            )
+            .expect("write manifest");
+        },
+        "missing required binary segment role",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("divergent-binary-segment-payload"),
+        &root.join("divergent-binary-segment-payload-stage"),
+        |bad| {
+            let path = bad.join("continuity_capsule_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read manifest"))
+                    .expect("parse manifest");
+            let segment = value["binary_segments"][0]
+                .as_object_mut()
+                .expect("binary segment object");
+            segment.insert(
+                "payload_sha256".to_string(),
+                serde_json::json!(
+                    "0000000000000000000000000000000000000000000000000000000000000000"
+                ),
+            );
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize manifest"),
+            )
+            .expect("write manifest");
+        },
+        "payload hash does not match retained artifact",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("corrupted-segment"),
+        &root.join("corrupted-segment-stage"),
+        |bad| {
+            fs::write(
+                bad.join("segments/continuity_checkpoint.snapshot.segment"),
+                b"not-a-valid-segment",
+            )
+            .expect("corrupt binary segment");
+        },
+        "hash mismatch",
     );
     assert_stage_failure(
         &bundle,
