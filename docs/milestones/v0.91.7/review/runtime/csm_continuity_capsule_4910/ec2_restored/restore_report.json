@@ -27,14 +27,12 @@
     "operation": "restore",
     "event_command": "csm",
     "event_stages": [
-      "continuity_capsule_capture",
-      "continuity_capsule_stage"
+      "continuity_capsule_restore"
     ],
     "otel_service_name": "csm-runtime-daemon",
     "retained_refs": [
       "operator_events.jsonl",
-      "continuity_capsule_manifest.json",
-      "stage_report.json"
+      "restore_report.json"
     ]
   },
   "non_claims": [

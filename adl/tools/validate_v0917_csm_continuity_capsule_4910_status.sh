@@ -52,7 +52,11 @@ if summary.get("runtime_owner") != "csm":
     raise SystemExit("runtime owner must be csm")
 if summary.get("command_surface") != "csm continuity capture|stage|restore":
     raise SystemExit("command surface drift")
-if summary.get("proof_classification") != "proving_with_restore_fire_up_and_blocked_live_ec2_transfer":
+allowed_classifications = {
+    "proving_with_restore_fire_up_and_blocked_live_ec2_transfer",
+    "proving_with_local_restore_fire_up_and_aws_ec2_restore_fire_up",
+}
+if summary.get("proof_classification") not in allowed_classifications:
     raise SystemExit("proof classification drift")
 if summary.get("live_ec2_status") != "blocked":
     raise SystemExit("live EC2 transfer must remain explicitly blocked")
@@ -62,6 +66,45 @@ if summary.get("restored_daemon_fire_up") != "passed":
     raise SystemExit("restored daemon fire-up must pass")
 if summary.get("aws_profile_policy") != "agent-logic-admin":
     raise SystemExit("AWS profile policy must name agent-logic-admin")
+
+aws_fire_up = summary.get("aws_ec2_restore_fire_up")
+readme_text = (proof / "README.md").read_text(encoding="utf-8")
+aws_summary_exists = (proof / "aws_remote_restore_fireup_summary.json").exists()
+aws_claimed = "aws_remote_restore_fireup_summary.json" in readme_text or summary.get("proof_classification") == "proving_with_local_restore_fire_up_and_aws_ec2_restore_fire_up"
+if (aws_summary_exists or aws_claimed) and aws_fire_up is None:
+    raise SystemExit("AWS EC2 restore/fire-up proof is claimed or retained but missing from proof summary")
+if aws_fire_up is not None:
+    if aws_fire_up.get("status") != "passed":
+        raise SystemExit("AWS EC2 restore/fire-up status must pass")
+    summary_ref = aws_fire_up.get("summary_ref")
+    if summary_ref != "aws_remote_restore_fireup_summary.json":
+        raise SystemExit("AWS EC2 restore/fire-up summary ref drift")
+    aws_summary_path = proof / summary_ref
+    if not aws_summary_path.exists():
+        raise SystemExit("AWS EC2 restore/fire-up summary missing")
+    aws_summary_text = aws_summary_path.read_text(encoding="utf-8")
+    for forbidden in ['"account_id"', '"arn"', '"user_id"', '"instance_id"', '"volume_id"', '"vpc_id"', '"subnet_id"', '"security_group_id"', '"role_name"', '"instance_profile_name"', '"security_group_name"', '"command_id"', '"ami_id"', '"ssh_allowed_cidr"', "arn:", "ADLAwsRemoteValidation"]:
+        if forbidden in aws_summary_text:
+            raise SystemExit(f"AWS retained summary contains unsanitized field: {forbidden}")
+    aws_summary = json.loads(aws_summary_text)
+    if aws_summary.get("schema") != "adl.csm.continuity_capsule_4910_aws_remote_restore_fireup.v1":
+        raise SystemExit("AWS retained summary schema drift")
+    if aws_summary.get("status") != "passed":
+        raise SystemExit("AWS retained summary must pass")
+    if aws_summary.get("command_status") != "Success" or aws_summary.get("command_response_code") != 0:
+        raise SystemExit("AWS retained command status must be successful")
+    validation = aws_summary.get("validation", {})
+    if validation.get("validator_pass_count") != 2:
+        raise SystemExit("AWS retained summary must record both validator passes")
+    aws_surface = aws_summary.get("aws_surface", {})
+    cleanup = aws_surface.get("cleanup", {})
+    launch_cleanup = aws_surface.get("launch_surface_cleanup", {})
+    if cleanup.get("final_instance_state") != "terminated":
+        raise SystemExit("AWS retained cleanup must terminate instance")
+    if launch_cleanup.get("security_group_deleted") is not True:
+        raise SystemExit("AWS retained cleanup must delete temporary security group")
+    if launch_cleanup.get("instance_profile_deleted") is not True or launch_cleanup.get("role_deleted") is not True:
+        raise SystemExit("AWS retained cleanup must delete temporary IAM surface")
 
 manifest = json.loads((proof / "capsule" / "continuity_capsule_manifest.json").read_text(encoding="utf-8"))
 if manifest.get("schema") != "adl.csm.continuity_capsule.v1":
@@ -135,6 +178,9 @@ if restore_report.get("status") != "restored":
     raise SystemExit("restore report must be restored")
 if restore_report.get("runtime_owner") != "csm":
     raise SystemExit("restore report runtime_owner drift")
+restore_observability = restore_report.get("observability", {})
+if "continuity_capsule_restore" not in restore_observability.get("event_stages", []):
+    raise SystemExit("restore report must retain restore observability event stage")
 
 negative = json.loads((proof / "negative_results.json").read_text(encoding="utf-8"))
 if negative.get("schema") != "adl.csm.continuity_capsule_4910_negative_results.v1":

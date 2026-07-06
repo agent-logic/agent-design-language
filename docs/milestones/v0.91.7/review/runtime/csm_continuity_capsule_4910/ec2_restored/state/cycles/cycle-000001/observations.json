@@ -2,7 +2,7 @@
   "schema": "adl.long_lived_agent_observations.v1",
   "agent_instance_id": "csm-continuity-4910",
   "cycle_id": "cycle-000001",
-  "observed_at": "2026-07-06T02:31:26.060184Z",
+  "observed_at": "2026-07-06T02:45:35.376046Z",
   "sources": [
     {
       "source_id": "agent_spec",

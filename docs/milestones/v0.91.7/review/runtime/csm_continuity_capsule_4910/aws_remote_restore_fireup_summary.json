@@ -1,0 +1,62 @@
+{
+  "schema": "adl.csm.continuity_capsule_4910_aws_remote_restore_fireup.v1",
+  "issue": 4910,
+  "run_id": "adl-wp-4910-csm-continuity-restore-fireup",
+  "status": "passed",
+  "region": "us-west-2",
+  "profile": "agent-logic-admin",
+  "started_at": "2026-07-06T02:33:12.164406+00:00",
+  "finished_at": "2026-07-06T02:39:44.684769+00:00",
+  "resolved_commit": "96bd00448d802b3903983f9bdc08d7ecf85346b6",
+  "command_status": "Success",
+  "command_response_code": 0,
+  "remote_summary": {
+    "status": "passed",
+    "bootstrap_seconds": 40,
+    "command_seconds": 232,
+    "interruption_detected": false,
+    "rustc_version": "rustc 1.96.1 (31fca3adb 2026-06-26)",
+    "cargo_version": "cargo 1.96.1 (356927216 2026-06-26)",
+    "sccache_degraded": false
+  },
+  "validation": {
+    "smoke_test": "agent::csm_continuity_capsule_captures_stages_and_rejects_unsafe_bundles",
+    "proof_script": "run_v0917_csm_continuity_capsule_4910_proof.sh",
+    "status_validator": "validate_v0917_csm_continuity_capsule_4910_status.sh",
+    "validator_pass_count": 2
+  },
+  "aws_surface": {
+    "business_profile": "agent-logic-admin",
+    "purchase_option": "spot",
+    "instance_type": "m7a.2xlarge",
+    "instance_id_sha256": "839869abcb4b0dfee6f5103e5b9ea5edf1b3c42419757fa6e2451716014c8364",
+    "cache_volume_created": false,
+    "cleanup": {
+      "termination_attempted": true,
+      "final_instance_state": "terminated",
+      "termination_error": null
+    },
+    "launch_surface_cleanup": {
+      "security_group_deleted": true,
+      "instance_profile_deleted": true,
+      "role_deleted": true
+    },
+    "timings": {
+      "total_seconds": 392,
+      "launch_seconds": 9,
+      "ssm_ready_seconds": 15,
+      "remote_command_seconds": 275,
+      "teardown_seconds": 91
+    }
+  },
+  "retained_redaction": {
+    "account_identity": "redacted; raw account identity omitted from tracked evidence",
+    "resource_identifiers": "raw instance, volume, VPC, subnet, security group, IAM role/profile, SSH CIDR, AMI, command id, and public IP values omitted from tracked evidence",
+    "artifact_paths": "repo-local retained docs only; raw .adl/tmp AWS artifacts are intentionally untracked"
+  },
+  "non_claims": [
+    "This summary does not claim broad CI migration to EC2.",
+    "This summary does not claim Spot savings unless a Spot-backed run retained cost and timing evidence.",
+    "This summary does not claim per-run final AWS billing line items when Cost Explorer data is delayed."
+  ]
+}

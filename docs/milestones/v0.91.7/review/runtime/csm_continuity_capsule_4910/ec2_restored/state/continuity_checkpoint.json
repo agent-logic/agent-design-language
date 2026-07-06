@@ -1,7 +1,7 @@
 {
   "schema": "adl.long_lived_agent_continuity_checkpoint.v1",
   "agent_instance_id": "csm-continuity-4910",
-  "captured_at": "2026-07-06T02:31:26.145553Z",
+  "captured_at": "2026-07-06T02:45:35.458203Z",
   "checkpoint_reason": "daemon_partial_checkpoint",
   "state": "idle",
   "stop_requested": false,

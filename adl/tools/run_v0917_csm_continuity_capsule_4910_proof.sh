@@ -15,8 +15,18 @@ if [ ! -x "$CSM_BIN" ]; then
   exit 1
 fi
 
+AWS_SUMMARY_TMP=""
+if [ -f "$OUT/aws_remote_restore_fireup_summary.json" ]; then
+  AWS_SUMMARY_TMP="$(mktemp)"
+  cp "$OUT/aws_remote_restore_fireup_summary.json" "$AWS_SUMMARY_TMP"
+fi
+
 rm -rf "$OUT"
 mkdir -p "$OUT/logs"
+if [ -n "$AWS_SUMMARY_TMP" ]; then
+  cp "$AWS_SUMMARY_TMP" "$OUT/aws_remote_restore_fireup_summary.json"
+  rm -f "$AWS_SUMMARY_TMP"
+fi
 
 cat >"$OUT/agent.yaml" <<'YAML'
 schema: adl.long_lived_agent_spec.v1
@@ -180,6 +190,8 @@ manifest = json.loads((out / "capsule" / "continuity_capsule_manifest.json").rea
 stage_report = json.loads((out / "ec2_staged" / "stage_report.json").read_text(encoding="utf-8"))
 ec2_report = json.loads((out / "ec2_blocked" / "stage_report.json").read_text(encoding="utf-8"))
 restore_report = json.loads((out / "ec2_restored" / "restore_report.json").read_text(encoding="utf-8"))
+aws_summary_path = out / "aws_remote_restore_fireup_summary.json"
+aws_summary = json.loads(aws_summary_path.read_text(encoding="utf-8")) if aws_summary_path.exists() else None
 summary = {
     "schema": "adl.csm.continuity_capsule_4910_proof_summary.v1",
     "runtime_owner": "csm",
@@ -207,9 +219,28 @@ summary = {
         "does not claim multi-region production disaster recovery"
     ]
 }
+if aws_summary is not None:
+    summary["proof_classification"] = "proving_with_local_restore_fire_up_and_aws_ec2_restore_fire_up"
+    summary["aws_ec2_restore_fire_up"] = {
+        "status": aws_summary["status"],
+        "summary_ref": "aws_remote_restore_fireup_summary.json",
+        "business_profile": aws_summary["profile"],
+        "instance_type": aws_summary["aws_surface"]["instance_type"],
+        "purchase_option": aws_summary["aws_surface"]["purchase_option"],
+        "resolved_commit": aws_summary["resolved_commit"],
+        "cleanup": "terminated_and_ephemeral_surface_deleted",
+    }
 (out / "proof_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 
-readme = """# CSM Continuity Capsule Proof (#4910)
+aws_evidence = ""
+aws_truth = ""
+if aws_summary is not None:
+    aws_evidence = """- `aws_remote_restore_fireup_summary.json` records the redacted Agent Logic AWS
+  proof that the same restore/fire-up lane passed on an EC2 Spot builder.
+"""
+    aws_truth = ", including an EC2 restore/fire-up run in the Agent Logic business AWS account"
+
+readme = f"""# CSM Continuity Capsule Proof (#4910)
 
 This packet retains a bounded WP-07 proof for `csm continuity capture` and
 `csm continuity stage`.
@@ -225,13 +256,14 @@ Evidence:
 - `ec2_restored/restore_report.json` proves capsule restore into a runtime root,
   and `logs/restored_daemon_stdout.json` proves `csm daemon` fired from the
   restored spec/state.
+{aws_evidence}\
 - `negative_results.json` records version mismatch, missing file, path leakage,
   credential-like key, corrupted manifest, and unsupported target-host rejection.
 - `logs/observability.log`, `logs/otel.jsonl`, and `logs/otel_status.json`
-  retain runtime observability for daemon, capture, and stage events.
+  retain runtime observability for daemon, capture, stage, and restore events.
 
 Truth boundary: this proves portable capture, staging, restore, and restored
-daemon fire-up of current CSM runtime state. It does not claim provider-secret
+daemon fire-up of current CSM runtime state{aws_truth}. It does not claim provider-secret
 export or production multi-region disaster recovery.
 """
 (out / "README.md").write_text(readme, encoding="utf-8")

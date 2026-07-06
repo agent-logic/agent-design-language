@@ -14,11 +14,13 @@ Evidence:
 - `ec2_restored/restore_report.json` proves capsule restore into a runtime root,
   and `logs/restored_daemon_stdout.json` proves `csm daemon` fired from the
   restored spec/state.
+- `aws_remote_restore_fireup_summary.json` records the redacted Agent Logic AWS
+  proof that the same restore/fire-up lane passed on an EC2 Spot builder.
 - `negative_results.json` records version mismatch, missing file, path leakage,
   credential-like key, corrupted manifest, and unsupported target-host rejection.
 - `logs/observability.log`, `logs/otel.jsonl`, and `logs/otel_status.json`
-  retain runtime observability for daemon, capture, and stage events.
+  retain runtime observability for daemon, capture, stage, and restore events.
 
 Truth boundary: this proves portable capture, staging, restore, and restored
-daemon fire-up of current CSM runtime state. It does not claim provider-secret
+daemon fire-up of current CSM runtime state, including an EC2 restore/fire-up run in the Agent Logic business AWS account. It does not claim provider-secret
 export or production multi-region disaster recovery.

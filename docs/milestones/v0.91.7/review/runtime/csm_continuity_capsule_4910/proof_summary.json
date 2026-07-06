@@ -1,7 +1,7 @@
 {
   "schema": "adl.csm.continuity_capsule_4910_proof_summary.v1",
   "runtime_owner": "csm",
-  "proof_classification": "proving_with_restore_fire_up_and_blocked_live_ec2_transfer",
+  "proof_classification": "proving_with_local_restore_fire_up_and_aws_ec2_restore_fire_up",
   "command_surface": "csm continuity capture|stage|restore",
   "format_version": "csm.continuity-capsule.v1",
   "manifest_schema": "adl.csm.continuity_capsule.v1",
@@ -46,5 +46,14 @@
     "does not claim live EC2 transfer without operator authorization",
     "does not export provider tokens or secret material",
     "does not claim multi-region production disaster recovery"
-  ]
+  ],
+  "aws_ec2_restore_fire_up": {
+    "status": "passed",
+    "summary_ref": "aws_remote_restore_fireup_summary.json",
+    "business_profile": "agent-logic-admin",
+    "instance_type": "m7a.2xlarge",
+    "purchase_option": "spot",
+    "resolved_commit": "96bd00448d802b3903983f9bdc08d7ecf85346b6",
+    "cleanup": "terminated_and_ephemeral_surface_deleted"
+  }
 }

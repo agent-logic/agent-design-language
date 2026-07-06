@@ -651,13 +651,27 @@ fn rebind_policy(target_host: &str) -> Value {
 }
 
 fn observability_contract(operation: &str) -> Value {
+    let (event_stages, retained_refs) = match operation {
+        "restore" => (
+            vec!["continuity_capsule_restore"],
+            vec!["operator_events.jsonl", "restore_report.json"],
+        ),
+        _ => (
+            vec!["continuity_capsule_capture", "continuity_capsule_stage"],
+            vec![
+                "operator_events.jsonl",
+                "continuity_capsule_manifest.json",
+                "stage_report.json",
+            ],
+        ),
+    };
     json!({
         "schema": "adl.csm.continuity_capsule_observability.v1",
         "operation": operation,
         "event_command": "csm",
-        "event_stages": ["continuity_capsule_capture", "continuity_capsule_stage"],
+        "event_stages": event_stages,
         "otel_service_name": "csm-runtime-daemon",
-        "retained_refs": ["operator_events.jsonl", "continuity_capsule_manifest.json", "stage_report.json"]
+        "retained_refs": retained_refs
     })
 }
 
