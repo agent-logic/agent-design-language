@@ -182,9 +182,9 @@ work_packages:
       - "EC2 Spot or alternate remote-builder time/cost/cleanup evidence"
     status_notes:
       - "Selected WP-06 sprint lane recorded in docs/milestones/v0.91.7/review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md."
-      - "#4676, #4800, and #4698 are merged/closed and locally closeouted."
-      - "#4726, #4677, and #4678 are closed/merged with green adl-ci and coverage checks; local closeout reconciliation remains needed where repo-native watch reports closeout_needed."
-      - "#4679 remote-builder work is split into #4837 AWS Spot EC2 integration and #4838 GitHub Actions plus AWS CodeFriend build lane."
+      - "#4676, #4800, #4698, #4726, #4677, and #4678 are merged/closed with settled PR truth."
+      - "#4837, #4838, #4879, #4928, #4680, and #4679 are merged/reconciled with retained AWS Spot, CodeBuild, builder-image, cache, routing, and benchmark proof."
+      - "Residual pr watch closeout_needed ambiguity for already-closeouted closed issues is tracked by tooling bug #4950, not treated as remaining WP-06 implementation work."
   - wp: WP-07
     title: Runtime integration logging and OTel fire-up and Soak 2
     outcome: Assemble one minimal end-to-end runtime path, reconcile Runtime v2 minimal prototype with current substrate, consume prerequisite logging and OTel-compatible observability proof from #4718, run integrated runtime Soak #2, identify runtime bloat/seam pain, and preserve Soak #3 only as an operator-approved risk if Soak #2 cannot prove the activation path.
