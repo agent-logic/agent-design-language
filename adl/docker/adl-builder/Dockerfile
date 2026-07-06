@@ -61,6 +61,24 @@ RUN arch="$(uname -m)" \
     && install -m 0755 "/tmp/sccache-${SCCACHE_VERSION}-${sccache_arch}/sccache" /usr/local/bin/sccache \
     && rm -rf "/tmp/${sccache_archive}" "/tmp/sccache-${SCCACHE_VERSION}-${sccache_arch}"
 
+RUN arch="$(uname -m)" \
+    && case "$arch" in \
+      x86_64) nextest_arch="x86_64-unknown-linux-gnu" ;; \
+      aarch64|arm64) nextest_arch="aarch64-unknown-linux-gnu" ;; \
+      *) echo "unsupported cargo-nextest arch: $arch" >&2; exit 2 ;; \
+    esac \
+    && nextest_url="$(curl -fsSL https://api.github.com/repos/nextest-rs/nextest/releases/latest \
+      | python3 -c 'import json, sys; target = sys.argv[1]; data = json.load(sys.stdin); print(next((asset.get("browser_download_url", "") for asset in data.get("assets", []) if "cargo-nextest" in asset.get("browser_download_url", "") and target in asset.get("browser_download_url", "") and asset.get("browser_download_url", "").endswith(".tar.gz")), ""))' "$nextest_arch")" \
+    && test -n "$nextest_url" \
+    && curl -fsSL "$nextest_url" -o /tmp/cargo-nextest.tar.gz \
+    && mkdir -p /tmp/cargo-nextest \
+    && tar -xzf /tmp/cargo-nextest.tar.gz -C /tmp/cargo-nextest \
+    && nextest_bin="$(find /tmp/cargo-nextest -type f -name cargo-nextest | head -n 1)" \
+    && test -n "$nextest_bin" \
+    && install -m 0755 "$nextest_bin" /usr/local/cargo/bin/cargo-nextest \
+    && cargo nextest --version \
+    && rm -rf /tmp/cargo-nextest /tmp/cargo-nextest.tar.gz
+
 WORKDIR /workspace
 
 ENTRYPOINT ["/bin/bash", "-lc"]

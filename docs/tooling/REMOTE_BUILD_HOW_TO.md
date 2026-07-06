@@ -26,6 +26,8 @@ Rules:
 - Keep AWS Spot and CodeBuild live runs explicit; both may cost money.
 - Use the pre-published ADL builder image. Do not rebuild the image inside each
   build job.
+- The ADL builder image must include `cargo-nextest`; PR-fast Rust lanes depend
+  on it.
 - Put scratch outputs under ignored `.adl/local-artifacts/`.
 - Record the platform, cache posture, benchmark line, and proof artifact path.
 
@@ -63,6 +65,7 @@ bash adl/tools/run_validation_manager_nessus_lane.sh \
 Run it:
 
 ```sh
+ADL_NESSUS_BUILDER_IMAGE=<pullable-image-uri> \
 bash adl/tools/run_validation_manager_nessus_lane.sh \
   --run \
   --base origin/main \
@@ -70,6 +73,25 @@ bash adl/tools/run_validation_manager_nessus_lane.sh \
   --remote-git-ref <branch-or-commit> \
   --remote-artifact-dir "$ADL_ARTIFACT_DIR/nessus"
 ```
+
+If the image is already loaded on Nessus as a local tag, do not let the wrapper
+try to pull it from a registry:
+
+```sh
+ADL_NESSUS_BUILDER_IMAGE=adl-builder:v0.91.7-fixed \
+ADL_NESSUS_BUILDER_PULL_POLICY=never \
+bash adl/tools/run_validation_manager_nessus_lane.sh \
+  --run \
+  --base origin/main \
+  --head HEAD \
+  --remote-git-ref <branch-or-commit> \
+  --remote-artifact-dir "$ADL_ARTIFACT_DIR/nessus"
+```
+
+Raw-host Nessus PR-fast runs require `cargo nextest --version` to work on the
+remote host. If it does not, use the builder image path. A local-only image tag
+without `ADL_NESSUS_BUILDER_PULL_POLICY=never` is a setup error, not validation
+proof.
 
 Record:
 
@@ -102,6 +124,12 @@ bash adl/tools/run_aws_spot_remote_validation_lane.sh \
   --out "$ADL_ARTIFACT_DIR/aws-spot-summary.json" \
   --artifact-dir "$ADL_ARTIFACT_DIR/aws-spot"
 ```
+
+For a fixed-builder-image Spot claim, make the remote command explicitly use
+the published `ADL_AWS_SPOT_BUILDER_IMAGE` on the instance, or cite retained
+proof that the command did so. The wrapper always forwards the retained warm
+EBS cache posture by default, but the cache alone is not proof that the builder
+image was used.
 
 Record:
 

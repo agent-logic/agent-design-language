@@ -23,7 +23,7 @@ mkdir -p "$origin_src/adl/tools"
 cat >"$origin_src/adl/tools/run_pr_fast_test_lane.sh" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-cargo test --manifest-path adl/Cargo.toml provider_communication -- --nocapture
+cargo nextest run --manifest-path adl/Cargo.toml -E 'test(provider_communication)'
 EOF
 chmod +x "$origin_src/adl/tools/run_pr_fast_test_lane.sh"
 git -C "$origin_src" add adl/tools/run_pr_fast_test_lane.sh
