@@ -1,0 +1,12 @@
+{
+  "schema": "adl.process_status.v1",
+  "check": "pid_file",
+  "status": "stale_pid",
+  "pid": 88810,
+  "host": null,
+  "port": null,
+  "safe_order": "metadata_or_exact_target_first",
+  "broad_process_scan": false,
+  "uses_ps": false,
+  "note": "known pid did not respond to a bounded liveness probe"
+}

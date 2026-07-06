@@ -1,0 +1,18 @@
+# Live append-only runtime artifacts are retained locally while the CSM liveness
+# test runs, but PR publication should carry the bounded snapshots in
+# published/ instead of these growing directories.
+/logs/
+/state/
+/agent.yaml
+/aws_live/
+/aws_heartbeat/
+/full/logs/
+/full/state/
+/full/collector/received_otlp_http_json.jsonl
+/full/collector/otlp_endpoint.txt
+/full/collector/status.json
+/full/collector/collector.pid
+/full/api/*.json
+/full/api/csm_api_stdout.jsonl
+/full/api/csm_api_stderr.log
+/full/api/csm-api.pid

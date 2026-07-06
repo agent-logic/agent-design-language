@@ -1,0 +1,109 @@
+{
+  "schema": "adl.v0917.csm_operational_liveness_status.v1",
+  "issue": 4976,
+  "wp": "WP-07",
+  "status": "live_observation_running",
+  "last_evidence_refresh": "2026-07-06T17:22:35Z",
+  "final_gate": {
+    "issue": 4906,
+    "state": "deferred_pending_owner_work",
+    "non_claim": "This packet is intermediate operational evidence, not final v0.92 runtime-coherence proof."
+  },
+  "binary": {
+    "runtime_owner": "csm",
+    "path": "adl/target/debug/csm",
+    "availability": "rebuilt_in_primary_repo_cache",
+    "follow_on_issue": 4977
+  },
+  "full_run": {
+    "artifact_root": "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full",
+    "processes": {
+      "csm_daemon": {
+        "pid_file": "full/logs/csm.pid",
+      "last_status": "live_pid"
+      },
+      "otlp_loopback_collector": {
+        "pid_file": "full/collector/collector.pid",
+        "last_status": "live_pid"
+      },
+      "csm_api": {
+        "pid_file": "full/api/csm-api.pid",
+        "last_status": "live_pid"
+      }
+    },
+    "aws_cloudwatch": {
+      "profile": "agent-logic-admin",
+      "region": "us-west-2",
+      "log_group": "/adl/v0917/wp07/4976/runtime-full",
+      "log_stream_ref": "full/logs/cloudwatch_stream.txt",
+      "recent_events_ref": "full/logs/cloudwatch_recent_events.redacted.json",
+      "last_recent_event_count": 200,
+      "last_heartbeat_seq": 543,
+      "transport_mode": "live",
+      "redaction_boundary": "No credentials or raw AWS account identifiers are committed in this packet."
+    },
+    "otel": {
+      "status_ref": "published/otel/otel_status.json",
+      "log_ref": "full/logs/otel.jsonl",
+      "last_event_count": 1271,
+      "exporter_status": "success",
+      "exporter_http_status": 200,
+      "trace_id": "agent.csm-liveness-4976-full.daemon"
+    },
+    "otlp_collector": {
+      "status_ref": "published/otel/collector_status.json",
+      "received_request_count": 1271
+    },
+    "api": {
+      "stdout_ref": "full/api/csm_api_stdout.jsonl",
+      "responses": [
+        "published/api/status.json",
+        "published/api/health.json",
+        "published/api/ready.json",
+        "published/api/metrics.json",
+        "published/api/events.json"
+      ]
+    },
+    "runtime_state": {
+      "cycle_ledger_ref": "published/state/cycle_ledger_tail.jsonl",
+      "latest_sampled_cycle": "cycle-000139",
+      "continuity_checkpoint_ref": "published/state/continuity_checkpoint.json",
+      "safe_fail_bundle_ref": "published/state/safe_fail_bundle_snapshot.json",
+      "safe_fail_artifacts_ref": "local_live_artifact_only:full/state/safe_fail_artifacts/"
+    }
+  },
+  "superseded_runs": {
+    "local_only": {
+      "agent_status_ref": "published/stops/local_only_agent_status_after_stop.json",
+      "process_status_ref": "published/stops/local_only_process_status_after_stop.json",
+      "state": "stopped"
+    },
+    "aws_only": {
+      "agent_status_ref": "published/stops/aws_only_agent_status_after_stop.json",
+      "process_status_ref": "published/stops/aws_only_process_status_after_stop.json",
+      "state": "stopped"
+    }
+  },
+  "adjacent_owner_work": {
+    "wp08_open_issues": [
+      4635,
+      4685,
+      4686,
+      4687,
+      4688,
+      4913,
+      4915
+    ],
+    "wp12_note": "Security/protocol owner rows remain separate inputs to #4906."
+  },
+  "scheduled_wp07_follow_ons": {
+    "csm_binary_availability_guard": 4977,
+    "csm_control_plane_binary_split": 4979,
+    "canonical_csm_api_port_bind_contract": 4980
+  },
+  "watcher": {
+    "automation_id": "wp-07-4976-csm-liveness-watcher",
+    "interval": "PT5M",
+    "state": "active"
+  }
+}
