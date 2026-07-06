@@ -579,6 +579,33 @@
       "reason": "wp08_runtime_heartbeat_surface_requires_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_heartbeat_live_proof.py"
     },
     {
+      "id": "wp08_acip_sns_proof",
+      "lane_class": "cli_workflow",
+      "default_surface": "runtime",
+      "owner": "runtime",
+      "proof_role": "runtime_aws_signal_contract",
+      "requirement_ids": [
+        "wp08_acip_sns_proof"
+      ],
+      "path_selectors": [
+        "adl/tools/run_wp08_acip_sns_live_proof.sh",
+        "adl/tools/test_run_wp08_acip_sns_live_proof.sh",
+        "adl/tools/validate_wp08_acip_sns_live_proof.py",
+        "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/**"
+      ],
+      "path_hints": [
+        "adl/tools/run_wp08_acip_sns_live_proof.sh",
+        "adl/tools/test_run_wp08_acip_sns_live_proof.sh",
+        "adl/tools/validate_wp08_acip_sns_live_proof.py",
+        "docs/tooling/RUNTIME_AWS_ACIP_SNS.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/**"
+      ],
+      "command": "bash adl/tools/test_run_wp08_acip_sns_live_proof.sh",
+      "run_command": "bash adl/tools/test_run_wp08_acip_sns_live_proof.sh",
+      "reason": "wp08_acip_sns_surface_requires_wrapper_contract_checks; issue-local retained live summaries are validated by adl/tools/validate_wp08_acip_sns_live_proof.py"
+    },
+    {
       "id": "v0917_soak2_status_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

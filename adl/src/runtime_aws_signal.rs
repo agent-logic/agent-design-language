@@ -6,6 +6,7 @@ use crate::observability::emit_event;
 use anyhow::{Context, Result};
 use aws_config::{meta::region::RegionProviderChain, BehaviorVersion};
 use aws_sdk_cloudwatchlogs as cloudwatchlogs;
+use aws_sdk_sns as sns;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -53,11 +54,13 @@ struct AcipProjectionPublisherConfig {
     configured: bool,
     region: Option<String>,
     approved: bool,
+    profile: Option<String>,
+    topic_arn: Option<String>,
     topic_configured: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum PublishDisposition {
+pub enum PublishDisposition {
     Skipped,
     PublishedMock,
     PublishedLive,
@@ -65,9 +68,10 @@ pub(crate) enum PublishDisposition {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub(crate) struct PublishOutcome {
-    pub(crate) disposition: PublishDisposition,
-    pub(crate) failure_class: Option<String>,
+pub struct PublishOutcome {
+    pub disposition: PublishDisposition,
+    pub failure_class: Option<String>,
+    pub provider_message_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -113,15 +117,15 @@ pub(crate) struct RuntimeHeartbeatPayload {
 
 #[derive(Debug, Clone)]
 #[allow(dead_code)]
-pub(crate) struct AcipSnsProjectionRequest<'a> {
-    pub(crate) runtime_id: &'a str,
-    pub(crate) agent_id: &'a str,
-    pub(crate) cycle_id: Option<&'a str>,
-    pub(crate) message: &'a AcipMessageEnvelopeV1,
-    pub(crate) route_class: AcipRouteClassV1,
-    pub(crate) projection_level: &'a str,
-    pub(crate) message_ref: &'a str,
-    pub(crate) trace_ref: Option<&'a str>,
+pub struct AcipSnsProjectionRequest<'a> {
+    pub runtime_id: &'a str,
+    pub agent_id: &'a str,
+    pub cycle_id: Option<&'a str>,
+    pub message: &'a AcipMessageEnvelopeV1,
+    pub route_class: AcipRouteClassV1,
+    pub projection_level: &'a str,
+    pub message_ref: &'a str,
+    pub trace_ref: Option<&'a str>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -263,16 +267,23 @@ impl AcipProjectionPublisherConfig {
             .map(str::trim)
             .map(|value| matches!(value, "1" | "true" | "TRUE" | "yes" | "YES"))
             .unwrap_or(false);
-        let topic_configured = env::var("ADL_AWS_SNS_TOPIC_ARN")
+        let profile = env::var("ADL_AWS_PROFILE")
             .ok()
-            .map(|value| !value.trim().is_empty())
-            .unwrap_or(false);
+            .or_else(|| env::var("AWS_PROFILE").ok())
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
+        let topic_arn = env::var("ADL_AWS_SNS_TOPIC_ARN")
+            .ok()
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
         Self {
             mode,
             configured: mode_env.is_some(),
             region,
             approved,
-            topic_configured,
+            topic_configured: topic_arn.is_some(),
+            profile,
+            topic_arn,
         }
     }
 
@@ -286,11 +297,15 @@ impl AcipProjectionPublisherConfig {
 
     fn live_block_reason(&self) -> &'static str {
         if !self.approved {
-            "approval_missing"
-        } else if self.region.is_none() || !self.topic_configured {
-            "config_missing"
+            "aws_acip_sns_live_not_approved"
+        } else if self.region.is_none() {
+            "aws_acip_sns_region_missing"
+        } else if self.profile.is_none() {
+            "aws_acip_sns_profile_missing"
+        } else if !self.topic_configured {
+            "aws_acip_sns_topic_missing"
         } else {
-            "publish_failed"
+            "aws_acip_sns_publish_failed"
         }
     }
 }
@@ -317,6 +332,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
         return PublishOutcome {
             disposition: PublishDisposition::Skipped,
             failure_class: None,
+            provider_message_id: None,
         };
     }
 
@@ -337,6 +353,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
         return PublishOutcome {
             disposition: PublishDisposition::Skipped,
             failure_class: None,
+            provider_message_id: None,
         };
     }
 
@@ -355,6 +372,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
         return PublishOutcome {
             disposition: PublishDisposition::Blocked,
             failure_class: Some(failure_class.to_string()),
+            provider_message_id: None,
         };
     }
 
@@ -376,6 +394,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
                     return PublishOutcome {
                         disposition: PublishDisposition::Blocked,
                         failure_class: Some(failure_class.to_string()),
+                        provider_message_id: None,
                     };
                 }
             };
@@ -400,6 +419,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
                     PublishOutcome {
                         disposition: PublishDisposition::PublishedMock,
                         failure_class: None,
+                        provider_message_id: None,
                     }
                 }
                 Err(_) => {
@@ -415,6 +435,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
                     PublishOutcome {
                         disposition: PublishDisposition::Blocked,
                         failure_class: Some(failure_class.to_string()),
+                        provider_message_id: None,
                     }
                 }
             }
@@ -433,6 +454,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
                 return PublishOutcome {
                     disposition: PublishDisposition::Blocked,
                     failure_class: Some(live_block_reason.to_string()),
+                    provider_message_id: None,
                 };
             }
 
@@ -451,6 +473,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
                     return PublishOutcome {
                         disposition: PublishDisposition::Blocked,
                         failure_class: Some(failure_class.to_string()),
+                        provider_message_id: None,
                     };
                 }
             };
@@ -474,6 +497,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
                     PublishOutcome {
                         disposition: PublishDisposition::PublishedLive,
                         failure_class: None,
+                        provider_message_id: None,
                     }
                 }
                 Err(_) => {
@@ -489,6 +513,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
                     PublishOutcome {
                         disposition: PublishDisposition::Blocked,
                         failure_class: Some(failure_class.to_string()),
+                        provider_message_id: None,
                     }
                 }
             }
@@ -497,7 +522,7 @@ pub(crate) fn publish_runtime_heartbeat_signal(
 }
 
 #[allow(dead_code)]
-pub(crate) fn publish_acip_sns_projection_signal(
+pub fn publish_acip_sns_projection_signal(
     output_root: &Path,
     request: &AcipSnsProjectionRequest<'_>,
 ) -> PublishOutcome {
@@ -506,6 +531,7 @@ pub(crate) fn publish_acip_sns_projection_signal(
         return PublishOutcome {
             disposition: PublishDisposition::Skipped,
             failure_class: None,
+            provider_message_id: None,
         };
     }
 
@@ -525,6 +551,7 @@ pub(crate) fn publish_acip_sns_projection_signal(
         return PublishOutcome {
             disposition: PublishDisposition::Blocked,
             failure_class: Some(failure_class.to_string()),
+            provider_message_id: None,
         };
     }
 
@@ -545,6 +572,7 @@ pub(crate) fn publish_acip_sns_projection_signal(
         return PublishOutcome {
             disposition: PublishDisposition::Skipped,
             failure_class: None,
+            provider_message_id: None,
         };
     }
 
@@ -569,6 +597,7 @@ pub(crate) fn publish_acip_sns_projection_signal(
                 PublishOutcome {
                     disposition: PublishDisposition::PublishedMock,
                     failure_class: None,
+                    provider_message_id: None,
                 }
             }
             Err(_) => {
@@ -583,21 +612,62 @@ pub(crate) fn publish_acip_sns_projection_signal(
                 PublishOutcome {
                     disposition: PublishDisposition::Blocked,
                     failure_class: Some(failure_class.to_string()),
+                    provider_message_id: None,
                 }
             }
         },
         AwsSignalMode::Live => {
             let failure_class = config.live_block_reason();
-            emit_acip_publish_failure(
-                &config,
-                envelope.runtime_id.as_str(),
-                envelope.cycle_id.as_str(),
-                envelope.correlation_id.as_str(),
-                failure_class,
-            );
-            PublishOutcome {
-                disposition: PublishDisposition::Blocked,
-                failure_class: Some(failure_class.to_string()),
+            if failure_class != "aws_acip_sns_publish_failed" {
+                emit_acip_publish_failure(
+                    &config,
+                    envelope.runtime_id.as_str(),
+                    envelope.cycle_id.as_str(),
+                    envelope.correlation_id.as_str(),
+                    failure_class,
+                );
+                return PublishOutcome {
+                    disposition: PublishDisposition::Blocked,
+                    failure_class: Some(failure_class.to_string()),
+                    provider_message_id: None,
+                };
+            }
+            match publish_live_sns_acip_projection(&config, &envelope) {
+                Ok(message_id) => {
+                    emit_event(
+                        "agent",
+                        "aws_acip_sns_projection",
+                        "completed",
+                        &[
+                            ("mode", config.mode_label()),
+                            ("target_kind", ACIP_SNS_TARGET_KIND),
+                            ("runtime_id", envelope.runtime_id.as_str()),
+                            ("cycle_id", envelope.cycle_id.as_str()),
+                            ("correlation_id", envelope.correlation_id.as_str()),
+                            ("projection_level", envelope.projection_level.as_str()),
+                        ],
+                    );
+                    PublishOutcome {
+                        disposition: PublishDisposition::PublishedLive,
+                        failure_class: None,
+                        provider_message_id: Some(message_id),
+                    }
+                }
+                Err(_) => {
+                    let failure_class = "aws_acip_sns_publish_failed";
+                    emit_acip_publish_failure(
+                        &config,
+                        envelope.runtime_id.as_str(),
+                        envelope.cycle_id.as_str(),
+                        envelope.correlation_id.as_str(),
+                        failure_class,
+                    );
+                    PublishOutcome {
+                        disposition: PublishDisposition::Blocked,
+                        failure_class: Some(failure_class.to_string()),
+                        provider_message_id: None,
+                    }
+                }
             }
         }
     }
@@ -736,7 +806,7 @@ fn build_acip_sns_projection_envelope(
             recipient_class: "approval_gated_external_subscriber".to_string(),
             delivery_outcome: match config.mode {
                 AwsSignalMode::Mock => "mock_projected".to_string(),
-                AwsSignalMode::Live => "publish_blocked".to_string(),
+                AwsSignalMode::Live => "published".to_string(),
                 AwsSignalMode::Disabled => "publish_skipped".to_string(),
             },
             message_ref: request.message_ref.to_string(),
@@ -829,6 +899,86 @@ fn run_cloudwatch_put(
             .await
             .context("failed to publish runtime heartbeat to CloudWatch Logs")?;
         Ok::<(), anyhow::Error>(())
+    })
+}
+
+fn publish_live_sns_acip_projection(
+    config: &AcipProjectionPublisherConfig,
+    envelope: &AcipAwsSignalEnvelope,
+) -> Result<String> {
+    let topic_arn = config
+        .topic_arn
+        .as_deref()
+        .context("ADL_AWS_SNS_TOPIC_ARN is required for live ACIP SNS publish")?;
+    let message = serde_json::to_string(envelope)?;
+    run_sns_publish(config, topic_arn, message, envelope.correlation_id.clone())
+}
+
+fn run_sns_publish(
+    config: &AcipProjectionPublisherConfig,
+    topic_arn: &str,
+    message: String,
+    correlation_id: String,
+) -> Result<String> {
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .context("failed to initialize ACIP SNS runtime")?;
+    runtime.block_on(async move {
+        let region = config
+            .region
+            .as_deref()
+            .context("ADL_AWS_REGION is required for live ACIP SNS publish")?;
+        let region_provider =
+            RegionProviderChain::first_try(Some(aws_config::Region::new(region.to_string())));
+        let timeout_config = aws_config::timeout::TimeoutConfig::builder()
+            .connect_timeout(Duration::from_secs(5))
+            .operation_timeout(Duration::from_secs(20))
+            .operation_attempt_timeout(Duration::from_secs(10))
+            .build();
+        let loader = aws_config::defaults(BehaviorVersion::latest())
+            .region(region_provider)
+            .timeout_config(timeout_config);
+        let shared_config = match config.profile.as_deref() {
+            Some(profile_name) => loader.profile_name(profile_name).load().await,
+            None => loader.load().await,
+        };
+        let client = sns::Client::new(&shared_config);
+        let response = client
+            .publish()
+            .topic_arn(topic_arn)
+            .message(message)
+            .message_attributes(
+                "schema_version",
+                sns::types::MessageAttributeValue::builder()
+                    .data_type("String")
+                    .string_value(AWS_SIGNAL_SCHEMA_VERSION)
+                    .build()
+                    .context("failed to build SNS schema_version attribute")?,
+            )
+            .message_attributes(
+                "signal_kind",
+                sns::types::MessageAttributeValue::builder()
+                    .data_type("String")
+                    .string_value("acip_projection")
+                    .build()
+                    .context("failed to build SNS signal_kind attribute")?,
+            )
+            .message_attributes(
+                "correlation_id",
+                sns::types::MessageAttributeValue::builder()
+                    .data_type("String")
+                    .string_value(correlation_id)
+                    .build()
+                    .context("failed to build SNS correlation_id attribute")?,
+            )
+            .send()
+            .await
+            .context("failed to publish ACIP projection to SNS")?;
+        response
+            .message_id()
+            .map(str::to_string)
+            .context("SNS publish response did not include a message id")
     })
 }
 
@@ -1574,7 +1724,27 @@ mod tests {
             ]);
             let blocked = publish_acip_sns_projection_signal(&root, &request);
             assert_eq!(blocked.disposition, PublishDisposition::Blocked);
-            assert_eq!(blocked.failure_class.as_deref(), Some("config_missing"));
+            assert_eq!(
+                blocked.failure_class.as_deref(),
+                Some("aws_acip_sns_profile_missing")
+            );
+            assert_eq!(blocked.provider_message_id, None);
+        }
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_AWS_SIGNAL_MODE", "live"),
+                ("ADL_AWS_REGION", "us-west-2"),
+                ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                ("ADL_AWS_PROFILE", "agent-logic-admin"),
+            ]);
+            let blocked = publish_acip_sns_projection_signal(&root, &request);
+            assert_eq!(blocked.disposition, PublishDisposition::Blocked);
+            assert_eq!(
+                blocked.failure_class.as_deref(),
+                Some("aws_acip_sns_topic_missing")
+            );
+            assert_eq!(blocked.provider_message_id, None);
         }
     }
 }
