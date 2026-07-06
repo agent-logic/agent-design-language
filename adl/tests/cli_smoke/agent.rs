@@ -660,6 +660,137 @@ memory:
         "expected daemon success, stderr:\n{}",
         String::from_utf8_lossy(&daemon.stderr)
     );
+    let backpressure_dir = root.join("backpressure-proof");
+    let backpressure = run_csm_with_env(
+        &[
+            "backpressure",
+            "prove",
+            "--spec",
+            spec_str,
+            "--out",
+            backpressure_dir.to_str().expect("utf8 backpressure dir"),
+            "--profile",
+            "soak2",
+            "--json",
+        ],
+        &[
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            (
+                "ADL_OBSERVABILITY_LOG",
+                observability_log.to_str().expect("utf8 observability path"),
+            ),
+        ],
+    );
+    assert!(
+        backpressure.status.success(),
+        "expected backpressure proof success, stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&backpressure.stdout),
+        String::from_utf8_lossy(&backpressure.stderr)
+    );
+    let backpressure_stdout: serde_json::Value =
+        serde_json::from_slice(&backpressure.stdout).expect("parse backpressure stdout");
+    assert_eq!(
+        backpressure_stdout["schema"],
+        "adl.csm.backpressure_command_result.v1"
+    );
+    assert_eq!(backpressure_stdout["status"], "passed");
+    let backpressure_report: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(backpressure_dir.join("backpressure_report.json"))
+            .expect("read backpressure report"),
+    )
+    .expect("parse backpressure report");
+    assert_eq!(
+        backpressure_report["schema"],
+        "adl.csm.backpressure_report.v1"
+    );
+    assert_eq!(
+        backpressure_report["summary"]["required_state_silently_dropped"],
+        false
+    );
+    assert_eq!(
+        backpressure_report["safe_fail_action"]["action"],
+        "safe_fail_serialize"
+    );
+    assert_eq!(
+        backpressure_report["safe_fail_action"]["status"],
+        "verified"
+    );
+    assert_eq!(
+        backpressure_report["safe_fail_action"]["artifact_schema"],
+        "adl.csm.safe_fail_bundle.v1"
+    );
+    assert_eq!(
+        backpressure_report["safe_fail_action"]["agent_outcome_state"],
+        "sleeping"
+    );
+    assert_eq!(
+        backpressure_report["safe_fail_action"]["recoverability_class"],
+        "recoverable_sleeping"
+    );
+    let proved_surfaces: std::collections::BTreeSet<_> = backpressure_report["proof_cases"]
+        .as_array()
+        .expect("proof cases")
+        .iter()
+        .map(|case| case["surface"].as_str().expect("proof surface"))
+        .collect();
+    for expected_surface in [
+        "runtime_loop",
+        "event_export",
+        "checkpoint_write",
+        "snapshot_diff",
+        "dag_execution",
+        "provider_call",
+        "cloud_hook",
+        "continuity_serialization",
+    ] {
+        assert!(
+            proved_surfaces.contains(expected_surface),
+            "missing proof case for {expected_surface}"
+        );
+    }
+    assert!(root.join("state/csm_backpressure_state.json").exists());
+    let safe_fail_bundle = root.join("state/safe_fail_bundle.json");
+    let safe_fail_bundle_backup = root.join("state/safe_fail_bundle.json.bak");
+    fs::rename(&safe_fail_bundle, &safe_fail_bundle_backup).expect("hide safe-fail bundle");
+    let missing_bundle = run_csm(&[
+        "backpressure",
+        "prove",
+        "--spec",
+        spec_str,
+        "--out",
+        root.join("missing-bundle-backpressure")
+            .to_str()
+            .expect("utf8 missing bundle backpressure"),
+        "--profile",
+        "local",
+        "--json",
+    ]);
+    fs::rename(&safe_fail_bundle_backup, &safe_fail_bundle).expect("restore safe-fail bundle");
+    assert!(
+        !missing_bundle.status.success(),
+        "expected missing safe-fail bundle rejection"
+    );
+    assert!(String::from_utf8_lossy(&missing_bundle.stderr)
+        .contains("missing required safe-fail bundle"));
+    let bad_profile = run_csm(&[
+        "backpressure",
+        "prove",
+        "--spec",
+        spec_str,
+        "--out",
+        root.join("bad-backpressure")
+            .to_str()
+            .expect("utf8 bad backpressure"),
+        "--profile",
+        "unbounded",
+        "--json",
+    ]);
+    assert!(
+        !bad_profile.status.success(),
+        "expected unsupported backpressure profile rejection"
+    );
+    assert!(String::from_utf8_lossy(&bad_profile.stderr)
+        .contains("unsupported csm backpressure profile"));
 
     let probe = std::net::TcpListener::bind("127.0.0.1:0").expect("bind API probe port");
     let addr = probe.local_addr().expect("API probe addr");
@@ -723,6 +854,10 @@ memory:
     assert_eq!(status["status"], "healthy");
     assert_eq!(status["ready"], "ready");
     assert_eq!(status["daemon_liveness"]["state"], "completed");
+    assert_eq!(
+        status["backpressure"]["schema"],
+        "adl.csm.backpressure_state.v1"
+    );
     assert_eq!(status["scheduler"]["status"], "integrated");
     assert_eq!(status["chronosense"]["status"], "integrated");
     assert_eq!(status["aee_resilience"]["status"], "integrated");
@@ -735,6 +870,18 @@ memory:
     assert_eq!(ready["schema"], "adl.csm.runtime_api.ready.v1");
     assert_eq!(ready["ready"], "ready");
     assert_eq!(metrics["schema"], "adl.csm.runtime_api.metrics.v1");
+    assert_eq!(metrics["gauges"]["backpressure_queue_depth"], 12);
+    assert_eq!(metrics["gauges"]["backpressure_lag_ms"], 3100);
+    assert_eq!(metrics["gauges"]["backpressure_deferred_count"], 23);
+    assert_eq!(metrics["gauges"]["backpressure_shed_count"], 7);
+    assert_eq!(
+        metrics["states"]["backpressure_health"],
+        "capacity_degraded"
+    );
+    assert_eq!(
+        metrics["states"]["backpressure_safe_fail_action"],
+        "safe_fail_serialize"
+    );
     assert!(
         matches!(
             metrics["states"]["agent_state"].as_str(),
@@ -749,6 +896,9 @@ memory:
         .expect("events array")
         .iter()
         .any(|event| event["event"] == "daemon_started"));
+    let observability = fs::read_to_string(&observability_log).expect("read observability log");
+    assert!(observability.contains("stage=backpressure_policy"));
+    assert!(observability.contains("safe_fail_action=safe_fail_serialize"));
 
     for response in [&status, &health, &ready, &metrics, &events] {
         let raw = serde_json::to_string(response).expect("serialize API response");

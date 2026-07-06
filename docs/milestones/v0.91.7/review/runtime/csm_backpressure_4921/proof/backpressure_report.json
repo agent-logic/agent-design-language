@@ -1,0 +1,343 @@
+{
+  "schema": "adl.csm.backpressure_report.v1",
+  "runtime_owner": "csm",
+  "agent_instance_id": "backpressure-agent",
+  "profile": "soak2",
+  "status": "passed",
+  "resource_taxonomy": [
+    {
+      "id": "runtime_loop",
+      "description": "runtime heartbeat and daemon control loop",
+      "required_state": true,
+      "loss_policy": "never_silent_drop"
+    },
+    {
+      "id": "event_export",
+      "description": "operator log, OTel, and runtime API event export",
+      "required_state": true,
+      "loss_policy": "never_silent_drop"
+    },
+    {
+      "id": "checkpoint_write",
+      "description": "partial checkpoint and replay-manifest writes",
+      "required_state": true,
+      "loss_policy": "never_silent_drop"
+    },
+    {
+      "id": "snapshot_diff",
+      "description": "agent snapshot or diff write requests",
+      "required_state": true,
+      "loss_policy": "never_silent_drop"
+    },
+    {
+      "id": "dag_execution",
+      "description": "ADL DAG executor admission and scheduler watcher",
+      "required_state": true,
+      "loss_policy": "never_silent_drop"
+    },
+    {
+      "id": "provider_call",
+      "description": "provider requests and retry/circuit budgets",
+      "required_state": false,
+      "loss_policy": "explicit_defer_or_shed"
+    },
+    {
+      "id": "cloud_hook",
+      "description": "AWS, CloudFront, and control-plane hooks",
+      "required_state": false,
+      "loss_policy": "explicit_defer_or_shed"
+    },
+    {
+      "id": "continuity_serialization",
+      "description": "safe-fail and continuity capsule serialization",
+      "required_state": true,
+      "loss_policy": "never_silent_drop"
+    }
+  ],
+  "policy_matrix": [
+    {
+      "resource": "runtime_loop",
+      "action": "throttle",
+      "reason": "keep heartbeat observable while slowing noncritical admission",
+      "observability_required": true
+    },
+    {
+      "resource": "event_export",
+      "action": "defer",
+      "reason": "retain events locally and expose lag",
+      "observability_required": true
+    },
+    {
+      "resource": "checkpoint_write",
+      "action": "pause",
+      "reason": "pause new noncritical work until checkpoint catches up",
+      "observability_required": true
+    },
+    {
+      "resource": "snapshot_diff",
+      "action": "defer",
+      "reason": "queue one bounded latest diff and shed superseded noncritical diffs",
+      "observability_required": true
+    },
+    {
+      "resource": "dag_execution",
+      "action": "throttle",
+      "reason": "admit only within scheduler watcher budget",
+      "observability_required": true
+    },
+    {
+      "resource": "provider_call",
+      "action": "fail_closed",
+      "reason": "stop retry storm when retry budget is exhausted",
+      "observability_required": true
+    },
+    {
+      "resource": "cloud_hook",
+      "action": "shed",
+      "reason": "shed noncritical cloud hooks with explicit event evidence",
+      "observability_required": true
+    },
+    {
+      "resource": "continuity_serialization",
+      "action": "safe_fail_serialize",
+      "reason": "serialize the recoverable state set when survival thresholds are breached",
+      "observability_required": true
+    }
+  ],
+  "proof_cases": [
+    {
+      "case_id": "runtime_loop_admission",
+      "surface": "runtime_loop",
+      "status": "proved",
+      "decision": "throttled_noncritical_admission",
+      "queue_depth": 2,
+      "lag_ms": 120,
+      "deferred_count": 0,
+      "shed_count": 0,
+      "retry_budget_remaining": 4,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 2,
+        "lag_ms": 120,
+        "deferred_count": 0,
+        "shed_count": 0,
+        "retry_budget_remaining": 4
+      }
+    },
+    {
+      "case_id": "exporter_backpressure",
+      "surface": "event_export",
+      "status": "proved",
+      "decision": "deferred",
+      "queue_depth": 12,
+      "lag_ms": 820,
+      "deferred_count": 12,
+      "shed_count": 0,
+      "retry_budget_remaining": 3,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 12,
+        "lag_ms": 820,
+        "deferred_count": 12,
+        "shed_count": 0,
+        "retry_budget_remaining": 3
+      }
+    },
+    {
+      "case_id": "storage_slowdown",
+      "surface": "checkpoint_write",
+      "status": "proved",
+      "decision": "paused",
+      "queue_depth": 4,
+      "lag_ms": 2400,
+      "deferred_count": 4,
+      "shed_count": 0,
+      "retry_budget_remaining": 2,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 4,
+        "lag_ms": 2400,
+        "deferred_count": 4,
+        "shed_count": 0,
+        "retry_budget_remaining": 2
+      }
+    },
+    {
+      "case_id": "checkpoint_lag",
+      "surface": "snapshot_diff",
+      "status": "proved",
+      "decision": "deferred_latest_only",
+      "queue_depth": 3,
+      "lag_ms": 3100,
+      "deferred_count": 2,
+      "shed_count": 1,
+      "retry_budget_remaining": 2,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 3,
+        "lag_ms": 3100,
+        "deferred_count": 2,
+        "shed_count": 1,
+        "retry_budget_remaining": 2
+      }
+    },
+    {
+      "case_id": "provider_timeout",
+      "surface": "provider_call",
+      "status": "proved",
+      "decision": "throttled_retry",
+      "queue_depth": 7,
+      "lag_ms": 1500,
+      "deferred_count": 3,
+      "shed_count": 0,
+      "retry_budget_remaining": 1,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 7,
+        "lag_ms": 1500,
+        "deferred_count": 3,
+        "shed_count": 0,
+        "retry_budget_remaining": 1
+      }
+    },
+    {
+      "case_id": "dag_admission_budget",
+      "surface": "dag_execution",
+      "status": "proved",
+      "decision": "throttled_scheduler_budget",
+      "queue_depth": 5,
+      "lag_ms": 900,
+      "deferred_count": 2,
+      "shed_count": 0,
+      "retry_budget_remaining": 2,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 5,
+        "lag_ms": 900,
+        "deferred_count": 2,
+        "shed_count": 0,
+        "retry_budget_remaining": 2
+      }
+    },
+    {
+      "case_id": "cloud_hook_pressure",
+      "surface": "cloud_hook",
+      "status": "proved",
+      "decision": "shed_noncritical_observed",
+      "queue_depth": 2,
+      "lag_ms": 440,
+      "deferred_count": 0,
+      "shed_count": 2,
+      "retry_budget_remaining": 2,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 2,
+        "lag_ms": 440,
+        "deferred_count": 0,
+        "shed_count": 2,
+        "retry_budget_remaining": 2
+      }
+    },
+    {
+      "case_id": "retry_budget_exhaustion",
+      "surface": "provider_call",
+      "status": "proved",
+      "decision": "fail_closed_safe_fail",
+      "queue_depth": 9,
+      "lag_ms": 1900,
+      "deferred_count": 0,
+      "shed_count": 4,
+      "retry_budget_remaining": 0,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 9,
+        "lag_ms": 1900,
+        "deferred_count": 0,
+        "shed_count": 4,
+        "retry_budget_remaining": 0
+      }
+    },
+    {
+      "case_id": "continuity_serialization_threshold",
+      "surface": "continuity_serialization",
+      "status": "proved",
+      "decision": "safe_fail_serialize_verified",
+      "queue_depth": 1,
+      "lag_ms": 700,
+      "deferred_count": 0,
+      "shed_count": 0,
+      "retry_budget_remaining": 0,
+      "required_state_silently_dropped": false,
+      "retry_unbounded": false,
+      "observability": {
+        "queue_depth": 1,
+        "lag_ms": 700,
+        "deferred_count": 0,
+        "shed_count": 0,
+        "retry_budget_remaining": 0
+      }
+    }
+  ],
+  "summary": {
+    "health": "capacity_degraded",
+    "max_queue_depth": 12,
+    "max_lag_ms": 3100,
+    "deferred_count": 23,
+    "shed_count": 7,
+    "retry_budget_remaining": 0,
+    "required_state_silently_dropped": false,
+    "retry_unbounded": false
+  },
+  "safe_fail_action": {
+    "status": "verified",
+    "trigger": "survival_threshold_breached",
+    "action": "safe_fail_serialize",
+    "artifact_ref": "safe_fail_bundle.json",
+    "artifact_schema": "adl.csm.safe_fail_bundle.v1",
+    "agent_outcome_state": "sleeping",
+    "recoverability_class": "recoverable_sleeping",
+    "reason": "required checkpoint lag and retry-budget exhaustion are not silently dropped"
+  },
+  "state_ref": "csm_backpressure_state.json",
+  "runtime_api_projection": {
+    "metrics_ref": "/metrics",
+    "gauges": [
+      "backpressure_queue_depth",
+      "backpressure_lag_ms",
+      "backpressure_deferred_count",
+      "backpressure_shed_count",
+      "backpressure_retry_budget_remaining"
+    ],
+    "states": [
+      "backpressure_health",
+      "backpressure_safe_fail_action"
+    ]
+  },
+  "observability": {
+    "schema": "adl.csm.backpressure_observability.v1",
+    "event_stage": "backpressure_policy",
+    "metrics_surface": "/metrics",
+    "required_fields": [
+      "queue_depth",
+      "lag_ms",
+      "deferred_count",
+      "shed_count",
+      "retry_budget_remaining",
+      "safe_fail_action"
+    ]
+  },
+  "non_claims": [
+    "not_autoscaling",
+    "not_cloud_orchestration",
+    "not_production_capacity_model",
+    "not_hosted_telemetry_backend"
+  ]
+}

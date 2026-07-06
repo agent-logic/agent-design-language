@@ -130,6 +130,8 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
     let replay_manifest =
         read_json_artifact(&artifact_path(loaded, "continuity_replay_manifest.json"));
     let safe_fail_bundle = read_json_artifact(&artifact_path(loaded, "safe_fail_bundle.json"));
+    let backpressure_state =
+        read_json_artifact(&artifact_path(loaded, "csm_backpressure_state.json"));
     let otel_status = options
         .otel_status_path
         .as_deref()
@@ -175,6 +177,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
             "replay_manifest": compact_artifact_status(&replay_manifest, "continuity_replay_manifest.json"),
             "safe_fail_bundle": compact_artifact_status(&safe_fail_bundle, "safe_fail_bundle.json")
         },
+        "backpressure": compact_artifact_status(&backpressure_state, "csm_backpressure_state.json"),
         "otel": {
             "status": compact_artifact_status(&otel_status, "ADL_OTEL_STATUS"),
             "log": otel_log
@@ -221,6 +224,8 @@ fn ready_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> R
 fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
     let status = status_response(loaded, options)?;
     let daemon = read_json_artifact(&artifact_path(loaded, "daemon_status.json"));
+    let backpressure_state =
+        read_json_artifact(&artifact_path(loaded, "csm_backpressure_state.json"));
     let event_count = read_jsonl_tail(&artifact_path(loaded, "operator_events.jsonl"), usize::MAX)
         .get("entries")
         .and_then(Value::as_array)
@@ -236,12 +241,19 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
             "restart_count": daemon.pointer("/value/restart_count").cloned().unwrap_or(Value::Null),
             "max_restarts": daemon.pointer("/value/max_restarts").cloned().unwrap_or(Value::Null),
             "checkpoint_interval_secs": daemon.pointer("/value/checkpoint_interval_secs").cloned().unwrap_or(Value::Null),
-            "operator_event_count_observed": event_count
+            "operator_event_count_observed": event_count,
+            "backpressure_queue_depth": backpressure_state.pointer("/value/summary/max_queue_depth").cloned().unwrap_or(Value::Null),
+            "backpressure_lag_ms": backpressure_state.pointer("/value/summary/max_lag_ms").cloned().unwrap_or(Value::Null),
+            "backpressure_deferred_count": backpressure_state.pointer("/value/summary/deferred_count").cloned().unwrap_or(Value::Null),
+            "backpressure_shed_count": backpressure_state.pointer("/value/summary/shed_count").cloned().unwrap_or(Value::Null),
+            "backpressure_retry_budget_remaining": backpressure_state.pointer("/value/summary/retry_budget_remaining").cloned().unwrap_or(Value::Null)
         },
         "states": {
             "health": status["status"],
             "ready": status["ready"],
-            "agent_state": status["agent_status"]["state"]
+            "agent_state": status["agent_status"]["state"],
+            "backpressure_health": backpressure_state.pointer("/value/summary/health").cloned().unwrap_or(Value::Null),
+            "backpressure_safe_fail_action": backpressure_state.pointer("/value/safe_fail_action/action").cloned().unwrap_or(Value::Null)
         }
     });
     assert_api_response_redacted(&response)?;

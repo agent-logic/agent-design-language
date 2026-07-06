@@ -3,6 +3,7 @@ use std::path::PathBuf;
 
 use super::agent_cmd::real_csm_daemon;
 use super::csm_service_cmd::real_service;
+use ::adl::csm_backpressure::{prove_backpressure, BackpressureProofOptions};
 use ::adl::csm_continuity_capsule::{
     capture_capsule, fire_drill_capsule, restore_capsule, stage_capsule, ContinuityCaptureOptions,
     ContinuityFireDrillOptions, ContinuityRestoreOptions, ContinuityStageOptions,
@@ -25,7 +26,9 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
-        eprintln!("csm requires subcommand: daemon | service | continuity | api | observatory");
+        eprintln!(
+            "csm requires subcommand: daemon | service | continuity | backpressure | api | observatory"
+        );
         std::process::exit(2);
     };
 
@@ -48,6 +51,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
                 "csm continuity is owned by the standalone csm runtime binary; use `csm continuity`, not `adl csm continuity`"
             )),
         },
+        "backpressure" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_backpressure(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm backpressure is owned by the standalone csm runtime binary; use `csm backpressure`, not `adl csm backpressure`"
+            )),
+        },
         "api" => match mode {
             CsmDispatchMode::StandaloneRuntime => real_api(&args[1..]),
             CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
@@ -61,11 +70,77 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, continuity, api, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, continuity, backpressure, api, or observatory)"
             );
             std::process::exit(2);
         }
     }
+}
+
+fn real_backpressure(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm backpressure requires subcommand: prove");
+        std::process::exit(2);
+    };
+    match cmd {
+        "prove" => real_backpressure_prove(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm backpressure subcommand: {other} (expected prove)");
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_backpressure_prove(args: &[String]) -> Result<()> {
+    let mut spec: Option<PathBuf> = None;
+    let mut out_dir: Option<PathBuf> = None;
+    let mut profile = "local".to_string();
+    let mut json_output = false;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--spec" => {
+                spec = Some(PathBuf::from(required_value(args, i, "--spec")?));
+                i += 1;
+            }
+            "--out" => {
+                out_dir = Some(PathBuf::from(required_value(args, i, "--out")?));
+                i += 1;
+            }
+            "--profile" => {
+                profile = required_value(args, i, "--profile")?.to_string();
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm backpressure prove arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+    let result = prove_backpressure(BackpressureProofOptions {
+        spec_path: spec.context("csm backpressure prove requires --spec <agent-spec.yaml>")?,
+        out_dir: out_dir.context("csm backpressure prove requires --out <proof-dir>")?,
+        profile,
+    })?;
+    if json_output {
+        println!("{}", serde_json::to_string_pretty(&result)?);
+    } else {
+        println!(
+            "CSM_BACKPRESSURE ok status={} report={}",
+            result.status, result.report_ref
+        );
+    }
+    Ok(())
 }
 
 fn real_api(args: &[String]) -> Result<()> {
@@ -446,6 +521,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--json]
   csm service start|status|stop|remove [--service-root <dir>] [--json]
   csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--once|--max-requests <n>] [--idle-timeout-ms <n>] [--otel-status <path>] [--otel-log <path>] [--json]
+  csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
   csm continuity stage --bundle <bundle-dir> --out <stage-dir> [--target-host ec2-staging|ec2|local] [--json]
   csm continuity restore --bundle <bundle-dir> --out <runtime-dir> [--target-host ec2-staging|ec2|local] [--json]
@@ -458,6 +534,7 @@ Semantics:
   - csm daemon owns long-lived runtime execution, partial checkpoints, restart accounting, recoverable terminal state, and runtime observability.
   - csm service owns host service-manager installation/status around csm daemon; launchd is the primary macOS target and local mode is a bounded proof fallback.
   - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.
+  - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
   - csm continuity captures, stages, restores, and fire-drills portable continuity capsules with secrets excluded and host bindings explicit.
   - csm daemon emits ADL_OBSERVABILITY_LOG, ADL_OTEL_LOG, and ADL_OTEL_STATUS records through the shared observability contract.
   - Read-only CSM Observatory inspection.

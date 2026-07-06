@@ -1,0 +1,21 @@
+{
+  "schema": "adl.long_lived_agent_continuity.v1",
+  "agent_instance_id": "backpressure-agent",
+  "display_name": "Backpressure Agent",
+  "created_at": "2026-07-06T12:24:19.087998Z",
+  "created_by": "operator",
+  "continuity_kind": "pre_v0_92_handle",
+  "status": "active",
+  "state_root": "state",
+  "memory_namespace": "smoke/backpressure-agent",
+  "cycle_ledger_ref": "cycle_ledger.jsonl",
+  "latest_cycle_id": "cycle-000002",
+  "future_identity_ref": null,
+  "non_claims": [
+    "not_v0_92_identity_tuple",
+    "not_capability_governance",
+    "not_autonomous_legal_personhood"
+  ],
+  "latest_cycle_status": "success",
+  "updated_at": "2026-07-06T12:33:27.435996Z"
+}
