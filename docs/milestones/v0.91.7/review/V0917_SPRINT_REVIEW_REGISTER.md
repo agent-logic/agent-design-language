@@ -1,0 +1,85 @@
+# v0.91.7 Sprint Review Register
+
+Status: active_review_register
+
+Last updated: 2026-07-06
+
+Issue: #4932
+
+## Purpose
+
+This register is the canonical v0.91.7 sprint-review status list. It records
+what has been reviewed, what findings remain open, and what must happen before
+the milestone can claim release readiness.
+
+It does not close any WP by itself. A WP counts as release-ready only when its
+implementation/proof work is complete, reviewed, remediated, and truthfully
+closed out in the issue/card/PR surfaces.
+
+## Current Summary
+
+- WP-01, WP-02, and WP-04 have tracked review packets and are closed.
+- WP-05 is closed and now has this register issue `#4932` repairing the stale
+  local-agent proof artifact found during review.
+- WP-06 is closed at the umbrella level but has unresolved review-truth cleanup
+  and open follow-on build/cache/builder-image issues.
+- WP-07 has substantial runtime review artifacts and many closed runtime
+  issues, but CSM survival/post-blocker issues remain open before final release
+  readiness.
+- WP-08 through WP-20 are not yet release-review-clean.
+- WP-21 is closed; WP-22 and WP-23 remain open for next-milestone review and
+  release ceremony.
+
+## Review Status Table
+
+| WP | Umbrella | Status | Review Packet | Findings / Remediation | Next Action |
+| --- | ---: | --- | --- | --- | --- |
+| WP-01 | #4628 | closed | `docs/milestones/v0.91.7/review/V0917_WP01_PLANNING_PROMOTION_4628.md` | No active finding recorded in this register. | Keep as source truth for release-tail review. |
+| WP-02 | #4629 | closed | `docs/milestones/v0.91.7/review/V0917_WP02_V0916_CLOSEOUT_TRUTH_CONSUMPTION_4661.md` | Child cleanup `#4661`-`#4665` and `#4699` are closed. | Keep as source truth for release-tail review. |
+| WP-03 | #4630 | closed | none found as a single WP-03 review packet | Related open resilience/workflow issue `#4780` remains outside the closed umbrella. | Review WP-03 as a bundle before release-tail claims consume it. |
+| WP-04 | #4631 | closed | `docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_4631.md`; `docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_REMEDIATION_4747.md` | Remediation issue `#4747` is closed. | Keep metrics limitations visible; do not treat unknown metrics as zero. |
+| WP-05 | #4632 | closed | `docs/milestones/v0.91.7/review/V0917_WP05_SCHEDULER_PROVIDER_LOCAL_AGENT_CLOSEOUT_4632.md` | Review found stale `#4675` local-agent artifact after `#4849`. `#4932` repairs the fixture and regenerated artifact so provider route and model suitability both select Gemini while local Gemma remains shadow-only. | Merge `#4932`, then treat WP-05 as review-remediated unless new findings appear. |
+| WP-06 | #4633 | closed umbrella; open follow-ons | `docs/milestones/v0.91.7/review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md` | Prior review found stale closeout/card truth; open issues include `#4679`, `#4680`, and `#4879`. | Repair WP-06 review truth and resolve or explicitly block open build/cache/builder-image follow-ons. |
+| WP-07 | #4634 | closed umbrella; open CSM survival follow-ons | runtime review packets under `docs/milestones/v0.91.7/review/runtime/` plus `docs/milestones/v0.91.7/review/observability_4718/` | Runtime/OTel/Soak artifacts exist; open issues include `#4906`, `#4910`, `#4911`, `#4918`, `#4919`, `#4921`, `#4922`, `#4929`, and `#4933`. | Finish CSM survival/post-blocker issues and run final WP-07 review. |
+| WP-08 | #4635 | open | none yet | Runtime AWS/signal issues `#4684`-`#4688`, `#4782`, `#4913`, and `#4915` remain open. | Execute and review AWS/signal operations in full. |
+| WP-09 | #4636 | open | Unity review artifacts under `docs/milestones/v0.91.7/review/unity_observatory_*` | Umbrella and child issues `#4689`-`#4691` remain open. | Finish Observatory/demo proof and review as WP-09. |
+| WP-10 | #4637 | open | none yet | Curiosity `#4692` and constructability `#4693` remain open. | Implement and review curiosity/constructability proof. |
+| WP-11 | #4638 | open | none yet | Reasoning graph, loops, skill standard, AEE/ObsMem, and Godel snapshot issues remain open. | Implement and review all WP-11 runtime/cognitive surfaces. |
+| WP-12 | #4639 | open | none yet | Security/protocol issues `#4656`-`#4660`, `#4914`, `#4917`, and `#4920` remain open. | Implement and review security/protocol surfaces. |
+| WP-13 | #4640 | open | none yet | Affect, Godel, economics, guild, CodeFriend, and publication issues remain open. | Implement and review WP-13 surfaces. |
+| WP-14 | #4641 | open | none yet | Launch/birthday handoff children `#4758`-`#4763` remain open. | Finish launch and v0.92 birthday handoff proof. |
+| WP-15 | #4642 | open | none yet | Demo matrix / proof coverage not yet review-clean. | Execute after implementation WPs are sufficiently proven. |
+| WP-16 | #4643 | open | none yet | Quality gate not yet review-clean. | Execute after implementation/demo evidence is current. |
+| WP-17 | #4644 | open | none yet | Docs/adoption review pass not yet complete. | Run docs alignment after WPs stabilize. |
+| WP-18 | #4645 | open | none yet | Internal review not yet run for v0.91.7. | Run after WP-17. |
+| WP-19 | #4646 | open | none yet | External review not yet run for v0.91.7. | Run after WP-18 remediation is ready. |
+| WP-20 | #4647 | open | none yet | Review remediation not yet started. | Fix findings from WP-18/WP-19. |
+| WP-21 | #4648 | closed | none found as a review packet | Next milestone planning closed early relative to open implementation WPs; consume cautiously. | Recheck during WP-22. |
+| WP-22 | #4649 | open | none yet | Next milestone review pass not yet complete. | Review v0.92 planning after WP-21/WP-20 truth is stable. |
+| WP-23 | #4650 | open | none yet | Release ceremony not yet complete. | Run only after all required review/remediation gates are clean or explicitly blocked with operator approval. |
+
+## WP-05 Repair Record
+
+Review found that the retained local-agent delegation artifact still combined a
+ChatGPT provider route with Gemini model-suitability selection. That no longer
+regenerated under the current scheduler because `#4849` correctly added
+fail-closed provider/model identity validation.
+
+This issue repairs the WP-05 proof surface by:
+
+- updating `adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json`
+  so the eligible provider route is `google/gemini-2.5-flash`;
+- marking the previous ChatGPT route ineligible for this proof because it is
+  not the cheapest validated outcome for the task;
+- regenerating
+  `docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json`;
+- preserving local Gemma as `shadow_only` advisory delegation, with no
+  autonomous execution, repo mutation, closeout, or merge authority.
+
+## Non-Claims
+
+- This register does not claim v0.91.7 is release-ready.
+- This register does not close any WP or child issue.
+- This register does not claim WP-06 or WP-07 findings are fixed.
+- This register does not claim live provider invocation, live local model
+  quality, or autonomous multi-agent authority from WP-05 scheduler artifacts.
