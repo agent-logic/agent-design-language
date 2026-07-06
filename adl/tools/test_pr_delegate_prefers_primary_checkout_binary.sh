@@ -234,7 +234,7 @@ args="$(cat "$TMP_ADL_ARGS")"
   exit 1
 }
 grep -F "freshness=stale_allowed_primary_owner_last_resort" "$finish_last_resort_log" >/dev/null || {
-  echo "assertion failed: stale primary owner-binary last resort should be observable" >&2
+  echo "assertion failed: temporary stale primary owner-binary last resort should be observable" >&2
   cat "$finish_last_resort_log" >&2
   exit 1
 }
