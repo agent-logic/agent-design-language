@@ -1,0 +1,179 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+PROOF="${1:-$ROOT/docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910}"
+
+python3 - "$PROOF" <<'PY'
+import hashlib
+import json
+import pathlib
+import sys
+
+proof = pathlib.Path(sys.argv[1])
+required = [
+    "README.md",
+    "proof_summary.json",
+    "negative_results.json",
+    "logs/daemon_stdout.json",
+    "logs/capture_stdout.json",
+    "logs/stage_stdout.json",
+    "logs/ec2_stage_stdout.json",
+    "logs/observability.log",
+    "logs/otel.jsonl",
+    "logs/otel_status.json",
+    "capsule/continuity_capsule_manifest.json",
+    "capsule/state/agent_spec.locked.json",
+    "capsule/state/status.json",
+    "capsule/state/daemon_status.json",
+    "capsule/state/continuity.json",
+    "capsule/state/continuity_checkpoint.json",
+    "capsule/state/continuity_replay_manifest.json",
+    "capsule/state/cycle_ledger.jsonl",
+    "capsule/state/memory_index.json",
+    "capsule/state/provider_binding_history.jsonl",
+    "capsule/state/operator_events.jsonl",
+    "ec2_staged/stage_report.json",
+    "ec2_blocked/stage_report.json",
+]
+missing = [path for path in required if not (proof / path).exists()]
+if missing:
+    raise SystemExit(f"missing proof artifacts: {missing}")
+
+summary = json.loads((proof / "proof_summary.json").read_text(encoding="utf-8"))
+if summary.get("schema") != "adl.csm.continuity_capsule_4910_proof_summary.v1":
+    raise SystemExit("proof summary schema drift")
+if summary.get("runtime_owner") != "csm":
+    raise SystemExit("runtime owner must be csm")
+if summary.get("command_surface") != "csm continuity capture|stage":
+    raise SystemExit("command surface drift")
+if summary.get("proof_classification") != "proving_with_blocked_live_ec2_transfer":
+    raise SystemExit("proof classification drift")
+if summary.get("live_ec2_status") != "blocked":
+    raise SystemExit("live EC2 transfer must remain explicitly blocked")
+if summary.get("aws_profile_policy") != "agent-logic-admin":
+    raise SystemExit("AWS profile policy must name agent-logic-admin")
+
+manifest = json.loads((proof / "capsule" / "continuity_capsule_manifest.json").read_text(encoding="utf-8"))
+if manifest.get("schema") != "adl.csm.continuity_capsule.v1":
+    raise SystemExit("manifest schema drift")
+if manifest.get("format_version") != "csm.continuity-capsule.v1":
+    raise SystemExit("format version drift")
+if manifest.get("runtime_owner") != "csm":
+    raise SystemExit("manifest runtime_owner drift")
+if manifest.get("source_host") != "wuji":
+    raise SystemExit("source host must remain wuji")
+if manifest.get("target_host") != "ec2-staging":
+    raise SystemExit("target host must remain ec2-staging")
+if manifest.get("rebind_policy", {}).get("aws", {}).get("default_profile") != "agent-logic-admin":
+    raise SystemExit("manifest AWS rebind policy drift")
+if manifest.get("rebind_policy", {}).get("provider_auth") != "excluded_from_bundle_rebind_from_target_provider_environment":
+    raise SystemExit("provider auth exclusion drift")
+
+artifacts = manifest.get("artifacts")
+if not isinstance(artifacts, list) or len(artifacts) < 10:
+    raise SystemExit("manifest must retain runtime artifacts")
+roles = {artifact.get("role") for artifact in artifacts}
+for role in [
+    "runtime_identity",
+    "recoverable_status",
+    "daemon_status",
+    "continuity",
+    "continuity_checkpoint",
+    "continuity_replay_manifest",
+    "dag_run_ledger",
+    "memory_index",
+    "provider_binding_history",
+    "observability_tail",
+]:
+    if role not in roles:
+        raise SystemExit(f"missing retained role: {role}")
+
+for artifact in artifacts:
+    bundle_ref = artifact.get("bundle_ref")
+    source_ref = artifact.get("source_ref")
+    if not isinstance(bundle_ref, str) or bundle_ref.startswith("/") or ".." in pathlib.PurePosixPath(bundle_ref).parts:
+        raise SystemExit(f"unsafe bundle_ref: {bundle_ref}")
+    if not isinstance(source_ref, str) or source_ref.startswith("/") or ".." in pathlib.PurePosixPath(source_ref).parts:
+        raise SystemExit(f"unsafe source_ref: {source_ref}")
+    path = proof / "capsule" / bundle_ref
+    if not path.exists():
+        raise SystemExit(f"artifact missing from capsule: {bundle_ref}")
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    if digest != artifact.get("sha256"):
+        raise SystemExit(f"artifact hash mismatch: {bundle_ref}")
+
+stage_report = json.loads((proof / "ec2_staged" / "stage_report.json").read_text(encoding="utf-8"))
+if stage_report.get("schema") != "adl.csm.continuity_capsule_stage_report.v1":
+    raise SystemExit("stage report schema drift")
+if stage_report.get("status") != "staged":
+    raise SystemExit("ec2-staging report must be staged")
+if not (proof / "ec2_staged" / "staged_state" / "continuity_checkpoint.json").exists():
+    raise SystemExit("staged continuity checkpoint missing")
+
+ec2_report = json.loads((proof / "ec2_blocked" / "stage_report.json").read_text(encoding="utf-8"))
+if ec2_report.get("status") != "blocked":
+    raise SystemExit("live EC2 stage must be blocked")
+if ec2_report.get("rebind_policy", {}).get("target_host") != "ec2":
+    raise SystemExit("live EC2 rebind policy target host drift")
+if ec2_report.get("blockers", [{}])[0].get("required_profile") != "agent-logic-admin":
+    raise SystemExit("live EC2 blocker must require agent-logic-admin")
+
+negative = json.loads((proof / "negative_results.json").read_text(encoding="utf-8"))
+if negative.get("schema") != "adl.csm.continuity_capsule_4910_negative_results.v1":
+    raise SystemExit("negative result schema drift")
+expected_cases = {
+    "version_mismatch",
+    "missing_file",
+    "path_leakage",
+    "credential_leakage",
+    "corrupted_manifest",
+    "unsupported_target_host",
+}
+records = {case.get("name"): case for case in negative.get("cases", [])}
+if set(records) != expected_cases:
+    raise SystemExit(f"negative cases drift: {sorted(records)}")
+for name, record in records.items():
+    if record.get("status") != "failed_as_expected" or record.get("returncode") == 0 or record.get("stderr_matched") is not True:
+        raise SystemExit(f"negative case did not fail as expected: {name}")
+
+capture_stdout = json.loads((proof / "logs" / "capture_stdout.json").read_text(encoding="utf-8"))
+stage_stdout = json.loads((proof / "logs" / "stage_stdout.json").read_text(encoding="utf-8"))
+if capture_stdout.get("schema") != "adl.csm.continuity_capsule_command_result.v1":
+    raise SystemExit("capture stdout schema drift")
+if capture_stdout.get("operation") != "capture" or capture_stdout.get("status") != "captured":
+    raise SystemExit("capture stdout status drift")
+if stage_stdout.get("operation") != "stage" or stage_stdout.get("status") != "staged":
+    raise SystemExit("stage stdout status drift")
+
+observability = (proof / "logs" / "observability.log").read_text(encoding="utf-8")
+for marker in [
+    "command=csm",
+    "stage=daemon_started",
+    "stage=checkpoint_write",
+    "stage=continuity_capsule_capture",
+    "stage=continuity_capsule_stage",
+    "otel_service_name=csm-runtime-daemon",
+]:
+    if marker not in observability:
+        raise SystemExit(f"missing observability marker: {marker}")
+otel_status = json.loads((proof / "logs" / "otel_status.json").read_text(encoding="utf-8"))
+if otel_status.get("schema") != "adl.otel.monitor_status.v1":
+    raise SystemExit("otel status schema drift")
+otel_events = (proof / "logs" / "otel.jsonl").read_text(encoding="utf-8")
+if "csm.continuity_capsule_capture" not in otel_events or "csm.continuity_capsule_stage" not in otel_events:
+    raise SystemExit("missing continuity capsule OTel events")
+
+bad_markers = ["/Users/", "/private/tmp/", "/var/folders/", "/tmp/", "api_key", "password"]
+for path in [
+    proof / "capsule" / "continuity_capsule_manifest.json",
+    proof / "ec2_staged" / "stage_report.json",
+    proof / "ec2_blocked" / "stage_report.json",
+]:
+    text = path.read_text(encoding="utf-8")
+    for marker in bad_markers:
+        if marker in text:
+            raise SystemExit(f"portable artifact hygiene marker {marker!r} found in {path.relative_to(proof)}")
+
+print("validate_v0917_csm_continuity_capsule_4910_status: PASS")
+PY

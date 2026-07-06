@@ -1,0 +1,47 @@
+{
+  "schema": "adl.csm.continuity_capsule_4910_proof_summary.v1",
+  "runtime_owner": "csm",
+  "proof_classification": "proving_with_blocked_live_ec2_transfer",
+  "command_surface": "csm continuity capture|stage",
+  "format_version": "csm.continuity-capsule.v1",
+  "manifest_schema": "adl.csm.continuity_capsule.v1",
+  "agent_instance_id": "csm-continuity-4910",
+  "source_host": "wuji",
+  "stage_target_host": "ec2-staging",
+  "stage_status": "staged",
+  "live_ec2_status": "blocked",
+  "aws_profile_policy": "agent-logic-admin",
+  "artifact_count": 18,
+  "retained_runtime_roles": [
+    "continuity",
+    "continuity_checkpoint",
+    "continuity_replay_manifest",
+    "cycle_artifacts",
+    "daemon_status",
+    "dag_run_ledger",
+    "memory_index",
+    "observability_tail",
+    "provider_binding_history",
+    "recoverable_status",
+    "runtime_identity"
+  ],
+  "negative_case_count": 6,
+  "negative_cases": {
+    "version_mismatch": "failed_as_expected",
+    "missing_file": "failed_as_expected",
+    "path_leakage": "failed_as_expected",
+    "credential_leakage": "failed_as_expected",
+    "corrupted_manifest": "failed_as_expected",
+    "unsupported_target_host": "failed_as_expected"
+  },
+  "observability_refs": [
+    "logs/observability.log",
+    "logs/otel.jsonl",
+    "logs/otel_status.json"
+  ],
+  "non_claims": [
+    "does not claim live EC2 transfer without operator authorization",
+    "does not export provider tokens or secret material",
+    "does not claim multi-region production disaster recovery"
+  ]
+}

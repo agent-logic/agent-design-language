@@ -87,6 +87,55 @@ fn otlp_attr_string<'a>(attrs: &'a serde_json::Value, key: &str) -> Option<&'a s
     })
 }
 
+fn copy_dir_all(source: &std::path::Path, dest: &std::path::Path) {
+    fs::create_dir_all(dest).expect("create copied bundle dir");
+    for entry in fs::read_dir(source).expect("read source dir") {
+        let entry = entry.expect("read source entry");
+        let child_source = entry.path();
+        let child_dest = dest.join(entry.file_name());
+        if child_source.is_dir() {
+            copy_dir_all(&child_source, &child_dest);
+        } else {
+            fs::copy(&child_source, &child_dest).expect("copy bundle file");
+        }
+    }
+}
+
+fn assert_stage_failure<F>(
+    bundle: &std::path::Path,
+    bad_bundle: &std::path::Path,
+    out_dir: &std::path::Path,
+    mutate: F,
+    expected_stderr: &str,
+) where
+    F: FnOnce(&std::path::Path),
+{
+    copy_dir_all(bundle, bad_bundle);
+    mutate(bad_bundle);
+    let out = run_csm(&[
+        "continuity",
+        "stage",
+        "--bundle",
+        bad_bundle.to_str().expect("utf8 bad bundle"),
+        "--out",
+        out_dir.to_str().expect("utf8 stage dir"),
+        "--target-host",
+        "ec2-staging",
+        "--json",
+    ]);
+    assert!(
+        !out.status.success(),
+        "expected stage failure containing {expected_stderr}, stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    );
+    assert!(
+        String::from_utf8_lossy(&out.stderr).contains(expected_stderr),
+        "expected stderr to contain {expected_stderr}, stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+}
+
 #[test]
 fn agent_run_writes_bounded_cycles_and_status() {
     let root = unique_test_temp_dir("agent-smoke");
@@ -469,6 +518,327 @@ memory:
     assert_eq!(otel_status["schema"], "adl.otel.monitor_status.v1");
     assert!(otel_status["event_count"].as_u64().expect("event count") >= 4);
     assert_eq!(otel_status["last_trace_id"], "agent.daemon-agent.daemon");
+}
+
+#[test]
+fn csm_continuity_capsule_captures_stages_and_rejects_unsafe_bundles() {
+    let root = unique_test_temp_dir("csm-continuity-capsule");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: continuity-agent
+display_name: Continuity Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: continuity_probe
+  run_args:
+    provider_id: local_ollama
+    model: gemma4:latest
+heartbeat:
+  interval_secs: 1
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+  max_consecutive_failures: 2
+memory:
+  namespace: smoke/continuity-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+
+    let daemon = run_csm(&[
+        "daemon",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--max-restarts",
+        "1",
+        "--checkpoint-interval-secs",
+        "1",
+        "--no-sleep",
+        "--json",
+    ]);
+    assert!(
+        daemon.status.success(),
+        "expected daemon success, stderr:\n{}",
+        String::from_utf8_lossy(&daemon.stderr)
+    );
+
+    let observability_log = root.join("continuity-observability.log");
+    let bundle = root.join("continuity-capsule");
+    let capture = run_csm_with_env(
+        &[
+            "continuity",
+            "capture",
+            "--spec",
+            spec.to_str().expect("utf8 spec"),
+            "--out",
+            bundle.to_str().expect("utf8 bundle"),
+            "--source-host",
+            "wuji",
+            "--target-host",
+            "ec2-staging",
+            "--json",
+        ],
+        &[
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            (
+                "ADL_OBSERVABILITY_LOG",
+                observability_log.to_str().expect("utf8 observability"),
+            ),
+        ],
+    );
+    assert!(
+        capture.status.success(),
+        "expected continuity capture success, stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&capture.stdout),
+        String::from_utf8_lossy(&capture.stderr)
+    );
+    let capture_stdout: serde_json::Value =
+        serde_json::from_slice(&capture.stdout).expect("parse capture stdout");
+    assert_eq!(
+        capture_stdout["schema"],
+        "adl.csm.continuity_capsule_command_result.v1"
+    );
+    assert_eq!(capture_stdout["operation"], "capture");
+    assert_eq!(capture_stdout["status"], "captured");
+
+    let manifest_path = bundle.join("continuity_capsule_manifest.json");
+    let manifest_text = fs::read_to_string(&manifest_path).expect("read continuity manifest");
+    assert!(
+        !manifest_text.contains(root.to_str().expect("root utf8")),
+        "continuity capsule manifest leaked host path:\n{manifest_text}"
+    );
+    let manifest: serde_json::Value =
+        serde_json::from_str(&manifest_text).expect("parse continuity manifest");
+    assert_eq!(manifest["schema"], "adl.csm.continuity_capsule.v1");
+    assert_eq!(manifest["format_version"], "csm.continuity-capsule.v1");
+    assert_eq!(manifest["runtime_owner"], "csm");
+    assert_eq!(manifest["source_host"], "wuji");
+    assert_eq!(manifest["target_host"], "ec2-staging");
+    assert_eq!(
+        manifest["rebind_policy"]["aws"]["default_profile"],
+        "agent-logic-admin"
+    );
+    assert!(manifest["artifacts"]
+        .as_array()
+        .expect("artifact array")
+        .iter()
+        .any(|artifact| artifact["role"] == "continuity_checkpoint"));
+    assert!(bundle.join("state/continuity_checkpoint.json").exists());
+    assert!(bundle.join("state/operator_events.jsonl").exists());
+
+    let staged = root.join("ec2-staged");
+    let stage = run_csm_with_env(
+        &[
+            "continuity",
+            "stage",
+            "--bundle",
+            bundle.to_str().expect("utf8 bundle"),
+            "--out",
+            staged.to_str().expect("utf8 staged"),
+            "--target-host",
+            "ec2-staging",
+            "--json",
+        ],
+        &[
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            (
+                "ADL_OBSERVABILITY_LOG",
+                observability_log.to_str().expect("utf8 observability"),
+            ),
+        ],
+    );
+    assert!(
+        stage.status.success(),
+        "expected continuity stage success, stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&stage.stdout),
+        String::from_utf8_lossy(&stage.stderr)
+    );
+    let stage_stdout: serde_json::Value =
+        serde_json::from_slice(&stage.stdout).expect("parse stage stdout");
+    assert_eq!(stage_stdout["operation"], "stage");
+    assert_eq!(stage_stdout["status"], "staged");
+    let stage_report: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(staged.join("stage_report.json")).expect("read stage report"),
+    )
+    .expect("parse stage report");
+    assert_eq!(
+        stage_report["schema"],
+        "adl.csm.continuity_capsule_stage_report.v1"
+    );
+    assert_eq!(stage_report["status"], "staged");
+    assert!(staged
+        .join("staged_state/continuity_checkpoint.json")
+        .exists());
+
+    let ec2_blocked = root.join("ec2-blocked");
+    let ec2_stage = run_csm(&[
+        "continuity",
+        "stage",
+        "--bundle",
+        bundle.to_str().expect("utf8 bundle"),
+        "--out",
+        ec2_blocked.to_str().expect("utf8 ec2 blocked"),
+        "--target-host",
+        "ec2",
+        "--json",
+    ]);
+    assert!(
+        ec2_stage.status.success(),
+        "expected bounded EC2 stage packet success, stderr:\n{}",
+        String::from_utf8_lossy(&ec2_stage.stderr)
+    );
+    let ec2_report: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(ec2_blocked.join("stage_report.json")).expect("read ec2 report"),
+    )
+    .expect("parse ec2 report");
+    assert_eq!(ec2_report["status"], "blocked");
+    assert_eq!(ec2_report["rebind_policy"]["target_host"], "ec2");
+    assert_eq!(
+        ec2_report["blockers"][0]["required_profile"],
+        "agent-logic-admin"
+    );
+
+    let observability =
+        fs::read_to_string(&observability_log).expect("read continuity observability");
+    assert!(observability.contains("stage=continuity_capsule_capture"));
+    assert!(observability.contains("stage=continuity_capsule_stage"));
+    assert!(observability.contains("otel_service_name=csm-runtime-daemon"));
+
+    assert_stage_failure(
+        &bundle,
+        &root.join("bad-version"),
+        &root.join("bad-version-stage"),
+        |bad| {
+            let path = bad.join("continuity_capsule_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read bad manifest"))
+                    .expect("parse bad manifest");
+            value["format_version"] = serde_json::json!("csm.continuity-capsule.v0");
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize bad manifest"),
+            )
+            .expect("write bad manifest");
+        },
+        "unsupported continuity capsule format version",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("missing-file"),
+        &root.join("missing-file-stage"),
+        |bad| {
+            fs::remove_file(bad.join("state/status.json")).expect("remove staged status");
+        },
+        "missing bundle artifact",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("truncated-manifest"),
+        &root.join("truncated-manifest-stage"),
+        |bad| {
+            let path = bad.join("continuity_capsule_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read manifest"))
+                    .expect("parse manifest");
+            value["artifacts"] = serde_json::json!([{
+                "role": "recoverable_status",
+                "source_ref": "status.json",
+                "bundle_ref": "state/status.json",
+                "sha256": value["artifacts"][1]["sha256"].clone(),
+                "bytes": value["artifacts"][1]["bytes"].clone(),
+                "required": true
+            }]);
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize manifest"),
+            )
+            .expect("write manifest");
+        },
+        "missing required artifact role",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("path-leak"),
+        &root.join("path-leak-stage"),
+        |bad| {
+            fs::write(
+                bad.join("state/status.json"),
+                format!("{{\"path\":\"{}\"}}", bad.display()),
+            )
+            .expect("write path leak");
+        },
+        "host-private absolute path",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("linux-path-leak"),
+        &root.join("linux-path-leak-stage"),
+        |bad| {
+            fs::write(
+                bad.join("state/status.json"),
+                "{\"path\":\"/home/runner/work/agent-design-language\"}\n",
+            )
+            .expect("write linux path leak");
+        },
+        "host-private absolute path",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("credential-leak"),
+        &root.join("credential-leak-stage"),
+        |bad| {
+            let path = bad.join("continuity_capsule_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read manifest"))
+                    .expect("parse manifest");
+            value["api_key"] = serde_json::json!("not-exportable");
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize manifest"),
+            )
+            .expect("write manifest");
+        },
+        "credential-like key",
+    );
+    assert_stage_failure(
+        &bundle,
+        &root.join("corrupted-manifest"),
+        &root.join("corrupted-manifest-stage"),
+        |bad| {
+            fs::write(bad.join("continuity_capsule_manifest.json"), b"{").expect("corrupt");
+        },
+        "failed parsing",
+    );
+
+    let unsupported_stage = root.join("unsupported-stage");
+    let unsupported = run_csm(&[
+        "continuity",
+        "stage",
+        "--bundle",
+        bundle.to_str().expect("utf8 bundle"),
+        "--out",
+        unsupported_stage.to_str().expect("utf8 stage"),
+        "--target-host",
+        "mars",
+        "--json",
+    ]);
+    assert!(
+        !unsupported.status.success(),
+        "expected unsupported target failure"
+    );
+    assert!(String::from_utf8_lossy(&unsupported.stderr)
+        .contains("unsupported continuity capsule target host"));
 }
 
 #[test]

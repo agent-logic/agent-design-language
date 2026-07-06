@@ -1,0 +1,47 @@
+{
+  "schema": "adl.csm.continuity_capsule_4910_negative_results.v1",
+  "cases": [
+    {
+      "name": "version_mismatch",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "unsupported continuity capsule format version",
+      "stderr_matched": true
+    },
+    {
+      "name": "missing_file",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "missing bundle artifact",
+      "stderr_matched": true
+    },
+    {
+      "name": "path_leakage",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "host-private absolute path",
+      "stderr_matched": true
+    },
+    {
+      "name": "credential_leakage",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "credential-like key",
+      "stderr_matched": true
+    },
+    {
+      "name": "corrupted_manifest",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "failed parsing",
+      "stderr_matched": true
+    },
+    {
+      "name": "unsupported_target_host",
+      "status": "failed_as_expected",
+      "returncode": 1,
+      "expected_reason": "unsupported continuity capsule target host",
+      "stderr_matched": true
+    }
+  ]
+}
