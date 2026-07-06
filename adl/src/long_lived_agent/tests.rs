@@ -1154,12 +1154,14 @@ fn safe_fail_bundle_preserves_malformed_artifacts_and_quarantines_active_lease()
     let summary = record_safe_fail_bundle(
         &runtime_context,
         &loaded,
-        &status,
-        "daemon_child_failed",
-        0,
-        1,
-        Some("error:failed".to_string()),
-        json!({"test_case": "malformed_replay_manifest"}),
+        &SafeFailRecord {
+            status: &status,
+            trigger: "daemon_child_failed",
+            restart_count: 0,
+            max_restarts: 1,
+            last_child_exit: Some("error:failed".to_string()),
+            details: json!({"test_case": "malformed_replay_manifest"}),
+        },
     )
     .expect("record safe fail");
     assert_eq!(summary["status"], "serialized");

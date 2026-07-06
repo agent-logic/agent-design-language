@@ -189,12 +189,14 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             let safe_fail = record_safe_fail_event(
                 &runtime_context,
                 &loaded,
-                &status,
-                "graceful_stop",
-                restart_count,
-                options.max_restarts,
-                last_child_exit.clone(),
-                json!({"stop_ref": "stop.json"}),
+                SafeFailRecord {
+                    status: &status,
+                    trigger: "graceful_stop",
+                    restart_count,
+                    max_restarts: options.max_restarts,
+                    last_child_exit: last_child_exit.clone(),
+                    details: json!({"stop_ref": "stop.json"}),
+                },
             )?;
             emit_daemon_event(
                 &runtime_context,
@@ -303,15 +305,17 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 let child_safe_fail = record_safe_fail_event(
                     &runtime_context,
                     &loaded,
-                    &status,
-                    "daemon_child_failed",
-                    restart_count,
-                    options.max_restarts,
-                    last_child_exit.clone(),
-                    json!({
-                        "error": err.to_string(),
-                        "checkpoint_ref": "continuity_checkpoint.json"
-                    }),
+                    SafeFailRecord {
+                        status: &status,
+                        trigger: "daemon_child_failed",
+                        restart_count,
+                        max_restarts: options.max_restarts,
+                        last_child_exit: last_child_exit.clone(),
+                        details: json!({
+                            "error": err.to_string(),
+                            "checkpoint_ref": "continuity_checkpoint.json"
+                        }),
+                    },
                 )?;
                 if restart_count >= options.max_restarts {
                     let _ = write_daemon_status(
@@ -330,15 +334,17 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     let exhausted_safe_fail = record_safe_fail_event(
                         &runtime_context,
                         &loaded,
-                        &status,
-                        "restart_budget_exhausted",
-                        restart_count,
-                        options.max_restarts,
-                        last_child_exit.clone(),
-                        json!({
-                            "previous_safe_fail": child_safe_fail,
-                            "checkpoint_ref": "continuity_checkpoint.json"
-                        }),
+                        SafeFailRecord {
+                            status: &status,
+                            trigger: "restart_budget_exhausted",
+                            restart_count,
+                            max_restarts: options.max_restarts,
+                            last_child_exit: last_child_exit.clone(),
+                            details: json!({
+                                "previous_safe_fail": child_safe_fail,
+                                "checkpoint_ref": "continuity_checkpoint.json"
+                            }),
+                        },
                     )?;
                     emit_daemon_event(
                         &runtime_context,
@@ -1511,15 +1517,19 @@ fn persist_status(
     write_continuity_restore_artifacts(loaded, status, checkpoint_reason)
 }
 
-fn record_safe_fail_bundle(
-    runtime_context: &CsmRuntimeContext,
-    loaded: &LoadedAgentSpec,
-    status: &StatusRecord,
-    trigger: &str,
+struct SafeFailRecord<'a> {
+    status: &'a StatusRecord,
+    trigger: &'a str,
     restart_count: u64,
     max_restarts: u64,
     last_child_exit: Option<String>,
     details: Value,
+}
+
+fn record_safe_fail_bundle(
+    runtime_context: &CsmRuntimeContext,
+    loaded: &LoadedAgentSpec,
+    record: &SafeFailRecord<'_>,
 ) -> Result<Value> {
     let sequence = next_safe_fail_sequence(loaded)?;
     let bundle_ref = format!("safe_fail_artifacts/safe-fail-{sequence:06}.json");
@@ -1531,14 +1541,14 @@ fn record_safe_fail_bundle(
         "agent_instance_id": loaded.spec.agent_instance_id.clone(),
         "captured_at": Utc::now(),
         "safe_fail_sequence": sequence,
-        "trigger": trigger,
+        "trigger": record.trigger,
         "trigger_model": safe_fail_trigger_model(),
         "agent_checkpoint_policy": agent_checkpoint_policy(loaded),
-        "restart_count": restart_count,
-        "max_restarts": max_restarts,
-        "last_child_exit": last_child_exit,
-        "agent_outcome": safe_fail_agent_outcome(status),
-        "recoverability": safe_fail_recoverability(status),
+        "restart_count": record.restart_count,
+        "max_restarts": record.max_restarts,
+        "last_child_exit": record.last_child_exit.clone(),
+        "agent_outcome": safe_fail_agent_outcome(record.status),
+        "recoverability": safe_fail_recoverability(record.status),
         "monotonicity": {
             "policy": "append_new_bundle_then_update_latest_pointer",
             "latest_pointer_ref": "safe_fail_bundle.json",
@@ -1554,12 +1564,12 @@ fn record_safe_fail_bundle(
             "event_stage": "safe_fail_serialization",
             "otel_service_name": "csm-runtime-daemon",
             "trace_id": daemon_trace_id(loaded),
-            "span_id": daemon_span_id("safe_fail_serialization", restart_count),
+            "span_id": daemon_span_id("safe_fail_serialization", record.restart_count),
             "parent_span_id": daemon_parent_span_id(loaded),
             "runtime_capabilities": csm_runtime_capabilities(runtime_context),
             "chronosense_clock_stack": csm_chronosense_clock_stack(runtime_context)
         },
-        "recovery_hints": safe_fail_recovery_hints(status),
+        "recovery_hints": safe_fail_recovery_hints(record.status),
         "negative_case_boundaries": [
             "graceful_stop_and_observed_failures_are_serialized",
             "kill_9_or_host_loss_may_only_preserve_last_completed_partial_checkpoint",
@@ -1572,7 +1582,7 @@ fn record_safe_fail_bundle(
             "not_distributed_consensus_checkpoint",
             "not_secret_material_capture"
         ],
-        "details": details
+        "details": record.details.clone()
     });
     let sequence_path =
         safe_fail_artifacts_dir(loaded).join(format!("safe-fail-{sequence:06}.json"));
@@ -1592,30 +1602,16 @@ fn record_safe_fail_bundle(
 fn record_safe_fail_event(
     runtime_context: &CsmRuntimeContext,
     loaded: &LoadedAgentSpec,
-    status: &StatusRecord,
-    trigger: &str,
-    restart_count: u64,
-    max_restarts: u64,
-    last_child_exit: Option<String>,
-    details: Value,
+    record: SafeFailRecord<'_>,
 ) -> Result<Value> {
-    match record_safe_fail_bundle(
-        runtime_context,
-        loaded,
-        status,
-        trigger,
-        restart_count,
-        max_restarts,
-        last_child_exit,
-        details,
-    ) {
+    match record_safe_fail_bundle(runtime_context, loaded, &record) {
         Ok(summary) => {
             emit_daemon_event(
                 runtime_context,
                 loaded,
                 "safe_fail_serialization",
                 "completed",
-                restart_count,
+                record.restart_count,
                 summary.clone(),
             )?;
             Ok(summary)
@@ -1624,7 +1620,7 @@ fn record_safe_fail_event(
             let summary = json!({
                 "schema": SAFE_FAIL_BUNDLE_SCHEMA,
                 "status": "serialization_failed",
-                "trigger": trigger,
+                "trigger": record.trigger,
                 "error": err.to_string(),
                 "fallback_refs": {
                     "status_ref": safe_fail_existing_ref(&status_path(loaded)),
@@ -1637,7 +1633,7 @@ fn record_safe_fail_event(
                 loaded,
                 "safe_fail_serialization",
                 "failed",
-                restart_count,
+                record.restart_count,
                 summary.clone(),
             )?;
             Ok(summary)
@@ -1727,7 +1723,7 @@ fn observe_agent_checkpoint_request(
         .signed_duration_since(last_checkpoint_at)
         .num_seconds()
         .max(0) as u64;
-    let (decision, reason) = if let Some(reason) = request_validation.as_deref() {
+    let (decision, reason) = if let Some(reason) = request_validation {
         ("blocked_malformed", reason)
     } else if !loaded.spec.checkpoint.allow_agent_requested {
         (
@@ -2134,18 +2130,20 @@ fn sleep_with_partial_checkpoints(
         let _ = record_safe_fail_event(
             runtime_context,
             loaded,
-            &current,
-            "daemon_partial_checkpoint",
-            sleep.restart_count,
-            sleep.max_restarts,
-            sleep.last_child_exit.clone(),
-            json!({
-                "checkpoint_reason": "daemon_partial_checkpoint",
-                "trigger": sleep.event,
-                "checkpoint_ref": "continuity_checkpoint.json",
-                "status_ref": "status.json",
-                "agent_checkpoint_request": agent_checkpoint_request
-            }),
+            SafeFailRecord {
+                status: &current,
+                trigger: "daemon_partial_checkpoint",
+                restart_count: sleep.restart_count,
+                max_restarts: sleep.max_restarts,
+                last_child_exit: sleep.last_child_exit.clone(),
+                details: json!({
+                    "checkpoint_reason": "daemon_partial_checkpoint",
+                    "trigger": sleep.event,
+                    "checkpoint_ref": "continuity_checkpoint.json",
+                    "status_ref": "status.json",
+                    "agent_checkpoint_request": agent_checkpoint_request
+                }),
+            },
         )?;
         return Ok(false);
     }
@@ -2203,19 +2201,21 @@ fn sleep_with_partial_checkpoints(
         let _ = record_safe_fail_event(
             runtime_context,
             loaded,
-            &current,
-            "daemon_partial_checkpoint",
-            sleep.restart_count,
-            sleep.max_restarts,
-            sleep.last_child_exit.clone(),
-            json!({
-                "checkpoint_reason": "daemon_partial_checkpoint",
-                "trigger": sleep.event,
-                "remaining_sleep_secs": remaining,
-                "checkpoint_ref": "continuity_checkpoint.json",
-                "status_ref": "status.json",
-                "agent_checkpoint_request": agent_checkpoint_request
-            }),
+            SafeFailRecord {
+                status: &current,
+                trigger: "daemon_partial_checkpoint",
+                restart_count: sleep.restart_count,
+                max_restarts: sleep.max_restarts,
+                last_child_exit: sleep.last_child_exit.clone(),
+                details: json!({
+                    "checkpoint_reason": "daemon_partial_checkpoint",
+                    "trigger": sleep.event,
+                    "remaining_sleep_secs": remaining,
+                    "checkpoint_ref": "continuity_checkpoint.json",
+                    "status_ref": "status.json",
+                    "agent_checkpoint_request": agent_checkpoint_request
+                }),
+            },
         )?;
         if read_stop(loaded)?.is_some() {
             stop_observed = true;
