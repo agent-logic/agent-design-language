@@ -3,7 +3,7 @@
   "aws_account_matches_expected": true,
   "aws_profile": "agent-logic-admin",
   "aws_region": "us-west-2",
-  "checked_at_utc": "2026-07-06T17:54:36Z",
+  "checked_at_utc": "2026-07-06T18:31:43Z",
   "durability": {
     "child_proof_retention": "transient_child_outputs_distilled_into_integrated_summary",
     "cloudwatch_retention_days": 7,
@@ -11,7 +11,7 @@
   },
   "integrated_paths": {
     "acip_sns": {
-      "message_id": "6e7cf64f-dcd5-5b6a-bb17-948a32ceec76",
+      "message_id": "825f5ce9-3f0e-5738-8d02-3e2cc9c15e2f",
       "projection_level": "content_summary",
       "resource_cleanup_requested": false,
       "route_class": "cross_boundary_deferred",
@@ -24,7 +24,7 @@
     "heartbeat_cloudwatch": {
       "event_count": 4,
       "log_group": "/adl/v0917/wp08/4684/runtime-heartbeat",
-      "log_stream": "run-wp08-4686-20260706T175430Z-heartbeat",
+      "log_stream": "run-wp08-4686-20260706T183137Z-heartbeat",
       "retention_days": 7,
       "signal_kind": "heartbeat",
       "source_issue": 4684,
@@ -50,7 +50,7 @@
     "raw_private_acip_content_recorded": false,
     "raw_topic_arn_recorded": false
   },
-  "run_id": "wp08-4686-20260706T175430Z",
+  "run_id": "wp08-4686-20260706T183137Z",
   "schema": "adl.wp08.aws_signal_integration.v1",
   "status": "passed"
 }

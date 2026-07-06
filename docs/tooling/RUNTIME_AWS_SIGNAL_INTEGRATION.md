@@ -9,10 +9,10 @@ signal paths can run together under one Agent Logic account guard:
 
 ## Live Proof
 
-Build the repo-owned binaries first:
+Build the repo-owned runtime binary first:
 
 ```bash
-cargo build --manifest-path adl/Cargo.toml --bin csm --bin run_wp08_acip_sns_live_proof
+cargo build --manifest-path adl/Cargo.toml --bin csm
 ```
 
 Then run the integrated proof from a bound issue worktree:
@@ -24,18 +24,25 @@ ADL_AWS_SIGNAL_INTEGRATION_ACCOUNT_SHA256="<operator-approved-agent-logic-accoun
     --profile agent-logic-admin \
     --region us-west-2 \
     --csm-bin adl/target/debug/csm \
-    --acip-proof-bin adl/target/debug/run_wp08_acip_sns_live_proof
+    --acip-proof-bin adl/target/debug/csm
 ```
 
 The wrapper verifies the selected AWS profile against the approved account hash
 before child proof scripts can mutate AWS state. It then runs:
 
-- `adl/tools/run_wp08_heartbeat_live_proof.sh`
-- `adl/tools/run_wp08_acip_sns_live_proof.sh`
+- `adl/tools/run_wp08_heartbeat_live_proof.sh`, which drives `csm` heartbeat
+  runtime behavior
+- `adl/tools/run_wp08_acip_sns_live_proof.sh`, which drives
+  `csm aws-signal acip-sns-proof`
 
 Child proof outputs are written to a temporary workspace and distilled into the
 integrated summary. The `#4686` retained artifact is intentionally one redacted
 summary rather than a copy of every child proof file.
+
+`csm` is the runtime owner for both live AWS signal paths. The historical
+`run_wp08_acip_sns_live_proof` binary remains only as a compatibility shim over
+the same Rust implementation; new operator and CI paths should use
+`csm aws-signal acip-sns-proof`.
 
 The retained integrated summary is:
 
@@ -56,8 +63,9 @@ id. It must not record raw AWS account ids, full account digests, credentials,
 raw SNS topic ARNs, or private ACIP content.
 
 The child ACIP proof retains its own historical `#4685` summary shape when run
-directly. The `#4686` integrated proof keeps those child outputs transient and
-distills only the redacted fields needed to prove the combined path.
+directly through the wrapper. The `#4686` integrated proof keeps those child
+outputs transient and distills only the redacted fields needed to prove the
+combined path.
 
 ## Negative Cases
 
@@ -71,3 +79,6 @@ and wrapper contract:
 - account mismatch is covered by
   `adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh`, which proves
   the wrapper stops before invoking child proof scripts
+- runtime binary ownership is covered by the focused `csm` dispatcher tests:
+  standalone `csm` accepts `aws-signal`, while `adl csm` rejects that runtime
+  surface

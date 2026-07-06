@@ -16,7 +16,7 @@ Options:
   --region <region>                 AWS region. Default: us-west-2.
   --run-id <id>                     Run id. Default: wp08-4686-<utc>.
   --csm-bin <path>                  csm binary for heartbeat proof.
-  --acip-proof-bin <path>           ACIP/SNS proof binary.
+  --acip-proof-bin <path>           csm proof command or legacy ACIP/SNS proof binary.
   --cleanup                         Ask child proofs to clean up disposable streams/topics where supported.
 USAGE
 }
@@ -27,7 +27,7 @@ PROFILE="${ADL_AWS_PROFILE:-agent-logic-admin}"
 REGION="${ADL_AWS_REGION:-us-west-2}"
 RUN_ID="wp08-4686-$(date -u +%Y%m%dT%H%M%SZ)"
 CSM_BIN="${ADL_CSM_BIN:-adl/target/debug/csm}"
-ACIP_PROOF_BIN="${ADL_ACIP_SNS_PROOF_BIN:-adl/target/debug/run_wp08_acip_sns_live_proof}"
+ACIP_PROOF_BIN="${ADL_ACIP_SNS_PROOF_BIN:-adl/target/debug/csm}"
 CLEANUP=0
 AWS_BIN="${AWS_BIN:-aws}"
 HEARTBEAT_SCRIPT="${ADL_WP08_HEARTBEAT_PROOF_SCRIPT:-adl/tools/run_wp08_heartbeat_live_proof.sh}"

@@ -64,7 +64,6 @@ cat >"$OUT/acip_sns_summary.json" <<JSON
   "aws_profile": "agent-logic-admin",
   "aws_region": "us-west-2",
   "aws_account_hash": "$ADL_AWS_ACCOUNT_HASH",
-  "aws_account_sha256": "$ADL_AWS_ACCOUNT_SHA256",
   "sns": {
     "topic_arn_hash": "b2ae781a59c36abf",
     "topic_name": "adl-v0917-wp08-acip-sns-4685",
@@ -125,10 +124,10 @@ assert summary["schema"] == "adl.wp08.acip_sns_live_proof.v1"
 assert summary["status"] == "passed"
 assert summary["aws_profile"] == "agent-logic-admin"
 assert summary["aws_account_hash"] != "123456789012"
-assert summary["aws_account_sha256"] == "2a33349e7e606a8ad2e30e3c84521f9377450cf09083e162e0a9b1480ce0f972"
+assert "aws_account_sha256" not in summary
 assert summary["sns"]["topic_name"] == "adl-v0917-wp08-acip-sns-4685"
 assert resource["schema"] == "adl.wp08.acip_sns_resource.v1"
-assert resource["aws_account_sha256"] == summary["aws_account_sha256"]
+assert "aws_account_sha256" not in resource
 assert resource["redaction"]["raw_topic_arn_recorded"] is False
 for required in [
     "sts get-caller-identity",

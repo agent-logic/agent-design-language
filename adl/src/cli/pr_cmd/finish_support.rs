@@ -4548,12 +4548,19 @@ fn finish_issue_needs_wp08_aws_signal_integration_validation(
             matches!(
                 trimmed,
                 "adl/config/validation_lane_selector.v0.91.6.json"
+                    | "adl/src/bin/run_wp08_acip_sns_live_proof.rs"
+                    | "adl/src/cli/csm_cmd.rs"
                     | "adl/src/cli/pr_cmd/finish_support.rs"
                     | "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs"
+                    | "adl/src/lib.rs"
                     | "adl/tools/run_wp08_aws_signal_integration_live_proof.sh"
+                    | "adl/tools/run_wp08_acip_sns_live_proof.sh"
                     | "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh"
+                    | "adl/tools/test_run_wp08_acip_sns_live_proof.sh"
                     | "adl/tools/validate_wp08_aws_signal_integration_live_proof.py"
+                    | "adl/src/wp08_acip_sns_proof.rs"
                     | "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md"
+                    | "docs/tooling/RUNTIME_AWS_ACIP_SNS.md"
             ) || trimmed.starts_with(
                 "docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/",
             )
@@ -4572,6 +4579,10 @@ fn build_wp08_aws_signal_integration_validation_plan() -> FinishValidationPlan {
     push_finish_validation_command(
         &mut commands,
         "cargo test --manifest-path adl/Cargo.toml runtime_aws_signal -- --nocapture --test-threads=1",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture",
     );
     push_finish_validation_command(
         &mut commands,
