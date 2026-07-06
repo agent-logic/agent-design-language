@@ -75,6 +75,14 @@ run_csm continuity stage --bundle capsule --out ec2_blocked --target-host ec2 --
   >"$OUT/logs/ec2_stage_stdout.json" \
   2>"$OUT/logs/ec2_stage_stderr.log"
 
+run_csm continuity restore --bundle capsule --out ec2_restored --target-host ec2 --json \
+  >"$OUT/logs/restore_stdout.json" \
+  2>"$OUT/logs/restore_stderr.log"
+
+run_csm daemon --spec ec2_restored/agent.yaml --max-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
+  >"$OUT/logs/restored_daemon_stdout.json" \
+  2>"$OUT/logs/restored_daemon_stderr.log"
+
 python3 - "$OUT" "$CSM_BIN" <<'PY'
 import json
 import pathlib
@@ -171,11 +179,12 @@ shutil.rmtree(negative_root)
 manifest = json.loads((out / "capsule" / "continuity_capsule_manifest.json").read_text(encoding="utf-8"))
 stage_report = json.loads((out / "ec2_staged" / "stage_report.json").read_text(encoding="utf-8"))
 ec2_report = json.loads((out / "ec2_blocked" / "stage_report.json").read_text(encoding="utf-8"))
+restore_report = json.loads((out / "ec2_restored" / "restore_report.json").read_text(encoding="utf-8"))
 summary = {
     "schema": "adl.csm.continuity_capsule_4910_proof_summary.v1",
     "runtime_owner": "csm",
-    "proof_classification": "proving_with_blocked_live_ec2_transfer",
-    "command_surface": "csm continuity capture|stage",
+    "proof_classification": "proving_with_restore_fire_up_and_blocked_live_ec2_transfer",
+    "command_surface": "csm continuity capture|stage|restore",
     "format_version": manifest["format_version"],
     "manifest_schema": manifest["schema"],
     "agent_instance_id": manifest["agent_instance_id"],
@@ -183,6 +192,9 @@ summary = {
     "stage_target_host": stage_report["target_host"],
     "stage_status": stage_report["status"],
     "live_ec2_status": ec2_report["status"],
+    "restore_target_host": restore_report["target_host"],
+    "restore_status": restore_report["status"],
+    "restored_daemon_fire_up": "passed",
     "aws_profile_policy": ec2_report["blockers"][0]["required_profile"],
     "artifact_count": len(manifest["artifacts"]),
     "retained_runtime_roles": sorted({artifact["role"] for artifact in manifest["artifacts"]}),
@@ -210,14 +222,17 @@ Evidence:
 - `ec2_staged/stage_report.json` proves local EC2-staging validation.
 - `ec2_blocked/stage_report.json` records the live EC2 transfer boundary and
   required `agent-logic-admin` business AWS profile.
+- `ec2_restored/restore_report.json` proves capsule restore into a runtime root,
+  and `logs/restored_daemon_stdout.json` proves `csm daemon` fired from the
+  restored spec/state.
 - `negative_results.json` records version mismatch, missing file, path leakage,
   credential-like key, corrupted manifest, and unsupported target-host rejection.
 - `logs/observability.log`, `logs/otel.jsonl`, and `logs/otel_status.json`
   retain runtime observability for daemon, capture, and stage events.
 
-Truth boundary: this proves portable capture and staging of current CSM runtime
-state. It does not claim live EC2 transfer, provider-secret export, or
-production multi-region disaster recovery.
+Truth boundary: this proves portable capture, staging, restore, and restored
+daemon fire-up of current CSM runtime state. It does not claim provider-secret
+export or production multi-region disaster recovery.
 """
 (out / "README.md").write_text(readme, encoding="utf-8")
 PY

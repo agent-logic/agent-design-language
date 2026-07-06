@@ -19,6 +19,8 @@ required = [
     "logs/capture_stdout.json",
     "logs/stage_stdout.json",
     "logs/ec2_stage_stdout.json",
+    "logs/restore_stdout.json",
+    "logs/restored_daemon_stdout.json",
     "logs/observability.log",
     "logs/otel.jsonl",
     "logs/otel_status.json",
@@ -35,6 +37,9 @@ required = [
     "capsule/state/operator_events.jsonl",
     "ec2_staged/stage_report.json",
     "ec2_blocked/stage_report.json",
+    "ec2_restored/restore_report.json",
+    "ec2_restored/agent.yaml",
+    "ec2_restored/state/continuity_checkpoint.json",
 ]
 missing = [path for path in required if not (proof / path).exists()]
 if missing:
@@ -45,12 +50,16 @@ if summary.get("schema") != "adl.csm.continuity_capsule_4910_proof_summary.v1":
     raise SystemExit("proof summary schema drift")
 if summary.get("runtime_owner") != "csm":
     raise SystemExit("runtime owner must be csm")
-if summary.get("command_surface") != "csm continuity capture|stage":
+if summary.get("command_surface") != "csm continuity capture|stage|restore":
     raise SystemExit("command surface drift")
-if summary.get("proof_classification") != "proving_with_blocked_live_ec2_transfer":
+if summary.get("proof_classification") != "proving_with_restore_fire_up_and_blocked_live_ec2_transfer":
     raise SystemExit("proof classification drift")
 if summary.get("live_ec2_status") != "blocked":
     raise SystemExit("live EC2 transfer must remain explicitly blocked")
+if summary.get("restore_status") != "restored":
+    raise SystemExit("restore status must be restored")
+if summary.get("restored_daemon_fire_up") != "passed":
+    raise SystemExit("restored daemon fire-up must pass")
 if summary.get("aws_profile_policy") != "agent-logic-admin":
     raise SystemExit("AWS profile policy must name agent-logic-admin")
 
@@ -119,6 +128,14 @@ if ec2_report.get("rebind_policy", {}).get("target_host") != "ec2":
 if ec2_report.get("blockers", [{}])[0].get("required_profile") != "agent-logic-admin":
     raise SystemExit("live EC2 blocker must require agent-logic-admin")
 
+restore_report = json.loads((proof / "ec2_restored" / "restore_report.json").read_text(encoding="utf-8"))
+if restore_report.get("schema") != "adl.csm.continuity_capsule_restore_report.v1":
+    raise SystemExit("restore report schema drift")
+if restore_report.get("status") != "restored":
+    raise SystemExit("restore report must be restored")
+if restore_report.get("runtime_owner") != "csm":
+    raise SystemExit("restore report runtime_owner drift")
+
 negative = json.loads((proof / "negative_results.json").read_text(encoding="utf-8"))
 if negative.get("schema") != "adl.csm.continuity_capsule_4910_negative_results.v1":
     raise SystemExit("negative result schema drift")
@@ -139,12 +156,20 @@ for name, record in records.items():
 
 capture_stdout = json.loads((proof / "logs" / "capture_stdout.json").read_text(encoding="utf-8"))
 stage_stdout = json.loads((proof / "logs" / "stage_stdout.json").read_text(encoding="utf-8"))
+restore_stdout = json.loads((proof / "logs" / "restore_stdout.json").read_text(encoding="utf-8"))
+restored_daemon_stdout = json.loads((proof / "logs" / "restored_daemon_stdout.json").read_text(encoding="utf-8"))
 if capture_stdout.get("schema") != "adl.csm.continuity_capsule_command_result.v1":
     raise SystemExit("capture stdout schema drift")
 if capture_stdout.get("operation") != "capture" or capture_stdout.get("status") != "captured":
     raise SystemExit("capture stdout status drift")
 if stage_stdout.get("operation") != "stage" or stage_stdout.get("status") != "staged":
     raise SystemExit("stage stdout status drift")
+if restore_stdout.get("operation") != "restore" or restore_stdout.get("status") != "restored":
+    raise SystemExit("restore stdout status drift")
+if restored_daemon_stdout.get("schema") != "adl.long_lived_agent_daemon_status.v1":
+    raise SystemExit("restored daemon stdout schema drift")
+if restored_daemon_stdout.get("state") != "completed":
+    raise SystemExit("restored daemon must complete")
 
 observability = (proof / "logs" / "observability.log").read_text(encoding="utf-8")
 for marker in [
@@ -153,6 +178,7 @@ for marker in [
     "stage=checkpoint_write",
     "stage=continuity_capsule_capture",
     "stage=continuity_capsule_stage",
+    "stage=continuity_capsule_restore",
     "otel_service_name=csm-runtime-daemon",
 ]:
     if marker not in observability:
@@ -161,7 +187,11 @@ otel_status = json.loads((proof / "logs" / "otel_status.json").read_text(encodin
 if otel_status.get("schema") != "adl.otel.monitor_status.v1":
     raise SystemExit("otel status schema drift")
 otel_events = (proof / "logs" / "otel.jsonl").read_text(encoding="utf-8")
-if "csm.continuity_capsule_capture" not in otel_events or "csm.continuity_capsule_stage" not in otel_events:
+if (
+    "csm.continuity_capsule_capture" not in otel_events
+    or "csm.continuity_capsule_stage" not in otel_events
+    or "csm.continuity_capsule_restore" not in otel_events
+):
     raise SystemExit("missing continuity capsule OTel events")
 
 bad_markers = ["/Users/", "/private/tmp/", "/var/folders/", "/tmp/", "api_key", "password"]

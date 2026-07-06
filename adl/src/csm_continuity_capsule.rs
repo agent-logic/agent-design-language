@@ -12,6 +12,7 @@ use crate::long_lived_agent;
 
 pub const CONTINUITY_CAPSULE_SCHEMA: &str = "adl.csm.continuity_capsule.v1";
 pub const CONTINUITY_STAGE_REPORT_SCHEMA: &str = "adl.csm.continuity_capsule_stage_report.v1";
+pub const CONTINUITY_RESTORE_REPORT_SCHEMA: &str = "adl.csm.continuity_capsule_restore_report.v1";
 pub const CONTINUITY_CAPSULE_FORMAT_VERSION: &str = "csm.continuity-capsule.v1";
 
 #[derive(Debug, Clone)]
@@ -24,6 +25,13 @@ pub struct ContinuityCaptureOptions {
 
 #[derive(Debug, Clone)]
 pub struct ContinuityStageOptions {
+    pub bundle_dir: PathBuf,
+    pub out_dir: PathBuf,
+    pub target_host: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct ContinuityRestoreOptions {
     pub bundle_dir: PathBuf,
     pub out_dir: PathBuf,
     pub target_host: String,
@@ -252,6 +260,108 @@ pub fn stage_capsule(options: ContinuityStageOptions) -> Result<ContinuityComman
         target_host: options.target_host,
         event_count: 1,
         non_claims: continuity_capsule_non_claims(),
+    })
+}
+
+pub fn restore_capsule(options: ContinuityRestoreOptions) -> Result<ContinuityCommandResult> {
+    let manifest_path = options.bundle_dir.join("continuity_capsule_manifest.json");
+    let manifest: BundleManifest = read_json(&manifest_path)?;
+    validate_manifest(&manifest)?;
+    validate_target_host(&options.target_host)?;
+    scan_tree_for_portability(&options.bundle_dir, &options.bundle_dir)?;
+
+    if options.out_dir.exists() {
+        fs::remove_dir_all(&options.out_dir)
+            .with_context(|| format!("failed clearing {}", options.out_dir.display()))?;
+    }
+    fs::create_dir_all(options.out_dir.join("state")).with_context(|| {
+        format!(
+            "failed creating restored state {}",
+            options.out_dir.join("state").display()
+        )
+    })?;
+
+    for artifact in &manifest.artifacts {
+        let source = options.bundle_dir.join(&artifact.bundle_ref);
+        if !source.exists() {
+            bail!(
+                "continuity capsule restore missing bundle artifact {}",
+                artifact.bundle_ref
+            );
+        }
+        if sha256_file(&source)? != artifact.sha256 {
+            bail!(
+                "continuity capsule restore hash mismatch for {}",
+                artifact.bundle_ref
+            );
+        }
+        let relative = artifact
+            .bundle_ref
+            .strip_prefix("state/")
+            .unwrap_or(artifact.bundle_ref.as_str());
+        let dest = options.out_dir.join("state").join(relative);
+        copy_artifact_tree(&source, &dest)?;
+    }
+
+    let spec: long_lived_agent::AgentSpec =
+        read_json(&options.out_dir.join("state").join("agent_spec.locked.json"))?;
+    let spec_yaml = serde_yaml::to_string(&spec)?;
+    fs::write(options.out_dir.join("agent.yaml"), spec_yaml).with_context(|| {
+        format!(
+            "failed writing {}",
+            options.out_dir.join("agent.yaml").display()
+        )
+    })?;
+
+    let report = json!({
+        "schema": CONTINUITY_RESTORE_REPORT_SCHEMA,
+        "format_version": CONTINUITY_CAPSULE_FORMAT_VERSION,
+        "runtime_owner": "csm",
+        "agent_instance_id": manifest.agent_instance_id,
+        "target_host": options.target_host,
+        "status": "restored",
+        "restored_spec_ref": "agent.yaml",
+        "restored_state_ref": "state/",
+        "manifest_ref": "continuity_capsule_manifest.json",
+        "artifact_count": manifest.artifacts.len(),
+        "rebind_policy": rebind_policy(&options.target_host),
+        "observability": observability_contract("restore"),
+        "non_claims": [
+            "not_secret_material_restore",
+            "not_provider_auth_restore",
+            "not_multi_region_disaster_recovery"
+        ]
+    });
+    write_json_pretty(&options.out_dir.join("restore_report.json"), &report)?;
+    emit_continuity_event(
+        "continuity_capsule_restore",
+        "restored",
+        &manifest.agent_instance_id,
+        &options.target_host,
+        json!({
+            "bundle_ref": ".",
+            "report_ref": "restore_report.json",
+            "restored_spec_ref": "agent.yaml",
+            "artifact_count": manifest.artifacts.len()
+        }),
+    );
+    Ok(ContinuityCommandResult {
+        schema: "adl.csm.continuity_capsule_command_result.v1".to_string(),
+        format_version: CONTINUITY_CAPSULE_FORMAT_VERSION.to_string(),
+        runtime_owner: "csm".to_string(),
+        operation: "restore".to_string(),
+        status: "restored".to_string(),
+        bundle_dir: options.bundle_dir,
+        manifest_ref: "continuity_capsule_manifest.json".to_string(),
+        report_ref: Some("restore_report.json".to_string()),
+        agent_instance_id: Some(manifest.agent_instance_id),
+        target_host: options.target_host,
+        event_count: 1,
+        non_claims: vec![
+            "not_secret_material_restore".to_string(),
+            "not_provider_auth_restore".to_string(),
+            "not_multi_region_disaster_recovery".to_string(),
+        ],
     })
 }
 

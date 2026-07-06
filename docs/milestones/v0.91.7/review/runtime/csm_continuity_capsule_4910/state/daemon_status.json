@@ -49,13 +49,13 @@
     }
   },
   "state": "completed",
-  "supervisor_pid": 5770,
+  "supervisor_pid": 36828,
   "restart_count": 0,
   "max_restarts": 1,
   "checkpoint_interval_secs": 1,
   "last_event": "daemon_completed",
   "last_child_exit": "success",
-  "last_checkpoint_at": "2026-07-06T01:56:46.363665Z",
+  "last_checkpoint_at": "2026-07-06T02:31:26.073124Z",
   "next_backoff_secs": 0,
   "trace_id": "agent.csm-continuity-4910.daemon",
   "span_id": "daemon:daemon_completed:0",
@@ -66,5 +66,5 @@
     "not_host_resource_exhaustion_resistant",
     "not_missing_binary_resistant"
   ],
-  "updated_at": "2026-07-06T01:56:46.363665Z"
+  "updated_at": "2026-07-06T02:31:26.073124Z"
 }

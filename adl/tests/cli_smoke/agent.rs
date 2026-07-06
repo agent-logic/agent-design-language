@@ -681,6 +681,70 @@ memory:
         .join("staged_state/continuity_checkpoint.json")
         .exists());
 
+    let restored = root.join("restored-runtime");
+    let restore = run_csm_with_env(
+        &[
+            "continuity",
+            "restore",
+            "--bundle",
+            bundle.to_str().expect("utf8 bundle"),
+            "--out",
+            restored.to_str().expect("utf8 restored"),
+            "--target-host",
+            "ec2-staging",
+            "--json",
+        ],
+        &[
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            (
+                "ADL_OBSERVABILITY_LOG",
+                observability_log.to_str().expect("utf8 observability"),
+            ),
+        ],
+    );
+    assert!(
+        restore.status.success(),
+        "expected continuity restore success, stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&restore.stdout),
+        String::from_utf8_lossy(&restore.stderr)
+    );
+    let restore_stdout: serde_json::Value =
+        serde_json::from_slice(&restore.stdout).expect("parse restore stdout");
+    assert_eq!(restore_stdout["operation"], "restore");
+    assert_eq!(restore_stdout["status"], "restored");
+    let restore_report: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(restored.join("restore_report.json")).expect("read restore report"),
+    )
+    .expect("parse restore report");
+    assert_eq!(
+        restore_report["schema"],
+        "adl.csm.continuity_capsule_restore_report.v1"
+    );
+    assert_eq!(restore_report["status"], "restored");
+    assert!(restored.join("agent.yaml").exists());
+    assert!(restored.join("state/continuity_checkpoint.json").exists());
+
+    let restored_daemon = run_csm(&[
+        "daemon",
+        "--spec",
+        restored
+            .join("agent.yaml")
+            .to_str()
+            .expect("utf8 restored spec"),
+        "--max-restarts",
+        "1",
+        "--checkpoint-interval-secs",
+        "1",
+        "--no-sleep",
+        "--json",
+    ]);
+    assert!(
+        restored_daemon.status.success(),
+        "expected restored daemon fire-up success, stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&restored_daemon.stdout),
+        String::from_utf8_lossy(&restored_daemon.stderr)
+    );
+
     let ec2_blocked = root.join("ec2-blocked");
     let ec2_stage = run_csm(&[
         "continuity",
@@ -713,6 +777,7 @@ memory:
         fs::read_to_string(&observability_log).expect("read continuity observability");
     assert!(observability.contains("stage=continuity_capsule_capture"));
     assert!(observability.contains("stage=continuity_capsule_stage"));
+    assert!(observability.contains("stage=continuity_capsule_restore"));
     assert!(observability.contains("otel_service_name=csm-runtime-daemon"));
 
     assert_stage_failure(

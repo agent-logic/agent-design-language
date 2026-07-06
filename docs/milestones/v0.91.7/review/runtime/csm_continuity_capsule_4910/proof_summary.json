@@ -1,8 +1,8 @@
 {
   "schema": "adl.csm.continuity_capsule_4910_proof_summary.v1",
   "runtime_owner": "csm",
-  "proof_classification": "proving_with_blocked_live_ec2_transfer",
-  "command_surface": "csm continuity capture|stage",
+  "proof_classification": "proving_with_restore_fire_up_and_blocked_live_ec2_transfer",
+  "command_surface": "csm continuity capture|stage|restore",
   "format_version": "csm.continuity-capsule.v1",
   "manifest_schema": "adl.csm.continuity_capsule.v1",
   "agent_instance_id": "csm-continuity-4910",
@@ -10,6 +10,9 @@
   "stage_target_host": "ec2-staging",
   "stage_status": "staged",
   "live_ec2_status": "blocked",
+  "restore_target_host": "ec2",
+  "restore_status": "restored",
+  "restored_daemon_fire_up": "passed",
   "aws_profile_policy": "agent-logic-admin",
   "artifact_count": 18,
   "retained_runtime_roles": [

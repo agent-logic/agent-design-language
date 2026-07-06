@@ -2,7 +2,7 @@
   "schema": "adl.csm.continuity_capsule.v1",
   "format_version": "csm.continuity-capsule.v1",
   "runtime_owner": "csm",
-  "created_at": "2026-07-06T01:56:46.382073+00:00",
+  "created_at": "2026-07-06T02:31:26.088043+00:00",
   "agent_instance_id": "csm-continuity-4910",
   "source_host": "wuji",
   "target_host": "ec2-staging",
@@ -21,7 +21,7 @@
       "role": "recoverable_status",
       "source_ref": "status.json",
       "bundle_ref": "state/status.json",
-      "sha256": "bc530e64b0d5485f0bc09e29bcaaebb321c6598a7e0871bd5958f92f83ac1d5a",
+      "sha256": "2cd736659afa81d0d2ecc301b1d33b8ed55b930795c2c0de7c1b791f7665b8ad",
       "bytes": 699,
       "required": true
     },
@@ -29,15 +29,15 @@
       "role": "daemon_status",
       "source_ref": "daemon_status.json",
       "bundle_ref": "state/daemon_status.json",
-      "sha256": "91cdd20426bcedaf160c580ca4eb5973da136460173023552b0e4370d26ed3e3",
-      "bytes": 2248,
+      "sha256": "2d4210233467e285eebaad47d99e286161a3530ada0ee0a08de21bf8245d9635",
+      "bytes": 2249,
       "required": true
     },
     {
       "role": "continuity",
       "source_ref": "continuity.json",
       "bundle_ref": "state/continuity.json",
-      "sha256": "7966bfda7778be29589f480d1427e390a2d543a9498426026b2acfc0943c212e",
+      "sha256": "c17a39c847688285d0f0e572fb2eb0d0bf19be2ce52129c4430480904c8586e5",
       "bytes": 695,
       "required": true
     },
@@ -45,7 +45,7 @@
       "role": "continuity_checkpoint",
       "source_ref": "continuity_checkpoint.json",
       "bundle_ref": "state/continuity_checkpoint.json",
-      "sha256": "10f1d2b2c6ca2cc8726b5e49a5a64242d87850a02d26dfe38dc657c956a4f3ad",
+      "sha256": "f0503c0dbb78ba4175e1b87bb88e22ba87bd17217fa8f7d5b31e1da985ce04e8",
       "bytes": 722,
       "required": true
     },
@@ -53,7 +53,7 @@
       "role": "continuity_replay_manifest",
       "source_ref": "continuity_replay_manifest.json",
       "bundle_ref": "state/continuity_replay_manifest.json",
-      "sha256": "3aa604cb9585fa6b8be6b765d2223d68b6a5d02a3c67797903d77df87bdc95f5",
+      "sha256": "14ad1f3fcb93d8e858e76917a61a1c6022bcf7ecd154f6e4438a16cb5067c71c",
       "bytes": 1116,
       "required": true
     },
@@ -61,7 +61,7 @@
       "role": "dag_run_ledger",
       "source_ref": "cycle_ledger.jsonl",
       "bundle_ref": "state/cycle_ledger.jsonl",
-      "sha256": "efaf108fd104b9de17005871a669c164ea2e8ada8af55201ff9fed4130ba8600",
+      "sha256": "eaf437d7eccceb54a4227973002f4a3537a5a98386307c862a1397bd471bbcd0",
       "bytes": 532,
       "required": true
     },
@@ -77,7 +77,7 @@
       "role": "provider_binding_history",
       "source_ref": "provider_binding_history.jsonl",
       "bundle_ref": "state/provider_binding_history.jsonl",
-      "sha256": "ea679608f8a11fad8f45880d264fee65d419c3daa911cc66c4ed3182b62551f1",
+      "sha256": "068c8228aaba56432f526e594e1afab3a66e7831f2e163f2f802b4b524edd85e",
       "bytes": 274,
       "required": true
     },
@@ -85,7 +85,7 @@
       "role": "observability_tail",
       "source_ref": "operator_events.jsonl",
       "bundle_ref": "state/operator_events.jsonl",
-      "sha256": "5648bda8abfdfd4ac0b97397ae4b3be86153058573a6e667844e0625eab40cd9",
+      "sha256": "811979b4c65cd833338a4287d76c1c6df35af756d5fbc010e1b4b24b3ec07faa",
       "bytes": 13252,
       "required": true
     },
@@ -93,7 +93,7 @@
       "role": "cycle_artifacts",
       "source_ref": "cycles/cycle-000001/cycle_manifest.json",
       "bundle_ref": "state/cycles/cycle-000001/cycle_manifest.json",
-      "sha256": "7084fba874cd2b4d648b5ae61c02bccd7f7f143ffc04e170c836cdcc110cba47",
+      "sha256": "e5369a5be0ca4eec3c49af0a15fa5bd8aef60b7be1c6071e03557d8a13925f80",
       "bytes": 1224,
       "required": false
     },
@@ -141,7 +141,7 @@
       "role": "cycle_artifacts",
       "source_ref": "cycles/cycle-000001/observations.json",
       "bundle_ref": "state/cycles/cycle-000001/observations.json",
-      "sha256": "d359306725c5d658f3b23a00d0bc7a68e09afdc4f6342cd8ec2f10133c7e39d3",
+      "sha256": "2505e110a9ab758c3c91aaba6e859a756ea32dec8c4f446602a537a87433a347",
       "bytes": 626,
       "required": false
     },

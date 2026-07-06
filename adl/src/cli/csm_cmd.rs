@@ -4,7 +4,8 @@ use std::path::PathBuf;
 use super::agent_cmd::real_csm_daemon;
 use super::csm_service_cmd::real_service;
 use ::adl::csm_continuity_capsule::{
-    capture_capsule, stage_capsule, ContinuityCaptureOptions, ContinuityStageOptions,
+    capture_capsule, restore_capsule, stage_capsule, ContinuityCaptureOptions,
+    ContinuityRestoreOptions, ContinuityStageOptions,
 };
 use ::adl::csm_observatory::{write_observatory_outputs, ObservatoryFormat};
 
@@ -62,18 +63,21 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
 
 fn real_continuity(args: &[String]) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
-        eprintln!("csm continuity requires subcommand: capture | stage");
+        eprintln!("csm continuity requires subcommand: capture | stage | restore");
         std::process::exit(2);
     };
     match cmd {
         "capture" => real_continuity_capture(&args[1..]),
         "stage" => real_continuity_stage(&args[1..]),
+        "restore" => real_continuity_restore(&args[1..]),
         "--help" | "-h" => {
             println!("{}", csm_usage());
             Ok(())
         }
         other => {
-            eprintln!("unknown csm continuity subcommand: {other} (expected capture or stage)");
+            eprintln!(
+                "unknown csm continuity subcommand: {other} (expected capture, stage, or restore)"
+            );
             std::process::exit(2);
         }
     }
@@ -160,6 +164,46 @@ fn real_continuity_stage(args: &[String]) -> Result<()> {
     let result = stage_capsule(ContinuityStageOptions {
         bundle_dir: bundle.context("csm continuity stage requires --bundle <bundle-dir>")?,
         out_dir: out_dir.context("csm continuity stage requires --out <stage-dir>")?,
+        target_host,
+    })?;
+    print_continuity_result(&result, json_output)
+}
+
+fn real_continuity_restore(args: &[String]) -> Result<()> {
+    let mut bundle: Option<PathBuf> = None;
+    let mut out_dir: Option<PathBuf> = None;
+    let mut target_host = "ec2-staging".to_string();
+    let mut json_output = false;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--bundle" => {
+                bundle = Some(PathBuf::from(required_value(args, i, "--bundle")?));
+                i += 1;
+            }
+            "--out" => {
+                out_dir = Some(PathBuf::from(required_value(args, i, "--out")?));
+                i += 1;
+            }
+            "--target-host" => {
+                target_host = required_value(args, i, "--target-host")?.to_string();
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm continuity restore arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+    let result = restore_capsule(ContinuityRestoreOptions {
+        bundle_dir: bundle.context("csm continuity restore requires --bundle <bundle-dir>")?,
+        out_dir: out_dir.context("csm continuity restore requires --out <runtime-dir>")?,
         target_host,
     })?;
     print_continuity_result(&result, json_output)
@@ -261,6 +305,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm service start|status|stop|remove [--service-root <dir>] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
   csm continuity stage --bundle <bundle-dir> --out <stage-dir> [--target-host ec2-staging|ec2|local] [--json]
+  csm continuity restore --bundle <bundle-dir> --out <runtime-dir> [--target-host ec2-staging|ec2|local] [--json]
   adl csm observatory --packet <visibility-packet.json> [--format bundle|json|report] [--out <dir>]  # read-only control-plane inspection
   csm observatory --packet <visibility-packet.json> [--format bundle|json|report] [--out <dir>]
 
@@ -268,7 +313,7 @@ Semantics:
   - csm is the dedicated runtime owner binary.
   - csm daemon owns long-lived runtime execution, partial checkpoints, restart accounting, recoverable terminal state, and runtime observability.
   - csm service owns host service-manager installation/status around csm daemon; launchd is the primary macOS target and local mode is a bounded proof fallback.
-  - csm continuity captures and stages portable continuity capsules with secrets excluded and host bindings explicit.
+  - csm continuity captures, stages, and restores portable continuity capsules with secrets excluded and host bindings explicit.
   - csm daemon emits ADL_OBSERVABILITY_LOG, ADL_OTEL_LOG, and ADL_OTEL_STATUS records through the shared observability contract.
   - Read-only CSM Observatory inspection.
   - Validates the visibility packet before emitting artifacts.

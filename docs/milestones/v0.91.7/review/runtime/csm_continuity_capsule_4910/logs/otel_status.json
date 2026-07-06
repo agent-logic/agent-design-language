@@ -1,9 +1,9 @@
 {
   "schema": "adl.otel.monitor_status.v1",
-  "event_count": 14,
-  "last_event": "csm.continuity_capsule_stage",
-  "last_result": "blocked",
-  "last_trace_id": null,
-  "last_span_id": null,
-  "updated_at": "2026-07-06T01:56:46.410268+00:00"
+  "event_count": 24,
+  "last_event": "csm.csm_daemon",
+  "last_result": "completed",
+  "last_trace_id": "agent.csm-continuity-4910.daemon",
+  "last_span_id": "daemon:daemon_completed:0",
+  "updated_at": "2026-07-06T02:31:26.150874+00:00"
 }
