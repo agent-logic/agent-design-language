@@ -1058,6 +1058,13 @@ apply_validation_manager_routing() {
       return 0
       ;;
   esac
+  if [ "$validation_profile_status" = "escalation_required" ] \
+    && [ "$validation_profile_run_lanes" = "wp08_cloudfront_control_proof" ] \
+    && [ "$validation_profile_escalation_lanes" = "rust_pr_fast" ]; then
+    mark_pr_fast_rust_validation
+    reason="${validation_profile_primary_reason:-wp08_cloudfront_control_surface_requires_csm_runtime_hook_wrapper_contract_checks}"
+    return 0
+  fi
   if [ "$validation_profile_status" = "escalation_required" ] && ! manager_profile_is_release_gate_only_escalation; then
     fail_closed=true
     mark_authoritative_full_coverage "fail_closed" "validation_manager_escalation_requires_authoritative_full_coverage"
