@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ADL HTML Observatory - Runtime Proof</title>
+    <meta
+      name="description"
+      content="Investor-ready HTML Observatory proof consuming the retained v0.91.7 CSM runtime packet."
+    >
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main
+      class="observatory"
+      data-packet-ref="../../../docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json"
+      data-report-ref="../../../docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md"
+      data-csm-service-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_service_4903/service/service_manifest.json"
+      data-csm-api-ref="../../../docs/milestones/v0.91.7/review/runtime/CSM_RUNTIME_API_4929.md"
+      data-cloudwatch-ref="../../../docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
+      data-cloudwatch-events-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json"
+    >
+      <header class="topbar" aria-label="Observatory status">
+        <a class="brand" href="#runtime-proof" aria-label="ADL HTML Observatory">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>ADL Observatory</span>
+        </a>
+        <nav class="nav" aria-label="Proof views">
+          <a href="#runtime-proof">Runtime</a>
+          <a href="#csm-api">CSM API</a>
+          <a href="#cloudwatch">CloudWatch</a>
+          <a href="#governance">Governance</a>
+          <a href="#evidence">Evidence</a>
+        </nav>
+        <div class="status-pill" id="packet-status">Loading packet</div>
+      </header>
+
+      <section class="hero" id="runtime-proof" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">v0.91.7 / HTML Observatory integrated proof</p>
+          <h1 id="hero-title">Runtime evidence, made visible.</h1>
+          <p class="lede" id="claim-boundary">
+            Loading the bounded runtime capture and operator report.
+          </p>
+          <div class="hero-actions" aria-label="Primary proof actions">
+            <a class="button button-primary" id="packet-link" href="#" data-proof-link>Open packet</a>
+            <a class="button button-secondary" id="report-link" href="#" data-proof-link>Open report</a>
+          </div>
+        </div>
+
+        <section class="proof-card proof-card-live" aria-labelledby="packet-heading">
+          <div class="proof-card-header">
+            <p class="eyebrow">Packet identity</p>
+            <span class="mini-badge" id="evidence-level">pending</span>
+          </div>
+          <h2 id="packet-heading">Runtime / Ops Soak</h2>
+          <dl class="metric-grid">
+            <div>
+              <dt>Manifold</dt>
+              <dd id="manifold-id">pending</dd>
+            </div>
+            <div>
+              <dt>State</dt>
+              <dd id="manifold-state">pending</dd>
+            </div>
+            <div>
+              <dt>Tick</dt>
+              <dd id="manifold-tick">0</dd>
+            </div>
+            <div>
+              <dt>Packet</dt>
+              <dd id="packet-id">pending</dd>
+            </div>
+          </dl>
+        </section>
+      </section>
+
+      <section class="runtime-grid" aria-label="Runtime proof dashboard">
+        <section class="panel system-map" aria-labelledby="map-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">CSM runtime</p>
+              <h2 id="map-title">Proof topology</h2>
+            </div>
+            <span class="mini-badge">read only</span>
+          </div>
+          <div class="orbit-map" id="orbit-map" aria-label="Runtime lanes"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="services-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Kernel pulse</p>
+              <h2 id="services-title">Services</h2>
+            </div>
+            <span id="kernel-status" class="mini-badge">pending</span>
+          </div>
+          <div class="service-list" id="service-list"></div>
+        </section>
+
+        <section class="panel" id="csm-api" aria-labelledby="csm-api-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Runtime API</p>
+              <h2 id="csm-api-title">CSM local control plane</h2>
+            </div>
+            <span class="mini-badge" id="csm-api-status">pending</span>
+          </div>
+          <div class="integration-list" id="csm-api-list"></div>
+        </section>
+
+        <section class="panel" id="cloudwatch" aria-labelledby="cloudwatch-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">AWS linkage</p>
+              <h2 id="cloudwatch-title">CloudWatch heartbeat</h2>
+            </div>
+            <span class="mini-badge" id="cloudwatch-status">pending</span>
+          </div>
+          <div class="integration-list" id="cloudwatch-list"></div>
+        </section>
+
+        <section class="panel wide-panel" id="communication" aria-labelledby="communication-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Operator communication</p>
+              <h2 id="communication-title">CSM event channel</h2>
+            </div>
+            <span class="mini-badge" id="communication-status">offline draft</span>
+          </div>
+          <div class="communication-grid">
+            <label class="field">
+              <span class="row-kicker">Live CSM API base</span>
+              <input id="runtime-api-base" type="url" inputmode="url" placeholder="Loopback CSM API base">
+            </label>
+            <label class="field">
+              <span class="row-kicker">Channel</span>
+              <select id="operator-channel">
+                <option value="events">CSM /events</option>
+                <option value="acip_sns">ACIP-SNS linkage</option>
+                <option value="cloudwatch">CloudWatch heartbeat</option>
+              </select>
+            </label>
+            <label class="field field-wide">
+              <span class="row-kicker">Message</span>
+              <textarea id="operator-message" rows="4">Request current CSM event tail and runtime readiness.</textarea>
+            </label>
+            <div class="communication-actions">
+              <button class="button button-secondary" type="button" id="check-events">Check /events</button>
+              <button class="button button-primary" type="button" id="prepare-envelope">Prepare envelope</button>
+            </div>
+            <pre class="message-envelope" id="message-envelope" aria-live="polite"></pre>
+          </div>
+        </section>
+
+        <section class="panel" id="governance" aria-labelledby="governance-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Freedom gate</p>
+              <h2 id="governance-title">Decisions</h2>
+            </div>
+            <span class="mini-badge" id="decision-counts">0 / 0 / 0</span>
+          </div>
+          <div class="decision-stack" id="decision-stack"></div>
+        </section>
+
+        <section class="panel wide-panel" aria-labelledby="trace-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Trace ribbon</p>
+              <h2 id="trace-title">Latest proof events</h2>
+            </div>
+            <span class="mini-badge" id="latest-event">event 0</span>
+          </div>
+          <ol class="trace-list" id="trace-list"></ol>
+        </section>
+
+        <section class="panel wide-panel" aria-labelledby="cloudwatch-events-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Live AWS signal sample</p>
+              <h2 id="cloudwatch-events-title">CloudWatch event tail</h2>
+            </div>
+            <span class="mini-badge" id="cloudwatch-event-count">0 events</span>
+          </div>
+          <ol class="trace-list" id="cloudwatch-events-list"></ol>
+        </section>
+
+        <section class="panel" aria-labelledby="invariant-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Safety envelope</p>
+              <h2 id="invariant-title">Invariants</h2>
+            </div>
+            <span class="mini-badge">fail closed</span>
+          </div>
+          <div class="invariant-list" id="invariant-list"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="operator-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Operator rail</p>
+              <h2 id="operator-title">Available actions</h2>
+            </div>
+            <span class="mini-badge">proposal only</span>
+          </div>
+          <div class="action-list" id="action-list"></div>
+        </section>
+
+        <section class="panel wide-panel" aria-labelledby="aws-linkage-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">WP-08 integration plan</p>
+              <h2 id="aws-linkage-title">AWS runtime linkages</h2>
+            </div>
+            <span class="mini-badge">truthful status</span>
+          </div>
+          <div class="linkage-list" id="aws-linkage-list"></div>
+        </section>
+      </section>
+
+      <section class="evidence-band" id="evidence" aria-labelledby="evidence-title">
+        <div>
+          <p class="eyebrow">Integrated evidence</p>
+          <h2 id="evidence-title">Same packet, same report, same boundary.</h2>
+        </div>
+        <p id="report-summary">
+          The HTML Observatory loads the retained runtime packet and links the operator report from the same artifact root.
+        </p>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
