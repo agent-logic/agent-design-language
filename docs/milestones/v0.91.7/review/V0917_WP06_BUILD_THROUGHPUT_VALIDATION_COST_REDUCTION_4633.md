@@ -18,8 +18,9 @@ The operator-selected lane covered:
 - `#4677` CI log archive to S3
 - `#4678` Nessus remote validation-lane consumption
 
-This packet does not claim all WP-06 work is finished. In particular, the
-`#4679` remote-builder work is already split into two bounded follow-up issues:
+This packet's original selected sprint lane did not claim all WP-06 work was
+finished. The `#4679` remote-builder work was split into bounded follow-up
+issues:
 
 - `#4837` finish/integrate the existing AWS Spot EC2 remote lane work
 - `#4838` create and test a GitHub Actions plus AWS CodeFriend build lane
@@ -86,7 +87,21 @@ Local closeout reconciliation is still needed for those closed issues where
 repo-native watch reports `closeout_needed`, but this packet no longer records
 an active failed or waiting-review PR tail for the selected sprint lane.
 
-## Remaining WP-06 Work
+## Remote-Builder Follow-Up Reconciliation
+
+`#4679` is now reconciled by the merged child lanes and the retained
+operational proof packet:
+
+- `#4837` integrated the AWS Spot EC2 remote validation lane.
+- `#4838` integrated the GitHub Actions plus AWS CodeFriend CodeBuild lane.
+- `#4879` added the reusable builder image path and current platform benchmark
+  rows.
+- `#4680` added the shared Rust cache/linker/target-dir helper used by local
+  and remote validation setup.
+- `docs/milestones/v0.91.7/review/build_throughput/REMOTE_BUILDER_OPERATIONAL_PROOF_4679.md`
+  records the umbrella proof truth for `#4679`.
+
+## Historical Remaining WP-06 Work
 
 `#4679` has been split before execution:
 
@@ -111,6 +126,5 @@ Earlier evidence to reference when creating those issues:
 - This packet does not claim fresh live SSH Nessus proof for `#4678`; that
   issue proved the wrapper contract locally and referenced prior live Nessus
   evidence.
-- This packet does not claim AWS Spot or GitHub Actions plus AWS CodeFriend
-  build lanes are integrated; it records that follow-up issues `#4837` and
-  `#4838` own those proofs.
+- This packet does not claim Wuji image-backed parity; Wuji is ARM64 and needs
+  an arm64 or multi-arch builder image before that row is valid.

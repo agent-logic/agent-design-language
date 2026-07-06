@@ -45,7 +45,7 @@ AWS Spot:
 bash adl/tools/run_aws_spot_remote_validation_lane.sh \
   --run \
   --check-account \
-  --command 'bash adl/tools/run_build_platform_benchmark.sh --platform aws_spot --cache-posture warm_ebs_cache --out .adl/tmp/build-platform-benchmark/aws-spot-ebs/summary.json --artifact-dir .adl/tmp/build-platform-benchmark/aws-spot-ebs' \
+  --command 'bash adl/tools/run_build_platform_benchmark.sh --platform aws_spot --cache-posture fixed_builder_image_warm_ebs_cache --out .adl/tmp/build-platform-benchmark/aws-spot-ebs/summary.json --artifact-dir .adl/tmp/build-platform-benchmark/aws-spot-ebs' \
   --git-ref <branch-or-ref> \
   --out .adl/tmp/aws-spot-remote-validation/<run-id>/summary.json \
   --artifact-dir .adl/tmp/aws-spot-remote-validation/<run-id>/artifacts \
@@ -53,9 +53,20 @@ bash adl/tools/run_aws_spot_remote_validation_lane.sh \
   --json
 ```
 
-CodeBuild is owned by `#4838`. Do not use this `#4837` Spot branch as the
-source of CodeBuild operational commands; merge or inspect the CodeBuild issue
-branch for that lane's wrapper and current proof.
+CodeBuild:
+
+```bash
+ADL_AWS_PROFILE=agent-logic-admin \
+bash adl/tools/run_aws_codefriend_build_lane.sh \
+  --run \
+  --check-account \
+  --wait \
+  --project-name adl-codefriend-build \
+  --source-version <branch-or-ref> \
+  --env ADL_CODEFRIEND_BUILD_COMMAND='bash adl/tools/run_build_platform_benchmark.sh --platform codebuild --cache-posture fixed_builder_image_stable_local_target_cache_s3_sccache --out .adl/tmp/build-platform-benchmark/codebuild-xlarge/summary.json --artifact-dir .adl/tmp/build-platform-benchmark/codebuild-xlarge' \
+  --out .adl/tmp/aws-codefriend-build/<run-id>/summary.json \
+  --artifact-dir .adl/tmp/aws-codefriend-build/<run-id>
+```
 
 ## Cache Postures
 
@@ -65,9 +76,11 @@ branch for that lane's wrapper and current proof.
 - `aws_spot`: retained warm EBS cache mounted at `/mnt/adl-cache`; this volume
   has a standing AWS storage cost and the run summary must show
   `cache_volume.attachment_state: "attached"`.
-- `codebuild`: tracked separately by `#4838`; this `#4837` branch does not
-  contain the CodeBuild wrapper and should not be used as CodeBuild runbook
-  truth.
+- `codebuild`: fixed ECR builder image, stable `/codebuild/adl-source` and
+  `/codebuild/adl-target` paths, CodeBuild local target cache, and S3
+  `sccache`.
+- `wuji`: ARM64; do not claim image-backed parity until an arm64 or multi-arch
+  builder image is published and proven.
 
 ## Current Comparison Snapshot
 
@@ -75,11 +88,11 @@ These are WP-06 working measurements, not universal performance claims:
 
 | Platform | Cache posture | Build | Test | Total | Notes |
 | --- | --- | ---: | ---: | ---: | --- |
-| Wuji | `linked_target_cache_warm` | 11s | 0s | 11s | Shared helper, warm local linked target cache. |
-| Nessus | `remote_target_sccache_warm` | 3s | 0s | 3s | Shared helper through Nessus SSH wrapper with `CC=clang`. |
-| AWS Spot | `warm_ebs_cache` | 65s | 55s | 120s | Accepted warm-EBS proof; summary records `cache_volume.attachment_state: attached`; this run recorded `ssh_debug_degraded`, and the wrapper default was then updated to the matching retained key. |
+| AWS Spot | `fixed_builder_image_warm_ebs_cache` | 24s | 49s | 73s | Fastest retained AWS/EC2 row; run summary recorded retained EBS cache attached and instance cleanup terminated. |
+| CodeBuild XLARGE | `fixed_builder_image_stable_local_target_cache_s3_sccache` | 43-45s | 77-79s | 120-124s | Two repeated live runs completed with stable local target cache and 100% Rust `sccache` hit rate. |
+| Nessus | `fixed_builder_image_warm_target_cache` | 34.08s | 0.39s | 34.476s | Millisecond-timed warm image-backed row after disk cleanup; no cloud compute cost. |
+| Wuji | `linked_target_cache_warm_arm64` | not_claimed | not_claimed | not_claimed | ARM64 host needs an arm64 or multi-arch builder image before image-backed parity can be claimed. |
 | AWS Spot baseline | `no_explicit_ebs_cache` | 221s | 190s | 411s | Historical baseline run completed and cleaned up; not accepted as warm-EBS proof. |
-| CodeBuild | tracked by `#4838` | pending in this branch | pending in this branch | pending in this branch | This Spot branch does not contain the CodeBuild wrapper or current CodeBuild proof. |
 
 Refresh this table only from retained summaries or logs. Do not infer a cache
 posture from command labels alone.
