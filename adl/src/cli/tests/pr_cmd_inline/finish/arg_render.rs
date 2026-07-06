@@ -4311,6 +4311,62 @@ fn finish_validation_profile_classifies_wp08_s3_obsmem_archive_policy_slice() {
 }
 
 #[test]
+fn finish_validation_profile_classifies_wp08_aws_signal_integration_slice() {
+    let changed_paths = vec![
+        "adl/config/validation_lane_selector.v0.91.6.json".to_string(),
+        "adl/src/bin/run_wp08_acip_sns_live_proof.rs".to_string(),
+        "adl/src/cli/csm_cmd.rs".to_string(),
+        "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
+        "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs".to_string(),
+        "adl/src/lib.rs".to_string(),
+        "adl/src/wp08_acip_sns_proof.rs".to_string(),
+        "adl/tools/run_wp08_acip_sns_live_proof.sh".to_string(),
+        "adl/tools/run_wp08_aws_signal_integration_live_proof.sh".to_string(),
+        "adl/tools/test_run_wp08_acip_sns_live_proof.sh".to_string(),
+        "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh".to_string(),
+        "adl/tools/validate_wp08_aws_signal_integration_live_proof.py".to_string(),
+        "docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/aws_signal_integration_summary.json"
+            .to_string(),
+        "docs/tooling/RUNTIME_AWS_ACIP_SNS.md".to_string(),
+        "docs/tooling/RUNTIME_AWS_SIGNAL_INTEGRATION.md".to_string(),
+    ];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(4686, &requested_paths, &changed_paths)
+        .expect("WP-08 AWS signal integration focused plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml runtime_aws_signal -- --nocapture --test-threads=1"
+            .to_string()
+    ));
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture"
+            .to_string()
+    ));
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp08_aws_signal_integration_slice -- --exact --nocapture"
+            .to_string()
+    ));
+    assert!(plan.commands.contains(
+        &"bash adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh".to_string()
+    ));
+    assert!(plan.commands.contains(
+        &"python3 adl/tools/validate_wp08_aws_signal_integration_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/aws_signal_integration_summary.json"
+            .to_string()
+    ));
+
+    if let Ok(unrelated_plan) =
+        select_finish_validation_plan_for_finish(4685, &requested_paths, &changed_paths)
+    {
+        assert!(!unrelated_plan.commands.contains(
+            &"python3 adl/tools/validate_wp08_aws_signal_integration_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/aws_signal_integration_summary.json"
+                .to_string()
+        ));
+    }
+}
+
+#[test]
 fn finish_validation_profile_classifies_wuji_ddns_installer_slice() {
     let changed_paths = vec![
         "adl/src/cli/pr_cmd/finish_support.rs".to_string(),

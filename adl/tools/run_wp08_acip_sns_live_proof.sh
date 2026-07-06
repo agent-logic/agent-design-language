@@ -15,7 +15,8 @@ Options:
   --region <region>       AWS region. Default: us-west-2.
   --run-id <id>           Run id suffix. Default: wp08-4685-<utc>.
   --topic-name <name>     SNS topic name. Default: adl-v0917-wp08-acip-sns-4685.
-  --proof-bin <path>      Proof binary. Default: ADL_ACIP_SNS_PROOF_BIN or adl/target/debug/run_wp08_acip_sns_live_proof.
+  --proof-bin <path>      csm proof command or legacy proof binary.
+                          Default: ADL_ACIP_SNS_PROOF_BIN or adl/target/debug/csm.
   --expected-account-sha256 <hash>
                           Required approved Agent Logic account SHA-256.
                           Defaults to ADL_AWS_ACIP_SNS_ACCOUNT_SHA256.
@@ -29,7 +30,7 @@ PROFILE="${ADL_AWS_PROFILE:-agent-logic-admin}"
 REGION="${ADL_AWS_REGION:-us-west-2}"
 RUN_ID="wp08-4685-$(date -u +%Y%m%dT%H%M%SZ)"
 TOPIC_NAME="${ADL_AWS_SNS_TOPIC_NAME:-adl-v0917-wp08-acip-sns-4685}"
-PROOF_BIN="${ADL_ACIP_SNS_PROOF_BIN:-adl/target/debug/run_wp08_acip_sns_live_proof}"
+PROOF_BIN="${ADL_ACIP_SNS_PROOF_BIN:-adl/target/debug/csm}"
 EXPECTED_ACCOUNT_SHA256="${ADL_AWS_ACIP_SNS_ACCOUNT_SHA256:-}"
 CLEANUP=0
 TOPIC_ARN=""
@@ -104,8 +105,8 @@ if ! command -v "$AWS_BIN" >/dev/null 2>&1; then
   exit 2
 fi
 if [ ! -x "$PROOF_BIN" ]; then
-  echo "ACIP SNS proof binary not executable: $PROOF_BIN" >&2
-  echo "build or point ADL_ACIP_SNS_PROOF_BIN/--proof-bin at the repo-owned proof binary" >&2
+  echo "ACIP SNS proof command not executable: $PROOF_BIN" >&2
+  echo "build or point ADL_ACIP_SNS_PROOF_BIN/--proof-bin at the repo-owned csm binary" >&2
   exit 2
 fi
 
@@ -135,13 +136,13 @@ TOPIC_ARN="$("$AWS_BIN" sns create-topic \
   --query TopicArn \
   --output text)"
 
-python3 - "$RESOURCE_SUMMARY" "$RUN_ID" "$REGION" "$PROFILE" "$ACCOUNT_HASH" "$ACCOUNT_SHA256" "$TOPIC_ARN" "$TOPIC_NAME" "$CLEANUP" <<'PY'
+python3 - "$RESOURCE_SUMMARY" "$RUN_ID" "$REGION" "$PROFILE" "$ACCOUNT_HASH" "$TOPIC_ARN" "$TOPIC_NAME" "$CLEANUP" <<'PY'
 import hashlib
 import json
 import sys
 from pathlib import Path
 
-path, run_id, region, profile, account_hash, account_sha256, topic_arn, topic_name, cleanup = sys.argv[1:]
+path, run_id, region, profile, account_hash, topic_arn, topic_name, cleanup = sys.argv[1:]
 summary = {
     "schema": "adl.wp08.acip_sns_resource.v1",
     "issue": 4685,
@@ -149,7 +150,6 @@ summary = {
     "aws_profile": profile,
     "aws_region": region,
     "aws_account_hash": account_hash,
-    "aws_account_sha256": account_sha256,
     "sns": {
         "topic_name": topic_name,
         "topic_arn_hash": hashlib.sha256(topic_arn.encode()).hexdigest()[:16],
@@ -164,15 +164,29 @@ summary = {
 Path(path).write_text(json.dumps(summary, indent=2) + "\n")
 PY
 
-ADL_AWS_SIGNAL_MODE=live \
-ADL_AWS_SIGNAL_APPROVED=true \
-ADL_AWS_REGION="$REGION" \
-ADL_AWS_PROFILE="$PROFILE" \
-AWS_PROFILE="$PROFILE" \
-ADL_AWS_SNS_TOPIC_ARN="$TOPIC_ARN" \
-ADL_AWS_ACCOUNT_HASH="$ACCOUNT_HASH" \
-ADL_AWS_ACCOUNT_SHA256="$ACCOUNT_SHA256" \
-"$PROOF_BIN" --out "$OUT" --run-id "$RUN_ID" >/tmp/wp08-acip-sns-proof-output.json
+if [ "$(basename "$PROOF_BIN")" = "run_wp08_acip_sns_live_proof" ]; then
+  env \
+    ADL_AWS_SIGNAL_MODE=live \
+    ADL_AWS_SIGNAL_APPROVED=true \
+    ADL_AWS_REGION="$REGION" \
+    ADL_AWS_PROFILE="$PROFILE" \
+    AWS_PROFILE="$PROFILE" \
+    ADL_AWS_SNS_TOPIC_ARN="$TOPIC_ARN" \
+    ADL_AWS_ACCOUNT_HASH="$ACCOUNT_HASH" \
+    ADL_AWS_ACCOUNT_SHA256="$ACCOUNT_SHA256" \
+    "$PROOF_BIN" --out "$OUT" --run-id "$RUN_ID" >/tmp/wp08-acip-sns-proof-output.json
+else
+  env \
+    ADL_AWS_SIGNAL_MODE=live \
+    ADL_AWS_SIGNAL_APPROVED=true \
+    ADL_AWS_REGION="$REGION" \
+    ADL_AWS_PROFILE="$PROFILE" \
+    AWS_PROFILE="$PROFILE" \
+    ADL_AWS_SNS_TOPIC_ARN="$TOPIC_ARN" \
+    ADL_AWS_ACCOUNT_HASH="$ACCOUNT_HASH" \
+    ADL_AWS_ACCOUNT_SHA256="$ACCOUNT_SHA256" \
+    "$PROOF_BIN" aws-signal acip-sns-proof --out "$OUT" --run-id "$RUN_ID" >/tmp/wp08-acip-sns-proof-output.json
+fi
 
 python3 adl/tools/validate_wp08_acip_sns_live_proof.py "$SUMMARY" "$RESOURCE_SUMMARY"
 

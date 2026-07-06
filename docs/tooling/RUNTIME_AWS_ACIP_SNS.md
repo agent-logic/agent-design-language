@@ -3,6 +3,18 @@
 This is the reusable WP-08 path for proving that a bounded ACIP signal can be
 projected to AWS SNS in the Agent Logic business account.
 
+`csm` is the runtime owner for the proof command:
+
+```bash
+cargo build --manifest-path adl/Cargo.toml --bin csm
+csm aws-signal acip-sns-proof --out <proof-dir>
+```
+
+The wrapper below uses `adl/target/debug/csm` by default and invokes
+`csm aws-signal acip-sns-proof`. The historical
+`run_wp08_acip_sns_live_proof` binary remains only as a compatibility shim over
+the same implementation.
+
 ## Live Proof
 
 Use the repo-owned wrapper from a bound issue worktree:
@@ -18,17 +30,18 @@ bash adl/tools/run_wp08_acip_sns_live_proof.sh \
 ```
 
 The wrapper creates or reuses SNS topic
-`adl-v0917-wp08-acip-sns-4685`, runs the repo-owned Rust proof command, and
+`adl-v0917-wp08-acip-sns-4685`, runs the repo-owned `csm` proof command, and
 writes:
 
 - `acip_sns_summary.json`
 - `sns_resource_summary.json`
 
-The summaries record hashed account/topic identifiers, SNS message id, ACIP
+The summaries record short account/topic hashes, SNS message id, ACIP
 projection metadata, and redaction status. They must not record AWS
-credentials, raw account ids, raw topic ARNs, or raw private ACIP content.
-The wrapper verifies the selected AWS profile against the approved full account
-SHA-256 before creating or publishing to SNS.
+credentials, raw account ids, full account digests, raw topic ARNs, or raw
+private ACIP content. The wrapper verifies the selected AWS profile against the
+approved full account SHA-256 before creating or publishing to SNS, but that
+full digest is input-only guard material and is not retained in proof summaries.
 
 ## Validation
 
@@ -50,6 +63,7 @@ Focused Rust proof:
 
 ```bash
 cargo test --manifest-path adl/Cargo.toml runtime_aws_signal -- --nocapture --test-threads=1
+cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture
 ```
 
 ## Operational Notes

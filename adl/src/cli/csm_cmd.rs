@@ -10,6 +10,7 @@ use ::adl::csm_continuity_capsule::{
 };
 use ::adl::csm_observatory::{write_observatory_outputs, ObservatoryFormat};
 use ::adl::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
+use ::adl::wp08_acip_sns_proof::run_wp08_acip_sns_live_proof;
 
 pub(crate) enum CsmDispatchMode {
     StandaloneRuntime,
@@ -27,7 +28,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!(
-            "csm requires subcommand: daemon | service | continuity | backpressure | api | observatory"
+            "csm requires subcommand: daemon | service | continuity | backpressure | api | aws-signal | observatory"
         );
         std::process::exit(2);
     };
@@ -63,6 +64,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
                 "csm api is owned by the standalone csm runtime binary; use `csm api`, not `adl csm api`"
             )),
         },
+        "aws-signal" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_aws_signal(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm aws-signal is owned by the standalone csm runtime binary; use `csm aws-signal`, not `adl csm aws-signal`"
+            )),
+        },
         "observatory" => real_observatory(&args[1..]),
         "--help" | "-h" => {
             println!("{}", csm_usage());
@@ -70,8 +77,26 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, continuity, backpressure, api, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, continuity, backpressure, api, aws-signal, or observatory)"
             );
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_aws_signal(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm aws-signal requires subcommand: acip-sns-proof");
+        std::process::exit(2);
+    };
+    match cmd {
+        "acip-sns-proof" => run_wp08_acip_sns_live_proof(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm aws-signal subcommand: {other} (expected acip-sns-proof)");
             std::process::exit(2);
         }
     }
@@ -521,6 +546,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--json]
   csm service start|status|stop|remove [--service-root <dir>] [--json]
   csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--once|--max-requests <n>] [--idle-timeout-ms <n>] [--otel-status <path>] [--otel-log <path>] [--json]
+  csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
   csm continuity stage --bundle <bundle-dir> --out <stage-dir> [--target-host ec2-staging|ec2|local] [--json]
@@ -534,6 +560,7 @@ Semantics:
   - csm daemon owns long-lived runtime execution, partial checkpoints, restart accounting, recoverable terminal state, and runtime observability.
   - csm service owns host service-manager installation/status around csm daemon; launchd is the primary macOS target and local mode is a bounded proof fallback.
   - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.
+  - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
   - csm continuity captures, stages, restores, and fire-drills portable continuity capsules with secrets excluded and host bindings explicit.
   - csm daemon emits ADL_OBSERVABILITY_LOG, ADL_OTEL_LOG, and ADL_OTEL_STATUS records through the shared observability contract.
@@ -543,4 +570,25 @@ Semantics:
   - json writes visibility_packet.json.
   - report writes operator_report.md.
   - No live Runtime v2 mutation is performed."
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{real_csm, real_csm_standalone};
+
+    #[test]
+    fn standalone_csm_accepts_aws_signal_help() {
+        let args = vec!["aws-signal".to_string(), "--help".to_string()];
+        real_csm_standalone(&args).expect("standalone csm owns aws-signal");
+    }
+
+    #[test]
+    fn adl_control_plane_rejects_aws_signal_runtime_surface() {
+        let args = vec!["aws-signal".to_string(), "--help".to_string()];
+        let error = real_csm(&args).expect_err("adl csm must not own aws-signal runtime surface");
+        assert!(
+            error.to_string().contains("standalone csm runtime binary"),
+            "{error}"
+        );
+    }
 }

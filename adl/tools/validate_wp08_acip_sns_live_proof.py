@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -40,11 +41,8 @@ def main() -> None:
         fail("aws_account_hash must be a 16-character redacted hash")
     if account_hash.isdigit():
         fail("aws_account_hash must not be a raw numeric account id")
-    account_sha256 = summary.get("aws_account_sha256")
-    if not isinstance(account_sha256, str) or len(account_sha256) != 64:
-        fail("aws_account_sha256 must be a 64-character approved account hash")
-    if account_sha256[:16] != account_hash:
-        fail("aws_account_hash must match aws_account_sha256 prefix")
+    if "aws_account_sha256" in summary:
+        fail("aws_account_sha256 must not be retained in ACIP/SNS summaries")
 
     sns = summary.get("sns", {})
     topic_hash = sns.get("topic_arn_hash")
@@ -94,6 +92,8 @@ def main() -> None:
             fail(f"redaction.{key} must be false")
 
     text = path.read_text(errors="replace")
+    if re.search(r"\b[0-9a-f]{64}\b", text):
+        fail("summary contains a retained full digest")
     for forbidden in ["123456789012", "arn:aws:sns:", "private runtime coordination content"]:
         if forbidden in text:
             fail(f"summary contains forbidden unredacted value: {forbidden}")
@@ -105,11 +105,12 @@ def main() -> None:
             "aws_profile": "agent-logic-admin",
             "aws_region": "us-west-2",
             "aws_account_hash": account_hash,
-            "aws_account_sha256": account_sha256,
         }
         for key, expected in resource_pairs.items():
             if resource.get(key) != expected:
                 fail(f"resource.{key} mismatch: expected {expected!r}, got {resource.get(key)!r}")
+        if "aws_account_sha256" in resource:
+            fail("resource.aws_account_sha256 must not be retained")
         resource_sns = resource.get("sns", {})
         if resource_sns.get("topic_name") != sns.get("topic_name"):
             fail("resource SNS topic name must match live proof summary")
@@ -124,6 +125,8 @@ def main() -> None:
             if resource_redaction.get(key) is not False:
                 fail(f"resource.redaction.{key} must be false")
         resource_text = Path(sys.argv[2]).read_text(errors="replace")
+        if re.search(r"\b[0-9a-f]{64}\b", resource_text):
+            fail("resource summary contains a retained full digest")
         for forbidden in ["123456789012", "arn:aws:sns:"]:
             if forbidden in resource_text:
                 fail(f"resource summary contains forbidden unredacted value: {forbidden}")
