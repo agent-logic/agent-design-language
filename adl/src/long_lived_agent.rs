@@ -20,9 +20,9 @@ use schema::*;
 use storage::*;
 use types::LedgerCursor;
 pub use types::{
-    AgentSpec, AgentStatusState, DaemonOptions, DaemonStatusRecord, HeartbeatSpec, InspectOptions,
-    LeaseRecord, LoadedAgentSpec, RunOptions, StatusError, StatusRecord, StopRecord, TickOptions,
-    WorkflowSpec,
+    AgentCheckpointSpec, AgentSpec, AgentStatusState, DaemonOptions, DaemonStatusRecord,
+    HeartbeatSpec, InspectOptions, LeaseRecord, LoadedAgentSpec, RunOptions, StatusError,
+    StatusRecord, StopRecord, TickOptions, WorkflowSpec,
 };
 
 const DAEMON_DEFAULT_INTERVAL_SECS: u64 = 3;
@@ -136,6 +136,8 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
     }
     let loaded = load_spec(spec_path)?;
     ensure_state_root(&loaded)?;
+    let checkpoint_interval_secs =
+        effective_checkpoint_interval_secs(&loaded, options.checkpoint_interval_secs)?;
     let runtime_context = CsmRuntimeContext::new()?;
     let mut restart_count = 0u64;
     let mut last_child_exit = None;
@@ -146,7 +148,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             state: "starting",
             restart_count,
             max_restarts: options.max_restarts,
-            checkpoint_interval_secs: options.checkpoint_interval_secs,
+            checkpoint_interval_secs,
             last_event: "daemon_started",
             last_child_exit: None,
             next_backoff_secs: 0,
@@ -160,7 +162,8 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
         "started",
         restart_count,
         json!({
-            "checkpoint_interval_secs": options.checkpoint_interval_secs,
+            "checkpoint_interval_secs": checkpoint_interval_secs,
+            "agent_checkpoint_policy": agent_checkpoint_policy(&loaded),
             "max_restarts": options.max_restarts,
             "unsupported_permanence_claims": unsupported_permanence_claims()
         }),
@@ -177,10 +180,22 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     state: "stopped",
                     restart_count,
                     max_restarts: options.max_restarts,
-                    checkpoint_interval_secs: options.checkpoint_interval_secs,
+                    checkpoint_interval_secs,
                     last_event: "stop_completed",
                     last_child_exit: last_child_exit.clone(),
                     next_backoff_secs: 0,
+                },
+            )?;
+            let safe_fail = record_safe_fail_event(
+                &runtime_context,
+                &loaded,
+                SafeFailRecord {
+                    status: &status,
+                    trigger: "graceful_stop",
+                    restart_count,
+                    max_restarts: options.max_restarts,
+                    last_child_exit: last_child_exit.clone(),
+                    details: json!({"stop_ref": "stop.json"}),
                 },
             )?;
             emit_daemon_event(
@@ -189,7 +204,10 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 "stop_completed",
                 "completed",
                 restart_count,
-                json!({"recoverable_state": status.state}),
+                json!({
+                    "recoverable_state": status.state,
+                    "safe_fail": safe_fail
+                }),
             )?;
             return Ok(daemon_status);
         }
@@ -209,7 +227,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 state: "running",
                 restart_count,
                 max_restarts: options.max_restarts,
-                checkpoint_interval_secs: options.checkpoint_interval_secs,
+                checkpoint_interval_secs,
                 last_event: "child_spawn",
                 last_child_exit: last_child_exit.clone(),
                 next_backoff_secs: 0,
@@ -243,7 +261,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         state: "running",
                         restart_count,
                         max_restarts: options.max_restarts,
-                        checkpoint_interval_secs: options.checkpoint_interval_secs,
+                        checkpoint_interval_secs,
                         last_event: "child_exit",
                         last_child_exit: last_child_exit.clone(),
                         next_backoff_secs: 0,
@@ -284,6 +302,21 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         "checkpoint_ref": "continuity_checkpoint.json"
                     }),
                 )?;
+                let child_safe_fail = record_safe_fail_event(
+                    &runtime_context,
+                    &loaded,
+                    SafeFailRecord {
+                        status: &status,
+                        trigger: "daemon_child_failed",
+                        restart_count,
+                        max_restarts: options.max_restarts,
+                        last_child_exit: last_child_exit.clone(),
+                        details: json!({
+                            "error": err.to_string(),
+                            "checkpoint_ref": "continuity_checkpoint.json"
+                        }),
+                    },
+                )?;
                 if restart_count >= options.max_restarts {
                     let _ = write_daemon_status(
                         &runtime_context,
@@ -292,10 +325,25 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                             state: "failed",
                             restart_count,
                             max_restarts: options.max_restarts,
-                            checkpoint_interval_secs: options.checkpoint_interval_secs,
+                            checkpoint_interval_secs,
                             last_event: "restart_budget_exhausted",
                             last_child_exit: last_child_exit.clone(),
                             next_backoff_secs: 0,
+                        },
+                    )?;
+                    let exhausted_safe_fail = record_safe_fail_event(
+                        &runtime_context,
+                        &loaded,
+                        SafeFailRecord {
+                            status: &status,
+                            trigger: "restart_budget_exhausted",
+                            restart_count,
+                            max_restarts: options.max_restarts,
+                            last_child_exit: last_child_exit.clone(),
+                            details: json!({
+                                "previous_safe_fail": child_safe_fail,
+                                "checkpoint_ref": "continuity_checkpoint.json"
+                            }),
                         },
                     )?;
                     emit_daemon_event(
@@ -304,7 +352,10 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         "restart_budget_exhausted",
                         "failed",
                         restart_count,
-                        json!({"recoverable_state": status.state}),
+                        json!({
+                            "recoverable_state": status.state,
+                            "safe_fail": exhausted_safe_fail
+                        }),
                     )?;
                     return Err(err.context("daemon restart budget exhausted"));
                 }
@@ -317,7 +368,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         state: "restarting",
                         restart_count,
                         max_restarts: options.max_restarts,
-                        checkpoint_interval_secs: options.checkpoint_interval_secs,
+                        checkpoint_interval_secs,
                         last_event: "restart_scheduled",
                         last_child_exit: last_child_exit.clone(),
                         next_backoff_secs: backoff_secs,
@@ -337,7 +388,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     &mut daemon_status,
                     PartialCheckpointSleep {
                         total_sleep_secs: backoff_secs,
-                        checkpoint_interval_secs: options.checkpoint_interval_secs,
+                        checkpoint_interval_secs,
                         restart_count,
                         max_restarts: options.max_restarts,
                         last_child_exit: last_child_exit.clone(),
@@ -368,7 +419,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             &mut daemon_status,
             PartialCheckpointSleep {
                 total_sleep_secs: sleep_secs,
-                checkpoint_interval_secs: options.checkpoint_interval_secs,
+                checkpoint_interval_secs,
                 restart_count,
                 max_restarts: options.max_restarts,
                 last_child_exit: last_child_exit.clone(),
@@ -388,7 +439,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     state: "completed",
                     restart_count,
                     max_restarts: options.max_restarts,
-                    checkpoint_interval_secs: options.checkpoint_interval_secs,
+                    checkpoint_interval_secs,
                     last_event: "daemon_completed",
                     last_child_exit: last_child_exit.clone(),
                     next_backoff_secs: 0,
@@ -414,6 +465,24 @@ fn daemon_interval_secs(loaded: &LoadedAgentSpec, override_secs: Option<u64>) ->
         )),
         Some(secs) => Ok(secs),
         None => Ok(DAEMON_DEFAULT_INTERVAL_SECS),
+    }
+}
+
+fn effective_checkpoint_interval_secs(
+    loaded: &LoadedAgentSpec,
+    daemon_interval_secs: u64,
+) -> Result<u64> {
+    if daemon_interval_secs == 0 {
+        return Err(anyhow!(
+            "csm daemon requires --checkpoint-interval-secs greater than zero"
+        ));
+    }
+    match loaded.spec.checkpoint.interval_secs {
+        Some(0) => Err(anyhow!(
+            "agent spec checkpoint.interval_secs must be greater than zero"
+        )),
+        Some(agent_interval) => Ok(daemon_interval_secs.min(agent_interval)),
+        None => Ok(daemon_interval_secs),
     }
 }
 
@@ -600,6 +669,16 @@ fn validate_spec(spec: &AgentSpec) -> Result<()> {
     if stale == 0 {
         return Err(anyhow!(
             "agent spec heartbeat.stale_lease_after_secs must be greater than zero"
+        ));
+    }
+    if spec.checkpoint.interval_secs == Some(0) {
+        return Err(anyhow!(
+            "agent spec checkpoint.interval_secs must be greater than zero"
+        ));
+    }
+    if spec.checkpoint.min_request_interval_secs == Some(0) {
+        return Err(anyhow!(
+            "agent spec checkpoint.min_request_interval_secs must be greater than zero"
         ));
     }
     if safety_u64(
@@ -1438,6 +1517,504 @@ fn persist_status(
     write_continuity_restore_artifacts(loaded, status, checkpoint_reason)
 }
 
+struct SafeFailRecord<'a> {
+    status: &'a StatusRecord,
+    trigger: &'a str,
+    restart_count: u64,
+    max_restarts: u64,
+    last_child_exit: Option<String>,
+    details: Value,
+}
+
+fn record_safe_fail_bundle(
+    runtime_context: &CsmRuntimeContext,
+    loaded: &LoadedAgentSpec,
+    record: &SafeFailRecord<'_>,
+) -> Result<Value> {
+    let sequence = next_safe_fail_sequence(loaded)?;
+    let bundle_ref = format!("safe_fail_artifacts/safe-fail-{sequence:06}.json");
+    let bundle = json!({
+        "schema": SAFE_FAIL_BUNDLE_SCHEMA,
+        "format_version": "csm.safe-fail.v1",
+        "runtime_owner": "csm",
+        "adl_role": "tooling_control_plane",
+        "agent_instance_id": loaded.spec.agent_instance_id.clone(),
+        "captured_at": Utc::now(),
+        "safe_fail_sequence": sequence,
+        "trigger": record.trigger,
+        "trigger_model": safe_fail_trigger_model(),
+        "agent_checkpoint_policy": agent_checkpoint_policy(loaded),
+        "restart_count": record.restart_count,
+        "max_restarts": record.max_restarts,
+        "last_child_exit": record.last_child_exit.clone(),
+        "agent_outcome": safe_fail_agent_outcome(record.status),
+        "recoverability": safe_fail_recoverability(record.status),
+        "monotonicity": {
+            "policy": "append_new_bundle_then_update_latest_pointer",
+            "latest_pointer_ref": "safe_fail_bundle.json",
+            "bundle_ref": bundle_ref,
+            "does_not_rewrite_continuity_checkpoint": true,
+            "does_not_rewrite_cycle_ledger": true
+        },
+        "serialized_refs": safe_fail_serialized_refs(loaded),
+        "serialized_state": safe_fail_serialized_state(loaded),
+        "observability": {
+            "schema": "adl.csm.safe_fail_observability.v1",
+            "event_command": "csm",
+            "event_stage": "safe_fail_serialization",
+            "otel_service_name": "csm-runtime-daemon",
+            "trace_id": daemon_trace_id(loaded),
+            "span_id": daemon_span_id("safe_fail_serialization", record.restart_count),
+            "parent_span_id": daemon_parent_span_id(loaded),
+            "runtime_capabilities": csm_runtime_capabilities(runtime_context),
+            "chronosense_clock_stack": csm_chronosense_clock_stack(runtime_context)
+        },
+        "recovery_hints": safe_fail_recovery_hints(record.status),
+        "negative_case_boundaries": [
+            "graceful_stop_and_observed_failures_are_serialized",
+            "kill_9_or_host_loss_may_only_preserve_last_completed_partial_checkpoint",
+            "unsafe_or_ambiguous_active_lease_requires_quarantine_review",
+            "malformed_prior_state_is_retained_as_unreadable_artifact_evidence"
+        ],
+        "non_claims": [
+            "not_mid_step_checkpointing",
+            "not_kill_9_resistant",
+            "not_distributed_consensus_checkpoint",
+            "not_secret_material_capture"
+        ],
+        "details": record.details.clone()
+    });
+    let sequence_path =
+        safe_fail_artifacts_dir(loaded).join(format!("safe-fail-{sequence:06}.json"));
+    write_json_pretty(&sequence_path, &bundle)?;
+    write_json_pretty(&safe_fail_bundle_path(loaded), &bundle)?;
+    Ok(json!({
+        "schema": SAFE_FAIL_BUNDLE_SCHEMA,
+        "status": "serialized",
+        "bundle_ref": "safe_fail_bundle.json",
+        "sequence_ref": bundle_ref,
+        "safe_fail_sequence": sequence,
+        "agent_outcome": bundle["agent_outcome"].clone(),
+        "recoverability": bundle["recoverability"].clone()
+    }))
+}
+
+fn record_safe_fail_event(
+    runtime_context: &CsmRuntimeContext,
+    loaded: &LoadedAgentSpec,
+    record: SafeFailRecord<'_>,
+) -> Result<Value> {
+    match record_safe_fail_bundle(runtime_context, loaded, &record) {
+        Ok(summary) => {
+            emit_daemon_event(
+                runtime_context,
+                loaded,
+                "safe_fail_serialization",
+                "completed",
+                record.restart_count,
+                summary.clone(),
+            )?;
+            Ok(summary)
+        }
+        Err(err) => {
+            let summary = json!({
+                "schema": SAFE_FAIL_BUNDLE_SCHEMA,
+                "status": "serialization_failed",
+                "trigger": record.trigger,
+                "error": err.to_string(),
+                "fallback_refs": {
+                    "status_ref": safe_fail_existing_ref(&status_path(loaded)),
+                    "continuity_checkpoint_ref": safe_fail_existing_ref(&continuity_checkpoint_path(loaded)),
+                    "operator_events_ref": safe_fail_existing_ref(&operator_events_path(loaded))
+                }
+            });
+            emit_daemon_event(
+                runtime_context,
+                loaded,
+                "safe_fail_serialization",
+                "failed",
+                record.restart_count,
+                summary.clone(),
+            )?;
+            Ok(summary)
+        }
+    }
+}
+
+fn next_safe_fail_sequence(loaded: &LoadedAgentSpec) -> Result<u64> {
+    let dir = safe_fail_artifacts_dir(loaded);
+    if !dir.exists() {
+        return Ok(1);
+    }
+    let mut max_seen = 0u64;
+    for entry in fs::read_dir(&dir).with_context(|| format!("failed reading {}", dir.display()))? {
+        let entry = entry?;
+        let Some(name) = entry.file_name().to_str().map(str::to_string) else {
+            continue;
+        };
+        let Some(stem) = name
+            .strip_prefix("safe-fail-")
+            .and_then(|value| value.strip_suffix(".json"))
+        else {
+            continue;
+        };
+        if let Ok(sequence) = stem.parse::<u64>() {
+            max_seen = max_seen.max(sequence);
+        }
+    }
+    Ok(max_seen + 1)
+}
+
+fn safe_fail_trigger_model() -> Value {
+    json!({
+        "schema": "adl.csm.safe_fail_trigger_model.v1",
+        "supported_triggers": [
+            "graceful_stop",
+            "daemon_partial_checkpoint",
+            "daemon_child_failed",
+            "restart_budget_exhausted",
+            "restart_backoff",
+            "daemon_heartbeat"
+        ],
+        "observability_exporter_failure_policy": "recorded_in_observability_status_when_exporter_reports_failure",
+        "checkpoint_failure_policy": "best_effort_fallback_refs_if_safe_fail_writer_cannot_complete",
+        "unclaimed_triggers": [
+            "kill_9",
+            "host_power_loss_before_last_checkpoint_flush",
+            "kernel_storage_loss"
+        ]
+    })
+}
+
+fn agent_checkpoint_policy(loaded: &LoadedAgentSpec) -> Value {
+    json!({
+        "schema": "adl.csm.agent_checkpoint_policy.v1",
+        "interval_secs": loaded.spec.checkpoint.interval_secs,
+        "allow_agent_requested": loaded.spec.checkpoint.allow_agent_requested,
+        "min_request_interval_secs": loaded.spec.checkpoint.min_request_interval_secs.unwrap_or(30),
+        "request_ref": "checkpoint_request.json",
+        "request_contract": {
+            "schema": "adl.csm.agent_checkpoint_request.v1",
+            "required_fields": ["schema", "reason", "requested_at"],
+            "governance": "CSM may accept or block; agent request is advisory and rate limited"
+        }
+    })
+}
+
+fn observe_agent_checkpoint_request(
+    runtime_context: &CsmRuntimeContext,
+    loaded: &LoadedAgentSpec,
+    restart_count: u64,
+    last_checkpoint_at: DateTime<Utc>,
+) -> Result<Option<Value>> {
+    let request_path = checkpoint_request_path(loaded);
+    if !request_path.exists() {
+        return Ok(None);
+    }
+    let request = read_json_artifact_value(&request_path);
+    let policy = agent_checkpoint_policy(loaded);
+    let request_validation = validate_agent_checkpoint_request(&request);
+    let min_interval_secs = loaded
+        .spec
+        .checkpoint
+        .min_request_interval_secs
+        .unwrap_or(30);
+    let elapsed_secs = Utc::now()
+        .signed_duration_since(last_checkpoint_at)
+        .num_seconds()
+        .max(0) as u64;
+    let (decision, reason) = if let Some(reason) = request_validation {
+        ("blocked_malformed", reason)
+    } else if !loaded.spec.checkpoint.allow_agent_requested {
+        (
+            "blocked_disabled",
+            "agent-requested checkpoints are disabled by spec policy",
+        )
+    } else if elapsed_secs < min_interval_secs {
+        (
+            "blocked_rate_limited",
+            "agent-requested checkpoint was inside the minimum request interval",
+        )
+    } else {
+        (
+            "accepted",
+            "agent-requested checkpoint accepted under current policy",
+        )
+    };
+    let outcome = json!({
+        "schema": "adl.csm.agent_checkpoint_request_outcome.v1",
+        "decision": decision,
+        "reason": reason,
+        "request_ref": "checkpoint_request.json",
+        "request": request,
+        "request_validation": if let Some(reason) = request_validation {
+            json!({"status": "failed", "reason": reason})
+        } else {
+            json!({"status": "passed"})
+        },
+        "policy": policy,
+        "elapsed_since_last_checkpoint_secs": elapsed_secs
+    });
+    emit_daemon_event(
+        runtime_context,
+        loaded,
+        "agent_checkpoint_request",
+        decision,
+        restart_count,
+        outcome.clone(),
+    )?;
+    match fs::remove_file(&request_path) {
+        Ok(()) => {}
+        Err(err) if err.kind() == std::io::ErrorKind::NotFound => {}
+        Err(err) => {
+            emit_daemon_event(
+                runtime_context,
+                loaded,
+                "agent_checkpoint_request_cleanup",
+                "failed",
+                restart_count,
+                json!({
+                    "request_ref": "checkpoint_request.json",
+                    "error": err.to_string()
+                }),
+            )?;
+        }
+    }
+    Ok(Some(outcome))
+}
+
+fn validate_agent_checkpoint_request(request: &Value) -> Option<&'static str> {
+    if request.get("status").and_then(Value::as_str) != Some("serialized") {
+        return Some("checkpoint request must be readable JSON");
+    }
+    let Some(value) = request.get("value") else {
+        return Some("checkpoint request must include a parsed value");
+    };
+    let object = match value.as_object() {
+        Some(object) => object,
+        None => return Some("checkpoint request must be a JSON object"),
+    };
+    if object.get("schema").and_then(Value::as_str) != Some("adl.csm.agent_checkpoint_request.v1") {
+        return Some("checkpoint request schema must be adl.csm.agent_checkpoint_request.v1");
+    }
+    for field in ["reason", "requested_at"] {
+        if object
+            .get(field)
+            .and_then(Value::as_str)
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .is_none()
+        {
+            return Some("checkpoint request requires non-empty reason and requested_at fields");
+        }
+    }
+    None
+}
+
+fn safe_fail_agent_outcome(status: &StatusRecord) -> Value {
+    let (state, action_allowed, reason) = match status.state {
+        AgentStatusState::Completed => (
+            "completed",
+            false,
+            "bounded run completed; next activation requires a new runtime decision",
+        ),
+        AgentStatusState::Stopped => (
+            "sleeping",
+            false,
+            "operator or daemon stop observed; continuity artifacts are retained for later wake",
+        ),
+        AgentStatusState::Idle | AgentStatusState::NotStarted => (
+            "sleeping",
+            false,
+            "no active cycle is running; next heartbeat may decide whether to wake",
+        ),
+        AgentStatusState::Leased | AgentStatusState::RunningCycle => (
+            "quarantined",
+            false,
+            "active work may be ambiguous; review lease and trace evidence before activation",
+        ),
+        AgentStatusState::Failed => {
+            if status.active_lease.is_some() {
+                (
+                    "quarantined",
+                    false,
+                    "failure retained an active lease; unsafe resume requires review",
+                )
+            } else {
+                (
+                    "recoverable",
+                    false,
+                    "failure reached a serialized checkpoint without an active lease",
+                )
+            }
+        }
+    };
+    json!({
+        "state": state,
+        "action_allowed_without_review": action_allowed,
+        "reason": reason,
+        "source_status_state": status.state,
+        "last_cycle_id": status.last_cycle_id,
+        "last_cycle_status": status.last_cycle_status
+    })
+}
+
+fn safe_fail_recoverability(status: &StatusRecord) -> Value {
+    let class = match status.state {
+        AgentStatusState::Completed => "already_completed",
+        AgentStatusState::Stopped | AgentStatusState::Idle | AgentStatusState::NotStarted => {
+            "recoverable_sleeping"
+        }
+        AgentStatusState::Failed if status.active_lease.is_none() => "recoverable_checkpointed",
+        AgentStatusState::Failed | AgentStatusState::Leased | AgentStatusState::RunningCycle => {
+            "quarantine_required"
+        }
+    };
+    json!({
+        "class": class,
+        "allowed_next_actions": match class {
+            "already_completed" => json!(["inspect", "start_new_cycle_after_policy_check"]),
+            "recoverable_sleeping" => json!(["inspect", "wake_after_policy_check"]),
+            "recoverable_checkpointed" => json!(["inspect", "retry_after_operator_review", "capture_continuity_capsule"]),
+            _ => json!(["inspect", "quarantine_review", "capture_continuity_capsule"])
+        },
+        "last_error": status.last_error
+    })
+}
+
+fn safe_fail_recovery_hints(status: &StatusRecord) -> Value {
+    json!({
+        "inspect": "csm daemon/status artifacts under the agent state root",
+        "continuity_checkpoint_ref": "continuity_checkpoint.json",
+        "continuity_replay_manifest_ref": "continuity_replay_manifest.json",
+        "capture_for_transfer": "csm continuity capture --spec <agent.yaml> --out <bundle-dir>",
+        "resume_guard": if matches!(status.state, AgentStatusState::Failed | AgentStatusState::Leased | AgentStatusState::RunningCycle) {
+            "review_required_before_wake"
+        } else {
+            "policy_check_required_before_wake"
+        }
+    })
+}
+
+fn safe_fail_serialized_refs(loaded: &LoadedAgentSpec) -> Vec<Value> {
+    [
+        (
+            "runtime_identity",
+            "agent_spec.locked.json",
+            locked_spec_path(loaded),
+        ),
+        ("status", "status.json", status_path(loaded)),
+        (
+            "daemon_status",
+            "daemon_status.json",
+            daemon_status_path(loaded),
+        ),
+        (
+            "continuity_checkpoint",
+            "continuity_checkpoint.json",
+            continuity_checkpoint_path(loaded),
+        ),
+        (
+            "continuity_replay_manifest",
+            "continuity_replay_manifest.json",
+            continuity_replay_manifest_path(loaded),
+        ),
+        (
+            "cycle_ledger",
+            "cycle_ledger.jsonl",
+            cycle_ledger_path(loaded),
+        ),
+        (
+            "memory_index",
+            "memory_index.json",
+            memory_index_path(loaded),
+        ),
+        (
+            "provider_binding_history",
+            "provider_binding_history.jsonl",
+            provider_binding_history_path(loaded),
+        ),
+        (
+            "operator_events_tail",
+            "operator_events.jsonl",
+            operator_events_path(loaded),
+        ),
+    ]
+    .into_iter()
+    .map(|(role, reference, path)| {
+        json!({
+            "role": role,
+            "ref": reference,
+            "status": if path.exists() { "retained" } else { "missing" },
+            "bytes": fs::metadata(path).map(|metadata| metadata.len()).ok()
+        })
+    })
+    .collect()
+}
+
+fn safe_fail_serialized_state(loaded: &LoadedAgentSpec) -> Value {
+    json!({
+        "status": read_json_artifact_value(&status_path(loaded)),
+        "daemon_status": read_json_artifact_value(&daemon_status_path(loaded)),
+        "continuity_checkpoint": read_json_artifact_value(&continuity_checkpoint_path(loaded)),
+        "continuity_replay_manifest": read_json_artifact_value(&continuity_replay_manifest_path(loaded)),
+        "lease": read_json_artifact_value(&lease_path(loaded)),
+        "stop": read_json_artifact_value(&stop_path(loaded)),
+        "cycle_ledger_tail": read_jsonl_tail_artifact(&cycle_ledger_path(loaded), 20),
+        "operator_event_tail": read_jsonl_tail_artifact(&operator_events_path(loaded), 40),
+        "provider_binding_tail": read_jsonl_tail_artifact(&provider_binding_history_path(loaded), 20)
+    })
+}
+
+fn read_json_artifact_value(path: &Path) -> Value {
+    if !path.exists() {
+        return json!({"status": "missing"});
+    }
+    match fs::read_to_string(path) {
+        Ok(raw) => match serde_json::from_str::<Value>(&raw) {
+            Ok(value) => json!({"status": "serialized", "value": value}),
+            Err(err) => json!({"status": "unreadable", "reason": err.to_string()}),
+        },
+        Err(err) => json!({"status": "unreadable", "reason": err.to_string()}),
+    }
+}
+
+fn read_jsonl_tail_artifact(path: &Path, limit: usize) -> Value {
+    if !path.exists() {
+        return json!({"status": "missing", "entries": []});
+    }
+    let Ok(raw) = fs::read_to_string(path) else {
+        return json!({"status": "unreadable", "entries": []});
+    };
+    let mut entries = Vec::new();
+    let mut unreadable = 0usize;
+    let lines = raw.lines().collect::<Vec<_>>();
+    let start = lines.len().saturating_sub(limit);
+    for line in &lines[start..] {
+        if line.trim().is_empty() {
+            continue;
+        }
+        match serde_json::from_str::<Value>(line) {
+            Ok(value) => entries.push(value),
+            Err(_) => unreadable += 1,
+        }
+    }
+    json!({
+        "status": if unreadable == 0 { "serialized" } else { "partial" },
+        "tail_limit": limit,
+        "unreadable_lines": unreadable,
+        "entries": entries
+    })
+}
+
+fn safe_fail_existing_ref(path: &Path) -> Value {
+    if path.exists() {
+        json!({"status": "retained", "bytes": fs::metadata(path).map(|m| m.len()).ok()})
+    } else {
+        json!({"status": "missing"})
+    }
+}
+
 struct DaemonStatusInput<'a> {
     state: &'a str,
     restart_count: u64,
@@ -1511,6 +2088,7 @@ fn sleep_with_partial_checkpoints(
 ) -> Result<bool> {
     let mut remaining = sleep.total_sleep_secs;
     if remaining == 0 || sleep.no_sleep {
+        let last_checkpoint_at = daemon_status.last_checkpoint_at;
         let mut current = status(&loaded.spec_path)?;
         if let Some(error) = sleep.recoverable_error.clone() {
             current.state = AgentStatusState::Failed;
@@ -1526,7 +2104,7 @@ fn sleep_with_partial_checkpoints(
                 max_restarts: sleep.max_restarts,
                 checkpoint_interval_secs: sleep.checkpoint_interval_secs,
                 last_event: "checkpoint_write",
-                last_child_exit: sleep.last_child_exit,
+                last_child_exit: sleep.last_child_exit.clone(),
                 next_backoff_secs: 0,
             },
         )?;
@@ -1543,6 +2121,30 @@ fn sleep_with_partial_checkpoints(
                 "trigger": sleep.event
             }),
         )?;
+        let agent_checkpoint_request = observe_agent_checkpoint_request(
+            runtime_context,
+            loaded,
+            sleep.restart_count,
+            last_checkpoint_at,
+        )?;
+        let _ = record_safe_fail_event(
+            runtime_context,
+            loaded,
+            SafeFailRecord {
+                status: &current,
+                trigger: "daemon_partial_checkpoint",
+                restart_count: sleep.restart_count,
+                max_restarts: sleep.max_restarts,
+                last_child_exit: sleep.last_child_exit.clone(),
+                details: json!({
+                    "checkpoint_reason": "daemon_partial_checkpoint",
+                    "trigger": sleep.event,
+                    "checkpoint_ref": "continuity_checkpoint.json",
+                    "status_ref": "status.json",
+                    "agent_checkpoint_request": agent_checkpoint_request
+                }),
+            },
+        )?;
         return Ok(false);
     }
 
@@ -1551,6 +2153,7 @@ fn sleep_with_partial_checkpoints(
         let slice = remaining.min(sleep.checkpoint_interval_secs);
         std::thread::sleep(Duration::from_secs(slice));
         remaining -= slice;
+        let last_checkpoint_at = daemon_status.last_checkpoint_at;
         let mut current = status(&loaded.spec_path)?;
         if let Some(error) = sleep.recoverable_error.clone() {
             current.state = AgentStatusState::Failed;
@@ -1588,6 +2191,31 @@ fn sleep_with_partial_checkpoints(
                 "trigger": sleep.event,
                 "remaining_sleep_secs": remaining
             }),
+        )?;
+        let agent_checkpoint_request = observe_agent_checkpoint_request(
+            runtime_context,
+            loaded,
+            sleep.restart_count,
+            last_checkpoint_at,
+        )?;
+        let _ = record_safe_fail_event(
+            runtime_context,
+            loaded,
+            SafeFailRecord {
+                status: &current,
+                trigger: "daemon_partial_checkpoint",
+                restart_count: sleep.restart_count,
+                max_restarts: sleep.max_restarts,
+                last_child_exit: sleep.last_child_exit.clone(),
+                details: json!({
+                    "checkpoint_reason": "daemon_partial_checkpoint",
+                    "trigger": sleep.event,
+                    "remaining_sleep_secs": remaining,
+                    "checkpoint_ref": "continuity_checkpoint.json",
+                    "status_ref": "status.json",
+                    "agent_checkpoint_request": agent_checkpoint_request
+                }),
+            },
         )?;
         if read_stop(loaded)?.is_some() {
             stop_observed = true;
@@ -1686,13 +2314,14 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
             "status": "integrated",
             "lease_policy": "active_stale_recoverable_blocked",
             "restart_backoff": "bounded_exponential",
-            "partial_checkpoints": "daemon_partial_checkpoint"
+            "partial_checkpoints": "daemon_partial_checkpoint",
+            "safe_fail_serialization": "integrated_safe_fail_bundle"
         },
         "observability": {
             "status": "integrated",
             "event_command": "csm",
             "otel_service_name": "csm-runtime-daemon",
-            "retained_outputs": ["operator_events.jsonl", "daemon_status.json", "ADL_OBSERVABILITY_LOG", "ADL_OTEL_LOG", "ADL_OTEL_STATUS"]
+            "retained_outputs": ["operator_events.jsonl", "daemon_status.json", "safe_fail_bundle.json", "safe_fail_artifacts/", "ADL_OBSERVABILITY_LOG", "ADL_OTEL_LOG", "ADL_OTEL_STATUS"]
         }
     })
 }

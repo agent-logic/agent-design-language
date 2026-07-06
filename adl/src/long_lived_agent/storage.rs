@@ -30,6 +30,18 @@ pub(super) fn continuity_replay_manifest_path(loaded: &LoadedAgentSpec) -> PathB
     loaded.state_root.join("continuity_replay_manifest.json")
 }
 
+pub(super) fn safe_fail_bundle_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("safe_fail_bundle.json")
+}
+
+pub(super) fn safe_fail_artifacts_dir(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("safe_fail_artifacts")
+}
+
+pub(super) fn checkpoint_request_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("checkpoint_request.json")
+}
+
 pub(super) fn cycle_ledger_path(loaded: &LoadedAgentSpec) -> PathBuf {
     loaded.state_root.join("cycle_ledger.jsonl")
 }
@@ -195,7 +207,8 @@ pub(super) fn append_operator_event(
 mod tests {
     use super::*;
     use crate::long_lived_agent::{
-        AgentSpec, AgentStatusState, HeartbeatSpec, LeaseRecord, StatusError, WorkflowSpec,
+        AgentCheckpointSpec, AgentSpec, AgentStatusState, HeartbeatSpec, LeaseRecord, StatusError,
+        WorkflowSpec,
     };
     use crate::observability::test_env_lock;
     use chrono::Duration as ChronoDuration;
@@ -279,6 +292,7 @@ mod tests {
                     max_cycles: Some(5),
                     stale_lease_after_secs: Some(60),
                 },
+                checkpoint: AgentCheckpointSpec::default(),
                 safety: json!({}),
                 memory: json!({}),
             },

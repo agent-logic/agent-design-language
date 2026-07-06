@@ -19,6 +19,12 @@ fn spawn_loopback_otlp_collector() -> (
         loop {
             match listener.accept() {
                 Ok((mut stream, _)) => {
+                    stream
+                        .set_nonblocking(false)
+                        .expect("set collector stream blocking");
+                    stream
+                        .set_read_timeout(Some(std::time::Duration::from_secs(3)))
+                        .expect("set collector stream read timeout");
                     let body = read_http_body(&mut stream);
                     tx.send(body).expect("send otlp body");
                     stream
@@ -1697,6 +1703,10 @@ memory:
     assert_eq!(daemon_status["last_event"], "restart_budget_exhausted");
     assert!(root.join("state/continuity_checkpoint.json").exists());
     assert!(root.join("state/continuity_replay_manifest.json").exists());
+    assert!(root.join("state/safe_fail_bundle.json").exists());
+    assert!(root
+        .join("state/safe_fail_artifacts/safe-fail-000001.json")
+        .exists());
 
     let status: serde_json::Value = serde_json::from_str(
         &fs::read_to_string(root.join("state/status.json")).expect("read status"),
@@ -1710,5 +1720,37 @@ memory:
     assert!(operator_events.contains("\"event\":\"restart_scheduled\""));
     assert!(operator_events.contains("\"event\":\"restart_attempted\""));
     assert!(operator_events.contains("\"event\":\"restart_budget_exhausted\""));
+    assert!(operator_events.contains("\"event\":\"safe_fail_serialization\""));
     assert!(operator_events.contains("\"checkpoint_ref\":\"continuity_checkpoint.json\""));
+
+    let safe_fail: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join("state/safe_fail_bundle.json")).expect("safe fail bundle"),
+    )
+    .expect("parse safe fail bundle");
+    assert_eq!(safe_fail["schema"], "adl.csm.safe_fail_bundle.v1");
+    assert_eq!(safe_fail["runtime_owner"], "csm");
+    assert_eq!(safe_fail["trigger"], "restart_budget_exhausted");
+    assert_eq!(safe_fail["agent_outcome"]["state"], "recoverable");
+    assert_eq!(
+        safe_fail["recoverability"]["class"],
+        "recoverable_checkpointed"
+    );
+    assert_eq!(
+        safe_fail["monotonicity"]["does_not_rewrite_continuity_checkpoint"],
+        true
+    );
+    assert_eq!(
+        safe_fail["observability"]["otel_service_name"],
+        "csm-runtime-daemon"
+    );
+    assert!(safe_fail["serialized_refs"]
+        .as_array()
+        .expect("serialized refs")
+        .iter()
+        .any(|artifact| artifact["role"] == "continuity_checkpoint"
+            && artifact["status"] == "retained"));
+    assert_eq!(
+        safe_fail["serialized_state"]["status"]["value"]["last_error"]["class"],
+        "daemon_child_failed"
+    );
 }

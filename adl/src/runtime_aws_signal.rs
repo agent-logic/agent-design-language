@@ -880,6 +880,7 @@ fn reserve_heartbeat_seq(loaded: &LoadedAgentSpec) -> Result<u64> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::long_lived_agent::AgentCheckpointSpec;
     use crate::long_lived_agent::{
         AgentSpec, AgentStatusState, HeartbeatSpec, LeaseRecord, StatusError, StatusRecord,
         WorkflowSpec,
@@ -969,6 +970,7 @@ mod tests {
                     max_cycles: Some(5),
                     stale_lease_after_secs: Some(60),
                 },
+                checkpoint: AgentCheckpointSpec::default(),
                 safety: json!({}),
                 memory: json!({}),
             },
