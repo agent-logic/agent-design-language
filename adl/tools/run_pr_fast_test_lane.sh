@@ -99,9 +99,14 @@ changed_rows() {
     echo "run_pr_fast_test_lane: --base and --head are required unless --changed-files is supplied" >&2
     exit 2
   fi
-  git -C "$ROOT_DIR" diff --name-status --diff-filter=ACMR "$BASE_SHA...$HEAD_SHA" 2>/dev/null \
-    || git -C "$ROOT_DIR" diff --name-status --diff-filter=ACMR "$BASE_SHA" "$HEAD_SHA" 2>/dev/null \
-    || true
+  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACMR "$BASE_SHA...$HEAD_SHA" 2>/dev/null; then
+    return
+  fi
+  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACMR "$BASE_SHA" "$HEAD_SHA" 2>/dev/null; then
+    return
+  fi
+  echo "run_pr_fast_test_lane: failed to determine changed files for $BASE_SHA..$HEAD_SHA" >&2
+  exit 2
 }
 
 is_relevant_fast_lane_surface() {
@@ -754,12 +759,29 @@ if [ "$mode" = "full" ] && [ "${ADL_PR_FAST_ALLOW_FULL_NEXTEST:-0}" != "1" ]; th
 fi
 
 cd "$ROOT_DIR/adl"
-ADL_RUST_WARM_CACHE_SOURCE_TARGET="${ADL_PR_FAST_TEST_WARM_SOURCE_TARGET:-}" \
-ADL_RUST_WARM_CACHE_DEST_TARGET="${CARGO_TARGET_DIR:-$ROOT_DIR/adl/target}" \
-ADL_RUST_WARM_CACHE_OUTPUT="${ADL_PR_FAST_TEST_WARM_CACHE_OUTPUT:-$ROOT_DIR/adl/pr-fast-test-warm-cache.json}" \
-  bash "$ROOT_DIR/adl/tools/rust_validation_warm_cache.sh"
+
+warm_cache_output_path="${ADL_PR_FAST_TEST_WARM_CACHE_OUTPUT:-}"
+warm_cache_temp_output=""
+cleanup_warm_cache_temp_output() {
+  if [ -n "$warm_cache_temp_output" ]; then
+    rm -f "$warm_cache_temp_output"
+  fi
+}
+trap cleanup_warm_cache_temp_output EXIT
+
+run_warm_cache() {
+  if [ -z "$warm_cache_output_path" ]; then
+    warm_cache_temp_output="$(mktemp "${TMPDIR:-/tmp}/adl-pr-fast-warm-cache.XXXXXX.json")"
+    warm_cache_output_path="$warm_cache_temp_output"
+  fi
+  ADL_RUST_WARM_CACHE_SOURCE_TARGET="${ADL_PR_FAST_TEST_WARM_SOURCE_TARGET:-}" \
+  ADL_RUST_WARM_CACHE_DEST_TARGET="${CARGO_TARGET_DIR:-$ROOT_DIR/adl/target}" \
+  ADL_RUST_WARM_CACHE_OUTPUT="$warm_cache_output_path" \
+    bash "$ROOT_DIR/adl/tools/rust_validation_warm_cache.sh"
+}
 
 if [ "$mode" = "focused" ] || [ "$mode" = "family" ]; then
+  run_warm_cache
   echo "Running $mode nextest lane: $filter_expression"
   cargo nextest run --status-level all --final-status-level slow -E "$filter_expression"
 elif [ "$mode" = "contract_only" ]; then
@@ -767,6 +789,7 @@ elif [ "$mode" = "contract_only" ]; then
 elif [ "$mode" = "skip" ]; then
   echo "Skipping ordinary nextest lane: no Rust test surface was detected for this PR-fast lane."
 else
+  run_warm_cache
   echo "Running full nextest lane by explicit opt-in: $reason"
   cargo nextest run --status-level all --final-status-level slow
 fi

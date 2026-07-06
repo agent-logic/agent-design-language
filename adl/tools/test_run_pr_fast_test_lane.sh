@@ -76,6 +76,18 @@ assert_has "$shell_policy_only_output" "mode=skip"
 assert_has "$shell_policy_only_output" "reason=no_rust_surface_detected_for_fast_lane"
 assert_has "$shell_policy_only_output" "rust_surface_count=0"
 assert_has "$shell_policy_only_output" "structural_surface_count=0"
+rm -f "$ROOT/adl/pr-fast-test-warm-cache.json"
+shell_policy_only_run_output="$(bash "$SCRIPT" --changed-files "$shell_policy_only" 2>&1)"
+grep -Fq "Skipping ordinary nextest lane: no Rust test surface was detected for this PR-fast lane." <<<"$shell_policy_only_run_output" || {
+  echo "expected skip lane message" >&2
+  echo "$shell_policy_only_run_output" >&2
+  exit 1
+}
+if [ -e "$ROOT/adl/pr-fast-test-warm-cache.json" ]; then
+  echo "skip/no-op PR-fast lane must not leave default warm-cache residue" >&2
+  cat "$ROOT/adl/pr-fast-test-warm-cache.json" >&2
+  exit 1
+fi
 
 broad_runtime="$TMP/broad_runtime.txt"
 printf 'M\tadl/src/lib.rs\n' >"$broad_runtime"
