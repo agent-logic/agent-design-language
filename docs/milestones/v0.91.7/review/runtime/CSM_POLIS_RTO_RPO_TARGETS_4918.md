@@ -150,10 +150,16 @@ Current rows:
 | Platform | Cache posture | Build | Test | Benchmark total | Wrapper wall | Status |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | `wuji` | `local_warm_target` | `105s` | `108s` | `213s` | `213s` | passed |
-| `nessus` | pending remote run | pending | pending | pending | pending | pending |
-| `codebuild` | pending remote run | pending | pending | pending | pending | pending |
-| `aws_spot` | pending remote run | pending | pending | pending | pending | pending |
+| `nessus` | `persistent_remote_target_cache` | `25s` | `<1s` | `25s` | `31s` | passed |
+| `codebuild` | `fixed_builder_image_stable_local_target_cache_s3_sccache` | `43s` | `77s` | `120s` | `149s` | passed |
+| `aws_spot` | `fixed_builder_image_warm_ebs_cache` | not_run | not_run | not_run | `<1s` | pre_launch_tooling_failure |
 
 Observed speed note: the local benchmark again paid a cold worktree build/test
-profile cost. The completed local row is roughly the same as #4922 (`214s`) and
-slower than the warm #4929 local row (`93s`).
+profile cost. Nessus is materially faster for this tiny lane (`31s` wrapper
+wall versus `213s` local). CodeBuild passed with `120s` benchmark time and
+`149s` submit-to-complete wall, backed by a 100% sccache hit rate in the
+retained CodeBuild log. The Spot wrapper reproduced the same pre-launch tooling
+problem observed on #4922: the Agent Logic AWS profile resolved, but the issue
+worktree did not contain an executable repo-owned `adl-aws-remote-validation`
+binary. Per operator instruction, this packet records the missing repo binary
+instead of building it ad hoc.
