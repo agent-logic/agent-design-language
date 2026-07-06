@@ -9,13 +9,14 @@
       "id": "runtime-aws-signal-bridge-not-run",
       "owner_issue": 4684,
       "owner_pr": null,
-      "classification": "blocked_with_evidence",
-      "evidence": "No AWS_PROFILE=agent-logic-admin live heartbeat/SNS/SSM command was run during #4880; the Soak 2 execution packet keeps this row tied to WP-08/live signal proof or explicit non-claim.",
+      "classification": "partially_resolved_heartbeat_live_proven",
+      "evidence": "#4684 added the live heartbeat publisher and retained AWS_PROFILE=agent-logic-admin CloudWatch Logs proof. SNS, SSM, archive, and full bridge proof remain owned by sibling WP-08 issues.",
       "evidence_refs": [
         "docs/milestones/v0.91.7/RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md",
-        "docs/milestones/v0.91.7/review/runtime/soak2_4682/soak2_execution_status_4682.json"
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/soak2_execution_status_4682.json",
+        "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
       ],
-      "v092_impact": "Blocks runtime AWS/signal bridge claims unless the operator approves a v0.92 non-claim or routes it to Soak 3."
+      "v092_impact": "Heartbeat no longer blocks runtime AWS/signal bridge claims by itself; full bridge claims still depend on #4685, #4686, #4687, and #4688."
     },
     {
       "id": "unity-live-consumption-not-run",

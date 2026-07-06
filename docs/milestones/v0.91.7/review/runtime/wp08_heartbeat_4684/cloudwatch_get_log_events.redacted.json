@@ -1,0 +1,26 @@
+{
+    "events": [
+        {
+            "timestamp": 1783326370617,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"wp08-heartbeat-4684\",\"agent_id\":\"wp08_heartbeat_live_proof\",\"cycle_id\":\"not_applicable\",\"heartbeat_seq\":1,\"status\":\"started\",\"timestamp\":\"2026-07-06T08:26:10.617418Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:wp08-heartbeat-4684:not_applicable:1\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"not_started\",\"elapsed_ms\":0,\"next_cycle_hint\":\"await_first_cycle\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783326370935
+        },
+        {
+            "timestamp": 1783326370954,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"wp08-heartbeat-4684\",\"agent_id\":\"wp08_heartbeat_live_proof\",\"cycle_id\":\"cycle-000001\",\"heartbeat_seq\":2,\"status\":\"heartbeat\",\"timestamp\":\"2026-07-06T08:26:10.954857Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:wp08-heartbeat-4684:cycle-000001:2\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"running_cycle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"cycle_in_progress\",\"stop_requested\":false,\"lease_state\":\"active\"}}",
+            "ingestionTime": 1783326371134
+        },
+        {
+            "timestamp": 1783326371150,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"wp08-heartbeat-4684\",\"agent_id\":\"wp08_heartbeat_live_proof\",\"cycle_id\":\"cycle-000001\",\"heartbeat_seq\":3,\"status\":\"completed\",\"timestamp\":\"2026-07-06T08:26:11.150191Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:wp08-heartbeat-4684:cycle-000001:3\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783326371328
+        },
+        {
+            "timestamp": 1783326371341,
+            "message": "{\"schema_version\":\"adl.runtime.aws_signal.v1\",\"signal_kind\":\"heartbeat\",\"runtime_id\":\"wp08-heartbeat-4684\",\"agent_id\":\"wp08_heartbeat_live_proof\",\"cycle_id\":\"cycle-000001\",\"heartbeat_seq\":4,\"status\":\"completed\",\"timestamp\":\"2026-07-06T08:26:11.341871Z\",\"capabilities\":[\"long_lived_agent\",\"heartbeat\",\"demo_adapter\"],\"failure_class\":null,\"correlation_id\":\"heartbeat:wp08-heartbeat-4684:cycle-000001:4\",\"projection_level\":\"operations_safe\",\"transport\":{\"mode\":\"live\",\"target_kind\":\"cloudwatch_logs\",\"region\":\"us-west-2\",\"approved\":true},\"payload\":{\"state\":\"idle\",\"elapsed_ms\":0,\"next_cycle_hint\":\"sleep_until_next_heartbeat\",\"stop_requested\":false,\"lease_state\":\"clear\"}}",
+            "ingestionTime": 1783326371507
+        }
+    ],
+    "nextForwardToken": "f/39769507013095844814218363620619108132685983933037084672/s",
+    "nextBackwardToken": "b/39769506996950105290482192465455223972745571126358376448/s"
+}

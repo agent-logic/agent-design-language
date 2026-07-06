@@ -4,6 +4,8 @@ use crate::agent_comms::{
 use crate::long_lived_agent::{AgentStatusState, LoadedAgentSpec, StatusRecord};
 use crate::observability::emit_event;
 use anyhow::{Context, Result};
+use aws_config::{meta::region::RegionProviderChain, BehaviorVersion};
+use aws_sdk_cloudwatchlogs as cloudwatchlogs;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -11,6 +13,7 @@ use std::env;
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::time::Duration;
 
 const AWS_SIGNAL_SCHEMA_VERSION: &str = "adl.runtime.aws_signal.v1";
 const HEARTBEAT_TARGET_KIND: &str = "cloudwatch_logs";
@@ -36,6 +39,9 @@ struct HeartbeatPublisherConfig {
     region: Option<String>,
     target_kind: String,
     approved: bool,
+    profile: Option<String>,
+    log_group: Option<String>,
+    log_stream: Option<String>,
     log_group_configured: bool,
     log_stream_configured: bool,
 }
@@ -54,6 +60,7 @@ struct AcipProjectionPublisherConfig {
 pub(crate) enum PublishDisposition {
     Skipped,
     PublishedMock,
+    PublishedLive,
     Blocked,
 }
 
@@ -178,22 +185,30 @@ impl HeartbeatPublisherConfig {
             .map(str::trim)
             .map(|value| matches!(value, "1" | "true" | "TRUE" | "yes" | "YES"))
             .unwrap_or(false);
-        let log_group_configured = env::var("ADL_AWS_HEARTBEAT_LOG_GROUP")
+        let profile = env::var("ADL_AWS_PROFILE")
             .ok()
-            .map(|value| !value.trim().is_empty())
-            .unwrap_or(false);
-        let log_stream_configured = env::var("ADL_AWS_HEARTBEAT_LOG_STREAM")
+            .or_else(|| env::var("AWS_PROFILE").ok())
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
+        let log_group = env::var("ADL_AWS_HEARTBEAT_LOG_GROUP")
             .ok()
-            .map(|value| !value.trim().is_empty())
-            .unwrap_or(false);
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
+        let log_stream = env::var("ADL_AWS_HEARTBEAT_LOG_STREAM")
+            .ok()
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
         Self {
             mode,
             configured: mode_env.is_some(),
             region,
             target_kind,
             approved,
-            log_group_configured,
-            log_stream_configured,
+            profile,
+            log_group_configured: log_group.is_some(),
+            log_stream_configured: log_stream.is_some(),
+            log_group,
+            log_stream,
         }
     }
 
@@ -216,8 +231,10 @@ impl HeartbeatPublisherConfig {
             "aws_signal_log_group_missing"
         } else if !self.log_stream_configured {
             "aws_signal_log_stream_missing"
+        } else if self.profile.is_none() {
+            "aws_signal_profile_missing"
         } else {
-            "aws_signal_live_transport_not_implemented"
+            "aws_signal_live_publish_failed"
         }
     }
 }
@@ -403,18 +420,77 @@ pub(crate) fn publish_runtime_heartbeat_signal(
             }
         }
         AwsSignalMode::Live => {
-            let failure_class = config.live_block_reason();
-            emit_publish_failure(
-                &config,
-                loaded.spec.agent_instance_id.as_str(),
-                cycle_id_for_status(status).as_str(),
-                "not_allocated",
-                runtime_signal_status(status),
-                failure_class,
-            );
-            PublishOutcome {
-                disposition: PublishDisposition::Blocked,
-                failure_class: Some(failure_class.to_string()),
+            let live_block_reason = config.live_block_reason();
+            if live_block_reason != "aws_signal_live_publish_failed" {
+                emit_publish_failure(
+                    &config,
+                    loaded.spec.agent_instance_id.as_str(),
+                    cycle_id_for_status(status).as_str(),
+                    "not_allocated",
+                    runtime_signal_status(status),
+                    live_block_reason,
+                );
+                return PublishOutcome {
+                    disposition: PublishDisposition::Blocked,
+                    failure_class: Some(live_block_reason.to_string()),
+                };
+            }
+
+            let heartbeat_seq = match reserve_heartbeat_seq(loaded) {
+                Ok(sequence) => sequence,
+                Err(_) => {
+                    let failure_class = "aws_signal_cursor_write_failed";
+                    emit_publish_failure(
+                        &config,
+                        loaded.spec.agent_instance_id.as_str(),
+                        cycle_id_for_status(status).as_str(),
+                        "not_allocated",
+                        runtime_signal_status(status),
+                        failure_class,
+                    );
+                    return PublishOutcome {
+                        disposition: PublishDisposition::Blocked,
+                        failure_class: Some(failure_class.to_string()),
+                    };
+                }
+            };
+            let envelope = build_runtime_heartbeat_envelope(loaded, status, &config, heartbeat_seq);
+            let heartbeat_seq_label = envelope.heartbeat_seq.to_string();
+            match publish_live_cloudwatch_heartbeat(&config, &envelope) {
+                Ok(()) => {
+                    emit_event(
+                        "agent",
+                        "aws_runtime_heartbeat",
+                        "completed",
+                        &[
+                            ("mode", config.mode_label()),
+                            ("target_kind", config.target_kind.as_str()),
+                            ("runtime_id", envelope.runtime_id.as_str()),
+                            ("cycle_id", envelope.cycle_id.as_str()),
+                            ("heartbeat_seq", heartbeat_seq_label.as_str()),
+                            ("signal_status", envelope.status.as_str()),
+                        ],
+                    );
+                    PublishOutcome {
+                        disposition: PublishDisposition::PublishedLive,
+                        failure_class: None,
+                    }
+                }
+                Err(_) => {
+                    let failure_class = "aws_signal_live_publish_failed";
+                    emit_publish_failure(
+                        &config,
+                        envelope.runtime_id.as_str(),
+                        envelope.cycle_id.as_str(),
+                        heartbeat_seq_label.as_str(),
+                        envelope.status.as_str(),
+                        failure_class,
+                    );
+                    PublishOutcome {
+                        disposition: PublishDisposition::Blocked,
+                        failure_class: Some(failure_class.to_string()),
+                    }
+                }
             }
         }
     }
@@ -691,6 +767,71 @@ fn append_mock_signal(loaded: &LoadedAgentSpec, envelope: &RuntimeAwsSignalEnvel
     Ok(())
 }
 
+fn publish_live_cloudwatch_heartbeat(
+    config: &HeartbeatPublisherConfig,
+    envelope: &RuntimeAwsSignalEnvelope,
+) -> Result<()> {
+    let log_group = config
+        .log_group
+        .as_deref()
+        .context("ADL_AWS_HEARTBEAT_LOG_GROUP is required for live heartbeat publish")?;
+    let log_stream = config
+        .log_stream
+        .as_deref()
+        .context("ADL_AWS_HEARTBEAT_LOG_STREAM is required for live heartbeat publish")?;
+    let message = serde_json::to_string(envelope)?;
+    let timestamp = envelope.timestamp.timestamp_millis();
+    run_cloudwatch_put(config, log_group, log_stream, timestamp, message)
+}
+
+fn run_cloudwatch_put(
+    config: &HeartbeatPublisherConfig,
+    log_group: &str,
+    log_stream: &str,
+    timestamp: i64,
+    message: String,
+) -> Result<()> {
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .context("failed to initialize heartbeat CloudWatch runtime")?;
+    runtime.block_on(async move {
+        let region = config
+            .region
+            .as_deref()
+            .context("ADL_AWS_REGION is required for live heartbeat publish")?;
+        let region_provider =
+            RegionProviderChain::first_try(Some(aws_config::Region::new(region.to_string())));
+        let timeout_config = aws_config::timeout::TimeoutConfig::builder()
+            .connect_timeout(Duration::from_secs(5))
+            .operation_timeout(Duration::from_secs(20))
+            .operation_attempt_timeout(Duration::from_secs(10))
+            .build();
+        let loader = aws_config::defaults(BehaviorVersion::latest())
+            .region(region_provider)
+            .timeout_config(timeout_config);
+        let shared_config = match config.profile.as_deref() {
+            Some(profile_name) => loader.profile_name(profile_name).load().await,
+            None => loader.load().await,
+        };
+        let client = cloudwatchlogs::Client::new(&shared_config);
+        let event = cloudwatchlogs::types::InputLogEvent::builder()
+            .timestamp(timestamp)
+            .message(message)
+            .build()
+            .context("failed to build CloudWatch heartbeat log event")?;
+        client
+            .put_log_events()
+            .log_group_name(log_group)
+            .log_stream_name(log_stream)
+            .log_events(event)
+            .send()
+            .await
+            .context("failed to publish runtime heartbeat to CloudWatch Logs")?;
+        Ok::<(), anyhow::Error>(())
+    })
+}
+
 #[allow(dead_code)]
 fn append_mock_acip_signal(output_root: &Path, envelope: &AcipAwsSignalEnvelope) -> Result<()> {
     let path = acip_mock_signal_artifact_path(output_root);
@@ -910,6 +1051,8 @@ mod tests {
                 "ADL_AWS_SIGNAL_APPROVED",
                 "ADL_AWS_HEARTBEAT_LOG_GROUP",
                 "ADL_AWS_HEARTBEAT_LOG_STREAM",
+                "ADL_AWS_PROFILE",
+                "AWS_PROFILE",
                 "ADL_AWS_SNS_TOPIC_ARN",
             ];
             let mut saved = Vec::with_capacity(tracked.len());
@@ -1068,10 +1211,21 @@ mod tests {
                 ("ADL_AWS_HEARTBEAT_LOG_STREAM", "stream"),
             ]);
             let config = HeartbeatPublisherConfig::from_env();
-            assert_eq!(
-                config.live_block_reason(),
-                "aws_signal_live_transport_not_implemented"
-            );
+            assert_eq!(config.live_block_reason(), "aws_signal_profile_missing");
+        }
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_AWS_SIGNAL_MODE", "live"),
+                ("ADL_AWS_SIGNAL_APPROVED", "true"),
+                ("ADL_AWS_REGION", "us-west-2"),
+                ("ADL_AWS_HEARTBEAT_LOG_GROUP", "group"),
+                ("ADL_AWS_HEARTBEAT_LOG_STREAM", "stream"),
+                ("ADL_AWS_PROFILE", "agent-logic-admin"),
+            ]);
+            let config = HeartbeatPublisherConfig::from_env();
+            assert_eq!(config.profile.as_deref(), Some("agent-logic-admin"));
+            assert_eq!(config.live_block_reason(), "aws_signal_live_publish_failed");
         }
     }
 
@@ -1266,6 +1420,9 @@ mod tests {
             region: Some("us-west-2".to_string()),
             target_kind: HEARTBEAT_TARGET_KIND.to_string(),
             approved: false,
+            profile: None,
+            log_group: None,
+            log_stream: None,
             log_group_configured: false,
             log_stream_configured: false,
         };

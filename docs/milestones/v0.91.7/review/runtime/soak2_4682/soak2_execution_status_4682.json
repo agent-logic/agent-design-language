@@ -182,12 +182,13 @@
     },
     {
       "id": "runtime_aws_signal_bridge",
-      "state": "blocked_with_evidence",
+      "state": "partially_resolved_heartbeat_live_proven",
       "owner_issues": [4635, 4684, 4685, 4686, 4687, 4688, 4880],
       "evidence": [
-        "docs/milestones/v0.91.7/RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md"
+        "docs/milestones/v0.91.7/RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
       ],
-      "reason": "No AWS_PROFILE=agent-logic-admin live heartbeat/SNS/SSM command was run in #4880. The row remains blocked for WP-08/live signal proof or explicit operator non-claim."
+      "reason": "#4684 now retains live AWS CloudWatch Logs heartbeat proof with AWS_PROFILE=agent-logic-admin. The broader bridge row remains incomplete until SNS, SSM, archive, and full bridge integration are proven by sibling WP-08 issues."
     },
     {
       "id": "observatory_unity",
