@@ -1,0 +1,116 @@
+{
+  "aws_account_hash": "b05e1f4379b5c745",
+  "aws_account_matches_expected": true,
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "bucket_name": "adl-wp08-obsmem-community-archive-b05e1f4379b5c745-us-west-2",
+  "bucket_name_hash": "f9890bd0400e85f3",
+  "checked_at_utc": "2026-07-06T17:36:05Z",
+  "issue": 4688,
+  "live_configuration": {
+    "encryption": {
+      "ServerSideEncryptionConfiguration": {
+        "Rules": [
+          {
+            "ApplyServerSideEncryptionByDefault": {
+              "SSEAlgorithm": "AES256"
+            },
+            "BlockedEncryptionTypes": {
+              "EncryptionType": [
+                "SSE-C"
+              ]
+            },
+            "BucketKeyEnabled": true
+          }
+        ]
+      }
+    },
+    "lifecycle": {
+      "Rules": [
+        {
+          "AbortIncompleteMultipartUpload": {
+            "DaysAfterInitiation": 7
+          },
+          "Filter": {
+            "Prefix": "community-memory/"
+          },
+          "ID": "adl-wp08-community-memory-archive-tiering",
+          "NoncurrentVersionTransitions": [
+            {
+              "NoncurrentDays": 30,
+              "StorageClass": "GLACIER_IR"
+            },
+            {
+              "NoncurrentDays": 180,
+              "StorageClass": "DEEP_ARCHIVE"
+            }
+          ],
+          "Status": "Enabled",
+          "Transitions": [
+            {
+              "Days": 90,
+              "StorageClass": "GLACIER_IR"
+            },
+            {
+              "Days": 365,
+              "StorageClass": "DEEP_ARCHIVE"
+            }
+          ]
+        }
+      ],
+      "TransitionDefaultMinimumObjectSize": "all_storage_classes_128K"
+    },
+    "object_lock": {
+      "ObjectLockConfiguration": {
+        "ObjectLockEnabled": "Enabled",
+        "Rule": {
+          "DefaultRetention": {
+            "Days": 365,
+            "Mode": "GOVERNANCE"
+          }
+        }
+      }
+    },
+    "public_access_block": {
+      "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": true,
+        "BlockPublicPolicy": true,
+        "IgnorePublicAcls": true,
+        "RestrictPublicBuckets": true
+      }
+    },
+    "versioning": {
+      "MFADelete": "Disabled",
+      "Status": "Enabled"
+    }
+  },
+  "non_claims": [
+    "This policy does not claim mathematical 12-nines durability from a single-region S3 bucket.",
+    "This policy does not grant public access.",
+    "Write/read/restore object proof is owned by #4913."
+  ],
+  "policy": {
+    "abort_incomplete_multipart_days": 7,
+    "durability_class": "s3_standard_or_colder_vendor_durability_11_nines_per_object_non_12_nines_claim",
+    "encryption": "SSE-S3",
+    "lifecycle_transitions": [
+      "GLACIER_IR_after_90_days",
+      "DEEP_ARCHIVE_after_365_days"
+    ],
+    "noncurrent_transitions": [
+      "GLACIER_IR_after_30_noncurrent_days",
+      "DEEP_ARCHIVE_after_180_noncurrent_days"
+    ],
+    "object_lock_default_days": 365,
+    "object_lock_default_mode": "GOVERNANCE",
+    "prefix": "community-memory/",
+    "public_access_block_required": true,
+    "versioning_required": true
+  },
+  "redaction": {
+    "aws_credentials_retained": false,
+    "raw_account_id_retained": false
+  },
+  "schema": "adl.wp08.s3_obsmem_archive_policy.v1",
+  "status": "passed"
+}
