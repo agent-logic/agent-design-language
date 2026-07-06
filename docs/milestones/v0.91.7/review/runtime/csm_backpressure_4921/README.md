@@ -73,6 +73,8 @@ States:
 | Nessus | 211s | 186s | 397s | 403s | passed_slow |
 | AWS Spot | not_completed | not_completed | not_completed | interrupted_at_592s_then_wrapper_stalled | failed_interrupted |
 | CodeBuild | 242s | 223s | 465s | 493s | passed_slow |
+| GitHub `adl-ci` required check | in_progress_after_907s_then_success | in_progress_after_907s_then_success | waiter_timed_out_at_907s_before_later_success | repo-native `pr.sh finish --merge` waiter plus validation recheck | passed_after_long_test_step |
+| wuji exact PR-fast lane replay | 134s | 4s | 138s | direct `run_pr_fast_test_lane.sh` replay | passed |
 
 Nessus note: the first direct remote attempt ran before the branch was pushed,
 so the remote runner could not resolve the #4921 git ref. The post-publication
@@ -86,6 +88,23 @@ tooling problem to fix before relying on Spot for sprint throughput.
 
 CodeBuild note: the post-publication CodeBuild run succeeded, but the inner
 benchmark was slower than wuji for this lane.
+
+GitHub `adl-ci` note: after the clippy repair, PR #4971 commit
+`869a1154e9f108a363a375bc7110b73f0194c8da` reached the Rust `test` step and
+remained `IN_PROGRESS` until the repo-native `pr.sh finish --merge` waiter
+timed out at 907s. The required check was pending, not failed; `adl-coverage`
+was green and `adl-slow-proof` was skipped by policy. A later repo-native
+validation recheck reported `adl-ci` completed successfully for the same
+commit, so this is recorded as a long CI test-step latency finding rather than
+a #4921 test failure.
+
+Wuji replay note: the exact PR-fast lane selected by CI was replayed locally
+with `bash adl/tools/run_pr_fast_test_lane.sh --base origin/main --head HEAD`.
+It selected `test(csm_cmd) or test(csm_backpressure) or test(csm_runtime_api)
+or binary_id(adl::cli_smoke) and test(/^agent::/)`, compiled in 2m14s, and ran
+18 tests in 4.355s with 18 passed and 19665 skipped. This makes the long
+GitHub check a CI-runner liveness/performance finding rather than a reproduced
+#4921 test failure.
 
 ## Non-Claims
 
