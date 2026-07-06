@@ -4,7 +4,7 @@ Status: active_review_register
 
 Last updated: 2026-07-06
 
-Issue: #4932
+Issue: #4972
 
 ## Purpose
 
@@ -19,19 +19,20 @@ closed out in the issue/card/PR surfaces.
 ## Current Summary
 
 - WP-01, WP-02, and WP-04 have tracked review packets and are closed.
-- WP-05 is closed and now has this register issue `#4932` repairing the stale
-  local-agent proof artifact found during review.
-- WP-06 is closed at the umbrella level but has unresolved review-truth cleanup
-  and open follow-on build/cache/builder-image issues.
+- WP-05 is closed and review-remediated by `#4932`; the local-agent proof
+  artifact now agrees with the fail-closed provider/model identity guard.
+- WP-06 is closed and review-remediated by `#4936`; selected build-throughput
+  work and remote-builder follow-ons have landed and are recorded in the WP-06
+  packet.
 - WP-07 has substantial runtime review artifacts and many closed runtime
   issues, but CSM survival/post-blocker issues remain open before final release
   readiness.
 - WP-08 through WP-20 are not yet release-review-clean.
 - WP-21 is closed; WP-22 and WP-23 remain open for next-milestone review and
   release ceremony.
-- Tools sprint #4806 is closed and has a second-pass remediation packet under
-  #4961 for stale child card truth, tracked review evidence, and remaining
-  sprint-conductor raw-`gh` helper paths.
+- Tools sprint #4806 is closed and review-remediated by #4961 for stale child
+  card truth, tracked review evidence, and remaining sprint-conductor raw-`gh`
+  helper paths. #4950 remains a visible watcher closeout-state residual.
 
 ## Review Status Table
 
@@ -39,10 +40,10 @@ closed out in the issue/card/PR surfaces.
 | --- | ---: | --- | --- | --- | --- |
 | WP-01 | #4628 | closed | `docs/milestones/v0.91.7/review/V0917_WP01_PLANNING_PROMOTION_4628.md` | No active finding recorded in this register. | Keep as source truth for release-tail review. |
 | WP-02 | #4629 | closed | `docs/milestones/v0.91.7/review/V0917_WP02_V0916_CLOSEOUT_TRUTH_CONSUMPTION_4661.md` | Child cleanup `#4661`-`#4665` and `#4699` are closed. | Keep as source truth for release-tail review. |
-| WP-03 | #4630 | closed | none found as a single WP-03 review packet | Related open resilience/workflow issue `#4780` remains outside the closed umbrella. | Review WP-03 as a bundle before release-tail claims consume it. |
+| WP-03 | #4630 | closed; review finding remains | `docs/milestones/v0.91.7/review/V0917_WP03_REVIEW_4972.md`; remediation packet `docs/milestones/v0.91.7/review/V0917_WP03_REVIEW_REMEDIATION_4953.md` | #4953 is closed and repaired the merged-PR/no-PR shepherd classifier confusion, stale #4713 residue, and WP-03 label discoverability. Current review still finds #4630 shepherd output reports `merged_needs_closeout`; its local readiness also fails in this review worktree because that worktree lacks the #4630 source prompt even though the root checkout retains it. #4780 remains an open cross-cutting resilience/workflow issue. | Resolve the #4630 closeout-state and worktree-local readiness drift, or record it as an approved release-tail blocker before WP-03 is consumed as clean. |
 | WP-04 | #4631 | closed | `docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_4631.md`; `docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_REMEDIATION_4747.md` | Remediation issue `#4747` is closed. | Keep metrics limitations visible; do not treat unknown metrics as zero. |
-| WP-05 | #4632 | closed | `docs/milestones/v0.91.7/review/V0917_WP05_SCHEDULER_PROVIDER_LOCAL_AGENT_CLOSEOUT_4632.md` | Review found stale `#4675` local-agent artifact after `#4849`. `#4932` repairs the fixture and regenerated artifact so provider route and model suitability both select Gemini while local Gemma remains shadow-only. | Merge `#4932`, then treat WP-05 as review-remediated unless new findings appear. |
-| WP-06 | #4633 | closed umbrella; open follow-ons | `docs/milestones/v0.91.7/review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md` | Prior review found stale closeout/card truth; open issues include `#4679`, `#4680`, and `#4879`. | Repair WP-06 review truth and resolve or explicitly block open build/cache/builder-image follow-ons. |
+| WP-05 | #4632 | closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_WP05_SCHEDULER_PROVIDER_LOCAL_AGENT_CLOSEOUT_4632.md` | #4932 is closed and repaired the stale `#4675` local-agent artifact after `#4849`; provider route and model suitability now both select Gemini while local Gemma remains shadow-only. | Keep as source truth unless new findings appear. |
+| WP-06 | #4633 | closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md` | #4936 is closed and repaired review-truth records. The WP-06 packet now records the selected sprint lane plus reconciled remote-builder follow-ons: `#4837`, `#4838`, `#4879`, `#4680`, and `#4679`. | Keep build-throughput residual non-claims visible; paid AWS lanes remain explicit operator-triggered paths. |
 | WP-07 | #4634 | closed umbrella; open CSM survival follow-ons | runtime review packets under `docs/milestones/v0.91.7/review/runtime/` plus `docs/milestones/v0.91.7/review/observability_4718/` | Runtime/OTel/Soak artifacts exist; open issues include `#4906`, `#4910`, `#4911`, `#4918`, `#4919`, `#4921`, `#4922`, `#4929`, and `#4933`. | Finish CSM survival/post-blocker issues and run final WP-07 review. |
 | WP-08 | #4635 | open | none yet | Runtime AWS/signal issues `#4684`-`#4688`, `#4782`, `#4913`, and `#4915` remain open. | Execute and review AWS/signal operations in full. |
 | WP-09 | #4636 | open | Unity review artifacts under `docs/milestones/v0.91.7/review/unity_observatory_*` | Umbrella and child issues `#4689`-`#4691` remain open. | Finish Observatory/demo proof and review as WP-09. |
@@ -65,7 +66,7 @@ closed out in the issue/card/PR surfaces.
 
 | Sprint | Status | Review / Remediation Packet | Findings / Residuals | Next Action |
 | --- | --- | --- | --- | --- |
-| Repo-native workflow stabilization | #4806 closed | `docs/milestones/v0.91.7/review/V0917_TOOLS_SPRINT_4806_REVIEW_REMEDIATION_4961.md` | #4961 repairs stale child card truth, tracked release-visible review evidence, remaining sprint-conductor raw-`gh` helper paths, and owner-binary fallback wording. #4950 remains open for watcher `closeout_needed` ambiguity. | Merge #4961, keep #4950 visible until resolved. |
+| Repo-native workflow stabilization | #4806 closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_TOOLS_SPRINT_4806_REVIEW_REMEDIATION_4961.md` | #4961 is closed and repaired stale child card truth, tracked release-visible review evidence, remaining sprint-conductor raw-`gh` helper paths, and owner-binary fallback wording. #4950 remains open for watcher `closeout_needed` ambiguity. | Keep #4950 visible until resolved. |
 
 ## WP-05 Repair Record
 
@@ -89,6 +90,6 @@ This issue repairs the WP-05 proof surface by:
 
 - This register does not claim v0.91.7 is release-ready.
 - This register does not close any WP or child issue.
-- This register does not claim WP-06 or WP-07 findings are fixed.
+- This register does not claim WP-07 or later open WP findings are fixed.
 - This register does not claim live provider invocation, live local model
   quality, or autonomous multi-agent authority from WP-05 scheduler artifacts.
