@@ -5,6 +5,11 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT="${1:-$ROOT/docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910}"
 CSM_BIN="${CSM_BIN:-$ROOT/adl/target/debug/csm}"
 
+case "$OUT" in
+  /*) ;;
+  *) OUT="$PWD/$OUT" ;;
+esac
+
 if [ ! -x "$CSM_BIN" ]; then
   printf 'missing executable csm binary: %s\n' "$CSM_BIN" >&2
   exit 1
