@@ -127,9 +127,37 @@ Result:
 - status: passed
 - local artifact: `.adl/local-artifacts/build-platform/4929-wuji-summary.json`
 
-Nessus, AWS Spot, and CodeBuild live benchmark rows require a committed and
-pushed issue ref. They are intentionally pending until the #4929 branch has a
-review-clean commit for those remote lanes to fetch.
+Remote benchmark rows used pushed ref
+`codex/4929-v0-91-7-wp-07-observability-csm-runtime-observability-api-endpoints`
+at commit `cdaca6236`.
+
+| Platform | Cache posture | Build | Test | Benchmark total | Wrapper wall | Status |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| `wuji` | `local_warm_target` | `93s` | `0.40s` real | `93s` | `93s` | passed |
+| `nessus` | `persistent_remote_target_cache` | `177s` | `51s` | `228s` | `240s` | passed |
+| `codebuild` | `fixed_builder_image_stable_local_target_cache_s3_sccache` | `99s` | `76s` | `175s` | `204s` | passed |
+| `aws_spot` | `fixed_builder_image_warm_ebs_cache` | `103s` | `93s` | `196s` | `355s` | passed |
+
+Remote artifacts:
+
+- Nessus: `.adl/local-artifacts/remote-build/4929/nessus/summary.json` and
+  extracted `command.log`.
+- CodeBuild: `.adl/local-artifacts/remote-build/4929/codebuild-live-summary.json`,
+  `codebuild-status.json`, and fetched `codebuild-log.txt`.
+- AWS Spot: `.adl/local-artifacts/remote-build/4929/aws-spot-summary.json`
+  and `aws-spot/attempt-0/command-stdout.log`.
+
+Operational problems observed:
+
+- Nessus validation-manager routing rejected the full changed surface because
+  docs plus Rust selected two lanes; the benchmark was rerun with a Rust-only
+  changed-file list so the Nessus remote runner could select exactly one lane.
+- CodeBuild completed successfully but the wrapper summary did not retain the
+  nested benchmark JSON; the benchmark row was recovered from the specific
+  CodeBuild log stream.
+- AWS Spot terminated the instance but initially left the temporary IAM role
+  undeleted because an inline ECR-read policy remained attached. The inline
+  policy and role were deleted after the run.
 
 ## Non-Claims
 
