@@ -314,17 +314,30 @@ bash adl/tools/run_build_platform_benchmark.sh --platform wuji --cache-posture l
 
 Current rows:
 
-| Platform | Cache posture | Build | Test | Benchmark total | Status |
-| --- | --- | ---: | ---: | ---: | --- |
-| `wuji` | `local_warm_target` | `107s` | `107s` | `214s` | passed |
-| `nessus` | pending remote run | pending | pending | pending | pending |
-| `codebuild` | pending remote run | pending | pending | pending | pending |
-| `aws_spot` | pending remote run | pending | pending | pending | pending |
+| Platform | Cache posture | Build | Test | Benchmark total | Wrapper wall | Status |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| `wuji` | `local_warm_target` | `107s` | `107s` | `214s` | `214s` | passed |
+| `nessus` | `persistent_remote_target_cache` | `79s` | `46s` | `125s` | `132s` | passed via direct Nessus runner |
+| `codebuild` | `fixed_builder_image_stable_local_target_cache_s3_sccache` | `98s` | `76s` | `174s` | `201s` | passed |
+| `aws_spot` | `fixed_builder_image_warm_ebs_cache` | not_run | not_run | not_run | not_run | failed before launch |
 
 Observed speed note: the docs-only #4922 issue still paid a cold worktree
 build/test-profile cost locally, so the benchmark is dominated by Rust profile
 warmth rather than changed-file size. The #4929 local comparison row was
-`93s` total; #4922's first local row is `214s`.
+`93s` total; #4922's first local row is `214s`. Nessus was the fastest
+completed row for this issue at `125s` benchmark total, while CodeBuild was
+close at `174s` and reported a high sccache hit rate.
+
+Remote-build problems observed:
+
+- Validation-manager rejected the Nessus lane for this docs-only issue because
+  the selected runtime class was `tiny` / `docs_diff_check_profile`; the
+  explicit benchmark was run through the lower-level repo-native Nessus runner
+  instead.
+- AWS Spot account profile resolution passed, but the wrapper failed before
+  launch because the required warmed
+  `adl-aws-remote-validation` repo binary was not present in the issue
+  worktree. This packet does not claim a Spot benchmark row for #4922.
 
 ## Post-Incident Record Template
 
