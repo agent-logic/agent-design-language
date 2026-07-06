@@ -14,6 +14,8 @@ pub struct AgentSpec {
     pub workflow: WorkflowSpec,
     pub heartbeat: HeartbeatSpec,
     #[serde(default)]
+    pub checkpoint: AgentCheckpointSpec,
+    #[serde(default)]
     pub safety: Value,
     #[serde(default)]
     pub memory: Value,
@@ -40,6 +42,31 @@ pub struct HeartbeatSpec {
     pub max_cycles: Option<u64>,
     #[serde(default)]
     pub stale_lease_after_secs: Option<u64>,
+}
+
+/// Agent-local checkpoint policy layered under CSM daemon supervision.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AgentCheckpointSpec {
+    #[serde(default)]
+    pub interval_secs: Option<u64>,
+    #[serde(default = "default_agent_checkpoint_requests")]
+    pub allow_agent_requested: bool,
+    #[serde(default)]
+    pub min_request_interval_secs: Option<u64>,
+}
+
+impl Default for AgentCheckpointSpec {
+    fn default() -> Self {
+        Self {
+            interval_secs: None,
+            allow_agent_requested: default_agent_checkpoint_requests(),
+            min_request_interval_secs: None,
+        }
+    }
+}
+
+fn default_agent_checkpoint_requests() -> bool {
+    false
 }
 
 /// Finite state for a running long-lived agent.

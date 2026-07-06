@@ -1117,6 +1117,74 @@ fn daemon_partial_checkpoint_preserves_recoverable_failure_reason() {
 }
 
 #[test]
+fn safe_fail_bundle_preserves_malformed_artifacts_and_quarantines_active_lease() {
+    let root = temp_dir("safe-fail-malformed-quarantine");
+    let spec = write_spec(&root);
+    let loaded = load_spec(&spec).expect("load spec");
+    ensure_state_root(&loaded).expect("state root");
+    let runtime_context = CsmRuntimeContext::new().expect("csm runtime context");
+    let lease = LeaseRecord {
+        schema: LEASE_SCHEMA.to_string(),
+        agent_instance_id: loaded.spec.agent_instance_id.clone(),
+        lease_id: "lease-test".to_string(),
+        cycle_id: "cycle-000001".to_string(),
+        owner_pid: 123,
+        hostname: "test-host".to_string(),
+        started_at: Utc::now(),
+        expires_at: Utc::now() + ChronoDuration::seconds(60),
+        status: "active".to_string(),
+    };
+    let status = status_with_state(
+        &loaded,
+        AgentStatusState::Failed,
+        Some("cycle-000001".to_string()),
+        Some("failed".to_string()),
+        Some(lease),
+        false,
+        Some(StatusError {
+            class: "daemon_child_failed".to_string(),
+            message: "failed with active lease".to_string(),
+        }),
+    );
+    persist_status(&loaded, &status, "daemon_child_failed_recoverable")
+        .expect("persist failed status");
+    fs::write(continuity_replay_manifest_path(&loaded), "{")
+        .expect("write malformed replay manifest");
+
+    let summary = record_safe_fail_bundle(
+        &runtime_context,
+        &loaded,
+        &status,
+        "daemon_child_failed",
+        0,
+        1,
+        Some("error:failed".to_string()),
+        json!({"test_case": "malformed_replay_manifest"}),
+    )
+    .expect("record safe fail");
+    assert_eq!(summary["status"], "serialized");
+
+    let bundle: serde_json::Value =
+        read_json_required(&safe_fail_bundle_path(&loaded)).expect("safe fail bundle");
+    assert_eq!(bundle["agent_outcome"]["state"], "quarantined");
+    assert_eq!(bundle["recoverability"]["class"], "quarantine_required");
+    assert_eq!(
+        bundle["serialized_state"]["continuity_replay_manifest"]["status"],
+        "unreadable"
+    );
+    assert_eq!(
+        bundle["monotonicity"]["does_not_rewrite_cycle_ledger"],
+        true
+    );
+    assert!(bundle["negative_case_boundaries"]
+        .as_array()
+        .expect("negative boundaries")
+        .iter()
+        .any(|boundary| boundary
+            == "malformed_prior_state_is_retained_as_unreadable_artifact_evidence"));
+}
+
+#[test]
 fn daemon_interval_defaults_positive_and_rejects_zero_cadence() {
     let root = temp_dir("daemon-positive-cadence");
     let spec = write_spec(&root);
@@ -1157,6 +1225,104 @@ fn daemon_interval_defaults_positive_and_rejects_zero_cadence() {
         .expect_err("zero spec interval must fail")
         .to_string()
         .contains("greater than zero"));
+}
+
+#[test]
+fn agent_checkpoint_policy_clamps_cadence_and_governs_requests() {
+    let root = temp_dir("agent-checkpoint-policy");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: test-agent
+display_name: Test Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: wp02_heartbeat_probe
+  run_args:
+    provider_id: local_ollama
+checkpoint:
+  interval_secs: 2
+  allow_agent_requested: true
+  min_request_interval_secs: 5
+heartbeat:
+  interval_secs: 1
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+  max_consecutive_failures: 2
+memory:
+  namespace: tests/test-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write spec");
+    let loaded = load_spec(&spec).expect("load spec");
+    ensure_state_root(&loaded).expect("state root");
+    assert_eq!(
+        effective_checkpoint_interval_secs(&loaded, 10).expect("effective interval"),
+        2
+    );
+    fs::write(
+        checkpoint_request_path(&loaded),
+        r#"{"schema":"adl.csm.agent_checkpoint_request.v1","reason":"agent-local state changed","requested_at":"2026-07-06T00:00:00Z"}"#,
+    )
+    .expect("write checkpoint request");
+    let runtime_context = CsmRuntimeContext::new().expect("runtime context");
+    let accepted = observe_agent_checkpoint_request(
+        &runtime_context,
+        &loaded,
+        0,
+        Utc::now() - ChronoDuration::seconds(60),
+    )
+    .expect("observe request")
+    .expect("request outcome");
+    assert_eq!(accepted["decision"], "accepted");
+    assert!(!checkpoint_request_path(&loaded).exists());
+
+    fs::write(
+        checkpoint_request_path(&loaded),
+        r#"{"schema":"adl.csm.agent_checkpoint_request.v1","reason":"second request","requested_at":"2026-07-06T00:00:01Z"}"#,
+    )
+    .expect("write second checkpoint request");
+    let rate_limited = observe_agent_checkpoint_request(&runtime_context, &loaded, 0, Utc::now())
+        .expect("observe rate limited")
+        .expect("request outcome");
+    assert_eq!(rate_limited["decision"], "blocked_rate_limited");
+
+    for (case, body) in [
+        ("malformed", "{"),
+        (
+            "wrong_schema",
+            r#"{"schema":"adl.csm.agent_checkpoint_request.v0","reason":"state changed","requested_at":"2026-07-06T00:00:02Z"}"#,
+        ),
+        (
+            "missing_reason",
+            r#"{"schema":"adl.csm.agent_checkpoint_request.v1","requested_at":"2026-07-06T00:00:03Z"}"#,
+        ),
+    ] {
+        fs::write(checkpoint_request_path(&loaded), body)
+            .unwrap_or_else(|err| panic!("write {case} checkpoint request: {err}"));
+        let blocked = observe_agent_checkpoint_request(
+            &runtime_context,
+            &loaded,
+            0,
+            Utc::now() - ChronoDuration::seconds(60),
+        )
+        .unwrap_or_else(|err| panic!("observe {case} checkpoint request: {err}"))
+        .unwrap_or_else(|| panic!("{case} checkpoint request outcome"));
+        assert_eq!(blocked["decision"], "blocked_malformed", "{case}");
+        assert_eq!(blocked["request_validation"]["status"], "failed", "{case}");
+        assert!(!checkpoint_request_path(&loaded).exists(), "{case}");
+    }
 }
 
 #[test]
