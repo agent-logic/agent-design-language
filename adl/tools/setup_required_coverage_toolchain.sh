@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
 usage() {
   cat >&2 <<'USAGE'
 usage: setup_required_coverage_toolchain.sh install-lld|configure <github-env>|verify|stats
@@ -52,14 +54,12 @@ configure() {
   fi
   require_cmd sccache
   require_cmd ld.lld
-  mkdir -p "$HOME/.cache/sccache"
-  {
-    echo "SCCACHE_DIR=$HOME/.cache/sccache"
-    echo "SCCACHE_CACHE_SIZE=2G"
-    echo "RUSTC_WRAPPER=sccache"
-    echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld"
-    echo "RUST_LINK_ACCEL=lld"
-  } >> "$github_env"
+  ADL_RUST_CACHE_SCCACHE_DIR="$HOME/.cache/sccache" \
+  ADL_RUST_CACHE_SCCACHE_SIZE=2G \
+  ADL_RUST_CACHE_REQUIRE_SCCACHE=1 \
+  ADL_RUST_CACHE_REQUIRE_LLD=1 \
+  ADL_RUST_CACHE_USE_LLD=1 \
+    bash "$ROOT_DIR/adl/tools/rust_cache_env.sh" write-github-env "$github_env"
   if ! sccache --start-server 2>/tmp/adl-sccache-start.err; then
     if ! sccache --show-stats >/dev/null 2>&1; then
       cat /tmp/adl-sccache-start.err >&2

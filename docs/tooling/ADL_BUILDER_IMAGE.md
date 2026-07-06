@@ -133,6 +133,23 @@ may place later runs on a different host, but when the host is reused it is the
 closest CodeBuild analogue to Nessus local target cache and Spot EBS target
 cache.
 
+Use `adl/tools/rust_cache_env.sh` to apply the shared Rust cache and linker
+environment in validation lanes. The helper writes either a shell env file or a
+GitHub env file and normalizes `CARGO_TARGET_DIR`, `SCCACHE_DIR`,
+`SCCACHE_CACHE_SIZE`, `RUSTC_WRAPPER`, and optional `lld` linker flags:
+
+```sh
+ADL_RUST_CACHE_TARGET_DIR=/codebuild/adl-target \
+ADL_RUST_CACHE_REQUIRE_SCCACHE=1 \
+ADL_RUST_CACHE_REQUIRE_LLD=1 \
+ADL_RUST_CACHE_USE_LLD=1 \
+  bash adl/tools/rust_cache_env.sh write-shell-env /tmp/adl-rust-cache-env.sh
+. /tmp/adl-rust-cache-env.sh
+```
+
+The helper is configuration, not proof. Keep lane summaries and
+`sccache --show-stats` as the evidence for whether a run was actually warm.
+
 `ADL_CODEFRIEND_TARGET_CACHE_MODE` defaults to `local`. Set
 `ADL_CODEFRIEND_TARGET_CACHE_MODE=disabled` for cold-cache measurements. The
 buildspec still has an explicit `s3-tar` diagnostic mode, keyed by
