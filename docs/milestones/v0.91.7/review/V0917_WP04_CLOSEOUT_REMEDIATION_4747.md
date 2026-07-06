@@ -2,7 +2,7 @@
 
 Issue: `#4747`
 
-Status: complete, pending PR publication.
+Status: complete and merged.
 
 ## Summary
 
@@ -46,6 +46,10 @@ automatic per-issue goal capture while an umbrella goal remains active is not
 yet proven. Future sprint execution should not claim complete per-issue
 accounting automation until nested issue goals and umbrella goals can coexist
 without refusing child issue goal creation.
+
+Follow-on lifecycle truth repair for root-local ignored WP-04 SOR/SRP records is
+captured by `#4946` in
+`docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_LIFECYCLE_REPAIR_4946.md`.
 
 ## Validation
 
