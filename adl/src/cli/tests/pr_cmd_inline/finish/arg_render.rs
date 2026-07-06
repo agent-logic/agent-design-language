@@ -2871,6 +2871,83 @@ fn finish_validation_plan_integrated_runtime_soak_runner_hits_helper_classifiers
 }
 
 #[test]
+fn finish_validation_profile_classifies_runtime_v2_cmd_slice_without_pr_cmd_expansion() {
+    let plan = select_finish_validation_plan_for_finish(
+        4848,
+        ".",
+        &[
+            "adl/src/cli/runtime_v2_cmd/commands.rs".to_string(),
+            "adl/src/cli/runtime_v2_cmd/tests.rs".to_string(),
+        ],
+    )
+    .expect("runtime v2 command finish plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string()));
+    assert!(plan.commands.contains(&"git diff --check".to_string()));
+    assert!(plan
+        .commands
+        .contains(&"cargo fmt --manifest-path adl/Cargo.toml --all --check".to_string()));
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl cli::runtime_v2_cmd -- --nocapture"
+            .to_string()
+    ));
+    assert!(
+        !plan.commands.iter().any(|command| {
+            command.contains("cli::pr_cmd")
+                || command.contains("adl-pr-finish")
+                || command.contains("cargo nextest")
+                || command.contains("run_pr_fast_test_lane.sh")
+                || command.contains("test(commands)")
+                || command.contains("test(tests)")
+        }),
+        "runtime command finish routing must not expand into unrelated pr_cmd/generic fast-lane commands: {:?}",
+        plan.commands
+    );
+}
+
+#[test]
+fn finish_validation_profile_keeps_pr_finish_proof_for_mixed_runtime_v2_cmd_slice() {
+    let plan = select_finish_validation_plan_for_finish(
+        4848,
+        ".",
+        &[
+            "adl/src/cli/runtime_v2_cmd/commands.rs".to_string(),
+            "adl/src/cli/runtime_v2_cmd/tests.rs".to_string(),
+            "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
+            "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs".to_string(),
+        ],
+    )
+    .expect("mixed runtime v2 command and finish helper plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl cli::runtime_v2_cmd -- --nocapture"
+            .to_string()
+    ));
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation"
+            .to_string()
+    ));
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_helper_paths_run_focused_local_ci_gated_validation"
+            .to_string()
+    ));
+    assert!(
+        !plan.commands.iter().any(|command| {
+            command.contains("cargo nextest")
+                || command.contains("run_pr_fast_test_lane.sh")
+                || command.contains("test(commands)")
+                || command.contains("test(tests)")
+        }),
+        "mixed runtime command finish routing must retain pr-finish proof without generic fast-lane expansion: {:?}",
+        plan.commands
+    );
+}
+
+#[test]
 fn finish_validation_plan_classifies_rust_refactor_slices() {
     let lib_plan = select_finish_validation_plan("adl/src/lib.rs").expect("lib plan");
     assert_eq!(lib_plan.mode, FinishValidationMode::LargerBinaryFocused);
