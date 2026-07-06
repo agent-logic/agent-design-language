@@ -4271,6 +4271,46 @@ fn finish_validation_profile_classifies_wp08_local_polis_ssm_slice() {
 }
 
 #[test]
+fn finish_validation_profile_classifies_wp08_s3_obsmem_archive_policy_slice() {
+    let changed_paths = vec![
+        "adl/config/validation_lane_selector.v0.91.6.json".to_string(),
+        "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
+        "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs".to_string(),
+        "adl/tools/setup_wp08_s3_obsmem_archive_policy.sh".to_string(),
+        "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh".to_string(),
+        "adl/tools/validate_wp08_s3_obsmem_archive_policy.py".to_string(),
+        "docs/milestones/v0.91.7/review/runtime/wp08_s3_obsmem_archive_4688/archive_policy_summary.json"
+            .to_string(),
+        "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md".to_string(),
+    ];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(4688, &requested_paths, &changed_paths)
+        .expect("WP-08 S3 ObsMem archive policy focused plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp08_s3_obsmem_archive_policy_slice -- --exact --nocapture"
+            .to_string()
+    ));
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh".to_string()));
+    assert!(plan.commands.contains(
+        &"python3 adl/tools/validate_wp08_s3_obsmem_archive_policy.py docs/milestones/v0.91.7/review/runtime/wp08_s3_obsmem_archive_4688/archive_policy_summary.json"
+            .to_string()
+    ));
+
+    let unrelated_plan =
+        select_finish_validation_plan_for_finish(4687, &requested_paths, &changed_paths)
+            .expect("unrelated issue may use the generic mapped validation profile");
+    assert!(!unrelated_plan.commands.contains(
+        &"python3 adl/tools/validate_wp08_s3_obsmem_archive_policy.py docs/milestones/v0.91.7/review/runtime/wp08_s3_obsmem_archive_4688/archive_policy_summary.json"
+            .to_string()
+    ));
+}
+
+#[test]
 fn finish_validation_profile_classifies_wuji_ddns_installer_slice() {
     let changed_paths = vec![
         "adl/src/cli/pr_cmd/finish_support.rs".to_string(),

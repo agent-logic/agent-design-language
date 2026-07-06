@@ -635,6 +635,33 @@
       "reason": "wp08_acip_sns_surface_requires_wrapper_contract_checks; issue-local retained live summaries are validated by adl/tools/validate_wp08_acip_sns_live_proof.py"
     },
     {
+      "id": "wp08_s3_obsmem_archive_policy",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "tools",
+      "proof_role": "aws_storage_provisioning_policy_contract",
+      "requirement_ids": [
+        "wp08_s3_obsmem_archive_policy"
+      ],
+      "path_selectors": [
+        "adl/tools/setup_wp08_s3_obsmem_archive_policy.sh",
+        "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
+        "adl/tools/validate_wp08_s3_obsmem_archive_policy.py",
+        "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_s3_obsmem_archive_4688/**"
+      ],
+      "path_hints": [
+        "adl/tools/setup_wp08_s3_obsmem_archive_policy.sh",
+        "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
+        "adl/tools/validate_wp08_s3_obsmem_archive_policy.py",
+        "docs/tooling/S3_OBSMEM_COMMUNITY_MEMORY_ARCHIVE_POLICY.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_s3_obsmem_archive_4688/**"
+      ],
+      "command": "bash adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
+      "run_command": "bash adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh",
+      "reason": "wp08_s3_obsmem_archive_policy_setup_requires_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_s3_obsmem_archive_policy.py"
+    },
+    {
       "id": "v0917_soak2_status_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
