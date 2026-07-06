@@ -415,6 +415,8 @@ phases:
           install -m 0755 "/tmp/sccache-${SCCACHE_VERSION}-x86_64-unknown-linux-musl/sccache" "$HOME/.cargo/bin/sccache"
         fi
       - export RUSTC_WRAPPER=sccache
+      - ADL_RUST_CACHE_TARGET_DIR="/codebuild/adl-target" ADL_RUST_CACHE_SCCACHE_DIR="${SCCACHE_DIR:-$HOME/.cache/sccache}" ADL_RUST_CACHE_SCCACHE_SIZE="${SCCACHE_CACHE_SIZE:-20G}" ADL_RUST_CACHE_REQUIRE_SCCACHE=1 ADL_RUST_CACHE_REQUIRE_LLD=1 ADL_RUST_CACHE_USE_LLD=1 bash adl/tools/rust_cache_env.sh write-shell-env /tmp/adl-rust-cache-env.sh
+      - . /tmp/adl-rust-cache-env.sh
       - sccache --start-server || true
       - sccache --zero-stats || true
   build:
@@ -434,6 +436,8 @@ phases:
       - export CARGO_INCREMENTAL=0
       - export RUSTFLAGS="${RUSTFLAGS:-} -C link-arg=-fuse-ld=lld --remap-path-prefix=/codebuild/adl-source=/workspace --remap-path-prefix=/root=/home"
       - export RUSTC_WRAPPER=sccache
+      - ADL_RUST_CACHE_TARGET_DIR="/codebuild/adl-target" ADL_RUST_CACHE_SCCACHE_DIR="${SCCACHE_DIR:-$HOME/.cache/sccache}" ADL_RUST_CACHE_SCCACHE_SIZE="${SCCACHE_CACHE_SIZE:-20G}" ADL_RUST_CACHE_REQUIRE_SCCACHE=1 ADL_RUST_CACHE_REQUIRE_LLD=1 ADL_RUST_CACHE_USE_LLD=1 bash adl/tools/rust_cache_env.sh write-shell-env /tmp/adl-rust-cache-env.sh
+      - . /tmp/adl-rust-cache-env.sh
       - test -n "${ADL_CODEFRIEND_BUILD_COMMAND:-}"
       - |
         if [ -z "${ADL_CODEFRIEND_TARGET_CACHE_KEY:-}" ]; then

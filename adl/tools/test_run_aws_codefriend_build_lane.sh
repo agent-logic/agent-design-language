@@ -231,6 +231,8 @@ assert_has "$SETUP_SCRIPT" "apt-get install -y lld clang zstd"
 assert_has "$SETUP_SCRIPT" "ld.lld --version"
 assert_has "$SETUP_SCRIPT" "zstd --version"
 assert_has "$SETUP_SCRIPT" 'export RUSTFLAGS="${RUSTFLAGS:-} -C link-arg=-fuse-ld=lld --remap-path-prefix=/codebuild/adl-source=/workspace --remap-path-prefix=/root=/home"'
+assert_has "$SETUP_SCRIPT" "bash adl/tools/rust_cache_env.sh write-shell-env /tmp/adl-rust-cache-env.sh"
+assert_has "$SETUP_SCRIPT" ". /tmp/adl-rust-cache-env.sh"
 assert_has "$SETUP_SCRIPT" 'export ADL_CODEFRIEND_TARGET_CACHE_MODE="${ADL_CODEFRIEND_TARGET_CACHE_MODE:-local}"'
 assert_has "$SETUP_SCRIPT" 'export ADL_CODEFRIEND_TARGET_CACHE_BUCKET="${ADL_CODEFRIEND_TARGET_CACHE_BUCKET:-__SCCACHE_BUCKET__}"'
 assert_has "$SETUP_SCRIPT" 'export ADL_CODEFRIEND_TARGET_CACHE_PREFIX="${ADL_CODEFRIEND_TARGET_CACHE_PREFIX:-__SCCACHE_PREFIX__/target/x86_64-unknown-linux-gnu}"'

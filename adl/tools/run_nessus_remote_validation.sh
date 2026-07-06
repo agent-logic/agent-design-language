@@ -446,6 +446,19 @@ RESOLVED_COMMIT="$(git -C "$REPO_DIR" rev-parse HEAD)"
 export CARGO_TARGET_DIR="$TARGET_DIR"
 export SCCACHE_DIR
 export RUSTC_WRAPPER="sccache"
+if [[ -z "$BUILDER_IMAGE" ]]; then
+  if [[ -x "$REPO_DIR/adl/tools/rust_cache_env.sh" ]]; then
+    ADL_RUST_CACHE_TARGET_DIR="$TARGET_DIR" \
+    ADL_RUST_CACHE_SCCACHE_DIR="$SCCACHE_DIR" \
+    ADL_RUST_CACHE_REQUIRE_SCCACHE=1 \
+    ADL_RUST_CACHE_USE_LLD=auto \
+      bash "$REPO_DIR/adl/tools/rust_cache_env.sh" write-shell-env "$RUN_ROOT/rust-cache-env.sh"
+    # shellcheck disable=SC1090
+    . "$RUN_ROOT/rust-cache-env.sh"
+  else
+    printf 'skipped: cloned ref does not contain adl/tools/rust_cache_env.sh\n' >"$RUN_ROOT/rust-cache-env.log"
+  fi
+fi
 
 if [[ -n "$BUILDER_IMAGE" ]]; then
   if run_in_builder_image "$COMMAND_STRING" >"$RUN_ROOT/command.log" 2>&1; then

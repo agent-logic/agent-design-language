@@ -83,6 +83,26 @@ assert surface["resource_class"] == "small"
 assert profile["validation_dag"]["nodes"][0]["proof_role"] == "ci_contract"
 PY
 
+rust_cache_tooling="$TMP/rust-cache-tooling.txt"
+cat >"$rust_cache_tooling" <<'EOF'
+A	adl/tools/rust_cache_env.sh
+A	adl/tools/test_rust_cache_env.sh
+EOF
+bash "$SCRIPT" --changed-files "$rust_cache_tooling" --json >"$TMP/rust-cache-tooling.json"
+python3 - <<'PY' "$TMP/rust-cache-tooling.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["status"] == "ready_to_run"
+assert [item["lane_id"] for item in profile["run"]] == ["ci_path_policy_contracts"]
+surface = profile["behavior_surfaces"][0]
+assert surface["id"] == "ci_contract_ci_path_policy_contracts"
+assert "adl/tools/rust_cache_env.sh" in surface["matched_paths"]
+assert "adl/tools/test_rust_cache_env.sh" in surface["matched_paths"]
+PY
+
 unity_observatory="$TMP/unity-observatory.txt"
 cat >"$unity_observatory" <<'EOF'
 M	demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json
