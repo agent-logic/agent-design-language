@@ -662,6 +662,39 @@
       "reason": "wp08_s3_obsmem_archive_policy_setup_requires_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_s3_obsmem_archive_policy.py"
     },
     {
+      "id": "wp08_cloudfront_control_proof",
+      "lane_class": "cli_workflow",
+      "default_surface": "runtime",
+      "owner": "runtime",
+      "proof_role": "runtime_cloud_control_contract",
+      "requirement_ids": [
+        "wp08_cloudfront_control_proof"
+      ],
+      "path_selectors": [
+        "adl/src/cli/csm_cmd.rs",
+        "adl/src/csm_cloud_control.rs",
+        "adl/src/lib.rs",
+        "adl/tools/run_wp08_cloudfront_control_proof.sh",
+        "adl/tools/test_run_wp08_cloudfront_control_proof.sh",
+        "adl/tools/validate_wp08_cloudfront_control_proof.py",
+        "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/**"
+      ],
+      "path_hints": [
+        "adl/src/cli/csm_cmd.rs",
+        "adl/src/csm_cloud_control.rs",
+        "adl/src/lib.rs",
+        "adl/tools/run_wp08_cloudfront_control_proof.sh",
+        "adl/tools/test_run_wp08_cloudfront_control_proof.sh",
+        "adl/tools/validate_wp08_cloudfront_control_proof.py",
+        "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/**"
+      ],
+      "command": "bash adl/tools/test_run_wp08_cloudfront_control_proof.sh",
+      "run_command": "bash adl/tools/test_run_wp08_cloudfront_control_proof.sh",
+      "reason": "wp08_cloudfront_control_surface_requires_csm_runtime_hook_wrapper_contract_checks; retained live summary validation runs through adl/tools/validate_wp08_cloudfront_control_proof.py"
+    },
+    {
       "id": "wp08_aws_signal_integration_proof",
       "lane_class": "cli_workflow",
       "default_surface": "runtime",
