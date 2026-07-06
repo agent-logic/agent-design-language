@@ -4030,6 +4030,46 @@ fn finish_validation_profile_classifies_wuji_ddns_slice() {
 }
 
 #[test]
+fn finish_validation_profile_classifies_explicit_gitignore_guardrail_slice() {
+    let changed_paths = vec![
+        ".gitignore".to_string(),
+        "docs/milestones/v0.91.7/review/gitignore_guardrail/GITIGNORE_GUARDRAIL_PROOF_4882.md"
+            .to_string(),
+    ];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(4882, &requested_paths, &changed_paths)
+        .expect("explicit gitignore guardrail focused plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_ci_path_policy.sh".to_string()));
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_validation_manager.sh".to_string()));
+
+    let unrelated_err =
+        select_finish_validation_plan_for_finish(4883, &requested_paths, &changed_paths)
+            .expect_err("unrelated issue should not inherit gitignore guardrail allowance");
+    assert!(unrelated_err
+        .to_string()
+        .contains("selector left changed paths without validation-lane coverage"));
+}
+
+#[test]
+fn finish_validation_profile_rejects_unscoped_gitignore_guardrail_slice() {
+    let changed_paths = vec![".gitignore".to_string(), "docs/random-proof.md".to_string()];
+    let requested_paths = changed_paths.join(",");
+
+    let err = select_finish_validation_plan_for_finish(4882, &requested_paths, &changed_paths)
+        .expect_err("unscoped gitignore proof should fail closed");
+    assert!(err
+        .to_string()
+        .contains("selector left changed paths without validation-lane coverage"));
+}
+
+#[test]
 fn finish_validation_profile_classifies_wuji_ddns_installer_slice() {
     let changed_paths = vec![
         "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
