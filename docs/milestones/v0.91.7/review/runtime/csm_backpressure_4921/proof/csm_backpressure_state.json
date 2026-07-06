@@ -1,0 +1,104 @@
+{
+  "schema": "adl.csm.backpressure_state.v1",
+  "runtime_owner": "csm",
+  "agent_instance_id": "backpressure-agent",
+  "profile": "soak2",
+  "updated_at": "2026-07-06T12:33:31.402847Z",
+  "queues": [
+    {
+      "name": "runtime_loop",
+      "depth": 2,
+      "lag_ms": 120,
+      "action": "throttle_noncritical_admission",
+      "required_state_silently_dropped": false
+    },
+    {
+      "name": "event_export",
+      "depth": 12,
+      "lag_ms": 820,
+      "action": "defer",
+      "required_state_silently_dropped": false
+    },
+    {
+      "name": "checkpoint_write",
+      "depth": 4,
+      "lag_ms": 2400,
+      "action": "pause",
+      "required_state_silently_dropped": false
+    },
+    {
+      "name": "snapshot_diff",
+      "depth": 3,
+      "lag_ms": 3100,
+      "action": "defer_latest_only",
+      "required_state_silently_dropped": false
+    },
+    {
+      "name": "dag_execution",
+      "depth": 5,
+      "lag_ms": 900,
+      "action": "throttle_scheduler_budget",
+      "required_state_silently_dropped": false
+    },
+    {
+      "name": "provider_call",
+      "depth": 9,
+      "lag_ms": 1900,
+      "action": "fail_closed_safe_fail",
+      "required_state_silently_dropped": false
+    },
+    {
+      "name": "cloud_hook",
+      "depth": 2,
+      "lag_ms": 440,
+      "action": "shed_noncritical",
+      "required_state_silently_dropped": false
+    },
+    {
+      "name": "continuity_serialization",
+      "depth": 1,
+      "lag_ms": 700,
+      "action": "safe_fail_serialize_verified",
+      "required_state_silently_dropped": false
+    }
+  ],
+  "summary": {
+    "health": "capacity_degraded",
+    "max_queue_depth": 12,
+    "max_lag_ms": 3100,
+    "deferred_count": 23,
+    "shed_count": 7,
+    "retry_budget_remaining": 0,
+    "required_state_silently_dropped": false,
+    "retry_unbounded": false
+  },
+  "safe_fail_action": {
+    "status": "verified",
+    "trigger": "survival_threshold_breached",
+    "action": "safe_fail_serialize",
+    "artifact_ref": "safe_fail_bundle.json",
+    "artifact_schema": "adl.csm.safe_fail_bundle.v1",
+    "agent_outcome_state": "sleeping",
+    "recoverability_class": "recoverable_sleeping",
+    "reason": "required checkpoint lag and retry-budget exhaustion are not silently dropped"
+  },
+  "observability": {
+    "schema": "adl.csm.backpressure_observability.v1",
+    "event_stage": "backpressure_policy",
+    "metrics_surface": "/metrics",
+    "required_fields": [
+      "queue_depth",
+      "lag_ms",
+      "deferred_count",
+      "shed_count",
+      "retry_budget_remaining",
+      "safe_fail_action"
+    ]
+  },
+  "non_claims": [
+    "not_autoscaling",
+    "not_cloud_orchestration",
+    "not_production_capacity_model",
+    "not_hosted_telemetry_backend"
+  ]
+}

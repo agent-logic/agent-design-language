@@ -1,0 +1,25 @@
+{
+  "schema": "adl.csm.runtime_api.metrics.v1",
+  "runtime_owner": "csm",
+  "agent_instance_id": "backpressure-agent",
+  "gauges": {
+    "completed_cycle_count": 2,
+    "consecutive_failure_count": 0,
+    "restart_count": 0,
+    "max_restarts": 1,
+    "checkpoint_interval_secs": 1,
+    "operator_event_count_observed": 13,
+    "backpressure_queue_depth": 12,
+    "backpressure_lag_ms": 3100,
+    "backpressure_deferred_count": 23,
+    "backpressure_shed_count": 7,
+    "backpressure_retry_budget_remaining": 0
+  },
+  "states": {
+    "health": "healthy",
+    "ready": "ready",
+    "agent_state": "idle",
+    "backpressure_health": "capacity_degraded",
+    "backpressure_safe_fail_action": "safe_fail_serialize"
+  }
+}
