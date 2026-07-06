@@ -1,0 +1,21 @@
+{
+  "agent_instance_id": "polis-durable-storage-proof",
+  "artifact_kind": "snapshot",
+  "created_at_utc": "2026-07-06T20:02:06Z",
+  "cycle_id": "cycle-000001",
+  "issue": 4913,
+  "privacy": {
+    "contains_private_user_content": false,
+    "contains_secret": false,
+    "content_class": "synthetic_proof_payload"
+  },
+  "run_id": "wp08-4913-polis-storage",
+  "schema": "adl.csm.polis_state_storage_payload.v1",
+  "state": {
+    "checkpoint_ref": "checkpoint-000001",
+    "diff_ref": "diff-000001",
+    "event_log_ref": "event-log-000001",
+    "freeze_dry_bundle_ref": "freeze-dry-000001",
+    "snapshot_ref": "snapshot-000001"
+  }
+}
