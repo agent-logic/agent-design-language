@@ -8,6 +8,7 @@ use ::adl::csm_continuity_capsule::{
     ContinuityRestoreOptions, ContinuityStageOptions,
 };
 use ::adl::csm_observatory::{write_observatory_outputs, ObservatoryFormat};
+use ::adl::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
 
 pub(crate) enum CsmDispatchMode {
     StandaloneRuntime,
@@ -24,7 +25,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
-        eprintln!("csm requires subcommand: daemon | service | continuity | observatory");
+        eprintln!("csm requires subcommand: daemon | service | continuity | api | observatory");
         std::process::exit(2);
     };
 
@@ -47,6 +48,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
                 "csm continuity is owned by the standalone csm runtime binary; use `csm continuity`, not `adl csm continuity`"
             )),
         },
+        "api" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_api(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm api is owned by the standalone csm runtime binary; use `csm api`, not `adl csm api`"
+            )),
+        },
         "observatory" => real_observatory(&args[1..]),
         "--help" | "-h" => {
             println!("{}", csm_usage());
@@ -54,11 +61,99 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, continuity, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, continuity, api, or observatory)"
             );
             std::process::exit(2);
         }
     }
+}
+
+fn real_api(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm api requires subcommand: serve");
+        std::process::exit(2);
+    };
+    match cmd {
+        "serve" => real_api_serve(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm api subcommand: {other} (expected serve)");
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_api_serve(args: &[String]) -> Result<()> {
+    let mut spec: Option<PathBuf> = None;
+    let mut bind = "127.0.0.1:0".to_string();
+    let mut max_requests = 1usize;
+    let mut idle_timeout_ms: Option<u64> = None;
+    let mut otel_status_path: Option<PathBuf> = None;
+    let mut otel_log_path: Option<PathBuf> = None;
+    let mut json_output = false;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--spec" => {
+                spec = Some(PathBuf::from(required_value(args, i, "--spec")?));
+                i += 1;
+            }
+            "--bind" => {
+                bind = required_value(args, i, "--bind")?.to_string();
+                i += 1;
+            }
+            "--max-requests" => {
+                max_requests = required_value(args, i, "--max-requests")?
+                    .parse()
+                    .context("csm api serve --max-requests must be an integer")?;
+                i += 1;
+            }
+            "--once" => {
+                max_requests = 1;
+            }
+            "--idle-timeout-ms" => {
+                idle_timeout_ms = Some(
+                    required_value(args, i, "--idle-timeout-ms")?
+                        .parse()
+                        .context("csm api serve --idle-timeout-ms must be an integer")?,
+                );
+                i += 1;
+            }
+            "--otel-status" => {
+                otel_status_path = Some(PathBuf::from(required_value(args, i, "--otel-status")?));
+                i += 1;
+            }
+            "--otel-log" => {
+                otel_log_path = Some(PathBuf::from(required_value(args, i, "--otel-log")?));
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm api serve arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+    let result = serve_runtime_api(CsmRuntimeApiOptions {
+        spec_path: spec.context("csm api serve requires --spec <agent-spec.yaml>")?,
+        bind,
+        max_requests,
+        idle_timeout_ms,
+        otel_status_path,
+        otel_log_path,
+    })?;
+    if json_output {
+        println!("{}", serde_json::to_string_pretty(&result)?);
+    }
+    Ok(())
 }
 
 fn real_continuity(args: &[String]) -> Result<()> {
@@ -303,6 +398,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm daemon --spec <agent-spec.yaml> [--max-restarts <n>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--recover-stale-lease] [--no-sleep] [--json]
   csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--json]
   csm service start|status|stop|remove [--service-root <dir>] [--json]
+  csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--once|--max-requests <n>] [--idle-timeout-ms <n>] [--otel-status <path>] [--otel-log <path>] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
   csm continuity stage --bundle <bundle-dir> --out <stage-dir> [--target-host ec2-staging|ec2|local] [--json]
   csm continuity restore --bundle <bundle-dir> --out <runtime-dir> [--target-host ec2-staging|ec2|local] [--json]
@@ -313,6 +409,7 @@ Semantics:
   - csm is the dedicated runtime owner binary.
   - csm daemon owns long-lived runtime execution, partial checkpoints, restart accounting, recoverable terminal state, and runtime observability.
   - csm service owns host service-manager installation/status around csm daemon; launchd is the primary macOS target and local mode is a bounded proof fallback.
+  - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.
   - csm continuity captures, stages, and restores portable continuity capsules with secrets excluded and host bindings explicit.
   - csm daemon emits ADL_OBSERVABILITY_LOG, ADL_OTEL_LOG, and ADL_OTEL_STATUS records through the shared observability contract.
   - Read-only CSM Observatory inspection.
