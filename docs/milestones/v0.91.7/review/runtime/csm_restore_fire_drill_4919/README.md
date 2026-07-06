@@ -1,6 +1,6 @@
 # CSM Restore Fire-Drill Evidence (#4919)
 
-Status: `passed_local_drill`
+Status: `passed_local_drill_and_platform_benchmarks`
 
 This packet retains the first CSM continuity fire-drill proof for WP-07. The
 drill uses the runtime-owned `csm continuity drill` command against a
@@ -61,9 +61,13 @@ not mutate live runtime state or perform production traffic cutover.
 | Platform | Cache posture | Build | Test | Benchmark total | Wrapper wall | Status |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | `wuji` | `local_warm_target` | `93s` | `34s` | `127s` | `127s` | passed |
-| `nessus` | pending remote run | pending | pending | pending | pending | pending |
-| `codebuild` | pending remote run | pending | pending | pending | pending | pending |
-| `aws_spot` | pending remote run | pending | pending | pending | pending | pending |
+| `nessus` | `persistent_remote_target_cache` | `78s` | `47s` | `125s` | `132s` | passed |
+| `codebuild` | `fixed_builder_image_stable_local_target_cache_s3_sccache` | `100s` | `78s` | `178s` | `207s` | passed |
+| `aws_spot` | `fixed_builder_image_warm_ebs_cache` | `94s` | `86s` | `180s` | `316s` | passed |
+
+CodeBuild reported a `99.87%` sccache hit rate for the run. The Spot wrapper
+retained launch, command, and teardown timings; teardown dominated the wrapper
+wall after the benchmark completed.
 
 ## Non-Claims
 
