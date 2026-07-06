@@ -249,127 +249,129 @@ fn policy(resource: &str, action: &str, reason: &str) -> Value {
 
 fn proof_cases() -> Vec<Value> {
     vec![
-        proof_case(
-            "runtime_loop_admission",
-            "runtime_loop",
-            "throttled_noncritical_admission",
-            2,
-            120,
-            0,
-            0,
-            4,
-        ),
-        proof_case(
-            "exporter_backpressure",
-            "event_export",
-            "deferred",
-            12,
-            820,
-            12,
-            0,
-            3,
-        ),
-        proof_case(
-            "storage_slowdown",
-            "checkpoint_write",
-            "paused",
-            4,
-            2400,
-            4,
-            0,
-            2,
-        ),
-        proof_case(
-            "checkpoint_lag",
-            "snapshot_diff",
-            "deferred_latest_only",
-            3,
-            3100,
-            2,
-            1,
-            2,
-        ),
-        proof_case(
-            "provider_timeout",
-            "provider_call",
-            "throttled_retry",
-            7,
-            1500,
-            3,
-            0,
-            1,
-        ),
-        proof_case(
-            "dag_admission_budget",
-            "dag_execution",
-            "throttled_scheduler_budget",
-            5,
-            900,
-            2,
-            0,
-            2,
-        ),
-        proof_case(
-            "cloud_hook_pressure",
-            "cloud_hook",
-            "shed_noncritical_observed",
-            2,
-            440,
-            0,
-            2,
-            2,
-        ),
-        proof_case(
-            "retry_budget_exhaustion",
-            "provider_call",
-            "fail_closed_safe_fail",
-            9,
-            1900,
-            0,
-            4,
-            0,
-        ),
-        proof_case(
-            "continuity_serialization_threshold",
-            "continuity_serialization",
-            "safe_fail_serialize_verified",
-            1,
-            700,
-            0,
-            0,
-            0,
-        ),
+        proof_case(ProofCaseSpec {
+            id: "runtime_loop_admission",
+            surface: "runtime_loop",
+            decision: "throttled_noncritical_admission",
+            queue_depth: 2,
+            lag_ms: 120,
+            deferred_count: 0,
+            shed_count: 0,
+            retry_budget_remaining: 4,
+        }),
+        proof_case(ProofCaseSpec {
+            id: "exporter_backpressure",
+            surface: "event_export",
+            decision: "deferred",
+            queue_depth: 12,
+            lag_ms: 820,
+            deferred_count: 12,
+            shed_count: 0,
+            retry_budget_remaining: 3,
+        }),
+        proof_case(ProofCaseSpec {
+            id: "storage_slowdown",
+            surface: "checkpoint_write",
+            decision: "paused",
+            queue_depth: 4,
+            lag_ms: 2400,
+            deferred_count: 4,
+            shed_count: 0,
+            retry_budget_remaining: 2,
+        }),
+        proof_case(ProofCaseSpec {
+            id: "checkpoint_lag",
+            surface: "snapshot_diff",
+            decision: "deferred_latest_only",
+            queue_depth: 3,
+            lag_ms: 3100,
+            deferred_count: 2,
+            shed_count: 1,
+            retry_budget_remaining: 2,
+        }),
+        proof_case(ProofCaseSpec {
+            id: "provider_timeout",
+            surface: "provider_call",
+            decision: "throttled_retry",
+            queue_depth: 7,
+            lag_ms: 1500,
+            deferred_count: 3,
+            shed_count: 0,
+            retry_budget_remaining: 1,
+        }),
+        proof_case(ProofCaseSpec {
+            id: "dag_admission_budget",
+            surface: "dag_execution",
+            decision: "throttled_scheduler_budget",
+            queue_depth: 5,
+            lag_ms: 900,
+            deferred_count: 2,
+            shed_count: 0,
+            retry_budget_remaining: 2,
+        }),
+        proof_case(ProofCaseSpec {
+            id: "cloud_hook_pressure",
+            surface: "cloud_hook",
+            decision: "shed_noncritical_observed",
+            queue_depth: 2,
+            lag_ms: 440,
+            deferred_count: 0,
+            shed_count: 2,
+            retry_budget_remaining: 2,
+        }),
+        proof_case(ProofCaseSpec {
+            id: "retry_budget_exhaustion",
+            surface: "provider_call",
+            decision: "fail_closed_safe_fail",
+            queue_depth: 9,
+            lag_ms: 1900,
+            deferred_count: 0,
+            shed_count: 4,
+            retry_budget_remaining: 0,
+        }),
+        proof_case(ProofCaseSpec {
+            id: "continuity_serialization_threshold",
+            surface: "continuity_serialization",
+            decision: "safe_fail_serialize_verified",
+            queue_depth: 1,
+            lag_ms: 700,
+            deferred_count: 0,
+            shed_count: 0,
+            retry_budget_remaining: 0,
+        }),
     ]
 }
 
-fn proof_case(
-    id: &str,
-    surface: &str,
-    decision: &str,
+struct ProofCaseSpec {
+    id: &'static str,
+    surface: &'static str,
+    decision: &'static str,
     queue_depth: u64,
     lag_ms: u64,
     deferred_count: u64,
     shed_count: u64,
     retry_budget_remaining: u64,
-) -> Value {
+}
+
+fn proof_case(spec: ProofCaseSpec) -> Value {
     json!({
-        "case_id": id,
-        "surface": surface,
+        "case_id": spec.id,
+        "surface": spec.surface,
         "status": "proved",
-        "decision": decision,
-        "queue_depth": queue_depth,
-        "lag_ms": lag_ms,
-        "deferred_count": deferred_count,
-        "shed_count": shed_count,
-        "retry_budget_remaining": retry_budget_remaining,
+        "decision": spec.decision,
+        "queue_depth": spec.queue_depth,
+        "lag_ms": spec.lag_ms,
+        "deferred_count": spec.deferred_count,
+        "shed_count": spec.shed_count,
+        "retry_budget_remaining": spec.retry_budget_remaining,
         "required_state_silently_dropped": false,
         "retry_unbounded": false,
         "observability": {
-            "queue_depth": queue_depth,
-            "lag_ms": lag_ms,
-            "deferred_count": deferred_count,
-            "shed_count": shed_count,
-            "retry_budget_remaining": retry_budget_remaining
+            "queue_depth": spec.queue_depth,
+            "lag_ms": spec.lag_ms,
+            "deferred_count": spec.deferred_count,
+            "shed_count": spec.shed_count,
+            "retry_budget_remaining": spec.retry_budget_remaining
         }
     })
 }
@@ -511,4 +513,39 @@ fn write_json_pretty(path: &Path, value: &Value) -> Result<()> {
     }
     fs::write(path, serde_json::to_vec_pretty(value)?)
         .with_context(|| format!("failed writing {}", path.display()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::BTreeSet;
+
+    #[test]
+    fn csm_backpressure() {
+        let cases = proof_cases();
+        let surfaces = cases
+            .iter()
+            .map(|case| case["surface"].as_str().expect("surface"))
+            .collect::<BTreeSet<_>>();
+
+        assert_eq!(
+            surfaces,
+            BTreeSet::from([
+                "checkpoint_write",
+                "cloud_hook",
+                "continuity_serialization",
+                "dag_execution",
+                "event_export",
+                "provider_call",
+                "runtime_loop",
+                "snapshot_diff",
+            ])
+        );
+        assert_eq!(summarize_cases(&cases)["deferred_count"], 23);
+        assert_eq!(summarize_cases(&cases)["shed_count"], 7);
+        assert_eq!(
+            summarize_cases(&cases)["required_state_silently_dropped"],
+            false
+        );
+    }
 }
