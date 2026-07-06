@@ -14,6 +14,8 @@ pub const CONTINUITY_CAPSULE_SCHEMA: &str = "adl.csm.continuity_capsule.v1";
 pub const CONTINUITY_STAGE_REPORT_SCHEMA: &str = "adl.csm.continuity_capsule_stage_report.v1";
 pub const CONTINUITY_RESTORE_REPORT_SCHEMA: &str = "adl.csm.continuity_capsule_restore_report.v1";
 pub const CONTINUITY_CAPSULE_FORMAT_VERSION: &str = "csm.continuity-capsule.v1";
+pub const SNAPSHOT_SEGMENT_SCHEMA: &str = "adl.csm.snapshot_segment.v1";
+pub const SNAPSHOT_SEGMENT_FORMAT_VERSION: &str = "csm.snapshot-segment.v1";
 
 #[derive(Debug, Clone)]
 pub struct ContinuityCaptureOptions {
@@ -65,6 +67,8 @@ struct BundleManifest {
     manifest_ref: String,
     state_root_ref: String,
     artifacts: Vec<BundleArtifact>,
+    #[serde(default)]
+    binary_segments: Vec<BinarySegmentRef>,
     rebind_policy: Value,
     observability: Value,
     future_readability: Value,
@@ -79,6 +83,43 @@ struct BundleArtifact {
     sha256: String,
     bytes: u64,
     required: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct BinarySegmentRef {
+    role: String,
+    source_ref: String,
+    segment_ref: String,
+    sha256: String,
+    payload_sha256: String,
+    bytes: u64,
+    schema: String,
+    format_version: String,
+    hash_address: String,
+    required: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct SnapshotSegmentMetadata {
+    pub schema: String,
+    pub format_version: String,
+    pub package_name: String,
+    pub type_name: String,
+    pub semantic_version: String,
+    pub segment_kind: String,
+    pub source_ref: String,
+    pub payload_media_type: String,
+    pub reserved_fields_policy: String,
+    pub unknown_field_policy: String,
+    pub compatibility_guarantee: String,
+    pub redaction_policy: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct DecodedSnapshotSegment {
+    pub metadata: SnapshotSegmentMetadata,
+    pub payload: Vec<u8>,
+    pub payload_sha256: String,
 }
 
 pub fn capture_capsule(options: ContinuityCaptureOptions) -> Result<ContinuityCommandResult> {
@@ -116,6 +157,7 @@ pub fn capture_capsule(options: ContinuityCaptureOptions) -> Result<ContinuityCo
         )?;
     }
 
+    let binary_segments = write_binary_segments(&bundle_dir, &loaded.state_root)?;
     let manifest = BundleManifest {
         schema: CONTINUITY_CAPSULE_SCHEMA.to_string(),
         format_version: CONTINUITY_CAPSULE_FORMAT_VERSION.to_string(),
@@ -127,12 +169,18 @@ pub fn capture_capsule(options: ContinuityCaptureOptions) -> Result<ContinuityCo
         manifest_ref: "continuity_capsule_manifest.json".to_string(),
         state_root_ref: "state/".to_string(),
         artifacts,
+        binary_segments,
         rebind_policy: rebind_policy(&options.target_host),
         observability: observability_contract("capture"),
         future_readability: json!({
             "schema_stability": "format_version_required",
             "reader_guarantee": "future readers must reject unknown major versions",
-            "portable_paths": "bundle_relative_refs_only"
+            "portable_paths": "bundle_relative_refs_only",
+            "binary_segment_policy": {
+                "format_version": SNAPSHOT_SEGMENT_FORMAT_VERSION,
+                "manifest_linkage": "binary segments are hash-addressed from this JSON manifest",
+                "protobuf_decision": "evaluated in issue #4933; deferred until codegen/toolchain ownership is explicit"
+            }
         }),
         non_claims: continuity_capsule_non_claims(),
     };
@@ -172,6 +220,7 @@ pub fn stage_capsule(options: ContinuityStageOptions) -> Result<ContinuityComman
     validate_manifest(&manifest)?;
     validate_target_host(&options.target_host)?;
     scan_tree_for_portability(&options.bundle_dir, &options.bundle_dir)?;
+    validate_binary_segments(&manifest, &options.bundle_dir)?;
 
     if options.out_dir.exists() {
         fs::remove_dir_all(&options.out_dir)
@@ -269,6 +318,7 @@ pub fn restore_capsule(options: ContinuityRestoreOptions) -> Result<ContinuityCo
     validate_manifest(&manifest)?;
     validate_target_host(&options.target_host)?;
     scan_tree_for_portability(&options.bundle_dir, &options.bundle_dir)?;
+    validate_binary_segments(&manifest, &options.bundle_dir)?;
 
     if options.out_dir.exists() {
         fs::remove_dir_all(&options.out_dir)
@@ -401,6 +451,28 @@ fn validate_manifest(manifest: &BundleManifest) -> Result<()> {
         validate_relative_ref(&artifact.bundle_ref)?;
         validate_relative_ref(&artifact.source_ref)?;
     }
+    for segment in &manifest.binary_segments {
+        validate_relative_ref(&segment.segment_ref)?;
+        validate_relative_ref(&segment.source_ref)?;
+        if segment.schema != SNAPSHOT_SEGMENT_SCHEMA {
+            bail!(
+                "unsupported continuity capsule binary segment schema: {}",
+                segment.schema
+            );
+        }
+        if segment.format_version != SNAPSHOT_SEGMENT_FORMAT_VERSION {
+            bail!(
+                "unsupported continuity capsule binary segment format version: {}",
+                segment.format_version
+            );
+        }
+        if segment.hash_address != format!("sha256:{}", segment.sha256) {
+            bail!(
+                "continuity capsule binary segment hash address mismatch for {}",
+                segment.segment_ref
+            );
+        }
+    }
     Ok(())
 }
 
@@ -525,6 +597,288 @@ fn collect_artifacts(
     Ok(())
 }
 
+fn write_binary_segments(
+    bundle_dir: &Path,
+    forbidden_root: &Path,
+) -> Result<Vec<BinarySegmentRef>> {
+    let segment_specs = [(
+        "continuity_checkpoint_snapshot",
+        "continuity_checkpoint.json",
+        "segments/continuity_checkpoint.snapshot.segment",
+        true,
+    )];
+    let mut refs = Vec::new();
+    for (role, source_ref, segment_ref, required) in segment_specs {
+        let payload_path = bundle_dir.join("state").join(source_ref);
+        if !payload_path.exists() {
+            if required {
+                bail!("continuity capsule binary segment missing source artifact: {source_ref}");
+            }
+            continue;
+        }
+        let payload = fs::read(&payload_path).with_context(|| {
+            format!("failed reading segment payload {}", payload_path.display())
+        })?;
+        validate_segment_payload(&payload, &payload_path, forbidden_root)?;
+        let metadata = SnapshotSegmentMetadata {
+            schema: SNAPSHOT_SEGMENT_SCHEMA.to_string(),
+            format_version: SNAPSHOT_SEGMENT_FORMAT_VERSION.to_string(),
+            package_name: "adl.csm.snapshot_segment".to_string(),
+            type_name: "ContinuityCheckpointSnapshotSegment".to_string(),
+            semantic_version: "1.0.0".to_string(),
+            segment_kind: "snapshot".to_string(),
+            source_ref: source_ref.to_string(),
+            payload_media_type: "application/json".to_string(),
+            reserved_fields_policy: "new fields require a minor version and must not change existing field meaning".to_string(),
+            unknown_field_policy: "reader accepts same-major newer minor metadata and rejects unknown major format versions".to_string(),
+            compatibility_guarantee: "payload bytes remain hash-verifiable and manifest-addressed; JSON continuity capsule v1 remains the reviewable control plane".to_string(),
+            redaction_policy: "segment writer rejects host-private paths and credential-like JSON keys before writing".to_string(),
+        };
+        let segment = encode_snapshot_segment(&metadata, &payload)?;
+        let segment_path = bundle_dir.join(segment_ref);
+        if let Some(parent) = segment_path.parent() {
+            fs::create_dir_all(parent)?;
+        }
+        fs::write(&segment_path, &segment)
+            .with_context(|| format!("failed writing {}", segment_path.display()))?;
+        scan_tree_for_portability(&segment_path, forbidden_root)?;
+        let decoded = decode_snapshot_segment(&segment)?;
+        if decoded.metadata != metadata {
+            bail!("continuity capsule binary segment metadata failed round trip for {source_ref}");
+        }
+        let segment_sha256 = sha256_bytes(&segment);
+        refs.push(BinarySegmentRef {
+            role: role.to_string(),
+            source_ref: source_ref.to_string(),
+            segment_ref: segment_ref.to_string(),
+            sha256: segment_sha256.clone(),
+            payload_sha256: decoded.payload_sha256,
+            bytes: segment.len() as u64,
+            schema: SNAPSHOT_SEGMENT_SCHEMA.to_string(),
+            format_version: SNAPSHOT_SEGMENT_FORMAT_VERSION.to_string(),
+            hash_address: format!("sha256:{segment_sha256}"),
+            required,
+        });
+    }
+    Ok(refs)
+}
+
+fn validate_binary_segments(manifest: &BundleManifest, bundle_dir: &Path) -> Result<()> {
+    let required_segments = [(
+        "continuity_checkpoint_snapshot",
+        "continuity_checkpoint.json",
+    )];
+    for (required_role, required_source_ref) in required_segments {
+        if !manifest.binary_segments.iter().any(|segment| {
+            segment.role == required_role && segment.source_ref == required_source_ref
+        }) {
+            bail!(
+                "continuity capsule manifest missing required binary segment role {} ({})",
+                required_role,
+                required_source_ref
+            );
+        }
+    }
+    for segment in &manifest.binary_segments {
+        let path = bundle_dir.join(&segment.segment_ref);
+        if !path.exists() {
+            bail!(
+                "continuity capsule binary segment missing bundle artifact {}",
+                segment.segment_ref
+            );
+        }
+        let bytes = fs::read(&path)
+            .with_context(|| format!("failed reading binary segment {}", path.display()))?;
+        if sha256_bytes(&bytes) != segment.sha256 {
+            bail!(
+                "continuity capsule binary segment hash mismatch for {}",
+                segment.segment_ref
+            );
+        }
+        let source_artifact = manifest
+            .artifacts
+            .iter()
+            .find(|artifact| artifact.source_ref == segment.source_ref)
+            .with_context(|| {
+                format!(
+                    "continuity capsule binary segment source artifact missing for {}",
+                    segment.source_ref
+                )
+            })?;
+        if source_artifact.sha256 != segment.payload_sha256 {
+            bail!(
+                "continuity capsule binary segment payload hash does not match retained artifact {}",
+                segment.source_ref
+            );
+        }
+        let source_path = bundle_dir.join("state").join(&segment.source_ref);
+        if !source_path.exists() {
+            bail!(
+                "continuity capsule binary segment source artifact file missing {}",
+                segment.source_ref
+            );
+        }
+        if sha256_file(&source_path)? != segment.payload_sha256 {
+            bail!(
+                "continuity capsule binary segment payload hash does not match source file {}",
+                segment.source_ref
+            );
+        }
+        let decoded = decode_snapshot_segment(&bytes)?;
+        if decoded.metadata.schema != segment.schema
+            || decoded.metadata.format_version != segment.format_version
+            || decoded.metadata.source_ref != segment.source_ref
+            || decoded.payload_sha256 != segment.payload_sha256
+        {
+            bail!(
+                "continuity capsule binary segment manifest linkage mismatch for {}",
+                segment.segment_ref
+            );
+        }
+        validate_segment_payload(&decoded.payload, &path, bundle_dir)?;
+    }
+    Ok(())
+}
+
+const SNAPSHOT_SEGMENT_MAGIC: &[u8; 9] = b"ADLCSMSEG";
+const SNAPSHOT_SEGMENT_HEADER_LEN: usize = 9 + 2 + 2 + 2 + 4 + 8 + 32;
+const SNAPSHOT_SEGMENT_KIND: u16 = 1;
+const SNAPSHOT_SEGMENT_MAJOR: u16 = 1;
+const SNAPSHOT_SEGMENT_MINOR: u16 = 0;
+
+pub fn encode_snapshot_segment(
+    metadata: &SnapshotSegmentMetadata,
+    payload: &[u8],
+) -> Result<Vec<u8>> {
+    if metadata.schema != SNAPSHOT_SEGMENT_SCHEMA {
+        bail!("snapshot segment metadata schema must be {SNAPSHOT_SEGMENT_SCHEMA}");
+    }
+    if metadata.format_version != SNAPSHOT_SEGMENT_FORMAT_VERSION {
+        bail!("snapshot segment metadata format_version must be {SNAPSHOT_SEGMENT_FORMAT_VERSION}");
+    }
+    let metadata_bytes = serde_json::to_vec(metadata)?;
+    let metadata_len: u32 = metadata_bytes
+        .len()
+        .try_into()
+        .context("snapshot segment metadata too large")?;
+    let payload_len: u64 = payload
+        .len()
+        .try_into()
+        .context("snapshot segment payload too large")?;
+    let payload_digest = Sha256::digest(payload);
+    let mut out =
+        Vec::with_capacity(SNAPSHOT_SEGMENT_HEADER_LEN + metadata_bytes.len() + payload.len());
+    out.extend_from_slice(SNAPSHOT_SEGMENT_MAGIC);
+    out.extend_from_slice(&SNAPSHOT_SEGMENT_MAJOR.to_be_bytes());
+    out.extend_from_slice(&SNAPSHOT_SEGMENT_MINOR.to_be_bytes());
+    out.extend_from_slice(&SNAPSHOT_SEGMENT_KIND.to_be_bytes());
+    out.extend_from_slice(&metadata_len.to_be_bytes());
+    out.extend_from_slice(&payload_len.to_be_bytes());
+    out.extend_from_slice(&payload_digest);
+    out.extend_from_slice(&metadata_bytes);
+    out.extend_from_slice(payload);
+    Ok(out)
+}
+
+pub fn decode_snapshot_segment(bytes: &[u8]) -> Result<DecodedSnapshotSegment> {
+    if bytes.len() < SNAPSHOT_SEGMENT_HEADER_LEN {
+        bail!("snapshot segment is truncated before header");
+    }
+    let mut offset = 0;
+    if &bytes[offset..offset + SNAPSHOT_SEGMENT_MAGIC.len()] != SNAPSHOT_SEGMENT_MAGIC {
+        bail!("snapshot segment has unsupported magic");
+    }
+    offset += SNAPSHOT_SEGMENT_MAGIC.len();
+    let major = read_u16(bytes, &mut offset)?;
+    let _minor = read_u16(bytes, &mut offset)?;
+    if major != SNAPSHOT_SEGMENT_MAJOR {
+        bail!("unsupported snapshot segment major version: {major}");
+    }
+    let kind = read_u16(bytes, &mut offset)?;
+    if kind != SNAPSHOT_SEGMENT_KIND {
+        bail!("unsupported snapshot segment kind: {kind}");
+    }
+    let metadata_len = read_u32(bytes, &mut offset)? as usize;
+    let payload_len = read_u64(bytes, &mut offset)? as usize;
+    let expected_digest = bytes
+        .get(offset..offset + 32)
+        .context("snapshot segment is truncated before payload digest")?;
+    offset += 32;
+    let metadata_end = offset
+        .checked_add(metadata_len)
+        .context("snapshot segment metadata length overflow")?;
+    let payload_end = metadata_end
+        .checked_add(payload_len)
+        .context("snapshot segment payload length overflow")?;
+    if bytes.len() != payload_end {
+        bail!("snapshot segment length does not match header");
+    }
+    let metadata: SnapshotSegmentMetadata = serde_json::from_slice(&bytes[offset..metadata_end])
+        .context("failed parsing snapshot segment metadata")?;
+    let payload = bytes[metadata_end..payload_end].to_vec();
+    let actual_digest = Sha256::digest(&payload);
+    if expected_digest != actual_digest.as_slice() {
+        bail!("snapshot segment payload hash mismatch");
+    }
+    Ok(DecodedSnapshotSegment {
+        metadata,
+        payload,
+        payload_sha256: format!("{actual_digest:x}"),
+    })
+}
+
+fn read_u16(bytes: &[u8], offset: &mut usize) -> Result<u16> {
+    let end = *offset + 2;
+    let chunk = bytes
+        .get(*offset..end)
+        .context("snapshot segment is truncated while reading u16")?;
+    *offset = end;
+    Ok(u16::from_be_bytes([chunk[0], chunk[1]]))
+}
+
+fn read_u32(bytes: &[u8], offset: &mut usize) -> Result<u32> {
+    let end = *offset + 4;
+    let chunk = bytes
+        .get(*offset..end)
+        .context("snapshot segment is truncated while reading u32")?;
+    *offset = end;
+    Ok(u32::from_be_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]))
+}
+
+fn read_u64(bytes: &[u8], offset: &mut usize) -> Result<u64> {
+    let end = *offset + 8;
+    let chunk = bytes
+        .get(*offset..end)
+        .context("snapshot segment is truncated while reading u64")?;
+    *offset = end;
+    Ok(u64::from_be_bytes([
+        chunk[0], chunk[1], chunk[2], chunk[3], chunk[4], chunk[5], chunk[6], chunk[7],
+    ]))
+}
+
+fn validate_segment_payload(payload: &[u8], path: &Path, forbidden_root: &Path) -> Result<()> {
+    let text = std::str::from_utf8(payload).unwrap_or_default();
+    let forbidden = forbidden_root.display().to_string();
+    if forbidden_root.is_absolute() && !forbidden.is_empty() && text.contains(&forbidden) {
+        bail!(
+            "continuity capsule binary segment portability scan found host-private absolute path in {}",
+            path.display()
+        );
+    }
+    for marker in host_private_path_markers() {
+        if text.contains(marker) {
+            bail!(
+                "continuity capsule binary segment portability scan found host-private absolute path in {}",
+                path.display()
+            );
+        }
+    }
+    if let Ok(value) = serde_json::from_str::<Value>(text) {
+        scan_json_for_secret_keys(&value, path)?;
+    }
+    Ok(())
+}
+
 fn copy_artifact_tree(source: &Path, dest: &Path) -> Result<()> {
     if source.is_dir() {
         fs::create_dir_all(dest)?;
@@ -616,8 +970,12 @@ fn scan_json_for_secret_keys(value: &Value, path: &Path) -> Result<()> {
 
 fn sha256_file(path: &Path) -> Result<String> {
     let bytes = fs::read(path).with_context(|| format!("failed reading {}", path.display()))?;
+    Ok(sha256_bytes(&bytes))
+}
+
+fn sha256_bytes(bytes: &[u8]) -> String {
     let digest = Sha256::digest(bytes);
-    Ok(format!("{digest:x}"))
+    format!("{digest:x}")
 }
 
 fn read_json<T: for<'de> Deserialize<'de>>(path: &Path) -> Result<T> {
@@ -705,4 +1063,110 @@ fn emit_continuity_event(
             ("details", details_text.as_str()),
         ],
     );
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn test_metadata() -> SnapshotSegmentMetadata {
+        SnapshotSegmentMetadata {
+            schema: SNAPSHOT_SEGMENT_SCHEMA.to_string(),
+            format_version: SNAPSHOT_SEGMENT_FORMAT_VERSION.to_string(),
+            package_name: "adl.csm.snapshot_segment".to_string(),
+            type_name: "ContinuityCheckpointSnapshotSegment".to_string(),
+            semantic_version: "1.0.0".to_string(),
+            segment_kind: "snapshot".to_string(),
+            source_ref: "continuity_checkpoint.json".to_string(),
+            payload_media_type: "application/json".to_string(),
+            reserved_fields_policy:
+                "new fields require a minor version and must not change existing field meaning"
+                    .to_string(),
+            unknown_field_policy:
+                "reader accepts same-major newer minor metadata and rejects unknown major format versions"
+                    .to_string(),
+            compatibility_guarantee:
+                "payload bytes remain hash-verifiable and manifest-addressed".to_string(),
+            redaction_policy:
+                "segment writer rejects host-private paths and credential-like JSON keys before writing"
+                    .to_string(),
+        }
+    }
+
+    #[test]
+    fn csm_snapshot_segment_round_trips_with_deterministic_hash() {
+        let payload = br#"{"cycle_id":"cycle-000001","state":"recoverable"}"#;
+        let segment = encode_snapshot_segment(&test_metadata(), payload).expect("encode");
+        let decoded = decode_snapshot_segment(&segment).expect("decode");
+
+        assert_eq!(decoded.metadata, test_metadata());
+        assert_eq!(decoded.payload, payload);
+        assert_eq!(decoded.payload_sha256, sha256_bytes(payload));
+        assert_eq!(
+            sha256_bytes(&segment),
+            sha256_bytes(&encode_snapshot_segment(&test_metadata(), payload).expect("re-encode"))
+        );
+    }
+
+    #[test]
+    fn csm_snapshot_segment_rejects_unknown_major_version() {
+        let mut segment = encode_snapshot_segment(&test_metadata(), br#"{"state":"recoverable"}"#)
+            .expect("encode");
+        let major_offset = SNAPSHOT_SEGMENT_MAGIC.len();
+        segment[major_offset..major_offset + 2].copy_from_slice(&2u16.to_be_bytes());
+
+        let err = decode_snapshot_segment(&segment).expect_err("unknown major rejected");
+        assert!(err
+            .to_string()
+            .contains("unsupported snapshot segment major version"));
+    }
+
+    #[test]
+    fn csm_snapshot_segment_rejects_truncated_payload() {
+        let mut segment = encode_snapshot_segment(&test_metadata(), br#"{"state":"recoverable"}"#)
+            .expect("encode");
+        segment.pop();
+
+        let err = decode_snapshot_segment(&segment).expect_err("truncated segment rejected");
+        assert!(err
+            .to_string()
+            .contains("snapshot segment length does not match header"));
+    }
+
+    #[test]
+    fn csm_snapshot_segment_rejects_redaction_violations() {
+        let payload = br#"{"api_key":"not-exportable"}"#;
+        let root = Path::new("/safe/root");
+        let err = validate_segment_payload(payload, Path::new("segment"), root)
+            .expect_err("credential key rejected");
+
+        assert!(err.to_string().contains("credential-like key"));
+    }
+
+    #[test]
+    fn csm_snapshot_segment_manifest_linkage_is_hash_addressed() {
+        let payload = br#"{"cycle_id":"cycle-000001"}"#;
+        let segment = encode_snapshot_segment(&test_metadata(), payload).expect("encode");
+        let decoded = decode_snapshot_segment(&segment).expect("decode");
+        let segment_sha = sha256_bytes(&segment);
+        let segment_ref = BinarySegmentRef {
+            role: "continuity_checkpoint_snapshot".to_string(),
+            source_ref: decoded.metadata.source_ref.clone(),
+            segment_ref: "segments/continuity_checkpoint.snapshot.segment".to_string(),
+            sha256: segment_sha.clone(),
+            payload_sha256: decoded.payload_sha256,
+            bytes: segment.len() as u64,
+            schema: decoded.metadata.schema,
+            format_version: decoded.metadata.format_version,
+            hash_address: format!("sha256:{segment_sha}"),
+            required: true,
+        };
+
+        assert_eq!(
+            segment_ref.hash_address,
+            format!("sha256:{}", segment_ref.sha256)
+        );
+        assert_eq!(segment_ref.schema, SNAPSHOT_SEGMENT_SCHEMA);
+        assert_eq!(segment_ref.format_version, SNAPSHOT_SEGMENT_FORMAT_VERSION);
+    }
 }
