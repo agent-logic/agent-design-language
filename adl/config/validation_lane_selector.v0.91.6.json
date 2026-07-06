@@ -615,6 +615,31 @@
       "reason": "v0917_csm_otlp_surface_requires_selector_contract_checks; issue-local runtime proof validation runs through adl/tools/validate_v0917_csm_otlp_4904_status.sh"
     },
     {
+      "id": "v0917_csm_continuity_capsule_4910_contracts",
+      "lane_class": "cli_workflow",
+      "default_surface": "runtime",
+      "owner": "runtime",
+      "proof_role": "runtime_persistence_migration_contract",
+      "requirement_ids": [
+        "v0917_csm_continuity_capsule_4910_contracts"
+      ],
+      "path_selectors": [
+        "adl/src/csm_continuity_capsule.rs",
+        "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh",
+        "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
+        "docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910/**"
+      ],
+      "path_hints": [
+        "adl/src/csm_continuity_capsule.rs",
+        "adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh",
+        "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
+        "docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910/**"
+      ],
+      "command": "bash adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
+      "run_command": "bash adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh",
+      "reason": "v0917_csm_continuity_capsule_surface_requires_runtime_persistence_contract_checks"
+    },
+    {
       "id": "v0917_soak2_matrix_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

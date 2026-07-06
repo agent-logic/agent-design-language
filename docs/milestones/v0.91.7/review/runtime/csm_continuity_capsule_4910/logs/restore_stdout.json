@@ -1,0 +1,18 @@
+{
+  "schema": "adl.csm.continuity_capsule_command_result.v1",
+  "format_version": "csm.continuity-capsule.v1",
+  "runtime_owner": "csm",
+  "operation": "restore",
+  "status": "restored",
+  "bundle_dir": "capsule",
+  "manifest_ref": "continuity_capsule_manifest.json",
+  "report_ref": "restore_report.json",
+  "agent_instance_id": "csm-continuity-4910",
+  "target_host": "ec2",
+  "event_count": 1,
+  "non_claims": [
+    "not_secret_material_restore",
+    "not_provider_auth_restore",
+    "not_multi_region_disaster_recovery"
+  ]
+}
