@@ -4228,9 +4228,46 @@ fn finish_validation_profile_classifies_wp08_acip_sns_slice() {
     {
         assert!(!unrelated_plan.commands.contains(
             &"python3 adl/tools/validate_wp08_acip_sns_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json"
-                .to_string()
+            .to_string()
         ));
     }
+}
+
+#[test]
+fn finish_validation_profile_classifies_wp08_local_polis_ssm_slice() {
+    let changed_paths = vec![
+        "adl/config/validation_lane_selector.v0.91.6.json".to_string(),
+        "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
+        "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs".to_string(),
+        "adl/tools/run_wp08_local_polis_ssm_proof.py".to_string(),
+        "adl/tools/run_wp08_local_polis_ssm_proof.sh".to_string(),
+        "adl/tools/test_run_wp08_local_polis_ssm_proof.sh".to_string(),
+        "adl/tools/validate_wp08_local_polis_ssm_proof.py".to_string(),
+        "docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/local_polis_ssm_summary.json"
+            .to_string(),
+        "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md".to_string(),
+    ];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(4687, &requested_paths, &changed_paths)
+        .expect("WP-08 local polis SSM focused plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_run_wp08_local_polis_ssm_proof.sh".to_string()));
+    assert!(plan.commands.contains(
+        &"python3 adl/tools/validate_wp08_local_polis_ssm_proof.py docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/local_polis_ssm_summary.json"
+            .to_string()
+    ));
+
+    let unrelated_plan =
+        select_finish_validation_plan_for_finish(4686, &requested_paths, &changed_paths)
+            .expect("unrelated issue may use the generic mapped validation profile");
+    assert!(!unrelated_plan.commands.contains(
+        &"python3 adl/tools/validate_wp08_local_polis_ssm_proof.py docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/local_polis_ssm_summary.json"
+            .to_string()
+    ));
 }
 
 #[test]

@@ -419,6 +419,35 @@
       "reason": "review_owner_surface_requires_review_owner_lane"
     },
     {
+      "id": "wp08_local_polis_ssm_proof",
+      "lane_class": "runtime_integration",
+      "default_surface": "runtime",
+      "owner": "runtime",
+      "proof_role": "live_aws_proof",
+      "requirement_ids": [
+        "wp08_local_polis_ssm_proof"
+      ],
+      "path_selectors": [
+        "adl/tools/run_wp08_local_polis_ssm_proof.py",
+        "adl/tools/run_wp08_local_polis_ssm_proof.sh",
+        "adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
+        "adl/tools/validate_wp08_local_polis_ssm_proof.py",
+        "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/**"
+      ],
+      "path_hints": [
+        "adl/tools/run_wp08_local_polis_ssm_proof.py",
+        "adl/tools/run_wp08_local_polis_ssm_proof.sh",
+        "adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
+        "adl/tools/validate_wp08_local_polis_ssm_proof.py",
+        "docs/tooling/LOCAL_POLIS_SSM_OPERATIONS.md",
+        "docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/local_polis_ssm_summary.json"
+      ],
+      "command": "bash adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
+      "run_command": "bash adl/tools/test_run_wp08_local_polis_ssm_proof.sh",
+      "reason": "wp08_local_polis_ssm_live_proof_requires_account_gate_redaction_and_contract_validation"
+    },
+    {
       "id": "local_polis_ssm_wrapper",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

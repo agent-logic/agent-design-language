@@ -1,0 +1,109 @@
+{
+  "aws_account_hash": "b05e1f4379b5c745",
+  "aws_account_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "checked_at_utc": "2026-07-06T17:09:54Z",
+  "cloudwatch": {
+    "log_group": "/adl/local-polis-ssm/4687",
+    "stream_count_returned": 7,
+    "stream_hashes": [
+      "77371416493ac9b8",
+      "bbda961848f5444f",
+      "3aa0d3982b22a5da",
+      "484c674e857d4dd7",
+      "f723b82af256f366",
+      "47c6dccf2240ed4a",
+      "20b49517d5173f3f"
+    ]
+  },
+  "hosts": [
+    {
+      "cloudwatch_log_group": "/adl/local-polis-ssm/4687",
+      "cloudwatch_output_enabled": true,
+      "cloudwatch_stream_observed": true,
+      "command_id_hash": "aead03a13f3a0c35",
+      "command_status": "Success",
+      "document_name": "AWS-RunShellScript",
+      "git_branch": "main",
+      "git_commit_short": "ff0d34bdd",
+      "host": "wuji",
+      "instance_id_hash": "10e0b23a3927baf9",
+      "observed_host_label": "wuji",
+      "platform_name": "macOS",
+      "platform_type": "MacOS",
+      "repo_present": true,
+      "ssm_agent_installed": true,
+      "ssm_agent_status": "not_reported",
+      "ssm_ping_status": "Online",
+      "status_generated_at_utc": "2026-07-06T17:09:38Z",
+      "status_schema": "adl.local_polis_status.v1",
+      "stderr_empty": true
+    },
+    {
+      "cloudwatch_log_group": "/adl/local-polis-ssm/4687",
+      "cloudwatch_output_enabled": true,
+      "cloudwatch_stream_observed": true,
+      "command_id_hash": "9dc926509ccff0e5",
+      "command_status": "Success",
+      "document_name": "AWS-RunPowerShellScript",
+      "git_branch": "unknown",
+      "git_commit_short": "unknown",
+      "host": "nessus",
+      "instance_id_hash": "e4be88726844dc74",
+      "observed_host_label": "NESSUS",
+      "platform_name": "Microsoft Windows 10 Home",
+      "platform_type": "Windows",
+      "repo_present": false,
+      "ssm_agent_installed": true,
+      "ssm_agent_status": "Running",
+      "ssm_ping_status": "Online",
+      "status_generated_at_utc": "2026-07-06T17:09:43Z",
+      "status_schema": "adl.local_polis_status.v1",
+      "stderr_empty": true
+    },
+    {
+      "cloudwatch_log_group": "/adl/local-polis-ssm/4687",
+      "cloudwatch_output_enabled": true,
+      "cloudwatch_stream_observed": true,
+      "command_id_hash": "8ec5f5f0aa9b188a",
+      "command_status": "Success",
+      "document_name": "AWS-RunShellScript",
+      "git_branch": "unknown",
+      "git_commit_short": "unknown",
+      "host": "opticon",
+      "instance_id_hash": "d205d0c127a08c09",
+      "observed_host_label": "Opticon",
+      "platform_name": "QTS",
+      "platform_type": "Linux",
+      "repo_present": false,
+      "ssm_agent_installed": true,
+      "ssm_agent_status": "not_reported",
+      "ssm_ping_status": "Online",
+      "status_generated_at_utc": "2026-07-06T17:09:46Z",
+      "status_schema": "adl.local_polis_status.v1",
+      "stderr_empty": true
+    }
+  ],
+  "issue": 4687,
+  "negative_cases": {
+    "account_hash_mismatch": "fails before SSM mutation",
+    "command_timeout_or_failure": "summary status failed and host command_status records terminal state",
+    "missing_expected_account_hash": "fails before SSM mutation",
+    "missing_online_node": "fails before send-command"
+  },
+  "non_claims": [
+    "SSM is operations-plane only and does not own polis state or governance authority",
+    "No provider/model execution through SSM is claimed",
+    "No unattended runtime mutation authority is claimed"
+  ],
+  "redaction": {
+    "aws_credentials_retained": false,
+    "raw_account_id_retained": false,
+    "raw_command_ids_retained": false,
+    "raw_instance_ids_retained": false
+  },
+  "run_id": "wp08-4687-20260706T170936Z",
+  "schema": "adl.wp08.local_polis_ssm_live_proof.v1",
+  "status": "passed"
+}
