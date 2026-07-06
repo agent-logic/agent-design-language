@@ -343,6 +343,13 @@
         "<dynamic-heading>",
         "Issue Metrics Truth"
       ],
+      "text": "- Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Issue Metrics Truth"
+      ],
       "text": "- Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here."
     },
     {
@@ -365,13 +372,6 @@
         "Main Repo Integration (REQUIRED)"
       ],
       "text": "- Verification performed:"
-    },
-    {
-      "heading_path": [
-        "<dynamic-heading>",
-        "Main Repo Integration (REQUIRED)"
-      ],
-      "text": "    Verified bootstrap SOR contract compliance for the local pre-run scaffold."
     },
     {
       "heading_path": [
@@ -407,6 +407,27 @@
         "Main Repo Integration (REQUIRED)"
       ],
       "text": "- If artifacts exist only in the worktree, the task is NOT complete."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Integration state describes lifecycle state of the integrated artifact set, not where verification happened."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Verification scope describes where the verification commands were run."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- worktree_only means at least one required path still exists only outside the main repository path."
     },
     {
       "heading_path": [
