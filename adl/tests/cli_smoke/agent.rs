@@ -1953,6 +1953,17 @@ memory:
     assert_eq!(status["uses_ps"], false);
     assert_eq!(status["otlp_exporter_configured"], true);
     assert_eq!(status["otlp_endpoint_ref"], "<configured>");
+    assert_eq!(
+        status["startup_classification"],
+        "startup_missing_pid_metadata"
+    );
+    assert_eq!(status["first_daemon_record_observed"], false);
+    assert_eq!(status["continuity_checkpoint_observed"], false);
+    assert_eq!(status["cycle_ledger_observed"], false);
+    assert!(status["startup_ledger_ref"]
+        .as_str()
+        .expect("startup ledger ref")
+        .ends_with("logs/startup_ledger.jsonl"));
 }
 
 #[test]
@@ -2158,12 +2169,56 @@ memory:
     let service_status: serde_json::Value =
         serde_json::from_slice(&status.stdout).expect("parse service status stdout");
     assert_eq!(service_status["runtime_owner"], "csm");
+    assert_eq!(service_status["service_state"], "observed");
     assert_eq!(service_status["broad_process_scan"], false);
     assert_eq!(service_status["uses_ps"], false);
+    assert_eq!(
+        service_status["startup_classification"],
+        "startup_first_daemon_record_observed"
+    );
+    assert_eq!(service_status["first_daemon_record_observed"], true);
+    assert_eq!(service_status["continuity_checkpoint_observed"], true);
+    assert_eq!(service_status["cycle_ledger_observed"], true);
     assert!(root.join("state/daemon_status.json").exists());
     assert!(root.join("state/continuity_checkpoint.json").exists());
     assert!(service_root.join("logs/observability.log").exists());
     assert!(service_root.join("logs/otel_status.json").exists());
+    let startup_ledger =
+        fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
+    assert!(startup_ledger.contains("\"event\":\"start_requested\""));
+    assert!(startup_ledger.contains("\"event\":\"local_spawn\""));
+    assert!(startup_ledger.contains("\"event\":\"startup_probe\""));
+    assert!(startup_ledger.contains("startup_first_daemon_record_observed"));
+    let observability =
+        fs::read_to_string(service_root.join("logs/observability.log")).expect("observability log");
+    assert!(observability.contains("stage=start_requested"));
+    assert!(observability.contains("stage=startup_probe"));
+    let otel = fs::read_to_string(service_root.join("logs/otel.jsonl")).expect("otel log");
+    assert!(otel.contains("\"name\":\"csm.start_requested\""));
+    assert!(otel.contains("\"name\":\"csm.startup_probe\""));
+
+    let second_start = run_csm(&[
+        "service",
+        "start",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        second_start.status.success(),
+        "second start stderr:\n{}",
+        String::from_utf8_lossy(&second_start.stderr)
+    );
+    let second_status: serde_json::Value =
+        serde_json::from_slice(&second_start.stdout).expect("parse second start stdout");
+    assert_eq!(second_status["service_state"], "running");
+    assert_eq!(
+        second_status["startup_classification"],
+        "startup_first_daemon_record_observed"
+    );
+    let startup_ledger =
+        fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
+    assert!(startup_ledger.contains("\"event\":\"local_already_running\""));
 
     let stop = run_csm(&[
         "service",
@@ -2180,6 +2235,47 @@ memory:
     let service_status: serde_json::Value =
         serde_json::from_slice(&stop.stdout).expect("parse stop status stdout");
     assert_eq!(service_status["service_state"], "stopped_or_requested");
+    let stale_pid = u32::MAX;
+    fs::write(service_root.join("csm-service.pid"), stale_pid.to_string())
+        .expect("write stale pid metadata");
+    fs::write(
+        root.join("state/daemon_status.json"),
+        format!(
+            r#"{{
+  "schema": "adl.long_lived_agent_daemon_status.v1",
+  "agent_instance_id": "service-local-agent",
+  "state": "running",
+  "supervisor_pid": {stale_pid},
+  "restart_count": 0,
+  "max_restarts": 1,
+  "checkpoint_interval_secs": 1,
+  "last_event": "heartbeat",
+  "updated_at": "{}"
+}}
+"#,
+            chrono::Utc::now().to_rfc3339()
+        ),
+    )
+    .expect("write stale daemon status");
+    let stale_status = run_csm(&[
+        "service",
+        "status",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        stale_status.status.success(),
+        "stale status stderr:\n{}",
+        String::from_utf8_lossy(&stale_status.stderr)
+    );
+    let stale_status: serde_json::Value =
+        serde_json::from_slice(&stale_status.stdout).expect("parse stale status stdout");
+    assert_ne!(
+        stale_status["startup_classification"],
+        "startup_first_daemon_record_observed"
+    );
+    assert_eq!(stale_status["pid_liveness"], "stale_pid");
     let agent_status: serde_json::Value =
         serde_json::from_str(&fs::read_to_string(root.join("state/status.json")).unwrap())
             .expect("parse agent status");
@@ -2188,6 +2284,289 @@ memory:
         agent_status["last_error"]["class"],
         "operator_stop_requested"
     );
+}
+
+#[test]
+fn csm_service_local_start_classifies_missing_first_daemon_record() {
+    let root = unique_test_temp_dir("csm-service-startup-missing-record");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: service-startup-missing-record-agent
+display_name: Service Startup Missing Record Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: service_startup_missing_record_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 10
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/service-startup-missing-record-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let service_root = root.join("service");
+    let false_bin = if std::path::Path::new("/usr/bin/false").exists() {
+        "/usr/bin/false"
+    } else {
+        "/bin/false"
+    };
+    let install = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "local",
+        "--label",
+        "com.agentlogic.csm.test-startup-missing-record",
+        "--csm-bin",
+        false_bin,
+        "--checkpoint-interval-secs",
+        "1",
+        "--json",
+    ]);
+    assert!(
+        install.status.success(),
+        "install stderr:\n{}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    fs::create_dir_all(root.join("state")).expect("state dir");
+    fs::write(
+        root.join("state/daemon_status.json"),
+        format!(
+            r#"{{
+  "schema": "adl.long_lived_agent_daemon_status.v1",
+  "agent_instance_id": "service-startup-missing-record-agent",
+  "state": "running",
+  "supervisor_pid": {},
+  "restart_count": 0,
+  "max_restarts": 1,
+  "checkpoint_interval_secs": 1,
+  "last_event": "child_exit",
+  "last_child_exit": "success",
+  "updated_at": "2026-07-06T00:00:00Z"
+}}
+"#,
+            std::process::id()
+        ),
+    )
+    .expect("write stale daemon status");
+
+    let start = run_csm_with_env(
+        &[
+            "service",
+            "start",
+            "--service-root",
+            service_root.to_str().expect("utf8 service root"),
+            "--json",
+        ],
+        &[("ADL_CSM_SERVICE_STARTUP_ATTEMPTS", "5")],
+    );
+    assert!(
+        !start.status.success(),
+        "expected startup classification failure, stdout:\n{}",
+        String::from_utf8_lossy(&start.stdout)
+    );
+    let stderr = String::from_utf8_lossy(&start.stderr);
+    assert!(
+        stderr.contains("startup failed before first daemon record"),
+        "stderr:\n{stderr}"
+    );
+    let status: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(service_root.join("service_status.json")).expect("service status"),
+    )
+    .expect("parse service status");
+    assert_eq!(status["service_state"], "startup_failed");
+    assert!(
+        status["startup_classification"] == "startup_stale_before_first_daemon_record"
+            || status["startup_classification"] == "startup_waiting_for_first_daemon_record",
+        "status:\n{}",
+        serde_json::to_string_pretty(&status).unwrap()
+    );
+    assert_eq!(status["first_daemon_record_observed"], false);
+    assert_eq!(status["cycle_ledger_observed"], false);
+    fs::write(
+        service_root.join("csm-service.pid"),
+        std::process::id().to_string(),
+    )
+    .expect("write current pid metadata");
+    fs::write(
+        root.join("state/daemon_status.json"),
+        format!(
+            r#"{{
+  "schema": "adl.long_lived_agent_daemon_status.v1",
+  "agent_instance_id": "service-startup-missing-record-agent",
+  "state": "running",
+  "supervisor_pid": {},
+  "restart_count": 0,
+  "max_restarts": 1,
+  "checkpoint_interval_secs": 1,
+  "last_event": "heartbeat",
+  "updated_at": "{}"
+}}
+"#,
+            std::process::id(),
+            chrono::Utc::now().to_rfc3339()
+        ),
+    )
+    .expect("write fresh daemon status");
+    let recovered_status = run_csm(&[
+        "service",
+        "status",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        recovered_status.status.success(),
+        "status stderr:\n{}",
+        String::from_utf8_lossy(&recovered_status.stderr)
+    );
+    let recovered_status: serde_json::Value =
+        serde_json::from_slice(&recovered_status.stdout).expect("parse recovered status");
+    assert_eq!(recovered_status["pid_liveness"], "live_pid");
+    assert_eq!(recovered_status["first_daemon_record_observed"], true);
+    assert_eq!(
+        recovered_status["startup_classification"],
+        "startup_first_daemon_record_observed"
+    );
+    let startup_ledger =
+        fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
+    assert!(startup_ledger.contains("\"event\":\"start_requested\""));
+    assert!(startup_ledger.contains("\"event\":\"local_spawn\""));
+    assert!(startup_ledger.contains("\"event\":\"startup_probe\""));
+    let observability =
+        fs::read_to_string(service_root.join("logs/observability.log")).expect("observability log");
+    assert!(observability.contains("stage=start_requested"));
+    assert!(observability.contains("stage=startup_probe"));
+    let otel = fs::read_to_string(service_root.join("logs/otel.jsonl")).expect("otel log");
+    assert!(otel.contains("\"name\":\"csm.start_requested\""));
+    assert!(otel.contains("\"name\":\"csm.startup_probe\""));
+}
+
+#[test]
+fn csm_service_launchd_bootstrap_failure_retains_startup_observability() {
+    let root = unique_test_temp_dir("csm-service-launchd-stale-record");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: service-launchd-stale-record-agent
+display_name: Service Launchd Stale Record Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: service_launchd_stale_record_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 10
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/service-launchd-stale-record-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let service_root = root.join("service");
+    let install = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "launchd",
+        "--label",
+        "com.agentlogic.csm.test-launchd-stale-record",
+        "--csm-bin",
+        "/usr/bin/false",
+        "--checkpoint-interval-secs",
+        "1",
+        "--json",
+    ]);
+    assert!(
+        install.status.success(),
+        "install stderr:\n{}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    fs::create_dir_all(root.join("state")).expect("state dir");
+    fs::write(
+        root.join("state/daemon_status.json"),
+        format!(
+            r#"{{
+  "schema": "adl.long_lived_agent_daemon_status.v1",
+  "agent_instance_id": "service-launchd-stale-record-agent",
+  "state": "running",
+  "supervisor_pid": {},
+  "restart_count": 0,
+  "max_restarts": 1,
+  "checkpoint_interval_secs": 1,
+  "last_event": "child_exit",
+  "last_child_exit": "success",
+  "updated_at": "2026-07-06T00:00:00Z"
+}}
+"#,
+            std::process::id()
+        ),
+    )
+    .expect("write stale daemon status");
+
+    let start = run_csm(&[
+        "service",
+        "start",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        !start.status.success(),
+        "expected launchd startup classification failure, stdout:\n{}",
+        String::from_utf8_lossy(&start.stdout)
+    );
+    let status: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(service_root.join("service_status.json")).expect("service status"),
+    )
+    .expect("parse service status");
+    assert_eq!(status["service_state"], "startup_failed");
+    assert_ne!(
+        status["startup_classification"],
+        "startup_first_daemon_record_observed"
+    );
+    assert_eq!(status["first_daemon_record_observed"], false);
+    let startup_ledger =
+        fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
+    assert!(startup_ledger.contains("launchd_bootstrap_failed"));
+    let observability =
+        fs::read_to_string(service_root.join("logs/observability.log")).expect("observability log");
+    assert!(observability.contains("stage=launchd_bootstrap_failed"));
+    let otel = fs::read_to_string(service_root.join("logs/otel.jsonl")).expect("otel log");
+    assert!(otel.contains("\"name\":\"csm.launchd_bootstrap_failed\""));
 }
 
 #[test]

@@ -1,5 +1,6 @@
 use std::env;
 use std::fs;
+use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::thread;
@@ -7,9 +8,11 @@ use std::time::Duration;
 
 use ::adl::long_lived_agent;
 use anyhow::{anyhow, Context, Result};
-use chrono::Utc;
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
+use serde_json::{json, Value};
+
+use crate::cli::observability;
 
 const SERVICE_MANIFEST_SCHEMA: &str = "adl.csm.service_manifest.v1";
 const SERVICE_STATUS_SCHEMA: &str = "adl.csm.service_status.v1";
@@ -98,6 +101,7 @@ struct ServiceManifest {
     observability_log: PathBuf,
     otel_log: PathBuf,
     otel_status: PathBuf,
+    startup_ledger: PathBuf,
     daemon_status: PathBuf,
     continuity_checkpoint: PathBuf,
     continuity_replay_manifest: PathBuf,
@@ -132,12 +136,23 @@ struct ServiceStatus {
     observability_log_ref: String,
     otel_log_ref: String,
     otel_status_ref: String,
+    startup_ledger_ref: String,
+    startup_classification: String,
+    first_daemon_record_observed: bool,
+    continuity_checkpoint_observed: bool,
+    cycle_ledger_observed: bool,
     otlp_exporter_configured: bool,
     otlp_endpoint_ref: Option<&'static str>,
     last_action: String,
     last_error: Option<String>,
     unsupported_permanence_claims: Vec<String>,
     updated_at: String,
+}
+
+#[derive(Debug, Clone, Copy)]
+struct LocalStartOutcome {
+    pid: u32,
+    reused_existing: bool,
 }
 
 pub(crate) fn real_service(args: &[String]) -> Result<()> {
@@ -192,22 +207,68 @@ fn start(args: &[String]) -> Result<()> {
     let parsed = parse_service_args(args, false)?;
     let service_root = absolutize(&parsed.service_root)?;
     let manifest = read_manifest(&service_root)?;
+    let start_requested_at = Utc::now();
+    record_startup_event(&manifest, "start_requested", "started", None, None)?;
+    let mut local_start = None;
     match manifest.manager {
-        ServiceManager::Local => start_local(&manifest)?,
-        ServiceManager::Launchd => run_launchctl(&[
-            "bootstrap",
-            &manifest.launchd_domain,
-            path_str(&manifest.plist)?,
-        ])
-        .or_else(|err| {
-            let status = service_status(&manifest, "blocked", "start", Some(err.to_string()))?;
-            write_status(&manifest, &status)?;
-            Err(err)
-        })?,
+        ServiceManager::Local => {
+            let outcome = start_local(&manifest)?;
+            local_start = Some(outcome);
+            record_startup_event(
+                &manifest,
+                if outcome.reused_existing {
+                    "local_already_running"
+                } else {
+                    "local_spawn"
+                },
+                "started",
+                Some(outcome.pid),
+                None,
+            )?;
+        }
+        ServiceManager::Launchd => {
+            let args = [
+                "bootstrap",
+                &manifest.launchd_domain,
+                path_str(&manifest.plist)?,
+            ];
+            if let Err(err) = run_launchctl(&args) {
+                let classification = "launchd_bootstrap_failed";
+                record_startup_event(&manifest, classification, "failed", None, Some(&err))?;
+                let status =
+                    service_status(&manifest, "startup_failed", "start", Some(err.to_string()))?;
+                write_status(&manifest, &status)?;
+                return Err(err);
+            }
+            record_startup_event(&manifest, "launchd_bootstrap", "requested", None, None)?;
+        }
     }
-    let status = service_status(&manifest, "running_or_requested", "start", None)?;
+    let observation = observe_startup(&manifest, local_start, start_requested_at)?;
+    let state = if observation.healthy {
+        "running"
+    } else {
+        "startup_failed"
+    };
+    record_startup_event(
+        &manifest,
+        observation.classification,
+        if observation.healthy {
+            "completed"
+        } else {
+            "failed"
+        },
+        observation.pid,
+        None,
+    )?;
+    let status = service_status(&manifest, state, "start", None)?;
     write_status(&manifest, &status)?;
     print_status(&status, manifest.service_root.as_path(), args);
+    if !observation.healthy {
+        return Err(anyhow!(
+            "csm service startup failed before first daemon record: {}",
+            observation.classification
+        ));
+    }
     Ok(())
 }
 
@@ -367,6 +428,7 @@ fn build_manifest(
         observability_log: service_root.join("logs/observability.log"),
         otel_log: service_root.join("logs/otel.jsonl"),
         otel_status: service_root.join("logs/otel_status.json"),
+        startup_ledger: service_root.join("logs/startup_ledger.jsonl"),
         daemon_status: state_root.join("daemon_status.json"),
         continuity_checkpoint: state_root.join("continuity_checkpoint.json"),
         continuity_replay_manifest: state_root.join("continuity_replay_manifest.json"),
@@ -470,13 +532,16 @@ fn write_launchd_plist(manifest: &ServiceManifest) -> Result<()> {
     fs::write(&manifest.plist, plist).with_context(|| format!("write {}", manifest.plist.display()))
 }
 
-fn start_local(manifest: &ServiceManifest) -> Result<()> {
+fn start_local(manifest: &ServiceManifest) -> Result<LocalStartOutcome> {
     if manifest.pid_file.exists() {
         let pid = read_pid_file(&manifest.pid_file)?;
         if pid_liveness(pid) != "live_pid" {
             let _ = fs::remove_file(&manifest.pid_file);
         } else if daemon_status_matches_pid_and_spec(manifest, pid)? {
-            return Ok(());
+            return Ok(LocalStartOutcome {
+                pid,
+                reused_existing: true,
+            });
         } else {
             return Err(anyhow!(
                 "csm service start refused live but unverified pid metadata for pid {pid}; remove stale metadata only after confirming ownership"
@@ -525,8 +590,12 @@ fn start_local(manifest: &ServiceManifest) -> Result<()> {
         command.arg("--no-sleep");
     }
     let child = command.spawn().context("spawn local csm daemon service")?;
-    fs::write(&manifest.pid_file, child.id().to_string())?;
-    Ok(())
+    let pid = child.id();
+    fs::write(&manifest.pid_file, pid.to_string())?;
+    Ok(LocalStartOutcome {
+        pid,
+        reused_existing: false,
+    })
 }
 
 fn stop_local(manifest: &ServiceManifest) -> Result<()> {
@@ -563,6 +632,10 @@ fn service_status(
     let pid_liveness = pid
         .map(pid_liveness)
         .unwrap_or_else(|| "missing_pid_metadata".to_string());
+    let daemon_record_not_before =
+        last_failed_startup_at(manifest).unwrap_or(DateTime::<Utc>::UNIX_EPOCH);
+    let first_daemon_record_observed =
+        verified_daemon_record_observed(manifest, pid, daemon_record_not_before);
     Ok(ServiceStatus {
         schema: SERVICE_STATUS_SCHEMA,
         label: manifest.label.clone(),
@@ -570,7 +643,7 @@ fn service_status(
         runtime_owner: "csm",
         service_state: state.to_string(),
         pid,
-        pid_liveness,
+        pid_liveness: pid_liveness.clone(),
         broad_process_scan: false,
         uses_ps: false,
         manifest_ref: ref_for(
@@ -583,6 +656,16 @@ fn service_status(
         observability_log_ref: ref_for(&manifest.service_root, &manifest.observability_log),
         otel_log_ref: ref_for(&manifest.service_root, &manifest.otel_log),
         otel_status_ref: ref_for(&manifest.service_root, &manifest.otel_status),
+        startup_ledger_ref: ref_for(&manifest.service_root, &manifest.startup_ledger),
+        startup_classification: startup_classification(
+            manifest,
+            pid.as_ref().copied(),
+            &pid_liveness,
+            first_daemon_record_observed,
+        ),
+        first_daemon_record_observed,
+        continuity_checkpoint_observed: manifest.continuity_checkpoint.exists(),
+        cycle_ledger_observed: cycle_ledger_path(manifest).exists(),
         otlp_exporter_configured: manifest.otlp_endpoint.is_some(),
         otlp_endpoint_ref: manifest.otlp_endpoint.as_ref().map(|_| "<configured>"),
         last_action: action.to_string(),
@@ -626,6 +709,430 @@ fn write_json_pretty<T: Serialize>(path: &Path, value: &T) -> Result<()> {
     }
     let rendered = serde_json::to_string_pretty(value)?;
     fs::write(path, format!("{rendered}\n")).with_context(|| format!("write {}", path.display()))
+}
+
+#[derive(Debug, Clone, Copy)]
+struct StartupObservation {
+    pid: Option<u32>,
+    classification: &'static str,
+    healthy: bool,
+}
+
+fn observe_startup(
+    manifest: &ServiceManifest,
+    local_start: Option<LocalStartOutcome>,
+    start_requested_at: DateTime<Utc>,
+) -> Result<StartupObservation> {
+    let deadline = startup_observation_attempts();
+    let not_before = if local_start
+        .map(|outcome| outcome.reused_existing)
+        .unwrap_or(false)
+    {
+        DateTime::<Utc>::UNIX_EPOCH
+    } else {
+        start_requested_at
+    };
+    let mut last = StartupObservation {
+        pid: local_start.map(|outcome| outcome.pid),
+        classification: "startup_missing_daemon_record",
+        healthy: false,
+    };
+    for attempt in 0..deadline {
+        let pid = local_start
+            .map(|outcome| outcome.pid)
+            .or_else(|| fresh_daemon_pid_after(manifest, start_requested_at));
+        let pid_liveness = pid
+            .map(pid_liveness)
+            .unwrap_or_else(|| "missing_pid_metadata".to_string());
+        let first_daemon_record_observed =
+            verified_daemon_record_observed(manifest, pid, not_before);
+        let cycle_ledger_observed = cycle_ledger_path(manifest).exists();
+        let continuity_checkpoint_observed = manifest.continuity_checkpoint.exists();
+        let classification = classify_startup(
+            pid.as_ref().copied(),
+            &pid_liveness,
+            first_daemon_record_observed,
+            cycle_ledger_observed,
+            continuity_checkpoint_observed,
+        );
+        last = StartupObservation {
+            pid,
+            classification,
+            healthy: classification == "startup_first_daemon_record_observed",
+        };
+        record_startup_probe(
+            manifest,
+            StartupProbeRecord {
+                attempt: attempt + 1,
+                pid,
+                pid_liveness: &pid_liveness,
+                first_daemon_record_observed,
+                cycle_ledger_observed,
+                continuity_checkpoint_observed,
+                classification,
+            },
+        )?;
+        if last.healthy || classification == "startup_stale_before_first_daemon_record" {
+            return Ok(last);
+        }
+        thread::sleep(Duration::from_millis(100));
+    }
+    Ok(last)
+}
+
+fn startup_observation_attempts() -> u32 {
+    env::var("ADL_CSM_SERVICE_STARTUP_ATTEMPTS")
+        .ok()
+        .and_then(|raw| raw.parse::<u32>().ok())
+        .filter(|value| *value > 0)
+        .unwrap_or(20)
+}
+
+fn cycle_ledger_path(manifest: &ServiceManifest) -> PathBuf {
+    manifest
+        .continuity_checkpoint
+        .parent()
+        .unwrap_or(manifest.service_root.as_path())
+        .join("cycle_ledger.jsonl")
+}
+
+fn startup_classification(
+    manifest: &ServiceManifest,
+    pid: Option<u32>,
+    pid_liveness: &str,
+    first_daemon_record_observed: bool,
+) -> String {
+    let current = classify_startup(
+        pid,
+        pid_liveness,
+        first_daemon_record_observed,
+        cycle_ledger_path(manifest).exists(),
+        manifest.continuity_checkpoint.exists(),
+    );
+    if current == "startup_first_daemon_record_observed" {
+        return current.to_string();
+    }
+    if let Some(classification) = last_startup_classification(manifest) {
+        return classification;
+    }
+    current.to_string()
+}
+
+fn verified_daemon_record_observed(
+    manifest: &ServiceManifest,
+    pid: Option<u32>,
+    not_before: DateTime<Utc>,
+) -> bool {
+    pid.and_then(|pid| daemon_status_matches_pid_spec_and_time(manifest, pid, not_before).ok())
+        .unwrap_or(false)
+}
+
+fn fresh_daemon_pid_after(manifest: &ServiceManifest, not_before: DateTime<Utc>) -> Option<u32> {
+    let raw = fs::read_to_string(&manifest.daemon_status).ok()?;
+    let value: Value = serde_json::from_str(&raw).ok()?;
+    let loaded = long_lived_agent::load_spec(&manifest.spec).ok()?;
+    let agent_id = value.get("agent_instance_id").and_then(Value::as_str)?;
+    if agent_id != loaded.spec.agent_instance_id {
+        return None;
+    }
+    let updated_at = value
+        .get("updated_at")
+        .and_then(Value::as_str)
+        .and_then(|raw| DateTime::parse_from_rfc3339(raw).ok())
+        .map(|value| value.with_timezone(&Utc))?;
+    if updated_at < not_before {
+        return None;
+    }
+    value
+        .get("supervisor_pid")
+        .and_then(Value::as_u64)
+        .and_then(|pid| u32::try_from(pid).ok())
+}
+
+fn last_startup_classification(manifest: &ServiceManifest) -> Option<String> {
+    let raw = fs::read_to_string(&manifest.startup_ledger).ok()?;
+    raw.lines()
+        .rev()
+        .find_map(|line| {
+            let value: Value = serde_json::from_str(line).ok()?;
+            let result = value
+                .get("result")
+                .and_then(Value::as_str)
+                .filter(|result| *result == "failed" || *result == "completed")?;
+            if result == "completed" {
+                return Some(None);
+            }
+            Some(
+                value
+                    .get("event")
+                    .and_then(Value::as_str)
+                    .map(str::to_string),
+            )
+        })
+        .flatten()
+}
+
+fn last_failed_startup_at(manifest: &ServiceManifest) -> Option<DateTime<Utc>> {
+    let raw = fs::read_to_string(&manifest.startup_ledger).ok()?;
+    raw.lines()
+        .rev()
+        .find_map(|line| {
+            let value: Value = serde_json::from_str(line).ok()?;
+            let result = value
+                .get("result")
+                .and_then(Value::as_str)
+                .filter(|result| *result == "failed" || *result == "completed")?;
+            if result == "completed" {
+                return Some(None);
+            }
+            Some(
+                value
+                    .get("updated_at")
+                    .and_then(Value::as_str)
+                    .and_then(|raw| DateTime::parse_from_rfc3339(raw).ok())
+                    .map(|value| value.with_timezone(&Utc)),
+            )
+        })
+        .flatten()
+}
+
+fn classify_startup(
+    pid: Option<u32>,
+    pid_liveness: &str,
+    first_daemon_record_observed: bool,
+    _cycle_ledger_observed: bool,
+    _continuity_checkpoint_observed: bool,
+) -> &'static str {
+    if first_daemon_record_observed && pid_liveness == "live_pid" {
+        "startup_first_daemon_record_observed"
+    } else if first_daemon_record_observed {
+        "startup_daemon_record_without_live_pid"
+    } else if matches!(pid_liveness, "stale_pid") {
+        "startup_stale_before_first_daemon_record"
+    } else if pid.is_none() {
+        "startup_missing_pid_metadata"
+    } else {
+        "startup_waiting_for_first_daemon_record"
+    }
+}
+
+struct StartupProbeRecord<'a> {
+    attempt: u32,
+    pid: Option<u32>,
+    pid_liveness: &'a str,
+    first_daemon_record_observed: bool,
+    cycle_ledger_observed: bool,
+    continuity_checkpoint_observed: bool,
+    classification: &'a str,
+}
+
+fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_>) -> Result<()> {
+    let attempt_s = probe.attempt.to_string();
+    let pid_s = probe.pid.map(|pid| pid.to_string()).unwrap_or_default();
+    let first_s = probe.first_daemon_record_observed.to_string();
+    let cycle_s = probe.cycle_ledger_observed.to_string();
+    let checkpoint_s = probe.continuity_checkpoint_observed.to_string();
+    append_startup_ledger(
+        manifest,
+        "startup_probe",
+        probe.classification,
+        probe.pid,
+        Some(json!({
+            "attempt": probe.attempt,
+            "pid_liveness": probe.pid_liveness,
+            "first_daemon_record_observed": probe.first_daemon_record_observed,
+            "cycle_ledger_observed": probe.cycle_ledger_observed,
+            "continuity_checkpoint_observed": probe.continuity_checkpoint_observed
+        })),
+    )?;
+    emit_service_event(
+        manifest,
+        "startup_probe",
+        probe.classification,
+        &[
+            ("attempt", &attempt_s),
+            ("pid", &pid_s),
+            ("pid_liveness", probe.pid_liveness),
+            ("first_daemon_record_observed", &first_s),
+            ("cycle_ledger_observed", &cycle_s),
+            ("continuity_checkpoint_observed", &checkpoint_s),
+        ],
+    )?;
+    Ok(())
+}
+
+fn record_startup_event(
+    manifest: &ServiceManifest,
+    stage: &str,
+    result: &str,
+    pid: Option<u32>,
+    err: Option<&anyhow::Error>,
+) -> Result<()> {
+    let error = err.map(|err| redact_manifest_path(manifest, &err.to_string()));
+    append_startup_ledger(
+        manifest,
+        stage,
+        result,
+        pid,
+        error.as_ref().map(|message| json!({"error": message})),
+    )?;
+    let pid_s = pid.map(|pid| pid.to_string()).unwrap_or_default();
+    let err_s = error.unwrap_or_default();
+    emit_service_event(
+        manifest,
+        stage,
+        result,
+        &[("pid", &pid_s), ("error", &err_s)],
+    )?;
+    Ok(())
+}
+
+fn append_startup_ledger(
+    manifest: &ServiceManifest,
+    event: &str,
+    result: &str,
+    pid: Option<u32>,
+    details: Option<Value>,
+) -> Result<()> {
+    if let Some(parent) = manifest.startup_ledger.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&manifest.startup_ledger)
+        .with_context(|| format!("open {}", manifest.startup_ledger.display()))?;
+    let record = json!({
+        "schema": "adl.csm.service_startup_event.v1",
+        "label": manifest.label,
+        "manager": manifest.manager.as_str(),
+        "runtime_owner": "csm",
+        "event": event,
+        "result": result,
+        "pid": pid,
+        "daemon_status_ref": ref_for(&manifest.service_root, &manifest.daemon_status),
+        "continuity_checkpoint_ref": ref_for(&manifest.service_root, &manifest.continuity_checkpoint),
+        "cycle_ledger_ref": ref_for(&manifest.service_root, &cycle_ledger_path(manifest)),
+        "details": details.unwrap_or_else(|| json!({})),
+        "updated_at": Utc::now().to_rfc3339()
+    });
+    writeln!(file, "{}", serde_json::to_string(&record)?)?;
+    Ok(())
+}
+
+fn emit_service_event(
+    manifest: &ServiceManifest,
+    stage: &str,
+    result: &str,
+    extra: &[(&str, &str)],
+) -> Result<()> {
+    let manager = manifest.manager.as_str();
+    let label = manifest.label.as_str();
+    let mut fields = vec![
+        ("process_class", "csm_service"),
+        ("runtime_owner", "csm"),
+        ("manager", manager),
+        ("label", label),
+        ("otel_service_name", "csm-runtime-service"),
+    ];
+    fields.extend_from_slice(extra);
+    observability::emit_event("csm", stage, result, &fields);
+    append_service_observability_log(manifest, stage, result, &fields)?;
+    append_service_otel_log(manifest, stage, result, &fields)?;
+    Ok(())
+}
+
+fn append_service_observability_log(
+    manifest: &ServiceManifest,
+    stage: &str,
+    result: &str,
+    fields: &[(&str, &str)],
+) -> Result<()> {
+    if let Some(parent) = manifest.observability_log.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    let mut line = format!(
+        "adl_event schema=adl.observability.event.v1 command=csm stage={stage} result={result}"
+    );
+    for (key, value) in fields {
+        line.push(' ');
+        line.push_str(key);
+        line.push('=');
+        line.push_str(&service_log_token(manifest, value));
+    }
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&manifest.observability_log)
+        .with_context(|| format!("open {}", manifest.observability_log.display()))?;
+    writeln!(file, "{line}")?;
+    Ok(())
+}
+
+fn append_service_otel_log(
+    manifest: &ServiceManifest,
+    stage: &str,
+    result: &str,
+    fields: &[(&str, &str)],
+) -> Result<()> {
+    if let Some(parent) = manifest.otel_log.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    let mut attributes = serde_json::Map::new();
+    attributes.insert("adl.command".to_string(), json!("csm"));
+    attributes.insert("adl.stage".to_string(), json!(stage));
+    attributes.insert("adl.result".to_string(), json!(result));
+    for (key, value) in fields {
+        attributes.insert(
+            format!("adl.{key}"),
+            json!(redact_manifest_path(manifest, value)),
+        );
+    }
+    let event = json!({
+        "schema": "adl.otel.event.v1",
+        "timestamp": Utc::now().to_rfc3339(),
+        "name": format!("csm.{stage}"),
+        "severity_text": if result == "failed" { "ERROR" } else { "INFO" },
+        "resource": {"service.name": "csm-runtime-service"},
+        "attributes": attributes
+    });
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&manifest.otel_log)
+        .with_context(|| format!("open {}", manifest.otel_log.display()))?;
+    writeln!(file, "{}", serde_json::to_string(&event)?)?;
+    write_json_pretty(
+        &manifest.otel_status,
+        &json!({
+            "schema": "adl.otel.monitor_status.v1",
+            "event_count": count_jsonl_lines(&manifest.otel_log),
+            "last_event": format!("csm.{stage}"),
+            "last_result": result,
+            "updated_at": Utc::now().to_rfc3339()
+        }),
+    )?;
+    Ok(())
+}
+
+fn count_jsonl_lines(path: &Path) -> usize {
+    fs::read_to_string(path)
+        .map(|raw| raw.lines().filter(|line| !line.trim().is_empty()).count())
+        .unwrap_or(0)
+}
+
+fn service_log_token(manifest: &ServiceManifest, value: &str) -> String {
+    redact_manifest_path(manifest, value)
+        .chars()
+        .map(|ch| if ch.is_whitespace() { '_' } else { ch })
+        .collect()
+}
+
+fn redact_manifest_path(manifest: &ServiceManifest, value: &str) -> String {
+    value.replace(
+        &manifest.service_root.display().to_string(),
+        "<service_root>",
+    )
 }
 
 fn run_launchctl(args: &[&str]) -> Result<()> {
@@ -785,6 +1292,27 @@ fn daemon_status_matches_pid_and_spec(manifest: &ServiceManifest, pid: u32) -> R
         .and_then(|pid| u32::try_from(pid).ok());
     let agent_id = value.get("agent_instance_id").and_then(Value::as_str);
     Ok(daemon_pid == Some(pid) && agent_id == Some(loaded.spec.agent_instance_id.as_str()))
+}
+
+fn daemon_status_matches_pid_spec_and_time(
+    manifest: &ServiceManifest,
+    pid: u32,
+    not_before: DateTime<Utc>,
+) -> Result<bool> {
+    if !manifest.daemon_status.exists() {
+        return Ok(false);
+    }
+    let raw = fs::read_to_string(&manifest.daemon_status)?;
+    let value: Value = serde_json::from_str(&raw)?;
+    let updated_at = value
+        .get("updated_at")
+        .and_then(Value::as_str)
+        .and_then(|raw| DateTime::parse_from_rfc3339(raw).ok())
+        .map(|value| value.with_timezone(&Utc));
+    Ok(daemon_status_matches_pid_and_spec(manifest, pid)?
+        && updated_at
+            .map(|updated_at| updated_at >= not_before)
+            .unwrap_or(false))
 }
 
 fn pid_liveness(pid: u32) -> String {
