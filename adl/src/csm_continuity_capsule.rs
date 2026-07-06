@@ -7,12 +7,14 @@ use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
+use std::time::Instant;
 
 use crate::long_lived_agent;
 
 pub const CONTINUITY_CAPSULE_SCHEMA: &str = "adl.csm.continuity_capsule.v1";
 pub const CONTINUITY_STAGE_REPORT_SCHEMA: &str = "adl.csm.continuity_capsule_stage_report.v1";
 pub const CONTINUITY_RESTORE_REPORT_SCHEMA: &str = "adl.csm.continuity_capsule_restore_report.v1";
+pub const CONTINUITY_FIRE_DRILL_REPORT_SCHEMA: &str = "adl.csm.continuity_fire_drill_report.v1";
 pub const CONTINUITY_CAPSULE_FORMAT_VERSION: &str = "csm.continuity-capsule.v1";
 pub const SNAPSHOT_SEGMENT_SCHEMA: &str = "adl.csm.snapshot_segment.v1";
 pub const SNAPSHOT_SEGMENT_FORMAT_VERSION: &str = "csm.snapshot-segment.v1";
@@ -37,6 +39,14 @@ pub struct ContinuityRestoreOptions {
     pub bundle_dir: PathBuf,
     pub out_dir: PathBuf,
     pub target_host: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct ContinuityFireDrillOptions {
+    pub bundle_dir: PathBuf,
+    pub out_dir: PathBuf,
+    pub target_host: String,
+    pub cadence: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -412,6 +422,287 @@ pub fn restore_capsule(options: ContinuityRestoreOptions) -> Result<ContinuityCo
             "not_provider_auth_restore".to_string(),
             "not_multi_region_disaster_recovery".to_string(),
         ],
+    })
+}
+
+pub fn fire_drill_capsule(options: ContinuityFireDrillOptions) -> Result<ContinuityCommandResult> {
+    let manifest_path = options.bundle_dir.join("continuity_capsule_manifest.json");
+    let manifest: BundleManifest = read_json(&manifest_path)?;
+    validate_manifest(&manifest)?;
+    validate_target_host(&options.target_host)?;
+    validate_fire_drill_cadence(&options.cadence)?;
+    validate_fire_drill_output_disjoint(&options.bundle_dir, &options.out_dir)?;
+
+    if options.out_dir.exists() {
+        fs::remove_dir_all(&options.out_dir)
+            .with_context(|| format!("failed clearing {}", options.out_dir.display()))?;
+    }
+    fs::create_dir_all(&options.out_dir)
+        .with_context(|| format!("failed creating {}", options.out_dir.display()))?;
+
+    let started_at = Utc::now().to_rfc3339();
+    let stage_dir = options.out_dir.join("stage");
+    let stage_started = Instant::now();
+    let stage = stage_capsule(ContinuityStageOptions {
+        bundle_dir: options.bundle_dir.clone(),
+        out_dir: stage_dir.clone(),
+        target_host: options.target_host.clone(),
+    })?;
+    let stage_elapsed_ms = stage_started.elapsed().as_millis() as u64;
+
+    let restore_dir = options.out_dir.join("restored-runtime");
+    let restore_started = Instant::now();
+    let restore = restore_capsule(ContinuityRestoreOptions {
+        bundle_dir: options.bundle_dir.clone(),
+        out_dir: restore_dir.clone(),
+        target_host: options.target_host.clone(),
+    })?;
+    let restore_elapsed_ms = restore_started.elapsed().as_millis() as u64;
+
+    let negative_cases = vec![
+        run_fire_drill_negative_case(
+            &options.bundle_dir,
+            &options.out_dir,
+            "missing_artifact",
+            |bad| {
+                fs::remove_file(bad.join("state/status.json"))
+                    .context("failed removing status.json for negative drill case")
+            },
+            "missing bundle artifact",
+        )?,
+        run_fire_drill_negative_case(
+            &options.bundle_dir,
+            &options.out_dir,
+            "corrupted_manifest",
+            |bad| {
+                fs::write(bad.join("continuity_capsule_manifest.json"), b"{")
+                    .context("failed corrupting manifest for negative drill case")
+            },
+            "failed parsing",
+        )?,
+    ];
+    let negative_passed = negative_cases
+        .iter()
+        .all(|case| case["status"] == "failed_as_expected");
+    let status = if stage.status == "staged" && restore.status == "restored" && negative_passed {
+        "passed"
+    } else {
+        "needs_followup"
+    };
+    let completed_at = Utc::now().to_rfc3339();
+    let report = json!({
+        "schema": CONTINUITY_FIRE_DRILL_REPORT_SCHEMA,
+        "format_version": CONTINUITY_CAPSULE_FORMAT_VERSION,
+        "runtime_owner": "csm",
+        "agent_instance_id": manifest.agent_instance_id,
+        "target_host": options.target_host,
+        "status": status,
+        "started_at": started_at,
+        "completed_at": completed_at,
+        "cadence_policy": fire_drill_cadence_policy(&options.cadence),
+        "source_bundle_ref": path_ref_from_report_dir(&options.out_dir, &options.bundle_dir),
+        "manifest_ref": path_ref_from_report_dir(&options.out_dir, &manifest_path),
+        "stage": {
+            "status": stage.status,
+            "elapsed_ms": stage_elapsed_ms,
+            "report_ref": "stage/stage_report.json",
+            "staged_state_ref": "stage/staged_state/"
+        },
+        "restore": {
+            "status": restore.status,
+            "elapsed_ms": restore_elapsed_ms,
+            "report_ref": "restored-runtime/restore_report.json",
+            "restored_spec_ref": "restored-runtime/agent.yaml",
+            "restored_state_ref": "restored-runtime/state/"
+        },
+        "rto_rpo_measurement": {
+            "rto_ms": stage_elapsed_ms + restore_elapsed_ms,
+            "rpo_scope": "selected_continuity_capsule_point_in_time",
+            "checkpoint_ref": "state/continuity_checkpoint.json",
+            "replay_manifest_ref": "state/continuity_replay_manifest.json"
+        },
+        "negative_cases": negative_cases,
+        "safety": {
+            "mutates_live_runtime_state": false,
+            "drill_output_owned_by": "csm continuity drill --out",
+            "production_cutover": "not_attempted"
+        },
+        "observability": {
+            "schema": "adl.csm.continuity_fire_drill_observability.v1",
+            "event_command": "csm",
+            "event_stages": ["continuity_fire_drill", "continuity_capsule_stage", "continuity_capsule_restore"],
+            "otel_service_name": "csm-runtime-daemon",
+            "retained_refs": ["fire_drill_report.json", "stage/stage_report.json", "restored-runtime/restore_report.json"]
+        },
+        "non_claims": [
+            "not_production_traffic_failover",
+            "not_secret_material_restore",
+            "not_multi_region_disaster_recovery"
+        ]
+    });
+    write_json_pretty(&options.out_dir.join("fire_drill_report.json"), &report)?;
+    emit_continuity_event(
+        "continuity_fire_drill",
+        status,
+        &manifest.agent_instance_id,
+        &options.target_host,
+        json!({
+            "report_ref": "fire_drill_report.json",
+            "cadence": options.cadence,
+            "stage_status": stage.status,
+            "restore_status": restore.status,
+            "negative_cases": negative_cases.len()
+        }),
+    );
+    Ok(ContinuityCommandResult {
+        schema: "adl.csm.continuity_capsule_command_result.v1".to_string(),
+        format_version: CONTINUITY_CAPSULE_FORMAT_VERSION.to_string(),
+        runtime_owner: "csm".to_string(),
+        operation: "fire_drill".to_string(),
+        status: status.to_string(),
+        bundle_dir: options.bundle_dir,
+        manifest_ref: "continuity_capsule_manifest.json".to_string(),
+        report_ref: Some("fire_drill_report.json".to_string()),
+        agent_instance_id: Some(manifest.agent_instance_id),
+        target_host: options.target_host,
+        event_count: 3,
+        non_claims: vec![
+            "not_production_traffic_failover".to_string(),
+            "not_secret_material_restore".to_string(),
+            "not_multi_region_disaster_recovery".to_string(),
+        ],
+    })
+}
+
+fn validate_fire_drill_output_disjoint(bundle_dir: &Path, out_dir: &Path) -> Result<()> {
+    let bundle_abs = absolutize_existing_or_parent(bundle_dir)?;
+    let out_abs = absolutize_existing_or_parent(out_dir)?;
+    if bundle_abs == out_abs || bundle_abs.starts_with(&out_abs) || out_abs.starts_with(&bundle_abs)
+    {
+        bail!(
+            "continuity fire-drill --out must be disjoint from --bundle to avoid mutating retained capsule artifacts"
+        );
+    }
+    Ok(())
+}
+
+fn absolutize_existing_or_parent(path: &Path) -> Result<PathBuf> {
+    if path.exists() {
+        return path
+            .canonicalize()
+            .with_context(|| format!("failed canonicalizing {}", path.display()));
+    }
+    let parent = path
+        .parent()
+        .filter(|parent| !parent.as_os_str().is_empty())
+        .unwrap_or_else(|| Path::new("."));
+    let canonical_parent = parent
+        .canonicalize()
+        .with_context(|| format!("failed canonicalizing parent {}", parent.display()))?;
+    let file_name = path
+        .file_name()
+        .context("continuity fire-drill path must include a final component")?;
+    Ok(canonical_parent.join(file_name))
+}
+
+fn path_ref_from_report_dir(report_dir: &Path, target: &Path) -> String {
+    lexical_relative_path(report_dir, target)
+        .unwrap_or_else(|| target.to_path_buf())
+        .to_string_lossy()
+        .replace('\\', "/")
+}
+
+fn lexical_relative_path(from_dir: &Path, target: &Path) -> Option<PathBuf> {
+    if from_dir.is_absolute() != target.is_absolute() {
+        return None;
+    }
+    let from = normalized_components(from_dir)?;
+    let to = normalized_components(target)?;
+    let common_len = from.iter().zip(&to).take_while(|(a, b)| a == b).count();
+    let mut relative = PathBuf::new();
+    for _ in common_len..from.len() {
+        relative.push("..");
+    }
+    for component in &to[common_len..] {
+        relative.push(component);
+    }
+    if relative.as_os_str().is_empty() {
+        relative.push(".");
+    }
+    Some(relative)
+}
+
+fn normalized_components(path: &Path) -> Option<Vec<String>> {
+    let mut out = Vec::new();
+    for component in path.components() {
+        match component {
+            Component::CurDir => {}
+            Component::Normal(value) => out.push(value.to_string_lossy().to_string()),
+            Component::ParentDir => {
+                if out.pop().is_none() {
+                    out.push("..".to_string());
+                }
+            }
+            Component::RootDir => out.push("/".to_string()),
+            Component::Prefix(prefix) => out.push(prefix.as_os_str().to_string_lossy().to_string()),
+        }
+    }
+    Some(out)
+}
+
+fn run_fire_drill_negative_case<F>(
+    bundle_dir: &Path,
+    out_dir: &Path,
+    case_id: &str,
+    mutate: F,
+    expected_error: &str,
+) -> Result<Value>
+where
+    F: FnOnce(&Path) -> Result<()>,
+{
+    let bad_bundle = out_dir.join("negative").join(case_id).join("bundle");
+    let bad_stage = out_dir.join("negative").join(case_id).join("stage");
+    copy_artifact_tree(bundle_dir, &bad_bundle)?;
+    mutate(&bad_bundle)?;
+    let error = match stage_capsule(ContinuityStageOptions {
+        bundle_dir: bad_bundle,
+        out_dir: bad_stage,
+        target_host: "local".to_string(),
+    }) {
+        Ok(_) => None,
+        Err(err) => Some(err.to_string()),
+    };
+    let status = if error
+        .as_deref()
+        .is_some_and(|message| message.contains(expected_error))
+    {
+        "failed_as_expected"
+    } else {
+        "unexpected_result"
+    };
+    Ok(json!({
+        "case_id": case_id,
+        "status": status,
+        "expected_error_contains": expected_error,
+        "observed_error": error.unwrap_or_else(|| "none".to_string())
+    }))
+}
+
+fn validate_fire_drill_cadence(cadence: &str) -> Result<()> {
+    match cadence {
+        "daily" | "per-release" | "pre-v0.92" | "manual" => Ok(()),
+        other => bail!("unsupported continuity fire-drill cadence: {other}"),
+    }
+}
+
+fn fire_drill_cadence_policy(cadence: &str) -> Value {
+    json!({
+        "schema": "adl.csm.continuity_fire_drill_cadence.v1",
+        "selected": cadence,
+        "daily": "operator may run a non-mutating local drill against the newest retained capsule",
+        "per_release": "release candidates must retain a drill report or an evidence-backed blocker",
+        "pre_v0_92": "pre-v0.92 runtime-coherence gate consumes the latest successful drill report",
+        "manual": "operator-triggered drill is allowed whenever recovery evidence is stale or suspicious"
     })
 }
 

@@ -1041,11 +1041,100 @@ memory:
         "agent-logic-admin"
     );
 
+    let drill_dir = root.join("fire-drill");
+    let drill = run_csm_with_env(
+        &[
+            "continuity",
+            "drill",
+            "--bundle",
+            bundle.to_str().expect("utf8 bundle"),
+            "--out",
+            drill_dir.to_str().expect("utf8 drill"),
+            "--target-host",
+            "local",
+            "--cadence",
+            "daily",
+            "--json",
+        ],
+        &[
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            (
+                "ADL_OBSERVABILITY_LOG",
+                observability_log.to_str().expect("utf8 observability"),
+            ),
+        ],
+    );
+    assert!(
+        drill.status.success(),
+        "expected continuity drill success, stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&drill.stdout),
+        String::from_utf8_lossy(&drill.stderr)
+    );
+    let drill_stdout: serde_json::Value =
+        serde_json::from_slice(&drill.stdout).expect("parse drill stdout");
+    assert_eq!(drill_stdout["operation"], "fire_drill");
+    assert_eq!(drill_stdout["status"], "passed");
+    assert_eq!(drill_stdout["report_ref"], "fire_drill_report.json");
+    let drill_report: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(drill_dir.join("fire_drill_report.json")).expect("read drill report"),
+    )
+    .expect("parse drill report");
+    assert_eq!(
+        drill_report["schema"],
+        "adl.csm.continuity_fire_drill_report.v1"
+    );
+    assert_eq!(drill_report["status"], "passed");
+    assert_eq!(drill_report["source_bundle_ref"], "../continuity-capsule");
+    assert_eq!(
+        drill_report["manifest_ref"],
+        "../continuity-capsule/continuity_capsule_manifest.json"
+    );
+    assert_eq!(drill_report["cadence_policy"]["selected"], "daily");
+    assert_eq!(drill_report["safety"]["mutates_live_runtime_state"], false);
+    assert_eq!(drill_report["stage"]["status"], "staged");
+    assert_eq!(drill_report["restore"]["status"], "restored");
+    assert!(drill_dir
+        .join("restored-runtime/state/continuity_checkpoint.json")
+        .exists());
+    let negative_cases = drill_report["negative_cases"]
+        .as_array()
+        .expect("negative cases");
+    assert_eq!(negative_cases.len(), 2);
+    assert!(negative_cases
+        .iter()
+        .all(|case| case["status"] == "failed_as_expected"));
+    assert_eq!(
+        drill_report["rto_rpo_measurement"]["rpo_scope"],
+        "selected_continuity_capsule_point_in_time"
+    );
+    let overlapping_drill = run_csm(&[
+        "continuity",
+        "drill",
+        "--bundle",
+        bundle.to_str().expect("utf8 bundle"),
+        "--out",
+        bundle.join("nested-drill").to_str().expect("utf8 nested"),
+        "--target-host",
+        "local",
+        "--json",
+    ]);
+    assert!(
+        !overlapping_drill.status.success(),
+        "expected overlapping drill output rejection"
+    );
+    assert!(String::from_utf8_lossy(&overlapping_drill.stderr)
+        .contains("must be disjoint from --bundle"));
+    assert!(
+        bundle.join("continuity_capsule_manifest.json").exists(),
+        "overlapping drill rejection must preserve source bundle"
+    );
+
     let observability =
         fs::read_to_string(&observability_log).expect("read continuity observability");
     assert!(observability.contains("stage=continuity_capsule_capture"));
     assert!(observability.contains("stage=continuity_capsule_stage"));
     assert!(observability.contains("stage=continuity_capsule_restore"));
+    assert!(observability.contains("stage=continuity_fire_drill"));
     assert!(observability.contains("otel_service_name=csm-runtime-daemon"));
 
     assert_stage_failure(
