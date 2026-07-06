@@ -1523,11 +1523,15 @@ fn emit_pr_validation_wait_event(
     next_poll_delay: Duration,
 ) {
     let pr_number = snapshot.pr_number.to_string();
-    let elapsed_ms = started.elapsed().as_millis().to_string();
+    let elapsed = started.elapsed();
+    let elapsed_ms = elapsed.as_millis().to_string();
     let poll_count = poll_count.to_string();
     let next_poll_delay_ms = next_poll_delay.as_millis().to_string();
     let is_draft = snapshot.is_draft.to_string();
     let wait_reason = pr_validation_wait_reason(snapshot, disposition, check_name);
+    let wait_classification =
+        pr_validation_wait_classification(snapshot, disposition, check_name, elapsed);
+    let next_action = pr_validation_wait_next_action(wait_classification);
     observability::emit_event(
         "adl",
         "pr.validation.wait",
@@ -1540,6 +1544,8 @@ fn emit_pr_validation_wait_event(
             ("pr_state", snapshot.state.as_str()),
             ("is_draft", is_draft.as_str()),
             ("wait_reason", wait_reason),
+            ("wait_classification", wait_classification),
+            ("next_action", next_action),
             ("status", status),
             ("conclusion", conclusion),
             ("elapsed_ms", elapsed_ms.as_str()),
@@ -1562,6 +1568,41 @@ fn pr_validation_wait_reason(
         "aggregate"
     } else {
         "check_state"
+    }
+}
+
+fn pr_validation_wait_classification(
+    snapshot: &PrValidationSnapshot,
+    disposition: PrValidationDisposition,
+    check_name: &str,
+    elapsed: Duration,
+) -> &'static str {
+    if snapshot.is_draft && disposition == PrValidationDisposition::Pending {
+        "pr_draft_gate"
+    } else if snapshot.checks.is_empty() && disposition == PrValidationDisposition::Pending {
+        "checks_not_reported"
+    } else if check_name == "adl-coverage"
+        && disposition == PrValidationDisposition::Pending
+        && elapsed >= pr_validation_anomaly_threshold()
+    {
+        "long_running_required_coverage"
+    } else if check_name == "adl-coverage" && disposition == PrValidationDisposition::Pending {
+        "required_coverage_wait"
+    } else if check_name == "aggregate" {
+        "aggregate"
+    } else {
+        "check_state"
+    }
+}
+
+fn pr_validation_wait_next_action(wait_classification: &str) -> &'static str {
+    match wait_classification {
+        "long_running_required_coverage" => "continue_waiting_and_inspect_coverage_job",
+        "required_coverage_wait" => "continue_waiting_required_check",
+        "checks_not_reported" => "continue_polling_until_checks_report_or_timeout",
+        "pr_draft_gate" => "promote_ready_when_draft_gate_is_cleared",
+        "aggregate" => "use_check_level_events_for_next_action",
+        _ => "continue_waiting_required_check",
     }
 }
 
