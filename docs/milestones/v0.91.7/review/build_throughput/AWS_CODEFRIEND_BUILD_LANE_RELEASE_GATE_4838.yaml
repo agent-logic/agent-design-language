@@ -1,7 +1,7 @@
 schema_version: adl.release_gate_disposition.v1
 issue: 4838
-decision: approved_for_draft_pr_publication
-reviewer_or_review_mode: pre_pr_subagent_review_plus_local_release_gate_validation
+decision: reconciled_after_merge_operational_lane_available
+reviewer_or_review_mode: pre_pr_subagent_review_plus_local_release_gate_validation_plus_wp06_closeout_truth_repair_4945
 changed_release_gate_surfaces:
   - .github/workflows/aws-codefriend-build.yaml
 focused_validation_run: >
@@ -11,13 +11,22 @@ focused_validation_run: >
   ADL_AWS_PROFILE=agent-logic-admin; Agent Logic AWS resource setup for
   BUILD_GENERAL1_LARGE; and live CodeBuild start-build proof on the
   adl-codefriend-build project.
-residual_ci_proof_required_before_merge: >
-  GitHub Actions workflow dispatch remains residual CI/AWS proof because the
-  repository variables/secrets are operator configuration, not committed repo
-  state. Local live CodeBuild start-build was proven through the repo-native
-  wrapper against the Agent Logic adl-codefriend-build project.
+post_merge_disposition: >
+  The release-gate surface has merged. The repo now has an operator-triggered
+  GitHub Actions plus AWS CodeFriend/CodeBuild lane with dry-run default,
+  Agent Logic account-hash checking, CodeBuild setup tooling, and retained live
+  CodeBuild proof against the Agent Logic adl-codefriend-build project.
+residual_operational_requirements: >
+  GitHub workflow-dispatched start-build still depends on operator-managed
+  repository variables/secrets and remains manual workflow_dispatch only. Fresh
+  operational claims must use the repo-native wrapper, pass account-hash
+  checking, retain redacted CodeBuild logs/artifacts, and record the active
+  cache posture. Current fast repeated-build truth is the fixed builder image
+  plus stable local target cache and S3 sccache, not the superseded
+  S3-sccache-only diagnostic row.
 notes:
   - The release-gate surface is a new manual workflow, not a change to ordinary PR or push CI.
   - The workflow uses GitHub OIDC with id-token write and contents read permissions.
   - The repo-native wrapper requires account-hash verification for every live run.
-  - BUILD_GENERAL1_XLARGE remains blocked by the Agent Logic CodeBuild Linux/XLarge quota.
+  - BUILD_GENERAL1_XLARGE quota was later available and retained repeat runs completed successfully.
+  - Current retained benchmark truth comes from fixed builder image plus stable local target cache: repeated live CodeBuild XLARGE totals of 120s and 124s.
