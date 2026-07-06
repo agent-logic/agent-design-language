@@ -1,6 +1,6 @@
 # CSM Backpressure Proof (#4921)
 
-Status: `passed_local_proof_remote_pending_after_branch_publication`
+Status: `passed_local_proof_remote_timing_recorded`
 
 This packet proves a bounded CSM overload and backpressure policy for #4921.
 It exercises the standalone `csm` runtime owner binary, writes retained
@@ -70,13 +70,22 @@ States:
 | Platform | Build | Test | Total | Wrapper | Status |
 | --- | ---: | ---: | ---: | ---: | --- |
 | wuji local warm target | 92s | 35s | 127s | 127s | passed |
-| Nessus | not_run | not_run | not_run | 4s | failed_pre_push_git_ref_missing |
-| AWS Spot | pending | pending | pending | pending | pending |
-| CodeBuild | pending | pending | pending | pending | pending |
+| Nessus | 211s | 186s | 397s | 403s | passed_slow |
+| AWS Spot | not_completed | not_completed | not_completed | interrupted_at_592s_then_wrapper_stalled | failed_interrupted |
+| CodeBuild | 242s | 223s | 465s | 493s | passed_slow |
 
 Nessus note: the first direct remote attempt ran before the branch was pushed,
-so the remote runner could not resolve the #4921 git ref. Rerun Nessus, AWS
-Spot, and CodeBuild after draft publication pushes the branch.
+so the remote runner could not resolve the #4921 git ref. The post-publication
+rerun passed but was slower than wuji for this benchmark.
+
+AWS Spot note: the post-publication Spot run launched and began validation, then
+the instance was interrupted while the validation command was still running. The
+local wrapper did not return a final failed summary after cleanup began, and
+`resume-state.json` still showed no recorded attempts. This is a remote-build
+tooling problem to fix before relying on Spot for sprint throughput.
+
+CodeBuild note: the post-publication CodeBuild run succeeded, but the inner
+benchmark was slower than wuji for this lane.
 
 ## Non-Claims
 
