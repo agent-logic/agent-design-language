@@ -59,6 +59,10 @@ The umbrella closeout used repo-native lifecycle tools only.
   were normalized, `#4617` received its missing `wp:WP-04` label, and
   prediction readiness was split into minimal and full readiness so missing
   validation/PR/CI wait inputs cannot be mistaken for full prediction proof.
+- `#4946` records the follow-on lifecycle repair after sprint review found
+  remaining root-local ignored SOR/SRP truth drift. The repaired local records
+  now use merged integration truth for closed WP-04 issues, while this tracked
+  packet preserves the residual nested-goal limitation without overclaiming.
 
 ## Non-Claims
 
