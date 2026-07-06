@@ -30,7 +30,7 @@ def run_helper(*args: str) -> dict:
     return json.loads(result.stdout)
 
 
-def write_fixture(root: Path) -> tuple[Path, Path, Path]:
+def write_fixture(root: Path, multiline_workspace_members: bool = False) -> tuple[Path, Path, Path]:
     project = root / "project"
     adl = project / "adl"
     member = adl / "crates" / "helper"
@@ -44,6 +44,11 @@ def write_fixture(root: Path) -> tuple[Path, Path, Path]:
     build.mkdir(parents=True)
     fingerprint.mkdir(parents=True)
 
+    workspace_members = (
+        "\n".join(["members = [", '  "crates/helper",', "]"])
+        if multiline_workspace_members
+        else 'members = ["crates/helper"]'
+    )
     (adl / "Cargo.toml").write_text(
         "\n".join(
             [
@@ -53,7 +58,7 @@ def write_fixture(root: Path) -> tuple[Path, Path, Path]:
                 'edition = "2021"',
                 "",
                 "[workspace]",
-                'members = ["crates/helper"]',
+                workspace_members,
                 "",
             ]
         )
@@ -205,9 +210,119 @@ def test_replace_semantics_are_explicit() -> None:
         assert_same_inode(source_target / "debug" / "deps" / "libserde-abc.rlib", existing)
 
 
+def test_minimal_manifest_fallback_handles_missing_tomllib_path() -> None:
+    with tempfile.TemporaryDirectory() as temp:
+        manifest, source_target, dest_target = write_fixture(Path(temp), multiline_workspace_members=True)
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(HELPER),
+                "--source-target",
+                str(source_target),
+                "--dest-target",
+                str(dest_target),
+                "--manifest-path",
+                str(manifest),
+                "--json",
+            ],
+            env={**os.environ, "ADL_WARM_CACHE_FORCE_MINIMAL_TOML": "1"},
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode != 0:
+            raise AssertionError(
+                f"fallback helper failed with {result.returncode}\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+            )
+        summary = json.loads(result.stdout)
+        if summary["status"] != "ok":
+            raise AssertionError(summary)
+        if summary["linked_files"] != 4:
+            raise AssertionError(f"expected fallback parser to preserve dependency linking: {summary}")
+        if (dest_target / "debug" / "deps" / "libhelper-bbb.rlib").exists():
+            raise AssertionError("fallback parser must not treat workspace member artifacts as dependencies")
+
+
+def test_runtime_link_failure_rolls_back_created_links() -> None:
+    with tempfile.TemporaryDirectory() as temp:
+        manifest, source_target, dest_target = write_fixture(Path(temp))
+        blocking_parent = dest_target / "debug" / ".fingerprint"
+        blocking_parent.parent.mkdir(parents=True)
+        blocking_parent.write_text("not a directory")
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(HELPER),
+                "--source-target",
+                str(source_target),
+                "--dest-target",
+                str(dest_target),
+                "--manifest-path",
+                str(manifest),
+                "--json",
+            ],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode != 2:
+            raise AssertionError(
+                f"expected helper to report completed_with_errors with exit 2\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+            )
+        summary = json.loads(result.stdout)
+        if summary["status"] != "completed_with_errors":
+            raise AssertionError(summary)
+        if summary["rolled_back_files"] < 1:
+            raise AssertionError(f"expected successful links to be rolled back after later failure: {summary}")
+        if (dest_target / "debug" / "deps" / "libserde-abc.rlib").exists():
+            raise AssertionError("runtime warm-cache failure must not leave partially linked dependency residue")
+
+
+def test_runtime_link_failure_restores_replaced_destinations() -> None:
+    with tempfile.TemporaryDirectory() as temp:
+        manifest, source_target, dest_target = write_fixture(Path(temp))
+        dest_deps = dest_target / "debug" / "deps"
+        dest_deps.mkdir(parents=True)
+        existing = dest_deps / "libserde-abc.rlib"
+        existing.write_text("original destination")
+        blocking_parent = dest_target / "debug" / ".fingerprint"
+        blocking_parent.write_text("not a directory")
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(HELPER),
+                "--source-target",
+                str(source_target),
+                "--dest-target",
+                str(dest_target),
+                "--manifest-path",
+                str(manifest),
+                "--replace",
+                "--json",
+            ],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+        if result.returncode != 2:
+            raise AssertionError(
+                f"expected helper to report completed_with_errors with exit 2\nstdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+            )
+        if existing.read_text() != "original destination":
+            raise AssertionError("runtime warm-cache failure must restore replaced destination files")
+
+
 def main() -> int:
     test_links_only_external_dependency_deps()
     test_replace_semantics_are_explicit()
+    test_minimal_manifest_fallback_handles_missing_tomllib_path()
+    test_runtime_link_failure_rolls_back_created_links()
+    test_runtime_link_failure_restores_replaced_destinations()
     print("PASS test_warm_rust_dependency_cache")
     return 0
 

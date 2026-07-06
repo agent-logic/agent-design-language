@@ -11,11 +11,16 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
-import tomllib
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Iterable
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # pragma: no cover - covered through forced fallback.
+    tomllib = None
 
 
 @dataclass
@@ -35,6 +40,7 @@ class Summary:
     skipped_existing: int = 0
     skipped_unmatched: int = 0
     errors: int = 0
+    rolled_back_files: int = 0
 
 
 def normalize_target_name(name: str) -> str:
@@ -42,8 +48,52 @@ def normalize_target_name(name: str) -> str:
 
 
 def read_toml(path: Path) -> dict:
+    if tomllib is None or os.environ.get("ADL_WARM_CACHE_FORCE_MINIMAL_TOML") == "1":
+        return read_minimal_cargo_manifest(path)
     with path.open("rb") as handle:
         return tomllib.load(handle)
+
+
+def read_minimal_cargo_manifest(path: Path) -> dict:
+    """Parse the Cargo manifest fields this helper needs when tomllib is absent.
+
+    The warm-cache helper only needs `[package].name` and `[workspace].members`.
+    Keeping this fallback narrow lets Python 3.10-era runners fail less often
+    without pretending to be a general TOML parser.
+    """
+    data: dict[str, dict[str, object]] = {}
+    section = ""
+    in_workspace_members = False
+    workspace_members: list[str] = []
+    for raw_line in path.read_text().splitlines():
+        line = raw_line.split("#", 1)[0].strip()
+        if not line:
+            continue
+        if in_workspace_members:
+            workspace_members.extend(re.findall(r'"([^"]+)"', line))
+            if "]" in line:
+                data.setdefault("workspace", {})["members"] = workspace_members
+                in_workspace_members = False
+            continue
+        if line.startswith("[") and line.endswith("]"):
+            section = line.strip("[]").strip()
+            data.setdefault(section, {})
+            continue
+        if "=" not in line or section not in {"package", "workspace"}:
+            continue
+        key, value = (part.strip() for part in line.split("=", 1))
+        if section == "package" and key == "name":
+            match = re.fullmatch(r'"([^"]+)"', value)
+            if match:
+                data.setdefault("package", {})["name"] = match.group(1)
+        elif section == "workspace" and key == "members":
+            members = re.findall(r'"([^"]+)"', value)
+            if "[" in value and "]" not in value:
+                workspace_members = members
+                in_workspace_members = True
+            else:
+                data.setdefault("workspace", {})["members"] = members
+    return data
 
 
 def read_workspace_package_names(manifest_path: Path) -> set[str]:
@@ -145,7 +195,13 @@ def same_inode(a: Path, b: Path) -> bool:
         return False
 
 
-def hardlink_file(source: Path, dest: Path, summary: Summary) -> None:
+def hardlink_file(
+    source: Path,
+    dest: Path,
+    summary: Summary,
+    linked_destinations: list[Path],
+    replaced_destinations: list[tuple[Path, Path]],
+) -> None:
     summary.candidate_files += 1
     if dest.exists() or dest.is_symlink():
         if same_inode(source, dest):
@@ -157,15 +213,23 @@ def hardlink_file(source: Path, dest: Path, summary: Summary) -> None:
         if summary.dry_run:
             summary.linked_files += 1
             return
-        dest.unlink()
+        backup = dest.with_name(f"{dest.name}.adl-warm-backup.{os.getpid()}")
+        try:
+            os.replace(dest, backup)
+            replaced_destinations.append((dest, backup))
+        except OSError as exc:
+            summary.errors += 1
+            print(f"error: failed to replace existing destination {dest}: {exc}", file=sys.stderr)
+            return
 
     if summary.dry_run:
         summary.linked_files += 1
         return
 
-    dest.parent.mkdir(parents=True, exist_ok=True)
     try:
+        dest.parent.mkdir(parents=True, exist_ok=True)
         os.link(source, dest)
+        linked_destinations.append(dest)
         summary.linked_files += 1
     except OSError as exc:
         summary.errors += 1
@@ -196,8 +260,35 @@ def warm_cache(args: argparse.Namespace) -> Summary:
         external_target_prefixes=len(prefixes),
     )
 
+    linked_destinations: list[Path] = []
+    replaced_destinations: list[tuple[Path, Path]] = []
     for source, relative in iter_dependency_artifacts(source_profile, prefixes, summary):
-        hardlink_file(source, dest_profile / relative, summary)
+        hardlink_file(source, dest_profile / relative, summary, linked_destinations, replaced_destinations)
+
+    if summary.errors:
+        for dest in reversed(linked_destinations):
+            try:
+                dest.unlink()
+                summary.rolled_back_files += 1
+            except FileNotFoundError:
+                continue
+            except OSError as exc:
+                print(f"error: failed to roll back linked artifact {dest}: {exc}", file=sys.stderr)
+        for dest, backup in reversed(replaced_destinations):
+            try:
+                if dest.exists() or dest.is_symlink():
+                    dest.unlink()
+                if backup.exists():
+                    os.replace(backup, dest)
+            except OSError as exc:
+                print(f"error: failed to restore replaced artifact {dest}: {exc}", file=sys.stderr)
+    else:
+        for _, backup in replaced_destinations:
+            try:
+                if backup.exists():
+                    backup.unlink()
+            except OSError as exc:
+                print(f"error: failed to remove replacement backup {backup}: {exc}", file=sys.stderr)
 
     return summary
 
