@@ -17,6 +17,11 @@
       data-report-ref="../../../docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md"
       data-csm-service-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_service_4903/service/service_manifest.json"
       data-csm-api-ref="../../../docs/milestones/v0.91.7/review/runtime/CSM_RUNTIME_API_4929.md"
+      data-csm-status-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/status.json"
+      data-csm-health-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/health.json"
+      data-csm-ready-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/ready.json"
+      data-csm-metrics-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json"
+      data-csm-events-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
       data-cloudwatch-ref="../../../docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
       data-cloudwatch-events-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json"
     >
@@ -27,6 +32,7 @@
         </a>
         <nav class="nav" aria-label="Proof views">
           <a href="#runtime-proof">Runtime</a>
+          <a href="#panopticon">Panopticon</a>
           <a href="#csm-api">CSM API</a>
           <a href="#cloudwatch">CloudWatch</a>
           <a href="#governance">Governance</a>
@@ -37,8 +43,8 @@
 
       <section class="hero" id="runtime-proof" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">v0.91.7 / HTML Observatory integrated proof</p>
-          <h1 id="hero-title">Runtime evidence, made visible.</h1>
+          <p class="eyebrow">v0.91.7 / HTML Observatory integrated proof / CSM polis panopticon</p>
+          <h1 id="hero-title">Live agents, visible.</h1>
           <p class="lede" id="claim-boundary">
             Loading the bounded runtime capture and operator report.
           </p>
@@ -73,6 +79,79 @@
             </div>
           </dl>
         </section>
+      </section>
+
+      <section class="panopticon-shell" id="panopticon" aria-labelledby="panopticon-title">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Runtime system</p>
+            <h2 id="panopticon-title">CSM polis panopticon</h2>
+          </div>
+          <span class="mini-badge" id="live-status">retained fallback</span>
+        </div>
+        <div class="live-control-strip">
+          <label class="field">
+            <span class="row-kicker">Loopback CSM API base</span>
+            <input id="live-api-base" type="url" inputmode="url" placeholder="Optional loopback CSM API base">
+          </label>
+          <div class="live-actions">
+            <button class="button button-primary" type="button" id="connect-live">Connect live</button>
+            <button class="button button-secondary" type="button" id="refresh-live">Refresh once</button>
+            <button class="button button-secondary" type="button" id="stop-live">Stop</button>
+          </div>
+        </div>
+        <div class="panopticon-layout">
+          <section class="panopticon-stage" aria-labelledby="agent-map-title">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Agents</p>
+                <h3 id="agent-map-title">Polis map</h3>
+              </div>
+              <span class="mini-badge" id="agent-count">0 agents</span>
+            </div>
+            <div class="agent-map" id="panopticon-map"></div>
+          </section>
+          <section class="panopticon-column" aria-labelledby="live-agents-title">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Roster</p>
+                <h3 id="live-agents-title">Agent status</h3>
+              </div>
+              <span class="mini-badge" id="live-readiness">unknown</span>
+            </div>
+            <div class="agent-list" id="live-agent-list"></div>
+          </section>
+          <section class="panopticon-column" aria-labelledby="live-signals-title">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Control plane</p>
+                <h3 id="live-signals-title">Signals</h3>
+              </div>
+              <span class="mini-badge" id="live-updated">not connected</span>
+            </div>
+            <div class="signal-list" id="live-signal-list"></div>
+          </section>
+          <section class="panopticon-column" aria-labelledby="live-metrics-title">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Metrics</p>
+                <h3 id="live-metrics-title">Runtime gauges</h3>
+              </div>
+              <span class="mini-badge" id="live-metric-count">0 gauges</span>
+            </div>
+            <div class="metric-list" id="live-metric-list"></div>
+          </section>
+          <section class="panopticon-events" aria-labelledby="live-events-title">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Event stream</p>
+                <h3 id="live-events-title">Operator tail</h3>
+              </div>
+              <span class="mini-badge" id="live-event-count">0 events</span>
+            </div>
+            <ol class="trace-list" id="live-event-stream"></ol>
+          </section>
+        </div>
       </section>
 
       <section class="runtime-grid" aria-label="Runtime proof dashboard">

@@ -25,6 +25,11 @@ CSM_SERVICE_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_service_4
 CSM_API_REF = "../../../docs/milestones/v0.91.7/review/runtime/CSM_RUNTIME_API_4929.md"
 CLOUDWATCH_REF = "../../../docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
 CLOUDWATCH_EVENTS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json"
+CSM_STATUS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/status.json"
+CSM_HEALTH_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/health.json"
+CSM_READY_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/ready.json"
+CSM_METRICS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json"
+CSM_EVENTS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
 
 
 def fail(message: str) -> None:
@@ -52,9 +57,15 @@ def run_js_view_model(
     api_path: Path,
     cloudwatch_path: Path,
     cloudwatch_events_path: Path,
+    csm_status_path: Path,
+    csm_health_path: Path,
+    csm_ready_path: Path,
+    csm_metrics_path: Path,
+    csm_events_path: Path,
 ) -> dict[str, Any]:
     node_program = textwrap.dedent(
         f"""
+        (async () => {{
         const fs = require("fs");
         const vm = require("vm");
         const source = fs.readFileSync({json.dumps(str(js_path))}, "utf8");
@@ -64,7 +75,35 @@ def run_js_view_model(
         const apiText = fs.readFileSync({json.dumps(str(api_path))}, "utf8");
         const cloudwatchSummary = JSON.parse(fs.readFileSync({json.dumps(str(cloudwatch_path))}, "utf8"));
         const cloudwatchEvents = JSON.parse(fs.readFileSync({json.dumps(str(cloudwatch_events_path))}, "utf8"));
-        const context = {{ console, URL, globalThis: {{}} }};
+        const retainedRefs = {{
+          statusRef: {json.dumps(str(csm_status_path))},
+          healthRef: {json.dumps(str(csm_health_path))},
+          readyRef: {json.dumps(str(csm_ready_path))},
+          metricsRef: {json.dumps(str(csm_metrics_path))},
+          eventsRef: {json.dumps(str(csm_events_path))}
+        }};
+        const retainedFiles = new Map([
+          [retainedRefs.statusRef, fs.readFileSync(retainedRefs.statusRef, "utf8")],
+          [retainedRefs.healthRef, fs.readFileSync(retainedRefs.healthRef, "utf8")],
+          [retainedRefs.readyRef, fs.readFileSync(retainedRefs.readyRef, "utf8")],
+          [retainedRefs.metricsRef, fs.readFileSync(retainedRefs.metricsRef, "utf8")],
+          [retainedRefs.eventsRef, fs.readFileSync(retainedRefs.eventsRef, "utf8")]
+        ]);
+        const livePayloads = new Map([
+          ["http://127.0.0.1:49210/status", retainedFiles.get(retainedRefs.statusRef)],
+          ["http://127.0.0.1:49210/health", retainedFiles.get(retainedRefs.healthRef)],
+          ["http://127.0.0.1:49210/ready", retainedFiles.get(retainedRefs.readyRef)],
+          ["http://127.0.0.1:49210/metrics", retainedFiles.get(retainedRefs.metricsRef)],
+          ["http://127.0.0.1:49210/events", retainedFiles.get(retainedRefs.eventsRef)]
+        ]);
+        const mockFetch = async (ref) => {{
+          const key = String(ref);
+          const body = retainedFiles.get(key) || livePayloads.get(key);
+          return body == null
+            ? {{ ok: false, status: 404, text: async () => "", json: async () => {{ throw new Error("missing mock payload"); }} }}
+            : {{ ok: true, status: 200, text: async () => body, json: async () => JSON.parse(body) }};
+        }};
+        const context = {{ console, URL, fetch: mockFetch, globalThis: {{}} }};
         context.globalThis = context;
         vm.runInNewContext(source, context);
         const viewModel = context.AdlHtmlObservatory.buildViewModel(packet, reportText);
@@ -79,6 +118,50 @@ def run_js_view_model(
           message: "Request current CSM event tail and runtime readiness.",
           packetId: packet.packet_id
         }});
+        const panopticonViewModel = context.AdlHtmlObservatory.buildPanopticonViewModel({{
+          mode: "live",
+          fetchedAt: "2026-07-06T19:30:00Z",
+          status: {{
+            runtime_owner: "csm",
+            agent_instance_id: "polis-runtime-1",
+            status: "running"
+          }},
+          health: {{ status: "healthy" }},
+          ready: {{ status: "ready" }},
+          metrics: {{ active_agents: 3, event_tail_size: 2 }},
+          events: {{
+            events: [
+              {{ message: "{{\\"signal_kind\\":\\"heartbeat\\",\\"runtime_id\\":\\"polis-runtime-1\\",\\"status\\":\\"completed\\"}}" }}
+            ]
+          }}
+        }}, packet);
+        const retainedPanopticonViewModel = context.AdlHtmlObservatory.buildPanopticonViewModel({{
+          mode: "published",
+          fetchedAt: "2026-07-06T19:35:00Z",
+          status: {{
+            runtime_owner: "csm",
+            agent_instance_id: "csm-liveness-4976-full",
+            status: "healthy",
+            agent_status: {{ state: "idle" }}
+          }},
+          health: {{ status: "healthy" }},
+          ready: {{ ready: "ready" }},
+          metrics: {{
+            gauges: {{ completed_cycle_count: 87, operator_event_count_observed: 348 }},
+            states: {{ agent_state: "idle" }}
+          }},
+          events: {{
+            events: {{
+              entries: [
+                {{ event: "checkpoint_write", agent_instance_id: "csm-liveness-4976-full", details: {{ result: "completed" }} }}
+              ]
+            }}
+          }}
+        }}, packet);
+        const retainedSnapshot = await context.AdlHtmlObservatory.fetchRetainedRuntimeSnapshot(retainedRefs);
+        const retainedFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(retainedSnapshot, packet);
+        const liveSnapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("http://127.0.0.1:49210");
+        const liveFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(liveSnapshot, packet);
         process.stdout.write(JSON.stringify({{
           packetId: viewModel.packet.packet_id,
           evidenceLevel: viewModel.packet.source.evidence_level,
@@ -105,8 +188,42 @@ def run_js_view_model(
             malformed: context.AdlHtmlObservatory.isLoopbackApiBase("not a url")
           }},
           closedAwsIssues: context.AdlHtmlObservatory.AWS_LINKAGES.filter((item) => item.state === "closed").map((item) => item.issue),
-          openAwsIssues: context.AdlHtmlObservatory.AWS_LINKAGES.filter((item) => item.state === "open").map((item) => item.issue)
+          openAwsIssues: context.AdlHtmlObservatory.AWS_LINKAGES.filter((item) => item.state === "open").map((item) => item.issue),
+          panopticon: {{
+            mode: panopticonViewModel.mode,
+            agentCount: panopticonViewModel.agents.length,
+            signalCount: panopticonViewModel.signals.length,
+            metricCount: panopticonViewModel.metrics.length,
+            eventCount: panopticonViewModel.events.length,
+            readyState: panopticonViewModel.readyState
+          }},
+          retainedPanopticon: {{
+            mode: retainedPanopticonViewModel.mode,
+            agentLabels: retainedPanopticonViewModel.agents.map((agent) => agent.label),
+            eventCount: retainedPanopticonViewModel.events.length,
+            readyState: retainedPanopticonViewModel.readyState
+          }},
+          retainedFetchPanopticon: {{
+            mode: retainedFetchPanopticon.mode,
+            agentLabels: retainedFetchPanopticon.agents.map((agent) => agent.label),
+            eventCount: retainedFetchPanopticon.events.length,
+            metricCount: retainedFetchPanopticon.metrics.length,
+            readyState: retainedFetchPanopticon.readyState,
+            errorCount: Object.keys(retainedSnapshot.errors || {{}}).length
+          }},
+          liveFetchPanopticon: {{
+            mode: liveFetchPanopticon.mode,
+            agentLabels: liveFetchPanopticon.agents.map((agent) => agent.label),
+            eventCount: liveFetchPanopticon.events.length,
+            metricCount: liveFetchPanopticon.metrics.length,
+            readyState: liveFetchPanopticon.readyState,
+            errorCount: Object.keys(liveSnapshot.errors || {{}}).length
+          }}
         }}));
+        }})().catch((error) => {{
+          console.error(error && error.stack ? error.stack : String(error));
+          process.exit(1);
+        }});
         """
     )
     try:
@@ -135,6 +252,11 @@ def main() -> int:
     parser.add_argument("--csm-api", type=Path, required=True)
     parser.add_argument("--cloudwatch", type=Path, required=True)
     parser.add_argument("--cloudwatch-events", type=Path, required=True)
+    parser.add_argument("--csm-status", type=Path, required=True)
+    parser.add_argument("--csm-health", type=Path, required=True)
+    parser.add_argument("--csm-ready", type=Path, required=True)
+    parser.add_argument("--csm-metrics", type=Path, required=True)
+    parser.add_argument("--csm-events", type=Path, required=True)
     args = parser.parse_args()
 
     html = args.html.read_text(encoding="utf-8")
@@ -154,6 +276,11 @@ def main() -> int:
         args.csm_api,
         args.cloudwatch,
         args.cloudwatch_events,
+        args.csm_status,
+        args.csm_health,
+        args.csm_ready,
+        args.csm_metrics,
+        args.csm_events,
     )
 
     assert_contains("HTML packet ref", html, f'data-packet-ref="{PACKET_REF}"')
@@ -162,8 +289,17 @@ def main() -> int:
     assert_contains("HTML CSM API ref", html, f'data-csm-api-ref="{CSM_API_REF}"')
     assert_contains("HTML CloudWatch ref", html, f'data-cloudwatch-ref="{CLOUDWATCH_REF}"')
     assert_contains("HTML CloudWatch events ref", html, f'data-cloudwatch-events-ref="{CLOUDWATCH_EVENTS_REF}"')
+    assert_contains("HTML retained CSM status ref", html, f'data-csm-status-ref="{CSM_STATUS_REF}"')
+    assert_contains("HTML retained CSM health ref", html, f'data-csm-health-ref="{CSM_HEALTH_REF}"')
+    assert_contains("HTML retained CSM ready ref", html, f'data-csm-ready-ref="{CSM_READY_REF}"')
+    assert_contains("HTML retained CSM metrics ref", html, f'data-csm-metrics-ref="{CSM_METRICS_REF}"')
+    assert_contains("HTML retained CSM events ref", html, f'data-csm-events-ref="{CSM_EVENTS_REF}"')
     assert_contains("HTML title", html, "ADL HTML Observatory - Runtime Proof")
     assert_contains("HTML integrated proof copy", html, "HTML Observatory integrated proof")
+    assert_contains("HTML panopticon section", html, "CSM polis panopticon")
+    assert_contains("HTML live connect control", html, 'id="connect-live"')
+    assert_contains("HTML live agents surface", html, 'id="live-agent-list"')
+    assert_contains("HTML live event stream", html, 'id="live-event-stream"')
     assert_contains("HTML CSM API section", html, "CSM local control plane")
     assert_contains("HTML CloudWatch section", html, "CloudWatch heartbeat")
     assert_contains("HTML AWS linkages section", html, "AWS runtime linkages")
@@ -181,6 +317,11 @@ def main() -> int:
     assert_contains("JS AWS linkage state", js, "AWS_LINKAGES")
     assert_contains("JS communication envelope", js, "buildOperatorEnvelope")
     assert_contains("JS events endpoint check", js, "checkEventsEndpoint")
+    assert_contains("JS runtime snapshot polling", js, "fetchRuntimeSnapshot")
+    assert_contains("JS retained runtime mirror polling", js, "fetchRetainedRuntimeSnapshot")
+    assert_contains("JS CSM events entries normalizer", js, "normalizeEventEntries")
+    assert_contains("JS panopticon view model", js, "buildPanopticonViewModel")
+    assert_contains("JS panopticon renderer", js, "renderPanopticon")
     assert_contains("JS loopback API policy", js, "isLoopbackApiBase")
 
     if packet.get("packet_id") != "v0916-runtime-soak-observatory-packet-0001":
@@ -255,6 +396,51 @@ def main() -> int:
       fail(f"loopback CSM API bases were not accepted: {loopback_policy!r}")
     if loopback_policy["remoteHttp"] or loopback_policy["malformed"]:
       fail(f"non-loopback or malformed API base was accepted: {loopback_policy!r}")
+    panopticon = smoke["panopticon"]
+    if panopticon.get("mode") != "live":
+      fail("panopticon view model did not preserve live mode")
+    if panopticon.get("agentCount", 0) < 3:
+      fail("panopticon did not expose the runtime agent roster")
+    if panopticon.get("signalCount", 0) < 4:
+      fail("panopticon did not expose health/readiness/event/error signals")
+    if panopticon.get("metricCount", 0) < 2:
+      fail("panopticon did not expose runtime metrics")
+    if panopticon.get("eventCount", 0) < 1:
+      fail("panopticon did not expose live event tail data")
+    if panopticon.get("readyState") != "ready":
+      fail("panopticon readiness state mismatch")
+    retained_panopticon = smoke["retainedPanopticon"]
+    if retained_panopticon.get("mode") != "published":
+      fail("retained CSM API mirror did not preserve published mode")
+    if retained_panopticon.get("eventCount", 0) < 1:
+      fail("retained CSM API mirror did not normalize events.entries")
+    if retained_panopticon.get("readyState") != "ready":
+      fail("retained CSM API mirror readiness state mismatch")
+    retained_fetch_panopticon = smoke["retainedFetchPanopticon"]
+    if retained_fetch_panopticon.get("mode") != "published":
+      fail("retained CSM API fetch path did not preserve published mode")
+    if retained_fetch_panopticon.get("eventCount", 0) < 1:
+      fail("retained CSM API fetch path did not load events.entries")
+    if retained_fetch_panopticon.get("metricCount", 0) < 2:
+      fail("retained CSM API fetch path did not expose metrics")
+    if retained_fetch_panopticon.get("readyState") != "ready":
+      fail("retained CSM API fetch path readiness state mismatch")
+    if retained_fetch_panopticon.get("errorCount") != 0:
+      fail(f"retained CSM API fetch path had unexpected errors: {retained_fetch_panopticon!r}")
+    live_fetch_panopticon = smoke["liveFetchPanopticon"]
+    if live_fetch_panopticon.get("mode") != "live":
+      fail("live CSM API fetch path did not preserve live mode")
+    if live_fetch_panopticon.get("eventCount", 0) < 1:
+      fail("live CSM API fetch path did not load events.entries")
+    if live_fetch_panopticon.get("metricCount", 0) < 2:
+      fail("live CSM API fetch path did not expose metrics")
+    if live_fetch_panopticon.get("readyState") != "ready":
+      fail("live CSM API fetch path readiness state mismatch")
+    if live_fetch_panopticon.get("errorCount") != 0:
+      fail(f"live CSM API fetch path had unexpected errors: {live_fetch_panopticon!r}")
+    stale_roster_labels = {"Runtime lane alpha", "Runtime lane beta", "Runtime lane gamma"}
+    if stale_roster_labels.intersection(retained_fetch_panopticon.get("agentLabels", [])):
+      fail(f"published panopticon roster included stale packet citizens: {retained_fetch_panopticon!r}")
 
     secret_pattern = re.compile(
         r"/Users/|/private/var/|localhost:[0-9]|192\\.168\\.|"

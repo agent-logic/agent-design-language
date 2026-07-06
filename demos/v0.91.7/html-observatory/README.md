@@ -2,27 +2,40 @@
 
 This demo is the v0.91.7 HTML Observatory integrated proof for #4690.
 
-It adapts the Magic UI Pro AI Agent Template direction into a static,
-reviewable Observatory surface without importing account credentials or private
-template metadata into the repository. The page consumes the retained CSM
-runtime Observatory packet and operator report from the v0.91.7 Soak 2 evidence
-root, plus the current CSM runtime administration and AWS linkage evidence:
-the retained bounded runtime capture stays the source of truth.
+It adapts the Magic UI Pro AI Agent Template direction into a reviewable CSM
+polis panopticon without importing account credentials or private template
+metadata into the repository. The first-class mode is a CSM runtime panopticon
+over `/status`, `/health`, `/ready`, `/metrics`, and `/events`. It auto-refreshes
+the retained publishable CSM API response artifacts from #4976 as a runtime
+mirror, and upgrades to live loopback polling when an operator supplies the
+currently running CSM API base. The retained runtime packet remains the fallback
+proof surface if the CSM API mirror cannot load. The page also consumes the
+retained CSM runtime Observatory packet and operator report from the v0.91.7
+Soak 2 evidence root, plus the current CSM runtime administration and AWS
+linkage evidence.
 
 - `docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json`
 - `docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md`
 - `docs/milestones/v0.91.7/review/runtime/csm_service_4903/service/service_manifest.json`
 - `docs/milestones/v0.91.7/review/runtime/CSM_RUNTIME_API_4929.md`
+- `docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/status.json`
+- `docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/health.json`
+- `docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/ready.json`
+- `docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json`
+- `docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json`
 - `docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json`
 - `docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json`
 
-The CSM API panel intentionally presents the standalone `csm` runtime ownership
-boundary from #4929. The CloudWatch panel presents the retained live heartbeat
-proof from WP-08 #4684. The AWS linkage lane includes #4684 through #4688 so
-closed heartbeat, ACIP-SNS, and SSM lanes remain distinct from open full-bridge
-and S3 archive work. The communication rail can prepare an operator message
-envelope and can check a live loopback CSM `/events` endpoint when an operator
-supplies the API base.
+The CSM polis panopticon presents an auto-refreshing agent map, agent roster,
+health, readiness, metrics, and operator event stream from the retained CSM API
+mirror by default. When a loopback API base is supplied, it polls the running
+CSM API directly. The CSM API panel intentionally presents the standalone `csm`
+runtime ownership boundary from #4929. The CloudWatch panel presents the
+retained live heartbeat proof from WP-08 #4684. The AWS linkage lane includes
+#4684 through #4688 so closed heartbeat, ACIP-SNS, and SSM lanes remain distinct
+from open full-bridge and S3 archive work. The communication rail can prepare an
+operator message envelope and can check a live loopback CSM `/events` endpoint
+when an operator supplies the API base.
 
 ## Run
 
@@ -50,9 +63,11 @@ bash adl/tools/test_v0917_html_observatory_integrated_proof.sh
 
 ## Claim Boundary
 
-This proves that the HTML Observatory can render the retained bounded runtime
-capture and operator report through a polished investor-facing surface, while
-also exposing CSM API, CSM service, CloudWatch heartbeat, and WP-08 linkage
-status. It does not claim direct runtime mutation, Unity completion, full AWS
-signal bridge completion, S3 ObsMem archive completion, or v0.92 runtime
-completion.
+This proves that the HTML Observatory can render an auto-refreshing CSM
+panopticon over retained publishable runtime API responses, and can upgrade to a
+live loopback CSM panopticon when the running API base is supplied. It also
+renders the retained bounded runtime capture through a polished investor-facing
+operator UI, while exposing CSM API, CSM service, CloudWatch heartbeat, and WP-08
+linkage status. It does not claim direct runtime mutation, public/remote API
+exposure, Unity completion, full AWS signal bridge completion, S3 ObsMem archive
+completion, or v0.92 runtime completion.

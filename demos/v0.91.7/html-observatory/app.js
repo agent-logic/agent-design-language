@@ -51,6 +51,9 @@ const formatLabel = (value) =>
 
 const asArray = (value) => (Array.isArray(value) ? value : []);
 
+let livePollTimer = null;
+let retainedPollTimer = null;
+
 const AWS_LINKAGES = [
   {
     issue: 4684,
@@ -226,6 +229,15 @@ function renderRows(targetId, rows) {
   }
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 function buildOperatorEnvelope({ channel = "events", message = "", packetId = "" } = {}) {
   return {
     schema: "adl.html_observatory.operator_message.v1",
@@ -276,6 +288,334 @@ async function checkEventsEndpoint(apiBase) {
     throw new Error(`/events returned ${response.status}`);
   }
   return response.json();
+}
+
+async function fetchRuntimeEndpoint(apiBase, endpoint) {
+  const base = normalizeApiBase(apiBase);
+  if (!base) {
+    throw new Error("Enter a loopback CSM API base first.");
+  }
+  if (!isLoopbackApiBase(base)) {
+    throw new Error("Only loopback CSM API bases are allowed.");
+  }
+  const response = await fetch(`${base}${endpoint}`, { method: "GET" });
+  if (!response.ok) {
+    throw new Error(`${endpoint} returned ${response.status}`);
+  }
+  return response.json();
+}
+
+async function fetchRuntimeSnapshot(apiBase) {
+  const endpoints = ["/status", "/health", "/ready", "/metrics", "/events"];
+  const settled = await Promise.allSettled(
+    endpoints.map((endpoint) => fetchRuntimeEndpoint(apiBase, endpoint))
+  );
+  const snapshot = {
+    mode: "live",
+    fetchedAt: new Date().toISOString(),
+    errors: {}
+  };
+  endpoints.forEach((endpoint, index) => {
+    const key = endpoint.slice(1);
+    const result = settled[index];
+    if (result.status === "fulfilled") {
+      snapshot[key] = result.value;
+    } else {
+      snapshot.errors[key] = result.reason instanceof Error ? result.reason.message : "unknown error";
+    }
+  });
+  return snapshot;
+}
+
+async function fetchRetainedRuntimeSnapshot(refs = {}) {
+  const [status, health, ready, metrics, events] = await Promise.all([
+    loadJson(refs.statusRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "status load failed" })),
+    loadJson(refs.healthRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "health load failed" })),
+    loadJson(refs.readyRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "ready load failed" })),
+    loadJson(refs.metricsRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "metrics load failed" })),
+    loadJson(refs.eventsRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "events load failed" }))
+  ]);
+  return {
+    mode: "published",
+    fetchedAt: new Date().toISOString(),
+    status,
+    health,
+    ready,
+    metrics,
+    events,
+    errors: Object.fromEntries(
+      Object.entries({ status, health, ready, metrics, events })
+        .filter(([, value]) => value?.__load_error)
+        .map(([key, value]) => [key, value.__load_error])
+    )
+  };
+}
+
+function flattenStatusRows(value, prefix = "", rows = []) {
+  if (rows.length >= 14 || value == null) {
+    return rows;
+  }
+  if (typeof value !== "object") {
+    rows.push({ label: prefix || "value", value });
+    return rows;
+  }
+  if (Array.isArray(value)) {
+    rows.push({ label: prefix || "items", value: value.length });
+    return rows;
+  }
+  Object.entries(value).forEach(([key, nested]) => {
+    if (rows.length >= 14) {
+      return;
+    }
+    const label = prefix ? `${prefix}.${key}` : key;
+    if (nested == null || typeof nested !== "object") {
+      rows.push({ label, value: nested });
+    } else if (Array.isArray(nested)) {
+      rows.push({ label, value: `${nested.length} items` });
+    } else {
+      flattenStatusRows(nested, label, rows);
+    }
+  });
+  return rows;
+}
+
+function stateTone(value) {
+  const normalized = String(value || "").toLowerCase();
+  if (["running", "active", "ready", "healthy", "ok", "completed", "closed", "clear", "awake"].some((token) => normalized.includes(token))) {
+    return "active";
+  }
+  if (["failed", "error", "refuse", "blocked", "timeout"].some((token) => normalized.includes(token))) {
+    return "failed";
+  }
+  if (["degraded", "not_ready", "pending", "paused", "stale", "saturated"].some((token) => normalized.includes(token))) {
+    return "degraded";
+  }
+  return normalized || "unknown";
+}
+
+function eventMessageToObject(event) {
+  if (!event || typeof event !== "object") {
+    return {};
+  }
+  if (typeof event.message === "string") {
+    try {
+      const parsed = JSON.parse(event.message);
+      return parsed && typeof parsed === "object" ? parsed : { message: event.message };
+    } catch (_error) {
+      return { message: event.message };
+    }
+  }
+  if (event.details && typeof event.details === "object") {
+    return {
+      ...event,
+      event_type: event.event || event.details.event || event.details.event_name,
+      status: event.result || event.details.result || event.status,
+      runtime_id: event.runtime_id || event.agent_instance_id || event.details.runtime_id,
+      timestamp: event.at || event.timestamp || event.details.timestamp
+    };
+  }
+  return {
+    ...event,
+    event_type: event.event || event.event_type,
+    runtime_id: event.runtime_id || event.agent_instance_id,
+    timestamp: event.at || event.timestamp
+  };
+}
+
+function normalizeEventEntries(eventEnvelope = {}) {
+  if (Array.isArray(eventEnvelope)) {
+    return eventEnvelope;
+  }
+  if (Array.isArray(eventEnvelope.events)) {
+    return eventEnvelope.events;
+  }
+  if (Array.isArray(eventEnvelope.entries)) {
+    return eventEnvelope.entries;
+  }
+  if (Array.isArray(eventEnvelope.events?.entries)) {
+    return eventEnvelope.events.entries;
+  }
+  if (Array.isArray(eventEnvelope.tail)) {
+    return eventEnvelope.tail;
+  }
+  return [];
+}
+
+function normalizeMetricRows(metrics = {}) {
+  const rows = flattenStatusRows(metrics)
+    .filter((row) => ["number", "string", "boolean"].includes(typeof row.value))
+    .slice(0, 8);
+  return rows.length ? rows : [{ label: "metrics", value: "not exposed" }];
+}
+
+function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics = {}, events = [], packet = FALLBACK_PACKET } = {}) {
+  const hasApiStatus = Object.keys(status || {}).length > 0 && !status.__load_error;
+  const retainedCitizens = asArray(packet.citizens);
+  const primaryAgentId =
+    status.agent_instance_id ||
+    status.agent_id ||
+    status.runtime_id ||
+    status.instance_id ||
+    packet.manifold?.manifold_id ||
+    "csm-runtime";
+  const primaryState =
+    status.status ||
+    status.state ||
+    status.current_agent_status?.state ||
+    status.agent_status?.state ||
+    ready.status ||
+    ready.ready ||
+    health.status ||
+    packet.manifold?.state ||
+    "unknown";
+
+  if (!hasApiStatus) {
+    return retainedCitizens.map((citizen) => ({
+      id: citizen.citizen_id || citizen.display_name,
+      label: citizen.display_name,
+      role: citizen.role || "agent",
+      state: citizen.lifecycle_state || citizen.continuity_status,
+      detail: citizen.continuity_status || "retained citizen lane"
+    })).slice(0, 6);
+  }
+
+  return [
+    {
+      id: primaryAgentId,
+      label: status.agent_name || status.display_name || status.agent_instance_id || "CSM runtime",
+      role: "runtime owner",
+      state: primaryState,
+      detail: status.runtime_owner ? `owner: ${status.runtime_owner}` : "loopback API status"
+    },
+    {
+      id: `${primaryAgentId}:readiness`,
+      label: "Readiness gate",
+      role: "control gate",
+      state: ready.status || ready.ready || primaryState,
+      detail: asArray(ready.blocking_reasons).length ? ready.blocking_reasons.join(", ") : "no blocking reasons"
+    },
+    {
+      id: `${primaryAgentId}:scheduler`,
+      label: "Scheduler watcher",
+      role: "cadence",
+      state: status.scheduler?.status || metrics.states?.agent_state || status.agent_status?.state || primaryState,
+      detail: status.scheduler?.cadence_source || `cycles: ${metrics.gauges?.completed_cycle_count ?? status.agent_status?.completed_cycle_count ?? "unknown"}`
+    },
+    {
+      id: `${primaryAgentId}:observability`,
+      label: "Observability bridge",
+      role: "telemetry",
+      state: status.otel?.status?.status || status.otel?.log?.status || health.status || "unknown",
+      detail: status.otel?.status?.schema || status.otel?.log?.ref || "OTel and event logs"
+    },
+    {
+      id: `${primaryAgentId}:events`,
+      label: "Event stream tail",
+      role: "operator stream",
+      state: events.length ? "active" : "quiet",
+      detail: `${events.length} retained CSM events`
+    },
+    {
+      id: `${primaryAgentId}:continuity`,
+      label: "Continuity checkpoint",
+      role: "state custody",
+      state: status.checkpoint?.status || status.continuity?.checkpoint?.status || "unknown",
+      detail: status.checkpoint?.checkpoint_ref || status.continuity?.checkpoint?.ref || "continuity state"
+    }
+  ].slice(0, 6);
+}
+
+function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
+  const status = snapshot.status || {};
+  const health = snapshot.health || {};
+  const ready = snapshot.ready || {};
+  const metrics = snapshot.metrics || {};
+  const eventEnvelope = snapshot.events || {};
+  const events = normalizeEventEntries(eventEnvelope).map(eventMessageToObject);
+  const statusRows = flattenStatusRows(status);
+  const liveAgents = buildRuntimeAgentRows({ status, health, ready, metrics, events, packet });
+
+  const signalRows = [
+    {
+      label: "health",
+      value: health.status || health.state || "unknown",
+      detail: health.reason || health.summary || health.message || "CSM /health"
+    },
+    {
+      label: "readiness",
+      value: ready.status || ready.state || ready.ready || "unknown",
+      detail: ready.reason || ready.summary || ready.message || "CSM /ready"
+    },
+    {
+      label: "events",
+      value: `${events.length} events`,
+      detail: eventEnvelope.event_stream_ref || eventEnvelope.source || eventEnvelope.schema || "CSM /events"
+    },
+    {
+      label: "errors",
+      value: Object.keys(snapshot.errors || {}).length ? "partial" : "none",
+      detail: Object.values(snapshot.errors || {}).join("; ") || "all requested endpoints responded"
+    }
+  ];
+
+  return {
+    mode: snapshot.mode || "retained",
+    fetchedAt: snapshot.fetchedAt || "",
+    agents: liveAgents,
+    signals: signalRows,
+    metrics: normalizeMetricRows(metrics),
+    events,
+    statusRows,
+    readyState: ready.status || ready.state || ready.ready || "unknown"
+  };
+}
+
+function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
+  const vm = buildPanopticonViewModel(snapshot, packet);
+  setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
+  setText("agent-count", `${vm.agents.length} agents`);
+  setText("live-readiness", formatLabel(vm.readyState));
+  setText("live-updated", vm.fetchedAt ? new Date(vm.fetchedAt).toLocaleTimeString() : "not connected");
+  setText("live-event-count", `${vm.events.length} events`);
+  setText("live-metric-count", `${vm.metrics.length} gauges`);
+
+  renderRows("panopticon-map", vm.agents.map((agent) => `
+    <article class="agent-node" data-state="${escapeHtml(stateTone(agent.state))}">
+      <span class="row-kicker">${escapeHtml(formatLabel(agent.role))}</span>
+      <strong>${escapeHtml(agent.label || agent.id)}</strong>
+      <p class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(agent.detail || agent.id)}</p>
+    </article>
+  `));
+
+  renderRows("live-agent-list", vm.agents.map((agent) => `
+    <article class="agent-row" data-state="${escapeHtml(stateTone(agent.state))}">
+      <span class="row-kicker">${escapeHtml(agent.id)}</span>
+      <strong>${escapeHtml(agent.label || agent.id)}</strong>
+      <p class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</p>
+    </article>
+  `));
+
+  renderRows("live-signal-list", vm.signals.map((signal) => `
+    <article class="signal-row" data-state="${escapeHtml(stateTone(signal.value))}">
+      <span class="row-kicker">${escapeHtml(formatLabel(signal.label))}</span>
+      <strong>${escapeHtml(formatLabel(signal.value))}</strong>
+      <p class="row-detail">${escapeHtml(signal.detail)}</p>
+    </article>
+  `));
+
+  renderRows("live-metric-list", vm.metrics.map((metric) => `
+    <article class="metric-row">
+      <strong>${escapeHtml(formatLabel(metric.label))}</strong>
+      <span class="metric-value">${escapeHtml(metric.value)}</span>
+    </article>
+  `));
+
+  renderRows("live-event-stream", vm.events.slice(-8).map((event, index) => `
+    <li class="trace-row">
+      <span class="trace-seq">${String(index + 1).padStart(2, "0")}</span>
+      <span><strong>${escapeHtml(formatLabel(event.signal_kind || event.event_type || event.status || "event"))}</strong><br><span class="row-detail">${escapeHtml(event.runtime_id || event.agent_id || event.correlation_id || event.timestamp || event.message || "retained event")}</span></span>
+    </li>
+  `));
 }
 
 function renderObservatory(packet, reportText = "", state = "ok") {
@@ -425,12 +765,13 @@ function bindCommunication(packet = FALLBACK_PACKET) {
     setText("communication-status", "checking /events");
     try {
       const events = await checkEventsEndpoint(apiBase?.value || "");
+      const eventEntries = normalizeEventEntries(events);
       const envelope = buildOperatorEnvelope({
         channel: "events",
-        message: `Read ${asArray(events.events).length} retained CSM events from live API.`,
+        message: `Read ${eventEntries.length} retained CSM events from live API.`,
         packetId
       });
-      renderEnvelope({ ...envelope, live_event_count: asArray(events.events).length });
+      renderEnvelope({ ...envelope, live_event_count: eventEntries.length });
       setText("communication-status", "events reachable");
     } catch (error) {
       renderEnvelope({
@@ -446,6 +787,106 @@ function bindCommunication(packet = FALLBACK_PACKET) {
   });
 
   updateEnvelope();
+}
+
+function bindLivePanopticon(packet = FALLBACK_PACKET) {
+  const apiBase = document.getElementById("live-api-base");
+  const communicationBase = document.getElementById("runtime-api-base");
+  const connect = document.getElementById("connect-live");
+  const refresh = document.getElementById("refresh-live");
+  const stop = document.getElementById("stop-live");
+  let lastLiveError = null;
+  const refs = {
+    statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
+    healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
+    readyRef: document.querySelector(".observatory")?.dataset.csmReadyRef || "",
+    metricsRef: document.querySelector(".observatory")?.dataset.csmMetricsRef || "",
+    eventsRef: document.querySelector(".observatory")?.dataset.csmEventsRef || ""
+  };
+
+  const readApiBase = () => normalizeApiBase(apiBase?.value || communicationBase?.value || "");
+
+  const renderMinimalFallback = (error) => {
+    renderPanopticon({
+      mode: "retained",
+      fetchedAt: new Date().toISOString(),
+      errors: {
+        retained: error instanceof Error ? error.message : "unknown retained mirror error"
+      }
+    }, packet);
+    setText("live-status", "retained fallback");
+  };
+
+  const refreshRetained = async (extraErrors = {}) => {
+    try {
+      const snapshot = await fetchRetainedRuntimeSnapshot(refs);
+      const mergedSnapshot = {
+        ...snapshot,
+        errors: {
+          ...(snapshot.errors || {}),
+          ...(lastLiveError ? { live: lastLiveError } : {}),
+          ...extraErrors
+        }
+      };
+      renderPanopticon(mergedSnapshot, packet);
+      setText("live-status", Object.keys(mergedSnapshot.errors || {}).length ? "published partial" : "published runtime mirror");
+    } catch (error) {
+      renderMinimalFallback(error);
+    }
+  };
+
+  const renderLiveError = async (error) => {
+    lastLiveError = error instanceof Error ? error.message : "unknown live polling error";
+    await refreshRetained({
+      live: lastLiveError
+    });
+  };
+
+  const refreshLive = async () => {
+    const base = readApiBase();
+    if (!base) {
+      await refreshRetained();
+      return;
+    }
+    if (communicationBase && base && !communicationBase.value) {
+      communicationBase.value = base;
+    }
+    setText("live-status", "polling loopback");
+    try {
+      const snapshot = await fetchRuntimeSnapshot(base);
+      lastLiveError = null;
+      renderPanopticon(snapshot, packet);
+      setText("live-status", Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback");
+    } catch (error) {
+      await renderLiveError(error);
+    }
+  };
+
+  const stopPolling = () => {
+    if (livePollTimer) {
+      clearInterval(livePollTimer);
+      livePollTimer = null;
+    }
+    if (retainedPollTimer) {
+      clearInterval(retainedPollTimer);
+      retainedPollTimer = null;
+    }
+    lastLiveError = null;
+    setText("live-status", "polling stopped");
+  };
+
+  connect?.addEventListener("click", () => {
+    stopPolling();
+    refreshLive();
+    livePollTimer = setInterval(refreshLive, 3000);
+  });
+  refresh?.addEventListener("click", refreshLive);
+  stop?.addEventListener("click", stopPolling);
+
+  refreshRetained();
+  if (!retainedPollTimer) {
+    retainedPollTimer = setInterval(refreshRetained, 3000);
+  }
 }
 
 async function loadText(ref) {
@@ -487,10 +928,12 @@ async function bootObservatory() {
     renderObservatory(packet, reportText, "ok");
     renderIntegrations({ serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents });
     bindCommunication(packet);
+    bindLivePanopticon(packet);
   } catch (_error) {
     renderObservatory(FALLBACK_PACKET, "", "fallback");
     renderIntegrations();
     bindCommunication(FALLBACK_PACKET);
+    bindLivePanopticon(FALLBACK_PACKET);
   }
 }
 
@@ -506,8 +949,14 @@ globalThis.AdlHtmlObservatory = {
   buildOperatorEnvelope,
   normalizeApiBase,
   isLoopbackApiBase,
+  fetchRuntimeSnapshot,
+  fetchRetainedRuntimeSnapshot,
+  buildRuntimeAgentRows,
   buildViewModel,
   buildIntegrationViewModel,
+  buildPanopticonViewModel,
+  normalizeEventEntries,
   renderObservatory,
-  renderIntegrations
+  renderIntegrations,
+  renderPanopticon
 };

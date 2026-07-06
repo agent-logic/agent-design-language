@@ -129,6 +129,7 @@ a {
 }
 
 .hero,
+.panopticon-shell,
 .runtime-grid,
 .evidence-band {
   max-width: 1280px;
@@ -146,6 +147,10 @@ a {
 
 .hero-copy,
 .proof-card,
+.panopticon-shell,
+.panopticon-stage,
+.panopticon-column,
+.panopticon-events,
 .panel,
 .evidence-band {
   border: 1px solid var(--line);
@@ -333,6 +338,158 @@ dd {
   gap: 1rem;
 }
 
+.panopticon-shell {
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.live-control-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: end;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.live-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.panopticon-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.panopticon-stage,
+.panopticon-column,
+.panopticon-events {
+  min-width: 0;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.panopticon-stage {
+  min-height: 34rem;
+  grid-row: span 3;
+  position: relative;
+  overflow: hidden;
+}
+
+.panopticon-stage::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 1px solid rgba(110, 231, 249, 0.14);
+  box-shadow:
+    0 0 0 5rem rgba(110, 231, 249, 0.018),
+    0 0 0 10rem rgba(142, 240, 176, 0.014),
+    0 0 110px rgba(110, 231, 249, 0.08);
+}
+
+.agent-map {
+  position: relative;
+  min-height: 28rem;
+  margin-top: 1rem;
+}
+
+.agent-node {
+  position: absolute;
+  width: min(16rem, 48%);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.85rem;
+  background: rgba(8, 12, 18, 0.86);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.26);
+}
+
+.agent-node[data-state="active"],
+.agent-node[data-state="running"],
+.agent-row[data-state="active"],
+.agent-row[data-state="running"],
+.signal-row[data-state="healthy"],
+.signal-row[data-state="ready"] {
+  border-color: rgba(142, 240, 176, 0.36);
+}
+
+.agent-node[data-state="paused"],
+.agent-node[data-state="degraded"],
+.agent-row[data-state="paused"],
+.agent-row[data-state="degraded"],
+.signal-row[data-state="degraded"],
+.signal-row[data-state="not_ready"] {
+  border-color: rgba(255, 198, 109, 0.36);
+}
+
+.agent-node[data-state="failed"],
+.agent-row[data-state="failed"],
+.signal-row[data-state="failed"],
+.signal-row[data-state="error"] {
+  border-color: rgba(255, 122, 149, 0.42);
+}
+
+.agent-node:nth-child(1) {
+  left: 7%;
+  top: 11%;
+}
+
+.agent-node:nth-child(2) {
+  right: 7%;
+  top: 18%;
+}
+
+.agent-node:nth-child(3) {
+  left: 22%;
+  top: 47%;
+}
+
+.agent-node:nth-child(4) {
+  right: 14%;
+  bottom: 7%;
+}
+
+.agent-node:nth-child(5) {
+  left: 4%;
+  bottom: 10%;
+}
+
+.agent-list,
+.signal-list,
+.metric-list {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.agent-row,
+.signal-row,
+.metric-row {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.metric-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.metric-value {
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
 .panel {
   min-height: 21rem;
   min-width: 0;
@@ -456,6 +613,8 @@ textarea,
 .service-row,
 .integration-row,
 .linkage-row,
+.agent-row,
+.signal-row,
 .decision-row,
 .invariant-row,
 .action-row {
@@ -533,6 +692,9 @@ textarea,
 .service-row strong,
 .integration-row strong,
 .linkage-row strong,
+.agent-row strong,
+.signal-row strong,
+.metric-row strong,
 .decision-row strong,
 .invariant-row strong,
 .action-row strong,
@@ -554,6 +716,8 @@ textarea,
 @media (max-width: 980px) {
   .topbar,
   .hero,
+  .live-control-strip,
+  .panopticon-layout,
   .runtime-grid,
   .evidence-band {
     grid-template-columns: 1fr;
@@ -580,6 +744,14 @@ textarea,
   .hero {
     min-height: auto;
   }
+
+  .live-actions {
+    justify-content: flex-start;
+  }
+
+  .panopticon-stage {
+    grid-row: auto;
+  }
 }
 
 @media (max-width: 640px) {
@@ -605,5 +777,15 @@ textarea,
     position: static;
     transform: none;
     margin: 1rem auto;
+  }
+
+  .agent-node {
+    position: static;
+    width: auto;
+    margin-top: 0.65rem;
+  }
+
+  .agent-map {
+    min-height: auto;
   }
 }
