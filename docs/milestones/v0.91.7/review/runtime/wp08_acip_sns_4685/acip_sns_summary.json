@@ -1,0 +1,39 @@
+{
+  "acip_projection": {
+    "content_sha256_recorded": true,
+    "correlation_id": "wp08-acip-sns-correlation-0001",
+    "cycle_id": "cycle-wp08-acip-sns-0001",
+    "message_ref": "runtime/wp08/acip/messages/msg-wp08-acip-sns-0001.json",
+    "projection_level": "content_summary",
+    "route_class": "cross_boundary_deferred",
+    "runtime_id": "wp08-acip-sns-4685",
+    "schema_version": "adl.runtime.aws_signal.v1",
+    "signal_kind": "acip_projection",
+    "trace_ref": "runtime/wp08/acip/traces/public-summary.json"
+  },
+  "aws_account_hash": "b05e1f4379b5c745",
+  "aws_account_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "issue": 4685,
+  "negative_case_policy": {
+    "malformed_or_denied_projection": "projection_denied",
+    "missing_profile": "aws_acip_sns_profile_missing",
+    "missing_topic": "aws_acip_sns_topic_missing",
+    "sns_unavailable_or_access_denied": "aws_acip_sns_publish_failed"
+  },
+  "redaction": {
+    "credentials_recorded": false,
+    "raw_account_id_recorded": false,
+    "raw_message_content_recorded": false,
+    "raw_topic_arn_recorded": false
+  },
+  "run_id": "wp08-4685-20260706T164956Z",
+  "schema": "adl.wp08.acip_sns_live_proof.v1",
+  "sns": {
+    "message_id": "34e905d9-9a7d-5b32-b2a8-671c448875e2",
+    "topic_arn_hash": "b94819d4477688a9",
+    "topic_name": "adl-v0917-wp08-acip-sns-4685"
+  },
+  "status": "passed"
+}

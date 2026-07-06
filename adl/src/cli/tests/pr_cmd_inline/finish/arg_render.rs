@@ -4191,6 +4191,49 @@ fn finish_validation_profile_classifies_wp08_heartbeat_slice() {
 }
 
 #[test]
+fn finish_validation_profile_classifies_wp08_acip_sns_slice() {
+    let changed_paths = vec![
+        "adl/Cargo.lock".to_string(),
+        "adl/Cargo.toml".to_string(),
+        "adl/src/bin/run_wp08_acip_sns_live_proof.rs".to_string(),
+        "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
+        "adl/src/runtime_aws_signal.rs".to_string(),
+        "adl/tools/run_wp08_acip_sns_live_proof.sh".to_string(),
+        "adl/tools/test_run_wp08_acip_sns_live_proof.sh".to_string(),
+        "adl/tools/validate_wp08_acip_sns_live_proof.py".to_string(),
+        "docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json"
+            .to_string(),
+        "docs/tooling/RUNTIME_AWS_ACIP_SNS.md".to_string(),
+    ];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(4685, &requested_paths, &changed_paths)
+        .expect("WP-08 ACIP SNS focused plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml runtime_aws_signal -- --nocapture --test-threads=1"
+            .to_string()
+    ));
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_run_wp08_acip_sns_live_proof.sh".to_string()));
+    assert!(plan.commands.contains(
+        &"python3 adl/tools/validate_wp08_acip_sns_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json"
+            .to_string()
+    ));
+
+    if let Ok(unrelated_plan) =
+        select_finish_validation_plan_for_finish(4686, &requested_paths, &changed_paths)
+    {
+        assert!(!unrelated_plan.commands.contains(
+            &"python3 adl/tools/validate_wp08_acip_sns_live_proof.py docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json"
+                .to_string()
+        ));
+    }
+}
+
+#[test]
 fn finish_validation_profile_classifies_wuji_ddns_installer_slice() {
     let changed_paths = vec![
         "adl/src/cli/pr_cmd/finish_support.rs".to_string(),

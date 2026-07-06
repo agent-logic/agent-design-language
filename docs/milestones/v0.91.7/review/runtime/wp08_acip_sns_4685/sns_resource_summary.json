@@ -1,0 +1,19 @@
+{
+  "schema": "adl.wp08.acip_sns_resource.v1",
+  "issue": 4685,
+  "run_id": "wp08-4685-20260706T164956Z",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "aws_account_hash": "b05e1f4379b5c745",
+  "aws_account_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "sns": {
+    "topic_name": "adl-v0917-wp08-acip-sns-4685",
+    "topic_arn_hash": "b94819d4477688a9",
+    "cleanup_requested": false
+  },
+  "redaction": {
+    "raw_account_id_recorded": false,
+    "raw_topic_arn_recorded": false,
+    "credentials_recorded": false
+  }
+}
