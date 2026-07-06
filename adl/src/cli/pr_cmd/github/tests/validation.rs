@@ -450,10 +450,67 @@ fn pr_validation_wait_emits_tail_friendly_events_for_terminal_and_pending_states
     assert!(log.contains("wait_reason=checks_not_reported"));
     assert!(log.contains("poll_count=3"));
     assert!(log.contains("next_poll_delay_ms=250"));
+    assert!(log.contains("wait_classification=pr_draft_gate"));
+    assert!(log.contains("wait_classification=checks_not_reported"));
+    assert!(log.contains("next_action=promote_ready_when_draft_gate_is_cleared"));
+    assert!(log.contains("next_action=continue_polling_until_checks_report_or_timeout"));
 
     unsafe {
         std::env::remove_var("ADL_OBSERVABILITY_STDERR");
         std::env::remove_var("ADL_OBSERVABILITY_LOG");
+    }
+}
+
+#[test]
+fn pr_validation_wait_classifies_long_running_required_coverage() {
+    let _guard = env_lock();
+    let temp = unique_temp_dir("adl-pr-validation-coverage-wait-log");
+    let log_path = temp.join("events.log");
+    unsafe {
+        std::env::set_var("ADL_OBSERVABILITY_STDERR", "0");
+        std::env::set_var(
+            "ADL_OBSERVABILITY_LOG",
+            log_path.to_str().expect("log path utf8"),
+        );
+        std::env::set_var("ADL_PR_VALIDATION_ANOMALY_THRESHOLD_MS", "1");
+    }
+    let snapshot = PrValidationSnapshot {
+        pr_number: 4869,
+        commit_sha: "cccccccccccccccccccccccccccccccccccccccc".to_string(),
+        state: "OPEN".to_string(),
+        is_draft: false,
+        checks: vec![PrValidationCheckSnapshot {
+            name: "adl-coverage".to_string(),
+            status: "IN_PROGRESS".to_string(),
+            conclusion: "UNKNOWN".to_string(),
+            job_run_id: "9902".to_string(),
+        }],
+    };
+
+    emit_pr_validation_wait_snapshot(
+        &snapshot,
+        PrValidationDisposition::Pending,
+        Instant::now() - Duration::from_millis(10),
+        7,
+        Duration::from_millis(500),
+    );
+
+    let log = fs::read_to_string(&log_path).expect("read coverage wait log");
+    assert!(log.contains("stage=pr.validation.wait"));
+    assert!(log.contains("result=pending"));
+    assert!(log.contains("check_name=adl-coverage"));
+    assert!(log.contains("job_run_id=9902"));
+    assert!(log.contains("wait_reason=check_state"));
+    assert!(log.contains("wait_classification=long_running_required_coverage"));
+    assert!(log.contains("next_action=continue_waiting_and_inspect_coverage_job"));
+    assert!(log.contains("elapsed_ms="));
+    assert!(log.contains("poll_count=7"));
+    assert!(log.contains("next_poll_delay_ms=500"));
+
+    unsafe {
+        std::env::remove_var("ADL_OBSERVABILITY_STDERR");
+        std::env::remove_var("ADL_OBSERVABILITY_LOG");
+        std::env::remove_var("ADL_PR_VALIDATION_ANOMALY_THRESHOLD_MS");
     }
 }
 
