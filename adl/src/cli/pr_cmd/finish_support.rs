@@ -2072,6 +2072,20 @@ pub(super) fn select_finish_validation_plan(paths_csv: &str) -> Result<FinishVal
         }
         if paths
             .iter()
+            .any(|path| finish_path_needs_runtime_v2_cmd_focused_validation(path))
+        {
+            mode = FinishValidationMode::LargerBinaryFocused;
+            push_finish_validation_command(
+                &mut commands,
+                "cargo fmt --manifest-path adl/Cargo.toml --all --check",
+            );
+            push_finish_validation_command(
+                &mut commands,
+                "cargo test --manifest-path adl/Cargo.toml --bin adl cli::runtime_v2_cmd -- --nocapture",
+            );
+        }
+        if paths
+            .iter()
             .any(|path| finish_path_needs_github_token_focused_validation(path))
         {
             mode = FinishValidationMode::LargerBinaryFocused;
@@ -2657,6 +2671,9 @@ pub(super) fn select_finish_validation_plan_for_finish_with_release_gate_disposi
     }
     if finish_paths_need_github_projection_watch_validation(changed_paths) {
         return Ok(build_github_projection_watch_validation_plan());
+    }
+    if finish_paths_need_runtime_v2_cmd_validation(changed_paths) {
+        return Ok(build_runtime_v2_cmd_validation_plan(changed_paths));
     }
     let changed_paths_need_finish_rust_validation = changed_paths
         .iter()
@@ -3472,6 +3489,43 @@ fn build_github_projection_watch_validation_plan() -> FinishValidationPlan {
     }
 }
 
+fn build_runtime_v2_cmd_validation_plan(changed_paths: &[String]) -> FinishValidationPlan {
+    let mut commands = vec![
+        "bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string(),
+        "git diff --check".to_string(),
+    ];
+    push_finish_validation_command(
+        &mut commands,
+        "cargo fmt --manifest-path adl/Cargo.toml --all --check",
+    );
+    if changed_paths
+        .iter()
+        .any(|path| finish_path_needs_runtime_v2_cmd_focused_validation(path))
+    {
+        push_finish_validation_command(
+            &mut commands,
+            "cargo test --manifest-path adl/Cargo.toml --bin adl cli::runtime_v2_cmd -- --nocapture",
+        );
+    }
+    if changed_paths
+        .iter()
+        .any(|path| finish_path_needs_pr_finish_rust_focused_validation(path))
+    {
+        push_finish_validation_command(
+            &mut commands,
+            "cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation",
+        );
+        push_finish_validation_command(
+            &mut commands,
+            "cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_helper_paths_run_focused_local_ci_gated_validation",
+        );
+    }
+    FinishValidationPlan {
+        mode: FinishValidationMode::LargerBinaryFocused,
+        commands,
+    }
+}
+
 fn finish_issue_needs_unity_observatory_scaffold_validation(
     issue_number: u32,
     changed_paths: &[String],
@@ -3878,6 +3932,23 @@ fn finish_path_needs_pr_cmd_lifecycle_focused_validation(path: &str) -> bool {
         || trimmed.starts_with("adl/src/cli/pr_cmd_cards/")
         || (trimmed.starts_with("adl/src/cli/pr_cmd/")
             && trimmed != "adl/src/cli/pr_cmd/finish_support.rs")
+}
+
+fn finish_path_needs_runtime_v2_cmd_focused_validation(path: &str) -> bool {
+    let trimmed = path.trim().trim_matches('/');
+    trimmed == "adl/src/cli/runtime_v2_cmd.rs" || trimmed.starts_with("adl/src/cli/runtime_v2_cmd/")
+}
+
+fn finish_paths_need_runtime_v2_cmd_validation(changed_paths: &[String]) -> bool {
+    changed_paths
+        .iter()
+        .any(|path| finish_path_needs_runtime_v2_cmd_focused_validation(path))
+        && changed_paths.iter().all(|path| {
+            let trimmed = path.trim().trim_matches('/');
+            finish_path_is_docs_only(trimmed)
+                || finish_path_needs_runtime_v2_cmd_focused_validation(trimmed)
+                || finish_path_needs_pr_finish_rust_focused_validation(trimmed)
+        })
 }
 
 fn finish_path_needs_github_token_focused_validation(path: &str) -> bool {
@@ -4877,6 +4948,21 @@ pub(super) fn run_finish_validation_rust(
                             "--bin",
                             "adl",
                             "github_release_octocrab_covers_absent_draft_present_publish",
+                        ],
+                    )?;
+                }
+                "cargo test --manifest-path adl/Cargo.toml --bin adl cli::runtime_v2_cmd -- --nocapture" => {
+                    run_finish_validation_status(
+                        "cargo",
+                        &[
+                            "test",
+                            "--manifest-path",
+                            path_str(&manifest)?,
+                            "--bin",
+                            "adl",
+                            "cli::runtime_v2_cmd",
+                            "--",
+                            "--nocapture",
                         ],
                     )?;
                 }
