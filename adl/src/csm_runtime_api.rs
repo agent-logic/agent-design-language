@@ -450,11 +450,10 @@ fn classify_health(
     daemon_status: &Value,
     checkpoint_freshness: &Value,
 ) -> &'static str {
-    if matches!(state, AgentStatusState::Failed) {
-        "degraded"
-    } else if daemon_status.get("status").and_then(Value::as_str) != Some("serialized") {
-        "degraded"
-    } else if checkpoint_freshness.get("status").and_then(Value::as_str) == Some("stale") {
+    let degraded = matches!(state, AgentStatusState::Failed)
+        || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
+        || checkpoint_freshness.get("status").and_then(Value::as_str) == Some("stale");
+    if degraded {
         "degraded"
     } else {
         "healthy"
@@ -466,14 +465,12 @@ fn classify_ready(
     daemon_status: &Value,
     continuity_checkpoint: &Value,
 ) -> &'static str {
-    if matches!(
+    let not_ready = matches!(
         state,
         AgentStatusState::Failed | AgentStatusState::Leased | AgentStatusState::RunningCycle
-    ) {
-        "not_ready"
-    } else if daemon_status.get("status").and_then(Value::as_str) != Some("serialized") {
-        "not_ready"
-    } else if continuity_checkpoint.get("status").and_then(Value::as_str) != Some("serialized") {
+    ) || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
+        || continuity_checkpoint.get("status").and_then(Value::as_str) != Some("serialized");
+    if not_ready {
         "not_ready"
     } else {
         "ready"
