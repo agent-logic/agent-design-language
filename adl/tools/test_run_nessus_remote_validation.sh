@@ -129,9 +129,20 @@ set -euo pipefail
 case "${1:-}" in
   image)
     [[ "${2:-}" == "inspect" ]]
+    if [[ "${DOCKER_INSPECT_REQUIRES_PULL:-0}" == "1" && ! -f "${DOCKER_PULL_MARKER:?}" ]]; then
+      exit 1
+    fi
     exit 0
     ;;
   pull)
+    if [[ "${FAIL_DOCKER_PULL:-0}" == "1" ]]; then
+      echo "docker pull fixture failure" >&2
+      exit 1
+    fi
+    printf 'pull %s\n' "${2:-}" >>"${DOCKER_PULL_LOG:-/dev/null}"
+    if [[ -n "${DOCKER_PULL_MARKER:-}" ]]; then
+      touch "$DOCKER_PULL_MARKER"
+    fi
     exit 0
     ;;
   run)
@@ -161,6 +172,9 @@ case "${1:-}" in
         ;;
       "cargo --version")
         echo "cargo 1.96.0 (builder fixture)"
+        ;;
+      "cargo nextest --version")
+        echo "cargo-nextest 0.9.99 (builder fixture)"
         ;;
       "sccache --version")
         echo "sccache 0.16.0"
@@ -196,6 +210,7 @@ chmod +x "$fake_bin/docker"
 PATH="$fake_bin:$PATH" \
 ADL_NESSUS_APT_SOURCES_LIST="$sources_list" \
 ADL_NESSUS_APT_KUBERNETES_LIST="$kubernetes_list" \
+DOCKER_PULL_LOG="$TMP/docker-pull.log" \
 bash "$SCRIPT" \
   --executor local \
   --repo-url "$origin_bare" \
@@ -204,6 +219,7 @@ bash "$SCRIPT" \
   --run-id fixture-builder \
   --command "printf builder-ok" \
   --builder-image "example.invalid/adl-builder:test" \
+  --builder-pull-policy never \
   --local-artifact-dir "$TMP/artifacts-builder" \
   >"$TMP/builder.json"
 
@@ -216,9 +232,47 @@ summary = json.load(open(sys.argv[1], encoding="utf-8"))
 assert summary["status"] == "passed"
 assert summary["builder_image"] == "example.invalid/adl-builder:test"
 assert summary["builder_runtime"] == "auto"
+assert summary["builder_pull_policy"] == "never"
+assert summary["builder_image_local_present"] is True
+assert summary["builder_image_pull_attempted"] is False
 assert summary["resolved_builder_runtime"] == "docker"
 assert summary["cache_status"]["cache_hits"] == "4"
 PY
+if [[ -s "$TMP/docker-pull.log" ]]; then
+  echo "expected preloaded builder image run not to pull" >&2
+  exit 1
+fi
+
+PATH="$fake_bin:$PATH" \
+ADL_NESSUS_APT_SOURCES_LIST="$sources_list" \
+ADL_NESSUS_APT_KUBERNETES_LIST="$kubernetes_list" \
+DOCKER_PULL_LOG="$TMP/docker-pull-missing.log" \
+DOCKER_INSPECT_REQUIRES_PULL=1 \
+DOCKER_PULL_MARKER="$TMP/docker-pull-marker" \
+bash "$SCRIPT" \
+  --executor local \
+  --repo-url "$origin_bare" \
+  --git-ref origin/main \
+  --remote-root "$TMP/remote-root-builder-pull" \
+  --run-id fixture-builder-pull \
+  --command "printf builder-ok" \
+  --builder-image "example.invalid/adl-builder:test" \
+  --builder-pull-policy missing \
+  --local-artifact-dir "$TMP/artifacts-builder-pull" \
+  >"$TMP/builder-pull.json"
+
+assert_file "$TMP/artifacts-builder-pull/summary.json"
+python3 - <<'PY' "$TMP/artifacts-builder-pull/summary.json"
+import json
+import sys
+
+summary = json.load(open(sys.argv[1], encoding="utf-8"))
+assert summary["status"] == "passed"
+assert summary["builder_pull_policy"] == "missing"
+assert summary["builder_image_local_present"] is True
+assert summary["builder_image_pull_attempted"] is True
+PY
+grep -F "pull example.invalid/adl-builder:test" "$TMP/docker-pull-missing.log" >/dev/null
 
 PATH="$fake_bin:$PATH" \
 FAIL_APT=1 \
@@ -232,12 +286,34 @@ bash "$SCRIPT" \
   --run-id fixture-builder-apt-skip \
   --command "printf builder-ok" \
   --builder-image "example.invalid/adl-builder:test" \
+  --builder-pull-policy never \
   --local-artifact-dir "$TMP/artifacts-builder-apt-skip" \
   >"$TMP/builder-apt-skip.json"
 
 assert_file "$TMP/artifacts-builder-apt-skip/summary.json"
 tar -xzf "$TMP/artifacts-builder-apt-skip/run-logs.tar.gz" -C "$TMP/artifacts-builder-apt-skip"
 grep -F "skipped: builder image mode uses container toolchain" "$TMP/artifacts-builder-apt-skip/apt-update.log" >/dev/null
+
+if PATH="$fake_bin:$PATH" \
+  ADL_NESSUS_APT_SOURCES_LIST="$sources_list" \
+  ADL_NESSUS_APT_KUBERNETES_LIST="$kubernetes_list" \
+  bash "$SCRIPT" \
+    --executor local \
+    --repo-url "$origin_bare" \
+    --git-ref origin/main \
+    --remote-root "$TMP/remote-root-nextest-preflight" \
+    --run-id fixture-nextest-preflight \
+    --command "cargo nextest run --manifest-path adl/Cargo.toml" \
+    --local-artifact-dir "$TMP/artifacts-nextest-preflight" \
+    >"$TMP/nextest-preflight.json" 2>"$TMP/nextest-preflight.err"; then
+  echo "expected raw-host missing cargo-nextest preflight to fail closed" >&2
+  exit 1
+fi
+
+assert_file "$TMP/artifacts-nextest-preflight/summary.json"
+tar -xzf "$TMP/artifacts-nextest-preflight/run-logs.tar.gz" -C "$TMP/artifacts-nextest-preflight"
+grep -F "command requires cargo nextest but raw host lacks cargo-nextest" "$TMP/nextest-preflight.err" >/dev/null
+grep -F "command requires cargo nextest but raw host lacks cargo-nextest" "$TMP/artifacts-nextest-preflight/preflight.log" >/dev/null
 
 if PATH="$fake_bin:$PATH" \
   FAIL_APT=1 \

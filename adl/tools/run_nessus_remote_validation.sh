@@ -23,6 +23,9 @@ Options:
   --builder-image <image>          Optional ADL builder image used to execute the command.
   --builder-runtime <auto|docker|podman>
                                    Container runtime for --builder-image. Defaults to auto.
+  --builder-pull-policy <missing|always|never>
+                                   Pull behavior for --builder-image. Defaults to missing.
+                                   Use never for preloaded local tags.
   --help                           Show this help.
 
 Environment overrides:
@@ -36,6 +39,7 @@ Environment overrides:
   ADL_NESSUS_REMOTE_ARTIFACT_DIR
   ADL_NESSUS_BUILDER_IMAGE
   ADL_NESSUS_BUILDER_RUNTIME
+  ADL_NESSUS_BUILDER_PULL_POLICY
   ADL_NESSUS_APT_SOURCES_LIST
   ADL_NESSUS_APT_KUBERNETES_LIST
   SSH_BIN
@@ -63,6 +67,7 @@ LOCAL_ARTIFACT_DIR="${ADL_NESSUS_REMOTE_ARTIFACT_DIR:-}"
 SUMMARY_NAME="summary.json"
 BUILDER_IMAGE="${ADL_NESSUS_BUILDER_IMAGE:-}"
 BUILDER_RUNTIME="${ADL_NESSUS_BUILDER_RUNTIME:-auto}"
+BUILDER_PULL_POLICY="${ADL_NESSUS_BUILDER_PULL_POLICY:-missing}"
 SSH_BIN="${SSH_BIN:-ssh}"
 
 while [[ $# -gt 0 ]]; do
@@ -119,6 +124,10 @@ while [[ $# -gt 0 ]]; do
       BUILDER_RUNTIME="${2:-}"
       shift 2
       ;;
+    --builder-pull-policy)
+      BUILDER_PULL_POLICY="${2:-}"
+      shift 2
+      ;;
     --help)
       usage
       exit 0
@@ -147,6 +156,11 @@ if [[ "$BUILDER_RUNTIME" != "auto" && "$BUILDER_RUNTIME" != "docker" && "$BUILDE
   exit 2
 fi
 
+if [[ "$BUILDER_PULL_POLICY" != "missing" && "$BUILDER_PULL_POLICY" != "always" && "$BUILDER_PULL_POLICY" != "never" ]]; then
+  echo "run_nessus_remote_validation: unsupported --builder-pull-policy '$BUILDER_PULL_POLICY' (expected missing, always, or never)" >&2
+  exit 2
+fi
+
 if [[ -z "$RUN_ID" ]]; then
   RUN_ID="$(timestamp_id)"
 fi
@@ -168,6 +182,7 @@ COMMAND_B64="$5"
 SUMMARY_NAME="$6"
 BUILDER_IMAGE="$7"
 BUILDER_RUNTIME="$8"
+BUILDER_PULL_POLICY="$9"
 APT_SOURCES_LIST="${ADL_NESSUS_APT_SOURCES_LIST:-/etc/apt/sources.list}"
 APT_KUBERNETES_LIST="${ADL_NESSUS_APT_KUBERNETES_LIST:-/etc/apt/sources.list.d/kubernetes.list}"
 COMMAND_STRING="$(printf '%s' "$COMMAND_B64" | base64 -d)"
@@ -183,6 +198,8 @@ STATUS="failed"
 RESOLVED_COMMIT="unknown"
 COMMAND_EXIT=1
 RESOLVED_BUILDER_RUNTIME="none"
+BUILDER_IMAGE_LOCAL_PRESENT=false
+BUILDER_IMAGE_PULL_ATTEMPTED=false
 APT_MASKED=false
 HASHICORP_MASKED=false
 KUBERNETES_BACKUP=""
@@ -211,6 +228,7 @@ write_summary() {
     "$SUMMARY_PATH" "$RUN_ID" "$STATUS" "$exit_code" "$START_ISO" "$end_iso" "$elapsed" \
     "$REPO_URL" "$GIT_REF" "$RESOLVED_COMMIT" "$COMMAND_STRING" "$REMOTE_ROOT" "$RUN_ROOT" \
     "$REPO_DIR" "$TARGET_DIR" "$SCCACHE_DIR" "$BUILDER_IMAGE" "$BUILDER_RUNTIME" "$RESOLVED_BUILDER_RUNTIME" \
+    "$BUILDER_PULL_POLICY" "$BUILDER_IMAGE_LOCAL_PRESENT" "$BUILDER_IMAGE_PULL_ATTEMPTED" \
     "$APT_SOURCES_LIST" "$APT_KUBERNETES_LIST"
 import json
 import os
@@ -237,6 +255,9 @@ from pathlib import Path
     builder_image,
     builder_runtime,
     resolved_builder_runtime,
+    builder_pull_policy,
+    builder_image_local_present,
+    builder_image_pull_attempted,
     apt_sources_list,
     apt_kubernetes_list,
 ) = sys.argv[1:]
@@ -281,6 +302,9 @@ payload = {
     "builder_image": builder_image,
     "builder_runtime": builder_runtime,
     "resolved_builder_runtime": resolved_builder_runtime,
+    "builder_pull_policy": builder_pull_policy,
+    "builder_image_local_present": builder_image_local_present == "true",
+    "builder_image_pull_attempted": builder_image_pull_attempted == "true",
     "cache_status": cache_status,
     "apt_sources_list": apt_sources_list,
     "apt_kubernetes_list": apt_kubernetes_list,
@@ -379,12 +403,62 @@ run_in_builder_image() {
     "$command"
 }
 
+ensure_builder_image_available() {
+  if [[ -z "$BUILDER_IMAGE" ]]; then
+    return 0
+  fi
+
+  if "$RESOLVED_BUILDER_RUNTIME" image inspect "$BUILDER_IMAGE" >/dev/null 2>&1; then
+    BUILDER_IMAGE_LOCAL_PRESENT=true
+  fi
+
+  case "$BUILDER_PULL_POLICY" in
+    never)
+      if [[ "$BUILDER_IMAGE_LOCAL_PRESENT" == true ]]; then
+        printf 'skipped: builder pull policy never and image already present\n' >"$RUN_ROOT/builder-image-pull.log"
+        return 0
+      fi
+      printf 'failed: builder pull policy never and image not present locally: %s\n' "$BUILDER_IMAGE" >"$RUN_ROOT/builder-image-pull.log"
+      echo "ADL builder image '$BUILDER_IMAGE' is not present locally and builder pull policy is never" >&2
+      return 2
+      ;;
+    always)
+      BUILDER_IMAGE_PULL_ATTEMPTED=true
+      "$RESOLVED_BUILDER_RUNTIME" pull "$BUILDER_IMAGE" >"$RUN_ROOT/builder-image-pull.log" 2>&1
+      ;;
+    missing)
+      if [[ "$BUILDER_IMAGE_LOCAL_PRESENT" == true ]]; then
+        printf 'skipped: builder image already present locally\n' >"$RUN_ROOT/builder-image-pull.log"
+      else
+        BUILDER_IMAGE_PULL_ATTEMPTED=true
+        "$RESOLVED_BUILDER_RUNTIME" pull "$BUILDER_IMAGE" >"$RUN_ROOT/builder-image-pull.log" 2>&1
+      fi
+      ;;
+  esac
+
+  if "$RESOLVED_BUILDER_RUNTIME" image inspect "$BUILDER_IMAGE" >/dev/null 2>&1; then
+    BUILDER_IMAGE_LOCAL_PRESENT=true
+  fi
+}
+
+preflight_raw_host_command() {
+  if [[ -n "$BUILDER_IMAGE" ]]; then
+    return 0
+  fi
+  if [[ ( "$COMMAND_STRING" == *"nextest"* || "$COMMAND_STRING" == *"run_pr_fast_test_lane.sh"* ) ]] \
+    && ! cargo nextest --version >/dev/null 2>&1; then
+    printf 'failed: command requires cargo nextest but raw host lacks cargo-nextest; set ADL_NESSUS_BUILDER_IMAGE or install cargo-nextest\n' >"$RUN_ROOT/preflight.log"
+    echo "run_nessus_remote_validation: command requires cargo nextest but raw host lacks cargo-nextest; set ADL_NESSUS_BUILDER_IMAGE or install cargo-nextest" >&2
+    return 2
+  fi
+}
+
 resolve_builder_runtime
 if [[ -n "$BUILDER_IMAGE" ]]; then
-  "$RESOLVED_BUILDER_RUNTIME" image inspect "$BUILDER_IMAGE" >/dev/null 2>&1 \
-    || "$RESOLVED_BUILDER_RUNTIME" pull "$BUILDER_IMAGE" >"$RUN_ROOT/builder-image-pull.log" 2>&1
+  ensure_builder_image_available
   run_in_builder_image "rustc --version" >"$RUN_ROOT/rustc-version.log" 2>&1
   run_in_builder_image "cargo --version" >"$RUN_ROOT/cargo-version.log" 2>&1
+  run_in_builder_image "cargo nextest --version" >"$RUN_ROOT/nextest-version.log" 2>&1
   run_in_builder_image "sccache --version" >"$RUN_ROOT/sccache-version.log" 2>&1
   run_in_builder_image "sccache --zero-stats >/dev/null 2>&1 || true" >/dev/null 2>&1 || true
 else
@@ -394,6 +468,7 @@ else
 
   rustc --version >"$RUN_ROOT/rustc-version.log" 2>&1
   cargo --version >"$RUN_ROOT/cargo-version.log" 2>&1
+  preflight_raw_host_command
   sccache --version >"$RUN_ROOT/sccache-version.log" 2>&1
   sccache --zero-stats >/dev/null 2>&1 || true
 fi
@@ -488,11 +563,11 @@ LOCAL_SUMMARY_PATH=""
 run_remote() {
   if [[ "$EXECUTOR" == "ssh" ]]; then
     local remote_cmd
-    remote_cmd="wsl.exe -u $WSL_USER -- bash -s -- '$(quote_remote_single "$REMOTE_ROOT")' '$(quote_remote_single "$REPO_URL")' '$(quote_remote_single "$GIT_REF")' '$(quote_remote_single "$RUN_ID")' '$(quote_remote_single "$COMMAND_B64")' '$(quote_remote_single "$SUMMARY_NAME")' '$(quote_remote_single "$BUILDER_IMAGE")' '$(quote_remote_single "$BUILDER_RUNTIME")'"
+    remote_cmd="wsl.exe -u $WSL_USER -- bash -s -- '$(quote_remote_single "$REMOTE_ROOT")' '$(quote_remote_single "$REPO_URL")' '$(quote_remote_single "$GIT_REF")' '$(quote_remote_single "$RUN_ID")' '$(quote_remote_single "$COMMAND_B64")' '$(quote_remote_single "$SUMMARY_NAME")' '$(quote_remote_single "$BUILDER_IMAGE")' '$(quote_remote_single "$BUILDER_RUNTIME")' '$(quote_remote_single "$BUILDER_PULL_POLICY")'"
     "$SSH_BIN" -o BatchMode=yes -o ConnectTimeout=15 "${SSH_USER}@${HOST}" "$remote_cmd" <"$REMOTE_SCRIPT"
   else
     ADL_NESSUS_WINDOWS_IDENTITY="local-executor" bash "$REMOTE_SCRIPT" \
-      "$REMOTE_ROOT" "$REPO_URL" "$GIT_REF" "$RUN_ID" "$COMMAND_B64" "$SUMMARY_NAME" "$BUILDER_IMAGE" "$BUILDER_RUNTIME"
+      "$REMOTE_ROOT" "$REPO_URL" "$GIT_REF" "$RUN_ID" "$COMMAND_B64" "$SUMMARY_NAME" "$BUILDER_IMAGE" "$BUILDER_RUNTIME" "$BUILDER_PULL_POLICY"
   fi
 }
 

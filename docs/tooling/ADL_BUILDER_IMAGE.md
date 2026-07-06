@@ -7,6 +7,7 @@ Nessus, and local Docker-compatible runners.
 The image is defined at `adl/docker/adl-builder/Dockerfile` and includes:
 
 - Rust toolchain with `rustfmt` and `clippy`
+- `cargo-nextest` for PR-fast and nextest-backed Rust validation lanes
 - `sccache` 0.16
 - `clang` and `lld`
 - AWS CLI v2 for CodeBuild credential export and S3-backed `sccache`
@@ -105,8 +106,17 @@ adl/tools/run_nessus_remote_validation.sh \
   --local-artifact-dir artifacts/nessus-builder-run
 ```
 
+`ADL_NESSUS_BUILDER_IMAGE` should normally be a pullable registry URI. If the
+image was preloaded locally on Nessus, pass
+`--builder-pull-policy never` or set `ADL_NESSUS_BUILDER_PULL_POLICY=never` so
+the runner verifies the local image and does not try to pull a local-only tag
+from a registry. Raw-host PR-fast validation fails closed when the command
+requires `cargo nextest` and the host lacks `cargo-nextest`; use the builder
+image path or install the toolchain explicitly.
+
 The run summary records `builder_image`, `builder_runtime`, and
-`resolved_builder_runtime`.
+`resolved_builder_runtime`, plus the builder pull policy and whether a pull was
+attempted.
 
 ## CodeBuild And Spot
 
@@ -115,9 +125,11 @@ environment image directly. Do not rebuild the image inside each CodeBuild run;
 publish a versioned ECR tag once, configure CodeBuild with
 `imagePullCredentialsType=SERVICE_ROLE`, and run validation commands in that
 environment. The Spot lane should consume `ADL_AWS_SPOT_BUILDER_IMAGE`
-when the instance has Docker or Podman available; otherwise it can continue
-using the image as the canonical setup definition while keeping the warm EBS
-cache path.
+when the remote command intentionally runs inside Docker or Podman on the Spot
+instance; otherwise it can continue using the image as the canonical setup
+definition while keeping the warm EBS cache path. Do not claim a Spot run as a
+fixed-builder-image run unless the retained command or summary proves the image
+was actually used.
 
 The image path is intentionally separate from cache selection. A custom image
 plus native S3 `sccache` is not sufficient by itself for the fastest repeated

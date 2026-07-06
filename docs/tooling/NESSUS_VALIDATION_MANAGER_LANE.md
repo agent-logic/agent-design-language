@@ -69,6 +69,43 @@ paths. It does not expand nested shell scripts into every child command.
 For live SSH proof, publish the target branch/ref before running and pass it via
 `--remote-git-ref`; otherwise the underlying Nessus runner's default ref applies.
 
+## Builder Image And `cargo-nextest`
+
+PR-fast Rust validation uses `cargo nextest`. Do not run PR-fast validation on
+the raw Nessus host unless `cargo nextest --version` succeeds there. The
+underlying runner fails closed before validation when a nextest-backed command
+is selected and no builder image is configured.
+
+Prefer the ADL builder image for repeatable PR-fast lanes:
+
+```bash
+ADL_NESSUS_BUILDER_IMAGE=<pullable-image-uri> \
+bash adl/tools/run_validation_manager_nessus_lane.sh \
+  --changed-files <changed-files.txt> \
+  --remote-artifact-dir <artifact-dir> \
+  --remote-git-ref <branch-or-ref> \
+  --run \
+  --json
+```
+
+For a local image that has already been loaded on Nessus, keep the image tag
+local and disable pulls explicitly:
+
+```bash
+ADL_NESSUS_BUILDER_IMAGE=adl-builder:v0.91.7-fixed \
+ADL_NESSUS_BUILDER_PULL_POLICY=never \
+bash adl/tools/run_validation_manager_nessus_lane.sh \
+  --changed-files <changed-files.txt> \
+  --remote-artifact-dir <artifact-dir> \
+  --remote-git-ref <branch-or-ref> \
+  --run \
+  --json
+```
+
+The summary records the builder image, runtime, pull policy, local-image
+presence, and whether a pull was attempted. Do not treat a local-only tag as a
+registry URI unless it is actually published.
+
 ## Non-Claims
 
 This wrapper does not make Nessus the default lane for every issue. It also does

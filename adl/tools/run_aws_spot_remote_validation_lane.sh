@@ -61,6 +61,9 @@ Options:
                                 EC2 device name for attach. Defaults to /dev/sdf.
   --cache-volume-mount-path <path>
                                 Remote mount path. Defaults to /mnt/adl-cache.
+                                The retained warm EBS cache is forwarded by
+                                default; it is not by itself proof that a
+                                builder image was used.
   --ssh-key-name <name>          EC2 key pair for live remote-tail logging.
                                 Defaults to retained Agent Logic debug key.
   --ssh-private-key-path <path>  Private key for live remote-tail logging.
@@ -73,6 +76,11 @@ Options:
 
 Without --run the wrapper performs account checking only when --check-account is
 present, then prints a dry-run plan. It never launches EC2 unless --run is set.
+
+For fixed-builder-image Spot claims, make the remote command explicitly run the
+published ADL builder image, for example from ADL_AWS_SPOT_BUILDER_IMAGE, or
+cite retained proof that the command used it. The wrapper exposes the retained
+EBS cache and account/SSH posture; the validation command owns image execution.
 USAGE
 }
 

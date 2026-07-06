@@ -75,6 +75,12 @@ The remote bootstrap mounts the volume and places shared build state under it:
 /mnt/adl-cache/adl-aws-remote-validation/shared/rustup-home
 ```
 
+The wrapper does not implicitly run Docker for every command. For a
+fixed-builder-image Spot claim, the remote command must explicitly run the
+published ADL builder image, for example through `ADL_AWS_SPOT_BUILDER_IMAGE`,
+or the retained proof must show that the command used that image. The retained
+warm EBS cache is the default cache posture, not evidence of image execution.
+
 The underlying AWS runner still owns launch-surface preparation, Spot-first
 selection, on-demand fallback for classified Spot capacity failures, SSM command
 dispatch, retained logs, interruption classification, and cleanup truth.
