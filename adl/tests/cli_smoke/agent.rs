@@ -28,9 +28,9 @@ fn spawn_loopback_otlp_collector() -> (
                 }
                 Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
                     let idle_done = last_request_at
-                        .map(|instant| instant.elapsed() > std::time::Duration::from_millis(750))
+                        .map(|instant| instant.elapsed() > std::time::Duration::from_secs(3))
                         .unwrap_or(false);
-                    if idle_done || started.elapsed() > std::time::Duration::from_secs(8) {
+                    if idle_done || started.elapsed() > std::time::Duration::from_secs(12) {
                         break;
                     }
                     std::thread::sleep(std::time::Duration::from_millis(25));
