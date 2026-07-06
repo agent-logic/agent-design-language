@@ -29,6 +29,9 @@ closed out in the issue/card/PR surfaces.
 - WP-08 through WP-20 are not yet release-review-clean.
 - WP-21 is closed; WP-22 and WP-23 remain open for next-milestone review and
   release ceremony.
+- Tools sprint #4806 is closed and has a second-pass remediation packet under
+  #4961 for stale child card truth, tracked review evidence, and remaining
+  sprint-conductor raw-`gh` helper paths.
 
 ## Review Status Table
 
@@ -57,6 +60,12 @@ closed out in the issue/card/PR surfaces.
 | WP-21 | #4648 | closed | none found as a review packet | Next milestone planning closed early relative to open implementation WPs; consume cautiously. | Recheck during WP-22. |
 | WP-22 | #4649 | open | none yet | Next milestone review pass not yet complete. | Review v0.92 planning after WP-21/WP-20 truth is stable. |
 | WP-23 | #4650 | open | none yet | Release ceremony not yet complete. | Run only after all required review/remediation gates are clean or explicitly blocked with operator approval. |
+
+## Tools Sprint Review Records
+
+| Sprint | Status | Review / Remediation Packet | Findings / Residuals | Next Action |
+| --- | --- | --- | --- | --- |
+| Repo-native workflow stabilization | #4806 closed | `docs/milestones/v0.91.7/review/V0917_TOOLS_SPRINT_4806_REVIEW_REMEDIATION_4961.md` | #4961 repairs stale child card truth, tracked release-visible review evidence, remaining sprint-conductor raw-`gh` helper paths, and owner-binary fallback wording. #4950 remains open for watcher `closeout_needed` ambiguity. | Merge #4961, keep #4950 visible until resolved. |
 
 ## WP-05 Repair Record
 

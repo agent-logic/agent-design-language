@@ -3,14 +3,54 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import shlex
 import subprocess
 from pathlib import Path
 from typing import Any
 
 
-def run_json(cmd: list[str]) -> Any:
-    out = subprocess.check_output(cmd, text=True)
+def run_json(cmd: list[str], *, cwd: Path) -> Any:
+    out = subprocess.check_output(cmd, cwd=cwd, text=True)
     return json.loads(out)
+
+
+def default_issue_command(repo_root: Path, subcommand: str) -> list[str]:
+    issue_binary = repo_root / 'adl' / 'target' / 'debug' / 'adl-issue'
+    if issue_binary.is_file():
+        return [str(issue_binary), subcommand]
+    return ['bash', str(repo_root / 'adl' / 'tools' / 'pr.sh'), 'issue', subcommand]
+
+
+def default_pr_validation_command(repo_root: Path) -> list[str]:
+    validation_binary = repo_root / 'adl' / 'target' / 'debug' / 'adl-pr-validation'
+    if validation_binary.is_file():
+        return [str(validation_binary)]
+    return ['bash', str(repo_root / 'adl' / 'tools' / 'pr.sh'), 'validation']
+
+
+def command_with_override(env_var: str, default: list[str]) -> list[str]:
+    raw = os.environ.get(env_var)
+    if not raw:
+        return default
+    return shlex.split(raw)
+
+
+def issue_view(repo_root: Path, issue_number: int) -> dict[str, Any]:
+    cmd = command_with_override('ADL_SPRINT_ISSUE_VIEW_CMD', default_issue_command(repo_root, 'view'))
+    return run_json(cmd + [str(issue_number), '--json'], cwd=repo_root)
+
+
+def pr_validation(repo_root: Path, pr_url: str) -> dict[str, Any]:
+    cmd = command_with_override('ADL_SPRINT_PR_VALIDATION_CMD', default_pr_validation_command(repo_root))
+    payload = run_json(cmd + [pr_url, '--json'], cwd=repo_root)
+    if 'pr_state' in payload:
+        return {
+            'state': payload.get('pr_state'),
+            'isDraft': payload.get('is_draft'),
+            'url': payload.get('url') or pr_url,
+        }
+    return payload
 
 
 def main() -> int:
@@ -21,6 +61,7 @@ def main() -> int:
     parser.add_argument('--require-match', action='store_true')
     args = parser.parse_args()
 
+    repo_root = Path(args.repo_root).resolve()
     state_path = Path(args.state)
     state = json.loads(state_path.read_text())
     issue_records = state.get('issue_records', [])
@@ -31,26 +72,25 @@ def main() -> int:
     drift = False
 
     for issue_number in issue_numbers:
-        issue = run_json([
-            'gh', 'issue', 'view', str(issue_number), '--json', 'number,state,title,url'
-        ])
+        issue = issue_view(repo_root, issue_number)
         record = next((r for r in issue_records if r.get('issue_number') == issue_number), None)
         if record is None:
             continue
-        record['github_issue_state'] = issue.get('state')
-        if issue.get('state') == 'CLOSED' and record.get('status') not in {'closed_out'}:
+        issue_state = str(issue.get('state', '')).upper()
+        record['github_issue_state'] = issue_state
+        if issue_state == 'CLOSED' and record.get('status') not in {'closed_out'}:
             local_status = record.get('status')
             drift = True
             notes.append(
                 f'issue #{issue_number} is CLOSED on GitHub but local status is {local_status}; '
                 'record_child_issue_closeout.py must run before sprint state can advance'
             )
-        if issue.get('state') == 'OPEN' and record.get('status') == 'closed_out':
+        if issue_state == 'OPEN' and record.get('status') == 'closed_out':
             drift = True
             notes.append(f'issue #{issue_number} is OPEN on GitHub but local status is closed_out')
 
     for pr_url in pr_urls:
-        pr = run_json(['gh', 'pr', 'view', pr_url, '--json', 'state,isDraft,url'])
+        pr = pr_validation(repo_root, pr_url)
         matching = next((r for r in issue_records if r.get('pr_url') == pr_url), None)
         if matching is None:
             continue

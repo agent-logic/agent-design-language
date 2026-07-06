@@ -311,6 +311,10 @@ rust_pr_issue_stale_primary_cached_bin() {
 }
 
 rust_pr_subcommand_primary_cached_bin_stale_last_resort() {
+  # Temporary operational compromise: when cargo fallback is intentionally
+  # disabled, allow an observable primary-checkout owner binary so finish/watch
+  # paths do not deadlock on a local rebuild. This is not proof that worktree
+  # Rust control-plane edits are represented by the binary being executed.
   rust_pr_cargo_fallback_allowed && return 1
   local subcommand="${1:-}"
   local root primary_root binary_name candidate

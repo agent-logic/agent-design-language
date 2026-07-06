@@ -95,6 +95,18 @@ case "${subcommand}" in
     echo '{"number":3001,"url":"https://github.com/danielbaustin/agent-design-language/issues/3001"}'
     exit 0
     ;;
+  comment)
+    issue_number="$1"
+    shift
+    printf 'issue comment %s %s\n' "${issue_number}" "$*" >> "${FAKE_GH_LOG}"
+    exit 0
+    ;;
+  close)
+    issue_number="$1"
+    shift
+    printf 'issue close %s %s\n' "${issue_number}" "$*" >> "${FAKE_GH_LOG}"
+    exit 0
+    ;;
   *)
     echo "unexpected adl-issue invocation: ${subcommand} $*" >&2
     exit 1
@@ -103,10 +115,23 @@ esac
 ADL_ISSUE_EOF
 chmod +x "${fakebin}/adl-issue"
 
+cat >"${fakebin}/adl-pr-validation" <<'ADL_PR_VALIDATION_EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+pr_ref="$1"
+read -r pr_state pr_draft < "${FAKE_PR_4001_STATE}"
+printf 'pr validation %s %s\n' "${pr_ref}" "$*" >> "${FAKE_GH_LOG}"
+printf '{"pr_number":4001,"pr_state":"%s","is_draft":%s,"url":"https://github.com/danielbaustin/agent-design-language/pull/4001"}\n' "${pr_state}" "${pr_draft}"
+ADL_PR_VALIDATION_EOF
+chmod +x "${fakebin}/adl-pr-validation"
+
 fake_tool_repo="${tmpdir}/fake-tool-repo"
 mkdir -p "${fake_tool_repo}/adl/target/debug"
 cp "${fakebin}/adl-issue" "${fake_tool_repo}/adl/target/debug/adl-issue"
+cp "${fakebin}/adl-pr-validation" "${fake_tool_repo}/adl/target/debug/adl-pr-validation"
 chmod +x "${fake_tool_repo}/adl/target/debug/adl-issue"
+chmod +x "${fake_tool_repo}/adl/target/debug/adl-pr-validation"
 
 export PATH="${fakebin}:${PATH}"
 export FAKE_GH_LOG="${log_path}"
@@ -115,6 +140,9 @@ export FAKE_ISSUE_2828_STATE="${issue_2828_state_file}"
 export FAKE_PR_4001_STATE="${pr_4001_state_file}"
 export ADL_SPRINT_ISSUE_VIEW_CMD="${fakebin}/adl-issue view"
 export ADL_SPRINT_ISSUE_CREATE_CMD="${fakebin}/adl-issue create"
+export ADL_SPRINT_ISSUE_COMMENT_CMD="${fakebin}/adl-issue comment"
+export ADL_SPRINT_ISSUE_CLOSE_CMD="${fakebin}/adl-issue close"
+export ADL_SPRINT_PR_VALIDATION_CMD="${fakebin}/adl-pr-validation"
 
 state_path="${tmpdir}/sprint-state.json"
 fake_repo="${tmpdir}/fake-repo"
@@ -1142,6 +1170,7 @@ grep -Fq 'closure cleanliness: `clean_with_post_sprint_followups`' "${closeout_a
 grep -Fq '#5001' "${closeout_artifact}"
 
 python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/close_sprint_issue.py" \
+  --repo-root "${fake_repo}" \
   --state "${state_path}" \
   --summary "Sprint completed cleanly." >/dev/null
 
@@ -1160,8 +1189,53 @@ if grep -Fq "issue create" "${log_path}"; then
   echo "expected sprint helper bootstrap to avoid raw gh issue create in the default fixture path" >&2
   exit 1
 fi
-grep -Fq "issue close 3001 --comment Sprint completed cleanly." "${log_path}"
-grep -Fq "pr view https://github.com/danielbaustin/agent-design-language/pull/4001 --json state,isDraft,url" "${log_path}"
+grep -Fq "issue comment 3001 --body Sprint completed cleanly." "${log_path}"
+grep -Fq "issue close 3001 --reason completed" "${log_path}"
+grep -Fq "pr validation https://github.com/danielbaustin/agent-design-language/pull/4001" "${log_path}"
+if grep -Fq "pr view " "${log_path}"; then
+  echo "expected sprint truth checks to avoid raw gh pr view" >&2
+  exit 1
+fi
+
+default_state_path="${tmpdir}/sprint-state-default-repo-root.json"
+cp "${state_path}" "${default_state_path}"
+(
+  cd "${tmpdir}"
+  env \
+    -u ADL_SPRINT_ISSUE_VIEW_CMD \
+    -u ADL_SPRINT_ISSUE_COMMENT_CMD \
+    -u ADL_SPRINT_ISSUE_CLOSE_CMD \
+    -u ADL_SPRINT_PR_VALIDATION_CMD \
+    python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/check_sprint_truth.py" \
+      --repo-root "${fake_tool_repo}" \
+      --state "${default_state_path}" \
+      --require-match >/dev/null
+)
+
+default_close_state_path="${tmpdir}/sprint-state-default-close.json"
+cp "${state_path}" "${default_close_state_path}"
+python3 - "${default_close_state_path}" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+state = json.loads(path.read_text())
+state["sprint_issue_closed"] = False
+state.pop("sprint_issue_close_summary", None)
+state.get("closeout", {}).pop("sprint_issue_close_summary", None)
+path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
+PY
+(
+  cd "${tmpdir}"
+  env \
+    -u ADL_SPRINT_ISSUE_COMMENT_CMD \
+    -u ADL_SPRINT_ISSUE_CLOSE_CMD \
+    python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/close_sprint_issue.py" \
+      --repo-root "${fake_tool_repo}" \
+      --state "${default_close_state_path}" \
+      --summary "Default repo-root close path works." >/dev/null
+)
 
 tracked_skill_dir="${tmpdir}/tracked-skill"
 installed_skill_dir="${tmpdir}/installed-skill"
