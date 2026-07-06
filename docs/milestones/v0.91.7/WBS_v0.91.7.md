@@ -57,7 +57,7 @@ Completion standard: planned, documented, mocked, component-proven, assigned, or
 
 | Required surface before v0.92 | v0.91.7 issue coverage | Completion bar |
 | --- | --- | --- |
-| C-SDLC shepherd, watcher, session ledger, predictable execution | `#4630`, `#4713`, `#4709`, WP-03 `#4630` and source-capture inputs | Repo-native tool path works in normal issue/PR flow, or v0.92 remains blocked with evidence and operator approval. |
+| C-SDLC shepherd, watcher, session ledger, predictable execution | `#4630`, `#4713`, `#4709`, `#4721`, `#4953`, WP-03 `#4630` and source-capture inputs | Repo-native tool path works in normal issue/PR flow, or v0.92 remains blocked with evidence and operator approval. |
 | Goal/time/token/resource metrics and backfill | `#4631`, `#4666`-`#4670`, `#4617` | Forward capture works from current SPP/VPP/SOR/goal surfaces; backfill gaps are explicit. |
 | Scheduler/provider/local-agent execution | `#4632`, `#4671`-`#4675`, `#4653`, `#4654` | Scheduler/provider decisions are executable and protect premium cognition with model-suitability evidence. |
 | Build throughput, validation-cost reduction, and Rust simplification | `#4633`, `#4676`-`#4680`, `#4698`, `#4603`, `#4651`, `#4892`-`#4900` | Tail validation and remote/local build lanes are measured, bounded, and operational enough for the milestone; Rust simplification reduces hand-rolled commodity mechanics without generic file splitting. |

@@ -562,18 +562,34 @@ pub(crate) fn build_issue_watch_report(
     linked_pr: Option<(OpenPullRequest, PrValidationReport)>,
 ) -> IssueWatchReport {
     if closed_completed {
+        let linked_pr_is_merged = linked_pr
+            .as_ref()
+            .is_some_and(|(_, validation)| validation.pr_state.eq_ignore_ascii_case("MERGED"));
+        let (classification, shepherd_state, reason) = if linked_pr_is_merged {
+            (
+                "merged_pending_closeout",
+                "merged_pending_closeout",
+                "closed_issue_linked_pr_merged_closeout_pending",
+            )
+        } else {
+            (
+                "closeout_needed",
+                "closeout_required",
+                "issue_closed_completed",
+            )
+        };
         return IssueWatchReport {
             schema: "adl.pr.watch.v1",
             issue: issue.number,
             issue_state: issue.state.to_uppercase(),
             authoritative_classifier: "adl",
             advisory_agent_mode: "local_agent_advisory_only",
-            classification: "closeout_needed".to_string(),
+            classification: classification.to_string(),
             tail_owner: "pr-closeout".to_string(),
-            shepherd_state: "closeout_required".to_string(),
+            shepherd_state: shepherd_state.to_string(),
             next_skill: "pr-closeout".to_string(),
             continuation: "action_required".to_string(),
-            reason: "issue_closed_completed".to_string(),
+            reason: reason.to_string(),
             local_readiness,
             linked_pr: linked_pr.map(|(pr, validation)| IssueWatchLinkedPrReport {
                 number: pr.number,
@@ -661,7 +677,7 @@ pub(crate) fn build_issue_watch_report(
     };
 
     let (classification, tail_owner, shepherd_state, next_skill, continuation, reason) =
-        if validation.pr_state == "MERGED" {
+        if validation.pr_state.eq_ignore_ascii_case("MERGED") {
             (
                 "merged_pending_closeout",
                 "pr-closeout",

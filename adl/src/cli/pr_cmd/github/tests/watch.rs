@@ -551,6 +551,34 @@ fn issue_watch_routes_closed_completed_issue_to_closeout() {
 }
 
 #[test]
+fn issue_watch_routes_closed_completed_issue_with_merged_pr_to_merged_closeout() {
+    let mut issue = open_issue(4397);
+    issue.state = "closed".to_string();
+    issue.closed_at = Some("2026-06-22T00:00:00Z".to_string());
+    let mut pr = linked_pr(77, false);
+    pr.state = "CLOSED".to_string();
+    let report = build_issue_watch_report(
+        &issue,
+        true,
+        readiness_ready(),
+        Some((pr, merged_validation_report())),
+    );
+    assert_eq!(report.classification, "merged_pending_closeout");
+    assert_eq!(report.tail_owner, "pr-closeout");
+    assert_eq!(report.shepherd_state, "merged_pending_closeout");
+    assert_eq!(report.next_skill, "pr-closeout");
+    assert_eq!(
+        report.reason,
+        "closed_issue_linked_pr_merged_closeout_pending"
+    );
+    let shepherd = build_issue_lifecycle_shepherd_report(&report, "closed", "blocked");
+    assert_eq!(shepherd.lifecycle_shepherd.state, "merged_needs_closeout");
+    assert_eq!(shepherd.lifecycle_shepherd.owner_skill, "pr-closeout");
+    assert_eq!(shepherd.lifecycle_shepherd.next_skill, "pr-closeout");
+    assert!(shepherd.lifecycle_shepherd.closeout_required);
+}
+
+#[test]
 fn issue_watch_routes_merged_pr_to_merged_pending_closeout() {
     let mut pr = linked_pr(77, false);
     pr.state = "MERGED".to_string();
