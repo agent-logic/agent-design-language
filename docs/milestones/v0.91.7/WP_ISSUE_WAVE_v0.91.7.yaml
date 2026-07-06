@@ -110,6 +110,7 @@ non_wp_issue_routes:
   - {issue: 4719, assignment: "Sync issue wave and WBS to implementation-proof standard", related_wp: "WP-01/WP-02"}
   - {issue: 4720, assignment: "Hardlinked Rust dependency cache warmup for issue worktrees", related_wp: "WP-06"}
   - {issue: 4721, assignment: "Repo-native GitHub label ensure command for issue metadata repair", related_wp: "WP-03/WP-06"}
+  - {issue: 4953, assignment: "Repair WP-03 shepherd closeout truth and review findings", related_wp: "WP-03"}
 work_packages:
   - wp: WP-01
     title: v0.91.7 planning promotion and issue-wave readiness
