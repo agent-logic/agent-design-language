@@ -30,6 +30,7 @@ pub mod csdlc_prompt_editor;
 pub mod csm_backpressure;
 pub mod csm_continuity_capsule;
 pub mod csm_observatory;
+pub mod csm_polis_storage;
 pub mod csm_runtime_api;
 pub mod dangerous_negative_suite;
 pub mod delegation_policy;

@@ -689,6 +689,37 @@
       "reason": "wp08_aws_signal_integration_surface_requires_integrated_heartbeat_and_acip_sns_wrapper_contract_checks; retained live summary validation runs through adl/tools/validate_wp08_aws_signal_integration_live_proof.py"
     },
     {
+      "id": "wp08_polis_durable_storage_proof",
+      "lane_class": "cli_workflow",
+      "default_surface": "runtime",
+      "owner": "runtime",
+      "proof_role": "runtime_polis_durable_storage_contract",
+      "requirement_ids": [
+        "wp08_polis_durable_storage_proof"
+      ],
+      "path_selectors": [
+        "adl/src/csm_polis_storage.rs",
+        "adl/src/cli/csm_cmd.rs",
+        "adl/tools/run_wp08_polis_storage_live_proof.sh",
+        "adl/tools/test_run_wp08_polis_storage_live_proof.sh",
+        "adl/tools/validate_wp08_polis_storage_live_proof.py",
+        "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+        "docs/milestones/v0.91.7/review/runtime/csm_polis_storage_4913/**"
+      ],
+      "path_hints": [
+        "adl/src/csm_polis_storage.rs",
+        "adl/src/cli/csm_cmd.rs",
+        "adl/tools/run_wp08_polis_storage_live_proof.sh",
+        "adl/tools/test_run_wp08_polis_storage_live_proof.sh",
+        "adl/tools/validate_wp08_polis_storage_live_proof.py",
+        "docs/tooling/RUNTIME_POLIS_DURABLE_STORAGE.md",
+        "docs/milestones/v0.91.7/review/runtime/csm_polis_storage_4913/**"
+      ],
+      "command": "bash adl/tools/test_run_wp08_polis_storage_live_proof.sh",
+      "run_command": "bash adl/tools/test_run_wp08_polis_storage_live_proof.sh",
+      "reason": "wp08_polis_storage_surface_requires_runtime_command_and_wrapper_contract_checks; issue-local retained live summary validation runs through adl/tools/validate_wp08_polis_storage_live_proof.py"
+    },
+    {
       "id": "v0917_soak2_status_contracts",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

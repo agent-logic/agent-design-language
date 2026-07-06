@@ -9,6 +9,7 @@ use ::adl::csm_continuity_capsule::{
     ContinuityFireDrillOptions, ContinuityRestoreOptions, ContinuityStageOptions,
 };
 use ::adl::csm_observatory::{write_observatory_outputs, ObservatoryFormat};
+use ::adl::csm_polis_storage::{prove_polis_storage, PolisStorageProofOptions};
 use ::adl::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
 use ::adl::wp08_acip_sns_proof::run_wp08_acip_sns_live_proof;
 
@@ -28,7 +29,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!(
-            "csm requires subcommand: daemon | service | continuity | backpressure | api | aws-signal | observatory"
+            "csm requires subcommand: daemon | service | continuity | backpressure | api | aws-signal | storage | observatory"
         );
         std::process::exit(2);
     };
@@ -70,6 +71,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
                 "csm aws-signal is owned by the standalone csm runtime binary; use `csm aws-signal`, not `adl csm aws-signal`"
             )),
         },
+        "storage" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_storage(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm storage is owned by the standalone csm runtime binary; use `csm storage`, not `adl csm storage`"
+            )),
+        },
         "observatory" => real_observatory(&args[1..]),
         "--help" | "-h" => {
             println!("{}", csm_usage());
@@ -77,7 +84,7 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, continuity, backpressure, api, aws-signal, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, continuity, backpressure, api, aws-signal, storage, or observatory)"
             );
             std::process::exit(2);
         }
@@ -100,6 +107,107 @@ fn real_aws_signal(args: &[String]) -> Result<()> {
             std::process::exit(2);
         }
     }
+}
+
+fn real_storage(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm storage requires subcommand: prove-s3");
+        std::process::exit(2);
+    };
+    match cmd {
+        "prove-s3" => real_storage_prove_s3(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm storage subcommand: {other} (expected prove-s3)");
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_storage_prove_s3(args: &[String]) -> Result<()> {
+    let mut out_dir: Option<PathBuf> = None;
+    let mut bucket: Option<String> = None;
+    let mut prefix = "community-memory/".to_string();
+    let mut profile = std::env::var("ADL_AWS_PROFILE")
+        .or_else(|_| std::env::var("AWS_PROFILE"))
+        .unwrap_or_else(|_| "agent-logic-admin".to_string());
+    let mut region = std::env::var("ADL_AWS_REGION").unwrap_or_else(|_| "us-west-2".to_string());
+    let mut expected_account_sha256 =
+        std::env::var("ADL_AWS_POLIS_STORAGE_ACCOUNT_SHA256").unwrap_or_default();
+    let mut run_id = "wp08-4913-polis-storage".to_string();
+    let mut aws_bin = std::env::var("AWS_BIN").unwrap_or_else(|_| "aws".to_string());
+    let mut json_output = false;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                out_dir = Some(PathBuf::from(required_value(args, i, "--out")?));
+                i += 1;
+            }
+            "--bucket" => {
+                bucket = Some(required_value(args, i, "--bucket")?.to_string());
+                i += 1;
+            }
+            "--prefix" => {
+                prefix = required_value(args, i, "--prefix")?.to_string();
+                i += 1;
+            }
+            "--profile" => {
+                profile = required_value(args, i, "--profile")?.to_string();
+                i += 1;
+            }
+            "--region" => {
+                region = required_value(args, i, "--region")?.to_string();
+                i += 1;
+            }
+            "--expected-account-sha256" => {
+                expected_account_sha256 =
+                    required_value(args, i, "--expected-account-sha256")?.to_string();
+                i += 1;
+            }
+            "--run-id" => {
+                run_id = required_value(args, i, "--run-id")?.to_string();
+                i += 1;
+            }
+            "--aws-bin" => {
+                aws_bin = required_value(args, i, "--aws-bin")?.to_string();
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm storage prove-s3 arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+
+    let result = prove_polis_storage(PolisStorageProofOptions {
+        out_dir: out_dir.context("csm storage prove-s3 requires --out <proof-dir>")?,
+        bucket: bucket.context("csm storage prove-s3 requires --bucket <bucket>")?,
+        prefix,
+        profile,
+        region,
+        expected_account_sha256,
+        run_id,
+        aws_bin,
+    })?;
+    if json_output {
+        println!("{}", serde_json::to_string_pretty(&result)?);
+    } else {
+        println!(
+            "CSM_POLIS_STORAGE ok status={} key={}",
+            result.status, result.object.key
+        );
+    }
+    Ok(())
 }
 
 fn real_backpressure(args: &[String]) -> Result<()> {
@@ -548,6 +656,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--once|--max-requests <n>] [--idle-timeout-ms <n>] [--otel-status <path>] [--otel-log <path>] [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
+  csm storage prove-s3 --out <proof-dir> --bucket <bucket> --expected-account-sha256 <sha256> [--prefix community-memory/] [--profile agent-logic-admin] [--region us-west-2] [--run-id <id>] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
   csm continuity stage --bundle <bundle-dir> --out <stage-dir> [--target-host ec2-staging|ec2|local] [--json]
   csm continuity restore --bundle <bundle-dir> --out <runtime-dir> [--target-host ec2-staging|ec2|local] [--json]
@@ -562,6 +671,7 @@ Semantics:
   - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
+  - csm storage proves Polis durable-state write/read/restore semantics against the approved S3 backend with checksum, immutable reference, and negative-case evidence.
   - csm continuity captures, stages, restores, and fire-drills portable continuity capsules with secrets excluded and host bindings explicit.
   - csm daemon emits ADL_OBSERVABILITY_LOG, ADL_OTEL_LOG, and ADL_OTEL_STATUS records through the shared observability contract.
   - Read-only CSM Observatory inspection.
@@ -586,6 +696,22 @@ mod tests {
     fn adl_control_plane_rejects_aws_signal_runtime_surface() {
         let args = vec!["aws-signal".to_string(), "--help".to_string()];
         let error = real_csm(&args).expect_err("adl csm must not own aws-signal runtime surface");
+        assert!(
+            error.to_string().contains("standalone csm runtime binary"),
+            "{error}"
+        );
+    }
+
+    #[test]
+    fn standalone_csm_accepts_storage_help() {
+        let args = vec!["storage".to_string(), "--help".to_string()];
+        real_csm_standalone(&args).expect("standalone csm owns storage");
+    }
+
+    #[test]
+    fn adl_control_plane_rejects_storage_runtime_surface() {
+        let args = vec!["storage".to_string(), "--help".to_string()];
+        let error = real_csm(&args).expect_err("adl csm must not own storage runtime surface");
         assert!(
             error.to_string().contains("standalone csm runtime binary"),
             "{error}"
