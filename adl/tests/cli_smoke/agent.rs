@@ -113,6 +113,17 @@ fn read_http_response_body(stream: &mut std::net::TcpStream) -> String {
     }
 }
 
+fn read_text_or_missing(path: &std::path::Path) -> String {
+    fs::read_to_string(path).unwrap_or_else(|err| format!("<missing {}: {err}>", path.display()))
+}
+
+fn assert_text_contains(haystack: &str, needle: &str, label: &str) {
+    assert!(
+        haystack.contains(needle),
+        "expected {label} to contain {needle:?}, actual:\n{haystack}"
+    );
+}
+
 fn http_get_json(addr: &str, path: &str) -> serde_json::Value {
     let started = std::time::Instant::now();
     loop {
@@ -555,35 +566,95 @@ memory:
     );
     assert_eq!(daemon_status["trace_id"], "agent.daemon-agent.daemon");
 
-    let operator_events =
-        fs::read_to_string(root.join("state/operator_events.jsonl")).expect("operator events");
-    assert!(operator_events.contains("\"event\":\"daemon_started\""));
-    assert!(operator_events.contains("\"event\":\"child_spawn\""));
-    assert!(operator_events.contains("\"event\":\"checkpoint_write\""));
-    assert!(operator_events.contains("\"trace_id\":\"agent.daemon-agent.daemon\""));
-    assert!(operator_events.contains("\"otel\""));
+    let operator_events = read_text_or_missing(&root.join("state/operator_events.jsonl"));
+    assert_text_contains(
+        &operator_events,
+        "\"event\":\"daemon_started\"",
+        "operator events",
+    );
+    assert_text_contains(
+        &operator_events,
+        "\"event\":\"child_spawn\"",
+        "operator events",
+    );
+    assert_text_contains(
+        &operator_events,
+        "\"event\":\"checkpoint_write\"",
+        "operator events",
+    );
+    assert_text_contains(
+        &operator_events,
+        "\"trace_id\":\"agent.daemon-agent.daemon\"",
+        "operator events",
+    );
+    assert_text_contains(&operator_events, "\"otel\"", "operator events");
 
-    let observability = fs::read_to_string(&observability_log).expect("read observability log");
-    assert!(observability.contains("command=csm"));
-    assert!(observability.contains("stage=csm_daemon"));
-    assert!(observability.contains("stage=daemon_started"));
-    assert!(observability.contains("stage=checkpoint_write"));
-    assert!(observability.contains("otel_service_name=csm-runtime-daemon"));
-    assert!(observability.contains("trace_id=agent.daemon-agent.daemon"));
+    let observability = read_text_or_missing(&observability_log);
+    assert_text_contains(&observability, "command=csm", "observability log");
+    assert_text_contains(&observability, "stage=csm_daemon", "observability log");
+    assert_text_contains(&observability, "stage=daemon_started", "observability log");
+    assert_text_contains(
+        &observability,
+        "stage=checkpoint_write",
+        "observability log",
+    );
+    assert_text_contains(
+        &observability,
+        "otel_service_name=csm-runtime-daemon",
+        "observability log",
+    );
+    assert_text_contains(
+        &observability,
+        "trace_id=agent.daemon-agent.daemon",
+        "observability log",
+    );
 
-    let otel_events = fs::read_to_string(&otel_log).expect("read otel jsonl");
-    assert!(otel_events.contains("\"schema\":\"adl.otel.event.v1\""));
-    assert!(otel_events.contains("\"name\":\"csm.daemon_started\""));
-    assert!(otel_events.contains("\"name\":\"csm.csm_daemon\""));
-    assert!(otel_events.contains("\"trace_id\":\"agent.daemon-agent.daemon\""));
-    assert!(otel_events.contains("\"service.name\":\"csm-runtime-daemon\""));
+    let otel_events = read_text_or_missing(&otel_log);
+    let otel_event_lines = otel_events
+        .lines()
+        .filter(|line| line.contains("\"schema\":\"adl.otel.event.v1\""))
+        .count();
+    assert!(
+        otel_event_lines >= 4,
+        "expected at least four retained OTel JSONL events, got {otel_event_lines}; events:\n{otel_events}\nobservability:\n{observability}\noperator_events:\n{operator_events}"
+    );
+    assert_text_contains(
+        &otel_events,
+        "\"schema\":\"adl.otel.event.v1\"",
+        "OTel JSONL",
+    );
+    assert_text_contains(
+        &otel_events,
+        "\"name\":\"csm.daemon_started\"",
+        "OTel JSONL",
+    );
+    assert_text_contains(&otel_events, "\"name\":\"csm.csm_daemon\"", "OTel JSONL");
+    assert_text_contains(
+        &otel_events,
+        "\"trace_id\":\"agent.daemon-agent.daemon\"",
+        "OTel JSONL",
+    );
+    assert_text_contains(
+        &otel_events,
+        "\"service.name\":\"csm-runtime-daemon\"",
+        "OTel JSONL",
+    );
 
     let otel_status: serde_json::Value =
-        serde_json::from_str(&fs::read_to_string(&otel_status).expect("read otel status"))
-            .expect("parse otel status");
+        serde_json::from_str(&read_text_or_missing(&otel_status)).expect("parse otel status");
     assert_eq!(otel_status["schema"], "adl.otel.monitor_status.v1");
-    assert!(otel_status["event_count"].as_u64().expect("event count") >= 4);
-    assert_eq!(otel_status["last_trace_id"], "agent.daemon-agent.daemon");
+    let status_event_count = otel_status["event_count"].as_u64().expect("event count");
+    assert!(
+        status_event_count >= 4,
+        "expected OTel monitor status to observe at least four events, got {status_event_count}; status:\n{}\nevents:\n{otel_events}",
+        serde_json::to_string_pretty(&otel_status).expect("render otel status")
+    );
+    assert_eq!(
+        otel_status["last_trace_id"],
+        "agent.daemon-agent.daemon",
+        "status:\n{}\nevents:\n{otel_events}",
+        serde_json::to_string_pretty(&otel_status).expect("render otel status")
+    );
 }
 
 #[test]
