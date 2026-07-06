@@ -1169,6 +1169,37 @@ python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/write_sprint_clo
 grep -Fq 'closure cleanliness: `clean_with_post_sprint_followups`' "${closeout_artifact}"
 grep -Fq '#5001' "${closeout_artifact}"
 
+python3 - "${state_path}" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+state = json.loads(path.read_text())
+state["review"] = {
+    "status": "done",
+    "packet_path": "docs/review/packet.md",
+    "code_review_path": "docs/review/code.md",
+    "test_review_path": "docs/review/tests.md",
+    "synthesis_path": "docs/review/synthesis.md",
+}
+state["coverage"] = {
+    "source": "existing_quality_gate",
+    "summary": "Existing quality gate reused for sprint closeout.",
+}
+state["rust_tracker"] = {
+    "source": "existing_quality_gate",
+    "watch_count": 3,
+    "review_count": 2,
+    "rationale_count": 1,
+}
+path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
+PY
+
+python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/check_sprint_closeout_readiness.py" \
+  --state "${state_path}" \
+  >/dev/null
+
 python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/close_sprint_issue.py" \
   --repo-root "${fake_repo}" \
   --state "${state_path}" \
@@ -2540,3 +2571,70 @@ fallback_only_summary = issue_goal_metrics.summarize_issue_goal_metrics(fallback
 assert fallback_only_summary["goal_instance_count"] == 2
 assert fallback_only_summary["cumulative_metrics"]["goal_instance_count"] == 2
 PY
+
+# Default repo-native GitHub helper surfaces should work without raw `gh` fallbacks
+# and should tolerate human observability lines before JSON payloads.
+no_gh_repo="${tmpdir}/no-gh-repo"
+no_gh_state="${tmpdir}/no-gh-state.json"
+no_gh_log="${tmpdir}/no-gh-calls.log"
+no_gh_issue_state="${tmpdir}/no-gh-issue-state"
+mkdir -p "${no_gh_repo}/adl/tools" "${no_gh_repo}/adl/target/debug"
+printf 'CLOSED\n' > "${no_gh_issue_state}"
+cat > "${no_gh_repo}/adl/target/debug/adl-issue" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+subcommand="$1"
+shift
+case "${subcommand}" in
+  view)
+    issue_number="$1"
+    state="$(cat "${ISSUE_STATE_FILE}")"
+    echo 'adl_event schema=adl.observability.event.v1 command=fake issue=view'
+    printf '{"number":%s,"state":"%s","title":"child","url":"https://example.test/issues/%s"}\n' "${issue_number}" "${state}" "${issue_number}"
+    ;;
+  comment)
+    printf 'issue-comment %s %s\n' "$1" "${*:2}" >> "${CALL_LOG}"
+    ;;
+  close)
+    printf 'issue-close %s %s\n' "$1" "${*:2}" >> "${CALL_LOG}"
+    ;;
+  *) exit 9 ;;
+esac
+SH
+chmod +x "${no_gh_repo}/adl/target/debug/adl-issue"
+cat > "${no_gh_repo}/adl/target/debug/adl-pr-validation" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+pr_url="$1"
+printf 'pr-validation %s\n' "${pr_url}" >> "${CALL_LOG}"
+echo 'adl_event schema=adl.observability.event.v1 command=fake pr-validation=started'
+printf '{"pr_state":"MERGED","is_draft":false,"url":"%s"}\n' "${pr_url}"
+SH
+chmod +x "${no_gh_repo}/adl/target/debug/adl-pr-validation"
+cat > "${no_gh_state}" <<JSON
+{
+  "sprint_issue_number": 3001,
+  "ordered_issue_numbers": [2827],
+  "issue_records": [{"issue_number": 2827, "status": "closed_out", "pr_url": "https://example.test/pr/1"}],
+  "blocked_issue_number": null,
+  "deferred_issue_numbers": [],
+  "follow_up_issues": [],
+  "closeout": {"closeout_artifact_path": "${tmpdir}/no-gh-closeout.md", "readiness": "ready_to_close"}
+}
+JSON
+touch "${tmpdir}/no-gh-closeout.md"
+(
+  unset ADL_SPRINT_ISSUE_VIEW_CMD ADL_SPRINT_PR_VALIDATION_CMD ADL_SPRINT_ISSUE_COMMENT_CMD ADL_SPRINT_ISSUE_CLOSE_CMD
+  export ISSUE_STATE_FILE="${no_gh_issue_state}"
+  export CALL_LOG="${no_gh_log}"
+  python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/check_sprint_truth.py" --repo-root "${no_gh_repo}" --state "${no_gh_state}" --require-match >/dev/null
+  python3 "${repo_root}/adl/tools/skills/sprint-conductor/scripts/close_sprint_issue.py" --repo-root "${no_gh_repo}" --state "${no_gh_state}" --summary "done" >/dev/null
+)
+grep -Fq 'pr-validation https://example.test/pr/1' "${no_gh_log}"
+grep -Fq 'issue-comment 3001 --body done' "${no_gh_log}"
+grep -Fq 'issue-close 3001 --reason completed' "${no_gh_log}"
+if grep -Eq '(^| )gh( |$)|gh issue|gh pr|pr view|^issue close 3001' "${no_gh_log}"; then
+  echo "raw gh-like fallback detected" >&2
+  cat "${no_gh_log}" >&2
+  exit 1
+fi

@@ -67,6 +67,15 @@ def require_clean_close_boundary(state: dict) -> None:
         )
 
 
+def require_ready_to_close(state: dict) -> None:
+    readiness = (state.get('closeout') or {}).get('readiness')
+    if readiness != 'ready_to_close':
+        raise SystemExit(
+            'Cannot close sprint-management issue because closeout readiness is not ready_to_close; '
+            f'actual: {readiness}. Run check_sprint_closeout_readiness.py first.'
+        )
+
+
 def require_closeout_artifact(state: dict) -> None:
     closeout = state.get('closeout') or {}
     closeout_artifact_path = closeout.get('closeout_artifact_path')
@@ -97,6 +106,7 @@ def main() -> int:
     require_child_closeout_truth(state)
     require_clean_close_boundary(state)
     require_closeout_artifact(state)
+    require_ready_to_close(state)
 
     issue_comment(repo_root, sprint_issue_number, args.summary)
     issue_close(repo_root, sprint_issue_number)
