@@ -382,7 +382,7 @@ fn shepherd_report(
 
 #[test]
 fn issue_watch_routes_ready_issue_without_pr_to_pr_run() {
-    let report = build_issue_watch_report(&open_issue(4397), false, readiness_ready(), None);
+    let report = build_issue_watch_report(&open_issue(4397), false, false, readiness_ready(), None);
     assert_eq!(report.authoritative_classifier, "adl");
     assert_eq!(report.advisory_agent_mode, "local_agent_advisory_only");
     assert_eq!(report.classification, "ready_for_run");
@@ -398,6 +398,7 @@ fn issue_watch_routes_draft_pr_to_issue_watcher() {
     let report = build_issue_watch_report(
         &open_issue(4397),
         false,
+        false,
         readiness_ready(),
         Some((pr, validation_report("pending", true))),
     );
@@ -412,6 +413,7 @@ fn issue_watch_routes_all_green_draft_pr_to_janitor() {
     let pr = linked_pr(77, true);
     let report = build_issue_watch_report(
         &open_issue(4397),
+        false,
         false,
         readiness_ready(),
         Some((pr, validation_report("success", true))),
@@ -462,6 +464,7 @@ fn issue_watch_routes_failed_checks_to_pr_janitor() {
     let report = build_issue_watch_report(
         &open_issue(4397),
         false,
+        false,
         readiness_ready(),
         Some((pr, validation_report("failed", false))),
     );
@@ -476,6 +479,7 @@ fn issue_watch_routes_failed_draft_checks_to_pr_janitor() {
     let pr = linked_pr(77, true);
     let report = build_issue_watch_report(
         &open_issue(4397),
+        false,
         false,
         readiness_ready(),
         Some((pr, validation_report("failed", true))),
@@ -494,6 +498,7 @@ fn issue_watch_routes_pending_checks_to_issue_watcher() {
     let report = build_issue_watch_report(
         &open_issue(4397),
         false,
+        false,
         readiness_ready(),
         Some((pr, validation_report("pending", false))),
     );
@@ -509,6 +514,7 @@ fn issue_watch_routes_green_checks_to_issue_watcher() {
     let pr = linked_pr(77, false);
     let report = build_issue_watch_report(
         &open_issue(4397),
+        false,
         false,
         readiness_ready(),
         Some((pr, validation_report("success", false))),
@@ -527,6 +533,7 @@ fn issue_watch_routes_skipped_checks_to_issue_watcher_owned_review_handoff() {
     let report = build_issue_watch_report(
         &open_issue(4397),
         false,
+        false,
         readiness_ready(),
         Some((pr, validation_report("skipped", false))),
     );
@@ -543,11 +550,32 @@ fn issue_watch_routes_closed_completed_issue_to_closeout() {
     let mut issue = open_issue(4397);
     issue.state = "closed".to_string();
     issue.closed_at = Some("2026-06-22T00:00:00Z".to_string());
-    let report = build_issue_watch_report(&issue, true, readiness_ready(), None);
+    let report = build_issue_watch_report(&issue, true, false, readiness_ready(), None);
     assert_eq!(report.classification, "closeout_needed");
     assert_eq!(report.tail_owner, "pr-closeout");
     assert_eq!(report.shepherd_state, "closeout_required");
     assert_eq!(report.next_skill, "pr-closeout");
+}
+
+#[test]
+fn issue_watch_routes_validated_closeout_to_settled() {
+    let mut issue = open_issue(4630);
+    issue.state = "closed".to_string();
+    issue.closed_at = Some("2026-07-06T00:00:00Z".to_string());
+    let report = build_issue_watch_report(&issue, true, true, readiness_failed(), None);
+    assert_eq!(report.classification, "settled");
+    assert_eq!(report.tail_owner, "none");
+    assert_eq!(report.shepherd_state, "settled");
+    assert_eq!(report.next_skill, "none");
+    assert_eq!(report.continuation, "complete");
+    assert_eq!(report.reason, "closed_completed_issue_closeout_validated");
+
+    let shepherd = build_issue_lifecycle_shepherd_report(&report, "unknown", "unknown");
+    assert!(!shepherd.lifecycle_shepherd.active);
+    assert_eq!(shepherd.lifecycle_shepherd.state, "settled");
+    assert_eq!(shepherd.lifecycle_shepherd.owner_skill, "none");
+    assert_eq!(shepherd.lifecycle_shepherd.next_skill, "none");
+    assert!(!shepherd.lifecycle_shepherd.closeout_required);
 }
 
 #[test]
@@ -560,6 +588,7 @@ fn issue_watch_routes_closed_completed_issue_with_merged_pr_to_merged_closeout()
     let report = build_issue_watch_report(
         &issue,
         true,
+        false,
         readiness_ready(),
         Some((pr, merged_validation_report())),
     );
@@ -585,6 +614,7 @@ fn issue_watch_routes_merged_pr_to_merged_pending_closeout() {
     let report = build_issue_watch_report(
         &open_issue(4397),
         false,
+        false,
         readiness_ready(),
         Some((pr, merged_validation_report())),
     );
@@ -597,7 +627,8 @@ fn issue_watch_routes_merged_pr_to_merged_pending_closeout() {
 
 #[test]
 fn issue_watch_routes_failed_local_readiness_without_pr_to_blocked() {
-    let report = build_issue_watch_report(&open_issue(4397), false, readiness_failed(), None);
+    let report =
+        build_issue_watch_report(&open_issue(4397), false, false, readiness_failed(), None);
     assert_eq!(report.classification, "blocked");
     assert_eq!(report.tail_owner, "pr-ready");
     assert_eq!(report.shepherd_state, "local_readiness_failed");

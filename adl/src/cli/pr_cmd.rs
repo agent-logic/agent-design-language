@@ -850,6 +850,7 @@ struct IssueLifecycleSnapshot {
 
 fn build_issue_lifecycle_snapshot(parsed: &WatchArgs) -> Result<IssueLifecycleSnapshot> {
     let repo_root = repo_root()?;
+    let primary_root = primary_checkout_root()?;
     let repo = parsed
         .repo
         .clone()
@@ -937,9 +938,25 @@ fn build_issue_lifecycle_snapshot(parsed: &WatchArgs) -> Result<IssueLifecycleSn
             },
         ),
     };
+    let closeout_validated = if !closed_completed {
+        false
+    } else if let Some((pr, validation)) = linked_pr.as_ref() {
+        validation.pr_state.eq_ignore_ascii_case("MERGED")
+            && lifecycle::validated_closeout_state_matches_linked_pr(
+                &primary_root,
+                &issue_ref,
+                &pr.url,
+                pr.number,
+                issue_record.closed_at.as_deref(),
+            )
+            .unwrap_or(false)
+    } else {
+        lifecycle::validated_closeout_state_is_current(&primary_root, &issue_ref).unwrap_or(false)
+    };
     let watch_report = github::build_issue_watch_report(
         &issue_record,
         closed_completed,
+        closeout_validated,
         local_readiness,
         linked_pr,
     );

@@ -990,6 +990,352 @@ fn closeout_closed_completed_issue_bundle_records_prune_result_on_canonical_outp
     assert!(!worktree.exists(), "worktree should be pruned");
     ensure_closed_completed_issue_bundle_truth(&repo, &issue_ref, &output)
         .expect("canonical truth remains valid");
+    assert!(
+        validated_closeout_marker_is_current(&repo, &issue_ref)
+            .expect("closeout marker should parse"),
+        "validated closeout marker should be current after closeout"
+    );
+}
+
+#[test]
+fn validated_closeout_state_accepts_legacy_canonical_truth_without_marker() {
+    let temp = temp_dir("adl-pr-lifecycle-closeout-legacy-markerless");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let canonical_dir = issue_ref.task_bundle_dir_path(&repo);
+    fs::create_dir_all(&canonical_dir).expect("canonical dir");
+    fs::write(
+        canonical_dir.join("stp.md"),
+        "status: \"complete\"\n# STP\n",
+    )
+    .expect("write stp");
+    fs::write(
+        canonical_dir.join("sip.md"),
+        "Branch: codex/1410-canonical-slug\n# SIP\n",
+    )
+    .expect("write sip");
+    fs::write(
+        canonical_dir.join("srp.md"),
+        issue_ref_completed_srp_content(),
+    )
+    .expect("write srp");
+    fs::write(
+        canonical_dir.join("sor.md"),
+        issue_ref_sync_completed_output_content(),
+    )
+    .expect("write sor");
+
+    assert!(
+        validated_closeout_state_is_current(&repo, &issue_ref)
+            .expect("legacy canonical closeout truth should validate"),
+        "valid canonical closeout truth should settle without a marker"
+    );
+}
+
+#[test]
+fn validated_closeout_state_ignores_corrupt_marker_when_canonical_truth_is_valid() {
+    let temp = temp_dir("adl-pr-lifecycle-closeout-corrupt-marker");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let canonical_dir = issue_ref.task_bundle_dir_path(&repo);
+    fs::create_dir_all(&canonical_dir).expect("canonical dir");
+    fs::write(
+        canonical_dir.join("stp.md"),
+        "status: \"complete\"\n# STP\n",
+    )
+    .expect("write stp");
+    fs::write(
+        canonical_dir.join("sip.md"),
+        "Branch: codex/1410-canonical-slug\n# SIP\n",
+    )
+    .expect("write sip");
+    fs::write(
+        canonical_dir.join("srp.md"),
+        issue_ref_completed_srp_content(),
+    )
+    .expect("write srp");
+    fs::write(
+        canonical_dir.join("sor.md"),
+        issue_ref_sync_completed_output_content(),
+    )
+    .expect("write sor");
+    let marker_dir = repo.join(".adl").join("logs").join("closeout-complete");
+    fs::create_dir_all(&marker_dir).expect("marker dir");
+    fs::write(marker_dir.join("issue-1410.json"), "{not-json").expect("write corrupt marker");
+
+    assert!(
+        validated_closeout_state_is_current(&repo, &issue_ref)
+            .expect("canonical closeout truth should still validate"),
+        "corrupt marker should not reactivate a valid closed issue"
+    );
+}
+
+#[test]
+fn validated_closeout_state_matches_current_linked_pr() {
+    let temp = temp_dir("adl-pr-lifecycle-closeout-linked-pr-match");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let canonical_dir = issue_ref.task_bundle_dir_path(&repo);
+    fs::create_dir_all(&canonical_dir).expect("canonical dir");
+    fs::write(
+        canonical_dir.join("stp.md"),
+        "status: \"complete\"\n# STP\n",
+    )
+    .expect("write stp");
+    fs::write(
+        canonical_dir.join("sip.md"),
+        "Branch: codex/1410-canonical-slug\n# SIP\n",
+    )
+    .expect("write sip");
+    fs::write(
+        canonical_dir.join("srp.md"),
+        issue_ref_completed_srp_content(),
+    )
+    .expect("write srp");
+    let mut sor = issue_ref_sync_completed_output_content();
+    sor.push_str("\n## Machine-readable closeout facts\n\n```yaml\npr_url: https://github.com/example/repo/pull/1410\n```\n");
+    fs::write(canonical_dir.join("sor.md"), sor).expect("write sor");
+
+    assert!(
+        validated_closeout_state_matches_linked_pr(
+            &repo,
+            &issue_ref,
+            "https://github.com/example/repo/pull/1410",
+            1410,
+            Some("2026-01-01T00:00:05Z"),
+        )
+        .expect("linked PR closeout truth should validate"),
+        "valid canonical closeout truth should settle for the current linked PR"
+    );
+}
+
+#[test]
+fn validated_closeout_state_rejects_stale_linked_pr_context() {
+    let temp = temp_dir("adl-pr-lifecycle-closeout-linked-pr-stale");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let canonical_dir = issue_ref.task_bundle_dir_path(&repo);
+    fs::create_dir_all(&canonical_dir).expect("canonical dir");
+    fs::write(
+        canonical_dir.join("stp.md"),
+        "status: \"complete\"\n# STP\n",
+    )
+    .expect("write stp");
+    fs::write(
+        canonical_dir.join("sip.md"),
+        "Branch: codex/1410-canonical-slug\n# SIP\n",
+    )
+    .expect("write sip");
+    fs::write(
+        canonical_dir.join("srp.md"),
+        issue_ref_completed_srp_content(),
+    )
+    .expect("write srp");
+    let mut sor = issue_ref_sync_completed_output_content();
+    sor.push_str("\n## Machine-readable closeout facts\n\n```yaml\npr_url: https://github.com/example/repo/pull/1409\n```\n");
+    fs::write(canonical_dir.join("sor.md"), sor).expect("write sor");
+
+    assert!(
+        validated_closeout_state_is_current(&repo, &issue_ref)
+            .expect("generic canonical closeout truth should validate"),
+        "the generic terminal closeout truth remains valid"
+    );
+    assert!(
+        !validated_closeout_state_matches_linked_pr(
+            &repo,
+            &issue_ref,
+            "https://github.com/example/repo/pull/1410",
+            1410,
+            Some("2026-01-01T00:00:05Z"),
+        )
+        .expect("stale linked PR context should be checked"),
+        "old closeout truth must not settle a different current linked PR"
+    );
+}
+
+#[test]
+fn validated_closeout_state_rejects_incidental_pull_reference_without_pr_url() {
+    let temp = temp_dir("adl-pr-lifecycle-closeout-linked-pr-incidental");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let canonical_dir = issue_ref.task_bundle_dir_path(&repo);
+    fs::create_dir_all(&canonical_dir).expect("canonical dir");
+    fs::write(
+        canonical_dir.join("stp.md"),
+        "status: \"complete\"\n# STP\n",
+    )
+    .expect("write stp");
+    fs::write(
+        canonical_dir.join("sip.md"),
+        "Branch: codex/1410-canonical-slug\n# SIP\n",
+    )
+    .expect("write sip");
+    fs::write(
+        canonical_dir.join("srp.md"),
+        issue_ref_completed_srp_content(),
+    )
+    .expect("write srp");
+    let mut sor = issue_ref_sync_completed_output_content();
+    sor.push_str("\n## Notes\n\nThis text happens to mention /pull/1410 incidentally.\n");
+    fs::write(canonical_dir.join("sor.md"), sor).expect("write sor");
+
+    assert!(
+        !validated_closeout_state_matches_linked_pr(
+            &repo,
+            &issue_ref,
+            "https://github.com/example/repo/pull/1410",
+            1410,
+            Some("2026-01-01T00:00:05Z"),
+        )
+        .expect("incidental pull reference should be checked"),
+        "incidental pull references must not bind linked PR closeout truth"
+    );
+}
+
+#[test]
+fn validated_closeout_state_rejects_wrong_repo_pr_url_with_same_number() {
+    let temp = temp_dir("adl-pr-lifecycle-closeout-linked-pr-wrong-repo");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let canonical_dir = issue_ref.task_bundle_dir_path(&repo);
+    fs::create_dir_all(&canonical_dir).expect("canonical dir");
+    fs::write(
+        canonical_dir.join("stp.md"),
+        "status: \"complete\"\n# STP\n",
+    )
+    .expect("write stp");
+    fs::write(
+        canonical_dir.join("sip.md"),
+        "Branch: codex/1410-canonical-slug\n# SIP\n",
+    )
+    .expect("write sip");
+    fs::write(
+        canonical_dir.join("srp.md"),
+        issue_ref_completed_srp_content(),
+    )
+    .expect("write srp");
+    let mut sor = issue_ref_sync_completed_output_content();
+    sor.push_str("\n## Machine-readable closeout facts\n\n```yaml\npr_url: https://github.com/other/repo/pull/1410\n```\n");
+    fs::write(canonical_dir.join("sor.md"), sor).expect("write sor");
+
+    assert!(
+        !validated_closeout_state_matches_linked_pr(
+            &repo,
+            &issue_ref,
+            "https://github.com/example/repo/pull/1410",
+            1410,
+            Some("2026-01-01T00:00:05Z"),
+        )
+        .expect("wrong-repo PR URL should be checked"),
+        "same-number PR URL from another repo must not bind linked PR closeout truth"
+    );
+}
+
+#[test]
+fn validated_closeout_state_rejects_same_pr_stale_reclose_epoch() {
+    let temp = temp_dir("adl-pr-lifecycle-closeout-linked-pr-stale-epoch");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let canonical_dir = issue_ref.task_bundle_dir_path(&repo);
+    fs::create_dir_all(&canonical_dir).expect("canonical dir");
+    fs::write(
+        canonical_dir.join("stp.md"),
+        "status: \"complete\"\n# STP\n",
+    )
+    .expect("write stp");
+    fs::write(
+        canonical_dir.join("sip.md"),
+        "Branch: codex/1410-canonical-slug\n# SIP\n",
+    )
+    .expect("write sip");
+    fs::write(
+        canonical_dir.join("srp.md"),
+        issue_ref_completed_srp_content(),
+    )
+    .expect("write srp");
+    let mut sor = issue_ref_sync_completed_output_content();
+    sor.push_str("\n## Machine-readable closeout facts\n\n```yaml\npr_url: https://github.com/example/repo/pull/1410\n```\n");
+    fs::write(canonical_dir.join("sor.md"), sor).expect("write sor");
+    let marker_dir = repo.join(".adl").join("logs").join("closeout-complete");
+    fs::create_dir_all(&marker_dir).expect("marker dir");
+    fs::write(
+        marker_dir.join("issue-1410.json"),
+        serde_json::json!({
+            "schema": "adl.closeout.complete.v1",
+            "issue": 1410,
+            "scope": "v0.87",
+            "slug": "canonical-slug",
+            "canonical_sor": ".adl/v0.87/tasks/issue-1410__canonical-slug/sor.md",
+            "status": "validated",
+            "validated_at": "2026-01-01T00:00:10Z"
+        })
+        .to_string(),
+    )
+    .expect("write stale marker");
+
+    assert!(
+        validated_closeout_state_is_current(&repo, &issue_ref)
+            .expect("generic canonical closeout truth should validate"),
+        "the generic terminal closeout truth remains valid"
+    );
+    assert!(
+        !validated_closeout_state_matches_linked_pr(
+            &repo,
+            &issue_ref,
+            "https://github.com/example/repo/pull/1410",
+            1410,
+            Some("2026-01-01T00:00:11Z"),
+        )
+        .expect("same-PR stale reclose epoch should be checked"),
+        "old closeout truth must not settle a later reclose of the same linked PR"
+    );
+}
+
+#[test]
+fn validated_closeout_state_rejects_markerless_post_rollout_stale_reclose_epoch() {
+    let temp = temp_dir("adl-pr-lifecycle-closeout-markerless-post-rollout");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let canonical_dir = issue_ref.task_bundle_dir_path(&repo);
+    fs::create_dir_all(&canonical_dir).expect("canonical dir");
+    fs::write(
+        canonical_dir.join("stp.md"),
+        "status: \"complete\"\n# STP\n",
+    )
+    .expect("write stp");
+    fs::write(
+        canonical_dir.join("sip.md"),
+        "Branch: codex/1410-canonical-slug\n# SIP\n",
+    )
+    .expect("write sip");
+    fs::write(
+        canonical_dir.join("srp.md"),
+        issue_ref_completed_srp_content(),
+    )
+    .expect("write srp");
+    let mut sor = issue_ref_sync_completed_output_content();
+    sor.push_str("\n## Machine-readable closeout facts\n\n```yaml\npr_url: https://github.com/example/repo/pull/1410\n```\n");
+    fs::write(canonical_dir.join("sor.md"), sor).expect("write sor");
+
+    assert!(
+        !validated_closeout_state_matches_linked_pr(
+            &repo,
+            &issue_ref,
+            "https://github.com/example/repo/pull/1410",
+            1410,
+            Some("2026-07-07T00:00:00Z"),
+        )
+        .expect("markerless post-rollout stale reclose epoch should be checked"),
+        "markerless post-rollout closeout must not settle a later reclose epoch"
+    );
 }
 
 #[test]

@@ -558,10 +558,36 @@ pub(crate) fn linked_prs_for_issue(
 pub(crate) fn build_issue_watch_report(
     issue: &IssueRecord,
     closed_completed: bool,
+    closeout_validated: bool,
     local_readiness: IssueWatchLocalReadinessReport,
     linked_pr: Option<(OpenPullRequest, PrValidationReport)>,
 ) -> IssueWatchReport {
     if closed_completed {
+        if closeout_validated {
+            return IssueWatchReport {
+                schema: "adl.pr.watch.v1",
+                issue: issue.number,
+                issue_state: issue.state.to_uppercase(),
+                authoritative_classifier: "adl",
+                advisory_agent_mode: "local_agent_advisory_only",
+                classification: "settled".to_string(),
+                tail_owner: "none".to_string(),
+                shepherd_state: "settled".to_string(),
+                next_skill: "none".to_string(),
+                continuation: "complete".to_string(),
+                reason: "closed_completed_issue_closeout_validated".to_string(),
+                local_readiness,
+                linked_pr: linked_pr.map(|(pr, validation)| IssueWatchLinkedPrReport {
+                    number: pr.number,
+                    url: pr.url,
+                    head_ref_name: pr.head_ref_name,
+                    base_ref_name: pr.base_ref_name,
+                    is_draft: pr.is_draft,
+                    state: pr.state,
+                    validation,
+                }),
+            };
+        }
         let linked_pr_is_merged = linked_pr
             .as_ref()
             .is_some_and(|(_, validation)| validation.pr_state.eq_ignore_ascii_case("MERGED"));
@@ -814,6 +840,7 @@ pub(crate) fn build_issue_lifecycle_shepherd_report(
                 true,
             ),
             "closeout_needed" => (true, "closed_no_pr", "pr-closeout", "pr-closeout", true),
+            "settled" => (false, "settled", "none", "none", false),
             "blocked" => (
                 true,
                 "blocked",
