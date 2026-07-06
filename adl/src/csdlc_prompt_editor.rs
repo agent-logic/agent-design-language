@@ -3072,16 +3072,111 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Outcome truth summary.",
             ));
             fields.push(textarea(
-                "deliverables",
-                "Artifacts Produced",
+                "tracked_implementation_artifacts",
+                "Tracked Implementation Artifacts",
                 true,
-                "Produced artifacts or not-applicable rationale.",
+                "Tracked implementation artifacts or not-applicable rationale.",
             ));
             fields.push(textarea(
-                "validation_plan",
-                "Validation",
+                "additional_proof_artifacts",
+                "Additional Proof Artifacts",
                 true,
-                "Exact validation commands and results.",
+                "Additional proof artifacts or not-applicable rationale.",
+            ));
+            fields.push(textarea(
+                "actions_taken_line_1",
+                "Actions Taken Line 1",
+                true,
+                "First concrete action taken.",
+            ));
+            fields.push(textarea(
+                "actions_taken_line_2",
+                "Actions Taken Line 2",
+                true,
+                "Second concrete action taken.",
+            ));
+            fields.push(textarea(
+                "actions_taken_line_3",
+                "Actions Taken Line 3",
+                true,
+                "Third concrete action taken.",
+            ));
+            fields.push(textarea(
+                "main_repo_paths_updated",
+                "Main Repo Paths Updated",
+                true,
+                "Main-repo paths updated or pending PR publication truth.",
+            ));
+            fields.push(textarea(
+                "worktree_only_paths_remaining",
+                "Worktree-only Paths Remaining",
+                true,
+                "Worktree-only paths remaining or not-applicable rationale.",
+            ));
+            fields.push(select(
+                "integration_state",
+                "Integration State",
+                true,
+                "Lifecycle state for the integrated artifact set.",
+                &[
+                    "worktree_only",
+                    "pr_open",
+                    "merged",
+                    "closed_no_pr",
+                    "failed",
+                    "blocked",
+                ],
+            ));
+            fields.push(select(
+                "verification_scope",
+                "Verification Scope",
+                true,
+                "Where verification commands were run.",
+                &["main_repo", "worktree", "ci", "not_run"],
+            ));
+            fields.push(textarea(
+                "integration_method_used",
+                "Integration Method Used",
+                true,
+                "How the artifact set was integrated or published.",
+            ));
+            fields.push(textarea(
+                "integration_verification_command",
+                "Integration Verification Command",
+                true,
+                "Command used to verify integration state.",
+            ));
+            fields.push(textarea(
+                "integration_verification_effect",
+                "Integration Verification Effect",
+                true,
+                "What the integration verification command proved.",
+            ));
+            fields.push(select(
+                "integration_result",
+                "Integration Result",
+                true,
+                "Integration verification result.",
+                &["PASS", "FAIL", "NOT_RUN", "BLOCKED"],
+            ));
+            fields.push(textarea(
+                "validation_command",
+                "Validation Command",
+                true,
+                "Primary validation command.",
+            ));
+            fields.push(textarea(
+                "validation_effect",
+                "Validation Effect",
+                true,
+                "What the validation command proved.",
+            ));
+            fields.push(select(
+                "validation_result",
+                "Validation Result",
+                true,
+                "Primary validation result.",
+                &["PASS", "FAIL", "NOT_RUN", "BLOCKED"],
             ));
         }
     }

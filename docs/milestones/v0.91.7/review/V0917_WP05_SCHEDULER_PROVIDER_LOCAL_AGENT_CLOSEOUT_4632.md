@@ -8,8 +8,13 @@ Child issues: #4671, #4672, #4673, #4674, #4675
 
 ## Findings
 
-- No open product/runtime finding blocks WP-05 closeout. The scheduler/provider/local-agent slices are implemented as code, covered by retained proof packets, and integrated through merged PRs.
+- After the `#4932` proof repair, no known product/runtime finding blocks WP-05 closeout. The scheduler/provider/local-agent slices are implemented as code, covered by retained proof packets, and integrated through merged PRs.
 - Post-closeout code remediation `#4849` fixed the combined provider-route/model-suitability mismatch by adding fail-closed scheduler identity validation, retaining positive/negative regression proof, and regenerating the cheapest validated outcome artifact so the provider route and model suitability winner agree.
+- Post-review remediation `#4932` repaired the retained local-agent delegation
+  proof artifact from `#4675`, which still carried the pre-`#4849` ChatGPT
+  provider route while model suitability selected Gemini. The regenerated
+  artifact now matches provider route and model suitability on
+  `google/gemini-2.5-flash` while keeping local Gemma shadow-only.
 - Post-closeout lifecycle remediation `#4850` repaired this closeout packet and the root ignored WP-05 SRP/SOR card truth so closed child issues no longer present draft/not-run/current-open truth.
 - Tooling residual: `pr.sh closeout` validated child SORs but left uneven closeout-card truth in root ignored records. #4672 and #4673 retained pre-closeout placeholder fields, while #4674 and #4675 lacked explicit closeout/PR/watcher lines. Those ignored root closeout records were repaired with `sor-editor` semantics and revalidated where stale lines were changed. This is recorded as workflow tooling friction, not as a WP-05 product blocker.
 - Tooling residual: the umbrella `pr.sh run 4632` binding initially stopped on an unrelated open WP-06 PR in the explicit WP queue. The run was resumed with the repo-native `--allow-open-pr-wave` flag because this packet only closes WP-05 truth and does not touch WP-06 work.
@@ -28,6 +33,7 @@ WP-05 owns the v0.91.7 cognitive scheduler and provider/local-agent execution br
 | #4675 | #4834 | Local-agent delegation readiness | Merged; closeout SOR normalized to `completed_with_pr_closeout`. |
 | #4849 | #4855 | Provider-route/model-suitability mismatch remediation | Merged; closes the WP-05 code finding with fail-closed identity checks and regenerated proof. |
 | #4850 | this packet | WP-05 closeout/card truth remediation | Repairs stale closeout packet and local SRP/SOR truth after #4849 merge. |
+| #4932 | pending | Review register and local-agent artifact repair | Repairs the stale `#4675` retained artifact found after `#4849`; pending publication until this issue merges. |
 
 ## Implemented Product Surface
 
@@ -66,6 +72,8 @@ Post-closeout remediation artifacts:
 
 - `docs/milestones/v0.91.7/review/provider/artifacts/cheapest_validated_outcome_plan_4674.json` now records a matching `google/gemini-2.5-flash` provider route and model suitability selection after `#4849`.
 - `docs/milestones/v0.91.7/review/provider/CHEAPEST_VALIDATED_OUTCOME_POLICY_4674.md` records the matching provider-route/model-selection proof expectation after `#4849`.
+- `docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json` now records a matching `google/gemini-2.5-flash` provider route and model suitability selection after `#4932`, while retaining local Gemma as shadow-only advisory delegation.
+- `docs/milestones/v0.91.7/review/provider/LOCAL_AGENT_DELEGATION_READINESS_4675.md` records the post-review repair and the retained authority boundary after `#4932`.
 
 Lifecycle evidence reviewed:
 
@@ -122,4 +130,9 @@ Umbrella closeout validation:
 
 ## Recommended Disposition
 
-WP-05 product/runtime scope is closed. After `#4850` merges, the remaining WP-05 review finding set is resolved: `#4849` covers code correctness and `#4850` covers closeout/card truth. Remaining validation/build tooling friction is routed outside WP-05 product closure through `#4854`.
+WP-05 product/runtime scope is closed after the `#4932` repair publishes:
+`#4849` covers the scheduler identity guard and cheapest-outcome artifact,
+`#4850` covers closeout/card truth, and `#4932` covers the stale local-agent
+delegation artifact plus the canonical v0.91.7 review register. Remaining
+validation/build tooling friction is routed outside WP-05 product closure
+through `#4854`.

@@ -44,6 +44,8 @@ Input fixture:
 Expected decision surface for `first-pass-review`:
 
 - provider route remains present
+- provider route selects `google/gemini-2.5-flash`, matching the current
+  model-suitability selection after the `#4849` fail-closed identity check
 - cheapest validated outcome model selection remains present
 - local-agent readiness is present
 - selected local delegate is `local:gemma4-e2b`
@@ -78,3 +80,12 @@ into the issue target before the focused test was rerun.
 - This does not prove live Ollama runtime quality for future local models.
 - This does not replace provider/model suitability evidence; it composes with
   that evidence and records local delegation readiness separately.
+
+## Post-Closeout Repair
+
+Issue `#4932` repaired this proof after review found that the retained artifact
+still combined a ChatGPT provider route with the Gemini model-suitability
+selection. The current scheduler correctly rejects that mismatch. The fixture
+now makes the Gemini route eligible for this cheapest-validated local-agent
+delegation proof and marks the ChatGPT route ineligible because it is not the
+cheapest validated outcome for this task.

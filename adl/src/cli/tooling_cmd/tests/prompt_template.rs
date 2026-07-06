@@ -709,6 +709,97 @@ fn prompt_template_cli_edit_rendered_card_uses_values_roundtrip_default_path() {
 }
 
 #[test]
+fn prompt_template_cli_edit_rendered_sor_records_pr_open_truth() {
+    let repo = TempRepo::new("prompt-template-edit-rendered-sor");
+    let values_dir = repo.path().join("values");
+    let rendered_dir = repo.path().join("rendered");
+    let edited = repo.path().join("edited-sor.md");
+    let values_out = repo.path().join("edited-sor.values.yaml");
+    render_sample_cards_for_structure_test(&values_dir, &rendered_dir);
+    let source = rendered_dir.join("sor.md");
+
+    real_tooling(&[
+        "prompt-template".to_string(),
+        "edit-rendered".to_string(),
+        "--repo-root".to_string(),
+        repo_root_for_tests().to_string_lossy().to_string(),
+        "--kind".to_string(),
+        "sor".to_string(),
+        "--input".to_string(),
+        source.to_string_lossy().to_string(),
+        "--set".to_string(),
+        "status=DONE".to_string(),
+        "--set".to_string(),
+        "summary=Rendered SOR records PR publication truth.".to_string(),
+        "--set".to_string(),
+        "tracked_implementation_artifacts=adl/src/example.rs".to_string(),
+        "--set".to_string(),
+        "additional_proof_artifacts=.adl/review/example.md".to_string(),
+        "--set".to_string(),
+        "actions_taken_line_1=Implemented renderer-supported SOR truth.".to_string(),
+        "--set".to_string(),
+        "actions_taken_line_2=Published PR publication evidence.".to_string(),
+        "--set".to_string(),
+        "actions_taken_line_3=Deferred closeout until merge.".to_string(),
+        "--set".to_string(),
+        "main_repo_paths_updated=pending PR publication".to_string(),
+        "--set".to_string(),
+        "worktree_only_paths_remaining=tracked paths remain on PR branch".to_string(),
+        "--set".to_string(),
+        "integration_state=pr_open".to_string(),
+        "--set".to_string(),
+        "verification_scope=worktree".to_string(),
+        "--set".to_string(),
+        "integration_method_used=issue-bound PR publication".to_string(),
+        "--set".to_string(),
+        "integration_verification_command=adl pr doctor 4924".to_string(),
+        "--set".to_string(),
+        "integration_verification_effect=Verified PR-publication SOR truth.".to_string(),
+        "--set".to_string(),
+        "integration_result=PASS".to_string(),
+        "--set".to_string(),
+        "validation_command=bash adl/tools/test_prompt_template_workflow_integration.sh"
+            .to_string(),
+        "--set".to_string(),
+        "validation_effect=Verified prompt-template render/edit/validate path.".to_string(),
+        "--set".to_string(),
+        "validation_result=PASS".to_string(),
+        "--values-out".to_string(),
+        values_out.to_string_lossy().to_string(),
+        "--out".to_string(),
+        edited.to_string_lossy().to_string(),
+    ])
+    .expect("edit-rendered should support post-publication SOR truth");
+
+    let rendered_text = fs::read_to_string(&edited).expect("edited rendered SOR");
+    assert!(rendered_text.contains("Status: DONE"));
+    assert!(rendered_text.contains("Rendered SOR records PR publication truth."));
+    assert!(rendered_text.contains("Integration state:"));
+    assert!(rendered_text.contains("pr_open"));
+    assert!(rendered_text.contains("adl pr doctor 4924"));
+    assert!(rendered_text.contains("Verified PR-publication SOR truth."));
+    assert!(!rendered_text.contains("No implementation has started yet"));
+    assert!(!rendered_text
+        .contains("Tracked implementation artifacts: not_applicable until execution begins"));
+
+    let values_text = fs::read_to_string(&values_out).expect("edited values");
+    assert!(values_text.contains("integration_state:"));
+    assert!(values_text.contains("pr_open"));
+
+    real_tooling(&[
+        "prompt-template".to_string(),
+        "validate-structure".to_string(),
+        "--repo-root".to_string(),
+        repo_root_for_tests().to_string_lossy().to_string(),
+        "--kind".to_string(),
+        "sor".to_string(),
+        "--input".to_string(),
+        edited.to_string_lossy().to_string(),
+    ])
+    .expect("edit-rendered SOR output should remain structure-valid");
+}
+
+#[test]
 fn prompt_template_cli_import_values_fails_closed_for_structure_drift() {
     let repo = TempRepo::new("prompt-template-import-values-drift");
     let values_dir = repo.path().join("values");

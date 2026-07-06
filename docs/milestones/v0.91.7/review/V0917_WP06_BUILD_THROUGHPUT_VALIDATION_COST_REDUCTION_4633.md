@@ -19,11 +19,17 @@ The operator-selected lane covered:
 - `#4678` Nessus remote validation-lane consumption
 
 This packet's original selected sprint lane did not claim all WP-06 work was
-finished. The `#4679` remote-builder work was split into bounded follow-up
-issues:
+finished at the time it was opened. The `#4679` remote-builder work was split
+into bounded follow-up issues, and those follow-ups have since landed:
 
-- `#4837` finish/integrate the existing AWS Spot EC2 remote lane work
-- `#4838` create and test a GitHub Actions plus AWS CodeFriend build lane
+- `#4837` finished and integrated the existing AWS Spot EC2 remote lane work.
+- `#4838` created and tested a GitHub Actions plus AWS CodeFriend build lane.
+- `#4879` added the reusable ADL builder image path for CodeBuild, AWS Spot,
+  Nessus, and local Docker-compatible runners.
+- `#4680` added shared Rust cache/linker/target-dir setup for local and remote
+  validation paths.
+- `#4679` was reconciled as satisfied by those merged child lanes and retained
+  proof surfaces.
 
 Duplicate issues `#4858` and `#4859` were accidentally created during this
 rollup, then commented and closed as `not_planned` duplicates of `#4837` and
@@ -36,9 +42,9 @@ rollup, then commented and closed as `not_planned` duplicates of `#4837` and
 | `#4676` | Validation manager | closed/merged | PR `#4828`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | local closeout run; worktree pruned |
 | `#4800` | Fast validation lane plus fanned slow families | closed/merged | PR `#4832`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | local closeout run; worktree already absent |
 | `#4698` | Reduce long-test fanout | closed/merged | PR `#4839`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | local closeout run; worktree already absent |
-| `#4726` | Decompose monolithic `adl` binary into command-owned tools | closed/merged | PR `#4852`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | closeout still needed locally |
-| `#4677` | CI log archive to S3 | closed/merged | PR `#4856`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | closeout still needed locally |
-| `#4678` | Consume Nessus remote validation lane | closed/merged | PR `#4857`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | closeout still needed locally |
+| `#4726` | Decompose monolithic `adl` binary into command-owned tools | closed/merged | PR `#4852`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | no active PR tail; local lifecycle state is ignored `.adl/` truth |
+| `#4677` | CI log archive to S3 | closed/merged | PR `#4856`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | no active PR tail; local lifecycle state is ignored `.adl/` truth |
+| `#4678` | Consume Nessus remote validation lane | closed/merged | PR `#4857`, `adl-ci` success, `adl-coverage` success, `adl-slow-proof` skipped | no active PR tail; local lifecycle state is ignored `.adl/` truth |
 
 ## Merged Capabilities
 
@@ -83,9 +89,9 @@ The selected `#4633` sprint-lane PR tail has settled:
 - `#4678` / PR `#4857` is merged with `adl-ci` success, `adl-coverage`
   success, and `adl-slow-proof` skipped.
 
-Local closeout reconciliation is still needed for those closed issues where
-repo-native watch reports `closeout_needed`, but this packet no longer records
-an active failed or waiting-review PR tail for the selected sprint lane.
+This packet no longer records an active failed or waiting-review PR tail for the
+selected sprint lane. Local lifecycle card copies under `.adl/` are intentionally
+treated as ignored workspace state rather than tracked release evidence.
 
 ## Remote-Builder Follow-Up Reconciliation
 
@@ -101,16 +107,22 @@ operational proof packet:
 - `docs/milestones/v0.91.7/review/build_throughput/REMOTE_BUILDER_OPERATIONAL_PROOF_4679.md`
   records the umbrella proof truth for `#4679`.
 
-## Historical Remaining WP-06 Work
+The `#4837` and `#4838` release-gate dispositions were reconciled after merge:
+they now record operational, explicit-run AWS lanes with retained live proof and
+current residual operating requirements, rather than pre-merge blocker state.
 
-`#4679` has been split before execution:
+## Historical Remote-Builder Split
 
-1. `#4837` AWS Spot EC2 remote lane integration. This should consume the earlier Spot
-   work and prove the integrated lane path, cleanup behavior, and retained
-   time/cost evidence.
-2. `#4838` GitHub Actions plus AWS CodeFriend build lane. This should prove the build
-   lane from GitHub Actions through AWS CodeFriend-style infrastructure with
-   credential, cleanup, log, and cost boundaries.
+`#4679` was split before execution:
+
+1. `#4837` AWS Spot EC2 remote lane integration consumed the earlier Spot work
+   and proved the integrated lane path, cleanup behavior, retained warm EBS
+   cache behavior, and retained time/cost evidence.
+2. `#4838` GitHub Actions plus AWS CodeFriend build lane proved the build lane
+   through the Agent Logic CodeBuild project, including credential, cleanup,
+   log, cache, and cost boundaries.
+3. `#4879` added the reusable builder image and recorded image-backed Spot,
+   CodeBuild, and Nessus benchmark rows.
 
 Earlier evidence to reference when creating those issues:
 
@@ -120,11 +132,13 @@ Earlier evidence to reference when creating those issues:
 
 ## Non-Claims
 
-- This packet does not claim WP-06 is fully done.
-- This packet does not claim local closeout has completed for every closed child
-  issue where repo-native watch still reports `closeout_needed`.
+- This packet does not claim every ignored local lifecycle card under `.adl/`
+  was committed to git; `.adl/` remains local lifecycle state.
 - This packet does not claim fresh live SSH Nessus proof for `#4678`; that
   issue proved the wrapper contract locally and referenced prior live Nessus
   evidence.
 - This packet does not claim Wuji image-backed parity; Wuji is ARM64 and needs
   an arm64 or multi-arch builder image before that row is valid.
+- This packet does not claim paid AWS lanes run automatically. Spot and
+  CodeBuild remain explicit operator-triggered paths guarded by account checks,
+  dry-run defaults, and manual workflow dispatch.
