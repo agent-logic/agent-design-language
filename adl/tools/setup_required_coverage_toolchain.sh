@@ -35,10 +35,11 @@ retry() {
 
 install_lld() {
   if ! command -v ld.lld >/dev/null 2>&1; then
-    # GitHub-hosted runners can carry browser apt sources unrelated to Rust.
+    # GitHub-hosted runners can carry vendor apt sources unrelated to Rust.
     # Disable only those transient sources, then retry apt because lld is a
-    # required coverage dependency, not a best-effort accelerator.
+    # required Rust validation dependency, not a best-effort accelerator.
     sudo find /etc/apt/sources.list.d -type f -name '*google-chrome*' -exec mv {} {}.disabled \; 2>/dev/null || true
+    sudo find /etc/apt/sources.list.d -type f -name '*microsoft*' -exec mv {} {}.disabled \; 2>/dev/null || true
     retry "apt-get update" sudo apt-get update
     retry "apt-get install lld" sudo apt-get install -y --no-install-recommends lld
   fi
