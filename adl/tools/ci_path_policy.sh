@@ -436,7 +436,7 @@ is_pr_fast_coverage_workflow_change() {
   changed_payload="$(printf '%s
 ' "$diff_text" | awk '/^[+-]/ && $0 !~ /^(---|\+\+\+)/ { print substr($0, 2) }')"
   [ -n "$changed_payload" ] || return 1
-  grep -E 'Determine PR fast coverage filters|PR fast coverage summary \(json\)|PR coverage-impact preflight|coverage-impact-filter-expression.txt|--print-risk-nextest-expression|needs_fast_summary|filter_expression|coverage-summary.json|process_status|adl-pr-finish' <<<"$changed_payload" >/dev/null 2>&1 || return 1
+  grep -E 'Determine PR fast coverage filters|PR fast coverage summary \(json\)|PR coverage-impact preflight|coverage-impact-filter-expression.txt|--print-risk-nextest-expression|needs_fast_summary|filter_expression|coverage-summary.json|full_coverage_required|process_status|adl-pr-finish' <<<"$changed_payload" >/dev/null 2>&1 || return 1
   if grep -E 'Enforce coverage policy gates|Coverage \(ADL Rust workspace lcov\)|Upload coverage artifact|Upload coverage to Codecov' <<<"$changed_payload" >/dev/null 2>&1; then
     return 1
   fi
