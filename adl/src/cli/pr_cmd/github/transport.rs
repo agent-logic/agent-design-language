@@ -1116,7 +1116,7 @@ fn emit_pr_validation_attempt_log_failure(
 ) {
     let pr_number = snapshot.pr_number.to_string();
     let is_draft = snapshot.is_draft.to_string();
-    let fields = vec![
+    let fields = [
         ("pr_number".to_string(), pr_number),
         ("commit_sha".to_string(), snapshot.commit_sha.clone()),
         ("pr_state".to_string(), snapshot.state.clone()),
