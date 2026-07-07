@@ -535,7 +535,7 @@ fn real_pr_finish_fails_when_pr_janitor_auto_attach_fails() {
 }
 
 #[test]
-fn real_pr_finish_warns_but_succeeds_when_issue_watcher_auto_attach_fails() {
+fn real_pr_finish_fails_when_issue_watcher_auto_attach_fails() {
     let _guard = env_lock();
     let temp = unique_temp_dir("adl-pr-finish-watcher-fail");
     let origin = temp.join("origin.git");
@@ -745,7 +745,8 @@ fn real_pr_finish_warns_but_succeeds_when_issue_watcher_auto_attach_fails() {
         }
     }
 
-    result.expect("watcher attach failure should not block finish");
+    let err = result.expect_err("watcher attach failure must block finish");
+    assert!(err.to_string().contains("issue watcher auto-attach failed"));
     let gh_calls = fs::read_to_string(&gh_log).expect("read gh log");
     assert!(gh_calls.contains("pr create"));
 }

@@ -19,6 +19,7 @@ use crate::cli::pr_cmd::finish_support::{
     FinishValidationProfileSurfaceItem, FinishValidationSplit, FinishValidationSplitFailClosed,
     FinishValidationSplitFanoutPolicy, FinishValidationSplitFastLane,
     FinishValidationSplitSlowFamily, FinishValidationVppRecord, SorFactEmissionContext,
+    SorFactIssueWatcherContext,
 };
 use crate::cli::pr_cmd::git_support::commits_behind_origin_main;
 use crate::cli::pr_cmd::github::{PrValidationCheckReport, PrValidationReport};
@@ -729,6 +730,11 @@ review_results:
             pr_url: Some("https://github.com/danielbaustin/agent-design-language/pull/9999"),
             integration_state: "pr_open",
             closing_linkage_repaired: true,
+            issue_watcher: Some(SorFactIssueWatcherContext {
+                packet_path: ".adl/logs/issue-watcher/issue-5009/pr-9999-attachment.json",
+                last_pr_state: "draft",
+                terminal_disposition: "pending",
+            }),
         },
     )
     .expect("normalize sor emitted facts");
@@ -741,6 +747,11 @@ review_results:
     assert!(normalized.contains("Added focused SOR fact merge test coverage."));
     assert!(normalized
         .contains("pr_url: https://github.com/danielbaustin/agent-design-language/pull/9999"));
+    assert!(normalized.contains("issue_watcher:"));
+    assert!(normalized
+        .contains("packet_path: .adl/logs/issue-watcher/issue-5009/pr-9999-attachment.json"));
+    assert!(normalized.contains("last_pr_state: draft"));
+    assert!(normalized.contains("terminal_disposition: pending"));
     assert!(normalized.contains("state: pr_open"));
     assert!(normalized.contains("repaired missing PR closing linkage"));
 }
@@ -788,6 +799,7 @@ review_results:
             pr_url: Some("https://example.test/pr/1"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("first normalize");
@@ -801,6 +813,7 @@ review_results:
             pr_url: Some("https://example.test/pr/1"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("second normalize");
@@ -837,6 +850,7 @@ review_results:
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize no-checks sor emitted facts");
@@ -878,6 +892,7 @@ review_results:
             pr_url: Some("https://example.test/pr/2"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize with fallback");
@@ -920,6 +935,7 @@ review_results:
             pr_url: Some("https://example.test/pr/2"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize with missing verification summary");
@@ -963,6 +979,7 @@ review_results:
             pr_url: Some("https://example.test/pr/2"),
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("first fallback normalize");
@@ -976,6 +993,7 @@ review_results:
             pr_url: Some("https://example.test/pr/2"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("second fallback normalize");
@@ -1011,6 +1029,7 @@ review_results:
             pr_url: Some("https://example.test/pr/3"),
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("first empty-body fallback normalize");
@@ -1024,6 +1043,7 @@ review_results:
             pr_url: Some("https://example.test/pr/3"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("second empty-body fallback normalize");
@@ -1058,6 +1078,7 @@ review_results:
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize with sanitized changed-files command");
@@ -1094,6 +1115,7 @@ verification_summary:
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize without srp front matter");
@@ -1118,6 +1140,7 @@ fn sor_emitted_facts_parse_review_truth_from_crlf_front_matter() {
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize crlf srp front matter");
@@ -1160,6 +1183,7 @@ review_results:
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize numbered finding review evidence");
@@ -5659,6 +5683,61 @@ residual_ci_proof_required_before_merge: required
         Path::new("docs/review/release-gate.yaml"),
     )
     .expect("valid release-gate disposition should pass");
+}
+
+#[test]
+fn slow_pr_cmd_disposition_validates_tracked_publishable_surface() {
+    let repo = unique_temp_dir("adl-pr-finish-slow-pr-cmd-disposition-valid");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/slow-pr-cmd.yaml"),
+        r#"issue: 5009
+disposition: approved_with_focused_local_proof
+changed_release_gate_surfaces:
+  - adl/src/cli/pr_cmd/finish_support.rs
+reviewer_or_review_mode: bounded slow PR-command review
+focused_validation_run: focused issue_watcher tests and owner binary checks passed locally
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("slow PR-command disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/slow-pr-cmd.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "escalated_3_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "slow_pr_cmd_e2e_surface_requires_explicit_slow_lane".to_string(),
+                matched_paths: vec!["adl/src/cli/pr_cmd/finish_support.rs".to_string()],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: Some(
+                    "Record an explicit slow-lane disposition before publication.".to_string(),
+                ),
+            }],
+        },
+    };
+
+    validate_release_gate_disposition(
+        &repo,
+        5009,
+        &profile,
+        Path::new("docs/review/slow-pr-cmd.yaml"),
+    )
+    .expect("valid slow PR-command disposition should pass");
 }
 
 #[test]
