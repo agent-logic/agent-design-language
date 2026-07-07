@@ -2547,4 +2547,416 @@ mod tests {
         );
         assert!(!artifact.contains("arn:aws:"));
     }
+
+    #[test]
+    fn csm_governed_notice_signal_mock_publishes_all_configured_channels() {
+        let root = temp_dir("csm-notice-all-mock");
+        let loaded = sample_loaded(&root);
+        let _guard = MultiEnvGuard::set_all(&[
+            ("ADL_AWS_SIGNAL_MODE", "mock"),
+            ("ADL_AWS_HEARTBEAT_TARGET", "cloudwatch_logs"),
+            (
+                "ADL_AWS_SNS_TOPIC_ARN",
+                "arn:aws:sns:us-west-2:000000000000:adl-csm-test",
+            ),
+            ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "mock"),
+            ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "https"),
+            (
+                "ADL_CSM_NOTICE_CONTROL_PLANE_URL",
+                "https://control.example.invalid/csm",
+            ),
+        ]);
+
+        let attempts = publish_csm_governed_notice_signal(&loaded, &sample_csm_notice());
+        assert_eq!(attempts.len(), 3);
+        assert_eq!(attempts[0]["channel"], "cloudwatch_logs");
+        assert_eq!(attempts[0]["status"], "published_mock");
+        assert_eq!(attempts[1]["channel"], "acip_sns");
+        assert_eq!(attempts[1]["status"], "published_mock");
+        assert_eq!(attempts[2]["channel"], "cloudfront_control_plane");
+        assert_eq!(attempts[2]["status"], "published_mock");
+
+        assert!(csm_notice_mock_signal_artifact_path(&loaded).exists());
+        assert!(csm_notice_sns_mock_signal_artifact_path(&loaded).exists());
+        assert!(csm_notice_control_plane_mock_artifact_path(&loaded).exists());
+    }
+
+    #[test]
+    fn csm_governed_notice_signal_reports_unconfigured_and_disabled_channels() {
+        let root = temp_dir("csm-notice-disabled");
+        let loaded = sample_loaded(&root);
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[]);
+            let attempts = publish_csm_governed_notice_signal(&loaded, &sample_csm_notice());
+            assert_eq!(attempts[0]["status"], "not_configured");
+            assert_eq!(attempts[1]["status"], "not_configured");
+            assert_eq!(attempts[2]["status"], "not_configured");
+            assert_eq!(
+                attempts[2]["failure_class"],
+                "control_plane_hook_pending_4915_or_env_missing"
+            );
+        }
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_AWS_SIGNAL_MODE", "disabled"),
+                (
+                    "ADL_AWS_SNS_TOPIC_ARN",
+                    "arn:aws:sns:us-west-2:000000000000:adl-csm-test",
+                ),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "disabled"),
+                (
+                    "ADL_CSM_NOTICE_CONTROL_PLANE_URL",
+                    "https://control.example.invalid/csm",
+                ),
+            ]);
+            let attempts = publish_csm_governed_notice_signal(&loaded, &sample_csm_notice());
+            assert_eq!(attempts[0]["status"], "skipped_disabled");
+            assert_eq!(attempts[1]["status"], "skipped_disabled");
+            assert_eq!(attempts[2]["status"], "skipped_disabled");
+        }
+    }
+
+    #[test]
+    fn csm_governed_notice_signal_blocks_live_channels_before_provider_calls() {
+        let root = temp_dir("csm-notice-live-blocked");
+        let loaded = sample_loaded(&root);
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_AWS_SIGNAL_MODE", "live"),
+                ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                ("ADL_AWS_HEARTBEAT_TARGET", "sns"),
+            ]);
+            let attempt = publish_csm_notice_cloudwatch(&loaded, &sample_csm_notice());
+            assert_eq!(attempt["status"], "blocked");
+            assert_eq!(attempt["failure_class"], "aws_signal_unsupported_target");
+        }
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_AWS_SIGNAL_MODE", "live"),
+                ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                ("ADL_AWS_REGION", "us-west-2"),
+                ("ADL_AWS_PROFILE", "agent-logic-admin"),
+                ("ADL_AWS_HEARTBEAT_LOG_GROUP", "group"),
+                ("ADL_AWS_HEARTBEAT_LOG_STREAM", "stream"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "eventbridge"),
+            ]);
+            let attempts = publish_csm_governed_notice_signal(&loaded, &sample_csm_notice());
+            assert_eq!(attempts[1]["status"], "blocked");
+            assert_eq!(attempts[1]["failure_class"], "aws_acip_sns_topic_missing");
+            assert_eq!(attempts[2]["status"], "blocked");
+            assert_eq!(
+                attempts[2]["failure_class"],
+                "control_plane_event_bus_missing"
+            );
+        }
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "lambda"),
+                ("ADL_AWS_REGION", "us-west-2"),
+            ]);
+            let attempt = publish_csm_notice_control_plane(&loaded, &sample_csm_notice());
+            assert_eq!(attempt["status"], "blocked");
+            assert_eq!(
+                attempt["failure_class"],
+                "control_plane_lambda_profile_missing"
+            );
+        }
+    }
+
+    #[test]
+    fn csm_control_plane_notice_config_covers_https_and_unapproved_live() {
+        {
+            let _guard = MultiEnvGuard::set_all(&[(
+                "ADL_CSM_NOTICE_CONTROL_PLANE_URL",
+                "https://control.example.invalid/csm",
+            )]);
+            let config = ControlPlaneNoticeConfig::from_env();
+            assert!(config.configured);
+            assert_eq!(config.mode, AwsSignalMode::Disabled);
+            assert_eq!(config.mode_label(), "disabled");
+            assert_eq!(config.target, "https");
+            assert_eq!(config.target_hash().as_ref().map(String::len), Some(64));
+            assert_eq!(
+                config.live_block_reason(),
+                "control_plane_live_not_approved"
+            );
+        }
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "https"),
+            ]);
+            let config = ControlPlaneNoticeConfig::from_env();
+            assert_eq!(config.mode, AwsSignalMode::Live);
+            assert_eq!(config.live_block_reason(), "control_plane_url_missing");
+        }
+    }
+
+    #[test]
+    fn csm_notice_cloudwatch_live_block_matrix_avoids_provider_calls() {
+        let root = temp_dir("csm-cloudwatch-live-blocks");
+        let loaded = sample_loaded(&root);
+        let notice = sample_csm_notice();
+        let cases = [
+            (
+                vec![("ADL_AWS_SIGNAL_MODE", "live")],
+                "aws_signal_live_not_approved",
+            ),
+            (
+                vec![
+                    ("ADL_AWS_SIGNAL_MODE", "live"),
+                    ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                ],
+                "aws_signal_region_missing",
+            ),
+            (
+                vec![
+                    ("ADL_AWS_SIGNAL_MODE", "live"),
+                    ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                    ("ADL_AWS_REGION", "us-west-2"),
+                ],
+                "aws_signal_log_group_missing",
+            ),
+            (
+                vec![
+                    ("ADL_AWS_SIGNAL_MODE", "live"),
+                    ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                    ("ADL_AWS_REGION", "us-west-2"),
+                    ("ADL_AWS_HEARTBEAT_LOG_GROUP", "group"),
+                ],
+                "aws_signal_log_stream_missing",
+            ),
+            (
+                vec![
+                    ("ADL_AWS_SIGNAL_MODE", "live"),
+                    ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                    ("ADL_AWS_REGION", "us-west-2"),
+                    ("ADL_AWS_HEARTBEAT_LOG_GROUP", "group"),
+                    ("ADL_AWS_HEARTBEAT_LOG_STREAM", "stream"),
+                ],
+                "aws_signal_profile_missing",
+            ),
+        ];
+
+        for (env_values, expected_failure) in cases {
+            let _guard = MultiEnvGuard::set_all(&env_values);
+            let attempt = publish_csm_notice_cloudwatch(&loaded, &notice);
+            assert_eq!(attempt["status"], "blocked");
+            assert_eq!(attempt["failure_class"], expected_failure);
+        }
+    }
+
+    #[test]
+    fn csm_notice_sns_live_block_matrix_avoids_provider_calls() {
+        let root = temp_dir("csm-sns-live-blocks");
+        let loaded = sample_loaded(&root);
+        let notice = sample_csm_notice();
+        let cases = [
+            (
+                vec![("ADL_AWS_SIGNAL_MODE", "live")],
+                "aws_acip_sns_live_not_approved",
+            ),
+            (
+                vec![
+                    ("ADL_AWS_SIGNAL_MODE", "live"),
+                    ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                ],
+                "aws_acip_sns_region_missing",
+            ),
+            (
+                vec![
+                    ("ADL_AWS_SIGNAL_MODE", "live"),
+                    ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                    ("ADL_AWS_REGION", "us-west-2"),
+                ],
+                "aws_acip_sns_profile_missing",
+            ),
+            (
+                vec![
+                    ("ADL_AWS_SIGNAL_MODE", "live"),
+                    ("ADL_AWS_SIGNAL_APPROVED", "1"),
+                    ("ADL_AWS_REGION", "us-west-2"),
+                    ("ADL_AWS_PROFILE", "agent-logic-admin"),
+                ],
+                "aws_acip_sns_topic_missing",
+            ),
+        ];
+
+        for (env_values, expected_failure) in cases {
+            let _guard = MultiEnvGuard::set_all(&env_values);
+            let attempt = publish_csm_notice_sns(&loaded, &notice);
+            assert_eq!(attempt["status"], "blocked");
+            assert_eq!(attempt["failure_class"], expected_failure);
+        }
+    }
+
+    #[test]
+    fn csm_notice_control_plane_live_block_matrix_avoids_provider_calls() {
+        let root = temp_dir("csm-control-plane-live-blocks");
+        let loaded = sample_loaded(&root);
+        let notice = sample_csm_notice();
+        let cases = [
+            (
+                vec![("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live")],
+                "control_plane_live_not_approved",
+            ),
+            (
+                vec![
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "eventbridge"),
+                ],
+                "control_plane_eventbridge_region_missing",
+            ),
+            (
+                vec![
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "eventbridge"),
+                    ("ADL_AWS_REGION", "us-west-2"),
+                ],
+                "control_plane_eventbridge_profile_missing",
+            ),
+            (
+                vec![
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+                    ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "lambda"),
+                    ("ADL_AWS_REGION", "us-west-2"),
+                    ("ADL_AWS_PROFILE", "agent-logic-admin"),
+                ],
+                "control_plane_lambda_function_missing",
+            ),
+        ];
+
+        for (env_values, expected_failure) in cases {
+            let _guard = MultiEnvGuard::set_all(&env_values);
+            let attempt = publish_csm_notice_control_plane(&loaded, &notice);
+            assert_eq!(attempt["status"], "blocked");
+            assert_eq!(attempt["failure_class"], expected_failure);
+        }
+    }
+
+    #[test]
+    fn live_provider_helpers_fail_closed_before_unconfigured_provider_calls() {
+        let root = temp_dir("provider-helper-preflight");
+        let loaded = sample_loaded(&root);
+        let heartbeat_config = HeartbeatPublisherConfig {
+            mode: AwsSignalMode::Live,
+            configured: true,
+            region: None,
+            target_kind: HEARTBEAT_TARGET_KIND.to_string(),
+            approved: true,
+            profile: Some("agent-logic-admin".to_string()),
+            log_group: None,
+            log_stream: None,
+            log_group_configured: false,
+            log_stream_configured: false,
+        };
+        let heartbeat_envelope = build_runtime_heartbeat_envelope(
+            &loaded,
+            &sample_status(AgentStatusState::RunningCycle),
+            &heartbeat_config,
+            7,
+        );
+        let missing_group =
+            publish_live_cloudwatch_heartbeat(&heartbeat_config, &heartbeat_envelope)
+                .expect_err("missing log group fails before provider call");
+        assert!(missing_group.to_string().contains("LOG_GROUP"));
+
+        let missing_region = run_cloudwatch_put(
+            &heartbeat_config,
+            "group",
+            "stream",
+            heartbeat_envelope.timestamp.timestamp_millis(),
+            "{}".to_string(),
+        )
+        .expect_err("missing region fails before provider call");
+        assert!(missing_region.to_string().contains("ADL_AWS_REGION"));
+
+        let acip_config = AcipProjectionPublisherConfig {
+            mode: AwsSignalMode::Live,
+            configured: true,
+            region: None,
+            approved: true,
+            profile: Some("agent-logic-admin".to_string()),
+            topic_arn: None,
+            topic_configured: false,
+        };
+        let message = sample_acip_message();
+        let request = AcipSnsProjectionRequest {
+            runtime_id: "runtime-provider-preflight",
+            agent_id: "runtime-provider-preflight",
+            cycle_id: Some("cycle-provider-preflight"),
+            message: &message,
+            route_class: AcipRouteClassV1::CrossBoundaryDeferred,
+            projection_level: "content_summary",
+            message_ref: "acip/messages/msg-acip-0007.json",
+            trace_ref: Some("runtime/comms/trace/public_summary.json"),
+        };
+        let acip_envelope = build_acip_sns_projection_envelope(&request, &acip_config);
+        let missing_topic = publish_live_sns_acip_projection(&acip_config, &acip_envelope)
+            .expect_err("missing SNS topic fails before provider call");
+        assert!(missing_topic.to_string().contains("SNS_TOPIC_ARN"));
+
+        let missing_sns_region = run_sns_publish_with_signal_kind(
+            &acip_config,
+            "arn:aws:sns:us-west-2:000000000000:adl-csm-test",
+            "{}".to_string(),
+            "correlation-provider-preflight".to_string(),
+            "csm_governed_notice",
+        )
+        .expect_err("missing SNS region fails before provider call");
+        assert!(missing_sns_region.to_string().contains("ADL_AWS_REGION"));
+
+        let lambda_config = ControlPlaneNoticeConfig {
+            mode: AwsSignalMode::Live,
+            configured: true,
+            approved: true,
+            target: "lambda".to_string(),
+            region: None,
+            profile: Some("agent-logic-admin".to_string()),
+            endpoint: None,
+            lambda_function: None,
+            event_bus: None,
+        };
+        let csm_envelope = csm_notice_envelope(
+            &loaded,
+            &sample_csm_notice(),
+            "cloudfront_control_plane",
+            "live",
+        );
+        let lambda_missing_region = invoke_csm_notice_lambda(&lambda_config, &csm_envelope)
+            .expect_err("missing lambda region fails before provider call");
+        assert!(lambda_missing_region.to_string().contains("lambda region"));
+
+        let eventbridge_config = ControlPlaneNoticeConfig {
+            mode: AwsSignalMode::Live,
+            configured: true,
+            approved: true,
+            target: "eventbridge".to_string(),
+            region: None,
+            profile: Some("agent-logic-admin".to_string()),
+            endpoint: None,
+            lambda_function: None,
+            event_bus: None,
+        };
+        let eventbridge_missing_region =
+            put_csm_notice_eventbridge(&eventbridge_config, &csm_envelope)
+                .expect_err("missing EventBridge region fails before provider call");
+        assert!(eventbridge_missing_region
+            .to_string()
+            .contains("EventBridge region"));
+    }
 }

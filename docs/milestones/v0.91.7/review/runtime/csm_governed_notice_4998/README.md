@@ -40,4 +40,3 @@ The validator checks the EventBridge proof by default, including CloudWatch Logs
 ## Non-Claims
 
 This issue does not claim durable SQS intake, CloudWatch custom metrics, CloudWatch Agent host metrics, or a long-duration liveness soak. Those belong in follow-on WP-07 runtime observability and durability issues.
-
