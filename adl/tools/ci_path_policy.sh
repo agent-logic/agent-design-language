@@ -550,6 +550,21 @@ EOF
   [ "$saw_bounded_marker" = true ] && [ "$saw_other" = false ]
 }
 
+changed_files_include_demo_smoke_surface() {
+  local path
+  while IFS= read -r path; do
+    [ -n "$path" ] || continue
+    case "$path" in
+      demos/*|adl/tools/demo_*|adl/tools/test_demo_*)
+        return 0
+        ;;
+    esac
+  done <<EOF
+$changed_files
+EOF
+  return 1
+}
+
 is_pvf_slow_proof_workflow_change() {
   local path="$1"
   [ "$path" = ".github/workflows/ci.yaml" ] || return 1
@@ -1256,6 +1271,9 @@ EOF
       bounded_pr_fast_coverage_policy_change=false
       if [ "$rust_required" = true ] && is_bounded_pr_fast_coverage_policy_change; then
         bounded_pr_fast_coverage_policy_change=true
+        if ! changed_files_include_demo_smoke_surface; then
+          demo_smoke_required=false
+        fi
       fi
       while IFS=$'\t' read -r _status path; do
         [ -n "$path" ] || continue
