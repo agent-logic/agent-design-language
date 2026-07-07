@@ -1,11 +1,14 @@
 use super::*;
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 pub(super) struct TempRepo {
     path: PathBuf,
 }
+
+static TEMP_REPO_COUNTER: AtomicU64 = AtomicU64::new(0);
 
 pub(super) fn repo_root_for_tests() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -20,9 +23,11 @@ impl TempRepo {
             .duration_since(UNIX_EPOCH)
             .expect("system clock before unix epoch")
             .as_nanos();
+        let counter = TEMP_REPO_COUNTER.fetch_add(1, Ordering::Relaxed);
+        let pid = std::process::id();
         let path = repo_root_for_tests()
             .join(".tmp/tooling_cmd_tests")
-            .join(format!("{label}-{stamp}"));
+            .join(format!("{label}-pid{pid}-{stamp}-{counter}"));
         fs::create_dir_all(&path).expect("create temp repo root");
         Self { path }
     }
