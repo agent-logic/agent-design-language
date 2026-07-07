@@ -320,6 +320,14 @@ filter_token_for_path() {
       printf 'pr_cmd_finish'
       return 0
       ;;
+    adl/src/cli/pr_cmd.rs|\
+    adl/src/cli/pr_cmd/lifecycle.rs|\
+    adl/src/cli/pr_cmd/lifecycle/reconciliation.rs|\
+    adl/src/cli/pr_cmd/lifecycle/tests.rs|\
+    adl/src/cli/pr_cmd/github/tests/watch.rs)
+      printf 'pr_cmd_watch'
+      return 0
+      ;;
     adl/src/cli/usage.rs)
       if [ "$saw_scheduler_related_surface" = true ]; then
         printf 'scheduler_cli'
@@ -511,6 +519,7 @@ TOKEN_MAP = {
     "tokio_bootstrap": 'test(/^cli::pr_cmd::github::/) or test(/^cli::pr_cmd::github_client::/) or test(/^cli::tooling_cmd::github_release::/)',
     "pr_cmd": 'binary_id(adl::bin/adl) and test(/^cli::pr_cmd::/)',
     "pr_control_plane": 'test(/^cli::pr_cmd::/)',
+    "pr_cmd_watch": 'binary_id(adl::bin/adl) and test(/^cli::pr_cmd::(github::tests::watch|lifecycle::reconciliation|lifecycle::tests)::/)',
     "pr_cmd_finish": 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)',
     "pr_cmd::github": 'test(/^cli::pr_cmd::github::/) or test(/^cli::pr_cmd::github_client::/)',
     "github_release_": 'test(/^cli::tooling_cmd::github_release::/)',

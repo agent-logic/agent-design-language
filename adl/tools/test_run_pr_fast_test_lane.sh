@@ -48,6 +48,20 @@ assert_has "$split_control_plane_output" "mode=focused"
 assert_has "$split_control_plane_output" "filter_tokens=pr_cmd"
 assert_has "$split_control_plane_output" "filter_expression=binary_id(adl::bin/adl) and test(/^cli::pr_cmd::/)"
 
+watch_control_plane="$TMP/watch_control_plane.txt"
+cat >"$watch_control_plane" <<'EOF'
+M	adl/src/cli/pr_cmd.rs
+M	adl/src/cli/pr_cmd/github.rs
+M	adl/src/cli/pr_cmd/github/tests/watch.rs
+M	adl/src/cli/pr_cmd/lifecycle.rs
+M	adl/src/cli/pr_cmd/lifecycle/reconciliation.rs
+M	adl/src/cli/pr_cmd/lifecycle/tests.rs
+EOF
+watch_control_plane_output="$(bash "$SCRIPT" --changed-files "$watch_control_plane" --print-plan)"
+assert_has "$watch_control_plane_output" "mode=focused"
+assert_has "$watch_control_plane_output" "filter_tokens=pr_cmd_watch,pr_cmd::github"
+assert_has "$watch_control_plane_output" "filter_expression=binary_id(adl::bin/adl) and test(/^cli::pr_cmd::(github::tests::watch|lifecycle::reconciliation|lifecycle::tests)::/) or test(/^cli::pr_cmd::github::/) or test(/^cli::pr_cmd::github_client::/)"
+
 split_runtime="$TMP/split_runtime.txt"
 printf 'M\tadl/src/runtime_v2/cultivating_intelligence_parts/builder.rs\n' >"$split_runtime"
 split_runtime_output="$(bash "$SCRIPT" --changed-files "$split_runtime" --print-plan)"
