@@ -231,15 +231,20 @@ fn extract_openai_output_text(json: &Value) -> Option<String> {
 
 fn extract_anthropic_output_text(json: &Value) -> Option<String> {
     let mut chunks = Vec::new();
-    for content in json.get("content")?.as_array()? {
-        let content_type = content.get("type").and_then(|v| v.as_str());
-        if content_type == Some("text") {
-            if let Some(text) = content.get("text").and_then(|v| v.as_str()) {
-                chunks.push(text);
+    if let Some(contents) = json.get("content").and_then(|v| v.as_array()) {
+        for content in contents {
+            let content_type = content.get("type").and_then(|v| v.as_str());
+            if content_type == Some("text") {
+                if let Some(text) = content.get("text").and_then(|v| v.as_str()) {
+                    chunks.push(text);
+                }
             }
         }
     }
     let joined = chunks.join("\n").trim().to_string();
+    if joined.is_empty() && json.get("stop_reason").and_then(|v| v.as_str()) == Some("refusal") {
+        return Some(r#"{"refusal":"provider refused the request"}"#.to_string());
+    }
     (!joined.is_empty()).then_some(joined)
 }
 
