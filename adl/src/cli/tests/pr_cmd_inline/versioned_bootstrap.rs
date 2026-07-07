@@ -218,8 +218,8 @@ fn versioned_bootstrap_bundle_from_issue_prompt_includes_valid_six_cards_without
     assert!(sor.contains("Status: NOT_STARTED"));
     assert!(sor.contains("Branch: not bound yet"));
     assert!(sor.contains("## Issue Metrics Truth"));
-    assert!(!sor.contains("<start_time>"));
-    assert!(!sor.contains("<end_time>"));
+    assert!(!sor.contains("- Start Time: `"));
+    assert!(!sor.contains("- End Time: `"));
 }
 
 #[test]
