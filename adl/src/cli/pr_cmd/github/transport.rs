@@ -10,6 +10,7 @@ use anyhow::{anyhow, bail, Context, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::fs;
+use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant};
 
@@ -190,6 +191,30 @@ struct ToolingAnomalyPacket {
     remediation_route: String,
     first_observed_at_epoch_ms: u128,
     last_observed_at_epoch_ms: u128,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+struct PrValidationAttemptLogRecord {
+    schema: String,
+    command_class: String,
+    pr_number: u64,
+    commit_sha: String,
+    pr_state: String,
+    is_draft: bool,
+    disposition: String,
+    projection_status: String,
+    wait_reason: String,
+    wait_classification: String,
+    next_action: String,
+    elapsed_ms: u128,
+    poll_count: usize,
+    poll_retry_count: usize,
+    transport_retry_evidence: String,
+    terminal: bool,
+    next_poll_delay_ms: u128,
+    pending_checks: Vec<PrValidationCheckReport>,
+    failed_checks: Vec<PrValidationCheckReport>,
+    checks: Vec<PrValidationCheckReport>,
 }
 
 pub(super) fn current_pr_url_octocrab(repo: &str, branch: &str) -> Result<Option<String>> {
@@ -680,7 +705,39 @@ pub(super) fn wait_for_pr_validation_report(
         } else {
             poll_delay
         };
+
+        if !wait_terminal && started.elapsed() >= timeout {
+            emit_pr_validation_wait_timeout(&snapshot, started, poll_count, Duration::ZERO);
+            capture_pr_validation_attempt_log_best_effort(
+                &snapshot,
+                PrValidationDisposition::TimedOut,
+                started,
+                poll_count,
+                Duration::ZERO,
+                true,
+            );
+            capture_pr_validation_wait_anomaly_best_effort(
+                repo,
+                &snapshot,
+                PrValidationDisposition::TimedOut,
+                started,
+                poll_count,
+            );
+            return Ok(pr_validation_report_from_snapshot_with_disposition(
+                &snapshot,
+                PrValidationDisposition::TimedOut,
+            ));
+        }
+
         emit_pr_validation_wait_snapshot(&snapshot, disposition, started, poll_count, next_delay);
+        capture_pr_validation_attempt_log_best_effort(
+            &snapshot,
+            disposition,
+            started,
+            poll_count,
+            next_delay,
+            wait_terminal,
+        );
         capture_pr_validation_wait_anomaly_best_effort(
             repo,
             &snapshot,
@@ -693,21 +750,6 @@ pub(super) fn wait_for_pr_validation_report(
             return Ok(pr_validation_report_from_snapshot_with_disposition(
                 &snapshot,
                 disposition,
-            ));
-        }
-
-        if started.elapsed() >= timeout {
-            emit_pr_validation_wait_timeout(&snapshot, started, poll_count, Duration::ZERO);
-            capture_pr_validation_wait_anomaly_best_effort(
-                repo,
-                &snapshot,
-                PrValidationDisposition::TimedOut,
-                started,
-                poll_count,
-            );
-            return Ok(pr_validation_report_from_snapshot_with_disposition(
-                &snapshot,
-                PrValidationDisposition::TimedOut,
             ));
         }
         std::thread::sleep(poll_delay);
@@ -985,6 +1027,111 @@ fn capture_pr_validation_wait_anomaly_best_effort(
     {
         emit_pr_validation_wait_anomaly_capture_failure(repo, snapshot, disposition, &err);
     }
+}
+
+fn capture_pr_validation_attempt_log(
+    snapshot: &PrValidationSnapshot,
+    disposition: PrValidationDisposition,
+    started: Instant,
+    poll_count: usize,
+    next_poll_delay: Duration,
+    terminal: bool,
+) -> Result<()> {
+    let Some(path) = std::env::var_os("ADL_PR_VALIDATION_ATTEMPT_LOG") else {
+        return Ok(());
+    };
+    let path = PathBuf::from(path);
+    if let Some(parent) = path
+        .parent()
+        .filter(|parent| !parent.as_os_str().is_empty())
+    {
+        fs::create_dir_all(parent).context("create PR validation attempt log dir")?;
+    }
+
+    let report = pr_validation_report_from_snapshot_with_disposition(snapshot, disposition);
+    let wait_reason = pr_validation_wait_reason(snapshot, disposition, "aggregate").to_string();
+    let wait_classification =
+        pr_validation_wait_classification(snapshot, disposition, "aggregate", started.elapsed())
+            .to_string();
+    let next_action = pr_validation_wait_next_action(&wait_classification).to_string();
+    let record = PrValidationAttemptLogRecord {
+        schema: "adl.pr_validation_attempt.v1".to_string(),
+        command_class: "pr.validation.wait".to_string(),
+        pr_number: snapshot.pr_number,
+        commit_sha: snapshot.commit_sha.clone(),
+        pr_state: snapshot.state.clone(),
+        is_draft: snapshot.is_draft,
+        disposition: disposition.as_event_result().to_string(),
+        projection_status: report.projection_status.clone(),
+        wait_reason,
+        wait_classification,
+        next_action,
+        elapsed_ms: started.elapsed().as_millis(),
+        poll_count,
+        poll_retry_count: poll_count.saturating_sub(1),
+        transport_retry_evidence:
+            "observe stage=github_octocrab result=retry operation=pr.validation.status events"
+                .to_string(),
+        terminal,
+        next_poll_delay_ms: next_poll_delay.as_millis(),
+        pending_checks: report.pending_checks,
+        failed_checks: report.failed_checks,
+        checks: report.checks,
+    };
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&path)
+        .context("open PR validation attempt log")?;
+    serde_json::to_writer(&mut file, &record).context("write PR validation attempt log")?;
+    file.write_all(b"\n")
+        .context("terminate PR validation attempt log")?;
+    Ok(())
+}
+
+fn capture_pr_validation_attempt_log_best_effort(
+    snapshot: &PrValidationSnapshot,
+    disposition: PrValidationDisposition,
+    started: Instant,
+    poll_count: usize,
+    next_poll_delay: Duration,
+    terminal: bool,
+) {
+    if let Err(err) = capture_pr_validation_attempt_log(
+        snapshot,
+        disposition,
+        started,
+        poll_count,
+        next_poll_delay,
+        terminal,
+    ) {
+        emit_pr_validation_attempt_log_failure(snapshot, disposition, &err);
+    }
+}
+
+fn emit_pr_validation_attempt_log_failure(
+    snapshot: &PrValidationSnapshot,
+    disposition: PrValidationDisposition,
+    err: &anyhow::Error,
+) {
+    let pr_number = snapshot.pr_number.to_string();
+    let is_draft = snapshot.is_draft.to_string();
+    let fields = vec![
+        ("pr_number".to_string(), pr_number),
+        ("commit_sha".to_string(), snapshot.commit_sha.clone()),
+        ("pr_state".to_string(), snapshot.state.clone()),
+        ("is_draft".to_string(), is_draft),
+        (
+            "disposition".to_string(),
+            disposition.as_event_result().to_string(),
+        ),
+        ("detail".to_string(), err.to_string()),
+    ];
+    let borrowed = fields
+        .iter()
+        .map(|(key, value)| (key.as_str(), value.as_str()))
+        .collect::<Vec<_>>();
+    observability::emit_event("adl", "pr.validation.wait.attempt_log", "failed", &borrowed);
 }
 
 fn emit_pr_validation_wait_anomaly_capture_failure(
