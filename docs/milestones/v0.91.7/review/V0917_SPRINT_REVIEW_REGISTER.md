@@ -27,9 +27,8 @@ closed out in the issue/card/PR surfaces.
 - WP-07 has substantial runtime review artifacts and many closed runtime
   issues, but CSM survival/post-blocker issues remain open before final release
   readiness.
-- WP-08 has a runtime AWS/signal packet and is waiting on final review/closeout
-  reconciliation rather than missing child implementation proof. WP-09 through
-  WP-20 are not yet release-review-clean.
+- WP-08 is closed with retained runtime AWS/signal proof and closeout truth.
+  WP-09 through WP-20 are not yet release-review-clean.
 - WP-21 is closed; WP-22 and WP-23 remain open for next-milestone review and
   release ceremony.
 - Tools sprint #4806 is closed and review-remediated by #4961 for stale child
@@ -47,7 +46,7 @@ closed out in the issue/card/PR surfaces.
 | WP-05 | #4632 | closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_WP05_SCHEDULER_PROVIDER_LOCAL_AGENT_CLOSEOUT_4632.md` | #4932 is closed and repaired the stale `#4675` local-agent artifact after `#4849`; provider route and model suitability now both select Gemini while local Gemma remains shadow-only. | Keep as source truth unless new findings appear. |
 | WP-06 | #4633 | closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md` | #4936 is closed and repaired review-truth records. The WP-06 packet now records the selected sprint lane plus reconciled remote-builder follow-ons: `#4837`, `#4838`, `#4879`, `#4680`, and `#4679`. | Keep build-throughput residual non-claims visible; paid AWS lanes remain explicit operator-triggered paths. |
 | WP-07 | #4634 | closed umbrella; open CSM survival follow-ons | runtime review packets under `docs/milestones/v0.91.7/review/runtime/` plus `docs/milestones/v0.91.7/review/observability_4718/` | Runtime/OTel/Soak artifacts exist; open issues include `#4906`, `#4910`, `#4911`, `#4918`, `#4919`, `#4921`, `#4922`, `#4929`, and `#4933`. | Finish CSM survival/post-blocker issues and run final WP-07 review. |
-| WP-08 | #4635 | open; implementation packet exists | `docs/milestones/v0.91.7/review/V0917_WP08_RUNTIME_AWS_SIGNAL_OPERATIONS_4635.md` | Runtime AWS/signal child issues `#4684`-`#4688`, `#4913`, and `#4915` are closed with retained proof. Adjacent cross-cutting resilience dependency `#4782` is also closed and consumed as related AWS/remote-builder durability truth, not as a WP-08 child. Final WP-08 review/closeout truth still needs reconciliation before release-ready claim. | Run final WP-08 review/closeout reconciliation and keep live AWS proof boundaries visible. |
+| WP-08 | #4635 | closed | `docs/milestones/v0.91.7/review/V0917_WP08_RUNTIME_AWS_SIGNAL_OPERATIONS_4635.md` | Runtime AWS/signal child issues `#4684`-`#4688`, `#4913`, `#4915`, and proof-hygiene follow-up `#5006` are closed with retained proof. Adjacent cross-cutting resilience dependency `#4782` is closed and consumed as related AWS/remote-builder durability truth, not as a WP-08 child. PR `#5004` merged with required checks green, and explicit `pr.sh closeout 4635` passed STP/SIP/SOR validation. | Keep live AWS proof boundaries visible; do not claim broader release readiness from WP-08 alone. |
 | WP-09 | #4636 | open | Unity review artifacts under `docs/milestones/v0.91.7/review/unity_observatory_*` | Umbrella and child issues `#4689`-`#4691` remain open. | Finish Observatory/demo proof and review as WP-09. |
 | WP-10 | #4637 | open | none yet | Curiosity `#4692` and constructability `#4693` remain open. | Implement and review curiosity/constructability proof. |
 | WP-11 | #4638 | open | none yet | Reasoning graph, loops, skill standard, AEE/ObsMem, and Godel snapshot issues remain open. | Implement and review all WP-11 runtime/cognitive surfaces. |
@@ -69,7 +68,7 @@ closed out in the issue/card/PR surfaces.
 | Sprint | Status | Review / Remediation Packet | Findings / Residuals | Next Action |
 | --- | --- | --- | --- | --- |
 | Repo-native workflow stabilization | #4806 closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_TOOLS_SPRINT_4806_REVIEW_REMEDIATION_4961.md` | #4961 is closed and repaired stale child card truth, tracked release-visible review evidence, remaining sprint-conductor raw-`gh` helper paths, and owner-binary fallback wording. #4950 remains open for watcher `closeout_needed` ambiguity. | Keep #4950 visible until resolved. |
-| Resilience integration mini-sprint | #4778 ready for umbrella publication | `docs/milestones/v0.91.7/review/V0917_RESILIENCE_INTEGRATION_MINI_SPRINT_4778.md` | #4780, #4781, #4782, #4783, and #4784 are closed with retained workflow, provider/model, AWS/remote, runtime middleware, and failure-injection proof. PR #5014 merged with `adl-ci` and `adl-coverage` green. | Publish and close out #4778 umbrella truth. |
+| Resilience integration mini-sprint | #4778 closed | `docs/milestones/v0.91.7/review/V0917_RESILIENCE_INTEGRATION_MINI_SPRINT_4778.md` | #4780, #4781, #4782, #4783, and #4784 are closed with retained workflow, provider/model, AWS/remote, runtime middleware, and failure-injection proof. PR #5014 and umbrella PR #5018 merged with `adl-ci` and `adl-coverage` green; explicit `pr.sh closeout 4778` passed after SRP/SOR truth repair. | Keep resilience non-claims visible; do not claim full product resilience beyond the retained proof surfaces. |
 
 ## WP-05 Repair Record
 
