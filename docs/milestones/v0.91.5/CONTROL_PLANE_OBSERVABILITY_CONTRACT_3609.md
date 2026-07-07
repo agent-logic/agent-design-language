@@ -84,6 +84,20 @@ transport retries remain separate `stage=github_octocrab result=retry` events
 with `operation=pr.validation.status`, so a check failure and a GitHub transport
 failure are distinguishable in the same tail.
 
+For durable shepherding and closeout evidence, set
+`ADL_PR_VALIDATION_ATTEMPT_LOG=<jsonl-path>`. The validation wait path appends
+one `adl.pr_validation_attempt.v1` JSON record per poll. Each record includes
+the PR, head commit, aggregate disposition, projection status, wait
+classification, next action, elapsed time, poll count, poll retry count,
+transport retry evidence, terminal flag, next poll delay, and the
+pending/failed/all check snapshots. Transport retries remain authoritative in
+`stage=github_octocrab result=retry operation=pr.validation.status` events; the
+attempt record points consumers at that event stream instead of folding
+transport retries into the poll counter. The attempt log is best-effort
+evidence: a broken log sink emits
+`stage=pr.validation.wait.attempt_log result=failed` without changing the
+underlying PR validation result.
+
 For direct PR validation diagnosis without `gh pr checks`, use the Rust-owned
 status surface:
 

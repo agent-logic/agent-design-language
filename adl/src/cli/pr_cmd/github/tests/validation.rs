@@ -637,6 +637,210 @@ fn pr_validation_wait_reports_folded_slow_anomaly_packets_with_safe_body_files()
 }
 
 #[test]
+fn pr_validation_wait_writes_durable_attempt_log_for_pending_then_success() {
+    let _guard = env_lock();
+    let policy_env = clear_github_policy_env();
+    let temp = unique_temp_dir("adl-pr-validation-attempt-log");
+    let attempt_log = temp.join("attempts.jsonl");
+    let (base_uri, server) = spawn_validation_status_pending_then_success_server();
+    unsafe {
+        std::env::set_var("ADL_GITHUB_CLIENT", "octocrab");
+        std::env::set_var("GITHUB_TOKEN", "test-token");
+        std::env::set_var("ADL_GITHUB_OCTOCRAB_BASE_URI", &base_uri);
+        std::env::set_var("ADL_PR_VALIDATION_WAIT_POLL_MS", "1");
+        std::env::set_var("ADL_PR_VALIDATION_ATTEMPT_LOG", &attempt_log);
+    }
+
+    let report =
+        wait_for_pr_validation_report("owner/repo", "1159").expect("validation wait report");
+    assert_eq!(report.disposition, "success");
+
+    let log = fs::read_to_string(&attempt_log).expect("read attempt log");
+    let records = log
+        .lines()
+        .map(|line| serde_json::from_str::<serde_json::Value>(line).expect("attempt record json"))
+        .collect::<Vec<_>>();
+    assert_eq!(records.len(), 2, "attempt log should record each poll");
+    assert_eq!(records[0]["schema"], "adl.pr_validation_attempt.v1");
+    assert_eq!(records[0]["command_class"], "pr.validation.wait");
+    assert_eq!(records[0]["pr_number"], 1159);
+    assert_eq!(records[0]["disposition"], "pending");
+    assert_eq!(records[0]["projection_status"], "checks_pending");
+    assert_eq!(records[0]["poll_count"], 1);
+    assert_eq!(records[0]["poll_retry_count"], 0);
+    assert_eq!(
+        records[0]["transport_retry_evidence"],
+        "observe stage=github_octocrab result=retry operation=pr.validation.status events"
+    );
+    assert_eq!(records[0]["terminal"], false);
+    assert_eq!(records[0]["next_poll_delay_ms"], 1);
+    assert_eq!(records[0]["pending_checks"][0]["name"], "adl-ci");
+    assert_eq!(records[1]["disposition"], "success");
+    assert_eq!(records[1]["projection_status"], "ready_to_merge_or_review");
+    assert_eq!(records[1]["poll_count"], 2);
+    assert_eq!(records[1]["poll_retry_count"], 1);
+    assert_eq!(records[1]["terminal"], true);
+    assert_eq!(records[1]["next_poll_delay_ms"], 0);
+    assert_eq!(records[1]["checks"][0]["name"], "adl-ci");
+
+    let seen = server.join().expect("server join");
+    assert!(
+        seen.iter()
+            .filter(|call| call.contains("statusCheckRollup"))
+            .count()
+            >= 2,
+        "validation wait should poll until terminal success: {seen:#?}"
+    );
+
+    unsafe {
+        std::env::remove_var("ADL_GITHUB_OCTOCRAB_BASE_URI");
+        std::env::remove_var("ADL_PR_VALIDATION_WAIT_POLL_MS");
+        std::env::remove_var("ADL_PR_VALIDATION_ATTEMPT_LOG");
+    }
+    restore_github_policy_env(policy_env);
+}
+
+#[test]
+fn pr_validation_wait_attempt_log_records_timeout_once_for_one_poll() {
+    let _guard = env_lock();
+    let policy_env = clear_github_policy_env();
+    let temp = unique_temp_dir("adl-pr-validation-attempt-log-timeout");
+    let attempt_log = temp.join("attempts.jsonl");
+    let (base_uri, server) =
+        spawn_validation_status_once_server("IN_PROGRESS", Some("UNKNOWN"), "adl-ci");
+    unsafe {
+        std::env::set_var("ADL_GITHUB_CLIENT", "octocrab");
+        std::env::set_var("GITHUB_TOKEN", "test-token");
+        std::env::set_var("ADL_GITHUB_OCTOCRAB_BASE_URI", &base_uri);
+        std::env::set_var("ADL_PR_VALIDATION_WAIT_TIMEOUT_MS", "0");
+        std::env::set_var("ADL_PR_VALIDATION_WAIT_POLL_MS", "1");
+        std::env::set_var("ADL_PR_VALIDATION_ATTEMPT_LOG", &attempt_log);
+    }
+
+    let report =
+        wait_for_pr_validation_report("owner/repo", "1159").expect("timeout report returned");
+    assert_eq!(report.disposition, "timed_out");
+
+    let log = fs::read_to_string(&attempt_log).expect("read attempt log");
+    let records = log
+        .lines()
+        .map(|line| serde_json::from_str::<serde_json::Value>(line).expect("attempt record json"))
+        .collect::<Vec<_>>();
+    assert_eq!(
+        records.len(),
+        1,
+        "timeout should write one terminal record for one poll"
+    );
+    assert_eq!(records[0]["disposition"], "timed_out");
+    assert_eq!(records[0]["projection_status"], "checks_failed");
+    assert_eq!(records[0]["poll_count"], 1);
+    assert_eq!(records[0]["poll_retry_count"], 0);
+    assert_eq!(records[0]["terminal"], true);
+    assert_eq!(records[0]["next_poll_delay_ms"], 0);
+
+    let seen = server.join().expect("server join");
+    assert_eq!(seen.len(), 1);
+
+    unsafe {
+        std::env::remove_var("ADL_GITHUB_OCTOCRAB_BASE_URI");
+        std::env::remove_var("ADL_PR_VALIDATION_WAIT_TIMEOUT_MS");
+        std::env::remove_var("ADL_PR_VALIDATION_WAIT_POLL_MS");
+        std::env::remove_var("ADL_PR_VALIDATION_ATTEMPT_LOG");
+    }
+    restore_github_policy_env(policy_env);
+}
+
+#[test]
+fn pr_validation_wait_attempt_log_failure_event_omits_raw_sink_path() {
+    let _guard = env_lock();
+    let policy_env = clear_github_policy_env();
+    let temp = unique_temp_dir("adl-pr-validation-attempt-log-failure");
+    let blocker = temp.join("not-a-directory");
+    let attempt_log = blocker.join("attempts.jsonl");
+    let log_path = temp.join("events.log");
+    fs::write(&blocker, "occupied").expect("write blocker");
+    let (base_uri, server) =
+        spawn_validation_status_once_server("COMPLETED", Some("SUCCESS"), "adl-ci");
+    unsafe {
+        std::env::set_var("ADL_GITHUB_CLIENT", "octocrab");
+        std::env::set_var("GITHUB_TOKEN", "test-token");
+        std::env::set_var("ADL_GITHUB_OCTOCRAB_BASE_URI", &base_uri);
+        std::env::set_var("ADL_PR_VALIDATION_ATTEMPT_LOG", &attempt_log);
+        std::env::set_var("ADL_OBSERVABILITY_STDERR", "0");
+        std::env::set_var("ADL_OBSERVABILITY_LOG", &log_path);
+    }
+
+    let report =
+        wait_for_pr_validation_report("owner/repo", "1159").expect("validation result should win");
+    assert_eq!(report.disposition, "success");
+
+    let log = fs::read_to_string(&log_path).expect("read observability log");
+    assert!(log.contains("stage=pr.validation.wait.attempt_log"));
+    assert!(log.contains("result=failed"));
+    assert!(log.contains("detail=create PR validation attempt log dir"));
+    assert!(
+        !log.contains(temp.to_str().expect("temp path utf8")),
+        "attempt-log failure event must not leak raw local temp path: {log}"
+    );
+
+    let seen = server.join().expect("server join");
+    assert_eq!(seen.len(), 1);
+
+    unsafe {
+        std::env::remove_var("ADL_GITHUB_OCTOCRAB_BASE_URI");
+        std::env::remove_var("ADL_PR_VALIDATION_ATTEMPT_LOG");
+        std::env::remove_var("ADL_OBSERVABILITY_STDERR");
+        std::env::remove_var("ADL_OBSERVABILITY_LOG");
+    }
+    restore_github_policy_env(policy_env);
+}
+
+#[test]
+fn pr_validation_wait_attempt_log_records_terminal_failed_check_without_extra_polling() {
+    let _guard = env_lock();
+    let policy_env = clear_github_policy_env();
+    let temp = unique_temp_dir("adl-pr-validation-attempt-log-failed");
+    let attempt_log = temp.join("attempts.jsonl");
+    let (base_uri, server) =
+        spawn_validation_status_once_server("COMPLETED", Some("FAILURE"), "adl-ci");
+    unsafe {
+        std::env::set_var("ADL_GITHUB_CLIENT", "octocrab");
+        std::env::set_var("GITHUB_TOKEN", "test-token");
+        std::env::set_var("ADL_GITHUB_OCTOCRAB_BASE_URI", &base_uri);
+        std::env::set_var("ADL_PR_VALIDATION_ATTEMPT_LOG", &attempt_log);
+    }
+
+    let report =
+        wait_for_pr_validation_report("owner/repo", "1159").expect("failed report returned");
+    assert_eq!(report.disposition, "failed");
+
+    let log = fs::read_to_string(&attempt_log).expect("read attempt log");
+    let records = log
+        .lines()
+        .map(|line| serde_json::from_str::<serde_json::Value>(line).expect("attempt record json"))
+        .collect::<Vec<_>>();
+    assert_eq!(records.len(), 1);
+    assert_eq!(records[0]["disposition"], "failed");
+    assert_eq!(records[0]["projection_status"], "checks_failed");
+    assert_eq!(records[0]["terminal"], true);
+    assert_eq!(records[0]["failed_checks"][0]["name"], "adl-ci");
+    assert_eq!(records[0]["poll_retry_count"], 0);
+
+    let seen = server.join().expect("server join");
+    assert_eq!(
+        seen.len(),
+        1,
+        "red check should stop without burning another validation poll"
+    );
+
+    unsafe {
+        std::env::remove_var("ADL_GITHUB_OCTOCRAB_BASE_URI");
+        std::env::remove_var("ADL_PR_VALIDATION_ATTEMPT_LOG");
+    }
+    restore_github_policy_env(policy_env);
+}
+
+#[test]
 fn pr_validation_wait_keeps_validation_result_when_anomaly_capture_fails() {
     let _guard = env_lock();
     let policy_env = clear_github_policy_env();
