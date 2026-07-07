@@ -636,7 +636,12 @@ fn publish_csm_notice_cloudwatch(
                     None,
                     Some("aws_csm_governed_notice_mock.jsonl".to_string()),
                 ),
-                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+                Err(_) => csm_notice_attempt(
+                    base,
+                    "failed",
+                    Some("aws_signal_mock_write_failed".to_string()),
+                    None,
+                ),
             }
         }
         AwsSignalMode::Live => {
@@ -673,7 +678,14 @@ fn publish_csm_notice_cloudwatch(
             };
             let message = match serde_json::to_string(&envelope) {
                 Ok(value) => value,
-                Err(err) => return csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+                Err(_) => {
+                    return csm_notice_attempt(
+                        base,
+                        "failed",
+                        Some("csm_notice_serialization_failed".to_string()),
+                        None,
+                    )
+                }
             };
             match run_cloudwatch_put(
                 &config,
@@ -683,7 +695,12 @@ fn publish_csm_notice_cloudwatch(
                 message,
             ) {
                 Ok(()) => csm_notice_attempt(base, "published_live", None, None),
-                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+                Err(_) => csm_notice_attempt(
+                    base,
+                    "failed",
+                    Some("aws_signal_live_publish_failed".to_string()),
+                    None,
+                ),
             }
         }
     }
@@ -712,7 +729,12 @@ fn publish_csm_notice_sns(
                     None,
                     Some("aws_csm_governed_notice_sns_mock.jsonl".to_string()),
                 ),
-                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+                Err(_) => csm_notice_attempt(
+                    base,
+                    "failed",
+                    Some("aws_acip_sns_mock_write_failed".to_string()),
+                    None,
+                ),
             }
         }
         AwsSignalMode::Live => {
@@ -733,7 +755,14 @@ fn publish_csm_notice_sns(
             };
             let message = match serde_json::to_string(&envelope) {
                 Ok(value) => value,
-                Err(err) => return csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+                Err(_) => {
+                    return csm_notice_attempt(
+                        base,
+                        "failed",
+                        Some("csm_notice_serialization_failed".to_string()),
+                        None,
+                    )
+                }
             };
             let correlation_id = notice
                 .get("notice_id")
@@ -750,7 +779,12 @@ fn publish_csm_notice_sns(
                 Ok(message_id) => {
                     csm_notice_attempt(base, "published_live", None, Some(message_id))
                 }
-                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+                Err(_) => csm_notice_attempt(
+                    base,
+                    "failed",
+                    Some("aws_acip_sns_publish_failed".to_string()),
+                    None,
+                ),
             }
         }
     }
@@ -801,7 +835,12 @@ fn publish_csm_notice_control_plane(
                 None,
                 Some("csm_governed_notice_control_plane_mock.jsonl".to_string()),
             ),
-            Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+            Err(_) => csm_notice_attempt(
+                base,
+                "failed",
+                Some("control_plane_mock_write_failed".to_string()),
+                None,
+            ),
         },
         AwsSignalMode::Live => {
             if !config.approved {
@@ -837,7 +876,12 @@ fn publish_csm_notice_control_plane(
                     )),
                     None,
                 ),
-                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+                Err(_) => csm_notice_attempt(
+                    base,
+                    "failed",
+                    Some("control_plane_http_transport_failed".to_string()),
+                    None,
+                ),
             }
         }
     }

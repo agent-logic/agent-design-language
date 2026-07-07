@@ -52,6 +52,14 @@ bash adl/tools/run_aws_spot_remote_validation_lane.sh \
   --json
 ```
 
+Use `m7a.2xlarge` as the default ADL Spot validation shape for Rust builds that
+compile the AWS SDK stack. The current retained positive proof for this lane
+uses `m7a.2xlarge` with the warm EBS cache. Do not route ADL Rust/AWS SDK builds
+to `c7i.large`; #4998 retained negative evidence shows that shape failed during
+`aws-sdk-ec2` compilation with `sccache: Compiler killed by signal 9`. Smaller
+or cheaper instance types are experimental until they have retained success
+evidence for the same workload class.
+
 By default the wrapper forwards the retained WP-06 cache volume:
 
 ```text
