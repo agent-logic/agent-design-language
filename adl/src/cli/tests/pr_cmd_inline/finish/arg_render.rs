@@ -10,7 +10,8 @@ use crate::cli::pr_cmd::finish_support::{
     non_closing_lifecycle_line, normalize_docs_only_sor_text, normalize_sor_emitted_facts_fixture,
     open_pr_url_nonblocking, open_pr_url_nonblocking_with_timeout, push_finish_branch_with_git,
     ready_only_finish_pr_state_is_promotable, real_pr_finish,
-    reject_local_issue_bundle_paths_in_finish_paths, render_default_finish_validation,
+    reject_local_issue_bundle_paths_in_finish_paths,
+    release_gate_disposition_backed_finish_validation_plan, render_default_finish_validation,
     resolve_finish_issue_scope_and_slug, restage_finish_output_truth_paths,
     run_finish_validation_status, select_finish_validation_plan_for_finish,
     validate_ready_only_finish_pr_state, validate_release_gate_disposition, FinishValidationMode,
@@ -5775,6 +5776,186 @@ residual_ci_proof_required_before_merge: required
         Path::new("docs/review/slow-pr-cmd.yaml"),
     )
     .expect("valid slow PR-command disposition should pass");
+}
+
+#[test]
+fn broad_runtime_owner_lane_disposition_builds_publishable_finish_plan() {
+    let repo = unique_temp_dir("adl-pr-finish-broad-runtime-owner-disposition-valid");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/broad-runtime-owner.yaml"),
+        r#"issue: 5042
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/long_lived_agent.rs
+  - adl/src/execute/mod.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime --build
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("broad runtime owner disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/broad-runtime-owner.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "escalated_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "too_many_focused_filters_require_full_nextest".to_string(),
+                matched_paths: vec![
+                    "adl/src/long_lived_agent.rs".to_string(),
+                    "adl/src/execute/mod.rs".to_string(),
+                ],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: Some(
+                    "Route this broad runtime change to the runtime owner lane.".to_string(),
+                ),
+            }],
+        },
+    };
+
+    let plan = release_gate_disposition_backed_finish_validation_plan(
+        &repo,
+        5042,
+        &profile,
+        Some(Path::new("docs/review/broad-runtime-owner.yaml")),
+    )
+    .expect("broad runtime owner disposition should validate")
+    .expect("broad runtime owner disposition should produce a plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/run_owner_validation_lane.sh runtime --build".to_string()));
+}
+
+#[test]
+fn broad_runtime_owner_lane_disposition_fails_closed_when_current_path_missing() {
+    let repo = unique_temp_dir("adl-pr-finish-broad-runtime-owner-disposition-stale");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/broad-runtime-owner.yaml"),
+        r#"issue: 5042
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/long_lived_agent.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime --build
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("broad runtime owner disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/broad-runtime-owner.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "escalated_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "broad_rust_surface_requires_full_nextest".to_string(),
+                matched_paths: vec![
+                    "adl/src/long_lived_agent.rs".to_string(),
+                    "adl/src/execute/mod.rs".to_string(),
+                ],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: None,
+            }],
+        },
+    };
+
+    let err = validate_release_gate_disposition(
+        &repo,
+        5042,
+        &profile,
+        Path::new("docs/review/broad-runtime-owner.yaml"),
+    )
+    .expect_err("stale broad runtime owner disposition should fail closed");
+    assert!(err
+        .to_string()
+        .contains("does not cover required release-gate surface"));
+}
+
+#[test]
+fn broad_runtime_owner_lane_disposition_rejects_non_executable_proof_text() {
+    let repo = unique_temp_dir("adl-pr-finish-broad-runtime-owner-disposition-bad-command");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/broad-runtime-owner.yaml"),
+        r#"issue: 5042
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/long_lived_agent.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: runtime owner lane passed locally
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("broad runtime owner disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/broad-runtime-owner.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "escalated_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "too_many_focused_filters_require_full_nextest".to_string(),
+                matched_paths: vec!["adl/src/long_lived_agent.rs".to_string()],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: None,
+            }],
+        },
+    };
+
+    let err = validate_release_gate_disposition(
+        &repo,
+        5042,
+        &profile,
+        Path::new("docs/review/broad-runtime-owner.yaml"),
+    )
+    .expect_err("non-executable broad runtime owner proof text should fail closed");
+    assert!(err
+        .to_string()
+        .contains("must declare an executable runtime owner proof command"));
 }
 
 #[test]

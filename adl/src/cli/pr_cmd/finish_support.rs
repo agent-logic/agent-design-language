@@ -2897,7 +2897,7 @@ fn profile_backed_finish_validation_plan(
     Some(FinishValidationPlan { mode, commands })
 }
 
-fn release_gate_disposition_backed_finish_validation_plan(
+pub(super) fn release_gate_disposition_backed_finish_validation_plan(
     repo_root: &Path,
     issue_number: u32,
     profile: &FinishValidationProfile,
@@ -2914,9 +2914,22 @@ fn release_gate_disposition_backed_finish_validation_plan(
         return Ok(None);
     };
     validate_release_gate_disposition(repo_root, issue_number, profile, disposition_path)?;
+    let broad_runtime_owner_proof_required =
+        finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile);
+    let broad_runtime_owner_proof = if broad_runtime_owner_proof_required {
+        Some(broad_runtime_owner_lane_proof_command_from_disposition(
+            repo_root,
+            disposition_path,
+        )?)
+    } else {
+        None
+    };
 
     for item in &profile.run {
         ensure_finish_validation_command_supported(repo_root, &item.command)?;
+    }
+    if let Some(command) = broad_runtime_owner_proof.as_deref() {
+        ensure_finish_validation_command_supported(repo_root, command)?;
     }
 
     let mut commands = vec![
@@ -2932,7 +2945,14 @@ fn release_gate_disposition_backed_finish_validation_plan(
     for item in &profile.run {
         push_finish_validation_command(&mut commands, &item.command);
     }
-    let mode = profile_backed_finish_validation_mode(issue_number, profile);
+    if let Some(command) = broad_runtime_owner_proof {
+        push_finish_validation_command(&mut commands, &command);
+    }
+    let mode = if broad_runtime_owner_proof_required {
+        FinishValidationMode::LargerBinaryFocused
+    } else {
+        profile_backed_finish_validation_mode(issue_number, profile)
+    };
     Ok(Some(FinishValidationPlan { mode, commands }))
 }
 
@@ -2963,6 +2983,23 @@ fn finish_validation_profile_accepts_explicit_disposition(
 ) -> bool {
     finish_validation_profile_requires_release_gate_disposition(profile)
         || finish_validation_profile_requires_slow_lane_disposition(profile)
+        || finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile)
+}
+
+fn finish_validation_profile_requires_broad_runtime_owner_lane_disposition(
+    profile: &FinishValidationProfile,
+) -> bool {
+    profile.escalation.required
+        && profile.escalation.reasons.iter().all(|reason| {
+            reason.lane_id == "rust_pr_fast"
+                && reason.status == "escalated"
+                && matches!(
+                    reason.reason.as_str(),
+                    "broad_rust_surface_requires_full_nextest"
+                        | "too_many_focused_filters_require_full_nextest"
+                )
+        })
+        && !profile.escalation.reasons.is_empty()
 }
 
 pub(super) fn validate_release_gate_disposition(
@@ -3032,11 +3069,14 @@ pub(super) fn validate_release_gate_disposition(
         &["reviewer_or_review_mode", "reviewer", "review_mode"],
         "reviewer/review mode",
     )?;
-    require_nonempty_yaml_string(
+    let focused_validation_run = require_nonempty_yaml_string(
         mapping,
         &["focused_validation_run", "focused_validation", "validation"],
         "focused validation run",
     )?;
+    if finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile) {
+        validate_broad_runtime_owner_lane_proof_command(&focused_validation_run)?;
+    }
     require_nonempty_yaml_string(
         mapping,
         &[
@@ -3068,6 +3108,47 @@ pub(super) fn validate_release_gate_disposition(
     Ok(())
 }
 
+fn broad_runtime_owner_lane_proof_command_from_disposition(
+    repo_root: &Path,
+    disposition_path: &Path,
+) -> Result<String> {
+    let disposition_abs = repo_root.join(disposition_path);
+    let body = fs::read_to_string(&disposition_abs).with_context(|| {
+        format!(
+            "finish: failed to read broad runtime owner-lane disposition '{}'",
+            disposition_path.display()
+        )
+    })?;
+    let value: Value = serde_yaml::from_str(&body).with_context(|| {
+        format!(
+            "finish: broad runtime owner-lane disposition '{}' is not valid YAML/JSON",
+            disposition_path.display()
+        )
+    })?;
+    let mapping = value.as_mapping().ok_or_else(|| {
+        anyhow!("finish: broad runtime owner-lane disposition must be a YAML/JSON mapping")
+    })?;
+    let command = require_nonempty_yaml_string(
+        mapping,
+        &["focused_validation_run", "focused_validation", "validation"],
+        "focused validation run",
+    )?;
+    validate_broad_runtime_owner_lane_proof_command(&command)?;
+    Ok(command)
+}
+
+fn validate_broad_runtime_owner_lane_proof_command(command: &str) -> Result<()> {
+    match command.trim() {
+        "bash adl/tools/run_owner_validation_lane.sh runtime"
+        | "bash adl/tools/run_owner_validation_lane.sh runtime --build"
+        | "bash adl/tools/run_owner_validation_lane.sh all --build" => Ok(()),
+        other => bail!(
+            "finish: broad runtime owner-lane disposition must declare an executable runtime owner proof command, got '{}'",
+            sanitize_validation_profile_command(other)
+        ),
+    }
+}
+
 fn ensure_release_gate_disposition_is_in_index(repo_root: &Path, path: &Path) -> Result<()> {
     let path = path_str(path)?;
     let result = run_capture_allow_failure(
@@ -3095,7 +3176,14 @@ fn release_gate_matched_paths(profile: &FinishValidationProfile) -> Vec<String> 
         let slow_lane_required = reason.lane_id == "rust_pr_fast"
             && reason.status == "escalated"
             && reason.reason == "slow_pr_cmd_e2e_surface_requires_explicit_slow_lane";
-        if release_gate_required || slow_lane_required {
+        let broad_runtime_required = reason.lane_id == "rust_pr_fast"
+            && reason.status == "escalated"
+            && matches!(
+                reason.reason.as_str(),
+                "broad_rust_surface_requires_full_nextest"
+                    | "too_many_focused_filters_require_full_nextest"
+            );
+        if release_gate_required || slow_lane_required || broad_runtime_required {
             for path in &reason.matched_paths {
                 if !paths.iter().any(|existing| existing == path) {
                     paths.push(path.clone());
@@ -3315,6 +3403,9 @@ fn ensure_finish_validation_command_supported(repo_root: &Path, command: &str) -
         manager_backed_pr_fast_changed_files_arg(command)?;
         return Ok(());
     }
+    if finish_validation_command_is_owner_lane(command) {
+        return Ok(());
+    }
     if !repo_root
         .join(FINISH_VALIDATION_SELECTOR_MANIFEST)
         .is_file()
@@ -3403,6 +3494,9 @@ fn registered_validation_atom_supported(command: &str) -> bool {
         ["bash", "adl/tools/run_owner_validation_lane.sh", lane] => {
             matches!(*lane, "csdlc" | "runtime" | "review")
         }
+        ["bash", "adl/tools/run_owner_validation_lane.sh", lane, "--build"] => {
+            matches!(*lane, "runtime" | "review" | "all")
+        }
         ["python3", "-m", "py_compile", scripts @ ..] => {
             !scripts.is_empty()
                 && scripts
@@ -3432,6 +3526,18 @@ fn registered_validation_atom_supported(command: &str) -> bool {
         }
         _ => false,
     }
+}
+
+fn finish_validation_command_is_owner_lane(command: &str) -> bool {
+    matches!(
+        command.trim(),
+        "bash adl/tools/run_owner_validation_lane.sh csdlc"
+            | "bash adl/tools/run_owner_validation_lane.sh runtime"
+            | "bash adl/tools/run_owner_validation_lane.sh runtime --build"
+            | "bash adl/tools/run_owner_validation_lane.sh review"
+            | "bash adl/tools/run_owner_validation_lane.sh review --build"
+            | "bash adl/tools/run_owner_validation_lane.sh all --build"
+    )
 }
 
 fn execute_registered_validation_command(repo_root: &Path, command: &str) -> Result<bool> {
