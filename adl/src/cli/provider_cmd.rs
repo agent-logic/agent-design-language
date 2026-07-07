@@ -349,6 +349,29 @@ mod tests {
     use std::env;
     use std::time::{SystemTime, UNIX_EPOCH};
 
+    struct TestDirLock {
+        path: PathBuf,
+    }
+
+    impl Drop for TestDirLock {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir(&self.path);
+        }
+    }
+
+    fn acquire_test_dir_lock(path: PathBuf) -> TestDirLock {
+        for _ in 0..500 {
+            match fs::create_dir(&path) {
+                Ok(()) => return TestDirLock { path },
+                Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
+                    std::thread::sleep(std::time::Duration::from_millis(10));
+                }
+                Err(err) => panic!("failed to create test lock {}: {err}", path.display()),
+            }
+        }
+        panic!("timed out waiting for test lock {}", path.display());
+    }
+
     fn temp_repo(name: &str) -> PathBuf {
         let unique = SystemTime::now()
             .duration_since(UNIX_EPOCH)
@@ -604,6 +627,10 @@ mod tests {
             .parent()
             .expect("adl crate lives under repo root")
             .to_path_buf();
+        fs::create_dir_all(repo_root.join(".adl/provider-setup"))
+            .expect("create provider setup root");
+        let _dir_guard =
+            acquire_test_dir_lock(repo_root.join(".adl/provider-setup/.deepseek-test.lock"));
         let prev_dir = env::current_dir().expect("cwd");
         env::set_current_dir(&repo_root).expect("switch to repo root");
         let out = repo_root.join(".adl/provider-setup/deepseek");

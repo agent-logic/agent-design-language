@@ -7,6 +7,7 @@ use crate::provider_substrate::{
 use serde_json::json;
 use std::collections::HashMap;
 use std::env;
+use std::fs;
 use std::net::TcpListener;
 use std::sync::{Arc, Mutex, OnceLock};
 use std::thread;
@@ -207,6 +208,187 @@ fn bedrock_error_sanitizer_removes_signed_aws_values() {
     assert!(!sanitized.contains("AWS4-HMAC-SHA256"));
     assert!(!sanitized.contains("AKIAIOSFODNN7EXAMPLE"));
     assert!(!sanitized.contains("abc123def456"));
+}
+
+#[test]
+fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
+    let _guard = env_lock();
+    let artifact = std::env::temp_dir().join(format!(
+        "adl-bedrock-provider-invocations-{}-{}.json",
+        std::process::id(),
+        "record"
+    ));
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let _ = fs::remove_file(&artifact);
+    let _ = fs::remove_dir(invocation_lock_path(&artifact));
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+
+    write_bedrock_invocation_record(
+        "amazon.nova-lite-v1:0",
+        "hello bedrock",
+        "bedrock ok",
+        200,
+        "agent-logic-admin",
+        "us-west-2",
+        Some("account-hash"),
+    )
+    .expect("first bedrock invocation record should write");
+    write_bedrock_invocation_record(
+        "amazon.nova-pro-v1:0",
+        "second",
+        "ok",
+        202,
+        "agent-logic-admin",
+        "us-east-1",
+        None,
+    )
+    .expect("second bedrock invocation record should append");
+
+    let payload: serde_json::Value =
+        serde_json::from_slice(&fs::read(&artifact).expect("artifact should exist"))
+            .expect("artifact should be json");
+    assert_eq!(
+        payload["credential_policy"],
+        "operator_env_or_aws_profile_only_no_secret_material_recorded"
+    );
+    let invocations = payload["invocations"]
+        .as_array()
+        .expect("invocations array");
+    assert_eq!(invocations.len(), 2);
+    assert_eq!(invocations[0]["family"], "bedrock");
+    assert_eq!(invocations[0]["model"], "amazon.nova-lite-v1:0");
+    assert_eq!(invocations[0]["http_status"], 200);
+    assert_eq!(invocations[0]["aws_profile"], "agent-logic-admin");
+    assert_eq!(invocations[0]["aws_region"], "us-west-2");
+    assert_eq!(invocations[0]["account_id_sha256"], "account-hash");
+    assert_eq!(
+        invocations[0]["account_profile_validation_status"],
+        "sts_verified"
+    );
+    assert_eq!(invocations[1]["account_id_sha256"], serde_json::Value::Null);
+
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    fs::remove_file(&artifact).expect("cleanup artifact");
+}
+
+#[test]
+fn bedrock_invocation_artifact_rejects_invalid_existing_payloads() {
+    let _guard = env_lock();
+    let artifact = std::env::temp_dir().join(format!(
+        "adl-bedrock-provider-invocations-{}-{}.json",
+        std::process::id(),
+        "invalid"
+    ));
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let _ = fs::remove_file(&artifact);
+    let _ = fs::remove_dir(invocation_lock_path(&artifact));
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+
+    fs::write(&artifact, b"{not-json").expect("write invalid json");
+    let err = write_bedrock_invocation_record(
+        "amazon.nova-lite-v1:0",
+        "prompt",
+        "output",
+        200,
+        "agent-logic-admin",
+        "us-west-2",
+        Some("account-hash"),
+    )
+    .expect_err("invalid existing artifact should fail closed");
+    assert!(err
+        .to_string()
+        .contains("provider invocation artifact is invalid JSON"));
+
+    fs::write(&artifact, br#"{"schema_version":"x"}"#).expect("write missing array");
+    let err = write_bedrock_invocation_record(
+        "amazon.nova-lite-v1:0",
+        "prompt",
+        "output",
+        200,
+        "agent-logic-admin",
+        "us-west-2",
+        None,
+    )
+    .expect_err("missing invocations array should fail closed");
+    assert!(err
+        .to_string()
+        .contains("provider invocation artifact missing invocations array"));
+
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    fs::remove_file(&artifact).expect("cleanup artifact");
+}
+
+#[test]
+fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
+    let _guard = env_lock();
+    let prev_profile = env::var_os("ADL_AWS_PROFILE");
+    let prev_aws_profile = env::var_os("AWS_PROFILE");
+    let prev_region = env::var_os("AWS_REGION");
+    let prev_default_region = env::var_os("AWS_DEFAULT_REGION");
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    env::remove_var("ADL_AWS_PROFILE");
+    env::remove_var("AWS_PROFILE");
+    env::remove_var("AWS_REGION");
+    env::remove_var("AWS_DEFAULT_REGION");
+    env::remove_var("ADL_PROVIDER_INVOCATIONS_PATH");
+
+    let spec = adl::ProviderSpec {
+        id: Some("bedrock_primary".to_string()),
+        profile: None,
+        kind: "bedrock".to_string(),
+        base_url: None,
+        default_model: Some("hosted:adl-bedrock:amazon.nova-lite-v1:0".to_string()),
+        config: HashMap::from([
+            (
+                "provider_model_id".to_string(),
+                json!("amazon.nova-lite-v1:0"),
+            ),
+            ("max_output_tokens".to_string(), json!("321")),
+        ]),
+    };
+    let target = provider_target(
+        "bedrock",
+        "aws-bedrock-runtime".to_string(),
+        "amazon.nova-lite-v1:0",
+    );
+    let provider = AwsBedrockProvider::from_target(&spec, &target)
+        .expect("default Agent Logic profile should construct without AWS calls");
+    assert_eq!(provider.model, "amazon.nova-lite-v1:0");
+    assert_eq!(provider.region, DEFAULT_BEDROCK_REGION);
+    assert_eq!(provider.profile, DEFAULT_BEDROCK_PROFILE);
+    assert_eq!(provider.max_tokens, 321);
+    assert_eq!(provider.timeout_secs, None);
+
+    let fallback = extract_bedrock_nova_output_text(&json!({
+        "outputText": " fallback bedrock text "
+    }));
+    assert_eq!(fallback.as_deref(), Some("fallback bedrock text"));
+    assert!(extract_bedrock_nova_output_text(&json!({"output": {}})).is_none());
+
+    let retryable = bedrock_sdk_error("ServiceUnavailable: try later".to_string());
+    assert!(retryable.to_string().contains("ServiceUnavailable"));
+    let non_retryable = bedrock_sdk_error("ValidationException: bad model".to_string());
+    assert!(non_retryable.to_string().contains("ValidationException"));
+    let account_hash = sha256_hex("agent-logic-account");
+    assert_eq!(account_hash.len(), 64);
+    assert!(account_hash.chars().all(|ch| ch.is_ascii_hexdigit()));
+
+    write_bedrock_invocation_record(
+        "amazon.nova-lite-v1:0",
+        "prompt",
+        "output",
+        200,
+        DEFAULT_BEDROCK_PROFILE,
+        DEFAULT_BEDROCK_REGION,
+        None,
+    )
+    .expect("missing artifact path should be a no-op");
+
+    restore_env_var("ADL_AWS_PROFILE", prev_profile);
+    restore_env_var("AWS_PROFILE", prev_aws_profile);
+    restore_env_var("AWS_REGION", prev_region);
+    restore_env_var("AWS_DEFAULT_REGION", prev_default_region);
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
 }
 
 fn provider_spec(
