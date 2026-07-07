@@ -83,7 +83,7 @@ pub fn prove_cloudfront_status(
         );
         bail!("AWS profile did not resolve to the approved Agent Logic account hash");
     }
-    let account_hash = short_hash(&account_sha);
+    let account_hash = account_sha.chars().take(16).collect();
 
     emit_cloud_control_event("poll", "started", &options.run_id, None);
     let list_output = aws_output(
@@ -384,6 +384,7 @@ mod tests {
         .expect("fake AWS proof");
 
         assert_eq!(summary.status, "passed");
+        assert_eq!(summary.aws_account_hash, "2a33349e7e606a8a");
         assert_eq!(summary.cloudfront.distribution_count, 1);
         assert_eq!(summary.cloudfront.selected_status, "Deployed");
         assert_eq!(
