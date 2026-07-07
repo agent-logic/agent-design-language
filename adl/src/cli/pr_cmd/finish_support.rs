@@ -1111,16 +1111,16 @@ fn record_sor_emitted_facts_for_finish(
     let review = read_sor_review_evidence(review_policy_path)?;
     let normalized = normalize_sor_emitted_facts_text(
         &original,
-        &build_sor_facts(
+        &build_sor_facts(SorFactBuildInput {
             changed_paths,
             plan,
-            context.validation_status,
-            &review,
-            context.pr_url,
-            context.integration_state,
-            context.closing_linkage_repaired,
-            context.issue_watcher,
-        ),
+            validation_status: context.validation_status,
+            review: &review,
+            pr_url: context.pr_url,
+            integration_state: context.integration_state,
+            closing_linkage_repaired: context.closing_linkage_repaired,
+            issue_watcher: context.issue_watcher,
+        }),
     )?;
     if normalized != original {
         fs::write(output_path, normalized).with_context(|| {
@@ -1133,55 +1133,59 @@ fn record_sor_emitted_facts_for_finish(
     Ok(())
 }
 
-fn build_sor_facts(
-    changed_paths: &[String],
-    plan: &FinishValidationPlan,
-    validation_status: &str,
-    review: &SorReviewEvidence,
-    pr_url: Option<&str>,
-    integration_state: &str,
+struct SorFactBuildInput<'a> {
+    changed_paths: &'a [String],
+    plan: &'a FinishValidationPlan,
+    validation_status: &'a str,
+    review: &'a SorReviewEvidence,
+    pr_url: Option<&'a str>,
+    integration_state: &'a str,
     closing_linkage_repaired: bool,
-    issue_watcher: Option<SorFactIssueWatcherContext<'_>>,
-) -> SorFacts {
-    let validation_commands = if validation_status == "NOT_RUN" {
+    issue_watcher: Option<SorFactIssueWatcherContext<'a>>,
+}
+
+fn build_sor_facts(input: SorFactBuildInput<'_>) -> SorFacts {
+    let validation_commands = if input.validation_status == "NOT_RUN" {
         Vec::new()
     } else {
-        plan.commands
+        input
+            .plan
+            .commands
             .iter()
             .map(|command| sanitize_validation_profile_command(command))
             .collect()
     };
-    let fix_notes = if closing_linkage_repaired {
+    let fix_notes = if input.closing_linkage_repaired {
         vec!["repaired missing PR closing linkage".to_string()]
     } else {
         vec!["none".to_string()]
     };
     SorFacts {
         schema_version: "adl.sor_facts.v1",
-        changed_paths: changed_paths.to_vec(),
+        changed_paths: input.changed_paths.to_vec(),
         validation: SorFactValidation {
-            status: validation_status.to_string(),
+            status: input.validation_status.to_string(),
             commands: validation_commands,
         },
         review: SorFactReview {
-            findings_status: review.findings_status.clone(),
-            recommended_outcome: review.recommended_outcome.clone(),
-            findings: review.findings.clone(),
-            fixes: review.fixes.clone(),
+            findings_status: input.review.findings_status.clone(),
+            recommended_outcome: input.review.recommended_outcome.clone(),
+            findings: input.review.findings.clone(),
+            fixes: input.review.fixes.clone(),
         },
         finish: SorFactFinish {
-            pr_url: pr_url.map(str::to_string),
+            pr_url: input.pr_url.map(str::to_string),
             blocking_notes: vec!["none".to_string()],
             fix_notes,
-            issue_watcher: issue_watcher.map(|watcher| SorFactIssueWatcher {
+            issue_watcher: input.issue_watcher.map(|watcher| SorFactIssueWatcher {
                 packet_path: watcher.packet_path.to_string(),
                 last_pr_state: watcher.last_pr_state.to_string(),
                 terminal_disposition: watcher.terminal_disposition.to_string(),
             }),
         },
         integration: SorFactIntegration {
-            state: integration_state.to_string(),
-            main_repo_paths: changed_paths.to_vec(),
+            state: input.integration_state.to_string(),
+            main_repo_paths: input.changed_paths.to_vec(),
         },
     }
 }
@@ -1383,16 +1387,16 @@ pub(super) fn normalize_sor_emitted_facts_fixture(
         commands: commands.to_vec(),
     };
     let review = parse_sor_review_evidence(review_text);
-    let facts = build_sor_facts(
+    let facts = build_sor_facts(SorFactBuildInput {
         changed_paths,
-        &plan,
-        context.validation_status,
-        &review,
-        context.pr_url,
-        context.integration_state,
-        context.closing_linkage_repaired,
-        context.issue_watcher,
-    );
+        plan: &plan,
+        validation_status: context.validation_status,
+        review: &review,
+        pr_url: context.pr_url,
+        integration_state: context.integration_state,
+        closing_linkage_repaired: context.closing_linkage_repaired,
+        issue_watcher: context.issue_watcher,
+    });
     normalize_sor_emitted_facts_text(text, &facts)
 }
 
