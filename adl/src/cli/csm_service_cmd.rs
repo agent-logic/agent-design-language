@@ -91,6 +91,10 @@ struct ServiceManifest {
     label: String,
     manager: ServiceManager,
     runtime_owner: String,
+    #[serde(default)]
+    restart_policy: String,
+    #[serde(default)]
+    service_mode: String,
     csm_bin: PathBuf,
     spec: PathBuf,
     service_root: PathBuf,
@@ -124,6 +128,8 @@ struct ServiceStatus {
     label: String,
     manager: String,
     runtime_owner: &'static str,
+    restart_policy: String,
+    service_mode: String,
     service_state: String,
     pid: Option<u32>,
     pid_liveness: String,
@@ -418,6 +424,8 @@ fn build_manifest(
         label: parsed.label,
         manager: parsed.manager,
         runtime_owner: "csm".to_string(),
+        restart_policy: service_restart_policy(parsed.manager, parsed.no_sleep),
+        service_mode: service_mode(parsed.manager, parsed.no_sleep),
         csm_bin,
         spec,
         service_root: service_root.clone(),
@@ -641,6 +649,8 @@ fn service_status(
         label: manifest.label.clone(),
         manager: manifest.manager.as_str().to_string(),
         runtime_owner: "csm",
+        restart_policy: manifest.restart_policy.clone(),
+        service_mode: manifest.service_mode.clone(),
         service_state: state.to_string(),
         pid,
         pid_liveness: pid_liveness.clone(),
@@ -678,7 +688,9 @@ fn service_status(
 fn read_manifest(service_root: &Path) -> Result<ServiceManifest> {
     let path = manifest_path(service_root);
     let raw = fs::read_to_string(&path).with_context(|| format!("read {}", path.display()))?;
-    serde_json::from_str(&raw).with_context(|| format!("parse {}", path.display()))
+    let manifest: ServiceManifest =
+        serde_json::from_str(&raw).with_context(|| format!("parse {}", path.display()))?;
+    Ok(normalize_service_manifest_metadata(manifest))
 }
 
 fn write_status(manifest: &ServiceManifest, status: &ServiceStatus) -> Result<()> {
@@ -1372,6 +1384,32 @@ fn unsupported_permanence_claims() -> Vec<String> {
     ]
 }
 
+fn normalize_service_manifest_metadata(mut manifest: ServiceManifest) -> ServiceManifest {
+    manifest.restart_policy = service_restart_policy(manifest.manager, manifest.no_sleep);
+    manifest.service_mode = service_mode(manifest.manager, manifest.no_sleep);
+    manifest
+}
+
+fn service_restart_policy(manager: ServiceManager, no_sleep: bool) -> String {
+    if no_sleep {
+        "bounded_test_only".to_string()
+    } else if manager == ServiceManager::Launchd {
+        "always".to_string()
+    } else {
+        "external_supervisor_required".to_string()
+    }
+}
+
+fn service_mode(manager: ServiceManager, no_sleep: bool) -> String {
+    if no_sleep {
+        "bounded_test_only".to_string()
+    } else if manager == ServiceManager::Launchd {
+        "permanent".to_string()
+    } else {
+        "local_proof_only".to_string()
+    }
+}
+
 pub(crate) fn service_usage() -> &'static str {
     "Usage:
   csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--max-restarts <n>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--otlp-endpoint <url>] [--otlp-timeout-ms <n>] [--no-recover-stale-lease] [--no-sleep] [--json]
@@ -1382,8 +1420,10 @@ pub(crate) fn service_usage() -> &'static str {
 
 Semantics:
   - csm service is the host-service envelope for the standalone csm runtime owner.
-  - launchd is the primary macOS service-manager target; local mode is a bounded proof fallback.
+  - launchd service mode records restart_policy=always and service_mode=permanent; launchd KeepAlive is the primary macOS service-manager target and systemd Restart=always compatible metadata is retained.
+  - local mode is a bounded proof fallback and records external_supervisor_required/local_proof_only.
   - the managed command is always csm daemon, never adl agent daemon.
+  - --no-sleep is an explicit test-only bounded harness boundary, not production service mode.
   - service artifacts include service_manifest.json, service_status.json, csm.launchd.plist, logs, OTel status/export paths, daemon_status.json, continuity checkpoints, and operator events.
   - status uses metadata or exact PID liveness probes only; no broad process scan or ps output is used.
   - unsupported permanence claims remain explicit for reboot, kill -9, disk-full, resource exhaustion, and cloud orchestration."

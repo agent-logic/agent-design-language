@@ -146,6 +146,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
         &loaded,
         DaemonStatusInput {
             state: "starting",
+            bounded_test_mode: options.no_sleep,
             restart_count,
             max_restarts: options.max_restarts,
             checkpoint_interval_secs,
@@ -162,9 +163,14 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
         "started",
         restart_count,
         json!({
-            "checkpoint_interval_secs": checkpoint_interval_secs,
-            "agent_checkpoint_policy": agent_checkpoint_policy(&loaded),
-            "max_restarts": options.max_restarts,
+                "checkpoint_interval_secs": checkpoint_interval_secs,
+                "agent_checkpoint_policy": agent_checkpoint_policy(&loaded),
+                "max_restarts": options.max_restarts,
+                "restart_policy": daemon_restart_policy(),
+                "service_mode": daemon_service_mode(options.no_sleep),
+                "bounded_test_mode": options.no_sleep,
+            "agent_configured_max_cycles": loaded.spec.heartbeat.max_cycles,
+            "agent_max_cycles_lifetime_boundary": "ignored_in_daemon_service_mode",
             "unsupported_permanence_claims": unsupported_permanence_claims()
         }),
     )?;
@@ -178,6 +184,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 &loaded,
                 DaemonStatusInput {
                     state: "stopped",
+                    bounded_test_mode: options.no_sleep,
                     restart_count,
                     max_restarts: options.max_restarts,
                     checkpoint_interval_secs,
@@ -225,6 +232,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             &loaded,
             DaemonStatusInput {
                 state: "running",
+                bounded_test_mode: options.no_sleep,
                 restart_count,
                 max_restarts: options.max_restarts,
                 checkpoint_interval_secs,
@@ -259,6 +267,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     &loaded,
                     DaemonStatusInput {
                         state: "running",
+                        bounded_test_mode: options.no_sleep,
                         restart_count,
                         max_restarts: options.max_restarts,
                         checkpoint_interval_secs,
@@ -323,6 +332,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         &loaded,
                         DaemonStatusInput {
                             state: "failed",
+                            bounded_test_mode: options.no_sleep,
                             restart_count,
                             max_restarts: options.max_restarts,
                             checkpoint_interval_secs,
@@ -366,6 +376,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     &loaded,
                     DaemonStatusInput {
                         state: "restarting",
+                        bounded_test_mode: options.no_sleep,
                         restart_count,
                         max_restarts: options.max_restarts,
                         checkpoint_interval_secs,
@@ -437,6 +448,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 &loaded,
                 DaemonStatusInput {
                     state: "completed",
+                    bounded_test_mode: true,
                     restart_count,
                     max_restarts: options.max_restarts,
                     checkpoint_interval_secs,
@@ -451,7 +463,12 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 "daemon_completed",
                 "completed",
                 restart_count,
-                json!({"reason": "no_sleep_test_boundary"}),
+                json!({
+                    "reason": "no_sleep_test_boundary",
+                    "restart_policy": daemon_restart_policy(),
+                    "service_mode": "bounded_test_only",
+                    "bounded_test_mode": true
+                }),
             )?;
             return Ok(daemon_status);
         }
@@ -2017,6 +2034,7 @@ fn safe_fail_existing_ref(path: &Path) -> Value {
 
 struct DaemonStatusInput<'a> {
     state: &'a str,
+    bounded_test_mode: bool,
     restart_count: u64,
     max_restarts: u64,
     checkpoint_interval_secs: u64,
@@ -2063,6 +2081,9 @@ fn write_daemon_status(
         runtime_capabilities: csm_runtime_capabilities(runtime_context),
         state: input.state.to_string(),
         supervisor_pid: std::process::id(),
+        restart_policy: daemon_restart_policy().to_string(),
+        service_mode: daemon_status_service_mode(input.state, input.bounded_test_mode).to_string(),
+        bounded_test_mode: input.bounded_test_mode,
         restart_count: input.restart_count,
         max_restarts: input.max_restarts,
         checkpoint_interval_secs: input.checkpoint_interval_secs,
@@ -2100,6 +2121,7 @@ fn sleep_with_partial_checkpoints(
             loaded,
             DaemonStatusInput {
                 state: daemon_status.state.as_str(),
+                bounded_test_mode: sleep.no_sleep,
                 restart_count: sleep.restart_count,
                 max_restarts: sleep.max_restarts,
                 checkpoint_interval_secs: sleep.checkpoint_interval_secs,
@@ -2170,6 +2192,7 @@ fn sleep_with_partial_checkpoints(
             loaded,
             DaemonStatusInput {
                 state: daemon_status.state.as_str(),
+                bounded_test_mode: sleep.no_sleep,
                 restart_count: sleep.restart_count,
                 max_restarts: sleep.max_restarts,
                 checkpoint_interval_secs: sleep.checkpoint_interval_secs,
@@ -2293,6 +2316,19 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
         "runtime_owner": "csm",
         "adl_role": "tooling_control_plane",
         "process_class": "csm_runtime_daemon",
+        "supervisor": {
+            "status": "integrated",
+            "restart_policy": daemon_restart_policy(),
+            "service_mode": "permanent",
+            "bounded_test_mode": "explicit_only",
+            "host_supervisor_compatibility": [
+                "launchd_keepalive",
+                "systemd_restart_always",
+                "rustysd_service_manager",
+                "rinit_service_manager"
+            ],
+            "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+        },
         "chronosense": {
             "status": "integrated",
             "service_schema": runtime_context.chronosense.config().schema_version,
@@ -2358,6 +2394,26 @@ fn daemon_span_id(event: &str, restart_count: u64) -> String {
 
 fn restart_backoff_secs(restart_count: u64) -> u64 {
     2u64.saturating_pow(restart_count.min(4) as u32).min(30)
+}
+
+fn daemon_restart_policy() -> &'static str {
+    "always"
+}
+
+fn daemon_service_mode(bounded_test_mode: bool) -> &'static str {
+    if bounded_test_mode {
+        "bounded_test_only"
+    } else {
+        "permanent"
+    }
+}
+
+fn daemon_status_service_mode(state: &str, bounded_test_mode: bool) -> &'static str {
+    if bounded_test_mode || state == "completed" {
+        "bounded_test_only"
+    } else {
+        "permanent"
+    }
 }
 
 fn unsupported_permanence_claims() -> Vec<String> {

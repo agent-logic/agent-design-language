@@ -552,6 +552,18 @@ memory:
         stdout.contains("\"state\": \"completed\""),
         "stdout:\n{stdout}"
     );
+    assert!(
+        stdout.contains("\"restart_policy\": \"always\""),
+        "stdout:\n{stdout}"
+    );
+    assert!(
+        stdout.contains("\"service_mode\": \"bounded_test_only\""),
+        "stdout:\n{stdout}"
+    );
+    assert!(
+        stdout.contains("\"bounded_test_mode\": true"),
+        "stdout:\n{stdout}"
+    );
     assert!(root.join("state/daemon_status.json").exists());
     assert!(root.join("state/continuity_checkpoint.json").exists());
     assert!(root.join("state/continuity_replay_manifest.json").exists());
@@ -563,6 +575,17 @@ memory:
     assert_eq!(
         daemon_status["unsupported_permanence_claims"][0],
         "not_os_boot_persistent"
+    );
+    assert_eq!(daemon_status["restart_policy"], "always");
+    assert_eq!(daemon_status["service_mode"], "bounded_test_only");
+    assert_eq!(daemon_status["bounded_test_mode"], true);
+    assert_eq!(
+        daemon_status["runtime_capabilities"]["supervisor"]["restart_policy"],
+        "always"
+    );
+    assert_eq!(
+        daemon_status["runtime_capabilities"]["supervisor"]["service_mode"],
+        "permanent"
     );
     assert_eq!(daemon_status["trace_id"], "agent.daemon-agent.daemon");
 
@@ -585,6 +608,21 @@ memory:
     assert_text_contains(
         &operator_events,
         "\"trace_id\":\"agent.daemon-agent.daemon\"",
+        "operator events",
+    );
+    assert_text_contains(
+        &operator_events,
+        "\"restart_policy\":\"always\"",
+        "operator events",
+    );
+    assert_text_contains(
+        &operator_events,
+        "\"service_mode\":\"bounded_test_only\"",
+        "operator events",
+    );
+    assert_text_contains(
+        &operator_events,
+        "\"agent_max_cycles_lifetime_boundary\":\"ignored_in_daemon_service_mode\"",
         "operator events",
     );
     assert_text_contains(&operator_events, "\"otel\"", "operator events");
@@ -1916,6 +1954,8 @@ memory:
     .expect("parse manifest");
     assert_eq!(manifest["schema"], "adl.csm.service_manifest.v1");
     assert_eq!(manifest["runtime_owner"], "csm");
+    assert_eq!(manifest["restart_policy"], "always");
+    assert_eq!(manifest["service_mode"], "permanent");
     assert_eq!(manifest["manager"], "launchd");
     assert_eq!(manifest["checkpoint_interval_secs"], 1);
     assert_eq!(manifest["otlp_endpoint"], "http://127.0.0.1:4318/v1/traces");
@@ -1948,6 +1988,8 @@ memory:
     )
     .expect("parse service status");
     assert_eq!(status["schema"], "adl.csm.service_status.v1");
+    assert_eq!(status["restart_policy"], "always");
+    assert_eq!(status["service_mode"], "permanent");
     assert_eq!(status["service_state"], "installed");
     assert_eq!(status["broad_process_scan"], false);
     assert_eq!(status["uses_ps"], false);
@@ -1964,6 +2006,136 @@ memory:
         .as_str()
         .expect("startup ledger ref")
         .ends_with("logs/startup_ledger.jsonl"));
+}
+
+#[test]
+fn csm_service_install_classifies_local_and_no_sleep_modes_truthfully() {
+    let root = unique_test_temp_dir("csm-service-mode-truth");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: service-mode-agent
+display_name: Service Mode Agent
+state_root: runtime-state
+workflow:
+  kind: demo_adapter
+  name: service_mode_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 1
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/service-mode-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let csm_bin = resolve_csm_exe();
+
+    let local_root = root.join("local-service");
+    let local = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        local_root.to_str().expect("utf8 local service root"),
+        "--manager",
+        "local",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--json",
+    ]);
+    assert!(
+        local.status.success(),
+        "expected local service install success, stderr:\n{}",
+        String::from_utf8_lossy(&local.stderr)
+    );
+    let local_manifest: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(local_root.join("service_manifest.json")).expect("local manifest"),
+    )
+    .expect("parse local manifest");
+    assert_eq!(
+        local_manifest["restart_policy"],
+        "external_supervisor_required"
+    );
+    assert_eq!(local_manifest["service_mode"], "local_proof_only");
+    let mut legacy_local_manifest = local_manifest.clone();
+    legacy_local_manifest
+        .as_object_mut()
+        .expect("local manifest object")
+        .remove("restart_policy");
+    legacy_local_manifest
+        .as_object_mut()
+        .expect("local manifest object")
+        .remove("service_mode");
+    fs::write(
+        local_root.join("service_manifest.json"),
+        serde_json::to_string_pretty(&legacy_local_manifest).expect("serialize legacy manifest"),
+    )
+    .expect("write legacy local manifest");
+    let local_status = run_csm(&[
+        "service",
+        "status",
+        "--service-root",
+        local_root.to_str().expect("utf8 local service root"),
+        "--json",
+    ]);
+    assert!(
+        local_status.status.success(),
+        "expected local service status success, stderr:\n{}",
+        String::from_utf8_lossy(&local_status.stderr)
+    );
+    let legacy_status: serde_json::Value =
+        serde_json::from_slice(&local_status.stdout).expect("parse local status stdout");
+    assert_eq!(
+        legacy_status["restart_policy"],
+        "external_supervisor_required"
+    );
+    assert_eq!(legacy_status["service_mode"], "local_proof_only");
+
+    let bounded_root = root.join("bounded-service");
+    let bounded = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        bounded_root.to_str().expect("utf8 bounded service root"),
+        "--manager",
+        "launchd",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--no-sleep",
+        "--json",
+    ]);
+    assert!(
+        bounded.status.success(),
+        "expected bounded service install success, stderr:\n{}",
+        String::from_utf8_lossy(&bounded.stderr)
+    );
+    let bounded_manifest: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(bounded_root.join("service_manifest.json")).expect("bounded manifest"),
+    )
+    .expect("parse bounded manifest");
+    assert_eq!(bounded_manifest["restart_policy"], "bounded_test_only");
+    assert_eq!(bounded_manifest["service_mode"], "bounded_test_only");
+    let bounded_status: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(bounded_root.join("service_status.json")).expect("bounded status"),
+    )
+    .expect("parse bounded status");
+    assert_eq!(bounded_status["restart_policy"], "bounded_test_only");
+    assert_eq!(bounded_status["service_mode"], "bounded_test_only");
 }
 
 #[test]
@@ -2707,6 +2879,8 @@ memory:
     )
     .expect("parse daemon status");
     assert_eq!(daemon_status["state"], "failed");
+    assert_eq!(daemon_status["service_mode"], "bounded_test_only");
+    assert_eq!(daemon_status["bounded_test_mode"], true);
     assert_eq!(daemon_status["restart_count"], 1);
     assert_eq!(daemon_status["last_event"], "restart_budget_exhausted");
     assert!(root.join("state/continuity_checkpoint.json").exists());

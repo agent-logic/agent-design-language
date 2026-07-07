@@ -666,8 +666,9 @@ pub(crate) fn csm_usage() -> &'static str {
 
 Semantics:
   - csm is the dedicated runtime owner binary.
-  - csm daemon owns long-lived runtime execution, partial checkpoints, restart accounting, recoverable terminal state, and runtime observability.
-  - csm service owns host service-manager installation/status around csm daemon; launchd is the primary macOS target and local mode is a bounded proof fallback.
+  - csm daemon owns permanent restart-always runtime execution, partial checkpoints, restart accounting, recoverable terminal state, and runtime observability.
+  - csm daemon service mode ignores agent max_cycles as a service lifetime boundary; --no-sleep is a test-only bounded harness boundary.
+  - csm service owns host service-manager installation/status around csm daemon; launchd KeepAlive is the primary macOS target, systemd Restart=always compatible service metadata is retained, and local mode is a bounded proof fallback.
   - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
