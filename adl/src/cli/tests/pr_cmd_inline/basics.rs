@@ -4224,6 +4224,92 @@ fn real_pr_create_rejects_issue_body_that_cannot_pass_source_prompt_validation()
 }
 
 #[test]
+fn render_issue_prompt_from_body_normalizes_missing_lifecycle_source_sections() {
+    let body = r#"---
+issue_card_schema: adl.issue.v1
+wp: "WP-12"
+slug: "v0-91-7-runtime-acip-select-websocket"
+title: "[v0.91.7][WP-12][runtime][ACIP] Select WebSocket substrate"
+labels:
+  - "track:roadmap"
+  - "version:v0.91.7"
+issue_number: 4900
+status: "active"
+action: "edit"
+depends_on: []
+milestone_sprint: "v0.91.7"
+required_outcome_type:
+  - "code"
+repo_inputs:
+  - "adl/src/runtime"
+canonical_files: []
+demo_required: false
+demo_names: []
+issue_graph_notes: []
+pr_start:
+  enabled: false
+  slug: "v0-91-7-runtime-acip-select-websocket"
+---
+
+# Select WebSocket substrate
+
+## Summary
+
+Select and prove the ACIP runtime stream substrate.
+
+## Goal
+
+Make the runtime stream transport operational.
+
+## Required Outcome
+
+- integrated code proof
+
+## Deliverables
+
+- runtime transport implementation
+
+## Acceptance Criteria
+
+- proof runs in the integrated runtime path
+
+## Repo Inputs
+
+- adl/src/runtime
+
+## Non-goals
+
+- broad transport redesign
+
+```text
+## Tooling Notes
+
+This fenced heading must not satisfy the real source-prompt section contract.
+```
+"#;
+
+    let prompt = render_issue_prompt_from_body(
+        4900,
+        "v0-91-7-runtime-acip-select-websocket",
+        "[v0.91.7][WP-12][runtime][ACIP] Select WebSocket substrate",
+        "track:roadmap,version:v0.91.7",
+        "https://github.com/owner/repo/issues/4900",
+        body,
+    );
+
+    assert!(prompt.contains("issue_number: 4900"));
+    assert!(prompt.contains("## Dependencies\n\n- none recorded in source issue prompt"));
+    assert!(prompt.contains(
+        "## Demo Expectations\n\n- No demo required unless the source issue says otherwise."
+    ));
+    assert!(prompt.contains(
+        "## Issue-Graph Notes\n\n- Preserve issue graph truth from the linked source issue prompt."
+    ));
+    assert!(prompt.contains("## Tooling Notes\n\n- Run the smallest proving validation"));
+    assert_eq!(prompt.matches("## Tooling Notes").count(), 2);
+}
+
+#[test]
 fn real_pr_create_rejects_bootstrap_stub_issue_body_with_authored_body_guidance() {
     let _guard = env_lock();
     let repo = unique_temp_dir("adl-pr-real-create-bootstrap-stub-body");

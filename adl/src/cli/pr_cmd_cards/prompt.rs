@@ -153,7 +153,7 @@ pub(crate) fn render_issue_prompt_from_body(
     if let Some(prompt) = render_issue_prompt_from_authored_front_matter(issue, body) {
         return prompt;
     }
-    let normalized_body = ensure_issue_body_has_notes_section(body);
+    let normalized_body = normalize_issue_body_source_prompt_sections(body);
 
     let wp = infer_wp_from_title(title);
     let queue = infer_workflow_queue(title, labels_csv, Some(&wp)).unwrap_or("wp");
@@ -173,12 +173,52 @@ pub(crate) fn render_issue_prompt_from_body(
     )
 }
 
-fn ensure_issue_body_has_notes_section(body: &str) -> String {
-    let normalized = body.replace("\r\n", "\n").trim_end().to_string();
-    if normalized.lines().any(|line| line.trim_end() == "## Notes") {
-        return normalized;
+fn normalize_issue_body_source_prompt_sections(body: &str) -> String {
+    let mut normalized = body.replace("\r\n", "\n").trim_end().to_string();
+    let required_sections = [
+        ("Dependencies", "- none recorded in source issue prompt"),
+        (
+            "Demo Expectations",
+            "- No demo required unless the source issue says otherwise.",
+        ),
+        (
+            "Issue-Graph Notes",
+            "- Preserve issue graph truth from the linked source issue prompt.",
+        ),
+        ("Notes", "- No additional notes."),
+        (
+            "Tooling Notes",
+            "- Run the smallest proving validation for the touched surface and record it in SOR.",
+        ),
+    ];
+
+    for (heading, fallback) in required_sections {
+        if markdown_has_h2(&normalized, heading) {
+            continue;
+        }
+        normalized.push_str("\n\n## ");
+        normalized.push_str(heading);
+        normalized.push_str("\n\n");
+        normalized.push_str(fallback);
     }
-    format!("{normalized}\n\n## Notes\n\n- No additional notes.")
+
+    normalized
+}
+
+fn markdown_has_h2(text: &str, heading: &str) -> bool {
+    let expected = format!("## {heading}");
+    let mut in_fence = false;
+    for line in text.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with("```") || trimmed.starts_with("~~~") {
+            in_fence = !in_fence;
+            continue;
+        }
+        if !in_fence && trimmed == expected {
+            return true;
+        }
+    }
+    false
 }
 
 fn render_issue_prompt_from_authored_front_matter(issue: u32, body: &str) -> Option<String> {
@@ -236,6 +276,7 @@ fn render_issue_prompt_from_authored_front_matter(issue: u32, body: &str) -> Opt
     }
 
     let front_matter = serde_yaml::to_string(&value).ok()?;
+    let markdown_body = normalize_issue_body_source_prompt_sections(markdown_body);
     Some(format!(
         "---\n{front_matter}---\n\n{}\n",
         markdown_body.trim_start()
