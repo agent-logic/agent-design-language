@@ -1335,6 +1335,43 @@ impl Drop for FinishHelperObservabilityEnvGuard {
     }
 }
 
+struct EnvVarGuard {
+    key: &'static str,
+    old: Option<String>,
+}
+
+impl EnvVarGuard {
+    fn set(key: &'static str, value: impl AsRef<std::ffi::OsStr>) -> Self {
+        let old = std::env::var(key).ok();
+        unsafe {
+            std::env::set_var(key, value);
+        }
+        Self { key, old }
+    }
+}
+
+impl Drop for EnvVarGuard {
+    fn drop(&mut self) {
+        unsafe {
+            if let Some(value) = &self.old {
+                std::env::set_var(self.key, value);
+            } else {
+                std::env::remove_var(self.key);
+            }
+        }
+    }
+}
+
+fn write_issue_watcher_stub(path: &Path, log: &Path) {
+    write_executable(
+        path,
+        &format!(
+            "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' \"$*\" >> '{}'\n",
+            log.display()
+        ),
+    );
+}
+
 fn read_finish_helper_log_until(log: &Path, needle: &str) -> String {
     for _ in 0..10 {
         let contents = fs::read_to_string(log).unwrap_or_default();
@@ -7450,9 +7487,11 @@ fn real_pr_finish_happy_path_is_covered_in_default_lane() {
     let gh_log = temp.join("gh.log");
     let janitor_log = temp.join("janitor.log");
     let closeout_log = temp.join("closeout.log");
+    let watcher_log = temp.join("issue-watcher.log");
     let gh_path = bin_dir.join("gh");
     let janitor_path = bin_dir.join("janitor");
     let closeout_path = bin_dir.join("closeout");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -7460,7 +7499,6 @@ fn real_pr_finish_happy_path_is_covered_in_default_lane() {
             gh_log.display()
         ),
     );
-    let _fixture = GithubCliFixtureGuard::set(&gh_path);
     write_executable(
         &janitor_path,
         &format!(
@@ -7475,8 +7513,11 @@ fn real_pr_finish_happy_path_is_covered_in_default_lane() {
             closeout_log.display()
         ),
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
     let _fixture = GithubCliFixtureGuard::set(&gh_path);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let old_janitor_cmd = env::var("ADL_PR_JANITOR_CMD").ok();
     let old_janitor_disable = env::var("ADL_PR_JANITOR_DISABLE").ok();
@@ -7561,6 +7602,8 @@ fn real_pr_finish_happy_path_is_covered_in_default_lane() {
     let closeout_log = fs::read_to_string(&closeout_log).expect("closeout log");
     assert!(janitor_log.contains("--issue 1153"));
     assert!(closeout_log.contains("--issue 1153"));
+    let watcher_log = fs::read_to_string(&watcher_log).expect("watcher log");
+    assert!(watcher_log.contains("--issue 1153"));
 }
 
 #[test]
@@ -7838,9 +7881,11 @@ verification_summary:
     let gh_log = temp.join("gh.log");
     let janitor_log = temp.join("janitor.log");
     let closeout_log = temp.join("closeout.log");
+    let watcher_log = temp.join("issue-watcher.log");
     let gh_path = bin_dir.join("gh");
     let janitor_path = bin_dir.join("janitor");
     let closeout_path = bin_dir.join("closeout");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -7862,7 +7907,10 @@ verification_summary:
             closeout_log.display()
         ),
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let old_janitor_cmd = env::var("ADL_PR_JANITOR_CMD").ok();
     let old_janitor_disable = env::var("ADL_PR_JANITOR_DISABLE").ok();
@@ -8086,9 +8134,11 @@ fn real_pr_finish_updates_existing_pr_marks_ready_and_keeps_non_closing_commit_t
     let gh_log = temp.join("gh.log");
     let janitor_log = temp.join("janitor.log");
     let closeout_log = temp.join("closeout.log");
+    let watcher_log = temp.join("issue-watcher.log");
     let gh_path = bin_dir.join("gh");
     let janitor_path = bin_dir.join("janitor");
     let closeout_path = bin_dir.join("closeout");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -8110,7 +8160,10 @@ fn real_pr_finish_updates_existing_pr_marks_ready_and_keeps_non_closing_commit_t
             closeout_log.display()
         ),
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let old_janitor_cmd = env::var("ADL_PR_JANITOR_CMD").ok();
     let old_janitor_disable = env::var("ADL_PR_JANITOR_DISABLE").ok();
@@ -8782,8 +8835,10 @@ fn real_pr_finish_opener_failure_is_nonblocking_when_no_open_is_false() {
     let bin_dir = temp.join("bin");
     fs::create_dir_all(&bin_dir).expect("bin dir");
     let gh_log = temp.join("gh.log");
+    let watcher_log = temp.join("issue-watcher.log");
     let gh_path = bin_dir.join("gh");
     let open_path = bin_dir.join("open");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -8796,8 +8851,11 @@ fn real_pr_finish_opener_failure_is_nonblocking_when_no_open_is_false() {
         &open_path,
         "#!/usr/bin/env bash\nset -euo pipefail\necho 'synthetic open failure' >&2\nexit 42\n",
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
     let _fixture = GithubCliFixtureGuard::set(&gh_path);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let prev_dir = env::current_dir().expect("cwd");
     unsafe {
@@ -8975,8 +9033,10 @@ print(json.dumps({
     fs::create_dir_all(&bin_dir).expect("bin dir");
     let gh_log = temp.join("gh.log");
     let issue_state_file = temp.join("issue_state.txt");
+    let watcher_log = temp.join("issue-watcher.log");
     fs::write(&issue_state_file, "open\n").expect("seed issue state");
     let gh_path = bin_dir.join("gh");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -8986,7 +9046,10 @@ print(json.dumps({
             issue_state_file.display()
         ),
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let prev_dir = env::current_dir().expect("cwd");
     unsafe {
