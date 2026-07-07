@@ -23,6 +23,9 @@ const MOCK_SIGNAL_ARTIFACT: &str = "aws_runtime_heartbeat_mock.jsonl";
 const ACIP_SNS_TARGET_KIND: &str = "sns";
 #[allow(dead_code)]
 const ACIP_SNS_MOCK_SIGNAL_ARTIFACT: &str = "aws_acip_sns_projection_mock.jsonl";
+const CSM_NOTICE_MOCK_SIGNAL_ARTIFACT: &str = "aws_csm_governed_notice_mock.jsonl";
+const CSM_NOTICE_SNS_MOCK_SIGNAL_ARTIFACT: &str = "aws_csm_governed_notice_sns_mock.jsonl";
+const CSM_NOTICE_CONTROL_PLANE_MOCK_ARTIFACT: &str = "csm_governed_notice_control_plane_mock.jsonl";
 const HEARTBEAT_CURSOR_ARTIFACT: &str = "aws_runtime_heartbeat_cursor.json";
 const HEARTBEAT_CURSOR_SCHEMA: &str = "adl.runtime.aws_signal_heartbeat_cursor.v1";
 
@@ -57,6 +60,14 @@ struct AcipProjectionPublisherConfig {
     profile: Option<String>,
     topic_arn: Option<String>,
     topic_configured: bool,
+}
+
+#[derive(Debug, Clone)]
+struct ControlPlaneNoticeConfig {
+    mode: AwsSignalMode,
+    configured: bool,
+    approved: bool,
+    endpoint: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -310,6 +321,54 @@ impl AcipProjectionPublisherConfig {
     }
 }
 
+impl ControlPlaneNoticeConfig {
+    fn from_env() -> Self {
+        let mode_env = env::var("ADL_CSM_NOTICE_CONTROL_PLANE_MODE").ok();
+        let endpoint = env::var("ADL_CSM_NOTICE_CONTROL_PLANE_URL")
+            .ok()
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
+        let mode = match mode_env
+            .as_deref()
+            .map(str::trim)
+            .map(str::to_ascii_lowercase)
+            .as_deref()
+        {
+            Some("mock") => AwsSignalMode::Mock,
+            Some("live") => AwsSignalMode::Live,
+            _ => AwsSignalMode::Disabled,
+        };
+        let approved = env::var("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED")
+            .ok()
+            .as_deref()
+            .map(str::trim)
+            .map(|value| matches!(value, "1" | "true" | "TRUE" | "yes" | "YES"))
+            .unwrap_or(false);
+        Self {
+            mode,
+            configured: mode_env.is_some() || endpoint.is_some(),
+            approved,
+            endpoint,
+        }
+    }
+
+    fn mode_label(&self) -> &'static str {
+        match self.mode {
+            AwsSignalMode::Disabled => "disabled",
+            AwsSignalMode::Mock => "mock",
+            AwsSignalMode::Live => "live",
+        }
+    }
+
+    fn endpoint_hash(&self) -> Option<String> {
+        self.endpoint.as_ref().map(|endpoint| {
+            let mut hasher = Sha256::new();
+            hasher.update(endpoint.as_bytes());
+            format!("{:x}", hasher.finalize())
+        })
+    }
+}
+
 pub(crate) fn mock_signal_artifact_path(loaded: &LoadedAgentSpec) -> PathBuf {
     loaded.state_root.join(MOCK_SIGNAL_ARTIFACT)
 }
@@ -319,8 +378,33 @@ pub(crate) fn acip_mock_signal_artifact_path(root: &Path) -> PathBuf {
     root.join(ACIP_SNS_MOCK_SIGNAL_ARTIFACT)
 }
 
+pub(crate) fn csm_notice_mock_signal_artifact_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join(CSM_NOTICE_MOCK_SIGNAL_ARTIFACT)
+}
+
+pub(crate) fn csm_notice_sns_mock_signal_artifact_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join(CSM_NOTICE_SNS_MOCK_SIGNAL_ARTIFACT)
+}
+
+pub(crate) fn csm_notice_control_plane_mock_artifact_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded
+        .state_root
+        .join(CSM_NOTICE_CONTROL_PLANE_MOCK_ARTIFACT)
+}
+
 fn heartbeat_cursor_path(loaded: &LoadedAgentSpec) -> PathBuf {
     loaded.state_root.join(HEARTBEAT_CURSOR_ARTIFACT)
+}
+
+pub(crate) fn publish_csm_governed_notice_signal(
+    loaded: &LoadedAgentSpec,
+    notice: &serde_json::Value,
+) -> Vec<serde_json::Value> {
+    vec![
+        publish_csm_notice_cloudwatch(loaded, notice),
+        publish_csm_notice_sns(loaded, notice),
+        publish_csm_notice_control_plane(loaded, notice),
+    ]
 }
 
 pub(crate) fn publish_runtime_heartbeat_signal(
@@ -519,6 +603,311 @@ pub(crate) fn publish_runtime_heartbeat_signal(
             }
         }
     }
+}
+
+fn publish_csm_notice_cloudwatch(
+    loaded: &LoadedAgentSpec,
+    notice: &serde_json::Value,
+) -> serde_json::Value {
+    let config = HeartbeatPublisherConfig::from_env();
+    let base = csm_notice_attempt_base("cloudwatch_logs", config.mode_label());
+    if !config.configured {
+        return csm_notice_attempt(base, "not_configured", None, None);
+    }
+    if matches!(config.mode, AwsSignalMode::Disabled) {
+        return csm_notice_attempt(base, "skipped_disabled", None, None);
+    }
+    if config.target_kind != HEARTBEAT_TARGET_KIND {
+        return csm_notice_attempt(
+            base,
+            "blocked",
+            Some("aws_signal_unsupported_target".to_string()),
+            None,
+        );
+    }
+    let envelope = csm_notice_envelope(loaded, notice, "cloudwatch_logs", config.mode_label());
+    match config.mode {
+        AwsSignalMode::Disabled => unreachable!("disabled mode returned earlier"),
+        AwsSignalMode::Mock => {
+            match append_jsonl_value(&csm_notice_mock_signal_artifact_path(loaded), &envelope) {
+                Ok(()) => csm_notice_attempt(
+                    base,
+                    "published_mock",
+                    None,
+                    Some("aws_csm_governed_notice_mock.jsonl".to_string()),
+                ),
+                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+            }
+        }
+        AwsSignalMode::Live => {
+            let live_block_reason = config.live_block_reason();
+            if live_block_reason != "aws_signal_live_publish_failed" {
+                return csm_notice_attempt(
+                    base,
+                    "blocked",
+                    Some(live_block_reason.to_string()),
+                    None,
+                );
+            }
+            let log_group = match config.log_group.as_deref() {
+                Some(value) => value,
+                None => {
+                    return csm_notice_attempt(
+                        base,
+                        "blocked",
+                        Some("aws_signal_log_group_missing".to_string()),
+                        None,
+                    )
+                }
+            };
+            let log_stream = match config.log_stream.as_deref() {
+                Some(value) => value,
+                None => {
+                    return csm_notice_attempt(
+                        base,
+                        "blocked",
+                        Some("aws_signal_log_stream_missing".to_string()),
+                        None,
+                    )
+                }
+            };
+            let message = match serde_json::to_string(&envelope) {
+                Ok(value) => value,
+                Err(err) => return csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+            };
+            match run_cloudwatch_put(
+                &config,
+                log_group,
+                log_stream,
+                Utc::now().timestamp_millis(),
+                message,
+            ) {
+                Ok(()) => csm_notice_attempt(base, "published_live", None, None),
+                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+            }
+        }
+    }
+}
+
+fn publish_csm_notice_sns(
+    loaded: &LoadedAgentSpec,
+    notice: &serde_json::Value,
+) -> serde_json::Value {
+    let config = AcipProjectionPublisherConfig::from_env();
+    let base = csm_notice_attempt_base("acip_sns", config.mode_label());
+    if !config.configured {
+        return csm_notice_attempt(base, "not_configured", None, None);
+    }
+    if matches!(config.mode, AwsSignalMode::Disabled) {
+        return csm_notice_attempt(base, "skipped_disabled", None, None);
+    }
+    let envelope = csm_notice_envelope(loaded, notice, "acip_sns", config.mode_label());
+    match config.mode {
+        AwsSignalMode::Disabled => unreachable!("disabled mode returned earlier"),
+        AwsSignalMode::Mock => {
+            match append_jsonl_value(&csm_notice_sns_mock_signal_artifact_path(loaded), &envelope) {
+                Ok(()) => csm_notice_attempt(
+                    base,
+                    "published_mock",
+                    None,
+                    Some("aws_csm_governed_notice_sns_mock.jsonl".to_string()),
+                ),
+                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+            }
+        }
+        AwsSignalMode::Live => {
+            let failure_class = config.live_block_reason();
+            if failure_class != "aws_acip_sns_publish_failed" {
+                return csm_notice_attempt(base, "blocked", Some(failure_class.to_string()), None);
+            }
+            let topic_arn = match config.topic_arn.as_deref() {
+                Some(value) => value,
+                None => {
+                    return csm_notice_attempt(
+                        base,
+                        "blocked",
+                        Some("aws_acip_sns_topic_missing".to_string()),
+                        None,
+                    )
+                }
+            };
+            let message = match serde_json::to_string(&envelope) {
+                Ok(value) => value,
+                Err(err) => return csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+            };
+            let correlation_id = notice
+                .get("notice_id")
+                .and_then(serde_json::Value::as_str)
+                .unwrap_or("csm-notice")
+                .to_string();
+            match run_sns_publish_with_signal_kind(
+                &config,
+                topic_arn,
+                message,
+                correlation_id,
+                "csm_governed_notice",
+            ) {
+                Ok(message_id) => {
+                    csm_notice_attempt(base, "published_live", None, Some(message_id))
+                }
+                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+            }
+        }
+    }
+}
+
+fn publish_csm_notice_control_plane(
+    loaded: &LoadedAgentSpec,
+    notice: &serde_json::Value,
+) -> serde_json::Value {
+    let config = ControlPlaneNoticeConfig::from_env();
+    let mut base = csm_notice_attempt_base("cloudfront_control_plane", config.mode_label());
+    if let Some(object) = base.as_object_mut() {
+        object.insert(
+            "endpoint_sha256".to_string(),
+            config
+                .endpoint_hash()
+                .map(serde_json::Value::String)
+                .unwrap_or(serde_json::Value::Null),
+        );
+        object.insert("dependency".to_string(), serde_json::json!("#4915"));
+    }
+    if !config.configured {
+        return csm_notice_attempt(
+            base,
+            "not_configured",
+            Some("control_plane_hook_pending_4915_or_env_missing".to_string()),
+            None,
+        );
+    }
+    if matches!(config.mode, AwsSignalMode::Disabled) {
+        return csm_notice_attempt(base, "skipped_disabled", None, None);
+    }
+    let envelope = csm_notice_envelope(
+        loaded,
+        notice,
+        "cloudfront_control_plane",
+        config.mode_label(),
+    );
+    match config.mode {
+        AwsSignalMode::Disabled => unreachable!("disabled mode returned earlier"),
+        AwsSignalMode::Mock => match append_jsonl_value(
+            &csm_notice_control_plane_mock_artifact_path(loaded),
+            &envelope,
+        ) {
+            Ok(()) => csm_notice_attempt(
+                base,
+                "published_mock",
+                None,
+                Some("csm_governed_notice_control_plane_mock.jsonl".to_string()),
+            ),
+            Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+        },
+        AwsSignalMode::Live => {
+            if !config.approved {
+                return csm_notice_attempt(
+                    base,
+                    "blocked",
+                    Some("control_plane_live_not_approved".to_string()),
+                    None,
+                );
+            }
+            let Some(endpoint) = config.endpoint.as_deref() else {
+                return csm_notice_attempt(
+                    base,
+                    "blocked",
+                    Some("control_plane_url_missing".to_string()),
+                    None,
+                );
+            };
+            match reqwest::blocking::Client::builder()
+                .timeout(Duration::from_secs(10))
+                .build()
+                .and_then(|client| client.post(endpoint).json(&envelope).send())
+            {
+                Ok(response) if response.status().is_success() => {
+                    csm_notice_attempt(base, "published_live", None, None)
+                }
+                Ok(response) => csm_notice_attempt(
+                    base,
+                    "failed",
+                    Some(format!(
+                        "control_plane_http_status_{}",
+                        response.status().as_u16()
+                    )),
+                    None,
+                ),
+                Err(err) => csm_notice_attempt(base, "failed", Some(err.to_string()), None),
+            }
+        }
+    }
+}
+
+fn csm_notice_envelope(
+    loaded: &LoadedAgentSpec,
+    notice: &serde_json::Value,
+    target_kind: &str,
+    mode: &str,
+) -> serde_json::Value {
+    serde_json::json!({
+        "schema_version": AWS_SIGNAL_SCHEMA_VERSION,
+        "signal_kind": "csm_governed_notice",
+        "runtime_id": loaded.spec.agent_instance_id,
+        "agent_id": loaded.spec.workflow.name.clone().unwrap_or_else(|| loaded.spec.display_name.clone()),
+        "notice_id": notice.get("notice_id").cloned().unwrap_or(serde_json::Value::Null),
+        "notice_kind": notice.get("notice_kind").cloned().unwrap_or(serde_json::Value::Null),
+        "severity": notice.get("severity").cloned().unwrap_or(serde_json::Value::Null),
+        "trigger": notice.get("trigger").cloned().unwrap_or(serde_json::Value::Null),
+        "timestamp": Utc::now(),
+        "correlation_id": notice.get("notice_id").cloned().unwrap_or(serde_json::json!("csm-notice")),
+        "projection_level": "operations_safe",
+        "transport": {
+            "mode": mode,
+            "target_kind": target_kind
+        },
+        "payload": {
+            "recoverable_state": notice.get("recoverable_state").cloned().unwrap_or(serde_json::Value::Null),
+            "safe_fail_ref": "safe_fail_bundle.json",
+            "notice_ref": "csm_governed_notice_latest.json",
+            "notice_ledger_ref": "csm_governed_notices.jsonl",
+            "details": notice.get("details").cloned().unwrap_or(serde_json::Value::Null)
+        }
+    })
+}
+
+fn csm_notice_attempt_base(channel: &str, mode: &str) -> serde_json::Value {
+    serde_json::json!({
+        "channel": channel,
+        "mode": mode,
+        "attempted_at": Utc::now()
+    })
+}
+
+fn csm_notice_attempt(
+    mut base: serde_json::Value,
+    status: &str,
+    failure_class: Option<String>,
+    artifact_or_message: Option<String>,
+) -> serde_json::Value {
+    if let Some(object) = base.as_object_mut() {
+        object.insert("status".to_string(), serde_json::json!(status));
+        if let Some(failure_class) = failure_class {
+            object.insert(
+                "failure_class".to_string(),
+                serde_json::json!(failure_class),
+            );
+        }
+        if let Some(artifact_or_message) = artifact_or_message {
+            let value = artifact_or_message;
+            let key = if status == "published_live" {
+                "provider_message_id"
+            } else {
+                "artifact_ref"
+            };
+            object.insert(key.to_string(), serde_json::json!(value));
+        }
+    }
+    base
 }
 
 #[allow(dead_code)]
@@ -911,14 +1300,21 @@ fn publish_live_sns_acip_projection(
         .as_deref()
         .context("ADL_AWS_SNS_TOPIC_ARN is required for live ACIP SNS publish")?;
     let message = serde_json::to_string(envelope)?;
-    run_sns_publish(config, topic_arn, message, envelope.correlation_id.clone())
+    run_sns_publish_with_signal_kind(
+        config,
+        topic_arn,
+        message,
+        envelope.correlation_id.clone(),
+        "acip_projection",
+    )
 }
 
-fn run_sns_publish(
+fn run_sns_publish_with_signal_kind(
     config: &AcipProjectionPublisherConfig,
     topic_arn: &str,
     message: String,
     correlation_id: String,
+    signal_kind: &str,
 ) -> Result<String> {
     let runtime = tokio::runtime::Builder::new_current_thread()
         .enable_all()
@@ -960,7 +1356,7 @@ fn run_sns_publish(
                 "signal_kind",
                 sns::types::MessageAttributeValue::builder()
                     .data_type("String")
-                    .string_value("acip_projection")
+                    .string_value(signal_kind)
                     .build()
                     .context("failed to build SNS signal_kind attribute")?,
             )
@@ -980,6 +1376,23 @@ fn run_sns_publish(
             .map(str::to_string)
             .context("SNS publish response did not include a message id")
     })
+}
+
+fn append_jsonl_value(path: &Path, value: &serde_json::Value) -> Result<()> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)
+            .with_context(|| format!("failed creating {}", parent.display()))?;
+    }
+    let mut file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)
+        .with_context(|| format!("failed opening {}", path.display()))?;
+    serde_json::to_writer(&mut file, value)
+        .with_context(|| format!("failed writing {}", path.display()))?;
+    file.write_all(b"\n")
+        .with_context(|| format!("failed finalizing {}", path.display()))?;
+    Ok(())
 }
 
 #[allow(dead_code)]

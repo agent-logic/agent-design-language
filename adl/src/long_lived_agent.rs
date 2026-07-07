@@ -9,6 +9,7 @@ use std::path::{Path, PathBuf};
 use std::time::Duration;
 
 use crate::chronosense::{ChronosenseRuntimeService, ChronosenseRuntimeServiceConfig};
+use crate::runtime_aws_signal::publish_csm_governed_notice_signal;
 use crate::{adl, execute, resolve, trace};
 
 mod inspection;
@@ -205,6 +206,21 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     details: json!({"stop_ref": "stop.json"}),
                 },
             )?;
+            let governed_notice = record_governed_runtime_notice(
+                &runtime_context,
+                &loaded,
+                GovernedNoticeInput {
+                    notice_kind: "graceful_shutdown",
+                    severity: "operator_notice",
+                    trigger: "graceful_stop",
+                    status: &status,
+                    restart_count,
+                    max_restarts: options.max_restarts,
+                    last_child_exit: last_child_exit.clone(),
+                    safe_fail: safe_fail.clone(),
+                    details: json!({"stop_ref": "stop.json"}),
+                },
+            )?;
             emit_daemon_event(
                 &runtime_context,
                 &loaded,
@@ -213,7 +229,8 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 restart_count,
                 json!({
                     "recoverable_state": status.state,
-                    "safe_fail": safe_fail
+                    "safe_fail": safe_fail,
+                    "governed_notice": governed_notice
                 }),
             )?;
             return Ok(daemon_status);
@@ -326,6 +343,24 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         }),
                     },
                 )?;
+                let child_notice = record_governed_runtime_notice(
+                    &runtime_context,
+                    &loaded,
+                    GovernedNoticeInput {
+                        notice_kind: "degradation",
+                        severity: "warning",
+                        trigger: "daemon_child_failed",
+                        status: &status,
+                        restart_count,
+                        max_restarts: options.max_restarts,
+                        last_child_exit: last_child_exit.clone(),
+                        safe_fail: child_safe_fail.clone(),
+                        details: json!({
+                            "error_class": "daemon_child_failed",
+                            "checkpoint_ref": "continuity_checkpoint.json"
+                        }),
+                    },
+                )?;
                 if restart_count >= options.max_restarts {
                     let _ = write_daemon_status(
                         &runtime_context,
@@ -352,6 +387,25 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                             last_child_exit: last_child_exit.clone(),
                             details: json!({
                                 "previous_safe_fail": child_safe_fail,
+                                "previous_notice": child_notice.clone(),
+                                "checkpoint_ref": "continuity_checkpoint.json"
+                            }),
+                        },
+                    )?;
+                    let exhausted_notice = record_governed_runtime_notice(
+                        &runtime_context,
+                        &loaded,
+                        GovernedNoticeInput {
+                            notice_kind: "shutdown",
+                            severity: "critical",
+                            trigger: "restart_budget_exhausted",
+                            status: &status,
+                            restart_count,
+                            max_restarts: options.max_restarts,
+                            last_child_exit: last_child_exit.clone(),
+                            safe_fail: exhausted_safe_fail.clone(),
+                            details: json!({
+                                "previous_notice": child_notice,
                                 "checkpoint_ref": "continuity_checkpoint.json"
                             }),
                         },
@@ -364,7 +418,8 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         restart_count,
                         json!({
                             "recoverable_state": status.state,
-                            "safe_fail": exhausted_safe_fail
+                            "safe_fail": exhausted_safe_fail,
+                            "governed_notice": exhausted_notice
                         }),
                     )?;
                     return Err(err.context("daemon restart budget exhausted"));
@@ -1658,6 +1713,131 @@ fn record_safe_fail_event(
     }
 }
 
+struct GovernedNoticeInput<'a> {
+    notice_kind: &'a str,
+    severity: &'a str,
+    trigger: &'a str,
+    status: &'a StatusRecord,
+    restart_count: u64,
+    max_restarts: u64,
+    last_child_exit: Option<String>,
+    safe_fail: Value,
+    details: Value,
+}
+
+fn record_governed_runtime_notice(
+    runtime_context: &CsmRuntimeContext,
+    loaded: &LoadedAgentSpec,
+    input: GovernedNoticeInput<'_>,
+) -> Result<Value> {
+    let captured_at = Utc::now();
+    let notice_id = governed_notice_id(loaded, input.trigger, input.restart_count, captured_at);
+    let local_notice = json!({
+        "schema": "adl.csm.governed_notice.v1",
+        "notice_id": notice_id,
+        "runtime_owner": "csm",
+        "agent_instance_id": loaded.spec.agent_instance_id.clone(),
+        "notice_kind": input.notice_kind,
+        "severity": input.severity,
+        "trigger": input.trigger,
+        "captured_at": captured_at,
+        "restart_count": input.restart_count,
+        "max_restarts": input.max_restarts,
+        "last_child_exit": input.last_child_exit.clone(),
+        "recoverable_state": {
+            "state": input.status.state,
+            "status_ref": "status.json",
+            "continuity_checkpoint_ref": "continuity_checkpoint.json",
+            "safe_fail_ref": "safe_fail_bundle.json"
+        },
+        "safe_fail": input.safe_fail,
+        "local_first_policy": {
+            "source_of_truth": "local_safe_fail_and_checkpoint_artifacts",
+            "outbound_delivery_may_fail": true,
+            "transport_failure_policy": "retain_delivery_failure_and_continue_recovery"
+        },
+        "observability": {
+            "event_command": "csm",
+            "event_stage": "governed_runtime_notice",
+            "otel_service_name": "csm-runtime-daemon",
+            "trace_id": daemon_trace_id(loaded),
+            "span_id": daemon_span_id("governed_runtime_notice", input.restart_count),
+            "parent_span_id": daemon_parent_span_id(loaded),
+            "runtime_capabilities": csm_runtime_capabilities(runtime_context),
+            "chronosense_clock_stack": csm_chronosense_clock_stack(runtime_context)
+        },
+        "delivery_policy": {
+            "channels": ["cloudwatch_logs", "acip_sns", "cloudfront_control_plane"],
+            "cloudfront_control_plane_dependency": "#4915",
+            "redaction": "operations_safe_no_secret_payloads"
+        },
+        "delivery_attempts": [{
+            "channel": "local_notice_ledger",
+            "status": "recorded",
+            "artifact_ref": "csm_governed_notices.jsonl"
+        }],
+        "details": input.details
+    });
+    write_json_pretty(&csm_notice_latest_path(loaded), &local_notice)?;
+    append_jsonl(&csm_notice_ledger_path(loaded), &local_notice)?;
+
+    let mut final_notice = local_notice;
+    let mut attempts = vec![json!({
+        "channel": "local_notice_ledger",
+        "status": "recorded",
+        "artifact_ref": "csm_governed_notices.jsonl"
+    })];
+    attempts.extend(publish_csm_governed_notice_signal(loaded, &final_notice));
+    if let Some(object) = final_notice.as_object_mut() {
+        object.insert("delivery_attempts".to_string(), json!(attempts));
+        object.insert("delivery_completed_at".to_string(), json!(Utc::now()));
+    }
+    write_json_pretty(&csm_notice_latest_path(loaded), &final_notice)?;
+    append_jsonl(&csm_notice_ledger_path(loaded), &final_notice)?;
+    emit_daemon_event(
+        runtime_context,
+        loaded,
+        "governed_runtime_notice",
+        "completed",
+        input.restart_count,
+        json!({
+            "notice_id": notice_id,
+            "notice_kind": input.notice_kind,
+            "severity": input.severity,
+            "trigger": input.trigger,
+            "notice_ref": "csm_governed_notice_latest.json",
+            "notice_ledger_ref": "csm_governed_notices.jsonl"
+        }),
+    )?;
+    Ok(json!({
+        "schema": "adl.csm.governed_notice.summary.v1",
+        "notice_id": notice_id,
+        "notice_kind": input.notice_kind,
+        "severity": input.severity,
+        "trigger": input.trigger,
+        "notice_ref": "csm_governed_notice_latest.json",
+        "notice_ledger_ref": "csm_governed_notices.jsonl",
+        "delivery_attempts": final_notice["delivery_attempts"].clone()
+    }))
+}
+
+fn governed_notice_id(
+    loaded: &LoadedAgentSpec,
+    trigger: &str,
+    restart_count: u64,
+    captured_at: DateTime<Utc>,
+) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(loaded.spec.agent_instance_id.as_bytes());
+    hasher.update([0xff]);
+    hasher.update(trigger.as_bytes());
+    hasher.update([0xfe]);
+    hasher.update(restart_count.to_string().as_bytes());
+    hasher.update([0xfd]);
+    hasher.update(captured_at.to_rfc3339().as_bytes());
+    format!("csm-notice-{:x}", hasher.finalize())
+}
+
 fn next_safe_fail_sequence(loaded: &LoadedAgentSpec) -> Result<u64> {
     let dir = safe_fail_artifacts_dir(loaded);
     if !dir.exists() {
@@ -2357,7 +2537,14 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
             "status": "integrated",
             "event_command": "csm",
             "otel_service_name": "csm-runtime-daemon",
-            "retained_outputs": ["operator_events.jsonl", "daemon_status.json", "safe_fail_bundle.json", "safe_fail_artifacts/", "ADL_OBSERVABILITY_LOG", "ADL_OTEL_LOG", "ADL_OTEL_STATUS"]
+            "retained_outputs": ["operator_events.jsonl", "daemon_status.json", "safe_fail_bundle.json", "safe_fail_artifacts/", "csm_governed_notices.jsonl", "csm_governed_notice_latest.json", "ADL_OBSERVABILITY_LOG", "ADL_OTEL_LOG", "ADL_OTEL_STATUS"]
+        },
+        "governed_shutdown_notices": {
+            "status": "integrated",
+            "local_notice_ledger": "csm_governed_notices.jsonl",
+            "outbound_channels": ["cloudwatch_logs", "acip_sns", "cloudfront_control_plane"],
+            "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+            "cloudfront_control_plane_dependency": "#4915"
         }
     })
 }

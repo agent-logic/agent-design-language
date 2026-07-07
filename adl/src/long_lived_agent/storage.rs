@@ -38,6 +38,14 @@ pub(super) fn safe_fail_artifacts_dir(loaded: &LoadedAgentSpec) -> PathBuf {
     loaded.state_root.join("safe_fail_artifacts")
 }
 
+pub(super) fn csm_notice_ledger_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("csm_governed_notices.jsonl")
+}
+
+pub(super) fn csm_notice_latest_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("csm_governed_notice_latest.json")
+}
+
 pub(super) fn checkpoint_request_path(loaded: &LoadedAgentSpec) -> PathBuf {
     loaded.state_root.join("checkpoint_request.json")
 }

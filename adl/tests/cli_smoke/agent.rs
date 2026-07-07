@@ -2903,6 +2903,7 @@ memory:
     assert!(operator_events.contains("\"event\":\"restart_attempted\""));
     assert!(operator_events.contains("\"event\":\"restart_budget_exhausted\""));
     assert!(operator_events.contains("\"event\":\"safe_fail_serialization\""));
+    assert!(operator_events.contains("\"event\":\"governed_runtime_notice\""));
     assert!(operator_events.contains("\"checkpoint_ref\":\"continuity_checkpoint.json\""));
 
     let safe_fail: serde_json::Value = serde_json::from_str(
@@ -2935,4 +2936,46 @@ memory:
         safe_fail["serialized_state"]["status"]["value"]["last_error"]["class"],
         "daemon_child_failed"
     );
+
+    let notice_latest: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(root.join("state/csm_governed_notice_latest.json"))
+            .expect("read governed notice latest"),
+    )
+    .expect("parse governed notice latest");
+    assert_eq!(notice_latest["schema"], "adl.csm.governed_notice.v1");
+    assert_eq!(notice_latest["runtime_owner"], "csm");
+    assert_eq!(notice_latest["notice_kind"], "shutdown");
+    assert_eq!(notice_latest["severity"], "critical");
+    assert_eq!(notice_latest["trigger"], "restart_budget_exhausted");
+    assert_eq!(
+        notice_latest["local_first_policy"]["source_of_truth"],
+        "local_safe_fail_and_checkpoint_artifacts"
+    );
+    assert_eq!(
+        notice_latest["local_first_policy"]["transport_failure_policy"],
+        "retain_delivery_failure_and_continue_recovery"
+    );
+    let attempts = notice_latest["delivery_attempts"]
+        .as_array()
+        .expect("delivery attempts");
+    assert!(attempts
+        .iter()
+        .any(|attempt| attempt["channel"] == "local_notice_ledger"
+            && attempt["status"] == "recorded"));
+    assert!(attempts
+        .iter()
+        .any(|attempt| attempt["channel"] == "cloudwatch_logs"
+            && attempt["status"] == "not_configured"));
+    assert!(attempts
+        .iter()
+        .any(|attempt| attempt["channel"] == "acip_sns" && attempt["status"] == "not_configured"));
+    assert!(attempts
+        .iter()
+        .any(|attempt| attempt["channel"] == "cloudfront_control_plane"
+            && attempt["status"] == "not_configured"
+            && attempt["dependency"] == "#4915"));
+    let notice_ledger =
+        fs::read_to_string(root.join("state/csm_governed_notices.jsonl")).expect("notice ledger");
+    assert!(notice_ledger.contains("\"trigger\":\"daemon_child_failed\""));
+    assert!(notice_ledger.contains("\"trigger\":\"restart_budget_exhausted\""));
 }
