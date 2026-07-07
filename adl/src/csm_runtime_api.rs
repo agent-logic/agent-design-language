@@ -643,12 +643,11 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
     {
         blockers.push("agent_state_failed".to_string());
     }
-    match status
+    if let Some("leased") = status
         .pointer("/agent_status/state")
         .and_then(Value::as_str)
     {
-        Some("leased") => blockers.push("agent_state_leased".to_string()),
-        _ => {}
+        blockers.push("agent_state_leased".to_string());
     }
     match status
         .pointer("/daemon_liveness/state")
