@@ -5,6 +5,41 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT_ROOT="${1:-$ROOT/.adl/reports/demo-aee-bounded-adaptation}"
 STATE_ROOT="$OUT_ROOT/state"
 RUNS_ROOT="${ADL_RUNS_ROOT:-$ROOT/.adl/runs}"
+PRIMARY_ROOT="${ADL_PRIMARY_CHECKOUT_ROOT:-}"
+if [[ -z "$PRIMARY_ROOT" ]]; then
+  case "$ROOT" in
+    */.worktrees/*) PRIMARY_ROOT="${ROOT%%/.worktrees/*}" ;;
+    *) PRIMARY_ROOT="$ROOT" ;;
+  esac
+fi
+
+resolve_adl_bin() {
+  local candidate
+  for candidate in \
+    "${ADL_DEMO_ADL_BIN:-}" \
+    "${ADL_PR_RUST_BIN:-}" \
+    "${CARGO_TARGET_DIR:+$CARGO_TARGET_DIR/debug/adl}" \
+    "${CARGO_LLVM_COV_TARGET_DIR:+$CARGO_LLVM_COV_TARGET_DIR/debug/adl}" \
+    "$ROOT/adl/target/debug/adl" \
+    "$PRIMARY_ROOT/adl/target/debug/adl" \
+    "$ROOT/adl/target/llvm-cov-target/debug/adl" \
+    "$PRIMARY_ROOT/adl/target/llvm-cov-target/debug/adl"; do
+    if [[ -n "$candidate" && -x "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+  return 1
+}
+
+run_adl() {
+  local adl_bin
+  if adl_bin="$(resolve_adl_bin)"; then
+    "$adl_bin" "$@"
+  else
+    cargo run --manifest-path "$ROOT/adl/Cargo.toml" --bin adl -- "$@"
+  fi
+}
 
 echo "[aee-demo] root=$ROOT"
 echo "[aee-demo] out=$OUT_ROOT"
@@ -20,7 +55,7 @@ set +e
 ADL_OLLAMA_BIN="$ROOT/adl/tools/mock_ollama_fail_once.sh" \
 ADL_AEE_DEMO_STATE_DIR="$STATE_ROOT/initial" \
 ADL_RUNS_ROOT="$RUNS_ROOT" \
-cargo run --manifest-path "$ROOT/adl/Cargo.toml" --bin adl -- \
+run_adl \
   "$ROOT/adl/examples/v0-3-aee-recovery-initial.adl.yaml" \
   --run \
   --trace \
@@ -48,7 +83,7 @@ echo "[aee-demo] step 2: rerun with bounded overlay aligned to the emitted decis
 ADL_OLLAMA_BIN="$ROOT/adl/tools/mock_ollama_fail_once.sh" \
 ADL_AEE_DEMO_STATE_DIR="$STATE_ROOT/adapted" \
 ADL_RUNS_ROOT="$RUNS_ROOT" \
-cargo run --manifest-path "$ROOT/adl/Cargo.toml" --bin adl -- \
+run_adl \
   "$ROOT/adl/examples/v0-3-aee-recovery-adapted.adl.yaml" \
   --run \
   --trace \
