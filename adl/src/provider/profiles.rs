@@ -9,6 +9,7 @@ use super::*;
 pub(crate) struct ProviderProfilePreset {
     pub(crate) kind: &'static str,
     pub(crate) default_model: Option<&'static str>,
+    pub(crate) provider_model_id: Option<&'static str>,
     pub(crate) endpoint: Option<&'static str>,
 }
 
@@ -59,6 +60,8 @@ pub(crate) const DEEPSEEK_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.deepseek.com/chat/completions";
 pub(crate) const OPENROUTER_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://openrouter.ai/api/v1/chat/completions";
+pub(crate) const Z_AI_CHAT_COMPLETIONS_ENDPOINT: &str =
+    "https://open.bigmodel.cn/api/paas/v4/chat/completions";
 /// Canonical Anthropic API version used by the HTTP adapter.
 pub(crate) const ANTHROPIC_VERSION: &str = "2023-06-01";
 
@@ -70,6 +73,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "ollama",
             default_model: Some("phi4-mini"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
@@ -78,6 +82,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "ollama",
             default_model: Some("qwen2.5:7b"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
@@ -86,6 +91,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "ollama",
             default_model: Some("llama3.1:8b"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
@@ -94,6 +100,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "ollama",
             default_model: Some("mistral:7b"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
@@ -103,7 +110,17 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "mock",
             default_model: Some("echo-v1"),
+            provider_model_id: None,
             endpoint: None,
+        },
+    );
+    m.insert(
+        "z_ai:glm-5",
+        ProviderProfilePreset {
+            kind: "z_ai",
+            default_model: Some("hosted:adl-z-ai:glm-5"),
+            provider_model_id: Some("glm-5"),
+            endpoint: Some(Z_AI_CHAT_COMPLETIONS_ENDPOINT),
         },
     );
     // HTTP presets (explicit fixed endpoint placeholders; no secrets)
@@ -122,6 +139,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             ProviderProfilePreset {
                 kind: "http",
                 default_model: Some(model),
+                provider_model_id: None,
                 endpoint: Some(HTTP_PROFILE_PLACEHOLDER_ENDPOINT),
             },
         );
@@ -138,6 +156,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             ProviderProfilePreset {
                 kind: "http",
                 default_model: Some(model),
+                provider_model_id: None,
                 endpoint: Some(HTTP_PROFILE_PLACEHOLDER_ENDPOINT),
             },
         );
@@ -152,6 +171,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             ProviderProfilePreset {
                 kind: "http",
                 default_model: Some(model),
+                provider_model_id: None,
                 endpoint: Some(HTTP_PROFILE_PLACEHOLDER_ENDPOINT),
             },
         );
@@ -210,6 +230,11 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
                     config.insert("endpoint".to_string(), Value::String(endpoint.to_string()));
                 }
             }
+        }
+        if let Some(provider_model_id) = preset.provider_model_id {
+            config
+                .entry("provider_model_id".to_string())
+                .or_insert_with(|| Value::String(provider_model_id.to_string()));
         }
 
         expanded.providers.insert(

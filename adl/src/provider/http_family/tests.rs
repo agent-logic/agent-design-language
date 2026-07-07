@@ -633,6 +633,119 @@ fn openrouter_provider_rejects_missing_credentials_and_bad_response_shape() {
 }
 
 #[test]
+fn zai_provider_sends_chat_completion_request_and_records_sanitized_artifact() {
+    let _guard = env_lock();
+    let Some((endpoint, captured, handle)) = spawn_json_server(
+        200,
+        r#"{"model":"glm-5","choices":[{"message":{"content":"zai ok"}}]}"#,
+    ) else {
+        return;
+    };
+    let artifact = std::env::temp_dir().join(format!(
+        "adl-zai-provider-artifact-{}.json",
+        std::process::id()
+    ));
+    let _ = std::fs::remove_file(&artifact);
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let prev_key = env::var_os("ZAI_API_KEY");
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+    env::set_var("ZAI_API_KEY", "test-zai-token");
+
+    let spec = provider_spec(
+        "z_ai",
+        &format!("{endpoint}/api/paas/v4/chat/completions"),
+        None,
+        &[],
+    );
+    let target = provider_target(
+        "z_ai",
+        format!("{endpoint}/api/paas/v4/chat/completions"),
+        "glm-5",
+    );
+    let provider = ZAiProvider::from_target(&spec, &target).expect("provider");
+
+    let output = provider.complete("hello zai").expect("completion");
+    assert_eq!(output, "zai ok");
+
+    let captured = captured.lock().expect("capture").clone().expect("request");
+    assert_eq!(captured.url, "/api/paas/v4/chat/completions");
+    assert!(captured.body.contains(r#""model":"glm-5""#));
+    assert!(captured.body.contains(r#""content":"hello zai""#));
+    assert!(captured.body.contains(r#""stream":false"#));
+    assert!(captured
+        .headers
+        .iter()
+        .any(|(k, v)| k.eq_ignore_ascii_case("authorization") && v == "Bearer test-zai-token"));
+
+    let payload = std::fs::read_to_string(&artifact).expect("artifact");
+    assert!(!payload.contains("test-zai-token"));
+    let json: serde_json::Value = serde_json::from_str(&payload).expect("json artifact");
+    assert_eq!(json["invocations"][0]["family"], "z_ai");
+    assert_eq!(json["invocations"][0]["model"], "glm-5");
+    assert_eq!(json["invocations"][0]["output_chars"], 6);
+
+    match prev_artifact {
+        Some(v) => env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", v),
+        None => env::remove_var("ADL_PROVIDER_INVOCATIONS_PATH"),
+    }
+    match prev_key {
+        Some(v) => env::set_var("ZAI_API_KEY", v),
+        None => env::remove_var("ZAI_API_KEY"),
+    }
+
+    let _ = handle.join();
+}
+
+#[test]
+fn zai_provider_rejects_missing_credentials_and_bad_response_shape() {
+    let _guard = env_lock();
+    let prev_key = env::var_os("ZAI_API_KEY");
+    env::remove_var("ZAI_API_KEY");
+
+    let spec = provider_spec(
+        "z_ai",
+        Z_AI_CHAT_COMPLETIONS_ENDPOINT,
+        Some("ZAI_API_KEY"),
+        &[],
+    );
+    let target = provider_target("z_ai", Z_AI_CHAT_COMPLETIONS_ENDPOINT.to_string(), "glm-5");
+    let provider = ZAiProvider::from_target(&spec, &target).expect("provider");
+    let missing_key = provider
+        .complete("hello")
+        .expect_err("missing credential should fail");
+    assert!(missing_key
+        .to_string()
+        .contains("missing required auth env var 'ZAI_API_KEY'"));
+
+    env::set_var("ZAI_API_KEY", "test-zai-token");
+    let Some((endpoint, _captured, handle)) = spawn_json_server(200, r#"{"choices":[]}"#) else {
+        restore_env_var("ZAI_API_KEY", prev_key);
+        return;
+    };
+    let bad_spec = provider_spec(
+        "z_ai",
+        &format!("{endpoint}/api/paas/v4/chat/completions"),
+        Some("ZAI_API_KEY"),
+        &[],
+    );
+    let bad_target = provider_target(
+        "z_ai",
+        format!("{endpoint}/api/paas/v4/chat/completions"),
+        "glm-5",
+    );
+    let bad_provider = ZAiProvider::from_target(&bad_spec, &bad_target).expect("provider");
+    let bad_shape = bad_provider
+        .complete("hello")
+        .expect_err("missing message content should fail");
+    assert!(bad_shape
+        .to_string()
+        .contains("response missing message content"));
+
+    restore_env_var("ZAI_API_KEY", prev_key);
+    let _ = handle.join();
+}
+
+#[test]
 fn deepseek_provider_rejects_missing_credentials_and_bad_response_shape() {
     let _guard = env_lock();
     let prev_key = env::var_os("DEEPSEEK_API_KEY");

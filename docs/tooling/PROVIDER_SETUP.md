@@ -10,6 +10,8 @@ Current supported families:
 - `anthropic`
 - `gemini`
 - `deepseek`
+- `openrouter`
+- `z_ai`
 - `http`
 
 Related shared proof-surface docs:
@@ -30,10 +32,12 @@ The generated bundle is intentionally local-only:
 - users are expected to copy/fill a local env file and source it before running ADL
 
 Important transport note:
-- `openai`, `anthropic`, and `deepseek` now use Rust-native provider adapters by default:
+- `openai`, `anthropic`, `deepseek`, `openrouter`, and `z_ai` now use Rust-native provider adapters by default:
   - `type: "openai"` targets the OpenAI Responses API unless `config.endpoint` is explicitly overridden
   - `type: "anthropic"` targets the Anthropic Messages API unless `config.endpoint` is explicitly overridden
   - `type: "deepseek"` targets the DeepSeek chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "openrouter"` targets the OpenRouter chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "z_ai"` targets the Z.ai/Zhipu OpenAI-compatible chat completions API unless `config.endpoint` is explicitly overridden
 - ADL's bounded HTTP provider expects a completion-style contract:
   - request JSON with `{"prompt": "..."}`
   - response JSON with `{"output": "..."}`
@@ -50,11 +54,16 @@ adl provider setup chatgpt
 adl provider setup claude
 adl provider setup openai --out ./.adl/provider-setup/openai
 adl provider setup deepseek
+adl provider setup z_ai
 ```
 
 DeepSeek native note:
 - `adl provider setup deepseek` emits `type: "deepseek"`, reads `DEEPSEEK_API_KEY`, and uses `https://api.deepseek.com/chat/completions` by default
 - the older `http:deepseek-chat` profile remains a compatibility surface for ADL-style completion gateways; it is not the native DeepSeek API path
+
+Z.ai native note:
+- `adl provider setup z_ai` emits `type: "z_ai"`, reads `ZAI_API_KEY`, and uses `https://open.bigmodel.cn/api/paas/v4/chat/completions` by default
+- the first built-in Z.ai profile is `z_ai:glm-5`, which maps to provider model id `glm-5` for the provider mini-sprint UTS route `hosted:adl-z-ai:glm-5`
 
 Loopback demo note:
 - the `v0.87.1` bounded HTTP family demo uses `http://127.0.0.1:8787/complete` with a dummy bearer token as a local proof path for the ADL completion contract

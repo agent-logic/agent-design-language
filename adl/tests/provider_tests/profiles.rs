@@ -127,6 +127,53 @@ run:
 }
 
 #[test]
+fn expand_provider_profiles_accepts_zai_glm5_profile() {
+    let doc = adl_doc_from_yaml(
+        r#"
+version: "0.5"
+providers:
+  zai_primary:
+    profile: "z_ai:glm-5"
+agents:
+  a1:
+    provider: "zai_primary"
+    model: "hosted:adl-z-ai:glm-5"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - agent: "a1"
+        task: "t1"
+"#,
+    );
+    let expanded = expand_provider_profiles(&doc).expect("expand z_ai profile");
+    let provider = &expanded.providers["zai_primary"];
+    assert_eq!(provider.kind, "z_ai");
+    assert_eq!(
+        provider.default_model.as_deref(),
+        Some("hosted:adl-z-ai:glm-5")
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("provider_model_id")
+            .and_then(|value| value.as_str()),
+        Some("glm-5")
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("endpoint")
+            .and_then(|value| value.as_str()),
+        Some("https://open.bigmodel.cn/api/paas/v4/chat/completions")
+    );
+}
+
+#[test]
 fn expand_provider_profiles_rejects_http_profile_without_endpoint_override() {
     let doc = adl_doc_from_yaml(
         r#"

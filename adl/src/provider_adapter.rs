@@ -27,6 +27,8 @@ const DEFAULT_ANTHROPIC_MESSAGES_URL: &str = "https://api.anthropic.com/v1/messa
 const DEFAULT_DEEPSEEK_CHAT_COMPLETIONS_URL: &str = "https://api.deepseek.com/chat/completions";
 const DEFAULT_OPENROUTER_CHAT_COMPLETIONS_URL: &str =
     "https://openrouter.ai/api/v1/chat/completions";
+const DEFAULT_ZAI_CHAT_COMPLETIONS_URL: &str =
+    "https://open.bigmodel.cn/api/paas/v4/chat/completions";
 const DEFAULT_OPENROUTER_MAX_TOKENS: u64 = 2048;
 const DEFAULT_GEMINI_BASE_URL: &str = "https://generativelanguage.googleapis.com/v1beta";
 const DEFAULT_OLLAMA_BASE_URL: &str = "http://127.0.0.1:11434";
@@ -609,6 +611,7 @@ fn execute_hosted(
         "anthropic" | "claude" => execute_hosted_anthropic(request, policy),
         "deepseek" => execute_hosted_deepseek(request, policy),
         "openrouter" => execute_hosted_openrouter(request, policy),
+        "z_ai" | "zai" | "zhipu" => execute_hosted_zai(request, policy),
         "google" | "gemini" => execute_hosted_gemini(request, policy),
         _ => Err(ProviderFailureV1 {
             kind: ProviderFailureKindV1::ProviderError,
@@ -768,6 +771,43 @@ fn openrouter_request_body(request: &ProviderInvocationRequestV1) -> Value {
             "content": request.input_text.as_deref().unwrap_or_default(),
         }],
         "max_tokens": output_token_budget_or_default(request, DEFAULT_OPENROUTER_MAX_TOKENS),
+        "stream": false,
+    })
+}
+
+fn execute_hosted_zai(
+    request: &ProviderInvocationRequestV1,
+    policy: &ProviderAttemptPolicyV1,
+) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
+    let key = resolve_credential(request.route.credential_ref.as_deref(), "ZAI_API_KEY")?;
+    let url = request
+        .route
+        .endpoint_ref
+        .as_deref()
+        .filter(|endpoint| endpoint.starts_with("http://") || endpoint.starts_with("https://"))
+        .unwrap_or(DEFAULT_ZAI_CHAT_COMPLETIONS_URL);
+    let response = client(policy)?
+        .post(url)
+        .bearer_auth(key)
+        .json(&zai_request_body(request))
+        .send()
+        .map_err(map_reqwest_error)?;
+    decode_text_response(
+        response,
+        extract_chat_completion_output_text,
+        extract_chat_completion_model_id,
+        RuntimeSurfaceV1::HostedApi,
+    )
+}
+
+fn zai_request_body(request: &ProviderInvocationRequestV1) -> Value {
+    json!({
+        "model": request.route.provider_model_id,
+        "messages": [{
+            "role": "user",
+            "content": request.input_text.as_deref().unwrap_or_default(),
+        }],
+        "max_tokens": output_token_budget_or_default(request, 256),
         "stream": false,
     })
 }
@@ -1419,6 +1459,7 @@ mod tests {
         assert_eq!(anthropic_request_body(&req)["max_tokens"], json!(1_024));
         assert_eq!(deepseek_request_body(&req)["max_tokens"], json!(1_024));
         assert_eq!(openrouter_request_body(&req)["max_tokens"], json!(1_024));
+        assert_eq!(zai_request_body(&req)["max_tokens"], json!(1_024));
         assert_eq!(
             gemini_request_body(&req)
                 .pointer("/generationConfig/maxOutputTokens")
@@ -1447,6 +1488,7 @@ mod tests {
         assert!(openai_request_body(&req).get("max_output_tokens").is_none());
         assert_eq!(anthropic_request_body(&req)["max_tokens"], json!(256));
         assert_eq!(deepseek_request_body(&req)["max_tokens"], json!(256));
+        assert_eq!(zai_request_body(&req)["max_tokens"], json!(256));
         assert_eq!(
             openrouter_request_body(&req)["max_tokens"],
             json!(DEFAULT_OPENROUTER_MAX_TOKENS)
@@ -2305,6 +2347,76 @@ mod tests {
 
         let _ = fs::remove_file(path);
         env::remove_var("ADL_PROVIDER_ADAPTER_OPENROUTER_OBSERVED_KEY");
+    }
+
+    #[test]
+    fn zai_hosted_adapter_returns_output_observed_model_and_redacts_log() {
+        env::set_var("ADL_PROVIDER_ADAPTER_ZAI_SUCCESS_KEY", "test-zai-key");
+        let (endpoint, rx) = capture_one_request_server(
+            r#"{"model":"glm-5","choices":[{"message":{"content":"zai success"}}]}"#,
+            "200 OK",
+        );
+        let path = temp_log("zai");
+        let mut logger = ProviderRunLoggerV1::create(&path, "run-test").expect("open logger");
+        let mut req = request(RuntimeSurfaceV1::HostedApi, endpoint);
+        req.route.provider = "z_ai".to_string();
+        req.route.provider_model_id = "glm-5".to_string();
+        req.route.credential_ref = Some("env:ADL_PROVIDER_ADAPTER_ZAI_SUCCESS_KEY".to_string());
+        req.model_identity = hosted_model_identity(
+            "z_ai",
+            "glm-5",
+            "hosted:adl-z-ai:glm-5",
+            Some("test".to_string()),
+        );
+        let result = execute_provider_invocation(req, &mut logger);
+        drop(logger);
+
+        assert_eq!(result.final_status, ProviderInvocationFinalStatusV1::Ok);
+        assert_eq!(result.output_text.as_deref(), Some("zai success"));
+        assert_eq!(result.model_identity.provider_model_id, "glm-5");
+        let raw_request = rx.recv().expect("captured request");
+        assert!(raw_request
+            .to_ascii_lowercase()
+            .contains("authorization: bearer test-zai-key"));
+        assert!(raw_request.contains(r#""model":"glm-5""#));
+        assert!(raw_request.contains(r#""content":"secret prompt should not enter logs""#));
+        assert!(raw_request.contains(r#""stream":false"#));
+        let log = fs::read_to_string(&path).expect("read log");
+        assert!(log.contains("attempt_success"));
+        assert!(!log.contains("test-zai-key"));
+        assert!(!log.contains("secret prompt"));
+        assert!(!log.contains("zai success"));
+        let _ = fs::remove_file(path);
+        env::remove_var("ADL_PROVIDER_ADAPTER_ZAI_SUCCESS_KEY");
+    }
+
+    #[test]
+    fn zai_hosted_adapter_rejects_missing_key_without_network_call() {
+        env::remove_var("ADL_PROVIDER_ADAPTER_ZAI_MISSING_KEY");
+        let (tx, rx) = mpsc::channel();
+        let listener = TcpListener::bind("127.0.0.1:0").expect("bind server");
+        let addr = listener.local_addr().expect("server addr");
+        thread::spawn(move || {
+            if listener.accept().is_ok() {
+                let _ = tx.send(());
+            }
+        });
+        let path = temp_log("zai-missing-key");
+        let mut logger = ProviderRunLoggerV1::create(&path, "run-test").expect("open logger");
+        let mut req = request(RuntimeSurfaceV1::HostedApi, format!("http://{addr}"));
+        req.route.provider = "z_ai".to_string();
+        req.route.credential_ref = Some("env:ADL_PROVIDER_ADAPTER_ZAI_MISSING_KEY".to_string());
+
+        let result = execute_provider_invocation(req, &mut logger);
+        drop(logger);
+
+        assert_eq!(result.final_status, ProviderInvocationFinalStatusV1::Failed);
+        assert_eq!(
+            result.failure.as_ref().map(|failure| failure.kind.clone()),
+            Some(ProviderFailureKindV1::ProviderAuthMissing)
+        );
+        assert!(rx.try_recv().is_err());
+        let _ = fs::remove_file(path);
     }
 
     #[test]

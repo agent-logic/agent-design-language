@@ -138,6 +138,52 @@ config:
 }
 
 #[test]
+fn zai_provider_translates_native_response_through_build_provider() {
+    let server = match std::net::TcpListener::bind("127.0.0.1:0") {
+        Ok(s) => s,
+        Err(e) if e.kind() == std::io::ErrorKind::PermissionDenied => return,
+        Err(e) => panic!("failed to bind local test server: {e}"),
+    };
+    let addr = server.local_addr().unwrap();
+    let _env_guard = localhost_and_auth_env_guard("ADL_TEST_ZAI_KEY", "test-zai-token");
+
+    std::thread::spawn(move || {
+        let (mut stream, _) = server.accept().unwrap();
+        let request = read_http_request(&mut stream);
+        assert!(request.to_ascii_lowercase().contains("authorization:"));
+        assert!(request.contains("Bearer test-zai-token"));
+        assert!(request.contains("\"model\":\"glm-5\""));
+        assert!(request.contains("\"content\":\"hello zai\""));
+        assert!(request.contains("\"stream\":false"));
+        let body = r#"{"model":"glm-5","choices":[{"message":{"content":"ZAI_NATIVE_OK"}}]}"#;
+        let resp = format!(
+            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\n\r\n{}",
+            body.len(),
+            body
+        );
+        let _ = stream.write_all(resp.as_bytes());
+    });
+
+    let spec = provider_spec_from_yaml(&format!(
+        r#"
+type: z_ai
+config:
+  endpoint: "http://{addr}/api/paas/v4/chat/completions"
+  provider_model_id: "glm-5"
+  auth:
+    type: bearer
+    env: ADL_TEST_ZAI_KEY
+"#
+    ));
+
+    let p = build_provider(&spec, None).expect("z_ai provider should build");
+    let out = p
+        .complete("hello zai")
+        .expect("z_ai provider should succeed");
+    assert_eq!(out, "ZAI_NATIVE_OK");
+}
+
+#[test]
 fn native_provider_missing_auth_env_is_sanitized() {
     let _env_guard = EnvVarGuard::unset("ADL_TEST_MISSING_OPENAI_KEY");
     let spec = provider_spec_from_yaml(
