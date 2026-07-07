@@ -33,6 +33,10 @@ const ACIP_TRACE_FIXTURE_SCHEMA_VERSION: &str = "acip.trace.fixture.v1";
 const ACIP_PROOF_DEMO_SCHEMA_VERSION: &str = "acip.proof.demo.v1";
 const ACIP_LOCAL_CARRIER_SCHEMA_VERSION: &str = "acip.local.carrier.v1";
 const ACIP_LOCAL_INVOCATION_EXCHANGE_SCHEMA_VERSION: &str = "acip.local.invocation.exchange.v1";
+const ACIP_RUNTIME_STREAM_SUBSTRATE_DECISION_SCHEMA_VERSION: &str =
+    "acip.runtime_stream.substrate_decision.v1";
+const ACIP_RUNTIME_STREAM_LOOPBACK_PROOF_SCHEMA_VERSION: &str =
+    "acip.runtime_stream.loopback_proof.v1";
 const ACIP_A2A_ADAPTER_SCHEMA_VERSION: &str = "acip.a2a.adapter.v1";
 const ACIP_A2A_FIXTURE_SCHEMA_VERSION: &str = "acip.a2a.fixture.v1";
 const MAX_CONTENT_CHARS: usize = 4_000;
@@ -820,6 +824,11 @@ pub mod carrier {
     include!("agent_comms/carrier.inc");
 }
 
+pub mod runtime_stream {
+    use super::*;
+    include!("agent_comms/runtime_stream.inc");
+}
+
 pub mod dispatch {
     use super::*;
 
@@ -876,6 +885,7 @@ pub use a2a::*;
 pub use carrier::*;
 pub use dispatch::*;
 pub use orchestrate::*;
+pub use runtime_stream::*;
 pub use transport::*;
 
 #[cfg(test)]

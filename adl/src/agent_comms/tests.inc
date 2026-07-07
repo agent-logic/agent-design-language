@@ -2199,6 +2199,88 @@
     }
 
     #[test]
+    fn acip_runtime_stream_substrate_decision_selects_tokio_tungstenite() {
+        let decision = acip_runtime_stream_substrate_decision_v1();
+        validate_acip_runtime_stream_substrate_decision_v1(&decision)
+            .expect("runtime stream substrate decision should validate");
+
+        assert_eq!(decision.selected_substrate, "websocket");
+        assert_eq!(decision.selected_crate, "tokio-tungstenite");
+        assert!(decision
+            .integration_refs
+            .iter()
+            .any(|reference| reference.contains("#4659")));
+        assert!(decision
+            .non_claims
+            .iter()
+            .any(|statement| statement.contains("protobuf")));
+        assert!(decision.failure_classifications.iter().any(|case| {
+            case.case_name == "malformed_message"
+                && case.fail_closed
+                && !case.authority_expansion_allowed
+        }));
+        assert!(decision.failure_classifications.iter().any(|case| {
+            case.case_name == "auth_policy_denial"
+                && case.expected_error_substring.contains("caller_class_denied")
+        }));
+    }
+
+    #[tokio::test]
+    async fn acip_runtime_stream_websocket_loopback_carries_validated_envelopes() {
+        let proof = prove_acip_runtime_stream_websocket_loopback_v1()
+            .await
+            .expect("websocket loopback proof should execute");
+
+        validate_acip_runtime_stream_loopback_proof_v1(&proof)
+            .expect("loopback proof should validate");
+        assert_eq!(proof.selected_crate, "tokio-tungstenite");
+        assert_eq!(proof.carrier_kind, "mock_loopback");
+        assert_eq!(
+            proof.response_message.prior_message_id,
+            Some(proof.request_message.message_id.clone())
+        );
+        assert!(proof
+            .lifecycle_events
+            .iter()
+            .any(|event| event == "websocket_handshake_accepted"));
+        assert!(proof
+            .negative_cases
+            .iter()
+            .any(|case| case.case_name == "malformed_message"));
+        assert!(proof
+            .negative_cases
+            .iter()
+            .any(|case| case.case_name == "auth_policy_denial"));
+    }
+
+    #[tokio::test]
+    async fn acip_runtime_stream_proof_validator_requires_wp12_truth_fields() {
+        let mut proof = prove_acip_runtime_stream_websocket_loopback_v1()
+            .await
+            .expect("websocket loopback proof should execute");
+
+        let policy_case = proof
+            .negative_cases
+            .iter_mut()
+            .find(|case| case.case_name == "auth_policy_denial")
+            .expect("policy-denial case");
+        policy_case.case_name = "unrelated_policy_case".to_string();
+        let missing_policy_case = validate_acip_runtime_stream_loopback_proof_v1(&proof)
+            .expect_err("proof missing auth-policy denial should fail");
+        assert!(missing_policy_case
+            .to_string()
+            .contains("auth_policy_denial"));
+
+        let valid_payload = serde_json::to_string(&acip_fixture_set_v1().valid_messages[0].message)
+            .expect("valid ACIP fixture should serialize");
+        let valid_payload_error = classify_acip_runtime_stream_malformed_frame_v1(&valid_payload)
+            .expect_err("valid ACIP payload should not classify as malformed");
+        assert!(valid_payload_error
+            .to_string()
+            .contains("requires invalid ACIP payload"));
+    }
+
+    #[test]
     fn acip_message_envelope_rejects_unknown_fields() {
         let mut value =
             serde_json::to_value(acip_fixture_set_v1().valid_messages[0].message.clone())

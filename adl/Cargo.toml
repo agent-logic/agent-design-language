@@ -191,6 +191,7 @@ yup-oauth2 = "12"
 async-trait = "0.1"
 dirs = "5"
 mime_guess2 = "2.3.1"
+futures-util = "0.3.31"
 octocrab = { version = "0.53", default-features = false, features = [
   "default-client",
   "jwt-rust-crypto",
@@ -201,6 +202,7 @@ rustls = { version = "0.23", default-features = false, features = ["ring"] }
 # Shared async runtime floor for long-lived cadence, ACIP runtime work, and
 # later bounded recurring verification on the existing ADL runtime.
 tokio = { version = "1", features = ["fs", "macros", "net", "rt", "rt-multi-thread", "sync", "time"] }
+tokio-tungstenite = "0.24"
 
 # JSON Schema (Option A)
 schemars = "0.8"
