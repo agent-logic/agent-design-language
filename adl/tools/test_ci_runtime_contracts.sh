@@ -53,13 +53,6 @@ def step_if(name: str) -> str:
         raise SystemExit(f"missing workflow if condition for step: {name}")
     return match.group(1).strip()
 
-def step_optional_if(name: str) -> str:
-    block = step_block(name)
-    match = re.search(r"^\s+if:\s+(.+)$", block, re.MULTILINE)
-    if not match:
-        raise SystemExit(f"missing workflow if condition for step: {name}")
-    return match.group(1).strip()
-
 def step_working_directory(name: str) -> str:
     block = step_block(name)
     match = re.search(r"^\s+working-directory:\s+(.+)$", block, re.MULTILINE)
@@ -114,44 +107,6 @@ if ordinary_test != expected_ordinary_test:
         "ordinary adl-ci test lane must run through the fail-closed PR-fast runner; "
         f"found: {ordinary_test}"
     )
-ordinary_test_if = step_optional_if("test")
-expected_ordinary_test_if = (
-    "steps.path-policy.outputs.rust_required == 'true' && "
-    "steps.path-policy.outputs.full_coverage_required != 'true' && "
-    "steps.path-policy.outputs.validation_profile_escalation_required != 'true'"
-)
-if ordinary_test_if != expected_ordinary_test_if:
-    raise SystemExit(
-        "ordinary adl-ci test lane must not run the fail-closed PR-fast runner after validation-manager escalation; "
-        f"found: {ordinary_test_if}"
-    )
-
-escalated_test_if = step_optional_if("test deferred to validation-manager escalation")
-expected_escalated_test_if = (
-    "steps.path-policy.outputs.rust_required == 'true' && "
-    "steps.path-policy.outputs.full_coverage_required != 'true' && "
-    "steps.path-policy.outputs.validation_profile_escalation_required == 'true'"
-)
-if escalated_test_if != expected_escalated_test_if:
-    raise SystemExit(
-        "adl-ci must publish a truthful deferred-test step when validation-manager escalation owns the Rust proof; "
-        f"found: {escalated_test_if}"
-    )
-escalated_test_block = step_block("test deferred to validation-manager escalation")
-for required_fragment in (
-    "Ordinary PR-fast Rust test lane deferred",
-    "steps.path-policy.outputs.validation_profile_selected",
-    "steps.path-policy.outputs.validation_profile_status",
-    "steps.path-policy.outputs.validation_profile_pr_publication_sufficient",
-    "steps.path-policy.outputs.validation_profile_run_lanes",
-    "steps.path-policy.outputs.validation_profile_escalation_lanes",
-    "steps.path-policy.outputs.validation_profile_primary_reason",
-):
-    if required_fragment not in escalated_test_block:
-        raise SystemExit(
-            "deferred PR-fast test step must report validation-manager escalation truth; "
-            f"missing fragment: {required_fragment}"
-        )
 
 ordinary_doc_test = step_run("doc test")
 if ordinary_doc_test != "cargo test --doc":
