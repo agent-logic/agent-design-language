@@ -86,6 +86,18 @@ die_with_usage() {
   exit 1
 }
 
+usage_finish() {
+  cat <<'EOF'
+Usage:
+  adl/tools/pr.sh finish <issue> --title "<title>" [-f <input_card.md>] [--output-card <output_card.md>] [--body "<extra body>"] [--paths "<p1,p2,...>"] [--no-checks] [--no-close] [--ready] [--allow-gitignore] [--no-open] [--version <version>] [--allow-open-pr-wave]
+
+Notes:
+  --version and --allow-open-pr-wave are wrapper compatibility flags. pr.sh
+  accepts them for lifecycle command symmetry and strips them before delegating
+  to the strict adl-pr-finish binary.
+EOF
+}
+
 #
 # Replace the first line that begins with "<Key>:" with "<Key>: <Value>".
 # Portable (no GNU/BSD sed -i differences).
@@ -1922,10 +1934,40 @@ cmd_finish() {
     usage_finish
     return 0
   fi
+  local -a original_finish_args normalized_finish_args finish_delegate_args
+  original_finish_args=("$@")
+  normalized_finish_args=()
+  while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+      --version)
+        shift
+        if [[ "$#" -eq 0 ]]; then
+          die_with_usage "finish: --version requires a value" usage_finish
+        fi
+        shift
+        ;;
+      --version=*)
+        shift
+        ;;
+      --allow-open-pr-wave)
+        shift
+        ;;
+      *)
+        normalized_finish_args+=("$1")
+        shift
+        ;;
+    esac
+  done
+  if [[ -n "${ADL_PR_RUST_BIN:-}" ]]; then
+    finish_delegate_args=("${original_finish_args[@]}")
+  else
+    finish_delegate_args=("${normalized_finish_args[@]}")
+  fi
+
   local finish_arg previous_arg title_value_seen
   previous_arg=""
   title_value_seen=0
-  for finish_arg in "$@"; do
+  for finish_arg in "${finish_delegate_args[@]}"; do
     if [[ "$previous_arg" == "--title" ]]; then
       if [[ -n "$finish_arg" && "$finish_arg" != --* ]]; then
         title_value_seen=1
@@ -1945,9 +1987,9 @@ cmd_finish() {
   if [[ "$title_value_seen" != "1" ]]; then
     die_with_usage "finish: --title is required" usage_finish
   fi
-  adl_obs_event "pr.sh" "finish" "started" "issue" "${1:-}"
+  adl_obs_event "pr.sh" "finish" "started" "issue" "${finish_delegate_args[0]:-}"
   require_rust_pr_delegate finish
-  delegate_pr_command_to_rust finish "$@"
+  delegate_pr_command_to_rust finish "${finish_delegate_args[@]}"
 }
 
 cmd_validation() {
