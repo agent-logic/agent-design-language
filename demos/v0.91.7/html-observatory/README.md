@@ -37,6 +37,8 @@ importing external template assets.
 - `docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json`
 - `docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json`
 - `docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json`
+- `docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json`
+- `docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json`
 
 The CSM polis panopticon presents an auto-refreshing agent map, agent roster,
 health, readiness, metrics, and operator event stream from the retained CSM API
@@ -46,8 +48,10 @@ runtime ownership boundary from #4929. The CloudWatch panel presents the
 retained live heartbeat proof from WP-08 #4684. The AWS linkage lane includes
 #4684 through #4688 so closed heartbeat, ACIP-SNS, and SSM lanes remain distinct
 from open full-bridge and S3 archive work. The communication rail can prepare an
-operator message envelope and can check a live loopback CSM `/events` endpoint
-when an operator supplies the API base.
+ACIP-shaped operator message envelope, mirror the retained #4685 ACIP-SNS proof,
+and check a live loopback CSM `/events` endpoint when an operator supplies the
+API base. Live SNS/SQS mutation remains runtime/tool-owned and is not performed
+by the browser surface.
 
 ## Run
 
@@ -100,7 +104,8 @@ This proves that the HTML Observatory can render an auto-refreshing CSM
 panopticon over retained publishable runtime API responses, and can upgrade to a
 live loopback CSM panopticon when the running API base is supplied. It also
 renders the retained bounded runtime capture through a polished investor-facing
-operator UI, while exposing CSM API, CSM service, CloudWatch heartbeat, and WP-08
-linkage status. It does not claim direct runtime mutation, public/remote API
-exposure, Unity completion, full AWS signal bridge completion, S3 ObsMem archive
-completion, or v0.92 runtime completion.
+operator UI, while exposing CSM API, CSM service, CloudWatch heartbeat, ACIP-SNS
+projection proof, and WP-08 linkage status. It does not claim direct runtime
+mutation, browser-owned AWS publish authority, public/remote API exposure, Unity
+completion, full AWS signal bridge completion, S3 ObsMem archive completion, or
+v0.92 runtime completion.

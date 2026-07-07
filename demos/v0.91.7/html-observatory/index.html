@@ -8,7 +8,7 @@
       name="description"
       content="Investor-ready HTML Observatory proof consuming the retained v0.91.7 CSM runtime packet."
     >
-    <link rel="stylesheet" href="./styles.css?v=panopticon-control-room">
+    <link rel="stylesheet" href="./styles.css?v=dashboard-acip-5006">
   </head>
   <body>
     <svg class="icon-sprite" aria-hidden="true">
@@ -83,6 +83,8 @@
       data-csm-events-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
       data-cloudwatch-ref="../../../docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
       data-cloudwatch-events-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json"
+      data-acip-sns-ref="../../../docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json"
+      data-sns-resource-ref="../../../docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json"
     >
       <header class="topbar" aria-label="Observatory status">
         <a class="brand" href="#runtime-proof" aria-label="ADL HTML Observatory">
@@ -114,19 +116,19 @@
           </div>
           <a class="button button-secondary" id="packet-link" href="#" data-proof-link><svg><use href="#icon-packet"></use></svg>Packet</a>
           <a class="button button-secondary" id="report-link" href="#" data-proof-link><svg><use href="#icon-evidence"></use></svg>Proof Report</a>
-          <button class="button button-secondary" type="button"><svg><use href="#icon-download"></use></svg>Export</button>
+          <button class="button button-secondary" type="button" id="export-proof"><svg><use href="#icon-download"></use></svg>Export</button>
           <span class="status-pill">Operator</span>
         </div>
       </header>
 
       <section class="hero ops-hero" id="runtime-proof" aria-labelledby="hero-title">
         <aside class="dashboard-rail" aria-label="Observatory navigation">
-          <a href="#runtime-proof" aria-current="page"><svg><use href="#icon-pulse"></use></svg>Runtime</a>
-          <a href="#runtime-proof"><svg><use href="#icon-agent"></use></svg>Agents</a>
-          <a href="#runtime-proof"><svg><use href="#icon-events"></use></svg>CSM API</a>
-          <a href="#runtime-proof"><svg><use href="#icon-cloud"></use></svg>AWS</a>
-          <a href="#runtime-proof"><svg><use href="#icon-shield"></use></svg>Governance</a>
-          <a href="#runtime-proof"><svg><use href="#icon-evidence"></use></svg>Evidence</a>
+          <a href="#runtime-proof" data-dashboard-link="runtime" aria-current="page"><svg><use href="#icon-pulse"></use></svg>Runtime</a>
+          <a href="#panopticon" data-dashboard-link="agents"><svg><use href="#icon-agent"></use></svg>Agents</a>
+          <a href="#csm-api" data-dashboard-link="csm-api"><svg><use href="#icon-events"></use></svg>CSM API</a>
+          <a href="#cloudwatch" data-dashboard-link="cloudwatch"><svg><use href="#icon-cloud"></use></svg>AWS</a>
+          <a href="#governance" data-dashboard-link="governance"><svg><use href="#icon-shield"></use></svg>Governance</a>
+          <a href="#evidence" data-dashboard-link="evidence"><svg><use href="#icon-evidence"></use></svg>Evidence</a>
           <div class="rail-telemetry" aria-label="Runtime sidebar telemetry">
             <span>System Time</span>
             <strong id="rail-capture-time">pending</strong>
@@ -200,10 +202,10 @@
             </section>
           </div>
           <div class="hero-actions" aria-label="Primary proof actions">
-            <a class="button button-primary" href="#runtime-proof">Open panopticon</a>
-            <a class="button button-secondary" href="#runtime-proof">Draft operator probe</a>
-            <a class="button button-secondary" href="#runtime-proof">CloudWatch</a>
-            <a class="button button-secondary" href="#runtime-proof">Evidence</a>
+            <a class="button button-primary" href="#panopticon" data-dashboard-link="agents">Focus panopticon</a>
+            <a class="button button-secondary" href="#communication" data-dashboard-link="communication">Draft operator probe</a>
+            <a class="button button-secondary" href="#cloudwatch" data-dashboard-link="cloudwatch">CloudWatch</a>
+            <a class="button button-secondary" href="#evidence" data-dashboard-link="evidence">Evidence</a>
           </div>
         </section>
 
@@ -291,9 +293,23 @@
             <div class="compact-message-box">Compose message to operator channel...</div>
             <div class="compact-message-actions">
               <button class="button button-secondary" type="button">Clear</button>
-              <a class="button button-primary" href="#runtime-proof">Prepare Envelope</a>
+              <a class="button button-primary" href="#communication" data-dashboard-link="communication" id="compact-prepare-envelope">Prepare Envelope</a>
             </div>
           </div>
+          <article class="dashboard-focus-panel" id="dashboard-focus-panel" aria-live="polite">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow" id="dashboard-focus-kicker">Runtime</p>
+                <h3 id="dashboard-focus-title">Runtime mirror</h3>
+              </div>
+              <span class="mini-badge" id="dashboard-focus-status">ready</span>
+            </div>
+            <p class="row-detail" id="dashboard-focus-detail">Use the navigation rail or proof actions to inspect a bounded dashboard surface.</p>
+            <div class="dashboard-focus-list" id="dashboard-focus-list" aria-label="Selected surface details"></div>
+            <div class="focus-action-row">
+              <a class="button button-secondary" id="dashboard-focus-link" href="#runtime-proof">Surface selected</a>
+            </div>
+          </article>
         </section>
       </section>
 
@@ -419,7 +435,7 @@
           <div class="panel-head">
             <div>
               <p class="eyebrow">Operator communication</p>
-              <h2 id="communication-title">CSM event channel</h2>
+              <h2 id="communication-title">ACIP event channel</h2>
             </div>
             <span class="mini-badge" id="communication-status">offline draft</span>
           </div>
@@ -431,9 +447,8 @@
             <label class="field">
               <span class="row-kicker">Channel</span>
               <select id="operator-channel">
-                <option value="events">CSM /events</option>
-                <option value="acip_sns">ACIP-SNS linkage</option>
-                <option value="cloudwatch">CloudWatch heartbeat</option>
+                <option value="events">CSM /events read</option>
+                <option value="acip_sns">ACIP -> SNS projection</option>
               </select>
             </label>
             <label class="field field-wide">
@@ -444,6 +459,7 @@
               <button class="button button-secondary" type="button" id="check-events">Check /events</button>
               <button class="button button-primary" type="button" id="prepare-envelope">Prepare envelope</button>
             </div>
+            <div class="communication-proof-list" id="communication-proof-list" aria-label="ACIP and transport proof"></div>
             <pre class="message-envelope" id="message-envelope" aria-live="polite"></pre>
           </div>
         </section>
@@ -535,6 +551,6 @@
       </footer>
     </main>
 
-    <script src="./app.js?v=panopticon-control-room"></script>
+    <script src="./app.js?v=dashboard-acip-5006"></script>
   </body>
 </html>

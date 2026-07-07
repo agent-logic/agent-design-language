@@ -13,13 +13,15 @@ CSM_SERVICE="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_service_4903
 CSM_API="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/CSM_RUNTIME_API_4929.md"
 CLOUDWATCH="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
 CLOUDWATCH_EVENTS="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json"
+ACIP_SNS="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json"
+SNS_RESOURCE="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json"
 CSM_STATUS="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/status.json"
 CSM_HEALTH="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/health.json"
 CSM_READY="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/ready.json"
 CSM_METRICS="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json"
 CSM_EVENTS="${ROOT_DIR}/docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
 
-for path in "${HTML}" "${CSS}" "${JS}" "${README}" "${PACKET}" "${REPORT}" "${CSM_SERVICE}" "${CSM_API}" "${CLOUDWATCH}" "${CLOUDWATCH_EVENTS}" "${CSM_STATUS}" "${CSM_HEALTH}" "${CSM_READY}" "${CSM_METRICS}" "${CSM_EVENTS}"; do
+for path in "${HTML}" "${CSS}" "${JS}" "${README}" "${PACKET}" "${REPORT}" "${CSM_SERVICE}" "${CSM_API}" "${CLOUDWATCH}" "${CLOUDWATCH_EVENTS}" "${ACIP_SNS}" "${SNS_RESOURCE}" "${CSM_STATUS}" "${CSM_HEALTH}" "${CSM_READY}" "${CSM_METRICS}" "${CSM_EVENTS}"; do
   [[ -f "${path}" ]] || {
     echo "missing HTML Observatory artifact: ${path}" >&2
     exit 1
@@ -36,6 +38,17 @@ require_readme() {
 
 ADL_REPO_ROOT="${ROOT_DIR}" bash "${ROOT_DIR}/adl/tools/validate_v0917_csm_service_4903_status.sh" >/dev/null
 python3 "${ROOT_DIR}/adl/tools/validate_wp08_heartbeat_live_proof.py" "${CLOUDWATCH}" >/dev/null
+ACIP_VALIDATION_LOG="${ROOT_DIR}/.tmp/v0917_html_observatory_acip_sns_validation.log"
+mkdir -p "$(dirname "${ACIP_VALIDATION_LOG}")"
+if python3 "${ROOT_DIR}/adl/tools/validate_wp08_acip_sns_live_proof.py" "${ACIP_SNS}" "${SNS_RESOURCE}" >"${ACIP_VALIDATION_LOG}" 2>&1; then
+  echo "ACIP/SNS retained proof unexpectedly passed; #4690 should be updated to remove the #5006 fail-closed mirror" >&2
+  exit 1
+fi
+grep -Fq "aws_account_sha256 must not be retained in ACIP/SNS summaries" "${ACIP_VALIDATION_LOG}" || {
+  echo "ACIP/SNS retained proof did not fail with the expected #5006 hygiene message" >&2
+  cat "${ACIP_VALIDATION_LOG}" >&2
+  exit 1
+}
 python3 "${ROOT_DIR}/adl/tools/validate_v0917_html_observatory.py" \
   --html "${HTML}" \
   --css "${CSS}" \
@@ -46,6 +59,8 @@ python3 "${ROOT_DIR}/adl/tools/validate_v0917_html_observatory.py" \
   --csm-api "${CSM_API}" \
   --cloudwatch "${CLOUDWATCH}" \
   --cloudwatch-events "${CLOUDWATCH_EVENTS}" \
+  --acip-sns "${ACIP_SNS}" \
+  --sns-resource "${SNS_RESOURCE}" \
   --csm-status "${CSM_STATUS}" \
   --csm-health "${CSM_HEALTH}" \
   --csm-ready "${CSM_READY}" \
@@ -57,6 +72,8 @@ require_readme "Magic UI Pro AI Agent Template"
 require_readme "bounded runtime capture"
 require_readme "CSM API"
 require_readme "CloudWatch"
+require_readme "ACIP-SNS"
+require_readme "browser-owned AWS publish authority"
 require_readme "WP-08"
 require_readme "communication rail"
 

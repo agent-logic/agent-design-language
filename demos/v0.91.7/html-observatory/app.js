@@ -172,7 +172,9 @@ function buildIntegrationViewModel({
   serviceManifest = {},
   apiText = "",
   cloudwatchSummary = {},
-  cloudwatchEvents = {}
+  cloudwatchEvents = {},
+  acipSnsSummary = {},
+  snsResourceSummary = {}
 } = {}) {
   const events = asArray(cloudwatchEvents.events);
   const parsedEvents = events.map(parseCloudWatchEventMessage).filter((event) => Object.keys(event).length > 0);
@@ -180,12 +182,23 @@ function buildIntegrationViewModel({
   const cloudwatch = cloudwatchSummary.cloudwatch || {};
   const heartbeat = cloudwatchSummary.heartbeat || {};
   const redaction = cloudwatchSummary.redaction || {};
+  const acipProjection = acipSnsSummary.acip_projection || {};
+  const acipSns = acipSnsSummary.sns || {};
+  const snsResource = snsResourceSummary.sns || {};
+  const acipRedaction = acipSnsSummary.redaction || {};
+  const acipRetainsFullAccountSha = Boolean(acipSnsSummary.aws_account_sha256 || snsResourceSummary.aws_account_sha256);
+  const acipRedactionSafe =
+    acipRedaction.credentials_recorded === false &&
+    acipRedaction.raw_message_content_recorded === false &&
+    !acipRetainsFullAccountSha;
 
   return {
     serviceManifest,
     apiText,
     cloudwatchSummary,
     cloudwatchEvents,
+    acipSnsSummary,
+    snsResourceSummary,
     parsedEvents,
     latestEvent,
     serviceRows: [
@@ -226,6 +239,26 @@ function buildIntegrationViewModel({
         value: redaction.credentials_recorded === false ? "operations safe" : "needs review",
         detail: redaction.raw_account_id_recorded === false ? "No raw account id or credentials recorded in retained summary." : "Retained summary needs redaction review.",
         state: redaction.credentials_recorded === false && redaction.raw_account_id_recorded === false ? "passed" : "blocked"
+      }
+    ],
+    acipRows: [
+      {
+        label: "ACIP projection",
+        value: acipSnsSummary.status === "passed" && acipRetainsFullAccountSha ? "hygiene blocked" : acipSnsSummary.status || "unknown",
+        detail: `${acipProjection.signal_kind || "signal unknown"} / ${acipProjection.route_class || "route unknown"}; full proof cleanup tracked by #5006.`,
+        state: acipSnsSummary.status === "passed" && !acipRetainsFullAccountSha ? "passed" : "blocked"
+      },
+      {
+        label: "SNS topic",
+        value: acipSns.topic_name || snsResource.topic_name || "unknown topic",
+        detail: acipSns.message_id ? `Retained SNS message ${acipSns.message_id}.` : "No retained SNS message id loaded.",
+        state: acipSns.message_id ? "passed" : "open"
+      },
+      {
+        label: "Redaction",
+        value: acipRedactionSafe ? "operations safe" : "blocked by #5006",
+        detail: acipRedactionSafe ? "No raw credentials, account id, topic ARN, private ACIP content, or full account SHA retained." : "Retained proof includes full account SHA material; #5006 owns cleanup before operations-safe claim.",
+        state: acipRedactionSafe ? "passed" : "blocked"
       }
     ]
   };
@@ -275,7 +308,11 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
-function buildOperatorEnvelope({ channel = "events", message = "", packetId = "" } = {}) {
+function buildOperatorEnvelope({ channel = "events", message = "", packetId = "", acipSnsSummary = {}, snsResourceSummary = {} } = {}) {
+  const acipProjection = acipSnsSummary.acip_projection || {};
+  const acipSns = acipSnsSummary.sns || {};
+  const snsResource = snsResourceSummary.sns || {};
+  const sanitizedMessage = String(message || "").slice(0, 800);
   return {
     schema: "adl.html_observatory.operator_message.v1",
     channel,
@@ -283,7 +320,29 @@ function buildOperatorEnvelope({ channel = "events", message = "", packetId = ""
     delivery: "prepared_client_side",
     runtime_mutation_claimed: false,
     packet_id: packetId,
-    message: String(message || "").slice(0, 800),
+    message: sanitizedMessage,
+    acip_message: {
+      schema: "acip.message.v1",
+      sender: "html-observatory-operator",
+      recipient: channel === "events" ? "csm-runtime-api" : "csm-runtime-owner",
+      mode: channel === "events" ? "read_request" : "projection_request",
+      ordering: "client_draft",
+      visibility: "operator_visible",
+      traceability: "prepared_envelope_only",
+      authority_granted: false,
+      content_summary: sanitizedMessage || "No operator message supplied."
+    },
+    aws_projection: channel === "acip_sns" ? {
+      schema: "adl.runtime.aws_signal.v1",
+      signal_kind: "acip_projection",
+      route_class: acipProjection.route_class || "cross_boundary_deferred",
+      target_kind: "sns",
+      topic_name: acipSns.topic_name || snsResource.topic_name || "unknown",
+      retained_message_id: acipSns.message_id || null,
+      retained_proof_status: acipSnsSummary.aws_account_sha256 || snsResourceSummary.aws_account_sha256 ? "blocked_redaction_hygiene" : acipSnsSummary.status || "unknown",
+      retained_hygiene_issue: acipSnsSummary.aws_account_sha256 || snsResourceSummary.aws_account_sha256 ? 5006 : null,
+      live_publish_claimed: false
+    } : null,
     allowed_live_check: channel === "events" ? "/events" : null
   };
 }
@@ -293,6 +352,134 @@ function renderEnvelope(envelope) {
   if (target) {
     target.textContent = JSON.stringify(envelope, null, 2);
   }
+}
+
+const DASHBOARD_FOCUS = {
+  runtime: {
+    kicker: "Runtime",
+    title: "Runtime mirror",
+    status: "active",
+    target: "#runtime-proof",
+    detail: "Runtime readiness, event tail, CloudWatch proof, and retained/live mode are visible in the fixed dashboard.",
+    facts: ["Readiness and kernel state", "Event preview and gauges", "Retained/live mode status"]
+  },
+  agents: {
+    kicker: "Agents",
+    title: "CSM polis topology",
+    status: "map ready",
+    target: "#panopticon",
+    detail: "Agent roster, scheduler, telemetry, event stream, and checkpoint lanes are mirrored in the panopticon map.",
+    facts: ["Role-specific topology icons", "Agent roster summary", "Health and signal lanes"]
+  },
+  "csm-api": {
+    kicker: "CSM API",
+    title: "Local control plane",
+    status: "read-only",
+    target: "#csm-api",
+    detail: "The CSM API surface is read-only: /status, /health, /ready, /metrics, and /events.",
+    facts: ["/status, /health, /ready", "/metrics and /events", "Browser access tracked by #5003"]
+  },
+  cloudwatch: {
+    kicker: "AWS",
+    title: "CloudWatch heartbeat",
+    status: "source-linked",
+    target: "#cloudwatch",
+    detail: "CloudWatch rows and event-tail evidence are loaded from retained redacted AWS proof artifacts.",
+    facts: ["WP-08 heartbeat proof", "Redacted event tail", "No browser AWS write authority"]
+  },
+  communication: {
+    kicker: "Operator communication",
+    title: "ACIP/SNS envelope",
+    status: "prepared",
+    target: "#communication",
+    detail: "Comms prepare ACIP messages and mirror retained SNS proof; live AWS mutation remains runtime-owned.",
+    facts: ["ACIP message draft", "SNS projection proof", "Redaction hygiene blocked by #5006"]
+  },
+  governance: {
+    kicker: "Governance",
+    title: "Freedom gate",
+    status: "bounded",
+    target: "#governance",
+    detail: "Decision, invariant, and proposal-only action surfaces preserve the packet claim boundary.",
+    facts: ["Freedom gate decisions", "Runtime invariants", "Proposal-only actions"]
+  },
+  evidence: {
+    kicker: "Evidence",
+    title: "Proof packet",
+    status: "linked",
+    target: "#evidence",
+    detail: "Packet, operator report, CSM API proof, metrics mirror, and CloudWatch artifacts remain source-linked.",
+    facts: ["Visibility packet", "Operator report", "CSM/AWS proof refs"]
+  }
+};
+
+function updateDashboardFocus(key = "runtime", extraDetail = "") {
+  const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
+  setText("dashboard-focus-kicker", selected.kicker);
+  setText("dashboard-focus-title", selected.title);
+  setText("dashboard-focus-status", selected.status);
+  setState("dashboard-focus-status", selected.status);
+  setText("dashboard-focus-detail", extraDetail || selected.detail);
+  setHref("dashboard-focus-link", selected.target);
+  setText("dashboard-focus-link", "Surface selected");
+  renderRows("dashboard-focus-list", asArray(selected.facts).map((fact) => `
+    <span class="dashboard-focus-item">${escapeHtml(fact)}</span>
+  `));
+  document.querySelectorAll("[data-dashboard-link]").forEach((link) => {
+    const isActive = link.dataset.dashboardLink === key;
+    if (isActive) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+function bindDashboardNavigation(packet = FALLBACK_PACKET) {
+  document.querySelectorAll("[data-dashboard-link]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const key = link.dataset.dashboardLink || "runtime";
+      updateDashboardFocus(key);
+      if (key === "communication") {
+        document.getElementById("prepare-envelope")?.click();
+      }
+    });
+  });
+
+  document.getElementById("dashboard-focus-link")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    const target = document.querySelector(document.getElementById("dashboard-focus-link")?.getAttribute("href") || "#runtime-proof");
+    if (target) {
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+    }
+  });
+
+  document.getElementById("export-proof")?.addEventListener("click", () => {
+    const manifest = {
+      schema: "adl.html_observatory.export_manifest.v1",
+      version: OBSERVATORY_VERSION,
+      packet_id: displayPacketId(packet.packet_id || ""),
+      exported_at: new Date().toISOString(),
+      runtime_mode: document.getElementById("statusbar-mode")?.textContent || "unknown",
+      runtime_status: document.getElementById("dashboard-live-test-status")?.textContent || "unknown",
+      csm_api_base: document.getElementById("dashboard-live-api-base")?.value || "",
+      cloudwatch_status: document.getElementById("cloudwatch-status")?.textContent || "unknown",
+      communication_status: document.getElementById("communication-status")?.textContent || "unknown",
+      mutation_claimed: false
+    };
+    const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "adl-html-observatory-proof-manifest.json";
+    link.click();
+    URL.revokeObjectURL(url);
+    updateDashboardFocus("evidence", "Export prepared a local proof manifest from the visible dashboard state.");
+  });
+
+  updateDashboardFocus("runtime");
 }
 
 function normalizeApiBase(value) {
@@ -924,9 +1111,17 @@ function renderIntegrations(integrationInputs = {}) {
       <p class="row-detail">${linkage.proof} Evidence: ${linkage.evidence}.</p>
     </article>
   `));
+
+  renderRows("communication-proof-list", vm.acipRows.map((row) => `
+    <article class="communication-proof-row" data-state="${row.state}">
+      <span class="row-kicker">${formatLabel(row.label)}</span>
+      <strong>${formatLabel(row.value)}</strong>
+      <p class="row-detail">${row.detail}</p>
+    </article>
+  `));
 }
 
-function bindCommunication(packet = FALLBACK_PACKET) {
+function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsResourceSummary = {}) {
   const channel = document.getElementById("operator-channel");
   const message = document.getElementById("operator-message");
   const apiBase = document.getElementById("runtime-api-base");
@@ -942,7 +1137,9 @@ function bindCommunication(packet = FALLBACK_PACKET) {
     const envelope = buildOperatorEnvelope({
       channel: channel?.value || "events",
       message: message?.value || "",
-      packetId
+      packetId,
+      acipSnsSummary,
+      snsResourceSummary
     });
     renderEnvelope(envelope);
     setCommunicationStatus("envelope ready");
@@ -957,7 +1154,9 @@ function bindCommunication(packet = FALLBACK_PACKET) {
       const envelope = buildOperatorEnvelope({
         channel: "events",
         message: `Read ${eventEntries.length} retained CSM events from live API.`,
-        packetId
+        packetId,
+        acipSnsSummary,
+        snsResourceSummary
       });
       renderEnvelope({ ...envelope, live_event_count: eventEntries.length });
       setCommunicationStatus("events reachable");
@@ -966,7 +1165,9 @@ function bindCommunication(packet = FALLBACK_PACKET) {
         ...buildOperatorEnvelope({
           channel: channel?.value || "events",
           message: message?.value || "",
-          packetId
+          packetId,
+          acipSnsSummary,
+          snsResourceSummary
         }),
         live_check_error: error instanceof Error ? error.message : "unknown error"
       });
@@ -1152,25 +1353,31 @@ async function bootObservatory() {
   const csmApiRef = root?.dataset.csmApiRef || "";
   const cloudwatchRef = root?.dataset.cloudwatchRef || "";
   const cloudwatchEventsRef = root?.dataset.cloudwatchEventsRef || "";
+  const acipSnsRef = root?.dataset.acipSnsRef || "";
+  const snsResourceRef = root?.dataset.snsResourceRef || "";
   setHref("packet-link", packetRef);
   setHref("report-link", reportRef);
 
   try {
-    const [packet, reportText, serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents] = await Promise.all([
+    const [packet, reportText, serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary] = await Promise.all([
       loadJson(packetRef),
       loadText(reportRef).catch(() => ""),
       loadJson(csmServiceRef).catch(() => ({})),
       loadText(csmApiRef).catch(() => ""),
       loadJson(cloudwatchRef).catch(() => ({})),
-      loadJson(cloudwatchEventsRef).catch(() => ({}))
+      loadJson(cloudwatchEventsRef).catch(() => ({})),
+      loadJson(acipSnsRef).catch(() => ({})),
+      loadJson(snsResourceRef).catch(() => ({}))
     ]);
     renderObservatory(packet, reportText, "ok");
-    renderIntegrations({ serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents });
-    bindCommunication(packet);
+    renderIntegrations({ serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary });
+    bindDashboardNavigation(packet);
+    bindCommunication(packet, acipSnsSummary, snsResourceSummary);
     bindLivePanopticon(packet);
   } catch (_error) {
     renderObservatory(FALLBACK_PACKET, "", "fallback");
     renderIntegrations();
+    bindDashboardNavigation(FALLBACK_PACKET);
     bindCommunication(FALLBACK_PACKET);
     bindLivePanopticon(FALLBACK_PACKET);
   }
@@ -1198,6 +1405,8 @@ globalThis.AdlHtmlObservatory = {
   normalizeEventEntries,
   renderObservatory,
   renderIntegrations,
+  bindDashboardNavigation,
+  updateDashboardFocus,
   bindLivePanopticon,
   renderPanopticon
 };

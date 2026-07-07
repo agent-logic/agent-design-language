@@ -25,6 +25,8 @@ CSM_SERVICE_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_service_4
 CSM_API_REF = "../../../docs/milestones/v0.91.7/review/runtime/CSM_RUNTIME_API_4929.md"
 CLOUDWATCH_REF = "../../../docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json"
 CLOUDWATCH_EVENTS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/aws/cloudwatch_recent_events.redacted.json"
+ACIP_SNS_REF = "../../../docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json"
+SNS_RESOURCE_REF = "../../../docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json"
 CSM_STATUS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/status.json"
 CSM_HEALTH_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/health.json"
 CSM_READY_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/ready.json"
@@ -57,6 +59,8 @@ def run_js_view_model(
     api_path: Path,
     cloudwatch_path: Path,
     cloudwatch_events_path: Path,
+    acip_sns_path: Path,
+    sns_resource_path: Path,
     csm_status_path: Path,
     csm_health_path: Path,
     csm_ready_path: Path,
@@ -75,6 +79,8 @@ def run_js_view_model(
         const apiText = fs.readFileSync({json.dumps(str(api_path))}, "utf8");
         const cloudwatchSummary = JSON.parse(fs.readFileSync({json.dumps(str(cloudwatch_path))}, "utf8"));
         const cloudwatchEvents = JSON.parse(fs.readFileSync({json.dumps(str(cloudwatch_events_path))}, "utf8"));
+        const acipSnsSummary = JSON.parse(fs.readFileSync({json.dumps(str(acip_sns_path))}, "utf8"));
+        const snsResourceSummary = JSON.parse(fs.readFileSync({json.dumps(str(sns_resource_path))}, "utf8"));
         const retainedRefs = {{
           statusRef: {json.dumps(str(csm_status_path))},
           healthRef: {json.dumps(str(csm_health_path))},
@@ -109,6 +115,7 @@ def run_js_view_model(
             innerHTML: "",
             href: "",
             setAttribute: (name, value) => {{ node[name] = value; }},
+            removeAttribute: (name) => {{ delete node[name]; }},
             ...extra
           }};
           elements.set(id, node);
@@ -156,9 +163,26 @@ def run_js_view_model(
           "live-signal-list",
           "live-metric-list",
           "live-event-stream",
-          "hero-event-stream"
+          "hero-event-stream",
+          "dashboard-focus-kicker",
+          "dashboard-focus-title",
+          "dashboard-focus-status",
+          "dashboard-focus-detail",
+          "dashboard-focus-list",
+          "dashboard-focus-link",
+          "export-proof",
+          "prepare-envelope"
         ].forEach((id) => element(id, {{ addEventListener: () => {{}} }}));
         elements.get("dashboard-live-api-base").value = "";
+        const dashboardLinks = [
+          {{ dataset: {{ dashboardLink: "runtime" }}, setAttribute: () => {{}}, removeAttribute: () => {{}}, addEventListener: () => {{}} }},
+          {{ dataset: {{ dashboardLink: "agents" }}, setAttribute: () => {{}}, removeAttribute: () => {{}}, addEventListener: () => {{}} }},
+          {{ dataset: {{ dashboardLink: "csm-api" }}, setAttribute: () => {{}}, removeAttribute: () => {{}}, addEventListener: () => {{}} }},
+          {{ dataset: {{ dashboardLink: "cloudwatch" }}, setAttribute: () => {{}}, removeAttribute: () => {{}}, addEventListener: () => {{}} }},
+          {{ dataset: {{ dashboardLink: "communication" }}, setAttribute: () => {{}}, removeAttribute: () => {{}}, addEventListener: () => {{}} }},
+          {{ dataset: {{ dashboardLink: "governance" }}, setAttribute: () => {{}}, removeAttribute: () => {{}}, addEventListener: () => {{}} }},
+          {{ dataset: {{ dashboardLink: "evidence" }}, setAttribute: () => {{}}, removeAttribute: () => {{}}, addEventListener: () => {{}} }}
+        ];
         const observatoryElement = {{ dataset: {{
           csmStatusRef: retainedRefs.statusRef,
           csmHealthRef: retainedRefs.healthRef,
@@ -168,7 +192,8 @@ def run_js_view_model(
         }} }};
         const mockDocument = {{
           getElementById: (id) => elements.get(id) || null,
-          querySelector: (selector) => selector === ".observatory" ? observatoryElement : null
+          querySelector: (selector) => selector === ".observatory" ? observatoryElement : null,
+          querySelectorAll: (selector) => selector === "[data-dashboard-link]" ? dashboardLinks : []
         }};
         const mockFetch = async (ref) => {{
           const key = String(ref);
@@ -200,12 +225,16 @@ def run_js_view_model(
           serviceManifest,
           apiText,
           cloudwatchSummary,
-          cloudwatchEvents
+          cloudwatchEvents,
+          acipSnsSummary,
+          snsResourceSummary
         }});
         const operatorEnvelope = context.AdlHtmlObservatory.buildOperatorEnvelope({{
-          channel: "events",
+          channel: "acip_sns",
           message: "Request current CSM event tail and runtime readiness.",
-          packetId: packet.packet_id
+          packetId: packet.packet_id,
+          acipSnsSummary,
+          snsResourceSummary
         }});
         const panopticonViewModel = context.AdlHtmlObservatory.buildPanopticonViewModel({{
           mode: "live",
@@ -257,7 +286,9 @@ def run_js_view_model(
           serviceManifest,
           apiText,
           cloudwatchSummary: {{ ...cloudwatchSummary, status: "blocked" }},
-          cloudwatchEvents
+          cloudwatchEvents,
+          acipSnsSummary,
+          snsResourceSummary
         }});
         process.stdout.write(JSON.stringify({{
           packetId: viewModel.packet.packet_id,
@@ -272,6 +303,7 @@ def run_js_view_model(
           reportLoaded: viewModel.reportText.includes("CSM Observatory Operator Report"),
           serviceRows: integrationViewModel.serviceRows,
           cloudwatchRows: integrationViewModel.cloudwatchRows,
+          acipRows: integrationViewModel.acipRows,
           parsedCloudWatchEventCount: integrationViewModel.parsedEvents.length,
           latestCloudWatchTarget: integrationViewModel.latestEvent.transport?.target_kind || "",
           awsLinkageCount: context.AdlHtmlObservatory.AWS_LINKAGES.length,
@@ -363,6 +395,8 @@ def main() -> int:
     parser.add_argument("--csm-api", type=Path, required=True)
     parser.add_argument("--cloudwatch", type=Path, required=True)
     parser.add_argument("--cloudwatch-events", type=Path, required=True)
+    parser.add_argument("--acip-sns", type=Path, required=True)
+    parser.add_argument("--sns-resource", type=Path, required=True)
     parser.add_argument("--csm-status", type=Path, required=True)
     parser.add_argument("--csm-health", type=Path, required=True)
     parser.add_argument("--csm-ready", type=Path, required=True)
@@ -379,6 +413,8 @@ def main() -> int:
     api_text = args.csm_api.read_text(encoding="utf-8")
     cloudwatch = read_json(args.cloudwatch)
     cloudwatch_events = read_json(args.cloudwatch_events)
+    acip_sns = read_json(args.acip_sns)
+    sns_resource = read_json(args.sns_resource)
     smoke = run_js_view_model(
         args.js,
         args.packet,
@@ -387,6 +423,8 @@ def main() -> int:
         args.csm_api,
         args.cloudwatch,
         args.cloudwatch_events,
+        args.acip_sns,
+        args.sns_resource,
         args.csm_status,
         args.csm_health,
         args.csm_ready,
@@ -400,6 +438,8 @@ def main() -> int:
     assert_contains("HTML CSM API ref", html, f'data-csm-api-ref="{CSM_API_REF}"')
     assert_contains("HTML CloudWatch ref", html, f'data-cloudwatch-ref="{CLOUDWATCH_REF}"')
     assert_contains("HTML CloudWatch events ref", html, f'data-cloudwatch-events-ref="{CLOUDWATCH_EVENTS_REF}"')
+    assert_contains("HTML ACIP-SNS ref", html, f'data-acip-sns-ref="{ACIP_SNS_REF}"')
+    assert_contains("HTML SNS resource ref", html, f'data-sns-resource-ref="{SNS_RESOURCE_REF}"')
     assert_contains("HTML retained CSM status ref", html, f'data-csm-status-ref="{CSM_STATUS_REF}"')
     assert_contains("HTML retained CSM health ref", html, f'data-csm-health-ref="{CSM_HEALTH_REF}"')
     assert_contains("HTML retained CSM ready ref", html, f'data-csm-ready-ref="{CSM_READY_REF}"')
@@ -443,6 +483,10 @@ def main() -> int:
     assert_contains("HTML truthful runtime mirror label", html, "<span>Runtime Mirror</span>")
     assert_contains("HTML source-driven event title", html, 'id="hero-event-title">Event Stream</h2>')
     assert_contains("HTML dashboard truthful operator CTA", html, "Draft operator probe")
+    assert_contains("HTML dashboard focus action", html, "Focus panopticon")
+    assert_contains("HTML dashboard selected-surface list", html, 'id="dashboard-focus-list"')
+    if "Open panopticon" in html or "Open surface" in html:
+      fail("dashboard links overpromise opening hidden lower sections")
     if "Send operator message" in html:
       fail("dashboard CTA overclaims live operator send capability")
     if "Send Message" in html:
@@ -463,8 +507,11 @@ def main() -> int:
     assert_contains("HTML CSM API section", html, "CSM local control plane")
     assert_contains("HTML CloudWatch section", html, "CloudWatch heartbeat")
     assert_contains("HTML AWS linkages section", html, "AWS runtime linkages")
-    assert_contains("HTML communication section", html, "CSM event channel")
+    assert_contains("HTML communication section", html, "ACIP event channel")
     assert_contains("HTML communication input", html, 'id="runtime-api-base"')
+    assert_contains("HTML communication proof list", html, 'id="communication-proof-list"')
+    if '<option value="cloudwatch">CloudWatch heartbeat</option>' in html:
+      fail("communication channel exposes CloudWatch option without a CloudWatch envelope")
     assert_contains("HTML governance section", html, "Freedom gate")
     assert_contains("HTML evidence section", html, "Same packet, same report, same boundary.")
     assert_contains("CSS responsive layout", css, "@media (max-width: 980px)")
@@ -480,6 +527,7 @@ def main() -> int:
     assert_contains("CSS dashboard real runtime actions", css, ".runtime-test-actions")
     assert_contains("CSS responsive inspector strip", css, ".ops-sidecar .inspector-stack")
     assert_contains("CSS dashboard status bar", css, ".dashboard-statusbar")
+    assert_contains("CSS dashboard selected-surface chips", css, ".dashboard-focus-item")
     assert_contains("CSS statusbar state indicator", css, '.dashboard-statusbar b[data-state="published"]')
     assert_contains("CSS graph node icon treatment", css, ".node-icon")
     assert_contains("CSS orbit visualization", css, ".orbit-map")
@@ -490,6 +538,8 @@ def main() -> int:
     assert_contains("JS CSM integration view model", js, "buildIntegrationViewModel")
     assert_contains("JS AWS linkage state", js, "AWS_LINKAGES")
     assert_contains("JS communication envelope", js, "buildOperatorEnvelope")
+    assert_contains("JS ACIP envelope", js, 'schema: "acip.message.v1"')
+    assert_contains("JS SNS projection envelope", js, 'live_publish_claimed: false')
     assert_contains("JS events endpoint check", js, "checkEventsEndpoint")
     assert_contains("JS runtime snapshot polling", js, "fetchRuntimeSnapshot")
     assert_contains("JS runtime query base bootstrap", js, "getQueryApiBase")
@@ -512,6 +562,7 @@ def main() -> int:
     assert_contains("JS dashboard CSM mirror", js, 'setText("hero-csm-api-status"')
     assert_contains("JS dashboard CSM API mini renderer", js, 'renderRows("hero-api-list"')
     assert_contains("JS dashboard communication mirror", js, 'setText("hero-communication-status"')
+    assert_contains("JS dashboard selected-surface renderer", js, 'renderRows("dashboard-focus-list"')
     assert_contains("JS dashboard CloudWatch fail-closed label", js, 'formatLabel(cloudwatchStatus)')
     assert_contains("JS source-driven capture readout", js, 'setText("hero-uptime"')
     assert_contains("JS current operator time formatter", js, "formatCurrentTimestampLabel")
@@ -548,6 +599,25 @@ def main() -> int:
       fail("CloudWatch proof redaction posture is not operations safe")
     if len(cloudwatch_events.get("events", [])) < 1:
       fail("CloudWatch event tail is empty")
+    if acip_sns.get("schema") != "adl.wp08.acip_sns_live_proof.v1":
+      fail("ACIP-SNS proof schema mismatch")
+    if acip_sns.get("status") != "passed":
+      fail("ACIP-SNS proof did not pass")
+    if acip_sns.get("acip_projection", {}).get("signal_kind") != "acip_projection":
+      fail("ACIP-SNS proof is not an ACIP projection")
+    if acip_sns.get("acip_projection", {}).get("route_class") != "cross_boundary_deferred":
+      fail("ACIP-SNS proof route class mismatch")
+    if acip_sns.get("sns", {}).get("topic_name") != "adl-v0917-wp08-acip-sns-4685":
+      fail("ACIP-SNS proof topic mismatch")
+    acip_redaction = acip_sns.get("redaction", {})
+    if acip_redaction.get("credentials_recorded") is not False or acip_redaction.get("raw_message_content_recorded") is not False:
+      fail("ACIP-SNS proof redaction posture is not operations safe")
+    if not acip_sns.get("aws_account_sha256"):
+      fail("expected retained ACIP-SNS full account SHA blocker for #5006 fail-closed proof")
+    if sns_resource.get("schema") != "adl.wp08.acip_sns_resource.v1":
+      fail("SNS resource proof schema mismatch")
+    if not sns_resource.get("aws_account_sha256"):
+      fail("expected retained SNS resource full account SHA blocker for #5006 fail-closed proof")
     if smoke["packetId"] != packet["packet_id"]:
       fail("JS view model did not consume the retained packet")
     if smoke["evidenceLevel"] != "bounded_local_runtime_capture":
@@ -572,6 +642,10 @@ def main() -> int:
       fail("JS integration view model did not build CSM service rows")
     if len(smoke["cloudwatchRows"]) < 3:
       fail("JS integration view model did not build CloudWatch rows")
+    if len(smoke["acipRows"]) < 3:
+      fail("JS integration view model did not build ACIP-SNS rows")
+    if not any(row.get("value") == "hygiene blocked" for row in smoke["acipRows"]):
+      fail(f"ACIP-SNS retained proof hygiene blocker was not exposed: {smoke['acipRows']!r}")
     if smoke["parsedCloudWatchEventCount"] < 1:
       fail("JS integration view model did not parse CloudWatch events")
     if smoke["latestCloudWatchTarget"] != "cloudwatch_logs":
@@ -587,8 +661,24 @@ def main() -> int:
       fail("operator communication envelope schema mismatch")
     if envelope.get("runtime_mutation_claimed") is not False:
       fail("operator communication envelope overclaims runtime mutation")
-    if envelope.get("allowed_live_check") != "/events":
-      fail("operator communication envelope does not route to /events")
+    acip_message = envelope.get("acip_message") or {}
+    if acip_message.get("schema") != "acip.message.v1":
+      fail("operator communication envelope does not contain an ACIP message")
+    if acip_message.get("authority_granted") is not False:
+      fail("ACIP message overclaims authority")
+    aws_projection = envelope.get("aws_projection") or {}
+    if aws_projection.get("schema") != "adl.runtime.aws_signal.v1":
+      fail("operator communication envelope does not contain AWS projection")
+    if aws_projection.get("target_kind") != "sns":
+      fail("operator communication envelope does not target SNS projection")
+    if aws_projection.get("live_publish_claimed") is not False:
+      fail("operator communication envelope overclaims live SNS publish")
+    if aws_projection.get("retained_proof_status") != "blocked_redaction_hygiene":
+      fail("operator communication envelope did not fail closed on ACIP-SNS proof hygiene")
+    if aws_projection.get("retained_hygiene_issue") != 5006:
+      fail("operator communication envelope did not reference ACIP-SNS hygiene issue")
+    if envelope.get("allowed_live_check") is not None:
+      fail("ACIP-SNS envelope should not claim a live /events read")
     loopback_policy = smoke["loopbackPolicy"]
     if not all(loopback_policy[key] for key in ("localHttp", "localhostHttp", "ipv6Http")):
       fail(f"loopback CSM API bases were not accepted: {loopback_policy!r}")

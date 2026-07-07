@@ -953,6 +953,49 @@ button {
   margin-top: 0.58rem;
 }
 
+.dashboard-focus-panel {
+  border: 1px solid rgba(110, 231, 249, 0.34);
+  border-radius: 8px;
+  padding: 0.72rem;
+  background:
+    linear-gradient(135deg, rgba(110, 231, 249, 0.1), rgba(142, 240, 176, 0.05)),
+    rgba(6, 12, 18, 0.82);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.dashboard-focus-panel .panel-head {
+  align-items: start;
+  gap: 0.55rem;
+}
+
+.dashboard-focus-panel h3 {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.focus-action-row {
+  display: grid;
+  margin-top: 0.65rem;
+}
+
+.dashboard-focus-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.dashboard-focus-item {
+  max-width: 100%;
+  border: 1px solid rgba(72, 211, 255, 0.18);
+  border-radius: 999px;
+  padding: 0.32rem 0.55rem;
+  background: rgba(6, 20, 32, 0.72);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+
 .metric-grid div,
 .service-row,
 .integration-row,
@@ -1221,6 +1264,7 @@ dd {
 
 .field-wide,
 .communication-actions,
+.communication-proof-list,
 .message-envelope {
   grid-column: 1 / -1;
 }
@@ -1258,9 +1302,24 @@ textarea,
   gap: 0.75rem;
 }
 
+.communication-proof-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.communication-proof-row {
+  min-width: 0;
+  border: 1px solid rgba(72, 211, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.7rem;
+  background: linear-gradient(135deg, rgba(72, 211, 255, 0.08), rgba(84, 238, 139, 0.05));
+}
+
 .service-row,
 .integration-row,
 .linkage-row,
+.communication-proof-row,
 .agent-row,
 .signal-row,
 .decision-row,
