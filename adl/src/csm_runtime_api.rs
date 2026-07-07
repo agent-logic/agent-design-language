@@ -670,15 +670,28 @@ fn validate_loopback_bind(addr: &SocketAddr) -> Result<()> {
 }
 
 fn read_request_path(stream: &mut TcpStream) -> Result<String> {
-    let mut buf = [0_u8; 4096];
-    let n = stream
-        .read(&mut buf)
-        .context("read CSM runtime API request")?;
-    let request = String::from_utf8_lossy(&buf[..n]);
+    let mut buf = Vec::new();
+    let mut chunk = [0_u8; 256];
+    loop {
+        let n = stream
+            .read(&mut chunk)
+            .context("read CSM runtime API request")?;
+        if n == 0 {
+            break;
+        }
+        buf.extend_from_slice(&chunk[..n]);
+        if buf.windows(2).any(|window| window == b"\r\n")
+            || buf.windows(1).any(|window| window == b"\n")
+            || buf.len() >= 4096
+        {
+            break;
+        }
+    }
+    let request = String::from_utf8_lossy(&buf);
     let first_line = request.lines().next().unwrap_or_default();
     let mut parts = first_line.split_whitespace();
     let method = parts.next().unwrap_or_default();
-    let path = parts.next().unwrap_or("/");
+    let path = parts.next().unwrap_or("/__bad_request");
     if method != "GET" {
         return Ok("/__method_not_allowed".to_string());
     }

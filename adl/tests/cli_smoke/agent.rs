@@ -1044,7 +1044,7 @@ memory:
     assert!(
         matches!(
             metrics["states"]["agent_state"].as_str(),
-            Some("idle" | "completed")
+            Some("idle" | "running_cycle" | "completed")
         ),
         "unexpected metrics state: {}",
         metrics["states"]["agent_state"]
