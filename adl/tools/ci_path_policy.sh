@@ -342,6 +342,49 @@ is_validation_profile_summary_workflow_change() {
   [ "$saw_summary" = true ]
 }
 
+is_validation_manager_test_deferral_workflow_change() {
+  local path="$1"
+  [ "$path" = ".github/workflows/ci.yaml" ] || return 1
+  local diff_text
+  diff_text="$(git_pr_patch "$path")"
+  [ -n "$diff_text" ] || return 1
+  local saw_deferral=false
+  while IFS= read -r line; do
+    case "$line" in
+      diff\ --git*|index\ *|@@*|---*|+++*)
+        continue
+        ;;
+      +*|-*)
+        local content="${line#?}"
+        case "$content" in
+          "      - name: test"|\
+          "        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'"|\
+          "        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required != 'true'"|\
+          "        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"\${{ github.event.pull_request.base.sha }}\" --head \"\${{ github.event.pull_request.head.sha }}\""|\
+          "        working-directory: ."|\
+          "      - name: test deferred to validation-manager escalation"|\
+          "        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required == 'true'"|\
+          "        run: |"|\
+          "          echo \"Ordinary PR-fast Rust test lane deferred because the validation manager selected an escalation profile.\""|\
+          "          echo \"Selected profile: \${{ steps.path-policy.outputs.validation_profile_selected }}\""|\
+          "          echo \"Profile status: \${{ steps.path-policy.outputs.validation_profile_status }}\""|\
+          "          echo \"PR publication sufficient: \${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}\""|\
+          "          echo \"Run lanes: \${{ steps.path-policy.outputs.validation_profile_run_lanes }}\""|\
+          "          echo \"Escalation lanes: \${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}\""|\
+          "          echo \"Reason: \${{ steps.path-policy.outputs.validation_profile_primary_reason }}\""|\
+          "")
+            saw_deferral=true
+            ;;
+          *)
+            return 1
+            ;;
+        esac
+        ;;
+    esac
+  done <<<"$diff_text"
+  [ "$saw_deferral" = true ]
+}
+
 is_validation_summary_and_reporting_workflow_change() {
   local path="$1"
   [ "$path" = ".github/workflows/ci.yaml" ] || return 1
@@ -1289,6 +1332,10 @@ EOF
         if is_full_coverage_policy_surface "$path"; then
           if is_validation_profile_summary_workflow_change "$path"; then
             reason="validation_profile_summary_workflow_change_skips_authoritative_coverage"
+            continue
+          fi
+          if is_validation_manager_test_deferral_workflow_change "$path"; then
+            reason="validation_manager_test_deferral_workflow_change_skips_authoritative_coverage"
             continue
           fi
           if is_reporting_only_coverage_workflow_change "$path"; then

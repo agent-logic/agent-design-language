@@ -928,6 +928,56 @@ PY
   assert_has "$workflow_summary_only_output" "coverage_authority=not_required"
   assert_has "$workflow_summary_only_output" "reason=validation_profile_summary_workflow_change_skips_authoritative_coverage"
 
+  git checkout -q -b workflow-validation-manager-test-deferral "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+old_without_deferral = """      - name: test
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'
+        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"${{ github.event.pull_request.base.sha }}\" --head \"${{ github.event.pull_request.head.sha }}\"
+        working-directory: .
+
+"""
+old_with_deferral = """      - name: test
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required != 'true'
+        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"${{ github.event.pull_request.base.sha }}\" --head \"${{ github.event.pull_request.head.sha }}\"
+        working-directory: .
+
+      - name: test deferred to validation-manager escalation
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required == 'true'
+        run: |
+          echo \"Ordinary PR-fast Rust test lane deferred because the validation manager selected an escalation profile.\"
+          echo \"Selected profile: ${{ steps.path-policy.outputs.validation_profile_selected }}\"
+          echo \"Profile status: ${{ steps.path-policy.outputs.validation_profile_status }}\"
+          echo \"PR publication sufficient: ${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}\"
+          echo \"Run lanes: ${{ steps.path-policy.outputs.validation_profile_run_lanes }}\"
+          echo \"Escalation lanes: ${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}\"
+          echo \"Reason: ${{ steps.path-policy.outputs.validation_profile_primary_reason }}\"
+        working-directory: .
+
+"""
+if old_without_deferral in text:
+    text = text.replace(old_without_deferral, old_with_deferral, 1)
+elif old_with_deferral not in text:
+    text = text.rstrip() + "\n\n" + old_with_deferral
+workflow.write_text(text)
+PY
+  git add .github/workflows/ci.yaml
+  git commit -q -m workflow-validation-manager-test-deferral
+  workflow_test_deferral_head="$(git rev-parse HEAD)"
+
+  workflow_test_deferral_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$workflow_test_deferral_head" --ref "refs/pull/1/merge")"
+  assert_has "$workflow_test_deferral_output" "rust_required=false"
+  assert_has "$workflow_test_deferral_output" "coverage_required=false"
+  assert_has "$workflow_test_deferral_output" "full_coverage_required=false"
+  assert_has "$workflow_test_deferral_output" "demo_smoke_required=false"
+  assert_has "$workflow_test_deferral_output" "ci_contracts_required=true"
+  assert_has "$workflow_test_deferral_output" "coverage_lane=skip"
+  assert_has "$workflow_test_deferral_output" "coverage_authority=not_required"
+  assert_has "$workflow_test_deferral_output" "reason=validation_manager_test_deferral_workflow_change_skips_authoritative_coverage"
+
   git checkout -q -b workflow-summary-plus-policy-change "$base_sha"
   python3 - <<'PY'
 from pathlib import Path
