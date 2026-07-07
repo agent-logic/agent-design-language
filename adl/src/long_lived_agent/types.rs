@@ -131,6 +131,12 @@ pub struct DaemonStatusRecord {
     pub runtime_capabilities: Value,
     pub state: String,
     pub supervisor_pid: u32,
+    #[serde(default)]
+    pub restart_policy: String,
+    #[serde(default)]
+    pub service_mode: String,
+    #[serde(default)]
+    pub bounded_test_mode: bool,
     pub restart_count: u64,
     pub max_restarts: u64,
     pub checkpoint_interval_secs: u64,

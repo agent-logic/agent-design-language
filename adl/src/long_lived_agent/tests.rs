@@ -1075,6 +1075,7 @@ fn daemon_partial_checkpoint_preserves_recoverable_failure_reason() {
         &loaded,
         DaemonStatusInput {
             state: "restarting",
+            bounded_test_mode: true,
             restart_count: 1,
             max_restarts: 1,
             checkpoint_interval_secs: 1,
@@ -1230,6 +1231,63 @@ fn daemon_interval_defaults_positive_and_rejects_zero_cadence() {
 }
 
 #[test]
+fn daemon_status_records_restart_always_permanent_service_contract() {
+    let root = temp_dir("daemon-restart-always-contract");
+    let spec = write_spec(&root);
+    let loaded = load_spec(&spec).expect("load spec");
+    ensure_state_root(&loaded).expect("state root");
+    let runtime_context = CsmRuntimeContext::new().expect("csm runtime context");
+
+    let running = write_daemon_status(
+        &runtime_context,
+        &loaded,
+        DaemonStatusInput {
+            state: "running",
+            bounded_test_mode: false,
+            restart_count: 0,
+            max_restarts: 10,
+            checkpoint_interval_secs: 1,
+            last_event: "daemon_started",
+            last_child_exit: None,
+            next_backoff_secs: 0,
+        },
+    )
+    .expect("running daemon status");
+
+    assert_eq!(running.restart_policy, "always");
+    assert_eq!(running.service_mode, "permanent");
+    assert!(!running.bounded_test_mode);
+    assert_eq!(
+        running.runtime_capabilities["supervisor"]["restart_policy"],
+        "always"
+    );
+    assert_eq!(
+        running.runtime_capabilities["supervisor"]["lifetime_boundary"],
+        "operator_stop_or_fatal_supervisor_failure_only"
+    );
+
+    let bounded = write_daemon_status(
+        &runtime_context,
+        &loaded,
+        DaemonStatusInput {
+            state: "completed",
+            bounded_test_mode: true,
+            restart_count: 0,
+            max_restarts: 10,
+            checkpoint_interval_secs: 1,
+            last_event: "daemon_completed",
+            last_child_exit: Some("success".to_string()),
+            next_backoff_secs: 0,
+        },
+    )
+    .expect("bounded daemon status");
+
+    assert_eq!(bounded.restart_policy, "always");
+    assert_eq!(bounded.service_mode, "bounded_test_only");
+    assert!(bounded.bounded_test_mode);
+}
+
+#[test]
 fn agent_checkpoint_policy_clamps_cadence_and_governs_requests() {
     let root = temp_dir("agent-checkpoint-policy");
     let spec = root.join("agent.yaml");
@@ -1339,6 +1397,7 @@ fn daemon_heartbeat_partial_checkpoint_does_not_report_backoff() {
         &loaded,
         DaemonStatusInput {
             state: "running",
+            bounded_test_mode: false,
             restart_count: 0,
             max_restarts: 1,
             checkpoint_interval_secs: 1,
@@ -1389,6 +1448,7 @@ fn daemon_partial_checkpoint_reports_stop_observed_before_restart_attempt() {
         &loaded,
         DaemonStatusInput {
             state: "restarting",
+            bounded_test_mode: false,
             restart_count: 1,
             max_restarts: 1,
             checkpoint_interval_secs: 1,
