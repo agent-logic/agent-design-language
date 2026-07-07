@@ -565,6 +565,9 @@ def main() -> int:
     assert_contains("JS dashboard event table header", js, "event-table-header")
     assert_contains("JS dashboard CSM mirror", js, 'setText("hero-csm-api-status"')
     assert_contains("JS dashboard CSM API mini renderer", js, 'renderRows("hero-api-list"')
+    assert_contains("JS dashboard CSM API actual status endpoint", js, '"/status"')
+    if "/api/status" in js or "200 OK" in js or "${index + 9}ms" in js:
+      fail("dashboard CSM API mini rows contain fake paths, status, or latency")
     assert_contains("JS dashboard communication mirror", js, 'setText("hero-communication-status"')
     assert_contains("JS dashboard selected-surface renderer", js, 'renderRows("dashboard-focus-list"')
     assert_contains("JS compact ACIP proof renderer", js, 'renderRows("compact-comms-proof"')

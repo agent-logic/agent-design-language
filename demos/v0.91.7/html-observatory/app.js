@@ -1083,9 +1083,9 @@ function renderIntegrations(integrationInputs = {}) {
 
   renderRows("hero-api-list", vm.serviceRows.slice(0, 3).map((row, index) => `
     <span class="api-mini-row" data-state="${escapeHtml(stateTone(row.state))}">
-      <span>GET ${index === 0 ? "/api/status" : index === 1 ? "/api/health" : "/api/ready"}</span>
-      <strong>${row.state === "closed" ? "200 OK" : escapeHtml(formatLabel(row.state))}</strong>
-      <em>${index + 9}ms</em>
+      <span>GET ${index === 0 ? "/status" : index === 1 ? "/health" : "/ready"}</span>
+      <strong>${row.state === "closed" ? "proved" : escapeHtml(formatLabel(row.state))}</strong>
+      <em>retained</em>
     </span>
   `));
 
