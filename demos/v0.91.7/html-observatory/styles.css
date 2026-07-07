@@ -942,6 +942,46 @@ button {
   font-size: 0.72rem;
 }
 
+.compact-comms-proof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.42rem;
+  margin-top: 0.65rem;
+}
+
+.compact-proof-chip {
+  min-width: 0;
+  border: 1px solid rgba(72, 211, 255, 0.18);
+  border-radius: 8px;
+  padding: 0.48rem;
+  background: rgba(6, 20, 32, 0.72);
+}
+
+.compact-proof-chip span,
+.compact-proof-chip strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compact-proof-chip span {
+  color: var(--muted);
+  font-size: 0.66rem;
+}
+
+.compact-proof-chip strong {
+  margin-top: 0.12rem;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.compact-proof-chip[data-state="blocked"] {
+  border-color: rgba(255, 183, 77, 0.36);
+  background: rgba(255, 183, 77, 0.08);
+}
+
 .compact-composer .row-detail {
   display: none;
 }

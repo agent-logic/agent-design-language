@@ -1119,6 +1119,13 @@ function renderIntegrations(integrationInputs = {}) {
       <p class="row-detail">${row.detail}</p>
     </article>
   `));
+
+  renderRows("compact-comms-proof", vm.acipRows.slice(0, 3).map((row) => `
+    <span class="compact-proof-chip" data-state="${row.state}">
+      <span>${formatLabel(row.label)}</span>
+      <strong>${formatLabel(row.value)}</strong>
+    </span>
+  `));
 }
 
 function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsResourceSummary = {}) {

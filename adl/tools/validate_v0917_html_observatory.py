@@ -170,6 +170,7 @@ def run_js_view_model(
           "dashboard-focus-detail",
           "dashboard-focus-list",
           "dashboard-focus-link",
+          "compact-comms-proof",
           "export-proof",
           "prepare-envelope"
         ].forEach((id) => element(id, {{ addEventListener: () => {{}} }}));
@@ -485,6 +486,8 @@ def main() -> int:
     assert_contains("HTML dashboard truthful operator CTA", html, "Draft operator probe")
     assert_contains("HTML dashboard focus action", html, "Focus panopticon")
     assert_contains("HTML dashboard selected-surface list", html, 'id="dashboard-focus-list"')
+    assert_contains("HTML dashboard comms rail link", html, 'data-dashboard-link="communication"')
+    assert_contains("HTML dashboard compact ACIP proof", html, 'id="compact-comms-proof"')
     if "Open panopticon" in html or "Open surface" in html:
       fail("dashboard links overpromise opening hidden lower sections")
     if "Send operator message" in html:
@@ -528,6 +531,7 @@ def main() -> int:
     assert_contains("CSS responsive inspector strip", css, ".ops-sidecar .inspector-stack")
     assert_contains("CSS dashboard status bar", css, ".dashboard-statusbar")
     assert_contains("CSS dashboard selected-surface chips", css, ".dashboard-focus-item")
+    assert_contains("CSS compact ACIP proof chips", css, ".compact-proof-chip")
     assert_contains("CSS statusbar state indicator", css, '.dashboard-statusbar b[data-state="published"]')
     assert_contains("CSS graph node icon treatment", css, ".node-icon")
     assert_contains("CSS orbit visualization", css, ".orbit-map")
@@ -563,6 +567,7 @@ def main() -> int:
     assert_contains("JS dashboard CSM API mini renderer", js, 'renderRows("hero-api-list"')
     assert_contains("JS dashboard communication mirror", js, 'setText("hero-communication-status"')
     assert_contains("JS dashboard selected-surface renderer", js, 'renderRows("dashboard-focus-list"')
+    assert_contains("JS compact ACIP proof renderer", js, 'renderRows("compact-comms-proof"')
     assert_contains("JS dashboard CloudWatch fail-closed label", js, 'formatLabel(cloudwatchStatus)')
     assert_contains("JS source-driven capture readout", js, 'setText("hero-uptime"')
     assert_contains("JS current operator time formatter", js, "formatCurrentTimestampLabel")
