@@ -878,11 +878,12 @@ fn service_status(
         &pid_liveness,
         first_daemon_record_observed,
     );
-    let service_state = if state == "running" && startup_classification != "startup_runtime_ready" {
-        "startup_failed"
-    } else {
-        state
-    };
+    let service_state =
+        if state == "running" && !startup_classification_is_healthy(&startup_classification) {
+            "startup_failed"
+        } else {
+            state
+        };
     Ok(ServiceStatus {
         schema: SERVICE_STATUS_SCHEMA,
         label: manifest.label.clone(),
@@ -997,6 +998,7 @@ fn observe_startup(
         let continuity_checkpoint_observed = manifest.continuity_checkpoint.exists();
         let runtime_api_observed = runtime_api_bind_observed(manifest);
         let last_daemon_event = daemon_last_event(manifest);
+        let bounded_test_restart_observed = bounded_test_supervisor_restart_observed(manifest);
         let classification = classify_startup(
             pid.as_ref().copied(),
             &pid_liveness,
@@ -1004,12 +1006,13 @@ fn observe_startup(
             cycle_ledger_observed,
             continuity_checkpoint_observed,
             runtime_api_observed,
+            bounded_test_restart_observed,
             last_daemon_event.as_deref(),
         );
         last = StartupObservation {
             pid,
             classification,
-            healthy: classification == "startup_runtime_ready",
+            healthy: startup_classification_is_healthy(classification),
         };
         record_startup_probe(
             manifest,
@@ -1021,6 +1024,7 @@ fn observe_startup(
                 cycle_ledger_observed,
                 continuity_checkpoint_observed,
                 runtime_api_observed,
+                bounded_test_restart_observed,
                 last_daemon_event: last_daemon_event.as_deref(),
                 classification,
             },
@@ -1095,9 +1099,10 @@ fn startup_classification(
         cycle_ledger_path(manifest).exists(),
         manifest.continuity_checkpoint.exists(),
         runtime_api_bind_observed(manifest),
+        bounded_test_supervisor_restart_observed(manifest),
         daemon_last_event(manifest).as_deref(),
     );
-    if current == "startup_runtime_ready" {
+    if startup_classification_is_healthy(current) {
         return current.to_string();
     }
     if let Some(classification) = last_startup_classification(manifest) {
@@ -1215,6 +1220,7 @@ fn classify_startup(
     cycle_ledger_observed: bool,
     continuity_checkpoint_observed: bool,
     runtime_api_observed: bool,
+    bounded_test_restart_observed: bool,
     last_daemon_event: Option<&str>,
 ) -> &'static str {
     if matches!(last_daemon_event, Some("stop_completed")) {
@@ -1226,6 +1232,13 @@ fn classify_startup(
         && runtime_api_observed
     {
         "startup_runtime_ready"
+    } else if first_daemon_record_observed
+        && pid_liveness == "live_pid"
+        && cycle_ledger_observed
+        && continuity_checkpoint_observed
+        && bounded_test_restart_observed
+    {
+        "startup_bounded_test_supervisor_restart_observed"
     } else if first_daemon_record_observed
         && pid_liveness == "live_pid"
         && cycle_ledger_observed
@@ -1245,6 +1258,44 @@ fn classify_startup(
     }
 }
 
+fn startup_classification_is_healthy(classification: &str) -> bool {
+    matches!(
+        classification,
+        "startup_runtime_ready" | "startup_bounded_test_supervisor_restart_observed"
+    )
+}
+
+fn bounded_test_supervisor_restart_observed(manifest: &ServiceManifest) -> bool {
+    if !manifest.no_sleep || manifest.manager != ServiceManager::Local {
+        return false;
+    }
+    let supervisor_restart_observed = fs::read_to_string(&manifest.supervisor_status)
+        .ok()
+        .and_then(|raw| serde_json::from_str::<Value>(&raw).ok())
+        .and_then(|value| value.get("restart_count").and_then(Value::as_u64))
+        .map(|restart_count| restart_count >= 1)
+        .unwrap_or(false);
+    if !supervisor_restart_observed {
+        return false;
+    }
+    let Ok(raw) = fs::read_to_string(&manifest.startup_ledger) else {
+        return false;
+    };
+    let mut child_exit_observed = false;
+    let mut restart_scheduled_observed = false;
+    for line in raw.lines() {
+        let Ok(value) = serde_json::from_str::<Value>(line) else {
+            continue;
+        };
+        match value.get("event").and_then(Value::as_str) {
+            Some("rust_supervisor_child_exit") => child_exit_observed = true,
+            Some("rust_supervisor_restart_scheduled") => restart_scheduled_observed = true,
+            _ => {}
+        }
+    }
+    child_exit_observed && restart_scheduled_observed
+}
+
 struct StartupProbeRecord<'a> {
     attempt: u32,
     pid: Option<u32>,
@@ -1253,6 +1304,7 @@ struct StartupProbeRecord<'a> {
     cycle_ledger_observed: bool,
     continuity_checkpoint_observed: bool,
     runtime_api_observed: bool,
+    bounded_test_restart_observed: bool,
     last_daemon_event: Option<&'a str>,
     classification: &'a str,
 }
@@ -1264,6 +1316,7 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
     let cycle_s = probe.cycle_ledger_observed.to_string();
     let checkpoint_s = probe.continuity_checkpoint_observed.to_string();
     let api_s = probe.runtime_api_observed.to_string();
+    let bounded_restart_s = probe.bounded_test_restart_observed.to_string();
     let daemon_event_s = probe.last_daemon_event.unwrap_or("");
     append_startup_ledger(
         manifest,
@@ -1278,6 +1331,7 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
             "continuity_checkpoint_observed": probe.continuity_checkpoint_observed,
             "runtime_api_observed": probe.runtime_api_observed,
             "runtime_api_bind": manifest.api_bind,
+            "bounded_test_restart_observed": probe.bounded_test_restart_observed,
             "last_daemon_event": probe.last_daemon_event
         })),
     )?;
@@ -1294,6 +1348,7 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
             ("continuity_checkpoint_observed", &checkpoint_s),
             ("runtime_api_observed", &api_s),
             ("runtime_api_bind", &manifest.api_bind),
+            ("bounded_test_restart_observed", &bounded_restart_s),
             ("last_daemon_event", daemon_event_s),
         ],
     )?;
