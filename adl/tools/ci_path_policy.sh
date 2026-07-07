@@ -495,7 +495,7 @@ is_bounded_pr_fast_coverage_policy_change() {
         fi
         ;;
       adl/tools/ci_path_policy.sh)
-        if git_pr_patch "$path" | grep -E 'is_pr_fast_coverage_workflow_change|is_bounded_pr_fast_coverage_policy_surface|is_bounded_pr_fast_coverage_policy_change|bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'is_pr_fast_coverage_workflow_change|is_bounded_pr_fast_coverage_policy_surface|is_bounded_pr_fast_coverage_policy_change|bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation|manager_profile_is_release_gate_pr_fast_escalation|validation_manager_release_gate_pr_fast_escalation_runs_focused_validation' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
