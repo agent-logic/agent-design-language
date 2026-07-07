@@ -96,6 +96,80 @@ def run_js_view_model(
           ["http://127.0.0.1:49210/metrics", retainedFiles.get(retainedRefs.metricsRef)],
           ["http://127.0.0.1:49210/events", retainedFiles.get(retainedRefs.eventsRef)]
         ]);
+        const textWrites = [];
+        const datasetWrites = [];
+        const timers = [];
+        const elements = new Map();
+        function element(id, extra = {{}}) {{
+          const node = {{
+            id,
+            value: "",
+            textContent: "",
+            dataset: {{}},
+            innerHTML: "",
+            href: "",
+            setAttribute: (name, value) => {{ node[name] = value; }},
+            ...extra
+          }};
+          elements.set(id, node);
+          return node;
+        }}
+        [
+          "live-api-base",
+          "dashboard-live-api-base",
+          "runtime-api-base",
+          "connect-live",
+          "refresh-live",
+          "stop-live",
+          "dashboard-connect-live",
+          "dashboard-refresh-live",
+          "dashboard-stop-live",
+          "dashboard-live-test-status",
+          "dashboard-live-test-detail",
+          "live-status",
+          "hero-live-mode",
+          "hero-map-mode",
+          "hero-event-title",
+          "statusbar-mode",
+          "statusbar-updated",
+          "statusbar-indicator",
+          "agent-count",
+          "hero-agent-count",
+          "live-readiness",
+          "hero-ready-state",
+          "hero-agent-map",
+          "live-updated",
+          "live-event-count",
+          "hero-event-count",
+          "hero-gauge-agents",
+          "hero-gauge-events",
+          "hero-gauge-metrics",
+          "hero-gauge-ready",
+          "agent-heartbeat",
+          "agent-state",
+          "hero-event-detail",
+          "live-metric-count",
+          "hero-ready-detail",
+          "hero-latest-event",
+          "panopticon-map",
+          "live-agent-list",
+          "live-signal-list",
+          "live-metric-list",
+          "live-event-stream",
+          "hero-event-stream"
+        ].forEach((id) => element(id, {{ addEventListener: () => {{}} }}));
+        elements.get("dashboard-live-api-base").value = "";
+        const observatoryElement = {{ dataset: {{
+          csmStatusRef: retainedRefs.statusRef,
+          csmHealthRef: retainedRefs.healthRef,
+          csmReadyRef: retainedRefs.readyRef,
+          csmMetricsRef: retainedRefs.metricsRef,
+          csmEventsRef: retainedRefs.eventsRef
+        }} }};
+        const mockDocument = {{
+          getElementById: (id) => elements.get(id) || null,
+          querySelector: (selector) => selector === ".observatory" ? observatoryElement : null
+        }};
         const mockFetch = async (ref) => {{
           const key = String(ref);
           const body = retainedFiles.get(key) || livePayloads.get(key);
@@ -103,7 +177,22 @@ def run_js_view_model(
             ? {{ ok: false, status: 404, text: async () => "", json: async () => {{ throw new Error("missing mock payload"); }} }}
             : {{ ok: true, status: 200, text: async () => body, json: async () => JSON.parse(body) }};
         }};
-        const context = {{ console, URL, fetch: mockFetch, globalThis: {{}} }};
+        const mockLocation = {{ search: "?csmApiBase=http://127.0.0.1:49210" }};
+        const context = {{
+          console,
+          URL,
+          URLSearchParams,
+          fetch: mockFetch,
+          document: mockDocument,
+          location: mockLocation,
+          window: {{ location: mockLocation }},
+          setInterval: (fn, ms) => {{
+            timers.push({{ ms, name: fn && fn.name ? fn.name : "anonymous" }});
+            return timers.length;
+          }},
+          clearInterval: () => {{}},
+          globalThis: {{}}
+        }};
         context.globalThis = context;
         vm.runInNewContext(source, context);
         const viewModel = context.AdlHtmlObservatory.buildViewModel(packet, reportText);
@@ -162,6 +251,8 @@ def run_js_view_model(
         const retainedFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(retainedSnapshot, packet);
         const liveSnapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("http://127.0.0.1:49210");
         const liveFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(liveSnapshot, packet);
+        context.AdlHtmlObservatory.bindLivePanopticon(packet);
+        await new Promise((resolve) => setImmediate(resolve));
         const blockedCloudwatchViewModel = context.AdlHtmlObservatory.buildIntegrationViewModel({{
           serviceManifest,
           apiText,
@@ -231,6 +322,13 @@ def run_js_view_model(
             heroReadyLabel: context.AdlHtmlObservatory.formatLabel(retainedFetchPanopticon.readyState),
             heroAgentCount: String(retainedFetchPanopticon.agents.length),
             heroEventCount: String(retainedFetchPanopticon.events.length)
+          }},
+          liveBinding: {{
+            base: elements.get("dashboard-live-api-base").value,
+            retainedIntervalCount: timers.filter((timer) => timer.name === "refreshRetained").length,
+            liveIntervalCount: timers.filter((timer) => timer.name === "refreshLive").length,
+            runtimeStatus: elements.get("dashboard-live-test-status").textContent,
+            statusbarMode: elements.get("statusbar-mode").textContent
           }}
         }}));
         }})().catch((error) => {{
@@ -552,6 +650,15 @@ def main() -> int:
       fail(f"dashboard agent-count mirror did not expose retained agents: {dashboard_mirrors!r}")
     if int(dashboard_mirrors.get("heroEventCount", "0")) < 1:
       fail(f"dashboard event-count mirror did not expose retained events: {dashboard_mirrors!r}")
+    live_binding = smoke["liveBinding"]
+    if live_binding.get("base") != "http://127.0.0.1:49210":
+      fail(f"live query-param base was not mirrored into the dashboard input: {live_binding!r}")
+    if live_binding.get("retainedIntervalCount") != 0:
+      fail(f"retained polling interval can overwrite a supplied live runtime base: {live_binding!r}")
+    if live_binding.get("runtimeStatus") != "live loopback":
+      fail(f"live binding did not preserve proved loopback status: {live_binding!r}")
+    if live_binding.get("statusbarMode") != "Live Loopback":
+      fail(f"live binding did not preserve statusbar live mode: {live_binding!r}")
 
     secret_pattern = re.compile(
         r"/Users/|/private/var/|localhost:[0-9]|192\\.168\\.|"

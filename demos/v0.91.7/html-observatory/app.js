@@ -988,6 +988,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const dashboardRefresh = document.getElementById("dashboard-refresh-live");
   const dashboardStop = document.getElementById("dashboard-stop-live");
   let lastLiveError = null;
+  let runtimeBaseActive = false;
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1057,9 +1058,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const refreshLive = async () => {
     const base = readApiBase();
     if (!base) {
+      runtimeBaseActive = false;
       await refreshRetained();
       return;
     }
+    runtimeBaseActive = true;
     if (communicationBase && base && !communicationBase.value) {
       communicationBase.value = base;
     }
@@ -1093,6 +1096,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       retainedPollTimer = null;
     }
     lastLiveError = null;
+    runtimeBaseActive = false;
     setText("live-status", "polling stopped");
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
@@ -1110,14 +1114,16 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   dashboardRefresh?.addEventListener("click", refreshLive);
   dashboardStop?.addEventListener("click", stopPolling);
 
-  refreshRetained();
-  if (getQueryApiBase()) {
+  const queryApiBase = getQueryApiBase();
+  if (queryApiBase) {
     refreshLive();
+  } else {
+    refreshRetained();
   }
-  if (getQueryApiBase() && shouldAutoConnectLive()) {
+  if (queryApiBase && shouldAutoConnectLive()) {
     connectLive();
   }
-  if (!retainedPollTimer) {
+  if (!retainedPollTimer && !runtimeBaseActive && !queryApiBase) {
     retainedPollTimer = setInterval(refreshRetained, 3000);
   }
 }
@@ -1192,5 +1198,6 @@ globalThis.AdlHtmlObservatory = {
   normalizeEventEntries,
   renderObservatory,
   renderIntegrations,
+  bindLivePanopticon,
   renderPanopticon
 };
