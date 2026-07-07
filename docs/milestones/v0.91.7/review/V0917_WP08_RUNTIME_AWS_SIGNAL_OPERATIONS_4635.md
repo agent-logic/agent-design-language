@@ -12,8 +12,11 @@ proof from the umbrella issue.
 
 The merged child issues establish heartbeat, ACIP/SNS, AWS signal integration,
 local polis SSM, S3 archive policy, durable CSM/polis storage, and
-CloudFront/control-plane hooks. This umbrella packet records the retained proof
-surfaces consumed by `#4635`; it does not rerun each live AWS proof.
+CloudFront/control-plane hooks. A later WP-07/WP-08 bridge tail, `#4998`,
+adds retained CSM governed shutdown/degradation notice proof through
+CloudWatch, ACIP/SNS, and EventBridge/Lambda control-plane delivery. This
+umbrella packet records the retained proof surfaces consumed by `#4635` plus
+that adjacent bridge-tail proof; it does not rerun each live AWS proof.
 
 ## Child Issue State
 
@@ -26,6 +29,12 @@ surfaces consumed by `#4635`; it does not rerun each live AWS proof.
 | `#4688` | S3 ObsMem archive policy | merged with live S3 bucket policy proof | `docs/milestones/v0.91.7/review/runtime/wp08_s3_obsmem_archive_4688/archive_policy_summary.json` |
 | `#4913` | Durable CSM/polis storage | merged with live S3 write/read/restore and negative-case proof | `docs/milestones/v0.91.7/review/runtime/csm_polis_storage_4913/polis_storage_proof_summary.json` |
 | `#4915` | CloudFront/control-plane hooks | merged with live CloudFront status proof and green PR checks | `docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json` |
+
+## Adjacent Bridge-Tail Proof
+
+| Issue | Scope | Current truth | Retained proof |
+| --- | --- | --- | --- |
+| `#4998` | WP-07/WP-08 CSM governed shutdown/degradation notices | closed after PR `#5016` merged with `adl-ci` and `adl-coverage` green; repo-native closeout validated STP/SIP/SOR | `docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/` |
 
 ## Merged Capability Evidence
 
@@ -48,6 +57,9 @@ The landed WP-08 child issues currently prove:
 - CloudFront/control-plane status through `csm cloud-control cloudfront-status`,
   with live Agent Logic AWS proof, retained distribution metadata, redacted
   account identity, and command evidence in the CSM runtime path.
+- CSM governed shutdown/degradation notices through retained local notice
+  records plus live CloudWatch Logs, ACIP/SNS, and EventBridge/Lambda
+  delivery proof for the bounded `#4998` bridge-tail path.
 
 ## CloudFront Proof
 
@@ -83,6 +95,13 @@ subagent pre-PR review found stale lifecycle wording and SOR integration wording
 that could read as terminal main-repo truth; both were corrected before
 publication.
 
+After the original WP-08 umbrella closeout, bridge-tail issue `#4998` / PR
+`#5016` merged with `adl-ci: SUCCESS`, `adl-coverage: SUCCESS`, and
+`adl-slow-proof: SKIPPED` at head
+`987297982ccdd0e24d6c730f317cb14c2e4b2ae1`. Repo-native `pr.sh closeout
+4998 --version v0.91.7` then validated STP, SIP, and SOR and found the issue
+worktree already absent, so no prune was needed.
+
 ## Non-Claims
 
 - This packet does not claim paid AWS proof runs automatically in ordinary CI.
@@ -91,3 +110,5 @@ publication.
   single-region S3 backend.
 - This packet does not claim public/production ACIP signal routing beyond the
   bounded live SNS proof and redaction policy recorded by the child issue.
+- This packet does not claim WP-07 release readiness from the adjacent `#4998`
+  bridge-tail proof.
