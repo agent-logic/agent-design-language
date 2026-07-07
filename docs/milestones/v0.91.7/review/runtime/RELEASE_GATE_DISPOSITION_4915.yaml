@@ -1,0 +1,31 @@
+issue: 4915
+disposition: approved_for_merge_after_green_ci
+changed_release_gate_surfaces:
+  - .github/workflows/ci.yaml
+reviewer_or_review_mode: bounded subagent review plus CI policy contract review plus live GitHub PR validation
+focused_validation_run: >-
+  Focused local validation passed for the WP-08 CloudFront CI-policy/runtime
+  mixed profile: bash adl/tools/test_ci_path_policy.sh; bash
+  adl/tools/test_ci_runtime_contracts.sh; bash
+  adl/tools/test_select_validation_lanes.sh; bash
+  adl/tools/test_validation_manager.sh; bash
+  adl/tools/test_run_wp08_cloudfront_control_proof.sh; cargo fmt
+  --manifest-path adl/Cargo.toml --all --check; git diff --check.
+residual_ci_proof_required_before_merge: >-
+  Satisfied for PR #4994 at head 798f2078ac2b5fb37dcc3e49400b04d36cd8dc57:
+  adl-ci succeeded, adl-coverage succeeded, adl-slow-proof was skipped by path
+  policy, and adl pr validation 4994 --json reported no failed or pending
+  checks. This disposition does not replace future release/main coverage gates.
+summary: >-
+  The workflow change keeps the WP-08 CloudFront release-gate profile on the
+  focused validation-manager lanes that already cover the touched behavior:
+  CI path-policy contracts, CS-DLC owner validation, PR-fast Rust validation,
+  demo smoke, and the CloudFront control proof. It prevents the secondary
+  PR-fast coverage summary from forcing unrelated authoritative full coverage
+  for this mixed runtime/policy PR while preserving full coverage for push-main,
+  non-PR events, and unhandled release-gate profiles.
+non_claims:
+  - This disposition does not mark WP-08 complete by itself.
+  - This disposition does not replace live Agent Logic AWS CloudFront proof.
+  - This disposition does not weaken push-main or scheduled release coverage gates.
+  - This disposition does not authorize unrelated CI workflow changes.
