@@ -233,7 +233,15 @@ pub(crate) fn real_pr(args: &[String]) -> Result<()> {
         "finish" => finish_support::real_pr_finish(&args[1..]),
         "validation" => real_pr_validation(&args[1..]),
         "pr-inventory" => real_pr_inventory(&args[1..]),
+        "watch" if pr_subcommand_help_requested(&args[1..]) => {
+            println!("{}", pr_watch_usage());
+            Ok(())
+        }
         "watch" => real_pr_watch(&args[1..]),
+        "shepherd" if pr_subcommand_help_requested(&args[1..]) => {
+            println!("{}", pr_shepherd_usage());
+            Ok(())
+        }
         "shepherd" => real_pr_shepherd(&args[1..]),
         "closing-linkage" => real_pr_closing_linkage(&args[1..]),
         "issue" => real_pr_issue(&args[1..]),
@@ -241,6 +249,21 @@ pub(crate) fn real_pr(args: &[String]) -> Result<()> {
         "closeout" => real_pr_closeout(&args[1..]),
         other => bail!("unknown pr subcommand: {other}"),
     }
+}
+
+fn pr_subcommand_help_requested(args: &[String]) -> bool {
+    matches!(
+        args,
+        [arg] if matches!(arg.as_str(), "--help" | "-h" | "help")
+    )
+}
+
+fn pr_watch_usage() -> &'static str {
+    "Usage:\n  adl pr watch <issue-number-or-url> [--slug <slug>] [--version <v>] [-R owner/repo] [--json]\n\nClassify the issue-bound PR tail and report the next watcher, shepherd, janitor, or closeout owner."
+}
+
+fn pr_shepherd_usage() -> &'static str {
+    "Usage:\n  adl pr shepherd <issue-number-or-url> [--slug <slug>] [--version <v>] [-R owner/repo] [--json]\n\nSynthesize the issue lifecycle tail state above readiness, watcher, janitor, and closeout routing."
 }
 
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
