@@ -6,6 +6,8 @@ use crate::observability::emit_event;
 use anyhow::{Context, Result};
 use aws_config::{meta::region::RegionProviderChain, BehaviorVersion};
 use aws_sdk_cloudwatchlogs as cloudwatchlogs;
+use aws_sdk_eventbridge as eventbridge;
+use aws_sdk_lambda as lambda;
 use aws_sdk_sns as sns;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
@@ -67,7 +69,12 @@ struct ControlPlaneNoticeConfig {
     mode: AwsSignalMode,
     configured: bool,
     approved: bool,
+    target: String,
+    region: Option<String>,
+    profile: Option<String>,
     endpoint: Option<String>,
+    lambda_function: Option<String>,
+    event_bus: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -324,7 +331,29 @@ impl AcipProjectionPublisherConfig {
 impl ControlPlaneNoticeConfig {
     fn from_env() -> Self {
         let mode_env = env::var("ADL_CSM_NOTICE_CONTROL_PLANE_MODE").ok();
+        let target = env::var("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET")
+            .ok()
+            .map(|value| value.trim().to_ascii_lowercase())
+            .filter(|value| !value.is_empty())
+            .unwrap_or_else(|| "https".to_string());
+        let region = env::var("ADL_AWS_REGION")
+            .ok()
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
+        let profile = env::var("ADL_AWS_PROFILE")
+            .ok()
+            .or_else(|| env::var("AWS_PROFILE").ok())
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
         let endpoint = env::var("ADL_CSM_NOTICE_CONTROL_PLANE_URL")
+            .ok()
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
+        let lambda_function = env::var("ADL_CSM_NOTICE_LAMBDA_FUNCTION")
+            .ok()
+            .map(|value| value.trim().to_string())
+            .filter(|value| !value.is_empty());
+        let event_bus = env::var("ADL_CSM_NOTICE_EVENT_BUS")
             .ok()
             .map(|value| value.trim().to_string())
             .filter(|value| !value.is_empty());
@@ -346,9 +375,17 @@ impl ControlPlaneNoticeConfig {
             .unwrap_or(false);
         Self {
             mode,
-            configured: mode_env.is_some() || endpoint.is_some(),
+            configured: mode_env.is_some()
+                || endpoint.is_some()
+                || lambda_function.is_some()
+                || event_bus.is_some(),
             approved,
+            target,
+            region,
+            profile,
             endpoint,
+            lambda_function,
+            event_bus,
         }
     }
 
@@ -360,12 +397,46 @@ impl ControlPlaneNoticeConfig {
         }
     }
 
-    fn endpoint_hash(&self) -> Option<String> {
-        self.endpoint.as_ref().map(|endpoint| {
-            let mut hasher = Sha256::new();
-            hasher.update(endpoint.as_bytes());
-            format!("{:x}", hasher.finalize())
-        })
+    fn target_hash(&self) -> Option<String> {
+        self.lambda_function
+            .as_ref()
+            .or(self.event_bus.as_ref())
+            .or(self.endpoint.as_ref())
+            .map(|target| {
+                let mut hasher = Sha256::new();
+                hasher.update(target.as_bytes());
+                format!("{:x}", hasher.finalize())
+            })
+    }
+
+    fn live_block_reason(&self) -> &'static str {
+        if !self.approved {
+            "control_plane_live_not_approved"
+        } else if self.target == "lambda" {
+            if self.region.is_none() {
+                "control_plane_lambda_region_missing"
+            } else if self.profile.is_none() {
+                "control_plane_lambda_profile_missing"
+            } else if self.lambda_function.is_none() {
+                "control_plane_lambda_function_missing"
+            } else {
+                "control_plane_lambda_invoke_failed"
+            }
+        } else if self.target == "eventbridge" {
+            if self.region.is_none() {
+                "control_plane_eventbridge_region_missing"
+            } else if self.profile.is_none() {
+                "control_plane_eventbridge_profile_missing"
+            } else if self.event_bus.is_none() {
+                "control_plane_event_bus_missing"
+            } else {
+                "control_plane_eventbridge_put_failed"
+            }
+        } else if self.endpoint.is_none() {
+            "control_plane_url_missing"
+        } else {
+            "control_plane_http_transport_failed"
+        }
     }
 }
 
@@ -798,9 +869,13 @@ fn publish_csm_notice_control_plane(
     let mut base = csm_notice_attempt_base("cloudfront_control_plane", config.mode_label());
     if let Some(object) = base.as_object_mut() {
         object.insert(
-            "endpoint_sha256".to_string(),
+            "target_kind".to_string(),
+            serde_json::Value::String(config.target.clone()),
+        );
+        object.insert(
+            "target_sha256".to_string(),
             config
-                .endpoint_hash()
+                .target_hash()
                 .map(serde_json::Value::String)
                 .unwrap_or(serde_json::Value::Null),
         );
@@ -843,11 +918,50 @@ fn publish_csm_notice_control_plane(
             ),
         },
         AwsSignalMode::Live => {
-            if !config.approved {
+            let live_block_reason = config.live_block_reason();
+            if config.target == "lambda" {
+                if live_block_reason != "control_plane_lambda_invoke_failed" {
+                    return csm_notice_attempt(
+                        base,
+                        "blocked",
+                        Some(live_block_reason.to_string()),
+                        None,
+                    );
+                }
+                return match invoke_csm_notice_lambda(&config, &envelope) {
+                    Ok(request_id) => csm_notice_attempt(base, "published_live", None, request_id),
+                    Err(_) => csm_notice_attempt(
+                        base,
+                        "failed",
+                        Some("control_plane_lambda_invoke_failed".to_string()),
+                        None,
+                    ),
+                };
+            }
+            if config.target == "eventbridge" {
+                if live_block_reason != "control_plane_eventbridge_put_failed" {
+                    return csm_notice_attempt(
+                        base,
+                        "blocked",
+                        Some(live_block_reason.to_string()),
+                        None,
+                    );
+                }
+                return match put_csm_notice_eventbridge(&config, &envelope) {
+                    Ok(event_id) => csm_notice_attempt(base, "published_live", None, event_id),
+                    Err(_) => csm_notice_attempt(
+                        base,
+                        "failed",
+                        Some("control_plane_eventbridge_put_failed".to_string()),
+                        None,
+                    ),
+                };
+            }
+            if live_block_reason != "control_plane_http_transport_failed" {
                 return csm_notice_attempt(
                     base,
                     "blocked",
-                    Some("control_plane_live_not_approved".to_string()),
+                    Some(live_block_reason.to_string()),
                     None,
                 );
             }
@@ -885,6 +999,92 @@ fn publish_csm_notice_control_plane(
             }
         }
     }
+}
+
+fn invoke_csm_notice_lambda(
+    config: &ControlPlaneNoticeConfig,
+    envelope: &serde_json::Value,
+) -> Result<Option<String>> {
+    let region = config
+        .region
+        .as_deref()
+        .context("control plane lambda region missing")?;
+    let function_name = config
+        .lambda_function
+        .as_deref()
+        .context("control plane lambda function missing")?;
+    let payload = serde_json::to_vec(envelope).context("serialize CSM notice lambda payload")?;
+    let runtime = tokio::runtime::Runtime::new().context("create lambda publish runtime")?;
+    runtime.block_on(async move {
+        let region_provider =
+            RegionProviderChain::first_try(aws_config::Region::new(region.to_string()));
+        let shared_config = aws_config::defaults(BehaviorVersion::latest())
+            .region(region_provider)
+            .load()
+            .await;
+        let client = lambda::Client::new(&shared_config);
+        let response = client
+            .invoke()
+            .function_name(function_name)
+            .invocation_type(lambda::types::InvocationType::RequestResponse)
+            .payload(lambda::primitives::Blob::new(payload))
+            .send()
+            .await
+            .context("invoke CSM notice lambda")?;
+        let status = response.status_code();
+        if !(200..300).contains(&status) {
+            anyhow::bail!("lambda invoke returned status {status}");
+        }
+        Ok(response
+            .executed_version()
+            .map(|version| format!("lambda_executed_version:{version}")))
+    })
+}
+
+fn put_csm_notice_eventbridge(
+    config: &ControlPlaneNoticeConfig,
+    envelope: &serde_json::Value,
+) -> Result<Option<String>> {
+    let region = config
+        .region
+        .as_deref()
+        .context("control plane EventBridge region missing")?;
+    let event_bus = config
+        .event_bus
+        .as_deref()
+        .context("control plane EventBridge bus missing")?;
+    let detail = serde_json::to_string(envelope).context("serialize CSM notice event detail")?;
+    let runtime = tokio::runtime::Runtime::new().context("create EventBridge publish runtime")?;
+    runtime.block_on(async move {
+        let region_provider =
+            RegionProviderChain::first_try(aws_config::Region::new(region.to_string()));
+        let shared_config = aws_config::defaults(BehaviorVersion::latest())
+            .region(region_provider)
+            .load()
+            .await;
+        let client = eventbridge::Client::new(&shared_config);
+        let entry = eventbridge::types::PutEventsRequestEntry::builder()
+            .event_bus_name(event_bus)
+            .source("adl.csm")
+            .detail_type("CSM Governed Notice")
+            .detail(detail)
+            .build();
+        let response = client
+            .put_events()
+            .entries(entry)
+            .send()
+            .await
+            .context("put CSM notice EventBridge event")?;
+        if response.failed_entry_count() > 0 {
+            anyhow::bail!("EventBridge returned failed entries");
+        }
+        let event_id = response
+            .entries()
+            .first()
+            .and_then(|entry| entry.event_id())
+            .map(ToString::to_string);
+        Ok(event_id)
+    })
 }
 
 fn csm_notice_envelope(
@@ -1661,6 +1861,12 @@ mod tests {
                 "ADL_AWS_PROFILE",
                 "AWS_PROFILE",
                 "ADL_AWS_SNS_TOPIC_ARN",
+                "ADL_CSM_NOTICE_CONTROL_PLANE_MODE",
+                "ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED",
+                "ADL_CSM_NOTICE_CONTROL_PLANE_TARGET",
+                "ADL_CSM_NOTICE_CONTROL_PLANE_URL",
+                "ADL_CSM_NOTICE_LAMBDA_FUNCTION",
+                "ADL_CSM_NOTICE_EVENT_BUS",
             ];
             let mut saved = Vec::with_capacity(tracked.len());
             for key in tracked {
@@ -1781,6 +1987,26 @@ mod tests {
             correlation_id: Some("acip-msg-0007".to_string()),
             prior_message_id: Some("msg-acip-0006".to_string()),
         }
+    }
+
+    fn sample_csm_notice() -> serde_json::Value {
+        json!({
+            "schema": "adl.csm.governed_notice.v1",
+            "notice_id": "notice-runtime-agent-restart-budget",
+            "notice_kind": "shutdown",
+            "severity": "critical",
+            "trigger": "restart_budget_exhausted",
+            "recoverable_state": {
+                "state": "failed",
+                "status_ref": "status.json",
+                "continuity_checkpoint_ref": "continuity_checkpoint.json",
+                "safe_fail_ref": "safe_fail_bundle.json"
+            },
+            "details": {
+                "restart_count": 1,
+                "max_restarts": 1
+            }
+        })
     }
 
     #[test]
@@ -2203,5 +2429,96 @@ mod tests {
             );
             assert_eq!(blocked.provider_message_id, None);
         }
+    }
+
+    #[test]
+    fn csm_control_plane_notice_config_parses_targets_and_live_blockers() {
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "lambda"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+            ]);
+            let config = ControlPlaneNoticeConfig::from_env();
+            assert_eq!(config.mode, AwsSignalMode::Live);
+            assert!(config.configured);
+            assert_eq!(config.target, "lambda");
+            assert_eq!(
+                config.live_block_reason(),
+                "control_plane_lambda_region_missing"
+            );
+        }
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "lambda"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+                ("ADL_AWS_REGION", "us-west-2"),
+                ("ADL_AWS_PROFILE", "agent-logic-admin"),
+            ]);
+            let config = ControlPlaneNoticeConfig::from_env();
+            assert_eq!(
+                config.live_block_reason(),
+                "control_plane_lambda_function_missing"
+            );
+        }
+
+        {
+            let _guard = MultiEnvGuard::set_all(&[
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "live"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "eventbridge"),
+                ("ADL_CSM_NOTICE_CONTROL_PLANE_APPROVED", "1"),
+                ("ADL_AWS_REGION", "us-west-2"),
+                ("ADL_AWS_PROFILE", "agent-logic-admin"),
+                ("ADL_CSM_NOTICE_EVENT_BUS", "adl-csm-notice-bus-4998"),
+            ]);
+            let config = ControlPlaneNoticeConfig::from_env();
+            assert_eq!(config.target, "eventbridge");
+            assert_eq!(
+                config.live_block_reason(),
+                "control_plane_eventbridge_put_failed"
+            );
+            assert!(config.target_hash().is_some());
+        }
+    }
+
+    #[test]
+    fn csm_control_plane_notice_mock_writes_redacted_eventbridge_envelope() {
+        let root = temp_dir("csm-control-plane-mock");
+        let loaded = sample_loaded(&root);
+        let _guard = MultiEnvGuard::set_all(&[
+            ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "mock"),
+            ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "eventbridge"),
+            ("ADL_CSM_NOTICE_EVENT_BUS", "adl-csm-notice-bus-4998"),
+        ]);
+
+        let attempt = publish_csm_notice_control_plane(&loaded, &sample_csm_notice());
+        assert_eq!(attempt["channel"], "cloudfront_control_plane");
+        assert_eq!(attempt["status"], "published_mock");
+        assert_eq!(attempt["target_kind"], "eventbridge");
+        assert_eq!(attempt["target_sha256"].as_str().map(str::len), Some(64));
+
+        let artifact = fs::read_to_string(csm_notice_control_plane_mock_artifact_path(&loaded))
+            .expect("control plane mock artifact");
+        let envelope: serde_json::Value =
+            serde_json::from_str(artifact.lines().next().expect("jsonl line"))
+                .expect("parse control-plane envelope");
+        assert_eq!(envelope["schema_version"], AWS_SIGNAL_SCHEMA_VERSION);
+        assert_eq!(envelope["signal_kind"], "csm_governed_notice");
+        assert_eq!(
+            envelope["transport"]["target_kind"],
+            "cloudfront_control_plane"
+        );
+        assert_eq!(envelope["transport"]["mode"], "mock");
+        assert_eq!(
+            envelope["payload"]["safe_fail_ref"],
+            "safe_fail_bundle.json"
+        );
+        assert_eq!(
+            envelope["payload"]["notice_ledger_ref"],
+            "csm_governed_notices.jsonl"
+        );
+        assert!(!artifact.contains("arn:aws:"));
     }
 }

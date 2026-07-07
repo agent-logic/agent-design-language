@@ -1,0 +1,18 @@
+{
+  "schema": "adl.csm_notice_eventbridge_setup.v1",
+  "issue": 4998,
+  "status": "configured",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "aws_account_hash": "b05e1f4379b5c745",
+  "event_bus_name": "adl-csm-notice-bus-4998",
+  "event_bus_name_hash": "f6d734a77c95c104",
+  "rule_name": "adl-csm-notice-to-lambda-4998",
+  "target_lambda_function": "adl-csm-notice-receiver-4998",
+  "routing": "EventBridge source=adl.csm detail-type=CSM Governed Notice -> Lambda receiver",
+  "redaction": {
+    "raw_account_id_recorded": false,
+    "credentials_recorded": false,
+    "lambda_arn_recorded": false
+  }
+}

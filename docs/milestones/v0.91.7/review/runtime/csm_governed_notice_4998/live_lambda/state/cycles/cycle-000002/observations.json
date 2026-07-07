@@ -1,0 +1,26 @@
+{
+  "agent_instance_id": "csm-governed-notice-4998-lambda",
+  "cycle_id": "cycle-000002",
+  "facts": [
+    {
+      "as_of": "cycle-000002",
+      "key": "workflow.kind",
+      "value": "unsupported_adapter"
+    },
+    {
+      "as_of": "cycle-000002",
+      "key": "workflow.ref",
+      "value": "governed_notice_lambda_failure_probe"
+    }
+  ],
+  "observed_at": "2026-07-07T01:55:26.495321Z",
+  "schema": "adl.long_lived_agent_observations.v1",
+  "sources": [
+    {
+      "artifact_ref": "../../agent_spec.locked.json",
+      "kind": "locked_supervisor_spec",
+      "source_id": "agent_spec",
+      "trust_level": "operator_configured"
+    }
+  ]
+}

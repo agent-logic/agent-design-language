@@ -1,0 +1,33 @@
+{
+  "schema": "adl.long_lived_agent_cycle_manifest.v1",
+  "agent_instance_id": "csm-governed-notice-4998",
+  "cycle_id": "cycle-000001",
+  "status": "blocked",
+  "started_at": "2026-07-07T01:47:35.612562Z",
+  "completed_at": "2026-07-07T01:47:35.615762Z",
+  "workflow_kind": "unsupported_adapter",
+  "workflow_ref": "governed_notice_failure_probe",
+  "input_hash": "sha256:ad9feee0f6dba97e00c8cd6105b71cbeddb902f10ebdbd77d21c2f54ce9655a5",
+  "output_hash": "sha256:000618819b1e7a65eaddae3dcd4b77db76cb3e2760f902211bcbca2b4fc0f702",
+  "previous_cycle_id": null,
+  "next_cycle_hint": "sleep_until_next_heartbeat",
+  "csm_runtime": {
+    "runtime_owner": "csm",
+    "adl_role": "tooling_control_plane",
+    "aee": "integrated",
+    "chronosense": "integrated",
+    "scheduler_watcher": "integrated",
+    "resilience_middleware": "integrated"
+  },
+  "artifacts": {
+    "observations": "observations.json",
+    "decision_request": "decision_request.json",
+    "decision_result": "decision_result.json",
+    "run_ref": "run_ref.json",
+    "memory_writes": "memory_writes.jsonl",
+    "guardrail_report": "guardrail_report.json",
+    "cycle_summary": "cycle_summary.md",
+    "csm_adl_run_status": null
+  },
+  "not_financial_advice": true
+}
