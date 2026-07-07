@@ -1262,6 +1262,18 @@ EOF
   printf '{"status":"Deployed"}\n' > docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json
   printf '{"status":"passed"}\n' > docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/csm_cloudfront_command_result.json
   printf '# Runtime CloudFront Control\n' > docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md
+  cat > docs/milestones/v0.91.7/review/runtime/RELEASE_GATE_DISPOSITION_4915.yaml <<'EOF'
+issue: 4915
+disposition: approved_for_merge_after_green_ci
+changed_release_gate_surfaces:
+  - .github/workflows/ci.yaml
+reviewer_or_review_mode: bounded fixture review
+focused_validation_run: fixture focused validation
+residual_ci_proof_required_before_merge: fixture green CI required
+summary: fixture release-gate disposition
+non_claims:
+  - fixture non-claim
+EOF
   python3 - <<'PY'
 from pathlib import Path
 
@@ -1297,6 +1309,7 @@ PY
     adl/tools/validate_wp08_cloudfront_control_proof.py \
     docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json \
     docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/csm_cloudfront_command_result.json \
+    docs/milestones/v0.91.7/review/runtime/RELEASE_GATE_DISPOSITION_4915.yaml \
     docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md
   git commit -q -m wp08-cloudfront-policy-mixed-focused
   wp08_cloudfront_policy_mixed_head="$(git rev-parse HEAD)"
@@ -1310,9 +1323,9 @@ PY
   assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_lane=deferred_pr_fast"
   assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_authority=focused_nextest_pr_fast"
   assert_has "$wp08_cloudfront_policy_mixed_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_selected=release_gate_required_5_lane_profile"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_selected=release_gate_required_6_lane_profile"
   assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_status=escalation_required"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_run_lanes=ci_path_policy_contracts,csdlc_owner_lane,rust_pr_fast,wp08_cloudfront_control_proof"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_run_lanes=ci_path_policy_contracts,csdlc_owner_lane,docs_diff_check,rust_pr_fast,wp08_cloudfront_control_proof"
   assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_escalation_lanes=release_gate_review"
 
   git checkout -q -b feature-branch-before-main-advances "$base_sha"

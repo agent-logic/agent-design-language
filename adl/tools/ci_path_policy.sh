@@ -893,7 +893,13 @@ manager_profile_is_release_gate_only_escalation() {
 }
 
 manager_profile_is_wp08_cloudfront_release_gate_contract() {
-  [ "$validation_profile_selected" = "release_gate_required_5_lane_profile" ] || return 1
+  case "$validation_profile_selected" in
+    release_gate_required_5_lane_profile|release_gate_required_6_lane_profile)
+      ;;
+    *)
+      return 1
+      ;;
+  esac
   [ "$validation_profile_status" = "escalation_required" ] || return 1
   manager_profile_is_release_gate_only_escalation || return 1
   local lanes=",$validation_profile_run_lanes,"
