@@ -1412,6 +1412,46 @@ textarea,
   text-align: right;
 }
 
+.runtime-test-card {
+  gap: 0.42rem;
+}
+
+.runtime-test-card input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.48rem 0.55rem;
+  color: #e7f1ff;
+  background: rgba(2, 9, 17, 0.72);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.runtime-test-card input:focus {
+  outline: 1px solid rgba(110, 231, 249, 0.54);
+  border-color: rgba(110, 231, 249, 0.42);
+}
+
+.compact-field {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+}
+
+.runtime-test-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.32rem;
+}
+
+.runtime-test-actions .button {
+  min-height: 1.95rem;
+  padding: 0.38rem 0.44rem;
+  font-size: 0.68rem;
+}
+
 .evidence-band {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
@@ -1527,7 +1567,7 @@ textarea,
 
   .ops-hero {
     grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr) minmax(5.5rem, 0.24fr);
+    grid-template-rows: auto minmax(0, 1fr) minmax(10.5rem, 0.42fr);
     gap: 0.55rem;
   }
 
@@ -1551,8 +1591,8 @@ textarea,
   }
 
   .ops-sidecar .inspector-stack {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    overflow: hidden;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: auto;
   }
 
   .ops-sidecar .inspector-stack article {
@@ -1562,6 +1602,27 @@ textarea,
   .ops-sidecar .inspector-stack .row-detail,
   .ops-sidecar .api-mini-list {
     display: none;
+  }
+
+  .ops-sidecar .runtime-test-card {
+    min-height: 8.7rem;
+    padding: 0.5rem;
+  }
+
+  .ops-sidecar .runtime-test-card .row-detail {
+    display: block;
+    max-height: 2.1rem;
+    overflow: hidden;
+  }
+
+  .ops-sidecar .runtime-test-card input {
+    padding: 0.38rem 0.46rem;
+  }
+
+  .ops-sidecar .runtime-test-actions .button {
+    min-height: 1.68rem;
+    padding: 0.24rem 0.3rem;
+    font-size: 0.62rem;
   }
 
   .dashboard-statusbar {

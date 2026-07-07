@@ -63,6 +63,27 @@ Then open:
 http://127.0.0.1:8765/demos/v0.91.7/html-observatory/
 ```
 
+For the v0.91.7 real-runtime test path, start the existing repo `csm` binary in
+a separate terminal and point the dashboard at that loopback base:
+
+```sh
+adl/target/debug/csm api serve \
+  --spec docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/agent.yaml \
+  --bind 127.0.0.1:24645 \
+  --max-requests 25 \
+  --idle-timeout-ms 60000 \
+  --json
+```
+
+```text
+http://127.0.0.1:8765/demos/v0.91.7/html-observatory/?csmApiBase=http://127.0.0.1:24645&live=1
+```
+
+The current browser-served dashboard keeps the same loopback-only policy as the
+runtime API. If the CSM API is reachable by curl but the browser refuses the
+cross-port fetch, the dashboard stays on the retained mirror and reports the
+live loopback failure instead of claiming a live WebSocket or remote API path.
+
 Opening `index.html` directly may show the fallback shell in browsers that block
 local `fetch()` for files. The retained proof is the local-server path plus the
 validator below.

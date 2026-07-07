@@ -259,6 +259,18 @@
               <p class="row-detail">Loopback connection upgrades the retained mirror when available.</p>
               <div class="api-mini-list" id="hero-api-list" aria-label="CSM API endpoint status"></div>
             </article>
+            <article class="runtime-test-card">
+              <span class="row-kicker">Real Runtime Test</span>
+              <strong id="dashboard-live-test-status">retained mirror</strong>
+              <label class="compact-field" for="dashboard-live-api-base">Loopback API base</label>
+              <input id="dashboard-live-api-base" type="url" inputmode="url" placeholder="http://127.0.0.1:24645">
+              <div class="runtime-test-actions" aria-label="Runtime test controls">
+                <button class="button button-primary" type="button" id="dashboard-connect-live">Connect</button>
+                <button class="button button-secondary" type="button" id="dashboard-refresh-live">Refresh</button>
+                <button class="button button-secondary" type="button" id="dashboard-stop-live">Stop</button>
+              </div>
+              <p class="row-detail" id="dashboard-live-test-detail">Supply the local `csm api serve` base or pass `?csmApiBase=http://127.0.0.1:24645`.</p>
+            </article>
             <article>
               <span class="row-kicker">Operator Channel</span>
               <strong id="hero-communication-status">offline draft</strong>

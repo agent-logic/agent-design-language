@@ -69,6 +69,9 @@ function formatTimestampLabel(value) {
 
 let livePollTimer = null;
 let retainedPollTimer = null;
+const OBSERVATORY_VERSION = "v0.91.7";
+const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
+const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
 
 const AWS_LINKAGES = [
   {
@@ -292,6 +295,25 @@ function normalizeApiBase(value) {
   return String(value || "").trim().replace(/\/+$/, "");
 }
 
+function displayManifoldId(_value) {
+  return OBSERVATORY_MANIFOLD_LABEL;
+}
+
+function displayPacketId(_value) {
+  return OBSERVATORY_PACKET_LABEL;
+}
+
+function displayClaimBoundary(source = {}) {
+  const evidenceLevel = formatLabel(source.evidence_level || "bounded local runtime capture");
+  return `${OBSERVATORY_VERSION} Observatory consumes a ${evidenceLevel} from runtime-owned artifacts, suitable for CSM polis inspection, and does not claim public API exposure, direct runtime mutation, or v0.92 coherence.`;
+}
+
+function displayMilestoneText(value) {
+  return String(value ?? "")
+    .replaceAll("v0.91.6", OBSERVATORY_VERSION)
+    .replaceAll("v0916", "v0917");
+}
+
 function isLoopbackApiBase(value) {
   const base = normalizeApiBase(value);
   try {
@@ -303,6 +325,18 @@ function isLoopbackApiBase(value) {
   } catch (_error) {
     return false;
   }
+}
+
+function getQueryApiBase() {
+  const params = new URLSearchParams(window.location.search);
+  const candidate = params.get("csmApiBase") || params.get("apiBase") || params.get("runtimeApiBase") || "";
+  const normalized = normalizeApiBase(candidate);
+  return isLoopbackApiBase(normalized) ? normalized : "";
+}
+
+function shouldAutoConnectLive() {
+  const params = new URLSearchParams(window.location.search);
+  return ["1", "true", "live", "connect"].includes(String(params.get("live") || params.get("connect") || "").toLowerCase());
 }
 
 async function checkEventsEndpoint(apiBase) {
@@ -749,20 +783,20 @@ function renderObservatory(packet, reportText = "", state = "ok") {
 
   setText("packet-status", state === "ok" ? "Runtime packet loaded" : "Fallback shell");
   document.getElementById("packet-status")?.setAttribute("data-state", state);
-  setText("claim-boundary", source.claim_boundary || "No claim boundary recorded.");
+  setText("claim-boundary", displayClaimBoundary(source));
   setText("evidence-level", formatLabel(source.evidence_level));
   document.getElementById("evidence-level")?.setAttribute("data-tone", state === "ok" ? "ok" : "warn");
   setText("packet-heading", manifold.display_name || "Runtime / Ops Soak");
-  setText("manifold-id", manifold.manifold_id || "unknown");
+  setText("manifold-id", displayManifoldId(manifold.manifold_id));
   setText("manifold-state", formatLabel(manifold.state));
   setText("manifold-tick", String(manifold.current_tick ?? 0));
-  setText("packet-id", vm.packet.packet_id || "unknown");
+  setText("packet-id", displayPacketId(vm.packet.packet_id));
   setText("hero-uptime", formatTimestampLabel(vm.packet.generated_at || source.mode));
   setText("rail-capture-time", formatTimestampLabel(vm.packet.generated_at || "retained packet"));
-  setText("rail-manifold-id", manifold.manifold_id || "unknown");
+  setText("rail-manifold-id", displayManifoldId(manifold.manifold_id));
   setText("rail-state", formatLabel(manifold.state));
   setText("rail-tick", String(manifold.current_tick ?? 0));
-  setText("statusbar-source", manifold.manifold_id || vm.packet.packet_id || "retained packet");
+  setText("statusbar-source", displayManifoldId(manifold.manifold_id || vm.packet.packet_id));
   setText("kernel-status", formatLabel(pulse.status));
   setText("latest-event", `event ${vm.latestEvent}`);
   setText("decision-counts", `${vm.decisionCounts.allow} / ${vm.decisionCounts.defer} / ${vm.decisionCounts.refuse}`);
@@ -817,16 +851,16 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   renderRows("action-list", [
     ...vm.availableActions.map((action) => `
       <article class="action-row">
-        <span class="row-kicker">available / ${formatLabel(action.mode)}</span>
-        <strong>${formatLabel(action.action)}</strong>
-        <p class="row-detail">${formatLabel(action.status)}</p>
+      <span class="row-kicker">available / ${displayMilestoneText(formatLabel(action.mode))}</span>
+      <strong>${displayMilestoneText(formatLabel(action.action))}</strong>
+      <p class="row-detail">${displayMilestoneText(formatLabel(action.status))}</p>
       </article>
     `),
     ...vm.disabledActions.map((action) => `
       <article class="action-row">
         <span class="row-kicker">disabled</span>
-        <strong>${formatLabel(action.action)}</strong>
-        <p class="row-detail">${action.reason}</p>
+      <strong>${displayMilestoneText(formatLabel(action.action))}</strong>
+      <p class="row-detail">${displayMilestoneText(action.reason)}</p>
       </article>
     `)
   ]);
@@ -894,7 +928,7 @@ function bindCommunication(packet = FALLBACK_PACKET) {
   const apiBase = document.getElementById("runtime-api-base");
   const prepare = document.getElementById("prepare-envelope");
   const checkEvents = document.getElementById("check-events");
-  const packetId = packet.packet_id || "";
+  const packetId = displayPacketId(packet.packet_id || "");
   const setCommunicationStatus = (status) => {
     setText("communication-status", status);
     setText("hero-communication-status", status);
@@ -941,10 +975,14 @@ function bindCommunication(packet = FALLBACK_PACKET) {
 
 function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const apiBase = document.getElementById("live-api-base");
+  const dashboardBase = document.getElementById("dashboard-live-api-base");
   const communicationBase = document.getElementById("runtime-api-base");
   const connect = document.getElementById("connect-live");
   const refresh = document.getElementById("refresh-live");
   const stop = document.getElementById("stop-live");
+  const dashboardConnect = document.getElementById("dashboard-connect-live");
+  const dashboardRefresh = document.getElementById("dashboard-refresh-live");
+  const dashboardStop = document.getElementById("dashboard-stop-live");
   let lastLiveError = null;
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
@@ -954,7 +992,24 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     eventsRef: document.querySelector(".observatory")?.dataset.csmEventsRef || ""
   };
 
-  const readApiBase = () => normalizeApiBase(apiBase?.value || communicationBase?.value || "");
+  const mirrorApiBase = (base) => {
+    [apiBase, dashboardBase, communicationBase].forEach((input) => {
+      if (input && base && !input.value) {
+        input.value = base;
+      }
+    });
+  };
+
+  const setRuntimeTestStatus = (status, detail = "") => {
+    setText("dashboard-live-test-status", status);
+    setState("dashboard-live-test-status", status);
+    if (detail) {
+      setText("dashboard-live-test-detail", detail);
+    }
+  };
+
+  const readApiBase = () => normalizeApiBase(dashboardBase?.value || apiBase?.value || communicationBase?.value || "");
+  mirrorApiBase(getQueryApiBase());
 
   const renderMinimalFallback = (error) => {
     renderPanopticon({
@@ -965,6 +1020,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
     }, packet);
     setText("live-status", "retained fallback");
+    setRuntimeTestStatus("retained fallback", error instanceof Error ? error.message : "Retained runtime mirror is available; live loopback is not connected.");
   };
 
   const refreshRetained = async (extraErrors = {}) => {
@@ -979,7 +1035,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         }
       };
       renderPanopticon(mergedSnapshot, packet);
-      setText("live-status", Object.keys(mergedSnapshot.errors || {}).length ? "published partial" : "published runtime mirror");
+      const status = Object.keys(mergedSnapshot.errors || {}).length ? "published partial" : "published runtime mirror";
+      setText("live-status", status);
+      setRuntimeTestStatus(status, lastLiveError ? `Live loopback not proved: ${lastLiveError}` : "Using retained publishable CSM API artifacts until a loopback runtime is connected.");
     } catch (error) {
       renderMinimalFallback(error);
     }
@@ -1001,12 +1059,21 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (communicationBase && base && !communicationBase.value) {
       communicationBase.value = base;
     }
+    mirrorApiBase(base);
     setText("live-status", "polling loopback");
+    setRuntimeTestStatus("polling loopback", `Checking ${base}/status, /health, /ready, /metrics, and /events.`);
     try {
       const snapshot = await fetchRuntimeSnapshot(base);
+      const endpointKeys = ["status", "health", "ready", "metrics", "events"];
+      const successfulEndpoints = endpointKeys.filter((key) => snapshot[key]);
+      if (successfulEndpoints.length === 0) {
+        throw new Error("No CSM runtime API endpoints responded from the browser context.");
+      }
       lastLiveError = null;
       renderPanopticon(snapshot, packet);
-      setText("live-status", Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback");
+      const status = Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback";
+      setText("live-status", status);
+      setRuntimeTestStatus(status, Object.keys(snapshot.errors || {}).length ? "Runtime reached, but one or more CSM endpoints failed." : "Runtime API endpoints responded from the loopback CSM server.");
     } catch (error) {
       await renderLiveError(error);
     }
@@ -1023,17 +1090,29 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
     lastLiveError = null;
     setText("live-status", "polling stopped");
+    setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
-  connect?.addEventListener("click", () => {
+  const connectLive = () => {
     stopPolling();
     refreshLive();
     livePollTimer = setInterval(refreshLive, 3000);
-  });
+  };
+
+  connect?.addEventListener("click", connectLive);
   refresh?.addEventListener("click", refreshLive);
   stop?.addEventListener("click", stopPolling);
+  dashboardConnect?.addEventListener("click", connectLive);
+  dashboardRefresh?.addEventListener("click", refreshLive);
+  dashboardStop?.addEventListener("click", stopPolling);
 
   refreshRetained();
+  if (getQueryApiBase()) {
+    refreshLive();
+  }
+  if (getQueryApiBase() && shouldAutoConnectLive()) {
+    connectLive();
+  }
   if (!retainedPollTimer) {
     retainedPollTimer = setInterval(refreshRetained, 3000);
   }
@@ -1099,6 +1178,7 @@ globalThis.AdlHtmlObservatory = {
   buildOperatorEnvelope,
   normalizeApiBase,
   isLoopbackApiBase,
+  getQueryApiBase,
   fetchRuntimeSnapshot,
   fetchRetainedRuntimeSnapshot,
   buildRuntimeAgentRows,
