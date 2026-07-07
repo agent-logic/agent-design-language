@@ -38,17 +38,7 @@ require_readme() {
 
 ADL_REPO_ROOT="${ROOT_DIR}" bash "${ROOT_DIR}/adl/tools/validate_v0917_csm_service_4903_status.sh" >/dev/null
 python3 "${ROOT_DIR}/adl/tools/validate_wp08_heartbeat_live_proof.py" "${CLOUDWATCH}" >/dev/null
-ACIP_VALIDATION_LOG="${ROOT_DIR}/.tmp/v0917_html_observatory_acip_sns_validation.log"
-mkdir -p "$(dirname "${ACIP_VALIDATION_LOG}")"
-if python3 "${ROOT_DIR}/adl/tools/validate_wp08_acip_sns_live_proof.py" "${ACIP_SNS}" "${SNS_RESOURCE}" >"${ACIP_VALIDATION_LOG}" 2>&1; then
-  echo "ACIP/SNS retained proof unexpectedly passed; #4690 should be updated to remove the #5006 fail-closed mirror" >&2
-  exit 1
-fi
-grep -Fq "aws_account_sha256 must not be retained in ACIP/SNS summaries" "${ACIP_VALIDATION_LOG}" || {
-  echo "ACIP/SNS retained proof did not fail with the expected #5006 hygiene message" >&2
-  cat "${ACIP_VALIDATION_LOG}" >&2
-  exit 1
-}
+python3 "${ROOT_DIR}/adl/tools/validate_wp08_acip_sns_live_proof.py" "${ACIP_SNS}" "${SNS_RESOURCE}" >/dev/null
 python3 "${ROOT_DIR}/adl/tools/validate_v0917_html_observatory.py" \
   --html "${HTML}" \
   --css "${CSS}" \
@@ -76,5 +66,13 @@ require_readme "ACIP-SNS"
 require_readme "browser-owned AWS publish authority"
 require_readme "WP-08"
 require_readme "communication rail"
+grep -Fq "CSM Runtime + AWS CloudWatch + ACIP/SNS" "${HTML}" || {
+  echo "HTML Observatory status bar must name the ACIP/SNS data source" >&2
+  exit 1
+}
+grep -Fq "retained_proof_status: acipSnsSummary.status || \"unknown\"" "${JS}" || {
+  echo "HTML Observatory operator envelope must report the retained ACIP/SNS proof status without stale hygiene-blocked state" >&2
+  exit 1
+}
 
 echo "v0.91.7 HTML Observatory integrated proof passed"

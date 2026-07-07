@@ -244,8 +244,8 @@ function buildIntegrationViewModel({
     acipRows: [
       {
         label: "ACIP projection",
-        value: acipSnsSummary.status === "passed" && acipRetainsFullAccountSha ? "hygiene blocked" : acipSnsSummary.status || "unknown",
-        detail: `${acipProjection.signal_kind || "signal unknown"} / ${acipProjection.route_class || "route unknown"}; full proof cleanup tracked by #5006.`,
+        value: acipSnsSummary.status || "unknown",
+        detail: `${acipProjection.signal_kind || "signal unknown"} / ${acipProjection.route_class || "route unknown"}; retained proof passed redaction hygiene.`,
         state: acipSnsSummary.status === "passed" && !acipRetainsFullAccountSha ? "passed" : "blocked"
       },
       {
@@ -256,8 +256,8 @@ function buildIntegrationViewModel({
       },
       {
         label: "Redaction",
-        value: acipRedactionSafe ? "operations safe" : "blocked by #5006",
-        detail: acipRedactionSafe ? "No raw credentials, account id, topic ARN, private ACIP content, or full account SHA retained." : "Retained proof includes full account SHA material; #5006 owns cleanup before operations-safe claim.",
+        value: acipRedactionSafe ? "operations safe" : "needs review",
+        detail: acipRedactionSafe ? "No raw credentials, account id, topic ARN, private ACIP content, or full account SHA retained." : "Retained proof needs redaction review before operations-safe claim.",
         state: acipRedactionSafe ? "passed" : "blocked"
       }
     ]
@@ -339,8 +339,8 @@ function buildOperatorEnvelope({ channel = "events", message = "", packetId = ""
       target_kind: "sns",
       topic_name: acipSns.topic_name || snsResource.topic_name || "unknown",
       retained_message_id: acipSns.message_id || null,
-      retained_proof_status: acipSnsSummary.aws_account_sha256 || snsResourceSummary.aws_account_sha256 ? "blocked_redaction_hygiene" : acipSnsSummary.status || "unknown",
-      retained_hygiene_issue: acipSnsSummary.aws_account_sha256 || snsResourceSummary.aws_account_sha256 ? 5006 : null,
+      retained_proof_status: acipSnsSummary.status || "unknown",
+      retained_hygiene_issue: null,
       live_publish_claimed: false
     } : null,
     allowed_live_check: channel === "events" ? "/events" : null
@@ -393,7 +393,7 @@ const DASHBOARD_FOCUS = {
     status: "prepared",
     target: "#communication",
     detail: "Comms prepare ACIP messages and mirror retained SNS proof; live AWS mutation remains runtime-owned.",
-    facts: ["ACIP message draft", "SNS projection proof", "Redaction hygiene blocked by #5006"]
+    facts: ["ACIP message draft", "SNS projection proof", "Redaction hygiene passed"]
   },
   governance: {
     kicker: "Governance",

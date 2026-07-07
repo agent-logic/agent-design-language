@@ -620,12 +620,16 @@ def main() -> int:
     acip_redaction = acip_sns.get("redaction", {})
     if acip_redaction.get("credentials_recorded") is not False or acip_redaction.get("raw_message_content_recorded") is not False:
       fail("ACIP-SNS proof redaction posture is not operations safe")
-    if not acip_sns.get("aws_account_sha256"):
-      fail("expected retained ACIP-SNS full account SHA blocker for #5006 fail-closed proof")
+    if acip_sns.get("aws_account_sha256"):
+      fail("ACIP-SNS proof must not retain a full account SHA")
+    if not acip_sns.get("aws_account_hash"):
+      fail("ACIP-SNS proof must retain only the short account hash")
     if sns_resource.get("schema") != "adl.wp08.acip_sns_resource.v1":
       fail("SNS resource proof schema mismatch")
-    if not sns_resource.get("aws_account_sha256"):
-      fail("expected retained SNS resource full account SHA blocker for #5006 fail-closed proof")
+    if sns_resource.get("aws_account_sha256"):
+      fail("SNS resource proof must not retain a full account SHA")
+    if not sns_resource.get("aws_account_hash"):
+      fail("SNS resource proof must retain only the short account hash")
     if smoke["packetId"] != packet["packet_id"]:
       fail("JS view model did not consume the retained packet")
     if smoke["evidenceLevel"] != "bounded_local_runtime_capture":
@@ -652,8 +656,10 @@ def main() -> int:
       fail("JS integration view model did not build CloudWatch rows")
     if len(smoke["acipRows"]) < 3:
       fail("JS integration view model did not build ACIP-SNS rows")
-    if not any(row.get("value") == "hygiene blocked" for row in smoke["acipRows"]):
-      fail(f"ACIP-SNS retained proof hygiene blocker was not exposed: {smoke['acipRows']!r}")
+    if not any(row.get("label") == "ACIP projection" and row.get("value") == "passed" for row in smoke["acipRows"]):
+      fail(f"ACIP-SNS retained proof pass was not exposed: {smoke['acipRows']!r}")
+    if not any(row.get("label") == "Redaction" and row.get("value") == "operations safe" for row in smoke["acipRows"]):
+      fail(f"ACIP-SNS operations-safe redaction was not exposed: {smoke['acipRows']!r}")
     if smoke["parsedCloudWatchEventCount"] < 1:
       fail("JS integration view model did not parse CloudWatch events")
     if smoke["latestCloudWatchTarget"] != "cloudwatch_logs":
@@ -681,10 +687,10 @@ def main() -> int:
       fail("operator communication envelope does not target SNS projection")
     if aws_projection.get("live_publish_claimed") is not False:
       fail("operator communication envelope overclaims live SNS publish")
-    if aws_projection.get("retained_proof_status") != "blocked_redaction_hygiene":
-      fail("operator communication envelope did not fail closed on ACIP-SNS proof hygiene")
-    if aws_projection.get("retained_hygiene_issue") != 5006:
-      fail("operator communication envelope did not reference ACIP-SNS hygiene issue")
+    if aws_projection.get("retained_proof_status") != "passed":
+      fail("operator communication envelope did not expose passed ACIP-SNS proof")
+    if aws_projection.get("retained_hygiene_issue") is not None:
+      fail("operator communication envelope retained a stale ACIP-SNS hygiene issue")
     if envelope.get("allowed_live_check") is not None:
       fail("ACIP-SNS envelope should not claim a live /events read")
     loopback_policy = smoke["loopbackPolicy"]
