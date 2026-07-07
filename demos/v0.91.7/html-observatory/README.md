@@ -2,17 +2,29 @@
 
 This demo is the v0.91.7 HTML Observatory integrated proof for #4690.
 
-It adapts the Magic UI Pro AI Agent Template direction into a reviewable CSM
-polis panopticon without importing account credentials or private template
-metadata into the repository. The first-class mode is a CSM runtime panopticon
-over `/status`, `/health`, `/ready`, `/metrics`, and `/events`. It auto-refreshes
-the retained publishable CSM API response artifacts from #4976 as a runtime
-mirror, and upgrades to live loopback polling when an operator supplies the
-currently running CSM API base. The retained runtime packet remains the fallback
-proof surface if the CSM API mirror cannot load. The page also consumes the
-retained CSM runtime Observatory packet and operator report from the v0.91.7
-Soak 2 evidence root, plus the current CSM runtime administration and AWS
-linkage evidence.
+It adapts the Magic UI Pro AI Agent Template direction, with the Magic UI
+Devtool Template used for denser dashboard composition cues, into a reviewable
+CSM polis panopticon without importing account credentials or private template
+metadata into the repository. The first-class mode is a compact control-room
+dashboard over `/status`, `/health`, `/ready`, `/metrics`, and `/events`, with
+runtime KPIs, agent graph preview, event tail, CSM API status, CloudWatch
+linkage, governance proof, and operator communication status visible in the
+first dashboard viewport. It auto-refreshes the retained publishable CSM API
+response artifacts from #4976 as a runtime mirror, and upgrades to live loopback
+polling when an operator supplies the currently running CSM API base. The
+retained runtime packet remains the fallback proof surface if the CSM API mirror
+cannot load. The page also consumes the retained CSM runtime Observatory packet
+and operator report from the v0.91.7 Soak 2 evidence root, plus the current CSM
+runtime administration and AWS linkage evidence.
+
+The primary dashboard is intentionally fixed to the viewport: the page itself
+does not scroll, while the event stream and inspector areas own bounded internal
+overflow. The visible shell uses local inline SVG icons, role-specific topology
+glyphs for owner, readiness, scheduler, telemetry, event, and checkpoint lanes,
+non-overlapping graph nodes with signal-line affordances, a compact table-style
+event stream, rail telemetry, an inspector-style CSM API/gauge stack, and a
+bottom runtime status bar to match the approved control-room mockup without
+importing external template assets.
 
 - `docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json`
 - `docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md`

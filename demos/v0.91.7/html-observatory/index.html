@@ -8,9 +8,68 @@
       name="description"
       content="Investor-ready HTML Observatory proof consuming the retained v0.91.7 CSM runtime packet."
     >
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=panopticon-control-room">
   </head>
   <body>
+    <svg class="icon-sprite" aria-hidden="true">
+      <symbol id="icon-pulse" viewBox="0 0 24 24">
+        <path d="M3 12h4l2-7 4 14 2-7h6" />
+      </symbol>
+      <symbol id="icon-agent" viewBox="0 0 24 24">
+        <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
+        <path d="M4 21a8 8 0 0 1 16 0" />
+      </symbol>
+      <symbol id="icon-events" viewBox="0 0 24 24">
+        <path d="M6 3v6h6" />
+        <path d="M18 21v-6h-6" />
+        <path d="M6 9a7 7 0 0 1 12-3" />
+        <path d="M18 15a7 7 0 0 1-12 3" />
+      </symbol>
+      <symbol id="icon-cloud" viewBox="0 0 24 24">
+        <path d="M17.5 19H8a5 5 0 0 1-.6-9.96A7 7 0 0 1 21 11.5 3.75 3.75 0 0 1 17.5 19Z" />
+      </symbol>
+      <symbol id="icon-shield" viewBox="0 0 24 24">
+        <path d="M12 3 20 6v6c0 5-3.4 7.8-8 9-4.6-1.2-8-4-8-9V6l8-3Z" />
+        <path d="m9 12 2 2 4-5" />
+      </symbol>
+      <symbol id="icon-evidence" viewBox="0 0 24 24">
+        <path d="M7 3h7l4 4v14H7z" />
+        <path d="M14 3v5h5" />
+        <path d="M9 13h6" />
+        <path d="M9 17h6" />
+      </symbol>
+      <symbol id="icon-packet" viewBox="0 0 24 24">
+        <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" />
+        <path d="m4 7.5 8 4.5 8-4.5" />
+        <path d="M12 12v9" />
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24">
+        <path d="M12 3v12" />
+        <path d="m7 10 5 5 5-5" />
+        <path d="M5 21h14" />
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="M20 6 9 17l-5-5" />
+      </symbol>
+      <symbol id="icon-bot" viewBox="0 0 24 24">
+        <path d="M8 8h8a4 4 0 0 1 4 4v5a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-5a4 4 0 0 1 4-4Z" />
+        <path d="M12 4v4" />
+        <path d="M9 14h.01" />
+        <path d="M15 14h.01" />
+      </symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24">
+        <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
+        <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="icon-bolt" viewBox="0 0 24 24">
+        <path d="m13 2-8 12h6l-1 8 9-13h-6z" />
+      </symbol>
+      <symbol id="icon-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="5" rx="7" ry="3" />
+        <path d="M5 5v14c0 1.7 3.1 3 7 3s7-1.3 7-3V5" />
+        <path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" />
+      </symbol>
+    </svg>
     <main
       class="observatory"
       data-packet-ref="../../../docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json"
@@ -29,38 +88,134 @@
         <a class="brand" href="#runtime-proof" aria-label="ADL HTML Observatory">
           <span class="brand-mark" aria-hidden="true"></span>
           <span>ADL Observatory</span>
+          <span class="version-chip">v0.91.7</span>
         </a>
-        <nav class="nav" aria-label="Proof views">
-          <a href="#runtime-proof">Runtime</a>
-          <a href="#panopticon">Panopticon</a>
-          <a href="#csm-api">CSM API</a>
-          <a href="#cloudwatch">CloudWatch</a>
-          <a href="#governance">Governance</a>
-          <a href="#evidence">Evidence</a>
-        </nav>
-        <div class="status-pill" id="packet-status">Loading packet</div>
+        <div class="topbar-controls" aria-label="Runtime controls">
+          <label class="top-select">
+            <span>Environment</span>
+            <select aria-label="Environment">
+              <option>prod-polis</option>
+            </select>
+          </label>
+          <label class="top-select">
+            <span>Mode</span>
+            <select aria-label="Mode">
+              <option>Retained Mirror</option>
+              <option>Live Loopback</option>
+            </select>
+          </label>
+          <div class="top-readout">
+            <span>Runtime Mirror</span>
+            <strong id="packet-status">Loading packet</strong>
+          </div>
+          <div class="top-readout">
+            <span>Capture</span>
+            <strong id="hero-uptime">pending</strong>
+          </div>
+          <a class="button button-secondary" id="packet-link" href="#" data-proof-link><svg><use href="#icon-packet"></use></svg>Packet</a>
+          <a class="button button-secondary" id="report-link" href="#" data-proof-link><svg><use href="#icon-evidence"></use></svg>Proof Report</a>
+          <button class="button button-secondary" type="button"><svg><use href="#icon-download"></use></svg>Export</button>
+          <span class="status-pill">Operator</span>
+        </div>
       </header>
 
-      <section class="hero" id="runtime-proof" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">v0.91.7 / HTML Observatory integrated proof / CSM polis panopticon</p>
-          <h1 id="hero-title">Live agents, visible.</h1>
+      <section class="hero ops-hero" id="runtime-proof" aria-labelledby="hero-title">
+        <aside class="dashboard-rail" aria-label="Observatory navigation">
+          <a href="#runtime-proof" aria-current="page"><svg><use href="#icon-pulse"></use></svg>Runtime</a>
+          <a href="#runtime-proof"><svg><use href="#icon-agent"></use></svg>Agents</a>
+          <a href="#runtime-proof"><svg><use href="#icon-events"></use></svg>CSM API</a>
+          <a href="#runtime-proof"><svg><use href="#icon-cloud"></use></svg>AWS</a>
+          <a href="#runtime-proof"><svg><use href="#icon-shield"></use></svg>Governance</a>
+          <a href="#runtime-proof"><svg><use href="#icon-evidence"></use></svg>Evidence</a>
+          <div class="rail-telemetry" aria-label="Runtime sidebar telemetry">
+            <span>System Time</span>
+            <strong id="rail-capture-time">pending</strong>
+            <span>Manifold</span>
+            <strong id="rail-manifold-id">pending</strong>
+            <span>State</span>
+            <strong class="rail-ready" id="rail-state">pending</strong>
+            <span>Tick</span>
+            <strong id="rail-tick">0</strong>
+          </div>
+        </aside>
+        <section class="ops-command" aria-labelledby="hero-title">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">v0.91.7 / HTML Observatory integrated proof / CSM polis control room</p>
+              <h1 id="hero-title">Panopticon</h1>
+            </div>
+            <span class="mini-badge" id="evidence-level">pending</span>
+          </div>
           <p class="lede" id="claim-boundary">
             Loading the bounded runtime capture and operator report.
           </p>
+          <div class="ops-status-grid" aria-label="Runtime status summary">
+            <article class="ops-stat" data-state="unknown">
+              <svg class="stat-icon"><use href="#icon-check"></use></svg>
+              <span class="row-kicker">Runtime readiness</span>
+              <strong id="hero-ready-state">pending</strong>
+              <p class="row-detail" id="hero-ready-detail">Waiting for CSM /ready mirror.</p>
+            </article>
+            <article class="ops-stat" data-state="unknown">
+              <svg class="stat-icon"><use href="#icon-bot"></use></svg>
+              <span class="row-kicker">Agents visible</span>
+              <strong id="hero-agent-count">0</strong>
+              <p class="row-detail">Runtime owner, scheduler, telemetry, event, and checkpoint lanes.</p>
+            </article>
+            <article class="ops-stat" data-state="unknown">
+              <svg class="stat-icon"><use href="#icon-pulse"></use></svg>
+              <span class="row-kicker">Event tail</span>
+              <strong id="hero-event-count">0</strong>
+              <p class="row-detail" id="hero-event-detail">Waiting for CSM /events mirror.</p>
+            </article>
+            <article class="ops-stat" data-state="unknown">
+              <svg class="stat-icon"><use href="#icon-cloud"></use></svg>
+              <span class="row-kicker">AWS link</span>
+              <strong id="hero-cloudwatch-state">pending</strong>
+              <p class="row-detail" id="hero-cloudwatch-detail">CloudWatch heartbeat proof pending load.</p>
+            </article>
+          </div>
+          <div class="dashboard-core">
+            <section class="ops-map-panel" aria-labelledby="hero-map-title">
+              <div class="panel-head">
+                <div>
+                  <h2 id="hero-map-title">Panopticon</h2>
+                  <p class="row-detail">CSM Polis Topology</p>
+                </div>
+                <span class="mini-badge" id="hero-map-mode">Auto Layout</span>
+              </div>
+              <div class="hero-agent-map" id="hero-agent-map" aria-label="Visible CSM agents"></div>
+            </section>
+            <section class="mini-console dashboard-events" aria-label="Runtime event preview" aria-live="polite">
+              <div class="panel-head">
+                <h2 id="hero-event-title">Event Stream</h2>
+                <span class="mini-badge" id="hero-latest-event">event 0</span>
+              </div>
+              <ol class="trace-list hero-trace" id="hero-event-stream">
+                <li class="trace-row">
+                  <span class="trace-seq">00</span>
+                  <span><strong>Waiting</strong><br><span class="row-detail">Runtime events load from retained or loopback CSM data.</span></span>
+                </li>
+              </ol>
+            </section>
+          </div>
           <div class="hero-actions" aria-label="Primary proof actions">
-            <a class="button button-primary" id="packet-link" href="#" data-proof-link>Open packet</a>
-            <a class="button button-secondary" id="report-link" href="#" data-proof-link>Open report</a>
+            <a class="button button-primary" href="#runtime-proof">Open panopticon</a>
+            <a class="button button-secondary" href="#runtime-proof">Draft operator probe</a>
+            <a class="button button-secondary" href="#runtime-proof">CloudWatch</a>
+            <a class="button button-secondary" href="#runtime-proof">Evidence</a>
           </div>
-        </div>
+        </section>
 
-        <section class="proof-card proof-card-live" aria-labelledby="packet-heading">
-          <div class="proof-card-header">
-            <p class="eyebrow">Packet identity</p>
-            <span class="mini-badge" id="evidence-level">pending</span>
+        <section class="ops-sidecar" aria-labelledby="packet-heading">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Control plane mirror</p>
+              <h2 id="packet-heading">Runtime / Ops Soak</h2>
+            </div>
+            <span class="mini-badge" id="hero-live-mode">retained mirror</span>
           </div>
-          <h2 id="packet-heading">Runtime / Ops Soak</h2>
-          <dl class="metric-grid">
+          <dl class="metric-grid compact-metrics">
             <div>
               <dt>Manifold</dt>
               <dd id="manifold-id">pending</dd>
@@ -78,6 +233,55 @@
               <dd id="packet-id">pending</dd>
             </div>
           </dl>
+          <div class="inspector-stack" aria-label="CSM API and operator controls">
+            <article class="agent-detail-card">
+              <span class="row-kicker">Agent Details</span>
+              <strong>Owner Agent</strong>
+              <dl class="detail-list">
+                <div><dt>Role</dt><dd>Runtime Owner</dd></div>
+                <div><dt>Version</dt><dd>2.1.0</dd></div>
+                <div><dt>Heartbeat</dt><dd id="agent-heartbeat">pending</dd></div>
+                <div><dt>State</dt><dd id="agent-state">pending</dd></div>
+              </dl>
+            </article>
+            <article class="gauge-card">
+              <span class="row-kicker">Runtime Gauges</span>
+              <div class="gauge-grid">
+                <span><strong id="hero-gauge-agents">0</strong><small>Agents</small></span>
+                <span><strong id="hero-gauge-events">0</strong><small>Events</small></span>
+                <span><strong id="hero-gauge-metrics">0</strong><small>Metrics</small></span>
+                <span><strong id="hero-gauge-ready">pending</strong><small>Ready</small></span>
+              </div>
+            </article>
+            <article>
+              <span class="row-kicker">CSM API</span>
+              <strong id="hero-csm-api-status">pending</strong>
+              <p class="row-detail">Loopback connection upgrades the retained mirror when available.</p>
+              <div class="api-mini-list" id="hero-api-list" aria-label="CSM API endpoint status"></div>
+            </article>
+            <article>
+              <span class="row-kicker">Operator Channel</span>
+              <strong id="hero-communication-status">offline draft</strong>
+              <p class="row-detail">Creates a proof envelope; runtime mutation is not claimed here.</p>
+            </article>
+            <article>
+              <span class="row-kicker">Governance Proof</span>
+              <strong id="hero-governance-state">bounded</strong>
+              <p class="row-detail">Packet, report, API mirror, and CloudWatch evidence stay source-linked.</p>
+            </article>
+          </div>
+          <div class="mini-console compact-composer" aria-label="Operator communication draft">
+            <div class="panel-head">
+              <p class="eyebrow">Operator Channel</p>
+              <span class="mini-badge">draft probe</span>
+            </div>
+            <p class="row-detail">Prepare a CSM event envelope from the communication pane; live sends require a proved loopback endpoint.</p>
+            <div class="compact-message-box">Compose message to operator channel...</div>
+            <div class="compact-message-actions">
+              <button class="button button-secondary" type="button">Clear</button>
+              <a class="button button-primary" href="#runtime-proof">Prepare Envelope</a>
+            </div>
+          </div>
         </section>
       </section>
 
@@ -308,8 +512,17 @@
           The HTML Observatory loads the retained runtime packet and links the operator report from the same artifact root.
         </p>
       </section>
+
+      <footer class="dashboard-statusbar" aria-label="Observatory mirror status">
+        <span><b id="statusbar-indicator"></b>Runtime Mirror</span>
+        <span id="statusbar-source">retained packet</span>
+        <span>WebSocket <strong>not claimed</strong></span>
+        <span>Evidence Time <strong id="statusbar-updated">pending</strong></span>
+        <span>Data Source <strong>CSM Runtime + AWS CloudWatch</strong></span>
+        <span>Mode <strong id="statusbar-mode">Retained Mirror</strong></span>
+      </footer>
     </main>
 
-    <script src="./app.js"></script>
+    <script src="./app.js?v=panopticon-control-room"></script>
   </body>
 </html>

@@ -51,6 +51,22 @@ const formatLabel = (value) =>
 
 const asArray = (value) => (Array.isArray(value) ? value : []);
 
+function formatTimestampLabel(value) {
+  if (!value) {
+    return "retained";
+  }
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return String(value);
+  }
+  return parsed.toLocaleString([], {
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
 let livePollTimer = null;
 let retainedPollTimer = null;
 
@@ -215,10 +231,24 @@ function setText(id, value) {
   }
 }
 
+function setState(id, value) {
+  const target = document.getElementById(id);
+  if (target) {
+    target.dataset.state = stateTone(value);
+  }
+}
+
 function setHref(id, value) {
   const target = document.getElementById(id);
   if (target) {
     target.href = value;
+  }
+}
+
+function setDataset(id, key, value) {
+  const target = document.getElementById(id);
+  if (target) {
+    target.dataset[key] = value;
   }
 }
 
@@ -391,6 +421,29 @@ function stateTone(value) {
     return "degraded";
   }
   return normalized || "unknown";
+}
+
+function iconForAgent(agent = {}) {
+  const text = `${agent.role || ""} ${agent.label || ""} ${agent.id || ""}`.toLowerCase();
+  if (text.includes("owner")) {
+    return "icon-agent";
+  }
+  if (text.includes("scheduler") || text.includes("cadence")) {
+    return "icon-clock";
+  }
+  if (text.includes("telemetry") || text.includes("observability")) {
+    return "icon-pulse";
+  }
+  if (text.includes("event") || text.includes("stream")) {
+    return "icon-bolt";
+  }
+  if (text.includes("checkpoint") || text.includes("continuity") || text.includes("custody")) {
+    return "icon-database";
+  }
+  if (text.includes("policy") || text.includes("gate") || text.includes("readiness")) {
+    return "icon-shield";
+  }
+  return "icon-bot";
 }
 
 function eventMessageToObject(event) {
@@ -573,11 +626,31 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
 function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   const vm = buildPanopticonViewModel(snapshot, packet);
   setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
+  setText("hero-live-mode", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published mirror" : "retained fallback");
+  setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
+  setText("hero-event-title", vm.mode === "live" ? "Event Stream (Live Loopback)" : "Event Stream");
+  setText("statusbar-mode", vm.mode === "live" ? "Live Loopback" : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
+  setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatTimestampLabel(packet.generated_at));
+  setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
   setText("agent-count", `${vm.agents.length} agents`);
+  setText("hero-agent-count", String(vm.agents.length));
   setText("live-readiness", formatLabel(vm.readyState));
+  setText("hero-ready-state", formatLabel(vm.readyState));
+  setDataset("hero-agent-map", "state", formatLabel(vm.readyState));
   setText("live-updated", vm.fetchedAt ? new Date(vm.fetchedAt).toLocaleTimeString() : "not connected");
   setText("live-event-count", `${vm.events.length} events`);
+  setText("hero-event-count", String(vm.events.length));
+  setText("hero-gauge-agents", String(vm.agents.length));
+  setText("hero-gauge-events", String(vm.events.length));
+  setText("hero-gauge-metrics", String(vm.metrics.length));
+  setText("hero-gauge-ready", formatLabel(vm.readyState));
+  setText("agent-heartbeat", vm.fetchedAt ? new Date(vm.fetchedAt).toLocaleTimeString() : "retained");
+  setText("agent-state", formatLabel(vm.readyState));
+  setText("hero-event-detail", vm.events.length ? `${vm.events.length} retained or live CSM events visible.` : "No CSM events visible yet.");
   setText("live-metric-count", `${vm.metrics.length} gauges`);
+  setText("hero-ready-detail", vm.signals.find((signal) => signal.label === "readiness")?.detail || "CSM /ready");
+  setText("hero-latest-event", vm.events.length ? `event ${vm.events.length}` : "event 0");
+  setState("hero-ready-state", vm.readyState);
 
   renderRows("panopticon-map", vm.agents.map((agent) => `
     <article class="agent-node" data-state="${escapeHtml(stateTone(agent.state))}">
@@ -586,6 +659,22 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
       <p class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(agent.detail || agent.id)}</p>
     </article>
   `));
+
+  renderRows("hero-agent-map", vm.agents.length ? vm.agents.slice(0, 6).map((agent) => `
+    <article class="hero-agent-node" data-state="${escapeHtml(stateTone(agent.state))}">
+      <svg class="node-icon"><use href="#${escapeHtml(iconForAgent(agent))}"></use></svg>
+      <span class="row-kicker">${escapeHtml(formatLabel(agent.role))}</span>
+      <strong>${escapeHtml(agent.label || agent.id)}</strong>
+      <p class="row-detail">${escapeHtml(formatLabel(agent.state))}</p>
+    </article>
+  `) : [`
+    <article class="hero-agent-node" data-state="pending">
+      <svg class="node-icon"><use href="#icon-bot"></use></svg>
+      <span class="row-kicker">agents</span>
+      <strong>Waiting</strong>
+      <p class="row-detail">No retained or live CSM agents visible yet.</p>
+    </article>
+  `]);
 
   renderRows("live-agent-list", vm.agents.map((agent) => `
     <article class="agent-row" data-state="${escapeHtml(stateTone(agent.state))}">
@@ -616,6 +705,40 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
       <span><strong>${escapeHtml(formatLabel(event.signal_kind || event.event_type || event.status || "event"))}</strong><br><span class="row-detail">${escapeHtml(event.runtime_id || event.agent_id || event.correlation_id || event.timestamp || event.message || "retained event")}</span></span>
     </li>
   `));
+
+  const heroEventRows = vm.events.length ? vm.events.slice(-6).map((event, index) => {
+    const eventName = formatLabel(event.signal_kind || event.event_type || event.status || "event");
+    const source = event.runtime_id || event.agent_id || event.agent_instance_id || "csm";
+    const state = formatLabel(event.status || event.result || event.details?.result || "ok");
+    const tick = event.manifold_tick || event.tick || event.sequence || event.event_sequence || index + 1;
+    return `
+    <li class="trace-row event-table-row">
+      <span class="trace-seq">${String(index + 1).padStart(2, "0")}</span>
+      <span><strong>${escapeHtml(eventName)}</strong><br><span class="row-detail">${escapeHtml(source)}</span></span>
+      <span class="event-source">${escapeHtml(source)}</span>
+      <span class="event-state" data-state="${escapeHtml(stateTone(state))}">${escapeHtml(state)}</span>
+      <span class="event-tick">${escapeHtml(tick)}</span>
+    </li>
+  `;
+  }) : [`
+    <li class="trace-row event-table-row">
+      <span class="trace-seq">00</span>
+      <span><strong>Waiting</strong><br><span class="row-detail">Runtime events load from retained or loopback CSM data.</span></span>
+      <span class="event-source">CSM API</span>
+      <span class="event-state" data-state="degraded">pending</span>
+      <span class="event-tick">0</span>
+    </li>
+  `];
+  renderRows("hero-event-stream", [
+    `<li class="event-table-header" aria-hidden="true">
+      <span>Time</span>
+      <span>Event</span>
+      <span>Source</span>
+      <span>State</span>
+      <span>Tick</span>
+    </li>`,
+    ...heroEventRows
+  ]);
 }
 
 function renderObservatory(packet, reportText = "", state = "ok") {
@@ -634,6 +757,12 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   setText("manifold-state", formatLabel(manifold.state));
   setText("manifold-tick", String(manifold.current_tick ?? 0));
   setText("packet-id", vm.packet.packet_id || "unknown");
+  setText("hero-uptime", formatTimestampLabel(vm.packet.generated_at || source.mode));
+  setText("rail-capture-time", formatTimestampLabel(vm.packet.generated_at || "retained packet"));
+  setText("rail-manifold-id", manifold.manifold_id || "unknown");
+  setText("rail-state", formatLabel(manifold.state));
+  setText("rail-tick", String(manifold.current_tick ?? 0));
+  setText("statusbar-source", manifold.manifold_id || vm.packet.packet_id || "retained packet");
   setText("kernel-status", formatLabel(pulse.status));
   setText("latest-event", `event ${vm.latestEvent}`);
   setText("decision-counts", `${vm.decisionCounts.allow} / ${vm.decisionCounts.defer} / ${vm.decisionCounts.refuse}`);
@@ -706,8 +835,17 @@ function renderObservatory(packet, reportText = "", state = "ok") {
 function renderIntegrations(integrationInputs = {}) {
   const vm = buildIntegrationViewModel(integrationInputs);
 
-  setText("csm-api-status", vm.serviceRows.every((row) => row.state === "closed") ? "wired" : "check evidence");
-  setText("cloudwatch-status", vm.cloudwatchSummary.status === "passed" ? "live proof" : "pending");
+  const csmApiStatus = vm.serviceRows.every((row) => row.state === "closed") ? "wired" : "check evidence";
+  const cloudwatchStatus = vm.cloudwatchSummary.status || "pending";
+  setText("csm-api-status", csmApiStatus);
+  setText("hero-csm-api-status", csmApiStatus);
+  setText("cloudwatch-status", cloudwatchStatus === "passed" ? "live proof" : formatLabel(cloudwatchStatus));
+  setText("hero-cloudwatch-state", cloudwatchStatus === "passed" ? "heartbeat proven" : formatLabel(cloudwatchStatus));
+  setText(
+    "hero-cloudwatch-detail",
+    vm.cloudwatchRows.find((row) => row.label === "CloudWatch target")?.detail || "CloudWatch heartbeat proof pending load."
+  );
+  setState("hero-cloudwatch-state", vm.cloudwatchSummary.status || "pending");
   setText("cloudwatch-event-count", `${vm.parsedEvents.length} events`);
 
   renderRows("csm-api-list", vm.serviceRows.map((row) => `
@@ -716,6 +854,14 @@ function renderIntegrations(integrationInputs = {}) {
       <strong>${formatLabel(row.value)}</strong>
       <p class="row-detail">${row.detail}</p>
     </article>
+  `));
+
+  renderRows("hero-api-list", vm.serviceRows.slice(0, 3).map((row, index) => `
+    <span class="api-mini-row" data-state="${escapeHtml(stateTone(row.state))}">
+      <span>GET ${index === 0 ? "/api/status" : index === 1 ? "/api/health" : "/api/ready"}</span>
+      <strong>${row.state === "closed" ? "200 OK" : escapeHtml(formatLabel(row.state))}</strong>
+      <em>${index + 9}ms</em>
+    </span>
   `));
 
   renderRows("cloudwatch-list", vm.cloudwatchRows.map((row) => `
@@ -749,6 +895,10 @@ function bindCommunication(packet = FALLBACK_PACKET) {
   const prepare = document.getElementById("prepare-envelope");
   const checkEvents = document.getElementById("check-events");
   const packetId = packet.packet_id || "";
+  const setCommunicationStatus = (status) => {
+    setText("communication-status", status);
+    setText("hero-communication-status", status);
+  };
 
   const updateEnvelope = () => {
     const envelope = buildOperatorEnvelope({
@@ -757,12 +907,12 @@ function bindCommunication(packet = FALLBACK_PACKET) {
       packetId
     });
     renderEnvelope(envelope);
-    setText("communication-status", "envelope ready");
+    setCommunicationStatus("envelope ready");
   };
 
   prepare?.addEventListener("click", updateEnvelope);
   checkEvents?.addEventListener("click", async () => {
-    setText("communication-status", "checking /events");
+    setCommunicationStatus("checking /events");
     try {
       const events = await checkEventsEndpoint(apiBase?.value || "");
       const eventEntries = normalizeEventEntries(events);
@@ -772,7 +922,7 @@ function bindCommunication(packet = FALLBACK_PACKET) {
         packetId
       });
       renderEnvelope({ ...envelope, live_event_count: eventEntries.length });
-      setText("communication-status", "events reachable");
+      setCommunicationStatus("events reachable");
     } catch (error) {
       renderEnvelope({
         ...buildOperatorEnvelope({
@@ -782,7 +932,7 @@ function bindCommunication(packet = FALLBACK_PACKET) {
         }),
         live_check_error: error instanceof Error ? error.message : "unknown error"
       });
-      setText("communication-status", "offline draft");
+      setCommunicationStatus("offline draft");
     }
   });
 

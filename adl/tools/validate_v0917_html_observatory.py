@@ -162,6 +162,12 @@ def run_js_view_model(
         const retainedFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(retainedSnapshot, packet);
         const liveSnapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("http://127.0.0.1:49210");
         const liveFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(liveSnapshot, packet);
+        const blockedCloudwatchViewModel = context.AdlHtmlObservatory.buildIntegrationViewModel({{
+          serviceManifest,
+          apiText,
+          cloudwatchSummary: {{ ...cloudwatchSummary, status: "blocked" }},
+          cloudwatchEvents
+        }});
         process.stdout.write(JSON.stringify({{
           packetId: viewModel.packet.packet_id,
           evidenceLevel: viewModel.packet.source.evidence_level,
@@ -218,6 +224,13 @@ def run_js_view_model(
             metricCount: liveFetchPanopticon.metrics.length,
             readyState: liveFetchPanopticon.readyState,
             errorCount: Object.keys(liveSnapshot.errors || {{}}).length
+          }},
+          dashboardMirrors: {{
+            heroCloudwatchOkLabel: integrationViewModel.cloudwatchSummary.status === "passed" ? "heartbeat proven" : context.AdlHtmlObservatory.formatLabel(integrationViewModel.cloudwatchSummary.status || "pending"),
+            heroCloudwatchBlockedLabel: blockedCloudwatchViewModel.cloudwatchSummary.status === "passed" ? "heartbeat proven" : context.AdlHtmlObservatory.formatLabel(blockedCloudwatchViewModel.cloudwatchSummary.status || "pending"),
+            heroReadyLabel: context.AdlHtmlObservatory.formatLabel(retainedFetchPanopticon.readyState),
+            heroAgentCount: String(retainedFetchPanopticon.agents.length),
+            heroEventCount: String(retainedFetchPanopticon.events.length)
           }}
         }}));
         }})().catch((error) => {{
@@ -296,6 +309,49 @@ def main() -> int:
     assert_contains("HTML retained CSM events ref", html, f'data-csm-events-ref="{CSM_EVENTS_REF}"')
     assert_contains("HTML title", html, "ADL HTML Observatory - Runtime Proof")
     assert_contains("HTML integrated proof copy", html, "HTML Observatory integrated proof")
+    assert_contains("HTML inline icon sprite", html, 'class="icon-sprite"')
+    assert_contains("HTML pulse icon", html, 'href="#icon-pulse"')
+    assert_contains("HTML packet icon", html, 'href="#icon-packet"')
+    assert_contains("HTML clock icon", html, 'id="icon-clock"')
+    assert_contains("HTML database icon", html, 'id="icon-database"')
+    assert_contains("HTML bolt icon", html, 'id="icon-bolt"')
+    assert_contains("HTML dashboard rail", html, 'class="dashboard-rail"')
+    assert_contains("HTML dashboard hero title", html, '<h1 id="hero-title">Panopticon</h1>')
+    assert_contains("HTML dashboard runtime KPI", html, 'id="hero-ready-state"')
+    assert_contains("HTML dashboard agent KPI", html, 'id="hero-agent-count"')
+    assert_contains("HTML dashboard event KPI", html, 'id="hero-event-count"')
+    assert_contains("HTML dashboard CloudWatch KPI", html, 'id="hero-cloudwatch-state"')
+    assert_contains("HTML dashboard KPI icons", html, 'class="stat-icon"')
+    assert_contains("HTML dashboard graph", html, 'id="hero-agent-map"')
+    assert_contains("HTML dashboard graph mode", html, 'id="hero-map-mode"')
+    assert_contains("HTML dashboard event preview", html, 'id="hero-event-stream"')
+    assert_contains("HTML dashboard event preview aria", html, 'aria-live="polite"')
+    assert_contains("HTML dashboard CSM inspector", html, 'id="hero-csm-api-status"')
+    assert_contains("HTML dashboard CSM mini API list", html, 'id="hero-api-list"')
+    assert_contains("HTML dashboard communication inspector", html, 'id="hero-communication-status"')
+    assert_contains("HTML dashboard status bar", html, 'class="dashboard-statusbar"')
+    assert_contains("HTML statusbar evidence time field", html, 'Evidence Time <strong id="statusbar-updated">pending</strong>')
+    assert_contains("HTML statusbar state indicator", html, 'id="statusbar-indicator"')
+    assert_contains("HTML source-driven capture readout", html, 'id="hero-uptime">pending</strong>')
+    assert_contains("HTML source-driven rail capture", html, 'id="rail-capture-time">pending</strong>')
+    assert_contains("HTML source-driven gauge agents", html, 'id="hero-gauge-agents"')
+    assert_contains("HTML retained mirror default mode", html, "<option>Retained Mirror</option>")
+    assert_contains("HTML truthful runtime mirror label", html, "<span>Runtime Mirror</span>")
+    assert_contains("HTML source-driven event title", html, 'id="hero-event-title">Event Stream</h2>')
+    assert_contains("HTML dashboard truthful operator CTA", html, "Draft operator probe")
+    if "Send operator message" in html:
+      fail("dashboard CTA overclaims live operator send capability")
+    if "Send Message" in html:
+      fail("dashboard CTA overclaims live operator send capability")
+    if "Panopticon online" in html:
+      fail("dashboard title overclaims live panopticon state")
+    if "Event Stream (Live)" in html or "<option>Live</option>" in html:
+      fail("dashboard statically overclaims live mode")
+    if "Live Mirror" in html:
+      fail("dashboard statically overclaims live mirror mode")
+    for hardcoded_live_value in ("02:14", "10:42", "1,284", "120ms"):
+      if hardcoded_live_value in html:
+        fail(f"dashboard contains hard-coded live-looking telemetry: {hardcoded_live_value}")
     assert_contains("HTML panopticon section", html, "CSM polis panopticon")
     assert_contains("HTML live connect control", html, 'id="connect-live"')
     assert_contains("HTML live agents surface", html, 'id="live-agent-list"')
@@ -308,6 +364,18 @@ def main() -> int:
     assert_contains("HTML governance section", html, "Freedom gate")
     assert_contains("HTML evidence section", html, "Same packet, same report, same boundary.")
     assert_contains("CSS responsive layout", css, "@media (max-width: 980px)")
+    assert_contains("CSS dashboard rail", css, ".dashboard-rail")
+    assert_contains("CSS dashboard core", css, ".dashboard-core")
+    assert_contains("CSS dashboard graph", css, ".hero-agent-map")
+    assert_contains("CSS dashboard graph nodes", css, ".hero-agent-node")
+    assert_contains("CSS dashboard icons", css, ".stat-icon")
+    assert_contains("CSS fixed cockpit overflow", css, ".observatory > .panopticon-shell")
+    assert_contains("CSS dashboard event table", css, ".event-table-header")
+    assert_contains("CSS dashboard API mini rows", css, ".api-mini-row")
+    assert_contains("CSS responsive inspector strip", css, ".ops-sidecar .inspector-stack")
+    assert_contains("CSS dashboard status bar", css, ".dashboard-statusbar")
+    assert_contains("CSS statusbar state indicator", css, '.dashboard-statusbar b[data-state="published"]')
+    assert_contains("CSS graph node icon treatment", css, ".node-icon")
     assert_contains("CSS orbit visualization", css, ".orbit-map")
     assert_contains("CSS Magic UI inspired card styling", css, ".proof-card")
     assert_contains("JS packet loader", js, "loadJson(packetRef)")
@@ -319,10 +387,27 @@ def main() -> int:
     assert_contains("JS events endpoint check", js, "checkEventsEndpoint")
     assert_contains("JS runtime snapshot polling", js, "fetchRuntimeSnapshot")
     assert_contains("JS retained runtime mirror polling", js, "fetchRetainedRuntimeSnapshot")
+    assert_contains("JS dashboard timestamp formatter", js, "formatTimestampLabel")
     assert_contains("JS CSM events entries normalizer", js, "normalizeEventEntries")
     assert_contains("JS panopticon view model", js, "buildPanopticonViewModel")
     assert_contains("JS panopticon renderer", js, "renderPanopticon")
     assert_contains("JS loopback API policy", js, "isLoopbackApiBase")
+    assert_contains("JS dashboard graph renderer", js, 'renderRows("hero-agent-map"')
+    assert_contains("JS role-based graph icons", js, "iconForAgent")
+    assert_contains("JS graph node SVG icons", js, 'class="node-icon"')
+    assert_contains("JS dashboard event renderer", js, 'renderRows("hero-event-stream"')
+    assert_contains("JS dashboard event table header", js, "event-table-header")
+    assert_contains("JS dashboard CSM mirror", js, 'setText("hero-csm-api-status"')
+    assert_contains("JS dashboard CSM API mini renderer", js, 'renderRows("hero-api-list"')
+    assert_contains("JS dashboard communication mirror", js, 'setText("hero-communication-status"')
+    assert_contains("JS dashboard CloudWatch fail-closed label", js, 'formatLabel(cloudwatchStatus)')
+    assert_contains("JS source-driven capture readout", js, 'setText("hero-uptime"')
+    assert_contains("JS source-driven kernel state", js, 'setDataset("hero-agent-map", "state"')
+    assert_contains("JS source-driven gauges", js, 'setText("hero-gauge-agents"')
+    assert_contains("JS source-driven event title", js, 'setText("hero-event-title"')
+    assert_contains("JS source-driven statusbar", js, 'setText("statusbar-mode"')
+    assert_contains("JS statusbar evidence timestamp", js, 'packet.generated_at')
+    assert_contains("JS statusbar state indicator", js, 'setDataset("statusbar-indicator"')
 
     if packet.get("packet_id") != "v0916-runtime-soak-observatory-packet-0001":
       fail("unexpected runtime packet id")
@@ -441,6 +526,17 @@ def main() -> int:
     stale_roster_labels = {"Runtime lane alpha", "Runtime lane beta", "Runtime lane gamma"}
     if stale_roster_labels.intersection(retained_fetch_panopticon.get("agentLabels", [])):
       fail(f"published panopticon roster included stale packet citizens: {retained_fetch_panopticon!r}")
+    dashboard_mirrors = smoke["dashboardMirrors"]
+    if dashboard_mirrors.get("heroCloudwatchOkLabel") != "heartbeat proven":
+      fail(f"dashboard CloudWatch pass mirror mismatch: {dashboard_mirrors!r}")
+    if dashboard_mirrors.get("heroCloudwatchBlockedLabel") != "blocked":
+      fail(f"dashboard CloudWatch blocked mirror overclaims or hides failure: {dashboard_mirrors!r}")
+    if dashboard_mirrors.get("heroReadyLabel") != "ready":
+      fail(f"dashboard readiness mirror mismatch: {dashboard_mirrors!r}")
+    if int(dashboard_mirrors.get("heroAgentCount", "0")) < 1:
+      fail(f"dashboard agent-count mirror did not expose retained agents: {dashboard_mirrors!r}")
+    if int(dashboard_mirrors.get("heroEventCount", "0")) < 1:
+      fail(f"dashboard event-count mirror did not expose retained events: {dashboard_mirrors!r}")
 
     secret_pattern = re.compile(
         r"/Users/|/private/var/|localhost:[0-9]|192\\.168\\.|"
