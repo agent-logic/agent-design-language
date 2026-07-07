@@ -69,7 +69,7 @@ run_csm() {
   )
 }
 
-run_csm daemon --spec agent.yaml --max-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
+run_csm daemon --spec agent.yaml --test-supervisor-failure-after-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
   >"$OUT/logs/daemon_stdout.json" \
   2>"$OUT/logs/daemon_stderr.log"
 
@@ -89,7 +89,7 @@ run_csm continuity restore --bundle capsule --out ec2_restored --target-host ec2
   >"$OUT/logs/restore_stdout.json" \
   2>"$OUT/logs/restore_stderr.log"
 
-run_csm daemon --spec ec2_restored/agent.yaml --max-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
+run_csm daemon --spec ec2_restored/agent.yaml --test-supervisor-failure-after-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
   >"$OUT/logs/restored_daemon_stdout.json" \
   2>"$OUT/logs/restored_daemon_stderr.log"
 

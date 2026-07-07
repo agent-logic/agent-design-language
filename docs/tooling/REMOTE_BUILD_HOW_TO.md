@@ -122,8 +122,17 @@ bash adl/tools/run_aws_spot_remote_validation_lane.sh \
   --git-ref <branch-or-commit> \
   --command 'bash adl/tools/run_build_platform_benchmark.sh --platform aws_spot --cache-posture fixed_builder_image_warm_ebs_cache --out .adl/local-artifacts/build-platform/aws-spot-summary.json --artifact-dir .adl/local-artifacts/build-platform/aws-spot' \
   --out "$ADL_ARTIFACT_DIR/aws-spot-summary.json" \
-  --artifact-dir "$ADL_ARTIFACT_DIR/aws-spot"
+  --artifact-dir "$ADL_ARTIFACT_DIR/aws-spot" \
+  --instance-type m7a.2xlarge
 ```
+
+Use `m7a.2xlarge` as the normal Spot builder shape for Rust validation that
+touches the AWS SDK dependency graph. Retained WP-06 proof shows this shape can
+complete the benchmark with the warm EBS cache. Do not use `c7i.large` for ADL
+Rust/AWS builds: #4998 retained negative evidence shows `c7i.large` reached
+compile and then failed with `sccache: Compiler killed by signal 9` while
+compiling `aws-sdk-ec2`. Smaller or cheaper Spot shapes count only after a
+retained successful run for the same class of workload.
 
 For a fixed-builder-image Spot claim, make the remote command explicitly use
 the published `ADL_AWS_SPOT_BUILDER_IMAGE` on the instance, or cite retained
@@ -135,6 +144,7 @@ Record:
 
 - account check passed
 - advertised git ref
+- selected instance type and why it is appropriate for the workload
 - builder image tag
 - retained EBS cache attached
 - benchmark line

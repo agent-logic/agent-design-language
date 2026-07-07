@@ -51,7 +51,7 @@ ADL_OTEL_STATUS="$PROOF_DIR/happy/otel_status.json" \
 ADL_OLLAMA_BIN="adl/tools/mock_ollama_v0_4.sh" \
 "$CSM_BIN" daemon \
   --spec "$PROOF_DIR/agent.yaml" \
-  --max-restarts 1 \
+  --test-supervisor-failure-after-restarts 1 \
   --checkpoint-interval-secs 1 \
   --no-sleep \
   --json \
@@ -66,7 +66,7 @@ ADL_OTEL_STATUS="$PROOF_DIR/negative_retention/otel_status.json" \
 ADL_OLLAMA_BIN="adl/tools/mock_ollama_v0_4.sh" \
 "$CSM_BIN" daemon \
   --spec "$PROOF_DIR/agent.yaml" \
-  --max-restarts 1 \
+  --test-supervisor-failure-after-restarts 1 \
   --checkpoint-interval-secs 1 \
   --no-sleep \
   --json \

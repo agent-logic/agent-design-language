@@ -1,0 +1,1 @@
+{"schema":"adl.long_lived_agent_memory_write.v1","cycle_id":"cycle-000001","memory_id":"mem-000001","summary":"Recorded a blocked cycle with machine-readable guardrail evidence.","tags":["agent:csm-governed-notice-4998","cycle:cycle-000001","long-lived-agent","paper-only"],"source_refs":["guardrail_report.json","cycle_manifest.json"],"write_policy":"append_only"}

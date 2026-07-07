@@ -411,7 +411,7 @@ fn real_api(args: &[String]) -> Result<()> {
 fn real_api_serve(args: &[String]) -> Result<()> {
     let mut spec: Option<PathBuf> = None;
     let mut bind = "127.0.0.1:0".to_string();
-    let mut max_requests = 1usize;
+    let mut test_max_requests: Option<usize> = None;
     let mut idle_timeout_ms: Option<u64> = None;
     let mut otel_status_path: Option<PathBuf> = None;
     let mut otel_log_path: Option<PathBuf> = None;
@@ -427,20 +427,19 @@ fn real_api_serve(args: &[String]) -> Result<()> {
                 bind = required_value(args, i, "--bind")?.to_string();
                 i += 1;
             }
-            "--max-requests" => {
-                max_requests = required_value(args, i, "--max-requests")?
-                    .parse()
-                    .context("csm api serve --max-requests must be an integer")?;
+            "--test-max-requests" => {
+                test_max_requests = Some(
+                    required_value(args, i, "--test-max-requests")?
+                        .parse()
+                        .context("csm api serve --test-max-requests must be an integer")?,
+                );
                 i += 1;
             }
-            "--once" => {
-                max_requests = 1;
-            }
-            "--idle-timeout-ms" => {
+            "--test-idle-timeout-ms" => {
                 idle_timeout_ms = Some(
-                    required_value(args, i, "--idle-timeout-ms")?
+                    required_value(args, i, "--test-idle-timeout-ms")?
                         .parse()
-                        .context("csm api serve --idle-timeout-ms must be an integer")?,
+                        .context("csm api serve --test-idle-timeout-ms must be an integer")?,
                 );
                 i += 1;
             }
@@ -467,7 +466,7 @@ fn real_api_serve(args: &[String]) -> Result<()> {
     let result = serve_runtime_api(CsmRuntimeApiOptions {
         spec_path: spec.context("csm api serve requires --spec <agent-spec.yaml>")?,
         bind,
-        max_requests,
+        test_max_requests,
         idle_timeout_ms,
         otel_status_path,
         otel_log_path,
@@ -764,10 +763,10 @@ fn real_observatory(args: &[String]) -> Result<()> {
 
 pub(crate) fn csm_usage() -> &'static str {
     "Usage:
-  csm daemon --spec <agent-spec.yaml> [--max-restarts <n>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--recover-stale-lease] [--no-sleep] [--json]
+  csm daemon --spec <agent-spec.yaml> [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--recover-stale-lease] [--no-sleep] [--json]
   csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--json]
   csm service start|status|stop|remove [--service-root <dir>] [--json]
-  csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--once|--max-requests <n>] [--idle-timeout-ms <n>] [--otel-status <path>] [--otel-log <path>] [--json]
+  csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--otel-status <path>] [--otel-log <path>] [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
@@ -781,7 +780,7 @@ pub(crate) fn csm_usage() -> &'static str {
 
 Semantics:
   - csm is the dedicated runtime owner binary.
-  - csm daemon owns permanent restart-always runtime execution, partial checkpoints, restart accounting, recoverable terminal state, and runtime observability.
+  - csm daemon owns permanent restart-always runtime execution, partial checkpoints, restart accounting telemetry, recoverable terminal state, and runtime observability.
   - csm daemon service mode ignores agent max_cycles as a service lifetime boundary; --no-sleep is a test-only bounded harness boundary.
   - csm service owns host service-manager installation/status around csm daemon; launchd KeepAlive is the primary macOS target, systemd Restart=always compatible service metadata is retained, and local mode is a bounded proof fallback.
   - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.
@@ -801,7 +800,95 @@ Semantics:
 
 #[cfg(test)]
 mod tests {
-    use super::{real_csm, real_csm_standalone};
+    use super::{csm_usage, real_csm, real_csm_standalone, required_value};
+    use std::fs;
+    use std::path::{Path, PathBuf};
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    static TEMP_SEQ: AtomicU64 = AtomicU64::new(0);
+
+    fn temp_root(prefix: &str) -> PathBuf {
+        let root = std::env::temp_dir().join(format!(
+            "adl-csm-cmd-{prefix}-{}-{}",
+            std::process::id(),
+            TEMP_SEQ.fetch_add(1, Ordering::Relaxed)
+        ));
+        fs::create_dir_all(&root).expect("create temp root");
+        root
+    }
+
+    fn write_runtime_spec(root: &Path) -> PathBuf {
+        let spec = root.join("agent.yaml");
+        fs::write(
+            &spec,
+            r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: csm-cmd-agent
+display_name: CSM Cmd Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: csm_cmd_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 1
+  max_cycles: 1
+  stale_lease_after_secs: 60
+safety: {}
+memory: {}
+"#,
+        )
+        .expect("write spec");
+        spec
+    }
+
+    fn write_runtime_state(root: &Path) {
+        let state = root.join("state");
+        fs::create_dir_all(&state).expect("create state");
+        for (name, body) in [
+            (
+                "agent_spec.locked.json",
+                r#"{"schema":"adl.long_lived_agent_spec.v1","agent_instance_id":"csm-cmd-agent","display_name":"CSM Cmd Agent","state_root":"state","workflow":{"kind":"demo_adapter","name":"csm_cmd_probe","path":null,"run_args":{}},"heartbeat":{"interval_secs":1,"max_cycles":1,"stale_lease_after_secs":60},"checkpoint":{},"safety":{},"memory":{}}"#,
+            ),
+            (
+                "status.json",
+                r#"{"schema":"adl.long_lived_agent_status.v1","agent_instance_id":"csm-cmd-agent","state":"idle","last_cycle_id":"cycle-1","last_cycle_status":"success","completed_cycle_count":1,"consecutive_failure_count":0,"active_lease":null,"stop_requested":false,"last_error":null,"safety_policy":{},"updated_at":"2026-07-07T00:00:00Z"}"#,
+            ),
+            (
+                "daemon_status.json",
+                r#"{"schema":"adl.csm.daemon_status.v1","runtime_capabilities":{"scheduler_watcher":{"status":"integrated"},"chronosense":{"status":"integrated"},"aee":{"status":"integrated"},"resilience_middleware":{"status":"integrated"}}}"#,
+            ),
+            ("continuity.json", r#"{"schema":"adl.csm.continuity.v1"}"#),
+            (
+                "continuity_checkpoint.json",
+                r#"{"schema":"adl.csm.continuity_checkpoint.v1","checkpoint_id":"checkpoint-1","agent_state":"idle"}"#,
+            ),
+            (
+                "continuity_replay_manifest.json",
+                r#"{"schema":"adl.csm.continuity_replay_manifest.v1","entries":[]}"#,
+            ),
+            (
+                "cycle_ledger.jsonl",
+                r#"{"cycle_id":"cycle-1","status":"success"}"#,
+            ),
+            (
+                "memory_index.json",
+                r#"{"schema":"adl.csm.memory_index.v1","entries":[]}"#,
+            ),
+            (
+                "provider_binding_history.jsonl",
+                r#"{"provider":"local","status":"bound"}"#,
+            ),
+            ("operator_events.jsonl", r#"{"event":"daemon_started"}"#),
+            (
+                "safe_fail_bundle.json",
+                r#"{"schema":"adl.csm.safe_fail_bundle.v1","runtime_owner":"csm","agent_outcome":{"state":"sleeping"},"recoverability":{"class":"recoverable_sleeping"}}"#,
+            ),
+        ] {
+            fs::write(state.join(name), body).unwrap_or_else(|error| {
+                panic!("write runtime fixture {name}: {error}");
+            });
+        }
+    }
 
     #[test]
     fn standalone_csm_accepts_aws_signal_help() {
@@ -850,5 +937,266 @@ mod tests {
             error.to_string().contains("standalone csm runtime binary"),
             "{error}"
         );
+    }
+
+    #[test]
+    fn standalone_csm_help_paths_cover_runtime_owned_surfaces() {
+        for subcommand in [
+            "backpressure",
+            "api",
+            "continuity",
+            "observatory",
+            "service",
+        ] {
+            let args = vec![subcommand.to_string(), "--help".to_string()];
+            real_csm_standalone(&args)
+                .unwrap_or_else(|error| panic!("standalone csm {subcommand} help failed: {error}"));
+        }
+    }
+
+    #[test]
+    fn adl_control_plane_rejects_runtime_owned_surfaces() {
+        for subcommand in ["daemon", "service", "continuity", "backpressure", "api"] {
+            let args = vec![subcommand.to_string(), "--help".to_string()];
+            let error = real_csm(&args)
+                .err()
+                .unwrap_or_else(|| panic!("adl csm unexpectedly accepted {subcommand}"));
+            assert!(
+                error.to_string().contains("standalone csm runtime binary"),
+                "{subcommand}: {error}"
+            );
+        }
+    }
+
+    #[test]
+    fn csm_usage_documents_permanent_runtime_without_public_budgets() {
+        let usage = csm_usage();
+        assert!(usage.contains("csm is the dedicated runtime owner binary"));
+        assert!(usage.contains("permanent restart-always runtime execution"));
+        assert!(usage.contains("ADL_OBSERVABILITY_LOG"));
+        assert!(usage.contains("ADL_OTEL_STATUS"));
+        assert!(!usage.contains("--max-restarts"));
+        assert!(!usage.contains("--max-requests"));
+        assert!(!usage.contains("--once"));
+        assert!(!usage.contains("--idle-timeout-ms"));
+    }
+
+    #[test]
+    fn required_value_reports_missing_cli_value() {
+        let args = vec!["--spec".to_string()];
+        let error = required_value(&args, 0, "--spec").expect_err("missing value must fail");
+        assert_eq!(error.to_string(), "--spec requires a value");
+    }
+
+    #[test]
+    fn standalone_csm_executes_local_runtime_parser_paths() {
+        let root = temp_root("local-runtime-paths");
+        let spec = write_runtime_spec(&root);
+        write_runtime_state(&root);
+
+        let backpressure = vec![
+            "backpressure".to_string(),
+            "prove".to_string(),
+            "--spec".to_string(),
+            spec.display().to_string(),
+            "--out".to_string(),
+            root.join("backpressure").display().to_string(),
+            "--profile".to_string(),
+            "soak2".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&backpressure).expect("backpressure proof parser path");
+
+        let api = vec![
+            "api".to_string(),
+            "serve".to_string(),
+            "--spec".to_string(),
+            spec.display().to_string(),
+            "--bind".to_string(),
+            "127.0.0.1:0".to_string(),
+            "--test-max-requests".to_string(),
+            "1".to_string(),
+            "--test-idle-timeout-ms".to_string(),
+            "1".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&api).expect("api idle parser path");
+
+        let bundle = root.join("bundle");
+        let capture = vec![
+            "continuity".to_string(),
+            "capture".to_string(),
+            "--spec".to_string(),
+            spec.display().to_string(),
+            "--out".to_string(),
+            bundle.display().to_string(),
+            "--source-host".to_string(),
+            "wuji".to_string(),
+            "--target-host".to_string(),
+            "ec2-staging".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&capture).expect("continuity capture parser path");
+
+        let stage = vec![
+            "continuity".to_string(),
+            "stage".to_string(),
+            "--bundle".to_string(),
+            bundle.display().to_string(),
+            "--out".to_string(),
+            root.join("stage").display().to_string(),
+            "--target-host".to_string(),
+            "local".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&stage).expect("continuity stage parser path");
+
+        let restore = vec![
+            "continuity".to_string(),
+            "restore".to_string(),
+            "--bundle".to_string(),
+            bundle.display().to_string(),
+            "--out".to_string(),
+            root.join("restore").display().to_string(),
+            "--target-host".to_string(),
+            "local".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&restore).expect("continuity restore parser path");
+
+        let drill = vec![
+            "continuity".to_string(),
+            "drill".to_string(),
+            "--bundle".to_string(),
+            bundle.display().to_string(),
+            "--out".to_string(),
+            root.join("drill").display().to_string(),
+            "--target-host".to_string(),
+            "local".to_string(),
+            "--cadence".to_string(),
+            "manual".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&drill).expect("continuity drill parser path");
+    }
+
+    #[test]
+    fn standalone_csm_fail_closed_parsers_cover_required_runtime_inputs() {
+        let root = temp_root("fail-closed-parsers");
+        let cases = [
+            (
+                vec!["storage".to_string(), "prove-s3".to_string()],
+                "csm storage prove-s3 requires --out <proof-dir>",
+            ),
+            (
+                vec![
+                    "cloud-control".to_string(),
+                    "cloudfront-status".to_string(),
+                    "--out".to_string(),
+                    root.join("cloudfront").display().to_string(),
+                ],
+                "requires --expected-account-sha256",
+            ),
+            (
+                vec!["aws-signal".to_string(), "acip-sns-proof".to_string()],
+                "csm aws-signal acip-sns-proof requires --out <dir>",
+            ),
+            (
+                vec!["observatory".to_string()],
+                "csm observatory requires --packet <visibility-packet.json>",
+            ),
+        ];
+
+        for (args, expected) in cases {
+            let error = real_csm_standalone(&args)
+                .err()
+                .unwrap_or_else(|| panic!("expected csm args to fail closed: {args:?}"));
+            assert!(
+                error.to_string().contains(expected),
+                "expected {expected:?} in {error}"
+            );
+        }
+    }
+
+    #[test]
+    fn standalone_csm_fail_closed_parsers_cover_runtime_flag_matrices() {
+        let root = temp_root("flag-matrices");
+        let storage = vec![
+            "storage".to_string(),
+            "prove-s3".to_string(),
+            "--out".to_string(),
+            root.join("storage").display().to_string(),
+            "--bucket".to_string(),
+            "adl-test-bucket".to_string(),
+            "--prefix".to_string(),
+            "community-memory/wp-07/".to_string(),
+            "--profile".to_string(),
+            "agent-logic-admin".to_string(),
+            "--region".to_string(),
+            "us-west-2".to_string(),
+            "--expected-account-sha256".to_string(),
+            "not-a-sha256".to_string(),
+            "--run-id".to_string(),
+            "wp07-4998-parser-proof".to_string(),
+            "--aws-bin".to_string(),
+            "aws".to_string(),
+            "--json".to_string(),
+        ];
+        let storage_error =
+            real_csm_standalone(&storage).expect_err("invalid hash fails before AWS");
+        assert!(
+            storage_error
+                .to_string()
+                .contains("expected-account-sha256"),
+            "{storage_error}"
+        );
+
+        let cloudfront = vec![
+            "cloud-control".to_string(),
+            "cloudfront-status".to_string(),
+            "--out".to_string(),
+            root.join("cloudfront").display().to_string(),
+            "--run-id".to_string(),
+            "wp07-4998-cloudfront-parser".to_string(),
+            "--profile".to_string(),
+            "agent-logic-admin".to_string(),
+            "--region".to_string(),
+            "us-west-2".to_string(),
+            "--distribution-id".to_string(),
+            "EDFDVBD632BHDS5".to_string(),
+            "--negative-distribution-id".to_string(),
+            "E0000000000000".to_string(),
+            "--skip-negative-distribution".to_string(),
+            "--aws-bin".to_string(),
+            "aws".to_string(),
+        ];
+        let cloudfront_error = real_csm_standalone(&cloudfront)
+            .expect_err("missing expected account hash fails closed");
+        assert!(
+            cloudfront_error
+                .to_string()
+                .contains("requires --expected-account-sha256"),
+            "{cloudfront_error}"
+        );
+
+        let acip = vec![
+            "aws-signal".to_string(),
+            "acip-sns-proof".to_string(),
+            "--out".to_string(),
+            root.join("acip").display().to_string(),
+            "--run-id".to_string(),
+            "wp07-4998-acip-parser".to_string(),
+            "--projection-level".to_string(),
+            "delivery_metadata".to_string(),
+        ];
+        let acip_error =
+            real_csm_standalone(&acip).expect_err("unconfigured SNS proof must fail closed");
+        assert!(
+            acip_error
+                .to_string()
+                .contains("ACIP SNS live proof did not publish live"),
+            "{acip_error}"
+        );
+        assert!(root.join("acip").join("acip_sns_summary.json").exists());
     }
 }

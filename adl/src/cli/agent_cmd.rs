@@ -185,7 +185,7 @@ pub(crate) fn real_csm_daemon(args: &[String]) -> Result<()> {
 
 fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Result<()> {
     let mut parsed = AgentArgs::default();
-    let mut max_restarts: u64 = 10;
+    let mut bounded_test_restart_limit: Option<u64> = None;
     let mut checkpoint_interval_secs: u64 = 3;
     let mut interval_secs: Option<u64> = None;
     let mut no_sleep = false;
@@ -197,8 +197,11 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
                 parsed.spec = Some(PathBuf::from(required_value(args, i, "--spec")?));
                 i += 1;
             }
-            "--max-restarts" => {
-                max_restarts = parse_u64(required_value(args, i, "--max-restarts")?)?;
+            "--test-supervisor-failure-after-restarts" => {
+                bounded_test_restart_limit = Some(parse_positive_u64(
+                    required_value(args, i, "--test-supervisor-failure-after-restarts")?,
+                    "--test-supervisor-failure-after-restarts",
+                )?);
                 i += 1;
             }
             "--checkpoint-interval-secs" => {
@@ -224,8 +227,15 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
         }
         i += 1;
     }
+    if bounded_test_restart_limit.is_some() && !no_sleep {
+        return Err(anyhow!(
+            "--test-supervisor-failure-after-restarts requires --no-sleep and is only for bounded negative-case proof"
+        ));
+    }
     let spec_path = parsed.spec()?;
-    let max_restarts_label = max_restarts.to_string();
+    let bounded_test_restart_limit_label = bounded_test_restart_limit
+        .map(|value| value.to_string())
+        .unwrap_or_else(|| "none".to_string());
     let checkpoint_interval_label = checkpoint_interval_secs.to_string();
     let interval_secs_label = interval_secs
         .map(|value| value.to_string())
@@ -240,7 +250,10 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
         &[
             ("process_class", config.process_class),
             ("spec", &spec_path.display().to_string()),
-            ("max_restarts", &max_restarts_label),
+            (
+                "bounded_test_restart_limit",
+                &bounded_test_restart_limit_label,
+            ),
             ("checkpoint_interval_secs", &checkpoint_interval_label),
             ("interval_secs", &interval_secs_label),
             ("no_sleep", &no_sleep_label),
@@ -250,7 +263,7 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
     let status = long_lived_agent::daemon(
         &spec_path,
         DaemonOptions {
-            max_restarts,
+            bounded_test_restart_limit,
             checkpoint_interval_secs,
             interval_secs,
             no_sleep,
@@ -454,7 +467,9 @@ fn print_daemon_status(
     println!("daemon state: {}", status.state);
     println!("supervisor pid: {}", status.supervisor_pid);
     println!("restart count: {}", status.restart_count);
-    println!("max restarts: {}", status.max_restarts);
+    if let Some(limit) = status.bounded_test_restart_limit {
+        println!("bounded test restart limit: {limit}");
+    }
     println!(
         "checkpoint interval secs: {}",
         status.checkpoint_interval_secs
@@ -807,7 +822,7 @@ memory:
         assert!(real_csm_daemon(&args(&[
             "--spec",
             spec,
-            "--max-restarts",
+            "--test-supervisor-failure-after-restarts",
             "1",
             "--checkpoint-interval-secs",
             "1",

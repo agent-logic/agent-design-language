@@ -1,0 +1,94 @@
+{
+  "schema": "adl.csm.governed_notice_live_proof.v2",
+  "issue": 4998,
+  "status": "passed",
+  "run_id": "csm-4998-lambda-20260707T015519Z",
+  "runtime_owner": "csm",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "aws_account_hash": "b05e1f4379b5c745",
+  "notice": {
+    "schema": "adl.csm.governed_notice.v1",
+    "notice_kind": "shutdown",
+    "severity": "critical",
+    "trigger": "bounded_test_supervisor_failure",
+    "recoverable_state": {
+      "continuity_checkpoint_ref": "continuity_checkpoint.json",
+      "safe_fail_ref": "safe_fail_bundle.json",
+      "state": "failed",
+      "status_ref": "status.json"
+    },
+    "notice_ref": "state/csm_governed_notice_latest.json",
+    "notice_ledger_ref": "state/csm_governed_notices.jsonl"
+  },
+  "delivery": {
+    "local_notice_ledger": {
+      "artifact_ref": "csm_governed_notices.jsonl",
+      "channel": "local_notice_ledger",
+      "status": "recorded"
+    },
+    "cloudwatch_logs": {
+      "attempted_at": "2026-07-07T01:55:27.990768Z",
+      "channel": "cloudwatch_logs",
+      "mode": "live",
+      "status": "published_live"
+    },
+    "acip_sns": {
+      "attempted_at": "2026-07-07T01:55:28.260627Z",
+      "channel": "acip_sns",
+      "mode": "live",
+      "provider_message_id": "fa9c8897-cbfd-5776-9a73-ea51952d89ab",
+      "status": "published_live"
+    },
+    "cloudfront_control_plane": {
+      "attempted_at": "2026-07-07T01:55:28.451561Z",
+      "channel": "cloudfront_control_plane",
+      "dependency": "#4915",
+      "mode": "live",
+      "provider_message_id": "lambda_executed_version:$LATEST",
+      "status": "published_live",
+      "target_kind": "lambda",
+      "target_sha256": "ad2be3958517c25b2e785e4bc19f0b6c5a9663b24bb85939dfe745f6867b4fdf"
+    }
+  },
+  "aws_resources": {
+    "sns_topic_name": "adl-v0917-csm-governed-notice-4998",
+    "sns_topic_arn_hash": "ea1ca37341bb36a0",
+    "cloudwatch_log_group": "/adl/v0917/csm/4998/governed-notices",
+    "cloudwatch_log_stream": "run-csm-4998-lambda-20260707T015519Z",
+    "lambda_function": "adl-csm-notice-receiver-4998",
+    "retention_days": 7
+  },
+  "observability": {
+    "cloudwatch_notice_events_ref": "logs/cloudwatch_governed_notice_events.redacted.json",
+    "lambda_receiver_events_ref": "logs/lambda_receiver_events.redacted.json",
+    "local_observability_log_ref": "logs/observability.log",
+    "cloudwatch_governed_notice_event_count": 3,
+    "cloudwatch_notice_kinds": [
+      "degradation",
+      "shutdown"
+    ],
+    "lambda_receiver_receipt_count": 3,
+    "lambda_receiver_receipt_schema": "adl.csm_notice_receiver.receipt.v1"
+  },
+  "redaction": {
+    "raw_account_id_recorded": false,
+    "raw_topic_arn_recorded": false,
+    "function_url_recorded": false,
+    "credentials_recorded": false,
+    "raw_private_payload_recorded": false
+  },
+  "artifacts": [
+    "agent.yaml",
+    "aws_receiver_setup.redacted.json",
+    "logs/csm_stdout.json",
+    "logs/csm_stderr.log",
+    "logs/observability.log",
+    "logs/cloudwatch_governed_notice_events.redacted.json",
+    "logs/lambda_receiver_events.redacted.json",
+    "state/csm_governed_notice_latest.json",
+    "state/csm_governed_notices.jsonl",
+    "state/safe_fail_bundle.json",
+    "state/continuity_checkpoint.json"
+  ]
+}

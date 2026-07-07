@@ -51,7 +51,6 @@ struct ServiceArgs {
     label: String,
     csm_bin: Option<PathBuf>,
     manager: ServiceManager,
-    max_restarts: u64,
     checkpoint_interval_secs: u64,
     interval_secs: Option<u64>,
     recover_stale_lease: bool,
@@ -69,7 +68,6 @@ impl Default for ServiceArgs {
             label: DEFAULT_LABEL.to_string(),
             csm_bin: None,
             manager: ServiceManager::Launchd,
-            max_restarts: 10,
             checkpoint_interval_secs: 3,
             interval_secs: None,
             recover_stale_lease: true,
@@ -110,7 +108,6 @@ struct ServiceManifest {
     continuity_checkpoint: PathBuf,
     continuity_replay_manifest: PathBuf,
     operator_events: PathBuf,
-    max_restarts: u64,
     checkpoint_interval_secs: u64,
     interval_secs: Option<u64>,
     recover_stale_lease: bool,
@@ -355,10 +352,6 @@ fn parse_service_args(args: &[String], require_spec: bool) -> Result<ServiceArgs
                 parsed.manager = ServiceManager::parse(required_value(args, i, "--manager")?)?;
                 i += 1;
             }
-            "--max-restarts" => {
-                parsed.max_restarts = parse_u64(required_value(args, i, "--max-restarts")?)?;
-                i += 1;
-            }
             "--checkpoint-interval-secs" => {
                 parsed.checkpoint_interval_secs = parse_positive_u64(
                     required_value(args, i, "--checkpoint-interval-secs")?,
@@ -441,7 +434,6 @@ fn build_manifest(
         continuity_checkpoint: state_root.join("continuity_checkpoint.json"),
         continuity_replay_manifest: state_root.join("continuity_replay_manifest.json"),
         operator_events: state_root.join("operator_events.jsonl"),
-        max_restarts: parsed.max_restarts,
         checkpoint_interval_secs: parsed.checkpoint_interval_secs,
         interval_secs: parsed.interval_secs,
         recover_stale_lease: parsed.recover_stale_lease,
@@ -460,8 +452,6 @@ fn write_launchd_plist(manifest: &ServiceManifest) -> Result<()> {
         "daemon".to_string(),
         "--spec".to_string(),
         manifest.spec.display().to_string(),
-        "--max-restarts".to_string(),
-        manifest.max_restarts.to_string(),
         "--checkpoint-interval-secs".to_string(),
         manifest.checkpoint_interval_secs.to_string(),
         "--json".to_string(),
@@ -569,8 +559,6 @@ fn start_local(manifest: &ServiceManifest) -> Result<LocalStartOutcome> {
         .arg("daemon")
         .arg("--spec")
         .arg(&manifest.spec)
-        .arg("--max-restarts")
-        .arg(manifest.max_restarts.to_string())
         .arg("--checkpoint-interval-secs")
         .arg(manifest.checkpoint_interval_secs.to_string())
         .arg("--json")
@@ -1412,7 +1400,7 @@ fn service_mode(manager: ServiceManager, no_sleep: bool) -> String {
 
 pub(crate) fn service_usage() -> &'static str {
     "Usage:
-  csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--max-restarts <n>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--otlp-endpoint <url>] [--otlp-timeout-ms <n>] [--no-recover-stale-lease] [--no-sleep] [--json]
+  csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--otlp-endpoint <url>] [--otlp-timeout-ms <n>] [--no-recover-stale-lease] [--no-sleep] [--json]
   csm service start [--service-root <dir>] [--json]
   csm service status [--service-root <dir>] [--json]
   csm service stop [--service-root <dir>] [--json]

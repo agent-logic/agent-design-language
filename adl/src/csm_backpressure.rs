@@ -91,7 +91,7 @@ pub fn prove_backpressure(options: BackpressureProofOptions) -> Result<Backpress
                 "backpressure_lag_ms",
                 "backpressure_deferred_count",
                 "backpressure_shed_count",
-                "backpressure_retry_budget_remaining"
+                "backpressure_retry_capacity_remaining"
             ],
             "states": [
                 "backpressure_health",

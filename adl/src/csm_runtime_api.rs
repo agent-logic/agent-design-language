@@ -21,7 +21,7 @@ pub const CSM_RUNTIME_API_EVENTS_SCHEMA: &str = "adl.csm.runtime_api.events.v1";
 pub struct CsmRuntimeApiOptions {
     pub spec_path: PathBuf,
     pub bind: String,
-    pub max_requests: usize,
+    pub test_max_requests: Option<usize>,
     pub idle_timeout_ms: Option<u64>,
     pub otel_status_path: Option<PathBuf>,
     pub otel_log_path: Option<PathBuf>,
@@ -36,8 +36,8 @@ pub struct CsmRuntimeApiServeResult {
 }
 
 pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiServeResult> {
-    if options.max_requests == 0 {
-        bail!("csm api serve requires --max-requests greater than zero");
+    if options.test_max_requests == Some(0) {
+        bail!("csm api serve test request limit must be greater than zero");
     }
     let listener = TcpListener::bind(&options.bind)
         .with_context(|| format!("failed binding CSM runtime API to {}", options.bind))?;
@@ -63,7 +63,10 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
             .context("set CSM runtime API listener nonblocking")?;
         let idle_timeout = Duration::from_millis(idle_timeout_ms);
         let mut last_activity = Instant::now();
-        while served < options.max_requests {
+        while options
+            .test_max_requests
+            .is_none_or(|test_max_requests| served < test_max_requests)
+        {
             match listener.accept() {
                 Ok((mut stream, _)) => {
                     stream
@@ -85,7 +88,7 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
             }
         }
     } else {
-        for stream in listener.incoming().take(options.max_requests) {
+        for stream in listener.incoming() {
             let mut stream = stream.context("accept CSM runtime API connection")?;
             stream
                 .set_read_timeout(Some(Duration::from_secs(5)))
@@ -94,6 +97,12 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
             let response = runtime_api_response(&options, &request)?;
             write_http_json(&mut stream, &response)?;
             served += 1;
+            if options
+                .test_max_requests
+                .is_some_and(|test_max_requests| served >= test_max_requests)
+            {
+                break;
+            }
         }
     }
     Ok(CsmRuntimeApiServeResult {
@@ -239,14 +248,13 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
             "completed_cycle_count": status["agent_status"]["completed_cycle_count"],
             "consecutive_failure_count": status["agent_status"]["consecutive_failure_count"],
             "restart_count": daemon.pointer("/value/restart_count").cloned().unwrap_or(Value::Null),
-            "max_restarts": daemon.pointer("/value/max_restarts").cloned().unwrap_or(Value::Null),
             "checkpoint_interval_secs": daemon.pointer("/value/checkpoint_interval_secs").cloned().unwrap_or(Value::Null),
             "operator_event_count_observed": event_count,
             "backpressure_queue_depth": backpressure_state.pointer("/value/summary/max_queue_depth").cloned().unwrap_or(Value::Null),
             "backpressure_lag_ms": backpressure_state.pointer("/value/summary/max_lag_ms").cloned().unwrap_or(Value::Null),
             "backpressure_deferred_count": backpressure_state.pointer("/value/summary/deferred_count").cloned().unwrap_or(Value::Null),
             "backpressure_shed_count": backpressure_state.pointer("/value/summary/shed_count").cloned().unwrap_or(Value::Null),
-            "backpressure_retry_budget_remaining": backpressure_state.pointer("/value/summary/retry_budget_remaining").cloned().unwrap_or(Value::Null)
+            "backpressure_retry_capacity_remaining": backpressure_state.pointer("/value/summary/retry_budget_remaining").cloned().unwrap_or(Value::Null)
         },
         "states": {
             "health": status["status"],
@@ -625,7 +633,7 @@ memory: {}
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
             bind: "127.0.0.1:0".to_string(),
-            max_requests: 1,
+            test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
             otel_log_path: None,
@@ -657,7 +665,7 @@ memory: {}
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
             bind: "127.0.0.1:0".to_string(),
-            max_requests: 1,
+            test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
             otel_log_path: None,
@@ -719,7 +727,7 @@ memory: {}
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
             bind: "127.0.0.1:0".to_string(),
-            max_requests: 1,
+            test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
             otel_log_path: None,

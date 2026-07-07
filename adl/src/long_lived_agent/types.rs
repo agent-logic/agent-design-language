@@ -138,7 +138,8 @@ pub struct DaemonStatusRecord {
     #[serde(default)]
     pub bounded_test_mode: bool,
     pub restart_count: u64,
-    pub max_restarts: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bounded_test_restart_limit: Option<u64>,
     pub checkpoint_interval_secs: u64,
     pub last_event: String,
     pub last_child_exit: Option<String>,
@@ -190,7 +191,7 @@ pub struct RunOptions {
 /// Supervisor options for daemon-style foreground runtime execution.
 #[derive(Debug, Clone, Copy)]
 pub struct DaemonOptions {
-    pub max_restarts: u64,
+    pub bounded_test_restart_limit: Option<u64>,
     pub checkpoint_interval_secs: u64,
     pub interval_secs: Option<u64>,
     pub no_sleep: bool,

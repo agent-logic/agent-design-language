@@ -8,7 +8,7 @@ pub fn usage() -> &'static str {
   adl agent inspect --spec <agent-spec.yaml> [--cycle <cycle-id>] [--json]
   adl agent stop --spec <agent-spec.yaml> --reason <text> [--json]
   adl artifact validate-control-path --root <dir>
-  csm daemon --spec <agent-spec.yaml> [--max-restarts <n>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--no-sleep] [--recover-stale-lease] [--json]
+  csm daemon --spec <agent-spec.yaml> [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--no-sleep] [--recover-stale-lease] [--json]
   adl csm observatory --packet <visibility-packet.json> [--format bundle|json|report] [--out <dir>]
   adl demo <name> [--print-plan] [--trace] [--run] [--out <dir>] [--quiet] [--open] [--no-open]
   adl identity init --name <display-name> --birthday <rfc3339> --timezone <IANA> [--agent-id <id>] [--created-by <name>] [--force]

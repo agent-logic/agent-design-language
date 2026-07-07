@@ -171,7 +171,7 @@ YAML
   ADL_OTEL_STATUS="$OUT/logs/otel_status.json" \
   ADL_OTEL_EXPORTER_OTLP_ENDPOINT="$ENDPOINT" \
   ADL_OTEL_EXPORTER_TIMEOUT_MS=2000 \
-  "$CSM_BIN" daemon --spec "$SPEC" --max-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
+  "$CSM_BIN" daemon --spec "$SPEC" --test-supervisor-failure-after-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
     > "$OUT/logs/csm_stdout.json" \
     2> "$OUT/logs/csm_stderr.log"
 )

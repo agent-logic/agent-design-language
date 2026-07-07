@@ -166,7 +166,7 @@ ADL_AWS_HEARTBEAT_LOG_GROUP="$LOG_GROUP" \
 ADL_AWS_HEARTBEAT_LOG_STREAM="$LOG_STREAM" \
 ADL_OBSERVABILITY_LOG="$OBS_LOG" \
 ADL_OBSERVABILITY_STDERR=0 \
-"$CSM_BIN" daemon --spec "$SPEC" --max-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
+"$CSM_BIN" daemon --spec "$SPEC" --test-supervisor-failure-after-restarts 1 --checkpoint-interval-secs 1 --no-sleep --json \
   >"$OUT/csm_stdout.json" 2>"$OUT/csm_stderr.log"
 
 event_found=0

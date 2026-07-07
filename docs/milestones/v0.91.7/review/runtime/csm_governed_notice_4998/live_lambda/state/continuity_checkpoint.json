@@ -1,0 +1,23 @@
+{
+  "agent_instance_id": "csm-governed-notice-4998-lambda",
+  "captured_at": "2026-07-07T01:55:27.022592Z",
+  "checkpoint_reason": "daemon_child_failed_recoverable",
+  "completed_cycle_count": 2,
+  "consecutive_failure_count": 2,
+  "continuity_kind": "pre_v0_92_handle",
+  "continuity_ref": "continuity.json",
+  "cycle_ledger_ref": "cycle_ledger.jsonl",
+  "latest_cycle_id": "cycle-000002",
+  "latest_cycle_status": "blocked",
+  "lease_ref": null,
+  "lease_state": "clear",
+  "restore_basis": {
+    "expected_next_cycle_id": "cycle-000003",
+    "ledger_entry_count": 2,
+    "max_cycle_number": 2
+  },
+  "schema": "adl.long_lived_agent_continuity_checkpoint.v1",
+  "state": "failed",
+  "status_ref": "status.json",
+  "stop_requested": false
+}

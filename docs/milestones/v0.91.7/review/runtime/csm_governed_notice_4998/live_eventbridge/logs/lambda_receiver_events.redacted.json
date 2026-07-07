@@ -1,0 +1,40 @@
+{
+    "events": [
+        {
+            "logStreamName": "2026/07/07/[$LATEST]8bd9cbfa3efe4fa99ea43aa89f8143fd",
+            "timestamp": 1783389850799,
+            "message": "INIT_START Runtime Version: python:3.12.mainlinev2.v11\tRuntime Version ARN: <aws-arn-redacted>",
+            "ingestionTime": 1783389851922,
+            "eventId": "39770922652314043640571867308415067643360926597573443584"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]8bd9cbfa3efe4fa99ea43aa89f8143fd",
+            "timestamp": 1783389850898,
+            "message": "START RequestId: eebb30a4-a9f9-4ebd-ab14-9865b542ac8e Version: $LATEST\n",
+            "ingestionTime": 1783389851922,
+            "eventId": "39770922654521817415226398999427103752353114386665504769"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]8bd9cbfa3efe4fa99ea43aa89f8143fd",
+            "timestamp": 1783389850898,
+            "message": "[INFO]\t2026-07-07T02:04:10.898Z\teebb30a4-a9f9-4ebd-ab14-9865b542ac8e\t{\"notice_id\": null, \"notice_kind\": null, \"projection_level\": null, \"receiver\": \"adl-csm-notice-receiver-4998\", \"request_id\": \"eebb30a4-a9f9-4ebd-ab14-9865b542ac8e\", \"runtime_id\": null, \"schema\": \"adl.csm_notice_receiver.receipt.v1\", \"severity\": null, \"signal_kind\": null, \"trigger\": null}\n",
+            "ingestionTime": 1783389851922,
+            "eventId": "39770922654521817415226398999427103752353114386665504770"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]8bd9cbfa3efe4fa99ea43aa89f8143fd",
+            "timestamp": 1783389850915,
+            "message": "END RequestId: eebb30a4-a9f9-4ebd-ab14-9865b542ac8e\n",
+            "ingestionTime": 1783389851922,
+            "eventId": "39770922654900930083601419592833210962988136532267171843"
+        },
+        {
+            "logStreamName": "2026/07/07/[$LATEST]8bd9cbfa3efe4fa99ea43aa89f8143fd",
+            "timestamp": 1783389850915,
+            "message": "REPORT RequestId: eebb30a4-a9f9-4ebd-ab14-9865b542ac8e\tDuration: 17.02 ms\tBilled Duration: 112 ms\tMemory Size: 128 MB\tMax Memory Used: 37 MB\tInit Duration: 94.15 ms\t\n",
+            "ingestionTime": 1783389851922,
+            "eventId": "39770922654900930083601419592833210962988136532267171844"
+        }
+    ],
+    "searchedLogStreams": []
+}
