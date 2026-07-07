@@ -1,7 +1,219 @@
 use super::super::*;
+use chrono::{DateTime, FixedOffset, Utc};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
+
+#[derive(Debug, serde::Deserialize, serde::Serialize)]
+struct CloseoutCompletionMarker {
+    schema: String,
+    issue: u32,
+    scope: String,
+    slug: String,
+    canonical_sor: String,
+    status: String,
+    #[serde(default)]
+    validated_at: Option<String>,
+}
+
+const CLOSEOUT_MARKER_ROLLOUT_CUTOFF_RFC3339: &str = "2026-07-06T00:00:00Z";
+
+fn closeout_completion_marker_path(repo_root: &Path, issue: u32) -> PathBuf {
+    repo_root
+        .join(".adl")
+        .join("logs")
+        .join("closeout-complete")
+        .join(format!("issue-{issue}.json"))
+}
+
+fn repo_relative_path(repo_root: &Path, path: &Path) -> String {
+    path.strip_prefix(repo_root)
+        .unwrap_or(path)
+        .to_string_lossy()
+        .replace('\\', "/")
+}
+
+fn write_validated_closeout_marker(
+    repo_root: &Path,
+    issue_ref: &IssueRef,
+    canonical_output: &Path,
+) -> Result<()> {
+    let marker_path = closeout_completion_marker_path(repo_root, issue_ref.issue_number());
+    if let Some(parent) = marker_path.parent() {
+        fs::create_dir_all(parent).with_context(|| {
+            format!(
+                "closeout: failed to create closeout marker directory '{}'",
+                parent.display()
+            )
+        })?;
+    }
+    let marker = CloseoutCompletionMarker {
+        schema: "adl.closeout.complete.v1".to_string(),
+        issue: issue_ref.issue_number(),
+        scope: issue_ref.scope().to_string(),
+        slug: issue_ref.slug().to_string(),
+        canonical_sor: repo_relative_path(repo_root, canonical_output),
+        status: "validated".to_string(),
+        validated_at: Some(Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true)),
+    };
+    let json = serde_json::to_string_pretty(&marker)?;
+    fs::write(&marker_path, format!("{json}\n")).with_context(|| {
+        format!(
+            "closeout: failed to write closeout marker '{}'",
+            marker_path.display()
+        )
+    })?;
+    Ok(())
+}
+
+pub(crate) fn validated_closeout_marker_is_current(
+    repo_root: &Path,
+    issue_ref: &IssueRef,
+) -> Result<bool> {
+    let marker_path = closeout_completion_marker_path(repo_root, issue_ref.issue_number());
+    if !marker_path.is_file() {
+        return Ok(false);
+    }
+    let marker: CloseoutCompletionMarker = serde_json::from_str(
+        &fs::read_to_string(&marker_path)
+            .with_context(|| format!("watch: failed to read '{}'", marker_path.display()))?,
+    )
+    .with_context(|| {
+        format!(
+            "watch: failed to parse closeout marker '{}'",
+            marker_path.display()
+        )
+    })?;
+    if marker.schema != "adl.closeout.complete.v1"
+        || marker.status != "validated"
+        || marker.issue != issue_ref.issue_number()
+        || marker.scope != issue_ref.scope()
+        || marker.slug != issue_ref.slug()
+    {
+        return Ok(false);
+    }
+    let canonical_output = repo_root.join(&marker.canonical_sor);
+    ensure_closed_completed_issue_bundle_truth(repo_root, issue_ref, &canonical_output)?;
+    Ok(true)
+}
+
+pub(crate) fn validated_closeout_state_is_current(
+    repo_root: &Path,
+    issue_ref: &IssueRef,
+) -> Result<bool> {
+    if validated_closeout_marker_is_current(repo_root, issue_ref).unwrap_or(false) {
+        return Ok(true);
+    }
+    let canonical_output = issue_ref.task_bundle_output_path(repo_root);
+    ensure_closed_completed_issue_bundle_truth(repo_root, issue_ref, &canonical_output)?;
+    Ok(true)
+}
+
+pub(crate) fn validated_closeout_state_matches_linked_pr(
+    repo_root: &Path,
+    issue_ref: &IssueRef,
+    linked_pr_url: &str,
+    linked_pr_number: u32,
+    issue_closed_at: Option<&str>,
+) -> Result<bool> {
+    if !validated_closeout_state_is_current(repo_root, issue_ref)? {
+        return Ok(false);
+    }
+    let canonical_output = issue_ref.task_bundle_output_path(repo_root);
+    let text = fs::read_to_string(&canonical_output).with_context(|| {
+        format!(
+            "watch: failed to read canonical SOR '{}'",
+            canonical_output.display()
+        )
+    })?;
+    let pr_matches = closeout_sor_names_linked_pr(&text, linked_pr_url, linked_pr_number);
+    if !pr_matches {
+        return Ok(false);
+    }
+    closeout_marker_timestamp_covers_issue_closed_at(repo_root, issue_ref, &text, issue_closed_at)
+}
+
+fn closeout_sor_names_linked_pr(text: &str, linked_pr_url: &str, _linked_pr_number: u32) -> bool {
+    let expected_url = linked_pr_url.trim_end_matches('/');
+    text.lines().any(|line| {
+        let line = line.trim().trim_start_matches("- ").trim();
+        let Some((key, value)) = line.split_once(':') else {
+            return false;
+        };
+        let key = key.trim().trim_matches('`');
+        if !matches!(key, "pr_url" | "PR URL" | "Pull Request URL") {
+            return false;
+        }
+        let value = value.trim().trim_matches('`').trim_matches('"');
+        value.trim_end_matches('/') == expected_url
+    })
+}
+
+fn closeout_marker_timestamp_covers_issue_closed_at(
+    repo_root: &Path,
+    issue_ref: &IssueRef,
+    sor_text: &str,
+    issue_closed_at: Option<&str>,
+) -> Result<bool> {
+    let marker_path = closeout_completion_marker_path(repo_root, issue_ref.issue_number());
+    let Some(issue_closed_at) = issue_closed_at else {
+        return Ok(false);
+    };
+    let issue_closed_at = parse_rfc3339_markdown_value(issue_closed_at)?;
+    if !marker_path.is_file() {
+        return legacy_or_sor_timestamp_covers_issue_closed_at(sor_text, issue_closed_at);
+    }
+    let marker: CloseoutCompletionMarker = serde_json::from_str(
+        &fs::read_to_string(&marker_path)
+            .with_context(|| format!("watch: failed to read '{}'", marker_path.display()))?,
+    )
+    .with_context(|| {
+        format!(
+            "watch: failed to parse closeout marker '{}'",
+            marker_path.display()
+        )
+    })?;
+    let Some(validated_at) = marker.validated_at.as_deref() else {
+        return legacy_or_sor_timestamp_covers_issue_closed_at(sor_text, issue_closed_at);
+    };
+    let validated_at = parse_rfc3339_markdown_value(validated_at)?;
+    Ok(validated_at >= issue_closed_at)
+}
+
+fn legacy_or_sor_timestamp_covers_issue_closed_at(
+    sor_text: &str,
+    issue_closed_at: DateTime<FixedOffset>,
+) -> Result<bool> {
+    let marker_rollout_cutoff =
+        parse_rfc3339_markdown_value(CLOSEOUT_MARKER_ROLLOUT_CUTOFF_RFC3339)?;
+    if issue_closed_at < marker_rollout_cutoff {
+        return Ok(true);
+    }
+    if let Some(sor_timestamp) = closeout_sor_terminal_timestamp(sor_text)? {
+        return Ok(sor_timestamp >= issue_closed_at);
+    }
+    Ok(false)
+}
+
+fn closeout_sor_terminal_timestamp(text: &str) -> Result<Option<DateTime<FixedOffset>>> {
+    for line in text.lines() {
+        let line = line.trim().trim_start_matches("- ").trim();
+        let Some((key, value)) = line.split_once(':') else {
+            continue;
+        };
+        let key = key.trim();
+        if matches!(key, "End Time" | "Generated") {
+            return Ok(Some(parse_rfc3339_markdown_value(value)?));
+        }
+    }
+    Ok(None)
+}
+
+fn parse_rfc3339_markdown_value(value: &str) -> Result<DateTime<FixedOffset>> {
+    let value = value.trim().trim_matches('`');
+    DateTime::parse_from_rfc3339(value)
+        .with_context(|| format!("watch: failed to parse RFC3339 timestamp '{value}'"))
+}
 
 fn reconcile_closed_completed_issue_bundle_with_recovery_sources(
     repo_root: &Path,
@@ -182,13 +394,15 @@ pub(crate) fn closeout_closed_completed_issue_bundle(
                 super::cleanup::worktree_display_name(&worktree_path)
             ),
         )?;
-        return ensure_closed_completed_issue_bundle_truth(primary_root, issue_ref, canonical_output)
+        ensure_closed_completed_issue_bundle_truth(primary_root, issue_ref, canonical_output)
             .with_context(|| {
                 format!(
                     "closeout: canonical closed-issue sor truth drift remains for issue #{} after retaining dirty stale worktree",
                     issue_ref.issue_number()
                 )
-            });
+            })?;
+        write_validated_closeout_marker(primary_root, issue_ref, canonical_output)?;
+        return Ok(());
     }
     let prune_result = super::cleanup::prune_issue_worktree(repo_root, primary_root, issue_ref)?;
     super::cleanup::record_worktree_prune_result(canonical_output, &prune_result.card_value())?;
@@ -198,7 +412,9 @@ pub(crate) fn closeout_closed_completed_issue_bundle(
                 "closeout: canonical closed-issue sor truth drift remains for issue #{}",
                 issue_ref.issue_number()
             )
-        })
+        })?;
+    write_validated_closeout_marker(primary_root, issue_ref, canonical_output)?;
+    Ok(())
 }
 
 pub(crate) fn ensure_closed_completed_issue_bundle_truth(

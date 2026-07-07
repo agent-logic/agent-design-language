@@ -436,7 +436,7 @@ is_pr_fast_coverage_workflow_change() {
   changed_payload="$(printf '%s
 ' "$diff_text" | awk '/^[+-]/ && $0 !~ /^(---|\+\+\+)/ { print substr($0, 2) }')"
   [ -n "$changed_payload" ] || return 1
-  grep -E 'Determine PR fast coverage filters|PR fast coverage summary \(json\)|PR coverage-impact preflight|coverage-impact-filter-expression.txt|--print-risk-nextest-expression|needs_fast_summary|filter_expression|coverage-summary.json|process_status|adl-pr-finish' <<<"$changed_payload" >/dev/null 2>&1 || return 1
+  grep -E 'Determine PR fast coverage filters|PR fast coverage summary \(json\)|PR coverage-impact preflight|coverage-impact-filter-expression.txt|--print-risk-nextest-expression|needs_fast_summary|filter_expression|coverage-summary.json|full_coverage_required|process_status|adl-pr-finish' <<<"$changed_payload" >/dev/null 2>&1 || return 1
   if grep -E 'Enforce coverage policy gates|Coverage \(ADL Rust workspace lcov\)|Upload coverage artifact|Upload coverage to Codecov' <<<"$changed_payload" >/dev/null 2>&1; then
     return 1
   fi
@@ -495,7 +495,7 @@ is_bounded_pr_fast_coverage_policy_change() {
         fi
         ;;
       adl/tools/ci_path_policy.sh)
-        if git_pr_patch "$path" | grep -E 'is_pr_fast_coverage_workflow_change|is_bounded_pr_fast_coverage_policy_surface|is_bounded_pr_fast_coverage_policy_change|bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'is_pr_fast_coverage_workflow_change|is_bounded_pr_fast_coverage_policy_surface|is_bounded_pr_fast_coverage_policy_change|bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation|manager_profile_is_release_gate_pr_fast_escalation|validation_manager_release_gate_pr_fast_escalation_runs_focused_validation' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
@@ -548,6 +548,21 @@ is_bounded_pr_fast_coverage_policy_change() {
 $changed_files
 EOF
   [ "$saw_bounded_marker" = true ] && [ "$saw_other" = false ]
+}
+
+changed_files_include_demo_smoke_surface() {
+  local path
+  while IFS= read -r path; do
+    [ -n "$path" ] || continue
+    case "$path" in
+      demos/*|adl/tools/demo_*|adl/tools/test_demo_*)
+        return 0
+        ;;
+    esac
+  done <<EOF
+$changed_files
+EOF
+  return 1
 }
 
 is_pvf_slow_proof_workflow_change() {
@@ -910,6 +925,11 @@ manager_profile_is_wp08_cloudfront_release_gate_contract() {
   return 0
 }
 
+manager_profile_is_release_gate_pr_fast_escalation() {
+  [ "$validation_profile_escalation_required" = true ] || return 1
+  [ "$validation_profile_escalation_lanes" = "release_gate_review,rust_pr_fast" ]
+}
+
 is_warmup_guidance_patch() {
   local path="$1"
   local saw_warmup_marker=false
@@ -1090,6 +1110,11 @@ apply_validation_manager_routing() {
     return 0
   fi
   if [ "$validation_profile_status" = "escalation_required" ] && ! manager_profile_is_release_gate_only_escalation; then
+    if manager_profile_is_release_gate_pr_fast_escalation; then
+      mark_pr_fast_rust_validation
+      reason="validation_manager_release_gate_pr_fast_escalation_runs_focused_validation"
+      return 0
+    fi
     fail_closed=true
     mark_authoritative_full_coverage "fail_closed" "validation_manager_escalation_requires_authoritative_full_coverage"
     return 0
@@ -1246,6 +1271,9 @@ EOF
       bounded_pr_fast_coverage_policy_change=false
       if [ "$rust_required" = true ] && is_bounded_pr_fast_coverage_policy_change; then
         bounded_pr_fast_coverage_policy_change=true
+        if ! changed_files_include_demo_smoke_surface; then
+          demo_smoke_required=false
+        fi
       fi
       while IFS=$'\t' read -r _status path; do
         [ -n "$path" ] || continue

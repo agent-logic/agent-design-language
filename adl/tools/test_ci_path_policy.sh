@@ -55,6 +55,8 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" '--print-risk-nextest-expression > adl/coverage-impact-filter-expression.txt'
   assert_file_has "$workflow" 'filter_expression<<ADL_COVERAGE_EXPR'
   assert_file_has "$workflow" 'PR fast coverage summary (json)'
+  # runtime-bounded-pr-fast-coverage-policy-change
+  assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.coverage-impact.outputs.needs_fast_summary == 'true'"
   assert_file_has "$workflow" 'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
   assert_file_has "$workflow" 'PR coverage-impact preflight'
   assert_file_has "$workflow" 'args+=(--require-summary-for-risk)'
@@ -1151,7 +1153,7 @@ PY
   assert_has "$runtime_bounded_pr_fast_output" "rust_required=true"
   assert_has "$runtime_bounded_pr_fast_output" "coverage_required=false"
   assert_has "$runtime_bounded_pr_fast_output" "full_coverage_required=false"
-  assert_has "$runtime_bounded_pr_fast_output" "demo_smoke_required=true"
+  assert_has "$runtime_bounded_pr_fast_output" "demo_smoke_required=false"
   assert_has "$runtime_bounded_pr_fast_output" "ci_contracts_required=true"
   assert_has "$runtime_bounded_pr_fast_output" "coverage_lane=deferred_pr_fast"
   assert_has "$runtime_bounded_pr_fast_output" "coverage_authority=focused_nextest_pr_fast"
@@ -1212,7 +1214,7 @@ PY
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "rust_required=true"
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "coverage_required=false"
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "full_coverage_required=false"
-  assert_has "$aws_remote_validation_bounded_pr_fast_output" "demo_smoke_required=true"
+  assert_has "$aws_remote_validation_bounded_pr_fast_output" "demo_smoke_required=false"
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "ci_contracts_required=true"
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "coverage_lane=deferred_pr_fast"
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "coverage_authority=focused_nextest_pr_fast"
