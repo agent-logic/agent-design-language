@@ -335,7 +335,8 @@ def main() -> int:
     assert_contains("HTML dashboard real runtime stop", html, 'id="dashboard-stop-live"')
     assert_contains("HTML dashboard communication inspector", html, 'id="hero-communication-status"')
     assert_contains("HTML dashboard status bar", html, 'class="dashboard-statusbar"')
-    assert_contains("HTML statusbar evidence time field", html, 'Evidence Time <strong id="statusbar-updated">pending</strong>')
+    assert_contains("HTML topbar operator time field", html, "Operator Time")
+    assert_contains("HTML statusbar last update field", html, 'Last Update <strong id="statusbar-updated">pending</strong>')
     assert_contains("HTML statusbar state indicator", html, 'id="statusbar-indicator"')
     assert_contains("HTML source-driven capture readout", html, 'id="hero-uptime">pending</strong>')
     assert_contains("HTML source-driven rail capture", html, 'id="rail-capture-time">pending</strong>')
@@ -415,11 +416,12 @@ def main() -> int:
     assert_contains("JS dashboard communication mirror", js, 'setText("hero-communication-status"')
     assert_contains("JS dashboard CloudWatch fail-closed label", js, 'formatLabel(cloudwatchStatus)')
     assert_contains("JS source-driven capture readout", js, 'setText("hero-uptime"')
+    assert_contains("JS current operator time formatter", js, "formatCurrentTimestampLabel")
     assert_contains("JS source-driven kernel state", js, 'setDataset("hero-agent-map", "state"')
     assert_contains("JS source-driven gauges", js, 'setText("hero-gauge-agents"')
     assert_contains("JS source-driven event title", js, 'setText("hero-event-title"')
     assert_contains("JS source-driven statusbar", js, 'setText("statusbar-mode"')
-    assert_contains("JS statusbar evidence timestamp", js, 'packet.generated_at')
+    assert_contains("JS statusbar current update timestamp", js, 'setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel())')
     assert_contains("JS statusbar state indicator", js, 'setDataset("statusbar-indicator"')
 
     if packet.get("packet_id") != "v0916-runtime-soak-observatory-packet-0001":

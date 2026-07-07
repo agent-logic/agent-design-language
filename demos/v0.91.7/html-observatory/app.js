@@ -67,6 +67,10 @@ function formatTimestampLabel(value) {
   });
 }
 
+function formatCurrentTimestampLabel() {
+  return formatTimestampLabel(new Date());
+}
+
 let livePollTimer = null;
 let retainedPollTimer = null;
 const OBSERVATORY_VERSION = "v0.91.7";
@@ -664,7 +668,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
   setText("hero-event-title", vm.mode === "live" ? "Event Stream (Live Loopback)" : "Event Stream");
   setText("statusbar-mode", vm.mode === "live" ? "Live Loopback" : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
-  setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatTimestampLabel(packet.generated_at));
+  setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
   setText("agent-count", `${vm.agents.length} agents`);
   setText("hero-agent-count", String(vm.agents.length));
@@ -791,8 +795,8 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   setText("manifold-state", formatLabel(manifold.state));
   setText("manifold-tick", String(manifold.current_tick ?? 0));
   setText("packet-id", displayPacketId(vm.packet.packet_id));
-  setText("hero-uptime", formatTimestampLabel(vm.packet.generated_at || source.mode));
-  setText("rail-capture-time", formatTimestampLabel(vm.packet.generated_at || "retained packet"));
+  setText("hero-uptime", formatCurrentTimestampLabel());
+  setText("rail-capture-time", formatCurrentTimestampLabel());
   setText("rail-manifold-id", displayManifoldId(manifold.manifold_id));
   setText("rail-state", formatLabel(manifold.state));
   setText("rail-tick", String(manifold.current_tick ?? 0));
