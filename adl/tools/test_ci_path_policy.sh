@@ -1218,6 +1218,103 @@ PY
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "coverage_authority=focused_nextest_pr_fast"
   assert_has "$aws_remote_validation_bounded_pr_fast_output" "reason=bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation"
 
+  git checkout -q -b wp08-cloudfront-policy-mixed-focused "$base_sha"
+  mkdir -p adl/config adl/src/cli/pr_cmd adl/src/cli/pr_cmd_cards adl/src/cli/tests/pr_cmd_inline/finish adl/tools docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915 docs/tooling
+  printf '# validation selector cloudfront policy fixture\n' > adl/config/validation_lane_selector.v0.91.6.json
+  cat > adl/src/cli/csm_cmd.rs <<'EOF'
+pub fn csm_cloudfront_status() -> bool { true }
+EOF
+  cat > adl/src/cli/pr_cmd/finish_support.rs <<'EOF'
+pub fn finish_support_fixture() -> bool { true }
+EOF
+  cat > adl/src/cli/pr_cmd_cards/cards.rs <<'EOF'
+pub fn finish_card_fixture() -> bool { true }
+EOF
+  cat > adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs <<'EOF'
+pub fn finish_arg_render_fixture() -> bool { true }
+EOF
+  cat > adl/src/csm_cloud_control.rs <<'EOF'
+pub fn cloudfront_control_fixture() -> bool { true }
+EOF
+  cat > adl/tools/ci_path_policy.sh <<'EOF'
+#!/usr/bin/env bash
+# wp08_cloudfront_control_proof
+EOF
+  cat > adl/tools/test_ci_path_policy.sh <<'EOF'
+#!/usr/bin/env bash
+# release_gate_required_5_lane_profile
+EOF
+  cat > adl/tools/test_ci_runtime_contracts.sh <<'EOF'
+#!/usr/bin/env bash
+# path-policy PR-fast coverage contract
+EOF
+  cat > adl/tools/run_wp08_cloudfront_control_proof.sh <<'EOF'
+#!/usr/bin/env bash
+printf 'cloudfront proof\n'
+EOF
+  cat > adl/tools/test_run_wp08_cloudfront_control_proof.sh <<'EOF'
+#!/usr/bin/env bash
+printf 'cloudfront proof contract\n'
+EOF
+  cat > adl/tools/validate_wp08_cloudfront_control_proof.py <<'EOF'
+print("cloudfront proof validator")
+EOF
+  printf '{"status":"Deployed"}\n' > docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json
+  printf '{"status":"passed"}\n' > docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/csm_cloudfront_command_result.json
+  printf '# Runtime CloudFront Control\n' > docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+if "PR-fast coverage scratch target" not in text:
+    text = text.replace(
+        'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"',
+        'if [ "${{ steps.path-policy.outputs.full_coverage_required }}" = "true" ] && [ -d /mnt ] && [ -w /mnt ]; then\n'
+        '            export ADL_PR_FAST_COVERAGE_BUILD_ROOT=/mnt/adl-pr-fast-coverage\n'
+        '          fi\n'
+        '          if [ -n "${ADL_PR_FAST_COVERAGE_BUILD_ROOT:-}" ]; then\n'
+        '            rm -rf "$ADL_PR_FAST_COVERAGE_BUILD_ROOT"\n'
+        '            mkdir -p "$ADL_PR_FAST_COVERAGE_BUILD_ROOT"\n'
+        '            echo "PR-fast coverage scratch target: $ADL_PR_FAST_COVERAGE_BUILD_ROOT"\n'
+        '          fi\n'
+        '          bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"',
+        1,
+    )
+workflow.write_text(text)
+PY
+  git add .github/workflows/ci.yaml adl/config/validation_lane_selector.v0.91.6.json \
+    adl/src/cli/csm_cmd.rs \
+    adl/src/cli/pr_cmd/finish_support.rs \
+    adl/src/cli/pr_cmd_cards/cards.rs \
+    adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs \
+    adl/src/csm_cloud_control.rs adl/src/lib.rs \
+    adl/tools/ci_path_policy.sh \
+    adl/tools/run_wp08_cloudfront_control_proof.sh \
+    adl/tools/test_ci_path_policy.sh \
+    adl/tools/test_ci_runtime_contracts.sh \
+    adl/tools/test_run_wp08_cloudfront_control_proof.sh \
+    adl/tools/validate_wp08_cloudfront_control_proof.py \
+    docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json \
+    docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/csm_cloudfront_command_result.json \
+    docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md
+  git commit -q -m wp08-cloudfront-policy-mixed-focused
+  wp08_cloudfront_policy_mixed_head="$(git rev-parse HEAD)"
+
+  wp08_cloudfront_policy_mixed_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$wp08_cloudfront_policy_mixed_head" --ref "refs/pull/1/merge")"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "rust_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_required=false"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "full_coverage_required=false"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "demo_smoke_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "ci_contracts_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "reason=ci_policy_surface_requires_path_policy_contract_checks"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_selected=release_gate_required_5_lane_profile"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_status=escalation_required"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_run_lanes=ci_path_policy_contracts,csdlc_owner_lane,rust_pr_fast,wp08_cloudfront_control_proof"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "validation_profile_escalation_lanes=release_gate_review"
+
   git checkout -q -b feature-branch-before-main-advances "$base_sha"
   mkdir -p adl/tools docs/milestones/v0.91.4/review/demo_showcase
   printf '#!/usr/bin/env bash\nprintf demo\n' > adl/tools/demo_v0914_complete_issue.sh
