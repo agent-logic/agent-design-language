@@ -1,10 +1,14 @@
 use std::env;
 use std::fs;
-use std::io::Write;
+use std::io::{Read, Write};
+use std::net::{SocketAddr, TcpStream};
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::thread;
 use std::time::Duration;
+
+#[cfg(unix)]
+use std::os::unix::process::CommandExt;
 
 use ::adl::long_lived_agent;
 use anyhow::{anyhow, Context, Result};
@@ -17,6 +21,7 @@ use crate::cli::observability;
 const SERVICE_MANIFEST_SCHEMA: &str = "adl.csm.service_manifest.v1";
 const SERVICE_STATUS_SCHEMA: &str = "adl.csm.service_status.v1";
 const DEFAULT_LABEL: &str = "com.agentlogic.csm.runtime";
+const DEFAULT_API_BIND: &str = "127.0.0.1:19997";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -57,6 +62,7 @@ struct ServiceArgs {
     no_sleep: bool,
     otlp_endpoint: Option<String>,
     otlp_timeout_ms: Option<u64>,
+    api_bind: String,
     json: bool,
 }
 
@@ -78,6 +84,7 @@ impl Default for ServiceArgs {
                 .ok()
                 .and_then(|value| value.parse::<u64>().ok())
                 .filter(|value| *value > 0),
+            api_bind: DEFAULT_API_BIND.to_string(),
             json: false,
         }
     }
@@ -104,6 +111,10 @@ struct ServiceManifest {
     otel_log: PathBuf,
     otel_status: PathBuf,
     startup_ledger: PathBuf,
+    #[serde(default)]
+    supervisor_status: PathBuf,
+    #[serde(default)]
+    api_bind: String,
     daemon_status: PathBuf,
     continuity_checkpoint: PathBuf,
     continuity_replay_manifest: PathBuf,
@@ -144,6 +155,7 @@ struct ServiceStatus {
     first_daemon_record_observed: bool,
     continuity_checkpoint_observed: bool,
     cycle_ledger_observed: bool,
+    runtime_api_observed: bool,
     otlp_exporter_configured: bool,
     otlp_endpoint_ref: Option<&'static str>,
     last_action: String,
@@ -171,6 +183,7 @@ pub(crate) fn real_service(args: &[String]) -> Result<()> {
         "stop" => stop(&args[1..]),
         "status" => status(&args[1..]),
         "remove" => remove(&args[1..]),
+        "supervise" => supervise(&args[1..]),
         "--help" | "-h" | "help" => {
             println!("{}", service_usage());
             Ok(())
@@ -212,6 +225,23 @@ fn start(args: &[String]) -> Result<()> {
     let manifest = read_manifest(&service_root)?;
     let start_requested_at = Utc::now();
     record_startup_event(&manifest, "start_requested", "started", None, None)?;
+    let clear_stop =
+        long_lived_agent::clear_stop_for_service_start(&manifest.spec, "csm service start")?;
+    record_startup_event(
+        &manifest,
+        if clear_stop
+            .get("had_stop_intent")
+            .and_then(Value::as_bool)
+            .unwrap_or(false)
+        {
+            "service_start_cleared_stop_intent"
+        } else {
+            "service_start_no_stop_intent"
+        },
+        "completed",
+        None,
+        None,
+    )?;
     let mut local_start = None;
     match manifest.manager {
         ServiceManager::Local => {
@@ -266,10 +296,10 @@ fn start(args: &[String]) -> Result<()> {
     let status = service_status(&manifest, state, "start", None)?;
     write_status(&manifest, &status)?;
     print_status(&status, manifest.service_root.as_path(), args);
-    if !observation.healthy {
+    if !observation.healthy || status.service_state != "running" {
         return Err(anyhow!(
-            "csm service startup failed before first daemon record: {}",
-            observation.classification
+            "csm service startup failed before runtime readiness: {}",
+            status.startup_classification
         ));
     }
     Ok(())
@@ -296,6 +326,114 @@ fn stop(args: &[String]) -> Result<()> {
     write_status(&manifest, &status)?;
     print_status(&status, manifest.service_root.as_path(), args);
     Ok(())
+}
+
+fn supervise(args: &[String]) -> Result<()> {
+    let parsed = parse_service_args(args, false)?;
+    let service_root = absolutize(&parsed.service_root)?;
+    let manifest = read_manifest(&service_root)?;
+    if manifest.manager != ServiceManager::Local {
+        return Err(anyhow!(
+            "csm service supervise is the portable Rust supervisor for --manager local services"
+        ));
+    }
+    fs::write(&manifest.pid_file, std::process::id().to_string())?;
+    record_supervisor_status(&manifest, "running", None, None, 0)?;
+    record_startup_event(
+        &manifest,
+        "rust_supervisor_started",
+        "started",
+        Some(std::process::id()),
+        None,
+    )?;
+    let mut restart_count = 0u64;
+    loop {
+        if long_lived_agent::stop_requested(&manifest.spec)? {
+            record_supervisor_status(&manifest, "stopped", None, None, restart_count)?;
+            record_startup_event(
+                &manifest,
+                "rust_supervisor_stop_observed",
+                "completed",
+                Some(std::process::id()),
+                None,
+            )?;
+            let _ = fs::remove_file(&manifest.pid_file);
+            return Ok(());
+        }
+        let mut child = spawn_daemon_child(&manifest, restart_count)?;
+        record_supervisor_status(
+            &manifest,
+            "child_running",
+            Some(child.id()),
+            None,
+            restart_count,
+        )?;
+        record_startup_event(
+            &manifest,
+            "rust_supervisor_child_spawn",
+            "started",
+            Some(child.id()),
+            None,
+        )?;
+        loop {
+            if long_lived_agent::stop_requested(&manifest.spec)? {
+                record_startup_event(
+                    &manifest,
+                    "rust_supervisor_stop_forwarded",
+                    "requested",
+                    Some(child.id()),
+                    None,
+                )?;
+                let _ = child.wait();
+                break;
+            }
+            if let Some(status) = child.try_wait().context("poll csm daemon child")? {
+                let exit = format!("{status}");
+                record_supervisor_status(
+                    &manifest,
+                    "child_exited",
+                    Some(child.id()),
+                    Some(exit.as_str()),
+                    restart_count,
+                )?;
+                record_startup_event(
+                    &manifest,
+                    "rust_supervisor_child_exit",
+                    if status.success() {
+                        "completed"
+                    } else {
+                        "failed"
+                    },
+                    Some(child.id()),
+                    None,
+                )?;
+                restart_count += 1;
+                let backoff_secs = rust_supervisor_backoff_secs(restart_count);
+                record_supervisor_status(
+                    &manifest,
+                    "restart_scheduled",
+                    None,
+                    Some(exit.as_str()),
+                    restart_count,
+                )?;
+                record_startup_event(
+                    &manifest,
+                    "rust_supervisor_restart_scheduled",
+                    "scheduled",
+                    None,
+                    None,
+                )?;
+                for _ in 0..backoff_secs.saturating_mul(5).max(1) {
+                    if long_lived_agent::stop_requested(&manifest.spec)? {
+                        break;
+                    }
+                    thread::sleep(Duration::from_millis(200));
+                }
+                break;
+            }
+            thread::sleep(Duration::from_millis(200));
+        }
+    }
 }
 
 fn status(args: &[String]) -> Result<()> {
@@ -383,6 +521,10 @@ fn parse_service_args(args: &[String], require_spec: bool) -> Result<ServiceArgs
                 )?);
                 i += 1;
             }
+            "--api-bind" => {
+                parsed.api_bind = required_value(args, i, "--api-bind")?.to_string();
+                i += 1;
+            }
             "--json" => parsed.json = true,
             "--help" | "-h" => {
                 println!("{}", service_usage());
@@ -430,6 +572,8 @@ fn build_manifest(
         otel_log: service_root.join("logs/otel.jsonl"),
         otel_status: service_root.join("logs/otel_status.json"),
         startup_ledger: service_root.join("logs/startup_ledger.jsonl"),
+        supervisor_status: service_root.join("logs/rust_supervisor_status.json"),
+        api_bind: parsed.api_bind,
         daemon_status: state_root.join("daemon_status.json"),
         continuity_checkpoint: state_root.join("continuity_checkpoint.json"),
         continuity_replay_manifest: state_root.join("continuity_replay_manifest.json"),
@@ -454,6 +598,8 @@ fn write_launchd_plist(manifest: &ServiceManifest) -> Result<()> {
         manifest.spec.display().to_string(),
         "--checkpoint-interval-secs".to_string(),
         manifest.checkpoint_interval_secs.to_string(),
+        "--api-bind".to_string(),
+        manifest.api_bind.clone(),
         "--json".to_string(),
     ];
     if let Some(interval_secs) = manifest.interval_secs {
@@ -535,7 +681,7 @@ fn start_local(manifest: &ServiceManifest) -> Result<LocalStartOutcome> {
         let pid = read_pid_file(&manifest.pid_file)?;
         if pid_liveness(pid) != "live_pid" {
             let _ = fs::remove_file(&manifest.pid_file);
-        } else if daemon_status_matches_pid_and_spec(manifest, pid)? {
+        } else if supervisor_status_matches_pid_and_spec(manifest, pid)? {
             return Ok(LocalStartOutcome {
                 pid,
                 reused_existing: true,
@@ -556,6 +702,42 @@ fn start_local(manifest: &ServiceManifest) -> Result<LocalStartOutcome> {
         .open(&manifest.stderr_log)?;
     let mut command = Command::new(&manifest.csm_bin);
     command
+        .arg("service")
+        .arg("supervise")
+        .arg("--service-root")
+        .arg(&manifest.service_root)
+        .arg("--json")
+        .env("ADL_OBSERVABILITY_LOG", &manifest.observability_log)
+        .env("ADL_OBSERVABILITY_STDERR", "0")
+        .env("ADL_OTEL_LOG", &manifest.otel_log)
+        .env("ADL_OTEL_STATUS", &manifest.otel_status)
+        .stdin(Stdio::null())
+        .stdout(Stdio::from(stdout))
+        .stderr(Stdio::from(stderr));
+    configure_local_service_process(&mut command);
+    let child = command.spawn().context("spawn local csm daemon service")?;
+    let pid = child.id();
+    fs::write(&manifest.pid_file, pid.to_string())?;
+    Ok(LocalStartOutcome {
+        pid,
+        reused_existing: false,
+    })
+}
+
+fn spawn_daemon_child(
+    manifest: &ServiceManifest,
+    restart_count: u64,
+) -> Result<std::process::Child> {
+    let stdout = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&manifest.stdout_log)?;
+    let stderr = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&manifest.stderr_log)?;
+    let mut command = Command::new(&manifest.csm_bin);
+    command
         .arg("daemon")
         .arg("--spec")
         .arg(&manifest.spec)
@@ -566,6 +748,11 @@ fn start_local(manifest: &ServiceManifest) -> Result<LocalStartOutcome> {
         .env("ADL_OBSERVABILITY_STDERR", "0")
         .env("ADL_OTEL_LOG", &manifest.otel_log)
         .env("ADL_OTEL_STATUS", &manifest.otel_status)
+        .env(
+            "ADL_CSM_RUST_SUPERVISOR_RESTART_COUNT",
+            restart_count.to_string(),
+        )
+        .stdin(Stdio::null())
         .stdout(Stdio::from(stdout))
         .stderr(Stdio::from(stderr));
     if let Some(endpoint) = manifest.otlp_endpoint.as_deref() {
@@ -579,20 +766,33 @@ fn start_local(manifest: &ServiceManifest) -> Result<LocalStartOutcome> {
             .arg("--interval-secs")
             .arg(interval_secs.to_string());
     }
+    command.arg("--api-bind").arg(&manifest.api_bind);
     if manifest.recover_stale_lease {
         command.arg("--recover-stale-lease");
     }
     if manifest.no_sleep {
         command.arg("--no-sleep");
     }
-    let child = command.spawn().context("spawn local csm daemon service")?;
-    let pid = child.id();
-    fs::write(&manifest.pid_file, pid.to_string())?;
-    Ok(LocalStartOutcome {
-        pid,
-        reused_existing: false,
-    })
+    command.spawn().context("spawn csm daemon child")
 }
+
+#[cfg(unix)]
+fn configure_local_service_process(command: &mut Command) {
+    unsafe {
+        command.pre_exec(|| {
+            unsafe extern "C" {
+                fn setsid() -> i32;
+            }
+            if setsid() == -1 {
+                return Err(std::io::Error::last_os_error());
+            }
+            Ok(())
+        });
+    }
+}
+
+#[cfg(not(unix))]
+fn configure_local_service_process(_command: &mut Command) {}
 
 fn stop_local(manifest: &ServiceManifest) -> Result<()> {
     let _ = long_lived_agent::stop(&manifest.spec, "csm service stop requested");
@@ -600,7 +800,7 @@ fn stop_local(manifest: &ServiceManifest) -> Result<()> {
         return Ok(());
     }
     let pid = read_pid_file(&manifest.pid_file)?;
-    if daemon_status_matches_pid_and_spec(manifest, pid)? {
+    if supervisor_status_matches_pid_and_spec(manifest, pid)? {
         for _ in 0..30 {
             if pid_liveness(pid) != "live_pid" {
                 break;
@@ -612,6 +812,45 @@ fn stop_local(manifest: &ServiceManifest) -> Result<()> {
         let _ = fs::remove_file(&manifest.pid_file);
     }
     Ok(())
+}
+
+fn record_supervisor_status(
+    manifest: &ServiceManifest,
+    state: &str,
+    child_pid: Option<u32>,
+    last_child_exit: Option<&str>,
+    restart_count: u64,
+) -> Result<()> {
+    write_json_pretty(
+        &manifest.supervisor_status,
+        &json!({
+            "schema": "adl.csm.rust_supervisor_status.v1",
+            "runtime_owner": "csm",
+            "manager": manifest.manager.as_str(),
+            "label": manifest.label,
+            "state": state,
+            "supervisor_pid": std::process::id(),
+            "child_pid": child_pid,
+            "daemon_child_pid": child_pid,
+            "runtime_api": {
+                "status": "embedded_in_daemon",
+                "bind": manifest.api_bind,
+                "pid_model": "same_process_as_csm_daemon_child"
+            },
+            "restart_policy": "always",
+            "restart_count": restart_count,
+            "daemon_restart_count": restart_count,
+            "last_child_exit": last_child_exit,
+            "stop_policy": "explicit_stop_intent_only",
+            "max_cycles": "not_applicable",
+            "request_budget": "not_applicable",
+            "updated_at": Utc::now().to_rfc3339()
+        }),
+    )
+}
+
+fn rust_supervisor_backoff_secs(restart_count: u64) -> u64 {
+    2u64.saturating_pow(restart_count.min(4) as u32).min(30)
 }
 
 fn service_status(
@@ -632,6 +871,18 @@ fn service_status(
         last_failed_startup_at(manifest).unwrap_or(DateTime::<Utc>::UNIX_EPOCH);
     let first_daemon_record_observed =
         verified_daemon_record_observed(manifest, pid, daemon_record_not_before);
+    let runtime_api_observed = runtime_api_bind_observed(manifest);
+    let startup_classification = startup_classification(
+        manifest,
+        pid.as_ref().copied(),
+        &pid_liveness,
+        first_daemon_record_observed,
+    );
+    let service_state = if state == "running" && startup_classification != "startup_runtime_ready" {
+        "startup_failed"
+    } else {
+        state
+    };
     Ok(ServiceStatus {
         schema: SERVICE_STATUS_SCHEMA,
         label: manifest.label.clone(),
@@ -639,7 +890,7 @@ fn service_status(
         runtime_owner: "csm",
         restart_policy: manifest.restart_policy.clone(),
         service_mode: manifest.service_mode.clone(),
-        service_state: state.to_string(),
+        service_state: service_state.to_string(),
         pid,
         pid_liveness: pid_liveness.clone(),
         broad_process_scan: false,
@@ -655,15 +906,11 @@ fn service_status(
         otel_log_ref: ref_for(&manifest.service_root, &manifest.otel_log),
         otel_status_ref: ref_for(&manifest.service_root, &manifest.otel_status),
         startup_ledger_ref: ref_for(&manifest.service_root, &manifest.startup_ledger),
-        startup_classification: startup_classification(
-            manifest,
-            pid.as_ref().copied(),
-            &pid_liveness,
-            first_daemon_record_observed,
-        ),
+        startup_classification,
         first_daemon_record_observed,
         continuity_checkpoint_observed: manifest.continuity_checkpoint.exists(),
         cycle_ledger_observed: cycle_ledger_path(manifest).exists(),
+        runtime_api_observed,
         otlp_exporter_configured: manifest.otlp_endpoint.is_some(),
         otlp_endpoint_ref: manifest.otlp_endpoint.as_ref().map(|_| "<configured>"),
         last_action: action.to_string(),
@@ -748,17 +995,21 @@ fn observe_startup(
             verified_daemon_record_observed(manifest, pid, not_before);
         let cycle_ledger_observed = cycle_ledger_path(manifest).exists();
         let continuity_checkpoint_observed = manifest.continuity_checkpoint.exists();
+        let runtime_api_observed = runtime_api_bind_observed(manifest);
+        let last_daemon_event = daemon_last_event(manifest);
         let classification = classify_startup(
             pid.as_ref().copied(),
             &pid_liveness,
             first_daemon_record_observed,
             cycle_ledger_observed,
             continuity_checkpoint_observed,
+            runtime_api_observed,
+            last_daemon_event.as_deref(),
         );
         last = StartupObservation {
             pid,
             classification,
-            healthy: classification == "startup_first_daemon_record_observed",
+            healthy: classification == "startup_runtime_ready",
         };
         record_startup_probe(
             manifest,
@@ -769,10 +1020,12 @@ fn observe_startup(
                 first_daemon_record_observed,
                 cycle_ledger_observed,
                 continuity_checkpoint_observed,
+                runtime_api_observed,
+                last_daemon_event: last_daemon_event.as_deref(),
                 classification,
             },
         )?;
-        if last.healthy || classification == "startup_stale_before_first_daemon_record" {
+        if last.healthy || classification == "startup_stale_before_runtime_ready" {
             return Ok(last);
         }
         thread::sleep(Duration::from_millis(100));
@@ -796,6 +1049,39 @@ fn cycle_ledger_path(manifest: &ServiceManifest) -> PathBuf {
         .join("cycle_ledger.jsonl")
 }
 
+fn runtime_api_bind_observed(manifest: &ServiceManifest) -> bool {
+    let Ok(addr) = manifest.api_bind.parse::<SocketAddr>() else {
+        return false;
+    };
+    if !addr.ip().is_loopback() {
+        return false;
+    }
+    let Ok(mut stream) = TcpStream::connect_timeout(&addr, Duration::from_millis(100)) else {
+        return false;
+    };
+    let _ = stream.set_read_timeout(Some(Duration::from_millis(200)));
+    let _ = stream.set_write_timeout(Some(Duration::from_millis(200)));
+    let request = format!(
+        "GET /ready HTTP/1.1\r\nhost: {}\r\nconnection: close\r\n\r\n",
+        manifest.api_bind
+    );
+    if stream.write_all(request.as_bytes()).is_err() {
+        return false;
+    }
+    let mut response = String::new();
+    if stream.read_to_string(&mut response).is_err() {
+        return false;
+    }
+    let Some((_, body)) = response.split_once("\r\n\r\n") else {
+        return false;
+    };
+    let Ok(value) = serde_json::from_str::<Value>(body) else {
+        return false;
+    };
+    value.get("schema").and_then(Value::as_str) == Some("adl.csm.runtime_api.ready.v1")
+        && value.get("ready").and_then(Value::as_str) == Some("ready")
+}
+
 fn startup_classification(
     manifest: &ServiceManifest,
     pid: Option<u32>,
@@ -808,8 +1094,10 @@ fn startup_classification(
         first_daemon_record_observed,
         cycle_ledger_path(manifest).exists(),
         manifest.continuity_checkpoint.exists(),
+        runtime_api_bind_observed(manifest),
+        daemon_last_event(manifest).as_deref(),
     );
-    if current == "startup_first_daemon_record_observed" {
+    if current == "startup_runtime_ready" {
         return current.to_string();
     }
     if let Some(classification) = last_startup_classification(manifest) {
@@ -820,10 +1108,11 @@ fn startup_classification(
 
 fn verified_daemon_record_observed(
     manifest: &ServiceManifest,
-    pid: Option<u32>,
+    _pid: Option<u32>,
     not_before: DateTime<Utc>,
 ) -> bool {
-    pid.and_then(|pid| daemon_status_matches_pid_spec_and_time(manifest, pid, not_before).ok())
+    daemon_status_matches_spec_time_and_live_child(manifest, not_before)
+        .ok()
         .unwrap_or(false)
 }
 
@@ -847,6 +1136,29 @@ fn fresh_daemon_pid_after(manifest: &ServiceManifest, not_before: DateTime<Utc>)
         .get("supervisor_pid")
         .and_then(Value::as_u64)
         .and_then(|pid| u32::try_from(pid).ok())
+}
+
+fn supervisor_status_matches_pid_and_spec(manifest: &ServiceManifest, pid: u32) -> Result<bool> {
+    if !manifest.supervisor_status.exists() {
+        return Ok(false);
+    }
+    let raw = fs::read_to_string(&manifest.supervisor_status)?;
+    let value: Value = serde_json::from_str(&raw)?;
+    let supervisor_pid = value
+        .get("supervisor_pid")
+        .and_then(Value::as_u64)
+        .and_then(|pid| u32::try_from(pid).ok());
+    let label = value.get("label").and_then(Value::as_str);
+    Ok(supervisor_pid == Some(pid) && label == Some(manifest.label.as_str()))
+}
+
+fn daemon_last_event(manifest: &ServiceManifest) -> Option<String> {
+    let raw = fs::read_to_string(&manifest.daemon_status).ok()?;
+    let value: Value = serde_json::from_str(&raw).ok()?;
+    value
+        .get("last_event")
+        .and_then(Value::as_str)
+        .map(str::to_string)
 }
 
 fn last_startup_classification(manifest: &ServiceManifest) -> Option<String> {
@@ -900,19 +1212,36 @@ fn classify_startup(
     pid: Option<u32>,
     pid_liveness: &str,
     first_daemon_record_observed: bool,
-    _cycle_ledger_observed: bool,
-    _continuity_checkpoint_observed: bool,
+    cycle_ledger_observed: bool,
+    continuity_checkpoint_observed: bool,
+    runtime_api_observed: bool,
+    last_daemon_event: Option<&str>,
 ) -> &'static str {
-    if first_daemon_record_observed && pid_liveness == "live_pid" {
-        "startup_first_daemon_record_observed"
+    if matches!(last_daemon_event, Some("stop_completed")) {
+        "startup_daemon_stopped_during_start"
+    } else if first_daemon_record_observed
+        && pid_liveness == "live_pid"
+        && cycle_ledger_observed
+        && continuity_checkpoint_observed
+        && runtime_api_observed
+    {
+        "startup_runtime_ready"
+    } else if first_daemon_record_observed
+        && pid_liveness == "live_pid"
+        && cycle_ledger_observed
+        && continuity_checkpoint_observed
+    {
+        "startup_daemon_live_waiting_for_runtime_api"
+    } else if first_daemon_record_observed && pid_liveness == "live_pid" {
+        "startup_daemon_live_waiting_for_runtime_evidence"
     } else if first_daemon_record_observed {
         "startup_daemon_record_without_live_pid"
     } else if matches!(pid_liveness, "stale_pid") {
-        "startup_stale_before_first_daemon_record"
+        "startup_stale_before_runtime_ready"
     } else if pid.is_none() {
         "startup_missing_pid_metadata"
     } else {
-        "startup_waiting_for_first_daemon_record"
+        "startup_waiting_for_runtime_ready"
     }
 }
 
@@ -923,6 +1252,8 @@ struct StartupProbeRecord<'a> {
     first_daemon_record_observed: bool,
     cycle_ledger_observed: bool,
     continuity_checkpoint_observed: bool,
+    runtime_api_observed: bool,
+    last_daemon_event: Option<&'a str>,
     classification: &'a str,
 }
 
@@ -932,6 +1263,8 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
     let first_s = probe.first_daemon_record_observed.to_string();
     let cycle_s = probe.cycle_ledger_observed.to_string();
     let checkpoint_s = probe.continuity_checkpoint_observed.to_string();
+    let api_s = probe.runtime_api_observed.to_string();
+    let daemon_event_s = probe.last_daemon_event.unwrap_or("");
     append_startup_ledger(
         manifest,
         "startup_probe",
@@ -942,7 +1275,10 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
             "pid_liveness": probe.pid_liveness,
             "first_daemon_record_observed": probe.first_daemon_record_observed,
             "cycle_ledger_observed": probe.cycle_ledger_observed,
-            "continuity_checkpoint_observed": probe.continuity_checkpoint_observed
+            "continuity_checkpoint_observed": probe.continuity_checkpoint_observed,
+            "runtime_api_observed": probe.runtime_api_observed,
+            "runtime_api_bind": manifest.api_bind,
+            "last_daemon_event": probe.last_daemon_event
         })),
     )?;
     emit_service_event(
@@ -956,6 +1292,9 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
             ("first_daemon_record_observed", &first_s),
             ("cycle_ledger_observed", &cycle_s),
             ("continuity_checkpoint_observed", &checkpoint_s),
+            ("runtime_api_observed", &api_s),
+            ("runtime_api_bind", &manifest.api_bind),
+            ("last_daemon_event", daemon_event_s),
         ],
     )?;
     Ok(())
@@ -1279,7 +1618,10 @@ fn read_daemon_pid(path: &Path) -> Result<Option<u32>> {
         .and_then(|pid| u32::try_from(pid).ok()))
 }
 
-fn daemon_status_matches_pid_and_spec(manifest: &ServiceManifest, pid: u32) -> Result<bool> {
+fn daemon_status_matches_spec_time_and_live_child(
+    manifest: &ServiceManifest,
+    not_before: DateTime<Utc>,
+) -> Result<bool> {
     if !manifest.daemon_status.exists() {
         return Ok(false);
     }
@@ -1291,25 +1633,15 @@ fn daemon_status_matches_pid_and_spec(manifest: &ServiceManifest, pid: u32) -> R
         .and_then(Value::as_u64)
         .and_then(|pid| u32::try_from(pid).ok());
     let agent_id = value.get("agent_instance_id").and_then(Value::as_str);
-    Ok(daemon_pid == Some(pid) && agent_id == Some(loaded.spec.agent_instance_id.as_str()))
-}
-
-fn daemon_status_matches_pid_spec_and_time(
-    manifest: &ServiceManifest,
-    pid: u32,
-    not_before: DateTime<Utc>,
-) -> Result<bool> {
-    if !manifest.daemon_status.exists() {
-        return Ok(false);
-    }
-    let raw = fs::read_to_string(&manifest.daemon_status)?;
-    let value: Value = serde_json::from_str(&raw)?;
     let updated_at = value
         .get("updated_at")
         .and_then(Value::as_str)
         .and_then(|raw| DateTime::parse_from_rfc3339(raw).ok())
         .map(|value| value.with_timezone(&Utc));
-    Ok(daemon_status_matches_pid_and_spec(manifest, pid)?
+    Ok(agent_id == Some(loaded.spec.agent_instance_id.as_str())
+        && daemon_pid
+            .map(|pid| pid_liveness(pid) == "live_pid")
+            .unwrap_or(false)
         && updated_at
             .map(|updated_at| updated_at >= not_before)
             .unwrap_or(false))
@@ -1375,13 +1707,21 @@ fn unsupported_permanence_claims() -> Vec<String> {
 fn normalize_service_manifest_metadata(mut manifest: ServiceManifest) -> ServiceManifest {
     manifest.restart_policy = service_restart_policy(manifest.manager, manifest.no_sleep);
     manifest.service_mode = service_mode(manifest.manager, manifest.no_sleep);
+    if manifest.supervisor_status.as_os_str().is_empty() {
+        manifest.supervisor_status = manifest
+            .service_root
+            .join("logs/rust_supervisor_status.json");
+    }
+    if manifest.api_bind.trim().is_empty() {
+        manifest.api_bind = DEFAULT_API_BIND.to_string();
+    }
     manifest
 }
 
 fn service_restart_policy(manager: ServiceManager, no_sleep: bool) -> String {
     if no_sleep {
         "bounded_test_only".to_string()
-    } else if manager == ServiceManager::Launchd {
+    } else if matches!(manager, ServiceManager::Launchd | ServiceManager::Local) {
         "always".to_string()
     } else {
         "external_supervisor_required".to_string()
@@ -1394,13 +1734,13 @@ fn service_mode(manager: ServiceManager, no_sleep: bool) -> String {
     } else if manager == ServiceManager::Launchd {
         "permanent".to_string()
     } else {
-        "local_proof_only".to_string()
+        "rust_supervisor".to_string()
     }
 }
 
 pub(crate) fn service_usage() -> &'static str {
     "Usage:
-  csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--otlp-endpoint <url>] [--otlp-timeout-ms <n>] [--no-recover-stale-lease] [--no-sleep] [--json]
+  csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--api-bind 127.0.0.1:19997] [--otlp-endpoint <url>] [--otlp-timeout-ms <n>] [--no-recover-stale-lease] [--no-sleep] [--json]
   csm service start [--service-root <dir>] [--json]
   csm service status [--service-root <dir>] [--json]
   csm service stop [--service-root <dir>] [--json]
@@ -1408,8 +1748,9 @@ pub(crate) fn service_usage() -> &'static str {
 
 Semantics:
   - csm service is the host-service envelope for the standalone csm runtime owner.
-  - launchd service mode records restart_policy=always and service_mode=permanent; launchd KeepAlive is the primary macOS service-manager target and systemd Restart=always compatible metadata is retained.
-  - local mode is a bounded proof fallback and records external_supervisor_required/local_proof_only.
+  - launchd service mode records restart_policy=always and service_mode=permanent; launchd KeepAlive is a host service-manager target and systemd Restart=always compatible metadata is retained for Linux packaging.
+  - local mode is the portable Rust supervisor path and records restart_policy=always/service_mode=rust_supervisor; startup is healthy only after live supervisor pid, live daemon child status, cycle-ledger, and continuity-checkpoint evidence.
+  - runtime API binding is passed into csm daemon and runs as an embedded runtime module, not as a separate API service process.
   - the managed command is always csm daemon, never adl agent daemon.
   - --no-sleep is an explicit test-only bounded harness boundary, not production service mode.
   - service artifacts include service_manifest.json, service_status.json, csm.launchd.plist, logs, OTel status/export paths, daemon_status.json, continuity checkpoints, and operator events.

@@ -46,6 +46,18 @@ pub(super) fn csm_notice_latest_path(loaded: &LoadedAgentSpec) -> PathBuf {
     loaded.state_root.join("csm_governed_notice_latest.json")
 }
 
+pub(super) fn governed_stop_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("governed_stop.json")
+}
+
+pub(super) fn csm_lifecycle_lifelog_db_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("csm_lifecycle_lifelog.db.jsonl")
+}
+
+pub(super) fn csm_lifecycle_lifelog_index_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("csm_lifecycle_lifelog.index.json")
+}
+
 pub(super) fn checkpoint_request_path(loaded: &LoadedAgentSpec) -> PathBuf {
     loaded.state_root.join("checkpoint_request.json")
 }
@@ -113,6 +125,15 @@ pub(super) fn read_stop(loaded: &LoadedAgentSpec) -> Result<Option<StopRecord>> 
     read_json_optional(&stop_path(loaded))
 }
 
+pub(super) fn remove_stop(loaded: &LoadedAgentSpec) -> Result<()> {
+    let path = stop_path(loaded);
+    match fs::remove_file(&path) {
+        Ok(()) => Ok(()),
+        Err(err) if err.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(err) => Err(err).with_context(|| format!("failed removing stop {}", path.display())),
+    }
+}
+
 pub(super) fn remove_lease(loaded: &LoadedAgentSpec) -> Result<()> {
     let path = lease_path(loaded);
     match fs::remove_file(&path) {
@@ -151,14 +172,31 @@ where
         fs::create_dir_all(parent)
             .with_context(|| format!("failed creating {}", parent.display()))?;
     }
-    let file = File::create(path).with_context(|| format!("failed creating {}", path.display()))?;
-    serde_json::to_writer_pretty(&file, value)
-        .with_context(|| format!("failed writing {}", path.display()))?;
-    fs::OpenOptions::new()
-        .append(true)
-        .open(path)?
-        .write_all(b"\n")
-        .with_context(|| format!("failed finalizing {}", path.display()))?;
+    let tmp_path = path.with_extension(format!(
+        "{}tmp-{}",
+        path.extension()
+            .and_then(|extension| extension.to_str())
+            .map(|extension| format!("{extension}."))
+            .unwrap_or_default(),
+        std::process::id()
+    ));
+    {
+        let mut file = File::create(&tmp_path)
+            .with_context(|| format!("failed creating {}", tmp_path.display()))?;
+        serde_json::to_writer_pretty(&mut file, value)
+            .with_context(|| format!("failed writing {}", tmp_path.display()))?;
+        file.write_all(b"\n")
+            .with_context(|| format!("failed finalizing {}", tmp_path.display()))?;
+        file.sync_all()
+            .with_context(|| format!("failed syncing {}", tmp_path.display()))?;
+    }
+    fs::rename(&tmp_path, path).with_context(|| {
+        format!(
+            "failed replacing {} with {}",
+            path.display(),
+            tmp_path.display()
+        )
+    })?;
     Ok(())
 }
 
