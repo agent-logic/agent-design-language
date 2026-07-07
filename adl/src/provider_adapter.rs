@@ -8,8 +8,10 @@ use crate::provider_communication::{
     PROVIDER_COMMUNICATION_SCHEMA_VERSION,
 };
 use crate::resilience::{
-    execute_retry_policy, execute_timeout_policy, ResilienceFaultClassV1, ResilienceSurfaceV1,
-    RetryAttemptRecordV1, TimeoutBreachKindV1, TimeoutObservation,
+    circuit_breaker_initial_state, execute_circuit_breaker_policy, execute_retry_policy,
+    execute_timeout_policy, CircuitBreakerFinalStatusV1, CircuitBreakerPolicyV1,
+    CircuitBreakerStateV1, ResilienceFaultClassV1, ResilienceSurfaceV1, RetryAttemptRecordV1,
+    RetryExecutionTraceV1, TimeoutBreachKindV1, TimeoutObservation,
 };
 use anyhow::{anyhow, Result};
 use reqwest::blocking::Client;
@@ -18,7 +20,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::env;
 use std::sync::{Mutex, MutexGuard, OnceLock, TryLockError};
-use std::time::{Duration, Instant};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 const DEFAULT_OPENAI_RESPONSES_URL: &str = "https://api.openai.com/v1/responses";
 const DEFAULT_ANTHROPIC_MESSAGES_URL: &str = "https://api.anthropic.com/v1/messages";
@@ -29,6 +31,8 @@ const DEFAULT_OPENROUTER_MAX_TOKENS: u64 = 2048;
 const DEFAULT_GEMINI_BASE_URL: &str = "https://generativelanguage.googleapis.com/v1beta";
 const DEFAULT_OLLAMA_BASE_URL: &str = "http://127.0.0.1:11434";
 static OLLAMA_RUNTIME_BULKHEADS: OnceLock<Mutex<HashMap<String, &'static Mutex<()>>>> =
+    OnceLock::new();
+static PROVIDER_CIRCUIT_STATES: OnceLock<Mutex<HashMap<String, CircuitBreakerStateV1>>> =
     OnceLock::new();
 
 pub fn execute_provider_invocation(
@@ -56,55 +60,95 @@ pub fn execute_provider_invocation(
 
     let _ = logger.event(event("run_start", &request).with_status("started"));
     let policy = request.attempt_policy.clone();
-    let resilience_policy =
+    let mut resilience_policy =
         provider_attempt_policy_as_resilience_policy("provider_adapter.execute", &policy);
+    resilience_policy.circuit_breaker = Some(provider_circuit_breaker_policy(&policy));
     let route = request.route.clone();
     let lane_ref = request.lane_ref.clone();
     let event_model_identity = request.model_identity.clone();
     let logger_cell = RefCell::new(&mut *logger);
-    let execution = execute_retry_policy(
+    let circuit_key = provider_circuit_key(&request);
+    let circuit_state_before = provider_circuit_state(&circuit_key, &resilience_policy);
+    let retry_trace = RefCell::new(None::<RetryExecutionTraceV1>);
+    let circuit_execution = execute_circuit_breaker_policy(
         &resilience_policy,
         ResilienceSurfaceV1::Provider,
         "provider_adapter.execute",
-        |attempt_index| {
-            let _ = logger_cell.borrow_mut().event(
-                ProviderRunLogEventV1::new("attempt_start")
-                    .with_route(&route, &event_model_identity)
-                    .with_lane(&lane_ref)
-                    .with_attempt(attempt_index),
-            );
-            let started = Instant::now();
-            execute_timeout_policy(
+        &circuit_state_before,
+        now_ms(),
+        || {
+            let execution = execute_retry_policy(
                 &resilience_policy,
                 ResilienceSurfaceV1::Provider,
-                "provider_adapter.attempt",
-                || TimeoutObservation {
-                    result: execute_runtime_surface_attempt(&mut request, &policy),
-                    elapsed_ms: started.elapsed().as_millis() as u64,
-                    cancelled: false,
+                "provider_adapter.retry",
+                |attempt_index| {
+                    let _ = logger_cell.borrow_mut().event(
+                        ProviderRunLogEventV1::new("attempt_start")
+                            .with_route(&route, &event_model_identity)
+                            .with_lane(&lane_ref)
+                            .with_attempt(attempt_index),
+                    );
+                    let started = Instant::now();
+                    execute_timeout_policy(
+                        &resilience_policy,
+                        ResilienceSurfaceV1::Provider,
+                        "provider_adapter.attempt",
+                        || TimeoutObservation {
+                            result: execute_runtime_surface_attempt(&mut request, &policy),
+                            elapsed_ms: started.elapsed().as_millis() as u64,
+                            cancelled: false,
+                        },
+                        provider_failure_classification_from_failure,
+                        timeout_failure,
+                        cancelled_failure,
+                    )
+                    .result
                 },
                 provider_failure_classification_from_failure,
-                timeout_failure,
-                cancelled_failure,
-            )
-            .result
+                |delay_ms| std::thread::sleep(Duration::from_millis(delay_ms)),
+                |attempt| {
+                    emit_retry_attempt_event(
+                        &mut logger_cell.borrow_mut(),
+                        &route,
+                        &lane_ref,
+                        &event_model_identity,
+                        attempt,
+                    )
+                },
+            );
+            *retry_trace.borrow_mut() = Some(execution.trace.clone());
+            execution.result
         },
         provider_failure_classification_from_failure,
-        |delay_ms| std::thread::sleep(Duration::from_millis(delay_ms)),
-        |attempt| {
-            emit_retry_attempt_event(
-                &mut logger_cell.borrow_mut(),
-                &route,
-                &lane_ref,
-                &event_model_identity,
-                attempt,
-            )
-        },
+        provider_circuit_rejection,
+        None::<fn() -> ProviderTextResponse>,
     );
+    store_provider_circuit_state(circuit_key, circuit_execution.state.clone());
+    emit_circuit_breaker_event(
+        &mut logger_cell.borrow_mut(),
+        &request,
+        &circuit_execution.trace,
+    );
+    let retry_trace = retry_trace.into_inner();
     let duration_ms = started.elapsed().as_millis() as u64;
 
-    match execution.result {
+    match circuit_execution.result {
         Ok(provider_response) => {
+            let Some(trace) = retry_trace else {
+                let failure = provider_failure_from_note(
+                    "provider circuit completed without retry trace",
+                    None,
+                );
+                let attempts = vec![preflight_failure_attempt(&request, &failure)];
+                return terminal_result(
+                    request,
+                    attempts,
+                    failure,
+                    duration_ms,
+                    ProviderInvocationFinalStatusV1::Failed,
+                    Some("provider_adapter.circuit_breaker".to_string()),
+                );
+            };
             let output_text = provider_response.output_text.clone();
             let mut model_identity = request.model_identity.clone();
             if let Some(ref observed_provider_model_id) =
@@ -114,11 +158,8 @@ pub fn execute_provider_invocation(
                     model_identity.provider_model_id = observed_provider_model_id.clone();
                 }
             }
-            let attempts = provider_attempts_from_trace(
-                &execution.trace.attempts,
-                Some(&provider_response),
-                None,
-            );
+            let attempts =
+                provider_attempts_from_trace(&trace.attempts, Some(&provider_response), None);
             let _ = logger_cell
                 .borrow_mut()
                 .event(event("run_finish", &request).with_status("ok"));
@@ -134,21 +175,130 @@ pub fn execute_provider_invocation(
                 output_text_excerpt: Some(redacted_response_marker(&output_text)),
                 failure: None,
                 artifact_ref: None,
-                trace_ref: None,
+                trace_ref: Some("provider_adapter.circuit_breaker".to_string()),
             }
         }
         Err(failure) => {
-            let failure = normalize_terminal_failure(&execution.trace.attempts, &failure);
-            let attempts =
-                provider_attempts_from_trace(&execution.trace.attempts, None, Some(&failure));
+            let (failure, attempts, final_status) = if let Some(trace) = retry_trace {
+                let failure = normalize_terminal_failure(&trace.attempts, &failure);
+                let attempts = provider_attempts_from_trace(&trace.attempts, None, Some(&failure));
+                (failure, attempts, ProviderInvocationFinalStatusV1::Failed)
+            } else {
+                let mut failure = failure;
+                failure.retryable = false;
+                let attempts = vec![preflight_failure_attempt(&request, &failure)];
+                (failure, attempts, ProviderInvocationFinalStatusV1::Blocked)
+            };
+            let terminal_log_status = if final_status == ProviderInvocationFinalStatusV1::Blocked {
+                "blocked"
+            } else {
+                "failed"
+            };
             let _ = logger_cell.borrow_mut().event(
                 event("run_finish", &request)
                     .with_failure(&failure)
-                    .with_status("failed"),
+                    .with_status(terminal_log_status),
             );
-            failed_result(request, attempts, failure, duration_ms)
+            terminal_result(
+                request,
+                attempts,
+                failure,
+                duration_ms,
+                final_status,
+                Some("provider_adapter.circuit_breaker".to_string()),
+            )
         }
     }
+}
+
+fn provider_circuit_breaker_policy(policy: &ProviderAttemptPolicyV1) -> CircuitBreakerPolicyV1 {
+    CircuitBreakerPolicyV1 {
+        failure_threshold: 2,
+        recovery_window_ms: policy.timeout_ms.max(1_000),
+        half_open_max_attempts: 1,
+    }
+}
+
+fn provider_circuit_states() -> &'static Mutex<HashMap<String, CircuitBreakerStateV1>> {
+    PROVIDER_CIRCUIT_STATES.get_or_init(|| Mutex::new(HashMap::new()))
+}
+
+fn provider_circuit_state(
+    key: &str,
+    policy: &crate::resilience::ResiliencePolicyV1,
+) -> CircuitBreakerStateV1 {
+    provider_circuit_states()
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner())
+        .get(key)
+        .cloned()
+        .unwrap_or_else(|| circuit_breaker_initial_state(policy))
+}
+
+fn store_provider_circuit_state(key: String, state: CircuitBreakerStateV1) {
+    provider_circuit_states()
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner())
+        .insert(key, state);
+}
+
+#[cfg(test)]
+fn clear_provider_circuit_states_for_tests() {
+    provider_circuit_states()
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner())
+        .clear();
+}
+
+fn provider_circuit_key(request: &ProviderInvocationRequestV1) -> String {
+    format!(
+        "{}::{}::{:?}",
+        request.route.provider, request.route.provider_model_id, request.route.runtime_surface,
+    )
+}
+
+fn provider_circuit_rejection(_state: &CircuitBreakerStateV1, _now_ms: u64) -> ProviderFailureV1 {
+    ProviderFailureV1 {
+        kind: ProviderFailureKindV1::ProviderError,
+        retryable: false,
+        message: "provider circuit breaker open; dependency call rejected".to_string(),
+        provider_error_excerpt: Some(
+            "provider circuit breaker open; dependency call rejected".to_string(),
+        ),
+        http_status: None,
+    }
+}
+
+fn emit_circuit_breaker_event(
+    logger: &mut ProviderRunLoggerV1,
+    request: &ProviderInvocationRequestV1,
+    trace: &crate::resilience::CircuitBreakerExecutionTraceV1,
+) {
+    let status = match trace.final_status {
+        CircuitBreakerFinalStatusV1::ClosedSuccess
+        | CircuitBreakerFinalStatusV1::HalfOpenProbeSuccess => "ok",
+        CircuitBreakerFinalStatusV1::OpenRejected
+        | CircuitBreakerFinalStatusV1::HalfOpenProbeRejected => "blocked",
+        CircuitBreakerFinalStatusV1::ClosedFailure
+        | CircuitBreakerFinalStatusV1::OpenFallback
+        | CircuitBreakerFinalStatusV1::HalfOpenProbeFailure => "failed",
+    };
+    let mut event = event("circuit_breaker_decision", request).with_status(status);
+    event.message = Some(trace.decision_summary.clone());
+    event.fields = Some(json!({
+        "state_before": trace.state_before,
+        "state_after": trace.state_after,
+        "final_status": trace.final_status,
+        "operation_executed": trace.operation_executed,
+    }));
+    let _ = logger.event(event);
+}
+
+fn now_ms() -> u64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_millis() as u64
 }
 
 fn execute_runtime_surface_attempt(
@@ -246,19 +396,37 @@ fn failed_result(
     failure: ProviderFailureV1,
     duration_ms: u64,
 ) -> ProviderInvocationResultV1 {
+    terminal_result(
+        request,
+        attempts,
+        failure,
+        duration_ms,
+        ProviderInvocationFinalStatusV1::Failed,
+        None,
+    )
+}
+
+fn terminal_result(
+    request: ProviderInvocationRequestV1,
+    attempts: Vec<ProviderAttemptV1>,
+    failure: ProviderFailureV1,
+    duration_ms: u64,
+    final_status: ProviderInvocationFinalStatusV1,
+    trace_ref: Option<String>,
+) -> ProviderInvocationResultV1 {
     ProviderInvocationResultV1 {
         schema_version: PROVIDER_COMMUNICATION_SCHEMA_VERSION.to_string(),
         route: request.route,
         model_identity: request.model_identity,
         attempts,
-        final_status: ProviderInvocationFinalStatusV1::Failed,
+        final_status,
         duration_ms,
         request_id: request.request_id,
         output_text: None,
         output_text_excerpt: None,
         failure: Some(failure),
         artifact_ref: None,
-        trace_ref: None,
+        trace_ref,
     }
 }
 
@@ -1629,6 +1797,140 @@ mod tests {
 
         let _ = fs::remove_file(path);
         env::remove_var("ADL_PROVIDER_ADAPTER_EXHAUST_KEY");
+    }
+
+    #[test]
+    fn hosted_openai_repeated_failures_open_provider_circuit() {
+        clear_provider_circuit_states_for_tests();
+        env::set_var("ADL_PROVIDER_ADAPTER_CIRCUIT_KEY", "test-key");
+        let endpoint = scripted_server(vec![
+            (
+                r#"{"error":"server overloaded"}"#,
+                "503 Service Unavailable",
+            ),
+            (
+                r#"{"error":"server overloaded"}"#,
+                "503 Service Unavailable",
+            ),
+        ]);
+        let path = temp_log("circuit-open");
+        let mut logger = ProviderRunLoggerV1::create(&path, "run-test").expect("open logger");
+        let mut req = request(RuntimeSurfaceV1::HostedApi, endpoint);
+        req.route.credential_ref = Some("env:ADL_PROVIDER_ADAPTER_CIRCUIT_KEY".to_string());
+        req.attempt_policy.max_attempts = 1;
+
+        let first = execute_provider_invocation(req.clone(), &mut logger);
+        let second = execute_provider_invocation(req.clone(), &mut logger);
+        let third = execute_provider_invocation(req, &mut logger);
+        drop(logger);
+
+        assert_eq!(first.final_status, ProviderInvocationFinalStatusV1::Failed);
+        assert_eq!(second.final_status, ProviderInvocationFinalStatusV1::Failed);
+        assert_eq!(third.final_status, ProviderInvocationFinalStatusV1::Blocked);
+        assert_eq!(third.attempts.len(), 1);
+        assert_eq!(third.attempts[0].status, ProviderAttemptStatusV1::Error);
+        assert_eq!(
+            third
+                .failure
+                .as_ref()
+                .map(|failure| failure.message.as_str()),
+            Some("provider circuit breaker open; dependency call rejected")
+        );
+        crate::provider_communication::validate_provider_result(&third)
+            .expect("open circuit result stays contract-valid");
+        let log = fs::read_to_string(&path).expect("read log");
+        assert!(log.contains("circuit_breaker_decision"));
+        assert!(log.contains(r#""status":"blocked""#));
+        assert!(!log.contains("server overloaded"));
+
+        let _ = fs::remove_file(path);
+        env::remove_var("ADL_PROVIDER_ADAPTER_CIRCUIT_KEY");
+        clear_provider_circuit_states_for_tests();
+    }
+
+    #[test]
+    fn hosted_openai_half_open_success_closes_provider_circuit() {
+        clear_provider_circuit_states_for_tests();
+        env::set_var("ADL_PROVIDER_ADAPTER_CIRCUIT_RECOVERY_KEY", "test-key");
+        let failing_endpoint = scripted_server(vec![
+            (
+                r#"{"error":"server overloaded"}"#,
+                "503 Service Unavailable",
+            ),
+            (
+                r#"{"error":"server overloaded"}"#,
+                "503 Service Unavailable",
+            ),
+        ]);
+        let path = temp_log("circuit-recovery");
+        let mut logger = ProviderRunLoggerV1::create(&path, "run-test").expect("open logger");
+        let mut req = request(RuntimeSurfaceV1::HostedApi, failing_endpoint);
+        req.route.credential_ref =
+            Some("env:ADL_PROVIDER_ADAPTER_CIRCUIT_RECOVERY_KEY".to_string());
+        req.attempt_policy.max_attempts = 1;
+
+        let _ = execute_provider_invocation(req.clone(), &mut logger);
+        let opened = execute_provider_invocation(req.clone(), &mut logger);
+        assert_eq!(opened.final_status, ProviderInvocationFinalStatusV1::Failed);
+
+        let key = provider_circuit_key(&req);
+        provider_circuit_states()
+            .lock()
+            .unwrap_or_else(|poisoned| poisoned.into_inner())
+            .get_mut(&key)
+            .expect("opened circuit state")
+            .opened_at_ms = Some(0);
+
+        let recovery_endpoint = one_shot_server(r#"{"output_text":"recovered"}"#, "200 OK");
+        req.route.endpoint_ref = Some(recovery_endpoint);
+        assert_eq!(
+            provider_circuit_key(&req),
+            key,
+            "provider/model circuit state must not fragment by endpoint"
+        );
+
+        let recovered = execute_provider_invocation(req, &mut logger);
+        drop(logger);
+
+        assert_eq!(recovered.final_status, ProviderInvocationFinalStatusV1::Ok);
+        assert_eq!(recovered.output_text.as_deref(), Some("recovered"));
+        assert_eq!(
+            provider_circuit_states()
+                .lock()
+                .unwrap_or_else(|poisoned| poisoned.into_inner())
+                .values()
+                .next()
+                .map(|state| state.state.clone()),
+            Some(crate::resilience::CircuitBreakerStateKindV1::Closed)
+        );
+        let log = fs::read_to_string(&path).expect("read log");
+        assert!(log.contains("circuit_breaker_decision"));
+        assert!(log.contains(r#""status":"ok""#));
+
+        let _ = fs::remove_file(path);
+        env::remove_var("ADL_PROVIDER_ADAPTER_CIRCUIT_RECOVERY_KEY");
+        clear_provider_circuit_states_for_tests();
+    }
+
+    #[test]
+    fn preflight_failures_do_not_claim_circuit_trace() {
+        let path = temp_log("preflight-no-circuit-trace");
+        let mut logger = ProviderRunLoggerV1::create(&path, "run-test").expect("open logger");
+        let mut invalid_request = request(
+            RuntimeSurfaceV1::HostedApi,
+            "http://127.0.0.1:1".to_string(),
+        );
+        invalid_request.input_text = None;
+
+        let result = execute_provider_invocation(invalid_request, &mut logger);
+        drop(logger);
+
+        assert_eq!(result.final_status, ProviderInvocationFinalStatusV1::Failed);
+        assert_eq!(result.trace_ref, None);
+        let log = fs::read_to_string(&path).expect("read log");
+        assert!(!log.contains("circuit_breaker_decision"));
+
+        let _ = fs::remove_file(path);
     }
 
     #[test]
