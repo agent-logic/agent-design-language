@@ -966,6 +966,18 @@ struct StartupObservation {
     healthy: bool,
 }
 
+#[derive(Debug, Clone, Copy)]
+struct StartupEvidence<'a> {
+    pid: Option<u32>,
+    pid_liveness: &'a str,
+    first_daemon_record_observed: bool,
+    cycle_ledger_observed: bool,
+    continuity_checkpoint_observed: bool,
+    runtime_api_observed: bool,
+    bounded_test_restart_observed: bool,
+    last_daemon_event: Option<&'a str>,
+}
+
 fn observe_startup(
     manifest: &ServiceManifest,
     local_start: Option<LocalStartOutcome>,
@@ -999,16 +1011,17 @@ fn observe_startup(
         let runtime_api_observed = runtime_api_bind_observed(manifest);
         let last_daemon_event = daemon_last_event(manifest);
         let bounded_test_restart_observed = bounded_test_supervisor_restart_observed(manifest);
-        let classification = classify_startup(
-            pid.as_ref().copied(),
-            &pid_liveness,
+        let evidence = StartupEvidence {
+            pid,
+            pid_liveness: &pid_liveness,
             first_daemon_record_observed,
             cycle_ledger_observed,
             continuity_checkpoint_observed,
             runtime_api_observed,
             bounded_test_restart_observed,
-            last_daemon_event.as_deref(),
-        );
+            last_daemon_event: last_daemon_event.as_deref(),
+        };
+        let classification = classify_startup(evidence);
         last = StartupObservation {
             pid,
             classification,
@@ -1092,16 +1105,16 @@ fn startup_classification(
     pid_liveness: &str,
     first_daemon_record_observed: bool,
 ) -> String {
-    let current = classify_startup(
+    let current = classify_startup(StartupEvidence {
         pid,
         pid_liveness,
         first_daemon_record_observed,
-        cycle_ledger_path(manifest).exists(),
-        manifest.continuity_checkpoint.exists(),
-        runtime_api_bind_observed(manifest),
-        bounded_test_supervisor_restart_observed(manifest),
-        daemon_last_event(manifest).as_deref(),
-    );
+        cycle_ledger_observed: cycle_ledger_path(manifest).exists(),
+        continuity_checkpoint_observed: manifest.continuity_checkpoint.exists(),
+        runtime_api_observed: runtime_api_bind_observed(manifest),
+        bounded_test_restart_observed: bounded_test_supervisor_restart_observed(manifest),
+        last_daemon_event: daemon_last_event(manifest).as_deref(),
+    });
     if startup_classification_is_healthy(current) {
         return current.to_string();
     }
@@ -1213,45 +1226,36 @@ fn last_failed_startup_at(manifest: &ServiceManifest) -> Option<DateTime<Utc>> {
         .flatten()
 }
 
-fn classify_startup(
-    pid: Option<u32>,
-    pid_liveness: &str,
-    first_daemon_record_observed: bool,
-    cycle_ledger_observed: bool,
-    continuity_checkpoint_observed: bool,
-    runtime_api_observed: bool,
-    bounded_test_restart_observed: bool,
-    last_daemon_event: Option<&str>,
-) -> &'static str {
-    if matches!(last_daemon_event, Some("stop_completed")) {
+fn classify_startup(evidence: StartupEvidence<'_>) -> &'static str {
+    if matches!(evidence.last_daemon_event, Some("stop_completed")) {
         "startup_daemon_stopped_during_start"
-    } else if first_daemon_record_observed
-        && pid_liveness == "live_pid"
-        && cycle_ledger_observed
-        && continuity_checkpoint_observed
-        && runtime_api_observed
+    } else if evidence.first_daemon_record_observed
+        && evidence.pid_liveness == "live_pid"
+        && evidence.cycle_ledger_observed
+        && evidence.continuity_checkpoint_observed
+        && evidence.runtime_api_observed
     {
         "startup_runtime_ready"
-    } else if first_daemon_record_observed
-        && pid_liveness == "live_pid"
-        && cycle_ledger_observed
-        && continuity_checkpoint_observed
-        && bounded_test_restart_observed
+    } else if evidence.first_daemon_record_observed
+        && evidence.pid_liveness == "live_pid"
+        && evidence.cycle_ledger_observed
+        && evidence.continuity_checkpoint_observed
+        && evidence.bounded_test_restart_observed
     {
         "startup_bounded_test_supervisor_restart_observed"
-    } else if first_daemon_record_observed
-        && pid_liveness == "live_pid"
-        && cycle_ledger_observed
-        && continuity_checkpoint_observed
+    } else if evidence.first_daemon_record_observed
+        && evidence.pid_liveness == "live_pid"
+        && evidence.cycle_ledger_observed
+        && evidence.continuity_checkpoint_observed
     {
         "startup_daemon_live_waiting_for_runtime_api"
-    } else if first_daemon_record_observed && pid_liveness == "live_pid" {
+    } else if evidence.first_daemon_record_observed && evidence.pid_liveness == "live_pid" {
         "startup_daemon_live_waiting_for_runtime_evidence"
-    } else if first_daemon_record_observed {
+    } else if evidence.first_daemon_record_observed {
         "startup_daemon_record_without_live_pid"
-    } else if matches!(pid_liveness, "stale_pid") {
+    } else if matches!(evidence.pid_liveness, "stale_pid") {
         "startup_stale_before_runtime_ready"
-    } else if pid.is_none() {
+    } else if evidence.pid.is_none() {
         "startup_missing_pid_metadata"
     } else {
         "startup_waiting_for_runtime_ready"
