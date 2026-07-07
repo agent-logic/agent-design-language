@@ -910,6 +910,11 @@ manager_profile_is_wp08_cloudfront_release_gate_contract() {
   return 0
 }
 
+manager_profile_is_release_gate_pr_fast_escalation() {
+  [ "$validation_profile_escalation_required" = true ] || return 1
+  [ "$validation_profile_escalation_lanes" = "release_gate_review,rust_pr_fast" ]
+}
+
 is_warmup_guidance_patch() {
   local path="$1"
   local saw_warmup_marker=false
@@ -1090,6 +1095,11 @@ apply_validation_manager_routing() {
     return 0
   fi
   if [ "$validation_profile_status" = "escalation_required" ] && ! manager_profile_is_release_gate_only_escalation; then
+    if manager_profile_is_release_gate_pr_fast_escalation; then
+      mark_pr_fast_rust_validation
+      reason="validation_manager_release_gate_pr_fast_escalation_runs_focused_validation"
+      return 0
+    fi
     fail_closed=true
     mark_authoritative_full_coverage "fail_closed" "validation_manager_escalation_requires_authoritative_full_coverage"
     return 0
