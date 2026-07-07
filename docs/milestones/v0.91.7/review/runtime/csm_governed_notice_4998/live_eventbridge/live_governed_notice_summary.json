@@ -11,7 +11,7 @@
     "schema": "adl.csm.governed_notice.v1",
     "notice_kind": "shutdown",
     "severity": "critical",
-    "trigger": "restart_budget_exhausted",
+    "trigger": "bounded_test_supervisor_failure",
     "recoverable_state": {
       "continuity_checkpoint_ref": "continuity_checkpoint.json",
       "safe_fail_ref": "safe_fail_bundle.json",

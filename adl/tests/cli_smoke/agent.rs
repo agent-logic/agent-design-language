@@ -523,7 +523,7 @@ memory:
             "daemon",
             "--spec",
             spec_str,
-            "--max-restarts",
+            "--test-supervisor-failure-after-restarts",
             "1",
             "--checkpoint-interval-secs",
             "1",
@@ -740,7 +740,7 @@ memory:
             "daemon",
             "--spec",
             spec_str,
-            "--max-restarts",
+            "--test-supervisor-failure-after-restarts",
             "1",
             "--checkpoint-interval-secs",
             "1",
@@ -912,9 +912,9 @@ memory:
             spec_str,
             "--bind",
             &addr.to_string(),
-            "--max-requests",
+            "--test-max-requests",
             "100",
-            "--idle-timeout-ms",
+            "--test-idle-timeout-ms",
             "1000",
             "--otel-status",
             otel_status.to_str().expect("utf8 otel status path"),
@@ -1060,7 +1060,7 @@ memory:
         "daemon",
         "--spec",
         spec.to_str().expect("utf8 spec"),
-        "--max-restarts",
+        "--test-supervisor-failure-after-restarts",
         "1",
         "--checkpoint-interval-secs",
         "1",
@@ -1258,7 +1258,7 @@ memory:
             .join("agent.yaml")
             .to_str()
             .expect("utf8 restored spec"),
-        "--max-restarts",
+        "--test-supervisor-failure-after-restarts",
         "1",
         "--checkpoint-interval-secs",
         "1",
@@ -1621,7 +1621,7 @@ memory:
             "daemon",
             "--spec",
             spec.to_str().expect("utf8 spec"),
-            "--max-restarts",
+            "--test-supervisor-failure-after-restarts",
             "1",
             "--checkpoint-interval-secs",
             "1",
@@ -1740,7 +1740,7 @@ memory:
             "daemon",
             "--spec",
             spec_str,
-            "--max-restarts",
+            "--test-supervisor-failure-after-restarts",
             "1",
             "--checkpoint-interval-secs",
             "1",
@@ -2419,7 +2419,7 @@ memory:
   "state": "running",
   "supervisor_pid": {stale_pid},
   "restart_count": 0,
-  "max_restarts": 1,
+  "bounded_test_restart_limit": 1,
   "checkpoint_interval_secs": 1,
   "last_event": "heartbeat",
   "updated_at": "{}"
@@ -2528,7 +2528,7 @@ memory:
   "state": "running",
   "supervisor_pid": {},
   "restart_count": 0,
-  "max_restarts": 1,
+  "bounded_test_restart_limit": 1,
   "checkpoint_interval_secs": 1,
   "last_event": "child_exit",
   "last_child_exit": "success",
@@ -2587,7 +2587,7 @@ memory:
   "state": "running",
   "supervisor_pid": {},
   "restart_count": 0,
-  "max_restarts": 1,
+  "bounded_test_restart_limit": 1,
   "checkpoint_interval_secs": 1,
   "last_event": "heartbeat",
   "updated_at": "{}"
@@ -2697,7 +2697,7 @@ memory:
   "state": "running",
   "supervisor_pid": {},
   "restart_count": 0,
-  "max_restarts": 1,
+  "bounded_test_restart_limit": 1,
   "checkpoint_interval_secs": 1,
   "last_event": "child_exit",
   "last_child_exit": "success",
@@ -2823,7 +2823,7 @@ memory:
 }
 
 #[test]
-fn csm_daemon_restart_budget_failure_leaves_recoverable_checkpoint() {
+fn csm_daemon_bounded_test_supervisor_failure_leaves_recoverable_checkpoint() {
     let root = unique_test_temp_dir("csm-daemon-failure");
     let spec = root.join("agent.yaml");
     fs::write(
@@ -2861,7 +2861,7 @@ memory:
         "daemon",
         "--spec",
         spec_str,
-        "--max-restarts",
+        "--test-supervisor-failure-after-restarts",
         "1",
         "--checkpoint-interval-secs",
         "1",
@@ -2882,7 +2882,10 @@ memory:
     assert_eq!(daemon_status["service_mode"], "bounded_test_only");
     assert_eq!(daemon_status["bounded_test_mode"], true);
     assert_eq!(daemon_status["restart_count"], 1);
-    assert_eq!(daemon_status["last_event"], "restart_budget_exhausted");
+    assert_eq!(
+        daemon_status["last_event"],
+        "bounded_test_supervisor_failure"
+    );
     assert!(root.join("state/continuity_checkpoint.json").exists());
     assert!(root.join("state/continuity_replay_manifest.json").exists());
     assert!(root.join("state/safe_fail_bundle.json").exists());
@@ -2901,7 +2904,7 @@ memory:
         fs::read_to_string(root.join("state/operator_events.jsonl")).expect("operator events");
     assert!(operator_events.contains("\"event\":\"restart_scheduled\""));
     assert!(operator_events.contains("\"event\":\"restart_attempted\""));
-    assert!(operator_events.contains("\"event\":\"restart_budget_exhausted\""));
+    assert!(operator_events.contains("\"event\":\"bounded_test_supervisor_failure\""));
     assert!(operator_events.contains("\"event\":\"safe_fail_serialization\""));
     assert!(operator_events.contains("\"event\":\"governed_runtime_notice\""));
     assert!(operator_events.contains("\"checkpoint_ref\":\"continuity_checkpoint.json\""));
@@ -2912,7 +2915,7 @@ memory:
     .expect("parse safe fail bundle");
     assert_eq!(safe_fail["schema"], "adl.csm.safe_fail_bundle.v1");
     assert_eq!(safe_fail["runtime_owner"], "csm");
-    assert_eq!(safe_fail["trigger"], "restart_budget_exhausted");
+    assert_eq!(safe_fail["trigger"], "bounded_test_supervisor_failure");
     assert_eq!(safe_fail["agent_outcome"]["state"], "recoverable");
     assert_eq!(
         safe_fail["recoverability"]["class"],
@@ -2946,7 +2949,7 @@ memory:
     assert_eq!(notice_latest["runtime_owner"], "csm");
     assert_eq!(notice_latest["notice_kind"], "shutdown");
     assert_eq!(notice_latest["severity"], "critical");
-    assert_eq!(notice_latest["trigger"], "restart_budget_exhausted");
+    assert_eq!(notice_latest["trigger"], "bounded_test_supervisor_failure");
     assert_eq!(
         notice_latest["local_first_policy"]["source_of_truth"],
         "local_safe_fail_and_checkpoint_artifacts"
@@ -2977,5 +2980,5 @@ memory:
     let notice_ledger =
         fs::read_to_string(root.join("state/csm_governed_notices.jsonl")).expect("notice ledger");
     assert!(notice_ledger.contains("\"trigger\":\"daemon_child_failed\""));
-    assert!(notice_ledger.contains("\"trigger\":\"restart_budget_exhausted\""));
+    assert!(notice_ledger.contains("\"trigger\":\"bounded_test_supervisor_failure\""));
 }

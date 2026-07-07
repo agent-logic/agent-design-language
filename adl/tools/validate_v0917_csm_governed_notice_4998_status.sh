@@ -79,8 +79,8 @@ if eventbridge_setup.get("routing") != "EventBridge source=adl.csm detail-type=C
 
 if notice.get("schema") != "adl.csm.governed_notice.v1":
     raise SystemExit("unexpected notice schema")
-if notice.get("trigger") != "restart_budget_exhausted":
-    raise SystemExit("latest notice must prove restart budget exhaustion")
+if notice.get("trigger") != "bounded_test_supervisor_failure":
+    raise SystemExit("latest notice must prove bounded test supervisor failure")
 if notice.get("notice_kind") != "shutdown":
     raise SystemExit("latest notice must be classified as shutdown")
 if notice.get("severity") != "critical":
@@ -94,8 +94,8 @@ if policy.get("transport_failure_policy") != "retain_delivery_failure_and_contin
 ledger = ledger_path.read_text()
 if '"trigger":"daemon_child_failed"' not in ledger:
     raise SystemExit("notice ledger must include daemon_child_failed degradation")
-if '"trigger":"restart_budget_exhausted"' not in ledger:
-    raise SystemExit("notice ledger must include restart_budget_exhausted shutdown")
+if '"trigger":"bounded_test_supervisor_failure"' not in ledger:
+    raise SystemExit("notice ledger must include bounded_test_supervisor_failure shutdown")
 
 notice_kinds = []
 for event in cloudwatch.get("events", []):

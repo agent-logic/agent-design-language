@@ -89,7 +89,7 @@
     "source_of_truth": "local_safe_fail_and_checkpoint_artifacts",
     "transport_failure_policy": "retain_delivery_failure_and_continue_recovery"
   },
-  "max_restarts": 1,
+  "bounded_test_restart_limit": 1,
   "notice_id": "csm-notice-da0ccad2bf6f2fafed405e80746f605831bd17dace05bccbdbbef3a091a55e34",
   "notice_kind": "shutdown",
   "observability": {
@@ -128,7 +128,7 @@
     "runtime_capabilities": {
       "adl_role": "tooling_control_plane",
       "aee": {
-        "failure_recovery": "restart_budget_and_checkpoint_restore",
+        "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
         "recoverable_states": [
           "idle",
           "completed",
@@ -241,5 +241,5 @@
   },
   "schema": "adl.csm.governed_notice.v1",
   "severity": "critical",
-  "trigger": "restart_budget_exhausted"
+  "trigger": "bounded_test_supervisor_failure"
 }

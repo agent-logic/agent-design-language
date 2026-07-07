@@ -6,14 +6,14 @@
   "agent_instance_id": "csm-governed-notice-4998",
   "captured_at": "2026-07-07T01:47:38.104013Z",
   "safe_fail_sequence": 4,
-  "trigger": "restart_budget_exhausted",
+  "trigger": "bounded_test_supervisor_failure",
   "trigger_model": {
     "schema": "adl.csm.safe_fail_trigger_model.v1",
     "supported_triggers": [
       "graceful_stop",
       "daemon_partial_checkpoint",
       "daemon_child_failed",
-      "restart_budget_exhausted",
+      "bounded_test_supervisor_failure",
       "restart_backoff",
       "daemon_heartbeat"
     ],
@@ -42,7 +42,7 @@
     }
   },
   "restart_count": 1,
-  "max_restarts": 1,
+  "bounded_test_restart_limit": 1,
   "last_child_exit": "error:cycle_blocked: cycle cycle-000002 failed required guardrails; see docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/live/state/cycles/cycle-000002/guardrail_report.json",
   "agent_outcome": {
     "state": "recoverable",
@@ -195,7 +195,7 @@
               "stopped",
               "leased"
             ],
-            "failure_recovery": "restart_budget_and_checkpoint_restore"
+            "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
           },
           "scheduler_watcher": {
             "status": "integrated",
@@ -244,14 +244,14 @@
         "service_mode": "bounded_test_only",
         "bounded_test_mode": true,
         "restart_count": 1,
-        "max_restarts": 1,
+        "bounded_test_restart_limit": 1,
         "checkpoint_interval_secs": 1,
-        "last_event": "restart_budget_exhausted",
+        "last_event": "bounded_test_supervisor_failure",
         "last_child_exit": "error:cycle_blocked: cycle cycle-000002 failed required guardrails; see docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/live/state/cycles/cycle-000002/guardrail_report.json",
         "last_checkpoint_at": "2026-07-07T01:47:38.102539Z",
         "next_backoff_secs": 0,
         "trace_id": "agent.csm-governed-notice-4998.daemon",
-        "span_id": "daemon:restart_budget_exhausted:1",
+        "span_id": "daemon:bounded_test_supervisor_failure:1",
         "parent_span_id": "daemon:csm-governed-notice-4998:supervisor",
         "unsupported_permanence_claims": [
           "not_os_boot_persistent",
@@ -430,7 +430,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -519,7 +519,7 @@
                   "governance": "CSM may accept or block; agent request is advisory and rate limited"
                 }
               },
-              "max_restarts": 1,
+              "bounded_test_restart_limit": 1,
               "restart_policy": "always",
               "service_mode": "bounded_test_only",
               "bounded_test_mode": true,
@@ -586,7 +586,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -714,7 +714,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -845,7 +845,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -997,7 +997,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -1130,7 +1130,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -1258,7 +1258,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -1389,7 +1389,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -1541,7 +1541,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -1669,7 +1669,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -1797,7 +1797,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -1928,7 +1928,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -2080,7 +2080,7 @@
                   "stopped",
                   "leased"
                 ],
-                "failure_recovery": "restart_budget_and_checkpoint_restore"
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
               },
               "scheduler_watcher": {
                 "status": "integrated",
@@ -2232,7 +2232,7 @@
           "stopped",
           "leased"
         ],
-        "failure_recovery": "restart_budget_and_checkpoint_restore"
+        "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
       },
       "scheduler_watcher": {
         "status": "integrated",

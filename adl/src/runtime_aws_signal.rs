@@ -2014,10 +2014,10 @@ mod tests {
     fn sample_csm_notice() -> serde_json::Value {
         json!({
             "schema": "adl.csm.governed_notice.v1",
-            "notice_id": "notice-runtime-agent-restart-budget",
+            "notice_id": "notice-runtime-agent-bounded-test-supervisor-failure",
             "notice_kind": "shutdown",
             "severity": "critical",
-            "trigger": "restart_budget_exhausted",
+            "trigger": "bounded_test_supervisor_failure",
             "recoverable_state": {
                 "state": "failed",
                 "status_ref": "status.json",
@@ -2026,7 +2026,7 @@ mod tests {
             },
             "details": {
                 "restart_count": 1,
-                "max_restarts": 1
+                "bounded_test_restart_limit": 1
             }
         })
     }

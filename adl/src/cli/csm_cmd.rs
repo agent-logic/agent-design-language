@@ -411,7 +411,7 @@ fn real_api(args: &[String]) -> Result<()> {
 fn real_api_serve(args: &[String]) -> Result<()> {
     let mut spec: Option<PathBuf> = None;
     let mut bind = "127.0.0.1:0".to_string();
-    let mut max_requests = 1usize;
+    let mut test_max_requests: Option<usize> = None;
     let mut idle_timeout_ms: Option<u64> = None;
     let mut otel_status_path: Option<PathBuf> = None;
     let mut otel_log_path: Option<PathBuf> = None;
@@ -427,20 +427,19 @@ fn real_api_serve(args: &[String]) -> Result<()> {
                 bind = required_value(args, i, "--bind")?.to_string();
                 i += 1;
             }
-            "--max-requests" => {
-                max_requests = required_value(args, i, "--max-requests")?
-                    .parse()
-                    .context("csm api serve --max-requests must be an integer")?;
+            "--test-max-requests" => {
+                test_max_requests = Some(
+                    required_value(args, i, "--test-max-requests")?
+                        .parse()
+                        .context("csm api serve --test-max-requests must be an integer")?,
+                );
                 i += 1;
             }
-            "--once" => {
-                max_requests = 1;
-            }
-            "--idle-timeout-ms" => {
+            "--test-idle-timeout-ms" => {
                 idle_timeout_ms = Some(
-                    required_value(args, i, "--idle-timeout-ms")?
+                    required_value(args, i, "--test-idle-timeout-ms")?
                         .parse()
-                        .context("csm api serve --idle-timeout-ms must be an integer")?,
+                        .context("csm api serve --test-idle-timeout-ms must be an integer")?,
                 );
                 i += 1;
             }
@@ -467,7 +466,7 @@ fn real_api_serve(args: &[String]) -> Result<()> {
     let result = serve_runtime_api(CsmRuntimeApiOptions {
         spec_path: spec.context("csm api serve requires --spec <agent-spec.yaml>")?,
         bind,
-        max_requests,
+        test_max_requests,
         idle_timeout_ms,
         otel_status_path,
         otel_log_path,
@@ -764,10 +763,10 @@ fn real_observatory(args: &[String]) -> Result<()> {
 
 pub(crate) fn csm_usage() -> &'static str {
     "Usage:
-  csm daemon --spec <agent-spec.yaml> [--max-restarts <n>] [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--recover-stale-lease] [--no-sleep] [--json]
+  csm daemon --spec <agent-spec.yaml> [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--recover-stale-lease] [--no-sleep] [--json]
   csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--json]
   csm service start|status|stop|remove [--service-root <dir>] [--json]
-  csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--once|--max-requests <n>] [--idle-timeout-ms <n>] [--otel-status <path>] [--otel-log <path>] [--json]
+  csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--otel-status <path>] [--otel-log <path>] [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
@@ -781,7 +780,7 @@ pub(crate) fn csm_usage() -> &'static str {
 
 Semantics:
   - csm is the dedicated runtime owner binary.
-  - csm daemon owns permanent restart-always runtime execution, partial checkpoints, restart accounting, recoverable terminal state, and runtime observability.
+  - csm daemon owns permanent restart-always runtime execution, partial checkpoints, restart accounting telemetry, recoverable terminal state, and runtime observability.
   - csm daemon service mode ignores agent max_cycles as a service lifetime boundary; --no-sleep is a test-only bounded harness boundary.
   - csm service owns host service-manager installation/status around csm daemon; launchd KeepAlive is the primary macOS target, systemd Restart=always compatible service metadata is retained, and local mode is a bounded proof fallback.
   - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.

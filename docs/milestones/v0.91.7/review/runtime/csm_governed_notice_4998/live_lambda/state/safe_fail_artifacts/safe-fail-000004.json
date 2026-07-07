@@ -97,7 +97,7 @@
   },
   "format_version": "csm.safe-fail.v1",
   "last_child_exit": "error:cycle_blocked: cycle cycle-000002 failed required guardrails; see docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/live_lambda/state/cycles/cycle-000002/guardrail_report.json",
-  "max_restarts": 1,
+  "bounded_test_restart_limit": 1,
   "monotonicity": {
     "bundle_ref": "safe_fail_artifacts/safe-fail-000004.json",
     "does_not_rewrite_continuity_checkpoint": true,
@@ -153,7 +153,7 @@
     "runtime_capabilities": {
       "adl_role": "tooling_control_plane",
       "aee": {
-        "failure_recovery": "restart_budget_and_checkpoint_restore",
+        "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
         "recoverable_states": [
           "idle",
           "completed",
@@ -412,8 +412,8 @@
         "checkpoint_interval_secs": 1,
         "last_checkpoint_at": "2026-07-07T01:55:27.908754Z",
         "last_child_exit": "error:cycle_blocked: cycle cycle-000002 failed required guardrails; see docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/live_lambda/state/cycles/cycle-000002/guardrail_report.json",
-        "last_event": "restart_budget_exhausted",
-        "max_restarts": 1,
+        "last_event": "bounded_test_supervisor_failure",
+        "bounded_test_restart_limit": 1,
         "next_backoff_secs": 0,
         "parent_span_id": "daemon:csm-governed-notice-4998-lambda:supervisor",
         "restart_count": 1,
@@ -421,7 +421,7 @@
         "runtime_capabilities": {
           "adl_role": "tooling_control_plane",
           "aee": {
-            "failure_recovery": "restart_budget_and_checkpoint_restore",
+            "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
             "recoverable_states": [
               "idle",
               "completed",
@@ -496,7 +496,7 @@
         },
         "schema": "adl.long_lived_agent_daemon_status.v1",
         "service_mode": "bounded_test_only",
-        "span_id": "daemon:restart_budget_exhausted:1",
+        "span_id": "daemon:bounded_test_supervisor_failure:1",
         "state": "failed",
         "supervisor_pid": 41831,
         "trace_id": "agent.csm-governed-notice-4998-lambda.daemon",
@@ -578,7 +578,7 @@
               "agent_max_cycles_lifetime_boundary": "ignored_in_daemon_service_mode",
               "bounded_test_mode": true,
               "checkpoint_interval_secs": 1,
-              "max_restarts": 1,
+              "bounded_test_restart_limit": 1,
               "restart_policy": "always",
               "service_mode": "bounded_test_only",
               "unsupported_permanence_claims": [
@@ -601,7 +601,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -729,7 +729,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -860,7 +860,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -1012,7 +1012,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -1145,7 +1145,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -1273,7 +1273,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -1404,7 +1404,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -1556,7 +1556,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -1684,7 +1684,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -1812,7 +1812,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -1943,7 +1943,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -2095,7 +2095,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -2228,7 +2228,7 @@
             "runtime_capabilities": {
               "adl_role": "tooling_control_plane",
               "aee": {
-                "failure_recovery": "restart_budget_and_checkpoint_restore",
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
                 "recoverable_states": [
                   "idle",
                   "completed",
@@ -2373,7 +2373,7 @@
       "status": "missing"
     }
   },
-  "trigger": "restart_budget_exhausted",
+  "trigger": "bounded_test_supervisor_failure",
   "trigger_model": {
     "checkpoint_failure_policy": "best_effort_fallback_refs_if_safe_fail_writer_cannot_complete",
     "observability_exporter_failure_policy": "recorded_in_observability_status_when_exporter_reports_failure",
@@ -2382,7 +2382,7 @@
       "graceful_stop",
       "daemon_partial_checkpoint",
       "daemon_child_failed",
-      "restart_budget_exhausted",
+      "bounded_test_supervisor_failure",
       "restart_backoff",
       "daemon_heartbeat"
     ],

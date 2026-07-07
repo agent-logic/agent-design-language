@@ -149,7 +149,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             state: "starting",
             bounded_test_mode: options.no_sleep,
             restart_count,
-            max_restarts: options.max_restarts,
+            bounded_test_restart_limit: options.bounded_test_restart_limit,
             checkpoint_interval_secs,
             last_event: "daemon_started",
             last_child_exit: None,
@@ -166,7 +166,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
         json!({
                 "checkpoint_interval_secs": checkpoint_interval_secs,
                 "agent_checkpoint_policy": agent_checkpoint_policy(&loaded),
-                "max_restarts": options.max_restarts,
+                "bounded_test_restart_limit": options.bounded_test_restart_limit,
                 "restart_policy": daemon_restart_policy(),
                 "service_mode": daemon_service_mode(options.no_sleep),
                 "bounded_test_mode": options.no_sleep,
@@ -187,7 +187,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     state: "stopped",
                     bounded_test_mode: options.no_sleep,
                     restart_count,
-                    max_restarts: options.max_restarts,
+                    bounded_test_restart_limit: options.bounded_test_restart_limit,
                     checkpoint_interval_secs,
                     last_event: "stop_completed",
                     last_child_exit: last_child_exit.clone(),
@@ -201,7 +201,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     status: &status,
                     trigger: "graceful_stop",
                     restart_count,
-                    max_restarts: options.max_restarts,
+                    bounded_test_restart_limit: options.bounded_test_restart_limit,
                     last_child_exit: last_child_exit.clone(),
                     details: json!({"stop_ref": "stop.json"}),
                 },
@@ -215,7 +215,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     trigger: "graceful_stop",
                     status: &status,
                     restart_count,
-                    max_restarts: options.max_restarts,
+                    bounded_test_restart_limit: options.bounded_test_restart_limit,
                     last_child_exit: last_child_exit.clone(),
                     safe_fail: safe_fail.clone(),
                     details: json!({"stop_ref": "stop.json"}),
@@ -251,7 +251,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 state: "running",
                 bounded_test_mode: options.no_sleep,
                 restart_count,
-                max_restarts: options.max_restarts,
+                bounded_test_restart_limit: options.bounded_test_restart_limit,
                 checkpoint_interval_secs,
                 last_event: "child_spawn",
                 last_child_exit: last_child_exit.clone(),
@@ -286,7 +286,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         state: "running",
                         bounded_test_mode: options.no_sleep,
                         restart_count,
-                        max_restarts: options.max_restarts,
+                        bounded_test_restart_limit: options.bounded_test_restart_limit,
                         checkpoint_interval_secs,
                         last_event: "child_exit",
                         last_child_exit: last_child_exit.clone(),
@@ -335,7 +335,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         status: &status,
                         trigger: "daemon_child_failed",
                         restart_count,
-                        max_restarts: options.max_restarts,
+                        bounded_test_restart_limit: options.bounded_test_restart_limit,
                         last_child_exit: last_child_exit.clone(),
                         details: json!({
                             "error": err.to_string(),
@@ -352,7 +352,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         trigger: "daemon_child_failed",
                         status: &status,
                         restart_count,
-                        max_restarts: options.max_restarts,
+                        bounded_test_restart_limit: options.bounded_test_restart_limit,
                         last_child_exit: last_child_exit.clone(),
                         safe_fail: child_safe_fail.clone(),
                         details: json!({
@@ -361,7 +361,10 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         }),
                     },
                 )?;
-                if restart_count >= options.max_restarts {
+                if options
+                    .bounded_test_restart_limit
+                    .is_some_and(|limit| restart_count >= limit)
+                {
                     let _ = write_daemon_status(
                         &runtime_context,
                         &loaded,
@@ -369,21 +372,21 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                             state: "failed",
                             bounded_test_mode: options.no_sleep,
                             restart_count,
-                            max_restarts: options.max_restarts,
+                            bounded_test_restart_limit: options.bounded_test_restart_limit,
                             checkpoint_interval_secs,
-                            last_event: "restart_budget_exhausted",
+                            last_event: "bounded_test_supervisor_failure",
                             last_child_exit: last_child_exit.clone(),
                             next_backoff_secs: 0,
                         },
                     )?;
-                    let exhausted_safe_fail = record_safe_fail_event(
+                    let supervisor_failure_safe_fail = record_safe_fail_event(
                         &runtime_context,
                         &loaded,
                         SafeFailRecord {
                             status: &status,
-                            trigger: "restart_budget_exhausted",
+                            trigger: "bounded_test_supervisor_failure",
                             restart_count,
-                            max_restarts: options.max_restarts,
+                            bounded_test_restart_limit: options.bounded_test_restart_limit,
                             last_child_exit: last_child_exit.clone(),
                             details: json!({
                                 "previous_safe_fail": child_safe_fail,
@@ -398,12 +401,12 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         GovernedNoticeInput {
                             notice_kind: "shutdown",
                             severity: "critical",
-                            trigger: "restart_budget_exhausted",
+                            trigger: "bounded_test_supervisor_failure",
                             status: &status,
                             restart_count,
-                            max_restarts: options.max_restarts,
+                            bounded_test_restart_limit: options.bounded_test_restart_limit,
                             last_child_exit: last_child_exit.clone(),
-                            safe_fail: exhausted_safe_fail.clone(),
+                            safe_fail: supervisor_failure_safe_fail.clone(),
                             details: json!({
                                 "previous_notice": child_notice,
                                 "checkpoint_ref": "continuity_checkpoint.json"
@@ -413,16 +416,16 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     emit_daemon_event(
                         &runtime_context,
                         &loaded,
-                        "restart_budget_exhausted",
+                        "bounded_test_supervisor_failure",
                         "failed",
                         restart_count,
                         json!({
                             "recoverable_state": status.state,
-                            "safe_fail": exhausted_safe_fail,
+                            "safe_fail": supervisor_failure_safe_fail,
                             "governed_notice": exhausted_notice
                         }),
                     )?;
-                    return Err(err.context("daemon restart budget exhausted"));
+                    return Err(err.context("daemon bounded test supervisor failure"));
                 }
                 restart_count += 1;
                 let backoff_secs = restart_backoff_secs(restart_count);
@@ -433,7 +436,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         state: "restarting",
                         bounded_test_mode: options.no_sleep,
                         restart_count,
-                        max_restarts: options.max_restarts,
+                        bounded_test_restart_limit: options.bounded_test_restart_limit,
                         checkpoint_interval_secs,
                         last_event: "restart_scheduled",
                         last_child_exit: last_child_exit.clone(),
@@ -456,7 +459,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                         total_sleep_secs: backoff_secs,
                         checkpoint_interval_secs,
                         restart_count,
-                        max_restarts: options.max_restarts,
+                        bounded_test_restart_limit: options.bounded_test_restart_limit,
                         last_child_exit: last_child_exit.clone(),
                         recoverable_error: status.last_error.clone(),
                         event: "restart_backoff",
@@ -487,7 +490,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 total_sleep_secs: sleep_secs,
                 checkpoint_interval_secs,
                 restart_count,
-                max_restarts: options.max_restarts,
+                bounded_test_restart_limit: options.bounded_test_restart_limit,
                 last_child_exit: last_child_exit.clone(),
                 recoverable_error: None,
                 event: "daemon_heartbeat",
@@ -505,7 +508,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                     state: "completed",
                     bounded_test_mode: true,
                     restart_count,
-                    max_restarts: options.max_restarts,
+                    bounded_test_restart_limit: options.bounded_test_restart_limit,
                     checkpoint_interval_secs,
                     last_event: "daemon_completed",
                     last_child_exit: last_child_exit.clone(),
@@ -1593,7 +1596,7 @@ struct SafeFailRecord<'a> {
     status: &'a StatusRecord,
     trigger: &'a str,
     restart_count: u64,
-    max_restarts: u64,
+    bounded_test_restart_limit: Option<u64>,
     last_child_exit: Option<String>,
     details: Value,
 }
@@ -1617,7 +1620,7 @@ fn record_safe_fail_bundle(
         "trigger_model": safe_fail_trigger_model(),
         "agent_checkpoint_policy": agent_checkpoint_policy(loaded),
         "restart_count": record.restart_count,
-        "max_restarts": record.max_restarts,
+        "bounded_test_restart_limit": record.bounded_test_restart_limit,
         "last_child_exit": record.last_child_exit.clone(),
         "agent_outcome": safe_fail_agent_outcome(record.status),
         "recoverability": safe_fail_recoverability(record.status),
@@ -1719,7 +1722,7 @@ struct GovernedNoticeInput<'a> {
     trigger: &'a str,
     status: &'a StatusRecord,
     restart_count: u64,
-    max_restarts: u64,
+    bounded_test_restart_limit: Option<u64>,
     last_child_exit: Option<String>,
     safe_fail: Value,
     details: Value,
@@ -1742,7 +1745,7 @@ fn record_governed_runtime_notice(
         "trigger": input.trigger,
         "captured_at": captured_at,
         "restart_count": input.restart_count,
-        "max_restarts": input.max_restarts,
+        "bounded_test_restart_limit": input.bounded_test_restart_limit,
         "last_child_exit": input.last_child_exit.clone(),
         "recoverable_state": {
             "state": input.status.state,
@@ -1869,7 +1872,7 @@ fn safe_fail_trigger_model() -> Value {
             "graceful_stop",
             "daemon_partial_checkpoint",
             "daemon_child_failed",
-            "restart_budget_exhausted",
+            "bounded_test_supervisor_failure",
             "restart_backoff",
             "daemon_heartbeat"
         ],
@@ -2216,7 +2219,7 @@ struct DaemonStatusInput<'a> {
     state: &'a str,
     bounded_test_mode: bool,
     restart_count: u64,
-    max_restarts: u64,
+    bounded_test_restart_limit: Option<u64>,
     checkpoint_interval_secs: u64,
     last_event: &'a str,
     last_child_exit: Option<String>,
@@ -2227,7 +2230,7 @@ struct PartialCheckpointSleep<'a> {
     total_sleep_secs: u64,
     checkpoint_interval_secs: u64,
     restart_count: u64,
-    max_restarts: u64,
+    bounded_test_restart_limit: Option<u64>,
     last_child_exit: Option<String>,
     recoverable_error: Option<StatusError>,
     event: &'a str,
@@ -2265,7 +2268,7 @@ fn write_daemon_status(
         service_mode: daemon_status_service_mode(input.state, input.bounded_test_mode).to_string(),
         bounded_test_mode: input.bounded_test_mode,
         restart_count: input.restart_count,
-        max_restarts: input.max_restarts,
+        bounded_test_restart_limit: input.bounded_test_restart_limit,
         checkpoint_interval_secs: input.checkpoint_interval_secs,
         last_event: input.last_event.to_string(),
         last_child_exit: input.last_child_exit,
@@ -2303,7 +2306,7 @@ fn sleep_with_partial_checkpoints(
                 state: daemon_status.state.as_str(),
                 bounded_test_mode: sleep.no_sleep,
                 restart_count: sleep.restart_count,
-                max_restarts: sleep.max_restarts,
+                bounded_test_restart_limit: sleep.bounded_test_restart_limit,
                 checkpoint_interval_secs: sleep.checkpoint_interval_secs,
                 last_event: "checkpoint_write",
                 last_child_exit: sleep.last_child_exit.clone(),
@@ -2336,7 +2339,7 @@ fn sleep_with_partial_checkpoints(
                 status: &current,
                 trigger: "daemon_partial_checkpoint",
                 restart_count: sleep.restart_count,
-                max_restarts: sleep.max_restarts,
+                bounded_test_restart_limit: sleep.bounded_test_restart_limit,
                 last_child_exit: sleep.last_child_exit.clone(),
                 details: json!({
                     "checkpoint_reason": "daemon_partial_checkpoint",
@@ -2374,7 +2377,7 @@ fn sleep_with_partial_checkpoints(
                 state: daemon_status.state.as_str(),
                 bounded_test_mode: sleep.no_sleep,
                 restart_count: sleep.restart_count,
-                max_restarts: sleep.max_restarts,
+                bounded_test_restart_limit: sleep.bounded_test_restart_limit,
                 checkpoint_interval_secs: sleep.checkpoint_interval_secs,
                 last_event: "checkpoint_write",
                 last_child_exit: sleep.last_child_exit.clone(),
@@ -2408,7 +2411,7 @@ fn sleep_with_partial_checkpoints(
                 status: &current,
                 trigger: "daemon_partial_checkpoint",
                 restart_count: sleep.restart_count,
-                max_restarts: sleep.max_restarts,
+                bounded_test_restart_limit: sleep.bounded_test_restart_limit,
                 last_child_exit: sleep.last_child_exit.clone(),
                 details: json!({
                     "checkpoint_reason": "daemon_partial_checkpoint",
@@ -2518,7 +2521,7 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
         "aee": {
             "status": "integrated",
             "recoverable_states": ["idle", "completed", "failed", "stopped", "leased"],
-            "failure_recovery": "restart_budget_and_checkpoint_restore"
+            "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
         },
         "scheduler_watcher": {
             "status": "integrated",
