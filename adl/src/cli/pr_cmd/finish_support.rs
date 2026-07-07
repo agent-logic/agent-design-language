@@ -2678,6 +2678,9 @@ pub(super) fn select_finish_validation_plan_for_finish_with_release_gate_disposi
     if finish_issue_needs_wp08_s3_obsmem_archive_policy_validation(issue_number, changed_paths) {
         return Ok(build_wp08_s3_obsmem_archive_policy_validation_plan());
     }
+    if finish_issue_needs_wp08_cloudfront_control_validation(issue_number, changed_paths) {
+        return Ok(build_wp08_cloudfront_control_validation_plan());
+    }
     if finish_issue_needs_wp08_aws_signal_integration_validation(issue_number, changed_paths) {
         return Ok(build_wp08_aws_signal_integration_validation_plan());
     }
@@ -3287,6 +3290,7 @@ fn registered_validation_atom_supported(command: &str) -> bool {
                 | "adl/tools/test_run_wp08_heartbeat_live_proof.sh"
                 | "adl/tools/test_run_wp08_acip_sns_live_proof.sh"
                 | "adl/tools/test_run_wp08_local_polis_ssm_proof.sh"
+                | "adl/tools/test_run_wp08_cloudfront_control_proof.sh"
                 | "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh"
                 | "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh"
                 | "adl/tools/test_run_wp08_polis_storage_live_proof.sh"
@@ -4532,6 +4536,71 @@ fn build_wp08_s3_obsmem_archive_policy_validation_plan() -> FinishValidationPlan
     push_finish_validation_command(
         &mut commands,
         "python3 adl/tools/validate_wp08_s3_obsmem_archive_policy.py docs/milestones/v0.91.7/review/runtime/wp08_s3_obsmem_archive_4688/archive_policy_summary.json",
+    );
+    FinishValidationPlan {
+        mode: FinishValidationMode::LargerBinaryFocused,
+        commands,
+    }
+}
+
+fn finish_issue_needs_wp08_cloudfront_control_validation(
+    issue_number: u32,
+    changed_paths: &[String],
+) -> bool {
+    if issue_number != 4915 {
+        return false;
+    }
+    !changed_paths.is_empty()
+        && changed_paths.iter().all(|path| {
+            let trimmed = path.trim().trim_matches('/');
+            matches!(
+                trimmed,
+                "adl/config/validation_lane_selector.v0.91.6.json"
+                    | "adl/src/cli/csm_cmd.rs"
+                    | "adl/src/cli/pr_cmd/finish_support.rs"
+                    | "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs"
+                    | "adl/src/csm_cloud_control.rs"
+                    | "adl/src/lib.rs"
+                    | "adl/tools/run_wp08_cloudfront_control_proof.sh"
+                    | "adl/tools/test_run_wp08_cloudfront_control_proof.sh"
+                    | "adl/tools/validate_wp08_cloudfront_control_proof.py"
+                    | "docs/tooling/RUNTIME_CLOUD_CONTROL_CLOUDFRONT.md"
+            ) || trimmed.starts_with("docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/")
+        })
+}
+
+fn build_wp08_cloudfront_control_validation_plan() -> FinishValidationPlan {
+    let mut commands = vec![
+        "bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string(),
+        "git diff --check".to_string(),
+    ];
+    push_finish_validation_command(
+        &mut commands,
+        "cargo fmt --manifest-path adl/Cargo.toml --all --check",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml csm_cloud_control -- --nocapture",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp08_cloudfront_control_slice -- --exact --nocapture",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "bash adl/tools/test_select_validation_lanes.sh",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "bash adl/tools/test_run_wp08_cloudfront_control_proof.sh",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "python3 adl/tools/validate_wp08_cloudfront_control_proof.py docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json",
     );
     FinishValidationPlan {
         mode: FinishValidationMode::LargerBinaryFocused,
@@ -6351,6 +6420,64 @@ pub(super) fn run_finish_validation_rust(
                             "--",
                             "--nocapture",
                         ],
+                    )?;
+                }
+                "cargo test --manifest-path adl/Cargo.toml csm_cloud_control -- --nocapture" => {
+                    run_finish_validation_status(
+                        "cargo",
+                        &[
+                            "test",
+                            "--manifest-path",
+                            path_str(&manifest)?,
+                            "csm_cloud_control",
+                            "--",
+                            "--nocapture",
+                        ],
+                    )?;
+                }
+                "cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture" => {
+                    run_finish_validation_status(
+                        "cargo",
+                        &[
+                            "test",
+                            "--manifest-path",
+                            path_str(&manifest)?,
+                            "--bin",
+                            "adl",
+                            "cli::csm_cmd::tests::",
+                            "--",
+                            "--nocapture",
+                        ],
+                    )?;
+                }
+                "cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp08_cloudfront_control_slice -- --exact --nocapture" => {
+                    run_finish_validation_status(
+                        "cargo",
+                        &[
+                            "test",
+                            "--manifest-path",
+                            path_str(&manifest)?,
+                            "--bin",
+                            "adl-pr-finish",
+                            "cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp08_cloudfront_control_slice",
+                            "--",
+                            "--exact",
+                            "--nocapture",
+                        ],
+                    )?;
+                }
+                "bash adl/tools/test_run_wp08_cloudfront_control_proof.sh" => {
+                    let script = repo_root.join("adl/tools/test_run_wp08_cloudfront_control_proof.sh");
+                    run_finish_validation_status("bash", &[path_str(&script)?])?;
+                }
+                "python3 adl/tools/validate_wp08_cloudfront_control_proof.py docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json" => {
+                    let script = repo_root.join("adl/tools/validate_wp08_cloudfront_control_proof.py");
+                    let summary = repo_root.join(
+                        "docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json",
+                    );
+                    run_finish_validation_status(
+                        "python3",
+                        &[path_str(&script)?, path_str(&summary)?],
                     )?;
                 }
                 "bash adl/tools/run_owner_validation_lane.sh review --build" => {

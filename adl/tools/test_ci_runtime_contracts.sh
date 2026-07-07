@@ -220,13 +220,24 @@ for required_fragment in (
             f"missing fragment: {required_fragment}"
         )
 
-pr_fast_step = step_run("PR fast coverage summary (json)")
+pr_fast_step = step_block("PR fast coverage summary (json)")
 expected_pr_fast_step = 'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
-if pr_fast_step != expected_pr_fast_step:
+if expected_pr_fast_step not in pr_fast_step:
     raise SystemExit(
         "PR-fast coverage must delegate to the bounded runner script; "
         f"found: {pr_fast_step}"
     )
+for required_fragment in (
+    "export ADL_PR_FAST_COVERAGE_BUILD_ROOT=/mnt/adl-pr-fast-coverage",
+    'rm -rf "$ADL_PR_FAST_COVERAGE_BUILD_ROOT"',
+    'mkdir -p "$ADL_PR_FAST_COVERAGE_BUILD_ROOT"',
+    "PR-fast coverage scratch target:",
+):
+    if required_fragment not in pr_fast_step:
+        raise SystemExit(
+            "full-coverage PRs must run the secondary PR-fast summary on scratch space without deleting the authoritative llvm-cov cache; "
+            f"missing fragment: {required_fragment}"
+        )
 pr_fast_if = step_if("PR fast coverage summary (json)")
 if "steps.coverage-impact.outputs.needs_fast_summary == 'true'" not in pr_fast_if:
     raise SystemExit(

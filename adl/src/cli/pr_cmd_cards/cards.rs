@@ -1479,6 +1479,18 @@ fn render_bootstrap_output_card(
         "- Main-repo paths updated: `none`",
         "- Main-repo paths updated: none",
     );
+    if pre_run_unbound {
+        replace_exact_line(
+            &mut text,
+            &format!("- Start Time: `{timestamp}`"),
+            &format!("- Start Time: {timestamp}"),
+        );
+        replace_exact_line(
+            &mut text,
+            &format!("- End Time: `{timestamp}`"),
+            &format!("- End Time: {timestamp}"),
+        );
+    }
     replace_exact_line(
         &mut text,
         &format!("- Worktree-only paths remaining: `{worktree_only_paths_remaining}`"),

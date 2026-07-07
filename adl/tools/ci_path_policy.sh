@@ -892,6 +892,24 @@ manager_profile_is_release_gate_only_escalation() {
   [ "$validation_profile_escalation_lanes" = "release_gate_review" ]
 }
 
+manager_profile_is_wp08_cloudfront_release_gate_contract() {
+  case "$validation_profile_selected" in
+    release_gate_required_5_lane_profile|release_gate_required_6_lane_profile)
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+  [ "$validation_profile_status" = "escalation_required" ] || return 1
+  manager_profile_is_release_gate_only_escalation || return 1
+  local lanes=",$validation_profile_run_lanes,"
+  case "$lanes" in *",ci_path_policy_contracts,"*) ;; *) return 1 ;; esac
+  case "$lanes" in *",csdlc_owner_lane,"*) ;; *) return 1 ;; esac
+  case "$lanes" in *",rust_pr_fast,"*) ;; *) return 1 ;; esac
+  case "$lanes" in *",wp08_cloudfront_control_proof,"*) ;; *) return 1 ;; esac
+  return 0
+}
+
 is_warmup_guidance_patch() {
   local path="$1"
   local saw_warmup_marker=false
@@ -1058,6 +1076,19 @@ apply_validation_manager_routing() {
       return 0
       ;;
   esac
+  if [ "$validation_profile_status" = "escalation_required" ] \
+    && [ "$validation_profile_run_lanes" = "wp08_cloudfront_control_proof" ] \
+    && [ "$validation_profile_escalation_lanes" = "rust_pr_fast" ]; then
+    mark_pr_fast_rust_validation
+    reason="${validation_profile_primary_reason:-wp08_cloudfront_control_surface_requires_csm_runtime_hook_wrapper_contract_checks}"
+    return 0
+  fi
+  if manager_profile_is_wp08_cloudfront_release_gate_contract; then
+    mark_pr_fast_rust_validation
+    ci_contracts_required=true
+    reason="${validation_profile_primary_reason:-wp08_cloudfront_control_surface_runs_focused_contract_and_runtime_validation}"
+    return 0
+  fi
   if [ "$validation_profile_status" = "escalation_required" ] && ! manager_profile_is_release_gate_only_escalation; then
     fail_closed=true
     mark_authoritative_full_coverage "fail_closed" "validation_manager_escalation_requires_authoritative_full_coverage"
@@ -1159,7 +1190,9 @@ EOF
     used_validation_manager=false
     if [ "$release_version_only" != true ] && [ "$pvf_slow_proof_policy_change" != true ]; then
       if load_validation_manager_profile; then
-        if [ "$saw_pr_finish_control_plane" = true ] && [ "$validation_profile_status" = "escalation_required" ] && ! manager_profile_is_release_gate_only_escalation && apply_validation_manager_routing; then
+        if manager_profile_is_wp08_cloudfront_release_gate_contract && apply_validation_manager_routing; then
+          used_validation_manager=true
+        elif [ "$saw_pr_finish_control_plane" = true ] && [ "$validation_profile_status" = "escalation_required" ] && ! manager_profile_is_release_gate_only_escalation && apply_validation_manager_routing; then
           used_validation_manager=true
         elif [ "$saw_pr_finish_control_plane" != true ] && [ "$saw_full_coverage_policy_surface" != true ] && [ "$saw_v0913_proof_surface" != true ] && apply_validation_manager_routing; then
           used_validation_manager=true

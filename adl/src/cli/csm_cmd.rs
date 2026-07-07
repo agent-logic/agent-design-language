@@ -4,6 +4,7 @@ use std::path::PathBuf;
 use super::agent_cmd::real_csm_daemon;
 use super::csm_service_cmd::real_service;
 use ::adl::csm_backpressure::{prove_backpressure, BackpressureProofOptions};
+use ::adl::csm_cloud_control::{prove_cloudfront_status, CloudFrontStatusOptions};
 use ::adl::csm_continuity_capsule::{
     capture_capsule, fire_drill_capsule, restore_capsule, stage_capsule, ContinuityCaptureOptions,
     ContinuityFireDrillOptions, ContinuityRestoreOptions, ContinuityStageOptions,
@@ -29,7 +30,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!(
-            "csm requires subcommand: daemon | service | continuity | backpressure | api | aws-signal | storage | observatory"
+            "csm requires subcommand: daemon | service | continuity | backpressure | api | aws-signal | storage | cloud-control | observatory"
         );
         std::process::exit(2);
     };
@@ -77,6 +78,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
                 "csm storage is owned by the standalone csm runtime binary; use `csm storage`, not `adl csm storage`"
             )),
         },
+        "cloud-control" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_cloud_control(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm cloud-control is owned by the standalone csm runtime binary; use `csm cloud-control`, not `adl csm cloud-control`"
+            )),
+        },
         "observatory" => real_observatory(&args[1..]),
         "--help" | "-h" => {
             println!("{}", csm_usage());
@@ -84,11 +91,118 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, continuity, backpressure, api, aws-signal, storage, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, continuity, backpressure, api, aws-signal, storage, cloud-control, or observatory)"
             );
             std::process::exit(2);
         }
     }
+}
+
+fn real_cloud_control(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm cloud-control requires subcommand: cloudfront-status");
+        std::process::exit(2);
+    };
+    match cmd {
+        "cloudfront-status" => real_cloudfront_status(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm cloud-control subcommand: {other} (expected cloudfront-status)");
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_cloudfront_status(args: &[String]) -> Result<()> {
+    let mut out_dir: Option<PathBuf> = None;
+    let mut run_id = "wp08-4915-cloudfront".to_string();
+    let mut profile = std::env::var("ADL_AWS_PROFILE")
+        .or_else(|_| std::env::var("AWS_PROFILE"))
+        .unwrap_or_else(|_| "agent-logic-admin".to_string());
+    let mut region = std::env::var("ADL_AWS_REGION").unwrap_or_else(|_| "us-west-2".to_string());
+    let mut expected_account_sha256 =
+        std::env::var("ADL_AWS_CLOUD_CONTROL_ACCOUNT_SHA256").unwrap_or_default();
+    let mut distribution_id = std::env::var("ADL_AWS_CLOUDFRONT_DISTRIBUTION_ID").ok();
+    let mut negative_distribution_id = Some(
+        std::env::var("ADL_AWS_CLOUDFRONT_NEGATIVE_DISTRIBUTION_ID")
+            .unwrap_or_else(|_| "E0000000000000".to_string()),
+    );
+    let mut aws_bin = std::env::var("AWS_BIN").unwrap_or_else(|_| "aws".to_string());
+
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                out_dir = Some(PathBuf::from(required_value(args, i, "--out")?));
+                i += 1;
+            }
+            "--run-id" => {
+                run_id = required_value(args, i, "--run-id")?.to_string();
+                i += 1;
+            }
+            "--profile" => {
+                profile = required_value(args, i, "--profile")?.to_string();
+                i += 1;
+            }
+            "--region" => {
+                region = required_value(args, i, "--region")?.to_string();
+                i += 1;
+            }
+            "--expected-account-sha256" => {
+                expected_account_sha256 =
+                    required_value(args, i, "--expected-account-sha256")?.to_string();
+                i += 1;
+            }
+            "--distribution-id" => {
+                distribution_id = Some(required_value(args, i, "--distribution-id")?.to_string());
+                i += 1;
+            }
+            "--negative-distribution-id" => {
+                negative_distribution_id =
+                    Some(required_value(args, i, "--negative-distribution-id")?.to_string());
+                i += 1;
+            }
+            "--skip-negative-distribution" => {
+                negative_distribution_id = None;
+            }
+            "--aws-bin" => {
+                aws_bin = required_value(args, i, "--aws-bin")?.to_string();
+                i += 1;
+            }
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm cloud-control cloudfront-status arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+
+    let out_dir =
+        out_dir.context("csm cloud-control cloudfront-status requires --out <proof-dir>")?;
+    if expected_account_sha256.trim().is_empty() {
+        anyhow::bail!(
+            "csm cloud-control cloudfront-status requires --expected-account-sha256 or ADL_AWS_CLOUD_CONTROL_ACCOUNT_SHA256"
+        );
+    }
+    let summary = prove_cloudfront_status(CloudFrontStatusOptions {
+        out_dir,
+        run_id,
+        profile,
+        region,
+        expected_account_sha256,
+        distribution_id,
+        negative_distribution_id,
+        aws_bin,
+    })?;
+    println!("{}", serde_json::to_string(&summary)?);
+    Ok(())
 }
 
 fn real_aws_signal(args: &[String]) -> Result<()> {
@@ -655,6 +769,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm service start|status|stop|remove [--service-root <dir>] [--json]
   csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--once|--max-requests <n>] [--idle-timeout-ms <n>] [--otel-status <path>] [--otel-log <path>] [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
+  csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
   csm storage prove-s3 --out <proof-dir> --bucket <bucket> --expected-account-sha256 <sha256> [--prefix community-memory/] [--profile agent-logic-admin] [--region us-west-2] [--run-id <id>] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
@@ -671,6 +786,7 @@ Semantics:
   - csm service owns host service-manager installation/status around csm daemon; launchd KeepAlive is the primary macOS target, systemd Restart=always compatible service metadata is retained, and local mode is a bounded proof fallback.
   - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
+  - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status proof under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
   - csm storage proves Polis durable-state write/read/restore semantics against the approved S3 backend with checksum, immutable reference, and negative-case evidence.
   - csm continuity captures, stages, restores, and fire-drills portable continuity capsules with secrets excluded and host bindings explicit.
@@ -694,6 +810,12 @@ mod tests {
     }
 
     #[test]
+    fn standalone_csm_accepts_cloud_control_help() {
+        let args = vec!["cloud-control".to_string(), "--help".to_string()];
+        real_csm_standalone(&args).expect("standalone csm owns cloud-control");
+    }
+
+    #[test]
     fn adl_control_plane_rejects_aws_signal_runtime_surface() {
         let args = vec!["aws-signal".to_string(), "--help".to_string()];
         let error = real_csm(&args).expect_err("adl csm must not own aws-signal runtime surface");
@@ -713,6 +835,17 @@ mod tests {
     fn adl_control_plane_rejects_storage_runtime_surface() {
         let args = vec!["storage".to_string(), "--help".to_string()];
         let error = real_csm(&args).expect_err("adl csm must not own storage runtime surface");
+        assert!(
+            error.to_string().contains("standalone csm runtime binary"),
+            "{error}"
+        );
+    }
+
+    #[test]
+    fn adl_control_plane_rejects_cloud_control_runtime_surface() {
+        let args = vec!["cloud-control".to_string(), "--help".to_string()];
+        let error =
+            real_csm(&args).expect_err("adl csm must not own cloud-control runtime surface");
         assert!(
             error.to_string().contains("standalone csm runtime binary"),
             "{error}"
