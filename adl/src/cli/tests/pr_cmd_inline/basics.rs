@@ -3128,6 +3128,18 @@ fn real_pr_dispatch_rejects_missing_and_unknown_subcommands() {
     real_pr(&["--help".to_string()]).expect("top-level pr help should succeed");
     real_pr(&["-h".to_string()]).expect("short top-level pr help should succeed");
     real_pr(&["help".to_string()]).expect("help alias should succeed");
+    real_pr(&["watch".to_string(), "--help".to_string()])
+        .expect("watch help should not parse --help as an issue number");
+    real_pr(&["watch".to_string(), "-h".to_string()])
+        .expect("watch short help should not parse -h as an issue number");
+    real_pr(&["watch".to_string(), "help".to_string()])
+        .expect("watch help alias should not parse help as an issue number");
+    real_pr(&["shepherd".to_string(), "--help".to_string()])
+        .expect("shepherd help should not parse --help as an issue number");
+    real_pr(&["shepherd".to_string(), "-h".to_string()])
+        .expect("shepherd short help should not parse -h as an issue number");
+    real_pr(&["shepherd".to_string(), "help".to_string()])
+        .expect("shepherd help alias should not parse help as an issue number");
 
     let err = real_pr(&["bogus".to_string()]).expect_err("unknown subcommand");
     assert!(err.to_string().contains("unknown pr subcommand: bogus"));
