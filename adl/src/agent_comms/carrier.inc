@@ -301,7 +301,6 @@ pub fn sample_acip_local_carrier_v1() -> AcipLocalCarrierV1 {
     }
 }
 
-#[cfg(test)]
 pub(crate) fn sample_local_review_request_message(
     contract: &AcipInvocationContractV1,
 ) -> AcipMessageEnvelopeV1 {
