@@ -1217,6 +1217,11 @@ Use `pr-janitor` when:
 - the user wants help with conflicts or review blockers
 - the task is monitoring or narrow blocker remediation
 
+Use `bash adl/tools/pr.sh janitor <issue-or-pr> --json` when a session needs
+the repo-native command surface to classify the PR tail before handing off to
+the `pr-janitor` skill. The command is a compatibility wrapper over the
+shepherd classifier and preserves the no-`gh` transport path.
+
 Do not use it for:
 
 - initial issue setup

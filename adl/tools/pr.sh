@@ -28,6 +28,7 @@
 #   adl/tools/pr.sh finish  <issue> --title "<title>" [-f <input_card.md>] [--output-card <output_card.md>] [--body "<extra body>"] [--paths "<p1,p2,...>"] [--no-checks] [--no-close] [--ready] [--allow-gitignore] [--no-open]
 #   adl/tools/pr.sh pr-inventory [-R owner/repo] [--json]
 #   adl/tools/pr.sh closing-linkage [--event-name <event>] [--event-path <path>] [--head-ref <branch>] [-R owner/repo]
+#   adl/tools/pr.sh janitor <issue-number-or-url> [--slug <slug>] [--version <v>] [-R owner/repo] [--json]
 #   adl/tools/pr.sh open
 #   adl/tools/pr.sh status
 #
@@ -2034,6 +2035,17 @@ cmd_shepherd() {
   delegate_pr_command_to_rust shepherd "$@"
 }
 
+cmd_janitor() {
+  if [[ "${1:-}" == "-h" || "${1:-}" == "--help" || "${1:-}" == "help" ]]; then
+    usage_janitor
+    return 0
+  fi
+  adl_obs_event "pr.sh" "janitor" "started" "issue" "${1:-}"
+  note "Compatibility path: 'pr.sh janitor' delegates to the repo-native shepherd classifier." >&2
+  require_rust_pr_delegate shepherd
+  delegate_pr_command_to_rust shepherd "$@"
+}
+
 cmd_closing_linkage() {
   if [[ "${1:-}" == "-h" || "${1:-}" == "--help" || "${1:-}" == "help" ]]; then
     note "Usage: adl/tools/pr.sh closing-linkage [--event-name <event>] [--event-path <path>] [--head-ref <branch>] [-R owner/repo]"
@@ -2145,6 +2157,7 @@ main() {
     pr-inventory) cmd_pr_inventory "$@" ;;
     watch) cmd_watch "$@" ;;
     shepherd) cmd_shepherd "$@" ;;
+    janitor) cmd_janitor "$@" ;;
     closing-linkage) cmd_closing_linkage "$@" ;;
     issue) cmd_issue "$@" ;;
     projection-map) cmd_projection_map "$@" ;;

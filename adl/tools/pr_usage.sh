@@ -17,6 +17,7 @@ Commands:
   pr-inventory [-R owner/repo] [--json]
   watch   <issue-number-or-url> [--slug <slug>] [--version <v>] [-R owner/repo] [--json]
   shepherd <issue-number-or-url> [--slug <slug>] [--version <v>] [-R owner/repo] [--json]
+  janitor <issue-number-or-url> [--slug <slug>] [--version <v>] [-R owner/repo] [--json]
   closing-linkage [--event-name <event>] [--event-path <path>] [--head-ref <branch>] [-R owner/repo]
   issue   <list|search|view|create|comment|edit|close> ...
   projection-map [--json]
@@ -60,6 +61,7 @@ Notes:
 - `pr pr-inventory ...` is the typed release-tail PR inventory surface; use it instead of raw `gh pr list`.
 - `adl-pr-shepherd <issue> ...` is the owner lifecycle synthesis binary above readiness, watcher, janitor, and closeout.
 - `pr shepherd <issue> ...` remains a thin compatibility wrapper over `adl-pr-shepherd`.
+- `pr janitor <issue-or-pr> ...` is a compatibility wrapper over the same shepherd classifier for PR-tail blocker triage; use the returned `next_skill`/`tail_owner` to hand off to `pr-janitor`.
 - `pr closeout <issue> ...` finalizes a closed issue locally and safely prunes its execution worktree when possible.
 - `pr closing-linkage ...` is the Rust-owned CI/linkage guard and prefers live PR metadata over stale event payloads when token context exists.
 - `pr start <issue> ...` remains only as a legacy alias over the same Rust binding path and is no longer part of the taught public flow.
@@ -286,6 +288,20 @@ Behavior:
 - preserves the human authority boundary for review, merge, and final closeout truth
 - uses typed GitHub transport plus local doctor readiness; does not fall back to raw `gh`
 - emits a JSON lifecycle shepherd report when --json is set
+EOF
+}
+
+usage_janitor() {
+  cat <<'EOF'
+Usage:
+  adl/tools/pr.sh janitor <issue-number-or-url> [--slug <slug>] [--version <v>] [-R owner/repo] [--json]
+
+Behavior:
+- delegates to the Rust-owned issue-lifecycle shepherd classifier
+- gives failed-check/conflict/review-blocker sessions a repo-native entrypoint instead of a missing command
+- preserves the no-gh path and typed GitHub transport used by `pr.sh shepherd`
+- reports canonical lifecycle routing such as janitor_active, pr_waiting, merged_needs_closeout, or blocked
+- use the returned `tail_owner` and `next_skill` fields to decide whether to invoke the `pr-janitor` skill for bounded repair
 EOF
 }
 

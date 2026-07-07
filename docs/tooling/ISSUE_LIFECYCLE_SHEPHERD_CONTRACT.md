@@ -34,6 +34,13 @@ The owner repo-native entrypoint for this contract is:
 The compatibility shell wrapper remains available at:
 
 - `adl/tools/pr.sh shepherd <issue-number-or-url> [--json]`
+- `adl/tools/pr.sh janitor <issue-number-or-url> [--json]`
+
+`pr.sh janitor` is a compatibility entrypoint for PR-tail blocker triage. It
+delegates to the same owner shepherd classifier as `pr.sh shepherd`, then uses
+the returned `tail_owner` and `next_skill` fields to decide whether the next
+bounded skill handoff is `pr-janitor`, `issue-watcher`, `pr-closeout`, or human
+review.
 
 The owner binary should synthesize the current tracked issue into one canonical
 shepherd state using local doctor readiness plus the authoritative watcher/PR

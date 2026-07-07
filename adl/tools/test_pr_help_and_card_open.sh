@@ -26,6 +26,15 @@ cp "$CARD_PATHS_SRC" "$repo/adl/tools/card_paths.sh"
 cp "$INPUT_TPL_SRC" "$repo/adl/templates/cards/input_card_template.md"
 cp "$OUTPUT_TPL_SRC" "$repo/adl/templates/cards/output_card_template.md"
 chmod +x "$repo/adl/tools/pr.sh"
+cat >"$repo/fake-adl-pr-shepherd" <<'EOF'
+#!/usr/bin/env bash
+printf 'fake shepherd args:'
+for arg in "$@"; do
+  printf ' <%s>' "$arg"
+done
+printf '\n'
+EOF
+chmod +x "$repo/fake-adl-pr-shepherd"
 
 (
   cd "$repo"
@@ -54,6 +63,7 @@ assert_contains() {
   assert_contains "Compatibility / maintenance commands:" "$help_out" "compatibility section"
   assert_contains "  run     <issue>" "$help_out" "canonical run help"
   assert_contains "  doctor  <issue>" "$help_out" "canonical doctor help"
+  assert_contains "  janitor <issue-number-or-url>" "$help_out" "janitor compatibility help"
   if grep -Fq "  new     " <<<"$help_out"; then
     echo "assertion failed: help should not advertise retired pr new command" >&2
     exit 1
@@ -61,6 +71,19 @@ assert_contains() {
 
   card_help_out="$("$BASH_BIN" adl/tools/pr.sh card --help)"
   assert_contains "Usage:" "$card_help_out" "card --help"
+
+  janitor_help_out="$("$BASH_BIN" adl/tools/pr.sh janitor --help)"
+  assert_contains "Usage:" "$janitor_help_out" "janitor --help"
+  assert_contains "delegates to the Rust-owned issue-lifecycle shepherd classifier" "$janitor_help_out" "janitor delegates"
+
+  janitor_delegate_out="$(ADL_PR_SHEPHERD_BIN="$repo/fake-adl-pr-shepherd" "$BASH_BIN" adl/tools/pr.sh janitor 5017 --json 2>&1)"
+  assert_contains "stage=command_start result=started subcommand=janitor" "$janitor_delegate_out" "janitor command_start observability"
+  assert_contains "stage=janitor result=started issue=5017" "$janitor_delegate_out" "janitor observability"
+  assert_contains "fake shepherd args: <5017> <--json>" "$janitor_delegate_out" "janitor delegates to shepherd args"
+  if grep -Fq "Unknown command: janitor" <<<"$janitor_delegate_out"; then
+    echo "assertion failed: janitor command should not hit unknown-command path" >&2
+    exit 1
+  fi
 
   in_path="$("$BASH_BIN" adl/tools/pr.sh card 271 input --no-fetch-issue --slug demo-title)"
   [[ "$in_path" == *"/.adl/v0.86/tasks/issue-0271__demo-title/sip.md" ]] || {
