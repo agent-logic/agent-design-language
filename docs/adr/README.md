@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-This directory contains accepted ADL architecture decision records.
+This directory contains ADL architecture decision records, grouped by status.
 
 Candidate ADRs live in `docs/architecture/adr/` until they are reviewed and
 promoted. ADR 0020 through ADR 0028 were authored as candidates during the
@@ -46,3 +46,15 @@ v0.91.2 ADR planning pass and accepted during the v0.91.3 review tail.
 - `0039-cognitive-scheduler-v1-authority-boundary.md`
 - `0041-provider-model-suitability-boundary-v2.md`
 - `0042-public-prompt-records-publication-boundary.md`
+- `0043-adl-platform-cli-binary-taxonomy.md`
+- `0044-c-sdlc-operational-coordination-boundary.md`
+- `0045-validation-manager-and-fast-slow-proof-boundary.md`
+- `0046-repo-native-workflow-transport-boundary.md`
+- `0047-repo-binaries-and-warm-cache-validation-boundary.md`
+- `0048-runtime-observability-and-otel-boundary.md`
+- `0049-runtime-soak2-pre-v092-readiness-boundary.md`
+- `0050-scheduler-provider-local-agent-delegation-boundary.md`
+
+## Deferred Records
+
+- `0051-chronosense-and-memory-palace-adr-disposition.md`
