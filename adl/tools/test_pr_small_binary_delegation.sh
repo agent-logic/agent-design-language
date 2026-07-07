@@ -165,6 +165,28 @@ if [[ "$flag_as_title_output" != *"finish: --title is required"* ]]; then
   echo "assertion failed: finish with --title followed by a flag should report missing title" >&2
   exit 1
 fi
+bare_version_log="$tmpdir/finish-bare-version.log"
+set +e
+bare_version_output="$(
+  cd "$repo"
+  ADL_TEST_LOG="$bare_version_log" \
+    ADL_PR_FINISH_BIN="$finish_bin" \
+    "$BASH_BIN" adl/tools/pr.sh finish 3838 --version 2>&1
+)"
+bare_version_status=$?
+set -e
+if [[ "$bare_version_status" -eq 0 ]]; then
+  echo "assertion failed: finish with bare --version should fail before delegate" >&2
+  exit 1
+fi
+if [[ -e "$bare_version_log" ]]; then
+  echo "assertion failed: finish with bare --version should not invoke delegated Rust binary" >&2
+  exit 1
+fi
+if [[ "$bare_version_output" != *"finish: --version requires a value"* ]]; then
+  echo "assertion failed: finish with bare --version should report missing version value" >&2
+  exit 1
+fi
 (
   cd "$repo"
   ADL_TEST_LOG="$finish_log" \
@@ -173,6 +195,43 @@ fi
 )
 grep -Fqx 'finish:3838 --title demo finish --output-card demo-output.md' "$finish_log" || {
   echo "assertion failed: finish should delegate directly to adl-pr-finish without broad 'pr finish' argv" >&2
+  exit 1
+}
+
+finish_wrapper_flags_log="$tmpdir/finish-wrapper-flags.log"
+(
+  cd "$repo"
+  ADL_TEST_LOG="$finish_wrapper_flags_log" \
+    ADL_PR_FINISH_BIN="$finish_bin" \
+    "$BASH_BIN" adl/tools/pr.sh finish 3838 --version v0.91.7 --allow-open-pr-wave --no-checks --title "demo finish" --output-card demo-output.md >/dev/null
+)
+grep -Fqx 'finish:3838 --no-checks --title demo finish --output-card demo-output.md' "$finish_wrapper_flags_log" || {
+  echo "assertion failed: finish should strip wrapper-only lifecycle flags before delegating to adl-pr-finish" >&2
+  exit 1
+}
+
+finish_wrapper_equals_flags_log="$tmpdir/finish-wrapper-equals-flags.log"
+(
+  cd "$repo"
+  ADL_TEST_LOG="$finish_wrapper_equals_flags_log" \
+    ADL_PR_FINISH_BIN="$finish_bin" \
+    "$BASH_BIN" adl/tools/pr.sh finish 3838 --version=v0.91.7 --allow-open-pr-wave --title "demo finish" --output-card demo-output.md >/dev/null
+)
+grep -Fqx 'finish:3838 --title demo finish --output-card demo-output.md' "$finish_wrapper_equals_flags_log" || {
+  echo "assertion failed: finish should strip --version=<value> before delegating to adl-pr-finish" >&2
+  exit 1
+}
+
+broad_finish_log="$tmpdir/broad-finish.log"
+(
+  cd "$repo"
+  ADL_TEST_LOG="$broad_finish_log" \
+    ADL_PR_RUST_BIN="$broad_bin" \
+    ADL_PR_FINISH_BIN="$finish_bin" \
+    "$BASH_BIN" adl/tools/pr.sh finish 3838 --version v0.91.7 --allow-open-pr-wave --no-checks --title "demo finish" --output-card demo-output.md >/dev/null
+)
+grep -Fqx 'broad:pr finish 3838 --version v0.91.7 --allow-open-pr-wave --no-checks --title demo finish --output-card demo-output.md' "$broad_finish_log" || {
+  echo "assertion failed: ADL_PR_RUST_BIN finish path must retain broad wrapper argv" >&2
   exit 1
 }
 
