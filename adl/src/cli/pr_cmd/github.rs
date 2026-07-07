@@ -16,7 +16,7 @@ use ::adl::control_plane::resolve_primary_checkout_root;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time::Duration;
 
@@ -1567,6 +1567,7 @@ pub(super) fn format_open_pr_wave(prs: &[OpenPullRequest]) -> String {
 }
 
 pub(super) fn pr_inventory(repo: &str) -> Result<Vec<PrInventoryRecord>> {
+    let repo_root = resolve_primary_checkout_root(Path::new("."), None);
     list_prs_octocrab(repo)?
         .into_iter()
         .map(|mut pr| {
@@ -1584,6 +1585,11 @@ pub(super) fn pr_inventory(repo: &str) -> Result<Vec<PrInventoryRecord>> {
                         )
                     },
                 )?;
+            let watcher = issue_pr_watcher_status_for_inventory(
+                &repo_root,
+                closing_issue_numbers.first().copied(),
+                &pr.url,
+            );
             Ok(PrInventoryRecord {
                 number: pr.number,
                 title: pr.title,
@@ -1597,6 +1603,7 @@ pub(super) fn pr_inventory(repo: &str) -> Result<Vec<PrInventoryRecord>> {
                 queue: pr.queue,
                 closing_issue_numbers,
                 check_summary: PrInventoryCheckSummary::from_validation_report(&validation),
+                watcher,
             })
         })
         .collect()
@@ -1733,6 +1740,7 @@ pub(super) fn attach_pr_janitor(
 
 pub(super) struct IssueWatcherAttachRequest<'a> {
     pub repo_root: &'a Path,
+    pub artifact_root: &'a Path,
     pub repo: &'a str,
     pub issue: u32,
     pub branch: &'a str,
@@ -1743,10 +1751,263 @@ pub(super) struct IssueWatcherAttachRequest<'a> {
     pub shepherd_state: &'a str,
 }
 
+#[derive(Debug, Clone, Deserialize, Serialize)]
+struct IssueWatcherAttachmentRecord {
+    schema: String,
+    issue: u32,
+    repo: String,
+    branch: String,
+    pr_url: String,
+    pr_number: Option<u32>,
+    expected_pr_state: String,
+    classification: String,
+    tail_owner: String,
+    shepherd_state: String,
+    status: String,
+    packet_path: String,
+    input_path: String,
+    prompt_path: String,
+    log_path: String,
+    pid_path: String,
+    #[serde(default)]
+    pid: Option<u32>,
+    #[serde(default)]
+    terminal_disposition: Option<String>,
+    #[serde(default)]
+    terminal_recorded_at: Option<String>,
+}
+
+fn issue_watcher_artifact_root(repo_root: &Path, issue: u32) -> PathBuf {
+    repo_root
+        .join(".adl")
+        .join("logs")
+        .join("issue-watcher")
+        .join(format!("issue-{issue}"))
+}
+
+fn issue_watcher_repo_relative_path(repo_root: &Path, path: &Path) -> String {
+    path.strip_prefix(repo_root)
+        .unwrap_or(path)
+        .to_string_lossy()
+        .replace('\\', "/")
+}
+
+fn pr_number_from_url(pr_url: &str) -> Option<u32> {
+    pr_url
+        .trim_end_matches('/')
+        .rsplit('/')
+        .next()
+        .and_then(|value| value.parse::<u32>().ok())
+}
+
+pub(crate) fn issue_watcher_attachment_record_path(
+    repo_root: &Path,
+    issue: u32,
+    pr_url: &str,
+) -> PathBuf {
+    let pr_number = pr_number_from_url(pr_url)
+        .map(|number| number.to_string())
+        .unwrap_or_else(|| "unknown".to_string());
+    issue_watcher_artifact_root(repo_root, issue).join(format!("pr-{pr_number}-attachment.json"))
+}
+
+fn write_issue_watcher_attachment_record(
+    request: &IssueWatcherAttachRequest<'_>,
+    input_file: &Path,
+    prompt_file: &Path,
+    run_log: &Path,
+    pid_file: &Path,
+    pid: Option<u32>,
+) -> Result<()> {
+    let packet_path =
+        issue_watcher_attachment_record_path(request.artifact_root, request.issue, request.pr_url);
+    let record = IssueWatcherAttachmentRecord {
+        schema: "adl.issue_watcher.attachment.v1".to_string(),
+        issue: request.issue,
+        repo: request.repo.to_string(),
+        branch: request.branch.to_string(),
+        pr_url: request.pr_url.to_string(),
+        pr_number: pr_number_from_url(request.pr_url),
+        expected_pr_state: request.expected_pr_state.to_string(),
+        classification: request.classification.to_string(),
+        tail_owner: request.tail_owner.to_string(),
+        shepherd_state: request.shepherd_state.to_string(),
+        status: "attached".to_string(),
+        packet_path: issue_watcher_repo_relative_path(request.artifact_root, &packet_path),
+        input_path: issue_watcher_repo_relative_path(request.artifact_root, input_file),
+        prompt_path: issue_watcher_repo_relative_path(request.artifact_root, prompt_file),
+        log_path: issue_watcher_repo_relative_path(request.artifact_root, run_log),
+        pid_path: issue_watcher_repo_relative_path(request.artifact_root, pid_file),
+        pid,
+        terminal_disposition: None,
+        terminal_recorded_at: None,
+    };
+    let json = serde_json::to_string_pretty(&record)?;
+    fs::write(&packet_path, format!("{json}\n")).with_context(|| {
+        format!(
+            "finish: failed to write issue watcher attachment packet '{}'",
+            packet_path.display()
+        )
+    })?;
+    Ok(())
+}
+
+fn read_issue_watcher_attachment_record(
+    repo_root: &Path,
+    issue: u32,
+    pr_url: &str,
+) -> Result<Option<(PathBuf, IssueWatcherAttachmentRecord)>> {
+    let packet_path = issue_watcher_attachment_record_path(repo_root, issue, pr_url);
+    if !packet_path.is_file() {
+        return Ok(None);
+    }
+    let record: IssueWatcherAttachmentRecord =
+        serde_json::from_str(&fs::read_to_string(&packet_path).with_context(|| {
+            format!(
+                "watcher: failed to read issue watcher packet '{}'",
+                packet_path.display()
+            )
+        })?)
+        .with_context(|| {
+            format!(
+                "watcher: failed to parse issue watcher packet '{}'",
+                packet_path.display()
+            )
+        })?;
+    Ok(Some((packet_path, record)))
+}
+
+pub(crate) fn issue_pr_watcher_status_for_inventory(
+    repo_root: &Path,
+    issue: Option<u32>,
+    pr_url: &str,
+) -> PrInventoryWatcherStatus {
+    let Some(issue) = issue else {
+        return PrInventoryWatcherStatus {
+            status: "not_issue_bound".to_string(),
+            packet_path: None,
+            terminal_disposition: None,
+            reason: "pr_has_no_closing_issue_reference".to_string(),
+        };
+    };
+    match read_issue_watcher_attachment_record(repo_root, issue, pr_url) {
+        Ok(Some((packet_path, record))) => {
+            let terminal = record.terminal_disposition.clone();
+            PrInventoryWatcherStatus {
+                status: if terminal.is_some() {
+                    "terminal".to_string()
+                } else {
+                    "attached_nonterminal".to_string()
+                },
+                packet_path: Some(issue_watcher_repo_relative_path(repo_root, &packet_path)),
+                terminal_disposition: terminal,
+                reason: "issue_watcher_packet_present".to_string(),
+            }
+        }
+        Ok(None) => PrInventoryWatcherStatus {
+            status: "missing".to_string(),
+            packet_path: Some(issue_watcher_repo_relative_path(
+                repo_root,
+                &issue_watcher_attachment_record_path(repo_root, issue, pr_url),
+            )),
+            terminal_disposition: None,
+            reason: "issue_bound_pr_has_no_watcher_packet".to_string(),
+        },
+        Err(err) => PrInventoryWatcherStatus {
+            status: "invalid".to_string(),
+            packet_path: None,
+            terminal_disposition: None,
+            reason: err.to_string(),
+        },
+    }
+}
+
+pub(crate) fn ensure_issue_watcher_terminal_disposition(
+    repo_root: &Path,
+    issue: u32,
+    pr_url: Option<&str>,
+    fallback_disposition: &str,
+) -> Result<()> {
+    let Some(pr_url) = pr_url.filter(|value| !value.trim().is_empty()) else {
+        let artifact_root = issue_watcher_artifact_root(repo_root, issue);
+        fs::create_dir_all(&artifact_root).with_context(|| {
+            format!(
+                "closeout: failed to create issue watcher artifact root '{}'",
+                artifact_root.display()
+            )
+        })?;
+        let packet_path = artifact_root.join("closed-without-pr-attachment.json");
+        let record = serde_json::json!({
+            "schema": "adl.issue_watcher.attachment.v1",
+            "issue": issue,
+            "repo": "unknown",
+            "branch": "unknown",
+            "pr_url": null,
+            "pr_number": null,
+            "expected_pr_state": "closed",
+            "classification": fallback_disposition,
+            "tail_owner": "pr-closeout",
+            "shepherd_state": "terminal_closeout",
+            "status": "terminal",
+            "packet_path": issue_watcher_repo_relative_path(repo_root, &packet_path),
+            "terminal_disposition": fallback_disposition,
+            "terminal_recorded_at": chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true),
+            "reason": "closeout_completed_without_linked_pr_url"
+        });
+        fs::write(
+            &packet_path,
+            format!("{}\n", serde_json::to_string_pretty(&record)?),
+        )
+        .with_context(|| {
+            format!(
+                "closeout: failed to write watcher terminal packet '{}'",
+                packet_path.display()
+            )
+        })?;
+        return Ok(());
+    };
+
+    let (packet_path, mut record) =
+        read_issue_watcher_attachment_record(repo_root, issue, pr_url)?.ok_or_else(|| {
+            anyhow!(
+                "closeout: issue-bound PR '{}' for issue #{} has no watcher attachment packet; rerun pr finish or pr watch/shepherd before closeout",
+                pr_url,
+                issue
+            )
+        })?;
+    if record.terminal_disposition.is_none() {
+        record.status = "terminal".to_string();
+        record.terminal_disposition = Some(fallback_disposition.to_string());
+        record.terminal_recorded_at =
+            Some(chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true));
+        let json = serde_json::to_string_pretty(&record)?;
+        fs::write(&packet_path, format!("{json}\n")).with_context(|| {
+            format!(
+                "closeout: failed to update watcher terminal packet '{}'",
+                packet_path.display()
+            )
+        })?;
+    }
+    Ok(())
+}
+
 pub(super) fn attach_issue_watcher(request: IssueWatcherAttachRequest<'_>) -> Result<()> {
     if std::env::var("ADL_ISSUE_WATCHER_DISABLE").ok().as_deref() == Some("1") {
-        return Ok(());
+        bail!("finish: issue watcher attachment is required for issue-bound PRs; ADL_ISSUE_WATCHER_DISABLE=1 is not allowed");
     }
+
+    let artifact_root = issue_watcher_artifact_root(request.artifact_root, request.issue);
+    fs::create_dir_all(&artifact_root).with_context(|| {
+        format!(
+            "finish: failed to create issue watcher artifact root '{}'",
+            artifact_root.display()
+        )
+    })?;
+    let input_file = artifact_root.join("input.yaml");
+    let prompt_file = artifact_root.join("prompt.md");
+    let run_log = artifact_root.join("codex.log");
+    let last_message_file = artifact_root.join("last_message.md");
+    let pid_file = artifact_root.join("pid");
 
     if let Some(command_path) = std::env::var("ADL_ISSUE_WATCHER_CMD")
         .ok()
@@ -1791,6 +2052,14 @@ pub(super) fn attach_issue_watcher(request: IssueWatcherAttachRequest<'_>) -> Re
                 }
             );
         }
+        write_issue_watcher_attachment_record(
+            &request,
+            &input_file,
+            &prompt_file,
+            &run_log,
+            &pid_file,
+            None,
+        )?;
         return Ok(());
     }
 
@@ -1820,24 +2089,6 @@ pub(super) fn attach_issue_watcher(request: IssueWatcherAttachRequest<'_>) -> Re
             }
         );
     }
-
-    let artifact_root = request
-        .repo_root
-        .join(".adl")
-        .join("logs")
-        .join("issue-watcher")
-        .join(format!("issue-{}", request.issue));
-    fs::create_dir_all(&artifact_root).with_context(|| {
-        format!(
-            "finish: failed to create issue watcher artifact root '{}'",
-            artifact_root.display()
-        )
-    })?;
-    let input_file = artifact_root.join("input.yaml");
-    let prompt_file = artifact_root.join("prompt.md");
-    let run_log = artifact_root.join("codex.log");
-    let last_message_file = artifact_root.join("last_message.md");
-    let pid_file = artifact_root.join("pid");
 
     fs::write(
         &input_file,
@@ -1908,6 +2159,14 @@ pub(super) fn attach_issue_watcher(request: IssueWatcherAttachRequest<'_>) -> Re
             pid_file.display()
         )
     })?;
+    write_issue_watcher_attachment_record(
+        &request,
+        &input_file,
+        &prompt_file,
+        &run_log,
+        &pid_file,
+        Some(child.id()),
+    )?;
     Ok(())
 }
 

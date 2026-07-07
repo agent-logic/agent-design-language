@@ -149,6 +149,49 @@ fn closeout_sor_names_linked_pr(text: &str, linked_pr_url: &str, _linked_pr_numb
     })
 }
 
+fn closeout_sor_pr_url(text: &str) -> Option<String> {
+    for line in text.lines() {
+        let line = line.trim().trim_start_matches("- ").trim();
+        let Some((key, value)) = line.split_once(':') else {
+            continue;
+        };
+        let key = key.trim().trim_matches('`');
+        if !matches!(key, "pr_url" | "PR URL" | "Pull Request URL") {
+            continue;
+        }
+        let value = value.trim().trim_matches('`').trim_matches('"');
+        if !value.is_empty() {
+            return Some(value.to_string());
+        }
+    }
+    None
+}
+
+fn ensure_terminal_watcher_for_closeout(
+    repo_root: &Path,
+    issue_ref: &IssueRef,
+    canonical_output: &Path,
+) -> Result<()> {
+    let sor_text = fs::read_to_string(canonical_output).with_context(|| {
+        format!(
+            "closeout: failed to read canonical SOR for watcher terminal disposition '{}'",
+            canonical_output.display()
+        )
+    })?;
+    let pr_url = closeout_sor_pr_url(&sor_text);
+    let terminal_disposition =
+        match line_value_after_prefix(&sor_text, "- Integration state:").as_deref() {
+            Some("merged") => "green_merged",
+            _ => "closed_without_merge",
+        };
+    super::super::github::ensure_issue_watcher_terminal_disposition(
+        repo_root,
+        issue_ref.issue_number(),
+        pr_url.as_deref(),
+        terminal_disposition,
+    )
+}
+
 fn closeout_marker_timestamp_covers_issue_closed_at(
     repo_root: &Path,
     issue_ref: &IssueRef,
@@ -401,6 +444,7 @@ pub(crate) fn closeout_closed_completed_issue_bundle(
                     issue_ref.issue_number()
                 )
             })?;
+        ensure_terminal_watcher_for_closeout(primary_root, issue_ref, canonical_output)?;
         write_validated_closeout_marker(primary_root, issue_ref, canonical_output)?;
         return Ok(());
     }
@@ -413,6 +457,7 @@ pub(crate) fn closeout_closed_completed_issue_bundle(
                 issue_ref.issue_number()
             )
         })?;
+    ensure_terminal_watcher_for_closeout(primary_root, issue_ref, canonical_output)?;
     write_validated_closeout_marker(primary_root, issue_ref, canonical_output)?;
     Ok(())
 }

@@ -535,7 +535,7 @@ fn real_pr_finish_fails_when_pr_janitor_auto_attach_fails() {
 }
 
 #[test]
-fn real_pr_finish_warns_but_succeeds_when_issue_watcher_auto_attach_fails() {
+fn real_pr_finish_fails_when_issue_watcher_auto_attach_fails() {
     let _guard = env_lock();
     let temp = unique_temp_dir("adl-pr-finish-watcher-fail");
     let origin = temp.join("origin.git");
@@ -745,7 +745,8 @@ fn real_pr_finish_warns_but_succeeds_when_issue_watcher_auto_attach_fails() {
         }
     }
 
-    result.expect("watcher attach failure should not block finish");
+    let err = result.expect_err("watcher attach failure must block finish");
+    assert!(err.to_string().contains("issue watcher auto-attach failed"));
     let gh_calls = fs::read_to_string(&gh_log).expect("read gh log");
     assert!(gh_calls.contains("pr create"));
 }
@@ -1084,7 +1085,9 @@ fn real_pr_finish_promotes_green_unchanged_existing_pr_ready() {
     let bin_dir = temp.join("bin");
     fs::create_dir_all(&bin_dir).expect("bin dir");
     let gh_log = temp.join("gh.log");
+    let watcher_log = temp.join("watcher.log");
     let gh_path = bin_dir.join("gh");
+    let watcher_path = bin_dir.join("watcher");
     write_executable(
             &gh_path,
             &format!(
@@ -1092,6 +1095,13 @@ fn real_pr_finish_promotes_green_unchanged_existing_pr_ready() {
                 gh_log.display()
             ),
         );
+    write_executable(
+        &watcher_path,
+        &format!(
+            "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' \"$*\" >> '{}'\n",
+            watcher_log.display()
+        ),
+    );
 
     let listener = std::net::TcpListener::bind("127.0.0.1:0").expect("bind validation server");
     let addr = listener.local_addr().expect("validation server addr");
@@ -1185,11 +1195,15 @@ fn real_pr_finish_promotes_green_unchanged_existing_pr_ready() {
     let old_path = env::var("PATH").unwrap_or_default();
     let old_base_uri = env::var_os("ADL_GITHUB_OCTOCRAB_BASE_URI");
     let old_github_token = env::var_os("GITHUB_TOKEN");
+    let old_watcher_cmd = env::var("ADL_ISSUE_WATCHER_CMD").ok();
+    let old_watcher_disable = env::var("ADL_ISSUE_WATCHER_DISABLE").ok();
     let prev_dir = env::current_dir().expect("cwd");
     unsafe {
         env::set_var("PATH", format!("{}:{}", bin_dir.display(), old_path));
         env::set_var("ADL_GITHUB_OCTOCRAB_BASE_URI", format!("http://{addr}"));
         env::set_var("GITHUB_TOKEN", "test-token-for-mock-octocrab");
+        env::set_var("ADL_ISSUE_WATCHER_DISABLE", "0");
+        env::set_var("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     }
     env::set_current_dir(&repo).expect("chdir");
 
@@ -1222,6 +1236,16 @@ fn real_pr_finish_promotes_green_unchanged_existing_pr_ready() {
         } else {
             env::remove_var("GITHUB_TOKEN");
         }
+        if let Some(value) = old_watcher_cmd {
+            env::set_var("ADL_ISSUE_WATCHER_CMD", value);
+        } else {
+            env::remove_var("ADL_ISSUE_WATCHER_CMD");
+        }
+        if let Some(value) = old_watcher_disable {
+            env::set_var("ADL_ISSUE_WATCHER_DISABLE", value);
+        } else {
+            env::remove_var("ADL_ISSUE_WATCHER_DISABLE");
+        }
     }
     validation_handle.join().expect("validation server join");
     result.expect("real_pr finish edit");
@@ -1231,4 +1255,8 @@ fn real_pr_finish_promotes_green_unchanged_existing_pr_ready() {
     assert!(gh_calls.contains("danielbaustin/agent-design-language"));
     assert!(gh_calls.contains("https://github.com/danielbaustin/agent-design-language/pull/1160"));
     assert!(gh_calls.contains("pr ready"));
+    let watcher_calls = fs::read_to_string(&watcher_log).expect("read watcher log");
+    assert!(watcher_calls.contains("--issue 1153"));
+    assert!(watcher_calls.contains("--expected-pr-state ready"));
+    assert!(watcher_calls.contains("--shepherd-state watcher_owned_checks_running"));
 }

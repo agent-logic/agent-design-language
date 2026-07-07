@@ -19,6 +19,7 @@ use crate::cli::pr_cmd::finish_support::{
     FinishValidationProfileSurfaceItem, FinishValidationSplit, FinishValidationSplitFailClosed,
     FinishValidationSplitFanoutPolicy, FinishValidationSplitFastLane,
     FinishValidationSplitSlowFamily, FinishValidationVppRecord, SorFactEmissionContext,
+    SorFactIssueWatcherContext,
 };
 use crate::cli::pr_cmd::git_support::commits_behind_origin_main;
 use crate::cli::pr_cmd::github::{PrValidationCheckReport, PrValidationReport};
@@ -729,6 +730,11 @@ review_results:
             pr_url: Some("https://github.com/danielbaustin/agent-design-language/pull/9999"),
             integration_state: "pr_open",
             closing_linkage_repaired: true,
+            issue_watcher: Some(SorFactIssueWatcherContext {
+                packet_path: ".adl/logs/issue-watcher/issue-5009/pr-9999-attachment.json",
+                last_pr_state: "draft",
+                terminal_disposition: "pending",
+            }),
         },
     )
     .expect("normalize sor emitted facts");
@@ -741,6 +747,11 @@ review_results:
     assert!(normalized.contains("Added focused SOR fact merge test coverage."));
     assert!(normalized
         .contains("pr_url: https://github.com/danielbaustin/agent-design-language/pull/9999"));
+    assert!(normalized.contains("issue_watcher:"));
+    assert!(normalized
+        .contains("packet_path: .adl/logs/issue-watcher/issue-5009/pr-9999-attachment.json"));
+    assert!(normalized.contains("last_pr_state: draft"));
+    assert!(normalized.contains("terminal_disposition: pending"));
     assert!(normalized.contains("state: pr_open"));
     assert!(normalized.contains("repaired missing PR closing linkage"));
 }
@@ -788,6 +799,7 @@ review_results:
             pr_url: Some("https://example.test/pr/1"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("first normalize");
@@ -801,6 +813,7 @@ review_results:
             pr_url: Some("https://example.test/pr/1"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("second normalize");
@@ -837,6 +850,7 @@ review_results:
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize no-checks sor emitted facts");
@@ -878,6 +892,7 @@ review_results:
             pr_url: Some("https://example.test/pr/2"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize with fallback");
@@ -920,6 +935,7 @@ review_results:
             pr_url: Some("https://example.test/pr/2"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize with missing verification summary");
@@ -963,6 +979,7 @@ review_results:
             pr_url: Some("https://example.test/pr/2"),
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("first fallback normalize");
@@ -976,6 +993,7 @@ review_results:
             pr_url: Some("https://example.test/pr/2"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("second fallback normalize");
@@ -1011,6 +1029,7 @@ review_results:
             pr_url: Some("https://example.test/pr/3"),
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("first empty-body fallback normalize");
@@ -1024,6 +1043,7 @@ review_results:
             pr_url: Some("https://example.test/pr/3"),
             integration_state: "pr_open",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("second empty-body fallback normalize");
@@ -1058,6 +1078,7 @@ review_results:
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize with sanitized changed-files command");
@@ -1094,6 +1115,7 @@ verification_summary:
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize without srp front matter");
@@ -1118,6 +1140,7 @@ fn sor_emitted_facts_parse_review_truth_from_crlf_front_matter() {
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize crlf srp front matter");
@@ -1160,6 +1183,7 @@ review_results:
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )
     .expect("normalize numbered finding review evidence");
@@ -1309,6 +1333,43 @@ impl Drop for FinishHelperObservabilityEnvGuard {
             std::env::remove_var("ADL_OBSERVABILITY_HEARTBEAT_MS");
         }
     }
+}
+
+struct EnvVarGuard {
+    key: &'static str,
+    old: Option<String>,
+}
+
+impl EnvVarGuard {
+    fn set(key: &'static str, value: impl AsRef<std::ffi::OsStr>) -> Self {
+        let old = std::env::var(key).ok();
+        unsafe {
+            std::env::set_var(key, value);
+        }
+        Self { key, old }
+    }
+}
+
+impl Drop for EnvVarGuard {
+    fn drop(&mut self) {
+        unsafe {
+            if let Some(value) = &self.old {
+                std::env::set_var(self.key, value);
+            } else {
+                std::env::remove_var(self.key);
+            }
+        }
+    }
+}
+
+fn write_issue_watcher_stub(path: &Path, log: &Path) {
+    write_executable(
+        path,
+        &format!(
+            "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' \"$*\" >> '{}'\n",
+            log.display()
+        ),
+    );
 }
 
 fn read_finish_helper_log_until(log: &Path, needle: &str) -> String {
@@ -5662,6 +5723,61 @@ residual_ci_proof_required_before_merge: required
 }
 
 #[test]
+fn slow_pr_cmd_disposition_validates_tracked_publishable_surface() {
+    let repo = unique_temp_dir("adl-pr-finish-slow-pr-cmd-disposition-valid");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/slow-pr-cmd.yaml"),
+        r#"issue: 5009
+disposition: approved_with_focused_local_proof
+changed_release_gate_surfaces:
+  - adl/src/cli/pr_cmd/finish_support.rs
+reviewer_or_review_mode: bounded slow PR-command review
+focused_validation_run: focused issue_watcher tests and owner binary checks passed locally
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("slow PR-command disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/slow-pr-cmd.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "escalated_3_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "slow_pr_cmd_e2e_surface_requires_explicit_slow_lane".to_string(),
+                matched_paths: vec!["adl/src/cli/pr_cmd/finish_support.rs".to_string()],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: Some(
+                    "Record an explicit slow-lane disposition before publication.".to_string(),
+                ),
+            }],
+        },
+    };
+
+    validate_release_gate_disposition(
+        &repo,
+        5009,
+        &profile,
+        Path::new("docs/review/slow-pr-cmd.yaml"),
+    )
+    .expect("valid slow PR-command disposition should pass");
+}
+
+#[test]
 fn release_gate_disposition_fails_closed_when_surface_is_missing() {
     let repo = unique_temp_dir("adl-pr-finish-release-gate-disposition-missing-surface");
     fs::create_dir_all(repo.join("docs/review")).expect("review dir");
@@ -7371,9 +7487,11 @@ fn real_pr_finish_happy_path_is_covered_in_default_lane() {
     let gh_log = temp.join("gh.log");
     let janitor_log = temp.join("janitor.log");
     let closeout_log = temp.join("closeout.log");
+    let watcher_log = temp.join("issue-watcher.log");
     let gh_path = bin_dir.join("gh");
     let janitor_path = bin_dir.join("janitor");
     let closeout_path = bin_dir.join("closeout");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -7381,7 +7499,6 @@ fn real_pr_finish_happy_path_is_covered_in_default_lane() {
             gh_log.display()
         ),
     );
-    let _fixture = GithubCliFixtureGuard::set(&gh_path);
     write_executable(
         &janitor_path,
         &format!(
@@ -7396,8 +7513,11 @@ fn real_pr_finish_happy_path_is_covered_in_default_lane() {
             closeout_log.display()
         ),
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
     let _fixture = GithubCliFixtureGuard::set(&gh_path);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let old_janitor_cmd = env::var("ADL_PR_JANITOR_CMD").ok();
     let old_janitor_disable = env::var("ADL_PR_JANITOR_DISABLE").ok();
@@ -7482,6 +7602,8 @@ fn real_pr_finish_happy_path_is_covered_in_default_lane() {
     let closeout_log = fs::read_to_string(&closeout_log).expect("closeout log");
     assert!(janitor_log.contains("--issue 1153"));
     assert!(closeout_log.contains("--issue 1153"));
+    let watcher_log = fs::read_to_string(&watcher_log).expect("watcher log");
+    assert!(watcher_log.contains("--issue 1153"));
 }
 
 #[test]
@@ -7759,9 +7881,11 @@ verification_summary:
     let gh_log = temp.join("gh.log");
     let janitor_log = temp.join("janitor.log");
     let closeout_log = temp.join("closeout.log");
+    let watcher_log = temp.join("issue-watcher.log");
     let gh_path = bin_dir.join("gh");
     let janitor_path = bin_dir.join("janitor");
     let closeout_path = bin_dir.join("closeout");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -7783,7 +7907,10 @@ verification_summary:
             closeout_log.display()
         ),
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let old_janitor_cmd = env::var("ADL_PR_JANITOR_CMD").ok();
     let old_janitor_disable = env::var("ADL_PR_JANITOR_DISABLE").ok();
@@ -8007,9 +8134,11 @@ fn real_pr_finish_updates_existing_pr_marks_ready_and_keeps_non_closing_commit_t
     let gh_log = temp.join("gh.log");
     let janitor_log = temp.join("janitor.log");
     let closeout_log = temp.join("closeout.log");
+    let watcher_log = temp.join("issue-watcher.log");
     let gh_path = bin_dir.join("gh");
     let janitor_path = bin_dir.join("janitor");
     let closeout_path = bin_dir.join("closeout");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -8031,7 +8160,10 @@ fn real_pr_finish_updates_existing_pr_marks_ready_and_keeps_non_closing_commit_t
             closeout_log.display()
         ),
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let old_janitor_cmd = env::var("ADL_PR_JANITOR_CMD").ok();
     let old_janitor_disable = env::var("ADL_PR_JANITOR_DISABLE").ok();
@@ -8703,8 +8835,10 @@ fn real_pr_finish_opener_failure_is_nonblocking_when_no_open_is_false() {
     let bin_dir = temp.join("bin");
     fs::create_dir_all(&bin_dir).expect("bin dir");
     let gh_log = temp.join("gh.log");
+    let watcher_log = temp.join("issue-watcher.log");
     let gh_path = bin_dir.join("gh");
     let open_path = bin_dir.join("open");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -8717,8 +8851,11 @@ fn real_pr_finish_opener_failure_is_nonblocking_when_no_open_is_false() {
         &open_path,
         "#!/usr/bin/env bash\nset -euo pipefail\necho 'synthetic open failure' >&2\nexit 42\n",
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
     let _fixture = GithubCliFixtureGuard::set(&gh_path);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let prev_dir = env::current_dir().expect("cwd");
     unsafe {
@@ -8896,8 +9033,10 @@ print(json.dumps({
     fs::create_dir_all(&bin_dir).expect("bin dir");
     let gh_log = temp.join("gh.log");
     let issue_state_file = temp.join("issue_state.txt");
+    let watcher_log = temp.join("issue-watcher.log");
     fs::write(&issue_state_file, "open\n").expect("seed issue state");
     let gh_path = bin_dir.join("gh");
+    let watcher_path = bin_dir.join("issue-watcher");
     write_executable(
         &gh_path,
         &format!(
@@ -8907,7 +9046,10 @@ print(json.dumps({
             issue_state_file.display()
         ),
     );
+    write_issue_watcher_stub(&watcher_path, &watcher_log);
 
+    let _watcher_disable_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_DISABLE", "0");
+    let _watcher_cmd_guard = EnvVarGuard::set("ADL_ISSUE_WATCHER_CMD", &watcher_path);
     let old_path = env::var("PATH").unwrap_or_default();
     let prev_dir = env::current_dir().expect("cwd");
     unsafe {

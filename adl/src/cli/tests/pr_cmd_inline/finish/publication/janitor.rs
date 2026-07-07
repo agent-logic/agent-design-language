@@ -212,6 +212,7 @@ fn attach_issue_watcher_reports_failure_output() {
 
     let err = attach_issue_watcher(IssueWatcherAttachRequest {
         repo_root: &repo,
+        artifact_root: &repo,
         repo: "owner/repo",
         issue: 1153,
         branch: "codex/1153-rust-finish-test",
@@ -243,7 +244,7 @@ fn attach_issue_watcher_reports_failure_output() {
 }
 
 #[test]
-fn attach_issue_watcher_returns_early_when_disabled() {
+fn attach_issue_watcher_fails_when_disabled() {
     let _guard = env_lock();
     let temp = unique_temp_dir("adl-pr-attach-watcher-disabled");
     let repo = temp.join("repo");
@@ -255,8 +256,9 @@ fn attach_issue_watcher_returns_early_when_disabled() {
         env::remove_var("ADL_ISSUE_WATCHER_CMD");
     }
 
-    attach_issue_watcher(IssueWatcherAttachRequest {
+    let err = attach_issue_watcher(IssueWatcherAttachRequest {
         repo_root: &repo,
+        artifact_root: &repo,
         repo: "owner/repo",
         issue: 1153,
         branch: "codex/1153-rust-finish-test",
@@ -266,7 +268,10 @@ fn attach_issue_watcher_returns_early_when_disabled() {
         tail_owner: "issue-watcher",
         shepherd_state: "watcher_owned_pr_open",
     })
-    .expect("disabled watcher helper should be skipped");
+    .expect_err("disabled watcher helper must fail closed");
+    assert!(err
+        .to_string()
+        .contains("issue watcher attachment is required"));
 
     unsafe {
         if let Some(value) = old_disable {
@@ -306,6 +311,7 @@ fn attach_issue_watcher_invokes_helper_successfully() {
 
     attach_issue_watcher(IssueWatcherAttachRequest {
         repo_root: &repo,
+        artifact_root: &repo,
         repo: "owner/repo",
         issue: 1153,
         branch: "codex/1153-rust-finish-test",

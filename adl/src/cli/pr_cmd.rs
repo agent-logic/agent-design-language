@@ -1,5 +1,5 @@
 use anyhow::{anyhow, bail, Context, Result};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -543,6 +543,15 @@ struct PrInventoryRecord {
     queue: Option<String>,
     closing_issue_numbers: Vec<u32>,
     check_summary: PrInventoryCheckSummary,
+    watcher: PrInventoryWatcherStatus,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct PrInventoryWatcherStatus {
+    status: String,
+    packet_path: Option<String>,
+    terminal_disposition: Option<String>,
+    reason: String,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -653,13 +662,14 @@ fn print_pr_inventory(report: &PrInventoryReport) {
                 .join(",")
         };
         println!(
-            "- #{} [{}] [queue={}] {} -> {} closing={} checks={}/{} failed={} pending={} updated={} mergeable={} {} ({})",
+            "- #{} [{}] [queue={}] {} -> {} closing={} watcher={} checks={}/{} failed={} pending={} updated={} mergeable={} {} ({})",
             pr.number,
             draft,
             queue,
             pr.head_ref_name,
             pr.base_ref_name,
             closing,
+            pr.watcher.status,
             pr.check_summary.passed,
             pr.check_summary.total,
             pr.check_summary.failed,

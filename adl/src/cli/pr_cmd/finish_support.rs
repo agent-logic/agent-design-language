@@ -145,8 +145,9 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
             let _ = pr_ready_finish_allow_failure(&repo, &existing)?;
             attach_pr_janitor(&repo_root, &repo, parsed.issue, &branch, &existing, "ready")?;
             attach_post_merge_closeout(&repo_root, &repo, parsed.issue, &branch, &existing)?;
-            if let Err(err) = attach_issue_watcher(IssueWatcherAttachRequest {
+            attach_issue_watcher(IssueWatcherAttachRequest {
                 repo_root: &repo_root,
+                artifact_root: &primary_root,
                 repo: &repo,
                 issue: parsed.issue,
                 branch: &branch,
@@ -155,11 +156,7 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
                 classification: "checks_running",
                 tail_owner: "issue-watcher",
                 shepherd_state: "watcher_owned_checks_running",
-            }) {
-                eprintln!(
-                    "warning: issue watcher auto-attach failed after lightweight PR ready promotion; PR remains ready and other tail attachments succeeded. Resolve watcher setup separately: {err}"
-                );
-            }
+            })?;
             println!("{existing}");
             return Ok(());
         }
@@ -211,6 +208,7 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
             pr_url: None,
             integration_state: "worktree_only",
             closing_linkage_repaired: false,
+            issue_watcher: None,
         },
     )?;
     validate_completed_sor(&repo_root, &output_path)?;
@@ -310,34 +308,20 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
         parsed.no_close,
         &pr_body_file,
     )?;
-    record_sor_emitted_facts_for_finish(
-        &output_path,
-        &review_policy_path,
-        &changed_paths,
-        &finish_validation_plan,
-        SorFactEmissionContext {
-            validation_status: if parsed.no_checks { "NOT_RUN" } else { "PASS" },
-            pr_url: Some(pr_url.as_str()),
-            integration_state: "pr_open",
-            closing_linkage_repaired: _closing_linkage_repaired,
-        },
-    )?;
-    validate_completed_sor(&repo_root, &output_path)?;
-    let canonical_output = lifecycle::sync_completed_output_surfaces(
-        &repo_root,
-        &primary_root,
-        &issue_ref,
-        &output_path,
-    )?;
-    restage_finish_output_truth_paths(
-        &repo_root,
-        &primary_root,
-        &issue_ref,
-        &[output_path.clone(), canonical_output.clone()],
-    )?;
-    ensure_no_staged_issue_bundle_mutations(&repo_root, &issue_ref)?;
 
     if parsed.merge_mode {
+        attach_issue_watcher(IssueWatcherAttachRequest {
+            repo_root: &repo_root,
+            artifact_root: &primary_root,
+            repo: &repo,
+            issue: parsed.issue,
+            branch: &branch,
+            pr_url: &pr_url,
+            expected_pr_state: if parsed.ready { "ready" } else { "draft" },
+            classification: "checks_running",
+            tail_owner: "issue-watcher",
+            shepherd_state: "watcher_owned_checks_running",
+        })?;
         if parsed.ready {
             let _ = pr_ready_finish_merge_allow_failure(&repo, &pr_url)?;
         }
@@ -376,8 +360,9 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
     } else {
         ("pr_open", "issue-watcher", "watcher_owned_pr_open")
     };
-    if let Err(err) = attach_issue_watcher(IssueWatcherAttachRequest {
+    attach_issue_watcher(IssueWatcherAttachRequest {
         repo_root: &repo_root,
+        artifact_root: &primary_root,
         repo: &repo,
         issue: parsed.issue,
         branch: &branch,
@@ -386,11 +371,42 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
         classification: initial_watcher_state.0,
         tail_owner: initial_watcher_state.1,
         shepherd_state: initial_watcher_state.2,
-    }) {
-        eprintln!(
-            "warning: issue watcher auto-attach failed after PR publication; PR remains published and other tail attachments succeeded. Resolve watcher setup separately: {err}"
-        );
-    }
+    })?;
+    record_sor_emitted_facts_for_finish(
+        &output_path,
+        &review_policy_path,
+        &changed_paths,
+        &finish_validation_plan,
+        SorFactEmissionContext {
+            validation_status: if parsed.no_checks { "NOT_RUN" } else { "PASS" },
+            pr_url: Some(pr_url.as_str()),
+            integration_state: "pr_open",
+            closing_linkage_repaired: _closing_linkage_repaired,
+            issue_watcher: Some(SorFactIssueWatcherContext {
+                packet_path: &issue_watcher_packet_path_for_sor(
+                    &primary_root,
+                    parsed.issue,
+                    &pr_url,
+                ),
+                last_pr_state: if parsed.ready { "ready" } else { "draft" },
+                terminal_disposition: "pending",
+            }),
+        },
+    )?;
+    validate_completed_sor(&repo_root, &output_path)?;
+    let canonical_output = lifecycle::sync_completed_output_surfaces(
+        &repo_root,
+        &primary_root,
+        &issue_ref,
+        &output_path,
+    )?;
+    restage_finish_output_truth_paths(
+        &repo_root,
+        &primary_root,
+        &issue_ref,
+        &[output_path.clone(), canonical_output.clone()],
+    )?;
+    ensure_no_staged_issue_bundle_mutations(&repo_root, &issue_ref)?;
 
     println!("{pr_url}");
     if !parsed.no_open {
@@ -1038,6 +1054,15 @@ struct SorFactFinish {
     pr_url: Option<String>,
     blocking_notes: Vec<String>,
     fix_notes: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    issue_watcher: Option<SorFactIssueWatcher>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+struct SorFactIssueWatcher {
+    packet_path: String,
+    last_pr_state: String,
+    terminal_disposition: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -1060,6 +1085,14 @@ pub(super) struct SorFactEmissionContext<'a> {
     pub pr_url: Option<&'a str>,
     pub integration_state: &'a str,
     pub closing_linkage_repaired: bool,
+    pub issue_watcher: Option<SorFactIssueWatcherContext<'a>>,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub(super) struct SorFactIssueWatcherContext<'a> {
+    pub packet_path: &'a str,
+    pub last_pr_state: &'a str,
+    pub terminal_disposition: &'a str,
 }
 
 fn record_sor_emitted_facts_for_finish(
@@ -1078,15 +1111,16 @@ fn record_sor_emitted_facts_for_finish(
     let review = read_sor_review_evidence(review_policy_path)?;
     let normalized = normalize_sor_emitted_facts_text(
         &original,
-        &build_sor_facts(
+        &build_sor_facts(SorFactBuildInput {
             changed_paths,
             plan,
-            context.validation_status,
-            &review,
-            context.pr_url,
-            context.integration_state,
-            context.closing_linkage_repaired,
-        ),
+            validation_status: context.validation_status,
+            review: &review,
+            pr_url: context.pr_url,
+            integration_state: context.integration_state,
+            closing_linkage_repaired: context.closing_linkage_repaired,
+            issue_watcher: context.issue_watcher,
+        }),
     )?;
     if normalized != original {
         fs::write(output_path, normalized).with_context(|| {
@@ -1099,49 +1133,59 @@ fn record_sor_emitted_facts_for_finish(
     Ok(())
 }
 
-fn build_sor_facts(
-    changed_paths: &[String],
-    plan: &FinishValidationPlan,
-    validation_status: &str,
-    review: &SorReviewEvidence,
-    pr_url: Option<&str>,
-    integration_state: &str,
+struct SorFactBuildInput<'a> {
+    changed_paths: &'a [String],
+    plan: &'a FinishValidationPlan,
+    validation_status: &'a str,
+    review: &'a SorReviewEvidence,
+    pr_url: Option<&'a str>,
+    integration_state: &'a str,
     closing_linkage_repaired: bool,
-) -> SorFacts {
-    let validation_commands = if validation_status == "NOT_RUN" {
+    issue_watcher: Option<SorFactIssueWatcherContext<'a>>,
+}
+
+fn build_sor_facts(input: SorFactBuildInput<'_>) -> SorFacts {
+    let validation_commands = if input.validation_status == "NOT_RUN" {
         Vec::new()
     } else {
-        plan.commands
+        input
+            .plan
+            .commands
             .iter()
             .map(|command| sanitize_validation_profile_command(command))
             .collect()
     };
-    let fix_notes = if closing_linkage_repaired {
+    let fix_notes = if input.closing_linkage_repaired {
         vec!["repaired missing PR closing linkage".to_string()]
     } else {
         vec!["none".to_string()]
     };
     SorFacts {
         schema_version: "adl.sor_facts.v1",
-        changed_paths: changed_paths.to_vec(),
+        changed_paths: input.changed_paths.to_vec(),
         validation: SorFactValidation {
-            status: validation_status.to_string(),
+            status: input.validation_status.to_string(),
             commands: validation_commands,
         },
         review: SorFactReview {
-            findings_status: review.findings_status.clone(),
-            recommended_outcome: review.recommended_outcome.clone(),
-            findings: review.findings.clone(),
-            fixes: review.fixes.clone(),
+            findings_status: input.review.findings_status.clone(),
+            recommended_outcome: input.review.recommended_outcome.clone(),
+            findings: input.review.findings.clone(),
+            fixes: input.review.fixes.clone(),
         },
         finish: SorFactFinish {
-            pr_url: pr_url.map(str::to_string),
+            pr_url: input.pr_url.map(str::to_string),
             blocking_notes: vec!["none".to_string()],
             fix_notes,
+            issue_watcher: input.issue_watcher.map(|watcher| SorFactIssueWatcher {
+                packet_path: watcher.packet_path.to_string(),
+                last_pr_state: watcher.last_pr_state.to_string(),
+                terminal_disposition: watcher.terminal_disposition.to_string(),
+            }),
         },
         integration: SorFactIntegration {
-            state: integration_state.to_string(),
-            main_repo_paths: changed_paths.to_vec(),
+            state: input.integration_state.to_string(),
+            main_repo_paths: input.changed_paths.to_vec(),
         },
     }
 }
@@ -1343,16 +1387,26 @@ pub(super) fn normalize_sor_emitted_facts_fixture(
         commands: commands.to_vec(),
     };
     let review = parse_sor_review_evidence(review_text);
-    let facts = build_sor_facts(
+    let facts = build_sor_facts(SorFactBuildInput {
         changed_paths,
-        &plan,
-        context.validation_status,
-        &review,
-        context.pr_url,
-        context.integration_state,
-        context.closing_linkage_repaired,
-    );
+        plan: &plan,
+        validation_status: context.validation_status,
+        review: &review,
+        pr_url: context.pr_url,
+        integration_state: context.integration_state,
+        closing_linkage_repaired: context.closing_linkage_repaired,
+        issue_watcher: context.issue_watcher,
+    });
     normalize_sor_emitted_facts_text(text, &facts)
+}
+
+fn issue_watcher_packet_path_for_sor(repo_root: &Path, issue: u32, pr_url: &str) -> String {
+    let packet_path = super::github::issue_watcher_attachment_record_path(repo_root, issue, pr_url);
+    packet_path
+        .strip_prefix(repo_root)
+        .unwrap_or(packet_path.as_path())
+        .to_string_lossy()
+        .replace('\\', "/")
 }
 
 pub(super) fn restage_finish_output_truth_paths(
@@ -2849,9 +2903,9 @@ fn release_gate_disposition_backed_finish_validation_plan(
     profile: &FinishValidationProfile,
     release_gate_disposition: Option<&Path>,
 ) -> Result<Option<FinishValidationPlan>> {
-    if !finish_validation_profile_requires_release_gate_disposition(profile) {
+    if !finish_validation_profile_accepts_explicit_disposition(profile) {
         if release_gate_disposition.is_some() {
-            bail!("finish: --release-gate-disposition was supplied, but validation manager did not report a release-gate escalation");
+            bail!("finish: --release-gate-disposition was supplied, but validation manager did not report a release-gate or explicit slow-lane escalation");
         }
         return Ok(None);
     }
@@ -2890,6 +2944,25 @@ fn finish_validation_profile_requires_release_gate_disposition(
             reason.lane_id == "release_gate_review" && reason.status == "release_gate_required"
         })
         && !profile.escalation.reasons.is_empty()
+}
+
+fn finish_validation_profile_requires_slow_lane_disposition(
+    profile: &FinishValidationProfile,
+) -> bool {
+    profile.escalation.required
+        && profile.escalation.reasons.iter().all(|reason| {
+            reason.lane_id == "rust_pr_fast"
+                && reason.status == "escalated"
+                && reason.reason == "slow_pr_cmd_e2e_surface_requires_explicit_slow_lane"
+        })
+        && !profile.escalation.reasons.is_empty()
+}
+
+fn finish_validation_profile_accepts_explicit_disposition(
+    profile: &FinishValidationProfile,
+) -> bool {
+    finish_validation_profile_requires_release_gate_disposition(profile)
+        || finish_validation_profile_requires_slow_lane_disposition(profile)
 }
 
 pub(super) fn validate_release_gate_disposition(
@@ -3017,7 +3090,12 @@ fn ensure_release_gate_disposition_is_in_index(repo_root: &Path, path: &Path) ->
 fn release_gate_matched_paths(profile: &FinishValidationProfile) -> Vec<String> {
     let mut paths = Vec::new();
     for reason in &profile.escalation.reasons {
-        if reason.lane_id == "release_gate_review" && reason.status == "release_gate_required" {
+        let release_gate_required =
+            reason.lane_id == "release_gate_review" && reason.status == "release_gate_required";
+        let slow_lane_required = reason.lane_id == "rust_pr_fast"
+            && reason.status == "escalated"
+            && reason.reason == "slow_pr_cmd_e2e_surface_requires_explicit_slow_lane";
+        if release_gate_required || slow_lane_required {
             for path in &reason.matched_paths {
                 if !paths.iter().any(|existing| existing == path) {
                     paths.push(path.clone());

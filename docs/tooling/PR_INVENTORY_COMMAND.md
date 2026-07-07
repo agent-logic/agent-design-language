@@ -33,14 +33,23 @@ Each pull-request record includes:
 - PR number, title, URL, state, draft status, head branch, and base branch
 - inferred workflow queue, when known
 - closing issue numbers discovered from live GitHub PR metadata
+- issue-watcher attachment status for issue-bound PRs, including the expected
+  packet path and terminal disposition when recorded
 - updated timestamp and mergeability when exposed by the GitHub API
 - validation check summary derived from the repo-native PR validation path using
   the same effective-check view that removes stale duplicate check runs
 
+Watcher status is part of the inventory contract. An issue-bound PR without an
+attachment packet is reported as `missing`, not silently treated as healthy.
+This lets release-tail review find PRs that were published without a durable
+watcher handoff.
+
 ## Failure Behavior
 
 The command fails closed when GitHub authentication, repository lookup, PR
-inventory, closing-issue lookup, or validation-status lookup fails. It must not
+inventory, closing-issue lookup, or validation-status lookup fails. Invalid
+watcher packets are surfaced in the affected PR record as `watcher=invalid`
+with a redacted reason so the rest of the inventory remains useful. It must not
 print token contents or credential material.
 
 ## Validation

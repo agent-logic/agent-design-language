@@ -29,6 +29,10 @@ lane by accident.
   mergeability, dependency truth, or operator decision is not abandoned; it is
   watcher-owned until it routes to `pr-janitor`, `pr-closeout`, human review, or
   the next issue.
+- Issue-bound PR publication must attach a watcher packet during `pr finish`.
+  Disabling watcher attachment is fail-closed, PR inventory reports missing
+  watcher packets, and closeout must record or update a terminal watcher
+  disposition before the issue bundle is considered clean.
 - Use prep scouts only for read-only next-issue readiness while the current
   issue is in a truthful wait state. Prep scouts do not bind worktrees, mutate
   cards, or start implementation.
@@ -62,6 +66,14 @@ Current routing keys come from the watch packet's top-level classification:
 
 Watchers do not implement issue scope. They classify, route, retain evidence,
 and stop.
+
+For issue-bound PRs, watcher evidence is durable under the primary checkout at
+`.adl/logs/issue-watcher/issue-<issue>/` so it survives issue-worktree pruning.
+The PR attachment packet records the PR URL, expected state,
+watcher input/prompt/log/pid paths, and terminal disposition once closeout
+observes the completed tail. If the packet is missing for an issue-bound PR,
+closeout stops and routes the defect back through finish, watch, or shepherd
+repair instead of silently completing.
 
 ## Prep-Scout Routing
 

@@ -318,6 +318,140 @@ fn helper_attach_commands_cover_disabled_success_failure_and_fallback_paths() {
 }
 
 #[test]
+fn issue_watcher_attachment_is_required_and_records_terminal_packet() {
+    let _guard = env_lock();
+    let temp = unique_temp_dir("adl-github-issue-watcher-required");
+    let repo = temp.join("worktree");
+    let primary = temp.join("primary");
+    fs::create_dir_all(&repo).expect("repo dir");
+    fs::create_dir_all(&primary).expect("primary dir");
+    let watcher_cmd = temp.join("watcher-helper.sh");
+    let watcher_log = temp.join("watcher-helper.log");
+    write_executable(
+        &watcher_cmd,
+        &format!(
+            "#!/usr/bin/env bash\nset -euo pipefail\nprintf '%s\\n' \"$*\" >> '{}'\n",
+            watcher_log.display()
+        ),
+    );
+
+    let old_disable = std::env::var("ADL_ISSUE_WATCHER_DISABLE").ok();
+    let old_cmd = std::env::var("ADL_ISSUE_WATCHER_CMD").ok();
+    unsafe {
+        std::env::set_var("ADL_ISSUE_WATCHER_DISABLE", "1");
+        std::env::set_var("ADL_ISSUE_WATCHER_CMD", &watcher_cmd);
+    }
+    let disabled = attach_issue_watcher(IssueWatcherAttachRequest {
+        repo_root: &repo,
+        artifact_root: &primary,
+        repo: "owner/repo",
+        issue: 1153,
+        branch: "codex/1153-branch",
+        pr_url: "https://github.com/owner/repo/pull/1159",
+        expected_pr_state: "draft",
+        classification: "pr_open",
+        tail_owner: "issue-watcher",
+        shepherd_state: "watcher_owned_pr_open",
+    })
+    .expect_err("disabled watcher must fail closed");
+    assert!(disabled
+        .to_string()
+        .contains("issue watcher attachment is required"));
+
+    unsafe {
+        std::env::set_var("ADL_ISSUE_WATCHER_DISABLE", "0");
+    }
+    attach_issue_watcher(IssueWatcherAttachRequest {
+        repo_root: &repo,
+        artifact_root: &primary,
+        repo: "owner/repo",
+        issue: 1153,
+        branch: "codex/1153-branch",
+        pr_url: "https://github.com/owner/repo/pull/1159",
+        expected_pr_state: "draft",
+        classification: "pr_open",
+        tail_owner: "issue-watcher",
+        shepherd_state: "watcher_owned_pr_open",
+    })
+    .expect("watcher helper should attach");
+
+    let status = issue_pr_watcher_status_for_inventory(
+        &primary,
+        Some(1153),
+        "https://github.com/owner/repo/pull/1159",
+    );
+    assert_eq!(status.status, "attached_nonterminal");
+    assert!(status
+        .packet_path
+        .as_deref()
+        .unwrap_or_default()
+        .contains(".adl/logs/issue-watcher/issue-1153/pr-1159-attachment.json"));
+    assert!(!repo
+        .join(".adl/logs/issue-watcher/issue-1153/pr-1159-attachment.json")
+        .exists());
+    assert!(primary
+        .join(".adl/logs/issue-watcher/issue-1153/pr-1159-attachment.json")
+        .exists());
+    assert!(fs::read_to_string(&watcher_log)
+        .expect("watcher helper log")
+        .contains("--pr-url https://github.com/owner/repo/pull/1159"));
+
+    ensure_issue_watcher_terminal_disposition(
+        &primary,
+        1153,
+        Some("https://github.com/owner/repo/pull/1159"),
+        "green_merged",
+    )
+    .expect("terminal watcher disposition should update attached packet");
+    let terminal = issue_pr_watcher_status_for_inventory(
+        &primary,
+        Some(1153),
+        "https://github.com/owner/repo/pull/1159",
+    );
+    assert_eq!(terminal.status, "terminal");
+    assert_eq!(
+        terminal.terminal_disposition.as_deref(),
+        Some("green_merged")
+    );
+
+    let missing_terminal = ensure_issue_watcher_terminal_disposition(
+        &repo,
+        1154,
+        Some("https://github.com/owner/repo/pull/1160"),
+        "closed_without_merge",
+    )
+    .expect_err("PR-backed closeout without watcher packet must fail");
+    assert!(missing_terminal
+        .to_string()
+        .contains("has no watcher attachment packet"));
+
+    restore_env("ADL_ISSUE_WATCHER_DISABLE", old_disable);
+    restore_env("ADL_ISSUE_WATCHER_CMD", old_cmd);
+}
+
+#[test]
+fn issue_pr_watcher_inventory_reports_missing_packet_for_issue_bound_pr() {
+    let temp = unique_temp_dir("adl-github-issue-watcher-inventory-missing");
+    let repo = temp.join("repo");
+    fs::create_dir_all(&repo).expect("repo dir");
+
+    let missing = issue_pr_watcher_status_for_inventory(
+        &repo,
+        Some(1410),
+        "https://github.com/owner/repo/pull/1410",
+    );
+    assert_eq!(missing.status, "missing");
+    assert_eq!(missing.reason, "issue_bound_pr_has_no_watcher_packet");
+
+    let not_issue_bound = issue_pr_watcher_status_for_inventory(
+        &repo,
+        None,
+        "https://github.com/owner/repo/pull/1411",
+    );
+    assert_eq!(not_issue_bound.status, "not_issue_bound");
+}
+
+#[test]
 fn helper_attach_failures_redact_token_like_output() {
     let _guard = env_lock();
     let policy_env = clear_github_policy_env();
