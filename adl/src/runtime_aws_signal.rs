@@ -1014,14 +1014,13 @@ fn invoke_csm_notice_lambda(
         .as_deref()
         .context("control plane lambda function missing")?;
     let payload = serde_json::to_vec(envelope).context("serialize CSM notice lambda payload")?;
-    let runtime = tokio::runtime::Runtime::new().context("create lambda publish runtime")?;
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .context("create lambda publish runtime")?;
     runtime.block_on(async move {
-        let region_provider =
-            RegionProviderChain::first_try(aws_config::Region::new(region.to_string()));
-        let shared_config = aws_config::defaults(BehaviorVersion::latest())
-            .region(region_provider)
-            .load()
-            .await;
+        let shared_config =
+            load_control_plane_aws_config(region, control_plane_profile_name(config)).await;
         let client = lambda::Client::new(&shared_config);
         let response = client
             .invoke()
@@ -1054,14 +1053,13 @@ fn put_csm_notice_eventbridge(
         .as_deref()
         .context("control plane EventBridge bus missing")?;
     let detail = serde_json::to_string(envelope).context("serialize CSM notice event detail")?;
-    let runtime = tokio::runtime::Runtime::new().context("create EventBridge publish runtime")?;
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .context("create EventBridge publish runtime")?;
     runtime.block_on(async move {
-        let region_provider =
-            RegionProviderChain::first_try(aws_config::Region::new(region.to_string()));
-        let shared_config = aws_config::defaults(BehaviorVersion::latest())
-            .region(region_provider)
-            .load()
-            .await;
+        let shared_config =
+            load_control_plane_aws_config(region, control_plane_profile_name(config)).await;
         let client = eventbridge::Client::new(&shared_config);
         let entry = eventbridge::types::PutEventsRequestEntry::builder()
             .event_bus_name(event_bus)
@@ -1085,6 +1083,30 @@ fn put_csm_notice_eventbridge(
             .map(ToString::to_string);
         Ok(event_id)
     })
+}
+
+fn control_plane_profile_name(config: &ControlPlaneNoticeConfig) -> Option<&str> {
+    config.profile.as_deref()
+}
+
+async fn load_control_plane_aws_config(
+    region: &str,
+    profile_name: Option<&str>,
+) -> aws_config::SdkConfig {
+    let region_provider =
+        RegionProviderChain::first_try(Some(aws_config::Region::new(region.to_string())));
+    let timeout_config = aws_config::timeout::TimeoutConfig::builder()
+        .connect_timeout(Duration::from_secs(5))
+        .operation_timeout(Duration::from_secs(20))
+        .operation_attempt_timeout(Duration::from_secs(10))
+        .build();
+    let loader = aws_config::defaults(BehaviorVersion::latest())
+        .region(region_provider)
+        .timeout_config(timeout_config);
+    match profile_name {
+        Some(profile_name) => loader.profile_name(profile_name).load().await,
+        None => loader.load().await,
+    }
 }
 
 fn csm_notice_envelope(
@@ -2475,6 +2497,10 @@ mod tests {
             ]);
             let config = ControlPlaneNoticeConfig::from_env();
             assert_eq!(config.target, "eventbridge");
+            assert_eq!(
+                control_plane_profile_name(&config),
+                Some("agent-logic-admin")
+            );
             assert_eq!(
                 config.live_block_reason(),
                 "control_plane_eventbridge_put_failed"
