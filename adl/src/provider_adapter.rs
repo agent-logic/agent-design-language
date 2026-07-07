@@ -1,10 +1,10 @@
 use crate::provider_communication::{
-    hosted_model_identity, ollama_model_identity, provider_attempt_policy_as_resilience_policy,
-    provider_failure_classification_from_failure, provider_failure_from_classification,
-    provider_failure_from_note, validate_provider_request, ProviderAttemptPolicyV1,
-    ProviderAttemptStatusV1, ProviderAttemptV1, ProviderFailureKindV1, ProviderFailureV1,
-    ProviderInvocationFinalStatusV1, ProviderInvocationRequestV1, ProviderInvocationResultV1,
-    ProviderRunLogEventV1, ProviderRunLoggerV1, RuntimeSurfaceV1,
+    classify_provider_failure, hosted_model_identity, ollama_model_identity,
+    provider_attempt_policy_as_resilience_policy, provider_failure_classification_from_failure,
+    provider_failure_from_classification, provider_failure_from_note, validate_provider_request,
+    ProviderAttemptPolicyV1, ProviderAttemptStatusV1, ProviderAttemptV1, ProviderFailureKindV1,
+    ProviderFailureV1, ProviderInvocationFinalStatusV1, ProviderInvocationRequestV1,
+    ProviderInvocationResultV1, ProviderRunLogEventV1, ProviderRunLoggerV1, RuntimeSurfaceV1,
     PROVIDER_COMMUNICATION_SCHEMA_VERSION,
 };
 use crate::resilience::{
@@ -14,6 +14,9 @@ use crate::resilience::{
     RetryExecutionTraceV1, TimeoutBreachKindV1, TimeoutObservation,
 };
 use anyhow::{anyhow, Result};
+use aws_config::{meta::region::RegionProviderChain, BehaviorVersion};
+use aws_sdk_bedrockruntime as bedrockruntime;
+use aws_sdk_sts as sts;
 use reqwest::blocking::Client;
 use serde_json::{json, Value};
 use std::cell::RefCell;
@@ -28,6 +31,8 @@ const DEFAULT_DEEPSEEK_CHAT_COMPLETIONS_URL: &str = "https://api.deepseek.com/ch
 const DEFAULT_OPENROUTER_CHAT_COMPLETIONS_URL: &str =
     "https://openrouter.ai/api/v1/chat/completions";
 const DEFAULT_OPENROUTER_MAX_TOKENS: u64 = 2048;
+const DEFAULT_BEDROCK_PROFILE: &str = "agent-logic-admin";
+const DEFAULT_BEDROCK_REGION: &str = "us-west-2";
 const DEFAULT_GEMINI_BASE_URL: &str = "https://generativelanguage.googleapis.com/v1beta";
 const DEFAULT_OLLAMA_BASE_URL: &str = "http://127.0.0.1:11434";
 static OLLAMA_RUNTIME_BULKHEADS: OnceLock<Mutex<HashMap<String, &'static Mutex<()>>>> =
@@ -609,6 +614,7 @@ fn execute_hosted(
         "anthropic" | "claude" => execute_hosted_anthropic(request, policy),
         "deepseek" => execute_hosted_deepseek(request, policy),
         "openrouter" => execute_hosted_openrouter(request, policy),
+        "bedrock" | "aws_bedrock" => execute_hosted_bedrock(request, policy),
         "google" | "gemini" => execute_hosted_gemini(request, policy),
         _ => Err(ProviderFailureV1 {
             kind: ProviderFailureKindV1::ProviderError,
@@ -770,6 +776,202 @@ fn openrouter_request_body(request: &ProviderInvocationRequestV1) -> Value {
         "max_tokens": output_token_budget_or_default(request, DEFAULT_OPENROUTER_MAX_TOKENS),
         "stream": false,
     })
+}
+
+fn execute_hosted_bedrock(
+    request: &ProviderInvocationRequestV1,
+    policy: &ProviderAttemptPolicyV1,
+) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
+    tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .map_err(|err| provider_failure_from_note(&format!("bedrock runtime init: {err}"), None))?
+        .block_on(execute_hosted_bedrock_async(request, policy))
+}
+
+async fn execute_hosted_bedrock_async(
+    request: &ProviderInvocationRequestV1,
+    policy: &ProviderAttemptPolicyV1,
+) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
+    let profile = bedrock_profile()?;
+    let region = bedrock_region();
+    let region_provider =
+        RegionProviderChain::first_try(Some(aws_config::Region::new(region.clone())));
+    let timeout_config = aws_config::timeout::TimeoutConfig::builder()
+        .connect_timeout(Duration::from_secs(5))
+        .operation_timeout(Duration::from_millis(policy.timeout_ms.max(1)))
+        .operation_attempt_timeout(Duration::from_millis(policy.timeout_ms.max(1)))
+        .build();
+    let shared_config = aws_config::defaults(BehaviorVersion::latest())
+        .region(region_provider)
+        .profile_name(&profile)
+        .timeout_config(timeout_config)
+        .load()
+        .await;
+    sts::Client::new(&shared_config)
+        .get_caller_identity()
+        .send()
+        .await
+        .map_err(|err| bedrock_failure(format!("{err:?}"), None))?;
+    let body = bedrock_nova_request_body(request);
+    let response = bedrockruntime::Client::new(&shared_config)
+        .invoke_model()
+        .model_id(&request.route.provider_model_id)
+        .content_type("application/json")
+        .accept("application/json")
+        .body(bedrockruntime::primitives::Blob::new(
+            serde_json::to_vec(&body).map_err(|err| {
+                provider_failure_from_note(&format!("bedrock request serialization: {err}"), None)
+            })?,
+        ))
+        .send()
+        .await
+        .map_err(|err| bedrock_failure(format!("{err:?}"), None))?;
+    let json: Value = serde_json::from_slice(response.body().as_ref()).map_err(|err| {
+        provider_failure_from_note(&format!("bedrock invalid_json: {err}"), Some(200))
+    })?;
+    let output_text = extract_bedrock_nova_output_text(&json)
+        .ok_or_else(|| provider_failure_from_note("empty Bedrock provider output", Some(200)))?;
+    Ok(ProviderTextResponse {
+        output_text,
+        http_status: 200,
+        observed_provider_model_id: Some(request.route.provider_model_id.clone()),
+    })
+}
+
+fn bedrock_profile() -> std::result::Result<String, ProviderFailureV1> {
+    let profile = env::var("ADL_AWS_PROFILE")
+        .or_else(|_| env::var("AWS_PROFILE"))
+        .unwrap_or_else(|_| DEFAULT_BEDROCK_PROFILE.to_string());
+    if profile != DEFAULT_BEDROCK_PROFILE {
+        return Err(ProviderFailureV1 {
+            kind: ProviderFailureKindV1::ProviderError,
+            retryable: false,
+            message: format!(
+                "bedrock requires Agent Logic AWS profile '{DEFAULT_BEDROCK_PROFILE}'"
+            ),
+            provider_error_excerpt: Some("bedrock requires Agent Logic AWS profile".to_string()),
+            http_status: None,
+        });
+    }
+    Ok(profile)
+}
+
+fn bedrock_region() -> String {
+    env::var("ADL_AWS_REGION")
+        .or_else(|_| env::var("AWS_REGION"))
+        .or_else(|_| env::var("AWS_DEFAULT_REGION"))
+        .unwrap_or_else(|_| DEFAULT_BEDROCK_REGION.to_string())
+}
+
+fn bedrock_nova_request_body(request: &ProviderInvocationRequestV1) -> Value {
+    json!({
+        "schemaVersion": "messages-v1",
+        "messages": [{
+            "role": "user",
+            "content": [{"text": request.input_text.as_deref().unwrap_or_default()}],
+        }],
+        "inferenceConfig": {
+            "maxTokens": output_token_budget_or_default(request, 256),
+        },
+    })
+}
+
+fn extract_bedrock_nova_output_text(json: &Value) -> Option<String> {
+    let mut chunks = Vec::new();
+    if let Some(content) = json
+        .pointer("/output/message/content")
+        .and_then(Value::as_array)
+    {
+        for item in content {
+            if let Some(text) = item.get("text").and_then(Value::as_str) {
+                chunks.push(text);
+            }
+        }
+    }
+    let joined = chunks.join("\n").trim().to_string();
+    (!joined.is_empty()).then_some(joined)
+}
+
+fn bedrock_failure(message: String, http_status: Option<u16>) -> ProviderFailureV1 {
+    let sanitized = sanitize_bedrock_error(&message);
+    let retryable = sanitized.contains("Throttling")
+        || sanitized.contains("TooManyRequests")
+        || sanitized.contains("timeout")
+        || sanitized.contains("Timeout")
+        || sanitized.contains("ServiceUnavailable")
+        || sanitized.contains("InternalServer");
+    let kind = bedrock_failure_kind(&sanitized, http_status);
+    ProviderFailureV1 {
+        kind,
+        retryable,
+        message: sanitized.clone(),
+        provider_error_excerpt: Some(sanitized),
+        http_status,
+    }
+}
+
+fn bedrock_failure_kind(message: &str, http_status: Option<u16>) -> ProviderFailureKindV1 {
+    let lower = message.to_ascii_lowercase();
+    if lower.contains("accessdenied")
+        || lower.contains("access denied")
+        || lower.contains("not authorized")
+        || lower.contains("unauthorized")
+    {
+        return ProviderFailureKindV1::ProviderAuthError;
+    }
+    if lower.contains("modelnotready")
+        || lower.contains("model not ready")
+        || lower.contains("resourcenotfound")
+        || lower.contains("resource not found")
+        || lower.contains("model is not supported")
+        || lower.contains("on-demand throughput isn't supported")
+    {
+        return ProviderFailureKindV1::ProviderModelUnavailable;
+    }
+    if lower.contains("throttling") || lower.contains("toomanyrequests") {
+        return ProviderFailureKindV1::ProviderRateLimited;
+    }
+    if lower.contains("timeout") {
+        return ProviderFailureKindV1::ProviderTimeout;
+    }
+    classify_provider_failure(message, http_status)
+}
+
+fn sanitize_bedrock_error(message: &str) -> String {
+    let mut out = message.replace('\n', " ");
+    for marker in [
+        "Authorization: ",
+        "Authorization=",
+        "Credential=",
+        "X-Amz-Signature=",
+        "SecretAccessKey=",
+    ] {
+        out = redact_aws_error_value(&out, marker);
+    }
+    out.chars().take(200).collect()
+}
+
+fn redact_aws_error_value(input: &str, marker: &str) -> String {
+    let mut redacted = String::with_capacity(input.len());
+    let mut cursor = 0;
+    while let Some(relative_start) = input[cursor..].find(marker) {
+        let marker_start = cursor + relative_start;
+        let value_start = marker_start + marker.len();
+        redacted.push_str(&input[cursor..value_start]);
+        redacted.push_str("<redacted>");
+
+        let value_end = input[value_start..]
+            .char_indices()
+            .find_map(|(idx, ch)| {
+                matches!(ch, ' ' | ',' | '&' | ';' | '"' | '\'' | ')' | '}' | ']')
+                    .then_some(value_start + idx)
+            })
+            .unwrap_or(input.len());
+        cursor = value_end;
+    }
+    redacted.push_str(&input[cursor..]);
+    redacted
 }
 
 fn execute_hosted_gemini(
@@ -1295,6 +1497,7 @@ mod tests {
     use std::path::PathBuf;
     use std::sync::atomic::{AtomicU64, Ordering};
     use std::sync::mpsc;
+    use std::sync::{Mutex, OnceLock};
     use std::thread;
 
     static TEMP_LOG_COUNTER: AtomicU64 = AtomicU64::new(0);
@@ -1308,6 +1511,13 @@ mod tests {
         ));
         let _ = fs::remove_file(&path);
         path
+    }
+
+    fn env_lock() -> std::sync::MutexGuard<'static, ()> {
+        static LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+        LOCK.get_or_init(|| Mutex::new(()))
+            .lock()
+            .expect("env lock")
     }
 
     fn request(
@@ -1420,6 +1630,10 @@ mod tests {
         assert_eq!(deepseek_request_body(&req)["max_tokens"], json!(1_024));
         assert_eq!(openrouter_request_body(&req)["max_tokens"], json!(1_024));
         assert_eq!(
+            bedrock_nova_request_body(&req).pointer("/inferenceConfig/maxTokens"),
+            Some(&json!(1_024))
+        );
+        assert_eq!(
             gemini_request_body(&req)
                 .pointer("/generationConfig/maxOutputTokens")
                 .cloned(),
@@ -1451,6 +1665,10 @@ mod tests {
             openrouter_request_body(&req)["max_tokens"],
             json!(DEFAULT_OPENROUTER_MAX_TOKENS)
         );
+        assert_eq!(
+            bedrock_nova_request_body(&req).pointer("/inferenceConfig/maxTokens"),
+            Some(&json!(256))
+        );
         assert!(gemini_request_body(&req).get("generationConfig").is_none());
 
         let ollama_req = request(
@@ -1458,6 +1676,71 @@ mod tests {
             "http://127.0.0.1:11434".to_string(),
         );
         assert!(ollama_request_body(&ollama_req).get("options").is_none());
+    }
+
+    #[test]
+    fn bedrock_profile_guard_rejects_default_profile() {
+        let _guard = env_lock();
+        let prev_adl = env::var_os("ADL_AWS_PROFILE");
+        let prev_aws = env::var_os("AWS_PROFILE");
+        env::remove_var("ADL_AWS_PROFILE");
+        env::set_var("AWS_PROFILE", "default");
+
+        let err = bedrock_profile().expect_err("wrong profile should fail closed");
+        assert_eq!(err.kind, ProviderFailureKindV1::ProviderError);
+        assert!(!err.retryable);
+        assert!(err.message.contains("agent-logic-admin"));
+
+        match prev_adl {
+            Some(value) => env::set_var("ADL_AWS_PROFILE", value),
+            None => env::remove_var("ADL_AWS_PROFILE"),
+        }
+        match prev_aws {
+            Some(value) => env::set_var("AWS_PROFILE", value),
+            None => env::remove_var("AWS_PROFILE"),
+        }
+    }
+
+    #[test]
+    fn bedrock_request_body_uses_nova_messages_shape() {
+        let mut req = request(RuntimeSurfaceV1::HostedApi, "bedrock-runtime".to_string());
+        req.route.provider = "bedrock".to_string();
+        req.route.provider_model_id = "amazon.nova-lite-v1:0".to_string();
+        req.input_text = Some("hello nova".to_string());
+        req.max_output_tokens = Some(99);
+
+        let body = bedrock_nova_request_body(&req);
+        assert_eq!(body["schemaVersion"], json!("messages-v1"));
+        assert_eq!(body["messages"][0]["role"], json!("user"));
+        assert_eq!(
+            body["messages"][0]["content"][0]["text"],
+            json!("hello nova")
+        );
+        assert_eq!(body["inferenceConfig"]["maxTokens"], json!(99));
+
+        let parsed = extract_bedrock_nova_output_text(&json!({
+            "output": {
+                "message": {
+                    "role": "assistant",
+                    "content": [{"text": "nova ok"}]
+                }
+            }
+        }));
+        assert_eq!(parsed.as_deref(), Some("nova ok"));
+    }
+
+    #[test]
+    fn bedrock_error_sanitizer_removes_signed_aws_values() {
+        let sanitized = sanitize_bedrock_error(
+            "Authorization: AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20260707/us-west-2/bedrock/aws4_request, SignedHeaders=host, X-Amz-Signature=abc123def456",
+        );
+
+        assert!(sanitized.contains("Authorization: <redacted>"));
+        assert!(sanitized.contains("Credential=<redacted>"));
+        assert!(sanitized.contains("X-Amz-Signature=<redacted>"));
+        assert!(!sanitized.contains("AWS4-HMAC-SHA256"));
+        assert!(!sanitized.contains("AKIAIOSFODNN7EXAMPLE"));
+        assert!(!sanitized.contains("abc123def456"));
     }
 
     #[test]

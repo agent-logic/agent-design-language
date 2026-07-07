@@ -208,6 +208,18 @@ fn template_for_family(family: &str) -> Result<&'static ProviderSetupTemplate> {
             endpoint_hint: None,
             notes: "Use this for the Rust-native OpenRouter provider path. The default endpoint is OpenRouter's chat completions API; override config.endpoint only for tests or a trusted compatible endpoint. OpenRouter capability support is model-dependent, so record model-specific lane evidence rather than assuming gateway-wide tool or JSON support.",
         },
+        "bedrock" | "aws-bedrock" | "aws_bedrock" => &ProviderSetupTemplate {
+            family: "bedrock",
+            profile: None,
+            kind: Some("bedrock"),
+            env_var: "ADL_AWS_PROFILE",
+            provider_id: "bedrock_primary",
+            agent_id: "bedrock_agent",
+            model_ref: "hosted:adl-bedrock:amazon.nova-lite-v1:0",
+            provider_model_id: "amazon.nova-lite-v1:0",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native AWS Bedrock provider path. ADL AWS work must use the Agent Logic business profile `agent-logic-admin`; set `ADL_AWS_REGION` or `AWS_REGION` when selecting a Bedrock region.",
+        },
         "http" | "generic-http" => &ProviderSetupTemplate {
             family: "http",
             profile: Some("http:gpt-4.1-mini"),
@@ -222,7 +234,7 @@ fn template_for_family(family: &str) -> Result<&'static ProviderSetupTemplate> {
         },
         other => {
             return Err(anyhow!(
-                "unsupported provider setup family '{other}' (supported: chatgpt, claude, openai, anthropic, gemini, deepseek, openrouter, http)"
+                "unsupported provider setup family '{other}' (supported: chatgpt, claude, openai, anthropic, gemini, deepseek, openrouter, bedrock, http)"
             ))
         }
     };
@@ -239,18 +251,26 @@ fn render_provider_yaml(template: &ProviderSetupTemplate, selected_model: &str) 
         .endpoint_hint
         .map(|endpoint| format!("      endpoint: \"{endpoint}\"\n"))
         .unwrap_or_default();
+    let auth_block = if template.family == "bedrock" {
+        "      profile: \"agent-logic-admin\"\n      region: \"us-west-2\"\n".to_string()
+    } else {
+        format!(
+            "      auth:\n        type: bearer\n        env: {}\n",
+            template.env_var
+        )
+    };
     let headers_line = if template.kind.is_some() {
         String::new()
     } else {
         "      headers:\n        X-Client: \"adl-provider-setup\"\n".to_string()
     };
     format!(
-        "version: \"0.5\"\n\nproviders:\n  {provider_id}:\n    {provider_identity}\n    config:\n{endpoint_line}      auth:\n        type: bearer\n        env: {env_var}\n{headers_line}      timeout_secs: 15\n      model_ref: \"{model_ref}\"\n      provider_model_id: \"{provider_model_id}\"\n\nagents:\n  {agent_id}:\n    provider: \"{provider_id}\"\n    model: \"{model_ref}\"\n\n# Merge this provider/agent snippet into your workflow file.\n# provider_model_id may be changed to any trusted model ID supported by this provider family.\n",
+        "version: \"0.5\"\n\nproviders:\n  {provider_id}:\n    {provider_identity}\n    config:\n{endpoint_line}{auth_block}{headers_line}      timeout_secs: 15\n      model_ref: \"{model_ref}\"\n      provider_model_id: \"{provider_model_id}\"\n\nagents:\n  {agent_id}:\n    provider: \"{provider_id}\"\n    model: \"{model_ref}\"\n\n# Merge this provider/agent snippet into your workflow file.\n# provider_model_id may be changed to any trusted model ID supported by this provider family.\n",
         provider_id = template.provider_id,
         provider_identity = provider_identity,
         endpoint_line = endpoint_line,
         headers_line = headers_line,
-        env_var = template.env_var,
+        auth_block = auth_block,
         model_ref = template.model_ref,
         provider_model_id = selected_model,
         agent_id = template.agent_id,
@@ -258,6 +278,9 @@ fn render_provider_yaml(template: &ProviderSetupTemplate, selected_model: &str) 
 }
 
 fn render_env_example(template: &ProviderSetupTemplate) -> String {
+    if template.family == "bedrock" {
+        return "ADL_AWS_PROFILE=agent-logic-admin\nADL_AWS_REGION=us-west-2\n".to_string();
+    }
     format!(
         "# Copy to a local env file and fill in your real secret.\n# Do not commit the filled-in file.\n{env_var}=replace-me\n",
         env_var = template.env_var
@@ -265,12 +288,16 @@ fn render_env_example(template: &ProviderSetupTemplate) -> String {
 }
 
 fn render_readme(template: &ProviderSetupTemplate, selected_model: &str) -> String {
-    let transport_note = if template.kind.is_some() {
+    let transport_note = if template.family == "bedrock" {
+        "- This family uses ADL's Rust-native AWS Bedrock adapter through the AWS SDK.\n- ADL AWS work must use the Agent Logic business AWS profile `agent-logic-admin`."
+    } else if template.kind.is_some() {
         "- This family uses ADL's Rust-native provider adapter for its vendor API.\n- Leave `config.endpoint` unset for the default vendor endpoint unless you are testing against a trusted compatible endpoint."
     } else {
         "- ADL's bounded HTTP provider expects a completion-style HTTP contract: request body with `{\"prompt\": ...}`, response body with `{\"output\": ...}`.\n- Raw vendor-native endpoints may require a compatibility gateway or adapter if they do not expose that contract directly."
     };
-    let endpoint_step = if template.kind.is_some() {
+    let endpoint_step = if template.family == "bedrock" {
+        "2. Confirm `ADL_AWS_PROFILE=agent-logic-admin` and set `ADL_AWS_REGION` to the Bedrock region you want to use."
+    } else if template.kind.is_some() {
         "2. Leave `config.endpoint` unset unless you are testing against a trusted compatible endpoint."
     } else {
         "2. Set `config.endpoint` in `provider.adl.yaml` to a real ADL-compatible completion endpoint."

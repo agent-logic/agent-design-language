@@ -149,6 +149,66 @@ fn restore_env_var(key: &str, previous: Option<std::ffi::OsString>) {
     }
 }
 
+#[test]
+fn bedrock_request_and_response_shapes_cover_nova_messages() {
+    let body = bedrock_nova_request_body("hello bedrock", 123);
+    assert_eq!(body["schemaVersion"], "messages-v1");
+    assert!(body.get("model").is_none());
+    assert_eq!(body["messages"][0]["role"], "user");
+    assert_eq!(body["messages"][0]["content"][0]["text"], "hello bedrock");
+    assert_eq!(body["inferenceConfig"]["maxTokens"], 123);
+
+    let output = extract_bedrock_nova_output_text(&json!({
+        "output": {
+            "message": {
+                "role": "assistant",
+                "content": [{"text": "bedrock ok"}]
+            }
+        }
+    }));
+    assert_eq!(output.as_deref(), Some("bedrock ok"));
+}
+
+#[test]
+fn bedrock_provider_requires_agent_logic_profile_before_live_call() {
+    let spec = adl::ProviderSpec {
+        id: Some("bedrock_primary".to_string()),
+        profile: None,
+        kind: "bedrock".to_string(),
+        base_url: None,
+        default_model: Some("hosted:adl-bedrock:amazon.nova-lite-v1:0".to_string()),
+        config: HashMap::from([
+            (
+                "provider_model_id".to_string(),
+                json!("amazon.nova-lite-v1:0"),
+            ),
+            ("profile".to_string(), json!("default")),
+        ]),
+    };
+    let target = provider_target(
+        "bedrock",
+        "aws-bedrock-runtime".to_string(),
+        "amazon.nova-lite-v1:0",
+    );
+    let err = AwsBedrockProvider::from_target(&spec, &target)
+        .expect_err("wrong profile should fail before AWS calls");
+    assert!(err.to_string().contains("agent-logic-admin"));
+}
+
+#[test]
+fn bedrock_error_sanitizer_removes_signed_aws_values() {
+    let sanitized = sanitize_bedrock_error(
+        "Authorization: AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20260707/us-west-2/bedrock/aws4_request, SignedHeaders=host, X-Amz-Signature=abc123def456",
+    );
+
+    assert!(sanitized.contains("Authorization: <redacted>"));
+    assert!(sanitized.contains("Credential=<redacted>"));
+    assert!(sanitized.contains("X-Amz-Signature=<redacted>"));
+    assert!(!sanitized.contains("AWS4-HMAC-SHA256"));
+    assert!(!sanitized.contains("AKIAIOSFODNN7EXAMPLE"));
+    assert!(!sanitized.contains("abc123def456"));
+}
+
 fn provider_spec(
     kind: &str,
     endpoint: &str,

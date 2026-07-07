@@ -9,6 +9,7 @@ use super::*;
 pub(crate) struct ProviderProfilePreset {
     pub(crate) kind: &'static str,
     pub(crate) default_model: Option<&'static str>,
+    pub(crate) provider_model_id: Option<&'static str>,
     pub(crate) endpoint: Option<&'static str>,
 }
 
@@ -70,6 +71,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "ollama",
             default_model: Some("phi4-mini"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
@@ -78,6 +80,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "ollama",
             default_model: Some("qwen2.5:7b"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
@@ -86,6 +89,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "ollama",
             default_model: Some("llama3.1:8b"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
@@ -94,6 +98,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "ollama",
             default_model: Some("mistral:7b"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
@@ -103,9 +108,33 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ProviderProfilePreset {
             kind: "mock",
             default_model: Some("echo-v1"),
+            provider_model_id: None,
             endpoint: None,
         },
     );
+    // AWS Bedrock hosted presets.
+    for (name, stable_ref, provider_model_id) in [
+        (
+            "bedrock:nova-lite-v1",
+            "hosted:adl-bedrock:amazon.nova-lite-v1:0",
+            "amazon.nova-lite-v1:0",
+        ),
+        (
+            "bedrock:nova-pro-v1",
+            "hosted:adl-bedrock:amazon.nova-pro-v1:0",
+            "amazon.nova-pro-v1:0",
+        ),
+    ] {
+        m.insert(
+            name,
+            ProviderProfilePreset {
+                kind: "bedrock",
+                default_model: Some(stable_ref),
+                provider_model_id: Some(provider_model_id),
+                endpoint: None,
+            },
+        );
+    }
     // HTTP presets (explicit fixed endpoint placeholders; no secrets)
     for (name, model) in [
         ("http:gpt-4o-mini", "gpt-4o-mini"),
@@ -122,6 +151,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             ProviderProfilePreset {
                 kind: "http",
                 default_model: Some(model),
+                provider_model_id: None,
                 endpoint: Some(HTTP_PROFILE_PLACEHOLDER_ENDPOINT),
             },
         );
@@ -138,6 +168,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             ProviderProfilePreset {
                 kind: "http",
                 default_model: Some(model),
+                provider_model_id: None,
                 endpoint: Some(HTTP_PROFILE_PLACEHOLDER_ENDPOINT),
             },
         );
@@ -152,6 +183,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             ProviderProfilePreset {
                 kind: "http",
                 default_model: Some(model),
+                provider_model_id: None,
                 endpoint: Some(HTTP_PROFILE_PLACEHOLDER_ENDPOINT),
             },
         );
@@ -202,6 +234,11 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
         };
 
         let mut config = spec.config.clone();
+        if let Some(provider_model_id) = preset.provider_model_id {
+            config
+                .entry("provider_model_id".to_string())
+                .or_insert_with(|| Value::String(provider_model_id.to_string()));
+        }
         if let Some(endpoint) = preset.endpoint {
             match config.get("endpoint").and_then(|v| v.as_str()) {
                 Some(explicit) => validate_profile_endpoint(&provider_id, profile_name, explicit)?,

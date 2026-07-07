@@ -10,6 +10,7 @@ Current supported families:
 - `anthropic`
 - `gemini`
 - `deepseek`
+- `bedrock`
 - `http`
 
 Related shared proof-surface docs:
@@ -30,10 +31,12 @@ The generated bundle is intentionally local-only:
 - users are expected to copy/fill a local env file and source it before running ADL
 
 Important transport note:
-- `openai`, `anthropic`, and `deepseek` now use Rust-native provider adapters by default:
+- `openai`, `anthropic`, `deepseek`, `openrouter`, and `bedrock` now use Rust-native provider adapters by default:
   - `type: "openai"` targets the OpenAI Responses API unless `config.endpoint` is explicitly overridden
   - `type: "anthropic"` targets the Anthropic Messages API unless `config.endpoint` is explicitly overridden
   - `type: "deepseek"` targets the DeepSeek chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "openrouter"` targets the OpenRouter chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "bedrock"` targets AWS Bedrock Runtime through the AWS SDK and defaults to `ADL_AWS_PROFILE=agent-logic-admin`
 - ADL's bounded HTTP provider expects a completion-style contract:
   - request JSON with `{"prompt": "..."}`
   - response JSON with `{"output": "..."}`
@@ -50,7 +53,13 @@ adl provider setup chatgpt
 adl provider setup claude
 adl provider setup openai --out ./.adl/provider-setup/openai
 adl provider setup deepseek
+adl provider setup bedrock
 ```
+
+AWS Bedrock native note:
+- `adl provider setup bedrock` emits `type: "bedrock"`, defaults to `profile: "agent-logic-admin"` and `region: "us-west-2"`, and uses AWS SDK credential resolution rather than bearer-token auth
+- ADL AWS work must use the Agent Logic business profile unless the operator explicitly authorizes a bounded personal-account diagnostic
+- the initial provider mini-sprint target is `amazon.nova-lite-v1:0`; `amazon.nova-pro-v1:0` is the secondary target when access and cost posture allow
 
 DeepSeek native note:
 - `adl provider setup deepseek` emits `type: "deepseek"`, reads `DEEPSEEK_API_KEY`, and uses `https://api.deepseek.com/chat/completions` by default

@@ -125,6 +125,7 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
                 "mock" => return "mock".to_string(),
                 "chatgpt" => return "openai".to_string(),
                 "claude" => return "anthropic".to_string(),
+                "bedrock" => return "aws_bedrock".to_string(),
                 "openrouter" => return "openrouter".to_string(),
                 "http" => return "generic_http".to_string(),
                 _ => {}
@@ -156,6 +157,9 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
         if lower.contains("openrouter") {
             return "openrouter".to_string();
         }
+        if lower.contains("bedrock-runtime") || lower.contains("bedrock") {
+            return "aws_bedrock".to_string();
+        }
         if lower.contains("ollama") || lower.contains("11434") {
             return "ollama".to_string();
         }
@@ -167,6 +171,7 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
         "openai" => "openai".to_string(),
         "anthropic" => "anthropic".to_string(),
         "deepseek" => "deepseek".to_string(),
+        "bedrock" | "aws_bedrock" => "aws_bedrock".to_string(),
         "openrouter" => "openrouter".to_string(),
         "http" | "http_remote" => "generic_http".to_string(),
         other if !other.is_empty() => other.to_lowercase(),
@@ -183,9 +188,8 @@ fn infer_transport(spec: &adl::ProviderSpec) -> Result<ProviderTransportV1> {
                 Ok(ProviderTransportV1::LocalCli)
             }
         }
-        "http" | "http_remote" | "openai" | "anthropic" | "deepseek" | "openrouter" => {
-            Ok(ProviderTransportV1::Http)
-        }
+        "http" | "http_remote" | "openai" | "anthropic" | "deepseek" | "openrouter" | "bedrock"
+        | "aws_bedrock" => Ok(ProviderTransportV1::Http),
         "local_ollama" => Ok(ProviderTransportV1::LocalCli),
         "mock" => Ok(ProviderTransportV1::InProcess),
         other => Err(anyhow!(
@@ -274,7 +278,7 @@ fn infer_capability_defaults(
     }
 
     if matches!(transport, ProviderTransportV1::Http)
-        && (vendor == "deepseek" || vendor == "openrouter")
+        && (vendor == "deepseek" || vendor == "openrouter" || vendor == "aws_bedrock")
     {
         return ProviderCapabilitiesV1 {
             tool_calling: CapabilitySupportV1 {
@@ -596,6 +600,31 @@ mod tests {
             openrouter_substrate.capabilities.structured_json.mode,
             CapabilityModeV1::PromptBased
         );
+
+        let mut bedrock = provider_spec("bedrock");
+        bedrock.default_model = Some("hosted:adl-bedrock:amazon.nova-lite-v1:0".to_string());
+        bedrock.config.insert(
+            "provider_model_id".to_string(),
+            json!("amazon.nova-lite-v1:0"),
+        );
+        let bedrock_substrate =
+            provider_substrate_v1("bedrock_primary", &bedrock).expect("bedrock substrate");
+        assert_eq!(bedrock_substrate.vendor, "aws_bedrock");
+        assert_eq!(bedrock_substrate.transport, ProviderTransportV1::Http);
+        assert_eq!(bedrock_substrate.provider_kind, "bedrock");
+        assert!(!bedrock_substrate.capabilities.tool_calling.supported);
+        assert_eq!(
+            bedrock_substrate.capabilities.structured_json.mode,
+            CapabilityModeV1::PromptBased
+        );
+
+        let bedrock_target =
+            provider_invocation_target_v1("bedrock_primary", &bedrock, None).expect("target");
+        assert_eq!(
+            bedrock_target.model_ref,
+            "hosted:adl-bedrock:amazon.nova-lite-v1:0"
+        );
+        assert_eq!(bedrock_target.provider_model_id, "amazon.nova-lite-v1:0");
     }
 
     #[test]
