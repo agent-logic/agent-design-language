@@ -89,6 +89,9 @@ for required_fragment in (
     "steps.path-policy.outputs.validation_profile_run_lanes",
     "steps.path-policy.outputs.validation_profile_escalation_required",
     "steps.path-policy.outputs.validation_profile_escalation_lanes",
+    "steps.path-policy.outputs.ci_path_policy_contracts_required",
+    "steps.path-policy.outputs.ci_contract_toolchain_required",
+    "steps.path-policy.outputs.skill_author_contracts_required",
     "GITHUB_STEP_SUMMARY",
 ):
     if required_fragment not in adl_profile_summary:
@@ -121,6 +124,30 @@ if authoritative_contract != "bash adl/tools/test_run_authoritative_coverage_lan
         "adl-ci must validate the authoritative coverage split contract explicitly; "
         f"found: {authoritative_contract}"
     )
+expected_split_conditions = {
+    "Install cargo-llvm-cov for CI contract checks": "steps.path-policy.outputs.ci_contract_toolchain_required == 'true'",
+    "Install cargo-nextest for CI contract checks": "steps.path-policy.outputs.ci_contract_toolchain_required == 'true'",
+    "PVF CI release policy contract": "steps.path-policy.outputs.pvf_ci_release_contract_required == 'true'",
+    "tracked proof-validation lane contract": "steps.path-policy.outputs.v0913_proof_contract_required == 'true'",
+    "PR-fast test lane contract": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true' || steps.path-policy.outputs.rust_required == 'true'",
+    "slow-proof lane contract": "steps.path-policy.outputs.slow_proof_contract_required == 'true'",
+    "authoritative coverage lane contract": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true' || steps.path-policy.outputs.full_coverage_required == 'true'",
+    "repo-code-review contract check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
+    "test-generator contract check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
+    "demo-operator contract check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
+    "arxiv-paper-writer contract check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
+    "ANRM/Gemma trace dataset tooling check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
+    "ci runtime contract check": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'",
+    "ci runtime budget report contract check": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'",
+    "ci cache/linker contract check": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'",
+}
+for step_name, expected_if in expected_split_conditions.items():
+    observed_if = step_if(step_name)
+    if observed_if != expected_if:
+        raise SystemExit(
+            "adl-ci contract checks must use granular path-policy outputs so narrow policy PRs do not run unrelated contracts; "
+            f"{step_name!r} has if: {observed_if!r}"
+        )
 
 release_version_truth = step_run("release version truth check")
 if release_version_truth != "bash adl/tools/check_release_version_surfaces.sh":
