@@ -293,7 +293,11 @@ fn start(args: &[String]) -> Result<()> {
         observation.pid,
         None,
     )?;
-    let status = service_status(&manifest, state, "start", None)?;
+    let mut status = service_status(&manifest, state, "start", None)?;
+    if observation.healthy {
+        status.service_state = "running".to_string();
+        status.startup_classification = observation.classification.to_string();
+    }
     write_status(&manifest, &status)?;
     print_status(&status, manifest.service_root.as_path(), args);
     if !observation.healthy || status.service_state != "running" {
