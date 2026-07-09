@@ -94,10 +94,12 @@ build_owner_bins() {
   if [[ "$PRINT_PLAN" == "1" ]]; then
     return 0
   fi
-  export ADL_BIN="$ROOT_DIR/adl/target/debug/adl"
-  export ADL_CSDLC_BIN="$ROOT_DIR/adl/target/debug/adl-csdlc"
-  export ADL_RUNTIME_BIN="$ROOT_DIR/adl/target/debug/adl-runtime"
-  export ADL_REVIEW_BIN="$ROOT_DIR/adl/target/debug/adl-review"
+  run_command "install stable owner binaries" \
+    bash adl/tools/install_owner_binaries.sh --no-build
+  export ADL_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/adl"
+  export ADL_CSDLC_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/adl-csdlc"
+  export ADL_RUNTIME_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/adl-runtime"
+  export ADL_REVIEW_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/adl-review"
   export ADL_PACKAGE_VERSION
   ADL_PACKAGE_VERSION="$(package_version)"
 }
