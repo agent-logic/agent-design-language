@@ -689,6 +689,42 @@ fn anthropic_provider_complete_records_output_and_version_header() {
 }
 
 #[test]
+fn anthropic_provider_complete_normalizes_empty_refusal_response() {
+    let _guard = env_lock();
+    let Some((endpoint, _captured, handle)) =
+        spawn_json_server(200, r#"{"content":[],"stop_reason":"refusal"}"#)
+    else {
+        return;
+    };
+
+    let prev_key = env::var_os("ANTHROPIC_API_KEY");
+    env::set_var("ANTHROPIC_API_KEY", "test-anthropic-token");
+
+    let spec = provider_spec(
+        "anthropic",
+        &format!("{endpoint}/v1/messages"),
+        Some("ANTHROPIC_API_KEY"),
+        &[],
+    );
+    let target = provider_target(
+        "anthropic",
+        format!("{endpoint}/v1/messages"),
+        "claude-test",
+    );
+    let provider = AnthropicProvider::from_target(&spec, &target).expect("provider");
+
+    let output = provider.complete("hello anthropic").expect("completion");
+    assert_eq!(output, r#"{"refusal":"provider refused the request"}"#);
+
+    match prev_key {
+        Some(v) => env::set_var("ANTHROPIC_API_KEY", v),
+        None => env::remove_var("ANTHROPIC_API_KEY"),
+    }
+
+    let _ = handle.join();
+}
+
+#[test]
 fn deepseek_provider_complete_records_chat_completion_request() {
     let _guard = env_lock();
     let Some((endpoint, captured, handle)) = spawn_json_server(

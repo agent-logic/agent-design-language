@@ -1349,6 +1349,9 @@ fn extract_anthropic_output_text(json: &Value) -> Option<String> {
             }
         }
     }
+    if chunks.is_empty() && json.get("stop_reason").and_then(Value::as_str) == Some("refusal") {
+        return Some(r#"{"refusal":"provider refused the request"}"#.to_string());
+    }
     (!chunks.is_empty()).then(|| {
         chunks.join(
             "
@@ -2369,6 +2372,34 @@ mod tests {
         assert!(!log.contains("claude success"));
         let _ = fs::remove_file(path);
         env::remove_var("ADL_PROVIDER_ADAPTER_CLAUDE_KEY");
+    }
+
+    #[test]
+    fn claude_hosted_adapter_normalizes_empty_refusal_response() {
+        env::set_var("ADL_PROVIDER_ADAPTER_CLAUDE_REFUSAL_KEY", "test-key");
+        let endpoint = one_shot_server(r#"{"content":[],"stop_reason":"refusal"}"#, "200 OK");
+        let path = temp_log("claude-refusal");
+        let mut logger = ProviderRunLoggerV1::create(&path, "run-test").expect("open logger");
+        let mut req = request(RuntimeSurfaceV1::HostedApi, endpoint);
+        req.route.provider = "anthropic".to_string();
+        req.route.credential_ref = Some("env:ADL_PROVIDER_ADAPTER_CLAUDE_REFUSAL_KEY".to_string());
+        req.model_identity = hosted_model_identity(
+            "anthropic",
+            "claude-test",
+            "test-model",
+            Some("test".to_string()),
+        );
+        let result = execute_provider_invocation(req, &mut logger);
+        drop(logger);
+
+        assert_eq!(result.final_status, ProviderInvocationFinalStatusV1::Ok);
+        assert_eq!(
+            result.output_text.as_deref(),
+            Some(r#"{"refusal":"provider refused the request"}"#)
+        );
+
+        let _ = fs::remove_file(path);
+        env::remove_var("ADL_PROVIDER_ADAPTER_CLAUDE_REFUSAL_KEY");
     }
 
     #[test]
