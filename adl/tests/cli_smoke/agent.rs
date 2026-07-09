@@ -156,6 +156,58 @@ fn http_get_json(addr: &str, path: &str) -> serde_json::Value {
     }
 }
 
+fn reserve_csm_test_port(label: &str) -> (std::net::TcpListener, String) {
+    for port in 19950..=19999 {
+        if port == 19997 {
+            continue;
+        }
+        let addr = format!("127.0.0.1:{port}");
+        if let Ok(listener) = std::net::TcpListener::bind(&addr) {
+            return (listener, addr);
+        }
+    }
+    panic!("no reserved CSM test port available for {label} in 19950-19999");
+}
+
+fn request_governed_stop_and_wait(spec: &std::path::Path, child: &mut std::process::Child) {
+    let stop = run_csm(&[
+        "governed-stop",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--reason",
+        "test cleanup requested governed runtime stop",
+        "--operator",
+        "cli-smoke",
+        "--authorization",
+        "test-governed-stop",
+        "--intent",
+        "recoverability_drill",
+        "--requested-at",
+        "2026-07-07T16:00:00Z",
+        "--json",
+    ]);
+    assert!(
+        stop.status.success(),
+        "governed stop stderr:\n{}",
+        String::from_utf8_lossy(&stop.stderr)
+    );
+    let started = std::time::Instant::now();
+    loop {
+        if child
+            .try_wait()
+            .expect("check governed CSM daemon child")
+            .is_some()
+        {
+            break;
+        }
+        if started.elapsed() > std::time::Duration::from_secs(8) {
+            let _ = child.kill();
+            panic!("CSM daemon did not exit after governed stop request");
+        }
+        std::thread::sleep(std::time::Duration::from_millis(100));
+    }
+}
+
 fn otlp_attr_string<'a>(attrs: &'a serde_json::Value, key: &str) -> Option<&'a str> {
     attrs.as_array()?.iter().find_map(|attr| {
         (attr.get("key")?.as_str()? == key)
@@ -622,7 +674,7 @@ memory:
     );
     assert_text_contains(
         &operator_events,
-        "\"agent_max_cycles_lifetime_boundary\":\"ignored_in_daemon_service_mode\"",
+        "\"cycle_count_lifetime_boundary\":\"not_applicable\"",
         "operator events",
     );
     assert_text_contains(&operator_events, "\"otel\"", "operator events");
@@ -901,68 +953,62 @@ memory:
     assert!(String::from_utf8_lossy(&bad_profile.stderr)
         .contains("unsupported csm backpressure profile"));
 
-    let probe = std::net::TcpListener::bind("127.0.0.1:0").expect("bind API probe port");
-    let addr = probe.local_addr().expect("API probe addr");
+    let (probe, addr) = reserve_csm_test_port("runtime API smoke");
     drop(probe);
     let mut child = std::process::Command::new(resolve_csm_exe())
         .args([
-            "api",
-            "serve",
+            "daemon",
             "--spec",
             spec_str,
-            "--bind",
-            &addr.to_string(),
-            "--test-max-requests",
-            "100",
-            "--test-idle-timeout-ms",
-            "1000",
-            "--otel-status",
-            otel_status.to_str().expect("utf8 otel status path"),
-            "--otel-log",
-            otel_log.to_str().expect("utf8 otel log path"),
-            "--json",
+            "--api-bind",
+            &addr,
+            "--checkpoint-interval-secs",
+            "1",
+            "--interval-secs",
+            "1",
         ])
-        .stdout(std::process::Stdio::piped())
+        .env(
+            "ADL_OTEL_STATUS",
+            otel_status.to_str().expect("utf8 otel status path"),
+        )
+        .env(
+            "ADL_OTEL_LOG",
+            otel_log.to_str().expect("utf8 otel log path"),
+        )
+        .stdout(std::process::Stdio::null())
         .stderr(std::process::Stdio::piped())
         .spawn()
-        .expect("spawn csm api");
-    let stdout = child.stdout.take().expect("api stdout pipe");
-    let mut stdout = std::io::BufReader::new(stdout);
-    let mut startup_line = String::new();
-    std::io::BufRead::read_line(&mut stdout, &mut startup_line).expect("read API startup");
-    assert!(
-        startup_line.contains("\"status\":\"listening\""),
-        "unexpected API startup line: {startup_line}"
-    );
+        .expect("spawn csm daemon with embedded API");
 
-    let status = http_get_json(&addr.to_string(), "/status");
-    let health = http_get_json(&addr.to_string(), "/health");
-    let ready = http_get_json(&addr.to_string(), "/ready");
-    let metrics = http_get_json(&addr.to_string(), "/metrics");
-    let events = http_get_json(&addr.to_string(), "/events");
-
-    let mut stderr = String::new();
-    if let Some(mut pipe) = child.stderr.take() {
-        use std::io::Read;
-        pipe.read_to_string(&mut stderr).expect("read API stderr");
+    let mut status = http_get_json(&addr, "/status");
+    let status_wait_started = std::time::Instant::now();
+    while status["daemon_liveness"]["state"] != "running" || status["ready"] != "ready" {
+        if status_wait_started.elapsed() > std::time::Duration::from_secs(5) {
+            panic!(
+                "embedded CSM API did not report ready running daemon state:\n{}",
+                serde_json::to_string_pretty(&status).expect("serialize status")
+            );
+        }
+        std::thread::sleep(std::time::Duration::from_millis(100));
+        status = http_get_json(&addr, "/status");
     }
-    let status_code = child.wait().expect("wait csm api");
-    let mut remaining_stdout = String::new();
-    use std::io::Read;
-    stdout
-        .read_to_string(&mut remaining_stdout)
-        .expect("read remaining API stdout");
-    assert!(
-        status_code.success(),
-        "api stdout:\n{startup_line}{remaining_stdout}\nstderr:\n{stderr}"
-    );
+    let health = http_get_json(&addr, "/health");
+    let ready = http_get_json(&addr, "/ready");
+    let metrics = http_get_json(&addr, "/metrics");
+    let events = http_get_json(&addr, "/events");
+
+    request_governed_stop_and_wait(&spec, &mut child);
 
     assert_eq!(status["schema"], "adl.csm.runtime_api.status.v1");
     assert_eq!(status["runtime_owner"], "csm");
     assert_eq!(status["agent_instance_id"], "api-agent");
     assert_eq!(status["status"], "healthy");
     assert_eq!(status["ready"], "ready");
-    assert_eq!(status["daemon_liveness"]["state"], "completed");
+    assert_eq!(status["daemon_liveness"]["state"], "running");
+    assert_eq!(
+        status["daemon_liveness"]["supervisor_pid_liveness"],
+        "live_pid"
+    );
     assert_eq!(
         status["backpressure"]["schema"],
         "adl.csm.backpressure_state.v1"
@@ -978,6 +1024,10 @@ memory:
     assert_eq!(health["status"], "healthy");
     assert_eq!(ready["schema"], "adl.csm.runtime_api.ready.v1");
     assert_eq!(ready["ready"], "ready");
+    assert!(ready["blocking_reasons"]
+        .as_array()
+        .expect("ready blockers")
+        .is_empty());
     assert_eq!(metrics["schema"], "adl.csm.runtime_api.metrics.v1");
     assert_eq!(metrics["gauges"]["backpressure_queue_depth"], 12);
     assert_eq!(metrics["gauges"]["backpressure_lag_ms"], 3100);
@@ -994,7 +1044,7 @@ memory:
     assert!(
         matches!(
             metrics["states"]["agent_state"].as_str(),
-            Some("idle" | "completed")
+            Some("idle" | "running_cycle" | "completed")
         ),
         "unexpected metrics state: {}",
         metrics["states"]["agent_state"]
@@ -1977,6 +2027,8 @@ memory:
     let plist = fs::read_to_string(service_root.join("csm.launchd.plist")).expect("plist");
     assert!(plist.contains("<key>KeepAlive</key>"));
     assert!(plist.contains("<string>daemon</string>"));
+    assert!(plist.contains("<string>--api-bind</string>"));
+    assert!(plist.contains("<string>127.0.0.1:19997</string>"));
     assert!(plist.contains("ADL_OTEL_STATUS"));
     assert!(plist.contains("ADL_OTEL_EXPORTER_OTLP_ENDPOINT"));
     assert!(plist.contains("http://127.0.0.1:4318/v1/traces"));
@@ -2041,6 +2093,8 @@ memory:
     )
     .expect("write agent spec");
     let csm_bin = resolve_csm_exe();
+    let (api_probe, api_bind) = reserve_csm_test_port("service mode manifest");
+    drop(api_probe);
 
     let local_root = root.join("local-service");
     let local = run_csm(&[
@@ -2052,6 +2106,8 @@ memory:
         local_root.to_str().expect("utf8 local service root"),
         "--manager",
         "local",
+        "--api-bind",
+        &api_bind,
         "--csm-bin",
         csm_bin.to_str().expect("utf8 csm bin"),
         "--json",
@@ -2065,11 +2121,8 @@ memory:
         &fs::read_to_string(local_root.join("service_manifest.json")).expect("local manifest"),
     )
     .expect("parse local manifest");
-    assert_eq!(
-        local_manifest["restart_policy"],
-        "external_supervisor_required"
-    );
-    assert_eq!(local_manifest["service_mode"], "local_proof_only");
+    assert_eq!(local_manifest["restart_policy"], "always");
+    assert_eq!(local_manifest["service_mode"], "rust_supervisor");
     let mut legacy_local_manifest = local_manifest.clone();
     legacy_local_manifest
         .as_object_mut()
@@ -2098,11 +2151,8 @@ memory:
     );
     let legacy_status: serde_json::Value =
         serde_json::from_slice(&local_status.stdout).expect("parse local status stdout");
-    assert_eq!(
-        legacy_status["restart_policy"],
-        "external_supervisor_required"
-    );
-    assert_eq!(legacy_status["service_mode"], "local_proof_only");
+    assert_eq!(legacy_status["restart_policy"], "always");
+    assert_eq!(legacy_status["service_mode"], "rust_supervisor");
 
     let bounded_root = root.join("bounded-service");
     let bounded = run_csm(&[
@@ -2289,6 +2339,8 @@ memory:
     .expect("write agent spec");
     let service_root = root.join("service");
     let csm_bin = resolve_csm_exe();
+    let (api_probe, api_bind) = reserve_csm_test_port("service API smoke");
+    drop(api_probe);
     let install = run_csm(&[
         "service",
         "install",
@@ -2298,6 +2350,8 @@ memory:
         service_root.to_str().expect("utf8 service root"),
         "--manager",
         "local",
+        "--api-bind",
+        &api_bind,
         "--label",
         "com.agentlogic.csm.test-local",
         "--csm-bin",
@@ -2346,7 +2400,7 @@ memory:
     assert_eq!(service_status["uses_ps"], false);
     assert_eq!(
         service_status["startup_classification"],
-        "startup_first_daemon_record_observed"
+        "startup_runtime_ready"
     );
     assert_eq!(service_status["first_daemon_record_observed"], true);
     assert_eq!(service_status["continuity_checkpoint_observed"], true);
@@ -2359,8 +2413,40 @@ memory:
         fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
     assert!(startup_ledger.contains("\"event\":\"start_requested\""));
     assert!(startup_ledger.contains("\"event\":\"local_spawn\""));
+    assert!(startup_ledger.contains("\"event\":\"rust_supervisor_started\""));
+    assert!(startup_ledger.contains("\"event\":\"rust_supervisor_child_spawn\""));
     assert!(startup_ledger.contains("\"event\":\"startup_probe\""));
-    assert!(startup_ledger.contains("startup_first_daemon_record_observed"));
+    assert!(startup_ledger.contains("startup_runtime_ready"));
+    let supervisor_status: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(service_root.join("logs/rust_supervisor_status.json"))
+            .expect("supervisor status"),
+    )
+    .expect("parse supervisor status");
+    assert_eq!(
+        supervisor_status["schema"],
+        "adl.csm.rust_supervisor_status.v1"
+    );
+    assert_eq!(supervisor_status["restart_policy"], "always");
+    assert_eq!(
+        supervisor_status["runtime_api"]["status"],
+        "embedded_in_daemon"
+    );
+    assert_eq!(
+        supervisor_status["runtime_api"]["pid_model"],
+        "same_process_as_csm_daemon_child"
+    );
+    assert_eq!(
+        supervisor_status["stop_policy"],
+        "explicit_stop_intent_only"
+    );
+    assert_eq!(supervisor_status["max_cycles"], "not_applicable");
+    assert_eq!(supervisor_status["request_budget"], "not_applicable");
+    let api_bind = supervisor_status["runtime_api"]["bind"]
+        .as_str()
+        .expect("runtime API bind")
+        .to_string();
+    let ready = http_get_json(&api_bind, "/ready");
+    assert_eq!(ready["ready"], "ready");
     let observability =
         fs::read_to_string(service_root.join("logs/observability.log")).expect("observability log");
     assert!(observability.contains("stage=start_requested"));
@@ -2386,7 +2472,7 @@ memory:
     assert_eq!(second_status["service_state"], "running");
     assert_eq!(
         second_status["startup_classification"],
-        "startup_first_daemon_record_observed"
+        "startup_runtime_ready"
     );
     let startup_ledger =
         fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
@@ -2407,6 +2493,44 @@ memory:
     let service_status: serde_json::Value =
         serde_json::from_slice(&stop.stdout).expect("parse stop status stdout");
     assert_eq!(service_status["service_state"], "stopped_or_requested");
+    let restart = run_csm(&[
+        "service",
+        "start",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        restart.status.success(),
+        "restart after stop stderr:\n{}",
+        String::from_utf8_lossy(&restart.stderr)
+    );
+    assert!(
+        !root.join("state/stop.json").exists(),
+        "service start must clear durable stop intent before creating a new runtime lifetime"
+    );
+    let restart_status: serde_json::Value =
+        serde_json::from_slice(&restart.stdout).expect("parse restart stdout");
+    assert_eq!(restart_status["service_state"], "running");
+    assert_eq!(
+        restart_status["startup_classification"],
+        "startup_runtime_ready"
+    );
+    let restart_ledger =
+        fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
+    assert!(restart_ledger.contains("\"event\":\"service_start_cleared_stop_intent\""));
+    let stop = run_csm(&[
+        "service",
+        "stop",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        stop.status.success(),
+        "second stop stderr:\n{}",
+        String::from_utf8_lossy(&stop.stderr)
+    );
     let stale_pid = u32::MAX;
     fs::write(service_root.join("csm-service.pid"), stale_pid.to_string())
         .expect("write stale pid metadata");
@@ -2445,7 +2569,7 @@ memory:
         serde_json::from_slice(&stale_status.stdout).expect("parse stale status stdout");
     assert_ne!(
         stale_status["startup_classification"],
-        "startup_first_daemon_record_observed"
+        "startup_runtime_ready"
     );
     assert_eq!(stale_status["pid_liveness"], "stale_pid");
     let agent_status: serde_json::Value =
@@ -2455,6 +2579,329 @@ memory:
     assert_eq!(
         agent_status["last_error"]["class"],
         "operator_stop_requested"
+    );
+}
+
+#[test]
+fn csm_governed_stop_records_checkpoint_safe_fail_lifelog_and_notices() {
+    let root = unique_test_temp_dir("csm-governed-stop");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: governed-stop-agent
+display_name: Governed Stop Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: governed_stop_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 10
+  max_cycles: 3
+  stale_lease_after_secs: 60
+checkpoint:
+  interval_secs: 1
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/governed-stop-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let service_root = root.join("service");
+    let csm_bin = resolve_csm_exe();
+    let (api_probe, api_bind) = reserve_csm_test_port("governed API smoke");
+    drop(api_probe);
+    let install = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "local",
+        "--api-bind",
+        &api_bind,
+        "--label",
+        "com.agentlogic.csm.test-governed-stop",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--checkpoint-interval-secs",
+        "1",
+        "--json",
+    ]);
+    assert!(
+        install.status.success(),
+        "install stderr:\n{}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    let start = run_csm(&[
+        "service",
+        "start",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        start.status.success(),
+        "start stderr:\n{}",
+        String::from_utf8_lossy(&start.stderr)
+    );
+    std::thread::sleep(std::time::Duration::from_millis(1500));
+
+    let stop = run_csm_with_env(
+        &[
+            "governed-stop",
+            "--spec",
+            spec.to_str().expect("utf8 spec"),
+            "--reason",
+            "operator requested recoverable polis stop",
+            "--operator",
+            "codex-test-operator",
+            "--authorization",
+            "test-approval-ticket-5005",
+            "--intent",
+            "emergency_polis_stop",
+            "--requested-at",
+            "2026-07-07T16:00:00Z",
+            "--json",
+        ],
+        &[
+            ("ADL_AWS_SIGNAL_MODE", "mock"),
+            ("ADL_AWS_SIGNAL_APPROVED", "1"),
+            ("ADL_AWS_REGION", "us-west-2"),
+            ("ADL_AWS_PROFILE", "agent-logic-admin"),
+            (
+                "ADL_AWS_SNS_TOPIC_ARN",
+                "arn:aws:sns:us-west-2:000000000000:mock",
+            ),
+            ("ADL_CSM_NOTICE_CONTROL_PLANE_MODE", "mock"),
+            ("ADL_CSM_NOTICE_CONTROL_PLANE_TARGET", "eventbridge"),
+            ("ADL_CSM_NOTICE_EVENT_BUS", "adl-csm-notice-bus-5005"),
+        ],
+    );
+    assert!(
+        stop.status.success(),
+        "governed-stop stderr:\n{}",
+        String::from_utf8_lossy(&stop.stderr)
+    );
+    let result: serde_json::Value =
+        serde_json::from_slice(&stop.stdout).expect("parse governed stop stdout");
+    assert_eq!(result["schema"], "adl.csm.governed_stop.result.v1");
+    assert_eq!(result["classification"], "governed_emergency_stop");
+    assert_eq!(
+        result["agent_recoverability"]["recoverability_class"],
+        "recoverable_checkpointed"
+    );
+    assert_eq!(result["notice"]["notice_kind"], "governed_emergency_stop");
+
+    let state = root.join("state");
+    assert!(state.join("governed_stop.json").exists());
+    assert!(state.join("stop.json").exists());
+    assert!(state.join("status.json").exists());
+    assert!(state.join("daemon_status.json").exists());
+    assert!(state.join("continuity_checkpoint.json").exists());
+    assert!(state.join("continuity_replay_manifest.json").exists());
+    assert!(state.join("safe_fail_bundle.json").exists());
+    assert!(state.join("csm_lifecycle_lifelog.db.jsonl").exists());
+    assert!(state.join("csm_lifecycle_lifelog.index.json").exists());
+    assert!(state.join("csm_governed_notices.jsonl").exists());
+    assert!(state.join("csm_governed_notice_latest.json").exists());
+    assert!(state.join("aws_csm_governed_notice_mock.jsonl").exists());
+    assert!(state
+        .join("aws_csm_governed_notice_sns_mock.jsonl")
+        .exists());
+    assert!(state
+        .join("csm_governed_notice_control_plane_mock.jsonl")
+        .exists());
+
+    let governed_stop: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(state.join("governed_stop.json")).expect("governed stop artifact"),
+    )
+    .expect("parse governed stop");
+    assert_eq!(governed_stop["schema"], "adl.csm.governed_stop.v1");
+    assert_eq!(
+        governed_stop["authorization_policy"]["ordinary_api_requests_can_stop_runtime"],
+        false
+    );
+    assert!(governed_stop["operator_intent"]["authorization_ref"]
+        .as_str()
+        .expect("authorization ref")
+        .starts_with("sha256:"));
+    assert_eq!(
+        governed_stop["agent_recoverability"]["recoverability_class"],
+        "recoverable_checkpointed"
+    );
+    let lifelog = fs::read_to_string(state.join("csm_lifecycle_lifelog.db.jsonl"))
+        .expect("read lifecycle lifelog");
+    assert!(lifelog.contains("governed_emergency_stop_requested"));
+    assert!(lifelog.contains("governed_emergency_stop_recorded"));
+    let operator_events =
+        fs::read_to_string(state.join("operator_events.jsonl")).expect("operator events");
+    assert!(operator_events.contains("governed_emergency_stop_requested"));
+    assert!(operator_events.contains("governed_emergency_stop_recorded"));
+
+    let api_options = adl::csm_runtime_api::CsmRuntimeApiOptions {
+        spec_path: spec.clone(),
+        bind: "127.0.0.1:19950".to_string(),
+        test_max_requests: None,
+        idle_timeout_ms: None,
+        otel_status_path: None,
+        otel_log_path: None,
+    };
+    let api_status = adl::csm_runtime_api::runtime_api_response(&api_options, "/status")
+        .expect("governed API status response");
+    let api_ready = adl::csm_runtime_api::runtime_api_response(&api_options, "/ready")
+        .expect("governed API ready response");
+    assert_eq!(api_status["status"], "degraded");
+    assert_eq!(api_status["ready"], "not_ready");
+    assert_eq!(api_status["daemon_liveness"]["state"], "governed_stopped");
+    assert_eq!(api_ready["ready"], "not_ready");
+    assert!(api_ready["blocking_reasons"]
+        .as_array()
+        .expect("ready blockers")
+        .contains(&serde_json::json!("daemon_state_governed_stopped")));
+
+    let missing_operator = run_csm(&[
+        "governed-stop",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--reason",
+        "missing operator must fail",
+        "--authorization",
+        "ticket",
+        "--intent",
+        "emergency_polis_stop",
+        "--requested-at",
+        "2026-07-07T16:00:00Z",
+        "--json",
+    ]);
+    assert!(!missing_operator.status.success());
+    assert!(String::from_utf8_lossy(&missing_operator.stderr).contains("--operator"));
+}
+
+#[test]
+fn csm_service_rust_supervisor_restarts_real_daemon_child() {
+    let root = unique_test_temp_dir("csm-service-rust-supervisor");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: rust-supervisor-agent
+display_name: Rust Supervisor Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: rust_supervisor_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 1
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/rust-supervisor-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let service_root = root.join("service");
+    let csm_bin = resolve_csm_exe();
+    let (api_probe, api_bind) = reserve_csm_test_port("supervisor API smoke");
+    drop(api_probe);
+    let install = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "local",
+        "--api-bind",
+        &api_bind,
+        "--label",
+        "com.agentlogic.csm.test-rust-supervisor",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--checkpoint-interval-secs",
+        "1",
+        "--no-sleep",
+        "--json",
+    ]);
+    assert!(
+        install.status.success(),
+        "install stderr:\n{}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    let start = run_csm(&[
+        "service",
+        "start",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        start.status.success(),
+        "start stderr:\n{}",
+        String::from_utf8_lossy(&start.stderr)
+    );
+    let mut observed_restart = false;
+    for _ in 0..25 {
+        let supervisor_status: serde_json::Value = serde_json::from_str(
+            &fs::read_to_string(service_root.join("logs/rust_supervisor_status.json"))
+                .expect("supervisor status"),
+        )
+        .expect("parse supervisor status");
+        if supervisor_status["restart_count"].as_u64().unwrap_or(0) >= 1 {
+            observed_restart = true;
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(200));
+    }
+    assert!(
+        observed_restart,
+        "expected Rust supervisor to restart a real csm daemon child after bounded child completion"
+    );
+    let supervisor_status: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(service_root.join("logs/rust_supervisor_status.json"))
+            .expect("supervisor status"),
+    )
+    .expect("parse supervisor status");
+    assert_eq!(supervisor_status["restart_policy"], "always");
+    assert_eq!(supervisor_status["max_cycles"], "not_applicable");
+    assert_eq!(supervisor_status["request_budget"], "not_applicable");
+    let startup_ledger =
+        fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
+    assert!(startup_ledger.contains("\"event\":\"rust_supervisor_child_exit\""));
+    assert!(startup_ledger.contains("\"event\":\"rust_supervisor_restart_scheduled\""));
+    let stop = run_csm(&[
+        "service",
+        "stop",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        stop.status.success(),
+        "stop stderr:\n{}",
+        String::from_utf8_lossy(&stop.stderr)
     );
 }
 
@@ -2496,6 +2943,8 @@ memory:
     } else {
         "/bin/false"
     };
+    let (api_probe, api_bind) = reserve_csm_test_port("startup missing record API");
+    drop(api_probe);
     let install = run_csm(&[
         "service",
         "install",
@@ -2505,6 +2954,8 @@ memory:
         service_root.to_str().expect("utf8 service root"),
         "--manager",
         "local",
+        "--api-bind",
+        &api_bind,
         "--label",
         "com.agentlogic.csm.test-startup-missing-record",
         "--csm-bin",
@@ -2557,7 +3008,7 @@ memory:
     );
     let stderr = String::from_utf8_lossy(&start.stderr);
     assert!(
-        stderr.contains("startup failed before first daemon record"),
+        stderr.contains("startup failed before runtime readiness"),
         "stderr:\n{stderr}"
     );
     let status: serde_json::Value = serde_json::from_str(
@@ -2566,13 +3017,13 @@ memory:
     .expect("parse service status");
     assert_eq!(status["service_state"], "startup_failed");
     assert!(
-        status["startup_classification"] == "startup_stale_before_first_daemon_record"
-            || status["startup_classification"] == "startup_waiting_for_first_daemon_record",
+        status["startup_classification"] == "startup_stale_before_runtime_ready"
+            || status["startup_classification"] == "startup_waiting_for_runtime_ready",
         "status:\n{}",
         serde_json::to_string_pretty(&status).unwrap()
     );
     assert_eq!(status["first_daemon_record_observed"], false);
-    assert_eq!(status["cycle_ledger_observed"], false);
+    assert_eq!(status["runtime_api_observed"], false);
     fs::write(
         service_root.join("csm-service.pid"),
         std::process::id().to_string(),
@@ -2598,6 +3049,9 @@ memory:
         ),
     )
     .expect("write fresh daemon status");
+    fs::write(root.join("state/continuity_checkpoint.json"), "{}\n")
+        .expect("write recovered checkpoint");
+    fs::write(root.join("state/cycle_ledger.jsonl"), "{}\n").expect("write recovered cycle ledger");
     let recovered_status = run_csm(&[
         "service",
         "status",
@@ -2614,10 +3068,11 @@ memory:
         serde_json::from_slice(&recovered_status.stdout).expect("parse recovered status");
     assert_eq!(recovered_status["pid_liveness"], "live_pid");
     assert_eq!(recovered_status["first_daemon_record_observed"], true);
-    assert_eq!(
+    assert_ne!(
         recovered_status["startup_classification"],
-        "startup_first_daemon_record_observed"
+        "startup_runtime_ready"
     );
+    assert_eq!(recovered_status["runtime_api_observed"], false);
     let startup_ledger =
         fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
     assert!(startup_ledger.contains("\"event\":\"start_requested\""));
@@ -2630,6 +3085,111 @@ memory:
     let otel = fs::read_to_string(service_root.join("logs/otel.jsonl")).expect("otel log");
     assert!(otel.contains("\"name\":\"csm.start_requested\""));
     assert!(otel.contains("\"name\":\"csm.startup_probe\""));
+}
+
+#[test]
+fn csm_service_start_fails_readiness_when_embedded_api_bind_is_unavailable() {
+    let root = unique_test_temp_dir("csm-service-api-bind-unavailable");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: service-api-bind-unavailable-agent
+display_name: Service API Bind Unavailable Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+  name: service_api_bind_unavailable_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 1
+  max_cycles: 3
+  stale_lease_after_secs: 60
+checkpoint:
+  interval_secs: 1
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/service-api-bind-unavailable-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let (occupied, api_bind) = reserve_csm_test_port("occupied API port");
+    let service_root = root.join("service");
+    let csm_bin = resolve_csm_exe();
+    let install = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "local",
+        "--api-bind",
+        &api_bind,
+        "--label",
+        "com.agentlogic.csm.test-api-bind-unavailable",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--checkpoint-interval-secs",
+        "1",
+        "--interval-secs",
+        "1",
+        "--json",
+    ]);
+    assert!(
+        install.status.success(),
+        "install stderr:\n{}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+    let start = run_csm_with_env(
+        &[
+            "service",
+            "start",
+            "--service-root",
+            service_root.to_str().expect("utf8 service root"),
+            "--json",
+        ],
+        &[("ADL_CSM_SERVICE_STARTUP_ATTEMPTS", "20")],
+    );
+    assert!(
+        !start.status.success(),
+        "expected API bind readiness failure, stdout:\n{}",
+        String::from_utf8_lossy(&start.stdout)
+    );
+    let status: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(service_root.join("service_status.json")).expect("service status"),
+    )
+    .expect("parse service status");
+    assert_eq!(status["service_state"], "startup_failed");
+    assert_ne!(status["startup_classification"], "startup_runtime_ready");
+    assert_eq!(status["runtime_api_observed"], false);
+    let startup_ledger =
+        fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
+    assert!(startup_ledger.contains("\"runtime_api_observed\":false"));
+    assert!(startup_ledger.contains("startup_daemon_live_waiting_for_runtime_api"));
+
+    drop(occupied);
+    let stop = run_csm(&[
+        "service",
+        "stop",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        stop.status.success(),
+        "stop stderr:\n{}",
+        String::from_utf8_lossy(&stop.stderr)
+    );
 }
 
 #[test]
@@ -2726,10 +3286,7 @@ memory:
     )
     .expect("parse service status");
     assert_eq!(status["service_state"], "startup_failed");
-    assert_ne!(
-        status["startup_classification"],
-        "startup_first_daemon_record_observed"
-    );
+    assert_ne!(status["startup_classification"], "startup_runtime_ready");
     assert_eq!(status["first_daemon_record_observed"], false);
     let startup_ledger =
         fs::read_to_string(service_root.join("logs/startup_ledger.jsonl")).expect("startup ledger");
@@ -2775,6 +3332,8 @@ memory:
     .expect("write agent spec");
     let service_root = root.join("service");
     let csm_bin = resolve_csm_exe();
+    let (api_probe, api_bind) = reserve_csm_test_port("unverified pid API");
+    drop(api_probe);
     let install = run_csm(&[
         "service",
         "install",
@@ -2784,6 +3343,8 @@ memory:
         service_root.to_str().expect("utf8 service root"),
         "--manager",
         "local",
+        "--api-bind",
+        &api_bind,
         "--label",
         "com.agentlogic.csm.test-unverified-pid",
         "--csm-bin",

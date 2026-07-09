@@ -188,6 +188,7 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
     let mut bounded_test_restart_limit: Option<u64> = None;
     let mut checkpoint_interval_secs: u64 = 3;
     let mut interval_secs: Option<u64> = None;
+    let mut api_bind: Option<String> = None;
     let mut no_sleep = false;
 
     let mut i = 0usize;
@@ -214,6 +215,10 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
                     required_value(args, i, "--interval-secs")?,
                     "--interval-secs",
                 )?);
+                i += 1;
+            }
+            "--api-bind" => {
+                api_bind = Some(required_value(args, i, "--api-bind")?.to_string());
                 i += 1;
             }
             "--no-sleep" => no_sleep = true,
@@ -266,6 +271,7 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
             bounded_test_restart_limit,
             checkpoint_interval_secs,
             interval_secs,
+            api_bind,
             no_sleep,
             recover_stale_lease: parsed.recover_stale_lease,
         },

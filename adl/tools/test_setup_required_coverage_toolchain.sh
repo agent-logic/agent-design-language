@@ -17,6 +17,8 @@ if "$SCRIPT" configure >/dev/null 2>"$tmp_dir/configure.err"; then
   exit 1
 fi
 grep -F "configure requires a GITHUB_ENV path" "$tmp_dir/configure.err" >/dev/null
+grep -F "find /etc/apt/sources.list.d -type f -name '*google-chrome*'" "$SCRIPT" >/dev/null
+grep -F "find /etc/apt/sources.list.d -type f -name '*microsoft*'" "$SCRIPT" >/dev/null
 
 if command -v rustc >/dev/null 2>&1 \
   && command -v cargo >/dev/null 2>&1 \

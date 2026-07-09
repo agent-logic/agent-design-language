@@ -49,6 +49,37 @@ When a new command or control-plane surface should be recognized by
 If a path does not belong to any known rule, leave it unclassified and let
 finish fail closed.
 
+## Broad Runtime Owner-Lane Disposition
+
+When validation-manager escalation reports the Rust fast lane as too broad for
+ordinary PR-fast proof, `pr finish` may consume a tracked disposition only for
+the broad runtime owner-lane case. The disposition must be repo-relative,
+tracked or staged, and current for every `matched_paths` entry reported by the
+active validation profile.
+
+The executable proof command must be one of:
+
+- `bash adl/tools/run_owner_validation_lane.sh runtime`
+- `bash adl/tools/run_owner_validation_lane.sh runtime --build`
+- `bash adl/tools/run_owner_validation_lane.sh all --build`
+
+Minimal shape:
+
+```yaml
+schema_version: adl.release_gate_disposition.v1
+issue: 5042
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/long_lived_agent.rs
+  - adl/src/execute/mod.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime --build
+residual_ci_proof_required_before_merge: required
+```
+
+Finish rejects stale dispositions, missing paths, prose-only proof text, and
+non-runtime proof commands for this escalation.
+
 ## Non-goals
 
 - This registry does not replace the future validation manager.

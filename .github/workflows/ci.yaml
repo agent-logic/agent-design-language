@@ -52,6 +52,9 @@ jobs:
             echo "| profile run lanes | \`${{ steps.path-policy.outputs.validation_profile_run_lanes }}\` |"
             echo "| escalation required | \`${{ steps.path-policy.outputs.validation_profile_escalation_required }}\` |"
             echo "| escalation lanes | \`${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}\` |"
+            echo "| CI path-policy contracts | \`${{ steps.path-policy.outputs.ci_path_policy_contracts_required }}\` |"
+            echo "| CI contract toolchain | \`${{ steps.path-policy.outputs.ci_contract_toolchain_required }}\` |"
+            echo "| skill author contracts | \`${{ steps.path-policy.outputs.skill_author_contracts_required }}\` |"
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: .
 
@@ -88,27 +91,19 @@ jobs:
           tool: sccache
 
       - name: Install cargo-llvm-cov for CI contract checks
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.ci_contract_toolchain_required == 'true'
         uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # cargo-llvm-cov
 
       - name: Install cargo-nextest for CI contract checks
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.ci_contract_toolchain_required == 'true'
         uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # install-action
         with:
           tool: nextest
 
       - name: Install lld
         if: steps.path-policy.outputs.rust_required == 'true'
-        run: |
-          if ! command -v ld.lld >/dev/null 2>&1; then
-            # GitHub-hosted runners can carry browser apt sources unrelated to
-            # Rust. Keep lld installation isolated from transient Chrome mirror
-            # sync failures.
-            sudo find /etc/apt/sources.list.d -type f -name '*google-chrome*' -exec mv {} {}.disabled \; 2>/dev/null || true
-            sudo apt-get update
-            sudo apt-get install -y lld
-          fi
-          command -v ld.lld
+        run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld
+        working-directory: .
 
       - name: Configure Rust acceleration
         if: steps.path-policy.outputs.rust_required == 'true'
@@ -160,12 +155,12 @@ jobs:
         working-directory: .
 
       - name: PVF CI release policy contract
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.pvf_ci_release_contract_required == 'true'
         run: bash adl/tools/test_pvf_ci_release_policy.sh
         working-directory: .
 
       - name: tracked proof-validation lane contract
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.v0913_proof_contract_required == 'true'
         env:
           RUSTFLAGS: ""
           RUST_LINK_ACCEL: system
@@ -173,17 +168,17 @@ jobs:
         working-directory: .
 
       - name: PR-fast test lane contract
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true' || steps.path-policy.outputs.rust_required == 'true'
         run: bash adl/tools/test_run_pr_fast_test_lane.sh
         working-directory: .
 
       - name: slow-proof lane contract
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.slow_proof_contract_required == 'true'
         run: bash adl/tools/test_slow_proof_lane_contract.sh
         working-directory: .
 
       - name: authoritative coverage lane contract
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true' || steps.path-policy.outputs.full_coverage_required == 'true'
         run: bash adl/tools/test_run_authoritative_coverage_lane.sh
         working-directory: .
 
@@ -202,27 +197,27 @@ jobs:
         working-directory: .
 
       - name: repo-code-review contract check
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
         run: bash adl/tools/test_repo_code_review_skill_contracts.sh
         working-directory: .
 
       - name: test-generator contract check
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
         run: bash adl/tools/test_test_generator_skill_contracts.sh
         working-directory: .
 
       - name: demo-operator contract check
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
         run: bash adl/tools/test_demo_operator_skill_contracts.sh
         working-directory: .
 
       - name: arxiv-paper-writer contract check
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
         run: bash adl/tools/test_arxiv_paper_writer_skill_contracts.sh
         working-directory: .
 
       - name: ANRM/Gemma trace dataset tooling check
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
         run: bash adl/tools/test_build_v0911_anrm_trace_dataset.sh
         working-directory: .
 
@@ -247,17 +242,17 @@ jobs:
         working-directory: .
 
       - name: ci runtime contract check
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'
         run: bash adl/tools/test_ci_runtime_contracts.sh
         working-directory: .
 
       - name: ci runtime budget report contract check
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'
         run: bash adl/tools/test_summarize_ci_runtime.sh
         working-directory: .
 
       - name: ci cache/linker contract check
-        if: steps.path-policy.outputs.ci_contracts_required == 'true'
+        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'
         run: bash adl/tools/test_ci_cache_linker_contracts.sh
         working-directory: .
 
@@ -273,8 +268,20 @@ jobs:
           tool: nextest
 
       - name: test
-        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required != 'true'
         run: bash adl/tools/run_pr_fast_test_lane.sh --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.event.pull_request.head.sha }}"
+        working-directory: .
+
+      - name: test deferred to validation-manager escalation
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required == 'true'
+        run: |
+          echo "Ordinary PR-fast Rust test lane deferred because the validation manager selected an escalation profile."
+          echo "Selected profile: ${{ steps.path-policy.outputs.validation_profile_selected }}"
+          echo "Profile status: ${{ steps.path-policy.outputs.validation_profile_status }}"
+          echo "PR publication sufficient: ${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}"
+          echo "Run lanes: ${{ steps.path-policy.outputs.validation_profile_run_lanes }}"
+          echo "Escalation lanes: ${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}"
+          echo "Reason: ${{ steps.path-policy.outputs.validation_profile_primary_reason }}"
         working-directory: .
 
       - name: doc test

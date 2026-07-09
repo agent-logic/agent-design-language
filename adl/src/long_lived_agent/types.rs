@@ -189,11 +189,12 @@ pub struct RunOptions {
 }
 
 /// Supervisor options for daemon-style foreground runtime execution.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct DaemonOptions {
     pub bounded_test_restart_limit: Option<u64>,
     pub checkpoint_interval_secs: u64,
     pub interval_secs: Option<u64>,
+    pub api_bind: Option<String>,
     pub no_sleep: bool,
     pub recover_stale_lease: bool,
 }
