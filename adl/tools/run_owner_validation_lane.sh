@@ -95,16 +95,13 @@ build_owner_bins() {
   if [[ "$PRINT_PLAN" == "1" ]]; then
     return 0
   fi
-  local target_dir="${CARGO_TARGET_DIR:-$ROOT_DIR/adl/target}"
-  case "$target_dir" in
-    /*) ;;
-    *) target_dir="$ROOT_DIR/$target_dir" ;;
-  esac
-  export ADL_BIN="$target_dir/debug/adl"
-  export ADL_CSDLC_BIN="$target_dir/debug/adl-csdlc"
-  export ADL_RUNTIME_BIN="$target_dir/debug/adl-runtime"
-  export ADL_REVIEW_BIN="$target_dir/debug/adl-review"
-  export ADL_CSM_BIN="$target_dir/debug/csm"
+  run_command "install stable owner binaries" \
+    bash adl/tools/install_owner_binaries.sh --no-build
+  export ADL_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/adl"
+  export ADL_CSDLC_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/adl-csdlc"
+  export ADL_RUNTIME_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/adl-runtime"
+  export ADL_REVIEW_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/adl-review"
+  export ADL_CSM_BIN="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}/csm"
   export ADL_PACKAGE_VERSION
   ADL_PACKAGE_VERSION="$(package_version)"
 }

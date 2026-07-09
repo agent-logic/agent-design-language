@@ -54,6 +54,8 @@ if [[ "$ALLOW_CARGO_FALLBACK" != "1" ]]; then
 ERROR: missing dedicated adl-validate-structured-prompt binary.
 Expected one of:
 - ADL_STRUCTURED_PROMPT_VALIDATOR_BIN
+- $ROOT_DIR/.adl/bin/adl-validate-structured-prompt
+- $PRIMARY_ROOT/.adl/bin/adl-validate-structured-prompt
 - CARGO_TARGET_DIR/debug/adl-validate-structured-prompt
 - CARGO_LLVM_COV_TARGET_DIR/debug/adl-validate-structured-prompt
 - $ROOT_DIR/adl/target/debug/adl-validate-structured-prompt
@@ -61,7 +63,7 @@ Expected one of:
 - $ROOT_DIR/adl/target/llvm-cov-target/debug/adl-validate-structured-prompt
 - $PRIMARY_ROOT/adl/target/llvm-cov-target/debug/adl-validate-structured-prompt
 - adl-validate-structured-prompt on PATH
-Build it first with: cargo build --manifest-path $PRIMARY_ROOT/adl/Cargo.toml --bin adl-validate-structured-prompt
+Install it first with: bash adl/tools/install_owner_binaries.sh --bin adl-validate-structured-prompt
 Set ADL_STRUCTURED_PROMPT_VALIDATOR_ALLOW_CARGO_FALLBACK=1 only for explicit bootstrap/debug use.
 MSG
   exit 75
