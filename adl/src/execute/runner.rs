@@ -252,10 +252,9 @@ fn effective_prompt_with_defaults_from_doc(
         p.clone()
     } else if let Some(task_key) = step.task.as_ref() {
         doc.tasks.get(task_key).map(|t| t.prompt.clone())?
-    } else if let Some(agent_key) = step.agent.as_ref() {
-        doc.agents.get(agent_key).and_then(|a| a.prompt.clone())?
     } else {
-        return None;
+        let agent_key = step.agent.as_ref()?;
+        doc.agents.get(agent_key).and_then(|a| a.prompt.clone())?
     };
     if p.system.is_none() {
         if let Some(default_system) = doc.run.defaults.system.as_ref() {

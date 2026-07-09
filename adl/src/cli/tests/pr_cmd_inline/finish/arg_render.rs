@@ -5,21 +5,23 @@ use crate::cli::pr_cmd::finish_support::{
     ensure_finish_validation_profile_is_runnable, ensure_no_staged_issue_bundle_mutations,
     extra_pr_body_looks_like_issue_template, extract_markdown_section,
     finish_declared_paths_for_validation, finish_inputs_fingerprint,
+    finish_merge_mode_green_pr_satisfies_broad_runtime_escalation,
     finish_ready_only_path_is_allowed, issue_bundle_issue_number_from_repo_relative,
     load_finish_validation_profile, load_finish_validation_profile_for_execution,
     non_closing_lifecycle_line, normalize_docs_only_sor_text, normalize_sor_emitted_facts_fixture,
     open_pr_url_nonblocking, open_pr_url_nonblocking_with_timeout, push_finish_branch_with_git,
     ready_only_finish_pr_state_is_promotable, real_pr_finish,
-    reject_local_issue_bundle_paths_in_finish_paths, render_default_finish_validation,
+    reject_local_issue_bundle_paths_in_finish_paths,
+    release_gate_disposition_backed_finish_validation_plan, render_default_finish_validation,
     resolve_finish_issue_scope_and_slug, restage_finish_output_truth_paths,
     run_finish_validation_status, select_finish_validation_plan_for_finish,
-    validate_ready_only_finish_pr_state, validate_release_gate_disposition, FinishValidationMode,
-    FinishValidationPlan, FinishValidationProfile, FinishValidationProfileEscalation,
-    FinishValidationProfileEscalationReason, FinishValidationProfileRunItem,
-    FinishValidationProfileSurfaceItem, FinishValidationSplit, FinishValidationSplitFailClosed,
-    FinishValidationSplitFanoutPolicy, FinishValidationSplitFastLane,
-    FinishValidationSplitSlowFamily, FinishValidationVppRecord, SorFactEmissionContext,
-    SorFactIssueWatcherContext,
+    validate_ready_only_finish_pr_state, validate_release_gate_disposition,
+    FinishMergeProofContext, FinishValidationMode, FinishValidationPlan, FinishValidationProfile,
+    FinishValidationProfileEscalation, FinishValidationProfileEscalationReason,
+    FinishValidationProfileRunItem, FinishValidationProfileSurfaceItem, FinishValidationSplit,
+    FinishValidationSplitFailClosed, FinishValidationSplitFanoutPolicy,
+    FinishValidationSplitFastLane, FinishValidationSplitSlowFamily, FinishValidationVppRecord,
+    SorFactEmissionContext, SorFactIssueWatcherContext,
 };
 use crate::cli::pr_cmd::git_support::commits_behind_origin_main;
 use crate::cli::pr_cmd::github::{PrValidationCheckReport, PrValidationReport};
@@ -94,6 +96,54 @@ fn ready_only_head_sha() -> &'static str {
     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 }
 
+fn successful_required_pr_checks() -> Vec<PrValidationCheckReport> {
+    vec![
+        PrValidationCheckReport {
+            name: "adl-ci".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "SUCCESS".to_string(),
+            job_run_id: "8804".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+        PrValidationCheckReport {
+            name: "adl-coverage".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "SUCCESS".to_string(),
+            job_run_id: "8805".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+    ]
+}
+
+fn broad_runtime_escalation_profile() -> FinishValidationProfile {
+    FinishValidationProfile {
+        selected_profile: "escalated_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "too_many_focused_filters_require_full_nextest".to_string(),
+                matched_paths: vec![
+                    "adl/src/provider_adapter.rs".to_string(),
+                    "adl/src/provider/http_family.rs".to_string(),
+                ],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: Some(
+                    "Route this broad provider/runtime change to owner-lane or current CI proof."
+                        .to_string(),
+                ),
+            }],
+        },
+    }
+}
+
 #[test]
 fn finish_ready_only_path_is_limited_to_clean_ready_non_merge_calls() {
     assert!(finish_ready_only_path_is_allowed(true, false, false, true));
@@ -105,6 +155,107 @@ fn finish_ready_only_path_is_limited_to_clean_ready_non_merge_calls() {
     assert!(!finish_ready_only_path_is_allowed(
         true, false, false, false
     ));
+}
+
+#[test]
+fn merge_mode_green_github_checks_satisfy_broad_runtime_escalation() {
+    let profile = broad_runtime_escalation_profile();
+    let mut report = ready_only_validation_report("ready_to_merge_or_review");
+    report.checks = successful_required_pr_checks();
+    let merge_proof = FinishMergeProofContext {
+        actual_base: "main",
+        expected_base: "main",
+        expected_head: ready_only_head_sha(),
+        closing_issues: &[5042],
+        issue: 5042,
+        no_close: false,
+    };
+
+    let accepted = finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+        &profile,
+        &report,
+        &merge_proof,
+    )
+    .expect("green required GitHub checks should satisfy merge-mode broad Rust escalation");
+
+    assert!(accepted);
+}
+
+#[test]
+fn merge_mode_green_github_checks_ignore_stale_duplicate_failures() {
+    let profile = broad_runtime_escalation_profile();
+    let mut report = ready_only_validation_report("ready_to_merge_or_review");
+    report.checks = vec![
+        PrValidationCheckReport {
+            name: "adl-ci".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "FAILURE".to_string(),
+            job_run_id: "8801".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+        PrValidationCheckReport {
+            name: "adl-ci".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "SUCCESS".to_string(),
+            job_run_id: "8804".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+        PrValidationCheckReport {
+            name: "adl-coverage".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "SUCCESS".to_string(),
+            job_run_id: "8805".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+    ];
+    let merge_proof = FinishMergeProofContext {
+        actual_base: "main",
+        expected_base: "main",
+        expected_head: ready_only_head_sha(),
+        closing_issues: &[5042],
+        issue: 5042,
+        no_close: false,
+    };
+
+    let accepted = finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+        &profile,
+        &report,
+        &merge_proof,
+    )
+    .expect(
+        "newer successful duplicate GitHub check should satisfy merge-mode broad Rust escalation",
+    );
+
+    assert!(accepted);
+}
+
+#[test]
+fn merge_mode_green_github_checks_fail_closed_when_coverage_missing() {
+    let profile = broad_runtime_escalation_profile();
+    let mut report = ready_only_validation_report("ready_to_merge_or_review");
+    report.checks = successful_required_pr_checks()
+        .into_iter()
+        .filter(|check| check.name != "adl-coverage")
+        .collect();
+    let merge_proof = FinishMergeProofContext {
+        actual_base: "main",
+        expected_base: "main",
+        expected_head: ready_only_head_sha(),
+        closing_issues: &[5042],
+        issue: 5042,
+        no_close: false,
+    };
+
+    let err = finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+        &profile,
+        &report,
+        &merge_proof,
+    )
+    .expect_err("missing adl-coverage must fail closed");
+
+    assert!(err
+        .to_string()
+        .contains("required GitHub check 'adl-coverage' is missing"));
 }
 
 #[test]
@@ -5775,6 +5926,186 @@ residual_ci_proof_required_before_merge: required
         Path::new("docs/review/slow-pr-cmd.yaml"),
     )
     .expect("valid slow PR-command disposition should pass");
+}
+
+#[test]
+fn broad_runtime_owner_lane_disposition_builds_publishable_finish_plan() {
+    let repo = unique_temp_dir("adl-pr-finish-broad-runtime-owner-disposition-valid");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/broad-runtime-owner.yaml"),
+        r#"issue: 5042
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/long_lived_agent.rs
+  - adl/src/execute/mod.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime --build
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("broad runtime owner disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/broad-runtime-owner.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "escalated_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "too_many_focused_filters_require_full_nextest".to_string(),
+                matched_paths: vec![
+                    "adl/src/long_lived_agent.rs".to_string(),
+                    "adl/src/execute/mod.rs".to_string(),
+                ],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: Some(
+                    "Route this broad runtime change to the runtime owner lane.".to_string(),
+                ),
+            }],
+        },
+    };
+
+    let plan = release_gate_disposition_backed_finish_validation_plan(
+        &repo,
+        5042,
+        &profile,
+        Some(Path::new("docs/review/broad-runtime-owner.yaml")),
+    )
+    .expect("broad runtime owner disposition should validate")
+    .expect("broad runtime owner disposition should produce a plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/run_owner_validation_lane.sh runtime --build".to_string()));
+}
+
+#[test]
+fn broad_runtime_owner_lane_disposition_fails_closed_when_current_path_missing() {
+    let repo = unique_temp_dir("adl-pr-finish-broad-runtime-owner-disposition-stale");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/broad-runtime-owner.yaml"),
+        r#"issue: 5042
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/long_lived_agent.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime --build
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("broad runtime owner disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/broad-runtime-owner.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "escalated_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "broad_rust_surface_requires_full_nextest".to_string(),
+                matched_paths: vec![
+                    "adl/src/long_lived_agent.rs".to_string(),
+                    "adl/src/execute/mod.rs".to_string(),
+                ],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: None,
+            }],
+        },
+    };
+
+    let err = validate_release_gate_disposition(
+        &repo,
+        5042,
+        &profile,
+        Path::new("docs/review/broad-runtime-owner.yaml"),
+    )
+    .expect_err("stale broad runtime owner disposition should fail closed");
+    assert!(err
+        .to_string()
+        .contains("does not cover required release-gate surface"));
+}
+
+#[test]
+fn broad_runtime_owner_lane_disposition_rejects_non_executable_proof_text() {
+    let repo = unique_temp_dir("adl-pr-finish-broad-runtime-owner-disposition-bad-command");
+    fs::create_dir_all(repo.join("docs/review")).expect("review dir");
+    init_finish_helper_git_repo(&repo);
+    fs::write(
+        repo.join("docs/review/broad-runtime-owner.yaml"),
+        r#"issue: 5042
+disposition: approved_with_runtime_owner_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/long_lived_agent.rs
+reviewer_or_review_mode: bounded runtime owner-lane review
+focused_validation_run: runtime owner lane passed locally
+residual_ci_proof_required_before_merge: required
+"#,
+    )
+    .expect("broad runtime owner disposition");
+    assert!(Command::new("git")
+        .args(["add", "docs/review/broad-runtime-owner.yaml"])
+        .current_dir(&repo)
+        .status()
+        .expect("git add")
+        .success());
+    let profile = FinishValidationProfile {
+        selected_profile: "escalated_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "too_many_focused_filters_require_full_nextest".to_string(),
+                matched_paths: vec!["adl/src/long_lived_agent.rs".to_string()],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: None,
+            }],
+        },
+    };
+
+    let err = validate_release_gate_disposition(
+        &repo,
+        5042,
+        &profile,
+        Path::new("docs/review/broad-runtime-owner.yaml"),
+    )
+    .expect_err("non-executable broad runtime owner proof text should fail closed");
+    assert!(err
+        .to_string()
+        .contains("must declare an executable runtime owner proof command"));
 }
 
 #[test]

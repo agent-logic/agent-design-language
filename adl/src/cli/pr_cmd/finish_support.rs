@@ -178,6 +178,24 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
             mode: FinishValidationMode::DocsOnly,
             commands: Vec::new(),
         }
+    } else if parsed.merge_mode && !has_uncommitted && staged_diff_empty {
+        if let Some(plan) = merge_mode_green_pr_backed_finish_validation_plan(
+            &repo_root,
+            &repo,
+            &branch,
+            parsed.issue,
+            &validation_changed_paths,
+            parsed.no_close,
+        )? {
+            plan
+        } else {
+            select_finish_validation_plan_for_finish_with_release_gate_disposition(
+                parsed.issue,
+                &parsed.paths,
+                &validation_changed_paths,
+                parsed.release_gate_disposition.as_deref(),
+            )?
+        }
     } else {
         select_finish_validation_plan_for_finish_with_release_gate_disposition(
             parsed.issue,
@@ -843,6 +861,148 @@ fn ensure_ready_only_finish_pr_is_green_and_linked(
         issue,
         no_close,
     )
+}
+
+fn merge_mode_green_pr_backed_finish_validation_plan(
+    repo_root: &Path,
+    repo: &str,
+    branch: &str,
+    issue: u32,
+    changed_paths: &[String],
+    no_close: bool,
+) -> Result<Option<FinishValidationPlan>> {
+    let finish_profile = load_finish_validation_profile(repo_root, changed_paths)?;
+    if !finish_validation_profile_requires_broad_runtime_owner_lane_disposition(&finish_profile) {
+        return Ok(None);
+    }
+    let Some(existing) = current_pr_url(repo, branch)? else {
+        return Ok(None);
+    };
+    let pr_base = resolve_finish_pr_base(repo_root, branch)?;
+    let local_head = current_head_sha(repo_root)?;
+    let report = pr_validation_report(repo, &existing)?;
+    let actual_base = pr_view_base_ref_finish_existing(repo, &existing)?;
+    let closing_issues = if no_close {
+        Vec::new()
+    } else {
+        pr_closing_issue_numbers_finish_existing(repo, &existing)?
+    };
+    let merge_proof = FinishMergeProofContext {
+        actual_base: &actual_base,
+        expected_base: &pr_base,
+        expected_head: &local_head,
+        closing_issues: &closing_issues,
+        issue,
+        no_close,
+    };
+    if !finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+        &finish_profile,
+        &report,
+        &merge_proof,
+    )? {
+        return Ok(None);
+    }
+    Ok(Some(FinishValidationPlan {
+        mode: FinishValidationMode::LargerBinaryFocused,
+        commands: vec![
+            "bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string(),
+            "git diff --check".to_string(),
+        ],
+    }))
+}
+
+pub(super) struct FinishMergeProofContext<'a> {
+    pub(super) actual_base: &'a str,
+    pub(super) expected_base: &'a str,
+    pub(super) expected_head: &'a str,
+    pub(super) closing_issues: &'a [u32],
+    pub(super) issue: u32,
+    pub(super) no_close: bool,
+}
+
+pub(super) fn finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+    profile: &FinishValidationProfile,
+    report: &PrValidationReport,
+    merge_proof: &FinishMergeProofContext<'_>,
+) -> Result<bool> {
+    if !finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile) {
+        return Ok(false);
+    }
+    validate_ready_only_finish_pr_state(
+        report,
+        merge_proof.actual_base,
+        merge_proof.expected_base,
+        merge_proof.expected_head,
+        merge_proof.closing_issues,
+        merge_proof.issue,
+        merge_proof.no_close,
+    )
+    .context("finish --merge: existing PR is not green, current, and linked enough to consume GitHub checks for broad Rust escalation")?;
+    ensure_required_merge_checks_green(report, &["adl-ci", "adl-coverage"])?;
+    Ok(true)
+}
+
+fn ensure_required_merge_checks_green(
+    report: &PrValidationReport,
+    required: &[&str],
+) -> Result<()> {
+    if !report.pending_checks.is_empty() {
+        bail!(
+            "finish --merge: cannot consume GitHub checks for broad Rust escalation while checks are pending: {}",
+            report
+                .pending_checks
+                .iter()
+                .map(|check| check.name.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+    }
+    if !report.failed_checks.is_empty() {
+        bail!(
+            "finish --merge: cannot consume GitHub checks for broad Rust escalation while checks failed: {}",
+            report
+                .failed_checks
+                .iter()
+                .map(|check| check.name.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+    }
+    for required_name in required {
+        let Some(check) = report
+            .checks
+            .iter()
+            .filter(|check| check.name.trim() == *required_name)
+            .max_by(|left, right| {
+                compare_validation_check_run_ids(&left.job_run_id, &right.job_run_id)
+            })
+        else {
+            bail!(
+                "finish --merge: required GitHub check '{}' is missing from the current PR validation report",
+                required_name
+            );
+        };
+        if !check.status.eq_ignore_ascii_case("COMPLETED")
+            || !check.conclusion.eq_ignore_ascii_case("SUCCESS")
+        {
+            bail!(
+                "finish --merge: required GitHub check '{}' is not green for current head (status={}, conclusion={})",
+                required_name,
+                check.status,
+                check.conclusion
+            );
+        }
+    }
+    Ok(())
+}
+
+fn compare_validation_check_run_ids(left: &str, right: &str) -> std::cmp::Ordering {
+    match (left.parse::<u64>(), right.parse::<u64>()) {
+        (Ok(left_id), Ok(right_id)) => left_id.cmp(&right_id),
+        (Ok(_), Err(_)) => std::cmp::Ordering::Greater,
+        (Err(_), Ok(_)) => std::cmp::Ordering::Less,
+        (Err(_), Err(_)) => std::cmp::Ordering::Equal,
+    }
 }
 
 pub(super) fn validate_ready_only_finish_pr_state(
@@ -2897,7 +3057,7 @@ fn profile_backed_finish_validation_plan(
     Some(FinishValidationPlan { mode, commands })
 }
 
-fn release_gate_disposition_backed_finish_validation_plan(
+pub(super) fn release_gate_disposition_backed_finish_validation_plan(
     repo_root: &Path,
     issue_number: u32,
     profile: &FinishValidationProfile,
@@ -2914,9 +3074,22 @@ fn release_gate_disposition_backed_finish_validation_plan(
         return Ok(None);
     };
     validate_release_gate_disposition(repo_root, issue_number, profile, disposition_path)?;
+    let broad_runtime_owner_proof_required =
+        finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile);
+    let broad_runtime_owner_proof = if broad_runtime_owner_proof_required {
+        Some(broad_runtime_owner_lane_proof_command_from_disposition(
+            repo_root,
+            disposition_path,
+        )?)
+    } else {
+        None
+    };
 
     for item in &profile.run {
         ensure_finish_validation_command_supported(repo_root, &item.command)?;
+    }
+    if let Some(command) = broad_runtime_owner_proof.as_deref() {
+        ensure_finish_validation_command_supported(repo_root, command)?;
     }
 
     let mut commands = vec![
@@ -2932,7 +3105,14 @@ fn release_gate_disposition_backed_finish_validation_plan(
     for item in &profile.run {
         push_finish_validation_command(&mut commands, &item.command);
     }
-    let mode = profile_backed_finish_validation_mode(issue_number, profile);
+    if let Some(command) = broad_runtime_owner_proof {
+        push_finish_validation_command(&mut commands, &command);
+    }
+    let mode = if broad_runtime_owner_proof_required {
+        FinishValidationMode::LargerBinaryFocused
+    } else {
+        profile_backed_finish_validation_mode(issue_number, profile)
+    };
     Ok(Some(FinishValidationPlan { mode, commands }))
 }
 
@@ -2963,6 +3143,23 @@ fn finish_validation_profile_accepts_explicit_disposition(
 ) -> bool {
     finish_validation_profile_requires_release_gate_disposition(profile)
         || finish_validation_profile_requires_slow_lane_disposition(profile)
+        || finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile)
+}
+
+fn finish_validation_profile_requires_broad_runtime_owner_lane_disposition(
+    profile: &FinishValidationProfile,
+) -> bool {
+    profile.escalation.required
+        && profile.escalation.reasons.iter().all(|reason| {
+            reason.lane_id == "rust_pr_fast"
+                && reason.status == "escalated"
+                && matches!(
+                    reason.reason.as_str(),
+                    "broad_rust_surface_requires_full_nextest"
+                        | "too_many_focused_filters_require_full_nextest"
+                )
+        })
+        && !profile.escalation.reasons.is_empty()
 }
 
 pub(super) fn validate_release_gate_disposition(
@@ -3032,11 +3229,14 @@ pub(super) fn validate_release_gate_disposition(
         &["reviewer_or_review_mode", "reviewer", "review_mode"],
         "reviewer/review mode",
     )?;
-    require_nonempty_yaml_string(
+    let focused_validation_run = require_nonempty_yaml_string(
         mapping,
         &["focused_validation_run", "focused_validation", "validation"],
         "focused validation run",
     )?;
+    if finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile) {
+        validate_broad_runtime_owner_lane_proof_command(&focused_validation_run)?;
+    }
     require_nonempty_yaml_string(
         mapping,
         &[
@@ -3068,6 +3268,47 @@ pub(super) fn validate_release_gate_disposition(
     Ok(())
 }
 
+fn broad_runtime_owner_lane_proof_command_from_disposition(
+    repo_root: &Path,
+    disposition_path: &Path,
+) -> Result<String> {
+    let disposition_abs = repo_root.join(disposition_path);
+    let body = fs::read_to_string(&disposition_abs).with_context(|| {
+        format!(
+            "finish: failed to read broad runtime owner-lane disposition '{}'",
+            disposition_path.display()
+        )
+    })?;
+    let value: Value = serde_yaml::from_str(&body).with_context(|| {
+        format!(
+            "finish: broad runtime owner-lane disposition '{}' is not valid YAML/JSON",
+            disposition_path.display()
+        )
+    })?;
+    let mapping = value.as_mapping().ok_or_else(|| {
+        anyhow!("finish: broad runtime owner-lane disposition must be a YAML/JSON mapping")
+    })?;
+    let command = require_nonempty_yaml_string(
+        mapping,
+        &["focused_validation_run", "focused_validation", "validation"],
+        "focused validation run",
+    )?;
+    validate_broad_runtime_owner_lane_proof_command(&command)?;
+    Ok(command)
+}
+
+fn validate_broad_runtime_owner_lane_proof_command(command: &str) -> Result<()> {
+    match command.trim() {
+        "bash adl/tools/run_owner_validation_lane.sh runtime"
+        | "bash adl/tools/run_owner_validation_lane.sh runtime --build"
+        | "bash adl/tools/run_owner_validation_lane.sh all --build" => Ok(()),
+        other => bail!(
+            "finish: broad runtime owner-lane disposition must declare an executable runtime owner proof command, got '{}'",
+            sanitize_validation_profile_command(other)
+        ),
+    }
+}
+
 fn ensure_release_gate_disposition_is_in_index(repo_root: &Path, path: &Path) -> Result<()> {
     let path = path_str(path)?;
     let result = run_capture_allow_failure(
@@ -3095,7 +3336,14 @@ fn release_gate_matched_paths(profile: &FinishValidationProfile) -> Vec<String> 
         let slow_lane_required = reason.lane_id == "rust_pr_fast"
             && reason.status == "escalated"
             && reason.reason == "slow_pr_cmd_e2e_surface_requires_explicit_slow_lane";
-        if release_gate_required || slow_lane_required {
+        let broad_runtime_required = reason.lane_id == "rust_pr_fast"
+            && reason.status == "escalated"
+            && matches!(
+                reason.reason.as_str(),
+                "broad_rust_surface_requires_full_nextest"
+                    | "too_many_focused_filters_require_full_nextest"
+            );
+        if release_gate_required || slow_lane_required || broad_runtime_required {
             for path in &reason.matched_paths {
                 if !paths.iter().any(|existing| existing == path) {
                     paths.push(path.clone());
@@ -3315,6 +3563,9 @@ fn ensure_finish_validation_command_supported(repo_root: &Path, command: &str) -
         manager_backed_pr_fast_changed_files_arg(command)?;
         return Ok(());
     }
+    if finish_validation_command_is_owner_lane(command) {
+        return Ok(());
+    }
     if !repo_root
         .join(FINISH_VALIDATION_SELECTOR_MANIFEST)
         .is_file()
@@ -3403,6 +3654,9 @@ fn registered_validation_atom_supported(command: &str) -> bool {
         ["bash", "adl/tools/run_owner_validation_lane.sh", lane] => {
             matches!(*lane, "csdlc" | "runtime" | "review")
         }
+        ["bash", "adl/tools/run_owner_validation_lane.sh", lane, "--build"] => {
+            matches!(*lane, "runtime" | "review" | "all")
+        }
         ["python3", "-m", "py_compile", scripts @ ..] => {
             !scripts.is_empty()
                 && scripts
@@ -3432,6 +3686,18 @@ fn registered_validation_atom_supported(command: &str) -> bool {
         }
         _ => false,
     }
+}
+
+fn finish_validation_command_is_owner_lane(command: &str) -> bool {
+    matches!(
+        command.trim(),
+        "bash adl/tools/run_owner_validation_lane.sh csdlc"
+            | "bash adl/tools/run_owner_validation_lane.sh runtime"
+            | "bash adl/tools/run_owner_validation_lane.sh runtime --build"
+            | "bash adl/tools/run_owner_validation_lane.sh review"
+            | "bash adl/tools/run_owner_validation_lane.sh review --build"
+            | "bash adl/tools/run_owner_validation_lane.sh all --build"
+    )
 }
 
 fn execute_registered_validation_command(repo_root: &Path, command: &str) -> Result<bool> {
