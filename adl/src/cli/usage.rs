@@ -138,6 +138,7 @@ Examples:
   adl provider setup chatgpt
   adl provider setup claude
   adl provider setup openrouter
+  adl provider setup bedrock
   adl provider setup z_ai
   adl provider setup anthropic --out ./.adl/provider-setup/anthropic
   adl godel run --run-id run-745-a --workflow-id wf-godel-loop --failure-code tool_failure --failure-summary \"step failed with deterministic parse error\" --evidence-ref runs/run-745-a/run_status.json

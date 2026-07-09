@@ -1,14 +1,17 @@
 //! Long-lived agent orchestration surfaces.
 use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, Duration as ChronoDuration, Utc};
+use serde::Serialize;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::fs::{self, File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
+use std::thread;
 use std::time::Duration;
 
 use crate::chronosense::{ChronosenseRuntimeService, ChronosenseRuntimeServiceConfig};
+use crate::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
 use crate::runtime_aws_signal::publish_csm_governed_notice_signal;
 use crate::{adl, execute, resolve, trace};
 
@@ -140,6 +143,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
     let checkpoint_interval_secs =
         effective_checkpoint_interval_secs(&loaded, options.checkpoint_interval_secs)?;
     let runtime_context = CsmRuntimeContext::new()?;
+    let runtime_api_status = start_embedded_runtime_api_module(spec_path, &options);
     let mut restart_count = 0u64;
     let mut last_child_exit = None;
     let _ = write_daemon_status(
@@ -170,8 +174,8 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
                 "restart_policy": daemon_restart_policy(),
                 "service_mode": daemon_service_mode(options.no_sleep),
                 "bounded_test_mode": options.no_sleep,
-            "agent_configured_max_cycles": loaded.spec.heartbeat.max_cycles,
-            "agent_max_cycles_lifetime_boundary": "ignored_in_daemon_service_mode",
+            "cycle_count_lifetime_boundary": "not_applicable",
+            "runtime_api": runtime_api_status,
             "unsupported_permanence_claims": unsupported_permanence_claims()
         }),
     )?;
@@ -533,6 +537,51 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
     }
 }
 
+fn start_embedded_runtime_api_module(spec_path: &Path, options: &DaemonOptions) -> Value {
+    let Some(bind) = options.api_bind.clone() else {
+        return json!({
+            "status": "disabled",
+            "reason": "api_bind_not_configured"
+        });
+    };
+    let api_options = CsmRuntimeApiOptions {
+        spec_path: spec_path.to_path_buf(),
+        bind: bind.clone(),
+        test_max_requests: None,
+        idle_timeout_ms: None,
+        otel_status_path: None,
+        otel_log_path: None,
+    };
+    thread::Builder::new()
+        .name("csm-runtime-api".to_string())
+        .spawn(move || {
+            if let Err(err) = serve_runtime_api(api_options) {
+                let error = err
+                    .to_string()
+                    .replace(['\n', '\r', '\t'], " ")
+                    .replace(' ', "_");
+                eprintln!(
+                    "adl_event schema=adl.observability.event.v1 command=csm stage=runtime_api_embedded result=failed error={error}"
+                );
+            }
+        })
+        .map(|_| {
+            json!({
+                "status": "embedded",
+                "bind": bind,
+                "thread": "csm-runtime-api",
+                "pid_model": "same_process_as_csm_daemon"
+            })
+        })
+        .unwrap_or_else(|err| {
+            json!({
+                "status": "failed_to_start",
+                "bind": bind,
+                "error": err.to_string()
+            })
+        })
+}
+
 fn daemon_interval_secs(loaded: &LoadedAgentSpec, override_secs: Option<u64>) -> Result<u64> {
     match override_secs.or(loaded.spec.heartbeat.interval_secs) {
         Some(0) => Err(anyhow!(
@@ -718,6 +767,366 @@ pub fn stop(spec_path: &Path, reason: &str) -> Result<StatusRecord> {
         "operator",
         "operator_stop_requested",
     )
+}
+
+pub fn stop_requested(spec_path: &Path) -> Result<bool> {
+    let loaded = load_spec(spec_path)?;
+    ensure_state_root(&loaded)?;
+    Ok(read_stop(&loaded)?.is_some())
+}
+
+pub fn clear_stop_for_service_start(spec_path: &Path, requested_by: &str) -> Result<Value> {
+    let loaded = load_spec(spec_path)?;
+    ensure_state_root(&loaded)?;
+    let existing = read_stop(&loaded)?;
+    if existing.is_some() {
+        remove_stop(&loaded)?;
+    }
+    append_operator_event(
+        &loaded,
+        "service_start_cleared_stop_intent",
+        json!({
+            "requested_by": requested_by,
+            "had_stop_intent": existing.is_some(),
+            "stop_ref": "stop.json",
+            "reason": "csm service start requested a new runtime lifetime"
+        }),
+    )?;
+    if existing.is_some() {
+        let status = status_with_state(
+            &loaded,
+            AgentStatusState::Idle,
+            None,
+            None,
+            None,
+            false,
+            None,
+        );
+        persist_status(&loaded, &status, "service_start_cleared_stop")?;
+    }
+    Ok(json!({
+        "schema": "adl.csm.service_start_clear_stop.v1",
+        "status": "completed",
+        "had_stop_intent": existing.is_some(),
+        "stop_ref": "stop.json"
+    }))
+}
+
+#[derive(Debug, Clone)]
+pub struct GovernedStopRequest {
+    pub reason: String,
+    pub operator_identity: String,
+    pub authorization: String,
+    pub intent: String,
+    pub requested_at: DateTime<Utc>,
+}
+
+pub fn governed_stop(spec_path: &Path, request: GovernedStopRequest) -> Result<Value> {
+    validate_governed_stop_request(&request)?;
+    let loaded = load_spec(spec_path)?;
+    ensure_state_root(&loaded)?;
+    let runtime_context = CsmRuntimeContext::new()?;
+    let restart_count = daemon_restart_count_hint(&loaded);
+    let governed_stop_id = governed_stop_id(&loaded, &request);
+
+    let mut checkpoint_status = status(spec_path)?;
+    checkpoint_status.stop_requested = false;
+    persist_status(
+        &loaded,
+        &checkpoint_status,
+        "governed_emergency_stop_pre_stop_checkpoint",
+    )?;
+    emit_daemon_event(
+        &runtime_context,
+        &loaded,
+        "governed_emergency_stop_checkpoint",
+        "completed",
+        restart_count,
+        json!({
+            "governed_stop_id": governed_stop_id,
+            "checkpoint_reason": "governed_emergency_stop_pre_stop_checkpoint",
+            "checkpoint_ref": "continuity_checkpoint.json",
+            "status_ref": "status.json"
+        }),
+    )?;
+
+    let safe_fail = record_safe_fail_event(
+        &runtime_context,
+        &loaded,
+        SafeFailRecord {
+            status: &checkpoint_status,
+            trigger: "governed_emergency_stop_pre_stop",
+            restart_count,
+            bounded_test_restart_limit: None,
+            last_child_exit: None,
+            details: json!({
+                "governed_stop_id": governed_stop_id,
+                "checkpoint_reason": "governed_emergency_stop_pre_stop_checkpoint",
+                "requested_by": request.operator_identity.clone(),
+                "authorization_ref": governed_authorization_ref(&request.authorization),
+                "intent": request.intent.clone(),
+                "recoverability_requirement": "checkpoint_and_safe_fail_before_stop"
+            }),
+        },
+    )?;
+
+    let governed_stop = json!({
+        "schema": "adl.csm.governed_stop.v1",
+        "governed_stop_id": governed_stop_id,
+        "runtime_owner": "csm",
+        "agent_instance_id": loaded.spec.agent_instance_id.clone(),
+        "classification": "governed_emergency_stop",
+        "distinguishes_from": [
+            "crash",
+            "budget_exhaustion",
+            "test_harness_termination",
+            "service_manager_failure",
+            "ordinary_api_request"
+        ],
+        "operator_intent": {
+            "reason": request.reason.clone(),
+            "operator_identity": request.operator_identity.clone(),
+            "authorization_ref": governed_authorization_ref(&request.authorization),
+            "intent": request.intent.clone(),
+            "requested_at": request.requested_at,
+            "recorded_at": Utc::now()
+        },
+        "pre_stop_checkpoint": {
+            "status": "completed",
+            "status_ref": "status.json",
+            "continuity_checkpoint_ref": "continuity_checkpoint.json",
+            "continuity_replay_manifest_ref": "continuity_replay_manifest.json"
+        },
+        "safe_fail": safe_fail,
+        "agent_recoverability": {
+            "state_before_stop": checkpoint_status.state.clone(),
+            "recoverability_class": "recoverable_checkpointed",
+            "recovery_refs": [
+                "status.json",
+                "continuity_checkpoint.json",
+                "continuity_replay_manifest.json",
+                "safe_fail_bundle.json"
+            ]
+        },
+        "authorization_policy": {
+            "required_fields": ["reason", "operator_identity", "authorization", "intent", "requested_at"],
+            "ordinary_api_requests_can_stop_runtime": false,
+            "runtime_budget": "not_applicable"
+        }
+    });
+    write_json_pretty(&governed_stop_path(&loaded), &governed_stop)?;
+    record_lifecycle_lifelog(
+        &loaded,
+        "governed_emergency_stop_requested",
+        &governed_stop_id,
+        &governed_stop,
+    )?;
+    append_operator_event(
+        &loaded,
+        "governed_emergency_stop_requested",
+        json!({
+            "governed_stop_id": governed_stop_id,
+            "reason": governed_stop["operator_intent"]["reason"].clone(),
+            "operator_identity": governed_stop["operator_intent"]["operator_identity"].clone(),
+            "authorization_ref": governed_stop["operator_intent"]["authorization_ref"].clone(),
+            "intent": governed_stop["operator_intent"]["intent"].clone(),
+            "checkpoint_ref": "continuity_checkpoint.json",
+            "safe_fail_ref": "safe_fail_bundle.json",
+            "governed_stop_ref": "governed_stop.json"
+        }),
+    )?;
+
+    let stopped = write_stop_record(
+        &loaded,
+        governed_stop["operator_intent"]["reason"]
+            .as_str()
+            .unwrap_or("governed emergency stop requested"),
+        governed_stop["operator_intent"]["operator_identity"]
+            .as_str()
+            .unwrap_or("operator"),
+        "governed_emergency_stop_recorded",
+    )?;
+    let daemon_status = write_daemon_status(
+        &runtime_context,
+        &loaded,
+        DaemonStatusInput {
+            state: "governed_stopped",
+            bounded_test_mode: false,
+            restart_count,
+            bounded_test_restart_limit: None,
+            checkpoint_interval_secs: loaded.spec.checkpoint.interval_secs.unwrap_or(1).max(1),
+            last_event: "governed_emergency_stop_recorded",
+            last_child_exit: None,
+            next_backoff_secs: 0,
+        },
+    )?;
+    emit_daemon_event(
+        &runtime_context,
+        &loaded,
+        "governed_emergency_stop_recorded",
+        "completed",
+        restart_count,
+        json!({
+            "governed_stop_id": governed_stop_id,
+            "governed_stop_ref": "governed_stop.json",
+            "stop_ref": "stop.json",
+            "daemon_status_ref": "daemon_status.json"
+        }),
+    )?;
+    record_lifecycle_lifelog(
+        &loaded,
+        "governed_emergency_stop_recorded",
+        &governed_stop_id,
+        &json!({
+            "status": "completed",
+            "stop_ref": "stop.json",
+            "daemon_status_ref": "daemon_status.json"
+        }),
+    )?;
+    let notice = record_governed_runtime_notice(
+        &runtime_context,
+        &loaded,
+        GovernedNoticeInput {
+            notice_kind: "governed_emergency_stop",
+            severity: "critical",
+            trigger: "governed_emergency_stop",
+            status: &stopped,
+            restart_count,
+            bounded_test_restart_limit: None,
+            last_child_exit: None,
+            safe_fail: governed_stop["safe_fail"].clone(),
+            details: json!({
+                "governed_stop_id": governed_stop_id,
+                "governed_stop_ref": "governed_stop.json",
+                "stop_ref": "stop.json",
+                "daemon_status_ref": "daemon_status.json",
+                "lifecycle_lifelog_db_ref": "csm_lifecycle_lifelog.db.jsonl",
+                "operator_identity": governed_stop["operator_intent"]["operator_identity"].clone(),
+                "authorization_ref": governed_stop["operator_intent"]["authorization_ref"].clone()
+            }),
+        },
+    )?;
+
+    Ok(json!({
+        "schema": "adl.csm.governed_stop.result.v1",
+        "status": "completed",
+        "runtime_owner": "csm",
+        "governed_stop_id": governed_stop_id,
+        "classification": "governed_emergency_stop",
+        "governed_stop_ref": "governed_stop.json",
+        "stop_ref": "stop.json",
+        "status_ref": "status.json",
+        "daemon_status_ref": "daemon_status.json",
+        "continuity_checkpoint_ref": "continuity_checkpoint.json",
+        "safe_fail_ref": "safe_fail_bundle.json",
+        "lifecycle_lifelog_db_ref": "csm_lifecycle_lifelog.db.jsonl",
+        "notice": notice,
+        "agent_recoverability": governed_stop["agent_recoverability"].clone(),
+        "daemon_status": daemon_status
+    }))
+}
+
+fn validate_governed_stop_request(request: &GovernedStopRequest) -> Result<()> {
+    let fields = [
+        ("--reason", request.reason.as_str()),
+        ("--operator", request.operator_identity.as_str()),
+        ("--authorization", request.authorization.as_str()),
+        ("--intent", request.intent.as_str()),
+    ];
+    for (name, value) in fields {
+        if value.trim().is_empty() {
+            return Err(anyhow!("csm governed-stop requires non-empty {name}"));
+        }
+    }
+    let intent = request.intent.trim();
+    if !matches!(
+        intent,
+        "emergency_polis_stop" | "operator_safety_stop" | "recoverability_drill"
+    ) {
+        return Err(anyhow!(
+            "csm governed-stop unsupported --intent '{intent}' (expected emergency_polis_stop, operator_safety_stop, or recoverability_drill)"
+        ));
+    }
+    Ok(())
+}
+
+fn governed_stop_id(loaded: &LoadedAgentSpec, request: &GovernedStopRequest) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(loaded.spec.agent_instance_id.as_bytes());
+    hasher.update([0xff]);
+    hasher.update(request.reason.trim().as_bytes());
+    hasher.update([0xff]);
+    hasher.update(request.operator_identity.trim().as_bytes());
+    hasher.update([0xff]);
+    hasher.update(request.intent.trim().as_bytes());
+    hasher.update([0xff]);
+    hasher.update(request.requested_at.to_rfc3339().as_bytes());
+    format!("csm-governed-stop-{:x}", hasher.finalize())
+}
+
+fn governed_authorization_ref(authorization: &str) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(authorization.trim().as_bytes());
+    format!("sha256:{:x}", hasher.finalize())
+}
+
+fn daemon_restart_count_hint(loaded: &LoadedAgentSpec) -> u64 {
+    read_json_optional::<Value>(&daemon_status_path(loaded))
+        .ok()
+        .flatten()
+        .and_then(|value| value.get("restart_count").and_then(Value::as_u64))
+        .unwrap_or(0)
+}
+
+fn record_lifecycle_lifelog<T: Serialize>(
+    loaded: &LoadedAgentSpec,
+    event: &str,
+    event_id: &str,
+    payload: &T,
+) -> Result<()> {
+    let payload = serde_json::to_value(payload).context("serialize lifecycle lifelog payload")?;
+    let sequence = lifecycle_lifelog_sequence(loaded)?;
+    let record = json!({
+        "schema": "adl.csm.lifecycle_lifelog.row.v1",
+        "database_schema": "adl.csm.lifecycle_lifelog.db.v1",
+        "sequence": sequence,
+        "event_id": event_id,
+        "event": event,
+        "runtime_owner": "csm",
+        "agent_instance_id": loaded.spec.agent_instance_id.clone(),
+        "recorded_at": Utc::now(),
+        "payload": payload
+    });
+    append_jsonl(&csm_lifecycle_lifelog_db_path(loaded), &record)?;
+    write_json_pretty(
+        &csm_lifecycle_lifelog_index_path(loaded),
+        &json!({
+            "schema": "adl.csm.lifecycle_lifelog.index.v1",
+            "database_schema": "adl.csm.lifecycle_lifelog.db.v1",
+            "database_ref": "csm_lifecycle_lifelog.db.jsonl",
+            "latest_sequence": sequence,
+            "latest_event_id": event_id,
+            "latest_event": event,
+            "retention_policy": "permanent_local_runtime_lifecycle_log",
+            "backend": "jsonl_database",
+            "future_backends": ["sqlite", "immutable_ledger"],
+            "updated_at": Utc::now()
+        }),
+    )?;
+    Ok(())
+}
+
+fn lifecycle_lifelog_sequence(loaded: &LoadedAgentSpec) -> Result<u64> {
+    let path = csm_lifecycle_lifelog_db_path(loaded);
+    if !path.exists() {
+        return Ok(1);
+    }
+    let file = File::open(&path).with_context(|| format!("failed opening {}", path.display()))?;
+    let count = BufReader::new(file)
+        .lines()
+        .filter(|line| line.is_ok())
+        .count();
+    Ok(count as u64 + 1)
 }
 
 pub fn inspect(spec_path: &Path, options: InspectOptions) -> Result<Value> {

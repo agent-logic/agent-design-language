@@ -114,6 +114,29 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             endpoint: None,
         },
     );
+    // AWS Bedrock hosted presets.
+    for (name, stable_ref, provider_model_id) in [
+        (
+            "bedrock:nova-lite-v1",
+            "hosted:adl-bedrock:amazon.nova-lite-v1:0",
+            "amazon.nova-lite-v1:0",
+        ),
+        (
+            "bedrock:nova-pro-v1",
+            "hosted:adl-bedrock:us.amazon.nova-pro-v1:0",
+            "us.amazon.nova-pro-v1:0",
+        ),
+    ] {
+        m.insert(
+            name,
+            ProviderProfilePreset {
+                kind: "bedrock",
+                default_model: Some(stable_ref),
+                provider_model_id: Some(provider_model_id),
+                endpoint: None,
+            },
+        );
+    }
     m.insert(
         "z_ai:glm-5",
         ProviderProfilePreset {
@@ -222,6 +245,11 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
         };
 
         let mut config = spec.config.clone();
+        if let Some(provider_model_id) = preset.provider_model_id {
+            config
+                .entry("provider_model_id".to_string())
+                .or_insert_with(|| Value::String(provider_model_id.to_string()));
+        }
         if let Some(endpoint) = preset.endpoint {
             match config.get("endpoint").and_then(|v| v.as_str()) {
                 Some(explicit) => validate_profile_endpoint(&provider_id, profile_name, explicit)?,
@@ -231,12 +259,6 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
                 }
             }
         }
-        if let Some(provider_model_id) = preset.provider_model_id {
-            config
-                .entry("provider_model_id".to_string())
-                .or_insert_with(|| Value::String(provider_model_id.to_string()));
-        }
-
         expanded.providers.insert(
             provider_id,
             adl::ProviderSpec {

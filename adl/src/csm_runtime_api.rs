@@ -2,6 +2,7 @@
 use anyhow::{anyhow, bail, Context, Result};
 use chrono::{DateTime, Utc};
 use serde_json::{json, Value};
+use std::env;
 use std::fs;
 use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
@@ -37,7 +38,7 @@ pub struct CsmRuntimeApiServeResult {
 
 pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiServeResult> {
     if options.test_max_requests == Some(0) {
-        bail!("csm api serve test request limit must be greater than zero");
+        bail!("CSM runtime API test request limit must be greater than zero");
     }
     let listener = TcpListener::bind(&options.bind)
         .with_context(|| format!("failed binding CSM runtime API to {}", options.bind))?;
@@ -141,19 +142,33 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
     let safe_fail_bundle = read_json_artifact(&artifact_path(loaded, "safe_fail_bundle.json"));
     let backpressure_state =
         read_json_artifact(&artifact_path(loaded, "csm_backpressure_state.json"));
-    let otel_status = options
-        .otel_status_path
+    let otel_status_path = resolve_otel_status_path(loaded, options);
+    let otel_log_path = resolve_otel_log_path(loaded, options);
+    let otel_status = otel_status_path
         .as_deref()
         .map(read_json_artifact)
         .unwrap_or_else(|| json!({"status": "missing", "ref": "ADL_OTEL_STATUS"}));
-    let otel_log = options
-        .otel_log_path
+    let otel_log = otel_log_path
         .as_deref()
         .map(|path| file_ref_status(path, "ADL_OTEL_LOG"))
         .unwrap_or_else(|| json!({"status": "missing", "ref": "ADL_OTEL_LOG"}));
     let checkpoint_freshness = checkpoint_freshness(&daemon_status, &continuity_checkpoint);
-    let health = classify_health(&agent_status.state, &daemon_status, &checkpoint_freshness);
-    let ready = classify_ready(&agent_status.state, &daemon_status, &continuity_checkpoint);
+    let daemon_state = daemon_lifecycle_state(&daemon_status);
+    let daemon_pid_liveness = daemon_supervisor_pid_liveness(&daemon_status);
+    let health = classify_health(
+        &agent_status.state,
+        &daemon_status,
+        &checkpoint_freshness,
+        daemon_state,
+        daemon_pid_liveness.as_deref(),
+    );
+    let ready = classify_ready(
+        &agent_status.state,
+        &daemon_status,
+        &continuity_checkpoint,
+        daemon_state,
+        daemon_pid_liveness.as_deref(),
+    );
     let runtime_capabilities = daemon_status
         .get("value")
         .and_then(|value| value.get("runtime_capabilities"))
@@ -282,6 +297,46 @@ fn events_response(loaded: &LoadedAgentSpec) -> Result<Value> {
 
 fn artifact_path(loaded: &LoadedAgentSpec, name: &str) -> PathBuf {
     loaded.state_root.join(name)
+}
+
+fn resolve_otel_status_path(
+    loaded: &LoadedAgentSpec,
+    options: &CsmRuntimeApiOptions,
+) -> Option<PathBuf> {
+    options
+        .otel_status_path
+        .clone()
+        .or_else(|| env_path("ADL_OTEL_STATUS"))
+        .or_else(|| env_path("OTEL_STATUS"))
+        .or_else(|| sibling_service_log_path(loaded, "otel_status.json"))
+        .filter(|path| path.exists())
+}
+
+fn resolve_otel_log_path(
+    loaded: &LoadedAgentSpec,
+    options: &CsmRuntimeApiOptions,
+) -> Option<PathBuf> {
+    options
+        .otel_log_path
+        .clone()
+        .or_else(|| env_path("ADL_OTEL_LOG"))
+        .or_else(|| sibling_service_log_path(loaded, "otel.jsonl"))
+        .filter(|path| path.exists())
+}
+
+fn env_path(name: &str) -> Option<PathBuf> {
+    env::var(name)
+        .ok()
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .map(PathBuf::from)
+}
+
+fn sibling_service_log_path(loaded: &LoadedAgentSpec, file_name: &str) -> Option<PathBuf> {
+    loaded
+        .state_root
+        .parent()
+        .map(|runtime_root| runtime_root.join("service").join("logs").join(file_name))
 }
 
 fn read_agent_status_snapshot(loaded: &LoadedAgentSpec) -> Result<StatusRecord> {
@@ -430,9 +485,11 @@ fn artifact_liveness(daemon_status: &Value) -> Value {
         .get("status")
         .and_then(Value::as_str)
         .unwrap_or("missing");
+    let pid_liveness = daemon_supervisor_pid_liveness(daemon_status);
     json!({
         "status": if status == "serialized" { "observed" } else { status },
         "state": daemon_status.pointer("/value/state").cloned().unwrap_or(Value::Null),
+        "supervisor_pid_liveness": pid_liveness.unwrap_or_else(|| "missing_pid_metadata".to_string()),
         "last_event": daemon_status.pointer("/value/last_event").cloned().unwrap_or(Value::Null),
         "updated_at": daemon_status.pointer("/value/updated_at").cloned().unwrap_or(Value::Null)
     })
@@ -469,10 +526,14 @@ fn classify_health(
     state: &AgentStatusState,
     daemon_status: &Value,
     checkpoint_freshness: &Value,
+    daemon_state: Option<&str>,
+    daemon_pid_liveness: Option<&str>,
 ) -> &'static str {
     let degraded = matches!(state, AgentStatusState::Failed)
         || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
-        || checkpoint_freshness.get("status").and_then(Value::as_str) == Some("stale");
+        || checkpoint_freshness.get("status").and_then(Value::as_str) == Some("stale")
+        || is_terminal_daemon_state(daemon_state)
+        || daemon_pid_liveness == Some("stale_pid");
     if degraded {
         "degraded"
     } else {
@@ -484,17 +545,72 @@ fn classify_ready(
     state: &AgentStatusState,
     daemon_status: &Value,
     continuity_checkpoint: &Value,
+    daemon_state: Option<&str>,
+    daemon_pid_liveness: Option<&str>,
 ) -> &'static str {
     let not_ready = matches!(
         state,
-        AgentStatusState::Failed | AgentStatusState::Leased | AgentStatusState::RunningCycle
+        AgentStatusState::Failed | AgentStatusState::Leased | AgentStatusState::Stopped
     ) || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
-        || continuity_checkpoint.get("status").and_then(Value::as_str) != Some("serialized");
+        || continuity_checkpoint.get("status").and_then(Value::as_str) != Some("serialized")
+        || is_terminal_daemon_state(daemon_state)
+        || daemon_pid_liveness == Some("stale_pid");
     if not_ready {
         "not_ready"
     } else {
         "ready"
     }
+}
+
+fn daemon_lifecycle_state(daemon_status: &Value) -> Option<&str> {
+    daemon_status
+        .pointer("/value/state")
+        .and_then(Value::as_str)
+}
+
+fn is_terminal_daemon_state(state: Option<&str>) -> bool {
+    matches!(
+        state,
+        Some("governed_stopped" | "stopped" | "stop_requested" | "startup_failed")
+    )
+}
+
+fn daemon_supervisor_pid_liveness(daemon_status: &Value) -> Option<String> {
+    let pid = daemon_status
+        .pointer("/value/supervisor_pid")
+        .and_then(Value::as_u64)
+        .and_then(|pid| u32::try_from(pid).ok())?;
+    Some(match exact_pid_is_live(pid) {
+        Some(true) => "live_pid".to_string(),
+        Some(false) => "stale_pid".to_string(),
+        None => "unknown".to_string(),
+    })
+}
+
+#[cfg(unix)]
+fn exact_pid_is_live(pid: u32) -> Option<bool> {
+    const EPERM: i32 = 1;
+    const ESRCH: i32 = 3;
+    unsafe extern "C" {
+        fn kill(pid: i32, sig: i32) -> i32;
+    }
+    if pid > i32::MAX as u32 {
+        return Some(false);
+    }
+    let result = unsafe { kill(pid as i32, 0) };
+    if result == 0 {
+        return Some(true);
+    }
+    match std::io::Error::last_os_error().raw_os_error() {
+        Some(EPERM) => Some(true),
+        Some(ESRCH) => Some(false),
+        _ => None,
+    }
+}
+
+#[cfg(not(unix))]
+fn exact_pid_is_live(_pid: u32) -> Option<bool> {
+    None
 }
 
 fn readiness_blockers(status: &Value) -> Vec<String> {
@@ -514,18 +630,33 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
         blockers.push("continuity_checkpoint_missing".to_string());
     }
     if status
+        .pointer("/daemon_liveness/supervisor_pid_liveness")
+        .and_then(Value::as_str)
+        == Some("stale_pid")
+    {
+        blockers.push("daemon_supervisor_pid_stale".to_string());
+    }
+    if status
         .pointer("/agent_status/state")
         .and_then(Value::as_str)
         == Some("failed")
     {
         blockers.push("agent_state_failed".to_string());
     }
-    match status
+    if let Some("leased") = status
         .pointer("/agent_status/state")
         .and_then(Value::as_str)
     {
-        Some("leased") => blockers.push("agent_state_leased".to_string()),
-        Some("running_cycle") => blockers.push("agent_state_running_cycle".to_string()),
+        blockers.push("agent_state_leased".to_string());
+    }
+    match status
+        .pointer("/daemon_liveness/state")
+        .and_then(Value::as_str)
+    {
+        Some("governed_stopped") => blockers.push("daemon_state_governed_stopped".to_string()),
+        Some("stopped") => blockers.push("daemon_state_stopped".to_string()),
+        Some("stop_requested") => blockers.push("daemon_state_stop_requested".to_string()),
+        Some("startup_failed") => blockers.push("daemon_state_startup_failed".to_string()),
         _ => {}
     }
     blockers
@@ -533,21 +664,34 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
 
 fn validate_loopback_bind(addr: &SocketAddr) -> Result<()> {
     if !addr.ip().is_loopback() {
-        bail!("csm api serve requires a loopback bind address unless remote auth is implemented");
+        bail!("CSM runtime API requires a loopback bind address unless remote auth is implemented");
     }
     Ok(())
 }
 
 fn read_request_path(stream: &mut TcpStream) -> Result<String> {
-    let mut buf = [0_u8; 4096];
-    let n = stream
-        .read(&mut buf)
-        .context("read CSM runtime API request")?;
-    let request = String::from_utf8_lossy(&buf[..n]);
+    let mut buf = Vec::new();
+    let mut chunk = [0_u8; 256];
+    loop {
+        let n = stream
+            .read(&mut chunk)
+            .context("read CSM runtime API request")?;
+        if n == 0 {
+            break;
+        }
+        buf.extend_from_slice(&chunk[..n]);
+        if buf.windows(2).any(|window| window == b"\r\n")
+            || buf.windows(1).any(|window| window == b"\n")
+            || buf.len() >= 4096
+        {
+            break;
+        }
+    }
+    let request = String::from_utf8_lossy(&buf);
     let first_line = request.lines().next().unwrap_or_default();
     let mut parts = first_line.split_whitespace();
     let method = parts.next().unwrap_or_default();
-    let path = parts.next().unwrap_or("/");
+    let path = parts.next().unwrap_or("/__bad_request");
     if method != "GET" {
         return Ok("/__method_not_allowed".to_string());
     }
@@ -625,6 +769,11 @@ memory: {}
         spec
     }
 
+    fn test_api_bind(offset: u64) -> String {
+        let port = 19950 + (offset % 47);
+        format!("127.0.0.1:{port}")
+    }
+
     #[test]
     fn runtime_api_reports_not_ready_when_runtime_artifacts_are_missing() {
         let root = temp_root("missing");
@@ -632,7 +781,7 @@ memory: {}
         let state = root.join("state");
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
-            bind: "127.0.0.1:0".to_string(),
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
@@ -664,7 +813,7 @@ memory: {}
         .unwrap();
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
-            bind: "127.0.0.1:0".to_string(),
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
@@ -680,7 +829,7 @@ memory: {}
     }
 
     #[test]
-    fn runtime_api_explains_active_agent_not_ready_state() {
+    fn runtime_api_reports_ready_during_active_agent_cycle() {
         let root = temp_root("active-state");
         let spec = write_spec(&root);
         let state = root.join("state");
@@ -726,17 +875,163 @@ memory: {}
         .unwrap();
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
-            bind: "127.0.0.1:0".to_string(),
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
             otel_log_path: None,
         };
         let response = runtime_api_response(&options, "/ready").unwrap();
-        assert_eq!(response["ready"], "not_ready");
-        assert!(response["blocking_reasons"]
+        assert_eq!(response["ready"], "ready");
+        assert!(response["blocking_reasons"].as_array().unwrap().is_empty());
+    }
+
+    #[test]
+    fn runtime_api_discovers_sibling_service_otel_artifacts() {
+        let root = temp_root("service-otel");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        let service_logs = root.join("service/logs");
+        fs::create_dir_all(&state).unwrap();
+        fs::create_dir_all(&service_logs).unwrap();
+        fs::write(
+            state.join("status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_status.v1",
+                "agent_instance_id": "api-agent",
+                "state": "idle",
+                "last_cycle_id": "cycle-000001",
+                "last_cycle_status": "success",
+                "completed_cycle_count": 1,
+                "consecutive_failure_count": 0,
+                "active_lease": null,
+                "stop_requested": false,
+                "last_error": null,
+                "safety_policy": null,
+                "updated_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_daemon_status.v1",
+                "state": "running",
+                "last_event": "child_exit",
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            service_logs.join("otel_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.otel.monitor_status.v1",
+                "event_count": 3,
+                "last_event": "csm.startup_runtime_ready"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            service_logs.join("otel.jsonl"),
+            "{\"schema\":\"adl.otel.event.v1\"}\n",
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let response = runtime_api_response(&options, "/status").unwrap();
+        assert_eq!(response["status"], "healthy");
+        assert_eq!(response["otel"]["status"]["status"], "serialized");
+        assert_eq!(
+            response["otel"]["status"]["schema"],
+            "adl.otel.monitor_status.v1"
+        );
+        assert_eq!(response["otel"]["log"]["status"], "retained");
+    }
+
+    #[test]
+    fn runtime_api_marks_governed_stopped_runtime_not_ready() {
+        let root = temp_root("governed-stopped");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_status.v1",
+                "agent_instance_id": "api-agent",
+                "state": "stopped",
+                "last_cycle_id": "cycle-000001",
+                "last_cycle_status": "success",
+                "completed_cycle_count": 1,
+                "consecutive_failure_count": 0,
+                "active_lease": null,
+                "stop_requested": true,
+                "last_error": null,
+                "safety_policy": null,
+                "updated_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_daemon_status.v1",
+                "state": "governed_stopped",
+                "supervisor_pid": u32::MAX,
+                "last_event": "governed_stop",
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let status = runtime_api_response(&options, "/status").unwrap();
+        assert_eq!(status["status"], "degraded");
+        assert_eq!(status["ready"], "not_ready");
+        let ready = runtime_api_response(&options, "/ready").unwrap();
+        assert_eq!(ready["ready"], "not_ready");
+        assert!(ready["blocking_reasons"]
             .as_array()
             .unwrap()
-            .contains(&json!("agent_state_running_cycle")));
+            .contains(&json!("daemon_state_governed_stopped")));
+        assert!(ready["blocking_reasons"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("daemon_supervisor_pid_stale")));
     }
 }

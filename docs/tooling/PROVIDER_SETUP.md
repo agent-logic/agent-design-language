@@ -10,6 +10,7 @@ Current supported families:
 - `anthropic`
 - `gemini`
 - `deepseek`
+- `bedrock`
 - `openrouter`
 - `z_ai`
 - `http`
@@ -32,11 +33,12 @@ The generated bundle is intentionally local-only:
 - users are expected to copy/fill a local env file and source it before running ADL
 
 Important transport note:
-- `openai`, `anthropic`, `deepseek`, `openrouter`, and `z_ai` now use Rust-native provider adapters by default:
+- `openai`, `anthropic`, `deepseek`, `openrouter`, `bedrock`, and `z_ai` now use Rust-native provider adapters by default:
   - `type: "openai"` targets the OpenAI Responses API unless `config.endpoint` is explicitly overridden
   - `type: "anthropic"` targets the Anthropic Messages API unless `config.endpoint` is explicitly overridden
   - `type: "deepseek"` targets the DeepSeek chat completions API unless `config.endpoint` is explicitly overridden
   - `type: "openrouter"` targets the OpenRouter chat completions API unless `config.endpoint` is explicitly overridden
+  - `type: "bedrock"` targets AWS Bedrock Runtime through the AWS SDK and defaults to `ADL_AWS_PROFILE=agent-logic-admin`
   - `type: "z_ai"` targets the Z.ai/Zhipu OpenAI-compatible chat completions API unless `config.endpoint` is explicitly overridden
 - ADL's bounded HTTP provider expects a completion-style contract:
   - request JSON with `{"prompt": "..."}`
@@ -54,8 +56,14 @@ adl provider setup chatgpt
 adl provider setup claude
 adl provider setup openai --out ./.adl/provider-setup/openai
 adl provider setup deepseek
+adl provider setup bedrock
 adl provider setup z_ai
 ```
+
+AWS Bedrock native note:
+- `adl provider setup bedrock` emits `type: "bedrock"`, defaults to `profile: "agent-logic-admin"` and `region: "us-west-2"`, and uses AWS SDK credential resolution rather than bearer-token auth
+- ADL AWS work must use the Agent Logic business profile unless the operator explicitly authorizes a bounded personal-account diagnostic
+- the initial provider mini-sprint target is `amazon.nova-lite-v1:0`; `amazon.nova-pro-v1:0` is the secondary target when access and cost posture allow
 
 DeepSeek native note:
 - `adl provider setup deepseek` emits `type: "deepseek"`, reads `DEEPSEEK_API_KEY`, and uses `https://api.deepseek.com/chat/completions` by default
@@ -73,6 +81,12 @@ ChatGPT demo note:
 
 Claude family note:
 - the first-class Claude setup surface uses `claude:claude-3-7-sonnet` plus the same bounded ADL completion contract; it is distinct from the generic `anthropic` compatibility setup so Claude can be referenced symmetrically with ChatGPT in multi-agent workflows
+
+Fable 5 UTS acceptance note:
+- use `adl/tools/run_fable5_uts_acceptance.sh` to run Claude Fable 5 through the ADL provider adapter and the sibling UTS benchmark runner
+- the script writes an ad-hoc selector for `hosted:adl-anthropic:claude-fable-5`, injects a portable `max_output_tokens` budget through `adl/tools/adl_provider_adapter_with_budget.py`, runs the UTS deterministic self-check, runs an optional hosted probe, and then runs the `regular,uts_only` lanes
+- provide credentials with `--key-file "$HOME/keys/claude2.key"` or an already-set `ANTHROPIC_API_KEY`; the script must not print or retain the key value
+- proof for issue #5044 is recorded in `docs/milestones/v0.91.7/review/provider/FABLE5_UTS_ACCEPTANCE_5044.md`
 
 Live multi-agent demo note:
 - `adl/tools/demo_v0871_real_multi_agent_discussion.sh` is the operator-run live-provider companion to the deterministic multi-agent demo

@@ -76,6 +76,9 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
   assert_file_has "$workflow" 'actual adl-coverage execution state'
+  assert_file_has "$workflow" "steps.path-policy.outputs.ci_contract_toolchain_required == 'true'"
+  assert_file_has "$workflow" "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'"
+  assert_file_has "$workflow" "steps.path-policy.outputs.skill_author_contracts_required == 'true'"
   assert_file_has "$workflow" 'Full workspace coverage gate deferred for PR'
   assert_file_has "$workflow" 'adl/target/coverage-impact-summary.json'
   assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
@@ -667,6 +670,12 @@ EOF
   assert_has "$policy_surface_output" "v0913_proof_required=false"
   assert_has "$policy_surface_output" "release_version_only=false"
   assert_has "$policy_surface_output" "ci_contracts_required=true"
+  assert_has "$policy_surface_output" "ci_path_policy_contracts_required=true"
+  assert_has "$policy_surface_output" "ci_contract_toolchain_required=false"
+  assert_has "$policy_surface_output" "pvf_ci_release_contract_required=false"
+  assert_has "$policy_surface_output" "v0913_proof_contract_required=false"
+  assert_has "$policy_surface_output" "slow_proof_contract_required=false"
+  assert_has "$policy_surface_output" "skill_author_contracts_required=false"
   assert_has "$policy_surface_output" "coverage_lane=skip"
   assert_has "$policy_surface_output" "coverage_authority=not_required"
   assert_has "$policy_surface_output" "proof_validation_scope=not_required"
@@ -823,9 +832,25 @@ PY
   assert_has "$v0913_proof_output" "demo_smoke_required=false"
   assert_has "$v0913_proof_output" "v0913_proof_required=true"
   assert_has "$v0913_proof_output" "ci_contracts_required=true"
+  assert_has "$v0913_proof_output" "v0913_proof_contract_required=true"
   assert_has "$v0913_proof_output" "proof_validation_scope=v0_91_3"
   assert_has "$v0913_proof_output" "reason=v0913_proof_surface_change_runs_targeted_packet_validation"
   assert_has "$workflow_policy_output" "reason=coverage_policy_surface_tooling_change_runs_contract_validation"
+
+  git checkout -q -b v0913-proof-contract-surface "$base_sha"
+  mkdir -p adl/tools
+  printf '#!/usr/bin/env bash\nprintf v0913-proof\n' > adl/tools/run_v0913_proof_validation_lane.sh
+  printf '#!/usr/bin/env bash\nprintf v0913-proof-test\n' > adl/tools/test_run_v0913_proof_validation_lane.sh
+  git add adl/tools/run_v0913_proof_validation_lane.sh adl/tools/test_run_v0913_proof_validation_lane.sh
+  git commit -q -m v0913-proof-contract-surface
+  v0913_proof_contract_head="$(git rev-parse HEAD)"
+
+  v0913_proof_contract_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$v0913_proof_contract_head" --ref "refs/pull/1/merge")"
+  assert_has "$v0913_proof_contract_output" "ci_contracts_required=true"
+  assert_has "$v0913_proof_contract_output" "ci_path_policy_contracts_required=true"
+  assert_has "$v0913_proof_contract_output" "v0913_proof_contract_required=true"
+  assert_has "$v0913_proof_contract_output" "full_coverage_required=false"
+  assert_has "$v0913_proof_contract_output" "reason=v0913_proof_contract_surface_runs_tracked_proof_contract"
 
   git checkout -q -b v0913-feature-proof-surface "$base_sha"
   mkdir -p docs/milestones/v0.91.3/features docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3201-card-lifecycle-demo
@@ -927,6 +952,56 @@ PY
   assert_has "$workflow_summary_only_output" "coverage_lane=skip"
   assert_has "$workflow_summary_only_output" "coverage_authority=not_required"
   assert_has "$workflow_summary_only_output" "reason=validation_profile_summary_workflow_change_skips_authoritative_coverage"
+
+  git checkout -q -b workflow-validation-manager-test-deferral "$base_sha"
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+old_without_deferral = """      - name: test
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'
+        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"${{ github.event.pull_request.base.sha }}\" --head \"${{ github.event.pull_request.head.sha }}\"
+        working-directory: .
+
+"""
+old_with_deferral = """      - name: test
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required != 'true'
+        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"${{ github.event.pull_request.base.sha }}\" --head \"${{ github.event.pull_request.head.sha }}\"
+        working-directory: .
+
+      - name: test deferred to validation-manager escalation
+        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required == 'true'
+        run: |
+          echo \"Ordinary PR-fast Rust test lane deferred because the validation manager selected an escalation profile.\"
+          echo \"Selected profile: ${{ steps.path-policy.outputs.validation_profile_selected }}\"
+          echo \"Profile status: ${{ steps.path-policy.outputs.validation_profile_status }}\"
+          echo \"PR publication sufficient: ${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}\"
+          echo \"Run lanes: ${{ steps.path-policy.outputs.validation_profile_run_lanes }}\"
+          echo \"Escalation lanes: ${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}\"
+          echo \"Reason: ${{ steps.path-policy.outputs.validation_profile_primary_reason }}\"
+        working-directory: .
+
+"""
+if old_without_deferral in text:
+    text = text.replace(old_without_deferral, old_with_deferral, 1)
+elif old_with_deferral not in text:
+    text = text.rstrip() + "\n\n" + old_with_deferral
+workflow.write_text(text)
+PY
+  git add .github/workflows/ci.yaml
+  git commit -q -m workflow-validation-manager-test-deferral
+  workflow_test_deferral_head="$(git rev-parse HEAD)"
+
+  workflow_test_deferral_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$workflow_test_deferral_head" --ref "refs/pull/1/merge")"
+  assert_has "$workflow_test_deferral_output" "rust_required=false"
+  assert_has "$workflow_test_deferral_output" "coverage_required=false"
+  assert_has "$workflow_test_deferral_output" "full_coverage_required=false"
+  assert_has "$workflow_test_deferral_output" "demo_smoke_required=false"
+  assert_has "$workflow_test_deferral_output" "ci_contracts_required=true"
+  assert_has "$workflow_test_deferral_output" "coverage_lane=skip"
+  assert_has "$workflow_test_deferral_output" "coverage_authority=not_required"
+  assert_has "$workflow_test_deferral_output" "reason=validation_manager_test_deferral_workflow_change_skips_authoritative_coverage"
 
   git checkout -q -b workflow-summary-plus-policy-change "$base_sha"
   python3 - <<'PY'
@@ -1372,6 +1447,12 @@ PY
   assert_has "$main_output" "demo_smoke_required=true"
   assert_has "$main_output" "release_version_only=false"
   assert_has "$main_output" "ci_contracts_required=true"
+  assert_has "$main_output" "ci_path_policy_contracts_required=true"
+  assert_has "$main_output" "ci_contract_toolchain_required=true"
+  assert_has "$main_output" "pvf_ci_release_contract_required=true"
+  assert_has "$main_output" "v0913_proof_contract_required=true"
+  assert_has "$main_output" "slow_proof_contract_required=true"
+  assert_has "$main_output" "skill_author_contracts_required=true"
   assert_has "$main_output" "coverage_lane=authoritative_full"
   assert_has "$main_output" "coverage_authority=push_main"
   assert_has "$main_output" "coverage_execution_state=authoritative_full_required"
@@ -1384,6 +1465,12 @@ PY
   assert_has "$non_pr_output" "demo_smoke_required=true"
   assert_has "$non_pr_output" "release_version_only=false"
   assert_has "$non_pr_output" "ci_contracts_required=true"
+  assert_has "$non_pr_output" "ci_path_policy_contracts_required=true"
+  assert_has "$non_pr_output" "ci_contract_toolchain_required=true"
+  assert_has "$non_pr_output" "pvf_ci_release_contract_required=true"
+  assert_has "$non_pr_output" "v0913_proof_contract_required=true"
+  assert_has "$non_pr_output" "slow_proof_contract_required=true"
+  assert_has "$non_pr_output" "skill_author_contracts_required=true"
   assert_has "$non_pr_output" "coverage_lane=authoritative_full"
   assert_has "$non_pr_output" "coverage_authority=non_pr_event"
   assert_has "$non_pr_output" "coverage_execution_state=authoritative_full_required"
@@ -1396,6 +1483,12 @@ PY
   assert_has "$fail_closed_output" "release_version_only=false"
   assert_has "$fail_closed_output" "fail_closed=true"
   assert_has "$fail_closed_output" "ci_contracts_required=true"
+  assert_has "$fail_closed_output" "ci_path_policy_contracts_required=true"
+  assert_has "$fail_closed_output" "ci_contract_toolchain_required=true"
+  assert_has "$fail_closed_output" "pvf_ci_release_contract_required=true"
+  assert_has "$fail_closed_output" "v0913_proof_contract_required=true"
+  assert_has "$fail_closed_output" "slow_proof_contract_required=true"
+  assert_has "$fail_closed_output" "skill_author_contracts_required=true"
   assert_has "$fail_closed_output" "coverage_lane=authoritative_full"
   assert_has "$fail_closed_output" "coverage_authority=fail_closed"
   assert_has "$fail_closed_output" "validation_profile_selected="
@@ -1416,6 +1509,12 @@ EOF
   assert_has "$manager_failure_output" "release_version_only=false"
   assert_has "$manager_failure_output" "ci_contracts_required=true"
   assert_has "$manager_failure_output" "fail_closed=true"
+  assert_has "$manager_failure_output" "ci_path_policy_contracts_required=true"
+  assert_has "$manager_failure_output" "ci_contract_toolchain_required=true"
+  assert_has "$manager_failure_output" "pvf_ci_release_contract_required=true"
+  assert_has "$manager_failure_output" "v0913_proof_contract_required=true"
+  assert_has "$manager_failure_output" "slow_proof_contract_required=true"
+  assert_has "$manager_failure_output" "skill_author_contracts_required=true"
   assert_has "$manager_failure_output" "coverage_lane=authoritative_full"
   assert_has "$manager_failure_output" "coverage_authority=fail_closed"
   assert_has "$manager_failure_output" "reason=validation_manager_failed_closed_for_pull_request"

@@ -11,8 +11,9 @@ use ::adl::csm_continuity_capsule::{
 };
 use ::adl::csm_observatory::{write_observatory_outputs, ObservatoryFormat};
 use ::adl::csm_polis_storage::{prove_polis_storage, PolisStorageProofOptions};
-use ::adl::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
+use ::adl::long_lived_agent::{governed_stop, GovernedStopRequest};
 use ::adl::wp08_acip_sns_proof::run_wp08_acip_sns_live_proof;
+use chrono::{DateTime, Utc};
 
 pub(crate) enum CsmDispatchMode {
     StandaloneRuntime,
@@ -30,7 +31,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!(
-            "csm requires subcommand: daemon | service | continuity | backpressure | api | aws-signal | storage | cloud-control | observatory"
+            "csm requires subcommand: daemon | service | governed-stop | continuity | backpressure | aws-signal | storage | cloud-control | observatory"
         );
         std::process::exit(2);
     };
@@ -48,6 +49,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
                 "csm service is owned by the standalone csm runtime binary; use `csm service`, not `adl csm service`"
             )),
         },
+        "governed-stop" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_governed_stop(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm governed-stop is owned by the standalone csm runtime binary; use `csm governed-stop`, not `adl csm governed-stop`"
+            )),
+        },
         "continuity" => match mode {
             CsmDispatchMode::StandaloneRuntime => real_continuity(&args[1..]),
             CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
@@ -58,12 +65,6 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
             CsmDispatchMode::StandaloneRuntime => real_backpressure(&args[1..]),
             CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
                 "csm backpressure is owned by the standalone csm runtime binary; use `csm backpressure`, not `adl csm backpressure`"
-            )),
-        },
-        "api" => match mode {
-            CsmDispatchMode::StandaloneRuntime => real_api(&args[1..]),
-            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
-                "csm api is owned by the standalone csm runtime binary; use `csm api`, not `adl csm api`"
             )),
         },
         "aws-signal" => match mode {
@@ -91,11 +92,90 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, continuity, backpressure, api, aws-signal, storage, cloud-control, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, governed-stop, continuity, backpressure, aws-signal, storage, cloud-control, or observatory)"
             );
             std::process::exit(2);
         }
     }
+}
+
+fn real_governed_stop(args: &[String]) -> Result<()> {
+    let mut spec: Option<PathBuf> = None;
+    let mut reason: Option<String> = None;
+    let mut operator_identity: Option<String> = None;
+    let mut authorization: Option<String> = None;
+    let mut intent: Option<String> = None;
+    let mut requested_at: Option<DateTime<Utc>> = None;
+    let mut json_output = false;
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--spec" => {
+                spec = Some(PathBuf::from(required_value(args, i, "--spec")?));
+                i += 1;
+            }
+            "--reason" => {
+                reason = Some(required_value(args, i, "--reason")?.to_string());
+                i += 1;
+            }
+            "--operator" => {
+                operator_identity = Some(required_value(args, i, "--operator")?.to_string());
+                i += 1;
+            }
+            "--authorization" => {
+                authorization = Some(required_value(args, i, "--authorization")?.to_string());
+                i += 1;
+            }
+            "--intent" => {
+                intent = Some(required_value(args, i, "--intent")?.to_string());
+                i += 1;
+            }
+            "--requested-at" => {
+                let raw = required_value(args, i, "--requested-at")?;
+                let parsed = DateTime::parse_from_rfc3339(raw)
+                    .with_context(|| {
+                        format!(
+                            "csm governed-stop requires --requested-at to be RFC3339, got {raw}"
+                        )
+                    })?
+                    .with_timezone(&Utc);
+                requested_at = Some(parsed);
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm governed-stop arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+    let result = governed_stop(
+        &spec.context("csm governed-stop requires --spec <agent-spec.yaml>")?,
+        GovernedStopRequest {
+            reason: reason.context("csm governed-stop requires --reason <text>")?,
+            operator_identity: operator_identity
+                .context("csm governed-stop requires --operator <identity>")?,
+            authorization: authorization
+                .context("csm governed-stop requires --authorization <metadata>")?,
+            intent: intent.context("csm governed-stop requires --intent <intent>")?,
+            requested_at: requested_at
+                .context("csm governed-stop requires --requested-at <RFC3339>")?,
+        },
+    )?;
+    if json_output {
+        println!("{}", serde_json::to_string(&result)?);
+    } else {
+        println!(
+            "governed stop recorded: {}",
+            result["governed_stop_id"].as_str().unwrap_or("unknown")
+        );
+    }
+    Ok(())
 }
 
 fn real_cloud_control(args: &[String]) -> Result<()> {
@@ -390,93 +470,6 @@ fn real_backpressure_prove(args: &[String]) -> Result<()> {
     Ok(())
 }
 
-fn real_api(args: &[String]) -> Result<()> {
-    let Some(cmd) = args.first().map(|value| value.as_str()) else {
-        eprintln!("csm api requires subcommand: serve");
-        std::process::exit(2);
-    };
-    match cmd {
-        "serve" => real_api_serve(&args[1..]),
-        "--help" | "-h" => {
-            println!("{}", csm_usage());
-            Ok(())
-        }
-        other => {
-            eprintln!("unknown csm api subcommand: {other} (expected serve)");
-            std::process::exit(2);
-        }
-    }
-}
-
-fn real_api_serve(args: &[String]) -> Result<()> {
-    let mut spec: Option<PathBuf> = None;
-    let mut bind = "127.0.0.1:0".to_string();
-    let mut test_max_requests: Option<usize> = None;
-    let mut idle_timeout_ms: Option<u64> = None;
-    let mut otel_status_path: Option<PathBuf> = None;
-    let mut otel_log_path: Option<PathBuf> = None;
-    let mut json_output = false;
-    let mut i = 0;
-    while i < args.len() {
-        match args[i].as_str() {
-            "--spec" => {
-                spec = Some(PathBuf::from(required_value(args, i, "--spec")?));
-                i += 1;
-            }
-            "--bind" => {
-                bind = required_value(args, i, "--bind")?.to_string();
-                i += 1;
-            }
-            "--test-max-requests" => {
-                test_max_requests = Some(
-                    required_value(args, i, "--test-max-requests")?
-                        .parse()
-                        .context("csm api serve --test-max-requests must be an integer")?,
-                );
-                i += 1;
-            }
-            "--test-idle-timeout-ms" => {
-                idle_timeout_ms = Some(
-                    required_value(args, i, "--test-idle-timeout-ms")?
-                        .parse()
-                        .context("csm api serve --test-idle-timeout-ms must be an integer")?,
-                );
-                i += 1;
-            }
-            "--otel-status" => {
-                otel_status_path = Some(PathBuf::from(required_value(args, i, "--otel-status")?));
-                i += 1;
-            }
-            "--otel-log" => {
-                otel_log_path = Some(PathBuf::from(required_value(args, i, "--otel-log")?));
-                i += 1;
-            }
-            "--json" => json_output = true,
-            "--help" | "-h" => {
-                println!("{}", csm_usage());
-                return Ok(());
-            }
-            other => {
-                eprintln!("unknown csm api serve arg: {other}");
-                std::process::exit(2);
-            }
-        }
-        i += 1;
-    }
-    let result = serve_runtime_api(CsmRuntimeApiOptions {
-        spec_path: spec.context("csm api serve requires --spec <agent-spec.yaml>")?,
-        bind,
-        test_max_requests,
-        idle_timeout_ms,
-        otel_status_path,
-        otel_log_path,
-    })?;
-    if json_output {
-        println!("{}", serde_json::to_string_pretty(&result)?);
-    }
-    Ok(())
-}
-
 fn real_continuity(args: &[String]) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!("csm continuity requires subcommand: capture | stage | restore | drill");
@@ -763,10 +756,10 @@ fn real_observatory(args: &[String]) -> Result<()> {
 
 pub(crate) fn csm_usage() -> &'static str {
     "Usage:
-  csm daemon --spec <agent-spec.yaml> [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--recover-stale-lease] [--no-sleep] [--json]
-  csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--json]
+  csm daemon --spec <agent-spec.yaml> [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--api-bind 127.0.0.1:19997] [--recover-stale-lease] [--no-sleep] [--json]
+  csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--api-bind 127.0.0.1:19997] [--json]
   csm service start|status|stop|remove [--service-root <dir>] [--json]
-  csm api serve --spec <agent-spec.yaml> [--bind 127.0.0.1:0] [--otel-status <path>] [--otel-log <path>] [--json]
+  csm governed-stop --spec <agent-spec.yaml> --reason <text> --operator <identity> --authorization <metadata> --intent emergency_polis_stop|operator_safety_stop|recoverability_drill --requested-at <RFC3339> [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
@@ -781,9 +774,11 @@ pub(crate) fn csm_usage() -> &'static str {
 Semantics:
   - csm is the dedicated runtime owner binary.
   - csm daemon owns permanent restart-always runtime execution, partial checkpoints, restart accounting telemetry, recoverable terminal state, and runtime observability.
-  - csm daemon service mode ignores agent max_cycles as a service lifetime boundary; --no-sleep is a test-only bounded harness boundary.
-  - csm service owns host service-manager installation/status around csm daemon; launchd KeepAlive is the primary macOS target, systemd Restart=always compatible service metadata is retained, and local mode is a bounded proof fallback.
-  - csm api exposes local-by-default /status, /health, /ready, /metrics, and /events endpoints from retained runtime artifacts without leaking host-private paths or secrets.
+  - csm daemon owns the runtime API as an embedded module in the daemon process; the API is not a separate service process.
+  - csm daemon service mode has no cycle-count lifetime boundary; --no-sleep is a test-only bounded harness boundary.
+  - csm service owns CSM runtime supervision around csm daemon; local mode is the portable Rust supervisor path, while launchd/systemd metadata are host integration targets.
+  - csm governed-stop is the only emergency polis stop path; it requires explicit operator metadata, checkpoints and safe-fail serialization before stop, lifecycle lifelog DB rows, and governed notice fan-out.
+  - csm daemon embeds the local-by-default runtime API at --api-bind and exposes /status, /health, /ready, /metrics, and /events from retained runtime artifacts without leaking host-private paths or secrets.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
   - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status proof under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
@@ -943,8 +938,8 @@ memory: {}
     fn standalone_csm_help_paths_cover_runtime_owned_surfaces() {
         for subcommand in [
             "backpressure",
-            "api",
             "continuity",
+            "governed-stop",
             "observatory",
             "service",
         ] {
@@ -956,7 +951,13 @@ memory: {}
 
     #[test]
     fn adl_control_plane_rejects_runtime_owned_surfaces() {
-        for subcommand in ["daemon", "service", "continuity", "backpressure", "api"] {
+        for subcommand in [
+            "daemon",
+            "service",
+            "governed-stop",
+            "continuity",
+            "backpressure",
+        ] {
             let args = vec![subcommand.to_string(), "--help".to_string()];
             let error = real_csm(&args)
                 .err()
@@ -973,8 +974,11 @@ memory: {}
         let usage = csm_usage();
         assert!(usage.contains("csm is the dedicated runtime owner binary"));
         assert!(usage.contains("permanent restart-always runtime execution"));
+        assert!(usage.contains("csm governed-stop --spec"));
+        assert!(usage.contains("only emergency polis stop path"));
         assert!(usage.contains("ADL_OBSERVABILITY_LOG"));
         assert!(usage.contains("ADL_OTEL_STATUS"));
+        assert!(!usage.contains("csm api serve"));
         assert!(!usage.contains("--max-restarts"));
         assert!(!usage.contains("--max-requests"));
         assert!(!usage.contains("--once"));
@@ -986,6 +990,29 @@ memory: {}
         let args = vec!["--spec".to_string()];
         let error = required_value(&args, 0, "--spec").expect_err("missing value must fail");
         assert_eq!(error.to_string(), "--spec requires a value");
+    }
+
+    #[test]
+    fn governed_stop_parser_fails_closed_without_required_metadata() {
+        let root = temp_root("governed-stop-missing");
+        let spec = write_runtime_spec(&root);
+        let args = vec![
+            "governed-stop".to_string(),
+            "--spec".to_string(),
+            spec.display().to_string(),
+            "--reason".to_string(),
+            "operator safety".to_string(),
+            "--json".to_string(),
+        ];
+        let error = real_csm_standalone(&args).expect_err("missing operator metadata must fail");
+        assert!(
+            error
+                .to_string()
+                .contains("csm governed-stop requires --operator"),
+            "{error}"
+        );
+        assert!(!root.join("state/governed_stop.json").exists());
+        assert!(!root.join("state/stop.json").exists());
     }
 
     #[test]
@@ -1006,21 +1033,6 @@ memory: {}
             "--json".to_string(),
         ];
         real_csm_standalone(&backpressure).expect("backpressure proof parser path");
-
-        let api = vec![
-            "api".to_string(),
-            "serve".to_string(),
-            "--spec".to_string(),
-            spec.display().to_string(),
-            "--bind".to_string(),
-            "127.0.0.1:0".to_string(),
-            "--test-max-requests".to_string(),
-            "1".to_string(),
-            "--test-idle-timeout-ms".to_string(),
-            "1".to_string(),
-            "--json".to_string(),
-        ];
-        real_csm_standalone(&api).expect("api idle parser path");
 
         let bundle = root.join("bundle");
         let capture = vec![

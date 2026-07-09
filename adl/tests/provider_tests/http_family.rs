@@ -90,6 +90,22 @@ config:
 }
 
 #[test]
+fn bedrock_provider_builds_without_network_and_preserves_model_id() {
+    let spec = provider_spec_from_yaml(
+        r#"
+type: bedrock
+default_model: "hosted:adl-bedrock:amazon.nova-lite-v1:0"
+config:
+  region: "us-east-1"
+  profile: "agent-logic-admin"
+  provider_model_id: "amazon.nova-lite-v1:0"
+"#,
+    );
+
+    let _provider = build_provider(&spec, None).expect("bedrock provider should build");
+}
+
+#[test]
 fn anthropic_provider_translates_native_response() {
     let server = match std::net::TcpListener::bind("127.0.0.1:0") {
         Ok(s) => s,

@@ -23,8 +23,10 @@ mod http_family;
 mod local;
 mod profiles;
 
-pub use http_family::ZAiProvider;
-pub use http_family::{AnthropicProvider, HttpProvider, OllamaHttpProvider, OpenAiProvider};
+pub use http_family::{
+    AnthropicProvider, AwsBedrockProvider, HttpProvider, OllamaHttpProvider, OpenAiProvider,
+    ZAiProvider,
+};
 pub use http_family::{DeepSeekProvider, OpenRouterProvider};
 pub use local::{MockProvider, OllamaProvider};
 pub use profiles::{expand_provider_profiles, provider_profile_names};
@@ -72,8 +74,8 @@ impl ProviderError {
             kind: ProviderErrorKind::UnknownKind,
             provider: None,
             message: format!(
-                "provider kind '{kind}' is not supported (supported: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, z_ai). \
-Set providers.<id>.type to one of: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, z_ai. The remote provider surfaces are HTTPS-only."
+                "provider kind '{kind}' is not supported (supported: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, bedrock, aws_bedrock, z_ai). \
+Set providers.<id>.type to one of: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, bedrock, aws_bedrock, z_ai. The remote provider surfaces are HTTPS-only."
             ),
         }
     }
@@ -238,7 +240,7 @@ pub fn build_provider_for_id(
 ) -> Result<Box<dyn Provider>> {
     match spec.kind.trim() {
         "http" | "http_remote" | "ollama" | "local_ollama" | "mock" | "openai" | "anthropic"
-        | "deepseek" | "openrouter" | "z_ai" | "zai" | "zhipu" => {}
+        | "deepseek" | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai" | "zai" | "zhipu" => {}
         other => return Err(unknown_kind(other)),
     }
 
@@ -253,6 +255,9 @@ pub fn build_provider_for_id(
             "anthropic" => Ok(Box::new(AnthropicProvider::from_target(spec, &target)?)),
             "deepseek" => Ok(Box::new(DeepSeekProvider::from_target(spec, &target)?)),
             "openrouter" => Ok(Box::new(OpenRouterProvider::from_target(spec, &target)?)),
+            "bedrock" | "aws_bedrock" => {
+                Ok(Box::new(AwsBedrockProvider::from_target(spec, &target)?))
+            }
             "z_ai" | "zai" | "zhipu" => Ok(Box::new(ZAiProvider::from_target(spec, &target)?)),
             other => Err(unknown_kind(other)),
         },

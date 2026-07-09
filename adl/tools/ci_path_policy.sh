@@ -62,6 +62,12 @@ demo_smoke_required="$bool_false"
 v0913_proof_required="$bool_false"
 release_version_only="$bool_false"
 ci_contracts_required="$bool_false"
+ci_path_policy_contracts_required="$bool_false"
+ci_contract_toolchain_required="$bool_false"
+pvf_ci_release_contract_required="$bool_false"
+v0913_proof_contract_required="$bool_false"
+slow_proof_contract_required="$bool_false"
+skill_author_contracts_required="$bool_false"
 fail_closed=false
 coverage_lane="skip"
 coverage_authority="not_required"
@@ -83,6 +89,7 @@ validation_profile_report=""
 validation_profile_contract_lanes_selected="$bool_false"
 large_file_lines="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 large_file_delta="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
+pvf_slow_proof_policy_change=false
 
 emit() {
   local key="$1"
@@ -340,6 +347,49 @@ is_validation_profile_summary_workflow_change() {
     esac
   done <<<"$diff_text"
   [ "$saw_summary" = true ]
+}
+
+is_validation_manager_test_deferral_workflow_change() {
+  local path="$1"
+  [ "$path" = ".github/workflows/ci.yaml" ] || return 1
+  local diff_text
+  diff_text="$(git_pr_patch "$path")"
+  [ -n "$diff_text" ] || return 1
+  local saw_deferral=false
+  while IFS= read -r line; do
+    case "$line" in
+      diff\ --git*|index\ *|@@*|---*|+++*)
+        continue
+        ;;
+      +*|-*)
+        local content="${line#?}"
+        case "$content" in
+          "      - name: test"|\
+          "        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'"|\
+          "        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required != 'true'"|\
+          "        run: bash adl/tools/run_pr_fast_test_lane.sh --base \"\${{ github.event.pull_request.base.sha }}\" --head \"\${{ github.event.pull_request.head.sha }}\""|\
+          "        working-directory: ."|\
+          "      - name: test deferred to validation-manager escalation"|\
+          "        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required == 'true'"|\
+          "        run: |"|\
+          "          echo \"Ordinary PR-fast Rust test lane deferred because the validation manager selected an escalation profile.\""|\
+          "          echo \"Selected profile: \${{ steps.path-policy.outputs.validation_profile_selected }}\""|\
+          "          echo \"Profile status: \${{ steps.path-policy.outputs.validation_profile_status }}\""|\
+          "          echo \"PR publication sufficient: \${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}\""|\
+          "          echo \"Run lanes: \${{ steps.path-policy.outputs.validation_profile_run_lanes }}\""|\
+          "          echo \"Escalation lanes: \${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}\""|\
+          "          echo \"Reason: \${{ steps.path-policy.outputs.validation_profile_primary_reason }}\""|\
+          "")
+            saw_deferral=true
+            ;;
+          *)
+            return 1
+            ;;
+        esac
+        ;;
+    esac
+  done <<<"$diff_text"
+  [ "$saw_deferral" = true ]
 }
 
 is_validation_summary_and_reporting_workflow_change() {
@@ -930,6 +980,54 @@ manager_profile_is_release_gate_pr_fast_escalation() {
   [ "$validation_profile_escalation_lanes" = "release_gate_review,rust_pr_fast" ]
 }
 
+validation_profile_includes_lane() {
+  local lane="$1"
+  case ",$validation_profile_run_lanes," in
+    *",$lane,"*) return 0 ;;
+  esac
+  return 1
+}
+
+changed_files_include_skill_author_contract_surface() {
+  local path
+  while IFS= read -r path; do
+    [ -n "$path" ] || continue
+    case "$path" in
+      adl/tools/skills/repo-code-review/*|\
+      adl/tools/skills/test-generator/*|\
+      adl/tools/skills/demo-operator/*|\
+      adl/tools/skills/arxiv-paper-writer/*|\
+      adl/tools/test_repo_code_review_skill_contracts.sh|\
+      adl/tools/test_test_generator_skill_contracts.sh|\
+      adl/tools/test_demo_operator_skill_contracts.sh|\
+      adl/tools/test_arxiv_paper_writer_skill_contracts.sh|\
+      adl/tools/build_v0911_anrm_trace_dataset.py|\
+      adl/tools/test_build_v0911_anrm_trace_dataset.sh)
+        return 0
+        ;;
+    esac
+  done <<EOF
+$changed_files
+EOF
+  return 1
+}
+
+is_v0913_proof_contract_only_change() {
+  local saw_contract=false
+  local path
+  while IFS= read -r path; do
+    [ -n "$path" ] || continue
+    if is_v0913_proof_contract_surface "$path"; then
+      saw_contract=true
+    else
+      return 1
+    fi
+  done <<EOF
+$changed_files
+EOF
+  [ "$saw_contract" = true ]
+}
+
 is_warmup_guidance_patch() {
   local path="$1"
   local saw_warmup_marker=false
@@ -1110,6 +1208,12 @@ apply_validation_manager_routing() {
     return 0
   fi
   if [ "$validation_profile_status" = "escalation_required" ] && ! manager_profile_is_release_gate_only_escalation; then
+    if is_v0913_proof_contract_only_change; then
+      ci_contracts_required=true
+      v0913_proof_contract_required=true
+      reason="v0913_proof_contract_surface_runs_tracked_proof_contract"
+      return 0
+    fi
     if manager_profile_is_release_gate_pr_fast_escalation; then
       mark_pr_fast_rust_validation
       reason="validation_manager_release_gate_pr_fast_escalation_runs_focused_validation"
@@ -1291,6 +1395,10 @@ EOF
             reason="validation_profile_summary_workflow_change_skips_authoritative_coverage"
             continue
           fi
+          if is_validation_manager_test_deferral_workflow_change "$path"; then
+            reason="validation_manager_test_deferral_workflow_change_skips_authoritative_coverage"
+            continue
+          fi
           if is_reporting_only_coverage_workflow_change "$path"; then
             reason="coverage_reporting_workflow_change_skips_authoritative_coverage"
             continue
@@ -1339,6 +1447,41 @@ case ",$validation_profile_run_lanes," in
     validation_profile_contract_lanes_selected=true
     ;;
 esac
+
+if [ "$ci_contracts_required" = true ]; then
+  if [ -z "$validation_profile_run_lanes" ] || validation_profile_includes_lane "ci_path_policy_contracts"; then
+    ci_path_policy_contracts_required=true
+  fi
+  if [ "$full_coverage_required" = true ]; then
+    pvf_ci_release_contract_required=true
+    v0913_proof_contract_required=true
+    slow_proof_contract_required=true
+    skill_author_contracts_required=true
+  fi
+  if validation_profile_includes_lane "pvf_contracts" || [ "$pvf_slow_proof_policy_change" = true ]; then
+    pvf_ci_release_contract_required=true
+  fi
+  if [ "$v0913_proof_required" = true ] || validation_profile_includes_lane "v0913_proof_contracts"; then
+    v0913_proof_contract_required=true
+  fi
+  if [ "$pvf_slow_proof_policy_change" = true ]; then
+    slow_proof_contract_required=true
+  fi
+  if changed_files_include_skill_author_contract_surface; then
+    skill_author_contracts_required=true
+  fi
+  while IFS= read -r path; do
+    [ -n "$path" ] || continue
+    if is_v0913_proof_contract_surface "$path"; then
+      v0913_proof_contract_required=true
+    fi
+  done <<EOF
+$changed_files
+EOF
+fi
+if [ "$rust_required" = true ] || [ "$coverage_required" = true ] || [ "$full_coverage_required" = true ]; then
+  ci_contract_toolchain_required=true
+fi
 if [ "$fail_closed" = true ]; then
   coverage_execution_state="fail_closed_authoritative_full_required"
 fi
@@ -1350,6 +1493,12 @@ emit "demo_smoke_required" "$demo_smoke_required"
 emit "v0913_proof_required" "$v0913_proof_required"
 emit "release_version_only" "$release_version_only"
 emit "ci_contracts_required" "$ci_contracts_required"
+emit "ci_path_policy_contracts_required" "$ci_path_policy_contracts_required"
+emit "ci_contract_toolchain_required" "$ci_contract_toolchain_required"
+emit "pvf_ci_release_contract_required" "$pvf_ci_release_contract_required"
+emit "v0913_proof_contract_required" "$v0913_proof_contract_required"
+emit "slow_proof_contract_required" "$slow_proof_contract_required"
+emit "skill_author_contracts_required" "$skill_author_contracts_required"
 emit "validation_profile_contract_lanes_selected" "$validation_profile_contract_lanes_selected"
 emit "fail_closed" "$fail_closed"
 emit "coverage_lane" "$coverage_lane"
