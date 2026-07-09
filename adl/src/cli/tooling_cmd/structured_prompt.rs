@@ -526,7 +526,17 @@ fn validate_completed_srp_card_status(fm: &serde_yaml::Mapping) -> Result<()> {
         .and_then(Value::as_mapping)
         .map(|mapping| {
             mapping_string(mapping, "findings_status")
-                .map(|v| matches!(v.as_str(), "no_findings" | "findings_present"))
+                .map(|v| {
+                    matches!(
+                        v.as_str(),
+                        "no_findings"
+                            | "findings_present"
+                            | "review_unavailable"
+                            | "review_timeout"
+                            | "review_cancelled"
+                            | "review_failed"
+                    )
+                })
                 .unwrap_or(false)
                 && mapping_string(mapping, "recommended_outcome")
                     .map(|v| matches!(v.as_str(), "pass" | "block" | "needs_followup"))
