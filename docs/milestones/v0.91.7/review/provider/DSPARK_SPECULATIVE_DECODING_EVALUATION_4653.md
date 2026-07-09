@@ -213,7 +213,9 @@ and route actual DeepSeek-V4 DSpark live proof to #4654.
 
 ## Boundaries
 
-- No provider secret was used or printed.
+- No provider secret value was printed or retained. A Hugging Face token was
+  used only for the authenticated Gemma vLLM smoke, with the command recorded
+  as `HF_TOKEN=<redacted>`.
 - No AWS resource was created by this issue.
 - No live Qwen, Gemma, or DeepSeek DSpark backend speedup is claimed.
 - The Gemma target + Qwen assistant path did not reach benchmark execution
