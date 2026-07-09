@@ -3150,21 +3150,8 @@ fn completed_cycle_count(loaded: &LoadedAgentSpec) -> Result<u64> {
 }
 
 fn consecutive_failure_count(loaded: &LoadedAgentSpec) -> Result<u64> {
-    let path = cycle_ledger_path(loaded);
-    if !path.exists() {
-        return Ok(0);
-    }
-    let file = File::open(&path)
-        .with_context(|| format!("failed opening cycle ledger {}", path.display()))?;
     let mut statuses = Vec::new();
-    for line in BufReader::new(file).lines() {
-        let line =
-            line.with_context(|| format!("failed reading cycle ledger {}", path.display()))?;
-        if line.trim().is_empty() {
-            continue;
-        }
-        let value: Value = serde_json::from_str(&line)
-            .with_context(|| format!("failed parsing cycle ledger {}", path.display()))?;
+    for value in read_cycle_ledger_entries(loaded)? {
         if let Some(status) = value.get("status").and_then(Value::as_str) {
             statuses.push(status.to_string());
         }
@@ -3197,21 +3184,8 @@ fn completed_cycle_count_from_dirs(loaded: &LoadedAgentSpec) -> Result<u64> {
 }
 
 fn ledger_cursor(loaded: &LoadedAgentSpec) -> Result<LedgerCursor> {
-    let path = cycle_ledger_path(loaded);
-    if !path.exists() {
-        return Ok(LedgerCursor::default());
-    }
-    let file = File::open(&path)
-        .with_context(|| format!("failed opening cycle ledger {}", path.display()))?;
     let mut cursor = LedgerCursor::default();
-    for line in BufReader::new(file).lines() {
-        let line =
-            line.with_context(|| format!("failed reading cycle ledger {}", path.display()))?;
-        if line.trim().is_empty() {
-            continue;
-        }
-        let value: Value = serde_json::from_str(&line)
-            .with_context(|| format!("failed parsing cycle ledger {}", path.display()))?;
+    for value in read_cycle_ledger_entries(loaded)? {
         cursor.count += 1;
         let Some(cycle_id) = value.get("cycle_id").and_then(Value::as_str) else {
             continue;
@@ -3229,6 +3203,40 @@ fn ledger_cursor(loaded: &LoadedAgentSpec) -> Result<LedgerCursor> {
         }
     }
     Ok(cursor)
+}
+
+fn read_cycle_ledger_entries(loaded: &LoadedAgentSpec) -> Result<Vec<Value>> {
+    let path = cycle_ledger_path(loaded);
+    if !path.exists() {
+        return Ok(Vec::new());
+    }
+    let raw = fs::read_to_string(&path)
+        .with_context(|| format!("failed reading cycle ledger {}", path.display()))?;
+    let mut entries = Vec::new();
+    let line_count = raw.lines().count();
+    let terminated = raw.ends_with('\n');
+    for (index, line) in raw.lines().enumerate() {
+        if line.trim().is_empty() {
+            continue;
+        }
+        match serde_json::from_str::<Value>(line) {
+            Ok(value) => entries.push(value),
+            Err(err) if !terminated && index + 1 == line_count => {
+                let error = err.to_string();
+                crate::observability::emit_event(
+                    "csm",
+                    "cycle_ledger",
+                    "partial_tail_skipped",
+                    &[("path_ref", "cycle_ledger.jsonl"), ("error", &error)],
+                );
+            }
+            Err(err) => {
+                return Err(err)
+                    .with_context(|| format!("failed parsing cycle ledger {}", path.display()));
+            }
+        }
+    }
+    Ok(entries)
 }
 
 fn cycle_number(cycle_id: &str) -> Option<u64> {

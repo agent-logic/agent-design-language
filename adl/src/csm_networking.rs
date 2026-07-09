@@ -5,6 +5,7 @@ use serde::Serialize;
 use serde_json::{json, Value};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::str::FromStr;
+use std::sync::OnceLock;
 
 pub const CSM_NETWORKING_SCHEMA: &str = "adl.csm.networking.v1";
 pub const CSM_POOLING_PLAN_SCHEMA: &str = "adl.csm.pooling_plan.v1";
@@ -16,6 +17,7 @@ pub const CSM_MAIN_API_BIND: &str = "127.0.0.1:19997";
 pub const CSM_DEADPOOL_CRATE: &str = "deadpool";
 pub const CSM_DEADPOOL_MODEL: &str = "deadpool::unmanaged";
 pub const CSM_DEFAULT_POOL_CAPACITY: usize = 4;
+pub const CSM_POOL_STATUS_SCHEMA: &str = "adl.csm.connection_pool_status.v1";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -85,6 +87,13 @@ pub struct CsmPooledConnection {
 
 pub type CsmDeadpool = DeadpoolPool<CsmPooledConnection>;
 pub type CsmDeadpoolObject = DeadpoolObject<CsmPooledConnection>;
+
+struct CsmRuntimePool {
+    role: &'static str,
+    pool: CsmDeadpool,
+}
+
+static CSM_RUNTIME_POOLS: OnceLock<Vec<CsmRuntimePool>> = OnceLock::new();
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct CsmDeadpoolRoleStatus {
@@ -205,10 +214,18 @@ pub fn try_checkout_csm_connection(pool: &CsmDeadpool) -> Result<CsmDeadpoolObje
     })
 }
 
+pub fn try_checkout_csm_runtime_connection(role: &str) -> Result<CsmDeadpoolObject> {
+    let runtime_pool = csm_runtime_pools()
+        .iter()
+        .find(|runtime_pool| runtime_pool.role == role)
+        .ok_or_else(|| anyhow!("unknown CSM runtime pool role {role}"))?;
+    try_checkout_csm_connection(&runtime_pool.pool)
+}
+
 pub fn csm_deadpool_status_json(role: &str, pool: &CsmDeadpool) -> Value {
     let status = pool.status();
     json!(CsmDeadpoolRoleStatus {
-        schema: CSM_POOLING_PLAN_SCHEMA,
+        schema: CSM_POOL_STATUS_SCHEMA,
         role: role.to_string(),
         pool_crate: CSM_DEADPOOL_CRATE,
         pool_backend: CSM_DEADPOOL_MODEL,
@@ -219,6 +236,41 @@ pub fn csm_deadpool_status_json(role: &str, pool: &CsmDeadpool) -> Value {
         exhaustion_signal:
             "emit pool_exhausted with role, capacity, available, waiting, and remediation hint",
     })
+}
+
+pub fn csm_runtime_connection_pool_status() -> Value {
+    let roles = csm_runtime_pools()
+        .iter()
+        .map(|runtime_pool| csm_deadpool_status_json(runtime_pool.role, &runtime_pool.pool))
+        .collect::<Vec<_>>();
+    json!({
+        "schema": CSM_POOL_STATUS_SCHEMA,
+        "runtime_owner": "csm",
+        "pool_crate": CSM_DEADPOOL_CRATE,
+        "pool_backend": CSM_DEADPOOL_MODEL,
+        "status": "configured",
+        "roles": roles,
+        "event_contract": {
+            "configured": "pool_configured",
+            "exhausted": "pool_exhausted",
+            "recovered": "pool_recovered"
+        }
+    })
+}
+
+fn csm_runtime_pools() -> &'static [CsmRuntimePool] {
+    CSM_RUNTIME_POOLS
+        .get_or_init(|| {
+            runtime_pool_roles()
+                .into_iter()
+                .map(|role| CsmRuntimePool {
+                    role: role.role,
+                    pool: build_csm_deadpool(role.role, CSM_DEFAULT_POOL_CAPACITY)
+                        .expect("static CSM deadpool role config is valid"),
+                })
+                .collect()
+        })
+        .as_slice()
 }
 
 pub fn csm_listener_registry_json() -> Value {
@@ -278,7 +330,24 @@ pub fn csm_connection_pooling_plan() -> Value {
     let default_pool =
         build_csm_deadpool("database_or_lifelog_connections", CSM_DEFAULT_POOL_CAPACITY)
             .expect("static CSM deadpool config is valid");
-    let roles = vec![
+    let roles = runtime_pool_roles();
+    json!({
+        "schema": CSM_POOLING_PLAN_SCHEMA,
+        "decision_summary": "CSM runtime pooling uses the deadpool crate for governed bounded resource-slot mechanics; protocol-specific clients may still perform native reuse inside checked-out deadpool slots.",
+        "pool_crate": CSM_DEADPOOL_CRATE,
+        "pool_backend": CSM_DEADPOOL_MODEL,
+        "default_capacity": CSM_DEFAULT_POOL_CAPACITY,
+        "default_status": csm_deadpool_status_json("database_or_lifelog_connections", &default_pool),
+        "pool_event_contract": {
+            "required_fields": ["role", "event", "capacity_or_limit", "remediation_hint"],
+            "events": ["pool_configured", "pool_exhausted", "pool_recovered", "client_reused"]
+        },
+        "roles": roles
+    })
+}
+
+fn runtime_pool_roles() -> Vec<CsmPoolRolePlan> {
+    vec![
         CsmPoolRolePlan {
             role: "http_clients",
             strategy: "deadpool-bounded runtime owner slots hold reusable reqwest/hyper clients; protocol-native HTTP reuse remains inside each checked-out slot",
@@ -309,20 +378,7 @@ pub fn csm_connection_pooling_plan() -> Value {
             decision: "use_deadpool_for_internal_channel_slot_capacity",
             exhaustion_signal: "emit pool_exhausted with channel_backpressure and safe_fail_action",
         },
-    ];
-    json!({
-        "schema": CSM_POOLING_PLAN_SCHEMA,
-        "decision_summary": "CSM runtime pooling uses the deadpool crate for governed bounded resource-slot mechanics; protocol-specific clients may still perform native reuse inside checked-out deadpool slots.",
-        "pool_crate": CSM_DEADPOOL_CRATE,
-        "pool_backend": CSM_DEADPOOL_MODEL,
-        "default_capacity": CSM_DEFAULT_POOL_CAPACITY,
-        "default_status": csm_deadpool_status_json("database_or_lifelog_connections", &default_pool),
-        "pool_event_contract": {
-            "required_fields": ["role", "event", "capacity_or_limit", "remediation_hint"],
-            "events": ["pool_configured", "pool_exhausted", "pool_recovered", "client_reused"]
-        },
-        "roles": roles
-    })
+    ]
 }
 
 fn ensure_loopback(addr: SocketAddr) -> Result<()> {
@@ -418,6 +474,7 @@ mod tests {
         let plan = csm_connection_pooling_plan();
         assert_eq!(plan["pool_crate"], CSM_DEADPOOL_CRATE);
         assert_eq!(plan["pool_backend"], CSM_DEADPOOL_MODEL);
+        assert_eq!(plan["default_status"]["schema"], CSM_POOL_STATUS_SCHEMA);
         assert_eq!(
             plan["roles"][2]["decision"],
             "use_deadpool_bounded_pool_for_connection_slots"
@@ -426,5 +483,37 @@ mod tests {
             plan["default_status"]["available"],
             CSM_DEFAULT_POOL_CAPACITY
         );
+    }
+
+    #[test]
+    fn runtime_pool_status_constructs_deadpool_roles() {
+        let status = csm_runtime_connection_pool_status();
+        assert_eq!(status["schema"], CSM_POOL_STATUS_SCHEMA);
+        assert_eq!(status["pool_crate"], CSM_DEADPOOL_CRATE);
+        assert_eq!(status["status"], "configured");
+        assert_eq!(status["roles"][0]["schema"], CSM_POOL_STATUS_SCHEMA);
+        assert_eq!(status["roles"][0]["available"], CSM_DEFAULT_POOL_CAPACITY);
+    }
+
+    #[test]
+    fn runtime_pool_status_reports_process_owned_deadpool_checkout_state() {
+        let checked_out = try_checkout_csm_runtime_connection("http_clients").unwrap();
+        let status = csm_runtime_connection_pool_status();
+        let http_status = status["roles"]
+            .as_array()
+            .expect("roles")
+            .iter()
+            .find(|role| role["role"] == "http_clients")
+            .expect("http client pool status");
+        assert_eq!(http_status["available"], CSM_DEFAULT_POOL_CAPACITY - 1);
+        drop(checked_out);
+        let recovered = csm_runtime_connection_pool_status();
+        let http_status = recovered["roles"]
+            .as_array()
+            .expect("roles")
+            .iter()
+            .find(|role| role["role"] == "http_clients")
+            .expect("http client pool status");
+        assert_eq!(http_status["available"], CSM_DEFAULT_POOL_CAPACITY);
     }
 }

@@ -10,8 +10,8 @@ use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant};
 
 use crate::csm_networking::{
-    csm_connection_pooling_plan, csm_listener_registry_json, resolve_main_runtime_api_listener,
-    CSM_POOLING_PLAN_SCHEMA,
+    csm_connection_pooling_plan, csm_listener_registry_json, csm_runtime_connection_pool_status,
+    resolve_main_runtime_api_listener, CSM_POOLING_PLAN_SCHEMA,
 };
 use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, StatusRecord};
 
@@ -203,6 +203,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "adl_role": "tooling_control_plane",
         "networking": csm_listener_registry_json(),
         "pooling_plan": csm_connection_pooling_plan(),
+        "connection_pool_status": csm_runtime_connection_pool_status(),
         "agent_instance_id": loaded.spec.agent_instance_id,
         "status": health,
         "ready": ready,

@@ -1013,6 +1013,15 @@ memory:
         status["pooling_plan"]["pool_backend"],
         "deadpool::unmanaged"
     );
+    assert_eq!(
+        status["connection_pool_status"]["schema"],
+        "adl.csm.connection_pool_status.v1"
+    );
+    assert_eq!(status["connection_pool_status"]["status"], "configured");
+    assert_eq!(
+        status["connection_pool_status"]["roles"][0]["pool_backend"],
+        "deadpool::unmanaged"
+    );
     assert_eq!(status["runtime_owner"], "csm");
     assert_eq!(status["agent_instance_id"], "api-agent");
     assert_eq!(status["status"], "healthy");
@@ -2029,6 +2038,14 @@ memory:
         manifest["connection_pooling_plan"]["schema"],
         "adl.csm.pooling_plan.v1"
     );
+    assert_eq!(
+        manifest["connection_pool_status"]["schema"],
+        "adl.csm.connection_pool_status.v1"
+    );
+    assert_eq!(
+        manifest["connection_pool_status"]["pool_backend"],
+        "deadpool::unmanaged"
+    );
     assert_eq!(manifest["otlp_endpoint"], "http://127.0.0.1:4318/v1/traces");
     assert_eq!(manifest["otlp_timeout_ms"], 750);
     assert!(manifest["daemon_status"]
@@ -2082,6 +2099,14 @@ memory:
     assert_eq!(
         status["connection_pooling_plan"]["pool_backend"],
         "deadpool::unmanaged"
+    );
+    assert_eq!(
+        status["connection_pool_status"]["schema"],
+        "adl.csm.connection_pool_status.v1"
+    );
+    assert_eq!(
+        status["connection_pool_status"]["roles"][0]["pool_crate"],
+        "deadpool"
     );
     assert_eq!(status["otlp_exporter_configured"], true);
     assert_eq!(status["otlp_endpoint_ref"], "<configured>");

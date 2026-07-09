@@ -12,8 +12,8 @@ use std::os::unix::process::CommandExt;
 
 use ::adl::csm_networking::{
     csm_connection_pooling_plan, csm_listener_registry_json, csm_reserved_range_label,
-    default_main_runtime_api_listener, resolve_main_runtime_api_listener, CSM_MAIN_API_BIND,
-    CSM_NETWORKING_SCHEMA,
+    csm_runtime_connection_pool_status, default_main_runtime_api_listener,
+    resolve_main_runtime_api_listener, CSM_MAIN_API_BIND, CSM_NETWORKING_SCHEMA,
 };
 use ::adl::long_lived_agent;
 use anyhow::{anyhow, Context, Result};
@@ -124,6 +124,8 @@ struct ServiceManifest {
     network_registry: Value,
     #[serde(default = "csm_connection_pooling_plan")]
     connection_pooling_plan: Value,
+    #[serde(default = "csm_runtime_connection_pool_status")]
+    connection_pool_status: Value,
     daemon_status: PathBuf,
     continuity_checkpoint: PathBuf,
     continuity_replay_manifest: PathBuf,
@@ -162,6 +164,7 @@ struct ServiceStatus {
     startup_ledger_ref: String,
     network_registry: Value,
     connection_pooling_plan: Value,
+    connection_pool_status: Value,
     startup_classification: String,
     first_daemon_record_observed: bool,
     continuity_checkpoint_observed: bool,
@@ -593,6 +596,7 @@ fn build_manifest(
         api_bind: parsed.api_bind,
         network_registry: csm_listener_registry_json(),
         connection_pooling_plan: csm_connection_pooling_plan(),
+        connection_pool_status: csm_runtime_connection_pool_status(),
         daemon_status: state_root.join("daemon_status.json"),
         continuity_checkpoint: state_root.join("continuity_checkpoint.json"),
         continuity_replay_manifest: state_root.join("continuity_replay_manifest.json"),
@@ -928,6 +932,7 @@ fn service_status(
         startup_ledger_ref: ref_for(&manifest.service_root, &manifest.startup_ledger),
         network_registry: service_network_registry(manifest),
         connection_pooling_plan: manifest.connection_pooling_plan.clone(),
+        connection_pool_status: manifest.connection_pool_status.clone(),
         startup_classification,
         first_daemon_record_observed,
         continuity_checkpoint_observed: manifest.continuity_checkpoint.exists(),
