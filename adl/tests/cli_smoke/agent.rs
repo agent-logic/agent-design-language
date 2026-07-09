@@ -1006,7 +1006,12 @@ memory:
     );
     assert_eq!(
         status["pooling_plan"]["decision_summary"],
-        "No blanket Deadpool dependency for CSM runtime resources in #5040; use existing client-native pooling for HTTP/AWS SDK clients and reserve Deadpool-style bounded pools for future concrete database/lifelog connection backends."
+        "CSM runtime pooling uses the deadpool crate for governed bounded resource-slot mechanics; protocol-specific clients may still perform native reuse inside checked-out deadpool slots."
+    );
+    assert_eq!(status["pooling_plan"]["pool_crate"], "deadpool");
+    assert_eq!(
+        status["pooling_plan"]["pool_backend"],
+        "deadpool::unmanaged"
     );
     assert_eq!(status["runtime_owner"], "csm");
     assert_eq!(status["agent_instance_id"], "api-agent");
@@ -2071,7 +2076,12 @@ memory:
     );
     assert_eq!(
         status["connection_pooling_plan"]["roles"][0]["decision"],
-        "do_not_add_deadpool_wrapper_for_http_clients"
+        "use_deadpool_for_governed_client_slot_capacity"
+    );
+    assert_eq!(status["connection_pooling_plan"]["pool_crate"], "deadpool");
+    assert_eq!(
+        status["connection_pooling_plan"]["pool_backend"],
+        "deadpool::unmanaged"
     );
     assert_eq!(status["otlp_exporter_configured"], true);
     assert_eq!(status["otlp_endpoint_ref"], "<configured>");

@@ -1,5 +1,6 @@
 //! CSM-owned local networking registry and runtime resource pooling plan.
 use anyhow::{anyhow, bail, Context, Result};
+use deadpool::unmanaged::{Object as DeadpoolObject, Pool as DeadpoolPool, PoolError};
 use serde::Serialize;
 use serde_json::{json, Value};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
@@ -12,6 +13,9 @@ pub const CSM_LOCAL_PORT_RANGE_END: u16 = 19999;
 pub const CSM_MAIN_API_PORT: u16 = 19997;
 pub const CSM_LOOPBACK_HOST: &str = "127.0.0.1";
 pub const CSM_MAIN_API_BIND: &str = "127.0.0.1:19997";
+pub const CSM_DEADPOOL_CRATE: &str = "deadpool";
+pub const CSM_DEADPOOL_MODEL: &str = "deadpool::unmanaged";
+pub const CSM_DEFAULT_POOL_CAPACITY: usize = 4;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -68,6 +72,30 @@ pub struct CsmPoolRolePlan {
     pub role: &'static str,
     pub strategy: &'static str,
     pub decision: &'static str,
+    pub exhaustion_signal: &'static str,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct CsmPooledConnection {
+    pub role: String,
+    pub slot_index: usize,
+    pub pool_backend: &'static str,
+    pub resource_kind: &'static str,
+}
+
+pub type CsmDeadpool = DeadpoolPool<CsmPooledConnection>;
+pub type CsmDeadpoolObject = DeadpoolObject<CsmPooledConnection>;
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct CsmDeadpoolRoleStatus {
+    pub schema: &'static str,
+    pub role: String,
+    pub pool_crate: &'static str,
+    pub pool_backend: &'static str,
+    pub max_size: usize,
+    pub size: usize,
+    pub available: usize,
+    pub waiting: usize,
     pub exhaustion_signal: &'static str,
 }
 
@@ -149,6 +177,50 @@ pub fn is_csm_reserved_local_port(port: u16) -> bool {
     (CSM_LOCAL_PORT_RANGE_START..=CSM_LOCAL_PORT_RANGE_END).contains(&port)
 }
 
+pub fn build_csm_deadpool(role: impl Into<String>, capacity: usize) -> Result<CsmDeadpool> {
+    let role = role.into();
+    if role.trim().is_empty() {
+        bail!("CSM deadpool role must not be empty");
+    }
+    if capacity == 0 {
+        bail!("CSM deadpool role {role} requires capacity greater than zero");
+    }
+    let slots = (0..capacity)
+        .map(|slot_index| CsmPooledConnection {
+            role: role.clone(),
+            slot_index,
+            pool_backend: CSM_DEADPOOL_MODEL,
+            resource_kind: "bounded_runtime_connection_slot",
+        })
+        .collect::<Vec<_>>();
+    Ok(CsmDeadpool::from(slots))
+}
+
+pub fn try_checkout_csm_connection(pool: &CsmDeadpool) -> Result<CsmDeadpoolObject> {
+    pool.try_get().map_err(|err| {
+        anyhow!(
+            "CSM deadpool checkout failed: {}",
+            deadpool_error_label(err)
+        )
+    })
+}
+
+pub fn csm_deadpool_status_json(role: &str, pool: &CsmDeadpool) -> Value {
+    let status = pool.status();
+    json!(CsmDeadpoolRoleStatus {
+        schema: CSM_POOLING_PLAN_SCHEMA,
+        role: role.to_string(),
+        pool_crate: CSM_DEADPOOL_CRATE,
+        pool_backend: CSM_DEADPOOL_MODEL,
+        max_size: status.max_size,
+        size: status.size,
+        available: status.available,
+        waiting: status.waiting,
+        exhaustion_signal:
+            "emit pool_exhausted with role, capacity, available, waiting, and remediation hint",
+    })
+}
+
 pub fn csm_listener_registry_json() -> Value {
     json!({
         "schema": CSM_NETWORKING_SCHEMA,
@@ -203,41 +275,48 @@ pub fn csm_listener_registry_json() -> Value {
 }
 
 pub fn csm_connection_pooling_plan() -> Value {
+    let default_pool =
+        build_csm_deadpool("database_or_lifelog_connections", CSM_DEFAULT_POOL_CAPACITY)
+            .expect("static CSM deadpool config is valid");
     let roles = vec![
         CsmPoolRolePlan {
             role: "http_clients",
-            strategy: "reuse reqwest/hyper client pools per runtime owner",
-            decision: "do_not_add_deadpool_wrapper_for_http_clients",
-            exhaustion_signal: "emit client_pool_error and retry/backpressure context",
+            strategy: "deadpool-bounded runtime owner slots hold reusable reqwest/hyper clients; protocol-native HTTP reuse remains inside each checked-out slot",
+            decision: "use_deadpool_for_governed_client_slot_capacity",
+            exhaustion_signal: "emit pool_exhausted with http_clients role and retry/backpressure context",
         },
         CsmPoolRolePlan {
             role: "aws_sdk_clients",
-            strategy: "reuse AWS SDK clients/config per account/profile/region",
-            decision: "do_not_wrap_aws_sdk_clients_in_deadpool",
-            exhaustion_signal: "emit aws_client_construction_or_throttle signal",
+            strategy: "deadpool-bounded runtime owner slots hold reusable AWS SDK clients/config per account/profile/region",
+            decision: "use_deadpool_for_governed_aws_client_slot_capacity",
+            exhaustion_signal: "emit pool_exhausted with aws_sdk_clients role and throttle/remediation context",
         },
         CsmPoolRolePlan {
             role: "database_or_lifelog_connections",
-            strategy: "use deadpool-style bounded pools when a concrete DB backend lands",
-            decision: "stage_deadpool_until_db_backend_exists",
+            strategy: "deadpool::unmanaged bounded pool owns concrete database/lifelog connection slots",
+            decision: "use_deadpool_bounded_pool_for_connection_slots",
             exhaustion_signal: "emit pool_exhausted with role and remediation hint",
         },
         CsmPoolRolePlan {
             role: "otel_export_sinks",
-            strategy: "use bounded batch/export queues with explicit timeout",
-            decision: "prefer_exporter_backpressure_over_generic_pool",
-            exhaustion_signal: "emit otel_export_backpressure",
+            strategy: "deadpool-bounded exporter slots feed bounded batch/export queues with explicit timeout",
+            decision: "use_deadpool_for_export_sink_slot_capacity",
+            exhaustion_signal: "emit pool_exhausted with otel_export_sinks role",
         },
         CsmPoolRolePlan {
             role: "internal_citizen_polis_channels",
-            strategy: "bounded channels with named capacity and safe-fail policy",
-            decision: "no_deadpool_for_in_memory_channels",
-            exhaustion_signal: "emit channel_backpressure and safe_fail_action",
+            strategy: "deadpool-bounded channel endpoint slots with named capacity and safe-fail policy",
+            decision: "use_deadpool_for_internal_channel_slot_capacity",
+            exhaustion_signal: "emit pool_exhausted with channel_backpressure and safe_fail_action",
         },
     ];
     json!({
         "schema": CSM_POOLING_PLAN_SCHEMA,
-        "decision_summary": "No blanket Deadpool dependency for CSM runtime resources in #5040; use existing client-native pooling for HTTP/AWS SDK clients and reserve Deadpool-style bounded pools for future concrete database/lifelog connection backends.",
+        "decision_summary": "CSM runtime pooling uses the deadpool crate for governed bounded resource-slot mechanics; protocol-specific clients may still perform native reuse inside checked-out deadpool slots.",
+        "pool_crate": CSM_DEADPOOL_CRATE,
+        "pool_backend": CSM_DEADPOOL_MODEL,
+        "default_capacity": CSM_DEFAULT_POOL_CAPACITY,
+        "default_status": csm_deadpool_status_json("database_or_lifelog_connections", &default_pool),
         "pool_event_contract": {
             "required_fields": ["role", "event", "capacity_or_limit", "remediation_hint"],
             "events": ["pool_configured", "pool_exhausted", "pool_recovered", "client_reused"]
@@ -264,6 +343,14 @@ fn remediation_hint(role: CsmListenerRole) -> &'static str {
             "use ephemeral ports only with explicit bounded test harness flags"
         }
         _ => "declare the listener role and reserved CSM port before binding",
+    }
+}
+
+fn deadpool_error_label(err: PoolError) -> &'static str {
+    match err {
+        PoolError::Closed => "closed",
+        PoolError::NoRuntimeSpecified => "no_runtime_specified",
+        PoolError::Timeout => "pool_exhausted",
     }
 }
 
@@ -301,5 +388,43 @@ mod tests {
             .to_string()
             .contains("reserved for the CSM main runtime API"));
         assert!(reject_temp_allocation_port(20001).is_ok());
+    }
+
+    #[test]
+    fn deadpool_connection_slots_checkout_return_and_report_status() {
+        let pool = build_csm_deadpool("database_or_lifelog_connections", 2).unwrap();
+        let initial = csm_deadpool_status_json("database_or_lifelog_connections", &pool);
+        assert_eq!(initial["pool_crate"], CSM_DEADPOOL_CRATE);
+        assert_eq!(initial["pool_backend"], CSM_DEADPOOL_MODEL);
+        assert_eq!(initial["max_size"], 2);
+        assert_eq!(initial["available"], 2);
+
+        let first = try_checkout_csm_connection(&pool).unwrap();
+        assert_eq!(first.role, "database_or_lifelog_connections");
+        let second = try_checkout_csm_connection(&pool).unwrap();
+        assert_eq!(second.pool_backend, CSM_DEADPOOL_MODEL);
+        let err = try_checkout_csm_connection(&pool).expect_err("pool capacity must be enforced");
+        assert!(err.to_string().contains("pool_exhausted"));
+        drop(first);
+        let returned = csm_deadpool_status_json("database_or_lifelog_connections", &pool);
+        assert_eq!(returned["available"], 1);
+        drop(second);
+        let final_status = csm_deadpool_status_json("database_or_lifelog_connections", &pool);
+        assert_eq!(final_status["available"], 2);
+    }
+
+    #[test]
+    fn pooling_plan_records_deadpool_as_runtime_pooling_mechanic() {
+        let plan = csm_connection_pooling_plan();
+        assert_eq!(plan["pool_crate"], CSM_DEADPOOL_CRATE);
+        assert_eq!(plan["pool_backend"], CSM_DEADPOOL_MODEL);
+        assert_eq!(
+            plan["roles"][2]["decision"],
+            "use_deadpool_bounded_pool_for_connection_slots"
+        );
+        assert_eq!(
+            plan["default_status"]["available"],
+            CSM_DEFAULT_POOL_CAPACITY
+        );
     }
 }
