@@ -27,7 +27,13 @@ PROFILE="${ADL_AWS_PROFILE:-agent-logic-admin}"
 REGION="${ADL_AWS_REGION:-us-west-2}"
 RUN_ID="wp08-4686-$(date -u +%Y%m%dT%H%M%SZ)"
 CSM_BIN="${ADL_CSM_BIN:-adl/target/debug/csm}"
-ACIP_PROOF_BIN="${ADL_ACIP_SNS_PROOF_BIN:-adl/target/debug/csm}"
+if [ -n "${ADL_ACIP_SNS_PROOF_BIN:-}" ]; then
+  ACIP_PROOF_BIN="$ADL_ACIP_SNS_PROOF_BIN"
+  ACIP_PROOF_BIN_EXPLICIT=1
+else
+  ACIP_PROOF_BIN="adl/target/debug/csm"
+  ACIP_PROOF_BIN_EXPLICIT=0
+fi
 CLEANUP=0
 AWS_BIN="${AWS_BIN:-aws}"
 HEARTBEAT_SCRIPT="${ADL_WP08_HEARTBEAT_PROOF_SCRIPT:-adl/tools/run_wp08_heartbeat_live_proof.sh}"
@@ -41,7 +47,7 @@ while [ "$#" -gt 0 ]; do
     --region) REGION="${2:?--region requires a value}"; shift ;;
     --run-id) RUN_ID="${2:?--run-id requires a value}"; shift ;;
     --csm-bin) CSM_BIN="${2:?--csm-bin requires a value}"; shift ;;
-    --acip-proof-bin) ACIP_PROOF_BIN="${2:?--acip-proof-bin requires a value}"; shift ;;
+    --acip-proof-bin) ACIP_PROOF_BIN="${2:?--acip-proof-bin requires a value}"; ACIP_PROOF_BIN_EXPLICIT=1; shift ;;
     --cleanup) CLEANUP=1 ;;
     --help|-h) usage; exit 0 ;;
     *) echo "unknown argument: $1" >&2; usage >&2; exit 2 ;;
@@ -68,6 +74,17 @@ fi
 echo "PASS account_profile_resolved profile=$PROFILE account_matches_expected=true" >&2
 
 mkdir -p "$OUT"
+# shellcheck source=adl/tools/csm_binary_availability.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/csm_binary_availability.sh"
+CSM_BIN="$(adl_resolve_csm_binary "$CSM_BIN" "$OUT/csm_binary_availability_csm.json")"
+if [ "$ACIP_PROOF_BIN_EXPLICIT" -eq 1 ] && [ "$(basename "$ACIP_PROOF_BIN")" != "csm" ]; then
+  if [ ! -x "$ACIP_PROOF_BIN" ]; then
+    echo "explicit ACIP/SNS proof binary is not executable: $ACIP_PROOF_BIN" >&2
+    exit 2
+  fi
+else
+  ACIP_PROOF_BIN="$(adl_resolve_csm_binary "$ACIP_PROOF_BIN" "$OUT/csm_binary_availability_acip.json")"
+fi
 SUMMARY="$OUT/aws_signal_integration_summary.json"
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
