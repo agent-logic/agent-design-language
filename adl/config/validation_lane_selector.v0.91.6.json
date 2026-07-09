@@ -751,7 +751,7 @@
       ],
       "command": "bash adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
       "run_command": "bash adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
-      "reason": "wp07_csm_api_gateway_bridge_surface_requires_account_gate_auth_redaction_and_contract_validation; retained live summary validation runs through adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py"
+      "reason": "wp07_csm_api_gateway_bridge_surface_requires_runtime_api_path_account_gate_auth_redaction_and_contract_validation; retained live summary validation runs through adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py"
     },
     {
       "id": "wp08_aws_signal_integration_proof",

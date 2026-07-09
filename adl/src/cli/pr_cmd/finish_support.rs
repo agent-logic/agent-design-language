@@ -4993,7 +4993,7 @@ fn build_wp07_csm_api_gateway_bridge_validation_plan() -> FinishValidationPlan {
     );
     push_finish_validation_command(
         &mut commands,
-        "cargo test --manifest-path adl/Cargo.toml csm_api_gateway_bridge -- --nocapture",
+        "cargo test --manifest-path adl/Cargo.toml csm_runtime_api -- --nocapture",
     );
     push_finish_validation_command(
         &mut commands,
@@ -6844,14 +6844,14 @@ pub(super) fn run_finish_validation_rust(
                         ],
                     )?;
                 }
-                "cargo test --manifest-path adl/Cargo.toml csm_api_gateway_bridge -- --nocapture" => {
+                "cargo test --manifest-path adl/Cargo.toml csm_runtime_api -- --nocapture" => {
                     run_finish_validation_status(
                         "cargo",
                         &[
                             "test",
                             "--manifest-path",
                             path_str(&manifest)?,
-                            "csm_api_gateway_bridge",
+                            "csm_runtime_api",
                             "--",
                             "--nocapture",
                         ],

@@ -3,7 +3,6 @@ use std::path::PathBuf;
 
 use super::agent_cmd::real_csm_daemon;
 use super::csm_service_cmd::real_service;
-use ::adl::csm_api_gateway_bridge::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
 use ::adl::csm_backpressure::{prove_backpressure, BackpressureProofOptions};
 use ::adl::csm_cloud_control::{prove_cloudfront_status, CloudFrontStatusOptions};
 use ::adl::csm_continuity_capsule::{
@@ -12,6 +11,7 @@ use ::adl::csm_continuity_capsule::{
 };
 use ::adl::csm_observatory::{write_observatory_outputs, ObservatoryFormat};
 use ::adl::csm_polis_storage::{prove_polis_storage, PolisStorageProofOptions};
+use ::adl::csm_runtime_api::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
 use ::adl::long_lived_agent::{governed_stop, GovernedStopRequest};
 use ::adl::wp08_acip_sns_proof::run_wp08_acip_sns_live_proof;
 use chrono::{DateTime, Utc};
@@ -919,10 +919,10 @@ Semantics:
   - csm daemon service mode has no cycle-count lifetime boundary; --no-sleep is a test-only bounded harness boundary.
   - csm service owns CSM runtime supervision around csm daemon; local mode is the portable Rust supervisor path, while launchd/systemd metadata are host integration targets.
   - csm governed-stop is the only emergency polis stop path; it requires explicit operator metadata, checkpoints and safe-fail serialization before stop, lifecycle lifelog DB rows, and governed notice fan-out.
-  - csm daemon embeds the local-by-default runtime API at --api-bind and exposes /status, /health, /ready, /metrics, /events, and /chronosense from retained runtime artifacts without leaking host-private paths or secrets.
+  - csm daemon embeds the local-by-default runtime API at --api-bind and exposes /status, /health, /ready, /metrics, /events, /chronosense, and /api-gateway-bridge from retained runtime artifacts without leaking host-private paths or secrets.
   - csm daemon defaults its embedded runtime API to listener_role=main_runtime_api on 127.0.0.1:19997; 19950-19999 is reserved for local CSM runtime/dev/test listeners, and 127.0.0.1:0 is accepted only for explicit bounded test harness flags.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
-  - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status and governed API Gateway bridge proof under the Agent Logic account guard.
+  - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status and governed API Gateway bridge validation of the CSM runtime API /api-gateway-bridge path under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
   - csm storage proves Polis durable-state write/read/restore semantics against the approved S3 backend with checksum, immutable reference, and negative-case evidence.
   - csm continuity captures, stages, restores, and fire-drills portable continuity capsules with secrets excluded and host bindings explicit.

@@ -27,7 +27,6 @@ pub mod cognitive_transition_schema;
 pub mod continuous_verification_self_attack;
 pub mod control_plane;
 pub mod csdlc_prompt_editor;
-pub mod csm_api_gateway_bridge;
 pub mod csm_backpressure;
 pub mod csm_cloud_control;
 pub mod csm_continuity_capsule;

@@ -44,7 +44,14 @@ def main() -> None:
             fail(f"api_gateway.{key} must be a 16-character hash")
     if api.get("selected_protocol_type") not in {"HTTP", "REST", "WEBSOCKET"}:
         fail("api_gateway.selected_protocol_type must be a known API Gateway protocol")
-    for route in ["GET /status", "GET /health", "GET /ready", "GET /metrics", "GET /events"]:
+    for route in [
+        "GET /status",
+        "GET /health",
+        "GET /ready",
+        "GET /metrics",
+        "GET /events",
+        "GET /api-gateway-bridge",
+    ]:
         if route not in api.get("supported_route_keys", []) and "$default" not in api.get("supported_route_keys", []):
             fail(f"api_gateway.supported_route_keys missing {route}")
     if "GET /chronosense" not in api.get("planned_route_keys", []):
@@ -53,15 +60,15 @@ def main() -> None:
     bridge = summary.get("bridge", {})
     if not re.fullmatch(r"csm-5039-[0-9a-f]{16}", str(bridge.get("correlation_id", ""))):
         fail("bridge.correlation_id must be a csm-5039 scoped redacted correlation id")
-    if bridge.get("endpoint") != "/status":
-        fail("bridge.endpoint must be /status")
+    if bridge.get("endpoint") != "/api-gateway-bridge":
+        fail("bridge.endpoint must be /api-gateway-bridge")
     if bridge.get("http_status") != 200:
         fail("bridge.http_status must prove HTTP 200")
-    if bridge.get("response_schema") != "adl.csm.runtime_api.status.v1":
-        fail("bridge.response_schema must be the CSM runtime status schema")
+    if bridge.get("response_schema") != "adl.csm.runtime_api.api_gateway_bridge.v1":
+        fail("bridge.response_schema must be the CSM runtime API Gateway bridge schema")
     if bridge.get("runtime_owner") != "csm":
         fail("bridge.runtime_owner must be csm")
-    if bridge.get("redacted_payload_ref") != "redacted_status_payload.json":
+    if bridge.get("redacted_payload_ref") != "redacted_api_gateway_bridge_payload.json":
         fail("bridge.redacted_payload_ref mismatch")
 
     observability = summary.get("observability", {})
@@ -102,6 +109,8 @@ def main() -> None:
     policy = summary.get("local_csm_api_policy", {})
     if policy.get("embedded_daemon_api") != "loopback_only":
         fail("local CSM API policy must remain loopback_only")
+    if policy.get("runtime_api_path") != "/api-gateway-bridge":
+        fail("local CSM API policy must retain the runtime-owned /api-gateway-bridge path")
     if policy.get("direct_public_daemon_bind") is not False:
         fail("direct public daemon bind must remain false")
 
@@ -131,12 +140,12 @@ def main() -> None:
     for pattern in forbidden_patterns:
         if re.search(pattern, text, flags=re.IGNORECASE):
             fail(f"summary contains forbidden unredacted pattern: {pattern}")
-    if re.search(r"\bapi-[A-Za-z0-9-]{8,}\b", text):
+    if re.search(r"\bapi-[A-Za-z0-9]{8,}\b", text):
         fail("summary contains forbidden unredacted API Gateway id")
 
-    payload = path.with_name("redacted_status_payload.json")
+    payload = path.with_name("redacted_api_gateway_bridge_payload.json")
     if not payload.exists():
-        fail("redacted_status_payload.json is missing")
+        fail("redacted_api_gateway_bridge_payload.json is missing")
     payload_text = payload.read_text(errors="replace")
     for pattern in forbidden_patterns:
         if re.search(pattern, payload_text, flags=re.IGNORECASE):

@@ -4625,8 +4625,7 @@ fn finish_validation_profile_classifies_wp07_csm_api_gateway_bridge_slice() {
 
     assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
     assert!(plan.commands.contains(
-        &"cargo test --manifest-path adl/Cargo.toml csm_api_gateway_bridge -- --nocapture"
-            .to_string()
+        &"cargo test --manifest-path adl/Cargo.toml csm_runtime_api -- --nocapture".to_string()
     ));
     assert!(plan.commands.contains(
         &"cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture"

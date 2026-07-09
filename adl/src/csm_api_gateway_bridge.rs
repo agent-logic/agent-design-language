@@ -1,4 +1,7 @@
-use crate::csm_runtime_api::{assert_api_response_redacted, CSM_RUNTIME_API_STATUS_SCHEMA};
+use super::{
+    assert_api_response_redacted, CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA,
+    CSM_RUNTIME_API_ENDPOINTS,
+};
 use crate::observability::emit_event;
 use anyhow::{bail, Context, Result};
 use serde::{Deserialize, Serialize};
@@ -211,7 +214,7 @@ pub fn prove_api_gateway_bridge(
     let positive = http_json(
         &options.http_bin,
         &options.invoke_url,
-        "/status",
+        "/api-gateway-bridge",
         Some(&options.operator_token),
         &correlation_id,
     )?;
@@ -233,13 +236,15 @@ pub fn prove_api_gateway_bridge(
         .get("schema")
         .and_then(Value::as_str)
         .unwrap_or("unknown");
-    if response_schema != CSM_RUNTIME_API_STATUS_SCHEMA {
-        bail!("API Gateway status call did not return CSM runtime status schema");
+    if response_schema != CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA {
+        bail!("API Gateway bridge call did not return CSM runtime API Gateway bridge schema");
     }
     if positive.body.get("runtime_owner").and_then(Value::as_str) != Some("csm") {
-        bail!("API Gateway status call did not return CSM runtime owner");
+        bail!("API Gateway bridge call did not return CSM runtime owner");
     }
-    let payload_path = options.out_dir.join("redacted_status_payload.json");
+    let payload_path = options
+        .out_dir
+        .join("redacted_api_gateway_bridge_payload.json");
     fs::write(
         &payload_path,
         serde_json::to_string_pretty(&positive.body)? + "\n",
@@ -280,11 +285,15 @@ pub fn prove_api_gateway_bridge(
             selected_stage_name_hash: short_hash(stage_name),
             selected_stage_auto_deploy: stage.get("AutoDeploy").and_then(Value::as_bool),
             supported_route_keys: public_route_keys(&route_keys),
-            planned_route_keys: vec!["GET /chronosense".to_string()],
+            planned_route_keys: CSM_RUNTIME_API_ENDPOINTS
+                .iter()
+                .map(|endpoint| format!("GET {endpoint}"))
+                .chain(std::iter::once("GET /chronosense".to_string()))
+                .collect(),
         },
         bridge: BridgeInvocationSummary {
             correlation_id,
-            endpoint: "/status".to_string(),
+            endpoint: "/api-gateway-bridge".to_string(),
             http_status: positive.status_code,
             response_schema: response_schema.to_string(),
             runtime_owner: "csm".to_string(),
@@ -300,7 +309,7 @@ pub fn prove_api_gateway_bridge(
                 .and_then(Value::as_str)
                 .unwrap_or("unknown")
                 .to_string(),
-            redacted_payload_ref: "redacted_status_payload.json".to_string(),
+            redacted_payload_ref: "redacted_api_gateway_bridge_payload.json".to_string(),
         },
         observability: BridgeObservabilitySummary {
             cloudwatch_log_group_hash: short_hash(&options.cloudwatch_log_group),
@@ -343,6 +352,7 @@ pub fn prove_api_gateway_bridge(
         }),
         local_csm_api_policy: json!({
             "embedded_daemon_api": "loopback_only",
+            "runtime_api_path": "/api-gateway-bridge",
             "bridge_mode": "aws_api_gateway_to_authorized_loopback_runtime_api",
             "direct_public_daemon_bind": false
         }),
@@ -427,7 +437,7 @@ fn route_keys(routes: &Value) -> Vec<String> {
 }
 
 fn validate_required_routes(routes: &[String]) -> Result<()> {
-    for endpoint in ["/status", "/health", "/ready", "/metrics", "/events"] {
+    for endpoint in CSM_RUNTIME_API_ENDPOINTS {
         let get_route = format!("GET {endpoint}");
         if !routes
             .iter()
@@ -441,7 +451,7 @@ fn validate_required_routes(routes: &[String]) -> Result<()> {
 
 fn public_route_keys(routes: &[String]) -> Vec<String> {
     let mut public = Vec::new();
-    for endpoint in ["/status", "/health", "/ready", "/metrics", "/events"] {
+    for endpoint in CSM_RUNTIME_API_ENDPOINTS {
         let route = format!("GET {endpoint}");
         if routes.iter().any(|candidate| candidate == &route) {
             public.push(route);
@@ -515,7 +525,7 @@ fn run_negative_auth_case(
     let response = http_json(
         &options.http_bin,
         &options.invoke_url,
-        "/status",
+        "/api-gateway-bridge",
         None,
         correlation_id,
     )?;
@@ -730,7 +740,7 @@ mod tests {
         assert_eq!(summary.api_gateway.api_count, 1);
         assert_eq!(
             summary.bridge.response_schema,
-            "adl.csm.runtime_api.status.v1"
+            "adl.csm.runtime_api.api_gateway_bridge.v1"
         );
         assert!(summary.observability.cloudwatch_correlation_observed);
         assert_eq!(
@@ -789,7 +799,7 @@ mod tests {
         let routes = if missing_routes {
             r#"{"Items":[{"RouteKey":"GET /status"}]}"#
         } else {
-            r#"{"Items":[{"RouteKey":"GET /status"},{"RouteKey":"GET /health"},{"RouteKey":"GET /ready"},{"RouteKey":"GET /metrics"},{"RouteKey":"GET /events"}]}"#
+            r#"{"Items":[{"RouteKey":"GET /status"},{"RouteKey":"GET /health"},{"RouteKey":"GET /ready"},{"RouteKey":"GET /metrics"},{"RouteKey":"GET /events"},{"RouteKey":"GET /api-gateway-bridge"}]}"#
         };
         fs::write(
             &path,
@@ -842,7 +852,7 @@ case "$config" in
   *"Authorization: Bearer"*) auth="present" ;;
 esac
 if [ "$auth" = "present" ]; then
-  printf '%s\n%s' '{{"schema":"adl.csm.runtime_api.status.v1","runtime_owner":"csm","status":"healthy","ready":"ready","redaction":{{"secret_material":"not_returned"}}}}' "200"
+  printf '%s\n%s' '{{"schema":"adl.csm.runtime_api.api_gateway_bridge.v1","runtime_owner":"csm","status":"available","runtime_api_path":"/api-gateway-bridge","redaction":{{"secret_material":"not_returned"}}}}' "200"
 else
   printf '%s\n%s' '{{"schema":"adl.csm.api_gateway_bridge.denied.v1","status":"denied"}}' "{negative_status}"
 fi

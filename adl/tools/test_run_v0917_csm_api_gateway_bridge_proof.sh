@@ -23,7 +23,7 @@ case "$1 $2" in
     printf '%s\n' '{"Items":[{"StageName":"prod","AutoDeploy":true}]}'
     ;;
   "apigatewayv2 get-routes")
-    printf '%s\n' '{"Items":[{"RouteKey":"GET /status"},{"RouteKey":"GET /health"},{"RouteKey":"GET /ready"},{"RouteKey":"GET /metrics"},{"RouteKey":"GET /events"}]}'
+    printf '%s\n' '{"Items":[{"RouteKey":"GET /status"},{"RouteKey":"GET /health"},{"RouteKey":"GET /ready"},{"RouteKey":"GET /metrics"},{"RouteKey":"GET /events"},{"RouteKey":"GET /api-gateway-bridge"}]}'
     ;;
   "logs filter-log-events")
     printf '%s\n' '{"events":[{"eventId":"evt-1","message":"bridge csm-5039-a91b3eafa2b703d4 success"}]}'
@@ -49,7 +49,7 @@ case "$config" in
   *"Authorization: Bearer"*) auth="present" ;;
 esac
 if [ "$auth" = "present" ]; then
-  printf '%s\n%s' '{"schema":"adl.csm.runtime_api.status.v1","runtime_owner":"csm","status":"healthy","ready":"ready","redaction":{"secret_material":"not_returned"}}' "200"
+  printf '%s\n%s' '{"schema":"adl.csm.runtime_api.api_gateway_bridge.v1","runtime_owner":"csm","status":"available","runtime_api_path":"/api-gateway-bridge","redaction":{"secret_material":"not_returned"}}' "200"
 else
   printf '%s\n%s' '{"schema":"adl.csm.api_gateway_bridge.denied.v1","status":"denied"}' "403"
 fi
@@ -101,7 +101,8 @@ curl_log = Path(sys.argv[3]).read_text()
 
 assert summary["schema"] == "adl.csm.api_gateway_bridge_proof.v1"
 assert summary["status"] == "passed"
-assert summary["bridge"]["response_schema"] == "adl.csm.runtime_api.status.v1"
+assert summary["bridge"]["endpoint"] == "/api-gateway-bridge"
+assert summary["bridge"]["response_schema"] == "adl.csm.runtime_api.api_gateway_bridge.v1"
 assert summary["live_negative_cases"]["missing_token"] == "api_gateway_authorization_denied"
 for required in [
     "sts get-caller-identity",
