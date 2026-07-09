@@ -85,9 +85,9 @@ Result:
 - UTS runner completed and wrote the result artifact.
 - Deterministic self-check inside the runner passed.
 - The ADL hosted provider adapter resolved provider identity as `z_ai` and provider model id `glm-5`.
-- Initial #5025 UTS execution stopped with `provider_failed` because
-  `ZAI_API_KEY` was not available in that command environment.
-- That initial missing-credential result is superseded by #5026's provider
+- Initial #5025 UTS execution was credential-blocked in that command
+  environment.
+- That initial credential-blocked result is superseded by #5026's provider
   acceptance proof: the approved operator key file under `$HOME/keys/` was
   mapped command-locally to `ZAI_API_KEY`, the live Z.ai smoke passed, and the
   UTS regular and UTS-only lanes both passed through the native ADL provider
@@ -101,9 +101,8 @@ Local artifact summary:
 
 ## Live Provider Credential State
 
-The original #5025 run did not have a Z.ai credential in its command
-environment and therefore stopped before live provider proof. That state is no
-longer the current provider-sprint truth.
+The original #5025 run was credential-blocked before live provider proof. That
+state is no longer the current provider-sprint truth.
 
 Current truth after #5026:
 
