@@ -189,6 +189,8 @@ pub(crate) struct IssueWatchLocalReadinessReport {
     pub(crate) status: String,
     pub(crate) pr_run_readiness: String,
     pub(crate) reason: String,
+    pub(crate) check: String,
+    pub(crate) command: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
