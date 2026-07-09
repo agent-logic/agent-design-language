@@ -204,6 +204,46 @@ run:
 }
 
 #[test]
+fn expand_provider_profiles_accepts_bedrock_nova_lite_profile() {
+    let doc = adl_doc_from_yaml(
+        r#"
+version: "0.5"
+providers:
+  bedrock_primary:
+    profile: "bedrock:nova-lite-v1"
+agents:
+  a1:
+    provider: "bedrock_primary"
+    model: "hosted:adl-bedrock:amazon.nova-lite-v1:0"
+tasks:
+  t1:
+    prompt:
+      user: "u"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - agent: "a1"
+        task: "t1"
+"#,
+    );
+    let expanded = expand_provider_profiles(&doc).expect("expand bedrock profile");
+    let provider = &expanded.providers["bedrock_primary"];
+    assert_eq!(provider.kind, "bedrock");
+    assert_eq!(
+        provider.default_model.as_deref(),
+        Some("hosted:adl-bedrock:amazon.nova-lite-v1:0")
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("provider_model_id")
+            .and_then(|v| v.as_str()),
+        Some("amazon.nova-lite-v1:0")
+    );
+}
+
+#[test]
 fn expand_provider_profiles_accepts_chatgpt_profile_with_endpoint_override() {
     let doc = adl_doc_from_yaml(
         r#"

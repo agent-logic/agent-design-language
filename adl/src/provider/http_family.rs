@@ -2,6 +2,10 @@
 //!
 //! Supports OpenAI, Anthropic, DeepSeek, OpenRouter, generic HTTP, and Ollama-HTTP style backends.
 use super::*;
+use aws_config::{meta::region::RegionProviderChain, BehaviorVersion};
+use aws_sdk_bedrockruntime as bedrockruntime;
+use aws_sdk_sts as sts;
+use sha2::{Digest, Sha256};
 use std::thread;
 use std::time::Duration;
 
@@ -194,6 +198,93 @@ fn write_native_invocation_record(
     })
 }
 
+fn write_bedrock_invocation_record(
+    model: &str,
+    prompt: &str,
+    output: &str,
+    http_status: u16,
+    profile: &str,
+    region: &str,
+    account_id_sha256: Option<&str>,
+) -> Result<()> {
+    let Some(path) = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH") else {
+        return Ok(());
+    };
+    let path = PathBuf::from(path);
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).map_err(|err| {
+            runtime_error(
+                "bedrock",
+                format!("failed to create provider invocation artifact directory: {err}"),
+            )
+        })?;
+    }
+    let _artifact_lock = acquire_invocation_artifact_lock(&path).map_err(|err| {
+        runtime_error(
+            "bedrock",
+            format!("failed to acquire provider invocation artifact lock: {err}"),
+        )
+    })?;
+    let mut payload = if path.is_file() {
+        serde_json::from_slice::<Value>(&fs::read(&path).map_err(|err| {
+            runtime_error(
+                "bedrock",
+                format!("failed to read provider invocation artifact: {err}"),
+            )
+        })?)
+        .map_err(|err| {
+            runtime_error_non_retryable(
+                "bedrock",
+                format!("provider invocation artifact is invalid JSON: {err}"),
+            )
+        })?
+    } else {
+        serde_json::json!({
+            "schema_version": "adl.native_provider_invocations.v1",
+            "credential_policy": "operator_env_or_aws_profile_only_no_secret_material_recorded",
+            "invocations": []
+        })
+    };
+
+    let Some(invocations) = payload
+        .get_mut("invocations")
+        .and_then(|v| v.as_array_mut())
+    else {
+        return Err(runtime_error_non_retryable(
+            "bedrock",
+            "provider invocation artifact missing invocations array",
+        ));
+    };
+    let timestamp_unix_ms = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_millis() as u64;
+    invocations.push(serde_json::json!({
+        "family": "bedrock",
+        "model": model,
+        "http_status": http_status,
+        "timestamp_unix_ms": timestamp_unix_ms,
+        "prompt_chars": prompt.chars().count(),
+        "output_chars": output.chars().count(),
+        "aws_profile": profile,
+        "aws_region": region,
+        "account_id_sha256": account_id_sha256,
+        "account_profile_validation_status": "sts_verified"
+    }));
+    let bytes = serde_json::to_vec_pretty(&payload).map_err(|err| {
+        runtime_error_non_retryable(
+            "bedrock",
+            format!("failed to serialize provider invocation artifact: {err}"),
+        )
+    })?;
+    write_file_atomic(&path, &bytes).map_err(|err| {
+        runtime_error(
+            "bedrock",
+            format!("failed to write invocation artifact: {err}"),
+        )
+    })
+}
+
 fn write_file_atomic(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
     let mut os = path.as_os_str().to_os_string();
     os.push(format!(
@@ -260,6 +351,27 @@ fn extract_deepseek_output_text(json: &Value) -> Option<String> {
 
 fn extract_openrouter_output_text(json: &Value) -> Option<String> {
     extract_deepseek_output_text(json)
+}
+
+fn extract_bedrock_nova_output_text(json: &Value) -> Option<String> {
+    let mut chunks = Vec::new();
+    if let Some(content) = json
+        .pointer("/output/message/content")
+        .and_then(|v| v.as_array())
+    {
+        for part in content {
+            if let Some(text) = part.get("text").and_then(|v| v.as_str()) {
+                chunks.push(text);
+            }
+        }
+    }
+    if chunks.is_empty() {
+        if let Some(text) = json.get("outputText").and_then(|v| v.as_str()) {
+            chunks.push(text);
+        }
+    }
+    let joined = chunks.join("\n").trim().to_string();
+    (!joined.is_empty()).then_some(joined)
 }
 
 #[derive(Debug, Clone)]
@@ -554,6 +666,197 @@ impl Provider for OpenRouterProvider {
         write_native_invocation_record("openrouter", &self.model, prompt, &output, http_status)?;
         Ok(output)
     }
+}
+
+const DEFAULT_BEDROCK_PROFILE: &str = "agent-logic-admin";
+const DEFAULT_BEDROCK_REGION: &str = "us-west-2";
+
+#[derive(Debug, Clone)]
+/// AWS Bedrock native provider using Bedrock Runtime InvokeModel.
+pub struct AwsBedrockProvider {
+    model: String,
+    region: String,
+    profile: String,
+    max_tokens: u64,
+    timeout_secs: Option<u64>,
+}
+
+impl AwsBedrockProvider {
+    /// Build an AWS Bedrock provider from normalized invocation target.
+    pub fn from_target(
+        spec: &adl::ProviderSpec,
+        target: &ProviderInvocationTargetV1,
+    ) -> Result<Self> {
+        let region = cfg_string(&spec.config, "region")
+            .or_else(|| env::var("AWS_REGION").ok())
+            .or_else(|| env::var("AWS_DEFAULT_REGION").ok())
+            .unwrap_or_else(|| DEFAULT_BEDROCK_REGION.to_string());
+        let profile = cfg_string(&spec.config, "profile")
+            .or_else(|| env::var("ADL_AWS_PROFILE").ok())
+            .or_else(|| env::var("AWS_PROFILE").ok())
+            .unwrap_or_else(|| DEFAULT_BEDROCK_PROFILE.to_string());
+        if profile != DEFAULT_BEDROCK_PROFILE {
+            return Err(invalid_config(
+                "bedrock",
+                format!(
+                    "AWS Bedrock provider requires Agent Logic AWS profile '{DEFAULT_BEDROCK_PROFILE}' (got '{profile}')"
+                ),
+            ));
+        }
+        Ok(Self {
+            model: target.provider_model_id.clone(),
+            region,
+            profile,
+            max_tokens: cfg_u64(&spec.config, "max_tokens")
+                .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
+                .unwrap_or(220),
+            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+        })
+    }
+
+    async fn complete_async(&self, prompt: &str) -> Result<String> {
+        let region_provider =
+            RegionProviderChain::first_try(Some(aws_config::Region::new(self.region.clone())));
+        let mut timeout_config = aws_config::timeout::TimeoutConfig::builder()
+            .connect_timeout(Duration::from_secs(5))
+            .operation_timeout(Duration::from_secs(self.timeout_secs.unwrap_or(45)));
+        if let Some(secs) = self.timeout_secs {
+            timeout_config = timeout_config.operation_attempt_timeout(Duration::from_secs(secs));
+        }
+        let shared_config = aws_config::defaults(BehaviorVersion::latest())
+            .region(region_provider)
+            .profile_name(&self.profile)
+            .timeout_config(timeout_config.build())
+            .load()
+            .await;
+        let identity = sts::Client::new(&shared_config)
+            .get_caller_identity()
+            .send()
+            .await
+            .map_err(|err| bedrock_sdk_error(format!("{err:?}")))?;
+        let account_id_sha256 = identity.account().map(sha256_hex);
+        let body = bedrock_nova_request_body(prompt, self.max_tokens);
+        let response = bedrockruntime::Client::new(&shared_config)
+            .invoke_model()
+            .model_id(&self.model)
+            .content_type("application/json")
+            .accept("application/json")
+            .body(bedrockruntime::primitives::Blob::new(
+                serde_json::to_vec(&body).map_err(|err| {
+                    runtime_error_non_retryable(
+                        "bedrock",
+                        format!("failed to serialize Bedrock request: {err}"),
+                    )
+                })?,
+            ))
+            .send()
+            .await
+            .map_err(|err| bedrock_sdk_error(format!("{err:?}")))?;
+        let json: Value = serde_json::from_slice(response.body().as_ref()).map_err(|err| {
+            runtime_error_non_retryable("bedrock", format!("invalid Bedrock JSON: {err}"))
+        })?;
+        let output = extract_bedrock_nova_output_text(&json).ok_or_else(|| {
+            runtime_error_non_retryable("bedrock", "response missing Bedrock output text")
+        })?;
+        write_bedrock_invocation_record(
+            &self.model,
+            prompt,
+            &output,
+            200,
+            &self.profile,
+            &self.region,
+            account_id_sha256.as_deref(),
+        )?;
+        Ok(output)
+    }
+}
+
+impl Provider for AwsBedrockProvider {
+    fn complete(&self, prompt: &str) -> Result<String> {
+        tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .map_err(|err| runtime_error("bedrock", format!("failed to build runtime: {err}")))?
+            .block_on(self.complete_async(prompt))
+    }
+}
+
+fn cfg_string(cfg: &HashMap<String, Value>, key: &str) -> Option<String> {
+    cfg.get(key)
+        .and_then(|v| v.as_str())
+        .map(str::trim)
+        .filter(|v| !v.is_empty())
+        .map(ToString::to_string)
+}
+
+fn bedrock_nova_request_body(prompt: &str, max_tokens: u64) -> Value {
+    serde_json::json!({
+        "schemaVersion": "messages-v1",
+        "messages": [{
+            "role": "user",
+            "content": [{"text": prompt}],
+        }],
+        "inferenceConfig": {
+            "maxTokens": max_tokens,
+        },
+    })
+}
+
+fn bedrock_sdk_error(message: String) -> anyhow::Error {
+    let sanitized = sanitize_bedrock_error(&message);
+    let retryable = sanitized.contains("Throttling")
+        || sanitized.contains("TooManyRequests")
+        || sanitized.contains("timeout")
+        || sanitized.contains("Timeout")
+        || sanitized.contains("ServiceUnavailable")
+        || sanitized.contains("InternalServer");
+    if retryable {
+        runtime_error("bedrock", sanitized)
+    } else {
+        runtime_error_non_retryable("bedrock", sanitized)
+    }
+}
+
+fn sanitize_bedrock_error(message: &str) -> String {
+    let mut out = message.replace('\n', " ");
+    for marker in [
+        "Authorization: ",
+        "Authorization=",
+        "Credential=",
+        "X-Amz-Signature=",
+        "SecretAccessKey=",
+    ] {
+        out = redact_aws_error_value(&out, marker);
+    }
+    truncate_provider_body(&out)
+}
+
+fn redact_aws_error_value(input: &str, marker: &str) -> String {
+    let mut redacted = String::with_capacity(input.len());
+    let mut cursor = 0;
+    while let Some(relative_start) = input[cursor..].find(marker) {
+        let marker_start = cursor + relative_start;
+        let value_start = marker_start + marker.len();
+        redacted.push_str(&input[cursor..value_start]);
+        redacted.push_str("<redacted>");
+
+        let value_end = input[value_start..]
+            .char_indices()
+            .find_map(|(idx, ch)| {
+                matches!(ch, ' ' | ',' | '&' | ';' | '"' | '\'' | ')' | '}' | ']')
+                    .then_some(value_start + idx)
+            })
+            .unwrap_or(input.len());
+        cursor = value_end;
+    }
+    redacted.push_str(&input[cursor..]);
+    redacted
+}
+
+fn sha256_hex(value: &str) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(value.as_bytes());
+    format!("{:x}", hasher.finalize())
 }
 
 #[derive(Debug, Clone)]
