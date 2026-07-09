@@ -124,8 +124,72 @@ assert payload["action"] == "reused"
 assert payload["provenance"] == "cargo_target_dir"
 PY
 
-release_json="$TMP/release.json"
+stable_json="$TMP/stable.json"
 rm -rf "$fixture/adl/target"
+mkdir -p "$fixture/.adl/bin/.provenance"
+cat >"$fixture/.adl/bin/csm" <<'EOF'
+#!/usr/bin/env bash
+echo csm-stable-fixture
+EOF
+chmod +x "$fixture/.adl/bin/csm"
+# shellcheck source=adl/tools/owner_binary_resolution.sh
+source "$fixture/adl/tools/owner_binary_resolution.sh"
+adl_owner_source_hash "$fixture" >"$fixture/.adl/bin/.provenance/csm.sha256"
+ADL_CSM_SKIP_WARM_CACHE=1 PATH="$TMP/bin:$PATH" \
+  bash "$fixture/adl/tools/ensure_csm_binary.sh" --json --check-only >"$stable_json"
+python3 - "$stable_json" "$fixture/.adl/bin/csm" <<'PY'
+import json, pathlib, sys
+payload = json.loads(open(sys.argv[1]).read())
+expected = pathlib.Path(sys.argv[2]).resolve()
+assert payload["status"] == "available"
+assert payload["action"] == "reused"
+assert payload["provenance"] == "stable_owner_binary"
+assert pathlib.Path(payload["binary"]).resolve() == expected
+PY
+
+nested_primary="$TMP/primary"
+nested_worktree="$nested_primary/.worktrees/issue-4977"
+mkdir -p "$nested_primary/adl/src/bin" "$nested_worktree/adl/tools" "$nested_worktree/adl/src/bin" "$nested_worktree/.adl/bin/.provenance"
+cp "$ROOT_DIR/adl/tools/ensure_csm_binary.sh" "$nested_worktree/adl/tools/ensure_csm_binary.sh"
+cp "$ROOT_DIR/adl/tools/owner_binary_resolution.sh" "$nested_worktree/adl/tools/owner_binary_resolution.sh"
+cp "$ROOT_DIR/adl/tools/rust_validation_warm_cache.sh" "$nested_worktree/adl/tools/rust_validation_warm_cache.sh"
+chmod +x "$nested_worktree/adl/tools/ensure_csm_binary.sh"
+cat >"$nested_primary/adl/Cargo.toml" <<'EOF'
+[package]
+name = "adl"
+version = "0.0.0"
+edition = "2021"
+EOF
+touch "$nested_primary/adl/Cargo.lock"
+cat >"$nested_primary/adl/src/bin/csm.rs" <<'EOF'
+fn main() { println!("primary"); }
+EOF
+cp "$nested_primary/adl/Cargo.toml" "$nested_worktree/adl/Cargo.toml"
+cp "$nested_primary/adl/Cargo.lock" "$nested_worktree/adl/Cargo.lock"
+cat >"$nested_worktree/adl/src/bin/csm.rs" <<'EOF'
+fn main() { println!("worktree"); }
+EOF
+cat >"$nested_worktree/.adl/bin/csm" <<'EOF'
+#!/usr/bin/env bash
+echo csm-worktree-stable-fixture
+EOF
+chmod +x "$nested_worktree/.adl/bin/csm"
+adl_owner_source_hash "$nested_worktree" >"$nested_worktree/.adl/bin/.provenance/csm.sha256"
+nested_stable_json="$TMP/nested-stable.json"
+ADL_CSM_SKIP_WARM_CACHE=1 PATH="$TMP/bin:$PATH" \
+  bash "$nested_worktree/adl/tools/ensure_csm_binary.sh" --json --check-only >"$nested_stable_json"
+python3 - "$nested_stable_json" "$nested_worktree/.adl/bin/csm" <<'PY'
+import json, pathlib, sys
+payload = json.loads(open(sys.argv[1]).read())
+expected = pathlib.Path(sys.argv[2]).resolve()
+assert payload["status"] == "available"
+assert payload["action"] == "reused"
+assert payload["provenance"] == "stable_owner_binary"
+assert pathlib.Path(payload["binary"]).resolve() == expected
+PY
+
+release_json="$TMP/release.json"
+rm -rf "$fixture/adl/target" "$fixture/.adl/bin"
 ADL_CSM_PROFILE=release ADL_CSM_SKIP_WARM_CACHE=1 PATH="$TMP/bin:$PATH" \
   bash "$fixture/adl/tools/ensure_csm_binary.sh" --json >"$release_json"
 python3 - "$release_json" "$fixture/adl/target/release/csm" <<'PY'

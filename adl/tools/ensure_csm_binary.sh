@@ -155,8 +155,16 @@ csm_source_newer_than_bin() {
 candidate_rows() {
   local root="$1" primary_root="$2" target_dir="${CARGO_TARGET_DIR:-}"
   local strict="${ADL_CSM_BINARY_STRICT_REQUEST:-0}"
+  local stable_candidate
   if [[ -n "$REQUESTED_BIN" ]]; then
     printf 'explicit\t%s\t%s\n' "$REQUESTED_BIN" "$root"
+  fi
+  stable_candidate="$(adl_owner_stable_binary_if_fresh csm "$root" "$primary_root" || true)"
+  if [[ -n "$stable_candidate" ]]; then
+    case "$stable_candidate" in
+      "$primary_root"/*) printf 'stable_owner_binary\t%s\t%s\n' "$stable_candidate" "$primary_root" ;;
+      *) printf 'stable_owner_binary\t%s\t%s\n' "$stable_candidate" "$root" ;;
+    esac
   fi
   if [[ -n "$target_dir" ]]; then
     case "$target_dir" in
@@ -188,7 +196,8 @@ STALE_REASON=""
 while IFS=$'\t' read -r provenance candidate candidate_root; do
   [[ -n "$candidate" ]] || continue
   if [[ -x "$candidate" ]]; then
-    if csm_source_newer_than_bin "$ROOT_DIR" "$candidate" "$candidate_root"; then
+    if [[ "$provenance" != "stable_owner_binary" ]] &&
+        csm_source_newer_than_bin "$ROOT_DIR" "$candidate" "$candidate_root"; then
       STALE_REASON="${provenance}:stale"
       continue
     fi
