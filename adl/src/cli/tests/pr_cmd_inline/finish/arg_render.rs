@@ -4606,6 +4606,55 @@ fn finish_validation_profile_classifies_wp08_cloudfront_control_slice() {
 }
 
 #[test]
+fn finish_validation_profile_classifies_wp07_csm_api_gateway_bridge_slice() {
+    let changed_paths = vec![
+        "adl/config/validation_lane_selector.v0.91.6.json".to_string(),
+        "adl/src/cli/csm_cmd.rs".to_string(),
+        "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
+        "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs".to_string(),
+        "adl/src/csm_api_gateway_bridge.rs".to_string(),
+        "adl/src/csm_runtime_api.rs".to_string(),
+        "adl/src/lib.rs".to_string(),
+        "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh".to_string(),
+        "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py".to_string(),
+    ];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(5039, &requested_paths, &changed_paths)
+        .expect("WP-07 CSM API Gateway bridge focused plan");
+
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml csm_api_gateway_bridge -- --nocapture"
+            .to_string()
+    ));
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture"
+            .to_string()
+    ));
+    assert!(plan.commands.contains(
+        &"cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp07_csm_api_gateway_bridge_slice -- --exact --nocapture"
+            .to_string()
+    ));
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh".to_string()));
+}
+
+#[test]
+fn finish_validation_profile_rejects_wp07_csm_api_gateway_bridge_scope_expansion() {
+    let changed_paths = vec!["adl/src/csm_cloud_control.rs".to_string()];
+    let requested_paths = changed_paths.join(",");
+
+    let plan = select_finish_validation_plan_for_finish(5039, &requested_paths, &changed_paths)
+        .expect("scope expansion falls back to generic validation selection");
+
+    assert!(!plan
+        .commands
+        .contains(&"bash adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh".to_string()));
+}
+
+#[test]
 fn finish_validation_profile_classifies_wp08_aws_signal_integration_slice() {
     let changed_paths = vec![
         "adl/config/validation_lane_selector.v0.91.6.json".to_string(),

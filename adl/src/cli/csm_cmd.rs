@@ -3,6 +3,7 @@ use std::path::PathBuf;
 
 use super::agent_cmd::real_csm_daemon;
 use super::csm_service_cmd::real_service;
+use ::adl::csm_api_gateway_bridge::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
 use ::adl::csm_backpressure::{prove_backpressure, BackpressureProofOptions};
 use ::adl::csm_cloud_control::{prove_cloudfront_status, CloudFrontStatusOptions};
 use ::adl::csm_continuity_capsule::{
@@ -180,20 +181,159 @@ fn real_governed_stop(args: &[String]) -> Result<()> {
 
 fn real_cloud_control(args: &[String]) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
-        eprintln!("csm cloud-control requires subcommand: cloudfront-status");
+        eprintln!("csm cloud-control requires subcommand: cloudfront-status | api-gateway-bridge");
         std::process::exit(2);
     };
     match cmd {
+        "api-gateway-bridge" => real_api_gateway_bridge(&args[1..]),
         "cloudfront-status" => real_cloudfront_status(&args[1..]),
         "--help" | "-h" => {
             println!("{}", csm_usage());
             Ok(())
         }
         other => {
-            eprintln!("unknown csm cloud-control subcommand: {other} (expected cloudfront-status)");
+            eprintln!("unknown csm cloud-control subcommand: {other} (expected cloudfront-status or api-gateway-bridge)");
             std::process::exit(2);
         }
     }
+}
+
+fn real_api_gateway_bridge(args: &[String]) -> Result<()> {
+    let mut out_dir: Option<PathBuf> = None;
+    let mut run_id = "wp07-5039-api-gateway-bridge".to_string();
+    let mut profile = std::env::var("ADL_AWS_PROFILE")
+        .or_else(|_| std::env::var("AWS_PROFILE"))
+        .unwrap_or_else(|_| "agent-logic-admin".to_string());
+    let mut region = std::env::var("ADL_AWS_REGION").unwrap_or_else(|_| "us-west-2".to_string());
+    let mut expected_account_sha256 =
+        std::env::var("ADL_AWS_CSM_API_GATEWAY_ACCOUNT_SHA256").unwrap_or_default();
+    let mut api_id = std::env::var("ADL_CSM_API_GATEWAY_API_ID").ok();
+    let mut stage_name = std::env::var("ADL_CSM_API_GATEWAY_STAGE").ok();
+    let mut invoke_url = std::env::var("ADL_CSM_API_GATEWAY_INVOKE_URL").unwrap_or_default();
+    let mut operator_token =
+        std::env::var("ADL_CSM_API_GATEWAY_OPERATOR_TOKEN").unwrap_or_default();
+    let mut operator_token_file = std::env::var("ADL_CSM_API_GATEWAY_OPERATOR_TOKEN_FILE").ok();
+    let mut cloudwatch_log_group =
+        std::env::var("ADL_CSM_API_GATEWAY_CLOUDWATCH_LOG_GROUP").unwrap_or_default();
+    let mut eventbridge_bus =
+        std::env::var("ADL_CSM_API_GATEWAY_EVENTBRIDGE_BUS").unwrap_or_default();
+    let mut aws_bin = std::env::var("AWS_BIN").unwrap_or_else(|_| "aws".to_string());
+    let mut http_bin = std::env::var("CURL_BIN").unwrap_or_else(|_| "curl".to_string());
+    let mut json_output = false;
+
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                out_dir = Some(PathBuf::from(required_value(args, i, "--out")?));
+                i += 1;
+            }
+            "--run-id" => {
+                run_id = required_value(args, i, "--run-id")?.to_string();
+                i += 1;
+            }
+            "--profile" => {
+                profile = required_value(args, i, "--profile")?.to_string();
+                i += 1;
+            }
+            "--region" => {
+                region = required_value(args, i, "--region")?.to_string();
+                i += 1;
+            }
+            "--expected-account-sha256" => {
+                expected_account_sha256 =
+                    required_value(args, i, "--expected-account-sha256")?.to_string();
+                i += 1;
+            }
+            "--api-id" => {
+                api_id = Some(required_value(args, i, "--api-id")?.to_string());
+                i += 1;
+            }
+            "--stage" => {
+                stage_name = Some(required_value(args, i, "--stage")?.to_string());
+                i += 1;
+            }
+            "--invoke-url" => {
+                invoke_url = required_value(args, i, "--invoke-url")?.to_string();
+                i += 1;
+            }
+            "--operator-token" => {
+                operator_token = required_value(args, i, "--operator-token")?.to_string();
+                i += 1;
+            }
+            "--operator-token-file" => {
+                operator_token_file =
+                    Some(required_value(args, i, "--operator-token-file")?.to_string());
+                i += 1;
+            }
+            "--cloudwatch-log-group" => {
+                cloudwatch_log_group =
+                    required_value(args, i, "--cloudwatch-log-group")?.to_string();
+                i += 1;
+            }
+            "--eventbridge-bus" => {
+                eventbridge_bus = required_value(args, i, "--eventbridge-bus")?.to_string();
+                i += 1;
+            }
+            "--aws-bin" => {
+                aws_bin = required_value(args, i, "--aws-bin")?.to_string();
+                i += 1;
+            }
+            "--http-bin" => {
+                http_bin = required_value(args, i, "--http-bin")?.to_string();
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm cloud-control api-gateway-bridge arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+
+    let summary = prove_api_gateway_bridge(ApiGatewayBridgeOptions {
+        out_dir: out_dir
+            .context("csm cloud-control api-gateway-bridge requires --out <proof-dir>")?,
+        run_id,
+        profile,
+        region,
+        expected_account_sha256,
+        api_id,
+        stage_name,
+        invoke_url,
+        operator_token: resolve_operator_token(operator_token, operator_token_file)?,
+        cloudwatch_log_group,
+        eventbridge_bus,
+        aws_bin,
+        http_bin,
+    })?;
+    if json_output {
+        println!("{}", serde_json::to_string_pretty(&summary)?);
+    } else {
+        println!(
+            "CSM_API_GATEWAY_BRIDGE ok status={} correlation_id={}",
+            summary.status, summary.bridge.correlation_id
+        );
+    }
+    Ok(())
+}
+
+fn resolve_operator_token(token: String, token_file: Option<String>) -> Result<String> {
+    if !token.trim().is_empty() {
+        return Ok(token);
+    }
+    let Some(path) = token_file else {
+        return Ok(token);
+    };
+    Ok(std::fs::read_to_string(&path)
+        .with_context(|| format!("read CSM API Gateway operator token file {path}"))?
+        .trim()
+        .to_string())
 }
 
 fn real_cloudfront_status(args: &[String]) -> Result<()> {
@@ -762,6 +902,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm governed-stop --spec <agent-spec.yaml> --reason <text> --operator <identity> --authorization <metadata> --intent emergency_polis_stop|operator_safety_stop|recoverability_drill --requested-at <RFC3339> [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
+  csm cloud-control api-gateway-bridge --out <proof-dir> --invoke-url <url> --operator-token-file <path> --cloudwatch-log-group <name> --eventbridge-bus <name> [--api-id <id>] [--stage <name>] [--expected-account-sha256 <hash>] [--json]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
   csm storage prove-s3 --out <proof-dir> --bucket <bucket> --expected-account-sha256 <sha256> [--prefix community-memory/] [--profile agent-logic-admin] [--region us-west-2] [--run-id <id>] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
@@ -781,7 +922,7 @@ Semantics:
   - csm daemon embeds the local-by-default runtime API at --api-bind and exposes /status, /health, /ready, /metrics, /events, and /chronosense from retained runtime artifacts without leaking host-private paths or secrets.
   - csm daemon defaults its embedded runtime API to listener_role=main_runtime_api on 127.0.0.1:19997; 19950-19999 is reserved for local CSM runtime/dev/test listeners, and 127.0.0.1:0 is accepted only for explicit bounded test harness flags.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
-  - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status proof under the Agent Logic account guard.
+  - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status and governed API Gateway bridge proof under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
   - csm storage proves Polis durable-state write/read/restore semantics against the approved S3 backend with checksum, immutable reference, and negative-case evidence.
   - csm continuity captures, stages, restores, and fire-drills portable continuity capsules with secrets excluded and host bindings explicit.

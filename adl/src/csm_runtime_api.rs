@@ -1007,7 +1007,7 @@ fn write_http_response(stream: &mut TcpStream, response: &RuntimeApiHttpResponse
     Ok(())
 }
 
-fn assert_api_response_redacted(value: &Value) -> Result<()> {
+pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
     let raw = serde_json::to_string(value)?;
     for forbidden in [
         "/Users/",
