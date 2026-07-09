@@ -31,6 +31,7 @@ bash "$SCRIPT" --changed-files "$docs_only" --json >"$TMP/docs.json"
 python3 - <<'PY' "$TMP/docs.json"
 import json
 import sys
+from pathlib import Path
 
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
@@ -63,6 +64,99 @@ assert recorded["selected_profile"] == "docs_diff_check_profile"
 assert recorded["status"] == "ready_to_run"
 assert recorded == stdout_profile
 PY
+
+docs_run_log_dir="$TMP/build-action-logs"
+bash "$SCRIPT" \
+  --changed-files "$docs_only" \
+  --json \
+  --run \
+  --build-action-log-dir "$docs_run_log_dir" \
+  >"$TMP/docs-run.json"
+python3 - <<'PY' "$TMP/docs-run.json" "$docs_run_log_dir"
+import json
+import sys
+from pathlib import Path
+
+profile = json.load(open(sys.argv[1]))
+log_dir = Path(sys.argv[2])
+assert profile["run_status"] == "passed"
+assert profile["build_action_logs"]["schema_version"] == "adl.build_action_log_manifest.v1"
+assert profile["build_action_logs"]["packet_count"] == 1
+packet_ref = profile["run"][0]["build_action_log"]
+packet_path = Path(packet_ref)
+if not packet_path.is_absolute():
+    packet_path = Path.cwd() / packet_path
+assert packet_path.is_file()
+packet = json.load(open(packet_path))
+assert packet["schema_version"] == "adl.build_action_log.v1"
+assert packet["runner"] == "validation_manager"
+assert packet["lane_id"] == "docs_diff_check"
+assert packet["command"] == "git diff --check"
+assert packet["cwd"] == "."
+assert packet["binary_path"] == "shell"
+assert packet["cache_posture"] == "local_target_or_repo_configured"
+assert packet["exit_code"] == 0
+assert packet["status"] == "passed"
+for key in ("stdout_ref", "stderr_ref", "packet_ref"):
+    ref = packet[key]
+    assert "/Users/" not in ref and "/private/tmp" not in ref
+stdout_ref = Path(packet["stdout_ref"])
+stderr_ref = Path(packet["stderr_ref"])
+if not stdout_ref.is_absolute():
+    stdout_ref = Path.cwd() / stdout_ref
+if not stderr_ref.is_absolute():
+    stderr_ref = Path.cwd() / stderr_ref
+assert stdout_ref.is_file()
+assert stderr_ref.is_file()
+manifest_path = log_dir / "manifest.json"
+assert manifest_path.is_file()
+manifest = json.load(open(manifest_path))
+assert manifest["schema_version"] == "adl.build_action_log_manifest.v1"
+assert manifest["packet_count"] == 1
+assert manifest["packets"] == [packet["packet_ref"]]
+PY
+
+noisy_manifest="$TMP/noisy-manifest.json"
+python3 - <<'PY' "$ROOT/adl/config/validation_lane_selector.v0.91.6.json" "$noisy_manifest"
+import json
+import sys
+
+manifest = json.load(open(sys.argv[1]))
+for lane in manifest["lanes"]:
+    if lane["id"] == "docs_diff_check":
+        lane["command"] = "printf noisy-json-safe-stdout"
+        lane["run_command"] = "printf noisy-json-safe-stdout"
+json.dump(manifest, open(sys.argv[2], "w"), indent=2, sort_keys=True)
+PY
+noisy_log_dir="$TMP/noisy-build-action-logs"
+bash "$SCRIPT" \
+  --manifest "$noisy_manifest" \
+  --changed-files "$docs_only" \
+  --json \
+  --run \
+  --build-action-log-dir "$noisy_log_dir" \
+  >"$TMP/noisy-run.json" \
+  2>"$TMP/noisy-run.stderr"
+python3 - <<'PY' "$TMP/noisy-run.json"
+import json
+import sys
+from pathlib import Path
+
+profile = json.load(open(sys.argv[1]))
+assert profile["run_status"] == "passed"
+packet_ref = profile["run"][0]["build_action_log"]
+packet_path = Path(packet_ref)
+if not packet_path.is_absolute():
+    packet_path = Path.cwd() / packet_path
+packet = json.load(open(packet_path))
+stdout_ref = Path(packet["stdout_ref"])
+if not stdout_ref.is_absolute():
+    stdout_ref = Path.cwd() / stdout_ref
+stdout_text = open(stdout_ref).read()
+assert stdout_text == "noisy-json-safe-stdout"
+assert packet["command"] == "printf noisy-json-safe-stdout"
+PY
+assert_has "$TMP/noisy-run.stderr" "noisy-json-safe-stdout"
 
 tooling="$TMP/tooling.txt"
 printf 'M\tadl/tools/ci_path_policy.sh\n' >"$tooling"
