@@ -972,7 +972,10 @@ fn ensure_required_merge_checks_green(
         let Some(check) = report
             .checks
             .iter()
-            .find(|check| check.name.trim() == *required_name)
+            .filter(|check| check.name.trim() == *required_name)
+            .max_by(|left, right| {
+                compare_validation_check_run_ids(&left.job_run_id, &right.job_run_id)
+            })
         else {
             bail!(
                 "finish --merge: required GitHub check '{}' is missing from the current PR validation report",
@@ -991,6 +994,15 @@ fn ensure_required_merge_checks_green(
         }
     }
     Ok(())
+}
+
+fn compare_validation_check_run_ids(left: &str, right: &str) -> std::cmp::Ordering {
+    match (left.parse::<u64>(), right.parse::<u64>()) {
+        (Ok(left_id), Ok(right_id)) => left_id.cmp(&right_id),
+        (Ok(_), Err(_)) => std::cmp::Ordering::Greater,
+        (Err(_), Ok(_)) => std::cmp::Ordering::Less,
+        (Err(_), Err(_)) => std::cmp::Ordering::Equal,
+    }
 }
 
 pub(super) fn validate_ready_only_finish_pr_state(

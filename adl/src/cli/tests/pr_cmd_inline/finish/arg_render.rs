@@ -182,6 +182,54 @@ fn merge_mode_green_github_checks_satisfy_broad_runtime_escalation() {
 }
 
 #[test]
+fn merge_mode_green_github_checks_ignore_stale_duplicate_failures() {
+    let profile = broad_runtime_escalation_profile();
+    let mut report = ready_only_validation_report("ready_to_merge_or_review");
+    report.checks = vec![
+        PrValidationCheckReport {
+            name: "adl-ci".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "FAILURE".to_string(),
+            job_run_id: "8801".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+        PrValidationCheckReport {
+            name: "adl-ci".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "SUCCESS".to_string(),
+            job_run_id: "8804".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+        PrValidationCheckReport {
+            name: "adl-coverage".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "SUCCESS".to_string(),
+            job_run_id: "8805".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+    ];
+    let merge_proof = FinishMergeProofContext {
+        actual_base: "main",
+        expected_base: "main",
+        expected_head: ready_only_head_sha(),
+        closing_issues: &[5042],
+        issue: 5042,
+        no_close: false,
+    };
+
+    let accepted = finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+        &profile,
+        &report,
+        &merge_proof,
+    )
+    .expect(
+        "newer successful duplicate GitHub check should satisfy merge-mode broad Rust escalation",
+    );
+
+    assert!(accepted);
+}
+
+#[test]
 fn merge_mode_green_github_checks_fail_closed_when_coverage_missing() {
     let profile = broad_runtime_escalation_profile();
     let mut report = ready_only_validation_report("ready_to_merge_or_review");
