@@ -215,6 +215,12 @@ For a normal tracked issue:
   safe for the touched surface.
 - For owner-binary surfaces, prefer the focused lane runner when it matches the
   change: `bash adl/tools/run_owner_validation_lane.sh csdlc|runtime|review|all`.
+- Operational ADL owner binaries must be installed into the stable generated
+  repo-local directory outside Cargo build output: `.adl/bin/` by default, via
+  `bash adl/tools/install_owner_binaries.sh`. Treat `adl/target/` as disposable
+  build/cache output only; do not rely on live issue-worktree target directories
+  as the operational source of truth, and do not replace stable binaries unless
+  their recorded source provenance changes.
 - Before Rust-heavy validation in a fresh issue worktree or on an EC2/remote
   builder, use the dependency-cache warmup wrapper only when a trusted warm
   target from the same host, same filesystem, same checkout family, and same

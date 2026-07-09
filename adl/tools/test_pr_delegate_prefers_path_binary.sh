@@ -8,6 +8,7 @@ PR_USAGE_SRC="$ROOT_DIR/adl/tools/pr_usage.sh"
 CARD_PATHS_SRC="$ROOT_DIR/adl/tools/card_paths.sh"
 OBS_SRC="$ROOT_DIR/adl/tools/observability.sh"
 BASH_BIN="$(command -v bash)"
+TEST_BASE_PATH="/usr/bin:/bin:/usr/sbin:/sbin"
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
@@ -56,7 +57,7 @@ cargo_args="$tmpdir/cargo.args"
 : >"$cargo_args"
 (
   cd "$repo"
-  PATH="$pathbin:$mockbin:$PATH" \
+  PATH="$pathbin:$mockbin:$TEST_BASE_PATH" \
     ADL_TEST_LOG="$doctor_log" \
     ADL_TEST_CARGO_ARGS="$cargo_args" \
     "$BASH_BIN" adl/tools/pr.sh doctor 4590 --slug path-bin --no-fetch-issue --version v0.91.6 --mode full >/dev/null
@@ -88,7 +89,7 @@ touch "$repo/adl/Cargo.toml"
 
 (
   cd "$repo"
-  PATH="$pathbin:$mockbin:$PATH" \
+  PATH="$pathbin:$mockbin:$TEST_BASE_PATH" \
     ADL_TEST_GENERIC_ADL_LOG="$generic_adl_log" \
     ADL_TEST_CARGO_ARGS="$cargo_args" \
     "$BASH_BIN" adl/tools/pr.sh watch 4829 --json >/dev/null
@@ -127,7 +128,7 @@ touch "$repo/adl/Cargo.toml"
 
 (
   cd "$repo"
-  PATH="$pathbin:$mockbin:$PATH" \
+  PATH="$pathbin:$mockbin:$TEST_BASE_PATH" \
     ADL_TEST_REPO_ISSUE_LOG="$repo_bin_log" \
     ADL_TEST_PATH_ISSUE_LOG="$path_issue_log" \
     ADL_TEST_CARGO_ARGS="$cargo_args" \
@@ -158,7 +159,7 @@ rm -f "$pathbin/adl-issue"
 
 (
   cd "$repo"
-  PATH="$pathbin:$mockbin:$PATH" \
+  PATH="$pathbin:$mockbin:$TEST_BASE_PATH" \
     ADL_TEST_REPO_ISSUE_LOG="$repo_bin_log" \
     ADL_TEST_PATH_ISSUE_LOG="$path_issue_log" \
     ADL_TEST_CARGO_ARGS="$cargo_args" \
