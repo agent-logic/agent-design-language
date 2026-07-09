@@ -887,15 +887,18 @@ fn merge_mode_green_pr_backed_finish_validation_plan(
     } else {
         pr_closing_issue_numbers_finish_existing(repo, &existing)?
     };
+    let merge_proof = FinishMergeProofContext {
+        actual_base: &actual_base,
+        expected_base: &pr_base,
+        expected_head: &local_head,
+        closing_issues: &closing_issues,
+        issue,
+        no_close,
+    };
     if !finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
         &finish_profile,
         &report,
-        &actual_base,
-        &pr_base,
-        &local_head,
-        &closing_issues,
-        issue,
-        no_close,
+        &merge_proof,
     )? {
         return Ok(None);
     }
@@ -908,27 +911,31 @@ fn merge_mode_green_pr_backed_finish_validation_plan(
     }))
 }
 
+pub(super) struct FinishMergeProofContext<'a> {
+    pub(super) actual_base: &'a str,
+    pub(super) expected_base: &'a str,
+    pub(super) expected_head: &'a str,
+    pub(super) closing_issues: &'a [u32],
+    pub(super) issue: u32,
+    pub(super) no_close: bool,
+}
+
 pub(super) fn finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
     profile: &FinishValidationProfile,
     report: &PrValidationReport,
-    actual_base: &str,
-    expected_base: &str,
-    expected_head: &str,
-    closing_issues: &[u32],
-    issue: u32,
-    no_close: bool,
+    merge_proof: &FinishMergeProofContext<'_>,
 ) -> Result<bool> {
     if !finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile) {
         return Ok(false);
     }
     validate_ready_only_finish_pr_state(
         report,
-        actual_base,
-        expected_base,
-        expected_head,
-        closing_issues,
-        issue,
-        no_close,
+        merge_proof.actual_base,
+        merge_proof.expected_base,
+        merge_proof.expected_head,
+        merge_proof.closing_issues,
+        merge_proof.issue,
+        merge_proof.no_close,
     )
     .context("finish --merge: existing PR is not green, current, and linked enough to consume GitHub checks for broad Rust escalation")?;
     ensure_required_merge_checks_green(report, &["adl-ci", "adl-coverage"])?;

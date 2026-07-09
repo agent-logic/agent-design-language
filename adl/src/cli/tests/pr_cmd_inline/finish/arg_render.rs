@@ -15,13 +15,13 @@ use crate::cli::pr_cmd::finish_support::{
     release_gate_disposition_backed_finish_validation_plan, render_default_finish_validation,
     resolve_finish_issue_scope_and_slug, restage_finish_output_truth_paths,
     run_finish_validation_status, select_finish_validation_plan_for_finish,
-    validate_ready_only_finish_pr_state, validate_release_gate_disposition, FinishValidationMode,
-    FinishValidationPlan, FinishValidationProfile, FinishValidationProfileEscalation,
-    FinishValidationProfileEscalationReason, FinishValidationProfileRunItem,
-    FinishValidationProfileSurfaceItem, FinishValidationSplit, FinishValidationSplitFailClosed,
-    FinishValidationSplitFanoutPolicy, FinishValidationSplitFastLane,
-    FinishValidationSplitSlowFamily, FinishValidationVppRecord, SorFactEmissionContext,
-    SorFactIssueWatcherContext,
+    validate_ready_only_finish_pr_state, validate_release_gate_disposition,
+    FinishMergeProofContext, FinishValidationMode, FinishValidationPlan, FinishValidationProfile,
+    FinishValidationProfileEscalation, FinishValidationProfileEscalationReason,
+    FinishValidationProfileRunItem, FinishValidationProfileSurfaceItem, FinishValidationSplit,
+    FinishValidationSplitFailClosed, FinishValidationSplitFanoutPolicy,
+    FinishValidationSplitFastLane, FinishValidationSplitSlowFamily, FinishValidationVppRecord,
+    SorFactEmissionContext, SorFactIssueWatcherContext,
 };
 use crate::cli::pr_cmd::git_support::commits_behind_origin_main;
 use crate::cli::pr_cmd::github::{PrValidationCheckReport, PrValidationReport};
@@ -162,16 +162,19 @@ fn merge_mode_green_github_checks_satisfy_broad_runtime_escalation() {
     let profile = broad_runtime_escalation_profile();
     let mut report = ready_only_validation_report("ready_to_merge_or_review");
     report.checks = successful_required_pr_checks();
+    let merge_proof = FinishMergeProofContext {
+        actual_base: "main",
+        expected_base: "main",
+        expected_head: ready_only_head_sha(),
+        closing_issues: &[5042],
+        issue: 5042,
+        no_close: false,
+    };
 
     let accepted = finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
         &profile,
         &report,
-        "main",
-        "main",
-        ready_only_head_sha(),
-        &[5042],
-        5042,
-        false,
+        &merge_proof,
     )
     .expect("green required GitHub checks should satisfy merge-mode broad Rust escalation");
 
@@ -186,16 +189,19 @@ fn merge_mode_green_github_checks_fail_closed_when_coverage_missing() {
         .into_iter()
         .filter(|check| check.name != "adl-coverage")
         .collect();
+    let merge_proof = FinishMergeProofContext {
+        actual_base: "main",
+        expected_base: "main",
+        expected_head: ready_only_head_sha(),
+        closing_issues: &[5042],
+        issue: 5042,
+        no_close: false,
+    };
 
     let err = finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
         &profile,
         &report,
-        "main",
-        "main",
-        ready_only_head_sha(),
-        &[5042],
-        5042,
-        false,
+        &merge_proof,
     )
     .expect_err("missing adl-coverage must fail closed");
 
