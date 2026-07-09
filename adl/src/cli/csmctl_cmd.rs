@@ -183,7 +183,10 @@ fn default_csm_owner_binary() -> Result<PathBuf> {
 
 #[cfg(test)]
 mod tests {
-    use super::{csmctl_usage, real_csmctl};
+    use super::{
+        csmctl_cloud_usage, csmctl_diagnostics_usage, csmctl_runtime_usage, csmctl_status_usage,
+        csmctl_usage, real_csmctl, runtime_service_args,
+    };
     use serde_json::Value;
     use std::fs;
     use std::path::PathBuf;
@@ -255,6 +258,25 @@ safety:
     }
 
     #[test]
+    fn csmctl_help_and_unknown_module_paths_are_bounded_to_admin_surface() {
+        assert!(real_csmctl(&args(&[])).is_ok());
+        assert!(real_csmctl(&args(&["help"])).is_ok());
+        assert!(real_csmctl(&args(&["--help"])).is_ok());
+        assert_err_contains(
+            real_csmctl(&args(&["compile"])),
+            "unknown csmctl module 'compile'",
+        );
+    }
+
+    #[test]
+    fn csmctl_module_usage_surfaces_document_owned_boundaries() {
+        assert!(csmctl_runtime_usage().contains("Direct daemon-loop execution"));
+        assert!(csmctl_status_usage().contains("exact metadata or exact loopback probes"));
+        assert!(csmctl_diagnostics_usage().contains("permission-safe"));
+        assert!(csmctl_cloud_usage().contains("Agent Logic AWS guardrails"));
+    }
+
+    #[test]
     fn csmctl_rejects_direct_daemon_execution() {
         assert_err_contains(
             real_csmctl(&args(&["runtime", "daemon", "--help"])),
@@ -271,6 +293,16 @@ safety:
     }
 
     #[test]
+    fn csmctl_runtime_help_and_unknown_paths_stay_runtime_scoped() {
+        assert!(real_csmctl(&args(&["runtime"])).is_ok());
+        assert!(real_csmctl(&args(&["runtime", "--help"])).is_ok());
+        assert_err_contains(
+            real_csmctl(&args(&["runtime", "compile"])),
+            "unknown csmctl runtime command 'compile'",
+        );
+    }
+
+    #[test]
     fn csmctl_runtime_help_paths_delegate_to_csm_owned_parsers() {
         assert!(real_csmctl(&args(&["runtime", "service", "--help"])).is_ok());
         assert!(real_csmctl(&args(&["runtime", "governed-stop", "--help"])).is_ok());
@@ -283,10 +315,58 @@ safety:
     }
 
     #[test]
+    fn csmctl_status_and_diagnostics_help_paths_are_permission_safe() {
+        assert!(real_csmctl(&args(&["status", "--help"])).is_ok());
+        assert!(real_csmctl(&args(&["diagnostics"])).is_ok());
+        assert!(real_csmctl(&args(&["diagnostics", "help"])).is_ok());
+        assert_err_contains(
+            real_csmctl(&args(&["diagnostics", "scan"])),
+            "unknown csmctl diagnostics command 'scan'",
+        );
+    }
+
+    #[test]
     fn csmctl_status_requires_exact_target() {
         assert_err_contains(
             real_csmctl(&args(&["status", "--json"])),
             "requires exactly one of --pid, --pid-file, --port, or --name",
+        );
+    }
+
+    #[test]
+    fn csmctl_cloud_help_and_unknown_paths_stay_cloud_scoped() {
+        assert!(real_csmctl(&args(&["cloud"])).is_ok());
+        assert!(real_csmctl(&args(&["cloud", "--help"])).is_ok());
+        assert_err_contains(
+            real_csmctl(&args(&["cloud", "billing"])),
+            "unknown csmctl cloud command 'billing'",
+        );
+    }
+
+    #[test]
+    fn csmctl_service_args_only_default_install_without_explicit_csm_bin() {
+        let explicit = args(&["service", "install", "--csm-bin", "/tmp/csm"]);
+        assert_eq!(
+            runtime_service_args(&explicit).expect("explicit csm-bin args"),
+            explicit
+        );
+
+        let status = args(&["service", "status"]);
+        assert_eq!(
+            runtime_service_args(&status).expect("service status args"),
+            status
+        );
+
+        let install = args(&["service", "install"]);
+        let mapped = runtime_service_args(&install).expect("default install args");
+        assert_eq!(&mapped[..2], &install[..]);
+        assert_eq!(mapped[mapped.len() - 2], "--csm-bin");
+        assert!(
+            mapped
+                .last()
+                .expect("default csm binary")
+                .ends_with(&format!("csm{}", std::env::consts::EXE_SUFFIX)),
+            "install should default to csm owner binary: {mapped:?}"
         );
     }
 
