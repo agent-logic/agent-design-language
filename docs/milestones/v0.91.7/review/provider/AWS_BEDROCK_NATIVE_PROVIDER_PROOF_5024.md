@@ -9,7 +9,7 @@ Date: 2026-07-07
 - Added Rust-native AWS Bedrock provider support through the provider family path.
 - Added provider profile presets for:
   - `bedrock:nova-lite-v1` -> `amazon.nova-lite-v1:0`
-  - `bedrock:nova-pro-v1` -> `amazon.nova-pro-v1:0`
+  - `bedrock:nova-pro-v1` -> `us.amazon.nova-pro-v1:0`
 - Integrated `bedrock` / `aws_bedrock` into provider substrate inference, provider construction, hosted adapter routing, and `adl provider setup bedrock`.
 - Added profile/region guardrails:
   - default AWS profile: `agent-logic-admin`
@@ -65,6 +65,11 @@ Model discovery:
 - `amazon.nova-lite-v1:0` was visible in both regions.
 - `us-east-1` returned a live daily-token throttle for the tiny smoke call: `Too many tokens per day, please wait before trying again.`
 - `us-west-2` successfully invoked the same Nova Lite model, so `us-west-2` is the default Bedrock region in this implementation.
+- Follow-up live Nova Pro proof in #5026 showed that `amazon.nova-pro-v1:0`
+  is rejected for on-demand throughput in this account/region. The accepted
+  Nova Pro route is the active system inference profile
+  `us.amazon.nova-pro-v1:0`, and the `bedrock:nova-pro-v1` profile now maps to
+  that id.
 
 ## Live Adapter Smoke
 

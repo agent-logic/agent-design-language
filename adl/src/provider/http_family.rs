@@ -1,6 +1,6 @@
 //! HTTP-based provider implementations and request transport helpers.
 //!
-//! Supports OpenAI, Anthropic, DeepSeek, OpenRouter, generic HTTP, and Ollama-HTTP style backends.
+//! Supports OpenAI, Anthropic, DeepSeek, OpenRouter, Z.ai, generic HTTP, and Ollama-HTTP style backends.
 use super::*;
 use aws_config::{meta::region::RegionProviderChain, BehaviorVersion};
 use aws_sdk_bedrockruntime as bedrockruntime;
@@ -862,6 +862,79 @@ fn sha256_hex(value: &str) -> String {
     let mut hasher = Sha256::new();
     hasher.update(value.as_bytes());
     format!("{:x}", hasher.finalize())
+}
+
+#[derive(Debug, Clone)]
+/// Z.ai native provider using the OpenAI-compatible chat completions API format.
+pub struct ZAiProvider {
+    endpoint: String,
+    auth_env: String,
+    model: String,
+    max_tokens: u64,
+    timeout_secs: Option<u64>,
+}
+
+impl ZAiProvider {
+    /// Build a Z.ai provider from normalized invocation target.
+    pub fn from_target(
+        spec: &adl::ProviderSpec,
+        target: &ProviderInvocationTargetV1,
+    ) -> Result<Self> {
+        let endpoint = vendor_endpoint(spec, target, Z_AI_CHAT_COMPLETIONS_ENDPOINT, "z_ai")?;
+        let auth_env = auth_env_for(spec, "ZAI_API_KEY")?;
+        validate_vendor_credential_endpoint(
+            spec,
+            "z_ai",
+            &endpoint,
+            &auth_env,
+            "ZAI_API_KEY",
+            &["open.bigmodel.cn", "api.z.ai"],
+        )?;
+        Ok(Self {
+            endpoint,
+            auth_env,
+            model: target.provider_model_id.clone(),
+            max_tokens: cfg_u64(&spec.config, "max_tokens")
+                .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
+                .unwrap_or(220),
+            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+        })
+    }
+}
+
+impl Provider for ZAiProvider {
+    fn complete(&self, prompt: &str) -> Result<String> {
+        let token = env::var(&self.auth_env).map_err(|_| {
+            invalid_config(
+                "z_ai",
+                format!("missing required auth env var '{}'", self.auth_env),
+            )
+        })?;
+        let mut client_builder = reqwest::blocking::Client::builder();
+        if let Some(secs) = self.timeout_secs {
+            client_builder = client_builder.timeout(Duration::from_secs(secs));
+        }
+        let client = client_builder
+            .build()
+            .context("failed to build Z.ai client")
+            .map_err(|err| runtime_error("z_ai", err.to_string()))?;
+        let req = client
+            .post(&self.endpoint)
+            .header("Content-Type", "application/json")
+            .bearer_auth(token)
+            .json(&serde_json::json!({
+                "model": self.model,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": self.max_tokens,
+                "stream": false,
+            }));
+        let (json, http_status) = provider_http_json("z_ai", req)?;
+        let output = extract_deepseek_output_text(&json).ok_or_else(|| {
+            runtime_error_non_retryable("z_ai", "response missing message content")
+        })?;
+        write_native_invocation_record("z_ai", &self.model, prompt, &output, http_status)?;
+        Ok(output)
+    }
 }
 
 #[derive(Debug, Clone)]

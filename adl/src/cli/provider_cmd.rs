@@ -220,6 +220,18 @@ fn template_for_family(family: &str) -> Result<&'static ProviderSetupTemplate> {
             endpoint_hint: None,
             notes: "Use this for the Rust-native AWS Bedrock provider path. ADL AWS work must use the Agent Logic business profile `agent-logic-admin`; set `ADL_AWS_REGION` or `AWS_REGION` when selecting a Bedrock region.",
         },
+        "z_ai" | "zai" | "zhipu" => &ProviderSetupTemplate {
+            family: "z_ai",
+            profile: None,
+            kind: Some("z_ai"),
+            env_var: "ZAI_API_KEY",
+            provider_id: "z_ai_primary",
+            agent_id: "z_ai_agent",
+            model_ref: "hosted:adl-z-ai:glm-5",
+            provider_model_id: "glm-5",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native Z.ai provider path. The default endpoint is Z.ai/Zhipu's OpenAI-compatible chat completions API; override config.endpoint only for tests or a trusted compatible endpoint. Z.ai capability support is model-specific, so record model-specific UTS/provider proof before routing production work.",
+        },
         "http" | "generic-http" => &ProviderSetupTemplate {
             family: "http",
             profile: Some("http:gpt-4.1-mini"),
@@ -234,7 +246,7 @@ fn template_for_family(family: &str) -> Result<&'static ProviderSetupTemplate> {
         },
         other => {
             return Err(anyhow!(
-                "unsupported provider setup family '{other}' (supported: chatgpt, claude, openai, anthropic, gemini, deepseek, openrouter, bedrock, http)"
+                "unsupported provider setup family '{other}' (supported: chatgpt, claude, openai, anthropic, gemini, deepseek, openrouter, bedrock, z_ai, http)"
             ))
         }
     };
@@ -594,6 +606,7 @@ mod tests {
             ),
             ("deepseek", "type: \"deepseek\"", "DEEPSEEK_API_KEY"),
             ("openrouter", "type: \"openrouter\"", "OPENROUTER_API_KEY"),
+            ("z_ai", "type: \"z_ai\"", "ZAI_API_KEY"),
             (
                 "generic-http",
                 "profile: \"http:gpt-4.1-mini\"",
