@@ -125,6 +125,11 @@ fn real_pr_closeout_reconciles_closed_completed_issue_bundle() {
         &sor_path,
         "codex/1596-v0-87-1-tools-make-closeout-automatic-after-merge-closure",
     );
+    let mut sor_text = fs::read_to_string(&sor_path).expect("read completed sor");
+    sor_text.push_str(
+        "\n## Machine-readable closeout facts\n\n```yaml\npr_url: https://github.com/owner/repo/pull/1600\n```\n",
+    );
+    fs::write(&sor_path, sor_text).expect("write completed sor with pr url");
 
     let worktree = issue_ref.default_worktree_path(&repo, None);
     assert!(Command::new("git")
@@ -171,6 +176,17 @@ fn real_pr_closeout_reconciles_closed_completed_issue_bundle() {
     assert!(canonical_text.contains("- Verification scope: main_repo"));
     assert!(canonical_text.contains("- Worktree-only paths remaining: none"));
     assert!(canonical_text.contains("- Worktree prune result: pruned: adl-wp-1596"));
+    let watcher_packet = repo.join(".adl/logs/issue-watcher/issue-1596/pr-1600-attachment.json");
+    assert!(
+        watcher_packet.is_file(),
+        "closeout should create terminal watcher packet"
+    );
+    let watcher_text = fs::read_to_string(&watcher_packet).expect("read watcher packet");
+    assert!(watcher_text.contains("\"repo\": \"owner/repo\""));
+    assert!(watcher_text.contains(
+        "\"branch\": \"codex/1596-v0-87-1-tools-make-closeout-automatic-after-merge-closure\""
+    ));
+    assert!(watcher_text.contains("\"terminal_disposition\": \"green_merged\""));
     assert!(!worktree.exists());
 }
 
