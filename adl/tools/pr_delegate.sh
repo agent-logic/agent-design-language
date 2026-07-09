@@ -5,6 +5,12 @@ require_cmd() {
   command -v "$1" >/dev/null 2>&1 || die "Missing required command: $1"
 }
 
+OWNER_BINARY_RESOLUTION_LIB="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/owner_binary_resolution.sh"
+if [[ -f "$OWNER_BINARY_RESOLUTION_LIB" ]]; then
+  # shellcheck disable=SC1090
+  source "$OWNER_BINARY_RESOLUTION_LIB"
+fi
+
 rust_pr_delegate_available() {
   [[ "${ADL_PR_RUST_DISABLE:-0}" == "1" ]] && return 1
   if [[ -n "${ADL_PR_RUST_BIN:-}" ]]; then
@@ -18,6 +24,14 @@ rust_pr_delegate_available() {
   fi
   [[ -f "$(rust_pr_delegate_root)/adl/Cargo.toml" ]] || return 1
   local cached_bin
+  cached_bin="$(rust_pr_subcommand_stable_bin "${1:-}" || true)"
+  if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
+    return 0
+  fi
+  cached_bin="$(rust_pr_delegate_stable_bin || true)"
+  if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
+    return 0
+  fi
   cached_bin="$(rust_pr_subcommand_cached_bin "${1:-}" || true)"
   if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
     return 0
@@ -215,6 +229,37 @@ rust_pr_delegate_bin_is_fresh() {
   return 0
 }
 
+rust_pr_subcommand_stable_bin() {
+  declare -F adl_owner_stable_binary_if_fresh >/dev/null || return 1
+  local subcommand="$1"
+  local root primary_root binary_name candidate
+  root="$(rust_pr_delegate_root)"
+  primary_root="$(rust_pr_delegate_primary_root)"
+  binary_name="$(rust_pr_subcommand_binary_name "$subcommand" || true)"
+  [[ -n "$binary_name" ]] || return 1
+  candidate="$(adl_owner_stable_binary_if_fresh "$binary_name" "$root" "$primary_root" || true)"
+  [[ -n "$candidate" ]] || return 1
+  if [[ "$primary_root" != "$root" ]] && [[ "$candidate" == "$primary_root/.adl/bin/"* ]] &&
+      rust_pr_worktree_inputs_are_newer_than_bin "$root" "$candidate" "$primary_root"; then
+    return 1
+  fi
+  printf '%s\n' "$candidate"
+}
+
+rust_pr_delegate_stable_bin() {
+  declare -F adl_owner_stable_binary_if_fresh >/dev/null || return 1
+  local root primary_root candidate
+  root="$(rust_pr_delegate_root)"
+  primary_root="$(rust_pr_delegate_primary_root)"
+  candidate="$(adl_owner_stable_binary_if_fresh "adl" "$root" "$primary_root" || true)"
+  [[ -n "$candidate" ]] || return 1
+  if [[ "$primary_root" != "$root" ]] && [[ "$candidate" == "$primary_root/.adl/bin/"* ]] &&
+      rust_pr_worktree_inputs_are_newer_than_bin "$root" "$candidate" "$primary_root"; then
+    return 1
+  fi
+  printf '%s\n' "$candidate"
+}
+
 rust_pr_subcommand_binary_name() {
   case "${1:-}" in
     create) printf 'adl-pr-create\n' ;;
@@ -382,16 +427,20 @@ EOF
   fi
   if [[ -n "$direct_bin" ]]; then
     cat >&2 <<EOF
+- $root/.adl/bin/$direct_bin
+- $primary_root/.adl/bin/$direct_bin
 - $root/adl/target/debug/$direct_bin
 - $primary_root/adl/target/debug/$direct_bin
 - $direct_bin on PATH
 EOF
   fi
   cat >&2 <<EOF
+- $root/.adl/bin/adl
+- $primary_root/.adl/bin/adl
 - $root/adl/target/debug/adl
 - $primary_root/adl/target/debug/adl
 - adl on PATH
-Build owner binaries first with: bash adl/tools/run_owner_validation_lane.sh csdlc --build
+Install owner binaries first with: bash adl/tools/install_owner_binaries.sh
 Set ADL_PR_RUST_ALLOW_CARGO_FALLBACK=1 only for explicit bootstrap/debug use.
 EOF
 }
@@ -628,6 +677,11 @@ delegate_pr_command_to_rust() {
     adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$override_bin"
     exec "$override_bin" "$@"
   fi
+  direct_bin="$(rust_pr_subcommand_stable_bin "$subcommand" || true)"
+  if [[ -n "$direct_bin" ]]; then
+    adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$direct_bin" "source" "stable_owner_bin"
+    exec "$direct_bin" "$@"
+  fi
   direct_bin="$(rust_pr_subcommand_cached_bin "$subcommand" || true)"
   if [[ -n "$direct_bin" ]]; then
     adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$direct_bin"
@@ -659,6 +713,11 @@ delegate_pr_command_to_rust() {
     exec "$direct_bin" "$@"
   fi
   if rust_pr_subcommand_allows_primary_generic_last_resort "$subcommand"; then
+    cached_bin="$(rust_pr_delegate_stable_bin || true)"
+    if [[ -n "$cached_bin" ]]; then
+      adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$cached_bin" "source" "stable_owner_bin"
+      exec "$cached_bin" pr "$subcommand" "$@"
+    fi
     cached_bin="$(rust_pr_delegate_cached_bin || true)"
     if [[ -n "$cached_bin" ]]; then
       adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$cached_bin"
@@ -705,6 +764,11 @@ delegate_pr_command_to_rust() {
     ADL_PR_RUST_DELEGATE_BUILD_LOCK_HELD=""
     trap - EXIT
     exit "$status"
+  fi
+  cached_bin="$(rust_pr_delegate_stable_bin || true)"
+  if [[ -n "$cached_bin" ]]; then
+    adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$cached_bin" "source" "stable_owner_bin"
+    exec "$cached_bin" pr "$subcommand" "$@"
   fi
   cached_bin="$(rust_pr_delegate_cached_bin || true)"
   if [[ -n "$cached_bin" ]]; then

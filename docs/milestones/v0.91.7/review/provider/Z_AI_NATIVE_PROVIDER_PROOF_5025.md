@@ -85,8 +85,13 @@ Result:
 - UTS runner completed and wrote the result artifact.
 - Deterministic self-check inside the runner passed.
 - The ADL hosted provider adapter resolved provider identity as `z_ai` and provider model id `glm-5`.
-- Both `regular` and `uts_only` lanes stopped with `provider_failed` because `ZAI_API_KEY` was not available.
-- No semantic UTS score is claimed for Z.ai in this issue.
+- Initial #5025 UTS execution was credential-blocked in that command
+  environment.
+- That initial credential-blocked result is superseded by #5026's provider
+  acceptance proof: the approved operator key file under `$HOME/keys/` was
+  mapped command-locally to `ZAI_API_KEY`, the live Z.ai smoke passed, and the
+  UTS regular and UTS-only lanes both passed through the native ADL provider
+  adapter path.
 
 Local artifact summary:
 
@@ -96,12 +101,18 @@ Local artifact summary:
 
 ## Live Provider Credential State
 
-The live smoke was prepared but not executed because no approved Z.ai credential source was present:
+The original #5025 run was credential-blocked before live provider proof. That
+state is no longer the current provider-sprint truth.
 
-- `$HOME/keys/zai.key`: not readable/present
-- `$HOME/keys/z_ai.key`: not readable/present
-- `$HOME/keys/zhipu.key`: not readable/present
-- `ZAI_API_KEY`: absent in the command environment
+Current truth after #5026:
+
+- An operator-approved Z.ai key file exists under `$HOME/keys/`.
+- The key file was mapped command-locally to `ZAI_API_KEY` for the live adapter
+  smoke and UTS panel.
+- The tracked acceptance packet is
+  `docs/milestones/v0.91.7/review/provider/Z_AI_ACCEPTANCE_5026.md`.
+- The shared provider acceptance matrix is
+  `docs/milestones/v0.91.7/review/provider/PROVIDER_ACCEPTANCE_MATRIX_5026.md`.
 
 Prepared local smoke request:
 
@@ -111,7 +122,8 @@ No credential contents were printed, copied, committed, or scanned.
 
 ## Non-Claims
 
-- This issue does not claim a successful live Z.ai API call.
-- This issue does not claim Z.ai UTS semantic support.
+- This issue's initial local UTS run did not claim a successful live Z.ai API
+  call because credentials were not present in that command environment.
+- Current provider-sprint acceptance for live Z.ai API and UTS support is
+  claimed by #5026, not by inventing new #5025-only proof.
 - This issue does not add a canonical UTS panel member; the UTS invocation used an ad-hoc hosted selector to verify the ADL provider adapter path.
-- Follow-on live proof requires an approved Z.ai API key mapped to `ZAI_API_KEY`.

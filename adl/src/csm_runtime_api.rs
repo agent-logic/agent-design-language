@@ -5,7 +5,7 @@ use serde_json::{json, Value};
 use std::env;
 use std::fs;
 use std::io::{Read, Write};
-use std::net::{SocketAddr, TcpListener, TcpStream};
+use std::net::{IpAddr, SocketAddr, TcpListener, TcpStream};
 use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant};
 
@@ -21,6 +21,7 @@ pub const CSM_RUNTIME_API_HEALTH_SCHEMA: &str = "adl.csm.runtime_api.health.v1";
 pub const CSM_RUNTIME_API_READY_SCHEMA: &str = "adl.csm.runtime_api.ready.v1";
 pub const CSM_RUNTIME_API_METRICS_SCHEMA: &str = "adl.csm.runtime_api.metrics.v1";
 pub const CSM_RUNTIME_API_EVENTS_SCHEMA: &str = "adl.csm.runtime_api.events.v1";
+const CSM_RUNTIME_API_BROWSER_DEMO_PORT: &str = "8765";
 
 #[derive(Debug, Clone)]
 pub struct CsmRuntimeApiOptions {
@@ -95,9 +96,9 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
                     stream
                         .set_read_timeout(Some(Duration::from_secs(5)))
                         .context("set CSM runtime API read timeout")?;
-                    let request = read_request_path(&mut stream)?;
-                    let response = runtime_api_response(&options, &request)?;
-                    write_http_json(&mut stream, &response)?;
+                    let request = read_runtime_api_request(&mut stream)?;
+                    let response = runtime_api_http_response(&options, &request)?;
+                    write_http_response(&mut stream, &response)?;
                     served += 1;
                     last_activity = Instant::now();
                 }
@@ -116,9 +117,9 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
             stream
                 .set_read_timeout(Some(Duration::from_secs(5)))
                 .context("set CSM runtime API read timeout")?;
-            let request = read_request_path(&mut stream)?;
-            let response = runtime_api_response(&options, &request)?;
-            write_http_json(&mut stream, &response)?;
+            let request = read_runtime_api_request(&mut stream)?;
+            let response = runtime_api_http_response(&options, &request)?;
+            write_http_response(&mut stream, &response)?;
             served += 1;
             if options
                 .test_max_requests
@@ -695,7 +696,21 @@ fn validate_loopback_bind(addr: &SocketAddr) -> Result<()> {
     Ok(())
 }
 
-fn read_request_path(stream: &mut TcpStream) -> Result<String> {
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct RuntimeApiRequest {
+    method: String,
+    path: String,
+    origin: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+struct RuntimeApiHttpResponse {
+    status: &'static str,
+    headers: Vec<(&'static str, String)>,
+    body: Option<Value>,
+}
+
+fn read_runtime_api_request(stream: &mut TcpStream) -> Result<RuntimeApiRequest> {
     let mut buf = Vec::new();
     let mut chunk = [0_u8; 256];
     loop {
@@ -713,27 +728,142 @@ fn read_request_path(stream: &mut TcpStream) -> Result<String> {
             break;
         }
     }
-    let request = String::from_utf8_lossy(&buf);
-    let first_line = request.lines().next().unwrap_or_default();
+    parse_runtime_api_request(&String::from_utf8_lossy(&buf))
+}
+
+fn parse_runtime_api_request(raw: &str) -> Result<RuntimeApiRequest> {
+    let mut lines = raw.lines();
+    let first_line = lines.next().unwrap_or_default();
     let mut parts = first_line.split_whitespace();
     let method = parts.next().unwrap_or_default();
     let path = parts.next().unwrap_or("/__bad_request");
-    if method != "GET" {
-        return Ok("/__method_not_allowed".to_string());
+    let mut origin = None;
+    for line in lines {
+        let Some((name, value)) = line.split_once(':') else {
+            continue;
+        };
+        if name.trim().eq_ignore_ascii_case("origin") {
+            origin = Some(value.trim().to_string());
+            break;
+        }
     }
-    Ok(path.to_string())
+    Ok(RuntimeApiRequest {
+        method: method.to_ascii_uppercase(),
+        path: path.to_string(),
+        origin,
+    })
 }
 
-fn write_http_json(stream: &mut TcpStream, body: &Value) -> Result<()> {
-    let status = if body.get("status").and_then(Value::as_str) == Some("not_found") {
-        "404 Not Found"
-    } else {
-        "200 OK"
+fn runtime_api_http_response(
+    options: &CsmRuntimeApiOptions,
+    request: &RuntimeApiRequest,
+) -> Result<RuntimeApiHttpResponse> {
+    let mut headers = loopback_browser_access_headers(request.origin.as_deref());
+    headers.push(("vary", "Origin".to_string()));
+    match request.method.as_str() {
+        "GET" => {
+            let body = runtime_api_response(options, &request.path)?;
+            let status = if body.get("status").and_then(Value::as_str) == Some("not_found") {
+                "404 Not Found"
+            } else {
+                "200 OK"
+            };
+            Ok(RuntimeApiHttpResponse {
+                status,
+                headers,
+                body: Some(body),
+            })
+        }
+        "OPTIONS" => Ok(RuntimeApiHttpResponse {
+            status: "204 No Content",
+            headers,
+            body: None,
+        }),
+        _ => Ok(RuntimeApiHttpResponse {
+            status: "405 Method Not Allowed",
+            headers,
+            body: Some(json!({
+                "schema": CSM_RUNTIME_API_SCHEMA,
+                "status": "method_not_allowed",
+                "allowed_methods": ["GET", "OPTIONS"]
+            })),
+        }),
+    }
+}
+
+fn loopback_browser_access_headers(origin: Option<&str>) -> Vec<(&'static str, String)> {
+    let Some(origin) = origin else {
+        return Vec::new();
     };
-    let raw = serde_json::to_vec_pretty(body)?;
+    if !is_approved_loopback_browser_origin(origin) {
+        return Vec::new();
+    }
+    vec![
+        ("access-control-allow-origin", origin.to_string()),
+        ("access-control-allow-methods", "GET, OPTIONS".to_string()),
+        (
+            "access-control-allow-headers",
+            "accept, content-type".to_string(),
+        ),
+        ("access-control-max-age", "600".to_string()),
+    ]
+}
+
+fn is_approved_loopback_browser_origin(origin: &str) -> bool {
+    let Some((scheme, rest)) = origin.split_once("://") else {
+        return false;
+    };
+    if scheme != "http" {
+        return false;
+    }
+    let host_port = rest
+        .split_once('/')
+        .map(|(host, _)| host)
+        .unwrap_or(rest)
+        .trim();
+    let (host, port) = if let Some(stripped) = host_port.strip_prefix('[') {
+        let Some((ipv6, suffix)) = stripped.split_once(']') else {
+            return false;
+        };
+        let port = if let Some(port) = suffix.strip_prefix(':') {
+            port
+        } else if suffix.is_empty() {
+            ""
+        } else {
+            return false;
+        };
+        (ipv6, port)
+    } else {
+        host_port.split_once(':').unwrap_or((host_port, ""))
+    };
+    if port != CSM_RUNTIME_API_BROWSER_DEMO_PORT {
+        return false;
+    }
+    if host.eq_ignore_ascii_case("localhost") {
+        return true;
+    }
+    host.parse::<IpAddr>()
+        .map(|addr| addr.is_loopback())
+        .unwrap_or(false)
+}
+
+fn write_http_response(stream: &mut TcpStream, response: &RuntimeApiHttpResponse) -> Result<()> {
+    let raw = response
+        .body
+        .as_ref()
+        .map(serde_json::to_vec_pretty)
+        .transpose()?
+        .unwrap_or_default();
+    write!(stream, "HTTP/1.1 {}\r\n", response.status)?;
+    if response.body.is_some() {
+        write!(stream, "content-type: application/json\r\n")?;
+    }
+    for (name, value) in &response.headers {
+        write!(stream, "{name}: {value}\r\n")?;
+    }
     write!(
         stream,
-        "HTTP/1.1 {status}\r\ncontent-type: application/json\r\ncontent-length: {}\r\nconnection: close\r\n\r\n",
+        "content-length: {}\r\nconnection: close\r\n\r\n",
         raw.len()
     )?;
     stream.write_all(&raw)?;
@@ -798,6 +928,113 @@ memory: {}
     fn test_api_bind(offset: u64) -> String {
         let port = 19950 + (offset % 47);
         format!("127.0.0.1:{port}")
+    }
+
+    fn test_options(root: &Path) -> CsmRuntimeApiOptions {
+        CsmRuntimeApiOptions {
+            spec_path: write_spec(root),
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        }
+    }
+
+    #[test]
+    fn runtime_api_parses_method_path_and_origin() {
+        let request = parse_runtime_api_request(
+            "OPTIONS /status HTTP/1.1\r\nHost: 127.0.0.1:19997\r\nOrigin: http://127.0.0.1:8765\r\n\r\n",
+        )
+        .unwrap();
+        assert_eq!(
+            request,
+            RuntimeApiRequest {
+                method: "OPTIONS".to_string(),
+                path: "/status".to_string(),
+                origin: Some("http://127.0.0.1:8765".to_string())
+            }
+        );
+    }
+
+    #[test]
+    fn runtime_api_allows_explicit_loopback_browser_origins_only() {
+        assert!(is_approved_loopback_browser_origin("http://127.0.0.1:8765"));
+        assert!(is_approved_loopback_browser_origin("http://localhost:8765"));
+        assert!(is_approved_loopback_browser_origin("http://[::1]:8765"));
+        assert!(!is_approved_loopback_browser_origin(
+            "http://127.0.0.1:8766"
+        ));
+        assert!(!is_approved_loopback_browser_origin(
+            "https://127.0.0.1:8765"
+        ));
+        assert!(!is_approved_loopback_browser_origin(
+            "http://example.com:8765"
+        ));
+        assert!(!is_approved_loopback_browser_origin("null"));
+    }
+
+    #[test]
+    fn runtime_api_get_reflects_approved_loopback_origin_without_wildcard() {
+        let root = temp_root("cors-get");
+        let options = test_options(&root);
+        let request = RuntimeApiRequest {
+            method: "GET".to_string(),
+            path: "/ready".to_string(),
+            origin: Some("http://127.0.0.1:8765".to_string()),
+        };
+        let response = runtime_api_http_response(&options, &request).unwrap();
+        assert_eq!(response.status, "200 OK");
+        assert!(response.headers.contains(&(
+            "access-control-allow-origin",
+            "http://127.0.0.1:8765".to_string()
+        )));
+        assert!(!response
+            .headers
+            .contains(&("access-control-allow-origin", "*".to_string())));
+        assert_eq!(
+            response.body.as_ref().unwrap()["schema"],
+            CSM_RUNTIME_API_READY_SCHEMA
+        );
+    }
+
+    #[test]
+    fn runtime_api_preflight_succeeds_for_approved_loopback_origin() {
+        let root = temp_root("cors-options");
+        let options = test_options(&root);
+        let request = RuntimeApiRequest {
+            method: "OPTIONS".to_string(),
+            path: "/events".to_string(),
+            origin: Some("http://localhost:8765".to_string()),
+        };
+        let response = runtime_api_http_response(&options, &request).unwrap();
+        assert_eq!(response.status, "204 No Content");
+        assert!(response.body.is_none());
+        assert!(response.headers.contains(&(
+            "access-control-allow-origin",
+            "http://localhost:8765".to_string()
+        )));
+        assert!(response
+            .headers
+            .contains(&("access-control-allow-methods", "GET, OPTIONS".to_string())));
+    }
+
+    #[test]
+    fn runtime_api_does_not_grant_cors_to_non_loopback_origin() {
+        let root = temp_root("cors-deny");
+        let options = test_options(&root);
+        let request = RuntimeApiRequest {
+            method: "GET".to_string(),
+            path: "/status".to_string(),
+            origin: Some("http://example.com:8765".to_string()),
+        };
+        let response = runtime_api_http_response(&options, &request).unwrap();
+        assert_eq!(response.status, "200 OK");
+        assert!(!response
+            .headers
+            .iter()
+            .any(|(name, _)| *name == "access-control-allow-origin"));
+        assert!(response.headers.contains(&("vary", "Origin".to_string())));
     }
 
     #[test]

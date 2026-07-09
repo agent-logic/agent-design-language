@@ -7,6 +7,7 @@ PR_DELEGATE_SRC="$ROOT_DIR/adl/tools/pr_delegate.sh"
 PR_USAGE_SRC="$ROOT_DIR/adl/tools/pr_usage.sh"
 CARD_PATHS_SRC="$ROOT_DIR/adl/tools/card_paths.sh"
 OBS_SRC="$ROOT_DIR/adl/tools/observability.sh"
+OWNER_RESOLUTION_SRC="$ROOT_DIR/adl/tools/owner_binary_resolution.sh"
 BASH_BIN="$(command -v bash)"
 
 tmpdir="$(mktemp -d)"
@@ -21,8 +22,11 @@ cp "$PR_DELEGATE_SRC" "$repo/adl/tools/pr_delegate.sh"
 cp "$PR_USAGE_SRC" "$repo/adl/tools/pr_usage.sh"
 cp "$CARD_PATHS_SRC" "$repo/adl/tools/card_paths.sh"
 cp "$OBS_SRC" "$repo/adl/tools/observability.sh"
+cp "$OWNER_RESOLUTION_SRC" "$repo/adl/tools/owner_binary_resolution.sh"
 chmod +x "$repo/adl/tools/pr.sh"
 touch "$repo/adl/Cargo.toml"
+mkdir -p "$repo/adl/src"
+printf 'pub fn primary_seed() {}\n' >"$repo/adl/src/lib.rs"
 sleep 1
 
 cat >"$repo/adl/target/debug/adl-pr-doctor" <<'EOF_ADL'
@@ -60,7 +64,7 @@ chmod +x "$mockbin/cargo"
   git config user.name "Test User"
   git config user.email "test@example.com"
   echo "seed" > README.md
-  git add README.md adl/tools/pr.sh adl/tools/pr_delegate.sh adl/tools/pr_usage.sh adl/tools/card_paths.sh adl/tools/observability.sh adl/Cargo.toml
+  git add README.md adl/tools/pr.sh adl/tools/pr_delegate.sh adl/tools/pr_usage.sh adl/tools/card_paths.sh adl/tools/observability.sh adl/tools/owner_binary_resolution.sh adl/Cargo.toml adl/src/lib.rs
   git commit -q -m "init"
   git worktree add -q -b codex/4413 "$worktree" HEAD
 )
@@ -167,6 +171,66 @@ grep -F -- "--bin adl-pr-doctor -- 4413 --slug rust-start --no-fetch-issue --ver
   exit 1
 }
 rm -f "$worktree/adl/src/untracked_owner_input.rs"
+
+rm -f "$repo/adl/target/debug/adl-pr-doctor"
+mkdir -p "$repo/.adl/bin/.provenance"
+cat >"$repo/.adl/bin/adl-pr-doctor" <<'EOF_STABLE_DOCTOR'
+#!/usr/bin/env bash
+set -euo pipefail
+printf 'stable:%s\n' "$*" >"${TMP_ADL_ARGS}"
+EOF_STABLE_DOCTOR
+chmod +x "$repo/.adl/bin/adl-pr-doctor"
+primary_source_hash="$(
+  cd "$repo"
+  # shellcheck source=/dev/null
+  source adl/tools/owner_binary_resolution.sh
+  adl_owner_source_hash "$repo"
+)"
+printf '%s\n' "$primary_source_hash" >"$repo/.adl/bin/.provenance/adl-pr-doctor.sha256"
+rm -f "$worktree/adl/src/untracked_owner_input.rs"
+: >"$TMP_ADL_ARGS"
+: >"$TMP_CARGO_ARGS"
+
+(
+  cd "$worktree"
+  ADL_PRIMARY_CHECKOUT_ROOT="$repo" \
+    "$BASH_BIN" adl/tools/pr.sh doctor 4413 --slug rust-start --no-fetch-issue --version v0.91.6 --mode full >/dev/null
+)
+
+args="$(cat "$TMP_ADL_ARGS")"
+[[ "$args" == *"stable:4413 --slug rust-start --no-fetch-issue --version v0.91.6 --mode full"* ]] || {
+  echo "assertion failed: drift-free worktree should reuse fresh primary stable owner binary" >&2
+  echo "$args" >&2
+  exit 1
+}
+[[ ! -s "$TMP_CARGO_ARGS" ]] || {
+  echo "assertion failed: cargo should not run when the primary stable owner binary is fresh for the worktree" >&2
+  cat "$TMP_CARGO_ARGS" >&2
+  exit 1
+}
+
+printf 'pub fn stable_primary_masking_probe() {}\n' >"$worktree/adl/src/stable_primary_masking_probe.rs"
+: >"$TMP_ADL_ARGS"
+: >"$TMP_CARGO_ARGS"
+
+(
+  cd "$worktree"
+  ADL_PRIMARY_CHECKOUT_ROOT="$repo" \
+    ADL_PR_RUST_ALLOW_CARGO_FALLBACK=1 \
+    "$BASH_BIN" adl/tools/pr.sh doctor 4413 --slug rust-start --no-fetch-issue --version v0.91.6 --mode full >/dev/null
+)
+
+[[ ! -s "$TMP_ADL_ARGS" ]] || {
+  echo "assertion failed: worktree Rust drift should block reuse of primary stable owner binary" >&2
+  cat "$TMP_ADL_ARGS" >&2
+  exit 1
+}
+grep -F -- "--bin adl-pr-doctor -- 4413 --slug rust-start --no-fetch-issue --version v0.91.6 --mode full" "$TMP_CARGO_ARGS" >/dev/null || {
+  echo "assertion failed: worktree Rust drift should force cargo fallback instead of primary stable owner binary" >&2
+  cat "$TMP_CARGO_ARGS" >&2
+  exit 1
+}
+rm -f "$worktree/adl/src/stable_primary_masking_probe.rs"
 
 : >"$TMP_ADL_ARGS"
 : >"$TMP_CARGO_ARGS"

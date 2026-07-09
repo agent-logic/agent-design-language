@@ -1,0 +1,71 @@
+{
+  "schema_version": "adl.provider.dspark_gpu_smoke_preflight.v1",
+  "issue": 4654,
+  "checked_at_utc": "2026-07-07T22:39:13Z",
+  "aws": {
+    "profile": "agent-logic-admin",
+    "region": "us-west-2",
+    "profile_resolved": true,
+    "account_identifier_recorded": false,
+    "account_pseudonym_recorded": false,
+    "raw_account_id_recorded": false,
+    "credentials_recorded": false
+  },
+  "model": {
+    "id": "deepseek-ai/DeepSeek-V4-Flash-DSpark",
+    "exists": true,
+    "private": false,
+    "gated": false,
+    "disabled": false,
+    "sha": "62af8fffb2f7030cac4de2f0169f5b8d1101b646",
+    "last_modified": "2026-07-04T03:15:12.000Z",
+    "library_name": "transformers",
+    "pipeline_tag": "text-generation",
+    "used_storage_bytes": 166886535336,
+    "safetensors_total_parameters": 165265454782,
+    "shard_count": 48
+  },
+  "ec2": {
+    "requested_shape": "ephemeral 2xH100",
+    "exact_single_node_2xh100_offering_found": false,
+    "p5_4xlarge": {
+      "offered": true,
+      "h100_count": 1,
+      "vcpus": 16,
+      "two_instance_vcpus": 32,
+      "caveat": "two p5.4xlarge instances provide two H100 GPUs across two nodes, not one shared-memory multi-GPU inference node"
+    },
+    "p5_48xlarge": {
+      "offered": true,
+      "h100_count": 8,
+      "vcpus": 192,
+      "caveat": "single EC2 node with 8 H100 GPUs; likely operational fallback for a large FP8 DeepSeek V4 smoke, but larger than the issue title"
+    },
+    "existing_gpu_instance_count": 0
+  },
+  "quotas": {
+    "running_on_demand_p_vcpus": 0.0,
+    "all_p_spot_vcpus": 0.0,
+    "pending_on_demand_p_request": true,
+    "pending_p_spot_request": true,
+    "on_demand_request_attempt": {
+      "Status": "request_not_created",
+      "Reason": "aws: [ERROR]: An error occurred (ResourceAlreadyExistsException) when calling the RequestServiceQuotaIncrease operation: Only one open service quota increase request is allowed per quota."
+    },
+    "spot_request_attempt": {
+      "Status": "request_not_created",
+      "Reason": "aws: [ERROR]: An error occurred (ResourceAlreadyExistsException) when calling the RequestServiceQuotaIncrease operation: Only one open service quota increase request is allowed per quota."
+    }
+  },
+  "decision": "blocked_p_family_quota_zero_or_pending",
+  "required_next_steps": [
+    "Wait for or obtain EC2 P-family quota before launching H100 resources.",
+    "Choose an operator-approved shape: two p5.4xlarge instances satisfy the literal GPU count but not single-node multi-GPU inference; p5.48xlarge is the single-node H100 fallback but needs 192 P vCPUs.",
+    "Only after quota and shape are approved, launch ephemeral resources with tags, run a bounded model load/generation smoke, retain logs, and terminate resources."
+  ],
+  "non_claims": [
+    "does not launch an EC2 instance",
+    "does not prove DeepSeek-V4-Flash-DSpark inference",
+    "does not claim a successful 2xH100 smoke before quota and shape gates pass"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": "dspark_speculative_decoding_evaluation.v1",
+  "prompt_version": "v0917.provider_sprint.dspark_speculative_decoding.v1",
+  "issue_number": 4653,
+  "sprint_issue": 5027,
+  "source_records": [
+    {
+      "source_id": "arxiv_2607_05147",
+      "title": "DSpark: Confidence-Scheduled Speculative Decoding with Semi-Autoregressive Generation",
+      "source_ref": "https://arxiv.org/abs/2607.05147",
+      "observed_date": "2026-07-07",
+      "relevance": "Defines DSpark's semi-autoregressive draft and confidence-scheduled verification design; supports evaluating ADL only as a backend capability candidate, not as a prompt-level provider feature."
+    },
+    {
+      "source_id": "adl_v0912_speculative_decoding_prototype",
+      "title": "ADL speculative decoding deterministic commit-boundary prototype",
+      "source_ref": "docs/milestones/v0.91.2/review/speculative_decoding/speculative_decoding_prototype_packet.md",
+      "observed_date": "2026-07-07",
+      "relevance": "Existing ADL proof requires target-verified token commit, explicit tokenizer mismatch rejection, and no expansion of tool or side-effect authority."
+    }
+  ],
+  "candidate_rows": [
+    {
+      "row_id": "qwen_same_family_candidate",
+      "target_family": "qwen",
+      "draft_family": "qwen",
+      "proposed_models": [
+        "qwen/qwen3-coder-next",
+        "qwen/qwen3-6-flash"
+      ],
+      "disposition": "blocked_until_backend_exists",
+      "acceptance_condition": "A serving backend must expose DSpark-style draft generation, target verification, accepted-token counts, fallback counts, and tokenizer compatibility for the same Qwen family.",
+      "reason": "Qwen is plausible as a same-family speculative-decoding candidate, but ADL currently has no live DSpark/Qwen draft-verify backend to prove accepted length or throughput."
+    },
+    {
+      "row_id": "gemma_same_family_candidate",
+      "target_family": "gemma",
+      "draft_family": "gemma",
+      "proposed_models": [
+        "google/gemma-4-31b-it",
+        "gemma4:e4b"
+      ],
+      "disposition": "blocked_until_backend_exists",
+      "acceptance_condition": "A serving backend must expose DSpark-style draft generation, target verification, accepted-token counts, fallback counts, and tokenizer compatibility for the same Gemma family.",
+      "reason": "Gemma is plausible as a same-family local or hosted candidate, but existing ADL Gemma evidence covers model usefulness, not DSpark-style speculative acceptance or throughput."
+    },
+    {
+      "row_id": "qwen_gemma_cross_family_rejected",
+      "target_family": "qwen_or_gemma",
+      "draft_family": "gemma_or_qwen",
+      "proposed_models": [
+        "qwen target with gemma draft",
+        "gemma target with qwen draft"
+      ],
+      "disposition": "reject_cross_family_pairing",
+      "acceptance_condition": "None for v0.91.7; cross-family pairings must not be treated as accepted speculative acceleration evidence.",
+      "reason": "The ADL speculative-decoding prototype treats tokenizer mismatch as non-proving. Cross-family Qwen/Gemma pairings would widen that risk unless a backend proves tokenizer identity and target-verified commit behavior."
+    },
+    {
+      "row_id": "deepseek_v4_flash_dspark_live_lane",
+      "target_family": "deepseek-v4",
+      "draft_family": "dspark",
+      "proposed_models": [
+        "deepseek-v4-flash-dspark"
+      ],
+      "disposition": "route_to_live_gpu_smoke",
+      "acceptance_condition": "Issue #4654 must run the bounded ephemeral 2xH100 AWS smoke, record teardown, and retain provider/model outcome evidence before this row can be accepted.",
+      "reason": "The external DSpark result is specifically tied to the DeepSeek-V4 serving system; ADL should prove that path in #4654 rather than infer it from Qwen/Gemma candidates."
+    }
+  ],
+  "accepted_for_v0917_provider_sprint": false,
+  "recommendation": "Do not claim Qwen or Gemma DSpark acceleration as accepted in v0.91.7 from planning evidence alone. Keep Qwen/Gemma as same-family candidates, reject cross-family Qwen/Gemma pairings, and route actual DeepSeek-V4 DSpark live proof to #4654.",
+  "required_next_proof": [
+    "A same-family Qwen or Gemma backend must expose draft tokens, target verification, accepted-token counts, fallback counts, tokenizer compatibility, latency, and throughput before ADL can accept the row.",
+    "Issue #4654 must prove or truthfully block the deepseek-v4-flash-dspark live GPU smoke with Agent Logic AWS account guard and teardown evidence.",
+    "The shared provider proof #5026 must consume only rows that have live or accepted blocked dispositions."
+  ],
+  "authority_rules": [
+    "Speculative draft tokens remain provisional until target verification accepts them.",
+    "Accepted token counts and throughput claims must come from the backend, not prompt-level model text.",
+    "Speculative decoding cannot grant tool, mutation, merge, or side-effect authority.",
+    "Cross-family tokenizer mismatch is a fail-closed condition unless the backend proves compatibility."
+  ],
+  "non_claims": [
+    "does not prove live Qwen DSpark acceleration",
+    "does not prove live Gemma DSpark acceleration",
+    "does not prove DeepSeek-V4 DSpark availability on AWS",
+    "does not claim broad speculative decoding support in ADL provider routing",
+    "does not replace #4654 live GPU smoke or #5026 shared provider acceptance proof"
+  ],
+  "validation_commands": [
+    "CARGO_INCREMENTAL=0 cargo test --manifest-path adl/Cargo.toml --lib dspark_speculative_decoding_evaluation -- --nocapture",
+    "CARGO_INCREMENTAL=0 cargo test --manifest-path adl/Cargo.toml --bin demo_v0917_dspark_speculative_decoding_evaluation -- --nocapture",
+    "CARGO_INCREMENTAL=0 cargo run --manifest-path adl/Cargo.toml --bin demo_v0917_dspark_speculative_decoding_evaluation -- docs/milestones/v0.91.7/review/provider/DSPARK_SPECULATIVE_DECODING_EVALUATION_4653.json",
+    "git diff --check"
+  ]
+}

@@ -29,6 +29,8 @@ if [[ "$ALLOW_CARGO_FALLBACK" != "1" ]]; then
 ERROR: missing dedicated adl-prompt-template binary.
 Expected one of:
 - ADL_PROMPT_TEMPLATE_BIN
+- $ROOT_DIR/.adl/bin/adl-prompt-template
+- $PRIMARY_ROOT/.adl/bin/adl-prompt-template
 - CARGO_TARGET_DIR/debug/adl-prompt-template
 - CARGO_LLVM_COV_TARGET_DIR/debug/adl-prompt-template
 - $ROOT_DIR/adl/target/debug/adl-prompt-template
@@ -36,7 +38,7 @@ Expected one of:
 - $ROOT_DIR/adl/target/llvm-cov-target/debug/adl-prompt-template
 - $PRIMARY_ROOT/adl/target/llvm-cov-target/debug/adl-prompt-template
 - adl-prompt-template on PATH
-Build it first with: cargo build --manifest-path $PRIMARY_ROOT/adl/Cargo.toml --bin adl-prompt-template
+Install it first with: bash adl/tools/install_owner_binaries.sh --bin adl-prompt-template
 Set ADL_PROMPT_TEMPLATE_ALLOW_CARGO_FALLBACK=1 only for explicit bootstrap/debug use.
 MSG
   exit 75
