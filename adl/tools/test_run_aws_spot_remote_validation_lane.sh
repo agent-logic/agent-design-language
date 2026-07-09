@@ -66,9 +66,64 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 mkdir -p "$(dirname "$out")" "$artifact_dir"
-cat >"$out" <<'JSON'
-{"schema":"adl.aws_remote_validation_run.v1","status":"passed"}
+status="${ADL_FAKE_AWS_REMOTE_STATUS:-passed}"
+cat >"$out" <<JSON
+{"schema":"adl.aws_remote_validation_run.v1","status":"$status"}
 JSON
+if [[ "$status" == "resumed_after_interruption" ]]; then
+  cat >"$artifact_dir/resume-state.json" <<'JSON'
+{
+  "schema_version": "adl.aws_remote_validation_resume_state.v1",
+  "issue": 4974,
+  "run_id": "fixture-run-resumed",
+  "repo_url": "https://github.com/danielbaustin/agent-design-language.git",
+  "git_ref": "origin/main",
+  "command": "cargo test --manifest-path adl/Cargo.toml provider_communication -- --nocapture",
+  "output_summary_ref": "summary.json",
+  "artifact_root_ref": ".",
+  "started_at": "2026-07-09T00:00:00Z",
+  "updated_at": "2026-07-09T00:01:00Z",
+  "max_spot_retries": 2,
+  "interrupted_attempts": 1,
+  "next_action": "complete",
+  "final_status": "resumed_after_interruption",
+  "attempts": [
+    {
+      "attempt_index": 0,
+      "started_at": "2026-07-09T00:00:00Z",
+      "finished_at": "2026-07-09T00:00:30Z",
+      "summary_path": "attempt-0/summary.json",
+      "artifact_dir": "attempt-0",
+      "status": "interrupted_by_aws",
+      "failure_reason": "AWS Spot interruption notice received",
+      "launch_purchase_option": "spot",
+      "launch_instance_type": "m7a.2xlarge",
+      "launch_initial_state": "pending",
+      "launch_instance_id_sha256": "0123456789abcdef",
+      "provider_interruption_confirmed": true,
+      "retryable": true,
+      "next_action": "retry_after_interruption_1"
+    },
+    {
+      "attempt_index": 1,
+      "started_at": "2026-07-09T00:00:31Z",
+      "finished_at": "2026-07-09T00:01:00Z",
+      "summary_path": "attempt-1/summary.json",
+      "artifact_dir": "attempt-1",
+      "status": "passed",
+      "failure_reason": null,
+      "launch_purchase_option": "spot",
+      "launch_instance_type": "m7a.2xlarge",
+      "launch_initial_state": "pending",
+      "launch_instance_id_sha256": "fedcba9876543210",
+      "provider_interruption_confirmed": false,
+      "retryable": false,
+      "next_action": "finalize"
+    }
+  ]
+}
+JSON
+fi
 cat >"$artifact_dir/events.jsonl" <<'JSONL'
 {"event":"fixture"}
 JSONL
@@ -144,6 +199,49 @@ grep -Fx -- "ec2-user" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--json" "$TMP/args.txt" >/dev/null
 test -f "$TMP/summary.json"
 test -f "$TMP/artifacts/events.jsonl"
+test -f "$TMP/artifacts/wrapper-final-summary.json"
+python3 - "$TMP/artifacts/wrapper-final-summary.json" <<'PY'
+import json
+import sys
+payload = json.load(open(sys.argv[1], encoding="utf-8"))
+assert payload["schema"] == "adl.aws_spot_remote_validation_wrapper_summary.v1"
+assert payload["status"] == "passed"
+assert payload["runner_exit_code"] == 0
+assert payload["resumed_after_interruption"] is False
+PY
+
+ADL_FAKE_AWS_REMOTE_STATUS=resumed_after_interruption \
+ADL_FAKE_AWS_REMOTE_ARGS="$TMP/resume-args.txt" \
+ADL_AWS_CLI="$fake_bin/aws" \
+bash "$SCRIPT" \
+  --run \
+  --expected-proof "$proof" \
+  --bin "$fake_bin/adl-aws-remote-validation" \
+  --run-id fixture-run-resumed \
+  --command "cargo test --manifest-path adl/Cargo.toml provider_communication -- --nocapture" \
+  --git-ref origin/main \
+  --out "$TMP/resumed-summary.json" \
+  --artifact-dir "$TMP/resumed-artifacts" \
+  --instance-type m7a.2xlarge \
+  --json >"$TMP/resumed-run.out" 2>"$TMP/resumed-run.err"
+
+python3 - "$TMP/resumed-artifacts/wrapper-final-summary.json" "$TMP/resumed-artifacts/resume-state.json" <<'PY'
+import json
+import sys
+wrapper = json.load(open(sys.argv[1], encoding="utf-8"))
+resume = json.load(open(sys.argv[2], encoding="utf-8"))
+assert wrapper["status"] == "resumed_after_interruption"
+assert wrapper["runner_exit_code"] == 0
+assert wrapper["attempt_count"] == 2
+assert wrapper["interrupted_attempt_count"] == 1
+assert wrapper["resumed_after_interruption"] is True
+assert resume["attempts"][0]["status"] == "interrupted_by_aws"
+assert "launch_instance_id" not in resume["attempts"][0]
+assert resume["attempts"][0]["summary_path"] == "attempt-0/summary.json"
+text = json.dumps(resume)
+assert "123456789012" not in text
+assert "arn:aws:" not in text
+PY
 
 if bash "$SCRIPT" --extra-arg --profile >"$TMP/extra.out" 2>"$TMP/extra.err"; then
   echo "expected --extra-arg to be rejected" >&2
