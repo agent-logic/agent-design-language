@@ -179,4 +179,42 @@ chmod +x "$tmpdir/nogit-source-bins/adl-pr-closeout"
   exit 1
 }
 
+default_repo="$tmpdir/default-repo"
+default_source_bin_dir="$tmpdir/default-source-bins"
+mkdir -p "$default_repo/adl/tools" "$default_repo/adl/src" "$default_source_bin_dir"
+cp "$INSTALL_SRC" "$default_repo/adl/tools/install_owner_binaries.sh"
+cp "$RESOLUTION_SRC" "$default_repo/adl/tools/owner_binary_resolution.sh"
+chmod +x "$default_repo/adl/tools/install_owner_binaries.sh"
+cp "$repo/adl/Cargo.toml" "$default_repo/adl/Cargo.toml"
+printf 'pub fn default_seed() {}\n' >"$default_repo/adl/src/lib.rs"
+default_bins=(
+  adl adl-csdlc adl-runtime adl-review csm
+  adl-pr-create adl-pr-init adl-pr-repair-issue-body
+  adl-pr-run adl-pr-doctor adl-pr-ready adl-pr-preflight
+  adl-pr-finish adl-pr-validation adl-pr-inventory
+  adl-pr-closing-linkage adl-issue adl-pr-closeout
+  adl-session adl-process adl-prompt-template adl-validate-structured-prompt
+)
+for bin in "${default_bins[@]}"; do
+  cat >"$default_source_bin_dir/$bin" <<EOF_BIN
+#!/usr/bin/env bash
+printf '${bin}-default:%s\n' "\$*"
+EOF_BIN
+  chmod +x "$default_source_bin_dir/$bin"
+done
+(
+  cd "$default_repo"
+  "$BASH_BIN" adl/tools/install_owner_binaries.sh \
+    --source-bin-dir "$default_source_bin_dir" \
+    --no-build >/dev/null
+)
+[[ -x "$default_repo/.adl/bin/csm" ]] || {
+  echo "assertion failed: default stable owner binary install omitted csm" >&2
+  exit 1
+}
+"$default_repo/.adl/bin/csm" | grep -Fq 'csm-default:' || {
+  echo "assertion failed: default stable csm binary install did not produce runnable csm" >&2
+  exit 1
+}
+
 echo "owner binary stable install: ok"
