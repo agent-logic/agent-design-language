@@ -1000,6 +1000,14 @@ memory:
     request_governed_stop_and_wait(&spec, &mut child);
 
     assert_eq!(status["schema"], "adl.csm.runtime_api.status.v1");
+    assert_eq!(
+        status["networking"]["listeners"][0]["default_bind"],
+        "127.0.0.1:19997"
+    );
+    assert_eq!(
+        status["pooling_plan"]["decision_summary"],
+        "No blanket Deadpool dependency for CSM runtime resources in #5040; use existing client-native pooling for HTTP/AWS SDK clients and reserve Deadpool-style bounded pools for future concrete database/lifelog connection backends."
+    );
     assert_eq!(status["runtime_owner"], "csm");
     assert_eq!(status["agent_instance_id"], "api-agent");
     assert_eq!(status["status"], "healthy");
@@ -2008,6 +2016,14 @@ memory:
     assert_eq!(manifest["service_mode"], "permanent");
     assert_eq!(manifest["manager"], "launchd");
     assert_eq!(manifest["checkpoint_interval_secs"], 1);
+    assert_eq!(
+        manifest["network_registry"]["listeners"][0]["default_bind"],
+        "127.0.0.1:19997"
+    );
+    assert_eq!(
+        manifest["connection_pooling_plan"]["schema"],
+        "adl.csm.pooling_plan.v1"
+    );
     assert_eq!(manifest["otlp_endpoint"], "http://127.0.0.1:4318/v1/traces");
     assert_eq!(manifest["otlp_timeout_ms"], 750);
     assert!(manifest["daemon_status"]
@@ -2045,6 +2061,18 @@ memory:
     assert_eq!(status["service_state"], "installed");
     assert_eq!(status["broad_process_scan"], false);
     assert_eq!(status["uses_ps"], false);
+    assert_eq!(
+        status["network_registry"]["active_listener"]["listener_role"],
+        "main_runtime_api"
+    );
+    assert_eq!(
+        status["network_registry"]["active_listener"]["bind_addr"],
+        "127.0.0.1:19997"
+    );
+    assert_eq!(
+        status["connection_pooling_plan"]["roles"][0]["decision"],
+        "do_not_add_deadpool_wrapper_for_http_clients"
+    );
     assert_eq!(status["otlp_exporter_configured"], true);
     assert_eq!(status["otlp_endpoint_ref"], "<configured>");
     assert_eq!(
@@ -2058,6 +2086,95 @@ memory:
         .as_str()
         .expect("startup ledger ref")
         .ends_with("logs/startup_ledger.jsonl"));
+}
+
+#[test]
+fn csm_service_status_reports_invalid_manifest_api_bind_truthfully() {
+    let root = unique_test_temp_dir("csm-service-invalid-api-bind");
+    let spec = root.join("agent.yaml");
+    fs::write(
+        &spec,
+        r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: service-invalid-bind-agent
+display_name: Service Invalid Bind Agent
+state_root: runtime-state
+workflow:
+  kind: demo_adapter
+  name: service_invalid_bind_probe
+  run_args: {}
+heartbeat:
+  interval_secs: 1
+  max_cycles: 3
+  stale_lease_after_secs: 60
+safety:
+  allow_network: false
+  allow_broker: false
+  allow_filesystem_writes_outside_state_root: false
+  allow_real_world_side_effects: false
+  require_public_artifact_sanitization: true
+  financial_advice: false
+  max_cycle_runtime_secs: 120
+memory:
+  namespace: smoke/service-invalid-bind-agent
+  write_policy: append_only
+"#,
+    )
+    .expect("write agent spec");
+    let service_root = root.join("service");
+    let csm_bin = resolve_csm_exe();
+    let install = run_csm(&[
+        "service",
+        "install",
+        "--spec",
+        spec.to_str().expect("utf8 spec"),
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--manager",
+        "launchd",
+        "--label",
+        "com.agentlogic.csm.invalid-bind",
+        "--csm-bin",
+        csm_bin.to_str().expect("utf8 csm bin"),
+        "--json",
+    ]);
+    assert!(
+        install.status.success(),
+        "install stderr:\n{}",
+        String::from_utf8_lossy(&install.stderr)
+    );
+
+    let manifest_path = service_root.join("service_manifest.json");
+    let mut manifest: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(&manifest_path).expect("manifest"))
+            .expect("parse manifest");
+    manifest["api_bind"] = serde_json::Value::String("127.0.0.1:20000".to_string());
+    fs::write(
+        &manifest_path,
+        serde_json::to_string_pretty(&manifest).expect("serialize manifest"),
+    )
+    .expect("write mutated manifest");
+
+    let status = run_csm(&[
+        "service",
+        "status",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        status.status.success(),
+        "status stderr:\n{}",
+        String::from_utf8_lossy(&status.stderr)
+    );
+    let service_status: serde_json::Value =
+        serde_json::from_slice(&status.stdout).expect("parse service status stdout");
+    let active_listener = &service_status["network_registry"]["active_listener"];
+    assert_eq!(active_listener["status"], "invalid");
+    assert_eq!(active_listener["bind_addr"], "127.0.0.1:20000");
+    assert!(active_listener["error"]
+        .as_str()
+        .expect("invalid bind error")
+        .contains("outside reserved local CSM port range"));
 }
 
 #[test]
@@ -2398,6 +2515,18 @@ memory:
     assert_eq!(service_status["service_state"], "observed");
     assert_eq!(service_status["broad_process_scan"], false);
     assert_eq!(service_status["uses_ps"], false);
+    assert_eq!(
+        service_status["network_registry"]["active_listener"]["listener_role"],
+        "main_runtime_api"
+    );
+    assert_eq!(
+        service_status["network_registry"]["active_listener"]["bind_addr"],
+        api_bind
+    );
+    assert_eq!(
+        service_status["network_registry"]["registry"]["listeners"][0]["default_bind"],
+        "127.0.0.1:19997"
+    );
     assert_eq!(
         service_status["startup_classification"],
         "startup_runtime_ready"

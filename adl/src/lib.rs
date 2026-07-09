@@ -30,6 +30,7 @@ pub mod csdlc_prompt_editor;
 pub mod csm_backpressure;
 pub mod csm_cloud_control;
 pub mod csm_continuity_capsule;
+pub mod csm_networking;
 pub mod csm_observatory;
 pub mod csm_polis_storage;
 pub mod csm_runtime_api;

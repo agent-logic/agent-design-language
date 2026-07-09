@@ -10,6 +10,11 @@ use std::time::Duration;
 #[cfg(unix)]
 use std::os::unix::process::CommandExt;
 
+use ::adl::csm_networking::{
+    csm_connection_pooling_plan, csm_listener_registry_json, csm_reserved_range_label,
+    default_main_runtime_api_listener, resolve_main_runtime_api_listener, CSM_MAIN_API_BIND,
+    CSM_NETWORKING_SCHEMA,
+};
 use ::adl::long_lived_agent;
 use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, Utc};
@@ -21,7 +26,7 @@ use crate::cli::observability;
 const SERVICE_MANIFEST_SCHEMA: &str = "adl.csm.service_manifest.v1";
 const SERVICE_STATUS_SCHEMA: &str = "adl.csm.service_status.v1";
 const DEFAULT_LABEL: &str = "com.agentlogic.csm.runtime";
-const DEFAULT_API_BIND: &str = "127.0.0.1:19997";
+const DEFAULT_API_BIND: &str = CSM_MAIN_API_BIND;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -115,6 +120,10 @@ struct ServiceManifest {
     supervisor_status: PathBuf,
     #[serde(default)]
     api_bind: String,
+    #[serde(default = "csm_listener_registry_json")]
+    network_registry: Value,
+    #[serde(default = "csm_connection_pooling_plan")]
+    connection_pooling_plan: Value,
     daemon_status: PathBuf,
     continuity_checkpoint: PathBuf,
     continuity_replay_manifest: PathBuf,
@@ -151,6 +160,8 @@ struct ServiceStatus {
     otel_log_ref: String,
     otel_status_ref: String,
     startup_ledger_ref: String,
+    network_registry: Value,
+    connection_pooling_plan: Value,
     startup_classification: String,
     first_daemon_record_observed: bool,
     continuity_checkpoint_observed: bool,
@@ -556,6 +567,8 @@ fn build_manifest(
     csm_bin: PathBuf,
 ) -> Result<ServiceManifest> {
     let loaded = long_lived_agent::load_spec(&spec)?;
+    resolve_main_runtime_api_listener(Some(&parsed.api_bind), false)
+        .with_context(|| format!("validate CSM service API bind {}", parsed.api_bind))?;
     let state_root = loaded.state_root;
     let launchd_domain = format!("gui/{}", current_uid());
     Ok(ServiceManifest {
@@ -578,6 +591,8 @@ fn build_manifest(
         startup_ledger: service_root.join("logs/startup_ledger.jsonl"),
         supervisor_status: service_root.join("logs/rust_supervisor_status.json"),
         api_bind: parsed.api_bind,
+        network_registry: csm_listener_registry_json(),
+        connection_pooling_plan: csm_connection_pooling_plan(),
         daemon_status: state_root.join("daemon_status.json"),
         continuity_checkpoint: state_root.join("continuity_checkpoint.json"),
         continuity_replay_manifest: state_root.join("continuity_replay_manifest.json"),
@@ -911,6 +926,8 @@ fn service_status(
         otel_log_ref: ref_for(&manifest.service_root, &manifest.otel_log),
         otel_status_ref: ref_for(&manifest.service_root, &manifest.otel_status),
         startup_ledger_ref: ref_for(&manifest.service_root, &manifest.startup_ledger),
+        network_registry: service_network_registry(manifest),
+        connection_pooling_plan: manifest.connection_pooling_plan.clone(),
         startup_classification,
         first_daemon_record_observed,
         continuity_checkpoint_observed: manifest.continuity_checkpoint.exists(),
@@ -945,14 +962,50 @@ fn print_status(status: &ServiceStatus, service_root: &Path, args: &[String]) {
             serde_json::to_string_pretty(status).expect("serialize service status")
         );
     } else {
+        let active_listener = status
+            .network_registry
+            .get("active_listener")
+            .cloned()
+            .unwrap_or_else(|| default_main_runtime_api_listener().to_observability_json());
+        let listener_role = active_listener
+            .get("listener_role")
+            .and_then(Value::as_str)
+            .unwrap_or("main_runtime_api");
+        let bind_addr = active_listener
+            .get("bind_addr")
+            .and_then(Value::as_str)
+            .unwrap_or(DEFAULT_API_BIND);
         println!(
-            "csm service {} manager={} pid_liveness={} root={}",
+            "csm service {} manager={} listener_role={} bind_addr={} pid_liveness={} root={}",
             status.service_state,
             status.manager,
+            listener_role,
+            bind_addr,
             status.pid_liveness,
             service_root.display()
         );
     }
+}
+
+fn service_network_registry(manifest: &ServiceManifest) -> Value {
+    let active_listener = match resolve_main_runtime_api_listener(Some(&manifest.api_bind), false) {
+        Ok(listener) => listener.to_observability_json(),
+        Err(err) => json!({
+            "schema": CSM_NETWORKING_SCHEMA,
+            "listener_role": "main_runtime_api",
+            "bind_addr": manifest.api_bind,
+            "configured_by": "service_manifest",
+            "reserved_range": csm_reserved_range_label(),
+            "canonical": false,
+            "status": "invalid",
+            "error": err.to_string(),
+            "remediation_hint": "update the service manifest to use 127.0.0.1:19997 or another explicitly governed CSM port"
+        }),
+    };
+    json!({
+        "active_listener": active_listener,
+        "registry": manifest.network_registry.clone()
+    })
 }
 
 fn write_json_pretty<T: Serialize>(path: &Path, value: &T) -> Result<()> {
@@ -1817,6 +1870,7 @@ Semantics:
   - the managed command is always csm daemon, never adl agent daemon.
   - --no-sleep is an explicit test-only bounded harness boundary, not production service mode.
   - service artifacts include service_manifest.json, service_status.json, csm.launchd.plist, logs, OTel status/export paths, daemon_status.json, continuity checkpoints, and operator events.
+  - service status reports the CSM networking registry, including listener_role=main_runtime_api and bind_addr=127.0.0.1:19997, even when the service command only manages the daemon envelope.
   - status uses metadata or exact PID liveness probes only; no broad process scan or ps output is used.
   - unsupported permanence claims remain explicit for reboot, kill -9, disk-full, resource exhaustion, and cloud orchestration."
 }
