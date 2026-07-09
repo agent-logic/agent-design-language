@@ -68,10 +68,124 @@
       "reason": "The external DSpark result is specifically tied to the DeepSeek-V4 serving system; ADL should prove that path in #4654 rather than infer it from Qwen/Gemma candidates."
     }
   ],
+  "native_qwen_benchmarks": [
+    {
+      "proof_artifact": "docs/milestones/v0.91.7/review/provider/NATIVE_QWEN_ASSISTED_GENERATION_BENCHMARK_OFFLINE_4653.json",
+      "host_class": "nessus_windows_rtx_3090",
+      "runtime": "native_windows_python_transformers_offline_hf_cache",
+      "target_model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "assistant_model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "benchmark_status": "completed_no_speedup",
+      "summaries": [
+        {
+          "mode": "target_only",
+          "runs": 15,
+          "median_elapsed_seconds": 6.020484099979512,
+          "mean_tokens_per_second": 26.292143901045392
+        },
+        {
+          "mode": "assisted",
+          "runs": 15,
+          "median_elapsed_seconds": 7.976211500004865,
+          "mean_tokens_per_second": 20.018113611735426
+        }
+      ],
+      "proves_dspark_backend": false,
+      "accepted_draft_token_counts_exposed": false,
+      "note": "Live native Windows Transformers assisted generation ran on Nessus RTX 3090 with HF_HUB_OFFLINE=1 and TRANSFORMERS_OFFLINE=1, using the existing Hugging Face cache. Assisted generation was slower than target-only for this Qwen2.5 1.5B/0.5B pair and did not expose backend accepted-token or fallback counters, so it is proof of invocation only, not DSpark acceleration."
+    }
+  ],
+  "gemma_qwen_cross_family_probes": [
+    {
+      "proof_artifact": "docs/milestones/v0.91.7/review/provider/GEMMA_QWEN_TOKENIZER_PROBE_4653.json",
+      "host_class": "nessus_windows_rtx_3090",
+      "runtime": "native_windows_python_transformers",
+      "target_model": "google/gemma-2-2b-it",
+      "assistant_model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "probe_status": "blocked_gated_gemma_repo",
+      "observed_error_class": "huggingface_hub.errors.GatedRepoError",
+      "proves_assisted_generation": false,
+      "proves_dspark_backend": false,
+      "accepted_draft_token_counts_exposed": false,
+      "note": "The required Gemma target plus Qwen assistant probe could not load the Gemma Hugging Face tokenizer because google/gemma-2-2b-it is gated. Nessus has local Ollama Gemma models, but that path does not expose assisted-generation invocation or accepted-token/fallback counters, so the Gemma+Qwen cross-family row remains rejected rather than benchmark-accepted."
+    }
+  ],
+  "native_vllm_availability_probes": [
+    {
+      "proof_artifact": "docs/milestones/v0.91.7/review/provider/VLLM_NATIVE_WINDOWS_AVAILABILITY_PROBE_4653.json",
+      "host_class": "nessus_windows_rtx_3090",
+      "runtime": "native_windows_python_venv",
+      "probe_status": "not_available_in_native_windows_venv",
+      "observed_error": "ERROR: No matching distribution found for vllm",
+      "note": "The existing Nessus native Windows venv is the reusable benchmark environment for Torch/Transformers and the cached Qwen weights, but pip dry-run resolution for vllm found no installable native Windows wheel. Docker vLLM can initialize Qwen on this host, but that path is WSL/container-detected and is not accepted as native Windows proof for this issue."
+    }
+  ],
+  "vllm_qwen_speculative_benchmarks": [
+    {
+      "target_only_artifact": "docs/milestones/v0.91.7/review/provider/VLLM_QWEN_TARGET_ONLY_BENCHMARK_4653.json",
+      "speculative_artifact": "docs/milestones/v0.91.7/review/provider/VLLM_QWEN_SPECULATIVE_BENCHMARK_4653.json",
+      "host_class": "nessus_windows_rtx_3090",
+      "runtime": "vllm_container_offline_hf_cache",
+      "target_model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "draft_model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "spec_tokens": 3,
+      "benchmark_status": "completed_with_counters_no_speedup",
+      "summaries": [
+        {
+          "mode": "target_only",
+          "runs": 6,
+          "median_elapsed_seconds": 0.48294413098483346,
+          "mean_tokens_per_second": 199.18956234898937
+        },
+        {
+          "mode": "speculative",
+          "runs": 6,
+          "median_elapsed_seconds": 1.3170339860080276,
+          "mean_tokens_per_second": 72.73522446263055
+        }
+      ],
+      "measured_speculative_counters": {
+        "num_drafts": 204,
+        "num_draft_tokens": 612,
+        "num_accepted_tokens": 378,
+        "num_accepted_tokens_per_pos": [
+          156,
+          120,
+          102
+        ],
+        "draft_acceptance_rate": 0.6176470588235294,
+        "mean_acceptance_length_including_bonus": 2.8529411764705883
+      },
+      "proves_vllm_speculative_mode": true,
+      "proves_dspark_backend": false,
+      "note": "vLLM 0.24.0 draft-model speculative decoding ran on Nessus RTX 3090 with offline Hugging Face cache reuse. The target/draft pair exposed real draft and accepted-token counters, but the speculative path was slower than target-only for this measured Qwen2.5 1.5B/0.5B configuration. This is vLLM draft-model speculative evidence, not DSpark confidence-scheduled backend proof."
+    }
+  ],
+  "vllm_gemma_speculative_probes": [
+    {
+      "proof_artifact": "docs/milestones/v0.91.7/review/provider/VLLM_GEMMA_SPECULATIVE_SMOKE_4653.json",
+      "host_class": "nessus_windows_rtx_3090",
+      "runtime": "vllm_container_hf_token_download_cache",
+      "target_model": "google/gemma-3-1b-it",
+      "draft_model": "google/gemma-3-270m-it",
+      "spec_tokens": 3,
+      "probe_status": "failed_engine_initialization",
+      "observed_error_class": "AssertionError: All drafting layers should belong to the same kv cache group",
+      "proves_vllm_speculative_mode": false,
+      "proves_dspark_backend": false,
+      "accepted_draft_token_counts_exposed": false,
+      "note": "The live Nessus Docker/vLLM Gemma same-family smoke authenticated with the local Hugging Face token, resolved both Gemma3ForCausalLM models, downloaded and loaded target/draft weights, and enabled draft_model speculative configuration. vLLM 0.24.0 then failed during KV-cache initialization before generation with an assertion that all drafting layers should belong to the same KV cache group. This is a useful negative backend-compatibility result, not a Gemma speculative decoding acceptance or acceleration proof."
+    }
+  ],
   "accepted_for_v0917_provider_sprint": false,
-  "recommendation": "Do not claim Qwen or Gemma DSpark acceleration as accepted in v0.91.7 from planning evidence alone. Keep Qwen/Gemma as same-family candidates, reject cross-family Qwen/Gemma pairings, and route actual DeepSeek-V4 DSpark live proof to #4654.",
+  "recommendation": "Do not claim Qwen or Gemma DSpark acceleration as accepted in v0.91.7 from planning evidence or the current live vLLM probes. Keep Qwen/Gemma as same-family candidates with measured negative/blocked results, reject cross-family Qwen/Gemma pairings, and route actual DeepSeek-V4 DSpark live proof to #4654.",
   "required_next_proof": [
     "A same-family Qwen or Gemma backend must expose draft tokens, target verification, accepted-token counts, fallback counts, tokenizer compatibility, latency, and throughput before ADL can accept the row.",
+    "A same-family Qwen acceleration claim needs backend accepted-token/fallback counters or a serving stack that exposes equivalent draft acceptance telemetry; native Transformers assisted generation alone is insufficient.",
+    "The vLLM Qwen draft-model benchmark proves draft and accepted-token counters for Qwen2.5 1.5B/0.5B, but its measured speculative path is slower than target-only and is not DSpark confidence scheduling.",
+    "The vLLM Gemma draft-model smoke reached authenticated model load for google/gemma-3-1b-it plus google/gemma-3-270m-it, but failed engine initialization before generation on vLLM 0.24.0 with a KV-cache grouping assertion.",
+    "A Gemma target with Qwen assistant path must prove tokenizer compatibility and target-verified commit behavior in an accessible backend before the cross-family row can move out of rejected status.",
+    "A native Windows vLLM claim needs a supported vLLM install/import path or a different accepted serving lane; the existing native venv does not provide vLLM.",
     "Issue #4654 must prove or truthfully block the deepseek-v4-flash-dspark live GPU smoke with Agent Logic AWS account guard and teardown evidence.",
     "The shared provider proof #5026 must consume only rows that have live or accepted blocked dispositions."
   ],
@@ -83,12 +197,23 @@
   ],
   "non_claims": [
     "does not prove live Qwen DSpark acceleration",
+    "does not prove Qwen assisted generation speedup for the measured Qwen2.5 1.5B/0.5B pair",
+    "does not prove vLLM Qwen speculative speedup for the measured Qwen2.5 1.5B/0.5B pair",
     "does not prove live Gemma DSpark acceleration",
+    "does not prove vLLM Gemma same-family speculative decoding execution",
+    "does not prove Gemma target plus Qwen assistant speculative decoding",
+    "does not prove native Windows vLLM execution",
     "does not prove DeepSeek-V4 DSpark availability on AWS",
     "does not claim broad speculative decoding support in ADL provider routing",
     "does not replace #4654 live GPU smoke or #5026 shared provider acceptance proof"
   ],
   "validation_commands": [
+    "python3 -m py_compile adl/tools/native_qwen_assisted_generation_benchmark.py",
+    "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 C:\\adl-local-artifacts\\issue-4653\\native-venv\\Scripts\\python.exe C:\\adl-local-artifacts\\issue-4653\\native_qwen_assisted_generation_benchmark.py --out C:\\adl-local-artifacts\\issue-4653\\native-qwen-assisted-offline-20260709.json --repeats 3 --prompt-limit 5 --warmup-runs 1 --max-new-tokens 160",
+    "C:\\adl-local-artifacts\\issue-4653\\native-venv\\Scripts\\python.exe -m pip install --dry-run --only-binary=:all: vllm",
+    "docker run --rm --gpus all -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 -v C:\\Users\\danie\\.cache\\huggingface:/root/.cache/huggingface -v C:\\adl-local-artifacts\\issue-4653\\vllm-cache:/root/.cache/vllm -v C:\\adl-local-artifacts\\issue-4653:/work --entrypoint python3 vllm/vllm-openai:latest /work/vllm_qwen_speculative_decoding_benchmark.py --mode target_only --out /work/vllm-qwen-target-full-20260709.json --max-new-tokens 96 --warmup-runs 1 --repeats 2 --prompt-limit 3 --spec-tokens 3 --gpu-memory-utilization 0.50",
+    "docker run --rm --gpus all -e HF_HUB_OFFLINE=1 -e TRANSFORMERS_OFFLINE=1 -v C:\\Users\\danie\\.cache\\huggingface:/root/.cache/huggingface -v C:\\adl-local-artifacts\\issue-4653\\vllm-cache:/root/.cache/vllm -v C:\\adl-local-artifacts\\issue-4653:/work --entrypoint python3 vllm/vllm-openai:latest /work/vllm_qwen_speculative_decoding_benchmark.py --mode speculative --out /work/vllm-qwen-speculative-full-20260709.json --max-new-tokens 96 --warmup-runs 1 --repeats 2 --prompt-limit 3 --spec-tokens 3 --gpu-memory-utilization 0.50",
+    "docker run --rm --gpus all -e HF_TOKEN=<redacted> -v C:\\Users\\danie\\.cache\\huggingface:/root/.cache/huggingface -v C:\\adl-local-artifacts\\issue-4653\\vllm-cache:/root/.cache/vllm -v C:\\adl-local-artifacts\\issue-4653:/work --entrypoint python3 vllm/vllm-openai:latest /work/vllm_qwen_speculative_decoding_benchmark.py --mode speculative --target-model google/gemma-3-1b-it --draft-model google/gemma-3-270m-it --model-family gemma --out /work/vllm-gemma-spec-smoke-20260709.json --max-new-tokens 32 --warmup-runs 1 --repeats 1 --prompt-limit 1 --spec-tokens 3 --gpu-memory-utilization 0.50",
     "CARGO_INCREMENTAL=0 cargo test --manifest-path adl/Cargo.toml --lib dspark_speculative_decoding_evaluation -- --nocapture",
     "CARGO_INCREMENTAL=0 cargo test --manifest-path adl/Cargo.toml --bin demo_v0917_dspark_speculative_decoding_evaluation -- --nocapture",
     "CARGO_INCREMENTAL=0 cargo run --manifest-path adl/Cargo.toml --bin demo_v0917_dspark_speculative_decoding_evaluation -- docs/milestones/v0.91.7/review/provider/DSPARK_SPECULATIVE_DECODING_EVALUATION_4653.json",

@@ -1,0 +1,108 @@
+{
+  "schema_version": "adl.vllm_qwen_speculative_decoding_benchmark.v1",
+  "issue_number": 4653,
+  "measured_at_utc": "2026-07-09T21:41:32Z",
+  "runtime": {
+    "platform": "Linux-5.15.153.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "python": "3.12.13",
+    "torch": "2.11.0+cu130",
+    "vllm": "0.24.0",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 3090",
+    "container_image": "vllm/vllm-openai:latest"
+  },
+  "mode": "target_only",
+  "models": {
+    "target": "Qwen/Qwen2.5-1.5B-Instruct",
+    "draft": null,
+    "same_family": "qwen"
+  },
+  "benchmark": {
+    "init_elapsed_seconds": 116.016723549983,
+    "max_new_tokens": 96,
+    "warmup_runs": 1,
+    "repeats": 2,
+    "prompt_count": 3,
+    "spec_tokens": 0
+  },
+  "summary": {
+    "runs": 6,
+    "elapsed_seconds": {
+      "min": 0.47303562000161037,
+      "median": 0.48294413098483346,
+      "mean": 0.4820472286567868,
+      "max": 0.49252337601501495
+    },
+    "tokens_per_second": {
+      "min": 194.914606443113,
+      "median": 198.782790745735,
+      "mean": 199.18956234898937,
+      "max": 202.94454781158592
+    },
+    "output_tokens": {
+      "min": 96,
+      "median": 96.0,
+      "mean": 96,
+      "max": 96
+    }
+  },
+  "runs": [
+    {
+      "prompt_index": 0,
+      "repeat_index": 0,
+      "elapsed_seconds": 0.4863390829996206,
+      "output_tokens": 96,
+      "tokens_per_second": 197.39314267711217
+    },
+    {
+      "prompt_index": 1,
+      "repeat_index": 0,
+      "elapsed_seconds": 0.4813994319993071,
+      "output_tokens": 96,
+      "tokens_per_second": 199.4185984002951
+    },
+    {
+      "prompt_index": 2,
+      "repeat_index": 0,
+      "elapsed_seconds": 0.474497030954808,
+      "output_tokens": 96,
+      "tokens_per_second": 202.31949567065516
+    },
+    {
+      "prompt_index": 0,
+      "repeat_index": 1,
+      "elapsed_seconds": 0.47303562000161037,
+      "output_tokens": 96,
+      "tokens_per_second": 202.94454781158592
+    },
+    {
+      "prompt_index": 1,
+      "repeat_index": 1,
+      "elapsed_seconds": 0.4844888299703598,
+      "output_tokens": 96,
+      "tokens_per_second": 198.14698309117492
+    },
+    {
+      "prompt_index": 2,
+      "repeat_index": 1,
+      "elapsed_seconds": 0.49252337601501495,
+      "output_tokens": 96,
+      "tokens_per_second": 194.914606443113
+    }
+  ],
+  "speculative_metrics": {
+    "num_drafts": null,
+    "num_draft_tokens": null,
+    "num_accepted_tokens": null,
+    "num_accepted_tokens_per_pos": null,
+    "draft_acceptance_rate": null,
+    "mean_acceptance_length_including_bonus": null
+  },
+  "raw_speculative_metrics": [],
+  "claims": {
+    "proves_vllm_generation": true,
+    "proves_vllm_speculative_mode": false,
+    "speculative_counters_exposed": false,
+    "proves_dspark_backend": false
+  }
+}
