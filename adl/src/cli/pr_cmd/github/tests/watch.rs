@@ -5,6 +5,9 @@ fn readiness_ready() -> IssueWatchLocalReadinessReport {
         status: "ready".to_string(),
         pr_run_readiness: "ready".to_string(),
         reason: "doctor_ready_pass".to_string(),
+        check: "doctor_ready".to_string(),
+        command: "adl pr doctor 4397 --version v0.91.7 --slug watch-target --mode ready --json"
+            .to_string(),
     }
 }
 
@@ -13,6 +16,9 @@ fn readiness_failed() -> IssueWatchLocalReadinessReport {
         status: "failed".to_string(),
         pr_run_readiness: "unknown".to_string(),
         reason: "doctor: sor failed validation".to_string(),
+        check: "doctor_ready".to_string(),
+        command: "adl pr doctor 4397 --version v0.91.7 --slug watch-target --mode ready --json"
+            .to_string(),
     }
 }
 
@@ -637,6 +643,19 @@ fn issue_watch_routes_failed_local_readiness_without_pr_to_blocked() {
         report.local_readiness.reason,
         "doctor: sor failed validation"
     );
+    assert_eq!(report.local_readiness.check, "doctor_ready");
+    assert!(report
+        .local_readiness
+        .command
+        .contains("adl pr doctor 4397"));
+    assert!(report.local_readiness.command.contains("--mode ready"));
+
+    let value = serde_json::to_value(&report).expect("watch report serializes");
+    assert_eq!(value["local_readiness"]["check"], "doctor_ready");
+    assert!(value["local_readiness"]["command"]
+        .as_str()
+        .expect("command is a string")
+        .contains("--json"));
 }
 
 #[test]

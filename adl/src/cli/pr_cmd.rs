@@ -920,7 +920,7 @@ fn build_issue_lifecycle_snapshot(parsed: &WatchArgs) -> Result<IssueLifecycleSn
         .clone()
         .or_else(|| local_identity.as_ref().map(|(_, slug)| slug.clone()))
         .unwrap_or_else(|| sanitize_slug(&issue_record.title));
-    let issue_ref = IssueRef::new(issue, version, slug)?;
+    let issue_ref = IssueRef::new(issue, version.clone(), slug.clone())?;
     let linked_pr = if let Some(pr) = direct_pr {
         let validation = github::pr_validation_report(&repo, &pr.number.to_string())?;
         Some((pr, validation))
@@ -951,6 +951,7 @@ fn build_issue_lifecycle_snapshot(parsed: &WatchArgs) -> Result<IssueLifecycleSn
         &issue_ref,
         &issue_ref.branch_name("codex"),
     );
+    let local_readiness_command = doctor_ready_command(&issue_ref);
     let (ready_lifecycle_state, pr_finish_readiness, local_readiness) = match ready {
         Ok(ready) => (
             ready.lifecycle_state,
@@ -959,6 +960,8 @@ fn build_issue_lifecycle_snapshot(parsed: &WatchArgs) -> Result<IssueLifecycleSn
                 status: "ready".to_string(),
                 pr_run_readiness: ready.card_lifecycle.pr_run_readiness.to_string(),
                 reason: "doctor_ready_pass".to_string(),
+                check: "doctor_ready".to_string(),
+                command: local_readiness_command.clone(),
             },
         ),
         Err(err) => (
@@ -968,6 +971,8 @@ fn build_issue_lifecycle_snapshot(parsed: &WatchArgs) -> Result<IssueLifecycleSn
                 status: "failed".to_string(),
                 pr_run_readiness: "unknown".to_string(),
                 reason: err.to_string(),
+                check: "doctor_ready".to_string(),
+                command: local_readiness_command,
             },
         ),
     };
@@ -998,6 +1003,15 @@ fn build_issue_lifecycle_snapshot(parsed: &WatchArgs) -> Result<IssueLifecycleSn
         ready_lifecycle_state,
         pr_finish_readiness,
     })
+}
+
+fn doctor_ready_command(issue_ref: &IssueRef) -> String {
+    format!(
+        "adl pr doctor {} --version {} --slug {} --mode ready --json",
+        issue_ref.issue_number(),
+        issue_ref.scope(),
+        issue_ref.slug()
+    )
 }
 
 fn parse_issue_ref_number(command: &str, issue_ref: &str) -> Result<u32> {
@@ -2325,7 +2339,7 @@ fn bootstrap_ready_status_label(status: &str) -> &str {
 
 #[cfg(test)]
 mod bootstrap_output_tests {
-    use super::{bootstrap_ready_status_label, read_issue_goal_metric_refs};
+    use super::{bootstrap_ready_status_label, doctor_ready_command, read_issue_goal_metric_refs};
     use ::adl::control_plane::IssueRef;
     use std::fs;
 
@@ -2336,6 +2350,17 @@ mod bootstrap_output_tests {
             "BLOCKED_PENDING_CARD_REVIEW"
         );
         assert_eq!(bootstrap_ready_status_label("PASS"), "PASS");
+    }
+
+    #[test]
+    fn doctor_ready_command_reports_normalized_issue_ref_slug() {
+        let issue_ref =
+            IssueRef::new(5002, "v0.91.7", "Watch Target With Spaces").expect("issue ref");
+
+        assert_eq!(
+            doctor_ready_command(&issue_ref),
+            "adl pr doctor 5002 --version v0.91.7 --slug watch-target-with-spaces --mode ready --json"
+        );
     }
 
     #[test]
