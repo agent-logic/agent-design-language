@@ -82,6 +82,7 @@ pub enum RemoteRunStatus {
     Passed,
     Failed,
     InterruptedByAws,
+    ResumedAfterInterruption,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -537,7 +538,10 @@ fn classify_aws_remote_failure(
             "cleanup did not reach a complete terminated state; resource state is recorded for review"
                 .to_string(),
         )
-    } else if matches!(status, RemoteRunStatus::Passed) {
+    } else if matches!(
+        status,
+        RemoteRunStatus::Passed | RemoteRunStatus::ResumedAfterInterruption
+    ) {
         (
             AwsRemoteResilienceFaultClass::None,
             AwsRemoteResilienceDisposition::Succeeded,

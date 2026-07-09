@@ -28,11 +28,19 @@ struct ParsedArgs {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct ResumeAttemptRecord {
     attempt_index: u32,
+    started_at: String,
+    finished_at: String,
     summary_path: String,
+    artifact_dir: String,
     status: String,
     failure_reason: Option<String>,
-    launch_instance_id: Option<String>,
+    launch_purchase_option: Option<String>,
+    launch_instance_type: Option<String>,
+    launch_initial_state: Option<String>,
+    launch_instance_id_sha256: Option<String>,
     provider_interruption_confirmed: bool,
+    retryable: bool,
+    next_action: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -40,8 +48,16 @@ struct ResumeState {
     schema_version: String,
     issue: Option<u32>,
     run_id: String,
+    repo_url: String,
+    git_ref: String,
+    command: String,
+    output_summary_ref: String,
+    artifact_root_ref: String,
+    started_at: String,
+    updated_at: String,
     max_spot_retries: u32,
     attempts: Vec<ResumeAttemptRecord>,
+    interrupted_attempts: u32,
     next_action: String,
     final_status: Option<String>,
 }
@@ -60,6 +76,31 @@ fn should_retry_remote_validation(
             && provider_interruption_confirmed;
     }
     true
+}
+
+fn artifact_ref(path: &Path, artifact_root: &Path) -> String {
+    path.strip_prefix(artifact_root)
+        .ok()
+        .and_then(|relative| {
+            let value = relative.display().to_string();
+            if value.is_empty() {
+                None
+            } else {
+                Some(value)
+            }
+        })
+        .or_else(|| {
+            path.file_name()
+                .map(|name| name.to_string_lossy().to_string())
+        })
+        .unwrap_or_else(|| "unknown".to_string())
+}
+
+fn remote_status_label(status: &RemoteRunStatus) -> String {
+    serde_json::to_value(status)
+        .ok()
+        .and_then(|value| value.as_str().map(ToOwned::to_owned))
+        .unwrap_or_else(|| format!("{status:?}"))
 }
 
 struct EnvVarGuard {
@@ -570,12 +611,24 @@ fn main() -> Result<()> {
         effective_config.instance_profile_name = prepared.record.instance_profile_name.clone();
         fs::create_dir_all(&effective_config.artifact_dir).await?;
         let resume_state_path = effective_config.artifact_dir.join("resume-state.json");
+        let run_started_at = Utc::now().to_rfc3339();
         let mut resume_state = ResumeState {
             schema_version: "adl.aws_remote_validation_resume_state.v1".to_string(),
             issue: effective_config.issue,
             run_id: effective_config.run_id.clone(),
+            repo_url: effective_config.repo_url.clone(),
+            git_ref: effective_config.git_ref.clone(),
+            command: effective_config.command.clone(),
+            output_summary_ref: artifact_ref(
+                &effective_config.out_path,
+                &effective_config.artifact_dir,
+            ),
+            artifact_root_ref: ".".to_string(),
+            started_at: run_started_at.clone(),
+            updated_at: run_started_at,
             max_spot_retries,
             attempts: Vec::new(),
+            interrupted_attempts: 0,
             next_action: "start_attempt_0".to_string(),
             final_status: None,
         };
@@ -602,6 +655,7 @@ fn main() -> Result<()> {
             );
             let issue_string = effective_config.issue.unwrap_or_default().to_string();
             let attempt_string = attempt_index.to_string();
+            let attempt_started_at = Utc::now().to_rfc3339();
             let heartbeat = ProgressHeartbeat::start(
                 "adl-aws-remote-validation",
                 "attempt",
@@ -612,6 +666,7 @@ fn main() -> Result<()> {
                 ],
             );
             resume_state.next_action = format!("run_attempt_{}", attempt_index);
+            resume_state.updated_at = Utc::now().to_rfc3339();
             write_resume_state(&resume_state_path, &resume_state).await?;
             let attempt_result = run_aws_remote_validation(&adapter, &attempt_config).await;
             let (mut summary, events) = match attempt_result {
@@ -637,28 +692,62 @@ fn main() -> Result<()> {
                 .as_ref()
                 .map(|evidence| evidence.provider_interruption_confirmed)
                 .unwrap_or(false);
-            resume_state.attempts.push(ResumeAttemptRecord {
-                attempt_index,
-                summary_path: attempt_out.display().to_string(),
-                status: format!("{:?}", summary.status),
-                failure_reason: summary.failure_reason.clone(),
-                launch_instance_id: summary
-                    .launch
-                    .as_ref()
-                    .map(|launch| launch.instance_id.clone()),
-                provider_interruption_confirmed,
-            });
             let should_retry = should_retry_remote_validation(
                 &summary,
                 provider_interruption_confirmed,
                 attempt_index,
                 max_spot_retries,
             );
+            let interrupted = matches!(summary.status, RemoteRunStatus::InterruptedByAws);
+            if interrupted {
+                resume_state.interrupted_attempts =
+                    resume_state.interrupted_attempts.saturating_add(1);
+            }
+            let next_action = if should_retry {
+                format!("retry_after_interruption_{}", attempt_index + 1)
+            } else if interrupted {
+                "interrupted_no_retry_remaining".to_string()
+            } else {
+                "finalize".to_string()
+            };
+            resume_state.attempts.push(ResumeAttemptRecord {
+                attempt_index,
+                started_at: attempt_started_at,
+                finished_at: Utc::now().to_rfc3339(),
+                summary_path: artifact_ref(&attempt_out, &effective_config.artifact_dir),
+                artifact_dir: artifact_ref(&attempt_dir, &effective_config.artifact_dir),
+                status: remote_status_label(&summary.status),
+                failure_reason: summary.failure_reason.clone(),
+                launch_purchase_option: summary
+                    .launch
+                    .as_ref()
+                    .map(|launch| launch.purchase_option.to_string()),
+                launch_instance_type: summary
+                    .launch
+                    .as_ref()
+                    .map(|launch| launch.instance_type.clone()),
+                launch_initial_state: summary
+                    .launch
+                    .as_ref()
+                    .map(|launch| launch.initial_state.clone()),
+                launch_instance_id_sha256: summary
+                    .launch
+                    .as_ref()
+                    .map(|launch| launch.instance_id_sha256.clone()),
+                provider_interruption_confirmed,
+                retryable: summary.resilience.retryable,
+                next_action: next_action.clone(),
+            });
             if should_retry {
-                resume_state.next_action =
-                    format!("retry_after_interruption_{}", attempt_index + 1);
+                resume_state.next_action = next_action;
+                resume_state.updated_at = Utc::now().to_rfc3339();
                 write_resume_state(&resume_state_path, &resume_state).await?;
                 continue;
+            }
+            if matches!(summary.status, RemoteRunStatus::Passed)
+                && resume_state.interrupted_attempts > 0
+            {
+                summary.status = RemoteRunStatus::ResumedAfterInterruption;
             }
             final_pair = Some((summary, events));
             break;
@@ -668,8 +757,9 @@ fn main() -> Result<()> {
             final_pair.ok_or_else(|| anyhow!("no attempt summary recorded"))?;
         summary.launch_surface = Some(prepared.record);
         summary.launch_surface_cleanup = Some(cleanup);
-        resume_state.final_status = Some(format!("{:?}", summary.status));
+        resume_state.final_status = Some(remote_status_label(&summary.status));
         resume_state.next_action = "complete".to_string();
+        resume_state.updated_at = Utc::now().to_rfc3339();
         write_resume_state(&resume_state_path, &resume_state).await?;
         write_summary_artifacts(
             &summary,
@@ -685,7 +775,10 @@ fn main() -> Result<()> {
     } else {
         println!("aws_remote_validation_summary={out_path_display}");
     }
-    if matches!(summary.status, RemoteRunStatus::Passed) {
+    if matches!(
+        summary.status,
+        RemoteRunStatus::Passed | RemoteRunStatus::ResumedAfterInterruption
+    ) {
         Ok(())
     } else {
         bail!(
@@ -802,6 +895,28 @@ mod tests {
             false,
         );
         assert!(!should_retry_remote_validation(&summary, false, 0, 2));
+    }
+
+    #[test]
+    fn resume_state_artifact_refs_are_relative_when_under_artifact_root() {
+        let root = PathBuf::from("/tmp/adl/aws-spot/artifacts");
+        assert_eq!(
+            artifact_ref(&root.join("attempt-0/summary.json"), &root),
+            "attempt-0/summary.json"
+        );
+        assert_eq!(artifact_ref(&root, &root), "artifacts");
+    }
+
+    #[test]
+    fn remote_status_label_uses_machine_status_values() {
+        assert_eq!(
+            remote_status_label(&RemoteRunStatus::InterruptedByAws),
+            "interrupted_by_aws"
+        );
+        assert_eq!(
+            remote_status_label(&RemoteRunStatus::ResumedAfterInterruption),
+            "resumed_after_interruption"
+        );
     }
 
     fn parse_ok(args: &[&str]) -> ParsedArgs {
