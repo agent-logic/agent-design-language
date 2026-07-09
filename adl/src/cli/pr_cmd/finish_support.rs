@@ -178,6 +178,24 @@ pub(super) fn real_pr_finish(args: &[String]) -> Result<()> {
             mode: FinishValidationMode::DocsOnly,
             commands: Vec::new(),
         }
+    } else if parsed.merge_mode && !has_uncommitted && staged_diff_empty {
+        if let Some(plan) = merge_mode_green_pr_backed_finish_validation_plan(
+            &repo_root,
+            &repo,
+            &branch,
+            parsed.issue,
+            &validation_changed_paths,
+            parsed.no_close,
+        )? {
+            plan
+        } else {
+            select_finish_validation_plan_for_finish_with_release_gate_disposition(
+                parsed.issue,
+                &parsed.paths,
+                &validation_changed_paths,
+                parsed.release_gate_disposition.as_deref(),
+            )?
+        }
     } else {
         select_finish_validation_plan_for_finish_with_release_gate_disposition(
             parsed.issue,
@@ -843,6 +861,129 @@ fn ensure_ready_only_finish_pr_is_green_and_linked(
         issue,
         no_close,
     )
+}
+
+fn merge_mode_green_pr_backed_finish_validation_plan(
+    repo_root: &Path,
+    repo: &str,
+    branch: &str,
+    issue: u32,
+    changed_paths: &[String],
+    no_close: bool,
+) -> Result<Option<FinishValidationPlan>> {
+    let finish_profile = load_finish_validation_profile(repo_root, changed_paths)?;
+    if !finish_validation_profile_requires_broad_runtime_owner_lane_disposition(&finish_profile) {
+        return Ok(None);
+    }
+    let Some(existing) = current_pr_url(repo, branch)? else {
+        return Ok(None);
+    };
+    let pr_base = resolve_finish_pr_base(repo_root, branch)?;
+    let local_head = current_head_sha(repo_root)?;
+    let report = pr_validation_report(repo, &existing)?;
+    let actual_base = pr_view_base_ref_finish_existing(repo, &existing)?;
+    let closing_issues = if no_close {
+        Vec::new()
+    } else {
+        pr_closing_issue_numbers_finish_existing(repo, &existing)?
+    };
+    if !finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+        &finish_profile,
+        &report,
+        &actual_base,
+        &pr_base,
+        &local_head,
+        &closing_issues,
+        issue,
+        no_close,
+    )? {
+        return Ok(None);
+    }
+    Ok(Some(FinishValidationPlan {
+        mode: FinishValidationMode::LargerBinaryFocused,
+        commands: vec![
+            "bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string(),
+            "git diff --check".to_string(),
+        ],
+    }))
+}
+
+pub(super) fn finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+    profile: &FinishValidationProfile,
+    report: &PrValidationReport,
+    actual_base: &str,
+    expected_base: &str,
+    expected_head: &str,
+    closing_issues: &[u32],
+    issue: u32,
+    no_close: bool,
+) -> Result<bool> {
+    if !finish_validation_profile_requires_broad_runtime_owner_lane_disposition(profile) {
+        return Ok(false);
+    }
+    validate_ready_only_finish_pr_state(
+        report,
+        actual_base,
+        expected_base,
+        expected_head,
+        closing_issues,
+        issue,
+        no_close,
+    )
+    .context("finish --merge: existing PR is not green, current, and linked enough to consume GitHub checks for broad Rust escalation")?;
+    ensure_required_merge_checks_green(report, &["adl-ci", "adl-coverage"])?;
+    Ok(true)
+}
+
+fn ensure_required_merge_checks_green(
+    report: &PrValidationReport,
+    required: &[&str],
+) -> Result<()> {
+    if !report.pending_checks.is_empty() {
+        bail!(
+            "finish --merge: cannot consume GitHub checks for broad Rust escalation while checks are pending: {}",
+            report
+                .pending_checks
+                .iter()
+                .map(|check| check.name.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+    }
+    if !report.failed_checks.is_empty() {
+        bail!(
+            "finish --merge: cannot consume GitHub checks for broad Rust escalation while checks failed: {}",
+            report
+                .failed_checks
+                .iter()
+                .map(|check| check.name.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+    }
+    for required_name in required {
+        let Some(check) = report
+            .checks
+            .iter()
+            .find(|check| check.name.trim() == *required_name)
+        else {
+            bail!(
+                "finish --merge: required GitHub check '{}' is missing from the current PR validation report",
+                required_name
+            );
+        };
+        if !check.status.eq_ignore_ascii_case("COMPLETED")
+            || !check.conclusion.eq_ignore_ascii_case("SUCCESS")
+        {
+            bail!(
+                "finish --merge: required GitHub check '{}' is not green for current head (status={}, conclusion={})",
+                required_name,
+                check.status,
+                check.conclusion
+            );
+        }
+    }
+    Ok(())
 }
 
 pub(super) fn validate_ready_only_finish_pr_state(

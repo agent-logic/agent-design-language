@@ -5,6 +5,7 @@ use crate::cli::pr_cmd::finish_support::{
     ensure_finish_validation_profile_is_runnable, ensure_no_staged_issue_bundle_mutations,
     extra_pr_body_looks_like_issue_template, extract_markdown_section,
     finish_declared_paths_for_validation, finish_inputs_fingerprint,
+    finish_merge_mode_green_pr_satisfies_broad_runtime_escalation,
     finish_ready_only_path_is_allowed, issue_bundle_issue_number_from_repo_relative,
     load_finish_validation_profile, load_finish_validation_profile_for_execution,
     non_closing_lifecycle_line, normalize_docs_only_sor_text, normalize_sor_emitted_facts_fixture,
@@ -95,6 +96,54 @@ fn ready_only_head_sha() -> &'static str {
     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 }
 
+fn successful_required_pr_checks() -> Vec<PrValidationCheckReport> {
+    vec![
+        PrValidationCheckReport {
+            name: "adl-ci".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "SUCCESS".to_string(),
+            job_run_id: "8804".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+        PrValidationCheckReport {
+            name: "adl-coverage".to_string(),
+            status: "COMPLETED".to_string(),
+            conclusion: "SUCCESS".to_string(),
+            job_run_id: "8805".to_string(),
+            wait_reason: "check_state".to_string(),
+        },
+    ]
+}
+
+fn broad_runtime_escalation_profile() -> FinishValidationProfile {
+    FinishValidationProfile {
+        selected_profile: "escalated_2_lane_profile".to_string(),
+        status: "escalation_required".to_string(),
+        pr_publication_sufficient: false,
+        validation_split: None,
+        run: Vec::new(),
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: true,
+            reasons: vec![FinishValidationProfileEscalationReason {
+                lane_id: "rust_pr_fast".to_string(),
+                status: "escalated".to_string(),
+                reason: "too_many_focused_filters_require_full_nextest".to_string(),
+                matched_paths: vec![
+                    "adl/src/provider_adapter.rs".to_string(),
+                    "adl/src/provider/http_family.rs".to_string(),
+                ],
+                manifest_rule: Some("special_surfaces.rust_pr_fast".to_string()),
+                remediation_hint: Some(
+                    "Route this broad provider/runtime change to owner-lane or current CI proof."
+                        .to_string(),
+                ),
+            }],
+        },
+    }
+}
+
 #[test]
 fn finish_ready_only_path_is_limited_to_clean_ready_non_merge_calls() {
     assert!(finish_ready_only_path_is_allowed(true, false, false, true));
@@ -106,6 +155,53 @@ fn finish_ready_only_path_is_limited_to_clean_ready_non_merge_calls() {
     assert!(!finish_ready_only_path_is_allowed(
         true, false, false, false
     ));
+}
+
+#[test]
+fn merge_mode_green_github_checks_satisfy_broad_runtime_escalation() {
+    let profile = broad_runtime_escalation_profile();
+    let mut report = ready_only_validation_report("ready_to_merge_or_review");
+    report.checks = successful_required_pr_checks();
+
+    let accepted = finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+        &profile,
+        &report,
+        "main",
+        "main",
+        ready_only_head_sha(),
+        &[5042],
+        5042,
+        false,
+    )
+    .expect("green required GitHub checks should satisfy merge-mode broad Rust escalation");
+
+    assert!(accepted);
+}
+
+#[test]
+fn merge_mode_green_github_checks_fail_closed_when_coverage_missing() {
+    let profile = broad_runtime_escalation_profile();
+    let mut report = ready_only_validation_report("ready_to_merge_or_review");
+    report.checks = successful_required_pr_checks()
+        .into_iter()
+        .filter(|check| check.name != "adl-coverage")
+        .collect();
+
+    let err = finish_merge_mode_green_pr_satisfies_broad_runtime_escalation(
+        &profile,
+        &report,
+        "main",
+        "main",
+        ready_only_head_sha(),
+        &[5042],
+        5042,
+        false,
+    )
+    .expect_err("missing adl-coverage must fail closed");
+
+    assert!(err
+        .to_string()
+        .contains("required GitHub check 'adl-coverage' is missing"));
 }
 
 #[test]
