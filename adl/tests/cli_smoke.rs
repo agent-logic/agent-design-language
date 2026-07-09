@@ -38,6 +38,13 @@ fn run_adl_csdlc(args: &[&str]) -> std::process::Output {
         .expect("run adl-csdlc binary")
 }
 
+fn run_csdlc(args: &[&str]) -> std::process::Output {
+    Command::new(resolve_csdlc_exe())
+        .args(args)
+        .output()
+        .expect("run csdlc binary")
+}
+
 fn run_adl_runtime(args: &[&str]) -> std::process::Output {
     Command::new(resolve_adl_runtime_exe())
         .args(args)
@@ -108,6 +115,17 @@ fn resolve_adl_csdlc_exe() -> PathBuf {
     }
 }
 
+fn resolve_csdlc_exe() -> PathBuf {
+    let raw = std::env::var("CARGO_BIN_EXE_csdlc")
+        .unwrap_or_else(|_| env!("CARGO_BIN_EXE_csdlc").to_string());
+    let path = PathBuf::from(raw);
+    if path.is_absolute() {
+        path
+    } else {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(path)
+    }
+}
+
 fn resolve_adl_runtime_exe() -> PathBuf {
     let raw = std::env::var("CARGO_BIN_EXE_adl-runtime")
         .unwrap_or_else(|_| env!("CARGO_BIN_EXE_adl-runtime").to_string());
@@ -166,6 +184,33 @@ fn adl_csdlc_cli_binary_help_and_version_smoke() {
     assert!(help_stdout.contains("adl-csdlc issue run <issue>"));
 
     let version = run_adl_csdlc(&["--version"]);
+    assert!(
+        version.status.success(),
+        "stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&version.stdout),
+        String::from_utf8_lossy(&version.stderr)
+    );
+    assert_eq!(
+        String::from_utf8_lossy(&version.stdout).trim(),
+        env!("CARGO_PKG_VERSION")
+    );
+}
+
+#[test]
+fn csdlc_cli_binary_help_and_version_smoke() {
+    let help = run_csdlc(&["--help"]);
+    assert!(
+        help.status.success(),
+        "stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&help.stdout),
+        String::from_utf8_lossy(&help.stderr)
+    );
+    let help_stdout = String::from_utf8_lossy(&help.stdout);
+    assert!(help_stdout.contains("csdlc - ADL C-SDLC workflow control-plane binary"));
+    assert!(help_stdout.contains("csdlc issue run <issue>"));
+    assert!(help_stdout.contains("adl-csdlc remains a compatibility alias"));
+
+    let version = run_csdlc(&["--version"]);
     assert!(
         version.status.success(),
         "stdout:\n{}\nstderr:\n{}",

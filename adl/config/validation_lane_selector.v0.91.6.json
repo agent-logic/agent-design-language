@@ -325,8 +325,8 @@
       "run_command": "bash -n adl/tools/test_v0916_unity_observatory_unity65_smoke.sh && bash adl/tools/test_v0916_unity_observatory_baseline.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash adl/tools/test_v0916_unity_observatory_soak_integration.sh && cargo test --manifest-path adl/Cargo.toml --test cli_smoke csm_observatory_cli_writes_unity_contract_bundle_and_matches_seeded_resource -- --nocapture",
       "reason": "unity_observatory_surface_requires_contract_and_csm_smoke"
     },
-    {
-      "id": "csdlc_owner_lane",
+        {
+            "id": "csdlc_owner_lane",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
       "owner": "csdlc",
@@ -347,12 +347,15 @@
         "adl/tools/install_owner_binaries.sh",
         "adl/tools/build_v0917_execution_outlier_analysis.py",
         "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh",
         "adl/tools/run_owner_validation_lane.sh",
         "adl/tools/test_control_plane_observability.sh",
         "adl/tools/test_five_command_regression_suite.sh",
         "adl/tools/test_owner_binary_install.sh",
         "adl/tools/test_owner_validation_lane.sh",
         "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
+        "adl/tools/test_validation_inventory.sh",
         "adl/tools/test_pr_*.sh"
       ],
       "path_hints": [
@@ -368,12 +371,15 @@
         "adl/tools/install_owner_binaries.sh",
         "adl/tools/build_v0917_execution_outlier_analysis.py",
         "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh",
         "adl/tools/run_owner_validation_lane.sh",
         "adl/tools/test_control_plane_observability.sh",
         "adl/tools/test_five_command_regression_suite.sh",
         "adl/tools/test_owner_binary_install.sh",
         "adl/tools/test_owner_validation_lane.sh",
         "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
+        "adl/tools/test_validation_inventory.sh",
         "adl/tools/test_pr_*.sh"
       ],
       "command": "bash adl/tools/run_owner_validation_lane.sh csdlc --print-plan",

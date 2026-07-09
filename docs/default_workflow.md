@@ -26,12 +26,20 @@ stubs early, but new issue work should follow this semantic order only.
 
 The active control-plane surface is:
 
+- `csdlc issue`
+- `csdlc tooling`
 - `pr issue`
 - `pr init`
 - `pr doctor`
 - `pr run`
 - `pr finish`
 - `adl-pr-shepherd`
+
+`csdlc` is the canonical C-SDLC owner binary for direct command use. The
+`adl-csdlc` binary remains a compatibility alias during migration. Agent issue
+work should still use `bash adl/tools/pr.sh ...` when lifecycle policy,
+session-ledger ownership, queue checks, worktree binding, and finish/closeout
+rules matter.
 
 Lifecycle synthesis and PR-tail waiting-state classification now have a
 dedicated owner binary:
@@ -373,7 +381,7 @@ the code side is already covered by an explicit focused lane.
 Not every focused C-SDLC path uses the same Rust selector. Finish-validation
 planner changes such as `adl/src/cli/pr_cmd/finish_support.rs` and
 `adl/src/cli/tests/pr_cmd_inline/finish/*` are proved by formatter checks plus
-narrow `adl-csdlc` filtered tests for finish validation planning and focused
+narrow `csdlc` filtered tests for finish validation planning and focused
 runner dispatch. Broader lifecycle surfaces such as `doctor`, `git_support`,
 `github`, and `lifecycle` still use the broader `cli::pr_cmd` filtered test
 until they have their own narrower proof lane.
@@ -381,9 +389,10 @@ until they have their own narrower proof lane.
 Public prompt packet tooling is also a focused lane: changes to
 `adl/src/cli/tooling_cmd/public_prompt_packet.rs` or its paired
 `public_prompt_packet` tests are proved by formatter checks and the
-`adl-csdlc public_prompt_packet` filtered test, while merge-context CI remains
-required before merge. Other actual changed paths still escalate to full local
-validation until more focused lanes are explicitly implemented and tested.
+`csdlc tooling public-prompt-packet` filtered test, while merge-context CI
+remains required before merge. Other actual changed paths still escalate to
+full local validation until more focused lanes are explicitly implemented and
+tested.
 
 Use full local validation for runtime, schema, security, release, broad tooling,
 or ambiguous changes.
