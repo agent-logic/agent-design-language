@@ -1,8 +1,11 @@
 use super::super::*;
+use std::collections::BTreeSet;
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
+
+use serde::Deserialize;
 
 pub(crate) fn sync_completed_output_surfaces(
     repo_root: &Path,
@@ -240,6 +243,7 @@ pub(crate) fn prune_issue_worktree(
             &worktree_path,
         )));
     }
+    ensure_no_active_runtime_pidfiles_before_prune(issue_ref, &worktree_path)?;
     if has_uncommitted_or_untracked_changes(&worktree_path)? {
         bail!(
             "closeout: refusing to prune dirty worktree '{}' because it contains staged, unstaged, or untracked changes",
@@ -272,4 +276,223 @@ pub(crate) fn prune_issue_worktree(
     Ok(IssueWorktreePruneResult::Pruned(worktree_display_name(
         &worktree_path,
     )))
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(super) struct RuntimePidfileStatus {
+    pub(super) role: String,
+    pub(super) pid_file: PathBuf,
+    pub(super) status: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProcessStatusHelperReport {
+    status: String,
+    broad_process_scan: bool,
+    uses_ps: bool,
+}
+
+fn ensure_no_active_runtime_pidfiles_before_prune(
+    issue_ref: &IssueRef,
+    worktree_path: &Path,
+) -> Result<()> {
+    let statuses =
+        active_runtime_pidfile_statuses(worktree_path, check_pidfile_with_process_status_helper)?;
+    fail_if_active_runtime_pidfiles(issue_ref, worktree_path, &statuses)
+}
+
+pub(super) fn active_runtime_pidfile_statuses<F>(
+    worktree_path: &Path,
+    mut checker: F,
+) -> Result<Vec<RuntimePidfileStatus>>
+where
+    F: FnMut(&Path) -> Result<String>,
+{
+    let mut statuses = Vec::new();
+    for pid_file in collect_runtime_pidfiles(worktree_path)? {
+        let status = checker(&pid_file).with_context(|| {
+            format!(
+                "closeout: failed to classify runtime pidfile '{}' with permission-safe process status helper",
+                pid_file.display()
+            )
+        })?;
+        statuses.push(RuntimePidfileStatus {
+            role: runtime_pidfile_role(worktree_path, &pid_file),
+            pid_file,
+            status,
+        });
+    }
+    Ok(statuses)
+}
+
+pub(super) fn fail_if_active_runtime_pidfiles(
+    issue_ref: &IssueRef,
+    worktree_path: &Path,
+    statuses: &[RuntimePidfileStatus],
+) -> Result<()> {
+    let blockers: Vec<&RuntimePidfileStatus> = statuses
+        .iter()
+        .filter(|status| !matches!(status.status.as_str(), "stale_pid" | "missing_metadata"))
+        .collect();
+    if blockers.is_empty() {
+        return Ok(());
+    }
+
+    let details = blockers
+        .iter()
+        .map(|status| {
+            format!(
+                "{} status={} pid_file={}",
+                status.role,
+                status.status,
+                runtime_pidfile_display_path(worktree_path, &status.pid_file)
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("; ");
+    bail!(
+        "closeout: refusing to prune issue worktree '{}' because active or unclassifiable runtime pidfiles were detected: {}. Settle the runtime first through the CSM owner stop/control-plane path, retain final process/checkpoint/safe-fail/OTel evidence, then rerun `bash adl/tools/pr.sh closeout {}` or the applicable `bash adl/tools/pr.sh finish {} ...` path. Detection used `adl process status --pid-file <path> --json` and no broad process scan.",
+        worktree_path.display(),
+        details,
+        issue_ref.issue_number(),
+        issue_ref.issue_number()
+    );
+}
+
+fn check_pidfile_with_process_status_helper(pid_file: &Path) -> Result<String> {
+    let helper = std::env::var_os("ADL_PROCESS_STATUS_BIN")
+        .map(PathBuf::from)
+        .map(Ok)
+        .unwrap_or_else(std::env::current_exe)
+        .context("closeout: failed to resolve process status helper binary")?;
+    let helper_name = helper.file_stem().and_then(|name| name.to_str());
+    let mut command = Command::new(&helper);
+    if helper_name == Some("adl-process") {
+        command.arg("status");
+    } else {
+        command.args(["process", "status"]);
+    }
+    let output = command
+        .args(["--pid-file", path_str(pid_file)?, "--json"])
+        .output()
+        .with_context(|| {
+            format!(
+                "closeout: failed to run permission-safe process status helper for '{}'",
+                pid_file.display()
+            )
+        })?;
+    if !output.status.success() {
+        bail!(
+            "closeout: process status helper failed for runtime pidfile '{}'",
+            pid_file.display()
+        );
+    }
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let json_start = stdout
+        .find('{')
+        .ok_or_else(|| anyhow!("closeout: process status helper emitted no JSON object"))?;
+    let report: ProcessStatusHelperReport = serde_json::from_str(&stdout[json_start..])
+        .with_context(|| {
+            format!(
+                "closeout: failed to parse process status helper JSON for '{}'",
+                pid_file.display()
+            )
+        })?;
+    if report.broad_process_scan || report.uses_ps {
+        bail!(
+            "closeout: process status helper violated permission-safe contract for '{}'",
+            pid_file.display()
+        );
+    }
+    Ok(report.status)
+}
+
+fn collect_runtime_pidfiles(worktree_path: &Path) -> Result<Vec<PathBuf>> {
+    let mut pidfiles = BTreeSet::new();
+    for relative in known_runtime_pidfile_paths() {
+        let candidate = worktree_path.join(relative);
+        if candidate.is_file() {
+            pidfiles.insert(candidate);
+        }
+    }
+    for relative in runtime_pidfile_scan_roots() {
+        let root = worktree_path.join(relative);
+        if root.is_dir() {
+            collect_pidfiles_under(&root, &mut pidfiles)?;
+        }
+    }
+    Ok(pidfiles.into_iter().collect())
+}
+
+fn known_runtime_pidfile_paths() -> &'static [&'static str] {
+    &[
+        "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/logs/csm.pid",
+        "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/collector/collector.pid",
+        "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/api/csm-api.pid",
+    ]
+}
+
+fn runtime_pidfile_scan_roots() -> &'static [&'static str] {
+    &[
+        ".adl/runs",
+        ".adl/runtime",
+        ".adl/csm",
+        "docs/milestones/v0.91.7/review/runtime",
+    ]
+}
+
+fn collect_pidfiles_under(root: &Path, pidfiles: &mut BTreeSet<PathBuf>) -> Result<()> {
+    for entry in fs::read_dir(root)? {
+        let entry = entry?;
+        let path = entry.path();
+        let file_type = entry.file_type()?;
+        if file_type.is_dir() {
+            if should_skip_runtime_pidfile_dir(&path) {
+                continue;
+            }
+            collect_pidfiles_under(&path, pidfiles)?;
+        } else if file_type.is_file()
+            && path.extension().and_then(|extension| extension.to_str()) == Some("pid")
+        {
+            pidfiles.insert(path);
+        }
+    }
+    Ok(())
+}
+
+fn should_skip_runtime_pidfile_dir(path: &Path) -> bool {
+    matches!(
+        path.file_name().and_then(|name| name.to_str()),
+        Some(".git" | "target" | "node_modules" | ".worktrees")
+    )
+}
+
+fn runtime_pidfile_role(worktree_path: &Path, pid_file: &Path) -> String {
+    let relative = runtime_pidfile_display_path(worktree_path, pid_file);
+    match relative.as_str() {
+        "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/logs/csm.pid" => {
+            "csm_daemon".to_string()
+        }
+        "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/collector/collector.pid" => {
+            "otlp_loopback_collector".to_string()
+        }
+        "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/api/csm-api.pid" => {
+            "csm_api".to_string()
+        }
+        _ => relative
+            .rsplit('/')
+            .next()
+            .and_then(|name| name.strip_suffix(".pid"))
+            .filter(|name| !name.trim().is_empty())
+            .unwrap_or("runtime_child")
+            .to_string(),
+    }
+}
+
+fn runtime_pidfile_display_path(worktree_path: &Path, pid_file: &Path) -> String {
+    pid_file
+        .strip_prefix(worktree_path)
+        .unwrap_or(pid_file)
+        .to_string_lossy()
+        .replace('\\', "/")
 }

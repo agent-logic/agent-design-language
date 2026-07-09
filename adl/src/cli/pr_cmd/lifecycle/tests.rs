@@ -1,8 +1,9 @@
 use super::super::{path_str, IssueRef};
 use super::*;
 use crate::cli::pr_cmd::lifecycle::cleanup::{
-    record_worktree_prune_result, replace_worktree_only_paths_remaining,
-    scrub_noncanonical_issue_bundle_residue,
+    active_runtime_pidfile_statuses, fail_if_active_runtime_pidfiles, record_worktree_prune_result,
+    replace_worktree_only_paths_remaining, scrub_noncanonical_issue_bundle_residue,
+    RuntimePidfileStatus,
 };
 use crate::cli::pr_cmd::{card_output_path, resolve_cards_root};
 use crate::cli::pr_cmd_cards::{ensure_pre_run_bootstrap_cards, ensure_task_bundle_stp};
@@ -787,6 +788,94 @@ fn prune_issue_worktree_rejects_dirty_worktree() {
 
     prune_issue_worktree(&repo, &repo, &issue_ref).expect_err("dirty worktree rejected");
     assert!(worktree.is_dir());
+}
+
+#[test]
+fn active_runtime_pidfile_statuses_discovers_csm_runtime_children() {
+    let _guard = env_lock();
+    let temp = temp_dir("adl-pr-lifecycle-runtime-pidfiles");
+    let worktree = temp.join("worktree");
+    let csm_pid =
+        worktree.join("docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/logs/csm.pid");
+    let collector_pid = worktree.join(
+        "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/collector/collector.pid",
+    );
+    let api_pid = worktree
+        .join("docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/api/csm-api.pid");
+    for path in [&csm_pid, &collector_pid, &api_pid] {
+        fs::create_dir_all(path.parent().expect("pid parent")).expect("pid parent mkdir");
+        fs::write(path, "12345\n").expect("pid file");
+    }
+
+    let statuses = active_runtime_pidfile_statuses(&worktree, |_| Ok("stale_pid".to_string()))
+        .expect("pidfiles classified");
+    let roles = statuses
+        .iter()
+        .map(|status| status.role.as_str())
+        .collect::<Vec<_>>();
+
+    assert_eq!(roles, ["csm_api", "otlp_loopback_collector", "csm_daemon"]);
+    assert!(statuses.iter().all(|status| status.status == "stale_pid"));
+}
+
+#[test]
+fn active_runtime_pidfile_guard_blocks_live_runtime_before_prune() {
+    let _guard = env_lock();
+    let temp = temp_dir("adl-pr-lifecycle-runtime-live-block");
+    let worktree = temp.join("worktree");
+    let pid_file = worktree
+        .join("docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/full/api/csm-api.pid");
+    fs::create_dir_all(pid_file.parent().expect("pid parent")).expect("pid parent mkdir");
+    fs::write(&pid_file, "12345\n").expect("pid file");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let statuses = active_runtime_pidfile_statuses(&worktree, |_| Ok("live_pid".to_string()))
+        .expect("pidfile classified");
+
+    let err = fail_if_active_runtime_pidfiles(&issue_ref, &worktree, &statuses)
+        .expect_err("live runtime pidfile blocks prune");
+    let message = err.to_string();
+
+    assert!(message.contains("refusing to prune issue worktree"));
+    assert!(message.contains("csm_api status=live_pid"));
+    assert!(message.contains("adl process status --pid-file <path> --json"));
+    assert!(message.contains("bash adl/tools/pr.sh closeout 1410"));
+    assert!(worktree.is_dir());
+}
+
+#[test]
+fn active_runtime_pidfile_guard_blocks_invalid_runtime_metadata_before_prune() {
+    let _guard = env_lock();
+    let temp = temp_dir("adl-pr-lifecycle-runtime-invalid-block");
+    let worktree = temp.join("worktree");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let statuses = vec![RuntimePidfileStatus {
+        role: "csm_daemon".to_string(),
+        pid_file: worktree.join("full/logs/csm.pid"),
+        status: "invalid_metadata".to_string(),
+    }];
+
+    let err = fail_if_active_runtime_pidfiles(&issue_ref, &worktree, &statuses)
+        .expect_err("invalid runtime pidfile metadata blocks prune");
+    let message = err.to_string();
+
+    assert!(message.contains("csm_daemon status=invalid_metadata"));
+    assert!(message.contains("retain final process/checkpoint/safe-fail/OTel evidence"));
+}
+
+#[test]
+fn active_runtime_pidfile_guard_allows_stale_runtime_pidfiles() {
+    let _guard = env_lock();
+    let temp = temp_dir("adl-pr-lifecycle-runtime-stale-allow");
+    let worktree = temp.join("worktree");
+    let issue_ref = IssueRef::new(1410, "v0.87", "canonical-slug").expect("issue ref");
+    let statuses = vec![RuntimePidfileStatus {
+        role: "csm_daemon".to_string(),
+        pid_file: worktree.join("full/logs/csm.pid"),
+        status: "stale_pid".to_string(),
+    }];
+
+    fail_if_active_runtime_pidfiles(&issue_ref, &worktree, &statuses)
+        .expect("stale runtime pidfiles do not block prune");
 }
 
 #[test]
