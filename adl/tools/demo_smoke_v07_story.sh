@@ -5,8 +5,61 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
 TMP_DIR=".tmp/ci-demo-smoke"
+RUNS_DIR="${TMP_DIR}/runs"
 rm -rf "$TMP_DIR"
-mkdir -p "$TMP_DIR"
+mkdir -p "$TMP_DIR" "$RUNS_DIR"
+
+PRIMARY_ROOT="${ADL_PRIMARY_CHECKOUT_ROOT:-}"
+if [[ -z "$PRIMARY_ROOT" ]]; then
+  case "$ROOT" in
+    */.worktrees/*) PRIMARY_ROOT="${ROOT%%/.worktrees/*}" ;;
+    *) PRIMARY_ROOT="$ROOT" ;;
+  esac
+fi
+
+resolve_adl_bin() {
+  local candidate
+  for candidate in \
+    "${ADL_BIN:-}" \
+    "$ROOT/adl/target/debug/adl" \
+    "$PRIMARY_ROOT/adl/target/debug/adl" \
+    "$ROOT/adl/target/llvm-cov-target/debug/adl" \
+    "$PRIMARY_ROOT/adl/target/llvm-cov-target/debug/adl"; do
+    if [[ -n "$candidate" && -x "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+}
+
+ADL_BIN_RESOLVED="$(resolve_adl_bin || true)"
+
+adl_cmd_label() {
+  if [[ -n "$ADL_BIN_RESOLVED" ]]; then
+    printf '%q' "$ADL_BIN_RESOLVED"
+  else
+    printf 'cargo run -q --manifest-path adl/Cargo.toml --bin adl --'
+  fi
+}
+
+run_adl() {
+  if [[ -n "$ADL_BIN_RESOLVED" ]]; then
+    ADL_RUNS_ROOT="$RUNS_DIR" "$ADL_BIN_RESOLVED" "$@"
+  else
+    ADL_RUNS_ROOT="$RUNS_DIR" cargo run -q --manifest-path adl/Cargo.toml --bin adl -- "$@"
+  fi
+}
+
+run_adl_cmd() {
+  local demo_id="$1"
+  shift
+  echo "[demo-smoke] ${demo_id}"
+  echo "[demo-smoke] cmd: $(adl_cmd_label) $*"
+  if ! run_adl "$@"; then
+    echo "DEMO_SMOKE_FAIL id=${demo_id} cmd=$(adl_cmd_label) $*" >&2
+    exit 1
+  fi
+}
 
 run_cmd() {
   local demo_id="$1"
@@ -20,15 +73,19 @@ run_cmd() {
 }
 
 # S-01: Determinism baseline command (single-run smoke)
-run_cmd "S-01" \
-  "ADL_OLLAMA_BIN=adl/tools/mock_ollama_v0_4.sh cargo run -q --manifest-path adl/Cargo.toml --bin adl -- adl/examples/v0-6-hitl-no-pause.adl.yaml --run --trace --allow-unsigned --out ${TMP_DIR}/s01"
+echo "[demo-smoke] S-01"
+echo "[demo-smoke] cmd: ADL_OLLAMA_BIN=adl/tools/mock_ollama_v0_4.sh $(adl_cmd_label) adl/examples/v0-6-hitl-no-pause.adl.yaml --run --trace --allow-unsigned --out ${TMP_DIR}/s01"
+if ! ADL_OLLAMA_BIN=adl/tools/mock_ollama_v0_4.sh run_adl \
+  adl/examples/v0-6-hitl-no-pause.adl.yaml --run --trace --allow-unsigned --out "${TMP_DIR}/s01"; then
+  echo "DEMO_SMOKE_FAIL id=S-01 cmd=$(adl_cmd_label) adl/examples/v0-6-hitl-no-pause.adl.yaml --run --trace --allow-unsigned --out ${TMP_DIR}/s01" >&2
+  exit 1
+fi
 [[ -s "${TMP_DIR}/s01/s1.txt" ]] || { echo "DEMO_SMOKE_FAIL id=S-01 missing artifact s1.txt" >&2; exit 1; }
 
 # S-02: Deterministic failure surface
 s02_log="${TMP_DIR}/s02.log"
 set +e
-cargo run -q --manifest-path adl/Cargo.toml --bin adl -- \
-  adl/examples/failure-missing-file.adl.yaml --run --allow-unsigned >"$s02_log" 2>&1
+run_adl adl/examples/failure-missing-file.adl.yaml --run --allow-unsigned >"$s02_log" 2>&1
 s02_rc=$?
 set -e
 if [[ "$s02_rc" -eq 0 ]]; then
@@ -43,14 +100,15 @@ if ! grep -En "failed to stat input file|failed to materialize inputs|No such fi
 fi
 
 # S-03: Learning export smoke
-run_cmd "S-03" \
-  "cargo run -q --manifest-path adl/Cargo.toml --bin adl -- learn export --format jsonl --runs-dir .adl/runs --out ${TMP_DIR}/s03.jsonl"
+run_adl_cmd "S-03" learn export --format jsonl --runs-dir "$RUNS_DIR" --out "${TMP_DIR}/s03.jsonl"
 [[ -s "${TMP_DIR}/s03.jsonl" ]] || { echo "DEMO_SMOKE_FAIL id=S-03 missing jsonl output" >&2; exit 1; }
 
 # S-04: Enterprise trust-boundary tamper check (daemon-free)
 run_cmd "S-04" "./adl/tools/demo_d11_signed_remote.sh tamper"
 
 # S-05: Canonical naming path
-run_cmd "S-05" "cargo run -q --manifest-path adl/Cargo.toml --bin adl -- --help >/dev/null"
+echo "[demo-smoke] S-05"
+echo "[demo-smoke] cmd: $(adl_cmd_label) --help >/dev/null"
+run_adl --help >/dev/null || { echo "DEMO_SMOKE_FAIL id=S-05 cmd=$(adl_cmd_label) --help" >&2; exit 1; }
 
 echo "[demo-smoke] PASS S-01..S-05"
