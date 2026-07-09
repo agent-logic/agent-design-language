@@ -78,7 +78,8 @@ ADL should model provider execution with four explicit layers:
 
 Key capabilities:
 - define first-class provider adapters for OpenAI, Anthropic, AWS Bedrock,
-  Gemini, Ollama, compatible HTTP, optional WebSocket, and mock
+  Gemini, DeepSeek, OpenRouter, Z.ai, Ollama, compatible HTTP, optional
+  WebSocket, and mock
 - isolate unstable provider model names behind stable ADL-facing references
 - provide a configuration surface that lets agents target vendors and models without brittle string coupling
 - integrate cleanly with declared, observed, and effective capability envelopes

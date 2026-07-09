@@ -60,6 +60,8 @@ pub(crate) const DEEPSEEK_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.deepseek.com/chat/completions";
 pub(crate) const OPENROUTER_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://openrouter.ai/api/v1/chat/completions";
+pub(crate) const Z_AI_CHAT_COMPLETIONS_ENDPOINT: &str =
+    "https://open.bigmodel.cn/api/paas/v4/chat/completions";
 /// Canonical Anthropic API version used by the HTTP adapter.
 pub(crate) const ANTHROPIC_VERSION: &str = "2023-06-01";
 
@@ -121,8 +123,8 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         ),
         (
             "bedrock:nova-pro-v1",
-            "hosted:adl-bedrock:amazon.nova-pro-v1:0",
-            "amazon.nova-pro-v1:0",
+            "hosted:adl-bedrock:us.amazon.nova-pro-v1:0",
+            "us.amazon.nova-pro-v1:0",
         ),
     ] {
         m.insert(
@@ -135,6 +137,15 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             },
         );
     }
+    m.insert(
+        "z_ai:glm-5",
+        ProviderProfilePreset {
+            kind: "z_ai",
+            default_model: Some("hosted:adl-z-ai:glm-5"),
+            provider_model_id: Some("glm-5"),
+            endpoint: Some(Z_AI_CHAT_COMPLETIONS_ENDPOINT),
+        },
+    );
     // HTTP presets (explicit fixed endpoint placeholders; no secrets)
     for (name, model) in [
         ("http:gpt-4o-mini", "gpt-4o-mini"),
@@ -248,7 +259,6 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
                 }
             }
         }
-
         expanded.providers.insert(
             provider_id,
             adl::ProviderSpec {
