@@ -313,6 +313,12 @@ fn api_gateway_bridge_response(loaded: &LoadedAgentSpec) -> Result<Value> {
         "agent_instance_id": loaded.spec.agent_instance_id,
         "status": "available",
         "runtime_api_path": "/api-gateway-bridge",
+        "polis_ingress": {
+            "polis_id": loaded.spec.agent_instance_id,
+            "ingress_model": "one_api_gateway_api_per_polis",
+            "route_target": "authorized_api_gateway_to_csm_loopback_runtime_api",
+            "per_polis_api": true
+        },
         "bridge_mode": "aws_api_gateway_to_authorized_loopback_runtime_api",
         "embedded_daemon_api": "loopback_only",
         "direct_public_daemon_bind": false,
@@ -425,7 +431,10 @@ fn api_gateway_bridge_runtime_status(loaded: &LoadedAgentSpec) -> Value {
         "schema": artifact.pointer("/value/schema").cloned().unwrap_or(Value::Null),
         "runtime_owner": "csm",
         "runtime_api_path": "/api-gateway-bridge",
-        "artifact_owned_by": "csm_runtime_api"
+        "artifact_owned_by": "csm_runtime_api",
+        "ingress_model": artifact.pointer("/value/polis_ingress/ingress_model").cloned().unwrap_or_else(|| json!("one_api_gateway_api_per_polis")),
+        "polis_id_hash": artifact.pointer("/value/polis_ingress/polis_id_hash").cloned().unwrap_or(Value::Null),
+        "runtime_identity_verified": artifact.pointer("/value/polis_ingress/runtime_identity_verified").cloned().unwrap_or(Value::Null)
     })
 }
 

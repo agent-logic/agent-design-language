@@ -35,6 +35,19 @@ def main() -> None:
     if not isinstance(account_hash, str) or len(account_hash) != 16 or account_hash.isdigit():
         fail("aws_account_hash must be a 16-character non-numeric redacted hash")
 
+    polis_ingress = summary.get("polis_ingress", {})
+    polis_hash = polis_ingress.get("polis_id_hash")
+    if not isinstance(polis_hash, str) or len(polis_hash) != 16:
+        fail("polis_ingress.polis_id_hash must be a 16-character hash")
+    if polis_ingress.get("ingress_model") != "one_api_gateway_api_per_polis":
+        fail("polis_ingress.ingress_model must be one_api_gateway_api_per_polis")
+    if polis_ingress.get("route_target") != "authorized_api_gateway_to_csm_loopback_runtime_api":
+        fail("polis_ingress.route_target must route to the governed CSM loopback runtime API")
+    if polis_ingress.get("per_polis_api") is not True:
+        fail("polis_ingress.per_polis_api must be true")
+    if polis_ingress.get("runtime_identity_verified") is not True:
+        fail("polis_ingress.runtime_identity_verified must be true")
+
     api = summary.get("api_gateway", {})
     if int(api.get("api_count", 0)) < 1:
         fail("api_gateway.api_count must prove at least one API")
@@ -56,6 +69,16 @@ def main() -> None:
             fail(f"api_gateway.supported_route_keys missing {route}")
     if "GET /chronosense" not in api.get("planned_route_keys", []):
         fail("api_gateway.planned_route_keys must retain planned /chronosense route truth")
+    if int(api.get("route_target_count", 0)) < 1:
+        fail("api_gateway.route_target_count must prove API Gateway route targets")
+    if int(api.get("integration_count", 0)) < 1:
+        fail("api_gateway.integration_count must prove API Gateway integrations")
+    integration_hashes = api.get("integration_target_hashes", [])
+    if not isinstance(integration_hashes, list) or not integration_hashes:
+        fail("api_gateway.integration_target_hashes must retain redacted integration targets")
+    for value in integration_hashes:
+        if not isinstance(value, str) or len(value) != 16:
+            fail("api_gateway.integration_target_hashes entries must be 16-character hashes")
 
     bridge = summary.get("bridge", {})
     if not re.fullmatch(r"csm-5039-[0-9a-f]{16}", str(bridge.get("correlation_id", ""))):
@@ -113,6 +136,10 @@ def main() -> None:
         fail("local CSM API policy must retain the runtime-owned /api-gateway-bridge path")
     if policy.get("direct_public_daemon_bind") is not False:
         fail("direct public daemon bind must remain false")
+    if policy.get("per_polis_api_gateway") is not True:
+        fail("local CSM API policy must require a per-polis API Gateway")
+    if policy.get("polis_id_hash") != polis_hash:
+        fail("local CSM API policy polis hash must match polis_ingress")
 
     redaction = summary.get("redaction", {})
     for key in [

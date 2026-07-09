@@ -201,6 +201,7 @@ fn real_cloud_control(args: &[String]) -> Result<()> {
 fn real_api_gateway_bridge(args: &[String]) -> Result<()> {
     let mut out_dir: Option<PathBuf> = None;
     let mut run_id = "wp07-5039-api-gateway-bridge".to_string();
+    let mut polis_id = std::env::var("ADL_CSM_POLIS_ID").unwrap_or_default();
     let mut profile = std::env::var("ADL_AWS_PROFILE")
         .or_else(|_| std::env::var("AWS_PROFILE"))
         .unwrap_or_else(|_| "agent-logic-admin".to_string());
@@ -230,6 +231,10 @@ fn real_api_gateway_bridge(args: &[String]) -> Result<()> {
             }
             "--run-id" => {
                 run_id = required_value(args, i, "--run-id")?.to_string();
+                i += 1;
+            }
+            "--polis-id" => {
+                polis_id = required_value(args, i, "--polis-id")?.to_string();
                 i += 1;
             }
             "--profile" => {
@@ -300,6 +305,7 @@ fn real_api_gateway_bridge(args: &[String]) -> Result<()> {
         out_dir: out_dir
             .context("csm cloud-control api-gateway-bridge requires --out <proof-dir>")?,
         run_id,
+        polis_id,
         profile,
         region,
         expected_account_sha256,
@@ -902,7 +908,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm governed-stop --spec <agent-spec.yaml> --reason <text> --operator <identity> --authorization <metadata> --intent emergency_polis_stop|operator_safety_stop|recoverability_drill --requested-at <RFC3339> [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
-  csm cloud-control api-gateway-bridge --out <proof-dir> --invoke-url <url> --operator-token-file <path> --cloudwatch-log-group <name> --eventbridge-bus <name> [--api-id <id>] [--stage <name>] [--expected-account-sha256 <hash>] [--json]
+  csm cloud-control api-gateway-bridge --out <proof-dir> --polis-id <id> --api-id <id> --stage <name> --invoke-url <url> --operator-token-file <path> --cloudwatch-log-group <name> --eventbridge-bus <name> [--expected-account-sha256 <hash>] [--json]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
   csm storage prove-s3 --out <proof-dir> --bucket <bucket> --expected-account-sha256 <sha256> [--prefix community-memory/] [--profile agent-logic-admin] [--region us-west-2] [--run-id <id>] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
@@ -922,7 +928,7 @@ Semantics:
   - csm daemon embeds the local-by-default runtime API at --api-bind and exposes /status, /health, /ready, /metrics, /events, /chronosense, and /api-gateway-bridge from retained runtime artifacts without leaking host-private paths or secrets.
   - csm daemon defaults its embedded runtime API to listener_role=main_runtime_api on 127.0.0.1:19997; 19950-19999 is reserved for local CSM runtime/dev/test listeners, and 127.0.0.1:0 is accepted only for explicit bounded test harness flags.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
-  - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status and governed API Gateway bridge validation of the CSM runtime API /api-gateway-bridge path under the Agent Logic account guard.
+  - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status and governed per-polis API Gateway bridge validation of the CSM runtime API /api-gateway-bridge path under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
   - csm storage proves Polis durable-state write/read/restore semantics against the approved S3 backend with checksum, immutable reference, and negative-case evidence.
   - csm continuity captures, stages, restores, and fire-drills portable continuity capsules with secrets excluded and host bindings explicit.

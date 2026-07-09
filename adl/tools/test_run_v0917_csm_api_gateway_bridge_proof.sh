@@ -23,7 +23,10 @@ case "$1 $2" in
     printf '%s\n' '{"Items":[{"StageName":"prod","AutoDeploy":true}]}'
     ;;
   "apigatewayv2 get-routes")
-    printf '%s\n' '{"Items":[{"RouteKey":"GET /status"},{"RouteKey":"GET /health"},{"RouteKey":"GET /ready"},{"RouteKey":"GET /metrics"},{"RouteKey":"GET /events"},{"RouteKey":"GET /api-gateway-bridge"}]}'
+    printf '%s\n' '{"Items":[{"RouteKey":"GET /status","Target":"integrations/int-1234567890"},{"RouteKey":"GET /health","Target":"integrations/int-1234567890"},{"RouteKey":"GET /ready","Target":"integrations/int-1234567890"},{"RouteKey":"GET /metrics","Target":"integrations/int-1234567890"},{"RouteKey":"GET /events","Target":"integrations/int-1234567890"},{"RouteKey":"GET /api-gateway-bridge","Target":"integrations/int-1234567890"}]}'
+    ;;
+  "apigatewayv2 get-integrations")
+    printf '%s\n' '{"Items":[{"IntegrationId":"int-1234567890","IntegrationType":"HTTP_PROXY","IntegrationUri":"https://loopback-proxy.invalid/csm"}]}'
     ;;
   "logs filter-log-events")
     printf '%s\n' '{"events":[{"eventId":"evt-1","message":"bridge csm-5039-a91b3eafa2b703d4 success"}]}'
@@ -49,7 +52,7 @@ case "$config" in
   *"Authorization: Bearer"*) auth="present" ;;
 esac
 if [ "$auth" = "present" ]; then
-  printf '%s\n%s' '{"schema":"adl.csm.runtime_api.api_gateway_bridge.v1","runtime_owner":"csm","status":"available","runtime_api_path":"/api-gateway-bridge","redaction":{"secret_material":"not_returned"}}' "200"
+  printf '%s\n%s' '{"schema":"adl.csm.runtime_api.api_gateway_bridge.v1","runtime_owner":"csm","agent_instance_id":"api-agent","status":"available","runtime_api_path":"/api-gateway-bridge","polis_ingress":{"polis_id":"api-agent","ingress_model":"one_api_gateway_api_per_polis","route_target":"authorized_api_gateway_to_csm_loopback_runtime_api","per_polis_api":true},"redaction":{"secret_material":"not_returned"}}' "200"
 else
   printf '%s\n%s' '{"schema":"adl.csm.api_gateway_bridge.denied.v1","status":"denied"}' "403"
 fi
@@ -77,6 +80,7 @@ cargo build --manifest-path "$ROOT/adl/Cargo.toml" --bin csm >/dev/null
   --profile agent-logic-admin \
   --region us-west-2 \
   --run-id fixture-run \
+  --polis-id api-agent \
   --expected-account-sha256 2a33349e7e606a8ad2e30e3c84521f9377450cf09083e162e0a9b1480ce0f972 \
   --api-id api-1234567890 \
   --stage prod \
@@ -101,6 +105,12 @@ curl_log = Path(sys.argv[3]).read_text()
 
 assert summary["schema"] == "adl.csm.api_gateway_bridge_proof.v1"
 assert summary["status"] == "passed"
+assert summary["polis_ingress"]["ingress_model"] == "one_api_gateway_api_per_polis"
+assert summary["polis_ingress"]["route_target"] == "authorized_api_gateway_to_csm_loopback_runtime_api"
+assert summary["polis_ingress"]["per_polis_api"] is True
+assert summary["polis_ingress"]["runtime_identity_verified"] is True
+assert summary["api_gateway"]["route_target_count"] >= 6
+assert summary["api_gateway"]["integration_count"] >= 1
 assert summary["bridge"]["endpoint"] == "/api-gateway-bridge"
 assert summary["bridge"]["response_schema"] == "adl.csm.runtime_api.api_gateway_bridge.v1"
 assert summary["live_negative_cases"]["missing_token"] == "api_gateway_authorization_denied"
@@ -109,6 +119,7 @@ for required in [
     "apigatewayv2 get-apis",
     "apigatewayv2 get-stages",
     "apigatewayv2 get-routes",
+    "apigatewayv2 get-integrations",
     "logs filter-log-events",
     "events list-rules",
 ]:

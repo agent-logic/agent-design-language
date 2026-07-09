@@ -19,6 +19,7 @@ const EVENT_SCHEMA: &str = "adl.csm.api_gateway_bridge.event.v1";
 pub struct ApiGatewayBridgeOptions {
     pub out_dir: PathBuf,
     pub run_id: String,
+    pub polis_id: String,
     pub profile: String,
     pub region: String,
     pub expected_account_sha256: String,
@@ -41,6 +42,7 @@ pub struct ApiGatewayBridgeSummary {
     pub aws_profile: String,
     pub aws_region: String,
     pub aws_account_hash: String,
+    pub polis_ingress: PolisIngressSummary,
     pub api_gateway: ApiGatewayStateSummary,
     pub bridge: BridgeInvocationSummary,
     pub observability: BridgeObservabilitySummary,
@@ -49,6 +51,15 @@ pub struct ApiGatewayBridgeSummary {
     pub live_negative_cases: Value,
     pub redaction: Value,
     pub local_csm_api_policy: Value,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PolisIngressSummary {
+    pub polis_id_hash: String,
+    pub ingress_model: String,
+    pub route_target: String,
+    pub per_polis_api: bool,
+    pub runtime_identity_verified: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -61,6 +72,9 @@ pub struct ApiGatewayStateSummary {
     pub selected_stage_auto_deploy: Option<bool>,
     pub supported_route_keys: Vec<String>,
     pub planned_route_keys: Vec<String>,
+    pub route_target_count: usize,
+    pub integration_count: usize,
+    pub integration_target_hashes: Vec<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -91,6 +105,7 @@ pub fn prove_api_gateway_bridge(
     fs::create_dir_all(&options.out_dir)
         .with_context(|| format!("failed creating {}", options.out_dir.display()))?;
     validate_required_inputs(&options)?;
+    let expected_polis_id = options.polis_id.trim();
 
     let account = aws_output(
         &options.aws_bin,
@@ -150,7 +165,11 @@ pub fn prove_api_gateway_bridge(
         );
         bail!("no API Gateway v2 APIs are provisioned in the Agent Logic account");
     }
-    let selected_api = select_api(&apis, options.api_id.as_deref())?;
+    let requested_api_id = options
+        .api_id
+        .as_deref()
+        .context("csm cloud-control api-gateway-bridge requires --api-id for the per-polis API")?;
+    let selected_api = select_api(&apis, requested_api_id)?;
     let selected_api_id = selected_api
         .get("ApiId")
         .and_then(Value::as_str)
@@ -180,12 +199,16 @@ pub fn prove_api_gateway_bridge(
         ],
     )?;
     let empty_stages = Vec::new();
+    let requested_stage_name = options
+        .stage_name
+        .as_deref()
+        .context("csm cloud-control api-gateway-bridge requires --stage for the per-polis API")?;
     let stage = select_stage(
         stages
             .get("Items")
             .and_then(Value::as_array)
             .unwrap_or(&empty_stages),
-        options.stage_name.as_deref(),
+        requested_stage_name,
     )?;
     let stage_name = stage
         .get("StageName")
@@ -209,6 +232,24 @@ pub fn prove_api_gateway_bridge(
     )?;
     let route_keys = route_keys(&routes);
     validate_required_routes(&route_keys)?;
+    let integrations = aws_json(
+        &options.aws_bin,
+        &[
+            "apigatewayv2",
+            "get-integrations",
+            "--api-id",
+            selected_api_id,
+            "--profile",
+            &options.profile,
+            "--region",
+            &options.region,
+            "--output",
+            "json",
+        ],
+    )?;
+    let route_targets = route_targets(&routes);
+    let integration_targets = integration_targets(&integrations);
+    validate_required_route_targets(&route_targets, &integration_targets)?;
 
     let correlation_id = format!("csm-5039-{}", short_hash(&options.run_id));
     let positive = http_json(
@@ -241,6 +282,21 @@ pub fn prove_api_gateway_bridge(
     }
     if positive.body.get("runtime_owner").and_then(Value::as_str) != Some("csm") {
         bail!("API Gateway bridge call did not return CSM runtime owner");
+    }
+    validate_polis_ingress_response(&positive.body, expected_polis_id)?;
+    if positive
+        .body
+        .get("agent_instance_id")
+        .and_then(Value::as_str)
+        != Some(expected_polis_id)
+    {
+        emit_bridge_event(
+            "upstream_failure",
+            "blocked",
+            &options.run_id,
+            Some("api_gateway_polis_identity_mismatch"),
+        );
+        bail!("API Gateway bridge call did not return the expected polis runtime identity");
     }
     let payload_path = options
         .out_dir
@@ -277,6 +333,13 @@ pub fn prove_api_gateway_bridge(
         aws_profile: options.profile.clone(),
         aws_region: options.region.clone(),
         aws_account_hash: short_hash(account),
+        polis_ingress: PolisIngressSummary {
+            polis_id_hash: short_hash(expected_polis_id),
+            ingress_model: "one_api_gateway_api_per_polis".to_string(),
+            route_target: "authorized_api_gateway_to_csm_loopback_runtime_api".to_string(),
+            per_polis_api: true,
+            runtime_identity_verified: true,
+        },
         api_gateway: ApiGatewayStateSummary {
             api_count: apis.len(),
             selected_api_id_hash: short_hash(selected_api_id),
@@ -289,6 +352,12 @@ pub fn prove_api_gateway_bridge(
                 .iter()
                 .map(|endpoint| format!("GET {endpoint}"))
                 .chain(std::iter::once("GET /chronosense".to_string()))
+                .collect(),
+            route_target_count: route_targets.len(),
+            integration_count: integration_targets.len(),
+            integration_target_hashes: integration_targets
+                .iter()
+                .map(|target| short_hash(target))
                 .collect(),
         },
         bridge: BridgeInvocationSummary {
@@ -354,7 +423,9 @@ pub fn prove_api_gateway_bridge(
             "embedded_daemon_api": "loopback_only",
             "runtime_api_path": "/api-gateway-bridge",
             "bridge_mode": "aws_api_gateway_to_authorized_loopback_runtime_api",
-            "direct_public_daemon_bind": false
+            "direct_public_daemon_bind": false,
+            "per_polis_api_gateway": true,
+            "polis_id_hash": short_hash(expected_polis_id)
         }),
     };
 
@@ -369,6 +440,9 @@ pub fn prove_api_gateway_bridge(
 }
 
 fn validate_required_inputs(options: &ApiGatewayBridgeOptions) -> Result<()> {
+    if options.polis_id.trim().is_empty() {
+        bail!("csm cloud-control api-gateway-bridge requires --polis-id or ADL_CSM_POLIS_ID");
+    }
     if options.expected_account_sha256.trim().is_empty() {
         bail!(
             "csm cloud-control api-gateway-bridge requires --expected-account-sha256 or ADL_AWS_CSM_API_GATEWAY_ACCOUNT_SHA256"
@@ -376,6 +450,24 @@ fn validate_required_inputs(options: &ApiGatewayBridgeOptions) -> Result<()> {
     }
     if options.invoke_url.trim().is_empty() {
         bail!("csm cloud-control api-gateway-bridge requires --invoke-url");
+    }
+    if options
+        .api_id
+        .as_deref()
+        .unwrap_or_default()
+        .trim()
+        .is_empty()
+    {
+        bail!("csm cloud-control api-gateway-bridge requires --api-id for the per-polis API");
+    }
+    if options
+        .stage_name
+        .as_deref()
+        .unwrap_or_default()
+        .trim()
+        .is_empty()
+    {
+        bail!("csm cloud-control api-gateway-bridge requires --stage for the per-polis API");
     }
     if options.operator_token.trim().is_empty() {
         bail!("csm cloud-control api-gateway-bridge requires --operator-token");
@@ -389,40 +481,20 @@ fn validate_required_inputs(options: &ApiGatewayBridgeOptions) -> Result<()> {
     Ok(())
 }
 
-fn select_api(items: &[Value], api_id: Option<&str>) -> Result<Value> {
-    if let Some(id) = api_id {
-        return items
-            .iter()
-            .find(|item| item.get("ApiId").and_then(Value::as_str) == Some(id))
-            .cloned()
-            .context("requested API Gateway API was not returned by get-apis");
-    }
+fn select_api(items: &[Value], api_id: &str) -> Result<Value> {
     items
         .iter()
-        .find(|item| {
-            item.get("ProtocolType")
-                .and_then(Value::as_str)
-                .is_some_and(|protocol| protocol == "HTTP" || protocol == "REST")
-        })
-        .or_else(|| items.first())
+        .find(|item| item.get("ApiId").and_then(Value::as_str) == Some(api_id))
         .cloned()
-        .context("no API Gateway APIs available")
+        .context("requested per-polis API Gateway API was not returned by get-apis")
 }
 
-fn select_stage(items: &[Value], stage_name: Option<&str>) -> Result<Value> {
-    if let Some(name) = stage_name {
-        return items
-            .iter()
-            .find(|item| item.get("StageName").and_then(Value::as_str) == Some(name))
-            .cloned()
-            .context("requested API Gateway stage was not returned by get-stages");
-    }
+fn select_stage(items: &[Value], stage_name: &str) -> Result<Value> {
     items
         .iter()
-        .find(|item| item.get("StageName").and_then(Value::as_str) == Some("prod"))
-        .or_else(|| items.first())
+        .find(|item| item.get("StageName").and_then(Value::as_str) == Some(stage_name))
         .cloned()
-        .context("no API Gateway stages available")
+        .context("requested per-polis API Gateway stage was not returned by get-stages")
 }
 
 fn route_keys(routes: &Value) -> Vec<String> {
@@ -436,6 +508,28 @@ fn route_keys(routes: &Value) -> Vec<String> {
         .collect()
 }
 
+fn route_targets(routes: &Value) -> Vec<String> {
+    routes
+        .get("Items")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|route| route.get("Target").and_then(Value::as_str))
+        .map(ToString::to_string)
+        .collect()
+}
+
+fn integration_targets(integrations: &Value) -> Vec<String> {
+    integrations
+        .get("Items")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|integration| integration.get("IntegrationId").and_then(Value::as_str))
+        .map(|id| format!("integrations/{id}"))
+        .collect()
+}
+
 fn validate_required_routes(routes: &[String]) -> Result<()> {
     for endpoint in CSM_RUNTIME_API_ENDPOINTS {
         let get_route = format!("GET {endpoint}");
@@ -445,6 +539,59 @@ fn validate_required_routes(routes: &[String]) -> Result<()> {
         {
             bail!("API Gateway bridge is missing required route {get_route}");
         }
+    }
+    Ok(())
+}
+
+fn validate_required_route_targets(
+    route_targets: &[String],
+    integration_targets: &[String],
+) -> Result<()> {
+    if route_targets.is_empty() {
+        bail!("API Gateway bridge routes did not report integration targets");
+    }
+    if integration_targets.is_empty() {
+        bail!("API Gateway bridge did not report integrations");
+    }
+    for target in route_targets {
+        if !integration_targets
+            .iter()
+            .any(|integration| integration == target)
+        {
+            bail!("API Gateway route target does not resolve to a returned integration");
+        }
+    }
+    Ok(())
+}
+
+fn validate_polis_ingress_response(body: &Value, expected_polis_id: &str) -> Result<()> {
+    if body
+        .pointer("/polis_ingress/polis_id")
+        .and_then(Value::as_str)
+        != Some(expected_polis_id)
+    {
+        bail!("API Gateway bridge response did not retain the expected polis ingress id");
+    }
+    if body
+        .pointer("/polis_ingress/ingress_model")
+        .and_then(Value::as_str)
+        != Some("one_api_gateway_api_per_polis")
+    {
+        bail!("API Gateway bridge response did not retain the per-polis ingress model");
+    }
+    if body
+        .pointer("/polis_ingress/route_target")
+        .and_then(Value::as_str)
+        != Some("authorized_api_gateway_to_csm_loopback_runtime_api")
+    {
+        bail!("API Gateway bridge response did not retain the governed runtime route target");
+    }
+    if body
+        .pointer("/polis_ingress/per_polis_api")
+        .and_then(Value::as_bool)
+        != Some(true)
+    {
+        bail!("API Gateway bridge response did not confirm per-polis API ownership");
     }
     Ok(())
 }
@@ -721,6 +868,7 @@ mod tests {
         let summary = prove_api_gateway_bridge(ApiGatewayBridgeOptions {
             out_dir: out_dir.clone(),
             run_id: "fixture-run".to_string(),
+            polis_id: "api-agent".to_string(),
             profile: "agent-logic-admin".to_string(),
             region: "us-west-2".to_string(),
             expected_account_sha256: account_sha,
@@ -765,11 +913,12 @@ mod tests {
         let error = prove_api_gateway_bridge(ApiGatewayBridgeOptions {
             out_dir,
             run_id: "fixture-run".to_string(),
+            polis_id: "api-agent".to_string(),
             profile: "agent-logic-admin".to_string(),
             region: "us-west-2".to_string(),
             expected_account_sha256: account_sha,
-            api_id: None,
-            stage_name: None,
+            api_id: Some("api-1234567890".to_string()),
+            stage_name: Some("prod".to_string()),
             invoke_url: "https://fixture.execute-api.us-west-2.amazonaws.com/prod".to_string(),
             operator_token: "fixture-token".to_string(),
             cloudwatch_log_group: "/aws/apigateway/adl-csm".to_string(),
@@ -782,6 +931,34 @@ mod tests {
             error.to_string().contains("missing-token negative case"),
             "{error}"
         );
+    }
+
+    #[test]
+    fn api_gateway_bridge_fails_closed_on_polis_identity_mismatch() {
+        let root = temp_dir("api-gateway-polis-mismatch");
+        let aws = write_fake_aws(&root, false);
+        let http = write_fake_http_with_agent(&root, false, "other-polis");
+        let out_dir = root.join("proof");
+        let account_sha =
+            "2a33349e7e606a8ad2e30e3c84521f9377450cf09083e162e0a9b1480ce0f972".to_string();
+        let error = prove_api_gateway_bridge(ApiGatewayBridgeOptions {
+            out_dir,
+            run_id: "fixture-run".to_string(),
+            polis_id: "api-agent".to_string(),
+            profile: "agent-logic-admin".to_string(),
+            region: "us-west-2".to_string(),
+            expected_account_sha256: account_sha,
+            api_id: Some("api-1234567890".to_string()),
+            stage_name: Some("prod".to_string()),
+            invoke_url: "https://fixture.execute-api.us-west-2.amazonaws.com/prod".to_string(),
+            operator_token: "fixture-token".to_string(),
+            cloudwatch_log_group: "/aws/apigateway/adl-csm".to_string(),
+            eventbridge_bus: "adl-csm-bus".to_string(),
+            aws_bin: aws.display().to_string(),
+            http_bin: http.display().to_string(),
+        })
+        .expect_err("wrong polis identity must fail closed");
+        assert!(error.to_string().contains("expected polis"), "{error}");
     }
 
     fn temp_dir(label: &str) -> PathBuf {
@@ -799,7 +976,7 @@ mod tests {
         let routes = if missing_routes {
             r#"{"Items":[{"RouteKey":"GET /status"}]}"#
         } else {
-            r#"{"Items":[{"RouteKey":"GET /status"},{"RouteKey":"GET /health"},{"RouteKey":"GET /ready"},{"RouteKey":"GET /metrics"},{"RouteKey":"GET /events"},{"RouteKey":"GET /api-gateway-bridge"}]}"#
+            r#"{"Items":[{"RouteKey":"GET /status","Target":"integrations/int-1234567890"},{"RouteKey":"GET /health","Target":"integrations/int-1234567890"},{"RouteKey":"GET /ready","Target":"integrations/int-1234567890"},{"RouteKey":"GET /metrics","Target":"integrations/int-1234567890"},{"RouteKey":"GET /events","Target":"integrations/int-1234567890"},{"RouteKey":"GET /api-gateway-bridge","Target":"integrations/int-1234567890"}]}"#
         };
         fs::write(
             &path,
@@ -818,6 +995,9 @@ case "$1 $2" in
     ;;
   "apigatewayv2 get-routes")
     printf '%s\n' '{routes}'
+    ;;
+  "apigatewayv2 get-integrations")
+    printf '%s\n' '{{"Items":[{{"IntegrationId":"int-1234567890","IntegrationType":"HTTP_PROXY","IntegrationUri":"https://loopback-proxy.invalid/csm"}}]}}'
     ;;
   "logs filter-log-events")
     printf '%s\n' '{{"events":[{{"eventId":"evt-1","message":"bridge csm-5039-a91b3eafa2b703d4 success"}}]}}'
@@ -839,6 +1019,14 @@ esac
     }
 
     fn write_fake_http(root: &Path, negative_succeeds: bool) -> PathBuf {
+        write_fake_http_with_agent(root, negative_succeeds, "api-agent")
+    }
+
+    fn write_fake_http_with_agent(
+        root: &Path,
+        negative_succeeds: bool,
+        agent_instance_id: &str,
+    ) -> PathBuf {
         let path = root.join("curl");
         let negative_status = if negative_succeeds { 200 } else { 403 };
         fs::write(
@@ -852,7 +1040,7 @@ case "$config" in
   *"Authorization: Bearer"*) auth="present" ;;
 esac
 if [ "$auth" = "present" ]; then
-  printf '%s\n%s' '{{"schema":"adl.csm.runtime_api.api_gateway_bridge.v1","runtime_owner":"csm","status":"available","runtime_api_path":"/api-gateway-bridge","redaction":{{"secret_material":"not_returned"}}}}' "200"
+  printf '%s\n%s' '{{"schema":"adl.csm.runtime_api.api_gateway_bridge.v1","runtime_owner":"csm","agent_instance_id":"{agent_instance_id}","status":"available","runtime_api_path":"/api-gateway-bridge","polis_ingress":{{"polis_id":"{agent_instance_id}","ingress_model":"one_api_gateway_api_per_polis","route_target":"authorized_api_gateway_to_csm_loopback_runtime_api","per_polis_api":true}},"redaction":{{"secret_material":"not_returned"}}}}' "200"
 else
   printf '%s\n%s' '{{"schema":"adl.csm.api_gateway_bridge.denied.v1","status":"denied"}}' "{negative_status}"
 fi
