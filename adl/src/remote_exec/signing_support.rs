@@ -6,6 +6,7 @@ use anyhow::{anyhow, Context, Result};
 use base64::Engine;
 use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
 use serde_json::{Map, Value};
+use zeroize::Zeroizing;
 
 use super::{
     ExecuteRequest, ExecuteSecurityEnvelope, RemoteRequestSignatureV1, SecurityEnvelopeError, B64,
@@ -51,12 +52,17 @@ pub fn sign_execute_request_v1(
     private_key_b64: &str,
     key_id: Option<&str>,
 ) -> Result<RemoteRequestSignatureV1> {
-    let key_bytes = B64
-        .decode(private_key_b64.trim().as_bytes())
-        .context("invalid base64 private key for remote request signing")?;
-    let key_arr: [u8; 32] = key_bytes
-        .try_into()
-        .map_err(|_| anyhow!("remote request private key must be exactly 32 bytes"))?;
+    let key_bytes = Zeroizing::new(
+        B64.decode(private_key_b64.trim().as_bytes())
+            .context("invalid base64 private key for remote request signing")?,
+    );
+    if key_bytes.len() != 32 {
+        return Err(anyhow!(
+            "remote request private key must be exactly 32 bytes"
+        ));
+    }
+    let mut key_arr = Zeroizing::new([0_u8; 32]);
+    key_arr.copy_from_slice(&key_bytes);
     let signing = SigningKey::from_bytes(&key_arr);
     let canonical = canonical_request_bytes(req)?;
     let sig = signing.sign(&canonical);
@@ -378,5 +384,16 @@ mod tests {
             verify_execute_request_signature_v1(&req, &bad_sig_b64),
             Err(SecurityEnvelopeError::MalformedRequestSignature { .. })
         ));
+    }
+
+    #[test]
+    fn signing_key_parse_errors_do_not_echo_key_material() {
+        let private_key_b64 = B64.encode([12_u8; 31]);
+        let err = sign_execute_request_v1(&base_request(), &private_key_b64, Some("key-12"))
+            .expect_err("short key should fail");
+
+        let rendered = format!("{err:#}");
+        assert!(rendered.contains("exactly 32 bytes"));
+        assert!(!rendered.contains(&private_key_b64));
     }
 }

@@ -54,6 +54,7 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "yup-oauth2",
+ "zeroize",
 ]
 
 [[package]]

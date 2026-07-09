@@ -1163,7 +1163,7 @@ fn validate_timestamp(value: &str, field: &str) -> Result<()> {
 }
 
 fn validate_sha256(value: &str, field: &str) -> Result<()> {
-    if value.len() != 64 || !value.chars().all(|ch| ch.is_ascii_hexdigit()) {
+    if !crate::model_identity::is_sha256_hex(value) {
         return Err(anyhow!("{field} must be a 64-character hexadecimal sha256"));
     }
     Ok(())
