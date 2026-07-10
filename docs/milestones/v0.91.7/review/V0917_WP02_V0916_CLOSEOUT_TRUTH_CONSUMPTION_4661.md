@@ -39,27 +39,27 @@ evidence, still owned by a sibling WP-02 issue, or explicitly not claimed by
 | WP-16 findings remediation and final preflight `#3981` | `already_closed_with_evidence` | Consume as the final v0.91.6 remediation/preflight owner. Later v0.91.7 docs should not describe WP-16 as still active. |
 | External-review proof-gap verification `#4620` | `already_closed_with_evidence` | Consume the focused proof-gap packet and its non-claims. It proves the named regressions only; it does not prove full runtime or v0.92 readiness. |
 | Failed external-review truth and release-tail docs repair `#4621` | `already_closed_with_evidence` | Consume the failed-review record and release-tail truth repair. |
-| Repo-native PR inventory `#4622` | `already_closed_with_evidence` | Consume as delivered release-tail inventory tooling. Sibling `#4665` remains open only to close the WP-02 child disposition path with evidence. |
+| Repo-native PR inventory `#4622` | `already_closed_with_evidence` | Consume as delivered release-tail inventory tooling. Sibling `#4665` later closed the WP-02 child disposition path with evidence. |
 | WP-01 planning promotion `#4628` | `already_closed_with_evidence` | Treat v0.91.7 planning promotion as complete input for this issue. |
-| WP-02 parent `#4629` | `already_closed_with_evidence` | Treat the original combined WP-02 parent as split/closed. Active cleanup now lives in `#4661`-`#4665` and wrapper `#4699`. |
-| WP-02 mini-sprint wrapper `#4699` | `open_owner` | Remains open until child issues `#4661`-`#4665` are disposed. `#4661` supplies the closeout-truth child packet only. |
-| ADR release-tail child `#4662` | `open_sibling_owner` | Out of scope for `#4661`; must close or block ADR/tooling remediation truth separately. |
-| Observatory carryover child `#4663` | `open_sibling_owner` | Out of scope for `#4661`; must consume Observatory carryover separately. |
-| C-SDLC control-plane disposition child `#4664` | `open_sibling_owner` | Out of scope for `#4661`; must consume control-plane inputs separately. |
-| PR-inventory closure child `#4665` | `open_sibling_owner` | Out of scope for `#4661`; should consume closed `#4622` and close with evidence if no further implementation remains. |
+| WP-02 parent `#4629` | `already_closed_with_evidence` | Treat the original combined WP-02 parent as split/closed. Cleanup moved through `#4661`-`#4665` and wrapper `#4699`, all now closed with evidence. |
+| WP-02 mini-sprint wrapper `#4699` | `already_closed_with_evidence` | Closed on 2026-07-01 after child issues `#4661`-`#4665` and `#4622` were dispositioned. Retain its closeout comment as the mini-sprint truth surface; do not claim v0.92 readiness from it. |
+| ADR release-tail child `#4662` | `already_closed_with_evidence` | Closed with evidence as ADR release-tail candidate-routing truth; candidate ADRs are not promoted by this packet. |
+| Observatory carryover child `#4663` | `already_closed_with_evidence` | Closed with evidence by routing Observatory carryover to its concrete v0.91.7 owners; production/demo/runtime readiness remains owned elsewhere. |
+| C-SDLC control-plane disposition child `#4664` | `already_closed_with_evidence` | Closed with evidence after control-plane inputs were classified as consumed, blocked, or downstream-owned. |
+| PR-inventory closure child `#4665` | `already_closed_with_evidence` | Closed with evidence after consuming the repo-native PR inventory path delivered by `#4622`. |
 
 ## Decisions
 
 1. `#4661` treats the v0.91.6 release-tail closeout inputs as consumed for
    WP-02 planning purposes.
-2. `#4661` does not close WP-02 wrapper `#4699`; the wrapper still needs the
-   sibling child dispositions.
+2. `#4661` did not close WP-02 wrapper `#4699` by itself. The wrapper later
+   closed after the sibling child dispositions were recorded with evidence.
 3. `#4661` does not claim v0.92 readiness. The v0.92 activation gate remains
    blocked until later v0.91.7 work proves, explicitly non-claims, or blocks
    each activation surface with evidence and operator approval.
-4. `#4622` is consumed as the delivered repo-native PR inventory proof; the
-   remaining WP-02 question is issue-graph closeout in `#4665`, not rework of
-   the command in this issue.
+4. `#4622` is consumed as the delivered repo-native PR inventory proof; later
+   issue-graph closeout happened in `#4665`, not by reworking the command in
+   this issue.
 
 ## Non-Claims
 
