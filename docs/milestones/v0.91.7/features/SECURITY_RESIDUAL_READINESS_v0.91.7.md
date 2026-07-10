@@ -61,7 +61,8 @@ Issue `#4656` records the controlling WP-12 security and CAV gate in:
 The gate keeps security/CAV readiness fail-closed while child issues remain
 open:
 
-- `#4657`: SSM and local polis secret readiness.
+- `#4657`: SSM and local polis operations readiness, proven by
+  `docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md`.
 - `#4658`: ACIP/A2A schema and protobuf projection.
 - `#4659`: ACIP WebSocket transport path.
 - `#4660`: external-agent access rules.

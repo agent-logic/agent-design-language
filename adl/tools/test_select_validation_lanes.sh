@@ -199,6 +199,19 @@ assert_has "$TMP/no-sparrow-4909-surface.out" "aggregate_status=selected"
 assert_has "$TMP/no-sparrow-4909-surface.out" "v0917_no_sparrow_4909_contracts status=selected"
 assert_not_has "$TMP/no-sparrow-4909-surface.out" "unmapped_change_surface"
 
+wp12_ssm_readiness_4657_surface="$TMP/wp12-ssm-readiness-4657-surface.txt"
+cat >"$wp12_ssm_readiness_4657_surface" <<'EOF'
+A	adl/tools/validate_wp12_ssm_readiness_4657.py
+A	adl/tools/test_validate_wp12_ssm_readiness_4657.sh
+A	docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md
+A	docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json
+M	docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json
+EOF
+bash "$SCRIPT" --changed-files "$wp12_ssm_readiness_4657_surface" >"$TMP/wp12-ssm-readiness-4657-surface.out"
+assert_has "$TMP/wp12-ssm-readiness-4657-surface.out" "aggregate_status=selected"
+assert_has "$TMP/wp12-ssm-readiness-4657-surface.out" "wp12_ssm_readiness_4657_contracts status=selected"
+assert_not_has "$TMP/wp12-ssm-readiness-4657-surface.out" "unmapped_change_surface"
+
 csm_otlp_4904_surface="$TMP/csm-otlp-4904-surface.txt"
 cat >"$csm_otlp_4904_surface" <<'EOF'
 A	adl/tools/run_v0917_csm_otlp_4904_proof.sh

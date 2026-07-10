@@ -476,6 +476,33 @@
       "reason": "wp08_local_polis_ssm_live_proof_requires_account_gate_redaction_and_contract_validation"
     },
     {
+      "id": "wp12_ssm_readiness_4657_contracts",
+      "lane_class": "runtime_integration",
+      "default_surface": "security",
+      "owner": "security",
+      "proof_role": "security_regression",
+      "requirement_ids": [
+        "wp12_ssm_readiness_4657_contracts"
+      ],
+      "path_selectors": [
+        "adl/tools/validate_wp12_ssm_readiness_4657.py",
+        "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+        "docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md",
+        "docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json",
+        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
+      ],
+      "path_hints": [
+        "adl/tools/validate_wp12_ssm_readiness_4657.py",
+        "adl/tools/test_validate_wp12_ssm_readiness_4657.sh",
+        "docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md",
+        "docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json",
+        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
+      ],
+      "command": "python3 -m py_compile adl/tools/validate_wp12_ssm_readiness_4657.py && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
+      "run_command": "python3 -m py_compile adl/tools/validate_wp12_ssm_readiness_4657.py && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
+      "reason": "wp12_ssm_readiness_surface_requires_registered_finish-safe_validator_syntax_selector_and_validation_manager_contract_checks; focused issue proof runs through adl/tools/test_validate_wp12_ssm_readiness_4657.sh"
+    },
+    {
       "id": "local_polis_ssm_wrapper",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

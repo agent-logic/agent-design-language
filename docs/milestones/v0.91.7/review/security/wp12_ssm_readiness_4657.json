@@ -1,0 +1,53 @@
+{
+  "schema": "adl.wp12.ssm_readiness.v1",
+  "issue": 4657,
+  "parent_issue": 4639,
+  "milestone": "v0.91.7",
+  "status": "ssm_operations_ready",
+  "checked_at_utc": "2026-07-10T18:35:00Z",
+  "source_live_proof_issue": 4687,
+  "source_live_proof": "docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/local_polis_ssm_summary.json",
+  "validator": "adl/tools/validate_wp12_ssm_readiness_4657.py",
+  "access_evidence": {
+    "aws_profile": "agent-logic-admin",
+    "aws_region": "us-west-2",
+    "aws_account_hash": "b05e1f4379b5c745",
+    "account_hash_verified": true,
+    "business_profile_required": true
+  },
+  "identity_evidence": {
+    "managed_hosts": [
+      "wuji",
+      "nessus",
+      "opticon"
+    ],
+    "all_hosts_online": true,
+    "ssm_agent_installed_on_all_hosts": true,
+    "host_identity_source": "AWS Systems Manager managed-node inventory plus host-local status payloads"
+  },
+  "observable_status_evidence": {
+    "status_schema": "adl.local_polis_status.v1",
+    "cloudwatch_log_group": "/adl/local-polis-ssm/4687",
+    "cloudwatch_streams_observed": true,
+    "command_status_required": "Success",
+    "redacted_stream_hashes_retained": true
+  },
+  "failure_mode_evidence": {
+    "account_hash_mismatch": "fails before SSM mutation",
+    "missing_expected_account_hash": "fails before SSM mutation",
+    "missing_online_node": "fails before send-command",
+    "command_timeout_or_failure": "summary status failed and host command_status records terminal state"
+  },
+  "gate_update": {
+    "gate_path": "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json",
+    "row_id": "ssm_and_local_polis_secret_readiness",
+    "row_state": "integrated_proven",
+    "v092_disposition": "supports_ssm_operations_claims"
+  },
+  "non_claims": [
+    "SSM remains operations-plane only and does not own polis state or governance authority.",
+    "No provider/model execution through SSM is claimed.",
+    "No unattended runtime mutation authority is claimed.",
+    "No secret values or credentials are retained in this readiness summary."
+  ]
+}
