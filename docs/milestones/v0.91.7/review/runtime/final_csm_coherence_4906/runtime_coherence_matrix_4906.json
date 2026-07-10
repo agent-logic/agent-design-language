@@ -1,0 +1,106 @@
+{
+  "schema": "adl.v0917.final_csm_runtime_coherence_gate.v1",
+  "issue": 4906,
+  "generated_at": "2026-07-10T10:14:50Z",
+  "result": "blocked_with_evidence",
+  "v092_runtime_coherence_claim": "not_ready_for_full_runtime_coherence_claims",
+  "worktree": ".worktrees/adl-wp-4906",
+  "branch": "codex/4906-v0-91-7-wp-07-soak-run-final-post-blocker-csm-runtime-coherence-gate",
+  "live_csm_probe": {
+    "host": "127.0.0.1",
+    "port": 19997,
+    "mutation": "none_read_only_gets",
+    "process_status_ref": "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/live_api/process_status_port_19997.json",
+    "status_ref": "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/live_api/status.json",
+    "health_ref": "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/live_api/health.json",
+    "ready_ref": "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/live_api/ready.json",
+    "metrics_ref": "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/live_api/metrics.json",
+    "events_ref": "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/live_api/events.json"
+  },
+  "rows": [
+    {
+      "id": "csm_runtime_owner_binary",
+      "disposition": "integrated_proven",
+      "owner_issues": [4890],
+      "evidence_refs": ["docs/milestones/v0.91.7/review/runtime/csm_4890/README.md"]
+    },
+    {
+      "id": "csm_service_envelope",
+      "disposition": "integrated_proven",
+      "owner_issues": [4903],
+      "evidence_refs": ["docs/milestones/v0.91.7/review/runtime/csm_service_4903/README.md"]
+    },
+    {
+      "id": "csm_otlp_exporter",
+      "disposition": "integrated_proven",
+      "owner_issues": [4904],
+      "evidence_refs": ["docs/milestones/v0.91.7/review/runtime/csm_otlp_4904/README.md"]
+    },
+    {
+      "id": "csm_daemon_permanence",
+      "disposition": "integrated_proven",
+      "owner_issues": [4997],
+      "evidence_refs": ["docs/milestones/v0.91.7/review/runtime/csm_daemon_permanence_4997/README.md"]
+    },
+    {
+      "id": "csm_canonical_api_port",
+      "disposition": "integrated_proven",
+      "owner_issues": [4980],
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/csm_liveness_4980/live/proof_summary.md",
+        "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/live_api/status.json",
+        "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/live_api/ready.json"
+      ]
+    },
+    {
+      "id": "wp08_runtime_aws_signal_operations",
+      "disposition": "integrated_proven",
+      "owner_issues": [4635, 4684, 4685, 4686, 4687, 4688],
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/live_heartbeat_summary.json",
+        "docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json",
+        "docs/milestones/v0.91.7/review/runtime/wp08_aws_signal_integration_4686/aws_signal_integration_summary.json",
+        "docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/local_polis_ssm_summary.json",
+        "docs/milestones/v0.91.7/review/runtime/wp08_s3_obsmem_archive_4688/archive_policy_summary.json"
+      ]
+    },
+    {
+      "id": "observatory_unity_live_consumption",
+      "disposition": "blocked_with_evidence",
+      "owner_issues": [4636, 4689, 4691],
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json",
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/unity_observatory_contract.json"
+      ],
+      "blocker": "WP-09 umbrella and Unity/demo-matrix owner rows remain open."
+    },
+    {
+      "id": "wp12_acip_a2a_access_activation",
+      "disposition": "blocked_with_evidence",
+      "owner_issues": [4639, 4656, 4657, 4658, 4659, 4660],
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/aee_memory/runtime_acip_aee_memory_proof.json",
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
+      ],
+      "blocker": "WP-12 security/protocol/access owner rows remain open; local/static evidence cannot be claimed as activation closure."
+    },
+    {
+      "id": "v092_capability_envelope",
+      "disposition": "blocked_with_evidence",
+      "owner_issues": [4761],
+      "evidence_refs": [
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/capability_envelope/operator_control_report.json"
+      ],
+      "blocker": "The v0.92 capability-envelope owner issue remains open."
+    }
+  ],
+  "operator_decision_required": [
+    "Close blocking owner rows with retained integrated evidence, or explicitly approve them as v0.92 non-claims/deferred activation scope before claiming full CSM runtime coherence."
+  ],
+  "non_claims": [
+    "No Unity editor live-consumption readiness is claimed.",
+    "No WP-12 ACIP/A2A activation, SSM readiness, WebSocket transport activation, or access-rule closure is claimed.",
+    "No complete v0.92 capability envelope is claimed.",
+    "The live CSM runtime on 127.0.0.1:19997 was not stopped, restarted, or mutated by this gate."
+  ]
+}
