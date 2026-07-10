@@ -85,6 +85,37 @@ cli_usage_filters="$TMP/cli-usage-filters.txt"
 bash "$SCRIPT" --changed-files "$cli_usage_changed" --print-risk-filters >"$cli_usage_filters"
 grep -Fx "cli_basics" "$cli_usage_filters" >/dev/null
 
+csmctl_changed="$TMP/csmctl-changed.txt"
+cat >"$csmctl_changed" <<'EOF'
+A	adl/src/bin/csmctl.rs
+M	adl/src/cli/mod.rs
+M	adl/src/cli/csm_service_cmd.rs
+A	adl/src/cli/csmctl_cmd.rs
+EOF
+csmctl_filters="$TMP/csmctl-filters.txt"
+bash "$SCRIPT" --changed-files "$csmctl_changed" --print-risk-filters >"$csmctl_filters"
+grep -Fx "csmctl" "$csmctl_filters" >/dev/null
+if [ "$(wc -l <"$csmctl_filters" | tr -d ' ')" -ne 1 ]; then
+  echo "expected csmctl surfaces to collapse to the shared csmctl filter" >&2
+  exit 1
+fi
+csmctl_expression="$(bash "$SCRIPT" --changed-files "$csmctl_changed" --print-risk-nextest-expression)"
+grep -F "test(csmctl)" <<<"$csmctl_expression" >/dev/null
+grep -F "test(csm_service)" <<<"$csmctl_expression" >/dev/null
+if grep -F "cli_basics" <<<"$csmctl_expression" >/dev/null; then
+  echo "did not expect broad cli_basics nextest expression for csmctl dispatch companion" >&2
+  exit 1
+fi
+
+long_lived_agent_storage_changed="$TMP/long-lived-agent-storage-changed.txt"
+printf 'M\tadl/src/long_lived_agent/storage.rs\n' >"$long_lived_agent_storage_changed"
+long_lived_agent_storage_filters="$TMP/long-lived-agent-storage-filters.txt"
+bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-filters >"$long_lived_agent_storage_filters"
+grep -Fx "long_lived_agent_storage" "$long_lived_agent_storage_filters" >/dev/null
+long_lived_agent_storage_expression="$(bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-nextest-expression)"
+grep -F "test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
+grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storage_expression" >/dev/null
+
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"
 cli_mod_filters="$TMP/cli-mod-filters.txt"
@@ -363,6 +394,11 @@ cat >"$cli_dispatch_companion_summary" <<'EOF'
 EOF
 bash "$SCRIPT" --changed-files "$cli_dispatch_companion_changed" --summary "$cli_dispatch_companion_summary" >/tmp/coverage-impact-cli-dispatch-companion-pass.out
 grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-cli-dispatch-companion-pass.out >/dev/null
+
+cli_dispatch_companion_missing_mod_summary="$TMP/cli-dispatch-companion-missing-mod-summary.json"
+make_summary "adl/src/cli/process_cmd.rs" 320 399 "$cli_dispatch_companion_missing_mod_summary"
+bash "$SCRIPT" --changed-files "$cli_dispatch_companion_changed" --summary "$cli_dispatch_companion_missing_mod_summary" >/tmp/coverage-impact-cli-dispatch-companion-missing-mod-pass.out
+grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-cli-dispatch-companion-missing-mod-pass.out >/dev/null
 
 if bash "$SCRIPT" --changed-files "$cli_mod_changed" --summary "$cli_dispatch_companion_summary" >/tmp/coverage-impact-cli-mod-alone-fails.out 2>&1; then
   echo "expected cli mod dispatch surface without a companion command change to stay threshold-gated" >&2

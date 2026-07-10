@@ -1037,6 +1037,7 @@ struct StartupEvidence<'a> {
     continuity_checkpoint_observed: bool,
     runtime_api_observed: bool,
     bounded_test_restart_observed: bool,
+    bounded_test_daemon_completed_observed: bool,
     last_daemon_event: Option<&'a str>,
 }
 
@@ -1073,6 +1074,10 @@ fn observe_startup(
         let runtime_api_observed = runtime_api_bind_observed(manifest);
         let last_daemon_event = daemon_last_event(manifest);
         let bounded_test_restart_observed = bounded_test_supervisor_restart_observed(manifest);
+        let bounded_test_daemon_completed_observed =
+            daemon_status_matches_spec_time_and_completed(manifest, not_before)
+                .ok()
+                .unwrap_or(false);
         let evidence = StartupEvidence {
             pid,
             pid_liveness: &pid_liveness,
@@ -1081,6 +1086,7 @@ fn observe_startup(
             continuity_checkpoint_observed,
             runtime_api_observed,
             bounded_test_restart_observed,
+            bounded_test_daemon_completed_observed,
             last_daemon_event: last_daemon_event.as_deref(),
         };
         let classification = classify_startup(evidence);
@@ -1100,6 +1106,7 @@ fn observe_startup(
                 continuity_checkpoint_observed,
                 runtime_api_observed,
                 bounded_test_restart_observed,
+                bounded_test_daemon_completed_observed,
                 last_daemon_event: last_daemon_event.as_deref(),
                 classification,
             },
@@ -1181,6 +1188,13 @@ fn startup_classification(
         continuity_checkpoint_observed: manifest.continuity_checkpoint.exists(),
         runtime_api_observed: runtime_api_bind_observed(manifest),
         bounded_test_restart_observed: bounded_test_supervisor_restart_observed(manifest),
+        bounded_test_daemon_completed_observed: last_failed_startup_at(manifest)
+            .map(|not_before| {
+                daemon_status_matches_spec_time_and_completed(manifest, not_before)
+                    .ok()
+                    .unwrap_or(false)
+            })
+            .unwrap_or(false),
         last_daemon_event: daemon_last_event(manifest).as_deref(),
     });
     if startup_classification_is_healthy(current) {
@@ -1304,11 +1318,12 @@ fn classify_startup(evidence: StartupEvidence<'_>) -> &'static str {
         && evidence.runtime_api_observed
     {
         "startup_runtime_ready"
-    } else if evidence.first_daemon_record_observed
-        && evidence.pid_liveness == "live_pid"
+    } else if evidence.pid_liveness == "live_pid"
         && evidence.cycle_ledger_observed
         && evidence.continuity_checkpoint_observed
         && evidence.bounded_test_restart_observed
+        && evidence.bounded_test_daemon_completed_observed
+        && matches!(evidence.last_daemon_event, Some("daemon_completed"))
     {
         "startup_bounded_test_supervisor_restart_observed"
     } else if evidence.first_daemon_record_observed
@@ -1377,6 +1392,7 @@ struct StartupProbeRecord<'a> {
     continuity_checkpoint_observed: bool,
     runtime_api_observed: bool,
     bounded_test_restart_observed: bool,
+    bounded_test_daemon_completed_observed: bool,
     last_daemon_event: Option<&'a str>,
     classification: &'a str,
 }
@@ -1389,6 +1405,7 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
     let checkpoint_s = probe.continuity_checkpoint_observed.to_string();
     let api_s = probe.runtime_api_observed.to_string();
     let bounded_restart_s = probe.bounded_test_restart_observed.to_string();
+    let bounded_completed_s = probe.bounded_test_daemon_completed_observed.to_string();
     let daemon_event_s = probe.last_daemon_event.unwrap_or("");
     append_startup_ledger(
         manifest,
@@ -1404,6 +1421,7 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
             "runtime_api_observed": probe.runtime_api_observed,
             "runtime_api_bind": manifest.api_bind,
             "bounded_test_restart_observed": probe.bounded_test_restart_observed,
+            "bounded_test_daemon_completed_observed": probe.bounded_test_daemon_completed_observed,
             "last_daemon_event": probe.last_daemon_event
         })),
     )?;
@@ -1421,6 +1439,10 @@ fn record_startup_probe(manifest: &ServiceManifest, probe: StartupProbeRecord<'_
             ("runtime_api_observed", &api_s),
             ("runtime_api_bind", &manifest.api_bind),
             ("bounded_test_restart_observed", &bounded_restart_s),
+            (
+                "bounded_test_daemon_completed_observed",
+                &bounded_completed_s,
+            ),
             ("last_daemon_event", daemon_event_s),
         ],
     )?;
@@ -1774,6 +1796,30 @@ fn daemon_status_matches_spec_time_and_live_child(
             .unwrap_or(false))
 }
 
+fn daemon_status_matches_spec_time_and_completed(
+    manifest: &ServiceManifest,
+    not_before: DateTime<Utc>,
+) -> Result<bool> {
+    if !manifest.daemon_status.exists() {
+        return Ok(false);
+    }
+    let raw = fs::read_to_string(&manifest.daemon_status)?;
+    let value: Value = serde_json::from_str(&raw)?;
+    let loaded = long_lived_agent::load_spec(&manifest.spec)?;
+    let agent_id = value.get("agent_instance_id").and_then(Value::as_str);
+    let last_event = value.get("last_event").and_then(Value::as_str);
+    let updated_at = value
+        .get("updated_at")
+        .and_then(Value::as_str)
+        .and_then(|raw| DateTime::parse_from_rfc3339(raw).ok())
+        .map(|value| value.with_timezone(&Utc));
+    Ok(agent_id == Some(loaded.spec.agent_instance_id.as_str())
+        && last_event == Some("daemon_completed")
+        && updated_at
+            .map(|updated_at| updated_at >= not_before)
+            .unwrap_or(false))
+}
+
 fn pid_liveness(pid: u32) -> String {
     match pid_is_live(pid) {
         Some(true) => "live_pid".to_string(),
@@ -1884,4 +1930,55 @@ Semantics:
   - service status reports the CSM networking registry, including listener_role=main_runtime_api and bind_addr=127.0.0.1:19997, even when the service command only manages the daemon envelope.
   - status uses metadata or exact PID liveness probes only; no broad process scan or ps output is used.
   - unsupported permanence claims remain explicit for reboot, kill -9, disk-full, resource exhaustion, and cloud orchestration."
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{classify_startup, StartupEvidence};
+
+    fn bounded_restart_evidence(
+        bounded_test_daemon_completed_observed: bool,
+        last_daemon_event: Option<&'static str>,
+    ) -> StartupEvidence<'static> {
+        StartupEvidence {
+            pid: Some(4242),
+            pid_liveness: "live_pid",
+            first_daemon_record_observed: false,
+            cycle_ledger_observed: true,
+            continuity_checkpoint_observed: true,
+            runtime_api_observed: false,
+            bounded_test_restart_observed: true,
+            bounded_test_daemon_completed_observed,
+            last_daemon_event,
+        }
+    }
+
+    #[test]
+    fn bounded_test_supervisor_restart_is_healthy_after_daemon_record_rolls_forward() {
+        let classification =
+            classify_startup(bounded_restart_evidence(true, Some("daemon_completed")));
+
+        assert_eq!(
+            classification,
+            "startup_bounded_test_supervisor_restart_observed"
+        );
+    }
+
+    #[test]
+    fn bounded_test_supervisor_restart_rejects_raw_unverified_daemon_completed_event() {
+        let classification =
+            classify_startup(bounded_restart_evidence(false, Some("daemon_completed")));
+
+        assert_eq!(classification, "startup_waiting_for_runtime_ready");
+    }
+
+    #[test]
+    fn bounded_test_supervisor_restart_requires_daemon_completed_event() {
+        for last_daemon_event in [None, Some("daemon_failed")] {
+            let classification =
+                classify_startup(bounded_restart_evidence(true, last_daemon_event));
+
+            assert_eq!(classification, "startup_waiting_for_runtime_ready");
+        }
+    }
 }

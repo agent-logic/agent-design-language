@@ -727,7 +727,7 @@ jobs:
             --threshold "$PER_FILE_LINE_THRESHOLD"
           )
           if [ "${{ steps.coverage-impact.outputs.needs_fast_summary }}" = "true" ]; then
-            args+=(--summary adl/coverage-summary.json)
+            args+=(--summary adl/target/coverage-impact-summary.json)
           else
             args+=(--require-summary-for-risk)
           fi

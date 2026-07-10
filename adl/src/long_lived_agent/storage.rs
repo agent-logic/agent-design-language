@@ -9,12 +9,14 @@ use serde_json::{json, Value};
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicU64, Ordering};
 
 const CSM_BACKPRESSURE_STATE_SCHEMA: &str = "adl.csm.backpressure_state.v1";
 const CSM_LOW_DISK_RECOVERY_MANIFEST_SCHEMA: &str = "adl.csm.low_disk_recovery_manifest.v1";
 const DEFAULT_CSM_DISK_FLOOR_BYTES: u64 = 32 * 1024 * 1024 * 1024;
 const ADL_CSM_DISK_FLOOR_BYTES: &str = "ADL_CSM_DISK_FLOOR_BYTES";
 const ADL_CSM_TEST_AVAILABLE_BYTES: &str = "ADL_CSM_TEST_AVAILABLE_BYTES";
+static JSON_WRITE_TMP_COUNTER: AtomicU64 = AtomicU64::new(0);
 
 pub(super) fn cycles_dir(loaded: &LoadedAgentSpec) -> PathBuf {
     loaded.state_root.join("cycles")
@@ -204,7 +206,7 @@ where
             .and_then(|extension| extension.to_str())
             .map(|extension| format!("{extension}."))
             .unwrap_or_default(),
-        std::process::id()
+        unique_json_write_tmp_suffix()
     ));
     {
         let mut file = File::create(&tmp_path)
@@ -224,6 +226,11 @@ where
         )
     })?;
     Ok(())
+}
+
+fn unique_json_write_tmp_suffix() -> String {
+    let sequence = JSON_WRITE_TMP_COUNTER.fetch_add(1, Ordering::Relaxed);
+    format!("{}-{sequence}", std::process::id())
 }
 
 pub(super) fn write_jsonl(path: &Path, values: &[Value]) -> Result<()> {
@@ -559,7 +566,7 @@ mod tests {
     use std::env;
     use std::ffi::OsString;
     use std::sync::atomic::{AtomicU64, Ordering};
-    use std::sync::MutexGuard;
+    use std::sync::{Arc, Barrier, MutexGuard};
 
     static TEMP_SEQ: AtomicU64 = AtomicU64::new(0);
 
@@ -722,6 +729,39 @@ mod tests {
         let events = fs::read_to_string(operator_events_path(&loaded)).expect("events");
         assert!(events.contains("\"event\":\"storage_test\""));
         assert!(events.contains("\"schema\":\"adl.long_lived_agent_operator_event.v1\""));
+    }
+
+    #[test]
+    fn storage_json_atomic_writes_use_unique_temp_paths_under_concurrency() {
+        let root = temp_dir("concurrent-json-write");
+        let path = root.join("state/csm_low_disk_recovery_manifest.json");
+        let writers = 8;
+        let barrier = Arc::new(Barrier::new(writers));
+        let mut handles = Vec::new();
+
+        for index in 0..writers {
+            let path = path.clone();
+            let barrier = Arc::clone(&barrier);
+            handles.push(std::thread::spawn(move || {
+                barrier.wait();
+                write_json_pretty_without_preflight(
+                    &path,
+                    &json!({
+                        "schema": CSM_LOW_DISK_RECOVERY_MANIFEST_SCHEMA,
+                        "writer": index
+                    }),
+                )
+                .expect("concurrent json write should not collide on temp path");
+            }));
+        }
+
+        for handle in handles {
+            handle.join().expect("writer thread should not panic");
+        }
+
+        let persisted: Value = read_json_required(&path).expect("read final json");
+        assert_eq!(persisted["schema"], CSM_LOW_DISK_RECOVERY_MANIFEST_SCHEMA);
+        assert!(persisted["writer"].as_u64().is_some());
     }
 
     #[test]

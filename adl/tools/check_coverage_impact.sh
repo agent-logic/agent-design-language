@@ -206,6 +206,12 @@ candidate_filter_for_path() {
     adl/src/cli/tokio_runtime.rs)
       printf 'tokio_bootstrap'
       ;;
+    adl/src/bin/csmctl.rs|adl/src/cli/csm_service_cmd.rs|adl/src/cli/csmctl_cmd.rs)
+      printf 'csmctl'
+      ;;
+    adl/src/long_lived_agent/storage.rs)
+      printf 'long_lived_agent_storage'
+      ;;
     adl/src/bin/adl_pr_shepherd.rs)
       printf 'pr_shepherd'
       ;;
@@ -314,6 +320,12 @@ nextest_expression_for_filter() {
     pr_dispatch_support)
       printf 'test(pr_dispatch_support)'
       ;;
+    csmctl)
+      printf 'test(csmctl) or test(csm_service)'
+      ;;
+    long_lived_agent_storage)
+      printf 'test(long_lived_agent::storage) or test(run_v0916_runtime_failure_injection)'
+      ;;
     finish)
       printf 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)'
       ;;
@@ -410,6 +422,9 @@ print_candidate_filters_fail_closed() {
   while IFS=$'\t' read -r status path; do
     [ -n "$path" ] || continue
     if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
+      continue
+    fi
+    if path_has_companion_cli_dispatch_change "$path"; then
       continue
     fi
     if ! filter="$(candidate_filter_for_path "$path")"; then
@@ -542,6 +557,9 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
     ' "$SUMMARY")"
     if [ -z "$row" ]; then
       if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
+        continue
+      fi
+      if path_has_companion_cli_dispatch_change "$path"; then
         continue
       fi
       missing="${missing}  - ${path} (no coverage row in ${SUMMARY})"$'\n'
