@@ -6,7 +6,7 @@ Last updated: 2026-07-10
 
 Issue: #5134
 
-Current update: #4649
+Current update: #5143
 
 ## Purpose
 
@@ -48,6 +48,9 @@ closed out in the issue/card/PR surfaces.
 - Closed-sprint coverage review in #4649 adds the previously table-missing
   closed sprint umbrellas #4699, #4765, #4927, #5045, and #5121, and updates
   stale follow-up status for #4950, #4960, and #4907.
+- Follow-up #5143 adds separate WP-07 and WP-08 findings review documents so
+  fixed findings, remaining blockers, and non-claims are reviewable without
+  mining sprint-chat context.
 
 ## Review Status Table
 
@@ -59,8 +62,8 @@ closed out in the issue/card/PR surfaces.
 | WP-04 | #4631 | closed | `docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_4631.md`; `docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_REMEDIATION_4747.md` | Remediation issue `#4747` is closed. | Keep metrics limitations visible; do not treat unknown metrics as zero. |
 | WP-05 | #4632 | closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_WP05_SCHEDULER_PROVIDER_LOCAL_AGENT_CLOSEOUT_4632.md` | #4932 is closed and repaired the stale `#4675` local-agent artifact after `#4849`; provider route and model suitability now both select Gemini while local Gemma remains shadow-only. | Keep as source truth unless new findings appear. |
 | WP-06 | #4633 | closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md` | #4936 is closed and repaired review-truth records. The WP-06 packet now records the selected sprint lane plus reconciled remote-builder follow-ons: `#4837`, `#4838`, `#4879`, `#4680`, and `#4679`. | Keep build-throughput residual non-claims visible; paid AWS lanes remain explicit operator-triggered paths. |
-| WP-07 | #4634 | closed umbrella; post-blocker coherence blocked with evidence | runtime review packets under `docs/milestones/v0.91.7/review/runtime/` plus `docs/milestones/v0.91.7/review/observability_4718/` | Runtime/OTel/Soak artifacts exist. Former CSM survival/post-blocker follow-ons `#4906`, `#4910`, `#4911`, `#4918`, `#4919`, `#4921`, `#4922`, `#4929`, `#4933`, Chronosense follow-up `#5098`, and WP-07A topology sprint `#5121` are closed. The retained `#4906` packet records `blocked_with_evidence`, not a final readiness pass, because Unity/WP-09, WP-12 security/protocol activation, and the v0.92 capability envelope still require retained integrated evidence or explicit operator-approved non-claims/defer decisions. | Keep #4906 blocking rows visible and run or record the final WP-07 release-readiness disposition before consuming WP-07 as clean. |
-| WP-08 | #4635 | closed | `docs/milestones/v0.91.7/review/V0917_WP08_RUNTIME_AWS_SIGNAL_OPERATIONS_4635.md` | Runtime AWS/signal child issues `#4684`-`#4688`, `#4913`, `#4915`, and proof-hygiene follow-up `#5006` are closed with retained proof. Adjacent WP-07/WP-08 CSM governed-notice bridge tail `#4998` / PR `#5016` is also closed/merged with `adl-ci` and `adl-coverage` green and repo-native closeout validation; its retained proof lives under `docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/`. Adjacent cross-cutting resilience dependency `#4782` is closed and consumed as related AWS/remote-builder durability truth, not as a WP-08 child. PR `#5004` merged with required checks green, and explicit `pr.sh closeout 4635` passed STP/SIP/SOR validation. | Keep live AWS proof boundaries visible; do not claim broader WP-07 or release readiness from WP-08 alone. |
+| WP-07 | #4634 | closed umbrella; post-blocker coherence blocked with evidence | `docs/milestones/v0.91.7/review/V0917_WP07_FINDINGS_REVIEW_5143.md`; runtime review packets under `docs/milestones/v0.91.7/review/runtime/` plus `docs/milestones/v0.91.7/review/observability_4718/` | Runtime/OTel/Soak artifacts exist. The separate #5143 findings record captures the fixed quiet-mode OTel logging bug, fixed #4718 observability proof defects, and the remaining `#4906` `blocked_with_evidence` release-readiness rows. Former CSM survival/post-blocker follow-ons `#4906`, `#4910`, `#4911`, `#4918`, `#4919`, `#4921`, `#4922`, `#4929`, `#4933`, Chronosense follow-up `#5098`, and WP-07A topology sprint `#5121` are closed. | Keep #4906 blocking rows visible and run or record the final WP-07 release-readiness disposition before consuming WP-07 as clean. |
+| WP-08 | #4635 | closed | `docs/milestones/v0.91.7/review/V0917_WP08_FINDINGS_REVIEW_5143.md`; `docs/milestones/v0.91.7/review/V0917_WP08_RUNTIME_AWS_SIGNAL_OPERATIONS_4635.md` | Runtime AWS/signal child issues `#4684`-`#4688`, `#4913`, `#4915`, and proof-hygiene follow-up `#5006` are closed with retained proof. The separate #5143 findings record captures fixed heartbeat, ACIP/SNS, local polis SSM, S3 archive classification, and #4998 AWS profile-binding findings. Adjacent WP-07/WP-08 CSM governed-notice bridge tail `#4998` / PR `#5016` is also closed/merged with `adl-ci` and `adl-coverage` green and repo-native closeout validation; its retained proof lives under `docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/`. | Keep live AWS proof boundaries visible; do not claim broader WP-07 or release readiness from WP-08 alone. |
 | WP-09 | #4636 | open | Unity review artifacts under `docs/milestones/v0.91.7/review/unity_observatory_*` | Umbrella and child issues `#4689`-`#4691` remain open. | Finish Observatory/demo proof and review as WP-09. |
 | WP-10 | #4637 | open | none yet | Curiosity `#4692` and constructability `#4693` remain open. | Implement and review curiosity/constructability proof. |
 | WP-11 | #4638 | open | none yet | Reasoning graph, loops, skill standard, AEE/ObsMem, and Godel snapshot issues remain open. | Implement and review all WP-11 runtime/cognitive surfaces. |
