@@ -15,6 +15,19 @@ Use:
 bash adl/tools/install_owner_binaries.sh
 ```
 
+To populate the stable directory from already-built binaries without rebuilding,
+use:
+
+```sh
+bash adl/tools/install_owner_binaries.sh --source-bin-dir adl/target/debug --no-build
+```
+
+In default `--no-build` mode, binaries missing from the source directory are
+reported and skipped so an already-built subset can still be restored, but the
+command exits nonzero when the default install is incomplete. An explicit
+`--bin <name>` request still fails closed when the requested source binary is
+absent.
+
 The installer records per-binary provenance under `.adl/bin/.provenance/`.
 Re-running it is a no-op when the recorded source hash still matches the current
 owner-binary source inputs. This prevents unrelated issue merges or closeouts
