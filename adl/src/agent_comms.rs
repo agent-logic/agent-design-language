@@ -39,6 +39,7 @@ const ACIP_RUNTIME_STREAM_LOOPBACK_PROOF_SCHEMA_VERSION: &str =
     "acip.runtime_stream.loopback_proof.v1";
 const ACIP_A2A_ADAPTER_SCHEMA_VERSION: &str = "acip.a2a.adapter.v1";
 const ACIP_A2A_FIXTURE_SCHEMA_VERSION: &str = "acip.a2a.fixture.v1";
+const ACIP_PROTOBUF_PROJECTION_PROFILE_SCHEMA_VERSION: &str = "acip.protobuf_projection.profile.v1";
 const MAX_CONTENT_CHARS: usize = 4_000;
 const MAX_INLINE_SUMMARY_CHARS: usize = 512;
 const MAX_LIST_LEN: usize = 16;
@@ -881,10 +882,16 @@ pub mod a2a {
     include!("agent_comms/a2a.inc");
 }
 
+pub mod projection {
+    use super::*;
+    include!("agent_comms/projection.inc");
+}
+
 pub use a2a::*;
 pub use carrier::*;
 pub use dispatch::*;
 pub use orchestrate::*;
+pub use projection::*;
 pub use runtime_stream::*;
 pub use transport::*;
 

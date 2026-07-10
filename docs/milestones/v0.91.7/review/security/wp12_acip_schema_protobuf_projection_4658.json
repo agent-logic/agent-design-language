@@ -1,0 +1,61 @@
+{
+  "schema": "adl.wp12.acip_schema_protobuf_projection.v1",
+  "issue": 4658,
+  "parent_issue": 4639,
+  "milestone": "v0.91.7",
+  "status": "integrated_proven",
+  "implemented_surfaces": [
+    "adl/src/agent_comms.rs",
+    "adl/src/agent_comms/projection.inc",
+    "adl/src/agent_comms/tests.inc"
+  ],
+  "projection_profile": {
+    "schema_version": "acip.protobuf_projection.profile.v1",
+    "profile_id": "acip-a2a-protobuf-projection-v1",
+    "protobuf_syntax": "proto3",
+    "protobuf_package": "adl.acip.v1",
+    "json_consumption_posture": "json_projection_primary_until_binary_wire_activation_is_separately_proven",
+    "websocket_consumption_posture": "websocket_text_json_frames_for_v0_91_7_loopback_binary_frames_deferred_to_transport_issue",
+    "covered_rust_types": [
+      "AcipMessageEnvelopeV1",
+      "AcipInvocationContractV1",
+      "AcipInvocationEventV1",
+      "AcipA2aAdapterBoundaryV1"
+    ]
+  },
+  "validation": [
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --manifest-path adl/Cargo.toml acip --all-features",
+      "result": "passed_on_final_rerun",
+      "notes": "Earlier full-lane attempts exposed an unrelated transient runtime_environment marker move failure in run_v0916_acip_aee_memory_integration; the failing binary test passed in isolation and the exact full VPP lane passed on final rerun."
+    },
+    {
+      "command": "cargo test --manifest-path adl/Cargo.toml acip_protobuf_projection --all-features",
+      "result": "passed",
+      "notes": "Projection-specific tests cover declared enum references, required and optional JSON property parity, schema-version binding, schema-derived field shape, and consumption posture."
+    }
+  ],
+  "satisfies_gate_rows": [
+    "acip_a2a_schema_and_protobuf_projection"
+  ],
+  "remaining_blockers": [
+    {
+      "issue": 4659,
+      "scope": "WebSocket transport activation, binary frame posture, auth/TLS/reconnect/cross-polis transport proof"
+    },
+    {
+      "issue": 4660,
+      "scope": "external-agent access rules, denial behavior, and trust boundaries"
+    }
+  ],
+  "non_claims": [
+    "This proof does not introduce generated protobuf Rust types.",
+    "This proof does not implement protobuf wire encoding.",
+    "This proof does not activate binary WebSocket frames.",
+    "This proof does not grant external-agent trust or transport readiness."
+  ]
+}

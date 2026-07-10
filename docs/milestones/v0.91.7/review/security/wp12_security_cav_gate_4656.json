@@ -13,6 +13,8 @@
     "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
     "docs/milestones/v0.91.7/review/runtime/SOAK2_REVIEW_BLOCKER_REGISTER_4844.md",
     "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md",
+    "docs/milestones/v0.91.7/review/security/WP12_ACIP_SCHEMA_PROTOBUF_PROJECTION_4658.md",
+    "docs/milestones/v0.91.7/review/security/wp12_acip_schema_protobuf_projection_4658.json",
     "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
   ],
   "non_claims": [
@@ -79,13 +81,15 @@
         4658,
         4900
       ],
-      "state": "child_issue_open",
-      "v092_disposition": "blocks_protocol_readiness",
+      "state": "integrated_proven",
+      "v092_disposition": "schema_projection_ready_transport_and_access_still_blocked",
       "evidence": [
         "docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md",
-        "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md"
+        "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md",
+        "docs/milestones/v0.91.7/review/security/WP12_ACIP_SCHEMA_PROTOBUF_PROJECTION_4658.md",
+        "docs/milestones/v0.91.7/review/security/wp12_acip_schema_protobuf_projection_4658.json"
       ],
-      "required_before_claim": "The schema/protobuf projection and JSON/WebSocket consumption posture must be deterministic and reviewed before ACIP/A2A readiness is claimed."
+      "required_before_claim": "Schema/protobuf projection and JSON/WebSocket consumption posture are deterministic for #4658; ACIP/A2A readiness still depends on #4659 transport and #4660 access-rule proof."
     },
     {
       "id": "acip_websocket_transport_path",

@@ -4,7 +4,7 @@
 
 - Feature Name: ACIP/A2A Protobuf Implementation Decisions
 - Milestone Target: `v0.91.7`
-- Status: planned
+- Status: schema/projection finalized; transport and access residuals remain
 - Owner: ADL maintainers
 - Doc Role: primary
 - Feature Types: architecture, schema, policy
@@ -49,6 +49,28 @@ Out of scope:
 - Review schema and access decisions together.
 - Validate JSON/protobuf projection determinism where claimed.
 - Resolve unresolved wire-format choices or record them as evidence-backed blockers with operator approval.
+
+## WP-12 Schema Projection Decision
+
+Issue `#4658` finalized the bounded schema/protobuf projection contract in
+`adl::agent_comms::projection`.
+
+The implemented posture is:
+
+- JSON projection is the primary implemented carrier consumption posture for
+  `v0.91.7`.
+- The protobuf projection is a deterministic `proto3` profile over the current
+  ACIP JSON schemas with stable message names, field numbers, JSON pointer
+  bindings, repeated/scalar/message/enum classification, and required-field
+  parity checks.
+- WebSocket consumption remains text JSON frames for the #4900 loopback proof.
+- Generated protobuf Rust types, protobuf wire encoding, and binary WebSocket
+  frames remain non-claims until separately implemented and proven.
+
+Retained evidence:
+
+- `docs/milestones/v0.91.7/review/security/WP12_ACIP_SCHEMA_PROTOBUF_PROJECTION_4658.md`
+- `docs/milestones/v0.91.7/review/security/wp12_acip_schema_protobuf_projection_4658.json`
 
 ## v0.92 Consumption
 
