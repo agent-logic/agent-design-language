@@ -350,6 +350,10 @@
         "adl/tools/pr_cards.sh",
         "adl/tools/pr_delegate.sh",
         "adl/tools/pr_usage.sh",
+        "adl/tools/csm_binary_availability.sh",
+        "adl/tools/demo_d11_signed_remote.sh",
+        "adl/tools/demo_smoke_v07_story.sh",
+        "adl/tools/ensure_csm_binary.sh",
         "adl/tools/install_owner_binaries.sh",
         "adl/tools/build_v0917_execution_outlier_analysis.py",
         "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
@@ -357,6 +361,7 @@
         "adl/tools/validation_inventory.sh",
         "adl/tools/run_owner_validation_lane.sh",
         "adl/tools/test_control_plane_observability.sh",
+        "adl/tools/test_ensure_csm_binary.sh",
         "adl/tools/test_five_command_regression_suite.sh",
         "adl/tools/test_owner_binary_install.sh",
         "adl/tools/test_owner_validation_lane.sh",
@@ -374,6 +379,10 @@
         "adl/tools/pr_cards.sh",
         "adl/tools/pr_delegate.sh",
         "adl/tools/pr_usage.sh",
+        "adl/tools/csm_binary_availability.sh",
+        "adl/tools/demo_d11_signed_remote.sh",
+        "adl/tools/demo_smoke_v07_story.sh",
+        "adl/tools/ensure_csm_binary.sh",
         "adl/tools/install_owner_binaries.sh",
         "adl/tools/build_v0917_execution_outlier_analysis.py",
         "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
@@ -381,6 +390,7 @@
         "adl/tools/validation_inventory.sh",
         "adl/tools/run_owner_validation_lane.sh",
         "adl/tools/test_control_plane_observability.sh",
+        "adl/tools/test_ensure_csm_binary.sh",
         "adl/tools/test_five_command_regression_suite.sh",
         "adl/tools/test_owner_binary_install.sh",
         "adl/tools/test_owner_validation_lane.sh",
@@ -1104,6 +1114,7 @@
     }
   },
   "manager_guardrails": {
+    "max_selected_lanes": 12,
     "docs_only_forbidden_lane_ids": [
       "rust_pr_fast"
     ],

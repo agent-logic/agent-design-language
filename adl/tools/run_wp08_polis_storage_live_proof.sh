@@ -52,6 +52,9 @@ if [ -z "$OUT" ] || [ -z "$EXPECTED" ]; then
 fi
 
 mkdir -p "$OUT"
+# shellcheck source=adl/tools/csm_binary_availability.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/csm_binary_availability.sh"
+CSM_BIN="$(adl_resolve_csm_binary "$CSM_BIN" "$OUT/csm_binary_availability.json")"
 
 ACCOUNT="$("$AWS_BIN" sts get-caller-identity --profile "$PROFILE" --region "$REGION" --query Account --output text)"
 ACCOUNT_SHA="$(printf '%s' "$ACCOUNT" | shasum -a 256 | awk '{print $1}')"

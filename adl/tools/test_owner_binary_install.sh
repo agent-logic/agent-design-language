@@ -205,25 +205,65 @@ inventory_help="$("$BASH_BIN" "$INSTALL_SRC" --help 2>&1 || true)"
 }
 
 default_repo="$tmpdir/default-repo"
-default_source_bins="$tmpdir/default-source-bins"
-mkdir -p "$default_repo/adl/tools" "$default_repo/adl/src" "$default_source_bins"
+default_source_bin_dir="$tmpdir/default-source-bins"
+mkdir -p "$default_repo/adl/tools" "$default_repo/adl/src" "$default_source_bin_dir"
 cp "$INSTALL_SRC" "$default_repo/adl/tools/install_owner_binaries.sh"
+cp "$RESOLUTION_SRC" "$default_repo/adl/tools/owner_binary_resolution.sh"
 chmod +x "$default_repo/adl/tools/install_owner_binaries.sh"
 cp "$repo/adl/Cargo.toml" "$default_repo/adl/Cargo.toml"
 printf 'pub fn default_seed() {}\n' >"$default_repo/adl/src/lib.rs"
+default_bins=(
+  adl csdlc adl-csdlc adl-runtime adl-review csm
+  adl-validate-structured-prompt adl-lint-prompt-spec adl-prompt-template
+  adl-pr-create adl-pr-init adl-pr-repair-issue-body
+  adl-pr-run adl-pr-doctor adl-pr-ready adl-pr-preflight
+  adl-pr-finish adl-pr-validation adl-pr-inventory
+  adl-pr-shepherd adl-pr-closing-linkage adl-issue adl-pr-closeout
+  adl-session adl-process adl-remote adl-aws-remote-validation
+  adl-provider-adapter
+)
+for bin in "${default_bins[@]}"; do
+  cat >"$default_source_bin_dir/$bin" <<EOF_BIN
+#!/usr/bin/env bash
+printf '${bin}-default:%s\n' "\$*"
+EOF_BIN
+  chmod +x "$default_source_bin_dir/$bin"
+done
+(
+  cd "$default_repo"
+  "$BASH_BIN" adl/tools/install_owner_binaries.sh \
+    --source-bin-dir "$default_source_bin_dir" \
+    --no-build >/dev/null
+)
+[[ -x "$default_repo/.adl/bin/csm" ]] || {
+  echo "assertion failed: default stable owner binary install omitted csm" >&2
+  exit 1
+}
+"$default_repo/.adl/bin/csm" | grep -Fq 'csm-default:' || {
+  echo "assertion failed: default stable csm binary install did not produce runnable csm" >&2
+  exit 1
+}
+
+incomplete_repo="$tmpdir/incomplete-default-repo"
+incomplete_source_bins="$tmpdir/incomplete-default-source-bins"
+mkdir -p "$incomplete_repo/adl/tools" "$incomplete_repo/adl/src" "$incomplete_source_bins"
+cp "$INSTALL_SRC" "$incomplete_repo/adl/tools/install_owner_binaries.sh"
+chmod +x "$incomplete_repo/adl/tools/install_owner_binaries.sh"
+cp "$repo/adl/Cargo.toml" "$incomplete_repo/adl/Cargo.toml"
+printf 'pub fn incomplete_default_seed() {}\n' >"$incomplete_repo/adl/src/lib.rs"
 for bin in adl adl-pr-validation adl-pr-shepherd csm adl-remote adl-aws-remote-validation adl-provider-adapter; do
-  cat >"$default_source_bins/$bin" <<EOF_BIN
+  cat >"$incomplete_source_bins/$bin" <<EOF_BIN
 #!/usr/bin/env bash
 printf '$bin:%s\n' "\$*"
 EOF_BIN
-  chmod +x "$default_source_bins/$bin"
+  chmod +x "$incomplete_source_bins/$bin"
 done
 default_install_log="$tmpdir/default-install.log"
 set +e
 (
-  cd "$default_repo"
+  cd "$incomplete_repo"
   "$BASH_BIN" adl/tools/install_owner_binaries.sh \
-    --source-bin-dir "$default_source_bins" \
+    --source-bin-dir "$incomplete_source_bins" \
     --no-build >"$default_install_log" 2>&1
 )
 default_install_status=$?
@@ -234,7 +274,7 @@ set -e
   exit 1
 }
 for bin in adl adl-pr-validation adl-pr-shepherd csm adl-remote adl-aws-remote-validation adl-provider-adapter; do
-  [[ -x "$default_repo/.adl/bin/$bin" ]] || {
+  [[ -x "$incomplete_repo/.adl/bin/$bin" ]] || {
     echo "assertion failed: default no-build install did not install current owner binary $bin" >&2
     cat "$default_install_log" >&2
     exit 1
@@ -254,10 +294,10 @@ grep -Fq "install_owner_binaries: incomplete default --no-build install" "$defau
 explicit_missing_log="$tmpdir/explicit-missing.log"
 set +e
 (
-  cd "$default_repo"
+  cd "$incomplete_repo"
   "$BASH_BIN" adl/tools/install_owner_binaries.sh \
     --bin definitely-missing-owner-binary \
-    --source-bin-dir "$default_source_bins" \
+    --source-bin-dir "$incomplete_source_bins" \
     --no-build >"$explicit_missing_log" 2>&1
 )
 explicit_missing_status=$?

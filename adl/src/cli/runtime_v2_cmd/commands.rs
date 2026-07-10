@@ -16,7 +16,7 @@ use ::adl::{
         runtime_v2_governed_tools_flagship_demo_contract,
         runtime_v2_minimal_integrated_runtime_path_contract,
         runtime_v2_observatory_flagship_contract, runtime_v2_operator_control_report_contract,
-        runtime_v2_security_boundary_proof_contract,
+        runtime_v2_reasoning_graph_contract, runtime_v2_security_boundary_proof_contract,
     },
 };
 
@@ -548,6 +548,42 @@ pub(crate) fn real_runtime_v2_feature_proof_coverage(
     Ok(())
 }
 
+pub(crate) fn real_runtime_v2_reasoning_graph(repo_root: &Path, args: &[String]) -> Result<()> {
+    let mut out_path: Option<PathBuf> = None;
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                let Some(value) = args.get(i + 1) else {
+                    return Err(anyhow!("runtime-v2 reasoning-graph requires --out <path>"));
+                };
+                out_path = Some(PathBuf::from(value));
+                i += 1;
+            }
+            "--help" | "-h" => {
+                println!("{}", usage::usage());
+                return Ok(());
+            }
+            other => {
+                return Err(anyhow!(
+                    "unknown arg for runtime-v2 reasoning-graph: {other}"
+                ))
+            }
+        }
+        i += 1;
+    }
+
+    let packet = runtime_v2_reasoning_graph_contract()?;
+    let Some(out_path) = out_path else {
+        println!("{}", to_string_pretty(&packet.canonicalized()?)?);
+        return Ok(());
+    };
+    let resolved = resolve_relative_output_path(repo_root, &out_path, "reasoning-graph")?;
+    packet.write_to_path(&resolved)?;
+    println!("{}", reasoning_graph_stdout_line(&out_path));
+    Ok(())
+}
+
 pub(crate) fn real_runtime_v2_contract_market_demo(
     repo_root: &Path,
     args: &[String],
@@ -663,6 +699,10 @@ pub(crate) fn feature_proof_coverage_stdout_line(out_path: &Path) -> String {
         "RUNTIME_V2_FEATURE_PROOF_COVERAGE_PATH={}",
         out_path.display()
     )
+}
+
+pub(crate) fn reasoning_graph_stdout_line(out_path: &Path) -> String {
+    format!("RUNTIME_V2_REASONING_GRAPH_PATH={}", out_path.display())
 }
 
 pub(crate) fn cognitive_being_flagship_demo_stdout_line(out_path: &Path) -> String {

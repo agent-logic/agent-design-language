@@ -4,13 +4,22 @@ This runbook covers the WP-08 runtime heartbeat publisher added for issue `#4684
 It publishes long-lived-agent heartbeat status to CloudWatch Logs when live AWS
 signal mode is explicitly enabled.
 
+## CSM Binary Preparation
+
+The live proof wrapper now resolves the standalone `csm` runtime owner binary
+through `adl/tools/ensure_csm_binary.sh`. It writes
+`csm_binary_availability.json` into the proof directory so the run records
+whether it reused an existing trusted executable or restored the binary through
+the repo-native Rust build path after warm-cache preparation.
+
+You do not need to run a manual `cargo build` before the proof unless you are
+deliberately pre-warming the repo target cache.
+
 ## Live Proof Command
 
-Build the repo-owned `csm` binary, then run the proof wrapper from an issue
-worktree or the main checkout:
+Run the proof wrapper from an issue worktree or the main checkout:
 
 ```sh
-cargo build --manifest-path adl/Cargo.toml --bin csm
 AWS_PROFILE=agent-logic-admin ADL_AWS_PROFILE=agent-logic-admin \
   bash adl/tools/run_wp08_heartbeat_live_proof.sh \
     --out docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684 \

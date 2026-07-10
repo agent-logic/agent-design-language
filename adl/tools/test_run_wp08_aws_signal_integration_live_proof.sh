@@ -58,6 +58,20 @@ JSON
 SH
 chmod +x "$TMP/fake_heartbeat.sh"
 
+cat >"$TMP/fake-csm" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+echo "fake csm $*" >&2
+SH
+chmod +x "$TMP/fake-csm"
+
+cat >"$TMP/fake-acip-bin" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+echo "fake acip proof $*" >&2
+SH
+chmod +x "$TMP/fake-acip-bin"
+
 cat >"$TMP/fake_acip.sh" <<'SH'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -146,7 +160,7 @@ if bash "$ROOT/adl/tools/run_wp08_aws_signal_integration_live_proof.sh" \
   --profile agent-logic-admin \
   --region us-west-2 \
   --csm-bin "$TMP/fake-csm" \
-  --acip-proof-bin "$TMP/fake-acip-bin" 2>/tmp/wp08-4686-bad.err; then
+  --acip-proof-bin "$TMP/fake-acip-bin" 2>"$TMP/wp08-4686-bad.err"; then
   echo "expected mismatch failure" >&2
   exit 1
 fi

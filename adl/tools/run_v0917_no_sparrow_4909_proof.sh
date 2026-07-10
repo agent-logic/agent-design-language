@@ -7,14 +7,11 @@ cd "$ROOT"
 PROOF_DIR="docs/milestones/v0.91.7/review/runtime/no_sparrow_4909"
 CSM_BIN="${ADL_CSM_BIN:-adl/target/debug/csm}"
 
-if [ ! -x "$CSM_BIN" ]; then
-  echo "missing executable CSM binary: $CSM_BIN" >&2
-  echo "set ADL_CSM_BIN to an existing repo csm binary; this proof runner does not build binaries" >&2
-  exit 2
-fi
-
 rm -rf "$PROOF_DIR"
 mkdir -p "$PROOF_DIR"/{happy,negative_retention,analysis}
+# shellcheck source=adl/tools/csm_binary_availability.sh
+source "$ROOT/adl/tools/csm_binary_availability.sh"
+CSM_BIN="$(adl_resolve_csm_binary "$CSM_BIN" "$PROOF_DIR/csm_binary_availability.json")"
 
 cat >"$PROOF_DIR/agent.yaml" <<'YAML'
 schema: adl.long_lived_agent_spec.v1

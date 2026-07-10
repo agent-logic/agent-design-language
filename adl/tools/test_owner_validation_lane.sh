@@ -7,11 +7,14 @@ RUNNER="$ROOT_DIR/adl/tools/run_owner_validation_lane.sh"
 plan_output="$(bash "$RUNNER" all --build --print-plan)"
 for expected in \
   "cargo build owner binaries" \
+  "--bin csm" \
   "--bin adl-pr-inventory" \
   "--bin adl-session --bin adl-process" \
   "C-SDLC wrapper migration contract" \
   "C-SDLC run ambiguity policy" \
   "C-SDLC control-plane observability contract" \
+  "runtime CSM binary availability contract" \
+  "runtime CSM binary availability guard" \
   "runtime compatibility boundary" \
   "review compatibility boundary" \
   "PASS run_owner_validation_lane surface=all"; do

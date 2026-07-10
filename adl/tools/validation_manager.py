@@ -98,8 +98,11 @@ def guardrail_int(value: Any, field: str, default: int) -> int:
 def manager_guardrails(manifest: dict[str, Any], max_selected_lanes: int) -> dict[str, Any]:
     configured = manifest.get("manager_guardrails", {})
     pr_fast = configured.get("pr_fast", {})
+    configured_max_selected_lanes = guardrail_int(
+        configured.get("max_selected_lanes"), "max_selected_lanes", max_selected_lanes
+    )
     return {
-        "max_selected_lanes": max_selected_lanes,
+        "max_selected_lanes": configured_max_selected_lanes,
         "docs_only_forbidden_lane_ids": list(
             configured.get("docs_only_forbidden_lane_ids", ["rust_pr_fast"])
         ),
