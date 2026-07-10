@@ -79,6 +79,21 @@ process_status_filters="$TMP/process-status-filters.txt"
 bash "$SCRIPT" --changed-files "$process_status_changed" --print-risk-filters >"$process_status_filters"
 grep -Fx "process_status" "$process_status_filters" >/dev/null
 
+godel_changed="$TMP/godel-changed.txt"
+cat >"$godel_changed" <<'EOF'
+M	adl/src/cli/godel_cmd.rs
+A	adl/src/godel/ghb_loop.rs
+EOF
+godel_filters="$TMP/godel-filters.txt"
+bash "$SCRIPT" --changed-files "$godel_changed" --print-risk-filters >"$godel_filters"
+grep -Fx "godel" "$godel_filters" >/dev/null
+if [ "$(wc -l <"$godel_filters" | tr -d ' ')" -ne 1 ]; then
+  echo "expected Godel command and runtime surfaces to collapse to the shared godel filter" >&2
+  exit 1
+fi
+godel_expression="$(bash "$SCRIPT" --changed-files "$godel_changed" --print-risk-nextest-expression)"
+grep -F "binary_id(adl::cli_smoke) and test(/^godel::/)" <<<"$godel_expression" >/dev/null
+
 cli_usage_changed="$TMP/cli-usage-changed.txt"
 printf 'A\tadl/src/cli/usage.rs\n' >"$cli_usage_changed"
 cli_usage_filters="$TMP/cli-usage-filters.txt"
