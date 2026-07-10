@@ -2938,6 +2938,10 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
             "service_schema": runtime_context.chronosense.config().schema_version,
             "clock_stack_schema": crate::chronosense::CHRONOSENSE_CLOCK_STACK_SCHEMA,
             "clock_stack_capture": "daemon_event_time",
+            "ntp_substrate": "ntpd-rs",
+            "ntp_process_model": "csm_in_process_component_no_separate_binary",
+            "ntp_primary_status_source": "ntp_daemon::ObservableState",
+            "ntp_compatibility_fallback": "ntp-ctl only when ADL_CSM_NTPD_RS_CTL_COMPAT=1",
             "time_sync": runtime_context.time_sync_status()
         },
         "aee": {

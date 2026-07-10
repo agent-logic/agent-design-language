@@ -337,6 +337,47 @@ Servers:
 }
 
 #[test]
+fn ntpd_rs_observable_state_projects_in_process_runtime_health() {
+    let status = super::service::chronosense_time_sync_status_from_ntpd_rs_observable_value(
+        &serde_json::json!({
+            "system": {
+                "time_snapshot": {
+                    "offset": 0.000031,
+                    "uncertainty": 0.000142
+                }
+            },
+            "peers": [
+                {
+                    "Observable": {
+                        "address": "time.example.invalid:123",
+                        "reachability": 255,
+                        "offset": 0.000031
+                    }
+                }
+            ],
+            "servers": []
+        }),
+        "ntp_daemon_observable_state",
+    );
+
+    assert_eq!(status.schema_version, CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA);
+    assert_eq!(status.substrate, "ntpd-rs");
+    assert_eq!(
+        status.source,
+        "ntp-daemon::ObservableState observation socket"
+    );
+    assert_eq!(status.mode, "csm_in_process_ntpd_rs_observable_state");
+    assert_eq!(status.health, "synced");
+    assert_eq!(status.confidence, "high");
+    assert_eq!(
+        status.port_policy,
+        "csm_in_process_ntpd_rs_component_no_separate_binary_no_csm_udp_123_listener"
+    );
+    assert_eq!(status.parsed_offset_seconds, Some(0.000031));
+    assert_eq!(status.parsed_uncertainty_seconds, Some(0.000142));
+}
+
+#[test]
 fn ntpd_rs_status_parser_reports_unavailable_for_unrecognized_output() {
     let status = chronosense_time_sync_status_from_ntp_ctl_output(
         "ntp-ctl: failed to connect to daemon",
@@ -363,6 +404,10 @@ fn ntpd_rs_status_projection_sanitizes_probe_command_and_summary() {
     assert_eq!(
         super::service::ntpd_rs_command_label("/Users/daniel/bin/private-wrapper"),
         "custom_ntp_ctl"
+    );
+    assert_eq!(
+        super::service::ntpd_rs_command_label("ntp_daemon::ObservableState:/run/ntpd-rs/observe"),
+        "ntp_daemon_observable_state"
     );
     assert_eq!(
         super::service::sanitize_probe_summary("failed opening /Users/daniel/.config/secret"),
