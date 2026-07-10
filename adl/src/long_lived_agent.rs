@@ -14,6 +14,7 @@ use crate::chronosense::{
     capture_runtime_time_sync_status, start_runtime_time_observation, ChronosenseRuntimeService,
     ChronosenseRuntimeServiceConfig,
 };
+use crate::csm_godel_snapshot::{validate_recovery_read, write_checkpoint_snapshot_diff};
 use crate::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
 use crate::runtime_aws_signal::publish_csm_governed_notice_signal;
 use crate::{adl, execute, resolve, trace};
@@ -1327,6 +1328,14 @@ fn restore_status_from_checkpoint(loaded: &LoadedAgentSpec) -> Result<Option<Sta
     let Some(checkpoint) = read_json_optional::<Value>(&continuity_checkpoint_path(loaded))? else {
         return Ok(None);
     };
+    if checkpoint.get("godel_agent_snapshot_diff").is_some() {
+        validate_recovery_read(&loaded.state_root).with_context(|| {
+            format!(
+                "Godel last-known-good pointer did not validate before recovering {}",
+                loaded.spec.agent_instance_id
+            )
+        })?;
+    }
     let ledger = ledger_cursor(loaded)?;
     let checkpoint_cycle_id = checkpoint
         .get("latest_cycle_id")
@@ -3381,7 +3390,7 @@ fn write_continuity_restore_artifacts(
         .unwrap_or(0)
         .max(ledger.max_cycle_number)
         + 1;
-    let checkpoint = json!({
+    let mut checkpoint = json!({
         "schema": CONTINUITY_CHECKPOINT_SCHEMA,
         "agent_instance_id": loaded.spec.agent_instance_id.clone(),
         "captured_at": Utc::now(),
@@ -3407,18 +3416,32 @@ fn write_continuity_restore_artifacts(
     let checkpoint_path = continuity_checkpoint_path(loaded);
     let checkpoint_low_disk =
         record_low_disk_preflight(&checkpoint_path, "continuity_checkpoint_write")?;
-    if let Err(err) = write_json_pretty(&checkpoint_path, &checkpoint) {
-        if checkpoint_low_disk {
-            emit_storage_degraded_event(
-                loaded,
-                "continuity_checkpoint_write",
-                checkpoint_reason,
-                &err,
-            );
-            return Ok(());
-        }
-        return Err(err);
+    let replay_manifest_path = continuity_replay_manifest_path(loaded);
+    let replay_low_disk =
+        record_low_disk_preflight(&replay_manifest_path, "continuity_replay_manifest_write")?;
+    if checkpoint_low_disk || replay_low_disk {
+        emit_storage_degraded_event(
+            loaded,
+            if checkpoint_low_disk {
+                "continuity_checkpoint_write"
+            } else {
+                "continuity_replay_manifest_write"
+            },
+            checkpoint_reason,
+            &anyhow!("low disk preflight blocked Godel snapshot chain advancement"),
+        );
+        return Ok(());
     }
+
+    let godel_snapshot_diff = write_checkpoint_snapshot_diff(
+        loaded,
+        status,
+        checkpoint_reason,
+        loaded.spec.checkpoint.interval_secs.unwrap_or(1).max(1),
+    )?;
+    checkpoint["godel_agent_snapshot_diff"] = serde_json::to_value(&godel_snapshot_diff)?;
+
+    write_json_pretty(&checkpoint_path, &checkpoint)?;
 
     let replay_manifest = json!({
         "schema": CONTINUITY_REPLAY_MANIFEST_SCHEMA,
@@ -3434,15 +3457,18 @@ fn write_continuity_restore_artifacts(
             "active_lease_state": lease_state,
             "recover_stale_lease_required": lease_state == "stale"
         },
+        "godel_agent_snapshot_diff": godel_snapshot_diff,
         "restore_invariants": [
             "append_only_cycle_ledger",
             "latest_cycle_id_matches_checkpoint",
-            "lease_file_blocks_duplicate_active_cycle_without_explicit_recovery"
+            "lease_file_blocks_duplicate_active_cycle_without_explicit_recovery",
+            "godel_snapshot_diff_last_known_good_pointer_validates_before_recovery"
         ],
         "reviewer_steps": [
             "Inspect continuity_checkpoint.json for the latest captured cycle state.",
             "Inspect continuity_replay_manifest.json for the next expected cycle id and lease posture.",
-            "Inspect cycle_ledger.jsonl to confirm resume continues at the next cycle id without duplicates."
+            "Inspect cycle_ledger.jsonl to confirm resume continues at the next cycle id without duplicates.",
+            "Inspect godel_snapshots/godel_agent_snapshot_chain.json and validate the last-known-good pointer before agent recovery."
         ],
         "non_claims": [
             "not_mid_step_checkpointing",
@@ -3450,21 +3476,7 @@ fn write_continuity_restore_artifacts(
             "not_distributed_recovery"
         ]
     });
-    let replay_manifest_path = continuity_replay_manifest_path(loaded);
-    let replay_low_disk =
-        record_low_disk_preflight(&replay_manifest_path, "continuity_replay_manifest_write")?;
-    if let Err(err) = write_json_pretty(&replay_manifest_path, &replay_manifest) {
-        if replay_low_disk {
-            emit_storage_degraded_event(
-                loaded,
-                "continuity_replay_manifest_write",
-                checkpoint_reason,
-                &err,
-            );
-            return Ok(());
-        }
-        return Err(err);
-    }
+    write_json_pretty(&replay_manifest_path, &replay_manifest)?;
     Ok(())
 }
 

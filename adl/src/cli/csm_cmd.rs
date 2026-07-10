@@ -9,6 +9,7 @@ use ::adl::csm_continuity_capsule::{
     capture_capsule, fire_drill_capsule, restore_capsule, stage_capsule, ContinuityCaptureOptions,
     ContinuityFireDrillOptions, ContinuityRestoreOptions, ContinuityStageOptions,
 };
+use ::adl::csm_godel_snapshot::{prove_godel_snapshot_diff, GodelSnapshotProofOptions};
 use ::adl::csm_observatory::{write_observatory_outputs, ObservatoryFormat};
 use ::adl::csm_polis_storage::{prove_polis_storage, PolisStorageProofOptions};
 use ::adl::csm_runtime_api::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
@@ -32,7 +33,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!(
-            "csm requires subcommand: daemon | service | governed-stop | continuity | backpressure | aws-signal | storage | cloud-control | observatory"
+            "csm requires subcommand: daemon | service | governed-stop | continuity | godel-snapshot | backpressure | aws-signal | storage | cloud-control | observatory"
         );
         std::process::exit(2);
     };
@@ -68,6 +69,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
                 "csm backpressure is owned by the standalone csm runtime binary; use `csm backpressure`, not `adl csm backpressure`"
             )),
         },
+        "godel-snapshot" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_godel_snapshot(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm godel-snapshot is owned by the standalone csm runtime binary; use `csm godel-snapshot`, not `adl csm godel-snapshot`"
+            )),
+        },
         "aws-signal" => match mode {
             CsmDispatchMode::StandaloneRuntime => real_aws_signal(&args[1..]),
             CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
@@ -93,7 +100,7 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, governed-stop, continuity, backpressure, aws-signal, storage, cloud-control, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, governed-stop, continuity, godel-snapshot, backpressure, aws-signal, storage, cloud-control, or observatory)"
             );
             std::process::exit(2);
         }
@@ -616,6 +623,72 @@ fn real_backpressure_prove(args: &[String]) -> Result<()> {
     Ok(())
 }
 
+fn real_godel_snapshot(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm godel-snapshot requires subcommand: proof");
+        std::process::exit(2);
+    };
+    match cmd {
+        "proof" => real_godel_snapshot_proof(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm godel-snapshot subcommand: {other} (expected proof)");
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_godel_snapshot_proof(args: &[String]) -> Result<()> {
+    let mut spec: Option<PathBuf> = None;
+    let mut out_dir: Option<PathBuf> = None;
+    let mut run_id = "issue-4912-godel-snapshot-diff".to_string();
+    let mut json_output = false;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--spec" => {
+                spec = Some(PathBuf::from(required_value(args, i, "--spec")?));
+                i += 1;
+            }
+            "--out" => {
+                out_dir = Some(PathBuf::from(required_value(args, i, "--out")?));
+                i += 1;
+            }
+            "--run-id" => {
+                run_id = required_value(args, i, "--run-id")?.to_string();
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm godel-snapshot proof arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+    let result = prove_godel_snapshot_diff(GodelSnapshotProofOptions {
+        spec_path: spec,
+        out_dir: out_dir.context("csm godel-snapshot proof requires --out <proof-dir>")?,
+        run_id,
+    })?;
+    if json_output {
+        println!("{}", serde_json::to_string_pretty(&result)?);
+    } else {
+        println!(
+            "CSM_GODEL_SNAPSHOT ok chain={} lkg={}",
+            result.positive_case.chain_ref, result.positive_case.last_known_good_ref
+        );
+    }
+    Ok(())
+}
+
 fn real_continuity(args: &[String]) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!("csm continuity requires subcommand: capture | stage | restore | drill");
@@ -910,6 +983,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
   csm cloud-control api-gateway-bridge --out <proof-dir> --polis-id <id> --api-id <id> --stage <name> --invoke-url <url> --operator-token-file <path> --cloudwatch-log-group <name> --eventbridge-bus <name> [--expected-account-sha256 <hash>] [--json]
   csm backpressure prove --spec <agent-spec.yaml> --out <proof-dir> [--profile local|soak2|pre-v0.92] [--json]
+  csm godel-snapshot proof --out <proof-dir> [--spec <agent-spec.yaml>] [--run-id <id>] [--json]
   csm storage prove-s3 --out <proof-dir> --bucket <bucket> --expected-account-sha256 <sha256> [--prefix community-memory/] [--profile agent-logic-admin] [--region us-west-2] [--run-id <id>] [--json]
   csm continuity capture --spec <agent-spec.yaml> --out <bundle-dir> [--source-host wuji] [--target-host ec2-staging|ec2|local] [--json]
   csm continuity stage --bundle <bundle-dir> --out <stage-dir> [--target-host ec2-staging|ec2|local] [--json]
@@ -930,6 +1004,7 @@ Semantics:
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
   - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status and governed per-polis API Gateway bridge validation of the CSM runtime API /api-gateway-bridge path under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.
+  - csm godel-snapshot proves per-agent versioned snapshot/diff writes, chain validation, recovery-read posture, and negative cases.
   - csm storage proves Polis durable-state write/read/restore semantics against the approved S3 backend with checksum, immutable reference, and negative-case evidence.
   - csm continuity captures, stages, restores, and fire-drills portable continuity capsules with secrets excluded and host bindings explicit.
   - csm daemon emits ADL_OBSERVABILITY_LOG, ADL_OTEL_LOG, and ADL_OTEL_STATUS records through the shared observability contract.
@@ -1169,6 +1244,21 @@ memory: {}
         let root = temp_root("local-runtime-paths");
         let spec = write_runtime_spec(&root);
         write_runtime_state(&root);
+
+        let godel_snapshot = vec![
+            "godel-snapshot".to_string(),
+            "proof".to_string(),
+            "--out".to_string(),
+            root.join("godel-snapshot").display().to_string(),
+            "--run-id".to_string(),
+            "csm-cmd-godel-snapshot-proof".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&godel_snapshot).expect("godel snapshot proof parser path");
+        assert!(root
+            .join("godel-snapshot")
+            .join("godel_snapshot_diff_proof.json")
+            .exists());
 
         let backpressure = vec![
             "backpressure".to_string(),
