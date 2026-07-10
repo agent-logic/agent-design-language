@@ -669,6 +669,32 @@ fn status_recovers_latest_cycle_from_ledger_when_status_file_is_missing() {
 }
 
 #[test]
+fn status_refuses_checkpoint_recovery_when_godel_chain_is_corrupt() {
+    let root = temp_dir("godel-corrupt-recovery");
+    let spec = write_spec(&root);
+    tick(&spec, TickOptions::default()).expect("tick writes checkpoint and Godel chain");
+    fs::remove_file(root.join("state/status.json")).expect("remove status to force recovery");
+    let chain_path = root
+        .join("state")
+        .join("godel_snapshots/godel_agent_snapshot_chain.json");
+    let mut chain: Value =
+        serde_json::from_str(&fs::read_to_string(&chain_path).expect("read chain"))
+            .expect("parse chain");
+    chain["chain_length"] = json!(99);
+    fs::write(
+        &chain_path,
+        serde_json::to_vec_pretty(&chain).expect("encode chain"),
+    )
+    .expect("corrupt chain");
+
+    let err = status(&spec).expect_err("corrupt Godel chain must block checkpoint recovery");
+
+    assert!(err
+        .to_string()
+        .contains("Godel last-known-good pointer did not validate"));
+}
+
+#[test]
 fn locked_spec_refuses_silent_revision_and_records_operator_event() {
     let root = temp_dir("spec-revision");
     let spec = write_spec(&root);
@@ -1267,6 +1293,36 @@ fn safe_fail_bundle_suppresses_sequence_artifact_under_low_disk() {
         bundle["monotonicity"]["sequence_artifact_suppressed"],
         "storage_low_disk"
     );
+}
+
+#[test]
+fn continuity_checkpoint_low_disk_does_not_advance_godel_chain() {
+    let root = temp_dir("godel-low-disk");
+    let spec = write_spec(&root);
+    let loaded = load_spec(&spec).expect("load spec");
+    ensure_state_root(&loaded).expect("state root");
+    fs::remove_dir_all(root.join("state/godel_snapshots")).expect("remove setup Godel chain");
+    let _env = MultiEnvGuard::set_all(&[
+        ("ADL_CSM_DISK_FLOOR_BYTES", "4096"),
+        ("ADL_CSM_TEST_AVAILABLE_BYTES", "1024"),
+    ]);
+    let status = status_with_state(
+        &loaded,
+        AgentStatusState::Idle,
+        Some("cycle-000001".to_string()),
+        Some("success".to_string()),
+        None,
+        false,
+        None,
+    );
+
+    write_continuity_restore_artifacts(&loaded, &status, "low_disk_checkpoint")
+        .expect("low disk degrades without advancing chain");
+
+    assert!(!root.join("state/godel_snapshots").exists());
+    assert!(root
+        .join("state/csm_low_disk_recovery_manifest.json")
+        .exists());
 }
 
 #[test]
