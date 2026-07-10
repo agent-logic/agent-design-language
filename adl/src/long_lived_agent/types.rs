@@ -162,6 +162,8 @@ pub struct StopRecord {
     pub reason: String,
     #[serde(default = "super::default_requested_by")]
     pub requested_by: String,
+    #[serde(default = "super::default_stop_classification")]
+    pub classification: String,
     #[serde(default = "super::default_stop_mode")]
     pub mode: String,
     pub requested_at: DateTime<Utc>,

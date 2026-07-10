@@ -823,6 +823,7 @@ mod tests {
             agent_instance_id: "storage-agent".to_string(),
             reason: "operator pause".to_string(),
             requested_by: "operator".to_string(),
+            classification: "operator_stop_requested".to_string(),
             mode: "stop_before_next_cycle".to_string(),
             requested_at: Utc::now(),
         };

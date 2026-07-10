@@ -10,6 +10,7 @@ use crate::cli::usage;
 use ::adl::{
     long_lived_agent::{self, RunOptions},
     runtime_v2::{
+        runtime_v2_aee_obsmem_pvf_trace_handoff_contract,
         runtime_v2_cognitive_being_flagship_demo_contract,
         runtime_v2_contract_market_demo_contract, runtime_v2_csm_integrated_run_contract,
         runtime_v2_feature_proof_coverage_contract, runtime_v2_foundation_demo_contract,
@@ -284,6 +285,56 @@ pub(crate) fn real_runtime_v2_minimal_integrated_runtime_path(
     );
     println!();
     println!("{}", artifacts.integrated_run.execution_summary()?);
+    Ok(())
+}
+
+pub(crate) fn real_runtime_v2_aee_obsmem_pvf_handoff(
+    repo_root: &Path,
+    args: &[String],
+) -> Result<()> {
+    let mut out_path: Option<PathBuf> = None;
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                let Some(value) = args.get(i + 1) else {
+                    return Err(anyhow!(
+                        "runtime-v2 aee-obsmem-pvf-handoff requires --out <dir>"
+                    ));
+                };
+                out_path = Some(PathBuf::from(value));
+                i += 1;
+            }
+            "--help" | "-h" => {
+                println!("{}", usage::usage());
+                return Ok(());
+            }
+            other => {
+                return Err(anyhow!(
+                    "unknown arg for runtime-v2 aee-obsmem-pvf-handoff: {other}"
+                ))
+            }
+        }
+        i += 1;
+    }
+
+    let artifacts = runtime_v2_aee_obsmem_pvf_trace_handoff_contract()?;
+    let Some(out_path) = out_path else {
+        println!("{}", to_string_pretty(&artifacts.packet)?);
+        return Ok(());
+    };
+    let resolved = resolve_relative_output_path(repo_root, &out_path, "aee-obsmem-pvf-handoff")?;
+    fs::create_dir_all::<&Path>(&resolved).with_context(|| {
+        format!(
+            "failed to create Runtime v2 AEE ObsMem PVF handoff root {}",
+            resolved.display()
+        )
+    })?;
+    artifacts.write_to_root(&resolved)?;
+    println!(
+        "RUNTIME_V2_AEE_OBSMEM_PVF_HANDOFF_ROOT={}",
+        resolved.display()
+    );
     Ok(())
 }
 

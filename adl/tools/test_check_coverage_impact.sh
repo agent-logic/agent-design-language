@@ -131,6 +131,24 @@ long_lived_agent_storage_expression="$(bash "$SCRIPT" --changed-files "$long_liv
 grep -F "test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
 grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storage_expression" >/dev/null
 
+csm_runtime_agent_changed="$TMP/csm-runtime-agent-changed.txt"
+cat >"$csm_runtime_agent_changed" <<'EOF'
+M	adl/src/csm_runtime_api.rs
+M	adl/src/long_lived_agent.rs
+M	adl/src/long_lived_agent/types.rs
+EOF
+csm_runtime_agent_filters="$TMP/csm-runtime-agent-filters.txt"
+bash "$SCRIPT" --changed-files "$csm_runtime_agent_changed" --print-risk-filters >"$csm_runtime_agent_filters"
+grep -Fx "csm_runtime_agent" "$csm_runtime_agent_filters" >/dev/null
+if [ "$(wc -l <"$csm_runtime_agent_filters" | tr -d ' ')" -ne 1 ]; then
+  echo "expected CSM runtime agent surfaces to collapse to the shared CSM runtime filter" >&2
+  exit 1
+fi
+csm_runtime_agent_expression="$(bash "$SCRIPT" --changed-files "$csm_runtime_agent_changed" --print-risk-nextest-expression)"
+grep -F "test(csm_runtime_api)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(long_lived_agent)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(csm_service)" <<<"$csm_runtime_agent_expression" >/dev/null
+
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"
 cli_mod_filters="$TMP/cli-mod-filters.txt"
@@ -420,6 +438,98 @@ if bash "$SCRIPT" --changed-files "$cli_mod_changed" --summary "$cli_dispatch_co
   exit 1
 fi
 grep -F "adl/src/cli/mod.rs (64/363, 17.63% < 80%)" /tmp/coverage-impact-cli-mod-alone-fails.out >/dev/null
+
+aee_obsmem_handoff_changed="$TMP/aee-obsmem-handoff-changed.txt"
+cat >"$aee_obsmem_handoff_changed" <<'EOF'
+M	adl/src/cli/runtime_v2_cmd/commands.rs	51
+M	adl/src/cli/runtime_v2_cmd/helpers.rs	7
+M	adl/src/obsmem_adapter.rs	11
+A	adl/src/runtime_v2/aee_obsmem_pvf_trace_handoff.rs	475
+M	adl/src/runtime_v2/contracts.rs	5
+EOF
+aee_obsmem_handoff_summary="$TMP/aee-obsmem-handoff-summary.json"
+cat >"$aee_obsmem_handoff_summary" <<'EOF'
+{
+  "data": [
+    {
+      "files": [
+        {
+          "filename": "adl/src/cli/runtime_v2_cmd/commands.rs",
+          "summary": {
+            "lines": {
+              "covered": 0,
+              "count": 609
+            }
+          }
+        },
+        {
+          "filename": "adl/src/cli/runtime_v2_cmd/helpers.rs",
+          "summary": {
+            "lines": {
+              "covered": 0,
+              "count": 79
+            }
+          }
+        },
+        {
+          "filename": "adl/src/obsmem_adapter.rs",
+          "summary": {
+            "lines": {
+              "covered": 29,
+              "count": 508
+            }
+          }
+        },
+        {
+          "filename": "adl/src/runtime_v2/aee_obsmem_pvf_trace_handoff.rs",
+          "summary": {
+            "lines": {
+              "covered": 178,
+              "count": 193
+            }
+          }
+        },
+        {
+          "filename": "adl/src/runtime_v2/contracts.rs",
+          "summary": {
+            "lines": {
+              "covered": 4,
+              "count": 205
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+EOF
+bash "$SCRIPT" --changed-files "$aee_obsmem_handoff_changed" --summary "$aee_obsmem_handoff_summary" >/tmp/coverage-impact-aee-obsmem-handoff-pass.out
+grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-aee-obsmem-handoff-pass.out >/dev/null
+
+if bash "$SCRIPT" --changed-files "$process_status_changed" --summary "$aee_obsmem_handoff_summary" >/tmp/coverage-impact-unrelated-companion-summary.out 2>&1; then
+  echo "expected unrelated process status change to fail when its own coverage row is missing" >&2
+  exit 1
+fi
+grep -F "adl/src/cli/process_cmd.rs (no coverage row" /tmp/coverage-impact-unrelated-companion-summary.out >/dev/null
+
+contracts_alone_changed="$TMP/contracts-alone-changed.txt"
+printf 'M\tadl/src/runtime_v2/contracts.rs\n' >"$contracts_alone_changed"
+if bash "$SCRIPT" --changed-files "$contracts_alone_changed" --summary "$aee_obsmem_handoff_summary" >/tmp/coverage-impact-contracts-alone-fails.out 2>&1; then
+  echo "expected contracts.rs edited without the AEE handoff module to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "adl/src/runtime_v2/contracts.rs (4/205, 1.95% < 80%)" /tmp/coverage-impact-contracts-alone-fails.out >/dev/null
+
+aee_obsmem_substantial_companion_changed="$TMP/aee-obsmem-substantial-companion-changed.txt"
+cat >"$aee_obsmem_substantial_companion_changed" <<'EOF'
+M	adl/src/cli/runtime_v2_cmd/commands.rs	120
+A	adl/src/runtime_v2/aee_obsmem_pvf_trace_handoff.rs	475
+EOF
+if bash "$SCRIPT" --changed-files "$aee_obsmem_substantial_companion_changed" --summary "$aee_obsmem_handoff_summary" >/tmp/coverage-impact-aee-obsmem-substantial-companion-fails.out 2>&1; then
+  echo "expected substantial companion edits to stay threshold-gated even when the AEE handoff module is present" >&2
+  exit 1
+fi
+grep -F "adl/src/cli/runtime_v2_cmd/commands.rs (0/609, 0.00% < 80%)" /tmp/coverage-impact-aee-obsmem-substantial-companion-fails.out >/dev/null
 
 loop_runtime_changed="$TMP/loop-runtime-changed.txt"
 cat >"$loop_runtime_changed" <<'EOF'

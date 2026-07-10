@@ -2670,7 +2670,20 @@ memory:
         .expect("runtime API bind")
         .to_string();
     let ready = http_get_json(&api_bind, "/ready");
-    assert_eq!(ready["ready"], "ready");
+    assert_eq!(ready["schema"], "adl.csm.runtime_api.ready.v1");
+    assert_eq!(ready["runtime_owner"], "csm");
+    assert_eq!(ready["agent_instance_id"], "service-local-agent");
+    if ready["ready"] != "ready" {
+        let blockers = ready["blocking_reasons"]
+            .as_array()
+            .expect("not-ready response includes blockers");
+        assert!(
+            blockers.iter().all(|blocker| blocker
+                .as_str()
+                .is_some_and(|value| value.starts_with("chronosense_time_sync_"))),
+            "unexpected runtime API readiness blockers: {blockers:?}"
+        );
+    }
     let observability =
         fs::read_to_string(service_root.join("logs/observability.log")).expect("observability log");
     assert!(observability.contains("stage=start_requested"));
@@ -2991,6 +3004,7 @@ memory:
         bind: "127.0.0.1:19950".to_string(),
         test_max_requests: None,
         idle_timeout_ms: None,
+        shutdown_file: None,
         otel_status_path: None,
         otel_log_path: None,
     };
