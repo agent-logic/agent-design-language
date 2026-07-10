@@ -1,0 +1,26 @@
+{
+  "failure_cases": [
+    "malformed_message",
+    "auth_policy_denial",
+    "peer_close_before_response",
+    "response_timeout"
+  ],
+  "integration_refs": [
+    "#4658",
+    "#4659",
+    "#4900",
+    "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md",
+    "docs/milestones/v0.91.7/review/runtime/WP12_ACIP_WEBSOCKET_TRANSPORT_4659.md"
+  ],
+  "issue": 4659,
+  "non_claims": [
+    "This decision does not implement protobuf wire encoding.",
+    "This decision does not prove production WebSocket authentication, TLS, reconnect scheduling, or cross-polis transport.",
+    "This decision does not bypass ACIP access rules, Freedom Gate decisions, trace, replay, or policy boundaries.",
+    "This proof exercises loopback WebSocket transport path behavior; production authentication, TLS termination, and cross-polis networking remain outside #4659."
+  ],
+  "positive_case": "positive_delivery",
+  "proof": "acip_websocket_transport_proof.json",
+  "reviewer_walkthrough": "reviewer_walkthrough.md",
+  "schema_version": "wp12.acip.websocket_transport.evidence_index.v1"
+}
