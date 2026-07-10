@@ -2,9 +2,9 @@
 
 Status: active_review_register
 
-Last updated: 2026-07-07
+Last updated: 2026-07-10
 
-Issue: #4972
+Issue: #5134
 
 ## Purpose
 
@@ -24,9 +24,11 @@ closed out in the issue/card/PR surfaces.
 - WP-06 is closed and review-remediated by `#4936`; selected build-throughput
   work and remote-builder follow-ons have landed and are recorded in the WP-06
   packet.
-- WP-07 has substantial runtime review artifacts and many closed runtime
-  issues, but CSM survival/post-blocker issues remain open before final release
-  readiness.
+- WP-07 has substantial runtime review artifacts and its former CSM
+  survival/post-blocker follow-ons are closed through the final #4906 and
+  #5121 reconciliation wave, but the retained #4906 coherence gate remains
+  `blocked_with_evidence`; final release readiness still requires explicit
+  operator disposition or follow-on review of the blocking rows.
 - WP-08 is closed with retained runtime AWS/signal proof and closeout truth;
   the later WP-07/WP-08 CSM governed-notice bridge tail `#4998` also merged
   and closed after adding retained control-plane notice proof.
@@ -35,7 +37,12 @@ closed out in the issue/card/PR surfaces.
   release ceremony.
 - Tools sprint #4806 is closed and review-remediated by #4961 for stale child
   card truth, tracked review evidence, and remaining sprint-conductor raw-`gh`
-  helper paths. #4950 remains a visible watcher closeout-state residual.
+  helper paths. The former #4950 watcher closeout-state residual is now closed
+  with settled-state proof retained in
+  `docs/milestones/v0.91.7/review/V0917_WP03_CLOSEOUT_SETTLED_STATE_PROOF_4950.md`.
+- Late sprint review reconciliation in #5134 records #5027, #5035, and #5036
+  as closed on 2026-07-10 with retained sprint review or closeout evidence.
+  These rows do not claim full milestone release readiness.
 
 ## Review Status Table
 
@@ -47,7 +54,7 @@ closed out in the issue/card/PR surfaces.
 | WP-04 | #4631 | closed | `docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_4631.md`; `docs/milestones/v0.91.7/review/V0917_WP04_CLOSEOUT_REMEDIATION_4747.md` | Remediation issue `#4747` is closed. | Keep metrics limitations visible; do not treat unknown metrics as zero. |
 | WP-05 | #4632 | closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_WP05_SCHEDULER_PROVIDER_LOCAL_AGENT_CLOSEOUT_4632.md` | #4932 is closed and repaired the stale `#4675` local-agent artifact after `#4849`; provider route and model suitability now both select Gemini while local Gemma remains shadow-only. | Keep as source truth unless new findings appear. |
 | WP-06 | #4633 | closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md` | #4936 is closed and repaired review-truth records. The WP-06 packet now records the selected sprint lane plus reconciled remote-builder follow-ons: `#4837`, `#4838`, `#4879`, `#4680`, and `#4679`. | Keep build-throughput residual non-claims visible; paid AWS lanes remain explicit operator-triggered paths. |
-| WP-07 | #4634 | closed umbrella; open CSM survival follow-ons | runtime review packets under `docs/milestones/v0.91.7/review/runtime/` plus `docs/milestones/v0.91.7/review/observability_4718/` | Runtime/OTel/Soak artifacts exist; open issues include `#4906`, `#4910`, `#4911`, `#4918`, `#4919`, `#4921`, `#4922`, `#4929`, and `#4933`. | Finish CSM survival/post-blocker issues and run final WP-07 review. |
+| WP-07 | #4634 | closed umbrella; post-blocker coherence blocked with evidence | runtime review packets under `docs/milestones/v0.91.7/review/runtime/` plus `docs/milestones/v0.91.7/review/observability_4718/` | Runtime/OTel/Soak artifacts exist. Former CSM survival/post-blocker follow-ons `#4906`, `#4910`, `#4911`, `#4918`, `#4919`, `#4921`, `#4922`, `#4929`, `#4933`, Chronosense follow-up `#5098`, and WP-07A topology sprint `#5121` are closed. The retained `#4906` packet records `blocked_with_evidence`, not a final readiness pass, because Unity/WP-09, WP-12 security/protocol activation, and the v0.92 capability envelope still require retained integrated evidence or explicit operator-approved non-claims/defer decisions. | Keep #4906 blocking rows visible and run or record the final WP-07 release-readiness disposition before consuming WP-07 as clean. |
 | WP-08 | #4635 | closed | `docs/milestones/v0.91.7/review/V0917_WP08_RUNTIME_AWS_SIGNAL_OPERATIONS_4635.md` | Runtime AWS/signal child issues `#4684`-`#4688`, `#4913`, `#4915`, and proof-hygiene follow-up `#5006` are closed with retained proof. Adjacent WP-07/WP-08 CSM governed-notice bridge tail `#4998` / PR `#5016` is also closed/merged with `adl-ci` and `adl-coverage` green and repo-native closeout validation; its retained proof lives under `docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/`. Adjacent cross-cutting resilience dependency `#4782` is closed and consumed as related AWS/remote-builder durability truth, not as a WP-08 child. PR `#5004` merged with required checks green, and explicit `pr.sh closeout 4635` passed STP/SIP/SOR validation. | Keep live AWS proof boundaries visible; do not claim broader WP-07 or release readiness from WP-08 alone. |
 | WP-09 | #4636 | open | Unity review artifacts under `docs/milestones/v0.91.7/review/unity_observatory_*` | Umbrella and child issues `#4689`-`#4691` remain open. | Finish Observatory/demo proof and review as WP-09. |
 | WP-10 | #4637 | open | none yet | Curiosity `#4692` and constructability `#4693` remain open. | Implement and review curiosity/constructability proof. |
@@ -65,12 +72,15 @@ closed out in the issue/card/PR surfaces.
 | WP-22 | #4649 | open | none yet | Next milestone review pass not yet complete. | Review v0.92 planning after WP-21/WP-20 truth is stable. |
 | WP-23 | #4650 | open | none yet | Release ceremony not yet complete. | Run only after all required review/remediation gates are clean or explicitly blocked with operator approval. |
 
-## Tools Sprint Review Records
+## Sprint Review Records
 
 | Sprint | Status | Review / Remediation Packet | Findings / Residuals | Next Action |
 | --- | --- | --- | --- | --- |
-| Repo-native workflow stabilization | #4806 closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_TOOLS_SPRINT_4806_REVIEW_REMEDIATION_4961.md` | #4961 is closed and repaired stale child card truth, tracked release-visible review evidence, remaining sprint-conductor raw-`gh` helper paths, and owner-binary fallback wording. #4950 remains open for watcher `closeout_needed` ambiguity. | Keep #4950 visible until resolved. |
+| Repo-native workflow stabilization | #4806 closed; review-remediated | `docs/milestones/v0.91.7/review/V0917_TOOLS_SPRINT_4806_REVIEW_REMEDIATION_4961.md`; `docs/milestones/v0.91.7/review/V0917_WP03_CLOSEOUT_SETTLED_STATE_PROOF_4950.md` | #4961 is closed and repaired stale child card truth, tracked release-visible review evidence, remaining sprint-conductor raw-`gh` helper paths, and owner-binary fallback wording. #4950 is now closed and retained as the settled-state proof for the former watcher `closeout_needed` ambiguity. | Keep #4950 proof visible as historical remediation evidence; no longer treat it as an open sprint residual. |
 | Resilience integration mini-sprint | #4778 closed | `docs/milestones/v0.91.7/review/V0917_RESILIENCE_INTEGRATION_MINI_SPRINT_4778.md` | #4780, #4781, #4782, #4783, and #4784 are closed with retained workflow, provider/model, AWS/remote, runtime middleware, and failure-injection proof. PR #5014 and umbrella PR #5018 merged with `adl-ci` and `adl-coverage` green; explicit `pr.sh closeout 4778` passed after SRP/SOR truth repair. | Keep resilience non-claims visible; do not claim full product resilience beyond the retained proof surfaces. |
+| Provider native adapters mini-sprint | #5027 closed | `docs/milestones/v0.91.7/review/provider/PROVIDER_MINI_SPRINT_CLOSEOUT_5027.md`; local placeholder review at `.adl/v0.91.7/sprints/issue-5027__v0-91-7-provider-sprint-implement-native-z-ai-and-aws-bedrock-providers/SPRINT_REVIEW.md` is stale and not consumed as the review packet. | Children #5024, #5025, #5026, #5044, #4653, #4654, and #5075 are closed. The closeout packet accepts Z.ai GLM-5, AWS Bedrock Nova Pro, and Fable 5 rows while keeping DSpark Qwen/Gemma candidate-only and DeepSeek V4 Flash GPU smoke blocked by AWS quota/shape constraints. | Keep provider acceptance non-claims visible; do not treat the stale local placeholder as the authoritative review packet. |
+| Rust tooling simplification wave | #5035 closed | `.adl/v0.91.7/sprints/issue-5035__v0-91-7-rust-sprint-execute-rust-tooling-simplification-wave/review/SPRINT_REVIEW_PACKET.md`; `.adl/v0.91.7/sprints/issue-5035__v0-91-7-rust-sprint-execute-rust-tooling-simplification-wave/review/SPRINT_REVIEW_SYNTHESIS.md`; `.adl/v0.91.7/sprints/issue-5035__v0-91-7-rust-sprint-execute-rust-tooling-simplification-wave/SPRINT_CLOSEOUT.md` | Review records no blocking sprint finding. All ordered children #4892-#4899 are closed out with merged PRs. Residual risk: sprint rollup artifacts are local `.adl` operational evidence and should not be mistaken for product-code deltas merged by the child PRs. | Keep the local-operational-evidence boundary visible; do not claim broad Rust tooling regression absence beyond child VPP/SOR proof. |
+| Tools workflow reliability tail | #5036 closed; evidence-limited | `.adl/v0.91.7/sprints/issue-5036__v0-91-7-tools-sprint-complete-tools-workflow-reliability-tail/SPRINT_CLOSEOUT_SUMMARY.md`; `.adl/v0.91.7/sprints/issue-5036__v0-91-7-tools-sprint-complete-tools-workflow-reliability-tail/SPRINT_EXECUTION_PACKET.md` is retained only as stale planning context | GitHub issue state shows #5036 and ordered child #4938 are closed. The local closeout summary records `ready_to_close` and clean closure, but the tracked closeout artifact it names is not present in this worktree and the execution packet still contains stale pending child rows. This register therefore records closure state only, not retained integrated #4938 proof. Residual metrics debt remains: older child goal metrics are unknown or not recorded. | Keep the evidence limitation visible; if tracked #5036 synthesis/closeout packets are later promoted, update this row to reference them directly. |
 
 ## WP-05 Repair Record
 
@@ -94,6 +104,7 @@ This issue repairs the WP-05 proof surface by:
 
 - This register does not claim v0.91.7 is release-ready.
 - This register does not close any WP or child issue.
-- This register does not claim WP-07 or later open WP findings are fixed.
+- This register does not claim WP-07 release readiness or later open WP
+  findings are fixed.
 - This register does not claim live provider invocation, live local model
   quality, or autonomous multi-agent authority from WP-05 scheduler artifacts.
