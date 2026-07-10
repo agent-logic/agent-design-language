@@ -510,3 +510,5 @@ for step_name in (
 
 print("PASS test_ci_runtime_contracts")
 PY
+
+bash "$ROOT_DIR/adl/tools/test_run_pr_fast_coverage_lane.sh"

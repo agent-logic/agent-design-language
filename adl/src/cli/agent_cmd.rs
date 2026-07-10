@@ -2,6 +2,7 @@ use anyhow::{anyhow, Result};
 use std::path::PathBuf;
 
 use crate::cli::observability::ProgressHeartbeat;
+use ::adl::csm_networking::CSM_MAIN_API_BIND;
 use ::adl::long_lived_agent::{self, DaemonOptions, InspectOptions, RunOptions, TickOptions};
 
 pub(crate) fn real_agent(args: &[String]) -> Result<()> {
@@ -188,7 +189,7 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
     let mut bounded_test_restart_limit: Option<u64> = None;
     let mut checkpoint_interval_secs: u64 = 3;
     let mut interval_secs: Option<u64> = None;
-    let mut api_bind: Option<String> = None;
+    let mut api_bind: Option<String> = Some(CSM_MAIN_API_BIND.to_string());
     let mut no_sleep = false;
 
     let mut i = 0usize;

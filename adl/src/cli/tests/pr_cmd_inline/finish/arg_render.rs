@@ -1352,6 +1352,47 @@ review_results:
 }
 
 #[test]
+fn sor_emitted_facts_preserve_terminal_review_timeout_truth() {
+    let output = "## Verification Summary\n\n```yaml\nverification_summary:\n  validation:\n    status: PASS\n```\n";
+    let review = r#"---
+review_results:
+  findings_status: "review_timeout"
+  recommended_outcome: "block"
+---
+
+# Structured Review Prompt
+
+## Findings
+
+- Bounded review subagent timed out after repeated waits; no completed review is claimed.
+
+## Dispositions
+
+- Record terminal review timeout truth in SRP/SOR and block publication until follow-up review.
+"#;
+
+    let normalized = normalize_sor_emitted_facts_fixture(
+        output,
+        &["adl/src/cli/pr_cmd/finish_support.rs".to_string()],
+        &["git diff --check".to_string()],
+        review,
+        SorFactEmissionContext {
+            validation_status: "PASS",
+            pr_url: None,
+            integration_state: "worktree_only",
+            closing_linkage_repaired: false,
+            issue_watcher: None,
+        },
+    )
+    .expect("normalize terminal review timeout evidence");
+
+    assert!(normalized.contains("findings_status: review_timeout"));
+    assert!(normalized.contains("recommended_outcome: block"));
+    assert!(normalized.contains("Bounded review subagent timed out after repeated waits"));
+    assert!(normalized.contains("Record terminal review timeout truth in SRP/SOR"));
+}
+
+#[test]
 fn render_default_finish_validation_includes_profile_truth_and_sanitizes_changed_files() {
     let plan = FinishValidationPlan {
         mode: FinishValidationMode::SmallBinaryFocused,
@@ -4922,8 +4963,8 @@ fn finish_validation_profile_escalates_workflow_metrics_backfill_publication_sli
 }
 
 #[test]
-fn finish_validation_profile_classifies_validation_inventory_slice_as_small_binary_focused() {
-    let err = select_finish_validation_plan_for_finish(
+fn finish_validation_profile_classifies_validation_inventory_slice_as_larger_binary_focused() {
+    let plan = select_finish_validation_plan_for_finish(
         4213,
         ".",
         &[
@@ -4932,11 +4973,12 @@ fn finish_validation_profile_classifies_validation_inventory_slice_as_small_bina
             "adl/tools/test_validation_inventory.sh".to_string(),
         ],
     )
-    .expect_err("validation inventory slice should fail closed when manager requires escalation");
+    .expect("validation inventory slice should select the CS-DLC owner lane");
 
-    let message = err.to_string();
-    assert!(message.contains("validation manager reported a non-runnable profile"));
-    assert!(message.contains("status=escalation_required"));
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/run_owner_validation_lane.sh csdlc".to_string()));
 }
 
 #[test]

@@ -139,6 +139,13 @@ fn structured_prompt_srp_completed_card_status_requires_final_review_truth() {
         "review_results:\n  findings_status: \"no_findings\"\n  recommended_outcome: \"pass\"\nnotes: \"test note\"",
     );
     validate_srp_text(&final_srp).expect("completed SRP with final review truth should pass");
+
+    let terminal_failure_srp = srp.replace(
+        "notes: \"test note\"",
+        "review_results:\n  findings_status: \"review_unavailable\"\n  recommended_outcome: \"block\"\nnotes: \"test note\"",
+    );
+    validate_srp_text(&terminal_failure_srp)
+        .expect("completed SRP with terminal review failure truth should pass");
 }
 
 #[test]

@@ -5,6 +5,7 @@ use crate::cli::pr_cmd::lifecycle::cleanup::{
     replace_worktree_only_paths_remaining, scrub_noncanonical_issue_bundle_residue,
     RuntimePidfileStatus,
 };
+use crate::cli::pr_cmd::lifecycle::reconciliation::srp_has_final_review_results_text;
 use crate::cli::pr_cmd::{card_output_path, resolve_cards_root};
 use crate::cli::pr_cmd_cards::{ensure_pre_run_bootstrap_cards, ensure_task_bundle_stp};
 use crate::cli::tests::env_lock;
@@ -591,6 +592,31 @@ fn ensure_closed_completed_issue_bundle_truth_rejects_stale_fields() {
     assert!(rendered.contains(
         "SRP review_results must record final findings_status/recommended_outcome truth for closed issues"
     ));
+}
+
+#[test]
+fn srp_final_review_results_accept_terminal_review_failure_statuses() {
+    let srp = r#"---
+schema_version: "0.1"
+artifact_type: "structured_review_prompt"
+name: "fixture-review"
+status: "approved"
+review_results:
+  findings_status: "review_failed"
+  recommended_outcome: "block"
+---
+
+# Structured Review Prompt
+
+## Review Results
+
+- The bounded review subagent returned a terminal failure; no completed review is claimed.
+"#;
+
+    assert!(
+        srp_has_final_review_results_text(srp).expect("parse SRP review results"),
+        "terminal review failure status should be final SRP truth"
+    );
 }
 
 #[test]

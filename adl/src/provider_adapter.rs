@@ -22,8 +22,10 @@ use serde_json::{json, Value};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::env;
+use std::fmt;
 use std::sync::{Mutex, MutexGuard, OnceLock, TryLockError};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
+use zeroize::Zeroizing;
 
 const DEFAULT_OPENAI_RESPONSES_URL: &str = "https://api.openai.com/v1/responses";
 const DEFAULT_ANTHROPIC_MESSAGES_URL: &str = "https://api.anthropic.com/v1/messages";
@@ -642,7 +644,7 @@ fn execute_hosted_openai(
         .unwrap_or(DEFAULT_OPENAI_RESPONSES_URL);
     let response = client(policy)?
         .post(url)
-        .bearer_auth(key)
+        .bearer_auth(key.as_str())
         .json(&openai_request_body(request))
         .send()
         .map_err(map_reqwest_error)?;
@@ -680,7 +682,7 @@ fn execute_hosted_anthropic(
         .unwrap_or(DEFAULT_ANTHROPIC_MESSAGES_URL);
     let response = client(policy)?
         .post(url)
-        .header("x-api-key", key)
+        .header("x-api-key", key.as_str())
         .header("anthropic-version", "2023-06-01")
         .json(&anthropic_request_body(request))
         .send()
@@ -717,7 +719,7 @@ fn execute_hosted_deepseek(
         .unwrap_or(DEFAULT_DEEPSEEK_CHAT_COMPLETIONS_URL);
     let response = client(policy)?
         .post(url)
-        .bearer_auth(key)
+        .bearer_auth(key.as_str())
         .json(&deepseek_request_body(request))
         .send()
         .map_err(map_reqwest_error)?;
@@ -757,7 +759,7 @@ fn execute_hosted_openrouter(
         .unwrap_or(DEFAULT_OPENROUTER_CHAT_COMPLETIONS_URL);
     let response = client(policy)?
         .post(url)
-        .bearer_auth(key)
+        .bearer_auth(key.as_str())
         .json(&openrouter_request_body(request))
         .send()
         .map_err(map_reqwest_error)?;
@@ -990,7 +992,7 @@ fn execute_hosted_zai(
         .unwrap_or(DEFAULT_ZAI_CHAT_COMPLETIONS_URL);
     let response = client(policy)?
         .post(url)
-        .bearer_auth(key)
+        .bearer_auth(key.as_str())
         .json(&zai_request_body(request))
         .send()
         .map_err(map_reqwest_error)?;
@@ -1032,7 +1034,7 @@ fn execute_hosted_gemini(
     );
     let response = client(policy)?
         .post(url)
-        .header("x-goog-api-key", key)
+        .header("x-goog-api-key", key.as_str())
         .json(&gemini_request_body(request))
         .send()
         .map_err(map_reqwest_error)?;
@@ -1172,17 +1174,40 @@ fn client(policy: &ProviderAttemptPolicyV1) -> std::result::Result<Client, Provi
 fn resolve_credential(
     credential_ref: Option<&str>,
     default_env: &str,
-) -> std::result::Result<String, ProviderFailureV1> {
+) -> std::result::Result<ProviderCredential, ProviderFailureV1> {
     let env_name = credential_ref
         .and_then(|credential| credential.strip_prefix("env:"))
         .unwrap_or(default_env);
-    env::var(env_name).map_err(|_| ProviderFailureV1 {
-        kind: ProviderFailureKindV1::ProviderAuthMissing,
-        retryable: false,
-        message: "missing provider credential".to_string(),
-        provider_error_excerpt: None,
-        http_status: None,
-    })
+    ProviderCredential::from_env(env_name)
+}
+
+struct ProviderCredential {
+    value: Zeroizing<String>,
+}
+
+impl ProviderCredential {
+    fn from_env(env_name: &str) -> std::result::Result<Self, ProviderFailureV1> {
+        let value = env::var(env_name).map_err(|_| ProviderFailureV1 {
+            kind: ProviderFailureKindV1::ProviderAuthMissing,
+            retryable: false,
+            message: "missing provider credential".to_string(),
+            provider_error_excerpt: None,
+            http_status: None,
+        })?;
+        Ok(Self {
+            value: Zeroizing::new(value),
+        })
+    }
+
+    fn as_str(&self) -> &str {
+        self.value.as_str()
+    }
+}
+
+impl fmt::Debug for ProviderCredential {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("ProviderCredential(<redacted>)")
+    }
 }
 
 fn gemini_generate_url(endpoint_ref: Option<&str>, model: &str) -> String {
@@ -1658,6 +1683,26 @@ mod tests {
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-test:generateContent"
         );
         assert!(!url.contains("key="));
+    }
+
+    #[test]
+    fn provider_credential_debug_redacts_secret_value() {
+        env::set_var(
+            "ADL_PROVIDER_ADAPTER_DEBUG_SECRET_KEY",
+            "synthetic-provider-secret",
+        );
+
+        let credential = resolve_credential(
+            Some("env:ADL_PROVIDER_ADAPTER_DEBUG_SECRET_KEY"),
+            "SHOULD_NOT_BE_USED",
+        )
+        .expect("credential");
+        assert_eq!(credential.as_str(), "synthetic-provider-secret");
+        let rendered = format!("{credential:?}");
+        assert!(rendered.contains("<redacted>"));
+        assert!(!rendered.contains("synthetic-provider-secret"));
+
+        env::remove_var("ADL_PROVIDER_ADAPTER_DEBUG_SECRET_KEY");
     }
 
     #[test]
