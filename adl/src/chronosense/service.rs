@@ -385,13 +385,15 @@ pub fn chronosense_time_sync_status_from_ntp_ctl_output(
 }
 
 impl ChronosenseTimeSyncStatus {
-    fn unavailable(
+    pub(crate) fn unavailable(
         reason: impl Into<String>,
         command: impl Into<String>,
         raw_summary: Option<String>,
     ) -> Self {
+        let reason = reason.into();
         let command = command.into();
-        let observation_socket_source = command.starts_with("ntp_daemon_observable_state");
+        let observation_socket_source = command.starts_with("ntp_daemon_observable_state")
+            || reason == "ntpd_rs_probe_disabled";
         let (source, mode, port_policy) = if observation_socket_source {
             (
                 "ntp-daemon::ObservableState observation socket",
@@ -413,7 +415,7 @@ impl ChronosenseTimeSyncStatus {
             health: "unavailable".to_string(),
             confidence: "none".to_string(),
             drift_status: "unknown".to_string(),
-            failure_state: Some(reason.into()),
+            failure_state: Some(reason),
             reason: "ntpd_rs_status_unavailable_without_csm_failure".to_string(),
             observed_at_rfc3339: Utc::now().to_rfc3339(),
             poll_command: command,

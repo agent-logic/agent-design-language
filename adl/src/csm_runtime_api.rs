@@ -212,6 +212,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "agent_instance_id": loaded.spec.agent_instance_id,
         "status": health,
         "ready": ready,
+        "uptime": runtime_uptime(&daemon_status),
         "daemon_liveness": artifact_liveness(&daemon_status),
         "agent_status": {
             "state": agent_status.state,
@@ -573,6 +574,27 @@ fn artifact_liveness(daemon_status: &Value) -> Value {
         "supervisor_pid_liveness": pid_liveness.unwrap_or_else(|| "missing_pid_metadata".to_string()),
         "last_event": daemon_status.pointer("/value/last_event").cloned().unwrap_or(Value::Null),
         "updated_at": daemon_status.pointer("/value/updated_at").cloned().unwrap_or(Value::Null)
+    })
+}
+
+fn runtime_uptime(daemon_status: &Value) -> Value {
+    let started_at = daemon_status.pointer("/value/started_at");
+    let updated_at = daemon_status.pointer("/value/updated_at");
+    let uptime_secs = started_at
+        .and_then(Value::as_str)
+        .and_then(|raw| DateTime::parse_from_rfc3339(raw).ok())
+        .map(|time| {
+            Utc::now()
+                .signed_duration_since(time.with_timezone(&Utc))
+                .num_seconds()
+                .max(0)
+        });
+    json!({
+        "status": if uptime_secs.is_some() { "observed" } else { "missing_started_at" },
+        "started_at": started_at.cloned().unwrap_or(Value::Null),
+        "updated_at": updated_at.cloned().unwrap_or(Value::Null),
+        "uptime_secs": uptime_secs,
+        "source": "daemon_status.started_at"
     })
 }
 
@@ -1274,6 +1296,74 @@ memory: {}
         let response = runtime_api_response(&options, "/ready").unwrap();
         assert_eq!(response["ready"], "ready");
         assert!(response["blocking_reasons"].as_array().unwrap().is_empty());
+    }
+
+    #[test]
+    fn runtime_api_status_reports_daemon_uptime() {
+        let root = temp_root("uptime");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        let started_at = Utc::now() - chrono::Duration::seconds(42);
+        fs::write(
+            state.join("status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_status.v1",
+                "agent_instance_id": "api-agent",
+                "state": "idle",
+                "last_cycle_id": "cycle-000001",
+                "last_cycle_status": "success",
+                "completed_cycle_count": 1,
+                "consecutive_failure_count": 0,
+                "active_lease": null,
+                "stop_requested": false,
+                "last_error": null,
+                "safety_policy": null,
+                "updated_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_daemon_status.v1",
+                "state": "running",
+                "last_event": "checkpoint_write",
+                "started_at": started_at,
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let response = runtime_api_response(&options, "/status").unwrap();
+
+        assert_eq!(response["uptime"]["status"], "observed");
+        assert_eq!(response["uptime"]["source"], "daemon_status.started_at");
+        let reported_started_at = response["uptime"]["started_at"]
+            .as_str()
+            .and_then(|raw| DateTime::parse_from_rfc3339(raw).ok())
+            .expect("started_at should be RFC3339");
+        assert_eq!(reported_started_at.with_timezone(&Utc), started_at);
+        assert!(response["uptime"]["uptime_secs"].as_i64().unwrap() >= 40);
     }
 
     #[test]

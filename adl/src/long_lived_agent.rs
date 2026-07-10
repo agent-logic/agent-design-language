@@ -33,6 +33,10 @@ pub use types::{
 
 const DAEMON_DEFAULT_INTERVAL_SECS: u64 = 3;
 
+fn utc_now() -> DateTime<Utc> {
+    Utc::now()
+}
+
 pub fn load_spec(spec_path: &Path) -> Result<LoadedAgentSpec> {
     let raw = fs::read_to_string(spec_path)
         .with_context(|| format!("failed reading agent spec {}", spec_path.display()))?;
@@ -2702,6 +2706,9 @@ fn write_daemon_status(
     input: DaemonStatusInput<'_>,
 ) -> Result<DaemonStatusRecord> {
     let now = Utc::now();
+    let started_at = read_json_optional::<DaemonStatusRecord>(&daemon_status_path(loaded))?
+        .map(|status| status.started_at)
+        .unwrap_or(now);
     let status = DaemonStatusRecord {
         schema: DAEMON_STATUS_SCHEMA.to_string(),
         agent_instance_id: loaded.spec.agent_instance_id.clone(),
@@ -2716,6 +2723,7 @@ fn write_daemon_status(
         checkpoint_interval_secs: input.checkpoint_interval_secs,
         last_event: input.last_event.to_string(),
         last_child_exit: input.last_child_exit,
+        started_at,
         last_checkpoint_at: now,
         next_backoff_secs: input.next_backoff_secs,
         trace_id: daemon_trace_id(loaded),

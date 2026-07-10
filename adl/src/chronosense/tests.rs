@@ -416,6 +416,29 @@ fn ntpd_rs_status_projection_sanitizes_probe_command_and_summary() {
 }
 
 #[test]
+fn disabled_ntpd_rs_probe_reports_runtime_observable_contract() {
+    let status = super::service::ChronosenseTimeSyncStatus::unavailable(
+        "ntpd_rs_probe_disabled",
+        "ADL_CSM_NTPD_RS_STATUS=0",
+        None,
+    );
+
+    assert_eq!(
+        status.source,
+        "ntp-daemon::ObservableState observation socket"
+    );
+    assert_eq!(status.mode, "csm_ntpd_rs_observable_state");
+    assert_eq!(
+        status.port_policy,
+        "csm_ntpd_rs_component_observation_no_separate_csm_time_binary_no_csm_udp_123_listener"
+    );
+    assert_eq!(
+        status.failure_state.as_deref(),
+        Some("ntpd_rs_probe_disabled")
+    );
+}
+
+#[test]
 fn runtime_service_rejects_unrepresentable_epoch_millis() {
     let err = ChronosenseRuntimeService::new(ChronosenseRuntimeServiceConfig::utc(u128::MAX))
         .expect_err("unrepresentable start epoch should fail");

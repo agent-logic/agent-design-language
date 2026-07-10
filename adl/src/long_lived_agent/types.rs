@@ -143,6 +143,8 @@ pub struct DaemonStatusRecord {
     pub checkpoint_interval_secs: u64,
     pub last_event: String,
     pub last_child_exit: Option<String>,
+    #[serde(default = "super::utc_now")]
+    pub started_at: DateTime<Utc>,
     pub last_checkpoint_at: DateTime<Utc>,
     pub next_backoff_secs: u64,
     pub trace_id: String,
