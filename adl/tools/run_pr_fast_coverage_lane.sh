@@ -61,4 +61,3 @@ cargo llvm-cov report \
   --json \
   --summary-only \
   --output-path target/coverage-impact-summary.json
-cp target/coverage-impact-summary.json coverage-summary.json

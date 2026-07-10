@@ -85,6 +85,22 @@ cli_usage_filters="$TMP/cli-usage-filters.txt"
 bash "$SCRIPT" --changed-files "$cli_usage_changed" --print-risk-filters >"$cli_usage_filters"
 grep -Fx "cli_basics" "$cli_usage_filters" >/dev/null
 
+csmctl_changed="$TMP/csmctl-changed.txt"
+cat >"$csmctl_changed" <<'EOF'
+A	adl/src/bin/csmctl.rs
+M	adl/src/cli/csm_service_cmd.rs
+A	adl/src/cli/csmctl_cmd.rs
+EOF
+csmctl_filters="$TMP/csmctl-filters.txt"
+bash "$SCRIPT" --changed-files "$csmctl_changed" --print-risk-filters >"$csmctl_filters"
+grep -Fx "csmctl" "$csmctl_filters" >/dev/null
+if [ "$(wc -l <"$csmctl_filters" | tr -d ' ')" -ne 1 ]; then
+  echo "expected csmctl surfaces to collapse to the shared csmctl filter" >&2
+  exit 1
+fi
+csmctl_expression="$(bash "$SCRIPT" --changed-files "$csmctl_changed" --print-risk-nextest-expression)"
+grep -F "test(csmctl)" <<<"$csmctl_expression" >/dev/null
+
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"
 cli_mod_filters="$TMP/cli-mod-filters.txt"

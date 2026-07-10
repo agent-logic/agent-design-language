@@ -206,6 +206,9 @@ candidate_filter_for_path() {
     adl/src/cli/tokio_runtime.rs)
       printf 'tokio_bootstrap'
       ;;
+    adl/src/bin/csmctl.rs|adl/src/cli/csm_service_cmd.rs|adl/src/cli/csmctl_cmd.rs)
+      printf 'csmctl'
+      ;;
     adl/src/bin/adl_pr_shepherd.rs)
       printf 'pr_shepherd'
       ;;
