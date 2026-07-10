@@ -657,6 +657,56 @@ EOF
   assert_has "$finish_control_plane_plus_runtime_output" "validation_profile_escalation_required=true"
   assert_has "$finish_control_plane_plus_runtime_output" "validation_profile_escalation_lanes=rust_pr_fast"
 
+  git checkout -q -b csdlc-owner-pr-fast-escalation "$base_sha"
+  mkdir -p adl/src/cli/pr_cmd/doctor \
+    adl/src/cli/pr_cmd/lifecycle \
+    adl/src/cli/tests/pr_cmd_inline/finish \
+    adl/src/cli/tooling_cmd/tests \
+    docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition \
+    docs/templates/prompts/1.0.3
+  printf 'pub fn lifecycle_srp_status() -> bool { true }\n' > adl/src/cli/pr_cmd/doctor/card_lifecycle.rs
+  printf 'use super::*;\n#[test]\nfn srp_status_accepts_terminal_review_failure() {}\n' > adl/src/cli/pr_cmd/doctor/tests.rs
+  printf 'pub fn srp_review_results_text() -> bool { true }\n' > adl/src/cli/pr_cmd/lifecycle/reconciliation.rs
+  printf 'use super::*;\n#[test]\nfn reconciliation_accepts_terminal_review_failure() {}\n' > adl/src/cli/pr_cmd/lifecycle/tests.rs
+  printf 'use super::*;\n#[test]\nfn finish_path_records_terminal_review_failure() {}\n' > adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs
+  printf 'pub fn srp_sor_update() -> bool { true }\n' > adl/src/cli/tooling_cmd/srp_sor_update.rs
+  printf 'pub fn structured_prompt() -> bool { true }\n' > adl/src/cli/tooling_cmd/structured_prompt.rs
+  printf 'use super::*;\n#[test]\nfn structured_prompt_accepts_terminal_review_failure() {}\n' > adl/src/cli/tooling_cmd/tests/structured_prompt.rs
+  printf 'use super::*;\n#[test]\nfn tooling_dispatch_accepts_terminal_review_failure() {}\n' > adl/src/cli/tooling_cmd/tests/tooling_dispatch.rs
+  printf 'pub fn prompt_editor() -> bool { true }\n' > adl/src/csdlc_prompt_editor.rs
+  printf 'status: reviewed\n' > docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition/ISSUE_4999_TERMINAL_REVIEW_STATUS_BROAD_OWNER_LANE_DISPOSITION.yaml
+  printf '# SRP\n\nreview_results: review_failed\n' > docs/templates/prompts/1.0.3/srp.md
+  git add adl/src/cli/pr_cmd/doctor/card_lifecycle.rs \
+    adl/src/cli/pr_cmd/doctor/tests.rs \
+    adl/src/cli/pr_cmd/lifecycle/reconciliation.rs \
+    adl/src/cli/pr_cmd/lifecycle/tests.rs \
+    adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs \
+    adl/src/cli/tooling_cmd/srp_sor_update.rs \
+    adl/src/cli/tooling_cmd/structured_prompt.rs \
+    adl/src/cli/tooling_cmd/tests/structured_prompt.rs \
+    adl/src/cli/tooling_cmd/tests/tooling_dispatch.rs \
+    adl/src/csdlc_prompt_editor.rs \
+    docs/milestones/v0.91.7/review/pr_finish_release_gate_disposition/ISSUE_4999_TERMINAL_REVIEW_STATUS_BROAD_OWNER_LANE_DISPOSITION.yaml \
+    docs/templates/prompts/1.0.3/srp.md
+  git commit -q -m csdlc-owner-pr-fast-escalation
+  csdlc_owner_pr_fast_head="$(git rev-parse HEAD)"
+
+  csdlc_owner_pr_fast_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$csdlc_owner_pr_fast_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_owner_pr_fast_output" "rust_required=true"
+  assert_has "$csdlc_owner_pr_fast_output" "coverage_required=false"
+  assert_has "$csdlc_owner_pr_fast_output" "full_coverage_required=false"
+  assert_has "$csdlc_owner_pr_fast_output" "demo_smoke_required=true"
+  assert_has "$csdlc_owner_pr_fast_output" "ci_contracts_required=true"
+  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_contract_lanes_selected=true"
+  assert_has "$csdlc_owner_pr_fast_output" "fail_closed=false"
+  assert_has "$csdlc_owner_pr_fast_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$csdlc_owner_pr_fast_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$csdlc_owner_pr_fast_output" "reason=validation_manager_csdlc_owner_pr_fast_escalation_runs_focused_validation"
+  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_status=escalation_required"
+  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_escalation_required=true"
+  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_run_lanes=csdlc_owner_lane,docs_diff_check,prompt_template_contracts"
+  assert_has "$csdlc_owner_pr_fast_output" "validation_profile_escalation_lanes=rust_pr_fast"
+
   git checkout -q -b policy-surface-change "$base_sha"
   mkdir -p adl/tools
   printf '#!/usr/bin/env bash\nprintf policy\n' > adl/tools/enforce_coverage_gates.sh

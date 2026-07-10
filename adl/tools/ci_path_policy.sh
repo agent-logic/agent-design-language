@@ -980,6 +980,14 @@ manager_profile_is_release_gate_pr_fast_escalation() {
   [ "$validation_profile_escalation_lanes" = "release_gate_review,rust_pr_fast" ]
 }
 
+manager_profile_is_csdlc_owner_pr_fast_escalation() {
+  [ "$validation_profile_status" = "escalation_required" ] || return 1
+  [ "$validation_profile_escalation_required" = true ] || return 1
+  [ "$validation_profile_escalation_lanes" = "rust_pr_fast" ] || return 1
+  validation_profile_includes_lane "csdlc_owner_lane" || return 1
+  return 0
+}
+
 validation_profile_includes_lane() {
   local lane="$1"
   case ",$validation_profile_run_lanes," in
@@ -1217,6 +1225,11 @@ apply_validation_manager_routing() {
     if manager_profile_is_release_gate_pr_fast_escalation; then
       mark_pr_fast_rust_validation
       reason="validation_manager_release_gate_pr_fast_escalation_runs_focused_validation"
+      return 0
+    fi
+    if manager_profile_is_csdlc_owner_pr_fast_escalation; then
+      mark_pr_fast_rust_validation
+      reason="validation_manager_csdlc_owner_pr_fast_escalation_runs_focused_validation"
       return 0
     fi
     fail_closed=true
