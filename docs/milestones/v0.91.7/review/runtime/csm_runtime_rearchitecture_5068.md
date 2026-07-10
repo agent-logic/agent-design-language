@@ -8,7 +8,7 @@ CSM should look like a durable Vector-like Tokio component topology:
 
 - one CSM-owned Tokio runtime for in-process services
 - one main orchestration task
-- supervised component futures for API, Chronosense, scheduler, reasoning/loop execution, AEE execution, checkpointing, observability emission, cloud control, and lifecycle journaling
+- supervised component futures for API, Chronosense, scheduler, reasoning/loop execution, Curiosity discovery, Constructability admissibility, Freedom Gate commitment mediation, CAV security probing, ACIP carrier transport, AEE execution, checkpointing, observability emission, cloud control, and lifecycle journaling
 - CSM-managed runtime components for infrastructure-grade services such as the Vector observability pipeline
 - explicit cancellation and governed stop, not hidden request/cycle budgets
 - retained component health surfaced through `/status`, `/health`, `/ready`, `/metrics`, `/events`, `/chronosense`, and `/api-gateway-bridge`
@@ -37,8 +37,13 @@ flowchart TD
     chronosense["chronosense<br/>rsntp async time source"]
     scheduler["scheduler<br/>cadence + admission"]
     reasoning["reasoning_runtime<br/>graphs + loops + adaptive DAGs"]
+    curiosity["curiosity_engine<br/>governed discovery cycles"]
+    constructability["constructability_gate<br/>shared-reality admissibility"]
+    freedom["freedom_gate<br/>commitment mediation + refusal"]
     aee["AEE<br/>governed execution"]
     checkpoint["checkpoint<br/>partials + continuity"]
+    acip["acip_carrier<br/>protobuf / WebSocket / JSON"]
+    cav["CAV<br/>continuous adversarial verification"]
     cloud["cloud_bridge<br/>API Gateway / EventBridge / AWS SDK"]
     lifelog["lifelog<br/>database lifecycle journal"]
     observability["observability<br/>CSM-managed Vector component"]
@@ -48,8 +53,13 @@ flowchart TD
   bus --> chronosense
   bus --> scheduler
   bus --> reasoning
+  bus --> curiosity
+  bus --> constructability
+  bus --> freedom
   bus --> aee
   bus --> checkpoint
+  bus --> acip
+  bus --> cav
   bus --> cloud
   bus --> lifelog
   bus --> observability
@@ -66,6 +76,7 @@ flowchart TD
   observability --> otel
   lifelog --> storage
   cloud --> notices
+  cav --> observability
 ```
 
 | CSM component | Runtime role | Target mechanics |
@@ -74,8 +85,13 @@ flowchart TD
 | `chronosense` | runtime clock and time-confidence service | in-process async rsntp sampler plus Chronosense status channel |
 | `scheduler` | cadence, admission, and work readiness | supervised Tokio component with explicit health and backpressure |
 | `reasoning_runtime` | native reasoning graph, loop, and adaptive DAG execution substrate | supervised component for governed reasoning objects before AEE execution |
+| `curiosity_engine` | governed discovery-cycle substrate | supervised component that turns bounded curiosity prompts and context seeds into candidate hypotheses/proposals with retained evidence |
+| `constructability_gate` | shared-reality admissibility boundary | supervised component that validates construction events, external anchors, and promotion from provisional/internal cognition to shared ADL reality |
+| `freedom_gate` | commitment mediation, refusal, deferral, challenge, and escalation boundary before execution | supervised component that consumes candidate actions plus ACC/policy context and emits retained gate decisions before AEE |
+| `cav` | continuous adversarial verification | supervised security component that probes runtime surfaces, records red/blue findings, and degrades readiness on critical failures |
 | `aee` | governed execution stage | supervised component with resilience middleware and retained outcomes |
 | `checkpoint` | partial snapshots and continuity artifacts | agent-owned schedule, request channel, atomic persistence, and backpressure |
+| `acip_carrier` | governed ACIP/A2A runtime transport | runtime-owned JSON/protobuf/WebSocket carrier surface with explicit mode, authorization, projection, and failure behavior |
 | `cloud_bridge` | AWS API Gateway/EventBridge/CloudWatch/SNS/SQS integration | SDK-backed runtime/cloud component, not shell-driven scripts |
 | `observability` | high-volume logs, metrics, OTel, redaction, routing | CSM-managed Vector component in the runtime topology |
 | `lifelog` | lifecycle event journal | database-backed append-only component |
@@ -101,7 +117,7 @@ The architecture is not considered real until these gates pass:
 | Gate | Proof |
 | --- | --- |
 | Runtime crate separation | `adl-runtime` builds and passes focused tests when `adl-compiler` and `adl-csdlc` crates are absent from disk. Runtime dependencies may point outward only to shared protocol/schema crates, not back into compiler or C-SDLC tooling. |
-| Component supervision matrix | Every runtime component records restart policy, backoff, degradation behavior, and escalation target. `JoinSet` observes component completion; policy decides what happens next. |
+| Component supervision matrix | Every runtime component records restart policy, backoff, degradation behavior, and escalation target. `JoinSet` observes component completion; policy decides what happens next. `curiosity_engine`, `constructability_gate`, `freedom_gate`, `cav`, and `acip_carrier` must be supervised as their own components, not hidden inside scheduler, reasoning, AEE, or cloud_bridge. |
 | Channel backpressure matrix | Every typed channel declares bounded capacity, block/drop/spool behavior, loss policy, and health signal. One global "backpressure" label is insufficient. |
 | Determinism boundary | Deterministic core inputs are separated from nondeterministic shell components such as Chronosense, AWS, network, and wall-clock IO. Any shell value entering governed execution is captured as evidence. |
 | Runtime API authorization | Loopback-only is treated as transport restriction, not authorization. `runtime_api` needs local auth such as a bearer token in a `0600` file before it is treated as safe on shared hosts. |
@@ -145,8 +161,13 @@ Acceptance test: delete or temporarily hide compiler and C-SDLC crates, then bui
 | `chronosense` | degrade-and-continue with stale-time confidence; keep deterministic core isolated | block readiness if time confidence is below configured floor |
 | `scheduler` | restart with backoff; quiesce admission during outage | governed stop path if admission state cannot be recovered |
 | `reasoning_runtime` | restart failed graph/loop workers independently; preserve graph input evidence | quarantine offending graph and surface recoverable agent state |
+| `curiosity_engine` | degrade and pause discovery generation; never promote unreviewed discoveries | require Constructability/Freedom Gate routing before discovery affects shared state or execution |
+| `constructability_gate` | fail closed; keep outputs provisional/internal when admissibility cannot be proven | runtime not-ready for shared-state promotion when anchors or validators are unavailable |
+| `freedom_gate` | fail closed; refuse admission to AEE when gate state, policy context, or decision evidence is unavailable | runtime not-ready for execution if mediation cannot prove allow/defer/refuse/escalate truth |
+| `cav` | keep probing schedule durable; degrade readiness on critical security findings | escalate to governed stop or operator review for policy-bypass/redaction-bypass/control-plane compromise |
 | `aee` | restart governed execution workers with retained outcomes | stop new execution if recovery middleware cannot load |
 | `checkpoint` | block admission or throttle execution rather than silently losing continuity | emergency safe-fail serialization if checkpoint persistence remains unavailable |
+| `acip_carrier` | fail closed on unsupported schema, unauthorized caller, or malformed transport input | degrade external invocation readiness without affecting local deterministic core |
 | `cloud_bridge` | degrade-and-buffer when AWS is unreachable; do not advance publish cursors falsely | fail-closed cloud status and retained notice evidence |
 | `lifelog` | block lifecycle completion when append fails; keep local queue durable | degrade runtime readiness if lifecycle journal cannot persist |
 | `observability` | buffer or shed low-priority telemetry; never stall core execution on best-effort metrics | escalate if evidence/audit events cannot be retained locally |
@@ -156,7 +177,13 @@ Acceptance test: delete or temporarily hide compiler and C-SDLC crates, then bui
 | Channel | Policy |
 | --- | --- |
 | scheduler -> reasoning_runtime | bounded queue; block admission when full |
-| reasoning_runtime -> AEE | bounded queue; block, do not drop governed execution requests |
+| reasoning_runtime -> curiosity_engine | bounded queue; block or defer discovery requests when full |
+| curiosity_engine -> constructability_gate | bounded queue; unconstructable proposals remain provisional and internal |
+| constructability_gate -> freedom_gate | bounded queue; only constructable/admissible proposals may request commitment mediation |
+| reasoning_runtime -> freedom_gate | bounded queue; block, do not drop candidate actions that may reach execution |
+| freedom_gate -> AEE | bounded queue; only allowed decisions may pass; denied, deferred, challenged, escalated, missing, or ambiguous decisions stop before execution and emit retained evidence |
+| runtime_api/acip_carrier -> components | auth-gated bounded requests; malformed or unauthorized carrier inputs fail closed |
+| cav -> observability/lifelog | priority audit channel; do not shed critical security findings |
 | AEE -> checkpoint | bounded queue; block/throttle because continuity is higher priority than throughput |
 | components -> lifelog | durable append queue; block lifecycle completion on critical event persistence failure |
 | components -> observability | priority queue; retain audit/evidence events, shed low-priority metrics before blocking core execution |
@@ -167,7 +194,7 @@ Acceptance test: delete or temporarily hide compiler and C-SDLC crates, then bui
 
 CSM should state its determinism claim as deterministic core plus nondeterministic shell:
 
-- Deterministic core: typed reasoning inputs, DAG/loop graph state, scheduler admission decisions after inputs are captured, AEE governed execution decisions, checkpoint version transitions, and lifelog ordering.
+- Deterministic core: typed reasoning inputs, DAG/loop graph state, scheduler admission decisions after inputs are captured, Curiosity/Constructability decisions after evidence inputs are captured, Freedom Gate decisions after ACC/policy inputs are captured, CAV dispositions after scenario inputs are captured, ACIP carrier projections after schema/transport inputs are captured, AEE governed execution decisions, checkpoint version transitions, and lifelog ordering.
 - Nondeterministic shell: Chronosense/NTP, AWS/API Gateway/EventBridge/CloudWatch/SNS/SQS, network IO, wall-clock timing, local process state, and external observability sinks.
 - Boundary rule: every nondeterministic shell value that influences the deterministic core must be captured as an input event with source, observed time, confidence, and retention location before it affects execution.
 
@@ -178,12 +205,14 @@ Graceful CSM shutdown is ordered:
 1. Quiesce `runtime_api` mutating admission and scheduler intake.
 2. Drain scheduler queues into recoverable states.
 3. Flush `reasoning_runtime` in-flight graph/loop state to checkpoint requests.
-4. Complete AEE outcomes or classify them as recoverable partials.
-5. Flush checkpoint and safe-fail serialization artifacts.
-6. Append lifelog lifecycle close events.
-7. Drain evidence/observability events through the CSM-managed Vector component or local spool.
-8. Send cloud notices through EventBridge/SNS/SQS/API Gateway routes when publishable.
-9. Join component tasks and emit final retained shutdown disposition.
+4. Drain or refuse pending Curiosity, Constructability, and Freedom Gate mediation requests into retained recoverable decisions.
+5. Quiesce ACIP carrier admission and CAV probing, retaining final security/transport disposition.
+6. Complete AEE outcomes or classify them as recoverable partials.
+7. Flush checkpoint and safe-fail serialization artifacts.
+8. Append lifelog lifecycle close events.
+9. Drain evidence/observability events through the CSM-managed Vector component or local spool.
+10. Send cloud notices through EventBridge/SNS/SQS/API Gateway routes when publishable.
+11. Join component tasks and emit final retained shutdown disposition.
 
 ## Vector Reference Evidence
 
@@ -210,6 +239,11 @@ License note: Vector is MPL-2.0. #5068 uses Vector as an architecture/product re
 | Port ownership | Keep canonical CSM registry and fixed port policy. | `csm_networking` owns `19950-19999`, with main runtime API on `127.0.0.1:19997`. |
 | Chronosense time sync | Use in-process async SNTP sampling; no shelling out and no missing observation socket as a runtime blocker. | `rsntp::AsyncSntpClient`. |
 | Observability pipeline | CSM emits canonical lifecycle/runtime events and OTel-shaped summaries into a managed runtime component; it must not become a bespoke log router. | CSM-managed Vector component for collect, transform, redact, buffer, and route logs/metrics/OTel to CloudWatch, S3, SNS, SQS, and other sinks. |
+| Curiosity Engine | Feature-list proof exists, but the runtime topology did not own governed discovery cycles. | First-class `curiosity_engine` component with typed discovery inputs, reasoning hooks, retained evidence, and Constructability/Freedom Gate routing. |
+| Constructability Gate | Feature-list proof exists, but shared-reality promotion was not a live runtime component. | First-class `constructability_gate` component for construction events, external anchors, admissibility validation, and promotion/refusal evidence. |
+| Freedom Gate | Existing library/proof substrate evaluates and records mediation, but it is not yet a live CSM component. | First-class `freedom_gate` component with typed candidate/policy inputs, fail-closed output to AEE, retained gate decisions, runtime API status, lifelog, and observability events. |
+| CAV security | Security/CAV readiness cannot be represented only by Freedom Gate or docs. | First-class `cav` runtime component for red/blue probes, malformed-input checks, security findings, and readiness degradation. |
+| ACIP carrier | ACIP/A2A protobuf/WebSocket decisions must be runtime-visible instead of hidden transport assumptions. | First-class `acip_carrier` component for JSON/protobuf/WebSocket mode, authorization, deterministic projection, and fail-closed transport handling. |
 | AWS notifications and routing | Runtime-owned integrations should use SDK-backed clients or generated/configured product routes, not command shells. | AWS SDK for direct runtime calls; EventBridge/CloudWatch/SNS/SQS as managed control-plane targets; Vector for observability fanout. |
 | Checkpoint and continuity serialization | Keep typed CSM artifacts, then move from scattered JSON writes to durable typed storage and atomic persistence primitives. | `serde`, versioned schemas, atomic write helper, future protobuf/canonical archive lane. |
 | Lifecycle lifelog | Move from loose JSONL files toward an append-only database-backed lifecycle ledger. | SQLite/libSQL or equivalent embedded durable DB, with later immutable-ledger migration. |
@@ -234,6 +268,9 @@ These are not optional cleanup items; they are the next simplification targets a
 - Replace AWS CLI shellouts in cloud-control and API Gateway proof paths with AWS SDK clients where runtime code needs direct AWS behavior.
 - Add a CSM-managed Vector configuration/proof path for CSM lifecycle events, OTel-shaped summaries, CloudWatch logs/metrics, S3 retention, SNS/SQS notice routing, and redaction transforms.
 - Replace ad hoc inter-component file polling with explicit channels, component IDs, and topology edges where runtime components are live in-process services.
+- Promote Curiosity Engine and Constructability Gate from feature-list requirements into supervised runtime components with retained proof.
+- Promote Freedom Gate from proof/library substrate into a supervised `freedom_gate` runtime component between scheduler/reasoning and AEE.
+- Promote CAV and ACIP carrier work into visible runtime components so security and transport readiness are not prose-only gates.
 - Model backpressure using component queues and admission decisions, borrowing Vector's vocabulary of memory buffers, disk buffers, blocking, and shedding while preserving CSM continuity guarantees.
 - Add CSM shutdown coordination with component-level begin/complete/force signals; governed stop remains exceptional and observable.
 - Move lifecycle/lifelog capture into a database-backed append-only runtime ledger.

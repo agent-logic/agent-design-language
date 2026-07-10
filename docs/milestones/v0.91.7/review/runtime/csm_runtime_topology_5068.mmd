@@ -12,8 +12,13 @@ flowchart TD
     chronosense["chronosense<br/>rsntp async time source"]
     scheduler["scheduler<br/>cadence + admission"]
     reasoning["reasoning_runtime<br/>graphs + loops + adaptive DAGs"]
+    curiosity["curiosity_engine<br/>governed discovery cycles"]
+    constructability["constructability_gate<br/>shared-reality admissibility"]
+    freedom["freedom_gate<br/>commitment mediation + refusal"]
     aee["AEE<br/>governed execution"]
     checkpoint["checkpoint<br/>partials + continuity"]
+    acip["acip_carrier<br/>protobuf / WebSocket / JSON"]
+    cav["CAV<br/>continuous adversarial verification"]
     cloud["cloud_bridge<br/>API Gateway / EventBridge / AWS SDK"]
     lifelog["lifelog<br/>database lifecycle journal"]
     observability["observability<br/>CSM-managed Vector component"]
@@ -23,8 +28,13 @@ flowchart TD
   bus --> chronosense
   bus --> scheduler
   bus --> reasoning
+  bus --> curiosity
+  bus --> constructability
+  bus --> freedom
   bus --> aee
   bus --> checkpoint
+  bus --> acip
+  bus --> cav
   bus --> cloud
   bus --> lifelog
   bus --> observability
@@ -41,6 +51,7 @@ flowchart TD
   observability --> otel
   lifelog --> storage
   cloud --> notices
+  cav --> observability
 
   classDef core fill:#05264a,stroke:#05264a,color:#ffffff,rx:4,ry:4;
   classDef task fill:#f6d7f7,stroke:#e34cf2,color:#061f3d,rx:4,ry:4;
@@ -53,5 +64,5 @@ flowchart TD
   class main task;
   class supervisor set;
   class bus bus;
-  class api,chronosense,scheduler,reasoning,aee,checkpoint,cloud,lifelog,observability component;
+  class api,chronosense,scheduler,reasoning,curiosity,constructability,freedom,aee,checkpoint,acip,cav,cloud,lifelog,observability component;
   class cloudwatch,otel,storage,notices sink;
