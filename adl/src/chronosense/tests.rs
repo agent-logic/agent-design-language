@@ -279,6 +279,166 @@ fn runtime_service_utc_config_exposes_foundation_and_saturating_elapsed() {
 }
 
 #[test]
+fn ntpd_rs_status_parser_projects_synced_source_health() {
+    let status = chronosense_time_sync_status_from_ntp_ctl_output(
+        r#"# HELP ntp_source_unanswered_polls Number of polls since the last successful poll with a maximum of eight.
+# TYPE ntp_source_unanswered_polls gauge
+ntp_source_unanswered_polls{name="ntpd-rs.pool.ntp.org:123",address="77.171.247.180:123",id="1"} 0
+# HELP ntp_source_offset_seconds Offset between the upstream source and system time.
+# TYPE ntp_source_offset_seconds gauge
+# UNIT ntp_source_offset_seconds seconds
+ntp_source_offset_seconds{name="ntpd-rs.pool.ntp.org:123",address="77.171.247.180:123",id="1"} 0.000024
+# HELP ntp_source_uncertainty_seconds Estimated error of the source clock.
+# TYPE ntp_source_uncertainty_seconds gauge
+# UNIT ntp_source_uncertainty_seconds seconds
+ntp_source_uncertainty_seconds{name="ntpd-rs.pool.ntp.org:123",address="77.171.247.180:123",id="1"} 0.000137
+"#,
+        "ntp-ctl",
+    );
+
+    assert_eq!(status.schema_version, CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA);
+    assert_eq!(status.substrate, "ntpd-rs");
+    assert_eq!(status.source, "ntp-ctl status --format prometheus");
+    assert_eq!(status.health, "synced");
+    assert_eq!(status.confidence, "high");
+    assert_eq!(
+        status.port_policy,
+        "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123"
+    );
+    assert_eq!(status.parsed_offset_seconds, Some(0.000024));
+    assert_eq!(status.parsed_uncertainty_seconds, Some(0.000137));
+}
+
+#[test]
+fn ntpd_rs_status_parser_accepts_plain_status_fallback() {
+    let status = chronosense_time_sync_status_from_ntp_ctl_output(
+        r#"Synchronization status:
+Dispersion: 0.000299s, Delay: 0.007637s
+Desired poll interval: 16s
+Stratum: 4
+Sources:
+ntpd-rs.pool.ntp.org:123/77.171.247.180:123 (1): +0.000024±0.000137(±0.016886)s
+    poll interval: 16s, missing polls: 0
+Servers:
+"#,
+        "ntp-ctl",
+    );
+
+    assert_eq!(status.schema_version, CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA);
+    assert_eq!(status.substrate, "ntpd-rs");
+    assert_eq!(status.health, "synced");
+    assert_eq!(status.confidence, "high");
+    assert_eq!(
+        status.port_policy,
+        "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123"
+    );
+    assert_eq!(status.parsed_offset_seconds, Some(0.000024));
+    assert_eq!(status.parsed_uncertainty_seconds, Some(0.000137));
+}
+
+#[test]
+fn ntpd_rs_observable_state_projects_in_process_runtime_health() {
+    let status = super::service::chronosense_time_sync_status_from_ntpd_rs_observable_value(
+        &serde_json::json!({
+            "system": {
+                "time_snapshot": {
+                    "offset": 0.000031,
+                    "uncertainty": 0.000142
+                }
+            },
+            "peers": [
+                {
+                    "Observable": {
+                        "address": "time.example.invalid:123",
+                        "reachability": 255,
+                        "offset": 0.000031
+                    }
+                }
+            ],
+            "servers": []
+        }),
+        "ntp_daemon_observable_state",
+    );
+
+    assert_eq!(status.schema_version, CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA);
+    assert_eq!(status.substrate, "ntpd-rs");
+    assert_eq!(
+        status.source,
+        "ntp-daemon::ObservableState observation socket"
+    );
+    assert_eq!(status.mode, "csm_in_process_ntpd_rs_observable_state");
+    assert_eq!(status.health, "synced");
+    assert_eq!(status.confidence, "high");
+    assert_eq!(
+        status.port_policy,
+        "csm_in_process_ntpd_rs_component_no_separate_binary_no_csm_udp_123_listener"
+    );
+    assert_eq!(status.parsed_offset_seconds, Some(0.000031));
+    assert_eq!(status.parsed_uncertainty_seconds, Some(0.000142));
+}
+
+#[test]
+fn ntpd_rs_status_parser_reports_unavailable_for_unrecognized_output() {
+    let status = chronosense_time_sync_status_from_ntp_ctl_output(
+        "ntp-ctl: failed to connect to daemon",
+        "ntp-ctl",
+    );
+
+    assert_eq!(status.health, "unavailable");
+    assert_eq!(
+        status.failure_state.as_deref(),
+        Some("ntpd_rs_status_unrecognized")
+    );
+    assert_eq!(
+        status.reason,
+        "ntpd_rs_status_unavailable_without_csm_failure"
+    );
+}
+
+#[test]
+fn ntpd_rs_status_projection_sanitizes_probe_command_and_summary() {
+    assert_eq!(
+        super::service::ntpd_rs_command_label("/Users/daniel/bin/ntp-ctl"),
+        "ntp-ctl"
+    );
+    assert_eq!(
+        super::service::ntpd_rs_command_label("/Users/daniel/bin/private-wrapper"),
+        "custom_ntp_ctl"
+    );
+    assert_eq!(
+        super::service::ntpd_rs_command_label("ntp_daemon::ObservableState:/run/ntpd-rs/observe"),
+        "ntp_daemon_observable_state"
+    );
+    assert_eq!(
+        super::service::sanitize_probe_summary("failed opening /Users/daniel/.config/secret"),
+        "[redacted]"
+    );
+}
+
+#[test]
+fn disabled_ntpd_rs_probe_reports_runtime_observable_contract() {
+    let status = super::service::ChronosenseTimeSyncStatus::unavailable(
+        "ntpd_rs_probe_disabled",
+        "ADL_CSM_NTPD_RS_STATUS=0",
+        None,
+    );
+
+    assert_eq!(
+        status.source,
+        "ntp-daemon::ObservableState observation socket"
+    );
+    assert_eq!(status.mode, "csm_ntpd_rs_observable_state");
+    assert_eq!(
+        status.port_policy,
+        "csm_ntpd_rs_component_observation_no_separate_csm_time_binary_no_csm_udp_123_listener"
+    );
+    assert_eq!(
+        status.failure_state.as_deref(),
+        Some("ntpd_rs_probe_disabled")
+    );
+}
+
+#[test]
 fn runtime_service_rejects_unrepresentable_epoch_millis() {
     let err = ChronosenseRuntimeService::new(ChronosenseRuntimeServiceConfig::utc(u128::MAX))
         .expect_err("unrepresentable start epoch should fail");
