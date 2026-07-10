@@ -166,7 +166,6 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
     let safe_fail_bundle = read_json_artifact(&artifact_path(loaded, "safe_fail_bundle.json"));
     let backpressure_state =
         read_json_artifact(&artifact_path(loaded, "csm_backpressure_state.json"));
-    let governed_stop = read_json_artifact(&artifact_path(loaded, "governed_stop.json"));
     let otel_status_path = resolve_otel_status_path(loaded, options);
     let otel_log_path = resolve_otel_log_path(loaded, options);
     let otel_status = otel_status_path
@@ -183,7 +182,6 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
     let health = classify_health(
         &agent_status.state,
         &daemon_status,
-        &governed_stop,
         &checkpoint_freshness,
         daemon_state,
         daemon_pid_liveness.as_deref(),
@@ -191,7 +189,6 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
     let ready = classify_ready(
         &agent_status.state,
         &daemon_status,
-        &governed_stop,
         &continuity_checkpoint,
         daemon_state,
         daemon_pid_liveness.as_deref(),
@@ -231,7 +228,6 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
             "replay_manifest": compact_artifact_status(&replay_manifest, "continuity_replay_manifest.json"),
             "safe_fail_bundle": compact_artifact_status(&safe_fail_bundle, "safe_fail_bundle.json")
         },
-        "governed_stop": compact_artifact_status(&governed_stop, "governed_stop.json"),
         "backpressure": compact_artifact_status(&backpressure_state, "csm_backpressure_state.json"),
         "otel": {
             "status": compact_artifact_status(&otel_status, "ADL_OTEL_STATUS"),
@@ -556,13 +552,11 @@ fn checkpoint_freshness(daemon_status: &Value, continuity_checkpoint: &Value) ->
 fn classify_health(
     state: &AgentStatusState,
     daemon_status: &Value,
-    governed_stop: &Value,
     checkpoint_freshness: &Value,
     daemon_state: Option<&str>,
     daemon_pid_liveness: Option<&str>,
 ) -> &'static str {
     let degraded = matches!(state, AgentStatusState::Failed)
-        || current_governed_stop_observed(state, governed_stop)
         || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
         || checkpoint_freshness.get("status").and_then(Value::as_str) == Some("stale")
         || is_terminal_daemon_state(daemon_state)
@@ -577,7 +571,6 @@ fn classify_health(
 fn classify_ready(
     state: &AgentStatusState,
     daemon_status: &Value,
-    governed_stop: &Value,
     continuity_checkpoint: &Value,
     daemon_state: Option<&str>,
     daemon_pid_liveness: Option<&str>,
@@ -585,8 +578,7 @@ fn classify_ready(
     let not_ready = matches!(
         state,
         AgentStatusState::Failed | AgentStatusState::Leased | AgentStatusState::Stopped
-    ) || current_governed_stop_observed(state, governed_stop)
-        || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
+    ) || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
         || continuity_checkpoint.get("status").and_then(Value::as_str) != Some("serialized")
         || is_terminal_daemon_state(daemon_state)
         || daemon_pid_liveness == Some("stale_pid");
@@ -595,15 +587,6 @@ fn classify_ready(
     } else {
         "ready"
     }
-}
-
-fn current_governed_stop_observed(state: &AgentStatusState, governed_stop: &Value) -> bool {
-    matches!(state, AgentStatusState::Stopped)
-        && governed_stop.get("status").and_then(Value::as_str) == Some("serialized")
-        && governed_stop
-            .pointer("/value/schema")
-            .and_then(Value::as_str)
-            == Some("adl.csm.governed_stop.v1")
 }
 
 fn daemon_lifecycle_state(daemon_status: &Value) -> Option<&str> {
@@ -692,19 +675,6 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
         .and_then(Value::as_str)
     {
         blockers.push("agent_state_leased".to_string());
-    }
-    if let Some("stopped") = status
-        .pointer("/agent_status/state")
-        .and_then(Value::as_str)
-    {
-        blockers.push("agent_state_stopped".to_string());
-    }
-    if status
-        .pointer("/governed_stop/status")
-        .and_then(Value::as_str)
-        == Some("serialized")
-    {
-        blockers.push("governed_stop_recorded".to_string());
     }
     match status
         .pointer("/daemon_liveness/state")
@@ -1326,82 +1296,6 @@ memory: {}
             .as_array()
             .unwrap()
             .contains(&json!("daemon_supervisor_pid_stale")));
-    }
-
-    #[test]
-    fn runtime_api_explains_governed_stop_artifact_readiness_blocker() {
-        let root = temp_root("governed-stop-artifact");
-        let spec = write_spec(&root);
-        let state = root.join("state");
-        fs::create_dir_all(&state).unwrap();
-        fs::write(
-            state.join("status.json"),
-            serde_json::to_string_pretty(&json!({
-                "schema": "adl.long_lived_agent_status.v1",
-                "agent_instance_id": "api-agent",
-                "state": "stopped",
-                "last_cycle_id": "cycle-000001",
-                "last_cycle_status": "success",
-                "completed_cycle_count": 1,
-                "consecutive_failure_count": 0,
-                "active_lease": null,
-                "stop_requested": true,
-                "last_error": null,
-                "safety_policy": null,
-                "updated_at": Utc::now()
-            }))
-            .unwrap(),
-        )
-        .unwrap();
-        fs::write(
-            state.join("daemon_status.json"),
-            serde_json::to_string_pretty(&json!({
-                "schema": "adl.long_lived_agent_daemon_status.v1",
-                "state": "running",
-                "supervisor_pid": std::process::id(),
-                "last_event": "daemon_heartbeat",
-                "updated_at": Utc::now(),
-                "last_checkpoint_at": Utc::now()
-            }))
-            .unwrap(),
-        )
-        .unwrap();
-        fs::write(
-            state.join("governed_stop.json"),
-            serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.governed_stop.v1",
-                "governed_stop_id": "csm-governed-stop-test",
-                "operator_intent": {
-                    "reason": "operator requested recoverable stop"
-                }
-            }))
-            .unwrap(),
-        )
-        .unwrap();
-        fs::write(
-            state.join("continuity_checkpoint.json"),
-            serde_json::to_string_pretty(&json!({
-                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
-            }))
-            .unwrap(),
-        )
-        .unwrap();
-        let options = CsmRuntimeApiOptions {
-            spec_path: spec,
-            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
-            test_max_requests: Some(1),
-            idle_timeout_ms: None,
-            otel_status_path: None,
-            otel_log_path: None,
-        };
-        let status = runtime_api_response(&options, "/status").unwrap();
-        assert_eq!(status["status"], "degraded");
-        assert_eq!(status["ready"], "not_ready");
-        let ready = runtime_api_response(&options, "/ready").unwrap();
-        assert_eq!(ready["ready"], "not_ready");
-        let blockers = ready["blocking_reasons"].as_array().unwrap();
-        assert!(blockers.contains(&json!("agent_state_stopped")));
-        assert!(blockers.contains(&json!("governed_stop_recorded")));
     }
 
     #[test]
