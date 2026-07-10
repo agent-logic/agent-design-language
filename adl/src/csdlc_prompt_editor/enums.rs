@@ -333,6 +333,10 @@ finite_prompt_enum! {
         NotRun => "not_run",
         FindingsPresent => "findings_present",
         NoFindings => "no_findings",
+        ReviewUnavailable => "review_unavailable",
+        ReviewTimeout => "review_timeout",
+        ReviewCancelled => "review_cancelled",
+        ReviewFailed => "review_failed",
     }
 }
 

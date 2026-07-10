@@ -218,6 +218,18 @@ candidate_filter_for_path() {
     adl/src/cli/tooling_cmd/github_release.rs)
       printf 'github_release_'
       ;;
+    adl/src/cli/tooling_cmd/structured_prompt.rs)
+      printf 'structured_prompt'
+      ;;
+    adl/src/cli/tooling_cmd/markdown.rs)
+      printf 'markdown'
+      ;;
+    adl/src/trace_schema_v1.rs)
+      printf 'trace_schema_v1'
+      ;;
+    adl/src/pr_dispatch_support.rs)
+      printf 'pr_dispatch_support'
+      ;;
     adl/src/runtime_v2/cultivating_intelligence.rs|adl/src/runtime_v2/cultivating_intelligence_parts/*.rs)
       printf 'cultivating_intelligence'
       ;;
@@ -236,6 +248,12 @@ candidate_filter_for_path() {
     adl/src/bin/adl_lint_prompt_spec.rs|adl/src/bin/adl_prompt_template.rs|adl/src/bin/adl_validate_structured_prompt.rs)
       printf 'tooling_cmd'
       ;;
+    adl/src/bin/demo_adl_gws_context_mirror.rs)
+      printf 'demo_adl_gws_context_mirror'
+      ;;
+    adl/src/bin/demo_adl_gws_native_drive_sync.rs)
+      printf 'demo_adl_gws_native_drive_sync'
+      ;;
     adl/src/bin/adl_aws_remote_validation.rs)
       printf 'adl_aws_remote_validation_bin'
       ;;
@@ -246,7 +264,7 @@ candidate_filter_for_path() {
       printf 'run_state'
       ;;
     *)
-      basename "$path" .rs
+      return 1
       ;;
   esac
 }
@@ -277,6 +295,18 @@ nextest_expression_for_filter() {
       ;;
     github_release_)
       printf 'test(/^cli::tooling_cmd::github_release::/)'
+      ;;
+    structured_prompt)
+      printf 'binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::structured_prompt::/)'
+      ;;
+    markdown)
+      printf 'binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::markdown/)'
+      ;;
+    trace_schema_v1)
+      printf 'test(trace_schema_v1)'
+      ;;
+    pr_dispatch_support)
+      printf 'test(pr_dispatch_support)'
       ;;
     finish)
       printf 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)'
@@ -354,11 +384,44 @@ print_next_actions_for_path() {
   local path="$1"
   local context="$2"
   local filter
-  filter="$(candidate_filter_for_path "$path")"
+  if ! filter="$(candidate_filter_for_path "$path")"; then
+    echo "    candidate filter: unmapped"
+    echo "    ${context}: add an explicit coverage-impact mapping for ${path} before running PR-fast coverage"
+    echo "    fail-closed reason: unmapped production Rust source must not fall back to a broad basename nextest filter"
+    return
+  fi
   echo "    candidate filter: ${filter}"
   echo "    ${context}: $(focused_summary_command_for_filter "$filter")"
   extra_guidance_for_path "$path"
   echo "    rerun preflight: $(rerun_preflight_command)"
+}
+
+print_candidate_filters_fail_closed() {
+  local filters=""
+  local errors=""
+  local status path filter
+
+  while IFS=$'\t' read -r status path; do
+    [ -n "$path" ] || continue
+    if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
+      continue
+    fi
+    if ! filter="$(candidate_filter_for_path "$path")"; then
+      errors="${errors}coverage-impact: unmapped changed Rust source requires an explicit PR-fast coverage mapping before cargo llvm-cov nextest can run: ${path}"$'\n'
+      continue
+    fi
+    filters="${filters}${filter}"$'\n'
+  done <<EOF
+$changed_source_rows
+EOF
+
+  if [ -n "$errors" ]; then
+    printf '%s' "$errors" >&2
+    echo "coverage-impact: refusing broad fallback; add a narrow mapping or select an explicit full/slow coverage lane." >&2
+    return 1
+  fi
+
+  printf '%s' "$filters" | awk 'NF && !seen[$0]++'
 }
 
 file_is_structural_module_barrel() {
@@ -514,31 +577,13 @@ EOF
 fi
 
 if [ "$PRINT_RISK_FILTERS" = true ]; then
-  printf '%s\n' "$changed_source_rows" \
-    | while IFS=$'\t' read -r _status path; do
-        [ -n "$path" ] || continue
-        if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
-          continue
-        fi
-        candidate_filter_for_path "$path"
-        printf '\n'
-      done \
-    | awk 'NF && !seen[$0]++'
+  print_candidate_filters_fail_closed
   exit 0
 fi
 
 if [ "$PRINT_RISK_NEXTEST_EXPRESSION" = true ]; then
-  if ! printf '%s\n' "$changed_source_rows" \
-    | while IFS=$'\t' read -r _status path; do
-        [ -n "$path" ] || continue
-        if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
-          continue
-        fi
-        candidate_filter_for_path "$path"
-        printf '\n'
-      done \
-    | awk 'NF && !seen[$0]++' \
-    | combined_nextest_expression_from_filters; then
+  candidate_filters="$(print_candidate_filters_fail_closed)" || exit 1
+  if ! printf '%s\n' "$candidate_filters" | combined_nextest_expression_from_filters; then
     exit 0
   fi
   printf '\n'
