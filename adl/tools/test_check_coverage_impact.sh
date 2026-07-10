@@ -589,6 +589,74 @@ if bash "$SCRIPT" --changed-files "$loop_runtime_substantial_companion_changed" 
 fi
 grep -F "adl/src/cli/runtime_v2_cmd/commands.rs (0/609, 0.00% < 80%)" /tmp/coverage-impact-loop-runtime-substantial-companion-fails.out >/dev/null
 
+godel_agent_runtime_changed="$TMP/godel-agent-runtime-changed.txt"
+cat >"$godel_agent_runtime_changed" <<'EOF'
+M	adl/src/cli/runtime_v2_cmd/commands.rs	38
+M	adl/src/cli/runtime_v2_cmd/helpers.rs	5
+A	adl/src/runtime_v2/godel_agent_runtime.rs	710
+EOF
+godel_agent_runtime_filters="$TMP/godel-agent-runtime-filters.txt"
+bash "$SCRIPT" --changed-files "$godel_agent_runtime_changed" --print-risk-filters >"$godel_agent_runtime_filters"
+grep -Fx "runtime_v2_godel_agent_runtime" "$godel_agent_runtime_filters" >/dev/null
+if [ "$(wc -l <"$godel_agent_runtime_filters" | tr -d ' ')" -ne 1 ]; then
+  echo "expected Godel agent runtime surfaces to collapse to the shared runtime_v2_godel_agent_runtime filter" >&2
+  exit 1
+fi
+godel_agent_runtime_expression="$(bash "$SCRIPT" --changed-files "$godel_agent_runtime_changed" --print-risk-nextest-expression)"
+grep -F "test(runtime_v2_godel_agent_runtime)" <<<"$godel_agent_runtime_expression" >/dev/null
+
+godel_agent_runtime_summary="$TMP/godel-agent-runtime-summary.json"
+cat >"$godel_agent_runtime_summary" <<'EOF'
+{
+  "data": [
+    {
+      "files": [
+        {
+          "filename": "adl/src/cli/runtime_v2_cmd/commands.rs",
+          "summary": {
+            "lines": {
+              "covered": 0,
+              "count": 609
+            }
+          }
+        },
+        {
+          "filename": "adl/src/cli/runtime_v2_cmd/helpers.rs",
+          "summary": {
+            "lines": {
+              "covered": 0,
+              "count": 79
+            }
+          }
+        },
+        {
+          "filename": "adl/src/runtime_v2/godel_agent_runtime.rs",
+          "summary": {
+            "lines": {
+              "covered": 601,
+              "count": 710
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+EOF
+bash "$SCRIPT" --changed-files "$godel_agent_runtime_changed" --summary "$godel_agent_runtime_summary" >/tmp/coverage-impact-godel-agent-runtime-pass.out
+grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-godel-agent-runtime-pass.out >/dev/null
+
+godel_agent_runtime_substantial_companion_changed="$TMP/godel-agent-runtime-substantial-companion-changed.txt"
+cat >"$godel_agent_runtime_substantial_companion_changed" <<'EOF'
+M	adl/src/cli/runtime_v2_cmd/commands.rs	120
+A	adl/src/runtime_v2/godel_agent_runtime.rs	710
+EOF
+if bash "$SCRIPT" --changed-files "$godel_agent_runtime_substantial_companion_changed" --summary "$godel_agent_runtime_summary" >/tmp/coverage-impact-godel-agent-runtime-substantial-companion-fails.out 2>&1; then
+  echo "expected substantial Godel agent runtime companion edits to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "adl/src/cli/runtime_v2_cmd/commands.rs (0/609, 0.00% < 80%)" /tmp/coverage-impact-godel-agent-runtime-substantial-companion-fails.out >/dev/null
+
 missing_summary="$TMP/missing-row-summary.json"
 make_summary "adl/src/runtime_v2/other.rs" 100 100 "$missing_summary"
 if bash "$SCRIPT" --changed-files "$changed" --summary "$missing_summary" >/tmp/coverage-impact-missing-row.out 2>&1; then
