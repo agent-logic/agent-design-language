@@ -22,6 +22,9 @@ Downloadable diagram artifacts:
 - Mermaid source: `docs/milestones/v0.91.7/review/runtime/csm_runtime_topology_5068.mmd`
 - Rendered SVG: `docs/milestones/v0.91.7/review/runtime/csm_runtime_topology_5068.svg`
 - Rendered PNG: `docs/milestones/v0.91.7/review/runtime/csm_runtime_topology_5068.png`
+- Detailed governance/operational companion PNG: `docs/milestones/v0.91.7/review/runtime/csm_runtime_governance_operational_view_5068.png`
+
+The primary topology diagram intentionally stays close to Vector's instantly-readable runtime model: one asynchronous runtime, one executive task, one supervised future set, one typed channel layer, and peer component futures. The companion governance/operational view is retained as a richer view of the constitutional plane, operational plane, and evidence/external-integration plane.
 
 ```mermaid
 flowchart TD
