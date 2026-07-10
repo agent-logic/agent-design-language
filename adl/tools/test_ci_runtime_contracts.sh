@@ -410,13 +410,18 @@ if "steps.path-policy.outputs.full_coverage_required != 'true'" in filter_if:
 pr_fast_runner_text = pr_fast_runner.read_text()
 for required_fragment in (
     'FILTER_EXPRESSION=""',
+    'TEST_THREADS="${ADL_PR_FAST_COVERAGE_TEST_THREADS:-}"',
     '--filter-expression',
-    'CARGO_INCREMENTAL=0 cargo llvm-cov nextest',
+    'coverage_args=(',
+    'llvm-cov nextest',
     '--workspace',
     '--status-level all',
     '--final-status-level slow',
     '--no-report',
     '-E "$FILTER_EXPRESSION"',
+    'coverage_args+=(--test-threads "$TEST_THREADS")',
+    'PR-fast coverage test threads: nextest-default',
+    'CARGO_INCREMENTAL=0 cargo "${coverage_args[@]}"',
     'cargo llvm-cov report',
     '--json',
     '--summary-only',
@@ -427,6 +432,8 @@ for required_fragment in (
             "PR-fast coverage runner must execute targeted nextest coverage and produce focused impact summary JSON; "
             f"missing fragment: {required_fragment}"
         )
+if "--test-threads 1" in pr_fast_runner_text:
+    raise SystemExit("PR-fast coverage runner must not force single-threaded nextest execution by default")
 for required_fragment in (
     "cargo llvm-cov nextest \\",
     "    --workspace \\",

@@ -1343,8 +1343,16 @@ coverage_test.write_text("#!/usr/bin/env bash\n# process_status\n")
 
 runtime_contract = Path("adl/tools/test_ci_runtime_contracts.sh")
 runtime_contract.write_text("if 'coverage-summary.json' not in fast_summary_step:\n    pass\n")
+
+runner_contract = Path("adl/tools/test_run_pr_fast_coverage_lane.sh")
+runner_contract.write_text(
+    "#!/usr/bin/env bash\n"
+    "# PR-fast coverage test threads: nextest-default\n"
+    "# ADL_PR_FAST_COVERAGE_TEST_THREADS\n"
+    "# --test-threads\n"
+)
 PY
-  git add adl/src/cli/process_cmd.rs .github/workflows/ci.yaml adl/tools/check_coverage_impact.sh adl/tools/test_check_coverage_impact.sh adl/tools/test_ci_runtime_contracts.sh
+  git add adl/src/cli/process_cmd.rs .github/workflows/ci.yaml adl/tools/check_coverage_impact.sh adl/tools/test_check_coverage_impact.sh adl/tools/test_ci_runtime_contracts.sh adl/tools/test_run_pr_fast_coverage_lane.sh
   git commit -q -m runtime-bounded-pr-fast-coverage-policy-change
   runtime_bounded_pr_fast_head="$(git rev-parse HEAD)"
 
