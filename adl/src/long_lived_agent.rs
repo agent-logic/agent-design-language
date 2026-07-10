@@ -10,7 +10,9 @@ use std::path::{Path, PathBuf};
 use std::thread;
 use std::time::Duration;
 
-use crate::chronosense::{ChronosenseRuntimeService, ChronosenseRuntimeServiceConfig};
+use crate::chronosense::{
+    capture_ntpd_rs_time_sync_status, ChronosenseRuntimeService, ChronosenseRuntimeServiceConfig,
+};
 use crate::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
 use crate::runtime_aws_signal::publish_csm_governed_notice_signal;
 use crate::{adl, execute, resolve, trace};
@@ -30,6 +32,10 @@ pub use types::{
 };
 
 const DAEMON_DEFAULT_INTERVAL_SECS: u64 = 3;
+
+fn utc_now() -> DateTime<Utc> {
+    Utc::now()
+}
 
 pub fn load_spec(spec_path: &Path) -> Result<LoadedAgentSpec> {
     let raw = fs::read_to_string(spec_path)
@@ -2688,6 +2694,10 @@ impl CsmRuntimeContext {
         .context("failed initializing CSM Chronosense runtime service")?;
         Ok(Self { chronosense })
     }
+
+    fn time_sync_status(&self) -> crate::chronosense::ChronosenseTimeSyncStatus {
+        capture_ntpd_rs_time_sync_status()
+    }
 }
 
 fn write_daemon_status(
@@ -2696,6 +2706,9 @@ fn write_daemon_status(
     input: DaemonStatusInput<'_>,
 ) -> Result<DaemonStatusRecord> {
     let now = Utc::now();
+    let started_at = read_json_optional::<DaemonStatusRecord>(&daemon_status_path(loaded))?
+        .map(|status| status.started_at)
+        .unwrap_or(now);
     let status = DaemonStatusRecord {
         schema: DAEMON_STATUS_SCHEMA.to_string(),
         agent_instance_id: loaded.spec.agent_instance_id.clone(),
@@ -2710,6 +2723,7 @@ fn write_daemon_status(
         checkpoint_interval_secs: input.checkpoint_interval_secs,
         last_event: input.last_event.to_string(),
         last_child_exit: input.last_child_exit,
+        started_at,
         last_checkpoint_at: now,
         next_backoff_secs: input.next_backoff_secs,
         trace_id: daemon_trace_id(loaded),
@@ -2907,6 +2921,7 @@ fn emit_daemon_event(
     });
     append_operator_event(loaded, event, event_details)?;
     let restart_count_s = restart_count.to_string();
+    let time_sync_status = runtime_context.time_sync_status();
     crate::observability::emit_event(
         "csm",
         event,
@@ -2921,6 +2936,11 @@ fn emit_daemon_event(
             ("runtime_role", "csm_runtime"),
             ("adl_role", "tooling_control_plane"),
             ("chronosense", "integrated"),
+            ("chronosense_time_sync", time_sync_status.health.as_str()),
+            (
+                "chronosense_time_sync_reason",
+                time_sync_status.reason.as_str(),
+            ),
             ("aee_recovery", "integrated"),
             ("scheduler_watcher", "integrated"),
             ("resilience_middleware", "integrated"),
@@ -2954,7 +2974,12 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
             "status": "integrated",
             "service_schema": runtime_context.chronosense.config().schema_version,
             "clock_stack_schema": crate::chronosense::CHRONOSENSE_CLOCK_STACK_SCHEMA,
-            "clock_stack_capture": "daemon_event_time"
+            "clock_stack_capture": "daemon_event_time",
+            "ntp_substrate": "ntpd-rs",
+            "ntp_process_model": "csm_in_process_component_no_separate_binary",
+            "ntp_primary_status_source": "ntp_daemon::ObservableState",
+            "ntp_compatibility_fallback": "ntp-ctl only when ADL_CSM_NTPD_RS_CTL_COMPAT=1",
+            "time_sync": runtime_context.time_sync_status()
         },
         "aee": {
             "status": "integrated",
