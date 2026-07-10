@@ -9,6 +9,10 @@ use std::net::{IpAddr, SocketAddr, TcpListener, TcpStream};
 use std::path::{Path, PathBuf};
 use std::time::{Duration, Instant};
 
+use crate::csm_networking::{
+    csm_connection_pooling_plan, csm_listener_registry_json, csm_runtime_connection_pool_status,
+    resolve_main_runtime_api_listener, CSM_POOLING_PLAN_SCHEMA,
+};
 use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, StatusRecord};
 
 pub const CSM_RUNTIME_API_SCHEMA: &str = "adl.csm.runtime_api.v1";
@@ -33,6 +37,7 @@ pub struct CsmRuntimeApiOptions {
 pub struct CsmRuntimeApiServeResult {
     pub schema: String,
     pub status: String,
+    pub listener_role: String,
     pub bind_addr: String,
     pub served_requests: usize,
 }
@@ -41,8 +46,22 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
     if options.test_max_requests == Some(0) {
         bail!("CSM runtime API test request limit must be greater than zero");
     }
-    let listener = TcpListener::bind(&options.bind)
-        .with_context(|| format!("failed binding CSM runtime API to {}", options.bind))?;
+    let listener_config = resolve_main_runtime_api_listener(
+        Some(&options.bind),
+        options.test_max_requests.is_some() || options.idle_timeout_ms.is_some(),
+    )?;
+    let listener = TcpListener::bind(listener_config.bind_addr).with_context(|| {
+        format!(
+            "failed binding CSM runtime API listener_role={} bind_addr={} remediation_hint={}",
+            listener_config.role.as_str(),
+            listener_config.bind_addr,
+            listener_config
+                .to_observability_json()
+                .get("remediation_hint")
+                .and_then(Value::as_str)
+                .unwrap_or("free the configured CSM listener port")
+        )
+    })?;
     let addr = listener
         .local_addr()
         .context("read CSM API local address")?;
@@ -52,8 +71,11 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
         serde_json::to_string(&json!({
             "schema": CSM_RUNTIME_API_SCHEMA,
             "status": "listening",
+            "listener_role": listener_config.role.as_str(),
             "bind_addr": addr.to_string(),
-            "runtime_owner": "csm"
+            "runtime_owner": "csm",
+            "networking": listener_config.to_observability_json(),
+            "pooling_plan_schema": CSM_POOLING_PLAN_SCHEMA
         }))?
     );
     std::io::stdout().flush().ok();
@@ -110,6 +132,7 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
     Ok(CsmRuntimeApiServeResult {
         schema: CSM_RUNTIME_API_SCHEMA.to_string(),
         status: "completed".to_string(),
+        listener_role: listener_config.role.as_str().to_string(),
         bind_addr: addr.to_string(),
         served_requests: served,
     })
@@ -179,6 +202,9 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "schema": CSM_RUNTIME_API_STATUS_SCHEMA,
         "runtime_owner": "csm",
         "adl_role": "tooling_control_plane",
+        "networking": csm_listener_registry_json(),
+        "pooling_plan": csm_connection_pooling_plan(),
+        "connection_pool_status": csm_runtime_connection_pool_status(),
         "agent_instance_id": loaded.spec.agent_instance_id,
         "status": health,
         "ready": ready,
@@ -1270,5 +1296,21 @@ memory: {}
             .as_array()
             .unwrap()
             .contains(&json!("daemon_supervisor_pid_stale")));
+    }
+
+    #[test]
+    fn runtime_api_rejects_unclassified_ephemeral_csm_bind() {
+        let root = temp_root("ephemeral-reject");
+        let spec = write_spec(&root);
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: "127.0.0.1:0".to_string(),
+            test_max_requests: None,
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let err = serve_runtime_api(options).expect_err("unclassified CSM :0 bind must fail");
+        assert!(err.to_string().contains("refuses unclassified"));
     }
 }

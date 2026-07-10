@@ -218,6 +218,7 @@ rand = "0.8"
 tiny_http = "0.12"
 sha2 = "0.10"
 zeroize = "1"
+deadpool = { version = "0.13.0", default-features = false, features = ["unmanaged"] }
 
 [dev-dependencies]
 loom = "0.7"

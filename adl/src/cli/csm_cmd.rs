@@ -779,6 +779,7 @@ Semantics:
   - csm service owns CSM runtime supervision around csm daemon; local mode is the portable Rust supervisor path, while launchd/systemd metadata are host integration targets.
   - csm governed-stop is the only emergency polis stop path; it requires explicit operator metadata, checkpoints and safe-fail serialization before stop, lifecycle lifelog DB rows, and governed notice fan-out.
   - csm daemon embeds the local-by-default runtime API at --api-bind and exposes /status, /health, /ready, /metrics, and /events from retained runtime artifacts without leaking host-private paths or secrets.
+  - csm daemon defaults its embedded runtime API to listener_role=main_runtime_api on 127.0.0.1:19997; 19950-19999 is reserved for local CSM runtime/dev/test listeners, and 127.0.0.1:0 is accepted only for explicit bounded test harness flags.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
   - csm cloud-control owns read-only AWS cloud-control observation hooks, including CloudFront status proof under the Agent Logic account guard.
   - csm backpressure proves bounded overload policy, retained metrics, and safe-fail serialization triggers for capacity-degraded runtime paths.

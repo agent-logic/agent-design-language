@@ -1352,6 +1352,47 @@ review_results:
 }
 
 #[test]
+fn sor_emitted_facts_preserve_terminal_review_timeout_truth() {
+    let output = "## Verification Summary\n\n```yaml\nverification_summary:\n  validation:\n    status: PASS\n```\n";
+    let review = r#"---
+review_results:
+  findings_status: "review_timeout"
+  recommended_outcome: "block"
+---
+
+# Structured Review Prompt
+
+## Findings
+
+- Bounded review subagent timed out after repeated waits; no completed review is claimed.
+
+## Dispositions
+
+- Record terminal review timeout truth in SRP/SOR and block publication until follow-up review.
+"#;
+
+    let normalized = normalize_sor_emitted_facts_fixture(
+        output,
+        &["adl/src/cli/pr_cmd/finish_support.rs".to_string()],
+        &["git diff --check".to_string()],
+        review,
+        SorFactEmissionContext {
+            validation_status: "PASS",
+            pr_url: None,
+            integration_state: "worktree_only",
+            closing_linkage_repaired: false,
+            issue_watcher: None,
+        },
+    )
+    .expect("normalize terminal review timeout evidence");
+
+    assert!(normalized.contains("findings_status: review_timeout"));
+    assert!(normalized.contains("recommended_outcome: block"));
+    assert!(normalized.contains("Bounded review subagent timed out after repeated waits"));
+    assert!(normalized.contains("Record terminal review timeout truth in SRP/SOR"));
+}
+
+#[test]
 fn render_default_finish_validation_includes_profile_truth_and_sanitizes_changed_files() {
     let plan = FinishValidationPlan {
         mode: FinishValidationMode::SmallBinaryFocused,

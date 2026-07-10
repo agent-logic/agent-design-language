@@ -259,6 +259,29 @@ fn tick_creates_state_status_full_cycle_bundle_and_removes_lease() {
 }
 
 #[test]
+fn status_tolerates_partial_trailing_cycle_ledger_record() {
+    let root = temp_dir("partial-ledger-tail");
+    let spec = write_spec(&root);
+    tick(&spec, TickOptions::default()).expect("tick");
+
+    let ledger_path = root.join("state/cycle_ledger.jsonl");
+    let mut ledger = fs::OpenOptions::new()
+        .append(true)
+        .open(&ledger_path)
+        .expect("open ledger for partial append");
+    write!(
+        ledger,
+        "{{\"schema\":\"{}\",\"cycle_id\":\"cycle-000002\",\"status\"",
+        CYCLE_LEDGER_ENTRY_SCHEMA
+    )
+    .expect("write partial trailing ledger record");
+
+    let recovered = status(&spec).expect("status skips partial trailing cycle ledger record");
+    assert_eq!(recovered.completed_cycle_count, 1);
+    assert_eq!(recovered.last_cycle_id.as_deref(), Some("cycle-000001"));
+}
+
+#[test]
 fn tick_mock_mode_writes_runtime_aws_heartbeat_envelopes() {
     let root = temp_dir("aws-heartbeat-mock");
     let spec = write_spec(&root);

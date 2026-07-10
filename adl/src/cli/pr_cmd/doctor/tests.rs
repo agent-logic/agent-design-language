@@ -957,6 +957,28 @@ fn card_lifecycle_blocks_completed_srp_without_review_results() {
 }
 
 #[test]
+fn card_lifecycle_accepts_terminal_review_timeout_results() {
+    let repo = lifecycle_temp_repo("completed-srp-review-timeout-results");
+    let paths = write_lifecycle_fixture(
+        &repo,
+        LifecycleFixture {
+            sip: "Card Status: ready\nBranch: codex/3065-test\n",
+            stp: "---\ncard_status: \"ready\"\n---\n\n## Summary\n\nfixture summary\n\n## Goal\n\nfixture goal\n\n## Required Outcome\n\nready\n\n## Deliverables\n\n- fixture deliverable\n\n## Acceptance Criteria\n\n- pass\n\n## Repo Inputs\n\n- fixture\n\n## Dependencies\n\n- none\n\n## Demo Expectations\n\n- none\n\n## Non-goals\n\n- none\n\n## Issue-Graph Notes\n\n- fixture note\n\n## Notes\n\nfixture notes\n\n## Tooling Notes\n\n- fixture tooling note\n",
+            spp: reviewed_ready_spp_frontmatter("codex/3065-test"),
+            srp: "---\nartifact_type: \"structured_review_prompt\"\nbranch: \"codex/3065-test\"\ncard_status: \"completed\"\nstatus: \"approved\"\nreview_results:\n  findings_status: \"review_timeout\"\n  recommended_outcome: \"block\"\n---\n\n# Structured Review Prompt\n\n## Review Results\n\n- The bounded review subagent timed out; no review completion is claimed.\n",
+            sor: "# output\n\nBranch: codex/3065-test\nCard Status: ready\nStatus: DONE\n\n## Main Repo Integration (REQUIRED)\n- Worktree-only paths remaining: tracked change still on PR branch\n- Integration state: pr_open\n- Result: PASS\n\n## Validation\n- focused validation passed\n",
+        },
+    );
+
+    let lifecycle = build_doctor_card_lifecycle(
+        &repo, &paths.sip, &paths.stp, &paths.spp, &paths.vpp, &paths.srp, &paths.sor,
+    );
+
+    assert_eq!(lifecycle.pr_finish_readiness, "ready");
+    assert_stage(&lifecycle, "SRP", "final", true, true);
+}
+
+#[test]
 fn card_lifecycle_blocks_completed_sor_before_terminal_closeout() {
     let repo = lifecycle_temp_repo("completed-sor-before-closeout");
     let paths = write_lifecycle_fixture(

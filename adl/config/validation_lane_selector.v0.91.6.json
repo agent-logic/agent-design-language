@@ -175,6 +175,7 @@
         "adl/tools/ci_path_policy.sh",
         "adl/tools/run_v0913_proof_validation_lane.sh",
         "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh",
         "adl/tools/run_nessus_remote_validation.sh",
         "adl/tools/run_validation_manager_nessus_lane.sh",
@@ -204,6 +205,7 @@
         "adl/tools/ci_path_policy.sh",
         "adl/tools/run_v0913_proof_validation_lane.sh",
         "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh",
         "adl/tools/run_nessus_remote_validation.sh",
         "adl/tools/run_validation_manager_nessus_lane.sh",
@@ -946,6 +948,7 @@
         "adl/tools/rust_validation_warm_cache.sh",
         "adl/tools/test_rust_validation_warm_cache.sh",
         "adl/tools/run_authoritative_coverage_lane.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         "adl/tools/run_owner_validation_lane.sh",
         "adl/tools/run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh"
@@ -956,6 +959,7 @@
         "adl/tools/rust_validation_warm_cache.sh",
         "adl/tools/test_rust_validation_warm_cache.sh",
         "adl/tools/run_authoritative_coverage_lane.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         "adl/tools/run_owner_validation_lane.sh",
         "adl/tools/run_pr_fast_coverage_lane.sh",
         "adl/tools/run_pr_fast_test_lane.sh"

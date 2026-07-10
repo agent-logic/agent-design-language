@@ -117,7 +117,7 @@ When finalizing review, record the machine-readable review result in frontmatter
 
 ```yaml
 review_results:
-  findings_status: "no_findings | findings_present"
+  findings_status: "no_findings | findings_present | review_unavailable | review_timeout | review_cancelled | review_failed"
   recommended_outcome: "pass | block | needs_followup"
 ```
 

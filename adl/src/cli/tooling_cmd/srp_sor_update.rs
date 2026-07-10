@@ -390,8 +390,19 @@ fn normalize_findings_status(value: &str) -> Result<String> {
         }
         "findings_present" | "findings-present" | "findings" | "open" | "unresolved"
         | "blocked" => Ok("findings_present".to_string()),
+        "review_unavailable" | "review-unavailable" | "unavailable" => {
+            Ok("review_unavailable".to_string())
+        }
+        "review_timeout" | "review-timeout" | "timeout" | "timed_out" | "timed-out" => {
+            Ok("review_timeout".to_string())
+        }
+        "review_cancelled" | "review-cancelled" | "cancelled" | "canceled" | "cancelled_review"
+        | "canceled_review" => Ok("review_cancelled".to_string()),
+        "review_failed" | "review-failed" | "failed" | "failure" | "error" => {
+            Ok("review_failed".to_string())
+        }
         other => bail!(
-            "unsupported review.findings_status '{other}' (expected no_findings or findings_present)"
+            "unsupported review.findings_status '{other}' (expected no_findings, findings_present, review_unavailable, review_timeout, review_cancelled, or review_failed)"
         ),
     }
 }

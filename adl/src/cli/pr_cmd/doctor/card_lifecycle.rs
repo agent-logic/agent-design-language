@@ -652,7 +652,14 @@ fn normalized_review_value(value: Option<&str>) -> Option<String> {
 fn matches_final_findings_status(value: Option<&str>) -> bool {
     matches!(
         normalized_review_value(value).as_deref(),
-        Some("no_findings" | "findings_present")
+        Some(
+            "no_findings"
+                | "findings_present"
+                | "review_unavailable"
+                | "review_timeout"
+                | "review_cancelled"
+                | "review_failed"
+        )
     )
 }
 
