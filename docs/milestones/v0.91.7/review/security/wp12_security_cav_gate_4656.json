@@ -4,7 +4,7 @@
   "parent_issue": 4639,
   "milestone": "v0.91.7",
   "status": "gate_recorded_child_blockers_open",
-  "generated_at_utc": "2026-07-10T18:05:00Z",
+  "generated_at_utc": "2026-07-10T18:35:00Z",
   "purpose": "Record the WP-12 security and CAV pre-v0.92 activation gate so unresolved security, CAV, access-rule, and protocol work remains explicit until owner issues prove it or the operator approves a non-claim.",
   "authoritative_review_packet": "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
   "source_evidence": [
@@ -59,13 +59,18 @@
       "dependent_issues": [
         4657
       ],
-      "state": "child_issue_open",
-      "v092_disposition": "blocks_secret_runtime_claims",
+      "state": "integrated_proven",
+      "v092_disposition": "supports_ssm_operations_claims",
       "evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md",
+        "docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json",
+        "docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/local_polis_ssm_summary.json",
+        "docs/adr/0035-local-polis-ssm-operations-boundary.md",
+        "adl/tools/validate_wp12_ssm_readiness_4657.py",
         "docs/milestones/v0.91.7/WBS_v0.91.7.md",
         "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md"
       ],
-      "required_before_claim": "Secrets and local polis readiness must be proven by #4657 before v0.92 relies on runtime secret loading or AWS SSM/local-polis security claims."
+      "required_before_claim": "SSM operations readiness may cite #4657 after validating the retained #4687 live proof. Secret values, provider/model execution, governance authority, and unattended mutation remain non-claims unless separately proven."
     },
     {
       "id": "acip_a2a_schema_and_protobuf_projection",

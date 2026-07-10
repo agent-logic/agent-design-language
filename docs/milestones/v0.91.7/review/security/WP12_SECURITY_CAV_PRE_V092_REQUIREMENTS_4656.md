@@ -93,7 +93,7 @@ Disposition:
 | --- | --- | --- | --- |
 | Capability envelope, witness, and receipt readiness | `#4656` with `#4914`, `#4917`, `#4920` | blocked until child proofs | Blocks capability-envelope and birthday-evidence claims. |
 | Security/CAV activation boundary | `#4656` with `#4914`, `#4917`, `#4920` | blocked until child proofs | Blocks security/CAV readiness. |
-| SSM and local polis secret readiness | `#4657` | child issue open | Blocks runtime secret-loading and secret-readiness claims. |
+| SSM and local polis operations readiness | `#4657` | integrated proven | Supports SSM operations claims; secret values, provider/model execution, governance authority, and unattended mutation remain non-claims. |
 | ACIP/A2A schema and protobuf projection | `#4658` with `#4900` | child issue open | Blocks protocol readiness. |
 | ACIP WebSocket transport path | `#4659` with `#4900` | child issue open | Blocks transport activation. |
 | External-agent access rules | `#4660` | child issue open | Blocks external-agent trust claims. |
