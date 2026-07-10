@@ -47,8 +47,19 @@ grep -F "no changed production adl/src Rust files" /tmp/coverage-impact-test-onl
 changed="$TMP/changed.txt"
 printf 'A\tadl/src/runtime_v2/new_large_surface.rs\n' >"$changed"
 risk_filters="$TMP/risk-filters.txt"
-bash "$SCRIPT" --changed-files "$changed" --print-risk-filters >"$risk_filters"
-grep -Fx "new_large_surface" "$risk_filters" >/dev/null
+if bash "$SCRIPT" --changed-files "$changed" --print-risk-filters >"$risk_filters" 2>/tmp/coverage-impact-unmapped-filter.out; then
+  echo "expected unmapped changed source to fail closed before printing risk filters" >&2
+  exit 1
+fi
+[ ! -s "$risk_filters" ]
+grep -F "unmapped changed Rust source requires an explicit PR-fast coverage mapping" /tmp/coverage-impact-unmapped-filter.out >/dev/null
+grep -F "adl/src/runtime_v2/new_large_surface.rs" /tmp/coverage-impact-unmapped-filter.out >/dev/null
+if bash "$SCRIPT" --changed-files "$changed" --print-risk-nextest-expression >/tmp/coverage-impact-unmapped-expression.out 2>/tmp/coverage-impact-unmapped-expression.err; then
+  echo "expected unmapped changed source to fail closed before printing nextest expression" >&2
+  exit 1
+fi
+[ ! -s /tmp/coverage-impact-unmapped-expression.out ]
+grep -F "refusing broad fallback" /tmp/coverage-impact-unmapped-expression.err >/dev/null
 
 control_plane_changed="$TMP/control-plane-changed.txt"
 printf 'A\tadl/src/cli/pr_cmd/doctor.rs\n' >"$control_plane_changed"
@@ -208,8 +219,9 @@ if bash "$SCRIPT" --changed-files "$changed" --require-summary-for-risk >/tmp/co
 fi
 grep -F "Coverage-impact preflight needs coverage evidence" /tmp/coverage-impact-missing.out >/dev/null
 grep -F "new_large_surface" /tmp/coverage-impact-missing.out >/dev/null
-grep -F "candidate filter: new_large_surface" /tmp/coverage-impact-missing.out >/dev/null
-grep -F "generate focused summary: cd adl && CARGO_INCREMENTAL=0 cargo llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E 'test(new_large_surface)' && cargo llvm-cov report --json --summary-only --output-path target/coverage-impact-summary.json" /tmp/coverage-impact-missing.out >/dev/null
+grep -F "candidate filter: unmapped" /tmp/coverage-impact-missing.out >/dev/null
+grep -F "generate focused summary: add an explicit coverage-impact mapping for adl/src/runtime_v2/new_large_surface.rs before running PR-fast coverage" /tmp/coverage-impact-missing.out >/dev/null
+grep -F "fail-closed reason: unmapped production Rust source must not fall back to a broad basename nextest filter" /tmp/coverage-impact-missing.out >/dev/null
 grep -F "Then rerun: bash adl/tools/check_coverage_impact.sh --base origin/main --changed-files $changed --summary adl/target/coverage-impact-summary.json --require-summary-for-risk" /tmp/coverage-impact-missing.out >/dev/null
 
 if bash "$SCRIPT" --changed-files "$finish_helper_changed" --require-summary-for-risk >/tmp/coverage-impact-finish-helper-missing.out 2>&1; then
@@ -298,7 +310,7 @@ if bash "$SCRIPT" --changed-files "$changed" --summary "$low_summary" >/tmp/cove
 fi
 grep -F "77.00% < 80%" /tmp/coverage-impact-low.out >/dev/null
 grep -F "Actionable next steps:" /tmp/coverage-impact-low.out >/dev/null
-grep -F "refresh focused summary after adding or expanding tests: cd adl && CARGO_INCREMENTAL=0 cargo llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E 'test(new_large_surface)' && cargo llvm-cov report --json --summary-only --output-path target/coverage-impact-summary.json" /tmp/coverage-impact-low.out >/dev/null
+grep -F "refresh focused summary after adding or expanding tests: add an explicit coverage-impact mapping for adl/src/runtime_v2/new_large_surface.rs before running PR-fast coverage" /tmp/coverage-impact-low.out >/dev/null
 grep -F "Common failure modes:" /tmp/coverage-impact-low.out >/dev/null
 
 cli_dispatch_companion_changed="$TMP/cli-dispatch-companion-changed.txt"
@@ -351,7 +363,7 @@ if bash "$SCRIPT" --changed-files "$changed" --summary "$missing_summary" >/tmp/
   exit 1
 fi
 grep -F "no coverage row" /tmp/coverage-impact-missing-row.out >/dev/null
-grep -F "generate focused summary: cd adl && CARGO_INCREMENTAL=0 cargo llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E 'test(new_large_surface)' && cargo llvm-cov report --json --summary-only --output-path target/coverage-impact-summary.json" /tmp/coverage-impact-missing-row.out >/dev/null
+grep -F "generate focused summary: add an explicit coverage-impact mapping for adl/src/runtime_v2/new_large_surface.rs before running PR-fast coverage" /tmp/coverage-impact-missing-row.out >/dev/null
 
 live_runtime_boundary_summary="$TMP/live-runtime-boundary-summary.json"
 make_summary "adl/src/aws_remote_validation.rs" 1610 2559 "$live_runtime_boundary_summary"
