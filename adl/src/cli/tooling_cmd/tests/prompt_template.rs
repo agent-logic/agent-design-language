@@ -322,7 +322,7 @@ fn prompt_template_cli_edits_spp_lifecycle_status_values() {
             .to_string_lossy()
             .to_string(),
         "--set".to_string(),
-        "activation_state=design_time_ready".to_string(),
+        "activation_state=not_a_lifecycle_state".to_string(),
     ])
     .expect_err("invalid SPP lifecycle value should fail closed");
     assert!(invalid
@@ -987,7 +987,7 @@ fn prompt_template_cli_usage_and_error_paths_are_deterministic() {
     .expect_err("bad kind should fail");
     assert!(bad_kind
         .to_string()
-        .contains("card kind must be one of sip, stp, spp, vpp, srp, sor"));
+        .contains("PromptCardKind must be one of: sip, stp, spp, vpp, srp, sor; actual: bad"));
 
     let unsupported_out = real_tooling(&[
         "prompt-template".to_string(),
