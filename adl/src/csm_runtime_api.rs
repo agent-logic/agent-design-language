@@ -22,6 +22,7 @@ pub const CSM_RUNTIME_API_READY_SCHEMA: &str = "adl.csm.runtime_api.ready.v1";
 pub const CSM_RUNTIME_API_METRICS_SCHEMA: &str = "adl.csm.runtime_api.metrics.v1";
 pub const CSM_RUNTIME_API_EVENTS_SCHEMA: &str = "adl.csm.runtime_api.events.v1";
 const CSM_RUNTIME_API_BROWSER_DEMO_PORT: &str = "8765";
+pub const CSM_RUNTIME_API_CHRONOSENSE_SCHEMA: &str = "adl.csm.runtime_api.chronosense.v1";
 
 #[derive(Debug, Clone)]
 pub struct CsmRuntimeApiOptions {
@@ -147,11 +148,12 @@ pub fn runtime_api_response(options: &CsmRuntimeApiOptions, path: &str) -> Resul
         "/ready" => ready_response(&loaded, options),
         "/metrics" => metrics_response(&loaded, options),
         "/events" => events_response(&loaded),
+        "/chronosense" => chronosense_response(&loaded, options),
         other => Ok(json!({
             "schema": CSM_RUNTIME_API_SCHEMA,
             "status": "not_found",
             "endpoint": other,
-            "supported_endpoints": ["/status", "/health", "/ready", "/metrics", "/events"]
+            "supported_endpoints": ["/status", "/health", "/ready", "/metrics", "/events", "/chronosense"]
         })),
     }
 }
@@ -238,6 +240,44 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
             "absolute_host_paths": "not_returned",
             "secret_material": "not_returned",
             "cloud_account_identifiers": "not_returned"
+        }
+    });
+    assert_api_response_redacted(&response)?;
+    Ok(response)
+}
+
+fn chronosense_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
+    let status = status_response(loaded, options)?;
+    let daemon = read_json_artifact(&artifact_path(loaded, "daemon_status.json"));
+    let chronosense = status
+        .get("chronosense")
+        .cloned()
+        .unwrap_or_else(|| json!({"status": "missing"}));
+    let time_sync = chronosense.get("time_sync").cloned().unwrap_or_else(|| {
+        json!({
+            "schema_version": "chronosense_time_sync_status.v1",
+            "substrate": "ntpd-rs",
+            "source": "ntp-ctl status",
+            "mode": "external_status_projection",
+            "health": "unknown",
+            "confidence": "none",
+            "drift_status": "unknown",
+            "failure_state": "chronosense_time_sync_missing",
+            "reason": "daemon_status_missing_chronosense_time_sync"
+        })
+    });
+    let response = json!({
+        "schema": CSM_RUNTIME_API_CHRONOSENSE_SCHEMA,
+        "runtime_owner": "csm",
+        "agent_instance_id": loaded.spec.agent_instance_id,
+        "status": status["status"],
+        "ready": status["ready"],
+        "service": chronosense,
+        "clock_stack": daemon.pointer("/value/runtime_capabilities/chronosense/clock_stack_schema").cloned().unwrap_or(Value::Null),
+        "time_sync": time_sync,
+        "monotonic_runtime": {
+            "clock_stack_capture": chronosense.get("clock_stack_capture").cloned().unwrap_or(Value::Null),
+            "reference_frames": ["utc_epoch_millis", "local_civil_time", "runtime_lifetime", "runtime_monotonic_elapsed"]
         }
     });
     assert_api_response_redacted(&response)?;
@@ -582,7 +622,10 @@ fn classify_ready(
         || continuity_checkpoint.get("status").and_then(Value::as_str) != Some("serialized")
         || is_terminal_daemon_state(daemon_state)
         || daemon_pid_liveness == Some("stale_pid");
-    if not_ready {
+    let time_sync_not_ready = daemon_status
+        .pointer("/value/runtime_capabilities/chronosense/time_sync")
+        .is_none_or(time_sync_value_blocks_ready);
+    if not_ready || time_sync_not_ready {
         "not_ready"
     } else {
         "ready"
@@ -686,7 +729,38 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
         Some("startup_failed") => blockers.push("daemon_state_startup_failed".to_string()),
         _ => {}
     }
+    let time_sync = status.pointer("/chronosense/time_sync");
+    if time_sync.is_none_or(time_sync_value_blocks_ready) {
+        blockers.push(
+            match time_sync
+                .and_then(|value| value.get("health"))
+                .and_then(Value::as_str)
+            {
+                Some("degraded") => "chronosense_time_sync_degraded".to_string(),
+                Some("unavailable") => "chronosense_time_sync_unavailable".to_string(),
+                Some("unknown") => "chronosense_time_sync_unknown".to_string(),
+                Some(other) => format!("chronosense_time_sync_{other}"),
+                None => "chronosense_time_sync_missing".to_string(),
+            },
+        );
+    }
     blockers
+}
+
+fn time_sync_value_blocks_ready(value: &Value) -> bool {
+    let health = value.get("health").and_then(Value::as_str);
+    let failure_state = value.get("failure_state").unwrap_or(&Value::Null);
+    let Some(health) = health else {
+        return true;
+    };
+    time_sync_blocks_ready(health, failure_state)
+}
+
+fn time_sync_blocks_ready(health: &str, failure_state: &Value) -> bool {
+    if health == "synced" {
+        return false;
+    }
+    failure_state.as_str() != Some("ntpd_rs_probe_disabled")
 }
 
 fn validate_loopback_bind(addr: &SocketAddr) -> Result<()> {
@@ -1123,7 +1197,19 @@ memory: {}
                 "state": "running",
                 "last_event": "daemon_started",
                 "updated_at": Utc::now(),
-                "last_checkpoint_at": Utc::now()
+                "last_checkpoint_at": Utc::now(),
+                "runtime_capabilities": {
+                    "chronosense": {
+                        "status": "integrated",
+                        "time_sync": {
+                            "schema_version": "chronosense_time_sync_status.v1",
+                            "substrate": "ntpd-rs",
+                            "health": "unavailable",
+                            "failure_state": "ntpd_rs_probe_disabled",
+                            "reason": "ntpd_rs_status_unavailable_without_csm_failure"
+                        }
+                    }
+                }
             }))
             .unwrap(),
         )
@@ -1312,5 +1398,257 @@ memory: {}
         };
         let err = serve_runtime_api(options).expect_err("unclassified CSM :0 bind must fail");
         assert!(err.to_string().contains("refuses unclassified"));
+    }
+
+    #[test]
+    fn runtime_api_exposes_chronosense_ntpd_rs_time_sync_projection() {
+        let root = temp_root("chronosense");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_status.v1",
+                "agent_instance_id": "api-agent",
+                "state": "idle",
+                "last_cycle_id": "cycle-000001",
+                "last_cycle_status": "completed",
+                "completed_cycle_count": 1,
+                "consecutive_failure_count": 0,
+                "active_lease": null,
+                "stop_requested": false,
+                "last_error": null,
+                "safety_policy": null,
+                "updated_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.daemon_status.v1",
+                "state": "running",
+                "last_event": "checkpoint_write",
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now(),
+                "runtime_capabilities": {
+                    "chronosense": {
+                        "status": "integrated",
+                        "service_schema": "chronosense_runtime_service.v1",
+                        "clock_stack_schema": "chronosense_clock_stack.v1",
+                        "clock_stack_capture": "daemon_event_time",
+                        "time_sync": {
+                            "schema_version": "chronosense_time_sync_status.v1",
+                            "substrate": "ntpd-rs",
+                            "source": "ntp-ctl status",
+                            "mode": "external_status_projection",
+                            "health": "synced",
+                            "confidence": "high",
+                            "drift_status": "within_ntpd_rs_reported_bounds",
+                            "failure_state": null,
+                            "reason": "ntpd_rs_status_reports_active_sources",
+                            "observed_at_rfc3339": Utc::now(),
+                            "poll_command": "ntp-ctl",
+                            "port_policy": "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123",
+                            "parsed_offset_seconds": 0.000024,
+                            "parsed_uncertainty_seconds": 0.000137,
+                            "raw_summary": "Synchronization status:"
+                        }
+                    }
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: "127.0.0.1:0".to_string(),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let response = runtime_api_response(&options, "/chronosense").unwrap();
+
+        assert_eq!(response["schema"], CSM_RUNTIME_API_CHRONOSENSE_SCHEMA);
+        assert_eq!(response["time_sync"]["substrate"], "ntpd-rs");
+        assert_eq!(response["time_sync"]["health"], "synced");
+        assert_eq!(
+            response["time_sync"]["port_policy"],
+            "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123"
+        );
+        assert_eq!(response["ready"], "ready");
+    }
+
+    #[test]
+    fn runtime_api_ready_blocks_unavailable_chronosense_time_sync() {
+        let root = temp_root("chronosense-unavailable");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.daemon_status.v1",
+                "state": "running",
+                "last_event": "checkpoint_write",
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now(),
+                "runtime_capabilities": {
+                    "chronosense": {
+                        "status": "integrated",
+                        "time_sync": {
+                            "schema_version": "chronosense_time_sync_status.v1",
+                            "substrate": "ntpd-rs",
+                            "health": "unavailable",
+                            "failure_state": "ntpd_rs_status_command_unavailable",
+                            "reason": "ntpd_rs_status_unavailable_without_csm_failure"
+                        }
+                    }
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: "127.0.0.1:0".to_string(),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let response = runtime_api_response(&options, "/ready").unwrap();
+
+        assert_eq!(response["ready"], "not_ready");
+        assert!(response["blocking_reasons"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("chronosense_time_sync_unavailable")));
+    }
+
+    #[test]
+    fn runtime_api_ready_blocks_missing_chronosense_time_sync() {
+        let root = temp_root("chronosense-time-sync-missing");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.daemon_status.v1",
+                "state": "running",
+                "last_event": "checkpoint_write",
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now(),
+                "runtime_capabilities": {
+                    "chronosense": {
+                        "status": "integrated"
+                    }
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: "127.0.0.1:0".to_string(),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let response = runtime_api_response(&options, "/ready").unwrap();
+
+        assert_eq!(response["ready"], "not_ready");
+        assert!(response["blocking_reasons"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("chronosense_time_sync_missing")));
+    }
+
+    #[test]
+    fn runtime_api_ready_does_not_block_default_disabled_chronosense_probe() {
+        let root = temp_root("chronosense-disabled");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.daemon_status.v1",
+                "state": "running",
+                "last_event": "checkpoint_write",
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now(),
+                "runtime_capabilities": {
+                    "chronosense": {
+                        "status": "integrated",
+                        "time_sync": {
+                            "schema_version": "chronosense_time_sync_status.v1",
+                            "substrate": "ntpd-rs",
+                            "health": "unavailable",
+                            "failure_state": "ntpd_rs_probe_disabled",
+                            "reason": "ntpd_rs_status_unavailable_without_csm_failure"
+                        }
+                    }
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: "127.0.0.1:0".to_string(),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let response = runtime_api_response(&options, "/ready").unwrap();
+
+        assert_eq!(response["ready"], "ready");
+        assert!(!response["blocking_reasons"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("chronosense_time_sync_unavailable")));
     }
 }

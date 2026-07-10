@@ -10,7 +10,9 @@ use std::path::{Path, PathBuf};
 use std::thread;
 use std::time::Duration;
 
-use crate::chronosense::{ChronosenseRuntimeService, ChronosenseRuntimeServiceConfig};
+use crate::chronosense::{
+    capture_ntpd_rs_time_sync_status, ChronosenseRuntimeService, ChronosenseRuntimeServiceConfig,
+};
 use crate::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
 use crate::runtime_aws_signal::publish_csm_governed_notice_signal;
 use crate::{adl, execute, resolve, trace};
@@ -2659,6 +2661,10 @@ impl CsmRuntimeContext {
         .context("failed initializing CSM Chronosense runtime service")?;
         Ok(Self { chronosense })
     }
+
+    fn time_sync_status(&self) -> crate::chronosense::ChronosenseTimeSyncStatus {
+        capture_ntpd_rs_time_sync_status()
+    }
 }
 
 fn write_daemon_status(
@@ -2878,6 +2884,7 @@ fn emit_daemon_event(
     });
     append_operator_event(loaded, event, event_details)?;
     let restart_count_s = restart_count.to_string();
+    let time_sync_status = runtime_context.time_sync_status();
     crate::observability::emit_event(
         "csm",
         event,
@@ -2892,6 +2899,11 @@ fn emit_daemon_event(
             ("runtime_role", "csm_runtime"),
             ("adl_role", "tooling_control_plane"),
             ("chronosense", "integrated"),
+            ("chronosense_time_sync", time_sync_status.health.as_str()),
+            (
+                "chronosense_time_sync_reason",
+                time_sync_status.reason.as_str(),
+            ),
             ("aee_recovery", "integrated"),
             ("scheduler_watcher", "integrated"),
             ("resilience_middleware", "integrated"),
@@ -2925,7 +2937,8 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
             "status": "integrated",
             "service_schema": runtime_context.chronosense.config().schema_version,
             "clock_stack_schema": crate::chronosense::CHRONOSENSE_CLOCK_STACK_SCHEMA,
-            "clock_stack_capture": "daemon_event_time"
+            "clock_stack_capture": "daemon_event_time",
+            "time_sync": runtime_context.time_sync_status()
         },
         "aee": {
             "status": "integrated",
