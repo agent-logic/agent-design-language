@@ -435,6 +435,12 @@ if "steps.path-policy.outputs.full_coverage_required != 'true'" not in pr_prefli
         "PR coverage-impact preflight must be limited to non-full PR coverage; "
         f"found: {pr_preflight_if}"
     )
+pr_preflight_step = step_block("PR coverage-impact preflight")
+if "args+=(--summary adl/target/coverage-impact-summary.json)" not in pr_preflight_step:
+    raise SystemExit(
+        "PR coverage-impact preflight must validate the focused summary emitted by the PR-fast coverage runner; "
+        "workflow is still reading a stale default coverage-summary.json path"
+    )
 
 gate_if = step_if("Enforce coverage policy gates (workspace + per-file)")
 if "github.event_name != 'pull_request'" not in gate_if:
