@@ -176,6 +176,20 @@ is_slow_pr_cmd_e2e_surface() {
   return 1
 }
 
+is_slow_proof_runtime_v2_test_surface() {
+  local path="$1"
+  case "$path" in
+    adl/src/runtime_v2/private_state_observatory.rs|\
+    adl/src/runtime_v2/tests/governed_learning_substrate.rs|\
+    adl/src/runtime_v2/tests/intelligence_metric_architecture.rs|\
+    adl/src/runtime_v2/tests/memory_identity_architecture.rs|\
+    adl/src/runtime_v2/tests/observatory_flagship.rs)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
 is_broad_rust_surface() {
   local path="$1"
   case "$path" in
@@ -656,6 +670,10 @@ while IFS= read -r path; do
   fi
   rust_surface_count=$((rust_surface_count + 1))
   if [ "$path" = "adl/src/runtime_v2/tests.rs" ] && [ "$saw_slow_proof_contract_surface" = true ]; then
+    slow_proof_inventory_surface_count=$((slow_proof_inventory_surface_count + 1))
+    continue
+  fi
+  if is_slow_proof_runtime_v2_test_surface "$path"; then
     slow_proof_inventory_surface_count=$((slow_proof_inventory_surface_count + 1))
     continue
   fi

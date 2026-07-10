@@ -298,14 +298,26 @@ assert_has "$identity_family_output" "filter_expression=test(identity_cmd)"
 runtime_test_files="$TMP/runtime_test_files.txt"
 cat >"$runtime_test_files" <<'EOF'
 M	adl/src/runtime_v2/tests/theory_of_mind_foundation.rs
-M	adl/src/runtime_v2/tests/intelligence_metric_architecture.rs
-M	adl/src/runtime_v2/tests/governed_learning_substrate.rs
 EOF
 runtime_test_files_output="$(bash "$SCRIPT" --changed-files "$runtime_test_files" --print-plan)"
 assert_has "$runtime_test_files_output" "mode=focused"
 assert_has "$runtime_test_files_output" "reason=bounded_rust_surface_runs_focused_nextest"
-assert_has "$runtime_test_files_output" "filter_tokens=theory_of_mind_foundation,intelligence_metric_architecture,governed_learning_substrate"
-assert_has "$runtime_test_files_output" "filter_expression=test(theory_of_mind_foundation) or test(intelligence_metric_architecture) or test(governed_learning_substrate)"
+assert_has "$runtime_test_files_output" "filter_tokens=theory_of_mind_foundation"
+assert_has "$runtime_test_files_output" "filter_expression=test(theory_of_mind_foundation)"
+
+slow_runtime_test_files="$TMP/slow_runtime_test_files.txt"
+cat >"$slow_runtime_test_files" <<'EOF'
+M	adl/src/runtime_v2/tests/intelligence_metric_architecture.rs
+M	adl/src/runtime_v2/tests/governed_learning_substrate.rs
+M	adl/src/runtime_v2/tests/memory_identity_architecture.rs
+M	adl/src/runtime_v2/tests/observatory_flagship.rs
+EOF
+slow_runtime_test_files_output="$(bash "$SCRIPT" --changed-files "$slow_runtime_test_files" --print-plan)"
+assert_has "$slow_runtime_test_files_output" "mode=contract_only"
+assert_has "$slow_runtime_test_files_output" "reason=slow_proof_inventory_change_covered_by_contract_check"
+assert_has "$slow_runtime_test_files_output" "slow_proof_inventory_surface_count=4"
+assert_not_has "$slow_runtime_test_files_output" "filter_tokens=intelligence_metric_architecture"
+assert_not_has "$slow_runtime_test_files_output" "filter_expression=test(intelligence_metric_architecture)"
 
 runtime_test_helper="$TMP/runtime_test_helper.txt"
 printf 'M\tadl/src/runtime_v2/tests/common.rs\n' >"$runtime_test_helper"

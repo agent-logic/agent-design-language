@@ -131,6 +131,12 @@ private_state_sanctuary_filters="$TMP/private-state-sanctuary-filters.txt"
 bash "$SCRIPT" --changed-files "$private_state_sanctuary_changed" --print-risk-filters >"$private_state_sanctuary_filters"
 grep -Fx "private_state_sanctuary" "$private_state_sanctuary_filters" >/dev/null
 
+private_state_observatory_changed="$TMP/private-state-observatory-changed.txt"
+printf 'M\tadl/src/runtime_v2/private_state_observatory.rs\n' >"$private_state_observatory_changed"
+private_state_observatory_filters="$TMP/private-state-observatory-filters.txt"
+bash "$SCRIPT" --changed-files "$private_state_observatory_changed" --print-risk-filters >"$private_state_observatory_filters"
+grep -Fx "private_state_observatory" "$private_state_observatory_filters" >/dev/null
+
 run_artifacts_runtime_changed="$TMP/run-artifacts-runtime-changed.txt"
 printf 'A\tadl/src/cli/run_artifacts/runtime/trace_validation.rs\n' >"$run_artifacts_runtime_changed"
 run_artifacts_runtime_filters="$TMP/run-artifacts-runtime-filters.txt"
@@ -276,6 +282,14 @@ bash "$SCRIPT" --changed-files "$mixed_fast_lane_changed" --print-risk-filters >
 grep -Fx "pr_cmd" "$mixed_fast_lane_filters" >/dev/null
 grep -Fx "structured_prompt" "$mixed_fast_lane_filters" >/dev/null
 grep -Fx "markdown" "$mixed_fast_lane_filters" >/dev/null
+
+csdlc_prompt_editor_changed="$TMP/csdlc-prompt-editor-changed.txt"
+printf 'M\tadl/src/csdlc_prompt_editor.rs\n' >"$csdlc_prompt_editor_changed"
+csdlc_prompt_editor_filters="$TMP/csdlc-prompt-editor-filters.txt"
+bash "$SCRIPT" --changed-files "$csdlc_prompt_editor_changed" --print-risk-filters >"$csdlc_prompt_editor_filters"
+grep -Fx "csdlc_prompt_editor" "$csdlc_prompt_editor_filters" >/dev/null
+csdlc_prompt_editor_expression="$(bash "$SCRIPT" --changed-files "$csdlc_prompt_editor_changed" --print-risk-nextest-expression)"
+grep -Fx "test(csdlc_prompt_editor)" <<<"$csdlc_prompt_editor_expression" >/dev/null
 
 tokio_bootstrap_wave="$TMP/tokio-bootstrap-wave.txt"
 cat >"$tokio_bootstrap_wave" <<'EOF'

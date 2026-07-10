@@ -1134,7 +1134,10 @@ fn validate_report_matches_packet(
     Ok(())
 }
 
-#[cfg(test)]
+#[cfg(all(
+    test,
+    any(feature = "slow-proof-tests", feature = "slow-proof-private-state")
+))]
 pub(crate) fn validate_private_state_observatory_report_for_test_only(
     packet: &RuntimeV2PrivateStateObservatoryPacket,
     report: &str,

@@ -492,7 +492,8 @@ jobs:
           fi
 
   adl-slow-proof:
-    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: adl_path_policy
+    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -535,7 +536,7 @@ jobs:
 
       - name: Slow proof shard
         run: |
-          cargo nextest run --features slow-proof-tests --partition "count:${{ matrix.shard }}/4" --status-level all --final-status-level slow
+          bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"
 
   adl-coverage:
     runs-on: ubuntu-latest

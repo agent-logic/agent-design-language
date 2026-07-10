@@ -382,6 +382,18 @@ pub fn edit_values_file(
             card.key,
             key
         );
+        ensure!(
+            field.enum_values.is_empty() || field.enum_values.contains(&value.as_str()),
+            "{}.{} must be one of: {}; actual: {}",
+            card.key,
+            key,
+            field.enum_values.join(", "),
+            if value.trim().is_empty() {
+                "<empty>"
+            } else {
+                value
+            }
+        );
         doc.values.insert(key.clone(), value.clone());
     }
 
@@ -3990,5 +4002,26 @@ system:
         assert!(invalid_enum
             .to_string()
             .contains("sor.status must be one of"));
+
+        let spp = tmp.join("spp.values.yaml");
+        fs::write(
+            &spp,
+            sample_values_document(PromptCardKind::Spp, &active_template_set()),
+        )
+        .expect("spp values");
+        let legacy_alias = edit_values_file(
+            &repo_root(),
+            PromptCardKind::Spp,
+            &spp,
+            &[(
+                "activation_state".to_string(),
+                "design_time_ready".to_string(),
+            )],
+            Some(&tmp.join("legacy-alias.values.yaml")),
+        )
+        .expect_err("explicit edit-values enum edits should require canonical values");
+        assert!(legacy_alias
+            .to_string()
+            .contains("spp.activation_state must be one of"));
     }
 }

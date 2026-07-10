@@ -27,6 +27,7 @@ for family in families:
     family_id = family.get("id")
     feature = family.get("feature")
     samples = family.get("sample_tests", [])
+    selectors = family.get("module_selectors", [])
     if not family_id or family_id in seen_ids:
         raise SystemExit(f"invalid or duplicate slow-proof family id: {family_id!r}")
     if not feature or feature in seen_features:
@@ -35,6 +36,11 @@ for family in families:
         raise SystemExit(f"slow-proof feature must use slow-proof-* prefix: {feature}")
     if not samples:
         raise SystemExit(f"slow-proof family must carry sample tests: {family_id}")
+    if not selectors:
+        raise SystemExit(f"slow-proof family must carry module selectors: {family_id}")
+    for selector in selectors:
+        if not selector.startswith("runtime_v2::tests::") or not selector.endswith("::"):
+            raise SystemExit(f"slow-proof selector must stay runtime_v2 module-scoped: {selector}")
     for sample in samples:
         if not sample.startswith("runtime_v2_"):
             raise SystemExit(f"slow-proof sample must stay runtime_v2-scoped: {sample}")
@@ -43,6 +49,78 @@ for family in families:
         seen_samples.add(sample)
     seen_ids.add(family_id)
     seen_features.add(feature)
+PY
+
+python3 - "$ROOT_DIR/adl/src/runtime_v2/tests.rs" "$FAMILY_CONFIG" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+tests_rs = Path(sys.argv[1]).read_text()
+config = json.loads(Path(sys.argv[2]).read_text())
+
+required_gates = {
+    "governed_learning_substrate": "slow-proof-runtime",
+    "intelligence_metric_architecture": "slow-proof-runtime",
+    "memory_identity_architecture": "slow-proof-runtime",
+    "private_state_observatory": "slow-proof-private-state",
+    "observatory_flagship": "slow-proof-observatory",
+}
+for module, feature in required_gates.items():
+    pattern = (
+        r'#\[cfg\(any\(feature = "slow-proof-tests", feature = "'
+        + re.escape(feature)
+        + r'"\)\)\]\s*mod\s+'
+        + re.escape(module)
+        + r';'
+    )
+    if not re.search(pattern, tests_rs):
+        raise SystemExit(f"slow runtime_v2 module is not gated by {feature}: {module}")
+
+samples_by_family = {
+    family["id"]: set(family.get("sample_tests", []))
+    for family in config.get("families", [])
+}
+selectors_by_family = {
+    family["id"]: set(family.get("module_selectors", []))
+    for family in config.get("families", [])
+}
+required_samples = {
+    "runtime": {
+        "runtime_v2_memory_identity_architecture_contract_is_stable",
+        "runtime_v2_intelligence_metric_architecture_contract_is_stable",
+        "runtime_v2_governed_learning_substrate_contract_is_stable",
+    },
+    "observatory": {
+        "runtime_v2_observatory_flagship_review_surfaces_are_stable_and_serializable",
+    },
+    "private_state": {
+        "runtime_v2_private_state_observatory_materialization_proof_is_stable",
+    },
+}
+for family, samples in required_samples.items():
+    missing = samples - samples_by_family.get(family, set())
+    if missing:
+        raise SystemExit(f"slow-proof family {family} is missing samples: {sorted(missing)}")
+
+required_selectors = {
+    "runtime": {
+        "runtime_v2::tests::governed_learning_substrate::",
+        "runtime_v2::tests::intelligence_metric_architecture::",
+        "runtime_v2::tests::memory_identity_architecture::",
+    },
+    "observatory": {
+        "runtime_v2::tests::observatory_flagship::",
+    },
+    "private_state": {
+        "runtime_v2::tests::private_state_observatory::",
+    },
+}
+for family, selectors in required_selectors.items():
+    missing = selectors - selectors_by_family.get(family, set())
+    if missing:
+        raise SystemExit(f"slow-proof family {family} is missing selectors: {sorted(missing)}")
 PY
 
 python3 - "$FAMILY_CONFIG" >"$tmpdir/families.tsv" <<'PY'
@@ -79,17 +157,44 @@ expected_run = [
     "--lib",
     "--features",
     feature,
-    "runtime_v2_",
+    "-E",
+    payload["list_command"][7],
     "--status-level",
     "all",
     "--final-status-level",
     "slow",
 ]
+expected_list = ["cargo", "nextest", "list", "--lib", "--features", feature, "-E", payload["list_command"][7]]
 if payload["list_command"] != expected_list:
     raise SystemExit(f"slow-proof list command drifted for {family}: {payload['list_command']}")
 if payload["run_command"] != expected_run:
     raise SystemExit(f"slow-proof run command drifted for {family}: {payload['run_command']}")
+if "runtime_v2::tests::" not in payload["list_command"][7]:
+    raise SystemExit(f"slow-proof filter must be module-scoped for {family}: {payload['list_command'][7]}")
 PY
 done <"$tmpdir/families.tsv"
+
+bash "$ROOT_DIR/adl/tools/run_slow_proof_family.sh" --family all --json >"$tmpdir/all.json"
+python3 - <<'PY' "$tmpdir/all.json"
+import json
+import sys
+from pathlib import Path
+
+payload = json.loads(Path(sys.argv[1]).read_text())
+if payload["feature"] != "slow-proof-tests":
+    raise SystemExit("all-family slow-proof plan must use the umbrella slow-proof-tests feature")
+expr = payload["list_command"][7]
+for selector in (
+    "runtime_v2::tests::governed_learning_substrate::",
+    "runtime_v2::tests::intelligence_metric_architecture::",
+    "runtime_v2::tests::memory_identity_architecture::",
+    "runtime_v2::tests::observatory_flagship::",
+    "runtime_v2::tests::private_state_observatory::",
+):
+    if selector not in expr:
+        raise SystemExit(f"all-family slow-proof filter missing selector: {selector}")
+if "runtime_v2_" in payload["run_command"]:
+    raise SystemExit("all-family slow-proof run must not use the broad runtime_v2_ substring filter")
+PY
 
 echo "PASS test_slow_proof_lane_contract"

@@ -1092,12 +1092,14 @@
       "owner": "runtime",
       "path_selectors": [
         "adl/tools/test_slow_proof_lane_contract.sh",
+        "adl/tools/run_slow_proof_family.sh",
         "adl/config/slow_proof_families.v0.91.6.json",
         "docs/milestones/**/features/PVF_INITIAL_LANE_INVENTORY*.md",
         "docs/milestones/**/features/PVF_CI_RELEASE_POLICY*.md"
       ],
       "path_hints": [
         "adl/tools/test_slow_proof_lane_contract.sh",
+        "adl/tools/run_slow_proof_family.sh",
         "adl/config/slow_proof_families.v0.91.6.json",
         "docs/milestones/**/features/PVF_INITIAL_LANE_INVENTORY*.md",
         "docs/milestones/**/features/PVF_CI_RELEASE_POLICY*.md"

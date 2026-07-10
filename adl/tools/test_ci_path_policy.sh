@@ -848,6 +848,77 @@ PY
   assert_has "$workflow_pvf_slow_proof_output" "coverage_authority=not_required"
   assert_has "$workflow_pvf_slow_proof_output" "reason=pvf_slow_proof_change_runs_contract_validation"
 
+  git checkout -q -b slow-proof-runtime-bounded-pr-fast-coverage-policy-change "$base_sha"
+  mkdir -p adl/src/runtime_v2 adl/tools
+  python3 - <<'PY'
+from pathlib import Path
+
+workflow = Path(".github/workflows/ci.yaml")
+text = workflow.read_text()
+text = text.replace(
+    "      - name: Coverage run and summary (json)\n        run: bash adl/tools/run_authoritative_coverage_lane.sh\n",
+    "      - name: slow-proof lane contract\n        if: steps.path-policy.outputs.ci_contracts_required == 'true'\n        run: bash adl/tools/test_slow_proof_lane_contract.sh\n      - name: Coverage run and summary (json)\n        run: bash adl/tools/run_authoritative_coverage_lane.sh\n",
+    1,
+)
+text += """
+  adl-slow-proof:
+    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - name: Slow proof shard
+        run: bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"
+"""
+workflow.write_text(text)
+
+Path("adl/src/runtime_v2/tests.rs").write_text(
+    '#[cfg(feature = "slow-proof-tests")]\n'
+    'mod private_state_observatory;\n'
+)
+Path("adl/src/runtime_v2/private_state_observatory.rs").write_text(
+    "pub fn private_state_observatory_fixture() -> bool { true }\n"
+)
+
+coverage = Path("adl/tools/check_coverage_impact.sh")
+coverage.write_text(
+    "#!/usr/bin/env bash\n"
+    "candidate_filter_for_path() {\n"
+    "  local path=\"$1\"\n"
+    "  case \"$path\" in\n"
+    "    adl/src/runtime_v2/private_state_observatory.rs)\n"
+    "      printf 'private_state_observatory'\n"
+    "      ;;\n"
+    "    adl/src/csdlc_prompt_editor.rs)\n"
+    "      printf 'csdlc_prompt_editor'\n"
+    "      ;;\n"
+    "  esac\n"
+    "}\n"
+)
+Path("adl/tools/test_check_coverage_impact.sh").write_text(
+    "#!/usr/bin/env bash\n# private_state_observatory\n# csdlc_prompt_editor\n"
+)
+PY
+  git add .github/workflows/ci.yaml \
+    adl/src/runtime_v2/tests.rs \
+    adl/src/runtime_v2/private_state_observatory.rs \
+    adl/tools/check_coverage_impact.sh \
+    adl/tools/test_check_coverage_impact.sh
+  git commit -q -m slow-proof-runtime-bounded-pr-fast-coverage-policy-change
+  slow_proof_runtime_bounded_head="$(git rev-parse HEAD)"
+
+  slow_proof_runtime_bounded_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$slow_proof_runtime_bounded_head" --ref "refs/pull/1/merge")"
+  assert_has "$slow_proof_runtime_bounded_output" "rust_required=true"
+  assert_has "$slow_proof_runtime_bounded_output" "coverage_required=false"
+  assert_has "$slow_proof_runtime_bounded_output" "full_coverage_required=false"
+  assert_has "$slow_proof_runtime_bounded_output" "demo_smoke_required=false"
+  assert_has "$slow_proof_runtime_bounded_output" "ci_contracts_required=true"
+  assert_has "$slow_proof_runtime_bounded_output" "slow_proof_contract_required=true"
+  assert_has "$slow_proof_runtime_bounded_output" "coverage_lane=deferred_pr_fast"
+  assert_has "$slow_proof_runtime_bounded_output" "coverage_authority=focused_nextest_pr_fast"
+  assert_has "$slow_proof_runtime_bounded_output" "reason=bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation"
+
   git checkout -q -b workflow-authoritative-policy-change "$base_sha"
   python3 - <<'PY'
 from pathlib import Path

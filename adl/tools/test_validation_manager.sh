@@ -377,6 +377,80 @@ if bash "$SCRIPT" --changed-files "$release_gate" --run >"$TMP/refuse.out" 2>"$T
 fi
 assert_has "$TMP/refuse.err" "refusing --run for non-runnable profile"
 
+slow_proof_workflow="$TMP/slow-proof-workflow.txt"
+cat >"$slow_proof_workflow" <<'EOF'
+M	.github/workflows/ci.yaml
+M	adl/tools/test_ci_runtime_contracts.sh
+EOF
+bash "$SCRIPT" --changed-files "$slow_proof_workflow" --json >"$TMP/slow-proof-workflow.json"
+python3 - <<'PY' "$TMP/slow-proof-workflow.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert profile["escalation"]["reasons"] == []
+assert profile["diagnostics"] == []
+assert any(item["lane_id"] == "ci_path_policy_contracts" for item in profile["run"])
+assert any(
+    behavior["id"] == "release_gate_release_gate_review"
+    for behavior in profile["behavior_surfaces"]
+)
+assert any(
+    node["lane_id"] == "release_gate_review"
+    and node["status"] == "disposition_recorded"
+    for node in profile["validation_dag"]["nodes"]
+)
+assert profile["validation_split"]["fast_lane"]["pr_publication_sufficient"] is True
+assert profile["validation_split"]["fail_closed"]["required"] is False
+PY
+
+slow_proof_filtered_fanout="$TMP/slow-proof-filtered-fanout.txt"
+cat >"$slow_proof_filtered_fanout" <<'EOF'
+M	.github/workflows/ci.yaml
+M	adl/config/slow_proof_families.v0.91.6.json
+M	adl/config/validation_lane_selector.v0.91.6.json
+M	adl/src/runtime_v2/private_state_observatory.rs
+M	adl/src/runtime_v2/tests.rs
+M	adl/tools/ci_path_policy.sh
+M	adl/tools/run_pr_fast_test_lane.sh
+M	adl/tools/run_slow_proof_family.sh
+M	adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md
+M	adl/tools/test_ci_runtime_contracts.sh
+M	adl/tools/test_run_pr_fast_test_lane.sh
+M	adl/tools/test_slow_proof_lane_contract.sh
+M	adl/tools/test_validation_manager.sh
+M	adl/tools/validation_manager.py
+EOF
+bash "$SCRIPT" --changed-files "$slow_proof_filtered_fanout" --json >"$TMP/slow-proof-filtered-fanout.json"
+python3 - <<'PY' "$TMP/slow-proof-filtered-fanout.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert profile["escalation"]["reasons"] == []
+assert profile["diagnostics"] == []
+assert any(
+    node["lane_id"] == "release_gate_review"
+    and node["status"] == "disposition_recorded"
+    for node in profile["validation_dag"]["nodes"]
+)
+assert any(
+    node["lane_id"] == "slow_proof_review"
+    and node["status"] == "disposition_recorded"
+    for node in profile["validation_dag"]["nodes"]
+)
+assert profile["validation_split"]["fast_lane"]["pr_publication_sufficient"] is True
+assert profile["validation_split"]["fail_closed"]["required"] is False
+PY
+
 unmapped="$TMP/unmapped.txt"
 printf 'M\ttotally/unmapped/path.txt\n' >"$unmapped"
 bash "$SCRIPT" --changed-files "$unmapped" --json >"$TMP/unmapped.json"
@@ -723,29 +797,17 @@ import sys
 
 profile = json.load(open(sys.argv[1]))
 assert profile["schema_version"] == "adl.validation_profile.v1"
-assert profile["status"] == "escalation_required"
-assert profile["escalation"]["required"] is True
-assert any(
-    reason["lane_id"] == "slow_proof_review"
-    and reason["triggering_surface"] == "adl/tools/test_slow_proof_lane_contract.sh"
-    for reason in profile["escalation"]["reasons"]
-)
-assert any(
-    reason["lane_id"] == "rust_pr_fast"
-    and reason["reason"] == "slow_proof_inventory_change_covered_by_contract_check"
-    for reason in profile["escalation"]["reasons"]
-)
-assert any(
-    diagnostic["code"] == "pr_fast_mode_contract_only"
-    for diagnostic in profile["diagnostics"]
-)
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert profile["escalation"]["reasons"] == []
+assert profile["diagnostics"] == []
+surface_ids = [surface["id"] for surface in profile["behavior_surfaces"]]
+assert "rust_contract_only_behavior" in surface_ids
+assert "slow_proof_slow_proof_review" in surface_ids
+assert profile["validation_split"]["fast_lane"]["pr_publication_sufficient"] is True
+assert profile["validation_split"]["fail_closed"]["required"] is False
 PY
-
-if bash "$SCRIPT" --changed-files "$slow_proof" --run >"$TMP/slow-proof-run.out" 2>"$TMP/slow-proof-run.err"; then
-  echo "expected validation manager to refuse slow-proof --run" >&2
-  exit 1
-fi
-assert_has "$TMP/slow-proof-run.err" "refusing --run for non-runnable profile"
 
 threshold_manifest="$TMP/threshold-manifest.json"
 python3 - <<'PY' "$ROOT/adl/config/validation_lane_selector.v0.91.6.json" "$threshold_manifest"
