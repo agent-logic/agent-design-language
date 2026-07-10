@@ -312,12 +312,11 @@ fn ntpd_rs_status_output(command: &str) -> std::io::Result<Output> {
 }
 
 pub(super) fn ntpd_rs_command_label(command: &str) -> String {
-    if command == "ntp-ctl" {
-        "ntp-ctl".to_string()
-    } else if Path::new(command)
-        .file_name()
-        .and_then(|name| name.to_str())
-        == Some("ntp-ctl")
+    if command == "ntp-ctl"
+        || Path::new(command)
+            .file_name()
+            .and_then(|name| name.to_str())
+            == Some("ntp-ctl")
     {
         "ntp-ctl".to_string()
     } else {
