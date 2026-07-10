@@ -9,6 +9,7 @@ use ::adl::csm_continuity_capsule::{
     capture_capsule, fire_drill_capsule, restore_capsule, stage_capsule, ContinuityCaptureOptions,
     ContinuityFireDrillOptions, ContinuityRestoreOptions, ContinuityStageOptions,
 };
+use ::adl::csm_credential_policy::{prove_credential_policy, CredentialPolicyProofOptions};
 use ::adl::csm_godel_snapshot::{prove_godel_snapshot_diff, GodelSnapshotProofOptions};
 use ::adl::csm_observatory::{write_observatory_outputs, ObservatoryFormat};
 use ::adl::csm_polis_storage::{prove_polis_storage, PolisStorageProofOptions};
@@ -33,7 +34,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!(
-            "csm requires subcommand: daemon | service | governed-stop | continuity | godel-snapshot | backpressure | aws-signal | storage | cloud-control | observatory"
+            "csm requires subcommand: daemon | service | governed-stop | credential-policy | continuity | godel-snapshot | backpressure | aws-signal | storage | cloud-control | observatory"
         );
         std::process::exit(2);
     };
@@ -55,6 +56,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
             CsmDispatchMode::StandaloneRuntime => real_governed_stop(&args[1..]),
             CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
                 "csm governed-stop is owned by the standalone csm runtime binary; use `csm governed-stop`, not `adl csm governed-stop`"
+            )),
+        },
+        "credential-policy" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_credential_policy(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm credential-policy is owned by the standalone csm runtime binary; use `csm credential-policy`, not `adl csm credential-policy`"
             )),
         },
         "continuity" => match mode {
@@ -100,11 +107,93 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, governed-stop, continuity, godel-snapshot, backpressure, aws-signal, storage, cloud-control, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, governed-stop, credential-policy, continuity, godel-snapshot, backpressure, aws-signal, storage, cloud-control, or observatory)"
             );
             std::process::exit(2);
         }
     }
+}
+
+fn real_credential_policy(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm credential-policy requires subcommand: prove");
+        std::process::exit(2);
+    };
+    match cmd {
+        "prove" => real_credential_policy_prove(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm credential-policy subcommand: {other} (expected prove)");
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_credential_policy_prove(args: &[String]) -> Result<()> {
+    let mut out_dir: Option<PathBuf> = None;
+    let mut run_id = "wp12-4920-credential-policy".to_string();
+    let mut operator = "local-operator".to_string();
+    let mut requested_at: Option<DateTime<Utc>> = None;
+    let mut json_output = false;
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                out_dir = Some(PathBuf::from(required_value(args, i, "--out")?));
+                i += 1;
+            }
+            "--run-id" => {
+                run_id = required_value(args, i, "--run-id")?.to_string();
+                i += 1;
+            }
+            "--operator" => {
+                operator = required_value(args, i, "--operator")?.to_string();
+                i += 1;
+            }
+            "--requested-at" => {
+                let raw = required_value(args, i, "--requested-at")?;
+                requested_at = Some(
+                    DateTime::parse_from_rfc3339(raw)
+                        .with_context(|| {
+                            format!(
+                                "csm credential-policy prove requires --requested-at to be RFC3339, got {raw}"
+                            )
+                        })?
+                        .with_timezone(&Utc),
+                );
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm credential-policy prove arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+
+    let proof = prove_credential_policy(CredentialPolicyProofOptions {
+        out_dir: out_dir.context("csm credential-policy prove requires --out <proof-dir>")?,
+        run_id,
+        operator,
+        requested_at,
+    })?;
+    if json_output {
+        println!("{}", serde_json::to_string_pretty(&proof)?);
+    } else {
+        println!(
+            "CSM_CREDENTIAL_POLICY ok status={} run_id={}",
+            proof.status, proof.run_id
+        );
+    }
+    Ok(())
 }
 
 fn real_governed_stop(args: &[String]) -> Result<()> {
@@ -979,6 +1068,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--api-bind 127.0.0.1:19997] [--json]
   csm service start|status|stop|remove [--service-root <dir>] [--json]
   csm governed-stop --spec <agent-spec.yaml> --reason <text> --operator <identity> --authorization <metadata> --intent emergency_polis_stop|operator_safety_stop|recoverability_drill --requested-at <RFC3339> [--json]
+  csm credential-policy prove --out <proof-dir> [--run-id <id>] [--operator <identity>] [--requested-at <RFC3339>] [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
   csm cloud-control api-gateway-bridge --out <proof-dir> --polis-id <id> --api-id <id> --stage <name> --invoke-url <url> --operator-token-file <path> --cloudwatch-log-group <name> --eventbridge-bus <name> [--expected-account-sha256 <hash>] [--json]
@@ -999,6 +1089,7 @@ Semantics:
   - csm daemon service mode has no cycle-count lifetime boundary; --no-sleep is a test-only bounded harness boundary.
   - csm service owns CSM runtime supervision around csm daemon; local mode is the portable Rust supervisor path, while launchd/systemd metadata are host integration targets.
   - csm governed-stop is the only emergency polis stop path; it requires explicit operator metadata, checkpoints and safe-fail serialization before stop, lifecycle lifelog DB rows, and governed notice fan-out.
+  - csm credential-policy proves no-secret credential class inventory, rotation cadence, break-glass audit events, revocation, and failed-closed negative cases for missing, expired, denied, and stale bindings.
   - csm daemon embeds the local-by-default runtime API at --api-bind and exposes /status, /health, /ready, /metrics, /events, /chronosense, and /api-gateway-bridge from retained runtime artifacts without leaking host-private paths or secrets.
   - csm daemon defaults its embedded runtime API to listener_role=main_runtime_api on 127.0.0.1:19997; 19950-19999 is reserved for local CSM runtime/dev/test listeners, and 127.0.0.1:0 is accepted only for explicit bounded test harness flags.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
@@ -1108,6 +1199,40 @@ memory: {}
         }
     }
 
+    struct EnvVarGuard {
+        key: &'static str,
+        previous: Option<String>,
+    }
+
+    impl EnvVarGuard {
+        fn set(key: &'static str, value: &str) -> Self {
+            let previous = std::env::var(key).ok();
+            std::env::set_var(key, value);
+            Self { key, previous }
+        }
+    }
+
+    impl Drop for EnvVarGuard {
+        fn drop(&mut self) {
+            match &self.previous {
+                Some(value) => std::env::set_var(self.key, value),
+                None => std::env::remove_var(self.key),
+            }
+        }
+    }
+
+    fn custody_public_key_from_private_key(private_key_b64: &str) -> String {
+        use base64::Engine;
+
+        let key_bytes = base64::engine::general_purpose::STANDARD
+            .decode(private_key_b64.as_bytes())
+            .expect("decode fixture custody private key");
+        let signing = p256::ecdsa::SigningKey::from_slice(&key_bytes)
+            .expect("fixture custody private key must be valid P-256");
+        base64::engine::general_purpose::STANDARD
+            .encode(signing.verifying_key().to_encoded_point(false).as_bytes())
+    }
+
     #[test]
     fn standalone_csm_accepts_aws_signal_help() {
         let args = vec!["aws-signal".to_string(), "--help".to_string()];
@@ -1161,6 +1286,7 @@ memory: {}
     fn standalone_csm_help_paths_cover_runtime_owned_surfaces() {
         for subcommand in [
             "backpressure",
+            "credential-policy",
             "continuity",
             "governed-stop",
             "observatory",
@@ -1178,6 +1304,7 @@ memory: {}
             "daemon",
             "service",
             "governed-stop",
+            "credential-policy",
             "continuity",
             "backpressure",
         ] {
@@ -1199,6 +1326,8 @@ memory: {}
         assert!(usage.contains("permanent restart-always runtime execution"));
         assert!(usage.contains("csm governed-stop --spec"));
         assert!(usage.contains("only emergency polis stop path"));
+        assert!(usage.contains("csm credential-policy prove --out"));
+        assert!(usage.contains("break-glass audit events"));
         assert!(usage.contains("ADL_OBSERVABILITY_LOG"));
         assert!(usage.contains("ADL_OTEL_STATUS"));
         assert!(!usage.contains("csm api serve"));
@@ -1273,6 +1402,39 @@ memory: {}
         ];
         real_csm_standalone(&backpressure).expect("backpressure proof parser path");
 
+        let credential_policy = vec![
+            "credential-policy".to_string(),
+            "prove".to_string(),
+            "--out".to_string(),
+            root.join("credential-policy").display().to_string(),
+            "--run-id".to_string(),
+            "wp12-4920-parser-proof".to_string(),
+            "--operator".to_string(),
+            "local-operator".to_string(),
+            "--requested-at".to_string(),
+            "2026-07-10T00:00:00Z".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&credential_policy).expect("credential policy parser path");
+        assert!(root
+            .join("credential-policy")
+            .join("credential_policy_summary.json")
+            .exists());
+
+        let custody_p256_signing_private_key = "CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQk=";
+        let custody_trusted_public_key =
+            custody_public_key_from_private_key(custody_p256_signing_private_key);
+        let _custody_private_key = EnvVarGuard::set(
+            "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64",
+            custody_p256_signing_private_key,
+        );
+        let _custody_key_id =
+            EnvVarGuard::set("ADL_CSM_CUSTODY_SIGNING_KEY_ID", "test-csm-cmd-custody-key");
+        let _custody_public_key = EnvVarGuard::set(
+            "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+            &custody_trusted_public_key,
+        );
+
         let bundle = root.join("bundle");
         let capture = vec![
             "continuity".to_string(),
@@ -1335,6 +1497,10 @@ memory: {}
     fn standalone_csm_fail_closed_parsers_cover_required_runtime_inputs() {
         let root = temp_root("fail-closed-parsers");
         let cases = [
+            (
+                vec!["credential-policy".to_string(), "prove".to_string()],
+                "csm credential-policy prove requires --out <proof-dir>",
+            ),
             (
                 vec!["storage".to_string(), "prove-s3".to_string()],
                 "csm storage prove-s3 requires --out <proof-dir>",
