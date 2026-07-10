@@ -486,7 +486,7 @@ is_pr_fast_coverage_workflow_change() {
   changed_payload="$(printf '%s
 ' "$diff_text" | awk '/^[+-]/ && $0 !~ /^(---|\+\+\+)/ { print substr($0, 2) }')"
   [ -n "$changed_payload" ] || return 1
-  grep -E 'Determine PR fast coverage filters|PR fast coverage summary \(json\)|PR coverage-impact preflight|coverage-impact-filter-expression.txt|--print-risk-nextest-expression|needs_fast_summary|filter_expression|coverage-summary.json|full_coverage_required|process_status|adl-pr-finish' <<<"$changed_payload" >/dev/null 2>&1 || return 1
+  grep -E 'Determine PR fast coverage filters|PR fast coverage summary \(json\)|PR coverage-impact preflight|coverage-impact-filter-expression.txt|--print-risk-nextest-expression|needs_fast_summary|filter_expression|coverage-summary.json|full_coverage_required|process_status|adl-pr-finish|adl-slow-proof|test_slow_proof_lane_contract|run_slow_proof_family|slow-proof-tests|slow-proof-runtime|slow-proof-private-state|slow-proof-observatory' <<<"$changed_payload" >/dev/null 2>&1 || return 1
   if grep -E 'Enforce coverage policy gates|Coverage \(ADL Rust workspace lcov\)|Upload coverage artifact|Upload coverage to Codecov' <<<"$changed_payload" >/dev/null 2>&1; then
     return 1
   fi
@@ -538,21 +538,21 @@ is_bounded_pr_fast_coverage_policy_change() {
         fi
         ;;
       adl/tools/check_coverage_impact.sh)
-        if git_pr_patch "$path" | grep -E 'adl/src/cli/process_cmd.rs|adl/src/bin/adl_aws_remote_validation.rs|adl_aws_remote_validation_bin|adl/src/chronosense|chronosense' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'adl/src/cli/process_cmd.rs|adl/src/bin/adl_aws_remote_validation.rs|adl_aws_remote_validation_bin|adl/src/chronosense|chronosense|adl/src/runtime_v2/private_state_observatory.rs|private_state_observatory|adl/src/csdlc_prompt_editor.rs|csdlc_prompt_editor' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
         fi
         ;;
       adl/tools/ci_path_policy.sh)
-        if git_pr_patch "$path" | grep -E 'is_pr_fast_coverage_workflow_change|is_bounded_pr_fast_coverage_policy_surface|is_bounded_pr_fast_coverage_policy_change|bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation|manager_profile_is_release_gate_pr_fast_escalation|validation_manager_release_gate_pr_fast_escalation_runs_focused_validation' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'is_pr_fast_coverage_workflow_change|is_bounded_pr_fast_coverage_policy_surface|is_bounded_pr_fast_coverage_policy_change|bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation|manager_profile_is_release_gate_pr_fast_escalation|validation_manager_release_gate_pr_fast_escalation_runs_focused_validation|is_pvf_slow_proof_workflow_change|is_pvf_slow_proof_policy_change|slow_proof_contract_required|governed_learning_substrate|intelligence_metric_architecture|memory_identity_architecture|observatory_flagship' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
         fi
         ;;
       adl/tools/test_check_coverage_impact.sh)
-        if git_pr_patch "$path" | grep -E 'process_status|adl_aws_remote_validation_bin|adl-aws-remote-validation|chronosense-runtime-trace|adl/src/chronosense' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'process_status|adl_aws_remote_validation_bin|adl-aws-remote-validation|chronosense-runtime-trace|adl/src/chronosense|private_state_observatory|csdlc_prompt_editor' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
@@ -580,14 +580,14 @@ is_bounded_pr_fast_coverage_policy_change() {
         fi
         ;;
       adl/tools/test_ci_path_policy.sh)
-        if git_pr_patch "$path" | grep -F 'runtime-bounded-pr-fast-coverage-policy-change' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'runtime-bounded-pr-fast-coverage-policy-change|slow-proof-runtime-bounded-pr-fast-coverage-policy-change|workflow_pvf_slow_proof|private_state_observatory|csdlc_prompt_editor' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
         fi
         ;;
       adl/tools/test_ci_runtime_contracts.sh)
-        if git_pr_patch "$path" | grep -E 'coverage-summary.json|ADL_PR_FAST_COVERAGE_BUILD_ROOT|PR-fast coverage target|pr-fast-coverage' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'coverage-summary.json|ADL_PR_FAST_COVERAGE_BUILD_ROOT|PR-fast coverage target|pr-fast-coverage|adl-slow-proof|slow_proof_contract_required|run_slow_proof_family|slow-proof lane fanned out|slow-proof family filter|broad slow-proof-tests' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
@@ -1481,6 +1481,21 @@ if [ "$ci_contracts_required" = true ]; then
   if [ "$pvf_slow_proof_policy_change" = true ]; then
     slow_proof_contract_required=true
   fi
+  if [ "${bounded_pr_fast_coverage_policy_change:-false}" = true ]; then
+    while IFS= read -r path; do
+      [ -n "$path" ] || continue
+      if is_pvf_slow_proof_policy_surface "$path"; then
+        slow_proof_contract_required=true
+      fi
+    done <<EOF
+$changed_files
+EOF
+  fi
+  case ",$validation_profile_escalation_lanes," in
+    *,slow_proof_review,*)
+      slow_proof_contract_required=true
+      ;;
+  esac
   if changed_files_include_skill_author_contract_surface; then
     skill_author_contracts_required=true
   fi
