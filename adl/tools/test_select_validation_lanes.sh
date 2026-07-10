@@ -83,6 +83,16 @@ assert_has "$TMP/metric-backfill-tool.out" "aggregate_status=selected"
 assert_has "$TMP/metric-backfill-tool.out" "csdlc_owner_lane status=selected"
 assert_not_has "$TMP/metric-backfill-tool.out" "unmapped_change_surface"
 
+validation_inventory_tool="$TMP/validation-inventory-tool.txt"
+cat >"$validation_inventory_tool" <<'EOF'
+M	adl/tools/validation_inventory.py
+M	adl/tools/test_validation_inventory.sh
+EOF
+bash "$SCRIPT" --changed-files "$validation_inventory_tool" >"$TMP/validation-inventory-tool.out"
+assert_has "$TMP/validation-inventory-tool.out" "aggregate_status=selected"
+assert_has "$TMP/validation-inventory-tool.out" "csdlc_owner_lane status=selected"
+assert_not_has "$TMP/validation-inventory-tool.out" "unmapped_change_surface"
+
 remote_validation_tool="$TMP/remote-validation-tool.txt"
 printf 'M\tadl/tools/run_nessus_remote_validation.sh\n' >"$remote_validation_tool"
 bash "$SCRIPT" --changed-files "$remote_validation_tool" >"$TMP/remote-validation-tool.out"

@@ -184,16 +184,17 @@ For new or fully re-rendered prompt cards, prefer the Rust-owned values
 renderer and structure-schema validator before editing Markdown directly:
 
 ```bash
-adl-csdlc tooling prompt-template validate-values --kind <kind> --values <kind>.values.yaml
-adl-csdlc tooling prompt-template render --kind <kind> --values <kind>.values.yaml --out <kind>.md
-adl-csdlc tooling prompt-template validate-structure --kind <kind> --input <kind>.md
-adl-csdlc tooling prompt-template validate-schemas
+csdlc tooling prompt-template validate-values --kind <kind> --values <kind>.values.yaml
+csdlc tooling prompt-template render --kind <kind> --values <kind>.values.yaml --out <kind>.md
+csdlc tooling prompt-template validate-structure --kind <kind> --input <kind>.md
+csdlc tooling prompt-template validate-schemas
 python3 adl/tools/test_prompt_template_structure_schemas.py
 ```
 
-If `adl-csdlc` is not already on `PATH`, run the same owner-binary commands
-through `cargo run --manifest-path adl/Cargo.toml --bin adl-csdlc -- ...`
-from a fresh checkout.
+If `csdlc` is not already on `PATH`, use the repo-owned binary at
+`adl/target/debug/csdlc` when present. Rebuild it only when working on the
+binary surface itself or when no trusted repo binary exists. `adl-csdlc`
+remains a compatibility alias, not the preferred new command spelling.
 
 For docs-only, milestone-truth, or workflow-doc issues, prefer the
 `docs-bounded` fast path described later in this guide instead of reflexively
