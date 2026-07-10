@@ -732,22 +732,14 @@
         "wp07_csm_api_gateway_bridge_proof"
       ],
       "path_selectors": [
-        "adl/src/cli/csm_cmd.rs",
-        "adl/src/cli/csm_service_cmd.rs",
         "adl/src/csm_api_gateway_bridge.rs",
-        "adl/src/csm_runtime_api.rs",
-        "adl/src/lib.rs",
         "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
         "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
         "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
         "docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/**"
       ],
       "path_hints": [
-        "adl/src/cli/csm_cmd.rs",
-        "adl/src/cli/csm_service_cmd.rs",
         "adl/src/csm_api_gateway_bridge.rs",
-        "adl/src/csm_runtime_api.rs",
-        "adl/src/lib.rs",
         "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh",
         "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
         "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py",
