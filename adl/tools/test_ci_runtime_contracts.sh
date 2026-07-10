@@ -107,6 +107,39 @@ for required_fragment in (
             f"missing fragment: {required_fragment}"
         )
 
+for required_fragment in (
+    "adl_path_policy:",
+    "adl_tooling_contracts:",
+    "adl_rust_fmt_clippy:",
+    "adl_rust_tests:",
+    "adl_demo_proof:",
+    "adl-ci:",
+    "needs:",
+    "Aggregate split adl-ci lanes",
+    r"Stable required check \`adl-ci\` is an aggregator over parallel lanes.",
+):
+    if required_fragment not in workflow:
+        raise SystemExit(
+            "adl-ci must remain split into parallel required lanes with a stable aggregator; "
+            f"missing fragment: {required_fragment}"
+        )
+
+aggregator_block = step_block("Aggregate split adl-ci lanes")
+for required_fragment in (
+    "needs.adl_path_policy.result",
+    "needs.adl_tooling_contracts.result",
+    "needs.adl_rust_fmt_clippy.result",
+    "needs.adl_rust_tests.result",
+    "needs.adl_demo_proof.result",
+    "success|skipped",
+    "::error::split adl-ci lane failure(s):",
+):
+    if required_fragment not in aggregator_block:
+        raise SystemExit(
+            "adl-ci aggregator must fail closed on split lane failures while accepting skipped lanes; "
+            f"missing fragment: {required_fragment}"
+        )
+
 ordinary_test = step_run("test")
 expected_ordinary_test = (
     'bash adl/tools/run_pr_fast_test_lane.sh --base "${{ github.event.pull_request.base.sha }}" '
@@ -119,9 +152,8 @@ if ordinary_test != expected_ordinary_test:
     )
 ordinary_test_if = step_optional_if("test")
 expected_ordinary_test_if = (
-    "steps.path-policy.outputs.rust_required == 'true' && "
-    "steps.path-policy.outputs.full_coverage_required != 'true' && "
-    "steps.path-policy.outputs.validation_profile_escalation_required != 'true'"
+    "needs.adl_path_policy.outputs.full_coverage_required != 'true' && "
+    "needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true'"
 )
 if ordinary_test_if != expected_ordinary_test_if:
     raise SystemExit(
@@ -131,9 +163,8 @@ if ordinary_test_if != expected_ordinary_test_if:
 
 escalated_test_if = step_optional_if("test deferred to validation-manager escalation")
 expected_escalated_test_if = (
-    "steps.path-policy.outputs.rust_required == 'true' && "
-    "steps.path-policy.outputs.full_coverage_required != 'true' && "
-    "steps.path-policy.outputs.validation_profile_escalation_required == 'true'"
+    "needs.adl_path_policy.outputs.full_coverage_required != 'true' && "
+    "needs.adl_path_policy.outputs.validation_profile_escalation_required == 'true'"
 )
 if escalated_test_if != expected_escalated_test_if:
     raise SystemExit(
@@ -143,12 +174,12 @@ if escalated_test_if != expected_escalated_test_if:
 escalated_test_block = step_block("test deferred to validation-manager escalation")
 for required_fragment in (
     "Ordinary PR-fast Rust test lane deferred",
-    "steps.path-policy.outputs.validation_profile_selected",
-    "steps.path-policy.outputs.validation_profile_status",
-    "steps.path-policy.outputs.validation_profile_pr_publication_sufficient",
-    "steps.path-policy.outputs.validation_profile_run_lanes",
-    "steps.path-policy.outputs.validation_profile_escalation_lanes",
-    "steps.path-policy.outputs.validation_profile_primary_reason",
+    "needs.adl_path_policy.outputs.validation_profile_selected",
+    "needs.adl_path_policy.outputs.validation_profile_status",
+    "needs.adl_path_policy.outputs.validation_profile_pr_publication_sufficient",
+    "needs.adl_path_policy.outputs.validation_profile_run_lanes",
+    "needs.adl_path_policy.outputs.validation_profile_escalation_lanes",
+    "needs.adl_path_policy.outputs.validation_profile_primary_reason",
 ):
     if required_fragment not in escalated_test_block:
         raise SystemExit(
@@ -170,21 +201,21 @@ if authoritative_contract != "bash adl/tools/test_run_authoritative_coverage_lan
         f"found: {authoritative_contract}"
     )
 expected_split_conditions = {
-    "Install cargo-llvm-cov for CI contract checks": "steps.path-policy.outputs.ci_contract_toolchain_required == 'true'",
-    "Install cargo-nextest for CI contract checks": "steps.path-policy.outputs.ci_contract_toolchain_required == 'true'",
-    "PVF CI release policy contract": "steps.path-policy.outputs.pvf_ci_release_contract_required == 'true'",
-    "tracked proof-validation lane contract": "steps.path-policy.outputs.v0913_proof_contract_required == 'true'",
-    "PR-fast test lane contract": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true' || steps.path-policy.outputs.rust_required == 'true'",
-    "slow-proof lane contract": "steps.path-policy.outputs.slow_proof_contract_required == 'true'",
-    "authoritative coverage lane contract": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true' || steps.path-policy.outputs.full_coverage_required == 'true'",
-    "repo-code-review contract check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
-    "test-generator contract check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
-    "demo-operator contract check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
-    "arxiv-paper-writer contract check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
-    "ANRM/Gemma trace dataset tooling check": "steps.path-policy.outputs.skill_author_contracts_required == 'true'",
-    "ci runtime contract check": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'",
-    "ci runtime budget report contract check": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'",
-    "ci cache/linker contract check": "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'",
+    "Install cargo-llvm-cov for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'",
+    "Install cargo-nextest for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'",
+    "PVF CI release policy contract": "needs.adl_path_policy.outputs.pvf_ci_release_contract_required == 'true'",
+    "tracked proof-validation lane contract": "needs.adl_path_policy.outputs.v0913_proof_contract_required == 'true'",
+    "PR-fast test lane contract": "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.rust_required == 'true'",
+    "slow-proof lane contract": "needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'",
+    "authoritative coverage lane contract": "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.full_coverage_required == 'true'",
+    "repo-code-review contract check": "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'",
+    "test-generator contract check": "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'",
+    "demo-operator contract check": "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'",
+    "arxiv-paper-writer contract check": "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'",
+    "ANRM/Gemma trace dataset tooling check": "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'",
+    "ci runtime contract check": "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'",
+    "ci runtime budget report contract check": "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'",
+    "ci cache/linker contract check": "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'",
 }
 for step_name, expected_if in expected_split_conditions.items():
     observed_if = step_if(step_name)
