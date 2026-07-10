@@ -350,8 +350,8 @@ def run_js_view_model(
             errorCount: Object.keys(liveSnapshot.errors || {{}}).length
           }},
           dashboardMirrors: {{
-            heroCloudwatchOkLabel: integrationViewModel.cloudwatchSummary.status === "passed" ? "heartbeat proven" : context.AdlHtmlObservatory.formatLabel(integrationViewModel.cloudwatchSummary.status || "pending"),
-            heroCloudwatchBlockedLabel: blockedCloudwatchViewModel.cloudwatchSummary.status === "passed" ? "heartbeat proven" : context.AdlHtmlObservatory.formatLabel(blockedCloudwatchViewModel.cloudwatchSummary.status || "pending"),
+            heroCloudwatchOkLabel: integrationViewModel.cloudwatchSummary.status === "passed" ? "CloudWatch Proven" : context.AdlHtmlObservatory.formatLabel(integrationViewModel.cloudwatchSummary.status || "pending"),
+            heroCloudwatchBlockedLabel: blockedCloudwatchViewModel.cloudwatchSummary.status === "passed" ? "CloudWatch Proven" : context.AdlHtmlObservatory.formatLabel(blockedCloudwatchViewModel.cloudwatchSummary.status || "pending"),
             heroReadyLabel: context.AdlHtmlObservatory.formatLabel(retainedFetchPanopticon.readyState),
             heroAgentCount: String(retainedFetchPanopticon.agents.length),
             heroEventCount: String(retainedFetchPanopticon.events.length)
@@ -474,13 +474,15 @@ def main() -> int:
     assert_contains("HTML dashboard real runtime stop", html, 'id="dashboard-stop-live"')
     assert_contains("HTML dashboard communication inspector", html, 'id="hero-communication-status"')
     assert_contains("HTML dashboard status bar", html, 'class="dashboard-statusbar"')
-    assert_contains("HTML topbar operator time field", html, "Operator Time")
+    assert_contains("HTML topbar capture time field", html, "Capture Time")
     assert_contains("HTML statusbar last update field", html, 'Last Update <strong id="statusbar-updated">pending</strong>')
     assert_contains("HTML statusbar state indicator", html, 'id="statusbar-indicator"')
     assert_contains("HTML source-driven capture readout", html, 'id="hero-uptime">pending</strong>')
     assert_contains("HTML source-driven rail capture", html, 'id="rail-capture-time">pending</strong>')
     assert_contains("HTML source-driven gauge agents", html, 'id="hero-gauge-agents"')
-    assert_contains("HTML retained mirror default mode", html, "<option>Retained Mirror</option>")
+    assert_contains("HTML published mirror default mode", html, '<option value="published">Published Mirror</option>')
+    assert_contains("HTML retained mirror mode", html, '<option value="retained">Retained Mirror</option>')
+    assert_contains("HTML live loopback mode", html, '<option value="live">Live Loopback</option>')
     assert_contains("HTML truthful runtime mirror label", html, "<span>Runtime Mirror</span>")
     assert_contains("HTML source-driven event title", html, 'id="hero-event-title">Event Stream</h2>')
     assert_contains("HTML dashboard truthful operator CTA", html, "Draft operator probe")
@@ -744,7 +746,7 @@ def main() -> int:
     if stale_roster_labels.intersection(retained_fetch_panopticon.get("agentLabels", [])):
       fail(f"published panopticon roster included stale packet citizens: {retained_fetch_panopticon!r}")
     dashboard_mirrors = smoke["dashboardMirrors"]
-    if dashboard_mirrors.get("heroCloudwatchOkLabel") != "heartbeat proven":
+    if dashboard_mirrors.get("heroCloudwatchOkLabel") != "CloudWatch Proven":
       fail(f"dashboard CloudWatch pass mirror mismatch: {dashboard_mirrors!r}")
     if dashboard_mirrors.get("heroCloudwatchBlockedLabel") != "blocked":
       fail(f"dashboard CloudWatch blocked mirror overclaims or hides failure: {dashboard_mirrors!r}")

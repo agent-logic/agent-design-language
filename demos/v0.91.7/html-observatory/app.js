@@ -851,20 +851,24 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
 function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   const vm = buildPanopticonViewModel(snapshot, packet);
   setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
-  setText("hero-live-mode", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published mirror" : "retained fallback");
+  setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
   setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
   setText("hero-event-title", vm.mode === "live" ? "Event Stream (Live Loopback)" : "Event Stream");
   setText("statusbar-mode", vm.mode === "live" ? "Live Loopback" : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
+  const modeSelect = document.getElementById("top-mode-select");
+  if (modeSelect) {
+    modeSelect.value = vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";
+  }
   setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
   setText("agent-count", `${vm.agents.length} agents`);
-  setText("hero-agent-count", String(vm.agents.length));
+  setText("hero-agent-count", `${vm.agents.length} Agents`);
   setText("live-readiness", formatLabel(vm.readyState));
   setText("hero-ready-state", formatLabel(vm.readyState));
   setDataset("hero-agent-map", "state", formatLabel(vm.readyState));
   setText("live-updated", vm.fetchedAt ? new Date(vm.fetchedAt).toLocaleTimeString() : "not connected");
   setText("live-event-count", `${vm.events.length} events`);
-  setText("hero-event-count", String(vm.events.length));
+  setText("hero-event-count", `${vm.events.length} Events`);
   setText("hero-gauge-agents", String(vm.agents.length));
   setText("hero-gauge-events", String(vm.events.length));
   setText("hero-gauge-metrics", String(vm.metrics.length));
@@ -933,14 +937,17 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
 
   const heroEventRows = vm.events.length ? vm.events.slice(-6).map((event, index) => {
     const eventName = formatLabel(event.signal_kind || event.event_type || event.status || "event");
-    const source = event.runtime_id || event.agent_id || event.agent_instance_id || "csm";
+    const source = event.agent_id || event.agent_instance_id || event.runtime_id || "csm";
     const state = formatLabel(event.status || event.result || event.details?.result || "ok");
     const tick = event.manifold_tick || event.tick || event.sequence || event.event_sequence || index + 1;
+    const severity = stateTone(state) === "failed" ? "ERROR" : stateTone(state) === "degraded" ? "WARN" : "INFO";
+    const eventTime = event.timestamp ? new Date(event.timestamp).toLocaleTimeString([], { hour12: false }) : `T-${String(vm.events.length - index).padStart(2, "0")}`;
     return `
     <li class="trace-row event-table-row">
-      <span class="trace-seq">${String(index + 1).padStart(2, "0")}</span>
-      <span><strong>${escapeHtml(eventName)}</strong><br><span class="row-detail">${escapeHtml(source)}</span></span>
+      <span class="trace-seq">${escapeHtml(eventTime)}</span>
+      <span class="event-severity" data-state="${escapeHtml(stateTone(state))}">${escapeHtml(severity)}</span>
       <span class="event-source">${escapeHtml(source)}</span>
+      <span><strong>${escapeHtml(eventName)}</strong></span>
       <span class="event-state" data-state="${escapeHtml(stateTone(state))}">${escapeHtml(state)}</span>
       <span class="event-tick">${escapeHtml(tick)}</span>
     </li>
@@ -948,8 +955,9 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   }) : [`
     <li class="trace-row event-table-row">
       <span class="trace-seq">00</span>
-      <span><strong>Waiting</strong><br><span class="row-detail">Runtime events load from retained or loopback CSM data.</span></span>
+      <span class="event-severity" data-state="degraded">WAIT</span>
       <span class="event-source">CSM API</span>
+      <span><strong>Waiting</strong></span>
       <span class="event-state" data-state="degraded">pending</span>
       <span class="event-tick">0</span>
     </li>
@@ -957,8 +965,9 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   renderRows("hero-event-stream", [
     `<li class="event-table-header" aria-hidden="true">
       <span>Time</span>
-      <span>Event</span>
+      <span>Severity</span>
       <span>Source</span>
+      <span>Event</span>
       <span>State</span>
       <span>Tick</span>
     </li>`,
@@ -972,12 +981,12 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   const manifold = vm.packet.manifold || {};
   const pulse = vm.packet.kernel?.pulse || {};
 
-  setText("packet-status", state === "ok" ? "Runtime packet loaded" : "Fallback shell");
+  setText("packet-status", state === "ok" ? "CSM Runtime" : "Fallback shell");
   document.getElementById("packet-status")?.setAttribute("data-state", state);
   setText("claim-boundary", displayClaimBoundary(source));
   setText("evidence-level", formatLabel(source.evidence_level));
   document.getElementById("evidence-level")?.setAttribute("data-tone", state === "ok" ? "ok" : "warn");
-  setText("packet-heading", manifold.display_name || "Runtime / Ops Soak");
+  setText("packet-heading", "Owner Agent (owner-v2)");
   setText("manifold-id", displayManifoldId(manifold.manifold_id));
   setText("manifold-state", formatLabel(manifold.state));
   setText("manifold-tick", String(manifold.current_tick ?? 0));
@@ -1065,7 +1074,7 @@ function renderIntegrations(integrationInputs = {}) {
   setText("csm-api-status", csmApiStatus);
   setText("hero-csm-api-status", csmApiStatus);
   setText("cloudwatch-status", cloudwatchStatus === "passed" ? "live proof" : formatLabel(cloudwatchStatus));
-  setText("hero-cloudwatch-state", cloudwatchStatus === "passed" ? "heartbeat proven" : formatLabel(cloudwatchStatus));
+  setText("hero-cloudwatch-state", cloudwatchStatus === "passed" ? "CloudWatch Proven" : formatLabel(cloudwatchStatus));
   setText(
     "hero-cloudwatch-detail",
     vm.cloudwatchRows.find((row) => row.label === "CloudWatch target")?.detail || "CloudWatch heartbeat proof pending load."
