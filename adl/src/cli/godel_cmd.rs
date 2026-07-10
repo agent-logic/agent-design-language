@@ -114,6 +114,22 @@ struct GodelAffectSliceCliSummary {
     changed_downstream_decision: bool,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+struct GodelGhbProofCliSummary {
+    run_id: String,
+    local_cycle_ref: String,
+    remote_cycle_ref: String,
+    replay_validation_ref: String,
+    snapshot_proof_ref: String,
+    local_provider_route: String,
+    remote_provider_route: String,
+    local_provider_execution_status: String,
+    remote_provider_execution_status: String,
+    replay_status: String,
+    negative_case_count: usize,
+    report_ref: String,
+}
+
 fn load_canonical_artifact<T, E, F>(path: &Path, rel: &Path, load: F) -> Result<T>
 where
     F: FnOnce(&Path) -> std::result::Result<T, E>,
@@ -133,7 +149,7 @@ where
 pub(crate) fn real_godel(args: &[String]) -> Result<()> {
     let Some(cmd) = args.first().map(|s| s.as_str()) else {
         return Err(anyhow::anyhow!(
-            "godel subcommand required (supported: run, evaluate, inspect, affect-slice)"
+            "godel subcommand required (supported: run, evaluate, inspect, affect-slice, ghb-proof)"
         ));
     };
     match cmd {
@@ -141,10 +157,112 @@ pub(crate) fn real_godel(args: &[String]) -> Result<()> {
         "evaluate" => real_godel_evaluate(&args[1..]),
         "inspect" => real_godel_inspect(&args[1..]),
         "affect-slice" => real_godel_affect_slice(&args[1..]),
+        "ghb-proof" => real_godel_ghb_proof(&args[1..]),
         other => Err(anyhow::anyhow!(
-            "unknown godel subcommand '{other}' (supported: run, evaluate, inspect, affect-slice)"
+            "unknown godel subcommand '{other}' (supported: run, evaluate, inspect, affect-slice, ghb-proof)"
         )),
     }
+}
+
+pub(crate) fn real_godel_ghb_proof(args: &[String]) -> Result<()> {
+    let mut out_dir: Option<PathBuf> = None;
+    let mut run_id = "issue-5096-ghb-proof".to_string();
+    let mut admitted_task = "Improve a bounded review plan without source mutation".to_string();
+    let mut local_provider_route = "local:ollama/qwen".to_string();
+    let mut remote_provider_route = "hosted:bedrock/nova-pro".to_string();
+    let mut json = false;
+
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                let v = required_value(args, i, "--out", "a directory path")?;
+                out_dir = Some(PathBuf::from(v));
+                i += 1;
+            }
+            "--run-id" => {
+                let v = required_value(args, i, "--run-id", "a value")?;
+                run_id = v.to_string();
+                i += 1;
+            }
+            "--admitted-task" => {
+                let v = required_value(args, i, "--admitted-task", "text")?;
+                admitted_task = v.to_string();
+                i += 1;
+            }
+            "--local-provider-route" => {
+                let v = required_value(args, i, "--local-provider-route", "a value")?;
+                local_provider_route = v.to_string();
+                i += 1;
+            }
+            "--remote-provider-route" => {
+                let v = required_value(args, i, "--remote-provider-route", "a value")?;
+                remote_provider_route = v.to_string();
+                i += 1;
+            }
+            "--json" => {
+                json = true;
+            }
+            other => {
+                return Err(anyhow::anyhow!(
+                    "unknown godel ghb-proof arg '{other}' (supported: --out, --run-id, --admitted-task, --local-provider-route, --remote-provider-route, --json)"
+                ));
+            }
+        }
+        i += 1;
+    }
+
+    let out_dir =
+        out_dir.ok_or_else(|| anyhow::anyhow!("godel ghb-proof requires --out <proof-dir>"))?;
+    let report =
+        godel::ghb_loop::prove_ghb_recursive_self_improvement(godel::ghb_loop::GhbProofOptions {
+            out_dir,
+            run_id,
+            admitted_task,
+            local_provider_route,
+            remote_provider_route,
+        })?;
+    let summary = GodelGhbProofCliSummary {
+        run_id: report.run_id,
+        local_cycle_ref: report.local_cycle_ref,
+        remote_cycle_ref: report.remote_cycle_ref,
+        replay_validation_ref: report.replay_validation_ref,
+        snapshot_proof_ref: report.snapshot_proof_ref,
+        local_provider_route: report.local_cycle.provider_route,
+        remote_provider_route: report.remote_cycle.provider_route,
+        local_provider_execution_status: report.local_cycle.provider_execution_status,
+        remote_provider_execution_status: report.remote_cycle.provider_execution_status,
+        replay_status: report.replay.status,
+        negative_case_count: report.negative_cases.len(),
+        report_ref: "ghb/ghb_proof_report.v1.json".to_string(),
+    };
+    if json {
+        println!("{}", serde_json::to_string_pretty(&summary)?);
+    } else {
+        println!(
+            "GHB proof {}: {} local, {} remote, replay={}",
+            summary.run_id,
+            summary.local_cycle_ref,
+            summary.remote_cycle_ref,
+            summary.replay_status
+        );
+    }
+    Ok(())
+}
+
+fn required_value<'a>(
+    args: &'a [String],
+    index: usize,
+    flag: &str,
+    description: &str,
+) -> Result<&'a str> {
+    let Some(value) = args.get(index + 1) else {
+        return Err(anyhow::anyhow!("{flag} requires {description}"));
+    };
+    if value.starts_with("--") {
+        return Err(anyhow::anyhow!("{flag} requires {description}"));
+    }
+    Ok(value)
 }
 
 pub(crate) fn real_godel_run(args: &[String]) -> Result<()> {

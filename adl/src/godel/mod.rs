@@ -7,6 +7,7 @@ pub mod canonical_evidence;
 pub mod cross_workflow;
 pub mod evaluation;
 pub mod experiment_record;
+pub mod ghb_loop;
 pub mod hypothesis;
 pub mod mutation;
 pub mod obsmem_index;

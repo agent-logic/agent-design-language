@@ -211,6 +211,100 @@ fn godel_affect_slice_validates_required_and_unknown_args() {
 }
 
 #[test]
+fn godel_ghb_proof_validates_required_and_provider_args() {
+    let missing_out = run_adl(&["godel", "ghb-proof"]);
+    assert!(!missing_out.status.success());
+    let stderr_missing = String::from_utf8_lossy(&missing_out.stderr);
+    assert!(
+        stderr_missing.contains("godel ghb-proof requires --out <proof-dir>"),
+        "stderr:\n{stderr_missing}"
+    );
+
+    let flag_as_value = run_adl(&["godel", "ghb-proof", "--out", "--json"]);
+    assert!(!flag_as_value.status.success());
+    let stderr_flag_as_value = String::from_utf8_lossy(&flag_as_value.stderr);
+    assert!(
+        stderr_flag_as_value.contains("--out requires a directory path"),
+        "stderr:\n{stderr_flag_as_value}"
+    );
+
+    let out_dir = unique_test_temp_dir("adl-godel-ghb-bad-provider");
+    let bad_provider = run_adl(&[
+        "godel",
+        "ghb-proof",
+        "--out",
+        out_dir.to_str().unwrap(),
+        "--remote-provider-route",
+        "local:not-remote",
+        "--json",
+    ]);
+    assert!(!bad_provider.status.success());
+    let stderr_bad_provider = String::from_utf8_lossy(&bad_provider.stderr);
+    assert!(
+        stderr_bad_provider.contains("remote provider route must start with hosted:"),
+        "stderr:\n{stderr_bad_provider}"
+    );
+}
+
+#[test]
+fn godel_ghb_proof_executes_local_and_remote_cycles() {
+    let proof_dir = unique_test_temp_dir("adl-godel-ghb-proof");
+    let out = run_adl(&[
+        "godel",
+        "ghb-proof",
+        "--out",
+        proof_dir.to_str().unwrap(),
+        "--run-id",
+        "ghb-proof-5096",
+        "--admitted-task",
+        "Improve a bounded review plan without source mutation",
+        "--local-provider-route",
+        "local:ollama/qwen",
+        "--remote-provider-route",
+        "hosted:bedrock/nova-pro",
+        "--json",
+    ]);
+    assert!(
+        out.status.success(),
+        "stderr:\n{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    let summary: serde_json::Value =
+        serde_json::from_str(&stdout).expect("parse GHB proof summary");
+    assert_eq!(summary["run_id"], "ghb-proof-5096");
+    assert_eq!(summary["local_cycle_ref"], "ghb/local_cycle.v1.json");
+    assert_eq!(summary["remote_cycle_ref"], "ghb/remote_cycle.v1.json");
+    assert_eq!(
+        summary["snapshot_proof_ref"],
+        "snapshot-proof/godel_snapshot_diff_proof.json"
+    );
+    assert_eq!(summary["local_provider_route"], "local:ollama/qwen");
+    assert_eq!(summary["remote_provider_route"], "hosted:bedrock/nova-pro");
+    assert_eq!(
+        summary["local_provider_execution_status"],
+        "local_stage_executor_invoked"
+    );
+    assert_eq!(
+        summary["remote_provider_execution_status"],
+        "classified_hosted_route_not_invoked"
+    );
+    assert_eq!(summary["replay_status"], "deterministic_comparable_replay");
+    assert!(
+        summary["negative_case_count"].as_u64().unwrap_or_default() >= 10,
+        "summary:\n{summary}"
+    );
+    assert!(proof_dir.join("ghb/local_cycle.v1.json").is_file());
+    assert!(proof_dir.join("ghb/remote_cycle.v1.json").is_file());
+    assert!(proof_dir.join("ghb/replay_validation.v1.json").is_file());
+    assert!(proof_dir.join("ghb/ghb_proof_report.v1.json").is_file());
+    assert!(proof_dir
+        .join("snapshot-proof/godel_snapshot_diff_proof.json")
+        .is_file());
+}
+
+#[test]
 fn godel_inspect_reads_runtime_artifacts_deterministically() {
     let runs_dir = unique_test_temp_dir("adl-godel-inspect");
     let run = run_adl(&[

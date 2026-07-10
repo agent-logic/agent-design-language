@@ -196,6 +196,9 @@ candidate_filter_for_path() {
     adl/src/cli/process_cmd.rs)
       printf 'process_status'
       ;;
+    adl/src/cli/godel_cmd.rs|adl/src/godel/*.rs)
+      printf 'godel'
+      ;;
     adl/src/cli/pr_cmd/finish_support.rs)
       printf 'finish'
       ;;
@@ -304,6 +307,9 @@ nextest_expression_for_filter() {
   case "$filter" in
     process_status)
       printf 'binary_id(adl::cli_smoke) and test(/^process_status::/)'
+      ;;
+    godel)
+      printf 'binary_id(adl::cli_smoke) and test(/^godel::/)'
       ;;
     cli_basics)
       printf 'binary_id(adl::cli_smoke) and test(/^basics::/)'
