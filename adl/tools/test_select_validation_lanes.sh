@@ -100,6 +100,18 @@ assert_has "$TMP/remote-validation-tool.out" "aggregate_status=selected"
 assert_has "$TMP/remote-validation-tool.out" "ci_path_policy_contracts status=selected"
 assert_not_has "$TMP/remote-validation-tool.out" "unmapped_change_surface"
 
+scheduler_fixture_repair="$TMP/scheduler-fixture-repair.txt"
+cat >"$scheduler_fixture_repair" <<'EOF'
+M	adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json
+M	docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json
+EOF
+bash "$SCRIPT" --changed-files "$scheduler_fixture_repair" >"$TMP/scheduler-fixture-repair.out"
+assert_has "$TMP/scheduler-fixture-repair.out" "aggregate_status=selected"
+assert_has "$TMP/scheduler-fixture-repair.out" "scheduler_fixture_validation status=selected"
+assert_has "$TMP/scheduler-fixture-repair.out" "command=cargo test --manifest-path adl/Cargo.toml --lib scheduler_economics"
+assert_not_has "$TMP/scheduler-fixture-repair.out" "rust_pr_fast"
+assert_not_has "$TMP/scheduler-fixture-repair.out" "no_rust_surface_detected_for_fast_lane"
+
 aws_remote_validation_tool="$TMP/aws-remote-validation-tool.txt"
 printf 'A\ttools/aws_remote_validation/src/aws_remote_validation.rs\n' >"$aws_remote_validation_tool"
 bash "$SCRIPT" --changed-files "$aws_remote_validation_tool" >"$TMP/aws-remote-validation-tool.out"
@@ -275,6 +287,28 @@ assert release_gate_lane["resource_class"] == "high"
 assert release_gate_lane["escalation_rule"] == "require_release_gate_disposition"
 assert ci_policy_lane["proof_role"] == "ci_contract"
 assert ci_policy_lane["default_surface"] == "ci_policy"
+PY
+
+bash "$SCRIPT" --changed-files "$scheduler_fixture_repair" --json >"$TMP/scheduler-fixture-repair.json"
+python3 - <<'PY' "$TMP/scheduler-fixture-repair.json"
+import json
+import sys
+
+plan = json.load(open(sys.argv[1]))
+assert plan["schema_version"] == "adl.validation_lane_plan.v1"
+assert plan["aggregate_status"] == "selected"
+assert plan["pr_publication_sufficient"] is True
+assert set(plan["lanes"]) == {"scheduler_fixture_validation"}
+lane = plan["lanes"]["scheduler_fixture_validation"]
+assert lane["status"] == "selected"
+assert lane["owner"] == "tools"
+assert lane["proof_role"] == "scheduler_fixture_contract"
+assert lane["matched_paths"] == [
+    "adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json",
+    "docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json",
+]
+assert lane["vpp_record"]["parallel_group"] == "scheduler_validation"
+assert "rust_pr_fast" not in plan["lanes"]
 PY
 
 report="$TMP/report.json"
