@@ -311,6 +311,9 @@ nextest_expression_for_filter() {
     pr_dispatch_support)
       printf 'test(pr_dispatch_support)'
       ;;
+    csmctl)
+      printf 'test(csmctl) or test(csm_service)'
+      ;;
     finish)
       printf 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)'
       ;;

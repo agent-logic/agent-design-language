@@ -100,6 +100,7 @@ if [ "$(wc -l <"$csmctl_filters" | tr -d ' ')" -ne 1 ]; then
 fi
 csmctl_expression="$(bash "$SCRIPT" --changed-files "$csmctl_changed" --print-risk-nextest-expression)"
 grep -F "test(csmctl)" <<<"$csmctl_expression" >/dev/null
+grep -F "test(csm_service)" <<<"$csmctl_expression" >/dev/null
 
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"
