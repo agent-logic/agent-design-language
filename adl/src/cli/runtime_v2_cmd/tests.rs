@@ -1010,7 +1010,7 @@ fn trace_runtime_v2_loop_runtime_writes_packet_json() {
     assert_eq!(json["reasoning_graph_id"], "reasoning-graph-v0-91-7-wp-11");
     assert_eq!(
         json["replay"]["events"].as_array().expect("events").len(),
-        4
+        3
     );
     assert_eq!(json["replay"]["final_state"]["status"], "terminated");
 

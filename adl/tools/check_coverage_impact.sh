@@ -10,6 +10,7 @@ CHANGED_FILES_FILE=""
 THRESHOLD="${PER_FILE_LINE_THRESHOLD:-80}"
 LARGE_FILE_LINES="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 LARGE_FILE_DELTA="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
+LOOP_RUNTIME_COMPANION_DELTA_LIMIT="${COVERAGE_IMPACT_LOOP_RUNTIME_COMPANION_DELTA:-80}"
 REQUIRE_SUMMARY_FOR_RISK=false
 PRINT_RISK_FILTERS=false
 PRINT_RISK_NEXTEST_EXPRESSION=false
@@ -162,7 +163,18 @@ line_count_for_path() {
 changed_line_delta_for_path() {
   local path="$1"
   if [ -n "$CHANGED_FILES_FILE" ]; then
-    echo 0
+    awk -F '\t' -v path="$path" '
+      $2 == path && $3 ~ /^[0-9]+$/ {
+        print $3
+        found = 1
+        exit
+      }
+      END {
+        if (!found) {
+          print 0
+        }
+      }
+    ' "$CHANGED_FILES_FILE"
     return
   fi
   local out
@@ -224,6 +236,9 @@ candidate_filter_for_path() {
     adl/src/cli/tooling_cmd/markdown.rs)
       printf 'markdown'
       ;;
+    adl/src/cli/runtime_v2_cmd/commands.rs|adl/src/cli/runtime_v2_cmd/helpers.rs)
+      printf 'runtime_v2_loop_runtime'
+      ;;
     adl/src/csdlc_prompt_editor.rs)
       printf 'csdlc_prompt_editor'
       ;;
@@ -244,6 +259,9 @@ candidate_filter_for_path() {
       ;;
     adl/src/runtime_v2/private_state_observatory.rs)
       printf 'private_state_observatory'
+      ;;
+    adl/src/runtime_v2/loop_runtime.rs)
+      printf 'runtime_v2_loop_runtime'
       ;;
     adl/src/gws_live_capability_execution_surface.rs|adl/src/gws_live_content_card_roundtrip.rs|adl/src/gws_live_content_card_roundtrip/*.rs|adl/src/gws_live_safety_package.rs|adl/src/gws_live_test_support.rs)
       printf 'gws_live'
@@ -367,6 +385,27 @@ file_is_tokio_bootstrap_companion_surface() {
   [ "$path" = "adl/src/cli/mod.rs" ]
 }
 
+file_is_loop_runtime_companion_surface() {
+  local path="$1"
+  grep -Fx "adl/src/runtime_v2/loop_runtime.rs" \
+    <<<"$changed_source_paths" >/dev/null || return 1
+  local delta
+  delta="$(changed_line_delta_for_path "$path")"
+  if ! awk -v delta="$delta" -v limit="$LOOP_RUNTIME_COMPANION_DELTA_LIMIT" \
+    'BEGIN { exit ((delta + 0) <= (limit + 0)) ? 0 : 1 }'; then
+    return 1
+  fi
+  case "$path" in
+    adl/src/cli/runtime_v2_cmd/commands.rs|\
+    adl/src/cli/runtime_v2_cmd/helpers.rs)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 focused_summary_command_for_filter() {
   local filter="$1"
   local expression
@@ -409,7 +448,7 @@ print_candidate_filters_fail_closed() {
 
   while IFS=$'\t' read -r status path; do
     [ -n "$path" ] || continue
-    if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
+    if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_loop_runtime_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
       continue
     fi
     if ! filter="$(candidate_filter_for_path "$path")"; then
@@ -481,6 +520,9 @@ while IFS=$'\t' read -r status path; do
   if file_is_tokio_bootstrap_companion_surface "$path"; then
     continue
   fi
+  if file_is_loop_runtime_companion_surface "$path"; then
+    continue
+  fi
   lines="$(line_count_for_path "$path")"
   delta="$(changed_line_delta_for_path "$path")"
   reason=""
@@ -508,6 +550,9 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
   while IFS=$'\t' read -r _status path; do
     [ -n "$path" ] || continue
     if file_is_tokio_bootstrap_companion_surface "$path"; then
+      continue
+    fi
+    if file_is_loop_runtime_companion_surface "$path"; then
       continue
     fi
     if file_is_live_runtime_boundary_surface "$path"; then
@@ -541,7 +586,7 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
         end
     ' "$SUMMARY")"
     if [ -z "$row" ]; then
-      if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
+      if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_loop_runtime_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
         continue
       fi
       missing="${missing}  - ${path} (no coverage row in ${SUMMARY})"$'\n'

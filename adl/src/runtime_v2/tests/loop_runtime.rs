@@ -8,7 +8,7 @@ fn runtime_v2_loop_runtime_contract_integrates_reasoning_graph() {
     assert_eq!(packet.schema_version, RUNTIME_V2_LOOP_RUNTIME_SCHEMA);
     assert_eq!(packet.reasoning_graph_id, "reasoning-graph-v0-91-7-wp-11");
     assert_eq!(packet.loop_definition.max_iterations, 4);
-    assert_eq!(packet.replay.events.len(), 4);
+    assert_eq!(packet.replay.events.len(), 3);
     assert_eq!(
         packet.replay.final_state.status,
         RuntimeV2LoopStatus::Terminated
@@ -74,7 +74,7 @@ fn runtime_v2_loop_runtime_rejects_missing_graph_nodes() {
 #[test]
 fn runtime_v2_loop_runtime_enforces_termination_limits() {
     let mut packet = runtime_v2_loop_runtime_contract().expect("loop runtime packet");
-    packet.loop_definition.max_iterations = 3;
+    packet.loop_definition.max_iterations = 2;
 
     assert!(packet
         .validate()
@@ -145,13 +145,56 @@ fn runtime_v2_loop_runtime_rejects_invalid_resumed_state() {
         .contains("unknown completed step"));
 
     let mut packet = runtime_v2_loop_runtime_contract().expect("loop runtime packet");
-    packet.initial_state.completed_step_ids = vec![
-        "step-0001-propose".to_string(),
-        "step-0003-decide".to_string(),
-    ];
+    packet.initial_state.completed_step_ids = vec!["step-0002-decide".to_string()];
     assert!(packet
         .validate()
         .expect_err("non-prefix completed steps should fail")
         .to_string()
         .contains("deterministic prefix"));
+
+    let mut packet = runtime_v2_loop_runtime_contract().expect("loop runtime packet");
+    packet.initial_state.completed_step_ids = vec!["step-0001-propose".to_string()];
+    packet.initial_state.current_node_id = "evidence-0001".to_string();
+    packet.initial_state.iteration = 1;
+    packet.initial_state.status = RuntimeV2LoopStatus::Running;
+    assert!(packet
+        .validate()
+        .expect_err("resumed current node mismatch should fail")
+        .to_string()
+        .contains("current node"));
+
+    let mut packet = runtime_v2_loop_runtime_contract().expect("loop runtime packet");
+    packet.initial_state.completed_step_ids = vec!["step-0001-propose".to_string()];
+    packet.initial_state.current_node_id = "hypothesis-0001".to_string();
+    packet.initial_state.iteration = 0;
+    packet.initial_state.status = RuntimeV2LoopStatus::Running;
+    assert!(packet
+        .validate()
+        .expect_err("resumed iteration mismatch should fail")
+        .to_string()
+        .contains("iteration"));
+
+    let mut packet = runtime_v2_loop_runtime_contract().expect("loop runtime packet");
+    packet.initial_state.completed_step_ids = vec!["step-0001-propose".to_string()];
+    packet.initial_state.current_node_id = "hypothesis-0001".to_string();
+    packet.initial_state.iteration = 1;
+    packet.initial_state.status = RuntimeV2LoopStatus::Ready;
+    assert!(packet
+        .validate()
+        .expect_err("resumed status mismatch should fail")
+        .to_string()
+        .contains("status"));
+}
+
+#[test]
+fn runtime_v2_loop_runtime_rejects_discontinuous_replay_steps() {
+    let mut packet = runtime_v2_loop_runtime_contract().expect("loop runtime packet");
+    packet.loop_definition.steps[1].from_node_id = "evidence-0001".to_string();
+    packet.loop_definition.steps[1].edge_id = "edge-evidence-supports-hypothesis".to_string();
+
+    assert!(packet
+        .validate()
+        .expect_err("discontinuous replay should fail")
+        .to_string()
+        .contains("deterministic replay order"));
 }

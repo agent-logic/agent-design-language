@@ -273,21 +273,14 @@ fn prototype_loop_definition(graph: &RuntimeV2ReasoningGraphPacket) -> RuntimeV2
                 RuntimeV2LoopAction::Propose,
             ),
             loop_step(
-                "step-0002-collect-evidence",
-                "evidence-0001",
-                "hypothesis-0001",
-                "edge-evidence-supports-hypothesis",
-                RuntimeV2LoopAction::CollectEvidence,
-            ),
-            loop_step(
-                "step-0003-decide",
+                "step-0002-decide",
                 "hypothesis-0001",
                 "decision-0001",
                 "edge-hypothesis-decides-action",
                 RuntimeV2LoopAction::Decide,
             ),
             loop_step(
-                "step-0004-produce-outcome",
+                "step-0003-produce-outcome",
                 "decision-0001",
                 "outcome-0001",
                 "edge-decision-produces-outcome",
@@ -344,9 +337,7 @@ fn execute_loop(
                 step.step_id
             ));
         }
-        if state.current_node_id != step.from_node_id
-            && step.action != RuntimeV2LoopAction::CollectEvidence
-        {
+        if state.current_node_id != step.from_node_id {
             return Err(anyhow!(
                 "loop runtime state/node mismatch before step '{}'",
                 step.step_id
@@ -458,8 +449,7 @@ fn validate_loop_definition(definition: &RuntimeV2LoopDefinition) -> Result<()> 
         normalize_id(step.to_node_id.clone(), "loop_runtime.step.to_node_id")?;
         normalize_id(step.edge_id.clone(), "loop_runtime.step.edge_id")?;
         if let Some(prior_to) = prior_to {
-            if prior_to != step.from_node_id && step.action != RuntimeV2LoopAction::CollectEvidence
-            {
+            if prior_to != step.from_node_id {
                 return Err(anyhow!(
                     "loop runtime definition steps must form deterministic replay order"
                 ));
@@ -582,6 +572,7 @@ fn validate_loop_replay(
             found_pending_step = true;
         }
     }
+    validate_resumed_state_prefix(definition, initial_state, completed.len())?;
     let expected_steps: Vec<&RuntimeV2LoopStep> = definition
         .steps
         .iter()
@@ -614,9 +605,7 @@ fn validate_loop_replay(
                 "loop runtime replay event does not match deterministic loop definition order"
             ));
         }
-        if expected_state.current_node_id != expected_step.from_node_id
-            && expected_step.action != RuntimeV2LoopAction::CollectEvidence
-        {
+        if expected_state.current_node_id != expected_step.from_node_id {
             return Err(anyhow!(
                 "loop runtime replay state/node mismatch before step '{}'",
                 expected_step.step_id
@@ -659,6 +648,49 @@ fn validate_loop_replay(
         "event_sequence",
         "loop runtime replay guarantees must cover event sequence ordering",
     )
+}
+
+fn validate_resumed_state_prefix(
+    definition: &RuntimeV2LoopDefinition,
+    state: &RuntimeV2LoopState,
+    completed_len: usize,
+) -> Result<()> {
+    let mut expected_node_id = definition.start_node_id.as_str();
+    for step in definition.steps.iter().take(completed_len) {
+        if expected_node_id != step.from_node_id {
+            return Err(anyhow!(
+                "loop runtime definition steps must form deterministic replay order"
+            ));
+        }
+        expected_node_id = step.to_node_id.as_str();
+    }
+    if state.current_node_id != expected_node_id {
+        return Err(anyhow!(
+            "loop runtime resumed state current node must match completed step prefix"
+        ));
+    }
+    if state.iteration != completed_len as u32 {
+        return Err(anyhow!(
+            "loop runtime resumed state iteration must match completed step prefix"
+        ));
+    }
+    let expected_status = if definition
+        .terminal_node_ids
+        .iter()
+        .any(|node_id| node_id == expected_node_id)
+    {
+        RuntimeV2LoopStatus::Terminated
+    } else if completed_len == 0 {
+        RuntimeV2LoopStatus::Ready
+    } else {
+        RuntimeV2LoopStatus::Running
+    };
+    if state.status != expected_status {
+        return Err(anyhow!(
+            "loop runtime resumed state status must match completed step prefix"
+        ));
+    }
+    Ok(())
 }
 
 fn validate_loop_validation_commands(commands: &[String]) -> Result<()> {
