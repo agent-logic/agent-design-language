@@ -54,7 +54,7 @@ done
 
 if [[ "${#BINS[@]}" -eq 0 ]]; then
   BINS=(
-    adl adl-csdlc adl-runtime adl-review csm
+    adl csdlc adl-csdlc adl-runtime adl-review csm
     adl-pr-create adl-pr-init adl-pr-repair-issue-body
     adl-pr-run adl-pr-doctor adl-pr-ready adl-pr-preflight
     adl-pr-finish adl-pr-validation adl-pr-inventory

@@ -1,0 +1,63 @@
+{
+  "schema_version": "provider_benchmark_probe.v1",
+  "issue_number": 4653,
+  "artifact_kind": "vllm_gemma_speculative_smoke",
+  "created_utc": "2026-07-09T23:09:00Z",
+  "host_class": "nessus_windows_rtx_3090",
+  "runtime": {
+    "container_image": "vllm/vllm-openai:latest",
+    "vllm_version": "0.24.0",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "execution_path": "Docker vLLM container on Nessus with Hugging Face token supplied through stdin-backed environment mapping"
+  },
+  "models": {
+    "target_model": "google/gemma-3-1b-it",
+    "draft_model": "google/gemma-3-270m-it",
+    "model_family": "gemma",
+    "spec_tokens": 3
+  },
+  "benchmark_shape": {
+    "mode": "speculative",
+    "max_new_tokens": 32,
+    "warmup_runs": 1,
+    "repeats": 1,
+    "prompt_limit": 1,
+    "gpu_memory_utilization": 0.5
+  },
+  "status": "failed_engine_initialization",
+  "progress_observed": {
+    "target_architecture_resolved": "Gemma3ForCausalLM",
+    "draft_architecture_resolved": "Gemma3ForCausalLM",
+    "speculative_config_observed": "SpeculativeConfig(method='draft_model', model='google/gemma-3-270m-it', num_spec_tokens=3)",
+    "target_download_seconds": 539.739322,
+    "target_checkpoint_size_gib": 1.86,
+    "target_weight_load_seconds": 40.55,
+    "draft_download_seconds": 143.341354,
+    "draft_checkpoint_size_gib": 0.5,
+    "draft_weight_load_seconds": 10.82,
+    "combined_model_loading_seconds": 737.07371,
+    "target_compile_seconds": 31.7,
+    "draft_compile_seconds": 17.89
+  },
+  "failure": {
+    "phase": "kv_cache_initialization_before_generation",
+    "exception_class": "AssertionError",
+    "message": "All drafting layers should belong to the same kv cache group",
+    "outer_exception": "RuntimeError: Engine core initialization failed"
+  },
+  "proves": {
+    "huggingface_token_access": true,
+    "gemma_model_resolution": true,
+    "gemma_target_and_draft_weight_load": true,
+    "vllm_draft_model_speculative_execution": false,
+    "accepted_draft_token_counters": false,
+    "dspark_backend": false,
+    "speedup": false
+  },
+  "disposition": "negative_backend_compatibility_result",
+  "notes": [
+    "This replaces the earlier gated Gemma-2 access-only result for same-family Gemma probing with a live authenticated Gemma-3 vLLM attempt.",
+    "The run did not produce measured generation latency or accepted-token counters because vLLM failed before generation.",
+    "No provider token value was printed or retained in this artifact."
+  ]
+}

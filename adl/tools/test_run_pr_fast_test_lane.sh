@@ -17,6 +17,17 @@ assert_has() {
   fi
 }
 
+assert_not_has() {
+  local haystack="$1"
+  local needle="$2"
+  if grep -Fqx "$needle" <<<"$haystack"; then
+    echo "expected runner output not to contain: $needle" >&2
+    echo "actual output:" >&2
+    echo "$haystack" >&2
+    exit 1
+  fi
+}
+
 focused_runtime="$TMP/focused_runtime.txt"
 printf 'M\tadl/src/runtime_v2/contract_schema.rs\n' >"$focused_runtime"
 focused_runtime_output="$(bash "$SCRIPT" --changed-files "$focused_runtime" --print-plan)"
@@ -198,6 +209,23 @@ assert_has "$owner_binary_decomposition_output" "mode=family"
 assert_has "$owner_binary_decomposition_output" "reason=bounded_rust_surface_runs_family_nextest"
 assert_has "$owner_binary_decomposition_output" "filter_tokens=pr_control_plane,cli"
 assert_has "$owner_binary_decomposition_output" "filter_expression=test(/^cli::pr_cmd::/) or test(/^cli::/) or binary_id(adl::bin/adl-process) or binary_id(adl::bin/adl-session)"
+
+csdlc_binary_taxonomy="$TMP/csdlc_binary_taxonomy.txt"
+cat >"$csdlc_binary_taxonomy" <<'EOF'
+M	adl/Cargo.toml
+M	adl/src/bin/adl_csdlc.rs
+A	adl/src/bin/csdlc.rs
+M	adl/src/cli/mod.rs
+M	adl/src/cli/tests.rs
+M	adl/tests/cli_smoke.rs
+M	docs/default_workflow.md
+EOF
+csdlc_binary_taxonomy_output="$(bash "$SCRIPT" --changed-files "$csdlc_binary_taxonomy" --print-plan)"
+assert_has "$csdlc_binary_taxonomy_output" "mode=focused"
+assert_has "$csdlc_binary_taxonomy_output" "reason=bounded_rust_surface_runs_focused_nextest"
+assert_has "$csdlc_binary_taxonomy_output" "filter_tokens=manifest_support,csdlc_binary,csdlc_binary_dispatch,csdlc_binary_smoke"
+assert_has "$csdlc_binary_taxonomy_output" "filter_expression=test(/^cli::pr_cmd::github::/) or test(/^cli::pr_cmd::github_client::/) or test(/^cli::tooling_cmd::github_release::/) or test(/^long_lived_agent::/) or binary_id(adl::bin/csdlc) and test(/^tests::/) or binary_id(adl::bin/adl-csdlc) and test(/^tests::/) or test(/^cli::tests::csdlc_/) or binary_id(adl::cli_smoke) and test(/^(csdlc_cli_binary_help_and_version_smoke|adl_csdlc_cli_binary_help_and_version_smoke)$/)"
+assert_not_has "$csdlc_binary_taxonomy_output" "pr_cmd"
 
 scheduler_cli_wave="$TMP/scheduler_cli_wave.txt"
 cat >"$scheduler_cli_wave" <<'EOF'

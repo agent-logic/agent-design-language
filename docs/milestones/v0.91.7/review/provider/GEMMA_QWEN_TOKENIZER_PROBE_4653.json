@@ -1,0 +1,32 @@
+{
+  "schema_version": "adl.gemma_qwen_tokenizer_probe.v1",
+  "issue_number": 4653,
+  "measured_at_utc": "2026-07-09T21:00:00Z",
+  "host_class": "nessus_windows_rtx_3090",
+  "runtime": "native_windows_python_transformers",
+  "target_model": "google/gemma-2-2b-it",
+  "assistant_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "probe": "AutoTokenizer.from_pretrained target and assistant before assisted-generation benchmark",
+  "status": "blocked_gated_gemma_repo",
+  "observed_error_class": "huggingface_hub.errors.GatedRepoError",
+  "observed_error_summary": "Hugging Face returned 401 for google/gemma-2-2b-it config/tokenizer access; the Gemma target tokenizer could not be loaded without an authenticated account that has accepted the gated model terms.",
+  "local_gemma_alternative": {
+    "available_on_nessus_ollama": true,
+    "examples": [
+      "gemma4:31b",
+      "gemma4:26b",
+      "gemma4:e4b",
+      "gemma4:e2b",
+      "gemma3:4b",
+      "gemma3:27b"
+    ],
+    "why_not_dspark_proof": "Local Ollama model availability does not expose Transformers assisted-generation invocation, accepted draft token counts, fallback counts, or DSpark confidence-scheduled verification telemetry."
+  },
+  "claims": {
+    "proves_gemma_qwen_assisted_generation": false,
+    "proves_dspark_backend": false,
+    "accepted_draft_token_counts_exposed": false,
+    "supports_cross_family_acceptance": false
+  },
+  "required_next_proof": "A Gemma+Qwen speculative path needs an accessible Gemma target in a backend that can prove tokenizer compatibility, target verification, accepted-token counts, fallback counts, and latency/throughput. Without that, the cross-family row remains rejected."
+}

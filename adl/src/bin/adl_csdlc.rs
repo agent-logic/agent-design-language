@@ -6,12 +6,12 @@ mod cli;
 
 #[cfg(not(test))]
 fn main() {
-    cli::run_csdlc_main();
+    cli::run_csdlc_main_named("adl-csdlc");
 }
 
 #[cfg(test)]
 fn binary_help_probe() -> String {
-    cli::csdlc_usage().to_string()
+    cli::csdlc_usage_for("adl-csdlc").to_string()
 }
 
 #[cfg(test)]
