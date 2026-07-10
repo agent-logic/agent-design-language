@@ -112,6 +112,7 @@ def classify_owner(path: str) -> str | None:
     if path.startswith("adl/src/bin/adl_pr_"):
         return "csdlc"
     if path in {
+        "adl/src/bin/csdlc.rs",
         "adl/src/bin/adl_csdlc.rs",
         "adl/src/bin/adl_prompt_template.rs",
         "adl/src/bin/adl_validate_structured_prompt.rs",

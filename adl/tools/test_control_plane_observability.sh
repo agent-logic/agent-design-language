@@ -12,10 +12,13 @@ source "$OBS"
 export ADL_OBSERVABILITY_REPO_ROOT="$ROOT_DIR"
 export ADL_OBSERVABILITY_LOG="$TMP_DIR/events.log"
 
-TOOLING_BIN="$ROOT_DIR/adl/target/debug/adl"
-if [[ ! -x "$TOOLING_BIN" ]]; then
-  TOOLING_BIN=""
-fi
+TOOLING_BIN=""
+for candidate in "$ROOT_DIR/.adl/bin/adl" "$ROOT_DIR/adl/target/debug/adl"; do
+  if [[ -x "$candidate" ]]; then
+    TOOLING_BIN="$candidate"
+    break
+  fi
+done
 
 adl_obs_event "pr.sh" "doctor" "started" \
   "path" "$ROOT_DIR/.adl/v0.91.5/tasks/example/sor.md" \

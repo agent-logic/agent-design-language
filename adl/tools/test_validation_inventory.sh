@@ -67,6 +67,11 @@ csdlc_records = [
     if record["path"] == "adl/src/bin/adl_csdlc.rs"
 ]
 assert any(record["owner"] == "csdlc" for record in csdlc_records)
+canonical_csdlc_records = [
+    record for record in inventory["all_surface_records"]
+    if record["path"] == "adl/src/bin/csdlc.rs"
+]
+assert any(record["owner"] == "csdlc" for record in canonical_csdlc_records)
 
 demo_paths = {record["path"] for record in inventory["demo_proof_surfaces"]}
 assert "adl/tools/demo_smoke_v07_story.sh" in demo_paths

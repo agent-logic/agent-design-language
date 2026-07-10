@@ -189,6 +189,8 @@ pub(crate) struct IssueWatchLocalReadinessReport {
     pub(crate) status: String,
     pub(crate) pr_run_readiness: String,
     pub(crate) reason: String,
+    pub(crate) check: String,
+    pub(crate) command: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -1800,6 +1802,18 @@ fn pr_number_from_url(pr_url: &str) -> Option<u32> {
         .and_then(|value| value.parse::<u32>().ok())
 }
 
+fn repo_from_pr_url(pr_url: &str) -> Option<String> {
+    let marker = "github.com/";
+    let (_, tail) = pr_url.split_once(marker)?;
+    let mut parts = tail.trim_matches('/').split('/');
+    let owner = parts.next()?.trim();
+    let repo = parts.next()?.trim();
+    match parts.next()? {
+        "pull" if !owner.is_empty() && !repo.is_empty() => Some(format!("{owner}/{repo}")),
+        _ => None,
+    }
+}
+
 pub(crate) fn issue_watcher_attachment_record_path(
     repo_root: &Path,
     issue: u32,
@@ -1927,6 +1941,7 @@ pub(crate) fn ensure_issue_watcher_terminal_disposition(
     issue: u32,
     pr_url: Option<&str>,
     fallback_disposition: &str,
+    branch: Option<&str>,
 ) -> Result<()> {
     let Some(pr_url) = pr_url.filter(|value| !value.trim().is_empty()) else {
         let artifact_root = issue_watcher_artifact_root(repo_root, issue);
@@ -1968,13 +1983,61 @@ pub(crate) fn ensure_issue_watcher_terminal_disposition(
     };
 
     let (packet_path, mut record) =
-        read_issue_watcher_attachment_record(repo_root, issue, pr_url)?.ok_or_else(|| {
-            anyhow!(
-                "closeout: issue-bound PR '{}' for issue #{} has no watcher attachment packet; rerun pr finish or pr watch/shepherd before closeout",
-                pr_url,
-                issue
-            )
-        })?;
+        match read_issue_watcher_attachment_record(repo_root, issue, pr_url)? {
+            Some(record) => record,
+            None => {
+                let packet_path = issue_watcher_attachment_record_path(repo_root, issue, pr_url);
+                if let Some(parent) = packet_path.parent() {
+                    fs::create_dir_all(parent).with_context(|| {
+                        format!(
+                            "closeout: failed to create issue watcher artifact root '{}'",
+                            parent.display()
+                        )
+                    })?;
+                }
+                let repo = repo_from_pr_url(pr_url).unwrap_or_else(|| "unknown".to_string());
+                let expected_pr_state = if fallback_disposition == "green_merged" {
+                    "merged"
+                } else {
+                    "closed"
+                };
+                let record = IssueWatcherAttachmentRecord {
+                    schema: "adl.issue_watcher.attachment.v1".to_string(),
+                    issue,
+                    repo,
+                    branch: branch
+                        .map(str::trim)
+                        .filter(|value| !value.is_empty())
+                        .unwrap_or("unknown")
+                        .to_string(),
+                    pr_url: pr_url.to_string(),
+                    pr_number: pr_number_from_url(pr_url),
+                    expected_pr_state: expected_pr_state.to_string(),
+                    classification: fallback_disposition.to_string(),
+                    tail_owner: "pr-closeout".to_string(),
+                    shepherd_state: "terminal_closeout".to_string(),
+                    status: "terminal".to_string(),
+                    packet_path: issue_watcher_repo_relative_path(repo_root, &packet_path),
+                    input_path: String::new(),
+                    prompt_path: String::new(),
+                    log_path: String::new(),
+                    pid_path: String::new(),
+                    pid: None,
+                    terminal_disposition: Some(fallback_disposition.to_string()),
+                    terminal_recorded_at: Some(
+                        chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true),
+                    ),
+                };
+                let json = serde_json::to_string_pretty(&record)?;
+                fs::write(&packet_path, format!("{json}\n")).with_context(|| {
+                    format!(
+                        "closeout: failed to write watcher terminal packet '{}'",
+                        packet_path.display()
+                    )
+                })?;
+                return Ok(());
+            }
+        };
     if record.terminal_disposition.is_none() {
         record.status = "terminal".to_string();
         record.terminal_disposition = Some(fallback_disposition.to_string());

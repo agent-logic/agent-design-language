@@ -149,10 +149,18 @@ Record:
 - retained EBS cache attached
 - benchmark line
 - cleanup/termination completed
+- `resume-state.json` with interrupted attempts when Spot is reclaimed
+- `wrapper-final-summary.json` with `passed`, `failed`, `interrupted_by_aws`,
+  or `resumed_after_interruption`
 - redacted logs/artifacts
 
 Do not call a Spot row warm unless the retained EBS cache is attached in the
 AWS-side summary.
+
+If Spot is interrupted, keep the retained artifact directory and rerun from the
+same issue/ref/command context. A successful retry must be recorded as
+`resumed_after_interruption`, with the previous interrupted attempt visible in
+`resume-state.json`; do not rewrite it as an ordinary `passed` run.
 
 ## 5. CodeBuild / CodeFriend
 
@@ -248,6 +256,8 @@ Every reported remote-build result should include:
 - Wrong AWS account: rerun the wrapper with `--check-account --profile agent-logic-admin`.
 - CodeBuild too slow: verify fixed ECR image, stable `/codebuild` paths,
   local target cache, and S3 `sccache` hit rate.
+- Spot interrupted: inspect `resume-state.json` and
+  `wrapper-final-summary.json`, then rerun the same issue/ref/command context.
 - Spot too slow: verify retained EBS cache attachment and cleanup status.
 - Nessus SSH asks for a password/passphrase: fix the operator SSH key before
   treating the lane as operational.

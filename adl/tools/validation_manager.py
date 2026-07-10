@@ -4,10 +4,15 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
+import platform
 import shlex
 import subprocess
 import sys
+import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -21,6 +26,8 @@ AWS_SPOT_REMOTE_RUNNER = "bash adl/tools/run_aws_spot_remote_validation_lane.sh"
 AWS_CODEFRIEND_BUILD_RUNNER = "bash adl/tools/run_aws_codefriend_build_lane.sh"
 AWS_CODEFRIEND_BUILD_RUNNER_PATH = ROOT / "adl/tools/run_aws_codefriend_build_lane.sh"
 VALIDATION_PLATFORMS = ("auto", "local", "nessus", "aws_spot", "codebuild", "wuji")
+BUILD_ACTION_LOG_SCHEMA = "adl.build_action_log.v1"
+BUILD_ACTION_LOG_MANIFEST_SCHEMA = "adl.build_action_log_manifest.v1"
 
 
 def fail(message: str) -> None:
@@ -1104,7 +1111,115 @@ def write_report(path: Path, profile: dict[str, Any]) -> None:
     path.write_text(json.dumps(profile, indent=2, sort_keys=True) + "\n")
 
 
-def run_profile(profile: dict[str, Any]) -> int:
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def repo_relative(path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(ROOT).as_posix()
+    except ValueError:
+        return str(resolved)
+
+
+def default_build_action_log_dir() -> Path:
+    run_id = f"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{os.getpid()}"
+    return ROOT / ".adl/logs/build-actions/validation-manager" / run_id
+
+
+def safe_packet_stem(lane_id: str, index: int) -> str:
+    safe = "".join(ch if ch.isalnum() or ch in {"-", "_"} else "-" for ch in lane_id)
+    safe = safe.strip("-_") or "lane"
+    return f"{index:02d}-{safe}"
+
+
+def build_action_log_root(args: argparse.Namespace) -> Path:
+    configured = args.build_action_log_dir or os.environ.get("ADL_BUILD_ACTION_LOG_DIR")
+    if configured:
+        return Path(configured).expanduser().resolve()
+    return default_build_action_log_dir()
+
+
+def write_build_action_manifest(log_root: Path, packets: list[dict[str, Any]]) -> Path:
+    manifest_path = log_root / "manifest.json"
+    manifest = {
+        "schema_version": BUILD_ACTION_LOG_MANIFEST_SCHEMA,
+        "runner": "validation_manager",
+        "packet_count": len(packets),
+        "packets": [packet["packet_ref"] for packet in packets],
+        "created_at": utc_now_iso(),
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    return manifest_path
+
+
+def run_validation_action_with_log(
+    item: dict[str, Any],
+    *,
+    log_root: Path,
+    index: int,
+    json_mode: bool,
+) -> tuple[int, dict[str, Any]]:
+    log_root.mkdir(parents=True, exist_ok=True)
+    stem = safe_packet_stem(str(item.get("lane_id", "lane")), index)
+    stdout_path = log_root / f"{stem}.stdout.log"
+    stderr_path = log_root / f"{stem}.stderr.log"
+    packet_path = log_root / f"{stem}.build-action-log.json"
+    command = str(item["command"])
+    started_at = utc_now_iso()
+    started = time.monotonic()
+    with stdout_path.open("w") as stdout_file, stderr_path.open("w") as stderr_file:
+        result = subprocess.run(
+            command,
+            cwd=ROOT,
+            shell=True,
+            text=True,
+            stdout=stdout_file,
+            stderr=stderr_file,
+        )
+    ended_at = utc_now_iso()
+    elapsed_ms = int((time.monotonic() - started) * 1000)
+
+    stdout_text = stdout_path.read_text(errors="replace")
+    stderr_text = stderr_path.read_text(errors="replace")
+    if stdout_text:
+        stdout_stream = sys.stderr if json_mode else sys.stdout
+        print(stdout_text, end="", file=stdout_stream)
+    if stderr_text:
+        print(stderr_text, end="", file=sys.stderr)
+
+    packet = {
+        "schema_version": BUILD_ACTION_LOG_SCHEMA,
+        "runner": "validation_manager",
+        "lane_id": item.get("lane_id"),
+        "reason": item.get("reason"),
+        "command": command,
+        "command_sha256": hashlib.sha256(command.encode("utf-8")).hexdigest(),
+        "cwd": ".",
+        "binary_path": "shell",
+        "cache_posture": "local_target_or_repo_configured",
+        "platform": {
+            "system": platform.system(),
+            "machine": platform.machine(),
+            "python": platform.python_version(),
+        },
+        "started_at": started_at,
+        "ended_at": ended_at,
+        "elapsed_ms": elapsed_ms,
+        "exit_code": result.returncode,
+        "status": "passed" if result.returncode == 0 else "failed",
+        "stdout_ref": repo_relative(stdout_path),
+        "stderr_ref": repo_relative(stderr_path),
+        "packet_ref": repo_relative(packet_path),
+        "redaction_status": "not_redacted_local_private_log",
+        "retention": "local_workflow_evidence",
+    }
+    packet_path.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n")
+    return result.returncode, packet
+
+
+def run_profile(profile: dict[str, Any], args: argparse.Namespace) -> int:
     platform_routing = profile.get("platform_routing")
     if platform_routing:
         selected_platform = platform_routing.get("selected_platform")
@@ -1126,12 +1241,23 @@ def run_profile(profile: dict[str, Any]) -> int:
         print("validation_manager: refusing --run for non-runnable profile", file=sys.stderr)
         return 1
     failed = False
-    for item in profile["run"]:
+    packets: list[dict[str, Any]] = []
+    log_root = build_action_log_root(args)
+    for index, item in enumerate(profile["run"], start=1):
         print(f"==> {item['lane_id']}: {item['command']}", file=sys.stderr)
-        result = subprocess.run(item["command"], cwd=ROOT, shell=True)
-        item["run_status"] = "passed" if result.returncode == 0 else "failed"
-        if result.returncode != 0:
+        returncode, packet = run_validation_action_with_log(item, log_root=log_root, index=index, json_mode=args.json)
+        packets.append(packet)
+        item["run_status"] = packet["status"]
+        item["build_action_log"] = packet["packet_ref"]
+        if returncode != 0:
             failed = True
+    manifest_path = write_build_action_manifest(log_root, packets)
+    profile["build_action_logs"] = {
+        "schema_version": BUILD_ACTION_LOG_MANIFEST_SCHEMA,
+        "manifest_ref": repo_relative(manifest_path),
+        "packet_count": len(packets),
+        "packets": [packet["packet_ref"] for packet in packets],
+    }
     profile["run_status"] = "failed" if failed else "passed"
     return 1 if failed else 0
 
@@ -1148,6 +1274,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--report-out", type=Path)
     parser.add_argument("--run", action="store_true")
+    parser.add_argument("--build-action-log-dir", type=Path)
     parser.add_argument("--remote-runner", choices=["nessus"])
     parser.add_argument("--remote-command")
     parser.add_argument("--remote-artifact-dir", type=Path)
@@ -1181,7 +1308,7 @@ def main(argv: list[str]) -> int:
             ]
     exit_code = 0
     if args.run:
-        exit_code = run_profile(profile)
+        exit_code = run_profile(profile, args)
     if args.report_out:
         write_report(args.report_out, profile)
     if args.json:

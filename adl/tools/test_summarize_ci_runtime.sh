@@ -84,6 +84,20 @@ cat >"$fixture" <<'EOF'
           "conclusion": "success"
         }
       ]
+    },
+    {
+      "name": "adl-rust-tests",
+      "startedAt": "2026-05-20T16:00:00Z",
+      "completedAt": "2026-05-20T16:11:40Z",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "test",
+          "startedAt": "2026-05-20T16:00:20Z",
+          "completedAt": "2026-05-20T16:11:20Z",
+          "conclusion": "success"
+        }
+      ]
     }
   ]
 }
@@ -92,7 +106,8 @@ EOF
 markdown_output="$(python3 "$SCRIPT" "$fixture" --job-budget adl-coverage=900 --category-budget coverage-execution=900)"
 assert_has "$markdown_output" "# CI Runtime Budget Report"
 assert_has "$markdown_output" '| `adl-coverage` | 1005.0 | 900.0 | over_budget | `coverage-execution` | `success` |'
-assert_has "$markdown_output" '| `rust-test-execution` | 330.0 |'
+assert_has "$markdown_output" '| `adl-rust-tests` | 700.0 | 600.0 | over_budget | `rust-test-execution` | `success` |'
+assert_has "$markdown_output" '| `rust-test-execution` | 990.0 |'
 assert_has "$markdown_output" '| `skipped-policy` | 5.0 |'
 assert_has "$markdown_output" '| `Coverage run and summary (json)` | `coverage-execution` | 960.0 | 900.0 | over_budget |'
 assert_has "$markdown_output" "inspect coverage lane policy"

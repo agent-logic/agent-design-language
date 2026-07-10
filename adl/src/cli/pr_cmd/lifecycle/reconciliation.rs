@@ -179,6 +179,7 @@ fn ensure_terminal_watcher_for_closeout(
         )
     })?;
     let pr_url = closeout_sor_pr_url(&sor_text);
+    let branch = line_value_after_prefix(&sor_text, "Branch:");
     let terminal_disposition =
         match line_value_after_prefix(&sor_text, "- Integration state:").as_deref() {
             Some("merged") => "green_merged",
@@ -189,6 +190,7 @@ fn ensure_terminal_watcher_for_closeout(
         issue_ref.issue_number(),
         pr_url.as_deref(),
         terminal_disposition,
+        branch.as_deref(),
     )
 }
 

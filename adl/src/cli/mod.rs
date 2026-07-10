@@ -104,7 +104,13 @@ pub fn run_review_main() {
 #[allow(dead_code)]
 #[cfg(not(test))]
 pub fn run_csdlc_main() {
-    if let Err(err) = real_csdlc_main() {
+    run_csdlc_main_named("adl-csdlc");
+}
+
+#[allow(dead_code)]
+#[cfg(not(test))]
+pub fn run_csdlc_main_named(binary_name: &'static str) {
+    if let Err(err) = real_csdlc_main(binary_name) {
         print_error_chain(&err);
         std::process::exit(1);
     }
@@ -135,9 +141,9 @@ fn real_review_main() -> Result<()> {
 
 #[allow(dead_code)]
 #[cfg(not(test))]
-fn real_csdlc_main() -> Result<()> {
+fn real_csdlc_main(binary_name: &'static str) -> Result<()> {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    dispatch_csdlc_args(&args)
+    dispatch_csdlc_args_for(binary_name, &args)
 }
 
 fn dispatch_args(args: &[String]) -> Result<()> {
@@ -200,7 +206,7 @@ Usage:\n\
   adl-runtime identity <init|show|now|foundation|...> ...\n\
   adl-runtime instrument <graph|replay|replay-bundle|diff-plan|diff-trace|trace-schema|validate-trace-v1|provider-substrate|provider-substrate-schema> ...\n\
   adl-runtime learn export --format <jsonl|bundle-v1|trace-bundle-v2> ...\n\
-  adl-runtime provider setup <family> [--out <dir>] [--force]\n\
+  adl-runtime provider setup <family> [--model <provider_model_id>] [--out <dir>] [--force]\n\
   adl-runtime keygen --out-dir <dir>\n\
   adl-runtime sign <adl.yaml> --key <private_key_path> [--key-id <id>] [--out <signed_file>]\n\
   adl-runtime verify <adl.yaml> [--key <public_key_path>]\n\
@@ -401,28 +407,46 @@ fn looks_like_issue_ref(value: &str) -> bool {
 }
 
 #[allow(dead_code)]
-pub(crate) fn csdlc_usage() -> &'static str {
-    "adl-csdlc - ADL C-SDLC compatibility binary\n\n\
+pub(crate) fn csdlc_usage_for(binary_name: &str) -> String {
+    let title = if binary_name == "csdlc" {
+        "csdlc - ADL C-SDLC workflow control-plane binary"
+    } else {
+        "adl-csdlc - ADL C-SDLC compatibility binary"
+    };
+    format!(
+        "{title}\n\n\
 Usage:\n\
-  adl-csdlc pr <create|init|start|doctor|ready|preflight|finish|closeout> ...\n\
-  adl-csdlc issue <create|init|run|doctor|finish|closeout> ...\n\
-  adl-csdlc issue run <issue> [--slug <slug>] [--version <v>]\n\
-  adl-csdlc tooling <card-prompt|csdlc-prompt-editor|generate-wp-issue-wave|lint-prompt-spec|prompt-template|srp-sor-update|validate-structured-prompt|...> ...\n\
-  adl-csdlc --help\n\
-  adl-csdlc --version\n\n\
+  {binary_name} pr <create|init|start|doctor|ready|preflight|finish|closeout> ...\n\
+  {binary_name} issue <create|init|run|doctor|finish|closeout> ...\n\
+  {binary_name} issue run <issue> [--slug <slug>] [--version <v>]\n\
+  {binary_name} tooling <card-prompt|csdlc-prompt-editor|generate-wp-issue-wave|lint-prompt-spec|prompt-template|srp-sor-update|validate-structured-prompt|...> ...\n\
+  {binary_name} --help\n\
+  {binary_name} --version\n\n\
 Notes:\n\
   adl/tools/pr.sh remains the canonical agent-facing issue wrapper during migration.\n\
+  csdlc is the canonical C-SDLC binary; adl-csdlc remains a compatibility alias.\n\
   GitHub issue/PR metadata interpretation is owned by the shared pr control-plane client layer.\n\
-  adl-csdlc issue run expects a numeric issue id. Runtime workflow YAML belongs to adl-runtime run <adl.yaml>."
+  {binary_name} issue run expects a numeric issue id. Runtime workflow YAML belongs to adl-runtime run <adl.yaml>."
+    )
+}
+
+#[allow(dead_code)]
+pub(crate) fn csdlc_usage() -> String {
+    csdlc_usage_for("adl-csdlc")
 }
 
 #[allow(dead_code)]
 fn dispatch_csdlc_args(args: &[String]) -> Result<()> {
+    dispatch_csdlc_args_for("adl-csdlc", args)
+}
+
+#[allow(dead_code)]
+fn dispatch_csdlc_args_for(binary_name: &'static str, args: &[String]) -> Result<()> {
     if matches!(
         args.first().map(|s| s.as_str()),
         Some("--help" | "-h" | "help")
     ) {
-        println!("{}", csdlc_usage());
+        println!("{}", csdlc_usage_for(binary_name));
         return Ok(());
     }
 
@@ -432,7 +456,7 @@ fn dispatch_csdlc_args(args: &[String]) -> Result<()> {
     }
 
     observability::emit_event(
-        "adl-csdlc",
+        binary_name,
         "dispatch",
         "started",
         &[("subcommand", args.first().map(String::as_str).unwrap_or(""))],
@@ -440,46 +464,51 @@ fn dispatch_csdlc_args(args: &[String]) -> Result<()> {
 
     match args.first().map(|s| s.as_str()) {
         Some("pr") => {
-            reject_csdlc_runtime_run("adl-csdlc pr", &args[1..])?;
+            reject_csdlc_runtime_run(&format!("{binary_name} pr"), &args[1..])?;
             real_pr(&args[1..])
         }
-        Some("issue") => real_csdlc_issue(&args[1..]),
+        Some("issue") => real_csdlc_issue(binary_name, &args[1..]),
         Some("tooling") => real_tooling(&args[1..]),
         Some("run") => Err(anyhow::anyhow!(
-            "adl-csdlc does not run ADL workflow YAML. Use adl-runtime run <adl.yaml> for runtime workflows or adl-csdlc issue run <issue> for C-SDLC issue execution."
+            "{binary_name} does not run ADL workflow YAML. Use adl-runtime run <adl.yaml> for runtime workflows or {binary_name} issue run <issue> for C-SDLC issue execution."
         )),
         Some(other) => Err(anyhow::anyhow!(
-            "unknown adl-csdlc command '{other}'. Expected pr, issue, tooling, help, or --version."
+            "unknown {binary_name} command '{other}'. Expected pr, issue, tooling, help, or --version."
         )),
         None => Err(anyhow::anyhow!(
-            "adl-csdlc requires a command. Run `adl-csdlc --help` for usage."
+            "{binary_name} requires a command. Run `{binary_name} --help` for usage."
         )),
     }
 }
 
 #[allow(dead_code)]
-fn real_csdlc_issue(args: &[String]) -> Result<()> {
-    let pr_args = csdlc_issue_to_pr_args(args)?;
+fn real_csdlc_issue(binary_name: &'static str, args: &[String]) -> Result<()> {
+    let pr_args = csdlc_issue_to_pr_args_for(binary_name, args)?;
     real_pr(&pr_args)
 }
 
 #[allow(dead_code)]
 fn csdlc_issue_to_pr_args(args: &[String]) -> Result<Vec<String>> {
-    reject_csdlc_runtime_run("adl-csdlc issue", args)?;
+    csdlc_issue_to_pr_args_for("adl-csdlc", args)
+}
+
+#[allow(dead_code)]
+fn csdlc_issue_to_pr_args_for(binary_name: &'static str, args: &[String]) -> Result<Vec<String>> {
+    reject_csdlc_runtime_run(&format!("{binary_name} issue"), args)?;
     let Some(subcommand) = args.first().map(|s| s.as_str()) else {
         return Err(anyhow::anyhow!(
-            "adl-csdlc issue requires a pr-compatible subcommand such as run, doctor, finish, or closeout."
+            "{binary_name} issue requires a pr-compatible subcommand such as run, doctor, finish, or closeout."
         ));
     };
     if subcommand == "run" {
         let Some(issue) = args.get(1) else {
             return Err(anyhow::anyhow!(
-                "adl-csdlc issue run requires a numeric issue id."
+                "{binary_name} issue run requires a numeric issue id."
             ));
         };
         if !issue.chars().all(|ch| ch.is_ascii_digit()) {
             return Err(anyhow::anyhow!(
-                "adl-csdlc issue run expects a numeric issue id, got '{issue}'. Runtime workflow YAML belongs to adl-runtime run <adl.yaml>."
+                "{binary_name} issue run expects a numeric issue id, got '{issue}'. Runtime workflow YAML belongs to adl-runtime run <adl.yaml>."
             ));
         }
         let mut mapped = Vec::with_capacity(args.len());

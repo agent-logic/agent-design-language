@@ -357,6 +357,52 @@ set +e
 runner_status="$?"
 set -e
 
+wrapper_summary="$ARTIFACT_DIR/wrapper-final-summary.json"
+python3 - <<'PY' "$runner_status" "$OUT_PATH" "$ARTIFACT_DIR/resume-state.json" "$wrapper_summary"
+import json
+import sys
+from pathlib import Path
+
+runner_status, summary_path, resume_state_path, wrapper_summary_path = sys.argv[1:5]
+summary = {}
+resume_state = {}
+summary_file = Path(summary_path)
+resume_file = Path(resume_state_path)
+if summary_file.exists():
+    try:
+        summary = json.loads(summary_file.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        summary = {"status": "unparseable_summary"}
+if resume_file.exists():
+    try:
+        resume_state = json.loads(resume_file.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        resume_state = {"attempts": [], "final_status": "unparseable_resume_state"}
+
+status = summary.get("status") or resume_state.get("final_status")
+if not status:
+    status = "passed" if runner_status == "0" else "failed"
+attempts = resume_state.get("attempts")
+if not isinstance(attempts, list):
+    attempts = []
+interrupted_attempts = [
+    attempt for attempt in attempts
+    if str(attempt.get("status", "")).lower() in {"interrupted_by_aws", "interrupted"}
+]
+payload = {
+    "schema": "adl.aws_spot_remote_validation_wrapper_summary.v1",
+    "status": status,
+    "runner_exit_code": int(runner_status),
+    "summary_ref": Path(summary_path).name,
+    "resume_state_ref": "resume-state.json" if resume_file.exists() else None,
+    "attempt_count": len(attempts),
+    "interrupted_attempt_count": len(interrupted_attempts),
+    "resumed_after_interruption": status == "resumed_after_interruption",
+    "next_action": resume_state.get("next_action"),
+}
+Path(wrapper_summary_path).write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+
 python3 - <<'PY' "$runner_stdout"
 import json
 import re
@@ -389,4 +435,5 @@ print(json.dumps(payload, indent=2, sort_keys=False))
 PY
 
 cat "$runner_stderr" >&2
+printf 'aws_spot_remote_validation_wrapper_summary=%s\n' "$wrapper_summary" >&2
 exit "$runner_status"

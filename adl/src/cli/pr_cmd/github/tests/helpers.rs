@@ -401,6 +401,7 @@ fn issue_watcher_attachment_is_required_and_records_terminal_packet() {
         1153,
         Some("https://github.com/owner/repo/pull/1159"),
         "green_merged",
+        Some("codex/1153-fixture"),
     )
     .expect("terminal watcher disposition should update attached packet");
     let terminal = issue_pr_watcher_status_for_inventory(
@@ -414,16 +415,29 @@ fn issue_watcher_attachment_is_required_and_records_terminal_packet() {
         Some("green_merged")
     );
 
-    let missing_terminal = ensure_issue_watcher_terminal_disposition(
+    ensure_issue_watcher_terminal_disposition(
         &repo,
         1154,
         Some("https://github.com/owner/repo/pull/1160"),
         "closed_without_merge",
+        Some("codex/1154-fixture"),
     )
-    .expect_err("PR-backed closeout without watcher packet must fail");
-    assert!(missing_terminal
-        .to_string()
-        .contains("has no watcher attachment packet"));
+    .expect("terminal closeout should create missing PR-backed watcher packet");
+    let created_terminal = issue_pr_watcher_status_for_inventory(
+        &repo,
+        Some(1154),
+        "https://github.com/owner/repo/pull/1160",
+    );
+    assert_eq!(created_terminal.status, "terminal");
+    assert_eq!(
+        created_terminal.terminal_disposition.as_deref(),
+        Some("closed_without_merge")
+    );
+    let created_packet =
+        fs::read_to_string(repo.join(".adl/logs/issue-watcher/issue-1154/pr-1160-attachment.json"))
+            .expect("created terminal packet");
+    assert!(created_packet.contains("\"repo\": \"owner/repo\""));
+    assert!(created_packet.contains("\"branch\": \"codex/1154-fixture\""));
 
     restore_env("ADL_ISSUE_WATCHER_DISABLE", old_disable);
     restore_env("ADL_ISSUE_WATCHER_CMD", old_cmd);

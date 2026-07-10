@@ -84,7 +84,11 @@ AWS Spot note: the post-publication Spot run launched and began validation, then
 the instance was interrupted while the validation command was still running. The
 local wrapper did not return a final failed summary after cleanup began, and
 `resume-state.json` still showed no recorded attempts. This is a remote-build
-tooling problem to fix before relying on Spot for sprint throughput.
+tooling problem to fix before relying on Spot for sprint throughput. Issue
+`#4974` owns that tooling repair: interrupted attempts must now be retained in
+`resume-state.json`, the local wrapper must retain
+`wrapper-final-summary.json`, and a successful retry must be reported as
+`resumed_after_interruption` rather than a plain pass.
 
 CodeBuild note: the post-publication CodeBuild run succeeded, but the inner
 benchmark was slower than wuji for this lane.

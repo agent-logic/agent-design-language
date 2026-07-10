@@ -14,14 +14,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  adl-ci:
+  adl_path_policy:
+    name: adl-path-policy
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
-    defaults:
-      run:
-        working-directory: adl
+    outputs:
+      reason: ${{ steps.path-policy.outputs.reason }}
+      rust_required: ${{ steps.path-policy.outputs.rust_required }}
+      coverage_required: ${{ steps.path-policy.outputs.coverage_required }}
+      full_coverage_required: ${{ steps.path-policy.outputs.full_coverage_required }}
+      demo_smoke_required: ${{ steps.path-policy.outputs.demo_smoke_required }}
+      v0913_proof_required: ${{ steps.path-policy.outputs.v0913_proof_required }}
+      release_version_only: ${{ steps.path-policy.outputs.release_version_only }}
+      ci_contracts_required: ${{ steps.path-policy.outputs.ci_contracts_required }}
+      ci_path_policy_contracts_required: ${{ steps.path-policy.outputs.ci_path_policy_contracts_required }}
+      ci_contract_toolchain_required: ${{ steps.path-policy.outputs.ci_contract_toolchain_required }}
+      pvf_ci_release_contract_required: ${{ steps.path-policy.outputs.pvf_ci_release_contract_required }}
+      v0913_proof_contract_required: ${{ steps.path-policy.outputs.v0913_proof_contract_required }}
+      slow_proof_contract_required: ${{ steps.path-policy.outputs.slow_proof_contract_required }}
+      skill_author_contracts_required: ${{ steps.path-policy.outputs.skill_author_contracts_required }}
+      coverage_lane: ${{ steps.path-policy.outputs.coverage_lane }}
+      coverage_authority: ${{ steps.path-policy.outputs.coverage_authority }}
+      coverage_execution_state: ${{ steps.path-policy.outputs.coverage_execution_state }}
+      proof_validation_scope: ${{ steps.path-policy.outputs.proof_validation_scope }}
+      validation_profile_selected: ${{ steps.path-policy.outputs.validation_profile_selected }}
+      validation_profile_status: ${{ steps.path-policy.outputs.validation_profile_status }}
+      validation_profile_pr_publication_sufficient: ${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}
+      validation_profile_escalation_required: ${{ steps.path-policy.outputs.validation_profile_escalation_required }}
+      validation_profile_run_lanes: ${{ steps.path-policy.outputs.validation_profile_run_lanes }}
+      validation_profile_primary_reason: ${{ steps.path-policy.outputs.validation_profile_primary_reason }}
+      validation_profile_escalation_lanes: ${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
@@ -58,14 +82,163 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: .
 
+  adl_tooling_contracts:
+    name: adl-tooling-contracts
+    needs: adl_path_policy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Install cargo-llvm-cov for CI contract checks
+        if: needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'
+        uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # cargo-llvm-cov
+
+      - name: Install cargo-nextest for CI contract checks
+        if: needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'
+        uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # install-action
+        with:
+          tool: nextest
+
+      - name: tooling sanity (bash -n)
+        run: bash -n adl/tools/*.sh
+
+      - name: tooling sanity (codex_pr help)
+        run: |
+          if bash adl/tools/codex_pr.sh --help >/tmp/codex_pr_help.out 2>/tmp/codex_pr_help.err; then
+            rc=0
+          else
+            rc=$?
+          fi
+          test "$rc" -eq 2
+          grep -q "retired and now fails closed" /tmp/codex_pr_help.err
+
+      - name: tooling sanity (codexw help)
+        run: |
+          if bash adl/tools/codexw.sh --help >/tmp/codexw_help.out 2>/tmp/codexw_help.err; then
+            rc=0
+          else
+            rc=$?
+          fi
+          test "$rc" -eq 2
+          grep -q "retired and now fails closed" /tmp/codexw_help.err
+
+      - name: coverage-impact preflight contract
+        run: bash adl/tools/test_check_coverage_impact.sh
+
+      - name: path-policy PR-fast coverage contract
+        run: bash adl/tools/test_ci_path_policy.sh
+
+      - name: PVF CI release policy contract
+        if: needs.adl_path_policy.outputs.pvf_ci_release_contract_required == 'true'
+        run: bash adl/tools/test_pvf_ci_release_policy.sh
+
+      - name: tracked proof-validation lane contract
+        if: needs.adl_path_policy.outputs.v0913_proof_contract_required == 'true'
+        env:
+          RUSTFLAGS: ""
+          RUST_LINK_ACCEL: system
+        run: bash adl/tools/test_run_v0913_proof_validation_lane.sh
+
+      - name: PR-fast test lane contract
+        if: needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.rust_required == 'true'
+        run: bash adl/tools/test_run_pr_fast_test_lane.sh
+
+      - name: slow-proof lane contract
+        if: needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'
+        run: bash adl/tools/test_slow_proof_lane_contract.sh
+
+      - name: authoritative coverage lane contract
+        if: needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.full_coverage_required == 'true'
+        run: bash adl/tools/test_run_authoritative_coverage_lane.sh
+
+      - name: guardrail (no new legacy refs)
+        run: bash adl/tools/check_no_new_legacy_swarm_refs.sh
+
+      - name: guardrail contract (issue PR closing linkage)
+        run: bash adl/tools/test_pr_closing_linkage.sh
+
+      - name: guardrail (issue PR closing linkage)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash adl/tools/check_pr_closing_linkage.sh
+
+      - name: repo-code-review contract check
+        if: needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'
+        run: bash adl/tools/test_repo_code_review_skill_contracts.sh
+
+      - name: test-generator contract check
+        if: needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'
+        run: bash adl/tools/test_test_generator_skill_contracts.sh
+
+      - name: demo-operator contract check
+        if: needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'
+        run: bash adl/tools/test_demo_operator_skill_contracts.sh
+
+      - name: arxiv-paper-writer contract check
+        if: needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'
+        run: bash adl/tools/test_arxiv_paper_writer_skill_contracts.sh
+
+      - name: ANRM/Gemma trace dataset tooling check
+        if: needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'
+        run: bash adl/tools/test_build_v0911_anrm_trace_dataset.sh
+
+      - name: CI contract checks skipped by path policy
+        if: needs.adl_path_policy.outputs.ci_contracts_required != 'true'
+        run: |
+          echo "Runtime-compiling CI contract checks skipped because changed paths qualify for the minimal docs/release lane."
+          echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"
+          echo "ci_contracts_required=${{ needs.adl_path_policy.outputs.ci_contracts_required }}"
+
+      - name: docs command check
+        run: bash adl/tools/check_release_notes_commands.sh
+        working-directory: .
+
+      - name: ci runtime contract check
+        if: needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
+        run: bash adl/tools/test_ci_runtime_contracts.sh
+        working-directory: .
+
+      - name: ci runtime budget report contract check
+        if: needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
+        run: bash adl/tools/test_summarize_ci_runtime.sh
+        working-directory: .
+
+      - name: ci cache/linker contract check
+        if: needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
+        run: bash adl/tools/test_ci_cache_linker_contracts.sh
+        working-directory: .
+
+      - name: release version truth check
+        if: needs.adl_path_policy.outputs.release_version_only == 'true'
+        run: bash adl/tools/check_release_version_surfaces.sh
+        working-directory: .
+
+  adl_rust_fmt_clippy:
+    name: adl-rust-fmt-clippy
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.rust_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: adl
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
       - name: Install Rust toolchain
-        if: steps.path-policy.outputs.rust_required == 'true'
         uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
         with:
           components: rustfmt, clippy, llvm-tools-preview
 
       - name: Free runner disk space
-        if: steps.path-policy.outputs.rust_required == 'true'
         run: |
           df -h
           sudo rm -rf /usr/share/dotnet || true
@@ -76,7 +249,6 @@ jobs:
         working-directory: .
 
       - name: Rust cache
-        if: steps.path-policy.outputs.rust_required == 'true'
         uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2
         with:
           workspaces: |
@@ -85,28 +257,15 @@ jobs:
             ~/.cache/sccache
 
       - name: Install sccache
-        if: steps.path-policy.outputs.rust_required == 'true'
         uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # install-action
         with:
           tool: sccache
 
-      - name: Install cargo-llvm-cov for CI contract checks
-        if: steps.path-policy.outputs.ci_contract_toolchain_required == 'true'
-        uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # cargo-llvm-cov
-
-      - name: Install cargo-nextest for CI contract checks
-        if: steps.path-policy.outputs.ci_contract_toolchain_required == 'true'
-        uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # install-action
-        with:
-          tool: nextest
-
       - name: Install lld
-        if: steps.path-policy.outputs.rust_required == 'true'
         run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld
         working-directory: .
 
       - name: Configure Rust acceleration
-        if: steps.path-policy.outputs.rust_required == 'true'
         run: |
           mkdir -p "$HOME/.cache/sccache"
           echo "SCCACHE_DIR=$HOME/.cache/sccache" >> "$GITHUB_ENV"
@@ -120,230 +279,217 @@ jobs:
           echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
           sccache --zero-stats || true
 
-      - name: tooling sanity (bash -n)
-        run: bash -n adl/tools/*.sh
-        working-directory: .
-
-      - name: tooling sanity (codex_pr help)
-        run: |
-          if bash adl/tools/codex_pr.sh --help >/tmp/codex_pr_help.out 2>/tmp/codex_pr_help.err; then
-            rc=0
-          else
-            rc=$?
-          fi
-          test "$rc" -eq 2
-          grep -q "retired and now fails closed" /tmp/codex_pr_help.err
-        working-directory: .
-
-      - name: tooling sanity (codexw help)
-        run: |
-          if bash adl/tools/codexw.sh --help >/tmp/codexw_help.out 2>/tmp/codexw_help.err; then
-            rc=0
-          else
-            rc=$?
-          fi
-          test "$rc" -eq 2
-          grep -q "retired and now fails closed" /tmp/codexw_help.err
-        working-directory: .
-
-      - name: coverage-impact preflight contract
-        run: bash adl/tools/test_check_coverage_impact.sh
-        working-directory: .
-
-      - name: path-policy PR-fast coverage contract
-        run: bash adl/tools/test_ci_path_policy.sh
-        working-directory: .
-
-      - name: PVF CI release policy contract
-        if: steps.path-policy.outputs.pvf_ci_release_contract_required == 'true'
-        run: bash adl/tools/test_pvf_ci_release_policy.sh
-        working-directory: .
-
-      - name: tracked proof-validation lane contract
-        if: steps.path-policy.outputs.v0913_proof_contract_required == 'true'
-        env:
-          RUSTFLAGS: ""
-          RUST_LINK_ACCEL: system
-        run: bash adl/tools/test_run_v0913_proof_validation_lane.sh
-        working-directory: .
-
-      - name: PR-fast test lane contract
-        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true' || steps.path-policy.outputs.rust_required == 'true'
-        run: bash adl/tools/test_run_pr_fast_test_lane.sh
-        working-directory: .
-
-      - name: slow-proof lane contract
-        if: steps.path-policy.outputs.slow_proof_contract_required == 'true'
-        run: bash adl/tools/test_slow_proof_lane_contract.sh
-        working-directory: .
-
-      - name: authoritative coverage lane contract
-        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true' || steps.path-policy.outputs.full_coverage_required == 'true'
-        run: bash adl/tools/test_run_authoritative_coverage_lane.sh
-        working-directory: .
-
-      - name: guardrail (no new legacy refs)
-        run: bash adl/tools/check_no_new_legacy_swarm_refs.sh
-        working-directory: .
-
-      - name: guardrail contract (issue PR closing linkage)
-        run: bash adl/tools/test_pr_closing_linkage.sh
-        working-directory: .
-
-      - name: guardrail (issue PR closing linkage)
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: bash adl/tools/check_pr_closing_linkage.sh
-        working-directory: .
-
-      - name: repo-code-review contract check
-        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
-        run: bash adl/tools/test_repo_code_review_skill_contracts.sh
-        working-directory: .
-
-      - name: test-generator contract check
-        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
-        run: bash adl/tools/test_test_generator_skill_contracts.sh
-        working-directory: .
-
-      - name: demo-operator contract check
-        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
-        run: bash adl/tools/test_demo_operator_skill_contracts.sh
-        working-directory: .
-
-      - name: arxiv-paper-writer contract check
-        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
-        run: bash adl/tools/test_arxiv_paper_writer_skill_contracts.sh
-        working-directory: .
-
-      - name: ANRM/Gemma trace dataset tooling check
-        if: steps.path-policy.outputs.skill_author_contracts_required == 'true'
-        run: bash adl/tools/test_build_v0911_anrm_trace_dataset.sh
-        working-directory: .
-
-      - name: CI contract checks skipped by path policy
-        if: steps.path-policy.outputs.ci_contracts_required != 'true'
-        run: |
-          echo "Runtime-compiling CI contract checks skipped because changed paths qualify for the minimal docs/release lane."
-          echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
-          echo "ci_contracts_required=${{ steps.path-policy.outputs.ci_contracts_required }}"
-        working-directory: .
-
       - name: fmt
-        if: steps.path-policy.outputs.rust_required == 'true'
         run: cargo fmt --all -- --check
 
       - name: clippy
-        if: steps.path-policy.outputs.rust_required == 'true'
         run: cargo clippy --all-targets -- -D warnings
 
-      - name: docs command check
-        run: bash adl/tools/check_release_notes_commands.sh
+      - name: Rust acceleration stats
+        if: always()
+        run: |
+          echo "Linker mode: ${RUST_LINK_ACCEL:-unknown}"
+          sccache --show-stats || true
+
+  adl_rust_tests:
+    name: adl-rust-tests
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.rust_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: adl
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        with:
+          components: llvm-tools-preview
+
+      - name: Free runner disk space
+        run: |
+          df -h
+          sudo rm -rf /usr/share/dotnet || true
+          sudo rm -rf /usr/local/lib/android || true
+          sudo rm -rf /opt/ghc || true
+          sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+          df -h
         working-directory: .
 
-      - name: ci runtime contract check
-        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'
-        run: bash adl/tools/test_ci_runtime_contracts.sh
+      - name: Rust cache
+        uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2
+        with:
+          workspaces: |
+            adl -> target
+          cache-directories: |
+            ~/.cache/sccache
+
+      - name: Install sccache
+        uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # install-action
+        with:
+          tool: sccache
+
+      - name: Install lld
+        run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld
         working-directory: .
 
-      - name: ci runtime budget report contract check
-        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'
-        run: bash adl/tools/test_summarize_ci_runtime.sh
-        working-directory: .
-
-      - name: ci cache/linker contract check
-        if: steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'
-        run: bash adl/tools/test_ci_cache_linker_contracts.sh
-        working-directory: .
-
-      - name: release version truth check
-        if: steps.path-policy.outputs.release_version_only == 'true'
-        run: bash adl/tools/check_release_version_surfaces.sh
-        working-directory: .
+      - name: Configure Rust acceleration
+        run: |
+          mkdir -p "$HOME/.cache/sccache"
+          echo "SCCACHE_DIR=$HOME/.cache/sccache" >> "$GITHUB_ENV"
+          echo "SCCACHE_CACHE_SIZE=2G" >> "$GITHUB_ENV"
+          echo "RUSTC_WRAPPER=sccache" >> "$GITHUB_ENV"
+          if ! command -v ld.lld >/dev/null 2>&1; then
+            echo "::error::ld.lld is unavailable after the install step"
+            exit 1
+          fi
+          echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
+          echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
+          sccache --zero-stats || true
 
       - name: Install cargo-nextest
-        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true'
         uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # install-action
         with:
           tool: nextest
 
       - name: test
-        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required != 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' && needs.adl_path_policy.outputs.validation_profile_escalation_required != 'true'
         run: bash adl/tools/run_pr_fast_test_lane.sh --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.event.pull_request.head.sha }}"
         working-directory: .
 
       - name: test deferred to validation-manager escalation
-        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.path-policy.outputs.validation_profile_escalation_required == 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true' && needs.adl_path_policy.outputs.validation_profile_escalation_required == 'true'
         run: |
           echo "Ordinary PR-fast Rust test lane deferred because the validation manager selected an escalation profile."
-          echo "Selected profile: ${{ steps.path-policy.outputs.validation_profile_selected }}"
-          echo "Profile status: ${{ steps.path-policy.outputs.validation_profile_status }}"
-          echo "PR publication sufficient: ${{ steps.path-policy.outputs.validation_profile_pr_publication_sufficient }}"
-          echo "Run lanes: ${{ steps.path-policy.outputs.validation_profile_run_lanes }}"
-          echo "Escalation lanes: ${{ steps.path-policy.outputs.validation_profile_escalation_lanes }}"
-          echo "Reason: ${{ steps.path-policy.outputs.validation_profile_primary_reason }}"
+          echo "Selected profile: ${{ needs.adl_path_policy.outputs.validation_profile_selected }}"
+          echo "Profile status: ${{ needs.adl_path_policy.outputs.validation_profile_status }}"
+          echo "PR publication sufficient: ${{ needs.adl_path_policy.outputs.validation_profile_pr_publication_sufficient }}"
+          echo "Run lanes: ${{ needs.adl_path_policy.outputs.validation_profile_run_lanes }}"
+          echo "Escalation lanes: ${{ needs.adl_path_policy.outputs.validation_profile_escalation_lanes }}"
+          echo "Reason: ${{ needs.adl_path_policy.outputs.validation_profile_primary_reason }}"
         working-directory: .
 
       - name: doc test
-        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required != 'true'
         run: cargo test --doc
 
       - name: test covered by full coverage lane
-        if: steps.path-policy.outputs.rust_required == 'true' && steps.path-policy.outputs.full_coverage_required == 'true'
+        if: needs.adl_path_policy.outputs.full_coverage_required == 'true'
         run: |
           echo "Skipping standalone cargo nextest/doc-test lane because this event requires the full cargo-llvm-cov lane."
-          echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
-          echo "Coverage lane: ${{ steps.path-policy.outputs.coverage_lane }}"
-          echo "Coverage authority: ${{ steps.path-policy.outputs.coverage_authority }}"
+          echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"
+          echo "Coverage lane: ${{ needs.adl_path_policy.outputs.coverage_lane }}"
+          echo "Coverage authority: ${{ needs.adl_path_policy.outputs.coverage_authority }}"
 
       - name: release-version Rust lane replacement
-        if: steps.path-policy.outputs.release_version_only == 'true'
+        if: needs.adl_path_policy.outputs.release_version_only == 'true'
         run: |
           echo "Ordinary Rust fmt/clippy/test is replaced by the bounded release-version truth check for this PR."
-          echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
-          echo "Coverage lane: ${{ steps.path-policy.outputs.coverage_lane }}"
-          echo "Coverage authority: ${{ steps.path-policy.outputs.coverage_authority }}"
-        working-directory: .
-
-      - name: Rust validation skipped by path policy
-        if: steps.path-policy.outputs.rust_required != 'true' && steps.path-policy.outputs.release_version_only != 'true'
-        run: |
-          echo "Rust fmt/clippy/test skipped because changed paths do not touch Rust runtime or test surfaces."
-          echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
-          echo "Coverage lane: ${{ steps.path-policy.outputs.coverage_lane }}"
-          echo "Coverage authority: ${{ steps.path-policy.outputs.coverage_authority }}"
-        working-directory: .
-
-      - name: demo smoke (S-01..S-05)
-        if: steps.path-policy.outputs.demo_smoke_required == 'true'
-        run: bash adl/tools/demo_smoke_v07_story.sh
-        working-directory: .
-
-      - name: tracked proof validation lane
-        if: steps.path-policy.outputs.v0913_proof_required == 'true'
-        run: bash adl/tools/run_v0913_proof_validation_lane.sh
-        working-directory: .
-
-      - name: Demo smoke skipped by path policy
-        if: steps.path-policy.outputs.demo_smoke_required != 'true'
-        run: |
-          echo "Demo smoke skipped because changed paths do not touch runtime or demo surfaces."
-          echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
-        working-directory: .
-
-      - name: tracked proof validation skipped by path policy
-        if: steps.path-policy.outputs.v0913_proof_required != 'true'
-        run: |
-          echo "Tracked proof validation skipped because changed paths do not touch tracked proof/demo packet surfaces."
-          echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
-          echo "Proof validation scope: ${{ steps.path-policy.outputs.proof_validation_scope }}"
+          echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"
+          echo "Coverage lane: ${{ needs.adl_path_policy.outputs.coverage_lane }}"
+          echo "Coverage authority: ${{ needs.adl_path_policy.outputs.coverage_authority }}"
         working-directory: .
 
       - name: Rust acceleration stats
-        if: always() && steps.path-policy.outputs.rust_required == 'true'
+        if: always()
         run: |
           echo "Linker mode: ${RUST_LINK_ACCEL:-unknown}"
           sccache --show-stats || true
+
+  adl_demo_proof:
+    name: adl-demo-proof
+    needs: adl_path_policy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust toolchain for tracked proof lane
+        if: needs.adl_path_policy.outputs.v0913_proof_required == 'true'
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+
+      - name: demo smoke (S-01..S-05)
+        if: needs.adl_path_policy.outputs.demo_smoke_required == 'true'
+        run: bash adl/tools/demo_smoke_v07_story.sh
+
+      - name: tracked proof validation lane
+        if: needs.adl_path_policy.outputs.v0913_proof_required == 'true'
+        run: bash adl/tools/run_v0913_proof_validation_lane.sh
+
+      - name: Demo smoke skipped by path policy
+        if: needs.adl_path_policy.outputs.demo_smoke_required != 'true'
+        run: |
+          echo "Demo smoke skipped because changed paths do not touch runtime or demo surfaces."
+          echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"
+
+      - name: tracked proof validation skipped by path policy
+        if: needs.adl_path_policy.outputs.v0913_proof_required != 'true'
+        run: |
+          echo "Tracked proof validation skipped because changed paths do not touch tracked proof/demo packet surfaces."
+          echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"
+          echo "Proof validation scope: ${{ needs.adl_path_policy.outputs.proof_validation_scope }}"
+
+  adl-ci:
+    name: adl-ci
+    needs:
+      - adl_path_policy
+      - adl_tooling_contracts
+      - adl_rust_fmt_clippy
+      - adl_rust_tests
+      - adl_demo_proof
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Aggregate split adl-ci lanes
+        run: |
+          set -euo pipefail
+          failed=""
+          for lane in \
+            "adl_path_policy:${{ needs.adl_path_policy.result }}" \
+            "adl_tooling_contracts:${{ needs.adl_tooling_contracts.result }}" \
+            "adl_rust_fmt_clippy:${{ needs.adl_rust_fmt_clippy.result }}" \
+            "adl_rust_tests:${{ needs.adl_rust_tests.result }}" \
+            "adl_demo_proof:${{ needs.adl_demo_proof.result }}"
+          do
+            name="${lane%%:*}"
+            result="${lane#*:}"
+            echo "$name => $result"
+            case "$result" in
+              success|skipped)
+                ;;
+              *)
+                failed="${failed}${failed:+, }${name}=${result}"
+                ;;
+            esac
+          done
+          {
+            echo "## Split adl-ci result"
+            echo
+            echo "| Lane | Result |"
+            echo "|---|---|"
+            echo "| adl_path_policy | \`${{ needs.adl_path_policy.result }}\` |"
+            echo "| adl_tooling_contracts | \`${{ needs.adl_tooling_contracts.result }}\` |"
+            echo "| adl_rust_fmt_clippy | \`${{ needs.adl_rust_fmt_clippy.result }}\` |"
+            echo "| adl_rust_tests | \`${{ needs.adl_rust_tests.result }}\` |"
+            echo "| adl_demo_proof | \`${{ needs.adl_demo_proof.result }}\` |"
+            echo
+            echo "Stable required check \`adl-ci\` is an aggregator over parallel lanes."
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$failed" ]; then
+            echo "::error::split adl-ci lane failure(s): $failed"
+            exit 1
+          fi
 
   adl-slow-proof:
     if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'

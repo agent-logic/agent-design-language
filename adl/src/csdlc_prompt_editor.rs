@@ -5,8 +5,10 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 
+pub mod enums;
 mod structure;
 mod values;
+pub use enums::*;
 pub(crate) use structure::validate_rendered_card_structure_from_repo;
 use structure::{build_structure_schema, default_structure_schema_path, load_structure_schema};
 use values::{
@@ -15,15 +17,7 @@ use values::{
 
 const TEMPLATE_REGISTRY: &str = "docs/templates/prompts/current.json";
 const VALUES_SCHEMA: &str = "adl.csdlc.prompt_template_values.v1";
-const CARD_STATUS_VALUES: &[&str] = &[
-    "draft",
-    "ready",
-    "reviewed",
-    "approved",
-    "completed",
-    "blocked",
-    "superseded",
-];
+const CARD_STATUS_VALUES: &[&str] = CardStatus::VALUES;
 const PLACEHOLDERS: &[&str] = &[
     "card_status",
     "issue",
@@ -185,92 +179,6 @@ const PLACEHOLDERS: &[&str] = &[
     "findings_status",
     "recommended_outcome",
 ];
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum PromptCardKind {
-    Sip,
-    Stp,
-    Spp,
-    Vpp,
-    Srp,
-    Sor,
-}
-
-impl PromptCardKind {
-    pub fn all_for_template_set(template_set: &str) -> Vec<Self> {
-        let mut kinds = vec![Self::Sip, Self::Stp, Self::Spp];
-        if template_set_supports_vpp(template_set) {
-            kinds.push(Self::Vpp);
-        }
-        kinds.push(Self::Srp);
-        kinds.push(Self::Sor);
-        kinds
-    }
-
-    pub fn key(self) -> &'static str {
-        match self {
-            Self::Sip => "sip",
-            Self::Stp => "stp",
-            Self::Spp => "spp",
-            Self::Vpp => "vpp",
-            Self::Srp => "srp",
-            Self::Sor => "sor",
-        }
-    }
-
-    pub fn label(self) -> &'static str {
-        match self {
-            Self::Sip => "Structured Issue Prompt",
-            Self::Stp => "Structured Task Prompt",
-            Self::Spp => "Structured Plan Prompt",
-            Self::Vpp => "Structured Validation Planning Prompt",
-            Self::Srp => "Structured Review Prompt",
-            Self::Sor => "Structured Outcome Record",
-        }
-    }
-
-    pub fn output_file(self) -> &'static str {
-        match self {
-            Self::Sip => "sip.md",
-            Self::Stp => "stp.md",
-            Self::Spp => "spp.md",
-            Self::Vpp => "vpp.md",
-            Self::Srp => "srp.md",
-            Self::Sor => "sor.md",
-        }
-    }
-
-    pub fn validate_type(self) -> &'static str {
-        self.key()
-    }
-
-    pub fn parse_key(value: &str) -> Result<Self> {
-        match value {
-            "sip" => Ok(Self::Sip),
-            "stp" => Ok(Self::Stp),
-            "spp" => Ok(Self::Spp),
-            "vpp" => Ok(Self::Vpp),
-            "srp" => Ok(Self::Srp),
-            "sor" => Ok(Self::Sor),
-            other => bail!("card kind must be one of sip, stp, spp, vpp, srp, sor: {other}"),
-        }
-    }
-}
-
-fn template_set_supports_vpp(template_set: &str) -> bool {
-    let mut parts = template_set.split('.');
-    let Some(major) = parts.next().and_then(|value| value.parse::<u64>().ok()) else {
-        return false;
-    };
-    let Some(minor) = parts.next().and_then(|value| value.parse::<u64>().ok()) else {
-        return false;
-    };
-    let Some(patch) = parts.next().and_then(|value| value.parse::<u64>().ok()) else {
-        return false;
-    };
-    (major, minor, patch) >= (1, 0, 3)
-}
 
 #[derive(Debug, Clone, Serialize)]
 pub struct PromptField {

@@ -15,6 +15,8 @@ It wraps the lower-level `adl-aws-remote-validation` binary from
 - reuse the retained warm EBS cache volume by default
 - enable live SSH tail logging by default when the retained debug key is present
 - retain the AWS runner's summary JSON and artifact directory
+- retain `resume-state.json` and `wrapper-final-summary.json` for interrupted
+  and resumed attempts
 
 ## Account Check
 
@@ -92,6 +94,27 @@ warm EBS cache is the default cache posture, not evidence of image execution.
 The underlying AWS runner still owns launch-surface preparation, Spot-first
 selection, on-demand fallback for classified Spot capacity failures, SSM command
 dispatch, retained logs, interruption classification, and cleanup truth.
+
+## Interruption And Resume Artifacts
+
+Spot interruption is an expected recoverable lane outcome, not an implicit
+validation failure or success. The runner records each attempt in
+`<artifact-dir>/resume-state.json` before deciding whether to retry. Attempt
+records include the issue, run id, repo URL, git ref, command, artifact-relative
+summary paths, attempt timing, lifecycle state, retry disposition, and hashed
+instance identity only. They must not retain raw AWS account ids, ARNs, instance
+ids, credentials, or host-local absolute paths.
+
+The wrapper also writes `<artifact-dir>/wrapper-final-summary.json` after every
+live run attempt. That summary is the bounded local wrapper result and records
+`passed`, `failed`, `interrupted_by_aws`, or `resumed_after_interruption` from
+the retained runner summary/resume state plus the wrapper exit code.
+
+When a Spot interruption is confirmed and retries remain, the next attempt is a
+fresh remote attempt using the original issue, run id, git ref, repo URL, and
+command context. If that retry passes, the final AWS summary status is
+`resumed_after_interruption` so review records do not hide the interrupted
+attempt behind a plain success.
 
 ## GitHub Actions Trigger
 
@@ -190,6 +213,7 @@ The wrapper fails closed when:
 - the runner binary is unavailable or not executable
 - the underlying AWS runner reports launch, SSM, validation, interruption, or
   cleanup failure
+- a final wrapper summary cannot be written under the artifact directory
 
 Fresh live AWS execution may incur AWS charges. Keep commands focused, use an
 advertised remote ref, and retain summary plus artifact paths in the issue SOR.

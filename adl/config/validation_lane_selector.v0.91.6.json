@@ -191,6 +191,8 @@
         "adl/tools/run_ci_step_with_log.sh",
         "adl/tools/test_run_ci_step_with_log.sh",
         "adl/tools/test_ci_cache_linker_contracts.sh",
+        "adl/tools/summarize_ci_runtime.py",
+        "adl/tools/test_summarize_ci_runtime.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
         "adl/tools/setup_required_coverage_toolchain.sh",
         "adl/tools/test_setup_required_coverage_toolchain.sh",
@@ -218,6 +220,8 @@
         "adl/tools/run_ci_step_with_log.sh",
         "adl/tools/test_run_ci_step_with_log.sh",
         "adl/tools/test_ci_cache_linker_contracts.sh",
+        "adl/tools/summarize_ci_runtime.py",
+        "adl/tools/test_summarize_ci_runtime.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
         "adl/tools/setup_required_coverage_toolchain.sh",
         "adl/tools/test_setup_required_coverage_toolchain.sh",
@@ -325,8 +329,8 @@
       "run_command": "bash -n adl/tools/test_v0916_unity_observatory_unity65_smoke.sh && bash adl/tools/test_v0916_unity_observatory_baseline.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash adl/tools/test_v0916_unity_observatory_soak_integration.sh && cargo test --manifest-path adl/Cargo.toml --test cli_smoke csm_observatory_cli_writes_unity_contract_bundle_and_matches_seeded_resource -- --nocapture",
       "reason": "unity_observatory_surface_requires_contract_and_csm_smoke"
     },
-    {
-      "id": "csdlc_owner_lane",
+        {
+            "id": "csdlc_owner_lane",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
       "owner": "csdlc",
@@ -344,13 +348,18 @@
         "adl/tools/pr_cards.sh",
         "adl/tools/pr_delegate.sh",
         "adl/tools/pr_usage.sh",
+        "adl/tools/install_owner_binaries.sh",
         "adl/tools/build_v0917_execution_outlier_analysis.py",
         "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh",
         "adl/tools/run_owner_validation_lane.sh",
         "adl/tools/test_control_plane_observability.sh",
         "adl/tools/test_five_command_regression_suite.sh",
+        "adl/tools/test_owner_binary_install.sh",
         "adl/tools/test_owner_validation_lane.sh",
         "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
+        "adl/tools/test_validation_inventory.sh",
         "adl/tools/test_pr_*.sh"
       ],
       "path_hints": [
@@ -363,13 +372,18 @@
         "adl/tools/pr_cards.sh",
         "adl/tools/pr_delegate.sh",
         "adl/tools/pr_usage.sh",
+        "adl/tools/install_owner_binaries.sh",
         "adl/tools/build_v0917_execution_outlier_analysis.py",
         "adl/tools/build_v0916_workflow_metric_backfill_inventory.py",
+        "adl/tools/validation_inventory.py",
+        "adl/tools/validation_inventory.sh",
         "adl/tools/run_owner_validation_lane.sh",
         "adl/tools/test_control_plane_observability.sh",
         "adl/tools/test_five_command_regression_suite.sh",
+        "adl/tools/test_owner_binary_install.sh",
         "adl/tools/test_owner_validation_lane.sh",
         "adl/tools/test_readiness_prep_metrics_non_terminal.sh",
+        "adl/tools/test_validation_inventory.sh",
         "adl/tools/test_pr_*.sh"
       ],
       "command": "bash adl/tools/run_owner_validation_lane.sh csdlc --print-plan",
@@ -949,6 +963,27 @@
       "command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh && bash adl/tools/test_run_pr_fast_test_lane.sh",
       "run_command": "python3 -m py_compile adl/tools/warm_rust_dependency_cache.py adl/tools/test_warm_rust_dependency_cache.py && python3 adl/tools/test_warm_rust_dependency_cache.py && bash adl/tools/test_rust_validation_warm_cache.sh && bash adl/tools/test_run_authoritative_coverage_lane.sh && bash adl/tools/test_run_pr_fast_test_lane.sh",
       "reason": "rust_dependency_cache_warmup_surface_requires_python_shell_and_runner_contract_checks"
+    },
+    {
+      "id": "provider_benchmark_helper_syntax",
+      "lane_class": "provider",
+      "default_surface": "provider",
+      "owner": "provider",
+      "proof_role": "provider_benchmark_helper_syntax",
+      "requirement_ids": [
+        "provider_benchmark_helper_syntax"
+      ],
+      "path_selectors": [
+        "adl/tools/native_qwen_assisted_generation_benchmark.py",
+        "adl/tools/vllm_qwen_speculative_decoding_benchmark.py"
+      ],
+      "path_hints": [
+        "adl/tools/native_qwen_assisted_generation_benchmark.py",
+        "adl/tools/vllm_qwen_speculative_decoding_benchmark.py"
+      ],
+      "command": "python3 -m py_compile adl/tools/native_qwen_assisted_generation_benchmark.py adl/tools/vllm_qwen_speculative_decoding_benchmark.py",
+      "run_command": "python3 -m py_compile adl/tools/native_qwen_assisted_generation_benchmark.py adl/tools/vllm_qwen_speculative_decoding_benchmark.py",
+      "reason": "provider_benchmark_helper_surface_requires_python_syntax_check"
     },
     {
       "id": "docs_diff_check",

@@ -1,6 +1,6 @@
 [package]
 name = "adl"
-version = "0.91.6"
+version = "0.91.7"
 edition = "2021"
 default-run = "adl"
 license = "MIT OR Apache-2.0"
@@ -17,6 +17,10 @@ path = "src/main.rs"
 [[bin]]
 name = "adl-csdlc"
 path = "src/bin/adl_csdlc.rs"
+
+[[bin]]
+name = "csdlc"
+path = "src/bin/csdlc.rs"
 
 [[bin]]
 name = "adl-runtime"

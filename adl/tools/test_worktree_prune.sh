@@ -46,6 +46,16 @@ assert_path_missing() {
 
 managed_root="$(cd "$managed_root" && pwd -P)"
 report_path="$tmpdir/report.md"
+issue_states="$tmpdir/issue-states.json"
+cat >"$issue_states" <<'JSON'
+[
+  {"number": 900, "state": "closed"},
+  {"number": 901, "state": "closed"},
+  {"number": 902, "state": "OPEN"},
+  {"number": 903, "state": "closed"},
+  {"number": 904, "state": "OPEN"}
+]
+JSON
 
 (
   cd "$repo"
@@ -53,25 +63,62 @@ report_path="$tmpdir/report.md"
   git worktree add -q "$managed_root/adl-wp-900" codex/900-merged
   git branch codex/901-merged >/dev/null 2>&1 || true
   git worktree add -q "$managed_root/adl-wp-901" codex/901-merged
+  git branch codex/902-merged >/dev/null 2>&1 || true
+  git worktree add -q "$managed_root/adl-wp-902" codex/902-merged
+  git branch codex/903-merged >/dev/null 2>&1 || true
+  git worktree add -q "$managed_root/adl-wp-903" codex/903-merged
+  echo "dirty" > "$managed_root/adl-wp-903/dirty.txt"
+  git branch codex/904-active >/dev/null 2>&1 || true
+  git worktree add -q "$managed_root/adl-wp-904" codex/904-active
+  (
+    cd "$managed_root/adl-wp-904"
+    echo "active" > active.txt
+    git add active.txt
+    git commit -q -m "active change"
+    echo "dirty" > open-dirty.txt
+  )
 
-  dry_limited="$("$BASH_BIN" adl/tools/worktree_prune.sh --repo "$repo" --managed-root "$managed_root" --limit 1)"
+  dry_limited="$(ADL_WORKTREE_PRUNE_ISSUE_STATES_FILE="$issue_states" "$BASH_BIN" adl/tools/worktree_prune.sh --repo "$repo" --managed-root "$managed_root" --limit 1)"
   assert_contains "Registered clean merged worktrees removable: 1" "$dry_limited" "limit constrains selected registered removals"
+  assert_contains "Open issue worktrees not pruned: 2" "$dry_limited" "open issue worktrees separated"
+  assert_contains "Closed dirty worktrees needing disposition: 1" "$dry_limited" "closed dirty worktree separated"
+  assert_contains "$managed_root/adl-wp-902 (#902 open; open_issue_not_pruned)" "$dry_limited" "open issue warning"
+  assert_contains "$managed_root/adl-wp-904 (#904 open; open_issue_not_pruned)" "$dry_limited" "open dirty issue warning"
+  assert_contains "$managed_root/adl-wp-903 (#903 closed; dirty_class=meaningful_unpublished_edits;dirty_paths=?? dirty.txt)" "$dry_limited" "closed dirty summary"
 
-  out="$("$BASH_BIN" adl/tools/worktree_prune.sh --repo "$repo" --managed-root "$managed_root" --limit 1 --report "$report_path" --apply)"
+  out="$(ADL_WORKTREE_PRUNE_ISSUE_STATES_FILE="$issue_states" "$BASH_BIN" adl/tools/worktree_prune.sh --repo "$repo" --managed-root "$managed_root" --limit 1 --report "$report_path" --apply)"
   assert_contains "Registered clean merged worktrees removable: 1" "$out" "empty remove_dirs apply run"
   assert_contains "Directory removals eligible: 0" "$out" "empty remove_dirs apply run"
   assert_contains "Applying cleanup" "$out" "empty remove_dirs apply run"
   assert_contains "Report: $report_path" "$out" "report path printed"
   assert_path_missing "$managed_root/adl-wp-900" "registered worktree removed"
   assert_contains "# Worktree Cleanup Report" "$(cat "$report_path")" "report written"
+  assert_contains "## Open Issue Worktrees (Not Pruned)" "$(cat "$report_path")" "report has open issue section"
+  assert_contains "$managed_root/adl-wp-902 (issue: #902; state: open" "$(cat "$report_path")" "report lists open issue"
+  assert_contains "$managed_root/adl-wp-904 (issue: #904; state: open" "$(cat "$report_path")" "report lists open dirty issue"
+  assert_contains "## Closed Clean Prune Candidates" "$(cat "$report_path")" "report has closed clean section"
   assert_contains "$managed_root/adl-wp-900" "$(cat "$report_path")" "report lists selected removal"
+  assert_contains "## Closed Dirty Worktrees (Manual Disposition Required)" "$(cat "$report_path")" "report has closed dirty section"
+  assert_contains "$managed_root/adl-wp-903 (issue: #903; state: closed" "$(cat "$report_path")" "report lists closed dirty issue"
   [[ -d "$managed_root/adl-wp-901" ]] || {
     echo "assertion failed (limit retained second merged worktree): expected path to remain: $managed_root/adl-wp-901" >&2
     exit 1
   }
+  [[ -d "$managed_root/adl-wp-902" ]] || {
+    echo "assertion failed (open issue worktree retained): expected path to remain: $managed_root/adl-wp-902" >&2
+    exit 1
+  }
+  [[ -f "$managed_root/adl-wp-903/dirty.txt" ]] || {
+    echo "assertion failed (closed dirty worktree retained): expected dirty file to remain" >&2
+    exit 1
+  }
+  [[ -f "$managed_root/adl-wp-904/open-dirty.txt" ]] || {
+    echo "assertion failed (open dirty worktree retained): expected dirty file to remain" >&2
+    exit 1
+  }
 
   mkdir -p "$managed_root/rogue-clean"
-  out2="$("$BASH_BIN" adl/tools/worktree_prune.sh --repo "$repo" --managed-root "$managed_root" --apply)"
+  out2="$(ADL_WORKTREE_PRUNE_ISSUE_STATES_FILE="$issue_states" "$BASH_BIN" adl/tools/worktree_prune.sh --repo "$repo" --managed-root "$managed_root" --apply)"
   assert_contains "Registered clean merged worktrees removable: 1" "$out2" "remaining merged worktree still removable"
   assert_contains "Directory removals eligible: 0" "$out2" "non-empty remove_dirs apply run"
   assert_contains "Applying cleanup" "$out2" "non-empty remove_dirs apply run"
@@ -80,7 +127,7 @@ report_path="$tmpdir/report.md"
     exit 1
   }
 
-  out3="$("$BASH_BIN" adl/tools/worktree_prune.sh --repo "$repo" --managed-root "$managed_root" --include-scratch --apply)"
+  out3="$(ADL_WORKTREE_PRUNE_ISSUE_STATES_FILE="$issue_states" "$BASH_BIN" adl/tools/worktree_prune.sh --repo "$repo" --managed-root "$managed_root" --include-scratch --apply)"
   assert_contains "Directory removals eligible: 1" "$out3" "explicit scratch inclusion"
   assert_path_missing "$managed_root/rogue-clean" "managed scratch removed when explicitly included"
 )
