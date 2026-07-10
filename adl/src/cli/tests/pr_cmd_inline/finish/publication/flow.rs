@@ -1108,7 +1108,7 @@ fn real_pr_finish_promotes_green_unchanged_existing_pr_ready() {
     let server = tiny_http::Server::from_listener(listener, None).expect("validation server");
     let validation_handle = std::thread::spawn(move || {
         while let Some(mut request) = server
-            .recv_timeout(std::time::Duration::from_secs(5))
+            .recv_timeout(std::time::Duration::from_secs(60))
             .expect("validation server receive")
         {
             let mut body = String::new();

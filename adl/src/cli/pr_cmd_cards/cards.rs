@@ -27,6 +27,9 @@ use ::adl::control_plane::{
     card_validation_plan_path, resolve_cards_root, IssueRef,
 };
 
+const VPP_LANE_REGISTRY_PATH: &str = "docs/validation/pvf_lanes.json";
+const VPP_LANE_REGISTRY_TEMPLATE_SET: &str = "vpp.lane.v1";
+
 pub(crate) fn ensure_task_bundle_stp(
     root: &Path,
     issue_ref: &IssueRef,
@@ -1799,11 +1802,11 @@ fn render_bootstrap_validation_plan_card(
             ("<spp_card>", spp_rel),
             ("<initial_pvf_lane>", initial_pvf_lane),
             ("<planned_pvf_lane>", planned_pvf_lane.clone()),
+            ("<lane_registry_path>", VPP_LANE_REGISTRY_PATH.to_string()),
             (
-                "<lane_registry_path>",
-                "docs/validation/pvf_lanes.json".to_string(),
+                "<lane_registry_template_set>",
+                VPP_LANE_REGISTRY_TEMPLATE_SET.to_string(),
             ),
-            ("<lane_registry_template_set>", "vpp.lane.v1".to_string()),
             (
                 "<validation_runtime_class>",
                 generated_vpp.validation_runtime_class,
@@ -2423,5 +2426,36 @@ mod tests {
         assert!(plan
             .notes_risks_inline
             .contains("escalation remains explicit"));
+    }
+
+    #[test]
+    fn generated_vpp_lane_registry_path_points_to_tracked_registry() {
+        let repo_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .expect("cargo manifest dir should be under repo root");
+        let registry_path = repo_root.join(VPP_LANE_REGISTRY_PATH);
+        assert!(
+            registry_path.is_file(),
+            "generated VPP lane registry path must point to a tracked file: {}",
+            VPP_LANE_REGISTRY_PATH
+        );
+
+        let registry_text = fs::read_to_string(&registry_path)
+            .expect("generated VPP lane registry should be readable");
+        let registry: Value =
+            serde_json::from_str(&registry_text).expect("generated VPP lane registry is JSON");
+        assert_eq!(
+            registry.get("contract_version").and_then(Value::as_str),
+            Some(VPP_LANE_REGISTRY_TEMPLATE_SET)
+        );
+        let lane_ids: BTreeSet<_> = registry
+            .get("lanes")
+            .and_then(Value::as_array)
+            .expect("registry should contain lanes")
+            .iter()
+            .filter_map(|lane| lane.get("id").and_then(Value::as_str))
+            .collect();
+        assert!(lane_ids.contains("prompt_template"));
+        assert!(lane_ids.contains("needs_planning_lane_assignment"));
     }
 }
