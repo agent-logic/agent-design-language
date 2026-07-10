@@ -163,6 +163,7 @@ serde_json = "1.0"
 markdown = "1.0.0"
 chrono = { version = "0.4", features = ["serde"] }
 chrono-tz = "0.10"
+libc = "0.2"
 
 # Errors
 anyhow = "1.0"

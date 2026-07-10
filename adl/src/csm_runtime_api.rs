@@ -187,6 +187,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         &checkpoint_freshness,
         daemon_state,
         daemon_pid_liveness.as_deref(),
+        &backpressure_state,
     );
     let ready = classify_ready(
         &agent_status.state,
@@ -194,6 +195,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         &continuity_checkpoint,
         daemon_state,
         daemon_pid_liveness.as_deref(),
+        &backpressure_state,
     );
     let runtime_capabilities = daemon_status
         .get("value")
@@ -257,13 +259,14 @@ fn chronosense_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions
         json!({
             "schema_version": "chronosense_time_sync_status.v1",
             "substrate": "ntpd-rs",
-            "source": "ntp-ctl status",
-            "mode": "external_status_projection",
+            "source": "ntp-daemon::ObservableState observation socket",
+            "mode": "csm_ntpd_rs_observable_state",
             "health": "unknown",
             "confidence": "none",
             "drift_status": "unknown",
             "failure_state": "chronosense_time_sync_missing",
-            "reason": "daemon_status_missing_chronosense_time_sync"
+            "reason": "daemon_status_missing_chronosense_time_sync",
+            "port_policy": "csm_ntpd_rs_component_observation_no_separate_csm_time_binary_no_csm_udp_123_listener"
         })
     });
     let response = json!({
@@ -293,6 +296,7 @@ fn health_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "status": status["status"],
         "daemon_liveness": status["daemon_liveness"],
         "checkpoint": status["checkpoint"],
+        "backpressure": status["backpressure"],
         "otel": status["otel"]
     });
     assert_api_response_redacted(&response)?;
@@ -336,14 +340,17 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
             "backpressure_lag_ms": backpressure_state.pointer("/value/summary/max_lag_ms").cloned().unwrap_or(Value::Null),
             "backpressure_deferred_count": backpressure_state.pointer("/value/summary/deferred_count").cloned().unwrap_or(Value::Null),
             "backpressure_shed_count": backpressure_state.pointer("/value/summary/shed_count").cloned().unwrap_or(Value::Null),
-            "backpressure_retry_capacity_remaining": backpressure_state.pointer("/value/summary/retry_budget_remaining").cloned().unwrap_or(Value::Null)
+            "backpressure_retry_capacity_remaining": backpressure_state.pointer("/value/summary/retry_budget_remaining").cloned().unwrap_or(Value::Null),
+            "storage_available_bytes": backpressure_state.pointer("/value/storage_pressure/available_bytes").cloned().unwrap_or(Value::Null),
+            "storage_disk_floor_bytes": backpressure_state.pointer("/value/storage_pressure/disk_floor_bytes").cloned().unwrap_or(Value::Null)
         },
         "states": {
             "health": status["status"],
             "ready": status["ready"],
             "agent_state": status["agent_status"]["state"],
             "backpressure_health": backpressure_state.pointer("/value/summary/health").cloned().unwrap_or(Value::Null),
-            "backpressure_safe_fail_action": backpressure_state.pointer("/value/safe_fail_action/action").cloned().unwrap_or(Value::Null)
+            "backpressure_safe_fail_action": backpressure_state.pointer("/value/safe_fail_action/action").cloned().unwrap_or(Value::Null),
+            "storage_pressure": backpressure_state.pointer("/value/storage_pressure/state").cloned().unwrap_or(Value::Null)
         }
     });
     assert_api_response_redacted(&response)?;
@@ -540,10 +547,17 @@ fn file_ref_status(path: &Path, reference: &str) -> Value {
 }
 
 fn compact_artifact_status(artifact: &Value, reference: &str) -> Value {
+    let storage_pressure = artifact
+        .pointer("/value/storage_pressure")
+        .cloned()
+        .unwrap_or(Value::Null);
     json!({
         "status": artifact.get("status").cloned().unwrap_or_else(|| json!("unknown")),
         "ref": reference,
-        "schema": artifact.pointer("/value/schema").cloned().unwrap_or(Value::Null)
+        "schema": artifact.pointer("/value/schema").cloned().unwrap_or(Value::Null),
+        "summary": artifact.pointer("/value/summary").cloned().unwrap_or(Value::Null),
+        "storage_pressure": storage_pressure,
+        "safe_fail_action": artifact.pointer("/value/safe_fail_action").cloned().unwrap_or(Value::Null)
     })
 }
 
@@ -595,12 +609,14 @@ fn classify_health(
     checkpoint_freshness: &Value,
     daemon_state: Option<&str>,
     daemon_pid_liveness: Option<&str>,
+    backpressure_state: &Value,
 ) -> &'static str {
     let degraded = matches!(state, AgentStatusState::Failed)
         || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
         || checkpoint_freshness.get("status").and_then(Value::as_str) == Some("stale")
         || is_terminal_daemon_state(daemon_state)
-        || daemon_pid_liveness == Some("stale_pid");
+        || daemon_pid_liveness == Some("stale_pid")
+        || storage_pressure_is_low_disk(backpressure_state);
     if degraded {
         "degraded"
     } else {
@@ -614,6 +630,7 @@ fn classify_ready(
     continuity_checkpoint: &Value,
     daemon_state: Option<&str>,
     daemon_pid_liveness: Option<&str>,
+    backpressure_state: &Value,
 ) -> &'static str {
     let not_ready = matches!(
         state,
@@ -621,7 +638,8 @@ fn classify_ready(
     ) || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
         || continuity_checkpoint.get("status").and_then(Value::as_str) != Some("serialized")
         || is_terminal_daemon_state(daemon_state)
-        || daemon_pid_liveness == Some("stale_pid");
+        || daemon_pid_liveness == Some("stale_pid")
+        || storage_pressure_is_low_disk(backpressure_state);
     let time_sync_not_ready = daemon_status
         .pointer("/value/runtime_capabilities/chronosense/time_sync")
         .is_none_or(time_sync_value_blocks_ready);
@@ -744,6 +762,13 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
             },
         );
     }
+    if status
+        .pointer("/backpressure/storage_pressure/state")
+        .and_then(Value::as_str)
+        == Some("low_disk")
+    {
+        blockers.push("storage_low_disk".to_string());
+    }
     blockers
 }
 
@@ -760,7 +785,23 @@ fn time_sync_blocks_ready(health: &str, failure_state: &Value) -> bool {
     if health == "synced" {
         return false;
     }
-    failure_state.as_str() != Some("ntpd_rs_probe_disabled")
+    !matches!(
+        failure_state.as_str(),
+        Some(
+            "ntpd_rs_probe_disabled"
+                | "ntpd_rs_observation_socket_missing"
+                | "ntpd_rs_observation_socket_refused"
+                | "ntpd_rs_observation_socket_unavailable"
+        )
+    )
+}
+
+fn storage_pressure_is_low_disk(backpressure_state: &Value) -> bool {
+    backpressure_state
+        .pointer("/value/storage_pressure")
+        .and_then(|pressure| pressure.get("state"))
+        .and_then(Value::as_str)
+        == Some("low_disk")
 }
 
 fn validate_loopback_bind(addr: &SocketAddr) -> Result<()> {
@@ -1401,8 +1442,8 @@ memory: {}
     }
 
     #[test]
-    fn runtime_api_exposes_chronosense_ntpd_rs_time_sync_projection() {
-        let root = temp_root("chronosense");
+    fn runtime_api_projects_low_disk_degraded_state() {
+        let root = temp_root("low-disk");
         let spec = write_spec(&root);
         let state = root.join("state");
         fs::create_dir_all(&state).unwrap();
@@ -1413,7 +1454,7 @@ memory: {}
                 "agent_instance_id": "api-agent",
                 "state": "idle",
                 "last_cycle_id": "cycle-000001",
-                "last_cycle_status": "completed",
+                "last_cycle_status": "success",
                 "completed_cycle_count": 1,
                 "consecutive_failure_count": 0,
                 "active_lease": null,
@@ -1428,7 +1469,89 @@ memory: {}
         fs::write(
             state.join("daemon_status.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.daemon_status.v1",
+                "schema": "adl.long_lived_agent_daemon_status.v1",
+                "state": "running",
+                "last_event": "checkpoint_write",
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("csm_backpressure_state.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.backpressure_state.v1",
+                "summary": {
+                    "health": "storage_low_disk_degraded",
+                    "deferred_count": 0,
+                    "shed_count": 0
+                },
+                "storage_pressure": {
+                    "state": "low_disk",
+                    "available_bytes": 1024,
+                    "disk_floor_bytes": 4096,
+                    "degraded_state": "recoverable"
+                },
+                "safe_fail_action": {
+                    "action": "preserve_minimal_checkpoint_bundle",
+                    "status": "degraded_recoverable"
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let status = runtime_api_response(&options, "/status").unwrap();
+        assert_eq!(status["status"], "degraded");
+        assert_eq!(status["ready"], "not_ready");
+        assert_eq!(
+            status["backpressure"]["storage_pressure"]["state"],
+            "low_disk"
+        );
+        let health = runtime_api_response(&options, "/health").unwrap();
+        assert_eq!(health["status"], "degraded");
+        assert_eq!(
+            health["backpressure"]["safe_fail_action"]["action"],
+            "preserve_minimal_checkpoint_bundle"
+        );
+        let ready = runtime_api_response(&options, "/ready").unwrap();
+        assert!(ready["blocking_reasons"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("storage_low_disk")));
+        let metrics = runtime_api_response(&options, "/metrics").unwrap();
+        assert_eq!(metrics["states"]["storage_pressure"], "low_disk");
+        assert_eq!(metrics["gauges"]["storage_available_bytes"], 1024);
+        assert_eq!(metrics["gauges"]["storage_disk_floor_bytes"], 4096);
+    }
+
+    #[test]
+    fn runtime_api_exposes_chronosense_ntpd_rs_observable_state_projection() {
+        let root = temp_root("chronosense");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_daemon_status.v1",
                 "state": "running",
                 "last_event": "checkpoint_write",
                 "updated_at": Utc::now(),
@@ -1442,19 +1565,19 @@ memory: {}
                         "time_sync": {
                             "schema_version": "chronosense_time_sync_status.v1",
                             "substrate": "ntpd-rs",
-                            "source": "ntp-ctl status",
-                            "mode": "external_status_projection",
+                            "source": "ntp-daemon::ObservableState observation socket",
+                            "mode": "csm_in_process_ntpd_rs_observable_state",
                             "health": "synced",
                             "confidence": "high",
                             "drift_status": "within_ntpd_rs_reported_bounds",
                             "failure_state": null,
-                            "reason": "ntpd_rs_status_reports_active_sources",
+                            "reason": "ntpd_rs_observable_state_reports_active_sources",
                             "observed_at_rfc3339": Utc::now(),
-                            "poll_command": "ntp-ctl",
-                            "port_policy": "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123",
+                            "poll_command": "ntp_daemon_observable_state",
+                            "port_policy": "csm_in_process_ntpd_rs_component_no_separate_binary_no_csm_udp_123_listener",
                             "parsed_offset_seconds": 0.000024,
                             "parsed_uncertainty_seconds": 0.000137,
-                            "raw_summary": "Synchronization status:"
+                            "raw_summary": "observable_peer_count=1"
                         }
                     }
                 }
@@ -1465,14 +1588,14 @@ memory: {}
         fs::write(
             state.join("continuity_checkpoint.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.continuity_checkpoint.v1"
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
             }))
             .unwrap(),
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
-            bind: "127.0.0.1:0".to_string(),
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
@@ -1483,24 +1606,32 @@ memory: {}
 
         assert_eq!(response["schema"], CSM_RUNTIME_API_CHRONOSENSE_SCHEMA);
         assert_eq!(response["time_sync"]["substrate"], "ntpd-rs");
+        assert_eq!(
+            response["time_sync"]["source"],
+            "ntp-daemon::ObservableState observation socket"
+        );
+        assert_eq!(
+            response["time_sync"]["mode"],
+            "csm_in_process_ntpd_rs_observable_state"
+        );
         assert_eq!(response["time_sync"]["health"], "synced");
         assert_eq!(
             response["time_sync"]["port_policy"],
-            "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123"
+            "csm_in_process_ntpd_rs_component_no_separate_binary_no_csm_udp_123_listener"
         );
         assert_eq!(response["ready"], "ready");
     }
 
     #[test]
-    fn runtime_api_ready_blocks_unavailable_chronosense_time_sync() {
-        let root = temp_root("chronosense-unavailable");
+    fn runtime_api_ready_blocks_degraded_chronosense_time_sync() {
+        let root = temp_root("chronosense-degraded");
         let spec = write_spec(&root);
         let state = root.join("state");
         fs::create_dir_all(&state).unwrap();
         fs::write(
             state.join("daemon_status.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.daemon_status.v1",
+                "schema": "adl.long_lived_agent_daemon_status.v1",
                 "state": "running",
                 "last_event": "checkpoint_write",
                 "updated_at": Utc::now(),
@@ -1511,9 +1642,9 @@ memory: {}
                         "time_sync": {
                             "schema_version": "chronosense_time_sync_status.v1",
                             "substrate": "ntpd-rs",
-                            "health": "unavailable",
-                            "failure_state": "ntpd_rs_status_command_unavailable",
-                            "reason": "ntpd_rs_status_unavailable_without_csm_failure"
+                            "health": "degraded",
+                            "failure_state": "ntpd_rs_observable_state_degraded",
+                            "reason": "ntpd_rs_observable_state_reports_degraded_sources"
                         }
                     }
                 }
@@ -1524,14 +1655,14 @@ memory: {}
         fs::write(
             state.join("continuity_checkpoint.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.continuity_checkpoint.v1"
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
             }))
             .unwrap(),
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
-            bind: "127.0.0.1:0".to_string(),
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
@@ -1544,7 +1675,7 @@ memory: {}
         assert!(response["blocking_reasons"]
             .as_array()
             .unwrap()
-            .contains(&json!("chronosense_time_sync_unavailable")));
+            .contains(&json!("chronosense_time_sync_degraded")));
     }
 
     #[test]
@@ -1556,7 +1687,7 @@ memory: {}
         fs::write(
             state.join("daemon_status.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.daemon_status.v1",
+                "schema": "adl.long_lived_agent_daemon_status.v1",
                 "state": "running",
                 "last_event": "checkpoint_write",
                 "updated_at": Utc::now(),
@@ -1573,14 +1704,14 @@ memory: {}
         fs::write(
             state.join("continuity_checkpoint.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.continuity_checkpoint.v1"
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
             }))
             .unwrap(),
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
-            bind: "127.0.0.1:0".to_string(),
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,
@@ -1597,15 +1728,15 @@ memory: {}
     }
 
     #[test]
-    fn runtime_api_ready_does_not_block_default_disabled_chronosense_probe() {
-        let root = temp_root("chronosense-disabled");
+    fn runtime_api_ready_does_not_block_absent_ntpd_rs_observation_socket() {
+        let root = temp_root("chronosense-socket-missing");
         let spec = write_spec(&root);
         let state = root.join("state");
         fs::create_dir_all(&state).unwrap();
         fs::write(
             state.join("daemon_status.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.daemon_status.v1",
+                "schema": "adl.long_lived_agent_daemon_status.v1",
                 "state": "running",
                 "last_event": "checkpoint_write",
                 "updated_at": Utc::now(),
@@ -1617,7 +1748,7 @@ memory: {}
                             "schema_version": "chronosense_time_sync_status.v1",
                             "substrate": "ntpd-rs",
                             "health": "unavailable",
-                            "failure_state": "ntpd_rs_probe_disabled",
+                            "failure_state": "ntpd_rs_observation_socket_missing",
                             "reason": "ntpd_rs_status_unavailable_without_csm_failure"
                         }
                     }
@@ -1629,14 +1760,14 @@ memory: {}
         fs::write(
             state.join("continuity_checkpoint.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.continuity_checkpoint.v1"
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
             }))
             .unwrap(),
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
-            bind: "127.0.0.1:0".to_string(),
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
             otel_status_path: None,

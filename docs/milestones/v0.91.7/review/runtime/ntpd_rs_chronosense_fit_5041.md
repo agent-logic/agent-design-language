@@ -3,21 +3,23 @@
 ## Decision
 
 CSM accepts `pendulum-project/ntpd-rs` as the Rust NTP substrate for
-Chronosense time-sync evidence and integrates it as a CSM-owned in-process
-runtime component.
+Chronosense time-sync evidence and owns the runtime projection inside the CSM
+binary.
 
 The runtime path added by #5041 reads `ntp_daemon::ObservableState` through the
-ntpd-rs Rust crate observation-socket contract. That keeps the implementation
-inside the CSM runtime binary instead of requiring a separate `ntp-ctl` command
-or a sidecar control-plane binary. The old `ntp-ctl status --format prometheus`
-path remains an explicit compatibility fallback only when
+ntpd-rs Rust crate observation-socket contract. That keeps Chronosense
+observation and API projection inside the CSM runtime binary instead of
+requiring a separate CSM time binary, a mandatory `ntp-ctl` command, or a
+sidecar control-plane binary. The host ntpd-rs service remains the time-sync
+daemon. The old `ntp-ctl status --format prometheus` path remains an explicit
+compatibility fallback only when
 `ADL_CSM_NTPD_RS_CTL_COMPAT=1` is set.
 
 Default CSM startup does not bind UDP port `123` and does not replace the
-host's time-sync policy. It does, however, always report the in-process
-Chronosense NTP component state in CSM daemon status, daemon events, and the
-runtime API. Missing observation-socket evidence is a degraded/not-ready time
-sync state, not a CSM process crash.
+host's time-sync policy. It does, however, always report the CSM-owned
+Chronosense NTP projection in CSM daemon status, daemon events, and the runtime
+API. Missing observation-socket evidence is a degraded recovery signal, not a
+CSM process crash or a reason for the API to stop serving.
 
 ## Source Evidence
 
@@ -42,19 +44,19 @@ sync state, not a CSM process crash.
   monotonic runtime frames, and failure state.
 - Daemon events and daemon status retain the same time-sync projection under
   `runtime_capabilities.chronosense.time_sync`.
-- `/ready` reports `not_ready` when time-sync evidence is unavailable,
-  degraded, unknown, or missing. An explicit operator-disabled state
-  (`ADL_CSM_NTPD_RS_STATUS=0`) remains non-blocking so an operator can recover
-  the runtime while repairing host time infrastructure.
+- `/ready` reports `not_ready` when actual time-sync evidence is degraded,
+  unknown, or missing from daemon status. Missing or refused local observation
+  socket evidence remains non-blocking so CSM can stay operational while the
+  host time infrastructure is repaired.
 - `/health` remains a daemon liveness and continuity health surface, allowing
   CSM to stay live while time sync is unavailable.
 
 ## Port And Privilege Policy
 
-The integration is CSM-owned and in-process, but CSM does not listen on UDP port
-`123` and does not expose remote time-sync reconfiguration. Port ownership and
-remote access remain with the dedicated WP-07 port registry and API Gateway
-issues.
+The Chronosense projection is CSM-owned and in-process, but CSM does not listen
+on UDP port `123` and does not expose remote time-sync reconfiguration. Port
+ownership and remote access remain with the dedicated WP-07 port registry and
+API Gateway issues.
 
 ## Negative Case
 

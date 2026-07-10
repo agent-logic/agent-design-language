@@ -390,19 +390,34 @@ impl ChronosenseTimeSyncStatus {
         command: impl Into<String>,
         raw_summary: Option<String>,
     ) -> Self {
+        let command = command.into();
+        let observation_socket_source = command.starts_with("ntp_daemon_observable_state");
+        let (source, mode, port_policy) = if observation_socket_source {
+            (
+                "ntp-daemon::ObservableState observation socket",
+                "csm_ntpd_rs_observable_state",
+                "csm_ntpd_rs_component_observation_no_separate_csm_time_binary_no_csm_udp_123_listener",
+            )
+        } else {
+            (
+                "ntp-ctl status --format prometheus",
+                "external_status_projection",
+                "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123",
+            )
+        };
         Self {
             schema_version: CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA.to_string(),
             substrate: "ntpd-rs".to_string(),
-            source: "ntpd-rs runtime status".to_string(),
-            mode: "external_status_projection".to_string(),
+            source: source.to_string(),
+            mode: mode.to_string(),
             health: "unavailable".to_string(),
             confidence: "none".to_string(),
             drift_status: "unknown".to_string(),
             failure_state: Some(reason.into()),
             reason: "ntpd_rs_status_unavailable_without_csm_failure".to_string(),
             observed_at_rfc3339: Utc::now().to_rfc3339(),
-            poll_command: command.into(),
-            port_policy: "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123".to_string(),
+            poll_command: command,
+            port_policy: port_policy.to_string(),
             parsed_offset_seconds: None,
             parsed_uncertainty_seconds: None,
             raw_summary,

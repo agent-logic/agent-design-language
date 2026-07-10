@@ -90,12 +90,12 @@ if [ -z "$EXPECTED_ACCOUNT_SHA256" ]; then
   echo "expected Agent Logic account hash is required; set ADL_AWS_CLOUD_CONTROL_ACCOUNT_SHA256 or pass --expected-account-sha256" >&2
   exit 2
 fi
-if [ ! -x "$CSM_BIN" ]; then
-  echo "csm binary not executable: $CSM_BIN" >&2
-  exit 2
-fi
 
 mkdir -p "$OUT"
+# shellcheck source=adl/tools/csm_binary_availability.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/csm_binary_availability.sh"
+CSM_BIN="$(adl_resolve_csm_binary "$CSM_BIN" "$OUT/csm_binary_availability.json")"
+
 ARGS=(
   cloud-control cloudfront-status
   --out "$OUT"

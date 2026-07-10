@@ -543,6 +543,50 @@ fn structured_prompt_stp_status_and_action_diagnostics_include_actual_values() {
 }
 
 #[test]
+fn structured_prompt_stp_required_outcome_type_uses_shared_enum_diagnostics() {
+    let stp = valid_stp_text().replace("  - \"code\"", "  - \"migration\"");
+    let err = validate_stp_text(&stp).expect_err("invalid STP outcome type should fail");
+    let message = err.to_string();
+    assert!(message.contains("required_outcome_type"));
+    assert!(message.contains("code, docs, tests, demo, combination"));
+    assert!(message.contains("actual: migration"));
+}
+
+#[test]
+fn structured_prompt_sor_accepts_shared_enum_aliases() {
+    let sor = valid_sor_text()
+        .replace("Integration state: merged", "Integration state: merged-pr")
+        .replace(
+            "Verification scope: main_repo",
+            "Verification scope: main repo",
+        );
+
+    validate_sor_text(&sor, Some("completed")).expect("SOR shared enum aliases should validate");
+}
+
+#[test]
+fn structured_prompt_sor_aliases_drive_completed_terminal_checks() {
+    let closed_no_pr = valid_sor_text()
+        .replace(
+            "Integration state: merged",
+            "Integration state: closed-no-pr",
+        )
+        .replace(
+            "Branch: codex/1374-tooling-test",
+            "Branch: retrospective-no-branch",
+        );
+
+    validate_sor_text(&closed_no_pr, Some("completed"))
+        .expect("closed_no_pr alias should drive completed retrospective branch validation");
+
+    let merged_pr =
+        valid_sor_text().replace("Integration state: merged", "Integration state: merged-pr");
+
+    validate_sor_text(&merged_pr, Some("completed"))
+        .expect("merged alias should drive completed terminal integration validation");
+}
+
+#[test]
 fn structured_prompt_spp_status_and_confidence_diagnostics_include_actual_values() {
     let spp = valid_spp_text(1374).replace("status: \"draft\"", "status: \"started\"");
     let err = validate_spp_text(&spp).expect_err("invalid SPP status should fail");

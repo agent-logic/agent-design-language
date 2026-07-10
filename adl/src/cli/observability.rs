@@ -10,12 +10,16 @@ use std::thread::{self, JoinHandle};
 use std::time::{Duration, Instant};
 use std::time::{SystemTime, UNIX_EPOCH};
 
+const ADL_OBSERVABILITY_EVENT_SCHEMA: &str = "adl.observability.event.v1";
+
 pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&str, &str)]) {
     if env::var("ADL_OBSERVABILITY").ok().as_deref() == Some("0") {
         return;
     }
 
-    let line = format_event_line(command, stage, result, fields);
+    let event = AdlObservabilityEvent::new(command, stage, result, fields);
+    emit_tracing_event(&event);
+    let line = event.compatibility_line();
     let stderr_suppressed = env::var("ADL_OBSERVABILITY_STDERR").ok().as_deref() == Some("0");
     if !stderr_suppressed {
         eprintln!("{line}");
@@ -26,7 +30,7 @@ pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&s
         }
     }
     if let Some(otel_log_path) = otel_log_path() {
-        if let Err(err) = append_to_otel_log(&otel_log_path, command, stage, result, fields) {
+        if let Err(err) = append_to_otel_log(&otel_log_path, &event) {
             emit_otel_sink_failure(
                 command,
                 stage,
@@ -38,8 +42,8 @@ pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&s
         }
     }
     if let Some(endpoint) = otlp_endpoint() {
-        let event = otel_event(command, stage, result, fields);
-        match export_otlp_event(&endpoint, &event) {
+        let otel_event = event.otel_event();
+        match export_otlp_event(&endpoint, &otel_event) {
             Ok(status_code) => {
                 if let Some(status_path) = otel_status_path() {
                     let _ = update_otel_export_status(
@@ -84,20 +88,98 @@ pub(crate) fn emit_event(command: &str, stage: &str, result: &str, fields: &[(&s
     }
 }
 
+#[cfg(test)]
 fn format_event_line(command: &str, stage: &str, result: &str, fields: &[(&str, &str)]) -> String {
-    let mut line = format!(
-        "adl_event schema=adl.observability.event.v1 command={} stage={} result={}",
-        sanitize_value(command),
-        sanitize_value(stage),
-        sanitize_value(result)
-    );
-    for (key, value) in fields {
-        line.push(' ');
-        line.push_str(key);
-        line.push('=');
-        line.push_str(&sanitize_value(value));
+    AdlObservabilityEvent::new(command, stage, result, fields).compatibility_line()
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct AdlObservabilityEvent {
+    command: String,
+    stage: String,
+    result: String,
+    fields: Vec<(String, String)>,
+    raw_fields: Vec<(String, String)>,
+}
+
+impl AdlObservabilityEvent {
+    fn new(command: &str, stage: &str, result: &str, fields: &[(&str, &str)]) -> Self {
+        Self {
+            command: sanitize_value(command),
+            stage: sanitize_value(stage),
+            result: sanitize_value(result),
+            fields: fields
+                .iter()
+                .map(|(key, value)| ((*key).to_string(), sanitize_value(value)))
+                .collect(),
+            raw_fields: fields
+                .iter()
+                .map(|(key, value)| ((*key).to_string(), (*value).to_string()))
+                .collect(),
+        }
     }
-    line
+
+    fn compatibility_line(&self) -> String {
+        let mut line = format!(
+            "adl_event schema={} command={} stage={} result={}",
+            ADL_OBSERVABILITY_EVENT_SCHEMA, self.command, self.stage, self.result
+        );
+        for (key, value) in &self.fields {
+            line.push(' ');
+            line.push_str(key);
+            line.push('=');
+            line.push_str(value);
+        }
+        line
+    }
+
+    fn raw_field_refs(&self) -> Vec<(&str, &str)> {
+        self.raw_fields
+            .iter()
+            .map(|(key, value)| (key.as_str(), value.as_str()))
+            .collect()
+    }
+
+    fn otel_event(&self) -> serde_json::Value {
+        otel_event(
+            &self.command,
+            &self.stage,
+            &self.result,
+            &self.raw_field_refs(),
+        )
+    }
+}
+
+macro_rules! trace_observability_event {
+    ($level:expr, $event:expr) => {{
+        let compatibility_line = $event.compatibility_line();
+        tracing::event!(
+            target: "adl.observability",
+            $level,
+            schema = ADL_OBSERVABILITY_EVENT_SCHEMA,
+            command = %$event.command,
+            stage = %$event.stage,
+            result = %$event.result,
+            field_count = $event.fields.len(),
+            adl_event = %compatibility_line
+        );
+    }};
+}
+
+fn emit_tracing_event(event: &AdlObservabilityEvent) {
+    match tracing_level(&event.result) {
+        tracing::Level::ERROR => trace_observability_event!(tracing::Level::ERROR, event),
+        tracing::Level::DEBUG => trace_observability_event!(tracing::Level::DEBUG, event),
+        _ => trace_observability_event!(tracing::Level::INFO, event),
+    }
+}
+
+fn tracing_level(result: &str) -> tracing::Level {
+    match result {
+        "failed" | "timeout" => tracing::Level::ERROR,
+        "heartbeat" => tracing::Level::DEBUG,
+        _ => tracing::Level::INFO,
+    }
 }
 
 fn compatibility_log_path() -> Option<String> {
@@ -170,15 +252,9 @@ fn append_to_compatibility_log(log_path: &str, line: &str) -> Result<(), String>
     Ok(())
 }
 
-fn append_to_otel_log(
-    log_path: &str,
-    command: &str,
-    stage: &str,
-    result: &str,
-    fields: &[(&str, &str)],
-) -> Result<(), String> {
-    let event = otel_event(command, stage, result, fields);
-    let line = serde_json::to_string(&event).map_err(|err| {
+fn append_to_otel_log(log_path: &str, event: &AdlObservabilityEvent) -> Result<(), String> {
+    let otel_event = event.otel_event();
+    let line = serde_json::to_string(&otel_event).map_err(|err| {
         format!(
             "op=serialize sink={} error={}",
             sanitize_value(log_path),
@@ -187,7 +263,13 @@ fn append_to_otel_log(
     })?;
     append_jsonl(log_path, &line)?;
     if let Some(status_path) = otel_status_path() {
-        update_otel_status(&status_path, command, stage, result, fields)?;
+        update_otel_status(
+            &status_path,
+            &event.command,
+            &event.stage,
+            &event.result,
+            &event.raw_field_refs(),
+        )?;
     }
     Ok(())
 }
@@ -900,7 +982,7 @@ mod tests {
     use std::io::{Read, Write};
     use std::net::TcpListener;
     use std::path::{Path, PathBuf};
-    use std::sync::{mpsc, MutexGuard};
+    use std::sync::{mpsc, Arc, Mutex, MutexGuard};
     use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
     struct MultiEnvGuard {
@@ -1012,6 +1094,39 @@ mod tests {
         })
     }
 
+    #[derive(Clone)]
+    struct CapturedMakeWriter {
+        buffer: Arc<Mutex<Vec<u8>>>,
+    }
+
+    struct CapturedWriter {
+        buffer: Arc<Mutex<Vec<u8>>>,
+    }
+
+    impl<'a> tracing_subscriber::fmt::MakeWriter<'a> for CapturedMakeWriter {
+        type Writer = CapturedWriter;
+
+        fn make_writer(&'a self) -> Self::Writer {
+            CapturedWriter {
+                buffer: Arc::clone(&self.buffer),
+            }
+        }
+    }
+
+    impl Write for CapturedWriter {
+        fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+            self.buffer
+                .lock()
+                .expect("capture buffer")
+                .extend_from_slice(buf);
+            Ok(buf.len())
+        }
+
+        fn flush(&mut self) -> std::io::Result<()> {
+            Ok(())
+        }
+    }
+
     #[test]
     fn sanitize_value_redacts_secret_markers() {
         assert_eq!(sanitize_value("api-token-value"), "<redacted>");
@@ -1075,6 +1190,47 @@ mod tests {
         assert!(contents.contains("result=completed"));
         assert!(contents.contains("artifact_ref="));
         assert!(!contents.contains("/repo/adl/docs/proof.md"));
+    }
+
+    #[test]
+    fn emit_event_routes_sanitized_compatibility_event_through_tracing() {
+        let buffer = Arc::new(Mutex::new(Vec::new()));
+        let writer = CapturedMakeWriter {
+            buffer: Arc::clone(&buffer),
+        };
+        let subscriber = tracing_subscriber::fmt()
+            .with_writer(writer)
+            .with_ansi(false)
+            .without_time()
+            .finish();
+        let _env = MultiEnvGuard::set_all(&[
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            ("ADL_OBSERVABILITY_REPO_ROOT", "/repo/adl"),
+        ]);
+
+        tracing::subscriber::with_default(subscriber, || {
+            emit_event(
+                "adl",
+                "doctor",
+                "completed",
+                &[
+                    ("artifact_ref", "/repo/adl/docs/proof.md"),
+                    ("api_token", "secret-value"),
+                ],
+            );
+        });
+
+        let captured =
+            String::from_utf8(buffer.lock().expect("capture buffer").clone()).expect("utf8");
+        assert!(captured.contains("adl.observability"));
+        assert!(captured.contains("schema=adl.observability.event.v1"));
+        assert!(captured.contains("command=adl"));
+        assert!(captured.contains("stage=doctor"));
+        assert!(captured.contains("result=completed"));
+        assert!(captured.contains("artifact_ref=<repo>/docs/proof.md"));
+        assert!(captured.contains("api_token=<redacted>"));
+        assert!(!captured.contains("/repo/adl/docs/proof.md"));
+        assert!(!captured.contains("secret-value"));
     }
 
     #[test]

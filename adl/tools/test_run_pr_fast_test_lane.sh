@@ -94,6 +94,13 @@ assert_has "$split_acc_output" "mode=focused"
 assert_has "$split_acc_output" "filter_tokens=acc"
 assert_has "$split_acc_output" "filter_expression=test(acc)"
 
+focused_remote_signing="$TMP/focused_remote_signing.txt"
+printf 'M\tadl/src/remote_exec/signing_support.rs\n' >"$focused_remote_signing"
+focused_remote_signing_output="$(bash "$SCRIPT" --changed-files "$focused_remote_signing" --print-plan)"
+assert_has "$focused_remote_signing_output" "mode=focused"
+assert_has "$focused_remote_signing_output" "filter_tokens=remote_exec::signing_support"
+assert_has "$focused_remote_signing_output" "filter_expression=test(remote_exec::signing_support)"
+
 shell_policy_only="$TMP/shell_policy_only.txt"
 printf 'M\tadl/tools/ci_path_policy.sh\nM\tadl/tools/test_ci_path_policy.sh\n' >"$shell_policy_only"
 shell_policy_only_output="$(bash "$SCRIPT" --changed-files "$shell_policy_only" --print-plan)"

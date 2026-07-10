@@ -551,8 +551,8 @@ fn start_embedded_runtime_api_module(spec_path: &Path, options: &DaemonOptions) 
         bind: bind.clone(),
         test_max_requests: None,
         idle_timeout_ms: None,
-        otel_status_path: None,
-        otel_log_path: None,
+        otel_status_path: options.api_otel_status_path.clone(),
+        otel_log_path: options.api_otel_log_path.clone(),
     };
     thread::Builder::new()
         .name("csm-runtime-api".to_string())
@@ -2072,6 +2072,35 @@ fn record_safe_fail_bundle(
     });
     let sequence_path =
         safe_fail_artifacts_dir(loaded).join(format!("safe-fail-{sequence:06}.json"));
+    let low_disk = record_low_disk_preflight(&sequence_path, "safe_fail_sequence_write")?;
+    if low_disk {
+        let mut degraded_bundle = bundle.clone();
+        if let Some(monotonicity) = degraded_bundle
+            .get_mut("monotonicity")
+            .and_then(Value::as_object_mut)
+        {
+            monotonicity.insert(
+                "policy".to_string(),
+                json!("low_disk_latest_pointer_only_no_new_sequence_artifact"),
+            );
+            monotonicity.insert(
+                "sequence_artifact_suppressed".to_string(),
+                json!("storage_low_disk"),
+            );
+        }
+        write_json_pretty(&safe_fail_bundle_path(loaded), &degraded_bundle)?;
+        return Ok(json!({
+            "schema": SAFE_FAIL_BUNDLE_SCHEMA,
+            "status": "serialized_degraded",
+            "bundle_ref": "safe_fail_bundle.json",
+            "sequence_ref": Value::Null,
+            "safe_fail_sequence": sequence,
+            "agent_outcome": degraded_bundle["agent_outcome"].clone(),
+            "recoverability": degraded_bundle["recoverability"].clone(),
+            "storage_pressure": "low_disk",
+            "suppressed_artifact": bundle_ref
+        }));
+    }
     write_json_pretty(&sequence_path, &bundle)?;
     write_json_pretty(&safe_fail_bundle_path(loaded), &bundle)?;
     Ok(json!({
@@ -3365,7 +3394,21 @@ fn write_continuity_restore_artifacts(
             "expected_next_cycle_id": format!("cycle-{next_cycle_number:06}")
         }
     });
-    write_json_pretty(&continuity_checkpoint_path(loaded), &checkpoint)?;
+    let checkpoint_path = continuity_checkpoint_path(loaded);
+    let checkpoint_low_disk =
+        record_low_disk_preflight(&checkpoint_path, "continuity_checkpoint_write")?;
+    if let Err(err) = write_json_pretty(&checkpoint_path, &checkpoint) {
+        if checkpoint_low_disk {
+            emit_storage_degraded_event(
+                loaded,
+                "continuity_checkpoint_write",
+                checkpoint_reason,
+                &err,
+            );
+            return Ok(());
+        }
+        return Err(err);
+    }
 
     let replay_manifest = json!({
         "schema": CONTINUITY_REPLAY_MANIFEST_SCHEMA,
@@ -3397,7 +3440,22 @@ fn write_continuity_restore_artifacts(
             "not_distributed_recovery"
         ]
     });
-    write_json_pretty(&continuity_replay_manifest_path(loaded), &replay_manifest)
+    let replay_manifest_path = continuity_replay_manifest_path(loaded);
+    let replay_low_disk =
+        record_low_disk_preflight(&replay_manifest_path, "continuity_replay_manifest_write")?;
+    if let Err(err) = write_json_pretty(&replay_manifest_path, &replay_manifest) {
+        if replay_low_disk {
+            emit_storage_degraded_event(
+                loaded,
+                "continuity_replay_manifest_write",
+                checkpoint_reason,
+                &err,
+            );
+            return Ok(());
+        }
+        return Err(err);
+    }
+    Ok(())
 }
 
 fn update_memory_index(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()> {

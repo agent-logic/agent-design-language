@@ -104,6 +104,7 @@ adl_owner_stable_binary_if_fresh() {
     [[ -x "$candidate" && -f "$provenance" ]] || continue
     source_root="$root_dir"
     case "$bin_dir" in
+      "$root_dir"/*) source_root="$root_dir" ;;
       "$primary_root"/*) source_root="$primary_root" ;;
     esac
     expected_hash="$(cat "$provenance" 2>/dev/null || true)"

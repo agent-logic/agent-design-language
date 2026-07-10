@@ -74,7 +74,7 @@ run_tamper() {
   # Deterministic tamper-path proof using the canonical signed-request unit
   # regression. This validates that payload mutation after signing is rejected
   # with REMOTE_REQUEST_SIGNATURE_MISMATCH.
-  cargo test -q --manifest-path adl/Cargo.toml remote_exec::tests::security_envelope_rejects_tampered_signed_request -- --exact --nocapture
+  cargo test -q --manifest-path adl/Cargo.toml --lib remote_exec::tests::security_envelope_rejects_tampered_signed_request -- --exact --nocapture
 }
 
 case "$MODE" in

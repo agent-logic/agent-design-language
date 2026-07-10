@@ -5,13 +5,11 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT="${1:-$ROOT/docs/milestones/v0.91.7/review/runtime/csm_otlp_4904}"
 CSM_BIN="${CSM_BIN:-$ROOT/adl/target/debug/csm}"
 
-if [ ! -x "$CSM_BIN" ]; then
-  printf 'missing executable csm binary: %s\n' "$CSM_BIN" >&2
-  exit 1
-fi
-
 rm -rf "$OUT"
 mkdir -p "$OUT"/collector "$OUT"/service "$OUT"/state "$OUT"/logs
+# shellcheck source=adl/tools/csm_binary_availability.sh
+source "$ROOT/adl/tools/csm_binary_availability.sh"
+CSM_BIN="$(adl_resolve_csm_binary "$CSM_BIN" "$OUT/csm_binary_availability.json")"
 
 PORT_FILE="$OUT/collector/port"
 RECEIVED="$OUT/collector/received_otlp_http_json.jsonl"

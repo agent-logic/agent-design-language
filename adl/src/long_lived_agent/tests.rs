@@ -1211,6 +1211,65 @@ fn safe_fail_bundle_preserves_malformed_artifacts_and_quarantines_active_lease()
 }
 
 #[test]
+fn safe_fail_bundle_suppresses_sequence_artifact_under_low_disk() {
+    let _env = MultiEnvGuard::set_all(&[
+        ("ADL_CSM_DISK_FLOOR_BYTES", "4096"),
+        ("ADL_CSM_TEST_AVAILABLE_BYTES", "1024"),
+    ]);
+    let root = temp_dir("safe-fail-low-disk");
+    let spec = write_spec(&root);
+    let loaded = load_spec(&spec).expect("load spec");
+    ensure_state_root(&loaded).expect("state root");
+    let runtime_context = CsmRuntimeContext::new().expect("csm runtime context");
+    let status = status_with_state(
+        &loaded,
+        AgentStatusState::Failed,
+        Some("cycle-000001".to_string()),
+        Some("failed".to_string()),
+        None,
+        false,
+        Some(StatusError {
+            class: "daemon_child_failed".to_string(),
+            message: "failed under low disk".to_string(),
+        }),
+    );
+    persist_status(&loaded, &status, "daemon_child_failed_recoverable")
+        .expect("persist failed status");
+
+    let summary = record_safe_fail_bundle(
+        &runtime_context,
+        &loaded,
+        &SafeFailRecord {
+            status: &status,
+            trigger: "daemon_child_failed",
+            restart_count: 0,
+            bounded_test_restart_limit: None,
+            last_child_exit: Some("error:failed".to_string()),
+            details: json!({"test_case": "low_disk"}),
+        },
+    )
+    .expect("record low-disk safe fail");
+
+    assert_eq!(summary["status"], "serialized_degraded");
+    assert_eq!(summary["storage_pressure"], "low_disk");
+    assert_eq!(summary["sequence_ref"], Value::Null);
+    assert!(safe_fail_bundle_path(&loaded).exists());
+    assert!(!safe_fail_artifacts_dir(&loaded)
+        .join("safe-fail-000001.json")
+        .exists());
+
+    let bundle = read_json_required(&safe_fail_bundle_path(&loaded)).expect("safe fail bundle");
+    assert_eq!(
+        bundle["monotonicity"]["policy"],
+        "low_disk_latest_pointer_only_no_new_sequence_artifact"
+    );
+    assert_eq!(
+        bundle["monotonicity"]["sequence_artifact_suppressed"],
+        "storage_low_disk"
+    );
+}
+
+#[test]
 fn daemon_interval_defaults_positive_and_rejects_zero_cadence() {
     let root = temp_dir("daemon-positive-cadence");
     let spec = write_spec(&root);

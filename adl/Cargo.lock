@@ -35,6 +35,7 @@ dependencies = [
  "google-workspace",
  "http 1.4.0",
  "jsonschema",
+ "libc",
  "loom",
  "markdown",
  "mime_guess2",

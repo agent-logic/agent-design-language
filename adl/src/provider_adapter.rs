@@ -17,7 +17,7 @@ use anyhow::{anyhow, Result};
 use aws_config::{meta::region::RegionProviderChain, BehaviorVersion};
 use aws_sdk_bedrockruntime as bedrockruntime;
 use aws_sdk_sts as sts;
-use reqwest::blocking::Client;
+use reqwest::{blocking::Client, Url};
 use serde_json::{json, Value};
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -357,7 +357,7 @@ fn ollama_runtime_bulkheads() -> &'static Mutex<HashMap<String, &'static Mutex<(
 fn acquire_ollama_runtime_slot(
     request: &ProviderInvocationRequestV1,
 ) -> std::result::Result<MutexGuard<'static, ()>, ProviderFailureV1> {
-    let key = ollama_runtime_bulkhead_key(request);
+    let key = ollama_runtime_bulkhead_key(request)?;
     let slot = {
         let mut registry = ollama_runtime_bulkheads()
             .lock()
@@ -379,24 +379,23 @@ fn acquire_ollama_runtime_slot(
     }
 }
 
-fn ollama_runtime_bulkhead_key(request: &ProviderInvocationRequestV1) -> String {
-    format!(
+fn ollama_runtime_bulkhead_key(
+    request: &ProviderInvocationRequestV1,
+) -> std::result::Result<String, ProviderFailureV1> {
+    Ok(format!(
         "{}::{}",
-        ollama_runtime_base(request.route.endpoint_ref.as_deref()),
+        ollama_runtime_base(request.route.endpoint_ref.as_deref())?,
         request.route.provider_model_id
-    )
+    ))
 }
 
-fn ollama_runtime_base(endpoint_ref: Option<&str>) -> String {
-    let base = endpoint_ref
-        .filter(|endpoint| endpoint.starts_with("http://") || endpoint.starts_with("https://"))
-        .unwrap_or(DEFAULT_OLLAMA_BASE_URL)
-        .trim_end_matches('/');
-    base.trim_end_matches("/api/generate")
-        .trim_end_matches("/api/show")
-        .trim_end_matches("/api/tags")
-        .trim_end_matches('/')
+fn ollama_runtime_base(
+    endpoint_ref: Option<&str>,
+) -> std::result::Result<String, ProviderFailureV1> {
+    Ok(ollama_base_url(endpoint_ref)?
         .to_string()
+        .trim_end_matches('/')
+        .to_string())
 }
 
 fn failed_result(
@@ -636,12 +635,10 @@ fn execute_hosted_openai(
     policy: &ProviderAttemptPolicyV1,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "OPENAI_API_KEY")?;
-    let url = request
-        .route
-        .endpoint_ref
-        .as_deref()
-        .filter(|endpoint| endpoint.starts_with("http://") || endpoint.starts_with("https://"))
-        .unwrap_or(DEFAULT_OPENAI_RESPONSES_URL);
+    let url = provider_endpoint_url(
+        request.route.endpoint_ref.as_deref(),
+        DEFAULT_OPENAI_RESPONSES_URL,
+    )?;
     let response = client(policy)?
         .post(url)
         .bearer_auth(key.as_str())
@@ -674,12 +671,10 @@ fn execute_hosted_anthropic(
     policy: &ProviderAttemptPolicyV1,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "ANTHROPIC_API_KEY")?;
-    let url = request
-        .route
-        .endpoint_ref
-        .as_deref()
-        .filter(|endpoint| endpoint.starts_with("http://") || endpoint.starts_with("https://"))
-        .unwrap_or(DEFAULT_ANTHROPIC_MESSAGES_URL);
+    let url = provider_endpoint_url(
+        request.route.endpoint_ref.as_deref(),
+        DEFAULT_ANTHROPIC_MESSAGES_URL,
+    )?;
     let response = client(policy)?
         .post(url)
         .header("x-api-key", key.as_str())
@@ -711,12 +706,10 @@ fn execute_hosted_deepseek(
     policy: &ProviderAttemptPolicyV1,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "DEEPSEEK_API_KEY")?;
-    let url = request
-        .route
-        .endpoint_ref
-        .as_deref()
-        .filter(|endpoint| endpoint.starts_with("http://") || endpoint.starts_with("https://"))
-        .unwrap_or(DEFAULT_DEEPSEEK_CHAT_COMPLETIONS_URL);
+    let url = provider_endpoint_url(
+        request.route.endpoint_ref.as_deref(),
+        DEFAULT_DEEPSEEK_CHAT_COMPLETIONS_URL,
+    )?;
     let response = client(policy)?
         .post(url)
         .bearer_auth(key.as_str())
@@ -751,12 +744,10 @@ fn execute_hosted_openrouter(
         request.route.credential_ref.as_deref(),
         "OPENROUTER_API_KEY",
     )?;
-    let url = request
-        .route
-        .endpoint_ref
-        .as_deref()
-        .filter(|endpoint| endpoint.starts_with("http://") || endpoint.starts_with("https://"))
-        .unwrap_or(DEFAULT_OPENROUTER_CHAT_COMPLETIONS_URL);
+    let url = provider_endpoint_url(
+        request.route.endpoint_ref.as_deref(),
+        DEFAULT_OPENROUTER_CHAT_COMPLETIONS_URL,
+    )?;
     let response = client(policy)?
         .post(url)
         .bearer_auth(key.as_str())
@@ -984,12 +975,10 @@ fn execute_hosted_zai(
     policy: &ProviderAttemptPolicyV1,
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     let key = resolve_credential(request.route.credential_ref.as_deref(), "ZAI_API_KEY")?;
-    let url = request
-        .route
-        .endpoint_ref
-        .as_deref()
-        .filter(|endpoint| endpoint.starts_with("http://") || endpoint.starts_with("https://"))
-        .unwrap_or(DEFAULT_ZAI_CHAT_COMPLETIONS_URL);
+    let url = provider_endpoint_url(
+        request.route.endpoint_ref.as_deref(),
+        DEFAULT_ZAI_CHAT_COMPLETIONS_URL,
+    )?;
     let response = client(policy)?
         .post(url)
         .bearer_auth(key.as_str())
@@ -1031,7 +1020,7 @@ fn execute_hosted_gemini(
     let url = gemini_generate_url(
         request.route.endpoint_ref.as_deref(),
         &request.route.provider_model_id,
-    );
+    )?;
     let response = client(policy)?
         .post(url)
         .header("x-goog-api-key", key.as_str())
@@ -1070,7 +1059,7 @@ fn execute_ollama_http(
 ) -> std::result::Result<ProviderTextResponse, ProviderFailureV1> {
     refresh_ollama_identity(request, policy);
     let response = client(policy)?
-        .post(ollama_generate_url(request.route.endpoint_ref.as_deref()))
+        .post(ollama_generate_url(request.route.endpoint_ref.as_deref())?)
         .json(&ollama_request_body(request))
         .send()
         .map_err(map_reqwest_error)?;
@@ -1164,6 +1153,76 @@ fn provider_output_failure_from_json(json: &Value, http_status: u16) -> Provider
     provider_failure_from_note("empty provider output", Some(http_status))
 }
 
+fn provider_endpoint_url(
+    endpoint_ref: Option<&str>,
+    default_url: &str,
+) -> std::result::Result<Url, ProviderFailureV1> {
+    let selected = endpoint_ref
+        .map(str::trim)
+        .filter(|endpoint| !endpoint.is_empty())
+        .unwrap_or(default_url);
+    parse_provider_http_url(selected)
+}
+
+fn parse_provider_http_url(url: &str) -> std::result::Result<Url, ProviderFailureV1> {
+    let parsed = Url::parse(url).map_err(|_| invalid_provider_endpoint())?;
+    match parsed.scheme() {
+        "http" | "https" => Ok(parsed),
+        _ => Err(invalid_provider_endpoint()),
+    }
+}
+
+fn invalid_provider_endpoint() -> ProviderFailureV1 {
+    ProviderFailureV1 {
+        kind: ProviderFailureKindV1::ProviderError,
+        retryable: false,
+        message: "invalid provider endpoint URL".to_string(),
+        provider_error_excerpt: Some("invalid provider endpoint URL".to_string()),
+        http_status: None,
+    }
+}
+
+fn append_provider_path(base: &Url, path: &str) -> std::result::Result<Url, ProviderFailureV1> {
+    provider_directory_url(base)
+        .join(path.trim_start_matches('/'))
+        .map_err(|_| invalid_provider_endpoint())
+}
+
+fn provider_directory_url(base: &Url) -> Url {
+    let mut directory = base.clone();
+    if !directory.path().ends_with('/') {
+        let path = format!("{}/", directory.path().trim_end_matches('/'));
+        directory.set_path(&path);
+    }
+    directory
+}
+
+fn ollama_api_url(
+    endpoint_ref: Option<&str>,
+    api_name: &str,
+) -> std::result::Result<Url, ProviderFailureV1> {
+    let base = ollama_base_url(endpoint_ref)?;
+    append_provider_path(&base, &format!("api/{api_name}"))
+}
+
+fn ollama_base_url(endpoint_ref: Option<&str>) -> std::result::Result<Url, ProviderFailureV1> {
+    let env_host = env::var("OLLAMA_HOST").ok();
+    let mut url = provider_endpoint_url(
+        endpoint_ref.or(env_host.as_deref()),
+        DEFAULT_OLLAMA_BASE_URL,
+    )?;
+    let path = url.path().trim_end_matches('/').to_string();
+    let base_path = path
+        .strip_suffix("/api/generate")
+        .or_else(|| path.strip_suffix("/api/show"))
+        .or_else(|| path.strip_suffix("/api/tags"))
+        .unwrap_or(&path);
+    url.set_path(base_path.trim_end_matches('/'));
+    url.set_query(None);
+    url.set_fragment(None);
+    Ok(url)
+}
+
 fn client(policy: &ProviderAttemptPolicyV1) -> std::result::Result<Client, ProviderFailureV1> {
     Client::builder()
         .timeout(Duration::from_millis(policy.timeout_ms))
@@ -1210,33 +1269,27 @@ impl fmt::Debug for ProviderCredential {
     }
 }
 
-fn gemini_generate_url(endpoint_ref: Option<&str>, model: &str) -> String {
+fn gemini_generate_url(
+    endpoint_ref: Option<&str>,
+    model: &str,
+) -> std::result::Result<String, ProviderFailureV1> {
     let encoded_model = model.trim_start_matches("models/");
-    let base = endpoint_ref
-        .filter(|endpoint| endpoint.starts_with("http://") || endpoint.starts_with("https://"))
-        .unwrap_or(DEFAULT_GEMINI_BASE_URL)
-        .trim_end_matches('/');
-    if base.contains(":generateContent") {
-        base.to_string()
-    } else if base.ends_with(&format!("models/{encoded_model}")) {
-        format!("{base}:generateContent")
+    let base = provider_endpoint_url(endpoint_ref, DEFAULT_GEMINI_BASE_URL)?;
+    let rendered = base.as_str().trim_end_matches('/').to_string();
+    if rendered.contains(":generateContent") {
+        Ok(rendered)
+    } else if rendered.ends_with(&format!("models/{encoded_model}")) {
+        Ok(format!("{rendered}:generateContent"))
     } else {
-        format!("{base}/models/{encoded_model}:generateContent")
+        append_provider_path(&base, &format!("models/{encoded_model}:generateContent"))
+            .map(|url| url.to_string())
     }
 }
 
-fn ollama_generate_url(endpoint_ref: Option<&str>) -> String {
-    if let Some(endpoint) = endpoint_ref {
-        if endpoint.starts_with("http://") || endpoint.starts_with("https://") {
-            let trimmed = endpoint.trim_end_matches('/');
-            if trimmed.ends_with("/api/generate") {
-                return trimmed.to_string();
-            }
-            return format!("{trimmed}/api/generate");
-        }
-    }
-    let base = env::var("OLLAMA_HOST").unwrap_or_else(|_| DEFAULT_OLLAMA_BASE_URL.to_string());
-    format!("{}/api/generate", base.trim_end_matches('/'))
+fn ollama_generate_url(
+    endpoint_ref: Option<&str>,
+) -> std::result::Result<String, ProviderFailureV1> {
+    ollama_api_url(endpoint_ref, "generate").map(|url| url.to_string())
 }
 
 fn map_reqwest_error(error: reqwest::Error) -> ProviderFailureV1 {
@@ -1302,7 +1355,7 @@ fn ollama_show_digest(
 ) -> Option<String> {
     let response = client(policy)
         .ok()?
-        .post(ollama_show_url(request.route.endpoint_ref.as_deref()))
+        .post(ollama_show_url(request.route.endpoint_ref.as_deref()).ok()?)
         .json(&json!({"model": request.route.provider_model_id}))
         .send()
         .ok()?;
@@ -1322,7 +1375,7 @@ fn ollama_tags_digest(
 ) -> Option<String> {
     let response = client(policy)
         .ok()?
-        .get(ollama_tags_url(request.route.endpoint_ref.as_deref()))
+        .get(ollama_tags_url(request.route.endpoint_ref.as_deref()).ok()?)
         .send()
         .ok()?;
     if !response.status().is_success() {
@@ -1341,41 +1394,12 @@ fn ollama_tags_digest(
         .map(str::to_string)
 }
 
-fn ollama_tags_url(endpoint_ref: Option<&str>) -> String {
-    if let Some(endpoint) = endpoint_ref {
-        if endpoint.starts_with("http://") || endpoint.starts_with("https://") {
-            let trimmed = endpoint.trim_end_matches('/');
-            if trimmed.ends_with("/api/tags") {
-                return trimmed.to_string();
-            }
-            if trimmed.ends_with("/api/generate") {
-                return trimmed.trim_end_matches("/api/generate").to_string() + "/api/tags";
-            }
-            if trimmed.ends_with("/api/show") {
-                return trimmed.trim_end_matches("/api/show").to_string() + "/api/tags";
-            }
-            return format!("{trimmed}/api/tags");
-        }
-    }
-    let base = env::var("OLLAMA_HOST").unwrap_or_else(|_| DEFAULT_OLLAMA_BASE_URL.to_string());
-    format!("{}/api/tags", base.trim_end_matches('/'))
+fn ollama_tags_url(endpoint_ref: Option<&str>) -> std::result::Result<String, ProviderFailureV1> {
+    ollama_api_url(endpoint_ref, "tags").map(|url| url.to_string())
 }
 
-fn ollama_show_url(endpoint_ref: Option<&str>) -> String {
-    if let Some(endpoint) = endpoint_ref {
-        if endpoint.starts_with("http://") || endpoint.starts_with("https://") {
-            let trimmed = endpoint.trim_end_matches('/');
-            if trimmed.ends_with("/api/show") {
-                return trimmed.to_string();
-            }
-            if trimmed.ends_with("/api/generate") {
-                return trimmed.trim_end_matches("/api/generate").to_string() + "/api/show";
-            }
-            return format!("{trimmed}/api/show");
-        }
-    }
-    let base = env::var("OLLAMA_HOST").unwrap_or_else(|_| DEFAULT_OLLAMA_BASE_URL.to_string());
-    format!("{}/api/show", base.trim_end_matches('/'))
+fn ollama_show_url(endpoint_ref: Option<&str>) -> std::result::Result<String, ProviderFailureV1> {
+    ollama_api_url(endpoint_ref, "show").map(|url| url.to_string())
 }
 
 fn extract_openai_output_text(json: &Value) -> Option<String> {
@@ -1677,12 +1701,85 @@ mod tests {
         let url = gemini_generate_url(
             Some("https://generativelanguage.googleapis.com/v1beta"),
             "models/gemini-test",
-        );
+        )
+        .expect("valid Gemini URL");
         assert_eq!(
             url,
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-test:generateContent"
         );
         assert!(!url.contains("key="));
+    }
+
+    #[test]
+    fn provider_endpoint_url_rejects_non_http_endpoint_refs() {
+        env::set_var("ADL_PROVIDER_ADAPTER_BAD_URL_KEY", "test-key");
+        let path = temp_log("bad-url");
+        let mut logger = ProviderRunLoggerV1::create(&path, "run-bad-url").expect("open logger");
+        let mut req = request(RuntimeSurfaceV1::HostedApi, "not-a-url".to_string());
+        req.route.credential_ref = Some("env:ADL_PROVIDER_ADAPTER_BAD_URL_KEY".to_string());
+
+        let result = execute_provider_invocation(req, &mut logger);
+        drop(logger);
+
+        assert_eq!(result.final_status, ProviderInvocationFinalStatusV1::Failed);
+        assert_eq!(
+            result
+                .failure
+                .as_ref()
+                .map(|failure| failure.message.as_str()),
+            Some("invalid provider endpoint URL")
+        );
+        assert_eq!(
+            result
+                .attempts
+                .first()
+                .and_then(|attempt| attempt.failure.as_ref())
+                .map(|failure| failure.retryable),
+            Some(false)
+        );
+
+        let log = fs::read_to_string(&path).expect("read log");
+        assert!(log.contains("attempt_failure"));
+        assert!(!log.contains("test-key"));
+        let _ = fs::remove_file(path);
+        env::remove_var("ADL_PROVIDER_ADAPTER_BAD_URL_KEY");
+    }
+
+    #[test]
+    fn ollama_url_helpers_normalize_base_and_api_endpoint_refs() {
+        assert_eq!(
+            ollama_generate_url(Some("http://127.0.0.1:11434")).expect("valid generate URL"),
+            "http://127.0.0.1:11434/api/generate"
+        );
+        assert_eq!(
+            ollama_show_url(Some("http://127.0.0.1:11434/api/generate")).expect("valid show URL"),
+            "http://127.0.0.1:11434/api/show"
+        );
+        assert_eq!(
+            ollama_tags_url(Some("http://127.0.0.1:11434/api/show")).expect("valid tags URL"),
+            "http://127.0.0.1:11434/api/tags"
+        );
+        assert_eq!(
+            ollama_runtime_base(Some("http://127.0.0.1:11434/api/tags"))
+                .expect("valid runtime base"),
+            "http://127.0.0.1:11434"
+        );
+    }
+
+    #[test]
+    fn gemini_generate_url_rejects_invalid_endpoint_ref() {
+        let err = gemini_generate_url(Some("not-a-url"), "gemini-test")
+            .expect_err("invalid Gemini endpoint must fail closed");
+        assert_eq!(err.message, "invalid provider endpoint URL");
+        assert!(!err.retryable);
+    }
+
+    #[test]
+    fn ollama_generate_url_rejects_invalid_endpoint_ref() {
+        let err = ollama_generate_url(Some("not-a-url"))
+            .expect_err("invalid Ollama endpoint must fail closed");
+        assert_eq!(err.message, "invalid provider endpoint URL");
+        assert!(!err.retryable);
     }
 
     #[test]
@@ -2374,6 +2471,50 @@ mod tests {
             result.attempts[0]
                 .failure
                 .as_ref()
+                .map(|failure| failure.retryable),
+            Some(false)
+        );
+
+        let _ = fs::remove_file(path);
+    }
+
+    #[test]
+    fn ollama_invalid_endpoint_is_not_masked_by_busy_default_bulkhead() {
+        let held = request(
+            RuntimeSurfaceV1::OllamaHttp,
+            DEFAULT_OLLAMA_BASE_URL.to_string(),
+        );
+        let _guard = acquire_ollama_runtime_slot(&held).expect("hold default local runtime slot");
+        let path = temp_log("ollama-invalid-endpoint-busy");
+        let mut logger =
+            ProviderRunLoggerV1::create(&path, "run-invalid-endpoint").expect("open logger");
+        let mut req = request(RuntimeSurfaceV1::OllamaHttp, "not-a-url".to_string());
+        req.route.provider_model_id = "invalid-endpoint-model".to_string();
+        req.model_identity = ollama_model_identity(
+            "invalid-endpoint-model",
+            "invalid-endpoint-model",
+            None,
+            Some("test".to_string()),
+        );
+        req.attempt_policy.max_attempts = 1;
+
+        let result = execute_provider_invocation(req, &mut logger);
+        drop(logger);
+
+        assert_eq!(result.final_status, ProviderInvocationFinalStatusV1::Failed);
+        assert_eq!(result.attempts.len(), 1);
+        assert_eq!(
+            result
+                .failure
+                .as_ref()
+                .map(|failure| failure.message.as_str()),
+            Some("invalid provider endpoint URL")
+        );
+        assert_eq!(
+            result
+                .attempts
+                .first()
+                .and_then(|attempt| attempt.failure.as_ref())
                 .map(|failure| failure.retryable),
             Some(false)
         );

@@ -275,6 +275,8 @@ fn real_daemon_with_config(args: &[String], config: &DaemonCommandConfig) -> Res
             api_bind,
             no_sleep,
             recover_stale_lease: parsed.recover_stale_lease,
+            api_otel_status_path: None,
+            api_otel_log_path: None,
         },
     );
     match status {

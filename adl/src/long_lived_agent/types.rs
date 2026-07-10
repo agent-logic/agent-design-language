@@ -197,6 +197,8 @@ pub struct DaemonOptions {
     pub api_bind: Option<String>,
     pub no_sleep: bool,
     pub recover_stale_lease: bool,
+    pub api_otel_status_path: Option<PathBuf>,
+    pub api_otel_log_path: Option<PathBuf>,
 }
 
 /// Inspection options for selecting a specific cycle.
