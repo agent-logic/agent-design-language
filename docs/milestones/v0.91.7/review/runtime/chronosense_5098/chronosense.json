@@ -1,0 +1,61 @@
+{
+  "agent_instance_id": "issue-5098-csm-runtime",
+  "clock_stack": "chronosense_clock_stack.v1",
+  "monotonic_runtime": {
+    "clock_stack_capture": "daemon_event_time",
+    "reference_frames": [
+      "utc_epoch_millis",
+      "local_civil_time",
+      "runtime_lifetime",
+      "runtime_monotonic_elapsed"
+    ]
+  },
+  "ready": "ready",
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.chronosense.v1",
+  "service": {
+    "clock_stack_capture": "daemon_event_time",
+    "clock_stack_schema": "chronosense_clock_stack.v1",
+    "service_schema": "chronosense_runtime_service.v1",
+    "status": "integrated",
+    "time_compatibility_fallback": "none_in_runtime_path",
+    "time_primary_status_source": "rsntp::AsyncSntpClient",
+    "time_process_model": "csm_in_process_component_no_separate_binary",
+    "time_substrate": "SNTP",
+    "time_sync": {
+      "confidence": "high",
+      "drift_status": "within_sntp_reported_bounds",
+      "failure_state": null,
+      "health": "synced",
+      "mode": "csm_in_process_async_sntp_client",
+      "observed_at_rfc3339": "2026-07-10T08:55:59.620038+00:00",
+      "parsed_offset_seconds": 0.03319374565035105,
+      "parsed_uncertainty_seconds": 0.010599727975204589,
+      "poll_command": "rsntp::AsyncSntpClient",
+      "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+      "raw_summary": "peer=time.cloudflare.com",
+      "reason": "runtime_sntp_client_reports_active_source",
+      "schema_version": "chronosense_time_sync_status.v1",
+      "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+      "substrate": "SNTP"
+    }
+  },
+  "status": "healthy",
+  "time_sync": {
+    "confidence": "high",
+    "drift_status": "within_sntp_reported_bounds",
+    "failure_state": null,
+    "health": "synced",
+    "mode": "csm_in_process_async_sntp_client",
+    "observed_at_rfc3339": "2026-07-10T08:55:59.620038+00:00",
+    "parsed_offset_seconds": 0.03319374565035105,
+    "parsed_uncertainty_seconds": 0.010599727975204589,
+    "poll_command": "rsntp::AsyncSntpClient",
+    "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+    "raw_summary": "peer=time.cloudflare.com",
+    "reason": "runtime_sntp_client_reports_active_source",
+    "schema_version": "chronosense_time_sync_status.v1",
+    "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+    "substrate": "SNTP"
+  }
+}

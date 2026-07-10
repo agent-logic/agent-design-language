@@ -221,6 +221,7 @@ sha2 = "0.10"
 zeroize = "1"
 deadpool = { version = "0.13.0", default-features = false, features = ["unmanaged"] }
 ntp-daemon = "0.3.7"
+rsntp = "4.1.2"
 
 [dev-dependencies]
 loom = "0.7"

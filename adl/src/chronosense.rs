@@ -69,9 +69,9 @@ pub use retrieval::{
     TemporalQueryPrimitiveSet, TemporalQueryRetrievalContract, TemporalRetrievalSemantics,
 };
 pub use service::{
-    capture_ntpd_rs_time_sync_status, chronosense_time_sync_status_from_ntp_ctl_output,
-    ChronosenseClockStack, ChronosenseRuntimeService, ChronosenseRuntimeServiceConfig,
-    ChronosenseTimeSyncStatus,
+    capture_runtime_time_sync_status, chronosense_time_sync_status_from_ntp_ctl_output,
+    start_runtime_time_observation, ChronosenseClockStack, ChronosenseRuntimeService,
+    ChronosenseRuntimeServiceConfig, ChronosenseTimeSyncStatus,
 };
 pub use temporal_schema::{
     CostVectorSchema, ExecutionPolicySchema, ExecutionRealizationSchema, SubjectiveTimeSchema,

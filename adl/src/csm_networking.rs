@@ -24,7 +24,6 @@ pub const CSM_POOL_STATUS_SCHEMA: &str = "adl.csm.connection_pool_status.v1";
 pub enum CsmListenerRole {
     MainRuntimeApi,
     ApiGatewayBridge,
-    ChronosenseNtp,
     OTelCollector,
     LocalTestHarness,
     FutureServiceListener,
@@ -35,7 +34,6 @@ impl CsmListenerRole {
         match self {
             Self::MainRuntimeApi => "main_runtime_api",
             Self::ApiGatewayBridge => "api_gateway_bridge",
-            Self::ChronosenseNtp => "chronosense_ntp",
             Self::OTelCollector => "otel_collector",
             Self::LocalTestHarness => "local_test_harness",
             Self::FutureServiceListener => "future_service_listener",
@@ -294,13 +292,6 @@ pub fn csm_listener_registry_json() -> Value {
                 "temporary_allocation_allowed": false
             },
             {
-                "role": CsmListenerRole::ChronosenseNtp.as_str(),
-                "default_bind": "123/udp boundary owned by 5041",
-                "ownership": "chronosense_boundary",
-                "consumers": ["time_sync"],
-                "temporary_allocation_allowed": false
-            },
-            {
                 "role": CsmListenerRole::OTelCollector.as_str(),
                 "default_bind": "collector_configured_endpoint",
                 "ownership": "observability_pipeline",
@@ -320,7 +311,12 @@ pub fn csm_listener_registry_json() -> Value {
             {"port": 8443, "role": "future_local_tls_dev_gateway", "owner": "unimplemented_future_listener"},
             {"port": 22, "role": "ssh_admin", "owner": "host_or_cloud_provider"},
             {"port": 2222, "role": "alternate_ssh_dev", "owner": "host_or_cloud_provider"},
-            {"port": 123, "role": "ntp", "owner": "chronosense_boundary"},
+            {
+                "port": 123,
+                "role": "external_ntp_servers",
+                "owner": "external_time_sources",
+                "csm_policy": "chronosense_uses_rsntp_async_sntp_client_with_ephemeral_outbound_udp_no_csm_listener"
+            },
             {"port": Value::Null, "role": "eventbridge_sns_sqs", "owner": "aws_control_plane_no_local_listener"}
         ]
     })
@@ -444,6 +440,26 @@ mod tests {
             .to_string()
             .contains("reserved for the CSM main runtime API"));
         assert!(reject_temp_allocation_port(20001).is_ok());
+    }
+
+    #[test]
+    fn networking_registry_does_not_advertise_chronosense_udp_listener() {
+        let registry = csm_listener_registry_json();
+        let listeners = registry["listeners"].as_array().expect("listeners");
+        assert!(!listeners
+            .iter()
+            .any(|listener| listener["role"] == "chronosense_ntp"));
+        let ntp_boundary = registry["external_boundaries"]
+            .as_array()
+            .expect("external boundaries")
+            .iter()
+            .find(|boundary| boundary["port"] == 123)
+            .expect("external NTP boundary");
+        assert_eq!(ntp_boundary["role"], "external_ntp_servers");
+        assert_eq!(
+            ntp_boundary["csm_policy"],
+            "chronosense_uses_rsntp_async_sntp_client_with_ephemeral_outbound_udp_no_csm_listener"
+        );
     }
 
     #[test]

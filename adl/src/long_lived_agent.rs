@@ -11,7 +11,8 @@ use std::thread;
 use std::time::Duration;
 
 use crate::chronosense::{
-    capture_ntpd_rs_time_sync_status, ChronosenseRuntimeService, ChronosenseRuntimeServiceConfig,
+    capture_runtime_time_sync_status, start_runtime_time_observation, ChronosenseRuntimeService,
+    ChronosenseRuntimeServiceConfig,
 };
 use crate::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
 use crate::runtime_aws_signal::publish_csm_governed_notice_signal;
@@ -2692,11 +2693,12 @@ impl CsmRuntimeContext {
             started_at_epoch_ms,
         ))
         .context("failed initializing CSM Chronosense runtime service")?;
+        let _initial_time_sync = start_runtime_time_observation();
         Ok(Self { chronosense })
     }
 
     fn time_sync_status(&self) -> crate::chronosense::ChronosenseTimeSyncStatus {
-        capture_ntpd_rs_time_sync_status()
+        capture_runtime_time_sync_status()
     }
 }
 
@@ -2975,10 +2977,10 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
             "service_schema": runtime_context.chronosense.config().schema_version,
             "clock_stack_schema": crate::chronosense::CHRONOSENSE_CLOCK_STACK_SCHEMA,
             "clock_stack_capture": "daemon_event_time",
-            "ntp_substrate": "ntpd-rs",
-            "ntp_process_model": "csm_in_process_component_no_separate_binary",
-            "ntp_primary_status_source": "ntp_daemon::ObservableState",
-            "ntp_compatibility_fallback": "ntp-ctl only when ADL_CSM_NTPD_RS_CTL_COMPAT=1",
+            "time_substrate": "SNTP",
+            "time_process_model": "csm_in_process_component_no_separate_binary",
+            "time_primary_status_source": "rsntp::AsyncSntpClient",
+            "time_compatibility_fallback": "none_in_runtime_path",
             "time_sync": runtime_context.time_sync_status()
         },
         "aee": {

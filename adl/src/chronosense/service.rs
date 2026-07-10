@@ -8,23 +8,23 @@
 use anyhow::{anyhow, Context, Result};
 use chrono::{TimeZone, Utc};
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use std::io;
-use std::path::{Path, PathBuf};
-use std::process::{Command, Output, Stdio};
-use std::time::{Duration, Instant};
+use std::time::Duration;
 
 use super::{
     ChronosenseFoundation, IdentityProfile, TemporalContext, CHRONOSENSE_CLOCK_STACK_SCHEMA,
     CHRONOSENSE_RUNTIME_SERVICE_SCHEMA, CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA,
 };
 
+const SNTP_STATUS_ENV: &str = "ADL_CSM_SNTP_STATUS";
+const SNTP_PEERS_ENV: &str = "ADL_CSM_SNTP_PEERS";
 const NTPD_RS_STATUS_ENV: &str = "ADL_CSM_NTPD_RS_STATUS";
-const NTPD_RS_OBSERVE_SOCKET_ENV: &str = "ADL_CSM_NTPD_RS_OBSERVE_SOCKET";
-const NTPD_RS_CTL_COMPAT_ENV: &str = "ADL_CSM_NTPD_RS_CTL_COMPAT";
-const NTPD_RS_CTL_ENV: &str = "ADL_CSM_NTPD_RS_CTL";
-const NTPD_RS_CTL_TIMEOUT: Duration = Duration::from_millis(500);
-const NTPD_RS_OBSERVE_TIMEOUT: Duration = Duration::from_millis(500);
+const NTPD_RS_PEERS_ENV: &str = "ADL_CSM_NTPD_RS_PEERS";
+const NTP_SAMPLER_TIMEOUT: Duration = Duration::from_secs(2);
+const SNTP_DEFAULT_PEERS: &str = "time.cloudflare.com,time.google.com,pool.ntp.org";
+#[cfg(test)]
+const SNTP_EMBEDDED_TEST_PEER_ENV: &str = "ADL_CSM_SNTP_TEST_PEERS";
+#[cfg(test)]
+const NTPD_RS_EMBEDDED_TEST_PEER_ENV: &str = "ADL_CSM_NTPD_RS_EMBEDDED_TEST_PEERS";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct ChronosenseRuntimeServiceConfig {
@@ -150,160 +150,143 @@ impl ChronosenseRuntimeService {
     }
 }
 
-pub fn capture_ntpd_rs_time_sync_status() -> ChronosenseTimeSyncStatus {
+pub fn capture_runtime_time_sync_status() -> ChronosenseTimeSyncStatus {
+    if std::env::var(SNTP_STATUS_ENV).ok().as_deref() == Some("0") {
+        return ChronosenseTimeSyncStatus::unavailable(
+            "runtime_sntp_probe_disabled",
+            format!("{SNTP_STATUS_ENV}=0"),
+            None,
+        );
+    }
     if std::env::var(NTPD_RS_STATUS_ENV).ok().as_deref() == Some("0") {
         return ChronosenseTimeSyncStatus::unavailable(
-            "ntpd_rs_probe_disabled",
+            "runtime_sntp_probe_disabled",
             format!("{NTPD_RS_STATUS_ENV}=0"),
             None,
         );
     }
-    match capture_ntpd_rs_observable_state() {
-        Ok(status) => return status,
-        Err(observe_error) => {
-            if std::env::var(NTPD_RS_CTL_COMPAT_ENV).ok().as_deref() != Some("1") {
-                return ChronosenseTimeSyncStatus::unavailable(
-                    observe_error.failure_state,
-                    observe_error.command,
-                    observe_error.summary,
-                );
+    capture_runtime_sntp_status()
+}
+
+pub fn start_runtime_time_observation() -> ChronosenseTimeSyncStatus {
+    capture_runtime_time_sync_status()
+}
+
+fn embedded_ntpd_rs_peers() -> Vec<String> {
+    #[cfg(test)]
+    if let Ok(peers) = std::env::var(SNTP_EMBEDDED_TEST_PEER_ENV) {
+        return peers
+            .split(',')
+            .map(str::trim)
+            .filter(|peer| !peer.is_empty())
+            .map(ToString::to_string)
+            .collect();
+    }
+    #[cfg(test)]
+    if let Ok(peers) = std::env::var(NTPD_RS_EMBEDDED_TEST_PEER_ENV) {
+        return peers
+            .split(',')
+            .map(str::trim)
+            .filter(|peer| !peer.is_empty())
+            .map(ToString::to_string)
+            .collect();
+    }
+    std::env::var(SNTP_PEERS_ENV)
+        .or_else(|_| std::env::var(NTPD_RS_PEERS_ENV))
+        .unwrap_or_else(|_| SNTP_DEFAULT_PEERS.to_string())
+        .split(',')
+        .map(str::trim)
+        .filter(|peer| !peer.is_empty())
+        .map(ToString::to_string)
+        .collect()
+}
+
+fn capture_runtime_sntp_status() -> ChronosenseTimeSyncStatus {
+    match tokio::runtime::Builder::new_current_thread()
+        .enable_io()
+        .enable_time()
+        .build()
+    {
+        Ok(runtime) => runtime.block_on(capture_runtime_sntp_status_async()),
+        Err(err) => ChronosenseTimeSyncStatus::unavailable(
+            "runtime_sntp_sampler_unavailable",
+            "rsntp::AsyncSntpClient",
+            Some(sanitize_probe_summary(&err.to_string())),
+        ),
+    }
+}
+
+async fn capture_runtime_sntp_status_async() -> ChronosenseTimeSyncStatus {
+    let peers = embedded_ntpd_rs_peers();
+    let client =
+        rsntp::AsyncSntpClient::with_config(rsntp::Config::default().timeout(NTP_SAMPLER_TIMEOUT));
+    let mut summaries = Vec::new();
+    for peer in peers {
+        match client.synchronize(peer.as_str()).await {
+            Ok(result) => {
+                let offset = result.clock_offset().as_secs_f64();
+                let uncertainty = result.round_trip_delay().as_secs_f64().abs() / 2.0;
+                return chronosense_time_sync_status_from_sntp_sample(&peer, offset, uncertainty);
             }
+            Err(err) => summaries.push(format!(
+                "{}={}",
+                sanitize_probe_summary(&peer),
+                sanitize_probe_summary(&err.to_string())
+            )),
         }
     }
-    let command = std::env::var(NTPD_RS_CTL_ENV).unwrap_or_else(|_| "ntp-ctl".to_string());
-    let command_label = ntpd_rs_command_label(&command);
-    match ntpd_rs_status_output(&command) {
-        Ok(output) if output.status.success() => {
-            let stdout = String::from_utf8_lossy(&output.stdout);
-            chronosense_time_sync_status_from_ntp_ctl_output(&stdout, &command_label)
-        }
-        Ok(output) => {
-            let stderr = String::from_utf8_lossy(&output.stderr);
-            ChronosenseTimeSyncStatus::unavailable(
-                "ntpd_rs_status_command_failed",
-                command_label,
-                first_non_empty_line(&stderr).map(|line| sanitize_probe_summary(&line)),
-            )
-        }
-        Err(err) => {
-            let failure_state = if err.kind() == std::io::ErrorKind::TimedOut {
-                "ntpd_rs_status_command_timeout"
-            } else {
-                "ntpd_rs_status_command_unavailable"
-            };
-            ChronosenseTimeSyncStatus::unavailable(
-                failure_state,
-                command_label,
-                Some(err.kind().to_string()),
-            )
-        }
-    }
+    ChronosenseTimeSyncStatus::unavailable(
+        "runtime_sntp_sample_unavailable",
+        "rsntp::AsyncSntpClient",
+        Some(sanitize_probe_summary(&summaries.join("; "))),
+    )
 }
 
-struct NtpdRsObserveError {
-    failure_state: &'static str,
-    command: String,
-    summary: Option<String>,
-}
-
-fn capture_ntpd_rs_observable_state() -> Result<ChronosenseTimeSyncStatus, NtpdRsObserveError> {
-    let socket = std::env::var(NTPD_RS_OBSERVE_SOCKET_ENV)
-        .map(PathBuf::from)
-        .unwrap_or_else(|_| PathBuf::from("/run/ntpd-rs/observe"));
-    let command = format!("ntp_daemon::ObservableState:{}", socket.display());
-    let command_label = ntpd_rs_command_label(&command);
-    match ntpd_rs_observable_state_value(&socket) {
-        Ok(value) => Ok(chronosense_time_sync_status_from_ntpd_rs_observable_value(
-            &value,
-            &command_label,
-        )),
-        Err(err) => Err(NtpdRsObserveError {
-            failure_state: ntpd_rs_observe_failure_state(&err),
-            command: command_label,
-            summary: Some(sanitize_probe_summary(&err.to_string())),
-        }),
-    }
-}
-
-fn ntpd_rs_observe_failure_state(err: &io::Error) -> &'static str {
-    match err.kind() {
-        io::ErrorKind::NotFound => "ntpd_rs_observation_socket_missing",
-        io::ErrorKind::TimedOut => "ntpd_rs_observation_socket_timeout",
-        io::ErrorKind::ConnectionRefused => "ntpd_rs_observation_socket_refused",
-        _ => "ntpd_rs_observation_socket_unavailable",
-    }
-}
-
-pub fn chronosense_time_sync_status_from_ntpd_rs_observable_value(
-    value: &Value,
-    command: &str,
+pub fn chronosense_time_sync_status_from_sntp_sample(
+    peer: &str,
+    offset_seconds: f64,
+    uncertainty_seconds: f64,
 ) -> ChronosenseTimeSyncStatus {
-    let peer_count = value
-        .get("peers")
-        .and_then(Value::as_array)
-        .map(|peers| {
-            peers
-                .iter()
-                .filter(|peer| !matches!(peer, Value::String(label) if label == "Nothing"))
-                .count()
-        })
-        .unwrap_or(0);
-    let offset = first_numeric_field(value, &["offset", "offset_seconds", "last_offset"]);
-    let uncertainty = first_numeric_field(
-        value,
-        &["uncertainty", "uncertainty_seconds", "root_dispersion"],
-    );
-    let (health, confidence, drift_status, failure_state, reason) = if peer_count == 0 {
-        (
-            "unavailable",
-            "none",
-            "unknown",
-            Some("ntpd_rs_observable_state_has_no_peers"),
-            "ntpd_rs_observable_state_reports_no_peers",
-        )
-    } else if matches!(offset, Some(value) if value.abs() <= 0.5) {
+    let healthy = offset_seconds.is_finite()
+        && uncertainty_seconds.is_finite()
+        && offset_seconds.abs() <= 0.5
+        && uncertainty_seconds <= 1.0;
+    let (health, confidence, drift_status, failure_state, reason) = if healthy {
         (
             "synced",
             "high",
-            "within_ntpd_rs_reported_bounds",
+            "within_sntp_reported_bounds",
             None,
-            "ntpd_rs_observable_state_reports_active_sources",
-        )
-    } else if offset.is_some() {
-        (
-            "degraded",
-            "medium",
-            "offset_or_missing_polls_observed",
-            Some("ntpd_rs_observable_state_degraded"),
-            "ntpd_rs_observable_state_reports_degraded_sources",
+            "runtime_sntp_client_reports_active_source",
         )
     } else {
         (
-            "unknown",
-            "low",
-            "unknown",
-            Some("ntpd_rs_observable_state_offset_unavailable"),
-            "ntpd_rs_observable_state_missing_parseable_offset",
+            "degraded",
+            "medium",
+            "outside_sntp_reported_bounds",
+            Some("runtime_sntp_sample_degraded"),
+            "runtime_sntp_client_reports_degraded_source",
         )
     };
 
     ChronosenseTimeSyncStatus {
         schema_version: CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA.to_string(),
-        substrate: "ntpd-rs".to_string(),
-        source: "ntp-daemon::ObservableState observation socket".to_string(),
-        mode: "csm_in_process_ntpd_rs_observable_state".to_string(),
+        substrate: "SNTP".to_string(),
+        source: "rsntp::AsyncSntpClient in-process runtime sampler".to_string(),
+        mode: "csm_in_process_async_sntp_client".to_string(),
         health: health.to_string(),
         confidence: confidence.to_string(),
         drift_status: drift_status.to_string(),
         failure_state: failure_state.map(ToString::to_string),
         reason: reason.to_string(),
         observed_at_rfc3339: Utc::now().to_rfc3339(),
-        poll_command: command.to_string(),
-        port_policy: "csm_in_process_ntpd_rs_component_no_separate_binary_no_csm_udp_123_listener"
-            .to_string(),
-        parsed_offset_seconds: offset,
-        parsed_uncertainty_seconds: uncertainty,
-        raw_summary: Some(format!("observable_peer_count={peer_count}")),
+        poll_command: "rsntp::AsyncSntpClient".to_string(),
+        port_policy:
+            "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout"
+                .to_string(),
+        parsed_offset_seconds: Some(offset_seconds),
+        parsed_uncertainty_seconds: Some(uncertainty_seconds),
+        raw_summary: Some(format!("peer={}", sanitize_probe_summary(peer))),
     }
 }
 
@@ -392,16 +375,21 @@ impl ChronosenseTimeSyncStatus {
     ) -> Self {
         let reason = reason.into();
         let command = command.into();
-        let observation_socket_source = command.starts_with("ntp_daemon_observable_state")
-            || reason == "ntpd_rs_probe_disabled";
-        let (source, mode, port_policy) = if observation_socket_source {
+        let runtime_sntp_source = command == "rsntp::AsyncSntpClient"
+            || reason == "runtime_sntp_probe_disabled"
+            || reason == "ntpd_rs_probe_disabled"
+            || command.starts_with("ADL_CSM_SNTP_")
+            || command.starts_with("ADL_CSM_NTPD_RS_");
+        let (substrate, source, mode, port_policy) = if runtime_sntp_source {
             (
-                "ntp-daemon::ObservableState observation socket",
-                "csm_ntpd_rs_observable_state",
-                "csm_ntpd_rs_component_observation_no_separate_csm_time_binary_no_csm_udp_123_listener",
+                "SNTP",
+                "rsntp::AsyncSntpClient in-process runtime sampler",
+                "csm_in_process_async_sntp_client",
+                "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
             )
         } else {
             (
+                "ntpd-rs",
                 "ntp-ctl status --format prometheus",
                 "external_status_projection",
                 "observes_ntpd_rs_status_only_no_csm_listener_on_udp_123",
@@ -409,14 +397,19 @@ impl ChronosenseTimeSyncStatus {
         };
         Self {
             schema_version: CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA.to_string(),
-            substrate: "ntpd-rs".to_string(),
+            substrate: substrate.to_string(),
             source: source.to_string(),
             mode: mode.to_string(),
             health: "unavailable".to_string(),
             confidence: "none".to_string(),
             drift_status: "unknown".to_string(),
             failure_state: Some(reason),
-            reason: "ntpd_rs_status_unavailable_without_csm_failure".to_string(),
+            reason: if runtime_sntp_source {
+                "runtime_sntp_status_unavailable_without_csm_failure"
+            } else {
+                "ntpd_rs_status_unavailable_without_csm_failure"
+            }
+            .to_string(),
             observed_at_rfc3339: Utc::now().to_rfc3339(),
             poll_command: command,
             port_policy: port_policy.to_string(),
@@ -427,94 +420,12 @@ impl ChronosenseTimeSyncStatus {
     }
 }
 
-#[cfg(unix)]
-fn ntpd_rs_observable_state_value(socket: &Path) -> io::Result<Value> {
-    let runtime = tokio::runtime::Builder::new_current_thread()
-        .enable_io()
-        .enable_time()
-        .build()
-        .map_err(|err| io::Error::other(format!("create ntpd-rs observation runtime: {err}")))?;
-    runtime.block_on(async move {
-        let mut stream = tokio::time::timeout(
-            NTPD_RS_OBSERVE_TIMEOUT,
-            tokio::net::UnixStream::connect(socket),
-        )
-        .await
-        .map_err(|_| io::Error::new(io::ErrorKind::TimedOut, "connect ntpd-rs observe socket"))??;
-        let mut message = Vec::with_capacity(16 * 1024);
-        let observable = tokio::time::timeout(
-            NTPD_RS_OBSERVE_TIMEOUT,
-            ntp_daemon::sockets::read_json::<ntp_daemon::ObservableState>(
-                &mut stream,
-                &mut message,
-            ),
-        )
-        .await
-        .map_err(|_| io::Error::new(io::ErrorKind::TimedOut, "read ntpd-rs observable state"))??;
-        serde_json::to_value(observable)
-            .map_err(|err| io::Error::other(format!("serialize ntpd-rs observable state: {err}")))
-    })
-}
-
-#[cfg(not(unix))]
-fn ntpd_rs_observable_state_value(_socket: &Path) -> io::Result<Value> {
-    Err(io::Error::new(
-        io::ErrorKind::Unsupported,
-        "ntpd-rs observation sockets require unix domain socket support",
-    ))
-}
-
-fn first_numeric_field(value: &Value, names: &[&str]) -> Option<f64> {
-    match value {
-        Value::Object(map) => {
-            for (key, candidate) in map {
-                let normalized = key.replace('-', "_").to_ascii_lowercase();
-                if names.iter().any(|name| normalized.contains(name)) {
-                    if let Some(number) = candidate.as_f64() {
-                        return Some(number);
-                    }
-                }
-            }
-            map.values()
-                .find_map(|candidate| first_numeric_field(candidate, names))
-        }
-        Value::Array(values) => values
-            .iter()
-            .find_map(|candidate| first_numeric_field(candidate, names)),
-        _ => None,
-    }
-}
-
-fn ntpd_rs_status_output(command: &str) -> std::io::Result<Output> {
-    let mut child = Command::new(command)
-        .arg("status")
-        .arg("--format")
-        .arg("prometheus")
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()?;
-    let deadline = Instant::now() + NTPD_RS_CTL_TIMEOUT;
-    loop {
-        if child.try_wait()?.is_some() {
-            return child.wait_with_output();
-        }
-        if Instant::now() >= deadline {
-            let _ = child.kill();
-            let _ = child.wait();
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::TimedOut,
-                "ntpd-rs status probe timed out",
-            ));
-        }
-        std::thread::sleep(Duration::from_millis(10));
-    }
-}
-
+#[cfg(test)]
 pub(super) fn ntpd_rs_command_label(command: &str) -> String {
     if command.starts_with("ntp_daemon::ObservableState:") {
         "ntp_daemon_observable_state".to_string()
     } else if command == "ntp-ctl"
-        || Path::new(command)
+        || std::path::Path::new(command)
             .file_name()
             .and_then(|name| name.to_str())
             == Some("ntp-ctl")
@@ -523,13 +434,6 @@ pub(super) fn ntpd_rs_command_label(command: &str) -> String {
     } else {
         "custom_ntp_ctl".to_string()
     }
-}
-
-fn first_non_empty_line(raw: &str) -> Option<String> {
-    raw.lines()
-        .map(str::trim)
-        .find(|line| !line.is_empty())
-        .map(ToString::to_string)
 }
 
 pub(super) fn sanitize_probe_summary(raw: &str) -> String {
