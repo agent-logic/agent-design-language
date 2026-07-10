@@ -14,6 +14,7 @@ use ::adl::{
         runtime_v2_cognitive_being_flagship_demo_contract,
         runtime_v2_contract_market_demo_contract, runtime_v2_csm_integrated_run_contract,
         runtime_v2_feature_proof_coverage_contract, runtime_v2_foundation_demo_contract,
+        runtime_v2_godel_agent_runtime_contract_for,
         runtime_v2_governed_tools_flagship_demo_contract, runtime_v2_loop_runtime_contract,
         runtime_v2_minimal_integrated_runtime_path_contract,
         runtime_v2_observatory_flagship_contract, runtime_v2_operator_control_report_contract,
@@ -667,6 +668,62 @@ pub(crate) fn real_runtime_v2_loop_runtime(repo_root: &Path, args: &[String]) ->
     Ok(())
 }
 
+pub(crate) fn real_runtime_v2_godel_agent_runtime(repo_root: &Path, args: &[String]) -> Result<()> {
+    let mut out_path: Option<PathBuf> = None;
+    let mut agent_count: usize = 10;
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                let Some(value) = args.get(i + 1) else {
+                    return Err(anyhow!(
+                        "runtime-v2 godel-agent-runtime requires --out <path>"
+                    ));
+                };
+                out_path = Some(PathBuf::from(value));
+                i += 1;
+            }
+            "--agents" => {
+                let Some(value) = args.get(i + 1) else {
+                    return Err(anyhow!(
+                        "runtime-v2 godel-agent-runtime requires --agents <count>"
+                    ));
+                };
+                agent_count = value.parse::<usize>().with_context(|| {
+                    format!("parse runtime-v2 godel-agent-runtime --agents value '{value}'")
+                })?;
+                i += 1;
+            }
+            "--help" | "-h" => {
+                println!("{}", usage::usage());
+                return Ok(());
+            }
+            other => {
+                return Err(anyhow!(
+                    "unknown arg for runtime-v2 godel-agent-runtime: {other}"
+                ))
+            }
+        }
+        i += 1;
+    }
+
+    let graph = runtime_v2_reasoning_graph_contract()?;
+    let loop_runtime = runtime_v2_loop_runtime_contract()?;
+    let packet = runtime_v2_godel_agent_runtime_contract_for(
+        agent_count,
+        &graph.graph_id,
+        &loop_runtime.runtime_id,
+    )?;
+    let Some(out_path) = out_path else {
+        println!("{}", to_string_pretty(&packet.canonicalized()?)?);
+        return Ok(());
+    };
+    let resolved = resolve_relative_output_path(repo_root, &out_path, "godel-agent-runtime")?;
+    packet.write_to_path(&resolved)?;
+    println!("{}", godel_agent_runtime_stdout_line(&out_path));
+    Ok(())
+}
+
 pub(crate) fn real_runtime_v2_contract_market_demo(
     repo_root: &Path,
     args: &[String],
@@ -790,6 +847,10 @@ pub(crate) fn reasoning_graph_stdout_line(out_path: &Path) -> String {
 
 pub(crate) fn loop_runtime_stdout_line(out_path: &Path) -> String {
     format!("RUNTIME_V2_LOOP_RUNTIME_PATH={}", out_path.display())
+}
+
+pub(crate) fn godel_agent_runtime_stdout_line(out_path: &Path) -> String {
+    format!("RUNTIME_V2_GODEL_AGENT_RUNTIME_PATH={}", out_path.display())
 }
 
 pub(crate) fn cognitive_being_flagship_demo_stdout_line(out_path: &Path) -> String {
