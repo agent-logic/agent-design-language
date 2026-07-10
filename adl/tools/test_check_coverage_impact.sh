@@ -116,6 +116,24 @@ long_lived_agent_storage_expression="$(bash "$SCRIPT" --changed-files "$long_liv
 grep -F "test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
 grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storage_expression" >/dev/null
 
+csm_runtime_agent_changed="$TMP/csm-runtime-agent-changed.txt"
+cat >"$csm_runtime_agent_changed" <<'EOF'
+M	adl/src/csm_runtime_api.rs
+M	adl/src/long_lived_agent.rs
+M	adl/src/long_lived_agent/types.rs
+EOF
+csm_runtime_agent_filters="$TMP/csm-runtime-agent-filters.txt"
+bash "$SCRIPT" --changed-files "$csm_runtime_agent_changed" --print-risk-filters >"$csm_runtime_agent_filters"
+grep -Fx "csm_runtime_agent" "$csm_runtime_agent_filters" >/dev/null
+if [ "$(wc -l <"$csm_runtime_agent_filters" | tr -d ' ')" -ne 1 ]; then
+  echo "expected CSM runtime agent surfaces to collapse to the shared CSM runtime filter" >&2
+  exit 1
+fi
+csm_runtime_agent_expression="$(bash "$SCRIPT" --changed-files "$csm_runtime_agent_changed" --print-risk-nextest-expression)"
+grep -F "test(csm_runtime_api)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(long_lived_agent)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(csm_service)" <<<"$csm_runtime_agent_expression" >/dev/null
+
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"
 cli_mod_filters="$TMP/cli-mod-filters.txt"
