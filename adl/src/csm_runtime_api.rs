@@ -46,6 +46,7 @@ pub struct CsmRuntimeApiOptions {
     pub bind: String,
     pub test_max_requests: Option<usize>,
     pub idle_timeout_ms: Option<u64>,
+    pub shutdown_file: Option<PathBuf>,
     pub otel_status_path: Option<PathBuf>,
     pub otel_log_path: Option<PathBuf>,
 }
@@ -65,7 +66,9 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
     }
     let listener_config = resolve_main_runtime_api_listener(
         Some(&options.bind),
-        options.test_max_requests.is_some() || options.idle_timeout_ms.is_some(),
+        options.test_max_requests.is_some()
+            || options.idle_timeout_ms.is_some()
+            || options.shutdown_file.is_some(),
     )?;
     let listener = TcpListener::bind(listener_config.bind_addr).with_context(|| {
         format!(
@@ -98,16 +101,23 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
     std::io::stdout().flush().ok();
 
     let mut served = 0usize;
-    if let Some(idle_timeout_ms) = options.idle_timeout_ms {
+    if options.idle_timeout_ms.is_some() || options.shutdown_file.is_some() {
         listener
             .set_nonblocking(true)
             .context("set CSM runtime API listener nonblocking")?;
-        let idle_timeout = Duration::from_millis(idle_timeout_ms);
+        let idle_timeout = options.idle_timeout_ms.map(Duration::from_millis);
         let mut last_activity = Instant::now();
         while options
             .test_max_requests
             .is_none_or(|test_max_requests| served < test_max_requests)
         {
+            if options
+                .shutdown_file
+                .as_deref()
+                .is_some_and(|path| path.exists())
+            {
+                break;
+            }
             match listener.accept() {
                 Ok((mut stream, _)) => {
                     match handle_runtime_api_stream(&options, &mut stream) {
@@ -120,7 +130,7 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
                     last_activity = Instant::now();
                 }
                 Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
-                    if last_activity.elapsed() >= idle_timeout {
+                    if idle_timeout.is_some_and(|timeout| last_activity.elapsed() >= timeout) {
                         break;
                     }
                     std::thread::sleep(Duration::from_millis(25));
@@ -1178,6 +1188,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         }
@@ -1289,6 +1300,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1314,6 +1326,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1353,6 +1366,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1394,6 +1408,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1468,6 +1483,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1528,6 +1544,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1611,6 +1628,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1675,6 +1693,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1702,6 +1721,7 @@ memory: {}
             bind: "127.0.0.1:0".to_string(),
             test_max_requests: None,
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1782,6 +1802,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1866,6 +1887,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1933,6 +1955,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -1982,6 +2005,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };
@@ -2038,6 +2062,7 @@ memory: {}
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
             test_max_requests: Some(1),
             idle_timeout_ms: None,
+            shutdown_file: None,
             otel_status_path: None,
             otel_log_path: None,
         };

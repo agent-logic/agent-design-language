@@ -824,7 +824,7 @@ fn stop_local(manifest: &ServiceManifest) -> Result<()> {
     }
     let pid = read_pid_file(&manifest.pid_file)?;
     if supervisor_status_matches_pid_and_spec(manifest, pid)? {
-        for _ in 0..30 {
+        for _ in 0..100 {
             if pid_liveness(pid) != "live_pid" {
                 break;
             }
@@ -1117,7 +1117,7 @@ fn startup_observation_attempts() -> u32 {
         .ok()
         .and_then(|raw| raw.parse::<u32>().ok())
         .filter(|value| *value > 0)
-        .unwrap_or(20)
+        .unwrap_or(100)
 }
 
 fn cycle_ledger_path(manifest: &ServiceManifest) -> PathBuf {
@@ -1161,7 +1161,6 @@ fn runtime_api_bind_observed(manifest: &ServiceManifest) -> bool {
         return false;
     };
     value.get("schema").and_then(Value::as_str) == Some("adl.csm.runtime_api.ready.v1")
-        && value.get("ready").and_then(Value::as_str) == Some("ready")
         && expected_agent_id.as_deref().is_some_and(|agent_id| {
             value.get("agent_instance_id").and_then(Value::as_str) == Some(agent_id)
         })

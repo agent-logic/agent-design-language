@@ -150,7 +150,12 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
     let checkpoint_interval_secs =
         effective_checkpoint_interval_secs(&loaded, options.checkpoint_interval_secs)?;
     let runtime_context = CsmRuntimeContext::new()?;
-    let runtime_api_status = start_embedded_runtime_api_module(spec_path, &options);
+    let runtime_api_shutdown = embedded_runtime_api_shutdown_path(&loaded);
+    let _runtime_api_shutdown_guard = RuntimeApiShutdownGuard {
+        path: runtime_api_shutdown.clone(),
+    };
+    let runtime_api_status =
+        start_embedded_runtime_api_module(spec_path, &options, &runtime_api_shutdown);
     let mut restart_count = 0u64;
     let mut last_child_exit = None;
     let _ = write_daemon_status(
@@ -188,19 +193,30 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
     )?;
 
     loop {
-        if read_stop(&loaded)?.is_some() {
+        if let Some(stop) = read_stop(&loaded)? {
             let status = status(spec_path)?;
             persist_status(&loaded, &status, "daemon_stop_observed")?;
+            let governed_stop = stop.classification == "governed_emergency_stop_recorded";
+            let daemon_state = if governed_stop {
+                "governed_stopped"
+            } else {
+                "stopped"
+            };
+            let daemon_event = if governed_stop {
+                "governed_emergency_stop_recorded"
+            } else {
+                "stop_completed"
+            };
             let daemon_status = write_daemon_status(
                 &runtime_context,
                 &loaded,
                 DaemonStatusInput {
-                    state: "stopped",
+                    state: daemon_state,
                     bounded_test_mode: options.no_sleep,
                     restart_count,
                     bounded_test_restart_limit: options.bounded_test_restart_limit,
                     checkpoint_interval_secs,
-                    last_event: "stop_completed",
+                    last_event: daemon_event,
                     last_child_exit: last_child_exit.clone(),
                     next_backoff_secs: 0,
                 },
@@ -235,7 +251,7 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             emit_daemon_event(
                 &runtime_context,
                 &loaded,
-                "stop_completed",
+                daemon_event,
                 "completed",
                 restart_count,
                 json!({
@@ -544,18 +560,24 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
     }
 }
 
-fn start_embedded_runtime_api_module(spec_path: &Path, options: &DaemonOptions) -> Value {
+fn start_embedded_runtime_api_module(
+    spec_path: &Path,
+    options: &DaemonOptions,
+    shutdown_file: &Path,
+) -> Value {
     let Some(bind) = options.api_bind.clone() else {
         return json!({
             "status": "disabled",
             "reason": "api_bind_not_configured"
         });
     };
+    let _ = fs::remove_file(shutdown_file);
     let api_options = CsmRuntimeApiOptions {
         spec_path: spec_path.to_path_buf(),
         bind: bind.clone(),
         test_max_requests: None,
         idle_timeout_ms: None,
+        shutdown_file: Some(shutdown_file.to_path_buf()),
         otel_status_path: options.api_otel_status_path.clone(),
         otel_log_path: options.api_otel_log_path.clone(),
     };
@@ -577,7 +599,8 @@ fn start_embedded_runtime_api_module(spec_path: &Path, options: &DaemonOptions) 
                 "status": "embedded",
                 "bind": bind,
                 "thread": "csm-runtime-api",
-                "pid_model": "same_process_as_csm_daemon"
+                "pid_model": "same_process_as_csm_daemon",
+                "shutdown_ref": path_artifact_ref(shutdown_file)
             })
         })
         .unwrap_or_else(|err| {
@@ -587,6 +610,23 @@ fn start_embedded_runtime_api_module(spec_path: &Path, options: &DaemonOptions) 
                 "error": err.to_string()
             })
         })
+}
+
+struct RuntimeApiShutdownGuard {
+    path: PathBuf,
+}
+
+impl Drop for RuntimeApiShutdownGuard {
+    fn drop(&mut self) {
+        if let Some(parent) = self.path.parent() {
+            let _ = fs::create_dir_all(parent);
+        }
+        let _ = fs::write(&self.path, "shutdown\n");
+    }
+}
+
+fn embedded_runtime_api_shutdown_path(loaded: &LoadedAgentSpec) -> PathBuf {
+    loaded.state_root.join("csm_runtime_api_shutdown")
 }
 
 fn daemon_interval_secs(loaded: &LoadedAgentSpec, override_secs: Option<u64>) -> Result<u64> {
@@ -2708,28 +2748,48 @@ fn write_daemon_status(
     input: DaemonStatusInput<'_>,
 ) -> Result<DaemonStatusRecord> {
     let now = Utc::now();
-    let started_at = read_json_optional::<DaemonStatusRecord>(&daemon_status_path(loaded))?
+    let existing_status = read_json_optional::<DaemonStatusRecord>(&daemon_status_path(loaded))?;
+    let started_at = existing_status
+        .as_ref()
         .map(|status| status.started_at)
         .unwrap_or(now);
+    let governed_stop_active = read_stop(loaded)?
+        .is_some_and(|stop| stop.classification == "governed_emergency_stop_recorded");
+    let preserve_governed_terminal = governed_stop_active
+        && existing_status
+            .as_ref()
+            .is_some_and(|status| status.state == "governed_stopped")
+        && input.state != "governed_stopped";
+    let effective_state = if preserve_governed_terminal {
+        "governed_stopped"
+    } else {
+        input.state
+    };
+    let effective_last_event = if preserve_governed_terminal {
+        "governed_emergency_stop_recorded"
+    } else {
+        input.last_event
+    };
     let status = DaemonStatusRecord {
         schema: DAEMON_STATUS_SCHEMA.to_string(),
         agent_instance_id: loaded.spec.agent_instance_id.clone(),
         runtime_capabilities: csm_runtime_capabilities(runtime_context),
-        state: input.state.to_string(),
+        state: effective_state.to_string(),
         supervisor_pid: std::process::id(),
         restart_policy: daemon_restart_policy().to_string(),
-        service_mode: daemon_status_service_mode(input.state, input.bounded_test_mode).to_string(),
+        service_mode: daemon_status_service_mode(effective_state, input.bounded_test_mode)
+            .to_string(),
         bounded_test_mode: input.bounded_test_mode,
         restart_count: input.restart_count,
         bounded_test_restart_limit: input.bounded_test_restart_limit,
         checkpoint_interval_secs: input.checkpoint_interval_secs,
-        last_event: input.last_event.to_string(),
+        last_event: effective_last_event.to_string(),
         last_child_exit: input.last_child_exit,
         started_at,
         last_checkpoint_at: now,
         next_backoff_secs: input.next_backoff_secs,
         trace_id: daemon_trace_id(loaded),
-        span_id: daemon_span_id(input.last_event, input.restart_count),
+        span_id: daemon_span_id(effective_last_event, input.restart_count),
         parent_span_id: Some(daemon_parent_span_id(loaded)),
         unsupported_permanence_claims: unsupported_permanence_claims(),
         updated_at: now,
@@ -3148,6 +3208,7 @@ fn write_stop_record(
         agent_instance_id: loaded.spec.agent_instance_id.clone(),
         reason: reason.to_string(),
         requested_by: requested_by.to_string(),
+        classification: event.to_string(),
         mode: STOP_MODE_BEFORE_NEXT_CYCLE.to_string(),
         requested_at: Utc::now(),
     };
@@ -3779,6 +3840,10 @@ fn max_consecutive_failures(loaded: &LoadedAgentSpec) -> u64 {
 
 fn default_requested_by() -> String {
     "operator".to_string()
+}
+
+fn default_stop_classification() -> String {
+    "operator_stop_requested".to_string()
 }
 
 fn default_stop_mode() -> String {
