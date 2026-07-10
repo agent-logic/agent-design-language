@@ -7,16 +7,18 @@ pub const CSM_RUNTIME_API_READY_SCHEMA: &str = "adl.csm.runtime_api.ready.v1";
 pub const CSM_RUNTIME_API_METRICS_SCHEMA: &str = "adl.csm.runtime_api.metrics.v1";
 pub const CSM_RUNTIME_API_EVENTS_SCHEMA: &str = "adl.csm.runtime_api.events.v1";
 pub const CSM_RUNTIME_API_CHRONOSENSE_SCHEMA: &str = "adl.csm.runtime_api.chronosense.v1";
+pub const CSM_RUNTIME_API_SHEPHERD_SCHEMA: &str = "adl.csm.runtime_api.shepherd.v1";
 pub const CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA: &str =
     "adl.csm.runtime_api.api_gateway_bridge.v1";
 
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 7] = [
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 8] = [
     "/status",
     "/health",
     "/ready",
     "/metrics",
     "/events",
     "/chronosense",
+    "/shepherd",
     "/api-gateway-bridge",
 ];
 
@@ -28,6 +30,7 @@ mod tests {
     fn runtime_api_contract_keeps_canonical_routes() {
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/status"));
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/chronosense"));
+        assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/shepherd"));
         assert!(CSM_RUNTIME_API_ENDPOINTS.contains(&"/api-gateway-bridge"));
         assert_eq!(
             CSM_RUNTIME_API_STATUS_SCHEMA,
