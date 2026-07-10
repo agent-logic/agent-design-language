@@ -1,0 +1,387 @@
+{
+  "adl_role": "tooling_control_plane",
+  "aee_resilience": {
+    "failure_recovery": "permanent_restart_loop_with_checkpoint_restore",
+    "recoverable_states": [
+      "idle",
+      "completed",
+      "failed",
+      "stopped",
+      "leased"
+    ],
+    "status": "integrated"
+  },
+  "agent_instance_id": "main-csm-runtime",
+  "agent_status": {
+    "completed_cycle_count": 32417,
+    "consecutive_failure_count": 0,
+    "last_cycle_id": "cycle-032418",
+    "last_cycle_status": "success",
+    "state": "idle",
+    "stop_requested": false,
+    "updated_at": "2026-07-10T10:14:49.651922Z"
+  },
+  "api_gateway_bridge": {
+    "artifact_owned_by": "csm_runtime_api",
+    "ingress_model": "one_api_gateway_api_per_polis",
+    "polis_id_hash": null,
+    "ref": "api_gateway_bridge_summary.json",
+    "runtime_api_path": "/api-gateway-bridge",
+    "runtime_identity_verified": null,
+    "runtime_owner": "csm",
+    "schema": null,
+    "status": "missing"
+  },
+  "backpressure": {
+    "ref": "csm_backpressure_state.json",
+    "safe_fail_action": {
+      "action": "preserve_minimal_checkpoint_bundle",
+      "recovery_manifest_ref": "csm_low_disk_recovery_manifest.json",
+      "status": "recovered"
+    },
+    "schema": "adl.csm.backpressure_state.v1",
+    "status": "serialized",
+    "storage_pressure": {
+      "available_bytes": "[redacted]",
+      "disk_floor_bytes": 34359738368,
+      "health": "storage_ok",
+      "operation": "operator_recovery_after_generated_target_cleanup",
+      "policy": "recovered_after_required_runtime_state_write_preflight",
+      "state": "ok",
+      "target_ref": "."
+    },
+    "summary": {
+      "deferred_count": 0,
+      "health": "storage_ok",
+      "optional_artifact_deletion": "generated_target_dirs_only",
+      "required_state_silently_dropped": false,
+      "shed_count": 0
+    }
+  },
+  "checkpoint": {
+    "age_secs": 2,
+    "checkpoint_ref": "continuity_checkpoint.json",
+    "last_checkpoint_at": "2026-07-10T10:14:50.058448Z",
+    "status": "fresh"
+  },
+  "chronosense": {
+    "clock_stack_capture": "daemon_event_time",
+    "clock_stack_schema": "chronosense_clock_stack.v1",
+    "service_schema": "chronosense_runtime_service.v1",
+    "status": "integrated",
+    "time_compatibility_fallback": "none_in_runtime_path",
+    "time_primary_status_source": "rsntp::AsyncSntpClient",
+    "time_process_model": "csm_in_process_component_no_separate_binary",
+    "time_substrate": "SNTP",
+    "time_sync": {
+      "confidence": "high",
+      "drift_status": "within_sntp_reported_bounds",
+      "failure_state": null,
+      "health": "synced",
+      "mode": "csm_in_process_async_sntp_client",
+      "observed_at_rfc3339": "2026-07-10T10:14:50.080259+00:00",
+      "parsed_offset_seconds": 0.029571302817203104,
+      "parsed_uncertainty_seconds": 0.010003649513237178,
+      "poll_command": "rsntp::AsyncSntpClient",
+      "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+      "raw_summary": "peer=time.cloudflare.com",
+      "reason": "runtime_sntp_client_reports_active_source",
+      "schema_version": "chronosense_time_sync_status.v1",
+      "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+      "substrate": "SNTP"
+    }
+  },
+  "connection_pool_status": {
+    "event_contract": {
+      "configured": "pool_configured",
+      "exhausted": "pool_exhausted",
+      "recovered": "pool_recovered"
+    },
+    "pool_backend": "deadpool::unmanaged",
+    "pool_crate": "deadpool",
+    "roles": [
+      {
+        "available": 4,
+        "exhaustion_signal": "emit pool_exhausted with role, capacity, available, waiting, and remediation hint",
+        "max_size": 4,
+        "pool_backend": "deadpool::unmanaged",
+        "pool_crate": "deadpool",
+        "role": "http_clients",
+        "schema": "adl.csm.connection_pool_status.v1",
+        "size": 4,
+        "waiting": 0
+      },
+      {
+        "available": 4,
+        "exhaustion_signal": "emit pool_exhausted with role, capacity, available, waiting, and remediation hint",
+        "max_size": 4,
+        "pool_backend": "deadpool::unmanaged",
+        "pool_crate": "deadpool",
+        "role": "aws_sdk_clients",
+        "schema": "adl.csm.connection_pool_status.v1",
+        "size": 4,
+        "waiting": 0
+      },
+      {
+        "available": 4,
+        "exhaustion_signal": "emit pool_exhausted with role, capacity, available, waiting, and remediation hint",
+        "max_size": 4,
+        "pool_backend": "deadpool::unmanaged",
+        "pool_crate": "deadpool",
+        "role": "database_or_lifelog_connections",
+        "schema": "adl.csm.connection_pool_status.v1",
+        "size": 4,
+        "waiting": 0
+      },
+      {
+        "available": 4,
+        "exhaustion_signal": "emit pool_exhausted with role, capacity, available, waiting, and remediation hint",
+        "max_size": 4,
+        "pool_backend": "deadpool::unmanaged",
+        "pool_crate": "deadpool",
+        "role": "otel_export_sinks",
+        "schema": "adl.csm.connection_pool_status.v1",
+        "size": 4,
+        "waiting": 0
+      },
+      {
+        "available": 4,
+        "exhaustion_signal": "emit pool_exhausted with role, capacity, available, waiting, and remediation hint",
+        "max_size": 4,
+        "pool_backend": "deadpool::unmanaged",
+        "pool_crate": "deadpool",
+        "role": "internal_citizen_polis_channels",
+        "schema": "adl.csm.connection_pool_status.v1",
+        "size": 4,
+        "waiting": 0
+      }
+    ],
+    "runtime_owner": "csm",
+    "schema": "adl.csm.connection_pool_status.v1",
+    "status": "configured"
+  },
+  "continuity": {
+    "checkpoint": {
+      "ref": "continuity_checkpoint.json",
+      "safe_fail_action": null,
+      "schema": "adl.long_lived_agent_continuity_checkpoint.v1",
+      "status": "serialized",
+      "storage_pressure": null,
+      "summary": null
+    },
+    "replay_manifest": {
+      "ref": "continuity_replay_manifest.json",
+      "safe_fail_action": null,
+      "schema": "adl.long_lived_agent_continuity_replay_manifest.v1",
+      "status": "serialized",
+      "storage_pressure": null,
+      "summary": null
+    },
+    "safe_fail_bundle": {
+      "ref": "safe_fail_bundle.json",
+      "safe_fail_action": null,
+      "schema": "adl.csm.safe_fail_bundle.v1",
+      "status": "serialized",
+      "storage_pressure": null,
+      "summary": null
+    }
+  },
+  "daemon_liveness": {
+    "last_event": "child_exit",
+    "state": "running",
+    "status": "observed",
+    "supervisor_pid_liveness": "live_pid",
+    "updated_at": "2026-07-10T10:14:50.058448Z"
+  },
+  "events": {
+    "bytes": 463956950,
+    "ref": "operator_events.jsonl",
+    "status": "retained"
+  },
+  "networking": {
+    "external_boundaries": [
+      {
+        "owner": "external_or_gateway",
+        "port": 443,
+        "role": "public_tls_or_aws_api_gateway"
+      },
+      {
+        "owner": "unimplemented_future_listener",
+        "port": 8443,
+        "role": "future_local_tls_dev_gateway"
+      },
+      {
+        "owner": "host_or_cloud_provider",
+        "port": 22,
+        "role": "ssh_admin"
+      },
+      {
+        "owner": "host_or_cloud_provider",
+        "port": 2222,
+        "role": "alternate_ssh_dev"
+      },
+      {
+        "csm_policy": "chronosense_uses_rsntp_async_sntp_client_with_ephemeral_outbound_udp_no_csm_listener",
+        "owner": "external_time_sources",
+        "port": 123,
+        "role": "external_ntp_servers"
+      },
+      {
+        "owner": "aws_control_plane_no_local_listener",
+        "port": null,
+        "role": "eventbridge_sns_sqs"
+      }
+    ],
+    "listeners": [
+      {
+        "consumers": [
+          "local_operator",
+          "api_gateway_bridge"
+        ],
+        "default_bind": "127.0.0.1:19997",
+        "ownership": "csm",
+        "role": "main_runtime_api",
+        "temporary_allocation_allowed": false
+      },
+      {
+        "consumers": [
+          "aws_api_gateway_bridge"
+        ],
+        "default_bind": "not_bound_by_5040",
+        "ownership": "csm_runtime_side_contract_for_5039",
+        "role": "api_gateway_bridge",
+        "temporary_allocation_allowed": false
+      },
+      {
+        "consumers": [
+          "otel_export"
+        ],
+        "default_bind": "collector_configured_endpoint",
+        "ownership": "observability_pipeline",
+        "role": "otel_collector",
+        "temporary_allocation_allowed": false
+      },
+      {
+        "consumers": [
+          "unit_tests",
+          "cli_smoke"
+        ],
+        "default_bind": "127.0.0.1:0 only with explicit test flags",
+        "ownership": "bounded_test_infrastructure",
+        "role": "local_test_harness",
+        "temporary_allocation_allowed": true
+      }
+    ],
+    "loopback_host": "127.0.0.1",
+    "reserved_local_range": "19950-19999",
+    "schema": "adl.csm.networking.v1"
+  },
+  "otel": {
+    "log": {
+      "bytes": 148129698,
+      "ref": "ADL_OTEL_LOG",
+      "status": "retained"
+    },
+    "status": {
+      "ref": "ADL_OTEL_STATUS",
+      "safe_fail_action": null,
+      "schema": "adl.otel.monitor_status.v1",
+      "status": "serialized",
+      "storage_pressure": null,
+      "summary": null
+    }
+  },
+  "pooling_plan": {
+    "decision_summary": "CSM runtime pooling uses the deadpool crate for governed bounded resource-slot mechanics; protocol-specific clients may still perform native reuse inside checked-out deadpool slots.",
+    "default_capacity": 4,
+    "default_status": {
+      "available": 4,
+      "exhaustion_signal": "emit pool_exhausted with role, capacity, available, waiting, and remediation hint",
+      "max_size": 4,
+      "pool_backend": "deadpool::unmanaged",
+      "pool_crate": "deadpool",
+      "role": "database_or_lifelog_connections",
+      "schema": "adl.csm.connection_pool_status.v1",
+      "size": 4,
+      "waiting": 0
+    },
+    "pool_backend": "deadpool::unmanaged",
+    "pool_crate": "deadpool",
+    "pool_event_contract": {
+      "events": [
+        "pool_configured",
+        "pool_exhausted",
+        "pool_recovered",
+        "client_reused"
+      ],
+      "required_fields": [
+        "role",
+        "event",
+        "capacity_or_limit",
+        "remediation_hint"
+      ]
+    },
+    "roles": [
+      {
+        "decision": "use_deadpool_for_governed_client_slot_capacity",
+        "exhaustion_signal": "emit pool_exhausted with http_clients role and retry/backpressure context",
+        "role": "http_clients",
+        "strategy": "deadpool-bounded runtime owner slots hold reusable reqwest/hyper clients; protocol-native HTTP reuse remains inside each checked-out slot"
+      },
+      {
+        "decision": "use_deadpool_for_governed_aws_client_slot_capacity",
+        "exhaustion_signal": "emit pool_exhausted with aws_sdk_clients role and throttle/remediation context",
+        "role": "aws_sdk_clients",
+        "strategy": "deadpool-bounded runtime owner slots hold reusable AWS SDK clients/config per account/profile/region"
+      },
+      {
+        "decision": "use_deadpool_bounded_pool_for_connection_slots",
+        "exhaustion_signal": "emit pool_exhausted with role and remediation hint",
+        "role": "database_or_lifelog_connections",
+        "strategy": "deadpool::unmanaged bounded pool owns concrete database/lifelog connection slots"
+      },
+      {
+        "decision": "use_deadpool_for_export_sink_slot_capacity",
+        "exhaustion_signal": "emit pool_exhausted with otel_export_sinks role",
+        "role": "otel_export_sinks",
+        "strategy": "deadpool-bounded exporter slots feed bounded batch/export queues with explicit timeout"
+      },
+      {
+        "decision": "use_deadpool_for_internal_channel_slot_capacity",
+        "exhaustion_signal": "emit pool_exhausted with channel_backpressure and safe_fail_action",
+        "role": "internal_citizen_polis_channels",
+        "strategy": "deadpool-bounded channel endpoint slots with named capacity and safe-fail policy"
+      }
+    ],
+    "schema": "adl.csm.pooling_plan.v1"
+  },
+  "ready": "ready",
+  "redaction": {
+    "absolute_host_paths": "not_returned",
+    "cloud_account_identifiers": "not_returned",
+    "secret_material": "not_returned"
+  },
+  "resilience_middleware": {
+    "lease_policy": "active_stale_recoverable_blocked",
+    "partial_checkpoints": "daemon_partial_checkpoint",
+    "restart_backoff": "bounded_exponential",
+    "safe_fail_serialization": "integrated_safe_fail_bundle",
+    "status": "integrated"
+  },
+  "runtime_owner": "csm",
+  "scheduler": {
+    "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+    "partial_checkpoint_interval": "checkpoint_interval_secs",
+    "status": "integrated",
+    "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+  },
+  "schema": "adl.csm.runtime_api.status.v1",
+  "status": "healthy",
+  "uptime": {
+    "source": "daemon_status.started_at",
+    "started_at": "2026-07-10T07:40:33.815140Z",
+    "status": "observed",
+    "updated_at": "2026-07-10T10:14:50.058448Z",
+    "uptime_secs": 9259
+  }
+}

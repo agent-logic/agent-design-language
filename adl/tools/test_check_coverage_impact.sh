@@ -85,6 +85,37 @@ cli_usage_filters="$TMP/cli-usage-filters.txt"
 bash "$SCRIPT" --changed-files "$cli_usage_changed" --print-risk-filters >"$cli_usage_filters"
 grep -Fx "cli_basics" "$cli_usage_filters" >/dev/null
 
+csmctl_changed="$TMP/csmctl-changed.txt"
+cat >"$csmctl_changed" <<'EOF'
+A	adl/src/bin/csmctl.rs
+M	adl/src/cli/mod.rs
+M	adl/src/cli/csm_service_cmd.rs
+A	adl/src/cli/csmctl_cmd.rs
+EOF
+csmctl_filters="$TMP/csmctl-filters.txt"
+bash "$SCRIPT" --changed-files "$csmctl_changed" --print-risk-filters >"$csmctl_filters"
+grep -Fx "csmctl" "$csmctl_filters" >/dev/null
+if [ "$(wc -l <"$csmctl_filters" | tr -d ' ')" -ne 1 ]; then
+  echo "expected csmctl surfaces to collapse to the shared csmctl filter" >&2
+  exit 1
+fi
+csmctl_expression="$(bash "$SCRIPT" --changed-files "$csmctl_changed" --print-risk-nextest-expression)"
+grep -F "test(csmctl)" <<<"$csmctl_expression" >/dev/null
+grep -F "test(csm_service)" <<<"$csmctl_expression" >/dev/null
+if grep -F "cli_basics" <<<"$csmctl_expression" >/dev/null; then
+  echo "did not expect broad cli_basics nextest expression for csmctl dispatch companion" >&2
+  exit 1
+fi
+
+long_lived_agent_storage_changed="$TMP/long-lived-agent-storage-changed.txt"
+printf 'M\tadl/src/long_lived_agent/storage.rs\n' >"$long_lived_agent_storage_changed"
+long_lived_agent_storage_filters="$TMP/long-lived-agent-storage-filters.txt"
+bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-filters >"$long_lived_agent_storage_filters"
+grep -Fx "long_lived_agent_storage" "$long_lived_agent_storage_filters" >/dev/null
+long_lived_agent_storage_expression="$(bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-nextest-expression)"
+grep -F "test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
+grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storage_expression" >/dev/null
+
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"
 cli_mod_filters="$TMP/cli-mod-filters.txt"
@@ -364,6 +395,11 @@ EOF
 bash "$SCRIPT" --changed-files "$cli_dispatch_companion_changed" --summary "$cli_dispatch_companion_summary" >/tmp/coverage-impact-cli-dispatch-companion-pass.out
 grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-cli-dispatch-companion-pass.out >/dev/null
 
+cli_dispatch_companion_missing_mod_summary="$TMP/cli-dispatch-companion-missing-mod-summary.json"
+make_summary "adl/src/cli/process_cmd.rs" 320 399 "$cli_dispatch_companion_missing_mod_summary"
+bash "$SCRIPT" --changed-files "$cli_dispatch_companion_changed" --summary "$cli_dispatch_companion_missing_mod_summary" >/tmp/coverage-impact-cli-dispatch-companion-missing-mod-pass.out
+grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-cli-dispatch-companion-missing-mod-pass.out >/dev/null
+
 if bash "$SCRIPT" --changed-files "$cli_mod_changed" --summary "$cli_dispatch_companion_summary" >/tmp/coverage-impact-cli-mod-alone-fails.out 2>&1; then
   echo "expected cli mod dispatch surface without a companion command change to stay threshold-gated" >&2
   exit 1
@@ -461,6 +497,64 @@ if bash "$SCRIPT" --changed-files "$aee_obsmem_substantial_companion_changed" --
   exit 1
 fi
 grep -F "adl/src/cli/runtime_v2_cmd/commands.rs (0/609, 0.00% < 80%)" /tmp/coverage-impact-aee-obsmem-substantial-companion-fails.out >/dev/null
+
+loop_runtime_changed="$TMP/loop-runtime-changed.txt"
+cat >"$loop_runtime_changed" <<'EOF'
+M	adl/src/cli/runtime_v2_cmd/commands.rs	38
+M	adl/src/cli/runtime_v2_cmd/helpers.rs	5
+A	adl/src/runtime_v2/loop_runtime.rs	710
+EOF
+loop_runtime_summary="$TMP/loop-runtime-summary.json"
+cat >"$loop_runtime_summary" <<'EOF'
+{
+  "data": [
+    {
+      "files": [
+        {
+          "filename": "adl/src/cli/runtime_v2_cmd/commands.rs",
+          "summary": {
+            "lines": {
+              "covered": 0,
+              "count": 609
+            }
+          }
+        },
+        {
+          "filename": "adl/src/cli/runtime_v2_cmd/helpers.rs",
+          "summary": {
+            "lines": {
+              "covered": 0,
+              "count": 79
+            }
+          }
+        },
+        {
+          "filename": "adl/src/runtime_v2/loop_runtime.rs",
+          "summary": {
+            "lines": {
+              "covered": 601,
+              "count": 710
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+EOF
+bash "$SCRIPT" --changed-files "$loop_runtime_changed" --summary "$loop_runtime_summary" >/tmp/coverage-impact-loop-runtime-pass.out
+grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-loop-runtime-pass.out >/dev/null
+
+loop_runtime_substantial_companion_changed="$TMP/loop-runtime-substantial-companion-changed.txt"
+cat >"$loop_runtime_substantial_companion_changed" <<'EOF'
+M	adl/src/cli/runtime_v2_cmd/commands.rs	120
+A	adl/src/runtime_v2/loop_runtime.rs	710
+EOF
+if bash "$SCRIPT" --changed-files "$loop_runtime_substantial_companion_changed" --summary "$loop_runtime_summary" >/tmp/coverage-impact-loop-runtime-substantial-companion-fails.out 2>&1; then
+  echo "expected substantial loop-runtime companion edits to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "adl/src/cli/runtime_v2_cmd/commands.rs (0/609, 0.00% < 80%)" /tmp/coverage-impact-loop-runtime-substantial-companion-fails.out >/dev/null
 
 missing_summary="$TMP/missing-row-summary.json"
 make_summary "adl/src/runtime_v2/other.rs" 100 100 "$missing_summary"

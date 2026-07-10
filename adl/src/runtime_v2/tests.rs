@@ -46,6 +46,7 @@ mod invariant_contract;
 mod invariant_violation;
 mod kernel_loop;
 mod kindness_model;
+mod loop_runtime;
 mod manifold;
 #[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 mod memory_identity_architecture;

@@ -1,0 +1,13 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 4987
+disposition: approved_with_focused_slow_lane_proof
+changed_release_gate_surfaces:
+  - adl/src/cli/pr_cmd_cards/cards.rs
+  - adl/src/cli/tests/pr_cmd_inline/finish/publication/flow.rs
+reviewer_or_review_mode: bounded pre-PR review plus focused slow PR-command E2E proof
+focused_validation_run: cargo test --manifest-path adl/Cargo.toml --bin adl real_pr_finish_promotes_green_unchanged_existing_pr_ready -- --nocapture
+residual_ci_proof_required_before_merge: required
+notes:
+  - The changed slow surface is a test-only mock timeout repair for an existing finish publication-flow test.
+  - The focused proof passed locally after rebasing on origin/main.
+  - GitHub CI remains required before merge.

@@ -5,6 +5,7 @@ mod artifact_cmd;
 mod commands;
 mod csm_cmd;
 mod csm_service_cmd;
+mod csmctl_cmd;
 mod demo_cmd;
 mod github_token;
 mod godel_cmd;
@@ -34,6 +35,7 @@ use agent_cmd::real_agent;
 use artifact_cmd::real_artifact;
 use commands::{real_instrument, real_keygen, real_learn, real_sign, real_verify};
 use csm_cmd::{real_csm, real_csm_standalone};
+use csmctl_cmd::real_csmctl;
 use demo_cmd::real_demo;
 use godel_cmd::real_godel;
 use identity_cmd::real_identity;
@@ -94,6 +96,14 @@ pub fn run_csm_main() {
 }
 
 #[allow(dead_code)]
+pub fn run_csmctl_main() {
+    if let Err(err) = real_csmctl_main() {
+        print_error_chain(&err);
+        std::process::exit(1);
+    }
+}
+
+#[allow(dead_code)]
 pub fn run_review_main() {
     if let Err(err) = real_review_main() {
         print_error_chain(&err);
@@ -131,6 +141,12 @@ fn real_runtime_main() -> Result<()> {
 fn real_csm_main() -> Result<()> {
     let args: Vec<String> = std::env::args().skip(1).collect();
     dispatch_csm_args(&args)
+}
+
+#[allow(dead_code)]
+fn real_csmctl_main() -> Result<()> {
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    dispatch_csmctl_args(&args)
 }
 
 #[allow(dead_code)]
@@ -294,6 +310,31 @@ fn dispatch_csm_args(args: &[String]) -> Result<()> {
     );
 
     real_csm_standalone(args)
+}
+
+#[allow(dead_code)]
+fn dispatch_csmctl_args(args: &[String]) -> Result<()> {
+    if matches!(
+        args.first().map(|s| s.as_str()),
+        Some("--help" | "-h" | "help")
+    ) {
+        println!("{}", csmctl_cmd::csmctl_usage());
+        return Ok(());
+    }
+
+    if matches!(args.first().map(|s| s.as_str()), Some("--version" | "-V")) {
+        println!("{}", version_text());
+        return Ok(());
+    }
+
+    observability::emit_event(
+        "csmctl",
+        "dispatch",
+        "started",
+        &[("subcommand", args.first().map(String::as_str).unwrap_or(""))],
+    );
+
+    real_csmctl(args)
 }
 
 #[allow(dead_code)]
