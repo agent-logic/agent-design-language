@@ -394,7 +394,7 @@ goal_metrics_rollup_ref: "docs/milestones/v0.91.6/features/FIRST_CLASS_NESTED_GO
 validation_runtime_class: "normal"
 validation_resource_profile: "local"
 validation_family: "prompt_template_card_profile"
-validation_size_split: "all_card_kind_fixture"
+validation_size_split: "mixed"
 expected_proof_cost: "medium"
 planned_validation_seconds: "3000"
 planned_validation_tokens: "80000"
@@ -473,12 +473,12 @@ The generated pre-execution card bundle is complete and deterministic.
     let vpp =
         fs::read_to_string(issue_ref.task_bundle_validation_plan_path(&repo)).expect("read vpp");
     assert!(vpp.contains("validation_family: \"prompt_template_card_profile\""));
-    assert!(vpp.contains("validation_size_split: \"all_card_kind_fixture\""));
+    assert!(vpp.contains("validation_size_split: \"mixed\""));
     assert!(vpp.contains("planned_validation_seconds: \"3000\""));
     assert!(vpp.contains("planned_validation_tokens: \"80000\""));
     assert!(vpp.contains("goal_metrics_rollup_ref: \"docs/milestones/v0.91.6/features/FIRST_CLASS_NESTED_GOAL_ACCOUNTING_v0.91.6.md\""));
     assert!(vpp.contains("- Validation family: `prompt_template_card_profile`"));
-    assert!(vpp.contains("- Validation size split: `all_card_kind_fixture`"));
+    assert!(vpp.contains("- Validation size split: `mixed`"));
     assert!(vpp.contains("- Planned validation seconds: `3000`"));
     assert!(vpp.contains("- Planned validation token budget: `80000`"));
     assert!(vpp.contains("- Goal metrics rollup ref: `docs/milestones/v0.91.6/features/FIRST_CLASS_NESTED_GOAL_ACCOUNTING_v0.91.6.md`"));
@@ -538,7 +538,7 @@ goal_metrics_rollup_ref: "docs/milestones/v0.91.6/features/FIRST_CLASS_NESTED_GO
 validation_runtime_class: "normal"
 validation_resource_profile: "local"
 validation_family: "prompt_template_card_profile"
-validation_size_split: "all_card_kind_fixture"
+validation_size_split: "mixed"
 expected_proof_cost: "medium"
 planned_validation_seconds: 3000
 planned_validation_tokens: 80000
