@@ -1,4 +1,5 @@
 use super::*;
+use std::hash::{Hash, Hasher};
 use std::io::Write;
 
 fn spawn_loopback_otlp_collector() -> (
@@ -157,10 +158,13 @@ fn http_get_json(addr: &str, path: &str) -> serde_json::Value {
 }
 
 fn reserve_csm_test_port(label: &str) -> (std::net::TcpListener, String) {
-    for port in 19950..=19999 {
-        if port == 19997 {
-            continue;
-        }
+    let mut ports: Vec<u16> = (19950..=19999).filter(|port| *port != 19997).collect();
+    let mut hasher = std::collections::hash_map::DefaultHasher::new();
+    label.hash(&mut hasher);
+    std::process::id().hash(&mut hasher);
+    let offset = (hasher.finish() as usize) % ports.len();
+    ports.rotate_left(offset);
+    for port in ports {
         let addr = format!("127.0.0.1:{port}");
         if let Ok(listener) = std::net::TcpListener::bind(&addr) {
             return (listener, addr);
