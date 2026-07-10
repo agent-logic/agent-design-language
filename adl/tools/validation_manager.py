@@ -328,10 +328,12 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
         "adl/config/validation_lane_selector.v0.91.6.json",
         "adl/src/runtime_v2/private_state_observatory.rs",
         "adl/src/runtime_v2/tests.rs",
+        "adl/tools/check_coverage_impact.sh",
         "adl/tools/ci_path_policy.sh",
         "adl/tools/run_pr_fast_test_lane.sh",
         "adl/tools/run_slow_proof_family.sh",
         "adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md",
+        "adl/tools/test_check_coverage_impact.sh",
         "adl/tools/test_ci_runtime_contracts.sh",
         "adl/tools/test_run_pr_fast_test_lane.sh",
         "adl/tools/test_slow_proof_lane_contract.sh",
@@ -350,6 +352,8 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     manager = (ROOT / "adl/tools/validation_manager.py").read_text()
     manager_contract = (ROOT / "adl/tools/test_validation_manager.sh").read_text()
     slow_config = (ROOT / "adl/config/slow_proof_families.v0.91.6.json").read_text()
+    coverage_impact = (ROOT / "adl/tools/check_coverage_impact.sh").read_text()
+    coverage_impact_contract = (ROOT / "adl/tools/test_check_coverage_impact.sh").read_text()
     slow_runner = (ROOT / "adl/tools/run_slow_proof_family.sh").read_text()
     slow_contract = (ROOT / "adl/tools/test_slow_proof_lane_contract.sh").read_text()
     runtime_tests = (ROOT / "adl/src/runtime_v2/tests.rs").read_text()
@@ -381,6 +385,14 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
         'command_run=(cargo nextest run --lib --features "$feature" -E "$filter_expression")',
         "--partition",
     ]
+    required_coverage_impact_fragments = [
+        "adl/src/runtime_v2/private_state_observatory.rs",
+        "private_state_observatory",
+    ]
+    required_coverage_impact_contract_fragments = [
+        "private-state-observatory-changed.txt",
+        "private_state_observatory",
+    ]
     required_slow_contract_fragments = [
         "all-family slow-proof filter missing selector",
         "all-family slow-proof run must not use the broad runtime_v2_ substring filter",
@@ -410,6 +422,8 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
         all(fragment in workflow for fragment in required_workflow_fragments)
         and all(fragment in contract for fragment in required_contract_fragments)
         and all(fragment in slow_config for fragment in required_slow_config_fragments)
+        and all(fragment in coverage_impact for fragment in required_coverage_impact_fragments)
+        and all(fragment in coverage_impact_contract for fragment in required_coverage_impact_contract_fragments)
         and all(fragment in slow_runner for fragment in required_slow_runner_fragments)
         and all(fragment in slow_contract for fragment in required_slow_contract_fragments)
         and all(fragment in runtime_tests for fragment in required_runtime_test_fragments)

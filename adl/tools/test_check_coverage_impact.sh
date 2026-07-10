@@ -131,6 +131,12 @@ private_state_sanctuary_filters="$TMP/private-state-sanctuary-filters.txt"
 bash "$SCRIPT" --changed-files "$private_state_sanctuary_changed" --print-risk-filters >"$private_state_sanctuary_filters"
 grep -Fx "private_state_sanctuary" "$private_state_sanctuary_filters" >/dev/null
 
+private_state_observatory_changed="$TMP/private-state-observatory-changed.txt"
+printf 'M\tadl/src/runtime_v2/private_state_observatory.rs\n' >"$private_state_observatory_changed"
+private_state_observatory_filters="$TMP/private-state-observatory-filters.txt"
+bash "$SCRIPT" --changed-files "$private_state_observatory_changed" --print-risk-filters >"$private_state_observatory_filters"
+grep -Fx "private_state_observatory" "$private_state_observatory_filters" >/dev/null
+
 run_artifacts_runtime_changed="$TMP/run-artifacts-runtime-changed.txt"
 printf 'A\tadl/src/cli/run_artifacts/runtime/trace_validation.rs\n' >"$run_artifacts_runtime_changed"
 run_artifacts_runtime_filters="$TMP/run-artifacts-runtime-filters.txt"
