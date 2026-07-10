@@ -1,0 +1,173 @@
+{
+  "schema": "adl.wp12.security_cav_gate.v1",
+  "issue": 4656,
+  "parent_issue": 4639,
+  "milestone": "v0.91.7",
+  "status": "gate_recorded_child_blockers_open",
+  "generated_at_utc": "2026-07-10T18:05:00Z",
+  "purpose": "Record the WP-12 security and CAV pre-v0.92 activation gate so unresolved security, CAV, access-rule, and protocol work remains explicit until owner issues prove it or the operator approves a non-claim.",
+  "authoritative_review_packet": "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
+  "source_evidence": [
+    "docs/milestones/v0.91.7/features/SECURITY_RESIDUAL_READINESS_v0.91.7.md",
+    "docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md",
+    "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
+    "docs/milestones/v0.91.7/review/runtime/SOAK2_REVIEW_BLOCKER_REGISTER_4844.md",
+    "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md",
+    "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
+  ],
+  "non_claims": [
+    "This gate does not claim v0.92 security readiness.",
+    "This gate does not claim ACIP/A2A/protobuf protocol completion.",
+    "This gate does not approve external-agent trust, production WebSocket authentication, or launch-scope CAV claims.",
+    "This gate does not move unresolved activation-path work to v0.93 without explicit operator approval."
+  ],
+  "requirements": [
+    {
+      "id": "capability_envelope_witness_receipt_readiness",
+      "owner_issue": 4656,
+      "dependent_issues": [
+        4914,
+        4917,
+        4920
+      ],
+      "state": "blocked_until_child_proofs",
+      "v092_disposition": "blocks_activation_claims",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/runtime/SOAK2_REVIEW_BLOCKER_REGISTER_4844.md"
+      ],
+      "required_before_claim": "Capability-envelope, witness, and receipt readiness must cite CAV runtime adversarial proof, evidence custody, and key-management policy before any birthday or activation narrative relies on them."
+    },
+    {
+      "id": "security_cav_activation_boundary",
+      "owner_issue": 4656,
+      "dependent_issues": [
+        4914,
+        4917,
+        4920
+      ],
+      "state": "blocked_until_child_proofs",
+      "v092_disposition": "blocks_security_cav_readiness",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/runtime/SOAK2_REVIEW_BLOCKER_REGISTER_4844.md",
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
+      ],
+      "required_before_claim": "Security/CAV activation readiness requires retained proof for fail-closed boundaries, adversarial CAV behavior, evidence custody, and key rotation or break-glass paths."
+    },
+    {
+      "id": "ssm_and_local_polis_secret_readiness",
+      "owner_issue": 4657,
+      "dependent_issues": [
+        4657
+      ],
+      "state": "child_issue_open",
+      "v092_disposition": "blocks_secret_runtime_claims",
+      "evidence": [
+        "docs/milestones/v0.91.7/WBS_v0.91.7.md",
+        "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md"
+      ],
+      "required_before_claim": "Secrets and local polis readiness must be proven by #4657 before v0.92 relies on runtime secret loading or AWS SSM/local-polis security claims."
+    },
+    {
+      "id": "acip_a2a_schema_and_protobuf_projection",
+      "owner_issue": 4658,
+      "dependent_issues": [
+        4658,
+        4900
+      ],
+      "state": "child_issue_open",
+      "v092_disposition": "blocks_protocol_readiness",
+      "evidence": [
+        "docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md",
+        "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md"
+      ],
+      "required_before_claim": "The schema/protobuf projection and JSON/WebSocket consumption posture must be deterministic and reviewed before ACIP/A2A readiness is claimed."
+    },
+    {
+      "id": "acip_websocket_transport_path",
+      "owner_issue": 4659,
+      "dependent_issues": [
+        4659,
+        4900
+      ],
+      "state": "child_issue_open",
+      "v092_disposition": "blocks_transport_activation",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md"
+      ],
+      "required_before_claim": "The WebSocket carrier selected by #4900 must be extended by #4659 into the bounded WP-12 transport path before runtime transport activation is claimed."
+    },
+    {
+      "id": "external_agent_access_rules",
+      "owner_issue": 4660,
+      "dependent_issues": [
+        4660
+      ],
+      "state": "child_issue_open",
+      "v092_disposition": "blocks_external_agent_trust",
+      "evidence": [
+        "docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md",
+        "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md"
+      ],
+      "required_before_claim": "External-agent communication requires reviewed access rules, denial behavior, and non-expansion boundaries before trust or activation claims are allowed."
+    },
+    {
+      "id": "cav_runtime_red_blue_proof",
+      "owner_issue": 4914,
+      "dependent_issues": [
+        4914
+      ],
+      "state": "child_issue_open",
+      "v092_disposition": "blocks_adversarial_cav_claims",
+      "evidence": [
+        "docs/milestones/v0.91.7/WBS_v0.91.7.md",
+        "docs/milestones/v0.91.7/features/SECURITY_RESIDUAL_READINESS_v0.91.7.md"
+      ],
+      "required_before_claim": "Adversarial CAV behavior must have retained red-blue evidence before launch or public confidence claims depend on it."
+    },
+    {
+      "id": "tamper_evident_evidence_custody",
+      "owner_issue": 4917,
+      "dependent_issues": [
+        4917
+      ],
+      "state": "child_issue_open",
+      "v092_disposition": "blocks_public_evidence_profile_privacy_claims",
+      "evidence": [
+        "docs/milestones/v0.91.7/features/SECURITY_RESIDUAL_READINESS_v0.91.7.md",
+        "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md"
+      ],
+      "required_before_claim": "Public evidence, profile privacy, and receipt stories need tamper-evident custody proof before they are treated as activation evidence."
+    },
+    {
+      "id": "key_rotation_and_break_glass_policy",
+      "owner_issue": 4920,
+      "dependent_issues": [
+        4920
+      ],
+      "state": "child_issue_open",
+      "v092_disposition": "blocks_key_management_claims",
+      "evidence": [
+        "docs/milestones/v0.91.7/features/SECURITY_RESIDUAL_READINESS_v0.91.7.md",
+        "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md"
+      ],
+      "required_before_claim": "Key rotation and break-glass policy must be explicit and reviewed before activation depends on durable signing, custody, or recovery claims."
+    },
+    {
+      "id": "curiosity_constructability_security_gates",
+      "owner_issue": 4637,
+      "dependent_issues": [
+        4692,
+        4693
+      ],
+      "state": "blocked_until_promoted_or_non_claimed",
+      "v092_disposition": "blocks_public_claims_if_promoted",
+      "evidence": [
+        "docs/milestones/v0.91.7/features/SECURITY_RESIDUAL_READINESS_v0.91.7.md",
+        "docs/milestones/v0.91.7/WBS_v0.91.7.md",
+        "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md"
+      ],
+      "required_before_claim": "Curiosity and Constructability may remain non-claimed for v0.92, but any activation or public claim must pass the WP-10 security gate owned by #4637/#4692/#4693 with evidence or operator-approved non-claim language."
+    }
+  ],
+  "closure_rule": "WP-12 may close only after every requirement is integrated_proven, operator_scoped_out with evidence and approval, or intentionally carried forward with an explicit blocker record. This #4656 gate is the controlling ledger, not a readiness claim."
+}
