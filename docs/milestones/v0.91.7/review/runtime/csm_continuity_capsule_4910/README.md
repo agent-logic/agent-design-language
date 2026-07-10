@@ -5,6 +5,8 @@ This packet retains a bounded WP-07 proof for `csm continuity capture` and
 
 Evidence:
 - `capsule/continuity_capsule_manifest.json` is the portable capsule manifest.
+- `capsule/custody_manifest.json` is the signed RustCrypto P-256/ECDSA custody
+  manifest for retained capsule artifacts and binary segments.
 - `capsule/state/` contains retained CSM runtime state: identity/spec, status,
   daemon status, continuity checkpoint, replay manifest, cycle ledger, memory
   index, provider binding history, operator events, and cycle artifacts.
@@ -16,8 +18,10 @@ Evidence:
   restored spec/state.
 - `aws_remote_restore_fireup_summary.json` records the redacted Agent Logic AWS
   proof that the same restore/fire-up lane passed on an EC2 Spot builder.
-- `negative_results.json` records version mismatch, missing file, path leakage,
-  credential-like key, corrupted manifest, and unsupported target-host rejection.
+- `negative_results.json` records version mismatch, missing file, missing
+  custody manifest, custody signature tampering, untrusted custody public key,
+  path leakage, credential-like key, corrupted manifest, and unsupported
+  target-host rejection.
 - `logs/observability.log`, `logs/otel.jsonl`, and `logs/otel_status.json`
   retain runtime observability for daemon, capture, stage, and restore events.
 

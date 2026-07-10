@@ -13,6 +13,10 @@ heartbeat:
   interval_secs: 1
   max_cycles: 3
   stale_lease_after_secs: 60
+checkpoint:
+  interval_secs: null
+  allow_agent_requested: false
+  min_request_interval_secs: null
 safety:
   allow_network: false
   allow_broker: false

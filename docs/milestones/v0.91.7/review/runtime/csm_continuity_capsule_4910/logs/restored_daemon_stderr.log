@@ -1,0 +1,1 @@
+adl_event schema=adl.observability.event.v1 command=csm stage=runtime_api_embedded result=failed error=failed_binding_CSM_runtime_API_listener_role=main_runtime_api_bind_addr=127.0.0.1:19997_remediation_hint=free_127.0.0.1:19997_or_pass_an_explicit_reserved_CSM_port_override

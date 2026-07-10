@@ -8,6 +8,7 @@
   "restored_spec_ref": "agent.yaml",
   "restored_state_ref": "state/",
   "manifest_ref": "continuity_capsule_manifest.json",
+  "custody_manifest_ref": "custody_manifest.json",
   "artifact_count": 18,
   "rebind_policy": {
     "schema": "adl.csm.continuity_capsule_rebind_policy.v1",

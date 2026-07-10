@@ -15,6 +15,7 @@
   "restored_daemon_fire_up": "passed",
   "aws_profile_policy": "agent-logic-admin",
   "artifact_count": 18,
+  "custody_manifest_ref": "custody_manifest.json",
   "retained_runtime_roles": [
     "continuity",
     "continuity_checkpoint",
@@ -28,10 +29,13 @@
     "recoverable_status",
     "runtime_identity"
   ],
-  "negative_case_count": 6,
+  "negative_case_count": 9,
   "negative_cases": {
     "version_mismatch": "failed_as_expected",
     "missing_file": "failed_as_expected",
+    "missing_custody_manifest": "failed_as_expected",
+    "custody_signature_tamper": "failed_as_expected",
+    "custody_untrusted_public_key": "failed_as_expected",
     "path_leakage": "failed_as_expected",
     "credential_leakage": "failed_as_expected",
     "corrupted_manifest": "failed_as_expected",

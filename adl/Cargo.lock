@@ -44,6 +44,7 @@ dependencies = [
  "ntp-daemon",
  "octocrab",
  "once_cell",
+ "p256 0.13.2",
  "rand 0.8.5",
  "reqwest 0.12.28",
  "rsntp",

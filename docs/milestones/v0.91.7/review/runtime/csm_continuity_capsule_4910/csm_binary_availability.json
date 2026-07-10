@@ -1,0 +1,1 @@
+{"action": "reused", "binary": "<repo>/adl/target/debug/csm", "manifest": "adl/Cargo.toml", "profile": "debug", "provenance": "explicit", "reason": "trusted executable found", "runtime_owner": "csm", "schema": "adl.csm.binary_availability.v1", "source_presence": true, "status": "available", "validation_proof": false}

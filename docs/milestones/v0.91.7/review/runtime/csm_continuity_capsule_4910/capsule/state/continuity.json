@@ -2,7 +2,7 @@
   "schema": "adl.long_lived_agent_continuity.v1",
   "agent_instance_id": "csm-continuity-4910",
   "display_name": "CSM Continuity Capsule 4910 Proof Agent",
-  "created_at": "2026-07-06T02:45:35.367976Z",
+  "created_at": "2026-07-10T21:22:04.448068Z",
   "created_by": "operator",
   "continuity_kind": "pre_v0_92_handle",
   "status": "active",
@@ -17,5 +17,5 @@
     "not_autonomous_legal_personhood"
   ],
   "latest_cycle_status": "success",
-  "updated_at": "2026-07-06T02:45:35.379324Z"
+  "updated_at": "2026-07-10T21:22:04.890748Z"
 }

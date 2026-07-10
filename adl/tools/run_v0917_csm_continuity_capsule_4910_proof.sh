@@ -4,6 +4,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 OUT="${1:-$ROOT/docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910}"
 CSM_BIN="${CSM_BIN:-$ROOT/adl/target/debug/csm}"
+# Deterministic non-secret P-256 test vector used only for local proof packets.
+CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64="${CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64:-CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQk=}"
+CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64="${CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64:-BHE1+k/ZOgnc6Yu/aBtL/PUOfA1jVOYq+wv/KjQpYXhl7UwfAt25Aj7lalV+UV1qncZsEfIglg3llDNN9Yh3ZyQ=}"
+CSM_CUSTODY_SIGNING_KEY_ID="${CSM_CUSTODY_SIGNING_KEY_ID:-csm-continuity-4910-proof-key}"
+export CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64
 
 case "$OUT" in
   /*) ;;
@@ -63,6 +68,7 @@ run_csm() {
     ADL_OBSERVABILITY_REPO_ROOT="$ROOT" \
     ADL_OTEL_LOG="$OUT/logs/otel.jsonl" \
     ADL_OTEL_STATUS="$OUT/logs/otel_status.json" \
+    ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64="$CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64" \
       "$CSM_BIN" "$@"
   )
 }
@@ -71,7 +77,10 @@ run_csm daemon --spec agent.yaml --test-supervisor-failure-after-restarts 1 --ch
   >"$OUT/logs/daemon_stdout.json" \
   2>"$OUT/logs/daemon_stderr.log"
 
-run_csm continuity capture --spec agent.yaml --out capsule --source-host wuji --target-host ec2-staging --json \
+ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64="$CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64" \
+ADL_CSM_CUSTODY_SIGNING_KEY_ID="$CSM_CUSTODY_SIGNING_KEY_ID" \
+ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64="$CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64" \
+  run_csm continuity capture --spec agent.yaml --out capsule --source-host wuji --target-host ec2-staging --json \
   >"$OUT/logs/capture_stdout.json" \
   2>"$OUT/logs/capture_stderr.log"
 
@@ -93,6 +102,7 @@ run_csm daemon --spec ec2_restored/agent.yaml --test-supervisor-failure-after-re
 
 python3 - "$OUT" "$CSM_BIN" <<'PY'
 import json
+import os
 import pathlib
 import shutil
 import subprocess
@@ -134,6 +144,7 @@ def run_stage(bundle, stage_out, target="ec2-staging"):
             "ADL_OBSERVABILITY_STDERR": "0",
             "ADL_OBSERVABILITY_LOG": str(out / "logs" / "observability.log"),
             "ADL_OBSERVABILITY_REPO_ROOT": str(out),
+            "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64": os.environ["CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64"],
         },
     )
     return result
@@ -149,7 +160,25 @@ cases.append(("version_mismatch", run_stage(bad, negative_root / "version_mismat
 
 bad = clone("missing_file")
 (bad / "state" / "status.json").unlink()
-cases.append(("missing_file", run_stage(bad, negative_root / "missing_file_stage"), "missing bundle artifact"))
+cases.append(("missing_file", run_stage(bad, negative_root / "missing_file_stage"), "custody retained artifact missing"))
+
+bad = clone("missing_custody_manifest")
+(bad / "custody_manifest.json").unlink()
+cases.append(("missing_custody_manifest", run_stage(bad, negative_root / "missing_custody_manifest_stage"), "custody manifest missing bundle artifact"))
+
+bad = clone("custody_signature_tamper")
+custody_path = bad / "custody_manifest.json"
+custody = json.loads(custody_path.read_text(encoding="utf-8"))
+custody["signature"]["sig_b64"] = "not-a-valid-signature"
+custody_path.write_text(json.dumps(custody, indent=2) + "\n", encoding="utf-8")
+cases.append(("custody_signature_tamper", run_stage(bad, negative_root / "custody_signature_tamper_stage"), "invalid base64 custody signature"))
+
+bad = clone("custody_untrusted_public_key")
+custody_path = bad / "custody_manifest.json"
+custody = json.loads(custody_path.read_text(encoding="utf-8"))
+custody["signature"]["public_key_b64"] = "BDrasV1mJWvxXNcWA1s/BBRE5RL+0d1k1Lp1WX0g42bxVG0skKg+uroBWVCZ5fP/u9M4THSU3mdZ/dXmXvrpzGc="
+custody_path.write_text(json.dumps(custody, indent=2) + "\n", encoding="utf-8")
+cases.append(("custody_untrusted_public_key", run_stage(bad, negative_root / "custody_untrusted_public_key_stage"), "public key does not match trusted verification key"))
 
 bad = clone("path_leakage")
 (bad / "state" / "status.json").write_text(json.dumps({"path": str(bad.resolve())}) + "\n", encoding="utf-8")
@@ -207,6 +236,7 @@ summary = {
     "restored_daemon_fire_up": "passed",
     "aws_profile_policy": ec2_report["blockers"][0]["required_profile"],
     "artifact_count": len(manifest["artifacts"]),
+    "custody_manifest_ref": manifest["custody_manifest_ref"],
     "retained_runtime_roles": sorted({artifact["role"] for artifact in manifest["artifacts"]}),
     "negative_case_count": len(records),
     "negative_cases": {record["name"]: record["status"] for record in records},
@@ -245,6 +275,8 @@ This packet retains a bounded WP-07 proof for `csm continuity capture` and
 
 Evidence:
 - `capsule/continuity_capsule_manifest.json` is the portable capsule manifest.
+- `capsule/custody_manifest.json` is the signed RustCrypto P-256/ECDSA custody
+  manifest for retained capsule artifacts and binary segments.
 - `capsule/state/` contains retained CSM runtime state: identity/spec, status,
   daemon status, continuity checkpoint, replay manifest, cycle ledger, memory
   index, provider binding history, operator events, and cycle artifacts.
@@ -255,8 +287,10 @@ Evidence:
   and `logs/restored_daemon_stdout.json` proves `csm daemon` fired from the
   restored spec/state.
 {aws_evidence}\
-- `negative_results.json` records version mismatch, missing file, path leakage,
-  credential-like key, corrupted manifest, and unsupported target-host rejection.
+- `negative_results.json` records version mismatch, missing file, missing
+  custody manifest, custody signature tampering, untrusted custody public key,
+  path leakage, credential-like key, corrupted manifest, and unsupported
+  target-host rejection.
 - `logs/observability.log`, `logs/otel.jsonl`, and `logs/otel_status.json`
   retain runtime observability for daemon, capture, stage, and restore events.
 

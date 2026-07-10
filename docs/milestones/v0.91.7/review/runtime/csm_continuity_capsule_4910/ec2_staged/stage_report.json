@@ -7,6 +7,7 @@
   "status": "staged",
   "staged_state_ref": "staged_state/",
   "manifest_ref": "continuity_capsule_manifest.json",
+  "custody_manifest_ref": "custody_manifest.json",
   "artifact_count": 18,
   "blockers": [],
   "rebind_policy": {

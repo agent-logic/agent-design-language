@@ -1,7 +1,7 @@
 {
   "schema": "adl.long_lived_agent_continuity_checkpoint.v1",
   "agent_instance_id": "csm-continuity-4910",
-  "captured_at": "2026-07-06T02:45:35.384767Z",
+  "captured_at": "2026-07-10T21:22:05.102548Z",
   "checkpoint_reason": "daemon_partial_checkpoint",
   "state": "idle",
   "stop_requested": false,
@@ -19,5 +19,13 @@
     "ledger_entry_count": 1,
     "max_cycle_number": 1,
     "expected_next_cycle_id": "cycle-000002"
+  },
+  "godel_agent_snapshot_diff": {
+    "write_kind": "diff",
+    "artifact_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000004.json",
+    "chain_ref": "godel_snapshots/godel_agent_snapshot_chain.json",
+    "last_known_good_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000004.json",
+    "last_known_good_sha256": "3a03fcf6b80b7ca82db4dcae82e9de5bca15a4075c819143fbd8be75778b5c47",
+    "validation_status": "passed"
   }
 }
