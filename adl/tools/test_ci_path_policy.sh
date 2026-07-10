@@ -695,7 +695,7 @@ EOF
   assert_has "$csdlc_owner_pr_fast_output" "rust_required=true"
   assert_has "$csdlc_owner_pr_fast_output" "coverage_required=false"
   assert_has "$csdlc_owner_pr_fast_output" "full_coverage_required=false"
-  assert_has "$csdlc_owner_pr_fast_output" "demo_smoke_required=true"
+  assert_has "$csdlc_owner_pr_fast_output" "demo_smoke_required=false"
   assert_has "$csdlc_owner_pr_fast_output" "ci_contracts_required=true"
   assert_has "$csdlc_owner_pr_fast_output" "validation_profile_contract_lanes_selected=true"
   assert_has "$csdlc_owner_pr_fast_output" "fail_closed=false"

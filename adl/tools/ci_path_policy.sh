@@ -1229,6 +1229,7 @@ apply_validation_manager_routing() {
     fi
     if manager_profile_is_csdlc_owner_pr_fast_escalation; then
       mark_pr_fast_rust_validation
+      demo_smoke_required=false
       reason="validation_manager_csdlc_owner_pr_fast_escalation_runs_focused_validation"
       return 0
     fi
