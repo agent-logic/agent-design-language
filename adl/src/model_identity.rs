@@ -89,10 +89,14 @@ pub fn normalize_sha256_digest(raw: &str) -> Option<String> {
         .strip_prefix("sha256:")
         .or_else(|| trimmed.strip_prefix("SHA256:"))
         .unwrap_or(trimmed);
-    if digest.len() != 64 || !digest.chars().all(|ch| ch.is_ascii_hexdigit()) {
+    if !is_sha256_hex(digest) {
         return None;
     }
     Some(format!("sha256:{}", digest.to_ascii_lowercase()))
+}
+
+pub fn is_sha256_hex(value: &str) -> bool {
+    value.len() == 64 && value.chars().all(|ch| ch.is_ascii_hexdigit())
 }
 
 pub fn stable_text_digest_v1(parts: &[&str]) -> String {
@@ -187,6 +191,19 @@ mod tests {
 
         identity.resolved_digest = Some("abc123".to_string());
         assert!(validate_model_identity_v1(&identity).is_err());
+    }
+
+    #[test]
+    fn sha256_hex_helper_accepts_only_exact_hex_digest_body() {
+        assert!(is_sha256_hex(&"a".repeat(64)));
+        assert!(is_sha256_hex(&"A".repeat(64)));
+        assert!(!is_sha256_hex(&"a".repeat(63)));
+        assert!(!is_sha256_hex(
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ));
+        assert!(!is_sha256_hex(
+            "g000000000000000000000000000000000000000000000000000000000000000"
+        ));
     }
 
     #[test]

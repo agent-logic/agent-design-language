@@ -4963,8 +4963,8 @@ fn finish_validation_profile_escalates_workflow_metrics_backfill_publication_sli
 }
 
 #[test]
-fn finish_validation_profile_classifies_validation_inventory_slice_as_small_binary_focused() {
-    let err = select_finish_validation_plan_for_finish(
+fn finish_validation_profile_classifies_validation_inventory_slice_as_larger_binary_focused() {
+    let plan = select_finish_validation_plan_for_finish(
         4213,
         ".",
         &[
@@ -4973,11 +4973,12 @@ fn finish_validation_profile_classifies_validation_inventory_slice_as_small_bina
             "adl/tools/test_validation_inventory.sh".to_string(),
         ],
     )
-    .expect_err("validation inventory slice should fail closed when manager requires escalation");
+    .expect("validation inventory slice should select the CS-DLC owner lane");
 
-    let message = err.to_string();
-    assert!(message.contains("validation manager reported a non-runnable profile"));
-    assert!(message.contains("status=escalation_required"));
+    assert_eq!(plan.mode, FinishValidationMode::LargerBinaryFocused);
+    assert!(plan
+        .commands
+        .contains(&"bash adl/tools/run_owner_validation_lane.sh csdlc".to_string()));
 }
 
 #[test]
