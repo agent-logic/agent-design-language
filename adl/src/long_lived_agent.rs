@@ -549,8 +549,8 @@ fn start_embedded_runtime_api_module(spec_path: &Path, options: &DaemonOptions) 
         bind: bind.clone(),
         test_max_requests: None,
         idle_timeout_ms: None,
-        otel_status_path: None,
-        otel_log_path: None,
+        otel_status_path: options.api_otel_status_path.clone(),
+        otel_log_path: options.api_otel_log_path.clone(),
     };
     thread::Builder::new()
         .name("csm-runtime-api".to_string())
