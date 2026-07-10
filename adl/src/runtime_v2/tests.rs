@@ -64,6 +64,7 @@ mod private_state_sanctuary;
 mod private_state_sealing;
 mod private_state_witness;
 mod quarantine;
+mod reasoning_graph;
 mod recovery_eligibility;
 mod resource_stewardship_bridge;
 mod runtime_inhabitant_integration;

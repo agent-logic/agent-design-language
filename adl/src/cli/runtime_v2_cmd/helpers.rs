@@ -71,7 +71,7 @@ pub(crate) fn resolve_relative_output_path(
 pub(crate) fn real_runtime_v2_in_repo(args: &[String], repo_root: &Path) -> Result<()> {
     let Some(subcommand) = args.first().map(|arg| arg.as_str()) else {
         return Err(anyhow!(
-            "runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, or feature-proof-coverage"
+            "runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, or reasoning-graph"
         ));
     };
 
@@ -98,12 +98,13 @@ pub(crate) fn real_runtime_v2_in_repo(args: &[String], repo_root: &Path) -> Resu
         "feature-proof-coverage" => {
             commands::real_runtime_v2_feature_proof_coverage(repo_root, &args[1..])
         }
+        "reasoning-graph" => commands::real_runtime_v2_reasoning_graph(repo_root, &args[1..]),
         "--help" | "-h" | "help" => {
             println!("{}", usage::usage());
             Ok(())
         }
         _ => Err(anyhow!(
-            "unknown runtime-v2 subcommand '{subcommand}' (expected operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, or feature-proof-coverage)"
+            "unknown runtime-v2 subcommand '{subcommand}' (expected operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, or reasoning-graph)"
         )),
     }
 }
