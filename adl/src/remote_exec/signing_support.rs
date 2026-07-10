@@ -13,6 +13,14 @@ use super::{
     REMOTE_REQUEST_SIGNATURE_ALG_ED25519, REMOTE_REQUEST_SIGNATURE_SCHEMA_V1,
 };
 
+/// Canonical JSON byte profile used by remote request signatures.
+///
+/// v1 preserves ADL's existing durable bytes: omit
+/// `security.request_signature`, recursively sort JSON object keys, and emit
+/// compact UTF-8 JSON with `serde_json`.
+const REMOTE_REQUEST_CANONICAL_JSON_PROFILE_V1: &str =
+    "adl.remote_request.canonical_json.sorted_serde_json.v1";
+
 fn sort_value(value: &mut Value) {
     match value {
         Value::Object(map) => {
@@ -43,8 +51,14 @@ pub fn canonical_request_bytes(req: &ExecuteRequest) -> Result<Vec<u8>> {
     }
     let mut value = serde_json::to_value(canonical)
         .context("failed to convert execute request to canonical JSON")?;
-    sort_value(&mut value);
-    serde_json::to_vec(&value).context("failed to serialize canonical execute request")
+    canonical_json_profile_v1_bytes(&mut value)
+}
+
+fn canonical_json_profile_v1_bytes(value: &mut Value) -> Result<Vec<u8>> {
+    sort_value(value);
+    serde_json::to_vec(&value).with_context(|| {
+        format!("failed to serialize canonical execute request with {REMOTE_REQUEST_CANONICAL_JSON_PROFILE_V1}")
+    })
 }
 
 pub fn sign_execute_request_v1(
@@ -204,10 +218,12 @@ mod tests {
     use ed25519_dalek::SigningKey;
 
     use super::{
-        attach_request_signature, canonical_request_bytes, maybe_attach_request_signature_from_env,
-        sign_execute_request_v1, verify_execute_request_signature_v1, ExecuteRequest,
-        ExecuteSecurityEnvelope, RemoteRequestSignatureV1, SecurityEnvelopeError, B64,
-        REMOTE_REQUEST_SIGNATURE_ALG_ED25519, REMOTE_REQUEST_SIGNATURE_SCHEMA_V1,
+        attach_request_signature, canonical_json_profile_v1_bytes, canonical_request_bytes,
+        maybe_attach_request_signature_from_env, sign_execute_request_v1,
+        verify_execute_request_signature_v1, ExecuteRequest, ExecuteSecurityEnvelope,
+        RemoteRequestSignatureV1, SecurityEnvelopeError, B64,
+        REMOTE_REQUEST_CANONICAL_JSON_PROFILE_V1, REMOTE_REQUEST_SIGNATURE_ALG_ED25519,
+        REMOTE_REQUEST_SIGNATURE_SCHEMA_V1,
     };
     use crate::adl::ProviderSpec;
     use crate::remote_exec::{ExecuteInputsPayload, ExecuteStepPayload};
@@ -246,6 +262,38 @@ mod tests {
     }
 
     #[test]
+    fn canonical_json_profile_name_is_versioned_and_stable() {
+        assert_eq!(
+            REMOTE_REQUEST_CANONICAL_JSON_PROFILE_V1,
+            "adl.remote_request.canonical_json.sorted_serde_json.v1"
+        );
+    }
+
+    #[test]
+    fn canonical_json_profile_v1_golden_vector_covers_nested_shapes() {
+        let mut value = serde_json::json!({
+            "z": [
+                {"b": 2, "a": 1},
+                "text",
+                -1,
+                1.5,
+                true,
+                null
+            ],
+            "a": {
+                "nested": {"b": false, "a": true},
+                "line": "a\nb"
+            }
+        });
+
+        let canonical = canonical_json_profile_v1_bytes(&mut value).unwrap();
+        assert_eq!(
+            String::from_utf8(canonical).unwrap(),
+            r#"{"a":{"line":"a\nb","nested":{"a":true,"b":false}},"z":[{"a":1,"b":2},"text",-1,1.5,true,null]}"#
+        );
+    }
+
+    #[test]
     fn canonical_request_bytes_omit_signature_and_sort_keys() {
         let mut req = base_request();
         req.inputs.inputs.insert("b".to_string(), "2".to_string());
@@ -271,6 +319,7 @@ mod tests {
             parsed["security"]["request_signature"],
             serde_json::Value::Null
         );
+        assert!(!rendered.contains(r#""sig_b64":"sig""#));
     }
 
     #[test]
@@ -332,6 +381,69 @@ mod tests {
             .and_then(|security| security.request_signature.clone())
             .unwrap();
         verify_execute_request_signature_v1(&req, &signature).unwrap();
+    }
+
+    #[test]
+    fn canonical_request_and_signature_bytes_match_v1_golden() {
+        let mut req = base_request();
+        req.inputs.inputs.insert("b".to_string(), "2".to_string());
+        req.inputs.inputs.insert("a".to_string(), "1".to_string());
+        req.security = Some(ExecuteSecurityEnvelope {
+            require_signature: true,
+            signed: true,
+            key_id: Some("key-13".to_string()),
+            signature_alg: Some(REMOTE_REQUEST_SIGNATURE_ALG_ED25519.to_string()),
+            request_signature: Some(RemoteRequestSignatureV1 {
+                schema_version: REMOTE_REQUEST_SIGNATURE_SCHEMA_V1.to_string(),
+                alg: REMOTE_REQUEST_SIGNATURE_ALG_ED25519.to_string(),
+                key_id: Some("key-13".to_string()),
+                public_key_b64: Some("ignored-public-key".to_string()),
+                sig_b64: "ignored-signature".to_string(),
+            }),
+            ..ExecuteSecurityEnvelope::default()
+        });
+
+        let canonical = canonical_request_bytes(&req).unwrap();
+        let canonical_text = String::from_utf8(canonical).unwrap();
+        assert_eq!(
+            canonical_text,
+            r#"{"inputs":{"inputs":{"a":"1","b":"2"},"state":{}},"protocol_version":"0.1","run_id":"run-1","security":{"allowed_algs":[],"allowed_key_sources":[],"key_id":"key-13","key_source":null,"request_signature":null,"requested_paths":[],"require_key_id":false,"require_signature":true,"sandbox_root":null,"signature_alg":"ed25519","signed":true},"step":{"conversation":null,"kind":"agent","model_override":null,"prompt":"hello","provider":"provider","provider_spec":{"base_url":null,"config":{},"default_model":null,"id":null,"profile":null,"type":"openai"},"tools":["web"]},"step_id":"step-1","timeout_ms":1000,"workflow_id":"wf-1"}"#
+        );
+        let signature =
+            sign_execute_request_v1(&req, &B64.encode([13_u8; 32]), Some("key-13")).unwrap();
+        assert_eq!(
+            signature.sig_b64,
+            "RwL530ot58ukDzJ45sYuRyoyEriZdcRqzWwVQ9vytCbwUQs88ZJpQCRfQRRs/+1UNpclJfl1bwXB6JNYW9E2AA=="
+        );
+    }
+
+    #[test]
+    fn verify_execute_request_signature_rejects_tamper_and_replay_payloads() {
+        let mut req = base_request();
+        let private_key_b64 = B64.encode([10_u8; 32]);
+        attach_request_signature(&mut req, &private_key_b64, Some("key-10")).unwrap();
+        let signature = req
+            .security
+            .as_ref()
+            .and_then(|security| security.request_signature.clone())
+            .unwrap();
+
+        let mut tampered = req.clone();
+        tampered
+            .inputs
+            .inputs
+            .insert("tampered".to_string(), "true".to_string());
+        assert!(matches!(
+            verify_execute_request_signature_v1(&tampered, &signature),
+            Err(SecurityEnvelopeError::RequestSignatureMismatch)
+        ));
+
+        let mut replayed = req;
+        replayed.run_id = "run-replayed".to_string();
+        assert!(matches!(
+            verify_execute_request_signature_v1(&replayed, &signature),
+            Err(SecurityEnvelopeError::RequestSignatureMismatch)
+        ));
     }
 
     #[test]
