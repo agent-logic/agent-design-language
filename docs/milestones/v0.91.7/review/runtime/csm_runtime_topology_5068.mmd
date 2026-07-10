@@ -1,32 +1,26 @@
 flowchart TD
   tokio["Tokio core event loop"]
-  main["CSM main orchestration task"]
-  supervisor["futures / JoinSet / supervised component set"]
+  main["CSM executive"]
+  supervisor["futures::JoinSet<br/>supervised component groups"]
   bus["typed runtime channels<br/>backpressure + health + lifecycle"]
 
   tokio --> main --> supervisor --> bus
 
-  subgraph components["Runtime components"]
+  subgraph groups["Component futures"]
     direction LR
-    api["runtime_api<br/>Axum / Tower / Hyper<br/>127.0.0.1:19997"]
-    chronosense["chronosense<br/>rsntp async time source"]
-    scheduler["scheduler<br/>cadence + admission"]
-    reasoning["reasoning_runtime<br/>graphs + loops + adaptive DAGs"]
-    aee["AEE<br/>governed execution"]
-    checkpoint["checkpoint<br/>partials + continuity"]
-    cloud["cloud_bridge<br/>API Gateway / EventBridge / AWS SDK"]
-    lifelog["lifelog<br/>database lifecycle journal"]
-    observability["observability<br/>CSM-managed Vector component"]
+    communications["Communications<br/>runtime_api<br/>acip_carrier<br/>cloud_bridge"]
+    temporal["Time + scheduling<br/>chronosense<br/>scheduler"]
+    cognition["Cognition + governance<br/>reasoning_runtime<br/>curiosity_engine<br/>constructability_gate<br/>freedom_gate<br/>AEE"]
+    security["Security<br/>CAV<br/>authn/authz<br/>policy gates"]
+    operations["Operations<br/>checkpoint<br/>lifelog<br/>safe-fail serialization"]
+    observability["Observability<br/>CSM-managed Vector<br/>OTel + metrics + logs"]
   end
 
-  bus --> api
-  bus --> chronosense
-  bus --> scheduler
-  bus --> reasoning
-  bus --> aee
-  bus --> checkpoint
-  bus --> cloud
-  bus --> lifelog
+  bus --> communications
+  bus --> temporal
+  bus --> cognition
+  bus --> security
+  bus --> operations
   bus --> observability
 
   subgraph sinks["Retained evidence and external routes"]
@@ -39,8 +33,8 @@ flowchart TD
 
   observability --> cloudwatch
   observability --> otel
-  lifelog --> storage
-  cloud --> notices
+  operations --> storage
+  communications --> notices
 
   classDef core fill:#05264a,stroke:#05264a,color:#ffffff,rx:4,ry:4;
   classDef task fill:#f6d7f7,stroke:#e34cf2,color:#061f3d,rx:4,ry:4;
@@ -53,5 +47,5 @@ flowchart TD
   class main task;
   class supervisor set;
   class bus bus;
-  class api,chronosense,scheduler,reasoning,aee,checkpoint,cloud,lifelog,observability component;
+  class communications,temporal,cognition,security,operations,observability component;
   class cloudwatch,otel,storage,notices sink;
