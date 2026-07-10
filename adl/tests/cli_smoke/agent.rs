@@ -2063,6 +2063,91 @@ memory:
 }
 
 #[test]
+fn csm_credential_policy_proves_break_glass_and_negative_cases_without_secrets() {
+    let root = unique_test_temp_dir("csm-credential-policy");
+    let observability_log = root.join("credential-observability.log");
+    let proof_dir = root.join("credential-proof");
+    let out = run_csm_with_env(
+        &[
+            "credential-policy",
+            "prove",
+            "--out",
+            proof_dir.to_str().expect("utf8 proof dir"),
+            "--run-id",
+            "wp12-4920-smoke",
+            "--operator",
+            "operator-alice",
+            "--requested-at",
+            "2026-07-10T00:00:00Z",
+            "--json",
+        ],
+        &[
+            ("ADL_OBSERVABILITY_STDERR", "0"),
+            (
+                "ADL_OBSERVABILITY_LOG",
+                observability_log.to_str().expect("utf8 observability"),
+            ),
+        ],
+    );
+    assert!(
+        out.status.success(),
+        "expected credential policy proof success, stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    );
+
+    let stdout: serde_json::Value =
+        serde_json::from_slice(&out.stdout).expect("parse credential policy stdout");
+    assert_eq!(stdout["schema"], "adl.csm.credential_policy_proof.v1");
+    assert_eq!(stdout["status"], "passed");
+    assert_eq!(stdout["redaction"]["secret_values_retained"], false);
+    assert!(stdout["inventory_classes"]
+        .as_array()
+        .expect("inventory classes")
+        .iter()
+        .all(|class| class["secret_values_retained"] == false));
+    for expected in [
+        "missing_credential",
+        "expired_credential",
+        "denied_break_glass",
+        "stale_binding",
+    ] {
+        assert!(
+            stdout["negative_cases"]
+                .as_array()
+                .expect("negative cases")
+                .iter()
+                .any(|case| case["name"] == expected && case["secret_material_retained"] == false),
+            "missing negative case {expected}: {stdout}"
+        );
+    }
+
+    let summary_text = fs::read_to_string(proof_dir.join("credential_policy_summary.json"))
+        .expect("read credential policy summary");
+    let events_text = fs::read_to_string(proof_dir.join("credential_lifecycle_events.jsonl"))
+        .expect("read credential lifecycle events");
+    let observability = fs::read_to_string(&observability_log).expect("read observability log");
+    for text in [&summary_text, &events_text, &observability] {
+        assert!(
+            !text.contains("operator-alice"),
+            "operator identity leaked: {text}"
+        );
+        assert!(
+            !text.contains("PRIVATE KEY"),
+            "secret marker leaked: {text}"
+        );
+        assert!(!text.contains("token="), "token marker leaked: {text}");
+        assert!(!text.contains("/Users/"), "host path leaked: {text}");
+    }
+    assert!(events_text.contains("credential_access_denied"));
+    assert!(events_text.contains("break_glass_denied"));
+    assert!(events_text.contains("break_glass_revoked"));
+    assert!(observability.contains("stage=break_glass_denied"));
+    assert!(observability.contains("stage=credential_access_denied"));
+    assert!(observability.contains("credential_material=not_retained"));
+}
+
+#[test]
 fn csm_daemon_exports_otlp_http_json_to_loopback_collector() {
     let root = unique_test_temp_dir("csm-daemon-otlp");
     let spec = root.join("agent.yaml");
