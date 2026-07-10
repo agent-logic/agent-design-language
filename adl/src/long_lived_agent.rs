@@ -3441,9 +3441,7 @@ fn write_continuity_restore_artifacts(
     )?;
     checkpoint["godel_agent_snapshot_diff"] = serde_json::to_value(&godel_snapshot_diff)?;
 
-    if let Err(err) = write_json_pretty(&checkpoint_path, &checkpoint) {
-        return Err(err);
-    }
+    write_json_pretty(&checkpoint_path, &checkpoint)?;
 
     let replay_manifest = json!({
         "schema": CONTINUITY_REPLAY_MANIFEST_SCHEMA,
@@ -3478,9 +3476,7 @@ fn write_continuity_restore_artifacts(
             "not_distributed_recovery"
         ]
     });
-    if let Err(err) = write_json_pretty(&replay_manifest_path, &replay_manifest) {
-        return Err(err);
-    }
+    write_json_pretty(&replay_manifest_path, &replay_manifest)?;
     Ok(())
 }
 
