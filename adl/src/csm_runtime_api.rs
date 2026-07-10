@@ -278,15 +278,15 @@ fn chronosense_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions
     let time_sync = chronosense.get("time_sync").cloned().unwrap_or_else(|| {
         json!({
             "schema_version": "chronosense_time_sync_status.v1",
-            "substrate": "ntpd-rs",
-            "source": "ntp-daemon::ObservableState observation socket",
-            "mode": "csm_ntpd_rs_observable_state",
+            "substrate": "SNTP",
+            "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+            "mode": "csm_in_process_async_sntp_client",
             "health": "unknown",
             "confidence": "none",
             "drift_status": "unknown",
             "failure_state": "chronosense_time_sync_missing",
             "reason": "daemon_status_missing_chronosense_time_sync",
-            "port_policy": "csm_ntpd_rs_component_observation_no_separate_csm_time_binary_no_csm_udp_123_listener"
+            "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout"
         })
     });
     let response = json!({
@@ -914,12 +914,7 @@ fn time_sync_blocks_ready(health: &str, failure_state: &Value) -> bool {
     }
     !matches!(
         failure_state.as_str(),
-        Some(
-            "ntpd_rs_probe_disabled"
-                | "ntpd_rs_observation_socket_missing"
-                | "ntpd_rs_observation_socket_refused"
-                | "ntpd_rs_observation_socket_unavailable"
-        )
+        Some("ntpd_rs_probe_disabled" | "runtime_sntp_probe_disabled")
     )
 }
 
@@ -1449,10 +1444,10 @@ memory: {}
                         "status": "integrated",
                         "time_sync": {
                             "schema_version": "chronosense_time_sync_status.v1",
-                            "substrate": "ntpd-rs",
+                            "substrate": "SNTP",
                             "health": "unavailable",
-                            "failure_state": "ntpd_rs_probe_disabled",
-                            "reason": "ntpd_rs_status_unavailable_without_csm_failure"
+                            "failure_state": "runtime_sntp_probe_disabled",
+                            "reason": "runtime_sntp_status_unavailable_without_csm_failure"
                         }
                     }
                 }
@@ -1816,7 +1811,7 @@ memory: {}
     }
 
     #[test]
-    fn runtime_api_exposes_chronosense_ntpd_rs_observable_state_projection() {
+    fn runtime_api_exposes_chronosense_async_sntp_projection() {
         let root = temp_root("chronosense");
         let spec = write_spec(&root);
         let state = root.join("state");
@@ -1837,20 +1832,20 @@ memory: {}
                         "clock_stack_capture": "daemon_event_time",
                         "time_sync": {
                             "schema_version": "chronosense_time_sync_status.v1",
-                            "substrate": "ntpd-rs",
-                            "source": "ntp-daemon::ObservableState observation socket",
-                            "mode": "csm_in_process_ntpd_rs_observable_state",
+                            "substrate": "SNTP",
+                            "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                            "mode": "csm_in_process_async_sntp_client",
                             "health": "synced",
                             "confidence": "high",
-                            "drift_status": "within_ntpd_rs_reported_bounds",
+                            "drift_status": "within_sntp_reported_bounds",
                             "failure_state": null,
-                            "reason": "ntpd_rs_observable_state_reports_active_sources",
+                            "reason": "runtime_sntp_client_reports_active_source",
                             "observed_at_rfc3339": Utc::now(),
-                            "poll_command": "ntp_daemon_observable_state",
-                            "port_policy": "csm_in_process_ntpd_rs_component_no_separate_binary_no_csm_udp_123_listener",
+                            "poll_command": "rsntp::AsyncSntpClient",
+                            "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
                             "parsed_offset_seconds": 0.000024,
                             "parsed_uncertainty_seconds": 0.000137,
-                            "raw_summary": "observable_peer_count=1"
+                            "raw_summary": "peer=time.example.invalid"
                         }
                     }
                 }
@@ -1878,19 +1873,19 @@ memory: {}
         let response = runtime_api_response(&options, "/chronosense").unwrap();
 
         assert_eq!(response["schema"], CSM_RUNTIME_API_CHRONOSENSE_SCHEMA);
-        assert_eq!(response["time_sync"]["substrate"], "ntpd-rs");
+        assert_eq!(response["time_sync"]["substrate"], "SNTP");
         assert_eq!(
             response["time_sync"]["source"],
-            "ntp-daemon::ObservableState observation socket"
+            "rsntp::AsyncSntpClient in-process runtime sampler"
         );
         assert_eq!(
             response["time_sync"]["mode"],
-            "csm_in_process_ntpd_rs_observable_state"
+            "csm_in_process_async_sntp_client"
         );
         assert_eq!(response["time_sync"]["health"], "synced");
         assert_eq!(
             response["time_sync"]["port_policy"],
-            "csm_in_process_ntpd_rs_component_no_separate_binary_no_csm_udp_123_listener"
+            "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout"
         );
         assert_eq!(response["ready"], "ready");
     }
@@ -1914,10 +1909,10 @@ memory: {}
                         "status": "integrated",
                         "time_sync": {
                             "schema_version": "chronosense_time_sync_status.v1",
-                            "substrate": "ntpd-rs",
+                            "substrate": "SNTP",
                             "health": "degraded",
-                            "failure_state": "ntpd_rs_observable_state_degraded",
-                            "reason": "ntpd_rs_observable_state_reports_degraded_sources"
+                            "failure_state": "runtime_sntp_sample_degraded",
+                            "reason": "runtime_sntp_client_reports_degraded_source"
                         }
                     }
                 }
@@ -2001,7 +1996,7 @@ memory: {}
     }
 
     #[test]
-    fn runtime_api_ready_does_not_block_absent_ntpd_rs_observation_socket() {
+    fn runtime_api_ready_blocks_absent_legacy_ntpd_rs_observation_socket() {
         let root = temp_root("chronosense-socket-missing");
         let spec = write_spec(&root);
         let state = root.join("state");
@@ -2049,8 +2044,8 @@ memory: {}
 
         let response = runtime_api_response(&options, "/ready").unwrap();
 
-        assert_eq!(response["ready"], "ready");
-        assert!(!response["blocking_reasons"]
+        assert_eq!(response["ready"], "not_ready");
+        assert!(response["blocking_reasons"]
             .as_array()
             .unwrap()
             .contains(&json!("chronosense_time_sync_unavailable")));

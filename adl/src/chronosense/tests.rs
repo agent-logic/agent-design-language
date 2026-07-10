@@ -337,41 +337,26 @@ Servers:
 }
 
 #[test]
-fn ntpd_rs_observable_state_projects_in_process_runtime_health() {
-    let status = super::service::chronosense_time_sync_status_from_ntpd_rs_observable_value(
-        &serde_json::json!({
-            "system": {
-                "time_snapshot": {
-                    "offset": 0.000031,
-                    "uncertainty": 0.000142
-                }
-            },
-            "peers": [
-                {
-                    "Observable": {
-                        "address": "time.example.invalid:123",
-                        "reachability": 255,
-                        "offset": 0.000031
-                    }
-                }
-            ],
-            "servers": []
-        }),
-        "ntp_daemon_observable_state",
+fn runtime_sntp_sample_projects_in_process_time_health_without_socket_or_shell() {
+    let status = super::service::chronosense_time_sync_status_from_sntp_sample(
+        "time.example.invalid",
+        0.000031,
+        0.000142,
     );
 
     assert_eq!(status.schema_version, CHRONOSENSE_TIME_SYNC_STATUS_SCHEMA);
-    assert_eq!(status.substrate, "ntpd-rs");
+    assert_eq!(status.substrate, "SNTP");
     assert_eq!(
         status.source,
-        "ntp-daemon::ObservableState observation socket"
+        "rsntp::AsyncSntpClient in-process runtime sampler"
     );
-    assert_eq!(status.mode, "csm_in_process_ntpd_rs_observable_state");
+    assert_eq!(status.mode, "csm_in_process_async_sntp_client");
     assert_eq!(status.health, "synced");
     assert_eq!(status.confidence, "high");
+    assert_eq!(status.poll_command, "rsntp::AsyncSntpClient");
     assert_eq!(
         status.port_policy,
-        "csm_in_process_ntpd_rs_component_no_separate_binary_no_csm_udp_123_listener"
+        "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout"
     );
     assert_eq!(status.parsed_offset_seconds, Some(0.000031));
     assert_eq!(status.parsed_uncertainty_seconds, Some(0.000142));
@@ -406,35 +391,36 @@ fn ntpd_rs_status_projection_sanitizes_probe_command_and_summary() {
         "custom_ntp_ctl"
     );
     assert_eq!(
-        super::service::ntpd_rs_command_label("ntp_daemon::ObservableState:/run/ntpd-rs/observe"),
-        "ntp_daemon_observable_state"
-    );
-    assert_eq!(
         super::service::sanitize_probe_summary("failed opening /Users/daniel/.config/secret"),
         "[redacted]"
     );
 }
 
 #[test]
-fn disabled_ntpd_rs_probe_reports_runtime_observable_contract() {
+fn disabled_sntp_probe_reports_runtime_sntp_contract() {
     let status = super::service::ChronosenseTimeSyncStatus::unavailable(
-        "ntpd_rs_probe_disabled",
-        "ADL_CSM_NTPD_RS_STATUS=0",
+        "runtime_sntp_probe_disabled",
+        "ADL_CSM_SNTP_STATUS=0",
         None,
     );
 
+    assert_eq!(status.substrate, "SNTP");
     assert_eq!(
         status.source,
-        "ntp-daemon::ObservableState observation socket"
+        "rsntp::AsyncSntpClient in-process runtime sampler"
     );
-    assert_eq!(status.mode, "csm_ntpd_rs_observable_state");
+    assert_eq!(status.mode, "csm_in_process_async_sntp_client");
     assert_eq!(
         status.port_policy,
-        "csm_ntpd_rs_component_observation_no_separate_csm_time_binary_no_csm_udp_123_listener"
+        "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout"
     );
     assert_eq!(
         status.failure_state.as_deref(),
-        Some("ntpd_rs_probe_disabled")
+        Some("runtime_sntp_probe_disabled")
+    );
+    assert_eq!(
+        status.reason,
+        "runtime_sntp_status_unavailable_without_csm_failure"
     );
 }
 

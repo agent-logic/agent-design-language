@@ -44,6 +44,7 @@ dependencies = [
  "once_cell",
  "rand 0.8.5",
  "reqwest 0.12.28",
+ "rsntp",
  "rustls 0.23.36",
  "schemars",
  "serde",
@@ -3424,6 +3425,16 @@ dependencies = [
  "spki 0.7.3",
  "subtle",
  "zeroize",
+]
+
+[[package]]
+name = "rsntp"
+version = "4.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc507d0efdc8ce91a17455b1efe9ada6a21e2414470b3f1d84aefc7ebcf247bd"
+dependencies = [
+ "chrono",
+ "tokio",
 ]
 
 [[package]]
