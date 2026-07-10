@@ -38,7 +38,7 @@ grep -F "PR-fast coverage expression: $expression" /tmp/pr-fast-coverage-run.out
 grep -F "PR-fast coverage target: $scratch_root" /tmp/pr-fast-coverage-run.out >/dev/null
 
 for required in \
-  "cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E $expression" \
+  "cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --test-threads 1 --no-report -E $expression" \
   "cmd=llvm-cov report --json --summary-only --output-path target/coverage-impact-summary.json" \
   "target=$scratch_root" \
   "llvm_cov_target=$scratch_root/llvm-cov-target"

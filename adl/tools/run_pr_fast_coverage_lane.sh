@@ -53,6 +53,7 @@ CARGO_INCREMENTAL=0 cargo llvm-cov nextest \
   --workspace \
   --status-level all \
   --final-status-level slow \
+  --test-threads 1 \
   --no-report \
   -E "$FILTER_EXPRESSION"
 
