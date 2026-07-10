@@ -11,7 +11,7 @@ CSM should look like a durable Vector-like Tokio component topology:
 - supervised component sets for communications, time/scheduling, cognition/governance, security, operations/continuity, and observability
 - CSM-managed runtime components for infrastructure-grade services such as the Vector observability pipeline
 - explicit cancellation and governed stop, not hidden request/cycle budgets
-- retained component health surfaced through `/status`, `/health`, `/ready`, `/metrics`, `/events`, `/chronosense`, and `/api-gateway-bridge`
+- retained component health surfaced through `/status`, `/health`, `/ready`, `/metrics`, `/events`, `/chronosense`, `/shepherd`, and `/api-gateway-bridge`
 
 This mirrors the proven component pipeline model used by Vector: a Tokio core event loop drives a main task, which coordinates component groups through typed channels. CSM should use that architecture for runtime internals, while keeping detailed runtime services inside reviewable thematic component sets rather than spreading every service across the top-level diagram. Vector should be a CSM-managed runtime observability component for high-volume pipeline mechanics.
 
@@ -41,7 +41,7 @@ flowchart TD
     temporal["Time + scheduling<br/>chronosense<br/>scheduler"]
     cognition["Cognition + governance<br/>reasoning_runtime<br/>curiosity_engine<br/>constructability_gate<br/>freedom_gate<br/>AEE"]
     security["Security<br/>CAV<br/>authn/authz<br/>policy gates"]
-    operations["Operations<br/>checkpoint<br/>lifelog<br/>safe-fail serialization"]
+    operations["Operations<br/>polis_shepherd_agent<br/>checkpoint<br/>lifelog<br/>safe-fail serialization"]
     observability["Observability<br/>CSM-managed Vector<br/>OTel + metrics + logs"]
   end
 
@@ -76,6 +76,7 @@ flowchart TD
 | `constructability_gate` | shared-reality admissibility boundary | supervised component that validates construction events, external anchors, and promotion from provisional/internal cognition to shared ADL reality |
 | `freedom_gate` | commitment mediation, refusal, deferral, challenge, and escalation boundary before execution | supervised component that consumes candidate actions plus ACC/policy context and emits retained gate decisions before AEE |
 | `aee` | governed execution stage | supervised component with resilience middleware and retained outcomes |
+| `polis_shepherd_agent` | agent-backed CSM operator and continuity steward | typed advisory decisions for preserve, resume, quarantine, degrade, escalate, quiesce, and safe-fail; admitted only through Freedom Gate, CAV, and runtime policy |
 | `checkpoint` | partial snapshots and continuity artifacts | agent-owned schedule, request channel, atomic persistence, and backpressure |
 | `acip_carrier` | governed ACIP/A2A runtime transport | runtime-owned JSON/protobuf/WebSocket carrier surface with explicit mode, authorization, projection, and failure behavior |
 | `CAV` | continuous adversarial verification and security readiness | runtime component for red/blue probes, malformed-input checks, gate pressure, and readiness degradation |
@@ -192,7 +193,7 @@ Graceful CSM shutdown is ordered:
 
 Live reference: `https://vector.dev/docs/architecture/runtime-model/`
 
-Local reference checkout: `/Users/daniel/git/vector`.
+Local reference checkout: operator-local `vectordotdev/vector` clone.
 
 Vector's architecture is a useful CSM reference because it already documents and implements the runtime shape we need:
 

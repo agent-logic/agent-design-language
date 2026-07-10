@@ -9,8 +9,10 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeSet;
-use std::fs;
+use std::fs::{self, OpenOptions};
 use std::path::{Path, PathBuf};
+use std::thread;
+use std::time::Duration;
 
 pub const GODEL_AGENT_SNAPSHOT_SCHEMA: &str = "adl.csm.godel_agent_snapshot.v1";
 pub const GODEL_AGENT_DIFF_SCHEMA: &str = "adl.csm.godel_agent_diff.v1";
@@ -21,6 +23,9 @@ const FORMAT_VERSION: &str = "godel-agent-state.v1";
 const POINTER_REF: &str = "godel_snapshots/godel_agent_snapshot_chain.json";
 const SNAPSHOT_DIR_REF: &str = "godel_snapshots/snapshots";
 const DIFF_DIR_REF: &str = "godel_snapshots/diffs";
+const CHAIN_LOCK_RETRY_COUNT: usize = 400;
+const CHAIN_LOCK_RETRY_SLEEP_MS: u64 = 25;
+const CHAIN_LOCK_STALE_AFTER_SECS: u64 = 120;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct GodelSnapshotProtocol {
@@ -188,6 +193,7 @@ pub fn write_checkpoint_snapshot_diff(
     checkpoint_reason: &str,
     checkpoint_interval_secs: u64,
 ) -> Result<GodelSnapshotWriteResult> {
+    let _lock = acquire_chain_lock(&loaded.state_root)?;
     fs::create_dir_all(snapshot_root(loaded))?;
     fs::create_dir_all(snapshot_dir(loaded))?;
     fs::create_dir_all(diff_dir(loaded))?;
@@ -351,6 +357,7 @@ pub fn validate_chain_at(state_root: &Path) -> Result<GodelAgentSnapshotChain> {
 }
 
 pub fn validate_recovery_read(state_root: &Path) -> Result<Value> {
+    let _lock = acquire_chain_lock(state_root)?;
     let chain = validate_chain_at(state_root)?;
     let artifact: Value = read_ref_json(state_root, &chain.last_known_good_ref)?;
     Ok(json!({
@@ -360,6 +367,68 @@ pub fn validate_recovery_read(state_root: &Path) -> Result<Value> {
         "last_known_good_sha256": chain.last_known_good_sha256,
         "artifact": artifact
     }))
+}
+
+struct GodelChainLock {
+    path: PathBuf,
+}
+
+impl Drop for GodelChainLock {
+    fn drop(&mut self) {
+        let _ = fs::remove_file(&self.path);
+    }
+}
+
+fn acquire_chain_lock(state_root: &Path) -> Result<GodelChainLock> {
+    let root = state_root.join("godel_snapshots");
+    fs::create_dir_all(&root)?;
+    let path = root.join(".godel_snapshot_chain.lock");
+    for _ in 0..CHAIN_LOCK_RETRY_COUNT {
+        match OpenOptions::new().write(true).create_new(true).open(&path) {
+            Ok(mut file) => {
+                use std::io::Write as _;
+                writeln!(file, "pid={}", std::process::id())?;
+                writeln!(file, "acquired_at={}", Utc::now().to_rfc3339())?;
+                return Ok(GodelChainLock { path });
+            }
+            Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
+                if remove_stale_chain_lock(&path)? {
+                    continue;
+                }
+                thread::sleep(Duration::from_millis(CHAIN_LOCK_RETRY_SLEEP_MS));
+            }
+            Err(err) => {
+                return Err(err).with_context(|| {
+                    format!("acquire Godel snapshot chain lock {}", path.display())
+                });
+            }
+        }
+    }
+    Err(anyhow!(
+        "timed out acquiring Godel snapshot chain lock {}",
+        path.display()
+    ))
+}
+
+fn remove_stale_chain_lock(path: &Path) -> Result<bool> {
+    let Ok(metadata) = fs::metadata(path) else {
+        return Ok(false);
+    };
+    let Ok(modified) = metadata.modified() else {
+        return Ok(false);
+    };
+    let Ok(age) = modified.elapsed() else {
+        return Ok(false);
+    };
+    if age < Duration::from_secs(CHAIN_LOCK_STALE_AFTER_SECS) {
+        return Ok(false);
+    }
+    match fs::remove_file(path) {
+        Ok(()) => Ok(true),
+        Err(err) if err.kind() == std::io::ErrorKind::NotFound => Ok(true),
+        Err(err) => Err(err)
+            .with_context(|| format!("remove stale Godel snapshot chain lock {}", path.display())),
+    }
 }
 
 fn write_base_snapshot(
