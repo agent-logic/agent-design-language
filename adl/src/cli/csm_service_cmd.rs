@@ -1129,6 +1129,9 @@ fn cycle_ledger_path(manifest: &ServiceManifest) -> PathBuf {
 }
 
 fn runtime_api_bind_observed(manifest: &ServiceManifest) -> bool {
+    let expected_agent_id = long_lived_agent::load_spec(&manifest.spec)
+        .ok()
+        .map(|loaded| loaded.spec.agent_instance_id);
     let Ok(addr) = manifest.api_bind.parse::<SocketAddr>() else {
         return false;
     };
@@ -1159,6 +1162,9 @@ fn runtime_api_bind_observed(manifest: &ServiceManifest) -> bool {
     };
     value.get("schema").and_then(Value::as_str) == Some("adl.csm.runtime_api.ready.v1")
         && value.get("ready").and_then(Value::as_str) == Some("ready")
+        && expected_agent_id.as_deref().is_some_and(|agent_id| {
+            value.get("agent_instance_id").and_then(Value::as_str) == Some(agent_id)
+        })
 }
 
 fn startup_classification(

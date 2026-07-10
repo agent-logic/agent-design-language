@@ -2895,6 +2895,9 @@ pub(super) fn select_finish_validation_plan_for_finish_with_release_gate_disposi
     if finish_issue_needs_wp08_cloudfront_control_validation(issue_number, changed_paths) {
         return Ok(build_wp08_cloudfront_control_validation_plan());
     }
+    if finish_issue_needs_wp07_csm_api_gateway_bridge_validation(issue_number, changed_paths) {
+        return Ok(build_wp07_csm_api_gateway_bridge_validation_plan());
+    }
     if finish_issue_needs_wp08_aws_signal_integration_validation(issue_number, changed_paths) {
         return Ok(build_wp08_aws_signal_integration_validation_plan());
     }
@@ -3620,6 +3623,7 @@ fn registered_validation_atom_supported(command: &str) -> bool {
                 | "adl/tools/test_run_wp08_acip_sns_live_proof.sh"
                 | "adl/tools/test_run_wp08_local_polis_ssm_proof.sh"
                 | "adl/tools/test_run_wp08_cloudfront_control_proof.sh"
+                | "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh"
                 | "adl/tools/test_setup_wp08_s3_obsmem_archive_policy.sh"
                 | "adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh"
                 | "adl/tools/test_run_wp08_polis_storage_live_proof.sh"
@@ -4901,6 +4905,7 @@ fn finish_issue_needs_wp08_cloudfront_control_validation(
                 trimmed,
                 "adl/config/validation_lane_selector.v0.91.6.json"
                     | "adl/src/cli/csm_cmd.rs"
+                    | "adl/src/cli/csm_service_cmd.rs"
                     | "adl/src/cli/pr_cmd/finish_support.rs"
                     | "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs"
                     | "adl/src/csm_cloud_control.rs"
@@ -4945,6 +4950,70 @@ fn build_wp08_cloudfront_control_validation_plan() -> FinishValidationPlan {
     push_finish_validation_command(
         &mut commands,
         "python3 adl/tools/validate_wp08_cloudfront_control_proof.py docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json",
+    );
+    FinishValidationPlan {
+        mode: FinishValidationMode::LargerBinaryFocused,
+        commands,
+    }
+}
+
+fn finish_issue_needs_wp07_csm_api_gateway_bridge_validation(
+    issue_number: u32,
+    changed_paths: &[String],
+) -> bool {
+    if issue_number != 5039 {
+        return false;
+    }
+    !changed_paths.is_empty()
+        && changed_paths.iter().all(|path| {
+            let trimmed = path.trim().trim_matches('/');
+            matches!(
+                trimmed,
+                "adl/config/validation_lane_selector.v0.91.6.json"
+                    | "adl/src/cli/csm_cmd.rs"
+                    | "adl/src/cli/csm_service_cmd.rs"
+                    | "adl/src/cli/pr_cmd/finish_support.rs"
+                    | "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs"
+                    | "adl/src/csm_api_gateway_bridge.rs"
+                    | "adl/src/csm_runtime_api.rs"
+                    | "adl/src/lib.rs"
+                    | "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh"
+                    | "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh"
+                    | "adl/tools/test_select_validation_lanes.sh"
+                    | "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py"
+            ) || trimmed
+                .starts_with("docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/")
+        })
+}
+
+fn build_wp07_csm_api_gateway_bridge_validation_plan() -> FinishValidationPlan {
+    let mut commands = vec![
+        "bash adl/tools/check_no_tracked_adl_issue_record_residue.sh".to_string(),
+        "git diff --check".to_string(),
+    ];
+    push_finish_validation_command(
+        &mut commands,
+        "cargo fmt --manifest-path adl/Cargo.toml --all --check",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml csm_runtime_api -- --nocapture",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp07_csm_api_gateway_bridge_slice -- --exact --nocapture",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "bash adl/tools/test_select_validation_lanes.sh",
+    );
+    push_finish_validation_command(
+        &mut commands,
+        "bash adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh",
     );
     FinishValidationPlan {
         mode: FinishValidationMode::LargerBinaryFocused,
@@ -6779,6 +6848,19 @@ pub(super) fn run_finish_validation_rust(
                         ],
                     )?;
                 }
+                "cargo test --manifest-path adl/Cargo.toml csm_runtime_api -- --nocapture" => {
+                    run_finish_validation_status(
+                        "cargo",
+                        &[
+                            "test",
+                            "--manifest-path",
+                            path_str(&manifest)?,
+                            "csm_runtime_api",
+                            "--",
+                            "--nocapture",
+                        ],
+                    )?;
+                }
                 "cargo test --manifest-path adl/Cargo.toml --bin adl cli::csm_cmd::tests:: -- --nocapture" => {
                     run_finish_validation_status(
                         "cargo",
@@ -6790,6 +6872,22 @@ pub(super) fn run_finish_validation_rust(
                             "adl",
                             "cli::csm_cmd::tests::",
                             "--",
+                            "--nocapture",
+                        ],
+                    )?;
+                }
+                "cargo test --manifest-path adl/Cargo.toml --bin adl-pr-finish cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp07_csm_api_gateway_bridge_slice -- --exact --nocapture" => {
+                    run_finish_validation_status(
+                        "cargo",
+                        &[
+                            "test",
+                            "--manifest-path",
+                            path_str(&manifest)?,
+                            "--bin",
+                            "adl-pr-finish",
+                            "cli::pr_cmd::tests::finish::arg_render::finish_validation_profile_classifies_wp07_csm_api_gateway_bridge_slice",
+                            "--",
+                            "--exact",
                             "--nocapture",
                         ],
                     )?;
@@ -6812,6 +6910,11 @@ pub(super) fn run_finish_validation_rust(
                 }
                 "bash adl/tools/test_run_wp08_cloudfront_control_proof.sh" => {
                     let script = repo_root.join("adl/tools/test_run_wp08_cloudfront_control_proof.sh");
+                    run_finish_validation_status("bash", &[path_str(&script)?])?;
+                }
+                "bash adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh" => {
+                    let script =
+                        repo_root.join("adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh");
                     run_finish_validation_status("bash", &[path_str(&script)?])?;
                 }
                 "python3 adl/tools/validate_wp08_cloudfront_control_proof.py docs/milestones/v0.91.7/review/runtime/wp08_cloudfront_4915/cloudfront_status_summary.json" => {
