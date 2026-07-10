@@ -436,9 +436,12 @@ fn available_bytes_for_path_impl(path: &Path) -> Result<u64> {
             .with_context(|| format!("statvfs {}", probe.display()));
     }
     let stat = unsafe { stat.assume_init() };
-    let available_blocks: u64 = stat.f_bavail.into();
-    let fragment_size: u64 = stat.f_frsize;
-    Ok(available_blocks.saturating_mul(fragment_size))
+    let available_blocks = stat.f_bavail as u128;
+    let fragment_size = stat.f_frsize as u128;
+    let available_bytes = available_blocks
+        .saturating_mul(fragment_size)
+        .min(u64::MAX as u128);
+    Ok(available_bytes as u64)
 }
 
 #[cfg(not(unix))]
