@@ -285,7 +285,9 @@ Truthful interpretation:
   the ordinary PR lane focused on fast correctness proof.
 - The initial slow-proof runtime-v2 module set is `a2a_adapter_boundary`,
   `access_control`, `acip_hardening`, `challenge`, `citizen_state_substrate`,
-  `contract_registry_accessors`, and `delegation_subcontract`.
+  `contract_registry_accessors`, `delegation_subcontract`,
+  `governed_learning_substrate`, `intelligence_metric_architecture`,
+  `memory_identity_architecture`, and `observatory_flagship`.
 - Full instrumented coverage is intentionally deferred for the PR to avoid
   running all tests twice.
 - The PR does not itself provide full release coverage evidence.

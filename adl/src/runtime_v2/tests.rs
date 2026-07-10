@@ -32,11 +32,13 @@ mod external_counterparty;
 mod feature_proof_coverage;
 mod freedom_gate_mediation;
 mod governed_episode;
+#[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 mod governed_learning_substrate;
 mod governed_tools_flagship_demo;
 mod hardening;
 mod humor_and_absurdity;
 mod integrated_csm_run;
+#[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 mod intelligence_metric_architecture;
 mod invalid_action_rejection;
 mod invariant_contract;
@@ -44,6 +46,7 @@ mod invariant_violation;
 mod kernel_loop;
 mod kindness_model;
 mod manifold;
+#[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 mod memory_identity_architecture;
 mod minimal_integrated_runtime_path;
 mod moral_event_validation;
@@ -52,6 +55,7 @@ mod moral_resources;
 mod moral_trace_schema;
 mod moral_trajectory_review;
 mod observatory;
+#[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-observatory"))]
 mod observatory_flagship;
 mod operator_control;
 mod outcome_linkage_attribution;

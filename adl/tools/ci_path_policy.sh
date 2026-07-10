@@ -630,7 +630,7 @@ is_pvf_slow_proof_runtime_manifest_change() {
   local diff_text
   diff_text="$(git_pr_patch "$path")"
   [ -n "$diff_text" ] || return 1
-  grep -E 'slow-proof-tests|slow-proof-runtime|slow-proof-private-state|slow-proof-observatory|slow-proof-security|a2a_adapter_boundary|access_control|acip_hardening|challenge|citizen_state_substrate|contract_registry_accessors|delegation_subcontract' <<<"$diff_text" >/dev/null 2>&1
+  grep -E 'slow-proof-tests|slow-proof-runtime|slow-proof-private-state|slow-proof-observatory|slow-proof-security|a2a_adapter_boundary|access_control|acip_hardening|challenge|citizen_state_substrate|contract_registry_accessors|delegation_subcontract|governed_learning_substrate|intelligence_metric_architecture|memory_identity_architecture|observatory_flagship' <<<"$diff_text" >/dev/null 2>&1
 }
 
 is_pvf_slow_proof_policy_surface() {

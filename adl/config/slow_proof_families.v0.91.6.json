@@ -8,6 +8,9 @@
       "proof_role": "slow_proof",
       "description": "Heavy runtime and governance proof materialization surfaces.",
       "sample_tests": [
+        "runtime_v2_memory_identity_architecture_contract_is_stable",
+        "runtime_v2_intelligence_metric_architecture_contract_is_stable",
+        "runtime_v2_governed_learning_substrate_contract_is_stable",
         "runtime_v2_csm_governed_episode_writes_without_path_leakage",
         "runtime_v2_theory_of_mind_foundation_write_to_root_materializes_fixture"
       ]
@@ -28,6 +31,7 @@
       "proof_role": "slow_proof",
       "description": "Observatory-facing visibility and reporting proof surfaces.",
       "sample_tests": [
+        "runtime_v2_observatory_flagship_review_surfaces_are_stable_and_serializable",
         "runtime_v2_csm_observatory_writes_without_path_leakage"
       ]
     },

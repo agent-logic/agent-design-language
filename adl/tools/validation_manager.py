@@ -341,6 +341,18 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         for lane_id, lane in lanes.items()
         if lane.get("status") in {"escalated", "release_gate_required"}
     ]
+    blocked_lane_ids = {lane_id for lane_id, _lane in blocked}
+    rust_lane_for_disposition = lanes.get("rust_pr_fast")
+    slow_proof_contract_only_disposition = (
+        blocked_lane_ids <= {"rust_pr_fast", "slow_proof_review"}
+        and "rust_pr_fast" in blocked_lane_ids
+        and "slow_proof_review" in blocked_lane_ids
+        and isinstance(rust_lane_for_disposition, dict)
+        and str(rust_lane_for_disposition.get("mode", "")).strip() == "contract_only"
+        and str(rust_lane_for_disposition.get("reason", "")).strip()
+        == "slow_proof_inventory_change_covered_by_contract_check"
+    )
+    effective_blocked = [] if slow_proof_contract_only_disposition else blocked
 
     run = []
     behavior_surfaces = []
@@ -398,7 +410,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
     )
 
     escalation_required = (
-        bool(blocked)
+        bool(effective_blocked)
         or len(selected) > selected_lane_limit
         or unmapped_change_gap
     )
@@ -406,6 +418,11 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
     for lane_id, lane in blocked:
         behavior = lane_behavior_surface(lane_id, lane)
         behavior_surfaces.append(behavior)
+        if slow_proof_contract_only_disposition and lane_id in {"rust_pr_fast", "slow_proof_review"}:
+            node = validation_dag_node(lane_id, lane, behavior["id"])
+            node["status"] = "disposition_recorded"
+            dag_nodes.append(node)
+            continue
         dag_nodes.append(validation_dag_node(lane_id, lane, behavior["id"]))
         manifest_rule = manifest_rule_for(lane)
         matched_paths = lane.get("matched_paths", [])
@@ -508,7 +525,9 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         filter_tokens = split_csv(rust_lane.get("filter_tokens", ""))
         mode = str(rust_lane.get("mode", "")).strip()
         matched_paths = rust_lane.get("matched_paths", [])
-        if mode in pr_fast_guardrails["blocked_modes"]:
+        if mode in pr_fast_guardrails["blocked_modes"] and not (
+            slow_proof_contract_only_disposition and mode == "contract_only"
+        ):
             escalation_required = True
             add_diagnostic(
                 diagnostics,
@@ -596,11 +615,11 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         status = "no_validation_needed"
     elif escalation_required:
         status = "escalation_required"
-    elif plan.get("aggregate_status") != "selected":
+    elif plan.get("aggregate_status") != "selected" and not slow_proof_contract_only_disposition:
         status = "not_runnable"
 
     pr_publication_sufficient = (
-        bool(plan.get("pr_publication_sufficient"))
+        (bool(plan.get("pr_publication_sufficient")) or slow_proof_contract_only_disposition)
         and not unmapped_change_gap
         and not escalation_required
         and status == "ready_to_run"
@@ -643,7 +662,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
             }
             for family in slow_proof_families
         ],
-        "estimated_cost": estimate_cost(selected, blocked),
+        "estimated_cost": estimate_cost(selected, effective_blocked),
         "escalation": {
             "required": escalation_required,
             "reasons": escalation_reasons,

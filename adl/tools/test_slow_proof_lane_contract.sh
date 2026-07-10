@@ -45,6 +45,52 @@ for family in families:
     seen_features.add(feature)
 PY
 
+python3 - "$ROOT_DIR/adl/src/runtime_v2/tests.rs" "$FAMILY_CONFIG" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+tests_rs = Path(sys.argv[1]).read_text()
+config = json.loads(Path(sys.argv[2]).read_text())
+
+required_gates = {
+    "governed_learning_substrate": "slow-proof-runtime",
+    "intelligence_metric_architecture": "slow-proof-runtime",
+    "memory_identity_architecture": "slow-proof-runtime",
+    "observatory_flagship": "slow-proof-observatory",
+}
+for module, feature in required_gates.items():
+    pattern = (
+        r'#\[cfg\(any\(feature = "slow-proof-tests", feature = "'
+        + re.escape(feature)
+        + r'"\)\)\]\s*mod\s+'
+        + re.escape(module)
+        + r';'
+    )
+    if not re.search(pattern, tests_rs):
+        raise SystemExit(f"slow runtime_v2 module is not gated by {feature}: {module}")
+
+samples_by_family = {
+    family["id"]: set(family.get("sample_tests", []))
+    for family in config.get("families", [])
+}
+required_samples = {
+    "runtime": {
+        "runtime_v2_memory_identity_architecture_contract_is_stable",
+        "runtime_v2_intelligence_metric_architecture_contract_is_stable",
+        "runtime_v2_governed_learning_substrate_contract_is_stable",
+    },
+    "observatory": {
+        "runtime_v2_observatory_flagship_review_surfaces_are_stable_and_serializable",
+    },
+}
+for family, samples in required_samples.items():
+    missing = samples - samples_by_family.get(family, set())
+    if missing:
+        raise SystemExit(f"slow-proof family {family} is missing samples: {sorted(missing)}")
+PY
+
 python3 - "$FAMILY_CONFIG" >"$tmpdir/families.tsv" <<'PY'
 import json
 import sys
