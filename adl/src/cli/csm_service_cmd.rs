@@ -1059,7 +1059,7 @@ fn startup_observation_attempts() -> u32 {
         .ok()
         .and_then(|raw| raw.parse::<u32>().ok())
         .filter(|value| *value > 0)
-        .unwrap_or(100)
+        .unwrap_or(20)
 }
 
 fn cycle_ledger_path(manifest: &ServiceManifest) -> PathBuf {
@@ -1077,11 +1077,11 @@ fn runtime_api_bind_observed(manifest: &ServiceManifest) -> bool {
     if !addr.ip().is_loopback() {
         return false;
     }
-    let Ok(mut stream) = TcpStream::connect_timeout(&addr, Duration::from_millis(500)) else {
+    let Ok(mut stream) = TcpStream::connect_timeout(&addr, Duration::from_millis(100)) else {
         return false;
     };
-    let _ = stream.set_read_timeout(Some(Duration::from_millis(1_000)));
-    let _ = stream.set_write_timeout(Some(Duration::from_millis(1_000)));
+    let _ = stream.set_read_timeout(Some(Duration::from_millis(200)));
+    let _ = stream.set_write_timeout(Some(Duration::from_millis(200)));
     let request = format!(
         "GET /ready HTTP/1.1\r\nhost: {}\r\nconnection: close\r\n\r\n",
         manifest.api_bind
