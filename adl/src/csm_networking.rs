@@ -7,17 +7,12 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::str::FromStr;
 use std::sync::OnceLock;
 
-pub const CSM_NETWORKING_SCHEMA: &str = "adl.csm.networking.v1";
-pub const CSM_POOLING_PLAN_SCHEMA: &str = "adl.csm.pooling_plan.v1";
-pub const CSM_LOCAL_PORT_RANGE_START: u16 = 19950;
-pub const CSM_LOCAL_PORT_RANGE_END: u16 = 19999;
-pub const CSM_MAIN_API_PORT: u16 = 19997;
-pub const CSM_LOOPBACK_HOST: &str = "127.0.0.1";
-pub const CSM_MAIN_API_BIND: &str = "127.0.0.1:19997";
-pub const CSM_DEADPOOL_CRATE: &str = "deadpool";
-pub const CSM_DEADPOOL_MODEL: &str = "deadpool::unmanaged";
-pub const CSM_DEFAULT_POOL_CAPACITY: usize = 4;
-pub const CSM_POOL_STATUS_SCHEMA: &str = "adl.csm.connection_pool_status.v1";
+pub use adl_runtime::networking::{
+    csm_reserved_range_label, is_csm_reserved_local_port, CSM_DEADPOOL_CRATE, CSM_DEADPOOL_MODEL,
+    CSM_DEFAULT_POOL_CAPACITY, CSM_LOCAL_PORT_RANGE_END, CSM_LOCAL_PORT_RANGE_START,
+    CSM_LOOPBACK_HOST, CSM_MAIN_API_BIND, CSM_MAIN_API_PORT, CSM_NETWORKING_SCHEMA,
+    CSM_POOLING_PLAN_SCHEMA, CSM_POOL_STATUS_SCHEMA,
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -174,14 +169,6 @@ pub fn reject_temp_allocation_port(port: u16) -> Result<()> {
         );
     }
     Ok(())
-}
-
-pub fn csm_reserved_range_label() -> String {
-    format!("{CSM_LOCAL_PORT_RANGE_START}-{CSM_LOCAL_PORT_RANGE_END}")
-}
-
-pub fn is_csm_reserved_local_port(port: u16) -> bool {
-    (CSM_LOCAL_PORT_RANGE_START..=CSM_LOCAL_PORT_RANGE_END).contains(&port)
 }
 
 pub fn build_csm_deadpool(role: impl Into<String>, capacity: usize) -> Result<CsmDeadpool> {
