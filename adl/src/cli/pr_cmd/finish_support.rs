@@ -4905,6 +4905,7 @@ fn finish_issue_needs_wp08_cloudfront_control_validation(
                 trimmed,
                 "adl/config/validation_lane_selector.v0.91.6.json"
                     | "adl/src/cli/csm_cmd.rs"
+                    | "adl/src/cli/csm_service_cmd.rs"
                     | "adl/src/cli/pr_cmd/finish_support.rs"
                     | "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs"
                     | "adl/src/csm_cloud_control.rs"
@@ -4970,12 +4971,15 @@ fn finish_issue_needs_wp07_csm_api_gateway_bridge_validation(
                 trimmed,
                 "adl/config/validation_lane_selector.v0.91.6.json"
                     | "adl/src/cli/csm_cmd.rs"
+                    | "adl/src/cli/csm_service_cmd.rs"
                     | "adl/src/cli/pr_cmd/finish_support.rs"
                     | "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs"
                     | "adl/src/csm_api_gateway_bridge.rs"
                     | "adl/src/csm_runtime_api.rs"
                     | "adl/src/lib.rs"
+                    | "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh"
                     | "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh"
+                    | "adl/tools/test_select_validation_lanes.sh"
                     | "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py"
             ) || trimmed
                 .starts_with("docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/")

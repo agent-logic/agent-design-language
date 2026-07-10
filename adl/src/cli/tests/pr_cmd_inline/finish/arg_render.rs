@@ -4610,13 +4610,18 @@ fn finish_validation_profile_classifies_wp07_csm_api_gateway_bridge_slice() {
     let changed_paths = vec![
         "adl/config/validation_lane_selector.v0.91.6.json".to_string(),
         "adl/src/cli/csm_cmd.rs".to_string(),
+        "adl/src/cli/csm_service_cmd.rs".to_string(),
         "adl/src/cli/pr_cmd/finish_support.rs".to_string(),
         "adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs".to_string(),
         "adl/src/csm_api_gateway_bridge.rs".to_string(),
         "adl/src/csm_runtime_api.rs".to_string(),
         "adl/src/lib.rs".to_string(),
+        "adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh".to_string(),
         "adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh".to_string(),
+        "adl/tools/test_select_validation_lanes.sh".to_string(),
         "adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py".to_string(),
+        "docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/live_20260710T004221Z/api_gateway_bridge_summary.json"
+            .to_string(),
     ];
     let requested_paths = changed_paths.join(",");
 
