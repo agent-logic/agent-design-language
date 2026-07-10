@@ -260,6 +260,9 @@ candidate_filter_for_path() {
     adl/src/chronosense.rs|adl/src/chronosense/*.rs)
       printf 'chronosense'
       ;;
+    adl/src/csm_runtime_api.rs)
+      printf 'csm_runtime_api'
+      ;;
     adl/src/cli/run_artifacts/runtime/*.rs)
       printf 'run_state'
       ;;
