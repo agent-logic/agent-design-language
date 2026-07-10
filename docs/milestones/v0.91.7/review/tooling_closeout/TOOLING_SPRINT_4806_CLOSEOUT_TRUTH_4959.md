@@ -17,9 +17,9 @@ For release review, this tracked packet is the durable evidence surface. The ign
 | --- | --- |
 | Stale child card truth existed in local `.adl` records, specifically #4737 SRP and #4836 SOR. | Local ignored records were normalized during #4959. This tracked packet records that those local records are not release evidence. |
 | Sprint review packet was local-only under ignored `.adl/`. | This tracked packet is now the release-review evidence surface for the closeout-truth repair. |
-| Sprint review said no follow-up was required while watcher ambiguity remained. | Watcher ambiguity is explicitly routed to #4950. |
-| Remaining raw `gh` usage existed in sprint-conductor helper scripts. | Routed to #4960, not fixed in this issue. |
-| Owner-binary stale primary last-resort is an operational compromise. | Routed to existing #4907, not fixed in this issue. |
+| Sprint review said no follow-up was required while watcher ambiguity remained. | Routed to #4950; #4950 is now closed with retained settled-state proof. |
+| Remaining raw `gh` usage existed in sprint-conductor helper scripts. | Routed to #4960; #4960 is now closed. |
+| Owner-binary stale primary last-resort is an operational compromise. | Routed to existing #4907; #4907 is now closed. |
 
 ## Local `.adl` State Boundary
 
@@ -45,13 +45,13 @@ Both were clean retained worktrees, not dirty residue. They were pruned during #
 
 | Follow-up | Status | Owner |
 | --- | --- | --- |
-| Distinguish validated closeout from closeout-needed watch state. | Open | #4950 |
-| Remove remaining raw `gh` usage from sprint-conductor helpers. | Open | #4960 |
-| Converge owner-binary fallback onto the final repo-binary story. | Open/existing route | #4907 |
+| Distinguish validated closeout from closeout-needed watch state. | Closed; retained proof recorded in `docs/milestones/v0.91.7/review/V0917_WP03_CLOSEOUT_SETTLED_STATE_PROOF_4950.md` | #4950 |
+| Remove remaining raw `gh` usage from sprint-conductor helpers. | Closed | #4960 |
+| Converge owner-binary fallback onto the final repo-binary story. | Closed | #4907 |
 
-## Current `pr.sh watch 4806 --json` Truth
+## Historical `pr.sh watch 4806 --json` Truth
 
-`pr.sh watch 4806 --json` still reports:
+During #4959, `pr.sh watch 4806 --json` still reported:
 
 ```json
 {
@@ -61,17 +61,25 @@ Both were clean retained worktrees, not dirty residue. They were pruned during #
 }
 ```
 
-This is expected until #4950 lands. It is no longer treated as an untracked #4806 sprint finding; it is an explicitly routed tooling bug.
+That output is retained as historical #4959 evidence only. The watcher
+ambiguity was later routed through #4950, which is now closed with settled-state
+proof retained in
+`docs/milestones/v0.91.7/review/V0917_WP03_CLOSEOUT_SETTLED_STATE_PROOF_4950.md`.
 
 ## Release Review Non-Claims
 
-- This packet does not claim all sprint-conductor `gh` usage is removed; #4960 owns that.
-- This packet does not claim watch-state ambiguity is fixed; #4950 owns that.
-- This packet does not claim the stale primary owner-binary fallback is the final architecture; #4907 owns that.
+- This packet did not itself remove sprint-conductor `gh` usage; #4960 owned
+  and closed that follow-up.
+- This packet did not itself fix watch-state ambiguity; #4950 owned and closed
+  that follow-up with retained proof.
+- This packet did not itself converge owner-binary fallback; #4907 owned and
+  closed that route.
 - This packet does not force-track ignored `.adl` local workflow state.
 
 ## Validation Plan For #4959
 
 - Validate repaired local #4737 SRP and #4836 SOR with focused structured-prompt checks where the local validators accept their terminal phase.
 - Run `git diff --check` for tracked packet hygiene.
-- Run `pr.sh watch 4806 --json` and retain the expected #4950-routed closeout-needed output in the #4959 SOR.
+- Retain the historical #4950-routed closeout-needed output in the #4959 SOR
+  only as original #4959 evidence; current watch-state truth is owned by the
+  later #4950 settled-state proof.
