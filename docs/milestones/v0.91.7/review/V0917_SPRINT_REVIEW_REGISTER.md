@@ -6,7 +6,7 @@ Last updated: 2026-07-10
 
 Issue: #5134
 
-Current update: #5143
+Current update: #4638
 
 ## Purpose
 
@@ -51,6 +51,10 @@ closed out in the issue/card/PR surfaces.
 - Follow-up #5143 adds separate WP-07 and WP-08 findings review documents so
   fixed findings, remaining blockers, and non-claims are reviewable without
   mining sprint-chat context.
+- WP-11 review in #4638 records the canonical reasoning graph, loop, skill,
+  AEE/ObsMem, Godel, and GHB follow-on PRs as merged/closed while keeping the
+  umbrella closeout blockers, stale child-card truth, retained-proof gap, and
+  validation caveats visible.
 
 ## Review Status Table
 
@@ -66,7 +70,7 @@ closed out in the issue/card/PR surfaces.
 | WP-08 | #4635 | closed | `docs/milestones/v0.91.7/review/V0917_WP08_FINDINGS_REVIEW_5143.md`; `docs/milestones/v0.91.7/review/V0917_WP08_RUNTIME_AWS_SIGNAL_OPERATIONS_4635.md` | Runtime AWS/signal child issues `#4684`-`#4688`, `#4913`, `#4915`, and proof-hygiene follow-up `#5006` are closed with retained proof. The separate #5143 findings record captures fixed heartbeat, ACIP/SNS, local polis SSM, S3 archive classification, and #4998 AWS profile-binding findings. Adjacent WP-07/WP-08 CSM governed-notice bridge tail `#4998` / PR `#5016` is also closed/merged with `adl-ci` and `adl-coverage` green and repo-native closeout validation; its retained proof lives under `docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/`. | Keep live AWS proof boundaries visible; do not claim broader WP-07 or release readiness from WP-08 alone. |
 | WP-09 | #4636 | open | Unity review artifacts under `docs/milestones/v0.91.7/review/unity_observatory_*` | Umbrella and child issues `#4689`-`#4691` remain open. | Finish Observatory/demo proof and review as WP-09. |
 | WP-10 | #4637 | open | none yet | Curiosity `#4692` and constructability `#4693` remain open. | Implement and review curiosity/constructability proof. |
-| WP-11 | #4638 | open | none yet | Reasoning graph, loops, skill standard, AEE/ObsMem, and Godel snapshot issues remain open. | Implement and review all WP-11 runtime/cognitive surfaces. |
+| WP-11 | #4638 | open; child PRs merged, closeout blocked | `docs/milestones/v0.91.7/review/V0917_WP11_REASONING_LOOPS_SKILL_REVIEW_4638.md` | Canonical children `#4694`-`#4697` are closed with merged PRs, and follow-ons `#4912`, `#5096`, and `#5136` are also closed. Review finds the umbrella is not closeout-ready: `#4638` remains open, doctor reports stale session claims and SOR finish readiness blocked, local umbrella SOR is still scaffold, and several local child cards are stale relative to merged PR evidence. | Normalize umbrella SRP/SOR, resolve stale session claims, and either normalize or explicitly supersede stale child card truth before closing or consuming WP-11 as release-ready. |
 | WP-12 | #4639 | open | none yet | Security/protocol issues `#4656`-`#4660`, `#4914`, `#4917`, and `#4920` remain open. | Implement and review security/protocol surfaces. |
 | WP-13 | #4640 | open | none yet | Affect, Godel, economics, guild, CodeFriend, and publication issues remain open. | Implement and review WP-13 surfaces. |
 | WP-14 | #4641 | open | none yet | Launch/birthday handoff children `#4758`-`#4763` remain open. | Finish launch and v0.92 birthday handoff proof. |
