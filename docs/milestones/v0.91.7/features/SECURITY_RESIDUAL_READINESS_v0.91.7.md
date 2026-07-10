@@ -4,7 +4,7 @@
 
 - Feature Name: Security Implementation Readiness
 - Milestone Target: `v0.91.7`
-- Status: planned
+- Status: gate recorded; child blockers open
 - Owner: ADL maintainers
 - Doc Role: primary
 - Feature Types: policy, architecture
@@ -50,6 +50,27 @@ Out of scope:
 - Run focused threat-model review.
 - Record requirements as resolved or blocked with evidence and operator approval.
 - Prevent silent deferral of activation-path security.
+
+## WP-12 Gate Record
+
+Issue `#4656` records the controlling WP-12 security and CAV gate in:
+
+- `docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md`
+- `docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json`
+
+The gate keeps security/CAV readiness fail-closed while child issues remain
+open:
+
+- `#4657`: SSM and local polis secret readiness.
+- `#4658`: ACIP/A2A schema and protobuf projection.
+- `#4659`: ACIP WebSocket transport path.
+- `#4660`: external-agent access rules.
+- `#4914`: CAV runtime red-blue proof.
+- `#4917`: tamper-evident evidence custody.
+- `#4920`: key rotation and break-glass policy.
+
+Rows without integrated proof or explicit operator-scoped-out approval remain
+blockers for `v0.92` activation claims.
 
 ## v0.92 Consumption
 
