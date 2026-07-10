@@ -2508,6 +2508,7 @@ memory:
 
 #[test]
 fn csm_service_local_start_stop_retains_status_checkpoint_and_observability() {
+    const COVERAGE_STARTUP_ATTEMPTS: &str = "80";
     let root = unique_test_temp_dir("csm-service-local");
     let spec = root.join("agent.yaml");
     fs::write(
@@ -2567,13 +2568,19 @@ memory:
         String::from_utf8_lossy(&install.stderr)
     );
 
-    let start = run_csm(&[
-        "service",
-        "start",
-        "--service-root",
-        service_root.to_str().expect("utf8 service root"),
-        "--json",
-    ]);
+    let start = run_csm_with_env(
+        &[
+            "service",
+            "start",
+            "--service-root",
+            service_root.to_str().expect("utf8 service root"),
+            "--json",
+        ],
+        &[(
+            "ADL_CSM_SERVICE_STARTUP_ATTEMPTS",
+            COVERAGE_STARTUP_ATTEMPTS,
+        )],
+    );
     assert!(
         start.status.success(),
         "start stderr:\n{}",
@@ -2668,13 +2675,19 @@ memory:
     assert!(otel.contains("\"name\":\"csm.start_requested\""));
     assert!(otel.contains("\"name\":\"csm.startup_probe\""));
 
-    let second_start = run_csm(&[
-        "service",
-        "start",
-        "--service-root",
-        service_root.to_str().expect("utf8 service root"),
-        "--json",
-    ]);
+    let second_start = run_csm_with_env(
+        &[
+            "service",
+            "start",
+            "--service-root",
+            service_root.to_str().expect("utf8 service root"),
+            "--json",
+        ],
+        &[(
+            "ADL_CSM_SERVICE_STARTUP_ATTEMPTS",
+            COVERAGE_STARTUP_ATTEMPTS,
+        )],
+    );
     assert!(
         second_start.status.success(),
         "second start stderr:\n{}",
@@ -2706,13 +2719,19 @@ memory:
     let service_status: serde_json::Value =
         serde_json::from_slice(&stop.stdout).expect("parse stop status stdout");
     assert_eq!(service_status["service_state"], "stopped_or_requested");
-    let restart = run_csm(&[
-        "service",
-        "start",
-        "--service-root",
-        service_root.to_str().expect("utf8 service root"),
-        "--json",
-    ]);
+    let restart = run_csm_with_env(
+        &[
+            "service",
+            "start",
+            "--service-root",
+            service_root.to_str().expect("utf8 service root"),
+            "--json",
+        ],
+        &[(
+            "ADL_CSM_SERVICE_STARTUP_ATTEMPTS",
+            COVERAGE_STARTUP_ATTEMPTS,
+        )],
+    );
     assert!(
         restart.status.success(),
         "restart after stop stderr:\n{}",
