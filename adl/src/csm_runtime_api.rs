@@ -185,6 +185,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         &checkpoint_freshness,
         daemon_state,
         daemon_pid_liveness.as_deref(),
+        &backpressure_state,
     );
     let ready = classify_ready(
         &agent_status.state,
@@ -192,6 +193,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         &continuity_checkpoint,
         daemon_state,
         daemon_pid_liveness.as_deref(),
+        &backpressure_state,
     );
     let runtime_capabilities = daemon_status
         .get("value")
@@ -253,6 +255,7 @@ fn health_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "status": status["status"],
         "daemon_liveness": status["daemon_liveness"],
         "checkpoint": status["checkpoint"],
+        "backpressure": status["backpressure"],
         "otel": status["otel"]
     });
     assert_api_response_redacted(&response)?;
@@ -296,14 +299,17 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
             "backpressure_lag_ms": backpressure_state.pointer("/value/summary/max_lag_ms").cloned().unwrap_or(Value::Null),
             "backpressure_deferred_count": backpressure_state.pointer("/value/summary/deferred_count").cloned().unwrap_or(Value::Null),
             "backpressure_shed_count": backpressure_state.pointer("/value/summary/shed_count").cloned().unwrap_or(Value::Null),
-            "backpressure_retry_capacity_remaining": backpressure_state.pointer("/value/summary/retry_budget_remaining").cloned().unwrap_or(Value::Null)
+            "backpressure_retry_capacity_remaining": backpressure_state.pointer("/value/summary/retry_budget_remaining").cloned().unwrap_or(Value::Null),
+            "storage_available_bytes": backpressure_state.pointer("/value/storage_pressure/available_bytes").cloned().unwrap_or(Value::Null),
+            "storage_disk_floor_bytes": backpressure_state.pointer("/value/storage_pressure/disk_floor_bytes").cloned().unwrap_or(Value::Null)
         },
         "states": {
             "health": status["status"],
             "ready": status["ready"],
             "agent_state": status["agent_status"]["state"],
             "backpressure_health": backpressure_state.pointer("/value/summary/health").cloned().unwrap_or(Value::Null),
-            "backpressure_safe_fail_action": backpressure_state.pointer("/value/safe_fail_action/action").cloned().unwrap_or(Value::Null)
+            "backpressure_safe_fail_action": backpressure_state.pointer("/value/safe_fail_action/action").cloned().unwrap_or(Value::Null),
+            "storage_pressure": backpressure_state.pointer("/value/storage_pressure/state").cloned().unwrap_or(Value::Null)
         }
     });
     assert_api_response_redacted(&response)?;
@@ -500,10 +506,17 @@ fn file_ref_status(path: &Path, reference: &str) -> Value {
 }
 
 fn compact_artifact_status(artifact: &Value, reference: &str) -> Value {
+    let storage_pressure = artifact
+        .pointer("/value/storage_pressure")
+        .cloned()
+        .unwrap_or(Value::Null);
     json!({
         "status": artifact.get("status").cloned().unwrap_or_else(|| json!("unknown")),
         "ref": reference,
-        "schema": artifact.pointer("/value/schema").cloned().unwrap_or(Value::Null)
+        "schema": artifact.pointer("/value/schema").cloned().unwrap_or(Value::Null),
+        "summary": artifact.pointer("/value/summary").cloned().unwrap_or(Value::Null),
+        "storage_pressure": storage_pressure,
+        "safe_fail_action": artifact.pointer("/value/safe_fail_action").cloned().unwrap_or(Value::Null)
     })
 }
 
@@ -555,12 +568,14 @@ fn classify_health(
     checkpoint_freshness: &Value,
     daemon_state: Option<&str>,
     daemon_pid_liveness: Option<&str>,
+    backpressure_state: &Value,
 ) -> &'static str {
     let degraded = matches!(state, AgentStatusState::Failed)
         || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
         || checkpoint_freshness.get("status").and_then(Value::as_str) == Some("stale")
         || is_terminal_daemon_state(daemon_state)
-        || daemon_pid_liveness == Some("stale_pid");
+        || daemon_pid_liveness == Some("stale_pid")
+        || storage_pressure_is_low_disk(backpressure_state);
     if degraded {
         "degraded"
     } else {
@@ -574,6 +589,7 @@ fn classify_ready(
     continuity_checkpoint: &Value,
     daemon_state: Option<&str>,
     daemon_pid_liveness: Option<&str>,
+    backpressure_state: &Value,
 ) -> &'static str {
     let not_ready = matches!(
         state,
@@ -581,7 +597,8 @@ fn classify_ready(
     ) || daemon_status.get("status").and_then(Value::as_str) != Some("serialized")
         || continuity_checkpoint.get("status").and_then(Value::as_str) != Some("serialized")
         || is_terminal_daemon_state(daemon_state)
-        || daemon_pid_liveness == Some("stale_pid");
+        || daemon_pid_liveness == Some("stale_pid")
+        || storage_pressure_is_low_disk(backpressure_state);
     if not_ready {
         "not_ready"
     } else {
@@ -686,7 +703,22 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
         Some("startup_failed") => blockers.push("daemon_state_startup_failed".to_string()),
         _ => {}
     }
+    if status
+        .pointer("/backpressure/storage_pressure/state")
+        .and_then(Value::as_str)
+        == Some("low_disk")
+    {
+        blockers.push("storage_low_disk".to_string());
+    }
     blockers
+}
+
+fn storage_pressure_is_low_disk(backpressure_state: &Value) -> bool {
+    backpressure_state
+        .pointer("/value/storage_pressure")
+        .and_then(|pressure| pressure.get("state"))
+        .and_then(Value::as_str)
+        == Some("low_disk")
 }
 
 fn validate_loopback_bind(addr: &SocketAddr) -> Result<()> {
@@ -1312,5 +1344,106 @@ memory: {}
         };
         let err = serve_runtime_api(options).expect_err("unclassified CSM :0 bind must fail");
         assert!(err.to_string().contains("refuses unclassified"));
+    }
+
+    #[test]
+    fn runtime_api_projects_low_disk_degraded_state() {
+        let root = temp_root("low-disk");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_status.v1",
+                "agent_instance_id": "api-agent",
+                "state": "idle",
+                "last_cycle_id": "cycle-000001",
+                "last_cycle_status": "success",
+                "completed_cycle_count": 1,
+                "consecutive_failure_count": 0,
+                "active_lease": null,
+                "stop_requested": false,
+                "last_error": null,
+                "safety_policy": null,
+                "updated_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("daemon_status.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_daemon_status.v1",
+                "state": "running",
+                "last_event": "checkpoint_write",
+                "updated_at": Utc::now(),
+                "last_checkpoint_at": Utc::now()
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("continuity_checkpoint.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            state.join("csm_backpressure_state.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.backpressure_state.v1",
+                "summary": {
+                    "health": "storage_low_disk_degraded",
+                    "deferred_count": 0,
+                    "shed_count": 0
+                },
+                "storage_pressure": {
+                    "state": "low_disk",
+                    "available_bytes": 1024,
+                    "disk_floor_bytes": 4096,
+                    "degraded_state": "recoverable"
+                },
+                "safe_fail_action": {
+                    "action": "preserve_minimal_checkpoint_bundle",
+                    "status": "degraded_recoverable"
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let status = runtime_api_response(&options, "/status").unwrap();
+        assert_eq!(status["status"], "degraded");
+        assert_eq!(status["ready"], "not_ready");
+        assert_eq!(
+            status["backpressure"]["storage_pressure"]["state"],
+            "low_disk"
+        );
+        let health = runtime_api_response(&options, "/health").unwrap();
+        assert_eq!(health["status"], "degraded");
+        assert_eq!(
+            health["backpressure"]["safe_fail_action"]["action"],
+            "preserve_minimal_checkpoint_bundle"
+        );
+        let ready = runtime_api_response(&options, "/ready").unwrap();
+        assert!(ready["blocking_reasons"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("storage_low_disk")));
+        let metrics = runtime_api_response(&options, "/metrics").unwrap();
+        assert_eq!(metrics["states"]["storage_pressure"], "low_disk");
+        assert_eq!(metrics["gauges"]["storage_available_bytes"], 1024);
+        assert_eq!(metrics["gauges"]["storage_disk_floor_bytes"], 4096);
     }
 }
