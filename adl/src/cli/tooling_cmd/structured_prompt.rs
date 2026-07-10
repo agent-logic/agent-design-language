@@ -8,23 +8,20 @@ use super::common::{
     ensure_bool, ensure_file, ensure_no_absolute_host_path, ensure_no_disallowed_content,
     is_normalized_slug, mapping_contains, mapping_mapping, mapping_seq_len, mapping_string,
     resolve_issue_or_input_arg, valid_branch, valid_github_issue_url, valid_github_pr_url,
-    valid_iso8601_datetime, valid_reference, valid_task_id, valid_version, ALLOWED_OUTPUT_STATUS,
+    valid_iso8601_datetime, valid_reference, valid_task_id, valid_version,
 };
 use super::markdown::{
     markdown_block_field, markdown_field, markdown_has_heading, markdown_section_body,
     split_front_matter,
 };
 use super::tooling_usage;
-
-const ALLOWED_CARD_STATUS: &[&str] = &[
-    "draft",
-    "ready",
-    "reviewed",
-    "approved",
-    "completed",
-    "blocked",
-    "superseded",
-];
+use adl::csdlc_prompt_editor::{
+    ActualMetricsDataSource, AllowedReviewDisposition, CardStatus, CodexPlanStatus, DemoRequired,
+    EstimateConfidence, EstimateDataSource, IntegrationState, IssueOutcomeType,
+    PromptCardEnumParseError, SorExecutionStatus, SppStatus, SrpStatus, StpAction, StpStatus,
+    ValidationSizeSplit, VarianceCategory, VarianceCompleted, VarianceRequired, VerificationScope,
+    VppStatus,
+};
 
 fn allowed_values_error(field: &str, actual: &str, allowed: &[&str]) -> String {
     let actual = if actual.trim().is_empty() {
@@ -44,6 +41,42 @@ fn ensure_allowed_value(field: &str, actual: &str, allowed: &[&str]) -> Result<(
         "{}",
         allowed_values_error(field, actual, allowed)
     );
+    Ok(())
+}
+
+fn ensure_prompt_enum_value<T>(
+    field: &str,
+    actual: &str,
+    parse: impl Fn(&str) -> std::result::Result<T, PromptCardEnumParseError>,
+) -> Result<()> {
+    parse(actual)
+        .map(|_| ())
+        .map_err(|err: PromptCardEnumParseError| {
+            let message = err.to_string();
+            if let Some((_, rest)) = message.split_once(" must be one of: ") {
+                anyhow!("{field} must be one of: {rest}")
+            } else {
+                anyhow!("{field} {message}")
+            }
+        })
+}
+
+fn validate_string_sequence_enum<T>(
+    fm: &serde_yaml::Mapping,
+    key: &str,
+    parse: impl Fn(&str) -> std::result::Result<T, PromptCardEnumParseError> + Copy,
+) -> Result<()> {
+    let values = fm
+        .get(Value::String(key.to_string()))
+        .and_then(Value::as_sequence)
+        .ok_or_else(|| anyhow!("{key} must be a sequence"))?;
+    ensure!(!values.is_empty(), "{key} must contain at least 1 item(s)");
+    for value in values {
+        let value = value
+            .as_str()
+            .ok_or_else(|| anyhow!("{key} entries must be strings"))?;
+        ensure_prompt_enum_value(key, value, parse)?;
+    }
     Ok(())
 }
 
@@ -512,7 +545,7 @@ fn validate_reference_sequence(fm: &serde_yaml::Mapping, key: &str) -> Result<()
 
 fn validate_optional_front_matter_card_status(fm: &serde_yaml::Mapping) -> Result<()> {
     if let Some(card_status) = mapping_string(fm, "card_status") {
-        ensure_allowed_value("card_status", &card_status, ALLOWED_CARD_STATUS)?;
+        ensure_prompt_enum_value("card_status", &card_status, CardStatus::parse)?;
     }
     Ok(())
 }
@@ -555,7 +588,7 @@ fn validate_completed_srp_card_status(fm: &serde_yaml::Mapping) -> Result<()> {
 
 fn validate_optional_markdown_card_status(text: &str) -> Result<()> {
     if let Some(card_status) = markdown_field(text, "Card Status") {
-        ensure_allowed_value("Card Status", &card_status, ALLOWED_CARD_STATUS)?;
+        ensure_prompt_enum_value("Card Status", &card_status, CardStatus::parse)?;
     }
     Ok(())
 }
@@ -611,14 +644,10 @@ pub(super) fn validate_stp_text(text: &str) -> Result<()> {
         "issue_number must be an integer"
     );
     let status = mapping_string(fm, "status").unwrap_or_default();
-    ensure_allowed_value("status", &status, &["draft", "active", "complete"])?;
+    ensure_prompt_enum_value("status", &status, StpStatus::parse)?;
     validate_optional_front_matter_card_status(fm)?;
     let action = mapping_string(fm, "action").unwrap_or_default();
-    ensure_allowed_value(
-        "action",
-        &action,
-        &["create", "edit", "close", "split", "supersede"],
-    )?;
+    ensure_prompt_enum_value("action", &action, StpAction::parse)?;
     ensure!(
         mapping_contains(fm, "depends_on"),
         "missing required field: depends_on"
@@ -629,10 +658,7 @@ pub(super) fn validate_stp_text(text: &str) -> Result<()> {
             .is_empty(),
         "missing required field: milestone_sprint"
     );
-    ensure!(
-        mapping_seq_len(fm, "required_outcome_type") >= 1,
-        "required_outcome_type must contain at least 1 item(s)"
-    );
+    validate_string_sequence_enum(fm, "required_outcome_type", IssueOutcomeType::parse)?;
     ensure!(
         mapping_contains(fm, "repo_inputs"),
         "missing required field: repo_inputs"
@@ -752,17 +778,22 @@ pub(super) fn validate_sip_text(text: &str, path: &Path, phase: Option<&str>) ->
     );
     let outcome =
         markdown_block_field(text, "Execution", "Required outcome type").unwrap_or_default();
-    ensure!(
-        outcome.is_empty()
-            || ["code", "docs", "tests", "demo", "combination"].contains(&outcome.as_str()),
-        "Execution.Required outcome type must be one of: code, docs, tests, demo, combination"
-    );
+    if !outcome.is_empty() {
+        ensure_prompt_enum_value(
+            "Execution.Required outcome type",
+            &outcome,
+            IssueOutcomeType::parse,
+        )?;
+    }
     let demo_required =
         markdown_block_field(text, "Execution", "Demo required").unwrap_or_default();
-    ensure!(
-        demo_required.is_empty() || ["true", "false"].contains(&demo_required.as_str()),
-        "Execution.Demo required must be true or false"
-    );
+    if !demo_required.is_empty() {
+        ensure_prompt_enum_value(
+            "Execution.Demo required",
+            &demo_required,
+            DemoRequired::parse,
+        )?;
+    }
     let _ = path;
     validate_prompt_spec(&extract_prompt_spec_yaml(text)?)?;
     Ok(())
@@ -799,17 +830,27 @@ pub(super) fn validate_sor_text(text: &str, phase: Option<&str>) -> Result<()> {
         "Integration state",
     )
     .unwrap_or_default();
-    if !integration_state.is_empty() {
-        ensure_allowed_value(
-            "Main Repo Integration.Integration state",
-            &integration_state,
-            &["worktree_only", "pr_open", "merged", "closed_no_pr"],
-        )?;
-    }
+    let parsed_integration_state = if integration_state.is_empty() {
+        None
+    } else {
+        Some(
+            IntegrationState::parse_with_alias(&integration_state).map_err(
+                |err: PromptCardEnumParseError| {
+                    let message = err.to_string();
+                    if let Some((_, rest)) = message.split_once(" must be one of: ") {
+                        anyhow!("Main Repo Integration.Integration state must be one of: {rest}")
+                    } else {
+                        anyhow!("Main Repo Integration.Integration state {message}")
+                    }
+                },
+            )?,
+        )
+    };
+    let canonical_integration_state = parsed_integration_state.map(|state| state.as_str());
     let branch = markdown_field(text, "Branch").unwrap_or_default();
     let branch_ok = if phase == Some("bootstrap") {
         valid_branch(&branch) || branch.eq_ignore_ascii_case("not bound yet")
-    } else if phase == Some("completed") && integration_state == "closed_no_pr" {
+    } else if phase == Some("completed") && canonical_integration_state == Some("closed_no_pr") {
         branch.eq_ignore_ascii_case("retrospective-no-branch")
     } else {
         valid_branch(&branch)
@@ -819,14 +860,15 @@ pub(super) fn validate_sor_text(text: &str, phase: Option<&str>) -> Result<()> {
         "Branch must be a codex/ branch{}",
         if phase == Some("bootstrap") {
             " or `not bound yet` in bootstrap phase"
-        } else if phase == Some("completed") && integration_state == "closed_no_pr" {
+        } else if phase == Some("completed") && canonical_integration_state == Some("closed_no_pr")
+        {
             " or `retrospective-no-branch` when completed-phase Integration state is `closed_no_pr`"
         } else {
             ""
         }
     );
     let status = markdown_field(text, "Status").unwrap_or_default();
-    ensure_allowed_value("Status", &status, ALLOWED_OUTPUT_STATUS)?;
+    ensure_prompt_enum_value("Status", &status, SorExecutionStatus::parse)?;
     let start = markdown_block_field(text, "Execution", "Start Time").unwrap_or_default();
     ensure!(
         start.is_empty() || valid_iso8601_datetime(&start),
@@ -844,10 +886,10 @@ pub(super) fn validate_sor_text(text: &str, phase: Option<&str>) -> Result<()> {
     )
     .unwrap_or_default();
     if !verification_scope.is_empty() {
-        ensure_allowed_value(
+        ensure_prompt_enum_value(
             "Main Repo Integration.Verification scope",
             &verification_scope,
-            &["worktree", "pr_branch", "main_repo"],
+            VerificationScope::parse_with_alias,
         )?;
     }
     let result = markdown_block_field(text, "Main Repo Integration (REQUIRED)", "Result")
@@ -864,7 +906,7 @@ pub(super) fn validate_sor_text(text: &str, phase: Option<&str>) -> Result<()> {
         .unwrap_or_default();
         let validation_body = markdown_section_body(text, "Validation").unwrap_or_default();
         ensure!(
-            ["merged", "closed_no_pr"].contains(&integration_state.as_str()),
+            matches!(canonical_integration_state, Some("merged" | "closed_no_pr")),
             "Card Status completed requires terminal Integration state: merged or closed_no_pr"
         );
         ensure!(
@@ -961,15 +1003,10 @@ pub(super) fn validate_sor_text(text: &str, phase: Option<&str>) -> Result<()> {
             validate_optional_markdown_metric_field(&metrics_body, label)?;
         }
         if let Some(value) = markdown_metric_field(&metrics_body, "Goal metrics data source") {
-            ensure_allowed_value(
+            ensure_prompt_enum_value(
                 "Issue Metrics Truth.Goal metrics data source",
                 &value,
-                &[
-                    "codex_goal_tool",
-                    "manual_entry",
-                    "derived_sprint_state",
-                    "unknown",
-                ],
+                ActualMetricsDataSource::parse,
             )?;
             let source_ref = markdown_metric_field(&metrics_body, "Goal metrics source ref")
                 .unwrap_or_else(|| "unknown".to_string());
@@ -991,10 +1028,10 @@ pub(super) fn validate_sor_text(text: &str, phase: Option<&str>) -> Result<()> {
             }
         }
         if let Some(value) = markdown_metric_field(&metrics_body, "Data-source confidence") {
-            ensure_allowed_value(
+            ensure_prompt_enum_value(
                 "Issue Metrics Truth.Data-source confidence",
                 &value,
-                &["low", "medium", "high", "unknown"],
+                EstimateConfidence::parse,
             )?;
             let source = markdown_metric_field(&metrics_body, "Goal metrics data source")
                 .unwrap_or_else(|| "unknown".to_string());
@@ -1036,31 +1073,20 @@ pub(super) fn validate_sor_text(text: &str, phase: Option<&str>) -> Result<()> {
             .unwrap_or_else(|| "not_applicable".to_string());
         let category = markdown_metric_field(&variance_body, "Variance category")
             .unwrap_or_else(|| "not_applicable".to_string());
-        ensure_allowed_value(
+        ensure_prompt_enum_value(
             "Variance Analysis.Variance analysis required",
             &required,
-            &["not_applicable", "no", "yes"],
+            VarianceRequired::parse,
         )?;
-        ensure_allowed_value(
+        ensure_prompt_enum_value(
             "Variance Analysis.Variance analysis completed",
             &completed,
-            &["not_applicable", "no", "yes"],
+            VarianceCompleted::parse,
         )?;
-        ensure_allowed_value(
+        ensure_prompt_enum_value(
             "Variance Analysis.Variance category",
             &category,
-            &[
-                "not_applicable",
-                "validation_misclassification",
-                "pr_wait",
-                "merge_conflict",
-                "tool_failure",
-                "unclear_scope",
-                "model_drift",
-                "human_wait",
-                "external_api_latency",
-                "overestimated_scope",
-            ],
+            VarianceCategory::parse,
         )?;
         let variance_note =
             markdown_metric_field(&variance_body, "Variance note").unwrap_or_default();
@@ -1187,11 +1213,7 @@ pub(super) fn validate_spp_text(text: &str) -> Result<()> {
         "branch must be a codex/ branch or `not bound yet`"
     );
     let status = mapping_string(fm, "status").unwrap_or_default();
-    ensure_allowed_value(
-        "status",
-        &status,
-        &["draft", "ready", "reviewed", "approved"],
-    )?;
+    ensure_prompt_enum_value("status", &status, SppStatus::parse)?;
     validate_optional_front_matter_card_status(fm)?;
     ensure!(
         mapping_string(fm, "plan_revision")
@@ -1214,18 +1236,10 @@ pub(super) fn validate_spp_text(text: &str) -> Result<()> {
     validate_optional_yaml_metric_field(fm, "estimate_total_tokens")?;
     validate_optional_yaml_metric_field(fm, "estimate_validation_seconds")?;
     if let Some(value) = mapping_string(fm, "estimate_confidence") {
-        ensure_allowed_value(
-            "estimate_confidence",
-            &value,
-            &["low", "medium", "high", "unknown"],
-        )?;
+        ensure_prompt_enum_value("estimate_confidence", &value, EstimateConfidence::parse)?;
     }
     if let Some(value) = mapping_string(fm, "estimate_data_source") {
-        ensure_allowed_value(
-            "estimate_data_source",
-            &value,
-            &["manual_entry", "derived_sprint_state", "unknown"],
-        )?;
+        ensure_prompt_enum_value("estimate_data_source", &value, EstimateDataSource::parse)?;
         let source_ref =
             mapping_string(fm, "estimate_source_ref").unwrap_or_else(|| "unknown".to_string());
         validate_unknown_or_reference("estimate_source_ref", &source_ref)?;
@@ -1320,11 +1334,7 @@ pub(super) fn validate_spp_text(text: &str) -> Result<()> {
         let step = mapping_string(item, "step").unwrap_or_default();
         ensure!(!step.is_empty(), "codex_plan.step must be non-empty");
         let status = mapping_string(item, "status").unwrap_or_default();
-        ensure_allowed_value(
-            "codex_plan.status",
-            &status,
-            &["pending", "in_progress", "completed"],
-        )?;
+        ensure_prompt_enum_value("codex_plan.status", &status, CodexPlanStatus::parse)?;
     }
 
     Ok(())
@@ -1397,11 +1407,10 @@ pub(super) fn validate_vpp_text(text: &str) -> Result<()> {
         "branch must be a codex/ branch or `not bound yet`"
     );
     let status = mapping_string(fm, "status").unwrap_or_default();
-    ensure_allowed_value(
-        "status",
-        &status,
-        &["draft", "ready", "reviewed", "approved"],
-    )?;
+    ensure_prompt_enum_value("status", &status, VppStatus::parse)?;
+    if let Some(value) = mapping_string(fm, "validation_size_split") {
+        ensure_prompt_enum_value("validation_size_split", &value, ValidationSizeSplit::parse)?;
+    }
     validate_optional_front_matter_card_status(fm)?;
     validate_reference_sequence(fm, "source_refs")?;
     ensure!(
@@ -1512,7 +1521,7 @@ pub(super) fn validate_srp_text(text: &str) -> Result<()> {
         "branch must be a codex/ branch or `not bound yet`"
     );
     let status = mapping_string(fm, "status").unwrap_or_default();
-    ensure_allowed_value("status", &status, &["draft", "ready", "approved"])?;
+    ensure_prompt_enum_value("status", &status, SrpStatus::parse)?;
     validate_optional_front_matter_card_status(fm)?;
     validate_completed_srp_card_status(fm)?;
     validate_reference_sequence(fm, "source_refs")?;
@@ -1550,10 +1559,11 @@ pub(super) fn validate_srp_text(text: &str) -> Result<()> {
         let disposition = disposition
             .as_str()
             .ok_or_else(|| anyhow!("allowed_dispositions entries must be strings"))?;
-        ensure!(
-            ["PASS", "BLOCK", "NEEDS_FOLLOWUP"].contains(&disposition),
-            "allowed_dispositions entries must be one of: PASS, BLOCK, NEEDS_FOLLOWUP"
-        );
+        ensure_prompt_enum_value(
+            "allowed_dispositions entries",
+            disposition,
+            AllowedReviewDisposition::parse,
+        )?;
     }
 
     Ok(())
