@@ -1,0 +1,20 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 5079
+decision: publishable_with_focused_local_proof_and_required_ci_before_merge
+reviewer_or_review_mode: bounded CI release-gate review through local workflow contract validation
+changed_release_gate_surfaces:
+  - .github/workflows/ci.yaml
+  - adl/config/validation_lane_selector.v0.91.6.json
+focused_validation_run: >
+  bash adl/tools/test_ci_runtime_contracts.sh; bash
+  adl/tools/test_ci_path_policy.sh; bash adl/tools/test_summarize_ci_runtime.sh;
+  ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yaml");
+  puts "YAML_OK"'; git diff --check.
+residual_ci_proof_required_before_merge: >
+  GitHub PR checks must pass before merge. The #5079 local proof validates the
+  workflow contract and selector mapping, but hosted wall-clock improvement and
+  split-lane scheduling must be observed on the PR tail.
+notes:
+  - "This issue preserves the stable required check name `adl-ci` as an aggregator over split parallel lanes."
+  - "Runtime/provider/security/release fail-closed escalation semantics remain required by path-policy and validation-manager contracts."
+  - "`adl-coverage` is intentionally not widened in this issue."

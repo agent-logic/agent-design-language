@@ -76,9 +76,11 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
   assert_file_has "$workflow" 'actual adl-coverage execution state'
-  assert_file_has "$workflow" "steps.path-policy.outputs.ci_contract_toolchain_required == 'true'"
-  assert_file_has "$workflow" "steps.path-policy.outputs.ci_path_policy_contracts_required == 'true'"
-  assert_file_has "$workflow" "steps.path-policy.outputs.skill_author_contracts_required == 'true'"
+  assert_file_has "$workflow" "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'"
+  assert_file_has "$workflow" "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'"
+  assert_file_has "$workflow" "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'"
+  assert_file_has "$workflow" "Aggregate split adl-ci lanes"
+  assert_file_has "$workflow" 'Stable required check \`adl-ci\` is an aggregator over parallel lanes.'
   assert_file_has "$workflow" 'Full workspace coverage gate deferred for PR'
   assert_file_has "$workflow" 'adl/target/coverage-impact-summary.json'
   assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
