@@ -324,7 +324,17 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     changed = set(changed_paths)
     allowed = {
         ".github/workflows/ci.yaml",
+        "adl/config/slow_proof_families.v0.91.6.json",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/src/runtime_v2/private_state_observatory.rs",
+        "adl/src/runtime_v2/tests.rs",
+        "adl/tools/ci_path_policy.sh",
+        "adl/tools/run_pr_fast_test_lane.sh",
+        "adl/tools/run_slow_proof_family.sh",
+        "adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md",
         "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/test_run_pr_fast_test_lane.sh",
+        "adl/tools/test_slow_proof_lane_contract.sh",
         "adl/tools/validation_manager.py",
         "adl/tools/test_validation_manager.sh",
     }
@@ -339,18 +349,52 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     contract = (ROOT / "adl/tools/test_ci_runtime_contracts.sh").read_text()
     manager = (ROOT / "adl/tools/validation_manager.py").read_text()
     manager_contract = (ROOT / "adl/tools/test_validation_manager.sh").read_text()
+    slow_config = (ROOT / "adl/config/slow_proof_families.v0.91.6.json").read_text()
+    slow_runner = (ROOT / "adl/tools/run_slow_proof_family.sh").read_text()
+    slow_contract = (ROOT / "adl/tools/test_slow_proof_lane_contract.sh").read_text()
+    runtime_tests = (ROOT / "adl/src/runtime_v2/tests.rs").read_text()
     required_workflow_fragments = [
         "adl-slow-proof:",
         "needs: adl_path_policy",
         "needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'",
         "shard: [1, 2, 3, 4]",
-        'cargo nextest run --features slow-proof-tests --partition "count:${{ matrix.shard }}/4"',
+        'bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"',
     ]
     required_contract_fragments = [
         'job_block("adl-slow-proof")',
         "slow_proof_contract_required == 'true'",
         "shard: [1, 2, 3, 4]",
-        'cargo nextest run --features slow-proof-tests --partition "count:${{ matrix.shard }}/4"',
+        'bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"',
+        "must not use a broad slow-proof-tests run",
+    ]
+    required_slow_config_fragments = [
+        '"module_selectors"',
+        "runtime_v2::tests::governed_learning_substrate::",
+        "runtime_v2::tests::intelligence_metric_architecture::",
+        "runtime_v2::tests::memory_identity_architecture::",
+        "runtime_v2::tests::private_state_observatory::",
+        "runtime_v2::tests::observatory_flagship::",
+    ]
+    required_slow_runner_fragments = [
+        'family_id == "all"',
+        "module_selectors",
+        'command_run=(cargo nextest run --lib --features "$feature" -E "$filter_expression")',
+        "--partition",
+    ]
+    required_slow_contract_fragments = [
+        "all-family slow-proof filter missing selector",
+        "all-family slow-proof run must not use the broad runtime_v2_ substring filter",
+        "slow runtime_v2 module is not gated",
+    ]
+    required_runtime_test_fragments = [
+        'feature = "slow-proof-runtime"',
+        'feature = "slow-proof-private-state"',
+        'feature = "slow-proof-observatory"',
+        "mod governed_learning_substrate;",
+        "mod intelligence_metric_architecture;",
+        "mod memory_identity_architecture;",
+        "mod private_state_observatory;",
+        "mod observatory_flagship;",
     ]
     required_manager_fragments = [
         "release_gate_slow_proof_pr_fanout_disposition",
@@ -365,6 +409,10 @@ def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
     return (
         all(fragment in workflow for fragment in required_workflow_fragments)
         and all(fragment in contract for fragment in required_contract_fragments)
+        and all(fragment in slow_config for fragment in required_slow_config_fragments)
+        and all(fragment in slow_runner for fragment in required_slow_runner_fragments)
+        and all(fragment in slow_contract for fragment in required_slow_contract_fragments)
+        and all(fragment in runtime_tests for fragment in required_runtime_test_fragments)
         and all(fragment in manager for fragment in required_manager_fragments)
         and all(fragment in manager_contract for fragment in required_manager_contract_fragments)
     )
@@ -394,7 +442,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
     blocked_lane_ids = {lane_id for lane_id, _lane in blocked}
     rust_lane_for_disposition = lanes.get("rust_pr_fast")
     slow_proof_contract_only_disposition = (
-        blocked_lane_ids <= {"rust_pr_fast", "slow_proof_review"}
+        blocked_lane_ids <= {"rust_pr_fast", "slow_proof_review", "release_gate_review"}
         and "rust_pr_fast" in blocked_lane_ids
         and "slow_proof_review" in blocked_lane_ids
         and isinstance(rust_lane_for_disposition, dict)
@@ -403,12 +451,23 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         == "slow_proof_inventory_change_covered_by_contract_check"
     )
     release_gate_slow_proof_pr_fanout_disposition = (
-        blocked_lane_ids == {"release_gate_review"}
+        bool(blocked_lane_ids)
+        and blocked_lane_ids <= {"release_gate_review", "slow_proof_review", "rust_pr_fast"}
+        and "release_gate_review" in blocked_lane_ids
         and slow_proof_pr_fanout_workflow_disposition(changed_paths)
     )
     soft_disposition_recorded = (
-        slow_proof_contract_only_disposition
-        or release_gate_slow_proof_pr_fanout_disposition
+        (
+            slow_proof_contract_only_disposition
+            and (
+                "release_gate_review" not in blocked_lane_ids
+                or release_gate_slow_proof_pr_fanout_disposition
+            )
+        )
+        or (
+            release_gate_slow_proof_pr_fanout_disposition
+            and blocked_lane_ids <= {"release_gate_review", "slow_proof_review"}
+        )
     )
     effective_blocked = [] if soft_disposition_recorded else blocked
 
@@ -481,7 +540,7 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
             and lane_id in {"rust_pr_fast", "slow_proof_review"}
         ) or (
             release_gate_slow_proof_pr_fanout_disposition
-            and lane_id == "release_gate_review"
+            and lane_id in {"release_gate_review", "slow_proof_review"}
         ):
             node = validation_dag_node(lane_id, lane, behavior["id"])
             node["status"] = "disposition_recorded"

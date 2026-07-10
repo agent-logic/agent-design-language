@@ -536,7 +536,7 @@ jobs:
 
       - name: Slow proof shard
         run: |
-          cargo nextest run --features slow-proof-tests --partition "count:${{ matrix.shard }}/4" --status-level all --final-status-level slow
+          bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"
 
   adl-coverage:
     runs-on: ubuntu-latest

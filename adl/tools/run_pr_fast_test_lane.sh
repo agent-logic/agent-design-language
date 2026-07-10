@@ -179,6 +179,7 @@ is_slow_pr_cmd_e2e_surface() {
 is_slow_proof_runtime_v2_test_surface() {
   local path="$1"
   case "$path" in
+    adl/src/runtime_v2/private_state_observatory.rs|\
     adl/src/runtime_v2/tests/governed_learning_substrate.rs|\
     adl/src/runtime_v2/tests/intelligence_metric_architecture.rs|\
     adl/src/runtime_v2/tests/memory_identity_architecture.rs|\

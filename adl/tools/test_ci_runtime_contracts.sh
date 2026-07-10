@@ -247,8 +247,10 @@ if not slow_proof_if_match or slow_proof_if_match.group(1).strip() != expected_s
     raise SystemExit("adl-slow-proof must run on PRs when slow_proof_contract_required is true")
 if "shard: [1, 2, 3, 4]" not in slow_proof_job:
     raise SystemExit("adl-slow-proof must keep the long slow-proof lane fanned out across four shards")
-if 'cargo nextest run --features slow-proof-tests --partition "count:${{ matrix.shard }}/4"' not in slow_proof_job:
-    raise SystemExit("adl-slow-proof must run slow-proof-tests through nextest partition fanout")
+if 'bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"' not in slow_proof_job:
+    raise SystemExit("adl-slow-proof must use the configured slow-proof family filter with nextest partition fanout")
+if "cargo nextest run --features slow-proof-tests --partition" in slow_proof_job:
+    raise SystemExit("adl-slow-proof must not use a broad slow-proof-tests run that mixes fast and slow runtime_v2 tests")
 
 release_version_truth = step_run("release version truth check")
 if release_version_truth != "bash adl/tools/check_release_version_surfaces.sh":

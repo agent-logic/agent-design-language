@@ -408,6 +408,49 @@ assert profile["validation_split"]["fast_lane"]["pr_publication_sufficient"] is 
 assert profile["validation_split"]["fail_closed"]["required"] is False
 PY
 
+slow_proof_filtered_fanout="$TMP/slow-proof-filtered-fanout.txt"
+cat >"$slow_proof_filtered_fanout" <<'EOF'
+M	.github/workflows/ci.yaml
+M	adl/config/slow_proof_families.v0.91.6.json
+M	adl/config/validation_lane_selector.v0.91.6.json
+M	adl/src/runtime_v2/private_state_observatory.rs
+M	adl/src/runtime_v2/tests.rs
+M	adl/tools/ci_path_policy.sh
+M	adl/tools/run_pr_fast_test_lane.sh
+M	adl/tools/run_slow_proof_family.sh
+M	adl/tools/skills/docs/CI_RUNTIME_POLICY_GUIDE.md
+M	adl/tools/test_ci_runtime_contracts.sh
+M	adl/tools/test_run_pr_fast_test_lane.sh
+M	adl/tools/test_slow_proof_lane_contract.sh
+M	adl/tools/test_validation_manager.sh
+M	adl/tools/validation_manager.py
+EOF
+bash "$SCRIPT" --changed-files "$slow_proof_filtered_fanout" --json >"$TMP/slow-proof-filtered-fanout.json"
+python3 - <<'PY' "$TMP/slow-proof-filtered-fanout.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert profile["escalation"]["reasons"] == []
+assert profile["diagnostics"] == []
+assert any(
+    node["lane_id"] == "release_gate_review"
+    and node["status"] == "disposition_recorded"
+    for node in profile["validation_dag"]["nodes"]
+)
+assert any(
+    node["lane_id"] == "slow_proof_review"
+    and node["status"] == "disposition_recorded"
+    for node in profile["validation_dag"]["nodes"]
+)
+assert profile["validation_split"]["fast_lane"]["pr_publication_sufficient"] is True
+assert profile["validation_split"]["fail_closed"]["required"] is False
+PY
+
 unmapped="$TMP/unmapped.txt"
 printf 'M\ttotally/unmapped/path.txt\n' >"$unmapped"
 bash "$SCRIPT" --changed-files "$unmapped" --json >"$TMP/unmapped.json"

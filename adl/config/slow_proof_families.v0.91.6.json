@@ -7,6 +7,11 @@
       "feature": "slow-proof-runtime",
       "proof_role": "slow_proof",
       "description": "Heavy runtime and governance proof materialization surfaces.",
+      "module_selectors": [
+        "runtime_v2::tests::governed_learning_substrate::",
+        "runtime_v2::tests::intelligence_metric_architecture::",
+        "runtime_v2::tests::memory_identity_architecture::"
+      ],
       "sample_tests": [
         "runtime_v2_memory_identity_architecture_contract_is_stable",
         "runtime_v2_intelligence_metric_architecture_contract_is_stable",
@@ -20,6 +25,9 @@
       "feature": "slow-proof-private-state",
       "proof_role": "slow_proof",
       "description": "Private-state materialization, lineage, and sealed-state proof surfaces.",
+      "module_selectors": [
+        "runtime_v2::tests::private_state_observatory::"
+      ],
       "sample_tests": [
         "runtime_v2_private_state_lineage_write_to_root_materializes_fixtures",
         "runtime_v2_private_state_observatory_materialization_proof_is_stable"
@@ -30,6 +38,9 @@
       "feature": "slow-proof-observatory",
       "proof_role": "slow_proof",
       "description": "Observatory-facing visibility and reporting proof surfaces.",
+      "module_selectors": [
+        "runtime_v2::tests::observatory_flagship::"
+      ],
       "sample_tests": [
         "runtime_v2_observatory_flagship_review_surfaces_are_stable_and_serializable",
         "runtime_v2_csm_observatory_writes_without_path_leakage"
@@ -40,6 +51,10 @@
       "feature": "slow-proof-security",
       "proof_role": "slow_proof",
       "description": "Security, access control, boundary refusal, and hardening proof surfaces.",
+      "module_selectors": [
+        "runtime_v2::tests::access_control::",
+        "runtime_v2::tests::acip_hardening::"
+      ],
       "sample_tests": [
         "runtime_v2_security_boundary_proof_writes_without_path_leakage",
         "runtime_v2_access_control_write_to_root_materializes_fixtures"

@@ -63,6 +63,7 @@ mod private_state;
 mod private_state_envelope;
 mod private_state_equivocation;
 mod private_state_lineage;
+#[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-private-state"))]
 mod private_state_observatory;
 mod private_state_sanctuary;
 mod private_state_sealing;
