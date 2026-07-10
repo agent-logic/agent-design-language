@@ -23,7 +23,7 @@ case "$1 $2" in
     printf '%s\n' '{"Items":[{"StageName":"prod","AutoDeploy":true}]}'
     ;;
   "apigatewayv2 get-routes")
-    printf '%s\n' '{"Items":[{"RouteKey":"GET /status","Target":"integrations/int-1234567890"},{"RouteKey":"GET /health","Target":"integrations/int-1234567890"},{"RouteKey":"GET /ready","Target":"integrations/int-1234567890"},{"RouteKey":"GET /metrics","Target":"integrations/int-1234567890"},{"RouteKey":"GET /events","Target":"integrations/int-1234567890"},{"RouteKey":"GET /api-gateway-bridge","Target":"integrations/int-1234567890"}]}'
+    printf '%s\n' '{"Items":[{"RouteKey":"GET /status","Target":"integrations/int-1234567890"},{"RouteKey":"GET /health","Target":"integrations/int-1234567890"},{"RouteKey":"GET /ready","Target":"integrations/int-1234567890"},{"RouteKey":"GET /metrics","Target":"integrations/int-1234567890"},{"RouteKey":"GET /events","Target":"integrations/int-1234567890"},{"RouteKey":"GET /chronosense","Target":"integrations/int-1234567890"},{"RouteKey":"GET /api-gateway-bridge","Target":"integrations/int-1234567890"}]}'
     ;;
   "apigatewayv2 get-integrations")
     printf '%s\n' '{"Items":[{"IntegrationId":"int-1234567890","IntegrationType":"HTTP_PROXY","IntegrationUri":"https://loopback-proxy.invalid/csm"}]}'
@@ -109,7 +109,7 @@ assert summary["polis_ingress"]["ingress_model"] == "one_api_gateway_api_per_pol
 assert summary["polis_ingress"]["route_target"] == "authorized_api_gateway_to_csm_loopback_runtime_api"
 assert summary["polis_ingress"]["per_polis_api"] is True
 assert summary["polis_ingress"]["runtime_identity_verified"] is True
-assert summary["api_gateway"]["route_target_count"] >= 6
+assert summary["api_gateway"]["route_target_count"] >= 7
 assert summary["api_gateway"]["integration_count"] >= 1
 assert summary["bridge"]["endpoint"] == "/api-gateway-bridge"
 assert summary["bridge"]["response_schema"] == "adl.csm.runtime_api.api_gateway_bridge.v1"
