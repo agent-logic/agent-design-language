@@ -28,6 +28,7 @@ mod evaluation_selection;
 mod external_counterparty;
 mod feature_proof_coverage;
 mod foundation;
+mod godel_agent_runtime;
 mod governed_episode;
 mod governed_learning_substrate;
 mod governed_tools_flagship_demo;
@@ -125,6 +126,8 @@ pub use external_counterparty::*;
 pub use feature_proof_coverage::*;
 #[allow(unused_imports)]
 pub use foundation::*;
+#[allow(unused_imports)]
+pub use godel_agent_runtime::*;
 #[allow(unused_imports)]
 pub use governed_episode::*;
 #[allow(unused_imports)]

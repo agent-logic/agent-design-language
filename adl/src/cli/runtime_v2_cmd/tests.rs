@@ -1,8 +1,9 @@
 use crate::cli::runtime_v2_cmd::{
     commands::{
         cognitive_being_flagship_demo_stdout_line, contract_market_demo_stdout_line,
-        feature_proof_coverage_stdout_line, governed_tools_flagship_demo_stdout_line,
-        loop_runtime_stdout_line, reasoning_graph_stdout_line,
+        feature_proof_coverage_stdout_line, godel_agent_runtime_stdout_line,
+        governed_tools_flagship_demo_stdout_line, loop_runtime_stdout_line,
+        reasoning_graph_stdout_line,
     },
     helpers::{real_runtime_v2, real_runtime_v2_in_repo},
 };
@@ -38,6 +39,8 @@ const RUNTIME_V2_CLI_REGRESSION_SMOKES: &[&str] = &[
     "reasoning-graph:arg-validation",
     "loop-runtime:write-json",
     "loop-runtime:arg-validation",
+    "godel-agent-runtime:write-json",
+    "godel-agent-runtime:arg-validation",
     "contract-market-demo:arg-validation",
     "governed-tools-flagship-demo:write-bundle",
     "governed-tools-flagship-demo:arg-validation",
@@ -115,8 +118,8 @@ fn trace_runtime_v2_dispatch_covers_help_and_subcommand_errors() {
 
     let err = real_runtime_v2_in_repo(&[], &repo).expect_err("missing subcommand should fail");
     assert!(err
-            .to_string()
-            .contains("runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, or loop-runtime"));
+        .to_string()
+        .contains("runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, loop-runtime, or godel-agent-runtime"));
 
     let err = real_runtime_v2_in_repo(&["bogus".to_string()], &repo)
         .expect_err("unknown subcommand should fail");
@@ -1056,6 +1059,103 @@ fn trace_runtime_v2_loop_runtime_validates_stdout_help_and_output_path_rules() {
 }
 
 #[test]
+fn trace_runtime_v2_godel_agent_runtime_writes_packet_json() {
+    let repo = temp_repo("godel-agent-runtime");
+    let out_path = repo.join("out/godel-agent-runtime.json");
+
+    real_runtime_v2_in_repo(
+        &[
+            "godel-agent-runtime".to_string(),
+            "--agents".to_string(),
+            "10".to_string(),
+            "--out".to_string(),
+            "out/godel-agent-runtime.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect("Godel agent runtime");
+
+    let json: serde_json::Value = serde_json::from_slice(
+        &fs::read(&out_path).expect("Godel agent runtime packet should exist"),
+    )
+    .expect("valid json");
+    assert_eq!(json["schema_version"], "runtime_v2.godel_agent_runtime.v1");
+    assert_eq!(json["milestone"], "v0.91.7");
+    assert_eq!(json["wp"], "WP-11");
+    assert_eq!(json["agents"].as_array().expect("agents").len(), 10);
+    assert_eq!(json["scheduling"]["max_concurrent_agents"], 10);
+    assert_eq!(
+        json["provider_registry"]
+            .as_array()
+            .expect("provider registry")
+            .iter()
+            .filter(|provider| provider["runtime_surface"] == "hosted_http")
+            .count(),
+        3
+    );
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[test]
+fn trace_runtime_v2_godel_agent_runtime_validates_stdout_help_and_output_path_rules() {
+    let repo = temp_repo("godel-agent-runtime-branches");
+
+    real_runtime_v2_in_repo(&["godel-agent-runtime".to_string()], &repo)
+        .expect("stdout Godel agent runtime packet");
+    real_runtime_v2_in_repo(
+        &["godel-agent-runtime".to_string(), "--help".to_string()],
+        &repo,
+    )
+    .expect("Godel agent runtime help");
+    let err = real_runtime_v2_in_repo(
+        &[
+            "godel-agent-runtime".to_string(),
+            "--out".to_string(),
+            repo.join("absolute/godel-agent-runtime.json")
+                .to_string_lossy()
+                .to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("absolute output path should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime-v2 godel-agent-runtime --out path must be repository-relative"));
+
+    let err = real_runtime_v2_in_repo(
+        &["godel-agent-runtime".to_string(), "--bogus".to_string()],
+        &repo,
+    )
+    .expect_err("unknown arg should fail");
+    assert!(err
+        .to_string()
+        .contains("unknown arg for runtime-v2 godel-agent-runtime: --bogus"));
+
+    let err = real_runtime_v2_in_repo(
+        &["godel-agent-runtime".to_string(), "--out".to_string()],
+        &repo,
+    )
+    .expect_err("missing out value should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime-v2 godel-agent-runtime requires --out <path>"));
+
+    let err = real_runtime_v2_in_repo(
+        &[
+            "godel-agent-runtime".to_string(),
+            "--agents".to_string(),
+            "9".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("less than ten agents should fail");
+    assert!(err.to_string().contains("agent count"));
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[test]
 fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_registry() {
     let proof_surfaces: &[fn()] = &[
         trace_runtime_v2_operator_controls_writes_report_json,
@@ -1082,6 +1182,8 @@ fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_r
         trace_runtime_v2_reasoning_graph_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_loop_runtime_writes_packet_json,
         trace_runtime_v2_loop_runtime_validates_stdout_help_and_output_path_rules,
+        trace_runtime_v2_godel_agent_runtime_writes_packet_json,
+        trace_runtime_v2_godel_agent_runtime_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_contract_market_demo_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_governed_tools_flagship_demo_writes_proof_bundle,
         trace_runtime_v2_governed_tools_flagship_demo_validates_stdout_help_and_output_path_rules,
@@ -1112,6 +1214,9 @@ fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_r
     assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
         .iter()
         .any(|smoke| smoke.starts_with("loop-runtime:")));
+    assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
+        .iter()
+        .any(|smoke| smoke.starts_with("godel-agent-runtime:")));
     assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
         .iter()
         .any(|smoke| smoke.starts_with("contract-market-demo:")));
@@ -1336,6 +1441,20 @@ fn trace_runtime_v2_demo_stdout_lines_preserve_requested_relative_paths() {
     assert!(
         !loop_runtime_stdout.contains(&cwd),
         "loop runtime stdout should not expose absolute repo root:\n{loop_runtime_stdout}"
+    );
+
+    let godel_agent_runtime_file = rel_root.join("godel-agent-runtime.json");
+    let godel_agent_runtime_stdout = godel_agent_runtime_stdout_line(&godel_agent_runtime_file);
+    assert_eq!(
+        godel_agent_runtime_stdout,
+        format!(
+            "RUNTIME_V2_GODEL_AGENT_RUNTIME_PATH={}",
+            godel_agent_runtime_file.display()
+        )
+    );
+    assert!(
+        !godel_agent_runtime_stdout.contains(&cwd),
+        "Godel agent runtime stdout should not expose absolute repo root:\n{godel_agent_runtime_stdout}"
     );
 
     let d13_flagship_stdout = cognitive_being_flagship_demo_stdout_line(&rel_root);

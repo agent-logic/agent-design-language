@@ -811,6 +811,7 @@ fn write_json<T: Serialize>(path: &Path, value: &T) -> Result<()> {
 }
 
 fn prepare_proof_dir(out_dir: &Path) -> Result<()> {
+    validate_proof_dir_root(out_dir)?;
     fs::create_dir_all(out_dir)
         .with_context(|| format!("create GHB proof dir '{}'", out_dir.display()))?;
     for owned_child in ["ghb", "snapshot-proof", "local-runs", "remote-runs"] {
@@ -819,6 +820,23 @@ fn prepare_proof_dir(out_dir: &Path) -> Result<()> {
             fs::remove_dir_all(&path)
                 .with_context(|| format!("clean stale GHB proof child '{}'", path.display()))?;
         }
+    }
+    Ok(())
+}
+
+fn validate_proof_dir_root(out_dir: &Path) -> Result<()> {
+    if out_dir.as_os_str().is_empty() || out_dir == Path::new(".") {
+        return Err(anyhow!(
+            "GHB proof --out must name a dedicated proof directory, not the current directory"
+        ));
+    }
+    let has_named_component = out_dir
+        .components()
+        .any(|component| matches!(component, std::path::Component::Normal(_)));
+    if !has_named_component {
+        return Err(anyhow!(
+            "GHB proof --out must name a dedicated proof directory"
+        ));
     }
     Ok(())
 }
@@ -869,5 +887,18 @@ mod tests {
         assert!(err
             .to_string()
             .contains("remote provider route must start with hosted:"));
+    }
+
+    #[test]
+    fn ghb_loop_rejects_current_directory_as_proof_root() {
+        let err = prove_ghb_recursive_self_improvement(GhbProofOptions {
+            out_dir: PathBuf::from("."),
+            run_id: "ghb-proof-5096".to_string(),
+            admitted_task: "Improve a bounded review plan".to_string(),
+            local_provider_route: "local:ollama/qwen".to_string(),
+            remote_provider_route: "hosted:bedrock/nova-pro".to_string(),
+        })
+        .expect_err("current directory output should fail before cleanup");
+        assert!(err.to_string().contains("dedicated proof directory"));
     }
 }

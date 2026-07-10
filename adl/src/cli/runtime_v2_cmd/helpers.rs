@@ -71,7 +71,7 @@ pub(crate) fn resolve_relative_output_path(
 pub(crate) fn real_runtime_v2_in_repo(args: &[String], repo_root: &Path) -> Result<()> {
     let Some(subcommand) = args.first().map(|arg| arg.as_str()) else {
         return Err(anyhow!(
-            "runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, or loop-runtime"
+            "runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, loop-runtime, or godel-agent-runtime"
         ));
     };
 
@@ -103,12 +103,15 @@ pub(crate) fn real_runtime_v2_in_repo(args: &[String], repo_root: &Path) -> Resu
         }
         "reasoning-graph" => commands::real_runtime_v2_reasoning_graph(repo_root, &args[1..]),
         "loop-runtime" => commands::real_runtime_v2_loop_runtime(repo_root, &args[1..]),
+        "godel-agent-runtime" => {
+            commands::real_runtime_v2_godel_agent_runtime(repo_root, &args[1..])
+        }
         "--help" | "-h" | "help" => {
             println!("{}", usage::usage());
             Ok(())
         }
         _ => Err(anyhow!(
-            "unknown runtime-v2 subcommand '{subcommand}' (expected operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, or loop-runtime)"
+            "unknown runtime-v2 subcommand '{subcommand}' (expected operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, loop-runtime, or godel-agent-runtime)"
         )),
     }
 }
