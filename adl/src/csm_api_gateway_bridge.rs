@@ -703,31 +703,40 @@ fn run_negative_auth_case(
 }
 
 fn query_cloudwatch(options: &ApiGatewayBridgeOptions, correlation_id: &str) -> Result<Value> {
-    let logs = aws_json(
-        &options.aws_bin,
-        &[
-            "logs",
-            "filter-log-events",
-            "--log-group-name",
-            &options.cloudwatch_log_group,
-            "--filter-pattern",
-            correlation_id,
-            "--profile",
-            &options.profile,
-            "--region",
-            &options.region,
-            "--output",
-            "json",
-        ],
-    )?;
-    let events = logs
-        .get("events")
-        .and_then(Value::as_array)
-        .cloned()
-        .unwrap_or_default();
-    let observed = serde_json::to_string(&events)
-        .unwrap_or_default()
-        .contains(correlation_id);
+    let mut events = Vec::new();
+    let mut observed = false;
+    let filter_pattern = format!("\"{correlation_id}\"");
+    for attempt in 1..=8 {
+        let logs = aws_json(
+            &options.aws_bin,
+            &[
+                "logs",
+                "filter-log-events",
+                "--log-group-name",
+                &options.cloudwatch_log_group,
+                "--filter-pattern",
+                &filter_pattern,
+                "--profile",
+                &options.profile,
+                "--region",
+                &options.region,
+                "--output",
+                "json",
+            ],
+        )?;
+        events = logs
+            .get("events")
+            .and_then(Value::as_array)
+            .cloned()
+            .unwrap_or_default();
+        observed = serde_json::to_string(&events)
+            .unwrap_or_default()
+            .contains(correlation_id);
+        if observed || attempt == 8 {
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_secs(2));
+    }
     Ok(json!({
         "correlation_observed": observed,
         "event_count": events.len(),

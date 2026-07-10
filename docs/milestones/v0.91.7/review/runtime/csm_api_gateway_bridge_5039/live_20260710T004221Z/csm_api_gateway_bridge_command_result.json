@@ -1,0 +1,99 @@
+{
+  "schema": "adl.csm.api_gateway_bridge_proof.v1",
+  "issue": 5039,
+  "status": "passed",
+  "run_id": "wp07-5039-20260710T004221Z",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "aws_account_hash": "b05e1f4379b5c745",
+  "polis_ingress": {
+    "polis_id_hash": "c2652d83e0dfb3fa",
+    "ingress_model": "one_api_gateway_api_per_polis",
+    "route_target": "authorized_api_gateway_to_csm_loopback_runtime_api",
+    "per_polis_api": true,
+    "runtime_identity_verified": true
+  },
+  "api_gateway": {
+    "api_count": 1,
+    "selected_api_id_hash": "f6a0963d9ca57433",
+    "selected_api_name_hash": "3f2add8ad0ad3742",
+    "selected_protocol_type": "HTTP",
+    "selected_stage_name_hash": "6754af9632a2745e",
+    "selected_stage_auto_deploy": true,
+    "supported_route_keys": [
+      "$default"
+    ],
+    "planned_route_keys": [
+      "GET /status",
+      "GET /health",
+      "GET /ready",
+      "GET /metrics",
+      "GET /events",
+      "GET /api-gateway-bridge",
+      "GET /chronosense"
+    ],
+    "route_target_count": 1,
+    "integration_count": 2,
+    "integration_target_hashes": [
+      "fe47dc00507f4d86",
+      "48dcf65ec5319bf4"
+    ]
+  },
+  "bridge": {
+    "correlation_id": "csm-5039-5147d4c763abc133",
+    "endpoint": "/api-gateway-bridge",
+    "http_status": 200,
+    "response_schema": "adl.csm.runtime_api.api_gateway_bridge.v1",
+    "runtime_owner": "csm",
+    "status_class": "available",
+    "ready_class": "unknown",
+    "redacted_payload_ref": "redacted_api_gateway_bridge_payload.json"
+  },
+  "observability": {
+    "cloudwatch_log_group_hash": "ea555403c960bcfa",
+    "cloudwatch_correlation_observed": true,
+    "cloudwatch_event_count": 1,
+    "eventbridge_bus_hash": "12229c207f4f7148",
+    "eventbridge_rule_count": 1,
+    "eventbridge_correlation_policy": "retained CloudWatch correlation id plus EventBridge rule inventory"
+  },
+  "event_schema": {
+    "event_kinds": [
+      "success",
+      "denied",
+      "throttled",
+      "malformed_request",
+      "upstream_failure",
+      "degraded_csm_state"
+    ],
+    "redaction": "only request correlation IDs, route labels, classifications, and hashes are retained",
+    "schema": "adl.csm.api_gateway_bridge.event.v1"
+  },
+  "negative_case_policy": {
+    "degraded_csm_state": "api_gateway_degraded_csm_state",
+    "malformed_request": "api_gateway_malformed_request",
+    "missing_token": "api_gateway_authorization_denied",
+    "throttling": "api_gateway_throttled",
+    "upstream_failure": "api_gateway_upstream_failure"
+  },
+  "live_negative_cases": {
+    "http_status": 403,
+    "missing_token": "api_gateway_authorization_denied",
+    "raw_error_recorded": false
+  },
+  "redaction": {
+    "credentials_recorded": false,
+    "raw_account_id_recorded": false,
+    "raw_api_id_recorded": false,
+    "raw_authorization_material_recorded": false,
+    "raw_invoke_url_recorded": false
+  },
+  "local_csm_api_policy": {
+    "bridge_mode": "aws_api_gateway_to_authorized_loopback_runtime_api",
+    "direct_public_daemon_bind": false,
+    "embedded_daemon_api": "loopback_only",
+    "per_polis_api_gateway": true,
+    "polis_id_hash": "c2652d83e0dfb3fa",
+    "runtime_api_path": "/api-gateway-bridge"
+  }
+}

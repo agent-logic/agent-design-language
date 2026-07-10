@@ -110,13 +110,13 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
         {
             match listener.accept() {
                 Ok((mut stream, _)) => {
-                    stream
-                        .set_read_timeout(Some(Duration::from_secs(5)))
-                        .context("set CSM runtime API read timeout")?;
-                    let request = read_runtime_api_request(&mut stream)?;
-                    let response = runtime_api_http_response(&options, &request)?;
-                    write_http_response(&mut stream, &response)?;
-                    served += 1;
+                    match handle_runtime_api_stream(&options, &mut stream) {
+                        Ok(()) => served += 1,
+                        Err(err) if is_transient_client_io_error(&err) => {
+                            emit_runtime_api_client_error(&err);
+                        }
+                        Err(err) => return Err(err),
+                    }
                     last_activity = Instant::now();
                 }
                 Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
@@ -131,13 +131,14 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
     } else {
         for stream in listener.incoming() {
             let mut stream = stream.context("accept CSM runtime API connection")?;
-            stream
-                .set_read_timeout(Some(Duration::from_secs(5)))
-                .context("set CSM runtime API read timeout")?;
-            let request = read_runtime_api_request(&mut stream)?;
-            let response = runtime_api_http_response(&options, &request)?;
-            write_http_response(&mut stream, &response)?;
-            served += 1;
+            match handle_runtime_api_stream(&options, &mut stream) {
+                Ok(()) => served += 1,
+                Err(err) if is_transient_client_io_error(&err) => {
+                    emit_runtime_api_client_error(&err);
+                    continue;
+                }
+                Err(err) => return Err(err),
+            }
             if options
                 .test_max_requests
                 .is_some_and(|test_max_requests| served >= test_max_requests)
@@ -442,6 +443,39 @@ fn artifact_path(loaded: &LoadedAgentSpec, name: &str) -> PathBuf {
     loaded.state_root.join(name)
 }
 
+fn handle_runtime_api_stream(options: &CsmRuntimeApiOptions, stream: &mut TcpStream) -> Result<()> {
+    stream
+        .set_read_timeout(Some(Duration::from_secs(5)))
+        .context("set CSM runtime API read timeout")?;
+    let request = read_runtime_api_request(stream)?;
+    let response = runtime_api_http_response(options, &request)?;
+    write_http_response(stream, &response)
+}
+
+fn is_transient_client_io_error(err: &anyhow::Error) -> bool {
+    err.chain().any(|cause| {
+        cause.downcast_ref::<std::io::Error>().is_some_and(|io| {
+            matches!(
+                io.kind(),
+                std::io::ErrorKind::BrokenPipe
+                    | std::io::ErrorKind::ConnectionReset
+                    | std::io::ErrorKind::ConnectionAborted
+                    | std::io::ErrorKind::UnexpectedEof
+            )
+        })
+    })
+}
+
+fn emit_runtime_api_client_error(err: &anyhow::Error) {
+    let error = err
+        .to_string()
+        .replace(|c: char| c.is_whitespace(), "_")
+        .replace('/', "_");
+    eprintln!(
+        "adl_event schema=adl.observability.event.v1 command=csm stage=runtime_api_client_connection result=ignored error={error}"
+    );
+}
+
 fn resolve_otel_status_path(
     loaded: &LoadedAgentSpec,
     options: &CsmRuntimeApiOptions,
@@ -550,6 +584,9 @@ fn read_jsonl_tail(path: &Path, limit: usize) -> Value {
 fn sanitize_json(value: Value) -> Value {
     match value {
         Value::String(raw) => sanitize_string(&raw).into(),
+        Value::Number(raw) if contains_cloud_account_identifier(&raw.to_string()) => {
+            Value::String("[redacted]".to_string())
+        }
         Value::Array(values) => Value::Array(values.into_iter().map(sanitize_json).collect()),
         Value::Object(map) => Value::Object(
             map.into_iter()
@@ -1092,6 +1129,11 @@ pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
             ));
         }
     }
+    if contains_cloud_account_identifier(&raw) {
+        return Err(anyhow!(
+            "CSM runtime API response leaked forbidden cloud account identifier"
+        ));
+    }
     Ok(())
 }
 
@@ -1335,6 +1377,13 @@ memory: {}
     }
 
     #[test]
+    fn runtime_api_classifies_broken_client_write_as_transient() {
+        let err = anyhow::Error::new(std::io::Error::from(std::io::ErrorKind::BrokenPipe))
+            .context("write CSM runtime API response");
+        assert!(is_transient_client_io_error(&err));
+    }
+
+    #[test]
     fn runtime_api_redacts_secret_and_host_path_event_payloads() {
         let root = temp_root("redaction");
         let spec = write_spec(&root);
@@ -1342,7 +1391,7 @@ memory: {}
         fs::create_dir_all(&state).unwrap();
         fs::write(
             state.join("operator_events.jsonl"),
-            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","message":"failed opening /Users/example/secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
+            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","numeric_account":123456789012,"message":"failed opening /Users/example/secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
