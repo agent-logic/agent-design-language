@@ -210,6 +210,19 @@ assert_has "$TMP/csm-continuity-capsule-4910-surface.out" "aggregate_status=sele
 assert_has "$TMP/csm-continuity-capsule-4910-surface.out" "v0917_csm_continuity_capsule_4910_contracts status=selected"
 assert_not_has "$TMP/csm-continuity-capsule-4910-surface.out" "unmapped_change_surface"
 
+wp07_csm_api_gateway_bridge_surface="$TMP/wp07-csm-api-gateway-bridge-surface.txt"
+cat >"$wp07_csm_api_gateway_bridge_surface" <<'EOF'
+A	adl/src/csm_api_gateway_bridge.rs
+A	adl/tools/run_v0917_csm_api_gateway_bridge_live_proof.sh
+A	adl/tools/test_run_v0917_csm_api_gateway_bridge_proof.sh
+A	adl/tools/validate_v0917_csm_api_gateway_bridge_proof.py
+A	docs/milestones/v0.91.7/review/runtime/csm_api_gateway_bridge_5039/live_20260710T004221Z/api_gateway_bridge_summary.json
+EOF
+bash "$SCRIPT" --changed-files "$wp07_csm_api_gateway_bridge_surface" >"$TMP/wp07-csm-api-gateway-bridge-surface.out"
+assert_has "$TMP/wp07-csm-api-gateway-bridge-surface.out" "aggregate_status=selected"
+assert_has "$TMP/wp07-csm-api-gateway-bridge-surface.out" "wp07_csm_api_gateway_bridge_proof status=selected"
+assert_not_has "$TMP/wp07-csm-api-gateway-bridge-surface.out" "unmapped_change_surface"
+
 release_gate="$TMP/release-gate.txt"
 printf 'M\t.github/workflows/ci.yaml\n' >"$release_gate"
 bash "$SCRIPT" --changed-files "$release_gate" >"$TMP/release.out"

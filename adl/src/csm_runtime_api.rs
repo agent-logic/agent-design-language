@@ -1,4 +1,7 @@
 //! Local CSM runtime observability API.
+#[path = "csm_api_gateway_bridge.rs"]
+mod api_gateway_bridge;
+
 use anyhow::{anyhow, bail, Context, Result};
 use chrono::{DateTime, Utc};
 use serde_json::{json, Value};
@@ -15,6 +18,8 @@ use crate::csm_networking::{
 };
 use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, StatusRecord};
 
+pub use api_gateway_bridge::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
+
 pub const CSM_RUNTIME_API_SCHEMA: &str = "adl.csm.runtime_api.v1";
 pub const CSM_RUNTIME_API_STATUS_SCHEMA: &str = "adl.csm.runtime_api.status.v1";
 pub const CSM_RUNTIME_API_HEALTH_SCHEMA: &str = "adl.csm.runtime_api.health.v1";
@@ -23,6 +28,17 @@ pub const CSM_RUNTIME_API_METRICS_SCHEMA: &str = "adl.csm.runtime_api.metrics.v1
 pub const CSM_RUNTIME_API_EVENTS_SCHEMA: &str = "adl.csm.runtime_api.events.v1";
 const CSM_RUNTIME_API_BROWSER_DEMO_PORT: &str = "8765";
 pub const CSM_RUNTIME_API_CHRONOSENSE_SCHEMA: &str = "adl.csm.runtime_api.chronosense.v1";
+pub const CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA: &str =
+    "adl.csm.runtime_api.api_gateway_bridge.v1";
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 7] = [
+    "/status",
+    "/health",
+    "/ready",
+    "/metrics",
+    "/events",
+    "/chronosense",
+    "/api-gateway-bridge",
+];
 
 #[derive(Debug, Clone)]
 pub struct CsmRuntimeApiOptions {
@@ -94,13 +110,13 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
         {
             match listener.accept() {
                 Ok((mut stream, _)) => {
-                    stream
-                        .set_read_timeout(Some(Duration::from_secs(5)))
-                        .context("set CSM runtime API read timeout")?;
-                    let request = read_runtime_api_request(&mut stream)?;
-                    let response = runtime_api_http_response(&options, &request)?;
-                    write_http_response(&mut stream, &response)?;
-                    served += 1;
+                    match handle_runtime_api_stream(&options, &mut stream) {
+                        Ok(()) => served += 1,
+                        Err(err) if is_transient_client_io_error(&err) => {
+                            emit_runtime_api_client_error(&err);
+                        }
+                        Err(err) => return Err(err),
+                    }
                     last_activity = Instant::now();
                 }
                 Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
@@ -115,13 +131,14 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
     } else {
         for stream in listener.incoming() {
             let mut stream = stream.context("accept CSM runtime API connection")?;
-            stream
-                .set_read_timeout(Some(Duration::from_secs(5)))
-                .context("set CSM runtime API read timeout")?;
-            let request = read_runtime_api_request(&mut stream)?;
-            let response = runtime_api_http_response(&options, &request)?;
-            write_http_response(&mut stream, &response)?;
-            served += 1;
+            match handle_runtime_api_stream(&options, &mut stream) {
+                Ok(()) => served += 1,
+                Err(err) if is_transient_client_io_error(&err) => {
+                    emit_runtime_api_client_error(&err);
+                    continue;
+                }
+                Err(err) => return Err(err),
+            }
             if options
                 .test_max_requests
                 .is_some_and(|test_max_requests| served >= test_max_requests)
@@ -149,11 +166,12 @@ pub fn runtime_api_response(options: &CsmRuntimeApiOptions, path: &str) -> Resul
         "/metrics" => metrics_response(&loaded, options),
         "/events" => events_response(&loaded),
         "/chronosense" => chronosense_response(&loaded, options),
+        "/api-gateway-bridge" => api_gateway_bridge_response(&loaded),
         other => Ok(json!({
             "schema": CSM_RUNTIME_API_SCHEMA,
             "status": "not_found",
             "endpoint": other,
-            "supported_endpoints": ["/status", "/health", "/ready", "/metrics", "/events", "/chronosense"]
+            "supported_endpoints": CSM_RUNTIME_API_ENDPOINTS
         })),
     }
 }
@@ -234,6 +252,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
             "safe_fail_bundle": compact_artifact_status(&safe_fail_bundle, "safe_fail_bundle.json")
         },
         "backpressure": compact_artifact_status(&backpressure_state, "csm_backpressure_state.json"),
+        "api_gateway_bridge": api_gateway_bridge_runtime_status(loaded),
         "otel": {
             "status": compact_artifact_status(&otel_status, "ADL_OTEL_STATUS"),
             "log": otel_log
@@ -282,6 +301,41 @@ fn chronosense_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions
         "monotonic_runtime": {
             "clock_stack_capture": chronosense.get("clock_stack_capture").cloned().unwrap_or(Value::Null),
             "reference_frames": ["utc_epoch_millis", "local_civil_time", "runtime_lifetime", "runtime_monotonic_elapsed"]
+        }
+    });
+    assert_api_response_redacted(&response)?;
+    Ok(response)
+}
+
+fn api_gateway_bridge_response(loaded: &LoadedAgentSpec) -> Result<Value> {
+    let response = json!({
+        "schema": CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA,
+        "runtime_owner": "csm",
+        "agent_instance_id": loaded.spec.agent_instance_id,
+        "status": "available",
+        "runtime_api_path": "/api-gateway-bridge",
+        "polis_ingress": {
+            "polis_id": loaded.spec.agent_instance_id,
+            "ingress_model": "one_api_gateway_api_per_polis",
+            "route_target": "authorized_api_gateway_to_csm_loopback_runtime_api",
+            "per_polis_api": true
+        },
+        "bridge_mode": "aws_api_gateway_to_authorized_loopback_runtime_api",
+        "embedded_daemon_api": "loopback_only",
+        "direct_public_daemon_bind": false,
+        "required_runtime_routes": CSM_RUNTIME_API_ENDPOINTS,
+        "negative_case_policy": {
+            "missing_token": "api_gateway_authorization_denied",
+            "malformed_request": "api_gateway_malformed_request",
+            "throttling": "api_gateway_throttled",
+            "upstream_failure": "api_gateway_upstream_failure",
+            "degraded_csm_state": "api_gateway_degraded_csm_state"
+        },
+        "retained_bridge_summary": api_gateway_bridge_runtime_status(loaded),
+        "redaction": {
+            "absolute_host_paths": "not_returned",
+            "secret_material": "not_returned",
+            "cloud_account_identifiers": "not_returned"
         }
     });
     assert_api_response_redacted(&response)?;
@@ -370,8 +424,56 @@ fn events_response(loaded: &LoadedAgentSpec) -> Result<Value> {
     Ok(response)
 }
 
+fn api_gateway_bridge_runtime_status(loaded: &LoadedAgentSpec) -> Value {
+    let artifact = read_json_artifact(&artifact_path(loaded, "api_gateway_bridge_summary.json"));
+    json!({
+        "status": artifact.get("status").cloned().unwrap_or_else(|| json!("missing")),
+        "ref": "api_gateway_bridge_summary.json",
+        "schema": artifact.pointer("/value/schema").cloned().unwrap_or(Value::Null),
+        "runtime_owner": "csm",
+        "runtime_api_path": "/api-gateway-bridge",
+        "artifact_owned_by": "csm_runtime_api",
+        "ingress_model": artifact.pointer("/value/polis_ingress/ingress_model").cloned().unwrap_or_else(|| json!("one_api_gateway_api_per_polis")),
+        "polis_id_hash": artifact.pointer("/value/polis_ingress/polis_id_hash").cloned().unwrap_or(Value::Null),
+        "runtime_identity_verified": artifact.pointer("/value/polis_ingress/runtime_identity_verified").cloned().unwrap_or(Value::Null)
+    })
+}
+
 fn artifact_path(loaded: &LoadedAgentSpec, name: &str) -> PathBuf {
     loaded.state_root.join(name)
+}
+
+fn handle_runtime_api_stream(options: &CsmRuntimeApiOptions, stream: &mut TcpStream) -> Result<()> {
+    stream
+        .set_read_timeout(Some(Duration::from_secs(5)))
+        .context("set CSM runtime API read timeout")?;
+    let request = read_runtime_api_request(stream)?;
+    let response = runtime_api_http_response(options, &request)?;
+    write_http_response(stream, &response)
+}
+
+fn is_transient_client_io_error(err: &anyhow::Error) -> bool {
+    err.chain().any(|cause| {
+        cause.downcast_ref::<std::io::Error>().is_some_and(|io| {
+            matches!(
+                io.kind(),
+                std::io::ErrorKind::BrokenPipe
+                    | std::io::ErrorKind::ConnectionReset
+                    | std::io::ErrorKind::ConnectionAborted
+                    | std::io::ErrorKind::UnexpectedEof
+            )
+        })
+    })
+}
+
+fn emit_runtime_api_client_error(err: &anyhow::Error) {
+    let error = err
+        .to_string()
+        .replace(|c: char| c.is_whitespace(), "_")
+        .replace('/', "_");
+    eprintln!(
+        "adl_event schema=adl.observability.event.v1 command=csm stage=runtime_api_client_connection result=ignored error={error}"
+    );
 }
 
 fn resolve_otel_status_path(
@@ -482,6 +584,9 @@ fn read_jsonl_tail(path: &Path, limit: usize) -> Value {
 fn sanitize_json(value: Value) -> Value {
     match value {
         Value::String(raw) => sanitize_string(&raw).into(),
+        Value::Number(raw) if contains_cloud_account_identifier(&raw.to_string()) => {
+            Value::String("[redacted]".to_string())
+        }
         Value::Array(values) => Value::Array(values.into_iter().map(sanitize_json).collect()),
         Value::Object(map) => Value::Object(
             map.into_iter()
@@ -1007,7 +1112,7 @@ fn write_http_response(stream: &mut TcpStream, response: &RuntimeApiHttpResponse
     Ok(())
 }
 
-fn assert_api_response_redacted(value: &Value) -> Result<()> {
+pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
     let raw = serde_json::to_string(value)?;
     for forbidden in [
         "/Users/",
@@ -1023,6 +1128,11 @@ fn assert_api_response_redacted(value: &Value) -> Result<()> {
                 "CSM runtime API response leaked forbidden token: {forbidden}"
             ));
         }
+    }
+    if contains_cloud_account_identifier(&raw) {
+        return Err(anyhow!(
+            "CSM runtime API response leaked forbidden cloud account identifier"
+        ));
     }
     Ok(())
 }
@@ -1201,6 +1311,79 @@ memory: {}
     }
 
     #[test]
+    fn runtime_api_surfaces_api_gateway_bridge_as_runtime_owned_endpoint() {
+        let root = temp_root("api-gateway-bridge");
+        let spec = write_spec(&root);
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let response = runtime_api_response(&options, "/api-gateway-bridge").unwrap();
+        assert_eq!(
+            response["schema"],
+            CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA
+        );
+        assert_eq!(response["runtime_owner"], "csm");
+        assert_eq!(response["runtime_api_path"], "/api-gateway-bridge");
+        assert_eq!(response["embedded_daemon_api"], "loopback_only");
+        assert_eq!(response["direct_public_daemon_bind"], false);
+        assert!(response["required_runtime_routes"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("/api-gateway-bridge")));
+    }
+
+    #[test]
+    fn runtime_api_status_embeds_api_gateway_bridge_runtime_status() {
+        let root = temp_root("api-gateway-bridge-status");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("api_gateway_bridge_summary.json"),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.api_gateway_bridge_proof.v1",
+                "status": "passed",
+                "redaction": {"secret_material": "not_returned"}
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let response = runtime_api_response(&options, "/status").unwrap();
+        assert_eq!(
+            response["api_gateway_bridge"]["schema"],
+            "adl.csm.api_gateway_bridge_proof.v1"
+        );
+        assert_eq!(
+            response["api_gateway_bridge"]["runtime_api_path"],
+            "/api-gateway-bridge"
+        );
+        assert_eq!(
+            response["api_gateway_bridge"]["artifact_owned_by"],
+            "csm_runtime_api"
+        );
+    }
+
+    #[test]
+    fn runtime_api_classifies_broken_client_write_as_transient() {
+        let err = anyhow::Error::new(std::io::Error::from(std::io::ErrorKind::BrokenPipe))
+            .context("write CSM runtime API response");
+        assert!(is_transient_client_io_error(&err));
+    }
+
+    #[test]
     fn runtime_api_redacts_secret_and_host_path_event_payloads() {
         let root = temp_root("redaction");
         let spec = write_spec(&root);
@@ -1208,7 +1391,7 @@ memory: {}
         fs::create_dir_all(&state).unwrap();
         fs::write(
             state.join("operator_events.jsonl"),
-            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","message":"failed opening /Users/example/secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
+            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","numeric_account":123456789012,"message":"failed opening /Users/example/secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
