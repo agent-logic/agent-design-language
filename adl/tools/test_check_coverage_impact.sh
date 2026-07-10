@@ -406,6 +406,64 @@ if bash "$SCRIPT" --changed-files "$cli_mod_changed" --summary "$cli_dispatch_co
 fi
 grep -F "adl/src/cli/mod.rs (64/363, 17.63% < 80%)" /tmp/coverage-impact-cli-mod-alone-fails.out >/dev/null
 
+loop_runtime_changed="$TMP/loop-runtime-changed.txt"
+cat >"$loop_runtime_changed" <<'EOF'
+M	adl/src/cli/runtime_v2_cmd/commands.rs	38
+M	adl/src/cli/runtime_v2_cmd/helpers.rs	5
+A	adl/src/runtime_v2/loop_runtime.rs	710
+EOF
+loop_runtime_summary="$TMP/loop-runtime-summary.json"
+cat >"$loop_runtime_summary" <<'EOF'
+{
+  "data": [
+    {
+      "files": [
+        {
+          "filename": "adl/src/cli/runtime_v2_cmd/commands.rs",
+          "summary": {
+            "lines": {
+              "covered": 0,
+              "count": 609
+            }
+          }
+        },
+        {
+          "filename": "adl/src/cli/runtime_v2_cmd/helpers.rs",
+          "summary": {
+            "lines": {
+              "covered": 0,
+              "count": 79
+            }
+          }
+        },
+        {
+          "filename": "adl/src/runtime_v2/loop_runtime.rs",
+          "summary": {
+            "lines": {
+              "covered": 601,
+              "count": 710
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+EOF
+bash "$SCRIPT" --changed-files "$loop_runtime_changed" --summary "$loop_runtime_summary" >/tmp/coverage-impact-loop-runtime-pass.out
+grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-loop-runtime-pass.out >/dev/null
+
+loop_runtime_substantial_companion_changed="$TMP/loop-runtime-substantial-companion-changed.txt"
+cat >"$loop_runtime_substantial_companion_changed" <<'EOF'
+M	adl/src/cli/runtime_v2_cmd/commands.rs	120
+A	adl/src/runtime_v2/loop_runtime.rs	710
+EOF
+if bash "$SCRIPT" --changed-files "$loop_runtime_substantial_companion_changed" --summary "$loop_runtime_summary" >/tmp/coverage-impact-loop-runtime-substantial-companion-fails.out 2>&1; then
+  echo "expected substantial loop-runtime companion edits to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "adl/src/cli/runtime_v2_cmd/commands.rs (0/609, 0.00% < 80%)" /tmp/coverage-impact-loop-runtime-substantial-companion-fails.out >/dev/null
+
 missing_summary="$TMP/missing-row-summary.json"
 make_summary "adl/src/runtime_v2/other.rs" 100 100 "$missing_summary"
 if bash "$SCRIPT" --changed-files "$changed" --summary "$missing_summary" >/tmp/coverage-impact-missing-row.out 2>&1; then
