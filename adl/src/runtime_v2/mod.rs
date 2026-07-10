@@ -38,6 +38,7 @@ mod invariant;
 mod invariant_contract;
 mod kernel_loop;
 mod kindness_model;
+mod loop_runtime;
 mod manifold;
 mod memory_identity_architecture;
 mod minimal_integrated_runtime_path;
@@ -143,6 +144,8 @@ pub use invariant_contract::*;
 pub use kernel_loop::*;
 #[allow(unused_imports)]
 pub use kindness_model::*;
+#[allow(unused_imports)]
+pub use loop_runtime::*;
 #[allow(unused_imports)]
 pub use manifold::*;
 #[allow(unused_imports)]

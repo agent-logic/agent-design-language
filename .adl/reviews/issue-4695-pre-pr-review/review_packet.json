@@ -1,0 +1,51 @@
+{
+  "schema_version": "adl.pr_review_packet.v1",
+  "issue_number": 4695,
+  "branch": "codex/4695-v0-91-7-wp-11-loops-implement-loop-runtime-in-full",
+  "base_ref": "origin/main",
+  "head_ref": "HEAD",
+  "visibility_mode": "read_only_repo",
+  "changed_files": [],
+  "diff_summary": {
+    "files_changed": 0,
+    "max_diff_bytes": 100000,
+    "max_diff_files": 40,
+    "max_context_files": 24,
+    "file_limit_truncated": false,
+    "truncated_hunks": false
+  },
+  "focused_diff_hunks": [],
+  "file_contexts": [],
+  "validation_evidence": [],
+  "static_analysis_evidence": [
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "summary": "working tree whitespace check"
+    },
+    {
+      "command": "git diff --check --end-of-options origin/main...HEAD",
+      "status": "PASS",
+      "summary": "committed diff whitespace check"
+    }
+  ],
+  "repo_slice_manifest": {
+    "read_only": true,
+    "write_allowed": false,
+    "tool_execution_allowed": false,
+    "files": []
+  },
+  "review_scope": "review changed files, diff hunks, static evidence, and issue/card context for correctness, safety, tests, docs, and ADL lifecycle risks",
+  "non_scope": [
+    "do not edit files",
+    "do not claim merge authority",
+    "do not claim validation that is not present in the packet"
+  ],
+  "known_risks": [
+    "packet-only mode may miss surrounding-code context not included in focused hunks"
+  ],
+  "redaction_status": {
+    "absolute_host_paths_present": false,
+    "secret_like_values_present": false
+  }
+}
