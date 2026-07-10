@@ -412,10 +412,12 @@
         "runtime_owner_lane"
       ],
       "path_selectors": [
+        "adl-runtime/**",
         "adl/src/bin/adl_runtime.rs",
         "adl/tools/test_adl_runtime_compatibility.sh"
       ],
       "path_hints": [
+        "adl-runtime/**",
         "adl/src/bin/adl_runtime.rs",
         "adl/tools/test_adl_runtime_compatibility.sh"
       ],
@@ -1178,12 +1180,14 @@
       "default_surface": "shared_rust",
       "owner": "shared",
       "path_selectors": [
+        "adl-runtime/**",
         "adl/Cargo.toml",
         "adl/build.rs",
         "adl/src/**",
         "adl/tests/**"
       ],
       "path_hints": [
+        "adl-runtime/**",
         "adl/Cargo.toml",
         "adl/build.rs",
         "adl/src/**",
