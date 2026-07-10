@@ -36,6 +36,7 @@ pub mod csm_networking;
 pub mod csm_observatory;
 pub mod csm_polis_storage;
 pub mod csm_runtime_api;
+pub mod csm_shepherd_agent;
 pub mod dangerous_negative_suite;
 pub mod delegation_policy;
 pub mod delegation_refusal_coordination;

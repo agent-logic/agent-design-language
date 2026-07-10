@@ -16,6 +16,7 @@ use crate::chronosense::{
 };
 use crate::csm_godel_snapshot::{validate_recovery_read, write_checkpoint_snapshot_diff};
 use crate::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
+use crate::csm_shepherd_agent;
 use crate::runtime_aws_signal::publish_csm_governed_notice_signal;
 use crate::{adl, execute, resolve, trace};
 
@@ -2804,6 +2805,32 @@ fn write_daemon_status(
         updated_at: now,
     };
     write_json_pretty(&daemon_status_path(loaded), &status)?;
+    let agent_state = read_status(loaded)?
+        .as_ref()
+        .and_then(|status| serde_json::to_value(&status.state).ok())
+        .and_then(|value| value.as_str().map(str::to_string));
+    let checkpoint_observed = continuity_checkpoint_path(loaded).exists();
+    if let Err(err) = csm_shepherd_agent::write_status_snapshot(
+        &loaded.state_root,
+        &loaded.spec.agent_instance_id,
+        effective_state,
+        agent_state.as_deref(),
+        checkpoint_observed,
+        None,
+    ) {
+        let _ = append_operator_event(
+            loaded,
+            "csm_shepherd_agent_status_write_failed",
+            json!({
+                "schema": "adl.csm.shepherd_agent.write_failure.v1",
+                "runtime_owner": "csm",
+                "component": "polis_shepherd_agent",
+                "status": "degraded_nonfatal",
+                "reason": err.to_string(),
+                "recovery_policy": "continue_runtime_and_surface_missing_or_degraded_shepherd_status"
+            }),
+        );
+    }
     Ok(status)
 }
 
@@ -3070,6 +3097,7 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
             "partial_checkpoints": "daemon_partial_checkpoint",
             "safe_fail_serialization": "integrated_safe_fail_bundle"
         },
+        "polis_shepherd_agent": csm_shepherd_agent::runtime_capability(),
         "observability": {
             "status": "integrated",
             "event_command": "csm",

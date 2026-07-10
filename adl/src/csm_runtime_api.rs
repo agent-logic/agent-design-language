@@ -28,6 +28,7 @@ use crate::csm_networking::{
     csm_connection_pooling_plan, csm_listener_registry_json, csm_runtime_connection_pool_status,
     resolve_main_runtime_api_listener, CSM_POOLING_PLAN_SCHEMA,
 };
+use crate::csm_shepherd_agent::{self, CSM_SHEPHERD_STATUS_REF};
 use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, StatusRecord};
 
 pub use api_gateway_bridge::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
@@ -40,15 +41,17 @@ pub const CSM_RUNTIME_API_METRICS_SCHEMA: &str = "adl.csm.runtime_api.metrics.v1
 pub const CSM_RUNTIME_API_EVENTS_SCHEMA: &str = "adl.csm.runtime_api.events.v1";
 const CSM_RUNTIME_API_BROWSER_DEMO_PORT: &str = "8765";
 pub const CSM_RUNTIME_API_CHRONOSENSE_SCHEMA: &str = "adl.csm.runtime_api.chronosense.v1";
+pub const CSM_RUNTIME_API_SHEPHERD_SCHEMA: &str = "adl.csm.runtime_api.shepherd.v1";
 pub const CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA: &str =
     "adl.csm.runtime_api.api_gateway_bridge.v1";
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 7] = [
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 8] = [
     "/status",
     "/health",
     "/ready",
     "/metrics",
     "/events",
     "/chronosense",
+    "/shepherd",
     "/api-gateway-bridge",
 ];
 
@@ -248,6 +251,7 @@ pub fn runtime_api_response(options: &CsmRuntimeApiOptions, path: &str) -> Resul
         "/metrics" => metrics_response(&loaded, options),
         "/events" => events_response(&loaded),
         "/chronosense" => chronosense_response(&loaded, options),
+        "/shepherd" => shepherd_response(&loaded, options),
         "/api-gateway-bridge" => api_gateway_bridge_response(&loaded),
         other => Ok(json!({
             "schema": CSM_RUNTIME_API_SCHEMA,
@@ -302,6 +306,14 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         .and_then(|value| value.get("runtime_capabilities"))
         .cloned()
         .unwrap_or_else(|| json!({"status": "missing"}));
+    let shepherd = shepherd_api_status(
+        loaded,
+        &agent_status,
+        &daemon_status,
+        &checkpoint_freshness,
+        &backpressure_state,
+        &runtime_capabilities,
+    );
     let response = json!({
         "schema": CSM_RUNTIME_API_STATUS_SCHEMA,
         "runtime_owner": "csm",
@@ -355,6 +367,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "chronosense": runtime_capabilities.get("chronosense").cloned().unwrap_or_else(|| json!({"status": "missing"})),
         "aee_resilience": runtime_capabilities.get("aee").cloned().unwrap_or_else(|| json!({"status": "missing"})),
         "resilience_middleware": runtime_capabilities.get("resilience_middleware").cloned().unwrap_or_else(|| json!({"status": "missing"})),
+        "polis_shepherd_agent": shepherd,
         "checkpoint": checkpoint_freshness,
         "continuity": {
             "checkpoint": compact_artifact_status(&continuity_checkpoint, "continuity_checkpoint.json"),
@@ -373,6 +386,19 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
             "secret_material": "not_returned",
             "cloud_account_identifiers": "not_returned"
         }
+    });
+    assert_api_response_redacted(&response)?;
+    Ok(response)
+}
+
+fn shepherd_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
+    let status = status_response(loaded, options)?;
+    let response = json!({
+        "schema": CSM_RUNTIME_API_SHEPHERD_SCHEMA,
+        "runtime_owner": "csm",
+        "agent_instance_id": loaded.spec.agent_instance_id,
+        "runtime_api_path": "/shepherd",
+        "component": status["polis_shepherd_agent"]
     });
     assert_api_response_redacted(&response)?;
     Ok(response)
@@ -547,6 +573,45 @@ fn api_gateway_bridge_runtime_status(loaded: &LoadedAgentSpec) -> Value {
         "polis_id_hash": artifact.pointer("/value/polis_ingress/polis_id_hash").cloned().unwrap_or(Value::Null),
         "runtime_identity_verified": artifact.pointer("/value/polis_ingress/runtime_identity_verified").cloned().unwrap_or(Value::Null)
     })
+}
+
+fn shepherd_api_status(
+    loaded: &LoadedAgentSpec,
+    agent_status: &StatusRecord,
+    daemon_status: &Value,
+    checkpoint_freshness: &Value,
+    backpressure_state: &Value,
+    runtime_capabilities: &Value,
+) -> Value {
+    let artifact = read_json_artifact(&artifact_path(loaded, CSM_SHEPHERD_STATUS_REF));
+    let runtime_capability = runtime_capabilities
+        .get("polis_shepherd_agent")
+        .cloned()
+        .unwrap_or_else(csm_shepherd_agent::runtime_capability);
+    let agent_state = serde_json::to_value(&agent_status.state)
+        .ok()
+        .and_then(|value| value.as_str().map(str::to_string))
+        .unwrap_or_else(|| "unknown".to_string());
+    let daemon_state = daemon_status
+        .pointer("/value/state")
+        .and_then(Value::as_str)
+        .unwrap_or("unknown");
+    let checkpoint_status = checkpoint_freshness
+        .get("status")
+        .and_then(Value::as_str)
+        .unwrap_or("unknown");
+    let backpressure_health = backpressure_state
+        .pointer("/value/summary/health")
+        .and_then(Value::as_str);
+    csm_shepherd_agent::api_status(
+        &loaded.spec.agent_instance_id,
+        &artifact,
+        runtime_capability,
+        daemon_state,
+        &agent_state,
+        checkpoint_status,
+        backpressure_health,
+    )
 }
 
 fn artifact_path(loaded: &LoadedAgentSpec, name: &str) -> PathBuf {
@@ -1473,6 +1538,71 @@ memory: {}
         assert_eq!(
             response["api_gateway_bridge"]["artifact_owned_by"],
             "csm_runtime_api"
+        );
+    }
+
+    #[test]
+    fn runtime_api_surfaces_shepherd_agent_component_and_model_policy() {
+        let root = temp_root("shepherd");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join(CSM_SHEPHERD_STATUS_REF),
+            serde_json::to_string_pretty(&json!({
+                "schema": "adl.csm.shepherd_agent.status.v1",
+                "runtime_owner": "csm",
+                "component": "polis_shepherd_agent",
+                "agent_instance_id": "api-agent",
+                "status": "monitoring",
+                "decision": {
+                    "schema": "adl.csm.shepherd_agent.decision.v1",
+                    "action": "preserve",
+                    "authority": "advisory",
+                    "requires_policy_admission": true
+                },
+                "model_policy": {
+                    "schema": "adl.csm.shepherd_agent.model_policy.v1",
+                    "candidate": {"model": "gemma4:12b-mlx"},
+                    "defaulting_rule": "gemma4:12b-mlx_not_default_until_shepherd_eval_passes"
+                },
+                "policy_gates": {
+                    "freedom_gate_required": true,
+                    "cav_required": true
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let status = runtime_api_response(&options, "/status").unwrap();
+        assert_eq!(
+            status["polis_shepherd_agent"]["schema"],
+            "adl.csm.shepherd_agent.status.v1"
+        );
+        assert_eq!(
+            status["polis_shepherd_agent"]["model_policy"]["candidate"]["model"],
+            "gemma4:12b-mlx"
+        );
+        assert_eq!(
+            status["polis_shepherd_agent"]["decision"]["authority"],
+            "advisory"
+        );
+
+        let shepherd = runtime_api_response(&options, "/shepherd").unwrap();
+        assert_eq!(shepherd["schema"], CSM_RUNTIME_API_SHEPHERD_SCHEMA);
+        assert_eq!(shepherd["component"]["component"], "polis_shepherd_agent");
+        assert_eq!(
+            shepherd["component"]["policy_gates"]["freedom_gate_required"],
+            true
         );
     }
 

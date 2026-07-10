@@ -1000,6 +1000,7 @@ memory:
     let ready = http_get_json(&addr, "/ready");
     let metrics = http_get_json(&addr, "/metrics");
     let events = http_get_json(&addr, "/events");
+    let shepherd = http_get_json(&addr, "/shepherd");
 
     request_governed_stop_and_wait(&spec, &mut child);
 
@@ -1042,6 +1043,23 @@ memory:
     assert_eq!(status["scheduler"]["status"], "integrated");
     assert_eq!(status["chronosense"]["status"], "integrated");
     assert_eq!(status["aee_resilience"]["status"], "integrated");
+    assert_eq!(
+        status["polis_shepherd_agent"]["component"],
+        "polis_shepherd_agent"
+    );
+    assert_eq!(
+        status["polis_shepherd_agent"]["capability"]["model_policy"]["candidate"]["model"],
+        "gemma4:12b-mlx"
+    );
+    assert_eq!(
+        status["polis_shepherd_agent"]["decision"]["authority"],
+        "advisory"
+    );
+    assert_eq!(shepherd["schema"], "adl.csm.runtime_api.shepherd.v1");
+    assert_eq!(
+        shepherd["component"]["model_policy"]["defaulting_rule"],
+        "gemma4:12b-mlx_not_default_until_shepherd_eval_passes"
+    );
     assert_eq!(
         status["otel"]["status"]["schema"],
         "adl.otel.monitor_status.v1"

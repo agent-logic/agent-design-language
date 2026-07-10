@@ -1,0 +1,22 @@
+issue: 5135
+disposition: approved_with_runtime_owner_lane_proof
+reviewer_or_review_mode: bounded runtime owner-lane review after broad runtime-surface escalation
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime
+residual_ci_proof_required_before_merge: required
+changed_release_gate_surfaces:
+  - adl/src/csm_api_gateway_bridge.rs
+  - adl/src/csm_godel_snapshot.rs
+  - adl/src/csm_runtime_api.rs
+  - adl/src/csm_shepherd_agent.rs
+  - adl/src/lib.rs
+  - adl/src/long_lived_agent.rs
+  - adl/tests/cli_smoke/agent.rs
+evidence:
+  - "Local broad runtime owner lane passed: bash adl/tools/run_owner_validation_lane.sh runtime."
+  - "Focused runtime API lane passed: cargo test --manifest-path adl/Cargo.toml csm_runtime_api -- --nocapture."
+  - "Embedded CSM runtime API smoke passed with /shepherd coverage."
+  - "API Gateway bridge proof passed after adding GET /shepherd to the fixture route inventory."
+  - "SRP and SOR prompt contracts validated after review-result and broad-proof updates."
+non_claims:
+  - "This disposition does not claim CI proof has completed."
+  - "This disposition does not claim issue #5135 is merged or closed."
