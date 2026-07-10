@@ -1,4 +1,5 @@
 use super::*;
+use std::hash::{Hash, Hasher};
 use std::io::Write;
 
 fn spawn_loopback_otlp_collector() -> (
@@ -157,10 +158,13 @@ fn http_get_json(addr: &str, path: &str) -> serde_json::Value {
 }
 
 fn reserve_csm_test_port(label: &str) -> (std::net::TcpListener, String) {
-    for port in 19950..=19999 {
-        if port == 19997 {
-            continue;
-        }
+    let mut ports: Vec<u16> = (19950..=19999).filter(|port| *port != 19997).collect();
+    let mut hasher = std::collections::hash_map::DefaultHasher::new();
+    label.hash(&mut hasher);
+    std::process::id().hash(&mut hasher);
+    let offset = (hasher.finish() as usize) % ports.len();
+    ports.rotate_left(offset);
+    for port in ports {
         let addr = format!("127.0.0.1:{port}");
         if let Ok(listener) = std::net::TcpListener::bind(&addr) {
             return (listener, addr);
@@ -1960,6 +1964,55 @@ fn csm_owns_daemon_and_adl_agent_daemon_is_removed() {
 }
 
 #[test]
+fn csmctl_is_modular_runtime_control_plane_not_runtime_loop_owner() {
+    let help = run_csmctl(&["--help"]);
+    assert!(
+        help.status.success(),
+        "expected csmctl help success, stderr:\n{}",
+        String::from_utf8_lossy(&help.stderr)
+    );
+    let help_stdout = String::from_utf8_lossy(&help.stdout);
+    assert!(help_stdout.contains("csmctl runtime service"));
+    assert!(help_stdout.contains("csmctl diagnostics process status"));
+    assert!(help_stdout.contains("csmctl cloud aws-signal"));
+    assert!(help_stdout.contains("csm is the runtime owner"));
+    assert!(help_stdout.contains("adl remains ADL language"));
+    assert!(!help_stdout.contains("adl pr run"));
+
+    let service_help = run_csmctl(&["runtime", "service", "--help"]);
+    assert!(
+        service_help.status.success(),
+        "expected csmctl service help success, stderr:\n{}",
+        String::from_utf8_lossy(&service_help.stderr)
+    );
+    assert!(String::from_utf8_lossy(&service_help.stdout).contains("csm service install"));
+
+    let daemon = run_csmctl(&["runtime", "daemon", "--help"]);
+    assert!(
+        !daemon.status.success(),
+        "expected csmctl daemon execution rejection, stdout:\n{}",
+        String::from_utf8_lossy(&daemon.stdout)
+    );
+    let stderr = String::from_utf8_lossy(&daemon.stderr);
+    assert!(
+        stderr.contains("csmctl does not execute the runtime daemon loop"),
+        "stderr:\n{stderr}"
+    );
+
+    let status = run_csmctl(&["status", "--pid", &std::process::id().to_string(), "--json"]);
+    assert!(
+        status.status.success(),
+        "expected csmctl status success, stderr:\n{}",
+        String::from_utf8_lossy(&status.stderr)
+    );
+    let status_json: serde_json::Value =
+        serde_json::from_slice(&status.stdout).expect("parse csmctl status json");
+    assert_eq!(status_json["schema"], "adl.process_status.v1");
+    assert_eq!(status_json["check"], "pid");
+    assert_eq!(status_json["broad_process_scan"], false);
+}
+
+#[test]
 fn csm_service_install_writes_launchd_envelope_without_adl_runtime_owner() {
     let root = unique_test_temp_dir("csm-service-install");
     let spec = root.join("agent.yaml");
@@ -2459,6 +2512,7 @@ memory:
 
 #[test]
 fn csm_service_local_start_stop_retains_status_checkpoint_and_observability() {
+    const COVERAGE_STARTUP_ATTEMPTS: &str = "80";
     let root = unique_test_temp_dir("csm-service-local");
     let spec = root.join("agent.yaml");
     fs::write(
@@ -2518,13 +2572,19 @@ memory:
         String::from_utf8_lossy(&install.stderr)
     );
 
-    let start = run_csm(&[
-        "service",
-        "start",
-        "--service-root",
-        service_root.to_str().expect("utf8 service root"),
-        "--json",
-    ]);
+    let start = run_csm_with_env(
+        &[
+            "service",
+            "start",
+            "--service-root",
+            service_root.to_str().expect("utf8 service root"),
+            "--json",
+        ],
+        &[(
+            "ADL_CSM_SERVICE_STARTUP_ATTEMPTS",
+            COVERAGE_STARTUP_ATTEMPTS,
+        )],
+    );
     assert!(
         start.status.success(),
         "start stderr:\n{}",
@@ -2619,13 +2679,19 @@ memory:
     assert!(otel.contains("\"name\":\"csm.start_requested\""));
     assert!(otel.contains("\"name\":\"csm.startup_probe\""));
 
-    let second_start = run_csm(&[
-        "service",
-        "start",
-        "--service-root",
-        service_root.to_str().expect("utf8 service root"),
-        "--json",
-    ]);
+    let second_start = run_csm_with_env(
+        &[
+            "service",
+            "start",
+            "--service-root",
+            service_root.to_str().expect("utf8 service root"),
+            "--json",
+        ],
+        &[(
+            "ADL_CSM_SERVICE_STARTUP_ATTEMPTS",
+            COVERAGE_STARTUP_ATTEMPTS,
+        )],
+    );
     assert!(
         second_start.status.success(),
         "second start stderr:\n{}",
@@ -2657,13 +2723,19 @@ memory:
     let service_status: serde_json::Value =
         serde_json::from_slice(&stop.stdout).expect("parse stop status stdout");
     assert_eq!(service_status["service_state"], "stopped_or_requested");
-    let restart = run_csm(&[
-        "service",
-        "start",
-        "--service-root",
-        service_root.to_str().expect("utf8 service root"),
-        "--json",
-    ]);
+    let restart = run_csm_with_env(
+        &[
+            "service",
+            "start",
+            "--service-root",
+            service_root.to_str().expect("utf8 service root"),
+            "--json",
+        ],
+        &[(
+            "ADL_CSM_SERVICE_STARTUP_ATTEMPTS",
+            COVERAGE_STARTUP_ATTEMPTS,
+        )],
+    );
     assert!(
         restart.status.success(),
         "restart after stop stderr:\n{}",

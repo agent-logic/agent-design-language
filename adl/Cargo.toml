@@ -31,6 +31,10 @@ name = "csm"
 path = "src/bin/csm.rs"
 
 [[bin]]
+name = "csmctl"
+path = "src/bin/csmctl.rs"
+
+[[bin]]
 name = "adl-review"
 path = "src/bin/adl_review.rs"
 

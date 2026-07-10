@@ -11,6 +11,25 @@ Machine-readable companion:
 
 - `docs/milestones/v0.91.7/review/runtime/wp07_pre_v092_runtime_coherence_disposition_4845.json`
 
+## #4906 Final CSM Runtime-Coherence Gate Addendum
+
+Follow-on issue `#4906` reran the final post-blocker CSM runtime-coherence
+gate on 2026-07-10 after the CSM owner-binary, service-envelope, OTLP exporter,
+daemon-permanence, and canonical API-port follow-ons had landed.
+
+Current retained packet:
+
+- `docs/milestones/v0.91.7/review/runtime/FINAL_CSM_RUNTIME_COHERENCE_GATE_4906.md`
+- `docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json`
+
+Updated disposition: **blocked_with_evidence**. CSM ownership, local service,
+OTLP export, permanence classification, canonical API binding, and read-only
+live API status on `127.0.0.1:19997` are proven. Full v0.92 runtime-coherence
+readiness remains blocked because Unity/WP-09 live-consumption rows, WP-12
+security/protocol/access activation rows, and the v0.92 capability envelope
+still require retained integrated evidence or explicit operator-approved
+non-claim/defer decisions.
+
 ## #4890 Runtime Ownership Addendum
 
 Follow-on issue `#4890` separates daemon ownership from the ADL

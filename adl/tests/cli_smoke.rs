@@ -59,6 +59,13 @@ fn run_csm(args: &[&str]) -> std::process::Output {
         .expect("run csm binary")
 }
 
+fn run_csmctl(args: &[&str]) -> std::process::Output {
+    Command::new(resolve_csmctl_exe())
+        .args(args)
+        .output()
+        .expect("run csmctl binary")
+}
+
 fn run_adl_review(args: &[&str]) -> std::process::Output {
     Command::new(resolve_adl_review_exe())
         .args(args)
@@ -140,6 +147,17 @@ fn resolve_adl_runtime_exe() -> PathBuf {
 fn resolve_csm_exe() -> PathBuf {
     let raw = std::env::var("CARGO_BIN_EXE_csm")
         .unwrap_or_else(|_| env!("CARGO_BIN_EXE_csm").to_string());
+    let path = PathBuf::from(raw);
+    if path.is_absolute() {
+        path
+    } else {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(path)
+    }
+}
+
+fn resolve_csmctl_exe() -> PathBuf {
+    let raw = std::env::var("CARGO_BIN_EXE_csmctl")
+        .unwrap_or_else(|_| env!("CARGO_BIN_EXE_csmctl").to_string());
     let path = PathBuf::from(raw);
     if path.is_absolute() {
         path
