@@ -36,9 +36,10 @@ ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root" \
 
 grep -F "PR-fast coverage expression: $expression" /tmp/pr-fast-coverage-run.out >/dev/null
 grep -F "PR-fast coverage target: $scratch_root" /tmp/pr-fast-coverage-run.out >/dev/null
+grep -F "PR-fast coverage test threads: nextest-default" /tmp/pr-fast-coverage-run.out >/dev/null
 
 for required in \
-  "cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --test-threads 1 --no-report -E $expression" \
+  "cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E $expression" \
   "cmd=llvm-cov report --json --summary-only --output-path target/coverage-impact-summary.json" \
   "target=$scratch_root" \
   "llvm_cov_target=$scratch_root/llvm-cov-target"
@@ -49,5 +50,16 @@ do
     exit 1
   fi
 done
+
+threads_cargo_log="$temp_root/cargo-threads.log"
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$threads_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-threads" \
+ADL_PR_FAST_COVERAGE_TEST_THREADS=2 \
+  bash "$SCRIPT" --filter-expression "$expression" >/tmp/pr-fast-coverage-threads-run.out
+
+grep -F "PR-fast coverage test threads: 2" /tmp/pr-fast-coverage-threads-run.out >/dev/null
+grep -F "cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E $expression --test-threads 2" "$threads_cargo_log" >/dev/null
 
 echo "PASS test_run_pr_fast_coverage_lane"

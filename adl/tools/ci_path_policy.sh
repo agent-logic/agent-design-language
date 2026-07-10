@@ -510,6 +510,7 @@ is_bounded_pr_fast_coverage_policy_surface() {
     adl/tools/test_check_coverage_impact.sh|\
     adl/tools/test_ci_path_policy.sh|\
     adl/tools/test_run_authoritative_coverage_lane.sh|\
+    adl/tools/test_run_pr_fast_coverage_lane.sh|\
     adl/tools/test_ci_runtime_contracts.sh)
       return 0
       ;;
@@ -545,7 +546,7 @@ is_bounded_pr_fast_coverage_policy_change() {
         fi
         ;;
       adl/tools/ci_path_policy.sh)
-        if git_pr_patch "$path" | grep -E 'is_pr_fast_coverage_workflow_change|is_bounded_pr_fast_coverage_policy_surface|is_bounded_pr_fast_coverage_policy_change|bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation|manager_profile_is_release_gate_pr_fast_escalation|validation_manager_release_gate_pr_fast_escalation_runs_focused_validation|is_pvf_slow_proof_workflow_change|is_pvf_slow_proof_policy_change|slow_proof_contract_required|governed_learning_substrate|intelligence_metric_architecture|memory_identity_architecture|observatory_flagship' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'is_pr_fast_coverage_workflow_change|is_bounded_pr_fast_coverage_policy_surface|is_bounded_pr_fast_coverage_policy_change|bounded_pr_fast_coverage_policy_change_keeps_pr_fast_rust_validation|manager_profile_is_release_gate_pr_fast_escalation|validation_manager_release_gate_pr_fast_escalation_runs_focused_validation|is_pvf_slow_proof_workflow_change|is_pvf_slow_proof_policy_change|slow_proof_contract_required|governed_learning_substrate|intelligence_metric_architecture|memory_identity_architecture|observatory_flagship|ADL_PR_FAST_COVERAGE_TEST_THREADS|PR-fast coverage test threads|nextest-default' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
@@ -566,7 +567,7 @@ is_bounded_pr_fast_coverage_policy_change() {
         fi
         ;;
       adl/tools/run_pr_fast_coverage_lane.sh)
-        if git_pr_patch "$path" | grep -E 'ADL_PR_FAST_COVERAGE_BUILD_ROOT|pr-fast-coverage|PR-fast coverage target' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'ADL_PR_FAST_COVERAGE_BUILD_ROOT|ADL_PR_FAST_COVERAGE_TEST_THREADS|pr-fast-coverage|PR-fast coverage target|PR-fast coverage test threads|nextest-default' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
@@ -574,6 +575,13 @@ is_bounded_pr_fast_coverage_policy_change() {
         ;;
       adl/tools/test_run_authoritative_coverage_lane.sh)
         if git_pr_patch "$path" | grep -E 'build_jobs=1|link_accel=lld|ADL_AUTHORITATIVE_COVERAGE_BUILD_JOBS|RUST_LINK_ACCEL' >/dev/null 2>&1; then
+          saw_bounded_marker=true
+        else
+          saw_other=true
+        fi
+        ;;
+      adl/tools/test_run_pr_fast_coverage_lane.sh)
+        if git_pr_patch "$path" | grep -E 'ADL_PR_FAST_COVERAGE_TEST_THREADS|PR-fast coverage test threads|nextest-default|--test-threads' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true
@@ -587,7 +595,7 @@ is_bounded_pr_fast_coverage_policy_change() {
         fi
         ;;
       adl/tools/test_ci_runtime_contracts.sh)
-        if git_pr_patch "$path" | grep -E 'coverage-summary.json|ADL_PR_FAST_COVERAGE_BUILD_ROOT|PR-fast coverage target|pr-fast-coverage|adl-slow-proof|slow_proof_contract_required|run_slow_proof_family|slow-proof lane fanned out|slow-proof family filter|broad slow-proof-tests' >/dev/null 2>&1; then
+        if git_pr_patch "$path" | grep -E 'coverage-summary.json|ADL_PR_FAST_COVERAGE_BUILD_ROOT|ADL_PR_FAST_COVERAGE_TEST_THREADS|PR-fast coverage target|PR-fast coverage test threads|nextest-default|pr-fast-coverage|adl-slow-proof|slow_proof_contract_required|run_slow_proof_family|slow-proof lane fanned out|slow-proof family filter|broad slow-proof-tests' >/dev/null 2>&1; then
           saw_bounded_marker=true
         else
           saw_other=true

@@ -12,6 +12,7 @@ USAGE
 }
 
 FILTER_EXPRESSION=""
+TEST_THREADS="${ADL_PR_FAST_COVERAGE_TEST_THREADS:-}"
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --filter-expression)
@@ -49,13 +50,21 @@ ADL_RUST_WARM_CACHE_OUTPUT="${ADL_PR_FAST_COVERAGE_WARM_CACHE_OUTPUT:-$ADL_DIR/p
 
 printf 'PR-fast coverage expression: %s\n' "$FILTER_EXPRESSION"
 printf 'PR-fast coverage target: %s\n' "$CARGO_TARGET_DIR"
-CARGO_INCREMENTAL=0 cargo llvm-cov nextest \
-  --workspace \
-  --status-level all \
-  --final-status-level slow \
-  --test-threads 1 \
-  --no-report \
+coverage_args=(
+  llvm-cov nextest
+  --workspace
+  --status-level all
+  --final-status-level slow
+  --no-report
   -E "$FILTER_EXPRESSION"
+)
+if [ -n "$TEST_THREADS" ]; then
+  coverage_args+=(--test-threads "$TEST_THREADS")
+  printf 'PR-fast coverage test threads: %s\n' "$TEST_THREADS"
+else
+  printf 'PR-fast coverage test threads: nextest-default\n'
+fi
+CARGO_INCREMENTAL=0 cargo "${coverage_args[@]}"
 
 mkdir -p target
 cargo llvm-cov report \
