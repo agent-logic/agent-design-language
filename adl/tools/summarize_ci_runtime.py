@@ -12,6 +12,11 @@ from typing import Any
 
 
 DEFAULT_JOB_BUDGETS = {
+    "adl-path-policy": 60.0,
+    "adl-tooling-contracts": 360.0,
+    "adl-rust-fmt-clippy": 600.0,
+    "adl-rust-tests": 600.0,
+    "adl-demo-proof": 300.0,
     "adl-ci": 600.0,
     "adl-coverage": 900.0,
 }
