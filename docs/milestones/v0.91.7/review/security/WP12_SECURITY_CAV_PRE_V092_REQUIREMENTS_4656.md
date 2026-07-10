@@ -5,7 +5,7 @@
 - Issue: `#4656`
 - Parent sprint: `#4639`
 - Milestone: `v0.91.7`
-- Status: gate recorded; child blockers open
+- Status: gate recorded; #4657 operations and #4658 schema projection integrated; other child blockers open
 - Machine-readable companion: `docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json`
 
 ## Purpose
@@ -62,7 +62,8 @@ Evidence:
 
 Disposition:
 
-- `#4658` owns schema/protobuf projection and consumption posture.
+- `#4658` records integrated proof for schema/protobuf projection and
+  consumption posture.
 - `#4659` owns the bounded WebSocket transport path that consumes the #4900
   carrier decision.
 - `#4660` owns external-agent access rules, denial behavior, and trust
@@ -94,7 +95,7 @@ Disposition:
 | Capability envelope, witness, and receipt readiness | `#4656` with `#4914`, `#4917`, `#4920` | blocked until child proofs | Blocks capability-envelope and birthday-evidence claims. |
 | Security/CAV activation boundary | `#4656` with `#4914`, `#4917`, `#4920` | blocked until child proofs | Blocks security/CAV readiness. |
 | SSM and local polis operations readiness | `#4657` | integrated proven | Supports SSM operations claims; secret values, provider/model execution, governance authority, and unattended mutation remain non-claims. |
-| ACIP/A2A schema and protobuf projection | `#4658` with `#4900` | child issue open | Blocks protocol readiness. |
+| ACIP/A2A schema and protobuf projection | `#4658` with `#4900` | integrated proven | Schema/projection ready; #4659 and #4660 still block full ACIP/A2A readiness. |
 | ACIP WebSocket transport path | `#4659` with `#4900` | child issue open | Blocks transport activation. |
 | External-agent access rules | `#4660` | child issue open | Blocks external-agent trust claims. |
 | CAV runtime red-blue proof | `#4914` | child issue open | Blocks adversarial CAV claims. |
@@ -138,14 +139,18 @@ data = json.load(open(path, encoding="utf-8"))
 assert data["schema"] == "adl.wp12.security_cav_gate.v1"
 assert data["issue"] == 4656
 assert data["requirements"]
+integrated = {"ssm_and_local_polis_secret_readiness", "acip_a2a_schema_and_protobuf_projection"}
 for row in data["requirements"]:
     for key in ("id", "owner_issue", "state", "v092_disposition", "evidence", "required_before_claim"):
         assert row.get(key), (row.get("id"), key)
-    assert row["state"] != "integrated_proven", row["id"]
+    if row["id"] in integrated:
+        assert row["state"] == "integrated_proven", row["id"]
+    else:
+        assert row["state"] != "integrated_proven", row["id"]
 PY
 git diff --check
 ```
 
-This validation proves the retained ledger is parseable and keeps every row
-fail-closed until later WP-12 owner issues provide proof or explicit scoped-out
-approval.
+This validation proves the retained ledger is parseable, records #4657 and
+#4658 as integrated rows, and keeps every other row fail-closed until later
+WP-12 owner issues provide proof or explicit scoped-out approval.

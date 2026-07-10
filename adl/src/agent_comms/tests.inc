@@ -177,6 +177,169 @@
     }
 
     #[test]
+    fn acip_protobuf_projection_profile_binds_json_schema_and_consumption_posture() {
+        let schema =
+            acip_protobuf_projection_profile_v1_schema_json().expect("projection schema");
+        assert!(schema.contains("\"protobuf_package\""));
+        assert!(schema.contains("\"json_consumption_posture\""));
+
+        let profile = acip_protobuf_projection_profile_v1();
+        validate_acip_protobuf_projection_profile_v1(&profile)
+            .expect("projection profile should validate");
+        validate_acip_protobuf_projection_against_json_schemas_v1(&profile)
+            .expect("projection profile should bind to JSON schemas");
+
+        let message_projection = profile
+            .messages
+            .iter()
+            .find(|message| message.rust_type == "AcipMessageEnvelopeV1")
+            .expect("message envelope projection");
+        assert_eq!(message_projection.protobuf_message, "AcipMessageEnvelope");
+        assert_eq!(message_projection.fields.len(), 17);
+        assert!(message_projection
+            .fields
+            .iter()
+            .any(|field| field.field_name == "payload_refs"
+                && field.field_number == 12
+                && field.repeated));
+        assert!(profile
+            .websocket_consumption_posture
+            .contains("text_json_frames"));
+    }
+
+    #[test]
+    fn acip_protobuf_projection_profile_fails_closed_on_schema_drift() {
+        let mut profile = acip_protobuf_projection_profile_v1();
+        let message_projection = profile
+            .messages
+            .iter_mut()
+            .find(|message| message.rust_type == "AcipMessageEnvelopeV1")
+            .expect("message projection");
+        let removed = message_projection
+            .fields
+            .iter()
+            .position(|field| field.field_name == "message_id")
+            .expect("message_id field");
+        message_projection.fields.remove(removed);
+
+        let error = validate_acip_protobuf_projection_against_json_schemas_v1(&profile)
+            .expect_err("missing required JSON field should fail");
+        assert!(error
+            .to_string()
+            .contains("required JSON field 'message_id' is missing"));
+    }
+
+    #[test]
+    fn acip_protobuf_projection_profile_requires_declared_enum_refs() {
+        let mut profile = acip_protobuf_projection_profile_v1();
+        profile
+            .enums
+            .retain(|projection| projection.protobuf_enum != "AcipTraceRequirement");
+
+        let error = validate_acip_protobuf_projection_profile_v1(&profile)
+            .expect_err("missing enum projection should fail");
+        assert!(error
+            .to_string()
+            .contains("references undeclared enum 'AcipTraceRequirement'"));
+    }
+
+    #[test]
+    fn acip_protobuf_projection_profile_requires_optional_schema_fields() {
+        let mut profile = acip_protobuf_projection_profile_v1();
+        let message_projection = profile
+            .messages
+            .iter_mut()
+            .find(|message| message.rust_type == "AcipMessageEnvelopeV1")
+            .expect("message projection");
+        let removed = message_projection
+            .fields
+            .iter()
+            .position(|field| field.field_name == "correlation_id")
+            .expect("correlation_id field");
+        message_projection.fields.remove(removed);
+
+        let error = validate_acip_protobuf_projection_against_json_schemas_v1(&profile)
+            .expect_err("missing optional JSON field should fail");
+        assert!(error
+            .to_string()
+            .contains("JSON field 'correlation_id' is missing"));
+    }
+
+    #[test]
+    fn acip_protobuf_projection_profile_binds_schema_versions() {
+        let mut profile = acip_protobuf_projection_profile_v1();
+        let message_projection = profile
+            .messages
+            .iter_mut()
+            .find(|message| message.rust_type == "AcipMessageEnvelopeV1")
+            .expect("message projection");
+        message_projection.json_schema_version = "acip.message.v0".to_string();
+
+        let error = validate_acip_protobuf_projection_against_json_schemas_v1(&profile)
+            .expect_err("wrong schema version should fail");
+        assert!(error
+            .to_string()
+            .contains("must bind json_schema_version to 'acip.message.v1'"));
+    }
+
+    #[test]
+    fn acip_protobuf_projection_profile_binds_field_shape_to_schema() {
+        let mut profile = acip_protobuf_projection_profile_v1();
+        let message_projection = profile
+            .messages
+            .iter_mut()
+            .find(|message| message.rust_type == "AcipMessageEnvelopeV1")
+            .expect("message projection");
+        let payload_refs = message_projection
+            .fields
+            .iter_mut()
+            .find(|field| field.field_name == "payload_refs")
+            .expect("payload_refs field");
+        payload_refs.repeated = false;
+        let repeated_error = validate_acip_protobuf_projection_against_json_schemas_v1(&profile)
+            .expect_err("repeated drift should fail");
+        assert!(repeated_error
+            .to_string()
+            .contains("repeated flag does not match JSON schema"));
+
+        let mut profile = acip_protobuf_projection_profile_v1();
+        let message_projection = profile
+            .messages
+            .iter_mut()
+            .find(|message| message.rust_type == "AcipMessageEnvelopeV1")
+            .expect("message projection");
+        let sender = message_projection
+            .fields
+            .iter_mut()
+            .find(|field| field.field_name == "sender")
+            .expect("sender field");
+        sender.kind = AcipProtobufFieldKindV1::Scalar;
+        let kind_error = validate_acip_protobuf_projection_against_json_schemas_v1(&profile)
+            .expect_err("kind drift should fail");
+        assert!(kind_error
+            .to_string()
+            .contains("kind does not match JSON schema"));
+
+        let mut profile = acip_protobuf_projection_profile_v1();
+        let message_projection = profile
+            .messages
+            .iter_mut()
+            .find(|message| message.rust_type == "AcipMessageEnvelopeV1")
+            .expect("message projection");
+        let monotonic_order = message_projection
+            .fields
+            .iter_mut()
+            .find(|field| field.field_name == "monotonic_order")
+            .expect("monotonic_order field");
+        monotonic_order.type_ref = "uint32".to_string();
+        let type_error = validate_acip_protobuf_projection_against_json_schemas_v1(&profile)
+            .expect_err("type drift should fail");
+        assert!(type_error
+            .to_string()
+            .contains("does not match JSON schema-derived type_ref"));
+    }
+
+    #[test]
     fn acip_conformance_report_schema_and_report_are_available() {
         let schema = acip_conformance_report_v1_schema_json().expect("conformance schema");
         assert!(schema.contains("\"valid_fixture_classes\""));

@@ -4,7 +4,7 @@
 
 - Feature Name: Security Implementation Readiness
 - Milestone Target: `v0.91.7`
-- Status: gate recorded; child blockers open
+- Status: gate recorded; #4657 operations and #4658 schema projection integrated; other child blockers open
 - Owner: ADL maintainers
 - Doc Role: primary
 - Feature Types: policy, architecture
@@ -63,7 +63,8 @@ open:
 
 - `#4657`: SSM and local polis operations readiness, proven by
   `docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md`.
-- `#4658`: ACIP/A2A schema and protobuf projection.
+- `#4658`: ACIP/A2A schema and protobuf projection, proven by
+  `docs/milestones/v0.91.7/review/security/WP12_ACIP_SCHEMA_PROTOBUF_PROJECTION_4658.md`.
 - `#4659`: ACIP WebSocket transport path.
 - `#4660`: external-agent access rules.
 - `#4914`: CAV runtime red-blue proof.
