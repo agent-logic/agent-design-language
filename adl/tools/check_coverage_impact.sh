@@ -412,6 +412,9 @@ print_candidate_filters_fail_closed() {
     if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
       continue
     fi
+    if path_has_companion_cli_dispatch_change "$path"; then
+      continue
+    fi
     if ! filter="$(candidate_filter_for_path "$path")"; then
       errors="${errors}coverage-impact: unmapped changed Rust source requires an explicit PR-fast coverage mapping before cargo llvm-cov nextest can run: ${path}"$'\n'
       continue
@@ -542,6 +545,9 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
     ' "$SUMMARY")"
     if [ -z "$row" ]; then
       if file_is_structural_module_barrel "$path" || file_has_no_executable_surface "$path" || file_is_tokio_bootstrap_companion_surface "$path" || file_is_live_runtime_boundary_surface "$path"; then
+        continue
+      fi
+      if path_has_companion_cli_dispatch_change "$path"; then
         continue
       fi
       missing="${missing}  - ${path} (no coverage row in ${SUMMARY})"$'\n'

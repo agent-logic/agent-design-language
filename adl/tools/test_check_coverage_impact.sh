@@ -88,6 +88,7 @@ grep -Fx "cli_basics" "$cli_usage_filters" >/dev/null
 csmctl_changed="$TMP/csmctl-changed.txt"
 cat >"$csmctl_changed" <<'EOF'
 A	adl/src/bin/csmctl.rs
+M	adl/src/cli/mod.rs
 M	adl/src/cli/csm_service_cmd.rs
 A	adl/src/cli/csmctl_cmd.rs
 EOF
@@ -101,6 +102,10 @@ fi
 csmctl_expression="$(bash "$SCRIPT" --changed-files "$csmctl_changed" --print-risk-nextest-expression)"
 grep -F "test(csmctl)" <<<"$csmctl_expression" >/dev/null
 grep -F "test(csm_service)" <<<"$csmctl_expression" >/dev/null
+if grep -F "cli_basics" <<<"$csmctl_expression" >/dev/null; then
+  echo "did not expect broad cli_basics nextest expression for csmctl dispatch companion" >&2
+  exit 1
+fi
 
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"
@@ -366,6 +371,11 @@ cat >"$cli_dispatch_companion_summary" <<'EOF'
 EOF
 bash "$SCRIPT" --changed-files "$cli_dispatch_companion_changed" --summary "$cli_dispatch_companion_summary" >/tmp/coverage-impact-cli-dispatch-companion-pass.out
 grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-cli-dispatch-companion-pass.out >/dev/null
+
+cli_dispatch_companion_missing_mod_summary="$TMP/cli-dispatch-companion-missing-mod-summary.json"
+make_summary "adl/src/cli/process_cmd.rs" 320 399 "$cli_dispatch_companion_missing_mod_summary"
+bash "$SCRIPT" --changed-files "$cli_dispatch_companion_changed" --summary "$cli_dispatch_companion_missing_mod_summary" >/tmp/coverage-impact-cli-dispatch-companion-missing-mod-pass.out
+grep -F "Coverage-impact preflight passed" /tmp/coverage-impact-cli-dispatch-companion-missing-mod-pass.out >/dev/null
 
 if bash "$SCRIPT" --changed-files "$cli_mod_changed" --summary "$cli_dispatch_companion_summary" >/tmp/coverage-impact-cli-mod-alone-fails.out 2>&1; then
   echo "expected cli mod dispatch surface without a companion command change to stay threshold-gated" >&2
