@@ -209,6 +209,9 @@ candidate_filter_for_path() {
     adl/src/bin/csmctl.rs|adl/src/cli/csm_service_cmd.rs|adl/src/cli/csmctl_cmd.rs)
       printf 'csmctl'
       ;;
+    adl/src/long_lived_agent/storage.rs)
+      printf 'long_lived_agent_storage'
+      ;;
     adl/src/bin/adl_pr_shepherd.rs)
       printf 'pr_shepherd'
       ;;
@@ -313,6 +316,9 @@ nextest_expression_for_filter() {
       ;;
     csmctl)
       printf 'test(csmctl) or test(csm_service)'
+      ;;
+    long_lived_agent_storage)
+      printf 'test(long_lived_agent::storage) or test(run_v0916_runtime_failure_injection)'
       ;;
     finish)
       printf 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)'

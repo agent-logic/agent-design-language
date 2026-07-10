@@ -107,6 +107,15 @@ if grep -F "cli_basics" <<<"$csmctl_expression" >/dev/null; then
   exit 1
 fi
 
+long_lived_agent_storage_changed="$TMP/long-lived-agent-storage-changed.txt"
+printf 'M\tadl/src/long_lived_agent/storage.rs\n' >"$long_lived_agent_storage_changed"
+long_lived_agent_storage_filters="$TMP/long-lived-agent-storage-filters.txt"
+bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-filters >"$long_lived_agent_storage_filters"
+grep -Fx "long_lived_agent_storage" "$long_lived_agent_storage_filters" >/dev/null
+long_lived_agent_storage_expression="$(bash "$SCRIPT" --changed-files "$long_lived_agent_storage_changed" --print-risk-nextest-expression)"
+grep -F "test(long_lived_agent::storage)" <<<"$long_lived_agent_storage_expression" >/dev/null
+grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storage_expression" >/dev/null
+
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"
 cli_mod_filters="$TMP/cli-mod-filters.txt"
