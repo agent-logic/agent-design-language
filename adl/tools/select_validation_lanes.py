@@ -355,6 +355,7 @@ def select_lanes(
         if matches(path, selectors_for(rust_entry))
         and not path.endswith("/README.md")
         and not path.endswith(".md")
+        and path != "adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json"
     ]
     if rust_paths:
         fast_plan = pr_fast_plan(changed_files, base, head)

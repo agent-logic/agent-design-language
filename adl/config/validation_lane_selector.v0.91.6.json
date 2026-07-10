@@ -1027,6 +1027,37 @@
       "reason": "provider_benchmark_helper_surface_requires_python_syntax_check"
     },
     {
+      "id": "scheduler_fixture_validation",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "tools",
+      "proof_role": "scheduler_fixture_contract",
+      "requirement_ids": [
+        "scheduler_fixture_validation"
+      ],
+      "path_selectors": [
+        "adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json",
+        "docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json"
+      ],
+      "path_hints": [
+        "adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json",
+        "docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json"
+      ],
+      "command": "cargo test --manifest-path adl/Cargo.toml --lib scheduler_economics",
+      "run_command": "cargo test --manifest-path adl/Cargo.toml --lib scheduler_economics",
+      "reason": "scheduler_fixture_and_retained_artifact_surface_requires_scheduler_contract_tests",
+      "vpp_record": {
+        "contract_version": "vpp.lane.v1",
+        "artifacts": [
+          "scheduler_fixture_contract_tests"
+        ],
+        "expected_runtime_class": "medium",
+        "parallel_group": "scheduler_validation",
+        "cache_equivalence_group": "cargo_scheduler_tests",
+        "failure_semantics": "fail_closed"
+      }
+    },
+    {
       "id": "docs_diff_check",
       "lane_class": "docs",
       "default_surface": "docs",

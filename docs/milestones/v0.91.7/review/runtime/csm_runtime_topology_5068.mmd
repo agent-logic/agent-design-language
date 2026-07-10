@@ -1,0 +1,57 @@
+flowchart TD
+  tokio["Tokio core event loop"]
+  main["CSM main orchestration task"]
+  supervisor["futures / JoinSet / supervised component set"]
+  bus["typed runtime channels<br/>backpressure + health + lifecycle"]
+
+  tokio --> main --> supervisor --> bus
+
+  subgraph components["Runtime components"]
+    direction LR
+    api["runtime_api<br/>Axum / Tower / Hyper<br/>127.0.0.1:19997"]
+    chronosense["chronosense<br/>rsntp async time source"]
+    scheduler["scheduler<br/>cadence + admission"]
+    reasoning["reasoning_runtime<br/>graphs + loops + adaptive DAGs"]
+    aee["AEE<br/>governed execution"]
+    checkpoint["checkpoint<br/>partials + continuity"]
+    cloud["cloud_bridge<br/>API Gateway / EventBridge / AWS SDK"]
+    lifelog["lifelog<br/>database lifecycle journal"]
+    observability["observability<br/>CSM-managed Vector component"]
+  end
+
+  bus --> api
+  bus --> chronosense
+  bus --> scheduler
+  bus --> reasoning
+  bus --> aee
+  bus --> checkpoint
+  bus --> cloud
+  bus --> lifelog
+  bus --> observability
+
+  subgraph sinks["Retained evidence and external routes"]
+    direction LR
+    cloudwatch["CloudWatch<br/>logs + metrics"]
+    otel["OTel<br/>traces + metrics"]
+    storage["S3 / DB<br/>retention"]
+    notices["SNS / SQS<br/>notices"]
+  end
+
+  observability --> cloudwatch
+  observability --> otel
+  lifelog --> storage
+  cloud --> notices
+
+  classDef core fill:#05264a,stroke:#05264a,color:#ffffff,rx:4,ry:4;
+  classDef task fill:#f6d7f7,stroke:#e34cf2,color:#061f3d,rx:4,ry:4;
+  classDef set fill:#d8e8ff,stroke:#2f7df6,color:#061f3d,rx:4,ry:4;
+  classDef bus fill:#eef3f8,stroke:#b9c7d3,color:#061f3d,rx:4,ry:4;
+  classDef component fill:#d7f7fb,stroke:#18bfd6,color:#061f3d,rx:4,ry:4;
+  classDef sink fill:#f3f6e8,stroke:#9aae39,color:#26310c,rx:4,ry:4;
+
+  class tokio core;
+  class main task;
+  class supervisor set;
+  class bus bus;
+  class api,chronosense,scheduler,reasoning,aee,checkpoint,cloud,lifelog,observability component;
+  class cloudwatch,otel,storage,notices sink;

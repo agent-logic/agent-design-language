@@ -3,14 +3,26 @@
 mod api_gateway_bridge;
 
 use anyhow::{anyhow, bail, Context, Result};
+use axum::{
+    body::Body,
+    extract::State,
+    http::{HeaderMap, HeaderName, HeaderValue, Method, Response, StatusCode, Uri},
+    Router,
+};
 use chrono::{DateTime, Utc};
 use serde_json::{json, Value};
 use std::env;
 use std::fs;
-use std::io::{Read, Write};
-use std::net::{IpAddr, SocketAddr, TcpListener, TcpStream};
+use std::io::Write;
+use std::net::{IpAddr, SocketAddr};
 use std::path::{Path, PathBuf};
+use std::sync::{
+    atomic::{AtomicUsize, Ordering},
+    Arc, Mutex,
+};
 use std::time::{Duration, Instant};
+use tokio::sync::Notify;
+use tower::ServiceBuilder;
 
 use crate::csm_networking::{
     csm_connection_pooling_plan, csm_listener_registry_json, csm_runtime_connection_pool_status,
@@ -61,6 +73,16 @@ pub struct CsmRuntimeApiServeResult {
 }
 
 pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiServeResult> {
+    let runtime = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .context("build CSM runtime API tokio runtime")?;
+    runtime.block_on(serve_runtime_api_async(options))
+}
+
+async fn serve_runtime_api_async(
+    options: CsmRuntimeApiOptions,
+) -> Result<CsmRuntimeApiServeResult> {
     if options.test_max_requests == Some(0) {
         bail!("CSM runtime API test request limit must be greater than zero");
     }
@@ -70,18 +92,20 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
             || options.idle_timeout_ms.is_some()
             || options.shutdown_file.is_some(),
     )?;
-    let listener = TcpListener::bind(listener_config.bind_addr).with_context(|| {
-        format!(
-            "failed binding CSM runtime API listener_role={} bind_addr={} remediation_hint={}",
-            listener_config.role.as_str(),
-            listener_config.bind_addr,
-            listener_config
-                .to_observability_json()
-                .get("remediation_hint")
-                .and_then(Value::as_str)
-                .unwrap_or("free the configured CSM listener port")
-        )
-    })?;
+    let listener = tokio::net::TcpListener::bind(listener_config.bind_addr)
+        .await
+        .with_context(|| {
+            format!(
+                "failed binding CSM runtime API listener_role={} bind_addr={} remediation_hint={}",
+                listener_config.role.as_str(),
+                listener_config.bind_addr,
+                listener_config
+                    .to_observability_json()
+                    .get("remediation_hint")
+                    .and_then(Value::as_str)
+                    .unwrap_or("free the configured CSM listener port")
+            )
+        })?;
     let addr = listener
         .local_addr()
         .context("read CSM API local address")?;
@@ -100,63 +124,21 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
     );
     std::io::stdout().flush().ok();
 
-    let mut served = 0usize;
-    if options.idle_timeout_ms.is_some() || options.shutdown_file.is_some() {
-        listener
-            .set_nonblocking(true)
-            .context("set CSM runtime API listener nonblocking")?;
-        let idle_timeout = options.idle_timeout_ms.map(Duration::from_millis);
-        let mut last_activity = Instant::now();
-        while options
-            .test_max_requests
-            .is_none_or(|test_max_requests| served < test_max_requests)
-        {
-            if options
-                .shutdown_file
-                .as_deref()
-                .is_some_and(|path| path.exists())
-            {
-                break;
-            }
-            match listener.accept() {
-                Ok((mut stream, _)) => {
-                    match handle_runtime_api_stream(&options, &mut stream) {
-                        Ok(()) => served += 1,
-                        Err(err) if is_transient_client_io_error(&err) => {
-                            emit_runtime_api_client_error(&err);
-                        }
-                        Err(err) => return Err(err),
-                    }
-                    last_activity = Instant::now();
-                }
-                Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
-                    if idle_timeout.is_some_and(|timeout| last_activity.elapsed() >= timeout) {
-                        break;
-                    }
-                    std::thread::sleep(Duration::from_millis(25));
-                }
-                Err(err) => return Err(err).context("accept CSM runtime API connection"),
-            }
-        }
+    let state = RuntimeApiServerState::new(options);
+    let app = Router::new()
+        .fallback(runtime_api_axum_handler)
+        .layer(ServiceBuilder::new())
+        .with_state(state.clone());
+    let server = axum::serve(listener, app.into_make_service());
+    if state.has_bounded_test_shutdown() {
+        server
+            .with_graceful_shutdown(runtime_api_test_shutdown_signal(state.clone()))
+            .await
+            .context("serve CSM runtime API with axum")?;
     } else {
-        for stream in listener.incoming() {
-            let mut stream = stream.context("accept CSM runtime API connection")?;
-            match handle_runtime_api_stream(&options, &mut stream) {
-                Ok(()) => served += 1,
-                Err(err) if is_transient_client_io_error(&err) => {
-                    emit_runtime_api_client_error(&err);
-                    continue;
-                }
-                Err(err) => return Err(err),
-            }
-            if options
-                .test_max_requests
-                .is_some_and(|test_max_requests| served >= test_max_requests)
-            {
-                break;
-            }
-        }
+        server.await.context("serve CSM runtime API with axum")?;
     }
+    let served = state.served_requests();
     Ok(CsmRuntimeApiServeResult {
         schema: CSM_RUNTIME_API_SCHEMA.to_string(),
         status: "completed".to_string(),
@@ -164,6 +146,96 @@ pub fn serve_runtime_api(options: CsmRuntimeApiOptions) -> Result<CsmRuntimeApiS
         bind_addr: addr.to_string(),
         served_requests: served,
     })
+}
+
+#[derive(Clone)]
+struct RuntimeApiServerState {
+    options: Arc<CsmRuntimeApiOptions>,
+    served_requests: Arc<AtomicUsize>,
+    last_activity: Arc<Mutex<Instant>>,
+    shutdown: Arc<Notify>,
+}
+
+impl RuntimeApiServerState {
+    fn new(options: CsmRuntimeApiOptions) -> Self {
+        Self {
+            options: Arc::new(options),
+            served_requests: Arc::new(AtomicUsize::new(0)),
+            last_activity: Arc::new(Mutex::new(Instant::now())),
+            shutdown: Arc::new(Notify::new()),
+        }
+    }
+
+    fn record_request(&self) -> usize {
+        if let Ok(mut last_activity) = self.last_activity.lock() {
+            *last_activity = Instant::now();
+        }
+        let served = self.served_requests.fetch_add(1, Ordering::SeqCst) + 1;
+        if self
+            .options
+            .test_max_requests
+            .is_some_and(|test_max_requests| served >= test_max_requests)
+        {
+            self.shutdown.notify_waiters();
+        }
+        served
+    }
+
+    fn served_requests(&self) -> usize {
+        self.served_requests.load(Ordering::SeqCst)
+    }
+
+    fn has_bounded_test_shutdown(&self) -> bool {
+        self.options.test_max_requests.is_some()
+            || self.options.idle_timeout_ms.is_some()
+            || self.options.shutdown_file.is_some()
+    }
+
+    fn idle_elapsed(&self) -> Duration {
+        self.last_activity
+            .lock()
+            .map(|last_activity| last_activity.elapsed())
+            .unwrap_or_default()
+    }
+}
+
+async fn runtime_api_test_shutdown_signal(state: RuntimeApiServerState) {
+    loop {
+        let idle_timeout = state.options.idle_timeout_ms.map(Duration::from_millis);
+        tokio::select! {
+            _ = state.shutdown.notified(), if state.options.test_max_requests.is_some() => break,
+            _ = tokio::time::sleep(Duration::from_millis(25)), if state.options.shutdown_file.is_some() => {
+                if state
+                    .options
+                    .shutdown_file
+                    .as_deref()
+                    .is_some_and(|path| path.exists())
+                {
+                    break;
+                }
+            }
+            _ = tokio::time::sleep(Duration::from_millis(25)), if idle_timeout.is_some() => {
+                if idle_timeout.is_some_and(|timeout| state.idle_elapsed() >= timeout) {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+async fn runtime_api_axum_handler(
+    State(state): State<RuntimeApiServerState>,
+    method: Method,
+    uri: Uri,
+    headers: HeaderMap,
+) -> Response<Body> {
+    let request = RuntimeApiRequest::from_axum_parts(method, uri, &headers);
+    let response = match runtime_api_http_response(&state.options, &request) {
+        Ok(response) => response,
+        Err(err) => runtime_api_internal_error_response(request.origin.as_deref(), &err),
+    };
+    state.record_request();
+    runtime_api_axum_response(response)
 }
 
 pub fn runtime_api_response(options: &CsmRuntimeApiOptions, path: &str) -> Result<Value> {
@@ -237,6 +309,34 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "networking": csm_listener_registry_json(),
         "pooling_plan": csm_connection_pooling_plan(),
         "connection_pool_status": csm_runtime_connection_pool_status(),
+        "runtime_stack": {
+            "schema": "adl.csm.runtime_stack.v1",
+            "runtime_owner": "csm",
+            "async_runtime": "tokio",
+            "api_server": {
+                "http_framework": "axum",
+                "service_substrate": "tower",
+                "http_engine": "hyper",
+                "status": "integrated"
+            },
+            "resource_pooling": {
+                "pool_crate": "deadpool",
+                "status": "integrated",
+                "source": "csm_connection_pool_status"
+            },
+            "time_sync": {
+                "primary_crate": "rsntp",
+                "status": "integrated",
+                "source": "/chronosense"
+            },
+            "observability_pipeline": {
+                "pipeline": "vector",
+                "status": "planned_csm_managed_runtime_component",
+                "role": "collect_transform_redact_route_logs_metrics_and_otel",
+                "runtime_topology": "csm_managed_observability_component",
+                "csm_role": "emit_canonical_runtime_events_and_otel_shaped_summaries"
+            }
+        },
         "agent_instance_id": loaded.spec.agent_instance_id,
         "status": health,
         "ready": ready,
@@ -451,29 +551,6 @@ fn api_gateway_bridge_runtime_status(loaded: &LoadedAgentSpec) -> Value {
 
 fn artifact_path(loaded: &LoadedAgentSpec, name: &str) -> PathBuf {
     loaded.state_root.join(name)
-}
-
-fn handle_runtime_api_stream(options: &CsmRuntimeApiOptions, stream: &mut TcpStream) -> Result<()> {
-    stream
-        .set_read_timeout(Some(Duration::from_secs(5)))
-        .context("set CSM runtime API read timeout")?;
-    let request = read_runtime_api_request(stream)?;
-    let response = runtime_api_http_response(options, &request)?;
-    write_http_response(stream, &response)
-}
-
-fn is_transient_client_io_error(err: &anyhow::Error) -> bool {
-    err.chain().any(|cause| {
-        cause.downcast_ref::<std::io::Error>().is_some_and(|io| {
-            matches!(
-                io.kind(),
-                std::io::ErrorKind::BrokenPipe
-                    | std::io::ErrorKind::ConnectionReset
-                    | std::io::ErrorKind::ConnectionAborted
-                    | std::io::ErrorKind::UnexpectedEof
-            )
-        })
-    })
 }
 
 fn emit_runtime_api_client_error(err: &anyhow::Error) {
@@ -950,55 +1027,27 @@ struct RuntimeApiRequest {
     origin: Option<String>,
 }
 
+impl RuntimeApiRequest {
+    fn from_axum_parts(method: Method, uri: Uri, headers: &HeaderMap) -> Self {
+        Self {
+            method: method.as_str().to_ascii_uppercase(),
+            path: uri
+                .path_and_query()
+                .map(|path| path.as_str().to_string())
+                .unwrap_or_else(|| uri.path().to_string()),
+            origin: headers
+                .get("origin")
+                .and_then(|value| value.to_str().ok())
+                .map(str::to_string),
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 struct RuntimeApiHttpResponse {
     status: &'static str,
     headers: Vec<(&'static str, String)>,
     body: Option<Value>,
-}
-
-fn read_runtime_api_request(stream: &mut TcpStream) -> Result<RuntimeApiRequest> {
-    let mut buf = Vec::new();
-    let mut chunk = [0_u8; 256];
-    loop {
-        let n = stream
-            .read(&mut chunk)
-            .context("read CSM runtime API request")?;
-        if n == 0 {
-            break;
-        }
-        buf.extend_from_slice(&chunk[..n]);
-        if buf.windows(2).any(|window| window == b"\r\n")
-            || buf.windows(1).any(|window| window == b"\n")
-            || buf.len() >= 4096
-        {
-            break;
-        }
-    }
-    parse_runtime_api_request(&String::from_utf8_lossy(&buf))
-}
-
-fn parse_runtime_api_request(raw: &str) -> Result<RuntimeApiRequest> {
-    let mut lines = raw.lines();
-    let first_line = lines.next().unwrap_or_default();
-    let mut parts = first_line.split_whitespace();
-    let method = parts.next().unwrap_or_default();
-    let path = parts.next().unwrap_or("/__bad_request");
-    let mut origin = None;
-    for line in lines {
-        let Some((name, value)) = line.split_once(':') else {
-            continue;
-        };
-        if name.trim().eq_ignore_ascii_case("origin") {
-            origin = Some(value.trim().to_string());
-            break;
-        }
-    }
-    Ok(RuntimeApiRequest {
-        method: method.to_ascii_uppercase(),
-        path: path.to_string(),
-        origin,
-    })
 }
 
 fn runtime_api_http_response(
@@ -1035,6 +1084,68 @@ fn runtime_api_http_response(
                 "allowed_methods": ["GET", "OPTIONS"]
             })),
         }),
+    }
+}
+
+fn runtime_api_internal_error_response(
+    origin: Option<&str>,
+    err: &anyhow::Error,
+) -> RuntimeApiHttpResponse {
+    emit_runtime_api_client_error(err);
+    let mut headers = loopback_browser_access_headers(origin);
+    headers.push(("vary", "Origin".to_string()));
+    RuntimeApiHttpResponse {
+        status: "500 Internal Server Error",
+        headers,
+        body: Some(json!({
+            "schema": CSM_RUNTIME_API_SCHEMA,
+            "status": "internal_error"
+        })),
+    }
+}
+
+fn runtime_api_axum_response(response: RuntimeApiHttpResponse) -> Response<Body> {
+    let status = runtime_api_status_code(response.status);
+    let raw = response
+        .body
+        .as_ref()
+        .map(serde_json::to_vec_pretty)
+        .transpose()
+        .unwrap_or_else(|_| {
+            Some(
+                serde_json::to_vec(&json!({
+                    "schema": CSM_RUNTIME_API_SCHEMA,
+                    "status": "serialization_error"
+                }))
+                .unwrap_or_default(),
+            )
+        })
+        .unwrap_or_default();
+    let mut builder = Response::builder().status(status);
+    if response.body.is_some() {
+        builder = builder.header("content-type", "application/json");
+    }
+    for (name, value) in response.headers {
+        if let (Ok(name), Ok(value)) = (
+            HeaderName::from_lowercase(name.as_bytes()),
+            HeaderValue::from_str(&value),
+        ) {
+            builder = builder.header(name, value);
+        }
+    }
+    builder
+        .body(Body::from(raw))
+        .unwrap_or_else(|_| Response::new(Body::empty()))
+}
+
+fn runtime_api_status_code(status: &str) -> StatusCode {
+    match status {
+        "200 OK" => StatusCode::OK,
+        "204 No Content" => StatusCode::NO_CONTENT,
+        "404 Not Found" => StatusCode::NOT_FOUND,
+        "405 Method Not Allowed" => StatusCode::METHOD_NOT_ALLOWED,
+        "500 Internal Server Error" => StatusCode::INTERNAL_SERVER_ERROR,
+        _ => StatusCode::INTERNAL_SERVER_ERROR,
     }
 }
 
@@ -1092,29 +1203,6 @@ fn is_approved_loopback_browser_origin(origin: &str) -> bool {
     host.parse::<IpAddr>()
         .map(|addr| addr.is_loopback())
         .unwrap_or(false)
-}
-
-fn write_http_response(stream: &mut TcpStream, response: &RuntimeApiHttpResponse) -> Result<()> {
-    let raw = response
-        .body
-        .as_ref()
-        .map(serde_json::to_vec_pretty)
-        .transpose()?
-        .unwrap_or_default();
-    write!(stream, "HTTP/1.1 {}\r\n", response.status)?;
-    if response.body.is_some() {
-        write!(stream, "content-type: application/json\r\n")?;
-    }
-    for (name, value) in &response.headers {
-        write!(stream, "{name}: {value}\r\n")?;
-    }
-    write!(
-        stream,
-        "content-length: {}\r\nconnection: close\r\n\r\n",
-        raw.len()
-    )?;
-    stream.write_all(&raw)?;
-    Ok(())
 }
 
 pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
@@ -1195,16 +1283,19 @@ memory: {}
     }
 
     #[test]
-    fn runtime_api_parses_method_path_and_origin() {
-        let request = parse_runtime_api_request(
-            "OPTIONS /status HTTP/1.1\r\nHost: 127.0.0.1:19997\r\nOrigin: http://127.0.0.1:8765\r\n\r\n",
-        )
-        .unwrap();
+    fn runtime_api_uses_axum_request_parts_for_method_path_and_origin() {
+        let mut headers = HeaderMap::new();
+        headers.insert("origin", HeaderValue::from_static("http://127.0.0.1:8765"));
+        let request = RuntimeApiRequest::from_axum_parts(
+            Method::OPTIONS,
+            Uri::from_static("/status?probe=1"),
+            &headers,
+        );
         assert_eq!(
             request,
             RuntimeApiRequest {
                 method: "OPTIONS".to_string(),
-                path: "/status".to_string(),
+                path: "/status?probe=1".to_string(),
                 origin: Some("http://127.0.0.1:8765".to_string())
             }
         );
@@ -1386,13 +1477,6 @@ memory: {}
     }
 
     #[test]
-    fn runtime_api_classifies_broken_client_write_as_transient() {
-        let err = anyhow::Error::new(std::io::Error::from(std::io::ErrorKind::BrokenPipe))
-            .context("write CSM runtime API response");
-        assert!(is_transient_client_io_error(&err));
-    }
-
-    #[test]
     fn runtime_api_redacts_secret_and_host_path_event_payloads() {
         let root = temp_root("redaction");
         let spec = write_spec(&root);
@@ -1559,6 +1643,53 @@ memory: {}
             .expect("started_at should be RFC3339");
         assert_eq!(reported_started_at.with_timezone(&Utc), started_at);
         assert!(response["uptime"]["uptime_secs"].as_i64().unwrap() >= 40);
+    }
+
+    #[test]
+    fn runtime_api_status_reports_crate_backed_runtime_stack() {
+        let root = temp_root("runtime-stack");
+        let spec = write_spec(&root);
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let response = runtime_api_response(&options, "/status").unwrap();
+
+        assert_eq!(response["runtime_stack"]["async_runtime"], "tokio");
+        assert_eq!(
+            response["runtime_stack"]["api_server"]["http_framework"],
+            "axum"
+        );
+        assert_eq!(
+            response["runtime_stack"]["api_server"]["service_substrate"],
+            "tower"
+        );
+        assert_eq!(
+            response["runtime_stack"]["api_server"]["http_engine"],
+            "hyper"
+        );
+        assert_eq!(
+            response["runtime_stack"]["resource_pooling"]["pool_crate"],
+            "deadpool"
+        );
+        assert_eq!(
+            response["runtime_stack"]["time_sync"]["primary_crate"],
+            "rsntp"
+        );
+        assert_eq!(
+            response["runtime_stack"]["observability_pipeline"]["pipeline"],
+            "vector"
+        );
+        assert_eq!(
+            response["runtime_stack"]["observability_pipeline"]["runtime_topology"],
+            "csm_managed_observability_component"
+        );
     }
 
     #[test]

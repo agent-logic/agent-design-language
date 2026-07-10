@@ -197,6 +197,43 @@ assert "adl/tools/rust_cache_env.sh" in surface["matched_paths"]
 assert "adl/tools/test_rust_cache_env.sh" in surface["matched_paths"]
 PY
 
+scheduler_fixture_repair="$TMP/scheduler-fixture-repair.txt"
+cat >"$scheduler_fixture_repair" <<'EOF'
+M	adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json
+M	docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json
+EOF
+bash "$SCRIPT" --changed-files "$scheduler_fixture_repair" --json >"$TMP/scheduler-fixture-repair.json"
+python3 - <<'PY' "$TMP/scheduler-fixture-repair.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["selected_profile"] == "scheduler_fixture_validation_profile"
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert [item["lane_id"] for item in profile["run"]] == ["scheduler_fixture_validation"]
+assert profile["run"][0]["command"] == "cargo test --manifest-path adl/Cargo.toml --lib scheduler_economics"
+assert profile["run"][0]["matched_paths"] == [
+    "adl/tests/fixtures/scheduler/local_agent_delegation_readiness_inputs_v1.json",
+    "docs/milestones/v0.91.7/review/provider/artifacts/local_agent_delegation_readiness_plan_4675.json",
+]
+surface = profile["behavior_surfaces"][0]
+assert surface["id"] == "scheduler_fixture_contract_scheduler_fixture_validation"
+assert surface["owner"] == "tools"
+assert surface["proof_role"] == "scheduler_fixture_contract"
+assert profile["validation_dag"]["nodes"][0]["status"] == "runnable"
+assert profile["validation_dag"]["nodes"][0]["proof_role"] == "scheduler_fixture_contract"
+assert profile["escalation"]["required"] is False
+assert profile["escalation"]["reasons"] == []
+assert profile["diagnostics"] == []
+assert not any(
+    reason.get("reason") == "no_rust_surface_detected_for_fast_lane"
+    for reason in profile["escalation"]["reasons"]
+)
+assert "rust_pr_fast" not in profile["selector_plan"]["lanes"]
+PY
+
 unity_observatory="$TMP/unity-observatory.txt"
 cat >"$unity_observatory" <<'EOF'
 M	demos/v0.91.6/unity-observatory/Assets/Resources/observatory_contract.json
