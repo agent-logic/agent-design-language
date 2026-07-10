@@ -347,6 +347,42 @@ release_tail:
 }
 
 #[test]
+fn srp_sor_update_records_terminal_review_timeout_truth() {
+    let repo = TempRepo::new("srp-sor-update-review-timeout");
+    let facts = repo.write_rel(
+        "facts.yaml",
+        r#"review:
+  findings_status: timed_out
+  recommended_outcome: block
+validation:
+  status: PASS
+  commands:
+    - command: "cargo test --manifest-path adl/Cargo.toml terminal_review_timeout"
+      purpose: "terminal review timeout proof"
+      result: PASS
+"#,
+    );
+    let srp = repo.write_rel("srp.md", &valid_srp_text(4999));
+    let sor = repo.write_rel("sor.md", &valid_sor_text());
+
+    real_srp_sor_update(&[
+        "--facts".into(),
+        facts.display().to_string(),
+        "--srp".into(),
+        srp.display().to_string(),
+        "--sor".into(),
+        sor.display().to_string(),
+    ])
+    .expect("update SRP/SOR with terminal review timeout truth");
+
+    let srp_text = fs::read_to_string(&srp).expect("read srp");
+    assert!(srp_text.contains("findings_status: review_timeout"));
+    assert!(srp_text.contains("recommended_outcome: block"));
+    assert!(!srp_text.contains("review_results_exception"));
+    validate_srp_text(&srp_text).expect("terminal review timeout SRP validates");
+}
+
+#[test]
 fn srp_sor_update_projects_goal_metrics_summary_into_sor() {
     let repo = TempRepo::new("srp-sor-update-goal-summary");
     let summary = repo.write_rel(

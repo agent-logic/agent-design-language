@@ -2762,7 +2762,15 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Findings Status",
                 true,
                 "Machine-readable final review findings status.",
-                &["not_run", "findings_present", "no_findings"],
+                &[
+                    "not_run",
+                    "findings_present",
+                    "no_findings",
+                    "review_unavailable",
+                    "review_timeout",
+                    "review_cancelled",
+                    "review_failed",
+                ],
             ));
             fields.push(select(
                 "recommended_outcome",

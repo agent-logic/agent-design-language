@@ -641,7 +641,7 @@ fn recovery_candidate_is_usable(path: &Path, relative: &str) -> Result<bool> {
     }
 }
 
-fn srp_has_final_review_results_text(text: &str) -> Result<bool> {
+pub(super) fn srp_has_final_review_results_text(text: &str) -> Result<bool> {
     let Some(front_matter) = markdown_front_matter_local(text) else {
         return Ok(false);
     };
@@ -662,7 +662,14 @@ fn srp_has_final_review_results_text(text: &str) -> Result<bool> {
     let recommended_outcome = yaml_mapping_string_local(review_results, "recommended_outcome");
     Ok(matches!(
         findings_status.as_deref(),
-        Some("no_findings" | "findings_present")
+        Some(
+            "no_findings"
+                | "findings_present"
+                | "review_unavailable"
+                | "review_timeout"
+                | "review_cancelled"
+                | "review_failed"
+        )
     ) && matches!(
         recommended_outcome.as_deref(),
         Some("pass" | "block" | "needs_followup")
