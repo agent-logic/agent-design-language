@@ -6,6 +6,7 @@
 
 mod a2a_adapter_boundary;
 mod access_control;
+mod aee_obsmem_pvf_trace_handoff;
 mod acip_hardening;
 mod affect_reasoning_control;
 mod agent_lifecycle_state;
@@ -80,6 +81,8 @@ use std::path::{Path, PathBuf};
 pub use a2a_adapter_boundary::*;
 #[allow(unused_imports)]
 pub use access_control::*;
+#[allow(unused_imports)]
+pub use aee_obsmem_pvf_trace_handoff::*;
 #[allow(unused_imports)]
 pub use acip_hardening::*;
 #[allow(unused_imports)]

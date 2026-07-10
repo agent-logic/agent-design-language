@@ -50,6 +50,17 @@ impl<C: ObsMemClient> ObsMemAdapter<C> {
         self.client.write_entry(&request)
     }
 
+    /// Forward a prebuilt, validated memory write request through the adapter
+    /// boundary. Runtime producers use this after constructing issue-specific
+    /// trace handoff packets that are not shaped like legacy run artifacts.
+    pub fn index_prebuilt_write_request(
+        &self,
+        request: &MemoryWriteRequest,
+    ) -> Result<MemoryWriteAck, ObsMemContractError> {
+        request.validate()?;
+        self.client.write_entry(request)
+    }
+
     /// Execute deterministic structured retrieval through the contract surface.
     ///
     /// v0.75 boundary: this query path must return the same records in the same

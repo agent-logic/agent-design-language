@@ -135,6 +135,11 @@ pub fn runtime_v2_csm_integrated_run_contract() -> Result<RuntimeV2CsmIntegrated
     RuntimeV2CsmIntegratedRunArtifacts::prototype()
 }
 
+pub fn runtime_v2_aee_obsmem_pvf_trace_handoff_contract(
+) -> Result<RuntimeV2AeeObsMemPvfTraceHandoffArtifacts> {
+    RuntimeV2AeeObsMemPvfTraceHandoffArtifacts::prototype()
+}
+
 pub fn runtime_v2_minimal_integrated_runtime_path_contract(
 ) -> Result<RuntimeV2MinimalIntegratedRuntimePathArtifacts> {
     RuntimeV2MinimalIntegratedRuntimePathArtifacts::prototype()
