@@ -7,8 +7,13 @@ PROOF="${1:-$ROOT/docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_
 python3 - "$PROOF" <<'PY'
 import hashlib
 import json
+import os
 import pathlib
+import base64
+import subprocess
 import sys
+import tempfile
+import textwrap
 
 proof = pathlib.Path(sys.argv[1])
 required = [
@@ -25,6 +30,7 @@ required = [
     "logs/otel.jsonl",
     "logs/otel_status.json",
     "capsule/continuity_capsule_manifest.json",
+    "capsule/custody_manifest.json",
     "capsule/state/agent_spec.locked.json",
     "capsule/state/status.json",
     "capsule/state/daemon_status.json",
@@ -121,6 +127,8 @@ if manifest.get("rebind_policy", {}).get("aws", {}).get("default_profile") != "a
     raise SystemExit("manifest AWS rebind policy drift")
 if manifest.get("rebind_policy", {}).get("provider_auth") != "excluded_from_bundle_rebind_from_target_provider_environment":
     raise SystemExit("provider auth exclusion drift")
+if manifest.get("custody_manifest_ref") != "custody_manifest.json":
+    raise SystemExit("custody manifest ref drift")
 
 artifacts = manifest.get("artifacts")
 if not isinstance(artifacts, list) or len(artifacts) < 10:
@@ -155,6 +163,112 @@ for artifact in artifacts:
     if digest != artifact.get("sha256"):
         raise SystemExit(f"artifact hash mismatch: {bundle_ref}")
 
+custody = json.loads((proof / "capsule" / "custody_manifest.json").read_text(encoding="utf-8"))
+if custody.get("schema") != "adl.csm.polis_artifact_custody_manifest.v1":
+    raise SystemExit("custody manifest schema drift")
+if custody.get("format_version") != "csm.polis-custody.v1":
+    raise SystemExit("custody manifest format drift")
+if custody.get("runtime_owner") != "csm":
+    raise SystemExit("custody manifest runtime_owner drift")
+if custody.get("capsule_manifest_ref") != "continuity_capsule_manifest.json":
+    raise SystemExit("custody capsule manifest ref drift")
+signature = custody.get("signature") or {}
+if signature.get("schema") != "adl.csm.polis_artifact_custody_signature.v1":
+    raise SystemExit("custody signature schema drift")
+if signature.get("alg") != "ecdsa-p256-sha256":
+    raise SystemExit("custody signature algorithm drift")
+if not signature.get("key_id"):
+    raise SystemExit("custody signature key id missing")
+if not isinstance(signature.get("public_key_b64"), str) or len(signature["public_key_b64"]) < 40:
+    raise SystemExit("custody signature public key missing")
+if not isinstance(signature.get("sig_b64"), str) or len(signature["sig_b64"]) < 80:
+    raise SystemExit("custody signature bytes missing")
+signed_payload = signature.get("signed_payload") or {}
+if signed_payload.get("canonical_json_profile") != "adl.csm.polis_custody.canonical_json.sorted_serde_json.v1":
+    raise SystemExit("custody canonical JSON profile drift")
+if signed_payload.get("excluded_fields") != ["signature"]:
+    raise SystemExit("custody signature excluded fields drift")
+if not isinstance(signed_payload.get("payload_sha256"), str) or not signed_payload["payload_sha256"].startswith("sha256:"):
+    raise SystemExit("custody signed payload digest missing")
+unsigned_custody = dict(custody)
+unsigned_custody["signature"] = None
+canonical_custody = json.dumps(unsigned_custody, sort_keys=True, separators=(",", ":")).encode("utf-8")
+expected_payload_sha256 = "sha256:" + hashlib.sha256(canonical_custody).hexdigest()
+if signed_payload["payload_sha256"] != expected_payload_sha256:
+    raise SystemExit("custody signed payload digest mismatch")
+retained_proof_trusted_keys = {
+    "csm-continuity-4910-proof-key": "BHE1+k/ZOgnc6Yu/aBtL/PUOfA1jVOYq+wv/KjQpYXhl7UwfAt25Aj7lalV+UV1qncZsEfIglg3llDNN9Yh3ZyQ=",
+}
+trusted_public_key = (
+    os.environ.get("ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64")
+    or os.environ.get("CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64")
+    or retained_proof_trusted_keys.get(signature.get("key_id"))
+)
+if not trusted_public_key:
+    raise SystemExit("trusted custody public key env missing")
+if signature.get("public_key_b64") != trusted_public_key:
+    raise SystemExit("custody signature public key does not match trusted verification key")
+try:
+    public_key_bytes = base64.b64decode(trusted_public_key, validate=True)
+    signature_bytes = base64.b64decode(signature["sig_b64"], validate=True)
+except Exception as exc:
+    raise SystemExit(f"custody signature base64 decode failed: {exc}")
+if len(public_key_bytes) != 65 or public_key_bytes[0] != 4:
+    raise SystemExit("trusted custody public key must be uncompressed P-256 SEC1 bytes")
+spki_prefix = bytes.fromhex("3059301306072a8648ce3d020106082a8648ce3d030107034200")
+public_key_der = spki_prefix + public_key_bytes
+public_key_pem = (
+    "-----BEGIN PUBLIC KEY-----\n"
+    + "\n".join(textwrap.wrap(base64.b64encode(public_key_der).decode("ascii"), 64))
+    + "\n-----END PUBLIC KEY-----\n"
+)
+with tempfile.TemporaryDirectory() as td:
+    td_path = pathlib.Path(td)
+    pub_path = td_path / "custody_pub.pem"
+    sig_path = td_path / "custody_sig.der"
+    payload_path = td_path / "custody_payload.json"
+    pub_path.write_text(public_key_pem, encoding="ascii")
+    sig_path.write_bytes(signature_bytes)
+    payload_path.write_bytes(canonical_custody)
+    verify = subprocess.run(
+        [
+            "openssl",
+            "dgst",
+            "-sha256",
+            "-verify",
+            str(pub_path),
+            "-signature",
+            str(sig_path),
+            str(payload_path),
+        ],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+if verify.returncode != 0:
+    raise SystemExit(f"custody ECDSA signature verification failed: {verify.stderr or verify.stdout}")
+custody_artifacts = custody.get("artifacts")
+if not isinstance(custody_artifacts, list) or len(custody_artifacts) < len(artifacts) + 1:
+    raise SystemExit("custody artifacts incomplete")
+custody_by_id = {entry.get("artifact_id"): entry for entry in custody_artifacts}
+if "continuity-capsule-manifest" not in custody_by_id:
+    raise SystemExit("custody root artifact missing")
+for artifact in artifacts:
+    artifact_id = f"artifact:{artifact.get('role')}:{artifact.get('source_ref')}"
+    custody_artifact = custody_by_id.get(artifact_id)
+    if custody_artifact is None:
+        raise SystemExit(f"custody artifact missing: {artifact_id}")
+    if custody_artifact.get("sha256") != artifact.get("sha256"):
+        raise SystemExit(f"custody artifact hash mismatch: {artifact_id}")
+    if custody_artifact.get("storage_location") != artifact.get("bundle_ref"):
+        raise SystemExit(f"custody artifact storage drift: {artifact_id}")
+    redaction = custody_artifact.get("redaction") or {}
+    if redaction.get("sensitive_material_present") is not False or redaction.get("contains_host_private_paths") is not False:
+        raise SystemExit(f"custody redaction posture drift: {artifact_id}")
+    if redaction.get("redacted_fields") != []:
+        raise SystemExit(f"custody redacted fields must be empty: {artifact_id}")
+
 stage_report = json.loads((proof / "ec2_staged" / "stage_report.json").read_text(encoding="utf-8"))
 if stage_report.get("schema") != "adl.csm.continuity_capsule_stage_report.v1":
     raise SystemExit("stage report schema drift")
@@ -188,6 +302,9 @@ if negative.get("schema") != "adl.csm.continuity_capsule_4910_negative_results.v
 expected_cases = {
     "version_mismatch",
     "missing_file",
+    "missing_custody_manifest",
+    "custody_signature_tamper",
+    "custody_untrusted_public_key",
     "path_leakage",
     "credential_leakage",
     "corrupted_manifest",
@@ -243,6 +360,7 @@ if (
 bad_markers = ["/Users/", "/private/tmp/", "/var/folders/", "/tmp/", "api_key", "password"]
 for path in [
     proof / "capsule" / "continuity_capsule_manifest.json",
+    proof / "capsule" / "custody_manifest.json",
     proof / "ec2_staged" / "stage_report.json",
     proof / "ec2_blocked" / "stage_report.json",
 ]:

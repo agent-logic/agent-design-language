@@ -6,11 +6,45 @@
     "runtime_owner": "csm",
     "adl_role": "tooling_control_plane",
     "process_class": "csm_runtime_daemon",
+    "supervisor": {
+      "status": "integrated",
+      "restart_policy": "always",
+      "service_mode": "permanent",
+      "bounded_test_mode": "explicit_only",
+      "host_supervisor_compatibility": [
+        "launchd_keepalive",
+        "systemd_restart_always",
+        "rustysd_service_manager",
+        "rinit_service_manager"
+      ],
+      "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+    },
     "chronosense": {
       "status": "integrated",
       "service_schema": "chronosense_runtime_service.v1",
       "clock_stack_schema": "chronosense_clock_stack.v1",
-      "clock_stack_capture": "daemon_event_time"
+      "clock_stack_capture": "daemon_event_time",
+      "time_substrate": "SNTP",
+      "time_process_model": "csm_in_process_component_no_separate_binary",
+      "time_primary_status_source": "rsntp::AsyncSntpClient",
+      "time_compatibility_fallback": "none_in_runtime_path",
+      "time_sync": {
+        "schema_version": "chronosense_time_sync_status.v1",
+        "substrate": "SNTP",
+        "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+        "mode": "csm_in_process_async_sntp_client",
+        "health": "synced",
+        "confidence": "high",
+        "drift_status": "within_sntp_reported_bounds",
+        "failure_state": null,
+        "reason": "runtime_sntp_client_reports_active_source",
+        "observed_at_rfc3339": "2026-07-10T21:22:08.335708+00:00",
+        "poll_command": "rsntp::AsyncSntpClient",
+        "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+        "parsed_offset_seconds": 0.0068998143542557955,
+        "parsed_uncertainty_seconds": 0.012108939001336694,
+        "raw_summary": "peer=time.cloudflare.com"
+      }
     },
     "aee": {
       "status": "integrated",
@@ -21,7 +55,7 @@
         "stopped",
         "leased"
       ],
-      "failure_recovery": "restart_budget_and_checkpoint_restore"
+      "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
     },
     "scheduler_watcher": {
       "status": "integrated",
@@ -33,7 +67,8 @@
       "status": "integrated",
       "lease_policy": "active_stale_recoverable_blocked",
       "restart_backoff": "bounded_exponential",
-      "partial_checkpoints": "daemon_partial_checkpoint"
+      "partial_checkpoints": "daemon_partial_checkpoint",
+      "safe_fail_serialization": "integrated_safe_fail_bundle"
     },
     "observability": {
       "status": "integrated",
@@ -42,20 +77,39 @@
       "retained_outputs": [
         "operator_events.jsonl",
         "daemon_status.json",
+        "safe_fail_bundle.json",
+        "safe_fail_artifacts/",
+        "csm_governed_notices.jsonl",
+        "csm_governed_notice_latest.json",
         "ADL_OBSERVABILITY_LOG",
         "ADL_OTEL_LOG",
         "ADL_OTEL_STATUS"
       ]
+    },
+    "governed_shutdown_notices": {
+      "status": "integrated",
+      "local_notice_ledger": "csm_governed_notices.jsonl",
+      "outbound_channels": [
+        "cloudwatch_logs",
+        "acip_sns",
+        "cloudfront_control_plane"
+      ],
+      "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+      "cloudfront_control_plane_dependency": "#4915"
     }
   },
   "state": "completed",
-  "supervisor_pid": 32234,
+  "supervisor_pid": 14112,
+  "restart_policy": "always",
+  "service_mode": "bounded_test_only",
+  "bounded_test_mode": true,
   "restart_count": 0,
-  "max_restarts": 1,
+  "bounded_test_restart_limit": 1,
   "checkpoint_interval_secs": 1,
   "last_event": "daemon_completed",
   "last_child_exit": "success",
-  "last_checkpoint_at": "2026-07-06T02:45:35.461219Z",
+  "started_at": "2026-07-10T21:22:04.594081Z",
+  "last_checkpoint_at": "2026-07-10T21:22:08.309839Z",
   "next_backoff_secs": 0,
   "trace_id": "agent.csm-continuity-4910.daemon",
   "span_id": "daemon:daemon_completed:0",
@@ -66,5 +120,5 @@
     "not_host_resource_exhaustion_resistant",
     "not_missing_binary_resistant"
   ],
-  "updated_at": "2026-07-06T02:45:35.461219Z"
+  "updated_at": "2026-07-10T21:22:08.309839Z"
 }

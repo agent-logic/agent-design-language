@@ -1,0 +1,2195 @@
+{
+  "schema": "adl.csm.safe_fail_bundle.v1",
+  "format_version": "csm.safe-fail.v1",
+  "runtime_owner": "csm",
+  "adl_role": "tooling_control_plane",
+  "agent_instance_id": "csm-continuity-4910",
+  "captured_at": "2026-07-10T21:22:06.931200Z",
+  "safe_fail_sequence": 1,
+  "trigger": "daemon_partial_checkpoint",
+  "trigger_model": {
+    "schema": "adl.csm.safe_fail_trigger_model.v1",
+    "supported_triggers": [
+      "graceful_stop",
+      "daemon_partial_checkpoint",
+      "daemon_child_failed",
+      "bounded_test_supervisor_failure",
+      "restart_backoff",
+      "daemon_heartbeat"
+    ],
+    "observability_exporter_failure_policy": "recorded_in_observability_status_when_exporter_reports_failure",
+    "checkpoint_failure_policy": "best_effort_fallback_refs_if_safe_fail_writer_cannot_complete",
+    "unclaimed_triggers": [
+      "kill_9",
+      "host_power_loss_before_last_checkpoint_flush",
+      "kernel_storage_loss"
+    ]
+  },
+  "agent_checkpoint_policy": {
+    "schema": "adl.csm.agent_checkpoint_policy.v1",
+    "interval_secs": null,
+    "allow_agent_requested": false,
+    "min_request_interval_secs": 30,
+    "request_ref": "checkpoint_request.json",
+    "request_contract": {
+      "schema": "adl.csm.agent_checkpoint_request.v1",
+      "required_fields": [
+        "schema",
+        "reason",
+        "requested_at"
+      ],
+      "governance": "CSM may accept or block; agent request is advisory and rate limited"
+    }
+  },
+  "restart_count": 0,
+  "bounded_test_restart_limit": 1,
+  "last_child_exit": "success",
+  "agent_outcome": {
+    "state": "sleeping",
+    "action_allowed_without_review": false,
+    "reason": "no active cycle is running; next heartbeat may decide whether to wake",
+    "source_status_state": "idle",
+    "last_cycle_id": "cycle-000002",
+    "last_cycle_status": "success"
+  },
+  "recoverability": {
+    "class": "recoverable_sleeping",
+    "allowed_next_actions": [
+      "inspect",
+      "wake_after_policy_check"
+    ],
+    "last_error": null
+  },
+  "monotonicity": {
+    "policy": "append_new_bundle_then_update_latest_pointer",
+    "latest_pointer_ref": "safe_fail_bundle.json",
+    "bundle_ref": "safe_fail_artifacts/safe-fail-000001.json",
+    "does_not_rewrite_continuity_checkpoint": true,
+    "does_not_rewrite_cycle_ledger": true
+  },
+  "serialized_refs": [
+    {
+      "role": "runtime_identity",
+      "ref": "agent_spec.locked.json",
+      "status": "retained",
+      "bytes": 1035
+    },
+    {
+      "role": "status",
+      "ref": "status.json",
+      "status": "retained",
+      "bytes": 699
+    },
+    {
+      "role": "daemon_status",
+      "ref": "daemon_status.json",
+      "status": "retained",
+      "bytes": 4528
+    },
+    {
+      "role": "continuity_checkpoint",
+      "ref": "continuity_checkpoint.json",
+      "status": "retained",
+      "bytes": 1157
+    },
+    {
+      "role": "continuity_replay_manifest",
+      "ref": "continuity_replay_manifest.json",
+      "status": "retained",
+      "bytes": 1755
+    },
+    {
+      "role": "cycle_ledger",
+      "ref": "cycle_ledger.jsonl",
+      "status": "retained",
+      "bytes": 1074
+    },
+    {
+      "role": "memory_index",
+      "ref": "memory_index.json",
+      "status": "retained",
+      "bytes": 294
+    },
+    {
+      "role": "provider_binding_history",
+      "ref": "provider_binding_history.jsonl",
+      "status": "retained",
+      "bytes": 548
+    },
+    {
+      "role": "operator_events_tail",
+      "ref": "operator_events.jsonl",
+      "status": "retained",
+      "bytes": 45325
+    }
+  ],
+  "serialized_state": {
+    "status": {
+      "status": "serialized",
+      "value": {
+        "schema": "adl.long_lived_agent_status.v1",
+        "agent_instance_id": "csm-continuity-4910",
+        "state": "idle",
+        "last_cycle_id": "cycle-000002",
+        "last_cycle_status": "success",
+        "completed_cycle_count": 2,
+        "consecutive_failure_count": 0,
+        "active_lease": null,
+        "stop_requested": false,
+        "last_error": null,
+        "safety_policy": {
+          "allow_network": false,
+          "allow_broker": false,
+          "allow_filesystem_writes_outside_state_root": false,
+          "allow_real_world_side_effects": false,
+          "require_public_artifact_sanitization": true,
+          "financial_advice": false,
+          "max_cycle_runtime_secs": 120,
+          "max_consecutive_failures": 2
+        },
+        "updated_at": "2026-07-10T21:22:06.707854Z"
+      }
+    },
+    "daemon_status": {
+      "status": "serialized",
+      "value": {
+        "schema": "adl.long_lived_agent_daemon_status.v1",
+        "agent_instance_id": "csm-continuity-4910",
+        "runtime_capabilities": {
+          "schema": "adl.csm.runtime_capabilities.v1",
+          "runtime_owner": "csm",
+          "adl_role": "tooling_control_plane",
+          "process_class": "csm_runtime_daemon",
+          "supervisor": {
+            "status": "integrated",
+            "restart_policy": "always",
+            "service_mode": "permanent",
+            "bounded_test_mode": "explicit_only",
+            "host_supervisor_compatibility": [
+              "launchd_keepalive",
+              "systemd_restart_always",
+              "rustysd_service_manager",
+              "rinit_service_manager"
+            ],
+            "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+          },
+          "chronosense": {
+            "status": "integrated",
+            "service_schema": "chronosense_runtime_service.v1",
+            "clock_stack_schema": "chronosense_clock_stack.v1",
+            "clock_stack_capture": "daemon_event_time",
+            "time_substrate": "SNTP",
+            "time_process_model": "csm_in_process_component_no_separate_binary",
+            "time_primary_status_source": "rsntp::AsyncSntpClient",
+            "time_compatibility_fallback": "none_in_runtime_path",
+            "time_sync": {
+              "schema_version": "chronosense_time_sync_status.v1",
+              "substrate": "SNTP",
+              "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+              "mode": "csm_in_process_async_sntp_client",
+              "health": "synced",
+              "confidence": "high",
+              "drift_status": "within_sntp_reported_bounds",
+              "failure_state": null,
+              "reason": "runtime_sntp_client_reports_active_source",
+              "observed_at_rfc3339": "2026-07-10T21:22:06.811887+00:00",
+              "poll_command": "rsntp::AsyncSntpClient",
+              "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+              "parsed_offset_seconds": 0.004803894902579486,
+              "parsed_uncertainty_seconds": 0.01076911378186196,
+              "raw_summary": "peer=time.cloudflare.com"
+            }
+          },
+          "aee": {
+            "status": "integrated",
+            "recoverable_states": [
+              "idle",
+              "completed",
+              "failed",
+              "stopped",
+              "leased"
+            ],
+            "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+          },
+          "scheduler_watcher": {
+            "status": "integrated",
+            "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+            "partial_checkpoint_interval": "checkpoint_interval_secs",
+            "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+          },
+          "resilience_middleware": {
+            "status": "integrated",
+            "lease_policy": "active_stale_recoverable_blocked",
+            "restart_backoff": "bounded_exponential",
+            "partial_checkpoints": "daemon_partial_checkpoint",
+            "safe_fail_serialization": "integrated_safe_fail_bundle"
+          },
+          "observability": {
+            "status": "integrated",
+            "event_command": "csm",
+            "otel_service_name": "csm-runtime-daemon",
+            "retained_outputs": [
+              "operator_events.jsonl",
+              "daemon_status.json",
+              "safe_fail_bundle.json",
+              "safe_fail_artifacts/",
+              "csm_governed_notices.jsonl",
+              "csm_governed_notice_latest.json",
+              "ADL_OBSERVABILITY_LOG",
+              "ADL_OTEL_LOG",
+              "ADL_OTEL_STATUS"
+            ]
+          },
+          "governed_shutdown_notices": {
+            "status": "integrated",
+            "local_notice_ledger": "csm_governed_notices.jsonl",
+            "outbound_channels": [
+              "cloudwatch_logs",
+              "acip_sns",
+              "cloudfront_control_plane"
+            ],
+            "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+            "cloudfront_control_plane_dependency": "#4915"
+          }
+        },
+        "state": "running",
+        "supervisor_pid": 14112,
+        "restart_policy": "always",
+        "service_mode": "bounded_test_only",
+        "bounded_test_mode": true,
+        "restart_count": 0,
+        "bounded_test_restart_limit": 1,
+        "checkpoint_interval_secs": 1,
+        "last_event": "checkpoint_write",
+        "last_child_exit": "success",
+        "started_at": "2026-07-10T21:22:04.594081Z",
+        "last_checkpoint_at": "2026-07-10T21:22:06.788629Z",
+        "next_backoff_secs": 0,
+        "trace_id": "agent.csm-continuity-4910.daemon",
+        "span_id": "daemon:checkpoint_write:0",
+        "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+        "unsupported_permanence_claims": [
+          "not_os_boot_persistent",
+          "not_kill_9_resistant",
+          "not_host_resource_exhaustion_resistant",
+          "not_missing_binary_resistant"
+        ],
+        "updated_at": "2026-07-10T21:22:06.788629Z"
+      }
+    },
+    "continuity_checkpoint": {
+      "status": "serialized",
+      "value": {
+        "schema": "adl.long_lived_agent_continuity_checkpoint.v1",
+        "agent_instance_id": "csm-continuity-4910",
+        "captured_at": "2026-07-10T21:22:06.757861Z",
+        "checkpoint_reason": "daemon_partial_checkpoint",
+        "state": "idle",
+        "stop_requested": false,
+        "latest_cycle_id": "cycle-000002",
+        "latest_cycle_status": "success",
+        "completed_cycle_count": 2,
+        "consecutive_failure_count": 0,
+        "continuity_kind": "pre_v0_92_handle",
+        "continuity_ref": "continuity.json",
+        "status_ref": "status.json",
+        "cycle_ledger_ref": "cycle_ledger.jsonl",
+        "lease_ref": null,
+        "lease_state": "clear",
+        "restore_basis": {
+          "ledger_entry_count": 2,
+          "max_cycle_number": 2,
+          "expected_next_cycle_id": "cycle-000003"
+        },
+        "godel_agent_snapshot_diff": {
+          "write_kind": "diff",
+          "artifact_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000003.json",
+          "chain_ref": "godel_snapshots/godel_agent_snapshot_chain.json",
+          "last_known_good_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000003.json",
+          "last_known_good_sha256": "acb2807805ca6b321af0c0ffd130eb570952e0c58e63f99352eb61ac68fc0e14",
+          "validation_status": "passed"
+        }
+      }
+    },
+    "continuity_replay_manifest": {
+      "status": "serialized",
+      "value": {
+        "schema": "adl.long_lived_agent_continuity_replay_manifest.v1",
+        "agent_instance_id": "csm-continuity-4910",
+        "generated_at": "2026-07-10T21:22:06.773686Z",
+        "continuity_ref": "continuity.json",
+        "checkpoint_ref": "continuity_checkpoint.json",
+        "status_ref": "status.json",
+        "cycle_ledger_ref": "cycle_ledger.jsonl",
+        "expected_resume": {
+          "next_cycle_id": "cycle-000003",
+          "latest_cycle_id": "cycle-000002",
+          "active_lease_state": "clear",
+          "recover_stale_lease_required": false
+        },
+        "godel_agent_snapshot_diff": {
+          "write_kind": "diff",
+          "artifact_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000003.json",
+          "chain_ref": "godel_snapshots/godel_agent_snapshot_chain.json",
+          "last_known_good_ref": "godel_snapshots/diffs/csm-continuity-4910-diff-000003.json",
+          "last_known_good_sha256": "acb2807805ca6b321af0c0ffd130eb570952e0c58e63f99352eb61ac68fc0e14",
+          "validation_status": "passed"
+        },
+        "restore_invariants": [
+          "append_only_cycle_ledger",
+          "latest_cycle_id_matches_checkpoint",
+          "lease_file_blocks_duplicate_active_cycle_without_explicit_recovery",
+          "godel_snapshot_diff_last_known_good_pointer_validates_before_recovery"
+        ],
+        "reviewer_steps": [
+          "Inspect continuity_checkpoint.json for the latest captured cycle state.",
+          "Inspect continuity_replay_manifest.json for the next expected cycle id and lease posture.",
+          "Inspect cycle_ledger.jsonl to confirm resume continues at the next cycle id without duplicates.",
+          "Inspect godel_snapshots/godel_agent_snapshot_chain.json and validate the last-known-good pointer before agent recovery."
+        ],
+        "non_claims": [
+          "not_mid_step_checkpointing",
+          "not_full_runtime_persistence",
+          "not_distributed_recovery"
+        ]
+      }
+    },
+    "lease": {
+      "status": "missing"
+    },
+    "stop": {
+      "status": "missing"
+    },
+    "cycle_ledger_tail": {
+      "status": "serialized",
+      "tail_limit": 20,
+      "unreadable_lines": 0,
+      "entries": [
+        {
+          "schema": "adl.long_lived_agent_cycle_ledger_entry.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "cycle_id": "cycle-000001",
+          "status": "success",
+          "started_at": "2026-07-10T21:22:04.820406Z",
+          "completed_at": "2026-07-10T21:22:04.881212Z",
+          "previous_cycle_id": null,
+          "manifest_ref": "cycles/cycle-000001/cycle_manifest.json",
+          "summary_ref": "cycles/cycle-000001/cycle_summary.md",
+          "memory_writes_ref": "cycles/cycle-000001/memory_writes.jsonl",
+          "guardrail_report_ref": "cycles/cycle-000001/guardrail_report.json",
+          "continuity_kind": "pre_v0_92_handle"
+        },
+        {
+          "schema": "adl.long_lived_agent_cycle_ledger_entry.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "cycle_id": "cycle-000002",
+          "status": "success",
+          "started_at": "2026-07-10T21:22:06.429222Z",
+          "completed_at": "2026-07-10T21:22:06.501870Z",
+          "previous_cycle_id": "cycle-000001",
+          "manifest_ref": "cycles/cycle-000002/cycle_manifest.json",
+          "summary_ref": "cycles/cycle-000002/cycle_summary.md",
+          "memory_writes_ref": "cycles/cycle-000002/memory_writes.jsonl",
+          "guardrail_report_ref": "cycles/cycle-000002/guardrail_report.json",
+          "continuity_kind": "pre_v0_92_handle"
+        }
+      ]
+    },
+    "operator_event_tail": {
+      "status": "serialized",
+      "tail_limit": 40,
+      "unreadable_lines": 0,
+      "entries": [
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "created",
+          "at": "2026-07-10T21:22:04.446938Z",
+          "operator": "local",
+          "details": {
+            "locked_spec_ref": "agent_spec.locked.json",
+            "continuity_kind": "pre_v0_92_handle"
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "daemon_started",
+          "at": "2026-07-10T21:22:04.653498Z",
+          "operator": "local",
+          "details": {
+            "event": "daemon_started",
+            "result": "started",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:daemon_started:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:daemon_started:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "daemon_started"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:04.653235+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.005439492873847485,
+                  "parsed_uncertainty_seconds": 0.010652005905285478,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:04.653+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:04.653+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 171,
+              "monotonic_elapsed_ms": 171,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:04.653+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:04.653+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:04",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "checkpoint_interval_secs": 1,
+              "agent_checkpoint_policy": {
+                "schema": "adl.csm.agent_checkpoint_policy.v1",
+                "interval_secs": null,
+                "allow_agent_requested": false,
+                "min_request_interval_secs": 30,
+                "request_ref": "checkpoint_request.json",
+                "request_contract": {
+                  "schema": "adl.csm.agent_checkpoint_request.v1",
+                  "required_fields": [
+                    "schema",
+                    "reason",
+                    "requested_at"
+                  ],
+                  "governance": "CSM may accept or block; agent request is advisory and rate limited"
+                }
+              },
+              "bounded_test_restart_limit": 1,
+              "restart_policy": "always",
+              "service_mode": "bounded_test_only",
+              "bounded_test_mode": true,
+              "cycle_count_lifetime_boundary": "not_applicable",
+              "runtime_api": {
+                "status": "embedded",
+                "bind": "127.0.0.1:19997",
+                "thread": "csm-runtime-api",
+                "pid_model": "same_process_as_csm_daemon",
+                "shutdown_ref": "state/csm_runtime_api_shutdown"
+              },
+              "unsupported_permanence_claims": [
+                "not_os_boot_persistent",
+                "not_kill_9_resistant",
+                "not_host_resource_exhaustion_resistant",
+                "not_missing_binary_resistant"
+              ]
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "child_spawn",
+          "at": "2026-07-10T21:22:04.712007Z",
+          "operator": "local",
+          "details": {
+            "event": "child_spawn",
+            "result": "started",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:child_spawn:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:child_spawn:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "child_spawn"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:04.711789+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.005203183391131461,
+                  "parsed_uncertainty_seconds": 0.010550434584729372,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:04.711+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:04.711+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 229,
+              "monotonic_elapsed_ms": 229,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:04.711+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:04.711+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:04",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "supervised_unit": "long_lived_agent_tick"
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "child_exit",
+          "at": "2026-07-10T21:22:04.962223Z",
+          "operator": "local",
+          "details": {
+            "event": "child_exit",
+            "result": "completed",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:child_exit:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:child_exit:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "child_exit"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:04.962010+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.005399364163167775,
+                  "parsed_uncertainty_seconds": 0.010542791453190148,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:04.962+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:04.962+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 480,
+              "monotonic_elapsed_ms": 480,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:04.962+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:04.962+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:04",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "exit_class": "success",
+              "recoverable_state": "idle",
+              "checkpoint_ref": "continuity_checkpoint.json"
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "checkpoint_write",
+          "at": "2026-07-10T21:22:05.200492Z",
+          "operator": "local",
+          "details": {
+            "event": "checkpoint_write",
+            "result": "completed",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:checkpoint_write:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:checkpoint_write:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "checkpoint_write"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:05.200282+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.003790504182688892,
+                  "parsed_uncertainty_seconds": 0.012008947203867136,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:05.200+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:05.200+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 718,
+              "monotonic_elapsed_ms": 718,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:05.200+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:05.200+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:05",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "checkpoint_reason": "daemon_partial_checkpoint",
+              "checkpoint_ref": "continuity_checkpoint.json",
+              "status_ref": "status.json",
+              "trigger": "daemon_heartbeat"
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "safe_fail_serialization",
+          "at": "2026-07-10T21:22:05.759175Z",
+          "operator": "local",
+          "details": {
+            "event": "safe_fail_serialization",
+            "result": "completed",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:safe_fail_serialization:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:safe_fail_serialization:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "safe_fail_serialization"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:05.758891+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.004346681525930762,
+                  "parsed_uncertainty_seconds": 0.01948213600553572,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:05.759+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:05.759+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 1277,
+              "monotonic_elapsed_ms": 1277,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:05.759+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:05.759+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:05",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "schema": "adl.csm.safe_fail_bundle.v1",
+              "status": "serialized",
+              "bundle_ref": "safe_fail_bundle.json",
+              "sequence_ref": "safe_fail_artifacts/safe-fail-000001.json",
+              "safe_fail_sequence": 1,
+              "agent_outcome": {
+                "state": "sleeping",
+                "action_allowed_without_review": false,
+                "reason": "no active cycle is running; next heartbeat may decide whether to wake",
+                "source_status_state": "idle",
+                "last_cycle_id": "cycle-000001",
+                "last_cycle_status": "success"
+              },
+              "recoverability": {
+                "class": "recoverable_sleeping",
+                "allowed_next_actions": [
+                  "inspect",
+                  "wake_after_policy_check"
+                ],
+                "last_error": null
+              }
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "daemon_completed",
+          "at": "2026-07-10T21:22:05.879533Z",
+          "operator": "local",
+          "details": {
+            "event": "daemon_completed",
+            "result": "completed",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:daemon_completed:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:daemon_completed:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "daemon_completed"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:05.879066+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.004175025969743729,
+                  "parsed_uncertainty_seconds": 0.012758795637637377,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:05.879+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:05.879+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 1397,
+              "monotonic_elapsed_ms": 1397,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:05.879+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:05.879+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:05",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "reason": "no_sleep_test_boundary",
+              "restart_policy": "always",
+              "service_mode": "bounded_test_only",
+              "bounded_test_mode": true
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "daemon_started",
+          "at": "2026-07-10T21:22:06.177155Z",
+          "operator": "local",
+          "details": {
+            "event": "daemon_started",
+            "result": "started",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:daemon_started:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:daemon_started:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "daemon_started"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:06.176924+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.005092385923489928,
+                  "parsed_uncertainty_seconds": 0.010294071165844798,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:06.177+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:06.177+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 115,
+              "monotonic_elapsed_ms": 115,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:06.177+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:06.177+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:06",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "checkpoint_interval_secs": 1,
+              "agent_checkpoint_policy": {
+                "schema": "adl.csm.agent_checkpoint_policy.v1",
+                "interval_secs": null,
+                "allow_agent_requested": false,
+                "min_request_interval_secs": 30,
+                "request_ref": "checkpoint_request.json",
+                "request_contract": {
+                  "schema": "adl.csm.agent_checkpoint_request.v1",
+                  "required_fields": [
+                    "schema",
+                    "reason",
+                    "requested_at"
+                  ],
+                  "governance": "CSM may accept or block; agent request is advisory and rate limited"
+                }
+              },
+              "bounded_test_restart_limit": 1,
+              "restart_policy": "always",
+              "service_mode": "bounded_test_only",
+              "bounded_test_mode": true,
+              "cycle_count_lifetime_boundary": "not_applicable",
+              "runtime_api": {
+                "status": "embedded",
+                "bind": "127.0.0.1:19997",
+                "thread": "csm-runtime-api",
+                "pid_model": "same_process_as_csm_daemon",
+                "shutdown_ref": "ec2_restored/state/csm_runtime_api_shutdown"
+              },
+              "unsupported_permanence_claims": [
+                "not_os_boot_persistent",
+                "not_kill_9_resistant",
+                "not_host_resource_exhaustion_resistant",
+                "not_missing_binary_resistant"
+              ]
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "child_spawn",
+          "at": "2026-07-10T21:22:06.249359Z",
+          "operator": "local",
+          "details": {
+            "event": "child_spawn",
+            "result": "started",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:child_spawn:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:child_spawn:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "child_spawn"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:06.246116+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.005729846539907157,
+                  "parsed_uncertainty_seconds": 0.009999094414524734,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:06.249+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:06.249+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 187,
+              "monotonic_elapsed_ms": 187,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:06.249+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:06.249+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:06",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "supervised_unit": "long_lived_agent_tick"
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "child_exit",
+          "at": "2026-07-10T21:22:06.592501Z",
+          "operator": "local",
+          "details": {
+            "event": "child_exit",
+            "result": "completed",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:child_exit:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:child_exit:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "child_exit"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:06.592164+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.006475610425695777,
+                  "parsed_uncertainty_seconds": 0.011040064506232738,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:06.592+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:06.592+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 530,
+              "monotonic_elapsed_ms": 530,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:06.592+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:06.592+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:06",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "exit_class": "success",
+              "recoverable_state": "idle",
+              "checkpoint_ref": "continuity_checkpoint.json"
+            }
+          }
+        },
+        {
+          "schema": "adl.long_lived_agent_operator_event.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "event": "checkpoint_write",
+          "at": "2026-07-10T21:22:06.878327Z",
+          "operator": "local",
+          "details": {
+            "event": "checkpoint_write",
+            "result": "completed",
+            "trace_id": "agent.csm-continuity-4910.daemon",
+            "span_id": "daemon:checkpoint_write:0",
+            "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+            "otel": {
+              "trace_id": "agent.csm-continuity-4910.daemon",
+              "span_id": "daemon:checkpoint_write:0",
+              "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+              "service_name": "csm-runtime-daemon",
+              "event_name": "checkpoint_write"
+            },
+            "runtime_capabilities": {
+              "schema": "adl.csm.runtime_capabilities.v1",
+              "runtime_owner": "csm",
+              "adl_role": "tooling_control_plane",
+              "process_class": "csm_runtime_daemon",
+              "supervisor": {
+                "status": "integrated",
+                "restart_policy": "always",
+                "service_mode": "permanent",
+                "bounded_test_mode": "explicit_only",
+                "host_supervisor_compatibility": [
+                  "launchd_keepalive",
+                  "systemd_restart_always",
+                  "rustysd_service_manager",
+                  "rinit_service_manager"
+                ],
+                "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+              },
+              "chronosense": {
+                "status": "integrated",
+                "service_schema": "chronosense_runtime_service.v1",
+                "clock_stack_schema": "chronosense_clock_stack.v1",
+                "clock_stack_capture": "daemon_event_time",
+                "time_substrate": "SNTP",
+                "time_process_model": "csm_in_process_component_no_separate_binary",
+                "time_primary_status_source": "rsntp::AsyncSntpClient",
+                "time_compatibility_fallback": "none_in_runtime_path",
+                "time_sync": {
+                  "schema_version": "chronosense_time_sync_status.v1",
+                  "substrate": "SNTP",
+                  "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+                  "mode": "csm_in_process_async_sntp_client",
+                  "health": "synced",
+                  "confidence": "high",
+                  "drift_status": "within_sntp_reported_bounds",
+                  "failure_state": null,
+                  "reason": "runtime_sntp_client_reports_active_source",
+                  "observed_at_rfc3339": "2026-07-10T21:22:06.877625+00:00",
+                  "poll_command": "rsntp::AsyncSntpClient",
+                  "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+                  "parsed_offset_seconds": 0.005667828139849007,
+                  "parsed_uncertainty_seconds": 0.010114157921634614,
+                  "raw_summary": "peer=time.cloudflare.com"
+                }
+              },
+              "aee": {
+                "status": "integrated",
+                "recoverable_states": [
+                  "idle",
+                  "completed",
+                  "failed",
+                  "stopped",
+                  "leased"
+                ],
+                "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+              },
+              "scheduler_watcher": {
+                "status": "integrated",
+                "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+                "partial_checkpoint_interval": "checkpoint_interval_secs",
+                "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+              },
+              "resilience_middleware": {
+                "status": "integrated",
+                "lease_policy": "active_stale_recoverable_blocked",
+                "restart_backoff": "bounded_exponential",
+                "partial_checkpoints": "daemon_partial_checkpoint",
+                "safe_fail_serialization": "integrated_safe_fail_bundle"
+              },
+              "observability": {
+                "status": "integrated",
+                "event_command": "csm",
+                "otel_service_name": "csm-runtime-daemon",
+                "retained_outputs": [
+                  "operator_events.jsonl",
+                  "daemon_status.json",
+                  "safe_fail_bundle.json",
+                  "safe_fail_artifacts/",
+                  "csm_governed_notices.jsonl",
+                  "csm_governed_notice_latest.json",
+                  "ADL_OBSERVABILITY_LOG",
+                  "ADL_OTEL_LOG",
+                  "ADL_OTEL_STATUS"
+                ]
+              },
+              "governed_shutdown_notices": {
+                "status": "integrated",
+                "local_notice_ledger": "csm_governed_notices.jsonl",
+                "outbound_channels": [
+                  "cloudwatch_logs",
+                  "acip_sns",
+                  "cloudfront_control_plane"
+                ],
+                "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+                "cloudfront_control_plane_dependency": "#4915"
+              }
+            },
+            "chronosense_clock_stack": {
+              "schema_version": "chronosense_clock_stack.v1",
+              "utc_timestamp_rfc3339": "2026-07-10T21:22:06.878+00:00",
+              "local_timestamp_rfc3339": "2026-07-10T21:22:06.878+00:00",
+              "timezone": "UTC",
+              "utc_offset": "+00:00",
+              "lifetime_elapsed_ms": 816,
+              "monotonic_elapsed_ms": 816,
+              "reference_frames": [
+                "utc_epoch_millis",
+                "local_civil_time",
+                "runtime_lifetime",
+                "runtime_monotonic_elapsed"
+              ],
+              "temporal_context": {
+                "schema_version": "temporal_context.v1",
+                "captured_at_rfc3339": "2026-07-10T21:22:06.878+00:00",
+                "local_timestamp_rfc3339": "2026-07-10T21:22:06.878+00:00",
+                "local_date": "2026-07-10",
+                "local_time": "21:22:06",
+                "local_weekday": "Friday",
+                "timezone": "UTC",
+                "utc_offset": "+00:00",
+                "identity_agent_id": null,
+                "identity_display_name": null,
+                "age_days_since_birthday": null
+              }
+            },
+            "details": {
+              "checkpoint_reason": "daemon_partial_checkpoint",
+              "checkpoint_ref": "continuity_checkpoint.json",
+              "status_ref": "status.json",
+              "trigger": "daemon_heartbeat"
+            }
+          }
+        }
+      ]
+    },
+    "provider_binding_tail": {
+      "status": "serialized",
+      "tail_limit": 20,
+      "unreadable_lines": 0,
+      "entries": [
+        {
+          "schema": "adl.long_lived_agent_provider_binding.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "cycle_id": "cycle-000001",
+          "provider_id": "local_ollama",
+          "model": "gemma4:latest",
+          "binding_status": "available",
+          "source": "workflow_run_args",
+          "bound_at": "2026-07-10T21:22:04.820406Z"
+        },
+        {
+          "schema": "adl.long_lived_agent_provider_binding.v1",
+          "agent_instance_id": "csm-continuity-4910",
+          "cycle_id": "cycle-000002",
+          "provider_id": "local_ollama",
+          "model": "gemma4:latest",
+          "binding_status": "available",
+          "source": "workflow_run_args",
+          "bound_at": "2026-07-10T21:22:06.429222Z"
+        }
+      ]
+    }
+  },
+  "observability": {
+    "schema": "adl.csm.safe_fail_observability.v1",
+    "event_command": "csm",
+    "event_stage": "safe_fail_serialization",
+    "otel_service_name": "csm-runtime-daemon",
+    "trace_id": "agent.csm-continuity-4910.daemon",
+    "span_id": "daemon:safe_fail_serialization:0",
+    "parent_span_id": "daemon:csm-continuity-4910:supervisor",
+    "runtime_capabilities": {
+      "schema": "adl.csm.runtime_capabilities.v1",
+      "runtime_owner": "csm",
+      "adl_role": "tooling_control_plane",
+      "process_class": "csm_runtime_daemon",
+      "supervisor": {
+        "status": "integrated",
+        "restart_policy": "always",
+        "service_mode": "permanent",
+        "bounded_test_mode": "explicit_only",
+        "host_supervisor_compatibility": [
+          "launchd_keepalive",
+          "systemd_restart_always",
+          "rustysd_service_manager",
+          "rinit_service_manager"
+        ],
+        "lifetime_boundary": "operator_stop_or_fatal_supervisor_failure_only"
+      },
+      "chronosense": {
+        "status": "integrated",
+        "service_schema": "chronosense_runtime_service.v1",
+        "clock_stack_schema": "chronosense_clock_stack.v1",
+        "clock_stack_capture": "daemon_event_time",
+        "time_substrate": "SNTP",
+        "time_process_model": "csm_in_process_component_no_separate_binary",
+        "time_primary_status_source": "rsntp::AsyncSntpClient",
+        "time_compatibility_fallback": "none_in_runtime_path",
+        "time_sync": {
+          "schema_version": "chronosense_time_sync_status.v1",
+          "substrate": "SNTP",
+          "source": "rsntp::AsyncSntpClient in-process runtime sampler",
+          "mode": "csm_in_process_async_sntp_client",
+          "health": "synced",
+          "confidence": "high",
+          "drift_status": "within_sntp_reported_bounds",
+          "failure_state": null,
+          "reason": "runtime_sntp_client_reports_active_source",
+          "observed_at_rfc3339": "2026-07-10T21:22:06.958353+00:00",
+          "poll_command": "rsntp::AsyncSntpClient",
+          "port_policy": "csm_in_process_async_sntp_client_ephemeral_udp_no_csm_udp_123_listener_no_shellout",
+          "parsed_offset_seconds": 0.006101056933403015,
+          "parsed_uncertainty_seconds": 0.01057757600210607,
+          "raw_summary": "peer=time.cloudflare.com"
+        }
+      },
+      "aee": {
+        "status": "integrated",
+        "recoverable_states": [
+          "idle",
+          "completed",
+          "failed",
+          "stopped",
+          "leased"
+        ],
+        "failure_recovery": "permanent_restart_loop_with_checkpoint_restore"
+      },
+      "scheduler_watcher": {
+        "status": "integrated",
+        "cadence_source": "heartbeat.interval_secs_or_daemon_default",
+        "partial_checkpoint_interval": "checkpoint_interval_secs",
+        "stop_observation": "stop_json_checked_between_cycles_and_sleep_slices"
+      },
+      "resilience_middleware": {
+        "status": "integrated",
+        "lease_policy": "active_stale_recoverable_blocked",
+        "restart_backoff": "bounded_exponential",
+        "partial_checkpoints": "daemon_partial_checkpoint",
+        "safe_fail_serialization": "integrated_safe_fail_bundle"
+      },
+      "observability": {
+        "status": "integrated",
+        "event_command": "csm",
+        "otel_service_name": "csm-runtime-daemon",
+        "retained_outputs": [
+          "operator_events.jsonl",
+          "daemon_status.json",
+          "safe_fail_bundle.json",
+          "safe_fail_artifacts/",
+          "csm_governed_notices.jsonl",
+          "csm_governed_notice_latest.json",
+          "ADL_OBSERVABILITY_LOG",
+          "ADL_OTEL_LOG",
+          "ADL_OTEL_STATUS"
+        ]
+      },
+      "governed_shutdown_notices": {
+        "status": "integrated",
+        "local_notice_ledger": "csm_governed_notices.jsonl",
+        "outbound_channels": [
+          "cloudwatch_logs",
+          "acip_sns",
+          "cloudfront_control_plane"
+        ],
+        "transport_failure_policy": "record_delivery_failure_without_blocking_safe_fail_serialization",
+        "cloudfront_control_plane_dependency": "#4915"
+      }
+    },
+    "chronosense_clock_stack": {
+      "schema_version": "chronosense_clock_stack.v1",
+      "utc_timestamp_rfc3339": "2026-07-10T21:22:06.958+00:00",
+      "local_timestamp_rfc3339": "2026-07-10T21:22:06.958+00:00",
+      "timezone": "UTC",
+      "utc_offset": "+00:00",
+      "lifetime_elapsed_ms": 896,
+      "monotonic_elapsed_ms": 896,
+      "reference_frames": [
+        "utc_epoch_millis",
+        "local_civil_time",
+        "runtime_lifetime",
+        "runtime_monotonic_elapsed"
+      ],
+      "temporal_context": {
+        "schema_version": "temporal_context.v1",
+        "captured_at_rfc3339": "2026-07-10T21:22:06.958+00:00",
+        "local_timestamp_rfc3339": "2026-07-10T21:22:06.958+00:00",
+        "local_date": "2026-07-10",
+        "local_time": "21:22:06",
+        "local_weekday": "Friday",
+        "timezone": "UTC",
+        "utc_offset": "+00:00",
+        "identity_agent_id": null,
+        "identity_display_name": null,
+        "age_days_since_birthday": null
+      }
+    }
+  },
+  "recovery_hints": {
+    "inspect": "csm daemon/status artifacts under the agent state root",
+    "continuity_checkpoint_ref": "continuity_checkpoint.json",
+    "continuity_replay_manifest_ref": "continuity_replay_manifest.json",
+    "capture_for_transfer": "csm continuity capture --spec <agent.yaml> --out <bundle-dir>",
+    "resume_guard": "policy_check_required_before_wake"
+  },
+  "negative_case_boundaries": [
+    "graceful_stop_and_observed_failures_are_serialized",
+    "kill_9_or_host_loss_may_only_preserve_last_completed_partial_checkpoint",
+    "unsafe_or_ambiguous_active_lease_requires_quarantine_review",
+    "malformed_prior_state_is_retained_as_unreadable_artifact_evidence"
+  ],
+  "non_claims": [
+    "not_mid_step_checkpointing",
+    "not_kill_9_resistant",
+    "not_distributed_consensus_checkpoint",
+    "not_secret_material_capture"
+  ],
+  "details": {
+    "checkpoint_reason": "daemon_partial_checkpoint",
+    "trigger": "daemon_heartbeat",
+    "checkpoint_ref": "continuity_checkpoint.json",
+    "status_ref": "status.json",
+    "agent_checkpoint_request": null
+  }
+}

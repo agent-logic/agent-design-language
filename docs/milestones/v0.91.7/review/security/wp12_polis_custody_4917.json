@@ -1,0 +1,77 @@
+{
+  "schema": "adl.wp12.polis_custody.v1",
+  "issue": 4917,
+  "parent_issue": 4639,
+  "milestone": "v0.91.7",
+  "status": "worktree_proven_pr_pending",
+  "checked_at_utc": "2026-07-10T20:35:31Z",
+  "authoritative_review_packet": "docs/milestones/v0.91.7/review/security/WP12_POLIS_CUSTODY_4917.md",
+  "custody_manifest": {
+    "schema": "adl.csm.polis_artifact_custody_manifest.v1",
+    "format_version": "csm.polis-custody.v1",
+    "retained_ref": "custody_manifest.json",
+    "scope": "polis_recovery_artifact_bundle",
+    "portable_refs_only": true,
+    "required_artifacts": [
+      "continuity_capsule_manifest.json",
+      "state/",
+      "segments/"
+    ]
+  },
+  "signature_profile": {
+    "implementation": "RustCrypto p256 ECDSA",
+    "algorithm": "ecdsa-p256-sha256",
+    "canonical_json_profile": "adl.csm.polis_custody.canonical_json.sorted_serde_json.v1",
+    "excluded_fields": [
+      "signature"
+    ],
+    "private_key_env": "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64",
+    "trusted_public_key_env": "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+    "key_id_env": "ADL_CSM_CUSTODY_SIGNING_KEY_ID",
+    "production_private_key_retained": false,
+    "deterministic_non_secret_test_vector_private_key_in_script": true,
+    "public_key_retained": true,
+    "embedded_public_key_trusted_without_external_anchor": false
+  },
+  "validator_coverage": {
+    "capture": true,
+    "stage": true,
+    "restore": true,
+    "fire_drill": true,
+    "replay_guard": true,
+    "parent_linkage": true,
+    "sha256_artifact_hashes": true,
+    "redaction_posture": true
+  },
+  "negative_cases": [
+    "modified_artifact",
+    "missing_custody_manifest",
+    "wrong_parent",
+    "replayed_stale_bundle",
+    "redacted_fields",
+    "signature_tamper",
+    "valid_resign_with_untrusted_key"
+  ],
+  "validation": {
+    "commands": [
+      "cargo fmt --manifest-path adl/Cargo.toml --all -- --check",
+      "git diff --check",
+      "cargo test --manifest-path adl/Cargo.toml --test cli_smoke csm_continuity_capsule -- --nocapture",
+      "mkdir -p adl/target/work && tmpdir=$(mktemp -d adl/target/work/adl-4917-custody-proof.XXXXXX) && bash adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh \"$tmpdir\"",
+      "python3 -m json.tool docs/milestones/v0.91.7/review/security/wp12_polis_custody_4917.json >/dev/null"
+    ],
+    "proof_script_result": "validate_v0917_csm_continuity_capsule_4910_status: PASS"
+  },
+  "gate_update": {
+    "gate_path": "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json",
+    "row_id": "tamper_evident_evidence_custody",
+    "row_state_before_merge": "child_issue_open",
+    "post_merge_candidate_state": "integrated_proven"
+  },
+  "non_claims": [
+    "No durable storage replication or retention policy is claimed.",
+    "No key rotation, revocation, break-glass, or external timestamp authority is claimed.",
+    "No production private signing keys or provider credentials are retained.",
+    "No full CAV red-blue readiness is claimed."
+  ]
+}

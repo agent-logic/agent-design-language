@@ -1,4 +1,7 @@
 use super::*;
+use base64::Engine;
+use sha2::{Digest, Sha256};
+use std::collections::BTreeMap;
 use std::hash::{Hash, Hasher};
 use std::io::Write;
 
@@ -234,10 +237,11 @@ fn copy_dir_all(source: &std::path::Path, dest: &std::path::Path) {
     }
 }
 
-fn assert_stage_failure<F>(
+fn assert_stage_failure_with_env<F>(
     bundle: &std::path::Path,
     bad_bundle: &std::path::Path,
     out_dir: &std::path::Path,
+    env: &[(&str, &str)],
     mutate: F,
     expected_stderr: &str,
 ) where
@@ -245,17 +249,20 @@ fn assert_stage_failure<F>(
 {
     copy_dir_all(bundle, bad_bundle);
     mutate(bad_bundle);
-    let out = run_csm(&[
-        "continuity",
-        "stage",
-        "--bundle",
-        bad_bundle.to_str().expect("utf8 bad bundle"),
-        "--out",
-        out_dir.to_str().expect("utf8 stage dir"),
-        "--target-host",
-        "ec2-staging",
-        "--json",
-    ]);
+    let out = run_csm_with_env(
+        &[
+            "continuity",
+            "stage",
+            "--bundle",
+            bad_bundle.to_str().expect("utf8 bad bundle"),
+            "--out",
+            out_dir.to_str().expect("utf8 stage dir"),
+            "--target-host",
+            "ec2-staging",
+            "--json",
+        ],
+        env,
+    );
     assert!(
         !out.status.success(),
         "expected stage failure containing {expected_stderr}, stdout:\n{}\nstderr:\n{}",
@@ -267,6 +274,74 @@ fn assert_stage_failure<F>(
         "expected stderr to contain {expected_stderr}, stderr:\n{}",
         String::from_utf8_lossy(&out.stderr)
     );
+}
+
+fn custody_public_key_from_private_key(private_key_b64: &str) -> String {
+    let key_bytes = base64::engine::general_purpose::STANDARD
+        .decode(private_key_b64.as_bytes())
+        .expect("decode fixture custody private key");
+    let signing = p256::ecdsa::SigningKey::from_slice(&key_bytes)
+        .expect("fixture custody private key must be valid P-256");
+    base64::engine::general_purpose::STANDARD
+        .encode(signing.verifying_key().to_encoded_point(false).as_bytes())
+}
+
+fn sign_custody_value_with_private_key(
+    custody: &mut serde_json::Value,
+    private_key_b64: &str,
+    key_id: &str,
+) {
+    let key_bytes = base64::engine::general_purpose::STANDARD
+        .decode(private_key_b64.as_bytes())
+        .expect("decode attacker custody private key");
+    let signing = p256::ecdsa::SigningKey::from_slice(&key_bytes)
+        .expect("attacker custody private key must be valid P-256");
+    custody["signature"] = serde_json::Value::Null;
+    let canonical = canonical_sorted_json_bytes(custody);
+    let digest = Sha256::digest(&canonical);
+    let signature: p256::ecdsa::Signature =
+        p256::ecdsa::signature::Signer::sign(&signing, &canonical);
+    custody["signature"] = serde_json::json!({
+        "schema": "adl.csm.polis_artifact_custody_signature.v1",
+        "alg": "ecdsa-p256-sha256",
+        "key_id": key_id,
+        "public_key_b64": base64::engine::general_purpose::STANDARD
+            .encode(signing.verifying_key().to_encoded_point(false).as_bytes()),
+        "sig_b64": base64::engine::general_purpose::STANDARD
+            .encode(signature.to_der().as_bytes()),
+        "signed_payload": {
+            "canonical_json_profile": "adl.csm.polis_custody.canonical_json.sorted_serde_json.v1",
+            "excluded_fields": ["signature"],
+            "payload_sha256": format!("sha256:{digest:x}")
+        }
+    });
+}
+
+fn canonical_sorted_json_bytes(value: &serde_json::Value) -> Vec<u8> {
+    let mut sorted = value.clone();
+    sort_json_value(&mut sorted);
+    serde_json::to_vec(&sorted).expect("serialize canonical sorted JSON")
+}
+
+fn sort_json_value(value: &mut serde_json::Value) {
+    match value {
+        serde_json::Value::Object(map) => {
+            let mut sorted = BTreeMap::new();
+            for (key, mut child) in std::mem::take(map) {
+                sort_json_value(&mut child);
+                sorted.insert(key, child);
+            }
+            for (key, child) in sorted {
+                map.insert(key, child);
+            }
+        }
+        serde_json::Value::Array(items) => {
+            for item in items {
+                sort_json_value(item);
+            }
+        }
+        _ => {}
+    }
 }
 
 #[test]
@@ -1099,6 +1174,10 @@ memory:
 #[test]
 fn csm_continuity_capsule_captures_stages_and_rejects_unsafe_bundles() {
     let root = unique_test_temp_dir("csm-continuity-capsule");
+    let custody_p256_signing_private_key = "CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQk=";
+    let custody_trusted_public_key =
+        custody_public_key_from_private_key(custody_p256_signing_private_key);
+    let custody_signing_key_id = "test-csm-custody-key";
     let spec = root.join("agent.yaml");
     fs::write(
         &spec,
@@ -1171,6 +1250,15 @@ memory:
                 "ADL_OBSERVABILITY_LOG",
                 observability_log.to_str().expect("utf8 observability"),
             ),
+            (
+                "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64",
+                custody_p256_signing_private_key,
+            ),
+            ("ADL_CSM_CUSTODY_SIGNING_KEY_ID", custody_signing_key_id),
+            (
+                "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+                custody_trusted_public_key.as_str(),
+            ),
         ],
     );
     assert!(
@@ -1237,8 +1325,87 @@ memory:
                 .expect("segment ref")
         )
         .exists());
+    assert_eq!(manifest["custody_manifest_ref"], "custody_manifest.json");
+    let custody_path = bundle.join("custody_manifest.json");
+    let custody_text = fs::read_to_string(&custody_path).expect("read custody manifest");
+    assert!(
+        !custody_text.contains(root.to_str().expect("root utf8")),
+        "custody manifest leaked host path:\n{custody_text}"
+    );
+    let custody: serde_json::Value =
+        serde_json::from_str(&custody_text).expect("parse custody manifest");
+    assert_eq!(
+        custody["schema"],
+        "adl.csm.polis_artifact_custody_manifest.v1"
+    );
+    assert_eq!(custody["format_version"], "csm.polis-custody.v1");
+    assert_eq!(
+        custody["capsule_manifest_ref"],
+        "continuity_capsule_manifest.json"
+    );
+    assert!(custody["capsule_instance_id"]
+        .as_str()
+        .expect("capsule instance id")
+        .starts_with("sha256:"));
+    assert_eq!(
+        custody["signature"]["schema"],
+        "adl.csm.polis_artifact_custody_signature.v1"
+    );
+    assert_eq!(custody["signature"]["alg"], "ecdsa-p256-sha256");
+    assert_eq!(custody["signature"]["key_id"], custody_signing_key_id);
+    assert_eq!(
+        custody["signature"]["public_key_b64"],
+        custody_trusted_public_key
+    );
+    assert!(
+        custody["signature"]["public_key_b64"]
+            .as_str()
+            .expect("public key")
+            .len()
+            > 40
+    );
+    assert!(
+        custody["signature"]["sig_b64"]
+            .as_str()
+            .expect("signature")
+            .len()
+            > 80
+    );
+    assert_eq!(
+        custody["signature"]["signed_payload"]["canonical_json_profile"],
+        "adl.csm.polis_custody.canonical_json.sorted_serde_json.v1"
+    );
+    assert_eq!(
+        custody["signature"]["signed_payload"]["excluded_fields"][0],
+        "signature"
+    );
+    assert!(custody["signature"]["signed_payload"]["payload_sha256"]
+        .as_str()
+        .expect("signed payload sha")
+        .starts_with("sha256:"));
+    let custody_artifacts = custody["artifacts"].as_array().expect("custody artifacts");
+    assert!(custody_artifacts.iter().any(|artifact| {
+        artifact["artifact_id"] == "continuity-capsule-manifest"
+            && artifact["storage_location"] == "continuity_capsule_manifest.json"
+            && artifact["parent"].is_null()
+    }));
+    assert!(custody_artifacts.iter().any(|artifact| {
+        artifact["artifact_id"] == "artifact:continuity_checkpoint:continuity_checkpoint.json"
+            && artifact["storage_location"] == "state/continuity_checkpoint.json"
+            && artifact["parent"]["artifact_id"] == "continuity-capsule-manifest"
+    }));
+    assert!(custody_artifacts.iter().any(|artifact| {
+        artifact["artifact_id"]
+            == "binary-segment:continuity_checkpoint_snapshot:continuity_checkpoint.json"
+            && artifact["storage_location"] == "segments/continuity_checkpoint.snapshot.segment"
+            && artifact["parent"]["artifact_id"] == "continuity-capsule-manifest"
+    }));
     assert!(bundle.join("state/continuity_checkpoint.json").exists());
     assert!(bundle.join("state/operator_events.jsonl").exists());
+    let custody_trust_env = [(
+        "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+        custody_trusted_public_key.as_str(),
+    )];
 
     let staged = root.join("ec2-staged");
     let stage = run_csm_with_env(
@@ -1258,6 +1425,10 @@ memory:
             (
                 "ADL_OBSERVABILITY_LOG",
                 observability_log.to_str().expect("utf8 observability"),
+            ),
+            (
+                "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+                custody_trusted_public_key.as_str(),
             ),
         ],
     );
@@ -1280,6 +1451,10 @@ memory:
         "adl.csm.continuity_capsule_stage_report.v1"
     );
     assert_eq!(stage_report["status"], "staged");
+    assert_eq!(
+        stage_report["custody_manifest_ref"],
+        "custody_manifest.json"
+    );
     assert!(staged
         .join("staged_state/continuity_checkpoint.json")
         .exists());
@@ -1303,6 +1478,10 @@ memory:
                 "ADL_OBSERVABILITY_LOG",
                 observability_log.to_str().expect("utf8 observability"),
             ),
+            (
+                "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+                custody_trusted_public_key.as_str(),
+            ),
         ],
     );
     assert!(
@@ -1324,6 +1503,10 @@ memory:
         "adl.csm.continuity_capsule_restore_report.v1"
     );
     assert_eq!(restore_report["status"], "restored");
+    assert_eq!(
+        restore_report["custody_manifest_ref"],
+        "custody_manifest.json"
+    );
     assert!(restored.join("agent.yaml").exists());
     assert!(restored.join("state/continuity_checkpoint.json").exists());
 
@@ -1349,17 +1532,20 @@ memory:
     );
 
     let ec2_blocked = root.join("ec2-blocked");
-    let ec2_stage = run_csm(&[
-        "continuity",
-        "stage",
-        "--bundle",
-        bundle.to_str().expect("utf8 bundle"),
-        "--out",
-        ec2_blocked.to_str().expect("utf8 ec2 blocked"),
-        "--target-host",
-        "ec2",
-        "--json",
-    ]);
+    let ec2_stage = run_csm_with_env(
+        &[
+            "continuity",
+            "stage",
+            "--bundle",
+            bundle.to_str().expect("utf8 bundle"),
+            "--out",
+            ec2_blocked.to_str().expect("utf8 ec2 blocked"),
+            "--target-host",
+            "ec2",
+            "--json",
+        ],
+        &custody_trust_env,
+    );
     assert!(
         ec2_stage.status.success(),
         "expected bounded EC2 stage packet success, stderr:\n{}",
@@ -1397,6 +1583,10 @@ memory:
                 "ADL_OBSERVABILITY_LOG",
                 observability_log.to_str().expect("utf8 observability"),
             ),
+            (
+                "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+                custody_trusted_public_key.as_str(),
+            ),
         ],
     );
     assert!(
@@ -1408,7 +1598,13 @@ memory:
     let drill_stdout: serde_json::Value =
         serde_json::from_slice(&drill.stdout).expect("parse drill stdout");
     assert_eq!(drill_stdout["operation"], "fire_drill");
-    assert_eq!(drill_stdout["status"], "passed");
+    assert_eq!(
+        drill_stdout["status"],
+        "passed",
+        "drill stdout:\n{}\ndrill stderr:\n{}",
+        String::from_utf8_lossy(&drill.stdout),
+        String::from_utf8_lossy(&drill.stderr)
+    );
     assert_eq!(drill_stdout["report_ref"], "fire_drill_report.json");
     let drill_report: serde_json::Value = serde_json::from_str(
         &fs::read_to_string(drill_dir.join("fire_drill_report.json")).expect("read drill report"),
@@ -1418,7 +1614,12 @@ memory:
         drill_report["schema"],
         "adl.csm.continuity_fire_drill_report.v1"
     );
-    assert_eq!(drill_report["status"], "passed");
+    assert_eq!(
+        drill_report["status"],
+        "passed",
+        "drill report:\n{}",
+        serde_json::to_string_pretty(&drill_report).expect("format drill report")
+    );
     assert_eq!(drill_report["source_bundle_ref"], "../continuity-capsule");
     assert_eq!(
         drill_report["manifest_ref"],
@@ -1434,25 +1635,34 @@ memory:
     let negative_cases = drill_report["negative_cases"]
         .as_array()
         .expect("negative cases");
-    assert_eq!(negative_cases.len(), 2);
+    assert_eq!(negative_cases.len(), 4);
     assert!(negative_cases
         .iter()
         .all(|case| case["status"] == "failed_as_expected"));
+    assert!(negative_cases
+        .iter()
+        .any(|case| case["case_id"] == "missing_custody_manifest"));
+    assert!(negative_cases
+        .iter()
+        .any(|case| case["case_id"] == "wrong_custody_parent"));
     assert_eq!(
         drill_report["rto_rpo_measurement"]["rpo_scope"],
         "selected_continuity_capsule_point_in_time"
     );
-    let overlapping_drill = run_csm(&[
-        "continuity",
-        "drill",
-        "--bundle",
-        bundle.to_str().expect("utf8 bundle"),
-        "--out",
-        bundle.join("nested-drill").to_str().expect("utf8 nested"),
-        "--target-host",
-        "local",
-        "--json",
-    ]);
+    let overlapping_drill = run_csm_with_env(
+        &[
+            "continuity",
+            "drill",
+            "--bundle",
+            bundle.to_str().expect("utf8 bundle"),
+            "--out",
+            bundle.join("nested-drill").to_str().expect("utf8 nested"),
+            "--target-host",
+            "local",
+            "--json",
+        ],
+        &custody_trust_env,
+    );
     assert!(
         !overlapping_drill.status.success(),
         "expected overlapping drill output rejection"
@@ -1472,10 +1682,11 @@ memory:
     assert!(observability.contains("stage=continuity_fire_drill"));
     assert!(observability.contains("otel_service_name=csm-runtime-daemon"));
 
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("bad-version"),
         &root.join("bad-version-stage"),
+        &custody_trust_env,
         |bad| {
             let path = bad.join("continuity_capsule_manifest.json");
             let mut value: serde_json::Value =
@@ -1490,19 +1701,187 @@ memory:
         },
         "unsupported continuity capsule format version",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("missing-file"),
         &root.join("missing-file-stage"),
+        &custody_trust_env,
         |bad| {
             fs::remove_file(bad.join("state/status.json")).expect("remove staged status");
         },
-        "missing bundle artifact",
+        "custody retained artifact missing",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
+        &bundle,
+        &root.join("missing-custody-manifest"),
+        &root.join("missing-custody-manifest-stage"),
+        &custody_trust_env,
+        |bad| {
+            fs::remove_file(bad.join("custody_manifest.json")).expect("remove custody manifest");
+        },
+        "custody manifest missing bundle artifact",
+    );
+    assert_stage_failure_with_env(
+        &bundle,
+        &root.join("custody-modified-artifact"),
+        &root.join("custody-modified-artifact-stage"),
+        &custody_trust_env,
+        |bad| {
+            fs::write(
+                bad.join("state/continuity_checkpoint.json"),
+                "{\"schema\":\"tampered\"}\n",
+            )
+            .expect("tamper retained artifact");
+        },
+        "payload hash does not match source file",
+    );
+    assert_stage_failure_with_env(
+        &bundle,
+        &root.join("custody-wrong-parent"),
+        &root.join("custody-wrong-parent-stage"),
+        &custody_trust_env,
+        |bad| {
+            let path = bad.join("custody_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read custody"))
+                    .expect("parse custody");
+            value["artifacts"][1]["parent"]["sha256"] = serde_json::json!(
+                "0000000000000000000000000000000000000000000000000000000000000000"
+            );
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize custody"),
+            )
+            .expect("write custody");
+        },
+        "signed payload digest mismatch",
+    );
+    assert_stage_failure_with_env(
+        &bundle,
+        &root.join("custody-replay-guard"),
+        &root.join("custody-replay-guard-stage"),
+        &custody_trust_env,
+        |bad| {
+            let path = bad.join("custody_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read custody"))
+                    .expect("parse custody");
+            value["capsule_instance_id"] = serde_json::json!(
+                "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+            );
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize custody"),
+            )
+            .expect("write custody");
+        },
+        "signed payload digest mismatch",
+    );
+    assert_stage_failure_with_env(
+        &bundle,
+        &root.join("custody-redacted-fields"),
+        &root.join("custody-redacted-fields-stage"),
+        &custody_trust_env,
+        |bad| {
+            let path = bad.join("custody_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read custody"))
+                    .expect("parse custody");
+            value["artifacts"][1]["redaction"]["redacted_fields"] = serde_json::json!(["sha256"]);
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize custody"),
+            )
+            .expect("write custody");
+        },
+        "signed payload digest mismatch",
+    );
+    assert_stage_failure_with_env(
+        &bundle,
+        &root.join("custody-signature-tamper"),
+        &root.join("custody-signature-tamper-stage"),
+        &custody_trust_env,
+        |bad| {
+            let path = bad.join("custody_manifest.json");
+            let mut value: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&path).expect("read custody"))
+                    .expect("parse custody");
+            value["signature"]["sig_b64"] = serde_json::json!("not-a-valid-signature");
+            fs::write(
+                &path,
+                serde_json::to_vec_pretty(&value).expect("serialize custody"),
+            )
+            .expect("write custody");
+        },
+        "invalid base64 custody signature",
+    );
+    assert_stage_failure_with_env(
+        &bundle,
+        &root.join("custody-attacker-resigned"),
+        &root.join("custody-attacker-resigned-stage"),
+        &custody_trust_env,
+        |bad| {
+            let status_path = bad.join("state/status.json");
+            fs::write(&status_path, "{\"schema\":\"attacker\"}\n")
+                .expect("tamper retained status artifact");
+            let tampered_status_sha = {
+                let bytes = fs::read(&status_path).expect("read tampered status");
+                format!("{:x}", Sha256::digest(&bytes))
+            };
+            let manifest_path = bad.join("continuity_capsule_manifest.json");
+            let mut manifest: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&manifest_path).expect("read manifest"))
+                    .expect("parse manifest");
+            for artifact in manifest["artifacts"]
+                .as_array_mut()
+                .expect("manifest artifacts")
+            {
+                if artifact["bundle_ref"] == "state/status.json" {
+                    artifact["sha256"] = serde_json::json!(tampered_status_sha);
+                    artifact["bytes"] = serde_json::json!(fs::metadata(&status_path)
+                        .expect("tampered status metadata")
+                        .len());
+                }
+            }
+            fs::write(
+                &manifest_path,
+                serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
+            )
+            .expect("write manifest");
+
+            let custody_path = bad.join("custody_manifest.json");
+            let mut custody: serde_json::Value =
+                serde_json::from_str(&fs::read_to_string(&custody_path).expect("read custody"))
+                    .expect("parse custody");
+            for artifact in custody["artifacts"]
+                .as_array_mut()
+                .expect("custody artifacts")
+            {
+                if artifact["storage_location"] == "state/status.json" {
+                    artifact["sha256"] = serde_json::json!(tampered_status_sha);
+                    artifact["bytes"] = serde_json::json!(fs::metadata(&status_path)
+                        .expect("tampered status metadata")
+                        .len());
+                }
+            }
+            sign_custody_value_with_private_key(
+                &mut custody,
+                "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg=",
+                "attacker-key",
+            );
+            fs::write(
+                &custody_path,
+                serde_json::to_vec_pretty(&custody).expect("serialize attacker custody"),
+            )
+            .expect("write attacker custody");
+        },
+        "public key does not match trusted verification key",
+    );
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("truncated-manifest"),
         &root.join("truncated-manifest-stage"),
+        &custody_trust_env,
         |bad| {
             let path = bad.join("continuity_capsule_manifest.json");
             let mut value: serde_json::Value =
@@ -1524,10 +1903,11 @@ memory:
         },
         "missing required artifact role",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("path-leak"),
         &root.join("path-leak-stage"),
+        &custody_trust_env,
         |bad| {
             fs::write(
                 bad.join("state/status.json"),
@@ -1537,10 +1917,11 @@ memory:
         },
         "host-private absolute path",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("linux-path-leak"),
         &root.join("linux-path-leak-stage"),
+        &custody_trust_env,
         |bad| {
             fs::write(
                 bad.join("state/status.json"),
@@ -1550,10 +1931,11 @@ memory:
         },
         "host-private absolute path",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("credential-leak"),
         &root.join("credential-leak-stage"),
+        &custody_trust_env,
         |bad| {
             let path = bad.join("continuity_capsule_manifest.json");
             let mut value: serde_json::Value =
@@ -1568,10 +1950,11 @@ memory:
         },
         "credential-like key",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("missing-binary-segment-manifest-entry"),
         &root.join("missing-binary-segment-manifest-entry-stage"),
+        &custody_trust_env,
         |bad| {
             let path = bad.join("continuity_capsule_manifest.json");
             let mut value: serde_json::Value =
@@ -1586,10 +1969,11 @@ memory:
         },
         "missing required binary segment role",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("divergent-binary-segment-payload"),
         &root.join("divergent-binary-segment-payload-stage"),
+        &custody_trust_env,
         |bad| {
             let path = bad.join("continuity_capsule_manifest.json");
             let mut value: serde_json::Value =
@@ -1612,10 +1996,11 @@ memory:
         },
         "payload hash does not match retained artifact",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("corrupted-segment"),
         &root.join("corrupted-segment-stage"),
+        &custody_trust_env,
         |bad| {
             fs::write(
                 bad.join("segments/continuity_checkpoint.snapshot.segment"),
@@ -1625,10 +2010,11 @@ memory:
         },
         "hash mismatch",
     );
-    assert_stage_failure(
+    assert_stage_failure_with_env(
         &bundle,
         &root.join("corrupted-manifest"),
         &root.join("corrupted-manifest-stage"),
+        &custody_trust_env,
         |bad| {
             fs::write(bad.join("continuity_capsule_manifest.json"), b"{").expect("corrupt");
         },
@@ -1636,17 +2022,20 @@ memory:
     );
 
     let unsupported_stage = root.join("unsupported-stage");
-    let unsupported = run_csm(&[
-        "continuity",
-        "stage",
-        "--bundle",
-        bundle.to_str().expect("utf8 bundle"),
-        "--out",
-        unsupported_stage.to_str().expect("utf8 stage"),
-        "--target-host",
-        "mars",
-        "--json",
-    ]);
+    let unsupported = run_csm_with_env(
+        &[
+            "continuity",
+            "stage",
+            "--bundle",
+            bundle.to_str().expect("utf8 bundle"),
+            "--out",
+            unsupported_stage.to_str().expect("utf8 stage"),
+            "--target-host",
+            "mars",
+            "--json",
+        ],
+        &custody_trust_env,
+    );
     assert!(
         !unsupported.status.success(),
         "expected unsupported target failure"

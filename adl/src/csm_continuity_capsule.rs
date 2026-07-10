@@ -1,10 +1,16 @@
 //! Portable CSM continuity capsule capture and stage support.
 
 use anyhow::{bail, Context, Result};
+use base64::Engine;
 use chrono::Utc;
+use p256::ecdsa::{
+    signature::{Signer, Verifier},
+    Signature, SigningKey, VerifyingKey,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 use std::time::Instant;
@@ -18,6 +24,16 @@ pub const CONTINUITY_FIRE_DRILL_REPORT_SCHEMA: &str = "adl.csm.continuity_fire_d
 pub const CONTINUITY_CAPSULE_FORMAT_VERSION: &str = "csm.continuity-capsule.v1";
 pub const SNAPSHOT_SEGMENT_SCHEMA: &str = "adl.csm.snapshot_segment.v1";
 pub const SNAPSHOT_SEGMENT_FORMAT_VERSION: &str = "csm.snapshot-segment.v1";
+pub const CUSTODY_MANIFEST_SCHEMA: &str = "adl.csm.polis_artifact_custody_manifest.v1";
+pub const CUSTODY_MANIFEST_FORMAT_VERSION: &str = "csm.polis-custody.v1";
+pub const CUSTODY_SIGNATURE_SCHEMA: &str = "adl.csm.polis_artifact_custody_signature.v1";
+pub const CUSTODY_CANONICAL_JSON_PROFILE: &str =
+    "adl.csm.polis_custody.canonical_json.sorted_serde_json.v1";
+const CUSTODY_SIGNATURE_ALG: &str = "ecdsa-p256-sha256";
+const CUSTODY_SIGNING_PRIVATE_KEY_ENV: &str = "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64";
+const CUSTODY_SIGNING_KEY_ID_ENV: &str = "ADL_CSM_CUSTODY_SIGNING_KEY_ID";
+const CUSTODY_TRUSTED_PUBLIC_KEY_ENV: &str = "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64";
+const B64: base64::engine::GeneralPurpose = base64::engine::general_purpose::STANDARD;
 
 #[derive(Debug, Clone)]
 pub struct ContinuityCaptureOptions {
@@ -76,6 +92,7 @@ struct BundleManifest {
     target_host: String,
     manifest_ref: String,
     state_root_ref: String,
+    custody_manifest_ref: String,
     artifacts: Vec<BundleArtifact>,
     #[serde(default)]
     binary_segments: Vec<BinarySegmentRef>,
@@ -107,6 +124,68 @@ struct BinarySegmentRef {
     format_version: String,
     hash_address: String,
     required: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct CustodyManifest {
+    schema: String,
+    format_version: String,
+    runtime_owner: String,
+    custody_scope: String,
+    capsule_instance_id: String,
+    producer: String,
+    produced_at: String,
+    capsule_manifest_ref: String,
+    artifacts: Vec<CustodyArtifact>,
+    chain_policy: Value,
+    redaction_policy: Value,
+    signature: Option<CustodySignature>,
+    non_claims: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct CustodyArtifact {
+    artifact_id: String,
+    artifact_kind: String,
+    storage_location: String,
+    schema_version: String,
+    sha256: String,
+    bytes: u64,
+    producer: String,
+    produced_at: String,
+    parent: Option<CustodyParentLink>,
+    redaction: CustodyRedaction,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct CustodyParentLink {
+    artifact_id: String,
+    sha256: String,
+    chain_index: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct CustodyRedaction {
+    sensitive_material_present: bool,
+    contains_host_private_paths: bool,
+    redacted_fields: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct CustodySignature {
+    schema: String,
+    alg: String,
+    key_id: String,
+    public_key_b64: String,
+    sig_b64: String,
+    signed_payload: CustodySignedPayload,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct CustodySignedPayload {
+    canonical_json_profile: String,
+    excluded_fields: Vec<String>,
+    payload_sha256: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -178,6 +257,7 @@ pub fn capture_capsule(options: ContinuityCaptureOptions) -> Result<ContinuityCo
         target_host: options.target_host.clone(),
         manifest_ref: "continuity_capsule_manifest.json".to_string(),
         state_root_ref: "state/".to_string(),
+        custody_manifest_ref: "custody_manifest.json".to_string(),
         artifacts,
         binary_segments,
         rebind_policy: rebind_policy(&options.target_host),
@@ -196,7 +276,14 @@ pub fn capture_capsule(options: ContinuityCaptureOptions) -> Result<ContinuityCo
     };
     let manifest_path = bundle_dir.join("continuity_capsule_manifest.json");
     write_json_pretty(&manifest_path, &manifest)?;
+    let custody = build_signed_custody_manifest(&manifest, &bundle_dir)?;
+    write_json_pretty(&bundle_dir.join(&manifest.custody_manifest_ref), &custody)?;
     scan_tree_for_portability(&manifest_path, &loaded.state_root)?;
+    scan_tree_for_portability(
+        &bundle_dir.join(&manifest.custody_manifest_ref),
+        &loaded.state_root,
+    )?;
+    validate_capsule_custody(&manifest, &bundle_dir)?;
     emit_continuity_event(
         "continuity_capsule_capture",
         "completed",
@@ -231,6 +318,7 @@ pub fn stage_capsule(options: ContinuityStageOptions) -> Result<ContinuityComman
     validate_target_host(&options.target_host)?;
     scan_tree_for_portability(&options.bundle_dir, &options.bundle_dir)?;
     validate_binary_segments(&manifest, &options.bundle_dir)?;
+    validate_capsule_custody(&manifest, &options.bundle_dir)?;
 
     if options.out_dir.exists() {
         fs::remove_dir_all(&options.out_dir)
@@ -287,6 +375,7 @@ pub fn stage_capsule(options: ContinuityStageOptions) -> Result<ContinuityComman
         "status": status,
         "staged_state_ref": "staged_state/",
         "manifest_ref": "continuity_capsule_manifest.json",
+        "custody_manifest_ref": manifest.custody_manifest_ref,
         "artifact_count": manifest.artifacts.len(),
         "blockers": blockers,
         "rebind_policy": rebind_policy(&options.target_host),
@@ -329,6 +418,7 @@ pub fn restore_capsule(options: ContinuityRestoreOptions) -> Result<ContinuityCo
     validate_target_host(&options.target_host)?;
     scan_tree_for_portability(&options.bundle_dir, &options.bundle_dir)?;
     validate_binary_segments(&manifest, &options.bundle_dir)?;
+    validate_capsule_custody(&manifest, &options.bundle_dir)?;
 
     if options.out_dir.exists() {
         fs::remove_dir_all(&options.out_dir)
@@ -383,6 +473,7 @@ pub fn restore_capsule(options: ContinuityRestoreOptions) -> Result<ContinuityCo
         "restored_spec_ref": "agent.yaml",
         "restored_state_ref": "state/",
         "manifest_ref": "continuity_capsule_manifest.json",
+        "custody_manifest_ref": manifest.custody_manifest_ref,
         "artifact_count": manifest.artifacts.len(),
         "rebind_policy": rebind_policy(&options.target_host),
         "observability": observability_contract("restore"),
@@ -429,6 +520,7 @@ pub fn fire_drill_capsule(options: ContinuityFireDrillOptions) -> Result<Continu
     let manifest_path = options.bundle_dir.join("continuity_capsule_manifest.json");
     let manifest: BundleManifest = read_json(&manifest_path)?;
     validate_manifest(&manifest)?;
+    validate_capsule_custody(&manifest, &options.bundle_dir)?;
     validate_target_host(&options.target_host)?;
     validate_fire_drill_cadence(&options.cadence)?;
     validate_fire_drill_output_disjoint(&options.bundle_dir, &options.out_dir)?;
@@ -468,7 +560,7 @@ pub fn fire_drill_capsule(options: ContinuityFireDrillOptions) -> Result<Continu
                 fs::remove_file(bad.join("state/status.json"))
                     .context("failed removing status.json for negative drill case")
             },
-            "missing bundle artifact",
+            "custody retained artifact missing",
         )?,
         run_fire_drill_negative_case(
             &options.bundle_dir,
@@ -479,6 +571,29 @@ pub fn fire_drill_capsule(options: ContinuityFireDrillOptions) -> Result<Continu
                     .context("failed corrupting manifest for negative drill case")
             },
             "failed parsing",
+        )?,
+        run_fire_drill_negative_case(
+            &options.bundle_dir,
+            &options.out_dir,
+            "missing_custody_manifest",
+            |bad| {
+                fs::remove_file(bad.join("custody_manifest.json"))
+                    .context("failed removing custody manifest for negative drill case")
+            },
+            "custody manifest missing bundle artifact",
+        )?,
+        run_fire_drill_negative_case(
+            &options.bundle_dir,
+            &options.out_dir,
+            "wrong_custody_parent",
+            |bad| {
+                let path = bad.join("custody_manifest.json");
+                let mut value: Value = read_json(&path)?;
+                value["artifacts"][1]["parent"]["sha256"] =
+                    json!("0000000000000000000000000000000000000000000000000000000000000000");
+                write_json_pretty(&path, &value)
+            },
+            "signed payload digest mismatch",
         )?,
     ];
     let negative_passed = negative_cases
@@ -532,7 +647,7 @@ pub fn fire_drill_capsule(options: ContinuityFireDrillOptions) -> Result<Continu
             "event_command": "csm",
             "event_stages": ["continuity_fire_drill", "continuity_capsule_stage", "continuity_capsule_restore"],
             "otel_service_name": "csm-runtime-daemon",
-            "retained_refs": ["fire_drill_report.json", "stage/stage_report.json", "restored-runtime/restore_report.json"]
+            "retained_refs": ["fire_drill_report.json", "stage/stage_report.json", "restored-runtime/restore_report.json", "../continuity-capsule/custody_manifest.json"]
         },
         "non_claims": [
             "not_production_traffic_failover",
@@ -1027,6 +1142,390 @@ fn validate_binary_segments(manifest: &BundleManifest, bundle_dir: &Path) -> Res
             );
         }
         validate_segment_payload(&decoded.payload, &path, bundle_dir)?;
+    }
+    Ok(())
+}
+
+fn build_custody_manifest(manifest: &BundleManifest, bundle_dir: &Path) -> Result<CustodyManifest> {
+    let capsule_instance_id = custody_capsule_instance_id(manifest);
+    let manifest_ref = manifest.manifest_ref.clone();
+    let manifest_path = bundle_dir.join(&manifest_ref);
+    let manifest_sha = sha256_file(&manifest_path)?;
+    let manifest_bytes = fs::metadata(&manifest_path)?.len();
+    let produced_at = manifest.created_at.clone();
+    let producer = "csm continuity capture".to_string();
+    let mut artifacts = vec![CustodyArtifact {
+        artifact_id: "continuity-capsule-manifest".to_string(),
+        artifact_kind: "capsule_manifest".to_string(),
+        storage_location: manifest_ref.clone(),
+        schema_version: manifest.format_version.clone(),
+        sha256: manifest_sha.clone(),
+        bytes: manifest_bytes,
+        producer: producer.clone(),
+        produced_at: produced_at.clone(),
+        parent: None,
+        redaction: custody_redaction_clean(),
+    }];
+
+    for (index, artifact) in manifest.artifacts.iter().enumerate() {
+        artifacts.push(CustodyArtifact {
+            artifact_id: format!("artifact:{}:{}", artifact.role, artifact.source_ref),
+            artifact_kind: artifact.role.clone(),
+            storage_location: artifact.bundle_ref.clone(),
+            schema_version: "bundle-artifact.v1".to_string(),
+            sha256: artifact.sha256.clone(),
+            bytes: artifact.bytes,
+            producer: producer.clone(),
+            produced_at: produced_at.clone(),
+            parent: Some(CustodyParentLink {
+                artifact_id: "continuity-capsule-manifest".to_string(),
+                sha256: manifest_sha.clone(),
+                chain_index: index as u64 + 1,
+            }),
+            redaction: custody_redaction_clean(),
+        });
+    }
+
+    let segment_offset = artifacts.len() as u64;
+    for (index, segment) in manifest.binary_segments.iter().enumerate() {
+        artifacts.push(CustodyArtifact {
+            artifact_id: format!("binary-segment:{}:{}", segment.role, segment.source_ref),
+            artifact_kind: "snapshot_segment".to_string(),
+            storage_location: segment.segment_ref.clone(),
+            schema_version: segment.format_version.clone(),
+            sha256: segment.sha256.clone(),
+            bytes: segment.bytes,
+            producer: producer.clone(),
+            produced_at: produced_at.clone(),
+            parent: Some(CustodyParentLink {
+                artifact_id: "continuity-capsule-manifest".to_string(),
+                sha256: manifest_sha.clone(),
+                chain_index: segment_offset + index as u64,
+            }),
+            redaction: custody_redaction_clean(),
+        });
+    }
+
+    Ok(CustodyManifest {
+        schema: CUSTODY_MANIFEST_SCHEMA.to_string(),
+        format_version: CUSTODY_MANIFEST_FORMAT_VERSION.to_string(),
+        runtime_owner: "csm".to_string(),
+        custody_scope: "polis_recovery_artifact_bundle".to_string(),
+        capsule_instance_id,
+        producer,
+        produced_at,
+        capsule_manifest_ref: manifest_ref,
+        artifacts,
+        chain_policy: json!({
+            "root_artifact_id": "continuity-capsule-manifest",
+            "parent_hash_algorithm": "sha256",
+            "replay_guard": "capsule_instance_id binds agent_instance_id, created_at, target_host, manifest_ref, artifact hashes, and binary segment hashes",
+            "required_artifact_policy": "all retained manifest artifacts and binary segments must appear exactly once"
+        }),
+        redaction_policy: json!({
+            "required_metadata_redaction": "none",
+            "sensitive_material_policy": "forbidden",
+            "host_private_paths_allowed": false,
+            "portable_paths": "bundle_relative_refs_only"
+        }),
+        signature: None,
+        non_claims: vec![
+            "not_external_timestamp_authority".to_string(),
+            "not_key_rotation_or_break_glass_policy".to_string(),
+            "not_secret_material_capture".to_string(),
+        ],
+    })
+}
+
+fn build_signed_custody_manifest(
+    manifest: &BundleManifest,
+    bundle_dir: &Path,
+) -> Result<CustodyManifest> {
+    let mut custody = build_custody_manifest(manifest, bundle_dir)?;
+    sign_custody_manifest(&mut custody)?;
+    Ok(custody)
+}
+
+fn validate_capsule_custody(manifest: &BundleManifest, bundle_dir: &Path) -> Result<()> {
+    validate_relative_ref(&manifest.custody_manifest_ref)?;
+    let custody_path = bundle_dir.join(&manifest.custody_manifest_ref);
+    if !custody_path.exists() {
+        bail!(
+            "continuity capsule custody manifest missing bundle artifact {}",
+            manifest.custody_manifest_ref
+        );
+    }
+    let custody: CustodyManifest = read_json(&custody_path)?;
+    if custody.schema != CUSTODY_MANIFEST_SCHEMA {
+        bail!(
+            "unsupported continuity capsule custody schema: {}",
+            custody.schema
+        );
+    }
+    if custody.format_version != CUSTODY_MANIFEST_FORMAT_VERSION {
+        bail!(
+            "unsupported continuity capsule custody format version: {}",
+            custody.format_version
+        );
+    }
+    if custody.runtime_owner != "csm" {
+        bail!("continuity capsule custody runtime_owner must be csm");
+    }
+    verify_custody_manifest_signature(&custody)?;
+    if custody.capsule_manifest_ref != manifest.manifest_ref {
+        bail!("continuity capsule custody manifest_ref mismatch");
+    }
+    let expected_instance = custody_capsule_instance_id(manifest);
+    if custody.capsule_instance_id != expected_instance {
+        bail!("continuity capsule custody replay guard mismatch");
+    }
+
+    let expected = expected_custody_artifacts(manifest, bundle_dir)?;
+    if custody.artifacts.len() != expected.len() {
+        bail!("continuity capsule custody artifact count mismatch");
+    }
+    let mut seen = BTreeSet::new();
+    for artifact in &custody.artifacts {
+        if !seen.insert(artifact.artifact_id.clone()) {
+            bail!(
+                "continuity capsule custody duplicate artifact id {}",
+                artifact.artifact_id
+            );
+        }
+        validate_relative_ref(&artifact.storage_location)?;
+        validate_sha256_hex(&artifact.sha256, "custody artifact sha256")?;
+        if artifact.redaction.sensitive_material_present
+            || artifact.redaction.contains_host_private_paths
+            || !artifact.redaction.redacted_fields.is_empty()
+        {
+            bail!(
+                "continuity capsule custody metadata must not redact required fields or mark retained secrets"
+            );
+        }
+        let expected_artifact = expected.get(&artifact.artifact_id).with_context(|| {
+            format!(
+                "continuity capsule custody unexpected artifact id {}",
+                artifact.artifact_id
+            )
+        })?;
+        if artifact.artifact_kind != expected_artifact.artifact_kind
+            || artifact.storage_location != expected_artifact.storage_location
+            || artifact.schema_version != expected_artifact.schema_version
+            || artifact.sha256 != expected_artifact.sha256
+            || artifact.bytes != expected_artifact.bytes
+            || artifact.parent.as_ref().map(|parent| {
+                (
+                    parent.artifact_id.as_str(),
+                    parent.sha256.as_str(),
+                    parent.chain_index,
+                )
+            }) != expected_artifact.parent.as_ref().map(|parent| {
+                (
+                    parent.artifact_id.as_str(),
+                    parent.sha256.as_str(),
+                    parent.chain_index,
+                )
+            })
+        {
+            bail!(
+                "continuity capsule custody artifact metadata mismatch for {}",
+                artifact.artifact_id
+            );
+        }
+        let path = bundle_dir.join(&artifact.storage_location);
+        if !path.exists() {
+            bail!(
+                "continuity capsule custody retained artifact missing {}",
+                artifact.storage_location
+            );
+        }
+        if sha256_file(&path)? != artifact.sha256 {
+            bail!(
+                "continuity capsule custody hash mismatch for {}",
+                artifact.storage_location
+            );
+        }
+    }
+    Ok(())
+}
+
+fn expected_custody_artifacts(
+    manifest: &BundleManifest,
+    bundle_dir: &Path,
+) -> Result<BTreeMap<String, CustodyArtifact>> {
+    let expected = build_custody_manifest(manifest, bundle_dir)?;
+    Ok(expected
+        .artifacts
+        .into_iter()
+        .map(|artifact| (artifact.artifact_id.clone(), artifact))
+        .collect())
+}
+
+fn sign_custody_manifest(custody: &mut CustodyManifest) -> Result<()> {
+    let private_key_b64 = std::env::var(CUSTODY_SIGNING_PRIVATE_KEY_ENV)
+        .ok()
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .with_context(|| {
+            format!("continuity capsule custody signing requires {CUSTODY_SIGNING_PRIVATE_KEY_ENV}")
+        })?;
+    let key_id = std::env::var(CUSTODY_SIGNING_KEY_ID_ENV)
+        .ok()
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .unwrap_or_else(|| "csm-custody-local".to_string());
+    let key_bytes = B64
+        .decode(private_key_b64.as_bytes())
+        .context("invalid base64 custody P-256 signing private key")?;
+    let signing =
+        SigningKey::from_slice(&key_bytes).context("invalid custody P-256 signing private key")?;
+    custody.signature = None;
+    let canonical = canonical_custody_bytes(custody)?;
+    let payload_sha256 = format!("sha256:{}", sha256_bytes(&canonical));
+    let signature: Signature = signing.sign(&canonical);
+    custody.signature = Some(CustodySignature {
+        schema: CUSTODY_SIGNATURE_SCHEMA.to_string(),
+        alg: CUSTODY_SIGNATURE_ALG.to_string(),
+        key_id,
+        public_key_b64: B64.encode(signing.verifying_key().to_encoded_point(false).as_bytes()),
+        sig_b64: B64.encode(signature.to_der().as_bytes()),
+        signed_payload: CustodySignedPayload {
+            canonical_json_profile: CUSTODY_CANONICAL_JSON_PROFILE.to_string(),
+            excluded_fields: vec!["signature".to_string()],
+            payload_sha256,
+        },
+    });
+    Ok(())
+}
+
+fn verify_custody_manifest_signature(custody: &CustodyManifest) -> Result<()> {
+    let signature = custody
+        .signature
+        .as_ref()
+        .context("continuity capsule custody signature missing")?;
+    if signature.schema != CUSTODY_SIGNATURE_SCHEMA {
+        bail!(
+            "unsupported continuity capsule custody signature schema: {}",
+            signature.schema
+        );
+    }
+    if !signature.alg.eq_ignore_ascii_case(CUSTODY_SIGNATURE_ALG) {
+        bail!(
+            "unsupported continuity capsule custody signature algorithm: {}",
+            signature.alg
+        );
+    }
+    if signature.key_id.trim().is_empty() {
+        bail!("continuity capsule custody signature key_id must not be empty");
+    }
+    if signature.signed_payload.canonical_json_profile != CUSTODY_CANONICAL_JSON_PROFILE {
+        bail!(
+            "unsupported continuity capsule custody canonical JSON profile: {}",
+            signature.signed_payload.canonical_json_profile
+        );
+    }
+    if signature.signed_payload.excluded_fields != ["signature"] {
+        bail!("continuity capsule custody signature excluded_fields mismatch");
+    }
+    let canonical = canonical_custody_bytes(custody)?;
+    let payload_sha256 = format!("sha256:{}", sha256_bytes(&canonical));
+    if signature.signed_payload.payload_sha256 != payload_sha256 {
+        bail!("continuity capsule custody signed payload digest mismatch");
+    }
+    let trusted_public_key_b64 = std::env::var(CUSTODY_TRUSTED_PUBLIC_KEY_ENV)
+        .ok()
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .with_context(|| {
+            format!(
+                "continuity capsule custody verification requires {CUSTODY_TRUSTED_PUBLIC_KEY_ENV}"
+            )
+        })?;
+    if trusted_public_key_b64 != signature.public_key_b64 {
+        bail!("continuity capsule custody public key does not match trusted verification key");
+    }
+    let pub_bytes = B64
+        .decode(trusted_public_key_b64.as_bytes())
+        .context("invalid base64 trusted custody P-256 public key")?;
+    let public =
+        VerifyingKey::from_sec1_bytes(&pub_bytes).context("invalid custody P-256 public key")?;
+    let sig_bytes = B64
+        .decode(signature.sig_b64.as_bytes())
+        .context("invalid base64 custody signature")?;
+    let parsed_sig =
+        Signature::from_der(&sig_bytes).context("invalid custody ECDSA signature bytes")?;
+    public
+        .verify(&canonical, &parsed_sig)
+        .context("continuity capsule custody signature verification failed")?;
+    Ok(())
+}
+
+fn canonical_custody_bytes(custody: &CustodyManifest) -> Result<Vec<u8>> {
+    let mut unsigned = custody.clone();
+    unsigned.signature = None;
+    let mut value =
+        serde_json::to_value(unsigned).context("failed to encode custody manifest for signing")?;
+    sort_json_value(&mut value);
+    serde_json::to_vec(&value).context("failed to serialize canonical custody manifest JSON")
+}
+
+fn sort_json_value(value: &mut Value) {
+    match value {
+        Value::Object(map) => {
+            let mut sorted = BTreeMap::new();
+            for (key, mut child) in std::mem::take(map) {
+                sort_json_value(&mut child);
+                sorted.insert(key, child);
+            }
+            for (key, child) in sorted {
+                map.insert(key, child);
+            }
+        }
+        Value::Array(items) => {
+            for item in items {
+                sort_json_value(item);
+            }
+        }
+        _ => {}
+    }
+}
+
+fn custody_capsule_instance_id(manifest: &BundleManifest) -> String {
+    let artifact_hashes = manifest
+        .artifacts
+        .iter()
+        .map(|artifact| artifact.sha256.as_str())
+        .collect::<Vec<_>>()
+        .join(",");
+    let segment_hashes = manifest
+        .binary_segments
+        .iter()
+        .map(|segment| segment.sha256.as_str())
+        .collect::<Vec<_>>()
+        .join(",");
+    let material = format!(
+        "{}|{}|{}|{}|{}|{}",
+        manifest.agent_instance_id,
+        manifest.created_at,
+        manifest.target_host,
+        manifest.manifest_ref,
+        artifact_hashes,
+        segment_hashes
+    );
+    format!("sha256:{}", sha256_bytes(material.as_bytes()))
+}
+
+fn custody_redaction_clean() -> CustodyRedaction {
+    CustodyRedaction {
+        sensitive_material_present: false,
+        contains_host_private_paths: false,
+        redacted_fields: Vec::new(),
+    }
+}
+
+fn validate_sha256_hex(value: &str, field: &str) -> Result<()> {
+    if value.len() != 64 || !value.chars().all(|ch| ch.is_ascii_hexdigit()) {
+        bail!("{field} must be a 64-character sha256 hex digest");
     }
     Ok(())
 }

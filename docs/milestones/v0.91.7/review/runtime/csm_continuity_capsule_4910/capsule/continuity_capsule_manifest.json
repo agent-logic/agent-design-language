@@ -2,26 +2,27 @@
   "schema": "adl.csm.continuity_capsule.v1",
   "format_version": "csm.continuity-capsule.v1",
   "runtime_owner": "csm",
-  "created_at": "2026-07-06T02:45:35.401376+00:00",
+  "created_at": "2026-07-10T21:22:05.941976+00:00",
   "agent_instance_id": "csm-continuity-4910",
   "source_host": "wuji",
   "target_host": "ec2-staging",
   "manifest_ref": "continuity_capsule_manifest.json",
   "state_root_ref": "state/",
+  "custody_manifest_ref": "custody_manifest.json",
   "artifacts": [
     {
       "role": "runtime_identity",
       "source_ref": "agent_spec.locked.json",
       "bundle_ref": "state/agent_spec.locked.json",
-      "sha256": "2b69a0e36672c6b772d07f6bc5e629c4d87f96e140a88a0c3ca85476d0bd8833",
-      "bytes": 911,
+      "sha256": "6122c079753f63d5f2c439e0a79364e63a14cfe35e587d73c04c0054ff5b354f",
+      "bytes": 1035,
       "required": true
     },
     {
       "role": "recoverable_status",
       "source_ref": "status.json",
       "bundle_ref": "state/status.json",
-      "sha256": "6b3072a0f9847a6144f789ffc4526cf5b80f5e87cc7d953db0800d6badc785b1",
+      "sha256": "fe37cef5c46c32fc2f2615a8af1964cd28ca9f37699a6b60807c9af40c7ae4f9",
       "bytes": 699,
       "required": true
     },
@@ -29,15 +30,15 @@
       "role": "daemon_status",
       "source_ref": "daemon_status.json",
       "bundle_ref": "state/daemon_status.json",
-      "sha256": "26ca638d712bf4d0cbb6703e27bbf283f9349a38b425960f9aec0b9b26297cd3",
-      "bytes": 2249,
+      "sha256": "a1156df19f4b425609421fe32060a7aa69e55892e1921d04251b1c812293528f",
+      "bytes": 4530,
       "required": true
     },
     {
       "role": "continuity",
       "source_ref": "continuity.json",
       "bundle_ref": "state/continuity.json",
-      "sha256": "db227f27533de7b2eb96e282da7a715887177491a795b1c3b28add4cd4765041",
+      "sha256": "f5b58bc7d1b7a120e12d53c622bb6dd02caebc6f1bbe42d22591a3578b9046e3",
       "bytes": 695,
       "required": true
     },
@@ -45,23 +46,23 @@
       "role": "continuity_checkpoint",
       "source_ref": "continuity_checkpoint.json",
       "bundle_ref": "state/continuity_checkpoint.json",
-      "sha256": "b14fd28bcd7e06f879e93aa81fa07b1f55aadcdd6254631be2d7d6fbcca61b97",
-      "bytes": 722,
+      "sha256": "15f7179d55b0e8daf69e08644375533c90558dd02434add03ff7f2f60038fcdd",
+      "bytes": 1157,
       "required": true
     },
     {
       "role": "continuity_replay_manifest",
       "source_ref": "continuity_replay_manifest.json",
       "bundle_ref": "state/continuity_replay_manifest.json",
-      "sha256": "972f091d3e1914be1dfbbaa8fa8ac2d895a0fc09145e2df5fe142ec06acd5f29",
-      "bytes": 1116,
+      "sha256": "d26f117837371c7607fcf9f764d5609d1fedb56f1f7999514216d2f8f2a7f586",
+      "bytes": 1755,
       "required": true
     },
     {
       "role": "dag_run_ledger",
       "source_ref": "cycle_ledger.jsonl",
       "bundle_ref": "state/cycle_ledger.jsonl",
-      "sha256": "54bff3bd9b09af4600aa4b68dfa3d8b2ff5164fb09199e5ab735964241e58299",
+      "sha256": "4f3a35e7b5d87f8659cfd3c343051f3979fef7cb763276b6c599722a58bfbebe",
       "bytes": 532,
       "required": true
     },
@@ -77,7 +78,7 @@
       "role": "provider_binding_history",
       "source_ref": "provider_binding_history.jsonl",
       "bundle_ref": "state/provider_binding_history.jsonl",
-      "sha256": "5398be9c1f9a3f361147b815aa838c4cf8697e503ac4a740c77a82d7ae982eb7",
+      "sha256": "fb68831a46e0e30cf7da5c56c6c84542880aeed081374c8e9332bfece738779f",
       "bytes": 274,
       "required": true
     },
@@ -85,15 +86,15 @@
       "role": "observability_tail",
       "source_ref": "operator_events.jsonl",
       "bundle_ref": "state/operator_events.jsonl",
-      "sha256": "f485ce3ff930465f07c1223ef15b617eead28725645808096dc6146018958d27",
-      "bytes": 13252,
+      "sha256": "a845f69cb5ebb915d052fde563bd200135996d5bca85f95019559b306e6c87df",
+      "bytes": 27347,
       "required": true
     },
     {
       "role": "cycle_artifacts",
       "source_ref": "cycles/cycle-000001/cycle_manifest.json",
       "bundle_ref": "state/cycles/cycle-000001/cycle_manifest.json",
-      "sha256": "adfa9cb4536c3491cfc556ea5ea54aca5f744c5a77ec323473af193a472d057c",
+      "sha256": "f075c9549e5ae9ae2e03cb2508252b2c3374af9679649b3ed68c86b58eb90b48",
       "bytes": 1224,
       "required": false
     },
@@ -141,7 +142,7 @@
       "role": "cycle_artifacts",
       "source_ref": "cycles/cycle-000001/observations.json",
       "bundle_ref": "state/cycles/cycle-000001/observations.json",
-      "sha256": "0f2fb0389aea27f5feec5325ae937ed09d9c7ffd0269518cf6141865e9186ecf",
+      "sha256": "2eba53b040ed846139159597de93bacdca159df7604cd94475d97f420771b940",
       "bytes": 626,
       "required": false
     },
@@ -152,6 +153,20 @@
       "sha256": "ad663dd7af141577c57c789273064cf64454ac1b4bebfda2c9de4fa4051c9126",
       "bytes": 185,
       "required": false
+    }
+  ],
+  "binary_segments": [
+    {
+      "role": "continuity_checkpoint_snapshot",
+      "source_ref": "continuity_checkpoint.json",
+      "segment_ref": "segments/continuity_checkpoint.snapshot.segment",
+      "sha256": "c24b33931a12ec1b60b8b564cac3692a2e1aad68e96bd1f98dbfa868b89554b4",
+      "payload_sha256": "15f7179d55b0e8daf69e08644375533c90558dd02434add03ff7f2f60038fcdd",
+      "bytes": 2006,
+      "schema": "adl.csm.snapshot_segment.v1",
+      "format_version": "csm.snapshot-segment.v1",
+      "hash_address": "sha256:c24b33931a12ec1b60b8b564cac3692a2e1aad68e96bd1f98dbfa868b89554b4",
+      "required": true
     }
   ],
   "rebind_policy": {
@@ -185,7 +200,12 @@
   "future_readability": {
     "schema_stability": "format_version_required",
     "reader_guarantee": "future readers must reject unknown major versions",
-    "portable_paths": "bundle_relative_refs_only"
+    "portable_paths": "bundle_relative_refs_only",
+    "binary_segment_policy": {
+      "format_version": "csm.snapshot-segment.v1",
+      "manifest_linkage": "binary segments are hash-addressed from this JSON manifest",
+      "protobuf_decision": "evaluated in issue #4933; deferred until codegen/toolchain ownership is explicit"
+    }
   },
   "non_claims": [
     "not_live_multi_region_disaster_recovery",
