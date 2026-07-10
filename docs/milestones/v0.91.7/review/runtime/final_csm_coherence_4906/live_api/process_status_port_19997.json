@@ -1,0 +1,12 @@
+{
+  "schema": "adl.process_status.v1",
+  "check": "port",
+  "status": "bound_port",
+  "pid": null,
+  "host": "127.0.0.1",
+  "port": 19997,
+  "safe_order": "metadata_or_exact_target_first",
+  "broad_process_scan": false,
+  "uses_ps": false,
+  "note": "exact TCP connect probe reached a loopback service"
+}

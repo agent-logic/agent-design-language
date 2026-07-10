@@ -1,0 +1,27 @@
+{
+  "agent_instance_id": "main-csm-runtime",
+  "gauges": {
+    "backpressure_deferred_count": 0,
+    "backpressure_lag_ms": null,
+    "backpressure_queue_depth": null,
+    "backpressure_retry_capacity_remaining": null,
+    "backpressure_shed_count": 0,
+    "checkpoint_interval_secs": 3,
+    "completed_cycle_count": 32417,
+    "consecutive_failure_count": 0,
+    "operator_event_count_observed": 138488,
+    "restart_count": 0,
+    "storage_available_bytes": "[redacted]",
+    "storage_disk_floor_bytes": 34359738368
+  },
+  "runtime_owner": "csm",
+  "schema": "adl.csm.runtime_api.metrics.v1",
+  "states": {
+    "agent_state": "idle",
+    "backpressure_health": "storage_ok",
+    "backpressure_safe_fail_action": "preserve_minimal_checkpoint_bundle",
+    "health": "healthy",
+    "ready": "ready",
+    "storage_pressure": "ok"
+  }
+}
