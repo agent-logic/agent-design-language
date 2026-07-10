@@ -421,6 +421,10 @@ filter_token_for_path() {
       printf 'uts_acc_compiler'
       return 0
       ;;
+    adl/src/remote_exec/signing_support.rs)
+      printf 'remote_exec::signing_support'
+      return 0
+      ;;
     adl/src/cli/[^/]*.rs|adl/src/cli/[^/]*/[^/]*.rs)
       basename "$path" .rs
       return 0
