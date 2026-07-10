@@ -213,6 +213,9 @@ rustls = { version = "0.23", default-features = false, features = ["ring"] }
 # later bounded recurring verification on the existing ADL runtime.
 tokio = { version = "1", features = ["fs", "macros", "net", "rt", "rt-multi-thread", "sync", "time"] }
 tokio-tungstenite = "0.24"
+axum = "0.7"
+tower = "0.5"
+hyper = "1"
 
 # JSON Schema (Option A)
 schemars = "0.8"
