@@ -17,7 +17,6 @@ use values::{
 
 const TEMPLATE_REGISTRY: &str = "docs/templates/prompts/current.json";
 const VALUES_SCHEMA: &str = "adl.csdlc.prompt_template_values.v1";
-const CARD_STATUS_VALUES: &[&str] = CardStatus::VALUES;
 const PLACEHOLDERS: &[&str] = &[
     "card_status",
     "issue",
@@ -303,7 +302,7 @@ fn load_editor_model_for_template_set(
         schema: "adl.csdlc.prompt_editor.model.v1",
         template_set: template_set.to_string(),
         registry_path: TEMPLATE_REGISTRY,
-        card_status_values: CARD_STATUS_VALUES,
+        card_status_values: CardStatus::allowed_values(),
         cards,
     })
 }
@@ -1474,13 +1473,7 @@ pub fn validate_values(card: &PromptCardForm, values: &BTreeMap<String, String>)
             field.key
         );
         if !field.enum_values.is_empty() && !value.is_empty() {
-            ensure!(
-                field.enum_values.iter().any(|allowed| allowed == &value),
-                "{}.{} must be one of: {}",
-                card.key,
-                field.key,
-                field.enum_values.join(", ")
-            );
+            validate_prompt_card_enum_value(card.kind, card.key, field.key, value)?;
         }
     }
 
@@ -1501,14 +1494,9 @@ pub fn validate_values(card: &PromptCardForm, values: &BTreeMap<String, String>)
     );
     let card_status = values
         .get("card_status")
-        .map(String::as_str)
+        .map(|value| value.trim())
         .unwrap_or_default();
-    ensure!(
-        CARD_STATUS_VALUES.contains(&card_status),
-        "{}.card_status must be one of: {}",
-        card.key,
-        CARD_STATUS_VALUES.join(", ")
-    );
+    validate_prompt_card_enum_value(card.kind, card.key, "card_status", card_status)?;
     match card.kind {
         PromptCardKind::Spp => validate_spp_values(card, values)?,
         PromptCardKind::Vpp => validate_vpp_values(card, values)?,
@@ -1516,6 +1504,71 @@ pub fn validate_values(card: &PromptCardForm, values: &BTreeMap<String, String>)
         _ => {}
     }
     Ok(())
+}
+
+fn validate_prompt_card_enum_value(
+    kind: PromptCardKind,
+    card_key: &str,
+    field_key: &str,
+    value: &str,
+) -> Result<()> {
+    let parse_result = match (kind, field_key) {
+        (_, "card_status") => CardStatus::parse(value).map(|_| ()),
+        (_, "required_outcome_type") => IssueOutcomeType::parse(value).map(|_| ()),
+        (_, "demo_required") => DemoRequired::parse(value).map(|_| ()),
+        (PromptCardKind::Spp, "status") => SppStatus::parse(value).map(|_| ()),
+        (PromptCardKind::Spp, "activation_state") => {
+            ActivationState::parse_with_alias(value).map(|_| ())
+        }
+        (PromptCardKind::Spp, "estimate_confidence") => {
+            EstimateConfidence::parse(value).map(|_| ())
+        }
+        (PromptCardKind::Spp, "estimate_data_source") => {
+            EstimateDataSource::parse(value).map(|_| ())
+        }
+        (PromptCardKind::Vpp, "status") => VppStatus::parse(value).map(|_| ()),
+        (PromptCardKind::Vpp, "validation_size_split") => {
+            ValidationSizeSplit::parse(value).map(|_| ())
+        }
+        (PromptCardKind::Srp, "status") => SrpStatus::parse(value).map(|_| ()),
+        (PromptCardKind::Srp, "findings_status") => ReviewFindingsStatus::parse(value).map(|_| ()),
+        (PromptCardKind::Srp, "recommended_outcome") => {
+            ReviewRecommendedOutcome::parse(value).map(|_| ())
+        }
+        (PromptCardKind::Sor, "status") => SorExecutionStatus::parse(value).map(|_| ()),
+        (PromptCardKind::Sor, "budget_source") => BudgetSource::parse(value).map(|_| ()),
+        (PromptCardKind::Sor, "actual_metrics_data_source") => {
+            ActualMetricsDataSource::parse(value).map(|_| ())
+        }
+        (PromptCardKind::Sor, "actual_metrics_confidence") => {
+            EstimateConfidence::parse(value).map(|_| ())
+        }
+        (PromptCardKind::Sor, "completion_state") => CompletionState::parse(value).map(|_| ()),
+        (PromptCardKind::Sor, "variance_analysis_required") => {
+            VarianceRequired::parse(value).map(|_| ())
+        }
+        (PromptCardKind::Sor, "variance_analysis_completed") => {
+            VarianceCompleted::parse(value).map(|_| ())
+        }
+        (PromptCardKind::Sor, "variance_category") => VarianceCategory::parse(value).map(|_| ()),
+        (PromptCardKind::Sor, "integration_state") => {
+            IntegrationState::parse_with_alias(value).map(|_| ())
+        }
+        (PromptCardKind::Sor, "verification_scope") => {
+            VerificationScope::parse_with_alias(value).map(|_| ())
+        }
+        (PromptCardKind::Sor, "integration_result") => ValidationResult::parse(value).map(|_| ()),
+        (PromptCardKind::Sor, "validation_result") => ValidationResult::parse(value).map(|_| ()),
+        _ => Ok(()),
+    };
+    parse_result.map_err(|err| {
+        let message = err.to_string();
+        if let Some((_, rest)) = message.split_once(" must be one of: ") {
+            anyhow!("{}.{} must be one of: {}", card_key, field_key, rest)
+        } else {
+            anyhow!("{}.{} {}", card_key, field_key, message)
+        }
+    })
 }
 
 fn validate_unknown_or_positive_int_value(field: &str, actual: &str) -> Result<()> {
@@ -2242,14 +2295,14 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Required Outcome Type",
                 true,
                 "System-classified primary outcome type.",
-                &["code", "docs", "tests", "demo", "combination"],
+                IssueOutcomeType::allowed_values(),
             ));
             fields.push(read_only_select(
                 "demo_required",
                 "Demo Required",
                 true,
                 "System-classified demo proof requirement.",
-                &["true", "false"],
+                DemoRequired::allowed_values(),
             ));
             fields.push(read_only_textarea(
                 "validation_plan",
@@ -2296,7 +2349,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Required Outcome Type",
                 true,
                 "System-classified primary outcome type.",
-                &["code", "docs", "tests", "demo", "combination"],
+                IssueOutcomeType::allowed_values(),
             ));
             fields.push(textarea(
                 "deliverables",
@@ -2339,7 +2392,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Demo Required",
                 true,
                 "System-classified demo proof requirement.",
-                &["true", "false"],
+                DemoRequired::allowed_values(),
             ));
             fields.push(textarea(
                 "demo_proof_requirements",
@@ -2378,21 +2431,21 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Card Status",
                 true,
                 "SPP lifecycle card status.",
-                CARD_STATUS_VALUES,
+                CardStatus::allowed_values(),
             ));
             fields.push(select(
                 "status",
                 "Status",
                 true,
                 "SPP frontmatter lifecycle status.",
-                CARD_STATUS_VALUES,
+                SppStatus::allowed_values(),
             ));
             fields.push(select(
                 "activation_state",
                 "Activation State",
                 true,
                 "SPP execution-readiness lifecycle state.",
-                CARD_STATUS_VALUES,
+                ActivationState::allowed_values(),
             ));
             fields.push(read_only_text(
                 "initial_pvf_lane",
@@ -2453,14 +2506,14 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Estimate Confidence",
                 true,
                 "Confidence in the planning estimates.",
-                &["low", "medium", "high", "unknown"],
+                EstimateConfidence::allowed_values(),
             ));
             fields.push(select(
                 "estimate_data_source",
                 "Estimate Data Source",
                 true,
                 "Where the estimate truth came from.",
-                &["manual_entry", "derived_sprint_state", "unknown"],
+                EstimateDataSource::allowed_values(),
             ));
             fields.push(text(
                 "estimate_source_ref",
@@ -2565,14 +2618,14 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Card Status",
                 true,
                 "VPP lifecycle card status.",
-                CARD_STATUS_VALUES,
+                CardStatus::allowed_values(),
             ));
             fields.push(select(
                 "status",
                 "Status",
                 true,
                 "VPP lifecycle status.",
-                &["draft", "ready", "reviewed", "approved"],
+                VppStatus::allowed_values(),
             ));
             fields.push(read_only_text(
                 "initial_pvf_lane",
@@ -2621,13 +2674,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Validation Size Split",
                 true,
                 "Whether the plan expects small, large, mixed, or no validation split.",
-                &[
-                    "small_only",
-                    "large_only",
-                    "mixed",
-                    "not_applicable",
-                    "unknown",
-                ],
+                ValidationSizeSplit::allowed_values(),
             ));
             fields.push(text(
                 "expected_proof_cost",
@@ -2762,22 +2809,14 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Findings Status",
                 true,
                 "Machine-readable final review findings status.",
-                &[
-                    "not_run",
-                    "findings_present",
-                    "no_findings",
-                    "review_unavailable",
-                    "review_timeout",
-                    "review_cancelled",
-                    "review_failed",
-                ],
+                ReviewFindingsStatus::allowed_values(),
             ));
             fields.push(select(
                 "recommended_outcome",
                 "Recommended Outcome",
                 true,
                 "Machine-readable final review outcome.",
-                &["not_run", "pass", "block", "needs_followup"],
+                ReviewRecommendedOutcome::allowed_values(),
             ));
         }
         PromptCardKind::Sor => {
@@ -2798,7 +2837,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Status",
                 true,
                 "Execution status.",
-                &["NOT_STARTED", "IN_PROGRESS", "DONE", "FAILED"],
+                SorExecutionStatus::allowed_values(),
             ));
             fields.push(read_only_text(
                 "initial_pvf_lane",
@@ -2877,13 +2916,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Budget Source",
                 true,
                 "Where the execution-time budget truth came from.",
-                &[
-                    "issue_goal_budget",
-                    "sprint_rollup",
-                    "manual_entry",
-                    "not_applicable",
-                    "unknown",
-                ],
+                BudgetSource::allowed_values(),
             ));
             fields.push(text(
                 "actual_pr_wait_seconds",
@@ -2902,12 +2935,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Actual Metrics Data Source",
                 true,
                 "Where the actual issue metrics came from.",
-                &[
-                    "codex_goal_tool",
-                    "manual_entry",
-                    "derived_sprint_state",
-                    "unknown",
-                ],
+                ActualMetricsDataSource::allowed_values(),
             ));
             fields.push(text(
                 "actual_metrics_source_ref",
@@ -2920,7 +2948,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Actual Metrics Confidence",
                 true,
                 "Confidence in the actual metric values.",
-                &["low", "medium", "high", "unknown"],
+                EstimateConfidence::allowed_values(),
             ));
             fields.push(text(
                 "estimate_error_percent",
@@ -2933,47 +2961,28 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Completion State",
                 true,
                 "Truthful issue-local completion state.",
-                &[
-                    "completed",
-                    "completed_with_follow_on",
-                    "blocked",
-                    "failed",
-                    "deferred",
-                    "cancelled",
-                    "unknown",
-                ],
+                CompletionState::allowed_values(),
             ));
             fields.push(select(
                 "variance_analysis_required",
                 "Variance Analysis Required",
                 true,
                 "Whether any known estimate/actual metric pair exceeded the 10 percent threshold.",
-                &["not_applicable", "no", "yes"],
+                VarianceRequired::allowed_values(),
             ));
             fields.push(select(
                 "variance_analysis_completed",
                 "Variance Analysis Completed",
                 true,
                 "Whether the required variance analysis was completed.",
-                &["not_applicable", "no", "yes"],
+                VarianceCompleted::allowed_values(),
             ));
             fields.push(select(
                 "variance_category",
                 "Variance Category",
                 true,
                 "Primary category for a required variance analysis.",
-                &[
-                    "not_applicable",
-                    "validation_misclassification",
-                    "pr_wait",
-                    "merge_conflict",
-                    "tool_failure",
-                    "unclear_scope",
-                    "model_drift",
-                    "human_wait",
-                    "external_api_latency",
-                    "overestimated_scope",
-                ],
+                VarianceCategory::allowed_values(),
             ));
             fields.push(textarea(
                 "variance_note",
@@ -3034,21 +3043,14 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Integration State",
                 true,
                 "Lifecycle state for the integrated artifact set.",
-                &[
-                    "worktree_only",
-                    "pr_open",
-                    "merged",
-                    "closed_no_pr",
-                    "failed",
-                    "blocked",
-                ],
+                IntegrationState::allowed_values(),
             ));
             fields.push(select(
                 "verification_scope",
                 "Verification Scope",
                 true,
                 "Where verification commands were run.",
-                &["main_repo", "worktree", "ci", "not_run"],
+                VerificationScope::allowed_values(),
             ));
             fields.push(textarea(
                 "integration_method_used",
@@ -3073,7 +3075,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Integration Result",
                 true,
                 "Integration verification result.",
-                &["PASS", "FAIL", "NOT_RUN", "BLOCKED"],
+                ValidationResult::allowed_values(),
             ));
             fields.push(textarea(
                 "validation_command",
@@ -3092,7 +3094,7 @@ fn form_fields(kind: PromptCardKind) -> Vec<PromptField> {
                 "Validation Result",
                 true,
                 "Primary validation result.",
-                &["PASS", "FAIL", "NOT_RUN", "BLOCKED"],
+                ValidationResult::allowed_values(),
             ));
         }
     }
@@ -3543,6 +3545,55 @@ Malformed legacy card.
     }
 
     #[test]
+    fn editor_select_options_are_backed_by_prompt_card_enums() {
+        let model = load_editor_model(&repo_root()).expect("model");
+        let field_values = |kind: PromptCardKind, key: &str| -> Vec<&'static str> {
+            model
+                .cards
+                .iter()
+                .find(|card| card.kind == kind)
+                .expect("card")
+                .fields
+                .iter()
+                .find(|field| field.key == key)
+                .unwrap_or_else(|| panic!("{kind}.{key} field"))
+                .enum_values
+                .clone()
+        };
+
+        assert_eq!(
+            field_values(PromptCardKind::Sip, "required_outcome_type"),
+            IssueOutcomeType::allowed_values()
+        );
+        assert_eq!(
+            field_values(PromptCardKind::Stp, "demo_required"),
+            DemoRequired::allowed_values()
+        );
+        assert_eq!(
+            field_values(PromptCardKind::Spp, "status"),
+            SppStatus::allowed_values()
+        );
+        assert_eq!(
+            field_values(PromptCardKind::Vpp, "validation_size_split"),
+            ValidationSizeSplit::allowed_values()
+        );
+        assert_eq!(
+            field_values(PromptCardKind::Srp, "recommended_outcome"),
+            ReviewRecommendedOutcome::allowed_values()
+        );
+        assert_eq!(
+            field_values(PromptCardKind::Sor, "integration_state"),
+            IntegrationState::allowed_values()
+        );
+        assert_eq!(
+            field_values(PromptCardKind::Sor, "verification_scope"),
+            VerificationScope::allowed_values()
+        );
+        assert!(!field_values(PromptCardKind::Sor, "integration_state").contains(&"blocked"));
+        assert!(!field_values(PromptCardKind::Sor, "verification_scope").contains(&"not_run"));
+    }
+
+    #[test]
     fn invalid_enum_values_are_rejected() {
         let model = load_editor_model(&repo_root()).expect("model");
         let sor = model
@@ -3554,6 +3605,63 @@ Malformed legacy card.
         values.insert("status".to_string(), "almost_done".to_string());
         let err = validate_values(sor, &values).expect_err("invalid enum should fail");
         assert!(err.to_string().contains("status must be one of"));
+    }
+
+    #[test]
+    fn card_status_is_validated_for_all_card_kinds() {
+        let model = load_editor_model(&repo_root()).expect("model");
+        for kind in [PromptCardKind::Sip, PromptCardKind::Sor] {
+            let card = model
+                .cards
+                .iter()
+                .find(|card| card.kind == kind)
+                .unwrap_or_else(|| panic!("{kind} model"));
+            let mut values = sample_values();
+            values.insert("card_status".to_string(), "almost_ready".to_string());
+            let err = validate_values(card, &values)
+                .expect_err(&format!("{kind} invalid card_status should fail"));
+            assert!(
+                err.to_string()
+                    .contains(&format!("{}.card_status must be one of", kind.key())),
+                "{kind} diagnostic should identify card_status: {err}"
+            );
+            assert!(
+                err.to_string().contains("actual: almost_ready"),
+                "{kind} diagnostic should include actual value: {err}"
+            );
+        }
+    }
+
+    #[test]
+    fn values_validation_uses_shared_enum_parsers_and_aliases() {
+        let model = load_editor_model(&repo_root()).expect("model");
+        let spp = model
+            .cards
+            .iter()
+            .find(|card| card.kind == PromptCardKind::Spp)
+            .expect("spp model");
+        let mut spp_values = sample_values();
+        spp_values.insert("status".to_string(), "ready".to_string());
+        spp_values.insert("activation_state".to_string(), "active".to_string());
+        validate_values(spp, &spp_values).expect("activation_state aliases should parse");
+
+        let sor = model
+            .cards
+            .iter()
+            .find(|card| card.kind == PromptCardKind::Sor)
+            .expect("sor model");
+        let mut sor_values = sample_values();
+        sor_values.insert("integration_state".to_string(), "worktree".to_string());
+        sor_values.insert("verification_scope".to_string(), "pr-branch".to_string());
+        validate_values(sor, &sor_values).expect("SOR enum aliases should parse");
+
+        sor_values.insert("integration_state".to_string(), "blocked".to_string());
+        let err = validate_values(sor, &sor_values)
+            .expect_err("invalid integration_state should fail through enum parser");
+        assert!(err.to_string().contains(
+            "sor.integration_state must be one of: worktree_only, pr_open, merged, closed_no_pr"
+        ));
+        assert!(err.to_string().contains("actual: blocked"));
     }
 
     #[test]
