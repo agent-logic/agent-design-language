@@ -377,6 +377,37 @@ if bash "$SCRIPT" --changed-files "$release_gate" --run >"$TMP/refuse.out" 2>"$T
 fi
 assert_has "$TMP/refuse.err" "refusing --run for non-runnable profile"
 
+slow_proof_workflow="$TMP/slow-proof-workflow.txt"
+cat >"$slow_proof_workflow" <<'EOF'
+M	.github/workflows/ci.yaml
+M	adl/tools/test_ci_runtime_contracts.sh
+EOF
+bash "$SCRIPT" --changed-files "$slow_proof_workflow" --json >"$TMP/slow-proof-workflow.json"
+python3 - <<'PY' "$TMP/slow-proof-workflow.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert profile["escalation"]["reasons"] == []
+assert profile["diagnostics"] == []
+assert any(item["lane_id"] == "ci_path_policy_contracts" for item in profile["run"])
+assert any(
+    behavior["id"] == "release_gate_release_gate_review"
+    for behavior in profile["behavior_surfaces"]
+)
+assert any(
+    node["lane_id"] == "release_gate_review"
+    and node["status"] == "disposition_recorded"
+    for node in profile["validation_dag"]["nodes"]
+)
+assert profile["validation_split"]["fast_lane"]["pr_publication_sufficient"] is True
+assert profile["validation_split"]["fail_closed"]["required"] is False
+PY
+
 unmapped="$TMP/unmapped.txt"
 printf 'M\ttotally/unmapped/path.txt\n' >"$unmapped"
 bash "$SCRIPT" --changed-files "$unmapped" --json >"$TMP/unmapped.json"

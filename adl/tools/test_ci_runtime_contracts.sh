@@ -76,6 +76,15 @@ def step_count(name: str) -> int:
         )
     )
 
+def job_block(job_name: str) -> str:
+    start = re.search(rf"^  {re.escape(job_name)}:\n", workflow, re.MULTILINE)
+    if not start:
+        raise SystemExit(f"missing workflow job: {job_name}")
+    next_job = re.search(r"^  [A-Za-z0-9_-]+:\n", workflow[start.end() :], re.MULTILINE)
+    if next_job:
+        return workflow[start.start() : start.end() + next_job.start()]
+    return workflow[start.start() :]
+
 checkout_sha = "actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5"
 for candidate in sorted(workflow_root.glob("*.y*ml")):
     text = candidate.read_text()
@@ -224,6 +233,22 @@ for step_name, expected_if in expected_split_conditions.items():
             "adl-ci contract checks must use granular path-policy outputs so narrow policy PRs do not run unrelated contracts; "
             f"{step_name!r} has if: {observed_if!r}"
         )
+
+slow_proof_job = job_block("adl-slow-proof")
+if "needs: adl_path_policy" not in slow_proof_job:
+    raise SystemExit("adl-slow-proof must depend on path policy so PR slow-proof requests can trigger the slow lane")
+expected_slow_proof_if = (
+    "github.event_name == 'push' || github.event_name == 'schedule' || "
+    "github.event_name == 'workflow_dispatch' || "
+    "needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'"
+)
+slow_proof_if_match = re.search(r"^\s+if:\s+(.+)$", slow_proof_job, re.MULTILINE)
+if not slow_proof_if_match or slow_proof_if_match.group(1).strip() != expected_slow_proof_if:
+    raise SystemExit("adl-slow-proof must run on PRs when slow_proof_contract_required is true")
+if "shard: [1, 2, 3, 4]" not in slow_proof_job:
+    raise SystemExit("adl-slow-proof must keep the long slow-proof lane fanned out across four shards")
+if 'cargo nextest run --features slow-proof-tests --partition "count:${{ matrix.shard }}/4"' not in slow_proof_job:
+    raise SystemExit("adl-slow-proof must run slow-proof-tests through nextest partition fanout")
 
 release_version_truth = step_run("release version truth check")
 if release_version_truth != "bash adl/tools/check_release_version_surfaces.sh":

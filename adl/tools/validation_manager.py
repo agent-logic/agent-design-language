@@ -320,6 +320,56 @@ def docs_only_paths(paths: list[str]) -> bool:
     return all(path.endswith(".md") or path.startswith("docs/") for path in paths)
 
 
+def slow_proof_pr_fanout_workflow_disposition(changed_paths: list[str]) -> bool:
+    changed = set(changed_paths)
+    allowed = {
+        ".github/workflows/ci.yaml",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/validation_manager.py",
+        "adl/tools/test_validation_manager.sh",
+    }
+    if not changed or not changed <= allowed:
+        return False
+    if ".github/workflows/ci.yaml" not in changed:
+        return False
+    if "adl/tools/test_ci_runtime_contracts.sh" not in changed:
+        return False
+
+    workflow = (ROOT / ".github/workflows/ci.yaml").read_text()
+    contract = (ROOT / "adl/tools/test_ci_runtime_contracts.sh").read_text()
+    manager = (ROOT / "adl/tools/validation_manager.py").read_text()
+    manager_contract = (ROOT / "adl/tools/test_validation_manager.sh").read_text()
+    required_workflow_fragments = [
+        "adl-slow-proof:",
+        "needs: adl_path_policy",
+        "needs.adl_path_policy.outputs.slow_proof_contract_required == 'true'",
+        "shard: [1, 2, 3, 4]",
+        'cargo nextest run --features slow-proof-tests --partition "count:${{ matrix.shard }}/4"',
+    ]
+    required_contract_fragments = [
+        'job_block("adl-slow-proof")',
+        "slow_proof_contract_required == 'true'",
+        "shard: [1, 2, 3, 4]",
+        'cargo nextest run --features slow-proof-tests --partition "count:${{ matrix.shard }}/4"',
+    ]
+    required_manager_fragments = [
+        "release_gate_slow_proof_pr_fanout_disposition",
+        "slow_proof_pr_fanout_workflow_disposition(changed_paths)",
+        'node["status"] = "disposition_recorded"',
+    ]
+    required_manager_contract_fragments = [
+        "slow-proof-workflow.txt",
+        "pr_publication_sufficient",
+        "disposition_recorded",
+    ]
+    return (
+        all(fragment in workflow for fragment in required_workflow_fragments)
+        and all(fragment in contract for fragment in required_contract_fragments)
+        and all(fragment in manager for fragment in required_manager_fragments)
+        and all(fragment in manager_contract for fragment in required_manager_contract_fragments)
+    )
+
+
 def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_path: Path) -> dict[str, Any]:
     slow_proof_config = load_slow_proof_families()
     slow_proof_families = slow_proof_config.get("families", [])
@@ -352,7 +402,15 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         and str(rust_lane_for_disposition.get("reason", "")).strip()
         == "slow_proof_inventory_change_covered_by_contract_check"
     )
-    effective_blocked = [] if slow_proof_contract_only_disposition else blocked
+    release_gate_slow_proof_pr_fanout_disposition = (
+        blocked_lane_ids == {"release_gate_review"}
+        and slow_proof_pr_fanout_workflow_disposition(changed_paths)
+    )
+    soft_disposition_recorded = (
+        slow_proof_contract_only_disposition
+        or release_gate_slow_proof_pr_fanout_disposition
+    )
+    effective_blocked = [] if soft_disposition_recorded else blocked
 
     run = []
     behavior_surfaces = []
@@ -418,7 +476,13 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
     for lane_id, lane in blocked:
         behavior = lane_behavior_surface(lane_id, lane)
         behavior_surfaces.append(behavior)
-        if slow_proof_contract_only_disposition and lane_id in {"rust_pr_fast", "slow_proof_review"}:
+        if (
+            slow_proof_contract_only_disposition
+            and lane_id in {"rust_pr_fast", "slow_proof_review"}
+        ) or (
+            release_gate_slow_proof_pr_fanout_disposition
+            and lane_id == "release_gate_review"
+        ):
             node = validation_dag_node(lane_id, lane, behavior["id"])
             node["status"] = "disposition_recorded"
             dag_nodes.append(node)
@@ -615,11 +679,11 @@ def build_profile(plan: dict[str, Any], guardrails: dict[str, Any], manifest_pat
         status = "no_validation_needed"
     elif escalation_required:
         status = "escalation_required"
-    elif plan.get("aggregate_status") != "selected" and not slow_proof_contract_only_disposition:
+    elif plan.get("aggregate_status") != "selected" and not soft_disposition_recorded:
         status = "not_runnable"
 
     pr_publication_sufficient = (
-        (bool(plan.get("pr_publication_sufficient")) or slow_proof_contract_only_disposition)
+        (bool(plan.get("pr_publication_sufficient")) or soft_disposition_recorded)
         and not unmapped_change_gap
         and not escalation_required
         and status == "ready_to_run"
