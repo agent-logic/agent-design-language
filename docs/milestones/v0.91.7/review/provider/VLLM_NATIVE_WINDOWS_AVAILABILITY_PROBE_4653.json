@@ -1,0 +1,31 @@
+{
+  "schema_version": "adl.vllm_native_windows_availability_probe.v1",
+  "issue_number": 4653,
+  "measured_at_utc": "2026-07-09T22:03:00Z",
+  "host_class": "nessus_windows_rtx_3090",
+  "runtime": {
+    "environment": "native_windows_python_venv",
+    "python_role_path": "issue-4653/native-venv",
+    "torch": "2.5.1+cu121",
+    "transformers": "4.57.1",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 3090"
+  },
+  "probe": {
+    "command": "python.exe -m pip install --dry-run --only-binary=:all: vllm",
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "ERROR: Could not find a version that satisfies the requirement vllm (from versions: none)\nERROR: No matching distribution found for vllm"
+  },
+  "claims": {
+    "proves_reusable_native_windows_venv_exists": true,
+    "proves_native_windows_vllm_available": false,
+    "proves_dspark_backend": false,
+    "proves_qwen_speculative_acceleration": false
+  },
+  "notes": [
+    "The reusable native Windows venv contains Torch and Transformers and can run the cached Qwen assisted-generation benchmark.",
+    "The native Windows venv does not provide an installable/importable vLLM path from pip binary resolution.",
+    "A Docker vLLM probe initialized Qwen on this host, but that path is WSL/container-detected and is not accepted as native Windows proof for this issue."
+  ]
+}

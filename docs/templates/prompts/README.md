@@ -81,7 +81,7 @@ Use the Rust tool to regenerate schemas only when template structure changes
 intentionally:
 
 ```sh
-adl-csdlc tooling prompt-template \
+csdlc tooling prompt-template \
   write-structure-schemas \
   --template-set 1.0.3 \
   --out-dir docs/templates/prompts/1.0.3/schemas
@@ -90,13 +90,13 @@ adl-csdlc tooling prompt-template \
 Then run both Rust and Python-readable schema checks:
 
 ```sh
-adl-csdlc tooling prompt-template validate-schemas --template-set 1.0.3
+csdlc tooling prompt-template validate-schemas --template-set 1.0.3
 python3 adl/tools/test_prompt_template_structure_schemas.py --template-set 1.0.3
 ```
 
-If `adl-csdlc` is not already on `PATH`, run the same owner-binary commands
-through `cargo run --manifest-path adl/Cargo.toml --bin adl-csdlc -- ...`
-from a fresh checkout.
+If `csdlc` is not already on `PATH`, use the repo-owned binary at
+`adl/target/debug/csdlc` when present. Rebuild it only when working on the
+binary surface itself or when no trusted repo binary exists.
 
 `current.json` should not move to a new active template set until every card
 kind in that set has renderer fixtures, values validation, and compatibility
@@ -110,7 +110,7 @@ The local human editor for this template set lives at
 generated from Rust with:
 
 ```sh
-cargo run --manifest-path adl/Cargo.toml --bin adl-csdlc -- tooling csdlc-prompt-editor \
+cargo run --manifest-path adl/Cargo.toml --bin csdlc -- tooling csdlc-prompt-editor \
   --emit-model-js docs/tooling/csdlc-prompt-editor/editor_model.js
 ```
 

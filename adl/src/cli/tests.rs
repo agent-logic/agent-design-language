@@ -20,10 +20,11 @@ use super::run_artifacts::{
     AEE_DECISION_VERSION, PAUSE_STATE_SCHEMA_VERSION,
 };
 use super::{
-    csdlc_issue_to_pr_args, csdlc_usage, dispatch_args, dispatch_csdlc_args, dispatch_review_args,
-    dispatch_runtime_args, looks_like_adl_workflow_path, looks_like_issue_ref, real_instrument,
-    real_keygen, real_learn, real_sign, real_verify, reject_csdlc_runtime_run,
-    review_to_tooling_args, review_usage, runtime_usage, usage, version_text,
+    csdlc_issue_to_pr_args, csdlc_usage, csdlc_usage_for, dispatch_args, dispatch_csdlc_args,
+    dispatch_csdlc_args_for, dispatch_review_args, dispatch_runtime_args,
+    looks_like_adl_workflow_path, looks_like_issue_ref, real_instrument, real_keygen, real_learn,
+    real_sign, real_verify, reject_csdlc_runtime_run, review_to_tooling_args, review_usage,
+    runtime_usage, usage, version_text,
 };
 use ::adl::godel::cross_workflow::{
     DownstreamWorkflowDecision, PersistedCrossWorkflowArtifact, CROSS_WORKFLOW_ARTIFACT_VERSION,
@@ -193,6 +194,26 @@ fn csdlc_dispatch_exposes_help_and_version_without_runtime_dispatch() {
     assert!(usage.contains("adl/tools/pr.sh remains the canonical agent-facing issue wrapper"));
     assert!(usage.contains("shared pr control-plane client layer"));
     assert!(usage.contains("adl-runtime run <adl.yaml>"));
+}
+
+#[test]
+fn canonical_csdlc_dispatch_uses_canonical_command_name_in_help_and_errors() {
+    dispatch_csdlc_args_for("csdlc", &["--help".to_string()])
+        .expect("canonical csdlc help should succeed");
+    dispatch_csdlc_args_for("csdlc", &["--version".to_string()])
+        .expect("canonical csdlc version should succeed");
+
+    let usage = csdlc_usage_for("csdlc");
+    assert!(usage.contains("csdlc - ADL C-SDLC workflow control-plane binary"));
+    assert!(usage.contains("csdlc issue run <issue>"));
+    assert!(usage.contains("adl-csdlc remains a compatibility alias"));
+
+    let err = dispatch_csdlc_args_for("csdlc", &["run".to_string()])
+        .expect_err("canonical csdlc run should reject runtime YAML execution");
+    assert!(err
+        .to_string()
+        .contains("csdlc does not run ADL workflow YAML"));
+    assert!(err.to_string().contains("csdlc issue run <issue>"));
 }
 
 #[test]

@@ -261,7 +261,9 @@ filter_token_for_path() {
       return 0
       ;;
     adl/src/cli/mod.rs)
-      if [ "$saw_scheduler_related_surface" = true ]; then
+      if [ "$saw_csdlc_binary_taxonomy_surface" = true ]; then
+        printf 'csdlc_binary_dispatch'
+      elif [ "$saw_scheduler_related_surface" = true ]; then
         printf 'scheduler_cli'
       elif [ "$saw_tokio_bootstrap_related_surface" = true ]; then
         printf 'tokio_bootstrap'
@@ -273,7 +275,9 @@ filter_token_for_path() {
       return 0
       ;;
     adl/src/cli/tests.rs)
-      if [ "$saw_scheduler_related_surface" = true ]; then
+      if [ "$saw_csdlc_binary_taxonomy_surface" = true ]; then
+        printf 'csdlc_binary_dispatch'
+      elif [ "$saw_scheduler_related_surface" = true ]; then
         printf 'scheduler_cli'
       else
         printf 'cli_dispatch'
@@ -367,6 +371,10 @@ filter_token_for_path() {
     adl/src/cli/tests/pr_cmd_inline/*/*|adl/src/cli/tests/pr_cmd_inline/*)
       return 1
       ;;
+    adl/src/bin/csdlc.rs|adl/src/bin/adl_csdlc.rs)
+      printf 'csdlc_binary'
+      return 0
+      ;;
     adl/src/cli/pr_cmd_cards.rs|adl/src/cli/pr_cmd_cards/*.rs)
       printf 'pr_cmd'
       return 0
@@ -383,7 +391,14 @@ filter_token_for_path() {
       printf 'pr_cmd'
       return 0
       ;;
-    docs/default_workflow.md|docs/milestones/v0.90/milestone_compression/FINISH_VALIDATION_PROFILES_v0.90.md)
+    docs/default_workflow.md)
+      if [ "$saw_csdlc_binary_taxonomy_surface" = true ]; then
+        return 1
+      fi
+      printf 'pr_cmd'
+      return 0
+      ;;
+    docs/milestones/v0.90/milestone_compression/FINISH_VALIDATION_PROFILES_v0.90.md)
       printf 'pr_cmd'
       return 0
       ;;
@@ -392,6 +407,10 @@ filter_token_for_path() {
       return 0
       ;;
     adl/tests/cli_smoke.rs|adl/tests/cli_smoke/*.rs)
+      if [ "$saw_csdlc_binary_taxonomy_surface" = true ]; then
+        printf 'csdlc_binary_smoke'
+        return 0
+      fi
       printf 'process_status'
       return 0
       ;;
@@ -509,6 +528,9 @@ TOKEN_MAP = {
     "agent_cli_smoke": 'binary_id(adl::cli_smoke) and test(/^agent::/)',
     "agent_cmd": 'test(/^cli::agent_cmd::/)',
     "process_status": 'binary_id(adl::cli_smoke) and test(/^process_status::/)',
+    "csdlc_binary": 'binary_id(adl::bin/csdlc) and test(/^tests::/) or binary_id(adl::bin/adl-csdlc) and test(/^tests::/)',
+    "csdlc_binary_dispatch": 'test(/^cli::tests::csdlc_/)',
+    "csdlc_binary_smoke": 'binary_id(adl::cli_smoke) and test(/^(csdlc_cli_binary_help_and_version_smoke|adl_csdlc_cli_binary_help_and_version_smoke)$/)',
     "scheduler_cli": 'test(/^cli::scheduler_cmd::tests::/) or test(/^cli::tests::runtime_dispatch_exposes_help_and_version_without_csdlc_dispatch$/) or test(/^cli::tests::open_usage::usage_mentions_v0_4_and_legacy_examples$/)',
     "scheduler_economics": 'test(/^scheduler::tests::/) or test(/^provider::tests::provider_mod_/) or binary_id(adl::provider_tests) and test(/^profiles::/)',
     "demo_adl_gws_context_mirror": 'binary_id(adl::bin/demo-adl-gws-context-mirror) and test(/^tests::/)',
@@ -573,6 +595,7 @@ saw_slow_proof_contract_surface=false
 saw_tokio_bootstrap_related_surface=false
 saw_process_status_related_surface=false
 saw_scheduler_related_surface=false
+saw_csdlc_binary_taxonomy_surface=false
 
 declare -a tokens=()
 declare -a family_tokens=()
@@ -604,6 +627,10 @@ while IFS= read -r path; do
     adl/src/bin/run_v0916_integrated_runtime_soak.rs)
       saw_scheduler_related_surface=true
       ;;
+    adl/src/bin/csdlc.rs|\
+    adl/src/bin/adl_csdlc.rs)
+      saw_csdlc_binary_taxonomy_surface=true
+      ;;
   esac
 done <<EOF
 $(changed_rows \
@@ -614,6 +641,9 @@ EOF
 while IFS= read -r path; do
   [ -n "$path" ] || continue
   if ! is_relevant_fast_lane_surface "$path"; then
+    continue
+  fi
+  if [ "$path" = "docs/default_workflow.md" ] && [ "$saw_csdlc_binary_taxonomy_surface" = true ]; then
     continue
   fi
   if is_structural_companion_surface "$path"; then
@@ -633,7 +663,9 @@ while IFS= read -r path; do
     family_tokens=()
     break
   fi
-  if is_broad_rust_surface "$path"; then
+  if [ "$path" = "adl/src/cli/tests.rs" ] && [ "$saw_csdlc_binary_taxonomy_surface" = true ]; then
+    :
+  elif is_broad_rust_surface "$path"; then
     mode="full"
     reason="broad_rust_surface_requires_full_nextest"
     classification_locked=true
