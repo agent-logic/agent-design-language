@@ -1,0 +1,177 @@
+{
+  "schema_version": "adl.vllm_qwen_speculative_decoding_benchmark.v1",
+  "issue_number": 4653,
+  "measured_at_utc": "2026-07-09T21:48:19Z",
+  "runtime": {
+    "platform": "Linux-5.15.153.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "python": "3.12.13",
+    "torch": "2.11.0+cu130",
+    "vllm": "0.24.0",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA GeForce RTX 3090",
+    "container_image": "vllm/vllm-openai:latest"
+  },
+  "mode": "speculative",
+  "models": {
+    "target": "Qwen/Qwen2.5-1.5B-Instruct",
+    "draft": "Qwen/Qwen2.5-0.5B-Instruct",
+    "same_family": "qwen"
+  },
+  "benchmark": {
+    "init_elapsed_seconds": 126.198372896004,
+    "max_new_tokens": 96,
+    "warmup_runs": 1,
+    "repeats": 2,
+    "prompt_count": 3,
+    "spec_tokens": 3
+  },
+  "summary": {
+    "runs": 6,
+    "elapsed_seconds": {
+      "min": 1.1687671830295585,
+      "median": 1.3170339860080276,
+      "mean": 1.3290505166708801,
+      "max": 1.51890895399265
+    },
+    "tokens_per_second": {
+      "min": 63.20326162252945,
+      "median": 72.8930242015568,
+      "mean": 72.73522446263055,
+      "max": 82.13782983806804
+    },
+    "output_tokens": {
+      "min": 96,
+      "median": 96.0,
+      "mean": 96,
+      "max": 96
+    }
+  },
+  "runs": [
+    {
+      "prompt_index": 0,
+      "repeat_index": 0,
+      "elapsed_seconds": 1.2470597379724495,
+      "output_tokens": 96,
+      "tokens_per_second": 76.98107562680438
+    },
+    {
+      "prompt_index": 1,
+      "repeat_index": 0,
+      "elapsed_seconds": 1.51890895399265,
+      "output_tokens": 96,
+      "tokens_per_second": 63.20326162252945
+    },
+    {
+      "prompt_index": 2,
+      "repeat_index": 0,
+      "elapsed_seconds": 1.4054992530145682,
+      "output_tokens": 96,
+      "tokens_per_second": 68.30313128526788
+    },
+    {
+      "prompt_index": 0,
+      "repeat_index": 1,
+      "elapsed_seconds": 1.3101929239928722,
+      "output_tokens": 96,
+      "tokens_per_second": 73.27165201551819
+    },
+    {
+      "prompt_index": 1,
+      "repeat_index": 1,
+      "elapsed_seconds": 1.323875048023183,
+      "output_tokens": 96,
+      "tokens_per_second": 72.51439638759541
+    },
+    {
+      "prompt_index": 2,
+      "repeat_index": 1,
+      "elapsed_seconds": 1.1687671830295585,
+      "output_tokens": 96,
+      "tokens_per_second": 82.13782983806804
+    }
+  ],
+  "speculative_metrics": {
+    "num_drafts": 204,
+    "num_draft_tokens": 612,
+    "num_accepted_tokens": 378,
+    "num_accepted_tokens_per_pos": [
+      156,
+      120,
+      102
+    ],
+    "draft_acceptance_rate": 0.6176470588235294,
+    "mean_acceptance_length_including_bonus": 2.8529411764705883
+  },
+  "warmup_speculative_metrics": {
+    "num_drafts": 34,
+    "num_draft_tokens": 102,
+    "num_accepted_tokens": 64,
+    "num_accepted_tokens_per_pos": [
+      26,
+      21,
+      17
+    ],
+    "draft_acceptance_rate": 0.6274509803921569,
+    "mean_acceptance_length_including_bonus": 2.8823529411764706
+  },
+  "cumulative_speculative_metrics": {
+    "num_drafts": 238,
+    "num_draft_tokens": 714,
+    "num_accepted_tokens": 442,
+    "num_accepted_tokens_per_pos": [
+      182,
+      141,
+      119
+    ],
+    "draft_acceptance_rate": 0.6190476190476191,
+    "mean_acceptance_length_including_bonus": 2.857142857142857
+  },
+  "raw_speculative_metrics": [
+    {
+      "name": "vllm:spec_decode_num_drafts",
+      "labels": {
+        "model_name": "/root/.cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+        "engine": "0"
+      },
+      "type": "Counter",
+      "value": 238
+    },
+    {
+      "name": "vllm:spec_decode_num_draft_tokens",
+      "labels": {
+        "model_name": "/root/.cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+        "engine": "0"
+      },
+      "type": "Counter",
+      "value": 714
+    },
+    {
+      "name": "vllm:spec_decode_num_accepted_tokens",
+      "labels": {
+        "model_name": "/root/.cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+        "engine": "0"
+      },
+      "type": "Counter",
+      "value": 442
+    },
+    {
+      "name": "vllm:spec_decode_num_accepted_tokens_per_pos",
+      "labels": {
+        "engine": "0",
+        "model_name": "/root/.cache/huggingface/hub/models--Qwen--Qwen2.5-1.5B-Instruct/snapshots/989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+      },
+      "type": "Vector",
+      "values": [
+        182,
+        141,
+        119
+      ]
+    }
+  ],
+  "claims": {
+    "proves_vllm_generation": true,
+    "proves_vllm_speculative_mode": true,
+    "speculative_counters_exposed": true,
+    "proves_dspark_backend": false
+  }
+}

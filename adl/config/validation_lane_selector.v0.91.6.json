@@ -961,6 +961,27 @@
       "reason": "rust_dependency_cache_warmup_surface_requires_python_shell_and_runner_contract_checks"
     },
     {
+      "id": "provider_benchmark_helper_syntax",
+      "lane_class": "provider",
+      "default_surface": "provider",
+      "owner": "provider",
+      "proof_role": "provider_benchmark_helper_syntax",
+      "requirement_ids": [
+        "provider_benchmark_helper_syntax"
+      ],
+      "path_selectors": [
+        "adl/tools/native_qwen_assisted_generation_benchmark.py",
+        "adl/tools/vllm_qwen_speculative_decoding_benchmark.py"
+      ],
+      "path_hints": [
+        "adl/tools/native_qwen_assisted_generation_benchmark.py",
+        "adl/tools/vllm_qwen_speculative_decoding_benchmark.py"
+      ],
+      "command": "python3 -m py_compile adl/tools/native_qwen_assisted_generation_benchmark.py adl/tools/vllm_qwen_speculative_decoding_benchmark.py",
+      "run_command": "python3 -m py_compile adl/tools/native_qwen_assisted_generation_benchmark.py adl/tools/vllm_qwen_speculative_decoding_benchmark.py",
+      "reason": "provider_benchmark_helper_surface_requires_python_syntax_check"
+    },
+    {
       "id": "docs_diff_check",
       "lane_class": "docs",
       "default_surface": "docs",
