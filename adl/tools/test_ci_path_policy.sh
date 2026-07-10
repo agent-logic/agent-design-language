@@ -83,6 +83,8 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'Stable required check \`adl-ci\` is an aggregator over parallel lanes.'
   assert_file_has "$workflow" 'Full workspace coverage gate deferred for PR'
   assert_file_has "$workflow" 'adl/target/coverage-impact-summary.json'
+  assert_file_has "$ROOT_DIR/adl/tools/run_pr_fast_coverage_lane.sh" '--output-path target/coverage-impact-summary.json'
+  assert_file_has "$ROOT_DIR/adl/tools/run_pr_fast_coverage_lane.sh" 'cp target/coverage-impact-summary.json coverage-summary.json'
   assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
 }
 
