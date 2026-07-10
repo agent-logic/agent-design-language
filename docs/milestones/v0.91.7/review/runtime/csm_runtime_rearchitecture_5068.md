@@ -7,13 +7,13 @@ Issue: `#5068 [v0.91.7][WP-07][runtime] Rearchitect CSM runtime around proven Ru
 CSM should look like a durable Vector-like Tokio component topology:
 
 - one CSM-owned Tokio runtime for in-process services
-- one main orchestration task
-- supervised component futures for API, Chronosense, scheduler, reasoning/loop execution, AEE execution, checkpointing, observability emission, cloud control, and lifecycle journaling
+- one CSM executive task
+- supervised component sets for communications, time/scheduling, cognition/governance, security, operations/continuity, and observability
 - CSM-managed runtime components for infrastructure-grade services such as the Vector observability pipeline
 - explicit cancellation and governed stop, not hidden request/cycle budgets
 - retained component health surfaced through `/status`, `/health`, `/ready`, `/metrics`, `/events`, `/chronosense`, and `/api-gateway-bridge`
 
-This mirrors the proven component pipeline model used by Vector: a Tokio core event loop drives a main task, which coordinates many component futures. CSM should use that architecture for runtime internals, and Vector should be a CSM-managed runtime observability component for high-volume pipeline mechanics.
+This mirrors the proven component pipeline model used by Vector: a Tokio core event loop drives a main task, which coordinates component groups through typed channels. CSM should use that architecture for runtime internals, while keeping detailed runtime services inside reviewable thematic component sets rather than spreading every service across the top-level diagram. Vector should be a CSM-managed runtime observability component for high-volume pipeline mechanics.
 
 ## CSM Component Topology
 
@@ -21,37 +21,35 @@ Downloadable diagram artifacts:
 
 - Mermaid source: `docs/milestones/v0.91.7/review/runtime/csm_runtime_topology_5068.mmd`
 - Rendered SVG: `docs/milestones/v0.91.7/review/runtime/csm_runtime_topology_5068.svg`
+- Rendered PNG: `docs/milestones/v0.91.7/review/runtime/csm_runtime_topology_5068.png`
+- Detailed governance/operational companion PNG: `docs/milestones/v0.91.7/review/runtime/csm_runtime_governance_operational_view_5068.png`
+
+The primary topology diagram intentionally stays close to Vector's instantly-readable runtime model: one asynchronous runtime, one executive task, one supervised future set, one typed channel layer, and peer component futures. The companion governance/operational view is retained as a richer view of the constitutional plane, operational plane, and evidence/external-integration plane.
 
 ```mermaid
 flowchart TD
   tokio["Tokio core event loop"]
-  main["CSM main orchestration task"]
-  supervisor["futures / JoinSet / supervised component set"]
+  main["CSM executive"]
+  supervisor["futures::JoinSet<br/>supervised component groups"]
   bus["typed runtime channels<br/>backpressure + health + lifecycle"]
 
   tokio --> main --> supervisor --> bus
 
-  subgraph components["Runtime components"]
+  subgraph groups["Component futures"]
     direction LR
-    api["runtime_api<br/>Axum / Tower / Hyper<br/>127.0.0.1:19997"]
-    chronosense["chronosense<br/>rsntp async time source"]
-    scheduler["scheduler<br/>cadence + admission"]
-    reasoning["reasoning_runtime<br/>graphs + loops + adaptive DAGs"]
-    aee["AEE<br/>governed execution"]
-    checkpoint["checkpoint<br/>partials + continuity"]
-    cloud["cloud_bridge<br/>API Gateway / EventBridge / AWS SDK"]
-    lifelog["lifelog<br/>database lifecycle journal"]
-    observability["observability<br/>CSM-managed Vector component"]
+    communications["Communications<br/>runtime_api<br/>acip_carrier<br/>cloud_bridge"]
+    temporal["Time + scheduling<br/>chronosense<br/>scheduler"]
+    cognition["Cognition + governance<br/>reasoning_runtime<br/>curiosity_engine<br/>constructability_gate<br/>freedom_gate<br/>AEE"]
+    security["Security<br/>CAV<br/>authn/authz<br/>policy gates"]
+    operations["Operations<br/>checkpoint<br/>lifelog<br/>safe-fail serialization"]
+    observability["Observability<br/>CSM-managed Vector<br/>OTel + metrics + logs"]
   end
 
-  bus --> api
-  bus --> chronosense
-  bus --> scheduler
-  bus --> reasoning
-  bus --> aee
-  bus --> checkpoint
-  bus --> cloud
-  bus --> lifelog
+  bus --> communications
+  bus --> temporal
+  bus --> cognition
+  bus --> security
+  bus --> operations
   bus --> observability
 
   subgraph sinks["Retained evidence and external routes"]
@@ -64,8 +62,8 @@ flowchart TD
 
   observability --> cloudwatch
   observability --> otel
-  lifelog --> storage
-  cloud --> notices
+  operations --> storage
+  communications --> notices
 ```
 
 | CSM component | Runtime role | Target mechanics |
@@ -74,8 +72,13 @@ flowchart TD
 | `chronosense` | runtime clock and time-confidence service | in-process async rsntp sampler plus Chronosense status channel |
 | `scheduler` | cadence, admission, and work readiness | supervised Tokio component with explicit health and backpressure |
 | `reasoning_runtime` | native reasoning graph, loop, and adaptive DAG execution substrate | supervised component for governed reasoning objects before AEE execution |
+| `curiosity_engine` | governed discovery-cycle substrate | supervised component that turns bounded curiosity prompts and context seeds into candidate hypotheses/proposals with retained evidence |
+| `constructability_gate` | shared-reality admissibility boundary | supervised component that validates construction events, external anchors, and promotion from provisional/internal cognition to shared ADL reality |
+| `freedom_gate` | commitment mediation, refusal, deferral, challenge, and escalation boundary before execution | supervised component that consumes candidate actions plus ACC/policy context and emits retained gate decisions before AEE |
 | `aee` | governed execution stage | supervised component with resilience middleware and retained outcomes |
 | `checkpoint` | partial snapshots and continuity artifacts | agent-owned schedule, request channel, atomic persistence, and backpressure |
+| `acip_carrier` | governed ACIP/A2A runtime transport | runtime-owned JSON/protobuf/WebSocket carrier surface with explicit mode, authorization, projection, and failure behavior |
+| `CAV` | continuous adversarial verification and security readiness | runtime component for red/blue probes, malformed-input checks, gate pressure, and readiness degradation |
 | `cloud_bridge` | AWS API Gateway/EventBridge/CloudWatch/SNS/SQS integration | SDK-backed runtime/cloud component, not shell-driven scripts |
 | `observability` | high-volume logs, metrics, OTel, redaction, routing | CSM-managed Vector component in the runtime topology |
 | `lifelog` | lifecycle event journal | database-backed append-only component |
