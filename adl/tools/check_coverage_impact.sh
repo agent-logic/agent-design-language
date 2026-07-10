@@ -224,6 +224,9 @@ candidate_filter_for_path() {
     adl/src/cli/tooling_cmd/markdown.rs)
       printf 'markdown'
       ;;
+    adl/src/csdlc_prompt_editor.rs)
+      printf 'csdlc_prompt_editor'
+      ;;
     adl/src/trace_schema_v1.rs)
       printf 'trace_schema_v1'
       ;;
