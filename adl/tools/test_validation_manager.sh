@@ -618,6 +618,63 @@ assert profile["escalation"]["required"] is False
 assert profile["diagnostics"] == []
 PY
 
+csm_binary_availability="$TMP/csm-binary-availability.txt"
+cat >"$csm_binary_availability" <<'EOF'
+M	adl/src/cli/csm_service_cmd.rs
+M	adl/src/csm_runtime_api.rs
+M	adl/tools/csm_binary_availability.sh
+M	adl/tools/demo_d11_signed_remote.sh
+M	adl/tools/demo_smoke_v07_story.sh
+M	adl/tools/ensure_csm_binary.sh
+M	adl/tools/install_owner_binaries.sh
+M	adl/tools/owner_binary_resolution.sh
+M	adl/tools/run_owner_validation_lane.sh
+M	adl/tools/run_v0917_csm_continuity_capsule_4910_proof.sh
+M	adl/tools/run_v0917_csm_otlp_4904_proof.sh
+M	adl/tools/run_v0917_no_sparrow_4909_proof.sh
+M	adl/tools/run_wp08_acip_sns_live_proof.sh
+M	adl/tools/run_wp08_aws_signal_integration_live_proof.sh
+M	adl/tools/run_wp08_cloudfront_control_proof.sh
+M	adl/tools/run_wp08_heartbeat_live_proof.sh
+M	adl/tools/run_wp08_polis_storage_live_proof.sh
+M	adl/tools/test_ensure_csm_binary.sh
+M	adl/tools/test_owner_binary_install.sh
+M	adl/tools/test_owner_validation_lane.sh
+M	adl/tools/test_run_wp08_aws_signal_integration_live_proof.sh
+M	docs/milestones/v0.91.7/review/runtime/csm_binary_availability_4977/README.md
+M	docs/milestones/v0.91.7/review/runtime/csm_binary_availability_4977/restoration.json
+M	docs/tooling/C_SDLC_RESCUE_SPRINT_OPERATING_CONTRACT.md
+M	docs/tooling/RUNTIME_AWS_HEARTBEAT.md
+EOF
+bash "$SCRIPT" --changed-files "$csm_binary_availability" --json >"$TMP/csm-binary-availability.json"
+python3 - <<'PY' "$TMP/csm-binary-availability.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1"
+assert profile["status"] == "ready_to_run"
+assert profile["pr_publication_sufficient"] is True
+assert profile["escalation"]["required"] is False
+assert len(profile["run"]) == 12
+assert not any(
+    diagnostic["code"] in {"unmapped_change_surface", "selected_lane_threshold_exceeded"}
+    for diagnostic in profile["diagnostics"]
+)
+lanes = {item["lane_id"]: item for item in profile["run"]}
+owner_paths = lanes["csdlc_owner_lane"]["matched_paths"]
+for path in [
+    "adl/tools/csm_binary_availability.sh",
+    "adl/tools/demo_d11_signed_remote.sh",
+    "adl/tools/demo_smoke_v07_story.sh",
+    "adl/tools/ensure_csm_binary.sh",
+    "adl/tools/test_ensure_csm_binary.sh",
+]:
+    assert path in owner_paths
+assert "adl/src/cli/csm_service_cmd.rs" in lanes["rust_pr_fast"]["matched_paths"]
+assert "adl/src/csm_runtime_api.rs" in lanes["rust_pr_fast"]["matched_paths"]
+PY
+
 owner_mix="$TMP/owner-mix.txt"
 printf 'M\tadl/tools/pr.sh\nM\tadl/src/bin/adl_runtime.rs\n' >"$owner_mix"
 bash "$SCRIPT" --changed-files "$owner_mix" --json >"$TMP/owner-mix.json"

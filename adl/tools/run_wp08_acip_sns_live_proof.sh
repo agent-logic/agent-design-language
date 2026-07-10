@@ -30,7 +30,13 @@ PROFILE="${ADL_AWS_PROFILE:-agent-logic-admin}"
 REGION="${ADL_AWS_REGION:-us-west-2}"
 RUN_ID="wp08-4685-$(date -u +%Y%m%dT%H%M%SZ)"
 TOPIC_NAME="${ADL_AWS_SNS_TOPIC_NAME:-adl-v0917-wp08-acip-sns-4685}"
-PROOF_BIN="${ADL_ACIP_SNS_PROOF_BIN:-adl/target/debug/csm}"
+if [ -n "${ADL_ACIP_SNS_PROOF_BIN:-}" ]; then
+  PROOF_BIN="$ADL_ACIP_SNS_PROOF_BIN"
+  PROOF_BIN_EXPLICIT=1
+else
+  PROOF_BIN="adl/target/debug/csm"
+  PROOF_BIN_EXPLICIT=0
+fi
 EXPECTED_ACCOUNT_SHA256="${ADL_AWS_ACIP_SNS_ACCOUNT_SHA256:-}"
 CLEANUP=0
 TOPIC_ARN=""
@@ -71,6 +77,7 @@ while [ "$#" -gt 0 ]; do
       ;;
     --proof-bin)
       PROOF_BIN="${2:?--proof-bin requires a value}"
+      PROOF_BIN_EXPLICIT=1
       shift
       ;;
     --expected-account-sha256)
@@ -104,13 +111,18 @@ if ! command -v "$AWS_BIN" >/dev/null 2>&1; then
   echo "aws CLI not found; set AWS_BIN or install aws CLI" >&2
   exit 2
 fi
-if [ ! -x "$PROOF_BIN" ]; then
-  echo "ACIP SNS proof command not executable: $PROOF_BIN" >&2
-  echo "build or point ADL_ACIP_SNS_PROOF_BIN/--proof-bin at the repo-owned csm binary" >&2
-  exit 2
-fi
 
 mkdir -p "$OUT"
+# shellcheck source=adl/tools/csm_binary_availability.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/csm_binary_availability.sh"
+if [ "$PROOF_BIN_EXPLICIT" -eq 1 ] && [ "$(basename "$PROOF_BIN")" != "csm" ]; then
+  if [ ! -x "$PROOF_BIN" ]; then
+    echo "explicit ACIP/SNS proof binary is not executable: $PROOF_BIN" >&2
+    exit 2
+  fi
+else
+  PROOF_BIN="$(adl_resolve_csm_binary "$PROOF_BIN" "$OUT/csm_binary_availability.json")"
+fi
 SUMMARY="$OUT/acip_sns_summary.json"
 RESOURCE_SUMMARY="$OUT/sns_resource_summary.json"
 rm -f "$SUMMARY" "$RESOURCE_SUMMARY"

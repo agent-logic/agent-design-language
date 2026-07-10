@@ -10,11 +10,6 @@ case "$OUT" in
   *) OUT="$PWD/$OUT" ;;
 esac
 
-if [ ! -x "$CSM_BIN" ]; then
-  printf 'missing executable csm binary: %s\n' "$CSM_BIN" >&2
-  exit 1
-fi
-
 AWS_SUMMARY_TMP=""
 if [ -f "$OUT/aws_remote_restore_fireup_summary.json" ]; then
   AWS_SUMMARY_TMP="$(mktemp)"
@@ -23,6 +18,9 @@ fi
 
 rm -rf "$OUT"
 mkdir -p "$OUT/logs"
+# shellcheck source=adl/tools/csm_binary_availability.sh
+source "$ROOT/adl/tools/csm_binary_availability.sh"
+CSM_BIN="$(adl_resolve_csm_binary "$CSM_BIN" "$OUT/csm_binary_availability.json")"
 if [ -n "$AWS_SUMMARY_TMP" ]; then
   cp "$AWS_SUMMARY_TMP" "$OUT/aws_remote_restore_fireup_summary.json"
   rm -f "$AWS_SUMMARY_TMP"

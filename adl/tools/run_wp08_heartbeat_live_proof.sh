@@ -72,18 +72,17 @@ if [ -z "$OUT" ]; then
   exit 2
 fi
 
+mkdir -p "$OUT"
+# shellcheck source=adl/tools/csm_binary_availability.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/csm_binary_availability.sh"
+CSM_BIN="$(adl_resolve_csm_binary "$CSM_BIN" "$OUT/csm_binary_availability.json")"
+
 AWS_BIN="${AWS_BIN:-aws}"
 if ! command -v "$AWS_BIN" >/dev/null 2>&1; then
   echo "aws CLI not found; set AWS_BIN or install aws CLI" >&2
   exit 2
 fi
-if [ ! -x "$CSM_BIN" ]; then
-  echo "csm binary not executable: $CSM_BIN" >&2
-  echo "build or point ADL_CSM_BIN/--csm-bin at the repo-owned csm binary" >&2
-  exit 2
-fi
 
-mkdir -p "$OUT"
 LOG_GROUP="/adl/v0917/wp08/4684/runtime-heartbeat"
 LOG_STREAM="run-${RUN_ID//[^A-Za-z0-9_.-]/-}"
 SUMMARY="$OUT/live_heartbeat_summary.json"

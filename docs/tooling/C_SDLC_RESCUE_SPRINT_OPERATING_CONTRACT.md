@@ -121,6 +121,35 @@ If an owner binary is missing and fallback is disabled, fail closed and record
 the tooling bug or setup gap. Do not hide the failure behind ad hoc wrapper
 scripts.
 
+## CSM Runtime Owner Binary Availability
+
+`csm` is the runtime owner binary. Runtime liveness tests, daemon proofs,
+continuity capsules, AWS signal proofs, CloudWatch heartbeat proofs, and final
+runtime-coherence gates must not depend on incidental `target/` cache state.
+
+Before a runtime proof wrapper invokes `csm`, use the repo-native availability
+guard:
+
+```sh
+bash adl/tools/ensure_csm_binary.sh --json --out <proof-dir>/csm_binary_availability.json
+```
+
+The guard records source presence, selected binary path, provenance, action,
+and warm-cache status. It reuses a trusted executable when available and restores
+the binary with the repo-native `cargo build --manifest-path adl/Cargo.toml
+--bin csm` path only when the binary is missing or stale. It does not vendor
+compiled binaries into git and does not route runtime ownership back through
+the `adl` tooling binary.
+
+Runtime proof wrappers should source `adl/tools/csm_binary_availability.sh` and
+call `adl_resolve_csm_binary <requested-bin> <evidence-json>` so the retained
+proof packet shows whether the run reused or rebuilt `csm`.
+
+For bounded missing-binary restoration proofs that must not move or hide the
+primary checkout binary, set `ADL_CSM_BINARY_STRICT_REQUEST=1` with a fresh
+`CARGO_TARGET_DIR`. In that mode the guard considers only the requested or
+Cargo-target candidate and proves restoration there.
+
 ## Validation Posture
 
 Use the smallest proof that matches the changed surface:
