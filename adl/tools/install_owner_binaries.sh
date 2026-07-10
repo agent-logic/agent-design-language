@@ -6,6 +6,7 @@ MANIFEST="$ROOT_DIR/adl/Cargo.toml"
 STABLE_BIN_DIR="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}"
 SOURCE_BIN_DIR=""
 NO_BUILD=0
+EXPLICIT_BINS=0
 BINS=()
 
 usage() {
@@ -23,6 +24,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --bin)
       [[ $# -ge 2 ]] || { usage; exit 2; }
+      EXPLICIT_BINS=1
       BINS+=("$2")
       shift 2
       ;;
@@ -54,12 +56,14 @@ done
 
 if [[ "${#BINS[@]}" -eq 0 ]]; then
   BINS=(
-    adl csdlc adl-csdlc adl-runtime adl-review csm
+    adl csdlc adl-csdlc adl-runtime csm adl-review
+    adl-validate-structured-prompt adl-lint-prompt-spec adl-prompt-template
     adl-pr-create adl-pr-init adl-pr-repair-issue-body
     adl-pr-run adl-pr-doctor adl-pr-ready adl-pr-preflight
     adl-pr-finish adl-pr-validation adl-pr-inventory
-    adl-pr-closing-linkage adl-issue adl-pr-closeout
-    adl-session adl-process adl-prompt-template adl-validate-structured-prompt
+    adl-pr-shepherd adl-pr-closing-linkage adl-issue adl-pr-closeout
+    adl-session adl-process adl-remote adl-aws-remote-validation
+    adl-provider-adapter
   )
 fi
 
@@ -67,7 +71,7 @@ source_hash() {
   if git -C "$ROOT_DIR" rev-parse --show-toplevel >/dev/null 2>&1; then
     (
       cd "$ROOT_DIR"
-      git ls-files --cached --others --exclude-standard -- adl/Cargo.toml adl/Cargo.lock adl/build.rs adl/src |
+      git ls-files --cached --others --exclude-standard -- adl/Cargo.toml adl/Cargo.lock adl/build.rs adl/src adl/tools/adl_provider_adapter.rs |
         grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
         LC_ALL=C sort |
         while IFS= read -r path; do
@@ -81,7 +85,7 @@ source_hash() {
   fi
   (
     cd "$ROOT_DIR"
-    find adl -type f \( -path 'adl/src/*' -o -name Cargo.toml -o -name Cargo.lock -o -name build.rs \) -print 2>/dev/null |
+    find adl -type f \( -path 'adl/src/*' -o -path 'adl/tools/adl_provider_adapter.rs' -o -name Cargo.toml -o -name Cargo.lock -o -name build.rs \) -print 2>/dev/null |
       grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
       LC_ALL=C sort |
       while IFS= read -r path; do
@@ -124,10 +128,16 @@ fi
 
 mkdir -p "$STABLE_BIN_DIR/.provenance"
 
+MISSING_BINS=()
 for bin in "${BUILD_BINS[@]}"; do
   src="$SOURCE_BIN_DIR/$bin"
   dest="$STABLE_BIN_DIR/$bin"
   [[ -x "$src" ]] || {
+    if [[ "$NO_BUILD" == "1" && "$EXPLICIT_BINS" != "1" ]]; then
+      echo "owner-binary source missing; skipped in default --no-build install: $src" >&2
+      MISSING_BINS+=("$bin")
+      continue
+    fi
     echo "install_owner_binaries: missing built source binary: $src" >&2
     exit 1
   }
@@ -141,3 +151,8 @@ for bin in "${BUILD_BINS[@]}"; do
 EOF
   echo "owner-binary installed: $bin -> $dest"
 done
+
+if [[ "${#MISSING_BINS[@]}" -gt 0 ]]; then
+  echo "install_owner_binaries: incomplete default --no-build install; missing source binaries: ${MISSING_BINS[*]}" >&2
+  exit 1
+fi

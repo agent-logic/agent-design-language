@@ -57,7 +57,7 @@ adl_owner_source_hash() {
   if git -C "$root" rev-parse --show-toplevel >/dev/null 2>&1; then
     (
       cd "$root"
-      git ls-files --cached --others --exclude-standard -- adl/Cargo.toml adl/Cargo.lock adl/build.rs adl/src |
+      git ls-files --cached --others --exclude-standard -- adl/Cargo.toml adl/Cargo.lock adl/build.rs adl/src adl/tools/adl_provider_adapter.rs |
         grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
         LC_ALL=C sort |
         while IFS= read -r path; do
@@ -71,7 +71,7 @@ adl_owner_source_hash() {
   fi
   (
     cd "$root"
-    find adl -type f \( -path 'adl/src/*' -o -name Cargo.toml -o -name Cargo.lock -o -name build.rs \) -print 2>/dev/null |
+    find adl -type f \( -path 'adl/src/*' -o -path 'adl/tools/adl_provider_adapter.rs' -o -name Cargo.toml -o -name Cargo.lock -o -name build.rs \) -print 2>/dev/null |
       grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
       LC_ALL=C sort |
       while IFS= read -r path; do
