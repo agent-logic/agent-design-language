@@ -2,6 +2,7 @@ use crate::cli::runtime_v2_cmd::{
     commands::{
         cognitive_being_flagship_demo_stdout_line, contract_market_demo_stdout_line,
         feature_proof_coverage_stdout_line, governed_tools_flagship_demo_stdout_line,
+        reasoning_graph_stdout_line,
     },
     helpers::{real_runtime_v2, real_runtime_v2_in_repo},
 };
@@ -33,6 +34,8 @@ const RUNTIME_V2_CLI_REGRESSION_SMOKES: &[&str] = &[
     "cognitive-being-flagship-demo:arg-validation",
     "feature-proof-coverage:write-json",
     "feature-proof-coverage:arg-validation",
+    "reasoning-graph:write-json",
+    "reasoning-graph:arg-validation",
     "contract-market-demo:arg-validation",
     "governed-tools-flagship-demo:write-bundle",
     "governed-tools-flagship-demo:arg-validation",
@@ -111,7 +114,7 @@ fn trace_runtime_v2_dispatch_covers_help_and_subcommand_errors() {
     let err = real_runtime_v2_in_repo(&[], &repo).expect_err("missing subcommand should fail");
     assert!(err
             .to_string()
-            .contains("runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, or feature-proof-coverage"));
+            .contains("runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, or reasoning-graph"));
 
     let err = real_runtime_v2_in_repo(&["bogus".to_string()], &repo)
         .expect_err("unknown subcommand should fail");
@@ -911,6 +914,77 @@ fn trace_runtime_v2_feature_proof_coverage_validates_stdout_help_and_output_path
 }
 
 #[test]
+fn trace_runtime_v2_reasoning_graph_writes_packet_json() {
+    let repo = temp_repo("reasoning-graph");
+    let out_path = repo.join("out/reasoning-graph.json");
+
+    real_runtime_v2_in_repo(
+        &[
+            "reasoning-graph".to_string(),
+            "--out".to_string(),
+            "out/reasoning-graph.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect("reasoning graph");
+
+    let json: serde_json::Value =
+        serde_json::from_slice(&fs::read(&out_path).expect("reasoning graph packet should exist"))
+            .expect("valid json");
+    assert_eq!(json["schema_version"], "runtime_v2.reasoning_graph.v1");
+    assert_eq!(json["milestone"], "v0.91.7");
+    assert_eq!(json["wp"], "WP-11");
+    assert_eq!(json["graph"]["nodes"].as_array().expect("nodes").len(), 5);
+    assert_eq!(json["graph"]["edges"].as_array().expect("edges").len(), 4);
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[test]
+fn trace_runtime_v2_reasoning_graph_validates_stdout_help_and_output_path_rules() {
+    let repo = temp_repo("reasoning-graph-branches");
+
+    real_runtime_v2_in_repo(&["reasoning-graph".to_string()], &repo)
+        .expect("stdout reasoning graph packet");
+    real_runtime_v2_in_repo(
+        &["reasoning-graph".to_string(), "--help".to_string()],
+        &repo,
+    )
+    .expect("reasoning graph help");
+    let err = real_runtime_v2_in_repo(
+        &[
+            "reasoning-graph".to_string(),
+            "--out".to_string(),
+            repo.join("absolute/reasoning-graph.json")
+                .to_string_lossy()
+                .to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("absolute output path should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime-v2 reasoning-graph --out path must be repository-relative"));
+
+    let err = real_runtime_v2_in_repo(
+        &["reasoning-graph".to_string(), "--bogus".to_string()],
+        &repo,
+    )
+    .expect_err("unknown arg should fail");
+    assert!(err
+        .to_string()
+        .contains("unknown arg for runtime-v2 reasoning-graph: --bogus"));
+
+    let err = real_runtime_v2_in_repo(&["reasoning-graph".to_string(), "--out".to_string()], &repo)
+        .expect_err("missing out value should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime-v2 reasoning-graph requires --out <path>"));
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[test]
 fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_registry() {
     let proof_surfaces: &[fn()] = &[
         trace_runtime_v2_operator_controls_writes_report_json,
@@ -933,6 +1007,8 @@ fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_r
         trace_runtime_v2_cognitive_being_flagship_demo_validates_help_and_output_path_rules,
         trace_runtime_v2_feature_proof_coverage_writes_packet_json,
         trace_runtime_v2_feature_proof_coverage_validates_stdout_help_and_output_path_rules,
+        trace_runtime_v2_reasoning_graph_writes_packet_json,
+        trace_runtime_v2_reasoning_graph_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_contract_market_demo_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_governed_tools_flagship_demo_writes_proof_bundle,
         trace_runtime_v2_governed_tools_flagship_demo_validates_stdout_help_and_output_path_rules,
@@ -957,6 +1033,9 @@ fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_r
     assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
         .iter()
         .any(|smoke| smoke.starts_with("feature-proof-coverage:")));
+    assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
+        .iter()
+        .any(|smoke| smoke.starts_with("reasoning-graph:")));
     assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
         .iter()
         .any(|smoke| smoke.starts_with("contract-market-demo:")));
@@ -1153,6 +1232,20 @@ fn trace_runtime_v2_demo_stdout_lines_preserve_requested_relative_paths() {
     assert!(
         !d13_stdout.contains(&cwd),
         "D13 stdout should not expose absolute repo root:\n{d13_stdout}"
+    );
+
+    let reasoning_graph_file = rel_root.join("reasoning-graph.json");
+    let reasoning_graph_stdout = reasoning_graph_stdout_line(&reasoning_graph_file);
+    assert_eq!(
+        reasoning_graph_stdout,
+        format!(
+            "RUNTIME_V2_REASONING_GRAPH_PATH={}",
+            reasoning_graph_file.display()
+        )
+    );
+    assert!(
+        !reasoning_graph_stdout.contains(&cwd),
+        "reasoning graph stdout should not expose absolute repo root:\n{reasoning_graph_stdout}"
     );
 
     let d13_flagship_stdout = cognitive_being_flagship_demo_stdout_line(&rel_root);

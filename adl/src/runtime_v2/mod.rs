@@ -59,6 +59,7 @@ mod private_state_sanctuary;
 mod private_state_sealing;
 mod private_state_witness;
 mod quarantine;
+mod reasoning_graph;
 mod recovery;
 mod resource_stewardship_bridge;
 mod runtime_inhabitant_integration;
@@ -184,6 +185,8 @@ pub use private_state_sealing::*;
 pub use private_state_witness::*;
 #[allow(unused_imports)]
 pub use quarantine::*;
+#[allow(unused_imports)]
+pub use reasoning_graph::*;
 #[allow(unused_imports)]
 pub use recovery::*;
 #[allow(unused_imports)]
