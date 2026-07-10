@@ -28,10 +28,8 @@ pub const RUNTIME_V2_AEE_OBSMEM_PVF_TRACE_MANIFEST: &str =
     "issue_4697/aee_obsmem_pvf_trace_manifest.json";
 pub const RUNTIME_V2_AEE_OBSMEM_PVF_MEMORY_WRITE: &str =
     "issue_4697/obsmem_memory_write_request.json";
-pub const RUNTIME_V2_AEE_OBSMEM_PVF_MEMORY_ACK: &str =
-    "issue_4697/obsmem_memory_write_ack.json";
-pub const RUNTIME_V2_AEE_OBSMEM_PVF_RETRIEVAL: &str =
-    "issue_4697/obsmem_retrieval_result.json";
+pub const RUNTIME_V2_AEE_OBSMEM_PVF_MEMORY_ACK: &str = "issue_4697/obsmem_memory_write_ack.json";
+pub const RUNTIME_V2_AEE_OBSMEM_PVF_RETRIEVAL: &str = "issue_4697/obsmem_retrieval_result.json";
 pub const RUNTIME_V2_AEE_OBSMEM_PVF_STORE: &str = "issue_4697/obsmem_store.v1.json";
 pub const RUNTIME_V2_AEE_OBSMEM_PVF_ACTIVATION_LOG: &str =
     "artifacts/runtime-v2-aee-obsmem-pvf-handoff/logs/activation_log.json";
@@ -240,7 +238,11 @@ impl RuntimeV2AeeObsMemPvfTraceHandoffPacket {
             RUNTIME_V2_AEE_OBSMEM_PVF_RETRIEVAL,
             RUNTIME_V2_AEE_OBSMEM_PVF_STORE,
         ] {
-            if !self.retained_evidence_refs.iter().any(|value| value == required) {
+            if !self
+                .retained_evidence_refs
+                .iter()
+                .any(|value| value == required)
+            {
                 return Err(anyhow!(
                     "AEE ObsMem PVF handoff missing retained evidence ref '{required}'"
                 ));
@@ -326,15 +328,15 @@ impl RuntimeV2AeeObsMemPvfMaterializedSummary {
             return Err(anyhow!("AEE ObsMem memory write was not accepted"));
         }
         if self.retrieval.hits.len() != 1 {
-            return Err(anyhow!("AEE ObsMem retrieval must produce one retained hit"));
+            return Err(anyhow!(
+                "AEE ObsMem retrieval must produce one retained hit"
+            ));
         }
         Ok(())
     }
 }
 
-pub fn write_runtime_trace_and_manifest(
-    root: &Path,
-) -> Result<RuntimeV2AeeObsMemPvfTraceManifest> {
+pub fn write_runtime_trace_and_manifest(root: &Path) -> Result<RuntimeV2AeeObsMemPvfTraceManifest> {
     let mut governed_trace = trace::Trace::new(
         TRACE_RUN_ID.to_string(),
         HANDOFF_WORKFLOW_ID.to_string(),
@@ -350,7 +352,10 @@ pub fn write_runtime_trace_and_manifest(
         artifacts::RunArtifactPaths::for_run_in_root(TRACE_RUN_ID, root.join("artifacts"))?;
     run_paths.ensure_layout()?;
     run_paths.write_model_marker()?;
-    instrumentation::write_trace_artifact(&run_paths.activation_log_json(), &governed_trace.events)?;
+    instrumentation::write_trace_artifact(
+        &run_paths.activation_log_json(),
+        &governed_trace.events,
+    )?;
 
     let trace_refs = retained_trace_refs(&run_paths.activation_log_json())?;
     let manifest = RuntimeV2AeeObsMemPvfTraceManifest {
@@ -359,8 +364,9 @@ pub fn write_runtime_trace_and_manifest(
         run_id: HANDOFF_RUN_ID.to_string(),
         workflow_id: HANDOFF_WORKFLOW_ID.to_string(),
         activation_log_ref: RUNTIME_V2_AEE_OBSMEM_PVF_ACTIVATION_LOG.to_string(),
-        aee_boundary: "AEE observes governed runtime outcome and records bounded adaptation context"
-            .to_string(),
+        aee_boundary:
+            "AEE observes governed runtime outcome and records bounded adaptation context"
+                .to_string(),
         obsmem_boundary: "ObsMem adapter receives a validated MemoryWriteRequest with trace refs"
             .to_string(),
         pvf_lane: "runtime".to_string(),

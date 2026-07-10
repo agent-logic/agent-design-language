@@ -10,11 +10,11 @@ use crate::cli::usage;
 use ::adl::{
     long_lived_agent::{self, RunOptions},
     runtime_v2::{
+        runtime_v2_aee_obsmem_pvf_trace_handoff_contract,
         runtime_v2_cognitive_being_flagship_demo_contract,
         runtime_v2_contract_market_demo_contract, runtime_v2_csm_integrated_run_contract,
         runtime_v2_feature_proof_coverage_contract, runtime_v2_foundation_demo_contract,
         runtime_v2_governed_tools_flagship_demo_contract,
-        runtime_v2_aee_obsmem_pvf_trace_handoff_contract,
         runtime_v2_minimal_integrated_runtime_path_contract,
         runtime_v2_observatory_flagship_contract, runtime_v2_operator_control_report_contract,
         runtime_v2_reasoning_graph_contract, runtime_v2_security_boundary_proof_contract,

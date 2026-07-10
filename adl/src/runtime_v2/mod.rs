@@ -6,8 +6,8 @@
 
 mod a2a_adapter_boundary;
 mod access_control;
-mod aee_obsmem_pvf_trace_handoff;
 mod acip_hardening;
+mod aee_obsmem_pvf_trace_handoff;
 mod affect_reasoning_control;
 mod agent_lifecycle_state;
 mod anti_harm_trajectory_constraints;
@@ -82,9 +82,9 @@ pub use a2a_adapter_boundary::*;
 #[allow(unused_imports)]
 pub use access_control::*;
 #[allow(unused_imports)]
-pub use aee_obsmem_pvf_trace_handoff::*;
-#[allow(unused_imports)]
 pub use acip_hardening::*;
+#[allow(unused_imports)]
+pub use aee_obsmem_pvf_trace_handoff::*;
 #[allow(unused_imports)]
 pub use affect_reasoning_control::*;
 pub use agent_lifecycle_state::*;

@@ -1,8 +1,6 @@
 use super::*;
 
-#[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 use crate::runtime_v2::tests::common::unique_temp_path;
-#[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 use std::fs;
 
 #[test]
@@ -55,7 +53,6 @@ fn runtime_v2_aee_obsmem_pvf_trace_handoff_rejects_scope_drift() {
         .contains("obsmem_retrieval_result"));
 }
 
-#[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 #[test]
 fn runtime_v2_aee_obsmem_pvf_trace_handoff_writes_retained_evidence() {
     let temp_root = unique_temp_path("aee-obsmem-pvf-handoff");
@@ -73,15 +70,13 @@ fn runtime_v2_aee_obsmem_pvf_trace_handoff_writes_retained_evidence() {
         );
     }
 
-    let write_text =
-        fs::read_to_string(temp_root.join(RUNTIME_V2_AEE_OBSMEM_PVF_MEMORY_WRITE))
-            .expect("memory write text");
+    let write_text = fs::read_to_string(temp_root.join(RUNTIME_V2_AEE_OBSMEM_PVF_MEMORY_WRITE))
+        .expect("memory write text");
     assert!(write_text.contains("issue:4697"));
     assert!(write_text.contains("pvf:runtime"));
 
-    let retrieval_text =
-        fs::read_to_string(temp_root.join(RUNTIME_V2_AEE_OBSMEM_PVF_RETRIEVAL))
-            .expect("retrieval text");
+    let retrieval_text = fs::read_to_string(temp_root.join(RUNTIME_V2_AEE_OBSMEM_PVF_RETRIEVAL))
+        .expect("retrieval text");
     assert!(retrieval_text.contains("AEE observed the governed Runtime v2 action"));
     assert!(!retrieval_text.contains(temp_root.to_string_lossy().as_ref()));
 

@@ -4,9 +4,9 @@ use super::*;
 mod a2a_adapter_boundary;
 #[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-security"))]
 mod access_control;
-mod aee_obsmem_pvf_trace_handoff;
 #[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-security"))]
 mod acip_hardening;
+mod aee_obsmem_pvf_trace_handoff;
 mod affect_reasoning_control;
 mod agent_lifecycle_state;
 mod anti_harm_trajectory_constraints;
