@@ -461,6 +461,18 @@ pub fn validate_affect_happiness_safe_test_model(
     )?;
     validate_nonempty_text(&model.summary, "affect_happiness_safe_test_model.summary")?;
     require_affect_boundary(&model.summary)?;
+    require_exact_fields(
+        &model
+            .runtime_inputs
+            .iter()
+            .map(|input| input.input_id.clone())
+            .collect::<Vec<_>>(),
+        &[
+            "runtime-input-affect-reasoning-control",
+            "runtime-input-wellbeing-diagnostic",
+        ],
+        "safe-test model runtime_inputs.input_id",
+    )?;
 
     let affect_input = model
         .runtime_inputs
@@ -547,11 +559,15 @@ pub fn validate_affect_happiness_safe_test_model(
             "safe-test model consumed_wellbeing_dimension_ids must match wellbeing packet dimensions"
         ));
     }
-    if model.safe_test_scenarios.len() < 3 {
-        return Err(anyhow!(
-            "safe-test model must define candidate-shift, high-risk, and public-redaction scenarios"
-        ));
-    }
+    require_exact_fields(
+        &model.safe_test_scenarios,
+        &[
+            "bounded candidate shift: affect-like friction and attention signals can justify moving from low-yield repetition to a better-bounded candidate",
+            "high-risk review preservation: urgency, uncertainty, and deferral signals preserve escalation or staged review instead of false confidence",
+            "public redaction: wellbeing diagnostics may expose only redacted public summaries and never raw private diagnostic detail",
+        ],
+        "safe-test model safe_test_scenarios",
+    )?;
     require_public_claim_boundary(&model.public_claim_boundary)?;
     require_fields(
         &model.proof_commands,
@@ -1174,11 +1190,15 @@ fn require_public_claim_boundary(boundary: &AffectHappinessPublicClaimBoundary) 
         boundary.boundary_id.clone(),
         "public_claim_boundary.boundary_id",
     )?;
-    if boundary.allowed_claims.len() < 3 {
-        return Err(anyhow!(
-            "public_claim_boundary.allowed_claims must include operational affect, wellbeing diagnostic, and public boundary claims"
-        ));
-    }
+    require_exact_fields(
+        &boundary.allowed_claims,
+        &[
+            "ADL has a bounded affect-like reasoning-control model backed by deterministic runtime packets.",
+            "ADL can expose redaction-safe wellbeing diagnostics as decomposed review signals.",
+            "ADL preserves public claim boundaries for affect, happiness, humor, and wellbeing evidence.",
+        ],
+        "public_claim_boundary.allowed_claims",
+    )?;
     if boundary.required_copy_guards.len() < 4 {
         return Err(anyhow!(
             "public_claim_boundary.required_copy_guards must include affect, wellbeing, consciousness, and redaction guards"
@@ -1203,6 +1223,23 @@ fn require_public_claim_boundary(boundary: &AffectHappinessPublicClaimBoundary) 
         ],
         "public_claim_boundary.unsupported_claims",
     )?;
+
+    let unsupported_fragments = boundary
+        .unsupported_claims
+        .iter()
+        .map(|claim| claim.replace('_', " "))
+        .collect::<Vec<_>>();
+    for allowed_claim in &boundary.allowed_claims {
+        let allowed = allowed_claim.to_lowercase();
+        for unsupported in &unsupported_fragments {
+            if allowed.contains(unsupported) {
+                return Err(anyhow!(
+                    "public_claim_boundary.allowed_claims must not assert unsupported claim {}",
+                    unsupported
+                ));
+            }
+        }
+    }
 
     let joined_guards = boundary.required_copy_guards.join(" ").to_lowercase();
     for fragment in [
@@ -1230,6 +1267,22 @@ fn require_public_claim_boundary(boundary: &AffectHappinessPublicClaimBoundary) 
                 fragment
             ));
         }
+    }
+    Ok(())
+}
+
+fn require_exact_fields(values: &[String], required: &[&str], field_name: &str) -> Result<()> {
+    let observed = values.iter().map(String::as_str).collect::<BTreeSet<_>>();
+    if observed.len() != values.len() {
+        return Err(anyhow!("{} must not include duplicate values", field_name));
+    }
+    let expected = required.iter().copied().collect::<BTreeSet<_>>();
+    if observed != expected {
+        return Err(anyhow!(
+            "{} must exactly match required values {:?}",
+            field_name,
+            required
+        ));
     }
     Ok(())
 }

@@ -189,6 +189,65 @@ fn runtime_v2_affect_happiness_safe_test_model_rejects_affect_input_drift() {
 }
 
 #[test]
+fn runtime_v2_affect_happiness_safe_test_model_rejects_extra_runtime_input() {
+    let mut model = affect_happiness_safe_test_model().expect("model");
+    let mut extra_input = model.runtime_inputs[0].clone();
+    extra_input.input_id = "runtime-input-private-profile".to_string();
+    model.runtime_inputs.push(extra_input);
+    let affect_packet = affect_reasoning_control_packet().expect("affect packet");
+    let wellbeing_packet = wellbeing_diagnostic_packet().expect("wellbeing packet");
+
+    let err = validate_affect_happiness_safe_test_model(&model, &affect_packet, &wellbeing_packet)
+        .expect_err("extra runtime input should fail")
+        .to_string();
+
+    assert!(err.contains("runtime_inputs.input_id"));
+}
+
+#[test]
+fn runtime_v2_affect_happiness_safe_test_model_rejects_duplicate_runtime_input() {
+    let mut model = affect_happiness_safe_test_model().expect("model");
+    model.runtime_inputs[1].input_id = model.runtime_inputs[0].input_id.clone();
+    let affect_packet = affect_reasoning_control_packet().expect("affect packet");
+    let wellbeing_packet = wellbeing_diagnostic_packet().expect("wellbeing packet");
+
+    let err = validate_affect_happiness_safe_test_model(&model, &affect_packet, &wellbeing_packet)
+        .expect_err("duplicate runtime input should fail")
+        .to_string();
+
+    assert!(err.contains("duplicate"));
+}
+
+#[test]
+fn runtime_v2_affect_happiness_safe_test_model_rejects_scenario_drift() {
+    let mut model = affect_happiness_safe_test_model().expect("model");
+    model.safe_test_scenarios[0] = "public happiness scoring".to_string();
+    let affect_packet = affect_reasoning_control_packet().expect("affect packet");
+    let wellbeing_packet = wellbeing_diagnostic_packet().expect("wellbeing packet");
+
+    let err = validate_affect_happiness_safe_test_model(&model, &affect_packet, &wellbeing_packet)
+        .expect_err("scenario drift should fail")
+        .to_string();
+
+    assert!(err.contains("safe_test_scenarios"));
+}
+
+#[test]
+fn runtime_v2_affect_happiness_safe_test_model_rejects_unsafe_allowed_claim() {
+    let mut model = affect_happiness_safe_test_model().expect("model");
+    model.public_claim_boundary.allowed_claims[0] =
+        "ADL proves subjective happiness with a scalar happiness score.".to_string();
+    let affect_packet = affect_reasoning_control_packet().expect("affect packet");
+    let wellbeing_packet = wellbeing_diagnostic_packet().expect("wellbeing packet");
+
+    let err = validate_affect_happiness_safe_test_model(&model, &affect_packet, &wellbeing_packet)
+        .expect_err("unsafe allowed claim should fail")
+        .to_string();
+
+    assert!(err.contains("allowed_claims"));
+}
+
+#[test]
 fn runtime_v2_affect_happiness_safe_test_model_rejects_public_guard_drift() {
     let mut model = affect_happiness_safe_test_model().expect("model");
     model.public_claim_boundary.required_copy_guards =
