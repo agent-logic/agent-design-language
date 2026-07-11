@@ -10,9 +10,10 @@ use std::path::{Path, PathBuf};
 use crate::long_lived_agent;
 use crate::observability;
 
-pub const CSM_BACKPRESSURE_REPORT_SCHEMA: &str = "adl.csm.backpressure_report.v1";
-pub const CSM_BACKPRESSURE_STATE_SCHEMA: &str = "adl.csm.backpressure_state.v1";
-pub const CSM_BACKPRESSURE_COMMAND_RESULT_SCHEMA: &str = "adl.csm.backpressure_command_result.v1";
+pub use adl_runtime::backpressure::{
+    CSM_BACKPRESSURE_COMMAND_RESULT_SCHEMA, CSM_BACKPRESSURE_REPORT_SCHEMA,
+    CSM_BACKPRESSURE_STATE_SCHEMA, NONCRITICAL_LOSS_POLICY, REQUIRED_STATE_LOSS_POLICY,
+};
 
 #[derive(Debug, Clone)]
 pub struct BackpressureProofOptions {

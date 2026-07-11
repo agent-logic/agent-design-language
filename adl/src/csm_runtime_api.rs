@@ -31,29 +31,14 @@ use crate::csm_networking::{
 use crate::csm_shepherd_agent::{self, CSM_SHEPHERD_STATUS_REF};
 use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, StatusRecord};
 
+pub use adl_runtime::runtime_api::{
+    CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA, CSM_RUNTIME_API_CHRONOSENSE_SCHEMA,
+    CSM_RUNTIME_API_ENDPOINTS, CSM_RUNTIME_API_EVENTS_SCHEMA, CSM_RUNTIME_API_HEALTH_SCHEMA,
+    CSM_RUNTIME_API_METRICS_SCHEMA, CSM_RUNTIME_API_READY_SCHEMA, CSM_RUNTIME_API_SCHEMA,
+    CSM_RUNTIME_API_SHEPHERD_SCHEMA, CSM_RUNTIME_API_STATUS_SCHEMA,
+};
 pub use api_gateway_bridge::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
-
-pub const CSM_RUNTIME_API_SCHEMA: &str = "adl.csm.runtime_api.v1";
-pub const CSM_RUNTIME_API_STATUS_SCHEMA: &str = "adl.csm.runtime_api.status.v1";
-pub const CSM_RUNTIME_API_HEALTH_SCHEMA: &str = "adl.csm.runtime_api.health.v1";
-pub const CSM_RUNTIME_API_READY_SCHEMA: &str = "adl.csm.runtime_api.ready.v1";
-pub const CSM_RUNTIME_API_METRICS_SCHEMA: &str = "adl.csm.runtime_api.metrics.v1";
-pub const CSM_RUNTIME_API_EVENTS_SCHEMA: &str = "adl.csm.runtime_api.events.v1";
 const CSM_RUNTIME_API_BROWSER_DEMO_PORT: &str = "8765";
-pub const CSM_RUNTIME_API_CHRONOSENSE_SCHEMA: &str = "adl.csm.runtime_api.chronosense.v1";
-pub const CSM_RUNTIME_API_SHEPHERD_SCHEMA: &str = "adl.csm.runtime_api.shepherd.v1";
-pub const CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA: &str =
-    "adl.csm.runtime_api.api_gateway_bridge.v1";
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 8] = [
-    "/status",
-    "/health",
-    "/ready",
-    "/metrics",
-    "/events",
-    "/chronosense",
-    "/shepherd",
-    "/api-gateway-bridge",
-];
 
 #[derive(Debug, Clone)]
 pub struct CsmRuntimeApiOptions {
@@ -321,34 +306,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "networking": csm_listener_registry_json(),
         "pooling_plan": csm_connection_pooling_plan(),
         "connection_pool_status": csm_runtime_connection_pool_status(),
-        "runtime_stack": {
-            "schema": "adl.csm.runtime_stack.v1",
-            "runtime_owner": "csm",
-            "async_runtime": "tokio",
-            "api_server": {
-                "http_framework": "axum",
-                "service_substrate": "tower",
-                "http_engine": "hyper",
-                "status": "integrated"
-            },
-            "resource_pooling": {
-                "pool_crate": "deadpool",
-                "status": "integrated",
-                "source": "csm_connection_pool_status"
-            },
-            "time_sync": {
-                "primary_crate": "rsntp",
-                "status": "integrated",
-                "source": "/chronosense"
-            },
-            "observability_pipeline": {
-                "pipeline": "vector",
-                "status": "planned_csm_managed_runtime_component",
-                "role": "collect_transform_redact_route_logs_metrics_and_otel",
-                "runtime_topology": "csm_managed_observability_component",
-                "csm_role": "emit_canonical_runtime_events_and_otel_shaped_summaries"
-            }
-        },
+        "runtime_stack": adl_runtime::topology::runtime_stack_json(),
         "agent_instance_id": loaded.spec.agent_instance_id,
         "status": health,
         "ready": ready,

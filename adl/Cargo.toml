@@ -154,6 +154,8 @@ slow-proof-tests = [
 slow-finish-tests = []
 
 [dependencies]
+adl-runtime = { path = "../adl-runtime" }
+
 # CLI
 clap = { version = "4.5", features = ["derive"] }
 
