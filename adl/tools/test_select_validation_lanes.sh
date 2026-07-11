@@ -639,6 +639,40 @@ assert lane["proof_role"] == "demo_contract"
 assert lane["owner"] == "review"
 PY
 
+html_observatory_v0917="$TMP/html-observatory-v0917.txt"
+cat >"$html_observatory_v0917" <<'EOF'
+A	adl/tools/test_v0917_html_observatory_integrated_proof.sh
+A	adl/tools/validate_v0917_html_observatory.py
+A	demos/v0.91.7/html-observatory/README.md
+A	demos/v0.91.7/html-observatory/app.js
+A	demos/v0.91.7/html-observatory/index.html
+A	demos/v0.91.7/html-observatory/styles.css
+EOF
+bash "$SCRIPT" --changed-files "$html_observatory_v0917" --json >"$TMP/html-observatory-v0917.json"
+python3 - <<'PY' "$TMP/html-observatory-v0917.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"html_observatory_v0917_runtime_surface"}
+lane = profile["lanes"]["html_observatory_v0917_runtime_surface"]
+assert lane["status"] == "selected"
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+assert lane["run_command"] == "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh"
+assert set(lane["matched_paths"]) == {
+    "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+    "adl/tools/validate_v0917_html_observatory.py",
+    "demos/v0.91.7/html-observatory/README.md",
+    "demos/v0.91.7/html-observatory/app.js",
+    "demos/v0.91.7/html-observatory/index.html",
+    "demos/v0.91.7/html-observatory/styles.css",
+}
+PY
+
 unity_observatory="$TMP/unity-observatory.txt"
 cat >"$unity_observatory" <<'EOF'
 M	adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh
