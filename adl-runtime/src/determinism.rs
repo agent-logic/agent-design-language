@@ -774,8 +774,9 @@ mod tests {
             DeterministicCoreComponent::AeeGovernedExecution,
             vec![CoreDecisionInput::captured(&event)],
         );
-        let decision = evaluate_core_decision(request.clone(), &[event.clone()]).unwrap();
-        replay_core_decision(request.clone(), &[event.clone()], &decision).unwrap();
+        let decision =
+            evaluate_core_decision(request.clone(), std::slice::from_ref(&event)).unwrap();
+        replay_core_decision(request.clone(), std::slice::from_ref(&event), &decision).unwrap();
 
         let mut tampered_event = event;
         tampered_event.payload = serde_json::json!({"publishable": false, "region": "configured"});
@@ -799,7 +800,7 @@ mod tests {
             "dispersion_seconds": 1.75,
             "nested": {
                 "stratum": 2,
-                "samples": [0.1, -0.25, 3.141592653589793]
+                "samples": [0.1, -0.25, std::f64::consts::PI]
             },
             "sources": [
                 {"host": "time-a", "reachable": true},

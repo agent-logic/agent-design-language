@@ -132,17 +132,16 @@ impl CsmResidentAgentSpec {
             "provider_target_resolved",
             "provider_binding.binding_status",
         )?;
-        if self.authority == CsmResidentAgentAuthority::ShepherdOperator {
-            if !self.policy_gates.freedom_gate_required
+        if self.authority == CsmResidentAgentAuthority::ShepherdOperator
+            && (!self.policy_gates.freedom_gate_required
                 || !self.policy_gates.cav_required
                 || !self.policy_gates.constitutional_policy_required
-                || !self.policy_gates.model_output_advisory_only
-            {
-                return Err(
-                    "shepherd resident agent must be gated by Freedom Gate, CAV, constitutional policy, and advisory output authority"
-                        .to_string(),
-                );
-            }
+                || !self.policy_gates.model_output_advisory_only)
+        {
+            return Err(
+                "shepherd resident agent must be gated by Freedom Gate, CAV, constitutional policy, and advisory output authority"
+                    .to_string(),
+            );
         }
         self.affect_model.validate()?;
         Ok(())
