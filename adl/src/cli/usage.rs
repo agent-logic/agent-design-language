@@ -52,6 +52,7 @@ pub fn usage() -> &'static str {
   adl runtime-v2 feature-proof-coverage [--out <path>]
   adl runtime-v2 reasoning-graph [--out <path>]
   adl runtime-v2 curiosity-engine [--out <path>]
+  adl runtime-v2 constructability-anchor-validator [--input <packet.json>] [--out <path>]
   adl runtime-v2 loop-runtime [--out <path>]
   adl runtime-v2 godel-agent-runtime [--agents <count>] [--out <path>]
   adl scheduler plan --input <bundle.json> [--out <path>] [--json]
@@ -142,6 +143,7 @@ Examples:
   adl runtime-v2 feature-proof-coverage --out artifacts/v0904/feature-proof-coverage.json
   adl runtime-v2 reasoning-graph --out artifacts/v0917/reasoning-graph.json
   adl runtime-v2 curiosity-engine --out artifacts/v0917/curiosity-engine.json
+  adl runtime-v2 constructability-anchor-validator --input artifacts/v0917/constructability-candidate.json --out artifacts/v0917/constructability-decision.json
   adl runtime-v2 loop-runtime --out artifacts/v0917/loop-runtime.json
   adl runtime-v2 godel-agent-runtime --agents 10 --out artifacts/v0917/godel-agent-runtime.json
   adl scheduler plan --input adl/tests/fixtures/scheduler/economics_inputs_v1.json --out artifacts/examples/scheduler-plan.json

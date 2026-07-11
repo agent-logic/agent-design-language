@@ -428,6 +428,100 @@ fn adl_runtime_run_fails_closed_for_issue_ids() {
     );
 }
 
+#[test]
+fn runtime_v2_constructability_anchor_validator_processes_input_and_preserves_channels() {
+    let repo = unique_test_temp_dir("constructability-validator-process");
+    fs::create_dir_all(&repo).expect("create temporary repository root");
+
+    let fixture = Command::new(resolve_adl_exe())
+        .current_dir(&repo)
+        .args([
+            "runtime-v2",
+            "constructability-anchor-validator",
+            "--out",
+            "candidate.json",
+        ])
+        .output()
+        .expect("emit constructability fixture");
+    assert!(
+        fixture.status.success(),
+        "stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&fixture.stdout),
+        String::from_utf8_lossy(&fixture.stderr)
+    );
+    assert_eq!(
+        String::from_utf8_lossy(&fixture.stdout),
+        "RUNTIME_V2_CONSTRUCTABILITY_ANCHOR_VALIDATOR_PATH=candidate.json\n"
+    );
+    assert!(String::from_utf8_lossy(&fixture.stderr).contains("adl_event"));
+
+    let validated = Command::new(resolve_adl_exe())
+        .current_dir(&repo)
+        .args([
+            "runtime-v2",
+            "constructability-anchor-validator",
+            "--input",
+            "candidate.json",
+            "--out",
+            "validated.json",
+        ])
+        .output()
+        .expect("validate constructability input");
+    assert!(
+        validated.status.success(),
+        "stdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&validated.stdout),
+        String::from_utf8_lossy(&validated.stderr)
+    );
+    assert_eq!(
+        String::from_utf8_lossy(&validated.stdout),
+        "RUNTIME_V2_CONSTRUCTABILITY_ANCHOR_VALIDATOR_PATH=validated.json\n"
+    );
+    assert!(String::from_utf8_lossy(&validated.stderr).contains("adl_event"));
+    assert_eq!(
+        fs::read(repo.join("candidate.json")).expect("candidate packet"),
+        fs::read(repo.join("validated.json")).expect("validated packet")
+    );
+
+    let mut invalid: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join("candidate.json")).expect("read candidate packet"),
+    )
+    .expect("parse candidate packet");
+    invalid["decisions"]
+        .as_array_mut()
+        .expect("decision array")
+        .iter_mut()
+        .find(|decision| decision["event_id"] == "event-unanchored-promotion-attempt")
+        .expect("unanchored decision")["outcome"] = serde_json::json!("pass");
+    fs::write(
+        repo.join("invalid.json"),
+        serde_json::to_vec_pretty(&invalid).expect("serialize invalid packet"),
+    )
+    .expect("write invalid packet");
+
+    let rejected = Command::new(resolve_adl_exe())
+        .current_dir(&repo)
+        .args([
+            "runtime-v2",
+            "constructability-anchor-validator",
+            "--input",
+            "invalid.json",
+            "--out",
+            "validated.json",
+        ])
+        .output()
+        .expect("reject invalid constructability input");
+    assert!(!rejected.status.success());
+    assert!(rejected.stdout.is_empty());
+    assert!(String::from_utf8_lossy(&rejected.stderr).contains("must fail closed"));
+    assert!(
+        !repo.join("validated.json").exists(),
+        "failed validation must remove a stale output from the prior successful run"
+    );
+
+    fs::remove_dir_all(repo).ok();
+}
+
 #[path = "cli_smoke/agent.rs"]
 mod agent;
 #[path = "cli_smoke/basics.rs"]

@@ -87,11 +87,13 @@ build_owner_bins() {
       --bin adl-pr-create --bin adl-pr-init --bin adl-pr-repair-issue-body \
       --bin adl-pr-run --bin adl-pr-doctor --bin adl-pr-ready \
       --bin adl-pr-preflight --bin adl-pr-finish --bin adl-pr-validation \
-      --bin adl-pr-inventory --bin adl-pr-closing-linkage \
+      --bin adl-pr-inventory --bin adl-pr-shepherd --bin adl-pr-closing-linkage \
       --bin adl-issue \
       --bin adl-pr-closeout \
       --bin adl-session --bin adl-process \
-      --bin adl-prompt-template --bin adl-validate-structured-prompt
+      --bin adl-prompt-template --bin adl-validate-structured-prompt \
+      --bin adl-lint-prompt-spec --bin adl-remote \
+      --bin adl-aws-remote-validation --bin adl-provider-adapter
   if [[ "$PRINT_PLAN" == "1" ]]; then
     return 0
   fi

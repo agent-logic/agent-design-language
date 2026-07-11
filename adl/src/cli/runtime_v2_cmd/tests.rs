@@ -1,13 +1,17 @@
 use crate::cli::runtime_v2_cmd::{
     commands::{
-        cognitive_being_flagship_demo_stdout_line, contract_market_demo_stdout_line,
-        curiosity_engine_stdout_line, feature_proof_coverage_stdout_line,
-        godel_agent_runtime_stdout_line, governed_tools_flagship_demo_stdout_line,
-        loop_runtime_stdout_line, reasoning_graph_stdout_line,
+        cognitive_being_flagship_demo_stdout_line, constructability_anchor_validator_stdout_line,
+        contract_market_demo_stdout_line, curiosity_engine_stdout_line,
+        feature_proof_coverage_stdout_line, godel_agent_runtime_stdout_line,
+        governed_tools_flagship_demo_stdout_line, loop_runtime_stdout_line,
+        reasoning_graph_stdout_line,
     },
     helpers::{real_runtime_v2, real_runtime_v2_in_repo},
 };
-use adl::runtime_v2::runtime_v2_csm_integrated_run_contract;
+use adl::runtime_v2::{
+    runtime_v2_constructability_anchor_validator_contract, runtime_v2_csm_integrated_run_contract,
+    RuntimeV2ConstructabilityOutcome,
+};
 use std::{
     fs,
     path::PathBuf,
@@ -39,6 +43,9 @@ const RUNTIME_V2_CLI_REGRESSION_SMOKES: &[&str] = &[
     "reasoning-graph:arg-validation",
     "curiosity-engine:write-json",
     "curiosity-engine:arg-validation",
+    "constructability-anchor-validator:write-json",
+    "constructability-anchor-validator:input-validation",
+    "constructability-anchor-validator:arg-validation",
     "loop-runtime:write-json",
     "loop-runtime:arg-validation",
     "godel-agent-runtime:write-json",
@@ -54,10 +61,12 @@ fn temp_repo(label: &str) -> PathBuf {
         .duration_since(UNIX_EPOCH)
         .expect("time went backwards")
         .as_nanos();
-    std::env::temp_dir().join(format!(
+    let repo = std::env::temp_dir().join(format!(
         "adl-runtime-v2-cli-{label}-{}-{nanos}",
         std::process::id()
-    ))
+    ));
+    fs::create_dir_all(&repo).expect("create temporary repository root");
+    repo
 }
 
 #[test]
@@ -121,7 +130,7 @@ fn trace_runtime_v2_dispatch_covers_help_and_subcommand_errors() {
     let err = real_runtime_v2_in_repo(&[], &repo).expect_err("missing subcommand should fail");
     assert!(err
         .to_string()
-        .contains("runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, curiosity-engine, loop-runtime, or godel-agent-runtime"));
+        .contains("runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, curiosity-engine, constructability-anchor-validator, loop-runtime, or godel-agent-runtime"));
 
     let err = real_runtime_v2_in_repo(&["bogus".to_string()], &repo)
         .expect_err("unknown subcommand should fail");
@@ -1068,6 +1077,278 @@ fn trace_runtime_v2_curiosity_engine_validates_stdout_help_and_output_path_rules
 }
 
 #[test]
+fn trace_runtime_v2_constructability_anchor_validator_writes_packet_json() {
+    let repo = temp_repo("constructability-anchor-validator");
+    let out_path = repo.join("out/constructability-anchor-validator.json");
+
+    real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--out".to_string(),
+            "out/constructability-anchor-validator.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect("constructability anchor validator");
+
+    let json: serde_json::Value =
+        serde_json::from_slice(&fs::read(&out_path).expect("constructability packet should exist"))
+            .expect("valid json");
+    assert_eq!(
+        json["schema_version"],
+        "runtime_v2.constructability_anchor_validator.v1"
+    );
+    assert_eq!(json["milestone"], "v0.91.7");
+    assert_eq!(json["wp"], "WP-10");
+    assert_eq!(
+        json["construction_events"]
+            .as_array()
+            .expect("construction events")
+            .len(),
+        2
+    );
+    assert_eq!(json["decisions"].as_array().expect("decisions").len(), 2);
+    assert_eq!(
+        json["shared_reality_boundary"]["promotion_requires_anchor"],
+        true
+    );
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[test]
+fn trace_runtime_v2_constructability_anchor_validator_validates_caller_input_fail_closed() {
+    let repo = temp_repo("constructability-anchor-validator-input");
+    fs::create_dir_all(repo.join("input")).expect("create input directory");
+    let mut packet = runtime_v2_constructability_anchor_validator_contract()
+        .expect("constructability anchor validator packet");
+    packet.construction_events.reverse();
+    packet.decisions.reverse();
+    fs::write(
+        repo.join("input/candidate.json"),
+        serde_json::to_vec_pretty(&packet).expect("serialize candidate"),
+    )
+    .expect("write candidate packet");
+
+    real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--input".to_string(),
+            "input/candidate.json".to_string(),
+            "--out".to_string(),
+            "out/validated.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect("validate caller-supplied packet");
+    let validated: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join("out/validated.json")).expect("validated output"),
+    )
+    .expect("validated json");
+    assert_eq!(
+        validated["construction_events"][0]["event_id"],
+        "event-curiosity-proposal-admission"
+    );
+
+    let decision = packet
+        .decisions
+        .iter_mut()
+        .find(|decision| decision.event_id == "event-unanchored-promotion-attempt")
+        .expect("unanchored decision");
+    decision.outcome = RuntimeV2ConstructabilityOutcome::Pass;
+    fs::write(
+        repo.join("input/invalid.json"),
+        serde_json::to_vec_pretty(&packet).expect("serialize invalid candidate"),
+    )
+    .expect("write invalid packet");
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--input".to_string(),
+            "input/invalid.json".to_string(),
+            "--out".to_string(),
+            "out/must-not-exist.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("invalid caller input must fail closed");
+    assert!(err.to_string().contains("must fail closed"));
+    assert!(!repo.join("out/must-not-exist.json").exists());
+
+    fs::write(repo.join("out/stale.json"), b"stale").expect("write stale output");
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--input".to_string(),
+            "input/invalid.json".to_string(),
+            "--out".to_string(),
+            "out/stale.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("invalid caller input must remove stale output");
+    assert!(err.to_string().contains("must fail closed"));
+    assert!(!repo.join("out/stale.json").exists());
+
+    let same_path = repo.join("input/invalid.json");
+    let before = fs::read(&same_path).expect("read same-path input before rejection");
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--input".to_string(),
+            "input/invalid.json".to_string(),
+            "--out".to_string(),
+            "input/invalid.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("input and output paths must differ");
+    assert!(err
+        .to_string()
+        .contains("--input and --out must be different paths"));
+    assert_eq!(
+        fs::read(&same_path).expect("same-path input must survive rejection"),
+        before
+    );
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[test]
+fn trace_runtime_v2_constructability_anchor_validator_validates_stdout_help_and_output_path_rules()
+{
+    let repo = temp_repo("constructability-anchor-validator-branches");
+
+    real_runtime_v2_in_repo(&["constructability-anchor-validator".to_string()], &repo)
+        .expect("stdout constructability packet");
+    real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--help".to_string(),
+        ],
+        &repo,
+    )
+    .expect("constructability help");
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--out".to_string(),
+            repo.join("absolute/constructability-anchor-validator.json")
+                .to_string_lossy()
+                .to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("absolute output path should fail");
+    assert!(err.to_string().contains(
+        "runtime-v2 constructability-anchor-validator --out path must be repository-relative"
+    ));
+
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--bogus".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("unknown arg should fail");
+    assert!(err
+        .to_string()
+        .contains("unknown arg for runtime-v2 constructability-anchor-validator: --bogus"));
+
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--out".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("missing out value should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime-v2 constructability-anchor-validator requires --out <path>"));
+
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--input".to_string(),
+            repo.join("absolute/candidate.json")
+                .to_string_lossy()
+                .to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("absolute input path should fail");
+    assert!(err.to_string().contains(
+        "runtime-v2 constructability-anchor-validator --input path must be repository-relative"
+    ));
+
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--input".to_string(),
+            "../candidate.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("parent traversal input should fail");
+    assert!(err.to_string().contains(
+        "runtime-v2 constructability-anchor-validator --input path must stay within the repository"
+    ));
+
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--input".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("missing input value should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime-v2 constructability-anchor-validator requires --input <packet.json>"));
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[cfg(unix)]
+#[test]
+fn trace_runtime_v2_constructability_anchor_validator_rejects_symlink_path_escape() {
+    use std::os::unix::fs::symlink;
+
+    let repo = temp_repo("constructability-anchor-validator-symlink");
+    let outside = temp_repo("constructability-anchor-validator-outside");
+    fs::write(outside.join("candidate.json"), b"{}").expect("outside candidate");
+    symlink(&outside, repo.join("escape")).expect("create escape symlink");
+
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--input".to_string(),
+            "escape/candidate.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("input symlink escape must fail");
+    assert!(err.to_string().contains("must not traverse symbolic links"));
+
+    let err = real_runtime_v2_in_repo(
+        &[
+            "constructability-anchor-validator".to_string(),
+            "--out".to_string(),
+            "escape/output.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("output symlink escape must fail");
+    assert!(err.to_string().contains("must not traverse symbolic links"));
+    assert!(!outside.join("output.json").exists());
+
+    fs::remove_dir_all(repo).ok();
+    fs::remove_dir_all(outside).ok();
+}
+
+#[test]
 fn trace_runtime_v2_loop_runtime_writes_packet_json() {
     let repo = temp_repo("loop-runtime");
     let out_path = repo.join("out/loop-runtime.json");
@@ -1260,6 +1541,9 @@ fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_r
         trace_runtime_v2_reasoning_graph_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_curiosity_engine_writes_packet_json,
         trace_runtime_v2_curiosity_engine_validates_stdout_help_and_output_path_rules,
+        trace_runtime_v2_constructability_anchor_validator_writes_packet_json,
+        trace_runtime_v2_constructability_anchor_validator_validates_caller_input_fail_closed,
+        trace_runtime_v2_constructability_anchor_validator_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_loop_runtime_writes_packet_json,
         trace_runtime_v2_loop_runtime_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_godel_agent_runtime_writes_packet_json,
@@ -1294,6 +1578,9 @@ fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_r
     assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
         .iter()
         .any(|smoke| smoke.starts_with("curiosity-engine:")));
+    assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
+        .iter()
+        .any(|smoke| smoke.starts_with("constructability-anchor-validator:")));
     assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
         .iter()
         .any(|smoke| smoke.starts_with("loop-runtime:")));
@@ -1524,6 +1811,21 @@ fn trace_runtime_v2_demo_stdout_lines_preserve_requested_relative_paths() {
     assert!(
         !curiosity_engine_stdout.contains(&cwd),
         "curiosity engine stdout should not expose absolute repo root:\n{curiosity_engine_stdout}"
+    );
+
+    let constructability_file = rel_root.join("constructability-anchor-validator.json");
+    let constructability_stdout =
+        constructability_anchor_validator_stdout_line(&constructability_file);
+    assert_eq!(
+        constructability_stdout,
+        format!(
+            "RUNTIME_V2_CONSTRUCTABILITY_ANCHOR_VALIDATOR_PATH={}",
+            constructability_file.display()
+        )
+    );
+    assert!(
+        !constructability_stdout.contains(&cwd),
+        "constructability stdout should not expose absolute repo root:\n{constructability_stdout}"
     );
 
     let loop_runtime_file = rel_root.join("loop-runtime.json");

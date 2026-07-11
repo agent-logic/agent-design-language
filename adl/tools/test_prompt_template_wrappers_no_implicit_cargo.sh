@@ -31,7 +31,10 @@ validator_cargo_args="$tmpdir/validator-cargo.args"
 set +e
 (
   cd "$fake_root"
-  PATH="$mockbin:$PATH" \
+  env -u ADL_PROMPT_TEMPLATE_BIN -u ADL_TOOLING_RUST_BIN \
+    -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
+    PATH="$mockbin:$PATH" \
     ADL_TEST_CARGO_ARGS="$prompt_cargo_args" \
     ADL_PROMPT_TEMPLATE_DISABLE_PATH_LOOKUP=1 \
     ADL_TOOLING_MANIFEST_ROOT="$fake_root" \
@@ -66,7 +69,10 @@ legacy_args="$tmpdir/legacy.args"
 : >"$prompt_cargo_args"
 (
   cd "$fake_root"
-  PATH="$mockbin:$PATH" \
+  env -u ADL_PROMPT_TEMPLATE_BIN -u ADL_TOOLING_RUST_BIN \
+    -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
+    PATH="$mockbin:$PATH" \
     ADL_TEST_CARGO_ARGS="$prompt_cargo_args" \
     ADL_TEST_LEGACY_ARGS="$legacy_args" \
     ADL_PROMPT_TEMPLATE_DISABLE_PATH_LOOKUP=1 \
@@ -89,7 +95,10 @@ grep -Fqx "legacy:tooling prompt-template validate-schemas --repo-root $fake_roo
 set +e
 (
   cd "$fake_root"
-  PATH="$mockbin:$PATH" \
+  env -u ADL_STRUCTURED_PROMPT_VALIDATOR_BIN -u ADL_TOOLING_RUST_BIN \
+    -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
+    PATH="$mockbin:$PATH" \
     ADL_TEST_CARGO_ARGS="$validator_cargo_args" \
     ADL_STRUCTURED_PROMPT_VALIDATOR_DISABLE_PATH_LOOKUP=1 \
     ADL_TOOLING_MANIFEST_ROOT="$fake_root" \
@@ -126,7 +135,10 @@ prompt_args="$tmpdir/prompt.args"
 validator_args="$tmpdir/validator.args"
 (
   cd "$fake_root"
-  PATH="$mockbin:$PATH" \
+  env -u ADL_PROMPT_TEMPLATE_BIN -u ADL_TOOLING_RUST_BIN \
+    -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
+    PATH="$mockbin:$PATH" \
     ADL_TEST_PROMPT_ARGS="$prompt_args" \
     ADL_TOOLING_MANIFEST_ROOT="$fake_root" \
     "$fake_root/adl/tools/prompt_template.sh" validate-schemas --repo-root "$fake_root" >/dev/null
@@ -139,7 +151,10 @@ grep -Fqx "prompt:validate-schemas --repo-root $fake_root" "$prompt_args" || {
 
 (
   cd "$fake_root"
-  PATH="$mockbin:$PATH" \
+  env -u ADL_STRUCTURED_PROMPT_VALIDATOR_BIN -u ADL_TOOLING_RUST_BIN \
+    -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
+    PATH="$mockbin:$PATH" \
     ADL_TEST_VALIDATOR_ARGS="$validator_args" \
     ADL_TOOLING_MANIFEST_ROOT="$fake_root" \
     "$fake_root/adl/tools/validate_structured_prompt.sh" --type sip --input example.md >/dev/null

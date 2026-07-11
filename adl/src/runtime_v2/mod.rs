@@ -17,6 +17,7 @@ mod challenge;
 mod citizen;
 mod citizen_state_substrate;
 mod cognitive_being_flagship_demo;
+mod constructability_anchor_validator;
 mod contract_lifecycle_state;
 mod contract_market_demo;
 mod contract_schema;
@@ -105,6 +106,8 @@ pub use citizen::*;
 pub use citizen_state_substrate::*;
 #[allow(unused_imports)]
 pub use cognitive_being_flagship_demo::*;
+#[allow(unused_imports)]
+pub use constructability_anchor_validator::*;
 #[allow(unused_imports)]
 pub use contract_lifecycle_state::*;
 #[allow(unused_imports)]

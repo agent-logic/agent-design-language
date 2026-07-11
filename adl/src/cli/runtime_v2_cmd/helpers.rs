@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Context, Result};
 use std::{
-    env,
+    env, fs,
     path::{Path, PathBuf},
 };
 
@@ -65,13 +65,87 @@ pub(crate) fn resolve_relative_output_path(
             }
         }
     }
-    Ok(repo_root.join(out_path))
+    let canonical_root = fs::canonicalize(repo_root)
+        .with_context(|| format!("canonicalize repository root {}", repo_root.display()))?;
+    reject_symlink_components(&canonical_root, out_path, command, "--out")?;
+    Ok(canonical_root.join(out_path))
+}
+
+pub(crate) fn resolve_relative_input_path(
+    repo_root: &Path,
+    input_path: &PathBuf,
+    command: &str,
+) -> Result<PathBuf> {
+    if input_path.is_absolute() {
+        return Err(anyhow!(
+            "runtime-v2 {command} --input path must be repository-relative"
+        ));
+    }
+    for component in input_path.components() {
+        match component {
+            std::path::Component::Normal(_) | std::path::Component::CurDir => {}
+            _ => {
+                return Err(anyhow!(
+                    "runtime-v2 {command} --input path must stay within the repository"
+                ))
+            }
+        }
+    }
+    let canonical_root = fs::canonicalize(repo_root)
+        .with_context(|| format!("canonicalize repository root {}", repo_root.display()))?;
+    reject_symlink_components(&canonical_root, input_path, command, "--input")?;
+    let resolved = fs::canonicalize(canonical_root.join(input_path)).with_context(|| {
+        format!(
+            "runtime-v2 {command} failed to resolve repository-relative --input path {}",
+            input_path.display()
+        )
+    })?;
+    if !resolved.starts_with(&canonical_root) {
+        return Err(anyhow!(
+            "runtime-v2 {command} --input path must stay within the repository"
+        ));
+    }
+    Ok(resolved)
+}
+
+fn reject_symlink_components(
+    canonical_root: &Path,
+    relative_path: &Path,
+    command: &str,
+    flag: &str,
+) -> Result<()> {
+    let mut candidate = canonical_root.to_path_buf();
+    for component in relative_path.components() {
+        match component {
+            std::path::Component::Normal(component) => candidate.push(component),
+            std::path::Component::CurDir => continue,
+            _ => continue,
+        }
+        match fs::symlink_metadata(&candidate) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                return Err(anyhow!(
+                    "runtime-v2 {command} {flag} path must not traverse symbolic links"
+                ))
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(error) => {
+                return Err(error).with_context(|| {
+                    format!(
+                        "inspect runtime-v2 {command} {flag} path component {}",
+                        candidate.display()
+                    )
+                })
+            }
+        }
+    }
+    Ok(())
 }
 
 pub(crate) fn real_runtime_v2_in_repo(args: &[String], repo_root: &Path) -> Result<()> {
     let Some(subcommand) = args.first().map(|arg| arg.as_str()) else {
         return Err(anyhow!(
-            "runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, curiosity-engine, loop-runtime, or godel-agent-runtime"
+            "runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, curiosity-engine, constructability-anchor-validator, loop-runtime, or godel-agent-runtime"
         ));
     };
 
@@ -103,6 +177,9 @@ pub(crate) fn real_runtime_v2_in_repo(args: &[String], repo_root: &Path) -> Resu
         }
         "reasoning-graph" => commands::real_runtime_v2_reasoning_graph(repo_root, &args[1..]),
         "curiosity-engine" => commands::real_runtime_v2_curiosity_engine(repo_root, &args[1..]),
+        "constructability-anchor-validator" => {
+            commands::real_runtime_v2_constructability_anchor_validator(repo_root, &args[1..])
+        }
         "loop-runtime" => commands::real_runtime_v2_loop_runtime(repo_root, &args[1..]),
         "godel-agent-runtime" => {
             commands::real_runtime_v2_godel_agent_runtime(repo_root, &args[1..])
@@ -112,7 +189,7 @@ pub(crate) fn real_runtime_v2_in_repo(args: &[String], repo_root: &Path) -> Resu
             Ok(())
         }
         _ => Err(anyhow!(
-            "unknown runtime-v2 subcommand '{subcommand}' (expected operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, curiosity-engine, loop-runtime, or godel-agent-runtime)"
+            "unknown runtime-v2 subcommand '{subcommand}' (expected operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, curiosity-engine, constructability-anchor-validator, loop-runtime, or godel-agent-runtime)"
         )),
     }
 }

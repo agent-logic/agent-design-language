@@ -19,6 +19,7 @@ mod citizen_lifecycle;
 mod citizen_state_substrate;
 mod cognitive_being_flagship_demo;
 mod common;
+mod constructability_anchor_validator;
 mod contract_lifecycle_state;
 mod contract_market_demo;
 #[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]

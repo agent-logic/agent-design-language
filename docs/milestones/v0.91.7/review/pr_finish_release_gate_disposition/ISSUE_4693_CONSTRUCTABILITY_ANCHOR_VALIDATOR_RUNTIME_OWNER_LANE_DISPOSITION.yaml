@@ -1,0 +1,34 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 4693
+disposition: approved_with_runtime_owner_lane_proof
+reviewer_or_review_mode: bounded runtime owner-lane review after broad runtime-surface escalation
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime --build
+residual_ci_proof_required_before_merge: required
+changed_release_gate_surfaces:
+  - adl/src/cli/runtime_v2_cmd/commands.rs
+  - adl/src/cli/runtime_v2_cmd/helpers.rs
+  - adl/src/cli/runtime_v2_cmd/tests.rs
+  - adl/src/cli/usage.rs
+  - adl/src/runtime_v2/constructability_anchor_validator.rs
+  - adl/src/runtime_v2/mod.rs
+  - adl/src/runtime_v2/tests.rs
+  - adl/src/runtime_v2/tests/constructability_anchor_validator.rs
+  - adl/tests/cli_smoke.rs
+  - adl/tools/run_owner_validation_lane.sh
+  - adl/tools/test_owner_validation_lane.sh
+  - adl/tools/test_prompt_template_wrappers_no_implicit_cargo.sh
+  - docs/milestones/v0.91.7/features/CONSTRUCTABILITY_GATE_v0.91.7.md
+evidence:
+  - "Focused constructability validator contract, command, and compiled CLI smoke tests passed locally."
+  - "Clippy passed for the ADL library and binary with warnings denied."
+  - "Bounded pre-PR review passed after all actionable findings were fixed and retested."
+  - "Exact runtime owner lane passed on CodeBuild XLARGE at commit 1015f6e95: bash adl/tools/run_owner_validation_lane.sh runtime --build completed successfully in 297.3 seconds."
+  - "The owner-lane contract test passed locally and now requires exact normalized parity between all 28 installer-default binaries and the build plan."
+  - "The prompt-template wrapper isolation test passed with finish-time owner-binary overrides present after the fixture explicitly cleared inherited resolver variables."
+  - "The explicit full-nextest diagnostic was stopped after unrelated Ollama, CSM OTLP loopback, and live GitHub publication tests failed; its retained log demonstrates that the local full profile is not hermetic for this issue."
+  - "The exact containerized Nessus owner-lane rerun at commit 1015f6e95 failed after 673 seconds with no space left on device while building the ADL library archive; it is retained as negative platform evidence and is not used as validation proof."
+non_claims:
+  - "This disposition does not claim that the mixed live full-nextest profile passed locally."
+  - "This disposition does not claim that the Nessus owner-lane run passed."
+  - "This disposition does not claim that post-push GitHub checks have completed."
+  - "This disposition does not claim that issue #4693 is merged or closed."
