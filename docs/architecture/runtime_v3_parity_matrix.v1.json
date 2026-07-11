@@ -57,7 +57,7 @@
       "id": "private_state.security",
       "sources": ["adl/src/runtime_v2/private_state*.rs", "adl/src/runtime_v2/security.rs", "adl/src/runtime_v2/access_control.rs"],
       "runtime_v3_owner": "governed state boundary",
-      "disposition": "planned_5178",
+      "disposition": "planned_5179_shadow_parity",
       "parity": "visibility, sealing, lineage, anti-equivocation, sanctuary, authorization",
       "proof": "ported contract fixtures without raw private-state exposure"
     },
@@ -89,17 +89,17 @@
       "id": "governance.freedom_gate_aee",
       "sources": ["adl/src/runtime_v2/boot_admission.rs", "adl/src/runtime_v2/transition_authority.rs", "adl/src/runtime_v2/aee_obsmem_pvf_trace_handoff.rs"],
       "runtime_v3_owner": "Freedom Gate and AEE services",
-      "disposition": "planned_5178",
+      "disposition": "implemented_5178",
       "parity": "commitment mediation, lawful execution, refusal, appeal, audit",
-      "proof": "allow/refuse/revoke/delegate/recover fixtures"
+      "proof": "adl-runtime-kernel/tests/governance.rs"
     },
     {
       "id": "contracts.delegation_resources",
       "sources": ["adl/src/runtime_v2/contracts.rs", "adl/src/runtime_v2/delegation_subcontract.rs", "adl/src/runtime_v2/resource_stewardship_bridge.rs"],
       "runtime_v3_owner": "governed execution services",
-      "disposition": "planned_5178",
+      "disposition": "implemented_5178",
       "parity": "contract lifecycle, delegation constraints, resource limits, attribution",
-      "proof": "shared contract and negative-case fixtures"
+      "proof": "adl-runtime-kernel/tests/governance.rs"
     },
     {
       "id": "agents.providers_scheduler",
