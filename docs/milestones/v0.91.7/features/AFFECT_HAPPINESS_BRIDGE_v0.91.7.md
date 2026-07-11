@@ -7,8 +7,8 @@
 - Status: boundary_defined
 - Owner: ADL maintainers
 - Doc Role: primary
-- Feature Types: policy, architecture
-- Proof Modes: review, tests
+- Feature Types: policy, architecture, runtime
+- Proof Modes: review, tests, resident-agent-integration
 
 ## Purpose
 
@@ -24,14 +24,15 @@ In scope:
 - public claim-boundary language;
 - relationship to cognitive profiles and identity evidence;
 - consumption of the existing `runtime_v2` affect reasoning-control packet as
-  operational proof, not inner-state proof.
+  operational proof, not inner-state proof;
+- integration of the affect/happiness safe-test model into CSM resident-agent
+  runtime existence metadata.
 
 Out of scope:
 
 - consciousness claims;
 - wellbeing productization;
-- new runtime affect engine implementation beyond the existing
-  `affect_reasoning_control_packet.v1` proof surface.
+- subjective runtime affect, hidden emotion, or inner-state claims.
 
 ## Required Decisions
 
@@ -74,12 +75,35 @@ The retained proof surface is:
   `adl/src/runtime_v2/tests/affect_reasoning_control.rs`
 - proof packet:
   `docs/milestones/v0.91.7/review/wp13_affect_happiness_boundary_4752.md`
+- resident-agent runtime contract:
+  `adl-runtime/src/resident_agent.rs`
+- CSM resident-agent admission path:
+  `adl/src/csm_resident_agents.rs`
+- CSM runtime API retained-artifact validation:
+  `adl/src/csm_runtime_api.rs`
 
 This proves that ADL can package affect-like labels as explicit, deterministic
-reasoning-control signals with reviewable evidence references and fail-closed
-interpretation boundaries. It does not prove hidden emotion, subjective
-experience, general happiness, wellbeing, consciousness, or public product
-readiness.
+reasoning-control signals with reviewable evidence references, fail-closed
+interpretation boundaries, and resident-agent existence metadata. It does not
+prove hidden emotion, subjective experience, general happiness, wellbeing,
+consciousness, or public product readiness.
+
+## Runtime Integration
+
+The CSM resident-agent runtime contract now requires every
+`CsmResidentAgentSpec` to carry an `affect_model` boundary. The model is
+populated from `affect_happiness_safe_test_model()` for the Shepherd, Codex /
+ChatGPT, and local Ollama residents during admission, and validation rejects
+unsafe invocation policies or missing public non-claims.
+
+The runtime integration is existence metadata and governance control. It records
+the safe-test model each admitted agent operates under; it is not a subjective
+emotion engine or happiness state.
+
+Retained resident-agent status artifacts are accepted only when they validate
+against the current resident-agent contract. Legacy serialized artifacts without
+`affect_model` are treated as invalid retained evidence and replaced with a
+computed fallback status.
 
 ## Safe-Test Contract
 
@@ -107,23 +131,23 @@ public or birthday evidence:
 
 - Review public language for unsupported affect/wellbeing claims.
 - Require safe-test framing for any demo evidence.
-- Use focused runtime proof only when a runtime behavior claim is made. The
-  current retained proof is the `runtime_v2_affect_reasoning_control` test
-  family, which validates deterministic packet materialization and rejects
-  boundary drift.
+- Use focused runtime proof when a runtime behavior claim is made. The retained
+  proof includes the `runtime_v2_affect_reasoning_control` test family,
+  `adl-runtime` resident-agent validation, and ADL CSM resident-agent admission
+  proof.
 - Record unproved claims as unsupported and keep required surfaces blocked with
   evidence and operator approval.
 
 ## v0.92 Consumption
 
-`v0.92` may consume the safe-test boundary and existing
-`affect_reasoning_control_packet.v1` proof as operational reasoning-control
-evidence. It must not imply unproved affect, happiness, wellbeing,
-consciousness, suffering, scalar happiness scores, reward channels, or public
-reputation claims.
+`v0.92` may consume the safe-test boundary, existing
+`affect_reasoning_control_packet.v1` proof, and resident-agent `affect_model`
+metadata as operational reasoning-control evidence. It must not imply unproved
+affect, happiness, wellbeing, consciousness, suffering, scalar happiness scores,
+reward channels, or public reputation claims.
 
 ## Non-Goals
 
 - No inner-state proof claim.
 - No wellbeing certification.
-- No runtime affect implementation.
+- No subjective runtime affect implementation.
