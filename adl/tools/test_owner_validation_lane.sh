@@ -9,7 +9,10 @@ for expected in \
   "cargo build owner binaries" \
   "--bin csm" \
   "--bin adl-pr-inventory" \
+  "--bin adl-pr-shepherd" \
   "--bin adl-session --bin adl-process" \
+  "--bin adl-lint-prompt-spec --bin adl-remote" \
+  "--bin adl-aws-remote-validation --bin adl-provider-adapter" \
   "C-SDLC wrapper migration contract" \
   "C-SDLC run ambiguity policy" \
   "C-SDLC control-plane observability contract" \
