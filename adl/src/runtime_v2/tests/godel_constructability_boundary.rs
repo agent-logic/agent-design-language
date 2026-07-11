@@ -15,10 +15,31 @@ fn runtime_v2_godel_constructability_boundary_validates() {
         RUNTIME_V2_GODEL_CONSTRUCTABILITY_BOUNDARY_SCHEMA
     );
     assert_eq!(packet.godel_runtime.agent_count, 10);
+    assert_eq!(
+        packet.godel_runtime.launch_plan_status,
+        "csm_supervised_provider_request_admission_ready"
+    );
+    assert_eq!(packet.godel_runtime.provider_request_count, 10);
     assert!(packet.constructability_validator.promotion_requires_anchor);
     assert!(packet
         .v092_prohibited_claims
         .contains(&"live_hosted_provider_invocation".to_string()));
+}
+
+#[test]
+fn runtime_v2_godel_constructability_boundary_rejects_launch_plan_drift() {
+    let mut packet = runtime_v2_godel_constructability_boundary().expect("boundary packet");
+    packet.godel_runtime.provider_request_count = 9;
+    let godel = runtime_v2_godel_agent_runtime_contract().expect("Godel runtime");
+    let constructability =
+        runtime_v2_constructability_anchor_validator_contract().expect("constructability");
+
+    let err =
+        validate_runtime_v2_godel_constructability_boundary(&packet, &godel, &constructability)
+            .expect_err("launch-plan drift should fail")
+            .to_string();
+
+    assert!(err.contains("launch-plan provider requests"));
 }
 
 #[test]

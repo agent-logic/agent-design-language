@@ -36,6 +36,8 @@ pub struct RuntimeV2GodelBoundaryInput {
     pub loop_runtime_id: String,
     pub agent_count: u32,
     pub provider_binding_count: u32,
+    pub launch_plan_status: String,
+    pub provider_request_count: u32,
     pub hosted_invocation_status: String,
     pub retained_non_claims: Vec<String>,
 }
@@ -67,6 +69,8 @@ pub fn runtime_v2_godel_constructability_boundary(
             loop_runtime_id: godel.loop_runtime_id.clone(),
             agent_count: godel.agents.len() as u32,
             provider_binding_count: godel.provider_registry.len() as u32,
+            launch_plan_status: "csm_supervised_provider_request_admission_ready".to_string(),
+            provider_request_count: godel.launch_plan.provider_request_count,
             hosted_invocation_status: "provider_target_resolved_not_invoked".to_string(),
             retained_non_claims: godel.non_claims.clone(),
         },
@@ -88,6 +92,7 @@ pub fn runtime_v2_godel_constructability_boundary(
         v092_allowed_claims: vec![
             "v0.92 may describe a bounded Godel-agent birthday as a reviewed Runtime v2 event when the packet cites retained Godel runtime evidence and constructability validation.".to_string(),
             "v0.92 may consume 10+ independent Godel-agent runtime readiness as deterministic scheduling and provider-binding evidence, not live hosted execution evidence.".to_string(),
+            "v0.92 may consume the CSM-supervised Godel launch plan as provider-request admission readiness, not hosted-provider invocation proof.".to_string(),
             "v0.92 may promote Godel mechanics into public birthday copy only through constructability anchors, validator pass, and operator review.".to_string(),
         ],
         v092_prohibited_claims: vec![
@@ -100,6 +105,7 @@ pub fn runtime_v2_godel_constructability_boundary(
         ],
         promotion_requirements: vec![
             "retain Runtime v2 Godel agent runtime packet evidence".to_string(),
+            "retain Runtime v2 Godel agent launch-plan evidence".to_string(),
             "retain constructability anchor validator packet evidence".to_string(),
             "require constructability anchor before shared-reality promotion".to_string(),
             "require validator pass before public birthday claims".to_string(),
@@ -107,6 +113,7 @@ pub fn runtime_v2_godel_constructability_boundary(
             "preserve hosted-provider invocation non-claim until live provider proof exists".to_string(),
         ],
         validation_commands: vec![
+            "cargo test --manifest-path adl/Cargo.toml --lib runtime_v2_godel_agent_runtime -- --nocapture".to_string(),
             "cargo test --manifest-path adl/Cargo.toml --lib runtime_v2_godel_constructability_boundary -- --nocapture".to_string(),
             "git diff --check".to_string(),
         ],
@@ -164,6 +171,7 @@ pub fn validate_runtime_v2_godel_constructability_boundary(
         &[
             "bounded Godel-agent birthday",
             "10+ independent Godel-agent runtime readiness",
+            "CSM-supervised Godel launch plan",
             "constructability anchors",
         ],
         "godel_constructability_boundary.v092_allowed_claims",
@@ -189,6 +197,7 @@ pub fn validate_runtime_v2_godel_constructability_boundary(
         &packet.promotion_requirements,
         &[
             "Runtime v2 Godel agent runtime packet evidence",
+            "Runtime v2 Godel agent launch-plan evidence",
             "constructability anchor validator packet evidence",
             "constructability anchor",
             "validator pass",
@@ -265,6 +274,19 @@ fn validate_godel_input(
     if input.provider_binding_count != godel.provider_registry.len() as u32 {
         return Err(anyhow!(
             "Godel/constructability boundary provider count must match Godel runtime"
+        ));
+    }
+    require_exact(
+        &input.launch_plan_status,
+        "csm_supervised_provider_request_admission_ready",
+        "godel_constructability_boundary.godel.launch_plan_status",
+    )?;
+    if input.provider_request_count != godel.launch_plan.provider_request_count
+        || input.provider_request_count != godel.agents.len() as u32
+        || input.provider_request_count < 10
+    {
+        return Err(anyhow!(
+            "Godel/constructability boundary must retain launch-plan provider requests for every 10+ Godel agent"
         ));
     }
     require_exact(
