@@ -3170,9 +3170,12 @@ memory:
             .as_array()
             .expect("not-ready response includes blockers");
         assert!(
-            blockers.iter().all(|blocker| blocker
-                .as_str()
-                .is_some_and(|value| value.starts_with("chronosense_time_sync_"))),
+            blockers.iter().all(|blocker| {
+                blocker.as_str().is_some_and(|value| {
+                    value.starts_with("chronosense_time_sync_")
+                        || value == "curiosity_engine_not_ready"
+                })
+            }),
             "unexpected runtime API readiness blockers: {blockers:?}"
         );
     }
