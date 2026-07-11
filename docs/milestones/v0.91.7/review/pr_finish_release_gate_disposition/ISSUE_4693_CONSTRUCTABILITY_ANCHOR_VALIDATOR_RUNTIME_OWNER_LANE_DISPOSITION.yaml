@@ -1,0 +1,26 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 4693
+disposition: approved_with_runtime_owner_lane_proof
+reviewer_or_review_mode: bounded runtime owner-lane review after broad runtime-surface escalation
+focused_validation_run: bash adl/tools/run_owner_validation_lane.sh runtime --build
+residual_ci_proof_required_before_merge: required
+changed_release_gate_surfaces:
+  - adl/src/cli/runtime_v2_cmd/commands.rs
+  - adl/src/cli/runtime_v2_cmd/helpers.rs
+  - adl/src/cli/runtime_v2_cmd/tests.rs
+  - adl/src/cli/usage.rs
+  - adl/src/runtime_v2/constructability_anchor_validator.rs
+  - adl/src/runtime_v2/mod.rs
+  - adl/src/runtime_v2/tests.rs
+  - adl/src/runtime_v2/tests/constructability_anchor_validator.rs
+  - adl/tests/cli_smoke.rs
+  - docs/milestones/v0.91.7/features/CONSTRUCTABILITY_GATE_v0.91.7.md
+evidence:
+  - "Focused constructability validator contract, command, and compiled CLI smoke tests passed locally."
+  - "Clippy passed for the ADL library and binary with warnings denied."
+  - "Bounded pre-PR review passed after all actionable findings were fixed and retested."
+  - "The explicit full-nextest diagnostic was stopped after unrelated Ollama, CSM OTLP loopback, and live GitHub publication tests failed; its retained log demonstrates that the local full profile is not hermetic for this issue."
+non_claims:
+  - "This disposition does not claim that the mixed live full-nextest profile passed locally."
+  - "This disposition does not claim that post-push GitHub checks have completed."
+  - "This disposition does not claim that issue #4693 is merged or closed."

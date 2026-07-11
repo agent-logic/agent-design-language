@@ -5,13 +5,16 @@ use serde_json::{json, to_string_pretty};
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use super::helpers::{resolve_relative_output_path, write_runtime_v2_governed_trace_demo};
+use super::helpers::{
+    resolve_relative_input_path, resolve_relative_output_path, write_runtime_v2_governed_trace_demo,
+};
 use crate::cli::usage;
 use ::adl::{
     long_lived_agent::{self, RunOptions},
     runtime_v2::{
         runtime_v2_aee_obsmem_pvf_trace_handoff_contract,
         runtime_v2_cognitive_being_flagship_demo_contract,
+        runtime_v2_constructability_anchor_validator_contract,
         runtime_v2_contract_market_demo_contract, runtime_v2_csm_integrated_run_contract,
         runtime_v2_curiosity_engine_contract, runtime_v2_feature_proof_coverage_contract,
         runtime_v2_foundation_demo_contract, runtime_v2_godel_agent_runtime_contract_for,
@@ -19,6 +22,7 @@ use ::adl::{
         runtime_v2_minimal_integrated_runtime_path_contract,
         runtime_v2_observatory_flagship_contract, runtime_v2_operator_control_report_contract,
         runtime_v2_reasoning_graph_contract, runtime_v2_security_boundary_proof_contract,
+        RuntimeV2ConstructabilityAnchorValidatorPacket,
     },
 };
 
@@ -672,6 +676,113 @@ pub(crate) fn real_runtime_v2_curiosity_engine(repo_root: &Path, args: &[String]
     Ok(())
 }
 
+pub(crate) fn real_runtime_v2_constructability_anchor_validator(
+    repo_root: &Path,
+    args: &[String],
+) -> Result<()> {
+    let mut input_path: Option<PathBuf> = None;
+    let mut out_path: Option<PathBuf> = None;
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--input" => {
+                let Some(value) = args.get(i + 1) else {
+                    return Err(anyhow!(
+                        "runtime-v2 constructability-anchor-validator requires --input <packet.json>"
+                    ));
+                };
+                input_path = Some(PathBuf::from(value));
+                i += 1;
+            }
+            "--out" => {
+                let Some(value) = args.get(i + 1) else {
+                    return Err(anyhow!(
+                        "runtime-v2 constructability-anchor-validator requires --out <path>"
+                    ));
+                };
+                out_path = Some(PathBuf::from(value));
+                i += 1;
+            }
+            "--help" | "-h" => {
+                println!("{}", usage::usage());
+                return Ok(());
+            }
+            other => {
+                return Err(anyhow!(
+                    "unknown arg for runtime-v2 constructability-anchor-validator: {other}"
+                ))
+            }
+        }
+        i += 1;
+    }
+
+    let resolved_out = out_path
+        .as_ref()
+        .map(|out_path| {
+            resolve_relative_output_path(repo_root, out_path, "constructability-anchor-validator")
+        })
+        .transpose()?;
+    let packet = if let Some(input_path) = input_path {
+        let resolved = resolve_relative_input_path(
+            repo_root,
+            &input_path,
+            "constructability-anchor-validator",
+        )?;
+        if resolved_out
+            .as_ref()
+            .is_some_and(|resolved_out| resolved_out == &resolved)
+        {
+            return Err(anyhow!(
+                "runtime-v2 constructability-anchor-validator --input and --out must be different paths"
+            ));
+        }
+        let bytes = fs::read(&resolved).with_context(|| {
+            format!(
+                "read Runtime v2 Constructability Anchor Validator input {}",
+                input_path.display()
+            )
+        })?;
+        if let Some(resolved_out) = &resolved_out {
+            match fs::remove_file(resolved_out) {
+                Ok(()) => {}
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                Err(error) => {
+                    return Err(error).with_context(|| {
+                        format!(
+                            "remove stale Runtime v2 Constructability Anchor Validator output {}",
+                            out_path
+                                .as_ref()
+                                .expect("resolved output has requested path")
+                                .display()
+                        )
+                    })
+                }
+            }
+        }
+        let packet: RuntimeV2ConstructabilityAnchorValidatorPacket = serde_json::from_slice(&bytes)
+            .with_context(|| {
+                format!(
+                    "parse Runtime v2 Constructability Anchor Validator input {}",
+                    input_path.display()
+                )
+            })?;
+        packet.canonicalized()?
+    } else {
+        runtime_v2_constructability_anchor_validator_contract()?
+    };
+    let Some(out_path) = out_path else {
+        println!("{}", to_string_pretty(&packet)?);
+        return Ok(());
+    };
+    let resolved = resolved_out.expect("output path was resolved above");
+    packet.write_to_path(&resolved)?;
+    println!(
+        "{}",
+        constructability_anchor_validator_stdout_line(&out_path)
+    );
+    Ok(())
+}
+
 pub(crate) fn real_runtime_v2_loop_runtime(repo_root: &Path, args: &[String]) -> Result<()> {
     let mut out_path: Option<PathBuf> = None;
     let mut i = 0usize;
@@ -883,6 +994,13 @@ pub(crate) fn reasoning_graph_stdout_line(out_path: &Path) -> String {
 
 pub(crate) fn curiosity_engine_stdout_line(out_path: &Path) -> String {
     format!("RUNTIME_V2_CURIOSITY_ENGINE_PATH={}", out_path.display())
+}
+
+pub(crate) fn constructability_anchor_validator_stdout_line(out_path: &Path) -> String {
+    format!(
+        "RUNTIME_V2_CONSTRUCTABILITY_ANCHOR_VALIDATOR_PATH={}",
+        out_path.display()
+    )
 }
 
 pub(crate) fn loop_runtime_stdout_line(out_path: &Path) -> String {
