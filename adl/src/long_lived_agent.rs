@@ -1594,7 +1594,6 @@ impl CycleShellInputs {
 }
 
 fn capture_cycle_shell_input(
-    _cycle_dir: &Path,
     cycle_id: &str,
     shell_class: NondeterministicShellClass,
     source: &str,
@@ -1620,7 +1619,6 @@ fn capture_cycle_shell_input(
 
 fn capture_initial_cycle_shell_inputs(
     loaded: &LoadedAgentSpec,
-    cycle_dir: &Path,
     cycle_id: &str,
     observed_at: DateTime<Utc>,
     provider_binding: &Value,
@@ -1693,7 +1691,6 @@ fn capture_initial_cycle_shell_inputs(
     let mut retained = Vec::new();
     for (shell_class, source, confidence, value) in observations {
         let event = capture_cycle_shell_input(
-            cycle_dir,
             cycle_id,
             shell_class,
             source,
@@ -1744,13 +1741,8 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
     let previous_cycle_id = latest_cycle_id(loaded)?;
     let workflow_ref = workflow_ref(&loaded.spec.workflow);
     let provider_binding = provider_binding(loaded, cycle_id, started_at);
-    let mut shell_inputs = capture_initial_cycle_shell_inputs(
-        loaded,
-        &cycle_dir,
-        cycle_id,
-        started_at,
-        &provider_binding,
-    )?;
+    let mut shell_inputs =
+        capture_initial_cycle_shell_inputs(loaded, cycle_id, started_at, &provider_binding)?;
     let scheduler_request = CoreDecisionRequest::new(
         format!("{cycle_id}-scheduler-admission"),
         DeterministicCoreComponent::SchedulerAdmission,
@@ -1904,7 +1896,6 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
         ));
     }
     let provider_result_event = capture_cycle_shell_input(
-        &cycle_dir,
         cycle_id,
         NondeterministicShellClass::ProviderModelIo,
         "csm_provider_execution_result",
@@ -1917,7 +1908,6 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
 
     let completion_at = Utc::now();
     let completion_clock_event = capture_cycle_shell_input(
-        &cycle_dir,
         cycle_id,
         NondeterministicShellClass::WallClock,
         "chronosense_utc_clock",
