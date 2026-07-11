@@ -96,7 +96,7 @@ impl CheckpointAuthority {
         manifest.signature.clear();
         let bytes = serde_json::to_vec(manifest)
             .map_err(|error| ContinuityError::Encoding(error.to_string()))?;
-        manifest.signature = encode_hex(&self.signing_key.sign(&bytes).to_bytes());
+        manifest.signature = hex::encode(self.signing_key.sign(&bytes).to_bytes());
         Ok(())
     }
 }
@@ -296,8 +296,10 @@ fn verify_manifest_signature(
     let key = trusted_keys
         .get(&manifest.signing_key_id)
         .ok_or_else(|| ContinuityError::UnknownSigningKey(manifest.signing_key_id.clone()))?;
-    let signature = Signature::from_slice(&decode_hex(&manifest.signature)?)
-        .map_err(|_| ContinuityError::Signature)?;
+    let signature_bytes =
+        hex::decode(&manifest.signature).map_err(|_| ContinuityError::Signature)?;
+    let signature =
+        Signature::from_slice(&signature_bytes).map_err(|_| ContinuityError::Signature)?;
     let mut unsigned = manifest.clone();
     unsigned.signature.clear();
     let bytes = serde_json::to_vec(&unsigned)
@@ -589,35 +591,6 @@ pub async fn checkpoint_and_shutdown(
 
 fn digest(bytes: &[u8]) -> String {
     blake3::hash(bytes).to_hex().to_string()
-}
-
-fn encode_hex(bytes: &[u8]) -> String {
-    const HEX: &[u8; 16] = b"0123456789abcdef";
-    let mut encoded = String::with_capacity(bytes.len() * 2);
-    for byte in bytes {
-        encoded.push(HEX[(byte >> 4) as usize] as char);
-        encoded.push(HEX[(byte & 0x0f) as usize] as char);
-    }
-    encoded
-}
-
-fn decode_hex(value: &str) -> Result<Vec<u8>, ContinuityError> {
-    if !value.len().is_multiple_of(2) {
-        return Err(ContinuityError::Signature);
-    }
-    value
-        .as_bytes()
-        .chunks_exact(2)
-        .map(|pair| {
-            let high = (pair[0] as char)
-                .to_digit(16)
-                .ok_or(ContinuityError::Signature)?;
-            let low = (pair[1] as char)
-                .to_digit(16)
-                .ok_or(ContinuityError::Signature)?;
-            Ok(((high << 4) | low) as u8)
-        })
-        .collect()
 }
 
 fn digest_json<T: Serialize>(value: &T) -> Result<String, ContinuityError> {

@@ -65,9 +65,9 @@
       "id": "control.health_observability",
       "sources": ["adl/src/runtime_v2/operator.rs", "adl/src/runtime_v2/observatory*.rs", "adl-runtime/src/runtime_api.rs"],
       "runtime_v3_owner": "control and observability services",
-      "disposition": "planned_5177",
-      "parity": "coherent snapshot, governed commands, logs, metrics, traces, health, system-weather observations and threshold transitions",
-      "proof": "adl-runtime-kernel/tests/configuration.rs plus control API and correlation contract tests"
+      "disposition": "implemented_5177",
+      "parity": "revisioned coherent snapshot, Ed25519 governed idempotent commands, queue saturation, correlated logs and traces, health, system-weather observations and threshold transitions",
+      "proof": "adl-runtime-kernel/tests/control.rs and adl-runtime-kernel/tests/configuration.rs; exporter delivery remains an explicit non-claim"
     },
     {
       "id": "reasoning.graphs_and_loops",
