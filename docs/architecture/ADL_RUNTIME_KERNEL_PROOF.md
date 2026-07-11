@@ -195,3 +195,8 @@ design-by-contract layer while preserving the architecture above. See
 contract and baseline-comparison diagrams, and
 `docs/architecture/runtime_v3_parity_matrix.v1.json` for the machine-readable
 parity inventory and cumulative LoC/test targets.
+
+Issue #5182 adds declarative configuration, mandatory contract-checked factory
+construction, canonical effective topology, and a compact sysinfo-backed
+system-weather foundation. See
+`docs/architecture/RUNTIME_V3_CONFIGURATION_WEATHER_ARCHITECTURE.md`.

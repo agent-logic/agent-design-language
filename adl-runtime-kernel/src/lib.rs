@@ -2,18 +2,25 @@
 
 pub mod channel;
 pub mod component;
+pub mod config;
 pub mod contract;
 pub mod proof;
 pub mod supervisor;
 pub mod telemetry;
 pub mod topology;
+pub mod weather;
 
 pub use channel::{channel, BoundedReceiver, BoundedSender, ChannelFullPolicy};
 pub use component::{
     Component, ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec,
     FailurePolicy, PortSpec, RunningState,
 };
+pub use config::*;
 pub use contract::*;
 pub use supervisor::{Kernel, KernelError, KernelExit, KernelHandle};
 pub use telemetry::{BootstrapEvent, ClockAuthority, RuntimeRecorder};
-pub use topology::{ComponentRegistry, TopologyError, ValidatedTopology};
+pub use topology::{
+    ComponentRegistry, ConfiguredTopology, FactoryRegistration, FactoryRegistry, TopologyError,
+    ValidatedTopology,
+};
+pub use weather::*;
