@@ -21,8 +21,12 @@ evidence:
   - "Focused constructability validator contract, command, and compiled CLI smoke tests passed locally."
   - "Clippy passed for the ADL library and binary with warnings denied."
   - "Bounded pre-PR review passed after all actionable findings were fixed and retested."
+  - "Exact runtime owner lane passed on CodeBuild XLARGE at commit 1015f6e95: bash adl/tools/run_owner_validation_lane.sh runtime --build completed successfully in 297.3 seconds."
+  - "The owner-lane contract test passed locally and now requires exact normalized parity between all 28 installer-default binaries and the build plan."
   - "The explicit full-nextest diagnostic was stopped after unrelated Ollama, CSM OTLP loopback, and live GitHub publication tests failed; its retained log demonstrates that the local full profile is not hermetic for this issue."
+  - "The exact containerized Nessus owner-lane rerun at commit 1015f6e95 failed after 673 seconds with no space left on device while building the ADL library archive; it is retained as negative platform evidence and is not used as validation proof."
 non_claims:
   - "This disposition does not claim that the mixed live full-nextest profile passed locally."
+  - "This disposition does not claim that the Nessus owner-lane run passed."
   - "This disposition does not claim that post-push GitHub checks have completed."
   - "This disposition does not claim that issue #4693 is merged or closed."
