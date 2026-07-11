@@ -96,7 +96,7 @@ completion proof by themselves.
 | Constructability Gate | implementation_required | `v0.91.7` WP-10 | Birthday evidence must distinguish provisional cognition from authoritative shared reality. |
 | Reasoning graph, loop runtime, and `adl.skill.v1` | implementation_required | `v0.91.7` WP-11 | Pre-`v0.92` implementation must connect prompts, skills, loops, trace, ObsMem, PVF, AEE, Runtime v2, UTS, ACC, and `adl.skill.v1`; deeper convergence remains later. |
 | Affect, happiness, humor, and wellbeing claims | implementation_required | `v0.91.7` WP-13 | Public birthday evidence must not imply unproved affect or wellbeing claims. |
-| Godel mechanics | implementation_required | `v0.91.7` WP-13 and `v0.92` birthday docs | Experiment, hypothesis, mutation, evaluation, promotion, and proof boundaries must be reviewable before the first true Godel-agent birthday claim relies on them. |
+| Godel mechanics | integrated_proven for claim-boundary consumption; live hosted invocation and adaptive DAG completion not_claimed | `v0.91.7` WP-13 and `v0.92` birthday docs | The first true Godel-agent birthday may consume only the Runtime v2 Godel/constructability boundary: retained Godel runtime evidence plus constructability anchors, validator pass, and operator review. |
 | Economics context | operator_scoped_out | `v0.91.7` WP-13 | Economics is context-only for `v0.92` unless a reviewed decision reopens explicit activation tests; that scoped-out posture requires retained evidence, risk, and operator approval. |
 
 ## Birthday Contract Refresh

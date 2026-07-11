@@ -46,7 +46,7 @@ and only `integrated_proven` counts as operational completion.
 | Security readiness | blocked_with_evidence until resolved | Unresolved activation blockers must be resolved or blocked with evidence and operator approval before launch. | `features/SECURITY_RESIDUAL_READINESS_v0.91.7.md` |
 | ACIP/A2A/protobuf implementation | blocked_with_evidence until resolved | `v0.92` must choose JSON projection, protobuf, or another implemented carrier before claiming protocol readiness. | `features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md` |
 | Affect and happiness | implementation_required | `v0.92` may consume this surface only after the affect model and public claim boundaries are implemented/proven or blocked with evidence and operator approval. | `features/AFFECT_HAPPINESS_BRIDGE_v0.91.7.md` |
-| Godel mechanics | implementation_required | `v0.92` may consume this surface only after reviewed mechanics and proof boundaries are integrated/proven or blocked with evidence and operator approval. | `features/GODEL_MECHANICS_BRIDGE_v0.91.7.md` |
+| Godel mechanics | integrated_proven for claim-boundary consumption; live hosted invocation and adaptive DAG completion not_claimed | `v0.92` may consume the Runtime v2 Godel/constructability boundary for reviewed birthday claims only when retained Godel runtime evidence and constructability anchors are cited. | `features/GODEL_MECHANICS_BRIDGE_v0.91.7.md`; `review/wp13_godel_constructability_boundary_4753.md` |
 | Economics context | operator_scoped_out unless reopened | Default `v0.92` posture is context-only unless an explicit operator decision promotes and proves a bounded test. | `features/ECONOMICS_CONTEXT_DECISION_v0.91.7.md` |
 
 ## Operational Substrate Handoff
