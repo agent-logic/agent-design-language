@@ -52,7 +52,7 @@ boundary in nearby copy.
 The focused proving command for this packet is:
 
 ```sh
-cargo test --manifest-path adl/Cargo.toml runtime_v2_affect_reasoning_control -- --nocapture
+cargo test --manifest-path adl/Cargo.toml --lib runtime_v2_affect_reasoning_control -- --nocapture
 ```
 
 Docs and patch integrity are checked with:

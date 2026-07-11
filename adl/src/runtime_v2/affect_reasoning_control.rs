@@ -414,7 +414,7 @@ pub fn affect_happiness_safe_test_model() -> Result<AffectHappinessSafeTestModel
             ],
         },
         proof_commands: vec![
-            "cargo test --manifest-path adl/Cargo.toml runtime_v2_affect_reasoning_control -- --nocapture".to_string(),
+            "cargo test --manifest-path adl/Cargo.toml --lib runtime_v2_affect_reasoning_control -- --nocapture".to_string(),
             "git diff --check".to_string(),
         ],
     };
@@ -556,7 +556,7 @@ pub fn validate_affect_happiness_safe_test_model(
     require_fields(
         &model.proof_commands,
         &[
-            "cargo test --manifest-path adl/Cargo.toml runtime_v2_affect_reasoning_control -- --nocapture",
+            "cargo test --manifest-path adl/Cargo.toml --lib runtime_v2_affect_reasoning_control -- --nocapture",
             "git diff --check",
         ],
         "safe-test model proof_commands",
