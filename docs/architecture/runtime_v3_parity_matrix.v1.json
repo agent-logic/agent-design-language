@@ -73,17 +73,17 @@
       "id": "reasoning.graphs_and_loops",
       "sources": ["adl/src/runtime_v2/reasoning_graph.rs", "adl/src/runtime_v2/loop_runtime.rs"],
       "runtime_v3_owner": "reasoning service",
-      "disposition": "planned_5180",
+      "disposition": "implemented_5180",
       "parity": "graph validation, bounded loops, deterministic replay and resume continuity",
-      "proof": "shared graph and loop negative fixtures"
+      "proof": "adl-runtime-kernel/tests/reasoning.rs"
     },
     {
       "id": "learning.adaptive_dag",
       "sources": ["adl/src/runtime_v2/governed_learning_substrate.rs", "v0.92 adaptive-learning planning"],
       "runtime_v3_owner": "adaptive learning service",
-      "disposition": "planned_5180",
+      "disposition": "implemented_5180",
       "parity": "evaluation feedback, stateful adaptation, policy-governed graph mutation",
-      "proof": "bounded convergence, invalid mutation, rollback, and resume fixtures"
+      "proof": "adl-runtime-kernel/tests/reasoning.rs"
     },
     {
       "id": "governance.freedom_gate_aee",

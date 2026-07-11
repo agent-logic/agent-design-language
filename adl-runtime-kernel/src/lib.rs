@@ -7,6 +7,7 @@ pub mod continuity;
 pub mod contract;
 pub mod control;
 pub mod proof;
+pub mod reasoning;
 pub mod supervisor;
 pub mod telemetry;
 pub mod topology;
@@ -21,6 +22,7 @@ pub use config::*;
 pub use continuity::*;
 pub use contract::*;
 pub use control::*;
+pub use reasoning::*;
 pub use supervisor::{Kernel, KernelControl, KernelError, KernelExit, KernelHandle};
 pub use telemetry::*;
 pub use topology::{
