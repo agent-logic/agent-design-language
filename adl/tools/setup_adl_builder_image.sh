@@ -11,7 +11,7 @@ Usage:
 Options:
   --image-uri <uri>          Explicit image URI. Required for --write-env unless --ecr-repository is used.
   --ecr-repository <name>    ECR repository name. Defaults to adl-builder.
-  --tag <tag>                Image tag. Defaults to v0.91.7.
+  --tag <tag>                Image tag. Defaults to v0.91.7-fixed.
   --region <region>          AWS region. Defaults to us-west-2.
   --aws-profile <profile>    AWS profile. Defaults to agent-logic-admin.
   --docker-bin <path>        Docker-compatible CLI. Defaults to docker.
@@ -40,7 +40,7 @@ EOF
 
 IMAGE_URI="${ADL_BUILDER_IMAGE:-}"
 ECR_REPOSITORY="${ADL_BUILDER_ECR_REPOSITORY:-adl-builder}"
-TAG="${ADL_BUILDER_IMAGE_TAG:-v0.91.7}"
+TAG="${ADL_BUILDER_IMAGE_TAG:-v0.91.7-fixed}"
 REGION="${ADL_AWS_REGION:-us-west-2}"
 AWS_PROFILE_VALUE="${AWS_PROFILE:-agent-logic-admin}"
 DOCKER_BIN="${DOCKER_BIN:-docker}"
