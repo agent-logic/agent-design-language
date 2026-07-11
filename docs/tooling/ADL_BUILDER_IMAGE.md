@@ -31,7 +31,7 @@ For the Agent Logic AWS account, use the business profile:
 AWS_PROFILE=agent-logic-admin \
 adl/tools/setup_adl_builder_image.sh \
   --ecr-repository adl-builder \
-  --tag v0.91.7 \
+  --tag v0.91.7-fixed \
   --ensure-ecr \
   --push \
   --write-env .adl/local/adl-builder-image.env
@@ -51,14 +51,14 @@ If Docker's direct ECR push path is unreliable from the operator machine, use
 S3 as the transit layer:
 
 ```sh
-docker save <image-uri> -o .adl/local/builder-image/adl-builder-v0.91.7-amd64.tar
+docker save <image-uri> -o .adl/local/builder-image/adl-builder-v0.91.7-fixed-amd64.tar
 AWS_PROFILE=agent-logic-admin \
 aws s3 cp \
-  .adl/local/builder-image/adl-builder-v0.91.7-amd64.tar \
-  s3://adl-codefriend-build-cache/builder-images/adl-builder/v0.91.7/amd64/adl-builder-v0.91.7-amd64.tar
+  .adl/local/builder-image/adl-builder-v0.91.7-fixed-amd64.tar \
+  s3://adl-codefriend-build-cache/builder-images/adl-builder/v0.91.7-fixed/amd64/adl-builder-v0.91.7-fixed-amd64.tar
 AWS_PROFILE=agent-logic-admin \
 adl/tools/import_adl_builder_image_from_s3_to_ecr.sh \
-  --s3-uri s3://adl-codefriend-build-cache/builder-images/adl-builder/v0.91.7/amd64/adl-builder-v0.91.7-amd64.tar \
+  --s3-uri s3://adl-codefriend-build-cache/builder-images/adl-builder/v0.91.7-fixed/amd64/adl-builder-v0.91.7-fixed-amd64.tar \
   --image-uri <ecr-image-uri> \
   --ensure-role-policy \
   --create-project \
@@ -67,6 +67,13 @@ adl/tools/import_adl_builder_image_from_s3_to_ecr.sh \
 
 That importer uses a privileged, purpose-specific CodeBuild project to
 `docker load` the S3 tar and push it to ECR from inside AWS.
+
+The canonical ADL remote-build image tag for the repaired v0.91.7 toolchain is
+`v0.91.7-fixed`. Do not publish or select the stale `v0.91.7` tag for
+nextest-backed remote validation lanes; that tag does not carry the retained
+post-repair contract. Every canonical image build must prove
+`cargo nextest --version` inside the image before CodeBuild, Spot, Nessus, or
+local builder-image mode uses it.
 
 The importer project is `adl-builder-image-import`. It uses the existing
 CodeBuild service role, the existing `/aws/codebuild/adl-codefriend-build` log

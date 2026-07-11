@@ -28,6 +28,9 @@ Rules:
   build job.
 - The ADL builder image must include `cargo-nextest`; PR-fast Rust lanes depend
   on it.
+- Use the canonical repaired tag, `adl-builder:v0.91.7-fixed`, or an ECR image
+  URI that points at that same image build. Do not route nextest-backed remote
+  validation through the stale `v0.91.7` builder tag.
 - Put scratch outputs under ignored `.adl/local-artifacts/`.
 - Record the platform, cache posture, benchmark line, and proof artifact path.
 

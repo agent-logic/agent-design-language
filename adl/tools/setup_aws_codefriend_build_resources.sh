@@ -16,7 +16,7 @@ Options:
   --source-location <url>         CodeBuild GitHub source URL.
   --compute-type <type>           CodeBuild compute type. Default: BUILD_GENERAL1_LARGE.
   --image-uri <uri>               CodeBuild environment image. Default: ADL_AWS_CODEFRIEND_IMAGE,
-                                  then aws/codebuild/standard:7.0.
+                                  then adl-builder:v0.91.7-fixed.
   --cache-bucket <bucket>         S3 cache bucket. Default: adl-codefriend-build-cache.
   --cache-prefix <prefix>         S3 cache prefix. Default: codebuild/cache.
   --github-role-name <name>       OIDC role for GitHub Actions.
@@ -43,7 +43,7 @@ PROJECT_NAME="${ADL_AWS_CODEFRIEND_CODEBUILD_PROJECT:-adl-codefriend-build}"
 REPO="danielbaustin/agent-design-language"
 SOURCE_LOCATION="https://github.com/danielbaustin/agent-design-language.git"
 COMPUTE_TYPE="${ADL_AWS_CODEFRIEND_COMPUTE_TYPE:-BUILD_GENERAL1_LARGE}"
-IMAGE_URI="${ADL_AWS_CODEFRIEND_IMAGE:-aws/codebuild/standard:7.0}"
+IMAGE_URI="${ADL_AWS_CODEFRIEND_IMAGE:-adl-builder:v0.91.7-fixed}"
 CACHE_BUCKET="${ADL_AWS_CODEFRIEND_CACHE_BUCKET:-adl-codefriend-build-cache}"
 CACHE_PREFIX="${ADL_AWS_CODEFRIEND_CACHE_PREFIX:-codebuild/cache}"
 GITHUB_ROLE_NAME="adl-codefriend-github-actions-build-role"

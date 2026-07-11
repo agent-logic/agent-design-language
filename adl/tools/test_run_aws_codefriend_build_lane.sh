@@ -203,7 +203,7 @@ assert_has "$SETUP_SCRIPT" "--compute-type <type>"
 assert_has "$SETUP_SCRIPT" "--image-uri <uri>"
 assert_has "$SETUP_SCRIPT" "--cache-bucket <bucket>"
 assert_has "$SETUP_SCRIPT" 'CACHE_BUCKET="${ADL_AWS_CODEFRIEND_CACHE_BUCKET:-adl-codefriend-build-cache}"'
-assert_has "$SETUP_SCRIPT" 'IMAGE_URI="${ADL_AWS_CODEFRIEND_IMAGE:-aws/codebuild/standard:7.0}"'
+assert_has "$SETUP_SCRIPT" 'IMAGE_URI="${ADL_AWS_CODEFRIEND_IMAGE:-adl-builder:v0.91.7-fixed}"'
 assert_has "$SETUP_SCRIPT" 'COMPUTE_TYPE="${ADL_AWS_CODEFRIEND_COMPUTE_TYPE:-BUILD_GENERAL1_LARGE}"'
 assert_has "$SETUP_SCRIPT" '"computeType": compute_type'
 assert_has "$SETUP_SCRIPT" '"image": image_uri'
@@ -277,7 +277,7 @@ bash "$SETUP_SCRIPT" \
   --region us-west-2 \
   --project-name adl-codefriend-build \
   --compute-type BUILD_GENERAL1_XLARGE \
-  --image-uri example.invalid/adl-builder:v0.91.7 \
+  --image-uri example.invalid/adl-builder:v0.91.7-fixed \
   --cache-bucket adl-codefriend-build-cache \
   --cache-prefix codebuild/cache \
   --artifact-dir "$TMP/setup-artifacts" >"$TMP/setup.out"
@@ -292,7 +292,7 @@ from pathlib import Path
 project = json.loads(Path(sys.argv[1]).read_text())
 buildspec = project["source"]["buildspec"]
 assert project["environment"]["computeType"] == "BUILD_GENERAL1_XLARGE"
-assert project["environment"]["image"] == "example.invalid/adl-builder:v0.91.7"
+assert project["environment"]["image"] == "example.invalid/adl-builder:v0.91.7-fixed"
 assert project["environment"]["imagePullCredentialsType"] == "CODEBUILD"
 assert project["cache"]["type"] == "LOCAL"
 assert project["cache"]["modes"] == ["LOCAL_SOURCE_CACHE", "LOCAL_CUSTOM_CACHE"]
@@ -336,7 +336,7 @@ bash "$SETUP_SCRIPT" \
   --region us-west-2 \
   --project-name adl-codefriend-build \
   --compute-type BUILD_GENERAL1_XLARGE \
-  --image-uri 000000000000.dkr.ecr.us-west-2.amazonaws.com/adl-builder:v0.91.7 \
+  --image-uri 000000000000.dkr.ecr.us-west-2.amazonaws.com/adl-builder:v0.91.7-fixed \
   --cache-bucket adl-codefriend-build-cache \
   --cache-prefix codebuild/cache \
   --artifact-dir "$TMP/setup-ecr-artifacts" >"$TMP/setup-ecr.out"
@@ -349,7 +349,7 @@ from pathlib import Path
 
 project = json.loads(Path(sys.argv[1]).read_text())
 policy = json.loads(Path(sys.argv[2]).read_text())
-assert project["environment"]["image"] == "000000000000.dkr.ecr.us-west-2.amazonaws.com/adl-builder:v0.91.7"
+assert project["environment"]["image"] == "000000000000.dkr.ecr.us-west-2.amazonaws.com/adl-builder:v0.91.7-fixed"
 assert project["environment"]["imagePullCredentialsType"] == "SERVICE_ROLE"
 actions = {
     action

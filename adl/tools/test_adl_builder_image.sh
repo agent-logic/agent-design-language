@@ -39,6 +39,10 @@ assert_has "$config" "docker_config=.adl/local/docker-config"
 assert_has "$config" "platform=linux/amd64"
 assert_has "$config" "aws_profile=agent-logic-admin"
 
+default_config="$TMP/default-config.txt"
+bash "$SCRIPT" --print-config >"$default_config"
+assert_has "$default_config" "builder_image=adl-builder:v0.91.7-fixed"
+
 env_file="$TMP/builder.env"
 bash "$SCRIPT" --image-uri "example.invalid/adl-builder:test" --write-env "$env_file"
 assert_has "$env_file" "ADL_BUILDER_IMAGE=example.invalid/adl-builder:test"
