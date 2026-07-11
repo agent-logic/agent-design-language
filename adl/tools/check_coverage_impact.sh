@@ -227,6 +227,7 @@ candidate_filter_for_path() {
       printf 'csmctl'
       ;;
     adl/src/csm_api_gateway_bridge.rs|\
+    adl/src/csm_curiosity_engine.rs|\
     adl/src/csm_godel_snapshot.rs|\
     adl/src/csm_runtime_api.rs|\
     adl/src/csm_shepherd_agent.rs|\
