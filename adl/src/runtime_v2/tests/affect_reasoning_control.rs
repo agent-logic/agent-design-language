@@ -117,3 +117,88 @@ fn runtime_v2_affect_reasoning_control_rejects_empty_assessment_limitations() {
         .to_string();
     assert!(err.contains("must include at least one limitation"));
 }
+
+#[test]
+fn runtime_v2_affect_happiness_safe_test_model_validates() {
+    let model = affect_happiness_safe_test_model().expect("model");
+    let affect_packet = affect_reasoning_control_packet().expect("affect packet");
+    let wellbeing_packet = wellbeing_diagnostic_packet().expect("wellbeing packet");
+
+    validate_affect_happiness_safe_test_model(&model, &affect_packet, &wellbeing_packet)
+        .expect("model should validate");
+
+    assert_eq!(model.runtime_inputs.len(), 2);
+    assert!(model
+        .public_claim_boundary
+        .unsupported_claims
+        .contains(&"subjective_happiness".to_string()));
+    assert!(model
+        .public_claim_boundary
+        .unsupported_claims
+        .contains(&"consciousness".to_string()));
+}
+
+#[test]
+fn runtime_v2_affect_happiness_safe_test_model_json_materialization_is_stable() {
+    let mut model = affect_happiness_safe_test_model().expect("model");
+    model.runtime_inputs.reverse();
+    model.consumed_affect_signal_ids.reverse();
+    model.consumed_wellbeing_dimension_ids.reverse();
+    model.public_claim_boundary.unsupported_claims.reverse();
+
+    let first = affect_happiness_safe_test_model_json_bytes(&model).expect("first");
+    let second = affect_happiness_safe_test_model_json_bytes(&model).expect("second");
+
+    assert_eq!(first, second);
+}
+
+#[test]
+fn runtime_v2_affect_happiness_safe_test_model_rejects_missing_non_claim() {
+    let mut model = affect_happiness_safe_test_model().expect("model");
+    model
+        .public_claim_boundary
+        .unsupported_claims
+        .retain(|claim| claim != "subjective_happiness");
+    let affect_packet = affect_reasoning_control_packet().expect("affect packet");
+    let wellbeing_packet = wellbeing_diagnostic_packet().expect("wellbeing packet");
+
+    let err = validate_affect_happiness_safe_test_model(&model, &affect_packet, &wellbeing_packet)
+        .expect_err("missing non-claim should fail")
+        .to_string();
+
+    assert!(err.contains("subjective_happiness"));
+}
+
+#[test]
+fn runtime_v2_affect_happiness_safe_test_model_rejects_affect_input_drift() {
+    let mut model = affect_happiness_safe_test_model().expect("model");
+    let affect_packet = affect_reasoning_control_packet().expect("affect packet");
+    let wellbeing_packet = wellbeing_diagnostic_packet().expect("wellbeing packet");
+    let affect_input = model
+        .runtime_inputs
+        .iter_mut()
+        .find(|input| input.input_id == "runtime-input-affect-reasoning-control")
+        .expect("affect input");
+    affect_input.packet_id = "wrong-packet".to_string();
+
+    let err = validate_affect_happiness_safe_test_model(&model, &affect_packet, &wellbeing_packet)
+        .expect_err("affect packet drift should fail")
+        .to_string();
+
+    assert!(err.contains("affect runtime input packet_id"));
+}
+
+#[test]
+fn runtime_v2_affect_happiness_safe_test_model_rejects_public_guard_drift() {
+    let mut model = affect_happiness_safe_test_model().expect("model");
+    model.public_claim_boundary.required_copy_guards =
+        vec!["Say nice things about happiness.".to_string()];
+    let affect_packet = affect_reasoning_control_packet().expect("affect packet");
+    let wellbeing_packet = wellbeing_diagnostic_packet().expect("wellbeing packet");
+
+    let err = validate_affect_happiness_safe_test_model(&model, &affect_packet, &wellbeing_packet)
+        .expect_err("copy guard drift should fail")
+        .to_string();
+
+    assert!(err.contains("required_copy_guards"));
+}
