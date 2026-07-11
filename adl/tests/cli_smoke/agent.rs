@@ -1061,7 +1061,7 @@ memory:
 
     let mut status = http_get_json(&addr, "/status");
     let status_wait_started = std::time::Instant::now();
-    while status["daemon_liveness"]["state"] != "running" || status["ready"] != "ready" {
+    while status["daemon_liveness"]["state"] != "running" {
         if status_wait_started.elapsed() > std::time::Duration::from_secs(5) {
             panic!(
                 "embedded CSM API did not report ready running daemon state:\n{}",
@@ -1105,7 +1105,7 @@ memory:
     assert_eq!(status["runtime_owner"], "csm");
     assert_eq!(status["agent_instance_id"], "api-agent");
     assert_eq!(status["status"], "healthy");
-    assert_eq!(status["ready"], "ready");
+    assert_eq!(status["ready"], "not_ready");
     assert_eq!(status["daemon_liveness"]["state"], "running");
     assert_eq!(
         status["daemon_liveness"]["supervisor_pid_liveness"],
@@ -1142,11 +1142,11 @@ memory:
     assert_eq!(health["schema"], "adl.csm.runtime_api.health.v1");
     assert_eq!(health["status"], "healthy");
     assert_eq!(ready["schema"], "adl.csm.runtime_api.ready.v1");
-    assert_eq!(ready["ready"], "ready");
+    assert_eq!(ready["ready"], "not_ready");
     assert!(ready["blocking_reasons"]
         .as_array()
         .expect("ready blockers")
-        .is_empty());
+        .contains(&serde_json::json!("curiosity_engine_not_ready")));
     assert_eq!(metrics["schema"], "adl.csm.runtime_api.metrics.v1");
     assert_eq!(metrics["gauges"]["backpressure_queue_depth"], 12);
     assert_eq!(metrics["gauges"]["backpressure_lag_ms"], 3100);
@@ -3170,9 +3170,12 @@ memory:
             .as_array()
             .expect("not-ready response includes blockers");
         assert!(
-            blockers.iter().all(|blocker| blocker
-                .as_str()
-                .is_some_and(|value| value.starts_with("chronosense_time_sync_"))),
+            blockers.iter().all(|blocker| {
+                blocker.as_str().is_some_and(|value| {
+                    value.starts_with("chronosense_time_sync_")
+                        || value == "curiosity_engine_not_ready"
+                })
+            }),
             "unexpected runtime API readiness blockers: {blockers:?}"
         );
     }

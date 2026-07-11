@@ -41,6 +41,12 @@ pub fn default_component_supervision() -> Vec<ComponentSupervisionPolicy> {
             telemetry_can_degrade: false,
         },
         ComponentSupervisionPolicy {
+            component: "curiosity_engine",
+            restart_policy: ComponentRestartPolicy::DegradeAndContinue,
+            critical_for_continuity: false,
+            telemetry_can_degrade: false,
+        },
+        ComponentSupervisionPolicy {
             component: "checkpoint",
             restart_policy: ComponentRestartPolicy::EscalateToGovernedShutdown,
             critical_for_continuity: true,

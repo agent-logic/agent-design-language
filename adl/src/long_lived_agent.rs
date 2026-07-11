@@ -14,6 +14,7 @@ use crate::chronosense::{
     capture_runtime_time_sync_status, start_runtime_time_observation, ChronosenseRuntimeService,
     ChronosenseRuntimeServiceConfig,
 };
+use crate::csm_curiosity_engine;
 use crate::csm_godel_snapshot::{validate_recovery_read, write_checkpoint_snapshot_diff};
 use crate::csm_resident_agents;
 use crate::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
@@ -2837,6 +2838,26 @@ fn write_daemon_status(
             }),
         );
     }
+    if let Err(err) = csm_curiosity_engine::write_status_snapshot(
+        &loaded.state_root,
+        &loaded.spec.agent_instance_id,
+        effective_state,
+        agent_state.as_deref(),
+        false,
+    ) {
+        let _ = append_operator_event(
+            loaded,
+            "csm_curiosity_engine_status_write_failed",
+            json!({
+                "schema": "adl.csm.curiosity_engine.write_failure.v1",
+                "runtime_owner": "csm",
+                "component": "curiosity_engine",
+                "status": "degraded_nonfatal",
+                "reason": err.to_string(),
+                "recovery_policy": "continue_runtime_and_surface_missing_or_fail_closed_curiosity_status"
+            }),
+        );
+    }
     if let Err(err) = write_json_pretty(
         &loaded
             .state_root
@@ -3134,6 +3155,7 @@ fn csm_runtime_capabilities_with_resident_agents(
         },
         "resident_agents": resident_agents_status,
         "polis_shepherd_agent": csm_shepherd_agent::runtime_capability(),
+        "curiosity_engine": csm_curiosity_engine::runtime_capability(),
         "observability": {
             "status": "integrated",
             "event_command": "csm",
