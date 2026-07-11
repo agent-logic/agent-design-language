@@ -5908,6 +5908,51 @@ fn finish_validation_profile_accepts_ready_profile_with_registered_builder_image
 }
 
 #[test]
+fn finish_validation_profile_accepts_ready_profile_with_unity_v0917_integrated_proof_command() {
+    let temp = unique_temp_dir("adl-pr-finish-publishable-unity-v0917-integrated-proof-command");
+    let repo = temp.join("repo");
+    fs::create_dir_all(repo.join("adl/config")).expect("adl config dir");
+    fs::write(
+        repo.join("adl/config/validation_lane_selector.v0.91.6.json"),
+        r#"{"schema_version":"adl.validation_lane_selector.v1","lanes":[{"id":"unity_observatory_v0917_integrated_proof","run_command":"bash adl/tools/test_v0917_unity_observatory_integrated_proof.sh"}]}"#,
+    )
+    .expect("validation manifest");
+    let profile = FinishValidationProfile {
+        selected_profile: "unity_observatory_v0917_integrated_proof".to_string(),
+        status: "ready_to_run".to_string(),
+        pr_publication_sufficient: true,
+        validation_split: None,
+        run: vec![FinishValidationProfileRunItem {
+            lane_id: "unity_observatory_v0917_integrated_proof".to_string(),
+            command: "bash adl/tools/test_v0917_unity_observatory_integrated_proof.sh"
+                .to_string(),
+            reason: "fixture".to_string(),
+            matched_paths: vec![
+                "docs/milestones/v0.91.7/review/unity_observatory_4689/4689-unity-observatory-integrated-proof.md"
+                    .to_string(),
+            ],
+            vpp_record: None,
+        }],
+        not_run: Vec::new(),
+        deferred: Vec::new(),
+        escalation: FinishValidationProfileEscalation {
+            required: false,
+            reasons: Vec::new(),
+        },
+    };
+
+    ensure_finish_validation_profile_is_runnable(
+        &repo,
+        &profile,
+        &[
+            "docs/milestones/v0.91.7/review/unity_observatory_4689/4689-unity-observatory-integrated-proof.md"
+                .to_string(),
+        ],
+    )
+    .expect("registered Unity v0.91.7 integrated proof command should be publishable");
+}
+
+#[test]
 fn release_gate_disposition_validates_tracked_publishable_surface() {
     let repo = unique_temp_dir("adl-pr-finish-release-gate-disposition-valid");
     fs::create_dir_all(repo.join("docs/review")).expect("review dir");

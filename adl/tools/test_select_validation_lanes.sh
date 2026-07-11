@@ -708,6 +708,31 @@ assert "test_v0916_unity_observatory_soak_integration.sh" in lane["command"]
 assert "csm_observatory_cli_writes_unity_contract_bundle" in lane["command"]
 PY
 
+unity_observatory_v0917="$TMP/unity-observatory-v0917.txt"
+cat >"$unity_observatory_v0917" <<'EOF'
+A	adl/tools/test_v0917_unity_observatory_integrated_proof.sh
+A	docs/milestones/v0.91.7/review/unity_observatory_4689/4689-unity-observatory-integrated-proof.md
+EOF
+bash "$SCRIPT" --changed-files "$unity_observatory_v0917" --json >"$TMP/unity-observatory-v0917.json"
+python3 - <<'PY' "$TMP/unity-observatory-v0917.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_lane_plan.v1"
+assert profile["aggregate_status"] == "selected"
+assert profile["pr_publication_sufficient"] is True
+assert set(profile["lanes"].keys()) == {"unity_observatory_v0917_integrated_proof"}
+lane = profile["lanes"]["unity_observatory_v0917_integrated_proof"]
+assert lane["matched_paths"] == [
+    "adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+    "docs/milestones/v0.91.7/review/unity_observatory_4689/4689-unity-observatory-integrated-proof.md",
+]
+assert lane["proof_role"] == "demo_contract"
+assert lane["owner"] == "review"
+assert lane["command"] == "bash adl/tools/test_v0917_unity_observatory_integrated_proof.sh"
+PY
+
 unity_observatory_docs="$TMP/unity-observatory-docs.txt"
 cat >"$unity_observatory_docs" <<'EOF'
 M	demos/v0.91.6/unity-observatory/README.md
