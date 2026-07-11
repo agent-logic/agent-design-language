@@ -5,6 +5,7 @@
 
 pub mod backpressure;
 pub mod curiosity;
+pub mod determinism;
 pub mod networking;
 pub mod resident_agent;
 pub mod runtime_api;

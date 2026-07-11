@@ -1,9 +1,16 @@
 //! Long-lived agent orchestration surfaces.
+use adl_runtime::determinism::{
+    cycle_record_fingerprint, evaluate_core_decision, CapturedShellInputEvent, CoreDecisionInput,
+    CoreDecisionRequest, CsmCycleDeterminismBoundaryRecord, DeterministicCoreComponent,
+    DeterministicCoreDecision, DeterministicCoreInputKind, NondeterministicShellClass,
+    ObservationConfidence,
+};
 use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, Duration as ChronoDuration, Utc};
 use serde::Serialize;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
+use std::collections::BTreeMap;
 use std::fs::{self, File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
@@ -1568,6 +1575,167 @@ fn acquire_lease(
     Ok(lease)
 }
 
+struct CycleShellInputs {
+    by_class: BTreeMap<NondeterministicShellClass, CapturedShellInputEvent>,
+    retained: Vec<CapturedShellInputEvent>,
+}
+
+impl CycleShellInputs {
+    fn event(&self, shell_class: NondeterministicShellClass) -> Result<&CapturedShellInputEvent> {
+        self.by_class
+            .get(&shell_class)
+            .ok_or_else(|| anyhow!("missing retained {} shell input", shell_class.as_str()))
+    }
+
+    fn replace(&mut self, event: CapturedShellInputEvent) {
+        self.by_class.insert(event.shell_class, event.clone());
+        self.retained.push(event);
+    }
+}
+
+fn capture_cycle_shell_input(
+    _cycle_dir: &Path,
+    cycle_id: &str,
+    shell_class: NondeterministicShellClass,
+    source: &str,
+    observed_at: DateTime<Utc>,
+    confidence: ObservationConfidence,
+    value: &Value,
+    suffix: &str,
+) -> Result<CapturedShellInputEvent> {
+    let event_id = format!("{cycle_id}-{}-{suffix}", shell_class.as_str());
+    let retention_location = format!("determinism_boundary.json#captured_shell_events/{event_id}");
+    let event = CapturedShellInputEvent::new(
+        event_id,
+        shell_class,
+        source,
+        observed_at.to_rfc3339(),
+        confidence,
+        retention_location,
+        value.clone(),
+    )
+    .with_context(|| format!("capture {} shell observation", shell_class.as_str()))?;
+    Ok(event)
+}
+
+fn capture_initial_cycle_shell_inputs(
+    loaded: &LoadedAgentSpec,
+    cycle_dir: &Path,
+    cycle_id: &str,
+    observed_at: DateTime<Utc>,
+    provider_binding: &Value,
+) -> Result<CycleShellInputs> {
+    let chronosense = serde_json::to_value(capture_runtime_time_sync_status())
+        .context("serialize Chronosense time-sync observation")?;
+    let observations = [
+        (
+            NondeterministicShellClass::ChronosenseNtp,
+            "chronosense_runtime_service",
+            ObservationConfidence::Medium,
+            chronosense,
+        ),
+        (
+            NondeterministicShellClass::AwsCloud,
+            "runtime_aws_signal_configuration",
+            ObservationConfidence::Medium,
+            json!({
+                "region_configured": std::env::var_os("ADL_AWS_REGION").is_some(),
+                "event_bus_configured": std::env::var_os("ADL_CSM_NOTICE_EVENT_BUS").is_some(),
+                "profile_configured": std::env::var_os("ADL_AWS_PROFILE").is_some()
+                    || std::env::var_os("AWS_PROFILE").is_some()
+            }),
+        ),
+        (
+            NondeterministicShellClass::NetworkIo,
+            "csm_cycle_network_boundary",
+            ObservationConfidence::Medium,
+            json!({
+                "provider_transport_requested": provider_binding["binding_status"] == "available",
+                "runtime_api_contract": "embedded",
+                "external_side_effects_allowed": false
+            }),
+        ),
+        (
+            NondeterministicShellClass::WallClock,
+            "chronosense_utc_clock",
+            ObservationConfidence::High,
+            json!({"observed_at": observed_at}),
+        ),
+        (
+            NondeterministicShellClass::LocalProcessState,
+            "csm_process_runtime",
+            ObservationConfidence::High,
+            json!({
+                "process_id": std::process::id(),
+                "state_root_exists": loaded.state_root.exists(),
+                "agent_instance_id": loaded.spec.agent_instance_id
+            }),
+        ),
+        (
+            NondeterministicShellClass::ObservabilitySink,
+            "csm_observability_configuration",
+            ObservationConfidence::Medium,
+            json!({
+                "otel_status_configured": std::env::var_os("ADL_OTEL_STATUS_PATH").is_some(),
+                "otel_log_configured": std::env::var_os("ADL_OTEL_LOG_PATH").is_some(),
+                "local_event_retention": true
+            }),
+        ),
+        (
+            NondeterministicShellClass::ProviderModelIo,
+            "csm_provider_binding",
+            ObservationConfidence::Medium,
+            provider_binding.clone(),
+        ),
+    ];
+
+    let mut by_class = BTreeMap::new();
+    let mut retained = Vec::new();
+    for (shell_class, source, confidence, value) in observations {
+        let event = capture_cycle_shell_input(
+            cycle_dir,
+            cycle_id,
+            shell_class,
+            source,
+            observed_at,
+            confidence,
+            &value,
+            "initial",
+        )?;
+        by_class.insert(shell_class, event.clone());
+        retained.push(event);
+    }
+    Ok(CycleShellInputs { by_class, retained })
+}
+
+fn safe_provider_result_summary(value: &Value) -> Value {
+    json!({
+        "schema": "adl.csm.provider_result_summary.v1",
+        "status": value.get("status").cloned().unwrap_or(Value::Null),
+        "workflow_kind": value.get("workflow_kind").cloned().unwrap_or(Value::Null),
+        "trace_event_count": value
+            .pointer("/trace/events")
+            .and_then(Value::as_array)
+            .map(|events| events.len()),
+        "result_available": !value.is_null()
+    })
+}
+
+fn evaluate_core_decision_fail_closed(
+    _cycle_dir: &Path,
+    request: CoreDecisionRequest,
+    events: &[CapturedShellInputEvent],
+) -> Result<DeterministicCoreDecision> {
+    match evaluate_core_decision(request, events) {
+        Ok(decision) => Ok(decision),
+        Err(quarantine) => Err(anyhow!(
+            "nondeterministic shell boundary quarantined {}: {}",
+            quarantine.component.as_str(),
+            quarantine.reason
+        )),
+    }
+}
+
 fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()> {
     let cycle_dir = cycles_dir(loaded).join(cycle_id);
     fs::create_dir_all(&cycle_dir)
@@ -1576,6 +1744,38 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
     let previous_cycle_id = latest_cycle_id(loaded)?;
     let workflow_ref = workflow_ref(&loaded.spec.workflow);
     let provider_binding = provider_binding(loaded, cycle_id, started_at);
+    let mut shell_inputs = capture_initial_cycle_shell_inputs(
+        loaded,
+        &cycle_dir,
+        cycle_id,
+        started_at,
+        &provider_binding,
+    )?;
+    let scheduler_request = CoreDecisionRequest::new(
+        format!("{cycle_id}-scheduler-admission"),
+        DeterministicCoreComponent::SchedulerAdmission,
+        vec![
+            CoreDecisionInput::deterministic(DeterministicCoreInputKind::CycleId, cycle_id),
+            CoreDecisionInput::deterministic(
+                DeterministicCoreInputKind::WorkflowId,
+                workflow_ref.clone(),
+            ),
+            CoreDecisionInput::captured(
+                shell_inputs.event(NondeterministicShellClass::ChronosenseNtp)?,
+            ),
+            CoreDecisionInput::captured(shell_inputs.event(NondeterministicShellClass::WallClock)?),
+            CoreDecisionInput::captured(
+                shell_inputs.event(NondeterministicShellClass::LocalProcessState)?,
+            ),
+        ],
+    );
+    let scheduler_decision = evaluate_core_decision_fail_closed(
+        &cycle_dir,
+        scheduler_request.clone(),
+        &shell_inputs.retained,
+    )?;
+    let mut decision_requests = vec![scheduler_request];
+    let mut core_decisions = vec![scheduler_decision];
     let safety_policy = effective_safety_policy(loaded);
     let workflow_supported = workflow_kind_supported(&loaded.spec.workflow.kind);
     let broker_allowed = safety_bool_default(&loaded.spec.safety, "allow_broker", false);
@@ -1654,23 +1854,158 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
         dedup_strings(&mut rejected_actions);
     }
 
-    let max_runtime_not_exceeded =
-        Utc::now() <= started_at + ChronoDuration::seconds(max_cycle_runtime_secs(loaded) as i64);
-    if !max_runtime_not_exceeded {
-        rejected_actions.push("max_cycle_runtime_exceeded".to_string());
-        dedup_strings(&mut rejected_actions);
-    }
+    let admission_pass = workflow_supported && rejected_actions.is_empty() && sanitization.passed;
+    let aee_request = CoreDecisionRequest::new(
+        format!("{cycle_id}-aee-governed-execution"),
+        DeterministicCoreComponent::AeeGovernedExecution,
+        vec![
+            CoreDecisionInput::deterministic(
+                DeterministicCoreInputKind::ActionId,
+                "stage_and_record_cycle",
+            ),
+            CoreDecisionInput::deterministic(
+                DeterministicCoreInputKind::PolicyDecision,
+                if admission_pass { "admit" } else { "deny" },
+            ),
+            CoreDecisionInput::captured(
+                shell_inputs.event(NondeterministicShellClass::ProviderModelIo)?,
+            ),
+            CoreDecisionInput::captured(shell_inputs.event(NondeterministicShellClass::NetworkIo)?),
+            CoreDecisionInput::captured(shell_inputs.event(NondeterministicShellClass::AwsCloud)?),
+            CoreDecisionInput::captured(
+                shell_inputs.event(NondeterministicShellClass::ObservabilitySink)?,
+            ),
+        ],
+    );
+    let aee_decision = evaluate_core_decision_fail_closed(
+        &cycle_dir,
+        aee_request.clone(),
+        &shell_inputs.retained,
+    )?;
+    decision_requests.push(aee_request);
+    core_decisions.push(aee_decision);
 
-    let adl_run = if workflow_supported && loaded.spec.workflow.kind == "adl_workflow" {
+    let adl_run = if admission_pass && loaded.spec.workflow.kind == "adl_workflow" {
         Some(run_adl_workflow_cycle(loaded, cycle_id, &cycle_dir)?)
     } else {
         None
     };
 
-    let guardrail_pass = workflow_supported
-        && rejected_actions.is_empty()
-        && sanitization.passed
-        && max_runtime_not_exceeded;
+    let provider_result_raw = match &adl_run {
+        Some(_) => read_json_required(&cycle_dir.join("csm_adl_run_status.json"))?,
+        None => provider_binding.clone(),
+    };
+    let provider_result_value = safe_provider_result_summary(&provider_result_raw);
+    let provider_result_sanitization =
+        sanitize_public_artifacts(&[("provider_result_summary", &provider_result_value)])?;
+    if !provider_result_sanitization.passed {
+        return Err(anyhow!(
+            "provider result summary failed sanitization before deterministic retention"
+        ));
+    }
+    let provider_result_event = capture_cycle_shell_input(
+        &cycle_dir,
+        cycle_id,
+        NondeterministicShellClass::ProviderModelIo,
+        "csm_provider_execution_result",
+        Utc::now(),
+        ObservationConfidence::Medium,
+        &provider_result_value,
+        "result",
+    )?;
+    shell_inputs.replace(provider_result_event);
+
+    let completion_at = Utc::now();
+    let completion_clock_event = capture_cycle_shell_input(
+        &cycle_dir,
+        cycle_id,
+        NondeterministicShellClass::WallClock,
+        "chronosense_utc_clock",
+        completion_at,
+        ObservationConfidence::High,
+        &json!({"observed_at": completion_at, "phase": "completion"}),
+        "completion",
+    )?;
+    shell_inputs.replace(completion_clock_event);
+    let max_runtime_not_exceeded = completion_at
+        <= started_at + ChronoDuration::seconds(max_cycle_runtime_secs(loaded) as i64);
+    if !max_runtime_not_exceeded {
+        rejected_actions.push("max_cycle_runtime_exceeded".to_string());
+        dedup_strings(&mut rejected_actions);
+    }
+
+    let reasoning_request = CoreDecisionRequest::new(
+        format!("{cycle_id}-reasoning-runtime"),
+        DeterministicCoreComponent::ReasoningRuntime,
+        vec![
+            CoreDecisionInput::deterministic(
+                DeterministicCoreInputKind::GraphId,
+                workflow_ref.clone(),
+            ),
+            CoreDecisionInput::captured(
+                shell_inputs.event(NondeterministicShellClass::ProviderModelIo)?,
+            ),
+            CoreDecisionInput::captured(shell_inputs.event(NondeterministicShellClass::NetworkIo)?),
+        ],
+    );
+    core_decisions.push(evaluate_core_decision_fail_closed(
+        &cycle_dir,
+        reasoning_request.clone(),
+        &shell_inputs.retained,
+    )?);
+    decision_requests.push(reasoning_request);
+    let checkpoint_request = CoreDecisionRequest::new(
+        format!("{cycle_id}-checkpoint-version-transition"),
+        DeterministicCoreComponent::CheckpointVersionTransition,
+        vec![
+            CoreDecisionInput::deterministic(
+                DeterministicCoreInputKind::CheckpointVersion,
+                "continuity_checkpoint.v1",
+            ),
+            CoreDecisionInput::captured(
+                shell_inputs.event(NondeterministicShellClass::LocalProcessState)?,
+            ),
+            CoreDecisionInput::captured(shell_inputs.event(NondeterministicShellClass::WallClock)?),
+        ],
+    );
+    core_decisions.push(evaluate_core_decision_fail_closed(
+        &cycle_dir,
+        checkpoint_request.clone(),
+        &shell_inputs.retained,
+    )?);
+    decision_requests.push(checkpoint_request);
+    let lifelog_request = CoreDecisionRequest::new(
+        format!("{cycle_id}-lifelog-ordering"),
+        DeterministicCoreComponent::LifelogOrdering,
+        vec![
+            CoreDecisionInput::deterministic(DeterministicCoreInputKind::LifelogSequence, cycle_id),
+            CoreDecisionInput::captured(
+                shell_inputs.event(NondeterministicShellClass::ChronosenseNtp)?,
+            ),
+            CoreDecisionInput::captured(shell_inputs.event(NondeterministicShellClass::WallClock)?),
+        ],
+    );
+    core_decisions.push(evaluate_core_decision_fail_closed(
+        &cycle_dir,
+        lifelog_request.clone(),
+        &shell_inputs.retained,
+    )?);
+    decision_requests.push(lifelog_request);
+    let boundary_record = CsmCycleDeterminismBoundaryRecord::new(
+        cycle_id,
+        shell_inputs.retained.clone(),
+        decision_requests,
+        core_decisions.clone(),
+    );
+    boundary_record
+        .validate()
+        .context("validate assembled CSM cycle determinism boundary")?;
+    write_json_pretty(
+        &cycle_dir.join("determinism_boundary.json"),
+        &boundary_record,
+    )?;
+
+    let guardrail_pass = admission_pass && max_runtime_not_exceeded;
     let cycle_status = if guardrail_pass { "success" } else { "blocked" };
     let decision_status = if guardrail_pass {
         "accepted"
@@ -1689,7 +2024,11 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
     } else {
         json!({
             "action": "blocked",
-            "summary": "Cycle blocked before workflow execution because the configured contract failed required guardrails.",
+            "summary": if admission_pass {
+                "Workflow completed but a post-execution runtime guardrail failed."
+            } else {
+                "Cycle blocked before workflow execution because pre-execution admission failed."
+            },
             "workflow_ref": workflow_ref,
             "paper_only": true
         })
@@ -1847,10 +2186,24 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
     });
     write_json_pretty(&cycle_dir.join("guardrail_report.json"), &guardrail_report)?;
 
-    let completed_at = Utc::now();
+    let completed_at = completion_at;
+    let shell_event_fingerprints = boundary_record
+        .captured_shell_events
+        .iter()
+        .map(|event| {
+            json!({
+                "event_id": event.event_id,
+                "shell_class": event.shell_class,
+                "value_fingerprint": event.value_fingerprint,
+                "retention_location": event.retention_location
+            })
+        })
+        .collect::<Vec<_>>();
     let manifest_input = json!({
         "observations_ref": "observations.json",
         "decision_request_ref": "decision_request.json",
+        "determinism_boundary_ref": "determinism_boundary.json",
+        "shell_event_fingerprints": shell_event_fingerprints,
         "previous_cycle_id": previous_cycle_id,
         "workflow_kind": loaded.spec.workflow.kind.clone(),
         "workflow_ref": workflow_ref
@@ -1860,6 +2213,7 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
         "run_ref": "run_ref.json",
         "memory_writes_ref": "memory_writes.jsonl",
         "guardrail_report_ref": "guardrail_report.json",
+        "determinism_boundary_digest": cycle_record_fingerprint(&boundary_record)?,
         "status": cycle_status
     });
     let manifest = json!({
@@ -1873,6 +2227,7 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
         "workflow_ref": manifest_input["workflow_ref"].clone(),
         "input_hash": sha256_json(&manifest_input)?,
         "output_hash": sha256_json(&manifest_output)?,
+        "determinism_boundary_digest": manifest_output["determinism_boundary_digest"].clone(),
         "previous_cycle_id": manifest_input["previous_cycle_id"].clone(),
         "next_cycle_hint": "sleep_until_next_heartbeat",
         "csm_runtime": {
@@ -1881,7 +2236,8 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
             "aee": "integrated",
             "chronosense": "integrated",
             "scheduler_watcher": "integrated",
-            "resilience_middleware": "integrated"
+            "resilience_middleware": "integrated",
+            "determinism_boundary": "typed_capture_and_fail_closed_quarantine"
         },
         "artifacts": {
             "observations": "observations.json",
@@ -1890,6 +2246,7 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
             "run_ref": "run_ref.json",
             "memory_writes": "memory_writes.jsonl",
             "guardrail_report": "guardrail_report.json",
+            "determinism_boundary": "determinism_boundary.json",
             "cycle_summary": "cycle_summary.md",
             "csm_adl_run_status": adl_run.as_ref().map(|run| run.status_ref.as_str())
         },
@@ -1900,7 +2257,7 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
     fs::write(
         cycle_dir.join("cycle_summary.md"),
         format!(
-            "# Long-Lived Agent Cycle {cycle_id}\n\n- Agent: `{}`\n- Workflow kind: `{}`\n- Cycle status: `{cycle_status}`\n- Observations: `observations.json`\n- Decision request: `decision_request.json`\n- Decision result: `decision_result.json`\n- Guardrail result: `{guardrail_status}`\n- Memory writes: `memory_writes.jsonl`\n- Next-cycle note: `sleep_until_next_heartbeat`\n- Safety: paper-only; not financial advice; no broker execution\n",
+            "# Long-Lived Agent Cycle {cycle_id}\n\n- Agent: `{}`\n- Workflow kind: `{}`\n- Cycle status: `{cycle_status}`\n- Observations: `observations.json`\n- Replayable determinism ledger: `determinism_boundary.json`\n- Decision request: `decision_request.json`\n- Decision result: `decision_result.json`\n- Guardrail result: `{guardrail_status}`\n- Memory writes: `memory_writes.jsonl`\n- Next-cycle note: `sleep_until_next_heartbeat`\n- Safety: paper-only; not financial advice; no broker execution\n",
             loaded.spec.agent_instance_id, loaded.spec.workflow.kind
         ),
     )
