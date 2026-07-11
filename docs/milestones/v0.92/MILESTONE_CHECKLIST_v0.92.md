@@ -35,6 +35,10 @@ checks needed for a truthful v0.92 closeout.
   inputs.
 - [ ] Dependencies on v0.91/v0.91.1 ACIP substrate and hardening evidence
   checked for binary schema/catalog transport readiness.
+- [ ] WP-12 access and activation gate
+  `docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md`
+  consumed before ACIP, external-agent, WebSocket, SSM, custody, credential, or
+  CAV readiness claims are made.
 
 ## Scope Integrity
 
@@ -68,6 +72,10 @@ checks needed for a truthful v0.92 closeout.
 - [ ] ACIP binary transport proof includes JSON/protobuf round-trip,
   public-schema lookup, denied-access, malformed-payload, and event-ordering
   cases.
+- [ ] ACIP/security claim-boundary proof rejects live WebSocket runtime API,
+  production transport security, x402, and red/blue CAV readiness claims unless
+  the #4660 gate row is `integrated_proven` or explicitly scoped out with
+  evidence.
 - [ ] Claim-boundary scan finds no legal-personhood, production-citizenship, or
   completed-governance overclaims.
 

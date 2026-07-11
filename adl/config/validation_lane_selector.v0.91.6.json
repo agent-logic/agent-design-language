@@ -549,6 +549,31 @@
       "reason": "wp12_ssm_readiness_surface_requires_registered_finish-safe_validator_syntax_selector_and_validation_manager_contract_checks; focused issue proof runs through adl/tools/test_validate_wp12_ssm_readiness_4657.sh"
     },
     {
+      "id": "wp12_access_activation_gate_4660_contracts",
+      "lane_class": "cli_workflow",
+      "default_surface": "security",
+      "owner": "security",
+      "proof_role": "security_gate_contract",
+      "requirement_ids": [
+        "wp12_access_activation_gate_4660_contracts"
+      ],
+      "path_selectors": [
+        "adl/tools/validate_wp12_access_activation_gate_4660.py",
+        "docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md",
+        "docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json",
+        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
+      ],
+      "path_hints": [
+        "adl/tools/validate_wp12_access_activation_gate_4660.py",
+        "docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md",
+        "docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json",
+        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
+      ],
+      "command": "python3 -m py_compile adl/tools/validate_wp12_access_activation_gate_4660.py && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
+      "run_command": "python3 -m py_compile adl/tools/validate_wp12_access_activation_gate_4660.py && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
+      "reason": "wp12_access_activation_gate_surface_requires_registered_finish_safe_validator_syntax_selector_and_validation_manager_contract_checks; focused issue proof runs through adl/tools/validate_wp12_access_activation_gate_4660.py"
+    },
+    {
       "id": "local_polis_ssm_wrapper",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

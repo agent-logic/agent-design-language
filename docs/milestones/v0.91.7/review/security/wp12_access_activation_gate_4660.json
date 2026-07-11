@@ -1,0 +1,205 @@
+{
+  "schema": "adl.wp12.access_activation_gate.v1",
+  "issue": 4660,
+  "parent_issue": 4639,
+  "milestone": "v0.91.7",
+  "status": "access_gate_recorded_blockers_remaining",
+  "generated_at_utc": "2026-07-11T00:20:00Z",
+  "authoritative_review_packet": "docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md",
+  "parent_gate": "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json",
+  "v092_consumers": [
+    "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+    "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+    "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md"
+  ],
+  "access_rules": [
+    {
+      "id": "schema_access_not_content_access",
+      "decision": "fail_closed",
+      "required_evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_ACIP_SCHEMA_PROTOBUF_PROJECTION_4658.md",
+        "docs/milestones/v0.91.7/review/security/wp12_acip_schema_protobuf_projection_4658.json"
+      ],
+      "blocks_claims": [
+        "unauthorized_message_content_inspection",
+        "schema_catalog_as_authorization"
+      ]
+    },
+    {
+      "id": "external_agent_trust_requires_access_decision",
+      "decision": "fail_closed",
+      "required_evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
+        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
+      ],
+      "blocks_claims": [
+        "external_agent_trust",
+        "implicit_transport_authority"
+      ]
+    },
+    {
+      "id": "websocket_carrier_not_runtime_api_activation",
+      "decision": "fail_closed",
+      "required_evidence": [
+        "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md"
+      ],
+      "blocks_claims": [
+        "live_websocket_runtime_api_integrated",
+        "production_transport_security",
+        "cross_polis_networking"
+      ],
+      "backlog_note": "Live WebSocket runtime API integration alongside HTTP is noncritical and remains backlog-only until the operator promotes it in the next milestone."
+    },
+    {
+      "id": "ssm_operations_not_secret_authority",
+      "decision": "bounded_allow",
+      "required_evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md",
+        "docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json"
+      ],
+      "blocks_claims": [
+        "secret_values_retained",
+        "unbounded_live_mutation",
+        "governance_authority_from_ssm"
+      ]
+    },
+    {
+      "id": "custody_signatures_require_trusted_anchor",
+      "decision": "fail_closed",
+      "required_evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_POLIS_CUSTODY_4917.md",
+        "docs/milestones/v0.91.7/review/security/wp12_polis_custody_4917.json"
+      ],
+      "blocks_claims": [
+        "embedded_public_key_self_trust",
+        "unsigned_custody_as_activation_evidence"
+      ]
+    },
+    {
+      "id": "credential_break_glass_requires_approval_and_rebind",
+      "decision": "fail_closed",
+      "required_evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_CSM_CREDENTIAL_POLICY_4920.md",
+        "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json"
+      ],
+      "blocks_claims": [
+        "ambient_authority_fallback",
+        "unbounded_cloud_mutation",
+        "secret_copy_or_print"
+      ]
+    },
+    {
+      "id": "cav_red_blue_claims_require_retained_runtime_scenario",
+      "decision": "fail_closed",
+      "required_evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md"
+      ],
+      "blocks_claims": [
+        "red_blue_cav_readiness",
+        "adversarial_runtime_detection_complete"
+      ],
+      "blocked_by": [
+        4914
+      ]
+    }
+  ],
+  "activation_checklist": [
+    {
+      "surface": "security_cav_boundary",
+      "owner_issue": 4656,
+      "state": "gate_recorded_child_blockers_remaining",
+      "v092_disposition": "blocks_security_cav_readiness_until_4914_or_operator_non_claim",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
+        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
+      ]
+    },
+    {
+      "surface": "ssm_readiness",
+      "owner_issue": 4657,
+      "state": "integrated_proven",
+      "v092_disposition": "supports_ssm_operations_claims",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_SSM_READINESS_4657.md",
+        "docs/milestones/v0.91.7/review/security/wp12_ssm_readiness_4657.json"
+      ]
+    },
+    {
+      "surface": "acip_schema_protobuf_projection",
+      "owner_issue": 4658,
+      "state": "integrated_proven",
+      "v092_disposition": "supports_schema_projection_claims_only",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_ACIP_SCHEMA_PROTOBUF_PROJECTION_4658.md",
+        "docs/milestones/v0.91.7/review/security/wp12_acip_schema_protobuf_projection_4658.json"
+      ]
+    },
+    {
+      "surface": "websocket_transport_path",
+      "owner_issue": 4659,
+      "state": "pr_open_pending_ci_review",
+      "v092_disposition": "blocks_final_transport_activation_until_pr_truth_closes",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md",
+        "https://github.com/danielbaustin/agent-design-language/pull/5146"
+      ]
+    },
+    {
+      "surface": "access_rules_and_activation_blockers",
+      "owner_issue": 4660,
+      "state": "access_gate_recorded",
+      "v092_disposition": "defines_fail_closed_activation_checklist",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md",
+        "docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json",
+        "adl/tools/validate_wp12_access_activation_gate_4660.py"
+      ]
+    },
+    {
+      "surface": "cav_red_blue_runtime_proof",
+      "owner_issue": 4914,
+      "state": "blocked_with_evidence",
+      "v092_disposition": "blocks_adversarial_cav_readiness_claims",
+      "evidence": [
+        "https://github.com/danielbaustin/agent-design-language/issues/4914"
+      ]
+    },
+    {
+      "surface": "tamper_evident_polis_custody",
+      "owner_issue": 4917,
+      "state": "integrated_proven",
+      "v092_disposition": "supports_tamper_evident_artifact_custody_claims",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_POLIS_CUSTODY_4917.md",
+        "docs/milestones/v0.91.7/review/security/wp12_polis_custody_4917.json"
+      ]
+    },
+    {
+      "surface": "credential_rotation_break_glass_policy",
+      "owner_issue": 4920,
+      "state": "integrated_proven",
+      "v092_disposition": "supports_policy_and_local_negative_case_claims",
+      "evidence": [
+        "docs/milestones/v0.91.7/review/security/WP12_CSM_CREDENTIAL_POLICY_4920.md",
+        "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json"
+      ]
+    }
+  ],
+  "current_blockers": [
+    {
+      "issue": 4659,
+      "reason": "PR #5146 remains open/pending; final transport activation cannot be claimed from unmerged PR truth."
+    },
+    {
+      "issue": 4914,
+      "reason": "CAV red/blue runtime proof remains open; adversarial readiness cannot be claimed."
+    }
+  ],
+  "non_claims": [
+    "does not open a new GitHub issue",
+    "does not implement live WebSocket runtime API integration",
+    "does not claim production transport security, TLS, authentication, or cross-polis networking",
+    "does not claim x402 or payment-flow readiness",
+    "does not claim final v0.92 activation readiness while #4659 or #4914 remain unresolved"
+  ]
+}

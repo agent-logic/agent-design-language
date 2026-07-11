@@ -54,7 +54,7 @@ wp_child_issue_routes:
   - {issue: 4657, wp: WP-12, assignment: "[ops] Prove SSM readiness"}
   - {issue: 4658, wp: WP-12, assignment: "[ACIP] Finalize ACIP schema and protobuf projection"}
   - {issue: 4659, wp: WP-12, assignment: "[A2A] Prove WebSocket transport path"}
-  - {issue: 4660, wp: WP-12, assignment: "[access] Finalize access rules and activation blockers"}
+  - {issue: 4660, wp: WP-12, assignment: "[access] Finalize access rules and activation blockers; gate artifact docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md"}
   - {issue: 4666, wp: WP-04, assignment: "[goals] Implement nested issue and sprint goal accounting"}
   - {issue: 4667, wp: WP-04, assignment: "[metrics] Implement SOR time-token-resource accounting"}
   - {issue: 4668, wp: WP-04, assignment: "[telemetry] Implement Codex session telemetry harvesting"}
