@@ -13,8 +13,8 @@ use ::adl::{
         runtime_v2_aee_obsmem_pvf_trace_handoff_contract,
         runtime_v2_cognitive_being_flagship_demo_contract,
         runtime_v2_contract_market_demo_contract, runtime_v2_csm_integrated_run_contract,
-        runtime_v2_feature_proof_coverage_contract, runtime_v2_foundation_demo_contract,
-        runtime_v2_godel_agent_runtime_contract_for,
+        runtime_v2_curiosity_engine_contract, runtime_v2_feature_proof_coverage_contract,
+        runtime_v2_foundation_demo_contract, runtime_v2_godel_agent_runtime_contract_for,
         runtime_v2_governed_tools_flagship_demo_contract, runtime_v2_loop_runtime_contract,
         runtime_v2_minimal_integrated_runtime_path_contract,
         runtime_v2_observatory_flagship_contract, runtime_v2_operator_control_report_contract,
@@ -636,6 +636,42 @@ pub(crate) fn real_runtime_v2_reasoning_graph(repo_root: &Path, args: &[String])
     Ok(())
 }
 
+pub(crate) fn real_runtime_v2_curiosity_engine(repo_root: &Path, args: &[String]) -> Result<()> {
+    let mut out_path: Option<PathBuf> = None;
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                let Some(value) = args.get(i + 1) else {
+                    return Err(anyhow!("runtime-v2 curiosity-engine requires --out <path>"));
+                };
+                out_path = Some(PathBuf::from(value));
+                i += 1;
+            }
+            "--help" | "-h" => {
+                println!("{}", usage::usage());
+                return Ok(());
+            }
+            other => {
+                return Err(anyhow!(
+                    "unknown arg for runtime-v2 curiosity-engine: {other}"
+                ))
+            }
+        }
+        i += 1;
+    }
+
+    let packet = runtime_v2_curiosity_engine_contract()?;
+    let Some(out_path) = out_path else {
+        println!("{}", to_string_pretty(&packet.canonicalized()?)?);
+        return Ok(());
+    };
+    let resolved = resolve_relative_output_path(repo_root, &out_path, "curiosity-engine")?;
+    packet.write_to_path(&resolved)?;
+    println!("{}", curiosity_engine_stdout_line(&out_path));
+    Ok(())
+}
+
 pub(crate) fn real_runtime_v2_loop_runtime(repo_root: &Path, args: &[String]) -> Result<()> {
     let mut out_path: Option<PathBuf> = None;
     let mut i = 0usize;
@@ -843,6 +879,10 @@ pub(crate) fn feature_proof_coverage_stdout_line(out_path: &Path) -> String {
 
 pub(crate) fn reasoning_graph_stdout_line(out_path: &Path) -> String {
     format!("RUNTIME_V2_REASONING_GRAPH_PATH={}", out_path.display())
+}
+
+pub(crate) fn curiosity_engine_stdout_line(out_path: &Path) -> String {
+    format!("RUNTIME_V2_CURIOSITY_ENGINE_PATH={}", out_path.display())
 }
 
 pub(crate) fn loop_runtime_stdout_line(out_path: &Path) -> String {

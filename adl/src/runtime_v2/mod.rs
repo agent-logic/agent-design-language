@@ -23,6 +23,7 @@ mod contract_schema;
 mod contracts;
 mod csm_run;
 mod cultivating_intelligence;
+mod curiosity_engine;
 mod delegation_subcontract;
 mod evaluation_selection;
 mod external_counterparty;
@@ -116,6 +117,8 @@ pub use contracts::*;
 pub use csm_run::*;
 #[allow(unused_imports)]
 pub use cultivating_intelligence::*;
+#[allow(unused_imports)]
+pub use curiosity_engine::*;
 #[allow(unused_imports)]
 pub use delegation_subcontract::*;
 #[allow(unused_imports)]

@@ -1,9 +1,9 @@
 use crate::cli::runtime_v2_cmd::{
     commands::{
         cognitive_being_flagship_demo_stdout_line, contract_market_demo_stdout_line,
-        feature_proof_coverage_stdout_line, godel_agent_runtime_stdout_line,
-        governed_tools_flagship_demo_stdout_line, loop_runtime_stdout_line,
-        reasoning_graph_stdout_line,
+        curiosity_engine_stdout_line, feature_proof_coverage_stdout_line,
+        godel_agent_runtime_stdout_line, governed_tools_flagship_demo_stdout_line,
+        loop_runtime_stdout_line, reasoning_graph_stdout_line,
     },
     helpers::{real_runtime_v2, real_runtime_v2_in_repo},
 };
@@ -37,6 +37,8 @@ const RUNTIME_V2_CLI_REGRESSION_SMOKES: &[&str] = &[
     "feature-proof-coverage:arg-validation",
     "reasoning-graph:write-json",
     "reasoning-graph:arg-validation",
+    "curiosity-engine:write-json",
+    "curiosity-engine:arg-validation",
     "loop-runtime:write-json",
     "loop-runtime:arg-validation",
     "godel-agent-runtime:write-json",
@@ -119,7 +121,7 @@ fn trace_runtime_v2_dispatch_covers_help_and_subcommand_errors() {
     let err = real_runtime_v2_in_repo(&[], &repo).expect_err("missing subcommand should fail");
     assert!(err
         .to_string()
-        .contains("runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, loop-runtime, or godel-agent-runtime"));
+        .contains("runtime-v2 requires a subcommand: operator-controls, security-boundary, foundation-demo, integrated-csm-run-demo, minimal-integrated-runtime-path, aee-obsmem-pvf-handoff, observatory-flagship-demo, cognitive-being-flagship-demo, contract-market-demo, governed-tools-flagship-demo, feature-proof-coverage, reasoning-graph, curiosity-engine, loop-runtime, or godel-agent-runtime"));
 
     let err = real_runtime_v2_in_repo(&["bogus".to_string()], &repo)
         .expect_err("unknown subcommand should fail");
@@ -990,6 +992,82 @@ fn trace_runtime_v2_reasoning_graph_validates_stdout_help_and_output_path_rules(
 }
 
 #[test]
+fn trace_runtime_v2_curiosity_engine_writes_packet_json() {
+    let repo = temp_repo("curiosity-engine");
+    let out_path = repo.join("out/curiosity-engine.json");
+
+    real_runtime_v2_in_repo(
+        &[
+            "curiosity-engine".to_string(),
+            "--out".to_string(),
+            "out/curiosity-engine.json".to_string(),
+        ],
+        &repo,
+    )
+    .expect("curiosity engine");
+
+    let json: serde_json::Value =
+        serde_json::from_slice(&fs::read(&out_path).expect("curiosity packet should exist"))
+            .expect("valid json");
+    assert_eq!(json["schema_version"], "runtime_v2.curiosity_engine.v1");
+    assert_eq!(json["milestone"], "v0.91.7");
+    assert_eq!(json["wp"], "WP-10");
+    assert_eq!(json["signals"].as_array().expect("signals").len(), 2);
+    assert_eq!(json["proposals"].as_array().expect("proposals").len(), 2);
+    assert_eq!(json["governance"]["freedom_gate_required"], true);
+    assert_eq!(json["governance"]["constructability_gate_required"], true);
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[test]
+fn trace_runtime_v2_curiosity_engine_validates_stdout_help_and_output_path_rules() {
+    let repo = temp_repo("curiosity-engine-branches");
+
+    real_runtime_v2_in_repo(&["curiosity-engine".to_string()], &repo)
+        .expect("stdout curiosity packet");
+    real_runtime_v2_in_repo(
+        &["curiosity-engine".to_string(), "--help".to_string()],
+        &repo,
+    )
+    .expect("curiosity help");
+    let err = real_runtime_v2_in_repo(
+        &[
+            "curiosity-engine".to_string(),
+            "--out".to_string(),
+            repo.join("absolute/curiosity-engine.json")
+                .to_string_lossy()
+                .to_string(),
+        ],
+        &repo,
+    )
+    .expect_err("absolute output path should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime-v2 curiosity-engine --out path must be repository-relative"));
+
+    let err = real_runtime_v2_in_repo(
+        &["curiosity-engine".to_string(), "--bogus".to_string()],
+        &repo,
+    )
+    .expect_err("unknown arg should fail");
+    assert!(err
+        .to_string()
+        .contains("unknown arg for runtime-v2 curiosity-engine: --bogus"));
+
+    let err = real_runtime_v2_in_repo(
+        &["curiosity-engine".to_string(), "--out".to_string()],
+        &repo,
+    )
+    .expect_err("missing out value should fail");
+    assert!(err
+        .to_string()
+        .contains("runtime-v2 curiosity-engine requires --out <path>"));
+
+    fs::remove_dir_all(repo).ok();
+}
+
+#[test]
 fn trace_runtime_v2_loop_runtime_writes_packet_json() {
     let repo = temp_repo("loop-runtime");
     let out_path = repo.join("out/loop-runtime.json");
@@ -1180,6 +1258,8 @@ fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_r
         trace_runtime_v2_feature_proof_coverage_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_reasoning_graph_writes_packet_json,
         trace_runtime_v2_reasoning_graph_validates_stdout_help_and_output_path_rules,
+        trace_runtime_v2_curiosity_engine_writes_packet_json,
+        trace_runtime_v2_curiosity_engine_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_loop_runtime_writes_packet_json,
         trace_runtime_v2_loop_runtime_validates_stdout_help_and_output_path_rules,
         trace_runtime_v2_godel_agent_runtime_writes_packet_json,
@@ -1211,6 +1291,9 @@ fn trace_runtime_v2_feature_proof_coverage_validates_runtime_v2_cli_regression_r
     assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
         .iter()
         .any(|smoke| smoke.starts_with("reasoning-graph:")));
+    assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
+        .iter()
+        .any(|smoke| smoke.starts_with("curiosity-engine:")));
     assert!(RUNTIME_V2_CLI_REGRESSION_SMOKES
         .iter()
         .any(|smoke| smoke.starts_with("loop-runtime:")));
@@ -1427,6 +1510,20 @@ fn trace_runtime_v2_demo_stdout_lines_preserve_requested_relative_paths() {
     assert!(
         !reasoning_graph_stdout.contains(&cwd),
         "reasoning graph stdout should not expose absolute repo root:\n{reasoning_graph_stdout}"
+    );
+
+    let curiosity_engine_file = rel_root.join("curiosity-engine.json");
+    let curiosity_engine_stdout = curiosity_engine_stdout_line(&curiosity_engine_file);
+    assert_eq!(
+        curiosity_engine_stdout,
+        format!(
+            "RUNTIME_V2_CURIOSITY_ENGINE_PATH={}",
+            curiosity_engine_file.display()
+        )
+    );
+    assert!(
+        !curiosity_engine_stdout.contains(&cwd),
+        "curiosity engine stdout should not expose absolute repo root:\n{curiosity_engine_stdout}"
     );
 
     let loop_runtime_file = rel_root.join("loop-runtime.json");

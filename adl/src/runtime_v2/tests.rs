@@ -26,6 +26,7 @@ mod contract_registry_accessors;
 mod contract_schema;
 mod csm_run_packet;
 mod cultivating_intelligence;
+mod curiosity_engine;
 #[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 mod delegation_subcontract;
 mod evaluation_selection;
