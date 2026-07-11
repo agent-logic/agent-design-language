@@ -36,6 +36,7 @@ pub mod csm_godel_snapshot;
 pub mod csm_networking;
 pub mod csm_observatory;
 pub mod csm_polis_storage;
+pub mod csm_resident_agents;
 pub mod csm_runtime_api;
 pub mod csm_shepherd_agent;
 pub mod dangerous_negative_suite;
