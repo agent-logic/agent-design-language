@@ -261,6 +261,8 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
     let safe_fail_bundle = read_json_artifact(&artifact_path(loaded, "safe_fail_bundle.json"));
     let backpressure_state =
         read_json_artifact(&artifact_path(loaded, "csm_backpressure_state.json"));
+    let typed_channel_state =
+        read_json_artifact(&artifact_path(loaded, "csm_typed_channel_state.json"));
     let otel_status_path = resolve_otel_status_path(loaded, options);
     let otel_log_path = resolve_otel_log_path(loaded, options);
     let otel_status = otel_status_path
@@ -342,6 +344,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
             "safe_fail_bundle": compact_artifact_status(&safe_fail_bundle, "safe_fail_bundle.json")
         },
         "backpressure": compact_artifact_status(&backpressure_state, "csm_backpressure_state.json"),
+        "typed_channels": compact_typed_channel_status(&typed_channel_state),
         "api_gateway_bridge": api_gateway_bridge_runtime_status(loaded),
         "otel": {
             "status": compact_artifact_status(&otel_status, "ADL_OTEL_STATUS"),
@@ -501,6 +504,8 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
     let daemon = read_json_artifact(&artifact_path(loaded, "daemon_status.json"));
     let backpressure_state =
         read_json_artifact(&artifact_path(loaded, "csm_backpressure_state.json"));
+    let typed_channel_state =
+        read_json_artifact(&artifact_path(loaded, "csm_typed_channel_state.json"));
     let event_count = read_jsonl_tail(&artifact_path(loaded, "operator_events.jsonl"), usize::MAX)
         .get("entries")
         .and_then(Value::as_array)
@@ -521,6 +526,12 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
             "backpressure_deferred_count": backpressure_state.pointer("/value/summary/deferred_count").cloned().unwrap_or(Value::Null),
             "backpressure_shed_count": backpressure_state.pointer("/value/summary/shed_count").cloned().unwrap_or(Value::Null),
             "backpressure_retry_capacity_remaining": backpressure_state.pointer("/value/summary/retry_budget_remaining").cloned().unwrap_or(Value::Null),
+            "typed_channel_count": typed_channel_state.pointer("/value/summary/channel_count").cloned().unwrap_or(Value::Null),
+            "typed_channel_queue_depth": typed_channel_state.pointer("/value/summary/queue_depth").cloned().unwrap_or(Value::Null),
+            "typed_channel_durable_spool_depth": typed_channel_state.pointer("/value/summary/durable_spool_depth").cloned().unwrap_or(Value::Null),
+            "typed_channel_blocked_count": typed_channel_state.pointer("/value/summary/blocked_count").cloned().unwrap_or(Value::Null),
+            "typed_channel_throttled_count": typed_channel_state.pointer("/value/summary/throttled_count").cloned().unwrap_or(Value::Null),
+            "typed_channel_shed_count": typed_channel_state.pointer("/value/summary/shed_count").cloned().unwrap_or(Value::Null),
             "storage_available_bytes": backpressure_state.pointer("/value/storage_pressure/available_bytes").cloned().unwrap_or(Value::Null),
             "storage_disk_floor_bytes": backpressure_state.pointer("/value/storage_pressure/disk_floor_bytes").cloned().unwrap_or(Value::Null)
         },
@@ -529,6 +540,7 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
             "ready": status["ready"],
             "agent_state": status["agent_status"]["state"],
             "backpressure_health": backpressure_state.pointer("/value/summary/health").cloned().unwrap_or(Value::Null),
+            "typed_channel_readiness": typed_channel_state.pointer("/value/status").cloned().unwrap_or(Value::Null),
             "backpressure_safe_fail_action": backpressure_state.pointer("/value/safe_fail_action/action").cloned().unwrap_or(Value::Null),
             "storage_pressure": backpressure_state.pointer("/value/storage_pressure/state").cloned().unwrap_or(Value::Null)
         }
@@ -904,6 +916,19 @@ fn compact_artifact_status(artifact: &Value, reference: &str) -> Value {
     })
 }
 
+fn compact_typed_channel_status(artifact: &Value) -> Value {
+    json!({
+        "status": artifact.pointer("/value/status").cloned().unwrap_or_else(|| json!("missing")),
+        "ref": "csm_typed_channel_state.json",
+        "schema": artifact.pointer("/value/schema").cloned().unwrap_or(Value::Null),
+        "required_channel_not_ready": artifact.pointer("/value/required_channel_not_ready").cloned().unwrap_or(Value::Null),
+        "last_event": artifact.pointer("/value/last_event").cloned().unwrap_or(Value::Null),
+        "last_receipt": artifact.pointer("/value/last_receipt").cloned().unwrap_or(Value::Null),
+        "summary": artifact.pointer("/value/summary").cloned().unwrap_or(Value::Null),
+        "channels": artifact.pointer("/value/channels").cloned().unwrap_or(Value::Null)
+    })
+}
+
 fn artifact_liveness(daemon_status: &Value) -> Value {
     let status = daemon_status
         .get("status")
@@ -1132,6 +1157,13 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
         == Some("low_disk")
     {
         blockers.push("storage_low_disk".to_string());
+    }
+    if status
+        .pointer("/typed_channels/status")
+        .and_then(Value::as_str)
+        != Some("ready")
+    {
+        blockers.push("typed_channels_not_ready".to_string());
     }
     if status
         .pointer("/curiosity_engine/value/readiness")
