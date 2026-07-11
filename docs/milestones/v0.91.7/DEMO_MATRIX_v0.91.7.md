@@ -2,38 +2,46 @@
 
 ## Status
 
-planned
+birthday-visible proof map ready
 
 ## Metadata
 
 - Milestone: `v0.91.7`
 - Version: `v0.91.7`
-- Date: `2026-06-21`
+- Date: `2026-07-11`
 - Owner: ADL maintainers
 - Setup lineage: `#3801`, `#3825`, `#4368`
+- Proof update: `#4691`
 
 ## Purpose
 
-Define proof surfaces for the final pre-`v0.92` implementation/readiness tranche. `v0.91.7`
-does not claim runnable demo completion from planning docs alone; it uses reviewable docs, validation checks, and issue-local proofs to assign and verify runtime and Observatory evidence.
+Record the birthday-visible Observatory and demo surfaces for the final
+pre-`v0.92` implementation/readiness tranche. `v0.91.7` still does not claim
+runnable demo completion from planning docs alone; this matrix links the
+reviewable commands, retained proof packets, screenshots, runtime mirrors, and
+claim boundaries that reviewers should use.
 
 ## Scope
 
 In scope:
 
-- docs existence and cross-link proof;
+- birthday-visible Observatory proof classification;
+- reviewer command and retained-artifact links;
 - implementation/proof-surface classification;
 - follow-on validation/proof assignments;
-- public claim boundaries for runtime behavior.
+- public claim boundaries for runtime, AWS, Unity, and browser behavior.
 
 Out of scope:
 
-- birthday demo execution;
 - Curiosity runtime proof;
 - Constructability validator implementation;
 - protocol implementation.
+- v0.92 activation readiness;
+- Unity player-build readiness;
+- clean-checkout replay of third-party Unity Asset Store payloads;
+- browser-owned AWS mutation authority.
 
-## Runtime Preconditions
+## Reviewer Preconditions
 
 Working directory:
 
@@ -41,7 +49,11 @@ Working directory:
 git rev-parse --show-toplevel
 ```
 
-No provider credentials or runtime services are required for this docs tranche.
+No provider credentials, cloud credentials, or remote runtime services are
+required to read the matrix, inspect retained proof, or run the HTML Observatory
+retained-proof validator. Optional live-loopback HTML proof requires the local
+repo `csm` binary and a loopback API process as documented by
+`demos/v0.91.7/html-observatory/README.md`.
 
 ## Related Docs
 
@@ -55,14 +67,25 @@ No provider credentials or runtime services are required for this docs tranche.
 
 | Demo ID | Demo title | Milestone claim / WP proved | Command entry point | Primary proof surface | Success signal | Determinism / replay note | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| D1 | Documentation package proof | `#3825` docs package exists and links truthfully | `find docs/milestones/v0.91.7 -maxdepth 2 -type f` | tracked docs | Expected planning and feature docs are present | deterministic filesystem check | planned |
-| D2 | Bridge overclaim scan | Docs do not claim runtime or `v0.92` readiness | text scan over `docs/milestones/v0.91.7` | review notes | claims are bounded by non-goals and consumption rules | deterministic text review | planned |
-| D3 | Residual visibility proof | Every second-tranche surface remains distinct | text scan over feature index and docs | index and feature docs | all eight surfaces are visible | deterministic text review | planned |
-| D4 | Runtime Soak #2 assignment | Runtime proof is scheduled, not implied | inspect `RUNTIME_SOAK_2_EXECUTION_PACKET_v0.91.7.md` and linked sprint/WBS/source-capture docs | runtime assignment rows and feature-list matrix | Soak #2 has a tracked owner packet, feature-list proof modes per row, and blocker policy tied to `v0.92` activation | issue-local proof later | ready |
-| D5 | Observatory/birthday-visible proof status | Visible demo surfaces are proven or public-claim-bounded without overclaiming | Unity-MCP proof for `#4652` and `#4704`; inspect demo matrix and Observatory proof status | `docs/milestones/v0.91.7/review/unity_observatory_4652/4652-unity-shell-proof-summary.md`; `docs/milestones/v0.91.7/review/unity_observatory_4704/4704-unity-mcp-proof-summary.md`; retained camera renders | #4652 proves the flagship shell/runtime-polis surface with investor lighting and runtime contract refs; #4704 proves project binding, scene loading, runtime/polis objects, and retained nonblank visual evidence. Full build-player and final parent-sprint closeout remain outside the claim until #4702 reconciles the wave. | live Unity-MCP proof plus retained images; no player build claimed | proven-limited |
+| D1 | Documentation package proof | `#3825` docs package exists and links truthfully | `find docs/milestones/v0.91.7 -maxdepth 2 -type f` | tracked docs | Expected planning, feature, review, and proof docs are present | deterministic filesystem check | ready |
+| D2 | Bridge overclaim scan | Docs do not claim runtime or `v0.92` readiness from planning alone | text scan over `docs/milestones/v0.91.7` | this matrix plus issue-local proof packets | claims are bounded by non-goals, proof links, and consumption rules | deterministic text review | ready |
+| D3 | Runtime Soak 2 Observatory packet | Runtime evidence has a retained Observatory visibility packet and operator report | inspect `docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/` | `visibility_packet.json`, `demo_manifest.json`, `operator_report.md` | runtime/observatory packet exists for the HTML surface to consume | retained JSON/Markdown evidence; not a fresh soak run | proven-retained |
+| D4 | HTML Observatory integrated proof | HTML Observatory renders a birthday-visible CSM polis panopticon over retained runtime/API/AWS/ACIP evidence and can optionally upgrade to loopback CSM API polling | `bash adl/tools/test_v0917_html_observatory_integrated_proof.sh`; `python3 -m http.server 8765`; open `http://127.0.0.1:8765/demos/v0.91.7/html-observatory/` | `demos/v0.91.7/html-observatory/README.md`; `demos/v0.91.7/html-observatory/index.html`; retained `csm_liveness_4976` API mirror; WP-08 heartbeat and ACIP-SNS summaries | validator passes; dashboard loads retained proof mirror; optional loopback path is documented | deterministic retained-proof validator; live loopback is optional and local-only | proven |
+| D5 | Unity shell proof | Unity Observatory shell can open the flagship scene, render a presentable observatory environment, and instantiate the runtime polis shell | read #4652 packet; use its Unity-MCP commands for live editor replay when the local Unity project is available | `docs/milestones/v0.91.7/review/unity_observatory_4652/4652-unity-shell-proof-summary.md`; `docs/milestones/v0.91.7/review/unity_observatory_4652/flagship-shell-main-camera-4652.png` | #4652 records shell validation success and retained camera evidence | live Unity-MCP proof plus retained image; copied full-asset proof project is not a Git payload | proven-limited |
+| D6 | Unity flagship stage proof | Flagship Observatory stage scene exists, validates, and has retained investor-facing visual evidence | read #4703 packet; replay with operator-provisioned Unity asset packs and the proof commands in that packet | `docs/milestones/v0.91.7/review/unity_observatory_4703/4703-flagship-observatory-stage-proof.md`; `docs/milestones/v0.91.7/review/unity_observatory_4703/4703-flagship-observatory-investor-hero.png`; `demos/v0.91.6/unity-observatory/Assets/Editor/UnityObservatoryFlagshipStageBuilder.cs` | #4703 records validation pass, scene object counts, and retained 1920x1080 hero proof | deterministic owned scene/proof code; full local visual replay needs operator-provisioned third-party assets | proven-limited |
+| D7 | Unity reproducible walkthrough proof | Unity-MCP proof can bind the proof project, load the flagship scene, find runtime/polis objects, and retain nonblank camera evidence | read #4704 packet and walkthrough | `docs/milestones/v0.91.7/review/unity_observatory_4704/4704-unity-mcp-proof-summary.md`; `docs/milestones/v0.91.7/review/unity_observatory_4704/4704-operator-walkthrough.md`; `docs/milestones/v0.91.7/review/unity_observatory_4704/flagship-wide-observatory-camera-4704.png` | #4704 records endpoint proof, scene proof, runtime/polis object names, image dimensions, and nonblank hash | live Unity-MCP proof plus retained image; batchmode replay and player build are not claimed | proven-limited |
+| D8 | Unity asset and MCP publication boundary | Unity proofs are reviewable without committing third-party asset packs or generated Unity-MCP payloads | inspect #4745 policy and manifest | `docs/milestones/v0.91.7/review/unity_observatory_4745/4745-asset-mcp-publication-policy.md`; `docs/milestones/v0.91.7/review/unity_observatory_4745/4745-asset-mcp-publication-manifest.json` | policy names local asset roots, package names, retained publishable payloads, and non-claims | deterministic docs/manifest check; does not grant redistribution rights | proven-boundary |
+| D9 | Birthday-visible matrix proof | This matrix is no longer a planning-only list; it is backed by issue-local proof references and reviewer commands | inspect `docs/milestones/v0.91.7/review/demo_matrix_4691/4691-birthday-visible-demo-matrix-proof.md`; run `git diff --check` for this issue | #4691 proof packet and this file | proof packet links all landed visible-demo evidence and names unproven boundaries | retained docs proof; no fresh Unity replay claimed by #4691 | proven |
 
 ## Known Limits
 
-- This matrix records documentation readiness and links to issue-local runtime/demo proof where that proof exists; rows without linked issue-local proof still do not claim runtime behavior.
+- This matrix records birthday-visible review readiness and links to
+  issue-local runtime/demo proof where that proof exists; rows without linked
+  issue-local proof still do not claim runtime behavior.
 - Curiosity, Constructability, ACIP, security, and reasoning-graph proofs require
   issue-local evidence or evidence-backed blockers before `v0.92` can consume them.
+- The #4689 Unity integrated proof rollup is in flight and compatible with this
+  matrix, but #4691 does not treat it as landed proof until its PR merges.
+- Full WP-09 closeout remains owned by #4702 and the WP-09 umbrella #4636.
+- Unity player-build readiness, clean-checkout third-party asset replay, and
+  browser-owned AWS mutation remain explicit non-claims.
