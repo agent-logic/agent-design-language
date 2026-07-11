@@ -147,8 +147,9 @@ bounded implementation proof.
 | Records and continuity | serde / serde_json / BLAKE3 | schemas, corruption detection, atomic replacement |
 | Instrumentation facade | tracing | bootstrap stderr and retained-event policy |
 
-The continuity digest detects accidental corruption; it is not a signature and
-does not authenticate a capsule against a malicious writer.
+The original proof capsule digest detects accidental corruption and is not a
+signature. The #5181 Runtime v3 checkpoint manifest separately adds Ed25519
+authentication against externally supplied trusted public keys.
 
 The crate does not implement an executor, graph algorithm, SNTP protocol,
 telemetry SDK, durable queue, or service manager.
@@ -200,3 +201,8 @@ Issue #5182 adds declarative configuration, mandatory contract-checked factory
 construction, canonical effective topology, and a compact sysinfo-backed
 system-weather foundation. See
 `docs/architecture/RUNTIME_V3_CONFIGURATION_WEATHER_ARCHITECTURE.md`.
+
+Issue #5181 adds bounded-parallel checkpointing, canonical hash-chained replay,
+governed recovery disposition, storage separation, and graceful resource-stop
+integration. See
+`docs/architecture/RUNTIME_V3_CONTINUITY_RECOVERY_ARCHITECTURE.md`.

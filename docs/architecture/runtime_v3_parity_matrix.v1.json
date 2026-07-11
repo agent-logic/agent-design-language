@@ -49,9 +49,9 @@
       "id": "continuity.replay_recovery",
       "sources": ["adl/src/runtime_v2/snapshot.rs", "adl/src/runtime_v2/recovery.rs", "adl/src/runtime_v2/quarantine.rs"],
       "runtime_v3_owner": "continuity service",
-      "disposition": "planned_5181",
-      "parity": "versioned checkpoint, canonical replay, recovery eligibility, quarantine",
-      "proof": "shared Runtime v2 fixtures plus Runtime v3 restart proofs"
+      "disposition": "implemented_5181",
+      "parity": "versioned Ed25519-signed checkpoint, canonical replay, recovery eligibility, quarantine",
+      "proof": "adl-runtime-kernel/tests/continuity.rs plus shared Runtime v2 fixtures in #5179 shadow parity"
     },
     {
       "id": "private_state.security",
@@ -121,9 +121,9 @@
       "id": "clock.checkpoint_lifelog",
       "sources": ["adl/src/runtime_v2/agent_lifecycle_state.rs", "adl/src/runtime_v2/memory_identity_architecture.rs", "issue 5119"],
       "runtime_v3_owner": "Chronosense, checkpoint, and lifelog services",
-      "disposition": "planned_5181_5183",
+      "disposition": "checkpoint_implemented_5181_clock_lifelog_pending_5183",
       "parity": "qualified time, operational continuity, distinct autobiographical history",
-      "proof": "clock degradation and checkpoint/lifelog separation fixtures"
+      "proof": "adl-runtime-kernel/tests/continuity.rs plus clock degradation fixtures"
     },
     {
       "id": "citizen.identity_memory",
