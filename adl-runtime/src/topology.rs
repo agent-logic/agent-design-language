@@ -108,6 +108,12 @@ pub fn runtime_stack_json() -> Value {
             "status": "integrated",
             "source": "csm_connection_pool_status"
         },
+        "determinism_boundary": {
+            "schema": crate::determinism::CSM_DETERMINISM_BOUNDARY_SCHEMA,
+            "model": "typed_deterministic_core_and_nondeterministic_shell",
+            "capture_policy": "retain_before_governed_influence",
+            "failure_policy": "quarantine_missing_reclassified_or_mutated_shell_evidence"
+        },
         "time_sync": {
             "primary_crate": "rsntp",
             "status": "integrated",
