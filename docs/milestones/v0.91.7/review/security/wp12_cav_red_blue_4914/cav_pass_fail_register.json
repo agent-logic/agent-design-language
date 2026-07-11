@@ -1,0 +1,44 @@
+[
+  {
+    "scenario_id": "malformed_snapshot",
+    "severity": "high",
+    "result": "pass",
+    "residual_risk": "no residual beyond fixture expansion",
+    "follow_on_issue": null
+  },
+  {
+    "scenario_id": "unauthorized_control_command",
+    "severity": "critical",
+    "result": "pass",
+    "residual_risk": "runtime-v2 boundary proof is local/static but retained and correlated",
+    "follow_on_issue": null
+  },
+  {
+    "scenario_id": "telemetry_injection",
+    "severity": "medium",
+    "result": "pass",
+    "residual_risk": "live collector fuzzing remains future CAV expansion",
+    "follow_on_issue": null
+  },
+  {
+    "scenario_id": "credential_path_leakage",
+    "severity": "critical",
+    "result": "pass",
+    "residual_risk": "credential rotation live-provider mutation remains #4920 non-claim",
+    "follow_on_issue": null
+  },
+  {
+    "scenario_id": "replay_tampering",
+    "severity": "high",
+    "result": "pass",
+    "residual_risk": "distributed replay consensus remains future milestone work",
+    "follow_on_issue": null
+  },
+  {
+    "scenario_id": "cloud_hook_denial",
+    "severity": "high",
+    "result": "pass",
+    "residual_risk": "no live destructive AWS action was attempted",
+    "follow_on_issue": null
+  }
+]

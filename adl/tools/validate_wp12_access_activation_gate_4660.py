@@ -92,7 +92,7 @@ def validate_access_gate(repo_root: Path, data: dict[str, Any]) -> None:
         4658: "integrated_proven",
         4659: "pr_open_pending_ci_review",
         4660: "access_gate_recorded",
-        4914: "blocked_with_evidence",
+        4914: "integrated_proven",
         4917: "integrated_proven",
         4920: "integrated_proven",
     }
@@ -105,8 +105,8 @@ def validate_access_gate(repo_root: Path, data: dict[str, Any]) -> None:
         require_refs_exist(repo_root, row.get("evidence", []), label=f"checklist issue {issue} evidence")
 
     blockers = {item.get("issue") for item in data.get("current_blockers", []) if isinstance(item, dict)}
-    if blockers != {4659, 4914}:
-        fail("current_blockers must be exactly #4659 and #4914")
+    if blockers != {4659}:
+        fail("current_blockers must be exactly #4659")
 
     non_claims = data.get("non_claims")
     if not isinstance(non_claims, list) or len(non_claims) < 5:

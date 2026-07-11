@@ -77,12 +77,15 @@
     {
       "id": "wp12_acip_a2a_access_activation",
       "disposition": "blocked_with_evidence",
-      "owner_issues": [4639, 4656, 4657, 4658, 4659, 4660],
+      "owner_issues": [4639, 4656, 4657, 4658, 4659, 4660, 4914, 4917, 4920],
       "evidence_refs": [
         "docs/milestones/v0.91.7/review/runtime/soak2_4682/aee_memory/runtime_acip_aee_memory_proof.json",
-        "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+        "docs/milestones/v0.91.7/review/security/wp12_polis_custody_4917.json",
+        "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json"
       ],
-      "blocker": "WP-12 security/protocol/access owner rows remain open; local/static evidence cannot be claimed as activation closure."
+      "blocker": "WP-12 CAV, custody, credential, schema, SSM, and access gate evidence is retained; final transport activation still cannot be claimed while the WebSocket runtime API remains next-milestone/noncritical backlog truth."
     },
     {
       "id": "v092_capability_envelope",

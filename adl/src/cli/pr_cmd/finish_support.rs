@@ -3678,6 +3678,7 @@ fn registered_validation_atom_supported(command: &str) -> bool {
             *script,
             "adl/tools/validate_polis_status_for_ssm_qts.py"
                 | "adl/tools/validate_polis_status_for_ssm_windows.py"
+                | "adl/tools/validate_wp12_cav_red_blue_4914.py"
                 | "adl/tools/test_warm_rust_dependency_cache.py"
         ),
         ["cargo", "test", "--manifest-path", "adl/Cargo.toml", "--test", "cli_smoke", "csm_observatory_cli_writes_unity_contract_bundle_and_matches_seeded_resource", "--", "--nocapture"] => {

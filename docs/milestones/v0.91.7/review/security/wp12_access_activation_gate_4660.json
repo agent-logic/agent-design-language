@@ -90,16 +90,14 @@
     },
     {
       "id": "cav_red_blue_claims_require_retained_runtime_scenario",
-      "decision": "fail_closed",
+      "decision": "bounded_allow",
       "required_evidence": [
-        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md"
+        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json"
       ],
       "blocks_claims": [
-        "red_blue_cav_readiness",
+        "unbounded_red_blue_cav_readiness",
         "adversarial_runtime_detection_complete"
-      ],
-      "blocked_by": [
-        4914
       ]
     }
   ],
@@ -108,7 +106,7 @@
       "surface": "security_cav_boundary",
       "owner_issue": 4656,
       "state": "gate_recorded_child_blockers_remaining",
-      "v092_disposition": "blocks_security_cav_readiness_until_4914_or_operator_non_claim",
+      "v092_disposition": "records_bounded_security_cav_evidence_transport_still_non_claim",
       "evidence": [
         "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
         "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
@@ -158,10 +156,12 @@
     {
       "surface": "cav_red_blue_runtime_proof",
       "owner_issue": 4914,
-      "state": "blocked_with_evidence",
-      "v092_disposition": "blocks_adversarial_cav_readiness_claims",
+      "state": "integrated_proven",
+      "v092_disposition": "supports_bounded_retained_cav_red_blue_claims",
       "evidence": [
-        "https://github.com/danielbaustin/agent-design-language/issues/4914"
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_pass_fail_register.json"
       ]
     },
     {
@@ -189,10 +189,6 @@
     {
       "issue": 4659,
       "reason": "PR #5146 remains open/pending; final transport activation cannot be claimed from unmerged PR truth."
-    },
-    {
-      "issue": 4914,
-      "reason": "CAV red/blue runtime proof remains open; adversarial readiness cannot be claimed."
     }
   ],
   "non_claims": [
@@ -200,6 +196,6 @@
     "does not implement live WebSocket runtime API integration",
     "does not claim production transport security, TLS, authentication, or cross-polis networking",
     "does not claim x402 or payment-flow readiness",
-    "does not claim final v0.92 activation readiness while #4659 or #4914 remain unresolved"
+    "does not claim final v0.92 activation readiness while #4659 transport activation remains unresolved"
   ]
 }

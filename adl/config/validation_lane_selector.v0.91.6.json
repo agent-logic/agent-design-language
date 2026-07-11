@@ -574,6 +574,37 @@
       "reason": "wp12_access_activation_gate_surface_requires_registered_finish_safe_validator_syntax_selector_and_validation_manager_contract_checks; focused issue proof runs through adl/tools/validate_wp12_access_activation_gate_4660.py"
     },
     {
+      "id": "wp12_cav_red_blue_4914_contracts",
+      "lane_class": "runtime_integration",
+      "default_surface": "security",
+      "owner": "security",
+      "proof_role": "security_regression",
+      "requirement_ids": [
+        "wp12_cav_red_blue_4914_contracts"
+      ],
+      "path_selectors": [
+        "adl/src/csm_cav_red_blue.rs",
+        "adl/tools/validate_wp12_cav_red_blue_4914.py",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/**",
+        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
+        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json",
+        "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json"
+      ],
+      "path_hints": [
+        "adl/src/csm_cav_red_blue.rs",
+        "adl/tools/validate_wp12_cav_red_blue_4914.py",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_pass_fail_register.json",
+        "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
+        "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json",
+        "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json"
+      ],
+      "command": "python3 -m py_compile adl/tools/validate_wp12_cav_red_blue_4914.py && python3 adl/tools/validate_wp12_cav_red_blue_4914.py --proof docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json --parent-gate docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json --coherence docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
+      "run_command": "python3 -m py_compile adl/tools/validate_wp12_cav_red_blue_4914.py && python3 adl/tools/validate_wp12_cav_red_blue_4914.py --proof docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json --parent-gate docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json --coherence docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh",
+      "reason": "wp12_cav_red_blue_surface_requires_registered_finish_safe_validator_syntax_selector_and_validation_manager_contract_checks; focused issue proof runs through adl/tools/validate_wp12_cav_red_blue_4914.py"
+    },
+    {
       "id": "local_polis_ssm_wrapper",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
