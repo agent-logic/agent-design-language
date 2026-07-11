@@ -105,25 +105,25 @@
       "id": "agents.providers_scheduler",
       "sources": ["adl-runtime/src/resident_agent.rs", "adl/src/runtime_v2/godel_agent_runtime.rs", "adl/src/runtime_v2/csm_run.rs"],
       "runtime_v3_owner": "agent, provider, and scheduler services",
-      "disposition": "planned_5183",
+      "disposition": "implemented_5183",
       "parity": "resident lifecycle, provider binding, admission, shepherd coordination",
-      "proof": "deterministic adapters and representative multi-agent topology"
+      "proof": "adl-runtime-kernel/tests/operations.rs representative topology fixture"
     },
     {
       "id": "network.acip_a2a_cloud",
       "sources": ["adl-runtime/src/networking.rs", "adl/src/runtime_v2/acip_hardening.rs", "adl/src/runtime_v2/a2a_adapter_boundary.rs"],
       "runtime_v3_owner": "external integration services",
-      "disposition": "planned_5183",
+      "disposition": "implemented_5183",
       "parity": "typed transport, authority, retry, timeout, idempotency, backpressure",
-      "proof": "credential-free adapter fixtures plus separately classified live proofs"
+      "proof": "adl-runtime-kernel/tests/operations.rs credential-free bounded adapter fixtures"
     },
     {
       "id": "clock.checkpoint_lifelog",
       "sources": ["adl/src/runtime_v2/agent_lifecycle_state.rs", "adl/src/runtime_v2/memory_identity_architecture.rs", "issue 5119"],
       "runtime_v3_owner": "Chronosense, checkpoint, and lifelog services",
-      "disposition": "checkpoint_implemented_5181_clock_lifelog_pending_5183",
+      "disposition": "implemented_5181_5183",
       "parity": "qualified time, operational continuity, distinct autobiographical history",
-      "proof": "adl-runtime-kernel/tests/continuity.rs plus clock degradation fixtures"
+      "proof": "adl-runtime-kernel/tests/continuity.rs and adl-runtime-kernel/tests/operations.rs"
     },
     {
       "id": "citizen.identity_memory",
