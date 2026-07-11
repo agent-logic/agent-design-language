@@ -3,9 +3,9 @@
   "issue": 4656,
   "parent_issue": 4639,
   "milestone": "v0.91.7",
-  "status": "gate_recorded_child_blockers_remaining",
+  "status": "gate_recorded_transport_blocker_remaining",
   "generated_at_utc": "2026-07-10T18:35:00Z",
-  "purpose": "Record the WP-12 security and CAV pre-v0.92 activation gate so unresolved security, CAV, access-rule, and protocol work remains explicit until owner issues prove it or the operator approves a non-claim.",
+  "purpose": "Record the WP-12 security and CAV pre-v0.92 activation gate so unresolved transport work remains explicit while bounded security, CAV, custody, credential, schema, SSM, and access-rule evidence stays claim-limited.",
   "authoritative_review_packet": "docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md",
   "source_evidence": [
     "docs/milestones/v0.91.7/features/SECURITY_RESIDUAL_READINESS_v0.91.7.md",
@@ -15,7 +15,8 @@
     "docs/milestones/v0.91.7/review/runtime/ACIP_RUNTIME_STREAM_SUBSTRATE_4900.md",
     "docs/milestones/v0.91.7/review/security/WP12_ACIP_SCHEMA_PROTOBUF_PROJECTION_4658.md",
     "docs/milestones/v0.91.7/review/security/wp12_acip_schema_protobuf_projection_4658.json",
-    "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
+    "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json",
+    "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json"
   ],
   "non_claims": [
     "This gate does not claim v0.92 security readiness.",
@@ -32,12 +33,14 @@
         4917,
         4920
       ],
-      "state": "blocked_until_child_proofs",
-      "v092_disposition": "blocks_activation_claims",
+      "state": "integrated_proven",
+      "v092_disposition": "supports_bounded_evidence_claims",
       "evidence": [
-        "docs/milestones/v0.91.7/review/runtime/SOAK2_REVIEW_BLOCKER_REGISTER_4844.md"
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+        "docs/milestones/v0.91.7/review/security/wp12_polis_custody_4917.json",
+        "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json"
       ],
-      "required_before_claim": "Capability-envelope, witness, and receipt readiness must cite CAV runtime adversarial proof, evidence custody, and key-management policy before any birthday or activation narrative relies on them."
+      "required_before_claim": "Capability-envelope, witness, and receipt claims may cite bounded #4914/#4917/#4920 evidence only within their retained non-claims; final activation and transport claims remain blocked by explicit transport truth."
     },
     {
       "id": "security_cav_activation_boundary",
@@ -47,13 +50,16 @@
         4917,
         4920
       ],
-      "state": "blocked_until_child_proofs",
-      "v092_disposition": "blocks_security_cav_readiness",
+      "state": "integrated_proven",
+      "v092_disposition": "supports_bounded_security_cav_claims",
       "evidence": [
         "docs/milestones/v0.91.7/review/runtime/SOAK2_REVIEW_BLOCKER_REGISTER_4844.md",
-        "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json"
+        "docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+        "docs/milestones/v0.91.7/review/security/wp12_polis_custody_4917.json",
+        "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json"
       ],
-      "required_before_claim": "Security/CAV activation readiness requires retained proof for fail-closed boundaries, adversarial CAV behavior, evidence custody, and key rotation or break-glass paths."
+      "required_before_claim": "Security/CAV claims may cite retained fail-closed boundary, adversarial CAV, evidence custody, and key rotation or break-glass evidence only within the bounded non-claims recorded by the child issues."
     },
     {
       "id": "ssm_and_local_polis_secret_readiness",
@@ -129,13 +135,16 @@
       "dependent_issues": [
         4914
       ],
-      "state": "blocked_with_evidence",
-      "v092_disposition": "blocks_adversarial_cav_claims",
+      "state": "integrated_proven",
+      "v092_disposition": "supports_bounded_adversarial_cav_claims",
       "evidence": [
-        "docs/milestones/v0.91.7/WBS_v0.91.7.md",
-        "docs/milestones/v0.91.7/features/SECURITY_RESIDUAL_READINESS_v0.91.7.md"
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_pass_fail_register.json",
+        "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/red_team_fixtures.json",
+        "adl/tools/validate_wp12_cav_red_blue_4914.py"
       ],
-      "required_before_claim": "Adversarial CAV behavior must have retained red-blue evidence before launch or public confidence claims depend on it."
+      "required_before_claim": "Bounded adversarial CAV claims may cite #4914 for the retained CSM red-blue runtime scenarios only; destructive cloud actions, secret retention, production WebSocket runtime API integration, and broader live CAV coverage remain non-claims unless separately proven."
     },
     {
       "id": "tamper_evident_evidence_custody",

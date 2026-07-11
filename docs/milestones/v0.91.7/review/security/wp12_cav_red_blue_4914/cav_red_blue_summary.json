@@ -1,0 +1,218 @@
+{
+  "schema": "adl.wp12.csm_cav_red_blue_proof.v1",
+  "issue": 4914,
+  "parent_issue": 4639,
+  "sprint_issue": 4656,
+  "status": "passed_with_bounded_residuals",
+  "run_id": "wp12-4914-cav-red-blue",
+  "generated_at": "2026-07-10T00:00:00Z",
+  "operator_ref": "e89ea0f9ebb9513d",
+  "runtime_surface": {
+    "owner_binary": "csm",
+    "integrated_csm_path": true,
+    "runtime_api_surface": "embedded_http_runtime_api_status_health_ready_metrics_events",
+    "http_runtime_api_integrated": true,
+    "websocket_runtime_api_integrated": false,
+    "otel_export_surface": "event_log_and_observability_event_schema",
+    "cloud_hook_mode": "local_denial_no_aws_mutation"
+  },
+  "threat_scenarios": [
+    {
+      "id": "malformed_snapshot",
+      "target_surface": "snapshot/freeze-dry bundle",
+      "attacker_goal": "force restore from corrupted bundle",
+      "blue_team_control": "capsule staging integrity guard",
+      "destructive_actions": false
+    },
+    {
+      "id": "unauthorized_control_command",
+      "target_surface": "operator control boundary",
+      "attacker_goal": "resume without fresh invariant pass",
+      "blue_team_control": "runtime-v2 security boundary refusal",
+      "destructive_actions": false
+    },
+    {
+      "id": "telemetry_injection",
+      "target_surface": "OTel/log export",
+      "attacker_goal": "inject untrusted telemetry fields",
+      "blue_team_control": "schema-bound security event classifier",
+      "destructive_actions": false
+    },
+    {
+      "id": "credential_path_leakage",
+      "target_surface": "provider secrets and local paths",
+      "attacker_goal": "exfiltrate credential-like keys or host paths",
+      "blue_team_control": "portable artifact redaction scan",
+      "destructive_actions": false
+    },
+    {
+      "id": "replay_tampering",
+      "target_surface": "agent/DAG execution replay",
+      "attacker_goal": "alter replay manifest or DAG evidence",
+      "blue_team_control": "hash and lineage replay guard",
+      "destructive_actions": false
+    },
+    {
+      "id": "cloud_hook_denial",
+      "target_surface": "AWS hooks",
+      "attacker_goal": "force unauthenticated cloud-control mutation",
+      "blue_team_control": "local denial without AWS mutation",
+      "destructive_actions": false
+    }
+  ],
+  "red_blue_scenarios": [
+    {
+      "id": "malformed_snapshot",
+      "red_team_attempt": "tamper continuity capsule manifest and snapshot segment",
+      "fixture_ref": "red_team_fixtures.json#malformed_snapshot",
+      "integrated_csm_path": true,
+      "expected_detection": "capsule_stage_rejected",
+      "observed_event": "csm_security_event.snapshot_integrity_refused",
+      "decision": "refused",
+      "evidence_ref": "cav_red_blue_events.jsonl#malformed_snapshot",
+      "executed_control": "serde_json_manifest_parse_guard",
+      "observed_result": "rejected_malformed_snapshot:EOF_while_parsing_an_object_at_line_1_column_1",
+      "secret_material_retained": false,
+      "host_path_retained": false,
+      "runs_end_to_end": false
+    },
+    {
+      "id": "unauthorized_control_command",
+      "red_team_attempt": "request resume while invariant evidence is blocking",
+      "fixture_ref": "runtime_v2/security_boundary/proof_packet.json",
+      "integrated_csm_path": true,
+      "expected_detection": "resume_refused",
+      "observed_event": "csm_security_event.operator_command_refused",
+      "decision": "refused",
+      "evidence_ref": "cav_red_blue_events.jsonl#unauthorized_control_command",
+      "executed_control": "runtime_v2_security_boundary_proof_contract",
+      "observed_result": "resume_refused_with_blocking_invariant_present",
+      "secret_material_retained": false,
+      "host_path_retained": false,
+      "runs_end_to_end": true
+    },
+    {
+      "id": "telemetry_injection",
+      "red_team_attempt": "submit forged telemetry field with control characters and secret marker",
+      "fixture_ref": "red_team_fixtures.json#telemetry_injection",
+      "integrated_csm_path": true,
+      "expected_detection": "telemetry_payload_sanitized",
+      "observed_event": "csm_security_event.telemetry_injection_detected",
+      "decision": "detected",
+      "evidence_ref": "cav_red_blue_events.jsonl#telemetry_injection",
+      "executed_control": "csm_security_event_sanitizer",
+      "observed_result": "telemetry_payload_sanitized_without_secret_retention",
+      "secret_material_retained": false,
+      "host_path_retained": false,
+      "runs_end_to_end": false
+    },
+    {
+      "id": "credential_path_leakage",
+      "red_team_attempt": "add api_key and host-private path fields to retained artifact",
+      "fixture_ref": "red_team_fixtures.json#credential_path_leakage",
+      "integrated_csm_path": true,
+      "expected_detection": "artifact_redaction_refused",
+      "observed_event": "csm_security_event.credential_path_leakage_refused",
+      "decision": "refused",
+      "evidence_ref": "cav_red_blue_events.jsonl#credential_path_leakage",
+      "executed_control": "portable_artifact_redaction_scan",
+      "observed_result": "artifact_refused:credential-like_key",
+      "secret_material_retained": false,
+      "host_path_retained": false,
+      "runs_end_to_end": false
+    },
+    {
+      "id": "replay_tampering",
+      "red_team_attempt": "change replay manifest hash and DAG lineage reference",
+      "fixture_ref": "red_team_fixtures.json#replay_tampering",
+      "integrated_csm_path": true,
+      "expected_detection": "replay_guard_rejected",
+      "observed_event": "csm_security_event.replay_tampering_refused",
+      "decision": "refused",
+      "evidence_ref": "cav_red_blue_events.jsonl#replay_tampering",
+      "executed_control": "replay_manifest_hash_guard",
+      "observed_result": "replay_tampering_rejected_hash_mismatch",
+      "secret_material_retained": false,
+      "host_path_retained": false,
+      "runs_end_to_end": false
+    },
+    {
+      "id": "cloud_hook_denial",
+      "red_team_attempt": "call cloud hook without approved account proof or operator token",
+      "fixture_ref": "red_team_fixtures.json#cloud_hook_denial",
+      "integrated_csm_path": true,
+      "expected_detection": "cloud_hook_denied_locally",
+      "observed_event": "csm_security_event.cloud_hook_denial",
+      "decision": "refused",
+      "evidence_ref": "cav_red_blue_events.jsonl#cloud_hook_denial",
+      "executed_control": "cloud_hook_local_admission_guard",
+      "observed_result": "cloud_hook_denied:missing_approved_account_proof_or_operator_token",
+      "secret_material_retained": false,
+      "host_path_retained": false,
+      "runs_end_to_end": false
+    }
+  ],
+  "pass_fail_register": [
+    {
+      "scenario_id": "malformed_snapshot",
+      "severity": "high",
+      "result": "pass",
+      "residual_risk": "no residual beyond fixture expansion",
+      "follow_on_issue": null
+    },
+    {
+      "scenario_id": "unauthorized_control_command",
+      "severity": "critical",
+      "result": "pass",
+      "residual_risk": "runtime-v2 boundary proof is local/static but retained and correlated",
+      "follow_on_issue": null
+    },
+    {
+      "scenario_id": "telemetry_injection",
+      "severity": "medium",
+      "result": "pass",
+      "residual_risk": "live collector fuzzing remains future CAV expansion",
+      "follow_on_issue": null
+    },
+    {
+      "scenario_id": "credential_path_leakage",
+      "severity": "critical",
+      "result": "pass",
+      "residual_risk": "credential rotation live-provider mutation remains #4920 non-claim",
+      "follow_on_issue": null
+    },
+    {
+      "scenario_id": "replay_tampering",
+      "severity": "high",
+      "result": "pass",
+      "residual_risk": "distributed replay consensus remains future milestone work",
+      "follow_on_issue": null
+    },
+    {
+      "scenario_id": "cloud_hook_denial",
+      "severity": "high",
+      "result": "pass",
+      "residual_risk": "no live destructive AWS action was attempted",
+      "follow_on_issue": null
+    }
+  ],
+  "retained_artifacts": [
+    "cav_red_blue_summary.json",
+    "cav_red_blue_events.jsonl",
+    "cav_pass_fail_register.json",
+    "red_team_fixtures.json"
+  ],
+  "redaction": {
+    "secret_values_retained": false,
+    "raw_credential_paths_retained": false,
+    "host_private_paths_retained": false,
+    "cloud_mutation_performed": false,
+    "operator_identity_hashed": true
+  },
+  "non_claims": [
+    "does not perform destructive cloud actions",
+    "does not claim production WebSocket runtime API integration",
+    "does not retain provider, AWS, or operator secret values",
+    "does not claim live adversarial coverage beyond these retained scenarios"
+  ]
+}

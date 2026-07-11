@@ -212,6 +212,20 @@ assert_has "$TMP/wp12-ssm-readiness-4657-surface.out" "aggregate_status=selected
 assert_has "$TMP/wp12-ssm-readiness-4657-surface.out" "wp12_ssm_readiness_4657_contracts status=selected"
 assert_not_has "$TMP/wp12-ssm-readiness-4657-surface.out" "unmapped_change_surface"
 
+wp12_cav_red_blue_4914_surface="$TMP/wp12-cav-red-blue-4914-surface.txt"
+cat >"$wp12_cav_red_blue_4914_surface" <<'EOF'
+A	adl/src/csm_cav_red_blue.rs
+A	adl/tools/validate_wp12_cav_red_blue_4914.py
+A	docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json
+A	docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl
+M	docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json
+M	docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json
+EOF
+bash "$SCRIPT" --changed-files "$wp12_cav_red_blue_4914_surface" >"$TMP/wp12-cav-red-blue-4914-surface.out"
+assert_has "$TMP/wp12-cav-red-blue-4914-surface.out" "aggregate_status=selected"
+assert_has "$TMP/wp12-cav-red-blue-4914-surface.out" "wp12_cav_red_blue_4914_contracts status=selected"
+assert_not_has "$TMP/wp12-cav-red-blue-4914-surface.out" "unmapped_change_surface"
+
 csm_otlp_4904_surface="$TMP/csm-otlp-4904-surface.txt"
 cat >"$csm_otlp_4904_surface" <<'EOF'
 A	adl/tools/run_v0917_csm_otlp_4904_proof.sh

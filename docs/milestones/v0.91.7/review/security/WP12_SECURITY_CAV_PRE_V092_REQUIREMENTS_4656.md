@@ -5,7 +5,7 @@
 - Issue: `#4656`
 - Parent sprint: `#4639`
 - Milestone: `v0.91.7`
-- Status: gate recorded; #4657 operations and #4658 schema projection integrated; other child blockers open
+- Status: gate recorded; bounded child proofs integrated; #4659 transport activation remains a noncritical next-milestone/backlog blocker
 - Machine-readable companion: `docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json`
 
 ## Purpose
@@ -16,12 +16,12 @@ evidence claims.
 
 This packet is not a launch-readiness claim. It is the issue-local control
 surface for `#4656`: the security/CAV requirements are now named, owner-bound,
-and fail closed until the child issues prove them or the operator explicitly
-approves a non-claim with evidence and risk.
+and claim-limited to retained child evidence while remaining transport
+activation work stays explicit.
 
 ## Findings
 
-### F-4656-01: WP-12 security/CAV readiness remains blocked until child proofs land
+### F-4656-01: WP-12 security/CAV readiness is bounded by retained child proofs
 
 Severity: blocker
 
@@ -33,6 +33,8 @@ Evidence:
 - `docs/milestones/v0.91.7/review/runtime/soak2_4682/security_cav_boundary/proof_packet.json`
   records a fail-closed paused-boundary proof, not a complete CAV readiness
   proof.
+- `docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json`
+  records bounded retained CSM red/blue proof for #4914.
 - `docs/milestones/v0.91.7/features/SECURITY_RESIDUAL_READINESS_v0.91.7.md`
   requires threat-model review and explicit blocker or approval records before
   security work can move out of activation.
@@ -40,9 +42,9 @@ Evidence:
 Disposition:
 
 - `#4656` records the gate and requirement ledger.
-- `#4914`, `#4917`, and `#4920` remain required before adversarial CAV,
-  tamper-evident custody, key-management, witness, or receipt readiness can be
-  claimed.
+- `#4914`, `#4917`, and `#4920` now provide bounded retained evidence for
+  adversarial CAV, tamper-evident custody, key-management, witness, and receipt
+  claims, limited by their recorded non-claims.
 
 ### F-4656-02: ACIP/A2A security cannot be claimed until protocol and access owners settle
 
@@ -92,15 +94,15 @@ Disposition:
 
 | Requirement | Owner | Current state | v0.92 impact |
 | --- | --- | --- | --- |
-| Capability envelope, witness, and receipt readiness | `#4656` with `#4914`, `#4917`, `#4920` | blocked until child proofs | Blocks capability-envelope and birthday-evidence claims. |
-| Security/CAV activation boundary | `#4656` with `#4914`, `#4917`, `#4920` | blocked until child proofs | Blocks security/CAV readiness. |
+| Capability envelope, witness, and receipt readiness | `#4656` with `#4914`, `#4917`, `#4920` | bounded child proofs integrated | Supports bounded evidence claims; final activation still depends on unresolved transport/non-claim truth. |
+| Security/CAV activation boundary | `#4656` with `#4914`, `#4917`, `#4920` | bounded child proofs integrated | Supports bounded CAV, custody, and credential policy claims; no destructive cloud, secret-retention, or production WebSocket runtime API claim. |
 | SSM and local polis operations readiness | `#4657` | integrated proven | Supports SSM operations claims; secret values, provider/model execution, governance authority, and unattended mutation remain non-claims. |
 | ACIP/A2A schema and protobuf projection | `#4658` with `#4900` | integrated proven | Schema/projection ready; #4659 and #4660 still block full ACIP/A2A readiness. |
 | ACIP WebSocket transport path | `#4659` with `#4900` | child issue open | Blocks transport activation. |
-| External-agent access rules | `#4660` | child issue open | Blocks external-agent trust claims. |
-| CAV runtime red-blue proof | `#4914` | child issue open | Blocks adversarial CAV claims. |
-| Tamper-evident evidence custody | `#4917` | child issue open | Blocks public evidence and profile privacy claims. |
-| Key rotation and break-glass policy | `#4920` | child issue open | Blocks durable key-management claims. |
+| External-agent access rules | `#4660` | access gate recorded | Defines fail-closed activation checklist and bounded allow/non-claim surfaces. |
+| CAV runtime red-blue proof | `#4914` | integrated proven | Supports bounded retained CSM red/blue scenario claims only. |
+| Tamper-evident evidence custody | `#4917` | integrated proven | Supports tamper-evident custody claims within #4917 non-claims. |
+| Key rotation and break-glass policy | `#4920` | integrated proven | Supports policy and local negative-case claims within #4920 non-claims. |
 | Curiosity/Constructability security gates | `#4637` with `#4692`, `#4693` | blocked until promoted or non-claimed | Blocks public claims if promoted into activation. |
 
 ## Activation Rule
@@ -115,7 +117,8 @@ WP-12 and `v0.92` may consume a row only when it is one of:
   activation use.
 
 Any row still marked `child_issue_open`, `blocked_until_child_proofs`, or
-`blocked_until_promoted_or_non_claimed` is not activation-ready.
+`blocked_until_promoted_or_non_claimed` is not activation-ready. As of #4914,
+the remaining WP-12 blocker is the #4659 transport activation/non-claim row.
 
 ## Non-Claims
 

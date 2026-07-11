@@ -4,6 +4,7 @@ use std::path::PathBuf;
 use super::agent_cmd::real_csm_daemon;
 use super::csm_service_cmd::real_service;
 use ::adl::csm_backpressure::{prove_backpressure, BackpressureProofOptions};
+use ::adl::csm_cav_red_blue::{prove_cav_red_blue, CavRedBlueProofOptions};
 use ::adl::csm_cloud_control::{prove_cloudfront_status, CloudFrontStatusOptions};
 use ::adl::csm_continuity_capsule::{
     capture_capsule, fire_drill_capsule, restore_capsule, stage_capsule, ContinuityCaptureOptions,
@@ -34,7 +35,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!(
-            "csm requires subcommand: daemon | service | governed-stop | credential-policy | continuity | godel-snapshot | backpressure | aws-signal | storage | cloud-control | observatory"
+            "csm requires subcommand: daemon | service | governed-stop | credential-policy | continuity | godel-snapshot | cav | backpressure | aws-signal | storage | cloud-control | observatory"
         );
         std::process::exit(2);
     };
@@ -82,6 +83,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
                 "csm godel-snapshot is owned by the standalone csm runtime binary; use `csm godel-snapshot`, not `adl csm godel-snapshot`"
             )),
         },
+        "cav" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_cav(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm cav is owned by the standalone csm runtime binary; use `csm cav`, not `adl csm cav`"
+            )),
+        },
         "aws-signal" => match mode {
             CsmDispatchMode::StandaloneRuntime => real_aws_signal(&args[1..]),
             CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
@@ -107,11 +114,111 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, governed-stop, credential-policy, continuity, godel-snapshot, backpressure, aws-signal, storage, cloud-control, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, governed-stop, credential-policy, continuity, godel-snapshot, cav, backpressure, aws-signal, storage, cloud-control, or observatory)"
             );
             std::process::exit(2);
         }
     }
+}
+
+fn real_cav(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm cav requires subcommand: red-blue");
+        std::process::exit(2);
+    };
+    match cmd {
+        "red-blue" => real_cav_red_blue(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm cav subcommand: {other} (expected red-blue)");
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_cav_red_blue(args: &[String]) -> Result<()> {
+    let Some(cmd) = args.first().map(|value| value.as_str()) else {
+        eprintln!("csm cav red-blue requires subcommand: prove");
+        std::process::exit(2);
+    };
+    match cmd {
+        "prove" => real_cav_red_blue_prove(&args[1..]),
+        "--help" | "-h" => {
+            println!("{}", csm_usage());
+            Ok(())
+        }
+        other => {
+            eprintln!("unknown csm cav red-blue subcommand: {other} (expected prove)");
+            std::process::exit(2);
+        }
+    }
+}
+
+fn real_cav_red_blue_prove(args: &[String]) -> Result<()> {
+    let mut out_dir: Option<PathBuf> = None;
+    let mut run_id = "wp12-4914-cav-red-blue".to_string();
+    let mut operator = "local-operator".to_string();
+    let mut requested_at: Option<DateTime<Utc>> = None;
+    let mut json_output = false;
+    let mut i = 0usize;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" => {
+                out_dir = Some(PathBuf::from(required_value(args, i, "--out")?));
+                i += 1;
+            }
+            "--run-id" => {
+                run_id = required_value(args, i, "--run-id")?.to_string();
+                i += 1;
+            }
+            "--operator" => {
+                operator = required_value(args, i, "--operator")?.to_string();
+                i += 1;
+            }
+            "--requested-at" => {
+                let raw = required_value(args, i, "--requested-at")?;
+                requested_at = Some(
+                    DateTime::parse_from_rfc3339(raw)
+                        .with_context(|| {
+                            format!(
+                                "csm cav red-blue prove requires --requested-at to be RFC3339, got {raw}"
+                            )
+                        })?
+                        .with_timezone(&Utc),
+                );
+                i += 1;
+            }
+            "--json" => json_output = true,
+            "--help" | "-h" => {
+                println!("{}", csm_usage());
+                return Ok(());
+            }
+            other => {
+                eprintln!("unknown csm cav red-blue prove arg: {other}");
+                std::process::exit(2);
+            }
+        }
+        i += 1;
+    }
+
+    let proof = prove_cav_red_blue(CavRedBlueProofOptions {
+        out_dir: out_dir.context("csm cav red-blue prove requires --out <proof-dir>")?,
+        run_id,
+        operator,
+        requested_at,
+    })?;
+    if json_output {
+        println!("{}", serde_json::to_string_pretty(&proof)?);
+    } else {
+        println!(
+            "CSM_CAV_RED_BLUE ok status={} run_id={}",
+            proof.status, proof.run_id
+        );
+    }
+    Ok(())
 }
 
 fn real_credential_policy(args: &[String]) -> Result<()> {
@@ -1069,6 +1176,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm service start|status|stop|remove [--service-root <dir>] [--json]
   csm governed-stop --spec <agent-spec.yaml> --reason <text> --operator <identity> --authorization <metadata> --intent emergency_polis_stop|operator_safety_stop|recoverability_drill --requested-at <RFC3339> [--json]
   csm credential-policy prove --out <proof-dir> [--run-id <id>] [--operator <identity>] [--requested-at <RFC3339>] [--json]
+  csm cav red-blue prove --out <proof-dir> [--run-id <id>] [--operator <identity>] [--requested-at <RFC3339>] [--json]
   csm aws-signal acip-sns-proof --out <proof-dir> [--run-id <id>] [--projection-level delivery_metadata|content_summary]
   csm cloud-control cloudfront-status --out <proof-dir> [--profile agent-logic-admin] [--region us-west-2] [--distribution-id <id>] [--expected-account-sha256 <hash>]
   csm cloud-control api-gateway-bridge --out <proof-dir> --polis-id <id> --api-id <id> --stage <name> --invoke-url <url> --operator-token-file <path> --cloudwatch-log-group <name> --eventbridge-bus <name> [--expected-account-sha256 <hash>] [--json]
@@ -1090,6 +1198,7 @@ Semantics:
   - csm service owns CSM runtime supervision around csm daemon; local mode is the portable Rust supervisor path, while launchd/systemd metadata are host integration targets.
   - csm governed-stop is the only emergency polis stop path; it requires explicit operator metadata, checkpoints and safe-fail serialization before stop, lifecycle lifelog DB rows, and governed notice fan-out.
   - csm credential-policy proves no-secret credential class inventory, rotation cadence, break-glass audit events, revocation, and failed-closed negative cases for missing, expired, denied, and stale bindings.
+  - csm cav red-blue proves bounded red-team fixtures and blue-team detection/response for CSM runtime security surfaces without retaining secrets or performing destructive cloud actions.
   - csm daemon embeds the local-by-default runtime API at --api-bind and exposes /status, /health, /ready, /metrics, /events, /chronosense, and /api-gateway-bridge from retained runtime artifacts without leaking host-private paths or secrets.
   - csm daemon defaults its embedded runtime API to listener_role=main_runtime_api on 127.0.0.1:19997; 19950-19999 is reserved for local CSM runtime/dev/test listeners, and 127.0.0.1:0 is accepted only for explicit bounded test harness flags.
   - csm aws-signal owns runtime AWS signal proof execution, including ACIP-to-SNS live publication under the Agent Logic account guard.
@@ -1288,6 +1397,7 @@ memory: {}
             "backpressure",
             "credential-policy",
             "continuity",
+            "cav",
             "governed-stop",
             "observatory",
             "service",
@@ -1306,6 +1416,7 @@ memory: {}
             "governed-stop",
             "credential-policy",
             "continuity",
+            "cav",
             "backpressure",
         ] {
             let args = vec![subcommand.to_string(), "--help".to_string()];
@@ -1327,6 +1438,7 @@ memory: {}
         assert!(usage.contains("csm governed-stop --spec"));
         assert!(usage.contains("only emergency polis stop path"));
         assert!(usage.contains("csm credential-policy prove --out"));
+        assert!(usage.contains("csm cav red-blue prove --out"));
         assert!(usage.contains("break-glass audit events"));
         assert!(usage.contains("ADL_OBSERVABILITY_LOG"));
         assert!(usage.contains("ADL_OTEL_STATUS"));
@@ -1421,6 +1533,26 @@ memory: {}
             .join("credential_policy_summary.json")
             .exists());
 
+        let cav_red_blue = vec![
+            "cav".to_string(),
+            "red-blue".to_string(),
+            "prove".to_string(),
+            "--out".to_string(),
+            root.join("cav-red-blue").display().to_string(),
+            "--run-id".to_string(),
+            "wp12-4914-parser-proof".to_string(),
+            "--operator".to_string(),
+            "local-operator".to_string(),
+            "--requested-at".to_string(),
+            "2026-07-10T00:00:00Z".to_string(),
+            "--json".to_string(),
+        ];
+        real_csm_standalone(&cav_red_blue).expect("cav red-blue proof parser path");
+        assert!(root
+            .join("cav-red-blue")
+            .join("cav_red_blue_summary.json")
+            .exists());
+
         let custody_p256_signing_private_key = "CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQk=";
         let custody_trusted_public_key =
             custody_public_key_from_private_key(custody_p256_signing_private_key);
@@ -1500,6 +1632,14 @@ memory: {}
             (
                 vec!["credential-policy".to_string(), "prove".to_string()],
                 "csm credential-policy prove requires --out <proof-dir>",
+            ),
+            (
+                vec![
+                    "cav".to_string(),
+                    "red-blue".to_string(),
+                    "prove".to_string(),
+                ],
+                "csm cav red-blue prove requires --out <proof-dir>",
             ),
             (
                 vec!["storage".to_string(), "prove-s3".to_string()],
