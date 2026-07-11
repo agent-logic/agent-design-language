@@ -1,0 +1,14 @@
+schema_version: adl.release_gate_disposition.v1
+issue: 4752
+disposition: approved_with_focused_runtime_proof
+changed_release_gate_surfaces:
+  - docs/milestones/v0.91.7/MILESTONE_CHECKLIST_v0.91.7.md
+reviewer_or_review_mode: bounded pre-PR runtime and release-surface review
+focused_validation_run: "ADL_AWS_PROFILE=agent-logic-admin bash adl/tools/run_aws_codefriend_build_lane.sh --run --check-account --wait --project-name adl-codefriend-build --source-version codex/4752-v0-91-7-wp-13-affect-define-and-prove-affect-happiness-safe-test-boundary --env ADL_CODEFRIEND_BUILD_COMMAND='cargo test --manifest-path adl/Cargo.toml --lib runtime_v2_affect_reasoning_control -- --nocapture' --out .adl/local-artifacts/remote-build/4752/codebuild-lib-rereview/summary.json --artifact-dir .adl/local-artifacts/remote-build/4752/codebuild-lib-rereview --timeout-seconds 1800 --poll-seconds 10"
+residual_ci_proof_required_before_merge: required
+notes:
+  - "Validation manager escalated #4752 because the milestone checklist is a release-gate surface."
+  - "The checklist edit is limited to WP-13 affect/happiness wording and does not mark unresolved milestone completion."
+  - "Focused CodeBuild proof passed for the runtime-v2 affect reasoning-control and affect/happiness safe-test model tests."
+  - "Pre-PR review findings were fixed before publication by hardening safe-test scenarios, allowed claims, and runtime input validation."
+  - "GitHub PR checks remain required before merge."
