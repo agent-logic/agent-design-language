@@ -332,6 +332,27 @@
       "reason": "unity_observatory_surface_requires_contract_and_csm_smoke"
     },
     {
+      "id": "unity_observatory_v0917_integrated_proof",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "unity_observatory_v0917_integrated_proof"
+      ],
+      "path_selectors": [
+        "adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+        "docs/milestones/v0.91.7/review/unity_observatory_4689/**"
+      ],
+      "path_hints": [
+        "adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+        "docs/milestones/v0.91.7/review/unity_observatory_4689/"
+      ],
+      "command": "bash adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+      "run_command": "bash adl/tools/test_v0917_unity_observatory_integrated_proof.sh",
+      "reason": "v0917_unity_observatory_integrated_rollup_requires_retained_proof_chain_check"
+    },
+    {
       "id": "html_observatory_v0917_runtime_surface",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",

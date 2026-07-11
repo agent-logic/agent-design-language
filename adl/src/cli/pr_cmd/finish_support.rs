@@ -3643,6 +3643,7 @@ fn registered_validation_atom_supported(command: &str) -> bool {
                 | "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh"
                 | "adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh"
                 | "adl/tools/test_v0916_unity_observatory_soak_integration.sh"
+                | "adl/tools/test_v0917_unity_observatory_integrated_proof.sh"
                 | "adl/tools/test_sprint_conductor_helpers.sh"
                 | "adl/tools/test_install_adl_operational_skills.sh"
                 | "adl/tools/validate_v0917_csm_continuity_capsule_4910_status.sh"
