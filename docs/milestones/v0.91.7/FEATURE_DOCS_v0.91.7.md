@@ -25,6 +25,7 @@ consumption limits; they do not implement runtime behavior.
 | [`AFFECT_HAPPINESS_BRIDGE_v0.91.7.md`](features/AFFECT_HAPPINESS_BRIDGE_v0.91.7.md) | Affect and happiness surfaces | What safe tests and public claim boundaries govern affect, humor, happiness, and wellbeing evidence? | WP-13 implements/proves required affect-model boundaries or records evidence-backed blockers with operator approval. |
 | [`GODEL_MECHANICS_BRIDGE_v0.91.7.md`](features/GODEL_MECHANICS_BRIDGE_v0.91.7.md) | Godel mechanics | What experiment, hypothesis, mutation, evaluation, and promotion mechanics can birthday evidence consume? | WP-13 implements/proves required mechanics boundaries or records evidence-backed blockers with operator approval. |
 | [`ECONOMICS_CONTEXT_DECISION_v0.91.7.md`](features/ECONOMICS_CONTEXT_DECISION_v0.91.7.md) | Economics context | Is economics context-only for v0.92, or does it require explicit tests? | WP-13 records the context-only decision or a bounded promoted test with evidence and operator approval. |
+| [`GUILD_FOUNDATION_BOUNDARY_v0.91.7.md`](features/GUILD_FOUNDATION_BOUNDARY_v0.91.7.md) | Guild foundation | Which MVP guild surfaces can v0.92 consume as governance handoff context, and which v0.93 governance claims remain unsupported? | WP-13 `#4755` implements/proves the runtime boundary or records an evidence-backed blocker with operator approval. |
 
 ## Additional Required Planning Assignments
 
