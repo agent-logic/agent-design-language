@@ -60,7 +60,7 @@ Forward checklist. Items are intentionally unchecked because `v0.91.7` execution
 - [ ] Affect/happiness model completed as proof-bound operational reasoning-control implementation through `#4752`, with subjective affect/happiness/wellbeing claims explicitly not claimed.
 - [ ] Godel mechanics boundary implemented/proven for v0.92 claim consumption; live hosted invocation and adaptive DAG completion remain non-claimed.
 - [ ] Economics-context decision completed or blocked with evidence and operator approval.
-- [ ] Guilds/civilization-model boundary explicitly de-scoped or implemented with evidence, without becoming an accidental v0.92 blocker.
+- [ ] Guild foundation boundary implemented/proven through `#4755`, with v0.93 constitutional governance, polis authority, delegated authority, and public product readiness explicitly not claimed.
 - [ ] Memory Palace/context problem status is visible for v0.92 as proof or evidence-backed blocker.
 
 ## Demo And Launch Readiness
