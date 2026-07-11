@@ -213,3 +213,8 @@ and capability-authorized lifecycle commands, bounded idempotency, queue
 saturation evidence, stdout/stderr separation, and bounded tracing events for
 external Vector collection without claiming exporter delivery. See
 `docs/architecture/RUNTIME_V3_CONTROL_OBSERVABILITY_ARCHITECTURE.md`.
+
+Issue #5180 adds validated reasoning DAGs, bounded recurrent execution, typed
+evaluation and feedback, checkpointable adaptation state, deterministic
+replay/resume, and signed copy-validated graph mutation with rollback evidence.
+See `docs/architecture/RUNTIME_V3_ADAPTIVE_REASONING_ARCHITECTURE.md`.
