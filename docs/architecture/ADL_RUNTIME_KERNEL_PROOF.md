@@ -183,7 +183,8 @@ This proof does not establish:
 - live SNTP, ntpd-rs, OpenTelemetry exporter delivery, cloud, ACIP, or provider integration;
 - dynamic topology reload or distributed supervision;
 - durable queue or production persistence semantics;
-- full Freedom Gate, reasoning runtime, AEE, or adaptive-learning behavior;
+- full constitutional policy authoring, production provider integration, or
+  distributed authority behavior;
 - release readiness for v0.92.
 
 Related issues #5111 through #5120 retain ownership of their existing runtime
@@ -218,3 +219,9 @@ Issue #5180 adds validated reasoning DAGs, bounded recurrent execution, typed
 evaluation and feedback, checkpointable adaptation state, deterministic
 replay/resume, and signed copy-validated graph mutation with rollback evidence.
 See `docs/architecture/RUNTIME_V3_ADAPTIVE_REASONING_ARCHITECTURE.md`.
+
+Issue #5178 adds signed commitment and authority mediation, attenuating
+delegation, resource admission, one-shot execution permits, governed AEE shell
+actuation, refusal/quarantine/appeal evidence, audit chains, and checkpoint
+recovery. See
+`docs/architecture/RUNTIME_V3_GOVERNED_EXECUTION_ARCHITECTURE.md`.
