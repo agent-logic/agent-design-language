@@ -141,6 +141,8 @@ Assignment to a follow-on issue, sprint, or milestone is scheduling truth only. 
   [docs/milestones/v0.91.7/review/V0917_WP02_V0916_CLOSEOUT_TRUTH_CONSUMPTION_4661.md](review/V0917_WP02_V0916_CLOSEOUT_TRUTH_CONSUMPTION_4661.md)
 - WP-06 build-throughput sprint packet:
   [docs/milestones/v0.91.7/review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md](review/V0917_WP06_BUILD_THROUGHPUT_VALIDATION_COST_REDUCTION_4633.md)
+- WP-12 access and activation gate:
+  [docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md](review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md)
 
 ## Non-Goals
 

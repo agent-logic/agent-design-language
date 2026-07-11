@@ -95,7 +95,7 @@ blocked, deferred, or routed with evidence before any public activation claim.
 | ACP/cognitive profiles | Confirm scope, privacy boundary, update rules, capability-envelope relation, and provider/model relation. |
 | Provider/model matrix and multi-agent readiness | Name hosted, local, remote, OpenRouter, Gemma, and multi-agent reliability limits before demo reliance. |
 | Observatory/Unity readiness | Classify every Observatory/Unity surface as proof, rehearsal, substrate, blocked, or deferred. |
-| ACIP/provider communications | Decide schema catalog, JSON projection, protobuf/projection boundary, message access, and mock carrier proof. |
+| ACIP/provider communications | Consume `docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md`; decide schema catalog, JSON projection, protobuf/projection boundary, message access, mock carrier proof, and any remaining blocked/non-claim rows from that gate. |
 | Public prompt records | Confirm export, redaction, validation, indexing, evidence, and security-review boundaries. |
 | Logging/tooling proof-loop reliability | Confirm validation split, CI observability, OTel/log consumption, and PR reliability residual routing. |
 | Security and Continuous Adversarial Verification | Preserve threat-model, adversarial-output, provider-trust, public-record security, and ACIP-security requirements. |
@@ -117,7 +117,7 @@ blocked, deferred, or routed with evidence before any public activation claim.
 | Memory grounding | `MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md` | WP-05 | Redaction-safe packet shape and witness references. |
 | Capability envelope | `WBS_v0.92.md`, `DEMO_MATRIX_v0.92.md` | WP-06 | Provider/model/tool/skill/authority/limit field set. |
 | ACP/cognitive profile | `ACP_COGNITIVE_PROFILES_v0.92.md` | WP-07 | Update rules, privacy boundary, and non-reputation checks. |
-| ACIP binary/schema transport readiness | `ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md` | WP-08 | Protobuf/JSON projection decision and mock/loopback carrier boundary. |
+| ACIP binary/schema transport readiness | `ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`; `docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md` | WP-08 | Protobuf/JSON projection decision, governed access checklist, mock/loopback carrier boundary, and explicit non-claims for live WebSocket runtime API integration until promoted. |
 | Witnesses and receipt | `MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md` | WP-09 | Receipt schema and witness validity checks. |
 | Birthday review packet | `FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | WP-10 | One template with evidence, caveats, public claim boundaries, and reviewer questions. |
 | Migration and cross-polis continuity | `CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md` | WP-11 | Non-production migration language and continuity handoff shape. |
