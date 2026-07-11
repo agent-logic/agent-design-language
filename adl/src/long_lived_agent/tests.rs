@@ -1302,7 +1302,7 @@ fn daemon_partial_checkpoint_preserves_recoverable_failure_reason() {
     let spec = write_spec_with_workflow_kind(&root, "unsupported_adapter");
     let loaded = load_spec(&spec).expect("load spec");
     ensure_state_root(&loaded).expect("state root");
-    let runtime_context = CsmRuntimeContext::new(&loaded.state_root).expect("csm runtime context");
+    let runtime_context = CsmRuntimeContext::new(&loaded).expect("csm runtime context");
     let error = StatusError {
         class: "daemon_child_failed".to_string(),
         message: "cycle failed before restart".to_string(),
@@ -1370,7 +1370,7 @@ fn safe_fail_bundle_preserves_malformed_artifacts_and_quarantines_active_lease()
     let spec = write_spec(&root);
     let loaded = load_spec(&spec).expect("load spec");
     ensure_state_root(&loaded).expect("state root");
-    let runtime_context = CsmRuntimeContext::new(&loaded.state_root).expect("csm runtime context");
+    let runtime_context = CsmRuntimeContext::new(&loaded).expect("csm runtime context");
     let lease = LeaseRecord {
         schema: LEASE_SCHEMA.to_string(),
         agent_instance_id: loaded.spec.agent_instance_id.clone(),
@@ -1444,7 +1444,7 @@ fn safe_fail_bundle_suppresses_sequence_artifact_under_low_disk() {
     let spec = write_spec(&root);
     let loaded = load_spec(&spec).expect("load spec");
     ensure_state_root(&loaded).expect("state root");
-    let runtime_context = CsmRuntimeContext::new(&loaded.state_root).expect("csm runtime context");
+    let runtime_context = CsmRuntimeContext::new(&loaded).expect("csm runtime context");
     let status = status_with_state(
         &loaded,
         AgentStatusState::Failed,
@@ -1572,7 +1572,7 @@ fn daemon_status_records_restart_always_permanent_service_contract() {
     let spec = write_spec(&root);
     let loaded = load_spec(&spec).expect("load spec");
     ensure_state_root(&loaded).expect("state root");
-    let runtime_context = CsmRuntimeContext::new(&loaded.state_root).expect("csm runtime context");
+    let runtime_context = CsmRuntimeContext::new(&loaded).expect("csm runtime context");
 
     let running = write_daemon_status(
         &runtime_context,
@@ -1672,7 +1672,7 @@ memory:
         r#"{"schema":"adl.csm.agent_checkpoint_request.v1","reason":"agent-local state changed","requested_at":"2026-07-06T00:00:00Z"}"#,
     )
     .expect("write checkpoint request");
-    let runtime_context = CsmRuntimeContext::new(&loaded.state_root).expect("runtime context");
+    let runtime_context = CsmRuntimeContext::new(&loaded).expect("runtime context");
     let accepted = observe_agent_checkpoint_request(
         &runtime_context,
         &loaded,
@@ -1727,7 +1727,7 @@ fn daemon_heartbeat_partial_checkpoint_does_not_report_backoff() {
     let spec = write_spec(&root);
     let loaded = load_spec(&spec).expect("load spec");
     ensure_state_root(&loaded).expect("state root");
-    let runtime_context = CsmRuntimeContext::new(&loaded.state_root).expect("csm runtime context");
+    let runtime_context = CsmRuntimeContext::new(&loaded).expect("csm runtime context");
     let mut daemon_status = write_daemon_status(
         &runtime_context,
         &loaded,
@@ -1778,7 +1778,7 @@ fn daemon_partial_checkpoint_reports_stop_observed_before_restart_attempt() {
         "operator_stop_requested",
     )
     .expect("write stop");
-    let runtime_context = CsmRuntimeContext::new(&loaded.state_root).expect("csm runtime context");
+    let runtime_context = CsmRuntimeContext::new(&loaded).expect("csm runtime context");
     let mut daemon_status = write_daemon_status(
         &runtime_context,
         &loaded,
