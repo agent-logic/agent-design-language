@@ -161,6 +161,22 @@ and trace/audit requirements.
 v0.93 should harden transport security. v0.94 should close signed/queryable
 trace. v0.95 can consume the mature carrier if prior gates pass.
 
+## Backlog Capture: Runtime API Integration
+
+The v0.91.7 #4659 packet proves the bounded ACIP WebSocket transport path as a
+reusable runtime-stream proof, but it does not add a live WebSocket route to the
+CSM runtime API alongside HTTP. That runtime API integration is noncritical for
+v0.91.7/WP-12 closeout and should remain backlog-only until the operator
+explicitly promotes it; do not open a GitHub issue from this note.
+
+Backlog item:
+
+- Integrate the proven ACIP WebSocket runtime-stream path into the live runtime
+  API alongside HTTP, preserving existing HTTP routes, loopback binding policy,
+  fail-closed ACIP envelope validation, and non-claims around production
+  TLS/authentication, cross-polis networking, x402, and protobuf wire
+  activation.
+
 ## Notes
 
 WebSocket is a carrier proof, not an authority source.
