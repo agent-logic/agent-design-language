@@ -32,6 +32,7 @@ use crate::csm_networking::{
 use crate::csm_resident_agents;
 use crate::csm_shepherd_agent::{self, CSM_SHEPHERD_STATUS_REF};
 use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, StatusRecord};
+use adl_runtime::resident_agent::CsmResidentAgentSet;
 
 pub use adl_runtime::runtime_api::{
     CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA, CSM_RUNTIME_API_CHRONOSENSE_SCHEMA,
@@ -734,6 +735,29 @@ fn resident_agents_status(loaded: &LoadedAgentSpec) -> Value {
             .get("value")
             .cloned()
             .unwrap_or_else(|| json!({"status": "unreadable"}));
+        let retained_validation = retained
+            .get("value")
+            .cloned()
+            .ok_or_else(|| "missing resident agent set value".to_string())
+            .and_then(|value| {
+                serde_json::from_value::<CsmResidentAgentSet>(value)
+                    .map_err(|err| err.to_string())
+                    .and_then(|set| set.validate())
+            });
+        if let Err(err) = retained_validation {
+            let mut fallback =
+                csm_resident_agents::resident_agent_set_status(&loaded.spec.agent_instance_id);
+            if let Some(map) = fallback.as_object_mut() {
+                map.insert("evidence_source".to_string(), json!("computed_fallback"));
+                map.insert("retained_artifact_status".to_string(), json!("invalid"));
+                map.insert(
+                    "retained_artifact_ref".to_string(),
+                    json!(csm_resident_agents::CSM_RESIDENT_AGENTS_STATUS_REF),
+                );
+                map.insert("retained_artifact_validation_error".to_string(), json!(err));
+            }
+            return fallback;
+        }
         if let Some(map) = retained.as_object_mut() {
             map.insert("evidence_source".to_string(), json!("retained_artifact"));
             map.insert(
@@ -1692,6 +1716,13 @@ memory: {}
             .as_array()
             .expect("resident agents");
         assert_eq!(agents.len(), 3);
+        assert!(agents.iter().all(|agent| {
+            agent["schema"] == adl_runtime::resident_agent::CSM_RESIDENT_AGENT_SCHEMA
+                && agent["affect_model"]["schema_version"]
+                    == crate::runtime_v2::AFFECT_HAPPINESS_SAFE_TEST_MODEL_SCHEMA_VERSION
+                && agent["affect_model"]["invocation_policy"]
+                    == "operational_reasoning_control_only"
+        }));
         assert!(agents.iter().any(|agent| {
             agent["provider_binding"]["provider_id"] == "chatgpt_codex"
                 && agent["provider_binding"]["binding_status"] == "provider_target_resolved"
@@ -1712,6 +1743,98 @@ memory: {}
         assert_eq!(
             shepherd["component"]["policy_gates"]["freedom_gate_required"],
             true
+        );
+    }
+
+    #[test]
+    fn runtime_api_rejects_legacy_resident_agent_artifact_without_affect_model() {
+        let root = temp_root("legacy-resident-agents");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join(csm_resident_agents::CSM_RESIDENT_AGENTS_STATUS_REF),
+            serde_json::to_string_pretty(&json!({
+                "status": "available",
+                "ref": csm_resident_agents::CSM_RESIDENT_AGENTS_STATUS_REF,
+                "value": {
+                    "schema": "adl.csm.resident_agent_set.v1",
+                    "runtime_owner": "csm",
+                    "admission_model": "provider_bound_resident_agents",
+                    "provider_entrypoint": "provider_substrate",
+                    "agents": [{
+                        "schema": "adl.csm.resident_agent.v1",
+                        "agent_instance_id": "api-agent:polis_shepherd_agent",
+                        "display_name": "Polis Shepherd",
+                        "agent_role": "polis_shepherd_agent",
+                        "authority": "shepherd_operator",
+                        "lifecycle_state": "admitted",
+                        "provider_binding": {
+                            "provider_id": "local_ollama",
+                            "provider_kind": "local_model",
+                            "vendor": "ollama",
+                            "transport": "http",
+                            "runtime_surface": "provider_substrate",
+                            "model_ref": "ollama:gemma4",
+                            "provider_model_id": "gemma4:12b-mlx",
+                            "tool_calling_mode": "not_supported",
+                            "structured_json_mode": "best_effort",
+                            "binding_status": "provider_target_resolved",
+                            "source": "provider_substrate"
+                        },
+                        "channels": {
+                            "lifecycle": "csm.resident.api-agent:polis_shepherd_agent.lifecycle",
+                            "provider_request": "csm.resident.api-agent:polis_shepherd_agent.provider_request",
+                            "provider_response": "csm.resident.api-agent:polis_shepherd_agent.provider_response",
+                            "checkpoint": "csm.resident.api-agent:polis_shepherd_agent.checkpoint",
+                            "observability": "csm.resident.api-agent:polis_shepherd_agent.observability",
+                            "lifelog": "csm.resident.api-agent:polis_shepherd_agent.lifelog"
+                        },
+                        "policy_gates": {
+                            "freedom_gate_required": true,
+                            "cav_required": true,
+                            "constitutional_policy_required": true,
+                            "model_output_advisory_only": true
+                        },
+                        "checkpoint_policy": "periodic_and_agent_requested_with_runtime_min_interval",
+                        "lifelog_policy": "append_admission_lifecycle_provider_invocation_refusal_and_recovery_events",
+                        "observability_policy": "emit_resident_agent_provider_lifecycle_metrics_traces_logs_and_runtime_events",
+                        "privilege_reason": "operator_shepherd_for_polis"
+                    }]
+                }
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+
+        let status = runtime_api_response(&options, "/status").unwrap();
+        assert_eq!(status["resident_agents"]["status"], "available");
+        assert_eq!(
+            status["resident_agents"]["evidence_source"],
+            "computed_fallback"
+        );
+        assert_eq!(
+            status["resident_agents"]["retained_artifact_status"],
+            "invalid"
+        );
+        assert!(
+            status["resident_agents"]["retained_artifact_validation_error"]
+                .as_str()
+                .unwrap()
+                .contains("affect_model")
+        );
+        assert_eq!(
+            status["resident_agents"]["value"]["agents"][0]["affect_model"]["schema_version"],
+            crate::runtime_v2::AFFECT_HAPPINESS_SAFE_TEST_MODEL_SCHEMA_VERSION
         );
     }
 
