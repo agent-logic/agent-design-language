@@ -146,6 +146,7 @@ bounded implementation proof.
 | Errors | thiserror | ADL-specific error taxonomy |
 | Records and continuity | serde / serde_json / BLAKE3 | schemas, corruption detection, atomic replacement |
 | Instrumentation facade | tracing | bootstrap stderr and retained-event policy |
+| Trace correlation bridge | opentelemetry / tracing-opentelemetry | bounded correlation and truthful exporter non-claims |
 
 The original proof capsule digest detects accidental corruption and is not a
 signature. The #5181 Runtime v3 checkpoint manifest separately adds Ed25519
@@ -179,7 +180,7 @@ This proof does not establish:
 
 - migration or replacement of the current ADL runtime;
 - production rustysd suitability;
-- live SNTP, ntpd-rs, OpenTelemetry, cloud, ACIP, or provider integration;
+- live SNTP, ntpd-rs, OpenTelemetry exporter delivery, cloud, ACIP, or provider integration;
 - dynamic topology reload or distributed supervision;
 - durable queue or production persistence semantics;
 - full Freedom Gate, reasoning runtime, AEE, or adaptive-learning behavior;
@@ -206,3 +207,9 @@ Issue #5181 adds bounded-parallel checkpointing, canonical hash-chained replay,
 governed recovery disposition, storage separation, and graceful resource-stop
 integration. See
 `docs/architecture/RUNTIME_V3_CONTINUITY_RECOVERY_ARCHITECTURE.md`.
+
+Issue #5177 adds one coherent revisioned health snapshot, Ed25519-authenticated
+and capability-authorized lifecycle commands, bounded idempotency, queue
+saturation evidence, stdout/stderr separation, and bounded tracing events for
+external Vector collection without claiming exporter delivery. See
+`docs/architecture/RUNTIME_V3_CONTROL_OBSERVABILITY_ARCHITECTURE.md`.
