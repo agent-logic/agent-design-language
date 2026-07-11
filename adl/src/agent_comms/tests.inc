@@ -2443,6 +2443,47 @@
             .contains("requires invalid ACIP payload"));
     }
 
+    #[tokio::test]
+    async fn acip_runtime_stream_websocket_transport_path_proves_fail_closed_cases() {
+        let proof = prove_acip_runtime_stream_websocket_transport_path_v1()
+            .await
+            .expect("websocket transport proof should execute");
+
+        validate_acip_runtime_stream_websocket_transport_proof_v1(&proof)
+            .expect("websocket transport proof should validate");
+        assert_eq!(proof.carrier_kind, "websocket_transport_path");
+        assert_eq!(proof.positive_case.status, "delivered");
+        for expected in [
+            "malformed_message",
+            "auth_policy_denial",
+            "peer_close_before_response",
+            "response_timeout",
+        ] {
+            let case = proof
+                .failure_cases
+                .iter()
+                .find(|case| case.case_name == expected)
+                .unwrap_or_else(|| panic!("missing failure case {expected}"));
+            assert_eq!(case.status, "failed_closed");
+            assert!(
+                case.error_substring.is_some(),
+                "failure case {expected} should record error evidence"
+            );
+        }
+    }
+
+    #[tokio::test]
+    async fn acip_runtime_stream_websocket_transport_validator_rejects_authority_expansion() {
+        let mut proof = prove_acip_runtime_stream_websocket_transport_path_v1()
+            .await
+            .expect("websocket transport proof should execute");
+
+        proof.access_policy.authority_expansion_allowed = true;
+        let error = validate_acip_runtime_stream_websocket_transport_proof_v1(&proof)
+            .expect_err("authority-expanding transport policy should fail");
+        assert!(error.to_string().contains("must not expand authority"));
+    }
+
     #[test]
     fn acip_message_envelope_rejects_unknown_fields() {
         let mut value =
