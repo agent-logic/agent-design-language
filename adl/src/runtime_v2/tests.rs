@@ -35,6 +35,7 @@ mod external_counterparty;
 mod feature_proof_coverage;
 mod freedom_gate_mediation;
 mod godel_agent_runtime;
+mod godel_constructability_boundary;
 mod governed_episode;
 #[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 mod governed_learning_substrate;
