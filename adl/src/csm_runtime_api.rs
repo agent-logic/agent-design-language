@@ -24,6 +24,7 @@ use std::time::{Duration, Instant};
 use tokio::sync::Notify;
 use tower::ServiceBuilder;
 
+use crate::csm_curiosity_engine;
 use crate::csm_networking::{
     csm_connection_pooling_plan, csm_listener_registry_json, csm_runtime_connection_pool_status,
     resolve_main_runtime_api_listener, CSM_POOLING_PLAN_SCHEMA,
@@ -34,9 +35,9 @@ use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, Stat
 
 pub use adl_runtime::runtime_api::{
     CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA, CSM_RUNTIME_API_CHRONOSENSE_SCHEMA,
-    CSM_RUNTIME_API_ENDPOINTS, CSM_RUNTIME_API_EVENTS_SCHEMA, CSM_RUNTIME_API_HEALTH_SCHEMA,
-    CSM_RUNTIME_API_METRICS_SCHEMA, CSM_RUNTIME_API_READY_SCHEMA, CSM_RUNTIME_API_SCHEMA,
-    CSM_RUNTIME_API_SHEPHERD_SCHEMA, CSM_RUNTIME_API_STATUS_SCHEMA,
+    CSM_RUNTIME_API_CURIOSITY_SCHEMA, CSM_RUNTIME_API_ENDPOINTS, CSM_RUNTIME_API_EVENTS_SCHEMA,
+    CSM_RUNTIME_API_HEALTH_SCHEMA, CSM_RUNTIME_API_METRICS_SCHEMA, CSM_RUNTIME_API_READY_SCHEMA,
+    CSM_RUNTIME_API_SCHEMA, CSM_RUNTIME_API_SHEPHERD_SCHEMA, CSM_RUNTIME_API_STATUS_SCHEMA,
 };
 pub use api_gateway_bridge::{prove_api_gateway_bridge, ApiGatewayBridgeOptions};
 const CSM_RUNTIME_API_BROWSER_DEMO_PORT: &str = "8765";
@@ -238,6 +239,7 @@ pub fn runtime_api_response(options: &CsmRuntimeApiOptions, path: &str) -> Resul
         "/events" => events_response(&loaded),
         "/chronosense" => chronosense_response(&loaded, options),
         "/shepherd" => shepherd_response(&loaded, options),
+        "/curiosity" => curiosity_response(&loaded, options),
         "/api-gateway-bridge" => api_gateway_bridge_response(&loaded),
         other => Ok(json!({
             "schema": CSM_RUNTIME_API_SCHEMA,
@@ -300,8 +302,10 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         &backpressure_state,
         &runtime_capabilities,
     );
+    let curiosity =
+        curiosity_api_status(loaded, &agent_status, &daemon_status, &runtime_capabilities);
     let resident_agents = resident_agents_status(loaded);
-    let response = json!({
+    let mut response = json!({
         "schema": CSM_RUNTIME_API_STATUS_SCHEMA,
         "runtime_owner": "csm",
         "adl_role": "tooling_control_plane",
@@ -329,6 +333,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "resilience_middleware": runtime_capabilities.get("resilience_middleware").cloned().unwrap_or_else(|| json!({"status": "missing"})),
         "resident_agents": resident_agents,
         "polis_shepherd_agent": shepherd,
+        "curiosity_engine": curiosity,
         "checkpoint": checkpoint_freshness,
         "continuity": {
             "checkpoint": compact_artifact_status(&continuity_checkpoint, "continuity_checkpoint.json"),
@@ -347,6 +352,22 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
             "secret_material": "not_returned",
             "cloud_account_identifiers": "not_returned"
         }
+    });
+    if !readiness_blockers(&response).is_empty() {
+        response["ready"] = json!("not_ready");
+    }
+    assert_api_response_redacted(&response)?;
+    Ok(response)
+}
+
+fn curiosity_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
+    let status = status_response(loaded, options)?;
+    let response = json!({
+        "schema": CSM_RUNTIME_API_CURIOSITY_SCHEMA,
+        "runtime_owner": "csm",
+        "agent_instance_id": loaded.spec.agent_instance_id,
+        "runtime_api_path": "/curiosity",
+        "component": status["curiosity_engine"]
     });
     assert_api_response_redacted(&response)?;
     Ok(response)
@@ -457,12 +478,18 @@ fn health_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
 
 fn ready_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
     let status = status_response(loaded, options)?;
+    let blocking_reasons = readiness_blockers(&status);
+    let ready = if blocking_reasons.is_empty() {
+        status["ready"].clone()
+    } else {
+        json!("not_ready")
+    };
     let response = json!({
         "schema": CSM_RUNTIME_API_READY_SCHEMA,
         "runtime_owner": "csm",
         "agent_instance_id": loaded.spec.agent_instance_id,
-        "ready": status["ready"],
-        "blocking_reasons": readiness_blockers(&status)
+        "ready": ready,
+        "blocking_reasons": blocking_reasons
     });
     assert_api_response_redacted(&response)?;
     Ok(response)
@@ -519,6 +546,37 @@ fn events_response(loaded: &LoadedAgentSpec) -> Result<Value> {
     });
     assert_api_response_redacted(&response)?;
     Ok(response)
+}
+
+fn curiosity_api_status(
+    loaded: &LoadedAgentSpec,
+    agent_status: &StatusRecord,
+    daemon_status: &Value,
+    runtime_capabilities: &Value,
+) -> Value {
+    let artifact = read_json_artifact(&artifact_path(
+        loaded,
+        adl_runtime::curiosity::CSM_CURIOSITY_STATUS_REF,
+    ));
+    let runtime_capability = runtime_capabilities
+        .get("curiosity_engine")
+        .cloned()
+        .unwrap_or_else(csm_curiosity_engine::runtime_capability);
+    let agent_state = serde_json::to_value(&agent_status.state)
+        .ok()
+        .and_then(|value| value.as_str().map(str::to_string))
+        .unwrap_or_else(|| "unknown".to_string());
+    let daemon_state = daemon_status
+        .pointer("/value/state")
+        .and_then(Value::as_str)
+        .unwrap_or("unknown");
+    csm_curiosity_engine::api_status(
+        &loaded.spec.agent_instance_id,
+        &artifact,
+        runtime_capability,
+        daemon_state,
+        &agent_state,
+    )
 }
 
 fn api_gateway_bridge_runtime_status(loaded: &LoadedAgentSpec) -> Value {
@@ -1050,6 +1108,20 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
         == Some("low_disk")
     {
         blockers.push("storage_low_disk".to_string());
+    }
+    if status
+        .pointer("/curiosity_engine/value/readiness")
+        .and_then(Value::as_str)
+        != Some("ready")
+    {
+        blockers.push("curiosity_engine_not_ready".to_string());
+    }
+    if status
+        .pointer("/curiosity_engine/validation/status")
+        .and_then(Value::as_str)
+        != Some("passed")
+    {
+        blockers.push("curiosity_engine_validation_failed".to_string());
     }
     blockers
 }
@@ -1644,6 +1716,102 @@ memory: {}
     }
 
     #[test]
+    fn runtime_api_surfaces_curiosity_engine_component_and_route() {
+        let root = temp_root("curiosity");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        let curiosity = csm_curiosity_engine::build_status_snapshot(
+            "api-agent",
+            "running",
+            Some("running"),
+            true,
+        );
+        fs::write(
+            state.join(adl_runtime::curiosity::CSM_CURIOSITY_STATUS_REF),
+            serde_json::to_string_pretty(&curiosity).unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let status = runtime_api_response(&options, "/status").unwrap();
+        assert_eq!(status["curiosity_engine"]["value"]["readiness"], "ready");
+        assert_eq!(
+            status["curiosity_engine"]["value"]["process_model"],
+            "embedded_csm_runtime_component"
+        );
+        assert_eq!(
+            status["curiosity_engine"]["value"]["constraint_hooks"]["missing_constraint_policy"],
+            "fail_closed"
+        );
+
+        let curiosity = runtime_api_response(&options, "/curiosity").unwrap();
+        assert_eq!(curiosity["schema"], CSM_RUNTIME_API_CURIOSITY_SCHEMA);
+        assert_eq!(curiosity["component"]["component"], "curiosity_engine");
+    }
+
+    #[test]
+    fn runtime_api_ready_blocks_missing_curiosity_status() {
+        let root = temp_root("curiosity-missing");
+        let spec = write_spec(&root);
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let ready = runtime_api_response(&options, "/ready").unwrap();
+        assert!(ready["blocking_reasons"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("curiosity_engine_not_ready")));
+    }
+
+    #[test]
+    fn runtime_api_ready_blocks_invalid_curiosity_status_even_when_ready_claimed() {
+        let root = temp_root("curiosity-invalid-ready");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        let mut curiosity = csm_curiosity_engine::build_status_snapshot(
+            "api-agent",
+            "running",
+            Some("running"),
+            true,
+        );
+        curiosity["constraint_hooks"]["cav_required"] = json!(false);
+        fs::write(
+            state.join(adl_runtime::curiosity::CSM_CURIOSITY_STATUS_REF),
+            serde_json::to_string_pretty(&curiosity).unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let ready = runtime_api_response(&options, "/ready").unwrap();
+        assert!(ready["blocking_reasons"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("curiosity_engine_validation_failed")));
+    }
+
+    #[test]
     fn runtime_api_redacts_secret_and_host_path_event_payloads() {
         let root = temp_root("redaction");
         let spec = write_spec(&root);
@@ -1700,20 +1868,20 @@ memory: {}
         fs::write(
             state.join("daemon_status.json"),
             serde_json::to_string_pretty(&json!({
-                "schema": "adl.csm.daemon_status.v1",
-                "state": "running",
-                "last_event": "daemon_started",
-                "updated_at": Utc::now(),
-                "last_checkpoint_at": Utc::now(),
-                "runtime_capabilities": {
+            "schema": "adl.csm.daemon_status.v1",
+            "state": "running",
+            "last_event": "daemon_started",
+            "updated_at": Utc::now(),
+            "last_checkpoint_at": Utc::now(),
+            "runtime_capabilities": {
                     "chronosense": {
                         "status": "integrated",
                         "time_sync": {
                             "schema_version": "chronosense_time_sync_status.v1",
                             "substrate": "SNTP",
-                            "health": "unavailable",
-                            "failure_state": "runtime_sntp_probe_disabled",
-                            "reason": "runtime_sntp_status_unavailable_without_csm_failure"
+                                "health": "synced",
+                            "failure_state": null,
+                            "reason": null
                         }
                     }
                 }
@@ -1727,6 +1895,17 @@ memory: {}
                 "schema": "adl.csm.continuity_checkpoint.v1"
             }))
             .unwrap(),
+        )
+        .unwrap();
+        let curiosity = csm_curiosity_engine::build_status_snapshot(
+            "api-agent",
+            "running",
+            Some("running"),
+            true,
+        );
+        fs::write(
+            state.join(adl_runtime::curiosity::CSM_CURIOSITY_STATUS_REF),
+            serde_json::to_string_pretty(&curiosity).unwrap(),
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
@@ -2178,6 +2357,13 @@ memory: {}
                 "schema": "adl.long_lived_agent_continuity_checkpoint.v1"
             }))
             .unwrap(),
+        )
+        .unwrap();
+        let curiosity =
+            csm_curiosity_engine::build_status_snapshot("api-agent", "running", Some("idle"), true);
+        fs::write(
+            state.join(adl_runtime::curiosity::CSM_CURIOSITY_STATUS_REF),
+            serde_json::to_string_pretty(&curiosity).unwrap(),
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
