@@ -28,6 +28,7 @@ use crate::csm_networking::{
     csm_connection_pooling_plan, csm_listener_registry_json, csm_runtime_connection_pool_status,
     resolve_main_runtime_api_listener, CSM_POOLING_PLAN_SCHEMA,
 };
+use crate::csm_resident_agents;
 use crate::csm_shepherd_agent::{self, CSM_SHEPHERD_STATUS_REF};
 use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, StatusRecord};
 
@@ -299,6 +300,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         &backpressure_state,
         &runtime_capabilities,
     );
+    let resident_agents = resident_agents_status(loaded);
     let response = json!({
         "schema": CSM_RUNTIME_API_STATUS_SCHEMA,
         "runtime_owner": "csm",
@@ -325,6 +327,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "chronosense": runtime_capabilities.get("chronosense").cloned().unwrap_or_else(|| json!({"status": "missing"})),
         "aee_resilience": runtime_capabilities.get("aee").cloned().unwrap_or_else(|| json!({"status": "missing"})),
         "resilience_middleware": runtime_capabilities.get("resilience_middleware").cloned().unwrap_or_else(|| json!({"status": "missing"})),
+        "resident_agents": resident_agents,
         "polis_shepherd_agent": shepherd,
         "checkpoint": checkpoint_freshness,
         "continuity": {
@@ -661,6 +664,48 @@ fn read_json_artifact(path: &Path) -> Value {
         },
         Err(err) => json!({"status": "unreadable", "reason": err.to_string()}),
     }
+}
+
+fn resident_agents_status(loaded: &LoadedAgentSpec) -> Value {
+    let artifact = read_json_artifact(&artifact_path(
+        loaded,
+        csm_resident_agents::CSM_RESIDENT_AGENTS_STATUS_REF,
+    ));
+    if artifact.get("status").and_then(Value::as_str) == Some("serialized") {
+        let mut retained = artifact
+            .get("value")
+            .cloned()
+            .unwrap_or_else(|| json!({"status": "unreadable"}));
+        if let Some(map) = retained.as_object_mut() {
+            map.insert("evidence_source".to_string(), json!("retained_artifact"));
+            map.insert(
+                "artifact_status".to_string(),
+                artifact
+                    .get("status")
+                    .cloned()
+                    .unwrap_or_else(|| json!("unknown")),
+            );
+        }
+        return retained;
+    }
+
+    let mut fallback =
+        csm_resident_agents::resident_agent_set_status(&loaded.spec.agent_instance_id);
+    if let Some(map) = fallback.as_object_mut() {
+        map.insert("evidence_source".to_string(), json!("computed_fallback"));
+        map.insert(
+            "retained_artifact_status".to_string(),
+            artifact
+                .get("status")
+                .cloned()
+                .unwrap_or_else(|| json!("unknown")),
+        );
+        map.insert(
+            "retained_artifact_ref".to_string(),
+            json!(csm_resident_agents::CSM_RESIDENT_AGENTS_STATUS_REF),
+        );
+    }
+    fallback
 }
 
 fn read_jsonl_tail(path: &Path, limit: usize) -> Value {
@@ -1532,6 +1577,14 @@ memory: {}
             .unwrap(),
         )
         .unwrap();
+        fs::write(
+            state.join(csm_resident_agents::CSM_RESIDENT_AGENTS_STATUS_REF),
+            serde_json::to_string_pretty(&csm_resident_agents::resident_agent_set_status(
+                "api-agent",
+            ))
+            .unwrap(),
+        )
+        .unwrap();
         let options = CsmRuntimeApiOptions {
             spec_path: spec,
             bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
@@ -1554,10 +1607,36 @@ memory: {}
             status["polis_shepherd_agent"]["decision"]["authority"],
             "advisory"
         );
+        assert_eq!(status["resident_agents"]["status"], "available");
+        assert_eq!(
+            status["resident_agents"]["value"]["provider_entrypoint"],
+            "provider_substrate"
+        );
+        assert_eq!(
+            status["resident_agents"]["evidence_source"],
+            "retained_artifact"
+        );
+        let agents = status["resident_agents"]["value"]["agents"]
+            .as_array()
+            .expect("resident agents");
+        assert_eq!(agents.len(), 3);
+        assert!(agents.iter().any(|agent| {
+            agent["provider_binding"]["provider_id"] == "chatgpt_codex"
+                && agent["provider_binding"]["binding_status"] == "provider_target_resolved"
+        }));
+        assert!(agents.iter().any(|agent| {
+            agent["authority"] == "shepherd_operator"
+                && agent["provider_binding"]["provider_id"] == "local_ollama"
+                && agent["provider_binding"]["source"] == "provider_substrate"
+        }));
 
         let shepherd = runtime_api_response(&options, "/shepherd").unwrap();
         assert_eq!(shepherd["schema"], CSM_RUNTIME_API_SHEPHERD_SCHEMA);
         assert_eq!(shepherd["component"]["component"], "polis_shepherd_agent");
+        assert_eq!(
+            shepherd["component"]["resident_agent"]["provider_binding"]["provider_id"],
+            "local_ollama"
+        );
         assert_eq!(
             shepherd["component"]["policy_gates"]["freedom_gate_required"],
             true

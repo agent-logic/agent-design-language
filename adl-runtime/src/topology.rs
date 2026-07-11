@@ -39,6 +39,11 @@ pub fn runtime_components() -> Vec<RuntimeComponent> {
             role: "reasoning graphs, loops, and adaptive DAG execution",
         },
         RuntimeComponent {
+            id: "resident_agents",
+            plane: "cognition",
+            role: "provider-backed resident agents admitted through CSM lifecycle",
+        },
+        RuntimeComponent {
             id: "freedom_gate",
             plane: "security",
             role: "lawful execution and commitment mediation gate",
@@ -109,6 +114,12 @@ pub fn runtime_stack_json() -> Value {
             "role": "collect_transform_redact_route_logs_metrics_and_otel",
             "runtime_topology": "csm_managed_observability_component",
             "csm_role": "emit_canonical_runtime_events_and_otel_shaped_summaries"
+        },
+        "resident_agent_entrypoint": {
+            "schema": crate::resident_agent::CSM_RESIDENT_AGENT_SET_SCHEMA,
+            "provider_entrypoint": "provider_substrate",
+            "lifecycle": "same_csm_supervision_checkpoint_lifelog_observability_path_for_privileged_and_ordinary_agents",
+            "shepherd_model": "privileged_resident_agent_not_bespoke_model_path"
         }
     })
 }
@@ -127,6 +138,7 @@ mod tests {
         assert!(ids.contains(&"chronosense"));
         assert!(ids.contains(&"scheduler"));
         assert!(ids.contains(&"reasoning_runtime"));
+        assert!(ids.contains(&"resident_agents"));
         assert!(ids.contains(&"observability"));
         assert!(ids.contains(&"cloud_bridge"));
     }

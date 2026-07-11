@@ -9,6 +9,10 @@ use serde_json::{json, Value};
 use std::fs;
 use std::path::Path;
 
+use adl_runtime::resident_agent::CSM_RESIDENT_AGENT_SCHEMA;
+
+use crate::csm_resident_agents;
+
 pub const CSM_SHEPHERD_AGENT_STATUS_SCHEMA: &str = "adl.csm.shepherd_agent.status.v1";
 pub const CSM_SHEPHERD_AGENT_DECISION_SCHEMA: &str = "adl.csm.shepherd_agent.decision.v1";
 pub const CSM_SHEPHERD_MODEL_POLICY_SCHEMA: &str = "adl.csm.shepherd_agent.model_policy.v1";
@@ -33,6 +37,12 @@ pub fn runtime_capability() -> Value {
         ],
         "decision_schema": CSM_SHEPHERD_AGENT_DECISION_SCHEMA,
         "decision_actions": shepherd_decision_actions(),
+        "resident_agent_contract": {
+            "schema": CSM_RESIDENT_AGENT_SCHEMA,
+            "authority": "shepherd_operator",
+            "provider_entrypoint": "provider_substrate",
+            "same_lifecycle_as_ordinary_agents": true
+        },
         "checkpoint_authority": {
             "can_request_urgent_checkpoint": true,
             "request_limit": "policy_governed_min_interval",
@@ -45,7 +55,9 @@ pub fn runtime_capability() -> Value {
             "cannot_blind_restart_corrupted_state": true
         },
         "retained_status_ref": CSM_SHEPHERD_STATUS_REF,
-        "model_policy": shepherd_model_policy()
+        "model_policy": shepherd_model_policy(),
+        "provider_entrypoint": "provider_substrate",
+        "no_bespoke_provider_path": true
     })
 }
 
@@ -120,6 +132,7 @@ pub fn build_status_snapshot(
         "component": "polis_shepherd_agent",
         "agent_instance_id": agent_instance_id,
         "status": "monitoring",
+        "resident_agent": csm_resident_agents::shepherd_resident_agent_value(agent_instance_id),
         "model_policy": shepherd_model_policy(),
         "decision": decision,
         "observed_inputs": {
@@ -195,6 +208,7 @@ pub fn api_status(
         "component": "polis_shepherd_agent",
         "capability": runtime_capability,
         "decision": value.get("decision").cloned().unwrap_or_else(|| fallback["decision"].clone()),
+        "resident_agent": value.get("resident_agent").cloned().unwrap_or_else(|| csm_resident_agents::shepherd_resident_agent_value(agent_instance_id)),
         "model_policy": value.get("model_policy").cloned().unwrap_or_else(shepherd_model_policy),
         "observed_inputs": value.get("observed_inputs").cloned().unwrap_or_else(|| fallback["observed_inputs"].clone()),
         "policy_gates": value.get("policy_gates").cloned().unwrap_or_else(|| fallback["policy_gates"].clone())

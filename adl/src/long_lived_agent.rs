@@ -15,6 +15,7 @@ use crate::chronosense::{
     ChronosenseRuntimeServiceConfig,
 };
 use crate::csm_godel_snapshot::{validate_recovery_read, write_checkpoint_snapshot_diff};
+use crate::csm_resident_agents;
 use crate::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
 use crate::csm_shepherd_agent;
 use crate::runtime_aws_signal::publish_csm_governed_notice_signal;
@@ -2107,7 +2108,7 @@ fn record_safe_fail_bundle(
             "trace_id": daemon_trace_id(loaded),
             "span_id": daemon_span_id("safe_fail_serialization", record.restart_count),
             "parent_span_id": daemon_parent_span_id(loaded),
-            "runtime_capabilities": csm_runtime_capabilities(runtime_context),
+            "runtime_capabilities": csm_runtime_capabilities(runtime_context, &loaded.spec.agent_instance_id),
             "chronosense_clock_stack": csm_chronosense_clock_stack(runtime_context)
         },
         "recovery_hints": safe_fail_recovery_hints(record.status),
@@ -2261,7 +2262,7 @@ fn record_governed_runtime_notice(
             "trace_id": daemon_trace_id(loaded),
             "span_id": daemon_span_id("governed_runtime_notice", input.restart_count),
             "parent_span_id": daemon_parent_span_id(loaded),
-            "runtime_capabilities": csm_runtime_capabilities(runtime_context),
+            "runtime_capabilities": csm_runtime_capabilities(runtime_context, &loaded.spec.agent_instance_id),
             "chronosense_clock_stack": csm_chronosense_clock_stack(runtime_context)
         },
         "delivery_policy": {
@@ -2780,10 +2781,15 @@ fn write_daemon_status(
     } else {
         input.last_event
     };
+    let resident_agents_status =
+        csm_resident_agents::resident_agent_set_status(&loaded.spec.agent_instance_id);
     let status = DaemonStatusRecord {
         schema: DAEMON_STATUS_SCHEMA.to_string(),
         agent_instance_id: loaded.spec.agent_instance_id.clone(),
-        runtime_capabilities: csm_runtime_capabilities(runtime_context),
+        runtime_capabilities: csm_runtime_capabilities_with_resident_agents(
+            runtime_context,
+            resident_agents_status.clone(),
+        ),
         state: effective_state.to_string(),
         supervisor_pid: std::process::id(),
         restart_policy: daemon_restart_policy().to_string(),
@@ -2828,6 +2834,25 @@ fn write_daemon_status(
                 "status": "degraded_nonfatal",
                 "reason": err.to_string(),
                 "recovery_policy": "continue_runtime_and_surface_missing_or_degraded_shepherd_status"
+            }),
+        );
+    }
+    if let Err(err) = write_json_pretty(
+        &loaded
+            .state_root
+            .join(csm_resident_agents::CSM_RESIDENT_AGENTS_STATUS_REF),
+        &resident_agents_status,
+    ) {
+        let _ = append_operator_event(
+            loaded,
+            "csm_resident_agents_status_write_failed",
+            json!({
+                "schema": "adl.csm.resident_agents.write_failure.v1",
+                "runtime_owner": "csm",
+                "component": "resident_agents",
+                "status": "degraded_nonfatal",
+                "reason": err.to_string(),
+                "recovery_policy": "continue_runtime_and_surface_computed_resident_agent_status"
             }),
         );
     }
@@ -3013,7 +3038,7 @@ fn emit_daemon_event(
             "service_name": "csm-runtime-daemon",
             "event_name": event
         },
-        "runtime_capabilities": csm_runtime_capabilities(runtime_context),
+        "runtime_capabilities": csm_runtime_capabilities(runtime_context, &loaded.spec.agent_instance_id),
         "chronosense_clock_stack": csm_chronosense_clock_stack(runtime_context),
         "details": details
     });
@@ -3049,7 +3074,17 @@ fn emit_daemon_event(
     Ok(())
 }
 
-fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
+fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext, agent_instance_id: &str) -> Value {
+    csm_runtime_capabilities_with_resident_agents(
+        runtime_context,
+        csm_resident_agents::resident_agent_set_status(agent_instance_id),
+    )
+}
+
+fn csm_runtime_capabilities_with_resident_agents(
+    runtime_context: &CsmRuntimeContext,
+    resident_agents_status: Value,
+) -> Value {
     json!({
         "schema": "adl.csm.runtime_capabilities.v1",
         "runtime_owner": "csm",
@@ -3097,6 +3132,7 @@ fn csm_runtime_capabilities(runtime_context: &CsmRuntimeContext) -> Value {
             "partial_checkpoints": "daemon_partial_checkpoint",
             "safe_fail_serialization": "integrated_safe_fail_bundle"
         },
+        "resident_agents": resident_agents_status,
         "polis_shepherd_agent": csm_shepherd_agent::runtime_capability(),
         "observability": {
             "status": "integrated",
