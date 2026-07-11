@@ -34,16 +34,16 @@
       "sources": ["adl-runtime/src/topology.rs", "adl-runtime/src/backpressure.rs"],
       "runtime_v3_owner": "topology and channel services",
       "disposition": "implemented_seed",
-      "parity": "validated DAG, typed bounded ports, explicit full policy",
-      "proof": "adl-runtime-kernel/tests/kernel.rs"
+      "parity": "validated DAG, typed bounded ports, explicit full policy; stale-worktree disk exhaustion remains a pr-closeout concern",
+      "proof": "adl-runtime-kernel/tests/kernel.rs and issue #5174 architecture clarification"
     },
     {
       "id": "service.contracts_and_configuration",
       "sources": ["adl-runtime/src/runtime_api.rs", "adl/src/runtime_v2/types.rs"],
       "runtime_v3_owner": "service contract and registry",
-      "disposition": "contract_defined",
-      "parity": "versioned identity, dependencies, capabilities, ports, lifecycle, config schema",
-      "proof": "adl-runtime-kernel/tests/contracts.rs"
+      "disposition": "implemented_5176_5182",
+      "parity": "versioned identity, dependencies, capabilities, ports, lifecycle, config schema, configured factory construction, canonical effective projection",
+      "proof": "adl-runtime-kernel/tests/contracts.rs and adl-runtime-kernel/tests/configuration.rs"
     },
     {
       "id": "continuity.replay_recovery",
@@ -66,8 +66,8 @@
       "sources": ["adl/src/runtime_v2/operator.rs", "adl/src/runtime_v2/observatory*.rs", "adl-runtime/src/runtime_api.rs"],
       "runtime_v3_owner": "control and observability services",
       "disposition": "planned_5177",
-      "parity": "coherent snapshot, governed commands, logs, metrics, traces, health",
-      "proof": "control API and correlation contract tests"
+      "parity": "coherent snapshot, governed commands, logs, metrics, traces, health, system-weather observations and threshold transitions",
+      "proof": "adl-runtime-kernel/tests/configuration.rs plus control API and correlation contract tests"
     },
     {
       "id": "reasoning.graphs_and_loops",
