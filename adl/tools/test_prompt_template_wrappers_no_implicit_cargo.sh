@@ -33,6 +33,7 @@ set +e
   cd "$fake_root"
   env -u ADL_PROMPT_TEMPLATE_BIN -u ADL_TOOLING_RUST_BIN \
     -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
     PATH="$mockbin:$PATH" \
     ADL_TEST_CARGO_ARGS="$prompt_cargo_args" \
     ADL_PROMPT_TEMPLATE_DISABLE_PATH_LOOKUP=1 \
@@ -70,6 +71,7 @@ legacy_args="$tmpdir/legacy.args"
   cd "$fake_root"
   env -u ADL_PROMPT_TEMPLATE_BIN -u ADL_TOOLING_RUST_BIN \
     -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
     PATH="$mockbin:$PATH" \
     ADL_TEST_CARGO_ARGS="$prompt_cargo_args" \
     ADL_TEST_LEGACY_ARGS="$legacy_args" \
@@ -95,6 +97,7 @@ set +e
   cd "$fake_root"
   env -u ADL_STRUCTURED_PROMPT_VALIDATOR_BIN -u ADL_TOOLING_RUST_BIN \
     -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
     PATH="$mockbin:$PATH" \
     ADL_TEST_CARGO_ARGS="$validator_cargo_args" \
     ADL_STRUCTURED_PROMPT_VALIDATOR_DISABLE_PATH_LOOKUP=1 \
@@ -134,6 +137,7 @@ validator_args="$tmpdir/validator.args"
   cd "$fake_root"
   env -u ADL_PROMPT_TEMPLATE_BIN -u ADL_TOOLING_RUST_BIN \
     -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
     PATH="$mockbin:$PATH" \
     ADL_TEST_PROMPT_ARGS="$prompt_args" \
     ADL_TOOLING_MANIFEST_ROOT="$fake_root" \
@@ -149,6 +153,7 @@ grep -Fqx "prompt:validate-schemas --repo-root $fake_root" "$prompt_args" || {
   cd "$fake_root"
   env -u ADL_STRUCTURED_PROMPT_VALIDATOR_BIN -u ADL_TOOLING_RUST_BIN \
     -u ADL_PR_RUST_BIN -u ADL_OWNER_BIN_DIR \
+    -u ADL_PRIMARY_CHECKOUT_ROOT -u CARGO_TARGET_DIR -u CARGO_LLVM_COV_TARGET_DIR \
     PATH="$mockbin:$PATH" \
     ADL_TEST_VALIDATOR_ARGS="$validator_args" \
     ADL_TOOLING_MANIFEST_ROOT="$fake_root" \
