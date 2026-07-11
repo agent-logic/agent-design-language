@@ -26,6 +26,7 @@ mod csm_run;
 mod cultivating_intelligence;
 mod curiosity_engine;
 mod delegation_subcontract;
+mod economics_civilization_boundary;
 mod evaluation_selection;
 mod external_counterparty;
 mod feature_proof_coverage;
@@ -125,6 +126,8 @@ pub use cultivating_intelligence::*;
 pub use curiosity_engine::*;
 #[allow(unused_imports)]
 pub use delegation_subcontract::*;
+#[allow(unused_imports)]
+pub use economics_civilization_boundary::*;
 #[allow(unused_imports)]
 pub use evaluation_selection::*;
 #[allow(unused_imports)]

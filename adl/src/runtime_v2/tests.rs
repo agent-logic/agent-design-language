@@ -30,6 +30,7 @@ mod cultivating_intelligence;
 mod curiosity_engine;
 #[cfg(any(feature = "slow-proof-tests", feature = "slow-proof-runtime"))]
 mod delegation_subcontract;
+mod economics_civilization_boundary;
 mod evaluation_selection;
 mod external_counterparty;
 mod feature_proof_coverage;
