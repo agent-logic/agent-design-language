@@ -331,8 +331,31 @@
       "run_command": "bash -n adl/tools/test_v0916_unity_observatory_unity65_smoke.sh && bash adl/tools/test_v0916_unity_observatory_baseline.sh && bash adl/tools/test_v0916_unity_observatory_contract.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption_unit.sh && bash adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh && bash adl/tools/test_v0916_unity_observatory_soak_integration.sh && cargo test --manifest-path adl/Cargo.toml --test cli_smoke csm_observatory_cli_writes_unity_contract_bundle_and_matches_seeded_resource -- --nocapture",
       "reason": "unity_observatory_surface_requires_contract_and_csm_smoke"
     },
-        {
-            "id": "csdlc_owner_lane",
+    {
+      "id": "html_observatory_v0917_runtime_surface",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "html_observatory_v0917_runtime_surface"
+      ],
+      "path_selectors": [
+        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "adl/tools/validate_v0917_html_observatory.py",
+        "demos/v0.91.7/html-observatory/**"
+      ],
+      "path_hints": [
+        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "adl/tools/validate_v0917_html_observatory.py",
+        "demos/v0.91.7/html-observatory/"
+      ],
+      "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "run_command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+      "reason": "v0917_html_observatory_surface_requires_integrated_runtime_demo_proof"
+    },
+    {
+      "id": "csdlc_owner_lane",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
       "owner": "csdlc",
