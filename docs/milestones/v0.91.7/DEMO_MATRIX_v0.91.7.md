@@ -84,8 +84,8 @@ repo `csm` binary and a loopback API process as documented by
   issue-local proof still do not claim runtime behavior.
 - Curiosity, Constructability, ACIP, security, and reasoning-graph proofs require
   issue-local evidence or evidence-backed blockers before `v0.92` can consume them.
-- The #4689 Unity integrated proof rollup is in flight and compatible with this
-  matrix, but #4691 does not treat it as landed proof until its PR merges.
-- Full WP-09 closeout remains owned by #4702 and the WP-09 umbrella #4636.
+- The #4689 Unity integrated proof rollup has landed and is consumed by the
+  WP-09 umbrella closeout packet.
+- Full WP-09 closeout remains owned by the WP-09 umbrella #4636.
 - Unity player-build readiness, clean-checkout third-party asset replay, and
   browser-owned AWS mutation remain explicit non-claims.
