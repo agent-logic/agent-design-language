@@ -134,6 +134,7 @@ grep -F "test(run_v0916_runtime_failure_injection)" <<<"$long_lived_agent_storag
 csm_runtime_agent_changed="$TMP/csm-runtime-agent-changed.txt"
 cat >"$csm_runtime_agent_changed" <<'EOF'
 M	adl/src/csm_api_gateway_bridge.rs
+M	adl/src/csm_curiosity_engine.rs
 M	adl/src/csm_godel_snapshot.rs
 M	adl/src/csm_runtime_api.rs
 M	adl/src/csm_shepherd_agent.rs
