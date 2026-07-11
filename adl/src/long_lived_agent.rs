@@ -1,4 +1,8 @@
 //! Long-lived agent orchestration surfaces.
+use adl_runtime::backpressure::{
+    ChannelPriority, ReadinessState, RuntimeChannelFabric, RuntimeChannelId, RuntimeDelivery,
+    RuntimeMessage, TransportPublishReceipt,
+};
 use adl_runtime::determinism::{
     cycle_record_fingerprint, evaluate_core_decision, CapturedShellInputEvent, CoreDecisionInput,
     CoreDecisionRequest, CsmCycleDeterminismBoundaryRecord, DeterministicCoreComponent,
@@ -14,6 +18,7 @@ use std::collections::BTreeMap;
 use std::fs::{self, File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
+use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
@@ -160,7 +165,8 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
     ensure_state_root(&loaded)?;
     let checkpoint_interval_secs =
         effective_checkpoint_interval_secs(&loaded, options.checkpoint_interval_secs)?;
-    let runtime_context = CsmRuntimeContext::new()?;
+    let runtime_context = CsmRuntimeContext::new(&loaded)?;
+    let _startup_cloud_replay = drain_pending_cloud_notices(&runtime_context, &loaded, None)?;
     let runtime_api_shutdown = embedded_runtime_api_shutdown_path(&loaded);
     let _runtime_api_shutdown_guard = RuntimeApiShutdownGuard {
         path: runtime_api_shutdown.clone(),
@@ -297,12 +303,52 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             },
         )?;
 
-        match tick(
-            spec_path,
-            TickOptions {
-                recover_stale_lease: options.recover_stale_lease,
-            },
-        ) {
+        let cycle_result = runtime_context
+            .transit(
+                RuntimeChannelId::SchedulerToReasoningRuntime,
+                "cycle_admission",
+                ChannelPriority::GovernedExecution,
+                json!({"restart_count": restart_count}),
+            )
+            .and_then(|_| {
+                runtime_context.transit(
+                    RuntimeChannelId::ReasoningRuntimeToAee,
+                    "governed_execution_admission",
+                    ChannelPriority::GovernedExecution,
+                    json!({"restart_count": restart_count}),
+                )
+            })
+            .and_then(|_| {
+                tick(
+                    spec_path,
+                    TickOptions {
+                        recover_stale_lease: options.recover_stale_lease,
+                    },
+                )
+            })
+            .and_then(|status| {
+                runtime_context.transit(
+                    RuntimeChannelId::AeeToCheckpoint,
+                    "cycle_checkpoint",
+                    ChannelPriority::CriticalContinuity,
+                    json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
+                )?;
+                runtime_context.transit(
+                    RuntimeChannelId::ComponentsToLifelog,
+                    "cycle_lifecycle_record",
+                    ChannelPriority::Evidence,
+                    json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
+                )?;
+                runtime_context.transit(
+                    RuntimeChannelId::ComponentsToObservability,
+                    "cycle_observability_record",
+                    ChannelPriority::Audit,
+                    json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
+                )?;
+                Ok(status)
+            });
+
+        match cycle_result {
             Ok(status) => {
                 last_child_exit = Some("success".to_string());
                 emit_daemon_event(
@@ -883,7 +929,7 @@ pub fn governed_stop(spec_path: &Path, request: GovernedStopRequest) -> Result<V
     validate_governed_stop_request(&request)?;
     let loaded = load_spec(spec_path)?;
     ensure_state_root(&loaded)?;
-    let runtime_context = CsmRuntimeContext::new()?;
+    let runtime_context = CsmRuntimeContext::observer()?;
     let restart_count = daemon_restart_count_hint(&loaded);
     let governed_stop_id = governed_stop_id(&loaded, &request);
 
@@ -2572,6 +2618,99 @@ struct GovernedNoticeInput<'a> {
     details: Value,
 }
 
+struct CloudNoticeDrainResult {
+    target_attempts: Vec<Value>,
+    target_delivery: Option<Value>,
+    acknowledged_count: u64,
+}
+
+fn drain_pending_cloud_notices(
+    runtime_context: &CsmRuntimeContext,
+    loaded: &LoadedAgentSpec,
+    target_sequence: Option<u64>,
+) -> Result<CloudNoticeDrainResult> {
+    let mut target_attempts = Vec::new();
+    let mut target_delivery = None;
+    let mut acknowledged_count = 0u64;
+    loop {
+        let Some(delivery) =
+            runtime_context.replay_next(RuntimeChannelId::CloudBridgeToAwsRoutes)?
+        else {
+            break;
+        };
+        let sequence = delivery
+            .spool_sequence
+            .context("cloud replay delivery missing durable spool sequence")?;
+        let attempts = publish_csm_governed_notice_signal(loaded, &delivery.message.payload);
+        let verified_attempt = attempts.iter().find(|attempt| {
+            attempt.get("status").and_then(Value::as_str) == Some("published_live")
+                && attempt
+                    .get("provider_message_id")
+                    .and_then(Value::as_str)
+                    .is_some_and(|value| !value.trim().is_empty())
+        });
+        let delivery_state = if let Some(attempt) = verified_attempt {
+            let transport = attempt
+                .get("channel")
+                .and_then(Value::as_str)
+                .context("verified cloud attempt missing channel")?;
+            let provider_receipt_id = attempt
+                .get("provider_message_id")
+                .and_then(Value::as_str)
+                .context("verified cloud attempt missing provider receipt")?;
+            if let Err(error) =
+                runtime_context.acknowledge_cloud_publish(sequence, transport, provider_receipt_id)
+            {
+                runtime_context
+                    .release_replay(RuntimeChannelId::CloudBridgeToAwsRoutes, sequence)?;
+                return Err(error)
+                    .context("cloud transport succeeded but durable acknowledgement failed");
+            }
+            acknowledged_count = acknowledged_count.saturating_add(1);
+            json!({
+                "status": "published_and_atomically_acknowledged",
+                "spool_sequence": sequence,
+                "publish_cursor": sequence,
+                "transport": transport,
+                "provider_receipt_id": provider_receipt_id
+            })
+        } else {
+            runtime_context.release_replay(RuntimeChannelId::CloudBridgeToAwsRoutes, sequence)?;
+            json!({
+                "status": "durably_spooled_waiting_for_verified_transport_receipt",
+                "spool_sequence": sequence,
+                "cursor_advanced": false
+            })
+        };
+        if target_sequence == Some(sequence) {
+            target_attempts = attempts;
+            target_delivery = Some(delivery_state.clone());
+        }
+        if delivery_state
+            .get("cursor_advanced")
+            .and_then(Value::as_bool)
+            == Some(false)
+        {
+            if let Some(target) = target_sequence {
+                if target != sequence && target_delivery.is_none() {
+                    target_delivery = Some(json!({
+                        "status": "durably_spooled_behind_unacknowledged_sequence",
+                        "spool_sequence": target,
+                        "blocking_spool_sequence": sequence,
+                        "cursor_advanced": false
+                    }));
+                }
+            }
+            break;
+        }
+    }
+    Ok(CloudNoticeDrainResult {
+        target_attempts,
+        target_delivery,
+        acknowledged_count,
+    })
+}
+
 fn record_governed_runtime_notice(
     runtime_context: &CsmRuntimeContext,
     loaded: &LoadedAgentSpec,
@@ -2629,14 +2768,34 @@ fn record_governed_runtime_notice(
     append_jsonl(&csm_notice_ledger_path(loaded), &local_notice)?;
 
     let mut final_notice = local_notice;
+    let cloud_spool_sequence =
+        runtime_context.persist_cloud_notice(&notice_id, final_notice.clone())?;
     let mut attempts = vec![json!({
         "channel": "local_notice_ledger",
         "status": "recorded",
         "artifact_ref": "csm_governed_notices.jsonl"
     })];
-    attempts.extend(publish_csm_governed_notice_signal(loaded, &final_notice));
+    let typed_channel_delivery = match cloud_spool_sequence {
+        Some(sequence) => {
+            let drain = drain_pending_cloud_notices(runtime_context, loaded, Some(sequence))?;
+            attempts.extend(drain.target_attempts);
+            drain.target_delivery.unwrap_or_else(|| {
+                json!({
+                    "status": "durably_spooled_waiting_for_replay",
+                    "spool_sequence": sequence,
+                    "acknowledged_predecessor_count": drain.acknowledged_count,
+                    "cursor_advanced": false
+                })
+            })
+        }
+        None => json!({
+            "status": "observer_command_defers_to_daemon_channel_owner",
+            "cursor_advanced": false
+        }),
+    };
     if let Some(object) = final_notice.as_object_mut() {
         object.insert("delivery_attempts".to_string(), json!(attempts));
+        object.insert("typed_channel_delivery".to_string(), typed_channel_delivery);
         object.insert("delivery_completed_at".to_string(), json!(Utc::now()));
     }
     write_json_pretty(&csm_notice_latest_path(loaded), &final_notice)?;
@@ -3083,21 +3242,323 @@ struct PartialCheckpointSleep<'a> {
 
 struct CsmRuntimeContext {
     chronosense: ChronosenseRuntimeService,
+    channel_runtime: Option<tokio::runtime::Runtime>,
+    channel_fabric: Option<Mutex<RuntimeChannelFabric>>,
+    channel_state_path: Option<PathBuf>,
 }
 
 impl CsmRuntimeContext {
-    fn new() -> Result<Self> {
+    fn new(loaded: &LoadedAgentSpec) -> Result<Self> {
+        let state_root = &loaded.state_root;
         let started_at_epoch_ms = epoch_millis_now();
         let chronosense = ChronosenseRuntimeService::new(ChronosenseRuntimeServiceConfig::utc(
             started_at_epoch_ms,
         ))
         .context("failed initializing CSM Chronosense runtime service")?;
         let _initial_time_sync = start_runtime_time_observation();
-        Ok(Self { chronosense })
+        let channel_runtime = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .context("failed creating CSM typed-channel runtime")?;
+        let channel_fabric = RuntimeChannelFabric::open(state_root.join("channel_spools"))
+            .context("failed opening CSM typed-channel fabric")?;
+        let context = Self {
+            chronosense,
+            channel_runtime: Some(channel_runtime),
+            channel_fabric: Some(Mutex::new(channel_fabric)),
+            channel_state_path: Some(state_root.join("csm_typed_channel_state.json")),
+        };
+        context.recover_required_channels(loaded)?;
+        context.persist_channel_state("runtime_started", None)?;
+        Ok(context)
+    }
+
+    fn observer() -> Result<Self> {
+        let started_at_epoch_ms = epoch_millis_now();
+        let chronosense = ChronosenseRuntimeService::new(ChronosenseRuntimeServiceConfig::utc(
+            started_at_epoch_ms,
+        ))
+        .context("failed initializing CSM Chronosense observer context")?;
+        let _initial_time_sync = start_runtime_time_observation();
+        Ok(Self {
+            chronosense,
+            channel_runtime: None,
+            channel_fabric: None,
+            channel_state_path: None,
+        })
     }
 
     fn time_sync_status(&self) -> crate::chronosense::ChronosenseTimeSyncStatus {
         capture_runtime_time_sync_status()
+    }
+
+    fn transit(
+        &self,
+        channel: RuntimeChannelId,
+        event: &str,
+        priority: ChannelPriority,
+        payload: Value,
+    ) -> Result<Value> {
+        let message = RuntimeMessage::new(
+            format!(
+                "{}-{}",
+                event,
+                Utc::now().timestamp_nanos_opt().unwrap_or_default()
+            ),
+            priority,
+            payload,
+        );
+        let cancellation = tokio_util::sync::CancellationToken::new();
+        let mut fabric = self
+            .channel_fabric
+            .as_ref()
+            .context("CSM observer context cannot own typed-channel transit")?
+            .lock()
+            .map_err(|_| anyhow!("CSM typed-channel fabric lock poisoned"))?;
+        let (receipt, delivery) = self
+            .channel_runtime
+            .as_ref()
+            .context("CSM observer context has no typed-channel runtime")?
+            .block_on(fabric.transit(channel, message, &cancellation))
+            .context("CSM typed-channel transit failed")?;
+        let delivery = delivery.context("CSM typed-channel admission did not reach component")?;
+        if delivery.message.id != receipt.message_id {
+            return Err(anyhow!("CSM typed-channel delivery identity mismatch"));
+        }
+        drop(fabric);
+        self.persist_channel_state(event, Some(serde_json::to_value(&receipt)?))?;
+        Ok(serde_json::to_value(receipt)?)
+    }
+
+    fn recover_required_channels(&self, loaded: &LoadedAgentSpec) -> Result<()> {
+        for channel in RuntimeChannelId::ALL {
+            if channel == RuntimeChannelId::CloudBridgeToAwsRoutes {
+                continue;
+            }
+            while let Some(delivery) = self.replay_next(channel)? {
+                let sequence = delivery
+                    .spool_sequence
+                    .context("replayed runtime delivery missing durable spool sequence")?;
+                if let Err(error) = self.process_replayed_delivery(loaded, channel, &delivery) {
+                    self.release_replay(channel, sequence)?;
+                    return Err(error).context("failed processing durable CSM channel replay");
+                }
+                if let Err(error) = self.acknowledge_processed(channel, sequence) {
+                    self.release_replay(channel, sequence)?;
+                    return Err(error).context("failed acknowledging processed CSM channel replay");
+                }
+            }
+        }
+        Ok(())
+    }
+
+    fn process_replayed_delivery(
+        &self,
+        loaded: &LoadedAgentSpec,
+        channel: RuntimeChannelId,
+        delivery: &RuntimeDelivery,
+    ) -> Result<()> {
+        let sequence = delivery
+            .spool_sequence
+            .context("replayed runtime delivery missing durable spool sequence")?;
+        match channel {
+            RuntimeChannelId::AeeToCheckpoint => {
+                let status = read_status(loaded)?
+                    .context("cannot process checkpoint replay without retained agent status")?;
+                persist_status(loaded, &status, "typed_channel_replay")?;
+            }
+            RuntimeChannelId::ComponentsToLifelog => {
+                append_operator_event(
+                    loaded,
+                    "typed_channel_lifelog_replay",
+                    delivery.message.payload.clone(),
+                )?;
+            }
+            RuntimeChannelId::ComponentsToObservability => {
+                append_operator_event(
+                    loaded,
+                    "typed_channel_observability_replay",
+                    delivery.message.payload.clone(),
+                )?;
+                crate::observability::emit_event(
+                    "csm",
+                    "typed_channel_observability_replay",
+                    "processed",
+                    &[
+                        ("channel", channel.as_str()),
+                        ("message_id", delivery.message.id.as_str()),
+                    ],
+                );
+            }
+            RuntimeChannelId::SchedulerToReasoningRuntime
+            | RuntimeChannelId::ReasoningRuntimeToAee
+            | RuntimeChannelId::RuntimeApiToControlPlane => {
+                append_operator_event(
+                    loaded,
+                    "typed_channel_replay_reconciled",
+                    json!({
+                        "channel": channel.as_str(),
+                        "message_id": delivery.message.id,
+                        "spool_sequence": sequence,
+                        "payload": delivery.message.payload,
+                        "recovery_action": "reconciled_with_retained_runtime_state_before_new_admission"
+                    }),
+                )?;
+            }
+            RuntimeChannelId::CloudBridgeToAwsRoutes => {
+                return Err(anyhow!(
+                    "cloud replay requires verified transport processing"
+                ));
+            }
+        }
+        append_operator_event(
+            loaded,
+            "typed_channel_replay_processed",
+            json!({
+                "channel": channel.as_str(),
+                "message_id": delivery.message.id,
+                "spool_sequence": sequence
+            }),
+        )
+    }
+
+    fn replay_next(&self, channel: RuntimeChannelId) -> Result<Option<RuntimeDelivery>> {
+        let cancellation = tokio_util::sync::CancellationToken::new();
+        let mut fabric = self
+            .channel_fabric
+            .as_ref()
+            .context("CSM observer context cannot replay typed-channel state")?
+            .lock()
+            .map_err(|_| anyhow!("CSM typed-channel fabric lock poisoned"))?;
+        self.channel_runtime
+            .as_ref()
+            .context("CSM observer context has no typed-channel runtime")?
+            .block_on(fabric.replay_next(channel, &cancellation))
+            .context("failed replaying durable CSM typed-channel record")
+    }
+
+    fn acknowledge_processed(&self, channel: RuntimeChannelId, sequence: u64) -> Result<()> {
+        let fabric = self
+            .channel_fabric
+            .as_ref()
+            .context("CSM observer context cannot acknowledge typed-channel processing")?
+            .lock()
+            .map_err(|_| anyhow!("CSM typed-channel fabric lock poisoned"))?;
+        self.channel_runtime
+            .as_ref()
+            .context("CSM observer context has no typed-channel runtime")?
+            .block_on(fabric.acknowledge_processed(channel, sequence))
+            .context("failed acknowledging durable CSM typed-channel record")
+    }
+
+    fn release_replay(&self, channel: RuntimeChannelId, sequence: u64) -> Result<()> {
+        self.channel_fabric
+            .as_ref()
+            .context("CSM observer context cannot release typed-channel replay")?
+            .lock()
+            .map_err(|_| anyhow!("CSM typed-channel fabric lock poisoned"))?
+            .release_replay(channel, sequence)
+            .context("failed releasing durable CSM typed-channel replay")
+    }
+
+    fn persist_channel_state(&self, event: &str, receipt: Option<Value>) -> Result<()> {
+        let fabric = self
+            .channel_fabric
+            .as_ref()
+            .context("CSM observer context cannot persist typed-channel state")?
+            .lock()
+            .map_err(|_| anyhow!("CSM typed-channel fabric lock poisoned"))?;
+        let snapshots = self
+            .channel_runtime
+            .as_ref()
+            .context("CSM observer context has no typed-channel runtime")?
+            .block_on(fabric.snapshots())
+            .context("failed capturing CSM typed-channel snapshots")?;
+        let required_channel_not_ready = snapshots.iter().any(|snapshot| {
+            snapshot.readiness != ReadinessState::Ready
+                && !matches!(
+                    snapshot.channel,
+                    RuntimeChannelId::ComponentsToObservability
+                        | RuntimeChannelId::CloudBridgeToAwsRoutes
+                )
+        });
+        let summary = json!({
+            "channel_count": snapshots.len(),
+            "queue_depth": snapshots.iter().map(|snapshot| snapshot.depth as u64).sum::<u64>(),
+            "durable_spool_depth": snapshots.iter().map(|snapshot| snapshot.durable_spool_depth as u64).sum::<u64>(),
+            "blocked_count": snapshots.iter().map(|snapshot| snapshot.blocked_count).sum::<u64>(),
+            "throttled_count": snapshots.iter().map(|snapshot| snapshot.throttled_count).sum::<u64>(),
+            "shed_count": snapshots.iter().map(|snapshot| snapshot.shed_count).sum::<u64>(),
+        });
+        let state = json!({
+            "schema": "adl.csm.typed_channel_state.v1",
+            "runtime_owner": "csm",
+            "status": if required_channel_not_ready { "not_ready" } else { "ready" },
+            "required_channel_not_ready": required_channel_not_ready,
+            "last_event": event,
+            "last_receipt": receipt,
+            "summary": summary,
+            "channels": snapshots,
+            "updated_at": Utc::now(),
+        });
+        write_json_pretty(
+            self.channel_state_path
+                .as_ref()
+                .context("CSM observer context has no typed-channel state path")?,
+            &state,
+        )
+        .context("failed retaining CSM typed-channel state")
+    }
+
+    fn persist_cloud_notice(&self, notice_id: &str, notice: Value) -> Result<Option<u64>> {
+        let Some(channel_fabric) = self.channel_fabric.as_ref() else {
+            return Ok(None);
+        };
+        let channel_runtime = self
+            .channel_runtime
+            .as_ref()
+            .context("CSM channel owner has no typed-channel runtime")?;
+        let fabric = channel_fabric
+            .lock()
+            .map_err(|_| anyhow!("CSM typed-channel fabric lock poisoned"))?;
+        let receipt = channel_runtime
+            .block_on(fabric.persist_required(
+                RuntimeChannelId::CloudBridgeToAwsRoutes,
+                RuntimeMessage::new(notice_id, ChannelPriority::Evidence, notice),
+            ))
+            .context("failed persisting governed notice before cloud delivery")?;
+        drop(fabric);
+        self.persist_channel_state(
+            "cloud_notice_persisted",
+            Some(serde_json::to_value(&receipt)?),
+        )?;
+        Ok(receipt.spool_sequence)
+    }
+
+    fn acknowledge_cloud_publish(
+        &self,
+        sequence: u64,
+        transport: &str,
+        provider_receipt_id: &str,
+    ) -> Result<()> {
+        let channel_fabric = self
+            .channel_fabric
+            .as_ref()
+            .context("CSM observer context cannot acknowledge cloud publication")?;
+        let channel_runtime = self
+            .channel_runtime
+            .as_ref()
+            .context("CSM observer context has no typed-channel runtime")?;
+        let receipt =
+            TransportPublishReceipt::verified(sequence, sequence, transport, provider_receipt_id)?;
+        let fabric = channel_fabric
+            .lock()
+            .map_err(|_| anyhow!("CSM typed-channel fabric lock poisoned"))?;
+        channel_runtime
+            .block_on(fabric.acknowledge_published(receipt))
+            .context("failed atomically acknowledging cloud publication")?;
+        drop(fabric);
+        self.persist_channel_state("cloud_publish_acknowledged", None)
     }
 }
 
@@ -3499,6 +3960,16 @@ fn csm_runtime_capabilities_with_resident_agents(
             "restart_backoff": "bounded_exponential",
             "partial_checkpoints": "daemon_partial_checkpoint",
             "safe_fail_serialization": "integrated_safe_fail_bundle"
+        },
+        "typed_channels": {
+            "status": "integrated",
+            "fabric_owner": "csm_runtime_context",
+            "channel_count": RuntimeChannelId::ALL.len(),
+            "state_ref": "csm_typed_channel_state.json",
+            "spool_root": "channel_spools/",
+            "durability": "redb_immediate_commit",
+            "delivery_semantics": "at_least_once_until_component_acknowledgement",
+            "cloud_cursor_policy": "atomic_transport_receipt_cursor_and_spool_commit"
         },
         "resident_agents": resident_agents_status,
         "polis_shepherd_agent": csm_shepherd_agent::runtime_capability(),
