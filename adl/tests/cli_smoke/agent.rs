@@ -3633,6 +3633,22 @@ memory:
         .as_str()
         .expect("runtime API bind")
         .to_string();
+    let reasoning = http_get_json_authenticated(&api_bind, &root.join("state"), "/reasoning");
+    assert_eq!(reasoning["schema"], "adl.csm.runtime_api.reasoning.v1");
+    assert_eq!(reasoning["component"]["status"], "serialized");
+    let reasoning_health = reasoning["component"]["value"]["health"]
+        .as_str()
+        .expect("reasoning health");
+    assert!(
+        matches!(reasoning_health, "starting" | "ready"),
+        "unexpected reasoning health: {reasoning_health}"
+    );
+    assert!(
+        reasoning["component"]["value"]["queue_capacity"]
+            .as_u64()
+            .is_some_and(|capacity| capacity > 0),
+        "reasoning queue capacity must be serialized as positive: {reasoning}"
+    );
     let ready = http_get_json_authenticated(&api_bind, &root.join("state"), "/ready");
     assert_eq!(ready["schema"], "adl.csm.runtime_api.ready.v1");
     assert_eq!(ready["runtime_owner"], "csm");
@@ -3641,12 +3657,14 @@ memory:
         let blockers = ready["blocking_reasons"]
             .as_array()
             .expect("not-ready response includes blockers");
+        assert!(!blockers.contains(&serde_json::json!("reasoning_runtime_missing")));
         assert!(
             blockers.iter().all(|blocker| {
                 blocker.as_str().is_some_and(|value| {
                     value.starts_with("chronosense_time_sync_")
                         || value == "curiosity_engine_not_ready"
                         || value == "reasoning_runtime_missing"
+                        || value == "reasoning_runtime_starting"
                         || value == "constructability_gate_blocked"
                         || value == "cav_security_validation_fail_closed"
                 })
