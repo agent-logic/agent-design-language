@@ -7,11 +7,14 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    generate_runtime_instance_id,
+    execute_loop, generate_runtime_instance_id,
     proof::{build_proof_runtime, load_capsule, run_proof},
-    serve_control_listener_until, verifying_key_from_hex, ControlAuthority, ControlCapability,
-    ControlService, KernelExit, TrustedControlKey, DEFAULT_CONTROL_API_PORT,
+    serve_control_listener_until, verifying_key_from_hex, AdaptationState, ControlAuthority,
+    ControlCapability, ControlService, KernelExit, LoopDefinition, LoopStatus, ReasoningEdge,
+    ReasoningGraphDefinition, ReasoningNode, RecordedObservation, TrustedControlKey,
+    ValidatedReasoningGraph, DEFAULT_CONTROL_API_PORT, REASONING_GRAPH_SCHEMA,
 };
+use tokio_util::sync::CancellationToken;
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -150,6 +153,16 @@ async fn main() -> ExitCode {
                 ExitCode::from(70)
             }
         },
+        "shadow-loop" => match run_shadow_loop().await {
+            Ok(value) => {
+                println!("{value}");
+                ExitCode::SUCCESS
+            }
+            Err(error) => {
+                eprintln!("runtime shadow loop failed: {error}");
+                ExitCode::from(70)
+            }
+        },
         "fatal-once" => {
             let marker = capsule.with_extension("fatal-once");
             if !marker.exists() {
@@ -184,10 +197,86 @@ async fn main() -> ExitCode {
             }
         }
         _ => {
-            eprintln!("usage: adl-runtime-kernel [serve|demo|fatal-once] [capsule-path]");
+            eprintln!(
+                "usage: adl-runtime-kernel [serve|demo|shadow-loop|fatal-once] [capsule-path]"
+            );
             ExitCode::from(64)
         }
     }
+}
+
+async fn run_shadow_loop() -> Result<serde_json::Value, String> {
+    let fixture = std::env::var("ADL_SHADOW_FIXTURE_JSON")
+        .map_err(|_| "ADL_SHADOW_FIXTURE_JSON is required".to_owned())?;
+    let fixture: serde_json::Value =
+        serde_json::from_str(&fixture).map_err(|error| error.to_string())?;
+    let max_iterations = fixture["max_iterations"]
+        .as_u64()
+        .and_then(|value| u32::try_from(value).ok())
+        .ok_or_else(|| "max_iterations must be a u32".to_owned())?;
+    let graph = ValidatedReasoningGraph::validate(ReasoningGraphDefinition {
+        schema: REASONING_GRAPH_SCHEMA.to_owned(),
+        version: 1,
+        entry: "observe".to_owned(),
+        exits: BTreeSet::from(["decide".to_owned()]),
+        nodes: vec![
+            ReasoningNode {
+                id: "observe".to_owned(),
+                score_delta: 1,
+            },
+            ReasoningNode {
+                id: "evaluate".to_owned(),
+                score_delta: 1,
+            },
+            ReasoningNode {
+                id: "decide".to_owned(),
+                score_delta: 1,
+            },
+        ],
+        edges: vec![
+            ReasoningEdge {
+                from: "observe".to_owned(),
+                to: "evaluate".to_owned(),
+            },
+            ReasoningEdge {
+                from: "evaluate".to_owned(),
+                to: "decide".to_owned(),
+            },
+        ],
+    })
+    .map_err(|error| error.to_string())?;
+    let policy_hash = blake3::hash(b"shadow-parity-policy").to_hex().to_string();
+    let outcome = execute_loop(
+        &graph,
+        &LoopDefinition {
+            target_score: 7,
+            max_iterations,
+            deadline_millis: 1_000,
+        },
+        &RecordedObservation {
+            observation_id: "shadow-observation".to_owned(),
+            score: 0,
+            evidence_hash: blake3::hash(b"shadow-fixture").to_hex().to_string(),
+        },
+        AdaptationState::new(0, graph.hash(), policy_hash),
+        CancellationToken::new(),
+    )
+    .await
+    .map_err(|error| error.to_string())?;
+    let terminal_node_id = if outcome.status == LoopStatus::Converged {
+        graph.definition().exits.iter().next().cloned()
+    } else {
+        None
+    };
+    Ok(serde_json::json!({
+        "schema": "adl.runtime.shadow_loop.v1",
+        "status": outcome.status,
+        "iterations": outcome.iterations,
+        "terminal_node_id": terminal_node_id,
+        "replay": outcome.replay.iter().map(|event| event.sequence).collect::<Vec<_>>(),
+        "state_hash": outcome.state.hash().map_err(|error| error.to_string())?,
+        "evidence": ["bounded_loop", "deterministic_replay"]
+    }))
 }
 
 fn process_exit(exit: KernelExit) -> ExitCode {
