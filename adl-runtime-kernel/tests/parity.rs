@@ -1071,3 +1071,63 @@ fn live_black_box_parity_classification_covers_matrix_without_counting_blockers_
         Some(*disposition_counts.get("blocker").unwrap_or(&0) as u64)
     );
 }
+
+#[test]
+fn final_cutover_decision_keeps_v2_default_until_parity_blockers_clear() {
+    let decision: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_cutover_decision_5254.v1.json"
+    ))
+    .unwrap();
+    let classification: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json"
+    ))
+    .unwrap();
+
+    assert_eq!(decision["schema"], "adl.runtime_v3.cutover_decision.v1");
+    assert_eq!(decision["issue"], 5254);
+    assert_eq!(decision["target_version"], "v0.91.7");
+    assert_eq!(decision["decision"], "keep_runtime_v2_default");
+    assert_eq!(decision["cutover_authorized"], false);
+    assert_eq!(decision["default_runtime"], "v2");
+    assert_eq!(decision["runtime_v3_selection"], "explicit_opt_in_only");
+    assert_eq!(decision["default_runtime_switch_authorized"], false);
+    assert_eq!(decision["runtime_v2_decommission_authorized"], false);
+    assert_eq!(decision["runtime_v2_deletion_authorized"], false);
+    assert_eq!(decision["rollback_target"], "v2");
+    assert_eq!(decision["next_gate"]["issue"], 5220);
+
+    assert_eq!(classification["cutover_eligible"], false);
+    assert_eq!(classification["default_runtime_switch_authorized"], false);
+    assert_eq!(
+        decision["input_summary"]["live_black_box_cutover_eligible"],
+        classification["cutover_eligible"]
+    );
+    assert_eq!(
+        decision["input_summary"]["live_black_box_blockers"],
+        classification["summary"]["blocker"]
+    );
+    assert_eq!(
+        decision["input_summary"]["accepted_intentional_divergence"],
+        classification["summary"]["accepted_intentional_divergence"]
+    );
+
+    let blockers = classification["capabilities"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|entry| entry["disposition"] == "blocker")
+        .map(|entry| entry["id"].as_str().unwrap())
+        .collect::<std::collections::BTreeSet<_>>();
+    let decision_blockers = decision["blocking_surfaces"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|entry| entry.as_str().unwrap())
+        .collect::<std::collections::BTreeSet<_>>();
+    assert_eq!(decision_blockers, blockers);
+    for capability in classification["capabilities"].as_array().unwrap() {
+        if capability["disposition"] == "blocker" {
+            assert_eq!(capability["blocking_issue"], 5220);
+        }
+    }
+}

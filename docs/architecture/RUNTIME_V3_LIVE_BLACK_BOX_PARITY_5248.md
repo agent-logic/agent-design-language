@@ -30,7 +30,7 @@ docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json
 | Issue | Blocking Surface |
 |---:|---|
 | #5249 | Private-state and security equivalence. |
-| #5254 | Final Runtime v3 default-switch/decommission decision for the remaining capability-specific blockers. |
+| #5220 | Release proof gate must close v0.91.7 with Runtime v2 default unless later reviewed evidence proves Runtime v3 cutover eligibility. |
 
 ## Resolved Follow-Ups
 
@@ -38,6 +38,7 @@ docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json
 |---:|---|
 | #5252 | Weather/GPU/CloudWatch retained proof. Observed GPU telemetry remains an explicit non-cutover claim until an approved GPU-host run exists. |
 | #5253 | Production-like soak and rollback proof. Remote multi-day soak, observed GPU telemetry, and final default switch remain non-claims. |
+| #5254 | Final v0.91.7 default-switch/decommission decision recorded no-go for Runtime v3 default switch and retained Runtime v2 as default/rollback target. |
 
 ## Non-Claims
 
