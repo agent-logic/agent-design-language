@@ -3,6 +3,7 @@ use serde_json::{json, Value};
 use crate::doctor::DoctorReport;
 use crate::lifecycle::{BindRequest, BindResult, RecoverClaimRequest};
 use crate::model::IssueRecord;
+use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
 use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
 use crate::review::{PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest};
 use crate::store::ApproveDesignRequest;
@@ -27,5 +28,8 @@ pub fn public_schema_bundle() -> Value {
         "review_assignment_request": schemars::schema_for!(ReviewAssignmentRequest),
         "review_record_request": schemars::schema_for!(ReviewRecordRequest),
         "publication_review_report": schemars::schema_for!(PublicationReviewReport),
+        "publication_request": schemars::schema_for!(PublicationRequest),
+        "publication_intent": schemars::schema_for!(PublicationIntent),
+        "remote_pull_request": schemars::schema_for!(RemotePullRequest),
     })
 }

@@ -4,6 +4,7 @@ pub mod error;
 pub mod git;
 pub mod lifecycle;
 pub mod model;
+pub mod publication;
 pub mod pvf;
 pub mod review;
 pub mod schema;
@@ -20,7 +21,11 @@ pub use lifecycle::{
 };
 pub use model::{
     Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, NonSubstantiveProof,
-    ReviewAssignment, ReviewEvidence, ReviewFindingEvidence,
+    PublicationEvidence, ReviewAssignment, ReviewEvidence, ReviewFindingEvidence,
+};
+pub use publication::{
+    prepare_publication, reconcile_action, record_publication, PublicationAction,
+    PublicationIntent, PublicationRequest, RemotePullRequest,
 };
 pub use pvf::{
     classify_schedule, classify_shepherd, execute, select, ExecutionRequest, PvfManifest,

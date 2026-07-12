@@ -22,6 +22,7 @@ pub enum ErrorCode {
     ReconciliationRequired,
     InvalidManifest,
     ValidationFailed,
+    RemoteFailure,
     FieldOwnership,
     CardInvalid,
     CorruptRecord,
@@ -39,7 +40,7 @@ impl ErrorCode {
             Self::CardInvalid | Self::CorruptRecord => 68,
             Self::InterruptedTransaction => 69,
             Self::ClaimCollision | Self::UnsafeCheckout => 73,
-            Self::Io | Self::GitFailure => 74,
+            Self::Io | Self::GitFailure | Self::RemoteFailure => 74,
             Self::ReconciliationRequired => 75,
             Self::ValidationFailed => 76,
         }
