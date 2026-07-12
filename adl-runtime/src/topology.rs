@@ -34,6 +34,11 @@ pub fn runtime_components() -> Vec<RuntimeComponent> {
             role: "cadence, admission, and scheduling control",
         },
         RuntimeComponent {
+            id: "weather",
+            plane: "operations",
+            role: "CPU, memory, disk, and GPU resource weather for graceful runtime stop decisions",
+        },
+        RuntimeComponent {
             id: "reasoning_runtime",
             plane: "cognition",
             role: "reasoning graphs, loops, and adaptive DAG execution",
@@ -119,6 +124,15 @@ pub fn runtime_stack_json() -> Value {
             "status": "integrated",
             "source": "/chronosense"
         },
+        "resource_weather": {
+            "schema": crate::weather::WEATHER_SCHEMA,
+            "component": "weather",
+            "primary_crate": "sysinfo",
+            "status": "integrated",
+            "source": "/weather",
+            "stop_policy": "serialize_state_then_stop_on_configured_cpu_memory_or_disk_pressure",
+            "gpu_policy": "observed_on_gpu_host_or_explicitly_deferred"
+        },
         "persistence_domains": {
             "schema": crate::continuity_history::PERSISTENCE_DOMAINS_SCHEMA,
             "checkpoint_continuity": {
@@ -188,6 +202,7 @@ mod tests {
         assert!(ids.contains(&"runtime_api"));
         assert!(ids.contains(&"chronosense"));
         assert!(ids.contains(&"scheduler"));
+        assert!(ids.contains(&"weather"));
         assert!(ids.contains(&"reasoning_runtime"));
         assert!(ids.contains(&"curiosity_engine"));
         assert!(ids.contains(&"resident_agents"));

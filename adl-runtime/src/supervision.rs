@@ -35,6 +35,7 @@ pub enum ComponentId {
     RuntimeApi,
     Chronosense,
     Scheduler,
+    Weather,
     CuriosityEngine,
     FreedomGate,
     ReasoningRuntime,
@@ -46,10 +47,11 @@ pub enum ComponentId {
 }
 
 impl ComponentId {
-    pub const ALL: [ComponentId; 11] = [
+    pub const ALL: [ComponentId; 12] = [
         ComponentId::RuntimeApi,
         ComponentId::Chronosense,
         ComponentId::Scheduler,
+        ComponentId::Weather,
         ComponentId::CuriosityEngine,
         ComponentId::FreedomGate,
         ComponentId::ReasoningRuntime,
@@ -65,6 +67,7 @@ impl ComponentId {
             ComponentId::RuntimeApi => "runtime_api",
             ComponentId::Chronosense => "chronosense",
             ComponentId::Scheduler => "scheduler",
+            ComponentId::Weather => "weather",
             ComponentId::CuriosityEngine => "curiosity_engine",
             ComponentId::FreedomGate => "freedom_gate",
             ComponentId::ReasoningRuntime => "reasoning_runtime",
@@ -198,6 +201,19 @@ pub fn default_component_supervision() -> Vec<ComponentSupervisionPolicy> {
             degradation_behavior: "quiesce_admission_until_schedule_state_recovers",
             escalation_target: "operator_and_continuity_control",
             readiness_impact: "ready_false_while_admission_quiesced",
+            critical_for_continuity: true,
+            telemetry_can_degrade: false,
+        },
+        ComponentSupervisionPolicy {
+            component: ComponentId::Weather,
+            restart_policy: ComponentRestartPolicy::EscalateFailClosed,
+            backoff_base_ms: 250,
+            backoff_cap_ms: 5_000,
+            escalation_interval_failures: 1,
+            degradation_behavior:
+                "serialize_runtime_state_and_stop_when_host_pressure_crosses_threshold",
+            escalation_target: "checkpoint_continuity_and_operator_notice",
+            readiness_impact: "ready_false_when_graceful_stop_required",
             critical_for_continuity: true,
             telemetry_can_degrade: false,
         },
