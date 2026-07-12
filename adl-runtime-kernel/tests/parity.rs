@@ -1131,3 +1131,72 @@ fn final_cutover_decision_keeps_v2_default_until_parity_blockers_clear() {
         }
     }
 }
+
+#[test]
+fn release_proof_gate_closes_without_authorizing_default_cutover() {
+    let gate: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_release_proof_gate_5220.v1.json"
+    ))
+    .unwrap();
+    let checklist: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_cutover_checklist.v1.json"
+    ))
+    .unwrap();
+    let decision: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_cutover_decision_5254.v1.json"
+    ))
+    .unwrap();
+    let classification: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json"
+    ))
+    .unwrap();
+
+    assert_eq!(gate["schema"], "adl.runtime_v3.release_proof_gate.v1");
+    assert_eq!(gate["issue"], 5220);
+    assert_eq!(gate["target_version"], "v0.91.7");
+    assert_eq!(gate["release_gate_result"], "complete_no_default_cutover");
+    assert_eq!(gate["default_cutover_authorized"], false);
+    assert_eq!(gate["default_runtime"], "v2");
+    assert_eq!(gate["runtime_v3_selection"], "explicit_opt_in_only");
+    assert_eq!(gate["runtime_v2_deletion_authorized"], false);
+    assert_eq!(gate["runtime_v2_decommission_authorized"], false);
+    assert_eq!(gate["rollback_target"], "v2");
+
+    assert_eq!(decision["decision"], "keep_runtime_v2_default");
+    assert_eq!(decision["default_runtime_switch_authorized"], false);
+    assert_eq!(classification["cutover_eligible"], false);
+    assert_eq!(classification["summary"]["blocker"], 9);
+
+    let child_results = gate["child_issue_results"].as_array().unwrap();
+    let closed_children = child_results
+        .iter()
+        .map(|entry| {
+            assert_eq!(entry["state"], "closed");
+            assert_eq!(entry["blocks_5220_closeout"], false);
+            entry["issue"].as_u64().unwrap()
+        })
+        .collect::<std::collections::BTreeSet<_>>();
+    assert_eq!(
+        closed_children,
+        [5247, 5248, 5249, 5250, 5251, 5252, 5253, 5254]
+            .into_iter()
+            .collect()
+    );
+
+    let checklist_gate = checklist["gates"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|entry| entry["id"] == "release.proof_gate")
+        .unwrap();
+    assert_eq!(checklist_gate["status"], "complete_no_default_cutover");
+    for issue in 5247..=5254 {
+        let issue_state = checklist["issue_states"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|entry| entry["issue"] == issue)
+            .unwrap();
+        assert_eq!(issue_state["state"], "closed");
+    }
+}
