@@ -20,26 +20,26 @@
     {
       "id": "kernel.lifecycle",
       "disposition": "blocker",
-      "proof": "Runtime v3 kernel fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 kernel fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "kernel.topology_and_backpressure",
       "disposition": "blocker",
-      "proof": "Runtime v3 topology/backpressure fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 topology/backpressure fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "service.contracts_and_configuration",
       "disposition": "blocker",
-      "proof": "Runtime v3 contract fixtures exist; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 contract fixtures exist; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "continuity.replay_recovery",
       "disposition": "blocker",
-      "proof": "Runtime v3 continuity fixtures exist; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 continuity fixtures exist; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "private_state.security",
@@ -59,32 +59,32 @@
     {
       "id": "learning.adaptive_dag",
       "disposition": "blocker",
-      "proof": "Runtime v3 adaptive fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 adaptive fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "governance.freedom_gate_aee",
       "disposition": "blocker",
-      "proof": "Runtime v3 governance fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 governance fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "contracts.delegation_resources",
       "disposition": "blocker",
-      "proof": "Runtime v3 governed-contract fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 governed-contract fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "agents.providers_scheduler",
       "disposition": "blocker",
-      "proof": "Runtime v3 operational fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 operational fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "network.acip_a2a_cloud",
       "disposition": "blocker",
-      "proof": "Runtime v3 network fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
-      "blocking_issue": 5254
+      "proof": "Runtime v3 network fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
+      "blocking_issue": 5220
     },
     {
       "id": "clock.checkpoint_lifelog",
