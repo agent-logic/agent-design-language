@@ -169,6 +169,14 @@ pub fn runtime_stack_json() -> Value {
             "retained_status_ref": crate::curiosity::CSM_CURIOSITY_STATUS_REF,
             "governance": "freedom_gate_cav_constructability_fail_closed"
         },
+        "freedom_gate": {
+            "schema": crate::freedom_gate::CSM_FREEDOM_GATE_STATUS_SCHEMA,
+            "status": "integrated",
+            "component": crate::freedom_gate::CSM_FREEDOM_GATE_COMPONENT,
+            "retained_status_ref": crate::freedom_gate::CSM_FREEDOM_GATE_STATUS_REF,
+            "executor_requires_gate_decision": true,
+            "unmediated_execution_allowed": false
+        },
         "reasoning_runtime": {
             "schema": crate::reasoning_runtime::REASONING_RUNTIME_SCHEMA,
             "component": crate::reasoning_runtime::REASONING_RUNTIME_COMPONENT,
@@ -198,7 +206,19 @@ mod tests {
         assert!(ids.contains(&"reasoning_runtime"));
         assert!(ids.contains(&"curiosity_engine"));
         assert!(ids.contains(&"resident_agents"));
+        assert!(ids.contains(&"freedom_gate"));
         assert!(ids.contains(&"observability"));
         assert!(ids.contains(&"cloud_bridge"));
+    }
+
+    #[test]
+    fn runtime_stack_projects_freedom_gate_contract() {
+        let stack = runtime_stack_json();
+        assert_eq!(stack["freedom_gate"]["status"], "integrated");
+        assert_eq!(
+            stack["freedom_gate"]["executor_requires_gate_decision"],
+            true
+        );
+        assert_eq!(stack["freedom_gate"]["unmediated_execution_allowed"], false);
     }
 }
