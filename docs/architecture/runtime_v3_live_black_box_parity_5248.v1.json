@@ -48,9 +48,8 @@
     },
     {
       "id": "control.health_observability",
-      "disposition": "blocker",
-      "proof": "Runtime v3 control/weather fixtures exist; retained CloudWatch/Vector proof is still required.",
-      "blocking_issue": 5252
+      "disposition": "accepted_intentional_divergence",
+      "proof": "#5252 retains Runtime v3 weather and CloudWatch boundary proof: sysinfo-backed CPU, memory, disk, network, and temperature observations; explicit GPU unavailable_not_pass state when no approved GPU host exists; serialize_state_then_stop resource policy; and Vector-owned EMF-compatible CloudWatch route. Observed GPU telemetry remains a deferred non-cutover claim and is not counted as passed proof."
     },
     {
       "id": "reasoning.graphs_and_loops",
@@ -121,10 +120,10 @@
   ],
   "summary": {
     "live_equivalent_fixture": 1,
-    "accepted_intentional_divergence": 5,
+    "accepted_intentional_divergence": 6,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0,
-    "blocker": 11
+    "blocker": 10
   },
   "non_claims": [
     "This packet does not authorize Runtime v3 as the default runtime.",
