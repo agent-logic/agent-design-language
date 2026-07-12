@@ -28,10 +28,11 @@ fn edit(
     card: CardKind,
     operation: SemanticOperation,
 ) -> csdlc_v2::IssueRecord {
-    edit_issue(
-        store,
+    let reopened = Store::new(store.root());
+    let edited = edit_issue(
+        &reopened,
         EditRequest {
-            issue: 7,
+            issue: record.issue,
             card,
             expected_generation: record.generation,
             expected_digest: record.digest.clone(),
@@ -42,10 +43,18 @@ fn edit(
             fail_after_backup: false,
         },
     )
-    .unwrap()
+    .unwrap();
+    Store::new(store.root())
+        .load_record(record.issue)
+        .inspect(|record| assert_eq!(record.digest, edited.digest))
+        .unwrap()
 }
 
-fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
+fn fixture(
+    issue: u64,
+    title: &str,
+    scenario: &str,
+) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     let temp = tempfile::tempdir().unwrap();
     std::fs::create_dir_all(temp.path().join("docs")).unwrap();
     std::fs::write(temp.path().join("docs/design.md"), "# design\n").unwrap();
@@ -69,7 +78,7 @@ fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     let mut record = initialize_issue(
         &store,
         BootstrapRequest {
-            issue: 7,
+            issue,
             repository: "example/repo".into(),
             design_path: "docs/design.md".into(),
             diagram_path: "docs/diagram.mmd".into(),
@@ -88,18 +97,18 @@ fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
                 purpose: "gate7 fixture".into(),
             },
             initial: InitialCardInput {
-                title: "Gate 7 fixture".into(),
-                slug: "gate-7-fixture".into(),
+                title: title.into(),
+                slug: scenario.into(),
                 version: "v0.91.7".into(),
-                goal: "prove terminal lifecycle".into(),
+                goal: format!("prove {scenario} terminal lifecycle"),
                 required_outcome: "truthful closeout".into(),
-                declared_scope: vec!["docs".into()],
+                declared_scope: vec![scenario.into()],
                 authority_boundary: vec!["no merge".into()],
-                task_boundary: "fixture".into(),
+                task_boundary: format!("execute {scenario} fixture"),
                 deliverables: vec!["record".into()],
                 acceptance_criteria: vec!["terminal truth".into()],
                 dependencies: vec!["none".into()],
-                repo_inputs: vec!["docs".into()],
+                repo_inputs: vec![scenario.into()],
                 non_goals: vec!["network".into()],
                 plan_summary: "advance lifecycle".into(),
                 steps: vec![PlanStep {
@@ -114,7 +123,7 @@ fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
                 stop_conditions: vec!["mismatch".into()],
                 validation_lanes: vec![ValidationLane {
                     lane: "focused".into(),
-                    proof_role: "lifecycle".into(),
+                    proof_role: scenario.into(),
                     acceptance_ids: vec!["AC-1".into()],
                     deterministic: true,
                     resource_profile: ResourceProfile::Small,
@@ -180,7 +189,7 @@ fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     let assigned = assign_review(
         &store,
         ReviewAssignmentRequest {
-            issue: 7,
+            issue,
             expected_generation: record.generation,
             expected_digest: record.digest,
             claim_id: "claim".into(),
@@ -199,7 +208,7 @@ fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     record = record_review(
         &store,
         ReviewRecordRequest {
-            issue: 7,
+            issue,
             expected_generation: assigned.generation,
             expected_digest: assigned.digest,
             claim_id: "claim".into(),
@@ -224,9 +233,10 @@ fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
             phase: LifecyclePhase::Reviewed,
         },
     );
+    let publication_body = format!("Closes #{issue}");
     let request = PublicationRequest {
         schema: "csdlc.publication_request.v1".into(),
-        issue: 7,
+        issue,
         expected_generation: record.generation,
         expected_digest: record.digest.clone(),
         claim_id: "claim".into(),
@@ -235,24 +245,24 @@ fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
         base: "main".into(),
         head: "issue-7".into(),
         title: "Fixture".into(),
-        body: "Closes #7".into(),
+        body: publication_body.clone(),
         draft: true,
         remote: "origin".into(),
         token_file: None,
     };
     let intent = PublicationIntent {
         schema: "csdlc.publication_intent.v1".into(),
-        issue: 7,
+        issue,
         repository: "example/repo".into(),
         base: "main".into(),
         head: "issue-7".into(),
         title: "Fixture".into(),
-        body: "Closes #7".into(),
+        body: publication_body.clone(),
         draft: true,
         revision: revision.clone(),
         commit_sha: sha.clone(),
     };
-    record = record_publication(
+    record_publication(
         &store,
         &request,
         &intent,
@@ -263,22 +273,33 @@ fn fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
             base: "main".into(),
             head: "issue-7".into(),
             title: "Fixture".into(),
-            body: "Closes #7".into(),
+            body: publication_body,
             draft: true,
             state: "open".into(),
             head_sha: sha.clone(),
         },
     )
     .unwrap();
+    record = Store::new(store.root()).load_record(issue).unwrap();
+    assert_eq!(record.phase, LifecyclePhase::Published);
     (temp, store, record, sha)
 }
 
 #[test]
 fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() {
-    let (_temp, store, mut record, sha) = fixture();
+    run_complete_lifecycle(7, "Gate 7 fixture", "gate7", true);
+}
+
+pub(crate) fn run_complete_lifecycle(
+    issue: u64,
+    title: &str,
+    scenario: &str,
+    hostile: bool,
+) -> csdlc_v2::NormalizedOutcome {
+    let (_temp, store, mut record, sha) = fixture(issue, title, scenario);
     let mut request = ReadinessRequest {
         schema: "csdlc.readiness_request.v1".into(),
-        issue: 7,
+        issue,
         expected_generation: record.generation,
         expected_digest: record.digest.clone(),
         claim_id: "claim".into(),
@@ -297,17 +318,20 @@ fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() 
         conflict_state: csdlc_v2::ConflictState::Clean,
         post_publication_findings: vec![],
     };
-    record = record_readiness(&store, request.clone()).unwrap();
+    record_readiness(&store, request.clone()).unwrap();
+    record = Store::new(store.root()).load_record(issue).unwrap();
     assert_eq!(record.phase, LifecyclePhase::MergeReady);
-    request.expected_generation = record.generation;
-    request.expected_digest = record.digest.clone();
-    request.checks[0].conclusion = csdlc_v2::CheckConclusion::Failure;
-    record = record_readiness(&store, request).unwrap();
-    assert_eq!(record.phase, LifecyclePhase::Published);
+    if hostile {
+        request.expected_generation = record.generation;
+        request.expected_digest = record.digest.clone();
+        request.checks[0].conclusion = csdlc_v2::CheckConclusion::Failure;
+        record = record_readiness(&store, request).unwrap();
+        assert_eq!(record.phase, LifecyclePhase::Published);
+    }
 
     let wrong = TerminalObservation {
         schema: "csdlc.terminal_observation.v1".into(),
-        issue: 7,
+        issue,
         expected_generation: record.generation,
         expected_digest: record.digest.clone(),
         claim_id: "claim".into(),
@@ -319,13 +343,22 @@ fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() 
         approved_no_pr_reason: None,
         receipt_path: "/tmp/gate7-receipt.json".into(),
     };
-    assert!(closeout_issue(&store, wrong).is_err());
-    let current = store.load_record(7).unwrap();
-    assert_eq!(current.phase, LifecyclePhase::Published);
+    if hostile {
+        assert!(closeout_issue(&store, wrong).is_err());
+    }
+    let current = store.load_record(issue).unwrap();
+    assert_eq!(
+        current.phase,
+        if hostile {
+            LifecyclePhase::Published
+        } else {
+            LifecyclePhase::MergeReady
+        }
+    );
 
     let mut green = ReadinessRequest {
         schema: "csdlc.readiness_request.v1".into(),
-        issue: 7,
+        issue,
         expected_generation: current.generation,
         expected_digest: current.digest.clone(),
         claim_id: "claim".into(),
@@ -349,7 +382,7 @@ fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() 
     green.expected_digest = record.digest.clone();
     let terminal = TerminalObservation {
         schema: "csdlc.terminal_observation.v1".into(),
-        issue: 7,
+        issue,
         expected_generation: record.generation,
         expected_digest: record.digest.clone(),
         claim_id: "claim".into(),
@@ -361,11 +394,13 @@ fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() 
         approved_no_pr_reason: None,
         receipt_path: "/tmp/gate7-receipt.json".into(),
     };
-    let closed = closeout_issue(&store, terminal.clone()).unwrap();
+    closeout_issue(&store, terminal.clone()).unwrap();
+    let closed = Store::new(store.root()).load_record(issue).unwrap();
     assert_eq!(closed.phase, LifecyclePhase::ClosedOut);
     assert!(closed.claim.is_none());
     assert_eq!(closeout_issue(&store, terminal).unwrap(), closed);
-    let doctor = csdlc_v2::diagnose(&store, 7);
+    let doctor = csdlc_v2::diagnose(&store, issue);
     assert_eq!(doctor.phase, Some(LifecyclePhase::ClosedOut));
     assert!(doctor.findings.is_empty());
+    csdlc_v2::NormalizedOutcome::from_v2(&store, issue).unwrap()
 }

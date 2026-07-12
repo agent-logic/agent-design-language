@@ -1,0 +1,17 @@
+{
+  "issue": 9001,
+  "slug": "docs-only",
+  "generation": "v2",
+  "root": "docs-only",
+  "card_paths": {
+    "sip": "sip.md",
+    "sor": "sor.md",
+    "spp": "spp.md",
+    "srp": "srp.md",
+    "stp": "stp.md",
+    "vpp": "vpp.md"
+  },
+  "design_path": "design.md",
+  "diagram_path": "diagram.mmd",
+  "execution_evidence": "csdlc-v2/tests/gate9.rs::representative_samples_reopen_persisted_store_between_lifecycle_phases"
+}

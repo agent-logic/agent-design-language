@@ -117,22 +117,10 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
                 .create(&intent.title, &intent.head, &intent.base)
                 .body(&intent.body)
                 .draft(intent.draft);
-            if create.send().await.is_err() {
-                // A timeout may hide a successful create. Always observe before retrying.
-                find_pr(&crab, &intent).await?.ok_or_else(|| {
-                    V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "create outcome is ambiguous; no matching PR observed",
-                    )
-                })?
-            } else {
-                find_pr(&crab, &intent).await?.ok_or_else(|| {
-                    V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "created PR could not be reconciled",
-                    )
-                })?
-            }
+            let send_failed = create.send().await.is_err();
+            let observed = find_pr(&crab, &intent).await?;
+            reconcile_create_observation(send_failed, observed.is_some())?;
+            observed.expect("presence checked")
         }
     };
     let normalized = normalize(&intent, &remote)?;
@@ -327,9 +315,21 @@ fn remote(message: String) -> V2Error {
     )
 }
 
+fn reconcile_create_observation(send_failed: bool, observed: bool) -> csdlc_v2::Result<()> {
+    if observed {
+        return Ok(());
+    }
+    let message = if send_failed {
+        "create outcome is ambiguous; no matching PR observed"
+    } else {
+        "created PR could not be reconciled"
+    };
+    Err(V2Error::new(ErrorCode::ReconciliationRequired, message))
+}
+
 #[cfg(test)]
 mod tests {
-    use super::remote_url_matches;
+    use super::{reconcile_create_observation, remote_url_matches};
 
     #[test]
     fn remote_url_requires_exact_github_host_and_repository() {
@@ -350,5 +350,12 @@ mod tests {
             "https://github.com/other/agent-design-language",
             repo
         ));
+    }
+
+    #[test]
+    fn ambiguous_create_failure_observes_before_deciding_retry() {
+        assert!(reconcile_create_observation(true, true).is_ok());
+        assert!(reconcile_create_observation(true, false).is_err());
+        assert!(reconcile_create_observation(false, false).is_err());
     }
 }

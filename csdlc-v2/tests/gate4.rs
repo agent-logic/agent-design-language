@@ -340,7 +340,7 @@ fn deferred_dependency_blocks_local_dependent_and_non_goal_only_converges() {
 }
 
 #[test]
-fn failed_lane_produces_failed_aggregate() {
+fn failed_lane_can_be_repaired_and_retried_to_local_pass() {
     let temp = tempfile::tempdir().expect("temp");
     let report = execute(ExecutionRequest {
         manifest: PvfManifest {
@@ -364,6 +364,28 @@ fn failed_lane_produces_failed_aggregate() {
     })
     .expect("failed report");
     assert_eq!(report.disposition, ValidationDisposition::Failed);
+    let repaired = execute(ExecutionRequest {
+        manifest: PvfManifest {
+            schema: "csdlc.pvf.manifest.v1".into(),
+            lanes: vec![lane("fail", &[], "/usr/bin/true", &[])],
+        },
+        selection: SelectionRequest {
+            requested_lanes: vec!["fail".into()],
+            allow_network: false,
+            available_credentials: vec![],
+        },
+        budget: ExecutionBudget {
+            max_parallel: 1,
+            cpu_units: 1,
+            memory_mib: 8,
+            tokens: 10,
+        },
+        root: temp.path().into(),
+        evidence_dir: temp.path().join("repaired"),
+        cancellation_file: None,
+    })
+    .expect("repaired retry");
+    assert_eq!(repaired.disposition, ValidationDisposition::LocalPass);
 }
 
 #[test]
