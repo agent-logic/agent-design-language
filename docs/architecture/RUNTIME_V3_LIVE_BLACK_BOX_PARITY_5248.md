@@ -15,8 +15,8 @@ cutover gate until the prerequisite issues resolve them.
 
 - `live_equivalent_fixture`: 1 capability.
 - `retained_v2_behavior_behind_adapter`: 1 capability.
-- `blocker`: 10 capabilities.
-- `accepted_intentional_divergence`: 6 capabilities.
+- `blocker`: 9 capabilities.
+- `accepted_intentional_divergence`: 7 capabilities.
 - `deferred_non_cutover_surface`: 0 capabilities.
 
 The retained machine-readable packet is:
@@ -30,13 +30,14 @@ docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json
 | Issue | Blocking Surface |
 |---:|---|
 | #5249 | Private-state and security equivalence. |
-| #5253 | Production-like soak, rollback, and shared live fixture expansion. |
+| #5254 | Final Runtime v3 default-switch/decommission decision for the remaining capability-specific blockers. |
 
 ## Resolved Follow-Ups
 
 | Issue | Resolved Surface |
 |---:|---|
 | #5252 | Weather/GPU/CloudWatch retained proof. Observed GPU telemetry remains an explicit non-cutover claim until an approved GPU-host run exists. |
+| #5253 | Production-like soak and rollback proof. Remote multi-day soak, observed GPU telemetry, and final default switch remain non-claims. |
 
 ## Non-Claims
 

@@ -22,7 +22,7 @@
     {"id":"moral_affect_wellbeing","disposition":"accepted_intentional_divergence","proof":"#5251 Runtime v3 governed cognition adapters: deterministic service contracts, bounded moral/affect/wellbeing policy, policy-hash binding, review-required disposition, and review-record validation; subjective cognition and Runtime v2 raw cognition wire-format equivalence are intentionally not claimed"},
     {"id":"curiosity_intelligence_theory_of_mind","disposition":"accepted_intentional_divergence","proof":"#5251 Runtime v3 governed cognition adapters: deterministic service contracts, bounded curiosity/intelligence/theory-of-mind confidence policy, policy-hash binding, review-required disposition, and review-record validation; subjective cognition and Runtime v2 raw cognition wire-format equivalence are intentionally not claimed"},
     {"id":"migration.shadow_parity","disposition":"live_shadow_fixture","proof":"adl-runtime-kernel/tests/parity.rs live v2/v3 process backends and reversible forwarding facade"},
-    {"id":"guardian.packaging_soak","disposition":"bounded_soak_complete_pending_review","proof":"adl-runtime-kernel/tests/guardian_soak.rs and docs/architecture/runtime_v3_guardian_soak_report.v1.json"}
+    {"id":"guardian.packaging_soak","disposition":"accepted_intentional_divergence","proof":"#5253 Runtime v3 production-like soak and rollback proof: explicit v3 selection, Runtime v2 rollback/default preservation, control port 20997 boundary, stdout/stderr contract truth, graceful pressure-stop evidence, and deferred non-cutover remote/GPU lanes; raw Runtime v2 packaging equivalence is intentionally not claimed"}
   ],
   "module_closure": {
     "baseline_modules": 206,
