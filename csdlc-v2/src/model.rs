@@ -59,8 +59,18 @@ pub struct Claim {
     pub acquired_unix_seconds: u64,
     pub expires_unix_seconds: u64,
     pub heartbeat_unix_seconds: u64,
+    pub branch: String,
+    pub worktree: String,
     pub protected_paths: Vec<String>,
     pub purpose: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ClaimRecovery {
+    pub previous_owner: String,
+    pub observed_expiry_unix_seconds: u64,
+    pub recovery_actor: String,
+    pub reason: String,
 }
 
 impl Claim {
@@ -69,6 +79,12 @@ impl Claim {
             return Err(V2Error::new(
                 ErrorCode::MissingClaim,
                 "claim id does not own this issue",
+            ));
+        }
+        if self.branch.trim().is_empty() || self.worktree.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidClaim,
+                "claim branch/worktree is empty",
             ));
         }
         if now >= self.expires_unix_seconds {
@@ -116,6 +132,7 @@ pub struct IssueRecord {
     pub schema: String,
     pub issue: u64,
     pub repository: String,
+    pub initialization_digest: String,
     pub phase: LifecyclePhase,
     pub generation: u64,
     pub digest: String,

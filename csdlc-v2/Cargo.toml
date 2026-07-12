@@ -18,6 +18,14 @@ path = "src/bin/csdlc-edit.rs"
 name = "csdlc-doctor"
 path = "src/bin/csdlc-doctor.rs"
 
+[[bin]]
+name = "csdlc-init"
+path = "src/bin/csdlc-init.rs"
+
+[[bin]]
+name = "csdlc-bind"
+path = "src/bin/csdlc-bind.rs"
+
 [dependencies]
 blake3 = "1"
 clap = { version = "4.5", features = ["derive"] }
@@ -37,4 +45,3 @@ strip = true
 lto = "thin"
 codegen-units = 1
 panic = "abort"
-

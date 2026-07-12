@@ -1,6 +1,8 @@
 pub mod cards;
 pub mod doctor;
 pub mod error;
+pub mod git;
+pub mod lifecycle;
 pub mod model;
 pub mod schema;
 pub mod store;
@@ -10,6 +12,13 @@ pub use cards::{
 };
 pub use doctor::{diagnose, DoctorReport};
 pub use error::{ErrorCode, Result, V2Error};
-pub use model::{Claim, DesignReview, IssueRecord, LifecyclePhase};
+pub use lifecycle::{
+    bind_issue, heartbeat_claim, initialize_issue, recover_claim, BindRequest, BindResult,
+    RecoverClaimRequest,
+};
+pub use model::{Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase};
 pub use schema::public_schema_bundle;
-pub use store::{bootstrap_issue, edit_issue, BootstrapRequest, EditRequest, Store};
+pub use store::{
+    approve_design, bootstrap_issue, edit_issue, ApproveDesignRequest, BootstrapRequest,
+    EditRequest, Store,
+};

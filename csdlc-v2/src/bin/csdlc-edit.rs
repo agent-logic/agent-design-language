@@ -3,8 +3,8 @@ use std::path::PathBuf;
 
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    bootstrap_issue, edit_issue, public_schema_bundle, BootstrapRequest, EditRequest, ErrorCode,
-    Store,
+    approve_design, bootstrap_issue, edit_issue, public_schema_bundle, ApproveDesignRequest,
+    BootstrapRequest, EditRequest, ErrorCode, Store,
 };
 use serde::Serialize;
 
@@ -24,6 +24,10 @@ enum Command {
         request: PathBuf,
     },
     Apply {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    ApproveDesign {
         #[arg(long)]
         request: PathBuf,
     },
@@ -54,6 +58,8 @@ fn main() {
         Command::Apply { request } => {
             read::<EditRequest>(&request).and_then(|request| edit_issue(&store, request))
         }
+        Command::ApproveDesign { request } => read::<ApproveDesignRequest>(&request)
+            .and_then(|request| approve_design(&store, request)),
         Command::Schema => unreachable!("handled above"),
     };
     match result {
@@ -72,7 +78,7 @@ fn main() {
                 })
                 .expect("error JSON")
             );
-            std::process::exit(exit_code(error.code));
+            std::process::exit(error.code.exit_code());
         }
     }
 }
@@ -80,16 +86,4 @@ fn main() {
 fn read<T: for<'de> serde::Deserialize<'de>>(path: &PathBuf) -> csdlc_v2::Result<T> {
     let bytes = fs::read(path)?;
     Ok(serde_json::from_slice(&bytes)?)
-}
-
-fn exit_code(code: ErrorCode) -> i32 {
-    match code {
-        ErrorCode::InvalidInput => 64,
-        ErrorCode::InvalidTransition | ErrorCode::FieldOwnership => 65,
-        ErrorCode::StaleGeneration | ErrorCode::StaleDigest => 66,
-        ErrorCode::MissingClaim | ErrorCode::ExpiredClaim => 67,
-        ErrorCode::CardInvalid | ErrorCode::CorruptRecord => 68,
-        ErrorCode::InterruptedTransaction => 69,
-        ErrorCode::Io => 74,
-    }
 }

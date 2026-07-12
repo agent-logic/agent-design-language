@@ -58,6 +58,19 @@ impl Store {
         Ok(file)
     }
 
+    pub(crate) fn binding_lock(&self) -> Result<File> {
+        let dir = self.root.join(".csdlc/locks");
+        fs::create_dir_all(&dir)?;
+        let file = OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(dir.join("bindings.lock"))?;
+        file.lock_exclusive()?;
+        Ok(file)
+    }
+
     pub fn load_record(&self, issue: u64) -> Result<IssueRecord> {
         read_json(&self.issue_dir(issue).join("index.json"))
     }
@@ -122,6 +135,26 @@ impl Store {
         }
         Ok(())
     }
+
+    pub(crate) fn replace_record(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+    ) -> Result<()> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let current = self.load_record(issue)?;
+        if current.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before compare-and-swap commit",
+            ));
+        }
+        let cards = self.load_cards(issue)?;
+        verify_cards(self, &current, &cards)?;
+        self.commit(issue, record, &cards, false)
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -131,6 +164,8 @@ pub struct BootstrapRequest {
     pub design_path: String,
     pub diagram_path: String,
     pub design_reviewer: String,
+    #[serde(default)]
+    pub design_approved: bool,
     pub claim: Claim,
     pub initial: InitialCardInput,
 }
@@ -149,6 +184,87 @@ pub struct EditRequest {
     pub fail_after_backup: bool,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ApproveDesignRequest {
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub claim_id: String,
+    pub reviewer: String,
+}
+
+pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<IssueRecord> {
+    let _lock = store.lock(request.issue)?;
+    store.recover_if_needed(request.issue)?;
+    let mut record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "design approval generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "design approval digest is stale",
+        ));
+    }
+    if request.reviewer.trim().is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design reviewer is required",
+        ));
+    }
+    if record.phase != LifecyclePhase::Initialized
+        || !matches!(
+            record.design_review,
+            DesignReview::Pending | DesignReview::ChangesRequired { .. }
+        )
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "design approval is allowed only before readiness",
+        ));
+    }
+    record
+        .claim
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+        .validate(&request.claim_id, now_seconds()?)?;
+    let mut cards = store.load_cards(request.issue)?;
+    verify_record(&record)?;
+    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("card").content {
+            CardContent::Spp(values) => values.design_digest = design_digest.clone(),
+            CardContent::Vpp(values) => values.design_digest = design_digest.clone(),
+            _ => unreachable!("design-bearing card"),
+        }
+    }
+    record.design_review = DesignReview::Approved {
+        reviewer: request.reviewer.clone(),
+        revision: design_digest,
+    };
+    record.generation += 1;
+    for values in cards.values_mut() {
+        values.identity.generation = record.generation;
+    }
+    if let Some(claim) = record.claim.as_mut() {
+        claim.generation = record.generation;
+    }
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.reviewer,
+        reason: "approve completed issue design".into(),
+        operation: "approve_design".into(),
+    });
+    hydrate_projections(&mut record, &cards)?;
+    record.digest = record_digest(&record)?;
+    store.commit(request.issue, &record, &cards, false)?;
+    Ok(record)
+}
+
 pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<IssueRecord> {
     if request.issue == 0 || request.repository.trim().is_empty() {
         return Err(V2Error::new(
@@ -157,10 +273,12 @@ pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<Issue
         ));
     }
     let now = now_seconds()?;
-    if request.design_reviewer.trim().is_empty()
+    if (request.design_approved && request.design_reviewer.trim().is_empty())
         || request.claim.id.trim().is_empty()
         || request.claim.owner.trim().is_empty()
         || request.claim.purpose.trim().is_empty()
+        || request.claim.branch.trim().is_empty()
+        || request.claim.worktree.trim().is_empty()
         || request.claim.generation != 0
         || request.claim.protected_paths.is_empty()
         || request.claim.heartbeat_unix_seconds < request.claim.acquired_unix_seconds
@@ -172,12 +290,18 @@ pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<Issue
         ));
     }
     request.claim.validate(&request.claim.id, now)?;
+    let initialization_digest = digest(&serde_json::to_vec(&request)?);
     let _lock = store.lock(request.issue)?;
     store.recover_if_needed(request.issue)?;
     if store.issue_dir(request.issue).exists() {
+        let existing = store.load_record(request.issue)?;
+        verify_cards(store, &existing, &store.load_cards(request.issue)?)?;
+        if existing.initialization_digest == initialization_digest {
+            return Ok(existing);
+        }
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "issue already exists",
+            "issue exists with different initialization truth",
         ));
     }
     let bootstrap_actor = request.claim.owner.clone();
@@ -196,15 +320,20 @@ pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<Issue
         schema: "csdlc.issue.index.v1".into(),
         issue: request.issue,
         repository: request.repository,
+        initialization_digest,
         phase: LifecyclePhase::Initialized,
         generation: 0,
         digest: String::new(),
         claim: Some(request.claim),
         design_path: request.design_path,
         diagram_path: request.diagram_path,
-        design_review: DesignReview::Approved {
-            reviewer: request.design_reviewer,
-            revision: design_digest,
+        design_review: if request.design_approved {
+            DesignReview::Approved {
+                reviewer: request.design_reviewer,
+                revision: design_digest,
+            }
+        } else {
+            DesignReview::Pending
         },
         cards: BTreeMap::new(),
         transitions: Vec::new(),
@@ -343,7 +472,10 @@ pub(crate) fn verify_cards(
 }
 
 pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
-    if record.schema != "csdlc.issue.index.v1" || record.issue == 0 || record.repository.is_empty()
+    if record.schema != "csdlc.issue.index.v1"
+        || record.issue == 0
+        || record.repository.is_empty()
+        || record.initialization_digest.is_empty()
     {
         return Err(V2Error::new(
             ErrorCode::CorruptRecord,
@@ -364,6 +496,8 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
         || claim.id.is_empty()
         || claim.owner.is_empty()
         || claim.protected_paths.is_empty()
+        || claim.branch.is_empty()
+        || claim.worktree.is_empty()
         || claim.heartbeat_unix_seconds < claim.acquired_unix_seconds
         || claim.expires_unix_seconds <= claim.heartbeat_unix_seconds
     {
