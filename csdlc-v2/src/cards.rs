@@ -356,7 +356,17 @@ pub struct ReviewFinding {
     pub severity: FindingSeverity,
     pub summary: String,
     pub actionable: bool,
+    #[serde(default = "default_true")]
+    pub in_scope: bool,
     pub disposition: FindingDisposition,
+    #[serde(default)]
+    pub fix_revision: Option<String>,
+    #[serde(default)]
+    pub route: Option<String>,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]

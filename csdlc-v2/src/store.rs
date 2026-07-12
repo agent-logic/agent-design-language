@@ -13,7 +13,11 @@ use crate::cards::{
     InitialCardInput, SemanticOperation,
 };
 use crate::error::{ErrorCode, Result, V2Error};
-use crate::model::{AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase};
+use crate::model::{
+    AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase, ReviewAssignment,
+    ReviewEvidence,
+};
+use crate::review::evaluate_publication_review_in_repo;
 
 #[derive(Debug, Clone)]
 pub struct Store {
@@ -154,6 +158,119 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    pub(crate) fn commit_review(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        actor: String,
+        claim_id: &str,
+        evidence: ReviewEvidence,
+        result: crate::cards::ReviewResult,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(claim_id, now_seconds()?)?;
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "review record changed before commit",
+            ));
+        }
+        let mut cards = self.load_cards(issue)?;
+        verify_cards(self, &record, &cards)?;
+        let srp = match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
+            CardContent::Srp(values) => values,
+            _ => unreachable!("SRP"),
+        };
+        srp.reviewer = Some(evidence.reviewer.clone());
+        srp.review_scope = evidence.scope.join("\n");
+        srp.review_revision = Some(evidence.reviewed_revision.clone());
+        srp.review_result = result;
+        srp.residual_risk = evidence.residual_risks.clone();
+        srp.findings = evidence
+            .findings
+            .iter()
+            .map(|finding| crate::cards::ReviewFinding {
+                id: finding.id.clone(),
+                severity: finding.severity,
+                summary: finding.summary.clone(),
+                actionable: finding.actionable,
+                in_scope: finding.in_scope,
+                disposition: finding.disposition,
+                fix_revision: finding.fix_revision.clone(),
+                route: finding.route.clone(),
+            })
+            .collect();
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        if let Some(claim) = record.claim.as_mut() {
+            claim.generation = record.generation;
+        }
+        record.review = Some(evidence);
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason: "atomically record review evidence and SRP projection".into(),
+            operation: "record_review".into(),
+        });
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(issue, &record, &cards, false)?;
+        Ok(record)
+    }
+
+    pub(crate) fn commit_review_assignment(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        claim_id: &str,
+        assignment: ReviewAssignment,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "review assignment changed before commit",
+            ));
+        }
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(claim_id, now_seconds()?)?;
+        if record.phase != LifecyclePhase::Implemented {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "review assignment requires implemented phase",
+            ));
+        }
+        let cards = self.load_cards(issue)?;
+        verify_cards(self, &record, &cards)?;
+        let actor = assignment.assigned_by.clone();
+        record.review_assignment = Some(assignment);
+        record.review = None;
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason: "assign bounded exact-revision review".into(),
+            operation: "assign_review".into(),
+        });
+        record.digest = record_digest(&record)?;
+        self.commit(issue, &record, &cards, false)?;
+        Ok(record)
     }
 }
 
@@ -325,6 +442,8 @@ pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<Issue
         generation: 0,
         digest: String::new(),
         claim: Some(request.claim),
+        review_assignment: None,
+        review: None,
         design_path: request.design_path,
         diagram_path: request.diagram_path,
         design_review: if request.design_approved {
@@ -641,6 +760,19 @@ fn validate_phase_guard(
         });
     if next == LifecyclePhase::Published
         && (!review_current
+            || record.review_assignment.as_ref().is_none_or(|assignment| {
+                crate::git::substantive_revision(store.root(), &assignment.scope).map_or(
+                    true,
+                    |current| {
+                        !evaluate_publication_review_in_repo(
+                            store.root(),
+                            record.review.as_ref(),
+                            &current,
+                        )
+                        .ready
+                    },
+                )
+            })
             || !matches!(
                 sor.publication_state,
                 crate::cards::PublicationState::Draft | crate::cards::PublicationState::Ready
@@ -653,6 +785,19 @@ fn validate_phase_guard(
     }
     if next == LifecyclePhase::MergeReady
         && (!review_current
+            || record.review_assignment.as_ref().is_none_or(|assignment| {
+                crate::git::substantive_revision(store.root(), &assignment.scope).map_or(
+                    true,
+                    |current| {
+                        !evaluate_publication_review_in_repo(
+                            store.root(),
+                            record.review.as_ref(),
+                            &current,
+                        )
+                        .ready
+                    },
+                )
+            })
             || !validation_passed
             || sor.publication_state != crate::cards::PublicationState::Ready)
     {

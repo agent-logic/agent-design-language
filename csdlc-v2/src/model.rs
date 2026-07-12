@@ -4,7 +4,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumIter, EnumString};
 
-use crate::cards::CardKind;
+use crate::cards::{CardKind, FindingDisposition, FindingSeverity};
 use crate::error::{ErrorCode, Result, V2Error};
 
 #[derive(
@@ -73,6 +73,47 @@ pub struct ClaimRecovery {
     pub reason: String,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReviewAssignment {
+    pub reviewer: String,
+    pub assigned_by: String,
+    pub revision: String,
+    pub scope: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReviewFindingEvidence {
+    pub id: String,
+    pub severity: FindingSeverity,
+    pub summary: String,
+    pub actionable: bool,
+    pub in_scope: bool,
+    pub disposition: FindingDisposition,
+    pub fix_revision: Option<String>,
+    pub route: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct NonSubstantiveProof {
+    pub policy: String,
+    pub from_revision: String,
+    pub to_revision: String,
+    pub from_commit: String,
+    pub to_commit: String,
+    pub changed_paths: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReviewEvidence {
+    pub reviewer: String,
+    pub scope: Vec<String>,
+    pub reviewed_revision: String,
+    pub findings: Vec<ReviewFindingEvidence>,
+    pub residual_risks: Vec<String>,
+    pub completed: bool,
+    pub non_substantive_proof: Option<NonSubstantiveProof>,
+}
+
 impl Claim {
     pub fn validate(&self, claim_id: &str, now: u64) -> Result<()> {
         if self.id != claim_id {
@@ -137,6 +178,8 @@ pub struct IssueRecord {
     pub generation: u64,
     pub digest: String,
     pub claim: Option<Claim>,
+    pub review_assignment: Option<ReviewAssignment>,
+    pub review: Option<ReviewEvidence>,
     pub design_path: String,
     pub diagram_path: String,
     pub design_review: DesignReview,

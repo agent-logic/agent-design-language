@@ -38,6 +38,10 @@ path = "src/bin/csdlc-schedule.rs"
 name = "csdlc-shepherd"
 path = "src/bin/csdlc-shepherd.rs"
 
+[[bin]]
+name = "csdlc-review"
+path = "src/bin/csdlc-review.rs"
+
 [dependencies]
 blake3 = "1"
 clap = { version = "4.5", features = ["derive"] }
