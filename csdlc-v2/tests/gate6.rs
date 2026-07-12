@@ -34,7 +34,7 @@ fn remote() -> RemotePullRequest {
 }
 
 #[test]
-fn absent_remote_creates_and_exact_retry_is_noop() {
+fn ambiguous_create_outage_is_reconciled_by_observation_before_retry() {
     let i = intent();
     assert_eq!(
         reconcile_action(&i, None).unwrap(),
@@ -43,6 +43,11 @@ fn absent_remote_creates_and_exact_retry_is_noop() {
     assert_eq!(
         reconcile_action(&i, Some(&remote())).unwrap(),
         PublicationAction::Noop
+    );
+    assert_eq!(
+        reconcile_action(&i, None).unwrap(),
+        PublicationAction::Create,
+        "an outage with no observed side effect remains safely retryable"
     );
 }
 

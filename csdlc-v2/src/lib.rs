@@ -10,6 +10,7 @@ pub mod pvf;
 pub mod readiness;
 pub mod review;
 pub mod schema;
+pub mod soak;
 pub mod store;
 
 pub use cards::{
@@ -48,6 +49,12 @@ pub use review::{
     PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest,
 };
 pub use schema::public_schema_bundle;
+pub use soak::{
+    decide_cutover, decide_from_evidence, generate_sample_packets, select_generation,
+    BudgetEvidence, BudgetKind, CutoverDecision, Generation, GenerationSelector, ParityEvidence,
+    SamplePacket, ScenarioEvidence, ScenarioOutcome, SoakDecisionPacket, SoakEvidenceInput,
+    SoakScenario,
+};
 pub use store::{
     approve_design, bootstrap_issue, edit_issue, ApproveDesignRequest, BootstrapRequest,
     EditRequest, Store,

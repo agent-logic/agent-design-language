@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.generation_selector.v1",
+  "default_generation": "v1",
+  "opted_in_issues": [
+    9001,
+    9002,
+    9003
+  ]
+}
