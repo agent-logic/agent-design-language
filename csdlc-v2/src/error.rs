@@ -20,6 +20,8 @@ pub enum ErrorCode {
     GitFailure,
     UnsafeCheckout,
     ReconciliationRequired,
+    InvalidManifest,
+    ValidationFailed,
     FieldOwnership,
     CardInvalid,
     CorruptRecord,
@@ -30,6 +32,7 @@ impl ErrorCode {
     pub fn exit_code(self) -> i32 {
         match self {
             Self::InvalidInput => 64,
+            Self::InvalidManifest => 64,
             Self::InvalidTransition | Self::FieldOwnership => 65,
             Self::StaleGeneration | Self::StaleDigest => 66,
             Self::MissingClaim | Self::ExpiredClaim | Self::InvalidClaim => 67,
@@ -38,6 +41,7 @@ impl ErrorCode {
             Self::ClaimCollision | Self::UnsafeCheckout => 73,
             Self::Io | Self::GitFailure => 74,
             Self::ReconciliationRequired => 75,
+            Self::ValidationFailed => 76,
         }
     }
 }

@@ -26,6 +26,18 @@ path = "src/bin/csdlc-init.rs"
 name = "csdlc-bind"
 path = "src/bin/csdlc-bind.rs"
 
+[[bin]]
+name = "csdlc-validate"
+path = "src/bin/csdlc-validate.rs"
+
+[[bin]]
+name = "csdlc-schedule"
+path = "src/bin/csdlc-schedule.rs"
+
+[[bin]]
+name = "csdlc-shepherd"
+path = "src/bin/csdlc-shepherd.rs"
+
 [dependencies]
 blake3 = "1"
 clap = { version = "4.5", features = ["derive"] }
@@ -36,6 +48,7 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 strum = { version = "0.27", features = ["derive"] }
 thiserror = "2"
+libc = "0.2"
 
 [dev-dependencies]
 tempfile = "3"

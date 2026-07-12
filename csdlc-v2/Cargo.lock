@@ -168,6 +168,7 @@ dependencies = [
  "blake3",
  "clap",
  "fs2",
+ "libc",
  "markdown",
  "schemars",
  "serde",
