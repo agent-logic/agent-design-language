@@ -16,6 +16,7 @@ pub mod runtime_api_auth;
 pub mod shutdown;
 pub mod supervision;
 pub mod topology;
+pub mod weather;
 
 pub const CSM_RUNTIME_OWNER: &str = "csm";
 pub const ADL_TOOLING_ROLE: &str = "tooling_control_plane";
