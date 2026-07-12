@@ -36,6 +36,7 @@ pub enum ComponentId {
     Chronosense,
     Scheduler,
     CuriosityEngine,
+    FreedomGate,
     ReasoningRuntime,
     Aee,
     Checkpoint,
@@ -45,11 +46,12 @@ pub enum ComponentId {
 }
 
 impl ComponentId {
-    pub const ALL: [ComponentId; 10] = [
+    pub const ALL: [ComponentId; 11] = [
         ComponentId::RuntimeApi,
         ComponentId::Chronosense,
         ComponentId::Scheduler,
         ComponentId::CuriosityEngine,
+        ComponentId::FreedomGate,
         ComponentId::ReasoningRuntime,
         ComponentId::Aee,
         ComponentId::Checkpoint,
@@ -64,6 +66,7 @@ impl ComponentId {
             ComponentId::Chronosense => "chronosense",
             ComponentId::Scheduler => "scheduler",
             ComponentId::CuriosityEngine => "curiosity_engine",
+            ComponentId::FreedomGate => "freedom_gate",
             ComponentId::ReasoningRuntime => "reasoning_runtime",
             ComponentId::Aee => "aee",
             ComponentId::Checkpoint => "checkpoint",
@@ -208,6 +211,18 @@ pub fn default_component_supervision() -> Vec<ComponentSupervisionPolicy> {
             escalation_target: "operator_notice_if_curiosity_cannot_recover",
             readiness_impact: "ready_degraded_for_curiosity_only",
             critical_for_continuity: false,
+            telemetry_can_degrade: false,
+        },
+        ComponentSupervisionPolicy {
+            component: ComponentId::FreedomGate,
+            restart_policy: ComponentRestartPolicy::RestartWithBackoff,
+            backoff_base_ms: 100,
+            backoff_cap_ms: 5_000,
+            escalation_interval_failures: 1,
+            degradation_behavior: "close_execution_admission_until_freedom_gate_recovers",
+            escalation_target: "operator_and_constitutional_control",
+            readiness_impact: "ready_false_for_execution_admission",
+            critical_for_continuity: true,
             telemetry_can_degrade: false,
         },
         ComponentSupervisionPolicy {
@@ -1390,5 +1405,23 @@ mod tests {
         let replay = replay.await.unwrap();
         assert_eq!(replay.invalid_lines, 0);
         assert_eq!(replay.events, vec![event]);
+    }
+
+    #[test]
+    fn freedom_gate_policy_is_runtime_critical_and_fail_closed() {
+        let freedom_gate = default_component_supervision()
+            .into_iter()
+            .find(|policy| policy.component == ComponentId::FreedomGate)
+            .expect("freedom gate policy");
+        assert!(freedom_gate.critical_for_continuity);
+        assert!(!freedom_gate.telemetry_can_degrade);
+        assert_eq!(
+            freedom_gate.restart_policy,
+            ComponentRestartPolicy::RestartWithBackoff
+        );
+        assert_eq!(
+            freedom_gate.degradation_behavior,
+            "close_execution_admission_until_freedom_gate_recovers"
+        );
     }
 }
