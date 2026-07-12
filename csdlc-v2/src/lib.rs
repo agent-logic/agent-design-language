@@ -6,6 +6,7 @@ pub mod lifecycle;
 pub mod model;
 pub mod publication;
 pub mod pvf;
+pub mod readiness;
 pub mod review;
 pub mod schema;
 pub mod store;
@@ -21,7 +22,8 @@ pub use lifecycle::{
 };
 pub use model::{
     Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, NonSubstantiveProof,
-    PublicationEvidence, ReviewAssignment, ReviewEvidence, ReviewFindingEvidence,
+    PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence,
+    ReviewFindingEvidence, TerminalEvidence,
 };
 pub use publication::{
     prepare_publication, reconcile_action, record_publication, PublicationAction,
@@ -30,6 +32,11 @@ pub use publication::{
 pub use pvf::{
     classify_schedule, classify_shepherd, execute, select, ExecutionRequest, PvfManifest,
     ScheduleInput, ShepherdInput,
+};
+pub use readiness::{
+    classify_readiness, closeout_issue, record_readiness, CheckConclusion, CheckObservation,
+    CheckRequirement, ConflictState, PostPublicationFinding, ReadinessReport, ReadinessRequest,
+    RemoteReviewState, TerminalDisposition, TerminalObservation,
 };
 pub use review::{
     assign_review, evaluate_publication_review, evaluate_publication_review_in_repo, record_review,

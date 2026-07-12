@@ -46,6 +46,7 @@ impl LifecyclePhase {
                 | (Self::Reviewed, Self::Published)
                 | (Self::Published, Self::MergeReady)
                 | (Self::MergeReady, Self::Merged)
+                | (Self::MergeReady, Self::Published)
                 | (Self::Merged, Self::ClosedOut)
         )
     }
@@ -127,6 +128,30 @@ pub struct PublicationEvidence {
     pub observed_state: String,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReadinessEvidence {
+    pub pull_request: u64,
+    pub head_sha: String,
+    pub checks: Vec<crate::readiness::CheckObservation>,
+    pub review_state: crate::readiness::RemoteReviewState,
+    pub conflict_state: crate::readiness::ConflictState,
+    pub post_publication_findings: Vec<crate::readiness::PostPublicationFinding>,
+    pub ready: bool,
+    pub blockers: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct TerminalEvidence {
+    pub pull_request: Option<u64>,
+    pub disposition: crate::readiness::TerminalDisposition,
+    pub observed_sha: Option<String>,
+    pub observed_state: String,
+    pub receipt_path: String,
+    pub released_branch: String,
+    pub released_worktree: String,
+    pub released_protected_paths: Vec<String>,
+}
+
 impl Claim {
     pub fn validate(&self, claim_id: &str, now: u64) -> Result<()> {
         if self.id != claim_id {
@@ -195,6 +220,10 @@ pub struct IssueRecord {
     pub review: Option<ReviewEvidence>,
     #[serde(default)]
     pub publication: Option<PublicationEvidence>,
+    #[serde(default)]
+    pub readiness: Option<ReadinessEvidence>,
+    #[serde(default)]
+    pub terminal: Option<TerminalEvidence>,
     pub design_path: String,
     pub diagram_path: String,
     pub design_review: DesignReview,

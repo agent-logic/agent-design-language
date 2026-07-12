@@ -15,7 +15,8 @@ use crate::cards::{
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
     AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase,
-    PublicationEvidence, ReviewAssignment, ReviewEvidence,
+    PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence, TerminalEvidence,
+    TransitionEvent,
 };
 use crate::review::evaluate_publication_review_in_repo;
 
@@ -216,9 +217,252 @@ impl Store {
             reason: "atomically record observed GitHub publication and SOR projection".into(),
             operation: "record_publication".into(),
         });
+        validate_updated_cards(self, &record, &cards)?;
         hydrate_projections(&mut record, &cards)?;
         record.digest = record_digest(&record)?;
         self.commit(issue, &record, &cards, false)?;
+        Ok(record)
+    }
+
+    pub(crate) fn commit_readiness(
+        &self,
+        request: crate::readiness::ReadinessRequest,
+        evidence: ReadinessEvidence,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(request.issue)?;
+        self.recover_if_needed(request.issue)?;
+        let mut record = self.load_record(request.issue)?;
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(&request.claim_id, now_seconds()?)?;
+        if record.generation != request.expected_generation
+            || record.digest != request.expected_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "readiness request does not match canonical record",
+            ));
+        }
+        if !matches!(
+            record.phase,
+            LifecyclePhase::Published | LifecyclePhase::MergeReady
+        ) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "readiness requires published state",
+            ));
+        }
+        let publication = record.publication.as_ref().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidTransition, "publication evidence missing")
+        })?;
+        if publication.pull_request != request.pull_request
+            || publication.revision != crate::git::clean_commit_revision(&request.head_sha)
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "readiness observation does not match published PR revision",
+            ));
+        }
+        if record.readiness.as_ref() == Some(&evidence) {
+            return Ok(record);
+        }
+        let mut cards = self.load_cards(request.issue)?;
+        verify_cards(self, &record, &cards)?;
+        let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+            CardContent::Sor(value) => value,
+            _ => unreachable!(),
+        };
+        if evidence.ready {
+            let validation_ready = !sor.actual_validation.is_empty()
+                && sor.actual_validation.iter().all(|item| {
+                    matches!(
+                        item.outcome,
+                        crate::cards::EvidenceOutcome::Passed
+                            | crate::cards::EvidenceOutcome::SkippedNonGoal
+                    )
+                });
+            if !validation_ready {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidTransition,
+                    "merge readiness requires passing local PVF evidence",
+                ));
+            }
+            sor.publication_state = crate::cards::PublicationState::Ready;
+            if record.phase == LifecyclePhase::Published {
+                record.advance(
+                    LifecyclePhase::MergeReady,
+                    request.actor.clone(),
+                    "observed required checks, review, and conflict readiness".into(),
+                )?;
+            }
+        } else {
+            sor.publication_state = crate::cards::PublicationState::Draft;
+            if record.phase == LifecyclePhase::MergeReady {
+                record.advance(
+                    LifecyclePhase::Published,
+                    request.actor.clone(),
+                    "latest remote observation revoked merge readiness".into(),
+                )?;
+            }
+        }
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        if let Some(claim) = record.claim.as_mut() {
+            claim.generation = record.generation;
+        }
+        record.readiness = Some(evidence);
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: request.actor,
+            reason: "record normalized remote readiness without replacing pre-publication review"
+                .into(),
+            operation: "record_readiness".into(),
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(request.issue, &record, &cards, false)?;
+        Ok(record)
+    }
+
+    pub(crate) fn commit_terminal(
+        &self,
+        observation: crate::readiness::TerminalObservation,
+        mut evidence: TerminalEvidence,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(observation.issue)?;
+        self.recover_if_needed(observation.issue)?;
+        let mut record = self.load_record(observation.issue)?;
+        if let Some(current) = &record.terminal {
+            if record.phase == LifecyclePhase::ClosedOut
+                && current.pull_request == evidence.pull_request
+                && current.disposition == evidence.disposition
+                && current.observed_sha == evidence.observed_sha
+                && current.observed_state == evidence.observed_state
+                && current.receipt_path == evidence.receipt_path
+            {
+                return Ok(record);
+            }
+        }
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(&observation.claim_id, now_seconds()?)?;
+        if record.generation != observation.expected_generation
+            || record.digest != observation.expected_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "terminal observation does not match canonical record",
+            ));
+        }
+        if !crate::readiness::terminal_phase_allowed(record.phase, observation.disposition) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "terminal disposition is not valid from the current lifecycle phase",
+            ));
+        }
+        match (
+            &record.publication,
+            observation.pull_request,
+            observation.observed_sha.as_deref(),
+        ) {
+            (Some(publication), Some(pr), Some(sha)) => {
+                if publication.pull_request != pr
+                    || publication.revision != crate::git::clean_commit_revision(sha)
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "terminal PR or SHA differs from exact publication evidence",
+                    ));
+                }
+            }
+            (Some(_), None, _) => {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "published issue cannot use no-PR closeout",
+                ));
+            }
+            (Some(_), Some(_), None) => {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "published terminal observation is missing the exact head SHA",
+                ));
+            }
+            (None, Some(_), _) => {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "terminal PR has no canonical publication evidence",
+                ));
+            }
+            _ => {}
+        }
+        let mut cards = self.load_cards(observation.issue)?;
+        verify_cards(self, &record, &cards)?;
+        let sor_values = cards.get_mut(&CardKind::Sor).expect("SOR");
+        sor_values.status = crate::cards::CardStatus::Complete;
+        let sor = match &mut sor_values.content {
+            CardContent::Sor(value) => value,
+            _ => unreachable!(),
+        };
+        sor.publication_state = crate::cards::PublicationState::Closed;
+        sor.closeout_state = crate::cards::CloseoutState::Complete;
+        match observation.disposition {
+            crate::readiness::TerminalDisposition::Merged => {
+                sor.integration_state = crate::cards::IntegrationState::Merged;
+                sor.merge_state = crate::cards::MergeState::Merged;
+                record.advance(
+                    LifecyclePhase::Merged,
+                    observation.actor.clone(),
+                    "observed exact PR merged".into(),
+                )?;
+                record.advance(
+                    LifecyclePhase::ClosedOut,
+                    observation.actor.clone(),
+                    "terminal truth recorded and claim released".into(),
+                )?;
+            }
+            crate::readiness::TerminalDisposition::ClosedUnmerged
+            | crate::readiness::TerminalDisposition::ClosedNoPr => {
+                sor.integration_state = crate::cards::IntegrationState::ClosedNoPr;
+                sor.merge_state = crate::cards::MergeState::ClosedUnmerged;
+                let from = record.phase;
+                record.phase = LifecyclePhase::ClosedOut;
+                record.transitions.push(TransitionEvent {
+                    sequence: record.transitions.len() as u64 + 1,
+                    from,
+                    to: LifecyclePhase::ClosedOut,
+                    actor: observation.actor.clone(),
+                    reason: "observed approved non-merged terminal disposition".into(),
+                });
+            }
+        }
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        let released = record.claim.take().expect("validated claim");
+        evidence.released_branch = released.branch;
+        evidence.released_worktree = released.worktree;
+        evidence.released_protected_paths = released.protected_paths;
+        record.terminal = Some(evidence);
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: observation.actor,
+            reason: "atomically finalize SOR/index and release claim/protected paths".into(),
+            operation: "record_terminal".into(),
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(observation.issue, &record, &cards, false)?;
         Ok(record)
     }
 
@@ -507,6 +751,8 @@ pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<Issue
         review_assignment: None,
         review: None,
         publication: None,
+        readiness: None,
+        terminal: None,
         design_path: request.design_path,
         diagram_path: request.diagram_path,
         design_review: if request.design_approved {
@@ -670,23 +916,32 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
             "index digest mismatch",
         ));
     }
-    let claim = record
-        .claim
-        .as_ref()
-        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "claim missing"))?;
-    if claim.generation != record.generation
-        || claim.id.is_empty()
-        || claim.owner.is_empty()
-        || claim.protected_paths.is_empty()
-        || claim.branch.is_empty()
-        || claim.worktree.is_empty()
-        || claim.heartbeat_unix_seconds < claim.acquired_unix_seconds
-        || claim.expires_unix_seconds <= claim.heartbeat_unix_seconds
-    {
-        return Err(V2Error::new(
-            ErrorCode::CorruptRecord,
-            "claim invariant failed",
-        ));
+    if record.phase == LifecyclePhase::ClosedOut {
+        if record.claim.is_some() || record.terminal.is_none() {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "closed-out record must have terminal evidence and no active claim",
+            ));
+        }
+    } else {
+        let claim = record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "claim missing"))?;
+        if claim.generation != record.generation
+            || claim.id.is_empty()
+            || claim.owner.is_empty()
+            || claim.protected_paths.is_empty()
+            || claim.branch.is_empty()
+            || claim.worktree.is_empty()
+            || claim.heartbeat_unix_seconds < claim.acquired_unix_seconds
+            || claim.expires_unix_seconds <= claim.heartbeat_unix_seconds
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "claim invariant failed",
+            ));
+        }
     }
     if let DesignReview::Approved { reviewer, revision } = &record.design_review {
         if reviewer.trim().is_empty() || revision.trim().is_empty() {
@@ -990,6 +1245,22 @@ fn hydrate_projections(
         );
     }
     Ok(())
+}
+
+fn validate_updated_cards(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
+    let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    validate_cross_card(
+        cards,
+        &record.design_path,
+        &design_digest,
+        &record.diagram_path,
+        &diagram_digest,
+    )
 }
 
 pub(crate) fn record_digest(record: &IssueRecord) -> Result<String> {
