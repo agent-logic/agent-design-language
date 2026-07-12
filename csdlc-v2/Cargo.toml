@@ -50,6 +50,14 @@ path = "src/bin/csdlc-publish.rs"
 name = "csdlc-closeout"
 path = "src/bin/csdlc-closeout.rs"
 
+[[bin]]
+name = "csdlc-import"
+path = "src/bin/csdlc-import.rs"
+
+[[bin]]
+name = "csdlc-shadow"
+path = "src/bin/csdlc-shadow.rs"
+
 [dependencies]
 blake3 = "1"
 clap = { version = "4.5", features = ["derive"] }
