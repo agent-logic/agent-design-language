@@ -17,6 +17,10 @@ resource costs, network/credential posture, timeouts, and bounded evidence
 policy. The scheduler and shepherd are pure read-only classifiers; only
 `csdlc-validate` can execute a declared proof DAG.
 
+Gate 5 adds `csdlc-review` for live-claim review assignment, exact-revision
+review recording, finding/fix/route evidence, and a read-only publication
+guard. Review has no GitHub or lifecycle publication authority.
+
 ## Focused validation
 
 ```text
