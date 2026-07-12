@@ -19,9 +19,8 @@
   "capabilities": [
     {
       "id": "kernel.lifecycle",
-      "disposition": "blocker",
-      "proof": "Runtime v3 kernel fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
-      "blocking_issue": 5220
+      "disposition": "live_equivalent_fixture",
+      "proof": "#5277 records direct Runtime v3 kernel lifecycle proof covering start, health promotion, graceful stop, restart/fatal-exit classification, deadline abort, guardian recovery, and rollback-preserving behavior in docs/architecture/runtime_v3_kernel_lifecycle_5277.v1.json."
     },
     {
       "id": "kernel.topology_and_backpressure",
@@ -117,11 +116,11 @@
     }
   ],
   "summary": {
-    "live_equivalent_fixture": 2,
+    "live_equivalent_fixture": 3,
     "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0,
-    "blocker": 8
+    "blocker": 7
   },
   "non_claims": [
     "This packet does not authorize Runtime v3 as the default runtime.",
