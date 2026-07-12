@@ -1,0 +1,150 @@
+use std::collections::BTreeMap;
+
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+use strum::{AsRefStr, Display, EnumIter, EnumString};
+
+use crate::cards::CardKind;
+use crate::error::{ErrorCode, Result, V2Error};
+
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Serialize,
+    Deserialize,
+    JsonSchema,
+    Display,
+    EnumString,
+    AsRefStr,
+    EnumIter,
+)]
+#[serde(rename_all = "snake_case")]
+#[strum(serialize_all = "snake_case")]
+pub enum LifecyclePhase {
+    Initialized,
+    Ready,
+    Bound,
+    Implemented,
+    Reviewed,
+    Published,
+    MergeReady,
+    Merged,
+    ClosedOut,
+}
+
+impl LifecyclePhase {
+    pub fn allows(self, next: Self) -> bool {
+        matches!(
+            (self, next),
+            (Self::Initialized, Self::Ready)
+                | (Self::Ready, Self::Bound)
+                | (Self::Bound, Self::Implemented)
+                | (Self::Implemented, Self::Reviewed)
+                | (Self::Reviewed, Self::Published)
+                | (Self::Published, Self::MergeReady)
+                | (Self::MergeReady, Self::Merged)
+                | (Self::Merged, Self::ClosedOut)
+        )
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct Claim {
+    pub id: String,
+    pub owner: String,
+    pub generation: u64,
+    pub acquired_unix_seconds: u64,
+    pub expires_unix_seconds: u64,
+    pub heartbeat_unix_seconds: u64,
+    pub protected_paths: Vec<String>,
+    pub purpose: String,
+}
+
+impl Claim {
+    pub fn validate(&self, claim_id: &str, now: u64) -> Result<()> {
+        if self.id != claim_id {
+            return Err(V2Error::new(
+                ErrorCode::MissingClaim,
+                "claim id does not own this issue",
+            ));
+        }
+        if now >= self.expires_unix_seconds {
+            return Err(V2Error::new(ErrorCode::ExpiredClaim, "claim has expired"));
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum DesignReview {
+    Pending,
+    Approved { reviewer: String, revision: String },
+    ChangesRequired { reviewer: String, reason: String },
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct CardProjection {
+    pub values_digest: String,
+    pub rendered_digest: String,
+    pub ast_digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct TransitionEvent {
+    pub sequence: u64,
+    pub from: LifecyclePhase,
+    pub to: LifecyclePhase,
+    pub actor: String,
+    pub reason: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct AuditEvent {
+    pub sequence: u64,
+    pub generation: u64,
+    pub actor: String,
+    pub reason: String,
+    pub operation: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct IssueRecord {
+    pub schema: String,
+    pub issue: u64,
+    pub repository: String,
+    pub phase: LifecyclePhase,
+    pub generation: u64,
+    pub digest: String,
+    pub claim: Option<Claim>,
+    pub design_path: String,
+    pub diagram_path: String,
+    pub design_review: DesignReview,
+    pub cards: BTreeMap<CardKind, CardProjection>,
+    pub transitions: Vec<TransitionEvent>,
+    pub audit: Vec<AuditEvent>,
+}
+
+impl IssueRecord {
+    pub fn advance(&mut self, next: LifecyclePhase, actor: String, reason: String) -> Result<()> {
+        if !self.phase.allows(next) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                format!("transition {} -> {} is not allowed", self.phase, next),
+            ));
+        }
+        let from = self.phase;
+        self.phase = next;
+        self.transitions.push(TransitionEvent {
+            sequence: self.transitions.len() as u64 + 1,
+            from,
+            to: next,
+            actor,
+            reason,
+        });
+        Ok(())
+    }
+}
