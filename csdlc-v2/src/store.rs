@@ -161,6 +161,54 @@ impl Store {
         self.commit(issue, record, &cards, false)
     }
 
+    pub(crate) fn commit_migration(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        evidence: crate::model::MigrationEvidence,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "migration record changed before commit",
+            ));
+        }
+        if let Some(existing) = &record.migration {
+            if existing == &evidence {
+                return Ok(record);
+            }
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "existing migration evidence differs from the source digest or retained authored truth",
+            ));
+        }
+        let mut cards = self.load_cards(issue)?;
+        verify_cards(self, &record, &cards)?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        if let Some(claim) = record.claim.as_mut() {
+            claim.generation = record.generation;
+        }
+        record.migration = Some(evidence);
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: "csdlc-import".into(),
+            reason: "attach one-way legacy authored-content evidence and sunset metadata".into(),
+            operation: "record_migration".into(),
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(issue, &record, &cards, false)?;
+        Ok(record)
+    }
+
     pub(crate) fn commit_publication(
         &self,
         issue: u64,
@@ -753,6 +801,7 @@ pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<Issue
         publication: None,
         readiness: None,
         terminal: None,
+        migration: None,
         design_path: request.design_path,
         diagram_path: request.diagram_path,
         design_review: if request.design_approved {

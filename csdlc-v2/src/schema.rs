@@ -2,6 +2,7 @@ use serde_json::{json, Value};
 
 use crate::doctor::DoctorReport;
 use crate::lifecycle::{BindRequest, BindResult, RecoverClaimRequest};
+use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
 use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
 use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
@@ -35,5 +36,9 @@ pub fn public_schema_bundle() -> Value {
         "readiness_request": schemars::schema_for!(ReadinessRequest),
         "readiness_report": schemars::schema_for!(ReadinessReport),
         "terminal_observation": schemars::schema_for!(TerminalObservation),
+        "legacy_import_request": schemars::schema_for!(LegacyImportRequest),
+        "legacy_import_report": schemars::schema_for!(ImportReport),
+        "normalized_outcome": schemars::schema_for!(NormalizedOutcome),
+        "shadow_comparison": schemars::schema_for!(ShadowComparison),
     })
 }

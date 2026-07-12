@@ -3,6 +3,7 @@ pub mod doctor;
 pub mod error;
 pub mod git;
 pub mod lifecycle;
+pub mod migration;
 pub mod model;
 pub mod publication;
 pub mod pvf;
@@ -20,9 +21,13 @@ pub use lifecycle::{
     bind_issue, heartbeat_claim, initialize_issue, recover_claim, BindRequest, BindResult,
     RecoverClaimRequest,
 };
+pub use migration::{
+    compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,
+    ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison,
+};
 pub use model::{
-    Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, NonSubstantiveProof,
-    PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence,
+    Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
+    NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence,
     ReviewFindingEvidence, TerminalEvidence,
 };
 pub use publication::{

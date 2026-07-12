@@ -152,6 +152,17 @@ pub struct TerminalEvidence {
     pub released_protected_paths: Vec<String>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct MigrationEvidence {
+    pub schema: String,
+    pub imported_unix_seconds: u64,
+    pub sunset_unix_seconds: u64,
+    pub source_digest: String,
+    pub authored_sources: BTreeMap<String, String>,
+    pub authored_sections: BTreeMap<String, BTreeMap<String, String>>,
+    pub compatibility_view: String,
+}
+
 impl Claim {
     pub fn validate(&self, claim_id: &str, now: u64) -> Result<()> {
         if self.id != claim_id {
@@ -224,6 +235,8 @@ pub struct IssueRecord {
     pub readiness: Option<ReadinessEvidence>,
     #[serde(default)]
     pub terminal: Option<TerminalEvidence>,
+    #[serde(default)]
+    pub migration: Option<MigrationEvidence>,
     pub design_path: String,
     pub diagram_path: String,
     pub design_review: DesignReview,
