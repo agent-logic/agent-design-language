@@ -4,10 +4,12 @@ This is the standalone clean-room C-SDLC v2 workspace. It does not depend on
 ADL or Runtime crates and does not reuse their lifecycle implementation,
 schemas, templates, tests, fixtures, or skills.
 
-Gate 2 provides the typed lifecycle/card engine, whole-record transactions,
-`csdlc-edit`, and the offline read-only `csdlc-doctor`. Later gates add init and
-binding, PVF, review truth, publication, and closeout without widening this
-core's authority.
+Gate 2 provides the typed lifecycle/card engine and whole-record transactions.
+Gate 3 adds separate `csdlc-init` and `csdlc-bind` binaries for deterministic
+construction and safe Git worktree/claim binding. Git uses typed argv arrays;
+the control plane contains no shell or Python lifecycle logic. Later gates add
+PVF, review truth, publication, and closeout without widening this core's
+authority.
 
 ## Focused validation
 

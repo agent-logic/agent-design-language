@@ -1,83 +1,313 @@
 use std::fs;
 
 use csdlc_v2::{
-    bootstrap_issue, diagnose, edit_issue, BootstrapRequest, CardKind, Claim, EditRequest,
-    ErrorCode, SemanticOperation, Store,
+    diagnose, edit_issue, BootstrapRequest, CardKind, Claim, EditRequest, ErrorCode,
+    SemanticOperation, Store,
 };
 use tempfile::TempDir;
+
+fn git(root: &std::path::Path, args: &[&str]) {
+    let output = std::process::Command::new("git")
+        .current_dir(root)
+        .args(args)
+        .output()
+        .expect("git");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+fn request() -> BootstrapRequest {
+    BootstrapRequest {
+        issue: 42,
+        repository: "example/repo".into(),
+        design_path: "docs/design.md".into(),
+        diagram_path: "docs/diagram.mmd".into(),
+        design_reviewer: "reviewer".into(),
+        design_approved: true,
+        claim: Claim {
+            id: "claim-1".into(),
+            owner: "agent".into(),
+            generation: 0,
+            acquired_unix_seconds: 1,
+            expires_unix_seconds: u64::MAX,
+            heartbeat_unix_seconds: 1,
+            branch: "issue-42".into(),
+            worktree: ".worktrees/issue-42".into(),
+            protected_paths: vec!["src".into()],
+            purpose: "test".into(),
+        },
+        initial: csdlc_v2::InitialCardInput {
+            title: "Gate 2 fixture".into(),
+            slug: "gate-2-fixture".into(),
+            version: "v0.91.7".into(),
+            goal: "Prove Gate 2.".into(),
+            required_outcome: "Construct and validate six typed cards.".into(),
+            declared_scope: vec!["fixture record".into()],
+            authority_boundary: vec!["no network".into()],
+            task_boundary: "Implement only the fixture.".into(),
+            deliverables: vec!["record".into()],
+            acceptance_criteria: vec!["six cards exist".into(), "doctor is ready".into()],
+            dependencies: vec!["none".into()],
+            repo_inputs: vec!["docs/design.md".into()],
+            non_goals: vec!["GitHub".into()],
+            plan_summary: "Build then diagnose.".into(),
+            steps: vec![csdlc_v2::cards::PlanStep {
+                id: "step-1".into(),
+                action: "construct and diagnose".into(),
+                acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+                status: csdlc_v2::cards::StepStatus::Pending,
+            }],
+            invariants: vec!["atomic record".into()],
+            risks: vec!["interruption".into()],
+            planning_profile: csdlc_v2::PlanningProfile::Small,
+            stop_conditions: vec!["invariant failure".into()],
+            validation_lanes: vec![csdlc_v2::cards::ValidationLane {
+                lane: "focused".into(),
+                proof_role: "Gate 2 behavior".into(),
+                acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+                deterministic: true,
+                resource_profile: csdlc_v2::cards::ResourceProfile::Small,
+                budget_seconds: 120,
+                budget_tokens: 1_000,
+                argv: vec!["cargo".into(), "test".into()],
+                parallel_group: "local".into(),
+                defer_reason: None,
+            }],
+            failure_policy: "Fail closed.".into(),
+            review_prompts: vec!["Review correctness.".into()],
+        },
+    }
+}
 
 fn fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
     let temp = tempfile::tempdir().expect("tempdir");
     fs::create_dir_all(temp.path().join("docs")).expect("docs");
-    fs::write(temp.path().join("docs/design.md"), "# Design\n").expect("design");
+    fs::write(temp.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
     fs::write(
         temp.path().join("docs/diagram.mmd"),
         "flowchart LR\n  A --> B\n",
     )
     .expect("diagram");
     let store = Store::new(temp.path());
-    let record = bootstrap_issue(
+    let request = request();
+    let record = csdlc_v2::initialize_issue(&store, request.clone()).expect("initialize");
+    assert!(temp.path().join("docs/design.md").exists());
+    assert!(temp.path().join("docs/diagram.mmd").exists());
+    assert_eq!(
+        csdlc_v2::initialize_issue(&store, request).expect("idempotent init"),
+        record
+    );
+    (temp, store, record)
+}
+
+#[test]
+fn bind_creates_and_idempotently_reuses_typed_worktree() {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "docs"]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    let claim = record.claim.clone().expect("claim");
+    let request = csdlc_v2::BindRequest {
+        issue: 42,
+        base_branch: "main".into(),
+        branch: claim.branch.clone(),
+        worktree: claim.worktree.clone(),
+        claim,
+    };
+    let first = csdlc_v2::bind_issue(&store, request.clone()).expect("bind");
+    assert!(first.created);
+    let bound_digest = store.load_record(42).expect("bound record").digest;
+    assert_eq!(
+        store.load_record(42).expect("bound record").phase,
+        csdlc_v2::LifecyclePhase::Bound
+    );
+    let second = csdlc_v2::bind_issue(&store, request).expect("rebind");
+    assert!(!second.created);
+    assert_eq!(
+        store.load_record(42).expect("reused record").digest,
+        bound_digest
+    );
+}
+
+#[test]
+fn bind_refuses_primary_checkout_and_worktree_mismatch() {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["init", "-b", "wrong"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "docs"]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    let claim = record.claim.clone().expect("claim");
+    let error = csdlc_v2::bind_issue(
         &store,
-        BootstrapRequest {
+        csdlc_v2::BindRequest {
             issue: 42,
-            repository: "example/repo".into(),
-            design_path: "docs/design.md".into(),
-            diagram_path: "docs/diagram.mmd".into(),
-            design_reviewer: "reviewer".into(),
-            claim: Claim {
-                id: "claim-1".into(),
-                owner: "agent".into(),
-                generation: 0,
-                acquired_unix_seconds: 1,
-                expires_unix_seconds: u64::MAX,
-                heartbeat_unix_seconds: 1,
-                protected_paths: vec!["src".into()],
-                purpose: "test".into(),
-            },
-            initial: csdlc_v2::InitialCardInput {
-                title: "Gate 2 fixture".into(),
-                slug: "gate-2-fixture".into(),
-                version: "v0.92".into(),
-                goal: "Prove Gate 2.".into(),
-                required_outcome: "Construct and validate six typed cards.".into(),
-                declared_scope: vec!["fixture record".into()],
-                authority_boundary: vec!["no network".into()],
-                task_boundary: "Implement only the fixture.".into(),
-                deliverables: vec!["record".into()],
-                acceptance_criteria: vec!["six cards exist".into(), "doctor is ready".into()],
-                dependencies: vec!["none".into()],
-                repo_inputs: vec!["docs/design.md".into()],
-                non_goals: vec!["GitHub".into()],
-                plan_summary: "Build then diagnose.".into(),
-                steps: vec![csdlc_v2::cards::PlanStep {
-                    id: "step-1".into(),
-                    action: "construct and diagnose".into(),
-                    acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
-                    status: csdlc_v2::cards::StepStatus::Pending,
-                }],
-                invariants: vec!["atomic record".into()],
-                risks: vec!["interruption".into()],
-                planning_profile: csdlc_v2::PlanningProfile::Small,
-                stop_conditions: vec!["invariant failure".into()],
-                validation_lanes: vec![csdlc_v2::cards::ValidationLane {
-                    lane: "focused".into(),
-                    proof_role: "Gate 2 behavior".into(),
-                    acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
-                    deterministic: true,
-                    resource_profile: csdlc_v2::cards::ResourceProfile::Small,
-                    budget_seconds: 120,
-                    budget_tokens: 1_000,
-                    argv: vec!["cargo".into(), "test".into()],
-                    parallel_group: "local".into(),
-                    defer_reason: None,
-                }],
-                failure_policy: "Fail closed.".into(),
-                review_prompts: vec!["Review correctness.".into()],
-            },
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
         },
     )
-    .expect("bootstrap");
-    (temp, store, record)
+    .expect_err("unsafe checkout");
+    assert!(matches!(error.code, ErrorCode::UnsafeCheckout));
+}
+
+#[test]
+fn bind_refuses_branch_at_a_different_worktree() {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "docs"]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    git(
+        temp.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "issue-42",
+            ".worktrees/other",
+            "main",
+        ],
+    );
+    let claim = record.claim.clone().expect("claim");
+    let error = csdlc_v2::bind_issue(
+        &store,
+        csdlc_v2::BindRequest {
+            issue: 42,
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
+        },
+    )
+    .expect_err("topology mismatch");
+    assert!(matches!(error.code, ErrorCode::ClaimCollision));
+}
+
+#[test]
+fn bind_refuses_overlapping_protected_path_reserved_by_another_issue() {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "docs"]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    let mut other = record.clone();
+    other.issue = 43;
+    other.claim.as_mut().expect("claim").protected_paths = vec!["src/nested".into()];
+    fs::create_dir_all(store.issue_dir(43)).expect("other issue");
+    fs::write(
+        store.issue_dir(43).join("index.json"),
+        serde_json::to_vec(&other).expect("json"),
+    )
+    .expect("other record");
+    let claim = record.claim.clone().expect("claim");
+    let error = csdlc_v2::bind_issue(
+        &store,
+        csdlc_v2::BindRequest {
+            issue: 42,
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
+        },
+    )
+    .expect_err("path overlap");
+    assert!(matches!(error.code, ErrorCode::ClaimCollision));
+}
+
+#[test]
+fn heartbeat_is_compare_and_swap_and_missed_heartbeat_does_not_enable_recovery() {
+    let (_temp, store, record) = fixture();
+    let error = csdlc_v2::heartbeat_claim(&store, 42, "wrong", 0, 2, 60).expect_err("wrong owner");
+    assert!(matches!(error.code, ErrorCode::InvalidClaim));
+    let replacement = Claim {
+        id: "replacement".into(),
+        owner: "next".into(),
+        generation: 0,
+        acquired_unix_seconds: 2,
+        expires_unix_seconds: u64::MAX,
+        heartbeat_unix_seconds: 2,
+        branch: "issue-42".into(),
+        worktree: ".worktrees/issue-42".into(),
+        protected_paths: vec!["src".into()],
+        purpose: "recover".into(),
+    };
+    let error = csdlc_v2::recover_claim(
+        &store,
+        csdlc_v2::RecoverClaimRequest {
+            issue: 42,
+            expected_claim_id: record.claim.expect("claim").id,
+            expected_generation: 0,
+            now_unix_seconds: 3,
+            replacement,
+            recovery_actor: "operator".into(),
+            reason: "explicit recovery".into(),
+        },
+    )
+    .expect_err("not expired");
+    assert!(matches!(error.code, ErrorCode::InvalidClaim));
+}
+
+#[test]
+fn heartbeat_and_expired_recovery_record_positive_evidence() {
+    let (_temp, store, record) = fixture();
+    csdlc_v2::heartbeat_claim(&store, 42, "claim-1", 0, 2, 60).expect("heartbeat");
+    let replacement = Claim {
+        id: "replacement".into(),
+        owner: "next".into(),
+        generation: 0,
+        acquired_unix_seconds: 62,
+        expires_unix_seconds: u64::MAX,
+        heartbeat_unix_seconds: 62,
+        branch: "issue-42".into(),
+        worktree: ".worktrees/issue-42".into(),
+        protected_paths: vec!["src".into()],
+        purpose: "explicit recovery".into(),
+    };
+    let evidence = csdlc_v2::recover_claim(
+        &store,
+        csdlc_v2::RecoverClaimRequest {
+            issue: 42,
+            expected_claim_id: record.claim.expect("claim").id,
+            expected_generation: 0,
+            now_unix_seconds: 62,
+            replacement,
+            recovery_actor: "operator".into(),
+            reason: "lease expired".into(),
+        },
+    )
+    .expect("recover");
+    assert_eq!(evidence.previous_owner, "agent");
+    assert_eq!(evidence.observed_expiry_unix_seconds, 62);
+    assert_eq!(
+        store
+            .load_record(42)
+            .expect("record")
+            .claim
+            .expect("claim")
+            .owner,
+        "next"
+    );
 }
 
 fn edit(record: &csdlc_v2::IssueRecord, operation: SemanticOperation) -> EditRequest {
@@ -292,7 +522,11 @@ fn public_schema_bundle_covers_requests_state_and_doctor_output() {
     assert_eq!(schema["schema"], "csdlc.public_schema_bundle.v1");
     for key in [
         "bootstrap_request",
+        "approve_design_request",
         "edit_request",
+        "bind_request",
+        "bind_result",
+        "recover_claim_request",
         "issue_record",
         "doctor_report",
     ] {
@@ -302,6 +536,70 @@ fn public_schema_bundle_covers_requests_state_and_doctor_output() {
             "missing root properties for {key}"
         );
     }
+}
+
+#[test]
+fn lifecycle_binaries_share_stable_typed_exit_classes() {
+    assert_eq!(ErrorCode::InvalidInput.exit_code(), 64);
+    assert_eq!(ErrorCode::ClaimCollision.exit_code(), 73);
+    assert_eq!(ErrorCode::GitFailure.exit_code(), 74);
+    assert_eq!(ErrorCode::ReconciliationRequired.exit_code(), 75);
+}
+
+#[test]
+fn placeholder_design_is_pending_then_can_be_completed_approved_and_bound() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let store = Store::new(temp.path());
+    let record = csdlc_v2::initialize_issue(&store, request()).expect("placeholder init");
+    assert!(matches!(
+        record.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    assert!(!diagnose(&store, 42).ready);
+    fs::write(
+        temp.path().join("docs/design.md"),
+        "# Completed design\n\nReviewed.\n",
+    )
+    .expect("design edit");
+    let approved = csdlc_v2::approve_design(
+        &store,
+        csdlc_v2::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            claim_id: "claim-1".into(),
+            reviewer: "architect".into(),
+        },
+    )
+    .expect("approve design");
+    assert!(
+        matches!(approved.design_review, csdlc_v2::DesignReview::Approved { reviewer, .. } if reviewer == "architect")
+    );
+    assert!(diagnose(&store, 42).ready);
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    let claim = approved.claim.clone().expect("claim");
+    csdlc_v2::bind_issue(
+        &store,
+        csdlc_v2::BindRequest {
+            issue: 42,
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
+        },
+    )
+    .expect("bind");
+    assert_eq!(
+        store.load_record(42).expect("record").phase,
+        csdlc_v2::LifecyclePhase::Bound
+    );
 }
 
 #[test]
