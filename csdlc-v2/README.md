@@ -11,6 +11,12 @@ the control plane contains no shell or Python lifecycle logic. Later gates add
 PVF, review truth, publication, and closeout without widening this core's
 authority.
 
+Gate 4 adds `csdlc-validate`, `csdlc-schedule`, and `csdlc-shepherd`. Validation
+manifests contain executable-plus-argv commands, deterministic dependencies,
+resource costs, network/credential posture, timeouts, and bounded evidence
+policy. The scheduler and shepherd are pure read-only classifiers; only
+`csdlc-validate` can execute a declared proof DAG.
+
 ## Focused validation
 
 ```text

@@ -4,6 +4,7 @@ pub mod error;
 pub mod git;
 pub mod lifecycle;
 pub mod model;
+pub mod pvf;
 pub mod schema;
 pub mod store;
 
@@ -17,6 +18,10 @@ pub use lifecycle::{
     RecoverClaimRequest,
 };
 pub use model::{Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase};
+pub use pvf::{
+    classify_schedule, classify_shepherd, execute, select, ExecutionRequest, PvfManifest,
+    ScheduleInput, ShepherdInput,
+};
 pub use schema::public_schema_bundle;
 pub use store::{
     approve_design, bootstrap_issue, edit_issue, ApproveDesignRequest, BootstrapRequest,

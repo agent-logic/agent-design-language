@@ -3,6 +3,7 @@ use serde_json::{json, Value};
 use crate::doctor::DoctorReport;
 use crate::lifecycle::{BindRequest, BindResult, RecoverClaimRequest};
 use crate::model::IssueRecord;
+use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
 use crate::store::ApproveDesignRequest;
 use crate::store::{BootstrapRequest, EditRequest};
 
@@ -17,5 +18,10 @@ pub fn public_schema_bundle() -> Value {
         "recover_claim_request": schemars::schema_for!(RecoverClaimRequest),
         "issue_record": schemars::schema_for!(IssueRecord),
         "doctor_report": schemars::schema_for!(DoctorReport),
+        "pvf_manifest": schemars::schema_for!(PvfManifest),
+        "pvf_execution_request": schemars::schema_for!(ExecutionRequest),
+        "pvf_execution_report": schemars::schema_for!(ExecutionReport),
+        "scheduler_report": schemars::schema_for!(ScheduleReport),
+        "shepherd_report": schemars::schema_for!(ShepherdReport),
     })
 }
