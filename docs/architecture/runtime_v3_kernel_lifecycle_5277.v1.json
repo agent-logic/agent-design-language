@@ -1,0 +1,42 @@
+{
+  "schema": "adl.runtime_v3.kernel_lifecycle_proof.v1",
+  "issue": 5277,
+  "sprint_issue": 5276,
+  "target_version": "v0.91.7",
+  "created_at_utc": "2026-07-12T23:10:00Z",
+  "capability": "kernel.lifecycle",
+  "disposition": "live_equivalent_fixture",
+  "runtime_v2_default_preserved": true,
+  "runtime_v2_internal_reuse": false,
+  "default_runtime_switch_authorized": false,
+  "runtime_v2_decommission_authorized": false,
+  "proof_surface": {
+    "kernel_tests": "adl-runtime-kernel/tests/kernel.rs",
+    "guardian_soak_tests": "adl-runtime-kernel/tests/guardian_soak.rs",
+    "supervisor_source": "adl-runtime-kernel/src/supervisor.rs",
+    "topology_source": "adl-runtime-kernel/src/topology.rs"
+  },
+  "lifecycle_behaviors": {
+    "start_and_health_promotion": "representative_topology_promotes_events_and_clock_authority",
+    "graceful_stop": "startup_and_shutdown_follow_dependency_order",
+    "restart_classification": "restart_policy_rebuilds_failed_component",
+    "restart_backoff_control": "shutdown_remains_responsive_during_restart_backoff",
+    "fatal_exit_classification": "fatal_component_exit_is_observable_by_process_owner",
+    "deadline_abort": "shutdown_deadline_aborts_non_cooperative_component",
+    "guardian_recovery": "guardian_contract_recovers_after_classified_fatal_child_exit",
+    "rollback_preservation": "production_like_soak_rollback_packet_retains_cutover_boundaries"
+  },
+  "acceptance": {
+    "group_no_longer_depends_only_on_5220_no_go_gate": true,
+    "runtime_v3_behavior_exercised_directly": true,
+    "runtime_v2_remains_default_and_rollback_target": true,
+    "no_runtime_v2_internals_reused_for_v3_credit": true,
+    "blocked_or_deferred_evidence_counted_as_passed": false
+  },
+  "non_claims": [
+    "This packet does not authorize Runtime v3 as the default runtime.",
+    "This packet does not delete or decommission Runtime v2.",
+    "This packet proves kernel.lifecycle only; other blocker groups remain unresolved until their child issues land.",
+    "This packet does not claim Horust native restart-budget qualification."
+  ]
+}

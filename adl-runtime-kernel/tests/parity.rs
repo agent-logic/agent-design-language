@@ -1073,6 +1073,55 @@ fn live_black_box_parity_classification_covers_matrix_without_counting_blockers_
 }
 
 #[test]
+fn kernel_lifecycle_proof_resolves_only_kernel_lifecycle_blocker() {
+    let proof: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_kernel_lifecycle_5277.v1.json"
+    ))
+    .unwrap();
+    let classification: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json"
+    ))
+    .unwrap();
+
+    assert_eq!(proof["schema"], "adl.runtime_v3.kernel_lifecycle_proof.v1");
+    assert_eq!(proof["issue"], 5277);
+    assert_eq!(proof["capability"], "kernel.lifecycle");
+    assert_eq!(proof["disposition"], "live_equivalent_fixture");
+    assert_eq!(proof["runtime_v2_default_preserved"], true);
+    assert_eq!(proof["runtime_v2_internal_reuse"], false);
+    assert_eq!(proof["default_runtime_switch_authorized"], false);
+    assert_eq!(proof["runtime_v2_decommission_authorized"], false);
+    for behavior in [
+        "start_and_health_promotion",
+        "graceful_stop",
+        "restart_classification",
+        "restart_backoff_control",
+        "fatal_exit_classification",
+        "deadline_abort",
+        "guardian_recovery",
+        "rollback_preservation",
+    ] {
+        assert!(
+            proof["lifecycle_behaviors"][behavior].is_string(),
+            "missing lifecycle proof behavior {behavior}"
+        );
+    }
+
+    let kernel = classification["capabilities"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|capability| capability["id"] == "kernel.lifecycle")
+        .unwrap();
+    assert_eq!(kernel["disposition"], "live_equivalent_fixture");
+    assert!(kernel.get("blocking_issue").is_none());
+    assert!(kernel["proof"].as_str().unwrap().contains("#5277"));
+    assert_eq!(classification["summary"]["blocker"], 7);
+    assert_eq!(classification["summary"]["live_equivalent_fixture"], 3);
+    assert_eq!(classification["cutover_eligible"], false);
+}
+
+#[test]
 fn final_cutover_decision_keeps_v2_default_until_parity_blockers_clear() {
     let decision: serde_json::Value = serde_json::from_str(include_str!(
         "../../docs/architecture/runtime_v3_cutover_decision_5254.v1.json"
@@ -1125,6 +1174,7 @@ fn final_cutover_decision_keeps_v2_default_until_parity_blockers_clear() {
         .map(|entry| entry.as_str().unwrap())
         .collect::<std::collections::BTreeSet<_>>();
     assert_eq!(decision_blockers, blockers);
+    assert!(!blockers.contains("kernel.lifecycle"));
     for capability in classification["capabilities"].as_array().unwrap() {
         if capability["disposition"] == "blocker" {
             assert_eq!(capability["blocking_issue"], 5220);
@@ -1165,7 +1215,7 @@ fn release_proof_gate_closes_without_authorizing_default_cutover() {
     assert_eq!(decision["decision"], "keep_runtime_v2_default");
     assert_eq!(decision["default_runtime_switch_authorized"], false);
     assert_eq!(classification["cutover_eligible"], false);
-    assert_eq!(classification["summary"]["blocker"], 8);
+    assert_eq!(classification["summary"]["blocker"], 7);
 
     let child_results = gate["child_issue_results"].as_array().unwrap();
     let closed_children = child_results
