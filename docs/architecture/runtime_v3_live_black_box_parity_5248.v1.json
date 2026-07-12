@@ -20,26 +20,26 @@
     {
       "id": "kernel.lifecycle",
       "disposition": "blocker",
-      "proof": "Runtime v3 kernel fixture exists; shared live v2/v3 black-box fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 kernel fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "kernel.topology_and_backpressure",
       "disposition": "blocker",
-      "proof": "Runtime v3 topology/backpressure fixture exists; shared live v2/v3 black-box fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 topology/backpressure fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "service.contracts_and_configuration",
       "disposition": "blocker",
-      "proof": "Runtime v3 contract fixtures exist; shared live v2/v3 black-box contract/config fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 contract fixtures exist; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "continuity.replay_recovery",
       "disposition": "blocker",
-      "proof": "Runtime v3 continuity fixtures exist; shared live checkpoint/replay/recovery fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 continuity fixtures exist; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "private_state.security",
@@ -59,32 +59,32 @@
     {
       "id": "learning.adaptive_dag",
       "disposition": "blocker",
-      "proof": "Runtime v3 adaptive fixture exists; shared live v2/v3 black-box adaptive fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 adaptive fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "governance.freedom_gate_aee",
       "disposition": "blocker",
-      "proof": "Runtime v3 governance fixture exists; shared live v2/v3 governed-execution fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 governance fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "contracts.delegation_resources",
       "disposition": "blocker",
-      "proof": "Runtime v3 governed-contract fixture exists; shared live v2/v3 delegation/resource fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 governed-contract fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "agents.providers_scheduler",
       "disposition": "blocker",
-      "proof": "Runtime v3 operational fixture exists; shared live v2/v3 scheduler/provider fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 operational fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "network.acip_a2a_cloud",
       "disposition": "blocker",
-      "proof": "Runtime v3 network fixture exists; shared live v2/v3 adapter fixture is still required.",
-      "blocking_issue": 5253
+      "proof": "Runtime v3 network fixture exists; #5253 retained production-like soak and rollback proof, but final default-switch disposition remains a #5254 decision.",
+      "blocking_issue": 5254
     },
     {
       "id": "clock.checkpoint_lifelog",
@@ -113,17 +113,16 @@
     },
     {
       "id": "guardian.packaging_soak",
-      "disposition": "blocker",
-      "proof": "Guardian fallback exists; production-like soak and rollback proof is still required.",
-      "blocking_issue": 5253
+      "disposition": "accepted_intentional_divergence",
+      "proof": "#5253 retains production-like Runtime v3 soak and rollback proof with explicit v3 selection, Runtime v2 rollback/default preservation, control port 20997 boundary, stdout/stderr contract truth, graceful pressure-stop evidence, and deferred non-cutover remote/GPU lanes; raw Runtime v2 packaging equivalence is intentionally not claimed."
     }
   ],
   "summary": {
     "live_equivalent_fixture": 1,
-    "accepted_intentional_divergence": 6,
+    "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0,
-    "blocker": 10
+    "blocker": 9
   },
   "non_claims": [
     "This packet does not authorize Runtime v3 as the default runtime.",
