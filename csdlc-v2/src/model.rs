@@ -114,6 +114,19 @@ pub struct ReviewEvidence {
     pub non_substantive_proof: Option<NonSubstantiveProof>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct PublicationEvidence {
+    pub repository: String,
+    pub issue: u64,
+    pub pull_request: u64,
+    pub url: String,
+    pub base: String,
+    pub head: String,
+    pub revision: String,
+    pub draft: bool,
+    pub observed_state: String,
+}
+
 impl Claim {
     pub fn validate(&self, claim_id: &str, now: u64) -> Result<()> {
         if self.id != claim_id {
@@ -180,6 +193,8 @@ pub struct IssueRecord {
     pub claim: Option<Claim>,
     pub review_assignment: Option<ReviewAssignment>,
     pub review: Option<ReviewEvidence>,
+    #[serde(default)]
+    pub publication: Option<PublicationEvidence>,
     pub design_path: String,
     pub diagram_path: String,
     pub design_review: DesignReview,

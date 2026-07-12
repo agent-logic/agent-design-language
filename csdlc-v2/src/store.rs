@@ -14,8 +14,8 @@ use crate::cards::{
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
-    AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase, ReviewAssignment,
-    ReviewEvidence,
+    AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase,
+    PublicationEvidence, ReviewAssignment, ReviewEvidence,
 };
 use crate::review::evaluate_publication_review_in_repo;
 
@@ -158,6 +158,68 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    pub(crate) fn commit_publication(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        claim_id: &str,
+        actor: String,
+        evidence: PublicationEvidence,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(claim_id, now_seconds()?)?;
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "publication record changed before commit",
+            ));
+        }
+        let mut cards = self.load_cards(issue)?;
+        verify_cards(self, &record, &cards)?;
+        let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+            CardContent::Sor(values) => values,
+            _ => unreachable!("SOR"),
+        };
+        sor.integration_state = crate::cards::IntegrationState::PrOpen;
+        sor.publication_state = if evidence.draft {
+            crate::cards::PublicationState::Draft
+        } else {
+            crate::cards::PublicationState::Ready
+        };
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        if let Some(claim) = record.claim.as_mut() {
+            claim.generation = record.generation;
+        }
+        record.publication = Some(evidence);
+        if record.phase == LifecyclePhase::Reviewed {
+            record.advance(
+                LifecyclePhase::Published,
+                actor.clone(),
+                "observed exact draft PR after current review".into(),
+            )?;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason: "atomically record observed GitHub publication and SOR projection".into(),
+            operation: "record_publication".into(),
+        });
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(issue, &record, &cards, false)?;
+        Ok(record)
     }
 
     pub(crate) fn commit_review(
@@ -444,6 +506,7 @@ pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<Issue
         claim: Some(request.claim),
         review_assignment: None,
         review: None,
+        publication: None,
         design_path: request.design_path,
         diagram_path: request.diagram_path,
         design_review: if request.design_approved {
