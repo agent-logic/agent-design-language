@@ -5,6 +5,7 @@ use crate::lifecycle::{BindRequest, BindResult, RecoverClaimRequest};
 use crate::model::IssueRecord;
 use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
 use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
+use crate::readiness::{ReadinessReport, ReadinessRequest, TerminalObservation};
 use crate::review::{PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest};
 use crate::store::ApproveDesignRequest;
 use crate::store::{BootstrapRequest, EditRequest};
@@ -31,5 +32,8 @@ pub fn public_schema_bundle() -> Value {
         "publication_request": schemars::schema_for!(PublicationRequest),
         "publication_intent": schemars::schema_for!(PublicationIntent),
         "remote_pull_request": schemars::schema_for!(RemotePullRequest),
+        "readiness_request": schemars::schema_for!(ReadinessRequest),
+        "readiness_report": schemars::schema_for!(ReadinessReport),
+        "terminal_observation": schemars::schema_for!(TerminalObservation),
     })
 }
