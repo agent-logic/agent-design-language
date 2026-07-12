@@ -7,6 +7,7 @@ pub mod backpressure;
 pub mod continuity_history;
 pub mod curiosity;
 pub mod determinism;
+pub mod guardian;
 pub mod networking;
 pub mod observability;
 pub mod resident_agent;
