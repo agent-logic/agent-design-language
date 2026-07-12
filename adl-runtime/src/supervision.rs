@@ -47,7 +47,7 @@ pub enum ComponentId {
 }
 
 impl ComponentId {
-    pub const ALL: [ComponentId; 11] = [
+    pub const ALL: [ComponentId; 12] = [
         ComponentId::RuntimeApi,
         ComponentId::Chronosense,
         ComponentId::Scheduler,

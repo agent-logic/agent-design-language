@@ -16,7 +16,7 @@ pub const CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA: &str =
     "adl.csm.runtime_api.api_gateway_bridge.v1";
 pub const CSM_RUNTIME_API_PERSISTENCE_SCHEMA: &str = "adl.csm.runtime_api.persistence.v1";
 
-pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 12] = [
+pub const CSM_RUNTIME_API_ENDPOINTS: [&str; 13] = [
     "/status",
     "/health",
     "/ready",
