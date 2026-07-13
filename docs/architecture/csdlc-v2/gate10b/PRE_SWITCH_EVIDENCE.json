@@ -1,0 +1,142 @@
+{
+  "schema": "csdlc.pre_switch_evidence.v1",
+  "revision": "c1a8457b35e4cea0fe3f8691ed087631fe99011c",
+  "default_before": "v1",
+  "explicit_v2_selected": true,
+  "rollback_to_v1_selected": true,
+  "default_after": "v1",
+  "v1_paths_before": true,
+  "v1_paths_after": true,
+  "steps": [
+    {
+      "id": "full_suite",
+      "executable": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 33646,
+      "stdout_blake3": "86d1075d241e47fea91ac3f1ad8968ae60071b529a034ce66418934178c92c10",
+      "stderr_blake3": "8430624a95449237eca190bdb5426cc60c73c1048684c8a0a1c01a7a97f66b3a",
+      "passed": true
+    },
+    {
+      "id": "samples_parity",
+      "executable": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate9"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 12378,
+      "stdout_blake3": "487a9087b065d5e09fb5131550051988ef4a065872eb36f2664512fc5c5a02db",
+      "stderr_blake3": "f76c757fe9b5c4d33ac216520bb9de0c136f9a714fc908e5a40caaddf391afa4",
+      "passed": true
+    },
+    {
+      "id": "quality",
+      "executable": "cargo",
+      "args": [
+        "clippy",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 7442,
+      "stdout_blake3": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+      "stderr_blake3": "f1b79428d00a641f38aec4446c5d7468ad41da6523b9ada8bda1623a221cf9fc",
+      "passed": true
+    },
+    {
+      "id": "v1_smoke",
+      "executable": "adl/tools/pr.sh",
+      "args": [
+        "help"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 291,
+      "stdout_blake3": "18637a6984b5d124e03323656a95bc1cff7315dffcb001506ab13f4d0fdda023",
+      "stderr_blake3": "68343c88633b18c2fd9dba13193bb61bcaa3812e895fbe438ffb8add87a7ae64",
+      "passed": true
+    }
+  ],
+  "measurements": {
+    "rust_loc": 11557,
+    "test_count": 84,
+    "debug_binary_bytes": [
+      [
+        "csdlc-bind",
+        8002824
+      ],
+      [
+        "csdlc-closeout",
+        28015072
+      ],
+      [
+        "csdlc-doctor",
+        7487360
+      ],
+      [
+        "csdlc-edit",
+        10256584
+      ],
+      [
+        "csdlc-import",
+        8598416
+      ],
+      [
+        "csdlc-init",
+        8007560
+      ],
+      [
+        "csdlc-install",
+        4539312
+      ],
+      [
+        "csdlc-proof",
+        4305360
+      ],
+      [
+        "csdlc-publish",
+        28068112
+      ],
+      [
+        "csdlc-review",
+        8125312
+      ],
+      [
+        "csdlc-schedule",
+        3427072
+      ],
+      [
+        "csdlc-shadow",
+        9349104
+      ],
+      [
+        "csdlc-shepherd",
+        3423472
+      ],
+      [
+        "csdlc-soak",
+        6993176
+      ],
+      [
+        "csdlc-validate",
+        4910832
+      ]
+    ],
+    "construction_and_full_suite_millis": 33646,
+    "total_proof_millis": 53757,
+    "loc_is_reviewable_not_a_hard_cap": true
+  },
+  "passed": true
+}
