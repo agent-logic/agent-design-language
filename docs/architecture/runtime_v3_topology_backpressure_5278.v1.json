@@ -1,0 +1,84 @@
+{
+  "schema": "adl.runtime_v3.topology_backpressure_proof.v1",
+  "issue": 5278,
+  "sprint_issue": 5276,
+  "target_version": "v0.91.7",
+  "created_at_utc": "2026-07-12T23:55:00Z",
+  "capability": "kernel.topology_and_backpressure",
+  "disposition": "live_equivalent_fixture",
+  "cutover_eligible": false,
+  "default_runtime_switch_authorized": false,
+  "runtime_v2_internal_reuse": false,
+  "runtime_v2_default_preserved": true,
+  "proof_surface": {
+    "runtime_sources": [
+      "adl-runtime-kernel/src/channel.rs",
+      "adl-runtime-kernel/src/topology.rs",
+      "adl-runtime-kernel/src/weather.rs"
+    ],
+    "runtime_tests": [
+      "adl-runtime-kernel/tests/kernel.rs::bounded_reject_channel_reports_saturation",
+      "adl-runtime-kernel/tests/kernel.rs::topology_rejects_missing_dependencies_before_start",
+      "adl-runtime-kernel/tests/kernel.rs::topology_rejects_cycles_before_start",
+      "adl-runtime-kernel/tests/kernel.rs::topology_rejects_mismatched_port_types",
+      "adl-runtime-kernel/tests/kernel.rs::startup_and_shutdown_follow_dependency_order",
+      "adl-runtime-kernel/tests/configuration.rs::declarative_registry_builds_contract_checked_topology_canonically",
+      "adl-runtime-kernel/tests/configuration.rs::resource_policy_warns_stops_and_recovers_with_hysteresis",
+      "adl-runtime-kernel/tests/configuration.rs::sysinfo_observer_reports_portable_core_metrics_and_explicit_gpu_absence",
+      "adl-runtime-kernel/tests/configuration.rs::weather_health_report_serializes_stop_policy_and_gpu_non_pass_state"
+    ]
+  },
+  "behaviors": {
+    "dependency_ordering": {
+      "status": "proved",
+      "evidence": "startup_and_shutdown_follow_dependency_order asserts dependency-first startup and reverse-order shutdown from Runtime v3 recorder events."
+    },
+    "missing_dependency_rejection": {
+      "status": "proved",
+      "evidence": "topology_rejects_missing_dependencies_before_start fails validation before kernel start when a dependency is absent."
+    },
+    "cycle_rejection": {
+      "status": "proved",
+      "evidence": "topology_rejects_cycles_before_start fails validation before kernel start when component dependencies form a cycle."
+    },
+    "typed_port_mismatch_rejection": {
+      "status": "proved",
+      "evidence": "topology_rejects_mismatched_port_types rejects unsatisfied typed inputs before execution."
+    },
+    "canonical_topology_configuration": {
+      "status": "proved",
+      "evidence": "declarative_registry_builds_contract_checked_topology_canonically proves canonical construction independent of input component order."
+    },
+    "bounded_channel_saturation": {
+      "status": "proved",
+      "evidence": "bounded_reject_channel_reports_saturation proves bounded reject channels report saturation with sent and rejected counters."
+    },
+    "resource_pressure_stop": {
+      "status": "proved",
+      "evidence": "resource_policy_warns_stops_and_recovers_with_hysteresis and weather_health_report_serializes_stop_policy_and_gpu_non_pass_state prove warning, stop-required, recovery hysteresis, and serialize-state-then-stop decision."
+    },
+    "portable_weather_observation": {
+      "status": "proved",
+      "evidence": "sysinfo_observer_reports_portable_core_metrics_and_explicit_gpu_absence proves sysinfo-backed CPU, memory, and disk observations with explicit non-pass GPU absence."
+    },
+    "no_unbounded_disk_backpressure": {
+      "status": "proved",
+      "evidence": "The Runtime v3 pressure policy treats low disk as a serialize-state-then-stop condition, not as an unbounded local-disk buffering strategy."
+    }
+  },
+  "acceptance": {
+    "direct_runtime_v3_proof": true,
+    "blocked_or_deferred_counts_as_passed": false,
+    "default_runtime_switch_authorized": false,
+    "runtime_v2_decommission_authorized": false,
+    "runtime_v2_internal_reuse_allowed": false,
+    "small_loc_growth": true
+  },
+  "non_claims": [
+    "This packet does not authorize Runtime v3 as the default runtime.",
+    "This packet does not delete or decommission Runtime v2.",
+    "This packet does not claim GPU telemetry is available on hosts without an approved GPU observer.",
+    "This packet does not claim remote soak or multi-day pressure testing.",
+    "This packet does not count blocker or deferred dispositions as passed parity."
+  ]
+}

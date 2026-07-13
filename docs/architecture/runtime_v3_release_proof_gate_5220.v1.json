@@ -82,7 +82,7 @@
       "id": "parity.live_black_box",
       "status": "blocked_for_default_cutover",
       "evidence": "docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json",
-      "claim": "Live black-box parity still reports cutover_eligible=false and seven remaining blocker-class capability groups after #5277 resolves kernel.lifecycle and #5284 resolves agents.providers_scheduler; #5220 remains a no-go default-cutover gate."
+      "claim": "Live black-box parity still reports cutover_eligible=false and six remaining blocker-class capability groups after #5277 resolves kernel.lifecycle, #5278 resolves kernel.topology_and_backpressure, and #5284 resolves agents.providers_scheduler; #5220 remains a no-go default-cutover gate."
     }
   ],
   "child_issue_results": [
@@ -99,7 +99,7 @@
     "python3 -m json.tool docs/architecture/runtime_v3_release_proof_gate_5220.v1.json",
     "python3 -m json.tool docs/architecture/runtime_v3_cutover_checklist.v1.json",
     "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check",
-    "cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test parity -- release_proof_gate_closes_without_authorizing_default_cutover final_cutover_decision_keeps_v2_default_until_parity_blockers_clear kernel_lifecycle_proof_resolves_only_kernel_lifecycle_blocker --nocapture",
+    "cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test parity -- release_proof_gate_closes_without_authorizing_default_cutover final_cutover_decision_keeps_v2_default_until_parity_blockers_clear kernel_lifecycle_proof_resolves_only_kernel_lifecycle_blocker topology_backpressure_proof_resolves_only_topology_backpressure_blocker --nocapture",
     "cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test guardian_soak -- production_like_soak_rollback_packet_retains_cutover_boundaries packaging_preserves_one_guardian_neutral_child_contract --nocapture",
     "cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
     "cargo test --manifest-path adl-runtime-kernel/Cargo.toml"
