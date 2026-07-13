@@ -119,6 +119,63 @@ fn runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant() {
 }
 
 #[test]
+fn runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift() {
+    let mut artifacts =
+        runtime_v2_unified_runtime_kernel_contract().expect("unified runtime kernel artifacts");
+    artifacts.events[1].sequence = 99;
+    assert!(artifacts
+        .validate()
+        .expect_err("non-contiguous event sequence should fail")
+        .to_string()
+        .contains("contiguous and ordered"));
+
+    let mut artifacts =
+        runtime_v2_unified_runtime_kernel_contract().expect("unified runtime kernel artifacts");
+    artifacts.events[0].correlation_id = "corr-issue-5097-wrong-participant".to_string();
+    assert!(artifacts
+        .validate()
+        .expect_err("mismatched event correlation should fail")
+        .to_string()
+        .contains("correlation id"));
+}
+
+#[test]
+fn runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift() {
+    let mut artifacts =
+        runtime_v2_unified_runtime_kernel_contract().expect("unified runtime kernel artifacts");
+    artifacts.summary.proof_id = "proof/id/with/path".to_string();
+    assert!(artifacts
+        .validate()
+        .expect_err("invalid proof id should fail")
+        .to_string()
+        .contains("unified_runtime_kernel.proof_id"));
+
+    let mut artifacts =
+        runtime_v2_unified_runtime_kernel_contract().expect("unified runtime kernel artifacts");
+    artifacts.summary.validation_commands.clear();
+    assert!(artifacts
+        .validate()
+        .expect_err("missing CLI validation command should fail")
+        .to_string()
+        .contains("validation commands"));
+
+    let mut artifacts =
+        runtime_v2_unified_runtime_kernel_contract().expect("unified runtime kernel artifacts");
+    let participant = artifacts
+        .summary
+        .participants
+        .iter_mut()
+        .find(|participant| participant.participant_id == "external_signals")
+        .expect("external signal participant");
+    participant.local_proof_status = "published_live_without_config".to_string();
+    assert!(artifacts
+        .validate()
+        .expect_err("unsupported local proof status should fail")
+        .to_string()
+        .contains("unsupported unified kernel participant local proof status"));
+}
+
+#[test]
 fn runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence() {
     let mut artifacts =
         runtime_v2_unified_runtime_kernel_contract().expect("unified runtime kernel artifacts");
