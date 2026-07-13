@@ -24,9 +24,8 @@
     },
     {
       "id": "kernel.topology_and_backpressure",
-      "disposition": "blocker",
-      "proof": "Runtime v3 topology/backpressure fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
-      "blocking_issue": 5220
+      "disposition": "live_equivalent_fixture",
+      "proof": "#5278 records direct Runtime v3 topology and backpressure proof covering dependency-ordered startup/shutdown, missing dependency rejection, cycle rejection, typed port mismatch rejection, canonical topology construction, bounded channel saturation, sysinfo-backed weather observation, and serialize-state-then-stop resource pressure behavior in docs/architecture/runtime_v3_topology_backpressure_5278.v1.json."
     },
     {
       "id": "service.contracts_and_configuration",
@@ -116,11 +115,11 @@
     }
   ],
   "summary": {
-    "live_equivalent_fixture": 3,
+    "live_equivalent_fixture": 4,
     "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0,
-    "blocker": 7
+    "blocker": 6
   },
   "non_claims": [
     "This packet does not authorize Runtime v3 as the default runtime.",
