@@ -89,10 +89,9 @@ fn operator_guidance_is_bound_to_manifest_and_coexistence_contract() {
     let root_agents = fs::read_to_string(root.join("../AGENTS.md")).unwrap();
     let nested_agents = fs::read_to_string(root.join("AGENTS.md")).unwrap();
     let manifest = SkillManifest::load().unwrap();
-    let selector: csdlc_v2::GenerationSelector = serde_json::from_slice(
-        &fs::read(root.join("operator/generation-selector.json")).unwrap(),
-    )
-    .unwrap();
+    let selector: csdlc_v2::GenerationSelector =
+        serde_json::from_slice(&fs::read(root.join("operator/generation-selector.json")).unwrap())
+            .unwrap();
     assert_eq!(manifest.skills.len(), 9);
     assert_eq!(
         resolve_operator_generation(&root.join(".."), 5294, None).unwrap(),
