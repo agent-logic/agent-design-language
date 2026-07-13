@@ -7,6 +7,7 @@
   "modules": [
     "adl-runtime/src/acip.rs",
     "adl-runtime/src/backpressure.rs",
+    "adl-runtime/src/constructability.rs",
     "adl-runtime/src/continuity_history.rs",
     "adl-runtime/src/curiosity.rs",
     "adl-runtime/src/determinism.rs",

@@ -25,8 +25,8 @@
     {"id":"guardian.packaging_soak","disposition":"accepted_intentional_divergence","proof":"#5253 Runtime v3 production-like soak and rollback proof: explicit v3 selection, Runtime v2 rollback/default preservation, control port 20997 boundary, stdout/stderr contract truth, graceful pressure-stop evidence, and deferred non-cutover remote/GPU lanes; raw Runtime v2 packaging equivalence is intentionally not claimed"}
   ],
   "module_closure": {
-    "baseline_modules": 206,
-    "routed_modules": 206,
+    "baseline_modules": 207,
+    "routed_modules": 207,
     "proof": "Each filename routes to a capability disposition and proof reference; this is ownership routing, not behavioral equivalence"
   },
   "footprint": {
