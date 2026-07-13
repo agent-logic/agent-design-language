@@ -74,6 +74,10 @@ path = "src/bin/csdlc-proof.rs"
 name = "csdlc-cutover"
 path = "src/bin/csdlc-cutover.rs"
 
+[[bin]]
+name = "csdlc-eligibility"
+path = "src/bin/csdlc-eligibility.rs"
+
 [dependencies]
 blake3 = "1"
 clap = { version = "4.5", features = ["derive"] }

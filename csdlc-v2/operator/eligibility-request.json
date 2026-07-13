@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.deletion_eligibility_request.v1",
+  "issue": 5305,
+  "phase_b_evidence": "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+  "phase_c_evidence": "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+  "selector": "csdlc-v2/operator/generation-selector.json",
+  "manifest": {
+    "schema": "csdlc.proposed_deletion_manifest.v1",
+    "baseline_lines": 49979,
+    "target_percent": 90,
+    "minimum_percent": 80,
+    "entries": [
+      {
+        "path": "incumbent-v1-control-plane",
+        "disposition": "retain",
+        "measured_lines": 49979,
+        "owner": "gate-10d-planning",
+        "justification": "No deletion manifest or operator approval exists yet.",
+        "protected_until": null
+      }
+    ]
+  },
+  "approval": null
+}
