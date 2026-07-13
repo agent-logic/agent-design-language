@@ -1,0 +1,66 @@
+{
+  "schema": "csdlc.cutover_evidence.v1",
+  "code_revision": "c7f077c0e70f325601c8b8a1ba348ba98a64b13b",
+  "pre_switch_evidence_blake3": "a313881ce6429217dc8247de7919882d3fba0312fa75d553fe61fe14e175a54f",
+  "transitions": [
+    "v1",
+    "v2",
+    "v1",
+    "v2"
+  ],
+  "steps": [
+    {
+      "id": "v2_lifecycle_smoke",
+      "executable": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate7_lifecycle"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 21013,
+      "stdout_blake3": "1feeb059a22245664cb66e2d4ae428caeaad5aae425d726a12f2b738d14d0439",
+      "stderr_blake3": "fef16d3a4ea5e9b299f7121c12a2dee6afad9e3d54574bc31382485556963f11",
+      "passed": true
+    },
+    {
+      "id": "v1_rollback_smoke",
+      "executable": "adl/tools/pr.sh",
+      "args": [
+        "help"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 230,
+      "stdout_blake3": "18637a6984b5d124e03323656a95bc1cff7315dffcb001506ab13f4d0fdda023",
+      "stderr_blake3": "68343c88633b18c2fd9dba13193bb61bcaa3812e895fbe438ffb8add87a7ae64",
+      "passed": true
+    },
+    {
+      "id": "v2_switch_back_smoke",
+      "executable": "cargo",
+      "args": [
+        "test",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate7_lifecycle"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 7212,
+      "stdout_blake3": "81d77b70ab5ec56bd4994ae3e07adb6911ab8ac02339bf43acb2a0f184226a44",
+      "stderr_blake3": "9a14b1181ace953991e01a969cba78bee90aedc173cb4dc877fc3be435d392e0",
+      "passed": true
+    }
+  ],
+  "final_generation": "v2",
+  "explicit_v1_override": true,
+  "v1_paths_before": true,
+  "v1_paths_after": true,
+  "cutover_at": "2026-07-13T01:30:00-07:00",
+  "rollback_expires_at": "2026-07-27T01:30:00-07:00",
+  "importer_expires_at": "2026-08-12T01:30:00-07:00",
+  "deletion_authorized": false,
+  "passed": true
+}
