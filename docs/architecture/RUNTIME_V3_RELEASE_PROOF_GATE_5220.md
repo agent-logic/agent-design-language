@@ -16,8 +16,9 @@ Runtime v3 has retained proof for explicit opt-in selection, selected control
 API and observability contracts, weather/resource monitoring, bounded
 soak/rollback, private-state security, identity/memory continuity, and governed
 cognition adapters. The live black-box parity packet still reports
-`cutover_eligible: false` with nine blocker-class capability groups, so Runtime
-v2 remains the default runtime and rollback target.
+`cutover_eligible: false` with five remaining blocker-class capability groups
+after #5277, #5278, #5279, and #5284, so Runtime v2 remains the default
+runtime and rollback target.
 
 ## Selected Scope
 
@@ -39,7 +40,7 @@ This release gate covers the selected v0.91.7 Runtime v3 cutover scope:
 |---|---|---|
 | Entrypoint switch | `docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md` | Explicit selection only; Runtime v2 remains default. |
 | Cutover decision | `docs/architecture/runtime_v3_cutover_decision_5254.v1.json` | #5254 records no-go for default switch and no Runtime v2 decommission. |
-| Live black-box parity | `docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json` | `cutover_eligible: false`; nine blockers remain for default replacement. |
+| Live black-box parity | `docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json` | `cutover_eligible: false`; five blockers remain for default replacement after #5277, #5278, #5279, and #5284. |
 | Weather/resource monitoring | `docs/architecture/runtime_v3_weather_cloudwatch_5252.v1.json` | CPU, memory, disk, CloudWatch-shape event, and graceful-stop policy are retained; observed GPU telemetry is deferred. |
 | Soak and rollback | `docs/architecture/runtime_v3_soak_rollback_5253.v1.json` | Bounded production-like soak and Runtime v2 rollback/default preservation are retained. |
 | Shadow parity | `docs/architecture/runtime_v3_shadow_parity_report.v1.json` | Runtime v2 remains default and Runtime v3 stays opt-in. |
@@ -74,8 +75,8 @@ This release gate covers the selected v0.91.7 Runtime v3 cutover scope:
 
 ## Residual Risks
 
-- Runtime v3 is not full Runtime v2 behavioral parity; nine capability groups
-  remain blocker-class for default replacement.
+- Runtime v3 is not full default-cutover-ready behavioral parity; five
+  capability groups remain blocker-class for default replacement.
 - Observed GPU telemetry remains deferred until an approved GPU host run is
   retained.
 - Remote multi-day soak and Horust/native guardian qualification are not counted

@@ -29,9 +29,8 @@
     },
     {
       "id": "service.contracts_and_configuration",
-      "disposition": "blocker",
-      "proof": "Runtime v3 contract fixtures exist; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
-      "blocking_issue": 5220
+      "disposition": "live_equivalent_fixture",
+      "proof": "#5279 records direct Runtime v3 service-contract and configuration proof covering service contract schema validation, component surface binding, semver capability matching, fail-closed required capabilities, optional capabilities, duplicate service/capability rejection, runtime configuration schema rejection, deterministic canonical configuration projection, fail-closed factory registry behavior, and deterministic topology construction in docs/architecture/runtime_v3_service_contracts_configuration_5279.v1.json."
     },
     {
       "id": "continuity.replay_recovery",
@@ -115,11 +114,11 @@
     }
   ],
   "summary": {
-    "live_equivalent_fixture": 4,
+    "live_equivalent_fixture": 5,
     "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0,
-    "blocker": 6
+    "blocker": 5
   },
   "non_claims": [
     "This packet does not authorize Runtime v3 as the default runtime.",

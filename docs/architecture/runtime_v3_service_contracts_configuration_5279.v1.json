@@ -1,0 +1,85 @@
+{
+  "schema": "adl.runtime_v3.service_contracts_configuration_proof.v1",
+  "issue": 5279,
+  "sprint_issue": 5276,
+  "target_version": "v0.91.7",
+  "created_at_utc": "2026-07-13T00:45:00Z",
+  "capability": "service.contracts_and_configuration",
+  "disposition": "live_equivalent_fixture",
+  "cutover_eligible": false,
+  "default_runtime_switch_authorized": false,
+  "runtime_v2_internal_reuse": false,
+  "runtime_v2_default_preserved": true,
+  "proof_surface": {
+    "runtime_sources": [
+      "adl-runtime-kernel/src/contract.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/topology.rs"
+    ],
+    "runtime_tests": [
+      "adl-runtime-kernel/tests/contracts.rs::service_contract_shape_rejects_schema_and_empty_identity",
+      "adl-runtime-kernel/tests/contracts.rs::compatible_capabilities_resolve_independent_of_registration_order",
+      "adl-runtime-kernel/tests/contracts.rs::required_capabilities_fail_closed_when_missing_or_incompatible",
+      "adl-runtime-kernel/tests/contracts.rs::optional_capability_may_be_absent",
+      "adl-runtime-kernel/tests/contracts.rs::duplicate_services_and_local_capabilities_are_rejected",
+      "adl-runtime-kernel/tests/contracts.rs::multiple_capability_providers_allow_compatible_selection",
+      "adl-runtime-kernel/tests/contracts.rs::service_contract_must_match_component_runtime_surface",
+      "adl-runtime-kernel/tests/configuration.rs::declarative_registry_builds_contract_checked_topology_canonically",
+      "adl-runtime-kernel/tests/configuration.rs::runtime_configuration_rejects_version_shape_identity_and_secrets",
+      "adl-runtime-kernel/tests/configuration.rs::configuration_keeps_runtime_bindings_outside_canonical_projection",
+      "adl-runtime-kernel/tests/configuration.rs::configured_registry_fails_closed_for_factory_and_surface_drift"
+    ]
+  },
+  "behaviors": {
+    "service_contract_schema_validation": {
+      "status": "proved",
+      "evidence": "ServiceContract validates the adl.runtime.service_contract.v1 schema and rejects empty service/configuration identities before contract aggregation."
+    },
+    "component_surface_binding": {
+      "status": "proved",
+      "evidence": "service_contract_must_match_component_runtime_surface and topology registry construction prove contract component identity, ports, and failure policy must match the Runtime v3 component spec."
+    },
+    "capability_matching": {
+      "status": "proved",
+      "evidence": "compatible_capabilities_resolve_independent_of_registration_order and multiple_capability_providers_allow_compatible_selection prove semver-compatible capability resolution independent of registration order."
+    },
+    "fail_closed_capability_requirements": {
+      "status": "proved",
+      "evidence": "required_capabilities_fail_closed_when_missing_or_incompatible proves missing and incompatible required capabilities fail closed; optional_capability_may_be_absent proves optional requirements do not block construction."
+    },
+    "duplicate_contract_rejection": {
+      "status": "proved",
+      "evidence": "duplicate_services_and_local_capabilities_are_rejected proves duplicate service identities and duplicate local capabilities are rejected."
+    },
+    "configuration_schema_rejection": {
+      "status": "proved",
+      "evidence": "runtime_configuration_rejects_version_shape_identity_and_secrets proves unsupported schemas, unknown fields, duplicate component identities, and secret-like canonical parameters are rejected."
+    },
+    "canonical_configuration_projection": {
+      "status": "proved",
+      "evidence": "configuration_keeps_runtime_bindings_outside_canonical_projection and declarative_registry_builds_contract_checked_topology_canonically prove deterministic canonical JSON without runtime bindings or secret fields."
+    },
+    "factory_registry_fail_closed": {
+      "status": "proved",
+      "evidence": "configured_registry_fails_closed_for_factory_and_surface_drift proves missing factories, duplicate factories, and factory/component identity drift fail before runtime start."
+    },
+    "deterministic_topology_build": {
+      "status": "proved",
+      "evidence": "declarative_registry_builds_contract_checked_topology_canonically proves the configured registry builds the same effective topology independent of input component order."
+    }
+  },
+  "acceptance": {
+    "direct_runtime_v3_proof": true,
+    "blocked_or_deferred_counts_as_passed": false,
+    "default_runtime_switch_authorized": false,
+    "runtime_v2_decommission_authorized": false,
+    "runtime_v2_internal_reuse_allowed": false,
+    "small_loc_growth": true
+  },
+  "non_claims": [
+    "This packet does not authorize Runtime v3 as the default runtime.",
+    "This packet does not delete or decommission Runtime v2.",
+    "This packet does not claim distributed multi-node residence, guardian federation, or polis-level resilience.",
+    "This packet does not count blocker or deferred dispositions as passed parity."
+  ]
+}
