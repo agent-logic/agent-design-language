@@ -6,19 +6,13 @@
   "selector": "csdlc-v2/operator/generation-selector.json",
   "manifest": {
     "schema": "csdlc.proposed_deletion_manifest.v1",
-    "baseline_lines": 49979,
+    "baseline_revision": "020bba17deb9f172e91a2ec5c0599cf42e4defe9",
     "target_percent": 90,
     "minimum_percent": 80,
-    "entries": [
-      {
-        "path": "incumbent-v1-control-plane",
-        "disposition": "retain",
-        "measured_lines": 49979,
-        "owner": "gate-10d-planning",
-        "justification": "No deletion manifest or operator approval exists yet.",
-        "protected_until": null
-      }
-    ]
+    "default_disposition": "retain",
+    "default_owner": "gate-10d-planning",
+    "default_justification": "No deletion manifest or operator approval exists yet.",
+    "entries": []
   },
   "approval": null
 }

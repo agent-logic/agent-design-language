@@ -23,8 +23,8 @@ pub use cards::{
 pub use cutover::{run_cutover, CutoverEvidence, CutoverRequest};
 pub use doctor::{diagnose, DoctorReport};
 pub use eligibility::{
-    evaluate_deletion_eligibility, DeletionApproval, DeletionDecision, DeletionEligibilityRequest,
-    DeletionEntry, DeletionManifest, DeletionReason, EntryDisposition,
+    eligibility_schema_bundle, evaluate_deletion_eligibility, DeletionApproval, DeletionDecision,
+    DeletionEligibilityRequest, DeletionEntry, DeletionManifest, DeletionReason, EntryDisposition,
 };
 pub use error::{ErrorCode, Result, V2Error};
 pub use lifecycle::{

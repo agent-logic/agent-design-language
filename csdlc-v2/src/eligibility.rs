@@ -1,10 +1,11 @@
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use serde_json::{json, Value};
 use strum::{AsRefStr, Display, EnumIter, EnumString};
 use time::OffsetDateTime;
 
@@ -12,6 +13,12 @@ use crate::cutover::CutoverEvidence;
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::proof::{require_clean_revision, PreSwitchEvidence};
 use crate::{Generation, GenerationSelector};
+
+const BASELINE_REVISION: &str = "020bba17deb9f172e91a2ec5c0599cf42e4defe9";
+const BASELINE_LINES: u64 = 49_979;
+const BASELINE_FILES: usize = 95;
+const RUST_LIST_BLAKE3: &str = "c3118c1f3766b5f4a3e549c9073b33fb83164b3006175785b4c08f84c898558f";
+const SHELL_LIST_BLAKE3: &str = "7160399a788e467ebd934309a99f9777fb0f14d4270989e5114c73b63fa3d8cc";
 
 #[derive(
     Debug,
@@ -59,6 +66,8 @@ pub enum DeletionReason {
     ApprovalEvidenceMismatch,
     PhaseEvidenceNotGreen,
     SelectorNotV2,
+    RollbackWindowActive,
+    ImporterWindowActive,
     ProtectedWindowActive,
     BelowMinimumRemoval,
     QualificationNotApproved,
@@ -69,7 +78,6 @@ pub enum DeletionReason {
 pub struct DeletionEntry {
     pub path: PathBuf,
     pub disposition: EntryDisposition,
-    pub measured_lines: u64,
     pub owner: Option<String>,
     pub justification: Option<String>,
     pub protected_until: Option<String>,
@@ -79,9 +87,12 @@ pub struct DeletionEntry {
 #[serde(deny_unknown_fields)]
 pub struct DeletionManifest {
     pub schema: String,
-    pub baseline_lines: u64,
+    pub baseline_revision: String,
     pub target_percent: u16,
     pub minimum_percent: u16,
+    pub default_disposition: EntryDisposition,
+    pub default_owner: Option<String>,
+    pub default_justification: Option<String>,
     pub entries: Vec<DeletionEntry>,
 }
 
@@ -91,8 +102,11 @@ pub struct DeletionApproval {
     pub schema: String,
     pub approved_by: String,
     pub approved_at: String,
+    pub phase_b_blake3: String,
     pub phase_c_blake3: String,
+    pub selector_blake3: String,
     pub manifest_blake3: String,
+    pub code_revision: String,
     pub allow_qualified_80_to_89: bool,
 }
 
@@ -114,6 +128,11 @@ pub struct DeletionDecision {
     pub issue: u64,
     pub code_revision: String,
     pub evaluated_at: String,
+    pub baseline_revision: String,
+    pub baseline_files: usize,
+    pub baseline_lines: u64,
+    pub rust_list_blake3: String,
+    pub shell_list_blake3: String,
     pub phase_b_blake3: String,
     pub phase_c_blake3: String,
     pub selector_blake3: String,
@@ -127,20 +146,40 @@ pub struct DeletionDecision {
     pub deletion_executed: bool,
 }
 
+#[derive(Debug, Clone)]
+struct Baseline {
+    lines: BTreeMap<PathBuf, u64>,
+    rust_hash: String,
+    shell_hash: String,
+}
+
+pub fn eligibility_schema_bundle() -> Value {
+    json!({
+        "schema": "csdlc.deletion_eligibility_schemas.v1",
+        "request": schemars::schema_for!(DeletionEligibilityRequest),
+        "manifest": schemars::schema_for!(DeletionManifest),
+        "entry": schemars::schema_for!(DeletionEntry),
+        "approval": schemars::schema_for!(DeletionApproval),
+        "decision": schemars::schema_for!(DeletionDecision),
+    })
+}
+
 pub fn evaluate_deletion_eligibility(
     repo: &Path,
     request: &DeletionEligibilityRequest,
 ) -> Result<DeletionDecision> {
-    evaluate_with_time(repo, request, OffsetDateTime::now_utc())
+    require_clean_revision(repo)?;
+    let baseline = load_baseline(repo)?;
+    evaluate_with_time_and_baseline(repo, request, OffsetDateTime::now_utc(), &baseline)
 }
 
-fn evaluate_with_time(
+fn evaluate_with_time_and_baseline(
     repo: &Path,
     request: &DeletionEligibilityRequest,
     now: OffsetDateTime,
+    baseline: &Baseline,
 ) -> Result<DeletionDecision> {
-    validate_request(request)?;
-    require_clean_revision(repo)?;
+    validate_request(request, baseline)?;
     let phase_b_bytes = read_regular_repo_file(repo, &request.phase_b_evidence)?;
     let phase_c_bytes = read_regular_repo_file(repo, &request.phase_c_evidence)?;
     let selector_bytes = read_regular_repo_file(repo, &request.selector)?;
@@ -152,6 +191,7 @@ fn evaluate_with_time(
     let phase_c_blake3 = digest(&phase_c_bytes);
     let selector_blake3 = digest(&selector_bytes);
     let manifest_blake3 = digest(&manifest_bytes);
+    let code_revision = git_text(repo, &["rev-parse", "HEAD"])?;
     let mut reasons = BTreeSet::new();
 
     if phase_b.schema != "csdlc.pre_switch_evidence.v1"
@@ -167,6 +207,7 @@ fn evaluate_with_time(
         || !phase_c.v1_paths_before
         || !phase_c.v1_paths_after
         || phase_c.deletion_authorized
+        || phase_c.pre_switch_evidence_blake3 != phase_b_blake3
     {
         reasons.insert(DeletionReason::PhaseEvidenceNotGreen);
     }
@@ -175,34 +216,48 @@ fn evaluate_with_time(
     {
         reasons.insert(DeletionReason::SelectorNotV2);
     }
+    let rollback_expires = parse_time(&phase_c.rollback_expires_at)?;
+    let importer_expires = parse_time(&phase_c.importer_expires_at)?;
+    if now < rollback_expires {
+        reasons.insert(DeletionReason::RollbackWindowActive);
+    }
+    if now < importer_expires {
+        reasons.insert(DeletionReason::ImporterWindowActive);
+    }
 
-    let removed_lines = request
+    let overrides = request
         .manifest
         .entries
         .iter()
-        .filter(|entry| entry.disposition == EntryDisposition::Remove)
-        .map(|entry| entry.measured_lines)
+        .map(|entry| (&entry.path, entry))
+        .collect::<BTreeMap<_, _>>();
+    let removed_lines = baseline
+        .lines
+        .iter()
+        .filter(|(path, _)| {
+            overrides
+                .get(path)
+                .map(|entry| entry.disposition)
+                .unwrap_or(request.manifest.default_disposition)
+                == EntryDisposition::Remove
+        })
+        .map(|(_, lines)| lines)
         .sum::<u64>();
-    let retained_lines = request.manifest.baseline_lines - removed_lines;
-    let basis_points = removed_lines
-        .saturating_mul(10_000)
-        .checked_div(request.manifest.baseline_lines)
-        .unwrap_or_default()
+    let retained_lines = BASELINE_LINES - removed_lines;
+    let basis_points = (removed_lines.saturating_mul(10_000) / BASELINE_LINES)
         .try_into()
         .unwrap_or(u16::MAX);
-    if basis_points < request.manifest.minimum_percent.saturating_mul(100) {
+    if basis_points < request.manifest.minimum_percent * 100 {
         reasons.insert(DeletionReason::BelowMinimumRemoval);
     }
-
     for entry in request
         .manifest
         .entries
         .iter()
-        .filter(|entry| entry.disposition == EntryDisposition::Remove)
+        .filter(|e| e.disposition == EntryDisposition::Remove)
     {
         if let Some(value) = &entry.protected_until {
-            let until = parse_time(value)?;
-            if now < until {
+            if now < parse_time(value)? {
                 reasons.insert(DeletionReason::ProtectedWindowActive);
             }
         }
@@ -216,29 +271,36 @@ fn evaluate_with_time(
             validate_approval(approval)?;
             let approved_at = parse_time(&approval.approved_at)?;
             let cutover_at = parse_time(&phase_c.cutover_at)?;
-            if approval.phase_c_blake3 != phase_c_blake3
+            if approval.phase_b_blake3 != phase_b_blake3
+                || approval.phase_c_blake3 != phase_c_blake3
+                || approval.selector_blake3 != selector_blake3
                 || approval.manifest_blake3 != manifest_blake3
+                || approval.code_revision != code_revision
                 || approved_at < cutover_at
                 || approved_at > now
             {
                 reasons.insert(DeletionReason::ApprovalEvidenceMismatch);
             }
-            if basis_points < request.manifest.target_percent.saturating_mul(100)
+            if basis_points < request.manifest.target_percent * 100
                 && !approval.allow_qualified_80_to_89
             {
                 reasons.insert(DeletionReason::QualificationNotApproved);
             }
         }
     }
-
     let reasons = reasons.into_iter().collect::<Vec<_>>();
     Ok(DeletionDecision {
         schema: "csdlc.deletion_eligibility.v1".into(),
         issue: request.issue,
-        code_revision: git_text(repo, &["rev-parse", "HEAD"])?,
+        code_revision,
         evaluated_at: now
             .format(&time::format_description::well_known::Rfc3339)
             .map_err(time_error)?,
+        baseline_revision: BASELINE_REVISION.into(),
+        baseline_files: baseline.lines.len(),
+        baseline_lines: BASELINE_LINES,
+        rust_list_blake3: baseline.rust_hash.clone(),
+        shell_list_blake3: baseline.shell_hash.clone(),
         phase_b_blake3,
         phase_c_blake3,
         selector_blake3,
@@ -246,25 +308,105 @@ fn evaluate_with_time(
         removed_lines,
         retained_lines,
         removal_basis_points: basis_points,
-        target_met: basis_points >= request.manifest.target_percent.saturating_mul(100),
+        target_met: basis_points >= request.manifest.target_percent * 100,
         eligible: reasons.is_empty(),
         reasons,
         deletion_executed: false,
     })
 }
 
-pub fn write_decision_atomic(path: &Path, decision: &DeletionDecision) -> Result<()> {
-    let parent = path
-        .parent()
-        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "decision output needs a parent"))?;
-    fs::create_dir_all(parent)?;
-    let temporary = path.with_extension("json.tmp");
-    fs::write(&temporary, serde_json::to_vec_pretty(decision)?)?;
-    fs::rename(temporary, path)?;
-    Ok(())
+fn load_baseline(repo: &Path) -> Result<Baseline> {
+    let paths = git_text(repo, &["ls-tree", "-r", "--name-only", BASELINE_REVISION])?;
+    let mut rust = Vec::new();
+    let mut shell = Vec::new();
+    for path in paths.lines() {
+        if is_baseline_rust(path) {
+            rust.push(path.to_owned());
+        }
+        if is_baseline_shell(path) {
+            shell.push(path.to_owned());
+        }
+    }
+    rust.sort();
+    rust.dedup();
+    shell.sort();
+    shell.dedup();
+    let rust_hash = digest(format!("{}\n", rust.join("\n")).as_bytes());
+    let shell_hash = digest(format!("{}\n", shell.join("\n")).as_bytes());
+    if rust_hash != RUST_LIST_BLAKE3
+        || shell_hash != SHELL_LIST_BLAKE3
+        || rust.len() + shell.len() != BASELINE_FILES
+    {
+        return Err(invalid(
+            "pinned baseline path inventory does not match Gate 1 hashes",
+        ));
+    }
+    let mut lines = BTreeMap::new();
+    for path in rust.iter().chain(shell.iter()) {
+        let bytes = git_bytes(repo, &["show", &format!("{BASELINE_REVISION}:{path}")])?;
+        let count = bytes.iter().filter(|byte| **byte == b'\n').count() as u64;
+        lines.insert(PathBuf::from(path), count);
+        verify_current_surface(repo, path)?;
+    }
+    if lines.values().sum::<u64>() != BASELINE_LINES {
+        return Err(invalid("pinned baseline line total does not match Gate 1"));
+    }
+    Ok(Baseline {
+        lines,
+        rust_hash,
+        shell_hash,
+    })
 }
 
-fn validate_request(request: &DeletionEligibilityRequest) -> Result<()> {
+fn is_baseline_rust(path: &str) -> bool {
+    if path.starts_with("adl/src/cli/pr_cmd/") && path.ends_with(".rs") {
+        return true;
+    }
+    matches!(
+        path,
+        "adl/src/cli/pr_cmd.rs"
+            | "adl/src/cli/pr_cmd_args.rs"
+            | "adl/src/cli/pr_cmd_cards.rs"
+            | "adl/src/cli/pr_cmd_prompt.rs"
+            | "adl/src/cli/pr_cmd_validate.rs"
+            | "adl/src/csdlc_prompt_editor.rs"
+            | "adl/src/session_ledger.rs"
+            | "adl/src/pr_dispatch_support.rs"
+            | "adl/src/cli/tooling_cmd/prompt_template.rs"
+            | "adl/src/cli/tooling_cmd/structured_prompt.rs"
+    ) || (path.starts_with("adl/src/bin/")
+        && !path[12..].contains('/')
+        && path.ends_with(".rs")
+        && {
+            let name = &path[12..];
+            name.starts_with("adl_pr_")
+                || matches!(
+                    name,
+                    "adl_csdlc.rs" | "csdlc.rs" | "adl_issue.rs" | "adl_session.rs"
+                )
+        })
+}
+
+fn is_baseline_shell(path: &str) -> bool {
+    if !path.starts_with("adl/tools/") || path[10..].contains('/') || !path.ends_with(".sh") {
+        return false;
+    }
+    let name = &path[10..];
+    matches!(
+        name,
+        "pr.sh"
+            | "card_paths.sh"
+            | "pr_cards.sh"
+            | "pr_delegate.sh"
+            | "pr_usage.sh"
+            | "validate_structured_prompt.sh"
+            | "prompt_template.sh"
+    ) || name.starts_with("check_pr_")
+        || name.starts_with("test_pr_")
+        || name.starts_with("test_prompt_template")
+}
+
+fn validate_request(request: &DeletionEligibilityRequest, baseline: &Baseline) -> Result<()> {
     if request.schema != "csdlc.deletion_eligibility_request.v1" || request.issue != 5305 {
         return Err(invalid("request schema and issue must identify Gate 10D1"));
     }
@@ -275,67 +417,74 @@ fn validate_request(request: &DeletionEligibilityRequest) -> Result<()> {
     ] {
         validate_relative_path(path)?;
     }
-    let manifest = &request.manifest;
-    if manifest.schema != "csdlc.proposed_deletion_manifest.v1"
-        || manifest.baseline_lines != 49_979
-        || manifest.target_percent != 90
-        || manifest.minimum_percent != 80
-        || manifest.entries.is_empty()
+    let m = &request.manifest;
+    if m.schema != "csdlc.proposed_deletion_manifest.v1"
+        || m.baseline_revision != BASELINE_REVISION
+        || m.target_percent != 90
+        || m.minimum_percent != 80
     {
         return Err(invalid(
-            "manifest must use the reviewed Gate 1 denominator and thresholds",
+            "manifest must use the reviewed Gate 1 revision and thresholds",
+        ));
+    }
+    if m.default_disposition == EntryDisposition::Retain
+        && (empty(&m.default_owner) || empty(&m.default_justification))
+    {
+        return Err(invalid(
+            "default retained surfaces need an owner and justification",
         ));
     }
     let mut paths = BTreeSet::new();
-    let mut total = 0_u64;
-    for entry in &manifest.entries {
+    for entry in &m.entries {
         validate_relative_path(&entry.path)?;
-        if !paths.insert(&entry.path) || entry.measured_lines == 0 {
+        if !baseline.lines.contains_key(&entry.path) || !paths.insert(&entry.path) {
             return Err(invalid(
-                "manifest paths must be unique with nonzero measured lines",
+                "manifest overrides must be unique exact pinned inventory paths",
             ));
         }
-        total = total
-            .checked_add(entry.measured_lines)
-            .ok_or_else(|| invalid("manifest line total overflow"))?;
         if entry.disposition == EntryDisposition::Retain
-            && (entry.owner.as_deref().is_none_or(str::is_empty)
-                || entry.justification.as_deref().is_none_or(str::is_empty))
+            && (empty(&entry.owner) || empty(&entry.justification))
         {
             return Err(invalid(
-                "every retained surface needs an owner and justification",
+                "every retained override needs an owner and justification",
             ));
         }
         if let Some(value) = &entry.protected_until {
             parse_time(value)?;
         }
     }
-    if total != manifest.baseline_lines {
-        return Err(invalid(
-            "manifest entries must exactly partition the baseline lines",
-        ));
-    }
     Ok(())
 }
 
-fn validate_approval(approval: &DeletionApproval) -> Result<()> {
-    if approval.schema != "csdlc.deletion_approval.v1"
-        || approval.approved_by.trim().is_empty()
-        || approval.phase_c_blake3.len() != 64
-        || approval.manifest_blake3.len() != 64
+fn empty(value: &Option<String>) -> bool {
+    value.as_deref().is_none_or(|v| v.trim().is_empty())
+}
+fn validate_approval(a: &DeletionApproval) -> Result<()> {
+    if a.schema != "csdlc.deletion_approval.v1"
+        || a.approved_by.trim().is_empty()
+        || !is_lower_hex(&a.phase_b_blake3, 64)
+        || !is_lower_hex(&a.phase_c_blake3, 64)
+        || !is_lower_hex(&a.selector_blake3, 64)
+        || !is_lower_hex(&a.manifest_blake3, 64)
+        || !is_lower_hex(&a.code_revision, 40)
     {
         return Err(invalid("approval is malformed"));
     }
-    parse_time(&approval.approved_at)?;
+    parse_time(&a.approved_at)?;
     Ok(())
 }
-
+fn is_lower_hex(value: &str, len: usize) -> bool {
+    value.len() == len
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+}
 fn validate_relative_path(path: &Path) -> Result<()> {
     if path.as_os_str().is_empty()
         || path.is_absolute()
-        || path.components().any(|component| {
+        || path.components().any(|c| {
             matches!(
-                component,
+                c,
                 Component::ParentDir | Component::RootDir | Component::Prefix(_)
             )
         })
@@ -344,7 +493,6 @@ fn validate_relative_path(path: &Path) -> Result<()> {
     }
     Ok(())
 }
-
 fn read_regular_repo_file(repo: &Path, relative: &Path) -> Result<Vec<u8>> {
     validate_relative_path(relative)?;
     let path = repo.join(relative);
@@ -357,28 +505,40 @@ fn read_regular_repo_file(repo: &Path, relative: &Path) -> Result<Vec<u8>> {
     }
     fs::read(path).map_err(Into::into)
 }
-
+fn verify_current_surface(repo: &Path, path: &str) -> Result<()> {
+    let metadata = fs::symlink_metadata(repo.join(path))?;
+    if !metadata.file_type().is_file() {
+        return Err(invalid(format!(
+            "baseline surface must remain a regular file: {path}"
+        )));
+    }
+    git_text(repo, &["ls-files", "--error-unmatch", "--", path]).map(|_| ())
+}
 fn parse_time(value: &str) -> Result<OffsetDateTime> {
     OffsetDateTime::parse(value, &time::format_description::well_known::Rfc3339)
-        .map_err(|error| invalid(error.to_string()))
+        .map_err(|e| invalid(e.to_string()))
 }
-
 fn git_text(repo: &Path, args: &[&str]) -> Result<String> {
+    Ok(String::from_utf8_lossy(&git_bytes(repo, args)?)
+        .trim()
+        .into())
+}
+fn git_bytes(repo: &Path, args: &[&str]) -> Result<Vec<u8>> {
     let output = Command::new("git").args(args).current_dir(repo).output()?;
     if !output.status.success() {
-        return Err(V2Error::new(ErrorCode::GitFailure, "git command failed"));
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            format!("git {} failed", args.first().unwrap_or(&"command")),
+        ));
     }
-    Ok(String::from_utf8_lossy(&output.stdout).trim().into())
+    Ok(output.stdout)
 }
-
 fn digest(bytes: &[u8]) -> String {
     blake3::hash(bytes).to_hex().to_string()
 }
-
 fn invalid(message: impl Into<String>) -> V2Error {
     V2Error::new(ErrorCode::InvalidManifest, message)
 }
-
 fn time_error(error: time::error::Format) -> V2Error {
     V2Error::new(ErrorCode::InvalidInput, error.to_string())
 }
@@ -386,44 +546,38 @@ fn time_error(error: time::error::Format) -> V2Error {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    fn fixture_repo() -> tempfile::TempDir {
-        let repo = tempfile::tempdir().unwrap();
-        for path in [
-            "phase-b.json",
-            "phase-c.json",
-            "selector.json",
-            "candidate-v1",
-        ] {
-            fs::write(repo.path().join(path), b"candidate").unwrap();
+    fn baseline() -> Baseline {
+        Baseline {
+            lines: [(PathBuf::from("a"), 45_000), (PathBuf::from("b"), 4_979)].into(),
+            rust_hash: RUST_LIST_BLAKE3.into(),
+            shell_hash: SHELL_LIST_BLAKE3.into(),
         }
+    }
+    fn fixture() -> tempfile::TempDir {
+        let repo = tempfile::tempdir().unwrap();
         fs::write(
-            repo.path().join("phase-b.json"),
+            repo.path().join("b.json"),
             include_bytes!("../../docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json"),
         )
         .unwrap();
         fs::write(
-            repo.path().join("phase-c.json"),
+            repo.path().join("c.json"),
             include_bytes!("../../docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json"),
         )
         .unwrap();
-        fs::write(
-            repo.path().join("selector.json"),
-            br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v2","opted_in_issues":[5293,5294]}"#,
-        )
-        .unwrap();
+        fs::write(repo.path().join("s.json"), br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v2","opted_in_issues":[]}"#).unwrap();
         Command::new("git")
             .args(["init", "-q"])
             .current_dir(repo.path())
             .status()
             .unwrap();
         Command::new("git")
-            .args(["config", "user.email", "eligibility@example.invalid"])
+            .args(["config", "user.email", "e@invalid"])
             .current_dir(repo.path())
             .status()
             .unwrap();
         Command::new("git")
-            .args(["config", "user.name", "Eligibility"])
+            .args(["config", "user.name", "E"])
             .current_dir(repo.path())
             .status()
             .unwrap();
@@ -433,149 +587,142 @@ mod tests {
             .status()
             .unwrap();
         Command::new("git")
-            .args(["commit", "-qm", "fixture"])
+            .args(["commit", "-qm", "f"])
             .current_dir(repo.path())
             .status()
             .unwrap();
         repo
     }
-
-    fn request(
-        repo: &Path,
-        removed: u64,
-        protected_until: Option<&str>,
-    ) -> DeletionEligibilityRequest {
+    fn request(repo: &Path) -> DeletionEligibilityRequest {
+        let b = fs::read(repo.join("b.json")).unwrap();
+        let c = fs::read(repo.join("c.json")).unwrap();
+        let s = fs::read(repo.join("s.json")).unwrap();
         let manifest = DeletionManifest {
             schema: "csdlc.proposed_deletion_manifest.v1".into(),
-            baseline_lines: 49_979,
+            baseline_revision: BASELINE_REVISION.into(),
             target_percent: 90,
             minimum_percent: 80,
-            entries: vec![
-                DeletionEntry {
-                    path: "candidate-v1".into(),
-                    disposition: EntryDisposition::Remove,
-                    measured_lines: removed,
-                    owner: None,
-                    justification: None,
-                    protected_until: protected_until.map(str::to_owned),
-                },
-                DeletionEntry {
-                    path: "retained-v1".into(),
-                    disposition: EntryDisposition::Retain,
-                    measured_lines: 49_979 - removed,
-                    owner: Some("migration-owner".into()),
-                    justification: Some("useful retained compatibility".into()),
-                    protected_until: None,
-                },
-            ],
+            default_disposition: EntryDisposition::Remove,
+            default_owner: None,
+            default_justification: None,
+            entries: vec![],
         };
-        let phase_c = fs::read(repo.join("phase-c.json")).unwrap();
-        let manifest_bytes = serde_json::to_vec(&manifest).unwrap();
+        let mb = serde_json::to_vec(&manifest).unwrap();
+        let rev = git_text(repo, &["rev-parse", "HEAD"]).unwrap();
         DeletionEligibilityRequest {
             schema: "csdlc.deletion_eligibility_request.v1".into(),
             issue: 5305,
-            phase_b_evidence: "phase-b.json".into(),
-            phase_c_evidence: "phase-c.json".into(),
-            selector: "selector.json".into(),
+            phase_b_evidence: "b.json".into(),
+            phase_c_evidence: "c.json".into(),
+            selector: "s.json".into(),
+            manifest,
             approval: Some(DeletionApproval {
                 schema: "csdlc.deletion_approval.v1".into(),
                 approved_by: "operator".into(),
                 approved_at: "2026-08-13T00:00:00Z".into(),
-                phase_c_blake3: digest(&phase_c),
-                manifest_blake3: digest(&manifest_bytes),
+                phase_b_blake3: digest(&b),
+                phase_c_blake3: digest(&c),
+                selector_blake3: digest(&s),
+                manifest_blake3: digest(&mb),
+                code_revision: rev,
                 allow_qualified_80_to_89: true,
             }),
-            manifest,
         }
     }
-
-    fn time(value: &str) -> OffsetDateTime {
-        parse_time(value).unwrap()
+    fn at(v: &str) -> OffsetDateTime {
+        parse_time(v).unwrap()
     }
-
     #[test]
-    fn missing_approval_is_ineligible_and_candidate_bytes_do_not_change() {
-        let repo = fixture_repo();
-        let before = fs::read(repo.path().join("candidate-v1")).unwrap();
-        let mut input = request(repo.path(), 45_000, None);
-        input.approval = None;
-        let decision =
-            evaluate_with_time(repo.path(), &input, time("2026-08-13T00:00:00Z")).unwrap();
-        assert!(!decision.eligible);
-        assert_eq!(decision.reasons, vec![DeletionReason::MissingApproval]);
-        assert!(!decision.deletion_executed);
-        assert_eq!(fs::read(repo.path().join("candidate-v1")).unwrap(), before);
+    fn missing_approval_fails_closed() {
+        let r = fixture();
+        let mut q = request(r.path());
+        q.approval = None;
+        let d =
+            evaluate_with_time_and_baseline(r.path(), &q, at("2026-08-13T00:00:00Z"), &baseline())
+                .unwrap();
+        assert_eq!(d.reasons, vec![DeletionReason::MissingApproval]);
+        assert!(!d.deletion_executed);
     }
-
     #[test]
-    fn protected_window_fails_closed() {
-        let repo = fixture_repo();
-        let input = request(repo.path(), 45_000, Some("2026-08-12T02:03:02Z"));
-        let decision =
-            evaluate_with_time(repo.path(), &input, time("2026-07-20T00:00:00Z")).unwrap();
-        assert!(!decision.eligible);
-        assert!(decision
-            .reasons
-            .contains(&DeletionReason::ProtectedWindowActive));
+    fn mandatory_phase_c_windows_fail_closed() {
+        let r = fixture();
+        let q = request(r.path());
+        let d =
+            evaluate_with_time_and_baseline(r.path(), &q, at("2026-07-20T00:00:00Z"), &baseline())
+                .unwrap();
+        assert!(d.reasons.contains(&DeletionReason::RollbackWindowActive));
+        assert!(d.reasons.contains(&DeletionReason::ImporterWindowActive));
     }
-
     #[test]
-    fn below_eighty_percent_can_never_be_eligible() {
-        let repo = fixture_repo();
-        let input = request(repo.path(), 39_000, None);
-        let decision =
-            evaluate_with_time(repo.path(), &input, time("2026-08-13T00:00:00Z")).unwrap();
-        assert!(!decision.eligible);
-        assert!(decision
-            .reasons
-            .contains(&DeletionReason::BelowMinimumRemoval));
-    }
-
-    #[test]
-    fn qualified_eighty_to_eighty_nine_requires_approval_flag() {
-        let repo = fixture_repo();
-        let mut input = request(repo.path(), 42_000, None);
-        input.approval.as_mut().unwrap().allow_qualified_80_to_89 = false;
-        let decision =
-            evaluate_with_time(repo.path(), &input, time("2026-08-13T00:00:00Z")).unwrap();
-        assert!(!decision.eligible);
-        assert!(decision
-            .reasons
-            .contains(&DeletionReason::QualificationNotApproved));
-    }
-
-    #[test]
-    fn current_approved_ninety_percent_manifest_is_eligible_but_non_mutating() {
-        let repo = fixture_repo();
-        let input = request(repo.path(), 45_000, None);
-        let decision =
-            evaluate_with_time(repo.path(), &input, time("2026-08-13T00:00:00Z")).unwrap();
-        assert!(decision.eligible, "{decision:#?}");
-        assert!(decision.target_met);
-        assert!(!decision.deletion_executed);
-    }
-
-    #[test]
-    fn approval_is_bound_to_phase_c_and_manifest_digests() {
-        let repo = fixture_repo();
-        let mut input = request(repo.path(), 45_000, None);
-        input.approval.as_mut().unwrap().manifest_blake3 = "0".repeat(64);
-        let decision =
-            evaluate_with_time(repo.path(), &input, time("2026-08-13T00:00:00Z")).unwrap();
-        assert!(!decision.eligible);
-        assert!(decision
+    fn all_authoritative_inputs_are_approval_bound() {
+        let r = fixture();
+        let mut q = request(r.path());
+        q.approval.as_mut().unwrap().selector_blake3 = "0".repeat(64);
+        let d =
+            evaluate_with_time_and_baseline(r.path(), &q, at("2026-08-13T00:00:00Z"), &baseline())
+                .unwrap();
+        assert!(d
             .reasons
             .contains(&DeletionReason::ApprovalEvidenceMismatch));
     }
-
     #[test]
-    fn unsafe_duplicate_and_unowned_retained_entries_are_invalid() {
-        let repo = fixture_repo();
-        let mut input = request(repo.path(), 45_000, None);
-        input.manifest.entries[0].path = "../escape".into();
-        assert!(evaluate_with_time(repo.path(), &input, time("2026-08-13T00:00:00Z")).is_err());
-        let mut input = request(repo.path(), 45_000, None);
-        input.manifest.entries[1].owner = None;
-        assert!(evaluate_with_time(repo.path(), &input, time("2026-08-13T00:00:00Z")).is_err());
+    fn malformed_digest_is_rejected() {
+        let r = fixture();
+        let mut q = request(r.path());
+        q.approval.as_mut().unwrap().phase_b_blake3 = "G".repeat(64);
+        assert!(evaluate_with_time_and_baseline(
+            r.path(),
+            &q,
+            at("2026-08-13T00:00:00Z"),
+            &baseline()
+        )
+        .is_err());
+    }
+    #[test]
+    fn default_partition_and_exact_overrides_derive_lines() {
+        let r = fixture();
+        let mut q = request(r.path());
+        q.manifest.default_disposition = EntryDisposition::Retain;
+        q.manifest.default_owner = Some("owner".into());
+        q.manifest.default_justification = Some("useful".into());
+        q.manifest.entries.push(DeletionEntry {
+            path: "a".into(),
+            disposition: EntryDisposition::Remove,
+            owner: None,
+            justification: None,
+            protected_until: None,
+        });
+        q.approval = None;
+        let d =
+            evaluate_with_time_and_baseline(r.path(), &q, at("2026-08-13T00:00:00Z"), &baseline())
+                .unwrap();
+        assert_eq!(d.removed_lines, 45_000);
+        assert_eq!(d.retained_lines, 4_979);
+    }
+    #[test]
+    fn unknown_or_duplicate_overrides_are_invalid() {
+        let r = fixture();
+        let mut q = request(r.path());
+        q.manifest.entries.push(DeletionEntry {
+            path: "unknown".into(),
+            disposition: EntryDisposition::Remove,
+            owner: None,
+            justification: None,
+            protected_until: None,
+        });
+        assert!(evaluate_with_time_and_baseline(
+            r.path(),
+            &q,
+            at("2026-08-13T00:00:00Z"),
+            &baseline()
+        )
+        .is_err());
+    }
+    #[test]
+    fn schema_bundle_is_versioned() {
+        assert_eq!(
+            eligibility_schema_bundle()["schema"],
+            "csdlc.deletion_eligibility_schemas.v1"
+        );
     }
 }
