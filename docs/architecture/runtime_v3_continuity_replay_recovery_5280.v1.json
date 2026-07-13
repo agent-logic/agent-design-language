@@ -1,0 +1,88 @@
+{
+  "schema": "adl.runtime_v3.continuity_replay_recovery_proof.v1",
+  "issue": 5280,
+  "sprint_issue": 5276,
+  "target_version": "v0.91.7",
+  "created_at_utc": "2026-07-13T01:15:00Z",
+  "capability": "continuity.replay_recovery",
+  "disposition": "live_equivalent_fixture",
+  "cutover_eligible": false,
+  "default_runtime_switch_authorized": false,
+  "runtime_v2_internal_reuse": false,
+  "runtime_v2_default_preserved": true,
+  "proof_surface": {
+    "runtime_sources": [
+      "adl-runtime-kernel/src/continuity.rs",
+      "adl-runtime-kernel/src/proof.rs"
+    ],
+    "runtime_tests": [
+      "adl-runtime-kernel/tests/continuity.rs::checkpoint_quiesces_then_serializes_in_bounded_parallel_and_loads",
+      "adl-runtime-kernel/tests/continuity.rs::corrupt_snapshot_is_quarantined_and_preserved",
+      "adl-runtime-kernel/tests/continuity.rs::incompatible_identity_and_service_schema_refuse_recovery",
+      "adl-runtime-kernel/tests/continuity.rs::missing_checkpoint_restarts_fresh",
+      "adl-runtime-kernel/tests/continuity.rs::replay_rejects_gaps_reordering_and_substitution",
+      "adl-runtime-kernel/tests/continuity.rs::checkpoint_and_lifelog_storage_must_be_disjoint",
+      "adl-runtime-kernel/tests/continuity.rs::graceful_stop_shuts_down_even_when_checkpoint_deadline_expires",
+      "adl-runtime-kernel/tests/kernel.rs::continuity_generation_advances_across_fresh_kernel_runs",
+      "adl-runtime-kernel/tests/kernel.rs::corrupt_capsule_fails_closed_during_shutdown",
+      "adl-runtime-kernel/tests/identity_memory.rs::restore_requires_matching_identity_and_head_before_continuing",
+      "adl-runtime-kernel/tests/identity_memory.rs::restored_checkpoint_preserves_summary_across_next_checkpoint"
+    ]
+  },
+  "behaviors": {
+    "checkpoint_quiesce_before_snapshot": {
+      "status": "proved",
+      "evidence": "checkpoint_quiesces_then_serializes_in_bounded_parallel_and_loads proves all participants quiesce before snapshots begin."
+    },
+    "bounded_parallel_serialization": {
+      "status": "proved",
+      "evidence": "checkpoint_quiesces_then_serializes_in_bounded_parallel_and_loads proves bounded concurrent snapshot serialization and reload."
+    },
+    "signed_manifest_and_integrity": {
+      "status": "proved",
+      "evidence": "corrupt_snapshot_is_quarantined_and_preserved proves checksum, signature, unsafe path, and signing-key checks on load."
+    },
+    "corrupt_snapshot_quarantine": {
+      "status": "proved",
+      "evidence": "corrupt_snapshot_is_quarantined_and_preserved maps corrupt or forged checkpoint state to quarantine while preserving bytes."
+    },
+    "identity_schema_refusal": {
+      "status": "proved",
+      "evidence": "incompatible_identity_and_service_schema_refuse_recovery proves topology/config identity and service schema mismatches refuse recovery."
+    },
+    "missing_checkpoint_restart_fresh": {
+      "status": "proved",
+      "evidence": "missing_checkpoint_restarts_fresh proves absent checkpoint state routes to restart-fresh recovery."
+    },
+    "replay_prefix_validation": {
+      "status": "proved",
+      "evidence": "replay_rejects_gaps_reordering_and_substitution proves replay gaps, reordering, and payload substitution are rejected."
+    },
+    "graceful_resource_stop_serialization": {
+      "status": "proved",
+      "evidence": "graceful_stop_shuts_down_even_when_checkpoint_deadline_expires proves resource-pressure shutdown closes admission, attempts checkpoint, records incomplete status if bounded work expires, and still stops cleanly."
+    },
+    "fresh_kernel_generation_continuity": {
+      "status": "proved",
+      "evidence": "continuity_generation_advances_across_fresh_kernel_runs proves Runtime v3 proof capsules advance generation across fresh kernel runs."
+    },
+    "restore_continuity_after_checkpoint": {
+      "status": "proved",
+      "evidence": "restore_requires_matching_identity_and_head_before_continuing and restored_checkpoint_preserves_summary_across_next_checkpoint prove checkpoint restore preserves head and summary continuity."
+    }
+  },
+  "acceptance": {
+    "direct_runtime_v3_proof": true,
+    "blocked_or_deferred_counts_as_passed": false,
+    "default_runtime_switch_authorized": false,
+    "runtime_v2_decommission_authorized": false,
+    "runtime_v2_internal_reuse_allowed": false,
+    "small_loc_growth": true
+  },
+  "non_claims": [
+    "This packet does not authorize Runtime v3 as the default runtime.",
+    "This packet does not delete or decommission Runtime v2.",
+    "This packet does not claim distributed multi-node residence, guardian federation, or polis-level resilience.",
+    "This packet does not count blocker or deferred dispositions as passed parity."
+  ]
+}
