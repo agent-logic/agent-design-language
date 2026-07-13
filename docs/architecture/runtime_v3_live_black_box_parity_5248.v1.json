@@ -54,9 +54,8 @@
     },
     {
       "id": "learning.adaptive_dag",
-      "disposition": "blocker",
-      "proof": "Runtime v3 adaptive fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
-      "blocking_issue": 5220
+      "disposition": "live_equivalent_fixture",
+      "proof": "#5281 records direct Runtime v3 adaptive learning DAG proof covering bounded canonical graph validation, deterministic graph execution, bounded adaptive loops, replay/resume integrity, checkpointed adaptation state, signed one-shot graph mutation grants, durable mutation evidence, fail-closed mutation authority, and typed reasoning topology in docs/architecture/runtime_v3_adaptive_learning_dag_5281.v1.json."
     },
     {
       "id": "governance.freedom_gate_aee",
@@ -113,11 +112,11 @@
     }
   ],
   "summary": {
-    "live_equivalent_fixture": 6,
+    "live_equivalent_fixture": 7,
     "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0,
-    "blocker": 4
+    "blocker": 3
   },
   "non_claims": [
     "This packet does not authorize Runtime v3 as the default runtime.",
