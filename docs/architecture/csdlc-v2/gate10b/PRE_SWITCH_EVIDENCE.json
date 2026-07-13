@@ -1,6 +1,6 @@
 {
   "schema": "csdlc.pre_switch_evidence.v1",
-  "revision": "c1a8457b35e4cea0fe3f8691ed087631fe99011c",
+  "revision": "40a64d419e367f627599b9322c960b50203a8e98",
   "default_before": "v1",
   "explicit_v2_selected": true,
   "rollback_to_v1_selected": true,
@@ -8,6 +8,21 @@
   "v1_paths_before": true,
   "v1_paths_after": true,
   "steps": [
+    {
+      "id": "build_binaries",
+      "executable": "cargo",
+      "args": [
+        "build",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--bins"
+      ],
+      "exit_code": 0,
+      "elapsed_millis": 6977,
+      "stdout_blake3": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+      "stderr_blake3": "f1d2aeeba745279d32a421c57987f9958a28e143bd275ec96b3b910e267d355c",
+      "passed": true
+    },
     {
       "id": "full_suite",
       "executable": "cargo",
@@ -17,9 +32,9 @@
         "csdlc-v2/Cargo.toml"
       ],
       "exit_code": 0,
-      "elapsed_millis": 33646,
-      "stdout_blake3": "86d1075d241e47fea91ac3f1ad8968ae60071b529a034ce66418934178c92c10",
-      "stderr_blake3": "8430624a95449237eca190bdb5426cc60c73c1048684c8a0a1c01a7a97f66b3a",
+      "elapsed_millis": 39198,
+      "stdout_blake3": "12f036570caeb61c2b49c95e55a05a15b62020e4720bdb8d10f4d70c722ef1fa",
+      "stderr_blake3": "51e823b3e61cfdafbedd6a872671643cb5e6d2d3c62166da9bc914dd51032a7a",
       "passed": true
     },
     {
@@ -33,8 +48,8 @@
         "gate9"
       ],
       "exit_code": 0,
-      "elapsed_millis": 12378,
-      "stdout_blake3": "487a9087b065d5e09fb5131550051988ef4a065872eb36f2664512fc5c5a02db",
+      "elapsed_millis": 14596,
+      "stdout_blake3": "0c75f4f6a8acd261a5de1cfa0c20cdf3f29bbf9478eea2b77b1aca8d702b1728",
       "stderr_blake3": "f76c757fe9b5c4d33ac216520bb9de0c136f9a714fc908e5a40caaddf391afa4",
       "passed": true
     },
@@ -51,9 +66,9 @@
         "warnings"
       ],
       "exit_code": 0,
-      "elapsed_millis": 7442,
+      "elapsed_millis": 756,
       "stdout_blake3": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
-      "stderr_blake3": "f1b79428d00a641f38aec4446c5d7468ad41da6523b9ada8bda1623a221cf9fc",
+      "stderr_blake3": "10d32abd1f901b810e67bfd4fdb99080bcf1d21fe40ab1a32f639d255d7bdf08",
       "passed": true
     },
     {
@@ -63,19 +78,19 @@
         "help"
       ],
       "exit_code": 0,
-      "elapsed_millis": 291,
+      "elapsed_millis": 288,
       "stdout_blake3": "18637a6984b5d124e03323656a95bc1cff7315dffcb001506ab13f4d0fdda023",
       "stderr_blake3": "68343c88633b18c2fd9dba13193bb61bcaa3812e895fbe438ffb8add87a7ae64",
       "passed": true
     }
   ],
   "measurements": {
-    "rust_loc": 11557,
-    "test_count": 84,
+    "rust_loc": 11631,
+    "test_count": 85,
     "debug_binary_bytes": [
       [
         "csdlc-bind",
-        8002824
+        8002840
       ],
       [
         "csdlc-closeout",
@@ -83,11 +98,11 @@
       ],
       [
         "csdlc-doctor",
-        7487360
+        7487376
       ],
       [
         "csdlc-edit",
-        10256584
+        10256600
       ],
       [
         "csdlc-import",
@@ -95,7 +110,7 @@
       ],
       [
         "csdlc-init",
-        8007560
+        8007576
       ],
       [
         "csdlc-install",
@@ -103,7 +118,7 @@
       ],
       [
         "csdlc-proof",
-        4305360
+        4351616
       ],
       [
         "csdlc-publish",
@@ -127,15 +142,15 @@
       ],
       [
         "csdlc-soak",
-        6993176
+        6995016
       ],
       [
         "csdlc-validate",
         4910832
       ]
     ],
-    "construction_and_full_suite_millis": 33646,
-    "total_proof_millis": 53757,
+    "construction_and_full_suite_millis": 39198,
+    "total_proof_millis": 61815,
     "loc_is_reviewable_not_a_hard_cap": true
   },
   "passed": true
