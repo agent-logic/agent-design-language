@@ -6,6 +6,7 @@ use std::process::Command;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
 use strum::{AsRefStr, Display, EnumIter, EnumString};
 use time::OffsetDateTime;
 
@@ -17,8 +18,8 @@ use crate::{Generation, GenerationSelector};
 const BASELINE_REVISION: &str = "020bba17deb9f172e91a2ec5c0599cf42e4defe9";
 const BASELINE_LINES: u64 = 49_979;
 const BASELINE_FILES: usize = 95;
-const RUST_LIST_BLAKE3: &str = "c3118c1f3766b5f4a3e549c9073b33fb83164b3006175785b4c08f84c898558f";
-const SHELL_LIST_BLAKE3: &str = "7160399a788e467ebd934309a99f9777fb0f14d4270989e5114c73b63fa3d8cc";
+const RUST_LIST_SHA256: &str = "c3118c1f3766b5f4a3e549c9073b33fb83164b3006175785b4c08f84c898558f";
+const SHELL_LIST_SHA256: &str = "7160399a788e467ebd934309a99f9777fb0f14d4270989e5114c73b63fa3d8cc";
 
 #[derive(
     Debug,
@@ -131,8 +132,8 @@ pub struct DeletionDecision {
     pub baseline_revision: String,
     pub baseline_files: usize,
     pub baseline_lines: u64,
-    pub rust_list_blake3: String,
-    pub shell_list_blake3: String,
+    pub rust_list_sha256: String,
+    pub shell_list_sha256: String,
     pub phase_b_blake3: String,
     pub phase_c_blake3: String,
     pub selector_blake3: String,
@@ -299,8 +300,8 @@ fn evaluate_with_time_and_baseline(
         baseline_revision: BASELINE_REVISION.into(),
         baseline_files: baseline.lines.len(),
         baseline_lines: BASELINE_LINES,
-        rust_list_blake3: baseline.rust_hash.clone(),
-        shell_list_blake3: baseline.shell_hash.clone(),
+        rust_list_sha256: baseline.rust_hash.clone(),
+        shell_list_sha256: baseline.shell_hash.clone(),
         phase_b_blake3,
         phase_c_blake3,
         selector_blake3,
@@ -331,10 +332,10 @@ fn load_baseline(repo: &Path) -> Result<Baseline> {
     rust.dedup();
     shell.sort();
     shell.dedup();
-    let rust_hash = digest(format!("{}\n", rust.join("\n")).as_bytes());
-    let shell_hash = digest(format!("{}\n", shell.join("\n")).as_bytes());
-    if rust_hash != RUST_LIST_BLAKE3
-        || shell_hash != SHELL_LIST_BLAKE3
+    let rust_hash = sha256(format!("{}\n", rust.join("\n")).as_bytes());
+    let shell_hash = sha256(format!("{}\n", shell.join("\n")).as_bytes());
+    if rust_hash != RUST_LIST_SHA256
+        || shell_hash != SHELL_LIST_SHA256
         || rust.len() + shell.len() != BASELINE_FILES
     {
         return Err(invalid(
@@ -536,6 +537,9 @@ fn git_bytes(repo: &Path, args: &[&str]) -> Result<Vec<u8>> {
 fn digest(bytes: &[u8]) -> String {
     blake3::hash(bytes).to_hex().to_string()
 }
+fn sha256(bytes: &[u8]) -> String {
+    format!("{:x}", Sha256::digest(bytes))
+}
 fn invalid(message: impl Into<String>) -> V2Error {
     V2Error::new(ErrorCode::InvalidManifest, message)
 }
@@ -549,8 +553,8 @@ mod tests {
     fn baseline() -> Baseline {
         Baseline {
             lines: [(PathBuf::from("a"), 45_000), (PathBuf::from("b"), 4_979)].into(),
-            rust_hash: RUST_LIST_BLAKE3.into(),
-            shell_hash: SHELL_LIST_BLAKE3.into(),
+            rust_hash: RUST_LIST_SHA256.into(),
+            shell_hash: SHELL_LIST_SHA256.into(),
         }
     }
     fn fixture() -> tempfile::TempDir {
