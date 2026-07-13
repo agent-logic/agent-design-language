@@ -9,7 +9,30 @@ use serde::{Deserialize, Serialize};
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::{select_generation, Generation, GenerationSelector};
 
-const REQUIRED_STEPS: [&str; 4] = ["full_suite", "samples_parity", "quality", "v1_smoke"];
+const REQUIRED_STEPS: [&str; 5] = [
+    "build_binaries",
+    "full_suite",
+    "samples_parity",
+    "quality",
+    "v1_smoke",
+];
+const BINARY_NAMES: [&str; 15] = [
+    "csdlc-bind",
+    "csdlc-closeout",
+    "csdlc-doctor",
+    "csdlc-edit",
+    "csdlc-import",
+    "csdlc-init",
+    "csdlc-install",
+    "csdlc-proof",
+    "csdlc-publish",
+    "csdlc-review",
+    "csdlc-schedule",
+    "csdlc-shadow",
+    "csdlc-shepherd",
+    "csdlc-soak",
+    "csdlc-validate",
+];
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -18,6 +41,7 @@ pub struct ProofManifest {
     pub default_generation: Generation,
     pub issue: u64,
     pub opted_in_issues: BTreeSet<u64>,
+    pub generation_selector: PathBuf,
     pub steps: Vec<ProofStep>,
 }
 
@@ -104,11 +128,16 @@ impl ProofManifest {
 
 pub fn run_pre_switch_proof(repo: &Path, manifest: &ProofManifest) -> Result<PreSwitchEvidence> {
     manifest.validate()?;
-    let selector = GenerationSelector {
-        schema: "csdlc.generation_selector.v1".into(),
-        default_generation: manifest.default_generation,
-        opted_in_issues: manifest.opted_in_issues.clone(),
-    };
+    require_clean_revision(repo)?;
+    let selector = read_selector(repo, &manifest.generation_selector)?;
+    if selector.default_generation != manifest.default_generation
+        || selector.opted_in_issues != manifest.opted_in_issues
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidManifest,
+            "proof manifest must exactly match the tracked generation selector",
+        ));
+    }
     let default_before = select_generation(&selector, manifest.issue, None)?;
     let explicit_v2_selected =
         select_generation(&selector, manifest.issue, Some(Generation::V2))? == Generation::V2;
@@ -135,13 +164,15 @@ pub fn run_pre_switch_proof(repo: &Path, manifest: &ProofManifest) -> Result<Pre
             passed: output.status.success(),
         });
     }
-    let default_after = select_generation(&selector, manifest.issue, None)?;
+    let selector_after = read_selector(repo, &manifest.generation_selector)?;
+    let default_after = select_generation(&selector_after, manifest.issue, None)?;
     let v1_paths_after = required_v1_paths_exist(repo);
     let measurements = measure(repo, &steps)?;
     let passed = default_before == Generation::V1
         && explicit_v2_selected
         && rollback_to_v1_selected
         && default_after == Generation::V1
+        && selector_after == selector
         && v1_paths_before
         && v1_paths_after
         && steps.iter().all(|step| step.passed);
@@ -158,6 +189,27 @@ pub fn run_pre_switch_proof(repo: &Path, manifest: &ProofManifest) -> Result<Pre
         measurements,
         passed,
     })
+}
+
+fn read_selector(repo: &Path, relative: &Path) -> Result<GenerationSelector> {
+    if relative.is_absolute()
+        || relative
+            .components()
+            .any(|part| matches!(part, std::path::Component::ParentDir))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidManifest,
+            "generation selector must be a repo-relative non-traversing path",
+        ));
+    }
+    let path = repo.join(relative);
+    if !regular_file(&path) {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "generation selector must be a regular non-symlink file",
+        ));
+    }
+    serde_json::from_slice(&fs::read(path)?).map_err(Into::into)
 }
 
 pub fn write_evidence_atomic(path: &Path, evidence: &PreSwitchEvidence) -> Result<()> {
@@ -187,6 +239,7 @@ fn required_v1_paths_exist(repo: &Path) -> bool {
 
 fn expected_command(id: &str) -> Option<(&'static str, Vec<String>)> {
     let values: &[&str] = match id {
+        "build_binaries" => &["build", "--manifest-path", "csdlc-v2/Cargo.toml", "--bins"],
         "full_suite" => &["test", "--manifest-path", "csdlc-v2/Cargo.toml"],
         "samples_parity" => &[
             "test",
@@ -261,18 +314,15 @@ fn measure(repo: &Path, steps: &[StepEvidence]) -> Result<ProofMeasurements> {
     }
     let target = repo.join("csdlc-v2/target/debug");
     let mut debug_binary_bytes = Vec::new();
-    if target.is_dir() {
-        for entry in fs::read_dir(target)? {
-            let entry = entry?;
-            let name = entry.file_name().to_string_lossy().into_owned();
-            if name.starts_with("csdlc-")
-                && !name.contains('.')
-                && regular_file(&entry.path())
-                && executable_file(&entry.path())
-            {
-                debug_binary_bytes.push((name, entry.metadata()?.len()));
-            }
+    for name in BINARY_NAMES.into_iter().collect::<BTreeSet<_>>() {
+        let path = target.join(name);
+        if !regular_file(&path) || !executable_file(&path) {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                format!("revision-current binary measurement is missing {name}"),
+            ));
         }
+        debug_binary_bytes.push((name.into(), fs::metadata(path)?.len()));
     }
     debug_binary_bytes.sort();
     Ok(ProofMeasurements {
@@ -287,6 +337,21 @@ fn measure(repo: &Path, steps: &[StepEvidence]) -> Result<ProofMeasurements> {
         total_proof_millis: steps.iter().map(|step| step.elapsed_millis).sum(),
         loc_is_reviewable_not_a_hard_cap: true,
     })
+}
+
+pub fn require_clean_revision(repo: &Path) -> Result<()> {
+    let output = Command::new("git")
+        .args(["status", "--porcelain", "--untracked-files=all"])
+        .current_dir(repo)
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !output.status.success() || !output.stdout.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "pre-switch proof requires a clean exact revision before execution",
+        ));
+    }
+    Ok(())
 }
 
 fn walk(root: &Path) -> Result<Vec<PathBuf>> {

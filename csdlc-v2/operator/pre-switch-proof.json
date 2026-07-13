@@ -3,7 +3,9 @@
   "default_generation":"v1",
   "issue":5293,
   "opted_in_issues":[5293],
+  "generation_selector":"csdlc-v2/operator/generation-selector.json",
   "steps":[
+    {"id":"build_binaries","executable":"cargo","args":["build","--manifest-path","csdlc-v2/Cargo.toml","--bins"]},
     {"id":"full_suite","executable":"cargo","args":["test","--manifest-path","csdlc-v2/Cargo.toml"]},
     {"id":"samples_parity","executable":"cargo","args":["test","--manifest-path","csdlc-v2/Cargo.toml","--test","gate9"]},
     {"id":"quality","executable":"cargo","args":["clippy","--manifest-path","csdlc-v2/Cargo.toml","--all-targets","--","-D","warnings"]},

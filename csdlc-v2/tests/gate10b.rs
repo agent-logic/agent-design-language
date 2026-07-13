@@ -7,6 +7,18 @@ fn manifest() -> ProofManifest {
 }
 
 #[test]
+fn dirty_tree_is_refused_before_proof_attribution() {
+    let repo = tempfile::tempdir().unwrap();
+    std::process::Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(repo.path())
+        .status()
+        .unwrap();
+    std::fs::write(repo.path().join("dirty"), b"untracked").unwrap();
+    assert!(csdlc_v2::proof::require_clean_revision(repo.path()).is_err());
+}
+
+#[test]
 fn manifest_requires_v1_default_opt_in_and_exact_proofs() {
     let mut value = manifest();
     assert!(value.validate().is_ok());
