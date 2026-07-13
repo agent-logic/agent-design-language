@@ -1,6 +1,6 @@
 {
   "schema": "csdlc.pre_switch_evidence.v1",
-  "revision": "40a64d419e367f627599b9322c960b50203a8e98",
+  "revision": "5baf5822c6d25c49188919be23c65a5204539791",
   "default_before": "v1",
   "explicit_v2_selected": true,
   "rollback_to_v1_selected": true,
@@ -18,9 +18,9 @@
         "--bins"
       ],
       "exit_code": 0,
-      "elapsed_millis": 6977,
+      "elapsed_millis": 8061,
       "stdout_blake3": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
-      "stderr_blake3": "f1d2aeeba745279d32a421c57987f9958a28e143bd275ec96b3b910e267d355c",
+      "stderr_blake3": "c12ebf80c8f5248a14e0fda5b01d7b1bc2319f6b0fc51a37a9e512b21fe579cc",
       "passed": true
     },
     {
@@ -32,9 +32,9 @@
         "csdlc-v2/Cargo.toml"
       ],
       "exit_code": 0,
-      "elapsed_millis": 39198,
-      "stdout_blake3": "12f036570caeb61c2b49c95e55a05a15b62020e4720bdb8d10f4d70c722ef1fa",
-      "stderr_blake3": "51e823b3e61cfdafbedd6a872671643cb5e6d2d3c62166da9bc914dd51032a7a",
+      "elapsed_millis": 48459,
+      "stdout_blake3": "66ed54ceeb9fca02979d515ea5ae2b6ad1daa3b2ff8563717d3d20cec90b24f8",
+      "stderr_blake3": "e53289265533a220742fc94f9bd46105e2e488ac751429dd68674cff9e1ceb75",
       "passed": true
     },
     {
@@ -48,9 +48,9 @@
         "gate9"
       ],
       "exit_code": 0,
-      "elapsed_millis": 14596,
-      "stdout_blake3": "0c75f4f6a8acd261a5de1cfa0c20cdf3f29bbf9478eea2b77b1aca8d702b1728",
-      "stderr_blake3": "f76c757fe9b5c4d33ac216520bb9de0c136f9a714fc908e5a40caaddf391afa4",
+      "elapsed_millis": 19241,
+      "stdout_blake3": "4e2c326af435d90855c08e2e37205b36667d4eb7f02f68acc32976b9ffaa2d33",
+      "stderr_blake3": "200e51d935cf192b40e4ef5f23414ab9386b8fc59ffe71e200afeb09a75f0b41",
       "passed": true
     },
     {
@@ -66,9 +66,9 @@
         "warnings"
       ],
       "exit_code": 0,
-      "elapsed_millis": 756,
+      "elapsed_millis": 12261,
       "stdout_blake3": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
-      "stderr_blake3": "10d32abd1f901b810e67bfd4fdb99080bcf1d21fe40ab1a32f639d255d7bdf08",
+      "stderr_blake3": "b00b5641c37a6112a901d6cf4fbab6ca12c52544750162ade4529ef2d90e0d86",
       "passed": true
     },
     {
@@ -78,15 +78,15 @@
         "help"
       ],
       "exit_code": 0,
-      "elapsed_millis": 288,
+      "elapsed_millis": 281,
       "stdout_blake3": "18637a6984b5d124e03323656a95bc1cff7315dffcb001506ab13f4d0fdda023",
       "stderr_blake3": "68343c88633b18c2fd9dba13193bb61bcaa3812e895fbe438ffb8add87a7ae64",
       "passed": true
     }
   ],
   "measurements": {
-    "rust_loc": 11631,
-    "test_count": 85,
+    "rust_loc": 11681,
+    "test_count": 86,
     "debug_binary_bytes": [
       [
         "csdlc-bind",
@@ -118,7 +118,7 @@
       ],
       [
         "csdlc-proof",
-        4351616
+        4352896
       ],
       [
         "csdlc-publish",
@@ -149,8 +149,8 @@
         4910832
       ]
     ],
-    "construction_and_full_suite_millis": 39198,
-    "total_proof_millis": 61815,
+    "construction_and_full_suite_millis": 48459,
+    "total_proof_millis": 88303,
     "loc_is_reviewable_not_a_hard_cap": true
   },
   "passed": true
