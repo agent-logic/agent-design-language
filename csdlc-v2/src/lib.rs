@@ -6,6 +6,7 @@ pub mod lifecycle;
 pub mod migration;
 pub mod model;
 pub mod operator;
+pub mod proof;
 pub mod publication;
 pub mod pvf;
 pub mod readiness;
@@ -35,6 +36,7 @@ pub use model::{
 pub use operator::{
     install_binaries, verify_coexistence, CoexistenceInventory, InstallReceipt, SkillManifest,
 };
+pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
     prepare_publication, reconcile_action, record_publication, PublicationAction,
     PublicationIntent, PublicationRequest, RemotePullRequest,
