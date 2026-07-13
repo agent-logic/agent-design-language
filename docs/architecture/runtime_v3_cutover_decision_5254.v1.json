@@ -26,7 +26,7 @@
   },
   "input_summary": {
     "live_black_box_cutover_eligible": false,
-    "live_black_box_blockers": 4,
+    "live_black_box_blockers": 3,
     "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0
@@ -41,11 +41,11 @@
     {"issue": 5277, "state": "closed", "role": "kernel.lifecycle live Runtime v3 proof"},
     {"issue": 5278, "state": "closed", "role": "kernel.topology_and_backpressure live Runtime v3 proof"},
     {"issue": 5279, "state": "closed", "role": "service.contracts_and_configuration live Runtime v3 proof"},
-    {"issue": 5280, "state": "in_review", "role": "continuity.replay_recovery live Runtime v3 proof"},
+    {"issue": 5280, "state": "closed", "role": "continuity.replay_recovery live Runtime v3 proof"},
+    {"issue": 5281, "state": "in_review", "role": "learning.adaptive_dag live Runtime v3 proof"},
     {"issue": 5284, "state": "closed", "role": "agents.providers_scheduler live Runtime v3 proof"}
   ],
   "blocking_surfaces": [
-    "learning.adaptive_dag",
     "governance.freedom_gate_aee",
     "contracts.delegation_resources",
     "network.acip_a2a_cloud"

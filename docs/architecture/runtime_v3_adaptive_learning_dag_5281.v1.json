@@ -1,0 +1,88 @@
+{
+  "schema": "adl.runtime_v3.adaptive_learning_dag_proof.v1",
+  "issue": 5281,
+  "sprint_issue": 5276,
+  "target_version": "v0.91.7",
+  "created_at_utc": "2026-07-13T01:58:00Z",
+  "capability": "learning.adaptive_dag",
+  "disposition": "live_equivalent_fixture",
+  "cutover_eligible": false,
+  "default_runtime_switch_authorized": false,
+  "runtime_v2_internal_reuse": false,
+  "runtime_v2_default_preserved": true,
+  "proof_surface": {
+    "runtime_sources": [
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/continuity.rs",
+      "adl-runtime-kernel/src/topology.rs",
+      "adl-runtime-kernel/src/contract.rs",
+      "adl-runtime-kernel/src/supervisor.rs",
+      "adl-runtime-kernel/src/telemetry.rs"
+    ],
+    "runtime_tests": [
+      "adl-runtime-kernel/tests/reasoning.rs::graph_validation_is_bounded_canonical_and_insertion_independent",
+      "adl-runtime-kernel/tests/reasoning.rs::graph_execution_uses_edges_and_merge_structure",
+      "adl-runtime-kernel/tests/reasoning.rs::loop_converges_or_exhausts_at_exact_bounds",
+      "adl-runtime-kernel/tests/reasoning.rs::resume_recomputes_semantics_and_rejects_rehashed_forgery",
+      "adl-runtime-kernel/tests/reasoning.rs::adaptation_store_round_trips_through_checkpoint_coordinator",
+      "adl-runtime-kernel/tests/reasoning.rs::mutation_gate_atomically_publishes_one_shot_grants_and_rolls_back",
+      "adl-runtime-kernel/tests/reasoning.rs::mutation_state_and_one_shot_evidence_survive_checkpoint_restore",
+      "adl-runtime-kernel/tests/reasoning.rs::mutation_expiry_is_exclusive_and_evidence_requires_signature",
+      "adl-runtime-kernel/tests/reasoning.rs::mutation_gate_rejects_expiry_forgery_operation_drift_and_invalid_graph",
+      "adl-runtime-kernel/tests/reasoning.rs::mutation_evidence_detects_tampering",
+      "adl-runtime-kernel/tests/reasoning.rs::reasoning_services_form_a_runnable_typed_topology"
+    ]
+  },
+  "behaviors": {
+    "bounded_canonical_graph_validation": {
+      "status": "proved",
+      "evidence": "graph_validation_is_bounded_canonical_and_insertion_independent proves graph bounds, canonical ordering, duplicate-node rejection, cycle rejection, and unreachable-node rejection."
+    },
+    "deterministic_graph_execution": {
+      "status": "proved",
+      "evidence": "graph_execution_uses_edges_and_merge_structure proves edge-based deterministic execution through merge structure."
+    },
+    "bounded_adaptive_loop": {
+      "status": "proved",
+      "evidence": "loop_converges_or_exhausts_at_exact_bounds proves bounded recurrent execution with convergence and exhaustion classifications."
+    },
+    "replay_resume_integrity": {
+      "status": "proved",
+      "evidence": "resume_recomputes_semantics_and_rejects_rehashed_forgery proves resumed adaptive execution recomputes semantics and rejects forged or reordered replay."
+    },
+    "checkpointed_adaptation_state": {
+      "status": "proved",
+      "evidence": "adaptation_store_round_trips_through_checkpoint_coordinator proves adaptation state publishes only verified outcomes, quiesces for checkpoint, and restores through the Runtime v3 checkpoint coordinator."
+    },
+    "policy_governed_graph_mutation": {
+      "status": "proved",
+      "evidence": "mutation_gate_atomically_publishes_one_shot_grants_and_rolls_back proves signed one-shot graph mutation grants, atomic graph publication, and rollback candidate construction."
+    },
+    "mutation_evidence_durability": {
+      "status": "proved",
+      "evidence": "mutation_state_and_one_shot_evidence_survive_checkpoint_restore proves graph mutation state, consumed grant evidence, and adaptation graph hash survive checkpoint restore."
+    },
+    "mutation_authority_fail_closed": {
+      "status": "proved",
+      "evidence": "mutation_expiry_is_exclusive_and_evidence_requires_signature and mutation_gate_rejects_expiry_forgery_operation_drift_and_invalid_graph prove expiry, authority, operation drift, invalid graph, and forged evidence fail closed."
+    },
+    "typed_reasoning_topology": {
+      "status": "proved",
+      "evidence": "reasoning_services_form_a_runnable_typed_topology proves Runtime v3 reasoning services form a typed supervised topology and preserve graph/adaptation binding across restart."
+    }
+  },
+  "acceptance": {
+    "direct_runtime_v3_proof": true,
+    "blocked_or_deferred_counts_as_passed": false,
+    "default_runtime_switch_authorized": false,
+    "runtime_v2_decommission_authorized": false,
+    "runtime_v2_internal_reuse_allowed": false,
+    "small_loc_growth": true
+  },
+  "non_claims": [
+    "This packet does not authorize Runtime v3 as the default runtime.",
+    "This packet does not delete or decommission Runtime v2.",
+    "This packet does not claim distributed multi-node learning federation or polis-level graph consensus.",
+    "This packet does not count blocker or deferred dispositions as passed parity."
+  ]
+}
