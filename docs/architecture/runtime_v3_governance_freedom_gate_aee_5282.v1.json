@@ -1,0 +1,86 @@
+{
+  "schema": "adl.runtime_v3.governance_freedom_gate_aee_proof.v1",
+  "issue": 5282,
+  "sprint_issue": 5276,
+  "target_version": "v0.91.7",
+  "created_at_utc": "2026-07-13T03:08:00Z",
+  "capability": "governance.freedom_gate_aee",
+  "disposition": "live_equivalent_fixture",
+  "cutover_eligible": false,
+  "default_runtime_switch_authorized": false,
+  "runtime_v2_internal_reuse": false,
+  "runtime_v2_default_preserved": true,
+  "proof_surface": {
+    "runtime_sources": [
+      "adl-runtime-kernel/src/governance.rs",
+      "adl-runtime-kernel/src/contract.rs",
+      "adl-runtime-kernel/src/component.rs",
+      "adl-runtime-kernel/src/topology.rs"
+    ],
+    "runtime_tests": [
+      "adl-runtime-kernel/tests/governance.rs::allowed_action_crosses_signed_gate_before_nondeterministic_shell",
+      "adl-runtime-kernel/tests/governance.rs::admission_fails_closed_for_missing_authority_stale_policy_and_forgery",
+      "adl-runtime-kernel/tests/governance.rs::delegation_is_signed_linked_and_strictly_attenuating",
+      "adl-runtime-kernel/tests/governance.rs::multi_hop_delegation_uses_remaining_depth_not_absolute_depth",
+      "adl-runtime-kernel/tests/governance.rs::resource_exhaustion_and_revocation_preserve_refusal_evidence",
+      "adl-runtime-kernel/tests/governance.rs::appeal_and_operator_intervention_are_signed_and_audited",
+      "adl-runtime-kernel/tests/governance.rs::shell_failure_is_quarantined_with_deterministic_result_record",
+      "adl-runtime-kernel/tests/governance.rs::cancelled_shell_marks_permit_abandoned_without_blocking_checkpoint",
+      "adl-runtime-kernel/tests/governance.rs::checkpoint_observes_in_flight_or_complete_result_without_gap",
+      "adl-runtime-kernel/tests/governance.rs::checkpoint_recovery_preserves_replay_revocation_and_result_history",
+      "adl-runtime-kernel/tests/governance.rs::governance_components_form_typed_supervised_contracts"
+    ]
+  },
+  "behaviors": {
+    "signed_gate_before_actuation": {
+      "status": "proved",
+      "evidence": "allowed_action_crosses_signed_gate_before_nondeterministic_shell proves AEE actuation only follows a signed Freedom Gate permit and rejects permit replay."
+    },
+    "fail_closed_admission": {
+      "status": "proved",
+      "evidence": "admission_fails_closed_for_missing_authority_stale_policy_and_forgery proves missing authority, stale policy, and forged commitments are refused before actuation."
+    },
+    "delegation_attenuation": {
+      "status": "proved",
+      "evidence": "delegation_is_signed_linked_and_strictly_attenuating and multi_hop_delegation_uses_remaining_depth_not_absolute_depth prove signed linked delegation and bounded remaining depth."
+    },
+    "revocation_and_resource_refusal": {
+      "status": "proved",
+      "evidence": "resource_exhaustion_and_revocation_preserve_refusal_evidence proves resource exhaustion and revocation emit retained refusal evidence."
+    },
+    "appeal_and_operator_review": {
+      "status": "proved",
+      "evidence": "appeal_and_operator_intervention_are_signed_and_audited proves signed operator decisions bind to retained refusal evidence and append audit records."
+    },
+    "bounded_actuation_quarantine": {
+      "status": "proved",
+      "evidence": "shell_failure_is_quarantined_with_deterministic_result_record proves failed or oversized actuation output is bounded, recorded, and quarantined."
+    },
+    "cancellation_checkpoint_safety": {
+      "status": "proved",
+      "evidence": "cancelled_shell_marks_permit_abandoned_without_blocking_checkpoint and checkpoint_observes_in_flight_or_complete_result_without_gap prove AEE cancellation and checkpoint boundaries fail closed without replay gaps."
+    },
+    "checkpointed_governance_recovery": {
+      "status": "proved",
+      "evidence": "checkpoint_recovery_preserves_replay_revocation_and_result_history proves Freedom Gate and AEE checkpoint recovery preserves replay, revocation, and result history."
+    },
+    "typed_governance_topology": {
+      "status": "proved",
+      "evidence": "governance_components_form_typed_supervised_contracts proves Freedom Gate, AEE, delegation, and audit components form a typed supervised Runtime v3 topology."
+    }
+  },
+  "acceptance": {
+    "direct_runtime_v3_proof": true,
+    "blocked_or_deferred_counts_as_passed": false,
+    "default_runtime_switch_authorized": false,
+    "runtime_v2_decommission_authorized": false,
+    "runtime_v2_internal_reuse_allowed": false,
+    "small_loc_growth": true
+  },
+  "non_claims": [
+    "This packet does not authorize Runtime v3 as the default runtime.",
+    "This packet does not delete or decommission Runtime v2.",
+    "This packet does not claim raw Runtime v2 governance wire-format equivalence.",
+    "This packet does not count blocker or deferred dispositions as passed parity."
+  ]
+}

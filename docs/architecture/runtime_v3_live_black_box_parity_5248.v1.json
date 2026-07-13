@@ -59,9 +59,8 @@
     },
     {
       "id": "governance.freedom_gate_aee",
-      "disposition": "blocker",
-      "proof": "Runtime v3 governance fixture exists; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
-      "blocking_issue": 5220
+      "disposition": "live_equivalent_fixture",
+      "proof": "#5282 records direct Runtime v3 governance/Freedom Gate/AEE proof covering signed gate-before-actuation, fail-closed admission, signed linked delegation, revocation and resource refusal evidence, signed appeal/operator review, bounded AEE quarantine, cancellation/checkpoint safety, checkpointed recovery, and typed governance topology in docs/architecture/runtime_v3_governance_freedom_gate_aee_5282.v1.json."
     },
     {
       "id": "contracts.delegation_resources",
@@ -112,11 +111,11 @@
     }
   ],
   "summary": {
-    "live_equivalent_fixture": 7,
+    "live_equivalent_fixture": 8,
     "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0,
-    "blocker": 3
+    "blocker": 2
   },
   "non_claims": [
     "This packet does not authorize Runtime v3 as the default runtime.",
