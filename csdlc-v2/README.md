@@ -41,6 +41,11 @@ Bootstrap selects a typed planning profile and automatically writes explicit
 SPP time/token estimates and VPP time/token budgets. There is no follow-up
 manual budget-filling stage.
 
+Gate 10A adds `csdlc-install` and a nine-skill operator manifest. It installs
+provenance-recorded v2 binaries beside v1 and verifies a fail-closed
+coexistence inventory. V1 remains the default; this gate neither changes the
+generation selector nor deletes or disables any v1 surface.
+
 Markdown files are generated projections. The engine renders deterministic
 Markdown from typed values, parses it with `markdown.rs`, validates semantic
 anchors, and records values/rendered/AST digests. Direct Markdown edits fail

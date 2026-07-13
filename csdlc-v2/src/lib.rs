@@ -5,6 +5,7 @@ pub mod git;
 pub mod lifecycle;
 pub mod migration;
 pub mod model;
+pub mod operator;
 pub mod publication;
 pub mod pvf;
 pub mod readiness;
@@ -30,6 +31,9 @@ pub use model::{
     Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
     NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence,
     ReviewFindingEvidence, TerminalEvidence,
+};
+pub use operator::{
+    install_binaries, verify_coexistence, CoexistenceInventory, InstallReceipt, SkillManifest,
 };
 pub use publication::{
     prepare_publication, reconcile_action, record_publication, PublicationAction,
