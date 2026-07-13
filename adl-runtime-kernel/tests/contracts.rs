@@ -32,6 +32,30 @@ fn contract(service: &str, capability: &str) -> ServiceContract {
 }
 
 #[test]
+fn service_contract_shape_rejects_schema_and_empty_identity() {
+    let mut unsupported = contract("clock", "clock.authority");
+    unsupported.schema = "adl.runtime.service_contract.v2".to_owned();
+    assert_eq!(
+        validate_contracts([unsupported]).unwrap_err(),
+        ContractError::UnsupportedSchema("adl.runtime.service_contract.v2".to_owned())
+    );
+
+    let mut empty_service = contract("clock", "clock.authority");
+    empty_service.service = " ".to_owned();
+    assert_eq!(
+        validate_contracts([empty_service]).unwrap_err(),
+        ContractError::EmptyIdentity(ComponentId::new("clock"))
+    );
+
+    let mut empty_config_schema = contract("clock", "clock.authority");
+    empty_config_schema.config_schema.clear();
+    assert_eq!(
+        validate_contracts([empty_config_schema]).unwrap_err(),
+        ContractError::EmptyIdentity(ComponentId::new("clock"))
+    );
+}
+
+#[test]
 fn compatible_capabilities_resolve_independent_of_registration_order() {
     let provider = contract("clock", "clock.authority");
     let mut consumer = contract("scheduler", "schedule.admission");

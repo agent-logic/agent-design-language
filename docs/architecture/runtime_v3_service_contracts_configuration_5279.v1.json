@@ -17,6 +17,7 @@
       "adl-runtime-kernel/src/topology.rs"
     ],
     "runtime_tests": [
+      "adl-runtime-kernel/tests/contracts.rs::service_contract_shape_rejects_schema_and_empty_identity",
       "adl-runtime-kernel/tests/contracts.rs::compatible_capabilities_resolve_independent_of_registration_order",
       "adl-runtime-kernel/tests/contracts.rs::required_capabilities_fail_closed_when_missing_or_incompatible",
       "adl-runtime-kernel/tests/contracts.rs::optional_capability_may_be_absent",

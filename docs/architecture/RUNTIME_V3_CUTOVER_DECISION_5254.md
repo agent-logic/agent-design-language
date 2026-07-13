@@ -12,16 +12,18 @@ only through explicit opt-in selection, with Runtime v2 retained as the rollback
 target.
 
 This is a no-go decision for a default Runtime v3 switch. The retained parity
-packet still reports `cutover_eligible: false` and eight blocker-class
-capabilities. #5252 and #5253 resolved the weather/observability and
-soak/rollback prerequisites, but they did not convert the remaining
+packet still reports `cutover_eligible: false`. Follow-on Runtime v3 cutover
+sprint proofs #5277, #5278, #5279, and #5284 reduce the remaining
+blocker-class capability groups to five without authorizing a default switch.
+#5252 and #5253 resolved the weather/observability and soak/rollback
+prerequisites, but they did not by themselves convert the remaining
 capability-specific blockers into passed proof.
 
 ## Evidence
 
 | Surface | Evidence | Decision input |
 |---|---|---|
-| Live black-box parity | `docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json` | `cutover_eligible: false`; eight blocker-class capabilities remain. |
+| Live black-box parity | `docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json` | `cutover_eligible: false`; five blocker-class capabilities remain after #5277, #5278, #5279, and #5284. |
 | Explicit selection and rollback | `docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md` | Runtime v3 is explicit opt-in; Runtime v2 remains the default and rollback target. |
 | Weather and CloudWatch boundary | `docs/architecture/runtime_v3_weather_cloudwatch_5252.v1.json` | Local weather/resource proof exists; observed GPU telemetry remains a non-pass deferred surface. |
 | Soak and rollback | `docs/architecture/runtime_v3_soak_rollback_5253.v1.json` | Bounded production-like soak and rollback proof exists; remote multi-day and GPU lanes remain non-claims. |
@@ -32,9 +34,6 @@ capability-specific blockers into passed proof.
 The following capability groups remain blocker-class for default switch
 authorization:
 
-- `kernel.lifecycle`
-- `kernel.topology_and_backpressure`
-- `service.contracts_and_configuration`
 - `continuity.replay_recovery`
 - `learning.adaptive_dag`
 - `governance.freedom_gate_aee`
