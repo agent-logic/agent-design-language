@@ -19,6 +19,40 @@ fn dirty_tree_is_refused_before_proof_attribution() {
 }
 
 #[test]
+fn tracked_post_command_mutation_is_refused() {
+    let repo = tempfile::tempdir().unwrap();
+    std::process::Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(repo.path())
+        .status()
+        .unwrap();
+    std::process::Command::new("git")
+        .args(["config", "user.email", "proof@example.invalid"])
+        .current_dir(repo.path())
+        .status()
+        .unwrap();
+    std::process::Command::new("git")
+        .args(["config", "user.name", "Proof"])
+        .current_dir(repo.path())
+        .status()
+        .unwrap();
+    std::fs::write(repo.path().join("tracked"), b"before").unwrap();
+    std::process::Command::new("git")
+        .args(["add", "tracked"])
+        .current_dir(repo.path())
+        .status()
+        .unwrap();
+    std::process::Command::new("git")
+        .args(["commit", "-qm", "baseline"])
+        .current_dir(repo.path())
+        .status()
+        .unwrap();
+    assert!(csdlc_v2::proof::require_clean_revision(repo.path()).is_ok());
+    std::fs::write(repo.path().join("tracked"), b"after").unwrap();
+    assert!(csdlc_v2::proof::require_clean_revision(repo.path()).is_err());
+}
+
+#[test]
 fn manifest_requires_v1_default_opt_in_and_exact_proofs() {
     let mut value = manifest();
     assert!(value.validate().is_ok());
@@ -26,6 +60,9 @@ fn manifest_requires_v1_default_opt_in_and_exact_proofs() {
     assert!(value.validate().is_err());
     value.default_generation = Generation::V1;
     value.steps.pop();
+    assert!(value.validate().is_err());
+    let mut value = manifest();
+    value.generation_selector = "target/ignored-selector.json".into();
     assert!(value.validate().is_err());
 }
 

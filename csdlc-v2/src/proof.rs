@@ -95,6 +95,7 @@ impl ProofManifest {
         if self.schema != "csdlc.pre_switch_proof_manifest.v1"
             || self.default_generation != Generation::V1
             || !self.opted_in_issues.contains(&self.issue)
+            || self.generation_selector != Path::new("csdlc-v2/operator/generation-selector.json")
         {
             return Err(V2Error::new(
                 ErrorCode::InvalidManifest,
@@ -167,6 +168,7 @@ pub fn run_pre_switch_proof(repo: &Path, manifest: &ProofManifest) -> Result<Pre
     let selector_after = read_selector(repo, &manifest.generation_selector)?;
     let default_after = select_generation(&selector_after, manifest.issue, None)?;
     let v1_paths_after = required_v1_paths_exist(repo);
+    require_clean_revision(repo)?;
     let measurements = measure(repo, &steps)?;
     let passed = default_before == Generation::V1
         && explicit_v2_selected
@@ -207,6 +209,18 @@ fn read_selector(repo: &Path, relative: &Path) -> Result<GenerationSelector> {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "generation selector must be a regular non-symlink file",
+        ));
+    }
+    let tracked = Command::new("git")
+        .args(["ls-files", "--error-unmatch", "--"])
+        .arg(relative)
+        .current_dir(repo)
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !tracked.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "generation selector must be tracked at the reviewed path",
         ));
     }
     serde_json::from_slice(&fs::read(path)?).map_err(Into::into)
