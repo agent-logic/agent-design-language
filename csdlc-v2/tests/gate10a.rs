@@ -1,11 +1,17 @@
-use csdlc_v2::{install_binaries, verify_coexistence, CoexistenceInventory, SkillManifest};
+use csdlc_v2::{
+    install_binaries, resolve_operator_generation, verify_coexistence, CoexistenceInventory,
+    Generation, SkillManifest,
+};
 use std::fs;
 
 #[test]
-fn nine_skills_are_typed_and_keep_v1_default() {
+fn nine_skills_are_typed_and_bind_the_generation_selector() {
     let manifest = SkillManifest::load().unwrap();
     assert_eq!(manifest.skills.len(), 9);
-    assert_eq!(manifest.default_generation, "v1");
+    assert_eq!(
+        manifest.generation_selector,
+        "csdlc-v2/operator/generation-selector.json"
+    );
     assert!(manifest
         .skills
         .iter()
@@ -83,9 +89,18 @@ fn operator_guidance_is_bound_to_manifest_and_coexistence_contract() {
     let root_agents = fs::read_to_string(root.join("../AGENTS.md")).unwrap();
     let nested_agents = fs::read_to_string(root.join("AGENTS.md")).unwrap();
     let manifest = SkillManifest::load().unwrap();
-    let inventory = CoexistenceInventory::load().unwrap();
+    let selector: csdlc_v2::GenerationSelector =
+        serde_json::from_slice(&fs::read(root.join("operator/generation-selector.json")).unwrap())
+            .unwrap();
     assert_eq!(manifest.skills.len(), 9);
-    assert_eq!(inventory.default_generation, "v1");
+    assert_eq!(
+        resolve_operator_generation(&root.join(".."), 5294, None).unwrap(),
+        selector.default_generation
+    );
+    assert_eq!(
+        resolve_operator_generation(&root.join(".."), 5294, Some(Generation::V1)).unwrap(),
+        Generation::V1
+    );
     for text in [&root_agents, &nested_agents] {
         assert!(text.contains("v1"));
         assert!(text.contains("csdlc-install"));

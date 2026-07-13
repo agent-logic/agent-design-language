@@ -43,8 +43,9 @@ manual budget-filling stage.
 
 Gate 10A adds `csdlc-install` and a nine-skill operator manifest. It installs
 provenance-recorded v2 binaries beside v1 and verifies a fail-closed
-coexistence inventory. V1 remains the default; this gate neither changes the
-generation selector nor deletes or disables any v1 surface.
+coexistence inventory. Gate 10A left v1 as the default; the tracked generation
+selector remains the current authority, and later cutover never deletes or
+disables any v1 surface.
 
 Markdown files are generated projections. The engine renders deterministic
 Markdown from typed values, parses it with `markdown.rs`, validates semantic

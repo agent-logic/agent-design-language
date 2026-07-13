@@ -1,5 +1,8 @@
 use clap::{Parser, Subcommand};
-use csdlc_v2::{install_binaries, verify_coexistence, CoexistenceInventory, SkillManifest};
+use csdlc_v2::{
+    install_binaries, resolve_operator_generation, verify_coexistence, CoexistenceInventory,
+    Generation, SkillManifest,
+};
 use std::fs;
 use std::path::PathBuf;
 
@@ -25,6 +28,14 @@ enum Command {
         bin_dir: PathBuf,
         #[arg(long)]
         inventory: PathBuf,
+    },
+    Resolve {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        issue: u64,
+        #[arg(long)]
+        requested: Option<Generation>,
     },
 }
 fn main() {
@@ -58,6 +69,11 @@ fn main() {
                     ))
                 }
             }),
+        Command::Resolve {
+            repo,
+            issue,
+            requested,
+        } => resolve_operator_generation(&repo, issue, requested).and_then(json),
     };
     if let Err(error) = result {
         eprintln!("{error}");
