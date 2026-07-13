@@ -1116,8 +1116,8 @@ fn kernel_lifecycle_proof_resolves_only_kernel_lifecycle_blocker() {
     assert_eq!(kernel["disposition"], "live_equivalent_fixture");
     assert!(kernel.get("blocking_issue").is_none());
     assert!(kernel["proof"].as_str().unwrap().contains("#5277"));
-    assert_eq!(classification["summary"]["blocker"], 5);
-    assert_eq!(classification["summary"]["live_equivalent_fixture"], 5);
+    assert_eq!(classification["summary"]["blocker"], 4);
+    assert_eq!(classification["summary"]["live_equivalent_fixture"], 6);
     assert_eq!(classification["cutover_eligible"], false);
 }
 
@@ -1178,8 +1178,8 @@ fn topology_backpressure_proof_resolves_only_topology_backpressure_blocker() {
     assert_eq!(topology["disposition"], "live_equivalent_fixture");
     assert!(topology.get("blocking_issue").is_none());
     assert!(topology["proof"].as_str().unwrap().contains("#5278"));
-    assert_eq!(classification["summary"]["blocker"], 5);
-    assert_eq!(classification["summary"]["live_equivalent_fixture"], 5);
+    assert_eq!(classification["summary"]["blocker"], 4);
+    assert_eq!(classification["summary"]["live_equivalent_fixture"], 6);
     assert_eq!(classification["cutover_eligible"], false);
     assert_eq!(classification["default_runtime_switch_authorized"], false);
 }
@@ -1240,8 +1240,68 @@ fn service_contracts_configuration_proof_resolves_only_service_contracts_blocker
         .as_str()
         .unwrap()
         .contains("#5279"));
-    assert_eq!(classification["summary"]["blocker"], 5);
-    assert_eq!(classification["summary"]["live_equivalent_fixture"], 5);
+    assert_eq!(classification["summary"]["blocker"], 4);
+    assert_eq!(classification["summary"]["live_equivalent_fixture"], 6);
+    assert_eq!(classification["cutover_eligible"], false);
+    assert_eq!(classification["default_runtime_switch_authorized"], false);
+}
+
+#[test]
+fn continuity_replay_recovery_proof_resolves_only_continuity_blocker() {
+    let proof: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_continuity_replay_recovery_5280.v1.json"
+    ))
+    .unwrap();
+    let classification: serde_json::Value = serde_json::from_str(include_str!(
+        "../../docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json"
+    ))
+    .unwrap();
+
+    assert_eq!(
+        proof["schema"],
+        "adl.runtime_v3.continuity_replay_recovery_proof.v1"
+    );
+    assert_eq!(proof["issue"], 5280);
+    assert_eq!(proof["sprint_issue"], 5276);
+    assert_eq!(proof["capability"], "continuity.replay_recovery");
+    assert_eq!(proof["disposition"], "live_equivalent_fixture");
+    assert_eq!(proof["runtime_v2_default_preserved"], true);
+    assert_eq!(proof["runtime_v2_internal_reuse"], false);
+    assert_eq!(proof["default_runtime_switch_authorized"], false);
+    assert_eq!(
+        proof["acceptance"]["runtime_v2_decommission_authorized"],
+        false
+    );
+    assert_eq!(proof["acceptance"]["direct_runtime_v3_proof"], true);
+    for behavior in [
+        "checkpoint_quiesce_before_snapshot",
+        "bounded_parallel_serialization",
+        "signed_manifest_and_integrity",
+        "corrupt_snapshot_quarantine",
+        "identity_schema_refusal",
+        "missing_checkpoint_restart_fresh",
+        "replay_prefix_validation",
+        "graceful_resource_stop_serialization",
+        "fresh_kernel_generation_continuity",
+        "restore_continuity_after_checkpoint",
+    ] {
+        assert_eq!(
+            proof["behaviors"][behavior]["status"], "proved",
+            "missing continuity/replay proof behavior {behavior}"
+        );
+    }
+
+    let continuity = classification["capabilities"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|capability| capability["id"] == "continuity.replay_recovery")
+        .unwrap();
+    assert_eq!(continuity["disposition"], "live_equivalent_fixture");
+    assert!(continuity.get("blocking_issue").is_none());
+    assert!(continuity["proof"].as_str().unwrap().contains("#5280"));
+    assert_eq!(classification["summary"]["blocker"], 4);
+    assert_eq!(classification["summary"]["live_equivalent_fixture"], 6);
     assert_eq!(classification["cutover_eligible"], false);
     assert_eq!(classification["default_runtime_switch_authorized"], false);
 }
@@ -1302,6 +1362,7 @@ fn final_cutover_decision_keeps_v2_default_until_parity_blockers_clear() {
     assert!(!blockers.contains("kernel.lifecycle"));
     assert!(!blockers.contains("kernel.topology_and_backpressure"));
     assert!(!blockers.contains("service.contracts_and_configuration"));
+    assert!(!blockers.contains("continuity.replay_recovery"));
     for capability in classification["capabilities"].as_array().unwrap() {
         if capability["disposition"] == "blocker" {
             assert_eq!(capability["blocking_issue"], 5220);
@@ -1342,7 +1403,7 @@ fn release_proof_gate_closes_without_authorizing_default_cutover() {
     assert_eq!(decision["decision"], "keep_runtime_v2_default");
     assert_eq!(decision["default_runtime_switch_authorized"], false);
     assert_eq!(classification["cutover_eligible"], false);
-    assert_eq!(classification["summary"]["blocker"], 5);
+    assert_eq!(classification["summary"]["blocker"], 4);
 
     let child_results = gate["child_issue_results"].as_array().unwrap();
     let closed_children = child_results

@@ -34,9 +34,8 @@
     },
     {
       "id": "continuity.replay_recovery",
-      "disposition": "blocker",
-      "proof": "Runtime v3 continuity fixtures exist; #5253 retained production-like soak and rollback proof, and #5254 records a no-go default-switch decision. Release-gate closure routes through #5220.",
-      "blocking_issue": 5220
+      "disposition": "live_equivalent_fixture",
+      "proof": "#5280 records direct Runtime v3 continuity, replay, and recovery proof covering checkpoint quiesce-before-snapshot, bounded parallel serialization, signed manifest integrity, corrupt snapshot quarantine, identity/schema recovery refusal, missing checkpoint restart-fresh behavior, replay prefix validation, graceful resource-stop serialization, fresh kernel generation continuity, and checkpoint restore continuity in docs/architecture/runtime_v3_continuity_replay_recovery_5280.v1.json."
     },
     {
       "id": "private_state.security",
@@ -114,11 +113,11 @@
     }
   ],
   "summary": {
-    "live_equivalent_fixture": 5,
+    "live_equivalent_fixture": 6,
     "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0,
-    "blocker": 5
+    "blocker": 4
   },
   "non_claims": [
     "This packet does not authorize Runtime v3 as the default runtime.",

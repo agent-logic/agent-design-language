@@ -26,7 +26,7 @@
   },
   "input_summary": {
     "live_black_box_cutover_eligible": false,
-    "live_black_box_blockers": 5,
+    "live_black_box_blockers": 4,
     "accepted_intentional_divergence": 7,
     "retained_v2_behavior_behind_adapter": 1,
     "deferred_non_cutover_surface": 0
@@ -38,13 +38,13 @@
     {"issue": 5251, "state": "closed", "role": "governed cognition proof"},
     {"issue": 5252, "state": "closed", "role": "weather, GPU disposition, and CloudWatch boundary proof"},
     {"issue": 5253, "state": "closed", "role": "production-like soak and rollback proof"},
-    {"issue": 5277, "state": "in_review", "role": "kernel.lifecycle live Runtime v3 proof"},
-    {"issue": 5278, "state": "in_review", "role": "kernel.topology_and_backpressure live Runtime v3 proof"},
-    {"issue": 5279, "state": "in_review", "role": "service.contracts_and_configuration live Runtime v3 proof"},
+    {"issue": 5277, "state": "closed", "role": "kernel.lifecycle live Runtime v3 proof"},
+    {"issue": 5278, "state": "closed", "role": "kernel.topology_and_backpressure live Runtime v3 proof"},
+    {"issue": 5279, "state": "closed", "role": "service.contracts_and_configuration live Runtime v3 proof"},
+    {"issue": 5280, "state": "in_review", "role": "continuity.replay_recovery live Runtime v3 proof"},
     {"issue": 5284, "state": "closed", "role": "agents.providers_scheduler live Runtime v3 proof"}
   ],
   "blocking_surfaces": [
-    "continuity.replay_recovery",
     "learning.adaptive_dag",
     "governance.freedom_gate_aee",
     "contracts.delegation_resources",
