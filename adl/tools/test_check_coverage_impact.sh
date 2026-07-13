@@ -136,6 +136,7 @@ csm_runtime_agent_changed="$TMP/csm-runtime-agent-changed.txt"
 cat >"$csm_runtime_agent_changed" <<'EOF'
 M	adl/src/cli/csm_cmd.rs
 M	adl/src/csm_api_gateway_bridge.rs
+A	adl/src/csm_backpressure.rs
 A	adl/src/csm_constructability_gate.rs
 M	adl/src/csm_curiosity_engine.rs
 A	adl/src/csm_freedom_gate.rs
@@ -156,6 +157,7 @@ csm_runtime_agent_expression="$(bash "$SCRIPT" --changed-files "$csm_runtime_age
 grep -F "binary_id(adl) and" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(csm_cmd)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(csm_runtime_api)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(csm_backpressure)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(csm_constructability_gate)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(csm_freedom_gate)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(csm_godel_snapshot)" <<<"$csm_runtime_agent_expression" >/dev/null
@@ -205,6 +207,14 @@ grep -Fx "runtime_v2_csm_shutdown_dag" "$shutdown_dag_filters" >/dev/null
 shutdown_dag_expression="$(bash "$SCRIPT" --changed-files "$shutdown_dag_changed" --print-risk-nextest-expression)"
 grep -F "test(runtime_v2_csm_shutdown_dag)" <<<"$shutdown_dag_expression" >/dev/null
 grep -F "binary_id(adl::cli_smoke) and test(csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_success)" <<<"$shutdown_dag_expression" >/dev/null
+
+unified_runtime_kernel_changed="$TMP/unified-runtime-kernel-changed.txt"
+printf 'A\tadl/src/runtime_v2/unified_runtime_kernel.rs\n' >"$unified_runtime_kernel_changed"
+unified_runtime_kernel_filters="$TMP/unified-runtime-kernel-filters.txt"
+bash "$SCRIPT" --changed-files "$unified_runtime_kernel_changed" --print-risk-filters >"$unified_runtime_kernel_filters"
+grep -Fx "runtime_v2_unified_runtime_kernel" "$unified_runtime_kernel_filters" >/dev/null
+unified_runtime_kernel_expression="$(bash "$SCRIPT" --changed-files "$unified_runtime_kernel_changed" --print-risk-nextest-expression)"
+grep -F "test(runtime_v2_unified_runtime_kernel)" <<<"$unified_runtime_kernel_expression" >/dev/null
 
 split_acc_changed="$TMP/split-acc-changed.txt"
 printf 'A\tadl/src/acc/validation.rs\n' >"$split_acc_changed"

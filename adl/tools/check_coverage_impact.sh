@@ -228,6 +228,7 @@ candidate_filter_for_path() {
       ;;
     adl/src/cli/csm_cmd.rs|\
     adl/src/csm_api_gateway_bridge.rs|\
+    adl/src/csm_backpressure.rs|\
     adl/src/csm_constructability_gate.rs|\
     adl/src/csm_curiosity_engine.rs|\
     adl/src/csm_freedom_gate.rs|\
@@ -294,6 +295,9 @@ candidate_filter_for_path() {
       ;;
     adl/src/runtime_v2/godel_agent_runtime.rs)
       printf 'runtime_v2_godel_agent_runtime'
+      ;;
+    adl/src/runtime_v2/unified_runtime_kernel.rs)
+      printf 'runtime_v2_unified_runtime_kernel'
       ;;
     adl/src/runtime_v2/shutdown_dag.rs)
       printf 'runtime_v2_csm_shutdown_dag'
@@ -374,13 +378,16 @@ nextest_expression_for_filter() {
       printf 'test(csmctl) or test(csm_service)'
       ;;
     csm_runtime_agent)
-      printf 'binary_id(adl) and (test(csm_cmd) or test(csm_runtime_api) or test(csm_constructability_gate) or test(csm_freedom_gate) or test(csm_godel_snapshot) or test(csm_shepherd_agent) or test(long_lived_agent) or test(csm_service))'
+      printf 'binary_id(adl) and (test(csm_cmd) or test(csm_runtime_api) or test(csm_backpressure) or test(csm_constructability_gate) or test(csm_freedom_gate) or test(csm_godel_snapshot) or test(csm_shepherd_agent) or test(long_lived_agent) or test(csm_service))'
       ;;
     long_lived_agent_storage)
       printf '(binary_id(adl) and test(long_lived_agent::storage)) or (binary_id(adl::bin/run_v0916_runtime_failure_injection) and test(run_v0916_runtime_failure_injection))'
       ;;
     runtime_v2_csm_shutdown_dag)
       printf 'test(runtime_v2_csm_shutdown_dag) or (binary_id(adl::cli_smoke) and test(csm_governed_shutdown_retains_continuity_and_publish_failures_without_false_success))'
+      ;;
+    runtime_v2_unified_runtime_kernel)
+      printf 'test(runtime_v2_unified_runtime_kernel)'
       ;;
     finish)
       printf 'binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)'
