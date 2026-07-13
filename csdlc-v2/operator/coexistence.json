@@ -1,7 +1,5 @@
 {
   "schema":"csdlc.coexistence_inventory.v1",
-  "default_generation":"v1",
-  "generation_selector":"docs/architecture/csdlc-v2/gate9/samples/generation-selector.json",
   "required_v1_paths":[
     {"path":"adl/tools/pr.sh","executable":true},
     {"path":"adl/tools/install_owner_binaries.sh","executable":true},

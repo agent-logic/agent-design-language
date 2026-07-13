@@ -21,9 +21,8 @@ pub struct CutoverRequest {
     pub issue: u64,
     pub selector_path: PathBuf,
     pub pre_switch_evidence_path: PathBuf,
-    pub cutover_at: String,
-    pub rollback_expires_at: String,
-    pub importer_expires_at: String,
+    pub rollback_window_days: i64,
+    pub importer_window_days: i64,
     pub deletion_authorized: bool,
 }
 
@@ -58,14 +57,7 @@ impl CutoverRequest {
                 "cutover request must use fixed Gate 10C paths, issue 5294, and deletion_authorized=false",
             ));
         }
-        let format = &time::format_description::well_known::Rfc3339;
-        let cutover = OffsetDateTime::parse(&self.cutover_at, format)
-            .map_err(|error| V2Error::new(ErrorCode::InvalidManifest, error.to_string()))?;
-        let rollback = OffsetDateTime::parse(&self.rollback_expires_at, format)
-            .map_err(|error| V2Error::new(ErrorCode::InvalidManifest, error.to_string()))?;
-        let importer = OffsetDateTime::parse(&self.importer_expires_at, format)
-            .map_err(|error| V2Error::new(ErrorCode::InvalidManifest, error.to_string()))?;
-        if rollback != cutover + Duration::days(14) || importer != cutover + Duration::days(30) {
+        if self.rollback_window_days != 14 || self.importer_window_days != 30 {
             return Err(V2Error::new(
                 ErrorCode::InvalidManifest,
                 "rollback and importer expiries must be exactly 14 and 30 days after cutover",
@@ -76,16 +68,29 @@ impl CutoverRequest {
 }
 
 pub fn run_cutover(repo: &Path, request: &CutoverRequest) -> Result<CutoverEvidence> {
-    run_cutover_with(repo, request, run_step)
+    run_cutover_with(
+        repo,
+        request,
+        run_step,
+        write_selector,
+        changed_paths,
+        OffsetDateTime::now_utc,
+    )
 }
 
-fn run_cutover_with<F>(
+fn run_cutover_with<F, W, C, N>(
     repo: &Path,
     request: &CutoverRequest,
     mut runner: F,
+    mut writer: W,
+    mut changes: C,
+    now: N,
 ) -> Result<CutoverEvidence>
 where
     F: FnMut(&Path, &str) -> StepEvidence,
+    W: FnMut(&Path, &GenerationSelector) -> Result<()>,
+    C: FnMut(&Path) -> Result<BTreeSet<PathBuf>>,
+    N: Fn() -> OffsetDateTime,
 {
     request.validate()?;
     require_clean_revision(repo)?;
@@ -120,14 +125,16 @@ where
     let mut steps = Vec::new();
 
     selector.default_generation = Generation::V2;
-    write_selector(&selector_path, &selector)?;
+    if let Err(error) = writer(&selector_path, &selector) {
+        restore_after_error(&selector_path, &original_bytes, error)?;
+        unreachable!();
+    }
     transitions.push(Generation::V2);
     steps.push(runner(repo, "v2_lifecycle_smoke"));
     if !steps.last().is_some_and(|step| step.passed) {
-        fs::write(&selector_path, &original_bytes)?;
+        restore_exact(&selector_path, &original_bytes)?;
         return Ok(failed_evidence(
             repo,
-            request,
             code_revision,
             &pre_switch_bytes,
             transitions,
@@ -137,14 +144,16 @@ where
     }
 
     selector.default_generation = Generation::V1;
-    write_selector(&selector_path, &selector)?;
+    if let Err(error) = writer(&selector_path, &selector) {
+        restore_after_error(&selector_path, &original_bytes, error)?;
+        unreachable!();
+    }
     transitions.push(Generation::V1);
     steps.push(runner(repo, "v1_rollback_smoke"));
     if !steps.last().is_some_and(|step| step.passed) {
-        fs::write(&selector_path, &original_bytes)?;
+        restore_exact(&selector_path, &original_bytes)?;
         return Ok(failed_evidence(
             repo,
-            request,
             code_revision,
             &pre_switch_bytes,
             transitions,
@@ -154,14 +163,23 @@ where
     }
 
     selector.default_generation = Generation::V2;
-    write_selector(&selector_path, &selector)?;
+    if let Err(error) = writer(&selector_path, &selector) {
+        restore_after_error(&selector_path, &original_bytes, error)?;
+        unreachable!();
+    }
     transitions.push(Generation::V2);
     steps.push(runner(repo, "v2_switch_back_smoke"));
     let final_generation = selector.default_generation;
     let explicit_v1_override =
         resolve_generation(&selector, Some(Generation::V1)) == Generation::V1;
     let v1_paths_after = v1_paths_intact(repo);
-    let observed_changes = changed_paths(repo)?;
+    let observed_changes = match changes(repo) {
+        Ok(value) => value,
+        Err(error) => {
+            restore_after_error(&selector_path, &original_bytes, error)?;
+            unreachable!();
+        }
+    };
     let only_selector_changed = observed_changes == BTreeSet::from([request.selector_path.clone()]);
     let passed = steps.iter().all(|step| step.passed)
         && final_generation == Generation::V2
@@ -170,8 +188,10 @@ where
         && v1_paths_after
         && only_selector_changed;
     if !passed {
-        fs::write(&selector_path, &original_bytes)?;
+        restore_exact(&selector_path, &original_bytes)?;
     }
+    let cutover = now();
+    let format = &time::format_description::well_known::Rfc3339;
     Ok(CutoverEvidence {
         schema: "csdlc.cutover_evidence.v1".into(),
         code_revision,
@@ -186,9 +206,13 @@ where
         explicit_v1_override,
         v1_paths_before,
         v1_paths_after,
-        cutover_at: request.cutover_at.clone(),
-        rollback_expires_at: request.rollback_expires_at.clone(),
-        importer_expires_at: request.importer_expires_at.clone(),
+        cutover_at: cutover.format(format).map_err(time_error)?,
+        rollback_expires_at: (cutover + Duration::days(request.rollback_window_days))
+            .format(format)
+            .map_err(time_error)?,
+        importer_expires_at: (cutover + Duration::days(request.importer_window_days))
+            .format(format)
+            .map_err(time_error)?,
         deletion_authorized: false,
         passed,
     })
@@ -214,7 +238,6 @@ pub fn write_evidence_atomic(path: &Path, evidence: &CutoverEvidence) -> Result<
 
 fn failed_evidence(
     repo: &Path,
-    request: &CutoverRequest,
     revision: String,
     pre: &[u8],
     transitions: Vec<Generation>,
@@ -231,15 +254,18 @@ fn failed_evidence(
         explicit_v1_override: true,
         v1_paths_before: v1_before,
         v1_paths_after: v1_paths_intact(repo),
-        cutover_at: request.cutover_at.clone(),
-        rollback_expires_at: request.rollback_expires_at.clone(),
-        importer_expires_at: request.importer_expires_at.clone(),
+        cutover_at: String::new(),
+        rollback_expires_at: String::new(),
+        importer_expires_at: String::new(),
         deletion_authorized: false,
         passed: false,
     }
 }
 
 fn run_step(repo: &Path, id: &str) -> StepEvidence {
+    if id == "v1_rollback_smoke" {
+        return run_v1_rollback_step(repo, id);
+    }
     let (executable, args): (&str, Vec<String>) = match id {
         "v2_lifecycle_smoke" | "v2_switch_back_smoke" => (
             "cargo",
@@ -251,7 +277,6 @@ fn run_step(repo: &Path, id: &str) -> StepEvidence {
                 "gate7_lifecycle".into(),
             ],
         ),
-        "v1_rollback_smoke" => ("adl/tools/pr.sh", vec!["help".into()]),
         _ => ("", Vec::new()),
     };
     let started = Instant::now();
@@ -285,11 +310,159 @@ fn run_step(repo: &Path, id: &str) -> StepEvidence {
     }
 }
 
+fn run_v1_rollback_step(repo: &Path, id: &str) -> StepEvidence {
+    let started = Instant::now();
+    let args = vec![
+        "claim".into(),
+        "heartbeat".into(),
+        "release".into(),
+        "status".into(),
+        "--temporary-ledger".into(),
+    ];
+    let execute = || -> Result<(Vec<u8>, Vec<u8>)> {
+        let common = PathBuf::from(git_text(repo, &["rev-parse", "--git-common-dir"])?);
+        let common = if common.is_absolute() {
+            common
+        } else {
+            repo.join(common)
+        };
+        let primary = common.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::GitFailure, "git common directory has no parent")
+        })?;
+        let binary = primary.join(".adl/bin/adl-session");
+        if !binary.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                "incumbent adl-session binary is not installed in the primary checkout",
+            ));
+        }
+        let ledger = std::env::temp_dir().join(format!(
+            "csdlc-gate10c-v1-session-{}-{}.jsonl",
+            std::process::id(),
+            OffsetDateTime::now_utc().unix_timestamp_nanos()
+        ));
+        let claim = Command::new(&binary)
+            .args([
+                "claim",
+                "--session-id",
+                "gate10c-v1-rollback-smoke",
+                "--owner",
+                "csdlc-cutover",
+                "--resource",
+                "issue:5294",
+                "--purpose",
+                "rollback-proof",
+                "--issue",
+                "5294",
+                "--ttl-secs",
+                "60",
+                "--ledger",
+            ])
+            .arg(&ledger)
+            .arg("--json")
+            .output()?;
+        if !claim.status.success() {
+            let _ = fs::remove_file(&ledger);
+            return Err(V2Error::new(ErrorCode::ValidationFailed, "v1 claim failed"));
+        }
+        let claim_json: serde_json::Value = serde_json::from_slice(&claim.stdout)?;
+        let claim_id = claim_json
+            .get("claim_id")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "v1 claim id missing"))?
+            .to_owned();
+        let mut combined_stdout = claim.stdout;
+        let mut combined_stderr = claim.stderr;
+        for command_args in [
+            vec![
+                "heartbeat",
+                "--claim-id",
+                claim_id.as_str(),
+                "--ttl-secs",
+                "60",
+            ],
+            vec![
+                "release",
+                "--claim-id",
+                claim_id.as_str(),
+                "--reason",
+                "rollback-smoke",
+            ],
+            vec!["status"],
+        ] {
+            let output = Command::new(&binary)
+                .args(command_args)
+                .arg("--ledger")
+                .arg(&ledger)
+                .arg("--json")
+                .output()?;
+            combined_stdout.extend(output.stdout);
+            combined_stderr.extend(output.stderr);
+            if !output.status.success() {
+                let _ = fs::remove_file(&ledger);
+                return Err(V2Error::new(
+                    ErrorCode::ValidationFailed,
+                    "v1 session lifecycle recovery step failed",
+                ));
+            }
+        }
+        fs::remove_file(ledger)?;
+        Ok((combined_stdout, combined_stderr))
+    };
+    match execute() {
+        Ok((stdout, stderr)) => StepEvidence {
+            id: id.into(),
+            executable: "<primary>/.adl/bin/adl-session".into(),
+            args,
+            exit_code: Some(0),
+            elapsed_millis: started.elapsed().as_millis().try_into().unwrap_or(u64::MAX),
+            stdout_blake3: blake3::hash(&stdout).to_hex().to_string(),
+            stderr_blake3: blake3::hash(&stderr).to_hex().to_string(),
+            passed: true,
+        },
+        Err(error) => StepEvidence {
+            id: id.into(),
+            executable: "<primary>/.adl/bin/adl-session".into(),
+            args,
+            exit_code: None,
+            elapsed_millis: started.elapsed().as_millis().try_into().unwrap_or(u64::MAX),
+            stdout_blake3: blake3::hash(&[]).to_hex().to_string(),
+            stderr_blake3: blake3::hash(error.to_string().as_bytes())
+                .to_hex()
+                .to_string(),
+            passed: false,
+        },
+    }
+}
+
 fn write_selector(path: &Path, selector: &GenerationSelector) -> Result<()> {
     let temporary = path.with_extension("json.tmp");
     fs::write(&temporary, serde_json::to_vec_pretty(selector)?)?;
     fs::rename(temporary, path)?;
     Ok(())
+}
+
+fn restore_exact(path: &Path, bytes: &[u8]) -> Result<()> {
+    let temporary = path.with_extension("json.restore.tmp");
+    fs::write(&temporary, bytes)?;
+    fs::rename(temporary, path)?;
+    Ok(())
+}
+
+fn restore_after_error(path: &Path, bytes: &[u8], original: V2Error) -> Result<()> {
+    match restore_exact(path, bytes) {
+        Ok(()) => Err(original),
+        Err(restore) => Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!(
+                "cutover failed ({original}); exact selector restoration also failed ({restore})"
+            ),
+        )),
+    }
+}
+
+fn time_error(error: time::error::Format) -> V2Error {
+    V2Error::new(ErrorCode::InvalidInput, error.to_string())
 }
 
 fn require_tracked(repo: &Path, path: &Path) -> Result<()> {
@@ -351,9 +524,8 @@ mod tests {
             issue: 5294,
             selector_path: SELECTOR_PATH.into(),
             pre_switch_evidence_path: PRE_SWITCH_PATH.into(),
-            cutover_at: "2026-07-13T01:30:00-07:00".into(),
-            rollback_expires_at: "2026-07-27T01:30:00-07:00".into(),
-            importer_expires_at: "2026-08-12T01:30:00-07:00".into(),
+            rollback_window_days: 14,
+            importer_window_days: 30,
             deletion_authorized: false,
         }
     }
@@ -434,6 +606,28 @@ mod tests {
         }
     }
 
+    fn fixed_now() -> OffsetDateTime {
+        OffsetDateTime::parse(
+            "2026-07-13T09:00:00Z",
+            &time::format_description::well_known::Rfc3339,
+        )
+        .unwrap()
+    }
+
+    fn run_fixture<F>(repo: &Path, runner: F) -> Result<CutoverEvidence>
+    where
+        F: FnMut(&Path, &str) -> StepEvidence,
+    {
+        run_cutover_with(
+            repo,
+            &request(),
+            runner,
+            write_selector,
+            changed_paths,
+            fixed_now,
+        )
+    }
+
     #[test]
     fn clocks_and_deletion_authority_are_fixed() {
         assert!(request().validate().is_ok());
@@ -441,14 +635,14 @@ mod tests {
         invalid.deletion_authorized = true;
         assert!(invalid.validate().is_err());
         let mut invalid = request();
-        invalid.rollback_expires_at = invalid.importer_expires_at.clone();
+        invalid.rollback_window_days = 30;
         assert!(invalid.validate().is_err());
     }
 
     #[test]
     fn successful_transaction_proves_v2_v1_v2_and_keeps_override() {
         let repo = repo();
-        let result = run_cutover_with(repo.path(), &request(), |_, id| evidence(id, true)).unwrap();
+        let result = run_fixture(repo.path(), |_, id| evidence(id, true)).unwrap();
         assert!(result.passed, "{result:#?}");
         assert_eq!(
             result.transitions,
@@ -467,12 +661,77 @@ mod tests {
     #[test]
     fn failed_smoke_restores_v1() {
         let repo = repo();
-        let result =
-            run_cutover_with(repo.path(), &request(), |_, id| evidence(id, false)).unwrap();
+        let original = fs::read(repo.path().join(SELECTOR_PATH)).unwrap();
+        let result = run_fixture(repo.path(), |_, id| evidence(id, false)).unwrap();
         assert!(!result.passed);
         assert_eq!(result.final_generation, Generation::V1);
         let selector: GenerationSelector =
             serde_json::from_slice(&fs::read(repo.path().join(SELECTOR_PATH)).unwrap()).unwrap();
         assert_eq!(selector.default_generation, Generation::V1);
+        assert_eq!(fs::read(repo.path().join(SELECTOR_PATH)).unwrap(), original);
+    }
+
+    #[test]
+    fn every_failed_smoke_restores_exact_original_selector_bytes() {
+        for failed_at in 1..=3 {
+            let repo = repo();
+            let original = fs::read(repo.path().join(SELECTOR_PATH)).unwrap();
+            let mut call = 0;
+            let result = run_fixture(repo.path(), |_, id| {
+                call += 1;
+                evidence(id, call != failed_at)
+            })
+            .unwrap();
+            assert!(!result.passed);
+            assert_eq!(fs::read(repo.path().join(SELECTOR_PATH)).unwrap(), original);
+        }
+    }
+
+    #[test]
+    fn every_selector_write_error_restores_exact_original_bytes() {
+        for failed_at in 1..=3 {
+            let repo = repo();
+            let original = fs::read(repo.path().join(SELECTOR_PATH)).unwrap();
+            let mut call = 0;
+            let result = run_cutover_with(
+                repo.path(),
+                &request(),
+                |_, id| evidence(id, true),
+                |path, selector| {
+                    call += 1;
+                    write_selector(path, selector)?;
+                    if call == failed_at {
+                        Err(V2Error::new(ErrorCode::Io, "injected write failure"))
+                    } else {
+                        Ok(())
+                    }
+                },
+                changed_paths,
+                fixed_now,
+            );
+            assert!(result.is_err());
+            assert_eq!(fs::read(repo.path().join(SELECTOR_PATH)).unwrap(), original);
+        }
+    }
+
+    #[test]
+    fn changed_path_failure_restores_exact_original_bytes() {
+        let repo = repo();
+        let original = fs::read(repo.path().join(SELECTOR_PATH)).unwrap();
+        let result = run_cutover_with(
+            repo.path(),
+            &request(),
+            |_, id| evidence(id, true),
+            write_selector,
+            |_| {
+                Err(V2Error::new(
+                    ErrorCode::GitFailure,
+                    "injected status failure",
+                ))
+            },
+            fixed_now,
+        );
+        assert!(result.is_err());
+        assert_eq!(fs::read(repo.path().join(SELECTOR_PATH)).unwrap(), original);
     }
 }

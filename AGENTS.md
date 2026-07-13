@@ -124,7 +124,8 @@ These rules are mandatory for ADL issue work.
 
 - Generation authority is `csdlc-v2/operator/generation-selector.json`. Gate 10A began with v1 as default; after reviewed Gate 10C cutover the selector may name v2 while an explicit v1 override remains mandatory during the rollback window.
 - Explicit v2 work routes through the nine typed contracts under `csdlc-v2/operator/skills/`; those skills delegate to Rust binaries and never mutate Markdown/state directly.
-- Install v2 only into the dedicated `.adl/bin/csdlc-v2/` generation directory with `csdlc-install`; the shared v1 `.adl/bin/` directory is forbidden. Verification must prove the v1 workflow, installer, tests, recovery policy, and v1-default selector remain present.
+- Resolve every lifecycle route through `csdlc-install resolve`, which reads that selector as the sole authority: v1 is the default before cutover, v2 is the default after cutover, and an explicit v1 override remains valid throughout rollback.
+- Install v2 only into the dedicated `.adl/bin/csdlc-v2/` generation directory with `csdlc-install`; the shared v1 `.adl/bin/` directory is forbidden. Verification must prove the v1 workflow, installer, tests, and recovery policy remain present regardless of the selected default.
 - A v2 opt-in or default switch never authorizes v1 deletion. Deletion remains a separate explicitly approved phase after post-switch proof.
 
 - ADL is deterministic by design. Do not introduce hidden state, undeclared

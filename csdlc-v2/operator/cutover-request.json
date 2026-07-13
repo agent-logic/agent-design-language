@@ -3,8 +3,7 @@
   "issue":5294,
   "selector_path":"csdlc-v2/operator/generation-selector.json",
   "pre_switch_evidence_path":"docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
-  "cutover_at":"2026-07-13T01:30:00-07:00",
-  "rollback_expires_at":"2026-07-27T01:30:00-07:00",
-  "importer_expires_at":"2026-08-12T01:30:00-07:00",
+  "rollback_window_days":14,
+  "importer_window_days":30,
   "deletion_authorized":false
 }

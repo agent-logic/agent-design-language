@@ -41,14 +41,11 @@ pub fn select_generation(
             "generation selector schema must be csdlc.generation_selector.v1",
         ));
     }
-    if selector.default_generation != Generation::V1 {
-        return Err(V2Error::new(
-            ErrorCode::InvalidInput,
-            "Gate 9 requires v1 as the default generation",
-        ));
-    }
     let selected = requested.unwrap_or(selector.default_generation);
-    if selected == Generation::V2 && !selector.opted_in_issues.contains(&issue) {
+    if selector.default_generation == Generation::V1
+        && selected == Generation::V2
+        && !selector.opted_in_issues.contains(&issue)
+    {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
             format!("issue {issue} is not explicitly opted in to C-SDLC v2"),

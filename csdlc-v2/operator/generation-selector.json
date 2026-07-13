@@ -1,8 +1,5 @@
 {
-  "schema": "csdlc.generation_selector.v1",
-  "default_generation": "v2",
-  "opted_in_issues": [
-    5293,
-    5294
-  ]
+  "schema":"csdlc.generation_selector.v1",
+  "default_generation":"v1",
+  "opted_in_issues":[5293]
 }

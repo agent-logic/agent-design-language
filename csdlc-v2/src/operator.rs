@@ -1,4 +1,5 @@
 use crate::error::{ErrorCode, Result, V2Error};
+use crate::{select_generation, Generation, GenerationSelector};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 use std::fs;
@@ -28,8 +29,6 @@ pub struct SkillRoute {
 #[serde(deny_unknown_fields)]
 pub struct CoexistenceInventory {
     pub schema: String,
-    pub default_generation: String,
-    pub generation_selector: PathBuf,
     pub required_v1_paths: Vec<RequiredPath>,
     pub required_v2_binaries: Vec<String>,
 }
@@ -43,7 +42,7 @@ pub struct RequiredPath {
 pub struct CoexistenceReport {
     pub schema: String,
     pub pass: bool,
-    pub default_generation: String,
+    pub default_generation: Generation,
     pub missing_v1_paths: Vec<PathBuf>,
     pub missing_v2_binaries: Vec<String>,
     pub skill_count: usize,
@@ -142,32 +141,22 @@ pub fn verify_coexistence(
             "coexistence input must exactly match the embedded reviewed inventory",
         ));
     }
-    if inventory.schema != "csdlc.coexistence_inventory.v1" || inventory.default_generation != "v1"
-    {
+    if inventory.schema != "csdlc.coexistence_inventory.v1" {
         return Err(V2Error::new(
             ErrorCode::InvalidManifest,
-            "coexistence requires schema v1 and v1 default",
+            "coexistence requires schema v1",
         ));
     }
-    let selector_path = checked_repo_path(repo, &inventory.generation_selector)?;
+    let selector_path = checked_repo_path(repo, Path::new(&manifest.generation_selector))?;
     if !is_regular_file(&selector_path) {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "tracked generation selector must be a regular file, not a symlink",
         ));
     }
-    let selector: serde_json::Value =
+    let selector: GenerationSelector =
         serde_json::from_slice(&fs::read(&selector_path).map_err(io_error)?)?;
-    if selector
-        .get("default_generation")
-        .and_then(|value| value.as_str())
-        != Some("v1")
-    {
-        return Err(V2Error::new(
-            ErrorCode::ValidationFailed,
-            "tracked generation selector does not declare v1 as default",
-        ));
-    }
+    select_generation(&selector, 0, None)?;
     let missing_v1_paths = inventory
         .required_v1_paths
         .iter()
@@ -194,11 +183,29 @@ pub fn verify_coexistence(
     Ok(CoexistenceReport {
         schema: "csdlc.coexistence_report.v1".into(),
         pass: missing_v1_paths.is_empty() && missing_v2_binaries.is_empty(),
-        default_generation: inventory.default_generation.clone(),
+        default_generation: selector.default_generation,
         missing_v1_paths,
         missing_v2_binaries: missing_v2_binaries.into_iter().collect(),
         skill_count: manifest.skills.len(),
     })
+}
+
+pub fn resolve_operator_generation(
+    repo: &Path,
+    issue: u64,
+    requested: Option<Generation>,
+) -> Result<Generation> {
+    let manifest = SkillManifest::load()?;
+    let selector_path = checked_repo_path(repo, Path::new(&manifest.generation_selector))?;
+    if !is_regular_file(&selector_path) {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "tracked generation selector must be a regular file, not a symlink",
+        ));
+    }
+    let selector: GenerationSelector =
+        serde_json::from_slice(&fs::read(selector_path).map_err(io_error)?)?;
+    select_generation(&selector, issue, requested)
 }
 
 pub fn install_binaries(source: &Path, destination: &Path) -> Result<InstallReceipt> {

@@ -36,7 +36,8 @@ pub use model::{
     ReviewFindingEvidence, TerminalEvidence,
 };
 pub use operator::{
-    install_binaries, verify_coexistence, CoexistenceInventory, InstallReceipt, SkillManifest,
+    install_binaries, resolve_operator_generation, verify_coexistence, CoexistenceInventory,
+    InstallReceipt, SkillManifest,
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
