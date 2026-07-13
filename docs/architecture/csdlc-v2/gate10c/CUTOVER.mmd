@@ -1,0 +1,17 @@
+stateDiagram-v2
+  [*] --> V1Default
+  V1Default --> V2Candidate: green tracked Phase B evidence
+  V2Candidate --> V1Restored: v2 lifecycle smoke fails
+  V2Candidate --> V2SmokePassed: complete lifecycle passes
+  V2SmokePassed --> V1Rollback: selector v1
+  V1Rollback --> V1Restored: v1 smoke fails
+  V1Rollback --> V1Proved: v1 smoke passes
+  V1Proved --> V2SwitchBack: selector v2
+  V2SwitchBack --> V1Restored: second v2 smoke fails
+  V2SwitchBack --> V2Verified: second v2 smoke passes
+  V2Verified --> [*]
+  note right of V2Verified
+    v1 retained
+    explicit v1 override true
+    deletion authority false
+  end note

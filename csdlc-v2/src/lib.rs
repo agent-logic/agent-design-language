@@ -1,4 +1,5 @@
 pub mod cards;
+pub mod cutover;
 pub mod doctor;
 pub mod error;
 pub mod git;
@@ -18,6 +19,7 @@ pub mod store;
 pub use cards::{
     CardKind, CardStatus, CardValues, InitialCardInput, PlanningProfile, SemanticOperation,
 };
+pub use cutover::{run_cutover, CutoverEvidence, CutoverRequest};
 pub use doctor::{diagnose, DoctorReport};
 pub use error::{ErrorCode, Result, V2Error};
 pub use lifecycle::{

@@ -2,10 +2,13 @@ use csdlc_v2::{install_binaries, verify_coexistence, CoexistenceInventory, Skill
 use std::fs;
 
 #[test]
-fn nine_skills_are_typed_and_keep_v1_default() {
+fn nine_skills_are_typed_and_bind_the_generation_selector() {
     let manifest = SkillManifest::load().unwrap();
     assert_eq!(manifest.skills.len(), 9);
-    assert_eq!(manifest.default_generation, "v1");
+    assert_eq!(
+        manifest.generation_selector,
+        "csdlc-v2/operator/generation-selector.json"
+    );
     assert!(manifest
         .skills
         .iter()

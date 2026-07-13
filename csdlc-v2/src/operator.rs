@@ -12,7 +12,7 @@ const COEXISTENCE: &str = include_str!("../operator/coexistence.json");
 pub struct SkillManifest {
     pub schema: String,
     pub generation: String,
-    pub default_generation: String,
+    pub generation_selector: String,
     pub skills: Vec<SkillRoute>,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -76,12 +76,12 @@ impl SkillManifest {
     pub fn validate(&self) -> Result<()> {
         if self.schema != "csdlc.operator_skills.v1"
             || self.generation != "v2"
-            || self.default_generation != "v1"
+            || self.generation_selector != "csdlc-v2/operator/generation-selector.json"
             || self.skills.len() != 9
         {
             return Err(V2Error::new(
                 ErrorCode::InvalidManifest,
-                "operator manifest must declare nine v2 skills while v1 remains default",
+                "operator manifest must declare nine v2 skills bound to the tracked generation selector",
             ));
         }
         let mut names = BTreeSet::new();

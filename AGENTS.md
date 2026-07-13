@@ -122,10 +122,10 @@ These rules are mandatory for ADL issue work.
 
 ### C-SDLC v2 coexistence (Gate 10A)
 
-- V1 remains the authoritative default. Continue using the mandatory v1 workflow in this file unless an issue explicitly opts into C-SDLC v2.
+- Generation authority is `csdlc-v2/operator/generation-selector.json`. Gate 10A began with v1 as default; after reviewed Gate 10C cutover the selector may name v2 while an explicit v1 override remains mandatory during the rollback window.
 - Explicit v2 work routes through the nine typed contracts under `csdlc-v2/operator/skills/`; those skills delegate to Rust binaries and never mutate Markdown/state directly.
 - Install v2 only into the dedicated `.adl/bin/csdlc-v2/` generation directory with `csdlc-install`; the shared v1 `.adl/bin/` directory is forbidden. Verification must prove the v1 workflow, installer, tests, recovery policy, and v1-default selector remain present.
-- A v2 opt-in does not authorize a default switch or any v1 deletion. Gate 10B must complete independent proof before cutover is eligible.
+- A v2 opt-in or default switch never authorizes v1 deletion. Deletion remains a separate explicitly approved phase after post-switch proof.
 
 - ADL is deterministic by design. Do not introduce hidden state, undeclared
   side effects, or review-hostile magic.
