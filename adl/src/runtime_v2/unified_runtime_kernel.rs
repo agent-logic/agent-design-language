@@ -188,7 +188,7 @@ impl RuntimeV2UnifiedRuntimeKernelArtifacts {
         self.acip.write_to_root(root)?;
         self.memory_identity.write_to_root(root)?;
         self.godel_runtime
-            .write_to_path(&root.join(RUNTIME_V2_GODEL_AGENT_RUNTIME_PATH))?;
+            .write_to_path(root.join(RUNTIME_V2_GODEL_AGENT_RUNTIME_PATH))?;
         write_unified_current_runtime(root)?;
         write_relative(
             root,
