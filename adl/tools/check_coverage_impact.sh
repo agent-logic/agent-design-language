@@ -330,6 +330,9 @@ candidate_filter_for_path() {
     adl/src/cli/run_artifacts/cognitive/state_artifacts.rs)
       printf 'cli_surface'
       ;;
+    adl/src/cli/run_artifacts/mod.rs)
+      printf 'cli_surface'
+      ;;
     *)
       return 1
       ;;
