@@ -1,0 +1,127 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 5335
+
+Repository: danielbaustin/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Baseline the incumbent and successful replacements, author the full v0.91.8 package, seed a dependency-ordered issue wave, validate it, run bounded review, and publish through the normal workflow.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "step-1",
+    "action": "Capture current milestone, architecture, source, and tracker truth",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "step-2",
+    "action": "Author the full v0.91.8 milestone, feature, architecture, sprint, and issue-wave package",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "step-3",
+    "action": "Create and verify v0.91.8 tracker routing and child issues",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "step-4",
+    "action": "Run focused planning, YAML, link, placeholder, and diff validation",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "step-5",
+    "action": "Run bounded subagent review and resolve actionable findings",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "step-6",
+    "action": "Publish the setup PR and stop before merge",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-7"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- tracked edits occur only in the issue worktree
+- legacy code is behavioral evidence rather than the new architecture
+- v0.92 remains the birthday milestone
+- implementation and test LoC are measured separately
+- no completion or proof claim precedes evidence
+- 80 percent deletion is a fail-closed minimum
+
+## Risks
+
+- the rearchitecture may collide with active v0.91.7 worktrees
+- overlapping capability families may inflate or double-count the baseline
+- issue seeding before architecture review may encode the wrong boundaries
+- planning may accidentally widen v0.92 scope
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/designs/5335/design.md
+
+Digest: 19658f4f4bc0a940e91cf955b2116a197f4f2894e3cdbabaf725c885792dd30b
+
+## Diagram
+
+.csdlc/designs/5335/design.mmd
+
+Digest: 1932ab3a2276f2fcbb014cb51d99888dfb7638f0745c166f4ee74e856d0dcf77
+
+## Stop Conditions
+
+- primary checkout is dirty or not on main
+- protected-path collision is detected
+- current tracker truth reveals an existing equivalent milestone
+- mandatory planning validation fails without a bounded repair
+- review finds an unresolved scope or architecture blocker
+
+## Handoff
+
+Proceed only after doctor readiness.

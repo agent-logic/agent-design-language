@@ -1,0 +1,15 @@
+flowchart LR
+  legacy["Incumbent adl crate\nbehavioral evidence"] --> corpus["Normalized characterization corpus"]
+  corpus --> language["adl-language\nsix typed primitives"]
+  language --> compiler["adl-compiler\ndeterministic ExecutionPlan"]
+  compiler --> engine["adl-engine\nbounded portable execution"]
+  engine --> cli["thin adl CLI"]
+  engine --> runtime["Runtime v3 adapter"]
+  engine --> providers["provider and tool adapters"]
+  parity["shadow parity + soak"] --> switch["reversible default switch"]
+  cli --> parity
+  runtime --> parity
+  providers --> parity
+  switch --> deletion["80 percent minimum\n90 percent target deletion"]
+  csdlc["C-SDLC v2"] -. "separate owner" .-> deletion
+  runtime_owner["Runtime v3"] -. "separate owner" .-> deletion

@@ -227,6 +227,18 @@ The likely `v0.92` tranche is:
 
 ## Execution Model
 
+### v0.91.8 Platform Consumption Gate
+
+v0.92 now treats the planned `v0.91.8` ADL Core Rearchitecture as a platform
+prerequisite. This does not change v0.92's identity, continuity, memory,
+capability, ACIP, witness, receipt, or birthday scope. WP-01 must consume the
+exact reviewed v0.91.8 language, plan, engine, adapter, selector, and residual-
+risk handoff, or record an explicit blocker/compatibility decision. Planning or
+partial v0.91.8 execution is not sufficient evidence.
+
+Source package: [`../v0.91.8/README.md`](../v0.91.8/README.md) and
+[`../v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md`](../v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md).
+
 Later WP planning should preserve the standard milestone rhythm:
 
 - WP-01: promote reviewed milestone docs and issue wave

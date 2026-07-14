@@ -1,0 +1,263 @@
+schema: adl.wp_issue_wave.v1
+milestone: v0.91.8
+version: v0.91.8
+status: issue_wave_opened
+created_by_issue: 5335
+title: ADL Core Rearchitecture
+objective: >-
+  Replace the monolithic ADL crate with a small clean-room language, compiler,
+  portable engine, thin CLI, and narrow adapters; prove normalized parity and
+  rollback; then delete at least 80 percent of the pinned incumbent surface.
+policies:
+  target_deletion_percent: 90
+  minimum_deletion_percent: 80
+  implementation_loc_target: 20000
+  implementation_loc_ceiling: 30000
+  test_loc_target: 8000
+  test_loc_ceiling: 15000
+  max_core_crates: 4
+  max_owner_binaries: 5
+  clean_room: true
+  code_movement_counts_as_deletion: false
+  v092_scope_must_remain_unchanged: true
+work_packages:
+  - wp: WP-01
+    title: Planning package and issue-wave setup
+    issue: 5335
+    queue: setup
+    depends_on: []
+    write_set: [docs/milestones/v0.91.8, docs/milestones/v0.91.7/README.md, docs/milestones/v0.92/README.md]
+    deliverables: [full planning package, version label, seeded issue wave]
+    proof: [planning structure, YAML parse, link scan, bounded review]
+    release_gate: true
+  - wp: WP-02
+    title: Pin incumbent baseline and approve clean-room architecture
+    issue: 5336
+    queue: contract
+    depends_on: [WP-01]
+    write_set: [docs/architecture/adl-v2, docs/milestones/v0.91.8/review/baseline]
+    deliverables: [hashed file denominator, ownership map, dependency and LoC budgets, architecture diagram]
+    proof: [reproducible counts, module-to-capability closure, architecture review]
+    release_gate: true
+  - wp: WP-03
+    title: Build normalized characterization and determinism corpus
+    issue: 5337
+    queue: contract
+    depends_on: [WP-02]
+    write_set: [adl-v2/fixtures, docs/milestones/v0.91.8/review/characterization]
+    deliverables: [positive corpus, negative corpus, normalizer contract, v1 outcome capture]
+    proof: [repeatability, error taxonomy coverage, artifact and trace samples]
+    release_gate: true
+  - wp: WP-04
+    title: Implement clean-room six-primitives language core
+    issue: 5339
+    queue: construction
+    depends_on: [WP-03]
+    write_set: [adl-v2/crates/adl-language]
+    deliverables: [typed model, parser, schema, semantic validation, canonicalization]
+    proof: [focused tests, schema fixtures, characterization parity]
+    release_gate: true
+  - wp: WP-05
+    title: Implement pure deterministic ADL compiler
+    issue: 5338
+    queue: construction
+    depends_on: [WP-04]
+    write_set: [adl-v2/crates/adl-compiler]
+    deliverables: [resolution, composition, patterns, stable IDs, ExecutionPlan]
+    proof: [DAG fixtures, repeated canonical plan equality, failure cases]
+    release_gate: true
+  - wp: WP-06
+    title: Implement portable bounded execution engine
+    issue: 5340
+    queue: construction
+    depends_on: [WP-05]
+    write_set: [adl-v2/crates/adl-engine]
+    deliverables: [scheduler, retry/failure, joins, resume, provider and tool ports]
+    proof: [ordering, concurrency, saturation, failure, and resume tests]
+    release_gate: true
+  - wp: WP-07
+    title: Implement portable records signing and trust contracts
+    issue: 5342
+    queue: construction
+    depends_on: [WP-03]
+    write_set: [adl-v2/crates/adl-contracts]
+    deliverables: [errors, events, traces, results, artifacts, signing and verification]
+    proof: [schema tests, canonical bytes, tamper cases, stdout stderr contract]
+    release_gate: true
+  - wp: WP-08
+    title: Implement Runtime v3 adapter
+    issue: 5341
+    queue: adapters
+    depends_on: [WP-06, WP-07]
+    write_set: [adl-v2/adapters/runtime-v3]
+    deliverables: [plan admission, event bridge, cancellation and outcome mapping]
+    proof: [local component integration, authority-boundary negative cases]
+    release_gate: true
+  - wp: WP-09
+    title: Implement provider and governed-tool adapters
+    issue: 5349
+    queue: adapters
+    depends_on: [WP-06, WP-07]
+    write_set: [adl-v2/adapters/providers, adl-v2/adapters/tools]
+    deliverables: [mock, HTTP, governed tool, bounded compatibility adapters]
+    proof: [mock determinism, HTTP fixtures, authority denial, secret hygiene]
+    release_gate: true
+  - wp: WP-10
+    title: Implement thin ADL CLI and authoritative selector
+    issue: 5345
+    queue: integration
+    depends_on: [WP-04, WP-05, WP-06, WP-07, WP-08, WP-09]
+    write_set: [adl-v2/crates/adl-cli, adl-v2/operator]
+    deliverables: [validate, schema, plan, run, inspect, sign, verify, selector]
+    proof: [CLI contract tests, binary size, dependency graph, JSON stdout]
+    release_gate: true
+  - wp: WP-11
+    title: Run exact-revision normalized shadow parity
+    issue: 5350
+    queue: parity
+    depends_on: [WP-10]
+    write_set: [adl-v2/parity, docs/milestones/v0.91.8/review/parity]
+    deliverables: [parity matrix, mismatch dispositions, unsupported-case register]
+    proof: [language, plan, execution, error, trace, artifact, resume, adapter parity]
+    release_gate: true
+  - wp: WP-12
+    title: Run opt-in soak prove rollback and switch the ADL default
+    issue: 5344
+    child_issues: [5343]
+    queue: cutover
+    depends_on: [WP-11]
+    write_set: [adl-v2/soak, adl-v2/operator/generation-selector.json, docs/milestones/v0.91.8/review/cutover]
+    deliverables: [scenario packet, performance budgets, rollback evidence, selector transaction]
+    proof: [representative local CI runtime provider demo scenarios, v1 restoration, fresh install, v2 default, explicit v1 override]
+    release_gate: true
+  - wp: WP-13
+    title: Delete replaced incumbent ADL implementation
+    issue: 5347
+    child_issues: [5346]
+    queue: deletion
+    depends_on: [WP-12]
+    write_set: [adl/src, adl/tools, adl/Cargo.toml, adl/tests, docs/milestones/v0.91.8/review/deletion]
+    deliverables: [external-owner deletion, final core deletion, compatibility expiry, retained manifest]
+    proof: [owner replacements, forbidden-path checks, final deletion percentage, no unowned retained files]
+    release_gate: true
+  - wp: WP-14
+    title: Fully accept deploy and integrate ADL v2 Runtime v3 and C-SDLC v2
+    issue: 4641
+    child_issues: [5358, 5361, 5352, 4758, 4759, 4760, 4761, 4762, 4763, 5007, 4739, 4741, 5332, 5107]
+    queue: deployment
+    depends_on: [WP-13]
+    write_set: [adl-v2/operator, adl-runtime-kernel, csdlc-v2/operator, infra, docs/milestones/v0.91.8/review/deployment, docs/milestones/v0.92]
+    deliverables:
+      - accepted and deployed ADL v2 stable binaries and selector
+      - accepted and deployed Runtime v3 service topology operations rollback and consumer proof
+      - accepted and deployed C-SDLC v2 binaries skills lifecycle publication recovery and closeout proof
+      - exact-revision v0.92 platform and birthday handoff
+      - moved launch activation Memory Palace capability witness birthday and ADR dispositions
+      - Unity Observatory live editor and batch proof disposition against the deployed platform
+      - Adaptive Learning DAG queue and dependency disposition before v0.92
+    proof:
+      - fresh installation and stable owner paths
+      - local and approved deployment environment readiness health operations and rollback
+      - ADL Runtime and C-SDLC integrated acceptance matrix
+      - every child closed or blocked with evidence and operator approval
+    release_gate: true
+  - wp: WP-15
+    title: Converge integrated platform demos
+    issue: 5354
+    queue: demos
+    depends_on: [WP-14]
+    write_set: [demos, docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md, docs/milestones/v0.91.8/review/demos]
+    deliverables: [three-product demo packet, public claim boundaries, updated matrix]
+    proof: [ADL compile and run, Runtime supervision, C-SDLC lifecycle, retained replayable evidence]
+    release_gate: true
+  - wp: WP-16
+    title: Run integrated platform quality gate
+    issue: 5351
+    queue: quality
+    depends_on: [WP-14, WP-15]
+    write_set: [docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md, docs/milestones/v0.91.8/review/quality]
+    deliverables: [quality-gate packet, product and deployment budget results, blocker list]
+    proof: [full deterministic validation, stable install, deployment checks, rollback, deletion, security and architecture checks]
+    release_gate: true
+  - wp: WP-17
+    title: Align documentation and release truth
+    issue: 5360
+    queue: docs
+    depends_on: [WP-16]
+    write_set: [README.md, CHANGELOG.md, REVIEW.md, docs/milestones/v0.91.8, docs/milestones/v0.92]
+    deliverables: [documentation alignment packet, repaired ownership deployment planning and release truth]
+    proof: [planning and feature validation, link and claim scans, issue and deployment truth reconciliation]
+    release_gate: true
+  - wp: WP-18
+    title: Run internal milestone review
+    issue: 5356
+    queue: review
+    depends_on: [WP-17]
+    write_set: [docs/milestones/v0.91.8/review/internal]
+    deliverables: [internal review packet, finding register]
+    proof: [code architecture security tests docs deployments issue graph and closeout review]
+    release_gate: true
+  - wp: WP-19
+    title: Run independent external milestone review
+    issue: 5357
+    queue: review
+    depends_on: [WP-18]
+    write_set: [docs/milestones/v0.91.8/review/external]
+    deliverables: [external review handoff, finding register]
+    proof: [independent exact-revision review and evidence boundary audit]
+    release_gate: true
+  - wp: WP-20
+    title: Remediate findings and run release preflight
+    issue: 5363
+    queue: remediation
+    depends_on: [WP-19]
+    write_set: [product paths named by accepted findings, docs/milestones/v0.91.8/review/remediation]
+    deliverables: [remediation PRs, preflight packet, final checklist]
+    proof: [finding dispositions, focused reruns, integrated preflight]
+    release_gate: true
+  - wp: WP-21
+    title: Align feature list and v0.92 planning truth
+    issue: 5362
+    queue: handoff
+    depends_on: [WP-20]
+    write_set: [docs/planning, docs/milestones/v0.92, docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md]
+    deliverables: [v0.92 planning seed, source handoff, feature-list disposition]
+    proof: [exact deployed revision and residual-risk mapping]
+    release_gate: true
+  - wp: WP-21A
+    title: Prepare next-milestone closeout plan
+    issue: 5355
+    queue: handoff
+    depends_on: [WP-21]
+    write_set: [docs/milestones/v0.92]
+    deliverables: [v0.92 closeout-planning packet, review-ready handoff]
+    proof: [planning structure, dependency and closeout-role review]
+    release_gate: true
+  - wp: WP-22
+    title: Review v0.92 planning inputs
+    issue: 5359
+    queue: review
+    depends_on: [WP-21A]
+    write_set: [docs/milestones/v0.92/review]
+    deliverables: [v0.92 planning review packet, finding dispositions]
+    proof: [activation blockers, overclaims, stale assumptions, deployment consumption review]
+    release_gate: true
+  - wp: WP-23
+    title: Release ceremony and lifecycle closeout
+    issue: 5348
+    queue: release
+    depends_on: [WP-22]
+    write_set: [README.md, CHANGELOG.md, REVIEW.md, docs/milestones/v0.91.8]
+    deliverables: [release notes, tag, GitHub release, closed issues and cards, final closeout]
+    proof: [green required checks, tag verification, publication and closeout reconciliation]
+    release_gate: true
+parallel_policy:
+  safe_groups:
+    - [WP-04, WP-07]
+    - [WP-08, WP-09]
+  serial_gates: [WP-02, WP-03, WP-05, WP-06, WP-10, WP-11, WP-12, WP-13, WP-14, WP-15, WP-16, WP-17, WP-18, WP-19, WP-20, WP-21, WP-21A, WP-22, WP-23]
+closeout_rule: >-
+  The milestone cannot close below 80 percent ADL deletion, without full
+  accepted deployment evidence for ADL v2 Runtime v3 and C-SDLC v2, or with
+  unclassified parity mismatches, unreviewed retained surfaces, unresolved
+  review findings, skipped next-milestone review, or stale v0.92 handoff truth.

@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5335,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Create v0.91.8 ADL Core Rearchitecture milestone and sprint",
+    "slug": "v0918-adl-core-rearchitecture-planning",
+    "version": "v0.91.7",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Create a complete issue-backed v0.91.8 milestone and sprint package for clean-room replacement of the monolithic ADL crate.",
+      "required_outcome": "A reviewed planned-posture milestone package, machine-useful issue wave, GitHub routing, and executable staged plan for at least 80 percent incumbent ADL deletion without changing v0.92 birthday scope.",
+      "declared_scope": [
+        "docs/milestones/v0.91.8 full planning package",
+        "v0.91.7 source handoff truth",
+        "v0.92 downstream consumption truth",
+        "version:v0.91.8 label and reviewed child issue wave"
+      ],
+      "authority_boundary": [
+        "planning and tracker setup only",
+        "no ADL implementation or deletion",
+        "no v0.92 semantic changes",
+        "no merge authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": []
+    }
+  }
+}

@@ -152,6 +152,17 @@ Assignment to a follow-on issue, sprint, or milestone is scheduling truth only. 
 - Do not make launch, product, or governance ambition silently expand the milestone.
 - Do not move or delete ignored local TBD files in this planning package.
 
+## v0.91.8 ADL Core Rearchitecture Handoff
+
+Setup issue `#5335` creates `v0.91.8` as a separate platform bridge for the
+clean-room ADL language/compiler/engine replacement. Runtime v3 and C-SDLC v2
+evidence produced in v0.91.7 is an input to that bridge. Assignment to v0.91.8
+does not make any remaining v0.91.7 activation blocker complete, and v0.91.8
+does not absorb v0.92 birthday semantics.
+
+Canonical target package:
+[`../v0.91.8/README.md`](../v0.91.8/README.md).
+
 ## Exit Criteria
 
 - Every required source in `PLANNING_SOURCE_CAPTURE_v0.91.7.md` is integrated/proven, already closed with evidence, operator-scoped-out with evidence and operator approval, or blocked with evidence and operator approval.

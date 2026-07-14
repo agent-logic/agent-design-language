@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5335,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Create v0.91.8 ADL Core Rearchitecture milestone and sprint",
+    "slug": "v0918-adl-core-rearchitecture-planning",
+    "version": "v0.91.7",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "planning-docs",
+          "proof_role": "Validate milestone and feature planning structure",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            "adl/tools/validate_planning_templates.sh",
+            "docs/milestones/v0.91.8"
+          ],
+          "parallel_group": "focused-docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue-wave-yaml",
+          "proof_role": "Parse and validate machine-useful issue-wave YAML",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            "-e",
+            "require 'yaml'; YAML.load_file('docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml')"
+          ],
+          "parallel_group": "focused-docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "review",
+          "proof_role": "Bounded exact-revision review of planning truth and issue topology",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 8000,
+          "argv": [
+            "codex",
+            "review",
+            "--bounded",
+            "docs/milestones/v0.91.8"
+          ],
+          "parallel_group": "review",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on lifecycle, collision, structure, routing, or review blockers; preserve partial artifacts and do not publish unsupported claims.",
+      "design_ref": ".csdlc/designs/5335/design.md",
+      "design_digest": "19658f4f4bc0a940e91cf955b2116a197f4f2894e3cdbabaf725c885792dd30b",
+      "diagram_ref": ".csdlc/designs/5335/design.mmd",
+      "diagram_digest": "1932ab3a2276f2fcbb014cb51d99888dfb7638f0745c166f4ee74e856d0dcf77"
+    }
+  }
+}

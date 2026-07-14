@@ -1,0 +1,283 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5335,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "e083362b6355da7b78220986ea0722ef686f435acc5d8895f2e76b3af93efc5f",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "af2b457642d2ab865e3eaf2723b0fa33ccf1ac202fcda8eb43262a54a57fd897",
+  "claim": {
+    "id": "issue-5335-planning-claim-1",
+    "owner": "codex-root",
+    "generation": 6,
+    "acquired_unix_seconds": 1784052619,
+    "expires_unix_seconds": 1784657419,
+    "heartbeat_unix_seconds": 1784052619,
+    "branch": "codex/5335-v0918-adl-core-rearchitecture-planning",
+    "worktree": ".worktrees/adl-wp-5335",
+    "protected_paths": [
+      "docs/milestones/v0.91.8",
+      "docs/milestones/v0.91.7/README.md",
+      "docs/milestones/v0.92/README.md"
+    ],
+    "purpose": "Create the v0.91.8 ADL Core Rearchitecture milestone and sprint package"
+  },
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5335",
+    "assigned_by": "codex-root",
+    "revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
+    "scope": [
+      "docs/milestones/v0.91.8",
+      "docs/milestones/v0.91.7/README.md",
+      "docs/milestones/v0.92/README.md"
+    ]
+  },
+  "review": {
+    "reviewer": "bounded-subagent-review-5335",
+    "scope": [
+      "docs/milestones/v0.91.8",
+      "docs/milestones/v0.91.7/README.md",
+      "docs/milestones/v0.92/README.md"
+    ],
+    "reviewed_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
+    "findings": [
+      {
+        "id": "F-5335-01",
+        "severity": "p1",
+        "summary": "Seeded and moved issue bodies referenced sunset v1 lifecycle routing.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
+        "route": null
+      },
+      {
+        "id": "F-5335-02",
+        "severity": "p2",
+        "summary": "Moved #5107 retained stale Runtime v2 and pre-deployment acceptance truth.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
+        "route": null
+      },
+      {
+        "id": "F-5335-03",
+        "severity": "p2",
+        "summary": "Canonical FEATURE_DOCS_v0.91.8.md index was missing.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
+        "route": null
+      },
+      {
+        "id": "F-5335-04",
+        "severity": "p2",
+        "summary": "Quality gate assigned the default selector switch to WP-13 instead of WP-12.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
+        "route": null
+      },
+      {
+        "id": "F-5335-05",
+        "severity": "p2",
+        "summary": "Bound-phase SPP cannot be truthfully replanned after operator scope expansion.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "accepted_risk",
+        "fix_revision": null,
+        "route": "https://github.com/danielbaustin/agent-design-language/issues/5364"
+      },
+      {
+        "id": "F-5335-06",
+        "severity": "p1",
+        "summary": "WP-12 parent #5344 was accidentally emptied during bulk issue-body reconciliation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
+        "route": null
+      },
+      {
+        "id": "F-5335-07",
+        "severity": "p1",
+        "summary": "Generated VPP references deleted v1 planning validation wrapper.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "accepted_risk",
+        "fix_revision": null,
+        "route": "https://github.com/danielbaustin/agent-design-language/issues/5365"
+      },
+      {
+        "id": "F-5335-08",
+        "severity": "p2",
+        "summary": "Active helper-skill guidance conflicts with final typed-v2 authority.",
+        "actionable": false,
+        "in_scope": false,
+        "disposition": "out_of_scope",
+        "fix_revision": null,
+        "route": "https://github.com/danielbaustin/agent-design-language/issues/5366"
+      },
+      {
+        "id": "F-5335-09",
+        "severity": "p2",
+        "summary": "Staleness checker cannot represent planned milestone posture without premature root activation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "accepted_risk",
+        "fix_revision": null,
+        "route": "https://github.com/danielbaustin/agent-design-language/issues/5367"
+      }
+    ],
+    "residual_risks": [
+      "The bound issue retains pending SPP step statuses because typed mutation is prohibited after bind; #5364 owns an audited replan path.",
+      "The generated VPP retains a deleted wrapper command; equivalent focused validation passed and #5365 owns generator repair.",
+      "Root README and CHANGELOG activation checks remain intentionally deferred until the milestone is activated; #5367 owns planned-mode validation.",
+      "Installed helper-skill authority drift is routed to #5366."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/designs/5335/design.md",
+  "diagram_path": ".csdlc/designs/5335/design.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "bounded-subagent-review",
+      "revision": "19658f4f4bc0a940e91cf955b2116a197f4f2894e3cdbabaf725c885792dd30b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "724a3270d68d96701cb217191a8c396becb40fccdea36df7600b20cd5892ead2",
+      "rendered_digest": "8219bacca88b5cc92e4340d664c9d978248c4be8a9f8c5cc844919dad61b5734",
+      "ast_digest": "eed4eeb3a39178aab9135007f9202f8076cec3806aada3ac1fb4da68d258de6d"
+    },
+    "stp": {
+      "values_digest": "b2b4cad01ed7b109c508902943e18df7b53e26e1e94e9ba53847dd7439abd721",
+      "rendered_digest": "6f18b36c468be6e7dd0e3bf46d605ed19b28b4d23ce3e5eed610ba6af496ae89",
+      "ast_digest": "35a7103d6cea9ec0622552f526258ee27940a69c72c97cfbe38f2f87fbac11ae"
+    },
+    "spp": {
+      "values_digest": "a0be82218229522527174d9cc7f7a64d2de63ea727ec87ef6de92848ba8fa5dd",
+      "rendered_digest": "246944c514245a468a5e4bd754ed5fefb1352058a722c9b6a8aa266ae1f65031",
+      "ast_digest": "e7b9430b42f0a23d90057892e487a078ca9b88483f792d621a0b5df2107776ee"
+    },
+    "vpp": {
+      "values_digest": "2c84d001105ab43443398e7a709cfecaace54891c2d2935baeea7bdc2962f493",
+      "rendered_digest": "8f8c693f73ba8352cf775baa18736f102711b6d570ea05f818143325191d897c",
+      "ast_digest": "50cfd443a80e300ac11fb490bcf8a5e642bb1bc57de7de339c8fe12c3d666856"
+    },
+    "srp": {
+      "values_digest": "bcddb906f0e3eae8415520469a678abc32c6ebc35251784aa5dcef193d99efa1",
+      "rendered_digest": "942f9447fe49f8fae754847a983a3dfd61ce1881c1ea818f29aba0ba384c35ea",
+      "ast_digest": "3fbc165bbf2537a393da09d403d396ab99149f4930e3196c8174fb3d6be8808a"
+    },
+    "sor": {
+      "values_digest": "9805e3cd28ded6e080f48b849a0649174ed9b0cbd5e0e334cba58623d4816449",
+      "rendered_digest": "990d5dfdd576e5de3e5de270925919e68dfd5d75a12126ee4cf480803dcf6ca6",
+      "ast_digest": "573fd469170f2fac1fa444a0f74c211cca3f13a73db477d6fbb83aaddd396ee3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-root",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex-root",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "The bounded setup package and issue routing are implemented and focused validation is recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-root",
+      "reason": "Bounded exact-revision review passed with every finding fixed or durably routed and accepted."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex-root",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-root",
+      "reason": "Record the completed bounded setup work before validation and exact-revision review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Created the planned-posture v0.91.8 ADL Core Rearchitecture package, opened and reconciled its issue wave, moved the operator-approved WP-14, Unity, and Adaptive Learning issues, and established full ADL v2, Runtime v3, and C-SDLC v2 acceptance/deployment plus the exact WP-15 through WP-23 closeout sequence.\",\"changes\":[\"added the complete docs/milestones/v0.91.8 planning and feature package\",\"updated v0.91.7 and v0.92 routing truth\",\"created version:v0.91.8 and opened the dependency-ordered issue wave\",\"moved all open WP-14 issues, Unity issues #4739 #4741 #5332, and #5107 into v0.91.8\",\"added full three-product acceptance/deployment and canonical closeout issues\",\"corrected live issue bodies to typed C-SDLC v2 lifecycle authority\"],\"artifacts\":[\"docs/milestones/v0.91.8/README.md\",\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\",\"docs/milestones/v0.91.8/WBS_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_DOCS_v0.91.8.md\",\"docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md\",\"https://github.com/danielbaustin/agent-design-language/issues/5335\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-root",
+      "reason": "Record the focused validation that passed for the completed setup package.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 adl/tools/validate_planning_template.py for ten canonical docs and seven feature docs\",\"Ruby YAML parse and 24-entry issue-wave assertion\",\"relative Markdown link resolver\",\"placeholder scan scoped to docs/milestones/v0.91.8\",\"git diff --check\",\"csdlc-doctor --repo . --issue 5335\",\"GitHub live scan for sunset workflow-conductor and pr.sh wording\"],\"purpose\":\"Prove structural readiness of the planned milestone package and live issue routing.\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused setup validation output and .csdlc/issues/5335 audit record\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-root",
+      "reason": "The bounded setup package and issue routing are implemented and focused validation is recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex-root",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "Bounded exact-revision review passed with every finding fixed or durably routed and accepted.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "Capture the publication dead-end discovered after review without bypassing typed lifecycle guards.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"F-5335-10\",\"severity\":\"p1\",\"summary\":\"Typed review can accept a dirty substantive tree that typed publication cannot publish after commit, with no reviewed-phase reassignment path.\",\"actionable\":false,\"in_scope\":false,\"disposition\":\"out_of_scope\",\"fix_revision\":null,\"route\":\"https://github.com/danielbaustin/agent-design-language/issues/5368\"}}"
+    }
+  ]
+}
