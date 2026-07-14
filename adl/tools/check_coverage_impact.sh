@@ -211,11 +211,7 @@ candidate_filter_for_path() {
       printf 'acc'
       ;;
     adl/src/cli/mod.rs)
-      if [ "$saw_tokio_bootstrap_related_surface" = true ]; then
-        printf 'tokio_bootstrap'
-      else
-        printf 'cli_basics'
-      fi
+      printf 'cli_surface'
       ;;
     adl/src/cli/tests.rs|adl/src/cli/usage.rs)
       printf 'cli_basics'
@@ -331,6 +327,9 @@ candidate_filter_for_path() {
     adl/src/cli/run_artifacts/runtime/*.rs)
       printf 'run_state'
       ;;
+    adl/src/cli/run_artifacts/cognitive/state_artifacts.rs)
+      printf 'cli_surface'
+      ;;
     *)
       return 1
       ;;
@@ -348,6 +347,9 @@ nextest_expression_for_filter() {
       ;;
     cli_basics)
       printf 'binary_id(adl::cli_smoke) and test(/^basics::/)'
+      ;;
+    cli_surface)
+      printf 'binary_id(adl::bin/adl) and test(/^cli::/)'
       ;;
     tokio_bootstrap)
       printf 'test(/^cli::pr_cmd::github::/) or test(/^cli::pr_cmd::github_client::/) or test(/^cli::tooling_cmd::github_release::/)'
