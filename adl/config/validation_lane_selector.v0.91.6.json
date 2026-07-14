@@ -85,10 +85,12 @@
         "csdlc_v2_standalone"
       ],
       "path_selectors": [
-        "csdlc-v2/**"
+        "csdlc-v2/**",
+        ".csdlc/**"
       ],
       "path_hints": [
-        "csdlc-v2/**"
+        "csdlc-v2/**",
+        ".csdlc/**"
       ],
       "command": "cargo test --manifest-path csdlc-v2/Cargo.toml",
       "run_command": "cargo test --manifest-path csdlc-v2/Cargo.toml",

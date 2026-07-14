@@ -1,0 +1,51 @@
+{
+  "issue": 5308,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": "docs/architecture/csdlc-v2/gate10d3/DESIGN.md",
+  "diagram_path": "docs/architecture/csdlc-v2/gate10d3/DIAGRAM.mmd",
+  "design_reviewer": "operator-approved-gate10d-plan",
+  "design_approved": true,
+  "claim": {
+    "id": "csdlc-v2-prepared-5308-v1",
+    "owner": "gate10d-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1783999049,
+    "expires_unix_seconds": 1787209200,
+    "heartbeat_unix_seconds": 1783999049,
+    "branch": "codex/5308-v0-91-7-csdlc-v2-gate-10d3-executable-rollback-sunset",
+    "worktree": ".worktrees/adl-wp-5308",
+    "protected_paths": ["adl/src/session_ledger.rs", "adl/src/bin/adl_session.rs"],
+    "purpose": "Reserve only the executable rollback sunset surface until its not-before date and approval gate."
+  },
+  "initial": {
+    "title": "[v0.91.7][csdlc-v2] Gate 10D3: executable rollback sunset",
+    "slug": "v0-91-7-csdlc-v2-gate-10d3-executable-rollback-sunset",
+    "version": "v0.91.7",
+    "goal": "Retire the executable v1 rollback path promptly after its protection expires, never before.",
+    "required_outcome": "A separately reviewed sunset removes only the exact rollback surface after 2026-07-27T02:03:02.808013Z while preserving the importer.",
+    "declared_scope": ["Executable v1 session rollback surface", "Typed not-before and current-v2-health evidence"],
+    "authority_boundary": ["No mutation before 2026-07-27T02:03:02.808013Z", "Explicit sunset approval required", "Importer is excluded"],
+    "task_boundary": "Remove only the exact reviewed rollback inventory after all typed gates pass.",
+    "deliverables": ["Machine-readable sunset decision", "Exact rollback removal manifest", "Post-removal v2 and importer-presence proof"],
+    "acceptance_criteria": ["Trusted time is at or after the not-before timestamp", "Explicit sunset approval is current", "Current v2 proof is green", "Importer remains untouched", "Exact-revision review and required checks pass"],
+    "dependencies": ["#5305 merged", "Any approved #5306 topology", "Not-before date", "Explicit sunset approval"],
+    "repo_inputs": ["docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json", "docs/architecture/csdlc-v2/gate10d1/ELIGIBILITY_EVIDENCE.json"],
+    "non_goals": ["Importer removal", "Unrelated deletion or cleanup"],
+    "plan_summary": "Validate time, approval, and v2 health; remove only the rollback inventory; prove and review.",
+    "steps": [
+      {"id":"step-1","action":"Evaluate trusted time, approval, extension, and v2 health","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+      {"id":"step-2","action":"Remove only the exact rollback surface and preserve importer","acceptance_ids":["AC-4"],"status":"pending"},
+      {"id":"step-3","action":"Run exact-revision review and required proof","acceptance_ids":["AC-5"],"status":"pending"}
+    ],
+    "invariants": ["Zero mutation before the date", "Importer remains", "Current v2 stays green"],
+    "risks": ["Clock ambiguity", "Overlapping deletion scope", "Stale health evidence"],
+    "planning_profile": "small",
+    "stop_conditions": ["Current time is early or untrusted", "Approval is absent", "v2 proof is red", "Importer enters the diff"],
+    "validation_lanes": [
+      {"lane":"rollback-sunset-decision","proof_role":"Evaluate trusted current time, exact approval, current v2 health, and protected rollback scope from typed evidence","acceptance_ids":["AC-1","AC-2","AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":2000,"argv":["csdlc-sunset","evaluate","--repo",".","--request","csdlc-v2/operator/gate10d3-sunset-request.json"],"parallel_group":"authority","defer_reason":null},
+      {"lane":"rollback-sunset","proof_role":"After a passing typed sunset decision, prove the exact rollback removal and intact importer","acceptance_ids":["AC-4","AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":1140,"budget_tokens":5000,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml"],"parallel_group":"local","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed with zero rollback mutation when any date, approval, scope, or health input is missing or ambiguous.",
+    "review_prompts": ["Verify trusted time is after the not-before instant.", "Verify only the rollback inventory changed.", "Verify the importer remains runnable."]
+  }
+}

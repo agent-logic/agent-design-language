@@ -1,0 +1,51 @@
+{
+  "issue": 5307,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": "docs/architecture/csdlc-v2/gate10d4/DESIGN.md",
+  "diagram_path": "docs/architecture/csdlc-v2/gate10d4/DIAGRAM.mmd",
+  "design_reviewer": "operator-approved-gate10d-plan",
+  "design_approved": true,
+  "claim": {
+    "id": "csdlc-v2-prepared-5307-v1",
+    "owner": "gate10d-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1783999049,
+    "expires_unix_seconds": 1787209200,
+    "heartbeat_unix_seconds": 1783999049,
+    "branch": "codex/5307-v0-91-7-csdlc-v2-gate-10d4-read-only-importer-sunset",
+    "worktree": ".worktrees/adl-wp-5307",
+    "protected_paths": ["csdlc-v2/src/migration.rs", "csdlc-v2/src/bin/csdlc-import.rs"],
+    "purpose": "Reserve only the read-only importer sunset surface until its not-before date and no-active-contract proof."
+  },
+  "initial": {
+    "title": "[v0.91.7][csdlc-v2] Gate 10D4: read-only importer sunset",
+    "slug": "v0-91-7-csdlc-v2-gate-10d4-read-only-importer-sunset",
+    "version": "v0.91.7",
+    "goal": "Retire the read-only importer after its short compatibility window and all migration obligations end.",
+    "required_outcome": "A separately reviewed sunset removes only the importer after 2026-08-12T02:03:02.808013Z and proves no active contract requires it.",
+    "declared_scope": ["Read-only v2 compatibility importer", "Migration-completeness and active-contract evidence"],
+    "authority_boundary": ["No mutation before 2026-08-12T02:03:02.808013Z", "Explicit sunset approval required", "No active contract may name the importer"],
+    "task_boundary": "Remove only the exact importer surface after time, approval, migration, contract, and health gates pass.",
+    "deliverables": ["Machine-readable importer sunset decision", "No-active-contract proof", "Durable migration evidence", "Post-removal v2 proof"],
+    "acceptance_criteria": ["Trusted time is at or after the not-before timestamp", "Explicit sunset approval is current", "Migration evidence is complete and durable", "No active contract requires the importer", "Exact-revision review and required checks pass"],
+    "dependencies": ["#5305 merged", "Not-before date", "Explicit sunset approval", "Completed migration and compatibility evidence"],
+    "repo_inputs": ["docs/architecture/csdlc-v2/gate8/GATE8_IMPORT_SHADOW_DESIGN.md", "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json"],
+    "non_goals": ["Unrelated v1 deletion", "ADL or Runtime cleanup"],
+    "plan_summary": "Validate time, approval, migration, active contracts, and v2 health; remove only importer; prove and review.",
+    "steps": [
+      {"id":"step-1","action":"Evaluate time, approval, migration completeness, active contracts, and v2 health","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"step-2","action":"Remove only the exact importer surface while preserving durable evidence","acceptance_ids":["AC-3","AC-4"],"status":"pending"},
+      {"id":"step-3","action":"Run exact-revision review and required proof","acceptance_ids":["AC-5"],"status":"pending"}
+    ],
+    "invariants": ["Zero mutation before the date", "Migration evidence remains durable", "No active contract loses a required path"],
+    "risks": ["Hidden importer consumer", "Incomplete migration evidence", "Clock or approval ambiguity"],
+    "planning_profile": "small",
+    "stop_conditions": ["Current time is early or untrusted", "Approval is absent", "Migration is incomplete", "An active contract names importer", "v2 proof is red"],
+    "validation_lanes": [
+      {"lane":"importer-sunset-decision","proof_role":"Evaluate trusted current time, exact approval, migration completeness, active contracts, and current v2 health from typed evidence","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":2000,"argv":["csdlc-sunset","evaluate","--repo",".","--request","csdlc-v2/operator/gate10d4-sunset-request.json"],"parallel_group":"authority","defer_reason":null},
+      {"lane":"importer-sunset","proof_role":"After a passing typed sunset decision, prove durable migration evidence and green v2 after importer removal","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":1140,"budget_tokens":5000,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml"],"parallel_group":"local","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed with zero importer mutation when any date, approval, migration, contract, or health input is missing or ambiguous.",
+    "review_prompts": ["Verify no active contract still names the importer.", "Verify migration evidence survives removal.", "Verify only the importer surface changed."]
+  }
+}

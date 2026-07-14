@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5307,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2] Gate 10D4: read-only importer sunset",
+    "slug": "v0-91-7-csdlc-v2-gate-10d4-read-only-importer-sunset",
+    "version": "v0.91.7",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify no active contract still names the importer.",
+        "Verify migration evidence survives removal.",
+        "Verify only the importer surface changed."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

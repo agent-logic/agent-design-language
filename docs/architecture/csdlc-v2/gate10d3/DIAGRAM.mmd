@@ -1,0 +1,8 @@
+flowchart TD
+  T["Trusted current time"] --> G{"At or after 2026-07-27T02:03:02.808013Z?"}
+  A["Explicit sunset approval"] --> G
+  H["Current green v2 health"] --> G
+  G -->|"no or unknown"| N["Zero mutation"]
+  G -->|"yes"| R["Remove exact rollback surface"]
+  R --> P["Prove v2 and importer intact"]
+  P --> V["Exact-revision review and green checks"]

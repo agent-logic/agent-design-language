@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5307,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2] Gate 10D4: read-only importer sunset",
+    "slug": "v0-91-7-csdlc-v2-gate-10d4-read-only-importer-sunset",
+    "version": "v0.91.7",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Retire the read-only importer after its short compatibility window and all migration obligations end.",
+      "required_outcome": "A separately reviewed sunset removes only the importer after 2026-08-12T02:03:02.808013Z and proves no active contract requires it.",
+      "declared_scope": [
+        "Read-only v2 compatibility importer",
+        "Migration-completeness and active-contract evidence"
+      ],
+      "authority_boundary": [
+        "No mutation before 2026-08-12T02:03:02.808013Z",
+        "Explicit sunset approval required",
+        "No active contract may name the importer"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": []
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5308,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2] Gate 10D3: executable rollback sunset",
+    "slug": "v0-91-7-csdlc-v2-gate-10d3-executable-rollback-sunset",
+    "version": "v0.91.7",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Remove only the exact reviewed rollback inventory after all typed gates pass.",
+      "deliverables": [
+        "Machine-readable sunset decision",
+        "Exact rollback removal manifest",
+        "Post-removal v2 and importer-presence proof"
+      ],
+      "acceptance_criteria": [
+        "Trusted time is at or after the not-before timestamp",
+        "Explicit sunset approval is current",
+        "Current v2 proof is green",
+        "Importer remains untouched",
+        "Exact-revision review and required checks pass"
+      ],
+      "dependencies": [
+        "#5305 merged",
+        "Any approved #5306 topology",
+        "Not-before date",
+        "Explicit sunset approval"
+      ],
+      "repo_inputs": [
+        "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+        "docs/architecture/csdlc-v2/gate10d1/ELIGIBILITY_EVIDENCE.json"
+      ],
+      "non_goals": [
+        "Importer removal",
+        "Unrelated deletion or cleanup"
+      ]
+    }
+  }
+}
