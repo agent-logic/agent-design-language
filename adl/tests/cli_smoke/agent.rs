@@ -3053,6 +3053,10 @@ memory:
         .as_str()
         .expect("checkpoint path")
         .ends_with("runtime-state/continuity_checkpoint.json"));
+    assert!(manifest["safe_fail_bundle"]
+        .as_str()
+        .expect("safe-fail bundle path")
+        .ends_with("runtime-state/safe_fail_bundle.json"));
     assert!(manifest["unsupported_permanence_claims"]
         .as_array()
         .expect("nonclaims")
@@ -3113,11 +3117,44 @@ memory:
     );
     assert_eq!(status["first_daemon_record_observed"], false);
     assert_eq!(status["continuity_checkpoint_observed"], false);
+    assert_eq!(status["safe_fail_bundle_observed"], false);
     assert_eq!(status["cycle_ledger_observed"], false);
     assert!(status["startup_ledger_ref"]
         .as_str()
         .expect("startup ledger ref")
         .ends_with("logs/startup_ledger.jsonl"));
+
+    let manifest_path = service_root.join("service_manifest.json");
+    let mut legacy_manifest: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(&manifest_path).expect("manifest"))
+            .expect("parse manifest");
+    legacy_manifest
+        .as_object_mut()
+        .expect("manifest object")
+        .remove("safe_fail_bundle");
+    fs::write(
+        &manifest_path,
+        serde_json::to_string_pretty(&legacy_manifest).expect("serialize legacy manifest"),
+    )
+    .expect("write legacy manifest");
+    let legacy_status = run_csm(&[
+        "service",
+        "status",
+        "--service-root",
+        service_root.to_str().expect("utf8 service root"),
+        "--json",
+    ]);
+    assert!(
+        legacy_status.status.success(),
+        "legacy status stderr:\n{}",
+        String::from_utf8_lossy(&legacy_status.stderr)
+    );
+    let legacy_status: serde_json::Value =
+        serde_json::from_slice(&legacy_status.stdout).expect("parse legacy status stdout");
+    assert!(legacy_status["safe_fail_bundle_ref"]
+        .as_str()
+        .expect("safe-fail bundle ref")
+        .ends_with("runtime-state/safe_fail_bundle.json"));
 }
 
 #[test]
@@ -3592,6 +3629,7 @@ memory:
     );
     assert_eq!(service_status["first_daemon_record_observed"], true);
     assert_eq!(service_status["continuity_checkpoint_observed"], true);
+    assert_eq!(service_status["safe_fail_bundle_observed"], false);
     assert_eq!(service_status["cycle_ledger_observed"], true);
     assert!(root.join("state/daemon_status.json").exists());
     assert!(root.join("state/continuity_checkpoint.json").exists());
@@ -3663,7 +3701,6 @@ memory:
                 blocker.as_str().is_some_and(|value| {
                     value.starts_with("chronosense_time_sync_")
                         || value == "curiosity_engine_not_ready"
-                        || value == "reasoning_runtime_missing"
                         || value == "reasoning_runtime_starting"
                         || value == "constructability_gate_blocked"
                         || value == "cav_security_validation_fail_closed"
@@ -3728,6 +3765,8 @@ memory:
     let service_status: serde_json::Value =
         serde_json::from_slice(&stop.stdout).expect("parse stop status stdout");
     assert_eq!(service_status["service_state"], "stopped_or_requested");
+    assert_eq!(service_status["safe_fail_bundle_observed"], true);
+    assert!(root.join("state/safe_fail_bundle.json").exists());
     let restart = run_csm_with_env(
         &[
             "service",
