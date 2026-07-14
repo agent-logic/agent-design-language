@@ -137,6 +137,7 @@ cat >"$csm_runtime_agent_changed" <<'EOF'
 M	adl/src/cli/csm_cmd.rs
 M	adl/src/csm_api_gateway_bridge.rs
 A	adl/src/csm_backpressure.rs
+A	adl/src/csm_cav.rs
 A	adl/src/csm_constructability_gate.rs
 M	adl/src/csm_curiosity_engine.rs
 A	adl/src/csm_freedom_gate.rs
@@ -145,6 +146,10 @@ M	adl/src/csm_runtime_api.rs
 M	adl/src/csm_shepherd_agent.rs
 M	adl/src/long_lived_agent.rs
 M	adl/src/long_lived_agent/types.rs
+A	adl-runtime/src/cav.rs
+M	adl-runtime/src/runtime_api.rs
+M	adl-runtime/src/supervision.rs
+M	adl-runtime/src/topology.rs
 EOF
 csm_runtime_agent_filters="$TMP/csm-runtime-agent-filters.txt"
 bash "$SCRIPT" --changed-files "$csm_runtime_agent_changed" --print-risk-filters >"$csm_runtime_agent_filters"
@@ -154,16 +159,82 @@ if [ "$(wc -l <"$csm_runtime_agent_filters" | tr -d ' ')" -ne 1 ]; then
   exit 1
 fi
 csm_runtime_agent_expression="$(bash "$SCRIPT" --changed-files "$csm_runtime_agent_changed" --print-risk-nextest-expression)"
-grep -F "binary_id(adl) and" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(csm_cmd)" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(csm_runtime_api)" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(csm_backpressure)" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(csm_constructability_gate)" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(csm_freedom_gate)" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(csm_godel_snapshot)" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(csm_shepherd_agent)" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(long_lived_agent)" <<<"$csm_runtime_agent_expression" >/dev/null
-grep -F "test(csm_service)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "binary_id(adl) and (" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^csm_runtime_api::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^csm_backpressure::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^csm_cav::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^csm_constructability_gate::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^csm_freedom_gate::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^csm_godel_snapshot::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^csm_shepherd_agent::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^long_lived_agent::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^cli::csm_service_cmd::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^cli::csm_cmd::tests::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "binary_id(adl::cli_smoke) and test(/^agent::csm_/)" <<<"$csm_runtime_agent_expression" >/dev/null
+if grep -F "binary_id(adl-runtime)" <<<"$csm_runtime_agent_expression" >/dev/null; then
+  echo "expected CSM runtime filter to avoid non-workspace adl-runtime binary IDs" >&2
+  exit 1
+fi
+if grep -F "test(long_lived_agent)" <<<"$csm_runtime_agent_expression" >/dev/null; then
+  echo "expected CSM runtime filter to avoid unrelated tests that merely mention long_lived_agent" >&2
+  exit 1
+fi
+
+csm_runtime_cli_companion_changed="$TMP/csm-runtime-cli-companion-changed.txt"
+cat >"$csm_runtime_cli_companion_changed" <<'EOF'
+M	adl/src/cli/csm_cmd.rs	2
+A	adl/src/csm_cav.rs	349
+M	adl/src/csm_runtime_api.rs	177
+EOF
+csm_runtime_cli_companion_summary="$TMP/csm-runtime-cli-companion-summary.json"
+cat >"$csm_runtime_cli_companion_summary" <<'EOF'
+{
+  "data": [
+    {
+      "files": [
+        {
+          "filename": "adl/src/csm_cav.rs",
+          "summary": {"lines": {"covered": 90, "count": 100}}
+        },
+        {
+          "filename": "adl/src/csm_runtime_api.rs",
+          "summary": {"lines": {"covered": 190, "count": 200}}
+        }
+      ]
+    }
+  ]
+}
+EOF
+csm_runtime_cli_companion_out="$TMP/coverage-impact-csm-runtime-cli-companion-pass.out"
+bash "$SCRIPT" --changed-files "$csm_runtime_cli_companion_changed" --summary "$csm_runtime_cli_companion_summary" >"$csm_runtime_cli_companion_out"
+grep -F "Coverage-impact preflight passed" "$csm_runtime_cli_companion_out" >/dev/null
+
+csm_cmd_alone_changed="$TMP/csm-cmd-alone-changed.txt"
+printf 'M\tadl/src/cli/csm_cmd.rs\t2\n' >"$csm_cmd_alone_changed"
+csm_cmd_alone_out="$TMP/coverage-impact-csm-cmd-alone.out"
+if bash "$SCRIPT" --changed-files "$csm_cmd_alone_changed" --summary "$csm_runtime_cli_companion_summary" >"$csm_cmd_alone_out" 2>&1; then
+  echo "expected standalone csm_cmd change to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "adl/src/cli/csm_cmd.rs (no coverage row" "$csm_cmd_alone_out" >/dev/null
+
+csm_runtime_cli_substantial_changed="$TMP/csm-runtime-cli-substantial-changed.txt"
+cat >"$csm_runtime_cli_substantial_changed" <<'EOF'
+M	adl/src/cli/csm_cmd.rs	21
+A	adl/src/csm_cav.rs	349
+EOF
+csm_runtime_cli_substantial_out="$TMP/coverage-impact-csm-runtime-cli-substantial.out"
+if bash "$SCRIPT" --changed-files "$csm_runtime_cli_substantial_changed" --summary "$csm_runtime_cli_companion_summary" >"$csm_runtime_cli_substantial_out" 2>&1; then
+  echo "expected substantial csm_cmd companion change to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "adl/src/cli/csm_cmd.rs (no coverage row" "$csm_runtime_cli_substantial_out" >/dev/null
+
+ADL_COVERAGE_CONTRACT_NESTED="${ADL_COVERAGE_CONTRACT_NESTED:-0}"
+if [ "$ADL_COVERAGE_CONTRACT_NESTED" != "1" ]; then
+  ADL_COVERAGE_CONTRACT_NESTED=1 bash "$ROOT/adl/tools/test_run_authoritative_coverage_lane.sh"
+  ADL_COVERAGE_CONTRACT_NESTED=1 bash "$ROOT/adl/tools/test_run_local_authoritative_coverage_gate.sh"
+fi
 
 cli_mod_changed="$TMP/cli-mod-changed.txt"
 printf 'A\tadl/src/cli/mod.rs\n' >"$cli_mod_changed"

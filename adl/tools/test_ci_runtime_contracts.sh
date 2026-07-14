@@ -425,7 +425,8 @@ for required_fragment in (
     'cargo llvm-cov report',
     '--json',
     '--summary-only',
-    '--output-path target/coverage-impact-summary.json',
+    'COMBINED_SUMMARY_PATH="$ADL_DIR/target/coverage-impact-summary.json"',
+    '--output-path "$COMBINED_SUMMARY_PATH"',
 ):
     if required_fragment not in pr_fast_runner_text:
         raise SystemExit(
@@ -441,7 +442,9 @@ for required_fragment in (
     "cargo llvm-cov report \\",
     "--json \\",
     "--summary-only \\",
-    "--output-path coverage-summary.json",
+    '--output-path "$ADL_SUMMARY_PATH"',
+    'coverage-summary.adl-runtime.json',
+    "> coverage-summary.json",
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(
