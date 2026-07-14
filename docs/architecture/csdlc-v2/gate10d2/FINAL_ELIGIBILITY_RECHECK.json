@@ -2,7 +2,7 @@
   "schema": "csdlc.deletion_eligibility_recheck.v1",
   "issue": 5306,
   "evaluated_at": "2026-07-14T09:12:07.497994Z",
-  "code_revision": "7383be3d684dd86951b7fe1111d11fc846a8c28b",
+  "code_revision": "e0f25d5a9c89a62cc4e3437156dca04bb85b7a19",
   "source_request": "csdlc-v2/operator/eligibility-request.json",
   "eligible": true,
   "reasons": [],
