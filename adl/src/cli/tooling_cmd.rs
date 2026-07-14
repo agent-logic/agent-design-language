@@ -10,8 +10,6 @@ mod code_review;
 mod codex_usage_watch;
 #[path = "tooling_cmd/common.rs"]
 mod common;
-#[path = "tooling_cmd/csdlc_prompt_editor.rs"]
-mod csdlc_prompt_editor;
 #[path = "tooling_cmd/github_release.rs"]
 mod github_release;
 #[path = "tooling_cmd/issue_resource_telemetry.rs"]
@@ -22,8 +20,6 @@ mod markdown;
 mod markdown_ast_edit;
 #[path = "tooling_cmd/portable_project_doctor.rs"]
 mod portable_project_doctor;
-#[path = "tooling_cmd/prompt_template.rs"]
-mod prompt_template;
 #[path = "tooling_cmd/public_prompt_packet.rs"]
 mod public_prompt_packet;
 #[path = "tooling_cmd/review_contract.rs"]
@@ -32,8 +28,6 @@ mod review_contract;
 mod review_surface;
 #[path = "tooling_cmd/srp_sor_update.rs"]
 mod srp_sor_update;
-#[path = "tooling_cmd/structured_prompt.rs"]
-mod structured_prompt;
 #[path = "tooling_cmd/wp_issue_wave.rs"]
 mod wp_issue_wave;
 
@@ -41,17 +35,14 @@ use card_prompt::real_card_prompt;
 use ci_log_archive::real_ci_log_archive;
 use code_review::real_code_review;
 use codex_usage_watch::real_codex_usage_watch;
-use csdlc_prompt_editor::real_csdlc_prompt_editor;
 use github_release::real_github_release;
 use issue_resource_telemetry::real_issue_resource_telemetry;
 use markdown_ast_edit::real_markdown_ast_edit;
 use portable_project_doctor::real_portable_project_doctor;
-use prompt_template::real_prompt_template;
 use public_prompt_packet::real_public_prompt_packet;
 use review_contract::{real_verify_repo_review_contract, real_verify_review_output_provenance};
 use review_surface::{real_review_card_surface, real_review_runtime_surface};
 use srp_sor_update::real_srp_sor_update;
-use structured_prompt::{real_lint_prompt_spec, real_validate_structured_prompt};
 use wp_issue_wave::real_generate_wp_issue_wave;
 
 #[cfg(test)]
@@ -70,10 +61,6 @@ use markdown::{
 #[cfg(test)]
 use review_surface::{decision_for, ReviewCheck};
 #[cfg(test)]
-use structured_prompt::{
-    extract_prompt_spec_yaml, prompt_spec_bool, prompt_spec_sections, validate_prompt_spec,
-    validate_sip_text, validate_sor_text, validate_stp_text,
-};
 
 pub(crate) fn real_tooling(args: &[String]) -> Result<()> {
     let Some(subcommand) = args.first().map(|arg| arg.as_str()) else {
@@ -87,17 +74,13 @@ pub(crate) fn real_tooling(args: &[String]) -> Result<()> {
         "ci-log-archive" => real_ci_log_archive(&args[1..]),
         "code-review" => real_code_review(&args[1..]),
         "codex-usage-watch" => real_codex_usage_watch(&args[1..]),
-        "csdlc-prompt-editor" => real_csdlc_prompt_editor(&args[1..]),
         "generate-wp-issue-wave" => real_generate_wp_issue_wave(&args[1..]),
         "github-release" => real_github_release(&args[1..]),
         "issue-resource-telemetry" => real_issue_resource_telemetry(&args[1..]),
-        "lint-prompt-spec" => real_lint_prompt_spec(&args[1..]),
         "markdown-ast-edit" => real_markdown_ast_edit(&args[1..]),
         "portable-project-doctor" => real_portable_project_doctor(&args[1..]),
-        "prompt-template" => real_prompt_template(&args[1..]),
         "public-prompt-packet" => real_public_prompt_packet(&args[1..]),
         "srp-sor-update" => real_srp_sor_update(&args[1..]),
-        "validate-structured-prompt" => real_validate_structured_prompt(&args[1..]),
         "review-card-surface" => real_review_card_surface(&args[1..]),
         "review-runtime-surface" => real_review_runtime_surface(&args[1..]),
         "verify-review-output-provenance" => real_verify_review_output_provenance(&args[1..]),
