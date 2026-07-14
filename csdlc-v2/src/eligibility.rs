@@ -109,6 +109,8 @@ pub struct DeletionApproval {
     pub manifest_blake3: String,
     pub code_revision: String,
     pub allow_qualified_80_to_89: bool,
+    pub waive_protection_windows: bool,
+    pub operator_instruction: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -219,10 +221,14 @@ fn evaluate_with_time_and_baseline(
     }
     let rollback_expires = parse_time(&phase_c.rollback_expires_at)?;
     let importer_expires = parse_time(&phase_c.importer_expires_at)?;
-    if now < rollback_expires {
+    let waive_protection_windows = request
+        .approval
+        .as_ref()
+        .is_some_and(|approval| approval.waive_protection_windows);
+    if now < rollback_expires && !waive_protection_windows {
         reasons.insert(DeletionReason::RollbackWindowActive);
     }
-    if now < importer_expires {
+    if now < importer_expires && !waive_protection_windows {
         reasons.insert(DeletionReason::ImporterWindowActive);
     }
 
@@ -258,7 +264,7 @@ fn evaluate_with_time_and_baseline(
         .filter(|e| e.disposition == EntryDisposition::Remove)
     {
         if let Some(value) = &entry.protected_until {
-            if now < parse_time(value)? {
+            if now < parse_time(value)? && !waive_protection_windows {
                 reasons.insert(DeletionReason::ProtectedWindowActive);
             }
         }
@@ -461,8 +467,9 @@ fn empty(value: &Option<String>) -> bool {
     value.as_deref().is_none_or(|v| v.trim().is_empty())
 }
 fn validate_approval(a: &DeletionApproval) -> Result<()> {
-    if a.schema != "csdlc.deletion_approval.v1"
+    if a.schema != "csdlc.deletion_approval.v2"
         || a.approved_by.trim().is_empty()
+        || a.operator_instruction.trim().is_empty()
         || !is_lower_hex(&a.phase_b_blake3, 64)
         || !is_lower_hex(&a.phase_c_blake3, 64)
         || !is_lower_hex(&a.selector_blake3, 64)
@@ -621,7 +628,7 @@ mod tests {
             selector: "s.json".into(),
             manifest,
             approval: Some(DeletionApproval {
-                schema: "csdlc.deletion_approval.v1".into(),
+                schema: "csdlc.deletion_approval.v2".into(),
                 approved_by: "operator".into(),
                 approved_at: "2026-08-13T00:00:00Z".into(),
                 phase_b_blake3: digest(&b),
@@ -630,6 +637,8 @@ mod tests {
                 manifest_blake3: digest(&mb),
                 code_revision: rev,
                 allow_qualified_80_to_89: true,
+                waive_protection_windows: false,
+                operator_instruction: "Complete the reviewed deletion wave.".into(),
             }),
         }
     }
@@ -656,6 +665,24 @@ mod tests {
                 .unwrap();
         assert!(d.reasons.contains(&DeletionReason::RollbackWindowActive));
         assert!(d.reasons.contains(&DeletionReason::ImporterWindowActive));
+    }
+    #[test]
+    fn exact_operator_approval_can_accelerate_protection_windows() {
+        let r = fixture();
+        let mut q = request(r.path());
+        let approval = q.approval.as_mut().unwrap();
+        approval.approved_at = "2026-07-14T00:00:00Z".into();
+        approval.waive_protection_windows = true;
+        approval.operator_instruction =
+            "Get C-SDLC v2 parity, deletion, rollback sunset, and importer sunset done tonight."
+                .into();
+        let d =
+            evaluate_with_time_and_baseline(r.path(), &q, at("2026-07-14T01:00:00Z"), &baseline())
+                .unwrap();
+        assert!(d.eligible);
+        assert!(!d.reasons.contains(&DeletionReason::RollbackWindowActive));
+        assert!(!d.reasons.contains(&DeletionReason::ImporterWindowActive));
+        assert!(!d.deletion_executed);
     }
     #[test]
     fn all_authoritative_inputs_are_approval_bound() {
