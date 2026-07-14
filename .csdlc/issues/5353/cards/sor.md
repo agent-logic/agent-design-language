@@ -45,11 +45,11 @@ Repaired issue-local initialization atomicity and complete design/diagram digest
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
