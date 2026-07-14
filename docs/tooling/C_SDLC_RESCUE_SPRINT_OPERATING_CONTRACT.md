@@ -112,6 +112,8 @@ Rescue-sprint commands should not discover at finish time that they need a
 long Cargo build or a locked Cargo process. The expected command posture is:
 
 - prefer explicit command-specific binary overrides;
+- for `pr finish` in a bound issue worktree, prefer its fresh
+  `adl/target/debug/adl-pr-finish` before a primary-checkout stable binary;
 - prefer fresh built owner binaries in the current or primary checkout;
 - prefer matching owner binaries on `PATH`;
 - use Cargo fallback only when the issue explicitly opts into that compatibility
@@ -120,6 +122,13 @@ long Cargo build or a locked Cargo process. The expected command posture is:
 If an owner binary is missing and fallback is disabled, fail closed and record
 the tooling bug or setup gap. Do not hide the failure behind ad hoc wrapper
 scripts.
+
+`ADL_PR_FINISH_BIN` remains the explicit repair override when the bound
+worktree binary cannot be used. The resolver emits
+`source=current_worktree_owner_bin` when it selects the normal bound-worktree
+finish path. If production Rust inputs diverge and that binary is absent or
+stale, finish exits `75` with rebuild and override guidance instead of using a
+primary-checkout or `PATH` fallback.
 
 ## CSM Runtime Owner Binary Availability
 
