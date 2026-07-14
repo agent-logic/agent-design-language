@@ -162,6 +162,8 @@ def parse_task_bundle_identity(bundle: Path):
 
 
 def parse_branch_identity(branch: str):
+    if not isinstance(branch, str) or not branch:
+        return None
     match = re.match(r"^codex/(\d+)-([a-z0-9][a-z0-9-]*)$", branch)
     if not match:
         return None
@@ -322,6 +324,14 @@ def child_issue_wave_state(repo_root: Path, parent_issue_number: int):
 def issue_index(repo_root: Path):
     issues = repo_native_issue_list(repo_root)
     return {int(issue.get("number")): issue for issue in issues if issue.get("number") is not None}
+
+
+def issue_state_from_index(issues_by_number, issue_number: int):
+    issue = issues_by_number.get(int(issue_number))
+    if not isinstance(issue, dict):
+        return None
+    state = issue.get("state")
+    return str(state).lower() if state is not None else None
 
 
 def related_issue_reference_state(texts, issue_index):
@@ -635,6 +645,9 @@ def collect_route_issue(repo_root: Path, payload):
     else:
         workflow["lifecycle_state"] = "pre_run"
         workflow["evidence_used"].append("bundle_paths")
+    if issue_state_from_index(issues_by_number, issue_number) == "closed" and read_output_status(bundle) == "DONE":
+        workflow["lifecycle_state"] = "closed"
+        workflow["evidence_used"].append("repo_native_issue_list:closed_issue_state")
     if workflow["blocker_class"] == "none" and detect_tracked_adl_residue(repo_root):
         workflow["blocker_class"] = "tracked_adl_residue"
         workflow["evidence_used"].append("tracked_adl_residue_guard")
@@ -823,6 +836,8 @@ def summarize_checks(status_rollup):
 
 
 def pr_from_validation_report(report):
+    if not isinstance(report, dict):
+        fail("workflow-conductor: repo-native PR validation payload must be a JSON object")
     checks = []
     for check in report.get("checks", []):
         checks.append(
@@ -837,7 +852,7 @@ def pr_from_validation_report(report):
         "isDraft": bool(report.get("is_draft")),
         "reviewDecision": report.get("reviewDecision") or report.get("review_decision"),
         "mergeStateStatus": report.get("mergeStateStatus") or report.get("merge_state_status") or "UNKNOWN",
-        "headRefName": report.get("head_ref_name"),
+        "headRefName": report.get("head_ref_name") or report.get("headRefName") or report.get("head_ref"),
         "statusCheckRollup": checks,
     }
 
@@ -861,8 +876,10 @@ def collect_route_pr(repo_root: Path, payload):
     pr_number = int(target["pr_number"])
     pr = pr_from_validation_report(repo_native_pr_validation(repo_root, pr_number))
     resolved_target = dict(target)
-    resolved_target.setdefault("branch", pr.get("headRefName"))
-    identity = parse_branch_identity(pr.get("headRefName", ""))
+    head_ref_name = pr.get("headRefName")
+    if head_ref_name:
+        resolved_target.setdefault("branch", head_ref_name)
+    identity = parse_branch_identity(head_ref_name)
     if identity:
         resolved_target.setdefault("issue_number", identity["issue_number"])
         resolved_target.setdefault("slug", identity["slug"])
@@ -883,7 +900,11 @@ def collect_route_pr(repo_root: Path, payload):
         "subagent_assigned": bool(payload.get("observed_state", {}).get("subagent_assigned", False)),
         "evidence_used": ["repo_native_pr_validation"],
     }
+    if identity is None:
+        workflow["evidence_used"].append("repo_native_pr_validation:missing_or_unparseable_head_ref")
     workflow["pr_state"], workflow["blocker_class"] = classify_pr_state(pr)
+    if identity is None:
+        workflow["blocker_class"] = "doctor_failed_or_inconclusive"
     if workflow["blocker_class"] == "none" and detect_tracked_adl_residue(repo_root):
         workflow["blocker_class"] = "tracked_adl_residue"
         workflow["evidence_used"].append("tracked_adl_residue_guard")

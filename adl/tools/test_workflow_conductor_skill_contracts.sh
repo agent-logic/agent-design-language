@@ -330,7 +330,8 @@ if [[ "$cmd" == "issue" && "${2:-}" == "list" ]]; then
   {"number":2014,"state":"open","title":"active-follow-on","body":"Still in progress"},
   {"number":2016,"state":"closed","title":"Generate WP issue waves from canonical WBS surfaces","body":"## Issue-Graph Notes\n- child of #2020"},
   {"number":2017,"state":"closed","title":"Generate WP issue waves from canonical WBS surfaces","body":"## Issue-Graph Notes\n- child of #2021"},
-  {"number":2018,"state":"closed","title":"Unrelated closed sibling","body":"## Issue-Graph Notes\n- child of #2022"}
+  {"number":2018,"state":"closed","title":"Unrelated closed sibling","body":"## Issue-Graph Notes\n- child of #2022"},
+  {"number":2019,"state":"closed","title":"Closed issue with stale pre-run doctor","body":"Closed issue should route to closeout even if doctor reports pre_run"}
 ]
 JSON
   exit 0
@@ -394,6 +395,11 @@ JSON
 {"schema":"adl.pr.doctor.v1","issue":2018,"version":"v0.88","slug":"route-sor-closeout-blocker","branch":"codex/2018-route-sor-closeout-blocker","mode":"full","preflight_status":"PASS","open_pr_count":0,"open_prs":[],"lifecycle_state":"execution_done","ready_status":"BLOCK","worktree":null,"source":".adl/v0.88/bodies/issue-2018-route-sor-closeout-blocker.md","root_stp":".adl/v0.88/tasks/issue-2018__route-sor-closeout-blocker/stp.md","root_input":".adl/v0.88/tasks/issue-2018__route-sor-closeout-blocker/sip.md","root_output":".adl/v0.88/tasks/issue-2018__route-sor-closeout-blocker/sor.md","wt_stp":null,"wt_input":null,"wt_output":null,"card_lifecycle":{"order":["SIP","STP","SPP","SRP","SOR"],"active_stage":"SOR","next_required_stage":"SOR","pr_run_readiness":"ready","pr_finish_readiness":"blocked","stages":[{"stage":"SIP","path":".adl/v0.88/tasks/issue-2018__route-sor-closeout-blocker/sip.md","state":"complete","complete":true,"design_time_complete":true,"final_ready":false,"next_editor":null,"detail":"design-time complete"},{"stage":"STP","path":".adl/v0.88/tasks/issue-2018__route-sor-closeout-blocker/stp.md","state":"complete","complete":true,"design_time_complete":true,"final_ready":false,"next_editor":null,"detail":"complete"},{"stage":"SPP","path":".adl/v0.88/tasks/issue-2018__route-sor-closeout-blocker/spp.md","state":"complete","complete":true,"design_time_complete":true,"final_ready":false,"next_editor":null,"detail":"design-time complete"},{"stage":"SRP","path":".adl/v0.88/tasks/issue-2018__route-sor-closeout-blocker/srp.md","state":"final","complete":true,"design_time_complete":false,"final_ready":true,"next_editor":null,"detail":"review complete"},{"stage":"SOR","path":".adl/v0.88/tasks/issue-2018__route-sor-closeout-blocker/sor.md","state":"contradictory","complete":false,"design_time_complete":false,"final_ready":false,"next_editor":"sor-editor","detail":"execution complete but closeout truth drift remains"}]},"doctor_status":"BLOCK"}
 JSON
     ;;
+  2019)
+    cat <<'JSON'
+{"schema":"adl.pr.doctor.v1","issue":2019,"version":"v0.88","slug":"route-closed-stale-pre-run","branch":"codex/2019-route-closed-stale-pre-run","mode":"full","preflight_status":"PASS","open_pr_count":0,"open_prs":[],"lifecycle_state":"pre_run","ready_status":"PASS","worktree":null,"source":".adl/v0.88/bodies/issue-2019-route-closed-stale-pre-run.md","root_stp":".adl/v0.88/tasks/issue-2019__route-closed-stale-pre-run/stp.md","root_input":".adl/v0.88/tasks/issue-2019__route-closed-stale-pre-run/sip.md","root_output":".adl/v0.88/tasks/issue-2019__route-closed-stale-pre-run/sor.md","wt_stp":null,"wt_input":null,"wt_output":null,"doctor_status":"PASS"}
+JSON
+    ;;
   *)
     exit 1
     ;;
@@ -451,6 +457,14 @@ touch "${fixture_repo}/.adl/v0.88/tasks/issue-2009__route-residue-finish/stp.md"
 touch "${fixture_repo}/.adl/v0.88/tasks/issue-2009__route-residue-finish/sip.md"
 touch "${fixture_repo}/.adl/v0.88/tasks/issue-2009__route-residue-finish/sor.md"
 touch "${fixture_repo}/.adl/v0.88/bodies/issue-2009-route-residue-finish.md"
+
+mkdir -p "${fixture_repo}/.adl/v0.88/tasks/issue-2019__route-closed-stale-pre-run"
+touch "${fixture_repo}/.adl/v0.88/tasks/issue-2019__route-closed-stale-pre-run/stp.md"
+touch "${fixture_repo}/.adl/v0.88/tasks/issue-2019__route-closed-stale-pre-run/sip.md"
+cat >"${fixture_repo}/.adl/v0.88/tasks/issue-2019__route-closed-stale-pre-run/sor.md" <<'EOF'
+Status: DONE
+EOF
+touch "${fixture_repo}/.adl/v0.88/bodies/issue-2019-route-closed-stale-pre-run.md"
 
 mkdir -p "${fixture_repo}/.adl/v0.88/tasks/issue-2015__route-sibling-satisfied"
 cat >"${fixture_repo}/.adl/v0.88/tasks/issue-2015__route-sibling-satisfied/stp.md" <<'EOF'
@@ -903,6 +917,28 @@ cat >"${tmpdir}/route_sibling_unrelated.json" <<EOF
 }
 EOF
 
+cat >"${tmpdir}/route_issue_closed_stale_prerun.json" <<EOF
+{
+  "skill_input_schema": "workflow_conductor.v1",
+  "mode": "route_issue",
+  "repo_root": "${fixture_repo}",
+  "target": {
+    "issue_number": 2019
+  },
+  "policy": {
+    "skills_required": true,
+    "card_editor_skills_required": true,
+    "subagent_requirement": "optional",
+    "bypass_without_explicit_blocker": false,
+    "allow_phase_inference": true,
+    "stop_after_routing": true
+  },
+  "observed_state": {
+    "subagent_assigned": false
+  }
+}
+EOF
+
 cat >"${tmpdir}/route_sor_closeout_blocker.json" <<EOF
 {
   "skill_input_schema": "workflow_conductor.v1",
@@ -964,6 +1000,30 @@ JSON
 JSON
       exit 0
       ;;
+    3005)
+      cat <<'JSON'
+{"pr_number":3005,"pr_state":"OPEN","is_draft":true,"reviewDecision":null,"mergeStateStatus":"UNKNOWN","checks":[{"status":"PENDING","conclusion":null}]}
+JSON
+      exit 0
+      ;;
+    3006)
+      cat <<'JSON'
+{"pr_number":3006,"pr_state":"MERGED","is_draft":false,"reviewDecision":null,"mergeStateStatus":"UNKNOWN","headRefName":"codex/3006-pr-camel-head","checks":[]}
+JSON
+      exit 0
+      ;;
+    3007)
+      cat <<'JSON'
+[{"pr_number":3007,"pr_state":"OPEN"}]
+JSON
+      exit 0
+      ;;
+    3008)
+      cat <<'JSON'
+{"pr_number":3008,"pr_state":"MERGED","is_draft":false,"reviewDecision":null,"mergeStateStatus":"UNKNOWN","checks":[]}
+JSON
+      exit 0
+      ;;
   esac
 fi
 echo "unexpected adl invocation: $*" >&2
@@ -976,13 +1036,16 @@ chmod +x "${fixture_repo}/adl/target/debug/adl"
 
 mkdir -p "${fixture_repo}/.adl/v0.88/tasks/issue-3001__pr-blocked" "${fixture_repo}/.adl/v0.88/tasks/issue-3002__pr-merged" "${fixture_repo}/.adl/v0.88/tasks/issue-3003__pr-clean"
 mkdir -p "${fixture_repo}/.adl/v0.88/tasks/issue-3004__pr-linkage-only"
+mkdir -p "${fixture_repo}/.adl/v0.88/tasks/issue-3006__pr-camel-head"
 touch "${fixture_repo}/.adl/v0.88/tasks/issue-3001__pr-blocked/stp.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3001__pr-blocked/sip.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3001__pr-blocked/sor.md"
 touch "${fixture_repo}/.adl/v0.88/tasks/issue-3002__pr-merged/stp.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3002__pr-merged/sip.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3002__pr-merged/sor.md"
 touch "${fixture_repo}/.adl/v0.88/tasks/issue-3003__pr-clean/stp.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3003__pr-clean/sip.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3003__pr-clean/sor.md"
 touch "${fixture_repo}/.adl/v0.88/tasks/issue-3004__pr-linkage-only/stp.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3004__pr-linkage-only/sip.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3004__pr-linkage-only/sor.md"
+touch "${fixture_repo}/.adl/v0.88/tasks/issue-3006__pr-camel-head/stp.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3006__pr-camel-head/sip.md" "${fixture_repo}/.adl/v0.88/tasks/issue-3006__pr-camel-head/sor.md"
 mkdir -p "${fixture_repo}/.adl/v0.88/tasks/issue-2010__route-issue-closeout"
 touch "${fixture_repo}/.adl/v0.88/tasks/issue-2010__route-issue-closeout/stp.md" "${fixture_repo}/.adl/v0.88/tasks/issue-2010__route-issue-closeout/sip.md" "${fixture_repo}/.adl/v0.88/tasks/issue-2010__route-issue-closeout/sor.md"
 touch "${fixture_repo}/.adl/v0.88/bodies/issue-3001-pr-blocked.md" "${fixture_repo}/.adl/v0.88/bodies/issue-3002-pr-merged.md" "${fixture_repo}/.adl/v0.88/bodies/issue-3003-pr-clean.md" "${fixture_repo}/.adl/v0.88/bodies/issue-3004-pr-linkage-only.md"
+touch "${fixture_repo}/.adl/v0.88/bodies/issue-3006-pr-camel-head.md"
 touch "${fixture_repo}/.adl/v0.88/bodies/issue-2010-route-issue-closeout.md"
 
 cat >"${tmpdir}/route_pr_blocked.json" <<EOF
@@ -1073,6 +1136,94 @@ cat >"${tmpdir}/route_pr_linkage_only.json" <<EOF
 }
 EOF
 
+cat >"${tmpdir}/route_pr_missing_head.json" <<EOF
+{
+  "skill_input_schema": "workflow_conductor.v1",
+  "mode": "route_pr",
+  "repo_root": "${fixture_repo}",
+  "target": {
+    "pr_number": 3005
+  },
+  "policy": {
+    "skills_required": true,
+    "card_editor_skills_required": true,
+    "subagent_requirement": "optional",
+    "bypass_without_explicit_blocker": false,
+    "allow_phase_inference": true,
+    "stop_after_routing": true
+  },
+  "observed_state": {
+    "subagent_assigned": false
+  }
+}
+EOF
+
+cat >"${tmpdir}/route_pr_camel_head.json" <<EOF
+{
+  "skill_input_schema": "workflow_conductor.v1",
+  "mode": "route_pr",
+  "repo_root": "${fixture_repo}",
+  "target": {
+    "pr_number": 3006
+  },
+  "policy": {
+    "skills_required": true,
+    "card_editor_skills_required": true,
+    "subagent_requirement": "optional",
+    "bypass_without_explicit_blocker": false,
+    "allow_phase_inference": true,
+    "stop_after_routing": true
+  },
+  "observed_state": {
+    "subagent_assigned": false
+  }
+}
+EOF
+
+cat >"${tmpdir}/route_pr_malformed.json" <<EOF
+{
+  "skill_input_schema": "workflow_conductor.v1",
+  "mode": "route_pr",
+  "repo_root": "${fixture_repo}",
+  "target": {
+    "pr_number": 3007
+  },
+  "policy": {
+    "skills_required": true,
+    "card_editor_skills_required": true,
+    "subagent_requirement": "optional",
+    "bypass_without_explicit_blocker": false,
+    "allow_phase_inference": true,
+    "stop_after_routing": true
+  },
+  "observed_state": {
+    "subagent_assigned": false
+  }
+}
+EOF
+
+cat >"${tmpdir}/route_pr_missing_head_merged.json" <<EOF
+{
+  "skill_input_schema": "workflow_conductor.v1",
+  "mode": "route_pr",
+  "repo_root": "${fixture_repo}",
+  "target": {
+    "pr_number": 3008
+  },
+  "policy": {
+    "skills_required": true,
+    "card_editor_skills_required": true,
+    "subagent_requirement": "optional",
+    "bypass_without_explicit_blocker": false,
+    "allow_phase_inference": true,
+    "stop_after_routing": true
+  },
+  "observed_state": {
+    "subagent_assigned": false
+  }
+}
+EOF
+
 residue_repo="${tmpdir}/residue-repo"
 mkdir -p "${residue_repo}/adl/tools" "${residue_repo}/.adl/v0.88/bodies" "${residue_repo}/.adl/v0.88/tasks"
 git -C "${residue_repo}" init -q
@@ -1135,6 +1286,7 @@ PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/rout
 PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_related_satisfied.json" --artifact-path ".adl/reviews/route-related-satisfied.md" >"${tmpdir}/route_related_satisfied.out.json"
 python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_issue_closed.json" --artifact-path ".adl/reviews/route-issue-closed.md" >"${tmpdir}/route_issue_closed.out.json"
 python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_issue_closed_dispatch.json" --artifact-path ".adl/reviews/route-issue-closed-dispatch.md" >"${tmpdir}/route_issue_closed_dispatch.out.json"
+python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_issue_closed_stale_prerun.json" --artifact-path ".adl/reviews/route-issue-closed-stale-prerun.md" >"${tmpdir}/route_issue_closed_stale_prerun.out.json"
 PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_sibling_satisfied.json" --artifact-path ".adl/reviews/route-sibling-satisfied.md" >"${tmpdir}/route_sibling_satisfied.out.json"
 PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_sibling_unrelated.json" --artifact-path ".adl/reviews/route-sibling-unrelated.md" >"${tmpdir}/route_sibling_unrelated.out.json"
 python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_sor_closeout_blocker.json" --artifact-path ".adl/reviews/route-sor-closeout-blocker.md" >"${tmpdir}/route_sor_closeout_blocker.out.json"
@@ -1144,6 +1296,14 @@ PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/rout
 PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_pr_merged.json" --artifact-path ".adl/reviews/route-pr-merged.md" >"${tmpdir}/route_pr_merged.out.json"
 PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_pr_clean.json" --artifact-path ".adl/reviews/route-pr-clean.md" >"${tmpdir}/route_pr_clean.out.json"
 PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_pr_linkage_only.json" --artifact-path ".adl/reviews/route-pr-linkage-only.md" >"${tmpdir}/route_pr_linkage_only.out.json"
+PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_pr_missing_head.json" --artifact-path ".adl/reviews/route-pr-missing-head.md" >"${tmpdir}/route_pr_missing_head.out.json"
+PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_pr_camel_head.json" --artifact-path ".adl/reviews/route-pr-camel-head.md" >"${tmpdir}/route_pr_camel_head.out.json"
+PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_pr_missing_head_merged.json" --artifact-path ".adl/reviews/route-pr-missing-head-merged.md" >"${tmpdir}/route_pr_missing_head_merged.out.json"
+if PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_pr_malformed.json" --artifact-path ".adl/reviews/route-pr-malformed.md" >"${tmpdir}/route_pr_malformed.out.json" 2>"${tmpdir}/route_pr_malformed.err"; then
+  echo "expected malformed PR payload route to fail closed" >&2
+  exit 1
+fi
+grep -Fq "repo-native PR validation payload must be a JSON object" "${tmpdir}/route_pr_malformed.err"
 PATH="${mock_bin}:$PATH" python3 "${skills_root}/workflow-conductor/scripts/route_workflow.py" --input "${tmpdir}/route_residue_finish.json" --artifact-path ".adl/reviews/route-residue-finish.md" >"${tmpdir}/route_residue_finish.out.json"
 
 python3 - "$tmpdir" "$fixture_repo" <<'PY'
@@ -1230,6 +1390,11 @@ assert route_issue_closed_dispatch["dispatch"]["result"] == "success"
 assert route_issue_closed_dispatch["dispatch"]["command"][0:4] == ["bash", "adl/tools/pr.sh", "closeout", "2010"]
 assert "CLOSEOUT:2010" in (tmp / "dispatch.log").read_text()
 
+route_issue_closed_stale_prerun = load("route_issue_closed_stale_prerun.out.json")
+assert route_issue_closed_stale_prerun["selected_skill"]["skill_name"] == "pr-closeout"
+assert route_issue_closed_stale_prerun["workflow_state"]["detected_phase"] == "closed_out"
+assert "repo_native_issue_list:closed_issue_state" in route_issue_closed_stale_prerun["workflow_state"]["evidence_used"]
+
 route_sibling_satisfied = load("route_sibling_satisfied.out.json")
 assert route_sibling_satisfied["selected_skill"]["skill_name"] == "none"
 assert route_sibling_satisfied["workflow_state"]["blocker_class"] == "satisfied_by_sibling_issue_artifact"
@@ -1276,6 +1441,26 @@ assert route_pr_clean["handoff_state"]["escalation_reason"] == "healthy_pr_waiti
 route_pr_linkage_only = load("route_pr_linkage_only.out.json")
 assert route_pr_linkage_only["selected_skill"]["skill_name"] == "pr-janitor"
 assert route_pr_linkage_only["workflow_state"]["blocker_class"] == "open_linkage_only"
+
+route_pr_missing_head = load("route_pr_missing_head.out.json")
+assert route_pr_missing_head["selected_skill"]["skill_name"] == "none"
+assert route_pr_missing_head["workflow_state"]["blocker_class"] == "doctor_failed_or_inconclusive"
+assert route_pr_missing_head["handoff_state"]["escalation_reason"] == "ambiguous_live_state"
+assert route_pr_missing_head["target"].get("branch") is None
+assert "repo_native_pr_validation:missing_or_unparseable_head_ref" in route_pr_missing_head["workflow_state"]["evidence_used"]
+
+route_pr_missing_head_merged = load("route_pr_missing_head_merged.out.json")
+assert route_pr_missing_head_merged["selected_skill"]["skill_name"] == "none"
+assert route_pr_missing_head_merged["workflow_state"]["blocker_class"] == "doctor_failed_or_inconclusive"
+assert route_pr_missing_head_merged["handoff_state"]["escalation_reason"] == "ambiguous_live_state"
+assert route_pr_missing_head_merged["target"].get("branch") is None
+assert "repo_native_pr_validation:missing_or_unparseable_head_ref" in route_pr_missing_head_merged["workflow_state"]["evidence_used"]
+
+route_pr_camel_head = load("route_pr_camel_head.out.json")
+assert route_pr_camel_head["selected_skill"]["skill_name"] == "pr-closeout"
+assert route_pr_camel_head["target"]["branch"] == "codex/3006-pr-camel-head"
+assert route_pr_camel_head["target"]["issue_number"] == 3006
+assert route_pr_camel_head["workflow_state"]["detected_phase"] == "merged_needs_closeout"
 
 route_residue_finish = load("route_residue_finish.out.json")
 assert route_residue_finish["selected_skill"]["skill_name"] == "pr-finish"

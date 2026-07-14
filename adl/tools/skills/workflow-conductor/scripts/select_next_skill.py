@@ -45,6 +45,12 @@ def evaluate(payload):
         skill_name = "pr-init"
         continuation = "continue"
         escalation_reason = "none"
+    elif blocker_class == "doctor_failed_or_inconclusive":
+        detected_phase = "blocked"
+        selected_phase = "blocked"
+        skill_name = "none"
+        continuation = "ask_operator"
+        escalation_reason = "ambiguous_live_state"
     elif card_blocker in ("stp", "sip", "spp", "srp", "sor"):
         detected_phase = "card_local_blocker"
         selected_phase = "editor"
