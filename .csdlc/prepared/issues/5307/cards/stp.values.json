@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5307,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2] Gate 10D4: read-only importer sunset",
+    "slug": "v0-91-7-csdlc-v2-gate-10d4-read-only-importer-sunset",
+    "version": "v0.91.7",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Remove only the exact importer surface after time, approval, migration, contract, and health gates pass.",
+      "deliverables": [
+        "Machine-readable importer sunset decision",
+        "No-active-contract proof",
+        "Durable migration evidence",
+        "Post-removal v2 proof"
+      ],
+      "acceptance_criteria": [
+        "Trusted time is at or after the not-before timestamp",
+        "Explicit sunset approval is current",
+        "Migration evidence is complete and durable",
+        "No active contract requires the importer",
+        "Exact-revision review and required checks pass"
+      ],
+      "dependencies": [
+        "#5305 merged",
+        "Not-before date",
+        "Explicit sunset approval",
+        "Completed migration and compatibility evidence"
+      ],
+      "repo_inputs": [
+        "docs/architecture/csdlc-v2/gate8/GATE8_IMPORT_SHADOW_DESIGN.md",
+        "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json"
+      ],
+      "non_goals": [
+        "Unrelated v1 deletion",
+        "ADL or Runtime cleanup"
+      ]
+    }
+  }
+}

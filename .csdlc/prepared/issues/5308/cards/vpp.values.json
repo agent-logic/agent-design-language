@@ -1,0 +1,71 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5308,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2] Gate 10D3: executable rollback sunset",
+    "slug": "v0-91-7-csdlc-v2-gate-10d3-executable-rollback-sunset",
+    "version": "v0.91.7",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "rollback-sunset-decision",
+          "proof_role": "Evaluate trusted current time, exact approval, current v2 health, and protected rollback scope from typed evidence",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 2000,
+          "argv": [
+            "csdlc-sunset",
+            "evaluate",
+            "--repo",
+            ".",
+            "--request",
+            "csdlc-v2/operator/gate10d3-sunset-request.json"
+          ],
+          "parallel_group": "authority",
+          "defer_reason": null
+        },
+        {
+          "lane": "rollback-sunset",
+          "proof_role": "After a passing typed sunset decision, prove the exact rollback removal and intact importer",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 1140,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed with zero rollback mutation when any date, approval, scope, or health input is missing or ambiguous.",
+      "design_ref": "docs/architecture/csdlc-v2/gate10d3/DESIGN.md",
+      "design_digest": "44c440f6b6921448a3f5b92cf51849f52f5c55e5d597f36a61107cb94ca7224c",
+      "diagram_ref": "docs/architecture/csdlc-v2/gate10d3/DIAGRAM.mmd",
+      "diagram_digest": "f01d0b0613abd7695375b4d3b3ca1ab1a42a99507349dbe7710b2b2dc88e888c"
+    }
+  }
+}

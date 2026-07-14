@@ -1,0 +1,80 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5308,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "57a06de27feb77ef6f737fea5d81689103fd3b01b219eb1eefad2f5dd8443e60",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "a1957fb9ffa1c825f998ee4a892e33bfb338d56ed630d549d5b754074ec39ec1",
+  "claim": {
+    "id": "csdlc-v2-prepared-5308-v1",
+    "owner": "gate10d-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1783999049,
+    "expires_unix_seconds": 1787209200,
+    "heartbeat_unix_seconds": 1783999049,
+    "branch": "codex/5308-v0-91-7-csdlc-v2-gate-10d3-executable-rollback-sunset",
+    "worktree": ".worktrees/adl-wp-5308",
+    "protected_paths": [
+      "adl/src/session_ledger.rs",
+      "adl/src/bin/adl_session.rs"
+    ],
+    "purpose": "Reserve only the executable rollback sunset surface until its not-before date and approval gate."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/architecture/csdlc-v2/gate10d3/DESIGN.md",
+  "diagram_path": "docs/architecture/csdlc-v2/gate10d3/DIAGRAM.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-approved-gate10d-plan",
+      "revision": "44c440f6b6921448a3f5b92cf51849f52f5c55e5d597f36a61107cb94ca7224c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b2e9d0d4d2a1326ed54db4c1f806ab77a2891fb8148f73e5b673deab24a99892",
+      "rendered_digest": "5a34d106855c4c12b94773268c9b51fa8f8528b77056a88926764709f0375da4",
+      "ast_digest": "2dbac0f6fb600b7acafb76152881827f60648da1a147a527faea9a661e01f48b"
+    },
+    "stp": {
+      "values_digest": "37c60a69468fad7ed8d2832aac729f9e1d9295a2e2b43505e973d86212b9eed5",
+      "rendered_digest": "c057ebab50532a8ff333a25f1e7892c48dce370a5336082772ee1fe5e5924a46",
+      "ast_digest": "a03e234ab49cade625e2dd89eaa59a26021e1757702cdbaee7dd138e1d7fbd41"
+    },
+    "spp": {
+      "values_digest": "3e60836af87a9c4c2905b77fa550ab35533111ef62c1269bd2c8cb193ca3b99f",
+      "rendered_digest": "25c085d3afacc6c80b62e05e4f2b67e2f5dbff8ef69ec17f4299e0faff28cfe3",
+      "ast_digest": "b578958b890668bc677ca8406bc59fa29051adaea0a0df575a5f124363e92a3a"
+    },
+    "vpp": {
+      "values_digest": "88b7ce4f291233b485edaa908ce88516577326f04c91a6ca28c4c9d713a159b9",
+      "rendered_digest": "098afa0550158d4ad7a3366bd96bfc0c9686408c1a24c65af9cf4fecb8589981",
+      "ast_digest": "8bbb903cf66a81cd8cafaf83eff395a2e86d8d2258758f1d7c0dc16ed020397f"
+    },
+    "srp": {
+      "values_digest": "62985da2693e443cf61b4670c9d97189e7cb37faaa793117bdba32ae37ad7e30",
+      "rendered_digest": "de341298b03389a8bc184c82325d797137dff00dc454d41e679ee8142b623dde",
+      "ast_digest": "21fa79088a788e9240ed876224cdd1053484844a8cf541d270e97b539899aa4a"
+    },
+    "sor": {
+      "values_digest": "8fd116bf44895c67cbe960f3090c2555adfa39c590351b2d3274f5d4bb2b8063",
+      "rendered_digest": "bfb0109f7ef3ff22286a54940af22e0535a1af3af2572e9a82ed122b8fa62ae2",
+      "ast_digest": "d1aa84cab6a8e3a00742b9c76fdd36db6f0f73b87a1f8e40d2946f5b285abc4a"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "gate10d-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}

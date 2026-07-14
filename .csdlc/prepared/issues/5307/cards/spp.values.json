@@ -1,0 +1,78 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5307,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2] Gate 10D4: read-only importer sunset",
+    "slug": "v0-91-7-csdlc-v2-gate-10d4-read-only-importer-sunset",
+    "version": "v0.91.7",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Validate time, approval, migration, active contracts, and v2 health; remove only importer; prove and review.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "Evaluate time, approval, migration completeness, active contracts, and v2 health",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-2",
+          "action": "Remove only the exact importer surface while preserving durable evidence",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-3",
+          "action": "Run exact-revision review and required proof",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [],
+      "invariants": [
+        "Zero mutation before the date",
+        "Migration evidence remains durable",
+        "No active contract loses a required path"
+      ],
+      "risks": [
+        "Hidden importer consumer",
+        "Incomplete migration evidence",
+        "Clock or approval ambiguity"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Current time is early or untrusted",
+        "Approval is absent",
+        "Migration is incomplete",
+        "An active contract names importer",
+        "v2 proof is red"
+      ],
+      "replan_triggers": [],
+      "design_ref": "docs/architecture/csdlc-v2/gate10d4/DESIGN.md",
+      "design_digest": "f1d43b37ae3eadac6ab7dce6354c8caaaa83e557314e46a7608c66f4d0bc93bd",
+      "diagram_ref": "docs/architecture/csdlc-v2/gate10d4/DIAGRAM.mmd",
+      "diagram_digest": "1e7e318b78a895c77cd997d86c84f67d9bf3ebe6e03b55e63e8f1c34014d8caa"
+    }
+  }
+}

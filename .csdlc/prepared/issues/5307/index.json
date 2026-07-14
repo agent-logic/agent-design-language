@@ -1,0 +1,80 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5307,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "e98481453ff9a81fff71a5a7a8548b74f956853f2cd351f60c1f967df9c17d28",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "ec24d45804a81e84fd3159e6c33ac1686a37d6058668f3a9908f38a67077a7de",
+  "claim": {
+    "id": "csdlc-v2-prepared-5307-v1",
+    "owner": "gate10d-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1783999049,
+    "expires_unix_seconds": 1787209200,
+    "heartbeat_unix_seconds": 1783999049,
+    "branch": "codex/5307-v0-91-7-csdlc-v2-gate-10d4-read-only-importer-sunset",
+    "worktree": ".worktrees/adl-wp-5307",
+    "protected_paths": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/bin/csdlc-import.rs"
+    ],
+    "purpose": "Reserve only the read-only importer sunset surface until its not-before date and no-active-contract proof."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/architecture/csdlc-v2/gate10d4/DESIGN.md",
+  "diagram_path": "docs/architecture/csdlc-v2/gate10d4/DIAGRAM.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-approved-gate10d-plan",
+      "revision": "f1d43b37ae3eadac6ab7dce6354c8caaaa83e557314e46a7608c66f4d0bc93bd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "27c3c4947348fd94c84a99f1abf46e768c6f398d0c42815dfab8b16245f25276",
+      "rendered_digest": "7a98d949c3a86f67b5a61cf41fa1dad040aa80c4b7f49700edb2468cb3d56de5",
+      "ast_digest": "16a3017b57b47b5550c105400b25ec65b76c5fba316d3fa9102a55c48281287e"
+    },
+    "stp": {
+      "values_digest": "4d14d7fb6d3f01b0a941bbf9236e994f428136857595efe657b69cb48f887a78",
+      "rendered_digest": "3c66dd37369456e9ba52edc8de5388b08df4885bdc5375868cf141cbda6a34f2",
+      "ast_digest": "d6b1fd155a0691aacbab36579317d5164215635af985beabaa62958286258e94"
+    },
+    "spp": {
+      "values_digest": "465a17d70c8c353d8dd9613ff457e71da9b3ce5c76774a40961399da5f953b0c",
+      "rendered_digest": "70dc5e32ee9404ac92ed7680a55bbefb845718cc53de3373a6c6c2fb7b7a12ff",
+      "ast_digest": "8213f456e68802e735ed8a2d8a11d9da05c883f071f6e15da09ddccb99435608"
+    },
+    "vpp": {
+      "values_digest": "5dc053a18577f73616bff602e55fd691dd0fda4d222b5bd4d6d93ade7b3e621c",
+      "rendered_digest": "edc9ba5a169b04e9b9ec0559fb6529c7e8596252e1f72cdcc12d669e225cfaf1",
+      "ast_digest": "71b8cbcb9b10859f0104ff81c5a80d44701b25ba94affbc220dd7039f9165649"
+    },
+    "srp": {
+      "values_digest": "56b29ac8bd988ccd62553a991655b05e7786ba82a21659efde3e4315a2fdbd0c",
+      "rendered_digest": "2be233db223975dc6188dc3f04019c7ed6b950bedd7ed24a18aac2eae13fc22c",
+      "ast_digest": "edc58d6ac201ae6dc881ce81753cbbccc670fe6a1d877b1d8c32f99c8839b77b"
+    },
+    "sor": {
+      "values_digest": "8f1f3556daac962522dcf962002bd19a81f45d4a71ec3c53e5988193b461672e",
+      "rendered_digest": "87fd803225639ae51f9aa7dee6dc4a00eb2ea3851ac634f9fafeccf3feec979c",
+      "ast_digest": "74c29233bb9562084ca2a8457dac388fa01f54955decd050918fc64a2fc9456c"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "gate10d-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}
