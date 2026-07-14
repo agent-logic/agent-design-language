@@ -235,23 +235,81 @@ rm -f "$worktree/adl/src/stable_primary_masking_probe.rs"
 : >"$TMP_ADL_ARGS"
 : >"$TMP_CARGO_ARGS"
 
+mkdir -p "$worktree/adl/target/debug"
+cat >"$worktree/adl/target/debug/adl-pr-finish" <<'EOF_WORKTREE_FINISH'
+#!/usr/bin/env bash
+set -euo pipefail
+printf 'worktree-finish:%s\n' "$*" >"${TMP_ADL_ARGS}"
+EOF_WORKTREE_FINISH
+chmod +x "$worktree/adl/target/debug/adl-pr-finish"
+sleep 1
+touch "$worktree/adl/target/debug/adl-pr-finish"
+
+worktree_finish_log="$tmpdir/worktree-finish.log"
+
 (
   cd "$worktree"
   ADL_PRIMARY_CHECKOUT_ROOT="$repo" \
-    "$BASH_BIN" adl/tools/pr.sh finish 4413 --title "worktree finish" --output-card out.md >/dev/null
+    "$BASH_BIN" adl/tools/pr.sh finish 4413 --title "worktree finish" --output-card out.md >"$worktree_finish_log" 2>&1
 )
 
 args="$(cat "$TMP_ADL_ARGS")"
-[[ "$args" == "finish:4413 --title worktree finish --output-card out.md" ]] || {
-  echo "assertion failed: worktree finish should delegate through the primary checkout adl-pr-finish binary without override" >&2
+[[ "$args" == "worktree-finish:4413 --title worktree finish --output-card out.md" ]] || {
+  echo "assertion failed: finish should prefer the fresh bound-worktree owner binary over the primary checkout binary" >&2
   echo "$args" >&2
   exit 1
 }
+grep -F "source=current_worktree_owner_bin" "$worktree_finish_log" >/dev/null || {
+  echo "assertion failed: bound-worktree finish selection should be observable" >&2
+  cat "$worktree_finish_log" >&2
+  exit 1
+}
 [[ ! -s "$TMP_CARGO_ARGS" ]] || {
-  echo "assertion failed: cargo should not run when the primary checkout finish binary is fresh for the worktree" >&2
+  echo "assertion failed: cargo should not run when the bound-worktree finish binary is fresh" >&2
   cat "$TMP_CARGO_ARGS" >&2
   exit 1
 }
+
+printf 'pub fn stale_worktree_finish_probe() {}\n' >"$worktree/adl/src/stale_worktree_finish_probe.rs"
+sleep 1
+touch "$worktree/adl/src/stale_worktree_finish_probe.rs"
+touch "$repo/adl/target/debug/adl-pr-finish"
+: >"$TMP_ADL_ARGS"
+: >"$TMP_CARGO_ARGS"
+stale_worktree_finish_log="$tmpdir/stale-worktree-finish.log"
+
+set +e
+(
+  cd "$worktree"
+  ADL_PRIMARY_CHECKOUT_ROOT="$repo" \
+    "$BASH_BIN" adl/tools/pr.sh finish 4413 --title "stale worktree finish" --output-card out.md >"$stale_worktree_finish_log" 2>&1
+)
+stale_worktree_finish_status="$?"
+set -e
+
+[[ "$stale_worktree_finish_status" == "75" ]] || {
+  echo "assertion failed: stale bound-worktree finish binary should fail closed with exit 75" >&2
+  cat "$stale_worktree_finish_log" >&2
+  exit 1
+}
+[[ ! -s "$TMP_ADL_ARGS" ]] || {
+  echo "assertion failed: stale primary finish binary must not run for divergent worktree inputs" >&2
+  cat "$TMP_ADL_ARGS" >&2
+  exit 1
+}
+grep -F "reason_code=current_worktree_finish_binary_required" "$stale_worktree_finish_log" >/dev/null || {
+  echo "assertion failed: stale bound-worktree finish failure should be classified" >&2
+  cat "$stale_worktree_finish_log" >&2
+  exit 1
+}
+grep -F "ADL_PR_FINISH_BIN=" "$stale_worktree_finish_log" >/dev/null || {
+  echo "assertion failed: stale bound-worktree finish failure should explain the explicit repair override" >&2
+  cat "$stale_worktree_finish_log" >&2
+  exit 1
+}
+rm -f "$worktree/adl/src/stale_worktree_finish_probe.rs"
+
+rm -f "$worktree/adl/target/debug/adl-pr-finish"
 
 : >"$TMP_ADL_ARGS"
 : >"$TMP_CARGO_ARGS"
@@ -274,42 +332,7 @@ args="$(cat "$TMP_ADL_ARGS")"
   exit 1
 }
 
-echo "pr.sh worktree prefers primary checkout finish/validation owner binaries: ok"
-
-mkdir -p "$worktree/adl/src"
-printf 'pub fn finish_owner_last_resort_probe() {}\n' >"$worktree/adl/src/finish_owner_last_resort_probe.rs"
-sleep 1
-touch "$repo/adl/target/debug/adl-pr-finish"
-: >"$TMP_ADL_ARGS"
-: >"$TMP_CARGO_ARGS"
-finish_last_resort_log="$tmpdir/finish-last-resort.log"
-
-(
-  cd "$worktree"
-  ADL_PRIMARY_CHECKOUT_ROOT="$repo" \
-    "$BASH_BIN" adl/tools/pr.sh finish 4413 --title "worktree finish stale last resort" --output-card out.md >"$finish_last_resort_log" 2>&1
-)
-
-args="$(cat "$TMP_ADL_ARGS")"
-[[ "$args" == "finish:4413 --title worktree finish stale last resort --output-card out.md" ]] || {
-  echo "assertion failed: worktree finish should use primary adl-pr-finish as dedicated last resort when cargo fallback is disabled" >&2
-  echo "$args" >&2
-  cat "$finish_last_resort_log" >&2
-  exit 1
-}
-grep -F "freshness=stale_allowed_primary_owner_last_resort" "$finish_last_resort_log" >/dev/null || {
-  echo "assertion failed: temporary stale primary owner-binary last resort should be observable" >&2
-  cat "$finish_last_resort_log" >&2
-  exit 1
-}
-[[ ! -s "$TMP_CARGO_ARGS" ]] || {
-  echo "assertion failed: cargo should not run when primary finish owner binary is used as disabled-fallback last resort" >&2
-  cat "$TMP_CARGO_ARGS" >&2
-  exit 1
-}
-rm -f "$worktree/adl/src/finish_owner_last_resort_probe.rs"
-
-echo "pr.sh worktree uses primary finish owner binary as explicit disabled-fallback last resort: ok"
+echo "pr.sh worktree prefers its current finish binary and reuses the primary validation binary: ok"
 
 rm -f "$repo/adl/target/debug/adl-pr-doctor"
 cat >"$repo/adl/target/debug/adl" <<'EOF_ADL_GENERIC'

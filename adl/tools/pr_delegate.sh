@@ -24,6 +24,10 @@ rust_pr_delegate_available() {
   fi
   [[ -f "$(rust_pr_delegate_root)/adl/Cargo.toml" ]] || return 1
   local cached_bin
+  cached_bin="$(rust_pr_preferred_worktree_cached_bin "${1:-}" || true)"
+  if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
+    return 0
+  fi
   cached_bin="$(rust_pr_subcommand_stable_bin "${1:-}" || true)"
   if [[ -n "$cached_bin" && -x "$cached_bin" ]]; then
     return 0
@@ -316,6 +320,39 @@ rust_pr_subcommand_cached_bin() {
   [[ -x "$candidate" ]] || return 1
   rust_pr_delegate_bin_is_fresh "$root" "$candidate" || return 1
   printf '%s\n' "$candidate"
+}
+
+rust_pr_preferred_worktree_cached_bin() {
+  [[ "${1:-}" == "finish" ]] || return 1
+  local root primary_root
+  root="$(rust_pr_delegate_root)"
+  primary_root="$(rust_pr_delegate_primary_root)"
+  [[ "$root" != "$primary_root" ]] || return 1
+  rust_pr_subcommand_cached_bin "$1"
+}
+
+rust_pr_finish_worktree_requires_repair() {
+  [[ "${1:-}" == "finish" ]] || return 1
+  local root primary_root primary_candidate
+  root="$(rust_pr_delegate_root)"
+  primary_root="$(rust_pr_delegate_primary_root)"
+  [[ "$root" != "$primary_root" ]] || return 1
+  primary_candidate="$primary_root/adl/target/debug/adl-pr-finish"
+  rust_pr_worktree_inputs_are_newer_than_bin "$root" "$primary_candidate" "$primary_root"
+}
+
+rust_pr_report_finish_worktree_repair() {
+  local root="$1"
+  adl_obs_event "pr.sh" "rust_delegate" "failed" \
+    "subcommand" "finish" \
+    "reason_code" "current_worktree_finish_binary_required"
+  cat >&2 <<EOF
+ERROR: the bound worktree has finish-support changes not represented by a fresh adl-pr-finish binary.
+Refusing to use a primary-checkout or PATH fallback for pr finish.
+Repair with one of:
+- cargo build --manifest-path $root/adl/Cargo.toml --bin adl-pr-finish
+- ADL_PR_FINISH_BIN=$root/adl/target/debug/adl-pr-finish bash adl/tools/pr.sh finish ...
+EOF
 }
 
 rust_pr_issue_stale_cached_bin() {
@@ -676,6 +713,15 @@ delegate_pr_command_to_rust() {
   if [[ -n "$override_bin" ]]; then
     adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$override_bin"
     exec "$override_bin" "$@"
+  fi
+  direct_bin="$(rust_pr_preferred_worktree_cached_bin "$subcommand" || true)"
+  if [[ -n "$direct_bin" ]]; then
+    adl_obs_event "pr.sh" "rust_delegate" "exec" "subcommand" "$subcommand" "delegate" "$direct_bin" "source" "current_worktree_owner_bin"
+    exec "$direct_bin" "$@"
+  fi
+  if rust_pr_finish_worktree_requires_repair "$subcommand"; then
+    rust_pr_report_finish_worktree_repair "$root"
+    exit 75
   fi
   direct_bin="$(rust_pr_subcommand_stable_bin "$subcommand" || true)"
   if [[ -n "$direct_bin" ]]; then
