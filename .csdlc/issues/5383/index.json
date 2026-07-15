@@ -3,13 +3,13 @@
   "issue": 5383,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5774e6b65a3f68bbe9cfdfde4e2d22219496012f36018b5b495815756bd8a140",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "ffa5dd45193edeb2f746bfcd23e4c105f799b4abfa1a33358e3d46b8eaf66c93",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "e6f8adac99e068010b060235817c2f3813fe6a4050f9e2bf86c08fefeb3a04a1",
   "claim": {
     "id": "csdlc-v2-5383-v0918-planning-package",
     "owner": "codex",
-    "generation": 14,
+    "generation": 15,
     "acquired_unix_seconds": 1784133645,
     "expires_unix_seconds": 1784220045,
     "heartbeat_unix_seconds": 1784133645,
@@ -23,76 +23,8 @@
     ],
     "purpose": "Restore WP-14 routing and create the missing v0.91.8 planned-posture milestone package"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
-    "assigned_by": "codex",
-    "revision": "git-blake3:3b6fa1f5ec953dda657c5374805729f51504ad8c:886529b23d65ff6f5e5d337072b6e0930f5791deafc94391aaf6c3916a1a8f04",
-    "scope": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
-      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
-      "docs/milestones/v0.92/README.md",
-      ".csdlc/issues/5383"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
-    "scope": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
-      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
-      "docs/milestones/v0.92/README.md",
-      ".csdlc/issues/5383"
-    ],
-    "reviewed_revision": "git-blake3:3b6fa1f5ec953dda657c5374805729f51504ad8c:886529b23d65ff6f5e5d337072b6e0930f5791deafc94391aaf6c3916a1a8f04",
-    "findings": [
-      {
-        "id": "review-5383-p1-invalid-gh-command",
-        "severity": "p1",
-        "summary": "SOR evidence initially recorded an invalid combined gh issue view command for #4641/#5383/#5384.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:3b6fa1f5ec953dda657c5374805729f51504ad8c:886529b23d65ff6f5e5d337072b6e0930f5791deafc94391aaf6c3916a1a8f04",
-        "route": null
-      },
-      {
-        "id": "review-5383-p2-protected-paths",
-        "severity": "p2",
-        "summary": "C-SDLC protected paths initially omitted modified v0.92 bridge files.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:3b6fa1f5ec953dda657c5374805729f51504ad8c:886529b23d65ff6f5e5d337072b6e0930f5791deafc94391aaf6c3916a1a8f04",
-        "route": null
-      },
-      {
-        "id": "review-5383-p2-v092-success-criterion",
-        "severity": "p2",
-        "summary": "v0.92 README success criteria initially omitted the v0.91.8 bridge prerequisite.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:3b6fa1f5ec953dda657c5374805729f51504ad8c:886529b23d65ff6f5e5d337072b6e0930f5791deafc94391aaf6c3916a1a8f04",
-        "route": null
-      },
-      {
-        "id": "review-5383-p3-sidecar-wp-field",
-        "severity": "p3",
-        "summary": "WP-14 sidecar routes initially used wp: WP-14A for live WP-14-labeled issues instead of separating live and parent WP routing.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:3b6fa1f5ec953dda657c5374805729f51504ad8c:886529b23d65ff6f5e5d337072b6e0930f5791deafc94391aaf6c3916a1a8f04",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "No merge requested; GitHub CI and final closeout remain future publication/merge steps."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -107,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "70829b55486694aa9897834fd9caf366257ce7baa6c208828502e52e03e20e87",
+      "values_digest": "d8b0e2b767e45f86f9aced5a05d02ae2f66b1572b9e00c70ab1410725cb81053",
       "rendered_digest": "b2757d55da8bf9be4ffbcaed846c5e9c15bcee27e1db146206b071c9636084fc",
       "ast_digest": "d1b3405638cb259d04fef5f91b87a803938d66998afb518ba0f2e56604a02d44"
     },
     "stp": {
-      "values_digest": "84f0242188cd7db1cdd6ad86865ee2d9c3d94bc2934d99cf92d19edf6b1ef852",
+      "values_digest": "e1bb2d615f971e8c8cb1ccb13594c473e254afd560b8ec13b265752e5b1cd6e4",
       "rendered_digest": "c3196f51a37435dd4483767048cbf2b4c2e9dba3cac3212963043e2d2d7b09f6",
       "ast_digest": "5e42129772d7467f88f42226ccd57a9e9587e8a85d4c78831f13f91efde0fe95"
     },
     "spp": {
-      "values_digest": "c039883397fff747aad47602a1e84f11df261210756144c5bf3adaaa8a89a261",
+      "values_digest": "ac205bf54b29005a334a7c1f86a5f9d9a7e8e6098e14901143e3b7882d77e626",
       "rendered_digest": "f0033e9d6832ab14bbbe131938597a3363ecc71df4c6458b5776b0ec4a018b6e",
       "ast_digest": "1c037064d5738a2d8c4ec99d1c61f7f61fa5eeff9be658bc3f3427c33d5970ba"
     },
     "vpp": {
-      "values_digest": "902332de928d4d20839f7c0ade3dafa869797e5532bea8333b5d52b1c78e9db9",
+      "values_digest": "a0f51a135876cf64b8f4af69bdf9d337d6a9b1f174b14132d11193a9a62f2d43",
       "rendered_digest": "e998ed06a1b566fa6f747901fab80b45ed9052c8ee6d8828a9368851f782f1aa",
       "ast_digest": "97b60032a5b4567f8a7f1b1efede7a72fe827afad430d98c1ee2a3e3fc75ed8f"
     },
     "srp": {
-      "values_digest": "1e600ee53d87253d3781e0d171a80370f2c5afc13e118a63b55459f7e3152533",
-      "rendered_digest": "1feddee1f7d3435d0080c6a628a6ddd4c33eaf393fb3ddabf4b32f72bfce246a",
-      "ast_digest": "8b67a5bf33cd5299cc8db99e288f4ac618fb78f8be13e55b426d0e082f59aa22"
+      "values_digest": "ed6e171dbb310b52177a41ac02a24559e12d9179603f94f8637dc23c453df0bd",
+      "rendered_digest": "e20b5c59da2e500cba4e9b89b52af6a01653f99f81c47b5dff412e9c27079ab6",
+      "ast_digest": "b044e3d2083ab18d2b2ab74f0194f92708dd7ed40a1f52896d8b27909560293c"
     },
     "sor": {
-      "values_digest": "86a006ea4c1e7945e4d1bce6df112f6bbcfe4a31b2dda49cd7aef7c8ecf11848",
-      "rendered_digest": "cbc755a594f9662ea831bbb1ef960912c3bde121c5218d3fc53a2b4012e44277",
-      "ast_digest": "d132049531aeb658ef094fe63d5b284d4f55b53974e295b460c97d89fcf2c5a4"
+      "values_digest": "5c9f77c231c0bab3b9220f3b9100ee1f9ff6236e5cd41663a0077fa142b18141",
+      "rendered_digest": "4707a42d31ce0cd4693160ed086a7c52522140f23634c88d2a151be50b7402e8",
+      "ast_digest": "24585a68290edeff3be507e03930da737b858a88da87a929662c84c4dc34163c"
     }
   },
   "transitions": [
@@ -165,6 +97,13 @@
       "to": "reviewed",
       "actor": "codex",
       "reason": "review evidence completed; enter reviewed phase before draft publication"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover reviewed evidence to current clean reviewed-phase commit before draft publication"
     }
   ],
   "audit": [
@@ -279,6 +218,13 @@
       "actor": "codex",
       "reason": "review evidence completed; enter reviewed phase before draft publication",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "recover reviewed evidence to current clean reviewed-phase commit before draft publication",
+      "operation": "recover_review"
     }
   ]
 }

@@ -116,7 +116,7 @@ Restored #4641 to v0.91.7 WP-14, created #5384 as v0.91.8 WP-14A preservation pa
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
