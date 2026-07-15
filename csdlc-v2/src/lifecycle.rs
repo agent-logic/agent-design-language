@@ -37,6 +37,15 @@ pub struct RecoverClaimRequest {
     pub reason: String,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct HeartbeatRequest {
+    pub issue: u64,
+    pub claim_id: String,
+    pub expected_generation: u64,
+    pub now_unix_seconds: u64,
+    pub extend_seconds: u64,
+}
+
 fn clean_relative(value: &str) -> bool {
     !value.is_empty()
         && Path::new(value)

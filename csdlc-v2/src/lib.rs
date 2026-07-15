@@ -5,6 +5,7 @@ pub mod eligibility;
 pub mod error;
 pub mod git;
 pub mod github;
+pub mod github_token;
 pub mod lifecycle;
 pub mod migration;
 pub mod model;
@@ -30,7 +31,7 @@ pub use eligibility::{
 pub use error::{ErrorCode, Result, V2Error};
 pub use lifecycle::{
     bind_issue, heartbeat_claim, initialize_issue, recover_claim, BindRequest, BindResult,
-    RecoverClaimRequest,
+    HeartbeatRequest, RecoverClaimRequest,
 };
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,
