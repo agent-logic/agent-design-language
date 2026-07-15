@@ -1,5 +1,6 @@
 use clap::Parser;
 use clap::Subcommand;
+use csdlc_v2::github::{collect_pr_state, PrStateRequest};
 use csdlc_v2::{classify_shepherd, ShepherdInput};
 use std::{fs, path::PathBuf};
 
@@ -14,6 +15,8 @@ struct Cli {
     example: Option<String>,
     #[arg(long, conflicts_with_all = ["schema", "example"], help = "Read a ShepherdInput JSON file")]
     input: Option<PathBuf>,
+    #[arg(long)]
+    pr_state_request: Option<PathBuf>,
 }
 #[derive(Subcommand)]
 enum Command {
@@ -71,8 +74,24 @@ fn example(name: &str) -> Option<ShepherdInput> {
     })
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let cli = Cli::parse();
+    if let Some(path) = cli.pr_state_request {
+        let request: PrStateRequest = serde_json::from_slice(&fs::read(path).unwrap_or_default())
+            .unwrap_or_else(|e| {
+                eprintln!("{e}");
+                std::process::exit(64)
+            });
+        match collect_pr_state(&request).await {
+            Ok(packet) => println!("{}", serde_json::to_string_pretty(&packet).expect("JSON")),
+            Err(error) => {
+                eprintln!("{}", error.message);
+                std::process::exit(error.code.exit_code());
+            }
+        }
+        return;
+    }
     if cli.schema || matches!(cli.command, Some(Command::Schema)) {
         println!(
             "{}",
