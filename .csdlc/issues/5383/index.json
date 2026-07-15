@@ -3,13 +3,13 @@
   "issue": 5383,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5774e6b65a3f68bbe9cfdfde4e2d22219496012f36018b5b495815756bd8a140",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "e6f8adac99e068010b060235817c2f3813fe6a4050f9e2bf86c08fefeb3a04a1",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "67545cfb3104273e5718a21b8c258ae1ee42e25d894d2a40d19bb085e5539e12",
   "claim": {
     "id": "csdlc-v2-5383-v0918-planning-package",
     "owner": "codex",
-    "generation": 15,
+    "generation": 17,
     "acquired_unix_seconds": 1784133645,
     "expires_unix_seconds": 1784220045,
     "heartbeat_unix_seconds": 1784133645,
@@ -23,8 +23,54 @@
     ],
     "purpose": "Restore WP-14 routing and create the missing v0.91.8 planned-posture milestone package"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
+    "assigned_by": "codex",
+    "revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
+    "scope": [
+      "docs/milestones/v0.91.8",
+      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
+      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+      "docs/milestones/v0.92/README.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
+    "scope": [
+      "docs/milestones/v0.91.8",
+      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
+      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+      "docs/milestones/v0.92/README.md"
+    ],
+    "reviewed_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
+    "findings": [
+      {
+        "id": "review-5383-p2-v092-success-criterion",
+        "severity": "p2",
+        "summary": "v0.92 README success criteria initially omitted the v0.91.8 bridge prerequisite.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
+        "route": null
+      },
+      {
+        "id": "review-5383-p3-sidecar-wp-field",
+        "severity": "p3",
+        "summary": "WP-14 sidecar routes initially used wp: WP-14A for live WP-14-labeled issues instead of separating live and parent WP routing.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "C-SDLC state is maintained by typed v2 lifecycle commands; publication review scope is limited to substantive planning docs."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +85,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d8b0e2b767e45f86f9aced5a05d02ae2f66b1572b9e00c70ab1410725cb81053",
+      "values_digest": "539159ed475bcf499cf4017ebad0f09c90b9241a86e21718036d7e919c481d9d",
       "rendered_digest": "b2757d55da8bf9be4ffbcaed846c5e9c15bcee27e1db146206b071c9636084fc",
       "ast_digest": "d1b3405638cb259d04fef5f91b87a803938d66998afb518ba0f2e56604a02d44"
     },
     "stp": {
-      "values_digest": "e1bb2d615f971e8c8cb1ccb13594c473e254afd560b8ec13b265752e5b1cd6e4",
+      "values_digest": "6a26529e4e27d2de3c0bcf6894eb1674b1963f174fe75e04e1f26e7fb66636ee",
       "rendered_digest": "c3196f51a37435dd4483767048cbf2b4c2e9dba3cac3212963043e2d2d7b09f6",
       "ast_digest": "5e42129772d7467f88f42226ccd57a9e9587e8a85d4c78831f13f91efde0fe95"
     },
     "spp": {
-      "values_digest": "ac205bf54b29005a334a7c1f86a5f9d9a7e8e6098e14901143e3b7882d77e626",
+      "values_digest": "0bf03a807cbb39066f9f73ae5192c7c2b6f18f06f54e2ce8333baba561ed55a0",
       "rendered_digest": "f0033e9d6832ab14bbbe131938597a3363ecc71df4c6458b5776b0ec4a018b6e",
       "ast_digest": "1c037064d5738a2d8c4ec99d1c61f7f61fa5eeff9be658bc3f3427c33d5970ba"
     },
     "vpp": {
-      "values_digest": "a0f51a135876cf64b8f4af69bdf9d337d6a9b1f174b14132d11193a9a62f2d43",
+      "values_digest": "e8ea0cfc5e5cb3dd34113f0c309bb180feef9b84eae6704944a9e82cd476c358",
       "rendered_digest": "e998ed06a1b566fa6f747901fab80b45ed9052c8ee6d8828a9368851f782f1aa",
       "ast_digest": "97b60032a5b4567f8a7f1b1efede7a72fe827afad430d98c1ee2a3e3fc75ed8f"
     },
     "srp": {
-      "values_digest": "ed6e171dbb310b52177a41ac02a24559e12d9179603f94f8637dc23c453df0bd",
-      "rendered_digest": "e20b5c59da2e500cba4e9b89b52af6a01653f99f81c47b5dff412e9c27079ab6",
-      "ast_digest": "b044e3d2083ab18d2b2ab74f0194f92708dd7ed40a1f52896d8b27909560293c"
+      "values_digest": "3f18287e7bc563cc44f60c1f8fb813080f83df38085e0713ce4e29b8e4e2b821",
+      "rendered_digest": "47c69ea5104382ee89d3e9f795db0f3b8a7f5f2b9fdc5a1a6627afd3b81899cd",
+      "ast_digest": "bc1d58ed48c06158f3302f06f27df30d7c2c0a8baf952490aab8b923dfcc5e55"
     },
     "sor": {
-      "values_digest": "5c9f77c231c0bab3b9220f3b9100ee1f9ff6236e5cd41663a0077fa142b18141",
+      "values_digest": "7ce694cda4106ea94b41351b46197f45b0ed08e1d8d5c73510c3669210c96b7d",
       "rendered_digest": "4707a42d31ce0cd4693160ed086a7c52522140f23634c88d2a151be50b7402e8",
       "ast_digest": "24585a68290edeff3be507e03930da737b858a88da87a929662c84c4dc34163c"
     }
@@ -104,6 +150,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "recover reviewed evidence to current clean reviewed-phase commit before draft publication"
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "publication review evidence completed for substantive planning docs"
     }
   ],
   "audit": [
@@ -225,6 +278,27 @@
       "actor": "codex",
       "reason": "recover reviewed evidence to current clean reviewed-phase commit before draft publication",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "publication review evidence completed for substantive planning docs",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
