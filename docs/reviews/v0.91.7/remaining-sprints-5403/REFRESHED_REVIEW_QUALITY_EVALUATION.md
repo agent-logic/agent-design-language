@@ -19,8 +19,8 @@ Status: pass
    non-claim separately.
 4. SPP steps remained `pending` after execution.
    Fixed after #5406 added the typed `update_plan_step` operation. S1-S3 now
-   record completed work; S4 remains pending until this refreshed independent
-   review passes.
+   record completed work, and S4 records the completed refreshed independent
+   review.
 5. The SOR omitted all ten remediation follow-ups.
    Fixed through typed `append_reference`; #5404-#5413 are retained.
 6. The reviewer reported malformed disposition arithmetic.

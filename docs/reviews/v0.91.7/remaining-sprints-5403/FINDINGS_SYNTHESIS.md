@@ -1,7 +1,7 @@
 # Remaining v0.91.7 Sprint Review Synthesis
 
 Issue: #5403
-Status: review packets and canonical register complete; refreshed review pending
+Status: review packets, canonical register, and refreshed review complete
 
 ## Findings Summary
 
