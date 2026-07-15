@@ -7,46 +7,23 @@
     "title": "[v0.91.7][planning] Restore WP-14 routing and create v0.91.8 planning package",
     "slug": "v0-91-7-planning-restore-wp14-routing-and-create-v0-91-8-planning-package",
     "version": "v0.91.7",
-    "generation": 17
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/milestones/v0.91.8\ndocs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md\ndocs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md\ndocs/milestones/v0.92/README.md",
-      "review_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
-      "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Review whether the v0.91.8 package is complete enough for execution without implementation overclaims.",
         "Review whether #4641/#5384 routing is clear and not lossy.",
         "Review whether the issue-wave YAML preserves live issue topology and dependencies."
       ],
-      "findings": [
-        {
-          "id": "review-5383-p2-v092-success-criterion",
-          "severity": "p2",
-          "summary": "v0.92 README success criteria initially omitted the v0.91.8 bridge prerequisite.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
-          "route": null
-        },
-        {
-          "id": "review-5383-p3-sidecar-wp-field",
-          "severity": "p3",
-          "summary": "WP-14 sidecar routes initially used wp: WP-14A for live WP-14-labeled issues instead of separating live and parent WP routing.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "C-SDLC state is maintained by typed v2 lifecycle commands; publication review scope is limited to substantive planning docs."
-      ],
-      "review_result": "pass"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

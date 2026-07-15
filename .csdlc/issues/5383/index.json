@@ -3,13 +3,13 @@
   "issue": 5383,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5774e6b65a3f68bbe9cfdfde4e2d22219496012f36018b5b495815756bd8a140",
-  "phase": "reviewed",
-  "generation": 17,
-  "digest": "67545cfb3104273e5718a21b8c258ae1ee42e25d894d2a40d19bb085e5539e12",
+  "phase": "implemented",
+  "generation": 18,
+  "digest": "c08ce842a899b8b995f02572dcda7d7585ed0bbd09db3e13501c219692ac8545",
   "claim": {
     "id": "csdlc-v2-5383-v0918-planning-package",
     "owner": "codex",
-    "generation": 17,
+    "generation": 18,
     "acquired_unix_seconds": 1784133645,
     "expires_unix_seconds": 1784220045,
     "heartbeat_unix_seconds": 1784133645,
@@ -23,54 +23,8 @@
     ],
     "purpose": "Restore WP-14 routing and create the missing v0.91.8 planned-posture milestone package"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
-    "assigned_by": "codex",
-    "revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
-    "scope": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
-      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
-      "docs/milestones/v0.92/README.md"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
-    "scope": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
-      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
-      "docs/milestones/v0.92/README.md"
-    ],
-    "reviewed_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
-    "findings": [
-      {
-        "id": "review-5383-p2-v092-success-criterion",
-        "severity": "p2",
-        "summary": "v0.92 README success criteria initially omitted the v0.91.8 bridge prerequisite.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
-        "route": null
-      },
-      {
-        "id": "review-5383-p3-sidecar-wp-field",
-        "severity": "p3",
-        "summary": "WP-14 sidecar routes initially used wp: WP-14A for live WP-14-labeled issues instead of separating live and parent WP routing.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:2c4527bdfb6bd9572053d7a8387967be3d3123d4:b46e9be6bf70ef16cb6771742ecd2e814c115768a00d8f87655333cce20c094b",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "C-SDLC state is maintained by typed v2 lifecycle commands; publication review scope is limited to substantive planning docs."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -85,32 +39,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "539159ed475bcf499cf4017ebad0f09c90b9241a86e21718036d7e919c481d9d",
+      "values_digest": "5dbc5e215412f30b69c3809180af5fa882d73eae0f8eaec8b8646bd8b49ab785",
       "rendered_digest": "b2757d55da8bf9be4ffbcaed846c5e9c15bcee27e1db146206b071c9636084fc",
       "ast_digest": "d1b3405638cb259d04fef5f91b87a803938d66998afb518ba0f2e56604a02d44"
     },
     "stp": {
-      "values_digest": "6a26529e4e27d2de3c0bcf6894eb1674b1963f174fe75e04e1f26e7fb66636ee",
+      "values_digest": "21ad9a0b8bec3e2604e20e80cd7b66d7ae080f22a9dd0176bde676811812abe4",
       "rendered_digest": "c3196f51a37435dd4483767048cbf2b4c2e9dba3cac3212963043e2d2d7b09f6",
       "ast_digest": "5e42129772d7467f88f42226ccd57a9e9587e8a85d4c78831f13f91efde0fe95"
     },
     "spp": {
-      "values_digest": "0bf03a807cbb39066f9f73ae5192c7c2b6f18f06f54e2ce8333baba561ed55a0",
+      "values_digest": "55dbd40e96b4430f43f7870867a8860da86ce8a3ce668effd60eaa327339c30c",
       "rendered_digest": "f0033e9d6832ab14bbbe131938597a3363ecc71df4c6458b5776b0ec4a018b6e",
       "ast_digest": "1c037064d5738a2d8c4ec99d1c61f7f61fa5eeff9be658bc3f3427c33d5970ba"
     },
     "vpp": {
-      "values_digest": "e8ea0cfc5e5cb3dd34113f0c309bb180feef9b84eae6704944a9e82cd476c358",
+      "values_digest": "2a25407663cd921ef06477520c47122a0290b8083cabf127849212b93dc3b229",
       "rendered_digest": "e998ed06a1b566fa6f747901fab80b45ed9052c8ee6d8828a9368851f782f1aa",
       "ast_digest": "97b60032a5b4567f8a7f1b1efede7a72fe827afad430d98c1ee2a3e3fc75ed8f"
     },
     "srp": {
-      "values_digest": "3f18287e7bc563cc44f60c1f8fb813080f83df38085e0713ce4e29b8e4e2b821",
-      "rendered_digest": "47c69ea5104382ee89d3e9f795db0f3b8a7f5f2b9fdc5a1a6627afd3b81899cd",
-      "ast_digest": "bc1d58ed48c06158f3302f06f27df30d7c2c0a8baf952490aab8b923dfcc5e55"
+      "values_digest": "3c31d76d393a226982d5ec20b63134f7248ce4c67fae10c04291ae78cb84b007",
+      "rendered_digest": "e20b5c59da2e500cba4e9b89b52af6a01653f99f81c47b5dff412e9c27079ab6",
+      "ast_digest": "b044e3d2083ab18d2b2ab74f0194f92708dd7ed40a1f52896d8b27909560293c"
     },
     "sor": {
-      "values_digest": "7ce694cda4106ea94b41351b46197f45b0ed08e1d8d5c73510c3669210c96b7d",
+      "values_digest": "cf2bb7f4d86d69d23dca001e2ca13d79e6cd9571b8072793b74c3234ad1b1d38",
       "rendered_digest": "4707a42d31ce0cd4693160ed086a7c52522140f23634c88d2a151be50b7402e8",
       "ast_digest": "24585a68290edeff3be507e03930da737b858a88da87a929662c84c4dc34163c"
     }
@@ -157,6 +111,13 @@
       "to": "reviewed",
       "actor": "codex",
       "reason": "publication review evidence completed for substantive planning docs"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover committed reviewed metadata so publication review can be applied as working-tree lifecycle state"
     }
   ],
   "audit": [
@@ -299,6 +260,13 @@
       "actor": "codex",
       "reason": "publication review evidence completed for substantive planning docs",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "recover committed reviewed metadata so publication review can be applied as working-tree lifecycle state",
+      "operation": "recover_review"
     }
   ]
 }
