@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+.github/workflows/ci.yaml
+adl/config/validation_lane_selector.v0.91.6.json
+adl/tools/ci_path_policy.sh
+adl/tools/test_ci_path_policy.sh
+docs/architecture/runtime_v3_fast_validation_5330.md
+docs/architecture/runtime_v3_fast_validation_5330.mmd
 
 ## Prompts
 
@@ -31,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The dedicated lane is selected for Runtime v3-only diffs; this merged PR itself is a mixed CI-policy change and therefore retains legacy contract checks.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f302dcffa8303c6fb0c18048a6f245923dcf684c:1156dbe2b2c0c14221f5cb2220b7d1f5dad0e1c4403e1e65604ab266602a7d49")
 
-Reviewer: None
+Reviewer: Some("codex-review")
 
-Result: pre_review
+Result: pass

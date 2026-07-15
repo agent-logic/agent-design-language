@@ -7,15 +7,15 @@
     "title": "[runtime-v3][ci] Give Runtime v3 an independent fast validation lane",
     "slug": "runtime-v3-independent-fast-validation-lane",
     "version": "v0.91.7",
-    "generation": 0
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".github/workflows/ci.yaml\nadl/config/validation_lane_selector.v0.91.6.json\nadl/tools/ci_path_policy.sh\nadl/tools/test_ci_path_policy.sh\ndocs/architecture/runtime_v3_fast_validation_5330.md\ndocs/architecture/runtime_v3_fast_validation_5330.mmd",
+      "review_revision": "git-blake3:f302dcffa8303c6fb0c18048a6f245923dcf684c:1156dbe2b2c0c14221f5cb2220b7d1f5dad0e1c4403e1e65604ab266602a7d49",
+      "reviewer": "codex-review",
       "review_prompts": [
         "Does the selector fail closed for unmapped v3 paths?",
         "Does a mixed diff retain legacy validation?",
@@ -23,8 +23,10 @@
         "Are the fixtures deterministic and fast?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The dedicated lane is selected for Runtime v3-only diffs; this merged PR itself is a mixed CI-policy change and therefore retains legacy contract checks."
+      ],
+      "review_result": "pass"
     }
   }
 }

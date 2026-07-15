@@ -12,19 +12,33 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented independent Runtime v3 fast validation routing and CI job.
 
 ## Artifacts
 
-- none
+- PR #5397
+- commit 53ca54d2d9c6f55eb97a70f89a8d86358d20834f
 
 ## Execution
 
-- none
+- Added runtime_v3_fast path-policy profile routing
+- Added dedicated adl-runtime-v3-fast CI job
+- Added v3-only, mixed-diff, and unmapped-path fixtures
+- Added Runtime v3 Observatory proof to focused lane
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_path_policy.sh"
+    ],
+    "purpose": "prove Runtime v3-only, mixed, and unmapped path routing",
+    "outcome": "passed",
+    "evidence_ref": "local:test_ci_path_policy"
+  }
+]
 
 ## Integration
 
