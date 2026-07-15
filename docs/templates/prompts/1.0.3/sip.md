@@ -20,7 +20,7 @@ Context:
 
 ## Agent Execution Rules
 - This issue is not started yet; do not assume a branch or worktree already exists.
-- Do not run `pr start`; use the current issue-mode `pr run` flow only if execution later becomes necessary.
+- Do not use v1 wrappers; bind execution with `csdlc-bind` only if execution later becomes necessary.
 - Do not delete or recreate cards.
 - Do not switch branches unless explicitly instructed.
 - Do not work on `main`.
@@ -121,7 +121,7 @@ review_surfaces:
 - Follow `AGENTS.md`.
 - Use the typed C-SDLC v2 operator skills and Rust binaries for lifecycle routing.
 - Edit cards only with editor skills.
-- Work only in the bound issue worktree after `pr run`.
+- Work only in the bound issue worktree after `csdlc-bind`.
 - Keep validation focused on the touched surface.
 
 ## System Invariants (must remain true)
@@ -172,5 +172,5 @@ ci_validation_required: true
 - Read this file.
 - Read the linked source issue prompt before starting work.
 - Do not create a branch or worktree from this card alone.
-- When execution is approved, run the repo-native issue-mode `pr run` flow and then perform the work described above.
+- When execution is approved, run `csdlc-bind` and then perform the work described above.
 - Write execution outcome truth to the paired `sor.md` file during execution.
