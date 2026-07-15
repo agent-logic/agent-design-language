@@ -369,7 +369,7 @@
         "ADL Input Card",
         "Constraints / Policies"
       ],
-      "text": "- Use workflow-conductor for lifecycle routing."
+      "text": "- Use the typed C-SDLC v2 operator skills and Rust binaries for lifecycle routing."
     },
     {
       "heading_path": [

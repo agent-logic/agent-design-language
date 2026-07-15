@@ -119,7 +119,7 @@ review_surfaces:
 ## Constraints / Policies
 
 - Follow `AGENTS.md`.
-- Use workflow-conductor for lifecycle routing.
+- Use the typed C-SDLC v2 operator skills and Rust binaries for lifecycle routing.
 - Edit cards only with editor skills.
 - Work only in the bound issue worktree after `pr run`.
 - Keep validation focused on the touched surface.

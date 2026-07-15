@@ -247,3 +247,8 @@ Before editing, Codex must read:
 
 Then identify:
 - Modules to change
+# C-SDLC v2 authority
+
+For current C-SDLC issue work, use the independent Rust binaries and typed
+skills under `csdlc-v2/`. The legacy `pr.sh` examples in this document are
+historical migration evidence and are not an operational route.

@@ -1,4 +1,10 @@
-# Default Workflow (adl_pr_cycle + pr.sh)
+# Default Workflow (C-SDLC v2)
+
+> C-SDLC work uses the independent Rust v2 binaries and typed operator skills
+> under `csdlc-v2/`. The v1 `pr.sh`, `workflow-conductor`, and prompt-wrapper
+> commands below are retained only as historical migration evidence; do not
+> use them for new issues. Start with `csdlc-init`, `csdlc-validate`,
+> `csdlc-bind`, `csdlc-review`, and `csdlc-publish` as applicable.
 
 This is the default contributor path for ADL development:
 
