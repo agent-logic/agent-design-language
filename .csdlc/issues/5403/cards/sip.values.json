@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5403,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review][sprint] Complete remaining closed-sprint reviews",
+    "slug": "v0-91-7-review-complete-remaining-closed-sprint-reviews",
+    "version": "v0.91.7",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Complete findings-first retained reviews for every closed v0.91.7 sprint whose review is missing or materially incomplete.",
+      "required_outcome": "Ten separate source-grounded sprint review packets, an updated canonical register, and explicit remediation routing without implementation changes.",
+      "declared_scope": [
+        "docs/reviews/v0.91.7/remaining-sprints-5403"
+      ],
+      "authority_boundary": [
+        "Live GitHub issue and PR state is authoritative for remote closure truth",
+        "Repository source and retained artifacts are authoritative for implementation and proof claims",
+        "Review findings cannot manufacture missing historical validation"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": []
+    }
+  }
+}

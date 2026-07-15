@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5403,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review][sprint] Complete remaining closed-sprint reviews",
+    "slug": "v0-91-7-review-complete-remaining-closed-sprint-reviews",
+    "version": "v0.91.7",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Review the ten declared closed sprint umbrellas and publish review evidence; route implementation fixes separately.",
+      "deliverables": [
+        "Ten separate findings-first sprint review packets",
+        "Cross-sprint findings and remediation synthesis",
+        "Updated v0.91.7 sprint review register",
+        "Independent quality review of the completed packet set"
+      ],
+      "acceptance_criteria": [
+        "Every in-scope sprint has a separate retained review packet",
+        "Every ordered child is covered or explicitly excluded with rationale",
+        "Findings record severity evidence impact and disposition",
+        "Actionable fixes are routed to separate remediation issues",
+        "The canonical register agrees with live GitHub and retained evidence",
+        "Independent review finds no unresolved actionable defect in the review package"
+      ],
+      "dependencies": [
+        "Live GitHub issue and pull request metadata",
+        "Existing v0.91.7 review and closeout artifacts",
+        "Sprint-review specialist workflow"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+        "docs/milestones/v0.91.7/review/V0917_CLOSED_SPRINT_REVIEW_4649.md",
+        ".adl/v0.91.7/sprints",
+        "docs/architecture/runtime_v3_closeout_truth_5385.v1.json"
+      ],
+      "non_goals": [
+        "Implementing review findings",
+        "Reviewing open v0.91.7 work packages",
+        "Reviewing the active v0.91.8 implementation wave",
+        "Changing product or runtime behavior"
+      ]
+    }
+  }
+}
