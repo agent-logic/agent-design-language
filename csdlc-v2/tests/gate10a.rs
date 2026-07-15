@@ -105,10 +105,7 @@ fn operator_guidance_is_bound_to_manifest_and_coexistence_contract() {
         resolve_operator_generation(&root.join(".."), 5294, None).unwrap(),
         selector.default_generation
     );
-    assert_eq!(
-        resolve_operator_generation(&root.join(".."), 5294, Some(Generation::V1)).unwrap(),
-        Generation::V1
-    );
+    assert!(resolve_operator_generation(&root.join(".."), 5294, Some(Generation::V1)).is_err());
     for text in [&root_agents, &nested_agents] {
         assert!(text.contains("v1"));
         assert!(text.contains("csdlc-install"));
