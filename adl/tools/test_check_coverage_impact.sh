@@ -100,6 +100,14 @@ cli_usage_filters="$TMP/cli-usage-filters.txt"
 bash "$SCRIPT" --changed-files "$cli_usage_changed" --print-risk-filters >"$cli_usage_filters"
 grep -Fx "cli_basics" "$cli_usage_filters" >/dev/null
 
+scheduler_changed="$TMP/scheduler-changed.txt"
+printf 'M\tadl/src/scheduler.rs\n' >"$scheduler_changed"
+scheduler_filters="$TMP/scheduler-filters.txt"
+bash "$SCRIPT" --changed-files "$scheduler_changed" --print-risk-filters >"$scheduler_filters"
+grep -Fx "scheduler" "$scheduler_filters" >/dev/null
+scheduler_expression="$(bash "$SCRIPT" --changed-files "$scheduler_changed" --print-risk-nextest-expression)"
+grep -F "test(/^scheduler::/)" <<<"$scheduler_expression" >/dev/null
+
 csmctl_changed="$TMP/csmctl-changed.txt"
 cat >"$csmctl_changed" <<'EOF'
 A	adl/src/bin/csmctl.rs

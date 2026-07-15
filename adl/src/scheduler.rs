@@ -1559,9 +1559,23 @@ pub fn validate_cheapest_validated_outcome_policy(
         .map(|input| input.task_id.as_str())
         .collect::<BTreeSet<_>>();
     let mut seen_task_policies = BTreeSet::new();
+    let mut seen_semantic_task_policies = BTreeSet::new();
     for task_policy in &policy.task_policies {
         if task_policy.task_id.trim().is_empty() {
             return Err(anyhow!("cheapest validated outcome task_id is required"));
+        }
+        let semantic_policy_key = format!(
+            "task={};max={:?};fallback={};claim={}",
+            task_policy.task_id.trim(),
+            task_policy.max_outcome_cost_tier,
+            task_policy.allow_unvalidated_fallback,
+            task_policy.claim_boundary.trim()
+        );
+        if !seen_semantic_task_policies.insert(semantic_policy_key) {
+            return Err(anyhow!(
+                "duplicate semantic cheapest validated outcome task policy for {}",
+                task_policy.task_id.trim()
+            ));
         }
         if !seen_task_policies.insert(task_policy.task_id.clone()) {
             return Err(anyhow!(
@@ -3320,6 +3334,25 @@ mod tests {
         assert!(err
             .to_string()
             .contains("candidate_source_ref does not match model suitability source_ref"));
+    }
+
+    #[test]
+    fn cheapest_validated_outcome_policy_rejects_duplicate_semantic_task_policy() {
+        let mut bundle = parse_economics_bundle_json(CHEAPEST_VALIDATED_OUTCOME_FIXTURE)
+            .expect("fixture parses");
+        let policy = bundle
+            .cheapest_validated_outcome_policy
+            .as_mut()
+            .expect("cheapest policy");
+        let mut duplicate = policy.task_policies[0].clone();
+        duplicate.task_id = format!(" {} ", duplicate.task_id);
+        duplicate.claim_boundary = format!("{} ", duplicate.claim_boundary);
+        policy.task_policies.push(duplicate);
+
+        let err = validate_economics_bundle(&bundle).expect_err("semantic duplicate rejected");
+        assert!(err
+            .to_string()
+            .contains("duplicate semantic cheapest validated outcome task policy"));
     }
 
     #[test]

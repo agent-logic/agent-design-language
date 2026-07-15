@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5405,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][WP-13] Resolve #5403 guild, Godel, and economics findings",
+    "slug": "v0-91-7-review-fix-wp13-guild-godel-economics-findings",
+    "version": "v0.91.7",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Resolved the WP-13 economics validator finding by rejecting duplicate semantic cheapest-validated-outcome task policies.",
+      "actual_changes": [
+        "Added normalized semantic duplicate detection for cheapest-validated-outcome task policies.",
+        "Added a regression test for whitespace-normalized duplicate semantic policy rows."
+      ],
+      "artifacts": [
+        "adl/src/scheduler.rs"
+      ],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

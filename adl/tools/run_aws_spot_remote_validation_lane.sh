@@ -38,10 +38,18 @@ PRINT_COMMAND=false
 FOLLOW=false
 INSTANCE_TYPES=()
 CACHE_VOLUME_NAME="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_NAME:-adl-aws-remote-validation-cache-volume}"
-CACHE_VOLUME_SIZE_GIB="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_SIZE_GIB:-500}"
-CACHE_VOLUME_TYPE="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_TYPE:-gp3}"
-CACHE_VOLUME_IOPS="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_IOPS:-3000}"
-CACHE_VOLUME_THROUGHPUT_MBPS="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_THROUGHPUT_MBPS:-125}"
+CACHE_VOLUME_SIZE_GIB="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_SIZE_GIB:-}"
+CACHE_VOLUME_TYPE="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_TYPE:-}"
+CACHE_VOLUME_IOPS="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_IOPS:-}"
+CACHE_VOLUME_THROUGHPUT_MBPS="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_THROUGHPUT_MBPS:-}"
+CACHE_VOLUME_SIZE_GIB_EXPLICIT=false
+CACHE_VOLUME_TYPE_EXPLICIT=false
+CACHE_VOLUME_IOPS_EXPLICIT=false
+CACHE_VOLUME_THROUGHPUT_EXPLICIT=false
+[[ "${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_SIZE_GIB+x}" == x ]] && CACHE_VOLUME_SIZE_GIB_EXPLICIT=true
+[[ "${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_TYPE+x}" == x ]] && CACHE_VOLUME_TYPE_EXPLICIT=true
+[[ "${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_IOPS+x}" == x ]] && CACHE_VOLUME_IOPS_EXPLICIT=true
+[[ "${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_THROUGHPUT_MBPS+x}" == x ]] && CACHE_VOLUME_THROUGHPUT_EXPLICIT=true
 CACHE_VOLUME_DEVICE_NAME="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_DEVICE_NAME:-/dev/sdf}"
 CACHE_VOLUME_MOUNT_PATH="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_MOUNT_PATH:-/mnt/adl-cache}"
 SSH_KEY_NAME="${ADL_AWS_REMOTE_VALIDATION_SSH_KEY_NAME:-adl-wp06-spot-ssh-debug-20260704}"
@@ -55,6 +63,7 @@ BUILDER_IMAGE_TAG="${ADL_AWS_SPOT_BUILDER_IMAGE_TAG:-v0.91.7-fixed}"
 EXPECTED_ARCHITECTURE="${ADL_AWS_SPOT_EXPECTED_ARCHITECTURE:-x86_64}"
 MIN_CACHE_FREE_GIB="${ADL_AWS_SPOT_MIN_CACHE_FREE_GIB:-10}"
 ESTIMATED_HOURLY_COST_USD="${ADL_AWS_SPOT_ESTIMATED_HOURLY_COST_USD:-}"
+MAX_RUN_SECONDS=""
 AMI_ID="${ADL_AWS_REMOTE_VALIDATION_AMI_ID:-}"
 SUBNET_ID="${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}"
 EXPECTED_CACHE_VOLUME_ID_SHA256="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_ID_SHA256:-}"
@@ -81,6 +90,7 @@ Options:
   --out <path>                  Summary JSON path. Defaults under .adl/tmp.
   --artifact-dir <dir>          Artifact root. Defaults beside --out.
   --instance-type <type>        Add an allowed EC2 instance type.
+  --instance-types <list>       Add comma-separated allowed EC2 instance types.
   --cache-volume-name <name>    Warm EBS cache volume name. Defaults to retained WP-06 cache.
   --cache-volume-size-gib <gib> Cache volume size when created. Defaults to 500.
   --cache-volume-type <type>    Cache volume type. Defaults to gp3.
@@ -108,6 +118,7 @@ Options:
   --min-cache-free-gib <gib>     Required warm-cache headroom. Defaults 10.
   --estimated-hourly-cost-usd <usd>
                                 Override the pre-run Spot hourly price estimate.
+  --max-run-seconds <seconds>   Remote validation command timeout in seconds.
   --ami-id <id>                 Explicit AMI. Defaults to the current AL2023 SSM image.
   --subnet-id <id>              Explicit subnet. Defaults to retained hot-cache proof topology.
   --expected-cache-volume-id-sha256 <hash>
@@ -183,24 +194,37 @@ while [[ $# -gt 0 ]]; do
       INSTANCE_TYPES+=("${2:-}")
       shift 2
       ;;
+    --instance-types)
+      IFS=',' read -r -a requested_instance_types <<<"${2:-}"
+      for requested_instance_type in "${requested_instance_types[@]}"; do
+        if [[ -n "$requested_instance_type" ]]; then
+          INSTANCE_TYPES+=("$requested_instance_type")
+        fi
+      done
+      shift 2
+      ;;
     --cache-volume-name)
       CACHE_VOLUME_NAME="${2:-}"
       shift 2
       ;;
     --cache-volume-size-gib)
       CACHE_VOLUME_SIZE_GIB="${2:-}"
+      CACHE_VOLUME_SIZE_GIB_EXPLICIT=true
       shift 2
       ;;
     --cache-volume-type)
       CACHE_VOLUME_TYPE="${2:-}"
+      CACHE_VOLUME_TYPE_EXPLICIT=true
       shift 2
       ;;
     --cache-volume-iops)
       CACHE_VOLUME_IOPS="${2:-}"
+      CACHE_VOLUME_IOPS_EXPLICIT=true
       shift 2
       ;;
     --cache-volume-throughput-mbps)
       CACHE_VOLUME_THROUGHPUT_MBPS="${2:-}"
+      CACHE_VOLUME_THROUGHPUT_EXPLICIT=true
       shift 2
       ;;
     --cache-volume-device-name)
@@ -249,6 +273,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --estimated-hourly-cost-usd)
       ESTIMATED_HOURLY_COST_USD="${2:-}"
+      shift 2
+      ;;
+    --max-run-seconds)
+      MAX_RUN_SECONDS="${2:-}"
       shift 2
       ;;
     --ami-id)
@@ -439,6 +467,7 @@ resolve_spot_hourly_cost() {
 
 resolve_and_verify_retained_topology() {
   local proof_topology proof_volume_id proof_subnet_id proof_volume_hash
+  local proof_volume_size proof_volume_type proof_volume_iops proof_volume_throughput
   proof_topology="$(python3 - "$EXPECTED_PROOF" <<'PY'
 import hashlib
 import json
@@ -451,14 +480,38 @@ volume_id = volume.get("volume_id", "")
 subnet_id = surface.get("subnet_id", "")
 if not volume_id or not subnet_id:
     raise SystemExit("retained proof is missing cache volume or subnet identity")
-print(volume_id, subnet_id, hashlib.sha256(volume_id.encode()).hexdigest())
+print(
+    volume_id,
+    subnet_id,
+    hashlib.sha256(volume_id.encode()).hexdigest(),
+    volume.get("size_gib", ""),
+    volume.get("volume_type", ""),
+    volume.get("iops", ""),
+    volume.get("throughput_mbps", ""),
+)
 PY
 )"
-  read -r proof_volume_id proof_subnet_id proof_volume_hash <<<"$proof_topology"
+  read -r proof_volume_id proof_subnet_id proof_volume_hash proof_volume_size proof_volume_type proof_volume_iops proof_volume_throughput <<<"$proof_topology"
   RETAINED_CACHE_VOLUME_ID="$proof_volume_id"
   if [[ -z "$SUBNET_ID" ]]; then
     SUBNET_ID="$proof_subnet_id"
   fi
+  if [[ "$CACHE_VOLUME_SIZE_GIB_EXPLICIT" != true && -n "$proof_volume_size" && "$proof_volume_size" != "None" ]]; then
+    CACHE_VOLUME_SIZE_GIB="$proof_volume_size"
+  fi
+  if [[ "$CACHE_VOLUME_TYPE_EXPLICIT" != true && -n "$proof_volume_type" && "$proof_volume_type" != "None" ]]; then
+    CACHE_VOLUME_TYPE="$proof_volume_type"
+  fi
+  if [[ "$CACHE_VOLUME_IOPS_EXPLICIT" != true && -n "$proof_volume_iops" && "$proof_volume_iops" != "None" ]]; then
+    CACHE_VOLUME_IOPS="$proof_volume_iops"
+  fi
+  if [[ "$CACHE_VOLUME_THROUGHPUT_EXPLICIT" != true && -n "$proof_volume_throughput" && "$proof_volume_throughput" != "None" ]]; then
+    CACHE_VOLUME_THROUGHPUT_MBPS="$proof_volume_throughput"
+  fi
+  CACHE_VOLUME_SIZE_GIB="${CACHE_VOLUME_SIZE_GIB:-500}"
+  CACHE_VOLUME_TYPE="${CACHE_VOLUME_TYPE:-gp3}"
+  CACHE_VOLUME_IOPS="${CACHE_VOLUME_IOPS:-3000}"
+  CACHE_VOLUME_THROUGHPUT_MBPS="${CACHE_VOLUME_THROUGHPUT_MBPS:-125}"
   if [[ -z "$EXPECTED_CACHE_VOLUME_ID_SHA256" ]]; then
     EXPECTED_CACHE_VOLUME_ID_SHA256="$proof_volume_hash"
   fi
@@ -509,6 +562,18 @@ PY
     echo "run_aws_spot_remote_validation_lane: retained cache identity is ambiguous in the selected availability zone" >&2
     return 1
   }
+  if [[ "$CACHE_VOLUME_SIZE_GIB_EXPLICIT" != true ]]; then
+    CACHE_VOLUME_SIZE_GIB="$volume_size"
+  fi
+  if [[ "$CACHE_VOLUME_TYPE_EXPLICIT" != true ]]; then
+    CACHE_VOLUME_TYPE="$volume_type"
+  fi
+  if [[ "$CACHE_VOLUME_IOPS_EXPLICIT" != true ]]; then
+    CACHE_VOLUME_IOPS="$volume_iops"
+  fi
+  if [[ "$CACHE_VOLUME_THROUGHPUT_EXPLICIT" != true ]]; then
+    CACHE_VOLUME_THROUGHPUT_MBPS="$volume_throughput"
+  fi
   [[ "$volume_size" == "$CACHE_VOLUME_SIZE_GIB" && "$volume_type" == "$CACHE_VOLUME_TYPE" \
       && "$volume_iops" == "$CACHE_VOLUME_IOPS" && "$volume_throughput" == "$CACHE_VOLUME_THROUGHPUT_MBPS" ]] || {
     echo "run_aws_spot_remote_validation_lane: retained cache volume shape mismatch" >&2
@@ -535,7 +600,7 @@ verify_ssh_recovery_key() {
     echo "run_aws_spot_remote_validation_lane: SSH recovery key is not configured" >&2
     return 1
   }
-  key_mode="$(stat -f '%Lp' "$SSH_PRIVATE_KEY_PATH" 2>/dev/null || stat -c '%a' "$SSH_PRIVATE_KEY_PATH")"
+  key_mode="$(stat -c '%a' "$SSH_PRIVATE_KEY_PATH" 2>/dev/null || stat -f '%Lp' "$SSH_PRIVATE_KEY_PATH")"
   [[ "$key_mode" == "600" || "$key_mode" == "400" ]] || {
     echo "run_aws_spot_remote_validation_lane: SSH private key permissions must be 600 or 400" >&2
     return 1
@@ -772,6 +837,10 @@ if [[ -n "$COMMAND" ]]; then
   else
     cmd+=(--command "$COMMAND")
   fi
+fi
+
+if [[ -n "$MAX_RUN_SECONDS" ]]; then
+  cmd+=(--command-timeout-seconds "$MAX_RUN_SECONDS")
 fi
 
 for instance_type in ${INSTANCE_TYPES[@]+"${INSTANCE_TYPES[@]}"}; do

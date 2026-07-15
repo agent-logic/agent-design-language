@@ -46,8 +46,27 @@ case "$EVENT_NAME" in
   *) echo "run_aws_spot_ci_profile: unsupported --event-name: $EVENT_NAME" >&2; exit 2 ;;
 esac
 
-BASE_COMMIT="$(git -C "$ROOT_DIR" rev-parse --verify "${BASE_REF}^{commit}")"
-HEAD_COMMIT="$(git -C "$ROOT_DIR" rev-parse --verify "${HEAD_REF}^{commit}")"
+resolve_commit_ref() {
+  local label="$1"
+  local ref="$2"
+  local resolved
+  if resolved="$(git -C "$ROOT_DIR" rev-parse --verify "${ref}^{commit}" 2>/dev/null)"; then
+    printf '%s\n' "$resolved"
+    return 0
+  fi
+  if git -C "$ROOT_DIR" remote get-url origin >/dev/null 2>&1; then
+    git -C "$ROOT_DIR" fetch --no-tags origin "$ref" >/tmp/adl-spot-ci-fetch-"$label".log 2>&1 || true
+  fi
+  if resolved="$(git -C "$ROOT_DIR" rev-parse --verify "${ref}^{commit}" 2>/dev/null)"; then
+    printf '%s\n' "$resolved"
+    return 0
+  fi
+  echo "run_aws_spot_ci_profile: unable to resolve $label ref: $ref" >&2
+  exit 128
+}
+
+BASE_COMMIT="$(resolve_commit_ref base "$BASE_REF")"
+HEAD_COMMIT="$(resolve_commit_ref head "$HEAD_REF")"
 
 require_tool() {
   local label="$1"

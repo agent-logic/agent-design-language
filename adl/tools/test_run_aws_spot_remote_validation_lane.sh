@@ -28,7 +28,13 @@ path, account_hash = sys.argv[1:3]
 with open(path, "w", encoding="utf-8") as handle:
     json.dump({
         "account_identity": {"account_id_sha256": account_hash},
-        "cache_volume": {"volume_id": "vol-0123456789abcdef0"},
+        "cache_volume": {
+            "volume_id": "vol-0123456789abcdef0",
+            "size_gib": 100,
+            "volume_type": "gp3",
+            "iops": 3000,
+            "throughput_mbps": 125,
+        },
         "launch_surface": {"subnet_id": "subnet-0123456789abcdef0"},
     }, handle)
 PY
@@ -55,7 +61,7 @@ elif [[ "$1 $2" == "ec2 describe-volumes" ]]; then
     *'Volumes[0].State'*) echo available ;;
     *'Volumes[0].Tags'*) echo adl-aws-remote-validation-cache-volume ;;
     *'Volumes[0].AvailabilityZone'*) echo us-west-2a ;;
-    *'Volumes[0].Size'*) echo 500 ;;
+    *'Volumes[0].Size'*) echo 1000 ;;
     *'Volumes[0].VolumeType'*) echo gp3 ;;
     *'Volumes[0].Iops'*) echo 3000 ;;
     *'Volumes[0].Throughput'*) echo 125 ;;
@@ -239,7 +245,21 @@ case "$method" in
     ;;
 esac
 EOF
-chmod +x "$fake_bin/aws" "$fake_bin/adl-aws-remote-validation" "$fake_bin/curl"
+
+cat >"$fake_bin/stat" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" == "-c" && "${2:-}" == "%a" ]]; then
+  echo 600
+  exit 0
+fi
+if [[ "${1:-}" == "-f" && "${2:-}" == "%Lp" ]]; then
+  echo "unexpected GNU stat -f fallback" >&2
+  exit 1
+fi
+exec /usr/bin/stat "$@"
+EOF
+chmod +x "$fake_bin/aws" "$fake_bin/adl-aws-remote-validation" "$fake_bin/curl" "$fake_bin/stat"
 
 ADL_FAKE_GITHUB_API_LOG="$TMP/github-api.log" \
 ADL_GITHUB_API_BIN="$fake_bin/curl" \
@@ -314,6 +334,7 @@ ADL_FAKE_AWS_REMOTE_ARGS="$TMP/args.txt" \
 ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
 ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
 ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
 bash "$SCRIPT" \
   --run \
   --expected-proof "$proof" \
@@ -326,7 +347,8 @@ bash "$SCRIPT" \
   --git-ref origin/main \
   --out "$TMP/summary.json" \
   --artifact-dir "$TMP/artifacts" \
-  --instance-type m7a.2xlarge \
+  --instance-types m7a.2xlarge,c7a.2xlarge \
+  --max-run-seconds 900 \
   --json >"$TMP/run.out"
 
 grep -F "fixture remote validation passed" "$TMP/run.out" >/dev/null
@@ -339,6 +361,9 @@ grep -Fx -- "--issue" "$TMP/args.txt" >/dev/null
 grep -Fx -- "5191" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--instance-type" "$TMP/args.txt" >/dev/null
 grep -Fx -- "m7a.2xlarge" "$TMP/args.txt" >/dev/null
+grep -Fx -- "c7a.2xlarge" "$TMP/args.txt" >/dev/null
+grep -Fx -- "--command-timeout-seconds" "$TMP/args.txt" >/dev/null
+grep -Fx -- "900" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--spot-only" "$TMP/args.txt" >/dev/null
 grep -F 'INSTANCE_TYPES=("m7a.2xlarge" "c7a.2xlarge" "c7i.2xlarge")' "$SCRIPT" >/dev/null
 grep -Fx -- "--cache-volume-id" "$TMP/args.txt" >/dev/null
@@ -346,7 +371,7 @@ grep -Fx -- "vol-0123456789abcdef0" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--cache-volume-name" "$TMP/args.txt" >/dev/null
 grep -Fx -- "adl-aws-remote-validation-cache-volume" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--cache-volume-size-gib" "$TMP/args.txt" >/dev/null
-grep -Fx -- "500" "$TMP/args.txt" >/dev/null
+grep -Fx -- "1000" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--cache-volume-type" "$TMP/args.txt" >/dev/null
 grep -Fx -- "gp3" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--cache-volume-iops" "$TMP/args.txt" >/dev/null
@@ -397,6 +422,7 @@ ADL_FAKE_AWS_REMOTE_ARGS="$TMP/launch-args.txt" \
 ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
 ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
 ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
 bash "$SCRIPT" launch \
   --expected-proof "$proof" \
   --bin "$fake_bin/adl-aws-remote-validation" \
@@ -411,7 +437,7 @@ bash "$SCRIPT" launch \
   --instance-type m7a.2xlarge \
   --json >"$TMP/launch.out"
 grep -F 'status=launched run_id=fixture-launch' "$TMP/launch.out" >/dev/null
-for _ in $(seq 1 50); do
+for _ in $(seq 1 100); do
   [[ -f "$TMP/launch-artifacts/wrapper-final-summary.json" ]] && break
   sleep 0.1
 done
@@ -427,6 +453,7 @@ ADL_FAKE_AWS_REMOTE_ARGS="$TMP/resume-args.txt" \
 ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
 ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
 ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
 bash "$SCRIPT" \
   --run \
   --expected-proof "$proof" \
@@ -491,7 +518,7 @@ grep -F -- "git_ref must be a branch, tag, or SHA; HEAD is ambiguous" "$WORKFLOW
 grep -F -- "--profile env" "$WORKFLOW" >/dev/null
 grep -F -- "--check-account" "$WORKFLOW" >/dev/null
 grep -F -- "--json" "$WORKFLOW" >/dev/null
-grep -F -- "Verify Spot artifact redaction" "$WORKFLOW" >/dev/null
+grep -F -- "Sanitize and verify Spot artifact redaction" "$WORKFLOW" >/dev/null
 grep -F -- "AWS_SPOT_REMOTE_VALIDATION_SSH_PRIVATE_KEY_B64" "$WORKFLOW" >/dev/null
 grep -F -- "ssh-keygen -y -P ''" "$WORKFLOW" >/dev/null
 grep -F -- "include-hidden-files: false" "$WORKFLOW" >/dev/null
@@ -499,7 +526,7 @@ grep -F -- "Build Spot remote validation binary" "$WORKFLOW" >/dev/null
 grep -F -- "tools/aws_remote_validation/Cargo.toml" "$WORKFLOW" >/dev/null
 grep -F -- "adl-aws-remote-validation-cache-volume:/mnt/adl-cache" "$WORKFLOW" >/dev/null
 grep -F -- "ssh tail" "$WORKFLOW" >/dev/null
-grep -F -- "ADL_AWS_REMOTE_VALIDATION_SSH_ALLOWED_CIDR" "$WORKFLOW" >/dev/null
+grep -F -- "AWS_SPOT_REMOTE_VALIDATION_SSH_ALLOWED_CIDR" "$WORKFLOW" >/dev/null
 grep -F -- "if-no-files-found: warn" "$WORKFLOW" >/dev/null
 grep -F -- "ec2:RunInstances" "$SETUP_SCRIPT" >/dev/null
 if grep -F -- '"ec2:CreateVolume"' "$SETUP_SCRIPT" >/dev/null; then

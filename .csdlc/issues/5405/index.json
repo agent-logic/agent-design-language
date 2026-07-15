@@ -1,0 +1,122 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5405,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "a7bcb5fabc3dc437546be496d14aa2a6fdf78d8e19bb7bb5c2c1c7f0ee3f6456",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "404a8f967398da94c97c789b7050be8f22ece750b3c30d5a1c71ee8544fcc1cb",
+  "claim": {
+    "id": "claim-5405-wp13-review-fix",
+    "owner": "codex",
+    "generation": 2,
+    "acquired_unix_seconds": 1784155570,
+    "expires_unix_seconds": 1784159170,
+    "heartbeat_unix_seconds": 1784155570,
+    "branch": "codex/5405-wp13-guild-godel-economics-review-fix",
+    "worktree": ".worktrees/adl-wp-5405",
+    "protected_paths": [
+      "adl/src/scheduler.rs"
+    ],
+    "purpose": "Resolve #5403 WP-13 guild, Godel, and economics review findings"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5405/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5405/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-assigned-review-fix",
+      "revision": "41fa4be23fead9c7a1305031eab718184dd27dbce1b95b8b265e135d9163c092"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "26ef6e67b79a46ab51c37b258e97998c3c6c724846511ee61e9b5ac1b6afc8a6",
+      "rendered_digest": "3409a5e05600ba5e662d1aac8142c749b8d1be06f6d7f1f959729dbdbd4f64c8",
+      "ast_digest": "0130798f77d418e3b3f3fc11968cc8c9647d58630e0570b33ef2fc8533a67ab0"
+    },
+    "stp": {
+      "values_digest": "45ab4301dc05599dd86ff0b71212d6339db603f47a89eb6d87b907e68747b5d5",
+      "rendered_digest": "adb6ce631b995a12d83f540775f745dce84a25731345cf10648123a253b80a2a",
+      "ast_digest": "7718af05ccafa133b4d07d484c43c5a870cb37e5a0f1da2d43dfcffbb6c41dd7"
+    },
+    "spp": {
+      "values_digest": "19b428830cd270f584d256dd7a843d293675555f91f8f923bab59662d59d3c74",
+      "rendered_digest": "296c104d9bb184c9c2ffce02ec2eb89ef782ed54d064857b0b2dd0d8a168677c",
+      "ast_digest": "b77463faa1073cedb6d4f7383719eb9d6bbe2427bbaa330c8e92c6d752abb952"
+    },
+    "vpp": {
+      "values_digest": "78951e0d331022f0696a56702e6cf966be544b5f11bcca74e2f91a143ed74c27",
+      "rendered_digest": "e073d3830f62baee06cc3e8dbd6c02adfa5d4dd950cb6f3a78184ff630a2cc62",
+      "ast_digest": "83a8d0efd57f1dcfc8a951e33e3cd5ae4b17bdfff0c41abcde177f07f046889d"
+    },
+    "srp": {
+      "values_digest": "e50d87e7fb21f4eeb22e9a526af49e975daca4475b2adbfd40d294d110c5040a",
+      "rendered_digest": "1c4a2bc9201b2e6308697f5f7bcdf52fc3df61ff3595ecbf84cdb655b9c5c8e2",
+      "ast_digest": "7232a4a7c88709461d5e6b614f95a296a66bf3d017bffed9560e854ddd3fe2a4"
+    },
+    "sor": {
+      "values_digest": "81feef4cc3d87ef9f6c651b5afb0564b7b8138c377149d05e6b7a2f58f6d92f9",
+      "rendered_digest": "abee65aea702c884a505ca8fc2ecef0b987c0539d31571395bda1e299e5bbf0f",
+      "ast_digest": "b6ef3afb81fe6696b1eb008533e86d2638026e968c51996be117dc88450198f7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "implementation and focused proof completed for WP-13 review fix"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "record implemented WP-13 economics review-fix evidence",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved the WP-13 economics validator finding by rejecting duplicate semantic cheapest-validated-outcome task policies.\",\"changes\":[\"Added normalized semantic duplicate detection for cheapest-validated-outcome task policies.\",\"Added a regression test for whitespace-normalized duplicate semantic policy rows.\"],\"artifacts\":[\"adl/src/scheduler.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "implementation and focused proof completed for WP-13 review fix",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

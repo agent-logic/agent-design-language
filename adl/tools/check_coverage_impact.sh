@@ -330,6 +330,9 @@ candidate_filter_for_path() {
     adl/src/chronosense.rs|adl/src/chronosense/*.rs)
       printf 'chronosense'
       ;;
+    adl/src/scheduler.rs)
+      printf 'scheduler'
+      ;;
     adl/src/cli/run_artifacts/runtime/*.rs)
       printf 'run_state'
       ;;
@@ -386,6 +389,9 @@ nextest_expression_for_filter() {
       ;;
     trace_schema_v1)
       printf 'test(trace_schema_v1)'
+      ;;
+    scheduler)
+      printf 'test(/^scheduler::/)'
       ;;
     pr_dispatch_support)
       printf 'test(pr_dispatch_support)'

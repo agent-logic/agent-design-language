@@ -1,0 +1,20 @@
+{
+  "issue": 5405,
+  "base_branch": "main",
+  "branch": "codex/5405-wp13-guild-godel-economics-review-fix",
+  "worktree": ".worktrees/adl-wp-5405",
+  "claim": {
+    "id": "claim-5405-wp13-review-fix",
+    "owner": "codex",
+    "generation": 0,
+    "acquired_unix_seconds": 1784155570,
+    "expires_unix_seconds": 1784159170,
+    "heartbeat_unix_seconds": 1784155570,
+    "branch": "codex/5405-wp13-guild-godel-economics-review-fix",
+    "worktree": ".worktrees/adl-wp-5405",
+    "protected_paths": [
+      "adl/src/scheduler.rs"
+    ],
+    "purpose": "Resolve #5403 WP-13 guild, Godel, and economics review findings"
+  }
+}
