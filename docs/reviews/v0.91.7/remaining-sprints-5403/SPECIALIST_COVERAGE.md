@@ -16,6 +16,7 @@ that transient subagent transcripts are durable repository artifacts.
 | Runtime v3 code, architecture, and security | component assembly, continuity, identity memory, private state, guardian, selector, networking, and Observatory | `RUNTIME_V3_PARITY_REVIEW_5174.md`; `RUNTIME_V3_CUTOVER_REVIEW_5227.md`; `RUNTIME_V3_READINESS_REVIEW_5247.md`; `RUNTIME_V3_LIVE_PARITY_REVIEW_5276.md` | no unresolved specialist disagreement |
 | Runtime v3 tests and release proof | default suites, ignored live/soak surfaces, parity fixtures, release claims, and evidence completeness | `RUNTIME_V3_PARITY_REVIEW_5174.md`; `RUNTIME_V3_CUTOVER_REVIEW_5227.md`; `RUNTIME_V3_READINESS_REVIEW_5247.md`; `RUNTIME_V3_LIVE_PARITY_REVIEW_5276.md` | no unresolved specialist disagreement |
 | independent review quality | all ten packets, synthesis arithmetic, citations, mappings, release boundaries, and discovery origins | `REVIEW_QUALITY_EVALUATION.md` | twelve findings accepted and repaired; final confirmation passed with no remaining actionable finding |
+| refreshed register and lifecycle review | canonical register, remediation routing, current-main integration, and typed lifecycle truth | `REFRESHED_REVIEW_QUALITY_EVALUATION.md` | six findings fixed or not reproduced; SPP status operation routed to #5406 |
 
 All lanes reviewed the same source baseline. Live GitHub closure state was
 observed on 2026-07-15 and is separately retained in

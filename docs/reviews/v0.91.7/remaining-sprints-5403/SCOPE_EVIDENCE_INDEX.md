@@ -83,5 +83,5 @@ Primary retained evidence is under `docs/milestones/v0.91.7/review/wp13_*`.
 - GitHub state was read live on 2026-07-15.
 - Child closure and PR association are inventory facts, not proof that the
   implementation or retained evidence is correct.
-- Testing-discovered bugs and review-discovered findings will be identified
+- Testing-discovered bugs and review-discovered findings are identified
   separately in each packet.

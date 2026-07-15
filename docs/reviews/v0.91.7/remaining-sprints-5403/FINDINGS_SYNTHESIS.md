@@ -94,5 +94,6 @@ They are grouped into shared remediation where one root contract owns the fix.
 ## Pending Closeout Work
 
 1. Complete refreshed independent review after the current-main merge and
-   canonical register update.
+   canonical register update; typed SPP status reconciliation is routed to
+   #5406 because direct card edits are prohibited.
 2. Republish and close out #5403 after green integration checks.

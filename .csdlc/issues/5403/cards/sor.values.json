@@ -7,13 +7,13 @@
     "title": "[v0.91.7][review][sprint] Complete remaining closed-sprint reviews",
     "slug": "v0-91-7-review-complete-remaining-closed-sprint-reviews",
     "version": "v0.91.7",
-    "generation": 9
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Integrated current origin/main after #5383 terminal closeout and reconciled the canonical v0.91.7 sprint review register with all ten #5403 packets.",
+      "summary": "Completed ten findings-first sprint reviews, canonical register reconciliation, exact closure mapping, remediation routing, and refreshed quality repairs.",
       "actual_changes": [
         "Added ten separate sprint review packets",
         "Added cross-sprint synthesis with severity and disposition totals",
@@ -23,12 +23,17 @@
         "Corrected WP-12, WP-13, and WP-21 status rows",
         "Replaced stale tools, WP-07, and WP-07A sprint rows with findings-first review truth",
         "Added Runtime v3 parity, cutover, readiness, and Observatory sprint rows",
-        "Retained Runtime v3 opt-in/default rollback and remote Observatory exposure boundaries"
+        "Retained Runtime v3 opt-in/default rollback and remote Observatory exposure boundaries",
+        "Expanded the typed claim to include the canonical register after #5383 release",
+        "Added acceptance-criterion-specific validation coverage instead of attributing all proof to whitespace checking",
+        "Corrected #5409 to four findings plus a retained non-claim boundary",
+        "Retained all ten remediation follow-ups in the typed SOR"
       ],
       "artifacts": [
         "docs/reviews/v0.91.7/remaining-sprints-5403",
         "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-        "docs/reviews/v0.91.7/remaining-sprints-5403/FINDINGS_SYNTHESIS.md"
+        "docs/reviews/v0.91.7/remaining-sprints-5403/FINDINGS_SYNTHESIS.md",
+        "docs/reviews/v0.91.7/remaining-sprints-5403/VALIDATION_COVERAGE.md"
       ],
       "actual_validation": [
         {
@@ -51,13 +56,45 @@
           "purpose": "Verify current-main integration, register reconciliation, and review packet edits are patch-clean",
           "outcome": "passed",
           "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/FINDINGS_SYNTHESIS.md"
+        },
+        {
+          "command": [
+            "bash",
+            "-lc",
+            "verify ten packet files and canonical register links"
+          ],
+          "purpose": "Prove AC-1 and AC-5 packet existence and canonical register linkage independently of whitespace checking",
+          "outcome": "passed",
+          "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/VALIDATION_COVERAGE.md"
+        },
+        {
+          "command": [
+            "bash",
+            "-lc",
+            "for f in WP12_REVIEW_4639.md WP13_REVIEW_4640.md WP21_REVIEW_4648.md TOOLS_RELIABILITY_REVIEW_5036.md WP07_HARDENING_REVIEW_5045.md WP07A_REARCHITECTURE_REVIEW_5121.md RUNTIME_V3_PARITY_REVIEW_5174.md RUNTIME_V3_CUTOVER_REVIEW_5227.md RUNTIME_V3_READINESS_REVIEW_5247.md RUNTIME_V3_LIVE_PARITY_REVIEW_5276.md; do test -f \"docs/reviews/v0.91.7/remaining-sprints-5403/$f\" && rg -q \"remaining-sprints-5403/$f\" docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md || exit 1; done"
+          ],
+          "purpose": "Execute the exact AC-1 and AC-5 packet existence and canonical register linkage check",
+          "outcome": "passed",
+          "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/VALIDATION_COVERAGE.md"
+        },
+        {
+          "command": [
+            "bash",
+            "-lc",
+            "for n in {5404..5413}; do gh issue view \"$n\" --json state --jq '.state' | rg -q '^OPEN$' || exit 1; done"
+          ],
+          "purpose": "Prove AC-4 live remediation routing for all ten separate issues",
+          "outcome": "passed",
+          "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/FINDINGS_SYNTHESIS.md"
         }
       ],
       "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
-      "follow_ups": []
+      "follow_ups": [
+        "Open remediation issues retained from the synthesis: #5404, #5405, #5406, #5407, #5408, #5409, #5410, #5411, #5412, and #5413."
+      ]
     }
   }
 }
