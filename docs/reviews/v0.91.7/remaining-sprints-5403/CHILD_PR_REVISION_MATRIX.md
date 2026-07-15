@@ -1,0 +1,148 @@
+# Child, Closing PR, And Merged Revision Matrix
+
+Issue: #5403
+Observed: 2026-07-15 from live GitHub issue and pull-request state
+
+This is the auditable closure chain for every declared child in the ten sprint
+reviews. Revisions are the GitHub-reported merge commits. Umbrellas closed
+without a closing PR are represented by their reviewed children; WP-21 has no
+declared child wave, so its planning PR and later review PR are listed.
+
+## WP-12 #4639
+
+| Child | PR | Merged revision |
+| ---: | ---: | --- |
+| #4656 | #5129 | `a6f1062b2ca19c9e5bf580f3c7eef1645f53bccf` |
+| #4657 | #5132 | `884d1d7c412d3d7a78bcb39b7aed0005621a968d` |
+| #4658 | #5137 | `f06ea49b796f45e39e7cac09c90255940c724bda` |
+| #4659 | #5146 | `a6a1416e672704be78b71e35e7766758ace42663` |
+| #4660 | #5151 | `5b01cebfbcb7428d0069740db1fae3ad802d6ff1` |
+| #4914 | #5160 | `222b773115da33688fb3b1f1cf1f4ac0b4d258e6` |
+| #4917 | #5139 | `0fa848e7792171f79cd8dc71ae2b96024aa2e3d5` |
+| #4920 | #5144 | `afecd4d68cd434a5665b2b6af74d4c9a9e6afa1a` |
+
+## WP-13 #4640
+
+| Child | PR | Merged revision |
+| ---: | ---: | --- |
+| #4752 | #5165 | `fe4560dd38544c5d3fbd866c0fbdc5a4824741d3` |
+| #4753 | #5171 | `719f51c71c99e9e3a5804142b6b019e93f7559bc` |
+| #4754 | #5185 | `b355e15e5378cc1f290e575085eb59b19272b80a` |
+| #4755 | #5189 | `c6017881e35d9152deeffb1293b23e6628ebd6e6` |
+| #4756 | #5193 | `600413d160d06266d6943418224db5973a3f2359` |
+| #4757 | #5197 | `157a92977a1e79f78f2190c49c1aab64952a4962` |
+| #4640 closeout | #5199 | `91220412955649e9806cd7fd72ce44a81eb024d3` |
+
+## WP-21 #4648
+
+| Surface | PR | Merged revision |
+| ---: | ---: | --- |
+| #4648 planning | #4901 | `6df67fe10fbb1629d2536455b64a6216a5bf8fe8` |
+| #4649 later review | #5142 | `57009f2d06ff61f74bff69ae967de2643dfb79ea` |
+
+## Tools Reliability #5036
+
+| Child | PR | Merged revision |
+| ---: | ---: | --- |
+| #5034 | #5056 | `34a01b9f7f54ca2fa2e0b76a8a60606e6c942e33` |
+| #5032 | #5058 | `9ea9298894f8bb09349f7ca2504e6f98e923ea3a` |
+| #5037 | #5046 | `8d129a6b7392ae91cecfac7b7c1c8573fdb952e8` |
+| #5031 | #5060 | `40bbe721b93a5054eaad0cdc9e01b03e09668552` |
+| #5028 | #5030 | `30660d741456e2c7ec6765b384efb04329760a45` |
+| #5012 | #5029 | `0ec4d6a047aba00c61eabbd6284e48b18426471e` |
+| #5002 | #5066 | `6c6cabf1782e6688981134fa36a356625db67473` |
+| #4999 | #5071 | `de28105573ecb735c25ebe42852f96b3704218dd` |
+| #4995 | #5074 | `40a0c8d471e39b6be3278324e3111a0a8619b616` |
+| #4987 | #5103 | `507495693525db12ca746f7022dfc96795a7342c` |
+| #4938 | #5128 | `4c86b17b53765525057b2929a8b2324ab51ec6d7` |
+
+## WP-07 Hardening #5045
+
+| Child | PR | Merged revision |
+| ---: | ---: | --- |
+| #5005 | #5043 | `f921a914fe67ddb0432984dab41d9388602fb046` |
+| #5042 | #5049 | `9807d0b2e1762d958461cf3433a547d3336e2bca` |
+| #4977 | #5054 | `44cef135562d1c0d589265b31394b40315b9a2d2` |
+| #4979 | #5055 | `6ee43551c8be2fc6a2c0017107a2452350cc157d` |
+| #5003 | #5065 | `17718563005aa1fd706381bba61061a0449a0046` |
+| #4985 | #5089 | `961cf1e6d4e2f5d3a80bf9e2068b9abd000538e9` |
+| #4974 | #5059 | `b37b42a001542687f94981b83137f6dbe83cfebd` |
+| #5040 | #5063 | `6a9cb862c8a5f0df45d8b272cc88378463ce0cb1` |
+| #5039 | #5064 | `a17e97b423622673fd884ca34babbe1d27a02e77` |
+| #5041 | #5093 | `e3703f157a663366822ac4602f014504e069fbf9` |
+| #4906 | #5105 | `bbccd7d92157715a95a43928288dfc1fb1db3704` |
+
+## WP-07A #5121
+
+| Child or source | PR | Merged revision |
+| ---: | ---: | --- |
+| #5068 | #5109 | `6d9b8cc35d7e06fd1b74ada9c17791a39666170a` |
+| #5110 | #5148 | `9793c2466010e6a53a7a29c324c80569f9e42e85` |
+| #5111 | #5172 | `2013a6e115ce178e7e8b4b14c11373fa3cf60698` |
+| #5116 | #5204 | `880202aa9fdb84764a5b9c9298c4cfa296291f1d` |
+| #5117 | #5205 | `25fa0fe2c2c7bcd4d3db6fc71c6d573e48dbbf07` |
+| #5112 | #5186 | `7318c525538ad1e9ee604540767cc553b6719df3` |
+| #5113 | #5187 | `b984225a99d372a8c165955da6e53c50d920ec03` |
+| #5118 | #5212 | `c037b662d32235834c7fda02f315e2dc2f66109e` |
+| #5124 | #5162 | `f252df7b7423661f044e1f1236930810a225c348` |
+| #5125 | #5255 | `9f63ac8b5827ce7d2d4628d008af44d0f14150a6` |
+| #5122 | #5156 | `3d755a8c6db7ae7d791e4a4fbfd9d08cce4c6af7` |
+| #5123 | #5158 | `7cca005c9d2d0cf17825194988d707dc98f18411` |
+| #5119 | #5206 | `020bba17deb9f172e91a2ec5c0599cf42e4defe9` |
+| #5126 | #5241 | `c4ad331288043b467be29a1dd61b299ec212b5fa` |
+| #5115 | #5202 | `4ca02d941acc3359579de1c9f3e0ca729941025a` |
+| #5114 | #5190 | `19944091009eb7a80364c8235df5795463ccdae0` |
+| #5120 | #5265 | `8ab73758bb9111c687e69d235442e5de62aac19b` |
+| #5121 closeout | #5131 | `7e4f2441c5bcc07590af0917c1d92d0398ccafee` |
+
+## Runtime v3 Parity #5174
+
+| Child | PR | Merged revision |
+| ---: | ---: | --- |
+| #5170 | #5173 | `2f25f244ea217f51b7a02dc085131b661a87fdd1` |
+| #5176 | #5188 | `1c03e8d6a3120ccaaa1480563ef4502da6beca33` |
+| #5182 | #5192 | `61b310d85aadf43e6e01c9ea84ba21368b267b85` |
+| #5181 | #5195 | `578918f9e69a518a3b46f4c31fb352d34776493a` |
+| #5177 | #5198 | `d427044137814097fe1343fb87a750d855c7ee9b` |
+| #5180 | #5201 | `99fed4daecd300c43198132c4ff57ddf39151942` |
+| #5178 | #5203 | `900d69e22909bb8f2145a7401cd8c3f6a947a68b` |
+| #5183 | #5207 | `6f445b0ce6cf596b2d7f5c2ef4c4a499e6a5d432` |
+| #5179 | #5209 | `a3fa35e6052031810a8d4c573143168ca8b8ec53` |
+| #5175 | #5213 | `b4074d4fca69ac7286805a1156e8000b9b5d6285` |
+
+## Runtime v3 Cutover #5227
+
+| Child or source | PR | Merged revision |
+| ---: | ---: | --- |
+| #5218 | #5223 | `4c4522971f484cf3d6766152b360538a021b4ae7` |
+| #5225 | #5230 | `81917a32b2ecef356b3b888b2a811ab4bff867ce` |
+| #5219 | #5242 | `24be9e075314ae4e935d1f62607b1af65bcf8154` |
+| #5222 | #5245 | `14f72c2b0e4d372e86c241fd57813265d6eb1d1c` |
+| #5220 | #5273 | `e4048e69d3cf69c99aea040f82f01f34c35807c1` |
+
+## Runtime v3 Readiness #5247
+
+| Child | PR | Merged revision |
+| ---: | ---: | --- |
+| #5248 | #5259 | `06662babd76063d50722e48cb24ac4e46fadd9a6` |
+| #5249 | #5261 | `6a8833dba49a486a4af5b2a6f5c8c578ee545124` |
+| #5250 | #5262 | `dc1fe91deb8dfc260e942ce9a71318014c76e87b` |
+| #5251 | #5264 | `257c7603359e3a65ab59f5d6de4f8af123633228` |
+| #5252 | #5266 | `55668e6ee7a79a552a4969c7e8cf13ad748103a7` |
+| #5253 | #5269 | `e53982231a3c6b2a85ca365f43e192b4c22c8b5f` |
+| #5254 | #5271 | `ace7184f67b8e8a42404516d9c99979b34155148` |
+
+## Runtime v3 Live Parity #5276
+
+| Child | PR | Merged revision |
+| ---: | ---: | --- |
+| #5277 | #5291 | `03d9c5e0656ec0c1fbe5399eec6e475f09ec4611` |
+| #5278 | #5297 | `db936273806c07802a9b23836604c69573228260` |
+| #5279 | #5299 | `d8e448de6136e9320546b9c3562fe4a5245a89d7` |
+| #5280 | #5302 | `cf32f207ec4114b9ef75a472a2a3b64ac37aa658` |
+| #5281 | #5310 | `9aaaeb92d653f6eee01dacba91d384a15deb9110` |
+| #5282 | #5313 | `5288671f50a705bd6ef782771dfdc4374db8a74f` |
+| #5283 | #5314 | `e5af548820d6fb0ef449024e757b049a875574d9` |
+| #5284 | #5288 | `46a782205cbca7bbf52b0d898be0a3a16df96080` |
+| #5285 | #5315 | `d695819621f7eca98d42ba7689a5805a1f088319` |
+| #5286 | #5317 | `d3252737680136f6f6e628771dcd87e7984f7e69` |
