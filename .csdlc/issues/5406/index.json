@@ -3,13 +3,13 @@
   "issue": 5406,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dd7cf0bd89553833f2914daff64cecdce443600f09e0b5b36d4027d9ca9dc3d3",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "6ddca0175eb950714875c96aae729ec06312e987dbac1e5a3f38e60995a16d5f",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "2370ca84e4dba9a7dce867f888c33ec70046a9767c4b808ee9ffa5ac7c8e6230",
   "claim": {
     "id": "claim-5406-csdlc-v2-records-truth",
     "owner": "codex",
-    "generation": 14,
+    "generation": 16,
     "acquired_unix_seconds": 1784154300,
     "expires_unix_seconds": 1784240700,
     "heartbeat_unix_seconds": 1784154300,
@@ -22,8 +22,110 @@
     ],
     "purpose": "Fix typed v2 lifecycle retention, claim scope, SPP status, and VPP proof-role findings"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent-mendel",
+    "assigned_by": "codex",
+    "revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+    "scope": [
+      "csdlc-v2",
+      "docs/reviews/v0.91.7/csdlc-v2-5406"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent-mendel",
+    "scope": [
+      "csdlc-v2",
+      "docs/reviews/v0.91.7/csdlc-v2-5406"
+    ],
+    "reviewed_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+    "findings": [
+      {
+        "id": "5406-R1",
+        "severity": "p1",
+        "summary": "Expired foreign claims could bypass stale-claim recovery during scope amendment",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+        "route": null
+      },
+      {
+        "id": "5406-R2",
+        "severity": "p2",
+        "summary": "Legacy absolute closeout receipt paths could not be retried and backfilled",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+        "route": null
+      },
+      {
+        "id": "5406-R3",
+        "severity": "p2",
+        "summary": "Terminal reconciliation did not bind an exact dedicated branch and worktree",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+        "route": null
+      },
+      {
+        "id": "5406-R4",
+        "severity": "p2",
+        "summary": "Terminal receipts omitted authored design and diagram evidence",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+        "route": null
+      },
+      {
+        "id": "5406-R5",
+        "severity": "p2",
+        "summary": "Receipt conflict detection happened after local legacy normalization",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+        "route": null
+      },
+      {
+        "id": "5406-R6",
+        "severity": "p2",
+        "summary": "Reconciliation had a design and diagram check-copy race",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+        "route": null
+      },
+      {
+        "id": "5406-R7",
+        "severity": "p2",
+        "summary": "Existing receipt matching omitted released claim topology",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+        "route": null
+      },
+      {
+        "id": "5406-R8",
+        "severity": "p2",
+        "summary": "Identical design and diagram paths could make receipt retention fail after closeout",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:8b86a18e6e2979a84cd047feacdbe0ba9b747bd1:74bd4d11f30206925a9f1879a36d23ff2843b2e0c609235de7793770ac9f4980",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "SPP S4 remains pending until the merged operations are applied to #5403, then terminal reconciliation will retain that post-merge truth."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +140,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d9656d6bbd78f2c352b7400b4d847a101a5fc4dcac562ff414c7a8cb9ac9979b",
+      "values_digest": "9db6a7e9c59569186de7f8b13c2deeb076b168e9834a4905841e117935704043",
       "rendered_digest": "dd1f6693ee7962d42ffc557389aeeed510fc7eb8d203197708aa973438c0386a",
       "ast_digest": "80fa6172e80165cdd7c23352b1a955909575c0575464ac8eda2c99714acb59ce"
     },
     "stp": {
-      "values_digest": "2c3a7bae87400aff1b55b07be05d17ce6e53ea7b630c4828e502b030a5cc7f86",
+      "values_digest": "b90b085bb794d5e0575c8841e967a03602b9cd18571488e4e9677da41bd2ebf1",
       "rendered_digest": "df10dbfcefa0e318c9545c091738793fdcfad33ea552036d6ca4a7bbb43d6661",
       "ast_digest": "e51c4ae0eab4a901ce410fd51a8d560c4846d4e50bd62671fe96883116d11124"
     },
     "spp": {
-      "values_digest": "bd5bc9568b711beca37b87b77b70754180ed87e1be270da579407c332896a9d8",
+      "values_digest": "f6cb597ef9ae62dd28c0de6c7e67cfd94b3a3c473afc3a89a963cfab17ecb69e",
       "rendered_digest": "bfb54a2d4f80b8d9c29ebf8e13158ec2abc86f391d550025bb843a1b8e95a583",
       "ast_digest": "ff56dc76702789375705c4dbaa2c84ed77d909cb80cdf30c1019066f5840d27b"
     },
     "vpp": {
-      "values_digest": "cc921bf31a5da977aa15d152f4f38558a87a7cd7f1ded68f3e295c07c635eccc",
+      "values_digest": "894d43f5b54f935612d49b2602e666b3a3337f434306c81d2c65d7093dfcc150",
       "rendered_digest": "5f521a636a885181cb956bb76a9587dbda7815e345626c955a4e8304ef7038e9",
       "ast_digest": "14fbf162a6f2b5b904c08cd5f8ff6b660e3a9a4880a86f3eca68d99c0e73a212"
     },
     "srp": {
-      "values_digest": "516664dfa69ea4318b4ecc483b78578111898564c1c4ceff8a263cd1c6b32aaa",
-      "rendered_digest": "17c6aae57f54447be141cb52301affa3f1e421f4d8e679c8c2c94b5d12effc75",
-      "ast_digest": "785a76c56e8fd04afc8c9dcfc106637e12eba4f617300acbbb5c1828b980ad10"
+      "values_digest": "5f06696e9ea025e4599671b46453ba2eb11d4d540e46c8bcf918a882a42b97e1",
+      "rendered_digest": "5d0df2501810f6e06b6efb29bf82e38ec7742f9325d5287ddf80b04475afeaa5",
+      "ast_digest": "9661fa806c2c77c20ed54a171715506b6172b670b4275102b179ac11e8e0c4b4"
     },
     "sor": {
-      "values_digest": "73ec9053eb607fa430068ae8699c343a8238d09937d13a63088a9c44179b75db",
+      "values_digest": "8c7d20df5a8a81bb93ae88c679c497ef0b4a6e1df0e59cd9910f98ab6b4fbed4",
       "rendered_digest": "665fcde3f514fd5a898d0be4f19597dd46ef225fbcbef19a8befb2a6d005b1d7",
       "ast_digest": "73b403720d402ec69b0c3b13b2b8ddbf1db97d2b23409931c546f22179633283"
     }
@@ -89,6 +191,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Implementation and planned validation completed"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Exact-revision review passed with all actionable findings fixed"
     }
   ],
   "audit": [
@@ -203,6 +312,27 @@
       "actor": "codex",
       "reason": "Record final edge-case warning-free lint proof",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Final warning-free compile proof after all review fixes\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "Exact-revision review passed with all actionable findings fixed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
