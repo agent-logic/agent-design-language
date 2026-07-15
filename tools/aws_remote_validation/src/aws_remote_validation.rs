@@ -101,6 +101,7 @@ pub struct AwsRemoteValidationConfig {
     pub ssh_private_key_path: Option<PathBuf>,
     pub ssh_user: Option<String>,
     pub ssh_allowed_cidr: Option<String>,
+    pub cache_volume_id: Option<String>,
     pub cache_volume_name: Option<String>,
     pub cache_volume_size_gib: Option<i32>,
     pub cache_volume_type: Option<String>,
@@ -116,6 +117,7 @@ pub struct AwsRemoteValidationConfig {
     pub security_group_id: String,
     pub instance_profile_name: String,
     pub instance_types: Vec<String>,
+    pub allow_on_demand_fallback: bool,
     pub budget_name: Option<String>,
     pub expected_max_cost_usd: Option<f64>,
     pub poll_interval_seconds: u64,
@@ -139,7 +141,8 @@ impl AwsRemoteValidationConfig {
         if self.instance_types.is_empty() {
             return Err(anyhow!("at least one --instance-type is required"));
         }
-        let cache_volume_enabled = self.cache_volume_name.is_some()
+        let cache_volume_enabled = self.cache_volume_id.is_some()
+            || self.cache_volume_name.is_some()
             || self.cache_volume_size_gib.is_some()
             || self.cache_volume_type.is_some()
             || self.cache_volume_iops.is_some()
@@ -265,6 +268,7 @@ pub struct LaunchSurfaceRecord {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct CacheVolumeRequest {
+    pub volume_id: Option<String>,
     pub name: String,
     pub size_gib: i32,
     pub volume_type: String,
@@ -662,6 +666,7 @@ pub struct EventRecord {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LaunchSpec {
+    pub run_id: String,
     pub instance_type: String,
     pub purchase_option: PurchaseOption,
     pub ami_id: String,
@@ -848,6 +853,7 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     let launch_timer = Instant::now();
     'launch: for instance_type in &config.instance_types {
         let spot_spec = LaunchSpec {
+            run_id: config.run_id.clone(),
             instance_type: instance_type.clone(),
             purchase_option: PurchaseOption::Spot,
             ami_id: config.ami_id.clone(),
@@ -916,6 +922,9 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             }
         }
 
+        if !config.allow_on_demand_fallback {
+            continue 'launch;
+        }
         let on_demand_spec = LaunchSpec {
             purchase_option: PurchaseOption::OnDemand,
             ..spot_spec
@@ -1467,6 +1476,7 @@ fn build_cache_volume_request(config: &AwsRemoteValidationConfig) -> Option<Cach
         return None;
     }
     Some(CacheVolumeRequest {
+        volume_id: config.cache_volume_id.clone(),
         name: name.to_string(),
         size_gib: config.cache_volume_size_gib.unwrap_or(200),
         volume_type: config
@@ -1736,26 +1746,41 @@ impl LiveAwsRemoteValidationAdapter {
         request: &CacheVolumeRequest,
         availability_zone: &str,
     ) -> std::result::Result<CacheVolumeRecord, AwsAdapterError> {
-        let describe = self
-            .ec2
-            .describe_volumes()
-            .filters(
-                ec2::types::Filter::builder()
-                    .name("tag:Name")
-                    .values(request.name.clone())
-                    .build(),
-            )
-            .filters(
-                ec2::types::Filter::builder()
-                    .name("availability-zone")
-                    .values(availability_zone.to_string())
-                    .build(),
-            )
-            .send()
-            .await
-            .map_err(classify_ec2_error)?;
+        let mut describe_request = self.ec2.describe_volumes();
+        if let Some(volume_id) = request.volume_id.as_deref() {
+            describe_request = describe_request.volume_ids(volume_id);
+        } else {
+            describe_request = describe_request
+                .filters(
+                    ec2::types::Filter::builder()
+                        .name("tag:Name")
+                        .values(request.name.clone())
+                        .build(),
+                )
+                .filters(
+                    ec2::types::Filter::builder()
+                        .name("availability-zone")
+                        .values(availability_zone.to_string())
+                        .build(),
+                );
+        }
+        let describe = describe_request.send().await.map_err(classify_ec2_error)?;
         if let Some(volume) = describe.volumes().first() {
             let volume_id = volume.volume_id().unwrap_or_default().to_string();
+            let volume_az = volume.availability_zone().unwrap_or_default();
+            let volume_name = volume
+                .tags()
+                .iter()
+                .find(|tag| tag.key() == Some("Name"))
+                .and_then(|tag| tag.value())
+                .unwrap_or_default();
+            if volume_az != availability_zone || volume_name != request.name {
+                return Err(AwsAdapterError {
+                    code: Some("CacheVolumeIdentityMismatch".to_string()),
+                    message: "retained cache volume name or availability zone did not match the launch request".to_string(),
+                    spot_fallback_permitted: false,
+                });
+            }
             let state = volume
                 .state()
                 .map(|value| value.as_str().to_string())
@@ -1785,6 +1810,14 @@ impl LiveAwsRemoteValidationAdapter {
                 mount_path: request.mount_path.clone(),
                 created: false,
                 attachment_state: state,
+            });
+        }
+
+        if request.volume_id.is_some() {
+            return Err(AwsAdapterError {
+                code: Some("RetainedCacheVolumeMissing".to_string()),
+                message: "the explicitly selected retained cache volume was not found".to_string(),
+                spot_fallback_permitted: false,
             });
         }
 
@@ -2291,19 +2324,39 @@ impl LiveAwsRemoteValidationAdapter {
                 .await;
             let _ = self
                 .iam
+                .delete_role_policy()
+                .role_name(role_name)
+                .policy_name(BUILDER_IMAGE_ECR_ROLE_POLICY_NAME)
+                .send()
+                .await;
+            let _ = self
+                .iam
                 .detach_role_policy()
                 .role_name(role_name)
                 .policy_arn("arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore")
                 .send()
                 .await;
-            match self.iam.delete_role().role_name(role_name).send().await {
-                Ok(_) => cleanup.role_deleted = Some(true),
-                Err(err) => {
-                    cleanup.role_deleted = Some(false);
-                    cleanup
-                        .notes
-                        .push(format!("Failed deleting role '{}': {}", role_name, err));
+            let mut role_deleted = false;
+            let mut last_error = None;
+            for _ in 0..6 {
+                match self.iam.delete_role().role_name(role_name).send().await {
+                    Ok(_) => {
+                        role_deleted = true;
+                        break;
+                    }
+                    Err(err) => {
+                        last_error = Some(err.to_string());
+                        sleep(Duration::from_secs(2)).await;
+                    }
                 }
+            }
+            cleanup.role_deleted = Some(role_deleted);
+            if !role_deleted {
+                cleanup.notes.push(format!(
+                    "Failed deleting role '{}' after bounded retries: {}",
+                    role_name,
+                    last_error.unwrap_or_else(|| "unknown error".to_string())
+                ));
             }
         }
 
@@ -2740,6 +2793,12 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
                         ec2::types::Tag::builder()
                             .key("Name")
                             .value("adl-aws-remote-validation")
+                            .build(),
+                    )
+                    .tags(
+                        ec2::types::Tag::builder()
+                            .key("adl:run_id")
+                            .value(&spec.run_id)
                             .build(),
                     )
                     .build(),
@@ -3491,6 +3550,7 @@ mod tests {
             ssh_private_key_path: None,
             ssh_user: None,
             ssh_allowed_cidr: None,
+            cache_volume_id: None,
             cache_volume_name: None,
             cache_volume_size_gib: None,
             cache_volume_type: None,
@@ -3508,6 +3568,7 @@ mod tests {
             security_group_id: "sg-test".to_string(),
             instance_profile_name: "profile-test".to_string(),
             instance_types: vec!["c7i.large".to_string()],
+            allow_on_demand_fallback: true,
             budget_name: Some("Agent Logic Monthly".to_string()),
             expected_max_cost_usd: Some(20.0),
             poll_interval_seconds: 1,
@@ -4016,7 +4077,14 @@ mod tests {
         assert!(!script.contains("[[ \"bash -lc"));
 
         let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
-        assert!(tracked_runner.contains("if [ \"$NEEDS_NEXTEST\" = \"1\" ]"));
+        assert!(tracked_runner.contains(
+            "if [ \"$CONTAINERIZED_VALIDATION\" = \"0\" ] && [ \"$NEEDS_NEXTEST\" = \"1\" ]"
+        ));
+        assert!(tracked_runner.contains("immutable_builder_image_only"));
+        assert!(tracked_runner
+            .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
+        assert!(tracked_runner
+            .contains("if [ \"$CURRENT_PERSISTENT_COMMIT\" != \"$SOURCE_COMMIT\" ]"));
     }
 
     #[test]
@@ -4035,6 +4103,8 @@ mod tests {
         assert!(tracked_runner.contains("TOOL_INSTALL_POLICY=\"package_manager_or_prebuilt_only\""));
         assert!(tracked_runner.contains("source compilation is disabled"));
         assert!(tracked_runner.contains("adl-aws-remote-validation/shared"));
+        assert!(tracked_runner.contains("resize2fs \"$CACHE_DEVICE\""));
+        assert!(!tracked_runner.contains("chown -R"));
         assert!(tracked_runner.contains("CARGO_HOME_DIR=\"$TOOLCHAIN_ROOT/cargo-home\""));
         assert!(tracked_runner.contains("RUSTUP_HOME_DIR=\"$TOOLCHAIN_ROOT/rustup-home\""));
         assert!(tracked_runner.contains("CARGO_BIN_DIR=\"$CARGO_HOME_DIR/bin\""));

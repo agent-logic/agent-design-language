@@ -75,7 +75,12 @@ fn should_retry_remote_validation(
         return matches!(summary.status, RemoteRunStatus::InterruptedByAws)
             && provider_interruption_confirmed;
     }
-    true
+    matches!(
+        summary.resilience.fault_class,
+        AwsRemoteResilienceFaultClass::CapacityUnavailable
+            | AwsRemoteResilienceFaultClass::TransientNetwork
+            | AwsRemoteResilienceFaultClass::SsmUnavailable
+    )
 }
 
 fn artifact_ref(path: &Path, artifact_root: &Path) -> String {
@@ -127,7 +132,7 @@ impl Drop for EnvVarGuard {
 }
 
 fn usage() -> &'static str {
-    "adl-aws-remote-validation run --issue <number> --command <shell-command> --ami-id <ami> --subnet-id <subnet> --security-group-id <sg> --instance-profile-name <name> --out <summary.json> [--artifact-dir <dir>] [--instance-type <type> ...] [--budget-name <name>] [--expected-max-cost-usd <usd>] [--repo-url <url>] [--git-ref <ref>] [--cache-bucket <bucket>] [--cache-prefix <prefix>] [--sccache-tarball-url <url>] [--nextest-tarball-url <url>] [--ssh-key-name <name>] [--ssh-private-key-path <path>] [--ssh-user <user>] [--ssh-allowed-cidr <cidr>] [--cache-volume-name <name>] [--cache-volume-size-gib <gib>] [--cache-volume-type <type>] [--cache-volume-iops <iops>] [--cache-volume-throughput-mbps <mbps>] [--cache-volume-device-name <device>] [--cache-volume-mount-path <path>] [--command-timeout-seconds <seconds>] [--region <region>] [--profile <profile>] [--json]"
+    "adl-aws-remote-validation run --issue <number> --command <shell-command> --ami-id <ami> --subnet-id <subnet> --security-group-id <sg> --instance-profile-name <name> --out <summary.json> [--artifact-dir <dir>] [--instance-type <type> ...] [--spot-only] [--budget-name <name>] [--expected-max-cost-usd <usd>] [--repo-url <url>] [--git-ref <ref>] [--cache-bucket <bucket>] [--cache-prefix <prefix>] [--sccache-tarball-url <url>] [--nextest-tarball-url <url>] [--ssh-key-name <name>] [--ssh-private-key-path <path>] [--ssh-user <user>] [--ssh-allowed-cidr <cidr>] [--cache-volume-id <id>] [--cache-volume-name <name>] [--cache-volume-size-gib <gib>] [--cache-volume-type <type>] [--cache-volume-iops <iops>] [--cache-volume-throughput-mbps <mbps>] [--cache-volume-device-name <device>] [--cache-volume-mount-path <path>] [--command-timeout-seconds <seconds>] [--region <region>] [--profile <profile>] [--json]"
 }
 
 fn local_git_stdout(args: &[&str]) -> Option<String> {
@@ -212,6 +217,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
         .map(PathBuf::from);
     let mut ssh_user = env::var("ADL_AWS_REMOTE_VALIDATION_SSH_USER").ok();
     let mut ssh_allowed_cidr = env::var("ADL_AWS_REMOTE_VALIDATION_SSH_ALLOWED_CIDR").ok();
+    let mut cache_volume_id = env::var("ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_ID").ok();
     let mut cache_volume_name = env::var("ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_NAME").ok();
     let mut cache_volume_size_gib = env::var("ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_SIZE_GIB")
         .ok()
@@ -236,6 +242,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
     let mut security_group_id = None;
     let mut instance_profile_name = None;
     let mut instance_types: Vec<String> = Vec::new();
+    let mut allow_on_demand_fallback = true;
     let mut budget_name = None;
     let mut expected_max_cost_usd = None;
     let mut command_timeout_seconds = None;
@@ -351,6 +358,14 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
                 ssh_allowed_cidr = Some(
                     args.get(i)
                         .ok_or_else(|| anyhow!("--ssh-allowed-cidr requires a value"))?
+                        .to_string(),
+                );
+            }
+            "--cache-volume-id" => {
+                i += 1;
+                cache_volume_id = Some(
+                    args.get(i)
+                        .ok_or_else(|| anyhow!("--cache-volume-id requires a value"))?
                         .to_string(),
                 );
             }
@@ -475,6 +490,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
                         .to_string(),
                 );
             }
+            "--spot-only" => allow_on_demand_fallback = false,
             "--budget-name" => {
                 i += 1;
                 budget_name = Some(
@@ -548,6 +564,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
             ssh_private_key_path,
             ssh_user,
             ssh_allowed_cidr,
+            cache_volume_id,
             cache_volume_name,
             cache_volume_size_gib,
             cache_volume_type,
@@ -563,6 +580,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
             security_group_id: security_group_id.unwrap_or_default(),
             instance_profile_name: instance_profile_name.unwrap_or_default(),
             instance_types,
+            allow_on_demand_fallback,
             budget_name,
             expected_max_cost_usd,
             poll_interval_seconds: 15,
@@ -898,6 +916,16 @@ mod tests {
     }
 
     #[test]
+    fn retry_decision_stops_unknown_validation_failures() {
+        let summary = retry_summary(
+            RemoteRunStatus::Failed,
+            AwsRemoteResilienceFaultClass::Unknown,
+            true,
+        );
+        assert!(!should_retry_remote_validation(&summary, false, 0, 2));
+    }
+
+    #[test]
     fn resume_state_artifact_refs_are_relative_when_under_artifact_root() {
         let root = PathBuf::from("/tmp/adl/aws-spot/artifacts");
         assert_eq!(
@@ -978,6 +1006,10 @@ mod tests {
             "https://example.com/sccache.tar.gz",
             "--nextest-tarball-url",
             "https://example.com/cargo-nextest.tar.gz",
+            "--cache-volume-id",
+            "vol-retained",
+            "--cache-volume-name",
+            "adl-retained-cache",
             "--ami-id",
             "ami-123",
             "--subnet-id",
@@ -994,12 +1026,14 @@ mod tests {
             "c7i.large",
             "--instance-type",
             "c7i.xlarge",
+            "--spot-only",
             "--json",
         ]);
         assert_eq!(
             parsed.config.instance_types,
             vec!["c7i.large".to_string(), "c7i.xlarge".to_string()]
         );
+        assert!(!parsed.config.allow_on_demand_fallback);
         assert_eq!(
             parsed.config.cache_bucket.as_deref(),
             Some("adl-aws-remote-tool-cache-agentlogic")
@@ -1015,6 +1049,14 @@ mod tests {
         assert_eq!(
             parsed.config.nextest_tarball_url.as_deref(),
             Some("https://example.com/cargo-nextest.tar.gz")
+        );
+        assert_eq!(
+            parsed.config.cache_volume_id.as_deref(),
+            Some("vol-retained")
+        );
+        assert_eq!(
+            parsed.config.cache_volume_name.as_deref(),
+            Some("adl-retained-cache")
         );
         assert_eq!(parsed.config.artifact_dir, PathBuf::from("artifacts"));
         assert!(parsed.json_output);
