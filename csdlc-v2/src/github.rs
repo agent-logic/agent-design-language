@@ -241,6 +241,7 @@ mod tests {
                 conclusion: state.into(),
                 details_url: None,
             }],
+            required_check_names: vec!["ci".into()],
             classification: String::new(),
         }
     }
