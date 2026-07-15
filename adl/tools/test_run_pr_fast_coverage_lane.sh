@@ -33,6 +33,9 @@ for arg in "$@"; do
   fi
   prev="$arg"
 done
+if [[ "${ADL_FAKE_CARGO_FAIL:-0}" == 1 && "$*" == *"llvm-cov nextest"* ]]; then
+  exit 7
+fi
 if [ -n "$out_path" ]; then
   mkdir -p "$(dirname "$out_path")"
   printf '{"data":[{"files":[],"totals":{"branches":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":0,"covered":0,"percent":0.0},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":0,"covered":0,"percent":0.0},"regions":{"count":0,"covered":0,"notcovered":0,"percent":0.0}}}]}\n' > "$out_path"
@@ -43,6 +46,8 @@ chmod +x "$bin_dir/cargo"
 
 scratch_root="$temp_root/pr-fast-target"
 expression='binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::structured_prompt::/)'
+mkdir -p "$scratch_root/llvm-cov-target"
+: >"$scratch_root/llvm-cov-target/stale.profraw"
 PATH="$bin_dir:$PATH" \
 PR_FAST_COVERAGE_CARGO_LOG="$cargo_log" \
 ADL_RUST_WARM_CACHE=0 \
@@ -52,6 +57,22 @@ ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root" \
 grep -F "PR-fast coverage expression: $expression" "$temp_root/pr-fast-coverage-run.out" >/dev/null
 grep -F "PR-fast coverage target: $scratch_root" "$temp_root/pr-fast-coverage-run.out" >/dev/null
 grep -F "PR-fast coverage test threads: nextest-default" "$temp_root/pr-fast-coverage-run.out" >/dev/null
+grep -F "PR-fast coverage report: complete" "$temp_root/pr-fast-coverage-run.out" >/dev/null
+test ! -e "$scratch_root/llvm-cov-target/stale.profraw"
+
+failing_root="$temp_root/pr-fast-target-failing"
+mkdir -p "$failing_root/llvm-cov-target"
+: >"$failing_root/llvm-cov-target/stale.profraw"
+if PATH="$bin_dir:$PATH" \
+  PR_FAST_COVERAGE_CARGO_LOG="$temp_root/cargo-failing.log" \
+  ADL_FAKE_CARGO_FAIL=1 \
+  ADL_RUST_WARM_CACHE=0 \
+  ADL_PR_FAST_COVERAGE_BUILD_ROOT="$failing_root" \
+    bash "$SCRIPT" --filter-expression "$expression" >"$temp_root/pr-fast-coverage-failing-run.out" 2>&1; then
+  echo "expected PR-fast coverage failure fixture" >&2
+  exit 1
+fi
+test ! -e "$failing_root/llvm-cov-target/stale.profraw"
 
 for required in \
   "cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E $expression" \
@@ -65,6 +86,16 @@ do
     exit 1
   fi
 done
+
+package_cargo_log="$temp_root/cargo-package.log"
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$package_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-package" \
+ADL_PR_FAST_COVERAGE_PACKAGE=adl \
+  bash "$SCRIPT" --filter-expression "$expression" >"$temp_root/pr-fast-coverage-package-run.out"
+grep -F "PR-fast coverage package: adl" "$temp_root/pr-fast-coverage-package-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --package adl --status-level all --final-status-level slow --no-report -E $expression" "$package_cargo_log" >/dev/null
 
 threads_cargo_log="$temp_root/cargo-threads.log"
 PATH="$bin_dir:$PATH" \

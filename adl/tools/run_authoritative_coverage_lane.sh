@@ -22,8 +22,10 @@ default_coverage_build_root() {
 }
 
 COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"
-TEST_THREADS="${ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS:-4}"
+TEST_THREADS="${ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS:-${ADL_COVERAGE_TEST_THREADS:-4}}"
+PARTITION_COUNT="${ADL_AUTHORITATIVE_COVERAGE_PARTITIONS:-2}"
 SKIP_PATTERN="${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN:-real_pr_}"
+COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-$$}"
 
 usage() {
   cat <<'USAGE'
@@ -74,6 +76,7 @@ if [ "$PRINT_PLAN" = true ]; then
   printf 'mode=%s\n' "$MODE"
   printf 'build_root=%s\n' "$COVERAGE_BUILD_ROOT"
   printf 'test_threads=%s\n' "$TEST_THREADS"
+  printf 'partitions=%s\n' "$PARTITION_COUNT"
   printf 'skip_pattern=%s\n' "$SKIP_PATTERN"
   if [ "$MODE" = "full_authoritative_default_features" ]; then
     printf 'features=default\n'
@@ -113,42 +116,89 @@ if [ "$MODE" = "full_authoritative_default_features" ]; then
   echo "Authoritative coverage linker mode: ${RUST_LINK_ACCEL:-default}"
   echo "Authoritative coverage test threads: $TEST_THREADS"
   echo "Authoritative coverage skip pattern: $SKIP_PATTERN"
-  cargo llvm-cov nextest \
+  coverage_command=(cargo llvm-cov nextest \
     --workspace \
-    --no-report \
+    --no-clean \
     --no-fail-fast \
     --no-tests pass \
-    --test-threads "$TEST_THREADS" \
-    -- --skip "$SKIP_PATTERN"
+    --test-threads "$TEST_THREADS")
 else
   echo "Authoritative coverage mode: bounded_policy_surface_pr"
   echo "Features: default"
   echo "Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes."
   echo "Authoritative coverage test threads: $TEST_THREADS"
   echo "Authoritative coverage skip pattern: $SKIP_PATTERN"
-  cargo llvm-cov nextest \
+  coverage_command=(cargo llvm-cov nextest \
     --workspace \
-    --no-report \
+    --no-clean \
     --no-fail-fast \
     --no-tests pass \
-    --test-threads "$TEST_THREADS" \
-    -- --skip "$SKIP_PATTERN"
+    --test-threads "$TEST_THREADS")
 fi
+
+if [[ ! "$TEST_THREADS" =~ ^[1-9][0-9]*$ ]]; then
+    echo "invalid coverage test thread count: $TEST_THREADS" >&2
+    exit 2
+fi
+
+if [[ ! "$PARTITION_COUNT" =~ ^[1-9][0-9]*$ ]]; then
+    echo "invalid coverage partition count: $PARTITION_COUNT" >&2
+    exit 2
+fi
+
+run_workspace_coverage_partitions() {
+  local partition_logs="$COVERAGE_BUILD_ROOT/partition-logs/${coverage_profile_namespace}-${COVERAGE_RUN_ID}"
+  local partition pids=() statuses=()
+  mkdir -p "$partition_logs"
+  find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -delete
+
+  for ((partition = 1; partition <= PARTITION_COUNT; partition++)); do
+    (
+      LLVM_PROFILE_FILE="$CARGO_LLVM_COV_TARGET_DIR/${coverage_profile_namespace}-${COVERAGE_RUN_ID}-partition-${partition}-%p.profraw" \
+        "${coverage_command[@]}" \
+        --partition "count:${partition}/${PARTITION_COUNT}" \
+        -- --skip "$SKIP_PATTERN" \
+        >"$partition_logs/partition-${partition}.log" 2>&1
+    ) &
+    pids+=("$!")
+  done
+
+  local status=0 pid partition_status
+  for pid in "${pids[@]}"; do
+    partition_status=0
+    wait "$pid" || partition_status=$?
+    statuses+=("$partition_status")
+    if (( partition_status != 0 )); then
+      status="$partition_status"
+    fi
+  done
+
+  for ((partition = 1; partition <= PARTITION_COUNT; partition++)); do
+    cat "$partition_logs/partition-${partition}.log"
+  done
+  return "$status"
+}
+
+coverage_profile_namespace=workspace
+run_workspace_coverage_partitions
 
 cargo llvm-cov report \
   --json \
   --summary-only \
   --output-path "$ADL_SUMMARY_PATH"
+find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
   echo "Authoritative coverage companion: adl-runtime"
-  cargo llvm-cov nextest \
+  runtime_coverage_command=(cargo llvm-cov nextest \
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
-    --no-report \
+    --no-clean \
     --no-fail-fast \
     --no-tests pass \
-    --test-threads "$TEST_THREADS" \
-    -- --skip "$SKIP_PATTERN"
+    --test-threads "$TEST_THREADS")
+  coverage_command=("${runtime_coverage_command[@]}")
+  coverage_profile_namespace=adl-runtime
+  run_workspace_coverage_partitions
   cargo llvm-cov report \
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
     --json \
