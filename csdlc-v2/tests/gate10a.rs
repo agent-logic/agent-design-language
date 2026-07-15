@@ -44,12 +44,13 @@ fn installer_records_provenance_without_replacing_other_files() {
     }
     fs::write(destination_parent.path().join("v1-stays"), b"v1").unwrap();
     let receipt = install_binaries(source.path(), &destination).unwrap();
-    assert_eq!(receipt.binaries.len(), 11);
+    assert_eq!(receipt.binaries.len(), 12);
     assert_eq!(
         fs::read(destination_parent.path().join("v1-stays")).unwrap(),
         b"v1"
     );
     assert!(destination.join("install-receipt.json").is_file());
+    assert!(destination.join("csdlc-install").is_file());
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
