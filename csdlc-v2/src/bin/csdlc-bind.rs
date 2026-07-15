@@ -1,7 +1,7 @@
 use clap::Parser;
 use csdlc_v2::{
-    bind_issue, heartbeat_claim, recover_claim, BindRequest, HeartbeatRequest, RecoverClaimRequest,
-    Store,
+    amend_claim_scope, bind_issue, heartbeat_claim, recover_claim, AmendClaimScopeRequest,
+    BindRequest, HeartbeatRequest, RecoverClaimRequest, Store,
 };
 use std::{fs, path::PathBuf};
 
@@ -11,10 +11,12 @@ struct Cli {
     root: PathBuf,
     #[arg(long)]
     request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "recover_request"])]
+    #[arg(long, conflicts_with_all = ["request", "recover_request", "amend_request"])]
     heartbeat_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "amend_request"])]
     recover_request: Option<PathBuf>,
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request"])]
+    amend_request: Option<PathBuf>,
 }
 
 fn main() {
@@ -32,11 +34,22 @@ fn main() {
                 recover_claim(&Store::new(cli.root.clone()), request)
                     .map(|value| serde_json::to_value(value).expect("JSON"))
             })
+    } else if let Some(path) = cli.amend_request {
+        fs::read(path)
+            .map_err(csdlc_v2::V2Error::from)
+            .and_then(|bytes| {
+                serde_json::from_slice::<AmendClaimScopeRequest>(&bytes)
+                    .map_err(csdlc_v2::V2Error::from)
+            })
+            .and_then(|request| {
+                amend_claim_scope(&Store::new(cli.root.clone()), request)
+                    .map(|value| serde_json::to_value(value).expect("JSON"))
+            })
     } else {
         let path = cli.request.ok_or_else(|| {
             csdlc_v2::V2Error::new(
                 csdlc_v2::ErrorCode::InvalidInput,
-                "one of --request, --heartbeat-request, or --recover-request is required",
+                "one of --request, --heartbeat-request, --recover-request, or --amend-request is required",
             )
         });
         path.and_then(|path| fs::read(path).map_err(csdlc_v2::V2Error::from))

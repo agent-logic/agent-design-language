@@ -1,9 +1,12 @@
 use serde_json::{json, Value};
 
 use crate::doctor::DoctorReport;
-use crate::lifecycle::{BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest};
+use crate::lifecycle::{
+    AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest,
+};
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
+use crate::model::{ReconcileTerminalRequest, TerminalReceipt};
 use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
 use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
 use crate::readiness::{ReadinessReport, ReadinessRequest, TerminalObservation};
@@ -22,8 +25,11 @@ pub fn public_schema_bundle() -> Value {
         "bind_request": schemars::schema_for!(BindRequest),
         "bind_result": schemars::schema_for!(BindResult),
         "recover_claim_request": schemars::schema_for!(RecoverClaimRequest),
+        "amend_claim_scope_request": schemars::schema_for!(AmendClaimScopeRequest),
         "heartbeat_request": schemars::schema_for!(HeartbeatRequest),
         "issue_record": schemars::schema_for!(IssueRecord),
+        "terminal_receipt": schemars::schema_for!(TerminalReceipt),
+        "reconcile_terminal_request": schemars::schema_for!(ReconcileTerminalRequest),
         "doctor_report": schemars::schema_for!(DoctorReport),
         "pvf_manifest": schemars::schema_for!(PvfManifest),
         "pvf_execution_request": schemars::schema_for!(ExecutionRequest),

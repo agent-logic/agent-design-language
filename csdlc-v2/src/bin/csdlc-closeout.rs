@@ -40,6 +40,10 @@ enum Command {
         #[arg(long)]
         request: PathBuf,
     },
+    ReconcileTerminal {
+        #[arg(long)]
+        request: PathBuf,
+    },
     ValidatePrune {
         #[arg(long)]
         issue: u64,
@@ -102,6 +106,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         Command::RecordReadiness { request } => json(record_readiness(&store, read(request)?)?),
         Command::ObserveReadiness { request } => observe_readiness(&store, read(request)?).await,
         Command::Closeout { request } => observe_closeout(&store, read(request)?).await,
+        Command::ReconcileTerminal { request } => json(store.reconcile_terminal(read(request)?)?),
         Command::ValidatePrune { issue } | Command::Prune { issue } => {
             let record = store.load_record(*issue)?;
             if record.phase != csdlc_v2::LifecyclePhase::ClosedOut {
@@ -127,14 +132,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
                 &terminal.released_worktree,
             )?;
             if matches!(&cli.command, Command::Prune { .. }) {
-                let receipt = PathBuf::from(&terminal.receipt_path);
-                let parent = receipt.parent().ok_or_else(|| {
-                    V2Error::new(ErrorCode::InvalidInput, "terminal receipt has no parent")
-                })?;
-                fs::create_dir_all(parent)?;
-                let temporary = parent.join(format!(".{}.tmp", issue));
-                fs::write(&temporary, serde_json::to_vec_pretty(&record)?)?;
-                fs::rename(temporary, &receipt)?;
+                store.retain_terminal_receipt(*issue)?;
                 let target = cli.root.canonicalize()?;
                 csdlc_v2::git::run(
                     &cli.root,
@@ -339,9 +337,11 @@ async fn observe_closeout(
         observed_sha,
         observed_state,
         approved_no_pr_reason: input.approved_no_pr_reason,
-        receipt_path: terminal_receipt_path(store.root(), input.issue)?,
+        receipt_path: terminal_receipt_ref(input.issue),
     };
-    json(closeout_issue(store, observation)?)
+    let record = closeout_issue(store, observation)?;
+    store.retain_terminal_receipt(input.issue)?;
+    json(record)
 }
 
 fn read<T: DeserializeOwned>(path: &PathBuf) -> csdlc_v2::Result<T> {
@@ -398,17 +398,8 @@ fn run_is_newer(
     (candidate_started_millis, candidate_id) >= (prior_started_millis, prior_id)
 }
 
-fn terminal_receipt_path(root: &std::path::Path, issue: u64) -> csdlc_v2::Result<String> {
-    let common = csdlc_v2::git::run(
-        root,
-        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
-    )?
-    .stdout;
-    Ok(PathBuf::from(common)
-        .join("csdlc-v2/closeout")
-        .join(format!("{issue}.json"))
-        .to_string_lossy()
-        .into_owned())
+fn terminal_receipt_ref(issue: u64) -> String {
+    format!("csdlc-v2/closeout/{issue}.json")
 }
 
 #[cfg(test)]
