@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a6b5bfcabf02fb1660f8f012ad84f66ce29939f56a959143631affd26775de9b",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "5099668cf57cd96dd1ecf2a5b14f5a2c5bc70a6088a61227d2ed40eb6382048a",
+  "generation": 25,
+  "digest": "df790dbfb121142300530a2dc77adc0b4cdeec5018fdef2c02802e8b665df3ad",
   "claim": {
     "id": "claim-5403-remaining-sprint-reviews-expanded",
     "owner": "codex",
-    "generation": 23,
+    "generation": 25,
     "acquired_unix_seconds": 1784154224,
     "expires_unix_seconds": 1784240624,
     "heartbeat_unix_seconds": 1784154224,
@@ -38,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "632b70ba22cc80b6221ddef9992312e5d6ec5d7b5dc03def2263fa4389059d44",
+      "values_digest": "279c5de98c1386301af8eb4d3195464fc3ae94056188aa499618c8de2662f675",
       "rendered_digest": "34e29c367fa895c71041f342e9e9345be0c280997c94bc896fba6484dc9cd6e5",
       "ast_digest": "6d3e8fabbaa83e910904a041b13a1f469babd8f85a69ea47ac450881134e4769"
     },
     "stp": {
-      "values_digest": "c33c5bef3a602d4ab7b57baa29ae79f367650ed0db3fb912f84b508aeccd7cfd",
+      "values_digest": "bc33555824fef7e70e3e7cbe55efe53dd97bc97d651d386e485d9350d95c1465",
       "rendered_digest": "73f3bcb014e3666a3f040bf72fd987d253376282a5472760c9d7c9643d0907c2",
       "ast_digest": "30c006c5d0a4a66c041bf57e1bc36e48f13e4e930eec6b96e273147e486d7318"
     },
     "spp": {
-      "values_digest": "f58ae955680c33c00e2ed9a31aaaf627cb3d69cd2d383a68dd0542565f7cad7a",
+      "values_digest": "a8217b08680b64d25ca4d0f9d4ab22582dba47d82b2db3a8ad4d8c7db13c2acb",
       "rendered_digest": "f8e19a2adba8e0632c33c326cb18529779c252dc4a4a19075a9f4d67706b9416",
       "ast_digest": "1106ff1a62b4271aad5c4e7744d66f81be98062696f894a91aa1954633e88e83"
     },
     "vpp": {
-      "values_digest": "b355115eaaf4e1f21b34a62ad440b7870308d320eaa42269b92eeed36109e287",
-      "rendered_digest": "e8aae99c51db28b67399c6657856e7bf128284a1d8326928e97aca1f015ca22f",
-      "ast_digest": "cbeb3b979c1e8bae35ca2b2b57940a55162ae6c144e285d130260fd5f25f295c"
+      "values_digest": "37a6ac84d02f9fcbf88449970daace13218c6a3d0896af0decd3b412458f970b",
+      "rendered_digest": "f8fc761bdad444cf26dec31b7b88154af5743a487af0d1a595313c3e8b08b8f4",
+      "ast_digest": "31c3e4d8b56dba309cda80e9b16ce87b1ff325330292671252992efa72f8b284"
     },
     "srp": {
-      "values_digest": "6f2acd3c33904e24ac8625238e98ea8cdabc56bbb06106664ba5366811f383d8",
+      "values_digest": "3eed2c840e3b4b69c2471b0a504898e0a14c0b8e17e64dc5273f47f11515e3b3",
       "rendered_digest": "a4a8f6772627b06b66051edd8bbca64c1af6571e6964ad41722f8c1bbf5a3c5c",
       "ast_digest": "92d4f23de11b2d50347518699109453772dbf68fcc3ac198052952c181421683"
     },
     "sor": {
-      "values_digest": "21a0168a006b18c18529f3e7f2c179004e18646154f353ffee3abb08cd660d3d",
-      "rendered_digest": "860b59cce424f1f895f8a4bd54ba2ba260f61d59a6ede884717083224e1f0ee8",
-      "ast_digest": "2b0c396c3b2f50b0af37141a61100da017401bef30e0304affe42b14408cad04"
+      "values_digest": "0a40c52283f23c2af907aa11a39fadcb6007e04124552798604ba28d1b61696c",
+      "rendered_digest": "5c8fb6a21cfb6b360f8695d8b6b5f1cb7f245278e4e51f2c4d9ab730120b6347",
+      "ast_digest": "db48ef0735820abbb9ecc0857693654f7009882ef149debab1a8ef7daebcf24b"
     }
   },
   "transitions": [
@@ -301,6 +301,20 @@
       "actor": "codex",
       "reason": "Record refreshed independent review artifact proof",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/bin/test\",\"-s\",\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"],\"purpose\":\"Confirm the refreshed independent review-quality evaluation is present and non-empty\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex",
+      "reason": "Require an explicit passing independent review decision for AC-6",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"review-doc-integrity\",\"proof_role\":\"Prove the review and register patch has no whitespace or conflict-marker defects\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"sprint-inventory-retention\",\"proof_role\":\"Confirm the retained sprint scope and evidence inventory is present and non-empty\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":100,\"argv\":[\"/bin/test\",\"-s\",\"docs/reviews/v0.91.7/remaining-sprints-5403/SCOPE_EVIDENCE_INDEX.md\"],\"parallel_group\":\"records\",\"defer_reason\":null},{\"lane\":\"canonical-register-retention\",\"proof_role\":\"Confirm the canonical v0.91.7 sprint review register is present and non-empty\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":100,\"argv\":[\"/bin/test\",\"-s\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"],\"parallel_group\":\"records\",\"defer_reason\":null},{\"lane\":\"independent-review-pass\",\"proof_role\":\"Require the refreshed independent review-quality evaluation to record an explicit passing decision\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":100,\"argv\":[\"rg\",\"-q\",\"^Status: pass$\",\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex",
+      "reason": "Record fail-closed AC-6 state before final independent confirmation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"-q\",\"^Status: pass$\",\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"],\"purpose\":\"Require the refreshed independent review-quality evaluation to record an explicit passing decision\",\"outcome\":\"waiting\",\"evidence_ref\":\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"}}"
     }
   ]
 }

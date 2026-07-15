@@ -1,8 +1,8 @@
 # Refreshed Review Quality Evaluation
 
 Issue: #5403
-Reviewed revision: `812e8dd49` plus typed lifecycle repairs
-Status: changes required; one typed-card limitation routed to #5406
+Reviewed revision: `fdb4144f3` plus the current finding repairs
+Status: final confirmation pending
 
 ## Finding Dispositions
 
@@ -17,10 +17,10 @@ Status: changes required; one typed-card limitation routed to #5406
 3. #5409 counted the retained setup/topology boundary as a defect.
    Fixed in the live issue body; it now lists four findings and preserves the
    non-claim separately.
-4. SPP steps remain `pending` after execution.
-   Open and routed to #5406 because current `csdlc-edit` exposes no typed
-   operation for post-bind step-status updates and direct card edits are
-   prohibited.
+4. SPP steps remained `pending` after execution.
+   Fixed after #5406 added the typed `update_plan_step` operation. S1-S3 now
+   record completed work; S4 remains pending until this refreshed independent
+   review passes.
 5. The SOR omitted all ten remediation follow-ups.
    Fixed through typed `append_reference`; #5404-#5413 are retained.
 6. The reviewer reported malformed disposition arithmetic.
@@ -29,5 +29,5 @@ Status: changes required; one typed-card limitation routed to #5406
 7. The scope index used future tense after completion.
    Fixed to present-tense retained truth.
 
-The package cannot receive final pass until #5406 provides the typed SPP
-status operation and #5403 uses it to reconcile S1-S4.
+The package awaits final exact-revision confirmation after these finding
+repairs. A passing decision will be recorded only after that review completes.

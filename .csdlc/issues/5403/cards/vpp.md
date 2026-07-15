@@ -80,8 +80,8 @@ Diagram: docs/reviews/v0.91.7/remaining-sprints-5403/DIAGRAM.mmd
     "defer_reason": null
   },
   {
-    "lane": "independent-review-retention",
-    "proof_role": "Confirm the refreshed independent review-quality evaluation is present and non-empty",
+    "lane": "independent-review-pass",
+    "proof_role": "Require the refreshed independent review-quality evaluation to record an explicit passing decision",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -90,8 +90,9 @@ Diagram: docs/reviews/v0.91.7/remaining-sprints-5403/DIAGRAM.mmd
     "budget_seconds": 30,
     "budget_tokens": 100,
     "argv": [
-      "/bin/test",
-      "-s",
+      "rg",
+      "-q",
+      "^Status: pass$",
       "docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md"
     ],
     "parallel_group": "review",
@@ -114,7 +115,7 @@ Tokens: 50000
 - `git diff --check`
 - `/bin/test -s docs/reviews/v0.91.7/remaining-sprints-5403/SCOPE_EVIDENCE_INDEX.md`
 - `/bin/test -s docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md`
-- `/bin/test -s docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md`
+- `rg -q ^Status: pass$ docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md`
 
 ## Failure Semantics
 
