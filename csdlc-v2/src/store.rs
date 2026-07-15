@@ -983,6 +983,25 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         ));
     }
     authorize_card_operation(record.phase, request.card, &request.operation)?;
+    let replan_before = match &request.operation {
+        SemanticOperation::Replan { field, .. } => Some(current_text_value(
+            cards
+                .get(&request.card)
+                .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "card projection missing"))?,
+            *field,
+        )?),
+        _ => None,
+    };
+    let audit_operation = match (&request.operation, replan_before) {
+        (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
+            "operation": "replan",
+            "field": field.as_ref(),
+            "previous_value": previous,
+            "new_value": value,
+        })
+        .to_string(),
+        _ => serde_json::to_string(&request.operation)?,
+    };
     let values = cards
         .get_mut(&request.card)
         .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "card projection missing"))?;
@@ -1011,12 +1030,31 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         generation: record.generation,
         actor: request.actor,
         reason: request.reason,
-        operation: serde_json::to_string(&request.operation)?,
+        operation: audit_operation,
     });
     hydrate_projections(&mut record, &cards)?;
     record.digest = record_digest(&record)?;
     store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
     Ok(record)
+}
+
+fn current_text_value(values: &CardValues, field: crate::cards::TextField) -> Result<String> {
+    match (&values.content, field) {
+        (CardContent::Sip(value), crate::cards::TextField::Goal) => Ok(value.goal.clone()),
+        (CardContent::Sip(value), crate::cards::TextField::RequiredOutcome) => {
+            Ok(value.required_outcome.clone())
+        }
+        (CardContent::Stp(value), crate::cards::TextField::TaskBoundary) => {
+            Ok(value.task_boundary.clone())
+        }
+        (CardContent::Spp(value), crate::cards::TextField::PlanSummary) => {
+            Ok(value.summary.clone())
+        }
+        _ => Err(V2Error::new(
+            ErrorCode::FieldOwnership,
+            "replan field is not owned by the selected planning card",
+        )),
+    }
 }
 
 pub(crate) fn verify_cards(
@@ -1339,6 +1377,10 @@ fn authorize_card_operation(
             SemanticOperation::SetField { .. }
                 | SemanticOperation::AppendReference { .. }
                 | SemanticOperation::AdvanceStatus { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Sip | CardKind::Stp | CardKind::Spp,
+            SemanticOperation::Replan { .. },
         ) | (
             LifecyclePhase::Bound,
             CardKind::Sor,
