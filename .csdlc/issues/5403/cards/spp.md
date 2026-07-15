@@ -1,0 +1,107 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 5403
+
+Repository: danielbaustin/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Build exact sprint and child inventories, run applicable specialist review lanes, synthesize separate packets, route findings, update the register, and independently review the result.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Reconcile exact umbrella child PR lifecycle and evidence inventories",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Run source-grounded specialist reviews for each sprint",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Publish sprint packets synthesis and remediation routing",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Update canonical register and complete independent review",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Findings precede summaries
+- Missing evidence remains missing evidence
+- Review scope does not absorb implementation fixes
+- Each sprint remains independently reviewable
+
+## Risks
+
+- Stale retained packets may conflict with current GitHub state
+- Large runtime sprints may require multiple specialist passes
+- Historical local-only evidence may be unavailable or non-authoritative
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+docs/reviews/v0.91.7/remaining-sprints-5403/DESIGN.md
+
+Digest: e265cf5391458d02c87a99ff3b14fe44cf9f1055e5915d0d0548e621c3bd45bd
+
+## Diagram
+
+docs/reviews/v0.91.7/remaining-sprints-5403/DIAGRAM.mmd
+
+Digest: 25e0d6e9f0e05ae2df291542439eb06b51c64efcc8523928f50ea306fd2fe9d9
+
+## Stop Conditions
+
+- All ten packet scopes are reconciled
+- All actionable findings are routed
+- Canonical register truth is current
+- Independent review has no unresolved actionable findings
+
+## Handoff
+
+Proceed only after doctor readiness.
