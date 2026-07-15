@@ -127,12 +127,27 @@ Implemented collision-checked claim amendment, typed SPP and VPP corrections, an
     "purpose": "Final warning-free compile proof after all review fixes",
     "outcome": "passed",
     "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "gh",
+      "pr",
+      "view",
+      "5414",
+      "--repo",
+      "danielbaustin/agent-design-language",
+      "--json",
+      "state,mergeCommit"
+    ],
+    "purpose": "Prove #5403 consumed the new typed SPP/VPP operations and merged its reviewed lifecycle repair",
+    "outcome": "passed",
+    "evidence_ref": "https://github.com/danielbaustin/agent-design-language/pull/5414"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

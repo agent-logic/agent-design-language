@@ -17,3 +17,16 @@
 {"sequence":17,"generation":14,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":18,"generation":15,"actor":"codex","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":19,"generation":16,"actor":"codex","reason":"Exact-revision review passed with all actionable findings fixed","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":20,"generation":17,"actor":"codex","reason":"Recover exact review after lifecycle metadata commit changed the publication commit","operation":"recover_review"}
+{"sequence":21,"generation":17,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":22,"generation":18,"actor":"codex-subagent-mendel","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":23,"generation":19,"actor":"codex","reason":"Exact-revision review passed with all eight actionable findings fixed","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":24,"generation":20,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":25,"generation":21,"actor":"codex","reason":"Refresh exact-revision review after integrating current main","operation":"recover_review"}
+{"sequence":26,"generation":21,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":27,"generation":22,"actor":"codex-subagent-mendel","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":28,"generation":23,"actor":"codex","reason":"Exact merged-HEAD review passed with all eight findings fixed and no in-scope drift","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":29,"generation":24,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":30,"generation":25,"actor":"codex","reason":"Complete downstream-consumer S4 and publish final closeout truth after #5403 merged","operation":"recover_review"}
+{"sequence":31,"generation":26,"actor":"codex","reason":"PR #5414 merged after #5403 used typed plan-step and validation-lane operations and passed exact-revision review","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"}
+{"sequence":32,"generation":27,"actor":"codex","reason":"Record merged downstream consumption proof","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"gh\",\"pr\",\"view\",\"5414\",\"--repo\",\"danielbaustin/agent-design-language\",\"--json\",\"state,mergeCommit\"],\"purpose\":\"Prove #5403 consumed the new typed SPP/VPP operations and merged its reviewed lifecycle repair\",\"outcome\":\"passed\",\"evidence_ref\":\"https://github.com/danielbaustin/agent-design-language/pull/5414\"}}"}
