@@ -61,6 +61,7 @@ pub fn initialize_issue(
         ));
     }
     validate_bootstrap_request(&request)?;
+    validate_validation_lanes(store.root(), &request.initial.validation_lanes)?;
     let issue_dir = store.issue_dir(request.issue);
     for authored_path in [&request.design_path, &request.diagram_path] {
         let path = store.root().join(authored_path);
@@ -127,6 +128,34 @@ pub fn initialize_issue(
         )?;
     }
     bootstrap_issue(store, request)
+}
+
+fn validate_validation_lanes(
+    root: &std::path::Path,
+    lanes: &[crate::cards::ValidationLane],
+) -> Result<()> {
+    for lane in lanes {
+        for command in &lane.argv {
+            if !command.contains('/') {
+                continue;
+            }
+            let path = if Path::new(command).is_absolute() {
+                Path::new(command).to_path_buf()
+            } else {
+                root.join(command)
+            };
+            if !path.is_file() {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidInput,
+                    format!(
+                        "validation lane {} names missing command {}",
+                        lane.lane, command
+                    ),
+                ));
+            }
+        }
+    }
+    Ok(())
 }
 
 pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
