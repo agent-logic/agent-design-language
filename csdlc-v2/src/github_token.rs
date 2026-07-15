@@ -1,6 +1,9 @@
 use std::{fs, path::PathBuf};
 
 pub fn resolve(explicit_path: Option<&str>) -> crate::Result<String> {
+    if let Some(path) = explicit_path {
+        return read_token(PathBuf::from(path));
+    }
     for key in ["ADL_GITHUB_TOKEN", "GITHUB_TOKEN", "GH_TOKEN"] {
         if let Ok(value) = std::env::var(key) {
             if !value.trim().is_empty() {
@@ -20,6 +23,10 @@ pub fn resolve(explicit_path: Option<&str>) -> crate::Result<String> {
                 "GitHub token source is unavailable",
             )
         })?;
+    read_token(path)
+}
+
+fn read_token(path: PathBuf) -> crate::Result<String> {
     let value = fs::read_to_string(path).map_err(|_| {
         crate::V2Error::new(
             crate::ErrorCode::InvalidInput,
@@ -33,4 +40,20 @@ pub fn resolve(explicit_path: Option<&str>) -> crate::Result<String> {
         ));
     }
     Ok(value.trim().to_owned())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::resolve;
+    use std::io::Write;
+
+    #[test]
+    fn explicit_file_is_used() {
+        let mut file = tempfile::NamedTempFile::new().expect("temp file");
+        writeln!(file, "explicit-token").expect("write token");
+        assert_eq!(
+            resolve(file.path().to_str()).expect("token"),
+            "explicit-token"
+        );
+    }
 }
