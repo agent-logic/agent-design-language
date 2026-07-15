@@ -104,6 +104,21 @@ fn fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
 }
 
 #[test]
+fn bootstrap_rejects_missing_vpp_command_before_authoring_files() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let store = Store::new(temp.path());
+    let mut request = request();
+    request.initial.validation_lanes[0].argv = vec![
+        "bash".into(),
+        "adl/tools/validate_planning_templates.sh".into(),
+    ];
+    let error = csdlc_v2::initialize_issue(&store, request).expect_err("missing command");
+    assert!(matches!(error.code, ErrorCode::InvalidInput));
+    assert!(!temp.path().join("docs/design.md").exists());
+    assert!(!temp.path().join(".csdlc/issues/42").exists());
+}
+
+#[test]
 fn bind_creates_and_idempotently_reuses_typed_worktree() {
     let (temp, store, record) = fixture();
     git(temp.path(), &["init", "-b", "main"]);
