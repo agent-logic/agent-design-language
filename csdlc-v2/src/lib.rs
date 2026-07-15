@@ -5,6 +5,7 @@ pub mod eligibility;
 pub mod error;
 pub mod git;
 pub mod github;
+pub mod github_token;
 pub mod lifecycle;
 pub mod migration;
 pub mod model;
