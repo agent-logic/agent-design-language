@@ -4,7 +4,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumIter, EnumString};
 
-use crate::cards::{CardKind, FindingDisposition, FindingSeverity};
+use crate::cards::{CardKind, CardValues, FindingDisposition, FindingSeverity};
 use crate::error::{ErrorCode, Result, V2Error};
 
 #[derive(
@@ -153,6 +153,29 @@ pub struct TerminalEvidence {
     pub released_branch: String,
     pub released_worktree: String,
     pub released_protected_paths: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct TerminalReceipt {
+    pub schema: String,
+    pub issue: u64,
+    pub repository: String,
+    pub initialization_digest: String,
+    pub receipt_ref: String,
+    pub authored_artifacts: BTreeMap<String, String>,
+    pub record: IssueRecord,
+    pub cards: BTreeMap<CardKind, CardValues>,
+    pub digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReconcileTerminalRequest {
+    pub issue: u64,
+    pub expected_initialization_digest: String,
+    pub expected_branch: String,
+    pub expected_worktree: String,
+    pub actor: String,
+    pub reason: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]

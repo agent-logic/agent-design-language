@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5406,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2][records] Retain auditable lifecycle and sprint closeout truth after v1 sunset",
+    "slug": "v0-91-7-csdlc-v2-retain-auditable-lifecycle-and-sprint-closeout-truth",
+    "version": "v0.91.7",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can claim scope expand only after collision checks against current active claims?",
+        "Can SPP/VPP corrections preserve prior audit truth and lifecycle guards?",
+        "Is the historical authority packet portable and evidence-bound?",
+        "Does Gate 10D2 v1_sunset remain intact?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
