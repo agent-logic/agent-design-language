@@ -13,6 +13,7 @@ USAGE
 
 FILTER_EXPRESSION=""
 TEST_THREADS="${ADL_PR_FAST_COVERAGE_TEST_THREADS:-}"
+PACKAGE="${ADL_PR_FAST_COVERAGE_PACKAGE:-}"
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --filter-expression)
@@ -41,11 +42,21 @@ ADL_SUMMARY_PATH="$ADL_DIR/target/coverage-impact-summary.adl.json"
 ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/target/coverage-impact-summary.adl-runtime.json"
 COMBINED_SUMMARY_PATH="$ADL_DIR/target/coverage-impact-summary.json"
 cd "$ADL_DIR"
+mkdir -p "$ADL_DIR/target"
 
 COVERAGE_BUILD_ROOT="${ADL_PR_FAST_COVERAGE_BUILD_ROOT:-$ADL_DIR/target/pr-fast-coverage}"
 mkdir -p "$COVERAGE_BUILD_ROOT" "$COVERAGE_BUILD_ROOT/llvm-cov-target"
 export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT"
 export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/llvm-cov-target"
+find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -delete
+export LLVM_PROFILE_FILE="$CARGO_LLVM_COV_TARGET_DIR/%m-%p.profraw"
+cleanup_profiles() {
+  local status="$?"
+  trap - EXIT
+  find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -delete 2>/dev/null || true
+  exit "$status"
+}
+trap cleanup_profiles EXIT
 ADL_RUST_WARM_CACHE_SOURCE_TARGET="${ADL_PR_FAST_COVERAGE_WARM_SOURCE_TARGET:-}" \
 ADL_RUST_WARM_CACHE_DEST_TARGET="$CARGO_TARGET_DIR" \
 ADL_RUST_WARM_CACHE_OUTPUT="${ADL_PR_FAST_COVERAGE_WARM_CACHE_OUTPUT:-$ADL_DIR/pr-fast-coverage-warm-cache.json}" \
@@ -58,7 +69,14 @@ adl_coverage_ran=false
 if [ "$FILTER_EXPRESSION" != "$guardian_filter" ]; then
   coverage_args=(
     llvm-cov nextest
-    --workspace
+  )
+  if [ -n "$PACKAGE" ]; then
+    coverage_args+=(--package "$PACKAGE")
+    printf 'PR-fast coverage package: %s\n' "$PACKAGE"
+  else
+    coverage_args+=(--workspace)
+  fi
+  coverage_args+=(
     --status-level all
     --final-status-level slow
     --no-report
@@ -156,8 +174,10 @@ if [ -n "$runtime_expression" ]; then
       --output-path "$COMBINED_SUMMARY_PATH"
   fi
 else
+  printf 'PR-fast coverage report: start\n'
   cargo llvm-cov report \
     --json \
     --summary-only \
     --output-path "$COMBINED_SUMMARY_PATH"
+  printf 'PR-fast coverage report: complete\n'
 fi
