@@ -33,7 +33,7 @@
         4917,
         4920
       ],
-      "state": "integrated_proven",
+      "state": "boundary_proven",
       "v092_disposition": "supports_bounded_evidence_claims",
       "evidence": [
         "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
@@ -135,7 +135,7 @@
       "dependent_issues": [
         4914
       ],
-      "state": "integrated_proven",
+      "state": "boundary_proven",
       "v092_disposition": "supports_bounded_adversarial_cav_claims",
       "evidence": [
         "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
@@ -144,7 +144,7 @@
         "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/red_team_fixtures.json",
         "adl/tools/validate_wp12_cav_red_blue_4914.py"
       ],
-      "required_before_claim": "Bounded adversarial CAV claims may cite #4914 for the retained CSM red-blue runtime scenarios only; destructive cloud actions, secret retention, production WebSocket runtime API integration, and broader live CAV coverage remain non-claims unless separately proven."
+      "required_before_claim": "Bounded adversarial CAV claims may cite #4914 for retained local/static red-blue boundary scenarios only; integrated CSM HTTP runtime execution, destructive cloud actions, secret retention, production WebSocket runtime API integration, and broader live CAV coverage remain non-claims unless separately proven."
     },
     {
       "id": "tamper_evident_evidence_custody",

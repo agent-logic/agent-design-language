@@ -1,0 +1,127 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5404,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "e881c227735a375f6aea30eedff30434129a8e75d446610e5cf17856b488a4a2",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "91f3da9952a25b1222a5aa5e6e7d2c603217fb0156eaf074285ac1963bd0ec3a",
+  "claim": {
+    "id": "claim-5404-wp12-review-fix",
+    "owner": "codex",
+    "generation": 2,
+    "acquired_unix_seconds": 1784155570,
+    "expires_unix_seconds": 1784159170,
+    "heartbeat_unix_seconds": 1784155570,
+    "branch": "codex/5404-wp12-security-protocol-review-fix",
+    "worktree": ".worktrees/adl-wp-5404",
+    "protected_paths": [
+      "adl/src/csm_cav_red_blue.rs",
+      "adl/src/csm_credential_policy.rs",
+      "adl/tools/validate_wp12_cav_red_blue_4914.py",
+      "adl/tools/validate_wp12_ssm_readiness_4657.py",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "purpose": "Resolve #5403 WP-12 security and protocol review findings"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5404/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5404/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-assigned-review-fix",
+      "revision": "bcf2460905e3b06e3b268b83e3f976e28e912860a418c9aaa2a345df2e20949e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2fddb9134554b73cefe4aaec8afcc6363ad982e5d6d1b8a41e164da95adda9f1",
+      "rendered_digest": "c0b5a631031209befa85e6079017f023a1e2fc0e94f718168751647d63f7c4dc",
+      "ast_digest": "1db42de9845e177a1ce924299612814e614f4a9e04dc0f55a61cc9a296961176"
+    },
+    "stp": {
+      "values_digest": "99baeb4aae15af728d154b54a03927e42489b3398b9fd03681c2fccd476a5e3a",
+      "rendered_digest": "06d5ba1b54c9938260a19b2375e8ac456c307b63965ebe829d933625a5a5918e",
+      "ast_digest": "6e42845c7af7c84375f2aa47d367a68190df17cffb043b93d57b2439d19d5580"
+    },
+    "spp": {
+      "values_digest": "f2b0a5e03c445d064365b57d9e1864f750e3caa1784a420d36602be739be449a",
+      "rendered_digest": "9cfe95f1b98cbbaa846cf36aa2a3fe890f9f88ee03e540dddc4e81a6c70f79b5",
+      "ast_digest": "2d637841df51f36df5ce7dcb8772421dc24ca1c825611bd225fd9d4499e94c29"
+    },
+    "vpp": {
+      "values_digest": "b38e78e5bdde87bb32de4e11e2f4cea1bd5360f4874aec3c996ba761ff69b1b7",
+      "rendered_digest": "566a08c4ac008783114ede57d38e67d8585d28f8348121cdfd79d38477c8bc93",
+      "ast_digest": "11dc0691f8d3aef9a34642199ceb2567bca6a24994ec3e9b351db807de8444ba"
+    },
+    "srp": {
+      "values_digest": "2f145666c8d9a96496c3dafb234b9c4189ee0b8e5d3f723bcd4dbae40a44ba6e",
+      "rendered_digest": "9bde06945ad73492288c6d4440af9699c09b74aa80ea3884270da7617f0a5acb",
+      "ast_digest": "c9e8608da1ef76505e8ada4929428c5ffe4c5788acd7a91e1492770d3301be27"
+    },
+    "sor": {
+      "values_digest": "14d881a117223d6d5fb4d992233dd6f6c5fff30d01ee174cba6f26042576ac16",
+      "rendered_digest": "ed4d4220951595f93350c830fc034905ff308989778c1ddfc06c1ea41431f607",
+      "ast_digest": "e1c95af42d2e7aace25592b3f963798519c6aa6b214fe87c656b3059f2c22771"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "implementation and focused proof completed for WP-12 review fix"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "record implemented WP-12 review-fix evidence",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved WP-12 review findings by downgrading unproven CAV integrated-path claims to boundary-proven retained proof, classifying credential proof events as synthetic non-operational evidence, and wiring focused WP-12 validators into PR-fast CAV coverage.\",\"changes\":[\"Downgraded #4914 CAV retained proof and gate truth from integrated CSM HTTP runtime execution to boundary_proven local/static red-blue evidence.\",\"Regenerated retained #4914 CAV and #4920 credential policy artifacts from the patched CSM owner binary path.\",\"Marked credential lifecycle proof events as synthetic negative-case evidence excluded from operational audit streams.\",\"Updated WP-12 validators and PR-fast coverage companion checks to fail closed on stale #4914 integrated_proven or missing synthetic credential classification.\"],\"artifacts\":[\"docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json\",\"docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json\",\"docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "implementation and focused proof completed for WP-12 review fix",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

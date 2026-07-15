@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5404,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][WP-12] Resolve #5403 security and protocol findings",
+    "slug": "v0-91-7-review-fix-wp12-security-protocol-findings",
+    "version": "v0.91.7",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do the WP-12 records overclaim integrated CAV/runtime behavior?",
+        "Do validators and WBS agree with current issue/proof state?",
+        "Are synthetic credential-policy events clearly separated from operational audit streams?",
+        "Are focused validators actually executed by the selected lane?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

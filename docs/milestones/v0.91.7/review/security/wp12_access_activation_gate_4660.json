@@ -156,7 +156,7 @@
     {
       "surface": "cav_red_blue_runtime_proof",
       "owner_issue": 4914,
-      "state": "integrated_proven",
+      "state": "boundary_proven",
       "v092_disposition": "supports_bounded_retained_cav_red_blue_claims",
       "evidence": [
         "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
