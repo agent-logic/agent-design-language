@@ -5,7 +5,7 @@
   "initialization_digest": "e083362b6355da7b78220986ea0722ef686f435acc5d8895f2e76b3af93efc5f",
   "phase": "implemented",
   "generation": 7,
-  "digest": "dbc66fbbea5b372ab94a806209847418e4591237773612960dcc3321370882e8",
+  "digest": "b1437600c87721ddc125c97745de27eb225374ea861853f53c9e44ff1cf318c7",
   "claim": {
     "id": "issue-5335-planning-claim-1",
     "owner": "codex-root",
@@ -22,7 +22,16 @@
     ],
     "purpose": "Create the v0.91.8 ADL Core Rearchitecture milestone and sprint package"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "bounded-subagent-rereview-5335",
+    "assigned_by": "codex-root",
+    "revision": "git-blake3:79f3f08d02fe0e6d3a33e970f792acd381128ae8:91d7b707ef20d7b544321b3eda22bee11a0fa4195790201f6b8598b36f01de81",
+    "scope": [
+      "docs/milestones/v0.91.8",
+      "docs/milestones/v0.91.7/README.md",
+      "docs/milestones/v0.92/README.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -175,6 +184,13 @@
       "actor": "codex-root",
       "reason": "Recover from the pre-#5368 dirty-tree review dead-end after merging the typed recovery implementation from PR #5376; preserve prior review evidence and return to implemented for clean-commit re-review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
