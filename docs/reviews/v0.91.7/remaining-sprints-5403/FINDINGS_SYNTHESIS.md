@@ -1,7 +1,7 @@
 # Remaining v0.91.7 Sprint Review Synthesis
 
 Issue: #5403
-Status: review packets complete; independent package review passed
+Status: review packets and canonical register complete; refreshed review pending
 
 ## Findings Summary
 
@@ -79,6 +79,9 @@ They are grouped into shared remediation where one root contract owns the fix.
   revision chain.
 - `SPECIALIST_COVERAGE.md` retains the applicable specialist lanes, reviewed
   revision and scope, packet artifact, and disagreement disposition.
+- `docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md` now records
+  all ten packets, exact finding counts, remediation owners, and release
+  boundaries after #5383 terminally released the path.
 - Focused Runtime v2 suites reported 114 `adl-runtime` tests plus 40 integrated
   CSM API tests passing in the WP-07A lane.
 - Runtime v3 specialist validation reported 151 passed, 0 failed, and 8
@@ -90,6 +93,6 @@ They are grouped into shared remediation where one root contract owns the fix.
 
 ## Pending Closeout Work
 
-1. Reconcile `V0917_SPRINT_REVIEW_REGISTER.md` after #5383 releases its active
-   claim over `docs/milestones/v0.91.7`.
-2. Complete typed C-SDLC v2 review, publication, and closeout for #5403.
+1. Complete refreshed independent review after the current-main merge and
+   canonical register update.
+2. Republish and close out #5403 after green integration checks.

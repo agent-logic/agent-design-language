@@ -7,13 +7,13 @@
     "title": "[v0.91.7][review][sprint] Complete remaining closed-sprint reviews",
     "slug": "v0-91-7-review-complete-remaining-closed-sprint-reviews",
     "version": "v0.91.7",
-    "generation": 3
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -1,11 +1,15 @@
 # Scope And Evidence Index
 
 Issue: #5403
-Status: ten sprint packets complete; independent quality findings repaired
+Status: ten sprint packets and canonical register reconciliation complete;
+refreshed independent review pending
 
 The complete child-to-PR closure chain is retained in
 `CHILD_PR_REVISION_MATRIX.md`. Specialist lane coverage and disagreement truth
 are retained in `SPECIALIST_COVERAGE.md`.
+The canonical status reconciliation is retained in
+`docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md` after #5383
+recorded terminal merged closeout and released that protected path.
 
 ## Sprint Scope
 
