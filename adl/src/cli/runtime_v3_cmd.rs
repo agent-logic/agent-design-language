@@ -2,7 +2,7 @@ use anyhow::{anyhow, Result};
 use serde::Serialize;
 
 const DEFAULT_RUNTIME: RuntimeSelection = RuntimeSelection::V2;
-const RUNTIME_V3_CONTROL_HOST: &str = "127.0.0.1";
+const RUNTIME_V3_CONTROL_HOST: &str = "localhost";
 const RUNTIME_V3_CONTROL_PORT: u16 = 20_997;
 const RUNTIME_V3_KERNEL_BIN: &str = "adl-runtime-kernel";
 
@@ -141,9 +141,14 @@ fn selection_report(
         runtime_v3_control_host: RUNTIME_V3_CONTROL_HOST,
         runtime_v3_control_port: RUNTIME_V3_CONTROL_PORT,
         runtime_v3_control_endpoint: format!(
-            "http://{RUNTIME_V3_CONTROL_HOST}:{RUNTIME_V3_CONTROL_PORT}"
+            "https://{RUNTIME_V3_CONTROL_HOST}:{RUNTIME_V3_CONTROL_PORT}"
         ),
-        runtime_v3_kernel_command: vec![RUNTIME_V3_KERNEL_BIN, "serve"],
+        runtime_v3_kernel_command: vec![
+            RUNTIME_V3_KERNEL_BIN,
+            "serve",
+            "--init",
+            "infra/runtime-v3/runtime-init.toml",
+        ],
         compatibility_boundary:
             "explicit selector only; Runtime v2 remains the default until the cutover gate changes it",
     }
@@ -158,8 +163,8 @@ Environment:\n\
   ADL_RUNTIME_SELECTION=v3 selects Runtime v3 when --runtime is omitted.\n\n\
 Notes:\n\
   Runtime v2 remains the default unless --runtime v3 or ADL_RUNTIME_SELECTION=v3 is supplied.\n\
-  Runtime v3 uses the local control API endpoint http://127.0.0.1:20997.\n\
-  Launch the Runtime v3 kernel with: adl-runtime-kernel serve"
+  Runtime v3 uses the local control API endpoint https://localhost:20997.\n\
+  Launch the Runtime v3 kernel with: adl-runtime-kernel serve --init infra/runtime-v3/runtime-init.toml"
 }
 
 #[cfg(test)]
@@ -185,10 +190,18 @@ mod tests {
         assert!(report.selection_differs_from_default);
         assert!(report.runtime_v2_available);
         assert!(report.runtime_v3_available);
-        assert_eq!(report.runtime_v3_control_endpoint, "http://127.0.0.1:20997");
+        assert_eq!(
+            report.runtime_v3_control_endpoint,
+            "https://localhost:20997"
+        );
         assert_eq!(
             report.runtime_v3_kernel_command,
-            ["adl-runtime-kernel", "serve"]
+            [
+                "adl-runtime-kernel",
+                "serve",
+                "--init",
+                "infra/runtime-v3/runtime-init.toml"
+            ]
         );
     }
 

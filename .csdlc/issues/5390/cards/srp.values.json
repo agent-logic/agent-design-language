@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5390,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Make Runtime v3 Observatory local HTTPS and report bound control address",
+    "slug": "runtime-v3-local-https-bound-address",
+    "version": "v0.91.7",
+    "generation": 15
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review TLS trust boundaries, private-key handling, and absence of plain-HTTP production paths.",
+        "Review bound-address propagation and ephemeral-port test truth.",
+        "Review local/remote Observatory compatibility and release non-claims."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

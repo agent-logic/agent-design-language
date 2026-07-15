@@ -1,0 +1,222 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5390,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "a1ce191172a445886835ae006aeeacd5a05ac2cd4c6ee5ee10060bcd8436f21f",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "8cbf199d61c02aa0756d9e88f98d0e50cd4d2ba273e94f0b8179fa6a48768136",
+  "claim": {
+    "id": "csdlc-v2-5390-runtime-v3-https",
+    "owner": "codex",
+    "generation": 15,
+    "acquired_unix_seconds": 1784135334,
+    "expires_unix_seconds": 1784221734,
+    "heartbeat_unix_seconds": 1784135334,
+    "branch": "codex/5390-runtime-v3-local-https-bound-address",
+    "worktree": ".worktrees/adl-wp-5390",
+    "protected_paths": [
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "demos/v0.91.7/html-observatory/app.js",
+      "infra/runtime-v3/runtime-init.toml",
+      "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md"
+    ],
+    "purpose": "Make Runtime v3 local Observatory access natively HTTPS and report the actual bound control address"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/issues/5390/design.md",
+  "diagram_path": ".csdlc/issues/5390/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex",
+      "revision": "e31afda442f196edcf70e7b2cb021f7b3aab723485a6677ccd2e9d829e95528a"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f1470130975687b0aa2b95aaeb7fc980626aadff6b37c367177d217e6356a3bd",
+      "rendered_digest": "ff68d2f1d6e56599397260c1edb8e6e01d7513d078d0250e7877298ecd84d8aa",
+      "ast_digest": "5224dce45e10edd30ea8292bd2cbe94728bcf21f98a6a8d9a5e7fae2bb0de091"
+    },
+    "stp": {
+      "values_digest": "92c1e40d4840ac5aa302ab853c3e2a2e21555f352350f0532d570e081a15a56a",
+      "rendered_digest": "767441e6e7a9e4fb02dedc0981a6550cfa818dc3c6681235983227616943b4e9",
+      "ast_digest": "67697393ecf942dd3297cabe2232689c6102b0706c3315ddffe54642d0d7bd67"
+    },
+    "spp": {
+      "values_digest": "865cfa697d8845f85c66d995a4a13f6b8a286f2153ac56d003c6397d225c3804",
+      "rendered_digest": "eb33d53d98b4f6235d6811db5c3979a3edc213cfa9e44868f1768ebd389bf108",
+      "ast_digest": "953646f726cb52ae26de70b16400ab237a3666771f803c0dff2d72eb5365d074"
+    },
+    "vpp": {
+      "values_digest": "ed5b6677ff01636bf2f848d2d2b65a37b0d2dd1a989ffa022bb3a58fca9c13b1",
+      "rendered_digest": "3c53aecc7718437fcdcd9d049da5482781ef52b855ba70480ea15fa352bfb432",
+      "ast_digest": "a69af00dbf1cad312a5580dde63222536d296f4c3eab151bd5699d5ad4a96dd0"
+    },
+    "srp": {
+      "values_digest": "d6d38db12c89801d6c1eb0d802b070bfb188fccd1f0d596537d321c5ad1d29da",
+      "rendered_digest": "00877e89507110ac47a03d100cd7ce1addbbdc8b2828ca521d555c0df47d1525",
+      "ast_digest": "e9f2465611cf60d81dd0b6f3b5c0b103a39df1d7c4313b16998b900eb2304c4a"
+    },
+    "sor": {
+      "values_digest": "d79fa95c6ee70c648c62cfb1e8ec7b841d1d79e6ae04f31a4e48ff69ec51d00e",
+      "rendered_digest": "cd09b7d0d1cbb3bee9bc48f5e15505bf7fb0a290a7ff8c1d60da67552d1c5498",
+      "ast_digest": "cd144e58dc9aa3f05dbe7dbf36b77f077acd4ad8c47948c731b26936c9120e99"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Implementation and focused validation are complete; advance to exact-revision review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "Record bounded Runtime v3 HTTPS and bound-address implementation truth",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Runtime v3 now terminates HTTPS through the maintained Axum Rustls server adapter and reports the actual listener port to readiness and Observatory consumers.\",\"changes\":[\"Added fail-closed PEM certificate and private-key paths to Runtime v3 init configuration.\",\"Replaced the plaintext Axum serving path with axum-server Rustls while preserving graceful shutdown.\",\"Propagated TcpListener::local_addr() into the ready event and Observatory feed.\",\"Converted control integration tests to real TLS and corrected local Observatory documentation and URLs.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/config.rs\",\"infra/runtime-v3/runtime-init.toml\",\"docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md\",\"demos/v0.91.7/html-observatory/README.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Record full Runtime v3 crate validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Full independent Runtime v3 crate regression suite, including real TLS, CORS, graceful shutdown, and ephemeral-port proofs\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork target: 142 passed, 8 environment-dependent ignored, 0 failed\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Record Runtime v3 lint validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject Runtime v3 compiler and Clippy warnings across all targets\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork target: finished successfully with warnings denied\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Record HTML Observatory contract validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Verify the v0.91.7 HTML Observatory integrated proof remains valid\",\"outcome\":\"passed\",\"evidence_ref\":\"local output: v0.91.7 HTML Observatory integrated proof passed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Implementation and focused validation are complete; advance to exact-revision review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Record disposition of mandatory pre-PR review findings",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Runtime v3 HTTPS and bound-address repair completed with all first-pass review findings fixed.\",\"changes\":[\"Updated executable Runtime v3 selector output and launch command to HTTPS plus explicit init.\",\"Updated guardian, systemd, and retained rustysd contracts to pass explicit init and capsule paths and classify TLS config exit 78 as non-restartable.\",\"Added a concrete Caddy HTTPS Observatory command without repository trust-store mutation.\",\"Bounded TLS graceful drain and proved stalled-response termination.\",\"Proved missing and mismatched PEM material fails before Runtime v3 readiness.\"],\"artifacts\":[\"adl/src/cli/runtime_v3_cmd.rs\",\"adl-runtime/src/guardian.rs\",\"infra/systemd/adl-runtime-kernel.service\",\"infra/rustysd/adl-runtime-kernel.service\",\"adl-runtime-kernel/tests/control.rs\",\"demos/v0.91.7/html-observatory/README.md\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "Record final full Runtime v3 regression",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Final full Runtime v3 crate regression after review fixes\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork target: 144 passed, 8 environment-dependent ignored, 0 failed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Record guardian integration validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"guardian\"],\"purpose\":\"Verify guardian init/capsule launch contract and non-restartable configuration exits\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork target: 9 guardian tests passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "Record executable selector validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"runtime_v3_cmd\"],\"purpose\":\"Verify executable Runtime v3 selector advertises HTTPS and explicit init\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork cold target: selector tests passed; compile 2m29s, test execution under 1s\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Record final Observatory validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Final HTML Observatory contract validation after HTTPS runbook repair\",\"outcome\":\"passed\",\"evidence_ref\":\"local output: v0.91.7 HTML Observatory integrated proof passed\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "Record final pre-publication review dispositions",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Final review repairs make runtime-owned listening state and init configuration the only endpoint authorities.\",\"changes\":[\"Removed duplicate hard-coded control endpoint fields from guardian config and outcomes and versioned the changed guardian wire schema as v2.\",\"Changed control readiness to use axum-server Handle::listening() and propagate its bound address.\",\"Completed Horust init-file instructions and marked retained fixed-endpoint guardian matrices historical and superseded.\",\"Updated the issue design and diagram to show selector, guardian, init, native TLS, readiness, and Observatory flow.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime/src/guardian.rs\",\"infra/horust/README.md\",\"docs/architecture/runtime_v3_guardian_fallback_matrix.v1.json\",\".csdlc/issues/5390/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "Correct final execution record after lifecycle design guard",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Runtime v3 HTTPS repair is implemented; approved design artifacts remain unchanged and current.\",\"changes\":[\"Correction to the prior execution entry: the attempted late design/diagram update was reverted after the lifecycle guard rejected stale approval; no design or diagram change landed.\",\"Guardian outcome wire format is versioned as adl.runtime_v3.external_guardian.v2.\",\"Runtime readiness now comes from axum-server Handle::listening() rather than a pre-serve local signal.\"],\"artifacts\":[\"adl-runtime/src/guardian.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "Record exact final Runtime v3 test state",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Exact final Runtime v3 crate regression after server-owned readiness change\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork target: 144 passed, 8 environment-dependent ignored, 0 failed\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "Record exact final guardian test state",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"guardian\"],\"purpose\":\"Exact final guardian v2 wire and init/capsule contract regression\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork target: 8 guardian tests passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "Record exact final lint state",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Exact final Runtime v3 lint gate\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork target: completed successfully with warnings denied; adl-runtime --lib also passed\"}}"
+    }
+  ]
+}
