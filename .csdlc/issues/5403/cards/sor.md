@@ -90,6 +90,46 @@ Completed ten findings-first sprint reviews, canonical register reconciliation, 
     "purpose": "Prove AC-4 live remediation routing for all ten separate issues",
     "outcome": "passed",
     "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/FINDINGS_SYNTHESIS.md"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Prove the review and register patch has no whitespace or conflict-marker defects",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md"
+  },
+  {
+    "command": [
+      "/bin/test",
+      "-s",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/SCOPE_EVIDENCE_INDEX.md"
+    ],
+    "purpose": "Confirm the retained sprint scope and evidence inventory is present and non-empty",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/SCOPE_EVIDENCE_INDEX.md"
+  },
+  {
+    "command": [
+      "/bin/test",
+      "-s",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ],
+    "purpose": "Confirm the canonical v0.91.7 sprint review register is present and non-empty",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+  },
+  {
+    "command": [
+      "/bin/test",
+      "-s",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md"
+    ],
+    "purpose": "Confirm the refreshed independent review-quality evaluation is present and non-empty",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md"
   }
 ]
 

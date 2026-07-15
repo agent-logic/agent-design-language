@@ -25,25 +25,76 @@ Diagram: docs/reviews/v0.91.7/remaining-sprints-5403/DIAGRAM.mmd
 [
   {
     "lane": "review-doc-integrity",
-    "proof_role": "Prove review documents are syntactically clean and scoped to retained evidence",
+    "proof_role": "Prove the review and register patch has no whitespace or conflict-marker defects",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
       "AC-3",
-      "AC-4",
-      "AC-5",
-      "AC-6"
+      "AC-4"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_seconds": 60,
+    "budget_tokens": 500,
     "argv": [
       "git",
       "diff",
       "--check"
     ],
     "parallel_group": "docs",
+    "defer_reason": null
+  },
+  {
+    "lane": "sprint-inventory-retention",
+    "proof_role": "Confirm the retained sprint scope and evidence inventory is present and non-empty",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 100,
+    "argv": [
+      "/bin/test",
+      "-s",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/SCOPE_EVIDENCE_INDEX.md"
+    ],
+    "parallel_group": "records",
+    "defer_reason": null
+  },
+  {
+    "lane": "canonical-register-retention",
+    "proof_role": "Confirm the canonical v0.91.7 sprint review register is present and non-empty",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 100,
+    "argv": [
+      "/bin/test",
+      "-s",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ],
+    "parallel_group": "records",
+    "defer_reason": null
+  },
+  {
+    "lane": "independent-review-retention",
+    "proof_role": "Confirm the refreshed independent review-quality evaluation is present and non-empty",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 100,
+    "argv": [
+      "/bin/test",
+      "-s",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md"
+    ],
+    "parallel_group": "review",
     "defer_reason": null
   }
 ]
@@ -61,6 +112,9 @@ Tokens: 50000
 ## Commands
 
 - `git diff --check`
+- `/bin/test -s docs/reviews/v0.91.7/remaining-sprints-5403/SCOPE_EVIDENCE_INDEX.md`
+- `/bin/test -s docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md`
+- `/bin/test -s docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md`
 
 ## Failure Semantics
 

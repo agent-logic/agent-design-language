@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review][sprint] Complete remaining closed-sprint reviews",
     "slug": "v0-91-7-review-complete-remaining-closed-sprint-reviews",
     "version": "v0.91.7",
-    "generation": 14
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
             "AC-2",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -34,7 +34,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -44,7 +44,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
