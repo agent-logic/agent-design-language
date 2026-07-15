@@ -93,7 +93,4 @@ They are grouped into shared remediation where one root contract owns the fix.
 
 ## Pending Closeout Work
 
-1. Complete refreshed independent review after the current-main merge,
-   canonical register update, and typed SPP/VPP reconciliation delivered by
-   #5406.
-2. Republish and close out #5403 after green integration checks.
+1. Republish and close out #5403 after green integration checks.
