@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5330,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[runtime-v3][ci] Give Runtime v3 an independent fast validation lane",
+    "slug": "runtime-v3-independent-fast-validation-lane",
+    "version": "v0.91.7",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Pre-execution output record.",
+      "actual_changes": [],
+      "artifacts": [],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
