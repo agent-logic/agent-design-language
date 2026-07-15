@@ -3,32 +3,14 @@
   "issue": 5330,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "9b823b2aa9399574baeed6b02b17734c63776c4dc3886f1aa847f8e0928c3ef1",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "28c756642138008e9041bfa24dcce0c9b086ce4fe583f908ed2af95d3581980e",
-  "claim": {
-    "id": "claim-5330-runtime-v3-fast",
-    "owner": "codex",
-    "generation": 5,
-    "acquired_unix_seconds": 1784139673,
-    "expires_unix_seconds": 1784143273,
-    "heartbeat_unix_seconds": 1784139673,
-    "branch": "codex/5330-runtime-v3-fast-validation",
-    "worktree": ".worktrees/adl-wp-5330",
-    "protected_paths": [
-      ".github/workflows/ci.yaml",
-      "adl/tools/select_validation_lanes.py",
-      "adl/tools/run_pr_fast_test_lane.sh",
-      "adl/tools/test_run_pr_fast_test_lane.sh",
-      "docs/architecture/runtime_v3_fast_validation_5330.md",
-      "docs/architecture/runtime_v3_fast_validation_5330.mmd"
-    ],
-    "purpose": "Implement the independent Runtime v3 fast validation lane"
-  },
+  "phase": "closed_out",
+  "generation": 11,
+  "digest": "3527cf657f0354d4145e040d76438483a766ef2d9d9134e14257d40390f9b65f",
+  "claim": null,
   "review_assignment": {
     "reviewer": "codex-review",
     "assigned_by": "codex",
-    "revision": "git-blake3:f302dcffa8303c6fb0c18048a6f245923dcf684c:1156dbe2b2c0c14221f5cb2220b7d1f5dad0e1c4403e1e65604ab266602a7d49",
+    "revision": "git-blake3:432e215a629053e67c6b2c2daaad026ed2ddba9c:98079187ad1a61a444d25ba94f6e144a097d90c22d1fdeebcf0b6abc32775d67",
     "scope": [
       ".github/workflows/ci.yaml",
       "adl/config/validation_lane_selector.v0.91.6.json",
@@ -48,17 +30,107 @@
       "docs/architecture/runtime_v3_fast_validation_5330.md",
       "docs/architecture/runtime_v3_fast_validation_5330.mmd"
     ],
-    "reviewed_revision": "git-blake3:f302dcffa8303c6fb0c18048a6f245923dcf684c:1156dbe2b2c0c14221f5cb2220b7d1f5dad0e1c4403e1e65604ab266602a7d49",
+    "reviewed_revision": "git-blake3:432e215a629053e67c6b2c2daaad026ed2ddba9c:98079187ad1a61a444d25ba94f6e144a097d90c22d1fdeebcf0b6abc32775d67",
     "findings": [],
     "residual_risks": [
-      "The dedicated lane is selected for Runtime v3-only diffs; this merged PR itself is a mixed CI-policy change and therefore retains legacy contract checks."
+      "The merged implementation PR was a mixed CI-policy change; the dedicated Runtime v3-only lane was proven locally and is selected only for exact v3-only paths."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5330,
+    "pull_request": 5399,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5399",
+    "base": "main",
+    "head": "codex/5330-runtime-v3-fast-validation",
+    "revision": "git-blake3:432e215a629053e67c6b2c2daaad026ed2ddba9c:98079187ad1a61a444d25ba94f6e144a097d90c22d1fdeebcf0b6abc32775d67",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": {
+    "pull_request": 5399,
+    "head_sha": "432e215a629053e67c6b2c2daaad026ed2ddba9c",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445375293"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445179344"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445225229"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445179330"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445226549"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445226074"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445225733"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445225758"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29442637611/job/87445225219"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5399,
+    "disposition": "merged",
+    "observed_sha": "432e215a629053e67c6b2c2daaad026ed2ddba9c",
+    "observed_state": "merged",
+    "receipt_path": "/Users/daniel/git/agent-design-language/.git/csdlc-v2/closeout/5330.json",
+    "released_branch": "codex/5330-runtime-v3-fast-validation",
+    "released_worktree": ".worktrees/adl-wp-5330",
+    "released_protected_paths": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/select_validation_lanes.py",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh",
+      "docs/architecture/runtime_v3_fast_validation_5330.md",
+      "docs/architecture/runtime_v3_fast_validation_5330.mmd"
+    ]
+  },
   "migration": null,
   "design_path": "docs/architecture/runtime_v3_fast_validation_5330.md",
   "diagram_path": "docs/architecture/runtime_v3_fast_validation_5330.mmd",
@@ -70,34 +142,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6c14e5d4a2ca48bd78d977b0c5c9eff6a574a269261add4a3e5ce7d800918934",
+      "values_digest": "82b3eb30dc94e1bef2b0a5b0f01bc71040a61ae968d6478ccda1de78acaa153a",
       "rendered_digest": "c4dfa27d436378ee38274b1a28de69d64fdb5b4a5adf0f0eaedf1368390e148e",
       "ast_digest": "662382c5158a8596b9b052c0961d0c19fb3d0a71e21bdfbfa8603e1ed981379a"
     },
     "stp": {
-      "values_digest": "a5c7c816cf34b8430b58106aeefe84c9ba78a538514ba3bce2839b32fa8f697b",
+      "values_digest": "f60f950bdbc680ce8674ea2c47ca112326bc3da5a8d99d0808302a17498384e6",
       "rendered_digest": "335df737189b9b19f69ef4c242700d481ba01a5e81e42a8209d110833a62a177",
       "ast_digest": "cd95c9a58e8934cea0f96e809de1d5387b6ce2248fbdba5b979f2115d2bd06a4"
     },
     "spp": {
-      "values_digest": "f6759cee6a422035e03a911d4364b076445b70966ff29ddbe4644d3cb9572159",
+      "values_digest": "06c146c042c7fd4a80c5f2a8d73269dc2a61f56a756a59f38bbed1af250fd26a",
       "rendered_digest": "6af792ac5e98915c965b4548d407b3049f75ddc029bb9e13e33bc291129d9f14",
       "ast_digest": "adcb88fbbe3dbc9aa88c02e6a2fc66e8d5738a18b7fd3807ca71571ca1c03547"
     },
     "vpp": {
-      "values_digest": "26f7915279e46f47587ceea9533deeed02de49e064b80c26620e3b00c683688f",
+      "values_digest": "7816b27df98c8ceaa1f7b17916db88c7e2f2ea6f9a2ecafa235a6e65cdb2e34a",
       "rendered_digest": "cb1c997347bc7f475617069f62345a894c7490a00368d79aacea4b502225f50b",
       "ast_digest": "b2b9f9d19d9caeef1f922cc8c29c6e5e34382733bbca13b29fde0d3e4ffa0dc7"
     },
     "srp": {
-      "values_digest": "857c1792e050847c6258ede4b2ebd0f4d7afe3bd722bf45fd8d15fdfb79cf865",
-      "rendered_digest": "c6dc61645c83d679dc5d92423206df0886243cc8a4361bd7e7a54eff5e21a895",
-      "ast_digest": "dd20ae17cdd69ebdcd3067f1e2fcee67183fc25c985538f80fa2598943807a50"
+      "values_digest": "9279900128f76fedd10804c4afd5da769eebaa1c95aadb2309a3d1d75b17c25e",
+      "rendered_digest": "6b2015e4cf11119f08b19ee6efaf2673af94dfa5f04f624af8444bb47f630dc7",
+      "ast_digest": "425d889419a0bdc0e4ac99851d413e68f6161c242ecf39d758d7cffb44394af2"
     },
     "sor": {
-      "values_digest": "a904f54130824920aa9f7403897ee4b47fc8f3603a2c4eda04abd8a9acaf7b4a",
-      "rendered_digest": "53bf0ae9f0b49a2e7440c174138259f9a1553702bdb4097c620008f7e0a2afc8",
-      "ast_digest": "f425f3614b132a95cff7cd598878219633a368bcd2e7b9ad8feaaf4ea4025176"
+      "values_digest": "05886a0e895120def4568f74519fb9549710e0391b0c06e3b12ae2a02ed78000",
+      "rendered_digest": "90f84d7a38856aaa50e3774e5d7d479cc45776696ae827ef140a436dfbbfb9ad",
+      "ast_digest": "40d4f400253057552784ff8d80503222dfacf9b8dcdbf6529fd823083240ca1a"
     }
   },
   "transitions": [
@@ -128,6 +200,48 @@
       "to": "reviewed",
       "actor": "codex",
       "reason": "review completed with no actionable findings"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Reopen typed review after lifecycle-only record commit changed the revision identity; re-review current clean tree before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Current clean implementation tree reviewed with no actionable findings."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact draft PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 9,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 10,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -186,6 +300,55 @@
       "actor": "codex",
       "reason": "review completed with no actionable findings",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Reopen typed review after lifecycle-only record commit changed the revision identity; re-review current clean tree before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex-review",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Current clean implementation tree reviewed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
     }
   ]
 }
