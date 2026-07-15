@@ -53,7 +53,7 @@ Created the planned-posture v0.91.8 ADL Core Rearchitecture package, opened and 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

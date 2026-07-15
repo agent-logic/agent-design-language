@@ -3,13 +3,13 @@
   "issue": 5335,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "e083362b6355da7b78220986ea0722ef686f435acc5d8895f2e76b3af93efc5f",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "af2b457642d2ab865e3eaf2723b0fa33ccf1ac202fcda8eb43262a54a57fd897",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "dbc66fbbea5b372ab94a806209847418e4591237773612960dcc3321370882e8",
   "claim": {
     "id": "issue-5335-planning-claim-1",
     "owner": "codex-root",
-    "generation": 6,
+    "generation": 7,
     "acquired_unix_seconds": 1784052619,
     "expires_unix_seconds": 1784657419,
     "heartbeat_unix_seconds": 1784052619,
@@ -22,125 +22,8 @@
     ],
     "purpose": "Create the v0.91.8 ADL Core Rearchitecture milestone and sprint package"
   },
-  "review_assignment": {
-    "reviewer": "bounded-subagent-review-5335",
-    "assigned_by": "codex-root",
-    "revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
-    "scope": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7/README.md",
-      "docs/milestones/v0.92/README.md"
-    ]
-  },
-  "review": {
-    "reviewer": "bounded-subagent-review-5335",
-    "scope": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7/README.md",
-      "docs/milestones/v0.92/README.md"
-    ],
-    "reviewed_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
-    "findings": [
-      {
-        "id": "F-5335-01",
-        "severity": "p1",
-        "summary": "Seeded and moved issue bodies referenced sunset v1 lifecycle routing.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
-        "route": null
-      },
-      {
-        "id": "F-5335-02",
-        "severity": "p2",
-        "summary": "Moved #5107 retained stale Runtime v2 and pre-deployment acceptance truth.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
-        "route": null
-      },
-      {
-        "id": "F-5335-03",
-        "severity": "p2",
-        "summary": "Canonical FEATURE_DOCS_v0.91.8.md index was missing.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
-        "route": null
-      },
-      {
-        "id": "F-5335-04",
-        "severity": "p2",
-        "summary": "Quality gate assigned the default selector switch to WP-13 instead of WP-12.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
-        "route": null
-      },
-      {
-        "id": "F-5335-05",
-        "severity": "p2",
-        "summary": "Bound-phase SPP cannot be truthfully replanned after operator scope expansion.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "accepted_risk",
-        "fix_revision": null,
-        "route": "https://github.com/danielbaustin/agent-design-language/issues/5364"
-      },
-      {
-        "id": "F-5335-06",
-        "severity": "p1",
-        "summary": "WP-12 parent #5344 was accidentally emptied during bulk issue-body reconciliation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:7c3e1e0e86a4ca982231ce91c39073530c5408e6:a2cb6e69050799dbf591108612b6e2233eab2fded3106d8f99ab41e8bfd2fcdf",
-        "route": null
-      },
-      {
-        "id": "F-5335-07",
-        "severity": "p1",
-        "summary": "Generated VPP references deleted v1 planning validation wrapper.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "accepted_risk",
-        "fix_revision": null,
-        "route": "https://github.com/danielbaustin/agent-design-language/issues/5365"
-      },
-      {
-        "id": "F-5335-08",
-        "severity": "p2",
-        "summary": "Active helper-skill guidance conflicts with final typed-v2 authority.",
-        "actionable": false,
-        "in_scope": false,
-        "disposition": "out_of_scope",
-        "fix_revision": null,
-        "route": "https://github.com/danielbaustin/agent-design-language/issues/5366"
-      },
-      {
-        "id": "F-5335-09",
-        "severity": "p2",
-        "summary": "Staleness checker cannot represent planned milestone posture without premature root activation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "accepted_risk",
-        "fix_revision": null,
-        "route": "https://github.com/danielbaustin/agent-design-language/issues/5367"
-      }
-    ],
-    "residual_risks": [
-      "The bound issue retains pending SPP step statuses because typed mutation is prohibited after bind; #5364 owns an audited replan path.",
-      "The generated VPP retains a deleted wrapper command; equivalent focused validation passed and #5365 owns generator repair.",
-      "Root README and CHANGELOG activation checks remain intentionally deferred until the milestone is activated; #5367 owns planned-mode validation.",
-      "Installed helper-skill authority drift is routed to #5366."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -155,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "724a3270d68d96701cb217191a8c396becb40fccdea36df7600b20cd5892ead2",
+      "values_digest": "b7583b541c48a40c513e73127c6140e35bd48ff27da68c20e858fd6371a7fb9c",
       "rendered_digest": "8219bacca88b5cc92e4340d664c9d978248c4be8a9f8c5cc844919dad61b5734",
       "ast_digest": "eed4eeb3a39178aab9135007f9202f8076cec3806aada3ac1fb4da68d258de6d"
     },
     "stp": {
-      "values_digest": "b2b4cad01ed7b109c508902943e18df7b53e26e1e94e9ba53847dd7439abd721",
+      "values_digest": "eed66a2ab31787c323ac1b06339c4d66f9753e3409d2b6e04b5aabfffc25d73a",
       "rendered_digest": "6f18b36c468be6e7dd0e3bf46d605ed19b28b4d23ce3e5eed610ba6af496ae89",
       "ast_digest": "35a7103d6cea9ec0622552f526258ee27940a69c72c97cfbe38f2f87fbac11ae"
     },
     "spp": {
-      "values_digest": "a0be82218229522527174d9cc7f7a64d2de63ea727ec87ef6de92848ba8fa5dd",
+      "values_digest": "a7cdc41b532945efba13c77035324899d8a8378d3f3a51bca67eddf94437871b",
       "rendered_digest": "246944c514245a468a5e4bd754ed5fefb1352058a722c9b6a8aa266ae1f65031",
       "ast_digest": "e7b9430b42f0a23d90057892e487a078ca9b88483f792d621a0b5df2107776ee"
     },
     "vpp": {
-      "values_digest": "2c84d001105ab43443398e7a709cfecaace54891c2d2935baeea7bdc2962f493",
+      "values_digest": "5fb8f6a1f2d0b21d0c0e2cd3635fd0e6105696c07fa54abf1727a992f6bf845b",
       "rendered_digest": "8f8c693f73ba8352cf775baa18736f102711b6d570ea05f818143325191d897c",
       "ast_digest": "50cfd443a80e300ac11fb490bcf8a5e642bb1bc57de7de339c8fe12c3d666856"
     },
     "srp": {
-      "values_digest": "bcddb906f0e3eae8415520469a678abc32c6ebc35251784aa5dcef193d99efa1",
-      "rendered_digest": "942f9447fe49f8fae754847a983a3dfd61ce1881c1ea818f29aba0ba384c35ea",
-      "ast_digest": "3fbc165bbf2537a393da09d403d396ab99149f4930e3196c8174fb3d6be8808a"
+      "values_digest": "53855ecebd253c751ef0665a3945fd37f2216ce6dffc8a6d70ee28a7f8141a27",
+      "rendered_digest": "67cd409a40ed86ffa9684945ab3b9ac77f7b3c94f704298450cba474766019f8",
+      "ast_digest": "92e3e7541d47cc368a85ad13eebb235485c3bbcdbbc533bef5276196670fa24a"
     },
     "sor": {
-      "values_digest": "9805e3cd28ded6e080f48b849a0649174ed9b0cbd5e0e334cba58623d4816449",
-      "rendered_digest": "990d5dfdd576e5de3e5de270925919e68dfd5d75a12126ee4cf480803dcf6ca6",
-      "ast_digest": "573fd469170f2fac1fa444a0f74c211cca3f13a73db477d6fbb83aaddd396ee3"
+      "values_digest": "ee1e3087a7d6e4bc9a39ec2e21379e2be1746ca280f3c541faf5fa0a4a8a7430",
+      "rendered_digest": "51b07695eff8f1af4d11fe98a9a3ac22a0c9b47b42a645ccfb9a182700a07b61",
+      "ast_digest": "43410c6cd31051f20145cd7c6af3fd774e9853b4fcccbfdccf801f46d162dca7"
     }
   },
   "transitions": [
@@ -213,6 +96,13 @@
       "to": "reviewed",
       "actor": "codex-root",
       "reason": "Bounded exact-revision review passed with every finding fixed or durably routed and accepted."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "Recover from the pre-#5368 dirty-tree review dead-end after merging the typed recovery implementation from PR #5376; preserve prior review evidence and return to implemented for clean-commit re-review."
     }
   ],
   "audit": [
@@ -278,6 +168,13 @@
       "actor": "codex-root",
       "reason": "Capture the publication dead-end discovered after review without bypassing typed lifecycle guards.",
       "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"F-5335-10\",\"severity\":\"p1\",\"summary\":\"Typed review can accept a dirty substantive tree that typed publication cannot publish after commit, with no reviewed-phase reassignment path.\",\"actionable\":false,\"in_scope\":false,\"disposition\":\"out_of_scope\",\"fix_revision\":null,\"route\":\"https://github.com/danielbaustin/agent-design-language/issues/5368\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex-root",
+      "reason": "Recover from the pre-#5368 dirty-tree review dead-end after merging the typed recovery implementation from PR #5376; preserve prior review evidence and return to implemented for clean-commit re-review.",
+      "operation": "recover_review"
     }
   ]
 }
