@@ -3,13 +3,13 @@
   "issue": 5383,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5774e6b65a3f68bbe9cfdfde4e2d22219496012f36018b5b495815756bd8a140",
-  "phase": "published",
-  "generation": 21,
-  "digest": "34d96ae1f73437c34d6f4cd524e5a5ad50feb2be716d0bdaeea47a7e53675a88",
+  "phase": "implemented",
+  "generation": 18,
+  "digest": "c08ce842a899b8b995f02572dcda7d7585ed0bbd09db3e13501c219692ac8545",
   "claim": {
     "id": "csdlc-v2-5383-v0918-planning-package",
     "owner": "codex",
-    "generation": 21,
+    "generation": 18,
     "acquired_unix_seconds": 1784133645,
     "expires_unix_seconds": 1784220045,
     "heartbeat_unix_seconds": 1784133645,
@@ -23,65 +23,9 @@
     ],
     "purpose": "Restore WP-14 routing and create the missing v0.91.8 planned-posture milestone package"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
-    "assigned_by": "codex",
-    "revision": "git-blake3:bc1b43289b43df4c7abdb7b5080300caf20b4d17:a31bacb7565f163d05ed104174cd842cbc9ec0582975428a142569143e613fe9",
-    "scope": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
-      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
-      "docs/milestones/v0.92/README.md"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f66ad-cc78-76b3-ace1-6a3b78e3e01d",
-    "scope": [
-      "docs/milestones/v0.91.8",
-      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
-      "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
-      "docs/milestones/v0.92/README.md"
-    ],
-    "reviewed_revision": "git-blake3:bc1b43289b43df4c7abdb7b5080300caf20b4d17:a31bacb7565f163d05ed104174cd842cbc9ec0582975428a142569143e613fe9",
-    "findings": [
-      {
-        "id": "review-5383-p2-v092-success-criterion",
-        "severity": "p2",
-        "summary": "v0.92 README success criteria initially omitted the v0.91.8 bridge prerequisite.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:bc1b43289b43df4c7abdb7b5080300caf20b4d17:a31bacb7565f163d05ed104174cd842cbc9ec0582975428a142569143e613fe9",
-        "route": null
-      },
-      {
-        "id": "review-5383-p3-sidecar-wp-field",
-        "severity": "p3",
-        "summary": "WP-14 sidecar routes initially used wp: WP-14A for live WP-14-labeled issues instead of separating live and parent WP routing.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:bc1b43289b43df4c7abdb7b5080300caf20b4d17:a31bacb7565f163d05ed104174cd842cbc9ec0582975428a142569143e613fe9",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "C-SDLC state is maintained by typed v2 lifecycle commands; publication review scope is limited to substantive planning docs."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5383,
-    "pull_request": 5389,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5389",
-    "base": "main",
-    "head": "codex/5383-v0-91-7-restore-wp14-and-create-v0-91-8-planning-package",
-    "revision": "git-blake3:bc1b43289b43df4c7abdb7b5080300caf20b4d17:a31bacb7565f163d05ed104174cd842cbc9ec0582975428a142569143e613fe9",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -95,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ee08be37030578d9fdba215abc1943d1e9d4d85dd51514d6d3a1842d2d3f7d5",
+      "values_digest": "5dbc5e215412f30b69c3809180af5fa882d73eae0f8eaec8b8646bd8b49ab785",
       "rendered_digest": "b2757d55da8bf9be4ffbcaed846c5e9c15bcee27e1db146206b071c9636084fc",
       "ast_digest": "d1b3405638cb259d04fef5f91b87a803938d66998afb518ba0f2e56604a02d44"
     },
     "stp": {
-      "values_digest": "508a8689a4f8de84dfc4949b3c277a8eaf913bf1c6ce05a698b9fdb164308bfa",
+      "values_digest": "21ad9a0b8bec3e2604e20e80cd7b66d7ae080f22a9dd0176bde676811812abe4",
       "rendered_digest": "c3196f51a37435dd4483767048cbf2b4c2e9dba3cac3212963043e2d2d7b09f6",
       "ast_digest": "5e42129772d7467f88f42226ccd57a9e9587e8a85d4c78831f13f91efde0fe95"
     },
     "spp": {
-      "values_digest": "0fba867dfc222c72b08db927f7fc4fa150e52ff85fda88e4fc45512af79bf69a",
+      "values_digest": "55dbd40e96b4430f43f7870867a8860da86ce8a3ce668effd60eaa327339c30c",
       "rendered_digest": "f0033e9d6832ab14bbbe131938597a3363ecc71df4c6458b5776b0ec4a018b6e",
       "ast_digest": "1c037064d5738a2d8c4ec99d1c61f7f61fa5eeff9be658bc3f3427c33d5970ba"
     },
     "vpp": {
-      "values_digest": "5fc24768860a5637c2a7acf278a63830080682d0ff4eaa7f60ca16661ee1c19a",
+      "values_digest": "2a25407663cd921ef06477520c47122a0290b8083cabf127849212b93dc3b229",
       "rendered_digest": "e998ed06a1b566fa6f747901fab80b45ed9052c8ee6d8828a9368851f782f1aa",
       "ast_digest": "97b60032a5b4567f8a7f1b1efede7a72fe827afad430d98c1ee2a3e3fc75ed8f"
     },
     "srp": {
-      "values_digest": "cfec69cfb8dab68cd888bb98eee20e40110bd05edad7a45c4340d8b91dbef2e5",
-      "rendered_digest": "c8d063a6cd66b5b61495c0929c18321adc5b48faf9ab7258d88652f3b2ca0aeb",
-      "ast_digest": "5201289d4a12671bec80cc84772a8a7af2d756ac47a56e96176d931e1ab1ec96"
+      "values_digest": "3c31d76d393a226982d5ec20b63134f7248ce4c67fae10c04291ae78cb84b007",
+      "rendered_digest": "e20b5c59da2e500cba4e9b89b52af6a01653f99f81c47b5dff412e9c27079ab6",
+      "ast_digest": "b044e3d2083ab18d2b2ab74f0194f92708dd7ed40a1f52896d8b27909560293c"
     },
     "sor": {
-      "values_digest": "07b3ad88e27278eb08baed7c5822846808e089d028cfdce025af3c661400281d",
-      "rendered_digest": "010e59c159debf32632a58e306859149b18e5eefac3dd4c3af133d32ad110cc2",
-      "ast_digest": "c5d6a984bb401ccbc286f897e7922336efc1c073e4316b94a8854619ed93a3f8"
+      "values_digest": "cf2bb7f4d86d69d23dca001e2ca13d79e6cd9571b8072793b74c3234ad1b1d38",
+      "rendered_digest": "4707a42d31ce0cd4693160ed086a7c52522140f23634c88d2a151be50b7402e8",
+      "ast_digest": "24585a68290edeff3be507e03930da737b858a88da87a929662c84c4dc34163c"
     }
   },
   "transitions": [
@@ -174,20 +118,6 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "recover committed reviewed metadata so publication review can be applied as working-tree lifecycle state"
-    },
-    {
-      "sequence": 8,
-      "from": "implemented",
-      "to": "reviewed",
-      "actor": "codex",
-      "reason": "publication review evidence completed for substantive planning docs"
-    },
-    {
-      "sequence": 9,
-      "from": "reviewed",
-      "to": "published",
-      "actor": "codex",
-      "reason": "observed exact draft PR after current review"
     }
   ],
   "audit": [
@@ -337,34 +267,6 @@
       "actor": "codex",
       "reason": "recover committed reviewed metadata so publication review can be applied as working-tree lifecycle state",
       "operation": "recover_review"
-    },
-    {
-      "sequence": 22,
-      "generation": 18,
-      "actor": "codex",
-      "reason": "assign bounded exact-revision review",
-      "operation": "assign_review"
-    },
-    {
-      "sequence": 23,
-      "generation": 19,
-      "actor": "codex",
-      "reason": "atomically record review evidence and SRP projection",
-      "operation": "record_review"
-    },
-    {
-      "sequence": 24,
-      "generation": 20,
-      "actor": "codex",
-      "reason": "publication review evidence completed for substantive planning docs",
-      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
-    },
-    {
-      "sequence": 25,
-      "generation": 21,
-      "actor": "codex",
-      "reason": "atomically record observed GitHub publication and SOR projection",
-      "operation": "record_publication"
     }
   ]
 }

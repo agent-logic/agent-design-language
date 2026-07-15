@@ -116,11 +116,11 @@ Restored #4641 to v0.91.7 WP-14, created #5384 as v0.91.8 WP-14A preservation pa
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 
