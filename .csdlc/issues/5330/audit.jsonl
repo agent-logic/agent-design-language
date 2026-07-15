@@ -6,3 +6,10 @@
 {"sequence":6,"generation":3,"actor":"codex","reason":"record focused Runtime v3 validation evidence","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"purpose\":\"prove Runtime v3-only, mixed, and unmapped path routing\",\"outcome\":\"passed\",\"evidence_ref\":\"local:test_ci_path_policy\"}}"}
 {"sequence":7,"generation":4,"actor":"codex","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":8,"generation":5,"actor":"codex","reason":"review completed with no actionable findings","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":9,"generation":6,"actor":"codex","reason":"Reopen typed review after lifecycle-only record commit changed the revision identity; re-review current clean tree before publication.","operation":"recover_review"}
+{"sequence":10,"generation":6,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":7,"actor":"codex-review","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":12,"generation":8,"actor":"codex","reason":"Current clean implementation tree reviewed with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":13,"generation":9,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":14,"generation":10,"actor":"codex","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":15,"generation":11,"actor":"codex","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}

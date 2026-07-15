@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -36,11 +36,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The dedicated lane is selected for Runtime v3-only diffs; this merged PR itself is a mixed CI-policy change and therefore retains legacy contract checks.
+- The merged implementation PR was a mixed CI-policy change; the dedicated Runtime v3-only lane was proven locally and is selected only for exact v3-only paths.
 
 ## Review Result
 
-Revision: Some("git-blake3:f302dcffa8303c6fb0c18048a6f245923dcf684c:1156dbe2b2c0c14221f5cb2220b7d1f5dad0e1c4403e1e65604ab266602a7d49")
+Revision: Some("git-blake3:432e215a629053e67c6b2c2daaad026ed2ddba9c:98079187ad1a61a444d25ba94f6e144a097d90c22d1fdeebcf0b6abc32775d67")
 
 Reviewer: Some("codex-review")
 
