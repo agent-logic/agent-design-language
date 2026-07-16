@@ -28,3 +28,12 @@
 {"sequence":28,"generation":24,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":29,"generation":25,"actor":"codex","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":30,"generation":26,"actor":"codex","reason":"Exact-revision independent review completed with no unresolved actionable findings","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":31,"generation":27,"actor":"codex","reason":"Re-pin exact pre-publication review after lifecycle-only review projection commit","operation":"recover_review"}
+{"sequence":32,"generation":27,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":33,"generation":28,"actor":"codex","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":34,"generation":29,"actor":"codex","reason":"Current exact-revision independent review completed with no unresolved actionable findings","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":35,"generation":30,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":36,"generation":31,"actor":"codex","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":37,"generation":32,"actor":"codex","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":38,"generation":33,"actor":"codex","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":39,"generation":34,"actor":"codex","reason":"Materialize retained terminal receipt after merged implementation PR #5424","operation":"reconcile_terminal"}
