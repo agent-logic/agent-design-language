@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8e9178cb8566e54c25e6a60a6bb12f910904a4b5d8de5c90bfbda5e8f3b8338b",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "4cf1429b78f3aaabee93ba526fe38016eb66902befeafa3d934c519300877fb4",
+  "generation": 24,
+  "digest": "ca286c41d78a7db4f3f85fdeff212dafd06bb9f9f75083d80c20a6ea1a04e4b1",
   "claim": {
     "id": "claim-5407-tools-reliability-tail",
     "owner": "codex",
-    "generation": 23,
+    "generation": 24,
     "acquired_unix_seconds": 1784226226,
     "expires_unix_seconds": 1784312626,
     "heartbeat_unix_seconds": 1784226226,
@@ -41,32 +41,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eeadf9c983764d25e92f6886c6c16cae4bf201635d76cc45aeb15b08e9e08c79",
+      "values_digest": "d606daa70e526a954f5e4ca5edbc68a4d771d9975d52c2da9b69f3790ced3fb1",
       "rendered_digest": "9d885e96ba486a7cb0b89f6318dff405f2f0ad7073e0576098affcf0e2b82f37",
       "ast_digest": "23de05dd018bea43ce9ebedd2be5701b20ec1ddb7136bb031d531986012f418e"
     },
     "stp": {
-      "values_digest": "29e6436a6446288690ac651ad0872ee75cb4e9554f85c28a396a9b70de621420",
+      "values_digest": "71f3734b29b7ac32af3313fe50342c5d1737c352f8eaaa2ca2fd950ceea8d00d",
       "rendered_digest": "6feea36e36b92138542354eb3b0775fb4e34eeb3700e4b78df8849517bcdacb3",
       "ast_digest": "35757c103391d6e43ba5181bc35f281d32ac06bf8a28f096afd189ee837981ec"
     },
     "spp": {
-      "values_digest": "fc8307ca2dadcdd973f77fc4fe5bf9b0086962083a8672aa9e3391909cf64e8a",
-      "rendered_digest": "50bd4322db83eeb54ffbefcba10f23fcf6814bcaf430890929335c8437cb25ed",
-      "ast_digest": "e7c777bf6929f11896d25514163b436091da4bc8532daac68303f1c6873c9469"
+      "values_digest": "aff85fa51e15d819892028b5b1f90734ec2c214e16e6898cbfdbc069d77766de",
+      "rendered_digest": "f1dbc3560256e6f1ff0d09ec3d7ee04db57a446fb6a3b19c818bab90d89e4e0a",
+      "ast_digest": "755a381894a5b0979ab0622c32af1d3127d68074795e12e3197b3971e1d4a487"
     },
     "vpp": {
-      "values_digest": "603ca6435e5cf1cb1a5cf8962891f76f5dae5c80f9ea88cfe25b4542b9a3b9ed",
+      "values_digest": "05cf8bfd39c287129264e36012fafc6bd7a3edd44abfcea5f649a317c666f702",
       "rendered_digest": "0a2aacbab4e68ba2c3607209312b547f175b923c5d7449520221b3e321b4802e",
       "ast_digest": "bf88abed5cb7ff08c9f897e62c05ff3791834381318b441c471d23f0c88f0514"
     },
     "srp": {
-      "values_digest": "a5e85a893ae4e24fbbb7a5b3f6ca9a186a3d6bf107c39be78cb1abf04cf69d3f",
+      "values_digest": "c621dc3f254f5266a723c95cd0c453f0e3fe962c24a8ac0f8e33d3ec4ba3ffa9",
       "rendered_digest": "b8c6e2d31ab725ea4911fd09c08a6781ab41d54153b0989d56a42147b9673255",
       "ast_digest": "1de34f01b86d9b95ac154a2be8a308d1a50b79e5ec896e693a766005fa93b496"
     },
     "sor": {
-      "values_digest": "83f194eed47af5e0961f3f6600a87b762df5f473bdff812ba77682d9a17a0dd5",
+      "values_digest": "83488a9f43f99af022cd309e4995f52a4f3d88885e8d0bf6b26df91fffff8de0",
       "rendered_digest": "91e160d78c547b46491a1e6c3d5ffc7774afc518830e2e84bce3380d283aa652",
       "ast_digest": "9a05a7a774374076d301e3a95cee2e057b5bf40049a0aa9c5e8829c6956840ed"
     }
@@ -276,6 +276,13 @@
       "actor": "codex",
       "reason": "Retain the verified active owner for canonical register reconciliation",
       "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P2-register-route-correction\",\"severity\":\"p2\",\"summary\":\"The earlier #5383 residual route was stale; #5423 now owns #5403 claim and register reconciliation\",\"actionable\":false,\"in_scope\":false,\"disposition\":\"out_of_scope\",\"fix_revision\":null,\"route\":\"#5423\"}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex",
+      "reason": "Focused validation and exact-revision independent review completed with no actionable findings",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
     }
   ]
 }
