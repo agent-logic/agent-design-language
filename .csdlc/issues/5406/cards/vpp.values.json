@@ -1,0 +1,70 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5406,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2][records] Retain auditable lifecycle and sprint closeout truth after v1 sunset",
+    "slug": "v0-91-7-csdlc-v2-retain-auditable-lifecycle-and-sprint-closeout-truth",
+    "version": "v0.91.7",
+    "generation": 43
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-v2-full",
+          "proof_role": "Prove typed lifecycle and card contracts remain deterministic and green",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 20000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml"
+          ],
+          "parallel_group": "rust",
+          "defer_reason": null
+        },
+        {
+          "lane": "docs-integrity",
+          "proof_role": "Prove retained authority packet and patch integrity",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on overlap, stale generation, invalid status transition, malformed validation lane, non-portable evidence, or v1 surface restoration.",
+      "design_ref": ".csdlc/issues/5406/retained/design.md",
+      "design_digest": "f7b944b576eed6f7cb93f6966fcdd46cffb4eef66f6eeb11f814a328211d35d4",
+      "diagram_ref": ".csdlc/issues/5406/retained/diagram.mmd",
+      "diagram_digest": "f1ab1b5d46837cec8164e9c002562f1365bd32b8302a9b8e4ddf78ba138864a3"
+    }
+  }
+}

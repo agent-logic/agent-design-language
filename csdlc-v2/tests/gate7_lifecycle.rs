@@ -296,7 +296,7 @@ pub(crate) fn run_complete_lifecycle(
     scenario: &str,
     hostile: bool,
 ) -> csdlc_v2::NormalizedOutcome {
-    let (_temp, store, mut record, sha) = fixture(issue, title, scenario);
+    let (temp, store, mut record, sha) = fixture(issue, title, scenario);
     let mut request = ReadinessRequest {
         schema: "csdlc.readiness_request.v1".into(),
         issue,
@@ -341,7 +341,7 @@ pub(crate) fn run_complete_lifecycle(
         observed_sha: Some("wrong".into()),
         observed_state: "merged".into(),
         approved_no_pr_reason: None,
-        receipt_path: "/tmp/gate7-receipt.json".into(),
+        receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
     };
     if hostile {
         assert!(closeout_issue(&store, wrong).is_err());
@@ -380,6 +380,8 @@ pub(crate) fn run_complete_lifecycle(
     record = record_readiness(&store, green.clone()).unwrap();
     green.expected_generation = record.generation;
     green.expected_digest = record.digest.clone();
+    let stale = temp.path().join("stale-issue-record");
+    copy_dir_all(&store.issue_dir(issue), &stale);
     let terminal = TerminalObservation {
         schema: "csdlc.terminal_observation.v1".into(),
         issue,
@@ -392,15 +394,126 @@ pub(crate) fn run_complete_lifecycle(
         observed_sha: Some(sha),
         observed_state: "merged".into(),
         approved_no_pr_reason: None,
-        receipt_path: "/tmp/gate7-receipt.json".into(),
+        receipt_path: format!("/legacy/absolute/closeout/{issue}.json"),
     };
     closeout_issue(&store, terminal.clone()).unwrap();
     let closed = Store::new(store.root()).load_record(issue).unwrap();
     assert_eq!(closed.phase, LifecyclePhase::ClosedOut);
     assert!(closed.claim.is_none());
-    assert_eq!(closeout_issue(&store, terminal).unwrap(), closed);
+    let mut retry = terminal;
+    retry.receipt_path = format!("csdlc-v2/closeout/{issue}.json");
+    assert_eq!(closeout_issue(&store, retry).unwrap(), closed);
+    let receipt = store.retain_terminal_receipt(issue).unwrap();
+    assert_eq!(receipt.record.generation, closed.generation + 1);
+    assert_eq!(
+        receipt.record.terminal.as_ref().unwrap().receipt_path,
+        format!("csdlc-v2/closeout/{issue}.json")
+    );
+    assert_eq!(receipt.cards.len(), 6);
+    assert_eq!(receipt.authored_artifacts.len(), 2);
+    let receipt_path = store.terminal_receipt_path(issue).unwrap();
+    let retained = fs::read(&receipt_path).unwrap();
+    let mut tampered: serde_json::Value = serde_json::from_slice(&retained).unwrap();
+    tampered["cards"]["sor"]["status"] = serde_json::json!("draft");
+    fs::write(&receipt_path, serde_json::to_vec_pretty(&tampered).unwrap()).unwrap();
+    assert!(store.load_terminal_receipt(issue).is_err());
+    fs::write(&receipt_path, retained).unwrap();
+    let terminal_index_path = store.issue_dir(issue).join("index.json");
+    let terminal_index = fs::read(&terminal_index_path).unwrap();
+    let mut divergent: serde_json::Value = serde_json::from_slice(&terminal_index).unwrap();
+    divergent["terminal"]["released_branch"] = serde_json::json!("different-branch");
+    let divergent = serde_json::to_vec_pretty(&divergent).unwrap();
+    fs::write(&terminal_index_path, &divergent).unwrap();
+    let conflict = store.retain_terminal_receipt(issue).unwrap_err();
+    assert!(matches!(
+        conflict.code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    ));
+    assert_eq!(fs::read(&terminal_index_path).unwrap(), divergent);
+    fs::write(&terminal_index_path, terminal_index).unwrap();
+    fs::remove_dir_all(store.issue_dir(issue)).unwrap();
+    fs::rename(&stale, store.issue_dir(issue)).unwrap();
+    assert!(store.load_record(issue).unwrap().claim.is_some());
+    let stale_index = fs::read(store.issue_dir(issue).join("index.json")).unwrap();
+    let conflict = store.retain_terminal_receipt(issue).unwrap_err();
+    assert!(matches!(
+        conflict.code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    ));
+    assert_eq!(
+        fs::read(store.issue_dir(issue).join("index.json")).unwrap(),
+        stale_index
+    );
+    git(temp.path(), &["branch", "-m", "main"]);
+    let unsafe_checkout = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest.clone(),
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "must not mutate primary checkout".into(),
+        })
+        .unwrap_err();
+    assert!(matches!(
+        unsafe_checkout.code,
+        csdlc_v2::ErrorCode::UnsafeCheckout
+    ));
+    git(temp.path(), &["branch", "-m", "issue-7"]);
+    let design_path = temp.path().join("docs/design.md");
+    fs::write(&design_path, "# stale design\n").unwrap();
+    let reconciled = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest.clone(),
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "materialize shared terminal authority".into(),
+        })
+        .unwrap();
+    assert_eq!(reconciled.phase, LifecyclePhase::ClosedOut);
+    assert_eq!(reconciled.generation, receipt.record.generation + 1);
+    assert_eq!(
+        reconciled.audit.last().unwrap().operation,
+        "reconcile_terminal"
+    );
+    assert_eq!(
+        fs::read_to_string(temp.path().join(&reconciled.design_path)).unwrap(),
+        receipt.authored_artifacts["docs/design.md"]
+    );
+    assert_eq!(
+        fs::read_to_string(&design_path).unwrap(),
+        "# stale design\n"
+    );
+    let repeated = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest.clone(),
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "materialize shared terminal authority".into(),
+        })
+        .unwrap();
+    assert_eq!(repeated, reconciled);
+    assert!(store.load_record(issue).unwrap().claim.is_none());
     let doctor = csdlc_v2::diagnose(&store, issue);
     assert_eq!(doctor.phase, Some(LifecyclePhase::ClosedOut));
     assert!(doctor.findings.is_empty());
     csdlc_v2::NormalizedOutcome::from_v2(&store, issue).unwrap()
 }
+
+fn copy_dir_all(source: &std::path::Path, destination: &std::path::Path) {
+    fs::create_dir_all(destination).unwrap();
+    for entry in fs::read_dir(source).unwrap() {
+        let entry = entry.unwrap();
+        let target = destination.join(entry.file_name());
+        if entry.file_type().unwrap().is_dir() {
+            copy_dir_all(&entry.path(), &target);
+        } else {
+            fs::copy(entry.path(), target).unwrap();
+        }
+    }
+}
+use std::fs;

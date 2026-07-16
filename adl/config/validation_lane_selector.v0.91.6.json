@@ -219,7 +219,9 @@
         "adl/tools/setup_required_coverage_toolchain.sh",
         "adl/tools/test_setup_required_coverage_toolchain.sh",
         "adl/tools/rust_cache_env.sh",
-        "adl/tools/test_rust_cache_env.sh"
+        "adl/tools/test_rust_cache_env.sh",
+        "adl/tools/ensure_final_merge_gate.sh",
+        "adl/tools/test_ensure_final_merge_gate.sh"
       ],
       "path_hints": [
         "adl/config/validation_lane_selector.v0.91.6.json",
@@ -249,7 +251,9 @@
         "adl/tools/setup_required_coverage_toolchain.sh",
         "adl/tools/test_setup_required_coverage_toolchain.sh",
         "adl/tools/rust_cache_env.sh",
-        "adl/tools/test_rust_cache_env.sh"
+        "adl/tools/test_rust_cache_env.sh",
+        "adl/tools/ensure_final_merge_gate.sh",
+        "adl/tools/test_ensure_final_merge_gate.sh"
       ],
       "command": "bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh && bash adl/tools/test_run_validation_manager_nessus_lane.sh",
       "run_command": "bash adl/tools/test_ci_path_policy.sh && bash adl/tools/test_ci_runtime_contracts.sh && bash adl/tools/test_select_validation_lanes.sh && bash adl/tools/test_validation_manager.sh && bash adl/tools/test_run_nessus_remote_validation.sh && bash adl/tools/test_run_validation_manager_nessus_lane.sh",
@@ -690,6 +694,11 @@
         "adl/tools/run_aws_spot_remote_validation_lane.sh",
         "adl/tools/run_build_platform_benchmark.sh",
         "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+        "adl/tools/aws_spot_artifact_finalize.py",
+        "adl/tools/run_aws_spot_builder_image_validation.sh",
+        "adl/tools/test_aws_spot_artifact_finalize.sh",
+        "adl/tools/test_aws_spot_lifecycle_controls.sh",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
         "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
         "tools/aws_remote_validation/Cargo.toml",
         "tools/aws_remote_validation/Cargo.lock",
@@ -700,14 +709,19 @@
         "adl/tools/run_aws_spot_remote_validation_lane.sh",
         "adl/tools/run_build_platform_benchmark.sh",
         "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+        "adl/tools/aws_spot_artifact_finalize.py",
+        "adl/tools/run_aws_spot_builder_image_validation.sh",
+        "adl/tools/test_aws_spot_artifact_finalize.sh",
+        "adl/tools/test_aws_spot_lifecycle_controls.sh",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
         "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
         "tools/aws_remote_validation/Cargo.toml",
         "tools/aws_remote_validation/Cargo.lock",
         "tools/aws_remote_validation/scripts/**",
         "tools/aws_remote_validation/src/**"
       ],
-      "command": "bash adl/tools/test_run_aws_spot_remote_validation_lane.sh && bash -n tools/aws_remote_validation/scripts/remote_validation_runner.sh && bash -n tools/aws_remote_validation/scripts/ssh_debug_control.sh && cargo check --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation && cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture",
-      "run_command": "bash adl/tools/test_run_aws_spot_remote_validation_lane.sh && bash -n tools/aws_remote_validation/scripts/remote_validation_runner.sh && bash -n tools/aws_remote_validation/scripts/ssh_debug_control.sh && cargo check --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation && cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture",
+      "command": "bash adl/tools/test_run_aws_spot_remote_validation_lane.sh && bash adl/tools/test_run_aws_spot_builder_image_validation.sh && bash adl/tools/test_aws_spot_artifact_finalize.sh && bash adl/tools/test_aws_spot_lifecycle_controls.sh && bash -n tools/aws_remote_validation/scripts/remote_validation_runner.sh && bash -n tools/aws_remote_validation/scripts/ssh_debug_control.sh && cargo check --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation && cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture",
+      "run_command": "bash adl/tools/test_run_aws_spot_remote_validation_lane.sh && bash adl/tools/test_run_aws_spot_builder_image_validation.sh && bash adl/tools/test_aws_spot_artifact_finalize.sh && bash adl/tools/test_aws_spot_lifecycle_controls.sh && bash -n tools/aws_remote_validation/scripts/remote_validation_runner.sh && bash -n tools/aws_remote_validation/scripts/ssh_debug_control.sh && cargo check --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation && cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture",
       "reason": "aws_remote_validation_tool_surface_requires_focused_tooling_regression_checks"
     },
     {
@@ -1229,14 +1243,18 @@
         "infra/rustysd/**",
         "infra/horust/**",
         "infra/runtime-v3/**",
-        "infra/systemd/adl-runtime-kernel.service"
+        "infra/systemd/adl-runtime-kernel.service",
+        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "adl/tools/validate_v0917_html_observatory.py"
       ],
       "path_hints": [
         "adl-runtime-kernel/**",
         "infra/rustysd/**",
         "infra/horust/**",
         "infra/runtime-v3/**",
-        "infra/systemd/adl-runtime-kernel.service"
+        "infra/systemd/adl-runtime-kernel.service",
+        "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "adl/tools/validate_v0917_html_observatory.py"
       ],
       "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
       "run_command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml && cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",

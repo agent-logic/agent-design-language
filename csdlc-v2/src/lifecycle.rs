@@ -37,6 +37,27 @@ pub struct RecoverClaimRequest {
     pub reason: String,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct HeartbeatRequest {
+    pub issue: u64,
+    pub claim_id: String,
+    pub expected_generation: u64,
+    pub now_unix_seconds: u64,
+    pub extend_seconds: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct AmendClaimScopeRequest {
+    pub issue: u64,
+    pub claim_id: String,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub now_unix_seconds: u64,
+    pub actor: String,
+    pub reason: String,
+    pub add_protected_paths: Vec<String>,
+}
+
 fn clean_relative(value: &str) -> bool {
     !value.is_empty()
         && Path::new(value)
@@ -50,17 +71,39 @@ fn overlaps(left: &str, right: &str) -> bool {
     left == right || left.starts_with(right) || right.starts_with(left)
 }
 
+fn terminally_released(store: &Store, local: &crate::IssueRecord) -> Result<bool> {
+    let Some(receipt) = store.load_terminal_receipt(local.issue)? else {
+        return Ok(false);
+    };
+    if receipt.repository != local.repository
+        || receipt.initialization_digest != local.initialization_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!(
+                "terminal authority for issue {} has different identity",
+                local.issue
+            ),
+        ));
+    }
+    Ok(true)
+}
+
 pub fn initialize_issue(
     store: &Store,
     mut request: BootstrapRequest,
 ) -> Result<crate::IssueRecord> {
-    if !clean_relative(&request.design_path) || !clean_relative(&request.diagram_path) {
+    if !clean_relative(&request.design_path)
+        || !clean_relative(&request.diagram_path)
+        || request.design_path == request.diagram_path
+    {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "design and diagram paths must be repository-relative",
+            "design and diagram paths must be distinct and repository-relative",
         ));
     }
     validate_bootstrap_request(&request)?;
+    validate_validation_lanes(store.root(), &request.initial.validation_lanes)?;
     let issue_dir = store.issue_dir(request.issue);
     for authored_path in [&request.design_path, &request.diagram_path] {
         let path = store.root().join(authored_path);
@@ -84,6 +127,9 @@ pub fn initialize_issue(
             }
             let other: crate::IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
             if other.issue != request.issue {
+                if terminally_released(store, &other)? {
+                    continue;
+                }
                 if let Some(claim) = other.claim {
                     if claim
                         .protected_paths
@@ -127,6 +173,34 @@ pub fn initialize_issue(
         )?;
     }
     bootstrap_issue(store, request)
+}
+
+fn validate_validation_lanes(
+    root: &std::path::Path,
+    lanes: &[crate::cards::ValidationLane],
+) -> Result<()> {
+    for lane in lanes {
+        for command in &lane.argv {
+            if !command.contains('/') {
+                continue;
+            }
+            let path = if Path::new(command).is_absolute() {
+                Path::new(command).to_path_buf()
+            } else {
+                root.join(command)
+            };
+            if !path.is_file() {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidInput,
+                    format!(
+                        "validation lane {} names missing command {}",
+                        lane.lane, command
+                    ),
+                ));
+            }
+        }
+    }
+    Ok(())
 }
 
 pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
@@ -186,6 +260,9 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             }
             let other: crate::IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
             if other.issue != request.issue {
+                if terminally_released(store, &other)? {
+                    continue;
+                }
                 if let Some(claim) = other.claim {
                     if claim
                         .protected_paths
@@ -309,6 +386,103 @@ pub fn heartbeat_claim(
     claim.expires_unix_seconds = now.saturating_add(extend_seconds);
     record.digest = crate::store::record_digest(&record)?;
     store.replace_record(issue, &expected_digest, &record)
+}
+
+pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Result<Claim> {
+    if request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || request.add_protected_paths.is_empty()
+        || request
+            .add_protected_paths
+            .iter()
+            .any(|path| !clean_relative(path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "actor, reason, and clean protected paths are required",
+        ));
+    }
+    let _binding_lock = store.binding_lock()?;
+    let mut record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "expected generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "expected issue digest is stale",
+        ));
+    }
+    if !matches!(
+        record.phase,
+        crate::LifecyclePhase::Bound | crate::LifecyclePhase::Implemented
+    ) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "claim scope may only be amended during bound implementation",
+        ));
+    }
+    record
+        .claim
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+        .validate(&request.claim_id, request.now_unix_seconds)?;
+
+    let issues = store.root().join(".csdlc/issues");
+    if issues.exists() {
+        for entry in fs::read_dir(issues)? {
+            let path = entry?.path().join("index.json");
+            if !path.exists() {
+                continue;
+            }
+            let other: crate::IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
+            if other.issue == request.issue {
+                continue;
+            }
+            if terminally_released(store, &other)? {
+                continue;
+            }
+            if let Some(claim) = other.claim {
+                if claim.protected_paths.iter().any(|reserved| {
+                    request
+                        .add_protected_paths
+                        .iter()
+                        .any(|candidate| overlaps(reserved, candidate))
+                }) {
+                    return Err(V2Error::new(
+                        ErrorCode::ClaimCollision,
+                        format!("protected path overlaps issue {}", other.issue),
+                    ));
+                }
+            }
+        }
+    }
+
+    let expected_digest = record.digest.clone();
+    let claim = record.claim.as_mut().expect("validated claim");
+    claim
+        .protected_paths
+        .extend(request.add_protected_paths.iter().cloned());
+    claim.protected_paths.sort();
+    claim.protected_paths.dedup();
+    let amended = claim.clone();
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: request.reason,
+        operation: serde_json::json!({
+            "operation": "amend_claim_scope",
+            "add_protected_paths": request.add_protected_paths,
+        })
+        .to_string(),
+    });
+    record.digest = crate::store::record_digest(&record)?;
+    store.replace_record(request.issue, &expected_digest, &record)?;
+    Ok(amended)
 }
 
 pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<ClaimRecovery> {

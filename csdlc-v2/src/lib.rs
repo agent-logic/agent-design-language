@@ -4,6 +4,8 @@ pub mod doctor;
 pub mod eligibility;
 pub mod error;
 pub mod git;
+pub mod github;
+pub mod github_token;
 pub mod lifecycle;
 pub mod migration;
 pub mod model;
@@ -28,8 +30,8 @@ pub use eligibility::{
 };
 pub use error::{ErrorCode, Result, V2Error};
 pub use lifecycle::{
-    bind_issue, heartbeat_claim, initialize_issue, recover_claim, BindRequest, BindResult,
-    RecoverClaimRequest,
+    amend_claim_scope, bind_issue, heartbeat_claim, initialize_issue, recover_claim,
+    AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest,
 };
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,
@@ -37,8 +39,8 @@ pub use migration::{
 };
 pub use model::{
     Claim, ClaimRecovery, DesignReview, IssueRecord, LifecyclePhase, MigrationEvidence,
-    NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence,
-    ReviewFindingEvidence, TerminalEvidence,
+    NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
+    ReviewAssignment, ReviewEvidence, ReviewFindingEvidence, TerminalEvidence, TerminalReceipt,
 };
 pub use operator::{
     install_binaries, resolve_operator_generation, verify_coexistence, CoexistenceInventory,
@@ -60,7 +62,8 @@ pub use readiness::{
 };
 pub use review::{
     assign_review, evaluate_publication_review, evaluate_publication_review_in_repo, record_review,
-    PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest,
+    recover_review, PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest,
+    ReviewRecoveryRequest,
 };
 pub use schema::public_schema_bundle;
 pub use soak::{

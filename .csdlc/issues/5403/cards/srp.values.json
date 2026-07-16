@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5403,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review][sprint] Complete remaining closed-sprint reviews",
+    "slug": "v0-91-7-review-complete-remaining-closed-sprint-reviews",
+    "version": "v0.91.7",
+    "generation": 27
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every sprint packet cover its complete ordered child set?",
+        "Are findings grounded in exact source or live GitHub evidence?",
+        "Are testing findings distinguished from review findings?",
+        "Are remediation issues separate from review execution?",
+        "Does the canonical register match the completed packets?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

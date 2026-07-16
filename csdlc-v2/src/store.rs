@@ -15,8 +15,8 @@ use crate::cards::{
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
     AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase,
-    PublicationEvidence, ReadinessEvidence, ReviewAssignment, ReviewEvidence, TerminalEvidence,
-    TransitionEvent,
+    PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest, ReviewAssignment,
+    ReviewEvidence, TerminalEvidence, TerminalReceipt, TransitionEvent,
 };
 use crate::review::evaluate_publication_review_in_repo;
 
@@ -92,6 +92,224 @@ impl Store {
         Ok(cards)
     }
 
+    pub fn terminal_receipt_path(&self, issue: u64) -> Result<PathBuf> {
+        let common = crate::git::run(
+            &self.root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout;
+        Ok(PathBuf::from(common)
+            .join("csdlc-v2/closeout")
+            .join(format!("{issue}.json")))
+    }
+
+    pub fn load_terminal_receipt(&self, issue: u64) -> Result<Option<TerminalReceipt>> {
+        let path = self.terminal_receipt_path(issue)?;
+        if !path.is_file() {
+            return Ok(None);
+        }
+        let receipt: TerminalReceipt = read_json(&path)?;
+        validate_terminal_receipt(&receipt)?;
+        Ok(Some(receipt))
+    }
+
+    pub fn retain_terminal_receipt(&self, issue: u64) -> Result<TerminalReceipt> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        let mut cards = self.load_cards(issue)?;
+        let receipt_ref = format!("csdlc-v2/closeout/{issue}.json");
+        let path = self.terminal_receipt_path(issue)?;
+        let parent = path.parent().expect("receipt parent");
+        fs::create_dir_all(parent)?;
+        let receipt_lock = OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(parent.join("receipts.lock"))?;
+        receipt_lock.lock_exclusive()?;
+        if path.is_file() {
+            let existing: TerminalReceipt = read_json(&path)?;
+            validate_terminal_receipt(&existing)?;
+            let terminal_matches = record.terminal.as_ref().is_some_and(|local| {
+                existing.record.terminal.as_ref().is_some_and(|retained| {
+                    local.pull_request == retained.pull_request
+                        && local.disposition == retained.disposition
+                        && local.observed_sha == retained.observed_sha
+                        && local.observed_state == retained.observed_state
+                        && local.released_branch == retained.released_branch
+                        && local.released_worktree == retained.released_worktree
+                        && local.released_protected_paths == retained.released_protected_paths
+                })
+            });
+            if existing.repository != record.repository
+                || existing.initialization_digest != record.initialization_digest
+                || !terminal_matches
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "terminal receipt conflicts with retained authority",
+                ));
+            }
+            return Ok(existing);
+        }
+        verify_cards(self, &record, &cards)?;
+        let terminal = record.terminal.as_mut().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidTransition, "terminal evidence missing")
+        })?;
+        if terminal.receipt_path != receipt_ref {
+            terminal.receipt_path = receipt_ref.clone();
+            record.generation += 1;
+            for values in cards.values_mut() {
+                values.identity.generation = record.generation;
+            }
+            record.audit.push(AuditEvent {
+                sequence: record.audit.len() as u64 + 1,
+                generation: record.generation,
+                actor: "csdlc-closeout".into(),
+                reason: "normalize legacy terminal receipt path to portable reference".into(),
+                operation: "normalize_terminal_receipt_ref".into(),
+            });
+            hydrate_projections(&mut record, &cards)?;
+            record.digest = record_digest(&record)?;
+            self.commit(issue, &record, &cards, false)?;
+        }
+        let authored_artifacts = [record.design_path.clone(), record.diagram_path.clone()]
+            .into_iter()
+            .map(|path| {
+                let contents = fs::read_to_string(self.root.join(&path))?;
+                Ok((path, contents))
+            })
+            .collect::<Result<BTreeMap<_, _>>>()?;
+        let mut receipt = TerminalReceipt {
+            schema: "csdlc.terminal_receipt.v1".into(),
+            issue,
+            repository: record.repository.clone(),
+            initialization_digest: record.initialization_digest.clone(),
+            receipt_ref,
+            authored_artifacts,
+            record,
+            cards,
+            digest: String::new(),
+        };
+        receipt.digest = terminal_receipt_digest(&receipt)?;
+        validate_terminal_receipt(&receipt)?;
+        let temporary = parent.join(format!(".{issue}.tmp"));
+        write_json(&temporary, &receipt)?;
+        fs::rename(temporary, &path)?;
+        sync_dir(parent)?;
+        Ok(receipt)
+    }
+
+    pub fn reconcile_terminal(&self, request: ReconcileTerminalRequest) -> Result<IssueRecord> {
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "reconciliation actor and reason are required",
+            ));
+        }
+        if request.expected_branch.trim().is_empty()
+            || request.expected_worktree.trim().is_empty()
+            || request.expected_branch == "main"
+            || crate::git::current_branch(&self.root)? != request.expected_branch
+            || self.root.canonicalize()? != Path::new(&request.expected_worktree).canonicalize()?
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "terminal reconciliation requires the declared dedicated branch and worktree",
+            ));
+        }
+        let _lock = self.lock(request.issue)?;
+        self.recover_if_needed(request.issue)?;
+        let local = self.load_record(request.issue)?;
+        if local.initialization_digest != request.expected_initialization_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "local initialization digest differs from reconciliation request",
+            ));
+        }
+        let receipt = self
+            .load_terminal_receipt(request.issue)?
+            .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "terminal receipt missing"))?;
+        if receipt.initialization_digest != local.initialization_digest
+            || receipt.repository != local.repository
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "terminal receipt identity differs from local issue",
+            ));
+        }
+        if local.phase == LifecyclePhase::ClosedOut
+            && local.terminal == receipt.record.terminal
+            && local.audit.last().is_some_and(|event| {
+                event.operation == "reconcile_terminal"
+                    && event.actor == request.actor
+                    && event.reason == request.reason
+            })
+        {
+            return Ok(local);
+        }
+        let mut projection = receipt.record;
+        let mut cards = receipt.cards;
+        let design = receipt
+            .authored_artifacts
+            .get(&projection.design_path)
+            .expect("validated receipt design")
+            .clone();
+        let diagram = receipt
+            .authored_artifacts
+            .get(&projection.diagram_path)
+            .expect("validated receipt diagram")
+            .clone();
+        let design_path = format!(".csdlc/issues/{}/retained/design.md", request.issue);
+        let diagram_path = format!(".csdlc/issues/{}/retained/diagram.mmd", request.issue);
+        projection.design_path = design_path.clone();
+        projection.diagram_path = diagram_path.clone();
+        for kind in [CardKind::Spp, CardKind::Vpp] {
+            match &mut cards.get_mut(&kind).expect("design card").content {
+                CardContent::Spp(values) => {
+                    values.design_ref = design_path.clone();
+                    values.diagram_ref = diagram_path.clone();
+                }
+                CardContent::Vpp(values) => {
+                    values.design_ref = design_path.clone();
+                    values.diagram_ref = diagram_path.clone();
+                }
+                _ => unreachable!("design card"),
+            }
+        }
+        projection.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = projection.generation;
+        }
+        projection.audit.push(AuditEvent {
+            sequence: projection.audit.len() as u64 + 1,
+            generation: projection.generation,
+            actor: request.actor,
+            reason: request.reason,
+            operation: "reconcile_terminal".into(),
+        });
+        validate_cross_card(
+            &cards,
+            &design_path,
+            &digest(design.as_bytes()),
+            &diagram_path,
+            &digest(diagram.as_bytes()),
+        )?;
+        hydrate_projections(&mut projection, &cards)?;
+        projection.digest = record_digest(&projection)?;
+        let retained_artifacts = BTreeMap::from([(design_path, design), (diagram_path, diagram)]);
+        self.commit_with_authored(
+            request.issue,
+            &projection,
+            &cards,
+            false,
+            Some(&retained_artifacts),
+        )?;
+        Ok(projection)
+    }
+
     fn recover_if_needed(&self, issue: u64) -> Result<()> {
         let current = self.issue_dir(issue);
         let backup = self.interrupted_backup(issue);
@@ -112,6 +330,17 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
     ) -> Result<()> {
+        self.commit_with_authored(issue, record, cards, fail_after_backup, None)
+    }
+
+    fn commit_with_authored(
+        &self,
+        issue: u64,
+        record: &IssueRecord,
+        cards: &BTreeMap<CardKind, CardValues>,
+        fail_after_backup: bool,
+        authored_overrides: Option<&BTreeMap<String, String>>,
+    ) -> Result<()> {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
         let backup = self.interrupted_backup(issue);
@@ -127,11 +356,17 @@ impl Store {
         for authored_path in [&record.design_path, &record.diagram_path] {
             let source = self.root.join(authored_path);
             if let Ok(relative) = source.strip_prefix(&current) {
-                if source.is_file() {
-                    let destination = staging.join(relative);
-                    if let Some(parent) = destination.parent() {
-                        fs::create_dir_all(parent)?;
-                    }
+                let destination = staging.join(relative);
+                if let Some(parent) = destination.parent() {
+                    fs::create_dir_all(parent)?;
+                }
+                if let Some(contents) =
+                    authored_overrides.and_then(|overrides| overrides.get(authored_path))
+                {
+                    let mut file = File::create(destination)?;
+                    file.write_all(contents.as_bytes())?;
+                    file.sync_all()?;
+                } else if source.is_file() {
                     fs::copy(source, destination)?;
                 }
             }
@@ -406,7 +641,6 @@ impl Store {
                 && current.disposition == evidence.disposition
                 && current.observed_sha == evidence.observed_sha
                 && current.observed_state == evidence.observed_state
-                && current.receipt_path == evidence.receipt_path
             {
                 return Ok(record);
             }
@@ -636,6 +870,89 @@ impl Store {
             reason: "assign bounded exact-revision review".into(),
             operation: "assign_review".into(),
         });
+        record.digest = record_digest(&record)?;
+        self.commit(issue, &record, &cards, false)?;
+        Ok(record)
+    }
+
+    pub(crate) fn commit_review_recovery(
+        &self,
+        issue: u64,
+        expected_generation: u64,
+        expected_digest: &str,
+        claim_id: &str,
+        actor: String,
+        reason: String,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(issue)?;
+        self.recover_if_needed(issue)?;
+        let mut record = self.load_record(issue)?;
+        if record.generation != expected_generation {
+            return Err(V2Error::new(
+                ErrorCode::StaleGeneration,
+                "review recovery generation changed before commit",
+            ));
+        }
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "review recovery record changed before commit",
+            ));
+        }
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(claim_id, now_seconds()?)?;
+        if !matches!(
+            record.phase,
+            LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
+        ) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "review recovery requires reviewed phase",
+            ));
+        }
+        let mut cards = self.load_cards(issue)?;
+        verify_cards(self, &record, &cards)?;
+        cards.get_mut(&CardKind::Srp).expect("SRP").status = crate::cards::CardStatus::Draft;
+        let srp = match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
+            CardContent::Srp(values) => values,
+            _ => unreachable!("SRP"),
+        };
+        srp.review_scope.clear();
+        srp.review_revision = None;
+        srp.reviewer = None;
+        srp.findings.clear();
+        srp.residual_risk.clear();
+        srp.review_result = crate::cards::ReviewResult::PreReview;
+        if let CardContent::Sor(sor) = &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+            sor.publication_state = crate::cards::PublicationState::NotPublished;
+            sor.integration_state = crate::cards::IntegrationState::WorktreeOnly;
+            sor.merge_state = crate::cards::MergeState::NotMerged;
+            sor.closeout_state = crate::cards::CloseoutState::NotStarted;
+        }
+        record.advance(LifecyclePhase::Implemented, actor.clone(), reason.clone())?;
+        record.review_assignment = None;
+        record.review = None;
+        record.publication = None;
+        record.readiness = None;
+        record.terminal = None;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        if let Some(claim) = record.claim.as_mut() {
+            claim.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason,
+            operation: "recover_review".into(),
+        });
+        hydrate_projections(&mut record, &cards)?;
         record.digest = record_digest(&record)?;
         self.commit(issue, &record, &cards, false)?;
         Ok(record)
@@ -885,7 +1202,40 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     }
     let mut cards = store.load_cards(request.issue)?;
     verify_cards(store, &record, &cards)?;
+    if matches!(
+        record.phase,
+        LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
+    ) && matches!(
+        request.operation,
+        SemanticOperation::AdvancePhase {
+            phase: LifecyclePhase::Implemented
+        }
+    ) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "reviewed work must use typed csdlc-review recover",
+        ));
+    }
     authorize_card_operation(record.phase, request.card, &request.operation)?;
+    let replan_before = match &request.operation {
+        SemanticOperation::Replan { field, .. } => Some(current_text_value(
+            cards
+                .get(&request.card)
+                .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "card projection missing"))?,
+            *field,
+        )?),
+        _ => None,
+    };
+    let audit_operation = match (&request.operation, replan_before) {
+        (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
+            "operation": "replan",
+            "field": field.as_ref(),
+            "previous_value": previous,
+            "new_value": value,
+        })
+        .to_string(),
+        _ => serde_json::to_string(&request.operation)?,
+    };
     let values = cards
         .get_mut(&request.card)
         .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "card projection missing"))?;
@@ -914,12 +1264,31 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         generation: record.generation,
         actor: request.actor,
         reason: request.reason,
-        operation: serde_json::to_string(&request.operation)?,
+        operation: audit_operation,
     });
     hydrate_projections(&mut record, &cards)?;
     record.digest = record_digest(&record)?;
     store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
     Ok(record)
+}
+
+fn current_text_value(values: &CardValues, field: crate::cards::TextField) -> Result<String> {
+    match (&values.content, field) {
+        (CardContent::Sip(value), crate::cards::TextField::Goal) => Ok(value.goal.clone()),
+        (CardContent::Sip(value), crate::cards::TextField::RequiredOutcome) => {
+            Ok(value.required_outcome.clone())
+        }
+        (CardContent::Stp(value), crate::cards::TextField::TaskBoundary) => {
+            Ok(value.task_boundary.clone())
+        }
+        (CardContent::Spp(value), crate::cards::TextField::PlanSummary) => {
+            Ok(value.summary.clone())
+        }
+        _ => Err(V2Error::new(
+            ErrorCode::FieldOwnership,
+            "replan field is not owned by the selected planning card",
+        )),
+    }
 }
 
 pub(crate) fn verify_cards(
@@ -1244,6 +1613,18 @@ fn authorize_card_operation(
                 | SemanticOperation::AdvanceStatus { .. },
         ) | (
             LifecyclePhase::Bound,
+            CardKind::Sip | CardKind::Stp | CardKind::Spp,
+            SemanticOperation::Replan { .. },
+        ) | (
+            LifecyclePhase::Bound | LifecyclePhase::Implemented,
+            CardKind::Spp,
+            SemanticOperation::UpdatePlanStep { .. },
+        ) | (
+            LifecyclePhase::Bound | LifecyclePhase::Implemented,
+            CardKind::Vpp,
+            SemanticOperation::ReplaceValidationLanes { .. },
+        ) | (
+            LifecyclePhase::Bound,
             CardKind::Sor,
             SemanticOperation::RecordExecution { .. }
                 | SemanticOperation::RecordValidation { .. }
@@ -1343,6 +1724,87 @@ pub(crate) fn record_digest(record: &IssueRecord) -> Result<String> {
     let mut value = record.clone();
     value.digest.clear();
     Ok(digest(&serde_json::to_vec(&value)?))
+}
+
+fn terminal_receipt_digest(receipt: &TerminalReceipt) -> Result<String> {
+    let mut value = receipt.clone();
+    value.digest.clear();
+    Ok(digest(&serde_json::to_vec(&value)?))
+}
+
+fn validate_terminal_receipt(receipt: &TerminalReceipt) -> Result<()> {
+    if receipt.schema != "csdlc.terminal_receipt.v1"
+        || receipt.issue == 0
+        || receipt.issue != receipt.record.issue
+        || receipt.repository != receipt.record.repository
+        || receipt.initialization_digest != receipt.record.initialization_digest
+        || receipt.receipt_ref != format!("csdlc-v2/closeout/{}.json", receipt.issue)
+        || receipt.record.phase != LifecyclePhase::ClosedOut
+        || receipt.record.claim.is_some()
+        || receipt.record.terminal.is_none()
+        || receipt.cards.len() != 6
+        || receipt.authored_artifacts.len() != 2
+        || receipt.digest != terminal_receipt_digest(receipt)?
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "terminal receipt identity, phase, or digest is invalid",
+        ));
+    }
+    verify_record(&receipt.record)?;
+    let design = receipt
+        .authored_artifacts
+        .get(&receipt.record.design_path)
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "receipt design missing"))?;
+    let diagram = receipt
+        .authored_artifacts
+        .get(&receipt.record.diagram_path)
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "receipt diagram missing"))?;
+    for (kind, values) in &receipt.cards {
+        if values.kind() != *kind
+            || values.identity.issue != receipt.issue
+            || values.identity.repository != receipt.repository
+            || values.identity.generation != receipt.record.generation
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "terminal receipt card identity is invalid",
+            ));
+        }
+        let rendered = render(values)?;
+        let projection = receipt.record.cards.get(kind).ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "terminal receipt projection missing",
+            )
+        })?;
+        if projection.values_digest != rendered.values_digest
+            || projection.rendered_digest != rendered.rendered_digest
+            || projection.ast_digest != rendered.ast_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "terminal receipt card digest drift",
+            ));
+        }
+    }
+    validate_cross_card(
+        &receipt.cards,
+        &receipt.record.design_path,
+        &digest(design.as_bytes()),
+        &receipt.record.diagram_path,
+        &digest(diagram.as_bytes()),
+    )?;
+    if !matches!(
+        &receipt.record.design_review,
+        DesignReview::Approved { revision, .. } if revision == &digest(design.as_bytes())
+    ) {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "terminal receipt design review is stale",
+        ));
+    }
+    Ok(())
 }
 
 fn write_complete(

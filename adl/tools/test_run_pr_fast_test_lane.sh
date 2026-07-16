@@ -79,14 +79,14 @@ M	adl-runtime/src/weather.rs
 M	docs/default_workflow.md
 EOF
 mixed_adl_runtime_docs_output="$(bash "$SCRIPT" --changed-files "$mixed_adl_runtime_docs" --print-plan)"
-assert_has "$mixed_adl_runtime_docs_output" "mode=full"
-assert_has "$mixed_adl_runtime_docs_output" "reason=mixed_adl_runtime_with_other_fast_lane_surfaces_requires_full_nextest"
+assert_has "$mixed_adl_runtime_docs_output" "mode=focused"
+assert_has "$mixed_adl_runtime_docs_output" "filter_tokens=adl_runtime"
 
 focused_control_plane="$TMP/focused_control_plane.txt"
 printf 'M\tdocs/default_workflow.md\n' >"$focused_control_plane"
 focused_control_plane_output="$(bash "$SCRIPT" --changed-files "$focused_control_plane" --print-plan)"
-assert_has "$focused_control_plane_output" "mode=focused"
-assert_has "$focused_control_plane_output" "filter_tokens=pr_cmd"
+assert_has "$focused_control_plane_output" "mode=skip"
+assert_has "$focused_control_plane_output" "reason=no_rust_surface_detected_for_fast_lane"
 
 split_control_plane="$TMP/split_control_plane.txt"
 printf 'M\tadl/src/cli/pr_cmd_cards/cards.rs\n' >"$split_control_plane"
@@ -496,6 +496,24 @@ assert_has "$finish_only_output" "mode=focused"
 assert_has "$finish_only_output" "reason=bounded_rust_surface_runs_focused_nextest"
 assert_has "$finish_only_output" "filter_tokens=pr_cmd_finish"
 assert_has "$finish_only_output" "filter_expression=binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/)"
+
+spot_tooling_mixed="$TMP/spot-tooling-mixed.txt"
+cat >"$spot_tooling_mixed" <<'EOF'
+M	.github/workflows/aws-spot-remote-validation.yaml
+M	adl/config/validation_lane_selector.v0.91.6.json
+M	adl/src/cli/pr_cmd/finish_support.rs
+M	adl/src/cli/pr_cmd/git_support.rs
+M	adl/src/cli/tests/pr_cmd_inline/finish/arg_render.rs
+M	adl/src/long_lived_agent/tests.rs
+M	adl/tests/cli_smoke/agent.rs
+EOF
+spot_tooling_mixed_output="$(bash "$SCRIPT" --changed-files "$spot_tooling_mixed" --print-plan)"
+assert_has "$spot_tooling_mixed_output" "mode=focused"
+assert_has "$spot_tooling_mixed_output" "reason=bounded_rust_surface_runs_focused_nextest"
+assert_has "$spot_tooling_mixed_output" "filter_tokens=pr_cmd_finish,pr_cmd_git_support,long_lived_agent,agent_cli_smoke"
+assert_has "$spot_tooling_mixed_output" "filter_expression=binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/) or binary_id(adl::bin/adl) and test(/^cli::pr_cmd::tests::repo_helpers::(bootstrap|context)::/) or binary_id(adl::bin/adl) and test(/^cli::pr_cmd::tests::basics::infer_repo_from_remote_supports_https_and_ssh$/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::tests::finish::arg_render::/) or binary_id(adl::bin/adl-pr-finish) and test(/^cli::pr_cmd::finish_support::tests::/) or test(/^long_lived_agent::/) or binary_id(adl::cli_smoke) and test(/^agent::/)"
+assert_not_has "$spot_tooling_mixed_output" "filter_tokens=pr_cmd_finish,pr_cmd,long_lived_agent,agent_cli_smoke"
+assert_not_has "$spot_tooling_mixed_output" "binary_id(adl::bin/adl) and test(/^cli::pr_cmd::/)"
 
 slow_pr_cmd_e2e_guardrail="$TMP/slow-pr-cmd-e2e-guardrail.txt"
 printf 'M\tadl/src/cli/tests/pr_cmd_inline/finish/guardrails.rs\n' >"$slow_pr_cmd_e2e_guardrail"

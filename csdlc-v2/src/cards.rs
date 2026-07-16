@@ -487,12 +487,23 @@ pub enum TextField {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(tag = "operation", rename_all = "snake_case")]
 pub enum SemanticOperation {
+    Replan {
+        field: TextField,
+        value: String,
+    },
     SetField {
         field: TextField,
         value: String,
     },
     AppendReference {
         value: String,
+    },
+    UpdatePlanStep {
+        step_id: String,
+        status: StepStatus,
+    },
+    ReplaceValidationLanes {
+        lanes: Vec<ValidationLane>,
     },
     RecordValidation {
         result: ValidationResult,
@@ -750,6 +761,10 @@ pub fn apply(
     operation: &SemanticOperation,
 ) -> Result<Option<LifecyclePhase>> {
     match operation {
+        SemanticOperation::Replan { field, value } => {
+            set_text(values, *field, value.clone())?;
+            Ok(None)
+        }
         SemanticOperation::SetField { field, value } => {
             set_text(values, *field, value.clone())?;
             Ok(None)
@@ -758,6 +773,74 @@ pub fn apply(
             append_reference(values, value.clone())?;
             Ok(None)
         }
+        SemanticOperation::UpdatePlanStep { step_id, status } => match &mut values.content {
+            CardContent::Spp(v) => {
+                let step = v
+                    .steps
+                    .iter_mut()
+                    .find(|step| step.id == *step_id)
+                    .ok_or_else(|| {
+                        V2Error::new(ErrorCode::InvalidInput, "plan step does not exist")
+                    })?;
+                let allowed = matches!(
+                    (step.status, status),
+                    (
+                        StepStatus::Pending,
+                        StepStatus::InProgress | StepStatus::Completed
+                    ) | (StepStatus::InProgress, StepStatus::Completed)
+                );
+                if !allowed {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidTransition,
+                        format!("plan step {} -> {} is not allowed", step.status, status),
+                    ));
+                }
+                step.status = *status;
+                if *status == StepStatus::InProgress
+                    && v.steps
+                        .iter()
+                        .filter(|step| step.status == StepStatus::InProgress)
+                        .count()
+                        > 1
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidTransition,
+                        "only one plan step may be in progress",
+                    ));
+                }
+                Ok(None)
+            }
+            _ => ownership(values.kind(), "update_plan_step"),
+        },
+        SemanticOperation::ReplaceValidationLanes { lanes } => match &mut values.content {
+            CardContent::Vpp(v) => {
+                if lanes.is_empty() {
+                    return Err(V2Error::new(
+                        ErrorCode::CardInvalid,
+                        "validation lanes cannot be empty",
+                    ));
+                }
+                let unique: BTreeSet<_> = lanes.iter().map(|lane| lane.lane.as_str()).collect();
+                if unique.len() != lanes.len()
+                    || lanes.iter().any(|lane| {
+                        lane.lane.trim().is_empty()
+                            || lane.proof_role.trim().is_empty()
+                            || lane.acceptance_ids.is_empty()
+                            || lane.argv.is_empty()
+                            || lane.budget_seconds == 0
+                            || lane.budget_tokens == 0
+                    })
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::CardInvalid,
+                        "validation lanes must be unique and complete",
+                    ));
+                }
+                v.lanes = lanes.clone();
+                Ok(None)
+            }
+            _ => ownership(values.kind(), "replace_validation_lanes"),
+        },
         SemanticOperation::RecordValidation { result } => match &mut values.content {
             CardContent::Sor(v) => {
                 validate_result(result)?;

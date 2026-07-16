@@ -1,0 +1,280 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 5406
+
+Repository: danielbaustin/agent-design-language
+
+Card: sor
+
+Status: complete
+
+## Summary
+
+Completed typed lifecycle authority and proved downstream consumption with fail-closed exact-revision assertions.
+
+## Artifacts
+
+- csdlc-v2
+- docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md
+- https://github.com/danielbaustin/agent-design-language/pull/5414
+- .csdlc/issues/5403/audit.jsonl
+- docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md
+- https://github.com/danielbaustin/agent-design-language/pull/5414
+- .csdlc/issues/5403/audit.jsonl
+- docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md
+
+## Execution
+
+- Added audited claim-scope amendment with cross-issue collision checks
+- Added guarded plan-step and validation-lane semantic operations
+- Added complete terminal receipt retention and typed tracked reconciliation
+- Documented Gate 10D2-compatible terminal authority
+- Supersede the earlier metadata-only PR observation with exact merged-state and merge-commit assertions
+- Prove #5403 consumed update_plan_step and replace_validation_lanes from its merged audit
+- Clarify that #5403 retained independent review Status: pass while its tracked typed index remains implemented
+- Mark the prior gh select predicate and regex git-grep records as invalid historical attempts
+- Replace them with a jq error predicate and fixed-string merge-commit checks
+- Retain the already valid merge-commit-bound Status: pass assertion
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove all typed lifecycle, review, publication, closeout, migration, and Gate 10 sunset contracts",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Prove patch whitespace and conflict-marker integrity",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Post-review full regression proof including terminal backfill and reconciliation guards",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove all targets compile without warnings",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove receipt conflict non-mutation and self-contained staged authored artifacts",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Final post-review warning-free compile proof",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove released topology matching and distinct authored artifact roles",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Final warning-free compile proof after all review fixes",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md"
+  },
+  {
+    "command": [
+      "gh",
+      "pr",
+      "view",
+      "5414",
+      "--repo",
+      "danielbaustin/agent-design-language",
+      "--json",
+      "state,mergeCommit"
+    ],
+    "purpose": "Prove #5403 consumed the new typed SPP/VPP operations and merged its reviewed lifecycle repair",
+    "outcome": "passed",
+    "evidence_ref": "https://github.com/danielbaustin/agent-design-language/pull/5414"
+  },
+  {
+    "command": [
+      "gh",
+      "pr",
+      "view",
+      "5414",
+      "--repo",
+      "danielbaustin/agent-design-language",
+      "--json",
+      "state,mergeCommit",
+      "--jq",
+      "select(.state == \"MERGED\" and .mergeCommit.oid == \"75d0a957dea718fd825ac73e2ce164a92b691a75\")"
+    ],
+    "purpose": "Assert PR #5414 is merged at the exact retained merge commit",
+    "outcome": "passed",
+    "evidence_ref": "https://github.com/danielbaustin/agent-design-language/pull/5414"
+  },
+  {
+    "command": [
+      "git",
+      "grep",
+      "-q",
+      "\"operation\":\"{\\\"operation\\\":\\\"update_plan_step\\\"",
+      "75d0a957dea718fd825ac73e2ce164a92b691a75",
+      "--",
+      ".csdlc/issues/5403/audit.jsonl"
+    ],
+    "purpose": "Assert merged #5403 audit contains typed update_plan_step consumption",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5403/audit.jsonl"
+  },
+  {
+    "command": [
+      "git",
+      "grep",
+      "-q",
+      "\"operation\":\"{\\\"operation\\\":\\\"replace_validation_lanes\\\"",
+      "75d0a957dea718fd825ac73e2ce164a92b691a75",
+      "--",
+      ".csdlc/issues/5403/audit.jsonl"
+    ],
+    "purpose": "Assert merged #5403 audit contains typed replace_validation_lanes consumption",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5403/audit.jsonl"
+  },
+  {
+    "command": [
+      "git",
+      "grep",
+      "-q",
+      "^Status: pass$",
+      "75d0a957dea718fd825ac73e2ce164a92b691a75",
+      "--",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md"
+    ],
+    "purpose": "Assert merged #5403 review packet records an explicit passing independent decision",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md"
+  },
+  {
+    "command": [
+      "gh",
+      "pr",
+      "view",
+      "5414",
+      "--repo",
+      "danielbaustin/agent-design-language",
+      "--json",
+      "state,mergeCommit",
+      "--jq",
+      "if .state == \"MERGED\" and .mergeCommit.oid == \"75d0a957dea718fd825ac73e2ce164a92b691a75\" then \"ok\" else error(\"unexpected PR terminal state\") end"
+    ],
+    "purpose": "Fail closed unless PR #5414 is merged at the exact retained merge commit",
+    "outcome": "passed",
+    "evidence_ref": "https://github.com/danielbaustin/agent-design-language/pull/5414"
+  },
+  {
+    "command": [
+      "git",
+      "grep",
+      "-Fq",
+      "update_plan_step",
+      "75d0a957dea718fd825ac73e2ce164a92b691a75",
+      "--",
+      ".csdlc/issues/5403/audit.jsonl"
+    ],
+    "purpose": "Fail closed unless merged #5403 audit contains typed update_plan_step consumption",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5403/audit.jsonl"
+  },
+  {
+    "command": [
+      "git",
+      "grep",
+      "-Fq",
+      "replace_validation_lanes",
+      "75d0a957dea718fd825ac73e2ce164a92b691a75",
+      "--",
+      ".csdlc/issues/5403/audit.jsonl"
+    ],
+    "purpose": "Fail closed unless merged #5403 audit contains typed replace_validation_lanes consumption",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5403/audit.jsonl"
+  }
+]
+
+## Integration
+
+merged
+
+## Publication
+
+Publication: closed
+
+Merge: merged
+
+## Closeout
+
+complete
+
+## Follow Ups
+
+- none

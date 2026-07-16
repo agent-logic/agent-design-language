@@ -1,13 +1,18 @@
 use serde_json::{json, Value};
 
 use crate::doctor::DoctorReport;
-use crate::lifecycle::{BindRequest, BindResult, RecoverClaimRequest};
+use crate::lifecycle::{
+    AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest,
+};
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
+use crate::model::{ReconcileTerminalRequest, TerminalReceipt};
 use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
 use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
 use crate::readiness::{ReadinessReport, ReadinessRequest, TerminalObservation};
-use crate::review::{PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest};
+use crate::review::{
+    PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest, ReviewRecoveryRequest,
+};
 use crate::store::ApproveDesignRequest;
 use crate::store::{BootstrapRequest, EditRequest};
 
@@ -20,7 +25,11 @@ pub fn public_schema_bundle() -> Value {
         "bind_request": schemars::schema_for!(BindRequest),
         "bind_result": schemars::schema_for!(BindResult),
         "recover_claim_request": schemars::schema_for!(RecoverClaimRequest),
+        "amend_claim_scope_request": schemars::schema_for!(AmendClaimScopeRequest),
+        "heartbeat_request": schemars::schema_for!(HeartbeatRequest),
         "issue_record": schemars::schema_for!(IssueRecord),
+        "terminal_receipt": schemars::schema_for!(TerminalReceipt),
+        "reconcile_terminal_request": schemars::schema_for!(ReconcileTerminalRequest),
         "doctor_report": schemars::schema_for!(DoctorReport),
         "pvf_manifest": schemars::schema_for!(PvfManifest),
         "pvf_execution_request": schemars::schema_for!(ExecutionRequest),
@@ -29,6 +38,7 @@ pub fn public_schema_bundle() -> Value {
         "shepherd_report": schemars::schema_for!(ShepherdReport),
         "review_assignment_request": schemars::schema_for!(ReviewAssignmentRequest),
         "review_record_request": schemars::schema_for!(ReviewRecordRequest),
+        "review_recovery_request": schemars::schema_for!(ReviewRecoveryRequest),
         "publication_review_report": schemars::schema_for!(PublicationReviewReport),
         "publication_request": schemars::schema_for!(PublicationRequest),
         "publication_intent": schemars::schema_for!(PublicationIntent),
@@ -42,4 +52,14 @@ pub fn public_schema_bundle() -> Value {
         "shadow_comparison": schemars::schema_for!(ShadowComparison),
         "deletion_eligibility": crate::eligibility::eligibility_schema_bundle(),
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::public_schema_bundle;
+
+    #[test]
+    fn exposes_heartbeat_request_schema() {
+        assert!(public_schema_bundle().get("heartbeat_request").is_some());
+    }
 }
