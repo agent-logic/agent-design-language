@@ -1061,7 +1061,14 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                         stderr_preview: preview(&result.stderr),
                     });
                     remote_summary = parsed;
-                    if interruption_detected {
+                    let command_succeeded = result.response_code.unwrap_or(1) == 0
+                        && result.status.eq_ignore_ascii_case("Success");
+                    let remote_summary_passed = remote_summary
+                        .as_ref()
+                        .map(|summary| summary.status.eq_ignore_ascii_case("passed"))
+                        .unwrap_or(false);
+                    let proof_completed = command_succeeded && remote_summary_passed;
+                    if interruption_detected && !proof_completed {
                         status = RemoteRunStatus::InterruptedByAws;
                         failure_reason = Some(
                             "spot interruption notice detected during remote execution".to_string(),
@@ -1090,16 +1097,17 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                             "failed",
                             failure_reason.clone().unwrap_or_default(),
                         );
-                    } else if result.response_code.unwrap_or(1) == 0
-                        && result.status.eq_ignore_ascii_case("Success")
-                    {
+                    } else if command_succeeded {
                         status = RemoteRunStatus::Passed;
-                        record_event(
-                            &mut events,
-                            "remote_command",
-                            "ok",
-                            format!("remote command completed with {}", result.status),
-                        );
+                        let detail = if interruption_detected {
+                            format!(
+                                "remote command completed with {}; post-proof interruption notice observed",
+                                result.status
+                            )
+                        } else {
+                            format!("remote command completed with {}", result.status)
+                        };
+                        record_event(&mut events, "remote_command", "ok", detail);
                     } else {
                         status = RemoteRunStatus::Failed;
                         failure_reason = Some(format!(
@@ -4063,6 +4071,63 @@ mod tests {
             .as_deref()
             .unwrap_or_default()
             .contains("cleanup did not reach a complete terminated state"));
+    }
+
+    #[tokio::test]
+    async fn remote_validation_keeps_passed_proof_when_spot_notice_arrives_after_success() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-post-success-interruption-{}",
+            std::process::id()
+        ));
+        let stdout = "ADL_AWS_REMOTE_SUMMARY_BEGIN\n{\"status\":\"passed\",\"bootstrap_seconds\":1,\"command_seconds\":2,\"interruption_detected\":true,\"interruption_notice\":\"{\\\"action\\\":\\\"terminate\\\",\\\"time\\\":\\\"2026-07-16T00:51:29Z\\\"}\",\"resolved_commit\":\"abc\",\"rustc_version\":null,\"cargo_version\":null,\"sccache_version\":null,\"sccache_degraded\":false,\"sccache_degraded_reason\":null,\"sccache_stats\":null}\nADL_AWS_REMOTE_SUMMARY_END\n";
+        let adapter = FakeAdapter {
+            quota: QuotaSnapshot {
+                spot_vcpu_quota: Some(32.0),
+                on_demand_vcpu_quota: Some(64.0),
+                notes: vec![],
+            },
+            identity: AwsAccountIdentity {
+                account_id: Some("123456789012".to_string()),
+                account_id_sha256: Some("hash".to_string()),
+                arn: None,
+                user_id: None,
+            },
+            launch_results: Mutex::new(VecDeque::from(vec![Ok(LaunchResult {
+                instance_id: "i-post-success-interruption".to_string(),
+                initial_state: "pending".to_string(),
+                cache_volume: None,
+            })])),
+            ssm_ready: Ok(SsmReadyResult {
+                status: "Online".to_string(),
+            }),
+            command_result: Ok(CommandExecutionResult {
+                command_id: "cmd-post-success-interruption".to_string(),
+                status: "Success".to_string(),
+                response_code: Some(0),
+                stdout: stdout.to_string(),
+                stderr: String::new(),
+            }),
+            terminate_result: Ok(()),
+            final_state: Ok(Some("terminated".to_string())),
+            cost: None,
+            budget: None,
+        };
+
+        let (summary, events) = run_aws_remote_validation(&adapter, &sample_config(&tmp))
+            .await
+            .expect("summary");
+
+        assert_eq!(summary.status, RemoteRunStatus::Passed);
+        assert!(summary.failure_reason.is_none());
+        assert!(summary
+            .remote_summary
+            .as_ref()
+            .is_some_and(|remote_summary| remote_summary.interruption_detected));
+        assert!(events.iter().any(|event| {
+            event.stage == "remote_command"
+                && event.status == "ok"
+                && event.detail.contains("post-proof interruption notice")
+        }));
     }
 
     #[tokio::test]
