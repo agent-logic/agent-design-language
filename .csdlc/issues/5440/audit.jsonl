@@ -6,3 +6,6 @@
 {"sequence":6,"generation":5,"actor":"codex","reason":"record issue 5440 validation","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--test\",\"gate2\"],\"purpose\":\"Gate 2 integration regression suite\",\"outcome\":\"passed\",\"evidence_ref\":\"local: gate2 28 passed\"}}"}
 {"sequence":7,"generation":6,"actor":"codex","reason":"record issue 5440 validation","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Rust lint validation with warnings denied\",\"outcome\":\"passed\",\"evidence_ref\":\"local: clippy passed\"}}"}
 {"sequence":8,"generation":7,"actor":"codex","reason":"implementation and focused validation complete","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
+{"sequence":9,"generation":7,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":10,"generation":8,"actor":"codex","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":11,"generation":9,"actor":"codex","reason":"independent exact-revision review passed with finding fixed","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}

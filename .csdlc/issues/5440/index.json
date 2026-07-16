@@ -3,13 +3,13 @@
   "issue": 5440,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "76c01aff9cfa5df1cb78fa58763e7de29d43b0e9a9dd02de411a2953b7b4f8d2",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "68e890b07828fa79f08ef380b9875ac3ef3238b0d6396e91c3f55a3a68a4b35d",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "48cfa624466cfc58d9caed7f713601ffc63717ea757db9cc6cff0c9bf3940715",
   "claim": {
     "id": "claim-5440-design-reapproval",
     "owner": "codex",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1784242974,
     "expires_unix_seconds": 1784329374,
     "heartbeat_unix_seconds": 1784242974,
@@ -22,8 +22,38 @@
     ],
     "purpose": "Add audited post-readiness design reapproval without weakening exact-revision review."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent-019f6d31",
+    "assigned_by": "codex",
+    "revision": "git-blake3:d6ffeba646080b66ed350ec68639e2a9938ada7e:4b918005fbf71b29bfb6c72bb9cddedf240e564f3937c530ef2ffbfd15414385",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent-019f6d31",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ],
+    "reviewed_revision": "git-blake3:d6ffeba646080b66ed350ec68639e2a9938ada7e:4b918005fbf71b29bfb6c72bb9cddedf240e564f3937c530ef2ffbfd15414385",
+    "findings": [
+      {
+        "id": "P1-projection-drift",
+        "severity": "p1",
+        "summary": "Reject unrelated card projection drift during design reapproval",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d6ffeba646080b66ed350ec68639e2a9938ada7e:4b918005fbf71b29bfb6c72bb9cddedf240e564f3937c530ef2ffbfd15414385",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "16bbd1cd700a8027557721d4829a8d363f1dcb80a1bab6208a4393b0a4a13222",
+      "values_digest": "b7a8f521019338c9917b936186fdf3dee814a3aa17ac07357288df630cc28c7e",
       "rendered_digest": "9f8c4a3246eacc23abc0a68aac64038d2f03b965999b6c59bb4c661c021bce78",
       "ast_digest": "abee1c62fb70501f0b2b03d10cf3255da1fd38676504ed3dbab492613cd838b6"
     },
     "stp": {
-      "values_digest": "8fbcb118b9967d4d8d746429ef1af7ae0ecc4ea5fe6e1609d8c903d8cba9c432",
+      "values_digest": "db82274c07c1d0801cdd19bbcf68e8dfe3de640f574a9c3789fb46e08ea11d5b",
       "rendered_digest": "6378644229260b73c894c783c9f01b296c12f61fc48ae2b8a7eb1176b0ef62fd",
       "ast_digest": "3b56186d8e43419ead065aedc5ebe2d7a95ab0410641c3d9dc05d771bc956d6e"
     },
     "spp": {
-      "values_digest": "ea2278f9d7210a1150977ee7e2b4418ee0a01ccb209e5224df0606ee671cbc07",
+      "values_digest": "d77374460121a134e8db117d514912e3ab07310269389c1efe6b3814f0a8b773",
       "rendered_digest": "0f161e1c4f7e88470e167663862d0c425a5116bebf54e5d2d67f940ac7a33ce9",
       "ast_digest": "4808d58da59af1a265dec3c5ecfa652ae2c8c87fb19dbe13869a51f599ad86b4"
     },
     "vpp": {
-      "values_digest": "e844f17ac60e97606c8db440d5133bdf1434b20c86352c8b4c6023b053566d7c",
+      "values_digest": "7fada10cf2dc07713331209e7138d73a5f502f42cf8ce5fd8be518ada9c0807b",
       "rendered_digest": "0d6bf082bb871a42727caea94b77333a24c71c3162e70c47740d428d32ecba11",
       "ast_digest": "0b503b8a491926748916d0c13cd6a2ead4d9d8f7e0631d15fa91ad788ea16e6b"
     },
     "srp": {
-      "values_digest": "4fc4196578b2ce447a7789f55731ae744dda0fd7ce760c8124a96bf0457b5df5",
-      "rendered_digest": "78611347f8b1d753b9e95fbaf0520cd3c52424f54a9c50280643d43ab77628f8",
-      "ast_digest": "a28d7854661fe967d0440a2332e4ef755553829e975b641781319fdb60b9ecbc"
+      "values_digest": "ef2f38077a5aff48c36121f8c76110587002d0589137d789728ee603285a3153",
+      "rendered_digest": "d9894ac412e6b78dcf6ae443ebc8cb5a0545a5ad34cc7523a4629e0df58abc7b",
+      "ast_digest": "a50b10d70a00d889ddffa01233dee888d5cbd758ac8361d320e743a939241a5d"
     },
     "sor": {
-      "values_digest": "853e40f647e5a898d2ccf8c71944b171f0bb0280f25e9c349ec4c78c5c04f3f8",
+      "values_digest": "138a4cea9c3d90e6f47f3c5f352d946463763fb5d5dc81387ee8fa657a452c83",
       "rendered_digest": "02a461b93eca513b413c75cef8b039c7346c2c30c8203f63712645cc7ff1039b",
       "ast_digest": "f18212c23b91dac05da48a1f859f6b4ab5e46284e4977c76bdc9edd2fff0ee39"
     }
@@ -89,6 +119,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "implementation and focused validation complete"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "independent exact-revision review passed with finding fixed"
     }
   ],
   "audit": [
@@ -147,6 +184,27 @@
       "actor": "codex",
       "reason": "implementation and focused validation complete",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "independent exact-revision review passed with finding fixed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

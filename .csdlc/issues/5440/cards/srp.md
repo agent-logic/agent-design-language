@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate2.rs
 
 ## Prompts
 
@@ -22,7 +23,18 @@ Exact implementation revision before publication.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-projection-drift",
+    "severity": "p1",
+    "summary": "Reject unrelated card projection drift during design reapproval",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:d6ffeba646080b66ed350ec68639e2a9938ada7e:4b918005fbf71b29bfb6c72bb9cddedf240e564f3937c530ef2ffbfd15414385",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -34,8 +46,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d6ffeba646080b66ed350ec68639e2a9938ada7e:4b918005fbf71b29bfb6c72bb9cddedf240e564f3937c530ef2ffbfd15414385")
 
-Reviewer: None
+Reviewer: Some("codex-subagent-019f6d31")
 
-Result: pre_review
+Result: pass
