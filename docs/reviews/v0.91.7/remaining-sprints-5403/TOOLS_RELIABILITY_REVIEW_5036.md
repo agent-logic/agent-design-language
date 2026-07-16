@@ -94,5 +94,6 @@ The four findings were remediated by #5406 and #5407. The current logging and
 CLI documents now match implemented authority, the complete sprint wave has
 retained closeout evidence, and the unsupported hosted-performance claim has
 been withdrawn. The canonical sprint register still carries the earlier
-`changes required` state; because that path is owned by separate reconciliation
-work, this review remains explicitly non-terminal until the register is updated.
+`changes required` state. #5423 owns reconciliation of #5403's unreleased typed
+claim and that separately protected register path, so this review remains
+explicitly non-terminal until the register is updated.

@@ -63,6 +63,16 @@ Exact implementation revision before publication.
     "disposition": "out_of_scope",
     "fix_revision": null,
     "route": "#5383"
+  },
+  {
+    "id": "R5407-P2-register-route-correction",
+    "severity": "p2",
+    "summary": "The earlier #5383 residual route was stale; #5423 now owns #5403 claim and register reconciliation",
+    "actionable": false,
+    "in_scope": false,
+    "disposition": "out_of_scope",
+    "fix_revision": null,
+    "route": "#5423"
   }
 ]
 

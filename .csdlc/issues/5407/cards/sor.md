@@ -136,3 +136,4 @@ not_started
 ## Follow Ups
 
 - Canonical v0.91.7 sprint register reconciliation remains separately owned by #5383; #5407 keeps its source review explicitly non-terminal until that path updates.
+- Route correction: #5423 supersedes the earlier #5383 reference and owns reconciliation of #5403's unreleased typed claim plus the canonical v0.91.7 sprint register row.
