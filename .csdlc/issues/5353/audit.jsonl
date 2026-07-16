@@ -11,3 +11,5 @@
 {"sequence":11,"generation":8,"actor":"subagent-reviewer","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":12,"generation":9,"actor":"codex","reason":"exact-revision subagent review passed with no findings","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":13,"generation":10,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":14,"generation":10,"actor":"codex","reason":"GitHub issue #5353 and PR #5374 are merged, but the typed claim expired before terminal closeout","operation":"{\"previous_owner\":\"codex\",\"observed_expiry_unix_seconds\":1784140073,\"recovery_actor\":\"codex\",\"reason\":\"GitHub issue #5353 and PR #5374 are merged, but the typed claim expired before terminal closeout\"}"}
+{"sequence":15,"generation":11,"actor":"codex","reason":"Re-review the current clean branch and publish exact terminal-reconciliation evidence after the original PR merged","operation":"recover_review"}

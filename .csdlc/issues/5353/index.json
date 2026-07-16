@@ -3,16 +3,16 @@
   "issue": 5353,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "404ad9845d55cf189416e19f7553915074e73a88adb8b0168d0b7e4781f60ddf",
-  "phase": "published",
-  "generation": 10,
-  "digest": "834ee4b7a15a6ac36b2fbc0869b819e54eaecba603b96fe5ea5f029aca491f65",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "22f43003e6160a8811217037e571ba5f9e1dbba629f079feb997f59adf232b52",
   "claim": {
-    "id": "csdlc-v2-5353-wp01",
+    "id": "csdlc-v2-5353-terminal-reconcile",
     "owner": "codex",
-    "generation": 10,
-    "acquired_unix_seconds": 1784053673,
-    "expires_unix_seconds": 1784140073,
-    "heartbeat_unix_seconds": 1784053673,
+    "generation": 11,
+    "acquired_unix_seconds": 1784230110,
+    "expires_unix_seconds": 1784316510,
+    "heartbeat_unix_seconds": 1784230110,
     "branch": "codex/5353-v0-91-8-csdlc-v2-wp01-init-design-approval-safety",
     "worktree": ".worktrees/adl-wp-5353",
     "protected_paths": [
@@ -21,42 +21,11 @@
       "csdlc-v2/src/cards.rs",
       "csdlc-v2/tests"
     ],
-    "purpose": "WP-01 regression and atomicity repair for issue-local design initialization and design approval digests"
+    "purpose": "Reconcile merged #5353 terminal lifecycle and release stale protected paths"
   },
-  "review_assignment": {
-    "reviewer": "subagent-reviewer",
-    "assigned_by": "codex",
-    "revision": "git-blake3:ea5d5bc939bd445811169d236cba5d4e9d0aa349:baba78f10c5f093a9f53bf6e0cd028a7cee515a84677f4aa4fee36c865088b58",
-    "scope": [
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate2.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent-reviewer",
-    "scope": [
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate2.rs"
-    ],
-    "reviewed_revision": "git-blake3:ea5d5bc939bd445811169d236cba5d4e9d0aa349:baba78f10c5f093a9f53bf6e0cd028a7cee515a84677f4aa4fee36c865088b58",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5353,
-    "pull_request": 5374,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5374",
-    "base": "main",
-    "head": "codex/5353-v0-91-8-csdlc-v2-wp01-init-design-approval-safety",
-    "revision": "git-blake3:ea5d5bc939bd445811169d236cba5d4e9d0aa349:baba78f10c5f093a9f53bf6e0cd028a7cee515a84677f4aa4fee36c865088b58",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -70,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7b6c4bfcb4624b816bed602371999758a0abca469ab287cf775b5c10511de153",
+      "values_digest": "d2e9703737e39a983cfe31e60f63d1390f8b27cb842d3354a97ee5566c7b54d7",
       "rendered_digest": "09584eaac2c1ae475b3422c344c58d984ee9565cc09293db1149a84175e26de5",
       "ast_digest": "d4684cf547a9c50d22ab8e1e4b2cd112b98a73128406c651c209b0d81aed69ee"
     },
     "stp": {
-      "values_digest": "1949e96dd0a4ff04f788323845f6ff1368a1d48dfb021f6eaf948b5a22038019",
+      "values_digest": "f1f89c9c969d6a67d449945266b2cdd462b8eadbd981170119b30cbb9f815524",
       "rendered_digest": "6e2f28697e49ec9cfd218f0b77e684d88eee857041de05913dfd572190d79b24",
       "ast_digest": "39dc2a5822da1ee0fa69e7153fea05bc821a67ca005324a29d54f05a635929b3"
     },
     "spp": {
-      "values_digest": "c08df7ec46ee8ac4886be897eb5b22ec3278b344c54c43a914e607fae995918e",
+      "values_digest": "3e39dd8d398eeea00fab518da797821f8d6f93a52bd4b525663459003ca5cd57",
       "rendered_digest": "3ca9ea198a3691822447ad812b93824a8e4a6e7e433c87d7c3aac4cc004f6c6c",
       "ast_digest": "7f6d0becbc3be143827fdda88374d54b176b3886ecaf32b066a2325ff90f9274"
     },
     "vpp": {
-      "values_digest": "5a5d318d7deefcb40010c353c68958d9303a45ffc3512e93de09540d65bd18df",
+      "values_digest": "f339f2dea8a0aad848279655555d28a85d34d6d9c7ddac9957e97da64b537120",
       "rendered_digest": "8f5a93315de38fc11cf6f419a9804114cf4bb07d5b187a49fc479e7aa6d8a80e",
       "ast_digest": "c8d0f923f17fd2ac5e04bf92502841aded7bf1eef4600e5b632e909ab86d6b18"
     },
     "srp": {
-      "values_digest": "47d7432e6a41ff2a86ebded12d9ec0cc3cd7cb9cbaa795ac6bbd53fd43dc109a",
-      "rendered_digest": "bc85f85ca195e506426078704a393ae3f6a956f1f05499a615293fcab438047d",
-      "ast_digest": "ec04173846449c5c2ca14e69bf2d309a85904eff1be13e1f0283e65ae85e96a8"
+      "values_digest": "727083a3ebb5b36a06f54702272f9d602ebd79c16289f4ecc4da8ba573ed4963",
+      "rendered_digest": "b79bd7787225e6ab3569c729c17bfcd16a7211a38d908335bd844dc980b92303",
+      "ast_digest": "5b343d88e248e2c9a651ac4254afe1e18c93ff98bf5e8c083ec070db5cbe90e1"
     },
     "sor": {
-      "values_digest": "fd44d775db058ec23d98cc65dd0d6f1d886c710490a0239f7effbc05ba6840d9",
-      "rendered_digest": "03994c4cdd9f39e542430119e687cee5a9d36c1fe6b8af1450b857a38a4e0459",
-      "ast_digest": "bff9467b372341cc39899c79b5dc4fa4b541db9656520ba92b4c112750dfaac9"
+      "values_digest": "1f91b134e50a2d3b6295b9e0aba256c5adb6b1fd9de403847a1f50b5a7c29270",
+      "rendered_digest": "e09be16223facf1c0d7f9fb6dc0069f072e3abbf0ee838fb04824a6f002781a1",
+      "ast_digest": "0df944549080fafca532304ea10ec098b441dbd020370ddf8df35643cd6fd312"
     }
   },
   "transitions": [
@@ -135,6 +104,13 @@
       "to": "published",
       "actor": "codex",
       "reason": "observed exact draft PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Re-review the current clean branch and publish exact terminal-reconciliation evidence after the original PR merged"
     }
   ],
   "audit": [
@@ -228,6 +204,20 @@
       "actor": "codex",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "GitHub issue #5353 and PR #5374 are merged, but the typed claim expired before terminal closeout",
+      "operation": "{\"previous_owner\":\"codex\",\"observed_expiry_unix_seconds\":1784140073,\"recovery_actor\":\"codex\",\"reason\":\"GitHub issue #5353 and PR #5374 are merged, but the typed claim expired before terminal closeout\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "Re-review the current clean branch and publish exact terminal-reconciliation evidence after the original PR merged",
+      "operation": "recover_review"
     }
   ]
 }
