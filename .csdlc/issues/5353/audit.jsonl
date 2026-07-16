@@ -23,3 +23,9 @@
 {"sequence":23,"generation":17,"actor":"codex","reason":"Reconcile the completed implementation step after PR #5374 merged","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"}
 {"sequence":24,"generation":18,"actor":"codex","reason":"Retain the passing typed doctor result required by AC-4","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5353\"],\"purpose\":\"Prove the canonical typed issue record and all six cards pass doctor validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local:csdlc-doctor-5353-generation-14\"}}"}
 {"sequence":25,"generation":19,"actor":"codex","reason":"Reconcile focused validation, doctor, independent review, and merged PR proof","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"completed\"}"}
+{"sequence":26,"generation":19,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":27,"generation":20,"actor":"codex-subagent-terminal-publication","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":28,"generation":21,"actor":"codex","reason":"Exact clean-commit review passed after fixing all in-scope record findings; version repair remains routed to #5427","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":29,"generation":22,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":30,"generation":23,"actor":"codex","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":31,"generation":24,"actor":"codex","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
