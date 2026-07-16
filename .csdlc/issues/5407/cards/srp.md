@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+exact revision a1294601dc737a3cada47559023bd366be03beb3
+build-action-log claim boundary
+Gate 10D2 CLI authority
+complete #5036 closeout evidence
+#5037 performance non-claim
+typed lifecycle and evidence consistency
 
 ## Prompts
 
@@ -27,47 +32,67 @@ Exact implementation revision before publication.
   {
     "id": "R5407-P2-register-truth",
     "severity": "p2",
-    "summary": "Canonical sprint register still carries the earlier changes-required state",
+    "summary": "Source review and canonical register initially disagreed after remediation",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "7150afb9408cbe4717d51b822c14f27cc1ec53ce",
+    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
     "route": null
   },
   {
     "id": "R5407-P2-closeout-evidence",
     "severity": "p2",
-    "summary": "Closeout matrix lacked retained issue closure and check-rollup observations",
+    "summary": "Closeout matrix initially lacked retained live issue, PR, and check-rollup observations",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "7150afb9408cbe4717d51b822c14f27cc1ec53ce",
+    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
     "route": null
   },
   {
     "id": "R5407-P3-stale-references",
     "severity": "p3",
-    "summary": "Remediated review source references no longer identified the pre-remediation evidence",
+    "summary": "Source references initially pointed at post-remediation line contents",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "7150afb9408cbe4717d51b822c14f27cc1ec53ce",
+    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
     "route": null
+  },
+  {
+    "id": "R5407-P2-durable-sor-evidence",
+    "severity": "p2",
+    "summary": "Canonical SOR initially retained transient evidence references",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "route": null
+  },
+  {
+    "id": "R5407-P3-pvf-reproducibility",
+    "severity": "p3",
+    "summary": "The complete PVF request was initially absent from the reviewed revision",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "route": null
+  },
+  {
+    "id": "R5407-P2-register-route",
+    "severity": "p2",
+    "summary": "The initial register residual route pointed to closed #5383",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "route": "#5423"
   },
   {
     "id": "R5407-P2-register-reconciliation-dependency",
     "severity": "p2",
-    "summary": "Canonical sprint register still requires reconciliation after the #5407 source review remediation",
-    "actionable": false,
-    "in_scope": false,
-    "disposition": "out_of_scope",
-    "fix_revision": null,
-    "route": "#5383"
-  },
-  {
-    "id": "R5407-P2-register-route-correction",
-    "severity": "p2",
-    "summary": "The earlier #5383 residual route was stale; #5423 now owns #5403 claim and register reconciliation",
+    "summary": "Canonical sprint register reconciliation remains separately owned",
     "actionable": false,
     "in_scope": false,
     "disposition": "out_of_scope",
@@ -82,12 +107,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Canonical v0.91.7 sprint register reconciliation remains pending under #5423
+- Portable PVF replay requires git and rg on PATH
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c")
 
-Reviewer: None
+Reviewer: Some("subagent-Darwin-019f6c37")
 
-Result: pre_review
+Result: pass
