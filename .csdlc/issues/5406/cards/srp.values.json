@@ -7,24 +7,55 @@
     "title": "[v0.91.7][csdlc-v2][records] Retain auditable lifecycle and sprint closeout truth after v1 sunset",
     "slug": "v0-91-7-csdlc-v2-retain-auditable-lifecycle-and-sprint-closeout-truth",
     "version": "v0.91.7",
-    "generation": 36
+    "generation": 43
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5406",
+      "review_revision": "git-blake3:f847332f40e090dcc9afb1295474b206435e0b67:50bf2124fd45420841dfab37b18fad9159bdbf2c7652c51b968842ce255db0df",
+      "reviewer": "codex-subagent-mendel",
       "review_prompts": [
         "Can claim scope expand only after collision checks against current active claims?",
         "Can SPP/VPP corrections preserve prior audit truth and lifecycle guards?",
         "Is the historical authority packet portable and evidence-bound?",
         "Does Gate 10D2 v1_sunset remain intact?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "5406-C1",
+          "severity": "p2",
+          "summary": "Downstream validation command observed metadata without proving its stated purpose",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:f847332f40e090dcc9afb1295474b206435e0b67:50bf2124fd45420841dfab37b18fad9159bdbf2c7652c51b968842ce255db0df",
+          "route": null
+        },
+        {
+          "id": "5406-C2",
+          "severity": "p2",
+          "summary": "PR-state jq select predicate did not fail closed on a false predicate",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:f847332f40e090dcc9afb1295474b206435e0b67:50bf2124fd45420841dfab37b18fad9159bdbf2c7652c51b968842ce255db0df",
+          "route": null
+        },
+        {
+          "id": "5406-C3",
+          "severity": "p2",
+          "summary": "Recorded regex git-grep operation checks failed with the retained argv",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:f847332f40e090dcc9afb1295474b206435e0b67:50bf2124fd45420841dfab37b18fad9159bdbf2c7652c51b968842ce255db0df",
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

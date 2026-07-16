@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -263,17 +263,17 @@ Completed typed lifecycle authority and proved downstream consumption with fail-
 
 ## Integration
 
-worktree_only
+merged
 
 ## Publication
 
-Publication: not_published
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 
