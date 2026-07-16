@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8e9178cb8566e54c25e6a60a6bb12f910904a4b5d8de5c90bfbda5e8f3b8338b",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "9e003eef0a527b25f73bee67be6bd928caa62afe8b973df12b6d75f43ee66d9f",
+  "generation": 11,
+  "digest": "3d817502a275133b0b89d75779fdb6104462070ea9a1153724fc6dcf65d598d8",
   "claim": {
     "id": "claim-5407-tools-reliability-tail",
     "owner": "codex",
-    "generation": 6,
+    "generation": 11,
     "acquired_unix_seconds": 1784226226,
     "expires_unix_seconds": 1784312626,
     "heartbeat_unix_seconds": 1784226226,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fed072dfed06fdc8d066e172041be7ba6ed49c4e5ed37baa2a794d74589ede51",
+      "values_digest": "210ba6a54ca8fadc47e9c77c1ba65f19810ba84af5f212de2aa777341ad077ee",
       "rendered_digest": "9d885e96ba486a7cb0b89f6318dff405f2f0ad7073e0576098affcf0e2b82f37",
       "ast_digest": "23de05dd018bea43ce9ebedd2be5701b20ec1ddb7136bb031d531986012f418e"
     },
     "stp": {
-      "values_digest": "3a6fcfa87a0b98090165aae1c2ae4ec632c25035c64d49ef9366f7d16f464ee6",
+      "values_digest": "90ccad6599bee8b51c929c58d5f3d5795113c9f9db473673027cf2e86c066d18",
       "rendered_digest": "6feea36e36b92138542354eb3b0775fb4e34eeb3700e4b78df8849517bcdacb3",
       "ast_digest": "35757c103391d6e43ba5181bc35f281d32ac06bf8a28f096afd189ee837981ec"
     },
     "spp": {
-      "values_digest": "f78e4b90abdcee91621287a1ba0142870d8b7796b733ad705827d0ebc263ef6d",
+      "values_digest": "4bb61096d631afea5ec0666f042d416fe32f71c77e441362be6db57c4600161a",
       "rendered_digest": "50bd4322db83eeb54ffbefcba10f23fcf6814bcaf430890929335c8437cb25ed",
       "ast_digest": "e7c777bf6929f11896d25514163b436091da4bc8532daac68303f1c6873c9469"
     },
     "vpp": {
-      "values_digest": "1748a15a950edbad39ef41dca3dc7959a27c3d730925aef2ff18e589f09d9ba5",
+      "values_digest": "12548c1f06be7c183cdce3ec3fa0a4196edda0c53638592af07b444b53bc3edb",
       "rendered_digest": "1dc053bfa7ceea3498f7e11803cf0051a8330fe39c39a702b48051e0b7552f52",
       "ast_digest": "5376401a427c3ed34c58107e2dc7dc6cfc5326479adbdbdb16e354d5921b2daf"
     },
     "srp": {
-      "values_digest": "996d0dcb375e3c5165c2cded243f571e0f2a63e4a7f56f92a63795c36bf24299",
+      "values_digest": "9fdad274d2051232385ada7e3d16cfe95c6b584e65be22e50e61348b4755e145",
       "rendered_digest": "bbb3444e9c23b19e987f1cdd212aa6ac76bbb0cc9e7da43316078f7a694c3d5b",
       "ast_digest": "09f7a42933cc54699b17ab57fed8983c1d6392b1feb5e625a17a814c866c0fa3"
     },
     "sor": {
-      "values_digest": "a8e7f0f8f9c2ab254a6161d66e901ff7ef43b2acf72151ff429dd20f14579039",
-      "rendered_digest": "09b43727984e1531a2a667512198755e3425623fc4af8ed398222d625eb0d662",
-      "ast_digest": "c6b42f46f589d2473aad1e80f6070c241d39b512763e546b4e59d382b9c5da32"
+      "values_digest": "2b815d9ea858adb56146542c5c6970506e45e86aeec3c51aa56edc8c87d0cdfd",
+      "rendered_digest": "1f75a2e635566192454702a4fd0dbebbb89ceca7dccca8817432b533a7f59993",
+      "ast_digest": "f0ffd11b9fa159b61cf87533a6f8319fa458f4f2f5c86a7241cb26ce092bcb58"
     }
   },
   "transitions": [
@@ -149,6 +149,41 @@
       "actor": "codex",
       "reason": "Bounded remediation implementation complete and ready for focused validation",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for closeout-coverage",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"#5037|#4938\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\"],\"purpose\":\"Check the omitted child issues are retained in closeout evidence\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/closeout-coverage.log\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for logging-scope-truth",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"The only integrated producer is.*validation_manager.py --run\",\"docs/tooling/BUILD_ACTION_LOGS.md\"],\"purpose\":\"Check the explicit build-action-log implementation boundary\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/logging-scope-truth.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for patch-integrity",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/git\",\"diff\",\"--check\"],\"purpose\":\"Check the worktree diff for patch integrity\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/patch-integrity.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for performance-boundary",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"not a material hosted|No material|not proven\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\"],\"purpose\":\"Check the retained performance non-claim\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/performance-boundary.log\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for typed-v2-authority",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"Gate 10D2|csdlc-v2\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\"],\"purpose\":\"Check the current lifecycle authority wording\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/typed-v2-authority.log\"}}"
     }
   ]
 }

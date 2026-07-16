@@ -30,7 +30,62 @@ Corrected all four #5036 review findings through current documentation and retai
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "/opt/homebrew/bin/rg",
+      "-n",
+      "#5037|#4938",
+      "docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md"
+    ],
+    "purpose": "Check the omitted child issues are retained in closeout evidence",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5407/evidence/closeout-coverage.log"
+  },
+  {
+    "command": [
+      "/opt/homebrew/bin/rg",
+      "-n",
+      "The only integrated producer is.*validation_manager.py --run",
+      "docs/tooling/BUILD_ACTION_LOGS.md"
+    ],
+    "purpose": "Check the explicit build-action-log implementation boundary",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5407/evidence/logging-scope-truth.log"
+  },
+  {
+    "command": [
+      "/opt/homebrew/bin/git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Check the worktree diff for patch integrity",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5407/evidence/patch-integrity.log"
+  },
+  {
+    "command": [
+      "/opt/homebrew/bin/rg",
+      "-n",
+      "not a material hosted|No material|not proven",
+      "docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md"
+    ],
+    "purpose": "Check the retained performance non-claim",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5407/evidence/performance-boundary.log"
+  },
+  {
+    "command": [
+      "/opt/homebrew/bin/rg",
+      "-n",
+      "Gate 10D2|csdlc-v2",
+      "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md"
+    ],
+    "purpose": "Check the current lifecycle authority wording",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5407/evidence/typed-v2-authority.log"
+  }
+]
 
 ## Integration
 

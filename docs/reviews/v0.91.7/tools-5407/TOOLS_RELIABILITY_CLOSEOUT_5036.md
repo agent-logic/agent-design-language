@@ -30,8 +30,8 @@ closeout surfaces.
   original #5032 `pr.sh`, remote-builder, CI-ingestion, watcher, shepherd, and
   closeout integrations are not current claims after Gate 10D2 v1 sunset.
 - Typed binaries under `csdlc-v2/` are the sole current C-SDLC authority.
-- #5037 proves a focused CI contract split and green integration, not a
-  material hosted wall-clock speedup.
+- #5037 proves a focused CI contract split and green integration. No material
+  hosted wall-clock speedup is claimed.
 - #5406 supplies retained terminal lifecycle authority; this synthesis supplies
   the issue-wave-specific child and PR matrix.
 
