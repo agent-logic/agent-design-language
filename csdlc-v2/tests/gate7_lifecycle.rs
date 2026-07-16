@@ -56,6 +56,22 @@ fn fixture_with_validation_history(
     scenario: &str,
     validation_history: Vec<ValidationResult>,
 ) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
+    fixture_with_validation_history_and_publication(
+        issue,
+        title,
+        scenario,
+        validation_history,
+        true,
+    )
+}
+
+fn fixture_with_validation_history_and_publication(
+    issue: u64,
+    title: &str,
+    scenario: &str,
+    validation_history: Vec<ValidationResult>,
+    publish: bool,
+) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     let temp = tempfile::tempdir().unwrap();
     std::fs::create_dir_all(temp.path().join("docs")).unwrap();
     std::fs::write(temp.path().join("docs/design.md"), "# design\n").unwrap();
@@ -229,6 +245,9 @@ fn fixture_with_validation_history(
             phase: LifecyclePhase::Reviewed,
         },
     );
+    if !publish {
+        return (temp, store, record, sha);
+    }
     let publication_body = format!("Closes #{issue}");
     let request = PublicationRequest {
         schema: "csdlc.publication_request.v1".into(),
@@ -360,6 +379,11 @@ fn later_failure_blocks_merged_and_closed_unmerged_terminal_closeout() {
                 },
             },
         );
+        let observed_state = match disposition {
+            TerminalDisposition::Merged => "merged",
+            TerminalDisposition::ClosedUnmerged => "closed",
+            TerminalDisposition::ClosedNoPr => unreachable!(),
+        };
         let terminal = TerminalObservation {
             schema: "csdlc.terminal_observation.v1".into(),
             issue,
@@ -370,7 +394,7 @@ fn later_failure_blocks_merged_and_closed_unmerged_terminal_closeout() {
             pull_request: Some(70),
             disposition,
             observed_sha: Some(sha),
-            observed_state: "closed".into(),
+            observed_state: observed_state.into(),
             approved_no_pr_reason: None,
             receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
         };
@@ -380,6 +404,52 @@ fn later_failure_blocks_merged_and_closed_unmerged_terminal_closeout() {
             LifecyclePhase::MergeReady
         );
     }
+
+    let issue = 74;
+    let (temp, store, mut record, _) = fixture_with_validation_history_and_publication(
+        issue,
+        "Gate 7 no-PR validation regression fixture",
+        "validation-regression-no-pr",
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+        false,
+    );
+    record = edit(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::RecordValidation {
+            result: ValidationResult {
+                command: vec!["cargo".into(), "test".into()],
+                purpose: "proof".into(),
+                outcome: EvidenceOutcome::Failed,
+                evidence_ref: "evidence.json".into(),
+            },
+        },
+    );
+    let terminal = TerminalObservation {
+        schema: "csdlc.terminal_observation.v1".into(),
+        issue,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "closer".into(),
+        pull_request: None,
+        disposition: TerminalDisposition::ClosedNoPr,
+        observed_sha: None,
+        observed_state: "closed_no_pr".into(),
+        approved_no_pr_reason: Some("operator-approved no-PR closeout".into()),
+        receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+    };
+    assert!(closeout_issue(&store, terminal).is_err());
+    assert_eq!(
+        Store::new(temp.path()).load_record(issue).unwrap().phase,
+        LifecyclePhase::Reviewed
+    );
 }
 
 pub(crate) fn run_complete_lifecycle(
