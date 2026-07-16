@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dd7cf0bd89553833f2914daff64cecdce443600f09e0b5b36d4027d9ca9dc3d3",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "1a03023d3a09dbc0d210ad36676355ffc99325dd66a06fb9aae74af9c618e972",
+  "generation": 32,
+  "digest": "0eb91b1cfc643db36977631f3ac958e1ed4aa7036e7388e3fa73d203eb7866d7",
   "claim": {
     "id": "claim-5406-csdlc-v2-records-truth",
     "owner": "codex",
-    "generation": 27,
+    "generation": 32,
     "acquired_unix_seconds": 1784154300,
     "expires_unix_seconds": 1784240700,
     "heartbeat_unix_seconds": 1784154300,
@@ -38,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dca21487acf0423f4889a3df696e7e9663cd1da30067dc866345fff72dbc0215",
+      "values_digest": "4f7d8cd7ce92b4eb1ec31a21dc5b2049924a8a5bbe537961f84aa74aeaf680b9",
       "rendered_digest": "dd1f6693ee7962d42ffc557389aeeed510fc7eb8d203197708aa973438c0386a",
       "ast_digest": "80fa6172e80165cdd7c23352b1a955909575c0575464ac8eda2c99714acb59ce"
     },
     "stp": {
-      "values_digest": "7c660080f5e5744d54575df83f84756d256024fe72dfe529d9c8db4fd8dbda27",
+      "values_digest": "5ec436d197135de2057a3d798bef9b45226705e0ba3379813aec198d8423be10",
       "rendered_digest": "df10dbfcefa0e318c9545c091738793fdcfad33ea552036d6ca4a7bbb43d6661",
       "ast_digest": "e51c4ae0eab4a901ce410fd51a8d560c4846d4e50bd62671fe96883116d11124"
     },
     "spp": {
-      "values_digest": "5e7cdcc1420af01b9e64a20f6f70d781126b5cdc93cffcb9a58adc142132c831",
+      "values_digest": "b0775017f62f91389d20435ae9674f20d6ba6882c4c68d65d9a0a5c2923a5d7e",
       "rendered_digest": "dcea35b6f32b88a3a0fb3a250ba8cc812d768b5a139c8f3a7c40846f23f799cb",
       "ast_digest": "4c77af45a8d7a7ba2c9c681d61f204fe6be9ba867543215aef5cfe36fb603e5e"
     },
     "vpp": {
-      "values_digest": "5bf37c151f53345c91b71c0af5a3402673782f3c56199eded9c32709e872015f",
+      "values_digest": "17e9866274d1214f37aec0590909b7a939784c858d6253e6dc49c6480fdca9b5",
       "rendered_digest": "5f521a636a885181cb956bb76a9587dbda7815e345626c955a4e8304ef7038e9",
       "ast_digest": "14fbf162a6f2b5b904c08cd5f8ff6b660e3a9a4880a86f3eca68d99c0e73a212"
     },
     "srp": {
-      "values_digest": "d383f1429012b0704d37247e2557df3885181f5cc672ef7caf12a74faa66f12f",
+      "values_digest": "890d8a1c59e98265ac78613067b17927b54e9bf3a1dfa50100cdb794be1f9d83",
       "rendered_digest": "3abed7f5b529cf912038f37929e9ce0ce41884658aa1c560d769692ec3becaea",
       "ast_digest": "15a3ba064414a147fbcc057a66481d78f429dd49ecde1a36c1dc84c29a9243bb"
     },
     "sor": {
-      "values_digest": "5d6e95c0d9f76c41428e34327296b6a748194d55e0c21265e5a9fd2a1bb5b32e",
-      "rendered_digest": "a8ac5eba64ba6d54e57eadc5862665360cb0ca6a1fd781f5fee9156b9eb4e75b",
-      "ast_digest": "c84903d1a584c1702285dd7561abab62564fd1b93f20f00a5c077bac3eb9a3e9"
+      "values_digest": "629f183904914ef14a7f51c4f270131cbdcf061f33b68eade30e4e2280823a4c",
+      "rendered_digest": "1c0e133e1d7452024273a59eced97104cf95dbcbe9b449129c9cbba007cfd209",
+      "ast_digest": "08b6d528f5b60a8da3c68d0e379a2c85ac421424e4b2408576783abc0ba178ed"
     }
   },
   "transitions": [
@@ -371,6 +371,41 @@
       "actor": "codex",
       "reason": "Record merged downstream consumption proof",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"gh\",\"pr\",\"view\",\"5414\",\"--repo\",\"danielbaustin/agent-design-language\",\"--json\",\"state,mergeCommit\"],\"purpose\":\"Prove #5403 consumed the new typed SPP/VPP operations and merged its reviewed lifecycle repair\",\"outcome\":\"passed\",\"evidence_ref\":\"https://github.com/danielbaustin/agent-design-language/pull/5414\"}}"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "codex",
+      "reason": "Supersede the weak downstream observation with exact merge-commit-bound assertions",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed typed lifecycle authority and proved downstream consumption at the exact merged #5403 revision.\",\"changes\":[\"Supersede the earlier metadata-only PR observation with exact merged-state and merge-commit assertions\",\"Prove #5403 consumed update_plan_step and replace_validation_lanes from its merged audit\",\"Clarify that #5403 retained independent review Status: pass while its tracked typed index remains implemented\"],\"artifacts\":[\"https://github.com/danielbaustin/agent-design-language/pull/5414\",\".csdlc/issues/5403/audit.jsonl\",\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 29,
+      "actor": "codex",
+      "reason": "Record exact #5403 merged-state assertion",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"gh\",\"pr\",\"view\",\"5414\",\"--repo\",\"danielbaustin/agent-design-language\",\"--json\",\"state,mergeCommit\",\"--jq\",\"select(.state == \\\"MERGED\\\" and .mergeCommit.oid == \\\"75d0a957dea718fd825ac73e2ce164a92b691a75\\\")\"],\"purpose\":\"Assert PR #5414 is merged at the exact retained merge commit\",\"outcome\":\"passed\",\"evidence_ref\":\"https://github.com/danielbaustin/agent-design-language/pull/5414\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 30,
+      "actor": "codex",
+      "reason": "Record merge-commit-bound plan-step consumption proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"grep\",\"-q\",\"\\\"operation\\\":\\\"{\\\\\\\"operation\\\\\\\":\\\\\\\"update_plan_step\\\\\\\"\",\"75d0a957dea718fd825ac73e2ce164a92b691a75\",\"--\",\".csdlc/issues/5403/audit.jsonl\"],\"purpose\":\"Assert merged #5403 audit contains typed update_plan_step consumption\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5403/audit.jsonl\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 31,
+      "actor": "codex",
+      "reason": "Record merge-commit-bound validation-lane consumption proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"grep\",\"-q\",\"\\\"operation\\\":\\\"{\\\\\\\"operation\\\\\\\":\\\\\\\"replace_validation_lanes\\\\\\\"\",\"75d0a957dea718fd825ac73e2ce164a92b691a75\",\"--\",\".csdlc/issues/5403/audit.jsonl\"],\"purpose\":\"Assert merged #5403 audit contains typed replace_validation_lanes consumption\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5403/audit.jsonl\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 32,
+      "actor": "codex",
+      "reason": "Record merge-commit-bound retained independent review decision",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"grep\",\"-q\",\"^Status: pass$\",\"75d0a957dea718fd825ac73e2ce164a92b691a75\",\"--\",\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"],\"purpose\":\"Assert merged #5403 review packet records an explicit passing independent decision\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"}}"
     }
   ]
 }
