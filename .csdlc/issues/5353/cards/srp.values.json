@@ -7,47 +7,23 @@
     "title": "[v0.91.8][WP-01][csdlc-v2] Make init and design approval safe for issue-local design paths",
     "slug": "v0-91-8-wp01-csdlc-v2-init-design-approval-safety",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5353",
-      "review_revision": "git-blake3:afca0a519e12ebf886e6406f0e0d69f5d9a5cb25:d79ef5c72dda69ff906b242ddf5e077433fe41c21e4161fd1b6d617cb4b280fc",
-      "reviewer": "codex-subagent-terminal-review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify issue-local paths cannot create a false existing-record condition.",
         "Verify both design and diagram digests refresh atomically.",
         "Verify tests do not widen into ADL or Runtime code."
       ],
-      "findings": [
-        {
-          "id": "5353-TR-P1-transient-terminal-projection",
-          "severity": "p1",
-          "summary": "Review recovery temporarily projects implemented and worktree-only state before the known merged terminal observation can be recorded",
-          "actionable": false,
-          "in_scope": true,
-          "disposition": "accepted_risk",
-          "fix_revision": null,
-          "route": "#5423"
-        },
-        {
-          "id": "5353-TR-P2-version-identity",
-          "severity": "p2",
-          "summary": "All six retained card identities say v0.91.8 while live issue and PR truth say v0.91.7",
-          "actionable": true,
-          "in_scope": false,
-          "disposition": "out_of_scope",
-          "fix_revision": null,
-          "route": "#5427"
-        }
-      ],
-      "residual_risk": [
-        "The transient implemented projection must be replaced by typed merged closeout before #5353 reconciliation is complete",
-        "Card identity version remains stale until the typed repair in #5427"
-      ],
-      "review_result": "pass"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -3,13 +3,13 @@
   "issue": 5353,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "404ad9845d55cf189416e19f7553915074e73a88adb8b0168d0b7e4781f60ddf",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "721fa54c8e8c2f3401b455efdc20d4f7ad0030ef6a8ec61050ccc83e32a525c0",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "f290449ef4bc65ccf56b2f2eadbee027044d75417cd29d6acf09837eb83f664a",
   "claim": {
     "id": "csdlc-v2-5353-terminal-reconcile",
     "owner": "codex",
-    "generation": 13,
+    "generation": 14,
     "acquired_unix_seconds": 1784230110,
     "expires_unix_seconds": 1784316510,
     "heartbeat_unix_seconds": 1784230110,
@@ -23,49 +23,8 @@
     ],
     "purpose": "Reconcile merged #5353 terminal lifecycle and release stale protected paths"
   },
-  "review_assignment": {
-    "reviewer": "codex-subagent-terminal-review",
-    "assigned_by": "codex",
-    "revision": "git-blake3:afca0a519e12ebf886e6406f0e0d69f5d9a5cb25:d79ef5c72dda69ff906b242ddf5e077433fe41c21e4161fd1b6d617cb4b280fc",
-    "scope": [
-      ".csdlc/issues/5353"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-subagent-terminal-review",
-    "scope": [
-      ".csdlc/issues/5353"
-    ],
-    "reviewed_revision": "git-blake3:afca0a519e12ebf886e6406f0e0d69f5d9a5cb25:d79ef5c72dda69ff906b242ddf5e077433fe41c21e4161fd1b6d617cb4b280fc",
-    "findings": [
-      {
-        "id": "5353-TR-P1-transient-terminal-projection",
-        "severity": "p1",
-        "summary": "Review recovery temporarily projects implemented and worktree-only state before the known merged terminal observation can be recorded",
-        "actionable": false,
-        "in_scope": true,
-        "disposition": "accepted_risk",
-        "fix_revision": null,
-        "route": "#5423"
-      },
-      {
-        "id": "5353-TR-P2-version-identity",
-        "severity": "p2",
-        "summary": "All six retained card identities say v0.91.8 while live issue and PR truth say v0.91.7",
-        "actionable": true,
-        "in_scope": false,
-        "disposition": "out_of_scope",
-        "fix_revision": null,
-        "route": "#5427"
-      }
-    ],
-    "residual_risks": [
-      "The transient implemented projection must be replaced by typed merged closeout before #5353 reconciliation is complete",
-      "Card identity version remains stale until the typed repair in #5427"
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -80,32 +39,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0569824298de8d52693aa3b59ecfdc2b7214688a4ebe14165ed513f7aeecc09c",
+      "values_digest": "280bbcc7eb649b4eea641c70ef4ca9868ae235707eca6e56c07737a557ff8bbc",
       "rendered_digest": "09584eaac2c1ae475b3422c344c58d984ee9565cc09293db1149a84175e26de5",
       "ast_digest": "d4684cf547a9c50d22ab8e1e4b2cd112b98a73128406c651c209b0d81aed69ee"
     },
     "stp": {
-      "values_digest": "1f95096594cee66ad2224e271ac038dafa08f8047651633925f19b394c8bfbde",
+      "values_digest": "90ad2c2b7a44e2c38d649eecf3c97245b383f55a368b913ca2237f20947e7926",
       "rendered_digest": "6e2f28697e49ec9cfd218f0b77e684d88eee857041de05913dfd572190d79b24",
       "ast_digest": "39dc2a5822da1ee0fa69e7153fea05bc821a67ca005324a29d54f05a635929b3"
     },
     "spp": {
-      "values_digest": "1002cce1d1a1fd50040dacbbe829063916efa4302c82f5257d387c7540c63841",
+      "values_digest": "44222441dafc3b7f9e4cda92b94600d4f7c81e494ca8e3a8fdc1ae06b632c96c",
       "rendered_digest": "3ca9ea198a3691822447ad812b93824a8e4a6e7e433c87d7c3aac4cc004f6c6c",
       "ast_digest": "7f6d0becbc3be143827fdda88374d54b176b3886ecaf32b066a2325ff90f9274"
     },
     "vpp": {
-      "values_digest": "4b5cffc3d4e74b10b692658adcb0aa45bc2b09ecc580d5be8d310af999c008fe",
+      "values_digest": "56913d49340b8dfc93e2d561733d1c73ef704b3dde71b9b230586182c4d76a3b",
       "rendered_digest": "8f5a93315de38fc11cf6f419a9804114cf4bb07d5b187a49fc479e7aa6d8a80e",
       "ast_digest": "c8d0f923f17fd2ac5e04bf92502841aded7bf1eef4600e5b632e909ab86d6b18"
     },
     "srp": {
-      "values_digest": "eaad89d29ed7f95bfa1e041f0169d9eab461656441ca4f9efa69480cf23533f0",
-      "rendered_digest": "37ceb8d6c78e2906ad119980272708079cf1e6b27d486c6a8c8e3bb0c15132d8",
-      "ast_digest": "8d10732320ddb468a875500099c87057da49daca00162bfe5a5d714d4e987fbf"
+      "values_digest": "3a9548a1c67a9de16f3a7d0834eb1d4e5de9ba10cee7b0671feeafa5dc6d8091",
+      "rendered_digest": "b79bd7787225e6ab3569c729c17bfcd16a7211a38d908335bd844dc980b92303",
+      "ast_digest": "5b343d88e248e2c9a651ac4254afe1e18c93ff98bf5e8c083ec070db5cbe90e1"
     },
     "sor": {
-      "values_digest": "7966206e0d8a012409c5ce65dd6cd0b3af8df842e6ddeec652e8d9fb6f050d7a",
+      "values_digest": "a20c25aef4d8564a727259386517787a888ae51ea80352f97a4f11a7b0d702a9",
       "rendered_digest": "e09be16223facf1c0d7f9fb6dc0069f072e3abbf0ee838fb04824a6f002781a1",
       "ast_digest": "0df944549080fafca532304ea10ec098b441dbd020370ddf8df35643cd6fd312"
     }
@@ -159,6 +118,13 @@
       "to": "reviewed",
       "actor": "codex",
       "reason": "Record bounded terminal-reconciliation review with stale version identity routed to #5427"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Re-establish exact clean-commit review before typed publication; subsequent lifecycle metadata remains uncommitted until publication"
     }
   ],
   "audit": [
@@ -287,6 +253,13 @@
       "actor": "codex",
       "reason": "Record bounded terminal-reconciliation review with stale version identity routed to #5427",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "Re-establish exact clean-commit review before typed publication; subsequent lifecycle metadata remains uncommitted until publication",
+      "operation": "recover_review"
     }
   ]
 }
