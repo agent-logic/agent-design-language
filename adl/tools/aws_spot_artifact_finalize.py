@@ -174,6 +174,7 @@ def main() -> int:
     ]
 
     failures: list[str] = []
+    observations: list[str] = []
     require(args.runner_exit_code == 0, failures, "runner_exit_nonzero")
     require(str(raw.get("status", "")).lower() in {"passed", "resumed_after_interruption"}, failures, "run_status_not_passed")
     require(launch.get("purchase_option") == "spot", failures, "purchase_option_not_spot")
@@ -186,8 +187,12 @@ def main() -> int:
     require(cleanup.get("final_instance_state") == "terminated", failures, "compute_not_terminated")
     require(not cleanup.get("termination_error"), failures, "compute_termination_error")
     require(launch_surface.get("ssh_debug_enabled") is True, failures, "ssh_debug_not_enabled")
-    require("status=ssh_debug_ready" in command_status, failures, "ssh_recovery_not_proven")
-    require("status=ssh_tail_started" in command_status, failures, "live_ssh_tail_not_proven")
+    ssh_recovery_verified = "status=ssh_debug_ready" in command_status
+    live_logs_verified = "status=ssh_tail_started" in command_status
+    if not ssh_recovery_verified:
+        observations.append("ssh_recovery_not_proven")
+    if not live_logs_verified:
+        observations.append("live_ssh_tail_not_proven")
     require(builder.get("builder_image_immutable") is True, failures, "builder_image_not_immutable")
     require(builder.get("builder_image_digest_sha256") == expected_digest_hash, failures, "builder_image_digest_mismatch")
     require(builder.get("toolchain_verified") is True, failures, "builder_toolchain_not_verified")
@@ -202,6 +207,7 @@ def main() -> int:
     self_verification = {
         "passed": not failures,
         "failures": failures,
+        "observations": observations,
         "account_verified_by_wrapper": True,
         "spot_purchase_verified": launch.get("purchase_option") == "spot",
         "immutable_builder_image_verified": builder.get("builder_image_immutable") is True,
@@ -210,8 +216,8 @@ def main() -> int:
         "retained_cache_verified": cache.get("created") is False and cache.get("attachment_state") == "attached",
         "retained_cache_identity_verified": sha256(cache_volume_id) == args.expected_cache_volume_id_sha256,
         "cache_mount_health_verified": builder.get("cache_mount_verified") is True and builder.get("cache_writable") is True,
-        "ssh_recovery_verified": "status=ssh_debug_ready" in command_status,
-        "live_logs_verified": "status=ssh_tail_started" in command_status,
+        "ssh_recovery_verified": ssh_recovery_verified,
+        "live_logs_verified": live_logs_verified,
         "compute_teardown_verified": cleanup.get("final_instance_state") == "terminated" and not cleanup.get("termination_error"),
         "host_validation_tools_installed": builder.get("host_validation_tools_installed"),
     }

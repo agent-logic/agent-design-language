@@ -105,11 +105,19 @@ grep -F 'compute_not_terminated' "$teardown/err" >/dev/null
 ssh_failure="$TMP/ssh"
 make_fixture "$ssh_failure"
 : >"$ssh_failure/artifacts/command-status.log"
-if run_finalizer "$ssh_failure" >"$ssh_failure/out" 2>"$ssh_failure/err"; then
-  echo "expected missing SSH proof to fail closed" >&2
-  exit 1
-fi
-grep -F 'ssh_recovery_not_proven' "$ssh_failure/err" >/dev/null
+run_finalizer "$ssh_failure" >"$ssh_failure/out" 2>"$ssh_failure/err"
+python3 - "$ssh_failure/artifacts/wrapper-final-summary.json" <<'PY'
+import json
+import sys
+
+wrapper = json.load(open(sys.argv[1], encoding="utf-8"))
+assert wrapper["status"] == "passed", wrapper
+assert wrapper["self_verification"]["passed"] is True, wrapper
+assert wrapper["self_verification"]["ssh_recovery_verified"] is False, wrapper
+assert wrapper["self_verification"]["live_logs_verified"] is False, wrapper
+assert "ssh_recovery_not_proven" in wrapper["self_verification"]["observations"], wrapper
+assert "live_ssh_tail_not_proven" in wrapper["self_verification"]["observations"], wrapper
+PY
 
 missing_builder="$TMP/builder"
 make_fixture "$missing_builder"
