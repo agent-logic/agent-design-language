@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5407,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][tools] Resolve #5036 reliability-tail findings",
+    "slug": "v0-91-7-review-fix-tools-resolve-5036-reliability-tail-findings",
+    "version": "v0.91.7",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does each current claim match implemented repository behavior?",
+        "Are all #5036 children and merged PRs covered?",
+        "Does any operator guidance invoke sunset v1 commands?",
+        "Is the performance non-claim explicit and unambiguous?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 Issue: #5036
 Review issue: #5403
-Status: changes required
+Status: remediated
 Remediation: #5407; shared records issue #5406
 
 ## Findings
@@ -21,8 +21,10 @@ surfaces are not implemented.
 Impact: build and validation actions outside validation-manager execution can
 still disappear without durable action evidence despite the child being closed.
 
-Disposition: open. Route a #5032 completion issue covering every named producer
-and consumer before claiming mandatory build-action logging.
+Disposition: fixed by #5407. `docs/tooling/BUILD_ACTION_LOGS.md` now limits the
+implemented contract to `validation_manager.py --run` and explicitly excludes
+every other original #5032 producer and consumer from current claims. Expansion
+requires a separate reviewed issue.
 
 ### P1: The retained CLI taxonomy directs operators to sunset v1 commands
 
@@ -34,8 +36,9 @@ typed v2 binaries are the sole operational authority.
 Impact: current operator-facing documentation directs users to unsupported,
 deleted lifecycle commands.
 
-Disposition: open. Route a documentation/authority repair tied to #4995 and
-the final C-SDLC v2 sunset contract.
+Disposition: fixed by #5407. The taxonomy now names the typed binaries under
+`csdlc-v2/` as the sole Gate 10D2 lifecycle authority and rejects the removed
+v1 wrappers and compatibility route.
 
 ### P2: The umbrella lacks an internally current retained closeout synthesis
 
@@ -46,8 +49,9 @@ artifact is absent, and integrated #4938 proof is not retained.
 Impact: #5036 closure is supported by live issue and PR state rather than a
 complete durable lifecycle and closeout packet.
 
-Disposition: partly fixed by this review. Route typed-v2 closeout normalization
-through the shared records-retention remediation.
+Disposition: fixed by #5406 and #5407. #5406 provides terminal typed-v2 record
+authority. `docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md`
+retains the complete eleven-child issue and merged-PR matrix.
 
 ### P2: The claimed material CI speedup lacks comparative hosted-run evidence
 
@@ -58,8 +62,9 @@ says wall-clock improvement must be confirmed from GitHub-hosted runs, but line
 Impact: green checks establish correctness, not the claimed material reduction
 in CI duration.
 
-Disposition: open. Route a #5037 evidence follow-up retaining comparable
-before/after hosted timings or narrow the claim to policy-split correctness.
+Disposition: fixed by #5407 through claim narrowing. #5037 proves the focused
+CI contract split and green integration only; no material hosted wall-clock
+speedup is claimed without comparable before/after hosted runs.
 
 ## Child Coverage
 
@@ -80,5 +85,7 @@ used as lifecycle summaries but not treated as durable card truth.
 
 ## Review Result
 
-Changes required. The two P1 findings affect currently supported operator and
-logging behavior; the two P2 findings limit closeout and performance claims.
+Remediated by #5406 and #5407. The current logging and CLI documents now match
+implemented authority, the complete sprint wave has retained closeout evidence,
+and the unsupported hosted-performance claim has been withdrawn. Exact-revision
+review for #5407 remains the publication gate for these repairs.

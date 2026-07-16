@@ -1,0 +1,154 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5407,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8e9178cb8566e54c25e6a60a6bb12f910904a4b5d8de5c90bfbda5e8f3b8338b",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "9e003eef0a527b25f73bee67be6bd928caa62afe8b973df12b6d75f43ee66d9f",
+  "claim": {
+    "id": "claim-5407-tools-reliability-tail",
+    "owner": "codex",
+    "generation": 6,
+    "acquired_unix_seconds": 1784226226,
+    "expires_unix_seconds": 1784312626,
+    "heartbeat_unix_seconds": 1784226226,
+    "branch": "codex/5407-tools-reliability-tail",
+    "worktree": ".worktrees/adl-wp-5407",
+    "protected_paths": [
+      ".csdlc/issues/5407",
+      "docs/tooling/BUILD_ACTION_LOGS.md",
+      "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
+      "docs/reviews/v0.91.7/tools-5407",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/TOOLS_RELIABILITY_REVIEW_5036.md"
+    ],
+    "purpose": "Resolve #5036 logging-scope, CLI-authority, closeout, and performance-claim findings"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/reviews/v0.91.7/tools-5407/DESIGN.md",
+  "diagram_path": "docs/reviews/v0.91.7/tools-5407/DIAGRAM.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized-findings-remediation",
+      "revision": "2d56ddd900547a66c82e264f4b88079cff5da2e98f7dbfb41d0af6a139fe6643"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "fed072dfed06fdc8d066e172041be7ba6ed49c4e5ed37baa2a794d74589ede51",
+      "rendered_digest": "9d885e96ba486a7cb0b89f6318dff405f2f0ad7073e0576098affcf0e2b82f37",
+      "ast_digest": "23de05dd018bea43ce9ebedd2be5701b20ec1ddb7136bb031d531986012f418e"
+    },
+    "stp": {
+      "values_digest": "3a6fcfa87a0b98090165aae1c2ae4ec632c25035c64d49ef9366f7d16f464ee6",
+      "rendered_digest": "6feea36e36b92138542354eb3b0775fb4e34eeb3700e4b78df8849517bcdacb3",
+      "ast_digest": "35757c103391d6e43ba5181bc35f281d32ac06bf8a28f096afd189ee837981ec"
+    },
+    "spp": {
+      "values_digest": "f78e4b90abdcee91621287a1ba0142870d8b7796b733ad705827d0ebc263ef6d",
+      "rendered_digest": "50bd4322db83eeb54ffbefcba10f23fcf6814bcaf430890929335c8437cb25ed",
+      "ast_digest": "e7c777bf6929f11896d25514163b436091da4bc8532daac68303f1c6873c9469"
+    },
+    "vpp": {
+      "values_digest": "1748a15a950edbad39ef41dca3dc7959a27c3d730925aef2ff18e589f09d9ba5",
+      "rendered_digest": "1dc053bfa7ceea3498f7e11803cf0051a8330fe39c39a702b48051e0b7552f52",
+      "ast_digest": "5376401a427c3ed34c58107e2dc7dc6cfc5326479adbdbdb16e354d5921b2daf"
+    },
+    "srp": {
+      "values_digest": "996d0dcb375e3c5165c2cded243f571e0f2a63e4a7f56f92a63795c36bf24299",
+      "rendered_digest": "bbb3444e9c23b19e987f1cdd212aa6ac76bbb0cc9e7da43316078f7a694c3d5b",
+      "ast_digest": "09f7a42933cc54699b17ab57fed8983c1d6392b1feb5e625a17a814c866c0fa3"
+    },
+    "sor": {
+      "values_digest": "a8e7f0f8f9c2ab254a6161d66e901ff7ef43b2acf72151ff429dd20f14579039",
+      "rendered_digest": "09b43727984e1531a2a667512198755e3425623fc4af8ed398222d625eb0d662",
+      "ast_digest": "c6b42f46f589d2473aad1e80f6070c241d39b512763e546b4e59d382b9c5da32"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Bounded remediation implementation complete and ready for focused validation"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "Logging scope and typed-v2 CLI authority documentation corrected",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Complete #5036 child and merged-PR closeout synthesis retained",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Unsupported #5037 hosted material-speedup claim explicitly withdrawn",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Focused validation and exact-revision independent review underway",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Record bounded documentation and retained-evidence remediation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Corrected all four #5036 review findings through current documentation and retained closeout truth.\",\"changes\":[\"Narrowed build-action logging to the implemented validation-manager producer and enumerated non-claims\",\"Replaced sunset C-SDLC CLI guidance with Gate 10D2 typed-v2 authority\",\"Retained the complete #5036 child and merged-PR closeout matrix\",\"Withdrew the unsupported #5037 material hosted-speedup claim and updated review dispositions\"],\"artifacts\":[\"docs/tooling/BUILD_ACTION_LOGS.md\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\",\"docs/reviews/v0.91.7/remaining-sprints-5403/TOOLS_RELIABILITY_REVIEW_5036.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Bounded remediation implementation complete and ready for focused validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
