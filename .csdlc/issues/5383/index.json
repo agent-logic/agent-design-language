@@ -4,24 +4,24 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5774e6b65a3f68bbe9cfdfde4e2d22219496012f36018b5b495815756bd8a140",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "c08ce842a899b8b995f02572dcda7d7585ed0bbd09db3e13501c219692ac8545",
+  "generation": 20,
+  "digest": "0e756a7cd7dbb6917fef8fe62dafe05b1903aaf7ce01989f34e36bf956b944f0",
   "claim": {
-    "id": "csdlc-v2-5383-v0918-planning-package",
+    "id": "claim-5383-terminal-repair",
     "owner": "codex",
-    "generation": 18,
-    "acquired_unix_seconds": 1784133645,
-    "expires_unix_seconds": 1784220045,
-    "heartbeat_unix_seconds": 1784133645,
-    "branch": "codex/5383-v0-91-7-restore-wp14-and-create-v0-91-8-planning-package",
-    "worktree": ".worktrees/adl-wp-5383",
+    "generation": 20,
+    "acquired_unix_seconds": 1784233778,
+    "expires_unix_seconds": 1784320178,
+    "heartbeat_unix_seconds": 1784233778,
+    "branch": "codex/5383-terminal-repair",
+    "worktree": ".worktrees/adl-wp-5383-terminal-repair",
     "protected_paths": [
       "docs/milestones/v0.91.8",
       "docs/milestones/v0.91.7",
       "docs/milestones/v0.92",
       ".csdlc/issues/5383"
     ],
-    "purpose": "Restore WP-14 routing and create the missing v0.91.8 planned-posture milestone package"
+    "purpose": "Repair stale SPP truth and regenerate portable terminal closeout evidence"
   },
   "review_assignment": null,
   "review": null,
@@ -39,32 +39,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5dbc5e215412f30b69c3809180af5fa882d73eae0f8eaec8b8646bd8b49ab785",
+      "values_digest": "a52ea80358d4ecc8189d4dfda0ee100777bd2b677034df986c52df756c2a3618",
       "rendered_digest": "b2757d55da8bf9be4ffbcaed846c5e9c15bcee27e1db146206b071c9636084fc",
       "ast_digest": "d1b3405638cb259d04fef5f91b87a803938d66998afb518ba0f2e56604a02d44"
     },
     "stp": {
-      "values_digest": "21ad9a0b8bec3e2604e20e80cd7b66d7ae080f22a9dd0176bde676811812abe4",
+      "values_digest": "265e4ba933521fdd56bb9d604af8bcdc610d9ab8da6decaa898f41bb03914215",
       "rendered_digest": "c3196f51a37435dd4483767048cbf2b4c2e9dba3cac3212963043e2d2d7b09f6",
       "ast_digest": "5e42129772d7467f88f42226ccd57a9e9587e8a85d4c78831f13f91efde0fe95"
     },
     "spp": {
-      "values_digest": "55dbd40e96b4430f43f7870867a8860da86ce8a3ce668effd60eaa327339c30c",
-      "rendered_digest": "f0033e9d6832ab14bbbe131938597a3363ecc71df4c6458b5776b0ec4a018b6e",
-      "ast_digest": "1c037064d5738a2d8c4ec99d1c61f7f61fa5eeff9be658bc3f3427c33d5970ba"
+      "values_digest": "ffac9d04b597e55b96fc1bec796eaa35978eea231e7a753823fe02929fb2cbd6",
+      "rendered_digest": "ace81fb4d398db2d89ec5601f3c048feff8adbbcb1020d916f76b6bb1bf83677",
+      "ast_digest": "7a88c9d65193bb3bc2f0d1f4608c22731bac85feb6ece957c23947d85ea13c43"
     },
     "vpp": {
-      "values_digest": "2a25407663cd921ef06477520c47122a0290b8083cabf127849212b93dc3b229",
+      "values_digest": "15032b70a02c060cb00290836e1e65b2c8b411795055a859c531321b1fe89771",
       "rendered_digest": "e998ed06a1b566fa6f747901fab80b45ed9052c8ee6d8828a9368851f782f1aa",
       "ast_digest": "97b60032a5b4567f8a7f1b1efede7a72fe827afad430d98c1ee2a3e3fc75ed8f"
     },
     "srp": {
-      "values_digest": "3c31d76d393a226982d5ec20b63134f7248ce4c67fae10c04291ae78cb84b007",
+      "values_digest": "9b3ecb101480113c61f100ec6eeeb78097d02e2786a0da7b5c9eb77ca8f70393",
       "rendered_digest": "e20b5c59da2e500cba4e9b89b52af6a01653f99f81c47b5dff412e9c27079ab6",
       "ast_digest": "b044e3d2083ab18d2b2ab74f0194f92708dd7ed40a1f52896d8b27909560293c"
     },
     "sor": {
-      "values_digest": "cf2bb7f4d86d69d23dca001e2ca13d79e6cd9571b8072793b74c3234ad1b1d38",
+      "values_digest": "810a3757e4ebe2c789d3e6af3f6f36c12ba94dcf5b4f7b3b322ed09e6bec0360",
       "rendered_digest": "4707a42d31ce0cd4693160ed086a7c52522140f23634c88d2a151be50b7402e8",
       "ast_digest": "24585a68290edeff3be507e03930da737b858a88da87a929662c84c4dc34163c"
     }
@@ -267,6 +267,27 @@
       "actor": "codex",
       "reason": "recover committed reviewed metadata so publication review can be applied as working-tree lifecycle state",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "Recover expired closed issue claim to repair terminal lifecycle truth before reconciliation",
+      "operation": "{\"previous_owner\":\"codex\",\"observed_expiry_unix_seconds\":1784220045,\"recovery_actor\":\"codex\",\"reason\":\"Recover expired closed issue claim to repair terminal lifecycle truth before reconciliation\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "v0.91.8 planning package exists on merged PR 5389",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex",
+      "reason": "focused validation, independent review, and PR 5389 publication completed",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"completed\"}"
     }
   ]
 }
