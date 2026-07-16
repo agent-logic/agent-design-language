@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Freeze the service inventory, add bounded qualified time and signed live continuity bindings, assemble serve through the registry, then generate current inventory truth and validate the binary path.
+Assemble the complete live service inventory through FactoryRegistry, keep unavailable external operation adapters explicitly degraded, qualify trusted time through bounded rsntp sampling, restore and emit Ed25519-authenticated continuity above an operator-supplied generation floor, separate continuity and operation trust identities, bind local and remote shutdown to checkpoint-before-stop, and generate reproducible current inventory truth under the 12000 LoC ceiling. Full mutable state authenticity remains owned by follow-on #5412.
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -27,7 +27,7 @@ Revision 1
     "acceptance_ids": [
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -35,7 +35,7 @@ Revision 1
     "acceptance_ids": [
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -43,7 +43,7 @@ Revision 1
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -53,7 +53,7 @@ Revision 1
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",
@@ -63,7 +63,7 @@ Revision 1
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
