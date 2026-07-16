@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "404ad9845d55cf189416e19f7553915074e73a88adb8b0168d0b7e4781f60ddf",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "f290449ef4bc65ccf56b2f2eadbee027044d75417cd29d6acf09837eb83f664a",
+  "generation": 19,
+  "digest": "925a11b842c52cdc998f56213c86aeb5f54ed8da0454ca24139d41d51b9ceb79",
   "claim": {
     "id": "csdlc-v2-5353-terminal-reconcile",
     "owner": "codex",
-    "generation": 14,
+    "generation": 19,
     "acquired_unix_seconds": 1784230110,
     "expires_unix_seconds": 1784316510,
     "heartbeat_unix_seconds": 1784230110,
@@ -23,7 +23,14 @@
     ],
     "purpose": "Reconcile merged #5353 terminal lifecycle and release stale protected paths"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent-terminal-publication",
+    "assigned_by": "codex",
+    "revision": "git-blake3:5d566b91c3161d405c1c2b0949469070ff0b1c8c:1366f60f9d43a340531591895e4e286fc5ec9f391eb924fad5c9ab7335bbbd1b",
+    "scope": [
+      ".csdlc/issues/5353"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +46,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "280bbcc7eb649b4eea641c70ef4ca9868ae235707eca6e56c07737a557ff8bbc",
+      "values_digest": "18293dbc156d0f0aeded14d2c09d1dc66cbf6bd2aa466ca57830431bd77feb6c",
       "rendered_digest": "09584eaac2c1ae475b3422c344c58d984ee9565cc09293db1149a84175e26de5",
       "ast_digest": "d4684cf547a9c50d22ab8e1e4b2cd112b98a73128406c651c209b0d81aed69ee"
     },
     "stp": {
-      "values_digest": "90ad2c2b7a44e2c38d649eecf3c97245b383f55a368b913ca2237f20947e7926",
+      "values_digest": "d0dbb3b72bb55ccee6ee5527923d5e1059df197eced6485246db83f47567c236",
       "rendered_digest": "6e2f28697e49ec9cfd218f0b77e684d88eee857041de05913dfd572190d79b24",
       "ast_digest": "39dc2a5822da1ee0fa69e7153fea05bc821a67ca005324a29d54f05a635929b3"
     },
     "spp": {
-      "values_digest": "44222441dafc3b7f9e4cda92b94600d4f7c81e494ca8e3a8fdc1ae06b632c96c",
-      "rendered_digest": "3ca9ea198a3691822447ad812b93824a8e4a6e7e433c87d7c3aac4cc004f6c6c",
-      "ast_digest": "7f6d0becbc3be143827fdda88374d54b176b3886ecaf32b066a2325ff90f9274"
+      "values_digest": "b9bef12bc0ef6b37874f52bc09424ff403729d6f8cf20deaa7e8ec7f6aebbeb2",
+      "rendered_digest": "3258d618b0169e350398d6f2d8687e67c266d4fcd01b5857cecc5138e61ce966",
+      "ast_digest": "561cbc524056352e9a1ee315abf352cb3721db9050336409ff8d0daab2113d34"
     },
     "vpp": {
-      "values_digest": "56913d49340b8dfc93e2d561733d1c73ef704b3dde71b9b230586182c4d76a3b",
-      "rendered_digest": "8f5a93315de38fc11cf6f419a9804114cf4bb07d5b187a49fc479e7aa6d8a80e",
-      "ast_digest": "c8d0f923f17fd2ac5e04bf92502841aded7bf1eef4600e5b632e909ab86d6b18"
+      "values_digest": "ca281b48913ce2d79a68c0e3ee8679b780631b5a140ecafca86c073303ab61d1",
+      "rendered_digest": "63fbfde03d4b1f8a6ed6d708217472ca92791f7387a1b937409ef184a95c1d3e",
+      "ast_digest": "25af10b69fbbc21e4716004d459f927d8697146b0b9122b905c07d53b2cb6a45"
     },
     "srp": {
-      "values_digest": "3a9548a1c67a9de16f3a7d0834eb1d4e5de9ba10cee7b0671feeafa5dc6d8091",
+      "values_digest": "d3a685c7906cd00cff490fe57d99414c1155ea657018b361fdfb5ce6a5b3d191",
       "rendered_digest": "b79bd7787225e6ab3569c729c17bfcd16a7211a38d908335bd844dc980b92303",
       "ast_digest": "5b343d88e248e2c9a651ac4254afe1e18c93ff98bf5e8c083ec070db5cbe90e1"
     },
     "sor": {
-      "values_digest": "a20c25aef4d8564a727259386517787a888ae51ea80352f97a4f11a7b0d702a9",
-      "rendered_digest": "e09be16223facf1c0d7f9fb6dc0069f072e3abbf0ee838fb04824a6f002781a1",
-      "ast_digest": "0df944549080fafca532304ea10ec098b441dbd020370ddf8df35643cd6fd312"
+      "values_digest": "f97a6681228ec8575dd324b7ec4dce7efde3638e5cfacc9eb98a338d1fa27a3d",
+      "rendered_digest": "8e4c6b9aa424ae391c960db215fefaf10aa469f71214655f77fa21a2bcd6fa5a",
+      "ast_digest": "61b4624a38974c261e7c31833c1065d3825812e44ccd7a8f7a2d9b8843f98e26"
     }
   },
   "transitions": [
@@ -260,6 +267,48 @@
       "actor": "codex",
       "reason": "Re-establish exact clean-commit review before typed publication; subsequent lifecycle metadata remains uncommitted until publication",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "Replace invalid dual-filter Cargo syntax with independently executable focused lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-gate2\",\"proof_role\":\"Prove issue-local initialization and dual digest refresh behavior\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"focused-gate7\",\"proof_role\":\"Prove lifecycle integration remains compatible with initialization repair\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"v2-suite\",\"proof_role\":\"Prove the independent v2 workspace remains green\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"suite\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "Reconcile the completed defect reproduction step after merged implementation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "Reconcile the completed implementation step after PR #5374 merged",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "Retain the passing typed doctor result required by AC-4",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5353\"],\"purpose\":\"Prove the canonical typed issue record and all six cards pass doctor validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local:csdlc-doctor-5353-generation-14\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "Reconcile focused validation, doctor, independent review, and merged PR proof",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"completed\"}"
     }
   ]
 }

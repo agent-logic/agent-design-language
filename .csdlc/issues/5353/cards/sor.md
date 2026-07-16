@@ -40,6 +40,18 @@ Repaired issue-local initialization atomicity and complete design/diagram digest
     "purpose": "Run complete C-SDLC v2 regression suite",
     "outcome": "passed",
     "evidence_ref": "local:cargo-test-csdlc-v2"
+  },
+  {
+    "command": [
+      "csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5353"
+    ],
+    "purpose": "Prove the canonical typed issue record and all six cards pass doctor validation",
+    "outcome": "passed",
+    "evidence_ref": "local:csdlc-doctor-5353-generation-14"
   }
 ]
 

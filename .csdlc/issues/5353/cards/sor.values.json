@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-01][csdlc-v2] Make init and design approval safe for issue-local design paths",
     "slug": "v0-91-8-wp01-csdlc-v2-init-design-approval-safety",
     "version": "v0.91.8",
-    "generation": 14
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -36,6 +36,18 @@
           "purpose": "Run complete C-SDLC v2 regression suite",
           "outcome": "passed",
           "evidence_ref": "local:cargo-test-csdlc-v2"
+        },
+        {
+          "command": [
+            "csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5353"
+          ],
+          "purpose": "Prove the canonical typed issue record and all six cards pass doctor validation",
+          "outcome": "passed",
+          "evidence_ref": "local:csdlc-doctor-5353-generation-14"
         }
       ],
       "integration_state": "worktree_only",
