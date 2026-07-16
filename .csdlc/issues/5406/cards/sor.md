@@ -12,12 +12,15 @@ Status: pre_phase
 
 ## Summary
 
-Completed typed lifecycle authority and proved downstream consumption at the exact merged #5403 revision.
+Completed typed lifecycle authority and proved downstream consumption with fail-closed exact-revision assertions.
 
 ## Artifacts
 
 - csdlc-v2
 - docs/reviews/v0.91.7/csdlc-v2-5406/TERMINAL_AUTHORITY.md
+- https://github.com/danielbaustin/agent-design-language/pull/5414
+- .csdlc/issues/5403/audit.jsonl
+- docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md
 - https://github.com/danielbaustin/agent-design-language/pull/5414
 - .csdlc/issues/5403/audit.jsonl
 - docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md
@@ -31,6 +34,9 @@ Completed typed lifecycle authority and proved downstream consumption at the exa
 - Supersede the earlier metadata-only PR observation with exact merged-state and merge-commit assertions
 - Prove #5403 consumed update_plan_step and replace_validation_lanes from its merged audit
 - Clarify that #5403 retained independent review Status: pass while its tracked typed index remains implemented
+- Mark the prior gh select predicate and regex git-grep records as invalid historical attempts
+- Replace them with a jq error predicate and fixed-string merge-commit checks
+- Retain the already valid merge-commit-bound Status: pass assertion
 
 ## Validation
 
@@ -207,6 +213,51 @@ Completed typed lifecycle authority and proved downstream consumption at the exa
     "purpose": "Assert merged #5403 review packet records an explicit passing independent decision",
     "outcome": "passed",
     "evidence_ref": "docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md"
+  },
+  {
+    "command": [
+      "gh",
+      "pr",
+      "view",
+      "5414",
+      "--repo",
+      "danielbaustin/agent-design-language",
+      "--json",
+      "state,mergeCommit",
+      "--jq",
+      "if .state == \"MERGED\" and .mergeCommit.oid == \"75d0a957dea718fd825ac73e2ce164a92b691a75\" then \"ok\" else error(\"unexpected PR terminal state\") end"
+    ],
+    "purpose": "Fail closed unless PR #5414 is merged at the exact retained merge commit",
+    "outcome": "passed",
+    "evidence_ref": "https://github.com/danielbaustin/agent-design-language/pull/5414"
+  },
+  {
+    "command": [
+      "git",
+      "grep",
+      "-Fq",
+      "update_plan_step",
+      "75d0a957dea718fd825ac73e2ce164a92b691a75",
+      "--",
+      ".csdlc/issues/5403/audit.jsonl"
+    ],
+    "purpose": "Fail closed unless merged #5403 audit contains typed update_plan_step consumption",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5403/audit.jsonl"
+  },
+  {
+    "command": [
+      "git",
+      "grep",
+      "-Fq",
+      "replace_validation_lanes",
+      "75d0a957dea718fd825ac73e2ce164a92b691a75",
+      "--",
+      ".csdlc/issues/5403/audit.jsonl"
+    ],
+    "purpose": "Fail closed unless merged #5403 audit contains typed replace_validation_lanes consumption",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5403/audit.jsonl"
   }
 ]
 

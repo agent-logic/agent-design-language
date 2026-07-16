@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dd7cf0bd89553833f2914daff64cecdce443600f09e0b5b36d4027d9ca9dc3d3",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "0eb91b1cfc643db36977631f3ac958e1ed4aa7036e7388e3fa73d203eb7866d7",
+  "generation": 36,
+  "digest": "6d0913bd06f8c8eaa07c679ee389b61f2a30ea14dc5ca6881da91d8f80758b96",
   "claim": {
     "id": "claim-5406-csdlc-v2-records-truth",
     "owner": "codex",
-    "generation": 32,
+    "generation": 36,
     "acquired_unix_seconds": 1784154300,
     "expires_unix_seconds": 1784240700,
     "heartbeat_unix_seconds": 1784154300,
@@ -38,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f7d8cd7ce92b4eb1ec31a21dc5b2049924a8a5bbe537961f84aa74aeaf680b9",
+      "values_digest": "8f41238d6697267c35e90288ae96c82217d955d0b336d25d28fa3c6e63b17dd9",
       "rendered_digest": "dd1f6693ee7962d42ffc557389aeeed510fc7eb8d203197708aa973438c0386a",
       "ast_digest": "80fa6172e80165cdd7c23352b1a955909575c0575464ac8eda2c99714acb59ce"
     },
     "stp": {
-      "values_digest": "5ec436d197135de2057a3d798bef9b45226705e0ba3379813aec198d8423be10",
+      "values_digest": "63e013a7cc609dfcd2eab0d2011e87c897b711ed0f3b4480c06faef3bf7ab0cd",
       "rendered_digest": "df10dbfcefa0e318c9545c091738793fdcfad33ea552036d6ca4a7bbb43d6661",
       "ast_digest": "e51c4ae0eab4a901ce410fd51a8d560c4846d4e50bd62671fe96883116d11124"
     },
     "spp": {
-      "values_digest": "b0775017f62f91389d20435ae9674f20d6ba6882c4c68d65d9a0a5c2923a5d7e",
+      "values_digest": "c3aa00ef13de2a322684d59332878e9856066d63cfe5875cfbd82f6f844c101c",
       "rendered_digest": "dcea35b6f32b88a3a0fb3a250ba8cc812d768b5a139c8f3a7c40846f23f799cb",
       "ast_digest": "4c77af45a8d7a7ba2c9c681d61f204fe6be9ba867543215aef5cfe36fb603e5e"
     },
     "vpp": {
-      "values_digest": "17e9866274d1214f37aec0590909b7a939784c858d6253e6dc49c6480fdca9b5",
+      "values_digest": "2a3b68a340244676a1d1019d35c728be8b756670d8b671c00e31c9fd6ab3e414",
       "rendered_digest": "5f521a636a885181cb956bb76a9587dbda7815e345626c955a4e8304ef7038e9",
       "ast_digest": "14fbf162a6f2b5b904c08cd5f8ff6b660e3a9a4880a86f3eca68d99c0e73a212"
     },
     "srp": {
-      "values_digest": "890d8a1c59e98265ac78613067b17927b54e9bf3a1dfa50100cdb794be1f9d83",
+      "values_digest": "90b4b9705b953fa923f940c9a24877d562c2e05b49cf96d54b06a29f0316748e",
       "rendered_digest": "3abed7f5b529cf912038f37929e9ce0ce41884658aa1c560d769692ec3becaea",
       "ast_digest": "15a3ba064414a147fbcc057a66481d78f429dd49ecde1a36c1dc84c29a9243bb"
     },
     "sor": {
-      "values_digest": "629f183904914ef14a7f51c4f270131cbdcf061f33b68eade30e4e2280823a4c",
-      "rendered_digest": "1c0e133e1d7452024273a59eced97104cf95dbcbe9b449129c9cbba007cfd209",
-      "ast_digest": "08b6d528f5b60a8da3c68d0e379a2c85ac421424e4b2408576783abc0ba178ed"
+      "values_digest": "6656c46d592e3d8281e6623ad77d3be75230b756bf675e56e7bb22bb8ce4920c",
+      "rendered_digest": "461ad6495a94a6838653ba5c5955372c5922c7f025f3d1d647a652c4b7434d7d",
+      "ast_digest": "e0a934b5c690dd0d662ea03e2f962ef9e91694262f60c368654b640a29d721e8"
     }
   },
   "transitions": [
@@ -406,6 +406,34 @@
       "actor": "codex",
       "reason": "Record merge-commit-bound retained independent review decision",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"grep\",\"-q\",\"^Status: pass$\",\"75d0a957dea718fd825ac73e2ce164a92b691a75\",\"--\",\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"],\"purpose\":\"Assert merged #5403 review packet records an explicit passing independent decision\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"}}"
+    },
+    {
+      "sequence": 38,
+      "generation": 33,
+      "actor": "codex",
+      "reason": "Supersede three validation records whose argv did not fail closed as recorded",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed typed lifecycle authority and proved downstream consumption with fail-closed exact-revision assertions.\",\"changes\":[\"Mark the prior gh select predicate and regex git-grep records as invalid historical attempts\",\"Replace them with a jq error predicate and fixed-string merge-commit checks\",\"Retain the already valid merge-commit-bound Status: pass assertion\"],\"artifacts\":[\"https://github.com/danielbaustin/agent-design-language/pull/5414\",\".csdlc/issues/5403/audit.jsonl\",\"docs/reviews/v0.91.7/remaining-sprints-5403/REFRESHED_REVIEW_QUALITY_EVALUATION.md\"]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 34,
+      "actor": "codex",
+      "reason": "Record fail-closed exact #5403 merge assertion",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"gh\",\"pr\",\"view\",\"5414\",\"--repo\",\"danielbaustin/agent-design-language\",\"--json\",\"state,mergeCommit\",\"--jq\",\"if .state == \\\"MERGED\\\" and .mergeCommit.oid == \\\"75d0a957dea718fd825ac73e2ce164a92b691a75\\\" then \\\"ok\\\" else error(\\\"unexpected PR terminal state\\\") end\"],\"purpose\":\"Fail closed unless PR #5414 is merged at the exact retained merge commit\",\"outcome\":\"passed\",\"evidence_ref\":\"https://github.com/danielbaustin/agent-design-language/pull/5414\"}}"
+    },
+    {
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex",
+      "reason": "Record fixed-string merge-commit-bound plan-step check",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"grep\",\"-Fq\",\"update_plan_step\",\"75d0a957dea718fd825ac73e2ce164a92b691a75\",\"--\",\".csdlc/issues/5403/audit.jsonl\"],\"purpose\":\"Fail closed unless merged #5403 audit contains typed update_plan_step consumption\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5403/audit.jsonl\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 36,
+      "actor": "codex",
+      "reason": "Record fixed-string merge-commit-bound validation-lane check",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"grep\",\"-Fq\",\"replace_validation_lanes\",\"75d0a957dea718fd825ac73e2ce164a92b691a75\",\"--\",\".csdlc/issues/5403/audit.jsonl\"],\"purpose\":\"Fail closed unless merged #5403 audit contains typed replace_validation_lanes consumption\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5403/audit.jsonl\"}}"
     }
   ]
 }
