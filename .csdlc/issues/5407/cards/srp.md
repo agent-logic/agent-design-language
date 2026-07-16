@@ -53,6 +53,16 @@ Exact implementation revision before publication.
     "disposition": "fixed",
     "fix_revision": "7150afb9408cbe4717d51b822c14f27cc1ec53ce",
     "route": null
+  },
+  {
+    "id": "R5407-P2-register-reconciliation-dependency",
+    "severity": "p2",
+    "summary": "Canonical sprint register still requires reconciliation after the #5407 source review remediation",
+    "actionable": false,
+    "in_scope": false,
+    "disposition": "out_of_scope",
+    "fix_revision": null,
+    "route": "#5383"
   }
 ]
 

@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][tools] Resolve #5036 reliability-tail findings",
     "slug": "v0-91-7-review-fix-tools-resolve-5036-reliability-tail-findings",
     "version": "v0.91.7",
-    "generation": 19
+    "generation": 21
   },
   "status": "pre_phase",
   "content": {
@@ -118,7 +118,9 @@
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
-      "follow_ups": []
+      "follow_ups": [
+        "Canonical v0.91.7 sprint register reconciliation remains separately owned by #5383; #5407 keeps its source review explicitly non-terminal until that path updates."
+      ]
     }
   }
 }

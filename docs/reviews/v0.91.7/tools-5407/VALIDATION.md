@@ -4,7 +4,10 @@ Observed: 2026-07-16
 
 ## Typed PVF Result
 
-The declared documentation lanes ran through `csdlc-validate`. The first
+The declared documentation lanes ran through `csdlc-validate` using the
+retained request at `.csdlc/5407-validation.json`. Its lane executables use
+`/usr/bin/env` so repository prerequisites resolve from the operator's `PATH`.
+The first
 performance-boundary probe failed because the explicit non-claim crossed a
 Markdown line break. The wording was corrected to state, "No material hosted
 wall-clock speedup is claimed," and the complete five-lane rerun passed.
@@ -39,7 +42,10 @@ conclusions. It intentionally does not infer branch-protection requirements.
 
 ## Evidence Location
 
-The first SOR entries cited transient lane logs under `.csdlc/issues/5407/`.
-Typed card updates replace that canonical directory and therefore do not retain
-unmanaged log files. This authored validation record is the durable evidence
-reference for the passing rerun and strengthened matrix proof.
+The first SOR entries cite lane logs under `.csdlc/issues/5407/evidence/`.
+Those six referenced logs are tracked and resolve in the reviewed revision.
+Because typed card updates atomically replace the canonical issue directory,
+operators must restore these tracked evidence files after later lifecycle-only
+card projections. This authored validation record and the retained request are
+the durable, reproducible summary for the passing rerun and strengthened matrix
+proof.

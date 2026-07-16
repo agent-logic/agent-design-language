@@ -135,4 +135,4 @@ not_started
 
 ## Follow Ups
 
-- none
+- Canonical v0.91.7 sprint register reconciliation remains separately owned by #5383; #5407 keeps its source review explicitly non-terminal until that path updates.
