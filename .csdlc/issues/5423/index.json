@@ -3,33 +3,111 @@
   "issue": 5423,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8b5942655a471cfcd2d3e2b47141e472ea0667a7f8fda159a59854e272f1d50a",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "9ba4d01349db50e4c99dcf263b6a3d25794f4794e46184ca9f606b5aaceb587a",
-  "claim": {
-    "id": "claim-5423-register-reconcile",
-    "owner": "codex",
-    "generation": 9,
-    "acquired_unix_seconds": 1784235379,
-    "expires_unix_seconds": 1784321779,
-    "heartbeat_unix_seconds": 1784235379,
-    "branch": "codex/5423-register-reconcile-final",
-    "worktree": ".worktrees/adl-wp-5423-final",
-    "protected_paths": [
+  "phase": "closed_out",
+  "generation": 17,
+  "digest": "33d6432995863935a726fe159dc48e6ccdfc9c7dae77f600d4a7510e13bcc646",
+  "claim": null,
+  "review_assignment": {
+    "reviewer": "huygens-subagent",
+    "assigned_by": "codex",
+    "revision": "git-blake3:afffd91407e4ec8e3e643176f5fb89524d6b4083:f9f0c75a572658705ebad74d6e190f3c821285d469366d7fe1ba0e819d23c791",
+    "scope": [
       ".csdlc/issues/5423",
+      ".csdlc/locks/5423.lock",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/reviews/v0.91.7/register-reconcile-5423"
+    ]
+  },
+  "review": {
+    "reviewer": "huygens-subagent",
+    "scope": [
+      ".csdlc/issues/5423",
+      ".csdlc/locks/5423.lock",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
       "docs/reviews/v0.91.7/register-reconcile-5423"
     ],
-    "purpose": "Reconcile canonical sprint register from terminal remediation evidence only"
+    "reviewed_revision": "git-blake3:afffd91407e4ec8e3e643176f5fb89524d6b4083:f9f0c75a572658705ebad74d6e190f3c821285d469366d7fe1ba0e819d23c791",
+    "findings": [
+      {
+        "id": "F-5423-1",
+        "severity": "p1",
+        "summary": "Initial abandoned revision used a working-tree-only whitespace proof and contained an extra blank line at design EOF",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:afffd91407e4ec8e3e643176f5fb89524d6b4083:f9f0c75a572658705ebad74d6e190f3c821285d469366d7fe1ba0e819d23c791",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Delegated remediation issues #5404, #5405, #5408, and #5409 remain open and unchanged, so overall v0.91.7 release readiness is not promoted"
+    ],
+    "completed": true,
+    "non_substantive_proof": null
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5423,
+    "pull_request": 5435,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5435",
+    "base": "main",
+    "head": "codex/5423-register-reconcile-final",
+    "revision": "git-blake3:afffd91407e4ec8e3e643176f5fb89524d6b4083:f9f0c75a572658705ebad74d6e190f3c821285d469366d7fe1ba0e819d23c791",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": {
+    "pull_request": 5435,
+    "head_sha": "afffd91407e4ec8e3e643176f5fb89524d6b4083",
+    "checks": [
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29534430303/job/87742235909"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29534430303/job/87742271190"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29534430303/job/87742270771"
+      },
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29534430303/job/87742416938"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5435,
+    "disposition": "merged",
+    "observed_sha": "afffd91407e4ec8e3e643176f5fb89524d6b4083",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5423.json",
+    "released_branch": "codex/5423-register-reconcile-final",
+    "released_worktree": ".worktrees/adl-wp-5423-final",
+    "released_protected_paths": [
+      ".csdlc/issues/5423",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/reviews/v0.91.7/register-reconcile-5423"
+    ]
+  },
   "migration": null,
-  "design_path": "docs/reviews/v0.91.7/register-reconcile-5423/DESIGN.md",
-  "diagram_path": "docs/reviews/v0.91.7/register-reconcile-5423/DIAGRAM.mmd",
+  "design_path": ".csdlc/issues/5423/retained/design.md",
+  "diagram_path": ".csdlc/issues/5423/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "operator-authorized-register-reconciliation",
@@ -38,34 +116,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce14175ede90b9d7f91064d37d9a08d5bd8c7e98e957914f5ce4d26aa5d8654b",
+      "values_digest": "4925b90e7d8d5bfc2b9d919b89245a8c174a5dfcceac0dee4e44c0a250269646",
       "rendered_digest": "941355e331d258a970a435c1597ef257c42b4ff7ee403d10eb01c50051f0a119",
       "ast_digest": "2225e2fa23223b4f536069d3ffc4a5b6ee7b59461e7e115949244cf4a135c89a"
     },
     "stp": {
-      "values_digest": "ba3a893cacc6f8d27d44c52f94654961f5657e20e49bd87de0335c9e40d32a00",
+      "values_digest": "c1bfae728ff60ecf24135b516b61a908bdb46d56a0983001cf511b445f212942",
       "rendered_digest": "f58ffe7c320be118038ea6c2635ea622f883756aa20c0296f1a84521c085b260",
       "ast_digest": "a43ec6afbd3aecc5d9f921f72b95b6ef1c9c2a1fcf177952dec1122a315a092c"
     },
     "spp": {
-      "values_digest": "8b598857d20bd77357563605c102c5fb187f496d90e289f6faa703f3c58a7c92",
-      "rendered_digest": "ec56d9d9a2e888ab6b7689fa598a7f34925c78e3697b4515e17e7b8d4a90f904",
-      "ast_digest": "153f02521861814c99210e4fe270cba6c1de1600f1e0c18da79cea584ba7d9b1"
+      "values_digest": "871c2764dd0c58ec55aa7f8be51f4c49160c299c755fe825d696e1324f02e384",
+      "rendered_digest": "422d8bdae9ebff859343306b531814dedf96be69432d4da4163f360daf7e3a53",
+      "ast_digest": "f6695fc2fceded5818c8580721511f4854dea7b366677ffd59cc35316bf0f824"
     },
     "vpp": {
-      "values_digest": "c3496ad35d5c4ed3e1c5d16de56f9161bbb961990a23dd021e83f4b89ddab5c7",
-      "rendered_digest": "6ebefb0c036044c4d741e7f3cf4d3ca977712a64a11a3f1ec102acac01bc1de0",
-      "ast_digest": "4df543c6aed5a6b5364537882e45f269d2607dcd9046741a1a44184fe6062dd0"
+      "values_digest": "1533f70e1d6c4b0b8e20439e3083788ecaa824fa197f31783e29fd9e5733adbf",
+      "rendered_digest": "8a6a413791623012f1eb6bed6f4d9687199e9e924679f0fd445035515f485668",
+      "ast_digest": "e068645755006f08149982bcd1b0a9fe371002849dca930f6d92e45e1c82a485"
     },
     "srp": {
-      "values_digest": "9447ef414e07f480d883e977492c66f40c95f81186dd7d0d305fee7582437c10",
-      "rendered_digest": "35f575b0428b88f3c434b142ca5b2043aa3c28839a016d5055124c737fadaadd",
-      "ast_digest": "9b4909aa7f1f7ea64243bb58b46b44b60e81b64d7cc887603c6e64313c85c7a0"
+      "values_digest": "a518a159b9d1e6926f038eb2379f9e2b3ac0043494f35fcfb6655ce386b1e257",
+      "rendered_digest": "c7819b823b22b2369adbfdfdd63d04570876446206097d6e4d486d9887be4fa0",
+      "ast_digest": "a23c7c41c0fc451ec765acaceb6fe0c9c5826eab50b4baa796b18372b9071783"
     },
     "sor": {
-      "values_digest": "a9f4fcee371d94145e394476643c27427c0be1127e29daa5fa3e63bbc22d7975",
-      "rendered_digest": "7f5d17c3ac4c6ff5e49f7fca1f88e6b661536e9f32c4c296ab1073af18a66784",
-      "ast_digest": "7cd1ccef03308d4e607094333f18971f6660ed43b0da9cbfe6b7538e74f25326"
+      "values_digest": "513b640e0c2a1030034f50dbce23d7cbbcb837e68576ed9263a095988e1f1a07",
+      "rendered_digest": "3c20562e077a62c7f587813f7a598c3ee9135eb3e82a7bbef8eec1ba9689762e",
+      "ast_digest": "7073109bf1b8770bbebbb12beb35f3cc5e0169a8bc51c6abc93f47be31f5f6f2"
     }
   },
   "transitions": [
@@ -89,6 +167,41 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "bounded register edit and focused validation complete"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact-revision review passed with the prior P1 fixed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact draft PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -168,6 +281,69 @@
       "actor": "codex",
       "reason": "bounded register edit and focused validation complete",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "focused validation and exact-revision independent review completed",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "exact-revision review passed with the prior P1 fixed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "project retained #5423 terminal receipt onto tracked main history",
+      "operation": "reconcile_terminal"
     }
   ]
 }

@@ -47,7 +47,7 @@ Revision 1
     "acceptance_ids": [
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
@@ -72,13 +72,13 @@ Revision 1
 
 ## Design
 
-docs/reviews/v0.91.7/register-reconcile-5423/DESIGN.md
+.csdlc/issues/5423/retained/design.md
 
 Digest: e8471fb230d0908eb43425697c6e24c59b52ddea6db2dc2c4dfbf09166c7e620
 
 ## Diagram
 
-docs/reviews/v0.91.7/register-reconcile-5423/DIAGRAM.mmd
+.csdlc/issues/5423/retained/diagram.mmd
 
 Digest: 6b266de02092cdd482103b5744d940e1b304866ec8c19db74442d065040548b1
 
