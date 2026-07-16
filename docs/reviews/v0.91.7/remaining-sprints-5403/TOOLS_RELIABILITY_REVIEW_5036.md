@@ -2,13 +2,14 @@
 
 Issue: #5036
 Review issue: #5403
-Status: remediated
+Status: remediation implemented; canonical register reconciliation pending
 Remediation: #5407; shared records issue #5406
 
 ## Findings
 
 ### P1: Build-action logging closed after implementing only one producer
 
+At pre-remediation revision `7e0ed914`,
 `docs/tooling/BUILD_ACTION_LOGS.md:3` and line 42 identify
 `validation_manager.py --run` as the integrated producer and leave CI
 integration to future consumers. Repository references locate packet production
@@ -28,6 +29,7 @@ requires a separate reviewed issue.
 
 ### P1: The retained CLI taxonomy directs operators to sunset v1 commands
 
+At pre-remediation revision `7e0ed914`,
 `docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md:28` and line 36 recommend
 `adl/tools/pr.sh` and the removed compatibility binary. Current Gate 10D2
 authority at `AGENTS.md:5` and line 43 says those wrappers are removed and the
@@ -69,9 +71,12 @@ speedup is claimed without comparable before/after hosted runs.
 ## Child Coverage
 
 Reviewed #5034, #5032, #5037, #5031, #5028, #5012, #5002, #4999, #4995,
-#4987, and #4938. All are live-closed through merged PRs with successful
-required checks. #5037 was omitted from the operator-selected execution list
-but later added to the declared umbrella wave and is included in this review.
+#4987, and #4938. All are live-closed through merged PRs. The bounded snapshot
+at `docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json` retains
+issue closure, merge topology, and the observed check-rollup conclusions. It
+does not infer which checks were required. #5037 was omitted from the
+operator-selected execution list but later added to the declared umbrella wave
+and is included in this review.
 
 Previously discovered and fixed defects, including #5037's two pre-PR P1
 findings, are not counted among this review's four findings. All four current
@@ -85,7 +90,9 @@ used as lifecycle summaries but not treated as durable card truth.
 
 ## Review Result
 
-Remediated by #5406 and #5407. The current logging and CLI documents now match
-implemented authority, the complete sprint wave has retained closeout evidence,
-and the unsupported hosted-performance claim has been withdrawn. Exact-revision
-review for #5407 remains the publication gate for these repairs.
+The four findings were remediated by #5406 and #5407. The current logging and
+CLI documents now match implemented authority, the complete sprint wave has
+retained closeout evidence, and the unsupported hosted-performance claim has
+been withdrawn. The canonical sprint register still carries the earlier
+`changes required` state; because that path is owned by separate reconciliation
+work, this review remains explicitly non-terminal until the register is updated.

@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][tools] Resolve #5036 reliability-tail findings",
     "slug": "v0-91-7-review-fix-tools-resolve-5036-reliability-tail-findings",
     "version": "v0.91.7",
-    "generation": 11
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -75,8 +75,8 @@
           "defer_reason": null
         },
         {
-          "lane": "closeout-coverage",
-          "proof_role": "Confirm the retained closeout synthesis covers #5037 and #4938",
+          "lane": "closeout-matrix-integrity",
+          "proof_role": "Prove the retained snapshot covers all eleven closed children and merged PRs",
           "acceptance_ids": [
             "AC-3"
           ],
@@ -85,10 +85,10 @@
           "budget_seconds": 30,
           "budget_tokens": 200,
           "argv": [
-            "rg",
-            "-n",
-            "#5037|#4938",
-            "docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md"
+            "jq",
+            "-e",
+            ".entries | length == 11 and all(.[]; .issue_state == \"CLOSED\" and .pr_state == \"MERGED\" and (.checks | length > 0))",
+            "docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json"
           ],
           "parallel_group": "evidence",
           "defer_reason": null

@@ -8,7 +8,8 @@ Remediation: #5407
 #5036 is closed. All eleven declared child issues are closed through merged
 pull requests. This retained synthesis records the complete declared wave,
 including #5037 and #4938, which were missing or incomplete in earlier retained
-closeout surfaces.
+closeout surfaces. The live GitHub observations supporting the issue, PR, and
+check-rollup fields are retained in `github-closeout-snapshot-5036.json`.
 
 | Child | Pull request | Head revision | Merge commit | State |
 | --- | --- | --- | --- | --- |
@@ -23,6 +24,9 @@ closeout surfaces.
 | #4995 | #5074 | `c01f61e705d3dc695afaa85839564023946b3282` | `40a0c8d471e39b6be3278324e3111a0a8619b616` | closed / merged |
 | #4987 | #5103 | `539938e3b0f50839f4de935e584e896518c156ea` | `507495693525db12ca746f7022dfc96795a7342c` | closed / merged |
 | #4938 | #5128 | `39e1d1253c28d89f307afe362f497e58e5dcb8c0` | `4c86b17b53765525057b2929a8b2324ab51ec6d7` | closed / merged |
+
+The snapshot records the check conclusions reported by GitHub at observation
+time. It does not infer branch-protection requirements from the rollup.
 
 ## Review Corrections
 

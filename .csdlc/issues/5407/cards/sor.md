@@ -84,6 +84,17 @@ Corrected all four #5036 review findings through current documentation and retai
     "purpose": "Check the current lifecycle authority wording",
     "outcome": "passed",
     "evidence_ref": ".csdlc/issues/5407/evidence/typed-v2-authority.log"
+  },
+  {
+    "command": [
+      "/opt/homebrew/bin/jq",
+      "-e",
+      ".entries | length == 11 and all(.[]; .issue_state == \"CLOSED\" and .pr_state == \"MERGED\" and (.checks | length > 0))",
+      "docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json"
+    ],
+    "purpose": "Validate complete retained child, PR, and check-rollup observations",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/issues/5407/evidence/closeout-matrix-integrity.log"
   }
 ]
 

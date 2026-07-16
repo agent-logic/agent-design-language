@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8e9178cb8566e54c25e6a60a6bb12f910904a4b5d8de5c90bfbda5e8f3b8338b",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "3d817502a275133b0b89d75779fdb6104462070ea9a1153724fc6dcf65d598d8",
+  "generation": 14,
+  "digest": "f6558e575e22d7fc79a845677064c4e9f13c727ef5d441da99d006687f8739af",
   "claim": {
     "id": "claim-5407-tools-reliability-tail",
     "owner": "codex",
-    "generation": 11,
+    "generation": 14,
     "acquired_unix_seconds": 1784226226,
     "expires_unix_seconds": 1784312626,
     "heartbeat_unix_seconds": 1784226226,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "210ba6a54ca8fadc47e9c77c1ba65f19810ba84af5f212de2aa777341ad077ee",
+      "values_digest": "a1dfacbec167d4834b526672c4c500303c76fd22cc7eb0613370b44808e03cdc",
       "rendered_digest": "9d885e96ba486a7cb0b89f6318dff405f2f0ad7073e0576098affcf0e2b82f37",
       "ast_digest": "23de05dd018bea43ce9ebedd2be5701b20ec1ddb7136bb031d531986012f418e"
     },
     "stp": {
-      "values_digest": "90ccad6599bee8b51c929c58d5f3d5795113c9f9db473673027cf2e86c066d18",
+      "values_digest": "6b98457a47864fd9b94b490000e14429aad601b0c529aaa97c2a71e6ef6a9d56",
       "rendered_digest": "6feea36e36b92138542354eb3b0775fb4e34eeb3700e4b78df8849517bcdacb3",
       "ast_digest": "35757c103391d6e43ba5181bc35f281d32ac06bf8a28f096afd189ee837981ec"
     },
     "spp": {
-      "values_digest": "4bb61096d631afea5ec0666f042d416fe32f71c77e441362be6db57c4600161a",
+      "values_digest": "2c93230f1c7a4bf5e94423cec1c9d486e9661e6a279c81a377f76928d4c7d409",
       "rendered_digest": "50bd4322db83eeb54ffbefcba10f23fcf6814bcaf430890929335c8437cb25ed",
       "ast_digest": "e7c777bf6929f11896d25514163b436091da4bc8532daac68303f1c6873c9469"
     },
     "vpp": {
-      "values_digest": "12548c1f06be7c183cdce3ec3fa0a4196edda0c53638592af07b444b53bc3edb",
-      "rendered_digest": "1dc053bfa7ceea3498f7e11803cf0051a8330fe39c39a702b48051e0b7552f52",
-      "ast_digest": "5376401a427c3ed34c58107e2dc7dc6cfc5326479adbdbdb16e354d5921b2daf"
+      "values_digest": "1f12f35a04ece1d5268be8ef71a6f8cd63c784ce72875d64e6328902e5f5231e",
+      "rendered_digest": "0a2aacbab4e68ba2c3607209312b547f175b923c5d7449520221b3e321b4802e",
+      "ast_digest": "bf88abed5cb7ff08c9f897e62c05ff3791834381318b441c471d23f0c88f0514"
     },
     "srp": {
-      "values_digest": "9fdad274d2051232385ada7e3d16cfe95c6b584e65be22e50e61348b4755e145",
+      "values_digest": "b059d9a524b85e83d829de1c40dbc0b25fec8c9e258d96e45ee4be33a62aad35",
       "rendered_digest": "bbb3444e9c23b19e987f1cdd212aa6ac76bbb0cc9e7da43316078f7a694c3d5b",
       "ast_digest": "09f7a42933cc54699b17ab57fed8983c1d6392b1feb5e625a17a814c866c0fa3"
     },
     "sor": {
-      "values_digest": "2b815d9ea858adb56146542c5c6970506e45e86aeec3c51aa56edc8c87d0cdfd",
-      "rendered_digest": "1f75a2e635566192454702a4fd0dbebbb89ceca7dccca8817432b533a7f59993",
-      "ast_digest": "f0ffd11b9fa159b61cf87533a6f8319fa458f4f2f5c86a7241cb26ce092bcb58"
+      "values_digest": "03432aabba96662e543abe25346d5622cdf3d22a6ceb1d268a5643ef40ddbe59",
+      "rendered_digest": "79928b1a150fcccb3c3ecbc97f820fa8e2b0fa854b513c53749a52fb740179fa",
+      "ast_digest": "306cb471d3e1d43b3f94898c63134583d6a2d36eaffee8d03c29711bad9ac2d2"
     }
   },
   "transitions": [
@@ -184,6 +184,27 @@
       "actor": "codex",
       "reason": "Record passing PVF evidence for typed-v2-authority",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"Gate 10D2|csdlc-v2\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\"],\"purpose\":\"Check the current lifecycle authority wording\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/typed-v2-authority.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "Strengthen AC-3 validation to prove every retained child and PR observation",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"patch-integrity\",\"proof_role\":\"Prove the documentation patch has no whitespace or conflict-marker defects\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"logging-scope-truth\",\"proof_role\":\"Confirm validation-manager is named as the implemented build-action-log producer\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"validation_manager.py --run\",\"docs/tooling/BUILD_ACTION_LOGS.md\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"typed-v2-authority\",\"proof_role\":\"Confirm the CLI taxonomy names Gate 10D2 typed-v2 authority\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"Gate 10D2|csdlc-v2\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"closeout-coverage\",\"proof_role\":\"Prove the retained snapshot covers all eleven closed children and merged PRs\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"parallel_group\":\"evidence\",\"defer_reason\":null},{\"lane\":\"performance-boundary\",\"proof_role\":\"Confirm #5037 explicitly declines an unproved material hosted-speedup claim\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"not claim|No material|not proven\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\"],\"parallel_group\":\"evidence\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "Give the strengthened complete-matrix proof a distinct retained evidence identity",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"patch-integrity\",\"proof_role\":\"Prove the documentation patch has no whitespace or conflict-marker defects\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"logging-scope-truth\",\"proof_role\":\"Confirm validation-manager is named as the implemented build-action-log producer\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"validation_manager.py --run\",\"docs/tooling/BUILD_ACTION_LOGS.md\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"typed-v2-authority\",\"proof_role\":\"Confirm the CLI taxonomy names Gate 10D2 typed-v2 authority\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"Gate 10D2|csdlc-v2\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"closeout-matrix-integrity\",\"proof_role\":\"Prove the retained snapshot covers all eleven closed children and merged PRs\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"parallel_group\":\"evidence\",\"defer_reason\":null},{\"lane\":\"performance-boundary\",\"proof_role\":\"Confirm #5037 explicitly declines an unproved material hosted-speedup claim\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"not claim|No material|not proven\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\"],\"parallel_group\":\"evidence\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "Record strengthened complete child and PR snapshot validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"purpose\":\"Validate complete retained child, PR, and check-rollup observations\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/closeout-matrix-integrity.log\"}}"
     }
   ]
 }

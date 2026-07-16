@@ -83,8 +83,8 @@ Diagram: docs/reviews/v0.91.7/tools-5407/DIAGRAM.mmd
     "defer_reason": null
   },
   {
-    "lane": "closeout-coverage",
-    "proof_role": "Confirm the retained closeout synthesis covers #5037 and #4938",
+    "lane": "closeout-matrix-integrity",
+    "proof_role": "Prove the retained snapshot covers all eleven closed children and merged PRs",
     "acceptance_ids": [
       "AC-3"
     ],
@@ -93,10 +93,10 @@ Diagram: docs/reviews/v0.91.7/tools-5407/DIAGRAM.mmd
     "budget_seconds": 30,
     "budget_tokens": 200,
     "argv": [
-      "rg",
-      "-n",
-      "#5037|#4938",
-      "docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md"
+      "jq",
+      "-e",
+      ".entries | length == 11 and all(.[]; .issue_state == \"CLOSED\" and .pr_state == \"MERGED\" and (.checks | length > 0))",
+      "docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json"
     ],
     "parallel_group": "evidence",
     "defer_reason": null
@@ -137,7 +137,7 @@ Tokens: 10000
 - `git diff --check`
 - `rg -n validation_manager.py --run docs/tooling/BUILD_ACTION_LOGS.md`
 - `rg -n Gate 10D2|csdlc-v2 docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md`
-- `rg -n #5037|#4938 docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md`
+- `jq -e .entries | length == 11 and all(.[]; .issue_state == "CLOSED" and .pr_state == "MERGED" and (.checks | length > 0)) docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json`
 - `rg -n not claim|No material|not proven docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md`
 
 ## Failure Semantics
