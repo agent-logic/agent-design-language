@@ -3,19 +3,31 @@
   "issue": 5410,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "51b84af00233b3ef4a23490fa7b3cdd510296e5ed90ca2942d20405bf69a5d93",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "9ed890b67b7e8a04e0457de9970c62184aa1d203f20ed6ff18641719da7472e0",
-  "claim": {
-    "id": "claim-5410-runtime-v3-live-kernel",
-    "owner": "codex",
-    "generation": 16,
-    "acquired_unix_seconds": 1784236343,
-    "expires_unix_seconds": 1784322743,
-    "heartbeat_unix_seconds": 1784236343,
-    "branch": "codex/5410-runtime-v3-live-kernel",
-    "worktree": ".worktrees/adl-wp-5410",
-    "protected_paths": [
+  "phase": "closed_out",
+  "generation": 21,
+  "digest": "7f178e6b373952948ebeda0a9934c57bbd86735065d6217d4134c91e62606c39",
+  "claim": null,
+  "review_assignment": {
+    "reviewer": "independent-runtime-v3-reviewer",
+    "assigned_by": "codex",
+    "revision": "git-blake3:b46184afe4eb1c2328b9bb8a361ee14fa7de083f:b067b6a395c1e6398d05d9cc864b673d670cd124b938c1547b606f7b259d2bd0",
+    "scope": [
+      ".csdlc/issues/5410",
+      "adl-runtime-kernel",
+      "docs/architecture/RUNTIME_V3_FINAL_REVIEW_5175.md",
+      "docs/architecture/RUNTIME_V3_GUARDIAN_AND_SOAK.md",
+      "docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md",
+      "docs/architecture/runtime_v3_current_inventory.v1.json",
+      "docs/reviews/v0.91.7/runtime-v3-5410",
+      "infra/horust/README.md",
+      "infra/horust/adl-runtime-kernel.toml",
+      "infra/rustysd/adl-runtime-kernel.service",
+      "infra/systemd/adl-runtime-kernel.service"
+    ]
+  },
+  "review": {
+    "reviewer": "independent-runtime-v3-reviewer",
+    "scope": [
       ".csdlc/issues/5410",
       "adl-runtime-kernel",
       "docs/architecture/RUNTIME_V3_FINAL_REVIEW_5175.md",
@@ -28,13 +40,178 @@
       "infra/rustysd/adl-runtime-kernel.service",
       "infra/systemd/adl-runtime-kernel.service"
     ],
-    "purpose": "Assemble and secure the Runtime v3 live kernel for #5410"
+    "reviewed_revision": "git-blake3:b46184afe4eb1c2328b9bb8a361ee14fa7de083f:b067b6a395c1e6398d05d9cc864b673d670cd124b938c1547b606f7b259d2bd0",
+    "findings": [
+      {
+        "id": "5410-R1",
+        "severity": "p1",
+        "summary": "Signed continuity generation and lineage could be spoofed by directory renaming",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b46184afe4eb1c2328b9bb8a361ee14fa7de083f:b067b6a395c1e6398d05d9cc864b673d670cd124b938c1547b606f7b259d2bd0",
+        "route": null
+      },
+      {
+        "id": "5410-R2",
+        "severity": "p1",
+        "summary": "Passive live-service shells reported Running instead of Degraded",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b46184afe4eb1c2328b9bb8a361ee14fa7de083f:b067b6a395c1e6398d05d9cc864b673d670cd124b938c1547b606f7b259d2bd0",
+        "route": null
+      },
+      {
+        "id": "5410-R3",
+        "severity": "p2",
+        "summary": "Continuity and operation key separation was documented but not enforced",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b46184afe4eb1c2328b9bb8a361ee14fa7de083f:b067b6a395c1e6398d05d9cc864b673d670cd124b938c1547b606f7b259d2bd0",
+        "route": null
+      },
+      {
+        "id": "5410-R4",
+        "severity": "p2",
+        "summary": "Trusted time could move backward across authoritative corrections",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b46184afe4eb1c2328b9bb8a361ee14fa7de083f:b067b6a395c1e6398d05d9cc864b673d670cd124b938c1547b606f7b259d2bd0",
+        "route": null
+      },
+      {
+        "id": "5410-R5",
+        "severity": "p2",
+        "summary": "Signed remote shutdown checkpointing lacked integrated binary HTTPS proof",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b46184afe4eb1c2328b9bb8a361ee14fa7de083f:b067b6a395c1e6398d05d9cc864b673d670cd124b938c1547b606f7b259d2bd0",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Full mutable operation, governance, and adaptation state authenticity remains owned by #5412",
+      "Pressure-triggered graceful shutdown remains owned by #5411",
+      "Live Observatory and cross-runtime parity proof remains owned by #5413",
+      "Two bounded Claude Fable 5 calls returned empty provider output; no Fable PASS is claimed, and the exact-revision independent review is authoritative"
+    ],
+    "completed": true,
+    "non_substantive_proof": null
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5410,
+    "pull_request": 5437,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5437",
+    "base": "main",
+    "head": "codex/5410-runtime-v3-live-kernel",
+    "revision": "git-blake3:b46184afe4eb1c2328b9bb8a361ee14fa7de083f:b067b6a395c1e6398d05d9cc864b673d670cd124b938c1547b606f7b259d2bd0",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": {
+    "pull_request": 5437,
+    "head_sha": "b46184afe4eb1c2328b9bb8a361ee14fa7de083f",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755582203"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755448933"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755447048"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755449580"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755421609"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755449141"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755449623"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755449132"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755449708"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755449413"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29538520917/job/87755448661"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5437,
+    "disposition": "merged",
+    "observed_sha": "b46184afe4eb1c2328b9bb8a361ee14fa7de083f",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5410.json",
+    "released_branch": "codex/5410-runtime-v3-live-kernel",
+    "released_worktree": ".worktrees/adl-wp-5410",
+    "released_protected_paths": [
+      ".csdlc/issues/5410",
+      "adl-runtime-kernel",
+      "docs/architecture/RUNTIME_V3_FINAL_REVIEW_5175.md",
+      "docs/architecture/RUNTIME_V3_GUARDIAN_AND_SOAK.md",
+      "docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md",
+      "docs/architecture/runtime_v3_current_inventory.v1.json",
+      "docs/reviews/v0.91.7/runtime-v3-5410",
+      "infra/horust/README.md",
+      "infra/horust/adl-runtime-kernel.toml",
+      "infra/rustysd/adl-runtime-kernel.service",
+      "infra/systemd/adl-runtime-kernel.service"
+    ]
+  },
   "migration": null,
   "design_path": "docs/reviews/v0.91.7/runtime-v3-5410/DESIGN.md",
   "diagram_path": "docs/reviews/v0.91.7/runtime-v3-5410/DIAGRAM.mmd",
@@ -46,34 +223,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b0c2636b68f7a1fdac8b3cd4bff3b059b304fe458324a2a0ca1fef1883cb6b3e",
+      "values_digest": "70ae299d0f2ce44bdee88a551e1c821b47021ff4576e18056c063fd2452f3fe3",
       "rendered_digest": "72c712c0a437d623fdc67975949ed57ddb78ee34a9345e525aa29fb220275ffe",
       "ast_digest": "5024fcff6be019e356c70895efa162b0292ce25732143d58f172b25b54f0637e"
     },
     "stp": {
-      "values_digest": "cf37be8a2b0bf080f4f45846fe365292c4d6d1234ac656d3f49f65a80a2829f4",
+      "values_digest": "5d6dbb7a6b00e6bc77fb5396601b184540883b29936d7fd662b47afbff25699d",
       "rendered_digest": "56f2e3650d2c313a34bd9782b76e5d70593c201431e1e2d9b1958795e539dbab",
       "ast_digest": "593721100e4380fbe0d7c01f56fcc9dea293238ce6a3cab4760e563845fa2f09"
     },
     "spp": {
-      "values_digest": "b99ce36955f89f334fd5c1ba56b30b9b55d165d3c7cd14b2470925ca8fb174a4",
+      "values_digest": "1db42c052d1d7a1b7b33d14ae073df4ec1d39be4b5b08fc234ffe49366e75cd5",
       "rendered_digest": "98d1caba596b57c8b189584ce5169821878f95a80285a5b595242377ddb3d42c",
       "ast_digest": "8b248453c601d26929b34127ff268ce3ba757b568c4b78152190babe7814e0e8"
     },
     "vpp": {
-      "values_digest": "cbeb7754bfbf497b1fbf8601f2a6719ac56f95736bbd792ce6345b60f30dbdc1",
+      "values_digest": "0d89fdfe442a9575c18e1b8281c51cb607e3abd085b42555b0063a07f25de33d",
       "rendered_digest": "ef0a2bf4004d72c21817fa2e4de79ed791e0089ca65cd9731b9f4fecd5b940d4",
       "ast_digest": "5a730768cc5fe317e5f0b7f39efc4906407efcdf32e9459907410d27635a4331"
     },
     "srp": {
-      "values_digest": "ad95336ba8fa6d6d2190fbf8af335acf3b1b45f02462a77a3cf2577b056bb33a",
-      "rendered_digest": "42f9e84c7e5d1a32fa846a8a6785c00e917d7c58e3b69f02508f3cea405ce14e",
-      "ast_digest": "e5f0a73ccb4292d29a29165f813a73d72a67fe8edb7c8b2ca32a17fb90ed9852"
+      "values_digest": "407f1049edbbed77260345a9f9d1eb6ee09b142c2f4c7fe58a1cf6e37bc046e7",
+      "rendered_digest": "6fe77800a8d942b8ffbf45e7be381e9f5731cbee6be810f01c0df46c16cdb448",
+      "ast_digest": "a0989f2b644887d62ab1c2b52e6c08e60cacd56381f88ac0ca1d018d20cd9d10"
     },
     "sor": {
-      "values_digest": "3515b62fd9322ae40d02ced448ebf40acbf70f5c21d4c29d687472383cc6f0e6",
-      "rendered_digest": "05d001b14eac5203eae77291a1483ee3fe2b8249c31c77b964be97be4523525a",
-      "ast_digest": "021862a79753bbfdaa78e34f250f9eb16ef3ee1921a3597e72c294b5b9786f90"
+      "values_digest": "07d583a0a891943e8aaab5dfdb694026c6350d8c86fb22deefd8db6678e858c9",
+      "rendered_digest": "0fd5d2488d35ed8c35e236f38eb6a8aff9807f85e882d248d503f630842141f0",
+      "ast_digest": "c5a7f6444e883152a82029186106f7b85bd9e5597edd869420228196fa734624"
     }
   },
   "transitions": [
@@ -97,6 +274,41 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "bounded implementation, validation, inventory, and staged-diff review are complete"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact-revision independent review passed after all five actionable findings were fixed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact draft PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -239,6 +451,48 @@
       "actor": "codex",
       "reason": "bounded implementation, validation, inventory, and staged-diff review are complete",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "exact-revision independent review passed after all five actionable findings were fixed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
     }
   ]
 }
