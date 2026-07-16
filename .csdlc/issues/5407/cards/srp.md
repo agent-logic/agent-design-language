@@ -8,11 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-exact revision a1294601dc737a3cada47559023bd366be03beb3
+exact revision 6618c080596ddf0943128c9abdaf67507479b8cc
 build-action-log claim boundary
 Gate 10D2 CLI authority
 complete #5036 closeout evidence
@@ -36,7 +36,7 @@ typed lifecycle and evidence consistency
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
     "route": null
   },
   {
@@ -46,7 +46,7 @@ typed lifecycle and evidence consistency
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
     "route": null
   },
   {
@@ -56,7 +56,7 @@ typed lifecycle and evidence consistency
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
     "route": null
   },
   {
@@ -66,7 +66,7 @@ typed lifecycle and evidence consistency
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
     "route": null
   },
   {
@@ -76,7 +76,7 @@ typed lifecycle and evidence consistency
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
     "route": null
   },
   {
@@ -86,7 +86,7 @@ typed lifecycle and evidence consistency
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
     "route": "#5423"
   },
   {
@@ -112,7 +112,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c")
+Revision: Some("git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff")
 
 Reviewer: Some("subagent-Darwin-019f6c37")
 

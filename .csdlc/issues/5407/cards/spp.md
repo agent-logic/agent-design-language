@@ -82,13 +82,13 @@ Revision 1
 
 ## Design
 
-docs/reviews/v0.91.7/tools-5407/DESIGN.md
+.csdlc/issues/5407/retained/design.md
 
 Digest: 2d56ddd900547a66c82e264f4b88079cff5da2e98f7dbfb41d0af6a139fe6643
 
 ## Diagram
 
-docs/reviews/v0.91.7/tools-5407/DIAGRAM.mmd
+.csdlc/issues/5407/retained/diagram.mmd
 
 Digest: d139a50f00713a5a75dedf621513cff27c1cde5f1d61fd51fa5ded760e595157
 

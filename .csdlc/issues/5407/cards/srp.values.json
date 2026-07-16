@@ -7,14 +7,14 @@
     "title": "[v0.91.7][review-fix][tools] Resolve #5036 reliability-tail findings",
     "slug": "v0-91-7-review-fix-tools-resolve-5036-reliability-tail-findings",
     "version": "v0.91.7",
-    "generation": 26
+    "generation": 34
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "exact revision a1294601dc737a3cada47559023bd366be03beb3\nbuild-action-log claim boundary\nGate 10D2 CLI authority\ncomplete #5036 closeout evidence\n#5037 performance non-claim\ntyped lifecycle and evidence consistency",
-      "review_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+      "review_scope": "exact revision 6618c080596ddf0943128c9abdaf67507479b8cc\nbuild-action-log claim boundary\nGate 10D2 CLI authority\ncomplete #5036 closeout evidence\n#5037 performance non-claim\ntyped lifecycle and evidence consistency",
+      "review_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
       "reviewer": "subagent-Darwin-019f6c37",
       "review_prompts": [
         "Does each current claim match implemented repository behavior?",
@@ -30,7 +30,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+          "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
           "route": null
         },
         {
@@ -40,7 +40,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+          "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
           "route": null
         },
         {
@@ -50,7 +50,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+          "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
           "route": null
         },
         {
@@ -60,7 +60,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+          "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
           "route": null
         },
         {
@@ -70,7 +70,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+          "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
           "route": null
         },
         {
@@ -80,7 +80,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+          "fix_revision": "git-blake3:6618c080596ddf0943128c9abdaf67507479b8cc:962010936353d9dfab57cf947115474682a58b27a5d04ae04a131f4e4c35c3ff",
           "route": "#5423"
         },
         {
