@@ -8,11 +8,14 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact implementation revision before publication.
+csdlc-v2/src/cards.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate7_lifecycle.rs
+docs/reviews/v0.91.7/csdlc-v2-5426
 
 ## Prompts
 
@@ -23,7 +26,28 @@ Exact implementation revision before publication.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5426-1",
+    "severity": "p1",
+    "summary": "Terminal closeout bypassed latest validation state",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:d1ed65343d71bcf55274affb1fb731e1dd9ad2a9:e809f3c46311951ca0ca80d86fbc9e6665adbdf7549fbddfb7c07d365a257ba2",
+    "route": null
+  },
+  {
+    "id": "F-5426-2",
+    "severity": "p2",
+    "summary": "Merged regression used an invalid closed observation and did not reach the repaired guard",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:d1ed65343d71bcf55274affb1fb731e1dd9ad2a9:e809f3c46311951ca0ca80d86fbc9e6665adbdf7549fbddfb7c07d365a257ba2",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -35,8 +59,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d1ed65343d71bcf55274affb1fb731e1dd9ad2a9:e809f3c46311951ca0ca80d86fbc9e6665adbdf7549fbddfb7c07d365a257ba2")
 
-Reviewer: None
+Reviewer: Some("subagent-huygens")
 
-Result: pre_review
+Result: pass
