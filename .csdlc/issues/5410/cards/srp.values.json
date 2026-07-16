@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5410,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][runtime-v3] Assemble and secure the #5174 live kernel",
+    "slug": "v0-91-7-review-fix-runtime-v3-assemble-secure-live-kernel",
+    "version": "v0.91.7",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does serve avoid every proof-only topology and checksum path?",
+        "Can forged, substituted, rolled-back, or identity-mismatched continuity reach API readiness?",
+        "Can any timeout or local wall-clock path become authoritative?",
+        "Is exact service membership and current inventory reproducibly proven?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

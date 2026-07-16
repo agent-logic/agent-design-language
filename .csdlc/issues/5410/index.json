@@ -1,0 +1,98 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5410,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "51b84af00233b3ef4a23490fa7b3cdd510296e5ed90ca2942d20405bf69a5d93",
+  "phase": "ready",
+  "generation": 1,
+  "digest": "df66510ce62475396514fc1df4457ac6aba0c00a39ca6936dbfe93902a7a24dd",
+  "claim": {
+    "id": "claim-5410-runtime-v3-live-kernel",
+    "owner": "codex",
+    "generation": 1,
+    "acquired_unix_seconds": 1784236343,
+    "expires_unix_seconds": 1784322743,
+    "heartbeat_unix_seconds": 1784236343,
+    "branch": "codex/5410-runtime-v3-live-kernel",
+    "worktree": ".worktrees/adl-wp-5410",
+    "protected_paths": [
+      ".csdlc/issues/5410",
+      "adl-runtime-kernel",
+      "docs/architecture/RUNTIME_V3_FINAL_REVIEW_5175.md",
+      "docs/architecture/runtime_v3_current_inventory.v1.json",
+      "docs/reviews/v0.91.7/runtime-v3-5410"
+    ],
+    "purpose": "Assemble and secure the Runtime v3 live kernel for #5410"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/reviews/v0.91.7/runtime-v3-5410/DESIGN.md",
+  "diagram_path": "docs/reviews/v0.91.7/runtime-v3-5410/DIAGRAM.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized-runtime-v3-remediation",
+      "revision": "14e433899ed0595752e034e9e61e365ef0209f0baa9d0021198d74fb7c5e945f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "fd95ad592f442cf1e69b2185409188f5d9b27c12fbf17d8a2d80803931fd973a",
+      "rendered_digest": "72c712c0a437d623fdc67975949ed57ddb78ee34a9345e525aa29fb220275ffe",
+      "ast_digest": "5024fcff6be019e356c70895efa162b0292ce25732143d58f172b25b54f0637e"
+    },
+    "stp": {
+      "values_digest": "0ee3886b391f08cb0fab7bfdbc6047ac83762e8182c85e9b78cb47107e866a91",
+      "rendered_digest": "56f2e3650d2c313a34bd9782b76e5d70593c201431e1e2d9b1958795e539dbab",
+      "ast_digest": "593721100e4380fbe0d7c01f56fcc9dea293238ce6a3cab4760e563845fa2f09"
+    },
+    "spp": {
+      "values_digest": "a4f537177329397d70168404efb3839b44ab074302890a2da773f5990f936b06",
+      "rendered_digest": "668eda54413d89fcb3c67cf7d767908e1fd5e9bc80a903c464477cc196247bc0",
+      "ast_digest": "bc4ff38f91473c9ac611480c000b5b2db2463e055e91d48ca15cac32492c4de1"
+    },
+    "vpp": {
+      "values_digest": "53c6399f624a5ce35eab7670f8672331314eaca031f2a5ef2521a06b86455016",
+      "rendered_digest": "a0078a1e970a4752b85ceca2d65929340fc11e3d056c85e2e25c5f0192f606d9",
+      "ast_digest": "b594d85d1d2be78f95515fea174f1b40a6545c98198fe2e5b30d16c859cf49b9"
+    },
+    "srp": {
+      "values_digest": "803d49338bc138000a6edce3c6d34a1d4eaaa2437de48da202e0240a478e3872",
+      "rendered_digest": "42f9e84c7e5d1a32fa846a8a6785c00e917d7c58e3b69f02508f3cea405ce14e",
+      "ast_digest": "e5f0a73ccb4292d29a29165f813a73d72a67fe8edb7c8b2ca32a17fb90ed9852"
+    },
+    "sor": {
+      "values_digest": "b5750c8e365a7a6c0763e77977a11faebd4951c51de7d6bbb167ab951232bab6",
+      "rendered_digest": "d3284d64c13670aa2882ec8a91ea306a2c3f6d45906e5322fc9970c8be06f54b",
+      "ast_digest": "c56dc8b995012fac536559a7fc6eb852ba2a274e8b9aec2996188956eb9e92e6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "live-kernel design, bounded plan, validation lanes, and all six cards are ready"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "live-kernel design, bounded plan, validation lanes, and all six cards are ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
