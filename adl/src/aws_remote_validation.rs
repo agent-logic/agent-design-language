@@ -986,7 +986,7 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             .map(|reason| format!("; last failure: {reason}"))
             .unwrap_or_default();
         failure_reason = Some(format!(
-            "remote validation could not launch an instance for any configured capacity pool{prior_reason}"
+            "remote validation could not launch an instance for any configured launch pool{prior_reason}"
         ));
         record_event(
             &mut events,

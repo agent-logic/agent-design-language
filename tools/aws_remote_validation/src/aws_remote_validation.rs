@@ -1241,6 +1241,22 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
         None => None,
     };
 
+    if launch.is_none() {
+        let prior_reason = failure_reason
+            .take()
+            .map(|reason| format!("; last failure: {reason}"))
+            .unwrap_or_default();
+        failure_reason = Some(format!(
+            "remote validation could not launch an instance for any configured launch pool{prior_reason}"
+        ));
+        record_event(
+            &mut events,
+            "launch_attempt",
+            "failed",
+            failure_reason.clone().unwrap_or_default(),
+        );
+    }
+
     if failure_reason.is_none()
         && !matches!(
             status,
@@ -3742,6 +3758,76 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn remote_validation_fails_closed_when_spot_only_capacity_pool_never_launches() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-no-capacity-{}",
+            std::process::id()
+        ));
+        let mut config = sample_config(&tmp);
+        config.allow_on_demand_fallback = false;
+        config.instance_types = vec!["c7a.8xlarge".to_string(), "c7i.8xlarge".to_string()];
+        let adapter = FakeAdapter {
+            quota: QuotaSnapshot {
+                spot_vcpu_quota: Some(32.0),
+                on_demand_vcpu_quota: Some(64.0),
+                notes: vec![],
+            },
+            identity: AwsAccountIdentity {
+                account_id: Some("123456789012".to_string()),
+                account_id_sha256: Some("hash".to_string()),
+                arn: None,
+                user_id: None,
+            },
+            launch_results: Mutex::new(VecDeque::from(vec![
+                Err(AwsAdapterError {
+                    code: Some("InsufficientInstanceCapacity".to_string()),
+                    message: "InsufficientInstanceCapacity: no c7a spot capacity".to_string(),
+                    spot_fallback_permitted: true,
+                }),
+                Err(AwsAdapterError {
+                    code: Some("InsufficientInstanceCapacity".to_string()),
+                    message: "InsufficientInstanceCapacity: no c7i spot capacity".to_string(),
+                    spot_fallback_permitted: true,
+                }),
+            ])),
+            ssm_ready: Ok(SsmReadyResult {
+                status: "Online".to_string(),
+            }),
+            command_result: Ok(CommandExecutionResult {
+                command_id: "unused".to_string(),
+                status: "Success".to_string(),
+                response_code: Some(0),
+                stdout: String::new(),
+                stderr: String::new(),
+            }),
+            terminate_result: Ok(()),
+            final_state: Ok(Some("terminated".to_string())),
+            cost: None,
+            budget: None,
+        };
+
+        let (summary, events) = run_aws_remote_validation(&adapter, &config)
+            .await
+            .expect("summary");
+
+        assert_eq!(summary.status, RemoteRunStatus::Failed);
+        assert!(summary.launch.is_none());
+        assert!(summary.command.is_none());
+        assert!(summary
+            .failure_reason
+            .as_deref()
+            .is_some_and(|reason| reason.contains("could not launch an instance")));
+        assert_eq!(
+            summary.resilience.fault_class,
+            AwsRemoteResilienceFaultClass::CapacityUnavailable
+        );
+        assert!(summary.resilience.retryable);
+        assert!(events
+            .iter()
+            .any(|event| event.stage == "launch_attempt" && event.status == "failed"));
+    }
+
+    #[tokio::test]
     async fn remote_validation_classifies_quota_blockers_as_operator_gated() {
         let tmp = std::env::temp_dir().join(format!(
             "adl-aws-remote-validation-quota-{}",
@@ -4083,8 +4169,9 @@ mod tests {
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
-        assert!(tracked_runner
-            .contains("if [ \"$CURRENT_PERSISTENT_COMMIT\" != \"$SOURCE_COMMIT\" ]"));
+        assert!(
+            tracked_runner.contains("if [ \"$CURRENT_PERSISTENT_COMMIT\" != \"$SOURCE_COMMIT\" ]")
+        );
     }
 
     #[test]
