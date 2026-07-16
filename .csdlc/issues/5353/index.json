@@ -3,13 +3,13 @@
   "issue": 5353,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "404ad9845d55cf189416e19f7553915074e73a88adb8b0168d0b7e4781f60ddf",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "22f43003e6160a8811217037e571ba5f9e1dbba629f079feb997f59adf232b52",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "721fa54c8e8c2f3401b455efdc20d4f7ad0030ef6a8ec61050ccc83e32a525c0",
   "claim": {
     "id": "csdlc-v2-5353-terminal-reconcile",
     "owner": "codex",
-    "generation": 11,
+    "generation": 13,
     "acquired_unix_seconds": 1784230110,
     "expires_unix_seconds": 1784316510,
     "heartbeat_unix_seconds": 1784230110,
@@ -23,8 +23,49 @@
     ],
     "purpose": "Reconcile merged #5353 terminal lifecycle and release stale protected paths"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent-terminal-review",
+    "assigned_by": "codex",
+    "revision": "git-blake3:afca0a519e12ebf886e6406f0e0d69f5d9a5cb25:d79ef5c72dda69ff906b242ddf5e077433fe41c21e4161fd1b6d617cb4b280fc",
+    "scope": [
+      ".csdlc/issues/5353"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent-terminal-review",
+    "scope": [
+      ".csdlc/issues/5353"
+    ],
+    "reviewed_revision": "git-blake3:afca0a519e12ebf886e6406f0e0d69f5d9a5cb25:d79ef5c72dda69ff906b242ddf5e077433fe41c21e4161fd1b6d617cb4b280fc",
+    "findings": [
+      {
+        "id": "5353-TR-P1-transient-terminal-projection",
+        "severity": "p1",
+        "summary": "Review recovery temporarily projects implemented and worktree-only state before the known merged terminal observation can be recorded",
+        "actionable": false,
+        "in_scope": true,
+        "disposition": "accepted_risk",
+        "fix_revision": null,
+        "route": "#5423"
+      },
+      {
+        "id": "5353-TR-P2-version-identity",
+        "severity": "p2",
+        "summary": "All six retained card identities say v0.91.8 while live issue and PR truth say v0.91.7",
+        "actionable": true,
+        "in_scope": false,
+        "disposition": "out_of_scope",
+        "fix_revision": null,
+        "route": "#5427"
+      }
+    ],
+    "residual_risks": [
+      "The transient implemented projection must be replaced by typed merged closeout before #5353 reconciliation is complete",
+      "Card identity version remains stale until the typed repair in #5427"
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d2e9703737e39a983cfe31e60f63d1390f8b27cb842d3354a97ee5566c7b54d7",
+      "values_digest": "0569824298de8d52693aa3b59ecfdc2b7214688a4ebe14165ed513f7aeecc09c",
       "rendered_digest": "09584eaac2c1ae475b3422c344c58d984ee9565cc09293db1149a84175e26de5",
       "ast_digest": "d4684cf547a9c50d22ab8e1e4b2cd112b98a73128406c651c209b0d81aed69ee"
     },
     "stp": {
-      "values_digest": "f1f89c9c969d6a67d449945266b2cdd462b8eadbd981170119b30cbb9f815524",
+      "values_digest": "1f95096594cee66ad2224e271ac038dafa08f8047651633925f19b394c8bfbde",
       "rendered_digest": "6e2f28697e49ec9cfd218f0b77e684d88eee857041de05913dfd572190d79b24",
       "ast_digest": "39dc2a5822da1ee0fa69e7153fea05bc821a67ca005324a29d54f05a635929b3"
     },
     "spp": {
-      "values_digest": "3e39dd8d398eeea00fab518da797821f8d6f93a52bd4b525663459003ca5cd57",
+      "values_digest": "1002cce1d1a1fd50040dacbbe829063916efa4302c82f5257d387c7540c63841",
       "rendered_digest": "3ca9ea198a3691822447ad812b93824a8e4a6e7e433c87d7c3aac4cc004f6c6c",
       "ast_digest": "7f6d0becbc3be143827fdda88374d54b176b3886ecaf32b066a2325ff90f9274"
     },
     "vpp": {
-      "values_digest": "f339f2dea8a0aad848279655555d28a85d34d6d9c7ddac9957e97da64b537120",
+      "values_digest": "4b5cffc3d4e74b10b692658adcb0aa45bc2b09ecc580d5be8d310af999c008fe",
       "rendered_digest": "8f5a93315de38fc11cf6f419a9804114cf4bb07d5b187a49fc479e7aa6d8a80e",
       "ast_digest": "c8d0f923f17fd2ac5e04bf92502841aded7bf1eef4600e5b632e909ab86d6b18"
     },
     "srp": {
-      "values_digest": "727083a3ebb5b36a06f54702272f9d602ebd79c16289f4ecc4da8ba573ed4963",
-      "rendered_digest": "b79bd7787225e6ab3569c729c17bfcd16a7211a38d908335bd844dc980b92303",
-      "ast_digest": "5b343d88e248e2c9a651ac4254afe1e18c93ff98bf5e8c083ec070db5cbe90e1"
+      "values_digest": "eaad89d29ed7f95bfa1e041f0169d9eab461656441ca4f9efa69480cf23533f0",
+      "rendered_digest": "37ceb8d6c78e2906ad119980272708079cf1e6b27d486c6a8c8e3bb0c15132d8",
+      "ast_digest": "8d10732320ddb468a875500099c87057da49daca00162bfe5a5d714d4e987fbf"
     },
     "sor": {
-      "values_digest": "1f91b134e50a2d3b6295b9e0aba256c5adb6b1fd9de403847a1f50b5a7c29270",
+      "values_digest": "7966206e0d8a012409c5ce65dd6cd0b3af8df842e6ddeec652e8d9fb6f050d7a",
       "rendered_digest": "e09be16223facf1c0d7f9fb6dc0069f072e3abbf0ee838fb04824a6f002781a1",
       "ast_digest": "0df944549080fafca532304ea10ec098b441dbd020370ddf8df35643cd6fd312"
     }
@@ -111,6 +152,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Re-review the current clean branch and publish exact terminal-reconciliation evidence after the original PR merged"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Record bounded terminal-reconciliation review with stale version identity routed to #5427"
     }
   ],
   "audit": [
@@ -218,6 +266,27 @@
       "actor": "codex",
       "reason": "Re-review the current clean branch and publish exact terminal-reconciliation evidence after the original PR merged",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex-subagent-terminal-review",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "Record bounded terminal-reconciliation review with stale version identity routed to #5427",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
