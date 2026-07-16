@@ -305,6 +305,83 @@ fn later_pass_supersedes_waiting_validation_through_terminal_closeout() {
     );
 }
 
+#[test]
+fn later_failure_blocks_merged_and_closed_unmerged_terminal_closeout() {
+    for (issue, disposition) in [
+        (72, TerminalDisposition::Merged),
+        (73, TerminalDisposition::ClosedUnmerged),
+    ] {
+        let (temp, store, mut record, sha) = fixture_with_validation_history(
+            issue,
+            "Gate 7 validation regression fixture",
+            "validation-regression",
+            vec![ValidationResult {
+                command: vec!["cargo".into(), "test".into()],
+                purpose: "proof".into(),
+                outcome: EvidenceOutcome::Passed,
+                evidence_ref: "evidence.json".into(),
+            }],
+        );
+        record = record_readiness(
+            &store,
+            ReadinessRequest {
+                schema: "csdlc.readiness_request.v1".into(),
+                issue,
+                expected_generation: record.generation,
+                expected_digest: record.digest.clone(),
+                claim_id: "claim".into(),
+                actor: "shepherd".into(),
+                pull_request: 70,
+                head_sha: sha.clone(),
+                required_checks: vec!["fast".into()],
+                require_review: true,
+                checks: vec![csdlc_v2::CheckObservation {
+                    name: "fast".into(),
+                    requirement: csdlc_v2::CheckRequirement::Required,
+                    conclusion: csdlc_v2::CheckConclusion::Success,
+                    details_url: None,
+                }],
+                review_state: csdlc_v2::RemoteReviewState::Approved,
+                conflict_state: csdlc_v2::ConflictState::Clean,
+                post_publication_findings: vec![],
+            },
+        )
+        .unwrap();
+        record = edit(
+            &store,
+            &record,
+            CardKind::Sor,
+            SemanticOperation::RecordValidation {
+                result: ValidationResult {
+                    command: vec!["cargo".into(), "test".into()],
+                    purpose: "proof".into(),
+                    outcome: EvidenceOutcome::Failed,
+                    evidence_ref: "evidence.json".into(),
+                },
+            },
+        );
+        let terminal = TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "closer".into(),
+            pull_request: Some(70),
+            disposition,
+            observed_sha: Some(sha),
+            observed_state: "closed".into(),
+            approved_no_pr_reason: None,
+            receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+        };
+        assert!(closeout_issue(&store, terminal).is_err());
+        assert_eq!(
+            Store::new(temp.path()).load_record(issue).unwrap().phase,
+            LifecyclePhase::MergeReady
+        );
+    }
+}
+
 pub(crate) fn run_complete_lifecycle(
     issue: u64,
     title: &str,

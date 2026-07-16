@@ -694,6 +694,16 @@ impl Store {
         }
         let mut cards = self.load_cards(observation.issue)?;
         verify_cards(self, &record, &cards)?;
+        let current_validation = match &cards[&CardKind::Sor].content {
+            CardContent::Sor(value) => &value.actual_validation,
+            _ => unreachable!(),
+        };
+        if !terminal_validation_passed(current_validation) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "terminal closeout requires current passing validation evidence",
+            ));
+        }
         let sor_values = cards.get_mut(&CardKind::Sor).expect("SOR");
         sor_values.status = crate::cards::CardStatus::Complete;
         let sor = match &mut sor_values.content {

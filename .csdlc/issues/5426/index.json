@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "e55c2db4bd8ae777019f0debbc3182c08f764f13e2fad1f7888f0de141ce5efb",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "98725c85b14987acd802f936bbbce183cbce9f88db2d6189c1f8eddf53c1718a",
+  "generation": 11,
+  "digest": "aa337f430a3d18f72f98961875c652f82a3329d3df1aa214407711e6b7de566c",
   "claim": {
     "id": "claim-5426-validation-supersession",
     "owner": "codex",
-    "generation": 7,
+    "generation": 11,
     "acquired_unix_seconds": 1784229849,
     "expires_unix_seconds": 1784316249,
     "heartbeat_unix_seconds": 1784229849,
@@ -23,7 +23,17 @@
     ],
     "purpose": "Make terminal validation supersession deterministic and fail closed"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent-huygens",
+    "assigned_by": "codex",
+    "revision": "git-blake3:9ccb54f94d6d499dd89f5217d6dc50545f6e325b:23a0be03773de697e2e115a262c067610e50cd2ef16b817083caaf893e863f35",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      "docs/reviews/v0.91.7/csdlc-v2-5426"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +49,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "13ecc9b8b04d5c5ed0553a99354a502df6de1673315f146f6a80918a64246826",
+      "values_digest": "cb87940a14a1a98d1add9d6b6ab047a46b760a1cffb429ec9a4e9028e0cc4fec",
       "rendered_digest": "81352b303a0c1a359c6e8e08e149933236c7b3c76c31a20cc4efed4b54519444",
       "ast_digest": "16ab4cc12d990fb65ddffc717c8ccfc5e974f4a368ca69c8193d523977b3140c"
     },
     "stp": {
-      "values_digest": "da8eb315fd6bdbfbec1f997d7b765cff246aa8c3d55f1f519d30a825f114ee22",
+      "values_digest": "edb92010ca90591341a966951af41f326ae9057b169a61919d8b8374b08fb566",
       "rendered_digest": "742886029862ab898b3d4fe8b65f8c4c90a5f35480368570c59167af9f2e3cde",
       "ast_digest": "646a1b19c7056b9eaab80cda5bbe207989dab1b78c4d8bee59abe5bda30bf650"
     },
     "spp": {
-      "values_digest": "a73f4938dffa05f2a3b26d65ee5ba8c521b88c9b4d0273f9c68e902dddd5ac5b",
+      "values_digest": "33a6467766a5a53edaea3f60b94dae9dc1ed943a040e8cf4cf902b7894db6442",
       "rendered_digest": "edb435b0ba47f1b47a54f0ed38af1b677b6d3506013d5883327a68ac3da57a14",
       "ast_digest": "804ee8df48baeb8a1b19c6847b7b0173164cd50e31d63eef7d90117650c4bd02"
     },
     "vpp": {
-      "values_digest": "04d35d88bcb1b9d620240f25ea982e6cf5571cae059406a8f849c8dbc6b0b89e",
+      "values_digest": "87014a0c935f0c94df7f3e05b1a575d8b0f2f2d8697e489e306fb9254576c4e1",
       "rendered_digest": "bed264bfdbfcea6ba358a529ce583149dc2902a2676ab59bab8b808b31c785f9",
       "ast_digest": "28e5c7a11aa26313df7f2edbefd843931149d64bebaa89beb39508f63c610cdb"
     },
     "srp": {
-      "values_digest": "a4abd9a69210edaa27ce880620e776f640b2dec055ff5c14249d5d5c22b96e0e",
+      "values_digest": "d394e83b18bca742cf61951c6f51ee2d8bc232b64ab20b8e592d172c88278b60",
       "rendered_digest": "d852ad7edc6b02c67ef50bbeb0e4fc5cf7758b6596eea7b6ae52a5678d54454a",
       "ast_digest": "a88e6d33d2808a85c1d9df07062a0f41ecf94ca21956c8ef7394614fa013e20f"
     },
     "sor": {
-      "values_digest": "42f7a2a2d61249855157553edb80c5f4dc3397aa5a8128dd5b104a1c3fb51dbe",
-      "rendered_digest": "ab2550ebb1dcce97e0112238c257b16e7ed9067cdd0306953583ed3c6067ab4a",
-      "ast_digest": "96af773856086a4388305dda042812ff9ba0344865cb4119f0cc32f4e7aa3c65"
+      "values_digest": "ed566e22ba7f5c498d5cafa57e128365f5d130f938a52a902b61620b56134775",
+      "rendered_digest": "807a1c234d17f04d00da0e14b4c370a970b09af48e665912c970f28e066a3541",
+      "ast_digest": "1d082b3bfec37cfea00e68b723ca10f15ea90ceecfd9f26bd98d2b7fcc67c5fa"
     }
   },
   "transitions": [
@@ -155,6 +165,41 @@
       "actor": "codex",
       "reason": "bounded implementation and validation complete",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "record P1 review repair",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented append-only terminal validation supersession and enforced it at readiness, lifecycle, SOR completion, and terminal closeout boundaries.\",\"changes\":[\"Enforced current passing validation before every terminal closeout disposition\",\"Added merged and closed-unmerged pass-then-failure closeout regressions\"],\"artifacts\":[]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "record post-review formatting proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Rust formatting proof\",\"outcome\":\"passed\",\"evidence_ref\":\"local-fastwork-validation-5426-fmt\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "record post-review full test proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Full C-SDLC v2 regression suite\",\"outcome\":\"passed\",\"evidence_ref\":\"local-fastwork-validation-5426-test\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "record post-review strict lint proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict all-target Rust lint proof\",\"outcome\":\"passed\",\"evidence_ref\":\"local-fastwork-validation-5426-clippy\"}}"
     }
   ]
 }
