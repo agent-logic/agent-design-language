@@ -980,6 +980,22 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
         None => None,
     };
 
+    if launch.is_none() {
+        let prior_reason = failure_reason
+            .take()
+            .map(|reason| format!("; last failure: {reason}"))
+            .unwrap_or_default();
+        failure_reason = Some(format!(
+            "remote validation could not launch an instance for any configured capacity pool{prior_reason}"
+        ));
+        record_event(
+            &mut events,
+            "launch_attempt",
+            "failed",
+            failure_reason.clone().unwrap_or_default(),
+        );
+    }
+
     if failure_reason.is_none()
         && !matches!(
             status,
@@ -4014,6 +4030,70 @@ mod tests {
             PurchaseOption::OnDemand
         );
         assert_eq!(summary.attempts[1].status, "launched");
+    }
+
+    #[tokio::test]
+    async fn remote_validation_fails_closed_when_no_capacity_pool_launches() {
+        let _guard = TEST_LOG_PATH_GUARD.lock().await;
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-no-capacity-{}",
+            std::process::id()
+        ));
+        let adapter = FakeAdapter {
+            quota_result: Ok(QuotaSnapshot {
+                spot_vcpu_quota: Some(32.0),
+                on_demand_vcpu_quota: Some(64.0),
+                notes: vec![],
+            }),
+            identity_result: Ok(AwsAccountIdentity {
+                account_id: Some("123456789012".to_string()),
+                account_id_sha256: Some("hash".to_string()),
+                arn: None,
+                user_id: None,
+            }),
+            launch_results: Mutex::new(VecDeque::from(vec![
+                Err(AwsAdapterError {
+                    code: Some("InsufficientInstanceCapacity".to_string()),
+                    message: "InsufficientInstanceCapacity: no spot capacity".to_string(),
+                    spot_fallback_permitted: true,
+                }),
+                Err(AwsAdapterError {
+                    code: Some("InsufficientInstanceCapacity".to_string()),
+                    message: "InsufficientInstanceCapacity: no on-demand capacity".to_string(),
+                    spot_fallback_permitted: false,
+                }),
+            ])),
+            ssm_ready: Ok(SsmReadyResult {
+                status: "Online".to_string(),
+            }),
+            command_result: Ok(CommandExecutionResult {
+                command_id: "unused".to_string(),
+                status: "Success".to_string(),
+                response_code: Some(0),
+                stdout: String::new(),
+                stderr: String::new(),
+            }),
+            terminate_result: Ok(()),
+            final_state: Ok(Some("terminated".to_string())),
+            cost_result: Ok(None),
+            budget_result: Ok(None),
+            spot_termination_evidence: None,
+        };
+
+        let (summary, events) = run_aws_remote_validation(&adapter, &sample_config(&tmp))
+            .await
+            .expect("summary");
+
+        assert_eq!(summary.status, RemoteRunStatus::Failed);
+        assert!(summary.launch.is_none());
+        assert!(summary.command.is_none());
+        assert!(summary
+            .failure_reason
+            .as_deref()
+            .is_some_and(|reason| reason.contains("could not launch an instance")));
+        assert!(events
+            .iter()
+            .any(|event| event.stage == "launch_attempt" && event.status == "failed"));
     }
 
     #[tokio::test]
