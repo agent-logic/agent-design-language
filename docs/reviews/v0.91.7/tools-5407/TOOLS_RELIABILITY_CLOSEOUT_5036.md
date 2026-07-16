@@ -10,6 +10,8 @@ pull requests. This retained synthesis records the complete declared wave,
 including #5037 and #4938, which were missing or incomplete in earlier retained
 closeout surfaces. The live GitHub observations supporting the issue, PR, and
 check-rollup fields are retained in `github-closeout-snapshot-5036.json`.
+The focused command results and strengthened complete-matrix check are retained
+in `VALIDATION.md`.
 
 | Child | Pull request | Head revision | Merge commit | State |
 | --- | --- | --- | --- | --- |
