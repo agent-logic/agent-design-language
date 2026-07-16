@@ -13,10 +13,11 @@ use thiserror::Error;
 use crate::{
     CheckpointAuthority, CheckpointCoordinator, CheckpointManifest, CheckpointParticipant,
     CheckpointRequest, ContinuityError, ContinuityHead, KernelExit, LifecycleControl,
-    MigrationPolicy, RuntimeRecorder,
+    LoadedCheckpoint, MigrationPolicy, RuntimeRecorder, RuntimeSnapshot, RUNTIME_SNAPSHOT_SCHEMA,
 };
 
 pub const LIVE_KERNEL_SNAPSHOT_SCHEMA: &str = "adl.runtime.live_kernel_snapshot.v1";
+pub const LIVE_KERNEL_CHECKPOINT_SCHEMA: &str = "adl.runtime.live_kernel_checkpoint.v1";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct LiveKernelSnapshot {
@@ -41,6 +42,13 @@ impl LiveKernelSnapshot {
     }
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct LiveKernelCheckpoint {
+    pub schema: String,
+    pub identity: LiveKernelSnapshot,
+    pub runtime: RuntimeSnapshot,
+}
+
 #[derive(Debug, Error)]
 pub enum LiveContinuityError {
     #[error(transparent)]
@@ -62,7 +70,6 @@ pub struct LiveContinuity {
     coordinator: CheckpointCoordinator,
     trusted_keys: BTreeMap<String, VerifyingKey>,
     snapshot: LiveKernelSnapshot,
-    participant: Arc<LiveKernelParticipant>,
     minimum_generation: u64,
     generation: u64,
     last_integrity: Option<String>,
@@ -80,15 +87,11 @@ impl LiveContinuity {
         let key_id = key_id.into();
         let authority = CheckpointAuthority::from_bytes(key_id.clone(), secret);
         let trusted_keys = BTreeMap::from([(key_id, authority.verifying_key())]);
-        let participant = Arc::new(LiveKernelParticipant {
-            snapshot: snapshot.clone(),
-        });
         Self {
             coordinator: CheckpointCoordinator::new(&root, authority),
             root,
             trusted_keys,
             snapshot,
-            participant,
             minimum_generation,
             generation: 0,
             last_integrity: None,
@@ -121,22 +124,31 @@ impl LiveContinuity {
                 actual: generation,
             });
         }
-        let schemas = BTreeMap::from([(
-            "live_kernel".to_owned(),
-            LIVE_KERNEL_SNAPSHOT_SCHEMA.to_owned(),
-        )]);
-        let loaded = self
-            .coordinator
-            .load(
-                generation,
-                &self.snapshot.topology_hash,
-                &self.snapshot.config_hash,
-                &schemas,
-                &self.trusted_keys,
-            )
-            .await?;
-        let restored: LiveKernelSnapshot = serde_json::from_slice(&loaded.blobs["live_kernel"])
-            .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
+        let (loaded, schema) = self.load_generation(generation).await?;
+        let bytes = &loaded.blobs["live_kernel"];
+        let restored = match schema {
+            LIVE_KERNEL_CHECKPOINT_SCHEMA => {
+                let checkpoint: LiveKernelCheckpoint = serde_json::from_slice(bytes)
+                    .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
+                if checkpoint.schema != LIVE_KERNEL_CHECKPOINT_SCHEMA {
+                    return Err(LiveContinuityError::Encoding(format!(
+                        "unsupported live checkpoint schema {}",
+                        checkpoint.schema
+                    )));
+                }
+                if checkpoint.runtime.schema != RUNTIME_SNAPSHOT_SCHEMA
+                    || checkpoint.runtime.revision != loaded.manifest.accepted_through
+                {
+                    return Err(LiveContinuityError::Encoding(
+                        "live runtime snapshot does not match the signed manifest".to_owned(),
+                    ));
+                }
+                checkpoint.identity
+            }
+            LIVE_KERNEL_SNAPSHOT_SCHEMA => serde_json::from_slice::<LiveKernelSnapshot>(bytes)
+                .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?,
+            _ => unreachable!("load_generation only accepts known schemas"),
+        };
         if restored != self.snapshot {
             return Err(LiveContinuityError::SnapshotIdentity);
         }
@@ -159,13 +171,21 @@ impl LiveContinuity {
         deadline: Duration,
     ) -> Result<CheckpointManifest, LiveContinuityError> {
         let generation = self.generation.saturating_add(1);
+        let runtime = recorder.snapshot();
+        let participant = Arc::new(LiveKernelParticipant {
+            checkpoint: LiveKernelCheckpoint {
+                schema: LIVE_KERNEL_CHECKPOINT_SCHEMA.to_owned(),
+                identity: self.snapshot.clone(),
+                runtime: runtime.clone(),
+            },
+        });
         let manifest = self
             .coordinator
             .checkpoint(
                 CheckpointRequest {
                     generation,
                     previous_integrity: self.last_integrity.clone(),
-                    accepted_through: recorder.snapshot().revision,
+                    accepted_through: runtime.revision,
                     provenance: "runtime-v3-live-shutdown".to_owned(),
                     topology_hash: self.snapshot.topology_hash.clone(),
                     config_hash: self.snapshot.config_hash.clone(),
@@ -173,7 +193,7 @@ impl LiveContinuity {
                     deadline,
                     max_parallel: 1,
                 },
-                vec![self.participant.clone()],
+                vec![participant],
             )
             .await?;
         self.generation = generation;
@@ -192,10 +212,6 @@ impl LiveContinuity {
         &self,
         latest: &CheckpointManifest,
     ) -> Result<(), LiveContinuityError> {
-        let schemas = BTreeMap::from([(
-            "live_kernel".to_owned(),
-            LIVE_KERNEL_SNAPSHOT_SCHEMA.to_owned(),
-        )]);
         let mut current = latest.clone();
         while current.generation > self.minimum_generation.max(1) {
             let previous_generation = current.generation - 1;
@@ -206,16 +222,7 @@ impl LiveContinuity {
                     .ok_or(LiveContinuityError::Lineage {
                         generation: current.generation,
                     })?;
-            let previous = self
-                .coordinator
-                .load(
-                    previous_generation,
-                    &self.snapshot.topology_hash,
-                    &self.snapshot.config_hash,
-                    &schemas,
-                    &self.trusted_keys,
-                )
-                .await?;
+            let (previous, _) = self.load_generation(previous_generation).await?;
             if previous.manifest.integrity != expected {
                 return Err(LiveContinuityError::Lineage {
                     generation: current.generation,
@@ -227,6 +234,32 @@ impl LiveContinuity {
             return Err(LiveContinuityError::Lineage { generation: 1 });
         }
         Ok(())
+    }
+
+    async fn load_generation(
+        &self,
+        generation: u64,
+    ) -> Result<(LoadedCheckpoint, &'static str), LiveContinuityError> {
+        for schema in [LIVE_KERNEL_CHECKPOINT_SCHEMA, LIVE_KERNEL_SNAPSHOT_SCHEMA] {
+            let schemas = BTreeMap::from([("live_kernel".to_owned(), schema.to_owned())]);
+            match self
+                .coordinator
+                .load(
+                    generation,
+                    &self.snapshot.topology_hash,
+                    &self.snapshot.config_hash,
+                    &schemas,
+                    &self.trusted_keys,
+                )
+                .await
+            {
+                Ok(loaded) => return Ok((loaded, schema)),
+                Err(ContinuityError::ServiceSchemaMismatch(service))
+                    if service == "live_kernel" => {}
+                Err(error) => return Err(error.into()),
+            }
+        }
+        Err(ContinuityError::ServiceSchemaMismatch("live_kernel".to_owned()).into())
     }
 }
 
@@ -268,7 +301,7 @@ impl LifecycleControl for CheckpointingControl {
 }
 
 struct LiveKernelParticipant {
-    snapshot: LiveKernelSnapshot,
+    checkpoint: LiveKernelCheckpoint,
 }
 
 #[async_trait]
@@ -278,7 +311,7 @@ impl CheckpointParticipant for LiveKernelParticipant {
     }
 
     fn schema(&self) -> &str {
-        LIVE_KERNEL_SNAPSHOT_SCHEMA
+        LIVE_KERNEL_CHECKPOINT_SCHEMA
     }
 
     async fn quiesce(&self) -> Result<(), String> {
@@ -286,7 +319,7 @@ impl CheckpointParticipant for LiveKernelParticipant {
     }
 
     async fn snapshot(&self) -> Result<Vec<u8>, String> {
-        serde_json::to_vec(&self.snapshot).map_err(|error| error.to_string())
+        serde_json::to_vec(&self.checkpoint).map_err(|error| error.to_string())
     }
 }
 

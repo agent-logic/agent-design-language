@@ -6,8 +6,10 @@ flowchart TB
     W -->|"healthy or warning"| O["Telemetry and continued service"]
     W -->|"stop required"| A["Close admission"]
     A --> C["Signed continuity checkpoint"]
-    C -->|"checkpoint committed"| S["Graceful kernel shutdown"]
-    C -->|"checkpoint failed"| F["Fail terminal clean-stop claim"]
+    C -->|"checkpoint committed"| Q["Cancel and drain control API"]
+    Q --> S["Graceful kernel shutdown"]
+    C -->|"checkpoint failed"| F["Reopen admission; keep service alive"]
+    F -->|"selectable retry"| W
     S --> G
     G -->|"deadline exceeded"| X["Terminate process group"]
     E["Release evidence classifier"] --> EX["Executed proof"]

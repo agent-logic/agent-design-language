@@ -15,11 +15,18 @@ new service-manager framework is introduced.
 ## Pressure Stop
 
 The live kernel periodically samples the existing system-weather service. A
-`StopRequired` decision closes admission, records a signed continuity
-checkpoint through the live coordinator, and then requests graceful kernel
-shutdown. Checkpoint failure refuses a clean-stop claim and is surfaced in the
-terminal result. Warning and unavailable samples remain observable but do not
-silently stop the runtime.
+`StopRequired` decision atomically pauses new control admission, records a
+signed continuity checkpoint through the live coordinator, then cancels the API
+and requests graceful kernel shutdown. Checkpoint failure reopens admission,
+keeps the API and kernel alive, refuses a clean-stop claim, and schedules a
+selectable retry so signals and signed shutdown requests remain responsive.
+Warning and unavailable samples remain observable but do not silently stop the
+runtime.
+
+The signed checkpoint binds the immutable assembly identity and current runtime
+recorder snapshot. Legacy identity-only generations remain readable across a
+mixed signed lineage. Disk pressure resolves the continuity path, including a
+symlinked existing ancestor, before selecting its containing filesystem.
 
 The monitor uses the existing `sysinfo`, cancellation, telemetry, supervisor,
 and Ed25519 continuity facilities. It does not add custom polling, signing,

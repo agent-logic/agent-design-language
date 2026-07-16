@@ -48,6 +48,12 @@ class RuntimeInventoryTest(unittest.TestCase):
                 for path in implementation["files"]
             ),
         )
+        auxiliary = inventory["selected_auxiliary_surface"]
+        self.assertEqual(auxiliary["files"], runtime_inventory.AUXILIARY_IMPLEMENTATION_PATHS)
+        self.assertEqual(
+            auxiliary["combined_with_kernel_loc"],
+            implementation["implementation_loc"] + auxiliary["implementation_loc"],
+        )
 
         dependencies = inventory["direct_dependencies"]
         self.assertEqual(dependencies["names"], sorted(dependencies["names"]))

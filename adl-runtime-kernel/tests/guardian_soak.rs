@@ -690,6 +690,117 @@ fn serve_handles_guardian_sigterm_with_a_clean_checkpointed_exit() {
 
 #[cfg(unix)]
 #[test]
+fn pressure_checkpoint_failure_keeps_signal_shutdown_responsive() {
+    use ed25519_dalek::SigningKey;
+
+    let directory = tempfile::tempdir().unwrap();
+    let continuity_root = directory.path().join("pressure-continuity");
+    std::fs::create_dir_all(&continuity_root).unwrap();
+    std::fs::create_dir(continuity_root.join(".generation-1.pending")).unwrap();
+    let probe = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let address = probe.local_addr().unwrap();
+    drop(probe);
+    let init = write_test_runtime_init(directory.path(), address);
+    let mut init_text = std::fs::read_to_string(&init).unwrap();
+    init_text.push_str(
+        r#"
+[weather]
+sample_millis = 60000
+memory_recover_used_basis_points = 0
+memory_warning_used_basis_points = 1
+memory_stop_used_basis_points = 2
+cpu_recover_basis_points = 0
+cpu_warning_basis_points = 1
+cpu_stop_basis_points = 2
+"#,
+    );
+    std::fs::write(&init, init_text).unwrap();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"))
+        .arg("serve")
+        .arg("--init")
+        .arg(init)
+        .arg("--continuity-root")
+        .arg(&continuity_root)
+        .env(
+            "ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX",
+            hex::encode(
+                SigningKey::from_bytes(&[17_u8; 32])
+                    .verifying_key()
+                    .as_bytes(),
+            ),
+        )
+        .env(
+            "ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX",
+            hex::encode([23_u8; 32]),
+        )
+        .env("ADL_RUNTIME_CONTINUITY_MIN_GENERATION", "0")
+        .env(
+            "ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX",
+            hex::encode(
+                SigningKey::from_bytes(&[29_u8; 32])
+                    .verifying_key()
+                    .as_bytes(),
+            ),
+        )
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let stderr = child.stderr.take().unwrap();
+    let (failure_tx, failure_rx) = std::sync::mpsc::channel();
+    let stderr_reader = std::thread::spawn(move || {
+        let mut output = String::new();
+        for line in BufReader::new(stderr).lines() {
+            let line = line.unwrap();
+            if line.contains("runtime pressure continuity checkpoint failed") {
+                let _ = failure_tx.send(());
+            }
+            output.push_str(&line);
+            output.push('\n');
+        }
+        output
+    });
+    failure_rx
+        .recv_timeout(Duration::from_secs(5))
+        .expect("pressure checkpoint collision was not observed");
+    assert!(
+        child.try_wait().unwrap().is_none(),
+        "checkpoint failure must keep Runtime v3 alive"
+    );
+    assert!(
+        std::net::TcpStream::connect(address).is_ok(),
+        "checkpoint failure must leave the control API reachable"
+    );
+    std::fs::remove_dir(continuity_root.join(".generation-1.pending")).unwrap();
+    assert_eq!(unsafe { libc::kill(child.id() as i32, libc::SIGTERM) }, 0);
+    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    let status = loop {
+        if let Some(status) = child.try_wait().unwrap() {
+            break status;
+        }
+        if std::time::Instant::now() >= deadline {
+            let _ = child.kill();
+            panic!("Runtime v3 did not handle SIGTERM during pressure retry delay");
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    };
+    let stderr = stderr_reader.join().unwrap();
+
+    assert!(
+        status.success(),
+        "signal shutdown after pressure failure failed ({status}): {stderr}"
+    );
+    assert!(stderr.contains("event=resource_pressure_stop"));
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(continuity_root.join("generation-1/manifest.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(manifest["generation"], 1);
+    assert_eq!(manifest["signing_algorithm"], "ed25519");
+}
+
+#[cfg(unix)]
+#[test]
 fn serve_refuses_reused_continuity_and_operation_keys() {
     use ed25519_dalek::SigningKey;
 

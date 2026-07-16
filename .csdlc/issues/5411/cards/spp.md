@@ -28,7 +28,7 @@ Revision 1
       "AC-1",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-2",
@@ -36,7 +36,7 @@ Revision 1
     "acceptance_ids": [
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-3",
@@ -45,7 +45,7 @@ Revision 1
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-4",
@@ -58,7 +58,7 @@ Revision 1
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
@@ -88,13 +88,13 @@ Revision 1
 
 docs/reviews/v0.91.7/runtime-v3-5411/DESIGN.md
 
-Digest: 091f92699f7b7466b81dbc1354da01dd26db42fd2138079457b2221a6ec4316c
+Digest: 42753c93f96ca6246d88216dc16f79f2d4a1c96b516babc266af641f5b3f8355
 
 ## Diagram
 
 docs/reviews/v0.91.7/runtime-v3-5411/DIAGRAM.mmd
 
-Digest: 9ee22bae790ee4bef0e47ca9b727ff62d55b83daa9f253fa71bf301da7908c19
+Digest: cbc3fc41538cc3470e917a60083a2098c9553d2e4b3eeea14368004ff43c0386
 
 ## Stop Conditions
 

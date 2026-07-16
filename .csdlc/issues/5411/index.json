@@ -3,13 +3,13 @@
   "issue": 5411,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b26e9dc0f5d2f761167d0995d7e58fb46ee0356c54cf4c5227da725203155b7b",
-  "phase": "ready",
-  "generation": 1,
-  "digest": "1299583d338054147ff9bf871640d80ec3330bb91d148423ed12e59d401e6be8",
+  "phase": "implemented",
+  "generation": 17,
+  "digest": "306b8434e1d23d59c4a25a6dcd3e0651fe4b1347998cf79809d95c438a6f413a",
   "claim": {
     "id": "claim-5411-runtime-v3-pressure-stop",
     "owner": "codex",
-    "generation": 1,
+    "generation": 17,
     "acquired_unix_seconds": 1784240467,
     "expires_unix_seconds": 1784326867,
     "heartbeat_unix_seconds": 1784240467,
@@ -36,40 +36,40 @@
   "diagram_path": "docs/reviews/v0.91.7/runtime-v3-5411/DIAGRAM.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator-authorized-runtime-v3-review-remediation",
-      "revision": "091f92699f7b7466b81dbc1354da01dd26db42fd2138079457b2221a6ec4316c"
+      "reviewer": "codex-final-design-conformance",
+      "revision": "42753c93f96ca6246d88216dc16f79f2d4a1c96b516babc266af641f5b3f8355"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "b102ba0ec985320094bb9e951dda1217bac3b3c139b5a9625a8e3ad511aa3e24",
+      "values_digest": "98d9e31b9c95c3ee6159d5d8828adf1d9faa4ca854863280e7e0b00fd4dedd24",
       "rendered_digest": "854f6a26c87df4e3a2200c7ac4ad5ae1d1fd64c27702733e7171cd4ac7c41db5",
       "ast_digest": "4e72032ecfe2b81570caf0fab2f6efebb91ea84a03cea36654c35973c6137c8f"
     },
     "stp": {
-      "values_digest": "7b7afe7866c0e10964b922b80a2d83cb84cff82d5ca486b83b5ad7f4ce37ef0f",
+      "values_digest": "fd78c2d4c7df28583eb13e05e8ea464d2e445bc3d48d43fcc358738d236adec3",
       "rendered_digest": "ec827436f9d87d547b7d1db67b3c647b0d91c628405c2fa98a2fe0b47d39004e",
       "ast_digest": "26c6e9e39e5ea8f22b197eaeeb2c100802f6734206b09e58cd28ad78f2b9cc20"
     },
     "spp": {
-      "values_digest": "71499201879d356fd4354e0ccb4f437d9234b6a0a094a0e7ae814ce13dfa1b16",
-      "rendered_digest": "3be46252635820eb4eadae980246872adcf0a370ffed069962ec04a1604cc7ce",
-      "ast_digest": "839df97b1398e5cad04d7d5fc187f2fb5debb2f78f2be9e4bb02b33533444357"
+      "values_digest": "06bf7c6d0f911483a0ed244d3061d38403111b8e1816345ae27530a978908739",
+      "rendered_digest": "aa2a3e40d01dcc284a8dae041fa2ae5516d2adebc507348d0f32ca1ef5c58783",
+      "ast_digest": "26ba0556f14e027c2c91b72158288cf9b88066dd360bc18a9cdecbddcc7b4946"
     },
     "vpp": {
-      "values_digest": "94ac754b74e9394f902ae35cf480b966d887c50e3bc1d163216e577823a97d10",
-      "rendered_digest": "b543dc2b21b2e747dffd9902195fbbc9e2a886c33533758a3f80c88edd87ae00",
-      "ast_digest": "3a5fb3812e40d33b0adb7313f409facb4f536e7ab179325bbfadd3ccb28ea7f3"
+      "values_digest": "5bed82461f2ce9db57b95c6f0e9dfa432a9d7b4084c544792db7818873657423",
+      "rendered_digest": "cb14548c3f276557604929c35e1899971d241578baefcc1970a34ff031e98de6",
+      "ast_digest": "eb7a54bb7c1e9890e55d0e1976c67b3814ea09e8528d98ca1c3adbee65c02a63"
     },
     "srp": {
-      "values_digest": "6326e6bf5f36c9b562ab88dbbf504fc710802100f1ae7b14889870f649edc78d",
+      "values_digest": "f51267d164c87b12be1baf546750108cf75f6457cc1f2fd151421132abd43aa6",
       "rendered_digest": "7d9bf7e05414276cc9f5a6a848407189826c842d5c5e9eb3e7c04e499653e731",
       "ast_digest": "31cd41aed814c416daa54b7345ec1b9e2ab60c396be1abbf8e6080e5ffc2b084"
     },
     "sor": {
-      "values_digest": "2b60d03ed679ccdf5b20d92b797525f3f6a37f2108ed198f44e927bc1b369dc2",
-      "rendered_digest": "fae206dd0358df9e7024cf5df8b7a5ccc81858e60d64dca7a8fb3108a8c59fe0",
-      "ast_digest": "77f30ec38552d2c926c1e73cf5014dba0f530fb4117bf68f43311e5459a9ba5f"
+      "values_digest": "34d87066079725abb9466cc4a44890c7f3bb92d60fe7c01144ac17b0fb761657",
+      "rendered_digest": "07b19c0aefce9cb2b67d4d28eb7d37c9904971a1b19a1b12f110ebbde69f5301",
+      "ast_digest": "720019fcf2b57059b0df72bbeee5ec03210999a43164234f3a4e9c37e0623774"
     }
   },
   "transitions": [
@@ -79,6 +79,20 @@
       "to": "ready",
       "actor": "codex",
       "reason": "issue-specific design, bounded plan, validation lanes, and all six cards are ready"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "reflect the successful typed csdlc-bind result in the issue worktree record"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "implementation and local proof complete; advance to exact-revision review"
     }
   ],
   "audit": [
@@ -95,6 +109,118 @@
       "actor": "codex",
       "reason": "issue-specific design, bounded plan, validation lanes, and all six cards are ready",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "reflect the successful typed csdlc-bind result in the issue worktree record",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"bound\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "include the focused external guardian proof required by the implemented scope",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-v3-full\",\"proof_role\":\"Prove pressure monitoring, signed continuity, release evidence semantics, and all Runtime v3 kernel contracts\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"runtime-v3\",\"defer_reason\":null},{\"lane\":\"runtime-v3-guardian\",\"proof_role\":\"Prove Unix process-tree containment, bounded capture, restart, and signal forwarding\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"guardian::tests\"],\"parallel_group\":\"runtime-v3-guardian\",\"defer_reason\":null},{\"lane\":\"runtime-v3-quality\",\"proof_role\":\"Prove formatting, warnings, and implementation budget truth\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-v3-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "selector and release evidence semantics implemented",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "guardian containment and regression tests implemented",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "pressure monitoring, signed checkpoint, and graceful stop implemented",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "record bounded Runtime v3 remediation implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved Runtime v3 selector truth, Unix guardian process-tree containment, scoped periodic resource-pressure monitoring, signed stateful checkpoint-before-stop behavior, reversible control admission, and release-evidence classification.\",\"changes\":[\"Clarified selector as a reporting contract without runtime invocation\",\"Contained Unix descendants with bounded capture and process-group liveness escalation\",\"Connected configured weather pressure to signed checkpoint and graceful stop with retry on checkpoint failure\",\"Retained stateful recorder snapshots with explicit current and legacy schema handling\",\"Classified release proof as executed, contract-only, ignored, or deferred\"],\"artifacts\":[\"docs/reviews/v0.91.7/runtime-v3-5411/DESIGN.md\",\"docs/reviews/v0.91.7/runtime-v3-5411/DIAGRAM.mmd\",\"docs/architecture/runtime_v3_release_proof_gate_5220.v1.json\",\"docs/architecture/runtime_v3_current_inventory.v1.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "record full Runtime v3 kernel validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Full Runtime v3 kernel behavior across all targets\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork validation: all non-ignored tests passed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "record guardian crate validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Guardian containment, restart, signaling, and independence behavior\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork validation: 117 tests passed\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "record Runtime v3 strict lint validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Runtime v3 kernel warning-free quality gate\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork strict Clippy\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "record guardian library strict lint validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Guardian library warning-free quality gate\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork strict Clippy\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "record deterministic inventory validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"adl-runtime-kernel/tools/test_generate_runtime_inventory.py\"],\"purpose\":\"Runtime v3 implementation budget and deterministic inventory truth\",\"outcome\":\"passed\",\"evidence_ref\":\"11,935 kernel LoC; 867-line shared guardian reported separately; deterministic inventory current\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "implementation and local proof complete; advance to exact-revision review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex-post-implementation-design-conformance",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex-final-design-conformance",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "refresh deterministic inventory evidence after final findings",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"adl-runtime-kernel/tools/test_generate_runtime_inventory.py\"],\"purpose\":\"Final Runtime v3 implementation budget and deterministic inventory truth\",\"outcome\":\"passed\",\"evidence_ref\":\"11,964 kernel LoC; 867-line shared guardian auxiliary surface; 12,831 combined selected surface; 186 test attributes; inventory current\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "full validation and final independent review passed",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-4\",\"status\":\"completed\"}"
     }
   ]
 }
