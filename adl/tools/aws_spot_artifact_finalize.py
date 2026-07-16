@@ -168,16 +168,35 @@ def main() -> int:
     except json.JSONDecodeError:
         resume = {}
     attempts = resume.get("attempts") if isinstance(resume.get("attempts"), list) else []
+    raw_attempts = raw.get("attempts") if isinstance(raw.get("attempts"), list) else []
     interrupted_attempts = [
         attempt for attempt in attempts
         if str(attempt.get("status", "")).lower() in {"interrupted_by_aws", "interrupted"}
     ]
+    purchase_option = launch.get("purchase_option")
+    spot_purchase_verified = purchase_option == "spot"
+    on_demand_fallback_verified = (
+        purchase_option == "on_demand"
+        and any(
+            attempt.get("purchase_option") == "spot"
+            and str(attempt.get("status", "")).lower() == "failed"
+            for attempt in raw_attempts
+        )
+        and any(
+            attempt.get("purchase_option") == "on_demand"
+            and str(attempt.get("status", "")).lower() == "launched"
+            for attempt in raw_attempts
+        )
+    )
 
     failures: list[str] = []
     observations: list[str] = []
     require(args.runner_exit_code == 0, failures, "runner_exit_nonzero")
     require(str(raw.get("status", "")).lower() in {"passed", "resumed_after_interruption"}, failures, "run_status_not_passed")
-    require(launch.get("purchase_option") == "spot", failures, "purchase_option_not_spot")
+    if on_demand_fallback_verified:
+        observations.append("on_demand_fallback_after_spot_unavailable")
+        observations.append("on_demand_fallback_cost_estimate_uses_configured_hourly_price")
+    require(spot_purchase_verified or on_demand_fallback_verified, failures, "purchase_option_not_spot_or_verified_fallback")
     require(cache.get("created") is False, failures, "retained_cache_was_created_or_unproven")
     cache_volume_id = cache.get("volume_id") if isinstance(cache.get("volume_id"), str) else ""
     require(sha256(cache_volume_id) == args.expected_cache_volume_id_sha256, failures, "retained_cache_identity_mismatch")
@@ -209,7 +228,8 @@ def main() -> int:
         "failures": failures,
         "observations": observations,
         "account_verified_by_wrapper": True,
-        "spot_purchase_verified": launch.get("purchase_option") == "spot",
+        "spot_purchase_verified": spot_purchase_verified,
+        "on_demand_fallback_verified": on_demand_fallback_verified,
         "immutable_builder_image_verified": builder.get("builder_image_immutable") is True,
         "builder_toolchain_verified": builder.get("toolchain_verified") is True,
         "source_commit_verified": builder.get("source_commit") == args.expected_source_commit,

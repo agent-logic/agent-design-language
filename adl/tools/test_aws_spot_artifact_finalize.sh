@@ -119,6 +119,44 @@ assert "ssh_recovery_not_proven" in wrapper["self_verification"]["observations"]
 assert "live_ssh_tail_not_proven" in wrapper["self_verification"]["observations"], wrapper
 PY
 
+fallback="$TMP/fallback"
+make_fixture "$fallback"
+python3 - "$fallback/summary.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["status"] = "resumed_after_interruption"
+data["launch"]["purchase_option"] = "on_demand"
+data["attempts"] = [
+    {
+        "instance_type": "c7a.8xlarge",
+        "purchase_option": "spot",
+        "status": "failed",
+        "message": "InsufficientInstanceCapacity: no spot capacity",
+    },
+    {
+        "instance_type": "c7a.8xlarge",
+        "purchase_option": "on_demand",
+        "status": "launched",
+        "message": "on-demand launch succeeded after spot fallback",
+    },
+]
+open(path, "w", encoding="utf-8").write(json.dumps(data) + "\n")
+PY
+run_finalizer "$fallback" >"$fallback/out" 2>"$fallback/err"
+python3 - "$fallback/artifacts/wrapper-final-summary.json" <<'PY'
+import json
+import sys
+
+wrapper = json.load(open(sys.argv[1], encoding="utf-8"))
+assert wrapper["status"] == "passed", wrapper
+assert wrapper["self_verification"]["passed"] is True, wrapper
+assert wrapper["self_verification"]["spot_purchase_verified"] is False, wrapper
+assert wrapper["self_verification"]["on_demand_fallback_verified"] is True, wrapper
+assert "on_demand_fallback_after_spot_unavailable" in wrapper["self_verification"]["observations"], wrapper
+assert "on_demand_fallback_cost_estimate_uses_configured_hourly_price" in wrapper["self_verification"]["observations"], wrapper
+PY
+
 missing_builder="$TMP/builder"
 make_fixture "$missing_builder"
 python3 - "$missing_builder/summary.json" <<'PY'
