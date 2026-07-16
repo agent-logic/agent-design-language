@@ -1,0 +1,75 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5411,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][runtime-v3] Resolve #5227 selector, guardian, and pressure-stop findings",
+    "slug": "v0-91-7-runtime-v3-selector-guardian-pressure-stop",
+    "version": "v0.91.7",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-v3-focused",
+          "proof_role": "Prove guardian containment, pressure continuity, and release evidence semantics",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 12000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets"
+          ],
+          "parallel_group": "runtime-v3",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-v3-quality",
+          "proof_role": "Prove formatting, warnings, and implementation budget truth",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "runtime-v3-quality",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed: preserve the running process when continuity cannot commit, report the terminal error, and do not promote non-executed evidence.",
+      "design_ref": "docs/reviews/v0.91.7/runtime-v3-5411/DESIGN.md",
+      "design_digest": "091f92699f7b7466b81dbc1354da01dd26db42fd2138079457b2221a6ec4316c",
+      "diagram_ref": "docs/reviews/v0.91.7/runtime-v3-5411/DIAGRAM.mmd",
+      "diagram_digest": "9ee22bae790ee4bef0e47ca9b727ff62d55b83daa9f253fa71bf301da7908c19"
+    }
+  }
+}

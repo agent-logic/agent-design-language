@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5411,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][runtime-v3] Resolve #5227 selector, guardian, and pressure-stop findings",
+    "slug": "v0-91-7-runtime-v3-selector-guardian-pressure-stop",
+    "version": "v0.91.7",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify no Runtime v2 or #5409 protected file changed.",
+        "Verify process descendants cannot survive guardian shutdown and capture cannot hang closeout.",
+        "Verify pressure stop commits authentic continuity before graceful shutdown.",
+        "Verify release completion consumes only executed proof and LoC remains bounded."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

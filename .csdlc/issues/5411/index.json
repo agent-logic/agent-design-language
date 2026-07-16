@@ -1,0 +1,100 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5411,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "b26e9dc0f5d2f761167d0995d7e58fb46ee0356c54cf4c5227da725203155b7b",
+  "phase": "ready",
+  "generation": 1,
+  "digest": "1299583d338054147ff9bf871640d80ec3330bb91d148423ed12e59d401e6be8",
+  "claim": {
+    "id": "claim-5411-runtime-v3-pressure-stop",
+    "owner": "codex",
+    "generation": 1,
+    "acquired_unix_seconds": 1784240467,
+    "expires_unix_seconds": 1784326867,
+    "heartbeat_unix_seconds": 1784240467,
+    "branch": "codex/5411-runtime-v3-pressure-stop",
+    "worktree": ".worktrees/adl-wp-5411",
+    "protected_paths": [
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/weather.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md",
+      "docs/architecture/runtime_v3_release_proof_gate_5220.v1.json"
+    ],
+    "purpose": "Resolve #5227 selector truth, guardian process-tree safety, pressure-triggered signed shutdown, and release-evidence classification without touching Runtime v2."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/reviews/v0.91.7/runtime-v3-5411/DESIGN.md",
+  "diagram_path": "docs/reviews/v0.91.7/runtime-v3-5411/DIAGRAM.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized-runtime-v3-review-remediation",
+      "revision": "091f92699f7b7466b81dbc1354da01dd26db42fd2138079457b2221a6ec4316c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b102ba0ec985320094bb9e951dda1217bac3b3c139b5a9625a8e3ad511aa3e24",
+      "rendered_digest": "854f6a26c87df4e3a2200c7ac4ad5ae1d1fd64c27702733e7171cd4ac7c41db5",
+      "ast_digest": "4e72032ecfe2b81570caf0fab2f6efebb91ea84a03cea36654c35973c6137c8f"
+    },
+    "stp": {
+      "values_digest": "7b7afe7866c0e10964b922b80a2d83cb84cff82d5ca486b83b5ad7f4ce37ef0f",
+      "rendered_digest": "ec827436f9d87d547b7d1db67b3c647b0d91c628405c2fa98a2fe0b47d39004e",
+      "ast_digest": "26c6e9e39e5ea8f22b197eaeeb2c100802f6734206b09e58cd28ad78f2b9cc20"
+    },
+    "spp": {
+      "values_digest": "71499201879d356fd4354e0ccb4f437d9234b6a0a094a0e7ae814ce13dfa1b16",
+      "rendered_digest": "3be46252635820eb4eadae980246872adcf0a370ffed069962ec04a1604cc7ce",
+      "ast_digest": "839df97b1398e5cad04d7d5fc187f2fb5debb2f78f2be9e4bb02b33533444357"
+    },
+    "vpp": {
+      "values_digest": "94ac754b74e9394f902ae35cf480b966d887c50e3bc1d163216e577823a97d10",
+      "rendered_digest": "b543dc2b21b2e747dffd9902195fbbc9e2a886c33533758a3f80c88edd87ae00",
+      "ast_digest": "3a5fb3812e40d33b0adb7313f409facb4f536e7ab179325bbfadd3ccb28ea7f3"
+    },
+    "srp": {
+      "values_digest": "6326e6bf5f36c9b562ab88dbbf504fc710802100f1ae7b14889870f649edc78d",
+      "rendered_digest": "7d9bf7e05414276cc9f5a6a848407189826c842d5c5e9eb3e7c04e499653e731",
+      "ast_digest": "31cd41aed814c416daa54b7345ec1b9e2ab60c396be1abbf8e6080e5ffc2b084"
+    },
+    "sor": {
+      "values_digest": "2b60d03ed679ccdf5b20d92b797525f3f6a37f2108ed198f44e927bc1b369dc2",
+      "rendered_digest": "fae206dd0358df9e7024cf5df8b7a5ccc81858e60d64dca7a8fb3108a8c59fe0",
+      "ast_digest": "77f30ec38552d2c926c1e73cf5014dba0f530fb4117bf68f43311e5459a9ba5f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "issue-specific design, bounded plan, validation lanes, and all six cards are ready"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "issue-specific design, bounded plan, validation lanes, and all six cards are ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
