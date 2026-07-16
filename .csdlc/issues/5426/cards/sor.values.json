@@ -7,9 +7,9 @@
     "title": "[v0.91.7][csdlc-v2][readiness] Let terminal validation supersede earlier nonterminal evidence",
     "slug": "v0-91-7-csdlc-v2-readiness-validation-supersession",
     "version": "v0.91.7",
-    "generation": 15
+    "generation": 25
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -152,10 +152,10 @@
           "evidence_ref": "local-fastwork-validation-5426-clippy"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
