@@ -1,0 +1,417 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5407,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8e9178cb8566e54c25e6a60a6bb12f910904a4b5d8de5c90bfbda5e8f3b8338b",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "1d699920f12e890aa82c5ac52048a1602b3ee1aef64de3cec7784c5a8f245342",
+  "claim": {
+    "id": "claim-5407-tools-reliability-tail",
+    "owner": "codex",
+    "generation": 26,
+    "acquired_unix_seconds": 1784226226,
+    "expires_unix_seconds": 1784312626,
+    "heartbeat_unix_seconds": 1784226226,
+    "branch": "codex/5407-tools-reliability-tail",
+    "worktree": ".worktrees/adl-wp-5407",
+    "protected_paths": [
+      ".csdlc/5407-validation.json",
+      ".csdlc/issues/5407",
+      "docs/reviews/v0.91.7/remaining-sprints-5403/TOOLS_RELIABILITY_REVIEW_5036.md",
+      "docs/reviews/v0.91.7/tools-5407",
+      "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
+      "docs/tooling/BUILD_ACTION_LOGS.md"
+    ],
+    "purpose": "Resolve #5036 logging-scope, CLI-authority, closeout, and performance-claim findings"
+  },
+  "review_assignment": {
+    "reviewer": "subagent-Darwin-019f6c37",
+    "assigned_by": "codex",
+    "revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "scope": [
+      "exact revision a1294601dc737a3cada47559023bd366be03beb3",
+      "build-action-log claim boundary",
+      "Gate 10D2 CLI authority",
+      "complete #5036 closeout evidence",
+      "#5037 performance non-claim",
+      "typed lifecycle and evidence consistency"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent-Darwin-019f6c37",
+    "scope": [
+      "exact revision a1294601dc737a3cada47559023bd366be03beb3",
+      "build-action-log claim boundary",
+      "Gate 10D2 CLI authority",
+      "complete #5036 closeout evidence",
+      "#5037 performance non-claim",
+      "typed lifecycle and evidence consistency"
+    ],
+    "reviewed_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+    "findings": [
+      {
+        "id": "R5407-P2-register-truth",
+        "severity": "p2",
+        "summary": "Source review and canonical register initially disagreed after remediation",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+        "route": null
+      },
+      {
+        "id": "R5407-P2-closeout-evidence",
+        "severity": "p2",
+        "summary": "Closeout matrix initially lacked retained live issue, PR, and check-rollup observations",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+        "route": null
+      },
+      {
+        "id": "R5407-P3-stale-references",
+        "severity": "p3",
+        "summary": "Source references initially pointed at post-remediation line contents",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+        "route": null
+      },
+      {
+        "id": "R5407-P2-durable-sor-evidence",
+        "severity": "p2",
+        "summary": "Canonical SOR initially retained transient evidence references",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+        "route": null
+      },
+      {
+        "id": "R5407-P3-pvf-reproducibility",
+        "severity": "p3",
+        "summary": "The complete PVF request was initially absent from the reviewed revision",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+        "route": null
+      },
+      {
+        "id": "R5407-P2-register-route",
+        "severity": "p2",
+        "summary": "The initial register residual route pointed to closed #5383",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:a1294601dc737a3cada47559023bd366be03beb3:d684bfd36e3caf084290d4d9256e9dd6fcee84784bbf42cfeb196726c66e881c",
+        "route": "#5423"
+      },
+      {
+        "id": "R5407-P2-register-reconciliation-dependency",
+        "severity": "p2",
+        "summary": "Canonical sprint register reconciliation remains separately owned",
+        "actionable": false,
+        "in_scope": false,
+        "disposition": "out_of_scope",
+        "fix_revision": null,
+        "route": "#5423"
+      }
+    ],
+    "residual_risks": [
+      "Canonical v0.91.7 sprint register reconciliation remains pending under #5423",
+      "Portable PVF replay requires git and rg on PATH"
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/reviews/v0.91.7/tools-5407/DESIGN.md",
+  "diagram_path": "docs/reviews/v0.91.7/tools-5407/DIAGRAM.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized-findings-remediation",
+      "revision": "2d56ddd900547a66c82e264f4b88079cff5da2e98f7dbfb41d0af6a139fe6643"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2267fbc5e860d6c5cb261214d3044cbaa0a53f1d90bfd6a75ab924bb7d935968",
+      "rendered_digest": "9d885e96ba486a7cb0b89f6318dff405f2f0ad7073e0576098affcf0e2b82f37",
+      "ast_digest": "23de05dd018bea43ce9ebedd2be5701b20ec1ddb7136bb031d531986012f418e"
+    },
+    "stp": {
+      "values_digest": "8dd5458d20f27089a378bbbcb645fd7cd63df60cfd41018cb7546dda25e27692",
+      "rendered_digest": "6feea36e36b92138542354eb3b0775fb4e34eeb3700e4b78df8849517bcdacb3",
+      "ast_digest": "35757c103391d6e43ba5181bc35f281d32ac06bf8a28f096afd189ee837981ec"
+    },
+    "spp": {
+      "values_digest": "0a54d1cab20181ad5867a687030c4b8630e59b857d18e2e1ebf680c814b6cf77",
+      "rendered_digest": "f1dbc3560256e6f1ff0d09ec3d7ee04db57a446fb6a3b19c818bab90d89e4e0a",
+      "ast_digest": "755a381894a5b0979ab0622c32af1d3127d68074795e12e3197b3971e1d4a487"
+    },
+    "vpp": {
+      "values_digest": "d9c30486c758544e5d5a38321ea59ea2bbcc6b2c261cd633866a36bdd4ce76e0",
+      "rendered_digest": "0a2aacbab4e68ba2c3607209312b547f175b923c5d7449520221b3e321b4802e",
+      "ast_digest": "bf88abed5cb7ff08c9f897e62c05ff3791834381318b441c471d23f0c88f0514"
+    },
+    "srp": {
+      "values_digest": "31fbc48e657f0ccdf36f640f19221dc7c07bdadf94a454c952dff9587c3add8c",
+      "rendered_digest": "d14595de0d36dbdc07e4fbeb35aab40ac05f65331014a2c83014498bd784ff70",
+      "ast_digest": "7a5d87786e9525009aeb4bc0ec0fc68bbdcd9b1aea4c63ab15b85d5e258af026"
+    },
+    "sor": {
+      "values_digest": "671d42e80f5b94287b6606220f78e6e9a65e96b5a12326c86567bb0a04ce0870",
+      "rendered_digest": "91e160d78c547b46491a1e6c3d5ffc7774afc518830e2e84bce3380d283aa652",
+      "ast_digest": "9a05a7a774374076d301e3a95cee2e057b5bf40049a0aa9c5e8829c6956840ed"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Bounded remediation implementation complete and ready for focused validation"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Exact-revision independent review completed with no unresolved actionable findings"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "Logging scope and typed-v2 CLI authority documentation corrected",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Complete #5036 child and merged-PR closeout synthesis retained",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Unsupported #5037 hosted material-speedup claim explicitly withdrawn",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Focused validation and exact-revision independent review underway",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Record bounded documentation and retained-evidence remediation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Corrected all four #5036 review findings through current documentation and retained closeout truth.\",\"changes\":[\"Narrowed build-action logging to the implemented validation-manager producer and enumerated non-claims\",\"Replaced sunset C-SDLC CLI guidance with Gate 10D2 typed-v2 authority\",\"Retained the complete #5036 child and merged-PR closeout matrix\",\"Withdrew the unsupported #5037 material hosted-speedup claim and updated review dispositions\"],\"artifacts\":[\"docs/tooling/BUILD_ACTION_LOGS.md\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\",\"docs/reviews/v0.91.7/remaining-sprints-5403/TOOLS_RELIABILITY_REVIEW_5036.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Bounded remediation implementation complete and ready for focused validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for closeout-coverage",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"#5037|#4938\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\"],\"purpose\":\"Check the omitted child issues are retained in closeout evidence\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/closeout-coverage.log\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for logging-scope-truth",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"The only integrated producer is.*validation_manager.py --run\",\"docs/tooling/BUILD_ACTION_LOGS.md\"],\"purpose\":\"Check the explicit build-action-log implementation boundary\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/logging-scope-truth.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for patch-integrity",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/git\",\"diff\",\"--check\"],\"purpose\":\"Check the worktree diff for patch integrity\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/patch-integrity.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for performance-boundary",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"not a material hosted|No material|not proven\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\"],\"purpose\":\"Check the retained performance non-claim\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/performance-boundary.log\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "Record passing PVF evidence for typed-v2-authority",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/rg\",\"-n\",\"Gate 10D2|csdlc-v2\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\"],\"purpose\":\"Check the current lifecycle authority wording\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/typed-v2-authority.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "Strengthen AC-3 validation to prove every retained child and PR observation",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"patch-integrity\",\"proof_role\":\"Prove the documentation patch has no whitespace or conflict-marker defects\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"logging-scope-truth\",\"proof_role\":\"Confirm validation-manager is named as the implemented build-action-log producer\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"validation_manager.py --run\",\"docs/tooling/BUILD_ACTION_LOGS.md\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"typed-v2-authority\",\"proof_role\":\"Confirm the CLI taxonomy names Gate 10D2 typed-v2 authority\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"Gate 10D2|csdlc-v2\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"closeout-coverage\",\"proof_role\":\"Prove the retained snapshot covers all eleven closed children and merged PRs\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"parallel_group\":\"evidence\",\"defer_reason\":null},{\"lane\":\"performance-boundary\",\"proof_role\":\"Confirm #5037 explicitly declines an unproved material hosted-speedup claim\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"not claim|No material|not proven\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\"],\"parallel_group\":\"evidence\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "Give the strengthened complete-matrix proof a distinct retained evidence identity",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"patch-integrity\",\"proof_role\":\"Prove the documentation patch has no whitespace or conflict-marker defects\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"logging-scope-truth\",\"proof_role\":\"Confirm validation-manager is named as the implemented build-action-log producer\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"validation_manager.py --run\",\"docs/tooling/BUILD_ACTION_LOGS.md\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"typed-v2-authority\",\"proof_role\":\"Confirm the CLI taxonomy names Gate 10D2 typed-v2 authority\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"Gate 10D2|csdlc-v2\",\"docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"closeout-matrix-integrity\",\"proof_role\":\"Prove the retained snapshot covers all eleven closed children and merged PRs\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"parallel_group\":\"evidence\",\"defer_reason\":null},{\"lane\":\"performance-boundary\",\"proof_role\":\"Confirm #5037 explicitly declines an unproved material hosted-speedup claim\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"rg\",\"-n\",\"not claim|No material|not proven\",\"docs/reviews/v0.91.7/tools-5407/TOOLS_RELIABILITY_CLOSEOUT_5036.md\"],\"parallel_group\":\"evidence\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "Record strengthened complete child and PR snapshot validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"purpose\":\"Validate complete retained child, PR, and check-rollup observations\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/closeout-matrix-integrity.log\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "Retain and dispose independent review finding about canonical register contradiction",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P2-register-truth\",\"severity\":\"p2\",\"summary\":\"Canonical sprint register still carries the earlier changes-required state\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"7150afb9408cbe4717d51b822c14f27cc1ec53ce\",\"route\":null}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "Retain and dispose independent review finding about closeout evidence",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P2-closeout-evidence\",\"severity\":\"p2\",\"summary\":\"Closeout matrix lacked retained issue closure and check-rollup observations\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"7150afb9408cbe4717d51b822c14f27cc1ec53ce\",\"route\":null}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "Retain and dispose independent review finding about stale source references",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P3-stale-references\",\"severity\":\"p3\",\"summary\":\"Remediated review source references no longer identified the pre-remediation evidence\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"7150afb9408cbe4717d51b822c14f27cc1ec53ce\",\"route\":null}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "Record durable evidence for the passing complete PVF rerun",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Volumes/FastWork/adl-builds/5406-csdlc-v2/debug/csdlc-validate\",\"--request\",\".csdlc/5407-validation.json\"],\"purpose\":\"Execute the complete five-lane documentation and evidence PVF set\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.91.7/tools-5407/VALIDATION.md\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "Record durable evidence for the strengthened eleven-entry closeout snapshot check",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"purpose\":\"Validate all eleven retained child closures, merged PRs, and observed check rollups\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.91.7/tools-5407/VALIDATION.md\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "Retain the exact PVF request referenced by canonical SOR evidence",
+      "operation": "{\"add_protected_paths\":[\".csdlc/5407-validation.json\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex",
+      "reason": "Retain separately owned canonical register reconciliation dependency",
+      "operation": "{\"operation\":\"append_reference\",\"value\":\"Canonical v0.91.7 sprint register reconciliation remains separately owned by #5383; #5407 keeps its source review explicitly non-terminal until that path updates.\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex",
+      "reason": "Retain canonical register reconciliation as a separately routed residual dependency",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P2-register-reconciliation-dependency\",\"severity\":\"p2\",\"summary\":\"Canonical sprint register still requires reconciliation after the #5407 source review remediation\",\"actionable\":false,\"in_scope\":false,\"disposition\":\"out_of_scope\",\"fix_revision\":null,\"route\":\"#5383\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "Correct the residual register route after live claim verification",
+      "operation": "{\"operation\":\"append_reference\",\"value\":\"Route correction: #5423 supersedes the earlier #5383 reference and owns reconciliation of #5403's unreleased typed claim plus the canonical v0.91.7 sprint register row.\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex",
+      "reason": "Retain the verified active owner for canonical register reconciliation",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P2-register-route-correction\",\"severity\":\"p2\",\"summary\":\"The earlier #5383 residual route was stale; #5423 now owns #5403 claim and register reconciliation\",\"actionable\":false,\"in_scope\":false,\"disposition\":\"out_of_scope\",\"fix_revision\":null,\"route\":\"#5423\"}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex",
+      "reason": "Focused validation and exact-revision independent review completed with no actionable findings",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex",
+      "reason": "Exact-revision independent review completed with no unresolved actionable findings",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    }
+  ]
+}
