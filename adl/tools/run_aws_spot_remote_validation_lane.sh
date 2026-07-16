@@ -68,6 +68,7 @@ AMI_ID="${ADL_AWS_REMOTE_VALIDATION_AMI_ID:-}"
 SUBNET_ID="${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}"
 EXPECTED_CACHE_VOLUME_ID_SHA256="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_ID_SHA256:-}"
 RETAINED_CACHE_VOLUME_ID=""
+SPOT_ONLY="${ADL_AWS_SPOT_ONLY:-false}"
 
 usage() {
   cat <<'USAGE'
@@ -118,6 +119,10 @@ Options:
   --min-cache-free-gib <gib>     Required warm-cache headroom. Defaults 10.
   --estimated-hourly-cost-usd <usd>
                                 Override the pre-run Spot hourly price estimate.
+  --spot-only                   Disable on-demand fallback after Spot capacity
+                                failure. By default, the lane keeps the run
+                                bounded but lets the owner binary fall back
+                                after Spot capacity is unavailable.
   --max-run-seconds <seconds>   Remote validation command timeout in seconds.
   --ami-id <id>                 Explicit AMI. Defaults to the current AL2023 SSM image.
   --subnet-id <id>              Explicit subnet. Defaults to retained hot-cache proof topology.
@@ -274,6 +279,10 @@ while [[ $# -gt 0 ]]; do
     --estimated-hourly-cost-usd)
       ESTIMATED_HOURLY_COST_USD="${2:-}"
       shift 2
+      ;;
+    --spot-only)
+      SPOT_ONLY=true
+      shift
       ;;
     --max-run-seconds)
       MAX_RUN_SECONDS="${2:-}"
@@ -803,7 +812,6 @@ cmd=(
   --git-ref "$GIT_REF"
   --out "$OUT_PATH"
   --artifact-dir "$ARTIFACT_DIR"
-  --spot-only
   --cache-volume-id "$RETAINED_CACHE_VOLUME_ID"
   --cache-volume-name "$CACHE_VOLUME_NAME"
   --cache-volume-size-gib "$CACHE_VOLUME_SIZE_GIB"
@@ -815,6 +823,10 @@ cmd=(
   --ami-id "$AMI_ID"
   --subnet-id "$SUBNET_ID"
 )
+
+if [[ "$SPOT_ONLY" == true ]]; then
+  cmd+=(--spot-only)
+fi
 
 if [[ -n "$SSH_KEY_NAME" ]]; then
   cmd+=(--ssh-key-name "$SSH_KEY_NAME")

@@ -364,7 +364,10 @@ grep -Fx -- "m7a.2xlarge" "$TMP/args.txt" >/dev/null
 grep -Fx -- "c7a.2xlarge" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--command-timeout-seconds" "$TMP/args.txt" >/dev/null
 grep -Fx -- "900" "$TMP/args.txt" >/dev/null
-grep -Fx -- "--spot-only" "$TMP/args.txt" >/dev/null
+if grep -Fx -- "--spot-only" "$TMP/args.txt" >/dev/null; then
+  echo "default run should preserve on-demand fallback after spot capacity failure" >&2
+  exit 1
+fi
 grep -F 'INSTANCE_TYPES=("m7a.2xlarge" "c7a.2xlarge" "c7i.2xlarge")' "$SCRIPT" >/dev/null
 grep -Fx -- "--cache-volume-id" "$TMP/args.txt" >/dev/null
 grep -Fx -- "vol-0123456789abcdef0" "$TMP/args.txt" >/dev/null
@@ -403,6 +406,29 @@ assert parts[parts.index("--expected-architecture") + 1] == "x86_64"
 assert parts[parts.index("--min-cache-free-gib") + 1] == "10"
 assert parts[parts.index("--command") + 1].startswith("cargo test")
 PY
+
+ADL_FAKE_AWS_REMOTE_ARGS="$TMP/spot-only-args.txt" \
+ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
+ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
+ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
+bash "$SCRIPT" \
+  --run \
+  --spot-only \
+  --expected-proof "$proof" \
+  --bin "$fake_bin/adl-aws-remote-validation" \
+  --run-id fixture-run-spot-only \
+  --builder-image "$builder_image" \
+  --estimated-hourly-cost-usd 0.15 \
+  --ssh-private-key-path "$test_ssh_key" \
+  --command "cargo test --manifest-path adl/Cargo.toml provider_communication -- --nocapture" \
+  --git-ref origin/main \
+  --out "$TMP/spot-only-summary.json" \
+  --artifact-dir "$TMP/spot-only-artifacts" \
+  --max-run-seconds 900 \
+  --json >"$TMP/spot-only-run.out"
+
+grep -Fx -- "--spot-only" "$TMP/spot-only-args.txt" >/dev/null
 test -f "$TMP/summary.json"
 test -f "$TMP/artifacts/events.jsonl"
 test -f "$TMP/artifacts/wrapper-final-summary.json"
