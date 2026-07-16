@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5423,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8b5942655a471cfcd2d3e2b47141e472ea0667a7f8fda159a59854e272f1d50a",
+  "phase": "ready",
+  "generation": 1,
+  "digest": "fc7eb3f4fbf03ecddbe52d6d880499336883f17bd0b1b56dca58ebb98b357a1c",
+  "claim": {
+    "id": "claim-5423-register-reconcile",
+    "owner": "codex",
+    "generation": 1,
+    "acquired_unix_seconds": 1784235379,
+    "expires_unix_seconds": 1784321779,
+    "heartbeat_unix_seconds": 1784235379,
+    "branch": "codex/5423-register-reconcile-final",
+    "worktree": ".worktrees/adl-wp-5423-final",
+    "protected_paths": [
+      ".csdlc/issues/5423",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/reviews/v0.91.7/register-reconcile-5423"
+    ],
+    "purpose": "Reconcile canonical sprint register from terminal remediation evidence only"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/reviews/v0.91.7/register-reconcile-5423/DESIGN.md",
+  "diagram_path": "docs/reviews/v0.91.7/register-reconcile-5423/DIAGRAM.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-authorized-register-reconciliation",
+      "revision": "e8471fb230d0908eb43425697c6e24c59b52ddea6db2dc2c4dfbf09166c7e620"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "0621031ec74e2cc98d199aace25bd4388d31503ab211d8e79ca47213f4d3874d",
+      "rendered_digest": "941355e331d258a970a435c1597ef257c42b4ff7ee403d10eb01c50051f0a119",
+      "ast_digest": "2225e2fa23223b4f536069d3ffc4a5b6ee7b59461e7e115949244cf4a135c89a"
+    },
+    "stp": {
+      "values_digest": "07bfcf12e18b3741b8005e1b6c41b5f408e99e270df529ffd16e37c1d11d2a5d",
+      "rendered_digest": "f58ffe7c320be118038ea6c2635ea622f883756aa20c0296f1a84521c085b260",
+      "ast_digest": "a43ec6afbd3aecc5d9f921f72b95b6ef1c9c2a1fcf177952dec1122a315a092c"
+    },
+    "spp": {
+      "values_digest": "717e32fc5c81d6043f5d2f596823efb738931601fbefb974159cdf69de11ce42",
+      "rendered_digest": "e3a8ebc7d6f9f04eb0b2c602297d2e6f144253ae89feed20b1eae03777dd7ba8",
+      "ast_digest": "a8e8cb45171a3138325033e0950ae0684bd0addec9787ce150cdde474f3be8f6"
+    },
+    "vpp": {
+      "values_digest": "063dcbcefb44ffe7100ef0a9c440b6f44c112a837bcca715852dfb5e463714ad",
+      "rendered_digest": "6ebefb0c036044c4d741e7f3cf4d3ca977712a64a11a3f1ec102acac01bc1de0",
+      "ast_digest": "4df543c6aed5a6b5364537882e45f269d2607dcd9046741a1a44184fe6062dd0"
+    },
+    "srp": {
+      "values_digest": "9c98d467535114ad8eb925f9ed521027b9def2e4cad96b1a2e72faedfde39940",
+      "rendered_digest": "35f575b0428b88f3c434b142ca5b2043aa3c28839a016d5055124c737fadaadd",
+      "ast_digest": "9b4909aa7f1f7ea64243bb58b46b44b60e81b64d7cc887603c6e64313c85c7a0"
+    },
+    "sor": {
+      "values_digest": "921e3973fc2b9442bab38b1ef86ab51c6c0aa2a587410a6b953615c3507c6cd7",
+      "rendered_digest": "e9a6e1c953f3d44f1a6653da5543137bb59b8a1aa2f3f07adc3a7eb144793460",
+      "ast_digest": "b16f1461f02142e23360cf28f82db4567f2e936d630c1b72a197f8b0713ea6e4"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "corrected design, plan, validation lanes, and all six cards are ready"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "corrected design, plan, validation lanes, and all six cards are ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
