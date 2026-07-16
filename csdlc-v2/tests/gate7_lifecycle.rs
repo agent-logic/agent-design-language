@@ -50,10 +50,11 @@ fn edit(
         .unwrap()
 }
 
-fn fixture(
+fn fixture_with_validation_history(
     issue: u64,
     title: &str,
     scenario: &str,
+    validation_history: Vec<ValidationResult>,
 ) -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord, String) {
     let temp = tempfile::tempdir().unwrap();
     std::fs::create_dir_all(temp.path().join("docs")).unwrap();
@@ -165,19 +166,14 @@ fn fixture(
             artifacts: vec!["artifact".into()],
         },
     );
-    record = edit(
-        &store,
-        &record,
-        CardKind::Sor,
-        SemanticOperation::RecordValidation {
-            result: ValidationResult {
-                command: vec!["cargo".into(), "test".into()],
-                purpose: "proof".into(),
-                outcome: EvidenceOutcome::Passed,
-                evidence_ref: "evidence.json".into(),
-            },
-        },
-    );
+    for result in validation_history {
+        record = edit(
+            &store,
+            &record,
+            CardKind::Sor,
+            SemanticOperation::RecordValidation { result },
+        );
+    }
     record = edit(
         &store,
         &record,
@@ -290,13 +286,54 @@ fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() 
     run_complete_lifecycle(7, "Gate 7 fixture", "gate7", true);
 }
 
+#[test]
+fn later_pass_supersedes_waiting_validation_through_terminal_closeout() {
+    let identity = || ValidationResult {
+        command: vec!["cargo".into(), "test".into()],
+        purpose: "proof".into(),
+        outcome: EvidenceOutcome::Waiting,
+        evidence_ref: "evidence.json".into(),
+    };
+    let mut passed = identity();
+    passed.outcome = EvidenceOutcome::Passed;
+    run_complete_lifecycle_with_validation_history(
+        71,
+        "Gate 7 supersession fixture",
+        "validation-supersession",
+        false,
+        vec![identity(), passed],
+    );
+}
+
 pub(crate) fn run_complete_lifecycle(
     issue: u64,
     title: &str,
     scenario: &str,
     hostile: bool,
 ) -> csdlc_v2::NormalizedOutcome {
-    let (temp, store, mut record, sha) = fixture(issue, title, scenario);
+    run_complete_lifecycle_with_validation_history(
+        issue,
+        title,
+        scenario,
+        hostile,
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+    )
+}
+
+fn run_complete_lifecycle_with_validation_history(
+    issue: u64,
+    title: &str,
+    scenario: &str,
+    hostile: bool,
+    validation_history: Vec<ValidationResult>,
+) -> csdlc_v2::NormalizedOutcome {
+    let (temp, store, mut record, sha) =
+        fixture_with_validation_history(issue, title, scenario, validation_history);
     let mut request = ReadinessRequest {
         schema: "csdlc.readiness_request.v1".into(),
         issue,

@@ -9,8 +9,8 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::cards::{
-    apply, digest, initial_cards, render, validate_cross_card, CardContent, CardKind, CardValues,
-    InitialCardInput, SemanticOperation,
+    apply, digest, initial_cards, render, terminal_validation_passed, validate_cross_card,
+    CardContent, CardKind, CardValues, InitialCardInput, SemanticOperation,
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
@@ -572,14 +572,7 @@ impl Store {
             _ => unreachable!(),
         };
         if evidence.ready {
-            let validation_ready = !sor.actual_validation.is_empty()
-                && sor.actual_validation.iter().all(|item| {
-                    matches!(
-                        item.outcome,
-                        crate::cards::EvidenceOutcome::Passed
-                            | crate::cards::EvidenceOutcome::SkippedNonGoal
-                    )
-                });
+            let validation_ready = terminal_validation_passed(&sor.actual_validation);
             if !validation_ready {
                 return Err(V2Error::new(
                     ErrorCode::InvalidTransition,
@@ -1510,17 +1503,7 @@ fn validate_phase_guard(
         && !srp.findings.iter().any(|finding| {
             finding.actionable && finding.disposition == crate::cards::FindingDisposition::Open
         });
-    let validation_passed = !sor.actual_validation.is_empty()
-        && sor.actual_validation.iter().all(|result| {
-            !result.command.is_empty()
-                && !result.purpose.is_empty()
-                && !result.evidence_ref.is_empty()
-                && matches!(
-                    result.outcome,
-                    crate::cards::EvidenceOutcome::Passed
-                        | crate::cards::EvidenceOutcome::SkippedNonGoal
-                )
-        });
+    let validation_passed = terminal_validation_passed(&sor.actual_validation);
     if next == LifecyclePhase::Published
         && (!review_current
             || record.review_assignment.as_ref().is_none_or(|assignment| {
