@@ -95,6 +95,27 @@ Corrected all four #5036 review findings through current documentation and retai
     "purpose": "Validate complete retained child, PR, and check-rollup observations",
     "outcome": "passed",
     "evidence_ref": ".csdlc/issues/5407/evidence/closeout-matrix-integrity.log"
+  },
+  {
+    "command": [
+      "/Volumes/FastWork/adl-builds/5406-csdlc-v2/debug/csdlc-validate",
+      "--request",
+      ".csdlc/5407-validation.json"
+    ],
+    "purpose": "Execute the complete five-lane documentation and evidence PVF set",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/tools-5407/VALIDATION.md"
+  },
+  {
+    "command": [
+      "/opt/homebrew/bin/jq",
+      "-e",
+      ".entries | length == 11 and all(.[]; .issue_state == \"CLOSED\" and .pr_state == \"MERGED\" and (.checks | length > 0))",
+      "docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json"
+    ],
+    "purpose": "Validate all eleven retained child closures, merged PRs, and observed check rollups",
+    "outcome": "passed",
+    "evidence_ref": "docs/reviews/v0.91.7/tools-5407/VALIDATION.md"
   }
 ]
 

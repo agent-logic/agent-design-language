@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8e9178cb8566e54c25e6a60a6bb12f910904a4b5d8de5c90bfbda5e8f3b8338b",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "f6558e575e22d7fc79a845677064c4e9f13c727ef5d441da99d006687f8739af",
+  "generation": 19,
+  "digest": "2207adbb752c365670a58af4062768489ed052044d3afa7a473aeb0a6cbf189b",
   "claim": {
     "id": "claim-5407-tools-reliability-tail",
     "owner": "codex",
-    "generation": 14,
+    "generation": 19,
     "acquired_unix_seconds": 1784226226,
     "expires_unix_seconds": 1784312626,
     "heartbeat_unix_seconds": 1784226226,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a1dfacbec167d4834b526672c4c500303c76fd22cc7eb0613370b44808e03cdc",
+      "values_digest": "b31dd0c66bb55c01e937d91c76d7031237c9229a1cd5352cdcb521a859229d02",
       "rendered_digest": "9d885e96ba486a7cb0b89f6318dff405f2f0ad7073e0576098affcf0e2b82f37",
       "ast_digest": "23de05dd018bea43ce9ebedd2be5701b20ec1ddb7136bb031d531986012f418e"
     },
     "stp": {
-      "values_digest": "6b98457a47864fd9b94b490000e14429aad601b0c529aaa97c2a71e6ef6a9d56",
+      "values_digest": "5b454e6b5697eee5f732716cccd9bff8815f1f13b5d9069e691a12c040b0b2f7",
       "rendered_digest": "6feea36e36b92138542354eb3b0775fb4e34eeb3700e4b78df8849517bcdacb3",
       "ast_digest": "35757c103391d6e43ba5181bc35f281d32ac06bf8a28f096afd189ee837981ec"
     },
     "spp": {
-      "values_digest": "2c93230f1c7a4bf5e94423cec1c9d486e9661e6a279c81a377f76928d4c7d409",
+      "values_digest": "93efec3e61eb12ffc5a32a147c0b139aaf627e4d50d8a0c508646580cb2a037e",
       "rendered_digest": "50bd4322db83eeb54ffbefcba10f23fcf6814bcaf430890929335c8437cb25ed",
       "ast_digest": "e7c777bf6929f11896d25514163b436091da4bc8532daac68303f1c6873c9469"
     },
     "vpp": {
-      "values_digest": "1f12f35a04ece1d5268be8ef71a6f8cd63c784ce72875d64e6328902e5f5231e",
+      "values_digest": "f57fce3ffbe57be5c69369e1018f364237f47a3ffc6098b7c6055cb9cd378f44",
       "rendered_digest": "0a2aacbab4e68ba2c3607209312b547f175b923c5d7449520221b3e321b4802e",
       "ast_digest": "bf88abed5cb7ff08c9f897e62c05ff3791834381318b441c471d23f0c88f0514"
     },
     "srp": {
-      "values_digest": "b059d9a524b85e83d829de1c40dbc0b25fec8c9e258d96e45ee4be33a62aad35",
-      "rendered_digest": "bbb3444e9c23b19e987f1cdd212aa6ac76bbb0cc9e7da43316078f7a694c3d5b",
-      "ast_digest": "09f7a42933cc54699b17ab57fed8983c1d6392b1feb5e625a17a814c866c0fa3"
+      "values_digest": "09b8b97443a0575f4b88ebd0b6c4b52619944a9f31779ead02f7f95469c65a2f",
+      "rendered_digest": "afbe3d574bbed44ff9701abbfbb0fd759178b0db1b76f6a6190ac507a0efb4ea",
+      "ast_digest": "f3ad30bd01483ef60514f29965ad5738b9e579bb2d128fbcebd294ef4b78dd2f"
     },
     "sor": {
-      "values_digest": "03432aabba96662e543abe25346d5622cdf3d22a6ceb1d268a5643ef40ddbe59",
-      "rendered_digest": "79928b1a150fcccb3c3ecbc97f820fa8e2b0fa854b513c53749a52fb740179fa",
-      "ast_digest": "306cb471d3e1d43b3f94898c63134583d6a2d36eaffee8d03c29711bad9ac2d2"
+      "values_digest": "a2b6a024bd0cbe219b65a2d7047ab7b06c8d3e71bb8dba47bf3f7dda9df537db",
+      "rendered_digest": "ce28cd7d5ff9dd65428546e415b95d973f0bc48459650de32687a91fac14a734",
+      "ast_digest": "1c4b26bd6d55854b9d64dd5c075b0e3bc4888c4ad4e0ff24d15911f4c5451062"
     }
   },
   "transitions": [
@@ -205,6 +205,41 @@
       "actor": "codex",
       "reason": "Record strengthened complete child and PR snapshot validation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"purpose\":\"Validate complete retained child, PR, and check-rollup observations\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5407/evidence/closeout-matrix-integrity.log\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "Retain and dispose independent review finding about canonical register contradiction",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P2-register-truth\",\"severity\":\"p2\",\"summary\":\"Canonical sprint register still carries the earlier changes-required state\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"7150afb9408cbe4717d51b822c14f27cc1ec53ce\",\"route\":null}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "Retain and dispose independent review finding about closeout evidence",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P2-closeout-evidence\",\"severity\":\"p2\",\"summary\":\"Closeout matrix lacked retained issue closure and check-rollup observations\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"7150afb9408cbe4717d51b822c14f27cc1ec53ce\",\"route\":null}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "Retain and dispose independent review finding about stale source references",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"R5407-P3-stale-references\",\"severity\":\"p3\",\"summary\":\"Remediated review source references no longer identified the pre-remediation evidence\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":\"7150afb9408cbe4717d51b822c14f27cc1ec53ce\",\"route\":null}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "Record durable evidence for the passing complete PVF rerun",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Volumes/FastWork/adl-builds/5406-csdlc-v2/debug/csdlc-validate\",\"--request\",\".csdlc/5407-validation.json\"],\"purpose\":\"Execute the complete five-lane documentation and evidence PVF set\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.91.7/tools-5407/VALIDATION.md\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "Record durable evidence for the strengthened eleven-entry closeout snapshot check",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/opt/homebrew/bin/jq\",\"-e\",\".entries | length == 11 and all(.[]; .issue_state == \\\"CLOSED\\\" and .pr_state == \\\"MERGED\\\" and (.checks | length > 0))\",\"docs/reviews/v0.91.7/tools-5407/github-closeout-snapshot-5036.json\"],\"purpose\":\"Validate all eleven retained child closures, merged PRs, and observed check rollups\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.91.7/tools-5407/VALIDATION.md\"}}"
     }
   ]
 }

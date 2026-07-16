@@ -23,7 +23,38 @@ Exact implementation revision before publication.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "R5407-P2-register-truth",
+    "severity": "p2",
+    "summary": "Canonical sprint register still carries the earlier changes-required state",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "7150afb9408cbe4717d51b822c14f27cc1ec53ce",
+    "route": null
+  },
+  {
+    "id": "R5407-P2-closeout-evidence",
+    "severity": "p2",
+    "summary": "Closeout matrix lacked retained issue closure and check-rollup observations",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "7150afb9408cbe4717d51b822c14f27cc1ec53ce",
+    "route": null
+  },
+  {
+    "id": "R5407-P3-stale-references",
+    "severity": "p3",
+    "summary": "Remediated review source references no longer identified the pre-remediation evidence",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "7150afb9408cbe4717d51b822c14f27cc1ec53ce",
+    "route": null
+  }
+]
 
 ## Dispositions
 
