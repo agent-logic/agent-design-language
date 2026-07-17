@@ -86,13 +86,13 @@ Revision 1
 
 ## Design
 
-docs/reviews/v0.91.7/runtime-v3-5411/DESIGN.md
+.csdlc/issues/5411/retained/design.md
 
 Digest: 42753c93f96ca6246d88216dc16f79f2d4a1c96b516babc266af641f5b3f8355
 
 ## Diagram
 
-docs/reviews/v0.91.7/runtime-v3-5411/DIAGRAM.mmd
+.csdlc/issues/5411/retained/diagram.mmd
 
 Digest: cbc3fc41538cc3470e917a60083a2098c9553d2e4b3eeea14368004ff43c0386
 

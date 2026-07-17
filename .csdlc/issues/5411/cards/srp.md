@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+adl-runtime/src/guardian.rs
+adl-runtime-kernel
+docs/architecture/RUNTIME_V3_ENTRYPOINT_SWITCH.md
+docs/architecture/RUNTIME_V3_GUARDIAN_FALLBACK_DECISION.md
+docs/architecture/RUNTIME_V3_RELEASE_PROOF_GATE_5220.md
+docs/architecture/runtime_v3_current_inventory.v1.json
+docs/architecture/runtime_v3_release_proof_gate_5220.v1.json
+docs/reviews/v0.91.7/runtime-v3-5411
+infra/runtime-v3/runtime-init.toml
 
 ## Prompts
 
@@ -31,12 +39,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- GPU and remote-cloud validation remain explicitly deferred non-claims for v0.92
+- Ignored and contract-only proof surfaces remain classified as non-executed in release evidence
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:432913ed43f316ddd40543c5268f20a43d68702b:d77b31f184074fe817332dc2d3da6fba031e3f33398d3242e0932e3b84f753c3")
 
-Reviewer: None
+Reviewer: Some("codex-subagent-019f6d3d")
 
-Result: pre_review
+Result: pass
