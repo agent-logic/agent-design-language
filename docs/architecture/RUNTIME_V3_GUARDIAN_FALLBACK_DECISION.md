@@ -143,6 +143,13 @@ restarting on configuration exits or exhausted restart budgets. This keeps the
 fallback smaller than a service manager while preserving the child-process
 contract for later cutover proof.
 
+#5411 completes the selected Unix containment contract: each child starts in a
+new process group, graceful termination targets the group, capture drain is
+bounded, and escalation kills the group when inherited pipes fail to close or
+when the process group remains live after graceful termination. Descendant,
+closed-pipe, and ignored-TERM regression tests prove that the guardian returns
+within the bound and no descendant remains after escalation.
+
 ## Non-Claims
 
 - This packet does not authorize Runtime v3 cutover.
@@ -152,6 +159,8 @@ contract for later cutover proof.
 - This packet does not claim rustysd is cross-platform production ready.
 - This packet does not claim `rust_supervisor` or `rust-tokio-supervisor`
   directly supervise external OS child processes.
+- This packet does not claim Windows Job Object or equivalent process-tree
+  containment.
 - The original #5224 packet did not implement a new ADL-owned guardian; #5225
   adds the bounded `adl_runtime::guardian` fallback described above without
   authorizing default Runtime v3 cutover.

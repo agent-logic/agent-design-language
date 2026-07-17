@@ -7,15 +7,14 @@ use std::{
 
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, execute_loop, generate_runtime_instance_id,
-    load_control_tls, mark_unavailable_live_services,
+    load_control_tls, mark_unavailable_live_services, monitor_until_stop,
     proof::{load_capsule, run_proof},
     serve_control_listener_until_ready, verifying_key_from_hex, AdaptationState,
     CheckpointingControl, ControlAuthority, ControlCapability, ControlService,
     DegradedOperationExecutor, Kernel, KernelExit, LiveBindings, LiveContinuity,
     LiveKernelSnapshot, LoopDefinition, LoopStatus, ReasoningEdge, ReasoningGraphDefinition,
-    ReasoningNode, RecordedObservation, ResourceState, RsntpTimeSampleSource, RuntimeInitConfig,
-    RuntimeRecorder, SysinfoWeatherObserver, TimeQualificationBounds, TrustedControlKey,
-    ValidatedReasoningGraph, WeatherConfig, WeatherHealthReport, WeatherObserver,
+    ReasoningNode, RecordedObservation, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
+    SysinfoWeatherObserver, TimeQualificationBounds, TrustedControlKey, ValidatedReasoningGraph,
     MAX_SHADOW_FIXTURE_BYTES, REASONING_GRAPH_SCHEMA, REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use tokio_util::sync::CancellationToken;
@@ -251,16 +250,12 @@ async fn main() -> ExitCode {
                 init.observatory_allowed_origins(),
                 init.agent_population(),
             ));
-            let mut weather_observer = SysinfoWeatherObserver::default();
-            service.set_weather_report(WeatherHealthReport::from_sample(
-                &WeatherConfig::default(),
-                weather_observer.sample(),
-                ResourceState::Healthy,
-            ));
+            let pressure_checkpoint_deadline =
+                std::time::Duration::from_millis(init.weather.checkpoint_deadline_millis);
             let api_shutdown = tokio_util::sync::CancellationToken::new();
             let (ready_sender, ready_receiver) = tokio::sync::oneshot::channel();
             let mut api = tokio::spawn(serve_control_listener_until_ready(
-                service,
+                service.clone(),
                 listener,
                 tls,
                 ready_sender,
@@ -279,7 +274,60 @@ async fn main() -> ExitCode {
                 "{}",
                 adl_runtime_kernel::control_ready_event(&instance_id, bound_address)
             );
-            tokio::select! {
+            let mut pressure_retry_at = None;
+            'serve: loop {
+                let weather_service = service.clone();
+                let pressure_delay = pressure_retry_at.take();
+                let pressure_monitor = async {
+                    if let Some(deadline) = pressure_delay {
+                        tokio::time::sleep_until(deadline).await;
+                    }
+                    monitor_until_stop(
+                        init.weather.clone(),
+                        SysinfoWeatherObserver::for_path(&continuity_root),
+                        move |report| weather_service.set_weather_report(report),
+                    )
+                    .await
+                };
+                tokio::pin!(pressure_monitor);
+                let terminal = tokio::select! {
+                pressure = &mut pressure_monitor => {
+                    eprintln!(
+                        "event=resource_pressure_stop state={:?} decision={:?}",
+                        pressure.resource_state,
+                        pressure.shutdown_decision,
+                    );
+                    if !service.pause_admission_if_idle() {
+                        eprintln!("event=resource_pressure_wait reason=control_command_in_flight");
+                        pressure_retry_at = Some(
+                            tokio::time::Instant::now()
+                                + std::time::Duration::from_millis(init.weather.sample_millis),
+                        );
+                        continue 'serve;
+                    }
+                    if let Err(error) = continuity
+                        .checkpoint(&recorder, pressure_checkpoint_deadline)
+                        .await
+                    {
+                        eprintln!("runtime pressure continuity checkpoint failed: {error}");
+                        service.reopen_admission();
+                        pressure_retry_at = Some(
+                            tokio::time::Instant::now()
+                                + std::time::Duration::from_millis(init.weather.sample_millis),
+                        );
+                        continue 'serve;
+                    }
+                    api_shutdown.cancel();
+                    let shutdown = handle.shutdown(std::time::Duration::from_secs(10)).await;
+                    drain_control_api(&mut api).await;
+                    match shutdown {
+                        Ok(exit) => process_exit(exit),
+                        Err(error) => {
+                            eprintln!("runtime pressure shutdown failed: {error}");
+                            ExitCode::from(70)
+                        }
+                    }
+                }
                 signal = shutdown_signal() => {
                     if let Err(error) = signal {
                         eprintln!("runtime signal handler failed: {error}");
@@ -369,6 +417,8 @@ async fn main() -> ExitCode {
                     let _ = handle.shutdown(std::time::Duration::from_secs(10)).await;
                     ExitCode::from(70)
                 },
+                };
+                break 'serve terminal;
             }
         }
         "demo" => {

@@ -31,8 +31,16 @@
       "adl-runtime-kernel/src/weather.rs"
     ],
     "file_count": 24,
-    "implementation_loc": 11724,
+    "implementation_loc": 11964,
     "measurement": "logical lines across tracked Rust files under the implementation root"
+  },
+  "selected_auxiliary_surface": {
+    "files": [
+      "adl-runtime/src/guardian.rs"
+    ],
+    "implementation_loc": 867,
+    "combined_with_kernel_loc": 12831,
+    "budget_disposition": "The 12,000-line challenge applies to the independent Runtime v3 kernel. The selected shared guardian is reported separately because its source contains the reusable process contract and co-located unit tests."
   },
   "direct_dependencies": {
     "manifest": "adl-runtime-kernel/Cargo.toml",
@@ -67,7 +75,7 @@
       "adl-runtime-kernel/src",
       "adl-runtime-kernel/tests"
     ],
-    "attribute_count": 180,
+    "attribute_count": 186,
     "measurement": "tracked Rust attributes named test, including qualified forms such as tokio::test"
   },
   "parity_baseline": {

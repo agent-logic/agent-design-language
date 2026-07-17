@@ -18,6 +18,7 @@ GENERATOR_PATH = "adl-runtime-kernel/tools/generate_runtime_inventory.py"
 MANIFEST_PATH = "adl-runtime-kernel/Cargo.toml"
 OUTPUT_PATH = "docs/architecture/runtime_v3_current_inventory.v1.json"
 PARITY_BASELINE_PATH = "docs/architecture/runtime_v3_baseline_modules.v1.json"
+AUXILIARY_IMPLEMENTATION_PATHS = ["adl-runtime/src/guardian.rs"]
 
 TEST_ATTRIBUTE_RE = re.compile(
     r"^\s*#\s*\[\s*(?:[A-Za-z_][A-Za-z0-9_]*::)*test"
@@ -69,6 +70,8 @@ def build_inventory(root: Path = ROOT) -> dict[str, Any]:
     tracked = set(tracked_files(root))
     require_tracked(tracked, MANIFEST_PATH)
     require_tracked(tracked, PARITY_BASELINE_PATH)
+    for path in AUXILIARY_IMPLEMENTATION_PATHS:
+        require_tracked(tracked, path)
 
     implementation_files = sorted(
         path
@@ -104,6 +107,10 @@ def build_inventory(root: Path = ROOT) -> dict[str, Any]:
     if len(modules) != len(set(modules)):
         fail(f"{PARITY_BASELINE_PATH} contains duplicate module paths")
 
+    kernel_loc = sum(logical_line_count(root / path) for path in implementation_files)
+    auxiliary_loc = sum(
+        logical_line_count(root / path) for path in AUXILIARY_IMPLEMENTATION_PATHS
+    )
     return {
         "schema": "adl.runtime_v3.current_inventory.v1",
         "generator": GENERATOR_PATH,
@@ -112,11 +119,19 @@ def build_inventory(root: Path = ROOT) -> dict[str, Any]:
             "root": "adl-runtime-kernel/src",
             "files": implementation_files,
             "file_count": len(implementation_files),
-            "implementation_loc": sum(
-                logical_line_count(root / path) for path in implementation_files
-            ),
+            "implementation_loc": kernel_loc,
             "measurement": (
                 "logical lines across tracked Rust files under the implementation root"
+            ),
+        },
+        "selected_auxiliary_surface": {
+            "files": AUXILIARY_IMPLEMENTATION_PATHS,
+            "implementation_loc": auxiliary_loc,
+            "combined_with_kernel_loc": kernel_loc + auxiliary_loc,
+            "budget_disposition": (
+                "The 12,000-line challenge applies to the independent Runtime v3 kernel. "
+                "The selected shared guardian is reported separately because its source "
+                "contains the reusable process contract and co-located unit tests."
             ),
         },
         "direct_dependencies": {
