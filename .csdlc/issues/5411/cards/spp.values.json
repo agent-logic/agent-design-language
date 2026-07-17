@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][runtime-v3] Resolve #5227 selector, guardian, and pressure-stop findings",
     "slug": "v0-91-7-runtime-v3-selector-guardian-pressure-stop",
     "version": "v0.91.7",
-    "generation": 17
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -81,9 +81,9 @@
         "Focused process or pressure tests remain nondeterministic"
       ],
       "replan_triggers": [],
-      "design_ref": "docs/reviews/v0.91.7/runtime-v3-5411/DESIGN.md",
+      "design_ref": ".csdlc/issues/5411/retained/design.md",
       "design_digest": "42753c93f96ca6246d88216dc16f79f2d4a1c96b516babc266af641f5b3f8355",
-      "diagram_ref": "docs/reviews/v0.91.7/runtime-v3-5411/DIAGRAM.mmd",
+      "diagram_ref": ".csdlc/issues/5411/retained/diagram.mmd",
       "diagram_digest": "cbc3fc41538cc3470e917a60083a2098c9553d2e4b3eeea14368004ff43c0386"
     }
   }
