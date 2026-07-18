@@ -2,15 +2,14 @@
 
 use std::collections::BTreeSet;
 
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use serde_json::{json, Value};
 
 use crate::acip::{runtime_capability as acip_runtime_capability, CSM_ACIP_COMPONENT};
 use crate::backpressure::RuntimeChannelId;
 use crate::cav::{CsmCavComponentStatus, CSM_CAV_COMPONENT};
 use crate::supervision::{
-    default_component_supervision, ComponentId, ComponentReadiness, ComponentSupervisionPolicy,
-    SUPERVISION_SCHEMA,
+    default_component_supervision, ComponentId, ComponentSupervisionPolicy, SUPERVISION_SCHEMA,
 };
 
 pub const CSM_RUNTIME_STACK_SCHEMA: &str = "adl.csm.runtime_stack.v1";
@@ -22,16 +21,6 @@ pub struct RuntimeComponent {
     pub id: &'static str,
     pub plane: &'static str,
     pub role: &'static str,
-}
-
-pub const CSM_RUNTIME_READINESS_SCHEMA: &str = "adl.csm.runtime_readiness.v1";
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct RuntimeReadiness {
-    pub schema: String,
-    pub status: ComponentReadiness,
-    pub components: Vec<String>,
-    pub channels: Vec<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -87,25 +76,8 @@ impl CsmRuntimeAssembly {
         &self.policies
     }
 
-    pub fn readiness(&self) -> RuntimeReadiness {
-        RuntimeReadiness {
-            schema: CSM_RUNTIME_READINESS_SCHEMA.to_string(),
-            status: ComponentReadiness::Ready,
-            components: self
-                .components
-                .iter()
-                .map(|component| component.id.to_string())
-                .collect(),
-            channels: self
-                .channels
-                .iter()
-                .map(|channel| format!("{channel:?}"))
-                .collect(),
-        }
-    }
-
-    pub fn readiness_json(&self) -> Value {
-        serde_json::to_value(self.readiness()).expect("runtime readiness is serializable")
+    pub fn channels(&self) -> &[RuntimeChannelId] {
+        &self.channels
     }
 }
 
@@ -202,16 +174,19 @@ pub fn runtime_stack_json() -> Value {
         "runtime_owner": "csm",
         "async_runtime": "tokio",
         "orchestration": {
-            "model": "main_task_join_set",
-            "component_set": "supervised_component_set",
-            "channel_schema": CSM_RUNTIME_CHANNEL_SCHEMA
+            "model": "daemon_supervised_cycle",
+            "supervised_units": ["long_lived_agent_tick"],
+            "component_catalog": "policy_and_observation_contract",
+            "independent_component_task_registry": false,
+            "channel_schema": CSM_RUNTIME_CHANNEL_SCHEMA,
+            "readiness_source": "runtime_api_observed_component_and_channel_health"
         },
         "component_topology": {
             "schema": CSM_COMPONENT_TOPOLOGY_SCHEMA,
             "components": runtime_components(),
             "supervision_schema": SUPERVISION_SCHEMA,
             "supervision": assembly.policies(),
-            "readiness": assembly.readiness_json()
+            "channel_count": assembly.channels().len()
         },
         "api_server": {
             "http_framework": "axum",
@@ -340,29 +315,90 @@ mod tests {
     #[test]
     fn production_assembly_covers_every_component_and_channel() {
         let assembly = CsmRuntimeAssembly::production().unwrap();
-        let readiness = assembly.readiness();
-        assert_eq!(readiness.status, ComponentReadiness::Ready);
-        assert_eq!(readiness.components.len(), ComponentId::ALL.len());
-        assert_eq!(readiness.channels.len(), RuntimeChannelId::ALL.len());
-        assert!(readiness
-            .components
-            .contains(&"resident_agents".to_string()));
+        assert_eq!(assembly.components().len(), ComponentId::ALL.len());
+        assert_eq!(assembly.channels().len(), RuntimeChannelId::ALL.len());
+        assert!(assembly
+            .components()
+            .iter()
+            .any(|component| component.id == "resident_agents"));
     }
 
     #[test]
-    fn production_readiness_is_deterministic() {
-        let first = CsmRuntimeAssembly::production().unwrap().readiness_json();
-        let second = CsmRuntimeAssembly::production().unwrap().readiness_json();
-        assert_eq!(first, second);
+    fn production_topology_does_not_claim_static_readiness_or_independent_tasks() {
+        let stack = runtime_stack_json();
+        assert_eq!(stack["orchestration"]["model"], "daemon_supervised_cycle");
+        assert_eq!(
+            stack["orchestration"]["independent_component_task_registry"],
+            false
+        );
+        assert!(stack["component_topology"].get("readiness").is_none());
     }
 
-    #[test]
-    fn assembled_runtime_readiness_soak_is_stable() {
-        let expected = CsmRuntimeAssembly::production().unwrap().readiness_json();
-        for _ in 0..100 {
-            let observed = CsmRuntimeAssembly::production().unwrap().readiness_json();
-            assert_eq!(observed, expected);
+    #[tokio::test]
+    async fn assembled_runtime_soak_executes_tasks_channels_failure_and_recovery() {
+        use std::sync::atomic::{AtomicBool, Ordering};
+        use std::sync::Arc;
+
+        use tempfile::tempdir;
+        use tokio::sync::mpsc;
+        use tokio_util::sync::CancellationToken;
+
+        use crate::supervision::{
+            replay_lifecycle_journal, supervise_component, ComponentFailure, ComponentReadiness,
+            LifecycleEventKind, LifecycleSink,
+        };
+
+        let root = tempdir().unwrap();
+        let journal = root.path().join("assembled-runtime-soak.jsonl");
+        let sink = LifecycleSink::start(&journal);
+        let (tx, mut rx) = mpsc::channel(128);
+        let mut executions = 0_u32;
+
+        for cycle in 0..100_u32 {
+            let fail_once = Arc::new(AtomicBool::new(cycle == 49));
+            let outcome = supervise_component(
+                ComponentId::RuntimeApi,
+                CancellationToken::new(),
+                sink.clone(),
+                {
+                    let tx = tx.clone();
+                    move |attempt, _| {
+                        let tx = tx.clone();
+                        let fail_once = Arc::clone(&fail_once);
+                        async move {
+                            tx.send((cycle, attempt))
+                                .await
+                                .map_err(|_| ComponentFailure::Failed("soak_channel_closed"))?;
+                            if fail_once.swap(false, Ordering::SeqCst) {
+                                Err(ComponentFailure::Failed("injected_soak_failure"))
+                            } else {
+                                Ok(())
+                            }
+                        }
+                    }
+                },
+            )
+            .await;
+            assert_eq!(outcome.readiness, ComponentReadiness::Ready);
+            executions = executions.saturating_add(outcome.attempts);
+            if cycle == 49 {
+                assert_eq!(outcome.attempts, 2);
+                assert!(outcome
+                    .lifecycle_events
+                    .iter()
+                    .any(|event| event.event == LifecycleEventKind::RestartScheduled));
+            }
         }
+        drop(tx);
+        let mut delivered = Vec::new();
+        while let Some(message) = rx.recv().await {
+            delivered.push(message);
+        }
+        assert_eq!(executions, 101);
+        assert_eq!(delivered.len(), 101);
+        let replay = replay_lifecycle_journal(&journal);
+        assert_eq!(replay.invalid_lines, 0);
+        assert!(replay.events.len() >= 201);
     }
 
     #[test]

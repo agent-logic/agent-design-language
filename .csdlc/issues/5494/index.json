@@ -1,0 +1,142 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5494,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "25d84aac7428e4dc459bdcbe84f725b848cea825b818d1f99e9273d253183d2a",
+  "claim": {
+    "id": "claim-5494-wp07a-completion",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 4,
+    "acquired_unix_seconds": 1784362098,
+    "expires_unix_seconds": 1784448498,
+    "heartbeat_unix_seconds": 1784362098,
+    "branch": "codex/5494-wp07a-completion",
+    "worktree": ".",
+    "protected_paths": [
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/topology.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/long_lived_agent.rs",
+      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ],
+    "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5494/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5494/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "revision": "2b217cb7b0df1d50ab8359c80504456ee2cfe569d4cd86cb3f063d54fd648660"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9e67de68bb0449a89f0c3d573be0ca2cf9e0be85ca2b862a223ae0db2906d3b7",
+      "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
+      "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
+    },
+    "stp": {
+      "values_digest": "c0d68e0fc351419d1cc2332597249be97653ecb7fcfd2ff945b52d58cea766a3",
+      "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
+      "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
+    },
+    "spp": {
+      "values_digest": "839b2a34468691a81a3f19ea89dbc98f8ea8154991c47deada1f190c1bed50ed",
+      "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
+      "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
+    },
+    "vpp": {
+      "values_digest": "4584893a6cf2bc34467d935d46f2fb7f74d8b971e6c65bf3e5ba49c73a146c54",
+      "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
+      "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
+    },
+    "srp": {
+      "values_digest": "dc5df2dd604e430461d1621fd593a780252f537eb904e5025c4de0c606bcc557",
+      "rendered_digest": "4fbdefc3304f903a93c590ced80acf36b2a46f649e229af10a90e41d5cda7472",
+      "ast_digest": "d33f072e17ac2dc715564f5774f3680b85fb3e76af8fcc20dee18178aede53fb"
+    },
+    "sor": {
+      "values_digest": "d6064969b3adc1b7941f470669f28956cfff31316b28f570d3aedade098cad86",
+      "rendered_digest": "b1817e1e5ab5940fcf9ce0b22bccb728e6d18bc53714c8142117e2c43e56a132",
+      "ast_digest": "6f9c0b4d2be05df1a26a40ffa24f02743cce568a252d7cffbaee911e31cdc5f8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Bounded implementation and proving local validation are complete."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Completed the corrective WP-07A runtime acceptance implementation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Aligned reported topology with the daemon-supervised cycle, derived readiness from observed required components and channels, replaced the static soak with supervised execution and recovery, and added bounded credential-generation overlap.\",\"changes\":[\"Report the real daemon-supervised-cycle production model and remove static all-ready topology claims\",\"Normalize all sixteen component observations and fail readiness closed for required unhealthy components or typed channels\",\"Run 100 supervised Tokio task/channel cycles with injected failure, restart, recovery, and retained replay\",\"Retain one previous API bearer generation for five minutes while terminal revocation rejects both generations\"],\"artifacts\":[\"adl-runtime/src/runtime_api_auth.rs\",\"adl-runtime/src/topology.rs\",\"adl/src/csm_runtime_api.rs\",\"docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The independent runtime crate and behavioral soak passed on FastWork.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove supervision, topology, credential overlap, weather independence, and the real 100-cycle task/channel soak\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 122 unit tests plus 1 independence test passed\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The integrated CSM runtime API acceptance surface passed on FastWork.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api\"],\"purpose\":\"Prove observed component/channel readiness, fail-closed missing observations, and HTTP credential overlap/revocation\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 44 focused CSM runtime API tests passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Bounded implementation and proving local validation are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

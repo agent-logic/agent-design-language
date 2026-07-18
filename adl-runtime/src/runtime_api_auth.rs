@@ -18,6 +18,7 @@ pub const CSM_RUNTIME_API_AUTH_FILE: &str = "runtime_api_auth.json";
 pub const CSM_RUNTIME_API_AUTH_EVENTS_FILE: &str = "runtime_api_auth_events.jsonl";
 pub const CSM_RUNTIME_API_CREDENTIAL_TTL_SECS: u64 = 24 * 60 * 60;
 pub const CSM_RUNTIME_API_CREDENTIAL_RENEWAL_WINDOW_SECS: u64 = 15 * 60;
+pub const CSM_RUNTIME_API_CREDENTIAL_OVERLAP_SECS: u64 = 5 * 60;
 pub const CSM_RUNTIME_API_GATEWAY_IDENTITY_SCHEMA: &str = "adl.csm.runtime_api.gateway_identity.v1";
 pub const CSM_RUNTIME_API_GATEWAY_IDENTITY_AUDIENCE: &str = "csm-runtime-api";
 pub const CSM_RUNTIME_API_GATEWAY_IDENTITY_MAX_TTL_SECS: u64 = 300;
@@ -57,6 +58,17 @@ struct StoredCredential {
     expires_at_epoch_secs: Option<u64>,
     #[serde(default)]
     revoked: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    previous: Option<PreviousCredential>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct PreviousCredential {
+    generation: u64,
+    token: String,
+    created_at_epoch_secs: u64,
+    expires_at_epoch_secs: u64,
 }
 
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
@@ -121,7 +133,7 @@ impl RuntimeApiCredentialStore {
             }
             return Ok(metadata);
         }
-        self.write_new(1)
+        self.write_new(1, None)
     }
 
     pub fn metadata(&self) -> Result<Option<RuntimeApiCredentialMetadata>, String> {
@@ -146,10 +158,11 @@ impl RuntimeApiCredentialStore {
             Ok(metadata) => metadata,
             Err(reason) => return RuntimeApiAuthDecision::Unavailable { reason },
         };
-        let (expected, metadata) = match self.load() {
+        let stored = match self.load_stored() {
             Ok(value) => value,
             Err(reason) => return RuntimeApiAuthDecision::Unavailable { reason },
         };
+        let metadata = metadata_from_stored(&stored);
         if metadata
             .expires_at_epoch_secs
             .is_some_and(|expires| now_epoch_secs().is_ok_and(|now| now >= expires))
@@ -171,13 +184,19 @@ impl RuntimeApiCredentialStore {
                 metadata: Some(metadata),
             };
         };
-        let equal = expected
-            .expose_secret()
-            .as_bytes()
-            .ct_eq(candidate.as_bytes())
-            .into();
-        if equal {
+        let current_equal = stored.token.as_bytes().ct_eq(candidate.as_bytes()).into();
+        if current_equal {
             RuntimeApiAuthDecision::Authenticated(metadata)
+        } else if stored.previous.as_ref().is_some_and(|previous| {
+            now_epoch_secs().is_ok_and(|now| now < previous.expires_at_epoch_secs)
+                && previous.token.as_bytes().ct_eq(candidate.as_bytes()).into()
+        }) {
+            RuntimeApiAuthDecision::Authenticated(metadata_from_previous(
+                stored
+                    .previous
+                    .as_ref()
+                    .expect("checked previous credential"),
+            ))
         } else {
             RuntimeApiAuthDecision::Rejected {
                 reason: "invalid_bearer_token",
@@ -258,11 +277,27 @@ impl RuntimeApiCredentialStore {
     }
 
     pub fn rotate(&self) -> Result<RuntimeApiCredentialMetadata, String> {
-        let generation = self
-            .load()
-            .map(|(_, metadata)| metadata.generation.saturating_add(1))
-            .unwrap_or(1);
-        self.write_new(generation)
+        let current = self.load_stored()?;
+        if current.revoked {
+            return Err("runtime API credential is revoked; explicit reset required".to_string());
+        }
+        let now = now_epoch_secs()?;
+        let previous = current
+            .expires_at_epoch_secs
+            .unwrap_or(u64::MAX)
+            .min(now.saturating_add(CSM_RUNTIME_API_CREDENTIAL_OVERLAP_SECS))
+            .checked_sub(now)
+            .filter(|remaining| *remaining > 0)
+            .map(|remaining| PreviousCredential {
+                generation: current.generation,
+                token: current.token,
+                created_at_epoch_secs: current.created_at_epoch_secs,
+                expires_at_epoch_secs: now.saturating_add(remaining),
+            });
+        let previous_generation = previous.as_ref().map(|value| value.generation);
+        let metadata = self.write_new(current.generation.saturating_add(1), previous)?;
+        self.append_generation_event("credential_rotated", &metadata, previous_generation)?;
+        Ok(metadata)
     }
 
     pub fn revoke(&self) -> Result<RuntimeApiCredentialMetadata, String> {
@@ -274,23 +309,35 @@ impl RuntimeApiCredentialStore {
             created_at_epoch_secs: metadata.created_at_epoch_secs,
             expires_at_epoch_secs: metadata.expires_at_epoch_secs,
             revoked: true,
+            previous: None,
         };
         write_private_json_atomic(&self.path, &stored)?;
-        Ok(metadata_from_stored(&stored))
+        let metadata = metadata_from_stored(&stored);
+        self.append_generation_event("credential_revoked", &metadata, None)?;
+        Ok(metadata)
     }
 
     fn load(&self) -> Result<(SecretString, RuntimeApiCredentialMetadata), String> {
+        let stored = self.load_stored()?;
+        let metadata = metadata_from_stored(&stored);
+        Ok((SecretString::new(stored.token), metadata))
+    }
+
+    fn load_stored(&self) -> Result<StoredCredential, String> {
         validate_private_file(&self.path)?;
         let raw =
             fs::read(&self.path).map_err(|err| format!("read runtime API credential: {err}"))?;
         let stored: StoredCredential = serde_json::from_slice(&raw)
             .map_err(|err| format!("parse runtime API credential: {err}"))?;
         validate_stored(&stored)?;
-        let metadata = metadata_from_stored(&stored);
-        Ok((SecretString::new(stored.token), metadata))
+        Ok(stored)
     }
 
-    fn write_new(&self, generation: u64) -> Result<RuntimeApiCredentialMetadata, String> {
+    fn write_new(
+        &self,
+        generation: u64,
+        previous: Option<PreviousCredential>,
+    ) -> Result<RuntimeApiCredentialMetadata, String> {
         let parent = self
             .path
             .parent()
@@ -309,9 +356,42 @@ impl RuntimeApiCredentialStore {
                 created_at_epoch_secs.saturating_add(CSM_RUNTIME_API_CREDENTIAL_TTL_SECS),
             ),
             revoked: false,
+            previous,
         };
         write_private_json_atomic(&self.path, &stored)?;
         Ok(metadata_from_stored(&stored))
+    }
+
+    fn append_generation_event(
+        &self,
+        event: &str,
+        metadata: &RuntimeApiCredentialMetadata,
+        previous_generation: Option<u64>,
+    ) -> Result<(), String> {
+        let path = self
+            .path
+            .parent()
+            .ok_or_else(|| "runtime API credential path has no parent".to_string())?
+            .join(CSM_RUNTIME_API_AUTH_EVENTS_FILE);
+        let record = serde_json::json!({
+            "schema": "adl.csm.runtime_api.credential_event.v1",
+            "observed_at_epoch_secs": now_epoch_secs()?,
+            "event": event,
+            "generation": metadata.generation,
+            "previous_generation": previous_generation,
+            "overlap_seconds": if previous_generation.is_some() { CSM_RUNTIME_API_CREDENTIAL_OVERLAP_SECS } else { 0 },
+            "secret_retained": false
+        });
+        let mut file = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&path)
+            .map_err(|err| format!("open runtime API credential event log: {err}"))?;
+        serde_json::to_writer(&mut file, &record)
+            .map_err(|err| format!("serialize runtime API credential event: {err}"))?;
+        file.write_all(b"\n")
+            .and_then(|_| file.sync_data())
+            .map_err(|err| format!("persist runtime API credential event: {err}"))
     }
 }
 
@@ -366,6 +446,14 @@ fn validate_stored(stored: &StoredCredential) -> Result<(), String> {
     if stored.generation == 0 || stored.token.len() < 32 {
         return Err("invalid runtime API credential material".to_string());
     }
+    if stored.previous.as_ref().is_some_and(|previous| {
+        previous.generation == 0
+            || previous.generation >= stored.generation
+            || previous.token.len() < 32
+            || previous.expires_at_epoch_secs <= stored.created_at_epoch_secs
+    }) {
+        return Err("invalid previous runtime API credential material".to_string());
+    }
     Ok(())
 }
 
@@ -377,6 +465,17 @@ fn metadata_from_stored(stored: &StoredCredential) -> RuntimeApiCredentialMetada
         created_at_epoch_secs: stored.created_at_epoch_secs,
         expires_at_epoch_secs: stored.expires_at_epoch_secs,
         revoked: stored.revoked,
+    }
+}
+
+fn metadata_from_previous(previous: &PreviousCredential) -> RuntimeApiCredentialMetadata {
+    RuntimeApiCredentialMetadata {
+        schema: CSM_RUNTIME_API_AUTH_SCHEMA,
+        generation: previous.generation,
+        fingerprint: token_fingerprint(&previous.token),
+        created_at_epoch_secs: previous.created_at_epoch_secs,
+        expires_at_epoch_secs: Some(previous.expires_at_epoch_secs),
+        revoked: false,
     }
 }
 
@@ -493,14 +592,19 @@ mod tests {
         assert_ne!(second.fingerprint, first.fingerprint);
         assert!(matches!(
             store.authorize(Some(&format!("Bearer {}", first_token.expose_secret()))),
+            RuntimeApiAuthDecision::Authenticated(metadata) if metadata.generation == first.generation
+        ));
+        let second_token = store.with_bearer_token(str::to_string).unwrap();
+        store.revoke().unwrap();
+        assert!(matches!(
+            store.authorize(Some(&format!("Bearer {}", first_token.expose_secret()))),
             RuntimeApiAuthDecision::Rejected {
-                reason: "invalid_bearer_token",
+                reason: "credential_revoked",
                 ..
             }
         ));
-        store.revoke().unwrap();
         assert!(matches!(
-            store.authorize(Some("Bearer anything")),
+            store.authorize(Some(&format!("Bearer {second_token}"))),
             RuntimeApiAuthDecision::Rejected {
                 reason: "credential_revoked",
                 ..
@@ -509,13 +613,18 @@ mod tests {
         assert!(store.ensure().is_err());
         let serialized = serde_json::to_string(&second).unwrap();
         assert!(!serialized.contains(first_token.expose_secret()));
+        let events =
+            fs::read_to_string(root.path().join(CSM_RUNTIME_API_AUTH_EVENTS_FILE)).unwrap();
+        assert!(events.contains("credential_rotated"));
+        assert!(events.contains("credential_revoked"));
+        assert!(!events.contains(first_token.expose_secret()));
     }
 
     #[test]
     fn credential_store_rejects_expired_material_for_server_and_client() {
         let root = tempdir().unwrap();
         let store = RuntimeApiCredentialStore::for_state_root(root.path());
-        store.write_new(1).unwrap();
+        store.write_new(1, None).unwrap();
         let (token, metadata) = store.load().unwrap();
         let expired = StoredCredential {
             schema: CSM_RUNTIME_API_AUTH_SCHEMA.to_string(),
@@ -524,6 +633,7 @@ mod tests {
             created_at_epoch_secs: metadata.created_at_epoch_secs,
             expires_at_epoch_secs: Some(0),
             revoked: false,
+            previous: None,
         };
         write_private_json_atomic(store.path(), &expired).unwrap();
         assert!(matches!(
@@ -552,11 +662,34 @@ mod tests {
             created_at_epoch_secs: metadata.created_at_epoch_secs,
             expires_at_epoch_secs: Some(now_epoch_secs().unwrap() + 60),
             revoked: false,
+            previous: None,
         };
         write_private_json_atomic(store.path(), &near_expiry).unwrap();
         let renewed = store.ensure().unwrap();
         assert_eq!(renewed.generation, first.generation + 1);
         assert!(renewed.expires_at_epoch_secs.unwrap() > now_epoch_secs().unwrap() + 60);
+    }
+
+    #[test]
+    fn expired_overlap_rejects_previous_generation() {
+        let root = tempdir().unwrap();
+        let store = RuntimeApiCredentialStore::for_state_root(root.path());
+        store.ensure().unwrap();
+        let first_token = store.with_bearer_token(str::to_string).unwrap();
+        store.rotate().unwrap();
+        let mut stored = store.load_stored().unwrap();
+        let now = now_epoch_secs().unwrap();
+        stored.created_at_epoch_secs = now.saturating_sub(10);
+        stored.previous.as_mut().unwrap().expires_at_epoch_secs = now.saturating_sub(1);
+        write_private_json_atomic(store.path(), &stored).unwrap();
+
+        assert!(matches!(
+            store.authorize(Some(&format!("Bearer {first_token}"))),
+            RuntimeApiAuthDecision::Rejected {
+                reason: "invalid_bearer_token",
+                ..
+            }
+        ));
     }
 
     #[test]
@@ -572,15 +705,14 @@ mod tests {
             created_at_epoch_secs: metadata.created_at_epoch_secs,
             expires_at_epoch_secs: Some(now_epoch_secs().unwrap() + 60),
             revoked: false,
+            previous: None,
         };
         write_private_json_atomic(store.path(), &near_expiry).unwrap();
         let decision = store.authorize(Some(&format!("Bearer {}", token.expose_secret())));
         assert!(matches!(
             decision,
-            RuntimeApiAuthDecision::Rejected {
-                reason: "invalid_bearer_token",
-                ..
-            }
+            RuntimeApiAuthDecision::Authenticated(metadata)
+                if metadata.generation == first.generation
         ));
         assert_eq!(
             store.metadata().unwrap().unwrap().generation,

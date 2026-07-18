@@ -1,0 +1,62 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5494,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
+    "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
+    "version": "v0.91.7",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Aligned reported topology with the daemon-supervised cycle, derived readiness from observed required components and channels, replaced the static soak with supervised execution and recovery, and added bounded credential-generation overlap.",
+      "actual_changes": [
+        "Report the real daemon-supervised-cycle production model and remove static all-ready topology claims",
+        "Normalize all sixteen component observations and fail readiness closed for required unhealthy components or typed channels",
+        "Run 100 supervised Tokio task/channel cycles with injected failure, restart, recovery, and retained replay",
+        "Retain one previous API bearer generation for five minutes while terminal revocation rejects both generations"
+      ],
+      "artifacts": [
+        "adl-runtime/src/runtime_api_auth.rs",
+        "adl-runtime/src/topology.rs",
+        "adl/src/csm_runtime_api.rs",
+        "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+        "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml"
+          ],
+          "purpose": "Prove supervision, topology, credential overlap, weather independence, and the real 100-cycle task/channel soak",
+          "outcome": "passed",
+          "evidence_ref": "local FastWork: 122 unit tests plus 1 independence test passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "csm_runtime_api"
+          ],
+          "purpose": "Prove observed component/channel readiness, fail-closed missing observations, and HTTP credential overlap/revocation",
+          "outcome": "passed",
+          "evidence_ref": "local FastWork: 44 focused CSM runtime API tests passed"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

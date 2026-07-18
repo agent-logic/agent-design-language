@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5494,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
+    "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
+    "version": "v0.91.7",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does production execute rather than merely describe the assembly?",
+        "Can any required missing or unhealthy observation leave readiness green?",
+        "Does the soak drive real tasks, channels, failure, and recovery?",
+        "Is credential overlap bounded without weakening revocation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
