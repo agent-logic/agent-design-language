@@ -132,7 +132,7 @@ impl Store {
         let _second_lock = self.lock(second)?;
         self.recover_if_needed(request.authority_issue)?;
         self.recover_if_needed(request.target_issue)?;
-        let mut authority = self.load_record(request.authority_issue)?;
+        let authority = self.load_record(request.authority_issue)?;
         let mut target = self.load_record(request.target_issue)?;
         if authority.generation != request.expected_authority_generation
             || authority.digest != request.expected_authority_digest
@@ -156,7 +156,6 @@ impl Store {
             .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "repair authority claim missing"))?
             .validate(&request.claim_id, now_seconds()?)?;
         let mut target_cards = self.load_cards(request.target_issue)?;
-        let before = target_cards.clone();
         for values in target_cards.values_mut() {
             apply(values, &request.operation)?;
         }
@@ -182,6 +181,9 @@ impl Store {
         for values in target_cards.values_mut() {
             values.identity.generation = target.generation;
         }
+        if let Some(claim) = target.claim.as_mut() {
+            claim.generation = target.generation;
+        }
         target.audit.push(AuditEvent {
             sequence: target.audit.len() as u64 + 1,
             generation: target.generation,
@@ -194,30 +196,38 @@ impl Store {
         });
         hydrate_projections(&mut target, &target_cards)?;
         target.digest = record_digest(&target)?;
-        authority.generation += 1;
-        let mut authority_cards = self.load_cards(request.authority_issue)?;
-        for values in authority_cards.values_mut() {
-            values.identity.generation = authority.generation;
-        }
-        if let Some(claim) = authority.claim.as_mut() {
-            claim.generation = authority.generation;
-        }
-        authority.audit.push(AuditEvent {
-            sequence: authority.audit.len() as u64 + 1,
-            generation: authority.generation,
-            actor: request.actor,
-            reason: format!(
-                "authorized typed identity repair for issue {}",
-                request.target_issue
-            ),
-            operation: serde_json::to_string(&request.operation)?,
-        });
-        hydrate_projections(&mut authority, &authority_cards)?;
-        authority.digest = record_digest(&authority)?;
         self.commit(request.target_issue, &target, &target_cards, false)?;
-        self.commit(request.authority_issue, &authority, &authority_cards, false)?;
-        let _ = before;
+        self.refresh_terminal_receipt(&target, &target_cards)?;
         Ok(target)
+    }
+
+    fn refresh_terminal_receipt(
+        &self,
+        record: &IssueRecord,
+        cards: &BTreeMap<CardKind, CardValues>,
+    ) -> Result<()> {
+        let path = self.terminal_receipt_path(record.issue)?;
+        if !path.is_file() {
+            return Ok(());
+        }
+        let mut receipt: TerminalReceipt = read_json(&path)?;
+        if receipt.issue != record.issue
+            || receipt.repository != record.repository
+            || receipt.initialization_digest != record.initialization_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "terminal receipt identity differs from repair target",
+            ));
+        }
+        receipt.record = record.clone();
+        receipt.cards = cards.clone();
+        receipt.digest = record.digest.clone();
+        validate_terminal_receipt(&receipt)?;
+        let temporary = path.with_extension("json.repair-tmp");
+        fs::write(&temporary, serde_json::to_vec_pretty(&receipt)?)?;
+        fs::rename(temporary, path)?;
+        Ok(())
     }
 
     pub fn terminal_receipt_path(&self, issue: u64) -> Result<PathBuf> {
