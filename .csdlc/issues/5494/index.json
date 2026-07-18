@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
   "phase": "implemented",
-  "generation": 47,
-  "digest": "17c4b9fc43b8f1074f98ff98aa1884a9ce53a436840dfe32e7c4d89fbd15d0af",
+  "generation": 49,
+  "digest": "24121c417defa2213310c869449f80698901cb236c536d686539132984813428",
   "claim": {
     "id": "claim-5494-wp07a-completion",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 47,
+    "generation": 49,
     "acquired_unix_seconds": 1784362098,
     "expires_unix_seconds": 1784448498,
     "heartbeat_unix_seconds": 1784362098,
@@ -96,34 +96,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "607346074493578c35305ae08c21ff732c36f2c5c2c83d111cd0b48a85de0d00",
+      "values_digest": "0f1d9cf7163924de5642f0fc34d61a01eb72f78f6c3f2cc4892c07018dc7de9d",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "9b62dc874e4ea7e94af577fba8b63fb2d9ea3e62ce6428f8f6fe8cf4eeda35b0",
+      "values_digest": "911bb184f9d9c6d8bfc24eb434273444ab4a3a28bd5fe13dc1031f429e193da5",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "8dc4ba06cf7b4b029d542ff2852367ff35e667e25f16e890689c59612c469bd0",
+      "values_digest": "a3c15f71b4c2e8768d107170afde6dfe77e1bdac8947ab3755faa17c3dc2c1c1",
       "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
       "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
     },
     "vpp": {
-      "values_digest": "1888fe572a7ad0d4c7fd4e74ce74887c36189ec6b2d88a5cdeeb52cd62f0a9a1",
+      "values_digest": "aae364fe4176d6a6c79bcac3510cc864d2325e62c6070510048b5374d02b5f22",
       "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
       "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
     },
     "srp": {
-      "values_digest": "3a33b92addde5c3df14406d1241a5ebd19ae5217d0bb35f1e428eac70d760ba0",
+      "values_digest": "b317afcb8e0c2858859addc6dd976b623745500e74fc6e1dcfef32e731edcdeb",
       "rendered_digest": "912f01936ef5e5db6d79446d153ef923378b690eefc85c24702c4fd6f153e736",
       "ast_digest": "e43b6f69840ea58cc8e218bb9f54c7487baee37adfb3d5b54211a32a7cf45f13"
     },
     "sor": {
-      "values_digest": "e60392639624f71e1d58ea5cd185ee8c30b885fcc1335a0001cda017f7a6a691",
-      "rendered_digest": "7b18835d70f3bc124e9abd328b3796455a44398aa4909752cd9f2c4aec337995",
-      "ast_digest": "b3282829c8c695ecc426ff4f99032c652be8b0fdf6da3d8187faf8484ec1ad2a"
+      "values_digest": "1e682d69cbe90f64b540fe18e611b46f7d1a84e8e4648a8acfb98ff8bc6ce9d3",
+      "rendered_digest": "f7b93389c365907a9bd3902fef81570ce98f4b38339df484bfb4678d96f5a106",
+      "ast_digest": "9a511e118ae608833248217eab55dd752d401e3d5dfa4f130b3ce0d06cc96206"
     }
   },
   "transitions": [
@@ -660,6 +660,20 @@
       "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 48,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fix both actionable findings from the bounded soak exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Strengthen retained lifecycle replay assertions and preserve shared-lock concurrency for ordinary API authorization.\",\"changes\":[\"Assert retained lifecycle status, contiguous sequence numbers, and the NotReady-to-restart-to-Ready replay transition\",\"Narrow documentation to retained lifecycle-journal sequence and readiness replay rather than generic durable replay\",\"Use a shared-lock authorization fast path and escalate to the exclusive mutation lock only for creation or renewal\",\"Add a regression proving ordinary authorization proceeds while another shared credential lock is held\"],\"artifacts\":[\"adl-runtime/src/runtime_api_auth.rs\",\"adl-runtime/src/topology.rs\",\"docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"]}"
+    },
+    {
+      "sequence": 63,
+      "generation": 49,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The complete Runtime v3 suite, integration surfaces, daemon recovery, formatting, and lint checks pass after review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove both review fixes and all Runtime v3 behavior before exact-head re-review\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 126 Runtime v3 unit tests plus 1 independence test passed in 3.24 seconds; 44 CSM API tests and 3-cycle daemon recovery passed; all-target Runtime v3 Clippy and formatting passed\"}}"
     }
   ]
 }

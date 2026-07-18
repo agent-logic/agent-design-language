@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Replace 100 repeated legacy daemon startups with a fast Runtime v3 supervision and typed-channel soak plus a bounded production-daemon failure/recovery integration test.
+Strengthen retained lifecycle replay assertions and preserve shared-lock concurrency for ordinary API authorization.
 
 ## Artifacts
 
@@ -38,6 +38,10 @@ Replace 100 repeated legacy daemon startups with a fast Runtime v3 supervision a
 - adl/src/cli/csmctl_cmd.rs
 - adl-runtime/src/topology.rs
 - adl/src/long_lived_agent/tests.rs
+- docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
+- docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
+- adl-runtime/src/runtime_api_auth.rs
+- adl-runtime/src/topology.rs
 - docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
 - docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
@@ -70,6 +74,10 @@ Replace 100 repeated legacy daemon startups with a fast Runtime v3 supervision a
 - Retain injected failure, restart, recovery, and durable lifecycle replay assertions
 - Exercise the unmodified production daemon entrypoint for three real ticks with one injected workflow failure and recovery
 - Remove the issue-local helper from the 4.7K-line legacy daemon source
+- Assert retained lifecycle status, contiguous sequence numbers, and the NotReady-to-restart-to-Ready replay transition
+- Narrow documentation to retained lifecycle-journal sequence and readiness replay rather than generic durable replay
+- Use a shared-lock authorization fast path and escalate to the exclusive mutation lock only for creation or renewal
+- Add a regression proving ordinary authorization proceeds while another shared credential lock is held
 
 ## Validation
 
@@ -274,6 +282,17 @@ Replace 100 repeated legacy daemon startups with a fast Runtime v3 supervision a
     "purpose": "Prove the production daemon executes three real bounded ticks and cleanly recovers after one injected workflow failure",
     "outcome": "passed",
     "evidence_ref": "local FastWork: 3 completed production daemon ticks, 1 injected failure, clean recovery; focused test completed in 16.77 seconds"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Prove both review fixes and all Runtime v3 behavior before exact-head re-review",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 126 Runtime v3 unit tests plus 1 independence test passed in 3.24 seconds; 44 CSM API tests and 3-cycle daemon recovery passed; all-target Runtime v3 Clippy and formatting passed"
   }
 ]
 
