@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Made the WP-07A acceptance path use the production daemon cycle, policy-required typed channels, recoverable credential renewal, and the existing Runtime v3 weather ownership boundary.
+Eliminate the near-expiry credential-store race by using one captured timestamp for the complete rotation transaction.
 
 ## Artifacts
 
@@ -29,6 +29,7 @@ Made the WP-07A acceptance path use the production daemon cycle, policy-required
 - adl/src/long_lived_agent/tests.rs
 - docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
 - docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
+- adl-runtime/src/runtime_api_auth.rs
 
 ## Execution
 
@@ -41,6 +42,9 @@ Made the WP-07A acceptance path use the production daemon cycle, policy-required
 - Keep weather in Runtime v3 and limit the CSM production assembly to its fifteen owned components
 - Exercise the exact production daemon cycle for 100 real ticks with injected failure and recovery
 - Correct the retained repair document and sprint register to match the proving implementation
+- Delegate public rotation to a deterministic rotate_at transaction
+- Use the same timestamp for prior-generation overlap and replacement creation
+- Add a deterministic one-second-overlap regression test
 
 ## Validation
 
@@ -105,6 +109,18 @@ Made the WP-07A acceptance path use the production daemon cycle, policy-required
     "purpose": "Prove 100 production tick cycles over typed Runtime v3 channels with one injected failure and recovery on the same context",
     "outcome": "passed",
     "evidence_ref": "local FastWork: 100 successful production cycles, one injected failure, recovery, 27.78 seconds"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "runtime_api_auth::tests"
+    ],
+    "purpose": "Prove credential creation, renewal, expired recovery, overlap, revocation, and the exact one-second rotation boundary",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 9 credential-store tests passed"
   }
 ]
 

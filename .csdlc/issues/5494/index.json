@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "bcd664548fed528277563fdad8d746a7a8539ca83775bc10bc2728e19cb51833",
+  "generation": 12,
+  "digest": "6790e15f68833cb5b2a653a48efa467823e4ddda23987d1a1851d81953821110",
   "claim": {
     "id": "claim-5494-wp07a-completion",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 9,
+    "generation": 12,
     "acquired_unix_seconds": 1784362098,
     "expires_unix_seconds": 1784448498,
     "heartbeat_unix_seconds": 1784362098,
@@ -27,27 +27,33 @@
     "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
   },
   "review_assignment": {
-    "reviewer": "subagent:019f7455-defb-7250-a22e-26c352e90d0d",
+    "reviewer": "subagent:019f7469-1ee4-71a1-8f2c-d833f6eebd3e",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:6c779b1aba99312e79ff2cd801c8b9f8e166da6c:1bdeb0703abc8ad44b84baaee8272494b6df2eb4a440c78e31bf915025a811b8",
+    "revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime/src/supervision.rs",
       "adl-runtime/src/topology.rs",
       "adl/src/csm_runtime_api.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ]
   },
   "review": {
-    "reviewer": "subagent:019f7455-defb-7250-a22e-26c352e90d0d",
+    "reviewer": "subagent:019f7469-1ee4-71a1-8f2c-d833f6eebd3e",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime/src/supervision.rs",
       "adl-runtime/src/topology.rs",
       "adl/src/csm_runtime_api.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/tests.rs",
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ],
-    "reviewed_revision": "git-blake3:6c779b1aba99312e79ff2cd801c8b9f8e166da6c:1bdeb0703abc8ad44b84baaee8272494b6df2eb4a440c78e31bf915025a811b8",
+    "reviewed_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
     "findings": [
       {
         "id": "F-5494-1",
@@ -55,8 +61,8 @@
         "summary": "Expired non-revoked credentials cannot recover after the renewal window is missed.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
         "route": null
       },
       {
@@ -65,8 +71,8 @@
         "summary": "Readiness exempts Audit and Evidence channels that channel policy classifies as required.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
         "route": null
       },
       {
@@ -75,8 +81,8 @@
         "summary": "CSM weather readiness overclaims CPU, memory, and GPU observations from disk pressure only.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
         "route": null
       },
       {
@@ -85,8 +91,8 @@
         "summary": "The synthetic supervisor test does not execute the production daemon cycle or typed channel fabric.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
         "route": null
       },
       {
@@ -95,14 +101,24 @@
         "summary": "Credential audit events record a fixed overlap instead of the clipped actual duration.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
         "route": null
       },
       {
         "id": "F-5494-6",
         "severity": "p2",
         "summary": "Repair documentation and the sprint register overstate the first revision's proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+        "route": null
+      },
+      {
+        "id": "F-5494-7",
+        "severity": "p1",
+        "summary": "Near-expiry rotation can retain a previous credential that does not outlive the replacement creation timestamp.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -130,34 +146,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "26fbb0e36ed267e11988be52f53bb3c15921ea408ee88c8994c3195cc1b6efc0",
+      "values_digest": "56c43a3190132bafc24c691f7d685392179c7100dbf02f94f50b1eca51ce1c9d",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "008f3a28d8f22a51366dbea34d3f6013fec8afec4e6b6c9f152b68d1bc25e23f",
+      "values_digest": "4ad0defe75bbfa4376658f48ff934aace0e7d468d4803c80fae5b4ce063ab9d1",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "18ddfaf73d4d67fbcd0c745042de1687266c0337ed72dabf32c270f8293a819d",
+      "values_digest": "10c78586547b0e1d6fe57868c2019989ab57027d366c5c202a720a6457d115a7",
       "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
       "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
     },
     "vpp": {
-      "values_digest": "55208da2919af1e6b14fcd4830379259a138db06cdcee7a025c04ef99deff664",
+      "values_digest": "7d99e9787886bc11205923cace3b7c4403efe890a73842eb05d6701c2faa3047",
       "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
       "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
     },
     "srp": {
-      "values_digest": "899cf7e088520b674a3487cf4138a279f4cd3d0f55f9c9e3b3a5e5d78d1adbcc",
-      "rendered_digest": "816d3cbccc3f5ef284ee590853e1080596d132cdc9cfdefb069c111c9102c22c",
-      "ast_digest": "dbe70d70229d9b24556322e0a781546fbd031207ca2ceb52fc4c11bf2f7a673d"
+      "values_digest": "153d07cdf8b2c26401be0ad47f0dc4ec2f1bcbdf91d53610975fbbed4ff8a1c0",
+      "rendered_digest": "4a00e9e6a5acd797f6ca77eb6fa012f4ed42e0c442b7a0fa6daf6053a357d8bf",
+      "ast_digest": "d65a79ae82c3bbfee5a6e7678bfba6a8a6ebd9d3fc0d68402c7095b48cad4382"
     },
     "sor": {
-      "values_digest": "f87d9a838a7081dae7fedad929cc9c770121973739441ab1aef0505d306bc011",
-      "rendered_digest": "6117bf781756b3f12e4c65654b4861db4cdc74360d0fbfed7d01062ad7ca4c58",
-      "ast_digest": "348d557ae6ba8c7d23c42ef8c11f3c8f0ac0fc406770085020bf0ddd5544775f"
+      "values_digest": "b0c564e42cf2c69c1a98bb65dbc20916e60a9605cb27be51b41911875dff08c8",
+      "rendered_digest": "af159b2e302ce28fb2500f8fb0f4eeb1ec45e38eb9e723db50f9bc381b1c50bc",
+      "ast_digest": "7c8882e5da82c7945cc05a4ef18586b6f93f17c7e9c1e9a62ac78a068df57f6f"
     }
   },
   "transitions": [
@@ -267,6 +283,41 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The production daemon cycle completes the required behavioral soak and recovers after an injected real failure.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::production_daemon_cycle_soak_runs_real_ticks_channels_and_recovery\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove 100 production tick cycles over typed Runtime v3 channels with one injected failure and recovery on the same context\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 100 successful production cycles, one injected failure, recovery, 27.78 seconds\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "subagent:019f7469-1ee4-71a1-8f2c-d833f6eebd3e",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fixed F-5494-7 with one rotation timestamp for overlap clipping and replacement creation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Eliminate the near-expiry credential-store race by using one captured timestamp for the complete rotation transaction.\",\"changes\":[\"Delegate public rotation to a deterministic rotate_at transaction\",\"Use the same timestamp for prior-generation overlap and replacement creation\",\"Add a deterministic one-second-overlap regression test\"],\"artifacts\":[\"adl-runtime/src/runtime_api_auth.rs\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "All focused credential-store tests pass including the one-second rotation boundary.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests\"],\"purpose\":\"Prove credential creation, renewal, expired recovery, overlap, revocation, and the exact one-second rotation boundary\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 9 credential-store tests passed\"}}"
     }
   ]
 }

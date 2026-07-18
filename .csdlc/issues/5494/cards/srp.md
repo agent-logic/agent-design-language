@@ -13,8 +13,11 @@ Status: pre_phase
 ## Scope
 
 adl-runtime/src/runtime_api_auth.rs
+adl-runtime/src/supervision.rs
 adl-runtime/src/topology.rs
 adl/src/csm_runtime_api.rs
+adl/src/long_lived_agent.rs
+adl/src/long_lived_agent/tests.rs
 docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
 docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
@@ -34,8 +37,8 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "summary": "Expired non-revoked credentials cannot recover after the renewal window is missed.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
     "route": null
   },
   {
@@ -44,8 +47,8 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "summary": "Readiness exempts Audit and Evidence channels that channel policy classifies as required.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
     "route": null
   },
   {
@@ -54,8 +57,8 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "summary": "CSM weather readiness overclaims CPU, memory, and GPU observations from disk pressure only.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
     "route": null
   },
   {
@@ -64,8 +67,8 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "summary": "The synthetic supervisor test does not execute the production daemon cycle or typed channel fabric.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
     "route": null
   },
   {
@@ -74,14 +77,24 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "summary": "Credential audit events record a fixed overlap instead of the clipped actual duration.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
     "route": null
   },
   {
     "id": "F-5494-6",
     "severity": "p2",
     "summary": "Repair documentation and the sprint register overstate the first revision's proof.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "route": null
+  },
+  {
+    "id": "F-5494-7",
+    "severity": "p1",
+    "summary": "Near-expiry rotation can retain a previous credential that does not outlive the replacement creation timestamp.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -100,8 +113,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:6c779b1aba99312e79ff2cd801c8b9f8e166da6c:1bdeb0703abc8ad44b84baaee8272494b6df2eb4a440c78e31bf915025a811b8")
+Revision: Some("git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a")
 
-Reviewer: Some("subagent:019f7455-defb-7250-a22e-26c352e90d0d")
+Reviewer: Some("subagent:019f7469-1ee4-71a1-8f2c-d833f6eebd3e")
 
 Result: changes_required

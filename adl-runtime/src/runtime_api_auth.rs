@@ -131,7 +131,7 @@ impl RuntimeApiCredentialStore {
             }
             return Ok(metadata);
         }
-        self.write_new(1, None)
+        self.write_new(1, None, now_epoch_secs()?)
     }
 
     pub fn metadata(&self) -> Result<Option<RuntimeApiCredentialMetadata>, String> {
@@ -275,11 +275,14 @@ impl RuntimeApiCredentialStore {
     }
 
     pub fn rotate(&self) -> Result<RuntimeApiCredentialMetadata, String> {
+        self.rotate_at(now_epoch_secs()?)
+    }
+
+    fn rotate_at(&self, now: u64) -> Result<RuntimeApiCredentialMetadata, String> {
         let current = self.load_stored()?;
         if current.revoked {
             return Err("runtime API credential is revoked; explicit reset required".to_string());
         }
-        let now = now_epoch_secs()?;
         let previous = current
             .expires_at_epoch_secs
             .unwrap_or(u64::MAX)
@@ -296,7 +299,7 @@ impl RuntimeApiCredentialStore {
         let overlap_seconds = previous
             .as_ref()
             .map_or(0, |value| value.expires_at_epoch_secs.saturating_sub(now));
-        let metadata = self.write_new(current.generation.saturating_add(1), previous)?;
+        let metadata = self.write_new(current.generation.saturating_add(1), previous, now)?;
         self.append_generation_event(
             "credential_rotated",
             &metadata,
@@ -343,6 +346,7 @@ impl RuntimeApiCredentialStore {
         &self,
         generation: u64,
         previous: Option<PreviousCredential>,
+        created_at_epoch_secs: u64,
     ) -> Result<RuntimeApiCredentialMetadata, String> {
         let parent = self
             .path
@@ -352,7 +356,6 @@ impl RuntimeApiCredentialStore {
             .map_err(|err| format!("create runtime API credential directory: {err}"))?;
         let mut bytes = [0_u8; 32];
         OsRng.fill_bytes(&mut bytes);
-        let created_at_epoch_secs = now_epoch_secs()?;
         let stored = StoredCredential {
             schema: CSM_RUNTIME_API_AUTH_SCHEMA.to_string(),
             generation,
@@ -631,7 +634,7 @@ mod tests {
     fn credential_store_recovers_expired_non_revoked_material_without_overlap() {
         let root = tempdir().unwrap();
         let store = RuntimeApiCredentialStore::for_state_root(root.path());
-        store.write_new(1, None).unwrap();
+        store.write_new(1, None, now_epoch_secs().unwrap()).unwrap();
         let (token, metadata) = store.load().unwrap();
         let expired = StoredCredential {
             schema: CSM_RUNTIME_API_AUTH_SCHEMA.to_string(),
@@ -683,6 +686,23 @@ mod tests {
         let rotation: serde_json::Value =
             serde_json::from_str(events.lines().last().unwrap()).unwrap();
         assert!(rotation["overlap_seconds"].as_u64().unwrap() <= 60);
+    }
+
+    #[test]
+    fn one_second_rotation_overlap_uses_the_replacement_timestamp() {
+        let root = tempdir().unwrap();
+        let store = RuntimeApiCredentialStore::for_state_root(root.path());
+        let now = now_epoch_secs().unwrap();
+        store.write_new(1, None, now).unwrap();
+        let mut current = store.load_stored().unwrap();
+        current.expires_at_epoch_secs = Some(now + 1);
+        write_private_json_atomic(store.path(), &current).unwrap();
+
+        let rotated = store.rotate_at(now).unwrap();
+
+        assert_eq!(rotated.created_at_epoch_secs, now);
+        let stored = store.load_stored().unwrap();
+        assert_eq!(stored.previous.unwrap().expires_at_epoch_secs, now + 1);
     }
 
     #[test]
