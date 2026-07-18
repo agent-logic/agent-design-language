@@ -249,7 +249,20 @@ case "$method" in
     ;;
 esac
 EOF
-chmod +x "$fake_bin/aws" "$fake_bin/adl-aws-remote-validation" "$fake_bin/curl"
+cat >"$fake_bin/stat" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" == "-c" && "${2:-}" == "%a" ]]; then
+  echo 600
+  exit 0
+fi
+if [[ "${1:-}" == "-f" && "${2:-}" == "%Lp" ]]; then
+  echo "unexpected BSD stat fallback on GNU path" >&2
+  exit 1
+fi
+exec /usr/bin/stat "$@"
+EOF
+chmod +x "$fake_bin/aws" "$fake_bin/adl-aws-remote-validation" "$fake_bin/curl" "$fake_bin/stat"
 
 ADL_FAKE_GITHUB_API_LOG="$TMP/github-api.log" \
 ADL_GITHUB_API_BIN="$fake_bin/curl" \
@@ -280,6 +293,7 @@ assert payload == {
 PY
 
 ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
 bash "$SCRIPT" \
   --check-account \
   --expected-proof "$proof" \
@@ -476,6 +490,7 @@ ADL_FAKE_AWS_REMOTE_ARGS="$TMP/launch-args.txt" \
 ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
 ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
 ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
 bash "$SCRIPT" launch \
   --expected-proof "$proof" \
   --bin "$fake_bin/adl-aws-remote-validation" \
@@ -506,6 +521,7 @@ ADL_FAKE_AWS_REMOTE_ARGS="$TMP/resume-args.txt" \
 ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
 ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
 ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
 bash "$SCRIPT" \
   --run \
   --expected-proof "$proof" \
