@@ -8,13 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v2/src/store.rs
-csdlc-v2/src/publication.rs
-csdlc-v2/tests/gate7_lifecycle.rs
+
 
 ## Prompts
 
@@ -33,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Filesystem crash semantics remain platform-dependent beyond the synchronized Rust boundaries.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:cf4bb555f3602f9edc5c1c855bddb413136ae767:c52cccf2b3a09534b904bc24f17e138046abaaed39cb40929578921ae9d4f339")
+Revision: None
 
-Reviewer: Some("review_5427")
+Reviewer: None
 
-Result: pass
+Result: pre_review

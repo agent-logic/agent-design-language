@@ -8,3 +8,4 @@
 {"sequence":8,"generation":5,"actor":"codex","reason":"Pre-publication review passed with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":9,"generation":6,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":10,"generation":7,"actor":"codex","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":11,"generation":8,"actor":"codex","reason":"Publication metadata changed the exact reviewed revision; require typed re-review before continuing closeout.","operation":"recover_review"}

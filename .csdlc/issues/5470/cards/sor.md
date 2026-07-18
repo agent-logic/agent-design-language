@@ -47,11 +47,11 @@ Terminal reconciliation now journals projection and receipt updates across durab
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
