@@ -313,14 +313,6 @@ if grep -F "$account" "$TMP/check.out" >/dev/null; then
   exit 1
 fi
 
-ADL_FAKE_STAT_STYLE=bsd \
-ADL_AWS_CLI="$fake_bin/aws" \
-PATH="$fake_bin:$PATH" \
-bash "$SCRIPT" \
-  --check-account \
-  --expected-proof "$proof" \
-  --git-ref origin/main >"$TMP/check-bsd-stat.out"
-grep -F "PASS account_profile_resolved profile=agent-logic-admin account_matches_retained_proof=true" "$TMP/check-bsd-stat.out" >/dev/null
 if grep -F "arn:aws:iam" "$TMP/check.out" >/dev/null; then
   echo "arn leaked in account-check output" >&2
   exit 1
@@ -330,7 +322,9 @@ if grep -F "AIDAEXAMPLE" "$TMP/check.out" >/dev/null; then
   exit 1
 fi
 
+ADL_FAKE_STAT_STYLE=bsd \
 ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
 bash "$SCRIPT" preflight \
   --expected-proof "$proof" \
   --builder-image "$builder_image" \
