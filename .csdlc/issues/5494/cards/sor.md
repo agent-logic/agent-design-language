@@ -159,11 +159,11 @@ Make terminal revocation monotonic across concurrent processes by locking the co
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

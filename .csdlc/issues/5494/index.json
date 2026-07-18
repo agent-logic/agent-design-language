@@ -3,13 +3,13 @@
   "issue": 5494,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
-  "phase": "reviewed",
-  "generation": 19,
-  "digest": "25bcc93e3cf4b4fe83612827f246e99cf9d64bdc497d6d9c2a07eef55131156f",
+  "phase": "published",
+  "generation": 23,
+  "digest": "190cebaa872004d1a85ebfe6fb919a5d8fefb7d550d4660ff69a5d4451ecbe32",
   "claim": {
     "id": "claim-5494-wp07a-completion",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 19,
+    "generation": 23,
     "acquired_unix_seconds": 1784362098,
     "expires_unix_seconds": 1784448498,
     "heartbeat_unix_seconds": 1784362098,
@@ -27,9 +27,9 @@
     "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
   },
   "review_assignment": {
-    "reviewer": "subagent:019f7478-1e9d-7dc0-9492-9e48ab672b0b",
+    "reviewer": "subagent:019f747a-3503-7e91-ba2a-6e4f259c1f6b",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:6289f938e64f0cb9fec96e98c45e40e485dfbcdf:6692bfcc0a549c1fe5cc9b1895e1679da81d6f5c2c2f530912859f7426bf2a7d",
+    "revision": "git-blake3:d37e3b8f487fd0c7fb92f6d9dcab3d62ebe5e24f:ccbc5313e033bc6543ce01fedb66895d2af979b964551a7b8f51486cbbc8abe8",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -42,7 +42,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:019f7478-1e9d-7dc0-9492-9e48ab672b0b",
+    "reviewer": "subagent:019f747a-3503-7e91-ba2a-6e4f259c1f6b",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -53,7 +53,7 @@
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ],
-    "reviewed_revision": "git-blake3:6289f938e64f0cb9fec96e98c45e40e485dfbcdf:6692bfcc0a549c1fe5cc9b1895e1679da81d6f5c2c2f530912859f7426bf2a7d",
+    "reviewed_revision": "git-blake3:d37e3b8f487fd0c7fb92f6d9dcab3d62ebe5e24f:ccbc5313e033bc6543ce01fedb66895d2af979b964551a7b8f51486cbbc8abe8",
     "findings": [],
     "residual_risks": [
       "Strict all-target Clippy is blocked by two pre-existing cav.rs test warnings outside #5494."
@@ -61,7 +61,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5494,
+    "pull_request": 5504,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5504",
+    "base": "main",
+    "head": "codex/5494-wp07a-completion",
+    "revision": "git-blake3:d37e3b8f487fd0c7fb92f6d9dcab3d62ebe5e24f:ccbc5313e033bc6543ce01fedb66895d2af979b964551a7b8f51486cbbc8abe8",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +85,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8afe4e91f2572dc5f2adf312f6bd908f5dca387e1110413bc528767bed33bda0",
+      "values_digest": "6772ca7ff9ae3259fb7d4babdb5075fc280b1d5ab117bcaaecd9fee1213b2da8",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "83fce3af85b4a7a1be15e83a1680dc296952d5d61800261d9b6fe525879eeb71",
+      "values_digest": "87d77415e0d0af374bca2e5e1a87e68f01719c62ed6e102714c9eae6d89bb133",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "366ee14769240dc588269801c211592fa3c972cba7203cae5ab80c795a6e6de3",
+      "values_digest": "eb4f348cd47489bc7ce6efff9dcb30ffea87e91f4335300061776a750bfd6801",
       "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
       "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
     },
     "vpp": {
-      "values_digest": "3af1e1dd0058bacefc5d86ea8ffb1784b87e8556e3655e60568d6317c2f2ad0b",
+      "values_digest": "55bb599153a9cbaea110404922fff0274b9e379c3773e358c5b3a5eaddd690f6",
       "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
       "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
     },
     "srp": {
-      "values_digest": "551cc2ff088e2ab982f48776f3a0e69ec6b213f6b8ca9cb6518258a0547b304e",
-      "rendered_digest": "65ed79255e4498a0c91d348bd4af632d78824fe9b1ab7816c0955ab495dcca4c",
-      "ast_digest": "deb8f46394fbbdd9b084154e3623ab1b7f359c1776f72d6b204b4a8ae7f7e8ec"
+      "values_digest": "5b277a1ffc57d67a49feba631c34511ba5623716432468940c5c62186ba4631d",
+      "rendered_digest": "72da987f8498d701d06760b966fbb0d0dcaec9868ca726ecb2b5dc34b06355d0",
+      "ast_digest": "b8c974cdc65f6d5472c4b8619190f17f77207a4c7f7e77ecf11230a5d4b3c7e4"
     },
     "sor": {
-      "values_digest": "1d2f90407d8156ff4b891243efa409dbc5dd743e9b7d50695c0f67d0e9a12a7c",
-      "rendered_digest": "8b0ca01fb3cf9da5ecf85c6bb149b4fabefaaa3aaa4861552eaa920d11829135",
-      "ast_digest": "cc5016e4f3538897380f3250cc0e9783f1b21deb9cc0ef57530966b8369029b7"
+      "values_digest": "db22a72df09fb4507cbdf791e1c9e75f2062e3efb7cf469e2024339630e177c4",
+      "rendered_digest": "bb26671b2b9bbbf6b6441bf1c0fcc98c15b7aeb6433b810f5de09ed2a250fccb",
+      "ast_digest": "7c60ad044ec01c161196d5ab4d33cab3290f094320d0c1e514b2d860df7e15f9"
     }
   },
   "transitions": [
@@ -133,6 +143,27 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact publication-head review passed after all eight actionable findings were fixed."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity after committing review lifecycle metadata; substantive scope is unchanged."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact terminal metadata-head review passed with substantive scope unchanged."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact draft PR after current review"
     }
   ],
   "audit": [
@@ -324,6 +355,41 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact publication-head review passed after all eight actionable findings were fixed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity after committing review lifecycle metadata; substantive scope is unchanged.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "subagent:019f747a-3503-7e91-ba2a-6e4f259c1f6b",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact terminal metadata-head review passed with substantive scope unchanged.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

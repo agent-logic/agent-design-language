@@ -7,15 +7,15 @@
     "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
     "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
     "version": "v0.91.7",
-    "generation": 19
+    "generation": 23
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime/src/runtime_api_auth.rs\nadl-runtime/src/supervision.rs\nadl-runtime/src/topology.rs\nadl/src/csm_runtime_api.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/tests.rs\ndocs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "review_revision": "git-blake3:6289f938e64f0cb9fec96e98c45e40e485dfbcdf:6692bfcc0a549c1fe5cc9b1895e1679da81d6f5c2c2f530912859f7426bf2a7d",
-      "reviewer": "subagent:019f7478-1e9d-7dc0-9492-9e48ab672b0b",
+      "review_revision": "git-blake3:d37e3b8f487fd0c7fb92f6d9dcab3d62ebe5e24f:ccbc5313e033bc6543ce01fedb66895d2af979b964551a7b8f51486cbbc8abe8",
+      "reviewer": "subagent:019f747a-3503-7e91-ba2a-6e4f259c1f6b",
       "review_prompts": [
         "Does production execute rather than merely describe the assembly?",
         "Can any required missing or unhealthy observation leave readiness green?",
