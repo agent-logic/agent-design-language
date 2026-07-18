@@ -62,11 +62,11 @@ Closed-out design repair now performs authority/CAS/hash checks, markdown AST va
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

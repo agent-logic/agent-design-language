@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+csdlc-v2/src/store.rs
+csdlc-v2/src/bin/csdlc-closeout.rs
+csdlc-v2/tests/gate7_terminal_design_repair_5487.rs
+.csdlc/issues/5467/retained/design.md
+.csdlc/issues/5467/retained/diagram.mmd
 
 ## Prompts
 
@@ -31,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Crash recovery remains bounded by the existing filesystem durability contract.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a394594d447790d2ea1200d28ae7108c75f66784:915248a2577f4777bca37e2d8b260eecc7213c001a464cb4daa8ee71e07cb3e4")
 
-Reviewer: None
+Reviewer: Some("review_5427")
 
-Result: pre_review
+Result: pass

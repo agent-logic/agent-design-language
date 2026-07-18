@@ -3,13 +3,13 @@
   "issue": 5487,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7c8abbf996795f4d33022b527e2915bc79bae567af2c6bb105b31fd6ab8598c2",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "c24c31014c2f5b14c72620f9cbc33892672f3f54fea8d95eb13d05bec3738783",
+  "phase": "published",
+  "generation": 9,
+  "digest": "c8809bbbc83a56e0dacfadd25cf9996db05ca32ebbfecc3d8c57227459fc27d4",
   "claim": {
     "id": "claim-5487-terminal-design-repair",
     "owner": "codex",
-    "generation": 6,
+    "generation": 9,
     "acquired_unix_seconds": 1784360100,
     "expires_unix_seconds": 1784367300,
     "heartbeat_unix_seconds": 1784360100,
@@ -24,9 +24,46 @@
     ],
     "purpose": "Add typed terminal design and diagram repair with atomic receipt reconciliation"
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "review_5427",
+    "assigned_by": "codex",
+    "revision": "git-blake3:a394594d447790d2ea1200d28ae7108c75f66784:915248a2577f4777bca37e2d8b260eecc7213c001a464cb4daa8ee71e07cb3e4",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/tests/gate7_terminal_design_repair_5487.rs",
+      ".csdlc/issues/5467/retained/design.md",
+      ".csdlc/issues/5467/retained/diagram.mmd"
+    ]
+  },
+  "review": {
+    "reviewer": "review_5427",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/tests/gate7_terminal_design_repair_5487.rs",
+      ".csdlc/issues/5467/retained/design.md",
+      ".csdlc/issues/5467/retained/diagram.mmd"
+    ],
+    "reviewed_revision": "git-blake3:a394594d447790d2ea1200d28ae7108c75f66784:915248a2577f4777bca37e2d8b260eecc7213c001a464cb4daa8ee71e07cb3e4",
+    "findings": [],
+    "residual_risks": [
+      "Crash recovery remains bounded by the existing filesystem durability contract."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5487,
+    "pull_request": 5491,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5491",
+    "base": "main",
+    "head": "codex/5487-terminal-design-repair",
+    "revision": "git-blake3:a394594d447790d2ea1200d28ae7108c75f66784:915248a2577f4777bca37e2d8b260eecc7213c001a464cb4daa8ee71e07cb3e4",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -40,34 +77,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6cda3336081a76e1ce461f51176a47af84e0e1b48b57258ec820f8dd5a384097",
+      "values_digest": "093b7cf661e3ee02fa3213f5f1b46fdd49c6ed8c06063fc74d68bfccb81115a3",
       "rendered_digest": "80ddb726ea098e53b247b6b7ef6a23d0c10ab9466b4efaec3d78b7bb2f95d796",
       "ast_digest": "c1ed38486537316029d56c3414ac20dee07fa0575ae75e52bab9aad80a0b0fc0"
     },
     "stp": {
-      "values_digest": "e301e01f111d3c052cc254fb9e1b7132e33d3c7fc9e9188fc721b901b22ac1e7",
+      "values_digest": "ad27e82f77c390ce35633a57daee3b5634c5f0a6cabdce488bfac2a30f6d229e",
       "rendered_digest": "d339f52f34c59d8c1d8c57eae6418fec6c7bbee6a8e1f711296db36a34ff316f",
       "ast_digest": "14242e803ab4baea4178dff757963d70ca7ac1fb21865bb98a67c9fef1e366fb"
     },
     "spp": {
-      "values_digest": "a6bc8f01b5060c79c11a96b36a7f1eeec4a096e047def6e7c1dab39eeac66a89",
+      "values_digest": "dd082f8b3338fbe240f1942c831e6ec6d9af16bb1f70e82b09dbae04bda88073",
       "rendered_digest": "2a63ed153f38ae794a7823f83f16ba957ab20688b06e63a506f8f336fedb50e1",
       "ast_digest": "44971f6391c44480a012554b33e1cab7043e3fca43903bf922b12abd4ae70571"
     },
     "vpp": {
-      "values_digest": "e75096f89af1384f13c975abc4501ba3dbadfc1b59d47bd813e8c05ef2dd4f41",
+      "values_digest": "8fcd9c4705c2b0e5696be22987549ea36856a4f481efbba8613403928ecaaaf5",
       "rendered_digest": "9989e0e9e5d0ece92e567f88f6a2a1497f2a00221977a68b843e0e302b20fa9c",
       "ast_digest": "88da1229ef057dd8a42aa36cd5a7a2f6a8c4e9f0d0f37a5102db2b3d02781dc9"
     },
     "srp": {
-      "values_digest": "1775474923bebc5ab4d2d1d6bf172435f73789a424ca65d730466e9fa1baecee",
-      "rendered_digest": "4667e17ded7962a49a147a62dd03988dde3f2889d3eb906ae247bf0072b4311c",
-      "ast_digest": "e614777cbd5aada4130a248c3b908304d52b50ad4adf222908b1aa3485dc5d36"
+      "values_digest": "ee4aeaca37487f61430b6986ec5f20487ccd60745e0b2be688dc905c5fb7e3e1",
+      "rendered_digest": "1b43d448fed21ca60a8a2348da8c81219157c0dac58e3e430d99b53b90758a56",
+      "ast_digest": "b4db4462b5c611a4f16aca214381fbf3223ea6ba4a85aa32979c8ac1cc0b1139"
     },
     "sor": {
-      "values_digest": "2fb77140b37ae312a2b0c6b7359af8c0d5937bb8a86064cacd73d77d55a60993",
-      "rendered_digest": "3225514e7ece70570feb6b59e2a18ec7fccfa56f5a1a1f9fe92f43a0b479f28f",
-      "ast_digest": "0089fed2b4210c14a9b7a07fc5fbc21e567bfbf5c1759251cd6afc6a805ae761"
+      "values_digest": "fc0f52c5ecf4fc5de0974e77565b995b0aa42933e4b752227ae83a80d9bd5cf9",
+      "rendered_digest": "7c936cb9e401a8c3738f8ca04a4d5e3602bb37bb6e3cc7ee9e30c8f8ee51cc48",
+      "ast_digest": "8a7e59ece95c6576ddc64cc028ffeabc19e3843ade1e35ef4868290740469af1"
     }
   },
   "transitions": [
@@ -91,6 +128,20 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Implementation and focused validation are complete; advance to review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Bounded review completed with no findings; advance to reviewed."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -149,6 +200,34 @@
       "actor": "codex",
       "reason": "Focused repair artifact contract validation passed.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_terminal_design_repair_5487\"],\"purpose\":\"Verify the typed repair request covers committed #5467 design and diagram artifacts with stable digests and Mermaid shape.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate7_terminal_design_repair_5487: 1 test passed\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "review_5427",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Bounded review completed with no findings; advance to reviewed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
