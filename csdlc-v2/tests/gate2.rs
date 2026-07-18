@@ -270,13 +270,15 @@ fn closed_issue_claim_release_is_typed_and_compare_and_swap_guarded() {
         &store,
         csdlc_v2::ReleaseClosedClaimRequest {
             issue: 42,
+            repository: "example/repo".into(),
             expected_claim_id: claim_id,
             expected_generation: record.generation,
             expected_digest: record.digest.clone(),
             actor: "operator".into(),
             reason: "GitHub issue is closed; release stale broad claim for follow-on setup".into(),
             observed_issue_state: "closed".into(),
-            observation_source: "github:issue/42".into(),
+            observed_issue: 42,
+            observation_source: "github://example/repo/issues/42".into(),
         },
     )
     .unwrap();
@@ -397,6 +399,8 @@ fn bind_refuses_overlapping_protected_path_reserved_by_another_issue() {
     )
     .expect_err("path overlap");
     assert!(matches!(error.code, ErrorCode::ClaimCollision));
+    assert!(error.message.contains("in phase"));
+    assert!(error.message.contains("protected"));
 }
 
 #[test]
