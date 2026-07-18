@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5495,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2][publish] Avoid stale review loop after publication metadata commit",
+    "slug": "publication-metadata-review-loop",
+    "version": "v0.91.7",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can a source or retained-design change bypass review?",
+        "Are all normal typed publication metadata surfaces covered without allowing arbitrary files?",
+        "Does merged reconciliation still require exact identity and final reviewed intent?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

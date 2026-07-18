@@ -1,0 +1,140 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5495,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "f7ca62455b8ab2f07d97e34fed8502d2f59f4b77b96f04808837080769efaaba",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "4cc0f88d6ac9c09d099be2becd6b187400c59ee11de95522236d1a767b427d3c",
+  "claim": {
+    "id": "claim-5495-publication-metadata",
+    "owner": "codex",
+    "generation": 4,
+    "acquired_unix_seconds": 1784415805,
+    "expires_unix_seconds": 1784423005,
+    "heartbeat_unix_seconds": 1784415805,
+    "branch": "codex/5495-publication-metadata",
+    "worktree": ".",
+    "protected_paths": [
+      "csdlc-v2/src/git.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/5495/retained/design.md",
+      ".csdlc/issues/5495/retained/diagram.mmd"
+    ],
+    "purpose": "Allow typed lifecycle metadata commits without masking substantive review drift"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/issues/5495/retained/design.md",
+  "diagram_path": ".csdlc/issues/5495/retained/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex",
+      "revision": "68e7e87969ff9a80c12e15a24e6fde8d4c4f1b9bd1f6dd7329ce94edf680a965"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "15c6bc010e2dc04d2fa99c2be735870392d650b3468b2cc53fa8c1136b2bade9",
+      "rendered_digest": "cb401f8487b08c8a2dc68ae4f17cad42dca364cbe66caf9df4c23bf0a4e40b32",
+      "ast_digest": "e8824dc91c6e97c92de9cd48410482fa55f44758e09ee9eb0332ae947c1475d6"
+    },
+    "stp": {
+      "values_digest": "20e0aafeacc7d631a1877f3b6543a1ebf952e90f9bfc0deb88c7fa7794842c92",
+      "rendered_digest": "c8093297dc0a72cc2bf3673f22ce5e690f5de8be3735b34491ceca4951e878ed",
+      "ast_digest": "a448d0a017ba0aa26e4abf01f1db9f9967f96e1de924a98f959462909e5be6b4"
+    },
+    "spp": {
+      "values_digest": "521087900ca20b70b71cc7354cb639815c48c99d45fd858257a11de9a327a29a",
+      "rendered_digest": "58102ee2d11e4e4cdddd17775324578a1a17e6c68da26c63f84f497ac55233f4",
+      "ast_digest": "ca85aa1a7ef524762574af8d3d2797000a1d565c25511816a7de7e7d813b9770"
+    },
+    "vpp": {
+      "values_digest": "272c59f0922788dd723c92de63b923d53afb8b717cd3d2e3f09b0aa60a687113",
+      "rendered_digest": "157f7891da11f14fb26a9e1108809ce6530e976966752ecefae8df1e1913b0db",
+      "ast_digest": "18c1e215a7e8256795b140ebf1ece34da01b9826e94e8d83f7e81e7e204d84f0"
+    },
+    "srp": {
+      "values_digest": "99568c65ca6ed651da3a6e99a6c5ea64228725d17ffcd377e8d149744beddf98",
+      "rendered_digest": "d4568843b1eef31d5d306ba73ecd93d0f9e47f99ec342261bfed431c19493feb",
+      "ast_digest": "526912f654a991e3f70fa0b94fa07859a2a105956f4b1a403d0a5471a1a10f20"
+    },
+    "sor": {
+      "values_digest": "e77904ec88ae31fd1c7dce193546cabef40a15ec75946b11758df4f3f93abfea",
+      "rendered_digest": "18586f65fe1d1a2dd705d59cc59de4315cc9652943c16b13506608bbe625d04b",
+      "ast_digest": "1e9e067d638aaf5572ee687eb584ba790cfd39d853580a6390c814fc26fd2937"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "Bootstrap cards and design are complete; advance to ready for local binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Implementation and focused validation are complete; advance to review."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "Bootstrap cards and design are complete; advance to ready for local binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Implement bounded lifecycle metadata classification and automatic metadata-only review proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Publication review now recognizes exact typed lifecycle metadata commits while keeping source drift fail closed.\",\"changes\":[\"Bound safe metadata paths to generated lifecycle surfaces.\",\"Derive automatic non-substantive proof only for exact metadata-only commit transitions.\",\"Preserve explicit-proof validation and substantive review_stale behavior.\"],\"artifacts\":[\"csdlc-v2/src/git.rs\",\"csdlc-v2/src/review.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Gate 5 metadata/publication regression proof passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"Prove recognized typed lifecycle metadata commits do not stale review while source drift remains blocked; explicit malformed proof remains fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate5: 11 tests passed; cargo clippy --all-targets -D warnings; git diff --check\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Implementation and focused validation are complete; advance to review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
