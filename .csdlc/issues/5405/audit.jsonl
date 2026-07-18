@@ -20,3 +20,31 @@
 {"sequence":20,"generation":14,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":21,"generation":15,"actor":"subagent:019f7321-c006-7013-a1bc-9d2048423552","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":22,"generation":16,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Exact-revision subagent review passed at 89088f8a5 with all four prior findings fixed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":23,"generation":17,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Lifecycle-only review-record commit changed revision identity after the prior exact review; recover for exact current-HEAD review before publication.","operation":"recover_review"}
+{"sequence":24,"generation":17,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":25,"generation":18,"actor":"subagent:019f7321-c006-7013-a1bc-9d2048423552","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":26,"generation":19,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Exact current-HEAD review passed at daad3d266 with all substantive paths unchanged from the prior PASS.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":27,"generation":20,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":28,"generation":21,"actor":"codex","reason":"Rebase onto merged Spot wrapper repair changed the commit identity while leaving all issue-owned bytes unchanged","operation":"recover_review"}
+{"sequence":29,"generation":21,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":30,"generation":22,"actor":"subagent:019f7321-c006-7013-a1bc-9d2048423552","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":31,"generation":23,"actor":"codex","reason":"Exact post-rebase review passed and confirmed issue-owned content is byte-identical","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":32,"generation":24,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":33,"generation":25,"actor":"codex","reason":"Final rebase onto merged cache-shape repair changed commit identity while leaving all issue-owned bytes unchanged","operation":"recover_review"}
+{"sequence":34,"generation":25,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":35,"generation":26,"actor":"subagent:019f7321-c006-7013-a1bc-9d2048423552","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":36,"generation":27,"actor":"codex","reason":"Final exact-revision review passed after both Spot tooling repairs merged","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":37,"generation":28,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":38,"generation":29,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Rebase onto merged Spot tooling fixes changed the exact commit identity; refresh review and publication truth at the current substantive revision.","operation":"recover_review"}
+{"sequence":39,"generation":29,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":40,"generation":30,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":41,"generation":31,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Final exact-revision review passed after rebase onto the merged Spot tooling baseline","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":42,"generation":32,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":43,"generation":33,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Refresh exact-revision review and publication after a no-content CI synchronization commit","operation":"recover_review"}
+{"sequence":44,"generation":33,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":45,"generation":34,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":46,"generation":35,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Exact-revision review passed and confirmed the CI synchronization commit changed no issue-owned bytes","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":47,"generation":36,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":48,"generation":37,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":49,"generation":38,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":50,"generation":39,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Materialize the retained terminal receipt after PR #5445 merged and issue #5405 closed","operation":"reconcile_terminal"}
