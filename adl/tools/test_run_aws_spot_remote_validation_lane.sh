@@ -326,6 +326,7 @@ bash "$SCRIPT" \
   --git-ref origin/main \
   --out "$TMP/summary.json" \
   --artifact-dir "$TMP/artifacts" \
+  --instance-type r7a.2xlarge \
   --instance-types m7a.2xlarge,c7a.2xlarge \
   --max-run-seconds 900 \
   --json >"$TMP/run.out"
@@ -338,11 +339,24 @@ grep -Fx -- "--region" "$TMP/args.txt" >/dev/null
 grep -Fx -- "us-west-2" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--issue" "$TMP/args.txt" >/dev/null
 grep -Fx -- "5191" "$TMP/args.txt" >/dev/null
-grep -Fx -- "--instance-type" "$TMP/args.txt" >/dev/null
-grep -Fx -- "m7a.2xlarge" "$TMP/args.txt" >/dev/null
-grep -Fx -- "c7a.2xlarge" "$TMP/args.txt" >/dev/null
-grep -Fx -- "--command-timeout-seconds" "$TMP/args.txt" >/dev/null
-grep -Fx -- "900" "$TMP/args.txt" >/dev/null
+python3 - "$TMP/args.txt" <<'PY'
+import sys
+
+args = open(sys.argv[1], encoding="utf-8").read().splitlines()
+instance_types = [
+    args[index + 1]
+    for index, value in enumerate(args)
+    if value == "--instance-type"
+]
+assert instance_types == ["r7a.2xlarge", "m7a.2xlarge", "c7a.2xlarge"]
+timeout_indexes = [
+    index
+    for index, value in enumerate(args)
+    if value == "--command-timeout-seconds"
+]
+assert len(timeout_indexes) == 1
+assert args[timeout_indexes[0] + 1] == "900"
+PY
 grep -Fx -- "--spot-only" "$TMP/args.txt" >/dev/null
 grep -F 'INSTANCE_TYPES=("m7a.2xlarge" "c7a.2xlarge" "c7i.2xlarge")' "$SCRIPT" >/dev/null
 grep -Fx -- "--cache-volume-id" "$TMP/args.txt" >/dev/null
@@ -495,7 +509,7 @@ grep -F -- "git_ref must be a branch, tag, or SHA; HEAD is ambiguous" "$WORKFLOW
 grep -F -- "--profile env" "$WORKFLOW" >/dev/null
 grep -F -- "--check-account" "$WORKFLOW" >/dev/null
 grep -F -- "--json" "$WORKFLOW" >/dev/null
-grep -F -- "Verify Spot artifact redaction" "$WORKFLOW" >/dev/null
+grep -F -- "Sanitize and verify Spot artifact redaction" "$WORKFLOW" >/dev/null
 grep -F -- "AWS_SPOT_REMOTE_VALIDATION_SSH_PRIVATE_KEY_B64" "$WORKFLOW" >/dev/null
 grep -F -- "ssh-keygen -y -P ''" "$WORKFLOW" >/dev/null
 grep -F -- "include-hidden-files: false" "$WORKFLOW" >/dev/null
@@ -503,7 +517,7 @@ grep -F -- "Build Spot remote validation binary" "$WORKFLOW" >/dev/null
 grep -F -- "tools/aws_remote_validation/Cargo.toml" "$WORKFLOW" >/dev/null
 grep -F -- "adl-aws-remote-validation-cache-volume:/mnt/adl-cache" "$WORKFLOW" >/dev/null
 grep -F -- "ssh tail" "$WORKFLOW" >/dev/null
-grep -F -- "ADL_AWS_REMOTE_VALIDATION_SSH_ALLOWED_CIDR" "$WORKFLOW" >/dev/null
+grep -F -- "AWS_SPOT_REMOTE_VALIDATION_SSH_ALLOWED_CIDR" "$WORKFLOW" >/dev/null
 grep -F -- "if-no-files-found: warn" "$WORKFLOW" >/dev/null
 grep -F -- "ec2:RunInstances" "$SETUP_SCRIPT" >/dev/null
 if grep -F -- '"ec2:CreateVolume"' "$SETUP_SCRIPT" >/dev/null; then
