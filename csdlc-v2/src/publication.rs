@@ -202,6 +202,26 @@ pub fn validate_remote(intent: &PublicationIntent, remote: &RemotePullRequest) -
     Ok(())
 }
 
+pub fn validate_merged_remote(
+    intent: &PublicationIntent,
+    remote: &RemotePullRequest,
+) -> Result<()> {
+    validate_remote_identity(intent, remote)?;
+    if intent.draft
+        || remote.head_sha != intent.commit_sha
+        || remote.title != intent.title
+        || remote.body != intent.body
+        || remote.draft
+        || remote.state != "merged"
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "merged PR did not converge to the exact final reviewed intent",
+        ));
+    }
+    Ok(())
+}
+
 fn validate_remote_identity(intent: &PublicationIntent, remote: &RemotePullRequest) -> Result<()> {
     if remote.repository != intent.repository
         || remote.base != intent.base

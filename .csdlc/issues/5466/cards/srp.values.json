@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5466,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Reconcile merged PR after a late reviewed-head advance",
+    "slug": "merged-head-closeout-recovery",
+    "version": "v0.91.7",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the route require exact final-head review?",
+        "Can a wrong or unmerged PR be reconciled?",
+        "Is normal draft publication unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

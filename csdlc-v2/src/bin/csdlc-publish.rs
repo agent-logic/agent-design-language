@@ -8,6 +8,7 @@ use csdlc_v2::{
     PublicationIntent, PublicationRequest, RemotePullRequest, Store,
 };
 use octocrab::params::State;
+use serde::Deserialize;
 
 #[derive(Parser)]
 struct Cli {
@@ -27,7 +28,17 @@ enum Command {
         #[arg(long)]
         request: PathBuf,
     },
+    ReconcileMerged {
+        #[arg(long)]
+        request: PathBuf,
+    },
     Schema,
+}
+
+#[derive(Debug, Deserialize)]
+struct ReconcileMergedRequest {
+    publication: PublicationRequest,
+    pull_request: u64,
 }
 
 #[tokio::main]
@@ -50,9 +61,12 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     if matches!(cli.command, Command::Schema) {
         return Ok(csdlc_v2::public_schema_bundle());
     }
+    if let Command::ReconcileMerged { request } = &cli.command {
+        return reconcile_merged(&cli.root, request).await;
+    }
     let request_path = match &cli.command {
         Command::Publish { request } | Command::Status { request } => request,
-        Command::Schema => unreachable!(),
+        Command::ReconcileMerged { .. } | Command::Schema => unreachable!(),
     };
     let request: PublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
     let store = Store::new(&cli.root);
@@ -129,6 +143,47 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     Ok(
         serde_json::json!({"schema":"csdlc.publication_result.v1","publication":normalized,"generation":record.generation,"digest":record.digest}),
     )
+}
+
+async fn reconcile_merged(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
+    let request: ReconcileMergedRequest = serde_json::from_slice(&fs::read(request_path)?)?;
+    if request.pull_request == 0 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "merged publication reconciliation requires an explicit PR number",
+        ));
+    }
+    let store = Store::new(root);
+    let mut intent = prepare_publication(&store, &request.publication)?;
+    intent.draft = false;
+    verify_git_remote(root, &request.publication.remote, &intent)?;
+    let token = resolve_token(&request.publication)?;
+    let crab = octocrab::Octocrab::builder()
+        .personal_token(token)
+        .build()
+        .map_err(|error| remote(error.to_string()))?;
+    let observed = crab
+        .pulls(owner(&intent)?, repo(&intent)?)
+        .get(request.pull_request)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    if observed.merged != Some(true) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "explicit PR is not merged",
+        ));
+    }
+    let mut normalized = normalize(&intent, &observed)?;
+    normalized.state = "merged".into();
+    csdlc_v2::publication::validate_merged_remote(&intent, &normalized)?;
+    persist_intent(root, &intent)?;
+    let record = record_publication(&store, &request.publication, &intent, normalized.clone())?;
+    Ok(serde_json::json!({
+        "schema": "csdlc.merged_publication_reconciliation_result.v1",
+        "publication": normalized,
+        "generation": record.generation,
+        "digest": record.digest,
+    }))
 }
 
 fn resolve_token(request: &PublicationRequest) -> csdlc_v2::Result<String> {

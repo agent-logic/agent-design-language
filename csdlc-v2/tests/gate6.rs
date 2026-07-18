@@ -1,6 +1,6 @@
 use csdlc_v2::{
-    publication::validate_remote, reconcile_action, PublicationAction, PublicationIntent,
-    RemotePullRequest,
+    publication::{validate_merged_remote, validate_remote},
+    reconcile_action, PublicationAction, PublicationIntent, RemotePullRequest,
 };
 
 fn intent() -> PublicationIntent {
@@ -82,4 +82,36 @@ fn request_and_result_schemas_are_published() {
     assert!(bundle.get("publication_request").is_some());
     assert!(bundle.get("publication_intent").is_some());
     assert!(bundle.get("remote_pull_request").is_some());
+}
+
+#[test]
+fn merged_reconciliation_requires_exact_final_reviewed_identity() {
+    let mut i = intent();
+    i.draft = false;
+    let mut r = remote();
+    r.draft = false;
+    r.state = "merged".into();
+    assert!(validate_merged_remote(&i, &r).is_ok());
+
+    for drift in 0..8 {
+        let mut candidate = r.clone();
+        match drift {
+            0 => candidate.repository = "other/repo".into(),
+            1 => candidate.base = "release".into(),
+            2 => candidate.head = "codex/wrong".into(),
+            3 => candidate.title = "wrong".into(),
+            4 => candidate.body = "wrong #5236".into(),
+            5 => candidate.head_sha = "wrong".into(),
+            6 => candidate.draft = true,
+            _ => candidate.state = "closed".into(),
+        }
+        assert!(
+            validate_merged_remote(&i, &candidate).is_err(),
+            "drift case {drift} must fail closed"
+        );
+    }
+
+    let mut draft_intent = i;
+    draft_intent.draft = true;
+    assert!(validate_merged_remote(&draft_intent, &r).is_err());
 }
