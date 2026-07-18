@@ -34,13 +34,43 @@ docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md
 
 [
   {
+    "id": "5405-R1",
+    "severity": "p1",
+    "summary": "Guild review packet still allowed identity witness routing despite no producer or consumer behavior.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
+    "route": "issue-5405"
+  },
+  {
+    "id": "5405-R2",
+    "severity": "p1",
+    "summary": "Machine closeout packet omitted the Guild behavior non-claims required by the corrected handoff ledger.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
+    "route": "issue-5405"
+  },
+  {
+    "id": "5405-R3",
+    "severity": "p2",
+    "summary": "Parent closeout retained stronger Godel launch-admission wording instead of admission readiness with requests not invoked.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
+    "route": "issue-5405"
+  },
+  {
     "id": "5405-R4",
     "severity": "p1",
     "summary": "Primary Guild feature metadata and scope still implied implemented records and hooks despite boundary-only proof.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
     "route": "issue-5405"
   }
 ]
@@ -51,12 +81,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Full integration CI remains delegated to the replacement PR checks.
+- Live Guild producer/consumer behavior and hosted Godel provider invocation remain explicit non-claims.
 
 ## Review Result
 
-Revision: Some("git-blake3:4dc6bdca708d0c39cafd583a2e5d1b6eab771116:75946a997f205c93bf471ee52cddffd34ad30c50e722c4f55fbc6be9a3198f9e")
+Revision: Some("git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51")
 
 Reviewer: Some("subagent:019f7321-c006-7013-a1bc-9d2048423552")
 
-Result: changes_required
+Result: pass

@@ -3,13 +3,13 @@
   "issue": 5405,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "054e97bce0600f6d67de82ce3c57351da92204496680e0793747ea6943aa00a2",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "73c256cf6f38bff80c90e37e5adbf556f459cd3c1ee00480f9a18e31106ce57d",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "2f95995c158236b2476131a3c5d62342e3e044d8da6cdd65fa2fa3e8f8f12419",
   "claim": {
     "id": "claim-5405-review-findings-finish",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 14,
+    "generation": 16,
     "acquired_unix_seconds": 1784342092,
     "expires_unix_seconds": 1784428492,
     "heartbeat_unix_seconds": 1784342092,
@@ -33,7 +33,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f7321-c006-7013-a1bc-9d2048423552",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:4dc6bdca708d0c39cafd583a2e5d1b6eab771116:75946a997f205c93bf471ee52cddffd34ad30c50e722c4f55fbc6be9a3198f9e",
+    "revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
     "scope": [
       "adl/src/runtime_v2/economics_civilization_boundary.rs",
       "adl/src/runtime_v2/tests/economics_civilization_boundary.rs",
@@ -61,20 +61,53 @@
       "docs/milestones/v0.91.7/review/wp13_guild_foundation_boundary_4755.md",
       "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md"
     ],
-    "reviewed_revision": "git-blake3:4dc6bdca708d0c39cafd583a2e5d1b6eab771116:75946a997f205c93bf471ee52cddffd34ad30c50e722c4f55fbc6be9a3198f9e",
+    "reviewed_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
     "findings": [
+      {
+        "id": "5405-R1",
+        "severity": "p1",
+        "summary": "Guild review packet still allowed identity witness routing despite no producer or consumer behavior.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
+        "route": "issue-5405"
+      },
+      {
+        "id": "5405-R2",
+        "severity": "p1",
+        "summary": "Machine closeout packet omitted the Guild behavior non-claims required by the corrected handoff ledger.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
+        "route": "issue-5405"
+      },
+      {
+        "id": "5405-R3",
+        "severity": "p2",
+        "summary": "Parent closeout retained stronger Godel launch-admission wording instead of admission readiness with requests not invoked.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
+        "route": "issue-5405"
+      },
       {
         "id": "5405-R4",
         "severity": "p1",
         "summary": "Primary Guild feature metadata and scope still implied implemented records and hooks despite boundary-only proof.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:89088f8a583ad3cca120bfbbf94f2963fc7550d2:a46313d26318ae8ae8a04c4d4367f4d16bea744275aa1e7385f716ded7ebbd51",
         "route": "issue-5405"
       }
     ],
-    "residual_risks": [],
+    "residual_risks": [
+      "Full integration CI remains delegated to the replacement PR checks.",
+      "Live Guild producer/consumer behavior and hosted Godel provider invocation remain explicit non-claims."
+    ],
     "completed": true,
     "non_substantive_proof": null
   },
@@ -92,32 +125,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "88a577324dc0ff3f2d6f366c1e06db93811ff97fc1ce4fb38bbcf17cb1d4ec69",
+      "values_digest": "e5037c2774968e8f5b8b734cf877048587dd0f25f8069d7e77983d8888b8a5aa",
       "rendered_digest": "703b92e39c250aa5e073508493c1d38ae73f523e6cf4a0536e89a13faebea53d",
       "ast_digest": "37f28dd84da79b263104176dbb71e609b56a71b7afb6e5076d455ad7142d5f1f"
     },
     "stp": {
-      "values_digest": "0d27a018b759c30fb0ccd8633f4456d7a022d756114e9ccc4ed5690d8b88b65c",
+      "values_digest": "9283dc3df037c322f898895089b37cf8a823e06f1ef38fe1cacda19532ebdcc1",
       "rendered_digest": "d93082537cdc86d0519550bef7290c3fb715ab2dd435712a3d0ae9a944770e30",
       "ast_digest": "94191cfd67fe8d03c3e4761a74ca4434efdaa7c87cc3dd5960d46a12a27b3a2d"
     },
     "spp": {
-      "values_digest": "f32ac94e04ae8c58bc6455ca4b6cda4ed761760240c8408e9518cd69f8b00e99",
+      "values_digest": "20697eb3a6b2ca66eedd4bfec68d6f6533d392c4d30c62ee710b05c3c3ec496b",
       "rendered_digest": "f2b11bf5db2846ca75a8d6a79f4f145fce8f41d17e5ad0b0845b5c302c58a0a2",
       "ast_digest": "2604a0f7b1d99bbb83e4af715211650a16fae7bad1af370d3f2c4ee65467bc7f"
     },
     "vpp": {
-      "values_digest": "401278ba9b8016b7b5071761d3ec19589183f4dd5555c3a0017c576ffa222f42",
+      "values_digest": "8c82409cbfca436c7e5f8ff7e8a6255d0a647cc991dbca322aebe4fe0a075c41",
       "rendered_digest": "786bec15c1f6dc1dfc47ac830d6031432d4810c5f4508a78af7c42f172b85aa5",
       "ast_digest": "e3831f244aef8533576b3070392952daac7adb71331ecc5ee0eb0e5986768825"
     },
     "srp": {
-      "values_digest": "ef6355fd16843eb84d49f7b92bd3d8b51b80026a5f1ea8323b386db9a9b17c3d",
-      "rendered_digest": "09692766a7599939e0e3d0b892f0c4c0805bd089602c40b32e67ca800f548951",
-      "ast_digest": "0aec9beaa3aecc938199ca0ffd0b7a76ccf9af63918a5e2a8ed128424595b8e4"
+      "values_digest": "32c63610159c994ee4aa724b5a6672f12ec7ab3a3905f9c10c86136a224dccec",
+      "rendered_digest": "22b5bbcbc058be07b056a58039c82e39bd50314b7c5a00a3771afc13f4ca17bc",
+      "ast_digest": "f92bc877f0dcc7a2c206e18f91bfe641ac930f382fe35445d076c8eeeee78d2a"
     },
     "sor": {
-      "values_digest": "ba528e1e8ec6d8a18ae1b4b9c19b8ef701de5e28a4c22969d896098c97d15d51",
+      "values_digest": "387ca175e3c92b1f5f63836b6586f9d7fb51f57e1f51da12c4bc646d8f3942bd",
       "rendered_digest": "16ce72333a3c2485c1e1c8db1e67d9e3aa6e37296d3c06e9cf20c40b7f08b9ba",
       "ast_digest": "8ea1b2b94680052e079b470640051ae08c7f7951cb12d127fa24b191029551b8"
     }
@@ -143,6 +176,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "All #5405 implementation changes and focused pre-review proof are complete on the clean issue branch."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-revision subagent review passed at 89088f8a5 with all four prior findings fixed."
     }
   ],
   "audit": [
@@ -278,6 +318,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Record the final primary Guild feature truth repair before re-review.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved all #5403 WP-13 findings and all actionable pre-PR review consistency findings.\",\"changes\":[\"Set the primary Guild feature status to boundary_proven and qualified all named record and hook surfaces as declarative identifiers.\"],\"artifacts\":[]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "subagent:019f7321-c006-7013-a1bc-9d2048423552",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-revision subagent review passed at 89088f8a5 with all four prior findings fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
