@@ -71,3 +71,9 @@ worktree, initialization digest, actor/reason, and `follow_ups` values. Each
 follow-up must already be present in SRP residual risk; the typed operation
 updates SOR and the retained receipt atomically and rejects arbitrary card
 mutation.
+
+Issue-local bootstrap is supported when all six cards and the approved design
+already live in the target worktree: use a claim whose worktree is `.` and run
+`csdlc-bind` from that worktree. The binder verifies the existing branch and
+claim in place, performs no primary-checkout write, and still applies the
+normal collision and protected-path checks.
