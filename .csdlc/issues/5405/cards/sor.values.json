@@ -7,20 +7,21 @@
     "title": "[v0.91.7][review-fix][WP-13] Resolve #5403 guild, Godel, and economics findings",
     "slug": "v0-91-7-review-fix-wp13-guild-godel-economics-findings",
     "version": "v0.91.7",
-    "generation": 12
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Resolved all #5403 WP-13 findings and the first pre-PR review consistency findings across code, closeout, and handoff truth.",
+      "summary": "Resolved all #5403 WP-13 findings and all actionable pre-PR review consistency findings.",
       "actual_changes": [
         "Downgraded declarative Guild vocabulary and gates from integrated_proven to boundary_proven across parent, handoff, and activation-ledger truth.",
         "Reworded Godel evidence as admission readiness with hosted provider requests resolved but not invoked.",
         "Rejected duplicate allowed-consumption rows, postponed-surface ids, and promotion gates with focused regression coverage.",
         "Removed the remaining implication that v0.92 may consume implemented Guild identity/witness routing.",
         "Added explicit Guild record, routing, membership-event, and moderation-hook behavior non-claims to the machine closeout packet.",
-        "Replaced remaining Godel launch-admission consumption wording with admission-readiness and not-invoked truth."
+        "Replaced remaining Godel launch-admission consumption wording with admission-readiness and not-invoked truth.",
+        "Set the primary Guild feature status to boundary_proven and qualified all named record and hook surfaces as declarative identifiers."
       ],
       "artifacts": [
         "adl/src/runtime_v2/economics_civilization_boundary.rs",

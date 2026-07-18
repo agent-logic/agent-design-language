@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all #5403 WP-13 findings and the first pre-PR review consistency findings across code, closeout, and handoff truth.
+Resolved all #5403 WP-13 findings and all actionable pre-PR review consistency findings.
 
 ## Artifacts
 
@@ -32,6 +32,7 @@ Resolved all #5403 WP-13 findings and the first pre-PR review consistency findin
 - Removed the remaining implication that v0.92 may consume implemented Guild identity/witness routing.
 - Added explicit Guild record, routing, membership-event, and moderation-hook behavior non-claims to the machine closeout packet.
 - Replaced remaining Godel launch-admission consumption wording with admission-readiness and not-invoked truth.
+- Set the primary Guild feature status to boundary_proven and qualified all named record and hook surfaces as declarative identifiers.
 
 ## Validation
 

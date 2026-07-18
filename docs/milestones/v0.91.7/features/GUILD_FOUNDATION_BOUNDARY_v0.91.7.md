@@ -4,7 +4,7 @@
 
 - Feature Name: Guild Foundation Boundary
 - Milestone Target: `v0.91.7`
-- Status: implemented
+- Status: `boundary_proven`
 - Owner: ADL maintainers
 - Doc Role: primary
 - Feature Types: runtime boundary, governance handoff
@@ -20,12 +20,12 @@ product readiness.
 
 In scope:
 
-- guild identity record;
-- member/role registry;
-- governed membership event log;
-- moderation escalation hook;
-- witness evidence reference;
-- v0.93 governance handoff anchor;
+- declarative guild identity record identifier;
+- declarative member/role registry identifier;
+- declarative governed membership event-log identifier;
+- declarative moderation-escalation-hook identifier;
+- declarative witness-evidence-reference identifier;
+- declarative v0.93 governance-handoff-anchor identifier;
 - executable non-claim validation.
 
 Out of scope:

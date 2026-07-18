@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "054e97bce0600f6d67de82ce3c57351da92204496680e0793747ea6943aa00a2",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "1fb232bdadc50df17bfbb5084243d04e981053fc05439933821c9993905b4658",
+  "generation": 14,
+  "digest": "73c256cf6f38bff80c90e37e5adbf556f459cd3c1ee00480f9a18e31106ce57d",
   "claim": {
     "id": "claim-5405-review-findings-finish",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 12,
+    "generation": 14,
     "acquired_unix_seconds": 1784342092,
     "expires_unix_seconds": 1784428492,
     "heartbeat_unix_seconds": 1784342092,
@@ -33,12 +33,13 @@
   "review_assignment": {
     "reviewer": "subagent:019f7321-c006-7013-a1bc-9d2048423552",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:d35faf18806925fe37634697bc24f811158f65e2:d374969d7192449bcdf9fffea27975761e6da83b6c85fe9c70fb8a6b5592ffbf",
+    "revision": "git-blake3:4dc6bdca708d0c39cafd583a2e5d1b6eab771116:75946a997f205c93bf471ee52cddffd34ad30c50e722c4f55fbc6be9a3198f9e",
     "scope": [
       "adl/src/runtime_v2/economics_civilization_boundary.rs",
       "adl/src/runtime_v2/tests/economics_civilization_boundary.rs",
       "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
       "docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/features/GUILD_FOUNDATION_BOUNDARY_v0.91.7.md",
       "docs/milestones/v0.91.7/review/wp13_closeout_4640.md",
       "docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json",
       "docs/milestones/v0.91.7/review/wp13_godel_constructability_boundary_4753.md",
@@ -53,38 +54,19 @@
       "adl/src/runtime_v2/tests/economics_civilization_boundary.rs",
       "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
       "docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/features/GUILD_FOUNDATION_BOUNDARY_v0.91.7.md",
       "docs/milestones/v0.91.7/review/wp13_closeout_4640.md",
       "docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json",
       "docs/milestones/v0.91.7/review/wp13_godel_constructability_boundary_4753.md",
       "docs/milestones/v0.91.7/review/wp13_guild_foundation_boundary_4755.md",
       "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md"
     ],
-    "reviewed_revision": "git-blake3:d35faf18806925fe37634697bc24f811158f65e2:d374969d7192449bcdf9fffea27975761e6da83b6c85fe9c70fb8a6b5592ffbf",
+    "reviewed_revision": "git-blake3:4dc6bdca708d0c39cafd583a2e5d1b6eab771116:75946a997f205c93bf471ee52cddffd34ad30c50e722c4f55fbc6be9a3198f9e",
     "findings": [
       {
-        "id": "5405-R1",
+        "id": "5405-R4",
         "severity": "p1",
-        "summary": "Guild review packet still allowed identity witness routing despite no producer or consumer behavior.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "issue-5405"
-      },
-      {
-        "id": "5405-R2",
-        "severity": "p1",
-        "summary": "Machine closeout packet omitted the Guild behavior non-claims required by the corrected handoff ledger.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "issue-5405"
-      },
-      {
-        "id": "5405-R3",
-        "severity": "p2",
-        "summary": "Parent closeout retained stronger Godel launch-admission wording instead of admission readiness with requests not invoked.",
+        "summary": "Primary Guild feature metadata and scope still implied implemented records and hooks despite boundary-only proof.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -110,34 +92,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "de11838635ee5c3c394707d219c132798ab5f353ea7da2ffd5e9de3d7187555c",
+      "values_digest": "88a577324dc0ff3f2d6f366c1e06db93811ff97fc1ce4fb38bbcf17cb1d4ec69",
       "rendered_digest": "703b92e39c250aa5e073508493c1d38ae73f523e6cf4a0536e89a13faebea53d",
       "ast_digest": "37f28dd84da79b263104176dbb71e609b56a71b7afb6e5076d455ad7142d5f1f"
     },
     "stp": {
-      "values_digest": "d3ec3da3072ff795ed485d288a137bc57d06920f361bbb4af6021c39bb278717",
+      "values_digest": "0d27a018b759c30fb0ccd8633f4456d7a022d756114e9ccc4ed5690d8b88b65c",
       "rendered_digest": "d93082537cdc86d0519550bef7290c3fb715ab2dd435712a3d0ae9a944770e30",
       "ast_digest": "94191cfd67fe8d03c3e4761a74ca4434efdaa7c87cc3dd5960d46a12a27b3a2d"
     },
     "spp": {
-      "values_digest": "693998fe0aed3f405f5785c9f01f3f7a732869f2e38ac1667fc4c408480832d2",
+      "values_digest": "f32ac94e04ae8c58bc6455ca4b6cda4ed761760240c8408e9518cd69f8b00e99",
       "rendered_digest": "f2b11bf5db2846ca75a8d6a79f4f145fce8f41d17e5ad0b0845b5c302c58a0a2",
       "ast_digest": "2604a0f7b1d99bbb83e4af715211650a16fae7bad1af370d3f2c4ee65467bc7f"
     },
     "vpp": {
-      "values_digest": "84fdd1a915bc7c4b345cab620712faf6d9d7418e0c10f9b8835a0a503a4145b8",
+      "values_digest": "401278ba9b8016b7b5071761d3ec19589183f4dd5555c3a0017c576ffa222f42",
       "rendered_digest": "786bec15c1f6dc1dfc47ac830d6031432d4810c5f4508a78af7c42f172b85aa5",
       "ast_digest": "e3831f244aef8533576b3070392952daac7adb71331ecc5ee0eb0e5986768825"
     },
     "srp": {
-      "values_digest": "ab4516b8a899929c75e3a617d4a5daac9200ff826bfaf6b173713157283ee715",
-      "rendered_digest": "9547a34a9b57e0f22d20540f50d5b4284a0ba3e1a4bb12f8bf35240f10e4dbb2",
-      "ast_digest": "b73992ca938730b9445dda9e736a11f980b13182ee28021e4aa091abefcf1200"
+      "values_digest": "ef6355fd16843eb84d49f7b92bd3d8b51b80026a5f1ea8323b386db9a9b17c3d",
+      "rendered_digest": "09692766a7599939e0e3d0b892f0c4c0805bd089602c40b32e67ca800f548951",
+      "ast_digest": "0aec9beaa3aecc938199ca0ffd0b7a76ccf9af63918a5e2a8ed128424595b8e4"
     },
     "sor": {
-      "values_digest": "c5f47782a3959a91ac737370e1d59861f820cfb7c593a2088035a0d1314b66d1",
-      "rendered_digest": "f2af44386fcefd2d87a8c97cab909b9eb22e2860182f3b09bd79be2bce0e53fa",
-      "ast_digest": "8b273c9d7139faed4d5c2ecb81a64ea4571522a7744a7b76a4d09502dc064286"
+      "values_digest": "ba528e1e8ec6d8a18ae1b4b9c19b8ef701de5e28a4c22969d896098c97d15d51",
+      "rendered_digest": "16ce72333a3c2485c1e1c8db1e67d9e3aa6e37296d3c06e9cf20c40b7f08b9ba",
+      "ast_digest": "8ea1b2b94680052e079b470640051ae08c7f7951cb12d127fa24b191029551b8"
     }
   },
   "transitions": [
@@ -275,6 +257,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Record the three actionable pre-PR review repairs before re-review.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved all #5403 WP-13 findings and the first pre-PR review consistency findings across code, closeout, and handoff truth.\",\"changes\":[\"Removed the remaining implication that v0.92 may consume implemented Guild identity/witness routing.\",\"Added explicit Guild record, routing, membership-event, and moderation-hook behavior non-claims to the machine closeout packet.\",\"Replaced remaining Godel launch-admission consumption wording with admission-readiness and not-invoked truth.\"],\"artifacts\":[\"docs/milestones/v0.91.7/features/GUILD_FOUNDATION_BOUNDARY_v0.91.7.md\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "subagent:019f7321-c006-7013-a1bc-9d2048423552",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the final primary Guild feature truth repair before re-review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved all #5403 WP-13 findings and all actionable pre-PR review consistency findings.\",\"changes\":[\"Set the primary Guild feature status to boundary_proven and qualified all named record and hook surfaces as declarative identifiers.\"],\"artifacts\":[]}"
     }
   ]
 }

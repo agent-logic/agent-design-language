@@ -16,6 +16,7 @@ adl/src/runtime_v2/economics_civilization_boundary.rs
 adl/src/runtime_v2/tests/economics_civilization_boundary.rs
 docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md
 docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md
+docs/milestones/v0.91.7/features/GUILD_FOUNDATION_BOUNDARY_v0.91.7.md
 docs/milestones/v0.91.7/review/wp13_closeout_4640.md
 docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json
 docs/milestones/v0.91.7/review/wp13_godel_constructability_boundary_4753.md
@@ -33,29 +34,9 @@ docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md
 
 [
   {
-    "id": "5405-R1",
+    "id": "5405-R4",
     "severity": "p1",
-    "summary": "Guild review packet still allowed identity witness routing despite no producer or consumer behavior.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": "issue-5405"
-  },
-  {
-    "id": "5405-R2",
-    "severity": "p1",
-    "summary": "Machine closeout packet omitted the Guild behavior non-claims required by the corrected handoff ledger.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": "issue-5405"
-  },
-  {
-    "id": "5405-R3",
-    "severity": "p2",
-    "summary": "Parent closeout retained stronger Godel launch-admission wording instead of admission readiness with requests not invoked.",
+    "summary": "Primary Guild feature metadata and scope still implied implemented records and hooks despite boundary-only proof.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -74,7 +55,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:d35faf18806925fe37634697bc24f811158f65e2:d374969d7192449bcdf9fffea27975761e6da83b6c85fe9c70fb8a6b5592ffbf")
+Revision: Some("git-blake3:4dc6bdca708d0c39cafd583a2e5d1b6eab771116:75946a997f205c93bf471ee52cddffd34ad30c50e722c4f55fbc6be9a3198f9e")
 
 Reviewer: Some("subagent:019f7321-c006-7013-a1bc-9d2048423552")
 
