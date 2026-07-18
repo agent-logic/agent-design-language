@@ -30,88 +30,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
 ## Findings
 
-[
-  {
-    "id": "F-5494-1",
-    "severity": "p1",
-    "summary": "Expired non-revoked credentials cannot recover after the renewal window is missed.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
-    "route": null
-  },
-  {
-    "id": "F-5494-2",
-    "severity": "p1",
-    "summary": "Readiness exempts Audit and Evidence channels that channel policy classifies as required.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
-    "route": null
-  },
-  {
-    "id": "F-5494-3",
-    "severity": "p1",
-    "summary": "CSM weather readiness overclaims CPU, memory, and GPU observations from disk pressure only.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
-    "route": null
-  },
-  {
-    "id": "F-5494-4",
-    "severity": "p1",
-    "summary": "The synthetic supervisor test does not execute the production daemon cycle or typed channel fabric.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
-    "route": null
-  },
-  {
-    "id": "F-5494-5",
-    "severity": "p2",
-    "summary": "Credential audit events record a fixed overlap instead of the clipped actual duration.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
-    "route": null
-  },
-  {
-    "id": "F-5494-6",
-    "severity": "p2",
-    "summary": "Repair documentation and the sprint register overstate the first revision's proof.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
-    "route": null
-  },
-  {
-    "id": "F-5494-7",
-    "severity": "p1",
-    "summary": "Near-expiry rotation can retain a previous credential that does not outlive the replacement creation timestamp.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
-    "route": null
-  },
-  {
-    "id": "F-5494-8",
-    "severity": "p1",
-    "summary": "Concurrent rotation can overwrite a terminal revocation and restore an active credential.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -123,8 +42,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c")
+Revision: Some("git-blake3:6289f938e64f0cb9fec96e98c45e40e485dfbcdf:6692bfcc0a549c1fe5cc9b1895e1679da81d6f5c2c2f530912859f7426bf2a7d")
 
-Reviewer: Some("subagent:019f7474-3c44-7af2-93c0-5a6c73e71058")
+Reviewer: Some("subagent:019f7478-1e9d-7dc0-9492-9e48ab672b0b")
 
 Result: pass
