@@ -1732,11 +1732,7 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
                 "closed-out record must have terminal evidence and no active claim",
             ));
         }
-    } else {
-        let claim = record
-            .claim
-            .as_ref()
-            .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "claim missing"))?;
+    } else if let Some(claim) = record.claim.as_ref() {
         if claim.generation != record.generation
             || claim.id.is_empty()
             || claim.owner.is_empty()
@@ -1751,6 +1747,19 @@ pub(crate) fn verify_record(record: &IssueRecord) -> Result<()> {
                 "claim invariant failed",
             ));
         }
+    } else if !record.audit.last().is_some_and(|event| {
+        serde_json::from_str::<serde_json::Value>(&event.operation)
+            .ok()
+            .and_then(|value| {
+                value
+                    .get("operation")
+                    .and_then(|v| v.as_str())
+                    .map(str::to_owned)
+            })
+            .as_deref()
+            == Some("release_closed_claim")
+    }) {
+        return Err(V2Error::new(ErrorCode::CorruptRecord, "claim missing"));
     }
     if let DesignReview::Approved { reviewer, revision } = &record.design_review {
         if reviewer.trim().is_empty() || revision.trim().is_empty() {

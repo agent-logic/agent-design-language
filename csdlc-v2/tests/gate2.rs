@@ -1,5 +1,6 @@
 use std::fs;
 
+use csdlc_v2::doctor::DoctorStatus;
 use csdlc_v2::{
     amend_claim_scope, diagnose, edit_issue, AmendClaimScopeRequest, BootstrapRequest, CardKind,
     Claim, EditRequest, ErrorCode, SemanticOperation, Store,
@@ -274,16 +275,21 @@ fn closed_issue_claim_release_is_typed_and_compare_and_swap_guarded() {
             expected_digest: record.digest.clone(),
             actor: "operator".into(),
             reason: "GitHub issue is closed; release stale broad claim for follow-on setup".into(),
+            observed_issue_state: "closed".into(),
+            observation_source: "github:issue/42".into(),
         },
     )
     .unwrap();
     assert_eq!(evidence.previous_owner, "agent");
     let released = store.load_record(42).unwrap();
     assert!(released.claim.is_none());
-    assert_eq!(
-        released.audit.last().unwrap().operation,
-        "release_closed_claim"
-    );
+    assert!(released
+        .audit
+        .last()
+        .unwrap()
+        .operation
+        .contains("release_closed_claim"));
+    assert_eq!(csdlc_v2::diagnose(&store, 42).status, DoctorStatus::Pass);
 }
 
 fn git_branch(root: &std::path::Path) -> String {

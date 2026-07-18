@@ -45,6 +45,8 @@ pub struct ReleaseClosedClaimRequest {
     pub expected_digest: String,
     pub actor: String,
     pub reason: String,
+    pub observed_issue_state: String,
+    pub observation_source: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -561,7 +563,11 @@ pub fn release_closed_claim(
     store: &Store,
     request: ReleaseClosedClaimRequest,
 ) -> Result<ClaimRecovery> {
-    if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+    if request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || request.observed_issue_state != "closed"
+        || request.observation_source.trim().is_empty()
+    {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
             "release actor and reason required",
@@ -575,11 +581,16 @@ pub fn release_closed_claim(
     if record.phase != crate::LifecyclePhase::Implemented
         || current.id != request.expected_claim_id
         || record.generation != request.expected_generation
-        || record.digest != request.expected_digest
     {
         return Err(V2Error::new(
             ErrorCode::InvalidClaim,
             "closed-issue claim release compare-and-swap failed",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "closed-issue claim release digest is stale",
         ));
     }
     let evidence = ClaimRecovery {
@@ -594,7 +605,12 @@ pub fn release_closed_claim(
         generation: record.generation,
         actor: request.actor,
         reason: request.reason,
-        operation: "release_closed_claim".into(),
+        operation: serde_json::json!({
+            "operation": "release_closed_claim",
+            "observed_issue_state": request.observed_issue_state,
+            "observation_source": request.observation_source,
+        })
+        .to_string(),
     });
     record.digest = crate::store::record_digest(&record)?;
     store.replace_record(request.issue, &request.expected_digest, &record)?;
