@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5494,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
+    "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
+    "version": "v0.91.7",
+    "generation": 49
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime/src/runtime_api_auth.rs\nadl-runtime/src/supervision.rs\nadl-runtime/src/topology.rs\nadl/src/cli/csmctl_cmd.rs\nadl/src/csm_runtime_api.rs\nadl/src/long_lived_agent/tests.rs\ndocs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "review_revision": "git-blake3:b1c45a6a74e37c7517f9c916ee16f308508b4e60:7637be99e867490334876bcc8882bf913f0d6d9648bbe901bafe8eea86043ed9",
+      "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "review_prompts": [
+        "Does production execute rather than merely describe the assembly?",
+        "Can any required missing or unhealthy observation leave readiness green?",
+        "Does the soak drive real tasks, channels, failure, and recovery?",
+        "Is credential overlap bounded without weakening revocation?"
+      ],
+      "findings": [
+        {
+          "id": "F-5494-11",
+          "severity": "p2",
+          "summary": "The soak claims durable replay without asserting retained sequence continuity and the failure-to-restart-to-ready lifecycle transition.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5494-12",
+          "severity": "p3",
+          "summary": "Ordinary authorization takes the exclusive credential mutation lock before acquiring the shared authorization lock.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Hosted CI must confirm the revised coverage lane after both findings are fixed."
+      ],
+      "review_result": "changes_required"
+    }
+  }
+}
