@@ -3,13 +3,13 @@
   "issue": 4642,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "244b74908e673c30461d55dcae29719064e60a609856bed8a12e8a2afccb9893",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "b83a6b1863c0215c1d88b6363fc2af71550c04d74c0772cc126a24a6838b5638",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "deba0a636b20163a1ef0575adbaf19c2a9cbddfaf08478398100869a39808e07",
   "claim": {
     "id": "claim-4642-v0-91-7-wp15-demo-matrix-proof-coverage",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 3,
+    "generation": 5,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -22,8 +22,74 @@
     ],
     "purpose": "Prepare and later execute WP-15 without claiming completion from setup"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f745c-23d3-7820-8e91-084314fbc95f",
+    "assigned_by": "codex-root",
+    "revision": "git-blake3:947c8c44a3322aa8f6133be6329d96bcb6be9df1:576978b0ba1cb1b7119315a0f46e90dc36adf9f6dc7d7b34b05f39c33920c577",
+    "scope": [
+      "docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md",
+      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md",
+      "docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json",
+      ".csdlc/issues/4642"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f745c-23d3-7820-8e91-084314fbc95f",
+    "scope": [
+      "docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md",
+      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md",
+      "docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json",
+      ".csdlc/issues/4642"
+    ],
+    "reviewed_revision": "git-blake3:947c8c44a3322aa8f6133be6329d96bcb6be9df1:576978b0ba1cb1b7119315a0f46e90dc36adf9f6dc7d7b34b05f39c33920c577",
+    "findings": [
+      {
+        "id": "F-4642-1",
+        "severity": "p2",
+        "summary": "Markdown evidence paths in the feature coverage table used bare filenames instead of repo-resolvable paths.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:947c8c44a3322aa8f6133be6329d96bcb6be9df1:576978b0ba1cb1b7119315a0f46e90dc36adf9f6dc7d7b34b05f39c33920c577",
+        "route": null
+      },
+      {
+        "id": "F-4642-2",
+        "severity": "p2",
+        "summary": "WP-22 #4649 was listed as remaining next-gate work despite live issue truth showing it closed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:947c8c44a3322aa8f6133be6329d96bcb6be9df1:576978b0ba1cb1b7119315a0f46e90dc36adf9f6dc7d7b34b05f39c33920c577",
+        "route": null
+      },
+      {
+        "id": "F-4642-3",
+        "severity": "p3",
+        "summary": "The JSON classification vocabulary omitted several classification values used by coverage rows.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:947c8c44a3322aa8f6133be6329d96bcb6be9df1:576978b0ba1cb1b7119315a0f46e90dc36adf9f6dc7d7b34b05f39c33920c577",
+        "route": null
+      },
+      {
+        "id": "F-4642-4",
+        "severity": "p3",
+        "summary": "The machine-readable WP-11 current issue truth omitted closed follow-ons #4912, #5096, and #5136 named by the Markdown audit.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:947c8c44a3322aa8f6133be6329d96bcb6be9df1:576978b0ba1cb1b7119315a0f46e90dc36adf9f6dc7d7b34b05f39c33920c577",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +104,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0898e994ec2680f6241f9c4ba916984880499156cccd4d2f30e303fe61064c5d",
+      "values_digest": "e4ecccbb3977966f8ee351c6e58c924c47436ad0bff2191b47d7353acdefd3a6",
       "rendered_digest": "f0922d773bc001619cf7fb1e4ecc78c84bce92e1f071953d369504877aeb7aac",
       "ast_digest": "dd291a4085de6f5fa09b2e5472376f808377e2fe8c0838a2ef787b3a086b6330"
     },
     "stp": {
-      "values_digest": "e3f88c056179871bb3a67c840eb67b72ea37d064060681606a3a62e7ce8b2725",
+      "values_digest": "4184af69faf4e84cf2b642366330f710a85d1cd45cd7b8a0928c256dcbd74033",
       "rendered_digest": "de7795f08869f7635e458eea1f381603c4339f2417011c0251e95f67b015325c",
       "ast_digest": "7759915ddb35d2c9483c0f4aba7ca404c83dfdd784e22e8a27b73de1c4a83bb7"
     },
     "spp": {
-      "values_digest": "fafa75f325d1d06a5572e6bfd7a71eaf0ec2780ecca4bc2b29f23faa5eae32e4",
+      "values_digest": "2bc989af5fcf8341a41a31e0fc60ecf08f45fb5d3f7de78541d43d17194c5ec8",
       "rendered_digest": "ed43ad11c12ab1db4b675d417e398e1071e9781e9442e375316378d60105f6a3",
       "ast_digest": "472a617ae82a6b4619e170d42b36e22f2f8e7336e4b61a29d8f63d86cf668350"
     },
     "vpp": {
-      "values_digest": "54afd188c230785ae36b329bf3f10d71aabbe29b96b42f158e86c6fff0763b62",
+      "values_digest": "d7260ca4e7e93474080af843ffbcbdc4fefb49d968b87e39fe878145ca59d02d",
       "rendered_digest": "f1cd1021f1be65dfbdd020ee76a86947e15bcff0bd4e74f3ec6aa783e20fc863",
       "ast_digest": "6dc57789c8695d0f84cdc7490276b6ff918f0189a039083aac5f220eb96fa2a3"
     },
     "srp": {
-      "values_digest": "780e8f22afc13b9e0110ac9958b7597b9c80f3006bbeeee81898df49e684680e",
-      "rendered_digest": "8c0cbca8377015d74bcfa413d58827bbec168afd8c9b8e6440fe0a85fdfc9fc5",
-      "ast_digest": "92d01ac67b6db50875a52bd7d19a683cda01f6074359febc6601a9318f966bda"
+      "values_digest": "68bd7d65b3bcb74d226a55405b3ccf4c42c423710aa0b76bc5ed72831d69fdef",
+      "rendered_digest": "850bafaa876bd509a958061b9166ec3dd839f69aaa80c0cdf995c38258c97bc5",
+      "ast_digest": "85040e0643f7dfc195203a25b21d21b42d04d16c655f70424a6a7a290a3f0c68"
     },
     "sor": {
-      "values_digest": "7d342dbc02426c2b0f012f210c7fcb00ec9638091f43be833ba810de5dced8e0",
+      "values_digest": "9e35e77664f030dfbc83d369ff358823da0b14d3f0c4772279370c72a4937164",
       "rendered_digest": "7e90184b8c27aae43258bd000cef0c33b916684643bdc9a20c92ec9aeb19717a",
       "ast_digest": "3c55a23c6eb5b06b015469195fc180bc942f95ff653661014ec74307e29511c4"
     }
@@ -89,6 +155,13 @@
       "to": "implemented",
       "actor": "codex-root",
       "reason": "The bounded WP-15 demo convergence and feature proof coverage artifacts are implemented and locally validated."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-root",
+      "reason": "Bounded pre-PR review completed and all findings were fixed and verified."
     }
   ],
   "audit": [
@@ -126,6 +199,27 @@
       "actor": "codex-root",
       "reason": "The bounded WP-15 demo convergence and feature proof coverage artifacts are implemented and locally validated.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "subagent:019f745c-23d3-7820-8e91-084314fbc95f",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "Bounded pre-PR review completed and all findings were fixed and verified.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

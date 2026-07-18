@@ -1,0 +1,15 @@
+{
+  "issue": 4642,
+  "expected_generation": 3,
+  "expected_digest": "b83a6b1863c0215c1d88b6363fc2af71550c04d74c0772cc126a24a6838b5638",
+  "claim_id": "claim-4642-v0-91-7-wp15-demo-matrix-proof-coverage",
+  "assigned_by": "codex-root",
+  "reviewer": "subagent:019f745c-23d3-7820-8e91-084314fbc95f",
+  "scope": [
+    "docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md",
+    "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+    "docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md",
+    "docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json",
+    ".csdlc/issues/4642"
+  ]
+}
