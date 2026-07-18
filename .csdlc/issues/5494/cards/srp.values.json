@@ -7,15 +7,15 @@
     "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
     "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
     "version": "v0.91.7",
-    "generation": 40
+    "generation": 42
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/runtime_api_auth.rs\nadl-runtime/src/supervision.rs\nadl-runtime/src/topology.rs\nadl/src/cli/csmctl_cmd.rs\nadl/src/csm_runtime_api.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/tests.rs\ndocs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "review_revision": "git-blake3:883406c1904de358bba0b7e8745dd29e5649b65a:05c660fa1a50ad54235fe89faf829aff0fbaca3ea7a2b754a99e2c205ddae5a7",
+      "reviewer": "subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2",
       "review_prompts": [
         "Does production execute rather than merely describe the assembly?",
         "Can any required missing or unhealthy observation leave readiness green?",
@@ -23,8 +23,10 @@
         "Is credential overlap bounded without weakening revocation?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The hosted authoritative coverage lane must confirm the fifteen-second deadline resolves the observed instrumentation timeout; no AWS validation is required or authorized."
+      ],
+      "review_result": "pass"
     }
   }
 }
