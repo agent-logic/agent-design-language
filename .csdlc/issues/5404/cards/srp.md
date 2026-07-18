@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -18,6 +18,9 @@ adl/tools/run_pr_fast_coverage_lane.sh
 adl/tools/test_run_pr_fast_coverage_lane.sh
 adl/tools/validate_wp12_access_activation_gate_4660.py
 adl/tools/validate_wp12_cav_red_blue_4914.py
+docs/milestones/v0.91.7/WBS_v0.91.7.md
+docs/milestones/v0.91.7/review/security/WP12_ACCESS_ACTIVATION_GATE_4660.md
+docs/milestones/v0.91.7/review/security/WP12_SECURITY_CAV_PRE_V092_REQUIREMENTS_4656.md
 docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json
 docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl
 docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json
@@ -42,12 +45,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Full owner-validation and integration CI remain delegated to the refreshed PR checks.
+- Live integrated CSM HTTP/WebSocket behavior remains intentionally outside the bounded claims of this issue.
 
 ## Review Result
 
-Revision: Some("git-blake3:68f9a887d831787bf92894bc5d6a4e2e7b4cd3c7:07c9d7181aeeebf6f0b8fc9938a3662bd298eb9c34d3e1e695f3d538f605e7c4")
+Revision: Some("git-blake3:fc761b2a8a170426d3cd42f837b912ba8ba7ab06:924f025f6fd0ab0ddac8cf13a0e62243f03d29df4eb0a210bd4702bec4e2f419")
 
-Reviewer: Some("subagent:019f6804-8071-7cd0-b87a-7447b4d339be")
+Reviewer: Some("subagent:019f7300-5482-7290-ab2c-1b4c44959fda")
 
 Result: pass
