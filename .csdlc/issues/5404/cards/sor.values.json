@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][WP-12] Resolve #5403 security and protocol findings",
     "slug": "v0-91-7-review-fix-wp12-security-protocol-findings",
     "version": "v0.91.7",
-    "generation": 2
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
@@ -26,8 +26,8 @@
         "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
       ],
       "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

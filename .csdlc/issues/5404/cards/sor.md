@@ -33,11 +33,11 @@ Resolved WP-12 review findings by downgrading unproven CAV integrated-path claim
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
