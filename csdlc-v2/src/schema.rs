@@ -8,7 +8,10 @@ use crate::lifecycle::{
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
 use crate::model::{ReconcileTerminalRequest, TerminalReceipt};
-use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
+use crate::publication::{
+    MergedPublicationReconciliationRequest, PublicationIntent, PublicationRequest,
+    RemotePullRequest,
+};
 use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
 use crate::readiness::{ReadinessReport, ReadinessRequest, TerminalObservation};
 use crate::review::{
@@ -44,6 +47,7 @@ pub fn public_schema_bundle() -> Value {
         "review_recovery_request": schemars::schema_for!(ReviewRecoveryRequest),
         "publication_review_report": schemars::schema_for!(PublicationReviewReport),
         "publication_request": schemars::schema_for!(PublicationRequest),
+        "merged_publication_reconciliation_request": schemars::schema_for!(MergedPublicationReconciliationRequest),
         "publication_intent": schemars::schema_for!(PublicationIntent),
         "remote_pull_request": schemars::schema_for!(RemotePullRequest),
         "readiness_request": schemars::schema_for!(ReadinessRequest),

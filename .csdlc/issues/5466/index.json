@@ -1,0 +1,279 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5466,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8c5521ae75dafa28fe8cd6cc7f503e041324db141a312cb95204863e51b9a8b5",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "51c06f12dd4685a86404a9551d8384f39d6c30b1645c5fc5082ee663bc77202a",
+  "claim": {
+    "id": "claim-5466-merged-head-closeout",
+    "owner": "codex-root",
+    "generation": 9,
+    "acquired_unix_seconds": 1784354668,
+    "expires_unix_seconds": 1784959468,
+    "heartbeat_unix_seconds": 1784354668,
+    "branch": "codex/5466-merged-head-closeout-recovery",
+    "worktree": ".worktrees/adl-wp-5466",
+    "protected_paths": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "purpose": "Add a fail-closed typed publication reconciliation path for an already-merged PR whose final head has exact review evidence"
+  },
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5466",
+    "assigned_by": "codex-root",
+    "revision": "git-blake3:06d2992ffbbeab8c57f8abfcd01f6ffe6ba5f0d1:4ce4735b018ad3476ff98769feb95bc44069c4ff589b18105f4006da80d85670",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "bounded-subagent-review-5466",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate6.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:06d2992ffbbeab8c57f8abfcd01f6ffe6ba5f0d1:4ce4735b018ad3476ff98769feb95bc44069c4ff589b18105f4006da80d85670",
+    "findings": [
+      {
+        "id": "F-5466-1",
+        "severity": "p1",
+        "summary": "Observed fork or missing head/base repository identity could satisfy branch and SHA checks.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:06d2992ffbbeab8c57f8abfcd01f6ffe6ba5f0d1:4ce4735b018ad3476ff98769feb95bc44069c4ff589b18105f4006da80d85670",
+        "route": null
+      },
+      {
+        "id": "F-5466-2",
+        "severity": "p2",
+        "summary": "Merged reconciliation request was private and absent from the public versioned schema bundle.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:06d2992ffbbeab8c57f8abfcd01f6ffe6ba5f0d1:4ce4735b018ad3476ff98769feb95bc44069c4ff589b18105f4006da80d85670",
+        "route": null
+      },
+      {
+        "id": "F-5466-3",
+        "severity": "p2",
+        "summary": "Merged publication evidence was initially projected into SOR as an open PR with draft-oriented audit truth.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:06d2992ffbbeab8c57f8abfcd01f6ffe6ba5f0d1:4ce4735b018ad3476ff98769feb95bc44069c4ff589b18105f4006da80d85670",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5466/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5466/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-root-design-review",
+      "revision": "f8da3574c660df3311c94b96773ec15633a26d60074f75415b72982a248b942f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b3c5803fd5c0c020823eb79abc3c8bed434a2c74553e79896b6c89ab6276d28e",
+      "rendered_digest": "50460e2da18413aa1781f6cced61f4994d4572d26e47be102bbf0f78138656ae",
+      "ast_digest": "b25ada4c74c917b4545c92a1d9d3e989a77507ad8f5e7fd8ea568a7ad3bd4dd5"
+    },
+    "stp": {
+      "values_digest": "4d549c4b669e3e5bddc98d7cc9d764b12c7ba846e3a5d66a8483e60acede2add",
+      "rendered_digest": "1ff5baecdc669e6fda34d464722e0ac7488d1d3f3a1b11ae44b60677f00b93af",
+      "ast_digest": "a890398d95986c17761a499c0f3188f5ccad4149b929b4f0ad28233a3e860706"
+    },
+    "spp": {
+      "values_digest": "17a7e272e6d00c3f92bbd38cb56ac5415099d4368ef64b3cb5e3eb5fc96715c2",
+      "rendered_digest": "1d50ee529ba098ba8b2c7b9bb246578b10ccf08153667589ae7b77d0885d3c00",
+      "ast_digest": "fbcce6de941035f21b3d4ee1f1116e7c88b7799b3e11a315cc4c97937c30da03"
+    },
+    "vpp": {
+      "values_digest": "8600132d3c0a1d86979e5d43d40a779907d4a28d90de2d915e8c8fff2fb6111b",
+      "rendered_digest": "86a02e830e2463ceba10e44774999593edee76abd81323d079dbf3bdaa7c9017",
+      "ast_digest": "4cd72b4661a5d8b6cdac11b8b7f28908aef48e0a62cde2ac0e560231c6bf54f5"
+    },
+    "srp": {
+      "values_digest": "7547ec59ee07d51f192cf17008dc4af1722c0a0322c962854e5004c3036c0aea",
+      "rendered_digest": "3e464250a20891f3298e982fc96663e7ca1190cb7a417e241bcdb22b98aeb8b6",
+      "ast_digest": "46f58c75c091e1a1c052e08e8bcbb020cbb217acb20c58ddc1e97835adbe4bec"
+    },
+    "sor": {
+      "values_digest": "0b0073f1458e8af82620e5b821fee93abf177487726012a87f50ea25ed5d74ec",
+      "rendered_digest": "15c1a8ca2ab1b06c385946755d4dc356276010698fbe09e0f05dcbda135de832",
+      "ast_digest": "2bee116267c8a8e159821a3c6099cdead216209c3a08fe103123af6ab6951b94"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-root",
+      "reason": "All six typed cards and the approved bounded design are ready for execution."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex-root",
+      "reason": "Verified the existing issue branch and dedicated worktree; typed issue-local bind limitation remains tracked as #5461."
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "The bounded merged-head publication reconciliation implementation is complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-root",
+      "reason": "Exact-revision bounded review passed after all three actionable findings were fixed."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-root",
+      "reason": "All six typed cards and the approved bounded design are ready for execution.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex-root",
+      "reason": "Verified the existing issue branch and dedicated worktree; typed issue-local bind limitation remains tracked as #5461.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"bound\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-root",
+      "reason": "Protect the shared merged-remote identity validator used by the typed CLI and focused tests.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/publication.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-root",
+      "reason": "Implemented the narrow exact-reviewed merged-PR publication reconciliation route.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added a typed reconcile-merged publication command that observes an explicit merged PR and fails closed on final-head or identity drift.\",\"changes\":[\"Add reconcile-merged CLI request with explicit PR number\",\"Require current clean final-head review through the existing publication guard\",\"Validate merged state, final SHA, repository route, base, head, title, body, and draft state\",\"Record final merged publication evidence for normal readiness and closeout\"],\"artifacts\":[\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/tests/gate6.rs\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-root",
+      "reason": "The bounded merged-head publication reconciliation implementation is complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "Focused Gate 6 proof, full C-SDLC v2 suite, formatting, clippy, and CLI discovery all passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove merged-head identity rejection, unchanged draft publication behavior, and full C-SDLC v2 regression safety\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5466-gate6-full-suite-clippy-fmt-help\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "Protect the public request export and schema registry required to resolve review finding P2.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/schema.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "Focused Gate 6 proof, binary unit tests, full C-SDLC v2 suite, formatting, and clippy all passed after the review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove exact merged-head and repository identity rejection, public request schema coverage, unchanged draft publication behavior, and full C-SDLC v2 regression safety\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5466-post-review-fix-gate6-binary-full-suite-clippy-fmt\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "Protect the store projection and lifecycle test required to resolve the merged-publication truth finding.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate7_lifecycle.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex-root",
+      "reason": "Focused publication and lifecycle proof, full C-SDLC v2 suite, formatting, and clippy all passed after the merged-SOR truth fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove exact merged identity, truthful atomic SOR integration and merge projection, unchanged draft publication, and full C-SDLC v2 regression safety\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5466-final-gate6-gate7-lifecycle-binary-full-suite-clippy-fmt\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 7,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 8,
+      "actor": "bounded-subagent-review-5466",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex-root",
+      "reason": "Exact-revision bounded review passed after all three actionable findings were fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    }
+  ]
+}
