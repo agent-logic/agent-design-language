@@ -1,7 +1,7 @@
 {
   "issue": 5427,
   "expected_generation": 5,
-  "expected_digest": "fc6c3d22f0ed54b401d634947793ce9009d94d0864fa5039be1472bc5cd2a52e",
+  "expected_digest": "c6fd69e374fd4a6147a877f6ec8c3f0dbb22839b130f06b2a5c5bff1539209a4",
   "claim_id": "claim-5427-card-identity",
   "reviewer": "codex-review",
   "assigned_by": "codex",
