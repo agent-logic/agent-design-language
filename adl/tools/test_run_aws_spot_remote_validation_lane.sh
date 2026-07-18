@@ -326,7 +326,8 @@ bash "$SCRIPT" \
   --git-ref origin/main \
   --out "$TMP/summary.json" \
   --artifact-dir "$TMP/artifacts" \
-  --instance-type m7a.2xlarge \
+  --instance-types m7a.2xlarge,c7a.2xlarge \
+  --max-run-seconds 900 \
   --json >"$TMP/run.out"
 
 grep -F "fixture remote validation passed" "$TMP/run.out" >/dev/null
@@ -339,6 +340,9 @@ grep -Fx -- "--issue" "$TMP/args.txt" >/dev/null
 grep -Fx -- "5191" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--instance-type" "$TMP/args.txt" >/dev/null
 grep -Fx -- "m7a.2xlarge" "$TMP/args.txt" >/dev/null
+grep -Fx -- "c7a.2xlarge" "$TMP/args.txt" >/dev/null
+grep -Fx -- "--command-timeout-seconds" "$TMP/args.txt" >/dev/null
+grep -Fx -- "900" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--spot-only" "$TMP/args.txt" >/dev/null
 grep -F 'INSTANCE_TYPES=("m7a.2xlarge" "c7a.2xlarge" "c7i.2xlarge")' "$SCRIPT" >/dev/null
 grep -Fx -- "--cache-volume-id" "$TMP/args.txt" >/dev/null

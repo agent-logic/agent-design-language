@@ -55,6 +55,7 @@ BUILDER_IMAGE_TAG="${ADL_AWS_SPOT_BUILDER_IMAGE_TAG:-v0.91.7-fixed}"
 EXPECTED_ARCHITECTURE="${ADL_AWS_SPOT_EXPECTED_ARCHITECTURE:-x86_64}"
 MIN_CACHE_FREE_GIB="${ADL_AWS_SPOT_MIN_CACHE_FREE_GIB:-10}"
 ESTIMATED_HOURLY_COST_USD="${ADL_AWS_SPOT_ESTIMATED_HOURLY_COST_USD:-}"
+MAX_RUN_SECONDS=""
 AMI_ID="${ADL_AWS_REMOTE_VALIDATION_AMI_ID:-}"
 SUBNET_ID="${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}"
 EXPECTED_CACHE_VOLUME_ID_SHA256="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_ID_SHA256:-}"
@@ -81,6 +82,7 @@ Options:
   --out <path>                  Summary JSON path. Defaults under .adl/tmp.
   --artifact-dir <dir>          Artifact root. Defaults beside --out.
   --instance-type <type>        Add an allowed EC2 instance type.
+  --instance-types <list>       Add comma-separated allowed EC2 instance types.
   --cache-volume-name <name>    Warm EBS cache volume name. Defaults to retained WP-06 cache.
   --cache-volume-size-gib <gib> Cache volume size when created. Defaults to 500.
   --cache-volume-type <type>    Cache volume type. Defaults to gp3.
@@ -108,6 +110,7 @@ Options:
   --min-cache-free-gib <gib>     Required warm-cache headroom. Defaults 10.
   --estimated-hourly-cost-usd <usd>
                                 Override the pre-run Spot hourly price estimate.
+  --max-run-seconds <seconds>   Remote validation command timeout in seconds.
   --ami-id <id>                 Explicit AMI. Defaults to the current AL2023 SSM image.
   --subnet-id <id>              Explicit subnet. Defaults to retained hot-cache proof topology.
   --expected-cache-volume-id-sha256 <hash>
@@ -183,6 +186,15 @@ while [[ $# -gt 0 ]]; do
       INSTANCE_TYPES+=("${2:-}")
       shift 2
       ;;
+    --instance-types)
+      IFS=',' read -r -a requested_instance_types <<<"${2:-}"
+      for requested_instance_type in "${requested_instance_types[@]}"; do
+        if [[ -n "$requested_instance_type" ]]; then
+          INSTANCE_TYPES+=("$requested_instance_type")
+        fi
+      done
+      shift 2
+      ;;
     --cache-volume-name)
       CACHE_VOLUME_NAME="${2:-}"
       shift 2
@@ -249,6 +261,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --estimated-hourly-cost-usd)
       ESTIMATED_HOURLY_COST_USD="${2:-}"
+      shift 2
+      ;;
+    --max-run-seconds)
+      MAX_RUN_SECONDS="${2:-}"
       shift 2
       ;;
     --ami-id)
@@ -772,6 +788,10 @@ if [[ -n "$COMMAND" ]]; then
   else
     cmd+=(--command "$COMMAND")
   fi
+fi
+
+if [[ -n "$MAX_RUN_SECONDS" ]]; then
+  cmd+=(--command-timeout-seconds "$MAX_RUN_SECONDS")
 fi
 
 for instance_type in ${INSTANCE_TYPES[@]+"${INSTANCE_TYPES[@]}"}; do
