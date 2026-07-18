@@ -1,0 +1,154 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5487,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "7c8abbf996795f4d33022b527e2915bc79bae567af2c6bb105b31fd6ab8598c2",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "c24c31014c2f5b14c72620f9cbc33892672f3f54fea8d95eb13d05bec3738783",
+  "claim": {
+    "id": "claim-5487-terminal-design-repair",
+    "owner": "codex",
+    "generation": 6,
+    "acquired_unix_seconds": 1784360100,
+    "expires_unix_seconds": 1784367300,
+    "heartbeat_unix_seconds": 1784360100,
+    "branch": "codex/5487-terminal-design-repair",
+    "worktree": ".",
+    "protected_paths": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/tests/gate7_terminal_design_repair_5487.rs",
+      ".csdlc/issues/5487/retained/design.md",
+      ".csdlc/issues/5487/retained/diagram.mmd"
+    ],
+    "purpose": "Add typed terminal design and diagram repair with atomic receipt reconciliation"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/issues/5487/retained/design.md",
+  "diagram_path": ".csdlc/issues/5487/retained/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex",
+      "revision": "81a40365f0d648c8c8d149c38d161a04d795654827a41cabb955c3eea07f89b6"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6cda3336081a76e1ce461f51176a47af84e0e1b48b57258ec820f8dd5a384097",
+      "rendered_digest": "80ddb726ea098e53b247b6b7ef6a23d0c10ab9466b4efaec3d78b7bb2f95d796",
+      "ast_digest": "c1ed38486537316029d56c3414ac20dee07fa0575ae75e52bab9aad80a0b0fc0"
+    },
+    "stp": {
+      "values_digest": "e301e01f111d3c052cc254fb9e1b7132e33d3c7fc9e9188fc721b901b22ac1e7",
+      "rendered_digest": "d339f52f34c59d8c1d8c57eae6418fec6c7bbee6a8e1f711296db36a34ff316f",
+      "ast_digest": "14242e803ab4baea4178dff757963d70ca7ac1fb21865bb98a67c9fef1e366fb"
+    },
+    "spp": {
+      "values_digest": "a6bc8f01b5060c79c11a96b36a7f1eeec4a096e047def6e7c1dab39eeac66a89",
+      "rendered_digest": "2a63ed153f38ae794a7823f83f16ba957ab20688b06e63a506f8f336fedb50e1",
+      "ast_digest": "44971f6391c44480a012554b33e1cab7043e3fca43903bf922b12abd4ae70571"
+    },
+    "vpp": {
+      "values_digest": "e75096f89af1384f13c975abc4501ba3dbadfc1b59d47bd813e8c05ef2dd4f41",
+      "rendered_digest": "9989e0e9e5d0ece92e567f88f6a2a1497f2a00221977a68b843e0e302b20fa9c",
+      "ast_digest": "88da1229ef057dd8a42aa36cd5a7a2f6a8c4e9f0d0f37a5102db2b3d02781dc9"
+    },
+    "srp": {
+      "values_digest": "1775474923bebc5ab4d2d1d6bf172435f73789a424ca65d730466e9fa1baecee",
+      "rendered_digest": "4667e17ded7962a49a147a62dd03988dde3f2889d3eb906ae247bf0072b4311c",
+      "ast_digest": "e614777cbd5aada4130a248c3b908304d52b50ad4adf222908b1aa3485dc5d36"
+    },
+    "sor": {
+      "values_digest": "2fb77140b37ae312a2b0c6b7359af8c0d5937bb8a86064cacd73d77d55a60993",
+      "rendered_digest": "3225514e7ece70570feb6b59e2a18ec7fccfa56f5a1a1f9fe92f43a0b479f28f",
+      "ast_digest": "0089fed2b4210c14a9b7a07fc5fbc21e567bfbf5c1759251cd6afc6a805ae761"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Implementation and focused validation are complete; advance to review."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Implement typed terminal design repair and receipt-aware projection recovery.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed-out design repair now performs authority/CAS/hash checks, markdown AST validation, journaled projection and receipt replacement, and typed reconciliation materializes repaired #5467 artifacts.\",\"changes\":[\"Add TerminalDesignRepairRequest and csdlc-closeout repair-design.\",\"Atomically update terminal record, SPP/VPP digests, receipt, authored artifacts, and audit.\",\"Repair #5467 retained design and diagram with the approved SSM/EBS/IAM scope.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/bin/csdlc-closeout.rs\",\".csdlc/issues/5467/retained/design.md\",\".csdlc/issues/5467/retained/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Focused terminal design repair validation passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\"],\"purpose\":\"Prove terminal transaction recovery and lifecycle invariants; clippy and diff checks also pass.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate7_lifecycle: 6 tests passed; cargo clippy --all-targets -D warnings; git diff --check\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Implementation and focused validation are complete; advance to review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Focused repair artifact contract validation passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_terminal_design_repair_5487\"],\"purpose\":\"Verify the typed repair request covers committed #5467 design and diagram artifacts with stable digests and Mermaid shape.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate7_terminal_design_repair_5487: 1 test passed\"}}"
+    }
+  ]
+}

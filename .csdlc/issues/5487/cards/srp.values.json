@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5487,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2][closeout] Add typed terminal design repair before receipt reconciliation",
+    "slug": "typed-terminal-design-repair",
+    "version": "v0.91.7",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can an unauthorized or stale request mutate a closed-out receipt?",
+        "Are all artifact and card digests checked atomically?",
+        "Does every injected failure leave the old receipt and artifacts intact?",
+        "Does reconcile-terminal materialize exactly the repaired artifacts?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
