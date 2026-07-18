@@ -3,13 +3,13 @@
   "issue": 5470,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c0d7a90f2c5b1a237ed0ae9feaa3ee21bd1d4a4e59b49972c0a7d167c7b56303",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "535229e2534f35cdf7cde7dc376b5b2f9b0ffdbec0420ccc3524e2a67e099744",
+  "phase": "published",
+  "generation": 11,
+  "digest": "c6087319624e1ec04fc2e61b34b6591857fa87251d63ec8268ad7f8f625e8eea",
   "claim": {
     "id": "claim-5470-terminal-durability",
     "owner": "codex",
-    "generation": 8,
+    "generation": 11,
     "acquired_unix_seconds": 1784358380,
     "expires_unix_seconds": 1784365580,
     "heartbeat_unix_seconds": 1784358380,
@@ -24,9 +24,42 @@
     ],
     "purpose": "Make terminal projection and retained receipt updates crash-consistent"
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "review_5427",
+    "assigned_by": "codex",
+    "revision": "git-blake3:55906219439aed67090ae7c8df703d66e0c78fd5:a17f3066c1b561bcc0ad4aa57748020a567f6070cb41f7fa71d6185363807415",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "review_5427",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:55906219439aed67090ae7c8df703d66e0c78fd5:a17f3066c1b561bcc0ad4aa57748020a567f6070cb41f7fa71d6185363807415",
+    "findings": [],
+    "residual_risks": [
+      "Filesystem crash semantics remain platform-dependent beyond the synchronized Rust boundaries."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5470,
+    "pull_request": 5486,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5486",
+    "base": "main",
+    "head": "codex/5470-terminal-durability",
+    "revision": "git-blake3:55906219439aed67090ae7c8df703d66e0c78fd5:a17f3066c1b561bcc0ad4aa57748020a567f6070cb41f7fa71d6185363807415",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -40,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3937aea9612241d683060d6c230d3a342ebdd73b4208473e5b7434e5be5df1da",
+      "values_digest": "7e8ab37016e7467aae2e6ff3e4add5d0c3c86bd3820587863c52d219469f32c6",
       "rendered_digest": "ec5a58906e0ffc07d1f381534676659f55ca705af55530e36700c01571c8af9a",
       "ast_digest": "5ae728453d3334ce517e3b7d5849aa7fc234fc5a90de30c7bd8fc661cd8d9909"
     },
     "stp": {
-      "values_digest": "be8e8765a53cd84b5d4051471dae9ae51398d86a1a04711e119a5b40baf0c6da",
+      "values_digest": "6b3498a08ef951a1cfc7987428983dca1becb91d844bcc2737598994062e3fb2",
       "rendered_digest": "6a818e8348cd7d57370fe2bde712e7db53f3c0d58b0bdfe5338855dd06177667",
       "ast_digest": "8bab69a5fcd29c8c3eeffaa5ceb05250a88dcbd5851dab931636ed7b109559f7"
     },
     "spp": {
-      "values_digest": "ff7c423305fafd4237ff5dab44ead2967e7780a9cd7b231a54318741ab39a1ae",
+      "values_digest": "43c207173e0e77bccd89886158baad2ae22a3effd66b24396d9971795b7773b5",
       "rendered_digest": "098938789d025c00b01decbc67076a34f9b734d26cf442c185b95e70f4cc6377",
       "ast_digest": "4c4dcf0e2faab1fa4ee5c3794f5176cff2893729840697dbf4615dbb02ff769b"
     },
     "vpp": {
-      "values_digest": "2997d2f0574c3ad6e784c05549c84517575496566f546103bfd4734bc33c6777",
+      "values_digest": "37af97e010db979c4d25b88b37b42be298850afc85c869ea03f0b034cf597018",
       "rendered_digest": "0048a95fd2253dd7bd607463ad852806ca1b3fd2c971df05f20a146f2bde9fe8",
       "ast_digest": "8832cd41ca75c9c1118fd490e31f13fef1a3e711cac1374a7840aa84499e75ee"
     },
     "srp": {
-      "values_digest": "95ebc9dafe50398f8f582786dd6e0b141ec6108af801d259729e8efb7dacd079",
-      "rendered_digest": "fe521cf7efb0e929c863bf3f8a7b2ae4d1caed8dea7a7b903420c2c5e67ec50b",
-      "ast_digest": "7c1c59171878017e850941bca7a6e062d18050b40ffa277b79a0a5820f53dc2f"
+      "values_digest": "ee75fd1ed21c257bef3201692a69a5e1496130255637e87685fc44ff31ce2e82",
+      "rendered_digest": "affa271777b2c40354f7b884c015cd9df55f49924db89be4a2516db1708a9d9b",
+      "ast_digest": "0570c3e47e5888c17caada95aa3b44008883593d91ed549103c34a401ae4c6b5"
     },
     "sor": {
-      "values_digest": "765cb2e3b10e75ebd44adeb0b9d9715f6ab94cb3f31fade72833a12df22df8e1",
-      "rendered_digest": "9c54be55f39c464639017dc98c34cb49d5db4a4f030fc2b09adfd241209bb50d",
-      "ast_digest": "372f0835b0e4fa1313ede815e0f61a4c409aa242a6d5bf4e17a54ce398469aa8"
+      "values_digest": "fbf17372cc0ec541df9d4b331105aa5d5f4ba886309f6e4e9e684e87d05be91a",
+      "rendered_digest": "2f9e3e767fa7cd511af66d23fe0be026f4fd42aa30035ee2eedcbdbb047e2b32",
+      "ast_digest": "29a6375891d679d5161423df4c37ab7bd49b32f2884210a91a234131931937ef"
     }
   },
   "transitions": [
@@ -119,6 +152,20 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Publication metadata changed the exact reviewed revision; require typed re-review before continuing closeout."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Exact post-publication lifecycle revision re-reviewed with no actionable findings."
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -198,6 +245,34 @@
       "actor": "codex",
       "reason": "Publication metadata changed the exact reviewed revision; require typed re-review before continuing closeout.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "review_5427",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Exact post-publication lifecycle revision re-reviewed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

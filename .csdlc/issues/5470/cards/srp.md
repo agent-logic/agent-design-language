@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/store.rs
+csdlc-v2/src/publication.rs
+csdlc-v2/tests/gate7_lifecycle.rs
 
 ## Prompts
 
@@ -31,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Filesystem crash semantics remain platform-dependent beyond the synchronized Rust boundaries.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:55906219439aed67090ae7c8df703d66e0c78fd5:a17f3066c1b561bcc0ad4aa57748020a567f6070cb41f7fa71d6185363807415")
 
-Reviewer: None
+Reviewer: Some("review_5427")
 
-Result: pre_review
+Result: pass
