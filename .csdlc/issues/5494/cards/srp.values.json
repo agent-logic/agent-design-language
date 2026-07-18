@@ -7,14 +7,14 @@
     "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
     "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
     "version": "v0.91.7",
-    "generation": 31
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime/src/runtime_api_auth.rs\nadl-runtime/src/supervision.rs\nadl-runtime/src/topology.rs\nadl/src/csm_runtime_api.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/tests.rs\ndocs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "review_revision": "git-blake3:51f97887673f338ba861282a976dd8578f345864:82d9a9a6b7f812166547662659949b3fc8a8fabaf79e6b3e4c74ae40e3ff75bb",
+      "review_revision": "git-blake3:e2723c8b7ee47f698cf0de36ab06442521c1fbb5:72cb1f5e2addc68c27d5389ef00ae8bb5d65532b64f6bc3da774284bc158ba27",
       "reviewer": "subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2",
       "review_prompts": [
         "Does production execute rather than merely describe the assembly?",
@@ -29,8 +29,8 @@
           "summary": "Concurrent terminal revocation can commit after the initial revocation check and before authorize returns authenticated.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:e2723c8b7ee47f698cf0de36ab06442521c1fbb5:72cb1f5e2addc68c27d5389ef00ae8bb5d65532b64f6bc3da774284bc158ba27",
           "route": null
         },
         {
@@ -39,13 +39,15 @@
           "summary": "Previous-generation bearer overlap does not accept gateway identity signatures created with that same overlapping credential.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:e2723c8b7ee47f698cf0de36ab06442521c1fbb5:72cb1f5e2addc68c27d5389ef00ae8bb5d65532b64f6bc3da774284bc158ba27",
           "route": null
         }
       ],
-      "residual_risk": [],
-      "review_result": "changes_required"
+      "residual_risk": [
+        "Hosted PR checks and lifecycle closeout remain pending; no external provider, cloud, API Gateway, GPU, or Runtime v3 integration claim is made."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -37,8 +37,8 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "summary": "Concurrent terminal revocation can commit after the initial revocation check and before authorize returns authenticated.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:e2723c8b7ee47f698cf0de36ab06442521c1fbb5:72cb1f5e2addc68c27d5389ef00ae8bb5d65532b64f6bc3da774284bc158ba27",
     "route": null
   },
   {
@@ -47,8 +47,8 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "summary": "Previous-generation bearer overlap does not accept gateway identity signatures created with that same overlapping credential.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:e2723c8b7ee47f698cf0de36ab06442521c1fbb5:72cb1f5e2addc68c27d5389ef00ae8bb5d65532b64f6bc3da774284bc158ba27",
     "route": null
   }
 ]
@@ -59,12 +59,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted PR checks and lifecycle closeout remain pending; no external provider, cloud, API Gateway, GPU, or Runtime v3 integration claim is made.
 
 ## Review Result
 
-Revision: Some("git-blake3:51f97887673f338ba861282a976dd8578f345864:82d9a9a6b7f812166547662659949b3fc8a8fabaf79e6b3e4c74ae40e3ff75bb")
+Revision: Some("git-blake3:e2723c8b7ee47f698cf0de36ab06442521c1fbb5:72cb1f5e2addc68c27d5389ef00ae8bb5d65532b64f6bc3da774284bc158ba27")
 
 Reviewer: Some("subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2")
 
-Result: changes_required
+Result: pass
