@@ -16,6 +16,7 @@ use sha2::{Digest, Sha256};
 use std::fmt;
 use std::fs::OpenOptions;
 use std::io::Write;
+use std::net::Ipv4Addr;
 use std::path::{Path, PathBuf};
 use std::process::Command as StdCommand;
 use std::sync::{Arc, Mutex};
@@ -1436,6 +1437,37 @@ fn preview(text: &str) -> String {
     text.lines().take(8).collect::<Vec<_>>().join(" | ")
 }
 
+fn public_ipv4_cidr(response: &[u8]) -> Result<String> {
+    let text = std::str::from_utf8(response)
+        .context("failed to decode public IP response for SSH debug mode")?;
+    let ip: Ipv4Addr = text
+        .trim()
+        .parse()
+        .context("public IP response for SSH debug mode is not IPv4")?;
+    let [first, second, third, _] = ip.octets();
+    let shared = first == 100 && (64..=127).contains(&second);
+    let benchmarking = first == 198 && matches!(second, 18 | 19);
+    let protocol_assignment = first == 192 && second == 0 && third == 0;
+    let reserved = first >= 240;
+    if ip.is_unspecified()
+        || ip.is_private()
+        || ip.is_loopback()
+        || ip.is_link_local()
+        || ip.is_multicast()
+        || ip.is_documentation()
+        || ip.is_broadcast()
+        || shared
+        || benchmarking
+        || protocol_assignment
+        || reserved
+    {
+        return Err(anyhow!(
+            "public IP response for SSH debug mode is not globally routable"
+        ));
+    }
+    Ok(format!("{ip}/32"))
+}
+
 fn build_ssh_debug_config(config: &AwsRemoteValidationConfig) -> Result<Option<SshDebugConfig>> {
     let Some(_key_name) = config.ssh_key_name.as_deref() else {
         return Ok(None);
@@ -1458,9 +1490,7 @@ fn build_ssh_debug_config(config: &AwsRemoteValidationConfig) -> Result<Option<S
             if !output.status.success() {
                 return Err(anyhow!("failed to detect public IP for SSH debug mode"));
             }
-            let ip = String::from_utf8(output.stdout)
-                .context("failed to decode public IP response for SSH debug mode")?;
-            format!("{}/32", ip.trim())
+            public_ipv4_cidr(&output.stdout)?
         }
     };
     Ok(Some(SshDebugConfig {
@@ -3439,6 +3469,26 @@ mod tests {
     use std::collections::VecDeque;
     use std::sync::Mutex;
 
+    #[test]
+    fn public_ipv4_cidr_accepts_one_global_address() {
+        assert_eq!(
+            public_ipv4_cidr(b"8.8.8.8\n").expect("global IPv4"),
+            "8.8.8.8/32"
+        );
+    }
+
+    #[test]
+    fn public_ipv4_cidr_rejects_non_global_or_malformed_responses() {
+        for response in [
+            b"127.0.0.1\n".as_slice(),
+            b"10.0.0.1\n".as_slice(),
+            b"2001:4860:4860::8888\n".as_slice(),
+            b"not-an-ip\n".as_slice(),
+        ] {
+            assert!(public_ipv4_cidr(response).is_err());
+        }
+    }
+
     struct FakeAdapter {
         quota: QuotaSnapshot,
         identity: AwsAccountIdentity,
@@ -4083,8 +4133,9 @@ mod tests {
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
-        assert!(tracked_runner
-            .contains("if [ \"$CURRENT_PERSISTENT_COMMIT\" != \"$SOURCE_COMMIT\" ]"));
+        assert!(
+            tracked_runner.contains("if [ \"$CURRENT_PERSISTENT_COMMIT\" != \"$SOURCE_COMMIT\" ]")
+        );
     }
 
     #[test]
