@@ -426,24 +426,33 @@ impl Store {
         }
         let _lock = self.lock(request.issue)?;
         self.recover_if_needed(request.issue)?;
-        let local = self.load_record(request.issue)?;
-        if local.initialization_digest != request.expected_initialization_digest {
-            return Err(V2Error::new(
-                ErrorCode::StaleDigest,
-                "local initialization digest differs from reconciliation request",
-            ));
-        }
         let mut receipt = self
             .load_terminal_receipt(request.issue)?
             .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "terminal receipt missing"))?;
-        if receipt.initialization_digest != local.initialization_digest
-            || receipt.repository != local.repository
-        {
+        if receipt.initialization_digest != request.expected_initialization_digest {
             return Err(V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "terminal receipt identity differs from local issue",
+                ErrorCode::StaleDigest,
+                "terminal receipt initialization digest differs from reconciliation request",
             ));
         }
+        let issue_dir = self.issue_dir(request.issue);
+        let local = match self.load_record(request.issue) {
+            Ok(local) => {
+                if receipt.initialization_digest != local.initialization_digest
+                    || receipt.repository != local.repository
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "terminal receipt identity differs from local issue",
+                    ));
+                }
+                local
+            }
+            Err(error) if error.code == ErrorCode::Io && !issue_dir.exists() => {
+                receipt.record.clone()
+            }
+            Err(error) => return Err(error),
+        };
         let requested_follow_ups = request
             .follow_ups
             .iter()
@@ -492,6 +501,7 @@ impl Store {
         {
             return Ok(local);
         }
+        let original_receipt_cards = receipt.cards.clone();
         let mut projection = receipt.record;
         let mut cards = receipt.cards;
         if let (Some(publication), Some(terminal)) = (
@@ -595,7 +605,13 @@ impl Store {
         hydrate_projections(&mut projection, &cards)?;
         projection.digest = record_digest(&projection)?;
         let retained_artifacts = BTreeMap::from([(design_path, design), (diagram_path, diagram)]);
-        let original_cards = self.load_cards(request.issue)?;
+        let original_cards = match self.load_cards(request.issue) {
+            Ok(cards) => cards,
+            Err(error) if error.code == ErrorCode::Io && !issue_dir.exists() => {
+                original_receipt_cards
+            }
+            Err(error) => return Err(error),
+        };
         let receipt_path = self.terminal_receipt_path(request.issue)?;
         let receipt_parent = receipt_path.parent().expect("receipt parent");
         let receipt_lock = OpenOptions::new()
