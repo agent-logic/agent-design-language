@@ -1,0 +1,8 @@
+{
+  "issue": 4644,
+  "expected_generation": 6,
+  "expected_digest": "5cde6fc552936615889e9638d6c2f5fe34f5136147493577fd1a7df507956428",
+  "claim_id": "claim-4644-v0-91-7-wp17-docs-adoption-review",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "The reviewer found an exact-revision diff-check defect after assignment; recover the stale review so the corrected committed receipt can be reviewed at current HEAD."
+}

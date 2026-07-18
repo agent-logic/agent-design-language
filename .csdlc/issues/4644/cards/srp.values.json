@@ -7,15 +7,15 @@
     "title": "[v0.91.7][WP-17][docs] Docs and adoption review pass",
     "slug": "v0-91-7-wp17-docs-adoption-review",
     "version": "v0.91.7",
-    "generation": 6
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/4644\n.csdlc/prepared/issues/4644\n.csdlc/evidence/4644\nREADME.md\nREVIEW.md\ndocs/README.md\ndocs/adr/README.md\ndocs/milestones/v0.8/README.md\ndocs/milestones/v0.91/features/README.md\ndocs/milestones/v0.91.7\ndocs/planning/ADL_FEATURE_LIST.md",
+      "review_revision": "git-blake3:1e5201ec4228ae3acbfbd7e0686b7be6a8eec0b7:17ad4dd316d5c9c098ed7da5ee007855da3119a1aea11ecf0a5b1fdccf3ec424",
+      "reviewer": "codex-subagent:019f7789-9ed8-7790-b8da-8922d5291b7f",
       "review_prompts": [
         "Does the issue stay within its WP scope?",
         "Are claims supported by retained or fresh evidence?",
@@ -23,8 +23,13 @@
         "Are sibling WP and release/activation non-claims preserved?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "No full Rust test suite or GitHub CI was run locally; CI remains publication-time evidence.",
+        "Historical runtime, remote, cloud, corruption, provider, Unity, and activation proofs were not rerun by this documentation issue.",
+        "Runtime hardening remediation #5408 and downstream WP-18 through WP-20 and WP-23 remain independent open gates.",
+        "No AWS command or service was used, and the current operator direction continues to prohibit AWS execution."
+      ],
+      "review_result": "pass"
     }
   }
 }

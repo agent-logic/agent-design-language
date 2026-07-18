@@ -12,7 +12,17 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+.csdlc/issues/4644
+.csdlc/prepared/issues/4644
+.csdlc/evidence/4644
+README.md
+REVIEW.md
+docs/README.md
+docs/adr/README.md
+docs/milestones/v0.8/README.md
+docs/milestones/v0.91/features/README.md
+docs/milestones/v0.91.7
+docs/planning/ADL_FEATURE_LIST.md
 
 ## Prompts
 
@@ -31,12 +41,15 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No full Rust test suite or GitHub CI was run locally; CI remains publication-time evidence.
+- Historical runtime, remote, cloud, corruption, provider, Unity, and activation proofs were not rerun by this documentation issue.
+- Runtime hardening remediation #5408 and downstream WP-18 through WP-20 and WP-23 remain independent open gates.
+- No AWS command or service was used, and the current operator direction continues to prohibit AWS execution.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1e5201ec4228ae3acbfbd7e0686b7be6a8eec0b7:17ad4dd316d5c9c098ed7da5ee007855da3119a1aea11ecf0a5b1fdccf3ec424")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:019f7789-9ed8-7790-b8da-8922d5291b7f")
 
-Result: pre_review
+Result: pass
