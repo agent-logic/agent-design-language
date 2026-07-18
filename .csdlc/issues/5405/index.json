@@ -1,0 +1,180 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5405,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "054e97bce0600f6d67de82ce3c57351da92204496680e0793747ea6943aa00a2",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "39ac728660b04ac9b2cc2a43d1a85b1b4b3cade3f49699fb6fca691b36fe75a4",
+  "claim": {
+    "id": "claim-5405-review-findings-finish",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 10,
+    "acquired_unix_seconds": 1784342092,
+    "expires_unix_seconds": 1784428492,
+    "heartbeat_unix_seconds": 1784342092,
+    "branch": "codex/5405-wp13-review-repair",
+    "worktree": ".worktrees/adl-wp-5405-repair",
+    "protected_paths": [
+      "adl/src/runtime_v2/economics_civilization_boundary.rs",
+      "adl/src/runtime_v2/tests/economics_civilization_boundary.rs",
+      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
+      "docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/review/wp13_closeout_4640.md",
+      "docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json",
+      "docs/milestones/v0.91.7/review/wp13_economics_civilization_boundary_4754.md",
+      "docs/milestones/v0.91.7/review/wp13_godel_constructability_boundary_4753.md",
+      "docs/milestones/v0.91.7/review/wp13_guild_foundation_boundary_4755.md",
+      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md"
+    ],
+    "purpose": "Resolve #5403 WP-13 guild, Godel, and economics review findings"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5405/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5405/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-assigned-review-fix",
+      "revision": "94d15fb356b31f02b0d46cc67eb69d558668f1783d2090be1b75914e4866ed68"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "650437e126673916806077b5d5945e41c2d51ec21e1d256b4b2181affc508043",
+      "rendered_digest": "703b92e39c250aa5e073508493c1d38ae73f523e6cf4a0536e89a13faebea53d",
+      "ast_digest": "37f28dd84da79b263104176dbb71e609b56a71b7afb6e5076d455ad7142d5f1f"
+    },
+    "stp": {
+      "values_digest": "2e6e7bc8b5c92378805d4de66badf11efa741cfa84eaae886d4c02a53a9d6e3d",
+      "rendered_digest": "d93082537cdc86d0519550bef7290c3fb715ab2dd435712a3d0ae9a944770e30",
+      "ast_digest": "94191cfd67fe8d03c3e4761a74ca4434efdaa7c87cc3dd5960d46a12a27b3a2d"
+    },
+    "spp": {
+      "values_digest": "3d48973ee27352d8840f064ef4af096492e842ddfe3e054fe6e48eb5115c0531",
+      "rendered_digest": "f2b11bf5db2846ca75a8d6a79f4f145fce8f41d17e5ad0b0845b5c302c58a0a2",
+      "ast_digest": "2604a0f7b1d99bbb83e4af715211650a16fae7bad1af370d3f2c4ee65467bc7f"
+    },
+    "vpp": {
+      "values_digest": "deca872ea61d2a9a99302bf59e2c44aa889d3460c89bb7dcca0037c50a3cec2b",
+      "rendered_digest": "786bec15c1f6dc1dfc47ac830d6031432d4810c5f4508a78af7c42f172b85aa5",
+      "ast_digest": "e3831f244aef8533576b3070392952daac7adb71331ecc5ee0eb0e5986768825"
+    },
+    "srp": {
+      "values_digest": "9b64833065398db1d58974bb4cf303d46ea7f876b7397c13068ae866bbe5d0c0",
+      "rendered_digest": "1c4a2bc9201b2e6308697f5f7bcdf52fc3df61ff3595ecbf84cdb655b9c5c8e2",
+      "ast_digest": "7232a4a7c88709461d5e6b614f95a296a66bf3d017bffed9560e854ddd3fe2a4"
+    },
+    "sor": {
+      "values_digest": "57a5660c44a76ebea0fa7ac1b7026dd368183b615b4fbdad7429363f6aa07a2c",
+      "rendered_digest": "8919eb7517f3361a5e94ff91ca842da774564c4f16de9f3b3eed95022b464c48",
+      "ast_digest": "ccb2a4469dcc401b5117a2db4bbfdaa92dc83cabe0aa25674e5bfa7da3b810c7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "All six cards and approved design are ready in the existing clean issue-bound worktree."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The existing branch and worktree match the exact reserved claim and protected issue scope."
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "All #5405 implementation changes and focused pre-review proof are complete on the clean issue branch."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "All six cards and approved design are ready in the existing clean issue-bound worktree.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The existing branch and worktree match the exact reserved claim and protected issue scope.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"bound\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Mapped each #5403 WP-13 finding to its owning code and claim-truth surfaces.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Repaired Guild and Godel claim truth plus duplicate rejection in the owning economics boundary validator.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Focused economics, Guild, Godel, JSON, claim-language, formatting, and diff-hygiene validation passed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the clean #5405 implementation surfaces before exact-revision review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved all three #5403 WP-13 findings by correcting Guild and Godel claim truth and rejecting duplicate Runtime v2 economics boundary rows.\",\"changes\":[\"Downgraded declarative Guild vocabulary and gates from integrated_proven to boundary_proven across parent, handoff, and activation-ledger truth.\",\"Reworded Godel evidence as admission readiness with hosted provider requests resolved but not invoked.\",\"Rejected duplicate allowed-consumption rows, postponed-surface ids, and promotion gates with focused regression coverage.\"],\"artifacts\":[\"adl/src/runtime_v2/economics_civilization_boundary.rs\",\"adl/src/runtime_v2/tests/economics_civilization_boundary.rs\",\"docs/milestones/v0.91.7/review/wp13_closeout_4640.md\",\"docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json\",\"docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md\",\"docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record focused Runtime v2 economics duplicate-policy proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"runtime_v2_economics_civilization_boundary\",\"--\",\"--nocapture\"],\"purpose\":\"Prove canonical economics boundary packets remain valid and all three duplicate semantic row classes fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/src/runtime_v2/tests/economics_civilization_boundary.rs\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record focused Guild and Godel boundary behavior proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"runtime_v2_g\",\"--\",\"--nocapture\"],\"purpose\":\"Confirm Guild remains a handoff-only boundary and Godel runtime packets retain explicit non-invocation behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/src/runtime_v2/tests\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record machine-readable packet, stale-claim scan, and diff-hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-lc\",\"jq empty docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json && ! rg -n -i 'integrated_proven.*guild|guild.*integrated_proven|executable (godel|launch)|godel.*executable|executable launch-plan' <WP-13 claim surfaces> && git diff --check\"],\"purpose\":\"Prove valid closeout JSON, absence of the reviewed stale claim wording, and clean patch whitespace.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "All #5405 implementation changes and focused pre-review proof are complete on the clean issue branch.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

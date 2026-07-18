@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5405,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][WP-13] Resolve #5403 guild, Godel, and economics findings",
+    "slug": "v0-91-7-review-fix-wp13-guild-godel-economics-findings",
+    "version": "v0.91.7",
+    "generation": 10
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does guild truth claim only what the evidence proves?",
+        "Does Godel wording consistently retain not-invoked hosted-provider truth?",
+        "Does economics validation reject duplicate semantic policy entries?",
+        "Do closeout and handoff records agree with the corrected truth?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
