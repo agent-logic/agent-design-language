@@ -3,13 +3,13 @@
   "issue": 5470,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c0d7a90f2c5b1a237ed0ae9feaa3ee21bd1d4a4e59b49972c0a7d167c7b56303",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "e2e2357f3b1675d42762ac2dbd5bba6b83628841782a1d993fd92dc026d9daa0",
+  "phase": "merge_ready",
+  "generation": 7,
+  "digest": "ade0144935e4d65e15001c143af482c1aea8b4eaf3f721214aa9aefce4870580",
   "claim": {
     "id": "claim-5470-terminal-durability",
     "owner": "codex",
-    "generation": 0,
+    "generation": 7,
     "acquired_unix_seconds": 1784358380,
     "expires_unix_seconds": 1784365580,
     "heartbeat_unix_seconds": 1784358380,
@@ -24,10 +24,119 @@
     ],
     "purpose": "Make terminal projection and retained receipt updates crash-consistent"
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
-  "readiness": null,
+  "review_assignment": {
+    "reviewer": "review_5427",
+    "assigned_by": "codex",
+    "revision": "git-blake3:cf4bb555f3602f9edc5c1c855bddb413136ae767:c52cccf2b3a09534b904bc24f17e138046abaaed39cb40929578921ae9d4f339",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "review_5427",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:cf4bb555f3602f9edc5c1c855bddb413136ae767:c52cccf2b3a09534b904bc24f17e138046abaaed39cb40929578921ae9d4f339",
+    "findings": [],
+    "residual_risks": [
+      "Filesystem crash semantics remain platform-dependent beyond the synchronized Rust boundaries."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5470,
+    "pull_request": 5486,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5486",
+    "base": "main",
+    "head": "codex/5470-terminal-durability",
+    "revision": "git-blake3:cf4bb555f3602f9edc5c1c855bddb413136ae767:c52cccf2b3a09534b904bc24f17e138046abaaed39cb40929578921ae9d4f339",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": {
+    "pull_request": 5486,
+    "head_sha": "cf4bb555f3602f9edc5c1c855bddb413136ae767",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057184449"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057153971"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057139666"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057139760"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057129236"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057140047"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057140044"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057140029"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057139997"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057139934"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29635545160/job/88057139665"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
   "terminal": null,
   "migration": null,
   "design_path": ".csdlc/issues/5470/retained/design.md",
@@ -40,34 +149,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6ead70ffdba23f5b3a72360c4c7c2d1822e0a456237831b63ead382343f996fd",
+      "values_digest": "e7c6ae680c7b3db9d1d3511bdf39764c452c5981fa3425fdaeaf86e3f8338a63",
       "rendered_digest": "ec5a58906e0ffc07d1f381534676659f55ca705af55530e36700c01571c8af9a",
       "ast_digest": "5ae728453d3334ce517e3b7d5849aa7fc234fc5a90de30c7bd8fc661cd8d9909"
     },
     "stp": {
-      "values_digest": "43b1375a24e8ec3ddde25f0d1f6cafb8f63f64c76e2fb94f8a5ab5663e5b739a",
+      "values_digest": "836e84bc0c38612f24f822b1c3091ce2a99f598195789b1501204dab11cd022e",
       "rendered_digest": "6a818e8348cd7d57370fe2bde712e7db53f3c0d58b0bdfe5338855dd06177667",
       "ast_digest": "8bab69a5fcd29c8c3eeffaa5ceb05250a88dcbd5851dab931636ed7b109559f7"
     },
     "spp": {
-      "values_digest": "68e5f941e0728de6510878f798cde3f9d72bc52fc8ff17155cf060b2d2b8a405",
+      "values_digest": "b3fe192ffe58b65e9604d5df9e7c5fb73ce6b95969d69dfd61b5db045e86fc99",
       "rendered_digest": "098938789d025c00b01decbc67076a34f9b734d26cf442c185b95e70f4cc6377",
       "ast_digest": "4c4dcf0e2faab1fa4ee5c3794f5176cff2893729840697dbf4615dbb02ff769b"
     },
     "vpp": {
-      "values_digest": "dfc63fd9f2718f316016902b896f715b503447fe419b276a43496ba6e0f02fb8",
+      "values_digest": "3d190e45a7e5293f890df23818a414d80c7c1392986fd6076a16caf16ec801ce",
       "rendered_digest": "0048a95fd2253dd7bd607463ad852806ca1b3fd2c971df05f20a146f2bde9fe8",
       "ast_digest": "8832cd41ca75c9c1118fd490e31f13fef1a3e711cac1374a7840aa84499e75ee"
     },
     "srp": {
-      "values_digest": "1d331b6a6133d77628729407f70202915cc9ea890a6f789b5d49834a239e792f",
-      "rendered_digest": "8b06455e06a094d46210fb0a19cbc69d5ef30959b50e3f67a40d328a30aa8fb6",
-      "ast_digest": "16914236df4de44093a9abd097ca1abb0600a5200aaa5b708c101a17d08622ef"
+      "values_digest": "4accb3e2a0d13d339859d6beed945444bb02b9af1a7e924ce79887a2a99ae77e",
+      "rendered_digest": "ca8b17d562f6c7e11414b98597467876079cf9bab28b9a7fe250223e78b2cc60",
+      "ast_digest": "281649cbb6950eb31128213f89a8497cac215f1460e5cc41afd351f9ba6d687c"
     },
     "sor": {
-      "values_digest": "b4174aa1e16ccd5c31f2b0a245a22e61a18f1f2ccb7fb6597ae10b8cb7c4d554",
-      "rendered_digest": "3a567fef002f090cdb6808c680532eec1e9875df0670375ddbcfc527eb546527",
-      "ast_digest": "f6bdc6cec0a0b9b2854d64964084ba81529fd6e5b318580d69a3a417177bcfe1"
+      "values_digest": "191d38cfc766578fd28dada77dff60918ae01074c56e387080ae9ae64e92d490",
+      "rendered_digest": "4c645c0fbb36777ba6b0bb9617996fd9369d6cd32003fd5120984316ddbf4b6d",
+      "ast_digest": "76da9ceb38a64a674df46004683f58070810ebc300f4e96c2b1fba5d9f31c569"
     }
   },
   "transitions": [
@@ -84,6 +193,34 @@
       "to": "bound",
       "actor": "codex",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Implementation and focused durability validation are complete; advance to review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Pre-publication review passed with no actionable findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex",
+      "reason": "observed required checks, review, and conflict readiness"
     }
   ],
   "audit": [
@@ -100,6 +237,62 @@
       "actor": "codex",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "Implement journaled terminal projection and receipt transaction with deterministic recovery.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Terminal reconciliation now journals projection and receipt updates across durable write and rename boundaries.\",\"changes\":[\"Add a shared terminal transaction journal keyed by issue and record digests.\",\"Synchronize receipt temp files and parent directories before success.\",\"Recover interrupted projection/receipt pairs deterministically.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/tests/gate7_lifecycle.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Focused Gate 7 durability and recovery validation passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\"],\"purpose\":\"Prove projection/receipt recovery at every durable boundary and preserve terminal lifecycle contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"gate7_lifecycle: 6 tests passed; clippy and diff-check passed\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Implementation and focused durability validation are complete; advance to review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "review_5427",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Pre-publication review passed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
     }
   ]
 }

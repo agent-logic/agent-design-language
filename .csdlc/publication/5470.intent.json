@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5470,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5470-terminal-durability",
+  "title": "[v0.91.8][csdlc-v2] Make terminal projection and receipt crash-consistent",
+  "body": "Closes #5470\n\nAdds a journaled terminal projection/receipt transaction with synchronized writes, deterministic recovery, and fault-injection coverage.",
+  "draft": true,
+  "revision": "git-blake3:cf4bb555f3602f9edc5c1c855bddb413136ae767:c52cccf2b3a09534b904bc24f17e138046abaaed39cb40929578921ae9d4f339",
+  "commit_sha": "cf4bb555f3602f9edc5c1c855bddb413136ae767"
+}
