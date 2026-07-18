@@ -294,6 +294,40 @@ pub fn record_publication(
         &request.claim_id,
         request.actor.clone(),
         evidence,
+        false,
+    )
+}
+
+pub fn record_merged_publication(
+    store: &Store,
+    request: &PublicationRequest,
+    intent: &PublicationIntent,
+    remote: RemotePullRequest,
+) -> Result<IssueRecord> {
+    validate_merged_remote(intent, &remote)?;
+    let evidence = PublicationEvidence {
+        repository: remote.repository,
+        issue: request.issue,
+        pull_request: remote.number,
+        url: remote.url,
+        base: remote.base,
+        head: remote.head,
+        revision: intent.revision.clone(),
+        draft: remote.draft,
+        observed_state: remote.state,
+    };
+    let current = store.load_record(request.issue)?;
+    if current.digest == request.expected_digest && current.publication.as_ref() == Some(&evidence)
+    {
+        return Ok(current);
+    }
+    store.commit_publication(
+        request.issue,
+        &request.expected_digest,
+        &request.claim_id,
+        request.actor.clone(),
+        evidence,
+        true,
     )
 }
 

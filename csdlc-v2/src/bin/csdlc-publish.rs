@@ -4,7 +4,7 @@ use std::path::{Path, PathBuf};
 use clap::{Parser, Subcommand};
 use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
-    prepare_publication, reconcile_action, record_publication,
+    prepare_publication, reconcile_action, record_merged_publication, record_publication,
     MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
     PublicationRequest, RemotePullRequest, Store,
 };
@@ -167,7 +167,8 @@ async fn reconcile_merged(root: &Path, request_path: &Path) -> csdlc_v2::Result<
     normalized.state = "merged".into();
     csdlc_v2::publication::validate_merged_remote(&intent, &normalized)?;
     persist_intent(root, &intent)?;
-    let record = record_publication(&store, &request.publication, &intent, normalized.clone())?;
+    let record =
+        record_merged_publication(&store, &request.publication, &intent, normalized.clone())?;
     Ok(serde_json::json!({
         "schema": "csdlc.merged_publication_reconciliation_result.v1",
         "publication": normalized,

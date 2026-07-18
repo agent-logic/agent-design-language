@@ -783,6 +783,7 @@ impl Store {
         claim_id: &str,
         actor: String,
         evidence: PublicationEvidence,
+        merged: bool,
     ) -> Result<IssueRecord> {
         let _lock = self.lock(issue)?;
         self.recover_if_needed(issue)?;
@@ -804,7 +805,16 @@ impl Store {
             CardContent::Sor(values) => values,
             _ => unreachable!("SOR"),
         };
-        sor.integration_state = crate::cards::IntegrationState::PrOpen;
+        sor.integration_state = if merged {
+            crate::cards::IntegrationState::Merged
+        } else {
+            crate::cards::IntegrationState::PrOpen
+        };
+        sor.merge_state = if merged {
+            crate::cards::MergeState::Merged
+        } else {
+            crate::cards::MergeState::NotMerged
+        };
         sor.publication_state = if evidence.draft {
             crate::cards::PublicationState::Draft
         } else {
@@ -822,15 +832,30 @@ impl Store {
             record.advance(
                 LifecyclePhase::Published,
                 actor.clone(),
-                "observed exact draft PR after current review".into(),
+                if merged {
+                    "observed exact merged PR after current review"
+                } else {
+                    "observed exact PR after current review"
+                }
+                .into(),
             )?;
         }
         record.audit.push(AuditEvent {
             sequence: record.audit.len() as u64 + 1,
             generation: record.generation,
             actor,
-            reason: "atomically record observed GitHub publication and SOR projection".into(),
-            operation: "record_publication".into(),
+            reason: if merged {
+                "atomically record observed merged GitHub publication and SOR projection"
+            } else {
+                "atomically record observed GitHub publication and SOR projection"
+            }
+            .into(),
+            operation: if merged {
+                "record_merged_publication"
+            } else {
+                "record_publication"
+            }
+            .into(),
         });
         validate_updated_cards(self, &record, &cards)?;
         hydrate_projections(&mut record, &cards)?;

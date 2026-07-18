@@ -1,12 +1,14 @@
 use csdlc_v2::cards::{
-    EvidenceOutcome, PlanStep, ResourceProfile, StepStatus, ValidationLane, ValidationResult,
+    CardContent, EvidenceOutcome, IntegrationState, MergeState, PlanStep, ResourceProfile,
+    StepStatus, ValidationLane, ValidationResult,
 };
 use csdlc_v2::{
-    assign_review, closeout_issue, edit_issue, initialize_issue, record_publication,
-    record_readiness, record_review, BootstrapRequest, CardKind, Claim, EditRequest,
-    InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest,
-    ReadinessRequest, RemotePullRequest, ReviewAssignmentRequest, ReviewEvidence,
-    ReviewRecordRequest, SemanticOperation, Store, TerminalDisposition, TerminalObservation,
+    assign_review, closeout_issue, edit_issue, initialize_issue, record_merged_publication,
+    record_publication, record_readiness, record_review, BootstrapRequest, CardKind, Claim,
+    EditRequest, InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent,
+    PublicationRequest, ReadinessRequest, RemotePullRequest, ReviewAssignmentRequest,
+    ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store, TerminalDisposition,
+    TerminalObservation,
 };
 
 fn git(root: &std::path::Path, args: &[&str]) {
@@ -303,6 +305,85 @@ fn fixture_with_validation_history_and_publication(
 #[test]
 fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() {
     run_complete_lifecycle(7, "Gate 7 fixture", "gate7", true);
+}
+
+#[test]
+fn merged_publication_reconciliation_projects_truth_before_closeout() {
+    let (_temp, store, record, sha) = fixture_with_validation_history_and_publication(
+        74,
+        "Gate 6 merged reconciliation fixture",
+        "merged-publication-reconciliation",
+        vec![],
+        false,
+    );
+    let reviewed_revision = record.review.as_ref().unwrap().reviewed_revision.clone();
+    let body = "Closes #74".to_string();
+    let request = PublicationRequest {
+        schema: "csdlc.publication_request.v1".into(),
+        issue: 74,
+        expected_generation: record.generation,
+        expected_digest: record.digest,
+        claim_id: "claim".into(),
+        actor: "publisher".into(),
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "issue-7".into(),
+        title: "Fixture".into(),
+        body: body.clone(),
+        draft: true,
+        remote: "origin".into(),
+        token_file: None,
+    };
+    let intent = PublicationIntent {
+        schema: "csdlc.publication_intent.v1".into(),
+        issue: 74,
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "issue-7".into(),
+        title: "Fixture".into(),
+        body: body.clone(),
+        draft: false,
+        revision: reviewed_revision,
+        commit_sha: sha.clone(),
+    };
+    let published = record_merged_publication(
+        &store,
+        &request,
+        &intent,
+        RemotePullRequest {
+            number: 74,
+            url: "https://example.invalid/74".into(),
+            repository: "example/repo".into(),
+            base: "main".into(),
+            head: "issue-7".into(),
+            title: "Fixture".into(),
+            body,
+            draft: false,
+            state: "merged".into(),
+            head_sha: sha,
+        },
+    )
+    .unwrap();
+
+    assert_eq!(published.phase, LifecyclePhase::Published);
+    assert_eq!(
+        published.publication.as_ref().unwrap().observed_state,
+        "merged"
+    );
+    assert_eq!(
+        published.transitions.last().unwrap().reason,
+        "observed exact merged PR after current review"
+    );
+    let cards = store.load_cards(74).unwrap();
+    let CardContent::Sor(sor) = &cards[&CardKind::Sor].content else {
+        panic!("expected SOR card")
+    };
+    assert_eq!(sor.integration_state, IntegrationState::Merged);
+    assert_eq!(sor.merge_state, MergeState::Merged);
+    assert_eq!(
+        published.audit.last().unwrap().operation,
+        "record_merged_publication"
+    );
 }
 
 #[test]

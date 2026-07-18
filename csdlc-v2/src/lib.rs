@@ -48,7 +48,7 @@ pub use operator::{
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
-    prepare_publication, reconcile_action, record_publication,
+    prepare_publication, reconcile_action, record_merged_publication, record_publication,
     MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
     PublicationRequest, RemotePullRequest,
 };

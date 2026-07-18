@@ -1,10 +1,10 @@
 {
   "issue": 5466,
   "card": "sor",
-  "expected_generation": 5,
-  "expected_digest": "46b342b3235eb7ad6fb0c4d9a3a59cb1293db27b72b6f182d5b53e3c54db2f6b",
+  "expected_generation": 6,
+  "expected_digest": "53a68d0d99827adf6458d1b669fae97611bb7e2d6e66e327fe69ed85d4224eee",
   "claim_id": "claim-5466-merged-head-closeout",
   "actor": "codex-root",
-  "reason": "Focused Gate 6 proof, binary unit tests, full C-SDLC v2 suite, formatting, and clippy all passed after the review fixes.",
-  "operation": {"operation":"record_validation","result":{"command":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml"],"purpose":"Prove exact merged-head and repository identity rejection, public request schema coverage, unchanged draft publication behavior, and full C-SDLC v2 regression safety","outcome":"passed","evidence_ref":"local:5466-post-review-fix-gate6-binary-full-suite-clippy-fmt"}}
+  "reason": "Focused publication and lifecycle proof, full C-SDLC v2 suite, formatting, and clippy all passed after the merged-SOR truth fix.",
+  "operation": {"operation":"record_validation","result":{"command":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml"],"purpose":"Prove exact merged identity, truthful atomic SOR integration and merge projection, unchanged draft publication, and full C-SDLC v2 regression safety","outcome":"passed","evidence_ref":"local:5466-final-gate6-gate7-lifecycle-binary-full-suite-clippy-fmt"}}
 }
