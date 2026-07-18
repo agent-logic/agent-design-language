@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
     "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
     "version": "v0.91.7",
-    "generation": 49
+    "generation": 62
   },
   "status": "ready",
   "content": {
@@ -80,10 +80,10 @@
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on static-only topology, missing observed health, non-behavioral soak proof, unbounded overlap, weakened revocation, or scope expansion.",
-      "design_ref": ".csdlc/prepared/issues/5494/design.md",
-      "design_digest": "2b217cb7b0df1d50ab8359c80504456ee2cfe569d4cd86cb3f063d54fd648660",
-      "diagram_ref": ".csdlc/prepared/issues/5494/diagram.mmd",
-      "diagram_digest": "7ce3bda96265193357b4b3bb4edfd7d3bcb65b4b57a75776e658f1ba8995e71d"
+      "design_ref": ".csdlc/issues/5494/retained/design.md",
+      "design_digest": "d35dc188153a0cfb654d3bc99e5fef6e3672974f725e60d4f8dbd189f4e9a13d",
+      "diagram_ref": ".csdlc/issues/5494/retained/diagram.mmd",
+      "diagram_digest": "d2edc9d5ff9516383e01aa249b3b10fca568be5db3a38f210f8b2681960b16b0"
     }
   }
 }

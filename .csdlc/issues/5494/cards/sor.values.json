@@ -7,9 +7,9 @@
     "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
     "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
     "version": "v0.91.7",
-    "generation": 49
+    "generation": 62
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -291,10 +291,10 @@
           "evidence_ref": "local FastWork: 126 Runtime v3 unit tests plus 1 independence test passed in 3.24 seconds; 44 CSM API tests and 3-cycle daemon recovery passed; all-target Runtime v3 Clippy and formatting passed"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

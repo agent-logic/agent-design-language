@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: draft
+Status: complete
 
 ## Scope
 
@@ -30,28 +30,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
 ## Findings
 
-[
-  {
-    "id": "F-5494-11",
-    "severity": "p2",
-    "summary": "The soak claims durable replay without asserting retained sequence continuity and the failure-to-restart-to-ready lifecycle transition.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "F-5494-12",
-    "severity": "p3",
-    "summary": "Ordinary authorization takes the exclusive credential mutation lock before acquiring the shared authorization lock.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -59,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Hosted CI must confirm the revised coverage lane after both findings are fixed.
+- Hosted CI must confirm the listener-readiness ordering repair before merge.
 
 ## Review Result
 
-Revision: Some("git-blake3:b1c45a6a74e37c7517f9c916ee16f308508b4e60:7637be99e867490334876bcc8882bf913f0d6d9648bbe901bafe8eea86043ed9")
+Revision: Some("git-blake3:d6e55367ec3b9fe9c8908f4ca8fe499e4b0a693c:8deb79e8fd9aa554fad8d9641aad8b876aa99341b32e0dac1b9bbdcc03141efa")
 
 Reviewer: Some("subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc")
 
-Result: changes_required
+Result: pass

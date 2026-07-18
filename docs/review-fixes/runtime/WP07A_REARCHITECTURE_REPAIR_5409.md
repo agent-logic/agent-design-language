@@ -36,7 +36,9 @@ weather service.
   - projects observed health for all fifteen CSM catalog components;
   - derives required-component readiness from supervision policy;
   - checks each required typed-channel observation rather than trusting only a
-    top-level status string.
+    top-level status string;
+  - binds the API listener before persisting credential readiness, so the
+    readiness artifact cannot advertise a port the runtime does not yet own.
 - `adl-runtime/src/runtime_api_auth.rs`
   - retains one previous bearer generation for a bounded five-minute overlap;
   - applies that overlap to gateway signatures from the same authenticated
@@ -76,11 +78,16 @@ Observed locally:
 - production daemon integration: three completed real ticks with one injected
   workflow failure and clean recovery; focused test execution completed in
   16.77 seconds.
+- GitHub run `29647927552`: required Rust, formatting/lint, demo, tooling,
+  path-policy, hosted coverage, and aggregate gates passed; hosted coverage
+  completed in 13m18s and the full Rust lane completed in 15m55s.
 
 This local proof does not claim a live external provider, cloud, API Gateway,
 GPU, or Runtime v3 integration run. It does not override the separately
 governed #4906 coherence gate.
 
-All ten exact-revision review findings have implementation and local validation
-evidence. Final exact-head re-review, PR checks, merge, and lifecycle closeout
-remain pending.
+All twelve exact-revision review findings have implementation and validation
+evidence. The final exact-head review was clean. PR #5504 merged as
+`51e2a5494270ad640d074eba06ba96a3e719527c`, corrective issue #5494 reached
+typed `closed_out` state, and #5409 closed after that terminal evidence was
+retained.
