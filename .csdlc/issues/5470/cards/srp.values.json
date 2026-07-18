@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5470,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][durability] Make terminal projection and receipt crash-consistent",
+    "slug": "terminal-projection-receipt-crash-consistent",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can interruption at every write/rename boundary recover deterministically?",
+        "Are receipt bytes and parent-directory metadata synchronized before success?",
+        "Are identity, rollback, and idempotence preserved?",
+        "Does the test harness prove both pre- and post-write interruption paths?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

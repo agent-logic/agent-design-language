@@ -1,0 +1,105 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5470,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "c0d7a90f2c5b1a237ed0ae9feaa3ee21bd1d4a4e59b49972c0a7d167c7b56303",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "e2e2357f3b1675d42762ac2dbd5bba6b83628841782a1d993fd92dc026d9daa0",
+  "claim": {
+    "id": "claim-5470-terminal-durability",
+    "owner": "codex",
+    "generation": 0,
+    "acquired_unix_seconds": 1784358380,
+    "expires_unix_seconds": 1784365580,
+    "heartbeat_unix_seconds": 1784358380,
+    "branch": "codex/5470-terminal-durability",
+    "worktree": ".worktrees/adl-wp-5470",
+    "protected_paths": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/tests/gate7_terminal_durability_5470.rs",
+      ".csdlc/issues/5470/retained/design.md",
+      ".csdlc/issues/5470/retained/diagram.mmd"
+    ],
+    "purpose": "Make terminal projection and retained receipt updates crash-consistent"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/issues/5470/retained/design.md",
+  "diagram_path": ".csdlc/issues/5470/retained/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex",
+      "revision": "e63f569602e8bd2b07235d08458ad1454428db6c068d1e4be531f053fe43e957"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6ead70ffdba23f5b3a72360c4c7c2d1822e0a456237831b63ead382343f996fd",
+      "rendered_digest": "ec5a58906e0ffc07d1f381534676659f55ca705af55530e36700c01571c8af9a",
+      "ast_digest": "5ae728453d3334ce517e3b7d5849aa7fc234fc5a90de30c7bd8fc661cd8d9909"
+    },
+    "stp": {
+      "values_digest": "43b1375a24e8ec3ddde25f0d1f6cafb8f63f64c76e2fb94f8a5ab5663e5b739a",
+      "rendered_digest": "6a818e8348cd7d57370fe2bde712e7db53f3c0d58b0bdfe5338855dd06177667",
+      "ast_digest": "8bab69a5fcd29c8c3eeffaa5ceb05250a88dcbd5851dab931636ed7b109559f7"
+    },
+    "spp": {
+      "values_digest": "68e5f941e0728de6510878f798cde3f9d72bc52fc8ff17155cf060b2d2b8a405",
+      "rendered_digest": "098938789d025c00b01decbc67076a34f9b734d26cf442c185b95e70f4cc6377",
+      "ast_digest": "4c4dcf0e2faab1fa4ee5c3794f5176cff2893729840697dbf4615dbb02ff769b"
+    },
+    "vpp": {
+      "values_digest": "dfc63fd9f2718f316016902b896f715b503447fe419b276a43496ba6e0f02fb8",
+      "rendered_digest": "0048a95fd2253dd7bd607463ad852806ca1b3fd2c971df05f20a146f2bde9fe8",
+      "ast_digest": "8832cd41ca75c9c1118fd490e31f13fef1a3e711cac1374a7840aa84499e75ee"
+    },
+    "srp": {
+      "values_digest": "1d331b6a6133d77628729407f70202915cc9ea890a6f789b5d49834a239e792f",
+      "rendered_digest": "8b06455e06a094d46210fb0a19cbc69d5ef30959b50e3f67a40d328a30aa8fb6",
+      "ast_digest": "16914236df4de44093a9abd097ca1abb0600a5200aaa5b708c101a17d08622ef"
+    },
+    "sor": {
+      "values_digest": "b4174aa1e16ccd5c31f2b0a245a22e61a18f1f2ccb7fb6597ae10b8cb7c4d554",
+      "rendered_digest": "3a567fef002f090cdb6808c680532eec1e9875df0670375ddbcfc527eb546527",
+      "ast_digest": "f6bdc6cec0a0b9b2854d64964084ba81529fd6e5b318580d69a3a417177bcfe1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
