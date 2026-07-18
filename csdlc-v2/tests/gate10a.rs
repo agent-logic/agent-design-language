@@ -93,6 +93,32 @@ fn installer_records_provenance_without_replacing_other_files() {
 }
 
 #[test]
+fn stale_owner_binary_provenance_fails_closed() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let source = tempfile::tempdir().unwrap();
+    let parent = tempfile::tempdir().unwrap();
+    let bins = parent.path().join("csdlc-v2");
+    for name in SkillManifest::load().unwrap().required_binaries() {
+        fs::write(source.path().join(&name), name.as_bytes()).unwrap();
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            fs::set_permissions(source.path().join(name), fs::Permissions::from_mode(0o755))
+                .unwrap();
+        }
+    }
+    install_binaries(source.path(), &bins).unwrap();
+    let receipt_path = bins.join("install-receipt.json");
+    let mut receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+    receipt["source_revision"] = serde_json::Value::String("stale-revision".into());
+    fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
+    let error =
+        verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap_err();
+    assert!(error.message.contains("stale owner-binary provenance"));
+}
+
+#[test]
 fn operator_guidance_is_bound_to_manifest_and_coexistence_contract() {
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
     let root_agents = fs::read_to_string(root.join("../AGENTS.md")).unwrap();

@@ -55,6 +55,7 @@ pub struct CoexistenceReport {
 pub struct InstallReceipt {
     pub schema: String,
     pub destination: PathBuf,
+    pub source_revision: String,
     pub binaries: Vec<InstalledBinary>,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -199,7 +200,7 @@ pub fn verify_coexistence(
         .cloned()
         .collect::<BTreeSet<_>>();
     let mut missing_v2_binaries = missing_v2_binaries;
-    missing_v2_binaries.extend(verify_install_receipt(bin_dir, &manifest)?);
+    missing_v2_binaries.extend(verify_install_receipt(repo, bin_dir, &manifest)?);
     Ok(CoexistenceReport {
         schema: "csdlc.coexistence_report.v2".into(),
         pass: missing_v1_paths.is_empty()
@@ -330,9 +331,15 @@ pub fn install_binaries(source: &Path, destination: &Path) -> Result<InstallRece
             blake3: blake3::hash(bytes).to_hex().to_string(),
         })
         .collect();
+    let source_revision = crate::git::run(
+        &std::env::current_dir().map_err(io_error)?,
+        &["rev-parse", "HEAD"],
+    )?
+    .stdout;
     let mut receipt = InstallReceipt {
         schema: "csdlc.install_receipt.v1".into(),
         destination: destination.to_path_buf(),
+        source_revision,
         binaries,
     };
     let parent = destination.parent().ok_or_else(|| {
@@ -397,7 +404,11 @@ fn checked_repo_path(repo: &Path, relative: &Path) -> Result<PathBuf> {
     Ok(repo.join(relative))
 }
 
-fn verify_install_receipt(bin_dir: &Path, manifest: &SkillManifest) -> Result<BTreeSet<String>> {
+fn verify_install_receipt(
+    repo: &Path,
+    bin_dir: &Path,
+    manifest: &SkillManifest,
+) -> Result<BTreeSet<String>> {
     let path = bin_dir.join("install-receipt.json");
     if !is_regular_file(&path) {
         return Err(V2Error::new(
@@ -410,6 +421,16 @@ fn verify_install_receipt(bin_dir: &Path, manifest: &SkillManifest) -> Result<BT
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "install receipt schema or destination does not match the verified generation directory",
+        ));
+    }
+    let current_revision = crate::git::run(repo, &["rev-parse", "HEAD"])?.stdout;
+    if receipt.source_revision != current_revision {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            format!(
+                "stale owner-binary provenance: installed {} but repository is {}",
+                receipt.source_revision, current_revision
+            ),
         ));
     }
     let expected = manifest.required_binaries();
