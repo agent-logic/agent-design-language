@@ -252,13 +252,20 @@ EOF
 cat >"$fake_bin/stat" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-if [[ "${1:-}" == "-c" && "${2:-}" == "%a" ]]; then
+if [[ "${ADL_FAKE_STAT_STYLE:-gnu}" == "gnu" && "${1:-}" == "-c" && "${2:-}" == "%a" ]]; then
   echo 600
   exit 0
 fi
-if [[ "${1:-}" == "-f" && "${2:-}" == "%Lp" ]]; then
+if [[ "${ADL_FAKE_STAT_STYLE:-gnu}" == "gnu" && "${1:-}" == "-f" && "${2:-}" == "%Lp" ]]; then
   echo "unexpected BSD stat fallback on GNU path" >&2
   exit 1
+fi
+if [[ "${ADL_FAKE_STAT_STYLE:-gnu}" == "bsd" && "${1:-}" == "-c" && "${2:-}" == "%a" ]]; then
+  exit 1
+fi
+if [[ "${ADL_FAKE_STAT_STYLE:-gnu}" == "bsd" && "${1:-}" == "-f" && "${2:-}" == "%Lp" ]]; then
+  echo 600
+  exit 0
 fi
 exec /usr/bin/stat "$@"
 EOF
@@ -305,6 +312,15 @@ if grep -F "$account" "$TMP/check.out" >/dev/null; then
   echo "account id leaked in account-check output" >&2
   exit 1
 fi
+
+ADL_FAKE_STAT_STYLE=bsd \
+ADL_AWS_CLI="$fake_bin/aws" \
+PATH="$fake_bin:$PATH" \
+bash "$SCRIPT" \
+  --check-account \
+  --expected-proof "$proof" \
+  --git-ref origin/main >"$TMP/check-bsd-stat.out"
+grep -F "PASS account_profile_resolved profile=agent-logic-admin account_matches_retained_proof=true" "$TMP/check-bsd-stat.out" >/dev/null
 if grep -F "arn:aws:iam" "$TMP/check.out" >/dev/null; then
   echo "arn leaked in account-check output" >&2
   exit 1
