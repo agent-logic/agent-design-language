@@ -778,6 +778,236 @@ fn unresolved_post_review_finding_is_not_projected_as_complete() {
     assert_eq!(reconciled.phase, LifecyclePhase::ClosedOut);
 }
 
+#[test]
+fn terminal_reconcile_materializes_missing_projection_from_retained_receipt() {
+    let issue = 75;
+    let (temp, store, record, sha) = fixture_with_validation_history(
+        issue,
+        "Gate 7 retained receipt fixture",
+        "missing-projection-reconcile",
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+    );
+    let record = record_readiness(
+        &store,
+        ReadinessRequest {
+            schema: "csdlc.readiness_request.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "shepherd".into(),
+            pull_request: 70,
+            head_sha: sha.clone(),
+            required_checks: vec!["fast".into()],
+            require_review: true,
+            checks: vec![csdlc_v2::CheckObservation {
+                name: "fast".into(),
+                requirement: csdlc_v2::CheckRequirement::Required,
+                conclusion: csdlc_v2::CheckConclusion::Success,
+                details_url: None,
+            }],
+            review_state: csdlc_v2::RemoteReviewState::Approved,
+            conflict_state: csdlc_v2::ConflictState::Clean,
+            post_publication_findings: vec![],
+        },
+    )
+    .unwrap();
+    closeout_issue(
+        &store,
+        TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "closer".into(),
+            pull_request: Some(70),
+            disposition: TerminalDisposition::Merged,
+            observed_sha: Some(sha),
+            observed_state: "merged".into(),
+            approved_no_pr_reason: None,
+            receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+        },
+    )
+    .unwrap();
+    let receipt = store.retain_terminal_receipt(issue).unwrap();
+    fs::remove_dir_all(store.issue_dir(issue)).unwrap();
+
+    let reconciled = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest,
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "materialize retained terminal authority without local projection".into(),
+            follow_ups: vec![],
+        })
+        .unwrap();
+
+    assert_eq!(reconciled.phase, LifecyclePhase::ClosedOut);
+    assert!(store.issue_dir(issue).join("index.json").exists());
+    assert_eq!(
+        fs::read_to_string(temp.path().join(&reconciled.design_path)).unwrap(),
+        receipt.authored_artifacts["docs/design.md"]
+    );
+    assert_eq!(
+        store
+            .load_terminal_receipt(issue)
+            .unwrap()
+            .unwrap()
+            .record
+            .digest,
+        reconciled.digest
+    );
+}
+
+#[test]
+fn terminal_reconcile_rejects_partial_projection_loss() {
+    let (temp, store, issue, receipt) =
+        retained_receipt_fixture(76, "partial-projection-reconcile");
+    fs::remove_file(store.issue_dir(issue).join("cards/sor.values.json")).unwrap();
+
+    let error = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest,
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "must reject partial projection loss".into(),
+            follow_ups: vec![],
+        })
+        .unwrap_err();
+
+    assert!(matches!(error.code, csdlc_v2::ErrorCode::Io));
+}
+
+#[test]
+fn terminal_reconcile_rejects_missing_index_inside_existing_projection_dir() {
+    let (temp, store, issue, receipt) = retained_receipt_fixture(77, "missing-index-reconcile");
+    fs::remove_file(store.issue_dir(issue).join("index.json")).unwrap();
+
+    let error = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest,
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "must reject missing index inside existing projection".into(),
+            follow_ups: vec![],
+        })
+        .unwrap_err();
+
+    assert!(matches!(error.code, csdlc_v2::ErrorCode::Io));
+}
+
+#[test]
+fn terminal_reconcile_rejects_misplaced_receipt_for_missing_projection() {
+    let source_issue = 78;
+    let target_issue = 79;
+    let (temp, store, _, receipt) =
+        retained_receipt_fixture(source_issue, "misplaced-receipt-reconcile");
+    let source_receipt = fs::read(store.terminal_receipt_path(source_issue).unwrap()).unwrap();
+    fs::create_dir_all(
+        store
+            .terminal_receipt_path(target_issue)
+            .unwrap()
+            .parent()
+            .unwrap(),
+    )
+    .unwrap();
+    fs::write(
+        store.terminal_receipt_path(target_issue).unwrap(),
+        source_receipt,
+    )
+    .unwrap();
+    assert!(!store.issue_dir(target_issue).exists());
+
+    let error = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue: target_issue,
+            expected_initialization_digest: receipt.initialization_digest,
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "must reject misplaced terminal receipt".into(),
+            follow_ups: vec![],
+        })
+        .unwrap_err();
+
+    assert!(matches!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired));
+    assert!(!store.issue_dir(target_issue).exists());
+}
+
+fn retained_receipt_fixture(
+    issue: u64,
+    scenario: &str,
+) -> (tempfile::TempDir, Store, u64, csdlc_v2::TerminalReceipt) {
+    let (temp, store, record, sha) = fixture_with_validation_history(
+        issue,
+        "Gate 7 retained receipt fixture",
+        scenario,
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+    );
+    let record = record_readiness(
+        &store,
+        ReadinessRequest {
+            schema: "csdlc.readiness_request.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "shepherd".into(),
+            pull_request: 70,
+            head_sha: sha.clone(),
+            required_checks: vec!["fast".into()],
+            require_review: true,
+            checks: vec![csdlc_v2::CheckObservation {
+                name: "fast".into(),
+                requirement: csdlc_v2::CheckRequirement::Required,
+                conclusion: csdlc_v2::CheckConclusion::Success,
+                details_url: None,
+            }],
+            review_state: csdlc_v2::RemoteReviewState::Approved,
+            conflict_state: csdlc_v2::ConflictState::Clean,
+            post_publication_findings: vec![],
+        },
+    )
+    .unwrap();
+    closeout_issue(
+        &store,
+        TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "closer".into(),
+            pull_request: Some(70),
+            disposition: TerminalDisposition::Merged,
+            observed_sha: Some(sha),
+            observed_state: "merged".into(),
+            approved_no_pr_reason: None,
+            receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+        },
+    )
+    .unwrap();
+    let receipt = store.retain_terminal_receipt(issue).unwrap();
+    (temp, store, issue, receipt)
+}
+
 pub(crate) fn run_complete_lifecycle(
     issue: u64,
     title: &str,
