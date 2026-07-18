@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+adl/tools/run_pr_fast_coverage_lane.sh
+adl/tools/test_run_pr_fast_coverage_lane.sh
 
 ## Prompts
 
@@ -23,7 +24,18 @@ Exact implementation revision before publication.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5514-1",
+    "severity": "p1",
+    "summary": "The initial partition placed 17 cli::csm_cmd tests under the ADL library test binary, selecting none of them.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:b77a18257d67e50de64bf7563eb054213d7e005f:bd4f3f160b735d68364732e8ee79f362b61517c81590b29cf35db96c62900ce4",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -31,12 +43,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- PR #5504 remains the final changed-source coverage proof after the tooling repair merges.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b77a18257d67e50de64bf7563eb054213d7e005f:bd4f3f160b735d68364732e8ee79f362b61517c81590b29cf35db96c62900ce4")
 
-Reviewer: None
+Reviewer: Some("subagent:019f755e-caed-72b0-b9fb-21366bf78332")
 
-Result: pre_review
+Result: pass

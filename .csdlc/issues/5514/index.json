@@ -3,13 +3,13 @@
   "issue": 5514,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0ac7f243c9cdabc81f435bc523ae859b6886558d3e83a11e327ce4c4b29442ba",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "fb068a2cd3962bd6cec125e5dc86ff6a005c97a56cb79526aabed6e6e739d6e1",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "b677f27e26174537f5dea6c80d166f4c924a74f6291a297649d1614ba092146c",
   "claim": {
     "id": "claim-5514-complete-csm-coverage",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 3,
+    "generation": 5,
     "acquired_unix_seconds": 1784380117,
     "expires_unix_seconds": 1784466517,
     "heartbeat_unix_seconds": 1784380117,
@@ -21,8 +21,40 @@
     ],
     "purpose": "Preserve complete ADL CSM coverage while partitioning Runtime v3 selectors"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f755e-caed-72b0-b9fb-21366bf78332",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:b77a18257d67e50de64bf7563eb054213d7e005f:bd4f3f160b735d68364732e8ee79f362b61517c81590b29cf35db96c62900ce4",
+    "scope": [
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f755e-caed-72b0-b9fb-21366bf78332",
+    "scope": [
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:b77a18257d67e50de64bf7563eb054213d7e005f:bd4f3f160b735d68364732e8ee79f362b61517c81590b29cf35db96c62900ce4",
+    "findings": [
+      {
+        "id": "F-5514-1",
+        "severity": "p1",
+        "summary": "The initial partition placed 17 cli::csm_cmd tests under the ADL library test binary, selecting none of them.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b77a18257d67e50de64bf7563eb054213d7e005f:bd4f3f160b735d68364732e8ee79f362b61517c81590b29cf35db96c62900ce4",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "PR #5504 remains the final changed-source coverage proof after the tooling repair merges."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c5cf3fb9de9018a9ec2f7e0d36c97e8e0f51fc9c8dc476263a1b08b8fe4f39c6",
+      "values_digest": "7a62448ed52850e77bf01f0ec3493527b1b472d22ef0d6f7b3de086c12f5d5bc",
       "rendered_digest": "ea5fa045e64cc69965e7f1bc49504598ce8133665af52fcd86ea605d8b241add",
       "ast_digest": "0bf6ea3fd59782704928a18ad3f72cf880e15fe77ed9c3af94d75d93f8a2bbc3"
     },
     "stp": {
-      "values_digest": "2829660c526ff6a378b317061275ddbd9e4b8bb21a96c814f37575f882855bd1",
+      "values_digest": "f981f6755dfd812dd0f1879251baffeb5dc8d131d2294b563e08894aa011f93c",
       "rendered_digest": "71640724c23500d4c902570a4c4e0e2c0c6193f9c30191c4915e17100db0c789",
       "ast_digest": "acad1ca3dee3ba14189e56cd639b4b042562ec6c3721ffdb7eb410f46d5a3f39"
     },
     "spp": {
-      "values_digest": "2df7cf2feb2c5ce1ebd8da8e31d51a254e31d09937f7c3bfe184b291fe2287db",
+      "values_digest": "2c4a6d613a896053fbe7057279f33dc0db6cf6be1b45c0849812d7faa00f2359",
       "rendered_digest": "faaa44ad1ae642d36e9e66dacfe1e4f8e82a290eb8aef82ca2eef53ca62653f7",
       "ast_digest": "a4952c1fd9b9b0f6222760e5d9c26f60d06fadb2f3a13ada7be8cbdb01570439"
     },
     "vpp": {
-      "values_digest": "3abded745e39205940a0df1815a14996c136f735be5b0f0be0b659a76979f91e",
+      "values_digest": "add94a69a4a00c63cf56875e6c152325f07b16d4379df5f0ad79276fa34e4dc4",
       "rendered_digest": "45fc0c0df8d92df42645ca9e67334b78115e6959da1214bf13b56538f6a4db64",
       "ast_digest": "02c93e2a943e7c5333dcaed99561696c286076b7db57c4617a97e325a2d35360"
     },
     "srp": {
-      "values_digest": "ca08c2328fbb987080b0b4ca2f467e42c5578089b274dc18d9045b1e3705ab90",
-      "rendered_digest": "f6d7cc9cb79dde1752bf1a074dd6820d6ed237752237a06a7818ef4d757e67aa",
-      "ast_digest": "6e7523008954dbe6f4b1869e67756b17c96711ba3b46219c08d68d75aea7e903"
+      "values_digest": "165a996a1aa4f81641ad7dc85f8d8e975720219c7c382fc3eabc2a9a25746c62",
+      "rendered_digest": "de38141af9cdc98e535b9b52c18c32a6e54ca3a5fae1f295ac5caa055905e7ee",
+      "ast_digest": "f3e50bd49a851b22d987d3948b1968297c87b190cf6e487bcbfa9711692617e6"
     },
     "sor": {
-      "values_digest": "a15eabc648cec8c2692cfdda2483e2e8669f0fdc3223b39fad2c136d0ca2c7d7",
+      "values_digest": "46ea4f09df2d18d628bbfb606d8ed9f1f8aed8594bf9896dda1633077323680e",
       "rendered_digest": "09441d5bfd7ed4d86cc6f56b70a9ccd00eeda3fe0f6b56b2484aab65e46c752a",
       "ast_digest": "33333e7787d75fa405fee2c4d752c79468ebdd6a489f8dbec65be99a7a47d35c"
     }
@@ -88,6 +120,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The complete owning-workspace selector partition and command regression are implemented."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The P1 binary-ownership finding is fixed and the exact revision is review-clean."
     }
   ],
   "audit": [
@@ -125,6 +164,34 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The complete owning-workspace selector partition and command regression are implemented.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "subagent:019f755e-caed-72b0-b9fb-21366bf78332",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The P1 binary-ownership finding is fixed and the exact revision is review-clean.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
