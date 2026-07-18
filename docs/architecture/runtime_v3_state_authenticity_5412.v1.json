@@ -4,6 +4,8 @@
   "source_review": 5247,
   "status": "review_candidate",
   "checkpoint": {
+    "schema": "adl.runtime.memory.checkpoint.v2",
+    "legacy_v1_disposition": "deserialize_then_reject_at_restore",
     "full_payload_signed": true,
     "identity_bound": true,
     "sequence_and_head_bound": true,
@@ -17,12 +19,16 @@
   "soak": {
     "lane": "adl/tools/run_runtime_v3_guardian_soak.sh",
     "cycles": 100,
+    "processed_items": 1600,
+    "continuity_generation": 100,
+    "stale_report_rejected": true,
+    "semantic_report_validation": true,
     "ordinary_pr_lane": false,
     "release_or_scheduled": true
   },
   "source_loc": {
     "measurement": "physical Rust lines under adl-runtime-kernel/src",
-    "count": 12030,
+    "count": 12034,
     "target": 10000,
     "exception_ceiling": 20000,
     "disposition": "bounded_exception_through_v0.91.8_platform_acceptance",

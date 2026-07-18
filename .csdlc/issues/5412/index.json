@@ -5,7 +5,7 @@
   "initialization_digest": "2379ef2e66d7cbb7b2aaacd517fd705df312bd5ada080cb87ce4e09975944b31",
   "phase": "implemented",
   "generation": 6,
-  "digest": "f369371ac9d7bd97c50d023fefd8a3a5dc05ce7f51ddddadd06eac7df9971702",
+  "digest": "b603b2b962360f826dfe72af74c48f733b2eb6b5f2a6b5a7b3bf1478edfe8996",
   "claim": {
     "id": "claim-5412-runtime-v3-authenticity",
     "owner": "codex-root",
@@ -28,7 +28,21 @@
     ],
     "purpose": "Resolve #5247 Runtime v3 state-authenticity and readiness findings"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5412",
+    "assigned_by": "codex-root",
+    "revision": "git-blake3:f0f721525a6bc2619c008475dd536b952fcff51f:945fbe4170d5767d64647b9da5809fbdc6d379ff28d577ae19c742987f6517c5",
+    "scope": [
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/private_state.rs",
+      "adl-runtime-kernel/tests/identity_memory.rs",
+      "adl-runtime-kernel/tests/private_state.rs",
+      "adl/tools/run_runtime_v3_guardian_soak.sh",
+      "adl/tools/report_runtime_v3_loc.sh",
+      "docs/architecture/RUNTIME_V3_STATE_AUTHENTICITY_5412.md",
+      "docs/architecture/runtime_v3_state_authenticity_5412.v1.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -153,6 +167,13 @@
       "actor": "codex-root",
       "reason": "Durably route the stale stable C-SDLC v2 owner-binary provenance defect discovered during exact-review preparation.",
       "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"F-5412-TOOLING-1\",\"severity\":\"p1\",\"summary\":\"Stable installed csdlc-edit lagged current tracked implemented-phase design reapproval semantics.\",\"actionable\":false,\"in_scope\":false,\"disposition\":\"out_of_scope\",\"fix_revision\":null,\"route\":\"https://github.com/danielbaustin/agent-design-language/issues/5455\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

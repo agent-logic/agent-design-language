@@ -1,6 +1,9 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-use adl_runtime_kernel::{IdentityAuthority, IdentityMemoryError, MemoryClass, MemoryLedger};
+use adl_runtime_kernel::{
+    IdentityAuthority, IdentityMemoryError, MemoryCheckpoint, MemoryClass, MemoryLedger,
+    LEGACY_MEMORY_CHECKPOINT_SCHEMA, MEMORY_CHECKPOINT_SCHEMA,
+};
 
 fn authority() -> IdentityAuthority {
     IdentityAuthority::from_bytes("identity-test-key", &[11_u8; 32])
@@ -378,5 +381,39 @@ fn restore_rejects_checkpoint_signed_by_a_different_trusted_identity() {
     assert_eq!(
         ledger.checkpoint(&binding, &keys, &alternate).unwrap_err(),
         IdentityMemoryError::UnauthorizedIdentity
+    );
+}
+
+#[test]
+fn signed_checkpoint_uses_v2_wire_schema_and_legacy_v1_fails_closed() {
+    let authority = authority();
+    let binding = binding(&authority);
+    let keys = trusted_keys(&authority);
+    let mut ledger = MemoryLedger::default();
+    ledger
+        .append(
+            &binding,
+            &keys,
+            MemoryClass::Identity,
+            facts(&[("display_name", "Ada")]),
+            None,
+        )
+        .unwrap();
+    let checkpoint = ledger.checkpoint(&binding, &keys, &authority).unwrap();
+    assert_eq!(checkpoint.schema, MEMORY_CHECKPOINT_SCHEMA);
+    let encoded = serde_json::to_value(&checkpoint).unwrap();
+    assert_eq!(encoded["signing_algorithm"], "ed25519");
+    assert_eq!(encoded["signing_key_id"], "identity-test-key");
+    assert!(!encoded["signature"].as_str().unwrap().is_empty());
+
+    let mut legacy = encoded;
+    legacy["schema"] = LEGACY_MEMORY_CHECKPOINT_SCHEMA.into();
+    legacy.as_object_mut().unwrap().remove("signing_algorithm");
+    legacy.as_object_mut().unwrap().remove("signing_key_id");
+    legacy.as_object_mut().unwrap().remove("signature");
+    let legacy: MemoryCheckpoint = serde_json::from_value(legacy).unwrap();
+    assert_eq!(
+        MemoryLedger::restore(&legacy, &binding, &keys).unwrap_err(),
+        IdentityMemoryError::ContinuityMismatch
     );
 }

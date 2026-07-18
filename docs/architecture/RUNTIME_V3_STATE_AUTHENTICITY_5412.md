@@ -8,11 +8,14 @@ Status: review candidate
 
 ## State authenticity
 
-Memory checkpoints are signed over their complete canonical payload: schema,
+Memory checkpoints use the signed `adl.runtime.memory.checkpoint.v2` wire
+schema and are signed over their complete canonical payload: schema,
 citizen, runtime, continuity, accepted sequence, lineage head, public facts,
 private-state references, signing algorithm, and signing-key identity. Restore
 verifies that signature and the active identity binding before admitting any
-checkpoint state.
+checkpoint state. Legacy unsigned v1 JSON remains deserializable only so the
+restore boundary can reject it deterministically; it is never admitted or
+silently upgraded.
 
 Private-state projection verifies the record signature and requires the exact
 record hash at the exact sequence in the supplied accepted lineage. A valid
@@ -23,12 +26,15 @@ applied only after authenticity and membership pass.
 
 `bash adl/tools/run_runtime_v3_guardian_soak.sh` explicitly executes the
 ignored `bounded_runtime_v3_guardian_soak` test and requires a non-empty,
-parseable execution report. This lane is for scheduled/release validation; it
-does not make the 100-cycle soak part of ordinary PR validation.
+semantically valid execution report proving 100 cycles, 1,600 processed items,
+generation 100, a pass result, and no automatic cutover. It removes any prior
+report before execution so stale evidence cannot satisfy the lane. This lane is
+for scheduled/release validation; it does not make the 100-cycle soak part of
+ordinary PR validation.
 
 ## Source-size exception
 
-The reproducible count from `bash adl/tools/report_runtime_v3_loc.sh` is 12,030
+The reproducible count from `bash adl/tools/report_runtime_v3_loc.sh` is 12,034
 physical Rust lines under `adl-runtime-kernel/src` at this review candidate.
 The 10,000-line goal is exceeded, but the result remains below the previously
 declared 20,000-line exception ceiling.

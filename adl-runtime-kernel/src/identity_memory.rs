@@ -6,7 +6,8 @@ use thiserror::Error;
 
 pub const IDENTITY_BINDING_SCHEMA: &str = "adl.runtime.identity.binding.v1";
 pub const MEMORY_EVENT_SCHEMA: &str = "adl.runtime.memory.event.v1";
-pub const MEMORY_CHECKPOINT_SCHEMA: &str = "adl.runtime.memory.checkpoint.v1";
+pub const LEGACY_MEMORY_CHECKPOINT_SCHEMA: &str = "adl.runtime.memory.checkpoint.v1";
+pub const MEMORY_CHECKPOINT_SCHEMA: &str = "adl.runtime.memory.checkpoint.v2";
 pub const LIFELOG_ENTRY_SCHEMA: &str = "adl.runtime.lifelog.entry.v1";
 const GENESIS_HASH: &str = "0000000000000000000000000000000000000000000000000000000000000000";
 
@@ -55,8 +56,11 @@ pub struct MemoryCheckpoint {
     pub head_hash: String,
     pub facts: BTreeMap<String, String>,
     pub private_refs: Vec<String>,
+    #[serde(default)]
     pub signing_algorithm: String,
+    #[serde(default)]
     pub signing_key_id: String,
+    #[serde(default)]
     pub signature: String,
 }
 
