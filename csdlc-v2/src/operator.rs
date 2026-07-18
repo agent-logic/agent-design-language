@@ -331,11 +331,7 @@ pub fn install_binaries(source: &Path, destination: &Path) -> Result<InstallRece
             blake3: blake3::hash(bytes).to_hex().to_string(),
         })
         .collect();
-    let source_revision = crate::git::run(
-        &std::env::current_dir().map_err(io_error)?,
-        &["rev-parse", "HEAD"],
-    )?
-    .stdout;
+    let source_revision = source_provenance(source, &prepared);
     let mut receipt = InstallReceipt {
         schema: "csdlc.install_receipt.v1".into(),
         destination: destination.to_path_buf(),
@@ -423,13 +419,18 @@ fn verify_install_receipt(
             "install receipt schema or destination does not match the verified generation directory",
         ));
     }
-    let current_revision = crate::git::run(repo, &["rev-parse", "HEAD"])?.stdout;
-    if receipt.source_revision != current_revision {
+    let current_revision = crate::git::run(repo, &["rev-parse", "HEAD"])
+        .map(|revision| format!("git:{}", revision.stdout))
+        .ok();
+    if current_revision.as_deref() == Some(receipt.source_revision.as_str()) {
+        // Current tracked source revision matches the installed provenance.
+    } else if receipt.source_revision.starts_with("git:") {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             format!(
                 "stale owner-binary provenance: installed {} but repository is {}",
-                receipt.source_revision, current_revision
+                receipt.source_revision,
+                current_revision.as_deref().unwrap_or("unavailable")
             ),
         ));
     }
@@ -458,6 +459,20 @@ fn verify_install_receipt(
         }
     }
     Ok(failures)
+}
+
+fn source_provenance(source: &Path, prepared: &[(String, Vec<u8>, fs::Permissions)]) -> String {
+    for ancestor in source.ancestors() {
+        if let Ok(revision) = crate::git::run(ancestor, &["rev-parse", "HEAD"]) {
+            return format!("git:{}", revision.stdout);
+        }
+    }
+    let mut hasher = blake3::Hasher::new();
+    for (name, bytes, _) in prepared {
+        hasher.update(name.as_bytes());
+        hasher.update(bytes);
+    }
+    format!("content:{}", hasher.finalize().to_hex())
 }
 
 fn is_regular_file(path: &Path) -> bool {

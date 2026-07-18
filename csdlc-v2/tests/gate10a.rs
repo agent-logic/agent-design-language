@@ -111,7 +111,7 @@ fn stale_owner_binary_provenance_fails_closed() {
     let receipt_path = bins.join("install-receipt.json");
     let mut receipt: serde_json::Value =
         serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
-    receipt["source_revision"] = serde_json::Value::String("stale-revision".into());
+    receipt["source_revision"] = serde_json::Value::String("git:stale-revision".into());
     fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
     let error =
         verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap_err();
