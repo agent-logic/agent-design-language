@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][runtime-v3][security] Resolve #5247 state authenticity and readiness findings",
     "slug": "v0-91-7-runtime-v3-state-authenticity-readiness",
     "version": "v0.91.7",
-    "generation": 4
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
@@ -22,7 +22,18 @@
         "Does the scheduled lane execute the real ignored soak rather than a retained packet assertion?",
         "Is the LoC disposition reproducible, owned, and bounded?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "F-5412-TOOLING-1",
+          "severity": "p1",
+          "summary": "Stable installed csdlc-edit lagged current tracked implemented-phase design reapproval semantics.",
+          "actionable": false,
+          "in_scope": false,
+          "disposition": "out_of_scope",
+          "fix_revision": null,
+          "route": "https://github.com/danielbaustin/agent-design-language/issues/5455"
+        }
+      ],
       "residual_risk": [],
       "review_result": "pre_review"
     }

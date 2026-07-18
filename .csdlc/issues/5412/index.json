@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2379ef2e66d7cbb7b2aaacd517fd705df312bd5ada080cb87ce4e09975944b31",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "33a19d25a1cbb426950b4ea657697f8af08fa9f2f32bda097729ddb84d2c4f8f",
+  "generation": 6,
+  "digest": "f369371ac9d7bd97c50d023fefd8a3a5dc05ce7f51ddddadd06eac7df9971702",
   "claim": {
     "id": "claim-5412-runtime-v3-authenticity",
     "owner": "codex-root",
-    "generation": 4,
+    "generation": 6,
     "acquired_unix_seconds": 1784350834,
     "expires_unix_seconds": 1784955634,
     "heartbeat_unix_seconds": 1784350834,
@@ -38,38 +38,38 @@
   "diagram_path": ".csdlc/prepared/issues/5412/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex-root",
-      "revision": "da121ce444c2084d5c638e7e361a8e53741414bc7fc86e9289b98f8e0e8b8692"
+      "reviewer": "codex-root-design-reapproval",
+      "revision": "4e517a54c8639a8255091cc924403fa5b66721b42878507b50c1a03d12ddcc27"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "f93ab463bb1d97155b928e3f5cae70231679e95fca4eef77d62eca5d9be8f910",
+      "values_digest": "319054bd7250e02ca74c5b4a868a44e52dcb8c37bf7e3bbe577e133cf6fd5610",
       "rendered_digest": "47525451e9f17970dee88a3ec45a701d52cf3b59bac9aa9c4877f6f6f8eb7817",
       "ast_digest": "39e6679c6808a294122e30c0e4dfcce85244464080515e5283904f935889caad"
     },
     "stp": {
-      "values_digest": "408d5ee9ea5336c822b6945892dc1ec32e11f73672e404242ceab59849aabd0f",
+      "values_digest": "4c9b83b7baf0e663bb1071e2d6745c7168d4fcc0db6c168b4ec2467c7e75011a",
       "rendered_digest": "1220d87f1f840e46b6a2ea0273c09772dc4832216a522721560efc7bfab8ca8c",
       "ast_digest": "6ed5674859e51639317bdd9af33eed0627b3b3e657e41f95bbf89125cde4aac5"
     },
     "spp": {
-      "values_digest": "689704f68ef9585f9003eb38e799f41044d50c8cedab142ec8d9194ed16f5e9b",
-      "rendered_digest": "c472d146259257062ccbcad443a19a42a481c133430c138254055078e9db4d0b",
-      "ast_digest": "352f2fdc646adcf67b812142382c1e7b3a1a712aadd29f75a51fdab009dfe704"
+      "values_digest": "d4208f42de55e396c4df4ab07eedabcfd153c34b2b5b6a3df4e34a851c8f762c",
+      "rendered_digest": "b2b805bc42accf79f5a883975b0212c1ccd2b242b907485065693c08c2776231",
+      "ast_digest": "c9a74bbecea6dc5e6259db7cfcab9749686700758bc5a43b660202e260dee306"
     },
     "vpp": {
-      "values_digest": "bac40229876cdf8675a96e4222ce235d2a8f268037524f28acdbf3bddee21dd6",
+      "values_digest": "5ae3a328e93feeb15b3a87636b70ad034814ac373e9a66b262f5a69e59674733",
       "rendered_digest": "b6aaa583a69ebe12dc05365e7fc27725dd2061e8c6028a5defb592372510513d",
       "ast_digest": "8d687895701858d61b738793006ad2faf533454d3707a219257ce0f38f03bbbf"
     },
     "srp": {
-      "values_digest": "6ff4e2a444a33bb57f5f40d29bbafe6b7dea74aecddd8b35bde7a8569f2687a0",
-      "rendered_digest": "64f70444ce4d911ad963bd40a07df4e755285822bdef7a5d405d097b9850d2c3",
-      "ast_digest": "3a655f347e9aa57a375bf8a76c5a6c9f1e704103d6005235c427d968330bf302"
+      "values_digest": "7802f2a031586d9057001307a57f15cdb03ff119fa9d62d7d2c6d6a607e26d75",
+      "rendered_digest": "3526265de70b9a0b849dd66bf900fe2acc89915bb9765e320084e37272c265f1",
+      "ast_digest": "246e5f822bf4889dbc1347da2e562d9778b0de81f35580d4e8ac940afdc877ad"
     },
     "sor": {
-      "values_digest": "d3341596dba2dde485ddc5b5dbbbabeceaf42becb0d9917a16e4f78959073c28",
+      "values_digest": "9f2d4305b3e9065ce5c46bb678fcd18dc309a4fc5c055178b9eaee8560d1a682",
       "rendered_digest": "0ec27c367acbee329973d0ea22afcec6284d4d22c2eea91ab1643cbb84345eb6",
       "ast_digest": "1c710e541b9d9021b5197408840937f2c2948998b75885ee9f6a7a1388f73d48"
     }
@@ -139,6 +139,20 @@
       "actor": "codex-root",
       "reason": "All four #5247 remediation outcomes are implemented and their focused, full-suite, real-soak, lint, format, and source-budget evidence is recorded.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-root-design-reapproval",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "Durably route the stale stable C-SDLC v2 owner-binary provenance defect discovered during exact-review preparation.",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"F-5412-TOOLING-1\",\"severity\":\"p1\",\"summary\":\"Stable installed csdlc-edit lagged current tracked implemented-phase design reapproval semantics.\",\"actionable\":false,\"in_scope\":false,\"disposition\":\"out_of_scope\",\"fix_revision\":null,\"route\":\"https://github.com/danielbaustin/agent-design-language/issues/5455\"}}"
     }
   ]
 }

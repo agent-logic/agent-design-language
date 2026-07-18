@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][runtime-v3][security] Resolve #5247 state authenticity and readiness findings",
     "slug": "v0-91-7-runtime-v3-state-authenticity-readiness",
     "version": "v0.91.7",
-    "generation": 4
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -75,7 +75,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5412/design.md",
-      "design_digest": "da121ce444c2084d5c638e7e361a8e53741414bc7fc86e9289b98f8e0e8b8692",
+      "design_digest": "4e517a54c8639a8255091cc924403fa5b66721b42878507b50c1a03d12ddcc27",
       "diagram_ref": ".csdlc/prepared/issues/5412/diagram.mmd",
       "diagram_digest": "c760b13c5f9ce35098e218cbd2c7d26a5537aaa23d8339391b5b31d4224a8cf6"
     }

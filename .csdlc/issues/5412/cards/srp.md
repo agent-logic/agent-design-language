@@ -23,7 +23,18 @@ Exact implementation revision before publication.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5412-TOOLING-1",
+    "severity": "p1",
+    "summary": "Stable installed csdlc-edit lagged current tracked implemented-phase design reapproval semantics.",
+    "actionable": false,
+    "in_scope": false,
+    "disposition": "out_of_scope",
+    "fix_revision": null,
+    "route": "https://github.com/danielbaustin/agent-design-language/issues/5455"
+  }
+]
 
 ## Dispositions
 
