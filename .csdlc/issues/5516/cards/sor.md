@@ -47,11 +47,11 @@ Repair #5494 retained design truth to show the implemented Runtime v3 supervisio
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

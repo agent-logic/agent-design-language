@@ -8,3 +8,8 @@
 {"sequence":8,"generation":5,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":6,"actor":"subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":10,"generation":7,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Exact staged re-review passed after the sole lifecycle finding was fixed through typed SPP and design reapproval operations.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":11,"generation":8,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Recover exact review identity after committing typed review metadata; the substantive retained design, diagram, and review documents are byte-identical.","operation":"recover_review"}
+{"sequence":12,"generation":8,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":13,"generation":9,"actor":"subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":14,"generation":10,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Exact metadata-head review passed after typed recovery; all findings are fixed and Runtime v3 weather ownership remains unchanged.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":15,"generation":11,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -3,13 +3,13 @@
   "issue": 5516,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7bdd347c560965375b7f0a7d9b112887e4beef8851bf44eae2936b487467fc97",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "5aca3bfb6233b93506db90bed6520b05bd944c7d403210516b28419cdde2b897",
+  "phase": "published",
+  "generation": 11,
+  "digest": "3604d8971a6ef0ce5904e3c6c62c17085d96e4be98dc28c4c384b1ac57077561",
   "claim": {
     "id": "claim-5516-5494-terminal-design-repair",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 7,
+    "generation": 11,
     "acquired_unix_seconds": 1784386103,
     "expires_unix_seconds": 1784472503,
     "heartbeat_unix_seconds": 1784386103,
@@ -27,7 +27,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:735ee4e4b179e7672603342c67d45dcb9c9a0f4c:07ab1cf39b48be5e60fa0fae22649ddf3153304f5ae586bc9ac8400d6486b6e1",
+    "revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
     "scope": [
       ".csdlc/issues/5494/retained/design.md",
       ".csdlc/issues/5494/retained/diagram.mmd",
@@ -49,7 +49,7 @@
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ],
-    "reviewed_revision": "git-blake3:735ee4e4b179e7672603342c67d45dcb9c9a0f4c:07ab1cf39b48be5e60fa0fae22649ddf3153304f5ae586bc9ac8400d6486b6e1",
+    "reviewed_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
     "findings": [
       {
         "id": "F-5516-1",
@@ -58,7 +58,17 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:735ee4e4b179e7672603342c67d45dcb9c9a0f4c:07ab1cf39b48be5e60fa0fae22649ddf3153304f5ae586bc9ac8400d6486b6e1",
+        "fix_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+        "route": null
+      },
+      {
+        "id": "F-5516-2",
+        "severity": "p1",
+        "summary": "Committing typed review metadata made the exact-head review identity stale and blocked publication until typed review recovery.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
         "route": null
       }
     ],
@@ -66,7 +76,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5516,
+    "pull_request": 5517,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5517",
+    "base": "main",
+    "head": "codex/5516-5494-terminal-design-repair",
+    "revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +100,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1b6565d325192f8db8d64eebe028e0dd60c1b32b5a1f5a7f14f2833702865d8c",
+      "values_digest": "d90f134733a5dbb8fa01bd1d6871cd5094d9c2ca21613494d8866095ee520795",
       "rendered_digest": "f4780c7b5bd5ed416d076e7aed55df559b4c7ce4e11176702a7aa7690b13841e",
       "ast_digest": "9bbe855fe8a47c5fbb5dba3098fc0fe05d3b499881eac15876cad28d13b23ff6"
     },
     "stp": {
-      "values_digest": "c904c9dda609e90dbeb1a6a6bba9f068c980ef7b7a896e37c89d6a8a639130d3",
+      "values_digest": "a55a4a83330f66e26d3d016b618d83581ba3680265d1056688dd502bb5721779",
       "rendered_digest": "8d7a163eb3bd9aedca6b3d4e586b00234e325a0fb18af51eb2b5a485b8a2cf9b",
       "ast_digest": "58c75718e7dec56083311857735aa7885d17709643a4e429abfb0aff0d7a256e"
     },
     "spp": {
-      "values_digest": "72a470ec98b44317c6c21dbef30fa0048327afa195dbf9b82d78f2ad61a17043",
+      "values_digest": "34a3baf4bfde6dd0b8e7d6bb3a73fea24dfb1dd658d4ead584a42a96575ad831",
       "rendered_digest": "dc440e099abf205de8a1e68b4502b71706f668976dcfd11ca338d5854c86a2cc",
       "ast_digest": "99afea807fa4ef0c24a45e2a4dfeaccefc9a5bf60e7e0f5d6ee0813a1d1b6a97"
     },
     "vpp": {
-      "values_digest": "f702bad25f1d322bcf1d871970a0ac8f2fb639439decb0b6acfb08f2e17197e2",
+      "values_digest": "378e8d1934807918d02a7b0b6ed8c6bc175318b80a69e7859b23aefd4973430e",
       "rendered_digest": "800b49487b426befa6a499588f7788b032cad2716ab88675fc42b48aab5d404c",
       "ast_digest": "2e0ed3a50f218e246ce30b264f390a0d5d55e17e8250de88b9c6db3e1a19c592"
     },
     "srp": {
-      "values_digest": "9c1b4ff9da6603f4ebaef7401223da7ba72bd6918684c7ce5af4d12a83c060f0",
-      "rendered_digest": "496ff7a54e27d4782de94dec2adc1e5b48072e9497756d7d5b2f5e9d4d5511ec",
-      "ast_digest": "9a362df2db61df3b890e01423b7dc389a2ac49a1da2bf42735bc3c746df3509c"
+      "values_digest": "1eda6082f54cd1d41b093eea3ab20c297315e78220f63907a24e45ca394b2f92",
+      "rendered_digest": "8a71745d8681e4190f09ed5c8c0650b46559597354e77336fb51bf699c1e3b4f",
+      "ast_digest": "1a3810464690f3bb2d7f710fc9eab745e920bd60b34fbaab6ca0c0179d3d51a2"
     },
     "sor": {
-      "values_digest": "aa764e848e7c3f97ad91f286569c5c7fecfb8cb5d33c968bbfb3b79c8349645c",
-      "rendered_digest": "5260a7e0368eb99ec73bcc13b3cf3713087ec05709f1b544119d1afc82cb565a",
-      "ast_digest": "c49306ca020f5a87de9b6a43b1866e9103a8713a433da95457ec1219898ae29e"
+      "values_digest": "cdde7ecfa1dcf9a9a5776f9c193502fb132ef504d48ba526fa21779fc12beb43",
+      "rendered_digest": "f355abe5bb180987a4ac5d2c8a46caf52142b53ad6d0c40c2b419a91115c934b",
+      "ast_digest": "74eca449466bd6e7f08d23904d2059fda6ce74741e94283de59dec48c56667c6"
     }
   },
   "transitions": [
@@ -138,6 +158,27 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact staged re-review passed after the sole lifecycle finding was fixed through typed SPP and design reapproval operations."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity after committing typed review metadata; the substantive retained design, diagram, and review documents are byte-identical."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact metadata-head review passed after typed recovery; all findings are fixed and Runtime v3 weather ownership remains unchanged."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -210,6 +251,41 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact staged re-review passed after the sole lifecycle finding was fixed through typed SPP and design reapproval operations.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity after committing typed review metadata; the substantive retained design, diagram, and review documents are byte-identical.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact metadata-head review passed after typed recovery; all findings are fixed and Runtime v3 weather ownership remains unchanged.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

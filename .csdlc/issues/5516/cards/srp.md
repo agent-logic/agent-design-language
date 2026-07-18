@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -36,7 +36,17 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:735ee4e4b179e7672603342c67d45dcb9c9a0f4c:07ab1cf39b48be5e60fa0fae22649ddf3153304f5ae586bc9ac8400d6486b6e1",
+    "fix_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+    "route": null
+  },
+  {
+    "id": "F-5516-2",
+    "severity": "p1",
+    "summary": "Committing typed review metadata made the exact-head review identity stale and blocked publication until typed review recovery.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
     "route": null
   }
 ]
@@ -51,7 +61,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:735ee4e4b179e7672603342c67d45dcb9c9a0f4c:07ab1cf39b48be5e60fa0fae22649ddf3153304f5ae586bc9ac8400d6486b6e1")
+Revision: Some("git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d")
 
 Reviewer: Some("subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc")
 
