@@ -46,12 +46,21 @@ Replace the invalid mixed coverage expression with valid ADL and Runtime v3 owni
     "purpose": "Prove the narrow repair preserves existing validation routing contracts",
     "outcome": "passed",
     "evidence_ref": "local:5512-ci-path-policy-contract-pass"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Prove the CI contract accepts the reviewed owning-crate coverage variable",
+    "outcome": "passed",
+    "evidence_ref": "local:5512-ci-runtime-contract-pass"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

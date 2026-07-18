@@ -3,13 +3,13 @@
   "issue": 5512,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6a72c9067697b3b298b9ee9ad97efc1a57d61a7b5674ba9b4b6f737dc246c769",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "529474abbbb459c999949e6dc0caa6dec75f72dd6c1b6b7fe5f6937749d4cd25",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "1b4d3fa40426a9eab8c10aa2edb92a8b9ded4647a16caed6c059d514d87bbac1",
   "claim": {
     "id": "claim-5512-runtime-v3-csm-coverage-filter",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 6,
+    "generation": 12,
     "acquired_unix_seconds": 1784377277,
     "expires_unix_seconds": 1784463677,
     "heartbeat_unix_seconds": 1784377277,
@@ -17,54 +17,13 @@
     "worktree": ".",
     "protected_paths": [
       "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
       "adl/tools/test_run_pr_fast_coverage_lane.sh"
     ],
     "purpose": "Keep foreign Runtime v3 and nonexistent binary selectors out of ADL focused coverage"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f7532-dfd0-7b52-a750-7df6cce35b42",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:b3e00aa1d966bdead5c7bd39c442017619086625:3bbd97871d2832a3ab91d55cb480cb7498ca97c87e64224bc6d88c77d6e076de",
-    "scope": [
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f7532-dfd0-7b52-a750-7df6cce35b42",
-    "scope": [
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ],
-    "reviewed_revision": "git-blake3:b3e00aa1d966bdead5c7bd39c442017619086625:3bbd97871d2832a3ab91d55cb480cb7498ca97c87e64224bc6d88c77d6e076de",
-    "findings": [
-      {
-        "id": "F-5512-1",
-        "severity": "p2",
-        "summary": "Substring bridge detection could silently discard unrelated coverage selectors.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:b3e00aa1d966bdead5c7bd39c442017619086625:3bbd97871d2832a3ab91d55cb480cb7498ca97c87e64224bc6d88c77d6e076de",
-        "route": null
-      },
-      {
-        "id": "F-5512-2",
-        "severity": "p3",
-        "summary": "Zero-valued fake summaries did not prove both coverage inputs were composed.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:b3e00aa1d966bdead5c7bd39c442017619086625:3bbd97871d2832a3ab91d55cb480cb7498ca97c87e64224bc6d88c77d6e076de",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Hosted CI remains the final proof that the exact #5504 expression interoperates with the GitHub llvm-cov and nextest toolchain."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -79,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "90de55b34109294c58700e1d0bbd583ebd073377457df9f88cf57f0056ecec65",
+      "values_digest": "5abfafd6f4e46645555c50ca4c7e10eb3bb29ba2bcc31b3a49d02e3e58f0c3ea",
       "rendered_digest": "1899d3145001e0d19020adbf8ef7a6408ec31c46c54245320c071fa3da96dff0",
       "ast_digest": "50f89b85216f5fe0b17aa25ff4886f4ab0305e4de152b6acbbee1f1d2f3e5469"
     },
     "stp": {
-      "values_digest": "fd15ad26ec912f337c4274ec01e703043c6a7f562131141428b4d50e54f14abc",
+      "values_digest": "4609d6a76e1aa9030fbb633cc0b7fb15fc7a425e21c08071cc1e5e18bfbe82e8",
       "rendered_digest": "d448e2be59e3c1eeaeffaa44b942a899a65cd095ca54414a44fcfb15482dfd15",
       "ast_digest": "be3895138b394fddc09253e37415b8ecfe8583efed941511ec139556ef7821af"
     },
     "spp": {
-      "values_digest": "4db426954e349c99f901b84abfdafbe83652ba5b557478be928139dab62be070",
+      "values_digest": "0dcf283cc735bbc3ab8195f97a449e603f79f52f069bbc66906e546ca377b5c2",
       "rendered_digest": "aa91ef921b704440f821f2b8f33c032e74e2ed6f7d92ab57beea36f42b5c605f",
       "ast_digest": "580adce886185b6ee4c7ac72cfabd54ea818161e0d2d28e0ed4f43cb0b82983b"
     },
     "vpp": {
-      "values_digest": "abc2b2f1849e0735a53100d49db987cc253511d7e913e7319edef3998c696df2",
+      "values_digest": "f174d6b07bf1f51e76bf62f6c9532ed75cf6300135d84bfa2ae995f5608f9c27",
       "rendered_digest": "39ab0b825756d8ee00677186a4a524e1b390e01964514176a036dce520806eb0",
       "ast_digest": "a6a84925634ffd8d4fe33250d97467498156a95030bd25ebb2ea4b152f51cee5"
     },
     "srp": {
-      "values_digest": "01e0d6786b23a17fa67248e8162ea5c50713cb0eb7376ac83160fe3de1a702d8",
-      "rendered_digest": "f900776713f2dfe247c083a4ccb6f3df50756e9258a028a9ee11a9454b85a23a",
-      "ast_digest": "837ff6f05c69c62807734b77a416c78cf2016264ba0ce714e71ff0a2f9db9574"
+      "values_digest": "5f1543a3c218684e16aab8b776f497a406e6611c8084521a5ac7094577b9bb79",
+      "rendered_digest": "7195047d8344aa765b655327c5cfd75c2573fdd9a0b1c4a16ee5be38e2afbab9",
+      "ast_digest": "3390b613025d3adc612a1646e5d5fb7c6b0aa6ef1e802460681e228118f9b9ae"
     },
     "sor": {
-      "values_digest": "56bbf5d72a912b07b9e294c936f8aa8ee9243b73321b3d47525d20bf216260ab",
-      "rendered_digest": "b2252f96bf6e4a79ac933847af67c7f437f912942eee2fa493e3d4005e4f9f24",
-      "ast_digest": "642e18cbf501b5a1e222e5204f145402d1680a2e93c837a1f6a8d052884e76a3"
+      "values_digest": "0beadbb3b2592d06c7a300a09fdc293f46f3e3fab0612ecce5c1ab8e5c13b115",
+      "rendered_digest": "cf5bed2a13b0e6c6f6cb310570a5d395c9bdcc7b12a726b068ce848c014a6127",
+      "ast_digest": "b1bffb4691ec1de5d1709e4d0578d035a4682ef67a761181ba07a6af4576ce73"
     }
   },
   "transitions": [
@@ -137,6 +96,34 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Both review findings are fixed and the exact-head re-review is clean."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity after committing typed review metadata; both substantive tooling blobs are byte-identical."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The exact metadata head is covered by non-substantive proof and the substantive repair remains review-clean."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover implementation after hosted CI exposed a stale static contract for the reviewed owning-crate coverage variable."
     }
   ],
   "audit": [
@@ -202,6 +189,62 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Both review findings are fixed and the exact-head re-review is clean.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity after committing typed review metadata; both substantive tooling blobs are byte-identical.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "subagent:019f7532-dfd0-7b52-a750-7df6cce35b42",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The exact metadata head is covered by non-substantive proof and the substantive repair remains review-clean.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover implementation after hosted CI exposed a stale static contract for the reviewed owning-crate coverage variable.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Align the static CI runtime contract with the reviewed owning-crate coverage variable exposed by hosted CI.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_ci_runtime_contracts.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The static CI runtime contract now verifies the owning-crate ADL coverage expression.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove the CI contract accepts the reviewed owning-crate coverage variable\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5512-ci-runtime-contract-pass\"}}"
     }
   ]
 }
