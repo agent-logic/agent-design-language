@@ -3,13 +3,13 @@
   "issue": 5512,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6a72c9067697b3b298b9ee9ad97efc1a57d61a7b5674ba9b4b6f737dc246c769",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "f8370dc913e2df01593d8b905e6a3fc16924f1d2d2e583948f898f5404566895",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "529474abbbb459c999949e6dc0caa6dec75f72dd6c1b6b7fe5f6937749d4cd25",
   "claim": {
     "id": "claim-5512-runtime-v3-csm-coverage-filter",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 4,
+    "generation": 6,
     "acquired_unix_seconds": 1784377277,
     "expires_unix_seconds": 1784463677,
     "heartbeat_unix_seconds": 1784377277,
@@ -21,8 +21,50 @@
     ],
     "purpose": "Keep foreign Runtime v3 and nonexistent binary selectors out of ADL focused coverage"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7532-dfd0-7b52-a750-7df6cce35b42",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:b3e00aa1d966bdead5c7bd39c442017619086625:3bbd97871d2832a3ab91d55cb480cb7498ca97c87e64224bc6d88c77d6e076de",
+    "scope": [
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f7532-dfd0-7b52-a750-7df6cce35b42",
+    "scope": [
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:b3e00aa1d966bdead5c7bd39c442017619086625:3bbd97871d2832a3ab91d55cb480cb7498ca97c87e64224bc6d88c77d6e076de",
+    "findings": [
+      {
+        "id": "F-5512-1",
+        "severity": "p2",
+        "summary": "Substring bridge detection could silently discard unrelated coverage selectors.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b3e00aa1d966bdead5c7bd39c442017619086625:3bbd97871d2832a3ab91d55cb480cb7498ca97c87e64224bc6d88c77d6e076de",
+        "route": null
+      },
+      {
+        "id": "F-5512-2",
+        "severity": "p3",
+        "summary": "Zero-valued fake summaries did not prove both coverage inputs were composed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b3e00aa1d966bdead5c7bd39c442017619086625:3bbd97871d2832a3ab91d55cb480cb7498ca97c87e64224bc6d88c77d6e076de",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Hosted CI remains the final proof that the exact #5504 expression interoperates with the GitHub llvm-cov and nextest toolchain."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ea1eb7a94b53c13bb0500a9a605de8d7789dea669fea73a1cab230af3ccabc92",
+      "values_digest": "90de55b34109294c58700e1d0bbd583ebd073377457df9f88cf57f0056ecec65",
       "rendered_digest": "1899d3145001e0d19020adbf8ef7a6408ec31c46c54245320c071fa3da96dff0",
       "ast_digest": "50f89b85216f5fe0b17aa25ff4886f4ab0305e4de152b6acbbee1f1d2f3e5469"
     },
     "stp": {
-      "values_digest": "ef1c6075f4abef4314e30f25e030173c0459506ecc9185418eeee1cf03644d0b",
+      "values_digest": "fd15ad26ec912f337c4274ec01e703043c6a7f562131141428b4d50e54f14abc",
       "rendered_digest": "d448e2be59e3c1eeaeffaa44b942a899a65cd095ca54414a44fcfb15482dfd15",
       "ast_digest": "be3895138b394fddc09253e37415b8ecfe8583efed941511ec139556ef7821af"
     },
     "spp": {
-      "values_digest": "8dbe59ea0b6e4c85f79ee1a689be87c963e6eccae08fa0caeb040d28013062c0",
+      "values_digest": "4db426954e349c99f901b84abfdafbe83652ba5b557478be928139dab62be070",
       "rendered_digest": "aa91ef921b704440f821f2b8f33c032e74e2ed6f7d92ab57beea36f42b5c605f",
       "ast_digest": "580adce886185b6ee4c7ac72cfabd54ea818161e0d2d28e0ed4f43cb0b82983b"
     },
     "vpp": {
-      "values_digest": "dc60d1b0710c6f09113a284732456fbcd7f637413efbea6a26758d23e758caab",
+      "values_digest": "abc2b2f1849e0735a53100d49db987cc253511d7e913e7319edef3998c696df2",
       "rendered_digest": "39ab0b825756d8ee00677186a4a524e1b390e01964514176a036dce520806eb0",
       "ast_digest": "a6a84925634ffd8d4fe33250d97467498156a95030bd25ebb2ea4b152f51cee5"
     },
     "srp": {
-      "values_digest": "a7674ad136faf1882065c1d53d69a35a27d7d1f2891f466102c7e3ed1647f0ce",
-      "rendered_digest": "b58473d2e23014240dfd25ba8fbad7844d5121c9d94f8d95a93d533c162db65f",
-      "ast_digest": "6f93d203efb98d4e757e6c29bd322ed27ac84e1a7603594d51645d10ecffd116"
+      "values_digest": "01e0d6786b23a17fa67248e8162ea5c50713cb0eb7376ac83160fe3de1a702d8",
+      "rendered_digest": "f900776713f2dfe247c083a4ccb6f3df50756e9258a028a9ee11a9454b85a23a",
+      "ast_digest": "837ff6f05c69c62807734b77a416c78cf2016264ba0ce714e71ff0a2f9db9574"
     },
     "sor": {
-      "values_digest": "140c93c922d9c9b9759fbce1365824acb2810c4b5a4b40e84da426b86bc094e5",
+      "values_digest": "56bbf5d72a912b07b9e294c936f8aa8ee9243b73321b3d47525d20bf216260ab",
       "rendered_digest": "b2252f96bf6e4a79ac933847af67c7f437f912942eee2fa493e3d4005e4f9f24",
       "ast_digest": "642e18cbf501b5a1e222e5204f145402d1680a2e93c837a1f6a8d052884e76a3"
     }
@@ -88,6 +130,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The owning-crate coverage split and exact regression proof are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Both review findings are fixed and the exact-head re-review is clean."
     }
   ],
   "audit": [
@@ -132,6 +181,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The owning-crate coverage split and exact regression proof are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "subagent:019f7532-dfd0-7b52-a750-7df6cce35b42",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Both review findings are fixed and the exact-head re-review is clean.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
