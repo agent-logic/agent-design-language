@@ -488,6 +488,25 @@ impl Store {
         }
         let mut projection = receipt.record;
         let mut cards = receipt.cards;
+        let current_review_passes = cards.get(&CardKind::Srp).is_some_and(|card| {
+            matches!(&card.content, CardContent::Srp(srp)
+            if srp.review_result == crate::cards::ReviewResult::Pass
+                && srp.review_revision.as_deref().is_some_and(|value| !value.is_empty())
+                && srp.reviewer.as_deref().is_some_and(|value| !value.is_empty())
+                && !srp.findings.iter().any(|finding| {
+                    finding.actionable
+                        && finding.disposition == crate::cards::FindingDisposition::Open
+                }))
+        });
+        if projection
+            .review
+            .as_ref()
+            .is_some_and(|review| review.completed)
+            && current_review_passes
+        {
+            cards.get_mut(&CardKind::Srp).expect("SRP card").status =
+                crate::cards::CardStatus::Complete;
+        }
         let routed = match cards.get(&CardKind::Srp).map(|values| &values.content) {
             Some(CardContent::Srp(values)) => values
                 .residual_risk
