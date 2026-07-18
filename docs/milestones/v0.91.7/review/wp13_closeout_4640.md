@@ -38,7 +38,8 @@ surfaces now point at the proof/non-claim packets.
 
 - operational affect reasoning-control boundary and resident-agent affect
   metadata;
-- Godel/constructability launch-admission and claim-boundary evidence;
+- Godel/constructability admission-readiness and claim-boundary evidence, with
+  provider requests resolved but not invoked;
 - economics/civilization context-only non-claim posture;
 - guild foundation handoff context;
 - CodeFriend v1 / adapter v2 roadmap and obligation handoff truth;

@@ -25,7 +25,7 @@ moderation hooks, or witness-routing records.
 `v0.92` may consume:
 
 - birthday governance context;
-- identity witness evidence routing;
+- declarative identity/witness-routing vocabulary only;
 - community-memory boundary language;
 - future governance issue inputs.
 

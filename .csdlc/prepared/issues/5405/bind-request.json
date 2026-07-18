@@ -16,6 +16,7 @@
       "adl/src/runtime_v2/economics_civilization_boundary.rs",
       "adl/src/runtime_v2/tests/economics_civilization_boundary.rs",
       "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
+      "docs/milestones/v0.91.7/features/GUILD_FOUNDATION_BOUNDARY_v0.91.7.md",
       "docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md",
       "docs/milestones/v0.91.7/review/wp13_closeout_4640.md",
       "docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json",

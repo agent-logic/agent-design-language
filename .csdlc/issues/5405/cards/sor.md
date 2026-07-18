@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved all three #5403 WP-13 findings by correcting Guild and Godel claim truth and rejecting duplicate Runtime v2 economics boundary rows.
+Resolved all #5403 WP-13 findings and the first pre-PR review consistency findings across code, closeout, and handoff truth.
 
 ## Artifacts
 
@@ -22,12 +22,16 @@ Resolved all three #5403 WP-13 findings by correcting Guild and Godel claim trut
 - docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json
 - docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md
 - docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md
+- docs/milestones/v0.91.7/features/GUILD_FOUNDATION_BOUNDARY_v0.91.7.md
 
 ## Execution
 
 - Downgraded declarative Guild vocabulary and gates from integrated_proven to boundary_proven across parent, handoff, and activation-ledger truth.
 - Reworded Godel evidence as admission readiness with hosted provider requests resolved but not invoked.
 - Rejected duplicate allowed-consumption rows, postponed-surface ids, and promotion gates with focused regression coverage.
+- Removed the remaining implication that v0.92 may consume implemented Guild identity/witness routing.
+- Added explicit Guild record, routing, membership-event, and moderation-hook behavior non-claims to the machine closeout packet.
+- Replaced remaining Godel launch-admission consumption wording with admission-readiness and not-invoked truth.
 
 ## Validation
 
