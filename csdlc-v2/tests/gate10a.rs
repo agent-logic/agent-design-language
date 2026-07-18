@@ -3,6 +3,7 @@ use csdlc_v2::{
     Generation, SkillManifest,
 };
 use std::fs;
+use std::process::Command;
 
 #[test]
 fn nine_skills_are_typed_and_bind_the_generation_selector() {
@@ -116,6 +117,34 @@ fn stale_owner_binary_provenance_fails_closed() {
     let error =
         verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap_err();
     assert!(error.message.contains("stale owner-binary provenance"));
+}
+
+#[test]
+fn freshly_installed_stable_edit_binary_is_executable() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    let source = tempfile::tempdir().unwrap();
+    let stable = repo.join("csdlc-v2/target/debug");
+    for name in SkillManifest::load().unwrap().required_binaries() {
+        let bytes = fs::read(stable.join(&name)).unwrap();
+        fs::write(source.path().join(&name), bytes).unwrap();
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            fs::set_permissions(source.path().join(&name), fs::Permissions::from_mode(0o755))
+                .unwrap();
+        }
+    }
+    let parent = tempfile::tempdir().unwrap();
+    let destination = parent.path().join("csdlc-v2");
+    install_binaries(source.path(), &destination).unwrap();
+    let result = Command::new(destination.join("csdlc-edit"))
+        .arg("--help")
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "stable typed editor failed to execute"
+    );
 }
 
 #[test]
