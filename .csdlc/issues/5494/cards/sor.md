@@ -137,6 +137,23 @@ Make terminal revocation monotonic across concurrent processes by locking the co
     "purpose": "Prove all credential lifecycle behavior plus concurrent rotation and terminal revocation serialization",
     "outcome": "passed",
     "evidence_ref": "local FastWork: 10 credential-store tests passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "&&",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "csm_runtime_api"
+    ],
+    "purpose": "Prove the complete Runtime v3 crate, independence boundary, and integrated CSM API after final credential concurrency remediation",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 123 runtime unit tests, 1 independence test, and 44 focused CSM API tests passed"
   }
 ]
 

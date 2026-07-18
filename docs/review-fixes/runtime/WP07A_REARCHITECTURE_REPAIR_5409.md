@@ -37,6 +37,8 @@ weather service.
 - `adl-runtime/src/runtime_api_auth.rs`
   - retains one previous bearer generation for a bounded five-minute overlap;
   - automatically recovers an expired non-revoked generation without overlap;
+  - serializes creation, rotation, renewal, and revocation with the existing
+    `fs2` lock so terminal revocation cannot be overwritten concurrently;
   - rejects the previous generation after overlap expiry;
   - clears both generations on terminal revocation;
   - retains redacted rotation and revocation events without credential material.
@@ -57,7 +59,8 @@ git diff --check
 
 Observed locally:
 
-- `adl-runtime`: 121 unit tests and 1 independence test passed.
+- `adl-runtime`: 123 unit tests and 1 independence test passed, including 10
+  focused credential-lifecycle tests.
 - integrated CSM runtime API: 44 focused tests passed.
 - production daemon-cycle soak: 100 completed real ticks, all seven typed
   channel observations ready, one injected workflow failure, and recovery on

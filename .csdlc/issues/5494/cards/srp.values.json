@@ -7,15 +7,15 @@
     "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
     "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
     "version": "v0.91.7",
-    "generation": 15
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime/src/runtime_api_auth.rs\nadl-runtime/src/supervision.rs\nadl-runtime/src/topology.rs\nadl/src/csm_runtime_api.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/tests.rs\ndocs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "review_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
-      "reviewer": "subagent:019f746f-a6ca-7333-809c-ccce6be3f702",
+      "review_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
+      "reviewer": "subagent:019f7474-3c44-7af2-93c0-5a6c73e71058",
       "review_prompts": [
         "Does production execute rather than merely describe the assembly?",
         "Can any required missing or unhealthy observation leave readiness green?",
@@ -30,7 +30,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+          "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
           "route": null
         },
         {
@@ -40,7 +40,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+          "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
           "route": null
         },
         {
@@ -50,7 +50,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+          "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
           "route": null
         },
         {
@@ -60,7 +60,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+          "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
           "route": null
         },
         {
@@ -70,7 +70,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+          "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
           "route": null
         },
         {
@@ -80,7 +80,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+          "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
           "route": null
         },
         {
@@ -90,7 +90,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+          "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
           "route": null
         },
         {
@@ -99,15 +99,15 @@
           "summary": "Concurrent rotation can overwrite a terminal revocation and restore an active credential.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
           "route": null
         }
       ],
       "residual_risk": [
         "Strict all-target Clippy is blocked by two pre-existing cav.rs test warnings outside #5494."
       ],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }

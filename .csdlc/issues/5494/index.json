@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "7592bd6ebbdd7a622727d75efc67b478fdd43f20b2c0e6a3d5c30ca70459f12e",
+  "generation": 17,
+  "digest": "da252cd60edc637f9177c808408a9f554a40e2bedc001da2c579a29a986ad11a",
   "claim": {
     "id": "claim-5494-wp07a-completion",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 15,
+    "generation": 17,
     "acquired_unix_seconds": 1784362098,
     "expires_unix_seconds": 1784448498,
     "heartbeat_unix_seconds": 1784362098,
@@ -27,9 +27,9 @@
     "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
   },
   "review_assignment": {
-    "reviewer": "subagent:019f746f-a6ca-7333-809c-ccce6be3f702",
+    "reviewer": "subagent:019f7474-3c44-7af2-93c0-5a6c73e71058",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -42,7 +42,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:019f746f-a6ca-7333-809c-ccce6be3f702",
+    "reviewer": "subagent:019f7474-3c44-7af2-93c0-5a6c73e71058",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -53,7 +53,7 @@
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ],
-    "reviewed_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "reviewed_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "findings": [
       {
         "id": "F-5494-1",
@@ -62,7 +62,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+        "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
         "route": null
       },
       {
@@ -72,7 +72,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+        "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
         "route": null
       },
       {
@@ -82,7 +82,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+        "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
         "route": null
       },
       {
@@ -92,7 +92,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+        "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
         "route": null
       },
       {
@@ -102,7 +102,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+        "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
         "route": null
       },
       {
@@ -112,7 +112,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+        "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
         "route": null
       },
       {
@@ -122,7 +122,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+        "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
         "route": null
       },
       {
@@ -131,8 +131,8 @@
         "summary": "Concurrent rotation can overwrite a terminal revocation and restore an active credential.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
         "route": null
       }
     ],
@@ -156,34 +156,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3571144fa7a9bbb52c8bc7660660e33e5bf2b2bab471bda40273a1660a1c22ea",
+      "values_digest": "8189e87abf46a170cd11846d14c112f804acbb822102dc5961f1ac5ebd7693d0",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "5fef8fe252185ff13c90634b86c10d70372c9edbee703e055e8c095ed1e5781c",
+      "values_digest": "fd27d198ec91836e6b079e0951b563ebca69536b9bac8f43bb02d4e70a962ca2",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "ec5911fee814cc1bec7c94e243cace179e6412cb77f5b24db8126a37f2cba111",
+      "values_digest": "4659593f99e36708fca22dbc801eeda9aada27dc080b377f4c634b5d6e4f6a79",
       "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
       "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
     },
     "vpp": {
-      "values_digest": "882e8a1764104a41da1d25a29975838669eb30ab61c2a706f57bedc123326bc7",
+      "values_digest": "7a9761d9cd9b3c672d9c1ce270f790f90a12dabe6ae24ab5f1fe9107ed97acae",
       "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
       "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
     },
     "srp": {
-      "values_digest": "420de697d1500dfb7aff8ae52eb86d417405d77a6ec227b42beb704d10dbebe5",
-      "rendered_digest": "0a80a9096525a43d0d7ae18c0bf9e0363324a171dbb4b8c1dd469d34bf37952d",
-      "ast_digest": "26d4a120b205e3c4ab7ee546d73f9436f65d84035a594e6ed865866d5f262dd0"
+      "values_digest": "b19e386385e9d117df882ac6a25c69e493ce0f564565eced237f754da6905f2d",
+      "rendered_digest": "bd7662ec526c2b2e19b8cba51a31695adfbb8316f9412c143a41f7b862c6f3ec",
+      "ast_digest": "fe638f8865783c062c7361e6567f67049e45e39a2443e588842e6ed5128c44cb"
     },
     "sor": {
-      "values_digest": "3e7802e545d98ebf95826090bee37aabe90ba60052feb5a066b65629e55bb23c",
-      "rendered_digest": "d884e19ca2c4a8d78c620b8a793f9b3c3ca1f64d7667bb02a3c9adddc236e14c",
-      "ast_digest": "19a97e5a0a2b6b95db8dee9d8aed3f71a68d23569e8003cbbfea5c4079576b8c"
+      "values_digest": "62d8ad494e4f9767e8107e2f3274e2ad10cff12da2be31d25e3721ba7df35d92",
+      "rendered_digest": "8b0ca01fb3cf9da5ecf85c6bb149b4fabefaaa3aaa4861552eaa920d11829135",
+      "ast_digest": "cc5016e4f3538897380f3250cc0e9783f1b21deb9cc0ef57530966b8369029b7"
     }
   },
   "transitions": [
@@ -356,6 +356,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The full credential suite passes with concurrent terminal-revocation proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests\"],\"purpose\":\"Prove all credential lifecycle behavior plus concurrent rotation and terminal revocation serialization\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 10 credential-store tests passed\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "subagent:019f7474-3c44-7af2-93c0-5a6c73e71058",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Full focused Runtime v3 and integrated CSM API validation pass after all eight findings are fixed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"&&\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api\"],\"purpose\":\"Prove the complete Runtime v3 crate, independence boundary, and integrated CSM API after final credential concurrency remediation\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 123 runtime unit tests, 1 independence test, and 44 focused CSM API tests passed\"}}"
     }
   ]
 }

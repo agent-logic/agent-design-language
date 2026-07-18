@@ -38,7 +38,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "route": null
   },
   {
@@ -48,7 +48,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "route": null
   },
   {
@@ -58,7 +58,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "route": null
   },
   {
@@ -68,7 +68,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "route": null
   },
   {
@@ -78,7 +78,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "route": null
   },
   {
@@ -88,7 +88,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "route": null
   },
   {
@@ -98,7 +98,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "route": null
   },
   {
@@ -107,8 +107,8 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "summary": "Concurrent rotation can overwrite a terminal revocation and restore an active credential.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c",
     "route": null
   }
 ]
@@ -123,8 +123,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927")
+Revision: Some("git-blake3:ff3d50080ed1a43093e3dc502224326be586beeb:c2ce411c8b8c084361412136408a6dd28ec9e91af1b81beaab614fc9615bc18c")
 
-Reviewer: Some("subagent:019f746f-a6ca-7333-809c-ccce6be3f702")
+Reviewer: Some("subagent:019f7474-3c44-7af2-93c0-5a6c73e71058")
 
-Result: changes_required
+Result: pass
