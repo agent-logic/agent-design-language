@@ -3,13 +3,13 @@
   "issue": 4642,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "244b74908e673c30461d55dcae29719064e60a609856bed8a12e8a2afccb9893",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "5647e85b0e99b245965d672fa32eeea8f920d4ba8d06e69d7e59a5aaf10a7dfc",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "b83a6b1863c0215c1d88b6363fc2af71550c04d74c0772cc126a24a6838b5638",
   "claim": {
     "id": "claim-4642-v0-91-7-wp15-demo-matrix-proof-coverage",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 0,
+    "generation": 3,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -38,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6af40492f501a6791d91638f8dacbdd990d19756f2b93a698934fa5702062941",
+      "values_digest": "0898e994ec2680f6241f9c4ba916984880499156cccd4d2f30e303fe61064c5d",
       "rendered_digest": "f0922d773bc001619cf7fb1e4ecc78c84bce92e1f071953d369504877aeb7aac",
       "ast_digest": "dd291a4085de6f5fa09b2e5472376f808377e2fe8c0838a2ef787b3a086b6330"
     },
     "stp": {
-      "values_digest": "c7727c197b602330e00858460dcc53ccc34ba209bafb0a1b7cdf6374ed826dcb",
+      "values_digest": "e3f88c056179871bb3a67c840eb67b72ea37d064060681606a3a62e7ce8b2725",
       "rendered_digest": "de7795f08869f7635e458eea1f381603c4339f2417011c0251e95f67b015325c",
       "ast_digest": "7759915ddb35d2c9483c0f4aba7ca404c83dfdd784e22e8a27b73de1c4a83bb7"
     },
     "spp": {
-      "values_digest": "d0f2faa25932a6f841a949b615261143244e3b440908380ed2da5d76c1ddc8b8",
+      "values_digest": "fafa75f325d1d06a5572e6bfd7a71eaf0ec2780ecca4bc2b29f23faa5eae32e4",
       "rendered_digest": "ed43ad11c12ab1db4b675d417e398e1071e9781e9442e375316378d60105f6a3",
       "ast_digest": "472a617ae82a6b4619e170d42b36e22f2f8e7336e4b61a29d8f63d86cf668350"
     },
     "vpp": {
-      "values_digest": "fe29baf97727a53477f39044904f90d15d9d3929d39499cf1cd061ecdbf6dce0",
+      "values_digest": "54afd188c230785ae36b329bf3f10d71aabbe29b96b42f158e86c6fff0763b62",
       "rendered_digest": "f1cd1021f1be65dfbdd020ee76a86947e15bcff0bd4e74f3ec6aa783e20fc863",
       "ast_digest": "6dc57789c8695d0f84cdc7490276b6ff918f0189a039083aac5f220eb96fa2a3"
     },
     "srp": {
-      "values_digest": "a0a53b40e440e05068968e24182a174066f743634a09989535c1c3f9b55c6ee6",
+      "values_digest": "780e8f22afc13b9e0110ac9958b7597b9c80f3006bbeeee81898df49e684680e",
       "rendered_digest": "8c0cbca8377015d74bcfa413d58827bbec168afd8c9b8e6440fe0a85fdfc9fc5",
       "ast_digest": "92d01ac67b6db50875a52bd7d19a683cda01f6074359febc6601a9318f966bda"
     },
     "sor": {
-      "values_digest": "e323cc72b8755e9301e346b268c7e2b551f0d83fc4d9ee6852111178510af27e",
-      "rendered_digest": "d5df4101367bede5820b48dd57cc732b14d8709b125c2f06d4e647e2403855d0",
-      "ast_digest": "2936541d2d9f455d9562a49b257425fe2cdc5d59298264078025e2af33205271"
+      "values_digest": "7d342dbc02426c2b0f012f210c7fcb00ec9638091f43be833ba810de5dced8e0",
+      "rendered_digest": "7e90184b8c27aae43258bd000cef0c33b916684643bdc9a20c92ec9aeb19717a",
+      "ast_digest": "3c55a23c6eb5b06b015469195fc180bc942f95ff653661014ec74307e29511c4"
     }
   },
   "transitions": [
@@ -82,6 +82,13 @@
       "to": "bound",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "The bounded WP-15 demo convergence and feature proof coverage artifacts are implemented and locally validated."
     }
   ],
   "audit": [
@@ -98,6 +105,27 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-root",
+      "reason": "WP-15 demo convergence artifacts were written on the bound issue worktree.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added the WP-15 demo convergence packet, feature proof coverage index, machine-readable coverage ledger, and demo matrix row. The artifacts explicitly answer that v0.91.7 does not have a reviewer-facing demo for every new feature: Observatory/HTML/Unity are demo-backed, Curiosity and Constructability are proof-backed without visible demo rows, WP-11 is proof-backed with partial demo/handoff evidence, and WP-13 is boundary/handoff or scoped-out non-claim evidence.\",\"changes\":[\"Add WP-15 convergence packet with current issue/dependency truth and demo/non-demo classifications\",\"Add v0.91.7 feature proof coverage index\",\"Add machine-readable feature proof coverage ledger with demo_for_every_new_feature=false\",\"Update the demo matrix with D10 WP-15 convergence coverage\"],\"artifacts\":[\"docs/milestones/v0.91.7/review/V0917_WP15_DEMO_CONVERGENCE_4642.md\",\"docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md\",\"docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json\",\"docs/milestones/v0.91.7/DEMO_MATRIX_v0.91.7.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-root",
+      "reason": "Focused WP-15 documentation and ledger validation passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"python3 -m json.tool docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 4642\",\"rg demo/proof coverage anchors across WP-15 artifacts\"],\"purpose\":\"Prove WP-15 docs have clean diff hygiene, valid JSON coverage, passing typed C-SDLC state, and explicit demo-versus-proof classifications.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:4642-wp15-docs-json-doctor-demo-coverage\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-root",
+      "reason": "The bounded WP-15 demo convergence and feature proof coverage artifacts are implemented and locally validated.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
