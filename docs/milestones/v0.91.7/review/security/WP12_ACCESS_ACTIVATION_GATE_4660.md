@@ -48,6 +48,7 @@ an explicit operator non-claim/defer decision is recorded.
 `v0.92` may consume a WP-12 row only when the row is one of:
 
 - `integrated_proven`
+- `boundary_proven` for the named bounded claim only
 - `operator_scoped_out_with_evidence`
 - `deferred_noncritical_with_operator_approval`
 - `blocked_with_evidence`

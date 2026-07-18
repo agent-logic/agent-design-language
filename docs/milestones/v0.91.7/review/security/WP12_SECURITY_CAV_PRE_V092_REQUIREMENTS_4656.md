@@ -111,6 +111,8 @@ WP-12 and `v0.92` may consume a row only when it is one of:
 
 - `integrated_proven`: implementation runs in the integrated path with retained
   evidence;
+- `boundary_proven`: retained evidence supports only the named bounded claim and
+  does not establish production activation readiness;
 - `operator_scoped_out`: implementation proof is outside `v0.92` activation
   scope, with evidence, risk, and operator approval recorded;
 - `blocked_with_evidence`: named missing evidence or decision prevents
@@ -143,18 +145,26 @@ data = json.load(open(path, encoding="utf-8"))
 assert data["schema"] == "adl.wp12.security_cav_gate.v1"
 assert data["issue"] == 4656
 assert data["requirements"]
-integrated = {"ssm_and_local_polis_secret_readiness", "acip_a2a_schema_and_protobuf_projection"}
+expected_states = {
+    "capability_envelope_witness_receipt_readiness": "boundary_proven",
+    "security_cav_activation_boundary": "integrated_proven",
+    "ssm_and_local_polis_secret_readiness": "integrated_proven",
+    "acip_a2a_schema_and_protobuf_projection": "integrated_proven",
+    "acip_websocket_transport_path": "boundary_proven",
+    "external_agent_access_rules": "access_gate_recorded",
+    "cav_runtime_red_blue_proof": "boundary_proven",
+    "tamper_evident_evidence_custody": "integrated_proven",
+    "key_rotation_and_break_glass_policy": "integrated_proven",
+    "curiosity_constructability_security_gates": "blocked_until_promoted_or_non_claimed",
+}
+assert {row["id"] for row in data["requirements"]} == set(expected_states)
 for row in data["requirements"]:
     for key in ("id", "owner_issue", "state", "v092_disposition", "evidence", "required_before_claim"):
         assert row.get(key), (row.get("id"), key)
-    if row["id"] in integrated:
-        assert row["state"] == "integrated_proven", row["id"]
-    else:
-        assert row["state"] != "integrated_proven", row["id"]
+    assert row["state"] == expected_states[row["id"]], row["id"]
 PY
 git diff --check
 ```
 
-This validation proves the retained ledger is parseable, records #4657 and
-#4658 as integrated rows, and keeps every other row fail-closed until later
-WP-12 owner issues provide proof or explicit scoped-out approval.
+This validation proves the retained ledger is parseable and pins every row to
+its reviewed integrated, bounded, access-gate, or blocked state.
