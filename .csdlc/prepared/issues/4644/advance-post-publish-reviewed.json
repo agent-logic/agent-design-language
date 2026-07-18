@@ -1,0 +1,13 @@
+{
+  "issue": 4644,
+  "card": "srp",
+  "expected_generation": 19,
+  "expected_digest": "f19f0a435d43c90c757d91e7c30abc709d4ce6e2a1e5e130792efb45f87d8664",
+  "claim_id": "claim-4644-v0-91-7-wp17-docs-adoption-review",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Advance #4644 after the exact post-publication metadata commit review returned no actionable findings.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  }
+}

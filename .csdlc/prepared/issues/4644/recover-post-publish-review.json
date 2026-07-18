@@ -1,0 +1,8 @@
+{
+  "issue": 4644,
+  "expected_generation": 15,
+  "expected_digest": "41f54ab21b7bb9b260cb6d94139a325a07c909fba2d628d97181b912dcf02f2e",
+  "claim_id": "claim-4644-v0-91-7-wp17-docs-adoption-review",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Typed publication metadata advanced HEAD after the reviewed publication revision; recover for an exact current-head metadata-only review before making PR #5539 ready."
+}

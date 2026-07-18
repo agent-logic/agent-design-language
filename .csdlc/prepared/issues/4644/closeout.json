@@ -1,0 +1,12 @@
+{
+  "issue": 4644,
+  "expected_generation": 22,
+  "expected_digest": "41d1b15018c94e1d41c3bb9dfe373ec5e36f5a3ee7cc125f0b124a919cf2129c",
+  "claim_id": "claim-4644-v0-91-7-wp17-docs-adoption-review",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5539,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": "/Users/daniel/keys/github.token"
+}

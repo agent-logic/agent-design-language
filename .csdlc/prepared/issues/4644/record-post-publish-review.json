@@ -1,0 +1,62 @@
+{
+  "issue": 4644,
+  "expected_generation": 16,
+  "expected_digest": "b74250e3e0b309733d7c883624f1ecc4ad1a3014964ab1145bdbf8461e0c0d9e",
+  "claim_id": "claim-4644-v0-91-7-wp17-docs-adoption-review",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "evidence": {
+    "reviewer": "codex-subagent:019f7789-9ed8-7790-b8da-8922d5291b7f",
+    "scope": [
+      ".csdlc/issues/4644",
+      ".csdlc/prepared/issues/4644",
+      ".csdlc/evidence/4644",
+      "README.md",
+      "REVIEW.md",
+      "docs/README.md",
+      "docs/adr/README.md",
+      "docs/milestones/v0.8/README.md",
+      "docs/milestones/v0.91/features/README.md",
+      "docs/milestones/v0.91.7",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ],
+    "reviewed_revision": "git-blake3:c4eec3e7c572f9bb58aa9eae915dad8f335d76a8:52cb86524a6a7dd27bb2c035af79563b0c7b2edcaca1b48c506e410758e8e2a8",
+    "findings": [],
+    "residual_risks": [
+      "The post-publication review was read-only and did not rerun the test suite; existing PR checks were green at review time.",
+      "Untracked typed recovery requests were outside the reviewed commit object and remain lifecycle metadata only.",
+      "Historical runtime, remote, cloud, corruption, provider, Unity, and activation proofs were not rerun by this documentation issue.",
+      "Runtime hardening remediation #5408 and downstream WP-18 through WP-20 and WP-23 remain independent open gates.",
+      "No AWS command or service was used, and the current operator direction continues to prohibit AWS execution."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "from_commit": "bd001c0c565aa9012ffa3627fed1d96eb5fbf923",
+      "to_commit": "c4eec3e7c572f9bb58aa9eae915dad8f335d76a8",
+      "from_revision": "git-blake3:bd001c0c565aa9012ffa3627fed1d96eb5fbf923:11a8f36b74d7a27f61e7605c515f3b37b1c92339ac823da78832f9654d432d9d",
+      "to_revision": "git-blake3:c4eec3e7c572f9bb58aa9eae915dad8f335d76a8:52cb86524a6a7dd27bb2c035af79563b0c7b2edcaca1b48c506e410758e8e2a8",
+      "changed_paths": [
+        ".csdlc/evidence/4644/wp17-docs-alignment.log",
+        ".csdlc/issues/4644/audit.jsonl",
+        ".csdlc/issues/4644/cards/sip.values.json",
+        ".csdlc/issues/4644/cards/sor.md",
+        ".csdlc/issues/4644/cards/sor.values.json",
+        ".csdlc/issues/4644/cards/spp.values.json",
+        ".csdlc/issues/4644/cards/srp.md",
+        ".csdlc/issues/4644/cards/srp.values.json",
+        ".csdlc/issues/4644/cards/stp.values.json",
+        ".csdlc/issues/4644/cards/vpp.values.json",
+        ".csdlc/issues/4644/index.json",
+        ".csdlc/prepared/issues/4644/advance-metadata-reviewed.json",
+        ".csdlc/prepared/issues/4644/advance-srp-complete.json",
+        ".csdlc/prepared/issues/4644/assign-metadata-review.json",
+        ".csdlc/prepared/issues/4644/complete-srp.json",
+        ".csdlc/prepared/issues/4644/guard-metadata-review.json",
+        ".csdlc/prepared/issues/4644/publish.json",
+        ".csdlc/prepared/issues/4644/record-metadata-review.json",
+        ".csdlc/prepared/issues/4644/recover-final-review.json",
+        ".csdlc/publication/4644.intent.json"
+      ],
+      "policy": "metadata_only_review_projection"
+    }
+  }
+}

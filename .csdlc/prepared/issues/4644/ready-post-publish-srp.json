@@ -1,0 +1,13 @@
+{
+  "issue": 4644,
+  "card": "srp",
+  "expected_generation": 17,
+  "expected_digest": "7d2cab691a2bf0041bba4d20814c5f724fea882df97380e64f6ecc66fa67abb8",
+  "claim_id": "claim-4644-v0-91-7-wp17-docs-adoption-review",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "The exact post-publication commit review is recorded with no open findings.",
+  "operation": {
+    "operation": "advance_status",
+    "status": "ready"
+  }
+}

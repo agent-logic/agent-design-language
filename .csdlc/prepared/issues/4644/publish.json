@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.publication_request.v1",
   "issue": 4644,
-  "expected_generation": 14,
-  "expected_digest": "9a140cd4495dc9fe81b2a733eafc1231f759b9a48c89653390d2f58e89825a5b",
+  "expected_generation": 20,
+  "expected_digest": "20dfeade777271f91d87796f5305f84cb7ed50cf68f3b673298b314305722e2b",
   "claim_id": "claim-4644-v0-91-7-wp17-docs-adoption-review",
   "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
   "repository": "danielbaustin/agent-design-language",
