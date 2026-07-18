@@ -234,15 +234,25 @@ grep -F "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/t
 grep -F "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/target/coverage-impact-summary.adl-runtime.json" "$runtime_auth_mixed_cargo_log" >/dev/null
 
 runtime_v3_csm_bridge_cargo_log="$temp_root/cargo-runtime-v3-csm-bridge.log"
-runtime_v3_csm_bridge_expression='binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_cav::/) or test(/^long_lived_agent::/)) or test(/^runtime_api_auth::tests::/)'
+runtime_v3_csm_bridge_expression='test(/^runtime_api_auth::tests::/) or (binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/) or test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)) or binary_id(adl::cli_smoke) and test(/^agent::csm_/)) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout) or test(csmctl) or test(csm_service)'
 PATH="$bin_dir:$PATH" \
 PR_FAST_COVERAGE_CARGO_LOG="$runtime_v3_csm_bridge_cargo_log" \
 ADL_RUST_WARM_CACHE=0 \
 ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-v3-csm-bridge" \
   bash "$SCRIPT" --filter-expression "$runtime_v3_csm_bridge_expression" >"$temp_root/pr-fast-coverage-runtime-v3-csm-bridge-run.out"
-grep -F "cmd=llvm-cov nextest --workspace" "$runtime_v3_csm_bridge_cargo_log" >/dev/null
+adl_bridge_command="$(grep -F "cmd=llvm-cov nextest --workspace" "$runtime_v3_csm_bridge_cargo_log")"
+expected_adl_bridge_command='cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E test(/^csm_runtime_api::/) or test(/^long_lived_agent::/) or test(/^cli::csmctl_cmd::/)'
+if [ "$adl_bridge_command" != "$expected_adl_bridge_command" ]; then
+  echo "Runtime v3/CSM bridge coverage did not use the owning ADL filter" >&2
+  printf 'expected: %s\nactual:   %s\n' "$expected_adl_bridge_command" "$adl_bridge_command" >&2
+  exit 1
+fi
+if [[ "$adl_bridge_command" == *"adl::cli_smoke"* || "$adl_bridge_command" == *"runtime_api_auth"* ]]; then
+  echo "Runtime v3/CSM ADL coverage retained a foreign selector" >&2
+  exit 1
+fi
 grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_v3_csm_bridge_cargo_log" >/dev/null
-grep -F "test(/^supervision::/) or test(/^topology::/) or test(/^runtime_api_auth::tests::/)" "$runtime_v3_csm_bridge_cargo_log" >/dev/null
+grep -F "test(/^runtime_api_auth::/) or test(/^supervision::/) or test(/^topology::/)" "$runtime_v3_csm_bridge_cargo_log" >/dev/null
 if grep -Fq "runtime_v2" "$runtime_v3_csm_bridge_cargo_log"; then
   echo "Runtime v3/CSM focused coverage must not select Runtime v2" >&2
   exit 1
