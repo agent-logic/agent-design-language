@@ -247,7 +247,7 @@ ADL_RUST_WARM_CACHE=0 \
 ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-v3-csm-bridge" \
   bash "$SCRIPT" --filter-expression "$runtime_v3_csm_bridge_expression" >"$temp_root/pr-fast-coverage-runtime-v3-csm-bridge-run.out"
 adl_bridge_command="$(grep -F "cmd=llvm-cov nextest --workspace" "$runtime_v3_csm_bridge_cargo_log")"
-expected_adl_bridge_command='cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E test(/^csm_runtime_api::/) or test(/^long_lived_agent::/) or test(/^cli::csmctl_cmd::/)'
+expected_adl_bridge_command='cmd=llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E ((binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/))) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout)) or (binary_id(adl::bin/adl) and (test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/) or test(csmctl) or test(csm_service)))'
 if [ "$adl_bridge_command" != "$expected_adl_bridge_command" ]; then
   echo "Runtime v3/CSM bridge coverage did not use the owning ADL filter" >&2
   printf 'expected: %s\nactual:   %s\n' "$expected_adl_bridge_command" "$adl_bridge_command" >&2
@@ -255,6 +255,29 @@ if [ "$adl_bridge_command" != "$expected_adl_bridge_command" ]; then
 fi
 if [[ "$adl_bridge_command" == *"adl::cli_smoke"* || "$adl_bridge_command" == *"runtime_api_auth"* ]]; then
   echo "Runtime v3/CSM ADL coverage retained a foreign selector" >&2
+  exit 1
+fi
+for retained_adl_selector in \
+  'test(/^csm_runtime_api::/)' \
+  'test(/^csm_backpressure::/)' \
+  'test(/^csm_cav::/)' \
+  'test(/^csm_constructability_gate::/)' \
+  'test(/^csm_freedom_gate::/)' \
+  'test(/^csm_godel_snapshot::/)' \
+  'test(/^csm_shepherd_agent::/)' \
+  'test(/^long_lived_agent::/)' \
+  'test(/^cli::csm_service_cmd::/)' \
+  'test(/^cli::csm_cmd::tests::/)' \
+  'test(csmctl)' \
+  'test(csm_service)'
+do
+  if [[ "$adl_bridge_command" != *"$retained_adl_selector"* ]]; then
+    echo "Runtime v3/CSM ADL coverage discarded selector: $retained_adl_selector" >&2
+    exit 1
+  fi
+done
+if [[ "$adl_bridge_command" != *'binary_id(adl::bin/adl) and (test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)'* ]]; then
+  echo "Runtime v3/CSM ADL coverage assigned CLI selectors to the wrong test binary" >&2
   exit 1
 fi
 grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_v3_csm_bridge_cargo_log" >/dev/null

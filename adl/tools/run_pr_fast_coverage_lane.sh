@@ -71,7 +71,7 @@ bounded_runtime_v3_csm_bridge=false
 adl_filter_expression="$FILTER_EXPRESSION"
 if [ "$FILTER_EXPRESSION" = "$runtime_v3_csm_bridge_filter" ]; then
   bounded_runtime_v3_csm_bridge=true
-  adl_filter_expression='test(/^csm_runtime_api::/) or test(/^long_lived_agent::/) or test(/^cli::csmctl_cmd::/)'
+  adl_filter_expression='((binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/))) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout)) or (binary_id(adl::bin/adl) and (test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/) or test(csmctl) or test(csm_service)))'
   printf 'PR-fast coverage ADL bridge expression: %s\n' "$adl_filter_expression"
 fi
 adl_coverage_ran=false
