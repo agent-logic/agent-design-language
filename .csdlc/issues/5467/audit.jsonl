@@ -12,3 +12,4 @@
 {"sequence":12,"generation":7,"actor":"codex-root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":8,"actor":"bounded-subagent-review-5467","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":14,"generation":9,"actor":"codex-root","reason":"Final exact-revision review passed after both findings were fixed and locally revalidated without AWS.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":15,"generation":10,"actor":"codex-root","reason":"Rebase and committed lifecycle metadata changed revision identity after substantive review; recover for exact final-head review before publication.","operation":"recover_review"}

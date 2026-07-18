@@ -7,7 +7,7 @@
     "title": "Repair unreachable backend-snapshot contract assertions",
     "slug": "backend-snapshot-contract",
     "version": "v0.91.7",
-    "generation": 9
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
@@ -53,7 +53,7 @@
           "evidence_ref": "local:5467-review-fixes-backend-policy-owner-contract"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

@@ -60,7 +60,7 @@ Restored meaningful live capability coverage at its actual source and policy own
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
