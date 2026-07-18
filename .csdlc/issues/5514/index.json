@@ -1,0 +1,130 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5514,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "0ac7f243c9cdabc81f435bc523ae859b6886558d3e83a11e327ce4c4b29442ba",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "fb068a2cd3962bd6cec125e5dc86ff6a005c97a56cb79526aabed6e6e739d6e1",
+  "claim": {
+    "id": "claim-5514-complete-csm-coverage",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 3,
+    "acquired_unix_seconds": 1784380117,
+    "expires_unix_seconds": 1784466517,
+    "heartbeat_unix_seconds": 1784380117,
+    "branch": "codex/5514-complete-csm-coverage",
+    "worktree": ".",
+    "protected_paths": [
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "purpose": "Preserve complete ADL CSM coverage while partitioning Runtime v3 selectors"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5514/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5514/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "revision": "5bffbfb561d33dc342a1030ca018ec053fe51d3195ecdb8c4f419ab0ccf10c11"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c5cf3fb9de9018a9ec2f7e0d36c97e8e0f51fc9c8dc476263a1b08b8fe4f39c6",
+      "rendered_digest": "ea5fa045e64cc69965e7f1bc49504598ce8133665af52fcd86ea605d8b241add",
+      "ast_digest": "0bf6ea3fd59782704928a18ad3f72cf880e15fe77ed9c3af94d75d93f8a2bbc3"
+    },
+    "stp": {
+      "values_digest": "2829660c526ff6a378b317061275ddbd9e4b8bb21a96c814f37575f882855bd1",
+      "rendered_digest": "71640724c23500d4c902570a4c4e0e2c0c6193f9c30191c4915e17100db0c789",
+      "ast_digest": "acad1ca3dee3ba14189e56cd639b4b042562ec6c3721ffdb7eb410f46d5a3f39"
+    },
+    "spp": {
+      "values_digest": "2df7cf2feb2c5ce1ebd8da8e31d51a254e31d09937f7c3bfe184b291fe2287db",
+      "rendered_digest": "faaa44ad1ae642d36e9e66dacfe1e4f8e82a290eb8aef82ca2eef53ca62653f7",
+      "ast_digest": "a4952c1fd9b9b0f6222760e5d9c26f60d06fadb2f3a13ada7be8cbdb01570439"
+    },
+    "vpp": {
+      "values_digest": "3abded745e39205940a0df1815a14996c136f735be5b0f0be0b659a76979f91e",
+      "rendered_digest": "45fc0c0df8d92df42645ca9e67334b78115e6959da1214bf13b56538f6a4db64",
+      "ast_digest": "02c93e2a943e7c5333dcaed99561696c286076b7db57c4617a97e325a2d35360"
+    },
+    "srp": {
+      "values_digest": "ca08c2328fbb987080b0b4ca2f467e42c5578089b274dc18d9045b1e3705ab90",
+      "rendered_digest": "f6d7cc9cb79dde1752bf1a074dd6820d6ed237752237a06a7818ef4d757e67aa",
+      "ast_digest": "6e7523008954dbe6f4b1869e67756b17c96711ba3b46219c08d68d75aea7e903"
+    },
+    "sor": {
+      "values_digest": "a15eabc648cec8c2692cfdda2483e2e8669f0fdc3223b39fad2c136d0ca2c7d7",
+      "rendered_digest": "09441d5bfd7ed4d86cc6f56b70a9ccd00eeda3fe0f6b56b2484aab65e46c752a",
+      "ast_digest": "33333e7787d75fa405fee2c4d752c79468ebdd6a489f8dbec65be99a7a47d35c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The complete owning-workspace selector partition and command regression are implemented."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Preserve complete owning-workspace CSM coverage after the #5512 partition.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Expand the exact Runtime v3/CSM bridge partition to every valid ADL CSM family while retaining Runtime v3-only companion coverage.\",\"changes\":[\"Retain all canonical ADL library CSM selectors\",\"Route csmctl and csm_service tests through the canonical ADL CLI binary\",\"Keep the nonexistent cli_smoke selector out of ADL coverage\",\"Assert every retained selector in the command-level regression\"],\"artifacts\":[\"adl/tools/run_pr_fast_coverage_lane.sh\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The command contract and real nextest selector parse both pass.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"purpose\":\"Prove exact partition completeness, foreign-selector rejection, near-match behavior, and summary composition\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5514-pr-fast-coverage-contract-pass\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The complete owning-workspace selector partition and command regression are implemented.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
