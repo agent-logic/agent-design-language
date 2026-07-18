@@ -3,13 +3,13 @@
   "issue": 5509,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "99451b4d927edcf6b76df84be0dca94bd2abe78310226631423b8360b922925a",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "28734a0d184c0a2e687f28212323ae8cf36e7169215aa5fadc11b0ff8e1083de",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "f8098da0cbd3400e61118dafe3bf6da34a388098223edc1379595ce5770898cf",
   "claim": {
     "id": "claim-5509-runtime-v3-csm-fast-lane",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 5,
+    "generation": 7,
     "acquired_unix_seconds": 1784375319,
     "expires_unix_seconds": 1784461719,
     "heartbeat_unix_seconds": 1784375319,
@@ -25,8 +25,35 @@
     ],
     "purpose": "Route bounded mixed Runtime v3 and CSM changes through independent focused validation"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f751d-2d23-70d1-b40f-69c756ed58d0",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:209a2c14f7db7c977ffb79b0864c0a11807415c9:3d42c4164fd38abe0faf62a31ef9ba3cb7b387b9a08932e92dbb84654e2161dc",
+    "scope": [
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f751d-2d23-70d1-b40f-69c756ed58d0",
+    "scope": [
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:209a2c14f7db7c977ffb79b0864c0a11807415c9:3d42c4164fd38abe0faf62a31ef9ba3cb7b387b9a08932e92dbb84654e2161dc",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final proof that the focused llvm-cov route interoperates with the GitHub runner toolchain."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6cd5972bfea21bb4d02b746283ab077df151652d57efa7ad9f47cf706504f0d4",
+      "values_digest": "a1b2b02b5611ce6d75fd574b47eeb888e2c0989f5a87470a85a2a20b541fdf46",
       "rendered_digest": "33277b1be6e0ea353119eee7352bcdb20d78d05700abc8634231d40447535aff",
       "ast_digest": "bbc90e79859496ea951db7642bb58d4385e4fcb071ea07d59bc297f1d4aed907"
     },
     "stp": {
-      "values_digest": "eb6f3ccfd2d78b9f0a1ce986e80e574f08aa5749742903b55870e3e3dcbcde2f",
+      "values_digest": "d90524602d01eeb6a96d1edde1dda4b507ce45370a79bc3c8ca78237f6ed98bf",
       "rendered_digest": "58a712a9ee968e85c7e274bb50004fba71c8debd499b16c009f82631d0c7a286",
       "ast_digest": "59d06a6734cd8095abcfe07224301c3b638b5d8dd0c3b6f15029213ce84292c5"
     },
     "spp": {
-      "values_digest": "c9870e9bc32103af5c53b6fcbfad306d289a5c6e04f554c54cd27782d50d0b80",
+      "values_digest": "ccc6ed39af7c67d27185131fc7ef8358ea673a350de0b66f1b89819988b0b2e2",
       "rendered_digest": "9851c436936d343189c3f2a94b5a703d1183992402ed5f6055197f95f9ecbe66",
       "ast_digest": "d81ebcc123f7732145c1ad4b9c3c3479bac5e9d9ef4a8566b65114d8698fb126"
     },
     "vpp": {
-      "values_digest": "26770578bc82cf535d3b3c2b080d5a16cb409bf4be5f0d8bc8b3d49dedb87903",
+      "values_digest": "eba9da5776b7094e730c641283c0304d6d41bd85ed51ba24dcf6074304589d49",
       "rendered_digest": "0836299c83560cd724781ff94f168ac9f8366dc32624f7f164cd7e1cf2feb817",
       "ast_digest": "134da84d187edb12fe50e05f3553467a3fe44f881537ccccad6a3ab1e83414fb"
     },
     "srp": {
-      "values_digest": "792028b7490f0e7a976c1a0fc2c6d75f86335544c802cd888ec91801df896155",
-      "rendered_digest": "9338033157bc46b230ad43bdc25b6e61eb88a9dfe81a5a35b0c3bbf3a1bb13f8",
-      "ast_digest": "4ddd650fc1734c6dd6f8dd4eedc079cbc2a9050a82cff589163f312ca4e16e20"
+      "values_digest": "176f2ed1bdc648be5750daf2ea1cafdb16d9bef913eb325ebeace45703890d03",
+      "rendered_digest": "5dfd14ce2ee79d244da9dae71eb4835b4dc28388a11a1535bdca01739fcfed5e",
+      "ast_digest": "40fa1ca8e421130865ca4e481441f1cf3b064fdaf9d08b20de05312b6bbc39c9"
     },
     "sor": {
-      "values_digest": "734e144e4a0dc1df9582d3dbe02334616492d5bd197df6b2c0f01c83ac231cd0",
+      "values_digest": "7b07eb739d361fdec384a3fdf4e5105d187c503edc5982b7e0ca620ffff6c184",
       "rendered_digest": "dc566ddc0da835fe0e04579e57022a64c861c45eb550182a77989266a72ab800",
       "ast_digest": "29012c517791b9530827148bea4d3f9ea6deee794d8711403c73fcb07276c13f"
     }
@@ -92,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded mixed-crate route and its positive and negative proof are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-revision subagent review found no actionable findings."
     }
   ],
   "audit": [
@@ -143,6 +177,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded mixed-crate route and its positive and negative proof are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:019f751d-2d23-70d1-b40f-69c756ed58d0",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-revision subagent review found no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
