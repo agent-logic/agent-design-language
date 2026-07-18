@@ -222,7 +222,8 @@ impl Store {
         }
         receipt.record = record.clone();
         receipt.cards = cards.clone();
-        receipt.digest = record.digest.clone();
+        receipt.digest.clear();
+        receipt.digest = terminal_receipt_digest(&receipt)?;
         validate_terminal_receipt(&receipt)?;
         let temporary = path.with_extension("json.repair-tmp");
         fs::write(&temporary, serde_json::to_vec_pretty(&receipt)?)?;
