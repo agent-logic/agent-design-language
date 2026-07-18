@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -29,21 +29,70 @@ Resolved WP-12 review findings by downgrading unproven CAV integrated-path claim
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "purpose": "Prove PR-fast CAV companion routing and fail-closed #4657/#4660 negative fixtures.",
+    "outcome": "passed",
+    "evidence_ref": "adl/tools/test_run_pr_fast_coverage_lane.sh"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "csm_cav_red_blue"
+    ],
+    "purpose": "Prove bounded CAV red-blue artifact behavior and unsafe run-id rejection.",
+    "outcome": "passed",
+    "evidence_ref": "adl/src/csm_cav_red_blue.rs"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "csm_credential_policy"
+    ],
+    "purpose": "Prove synthetic credential-event classification and unsafe run-id rejection.",
+    "outcome": "passed",
+    "evidence_ref": "adl/src/csm_credential_policy.rs"
+  },
+  {
+    "command": [
+      "python3",
+      "adl/tools/validate_wp12_cav_red_blue_4914.py",
+      "--proof",
+      "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+      "--parent-gate",
+      "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json",
+      "--coherence",
+      "docs/milestones/v0.91.7/review/runtime/final_csm_coherence_4906/runtime_coherence_matrix_4906.json"
+    ],
+    "purpose": "Prove the downgraded boundary-only CAV claim and canonical coherence linkage.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json"
+  }
+]
 
 ## Integration
 
-pr_open
+merged
 
 ## Publication
 
-Publication: draft
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 
