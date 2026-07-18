@@ -65,8 +65,9 @@ ADL_RUST_WARM_CACHE_OUTPUT="${ADL_PR_FAST_COVERAGE_WARM_CACHE_OUTPUT:-$ADL_DIR/p
 printf 'PR-fast coverage expression: %s\n' "$FILTER_EXPRESSION"
 printf 'PR-fast coverage target: %s\n' "$CARGO_TARGET_DIR"
 guardian_filter='test(/^guardian::tests::/)'
+runtime_auth_filter='test(/^runtime_api_auth::tests::/)'
 adl_coverage_ran=false
-if [ "$FILTER_EXPRESSION" != "$guardian_filter" ]; then
+if [ "$FILTER_EXPRESSION" != "$guardian_filter" ] && [ "$FILTER_EXPRESSION" != "$runtime_auth_filter" ]; then
   coverage_args=(
     llvm-cov nextest
   )
@@ -118,6 +119,15 @@ if grep -Fq 'test(/^guardian::tests::/)' <<<"$FILTER_EXPRESSION"; then
   else
     runtime_expression='test(/^guardian::tests::/)'
     runtime_companion="adl-runtime Runtime v3 guardian tests"
+  fi
+fi
+if grep -Fq 'test(/^runtime_api_auth::tests::/)' <<<"$FILTER_EXPRESSION"; then
+  if [ -n "$runtime_expression" ]; then
+    runtime_expression="$runtime_expression or test(/^runtime_api_auth::tests::/)"
+    runtime_companion="$runtime_companion and Runtime v3 API auth tests"
+  else
+    runtime_expression='test(/^runtime_api_auth::tests::/)'
+    runtime_companion="adl-runtime Runtime v3 API auth tests"
   fi
 fi
 

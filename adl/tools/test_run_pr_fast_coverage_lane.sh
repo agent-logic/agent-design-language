@@ -206,4 +206,19 @@ if [ ! -s "$ROOT_DIR/adl/target/coverage-impact-summary.json" ]; then
   exit 1
 fi
 
+runtime_auth_only_cargo_log="$temp_root/cargo-runtime-auth-only.log"
+runtime_auth_only_expression='test(/^runtime_api_auth::tests::/)'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$runtime_auth_only_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-auth-only" \
+  bash "$SCRIPT" --filter-expression "$runtime_auth_only_expression" >"$temp_root/pr-fast-coverage-runtime-auth-only-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$runtime_auth_only_cargo_log"; then
+  echo "runtime-auth-only coverage must not send an adl-runtime selector to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime Runtime v3 API auth tests" "$temp_root/pr-fast-coverage-runtime-auth-only-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_auth_only_cargo_log" >/dev/null
+grep -F "test(/^runtime_api_auth::tests::/)" "$runtime_auth_only_cargo_log" >/dev/null
+
 echo "PASS test_run_pr_fast_coverage_lane"
