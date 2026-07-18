@@ -12,12 +12,14 @@ Status: pre_phase
 
 ## Summary
 
-Made the backend snapshot contract reachable, removed false setup assertions, and extracted backend selection into a locally testable fail-closed helper.
+Restored meaningful live capability coverage at its actual source and policy owners, repaired missing least-privilege permissions, and asserted invalid backend exit status exactly.
 
 ## Artifacts
 
 - .github/workflows/ci.yaml
 - adl/tools/resolve_ci_backend.sh
+- adl/tools/test_run_aws_spot_ci_profile.sh
+- adl/tools/setup_aws_spot_remote_validation_github_resources.sh
 - adl/tools/test_run_aws_spot_ci_profile.sh
 
 ## Execution
@@ -27,6 +29,11 @@ Made the backend snapshot contract reachable, removed false setup assertions, an
 - Count and require execution of all seventeen backend workflow snapshot assertions
 - Prove default hosted, explicit hosted, Spot-selected, and invalid backend behavior locally
 - Keep CI backend selection semantics in a pure helper used by the workflow
+- Require SSM parameter lookup in both the live lane source and GitHub role policy
+- Require retained EBS attachment in both the Rust owner and GitHub role policy
+- Require inline role-policy cleanup in both the Rust owner and GitHub role policy
+- Retain current ephemeral role and instance-profile resource-pattern assertions
+- Assert invalid backend exits with status 2
 
 ## Validation
 
@@ -39,6 +46,15 @@ Made the backend snapshot contract reachable, removed false setup assertions, an
     "purpose": "Prove all backend snapshots are reachable and default hosted, explicit hosted, Spot-selected, and invalid backend values behave locally without AWS",
     "outcome": "passed",
     "evidence_ref": "local:5467-backend-snapshot-contract-shell-syntax-behavior-exit2-diff-check"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_aws_spot_ci_profile.sh"
+    ],
+    "purpose": "Prove reachable backend snapshots, local routing behavior, exact invalid exit status, and source-to-policy coverage for live SSM, EBS attach, and IAM cleanup capabilities",
+    "outcome": "passed",
+    "evidence_ref": "local:5467-review-fixes-backend-policy-owner-contract"
   }
 ]
 

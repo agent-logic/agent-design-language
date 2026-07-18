@@ -6,6 +6,7 @@ SCRIPT="$ROOT/adl/tools/run_aws_spot_ci_profile.sh"
 WORKFLOW="$ROOT/.github/workflows/aws-spot-remote-validation.yaml"
 CI_WORKFLOW="$ROOT/.github/workflows/ci.yaml"
 DOCKERFILE="$ROOT/adl/docker/adl-builder/Dockerfile"
+SETUP="$ROOT/adl/tools/setup_aws_spot_remote_validation_github_resources.sh"
 REDACTION_VERIFY="$ROOT/adl/tools/aws_spot_artifact_redaction_verify.py"
 VERIFY_ADVERTISED_REF="$ROOT/adl/tools/verify_spot_advertised_ref.sh"
 VERIFY_BACKEND_ROUTE="$ROOT/adl/tools/verify_ci_backend_route.py"
@@ -47,6 +48,15 @@ grep -F 'gh --version' "$DOCKERFILE" >/dev/null
 grep -F 'for required in rustc cargo cargo-nextest sccache LLD aws-cli; do' \
   "$ROOT/adl/tools/run_aws_spot_builder_image_validation.sh" >/dev/null
 grep -F "grep -E '^llvm-tools-'" "$SCRIPT" >/dev/null
+grep -F 'ssm get-parameter' "$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh" >/dev/null
+grep -F 'al2023-ami-kernel-default-x86_64' "$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh" >/dev/null
+grep -F '"ssm:GetParameter"' "$SETUP" >/dev/null
+grep -F '.attach_volume()' "$ROOT/tools/aws_remote_validation/src/aws_remote_validation.rs" >/dev/null
+grep -F '"ec2:AttachVolume"' "$SETUP" >/dev/null
+grep -F '.delete_role_policy()' "$ROOT/tools/aws_remote_validation/src/aws_remote_validation.rs" >/dev/null
+grep -F '"iam:DeleteRolePolicy"' "$SETUP" >/dev/null
+grep -F 'role/adl-aws-remote-validation-*' "$SETUP" >/dev/null
+grep -F 'instance-profile/adl-aws-remote-validation-*' "$SETUP" >/dev/null
 grep -F 'SSH_ALLOWED_CIDR="${ADL_AWS_REMOTE_VALIDATION_SSH_ALLOWED_CIDR:-}"' "$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh" >/dev/null
 grep -F 'https://checkip.amazonaws.com' "$ROOT/tools/aws_remote_validation/src/aws_remote_validation.rs" >/dev/null
 if grep -F 'AWS_SPOT_REMOTE_VALIDATION_SSH_ALLOWED_CIDR' "$WORKFLOW" >/dev/null; then
@@ -192,11 +202,11 @@ assert_backend_snapshot grep -F '"adl_spot_ci_and_coverage:${{ needs.adl_spot_ci
 [[ "$(bash "$RESOLVE_CI_BACKEND" hosted)" == hosted ]]
 [[ "$(bash "$RESOLVE_CI_BACKEND" spot)" == spot ]]
 invalid_backend_log="$(mktemp "${TMPDIR:-/tmp}/adl-invalid-ci-backend.XXXXXX")"
-if bash "$RESOLVE_CI_BACKEND" invalid >"$invalid_backend_log" 2>&1; then
-  echo "invalid backend unexpectedly succeeded" >&2
-  rm -f "$invalid_backend_log"
-  exit 1
-fi
+set +e
+bash "$RESOLVE_CI_BACKEND" invalid >"$invalid_backend_log" 2>&1
+invalid_backend_status=$?
+set -e
+[[ "$invalid_backend_status" -eq 2 ]]
 grep -F 'ADL_HEAVY_CI_BACKEND must be hosted or spot, got: invalid' "$invalid_backend_log" >/dev/null
 rm -f "$invalid_backend_log"
 test "$(grep -Fc 'builder_image_tag: v0.91.7-coverage-5243' "$CI_WORKFLOW")" -eq 1

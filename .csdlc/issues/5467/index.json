@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2ad38313de373e32d209f2a3d3ed3f31060f4b2763fd10f58df6b26c6bb9831f",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "5107d15bcc1fa35cb722ce07090582589cfd151315b915cf7059ca773c351a4b",
+  "generation": 7,
+  "digest": "2c30c0a45475ba58ae5d2a2851635d8b001f193b2f4f250e3b920cd8056467d7",
   "claim": {
     "id": "claim-5467-backend-snapshot-contract",
     "owner": "codex-root",
-    "generation": 5,
+    "generation": 7,
     "acquired_unix_seconds": 1784357994,
     "expires_unix_seconds": 1784962794,
     "heartbeat_unix_seconds": 1784357994,
@@ -18,11 +18,22 @@
     "protected_paths": [
       ".github/workflows/ci.yaml",
       "adl/tools/resolve_ci_backend.sh",
+      "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
       "adl/tools/test_run_aws_spot_ci_profile.sh"
     ],
     "purpose": "Repair unreachable backend-snapshot assertions and prove backend selection locally without AWS"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5467",
+    "assigned_by": "codex-root",
+    "revision": "git-blake3:e59ca802bd499dea2191b900ea4c1a6cc48e5be0:40a81abdf6245c7286f94af39a4d356fe2c2da052d04f8a1bc698045cee8991a",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/resolve_ci_backend.sh",
+      "adl/tools/test_run_aws_spot_ci_profile.sh",
+      ".csdlc/issues/5467"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,34 +49,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a3099d739f885cd559b26f102580174b7f2c6ef2fb38114faf70d74532dd6f6",
+      "values_digest": "7e127735b339cc0c2f2e63e6c1487edd89fa998845ba6e82867ec13cd6e85b8b",
       "rendered_digest": "178febf3b5cfdb4b8e7964c67773681647514cc6af6caebf0b643e6cc01f122f",
       "ast_digest": "a81b26e7ff519e7ceadcd67efb7ded9d44a20d01d3e94d4839d431c7752cb7e5"
     },
     "stp": {
-      "values_digest": "f4835c096379b6186b7a59cb9f311467a5bf578eb7c2290505900a701c49652d",
+      "values_digest": "ae0942698163895c6d655afa611bd3d65aeeab9c625ed2f7e032178d4fad4bba",
       "rendered_digest": "c06a469a2a42e85d566b0e5abd1dd53eaff5254b105e217c14114f9c223a5748",
       "ast_digest": "58c6ea760265ad9c19fe15dcdcf48e4c4636fd9cd0ac659a9c90647a7d49e4e9"
     },
     "spp": {
-      "values_digest": "12757e6d4d34204ac08a4fece95febaa6c8615e3baacdd01071ce28498e2d4d8",
+      "values_digest": "e5ceff35341b0881f24f8613ced75542088c44904080dd5d8b84120c704a0376",
       "rendered_digest": "88b9c9de5780740d40da5daca273a5bddb3a37f826ec31b999bb7bf56abfe573",
       "ast_digest": "e0b11c70757c00997b84ac0a71d90ed7717f636fb826c8612d527d7dd0250c97"
     },
     "vpp": {
-      "values_digest": "cece91b1bcaf8b91029500eb7b47bb5ba5678e0cf5ab8360345f86ba47a20248",
+      "values_digest": "016d840475179d4b0dfb9cbfe395ee3bfe33b64275544366197bc4e0f4dde0b0",
       "rendered_digest": "2f96022b177a64ebbbdce694730043ff721196114fbd9b427066852d84737d2c",
       "ast_digest": "a646953b2576fd2a787e51dd9836431aa6429d97e228516ac701d8f1f47e9a1a"
     },
     "srp": {
-      "values_digest": "e72a1ed69a99d6ea49ac367047c421d880695eee0b0bb9147f476f843747ea72",
+      "values_digest": "34b0e27728d119a784741152b87c6ff9bc1ecd542cc037f55c568cd97684c25f",
       "rendered_digest": "0f7dcf19adb435412d09c5657d9aacb2b6f35846ae7a04549481a98702d6b55b",
       "ast_digest": "7b23e2cf3d1b84c39d19898c528f7c60f4e3e2b0c97ff1940db247ec9d5757b4"
     },
     "sor": {
-      "values_digest": "d9d13b8e4c0a71cb84730047b2369350f265fba8a24ebe910cad582a726ec43f",
-      "rendered_digest": "7343a7c39d673c3fd0fc152cc586b28b3b7c046a70584e9461fd5bc2f7630b19",
-      "ast_digest": "852de5f0272e5e318e32bb2e0e3f3e01c55b1c9e3545bf54f8a1118c0d1b562a"
+      "values_digest": "2b02d77a13e605d79c8b23d978b04d43e95e4a65939dbbc9497867b1bf32a62d",
+      "rendered_digest": "e0f6489947f66d06192c20a470798a6f7e4d73ad0e1fd48353b9513aa081dd9a",
+      "ast_digest": "f268e15d0799894ab2b146d7656ee9377845722d8d678cb3d2c989873712815e"
     }
   },
   "transitions": [
@@ -140,6 +151,34 @@
       "actor": "codex-root",
       "reason": "The bounded implementation and typed local no-network PVF lane pass all acceptance criteria without AWS.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "Protect the setup policy whose missing live SSM, EBS attachment, and inline-policy cleanup permissions were exposed by exact-revision review.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/setup_aws_spot_remote_validation_github_resources.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "Resolved both exact-revision review findings with local policy-owner assertions and exact invalid exit-status proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Restored meaningful live capability coverage at its actual source and policy owners, repaired missing least-privilege permissions, and asserted invalid backend exit status exactly.\",\"changes\":[\"Require SSM parameter lookup in both the live lane source and GitHub role policy\",\"Require retained EBS attachment in both the Rust owner and GitHub role policy\",\"Require inline role-policy cleanup in both the Rust owner and GitHub role policy\",\"Retain current ephemeral role and instance-profile resource-pattern assertions\",\"Assert invalid backend exits with status 2\"],\"artifacts\":[\"adl/tools/setup_aws_spot_remote_validation_github_resources.sh\",\"adl/tools/test_run_aws_spot_ci_profile.sh\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex-root",
+      "reason": "The locally executable contract and syntax checks pass after both review fixes; no AWS was used.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_aws_spot_ci_profile.sh\"],\"purpose\":\"Prove reachable backend snapshots, local routing behavior, exact invalid exit status, and source-to-policy coverage for live SSM, EBS attach, and IAM cleanup capabilities\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5467-review-fixes-backend-policy-owner-contract\"}}"
     }
   ]
 }
