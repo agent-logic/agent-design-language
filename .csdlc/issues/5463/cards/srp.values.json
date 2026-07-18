@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5463,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][ci] Upgrade pinned Actions away from deprecated Node 20 runtime",
+    "slug": "v0-91-7-ci-node24-action-pins",
+    "version": "v0.91.7",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are all annotated occurrences replaced?",
+        "Do major upgrades preserve used inputs and outputs?",
+        "Does the static contract reject deprecated or floating pins?",
+        "Are hosted annotations genuinely absent?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5463,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "f8acfa7ae245012c2e6017e2b33f50c8af46f755be2cb30c945a79c4173be0c5",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "424a4958b7605f8279e34514a9c2a26a3811ff23b86a74bedd566b4e49dc68d2",
+  "claim": {
+    "id": "claim-5463-node24-action-pins",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 4,
+    "acquired_unix_seconds": 1784356628,
+    "expires_unix_seconds": 1784443028,
+    "heartbeat_unix_seconds": 1784356628,
+    "branch": "codex/5463-node24-action-pins",
+    "worktree": ".worktrees/adl-wp-5463",
+    "protected_paths": [
+      ".github/workflows/aws-codefriend-build.yaml",
+      ".github/workflows/aws-spot-remote-validation.yaml",
+      ".github/workflows/ci.yaml",
+      ".github/workflows/nightly-coverage-ratchet.yaml",
+      ".github/workflows/v0871_milestone_closeout_gate.yaml",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md"
+    ],
+    "purpose": "Upgrade deprecated Node 20 GitHub Action pins to reviewed Node 24 revisions"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5463/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5463/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "revision": "c7a88a3322b388897fffc0bc336747387e1fdfaebb84b33ca7bad2f93ed5997e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "0ec7aea0c18ceea327db2837153f9e4312190d862964cdf6b4ff0dbe57b893c3",
+      "rendered_digest": "116ecd514fd218a6b2bfeafeceba5897f833cd75eecca4906aa596c663a42ad1",
+      "ast_digest": "055c88cb431f309965d18d1b03e53b285236d3274271fbf29637501e28513148"
+    },
+    "stp": {
+      "values_digest": "49e5bbd950fe9c672a56e88ba0ede9f9dd0307f1c810697c1143bd90714fc2e8",
+      "rendered_digest": "65c8dc354b936414b8a32edecb10f2c7c786b25a25ecfae40ae7f184fa2f7c3d",
+      "ast_digest": "091ab560afbb4b9b8cf99d8062958bf060cc2071b488261c653bebf9029d190e"
+    },
+    "spp": {
+      "values_digest": "152323f7780eeaee573bce6dfdc5cff4508caf1054faeca16054ed6c0f9002e4",
+      "rendered_digest": "e90ef2d4205cb124b557e22c1c43ea52d7770fb4c97deea49ace098a1fcdfab2",
+      "ast_digest": "cfa727ea5ef308c202c0ecea492b419bb70f5cebeb9991ececd775f4f39ddf92"
+    },
+    "vpp": {
+      "values_digest": "8903f30597f89cfcf92f628144958cbc1f10f4f14fad27b979d494e9ffd24b3c",
+      "rendered_digest": "9916975d95eaed7aaf8f51caabbda183377af039827c88793385d7761329815e",
+      "ast_digest": "8f6f00a2dfc4e8878be02995b0924ea97025a2b98c88520bd6f8991ffd0d3f65"
+    },
+    "srp": {
+      "values_digest": "80eedb4cc7e9ff63be76fe08583d6b42cd09c7d8bde45620d2b6c6b9cbffc2e3",
+      "rendered_digest": "ec0b1013caf61f6ff42eda76149c9450b4ebac93ddb885b97f9987b58b236aab",
+      "ast_digest": "b5fdb0ac215437a2b1e2d540103f7262c62d5ebb300b422b38f229872efd3ac7"
+    },
+    "sor": {
+      "values_digest": "2406a9c533d67ae7667db5eda9b01520edf393fc337ab5b201fa99c34f160a3c",
+      "rendered_digest": "2580c88f650852e9dfcf49c1463994bdde457e83d692cda4d1801913d76b8a2c",
+      "ast_digest": "9cf4fc2609d31a7fe0e9e140664043a417df389dcfd1b76a0133f479760aec56"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The bounded action runtime upgrade, retained inventory, and focused local proof are complete."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Implemented the bounded Node 24 action pin upgrade and its static regression contract.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replaced the three GitHub-annotated Node 20 action revisions with reviewed immutable Node 24 commits across every workflow and strengthened canonical pin enforcement.\",\"changes\":[\"Upgrade actions/checkout to the immutable v7.0.0 Node 24 revision\",\"Upgrade actions/upload-artifact to the immutable v7.0.1 Node 24 revision\",\"Upgrade Swatinem/rust-cache to the immutable v2.9.1 Node 24 revision\",\"Scan both list-style and mapping-style uses syntax for canonical and deprecated revisions\",\"Retain the source-linked runtime pin inventory and explicit no-AWS proof boundary\"],\"artifacts\":[\".github/workflows/aws-codefriend-build.yaml\",\".github/workflows/aws-spot-remote-validation.yaml\",\".github/workflows/ci.yaml\",\".github/workflows/nightly-coverage-ratchet.yaml\",\".github/workflows/v0871_milestone_closeout_gate.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/test_ci_path_policy.sh\",\"docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The focused canonical action runtime contract passed without dispatching any workflow.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove canonical immutable Node 24 revisions and deprecated-revision absence across every workflow\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5463-ci-runtime-contract-pass\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The CI path-policy regression suite passed with the updated canonical checkout fixture.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"purpose\":\"Prove the action pin upgrade preserves CI path-policy behavior and fixture truth\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5463-ci-path-policy-pass\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The bounded action runtime upgrade, retained inventory, and focused local proof are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
