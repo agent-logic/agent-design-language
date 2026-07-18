@@ -3,30 +3,14 @@
   "issue": 5506,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "af133679cd9c7015c46c265fcc38664355bbbfd4fa282ab6ac6fac5fbb980bae",
-  "phase": "reviewed",
-  "generation": 10,
-  "digest": "4de74f4e57b01fd3c24a2df5fe54d46b32ed7ec26975745968a7aa9f22cf95cb",
-  "claim": {
-    "id": "claim-5506-runtime-auth-coverage-map",
-    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 10,
-    "acquired_unix_seconds": 1784367985,
-    "expires_unix_seconds": 1784454385,
-    "heartbeat_unix_seconds": 1784367985,
-    "branch": "codex/5506-runtime-auth-coverage-map",
-    "worktree": ".",
-    "protected_paths": [
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ],
-    "purpose": "Register focused Runtime v3 API-auth coverage without mixed runtime and policy escalation"
-  },
+  "phase": "closed_out",
+  "generation": 18,
+  "digest": "f225f6c0da8dd00e3fde8331d49854455b1cb76fb2849ce8fbc709381aa4937f",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f74a4-d2d6-7e51-b69d-e92676e69394",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:1f30a6046adc24029da4bbd5c3bc359464f35001:da9e6998ebc1aedfbb800c694f51a7eba6d26307d5553fcc53512e20f5304dd5",
+    "revision": "git-blake3:5620c6e920dcbb232c4160c171c5bf3f4e60f845:1fd30361d1d46debae0269d0d84fc878c6d136f704d2fcab8abc7f2b93e8bab0",
     "scope": [
       "adl/tools/check_coverage_impact.sh",
       "adl/tools/run_pr_fast_coverage_lane.sh",
@@ -42,20 +26,96 @@
       "adl/tools/test_check_coverage_impact.sh",
       "adl/tools/test_run_pr_fast_coverage_lane.sh"
     ],
-    "reviewed_revision": "git-blake3:1f30a6046adc24029da4bbd5c3bc359464f35001:da9e6998ebc1aedfbb800c694f51a7eba6d26307d5553fcc53512e20f5304dd5",
+    "reviewed_revision": "git-blake3:5620c6e920dcbb232c4160c171c5bf3f4e60f845:1fd30361d1d46debae0269d0d84fc878c6d136f704d2fcab8abc7f2b93e8bab0",
     "findings": [],
     "residual_risks": [
-      "The shell routing contract uses fake cargo; actual llvm-cov interoperability remains hosted CI proof."
+      "Actual llvm-cov interoperability remains hosted CI proof."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5506,
+    "pull_request": 5507,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5507",
+    "base": "main",
+    "head": "codex/5506-runtime-auth-coverage-map",
+    "revision": "git-blake3:5620c6e920dcbb232c4160c171c5bf3f4e60f845:1fd30361d1d46debae0269d0d84fc878c6d136f704d2fcab8abc7f2b93e8bab0",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": {
+    "pull_request": 5507,
+    "head_sha": "5620c6e920dcbb232c4160c171c5bf3f4e60f845",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29640131016/job/88069247552"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29640131016/job/88069211323"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29640131016/job/88069190877"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29640131016/job/88069173782"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29640131016/job/88069190903"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29640131016/job/88069190890"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29640131016/job/88069191161"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5507,
+    "disposition": "merged",
+    "observed_sha": "5620c6e920dcbb232c4160c171c5bf3f4e60f845",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5506.json",
+    "released_branch": "codex/5506-runtime-auth-coverage-map",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5506/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5506/diagram.mmd",
+  "design_path": ".csdlc/issues/5506/retained/design.md",
+  "diagram_path": ".csdlc/issues/5506/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -64,34 +124,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "32bcb157c56a9e4f7b5cf33e70596940aebcefdc3bfb233d00efaa1b53937d57",
+      "values_digest": "eb8e7ed350b67ac6737540582f9ce65f0f5a78e6bc85b0e14bb7e709757170b0",
       "rendered_digest": "27a26c52385b371d9555a033bb408f74bab06f8b9b504acb1d380febbb994c24",
       "ast_digest": "8b7a8da67dfa2b8ad0385d4025dbd630c01ba6115c6c8bd9f7b2c348b2bb98d7"
     },
     "stp": {
-      "values_digest": "d0fbc220ab63b1b2918f4c069545ab4bf3f6b2b3ef88375ecfe2c83a91506c21",
+      "values_digest": "ea2d42c9f77d4f6f685406dfcb6c55014467cb0cb687053d905050af327d4b11",
       "rendered_digest": "aa0f75b97d0c6181343a57e8830a50bcbebac19bc4ceeb02b0ac4c205d751a78",
       "ast_digest": "4eefe71e7aa2df57ba3c8fd0fe6390b30dcc8d32a532e1e8eaac2480ddb05a7f"
     },
     "spp": {
-      "values_digest": "3b54be7a300828df84347ae17bdbb5ac6052e4a84a4619304db95d1a92946560",
-      "rendered_digest": "a05be5662cdb6f55174b2ab34777a58cbd06352ed77150a8a8d9ff034a57c56c",
-      "ast_digest": "7e4d2b98673344769b23b375db892d03d3976f253146f3571b5c80aa3f84e5b7"
+      "values_digest": "3ba8c1d86126c548159ed533a2d306ca3554b1e260bb1a5f46a99215f65f921f",
+      "rendered_digest": "95cb3f53beeef2a7f910ea42f2b5fc014845e7a162c6e746d9f4e058ce7f38c6",
+      "ast_digest": "6dc39e28e4800c9724d32f2c06321b3706ceb683c1a071481b3b082157669a7a"
     },
     "vpp": {
-      "values_digest": "66876a276f2b6dfa66f7d10ca965f8167872ab7c92904b163cceec182dcfc60b",
-      "rendered_digest": "f993ebe0bcc4f9148f0d1f0ba09b12a05e927aefff613dedd0c624f6361970f6",
-      "ast_digest": "8ccd4275632ea4b3017b42e48cd0066c2b4b418d18be5928774fd9759fd4c21c"
+      "values_digest": "b136501f191fbebf90074c245b08cecfab4b5bbf36ea0f8b86a3829c76e63760",
+      "rendered_digest": "e9dd593247fb8e8cffb9faebdb2bb8b3ec4548fdd04f40a0ad80ab326a6d13db",
+      "ast_digest": "21484918375418c2c5883d812321592fe7a787dec5da0e86ac637b5a57895e30"
     },
     "srp": {
-      "values_digest": "24035fec2f19634a7fc851df3c8067d7c4b287c6d5ee1c8b5bcbaa9b351e6195",
-      "rendered_digest": "2fa9ef2b3ee35b09cfc94e29d4702dae9785b095d261f287f1d73ab8e0e502ee",
-      "ast_digest": "68f3d2857940d6336ea36a2ab8cefca3bbd676e8a1f87bfe1f387d2f489fc9ab"
+      "values_digest": "094f317fedbb5d708f83470b0f897d2321f38976698cfedb247ca8f02086ca0a",
+      "rendered_digest": "d29ba689a77273d84bd2fac81719bc691497da59f329e43a786cf9b5f82c05b9",
+      "ast_digest": "5dd821519eef83f115d2502338093d35802617022aca70cc6dda9043856ef720"
     },
     "sor": {
-      "values_digest": "cfbacaca67a1109451b42774e6900afd32287a7af196b5beca91d8e223abdd45",
-      "rendered_digest": "1969e5ead442f2f0ca3496984161059472c9932153e5b677b3a7af56ca317bd0",
-      "ast_digest": "9676aceb8f816b3e597407e5eec50765dd1130d0a49e7c56cd27765a02c1d607"
+      "values_digest": "f6a95d73c92e980c474799fa0e4f6f724947ab5d745fb692363a9b4bbe23f5d0",
+      "rendered_digest": "137e6731738ff822c8d74b41482f7eb57eacdef268e5ec774a3a559ea0cfc12e",
+      "ast_digest": "7b7c44176a89e264792ee97e6647916f47cddc9edea2c4be12fa624af5265120"
     }
   },
   "transitions": [
@@ -122,6 +182,48 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact-revision re-review passed after F-5506-1 with no remaining actionable findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover review identity after committing retained lifecycle metadata so the publication head receives exact review."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The exact publication head is review-clean with unchanged substantive scope."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact draft PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 9,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 10,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -222,6 +324,69 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact-revision re-review passed after F-5506-1 with no remaining actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover review identity after committing retained lifecycle metadata so the publication head receives exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "subagent:019f74a4-d2d6-7e51-b69d-e92676e69394",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The exact publication head is review-clean with unchanged substantive scope.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "csdlc-closeout",
+      "reason": "normalize legacy terminal receipt path to portable reference",
+      "operation": "normalize_terminal_receipt_ref"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex-terminal-reconcile",
+      "reason": "Materialize the retained terminal receipt after merged PR #5507 and closed issue #5506 so its released paths no longer appear actively claimed.",
+      "operation": "reconcile_terminal"
     }
   ]
 }
