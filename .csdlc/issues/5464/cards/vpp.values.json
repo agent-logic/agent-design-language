@@ -7,7 +7,7 @@
     "title": "[v0.91.7][ci] Remove cargo-nextest 0.9.140 unsupported-binary fallback",
     "slug": "v0-91-7-ci-nextest-install-contract",
     "version": "v0.91.7",
-    "generation": 21
+    "generation": 30
   },
   "status": "ready",
   "content": {
@@ -57,9 +57,9 @@
       "planned_validation_seconds": 1200,
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on floating or stale pins, partial replacement, missing fallback none, contract failure, or any hosted fallback warning.",
-      "design_ref": ".csdlc/prepared/issues/5464/design.md",
+      "design_ref": ".csdlc/issues/5464/retained/design.md",
       "design_digest": "7b4911b3d2706584d0f30221dc602dd7e4928f6749d0945ab70fb700dcf3d503",
-      "diagram_ref": ".csdlc/prepared/issues/5464/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5464/retained/diagram.mmd",
       "diagram_digest": "65c1ffffce9f6c0f25abce99a100d1909fcf88d5598b56de08a69194a422f259"
     }
   }

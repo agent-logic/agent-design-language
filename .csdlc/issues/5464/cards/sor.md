@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -88,22 +88,32 @@ Classify every install-action tool token independently and reject nextest-bearin
     "purpose": "Prove comma- and whitespace-separated tool lists cannot hide nextest or cargo-nextest",
     "outcome": "passed",
     "evidence_ref": "local:5464-multitool-regression-pass"
+  },
+  {
+    "command": [
+      "gh",
+      "api",
+      "repos/danielbaustin/agent-design-language/actions/jobs/88059440377/logs"
+    ],
+    "purpose": "Prove nextest 0.9.140 downloads directly from the supported release asset, verifies SHA-256, and emits no unsupported-binary or cargo-binstall fallback warning",
+    "outcome": "passed",
+    "evidence_ref": "github-actions:run-29636408536:job-88059440377:direct-nextest-install:annotations-empty:spot-skipped"
   }
 ]
 
 ## Integration
 
-pr_open
+merged
 
 ## Publication
 
-Publication: draft
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

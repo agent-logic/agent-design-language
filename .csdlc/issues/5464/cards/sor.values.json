@@ -7,9 +7,9 @@
     "title": "[v0.91.7][ci] Remove cargo-nextest 0.9.140 unsupported-binary fallback",
     "slug": "v0-91-7-ci-nextest-install-contract",
     "version": "v0.91.7",
-    "generation": 21
+    "generation": 30
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -84,12 +84,22 @@
           "purpose": "Prove comma- and whitespace-separated tool lists cannot hide nextest or cargo-nextest",
           "outcome": "passed",
           "evidence_ref": "local:5464-multitool-regression-pass"
+        },
+        {
+          "command": [
+            "gh",
+            "api",
+            "repos/danielbaustin/agent-design-language/actions/jobs/88059440377/logs"
+          ],
+          "purpose": "Prove nextest 0.9.140 downloads directly from the supported release asset, verifies SHA-256, and emits no unsupported-binary or cargo-binstall fallback warning",
+          "outcome": "passed",
+          "evidence_ref": "github-actions:run-29636408536:job-88059440377:direct-nextest-install:annotations-empty:spot-skipped"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
