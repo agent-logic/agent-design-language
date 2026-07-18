@@ -41,6 +41,18 @@ Added a typed reconcile-merged publication command that observes an explicit mer
     "purpose": "Prove merged-head identity rejection, unchanged draft publication behavior, and full C-SDLC v2 regression safety",
     "outcome": "passed",
     "evidence_ref": "local:5466-gate6-full-suite-clippy-fmt-help"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove exact merged-head and repository identity rejection, public request schema coverage, unchanged draft publication behavior, and full C-SDLC v2 regression safety",
+    "outcome": "passed",
+    "evidence_ref": "local:5466-post-review-fix-gate6-binary-full-suite-clippy-fmt"
   }
 ]
 

@@ -1,0 +1,9 @@
+{
+  "issue": 5466,
+  "expected_generation": 5,
+  "expected_digest": "be54f54f285d409bf2db2d5269282d9d0997658450b006c02aa710a5d3595814",
+  "claim_id": "claim-5466-merged-head-closeout",
+  "reviewer": "bounded-subagent-review-5466",
+  "assigned_by": "codex-root",
+  "scope": ["csdlc-v2/src/bin/csdlc-publish.rs","csdlc-v2/src/publication.rs","csdlc-v2/tests/gate6.rs"]
+}

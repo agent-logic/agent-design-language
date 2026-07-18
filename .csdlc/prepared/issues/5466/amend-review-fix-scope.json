@@ -1,0 +1,10 @@
+{
+  "issue": 5466,
+  "claim_id": "claim-5466-merged-head-closeout",
+  "expected_generation": 5,
+  "expected_digest": "7c729dea7a350eaa49dae03e86483ee5dfd05fc90fc24409f4b9e3d4c597d05d",
+  "now_unix_seconds": 1784355141,
+  "actor": "codex-root",
+  "reason": "Protect the public request export and schema registry required to resolve review finding P2.",
+  "add_protected_paths": ["csdlc-v2/src/lib.rs", "csdlc-v2/src/schema.rs"]
+}

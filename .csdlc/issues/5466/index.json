@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8c5521ae75dafa28fe8cd6cc7f503e041324db141a312cb95204863e51b9a8b5",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "be54f54f285d409bf2db2d5269282d9d0997658450b006c02aa710a5d3595814",
+  "generation": 6,
+  "digest": "e3c530b1d8b6ab08418cd31fda57d311d88c1c0e942fa94adb4bfc0c430c47d7",
   "claim": {
     "id": "claim-5466-merged-head-closeout",
     "owner": "codex-root",
-    "generation": 5,
+    "generation": 6,
     "acquired_unix_seconds": 1784354668,
     "expires_unix_seconds": 1784959468,
     "heartbeat_unix_seconds": 1784354668,
@@ -17,12 +17,23 @@
     "worktree": ".worktrees/adl-wp-5466",
     "protected_paths": [
       "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
       "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/schema.rs",
       "csdlc-v2/tests/gate6.rs"
     ],
     "purpose": "Add a fail-closed typed publication reconciliation path for an already-merged PR whose final head has exact review evidence"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5466",
+    "assigned_by": "codex-root",
+    "revision": "git-blake3:eedb32b12bd33c00b24170fb0a8ca6d0fd377344:3342bad077505273cd6eab0155f167573bf88dbdbcfdcafe23cb0f9c088d2025",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate6.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,34 +49,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7923b7fd030f6b6f6c9da734a10ff1a791a5099f949ca536f9b65cb48f76e2c7",
+      "values_digest": "45cc8805e53f18caf23920a12438ffe2883ac16e77cc089e38fbbab8bb166493",
       "rendered_digest": "50460e2da18413aa1781f6cced61f4994d4572d26e47be102bbf0f78138656ae",
       "ast_digest": "b25ada4c74c917b4545c92a1d9d3e989a77507ad8f5e7fd8ea568a7ad3bd4dd5"
     },
     "stp": {
-      "values_digest": "b4bc1f79d1e3fa4b59185e38520099a06cefda00262fec48ab0427fe635ad6db",
+      "values_digest": "31c82a1da701b6416d41c53d69d6506fa9f46c32b36c8b07750bc41c7fb10b4f",
       "rendered_digest": "1ff5baecdc669e6fda34d464722e0ac7488d1d3f3a1b11ae44b60677f00b93af",
       "ast_digest": "a890398d95986c17761a499c0f3188f5ccad4149b929b4f0ad28233a3e860706"
     },
     "spp": {
-      "values_digest": "8fbba81c607f9bb826ac8aaa3f502209e2e13344d4541b241dff061ceaa30c40",
+      "values_digest": "00ffdf1e8b1101b360320edf98421282cf558c170604fa2007a6a6ca7743c249",
       "rendered_digest": "1d50ee529ba098ba8b2c7b9bb246578b10ccf08153667589ae7b77d0885d3c00",
       "ast_digest": "fbcce6de941035f21b3d4ee1f1116e7c88b7799b3e11a315cc4c97937c30da03"
     },
     "vpp": {
-      "values_digest": "dccbe511b779d57bdaba538c97361a57107a6dfcce82fd6623565d0965656e34",
+      "values_digest": "7f9a1f2ccba3958f2ac08e51aac6bdac48ebd952cd07cad27de1e39cc87705d2",
       "rendered_digest": "86a02e830e2463ceba10e44774999593edee76abd81323d079dbf3bdaa7c9017",
       "ast_digest": "4cd72b4661a5d8b6cdac11b8b7f28908aef48e0a62cde2ac0e560231c6bf54f5"
     },
     "srp": {
-      "values_digest": "184e1725b65f93b2cae8cbceb8ad32ccb41a4947b53177cd72208a6d9514420b",
+      "values_digest": "b5d315e8a4ffe697f61308b11666d799b7b32553674d9f1279f0edbbd307ab96",
       "rendered_digest": "14d4255302deba1adb4e9578366caea2587c9d2ff262cd0fcd4fb919161c1f29",
       "ast_digest": "fea038599606f2b0b47a7f18ba9b20e2e8b537558033fce4da20e257d072e0a0"
     },
     "sor": {
-      "values_digest": "b54f505e35fb1631315b729e9b7522a16e709c5dfe3226befbd695a4c15819cd",
-      "rendered_digest": "5b6236340a11e2ae17b0ab924b9728cb71dac38779d2133352ec320dec92e21b",
-      "ast_digest": "d7b23bddadc1d654ee90b05ca5ecf4c96de3c1cf3ff17c2a98b8d661a5097d39"
+      "values_digest": "a0e3a7b1d751e9921b3a479cf57eb2ee03468bc0dffc4048543a68d2e4b8f3dd",
+      "rendered_digest": "a83c023b0b187a6dd2eeab2be24e0720d0d7fd9853af495a821b2fa580f8e8c9",
+      "ast_digest": "b72c5ec43f147afcaae7be2694360dc68b9e213184350a770199886cfca2be5b"
     }
   },
   "transitions": [
@@ -140,6 +151,27 @@
       "actor": "codex-root",
       "reason": "Focused Gate 6 proof, full C-SDLC v2 suite, formatting, clippy, and CLI discovery all passed.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove merged-head identity rejection, unchanged draft publication behavior, and full C-SDLC v2 regression safety\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5466-gate6-full-suite-clippy-fmt-help\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "Protect the public request export and schema registry required to resolve review finding P2.",
+      "operation": "{\"add_protected_paths\":[\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/schema.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "Focused Gate 6 proof, binary unit tests, full C-SDLC v2 suite, formatting, and clippy all passed after the review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove exact merged-head and repository identity rejection, public request schema coverage, unchanged draft publication behavior, and full C-SDLC v2 regression safety\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5466-post-review-fix-gate6-binary-full-suite-clippy-fmt\"}}"
     }
   ]
 }

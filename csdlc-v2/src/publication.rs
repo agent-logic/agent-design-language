@@ -26,6 +26,27 @@ pub struct PublicationRequest {
     pub token_file: Option<String>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct MergedPublicationReconciliationRequest {
+    pub schema: String,
+    pub publication: PublicationRequest,
+    pub pull_request: u64,
+}
+
+impl MergedPublicationReconciliationRequest {
+    pub fn validate(&self) -> Result<()> {
+        if self.schema != "csdlc.merged_publication_reconciliation_request.v1"
+            || self.pull_request == 0
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "merged publication reconciliation request identity is invalid",
+            ));
+        }
+        Ok(())
+    }
+}
+
 fn default_draft() -> bool {
     true
 }

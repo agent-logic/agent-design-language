@@ -4,11 +4,11 @@ use std::path::{Path, PathBuf};
 use clap::{Parser, Subcommand};
 use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
-    prepare_publication, reconcile_action, record_publication, PublicationAction,
-    PublicationIntent, PublicationRequest, RemotePullRequest, Store,
+    prepare_publication, reconcile_action, record_publication,
+    MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
+    PublicationRequest, RemotePullRequest, Store,
 };
 use octocrab::params::State;
-use serde::Deserialize;
 
 #[derive(Parser)]
 struct Cli {
@@ -33,12 +33,6 @@ enum Command {
         request: PathBuf,
     },
     Schema,
-}
-
-#[derive(Debug, Deserialize)]
-struct ReconcileMergedRequest {
-    publication: PublicationRequest,
-    pull_request: u64,
 }
 
 #[tokio::main]
@@ -146,13 +140,9 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
 }
 
 async fn reconcile_merged(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
-    let request: ReconcileMergedRequest = serde_json::from_slice(&fs::read(request_path)?)?;
-    if request.pull_request == 0 {
-        return Err(V2Error::new(
-            ErrorCode::InvalidInput,
-            "merged publication reconciliation requires an explicit PR number",
-        ));
-    }
+    let request: MergedPublicationReconciliationRequest =
+        serde_json::from_slice(&fs::read(request_path)?)?;
+    request.validate()?;
     let store = Store::new(root);
     let mut intent = prepare_publication(&store, &request.publication)?;
     intent.draft = false;
@@ -289,6 +279,15 @@ fn normalize(
             "observed PR has no head identity",
         )
     })?;
+    validate_observed_repository_identity(
+        intent,
+        base.repo
+            .as_ref()
+            .and_then(|repo| repo.full_name.as_deref()),
+        head.repo
+            .as_ref()
+            .and_then(|repo| repo.full_name.as_deref()),
+    )?;
     Ok(RemotePullRequest {
         number: pr_number(pr)?,
         url: pr
@@ -305,6 +304,22 @@ fn normalize(
         state: "open".into(),
         head_sha: head.sha.clone(),
     })
+}
+
+fn validate_observed_repository_identity(
+    intent: &PublicationIntent,
+    base_repository: Option<&str>,
+    head_repository: Option<&str>,
+) -> csdlc_v2::Result<()> {
+    if base_repository != Some(intent.repository.as_str())
+        || head_repository != Some(intent.repository.as_str())
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "observed PR base or head repository differs from publication intent",
+        ));
+    }
+    Ok(())
 }
 fn pr_number(pr: &octocrab::models::pulls::PullRequest) -> csdlc_v2::Result<u64> {
     pr.number.ok_or_else(|| {
@@ -349,7 +364,10 @@ fn reconcile_create_observation(send_failed: bool, observed: bool) -> csdlc_v2::
 
 #[cfg(test)]
 mod tests {
-    use super::{reconcile_create_observation, remote_url_matches};
+    use super::{
+        reconcile_create_observation, remote_url_matches, validate_observed_repository_identity,
+    };
+    use csdlc_v2::PublicationIntent;
 
     #[test]
     fn remote_url_requires_exact_github_host_and_repository() {
@@ -377,5 +395,35 @@ mod tests {
         assert!(reconcile_create_observation(true, true).is_ok());
         assert!(reconcile_create_observation(true, false).is_err());
         assert!(reconcile_create_observation(false, false).is_err());
+    }
+
+    #[test]
+    fn normalization_rejects_fork_or_missing_repository_identity() {
+        let intent = PublicationIntent {
+            schema: "csdlc.publication_intent.v1".into(),
+            issue: 5466,
+            repository: "owner/repo".into(),
+            base: "main".into(),
+            head: "codex/5466".into(),
+            title: "title".into(),
+            body: "Resolves #5466".into(),
+            draft: false,
+            revision: "revision".into(),
+            commit_sha: "sha".into(),
+        };
+        assert!(validate_observed_repository_identity(
+            &intent,
+            Some("owner/repo"),
+            Some("owner/repo")
+        )
+        .is_ok());
+        assert!(validate_observed_repository_identity(
+            &intent,
+            Some("owner/repo"),
+            Some("fork/repo")
+        )
+        .is_err());
+        assert!(validate_observed_repository_identity(&intent, None, Some("owner/repo")).is_err());
+        assert!(validate_observed_repository_identity(&intent, Some("owner/repo"), None).is_err());
     }
 }
