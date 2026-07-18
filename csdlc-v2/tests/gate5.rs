@@ -557,6 +557,7 @@ fn typed_publication_metadata_commit_does_not_stale_review_but_source_drift_does
     std::fs::create_dir_all(temp.path().join("docs")).expect("docs");
     std::fs::create_dir_all(temp.path().join(".csdlc/issues/7/cards")).expect("cards");
     std::fs::create_dir_all(temp.path().join(".csdlc/prepared/issues/7")).expect("prepared");
+    std::fs::create_dir_all(temp.path().join(".csdlc/requests")).expect("requests");
     std::fs::create_dir_all(temp.path().join(".csdlc/publication")).expect("publication");
     std::fs::write(temp.path().join("docs/design.md"), "reviewed\n").expect("design");
     git(temp.path(), &["init", "-b", "main"]);
@@ -584,6 +585,7 @@ fn typed_publication_metadata_commit_does_not_stale_review_but_source_drift_does
         (".csdlc/issues/7/cards/sor.md", "card\n"),
         (".csdlc/issues/7/cards/sor.values.json", "{}\n"),
         (".csdlc/prepared/issues/7/publication.json", "{}\n"),
+        (".csdlc/requests/7-publish.json", "{}\n"),
         (".csdlc/publication/7.intent.json", "{}\n"),
     ] {
         let target = temp.path().join(path);

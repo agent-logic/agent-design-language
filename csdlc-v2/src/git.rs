@@ -256,6 +256,13 @@ fn safe_metadata_path(path: &str) -> bool {
         {
             true
         }
+        [".csdlc", "requests", file]
+            if file
+                .split_once('-')
+                .is_some_and(|(issue, suffix)| issue_id(issue) && suffix.ends_with(".json")) =>
+        {
+            true
+        }
         [".csdlc", "publication", file]
             if file.strip_suffix(".intent.json").is_some_and(issue_id) =>
         {
