@@ -156,6 +156,13 @@ impl Store {
             .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "repair authority claim missing"))?
             .validate(&request.claim_id, now_seconds()?)?;
         let mut target_cards = self.load_cards(request.target_issue)?;
+        let original_target = target.clone();
+        let original_target_cards = target_cards.clone();
+        let receipt_path = self.terminal_receipt_path(request.target_issue)?;
+        let original_receipt = receipt_path
+            .is_file()
+            .then(|| fs::read(&receipt_path))
+            .transpose()?;
         for values in target_cards.values_mut() {
             apply(values, &request.operation)?;
         }
@@ -197,7 +204,18 @@ impl Store {
         hydrate_projections(&mut target, &target_cards)?;
         target.digest = record_digest(&target)?;
         self.commit(request.target_issue, &target, &target_cards, false)?;
-        self.refresh_terminal_receipt(&target, &target_cards)?;
+        if let Err(error) = self.refresh_terminal_receipt(&target, &target_cards) {
+            self.commit(
+                request.target_issue,
+                &original_target,
+                &original_target_cards,
+                false,
+            )?;
+            if let Some(bytes) = original_receipt {
+                self.restore_terminal_receipt(&receipt_path, &bytes)?;
+            }
+            return Err(error);
+        }
         Ok(target)
     }
 
@@ -210,6 +228,16 @@ impl Store {
         if !path.is_file() {
             return Ok(());
         }
+        let parent = path.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "terminal receipt has no parent")
+        })?;
+        let receipt_lock = OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(parent.join("receipts.lock"))?;
+        receipt_lock.lock_exclusive()?;
         let mut receipt: TerminalReceipt = read_json(&path)?;
         if receipt.issue != record.issue
             || receipt.repository != record.repository
@@ -227,6 +255,23 @@ impl Store {
         validate_terminal_receipt(&receipt)?;
         let temporary = path.with_extension("json.repair-tmp");
         fs::write(&temporary, serde_json::to_vec_pretty(&receipt)?)?;
+        fs::rename(temporary, path)?;
+        Ok(())
+    }
+
+    fn restore_terminal_receipt(&self, path: &Path, bytes: &[u8]) -> Result<()> {
+        let parent = path.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "terminal receipt has no parent")
+        })?;
+        let receipt_lock = OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(parent.join("receipts.lock"))?;
+        receipt_lock.lock_exclusive()?;
+        let temporary = path.with_extension("json.restore-tmp");
+        fs::write(&temporary, bytes)?;
         fs::rename(temporary, path)?;
         Ok(())
     }
