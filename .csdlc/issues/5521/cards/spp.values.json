@@ -7,7 +7,7 @@
     "title": "[v0.91.7][csdlc-v2][closeout] Complete #5518 terminal plan-step truth",
     "slug": "v0-91-7-csdlc-v2-complete-5518-terminal-plan-step",
     "version": "v0.91.7",
-    "generation": 4
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -58,9 +58,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5521/design.md",
-      "design_digest": "4e65a25513e39209bcb6d1ed624e015a1cc955db8bb05671ce313510d90b3485",
+      "design_digest": "bca59d332085ea9340f70b847ad980d51593af155c7347e8174bb5d5ee1d470e",
       "diagram_ref": ".csdlc/prepared/issues/5521/diagram.mmd",
-      "diagram_digest": "0132a57dbeabc6dfd96bce54d33b8ed2df792d32c6beeec31517e929f49472e8"
+      "diagram_digest": "2647cf680f0ee8f816487afaa37263f02cc8c6c7a632bafc1d56c186626f353b"
     }
   }
 }
