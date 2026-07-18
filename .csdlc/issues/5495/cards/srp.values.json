@@ -7,23 +7,25 @@
     "title": "[v0.91.7][csdlc-v2][publish] Avoid stale review loop after publication metadata commit",
     "slug": "publication-metadata-review-loop",
     "version": "v0.91.7",
-    "generation": 4
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/git.rs\ncsdlc-v2/src/review.rs\ncsdlc-v2/src/doctor.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/5495/retained/design.md\n.csdlc/issues/5495/retained/diagram.mmd",
+      "review_revision": "git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf",
+      "reviewer": "review_5495",
       "review_prompts": [
         "Can a source or retained-design change bypass review?",
         "Are all normal typed publication metadata surfaces covered without allowing arbitrary files?",
         "Does merged reconciliation still require exact identity and final reviewed intent?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Automatic metadata proof relies on typed card projection pairing for each commit in the reviewed-to-current range; substantive source and standalone card-prose drift remain fail closed."
+      ],
+      "review_result": "pass"
     }
   }
 }

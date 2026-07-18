@@ -3,13 +3,13 @@
   "issue": 5495,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f7ca62455b8ab2f07d97e34fed8502d2f59f4b77b96f04808837080769efaaba",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "4cc0f88d6ac9c09d099be2becd6b187400c59ee11de95522236d1a767b427d3c",
+  "phase": "published",
+  "generation": 7,
+  "digest": "2921b05e7dd95bededac9c20e0a544bd40f0f466535d81b579b5fe4356516678",
   "claim": {
     "id": "claim-5495-publication-metadata",
     "owner": "codex",
-    "generation": 4,
+    "generation": 7,
     "acquired_unix_seconds": 1784415805,
     "expires_unix_seconds": 1784423005,
     "heartbeat_unix_seconds": 1784415805,
@@ -24,9 +24,48 @@
     ],
     "purpose": "Allow typed lifecycle metadata commits without masking substantive review drift"
   },
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "review_5495",
+    "assigned_by": "codex",
+    "revision": "git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf",
+    "scope": [
+      "csdlc-v2/src/git.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/5495/retained/design.md",
+      ".csdlc/issues/5495/retained/diagram.mmd"
+    ]
+  },
+  "review": {
+    "reviewer": "review_5495",
+    "scope": [
+      "csdlc-v2/src/git.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/doctor.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/5495/retained/design.md",
+      ".csdlc/issues/5495/retained/diagram.mmd"
+    ],
+    "reviewed_revision": "git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf",
+    "findings": [],
+    "residual_risks": [
+      "Automatic metadata proof relies on typed card projection pairing for each commit in the reviewed-to-current range; substantive source and standalone card-prose drift remain fail closed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5495,
+    "pull_request": 5525,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5525",
+    "base": "main",
+    "head": "codex/5495-publication-metadata",
+    "revision": "git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -40,34 +79,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "15c6bc010e2dc04d2fa99c2be735870392d650b3468b2cc53fa8c1136b2bade9",
+      "values_digest": "6785581b8363284e971c922566299a0bbcbc602d01506b81cf74ad4c7ef918b3",
       "rendered_digest": "cb401f8487b08c8a2dc68ae4f17cad42dca364cbe66caf9df4c23bf0a4e40b32",
       "ast_digest": "e8824dc91c6e97c92de9cd48410482fa55f44758e09ee9eb0332ae947c1475d6"
     },
     "stp": {
-      "values_digest": "20e0aafeacc7d631a1877f3b6543a1ebf952e90f9bfc0deb88c7fa7794842c92",
+      "values_digest": "134e690353941275714331ffa85068ca1125a3f19b3ecb16226985314a393bd8",
       "rendered_digest": "c8093297dc0a72cc2bf3673f22ce5e690f5de8be3735b34491ceca4951e878ed",
       "ast_digest": "a448d0a017ba0aa26e4abf01f1db9f9967f96e1de924a98f959462909e5be6b4"
     },
     "spp": {
-      "values_digest": "521087900ca20b70b71cc7354cb639815c48c99d45fd858257a11de9a327a29a",
+      "values_digest": "6b129cd179b46a9b063c883f33eb6fdf72eee9a3e079ac6ea3a6bdbe7c832096",
       "rendered_digest": "58102ee2d11e4e4cdddd17775324578a1a17e6c68da26c63f84f497ac55233f4",
       "ast_digest": "ca85aa1a7ef524762574af8d3d2797000a1d565c25511816a7de7e7d813b9770"
     },
     "vpp": {
-      "values_digest": "272c59f0922788dd723c92de63b923d53afb8b717cd3d2e3f09b0aa60a687113",
+      "values_digest": "9500aa31d44329d4cbe280cdf5a5e3575513069e93d50b7d6517f0bfa395b7b3",
       "rendered_digest": "157f7891da11f14fb26a9e1108809ce6530e976966752ecefae8df1e1913b0db",
       "ast_digest": "18c1e215a7e8256795b140ebf1ece34da01b9826e94e8d83f7e81e7e204d84f0"
     },
     "srp": {
-      "values_digest": "99568c65ca6ed651da3a6e99a6c5ea64228725d17ffcd377e8d149744beddf98",
-      "rendered_digest": "d4568843b1eef31d5d306ba73ecd93d0f9e47f99ec342261bfed431c19493feb",
-      "ast_digest": "526912f654a991e3f70fa0b94fa07859a2a105956f4b1a403d0a5471a1a10f20"
+      "values_digest": "67c6fd77269c1e9fc6ebc444c905083760ffaec94f4124278615111cf4b29d3c",
+      "rendered_digest": "7e61748602348a3ea53faa333aeeee10bd4981c0dc364beecf0f535883636b4c",
+      "ast_digest": "4d690c7c88923191cd975b20441ecb2ae4072d4f1832144c7530d08ab3f45832"
     },
     "sor": {
-      "values_digest": "e77904ec88ae31fd1c7dce193546cabef40a15ec75946b11758df4f3f93abfea",
-      "rendered_digest": "18586f65fe1d1a2dd705d59cc59de4315cc9652943c16b13506608bbe625d04b",
-      "ast_digest": "1e9e067d638aaf5572ee687eb584ba790cfd39d853580a6390c814fc26fd2937"
+      "values_digest": "e951b6bdec824df8bd57b341c49d33155645ff9a07b950500f8527f05459e63a",
+      "rendered_digest": "c3adeeea232480a2157d01f9bc887376170c54ce8db26dfc026d267c4176f25d",
+      "ast_digest": "861e8f38b482e1326bcc2e4b233b0ff144fae74a07350049470b8cf2a78dddca"
     }
   },
   "transitions": [
@@ -91,6 +130,20 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Implementation and focused validation are complete; advance to review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Bounded review completed with no findings; advance to reviewed."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -135,6 +188,34 @@
       "actor": "codex",
       "reason": "Implementation and focused validation are complete; advance to review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "review_5495",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Bounded review completed with no findings; advance to reviewed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

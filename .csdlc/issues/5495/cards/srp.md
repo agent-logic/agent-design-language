@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+csdlc-v2/src/git.rs
+csdlc-v2/src/review.rs
+csdlc-v2/src/doctor.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/5495/retained/design.md
+.csdlc/issues/5495/retained/diagram.mmd
 
 ## Prompts
 
@@ -30,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Automatic metadata proof relies on typed card projection pairing for each commit in the reviewed-to-current range; substantive source and standalone card-prose drift remain fail closed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf")
 
-Reviewer: None
+Reviewer: Some("review_5495")
 
-Result: pre_review
+Result: pass
