@@ -7,9 +7,9 @@
     "title": "[v0.91.7][csdlc-v2][closeout] Repair stale terminal plan-step truth atomically",
     "slug": "v0-91-7-csdlc-v2-terminal-plan-step-repair",
     "version": "v0.91.7",
-    "generation": 20
+    "generation": 28
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -136,10 +136,10 @@
           "evidence_ref": "local FastWork: six-boundary durability test, focused terminal repair tests, strict all-target Clippy, cargo fmt check, and git diff check passed"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

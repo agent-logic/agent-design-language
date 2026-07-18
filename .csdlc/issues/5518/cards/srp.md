@@ -39,7 +39,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+    "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
     "route": null
   },
   {
@@ -49,7 +49,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+    "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
     "route": null
   },
   {
@@ -59,7 +59,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+    "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
     "route": null
   },
   {
@@ -69,7 +69,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+    "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
     "route": null
   },
   {
@@ -79,7 +79,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+    "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
     "route": null
   }
 ]
@@ -94,7 +94,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed")
+Revision: Some("git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c")
 
 Reviewer: Some("subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc")
 
