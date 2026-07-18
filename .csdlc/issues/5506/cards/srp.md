@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: complete
 
 ## Scope
 
@@ -33,11 +33,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The shell routing contract uses fake cargo; actual llvm-cov interoperability remains hosted CI proof.
+- Actual llvm-cov interoperability remains hosted CI proof.
 
 ## Review Result
 
-Revision: Some("git-blake3:1f30a6046adc24029da4bbd5c3bc359464f35001:da9e6998ebc1aedfbb800c694f51a7eba6d26307d5553fcc53512e20f5304dd5")
+Revision: Some("git-blake3:5620c6e920dcbb232c4160c171c5bf3f4e60f845:1fd30361d1d46debae0269d0d84fc878c6d136f704d2fcab8abc7f2b93e8bab0")
 
 Reviewer: Some("subagent:019f74a4-d2d6-7e51-b69d-e92676e69394")
 
