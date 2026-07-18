@@ -38,7 +38,13 @@ if [[ "${ADL_FAKE_CARGO_FAIL:-0}" == 1 && "$*" == *"llvm-cov nextest"* ]]; then
 fi
 if [ -n "$out_path" ]; then
   mkdir -p "$(dirname "$out_path")"
-  printf '{"data":[{"files":[],"totals":{"branches":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":0,"covered":0,"percent":0.0},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":0,"covered":0,"percent":0.0},"regions":{"count":0,"covered":0,"notcovered":0,"percent":0.0}}}]}\n' > "$out_path"
+  if [[ "$out_path" == *"coverage-impact-summary.adl-runtime.json" ]]; then
+    printf '{"data":[{"files":[{"filename":"adl-runtime/src/runtime_api_auth.rs"}],"totals":{"branches":{"count":3,"covered":2,"notcovered":1,"percent":66.7},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":3,"covered":2,"percent":66.7},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":7,"covered":6,"percent":85.7},"regions":{"count":4,"covered":3,"notcovered":1,"percent":75.0}}}]}\n' > "$out_path"
+  elif [[ "$out_path" == *"coverage-impact-summary.adl.json" ]]; then
+    printf '{"data":[{"files":[{"filename":"adl/src/csm_runtime_api.rs"}],"totals":{"branches":{"count":2,"covered":1,"notcovered":1,"percent":50.0},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":2,"covered":2,"percent":100.0},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":5,"covered":4,"percent":80.0},"regions":{"count":3,"covered":2,"notcovered":1,"percent":66.7}}}]}\n' > "$out_path"
+  else
+    printf '{"data":[{"files":[],"totals":{"branches":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":0,"covered":0,"percent":0.0},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":0,"covered":0,"percent":0.0},"regions":{"count":0,"covered":0,"notcovered":0,"percent":0.0}}}]}\n' > "$out_path"
+  fi
 fi
 exit 0
 EOF
@@ -255,6 +261,30 @@ grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" 
 grep -F "test(/^runtime_api_auth::/) or test(/^supervision::/) or test(/^topology::/)" "$runtime_v3_csm_bridge_cargo_log" >/dev/null
 if grep -Fq "runtime_v2" "$runtime_v3_csm_bridge_cargo_log"; then
   echo "Runtime v3/CSM focused coverage must not select Runtime v2" >&2
+  exit 1
+fi
+jq -e '
+  .data[0].totals.lines.count == 12
+  and .data[0].totals.lines.covered == 10
+  and .data[0].totals.functions.count == 5
+  and .data[0].totals.functions.covered == 4
+  and ([.data[0].files[].filename] | sort) == ["adl-runtime/src/runtime_api_auth.rs", "adl/src/csm_runtime_api.rs"]
+' "$ROOT_DIR/adl/target/coverage-impact-summary.json" >/dev/null
+
+runtime_v3_csm_near_match_log="$temp_root/cargo-runtime-v3-csm-near-match.log"
+runtime_v3_csm_near_match_expression="$runtime_v3_csm_bridge_expression or test(/^trace_schema_v1::/)"
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$runtime_v3_csm_near_match_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-v3-csm-near-match" \
+  bash "$SCRIPT" --filter-expression "$runtime_v3_csm_near_match_expression" >"$temp_root/pr-fast-coverage-runtime-v3-csm-near-match-run.out"
+near_match_adl_command="$(grep -F "cmd=llvm-cov nextest --workspace" "$runtime_v3_csm_near_match_log")"
+if [[ "$near_match_adl_command" != *"test(/^trace_schema_v1::/)"* ]]; then
+  echo "near-match coverage expression was silently narrowed" >&2
+  exit 1
+fi
+if grep -Fq "PR-fast coverage ADL bridge expression:" "$temp_root/pr-fast-coverage-runtime-v3-csm-near-match-run.out"; then
+  echo "near-match coverage expression entered the bounded bridge route" >&2
   exit 1
 fi
 

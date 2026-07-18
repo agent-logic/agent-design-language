@@ -66,12 +66,10 @@ printf 'PR-fast coverage expression: %s\n' "$FILTER_EXPRESSION"
 printf 'PR-fast coverage target: %s\n' "$CARGO_TARGET_DIR"
 guardian_filter='test(/^guardian::tests::/)'
 runtime_auth_filter='test(/^runtime_api_auth::tests::/)'
+runtime_v3_csm_bridge_filter='test(/^runtime_api_auth::tests::/) or (binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/) or test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)) or binary_id(adl::cli_smoke) and test(/^agent::csm_/)) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout) or test(csmctl) or test(csm_service)'
 bounded_runtime_v3_csm_bridge=false
 adl_filter_expression="$FILTER_EXPRESSION"
-if grep -Fq 'test(/^csm_runtime_api::/)' <<<"$FILTER_EXPRESSION" \
-  && grep -Fq 'test(/^csm_cav::/)' <<<"$FILTER_EXPRESSION" \
-  && grep -Fq 'test(/^long_lived_agent::/)' <<<"$FILTER_EXPRESSION" \
-  && grep -Fq 'test(/^runtime_api_auth::tests::/)' <<<"$FILTER_EXPRESSION"; then
+if [ "$FILTER_EXPRESSION" = "$runtime_v3_csm_bridge_filter" ]; then
   bounded_runtime_v3_csm_bridge=true
   adl_filter_expression='test(/^csm_runtime_api::/) or test(/^long_lived_agent::/) or test(/^cli::csmctl_cmd::/)'
   printf 'PR-fast coverage ADL bridge expression: %s\n' "$adl_filter_expression"
