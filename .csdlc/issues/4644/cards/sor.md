@@ -46,11 +46,11 @@ Aligned root and milestone documentation to live v0.91.7 closeout truth; audited
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
