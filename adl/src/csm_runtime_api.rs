@@ -277,6 +277,7 @@ async fn runtime_api_axum_handler(
                 let gateway_identity = match state.auth_store.verify_gateway_identity(
                     request.gateway_identity.as_deref(),
                     request.gateway_signature.as_deref(),
+                    &metadata,
                 ) {
                     Ok(identity) => identity,
                     Err(reason) => {
@@ -2673,6 +2674,20 @@ memory: {}
             );
         }
 
+        let overlap_gateway_headers = api_gateway_bridge::prepare_runtime_gateway_identity_headers(
+            &loaded.state_root,
+            "operator@example.invalid",
+        )
+        .unwrap();
+        let mut overlapping_gateway_request = valid_headers.clone();
+        overlapping_gateway_request.insert(
+            "x-adl-gateway-identity",
+            HeaderValue::from_str(&overlap_gateway_headers.identity).unwrap(),
+        );
+        overlapping_gateway_request.insert(
+            "x-adl-gateway-signature",
+            HeaderValue::from_str(&overlap_gateway_headers.signature).unwrap(),
+        );
         store.rotate().unwrap();
         let overlapping = runtime_api_axum_handler(
             State(state.clone()),
@@ -2682,6 +2697,14 @@ memory: {}
         )
         .await;
         assert_eq!(overlapping.status(), StatusCode::OK);
+        let overlapping_gateway = runtime_api_axum_handler(
+            State(state.clone()),
+            Method::GET,
+            Uri::from_static("/api-gateway-bridge"),
+            overlapping_gateway_request,
+        )
+        .await;
+        assert_eq!(overlapping_gateway.status(), StatusCode::OK);
         let second_token = store
             .with_bearer_token(str::to_string)
             .expect("read rotated test token");

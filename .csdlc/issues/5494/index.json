@@ -3,13 +3,13 @@
   "issue": 5494,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
-  "phase": "published",
-  "generation": 23,
-  "digest": "190cebaa872004d1a85ebfe6fb919a5d8fefb7d550d4660ff69a5d4451ecbe32",
+  "phase": "implemented",
+  "generation": 31,
+  "digest": "0d4893690c02a6c6579ea8d260023d3425003e0eba8a8a2ff9488605c46b177c",
   "claim": {
     "id": "claim-5494-wp07a-completion",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 23,
+    "generation": 31,
     "acquired_unix_seconds": 1784362098,
     "expires_unix_seconds": 1784448498,
     "heartbeat_unix_seconds": 1784362098,
@@ -27,9 +27,9 @@
     "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
   },
   "review_assignment": {
-    "reviewer": "subagent:019f747a-3503-7e91-ba2a-6e4f259c1f6b",
+    "reviewer": "subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:d37e3b8f487fd0c7fb92f6d9dcab3d62ebe5e24f:ccbc5313e033bc6543ce01fedb66895d2af979b964551a7b8f51486cbbc8abe8",
+    "revision": "git-blake3:51f97887673f338ba861282a976dd8578f345864:82d9a9a6b7f812166547662659949b3fc8a8fabaf79e6b3e4c74ae40e3ff75bb",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -42,7 +42,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:019f747a-3503-7e91-ba2a-6e4f259c1f6b",
+    "reviewer": "subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -53,25 +53,34 @@
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ],
-    "reviewed_revision": "git-blake3:d37e3b8f487fd0c7fb92f6d9dcab3d62ebe5e24f:ccbc5313e033bc6543ce01fedb66895d2af979b964551a7b8f51486cbbc8abe8",
-    "findings": [],
-    "residual_risks": [
-      "Strict all-target Clippy is blocked by two pre-existing cav.rs test warnings outside #5494."
+    "reviewed_revision": "git-blake3:51f97887673f338ba861282a976dd8578f345864:82d9a9a6b7f812166547662659949b3fc8a8fabaf79e6b3e4c74ae40e3ff75bb",
+    "findings": [
+      {
+        "id": "F-5494-9",
+        "severity": "p1",
+        "summary": "Concurrent terminal revocation can commit after the initial revocation check and before authorize returns authenticated.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5494-10",
+        "severity": "p2",
+        "summary": "Previous-generation bearer overlap does not accept gateway identity signatures created with that same overlapping credential.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
     ],
+    "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5494,
-    "pull_request": 5504,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5504",
-    "base": "main",
-    "head": "codex/5494-wp07a-completion",
-    "revision": "git-blake3:d37e3b8f487fd0c7fb92f6d9dcab3d62ebe5e24f:ccbc5313e033bc6543ce01fedb66895d2af979b964551a7b8f51486cbbc8abe8",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -85,34 +94,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6772ca7ff9ae3259fb7d4babdb5075fc280b1d5ab117bcaaecd9fee1213b2da8",
+      "values_digest": "369fa7f63bfc83e47148e842e2add3cec75fc3b029df22eee10ba8eac0fea7e1",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "87d77415e0d0af374bca2e5e1a87e68f01719c62ed6e102714c9eae6d89bb133",
+      "values_digest": "a8aa1e70ef29e30ebd60b0ce05189d432af9216226da44ec61d4819e27a45bf1",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "eb4f348cd47489bc7ce6efff9dcb30ffea87e91f4335300061776a750bfd6801",
+      "values_digest": "e17a4452d48a6682e020810f079916f0e03ca43fdbab000420db4859f0ae5d5e",
       "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
       "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
     },
     "vpp": {
-      "values_digest": "55bb599153a9cbaea110404922fff0274b9e379c3773e358c5b3a5eaddd690f6",
+      "values_digest": "8c42425521db99c3997c918f6d52829407f684eea631e965e3a56d59998d7ab9",
       "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
       "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
     },
     "srp": {
-      "values_digest": "5b277a1ffc57d67a49feba631c34511ba5623716432468940c5c62186ba4631d",
-      "rendered_digest": "72da987f8498d701d06760b966fbb0d0dcaec9868ca726ecb2b5dc34b06355d0",
-      "ast_digest": "b8c974cdc65f6d5472c4b8619190f17f77207a4c7f7e77ecf11230a5d4b3c7e4"
+      "values_digest": "bd0ba06b0dc83daadccb4bebee684b37d0d6e0242fa3019d51438de31d4fff3b",
+      "rendered_digest": "01ca1a7119ef7896780d61f1e360ba46fc7dd90338183111ea1353d7f5aef8a9",
+      "ast_digest": "d2486de0159242f17e86b6f5988a12cd37658de6d274c39e6599f34c3b50cf09"
     },
     "sor": {
-      "values_digest": "db22a72df09fb4507cbdf791e1c9e75f2062e3efb7cf469e2024339630e177c4",
-      "rendered_digest": "bb26671b2b9bbbf6b6441bf1c0fcc98c15b7aeb6433b810f5de09ed2a250fccb",
-      "ast_digest": "7c60ad044ec01c161196d5ab4d33cab3290f094320d0c1e514b2d860df7e15f9"
+      "values_digest": "2b29cd4d95ba1089d12b63e0c07ebcc770f23c9d14a6eaafe319fd80acafba6c",
+      "rendered_digest": "07c52779eb5ce6a09b8de0ba213c0deacb399b672fc9e25e826c1c1f881e2f1b",
+      "ast_digest": "aa961ddb85ae1691c0d593f9c509703310ebd8bb20a6bcb79e0fdb875bd98846"
     }
   },
   "transitions": [
@@ -164,6 +173,13 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact draft PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover review after rebasing onto merged #5506 so the runtime-only publication head receives exact review."
     }
   ],
   "audit": [
@@ -390,6 +406,69 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover review after rebasing onto merged #5506 so the runtime-only publication head receives exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fixed F-5494-9 and F-5494-10 without changing Runtime v3 weather ownership.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Make credential authorization linearizable with terminal revocation and extend bounded rotation overlap to the matching gateway signature generation.\",\"changes\":[\"Serialize final authorization decisions under a shared fs2 credential lock while mutations retain the exclusive lock\",\"Verify gateway identity signatures against the exact current or still-valid previous bearer generation\",\"Add deterministic revocation serialization and integrated previous-generation gateway overlap regressions\"],\"artifacts\":[\"adl-runtime/src/runtime_api_auth.rs\",\"adl/src/csm_runtime_api.rs\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The focused credential suite proves serialized revocation and generation-bound gateway overlap.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests\"],\"purpose\":\"Prove credential lifecycle, authorization-versus-revocation serialization, and current/previous gateway signature validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 11 focused Runtime v3 credential tests passed\"}}"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The integrated CSM API accepts a matching previous-generation gateway request during overlap and remains fail closed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api\"],\"purpose\":\"Prove the complete CSM runtime API including bounded prior-generation bearer and gateway-signature overlap\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 44 focused CSM runtime API tests passed\"}}"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The complete independent Runtime v3 crate remains green after authentication remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove all Runtime v3 behavior and the independent-crate boundary after the review fixes\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 124 Runtime v3 unit tests plus 1 independence test passed\"}}"
+    },
+    {
+      "sequence": 40,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Runtime v3 production code and all targets pass clippy after isolating the two pre-existing CAV test-style warnings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\",\"&&\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\",\"-A\",\"clippy::field_reassign_with_default\"],\"purpose\":\"Prove warning-free Runtime v3 production code and all changed test targets without widening scope into unrelated CAV test cleanup\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: strict library clippy passed; all-target clippy passed with only the pre-existing cav.rs field-reassign lint exempted\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Corrected retained WP-07A truth from eight review findings to ten and kept exact re-review and merge pending.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Align the retained repair packet and sprint register with the two newly recorded exact-revision findings and their implemented remediation.\",\"changes\":[\"Document shared-lock authorization serialization and matching-generation gateway overlap\",\"Update Runtime v3 validation counts to 124 unit tests, 1 independence test, and 11 focused credential tests\",\"Keep exact-head re-review, PR checks, merge, and lifecycle closeout explicitly pending\"],\"artifacts\":[\"docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"]}"
     }
   ]
 }

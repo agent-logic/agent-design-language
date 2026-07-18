@@ -148,64 +148,70 @@ impl RuntimeApiCredentialStore {
     }
 
     pub fn authorize(&self, authorization: Option<&str>) -> RuntimeApiAuthDecision {
-        let (_, current_metadata) = match self.load() {
-            Ok(value) => value,
-            Err(reason) => return RuntimeApiAuthDecision::Unavailable { reason },
-        };
-        if current_metadata.revoked {
-            return RuntimeApiAuthDecision::Rejected {
-                reason: "credential_revoked",
-                metadata: Some(current_metadata),
-            };
+        let ensure_error = self.ensure().err();
+        match self.with_read_lock(|| self.authorize_locked(authorization, ensure_error)) {
+            Ok(decision) => decision,
+            Err(reason) => RuntimeApiAuthDecision::Unavailable { reason },
         }
-        let _metadata = match self.ensure() {
-            Ok(metadata) => metadata,
-            Err(reason) => return RuntimeApiAuthDecision::Unavailable { reason },
-        };
-        let stored = match self.load_stored() {
-            Ok(value) => value,
-            Err(reason) => return RuntimeApiAuthDecision::Unavailable { reason },
-        };
+    }
+
+    fn authorize_locked(
+        &self,
+        authorization: Option<&str>,
+        ensure_error: Option<String>,
+    ) -> Result<RuntimeApiAuthDecision, String> {
+        let stored = self.load_stored()?;
         let metadata = metadata_from_stored(&stored);
+        if stored.revoked {
+            return Ok(RuntimeApiAuthDecision::Rejected {
+                reason: "credential_revoked",
+                metadata: Some(metadata),
+            });
+        }
+        if let Some(reason) = ensure_error {
+            return Err(reason);
+        }
         if metadata
             .expires_at_epoch_secs
             .is_some_and(|expires| now_epoch_secs().is_ok_and(|now| now >= expires))
         {
-            return RuntimeApiAuthDecision::Rejected {
+            return Ok(RuntimeApiAuthDecision::Rejected {
                 reason: "credential_expired",
                 metadata: Some(metadata),
-            };
+            });
         }
         let Some(raw) = authorization else {
-            return RuntimeApiAuthDecision::Rejected {
+            return Ok(RuntimeApiAuthDecision::Rejected {
                 reason: "missing_bearer_token",
                 metadata: Some(metadata),
-            };
+            });
         };
         let Some(candidate) = raw.strip_prefix("Bearer ") else {
-            return RuntimeApiAuthDecision::Rejected {
+            return Ok(RuntimeApiAuthDecision::Rejected {
                 reason: "malformed_authorization",
                 metadata: Some(metadata),
-            };
+            });
         };
         let current_equal = stored.token.as_bytes().ct_eq(candidate.as_bytes()).into();
         if current_equal {
-            RuntimeApiAuthDecision::Authenticated(metadata)
+            Ok(RuntimeApiAuthDecision::Authenticated(metadata))
         } else if stored.previous.as_ref().is_some_and(|previous| {
             now_epoch_secs().is_ok_and(|now| now < previous.expires_at_epoch_secs)
                 && previous.token.as_bytes().ct_eq(candidate.as_bytes()).into()
         }) {
-            RuntimeApiAuthDecision::Authenticated(metadata_from_previous(
-                stored
-                    .previous
-                    .as_ref()
-                    .expect("checked previous credential"),
+            Ok(RuntimeApiAuthDecision::Authenticated(
+                metadata_from_previous(
+                    stored
+                        .previous
+                        .as_ref()
+                        .expect("checked previous credential"),
+                ),
             ))
         } else {
-            RuntimeApiAuthDecision::Rejected {
+            Ok(RuntimeApiAuthDecision::Rejected {
                 reason: "invalid_bearer_token",
                 metadata: Some(metadata),
-            }
+            })
         }
     }
 
@@ -232,6 +238,7 @@ impl RuntimeApiCredentialStore {
         &self,
         encoded_claims: Option<&str>,
         signature: Option<&str>,
+        credential: &RuntimeApiCredentialMetadata,
     ) -> Result<Option<VerifiedRuntimeApiGatewayIdentity>, String> {
         match (encoded_claims, signature) {
             (None, None) => return Ok(None),
@@ -242,8 +249,27 @@ impl RuntimeApiCredentialStore {
         }
         let encoded_claims = encoded_claims.unwrap_or_default();
         let signature = signature.unwrap_or_default();
-        let expected =
-            self.with_bearer_token(|token| gateway_identity_signature(token, encoded_claims))??;
+        let expected = self.with_read_lock(|| {
+            let stored = self.load_stored()?;
+            if stored.revoked {
+                return Err("runtime API credential is revoked".to_string());
+            }
+            let now = now_epoch_secs()?;
+            let token = if stored.generation == credential.generation
+                && stored
+                    .expires_at_epoch_secs
+                    .is_none_or(|expires| now < expires)
+            {
+                &stored.token
+            } else if let Some(previous) = stored.previous.as_ref().filter(|previous| {
+                previous.generation == credential.generation && now < previous.expires_at_epoch_secs
+            }) {
+                &previous.token
+            } else {
+                return Err("gateway_identity_credential_generation_invalid".to_string());
+            };
+            gateway_identity_signature(token, encoded_claims)
+        })?;
         if expected.as_bytes().ct_eq(signature.as_bytes()).unwrap_u8() != 1 {
             return Err("gateway_identity_signature_invalid".to_string());
         }
@@ -340,6 +366,21 @@ impl RuntimeApiCredentialStore {
         &self,
         operation: impl FnOnce() -> Result<T, String>,
     ) -> Result<T, String> {
+        self.with_credential_lock(true, operation)
+    }
+
+    fn with_read_lock<T>(
+        &self,
+        operation: impl FnOnce() -> Result<T, String>,
+    ) -> Result<T, String> {
+        self.with_credential_lock(false, operation)
+    }
+
+    fn with_credential_lock<T>(
+        &self,
+        exclusive: bool,
+        operation: impl FnOnce() -> Result<T, String>,
+    ) -> Result<T, String> {
         let parent = self
             .path
             .parent()
@@ -357,8 +398,13 @@ impl RuntimeApiCredentialStore {
         let lock = options
             .open(lock_path)
             .map_err(|err| format!("open runtime API credential lock: {err}"))?;
-        FileExt::lock_exclusive(&lock)
-            .map_err(|err| format!("lock runtime API credential mutation: {err}"))?;
+        if exclusive {
+            FileExt::lock_exclusive(&lock)
+                .map_err(|err| format!("lock runtime API credential mutation: {err}"))?;
+        } else {
+            FileExt::lock_shared(&lock)
+                .map_err(|err| format!("lock runtime API credential read: {err}"))?;
+        }
         let result = operation();
         let unlock = FileExt::unlock(&lock)
             .map_err(|err| format!("unlock runtime API credential mutation: {err}"));
@@ -779,6 +825,60 @@ mod tests {
     }
 
     #[test]
+    fn authorization_decision_serializes_with_terminal_revoke() {
+        use std::sync::{mpsc, Arc, Barrier};
+        use std::time::Duration;
+
+        let root = tempdir().unwrap();
+        let store = Arc::new(RuntimeApiCredentialStore::for_state_root(root.path()));
+        store.ensure().unwrap();
+        let token = store.with_bearer_token(str::to_string).unwrap();
+        let authorization = format!("Bearer {token}");
+        let decision_ready = Arc::new(Barrier::new(2));
+        let release_decision = Arc::new(Barrier::new(2));
+
+        let reader = {
+            let store = Arc::clone(&store);
+            let decision_ready = Arc::clone(&decision_ready);
+            let release_decision = Arc::clone(&release_decision);
+            std::thread::spawn(move || {
+                store.with_read_lock(|| {
+                    let decision = store.authorize_locked(Some(&authorization), None)?;
+                    decision_ready.wait();
+                    release_decision.wait();
+                    Ok(decision)
+                })
+            })
+        };
+        decision_ready.wait();
+
+        let (revoked_tx, revoked_rx) = mpsc::channel();
+        let revoker = {
+            let store = Arc::clone(&store);
+            std::thread::spawn(move || revoked_tx.send(store.revoke()).unwrap())
+        };
+        assert!(revoked_rx.recv_timeout(Duration::from_millis(50)).is_err());
+        release_decision.wait();
+
+        assert!(matches!(
+            reader.join().unwrap().unwrap(),
+            RuntimeApiAuthDecision::Authenticated(_)
+        ));
+        revoked_rx
+            .recv_timeout(Duration::from_secs(1))
+            .unwrap()
+            .unwrap();
+        revoker.join().unwrap();
+        assert!(matches!(
+            store.authorize(Some(&format!("Bearer {token}"))),
+            RuntimeApiAuthDecision::Rejected {
+                reason: "credential_revoked",
+                ..
+            }
+        ));
+    }
+
+    #[test]
     fn expired_overlap_rejects_previous_generation() {
         let root = tempdir().unwrap();
         let store = RuntimeApiCredentialStore::for_state_root(root.path());
@@ -855,7 +955,7 @@ mod tests {
     fn gateway_identity_is_signed_verified_and_credential_free() {
         let root = tempdir().unwrap();
         let store = RuntimeApiCredentialStore::for_state_root(root.path());
-        store.ensure().unwrap();
+        let first = store.ensure().unwrap();
         let now = now_epoch_secs().unwrap();
         let claims = RuntimeApiGatewayIdentityClaims {
             schema: CSM_RUNTIME_API_GATEWAY_IDENTITY_SCHEMA.to_string(),
@@ -868,7 +968,7 @@ mod tests {
         };
         let (encoded, signature) = store.sign_gateway_identity(&claims).unwrap();
         let verified = store
-            .verify_gateway_identity(Some(&encoded), Some(&signature))
+            .verify_gateway_identity(Some(&encoded), Some(&signature), &first)
             .unwrap()
             .unwrap();
         assert_eq!(verified.issuer, "aws_api_gateway_authorizer");
@@ -879,15 +979,34 @@ mod tests {
             .contains("operator@example.invalid"));
         assert_eq!(
             store
-                .verify_gateway_identity(Some(&encoded), Some("forged"))
+                .verify_gateway_identity(Some(&encoded), Some("forged"), &first)
                 .unwrap_err(),
             "gateway_identity_signature_invalid"
         );
         assert_eq!(
             store
-                .verify_gateway_identity(Some(&encoded), None)
+                .verify_gateway_identity(Some(&encoded), None, &first)
                 .unwrap_err(),
             "gateway_identity_headers_incomplete"
+        );
+
+        let second = store.rotate().unwrap();
+        assert!(store
+            .verify_gateway_identity(Some(&encoded), Some(&signature), &first)
+            .unwrap()
+            .is_some());
+        assert_eq!(
+            store
+                .verify_gateway_identity(Some(&encoded), Some(&signature), &second)
+                .unwrap_err(),
+            "gateway_identity_signature_invalid"
+        );
+        store.revoke().unwrap();
+        assert_eq!(
+            store
+                .verify_gateway_identity(Some(&encoded), Some(&signature), &first)
+                .unwrap_err(),
+            "runtime API credential is revoked"
         );
     }
 }

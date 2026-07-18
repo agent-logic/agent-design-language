@@ -30,7 +30,28 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5494-9",
+    "severity": "p1",
+    "summary": "Concurrent terminal revocation can commit after the initial revocation check and before authorize returns authenticated.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5494-10",
+    "severity": "p2",
+    "summary": "Previous-generation bearer overlap does not accept gateway identity signatures created with that same overlapping credential.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -38,12 +59,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Strict all-target Clippy is blocked by two pre-existing cav.rs test warnings outside #5494.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:d37e3b8f487fd0c7fb92f6d9dcab3d62ebe5e24f:ccbc5313e033bc6543ce01fedb66895d2af979b964551a7b8f51486cbbc8abe8")
+Revision: Some("git-blake3:51f97887673f338ba861282a976dd8578f345864:82d9a9a6b7f812166547662659949b3fc8a8fabaf79e6b3e4c74ae40e3ff75bb")
 
-Reviewer: Some("subagent:019f747a-3503-7e91-ba2a-6e4f259c1f6b")
+Reviewer: Some("subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2")
 
-Result: pass
+Result: changes_required

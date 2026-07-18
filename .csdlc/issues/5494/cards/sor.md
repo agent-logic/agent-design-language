@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Make terminal revocation monotonic across concurrent processes by locking the complete credential read-modify-write transaction.
+Align the retained repair packet and sprint register with the two newly recorded exact-revision findings and their implemented remediation.
 
 ## Artifacts
 
@@ -31,6 +31,10 @@ Make terminal revocation monotonic across concurrent processes by locking the co
 - docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 - adl-runtime/src/runtime_api_auth.rs
 - adl-runtime/src/runtime_api_auth.rs
+- adl-runtime/src/runtime_api_auth.rs
+- adl/src/csm_runtime_api.rs
+- docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
+- docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
 ## Execution
 
@@ -49,6 +53,12 @@ Make terminal revocation monotonic across concurrent processes by locking the co
 - Serialize ensure, rotate, and revoke mutations through a private 0600 fs2 lock file
 - Keep timestamp capture inside the acquired mutation lock
 - Add concurrent rotation-versus-revocation regression coverage
+- Serialize final authorization decisions under a shared fs2 credential lock while mutations retain the exclusive lock
+- Verify gateway identity signatures against the exact current or still-valid previous bearer generation
+- Add deterministic revocation serialization and integrated previous-generation gateway overlap regressions
+- Document shared-lock authorization serialization and matching-generation gateway overlap
+- Update Runtime v3 validation counts to 124 unit tests, 1 independence test, and 11 focused credential tests
+- Keep exact-head re-review, PR checks, merge, and lifecycle closeout explicitly pending
 
 ## Validation
 
@@ -154,16 +164,77 @@ Make terminal revocation monotonic across concurrent processes by locking the co
     "purpose": "Prove the complete Runtime v3 crate, independence boundary, and integrated CSM API after final credential concurrency remediation",
     "outcome": "passed",
     "evidence_ref": "local FastWork: 123 runtime unit tests, 1 independence test, and 44 focused CSM API tests passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "runtime_api_auth::tests"
+    ],
+    "purpose": "Prove credential lifecycle, authorization-versus-revocation serialization, and current/previous gateway signature validation",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 11 focused Runtime v3 credential tests passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "csm_runtime_api"
+    ],
+    "purpose": "Prove the complete CSM runtime API including bounded prior-generation bearer and gateway-signature overlap",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 44 focused CSM runtime API tests passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Prove all Runtime v3 behavior and the independent-crate boundary after the review fixes",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 124 Runtime v3 unit tests plus 1 independence test passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings",
+      "&&",
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings",
+      "-A",
+      "clippy::field_reassign_with_default"
+    ],
+    "purpose": "Prove warning-free Runtime v3 production code and all changed test targets without widening scope into unrelated CAV test cleanup",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: strict library clippy passed; all-target clippy passed with only the pre-existing cav.rs field-reassign lint exempted"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 
