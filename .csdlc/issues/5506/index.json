@@ -1,0 +1,227 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5506,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "af133679cd9c7015c46c265fcc38664355bbbfd4fa282ab6ac6fac5fbb980bae",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "4de74f4e57b01fd3c24a2df5fe54d46b32ed7ec26975745968a7aa9f22cf95cb",
+  "claim": {
+    "id": "claim-5506-runtime-auth-coverage-map",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 10,
+    "acquired_unix_seconds": 1784367985,
+    "expires_unix_seconds": 1784454385,
+    "heartbeat_unix_seconds": 1784367985,
+    "branch": "codex/5506-runtime-auth-coverage-map",
+    "worktree": ".",
+    "protected_paths": [
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "purpose": "Register focused Runtime v3 API-auth coverage without mixed runtime and policy escalation"
+  },
+  "review_assignment": {
+    "reviewer": "subagent:019f74a4-d2d6-7e51-b69d-e92676e69394",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:1f30a6046adc24029da4bbd5c3bc359464f35001:da9e6998ebc1aedfbb800c694f51a7eba6d26307d5553fcc53512e20f5304dd5",
+    "scope": [
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f74a4-d2d6-7e51-b69d-e92676e69394",
+    "scope": [
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:1f30a6046adc24029da4bbd5c3bc359464f35001:da9e6998ebc1aedfbb800c694f51a7eba6d26307d5553fcc53512e20f5304dd5",
+    "findings": [],
+    "residual_risks": [
+      "The shell routing contract uses fake cargo; actual llvm-cov interoperability remains hosted CI proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5506/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5506/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "revision": "20cf641e33b4974869160e064dff275dae0a0e07063cd6408ffa64f4d859cbf9"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "32bcb157c56a9e4f7b5cf33e70596940aebcefdc3bfb233d00efaa1b53937d57",
+      "rendered_digest": "27a26c52385b371d9555a033bb408f74bab06f8b9b504acb1d380febbb994c24",
+      "ast_digest": "8b7a8da67dfa2b8ad0385d4025dbd630c01ba6115c6c8bd9f7b2c348b2bb98d7"
+    },
+    "stp": {
+      "values_digest": "d0fbc220ab63b1b2918f4c069545ab4bf3f6b2b3ef88375ecfe2c83a91506c21",
+      "rendered_digest": "aa0f75b97d0c6181343a57e8830a50bcbebac19bc4ceeb02b0ac4c205d751a78",
+      "ast_digest": "4eefe71e7aa2df57ba3c8fd0fe6390b30dcc8d32a532e1e8eaac2480ddb05a7f"
+    },
+    "spp": {
+      "values_digest": "3b54be7a300828df84347ae17bdbb5ac6052e4a84a4619304db95d1a92946560",
+      "rendered_digest": "a05be5662cdb6f55174b2ab34777a58cbd06352ed77150a8a8d9ff034a57c56c",
+      "ast_digest": "7e4d2b98673344769b23b375db892d03d3976f253146f3571b5c80aa3f84e5b7"
+    },
+    "vpp": {
+      "values_digest": "66876a276f2b6dfa66f7d10ca965f8167872ab7c92904b163cceec182dcfc60b",
+      "rendered_digest": "f993ebe0bcc4f9148f0d1f0ba09b12a05e927aefff613dedd0c624f6361970f6",
+      "ast_digest": "8ccd4275632ea4b3017b42e48cd0066c2b4b418d18be5928774fd9759fd4c21c"
+    },
+    "srp": {
+      "values_digest": "24035fec2f19634a7fc851df3c8067d7c4b287c6d5ee1c8b5bcbaa9b351e6195",
+      "rendered_digest": "2fa9ef2b3ee35b09cfc94e29d4702dae9785b095d261f287f1d73ab8e0e502ee",
+      "ast_digest": "68f3d2857940d6336ea36a2ab8cefca3bbd676e8a1f87bfe1f387d2f489fc9ab"
+    },
+    "sor": {
+      "values_digest": "cfbacaca67a1109451b42774e6900afd32287a7af196b5beca91d8e223abdd45",
+      "rendered_digest": "1969e5ead442f2f0ca3496984161059472c9932153e5b677b3a7af56ca317bd0",
+      "ast_digest": "9676aceb8f816b3e597407e5eec50765dd1130d0a49e7c56cd27765a02c1d607"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The bounded coverage mapping and focused proof are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-revision re-review passed after F-5506-1 with no remaining actionable findings."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Implemented the bounded Runtime v3 API-auth coverage mapping.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Mapped Runtime v3 API-auth source to focused independent-crate coverage while preserving both workspaces for mixed selections.\",\"changes\":[\"Map runtime_api_auth.rs to the runtime_v3_auth selector\",\"Resolve runtime_v3_auth to the runtime_api_auth unit-test expression\",\"Skip the ADL workspace for auth-only coverage and retain it for mixed expressions\",\"Add auth-only and mixed-routing contract coverage\"],\"artifacts\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The coverage impact mapping and expression contracts passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove Runtime v3 API-auth source selects the focused runtime_v3_auth expression\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5506-coverage-impact-contract-pass\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The PR-fast manifest-routing contracts passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"purpose\":\"Prove auth-only coverage uses adl-runtime while mixed expressions retain the ADL workspace\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5506-pr-fast-routing-contract-pass\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The real nextest inventory resolved the focused Runtime v3 auth expression.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"nextest\",\"list\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"-E\",\"test(/^runtime_api_auth::tests::/)\"],\"purpose\":\"Prove the mapped expression selects concrete Runtime v3 API-auth tests\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5506-nextest-inventory-7-tests\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The bounded coverage mapping and focused proof are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:019f74a4-d2d6-7e51-b69d-e92676e69394",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fixed F-5506-1 with an explicit mixed Runtime v3 auth plus ADL routing regression.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Prove mixed API-auth and ADL selectors execute both coverage workspaces and emit both summaries.\",\"changes\":[\"Add a mixed csm_runtime_api plus runtime_api_auth expression\",\"Assert both ADL workspace and adl-runtime nextest commands execute\",\"Assert both component coverage summaries are emitted\"],\"artifacts\":[\"adl/tools/test_run_pr_fast_coverage_lane.sh\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The mixed-routing regression and shell checks passed after F-5506-1.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"purpose\":\"Prove auth plus ADL selection executes both workspaces and emits both summaries\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5506-mixed-auth-adl-regression-pass\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "subagent:019f74a4-d2d6-7e51-b69d-e92676e69394",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact-revision re-review passed after F-5506-1 with no remaining actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    }
+  ]
+}
