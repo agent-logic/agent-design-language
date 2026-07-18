@@ -1,0 +1,225 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5404,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "e881c227735a375f6aea30eedff30434129a8e75d446610e5cf17856b488a4a2",
+  "phase": "published",
+  "generation": 5,
+  "digest": "8f133e826e3105fa0b47ea0050d17e5c980d5f1646fdf01a9dfb974cc01d31a0",
+  "claim": {
+    "id": "claim-5404-review-findings-finish",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 5,
+    "acquired_unix_seconds": 1784340070,
+    "expires_unix_seconds": 1784426470,
+    "heartbeat_unix_seconds": 1784340070,
+    "branch": "codex/5404-wp12-security-protocol-review-fix",
+    "worktree": ".worktrees/adl-wp-5404",
+    "protected_paths": [
+      "adl/src/csm_cav_red_blue.rs",
+      "adl/src/csm_credential_policy.rs",
+      "adl/tools/validate_wp12_cav_red_blue_4914.py",
+      "adl/tools/validate_wp12_ssm_readiness_4657.py",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "purpose": "Finish #5404 review-finding remediation and closeout"
+  },
+  "review_assignment": {
+    "reviewer": "subagent:019f6804-8071-7cd0-b87a-7447b4d339be",
+    "assigned_by": "codex",
+    "revision": "git-blake3:68f9a887d831787bf92894bc5d6a4e2e7b4cd3c7:07c9d7181aeeebf6f0b8fc9938a3662bd298eb9c34d3e1e695f3d538f605e7c4",
+    "scope": [
+      "adl/src/csm_cav_red_blue.rs",
+      "adl/src/csm_credential_policy.rs",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      "adl/tools/validate_wp12_access_activation_gate_4660.py",
+      "adl/tools/validate_wp12_cav_red_blue_4914.py",
+      "docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json",
+      "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl",
+      "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+      "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_lifecycle_events.jsonl",
+      "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json",
+      "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f6804-8071-7cd0-b87a-7447b4d339be",
+    "scope": [
+      "adl/src/csm_cav_red_blue.rs",
+      "adl/src/csm_credential_policy.rs",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      "adl/tools/validate_wp12_access_activation_gate_4660.py",
+      "adl/tools/validate_wp12_cav_red_blue_4914.py",
+      "docs/milestones/v0.91.7/review/security/wp12_access_activation_gate_4660.json",
+      "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_events.jsonl",
+      "docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json",
+      "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_lifecycle_events.jsonl",
+      "docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json",
+      "docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json"
+    ],
+    "reviewed_revision": "git-blake3:68f9a887d831787bf92894bc5d6a4e2e7b4cd3c7:07c9d7181aeeebf6f0b8fc9938a3662bd298eb9c34d3e1e695f3d538f605e7c4",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5404,
+    "pull_request": 5417,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5417",
+    "base": "main",
+    "head": "codex/5404-wp12-security-protocol-review-fix",
+    "revision": "git-blake3:68f9a887d831787bf92894bc5d6a4e2e7b4cd3c7:07c9d7181aeeebf6f0b8fc9938a3662bd298eb9c34d3e1e695f3d538f605e7c4",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5404/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5404/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-assigned-review-fix",
+      "revision": "bcf2460905e3b06e3b268b83e3f976e28e912860a418c9aaa2a345df2e20949e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f4c1ad729153e57cb66dbae758d15b5f86f4f37f3860a7195449077ae82b3a97",
+      "rendered_digest": "c0b5a631031209befa85e6079017f023a1e2fc0e94f718168751647d63f7c4dc",
+      "ast_digest": "1db42de9845e177a1ce924299612814e614f4a9e04dc0f55a61cc9a296961176"
+    },
+    "stp": {
+      "values_digest": "7d0b88ebfc234e59d814cd663e9508dca1c86f85eaed4f937675833041eb39a1",
+      "rendered_digest": "06d5ba1b54c9938260a19b2375e8ac456c307b63965ebe829d933625a5a5918e",
+      "ast_digest": "6e42845c7af7c84375f2aa47d367a68190df17cffb043b93d57b2439d19d5580"
+    },
+    "spp": {
+      "values_digest": "530bdba27f5969c1b0d198024bbdee4d5e1aa18adba6d3a9eddb092147e8d62c",
+      "rendered_digest": "9cfe95f1b98cbbaa846cf36aa2a3fe890f9f88ee03e540dddc4e81a6c70f79b5",
+      "ast_digest": "2d637841df51f36df5ce7dcb8772421dc24ca1c825611bd225fd9d4499e94c29"
+    },
+    "vpp": {
+      "values_digest": "1ea507581f1aed00a031feb8d539bc1890df0efceb385a283bd4fb44ce6f12dd",
+      "rendered_digest": "566a08c4ac008783114ede57d38e67d8585d28f8348121cdfd79d38477c8bc93",
+      "ast_digest": "11dc0691f8d3aef9a34642199ceb2567bca6a24994ec3e9b351db807de8444ba"
+    },
+    "srp": {
+      "values_digest": "17a1ad052276ba51bf72ef01ebbf0e905c922845b0657cfe5c1ac1a9d4bf3fd9",
+      "rendered_digest": "7f14fb8f1da9732794cc5f8f75e38ccdd8900115eddc700d8e6963a5e6662168",
+      "ast_digest": "7f1805c57d126b28ba2a71bb694388c9cb195fa416780706807ceabbdcc911ea"
+    },
+    "sor": {
+      "values_digest": "45a5d1e9bcf8f8f06fb9704b676641954f7bf8178e4bc10daa4b405e95941b38",
+      "rendered_digest": "ccd2ff368f14f76822687287a70de134d38736228423140d30481355831bdd6c",
+      "ast_digest": "964a654c0ee29afcb4b7ca1d6761929f5382518822e8f980293dfb570dc16c5d"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "implementation and focused proof completed for WP-12 review fix"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "bounded subagent review passed with no remaining findings"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact draft PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "record implemented WP-12 review-fix evidence",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved WP-12 review findings by downgrading unproven CAV integrated-path claims to boundary-proven retained proof, classifying credential proof events as synthetic non-operational evidence, and wiring focused WP-12 validators into PR-fast CAV coverage.\",\"changes\":[\"Downgraded #4914 CAV retained proof and gate truth from integrated CSM HTTP runtime execution to boundary_proven local/static red-blue evidence.\",\"Regenerated retained #4914 CAV and #4920 credential policy artifacts from the patched CSM owner binary path.\",\"Marked credential lifecycle proof events as synthetic negative-case evidence excluded from operational audit streams.\",\"Updated WP-12 validators and PR-fast coverage companion checks to fail closed on stale #4914 integrated_proven or missing synthetic credential classification.\"],\"artifacts\":[\"docs/milestones/v0.91.7/review/security/wp12_cav_red_blue_4914/cav_red_blue_summary.json\",\"docs/milestones/v0.91.7/review/security/wp12_csm_credential_policy_4920/credential_policy_summary.json\",\"docs/milestones/v0.91.7/review/security/wp12_security_cav_gate_4656.json\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "implementation and focused proof completed for WP-12 review fix",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "bounded subagent review passed with no remaining findings",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Previous issue-bound session claim expired before the published review-fix PR was merged and closed out.",
+      "operation": "{\"previous_owner\":\"codex\",\"observed_expiry_unix_seconds\":1784159170,\"recovery_actor\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"reason\":\"Previous issue-bound session claim expired before the published review-fix PR was merged and closed out.\"}"
+    }
+  ]
+}
