@@ -99,7 +99,8 @@ Dir.chdir(ROOT) do
     [manifest, passed]
   end
   checks["cargo_metadata_locked"] = cargo_metadata.values.all?
-  checks["git_diff_check"] = system("git", "diff", "--check", out: File::NULL, err: File::NULL)
+  checks["git_diff_check"] = system("git", "diff", "--check", "origin/main...HEAD",
+                                      out: File::NULL, err: File::NULL)
 
   failed = checks.select { |_name, passed| !passed }.keys
   report = {
@@ -124,4 +125,3 @@ Dir.chdir(ROOT) do
   puts JSON.generate(report)
   fail_check("failed checks: #{failed.join(', ')}") unless failed.empty?
 end
-
