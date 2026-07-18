@@ -3,13 +3,13 @@
   "issue": 5467,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2ad38313de373e32d209f2a3d3ed3f31060f4b2763fd10f58df6b26c6bb9831f",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "2c30c0a45475ba58ae5d2a2851635d8b001f193b2f4f250e3b920cd8056467d7",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "417b8a4a12c394293a06731a59e93e24d841e4e48ddaee288609a70e1486a53c",
   "claim": {
     "id": "claim-5467-backend-snapshot-contract",
     "owner": "codex-root",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1784357994,
     "expires_unix_seconds": 1784962794,
     "heartbeat_unix_seconds": 1784357994,
@@ -26,15 +26,53 @@
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5467",
     "assigned_by": "codex-root",
-    "revision": "git-blake3:e59ca802bd499dea2191b900ea4c1a6cc48e5be0:40a81abdf6245c7286f94af39a4d356fe2c2da052d04f8a1bc698045cee8991a",
+    "revision": "git-blake3:703b5eb349ab4b2c480441ccd6b52b8333ba1da1:2892e73a49aa297b7f35f8f97c4a85cf058ffbac666e940841761b3c651bd037",
     "scope": [
       ".github/workflows/ci.yaml",
       "adl/tools/resolve_ci_backend.sh",
+      "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
       "adl/tools/test_run_aws_spot_ci_profile.sh",
       ".csdlc/issues/5467"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "bounded-subagent-review-5467",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/resolve_ci_backend.sh",
+      "adl/tools/setup_aws_spot_remote_validation_github_resources.sh",
+      "adl/tools/test_run_aws_spot_ci_profile.sh",
+      ".csdlc/issues/5467"
+    ],
+    "reviewed_revision": "git-blake3:703b5eb349ab4b2c480441ccd6b52b8333ba1da1:2892e73a49aa297b7f35f8f97c4a85cf058ffbac666e940841761b3c651bd037",
+    "findings": [
+      {
+        "id": "F-5467-1",
+        "severity": "p1",
+        "summary": "Removing all stale setup assertions weakened live SSM, EBS attachment, and IAM cleanup policy coverage.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:703b5eb349ab4b2c480441ccd6b52b8333ba1da1:2892e73a49aa297b7f35f8f97c4a85cf058ffbac666e940841761b3c651bd037",
+        "route": null
+      },
+      {
+        "id": "F-5467-2",
+        "severity": "p3",
+        "summary": "Invalid backend proof accepted any nonzero status while lifecycle truth claimed exact status 2.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:703b5eb349ab4b2c480441ccd6b52b8333ba1da1:2892e73a49aa297b7f35f8f97c4a85cf058ffbac666e940841761b3c651bd037",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "AWS deployment and live permission exercise remain explicitly outside this issue; proof is source-to-policy local contract plus GitHub-hosted CI."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,32 +87,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7e127735b339cc0c2f2e63e6c1487edd89fa998845ba6e82867ec13cd6e85b8b",
+      "values_digest": "a386f425ddb92fd7d78c25bc54338ffa66c8a54d82d5010f189d75ac55a46ea1",
       "rendered_digest": "178febf3b5cfdb4b8e7964c67773681647514cc6af6caebf0b643e6cc01f122f",
       "ast_digest": "a81b26e7ff519e7ceadcd67efb7ded9d44a20d01d3e94d4839d431c7752cb7e5"
     },
     "stp": {
-      "values_digest": "ae0942698163895c6d655afa611bd3d65aeeab9c625ed2f7e032178d4fad4bba",
+      "values_digest": "4d93755f33473b8c3e4da1c8acf37026436e0458c71f5c0326224923b83d0794",
       "rendered_digest": "c06a469a2a42e85d566b0e5abd1dd53eaff5254b105e217c14114f9c223a5748",
       "ast_digest": "58c6ea760265ad9c19fe15dcdcf48e4c4636fd9cd0ac659a9c90647a7d49e4e9"
     },
     "spp": {
-      "values_digest": "e5ceff35341b0881f24f8613ced75542088c44904080dd5d8b84120c704a0376",
+      "values_digest": "8f06fab76060cf1f9a605a3e093d7674e2620055ba569bb0d72a821415aa4d71",
       "rendered_digest": "88b9c9de5780740d40da5daca273a5bddb3a37f826ec31b999bb7bf56abfe573",
       "ast_digest": "e0b11c70757c00997b84ac0a71d90ed7717f636fb826c8612d527d7dd0250c97"
     },
     "vpp": {
-      "values_digest": "016d840475179d4b0dfb9cbfe395ee3bfe33b64275544366197bc4e0f4dde0b0",
+      "values_digest": "2152ae0b55e9db2e7f5a130cdc34840d06e745dab4de0581aa4db7686383243c",
       "rendered_digest": "2f96022b177a64ebbbdce694730043ff721196114fbd9b427066852d84737d2c",
       "ast_digest": "a646953b2576fd2a787e51dd9836431aa6429d97e228516ac701d8f1f47e9a1a"
     },
     "srp": {
-      "values_digest": "34b0e27728d119a784741152b87c6ff9bc1ecd542cc037f55c568cd97684c25f",
-      "rendered_digest": "0f7dcf19adb435412d09c5657d9aacb2b6f35846ae7a04549481a98702d6b55b",
-      "ast_digest": "7b23e2cf3d1b84c39d19898c528f7c60f4e3e2b0c97ff1940db247ec9d5757b4"
+      "values_digest": "74fd415017e4ed8a17f96bf38a71b5afe6759689d4e7a17f38893e6814d608a7",
+      "rendered_digest": "22591365906bf8a3aa0e899b8c6e50d191fe9b881dcfc63818aa3c68e3415180",
+      "ast_digest": "ce4125f7bfd0c634557e46c204b1ff123bdd2f296ea6078cf0669841ac0c0bc5"
     },
     "sor": {
-      "values_digest": "2b02d77a13e605d79c8b23d978b04d43e95e4a65939dbbc9497867b1bf32a62d",
+      "values_digest": "50c2357786b0a3fdce85e79279a06c69d1a8750b839863ebd468a0fc75e57d94",
       "rendered_digest": "e0f6489947f66d06192c20a470798a6f7e4d73ad0e1fd48353b9513aa081dd9a",
       "ast_digest": "f268e15d0799894ab2b146d7656ee9377845722d8d678cb3d2c989873712815e"
     }
@@ -100,6 +138,13 @@
       "to": "implemented",
       "actor": "codex-root",
       "reason": "The bounded implementation and typed local no-network PVF lane pass all acceptance criteria without AWS."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-root",
+      "reason": "Final exact-revision review passed after both findings were fixed and locally revalidated without AWS."
     }
   ],
   "audit": [
@@ -179,6 +224,27 @@
       "actor": "codex-root",
       "reason": "The locally executable contract and syntax checks pass after both review fixes; no AWS was used.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_aws_spot_ci_profile.sh\"],\"purpose\":\"Prove reachable backend snapshots, local routing behavior, exact invalid exit status, and source-to-policy coverage for live SSM, EBS attach, and IAM cleanup capabilities\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5467-review-fixes-backend-policy-owner-contract\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "bounded-subagent-review-5467",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex-root",
+      "reason": "Final exact-revision review passed after both findings were fixed and locally revalidated without AWS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
