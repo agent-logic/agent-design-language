@@ -1,0 +1,147 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5516,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "7bdd347c560965375b7f0a7d9b112887e4beef8851bf44eae2936b487467fc97",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "141f5a335ba4519e2a8eccef2a09d1ce956d530b725b767148902e40300e1d21",
+  "claim": {
+    "id": "claim-5516-5494-terminal-design-repair",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 5,
+    "acquired_unix_seconds": 1784386103,
+    "expires_unix_seconds": 1784472503,
+    "heartbeat_unix_seconds": 1784386103,
+    "branch": "codex/5516-5494-terminal-design-repair",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5494",
+      ".csdlc/issues/5516",
+      ".csdlc/prepared/issues/5494/reconcile-terminal.json",
+      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ],
+    "purpose": "Correct the retained #5494 Runtime v3 design and diagram through typed terminal repair"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5516/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5516/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "revision": "d35dc188153a0cfb654d3bc99e5fef6e3672974f725e60d4f8dbd189f4e9a13d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "16976ebced15652d5f68cc75fc7d6963537d41aeeee8a6aaae5123068f6953c1",
+      "rendered_digest": "f4780c7b5bd5ed416d076e7aed55df559b4c7ce4e11176702a7aa7690b13841e",
+      "ast_digest": "9bbe855fe8a47c5fbb5dba3098fc0fe05d3b499881eac15876cad28d13b23ff6"
+    },
+    "stp": {
+      "values_digest": "8b73377415e0088cbf4bbf705406b3c2e8ec5cbcd1ed1fbf128da30a2799214e",
+      "rendered_digest": "8d7a163eb3bd9aedca6b3d4e586b00234e325a0fb18af51eb2b5a485b8a2cf9b",
+      "ast_digest": "58c75718e7dec56083311857735aa7885d17709643a4e429abfb0aff0d7a256e"
+    },
+    "spp": {
+      "values_digest": "03b4a2e0a5d7a1876ba926e1eccec8e988ce887511cba378e5cbad32065c96ce",
+      "rendered_digest": "dc440e099abf205de8a1e68b4502b71706f668976dcfd11ca338d5854c86a2cc",
+      "ast_digest": "99afea807fa4ef0c24a45e2a4dfeaccefc9a5bf60e7e0f5d6ee0813a1d1b6a97"
+    },
+    "vpp": {
+      "values_digest": "1a0750887c0dc8769e474f3c7b70027682918b020db5361467d5bb7436453666",
+      "rendered_digest": "800b49487b426befa6a499588f7788b032cad2716ab88675fc42b48aab5d404c",
+      "ast_digest": "2e0ed3a50f218e246ce30b264f390a0d5d55e17e8250de88b9c6db3e1a19c592"
+    },
+    "srp": {
+      "values_digest": "f04e77af2c649b91c1f5fc6fb15c6b201f5eec7c2d4bf61e3fb7914c7eda2747",
+      "rendered_digest": "d8a147ecd3e8a2394d181643d069dfe005f27be52adc2f4c9f75093692dd17db",
+      "ast_digest": "aa53445621560a34d025d7e46578ca0005e232080d7193a4e491ff40f084de02"
+    },
+    "sor": {
+      "values_digest": "49df88a6b3a3fe1d42200cb7799d42df465c5f6634cf6ba4d81bee0231f6499b",
+      "rendered_digest": "5260a7e0368eb99ec73bcc13b3cf3713087ec05709f1b544119d1afc82cb565a",
+      "ast_digest": "c49306ca020f5a87de9b6a43b1866e9103a8713a433da95457ec1219898ae29e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The bounded retained-design correction and focused typed validation are complete."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Correct the retained #5494 architecture through the typed terminal design-repair route.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repair #5494 retained design truth to show the implemented Runtime v3 supervision, typed-channel, readiness, and weather ownership boundaries alongside the CSM production-daemon proof.\",\"changes\":[\"Replace the stale Runtime v2-only retained design claim with the merged Runtime v3 and CSM proof paths\",\"Add a retained Mermaid diagram covering Runtime v3 supervised channels, CSM daemon recovery, and observed readiness\",\"Record Runtime v3 as the sole host-weather owner without adding a duplicate service\",\"Preserve the merged implementation, review, CI, publication, and terminal closeout truth\"],\"artifacts\":[\".csdlc/issues/5494/retained/design.md\",\".csdlc/issues/5494/retained/diagram.mmd\",\".csdlc/issues/5494/index.json\",\"csdlc-v2/closeout/5494.json\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The typed terminal repair and its lifecycle projections pass focused validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"terminal_design_repair\"],\"purpose\":\"Prove fail-closed terminal design repair and validate the repaired #5494 and authority #5516 records with current typed doctor\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 2 focused repair tests passed; csdlc-doctor passed for #5494 generation 61 and #5516 generation 0\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The bounded retained-design correction and focused typed validation are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Align the operative plan with completed typed repair and validation evidence before review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

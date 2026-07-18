@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5516,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][WP-07A] Correct #5494 retained Runtime v3 design truth",
+    "slug": "v0-91-7-wp07a-correct-5494-retained-runtime-v3-design",
+    "version": "v0.91.7",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the retained design match PR #5504's actual two-path proof?",
+        "Does the diagram preserve Runtime v3 weather ownership?",
+        "Did any runtime source enter the diff?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

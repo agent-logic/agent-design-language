@@ -3,33 +3,14 @@
   "issue": 5494,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
-  "phase": "implemented",
-  "generation": 49,
-  "digest": "24121c417defa2213310c869449f80698901cb236c536d686539132984813428",
-  "claim": {
-    "id": "claim-5494-wp07a-completion",
-    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 49,
-    "acquired_unix_seconds": 1784362098,
-    "expires_unix_seconds": 1784448498,
-    "heartbeat_unix_seconds": 1784362098,
-    "branch": "codex/5494-wp07a-completion",
-    "worktree": ".",
-    "protected_paths": [
-      "adl-runtime/src/runtime_api_auth.rs",
-      "adl-runtime/src/supervision.rs",
-      "adl-runtime/src/topology.rs",
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/long_lived_agent.rs",
-      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
-    ],
-    "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
-  },
+  "phase": "closed_out",
+  "generation": 62,
+  "digest": "b459ef063066c33f89d3578f9bd83761afaed99f364fb03c30d07fe74b1615ab",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:b1c45a6a74e37c7517f9c916ee16f308508b4e60:7637be99e867490334876bcc8882bf913f0d6d9648bbe901bafe8eea86043ed9",
+    "revision": "git-blake3:d6e55367ec3b9fe9c8908f4ca8fe499e4b0a693c:8deb79e8fd9aa554fad8d9641aad8b876aa99341b32e0dac1b9bbdcc03141efa",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -53,77 +34,159 @@
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ],
-    "reviewed_revision": "git-blake3:b1c45a6a74e37c7517f9c916ee16f308508b4e60:7637be99e867490334876bcc8882bf913f0d6d9648bbe901bafe8eea86043ed9",
-    "findings": [
-      {
-        "id": "F-5494-11",
-        "severity": "p2",
-        "summary": "The soak claims durable replay without asserting retained sequence continuity and the failure-to-restart-to-ready lifecycle transition.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5494-12",
-        "severity": "p3",
-        "summary": "Ordinary authorization takes the exclusive credential mutation lock before acquiring the shared authorization lock.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:d6e55367ec3b9fe9c8908f4ca8fe499e4b0a693c:8deb79e8fd9aa554fad8d9641aad8b876aa99341b32e0dac1b9bbdcc03141efa",
+    "findings": [],
     "residual_risks": [
-      "Hosted CI must confirm the revised coverage lane after both findings are fixed."
+      "Hosted CI must confirm the listener-readiness ordering repair before merge."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5494,
+    "pull_request": 5504,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5504",
+    "base": "main",
+    "head": "codex/5494-wp07a-completion",
+    "revision": "git-blake3:d6e55367ec3b9fe9c8908f4ca8fe499e4b0a693c:8deb79e8fd9aa554fad8d9641aad8b876aa99341b32e0dac1b9bbdcc03141efa",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": {
+    "pull_request": 5504,
+    "head_sha": "d6e55367ec3b9fe9c8908f4ca8fe499e4b0a693c",
+    "checks": [
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089183289"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089194326"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089194363"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089194329"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089194331"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089194358"
+      },
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88090545159"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88090335889"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089194754"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089194584"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29647927552/job/88089194615"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5504,
+    "disposition": "merged",
+    "observed_sha": "d6e55367ec3b9fe9c8908f4ca8fe499e4b0a693c",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5494.json",
+    "released_branch": "codex/5494-wp07a-completion",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/topology.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/long_lived_agent.rs",
+      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5494/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5494/diagram.mmd",
+  "design_path": ".csdlc/issues/5494/retained/design.md",
+  "diagram_path": ".csdlc/issues/5494/retained/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-      "revision": "2b217cb7b0df1d50ab8359c80504456ee2cfe569d4cd86cb3f063d54fd648660"
+      "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "revision": "d35dc188153a0cfb654d3bc99e5fef6e3672974f725e60d4f8dbd189f4e9a13d"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "0f1d9cf7163924de5642f0fc34d61a01eb72f78f6c3f2cc4892c07018dc7de9d",
+      "values_digest": "bf1fbb9ec956377553fd80da83e8b2f798e311ffd547a36b8dfc4d37d863c4dd",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "911bb184f9d9c6d8bfc24eb434273444ab4a3a28bd5fe13dc1031f429e193da5",
+      "values_digest": "7a34c26cca547db25c05a28c924bcf8e7207b37b1f239b855fcd6b6a9f6ccd41",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "a3c15f71b4c2e8768d107170afde6dfe77e1bdac8947ab3755faa17c3dc2c1c1",
-      "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
-      "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
+      "values_digest": "6c53f0fbd22b8da4614424f18b2bba662d64881f91f40a89a45d095a2a786270",
+      "rendered_digest": "e509ceffaa23c2e4353b6407cfc05ac66c0d9c101ec812fb7af47e5a69707cce",
+      "ast_digest": "a35cc828a2659f8eccc43bc916d0954e10d7febe722abfc93147086001cb8800"
     },
     "vpp": {
-      "values_digest": "aae364fe4176d6a6c79bcac3510cc864d2325e62c6070510048b5374d02b5f22",
-      "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
-      "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
+      "values_digest": "f308362ee6d8790bc878aee2776e35b07729b1283675307b719a913bd4d55ae0",
+      "rendered_digest": "db6033918a2cfd100c3ad94634da2e51d4deb39658e620a9b63ac3fdd313f4b5",
+      "ast_digest": "9af4d9d9aa0de7605d115b45d87b9c348aa71fba6d8ca44819dc6acd2408cf02"
     },
     "srp": {
-      "values_digest": "b317afcb8e0c2858859addc6dd976b623745500e74fc6e1dcfef32e731edcdeb",
-      "rendered_digest": "912f01936ef5e5db6d79446d153ef923378b690eefc85c24702c4fd6f153e736",
-      "ast_digest": "e43b6f69840ea58cc8e218bb9f54c7487baee37adfb3d5b54211a32a7cf45f13"
+      "values_digest": "26f20818ae316975f05753f79a1ac68aecae780d712b959f65d6554472d39711",
+      "rendered_digest": "550115fd217f7022b3d1ef22c8b37a306f4b58e7d4d0cec8af14a34c4dfd802c",
+      "ast_digest": "70395a90678ec461a8052e0c994dcb9e4f47bacc3aca0618e05d806e33d51a5b"
     },
     "sor": {
-      "values_digest": "1e682d69cbe90f64b540fe18e611b46f7d1a84e8e4648a8acfb98ff8bc6ce9d3",
-      "rendered_digest": "f7b93389c365907a9bd3902fef81570ce98f4b38339df484bfb4678d96f5a106",
-      "ast_digest": "9a511e118ae608833248217eab55dd752d401e3d5dfa4f130b3ce0d06cc96206"
+      "values_digest": "62b0e63c601ee7918639d32073d1cb473782fd5cd9165f05ecc2c0593e464566",
+      "rendered_digest": "2ced58ca8c15855575f474f9cf3d4164ea2bf48311b897df12163ebcdec262c9",
+      "ast_digest": "adbb87f3c13f6916532647bf4b888d5d8e316ceb21016a56e6af2c5f6eeaff26"
     }
   },
   "transitions": [
@@ -231,6 +294,62 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover stale review after replacing the costly repeated-daemon soak with bounded production integration and a real Runtime v3 typed-channel soak."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact remediation-head re-review passed with all twelve WP-07A findings fixed and no new findings."
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 18,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover stale publication review after hosted coverage exposed and the branch fixed a runtime API listener-readiness ordering race."
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact listener-readiness repair review passed with no new findings."
+    },
+    {
+      "sequence": 20,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact draft PR after current review"
+    },
+    {
+      "sequence": 21,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 22,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 23,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -674,6 +793,111 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The complete Runtime v3 suite, integration surfaces, daemon recovery, formatting, and lint checks pass after review remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove both review fixes and all Runtime v3 behavior before exact-head re-review\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 126 Runtime v3 unit tests plus 1 independence test passed in 3.24 seconds; 44 CSM API tests and 3-cycle daemon recovery passed; all-target Runtime v3 Clippy and formatting passed\"}}"
+    },
+    {
+      "sequence": 64,
+      "generation": 49,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 50,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 66,
+      "generation": 51,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact remediation-head re-review passed with all twelve WP-07A findings fixed and no new findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 67,
+      "generation": 52,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 68,
+      "generation": 53,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover stale publication review after hosted coverage exposed and the branch fixed a runtime API listener-readiness ordering race.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 53,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 54,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 55,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact listener-readiness repair review passed with no new findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 72,
+      "generation": 56,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 73,
+      "generation": 57,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 74,
+      "generation": 58,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 75,
+      "generation": 59,
+      "actor": "csdlc-closeout",
+      "reason": "normalize legacy terminal receipt path to portable reference",
+      "operation": "normalize_terminal_receipt_ref"
+    },
+    {
+      "sequence": 76,
+      "generation": 60,
+      "actor": "codex-terminal-reconcile",
+      "reason": "Materialize the retained terminal receipt after merged PR #5504 and closed issue #5494, then release the completed WP-07A acceptance paths.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 77,
+      "generation": 61,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "typed terminal design repair authorized by issue 5516",
+      "operation": "repair_terminal_design"
+    },
+    {
+      "sequence": 78,
+      "generation": 62,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "typed terminal design repair authorized by issue 5516",
+      "operation": "repair_terminal_design"
     }
   ]
 }
