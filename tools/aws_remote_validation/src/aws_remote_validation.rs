@@ -10,6 +10,7 @@ use aws_sdk_servicequotas as servicequotas;
 use aws_sdk_ssm as ssm;
 use aws_sdk_sts as sts;
 use chrono::{DateTime, Datelike, Duration as ChronoDuration, Timelike, Utc};
+use ip_network::IpNetwork;
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -1444,23 +1445,7 @@ fn public_ipv4_cidr(response: &[u8]) -> Result<String> {
         .trim()
         .parse()
         .context("public IP response for SSH debug mode is not IPv4")?;
-    let [first, second, third, _] = ip.octets();
-    let shared = first == 100 && (64..=127).contains(&second);
-    let benchmarking = first == 198 && matches!(second, 18 | 19);
-    let protocol_assignment = first == 192 && second == 0 && third == 0;
-    let reserved = first >= 240;
-    if ip.is_unspecified()
-        || ip.is_private()
-        || ip.is_loopback()
-        || ip.is_link_local()
-        || ip.is_multicast()
-        || ip.is_documentation()
-        || ip.is_broadcast()
-        || shared
-        || benchmarking
-        || protocol_assignment
-        || reserved
-    {
+    if !IpNetwork::from(ip).is_global() || ip == Ipv4Addr::new(192, 88, 99, 2) {
         return Err(anyhow!(
             "public IP response for SSH debug mode is not globally routable"
         ));
@@ -3471,10 +3456,13 @@ mod tests {
 
     #[test]
     fn public_ipv4_cidr_accepts_one_global_address() {
-        assert_eq!(
-            public_ipv4_cidr(b"8.8.8.8\n").expect("global IPv4"),
-            "8.8.8.8/32"
-        );
+        for (response, expected) in [
+            (b"8.8.8.8\n".as_slice(), "8.8.8.8/32"),
+            (b"192.0.0.9\n".as_slice(), "192.0.0.9/32"),
+            (b"192.0.0.10\n".as_slice(), "192.0.0.10/32"),
+        ] {
+            assert_eq!(public_ipv4_cidr(response).expect("global IPv4"), expected);
+        }
     }
 
     #[test]
@@ -3482,10 +3470,16 @@ mod tests {
         for response in [
             b"127.0.0.1\n".as_slice(),
             b"10.0.0.1\n".as_slice(),
+            b"0.0.0.1\n".as_slice(),
+            b"192.88.99.2\n".as_slice(),
             b"2001:4860:4860::8888\n".as_slice(),
             b"not-an-ip\n".as_slice(),
         ] {
-            assert!(public_ipv4_cidr(response).is_err());
+            assert!(
+                public_ipv4_cidr(response).is_err(),
+                "accepted non-global response: {:?}",
+                String::from_utf8_lossy(response)
+            );
         }
     }
 
