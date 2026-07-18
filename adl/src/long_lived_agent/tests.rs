@@ -81,27 +81,36 @@ fn write_spec(root: &Path) -> PathBuf {
 }
 
 #[test]
-fn production_daemon_cycle_soak_runs_real_ticks_channels_and_recovery() {
-    let root = temp_dir("production-cycle-soak");
+fn production_daemon_executes_real_ticks_and_recovers_after_child_failure() {
+    let root = temp_dir("production-daemon-recovery");
     let spec = write_spec(&root);
     let loaded = load_spec(&spec).expect("load soak spec");
-    let runtime_context = CsmRuntimeContext::new(&loaded).expect("start CSM runtime context");
     let mut injected_failures = 0_u32;
+    let daemon_options = DaemonOptions {
+        bounded_test_restart_limit: Some(0),
+        checkpoint_interval_secs: 1,
+        interval_secs: Some(1),
+        api_bind: None,
+        no_sleep: true,
+        recover_stale_lease: true,
+        api_otel_status_path: None,
+        api_otel_log_path: None,
+    };
 
-    for cycle in 0..100_u64 {
-        if cycle == 49 {
+    for cycle in 0..3_u64 {
+        if cycle == 1 {
             write_spec_with_workflow_kind(&root, "unsupported_soak_injection");
-            assert!(run_daemon_cycle(&runtime_context, &spec, false, cycle).is_err());
+            assert!(daemon(&spec, daemon_options.clone()).is_err());
             injected_failures += 1;
             write_spec(&root);
         }
-        let status = run_daemon_cycle(&runtime_context, &spec, false, cycle)
-            .expect("production daemon cycle recovers and completes");
-        assert_eq!(status.state, AgentStatusState::Idle);
+        let status = daemon(&spec, daemon_options.clone())
+            .expect("production daemon entrypoint recovers and completes");
+        assert_eq!(status.state, "completed");
     }
 
     let status = read_status(&loaded).unwrap().unwrap();
-    assert_eq!(status.completed_cycle_count, 100);
+    assert_eq!(status.completed_cycle_count, 3);
     assert_eq!(injected_failures, 1);
     let channel_state: Value = serde_json::from_slice(
         &fs::read(loaded.state_root.join("csm_typed_channel_state.json")).unwrap(),

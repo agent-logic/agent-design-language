@@ -333,6 +333,91 @@ mod tests {
         assert!(stack["component_topology"].get("readiness").is_none());
     }
 
+    #[tokio::test]
+    async fn production_primitives_soak_real_tasks_channels_failure_and_recovery() {
+        use std::sync::atomic::{AtomicBool, Ordering};
+        use std::sync::Arc;
+
+        use tempfile::tempdir;
+        use tokio::sync::Mutex;
+        use tokio_util::sync::CancellationToken;
+
+        use crate::backpressure::{runtime_channel_policy, RuntimeChannelFabric, RuntimeMessage};
+        use crate::supervision::{
+            replay_lifecycle_journal, supervise_component, ComponentFailure, ComponentReadiness,
+            LifecycleEventKind, LifecycleSink,
+        };
+
+        let root = tempdir().unwrap();
+        let journal = root.path().join("assembled-runtime-soak.jsonl");
+        let sink = LifecycleSink::start(&journal);
+        let fabric = Arc::new(Mutex::new(
+            RuntimeChannelFabric::open(root.path().join("channels")).unwrap(),
+        ));
+        let mut attempts = 0_u32;
+
+        for cycle in 0..100_u32 {
+            let fail_once = Arc::new(AtomicBool::new(cycle == 49));
+            let outcome = supervise_component(
+                ComponentId::RuntimeApi,
+                CancellationToken::new(),
+                sink.clone(),
+                {
+                    let fabric = Arc::clone(&fabric);
+                    move |attempt, cancellation| {
+                        let fabric = Arc::clone(&fabric);
+                        let fail_once = Arc::clone(&fail_once);
+                        async move {
+                            for channel in RuntimeChannelId::ALL {
+                                let policy = runtime_channel_policy(channel);
+                                fabric
+                                    .lock()
+                                    .await
+                                    .transit(
+                                        channel,
+                                        RuntimeMessage::new(
+                                            format!("cycle-{cycle:03}-attempt-{attempt}"),
+                                            policy.priority,
+                                            serde_json::json!({"cycle": cycle, "attempt": attempt}),
+                                        ),
+                                        &cancellation,
+                                    )
+                                    .await
+                                    .map_err(|_| ComponentFailure::Failed("soak_channel_failed"))?;
+                                if channel == RuntimeChannelId::SchedulerToReasoningRuntime
+                                    && fail_once.swap(false, Ordering::SeqCst)
+                                {
+                                    return Err(ComponentFailure::Failed("injected_soak_failure"));
+                                }
+                            }
+                            Ok(())
+                        }
+                    }
+                },
+            )
+            .await;
+            assert_eq!(outcome.readiness, ComponentReadiness::Ready);
+            attempts = attempts.saturating_add(outcome.attempts);
+            if cycle == 49 {
+                assert_eq!(outcome.attempts, 2);
+                assert!(outcome
+                    .lifecycle_events
+                    .iter()
+                    .any(|event| event.event == LifecycleEventKind::RestartScheduled));
+            }
+        }
+
+        assert_eq!(attempts, 101);
+        let snapshots = fabric.lock().await.snapshots().await.unwrap();
+        assert_eq!(snapshots.len(), RuntimeChannelId::ALL.len());
+        assert!(snapshots
+            .iter()
+            .all(|snapshot| snapshot.accepted_count >= 100));
+        let replay = replay_lifecycle_journal(&journal);
+        assert_eq!(replay.invalid_lines, 0);
+        assert!(replay.events.len() >= 201);
+    }
+
     #[test]
     fn runtime_stack_projects_freedom_gate_contract() {
         let stack = runtime_stack_json();

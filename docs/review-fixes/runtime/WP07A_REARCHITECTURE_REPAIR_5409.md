@@ -24,11 +24,13 @@ weather service.
 - `adl-runtime/src/topology.rs`
   - reports the real daemon-supervised-cycle execution model;
   - no longer claims static component readiness or independent component tasks;
-  - excludes Runtime v3-owned weather from the CSM component assembly.
-- `adl/src/long_lived_agent.rs`
-  - gives production and tests one shared `run_daemon_cycle` path;
-  - runs 100 real ticks through the production typed-channel fabric, injects
-    one workflow failure, and proves recovery on the same runtime context.
+  - excludes Runtime v3-owned weather from the CSM component assembly;
+  - runs 100 supervised task cycles through the real Runtime v3 typed-channel
+    fabric, injects one task failure, and verifies restart plus durable replay.
+- `adl/src/long_lived_agent/tests.rs`
+  - invokes the unmodified production daemon entrypoint for three real bounded
+    ticks;
+  - injects one workflow failure between ticks and proves a clean recovery.
 - `adl/src/csm_runtime_api.rs`
   - projects observed health for all fifteen CSM catalog components;
   - derives required-component readiness from supervision policy;
@@ -57,19 +59,22 @@ CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/wp-5494-adl \
   cargo test --manifest-path adl/Cargo.toml csm_runtime_api
 CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/wp-5494-adl \
   cargo test --manifest-path adl/Cargo.toml \
-  long_lived_agent::tests::production_daemon_cycle_soak_runs_real_ticks_channels_and_recovery \
-  -- --exact
+  --lib production_daemon_executes_real_ticks_and_recovers_after_child_failure
 git diff --check
 ```
 
 Observed locally:
 
-- `adl-runtime`: 124 unit tests and 1 independence test passed, including 11
+- `adl-runtime`: 125 unit tests and 1 independence test passed, including 11
   focused credential-lifecycle tests.
 - integrated CSM runtime API: 44 focused tests passed.
-- production daemon-cycle soak: 100 completed real ticks, all seven typed
-  channel observations ready, one injected workflow failure, and recovery on
-  the same runtime context; test execution completed in 27.78 seconds.
+- Runtime v3 behavioral soak: 100 completed supervised task cycles and 101
+  attempts through all seven real typed channels, including one injected
+  failure, restart, recovery, and valid durable lifecycle replay; focused test
+  execution completed in 1.20 seconds.
+- production daemon integration: three completed real ticks with one injected
+  workflow failure and clean recovery; focused test execution completed in
+  16.77 seconds.
 
 This local proof does not claim a live external provider, cloud, API Gateway,
 GPU, or Runtime v3 integration run. It does not override the separately

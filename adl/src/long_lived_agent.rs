@@ -255,12 +255,50 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             },
         )?;
 
-        let cycle_result = run_daemon_cycle(
-            &runtime_context,
-            spec_path,
-            options.recover_stale_lease,
-            restart_count,
-        );
+        let cycle_result = runtime_context
+            .transit(
+                RuntimeChannelId::SchedulerToReasoningRuntime,
+                "cycle_admission",
+                ChannelPriority::GovernedExecution,
+                json!({"restart_count": restart_count}),
+            )
+            .and_then(|_| {
+                runtime_context.transit(
+                    RuntimeChannelId::ReasoningRuntimeToAee,
+                    "governed_execution_admission",
+                    ChannelPriority::GovernedExecution,
+                    json!({"restart_count": restart_count}),
+                )
+            })
+            .and_then(|_| {
+                tick(
+                    spec_path,
+                    TickOptions {
+                        recover_stale_lease: options.recover_stale_lease,
+                    },
+                )
+            })
+            .and_then(|status| {
+                runtime_context.transit(
+                    RuntimeChannelId::AeeToCheckpoint,
+                    "cycle_checkpoint",
+                    ChannelPriority::CriticalContinuity,
+                    json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
+                )?;
+                runtime_context.transit(
+                    RuntimeChannelId::ComponentsToLifelog,
+                    "cycle_lifecycle_record",
+                    ChannelPriority::Evidence,
+                    json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
+                )?;
+                runtime_context.transit(
+                    RuntimeChannelId::ComponentsToObservability,
+                    "cycle_observability_record",
+                    ChannelPriority::Audit,
+                    json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
+                )?;
+                Ok(status)
+            });
 
         match cycle_result {
             Ok(status) => {
@@ -529,51 +567,6 @@ pub fn daemon(spec_path: &Path, options: DaemonOptions) -> Result<DaemonStatusRe
             return Ok(daemon_status);
         }
     }
-}
-
-fn run_daemon_cycle(
-    runtime_context: &CsmRuntimeContext,
-    spec_path: &Path,
-    recover_stale_lease: bool,
-    restart_count: u64,
-) -> Result<StatusRecord> {
-    runtime_context.transit(
-        RuntimeChannelId::SchedulerToReasoningRuntime,
-        "cycle_admission",
-        ChannelPriority::GovernedExecution,
-        json!({"restart_count": restart_count}),
-    )?;
-    runtime_context.transit(
-        RuntimeChannelId::ReasoningRuntimeToAee,
-        "governed_execution_admission",
-        ChannelPriority::GovernedExecution,
-        json!({"restart_count": restart_count}),
-    )?;
-    let status = tick(
-        spec_path,
-        TickOptions {
-            recover_stale_lease,
-        },
-    )?;
-    runtime_context.transit(
-        RuntimeChannelId::AeeToCheckpoint,
-        "cycle_checkpoint",
-        ChannelPriority::CriticalContinuity,
-        json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
-    )?;
-    runtime_context.transit(
-        RuntimeChannelId::ComponentsToLifelog,
-        "cycle_lifecycle_record",
-        ChannelPriority::Evidence,
-        json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
-    )?;
-    runtime_context.transit(
-        RuntimeChannelId::ComponentsToObservability,
-        "cycle_observability_record",
-        ChannelPriority::Audit,
-        json!({"state": status.state.clone(), "cycle_id": status.last_cycle_id.clone()}),
-    )?;
-    Ok(status)
 }
 
 struct EmbeddedRuntimeApi {
