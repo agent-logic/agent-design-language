@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][WP-07A] Correct #5494 retained Runtime v3 design truth",
     "slug": "v0-91-7-wp07a-correct-5494-retained-runtime-v3-design",
     "version": "v0.91.7",
-    "generation": 11
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -77,9 +77,9 @@
       "planned_validation_seconds": 1200,
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on manual terminal mutation, stale Runtime v2-only claims, digest mismatch, runtime source changes, or unresolved review findings.",
-      "design_ref": ".csdlc/prepared/issues/5516/design.md",
+      "design_ref": ".csdlc/issues/5516/retained/design.md",
       "design_digest": "d35dc188153a0cfb654d3bc99e5fef6e3672974f725e60d4f8dbd189f4e9a13d",
-      "diagram_ref": ".csdlc/prepared/issues/5516/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5516/retained/diagram.mmd",
       "diagram_digest": "d2edc9d5ff9516383e01aa249b3b10fca568be5db3a38f210f8b2681960b16b0"
     }
   }
