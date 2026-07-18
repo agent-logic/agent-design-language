@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
@@ -430,7 +430,7 @@ impl Store {
                 "local initialization digest differs from reconciliation request",
             ));
         }
-        let receipt = self
+        let mut receipt = self
             .load_terminal_receipt(request.issue)?
             .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "terminal receipt missing"))?;
         if receipt.initialization_digest != local.initialization_digest
@@ -453,6 +453,33 @@ impl Store {
         }
         let mut projection = receipt.record;
         let mut cards = receipt.cards;
+        let requested_follow_ups = request
+            .follow_ups
+            .iter()
+            .map(|value| value.trim())
+            .filter(|value| !value.is_empty())
+            .map(str::to_owned)
+            .collect::<BTreeSet<_>>();
+        if requested_follow_ups.len() != request.follow_ups.len() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "terminal follow-ups must be non-empty and unique",
+            ));
+        }
+        let routed = match cards.get(&CardKind::Srp).map(|values| &values.content) {
+            Some(CardContent::Srp(values)) => values
+                .residual_risk
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>(),
+            _ => BTreeSet::new(),
+        };
+        if !requested_follow_ups.is_subset(&routed) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "terminal follow-ups must be routed by SRP residual risk",
+            ));
+        }
         let design = receipt
             .authored_artifacts
             .get(&projection.design_path)
@@ -478,6 +505,14 @@ impl Store {
                     values.diagram_ref = diagram_path.clone();
                 }
                 _ => unreachable!("design card"),
+            }
+        }
+        if !requested_follow_ups.is_empty() {
+            match &mut cards.get_mut(&CardKind::Sor).expect("SOR card").content {
+                CardContent::Sor(values) => {
+                    values.follow_ups = requested_follow_ups.into_iter().collect();
+                }
+                _ => unreachable!("SOR card"),
             }
         }
         projection.generation += 1;
@@ -508,6 +543,26 @@ impl Store {
             false,
             Some(&retained_artifacts),
         )?;
+        if !request.follow_ups.is_empty() {
+            receipt.record = projection.clone();
+            receipt.cards = cards.clone();
+            receipt.authored_artifacts = retained_artifacts.clone();
+            receipt.digest.clear();
+            receipt.digest = terminal_receipt_digest(&receipt)?;
+            validate_terminal_receipt(&receipt)?;
+            let path = self.terminal_receipt_path(request.issue)?;
+            let parent = path.parent().expect("receipt parent");
+            let lock = OpenOptions::new()
+                .create(true)
+                .truncate(false)
+                .read(true)
+                .write(true)
+                .open(parent.join("receipts.lock"))?;
+            lock.lock_exclusive()?;
+            let temporary = path.with_extension("json.reconcile-tmp");
+            fs::write(&temporary, serde_json::to_vec_pretty(&receipt)?)?;
+            fs::rename(temporary, path)?;
+        }
         Ok(projection)
     }
 
