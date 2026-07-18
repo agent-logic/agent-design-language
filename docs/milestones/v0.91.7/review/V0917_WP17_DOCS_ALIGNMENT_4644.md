@@ -25,8 +25,8 @@ adaptive learning, or general product readiness.
 
 | Surface | Audited result |
 | --- | --- |
-| Repository READMEs | All 208 tracked README Markdown files inventoried case-insensitively, including lowercase template READMEs; 414 unique README/v0.91.7 Markdown entry points scanned together; 822 local links checked with zero unresolved targets after repair. |
-| v0.91.7 tree | 1,325 intended tracked files inventoried, including 230 Markdown files, 807 JSON artifacts, and 55 YAML artifacts. The two issue-owned alignment artifacts are included. |
+| Repository READMEs | All 208 tracked README Markdown files inventoried case-insensitively, including lowercase template READMEs; 415 unique README/v0.91.7 Markdown entry points scanned together; 822 local links checked with zero unresolved targets after repair. |
+| v0.91.7 tree | 1,328 tracked files inventoried, including 231 Markdown files, 808 JSON artifacts, and 55 YAML artifacts. The issue-owned alignment artifacts and merged WP-16 quality-gate packet are included. |
 | Feature docs | All ten files under `docs/milestones/v0.91.7/features/` plus the canonical `FEATURE_DOCS_v0.91.7.md` index reviewed. |
 | Cargo manifests | All six tracked manifests parsed with `cargo metadata --no-deps --locked`; package versions remain package-local truth rather than being forced to one value. |
 | ADRs | 47 accepted-index paths and all nine v0.91.7 ADR-index paths exist; no duplicate accepted ADR identifiers were found. ADR 0051 remains explicitly deferred. |
@@ -54,7 +54,7 @@ file contents, and provides a stable statement of the audited population.
 
 ## Structured Artifact Validation
 
-All 55 YAML files parse. Of 807 JSON-named artifacts, 802 parse as JSON. The
+All 55 YAML files parse. Of 808 JSON-named artifacts, 803 parse as JSON. The
 five expected non-parsing evidence files are:
 
 - three zero-byte `csm_stdout.json` log captures under the retained `#4998`
