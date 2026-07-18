@@ -680,7 +680,7 @@ fn run_complete_lifecycle_with_validation_history(
             expected_worktree: temp.path().to_string_lossy().into_owned(),
             actor: "closeout-retainer".into(),
             reason: "materialize shared terminal authority".into(),
-            follow_ups: Vec::new(),
+            follow_ups: vec!["#5411 follow-up".into()],
         })
         .unwrap();
     assert_eq!(repeated, reconciled);
