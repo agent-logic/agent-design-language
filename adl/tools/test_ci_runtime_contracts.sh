@@ -96,6 +96,29 @@ deprecated_shas = {
     "779680da715d629ac1d338a641029a2f4372abb5",
 }
 seen = {action: 0 for action in canonical_actions}
+
+def parse_uses(line: str) -> str | None:
+    match = re.match(r"^(?:-\s+)?uses:\s+(.+?)\s*(?:#.*)?$", line.strip())
+    if not match:
+        return None
+    value = match.group(1).strip()
+    if value[:1] in {"'", '"'}:
+        if len(value) < 2 or value[-1] != value[0]:
+            raise SystemExit(f"invalid quoted workflow uses scalar: {line.strip()!r}")
+        value = value[1:-1]
+    return value
+
+def require_canonical_action(uses: str, source: str) -> None:
+    for action, sha in canonical_actions.items():
+        if uses.startswith(f"{action}@"):
+            seen[action] += 1
+            expected = f"{action}@{sha}"
+            if uses != expected:
+                raise SystemExit(
+                    f"workflow must pin {action} to the canonical Node 24 SHA; "
+                    f"found {uses!r} in {source}"
+                )
+
 for candidate in sorted(workflow_root.glob("*.y*ml")):
     text = candidate.read_text()
     for deprecated_sha in deprecated_shas:
@@ -105,19 +128,22 @@ for candidate in sorted(workflow_root.glob("*.y*ml")):
                 f"in {candidate.name}"
             )
     for line in text.splitlines():
-        match = re.match(r"^(?:-\s+)?uses:\s+([^#\s]+)", line.strip())
-        if not match:
+        uses = parse_uses(line)
+        if uses is None:
             continue
-        uses = match.group(1)
-        for action, sha in canonical_actions.items():
-            if uses.startswith(f"{action}@"):
-                seen[action] += 1
-                expected = f"{action}@{sha}"
-                if uses != expected:
-                    raise SystemExit(
-                        f"workflow must pin {action} to the canonical Node 24 SHA; "
-                        f"found {uses!r} in {candidate.name}"
-                    )
+        require_canonical_action(uses, candidate.name)
+
+for fixture in (
+    'uses: "actions/checkout@v7"',
+    "- uses: 'actions/upload-artifact@v7'",
+):
+    try:
+        require_canonical_action(parse_uses(fixture), "quoted negative fixture")
+    except SystemExit as exc:
+        if "canonical Node 24 SHA" not in str(exc):
+            raise
+    else:
+        raise SystemExit(f"quoted floating action pin escaped enforcement: {fixture}")
 
 for action, count in seen.items():
     if count == 0:

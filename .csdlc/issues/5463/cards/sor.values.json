@@ -7,19 +7,22 @@
     "title": "[v0.91.7][ci] Upgrade pinned Actions away from deprecated Node 20 runtime",
     "slug": "v0-91-7-ci-node24-action-pins",
     "version": "v0.91.7",
-    "generation": 4
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Replaced the three GitHub-annotated Node 20 action revisions with reviewed immutable Node 24 commits across every workflow and strengthened canonical pin enforcement.",
+      "summary": "Normalize single- and double-quoted uses scalars before canonical action validation and prove both workflow step forms reject floating pins.",
       "actual_changes": [
         "Upgrade actions/checkout to the immutable v7.0.0 Node 24 revision",
         "Upgrade actions/upload-artifact to the immutable v7.0.1 Node 24 revision",
         "Upgrade Swatinem/rust-cache to the immutable v2.9.1 Node 24 revision",
         "Scan both list-style and mapping-style uses syntax for canonical and deprecated revisions",
-        "Retain the source-linked runtime pin inventory and explicit no-AWS proof boundary"
+        "Retain the source-linked runtime pin inventory and explicit no-AWS proof boundary",
+        "Parse matching single- and double-quoted uses scalars",
+        "Fail closed on malformed quoted uses scalars",
+        "Add negative fixtures for quoted list-style and mapping-style floating pins"
       ],
       "artifacts": [
         ".github/workflows/aws-codefriend-build.yaml",
@@ -29,7 +32,8 @@
         ".github/workflows/v0871_milestone_closeout_gate.yaml",
         "adl/tools/test_ci_runtime_contracts.sh",
         "adl/tools/test_ci_path_policy.sh",
-        "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md"
+        "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md",
+        "adl/tools/test_ci_runtime_contracts.sh"
       ],
       "actual_validation": [
         {
@@ -49,6 +53,15 @@
           "purpose": "Prove the action pin upgrade preserves CI path-policy behavior and fixture truth",
           "outcome": "passed",
           "evidence_ref": "local:5463-ci-path-policy-pass"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_runtime_contracts.sh"
+          ],
+          "purpose": "Prove quoted and unquoted tracked action uses cannot escape canonical immutable Node 24 enforcement",
+          "outcome": "passed",
+          "evidence_ref": "local:5463-quoted-uses-regression-pass"
         }
       ],
       "integration_state": "not_started",

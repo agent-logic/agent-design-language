@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Replaced the three GitHub-annotated Node 20 action revisions with reviewed immutable Node 24 commits across every workflow and strengthened canonical pin enforcement.
+Normalize single- and double-quoted uses scalars before canonical action validation and prove both workflow step forms reject floating pins.
 
 ## Artifacts
 
@@ -24,6 +24,7 @@ Replaced the three GitHub-annotated Node 20 action revisions with reviewed immut
 - adl/tools/test_ci_runtime_contracts.sh
 - adl/tools/test_ci_path_policy.sh
 - docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -32,6 +33,9 @@ Replaced the three GitHub-annotated Node 20 action revisions with reviewed immut
 - Upgrade Swatinem/rust-cache to the immutable v2.9.1 Node 24 revision
 - Scan both list-style and mapping-style uses syntax for canonical and deprecated revisions
 - Retain the source-linked runtime pin inventory and explicit no-AWS proof boundary
+- Parse matching single- and double-quoted uses scalars
+- Fail closed on malformed quoted uses scalars
+- Add negative fixtures for quoted list-style and mapping-style floating pins
 
 ## Validation
 
@@ -53,6 +57,15 @@ Replaced the three GitHub-annotated Node 20 action revisions with reviewed immut
     "purpose": "Prove the action pin upgrade preserves CI path-policy behavior and fixture truth",
     "outcome": "passed",
     "evidence_ref": "local:5463-ci-path-policy-pass"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Prove quoted and unquoted tracked action uses cannot escape canonical immutable Node 24 enforcement",
+    "outcome": "passed",
+    "evidence_ref": "local:5463-quoted-uses-regression-pass"
   }
 ]
 

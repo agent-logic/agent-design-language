@@ -7,24 +7,35 @@
     "title": "[v0.91.7][ci] Upgrade pinned Actions away from deprecated Node 20 runtime",
     "slug": "v0-91-7-ci-node24-action-pins",
     "version": "v0.91.7",
-    "generation": 4
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".github/workflows/aws-codefriend-build.yaml\n.github/workflows/aws-spot-remote-validation.yaml\n.github/workflows/ci.yaml\n.github/workflows/nightly-coverage-ratchet.yaml\n.github/workflows/v0871_milestone_closeout_gate.yaml\nadl/tools/test_ci_runtime_contracts.sh\nadl/tools/test_ci_path_policy.sh\ndocs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md",
+      "review_revision": "git-blake3:9c1b1d30100bc92a05b7e0175314a5c132d3c051:840099b7166db6f3b804101949eccd6e40e0ea62e17b9a3fc25fccf76e27ea96",
+      "reviewer": "bounded-subagent-review-5463",
       "review_prompts": [
         "Are all annotated occurrences replaced?",
         "Do major upgrades preserve used inputs and outputs?",
         "Does the static contract reject deprecated or floating pins?",
         "Are hosted annotations genuinely absent?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "F-5463-1",
+          "severity": "p2",
+          "summary": "Valid quoted YAML uses scalars bypass canonical and deprecated action pin enforcement.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }

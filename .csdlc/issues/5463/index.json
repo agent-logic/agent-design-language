@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f8acfa7ae245012c2e6017e2b33f50c8af46f755be2cb30c945a79c4173be0c5",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "424a4958b7605f8279e34514a9c2a26a3811ff23b86a74bedd566b4e49dc68d2",
+  "generation": 7,
+  "digest": "75678d07e238bee07545e7fc4c05809d41658a460995d8fd08382f038230e218",
   "claim": {
     "id": "claim-5463-node24-action-pins",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 4,
+    "generation": 7,
     "acquired_unix_seconds": 1784356628,
     "expires_unix_seconds": 1784443028,
     "heartbeat_unix_seconds": 1784356628,
@@ -27,8 +27,50 @@
     ],
     "purpose": "Upgrade deprecated Node 20 GitHub Action pins to reviewed Node 24 revisions"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "bounded-subagent-review-5463",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:9c1b1d30100bc92a05b7e0175314a5c132d3c051:840099b7166db6f3b804101949eccd6e40e0ea62e17b9a3fc25fccf76e27ea96",
+    "scope": [
+      ".github/workflows/aws-codefriend-build.yaml",
+      ".github/workflows/aws-spot-remote-validation.yaml",
+      ".github/workflows/ci.yaml",
+      ".github/workflows/nightly-coverage-ratchet.yaml",
+      ".github/workflows/v0871_milestone_closeout_gate.yaml",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md"
+    ]
+  },
+  "review": {
+    "reviewer": "bounded-subagent-review-5463",
+    "scope": [
+      ".github/workflows/aws-codefriend-build.yaml",
+      ".github/workflows/aws-spot-remote-validation.yaml",
+      ".github/workflows/ci.yaml",
+      ".github/workflows/nightly-coverage-ratchet.yaml",
+      ".github/workflows/v0871_milestone_closeout_gate.yaml",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md"
+    ],
+    "reviewed_revision": "git-blake3:9c1b1d30100bc92a05b7e0175314a5c132d3c051:840099b7166db6f3b804101949eccd6e40e0ea62e17b9a3fc25fccf76e27ea96",
+    "findings": [
+      {
+        "id": "F-5463-1",
+        "severity": "p2",
+        "summary": "Valid quoted YAML uses scalars bypass canonical and deprecated action pin enforcement.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,34 +85,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0ec7aea0c18ceea327db2837153f9e4312190d862964cdf6b4ff0dbe57b893c3",
+      "values_digest": "ba0769563014cdf65bcdebff280beaad7b2d56e34b272d1ff41dfd04f82cfcaa",
       "rendered_digest": "116ecd514fd218a6b2bfeafeceba5897f833cd75eecca4906aa596c663a42ad1",
       "ast_digest": "055c88cb431f309965d18d1b03e53b285236d3274271fbf29637501e28513148"
     },
     "stp": {
-      "values_digest": "49e5bbd950fe9c672a56e88ba0ede9f9dd0307f1c810697c1143bd90714fc2e8",
+      "values_digest": "c867a9e0728d7fef2ea25dce61d462cdd254eb0a7b0d6bbf55776593ff0dcbbc",
       "rendered_digest": "65c8dc354b936414b8a32edecb10f2c7c786b25a25ecfae40ae7f184fa2f7c3d",
       "ast_digest": "091ab560afbb4b9b8cf99d8062958bf060cc2071b488261c653bebf9029d190e"
     },
     "spp": {
-      "values_digest": "152323f7780eeaee573bce6dfdc5cff4508caf1054faeca16054ed6c0f9002e4",
+      "values_digest": "30c6c5d82bc457f3128500bee47a72fcbce548e2029480e8a13f47e00c4bde6f",
       "rendered_digest": "e90ef2d4205cb124b557e22c1c43ea52d7770fb4c97deea49ace098a1fcdfab2",
       "ast_digest": "cfa727ea5ef308c202c0ecea492b419bb70f5cebeb9991ececd775f4f39ddf92"
     },
     "vpp": {
-      "values_digest": "8903f30597f89cfcf92f628144958cbc1f10f4f14fad27b979d494e9ffd24b3c",
+      "values_digest": "c4a5372907bb647ec9982be2f86ab7363c78d7dd87df4ff9849e50d9a4371940",
       "rendered_digest": "9916975d95eaed7aaf8f51caabbda183377af039827c88793385d7761329815e",
       "ast_digest": "8f6f00a2dfc4e8878be02995b0924ea97025a2b98c88520bd6f8991ffd0d3f65"
     },
     "srp": {
-      "values_digest": "80eedb4cc7e9ff63be76fe08583d6b42cd09c7d8bde45620d2b6c6b9cbffc2e3",
-      "rendered_digest": "ec0b1013caf61f6ff42eda76149c9450b4ebac93ddb885b97f9987b58b236aab",
-      "ast_digest": "b5fdb0ac215437a2b1e2d540103f7262c62d5ebb300b422b38f229872efd3ac7"
+      "values_digest": "9debc71b42da2433187739b932fd7e975ecb8d7dafb359a442a4922a712dc54c",
+      "rendered_digest": "bf758ae7e914f54b9d3490005501265acf748dd86620193b7e9a93844a301dc9",
+      "ast_digest": "5836d3881ee06d7064a0e1b45e50a8bb95f7c25948f5f3a702676d73c6df5b15"
     },
     "sor": {
-      "values_digest": "2406a9c533d67ae7667db5eda9b01520edf393fc337ab5b201fa99c34f160a3c",
-      "rendered_digest": "2580c88f650852e9dfcf49c1463994bdde457e83d692cda4d1801913d76b8a2c",
-      "ast_digest": "9cf4fc2609d31a7fe0e9e140664043a417df389dcfd1b76a0133f479760aec56"
+      "values_digest": "743e3544ea7076b1dc4f2875ea2b8b54c58e2e4ba98b91ac7797a6a4ac53019b",
+      "rendered_digest": "2a252c9cf0db7f2beba124658d5f3b8cdf082eb4232936160375d926dfffb7bd",
+      "ast_digest": "a6f0967ecfb1be7e58c03bbd201ba6801a951eb7d8a8da34fb10c3d6fe764c7d"
     }
   },
   "transitions": [
@@ -138,6 +180,34 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded action runtime upgrade, retained inventory, and focused local proof are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "bounded-subagent-review-5463",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fixed F-5463-1 by normalizing quoted uses scalars and adding quoted floating-pin negative fixtures.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Normalize single- and double-quoted uses scalars before canonical action validation and prove both workflow step forms reject floating pins.\",\"changes\":[\"Parse matching single- and double-quoted uses scalars\",\"Fail closed on malformed quoted uses scalars\",\"Add negative fixtures for quoted list-style and mapping-style floating pins\"],\"artifacts\":[\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The canonical runtime contract and quoted-scalar negative fixtures pass after F-5463-1 repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove quoted and unquoted tracked action uses cannot escape canonical immutable Node 24 enforcement\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5463-quoted-uses-regression-pass\"}}"
     }
   ]
 }
