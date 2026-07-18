@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5489,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "600d3dc651aca0d42502611fc22299cbab5dbce90d456a219ac98a5c2a2ffbfa",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "938dd07bfe2eb39a57dc6d666877051870feddda13d84235cc2de3d97aabb694",
+  "claim": {
+    "id": "claim-5489-v0-91-7-wp21a-next-milestone-docs-closeout-plan",
+    "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784360472,
+    "expires_unix_seconds": 1784965272,
+    "heartbeat_unix_seconds": 1784360472,
+    "branch": "codex/5489-v0917-wp21a-next-milestone-docs",
+    "worktree": ".worktrees/adl-wp-5489",
+    "protected_paths": [
+      "docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md",
+      "docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489",
+      ".csdlc/issues/5489"
+    ],
+    "purpose": "Prepare and later execute WP-21A without claiming completion from setup"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5489/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5489/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-prep-only",
+      "revision": "6c8fad08d8c732b470f0c29378cc6566d23b7f4626218b8c27d19209564f7556"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e70f0a7a850a7b5fae9dd24708b9dcccb20033ec7c6a9d5cd4f4988cf6d6a8ad",
+      "rendered_digest": "c7d6a69690ce861127952d303e6495f29331b5d9dc7f0c45496f71fb7baf4ab3",
+      "ast_digest": "ed4f5f5f4ba54a55e5e803f792a52a22b59fd3170e20e210eecf239ebfa98c18"
+    },
+    "stp": {
+      "values_digest": "3bb7e6d48657e1e2dcd52e58ed07f1cab1be38fe564fad501a004bfbd3d4fe5a",
+      "rendered_digest": "547d9c6f45c4bdd5f90fce44fcff94f2e358913ee65bcd77c9593fe70506fadd",
+      "ast_digest": "5580da2268a2298072846490644b5d3a2623579f2c88cd81a5117f69cf67d3bd"
+    },
+    "spp": {
+      "values_digest": "d6f4791ef79a503f8dc68cef382d4cc80b33f93367d093ca50031425e14ced78",
+      "rendered_digest": "6a09ba12bb8010355daa4d28a7ea4cb6946cf2fd76f3d9ad9568a900cf3e84ce",
+      "ast_digest": "b711925ac17d2ce338660c97c9c128c0e703dacdf45872de901d99c5acc24ae3"
+    },
+    "vpp": {
+      "values_digest": "fe0c311c11480d76352d31dd07f3d9d08b842140ddd5cba9b5bb8e87527aad50",
+      "rendered_digest": "d1e18ba4eeb02e306a5d69d4d69278bb5959efee21e372d68468e6ab35172e51",
+      "ast_digest": "fb89ed7a69b1adbbf1b6e976cbc82cc2fb76436273633587bdbb9491659cf824"
+    },
+    "srp": {
+      "values_digest": "d7a9a129402f28294052f19aeb094a123fb03aed11ba906b647f0719ceaa87ec",
+      "rendered_digest": "a06474727f6afc2102e29b59e8d865363e3525a3f4e98c65fd629af06f7f0dcf",
+      "ast_digest": "3ba11ea7df4949f06256ddaa5a0586658a6a6b3d8e60cfd1283d5acbc66aa4d9"
+    },
+    "sor": {
+      "values_digest": "1f270ea223886507a13e31af35b927fbd7f63e07cc79eecd06709018e94b5bee",
+      "rendered_digest": "e1ae72f41c0858dd7576bf5e4bb2fe91850a4cb03d8d0ea876e5ae94e275625a",
+      "ast_digest": "74d26f94df64ff6410b7e3df826f1d749af16d6d0f23bac458967eae2100c614"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
