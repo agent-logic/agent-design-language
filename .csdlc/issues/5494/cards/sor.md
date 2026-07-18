@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Replace the implicit five-second authenticated API response timeout with an explicit fifteen-second bounded deadline.
+Replace 100 repeated legacy daemon startups with a fast Runtime v3 supervision and typed-channel soak plus a bounded production-daemon failure/recovery integration test.
 
 ## Artifacts
 
@@ -36,6 +36,10 @@ Replace the implicit five-second authenticated API response timeout with an expl
 - docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
 - docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 - adl/src/cli/csmctl_cmd.rs
+- adl-runtime/src/topology.rs
+- adl/src/long_lived_agent/tests.rs
+- docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
+- docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
 ## Execution
 
@@ -62,6 +66,10 @@ Replace the implicit five-second authenticated API response timeout with an expl
 - Keep exact-head re-review, PR checks, merge, and lifecycle closeout explicitly pending
 - Keep the existing two-second connection timeout and bounded connection retry loop
 - Allow a listening runtime up to fifteen seconds to produce an authenticated response under heavy instrumentation load
+- Run 100 supervised Runtime v3 task cycles and 101 attempts through every real RuntimeChannelFabric channel
+- Retain injected failure, restart, recovery, and durable lifecycle replay assertions
+- Exercise the unmodified production daemon entrypoint for three real ticks with one injected workflow failure and recovery
+- Remove the issue-local helper from the 4.7K-line legacy daemon source
 
 ## Validation
 
@@ -242,6 +250,30 @@ Replace the implicit five-second authenticated API response timeout with an expl
     "purpose": "Prove normal authenticated access and delayed listener startup remain correct with the coverage-tolerant deadline",
     "outcome": "passed",
     "evidence_ref": "local FastWork: 2 focused csmctl authenticated API tests passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Prove Runtime v3 behavior, crate independence, and the 100-cycle real typed-channel supervision soak",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 125 Runtime v3 unit tests plus 1 independence test passed; soak completed 100 cycles and 101 supervised attempts in 1.20 seconds"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--lib",
+      "production_daemon_executes_real_ticks_and_recovers_after_child_failure"
+    ],
+    "purpose": "Prove the production daemon executes three real bounded ticks and cleanly recovers after one injected workflow failure",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 3 completed production daemon ticks, 1 injected failure, clean recovery; focused test completed in 16.77 seconds"
   }
 ]
 

@@ -3,13 +3,13 @@
   "issue": 5494,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
-  "phase": "reviewed",
-  "generation": 42,
-  "digest": "d81ef9c88679fb00c6089a4ad921e24e8a39b933eb0be3391a3b838100e10074",
+  "phase": "implemented",
+  "generation": 46,
+  "digest": "e95ff5aa8d65edae249677ca7485eb6c29fb053e8648fe2129d7c138d6de5cbc",
   "claim": {
     "id": "claim-5494-wp07a-completion",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 42,
+    "generation": 46,
     "acquired_unix_seconds": 1784362098,
     "expires_unix_seconds": 1784448498,
     "heartbeat_unix_seconds": 1784362098,
@@ -26,43 +26,8 @@
     ],
     "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:883406c1904de358bba0b7e8745dd29e5649b65a:05c660fa1a50ad54235fe89faf829aff0fbaca3ea7a2b754a99e2c205ddae5a7",
-    "scope": [
-      "adl-runtime/src/runtime_api_auth.rs",
-      "adl-runtime/src/supervision.rs",
-      "adl-runtime/src/topology.rs",
-      "adl/src/cli/csmctl_cmd.rs",
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/long_lived_agent/tests.rs",
-      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f74ae-d602-7d20-b7ef-e8964d851ea2",
-    "scope": [
-      "adl-runtime/src/runtime_api_auth.rs",
-      "adl-runtime/src/supervision.rs",
-      "adl-runtime/src/topology.rs",
-      "adl/src/cli/csmctl_cmd.rs",
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/long_lived_agent/tests.rs",
-      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
-    ],
-    "reviewed_revision": "git-blake3:883406c1904de358bba0b7e8745dd29e5649b65a:05c660fa1a50ad54235fe89faf829aff0fbaca3ea7a2b754a99e2c205ddae5a7",
-    "findings": [],
-    "residual_risks": [
-      "The hosted authoritative coverage lane must confirm the fifteen-second deadline resolves the observed instrumentation timeout; no AWS validation is required or authorized."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -77,34 +42,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ea7cd271434215164562d65dff61aa559f6b068f13e1f36d560a66300aa3ee1",
+      "values_digest": "90568625f47fdacd600c9d8869c38160710e87ae54f7b3bb907be367d3973d49",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "601dc9084363dadc1008c52fd6313359e97e9e993ef11fa24e82e9fd937eb294",
+      "values_digest": "8bbf681f87294a856e250552eb8ce93249cb190270bb4752c43985587ebe49a7",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "cc9c9b37b913859c2ea4b639cf362b2d6f65dcc06d83d7c9045264359e8e4592",
+      "values_digest": "dc1e8730e3422b4297ed9ec66bef75b9b03cb868122fbc930d18db82c332aa5d",
       "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
       "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
     },
     "vpp": {
-      "values_digest": "c99f959ef088770dd116cd8ba8008b65e83e80768e3bc899116132b1d39bf49d",
+      "values_digest": "82c021bb5aad599fa692f0db018bceb5bc0d26a7cd816664804f62e26d522327",
       "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
       "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
     },
     "srp": {
-      "values_digest": "2ce768689d4146ab643cb26aff27ae46e7386d403c74536ae26e33a1c468340a",
-      "rendered_digest": "1e4fa03c154978bf87212610038a5f3236463e09ca7f16c1f9d3de057825766e",
-      "ast_digest": "0da82b9c780f18dda8180817b48735f1f026121a813edeefc4192226608b9a77"
+      "values_digest": "cdd92f6095d0f37bf8bb16b2abcc5a9c360e08bd784f8a88352fc912c4bcba2d",
+      "rendered_digest": "902caae0a976cf9aafc150aa83a0e30ec69d6999cb74d2266a2031b79efd027a",
+      "ast_digest": "6f2283b7ce3b73053452b364e960c5918026c31ad661edc1426a7ee520c85e84"
     },
     "sor": {
-      "values_digest": "37c51b250a20e28cb95cafa66710ccfdea78fbeddfea4eeeee67e739b5725f25",
-      "rendered_digest": "91912236fe150da9490bf800db5bde35e770c13c9186132b8a4c0e645ad5798b",
-      "ast_digest": "53817f9587c6993e881e7176188a986c2bfea53f5b766f1d90e1e13e230d13c8"
+      "values_digest": "bea1902bbffbbc96d4538208092fdad5f2e537634f89f5c177eec81aaac644b3",
+      "rendered_digest": "7b18835d70f3bc124e9abd328b3796455a44398aa4909752cd9f2c4aec337995",
+      "ast_digest": "b3282829c8c695ecc426ff4f99032c652be8b0fdf6da3d8187faf8484ec1ad2a"
     }
   },
   "transitions": [
@@ -205,6 +170,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact post-publication review passed with no findings; the bounded timeout repair is ready for hosted validation."
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover stale review after replacing the costly repeated-daemon soak with bounded production integration and a real Runtime v3 typed-channel soak."
     }
   ],
   "audit": [
@@ -592,6 +564,34 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact post-publication review passed with no findings; the bounded timeout repair is ready for hosted validation.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 56,
+      "generation": 43,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover stale review after replacing the costly repeated-daemon soak with bounded production integration and a real Runtime v3 typed-channel soak.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 44,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Keep the behavioral acceptance proof bounded while preserving production and Runtime v3 execution evidence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replace 100 repeated legacy daemon startups with a fast Runtime v3 supervision and typed-channel soak plus a bounded production-daemon failure/recovery integration test.\",\"changes\":[\"Run 100 supervised Runtime v3 task cycles and 101 attempts through every real RuntimeChannelFabric channel\",\"Retain injected failure, restart, recovery, and durable lifecycle replay assertions\",\"Exercise the unmodified production daemon entrypoint for three real ticks with one injected workflow failure and recovery\",\"Remove the issue-local helper from the 4.7K-line legacy daemon source\"],\"artifacts\":[\"adl-runtime/src/topology.rs\",\"adl/src/long_lived_agent/tests.rs\",\"docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 45,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The complete independent Runtime v3 crate and bounded behavioral soak pass on FastWork.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Prove Runtime v3 behavior, crate independence, and the 100-cycle real typed-channel supervision soak\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 125 Runtime v3 unit tests plus 1 independence test passed; soak completed 100 cycles and 101 supervised attempts in 1.20 seconds\"}}"
+    },
+    {
+      "sequence": 59,
+      "generation": 46,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The unmodified production daemon entrypoint executes real ticks and recovers after an injected child failure.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"production_daemon_executes_real_ticks_and_recovers_after_child_failure\"],\"purpose\":\"Prove the production daemon executes three real bounded ticks and cleanly recovers after one injected workflow failure\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 3 completed production daemon ticks, 1 injected failure, clean recovery; focused test completed in 16.77 seconds\"}}"
     }
   ]
 }
