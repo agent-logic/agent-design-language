@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5427,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2][cards] Add typed repair for stale card identity metadata",
+    "slug": "v0-91-7-typed-card-identity-repair",
+    "version": "v0.91.7",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the operation update exactly the canonical identity projections?",
+        "Are malformed versions and partial failures rejected without mutation?",
+        "Does the #5353 repair preserve all non-identity content?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
