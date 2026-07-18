@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5521,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2][closeout] Complete #5518 terminal plan-step truth",
+    "slug": "v0-91-7-csdlc-v2-complete-5518-terminal-plan-step",
+    "version": "v0.91.7",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5518\n.csdlc/issues/5521\n.csdlc/prepared/issues/5521",
+      "review_revision": "git-blake3:85d85b4b00ca6f0002c89919d20b654fa6807cbc:9bab6b07d4d76609df4caaf96aebb6c66c9b58e2f7bcb6855fdc570706f30ebe",
+      "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "review_prompts": [
+        "Did only #5518 S4 advance semantically?",
+        "Do local cards, index, and receipt match exactly?",
+        "Is #5521 free of recursive terminal plan steps?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

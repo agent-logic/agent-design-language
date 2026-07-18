@@ -33,3 +33,4 @@
 {"sequence":33,"generation":26,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
 {"sequence":34,"generation":27,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
 {"sequence":35,"generation":28,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":36,"generation":29,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"typed terminal plan repair authorized by issue 5521","operation":"repair_terminal_plan_step:S4"}
