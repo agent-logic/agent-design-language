@@ -57,6 +57,10 @@ if [[ "$1 $2" == "sts get-caller-identity" ]]; then
 }
 JSON
 elif [[ "$1 $2" == "ec2 describe-volumes" ]]; then
+  if [[ "$*" != *"length(Volumes)"* && "$*" != *"--volume-ids vol-0123456789abcdef0"* ]]; then
+    echo "unexpected retained volume identity: $*" >&2
+    exit 1
+  fi
   case "$*" in
     *'Volumes[0].State'*) echo available ;;
     *'Volumes[0].Tags'*) echo adl-aws-remote-validation-cache-volume ;;
@@ -402,6 +406,57 @@ assert parts[parts.index("--expected-architecture") + 1] == "x86_64"
 assert parts[parts.index("--min-cache-free-gib") + 1] == "10"
 assert parts[parts.index("--command") + 1].startswith("cargo test")
 PY
+
+if ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_SIZE_GIB=999 \
+  ADL_FAKE_AWS_REMOTE_ARGS="$TMP/explicit-mismatch-args.txt" \
+  ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
+  ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
+  ADL_AWS_CLI="$fake_bin/aws" \
+  bash "$SCRIPT" --run --expected-proof "$proof" --bin "$fake_bin/adl-aws-remote-validation" \
+    --run-id explicit-mismatch --builder-image "$builder_image" --estimated-hourly-cost-usd 0.15 \
+    --ssh-private-key-path "$test_ssh_key" --command "true" --git-ref origin/main \
+    --out "$TMP/explicit-mismatch.json" --artifact-dir "$TMP/explicit-mismatch-artifacts" \
+    >"$TMP/explicit-mismatch.out" 2>"$TMP/explicit-mismatch.err"; then
+  echo "expected explicit cache shape mismatch to fail closed" >&2
+  exit 1
+fi
+grep -F "retained cache volume shape mismatch" "$TMP/explicit-mismatch.err" >/dev/null
+[ ! -e "$TMP/explicit-mismatch-args.txt" ]
+
+ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_SIZE_GIB=999 \
+ADL_FAKE_AWS_REMOTE_ARGS="$TMP/cli-override-args.txt" \
+ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
+ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
+ADL_AWS_CLI="$fake_bin/aws" \
+bash "$SCRIPT" --run --expected-proof "$proof" --bin "$fake_bin/adl-aws-remote-validation" \
+  --run-id cli-override --builder-image "$builder_image" --estimated-hourly-cost-usd 0.15 \
+  --ssh-private-key-path "$test_ssh_key" --command "true" --git-ref origin/main \
+  --out "$TMP/cli-override.json" --artifact-dir "$TMP/cli-override-artifacts" \
+  --cache-volume-size-gib 1000 >/dev/null
+grep -Fx -- "1000" "$TMP/cli-override-args.txt" >/dev/null
+
+bad_volume_proof="$TMP/bad-volume-proof.json"
+python3 - "$proof" "$bad_volume_proof" <<'PY'
+import json
+import sys
+
+payload = json.load(open(sys.argv[1], encoding="utf-8"))
+payload["cache_volume"]["volume_id"] = "vol-fffffffffffffffff"
+with open(sys.argv[2], "w", encoding="utf-8") as handle:
+    json.dump(payload, handle)
+PY
+if ADL_FAKE_AWS_REMOTE_ARGS="$TMP/bad-volume-args.txt" ADL_AWS_CLI="$fake_bin/aws" \
+  bash "$SCRIPT" --run --expected-proof "$bad_volume_proof" --bin "$fake_bin/adl-aws-remote-validation" \
+    --run-id bad-volume --builder-image "$builder_image" --estimated-hourly-cost-usd 0.15 \
+    --ssh-private-key-path "$test_ssh_key" --command "true" --git-ref origin/main \
+    --out "$TMP/bad-volume.json" --artifact-dir "$TMP/bad-volume-artifacts" \
+    >"$TMP/bad-volume.out" 2>"$TMP/bad-volume.err"; then
+  echo "expected wrong retained volume identity to fail closed" >&2
+  exit 1
+fi
+grep -F "unexpected retained volume identity" "$TMP/bad-volume.err" >/dev/null
+[ ! -e "$TMP/bad-volume-args.txt" ]
+
 test -f "$TMP/summary.json"
 test -f "$TMP/artifacts/events.jsonl"
 test -f "$TMP/artifacts/wrapper-final-summary.json"
