@@ -3,13 +3,13 @@
   "issue": 5516,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7bdd347c560965375b7f0a7d9b112887e4beef8851bf44eae2936b487467fc97",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "141f5a335ba4519e2a8eccef2a09d1ce956d530b725b767148902e40300e1d21",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "5aca3bfb6233b93506db90bed6520b05bd944c7d403210516b28419cdde2b897",
   "claim": {
     "id": "claim-5516-5494-terminal-design-repair",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 5,
+    "generation": 7,
     "acquired_unix_seconds": 1784386103,
     "expires_unix_seconds": 1784472503,
     "heartbeat_unix_seconds": 1784386103,
@@ -24,8 +24,48 @@
     ],
     "purpose": "Correct the retained #5494 Runtime v3 design and diagram through typed terminal repair"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:735ee4e4b179e7672603342c67d45dcb9c9a0f4c:07ab1cf39b48be5e60fa0fae22649ddf3153304f5ae586bc9ac8400d6486b6e1",
+    "scope": [
+      ".csdlc/issues/5494/retained/design.md",
+      ".csdlc/issues/5494/retained/diagram.mmd",
+      ".csdlc/issues/5494/index.json",
+      ".csdlc/issues/5516",
+      ".csdlc/prepared/issues/5516",
+      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+    "scope": [
+      ".csdlc/issues/5494/retained/design.md",
+      ".csdlc/issues/5494/retained/diagram.mmd",
+      ".csdlc/issues/5494/index.json",
+      ".csdlc/issues/5516",
+      ".csdlc/prepared/issues/5516",
+      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ],
+    "reviewed_revision": "git-blake3:735ee4e4b179e7672603342c67d45dcb9c9a0f4c:07ab1cf39b48be5e60fa0fae22649ddf3153304f5ae586bc9ac8400d6486b6e1",
+    "findings": [
+      {
+        "id": "F-5516-1",
+        "severity": "p2",
+        "summary": "The implemented terminal repair initially left SPP step S2 pending and later required exact prepared-artifact digest reapproval after whitespace normalization.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:735ee4e4b179e7672603342c67d45dcb9c9a0f4c:07ab1cf39b48be5e60fa0fae22649ddf3153304f5ae586bc9ac8400d6486b6e1",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +80,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "16976ebced15652d5f68cc75fc7d6963537d41aeeee8a6aaae5123068f6953c1",
+      "values_digest": "1b6565d325192f8db8d64eebe028e0dd60c1b32b5a1f5a7f14f2833702865d8c",
       "rendered_digest": "f4780c7b5bd5ed416d076e7aed55df559b4c7ce4e11176702a7aa7690b13841e",
       "ast_digest": "9bbe855fe8a47c5fbb5dba3098fc0fe05d3b499881eac15876cad28d13b23ff6"
     },
     "stp": {
-      "values_digest": "8b73377415e0088cbf4bbf705406b3c2e8ec5cbcd1ed1fbf128da30a2799214e",
+      "values_digest": "c904c9dda609e90dbeb1a6a6bba9f068c980ef7b7a896e37c89d6a8a639130d3",
       "rendered_digest": "8d7a163eb3bd9aedca6b3d4e586b00234e325a0fb18af51eb2b5a485b8a2cf9b",
       "ast_digest": "58c75718e7dec56083311857735aa7885d17709643a4e429abfb0aff0d7a256e"
     },
     "spp": {
-      "values_digest": "03b4a2e0a5d7a1876ba926e1eccec8e988ce887511cba378e5cbad32065c96ce",
+      "values_digest": "72a470ec98b44317c6c21dbef30fa0048327afa195dbf9b82d78f2ad61a17043",
       "rendered_digest": "dc440e099abf205de8a1e68b4502b71706f668976dcfd11ca338d5854c86a2cc",
       "ast_digest": "99afea807fa4ef0c24a45e2a4dfeaccefc9a5bf60e7e0f5d6ee0813a1d1b6a97"
     },
     "vpp": {
-      "values_digest": "1a0750887c0dc8769e474f3c7b70027682918b020db5361467d5bb7436453666",
+      "values_digest": "f702bad25f1d322bcf1d871970a0ac8f2fb639439decb0b6acfb08f2e17197e2",
       "rendered_digest": "800b49487b426befa6a499588f7788b032cad2716ab88675fc42b48aab5d404c",
       "ast_digest": "2e0ed3a50f218e246ce30b264f390a0d5d55e17e8250de88b9c6db3e1a19c592"
     },
     "srp": {
-      "values_digest": "f04e77af2c649b91c1f5fc6fb15c6b201f5eec7c2d4bf61e3fb7914c7eda2747",
-      "rendered_digest": "d8a147ecd3e8a2394d181643d069dfe005f27be52adc2f4c9f75093692dd17db",
-      "ast_digest": "aa53445621560a34d025d7e46578ca0005e232080d7193a4e491ff40f084de02"
+      "values_digest": "9c1b4ff9da6603f4ebaef7401223da7ba72bd6918684c7ce5af4d12a83c060f0",
+      "rendered_digest": "496ff7a54e27d4782de94dec2adc1e5b48072e9497756d7d5b2f5e9d4d5511ec",
+      "ast_digest": "9a362df2db61df3b890e01423b7dc389a2ac49a1da2bf42735bc3c746df3509c"
     },
     "sor": {
-      "values_digest": "49df88a6b3a3fe1d42200cb7799d42df465c5f6634cf6ba4d81bee0231f6499b",
+      "values_digest": "aa764e848e7c3f97ad91f286569c5c7fecfb8cb5d33c968bbfb3b79c8349645c",
       "rendered_digest": "5260a7e0368eb99ec73bcc13b3cf3713087ec05709f1b544119d1afc82cb565a",
       "ast_digest": "c49306ca020f5a87de9b6a43b1866e9103a8713a433da95457ec1219898ae29e"
     }
@@ -91,6 +131,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded retained-design correction and focused typed validation are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact staged re-review passed after the sole lifecycle finding was fixed through typed SPP and design reapproval operations."
     }
   ],
   "audit": [
@@ -142,6 +189,27 @@
       "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact staged re-review passed after the sole lifecycle finding was fixed through typed SPP and design reapproval operations.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
