@@ -1,0 +1,9 @@
+{
+  "issue": 5487,
+  "expected_generation": 9,
+  "expected_digest": "c8809bbbc83a56e0dacfadd25cf9996db05ca32ebbfecc3d8c57227459fc27d4",
+  "claim_id": "claim-5487-terminal-design-repair",
+  "reviewer": "review_5427",
+  "assigned_by": "codex",
+  "scope": ["csdlc-v2/src/store.rs", "csdlc-v2/src/bin/csdlc-closeout.rs", "csdlc-v2/tests/gate7_terminal_design_repair_5487.rs", ".csdlc/issues/5467/retained/design.md", ".csdlc/issues/5467/retained/diagram.mmd"]
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.merged_publication_reconciliation_request.v1",
+  "pull_request": 5491,
+  "publication": {
+    "schema": "csdlc.publication_request.v1",
+    "issue": 5487,
+    "expected_generation": 12,
+    "expected_digest": "b4dafdad92a30a581d3d45897d17884338e2a4d99754d9d799f6454cf7d45971",
+    "claim_id": "claim-5487-terminal-design-repair",
+    "actor": "codex",
+    "repository": "danielbaustin/agent-design-language",
+    "base": "main",
+    "head": "codex/5487-terminal-design-repair",
+    "title": "[v0.91.7][csdlc-v2][closeout] Add typed terminal design repair before receipt reconciliation",
+    "body": "Closes #5487\n\nAdds a typed, authority-bound terminal design repair route with markdown.rs and Mermaid validation, atomic receipt/projection updates, and repaired #5467 design evidence.",
+    "draft": true,
+    "remote": "origin",
+    "token_file": null
+  }
+}

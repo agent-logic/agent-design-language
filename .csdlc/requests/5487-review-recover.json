@@ -1,0 +1,8 @@
+{
+  "issue": 5487,
+  "expected_generation": 9,
+  "expected_digest": "c8809bbbc83a56e0dacfadd25cf9996db05ca32ebbfecc3d8c57227459fc27d4",
+  "claim_id": "claim-5487-terminal-design-repair",
+  "actor": "codex",
+  "reason": "Publication metadata commit changed the reviewed revision; recover review truth before reapproval."
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.terminal_observation.v1",
+  "issue": 5487,
+  "expected_generation": 15,
+  "expected_digest": "f8871f6d86cb387aceb2fd4b721e57e63c8e303d07c4d807724fc97191bf4031",
+  "claim_id": "claim-5487-terminal-design-repair",
+  "actor": "codex",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5491,
+  "disposition": "merged",
+  "observed_sha": "56697d76a9762a19e5f82f9638822073ece141f0",
+  "observed_state": "merged",
+  "approved_no_pr_reason": null,
+  "receipt_path": "csdlc-v2/closeout/5487.json"
+}

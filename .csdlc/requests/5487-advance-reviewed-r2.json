@@ -1,0 +1,10 @@
+{
+  "issue": 5487,
+  "card": "sip",
+  "expected_generation": 11,
+  "expected_digest": "080fcade459dbbad7820caae6d8669f8d9ed4e88e359a07244a179cc748f414a",
+  "claim_id": "claim-5487-terminal-design-repair",
+  "actor": "codex",
+  "reason": "Re-review of the final publication metadata revision completed with no findings; advance to reviewed.",
+  "operation": {"operation":"advance_phase","phase":"reviewed"}
+}
