@@ -5,7 +5,7 @@
   "initialization_digest": "394bba5966d294aa1e6c625a47c1d6eb772859f24604de62017d743d4d22e639",
   "phase": "implemented",
   "generation": 5,
-  "digest": "fc6c3d22f0ed54b401d634947793ce9009d94d0864fa5039be1472bc5cd2a52e",
+  "digest": "65e38effd9adc5b41ec14a48f6d0a842785e4dd307346b61ba1a6316688c1adc",
   "claim": {
     "id": "claim-5427-card-identity",
     "owner": "codex",
@@ -23,7 +23,19 @@
     ],
     "purpose": "Add and prove typed stale card identity repair"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-review",
+    "assigned_by": "codex",
+    "revision": "git-blake3:af07a958f1307bdfe51e4fa75b3c499b3092622a:dbedb859343334794528b22ed95d53ea088bec58aeb626b2f279c3240fbc9294",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/5353"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -141,6 +153,13 @@
       "actor": "codex",
       "reason": "Focused identity tests, full C-SDLC v2 suite, and doctor proofs passed.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove identity round-trip, malformed rejection, full v2 regression, and repair-compatible projections\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5427-card-identity-and-csdlc-v2-suite\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
