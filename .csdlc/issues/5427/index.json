@@ -1,0 +1,146 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5427,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "394bba5966d294aa1e6c625a47c1d6eb772859f24604de62017d743d4d22e639",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "fc6c3d22f0ed54b401d634947793ce9009d94d0864fa5039be1472bc5cd2a52e",
+  "claim": {
+    "id": "claim-5427-card-identity",
+    "owner": "codex",
+    "generation": 5,
+    "acquired_unix_seconds": 1784350596,
+    "expires_unix_seconds": 1784354196,
+    "heartbeat_unix_seconds": 1784350596,
+    "branch": "codex/5427-v0-91-7-card-identity-repair",
+    "worktree": ".worktrees/adl-wp-5427",
+    "protected_paths": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/5353/cards"
+    ],
+    "purpose": "Add and prove typed stale card identity repair"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5427/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5427/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex",
+      "revision": "466ae2bb60432db07310e17f7ee398b820574150f97cb39fecf67618d9d78f22"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4124be7530d5b56cff4e70da2d4971e0384322ace2676102b1e4f570fc64a786",
+      "rendered_digest": "94023629ee84d943cd19afec8e87e1c02222a4d0fc8ad1fe9c04dc0dee13089d",
+      "ast_digest": "d5ecf1eea88e9a3b349e03885e5c85b35e254e3b2e2ca3243bbb27517a84d4e4"
+    },
+    "stp": {
+      "values_digest": "e063146abc279f50fbaf53360e9cb6b2986febacc52755c3fc60a1f108e97fd7",
+      "rendered_digest": "1e755d374814da201c2d1f4b0570c47c1de475282bd9890fd71b8179a2bfadac",
+      "ast_digest": "cf3380a41cf181110afd1918ed7d0dd7956e4415ba5b15bf58e80f05ef4925ec"
+    },
+    "spp": {
+      "values_digest": "eb4a2b62565c07181042f71bf008f3f6df54f3707ed15ff0ad6d1ffb82e410ee",
+      "rendered_digest": "ee4d6fbb021b587ae9897d5bd15ec4c030edf39bcbb796acc95ccce0a808bb2f",
+      "ast_digest": "49a658a99ee8d7f862aad78c5d4882b770f3b7e452c84d4ed0196d6e436fd7f4"
+    },
+    "vpp": {
+      "values_digest": "bae1975dba5f92fdd904954b423d24544b306fd22e0de91231aba385fbc6b4d8",
+      "rendered_digest": "1359936c33097d7e2c244d0da969fe524cbf49a050e9aab6b9ddd9ea4dbcf1c6",
+      "ast_digest": "6dc4f45700e06b896008f5fdaf2d709193a0640bf9def3c090d387457f027829"
+    },
+    "srp": {
+      "values_digest": "1a28b8f9e53f86c19d2d95b845edc899b55d32f025ab113f3c31dfac07e35dd4",
+      "rendered_digest": "52fe416cdbd18f2856223846ebf6191046efe404d8f2df40f6502922d4fe4a51",
+      "ast_digest": "135a786742bfc626d20c21c1824db6847c7b43eb28fd4c157a572aa37fa49ebf"
+    },
+    "sor": {
+      "values_digest": "6b6f26c99f1ff00f0386859db19cec66dbdcef48d6ac1cd2a6f0dd3537feebc4",
+      "rendered_digest": "f5e4720dc1895b92ca4f75b1924b30876b1b00e3c1ed7a16d1e2201aebd174db",
+      "ast_digest": "ffd863bbb9bca88b081558b5ae6ed008a949818aedc35079a775b86046c42a0e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Implementation and focused proof are complete."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "authorized typed identity repair for issue 5353",
+      "operation": "{\"operation\":\"update_identity_version\",\"version\":\"v0.91.7\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "authorized typed identity repair for issue 5353",
+      "operation": "{\"operation\":\"update_identity_version\",\"version\":\"v0.91.7\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Implement typed identity version repair and repair #5353 through the supported route.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added typed identity-version semantic operation and cross-issue repair route.\",\"changes\":[\"Update all six card identity versions atomically through typed operation\",\"Reject malformed identity versions before mutation\",\"Repair #5353 card identities from v0.91.8 to v0.91.7\",\"Add focused round-trip and rejection tests\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/bin/csdlc-edit.rs\",\"csdlc-v2/tests/card_identity.rs\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Implementation and focused proof are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "Focused identity tests, full C-SDLC v2 suite, and doctor proofs passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove identity round-trip, malformed rejection, full v2 regression, and repair-compatible projections\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5427-card-identity-and-csdlc-v2-suite\"}}"
+    }
+  ]
+}

@@ -10,7 +10,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::cards::{
     apply, digest, initial_cards, render, terminal_validation_passed, validate_cross_card,
-    CardContent, CardKind, CardValues, InitialCardInput, SemanticOperation,
+    validate_identity_version, CardContent, CardKind, CardValues, InitialCardInput,
+    SemanticOperation,
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
@@ -23,6 +24,19 @@ use crate::review::evaluate_publication_review_in_repo;
 #[derive(Debug, Clone)]
 pub struct Store {
     root: PathBuf,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct RepairIdentityRequest {
+    pub authority_issue: u64,
+    pub target_issue: u64,
+    pub expected_authority_generation: u64,
+    pub expected_authority_digest: String,
+    pub expected_target_generation: u64,
+    pub expected_target_digest: String,
+    pub claim_id: String,
+    pub actor: String,
+    pub operation: SemanticOperation,
 }
 
 impl Store {
@@ -90,6 +104,120 @@ impl Store {
             cards.insert(kind, read_json(&path)?);
         }
         Ok(cards)
+    }
+
+    pub fn repair_identity(&self, request: RepairIdentityRequest) -> Result<IssueRecord> {
+        if request.authority_issue == request.target_issue {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "identity repair requires a distinct authority issue",
+            ));
+        }
+        let version = match &request.operation {
+            SemanticOperation::UpdateIdentityVersion { version } => version,
+            _ => {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidInput,
+                    "identity repair requires update_identity_version",
+                ))
+            }
+        };
+        validate_identity_version(version)?;
+        let (first, second) = if request.authority_issue < request.target_issue {
+            (request.authority_issue, request.target_issue)
+        } else {
+            (request.target_issue, request.authority_issue)
+        };
+        let _first_lock = self.lock(first)?;
+        let _second_lock = self.lock(second)?;
+        self.recover_if_needed(request.authority_issue)?;
+        self.recover_if_needed(request.target_issue)?;
+        let mut authority = self.load_record(request.authority_issue)?;
+        let mut target = self.load_record(request.target_issue)?;
+        if authority.generation != request.expected_authority_generation
+            || authority.digest != request.expected_authority_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "authority issue digest is stale",
+            ));
+        }
+        if target.generation != request.expected_target_generation
+            || target.digest != request.expected_target_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "target issue digest is stale",
+            ));
+        }
+        authority
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "repair authority claim missing"))?
+            .validate(&request.claim_id, now_seconds()?)?;
+        let mut target_cards = self.load_cards(request.target_issue)?;
+        let before = target_cards.clone();
+        for values in target_cards.values_mut() {
+            apply(values, &request.operation)?;
+        }
+        if target_cards
+            .values()
+            .any(|values| values.identity.version != *version)
+        {
+            return Err(V2Error::new(
+                ErrorCode::CardInvalid,
+                "identity repair did not update all cards",
+            ));
+        }
+        let target_design_digest = digest(&fs::read(self.root.join(&target.design_path))?);
+        let target_diagram_digest = digest(&fs::read(self.root.join(&target.diagram_path))?);
+        validate_cross_card(
+            &target_cards,
+            &target.design_path,
+            &target_design_digest,
+            &target.diagram_path,
+            &target_diagram_digest,
+        )?;
+        target.generation += 1;
+        for values in target_cards.values_mut() {
+            values.identity.generation = target.generation;
+        }
+        target.audit.push(AuditEvent {
+            sequence: target.audit.len() as u64 + 1,
+            generation: target.generation,
+            actor: request.actor.clone(),
+            reason: format!(
+                "typed identity repair authorized by issue {}",
+                request.authority_issue
+            ),
+            operation: serde_json::to_string(&request.operation)?,
+        });
+        hydrate_projections(&mut target, &target_cards)?;
+        target.digest = record_digest(&target)?;
+        authority.generation += 1;
+        let mut authority_cards = self.load_cards(request.authority_issue)?;
+        for values in authority_cards.values_mut() {
+            values.identity.generation = authority.generation;
+        }
+        if let Some(claim) = authority.claim.as_mut() {
+            claim.generation = authority.generation;
+        }
+        authority.audit.push(AuditEvent {
+            sequence: authority.audit.len() as u64 + 1,
+            generation: authority.generation,
+            actor: request.actor,
+            reason: format!(
+                "authorized typed identity repair for issue {}",
+                request.target_issue
+            ),
+            operation: serde_json::to_string(&request.operation)?,
+        });
+        hydrate_projections(&mut authority, &authority_cards)?;
+        authority.digest = record_digest(&authority)?;
+        self.commit(request.target_issue, &target, &target_cards, false)?;
+        self.commit(request.authority_issue, &authority, &authority_cards, false)?;
+        let _ = before;
+        Ok(target)
     }
 
     pub fn terminal_receipt_path(&self, issue: u64) -> Result<PathBuf> {
@@ -1228,7 +1356,26 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             "reviewed work must use typed csdlc-review recover",
         ));
     }
-    authorize_card_operation(record.phase, request.card, &request.operation)?;
+    let identity_update = matches!(
+        request.operation,
+        SemanticOperation::UpdateIdentityVersion { .. }
+    );
+    if identity_update {
+        if !matches!(
+            record.phase,
+            LifecyclePhase::Initialized
+                | LifecyclePhase::Ready
+                | LifecyclePhase::Bound
+                | LifecyclePhase::Implemented
+        ) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "identity version repair requires an active pre-review issue",
+            ));
+        }
+    } else {
+        authorize_card_operation(record.phase, request.card, &request.operation)?;
+    }
     let replan_before = match &request.operation {
         SemanticOperation::Replan { field, .. } => Some(current_text_value(
             cards
@@ -1248,12 +1395,18 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         .to_string(),
         _ => serde_json::to_string(&request.operation)?,
     };
-    let values = cards
-        .get_mut(&request.card)
-        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "card projection missing"))?;
-    if let Some(next) = apply(values, &request.operation)? {
-        validate_phase_guard(store, &record, &cards, next)?;
-        record.advance(next, request.actor.clone(), request.reason.clone())?;
+    if identity_update {
+        for values in cards.values_mut() {
+            apply(values, &request.operation)?;
+        }
+    } else {
+        let values = cards
+            .get_mut(&request.card)
+            .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "card projection missing"))?;
+        if let Some(next) = apply(values, &request.operation)? {
+            validate_phase_guard(store, &record, &cards, next)?;
+            record.advance(next, request.actor.clone(), request.reason.clone())?;
+        }
     }
     let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
     let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
