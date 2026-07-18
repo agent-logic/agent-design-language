@@ -773,24 +773,39 @@ impl Store {
         }
         let _lock = self.lock(request.issue)?;
         self.recover_if_needed(request.issue)?;
-        let local = self.load_record(request.issue)?;
-        if local.initialization_digest != request.expected_initialization_digest {
-            return Err(V2Error::new(
-                ErrorCode::StaleDigest,
-                "local initialization digest differs from reconciliation request",
-            ));
-        }
         let mut receipt = self
             .load_terminal_receipt(request.issue)?
             .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "terminal receipt missing"))?;
-        if receipt.initialization_digest != local.initialization_digest
-            || receipt.repository != local.repository
-        {
+        if receipt.issue != request.issue {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
-                "terminal receipt identity differs from local issue",
+                "terminal receipt issue differs from reconciliation request",
             ));
         }
+        if receipt.initialization_digest != request.expected_initialization_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "terminal receipt initialization digest differs from reconciliation request",
+            ));
+        }
+        let issue_dir = self.issue_dir(request.issue);
+        let local = match self.load_record(request.issue) {
+            Ok(local) => {
+                if receipt.initialization_digest != local.initialization_digest
+                    || receipt.repository != local.repository
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "terminal receipt identity differs from local issue",
+                    ));
+                }
+                local
+            }
+            Err(error) if error.code == ErrorCode::Io && !issue_dir.exists() => {
+                receipt.record.clone()
+            }
+            Err(error) => return Err(error),
+        };
         let requested_follow_ups = request
             .follow_ups
             .iter()
@@ -816,14 +831,18 @@ impl Store {
         };
         let local_integrity = (|| -> Result<bool> {
             verify_record(&local)?;
-            let current_cards = self.load_cards(request.issue)?;
+            let current_cards = match self.load_cards(request.issue) {
+                Ok(cards) => cards,
+                Err(error) if !issue_dir.exists() => return Ok(false),
+                Err(error) => return Err(error),
+            };
             let mut checked = local.clone();
             hydrate_projections(&mut checked, &current_cards)?;
             Ok(checked.digest == record_digest(&checked)?
                 && checked.digest == local.digest
                 && checked.cards == receipt.record.cards)
         })()
-        .unwrap_or(false);
+        ?;
         if local.phase == LifecyclePhase::ClosedOut
             && local.terminal == receipt.record.terminal
             && local.publication.as_ref().is_some_and(|publication| {
