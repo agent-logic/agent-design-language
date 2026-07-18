@@ -3,36 +3,14 @@
   "issue": 5518,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "92f431cfefed7acf1c897c60af9a58dad52f66042ec9be84dd846ce258de081e",
-  "phase": "reviewed",
-  "generation": 20,
-  "digest": "cc5d5d7241481588fbb5c9286b029f77d0a91e5591d731ea05bb62df476dc71f",
-  "claim": {
-    "id": "claim-5518-terminal-plan-repair",
-    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 20,
-    "acquired_unix_seconds": 1784387769,
-    "expires_unix_seconds": 1784474169,
-    "heartbeat_unix_seconds": 1784387769,
-    "branch": "codex/5518-terminal-plan-repair",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/5516",
-      ".csdlc/issues/5518",
-      ".csdlc/prepared/issues/5518",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/model.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      "csdlc-v2/tests/gate7_terminal_plan_repair_5518.rs"
-    ],
-    "purpose": "Add atomic typed terminal plan-step repair and correct #5516 SPP S3"
-  },
+  "phase": "closed_out",
+  "generation": 28,
+  "digest": "d70365c6721fa2d878414dc1c7525c71689c4d509a47567b45dd35c419a3085f",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+    "revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
     "scope": [
       ".csdlc/issues/5516",
       ".csdlc/issues/5518",
@@ -58,7 +36,7 @@
       "csdlc-v2/src/store.rs",
       "csdlc-v2/tests/gate7_lifecycle.rs"
     ],
-    "reviewed_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+    "reviewed_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
     "findings": [
       {
         "id": "F-5518-1",
@@ -67,7 +45,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+        "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
         "route": null
       },
       {
@@ -77,7 +55,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+        "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
         "route": null
       },
       {
@@ -87,7 +65,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+        "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
         "route": null
       },
       {
@@ -97,7 +75,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+        "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
         "route": null
       },
       {
@@ -107,7 +85,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
+        "fix_revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
         "route": null
       }
     ],
@@ -115,9 +93,79 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
-  "readiness": null,
-  "terminal": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5518,
+    "pull_request": 5519,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5519",
+    "base": "main",
+    "head": "codex/5518-terminal-plan-repair",
+    "revision": "git-blake3:45a6348f44e80dcddf8bef7c13f88002dfcece20:27cdf49e79bb3f544adecaff36c373e61effbaa2f2dc153d2026a359d993962c",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": {
+    "pull_request": 5519,
+    "head_sha": "45a6348f44e80dcddf8bef7c13f88002dfcece20",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29650808175/job/88096794542"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29650808175/job/88096744327"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29650808175/job/88096728230"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29650808175/job/88096711478"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29650808175/job/88096728231"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5519,
+    "disposition": "merged",
+    "observed_sha": "45a6348f44e80dcddf8bef7c13f88002dfcece20",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5518.json",
+    "released_branch": "codex/5518-terminal-plan-repair",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      ".csdlc/issues/5516",
+      ".csdlc/issues/5518",
+      ".csdlc/prepared/issues/5518",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      "csdlc-v2/tests/gate7_terminal_plan_repair_5518.rs"
+    ]
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5518/design.md",
   "diagram_path": ".csdlc/prepared/issues/5518/diagram.mmd",
@@ -129,34 +177,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fef7e3ebc9802ec4c333927b738c4ae5c688ee4a0ed51034becd8c38b4a42b15",
+      "values_digest": "6216efe0f3883b7e6519b7d3a4e34c27eb9786453249381fbb1d410fe131c84a",
       "rendered_digest": "e359d2217e90276f7f99b5f8683cf7ac6baaf44037b0ffc9b9b1b47efe54fd23",
       "ast_digest": "f1157e7ff40f69ab4c0ae4547edab8f652e884c44c27a0b823edec6c49bc5901"
     },
     "stp": {
-      "values_digest": "7c997419f7580b8a6334d1fd5ff7b21da90c3a45240f4683b791f63c1979ced5",
+      "values_digest": "65a286a34399a9d7697396430406a04355cdb3a6e5faca52577a194d068e927a",
       "rendered_digest": "16f014fa4ec1c7ba9a7aa5293b06dc5099677f815d4af6e801b899746d5915ac",
       "ast_digest": "6a9ec860265bb07f6f4634f9edde0fb0d6ac75a5b7d7b59e6d5fd3c6f93e1568"
     },
     "spp": {
-      "values_digest": "111337c11f68650e11b66bdc6e5f5d7e23df08f26e5328d46ce396483f729f7b",
+      "values_digest": "fa0f3a41edee341c849c5550f7954f61469bf5626d277960684b961d5623ecf1",
       "rendered_digest": "b41ad3f78c9bf41cce08c80ab81ff9e3d9cdd91fae001999edfd8949f8b0e134",
       "ast_digest": "7373d85fdae8d0db0222f219ed2e924acfa537c95c54cc633b66df5d3d54662b"
     },
     "vpp": {
-      "values_digest": "5d460183769da8492c5f3f09392014fca64415c4d8336135a306898138a4fca9",
+      "values_digest": "6a96d86c213a57d87754440313611622b9f0c9913c230980f685df3d18db25d2",
       "rendered_digest": "f712030d43a6bcbe95ab2fa12dc10c432bae51a6acc3a031f669e6d3343e78cb",
       "ast_digest": "8e78df8c4c8ea709d31653b438dd385934c5c1103505d9de134fae43a3d2c2f0"
     },
     "srp": {
-      "values_digest": "26571c330fcb0c9a503766203eec6717e55789b76a5fd7542bebc208794ed21d",
-      "rendered_digest": "c46ca92b37f8773876535ceff0ccd13e7123cdaba9519601d479e4b180e0f954",
-      "ast_digest": "e1c5b4cda74515b2dd07401c8ec29ed5e442e1f8ca90c37ec04c233e69f1d53d"
+      "values_digest": "f7d6329a3a39307f45572e280e440ed8a83343318cb1c0098127b134e77040c0",
+      "rendered_digest": "75a08f0abd859553674e7f92b14bc3508279ffa5442db96179ff170b8e14db55",
+      "ast_digest": "0c7bdfda83df0eab0bf821f5efbf05db0ae0e85b2bf1751c33d2747e6df98529"
     },
     "sor": {
-      "values_digest": "c5821dead74fae5a0b1e68271a1bdedf70b5b61736a726d9a45ac5f158d6b8d7",
-      "rendered_digest": "98a656f4533c20655fc9c9c4ae7c8b189d0070cf47cae66679aad1731dcedd8f",
-      "ast_digest": "35f242a8f5bd60c67dd301406bbb55a10c159d48df128aa0480694b96847ea09"
+      "values_digest": "8b20e43dc95402a01f2ec4a58089870f1024f871d3b6ba685934495c526b3541",
+      "rendered_digest": "e56a6069b763befcf9b1b456d5fb6ff63cbb59f10ffaabef7bac29e49e002654",
+      "ast_digest": "7c57bfe9aa5d52d8f1ad9fbea157c31b90f4a9d7a850e89e5fc5107853ef0049"
     }
   },
   "transitions": [
@@ -201,6 +249,48 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact metadata-head review is clean; substantive code and tests remain byte-identical to the reviewed implementation."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity after committing metadata-head review so PR head 45a6348f4 receives current publication review."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact PR-head review is clean with no publication blockers."
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 11,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 12,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -385,6 +475,69 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact metadata-head review is clean; substantive code and tests remain byte-identical to the reviewed implementation.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity after committing metadata-head review so PR head 45a6348f4 receives current publication review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact PR-head review is clean with no publication blockers.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
     }
   ]
 }
