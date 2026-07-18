@@ -8,3 +8,8 @@
 {"sequence":8,"generation":5,"actor":"review_5495","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":9,"generation":6,"actor":"codex","reason":"Bounded review completed with no findings; advance to reviewed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":10,"generation":7,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":11,"generation":8,"actor":"codex","reason":"Publication metadata follow-up changed the reviewed head; require typed re-review before continuing closeout.","operation":"recover_review"}
+{"sequence":12,"generation":8,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":13,"generation":9,"actor":"review_5495","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":14,"generation":10,"actor":"codex","reason":"Follow-up review completed with no findings; advance to reviewed for publication reconciliation.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":15,"generation":11,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

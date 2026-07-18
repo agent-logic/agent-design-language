@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f7ca62455b8ab2f07d97e34fed8502d2f59f4b77b96f04808837080769efaaba",
   "phase": "published",
-  "generation": 7,
-  "digest": "2921b05e7dd95bededac9c20e0a544bd40f0f466535d81b579b5fe4356516678",
+  "generation": 11,
+  "digest": "ed1112a13a88a0d344a70a00f7cf41432f6855102436b1e200ec50c1dafdf2d4",
   "claim": {
     "id": "claim-5495-publication-metadata",
     "owner": "codex",
-    "generation": 7,
+    "generation": 11,
     "acquired_unix_seconds": 1784415805,
     "expires_unix_seconds": 1784423005,
     "heartbeat_unix_seconds": 1784415805,
@@ -27,7 +27,7 @@
   "review_assignment": {
     "reviewer": "review_5495",
     "assigned_by": "codex",
-    "revision": "git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf",
+    "revision": "git-blake3:1ef7bb7eebcc0c6421d1e02c319ca4b45614149c:a2c283b0d7ecc77ffcd29fa9bebc43a59e99086c80b3df20a90ef6ef2664824b",
     "scope": [
       "csdlc-v2/src/git.rs",
       "csdlc-v2/src/review.rs",
@@ -47,10 +47,10 @@
       ".csdlc/issues/5495/retained/design.md",
       ".csdlc/issues/5495/retained/diagram.mmd"
     ],
-    "reviewed_revision": "git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf",
+    "reviewed_revision": "git-blake3:1ef7bb7eebcc0c6421d1e02c319ca4b45614149c:a2c283b0d7ecc77ffcd29fa9bebc43a59e99086c80b3df20a90ef6ef2664824b",
     "findings": [],
     "residual_risks": [
-      "Automatic metadata proof relies on typed card projection pairing for each commit in the reviewed-to-current range; substantive source and standalone card-prose drift remain fail closed."
+      "Typed request manifests are treated as lifecycle metadata only when they use a numeric issue prefix and JSON suffix."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -62,7 +62,7 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5525",
     "base": "main",
     "head": "codex/5495-publication-metadata",
-    "revision": "git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf",
+    "revision": "git-blake3:1ef7bb7eebcc0c6421d1e02c319ca4b45614149c:a2c283b0d7ecc77ffcd29fa9bebc43a59e99086c80b3df20a90ef6ef2664824b",
     "draft": true,
     "observed_state": "open"
   },
@@ -79,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6785581b8363284e971c922566299a0bbcbc602d01506b81cf74ad4c7ef918b3",
+      "values_digest": "7eedf3f55a7e4aa4d6a313cca0ec7f7f8e017666ed4f67af71d5f7696d3727b7",
       "rendered_digest": "cb401f8487b08c8a2dc68ae4f17cad42dca364cbe66caf9df4c23bf0a4e40b32",
       "ast_digest": "e8824dc91c6e97c92de9cd48410482fa55f44758e09ee9eb0332ae947c1475d6"
     },
     "stp": {
-      "values_digest": "134e690353941275714331ffa85068ca1125a3f19b3ecb16226985314a393bd8",
+      "values_digest": "613bdf8f0e602dc366136bc2d223b850cad9b42bec895839f505e196486ae7b4",
       "rendered_digest": "c8093297dc0a72cc2bf3673f22ce5e690f5de8be3735b34491ceca4951e878ed",
       "ast_digest": "a448d0a017ba0aa26e4abf01f1db9f9967f96e1de924a98f959462909e5be6b4"
     },
     "spp": {
-      "values_digest": "6b129cd179b46a9b063c883f33eb6fdf72eee9a3e079ac6ea3a6bdbe7c832096",
+      "values_digest": "b60d6952950a672b3ef65520192a2b5afcf56b85fb6236546b87c000196c363e",
       "rendered_digest": "58102ee2d11e4e4cdddd17775324578a1a17e6c68da26c63f84f497ac55233f4",
       "ast_digest": "ca85aa1a7ef524762574af8d3d2797000a1d565c25511816a7de7e7d813b9770"
     },
     "vpp": {
-      "values_digest": "9500aa31d44329d4cbe280cdf5a5e3575513069e93d50b7d6517f0bfa395b7b3",
+      "values_digest": "115e63fc4f851365b6efdf6d9252ed6e39fed590982b158e9a42400d6dd23f5d",
       "rendered_digest": "157f7891da11f14fb26a9e1108809ce6530e976966752ecefae8df1e1913b0db",
       "ast_digest": "18c1e215a7e8256795b140ebf1ece34da01b9826e94e8d83f7e81e7e204d84f0"
     },
     "srp": {
-      "values_digest": "67c6fd77269c1e9fc6ebc444c905083760ffaec94f4124278615111cf4b29d3c",
-      "rendered_digest": "7e61748602348a3ea53faa333aeeee10bd4981c0dc364beecf0f535883636b4c",
-      "ast_digest": "4d690c7c88923191cd975b20441ecb2ae4072d4f1832144c7530d08ab3f45832"
+      "values_digest": "e66de5ea5fca397054ff1e0ec2ab99ed4ae4c42fb39d4669d975e7a9b525c38c",
+      "rendered_digest": "ff4e9f4ed966870e5cb235fa7e8c3c39c1855b2ef3a2b551065f1c85f1588405",
+      "ast_digest": "e94fd16983ba8c1cc07f6816fb5519b6aadd3229e6a7f8bf427f62296f601f58"
     },
     "sor": {
-      "values_digest": "e951b6bdec824df8bd57b341c49d33155645ff9a07b950500f8527f05459e63a",
+      "values_digest": "153a33a8e9a0325ff631a2c2f78aa4b174957b779215f1565ea9e3a1a751b785",
       "rendered_digest": "c3adeeea232480a2157d01f9bc887376170c54ce8db26dfc026d267c4176f25d",
       "ast_digest": "861e8f38b482e1326bcc2e4b233b0ff144fae74a07350049470b8cf2a78dddca"
     }
@@ -140,6 +140,27 @@
     },
     {
       "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Publication metadata follow-up changed the reviewed head; require typed re-review before continuing closeout."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "Follow-up review completed with no findings; advance to reviewed for publication reconciliation."
+    },
+    {
+      "sequence": 8,
       "from": "reviewed",
       "to": "published",
       "actor": "codex",
@@ -213,6 +234,41 @@
     {
       "sequence": 10,
       "generation": 7,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Publication metadata follow-up changed the reviewed head; require typed re-review before continuing closeout.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "review_5495",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Follow-up review completed with no findings; advance to reviewed for publication reconciliation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
       "actor": "codex",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

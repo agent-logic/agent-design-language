@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -35,11 +35,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Automatic metadata proof relies on typed card projection pairing for each commit in the reviewed-to-current range; substantive source and standalone card-prose drift remain fail closed.
+- Typed request manifests are treated as lifecycle metadata only when they use a numeric issue prefix and JSON suffix.
 
 ## Review Result
 
-Revision: Some("git-blake3:c8189c643e780dae17f0300be04b756d8bc7fbc2:fab6846c0930a0019a7b8adedd1014bb5172804448ad1a53ec2e9ac0d2baeeaf")
+Revision: Some("git-blake3:1ef7bb7eebcc0c6421d1e02c319ca4b45614149c:a2c283b0d7ecc77ffcd29fa9bebc43a59e99086c80b3df20a90ef6ef2664824b")
 
 Reviewer: Some("review_5495")
 
