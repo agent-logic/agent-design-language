@@ -38,7 +38,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
     "route": null
   },
   {
@@ -48,7 +48,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
     "route": null
   },
   {
@@ -58,7 +58,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
     "route": null
   },
   {
@@ -68,7 +68,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
     "route": null
   },
   {
@@ -78,7 +78,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
     "route": null
   },
   {
@@ -88,13 +88,23 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
     "route": null
   },
   {
     "id": "F-5494-7",
     "severity": "p1",
     "summary": "Near-expiry rotation can retain a previous credential that does not outlive the replacement creation timestamp.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+    "route": null
+  },
+  {
+    "id": "F-5494-8",
+    "severity": "p1",
+    "summary": "Concurrent rotation can overwrite a terminal revocation and restore an active credential.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -113,8 +123,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a")
+Revision: Some("git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927")
 
-Reviewer: Some("subagent:019f7469-1ee4-71a1-8f2c-d833f6eebd3e")
+Reviewer: Some("subagent:019f746f-a6ca-7333-809c-ccce6be3f702")
 
 Result: changes_required

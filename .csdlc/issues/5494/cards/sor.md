@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Eliminate the near-expiry credential-store race by using one captured timestamp for the complete rotation transaction.
+Make terminal revocation monotonic across concurrent processes by locking the complete credential read-modify-write transaction.
 
 ## Artifacts
 
@@ -30,6 +30,7 @@ Eliminate the near-expiry credential-store race by using one captured timestamp 
 - docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
 - docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 - adl-runtime/src/runtime_api_auth.rs
+- adl-runtime/src/runtime_api_auth.rs
 
 ## Execution
 
@@ -45,6 +46,9 @@ Eliminate the near-expiry credential-store race by using one captured timestamp 
 - Delegate public rotation to a deterministic rotate_at transaction
 - Use the same timestamp for prior-generation overlap and replacement creation
 - Add a deterministic one-second-overlap regression test
+- Serialize ensure, rotate, and revoke mutations through a private 0600 fs2 lock file
+- Keep timestamp capture inside the acquired mutation lock
+- Add concurrent rotation-versus-revocation regression coverage
 
 ## Validation
 
@@ -121,6 +125,18 @@ Eliminate the near-expiry credential-store race by using one captured timestamp 
     "purpose": "Prove credential creation, renewal, expired recovery, overlap, revocation, and the exact one-second rotation boundary",
     "outcome": "passed",
     "evidence_ref": "local FastWork: 9 credential-store tests passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "runtime_api_auth::tests"
+    ],
+    "purpose": "Prove all credential lifecycle behavior plus concurrent rotation and terminal revocation serialization",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 10 credential-store tests passed"
   }
 ]
 

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "6790e15f68833cb5b2a653a48efa467823e4ddda23987d1a1851d81953821110",
+  "generation": 15,
+  "digest": "7592bd6ebbdd7a622727d75efc67b478fdd43f20b2c0e6a3d5c30ca70459f12e",
   "claim": {
     "id": "claim-5494-wp07a-completion",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 12,
+    "generation": 15,
     "acquired_unix_seconds": 1784362098,
     "expires_unix_seconds": 1784448498,
     "heartbeat_unix_seconds": 1784362098,
@@ -27,9 +27,9 @@
     "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
   },
   "review_assignment": {
-    "reviewer": "subagent:019f7469-1ee4-71a1-8f2c-d833f6eebd3e",
+    "reviewer": "subagent:019f746f-a6ca-7333-809c-ccce6be3f702",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -42,7 +42,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:019f7469-1ee4-71a1-8f2c-d833f6eebd3e",
+    "reviewer": "subagent:019f746f-a6ca-7333-809c-ccce6be3f702",
     "scope": [
       "adl-runtime/src/runtime_api_auth.rs",
       "adl-runtime/src/supervision.rs",
@@ -53,7 +53,7 @@
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ],
-    "reviewed_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+    "reviewed_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
     "findings": [
       {
         "id": "F-5494-1",
@@ -62,7 +62,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
         "route": null
       },
       {
@@ -72,7 +72,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
         "route": null
       },
       {
@@ -82,7 +82,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
         "route": null
       },
       {
@@ -92,7 +92,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
         "route": null
       },
       {
@@ -102,7 +102,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
         "route": null
       },
       {
@@ -112,13 +112,23 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:36ca3ac58b6bc7a5bdeb9045f19d6848ce43935b:fbf9fcbcb538d409f94f27c68384ac58dfd731714e3771afb86f09acc579443a",
+        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
         "route": null
       },
       {
         "id": "F-5494-7",
         "severity": "p1",
         "summary": "Near-expiry rotation can retain a previous credential that does not outlive the replacement creation timestamp.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:4d876fcd0168c633bb48584fb3f91ca00a800b24:1144caf3ba38b2b2b78179bc8eefffbe59656c57f42904084b82e21712856927",
+        "route": null
+      },
+      {
+        "id": "F-5494-8",
+        "severity": "p1",
+        "summary": "Concurrent rotation can overwrite a terminal revocation and restore an active credential.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -146,34 +156,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "56c43a3190132bafc24c691f7d685392179c7100dbf02f94f50b1eca51ce1c9d",
+      "values_digest": "3571144fa7a9bbb52c8bc7660660e33e5bf2b2bab471bda40273a1660a1c22ea",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "4ad0defe75bbfa4376658f48ff934aace0e7d468d4803c80fae5b4ce063ab9d1",
+      "values_digest": "5fef8fe252185ff13c90634b86c10d70372c9edbee703e055e8c095ed1e5781c",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "10c78586547b0e1d6fe57868c2019989ab57027d366c5c202a720a6457d115a7",
+      "values_digest": "ec5911fee814cc1bec7c94e243cace179e6412cb77f5b24db8126a37f2cba111",
       "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
       "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
     },
     "vpp": {
-      "values_digest": "7d99e9787886bc11205923cace3b7c4403efe890a73842eb05d6701c2faa3047",
+      "values_digest": "882e8a1764104a41da1d25a29975838669eb30ab61c2a706f57bedc123326bc7",
       "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
       "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
     },
     "srp": {
-      "values_digest": "153d07cdf8b2c26401be0ad47f0dc4ec2f1bcbdf91d53610975fbbed4ff8a1c0",
-      "rendered_digest": "4a00e9e6a5acd797f6ca77eb6fa012f4ed42e0c442b7a0fa6daf6053a357d8bf",
-      "ast_digest": "d65a79ae82c3bbfee5a6e7678bfba6a8a6ebd9d3fc0d68402c7095b48cad4382"
+      "values_digest": "420de697d1500dfb7aff8ae52eb86d417405d77a6ec227b42beb704d10dbebe5",
+      "rendered_digest": "0a80a9096525a43d0d7ae18c0bf9e0363324a171dbb4b8c1dd469d34bf37952d",
+      "ast_digest": "26d4a120b205e3c4ab7ee546d73f9436f65d84035a594e6ed865866d5f262dd0"
     },
     "sor": {
-      "values_digest": "b0c564e42cf2c69c1a98bb65dbc20916e60a9605cb27be51b41911875dff08c8",
-      "rendered_digest": "af159b2e302ce28fb2500f8fb0f4eeb1ec45e38eb9e723db50f9bc381b1c50bc",
-      "ast_digest": "7c8882e5da82c7945cc05a4ef18586b6f93f17c7e9c1e9a62ac78a068df57f6f"
+      "values_digest": "3e7802e545d98ebf95826090bee37aabe90ba60052feb5a066b65629e55bb23c",
+      "rendered_digest": "d884e19ca2c4a8d78c620b8a793f9b3c3ca1f64d7667bb02a3c9adddc236e14c",
+      "ast_digest": "19a97e5a0a2b6b95db8dee9d8aed3f71a68d23569e8003cbbfea5c4079576b8c"
     }
   },
   "transitions": [
@@ -318,6 +328,34 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "All focused credential-store tests pass including the one-second rotation boundary.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests\"],\"purpose\":\"Prove credential creation, renewal, expired recovery, overlap, revocation, and the exact one-second rotation boundary\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 9 credential-store tests passed\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "subagent:019f746f-a6ca-7333-809c-ccce6be3f702",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fixed F-5494-8 by serializing every credential mutation with the existing fs2 file-lock dependency.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Make terminal revocation monotonic across concurrent processes by locking the complete credential read-modify-write transaction.\",\"changes\":[\"Serialize ensure, rotate, and revoke mutations through a private 0600 fs2 lock file\",\"Keep timestamp capture inside the acquired mutation lock\",\"Add concurrent rotation-versus-revocation regression coverage\"],\"artifacts\":[\"adl-runtime/src/runtime_api_auth.rs\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The full credential suite passes with concurrent terminal-revocation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"runtime_api_auth::tests\"],\"purpose\":\"Prove all credential lifecycle behavior plus concurrent rotation and terminal revocation serialization\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 10 credential-store tests passed\"}}"
     }
   ]
 }

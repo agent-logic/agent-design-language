@@ -5,6 +5,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use base64::Engine;
+use fs2::FileExt;
 use hmac::{Hmac, Mac};
 use rand::rngs::OsRng;
 use rand::RngCore;
@@ -15,6 +16,7 @@ use subtle::ConstantTimeEq;
 
 pub const CSM_RUNTIME_API_AUTH_SCHEMA: &str = "adl.csm.runtime_api.auth.v1";
 pub const CSM_RUNTIME_API_AUTH_FILE: &str = "runtime_api_auth.json";
+pub const CSM_RUNTIME_API_AUTH_LOCK_FILE: &str = "runtime_api_auth.lock";
 pub const CSM_RUNTIME_API_AUTH_EVENTS_FILE: &str = "runtime_api_auth_events.jsonl";
 pub const CSM_RUNTIME_API_CREDENTIAL_TTL_SECS: u64 = 24 * 60 * 60;
 pub const CSM_RUNTIME_API_CREDENTIAL_RENEWAL_WINDOW_SECS: u64 = 15 * 60;
@@ -114,6 +116,10 @@ impl RuntimeApiCredentialStore {
     }
 
     pub fn ensure(&self) -> Result<RuntimeApiCredentialMetadata, String> {
+        self.with_mutation_lock(|| self.ensure_locked())
+    }
+
+    fn ensure_locked(&self) -> Result<RuntimeApiCredentialMetadata, String> {
         if self.path.exists() {
             let (_, metadata) = self.load()?;
             if metadata.revoked {
@@ -127,7 +133,7 @@ impl RuntimeApiCredentialStore {
                 })
             });
             if renew {
-                return self.rotate();
+                return self.rotate_at_locked(now_epoch_secs()?);
             }
             return Ok(metadata);
         }
@@ -275,10 +281,10 @@ impl RuntimeApiCredentialStore {
     }
 
     pub fn rotate(&self) -> Result<RuntimeApiCredentialMetadata, String> {
-        self.rotate_at(now_epoch_secs()?)
+        self.with_mutation_lock(|| self.rotate_at_locked(now_epoch_secs()?))
     }
 
-    fn rotate_at(&self, now: u64) -> Result<RuntimeApiCredentialMetadata, String> {
+    fn rotate_at_locked(&self, now: u64) -> Result<RuntimeApiCredentialMetadata, String> {
         let current = self.load_stored()?;
         if current.revoked {
             return Err("runtime API credential is revoked; explicit reset required".to_string());
@@ -310,6 +316,10 @@ impl RuntimeApiCredentialStore {
     }
 
     pub fn revoke(&self) -> Result<RuntimeApiCredentialMetadata, String> {
+        self.with_mutation_lock(|| self.revoke_locked())
+    }
+
+    fn revoke_locked(&self) -> Result<RuntimeApiCredentialMetadata, String> {
         let (token, metadata) = self.load()?;
         let stored = StoredCredential {
             schema: CSM_RUNTIME_API_AUTH_SCHEMA.to_string(),
@@ -324,6 +334,39 @@ impl RuntimeApiCredentialStore {
         let metadata = metadata_from_stored(&stored);
         self.append_generation_event("credential_revoked", &metadata, None, 0)?;
         Ok(metadata)
+    }
+
+    fn with_mutation_lock<T>(
+        &self,
+        operation: impl FnOnce() -> Result<T, String>,
+    ) -> Result<T, String> {
+        let parent = self
+            .path
+            .parent()
+            .ok_or_else(|| "runtime API credential path has no parent".to_string())?;
+        fs::create_dir_all(parent)
+            .map_err(|err| format!("create runtime API credential directory: {err}"))?;
+        let lock_path = parent.join(CSM_RUNTIME_API_AUTH_LOCK_FILE);
+        let mut options = OpenOptions::new();
+        options.create(true).read(true).write(true);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::OpenOptionsExt;
+            options.mode(0o600);
+        }
+        let lock = options
+            .open(lock_path)
+            .map_err(|err| format!("open runtime API credential lock: {err}"))?;
+        FileExt::lock_exclusive(&lock)
+            .map_err(|err| format!("lock runtime API credential mutation: {err}"))?;
+        let result = operation();
+        let unlock = FileExt::unlock(&lock)
+            .map_err(|err| format!("unlock runtime API credential mutation: {err}"));
+        match (result, unlock) {
+            (Ok(value), Ok(())) => Ok(value),
+            (Err(error), _) => Err(error),
+            (Ok(_), Err(error)) => Err(error),
+        }
     }
 
     fn load(&self) -> Result<(SecretString, RuntimeApiCredentialMetadata), String> {
@@ -698,11 +741,41 @@ mod tests {
         current.expires_at_epoch_secs = Some(now + 1);
         write_private_json_atomic(store.path(), &current).unwrap();
 
-        let rotated = store.rotate_at(now).unwrap();
+        let rotated = store.rotate_at_locked(now).unwrap();
 
         assert_eq!(rotated.created_at_epoch_secs, now);
         let stored = store.load_stored().unwrap();
         assert_eq!(stored.previous.unwrap().expires_at_epoch_secs, now + 1);
+    }
+
+    #[test]
+    fn terminal_revoke_cannot_be_resurrected_by_concurrent_rotation() {
+        use std::sync::{Arc, Barrier};
+
+        let root = tempdir().unwrap();
+        let store = Arc::new(RuntimeApiCredentialStore::for_state_root(root.path()));
+        store.ensure().unwrap();
+        let workers = 16;
+        let barrier = Arc::new(Barrier::new(workers + 1));
+        let mut rotations = Vec::new();
+        for _ in 0..workers {
+            let store = Arc::clone(&store);
+            let barrier = Arc::clone(&barrier);
+            rotations.push(std::thread::spawn(move || {
+                barrier.wait();
+                store.rotate()
+            }));
+        }
+        barrier.wait();
+        store.revoke().unwrap();
+        for rotation in rotations {
+            let _ = rotation.join().unwrap();
+        }
+
+        let stored = store.load_stored().unwrap();
+        assert!(stored.revoked);
+        assert!(stored.previous.is_none());
+        assert!(store.rotate().is_err());
     }
 
     #[test]
