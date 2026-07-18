@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5412,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][review-fix][runtime-v3][security] Resolve #5247 state authenticity and readiness findings",
+    "slug": "v0-91-7-runtime-v3-state-authenticity-readiness",
+    "version": "v0.91.7",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any checkpoint field be altered without signature failure?",
+        "Can a validly signed but unaccepted or wrong-lineage record be projected?",
+        "Does the scheduled lane execute the real ignored soak rather than a retained packet assertion?",
+        "Is the LoC disposition reproducible, owned, and bounded?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

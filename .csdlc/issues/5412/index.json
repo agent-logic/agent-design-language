@@ -1,0 +1,144 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5412,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "2379ef2e66d7cbb7b2aaacd517fd705df312bd5ada080cb87ce4e09975944b31",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "33a19d25a1cbb426950b4ea657697f8af08fa9f2f32bda097729ddb84d2c4f8f",
+  "claim": {
+    "id": "claim-5412-runtime-v3-authenticity",
+    "owner": "codex-root",
+    "generation": 4,
+    "acquired_unix_seconds": 1784350834,
+    "expires_unix_seconds": 1784955634,
+    "heartbeat_unix_seconds": 1784350834,
+    "branch": "codex/5412-runtime-v3-state-authenticity",
+    "worktree": ".worktrees/adl-wp-5412",
+    "protected_paths": [
+      "adl-runtime-kernel/src/identity_memory.rs",
+      "adl-runtime-kernel/src/private_state.rs",
+      "adl-runtime-kernel/tests/identity_memory.rs",
+      "adl-runtime-kernel/tests/private_state.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl/tools/run_runtime_v3_guardian_soak.sh",
+      "adl/tools/report_runtime_v3_loc.sh",
+      "docs/architecture/RUNTIME_V3_STATE_AUTHENTICITY_5412.md",
+      "docs/architecture/runtime_v3_state_authenticity_5412.v1.json"
+    ],
+    "purpose": "Resolve #5247 Runtime v3 state-authenticity and readiness findings"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5412/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5412/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-root",
+      "revision": "da121ce444c2084d5c638e7e361a8e53741414bc7fc86e9289b98f8e0e8b8692"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f93ab463bb1d97155b928e3f5cae70231679e95fca4eef77d62eca5d9be8f910",
+      "rendered_digest": "47525451e9f17970dee88a3ec45a701d52cf3b59bac9aa9c4877f6f6f8eb7817",
+      "ast_digest": "39e6679c6808a294122e30c0e4dfcce85244464080515e5283904f935889caad"
+    },
+    "stp": {
+      "values_digest": "408d5ee9ea5336c822b6945892dc1ec32e11f73672e404242ceab59849aabd0f",
+      "rendered_digest": "1220d87f1f840e46b6a2ea0273c09772dc4832216a522721560efc7bfab8ca8c",
+      "ast_digest": "6ed5674859e51639317bdd9af33eed0627b3b3e657e41f95bbf89125cde4aac5"
+    },
+    "spp": {
+      "values_digest": "689704f68ef9585f9003eb38e799f41044d50c8cedab142ec8d9194ed16f5e9b",
+      "rendered_digest": "c472d146259257062ccbcad443a19a42a481c133430c138254055078e9db4d0b",
+      "ast_digest": "352f2fdc646adcf67b812142382c1e7b3a1a712aadd29f75a51fdab009dfe704"
+    },
+    "vpp": {
+      "values_digest": "bac40229876cdf8675a96e4222ce235d2a8f268037524f28acdbf3bddee21dd6",
+      "rendered_digest": "b6aaa583a69ebe12dc05365e7fc27725dd2061e8c6028a5defb592372510513d",
+      "ast_digest": "8d687895701858d61b738793006ad2faf533454d3707a219257ce0f38f03bbbf"
+    },
+    "srp": {
+      "values_digest": "6ff4e2a444a33bb57f5f40d29bbafe6b7dea74aecddd8b35bde7a8569f2687a0",
+      "rendered_digest": "64f70444ce4d911ad963bd40a07df4e755285822bdef7a5d405d097b9850d2c3",
+      "ast_digest": "3a655f347e9aa57a375bf8a76c5a6c9f1e704103d6005235c427d968330bf302"
+    },
+    "sor": {
+      "values_digest": "d3341596dba2dde485ddc5b5dbbbabeceaf42becb0d9917a16e4f78959073c28",
+      "rendered_digest": "0ec27c367acbee329973d0ea22afcec6284d4d22c2eea91ab1643cbb84345eb6",
+      "ast_digest": "1c710e541b9d9021b5197408840937f2c2948998b75885ee9f6a7a1388f73d48"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-root",
+      "reason": "Typed initialization and doctor readiness passed for the bounded #5412 security/readiness repair."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex-root",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "All four #5247 remediation outcomes are implemented and their focused, full-suite, real-soak, lint, format, and source-budget evidence is recorded."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-root",
+      "reason": "Typed initialization and doctor readiness passed for the bounded #5412 security/readiness repair.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-root",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-root",
+      "reason": "Record the completed bounded #5412 implementation before final validation and review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Authenticated complete Runtime v3 memory checkpoints, required verified accepted-lineage membership for private projections, added the explicit real guardian-soak release lane, and retained a bounded source-size exception with reduction ownership.\",\"changes\":[\"signed and verified complete MemoryCheckpoint payloads with exact identity-key binding\",\"made private projection require trusted signature verification and exact accepted-lineage membership\",\"added focused forgery substitution and non-membership regressions\",\"added an explicit 100-cycle scheduled/release guardian-soak runner\",\"added reproducible Runtime v3 source counting and a v0.91.8-bounded reduction disposition\"],\"artifacts\":[\"adl-runtime-kernel/src/identity_memory.rs\",\"adl-runtime-kernel/src/private_state.rs\",\"adl-runtime-kernel/tests/identity_memory.rs\",\"adl-runtime-kernel/tests/private_state.rs\",\"adl/tools/run_runtime_v3_guardian_soak.sh\",\"adl/tools/report_runtime_v3_loc.sh\",\"docs/architecture/RUNTIME_V3_STATE_AUTHENTICITY_5412.md\",\"docs/architecture/runtime_v3_state_authenticity_5412.v1.json\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-root",
+      "reason": "Record completed focused, full-suite, soak, source-budget, formatting, and lint validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check\",\"ADL_RUNTIME_V3_SOAK_REPORT=/tmp/5412-guardian-soak-final.json bash adl/tools/run_runtime_v3_guardian_soak.sh\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"python3 -m json.tool docs/architecture/runtime_v3_state_authenticity_5412.v1.json\",\"git diff --check\"],\"purpose\":\"Prove the complete #5412 authenticity, accepted-lineage, real-soak, and bounded source-size outcome.\",\"outcome\":\"passed\",\"evidence_ref\":\"/tmp/5412-guardian-soak-final.json and local exact-worktree validation output\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-root",
+      "reason": "All four #5247 remediation outcomes are implemented and their focused, full-suite, real-soak, lint, format, and source-budget evidence is recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
