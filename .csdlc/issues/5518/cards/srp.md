@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+.csdlc/issues/5516
+.csdlc/issues/5518
+.csdlc/prepared/issues/5518
+csdlc-v2/src/bin/csdlc-closeout.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/model.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate7_lifecycle.rs
 
 ## Prompts
 
@@ -23,7 +31,58 @@ Exact implementation revision before publication.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5518-1",
+    "severity": "p1",
+    "summary": "Initial cross-issue repair authority did not require exact target-path ownership.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "route": null
+  },
+  {
+    "id": "F-5518-2",
+    "severity": "p1",
+    "summary": "Initial terminal receipt compare-and-swap was not serialized across worktrees.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "route": null
+  },
+  {
+    "id": "F-5518-3",
+    "severity": "p2",
+    "summary": "Initial repair lacked repeatable Store-level atomicity and stale-CAS coverage.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "route": null
+  },
+  {
+    "id": "F-5518-4",
+    "severity": "p1",
+    "summary": "Terminal reconciliation and generic recovery could write common receipts outside the global terminal lock.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "route": null
+  },
+  {
+    "id": "F-5518-5",
+    "severity": "p2",
+    "summary": "Terminal reconciliation exposed a projection swap before its recovery journal was durable.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -35,8 +94,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c")
 
-Reviewer: None
+Reviewer: Some("subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc")
 
-Result: pre_review
+Result: pass

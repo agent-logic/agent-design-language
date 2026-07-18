@@ -3,13 +3,13 @@
   "issue": 5518,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "92f431cfefed7acf1c897c60af9a58dad52f66042ec9be84dd846ce258de081e",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "6ad063476194934120c8dabab7eda6bb2253b7c6c264a31bc93967483e905d0d",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "19d9a4eb88c6e340994df962ac4b39309823df36afc39cb508bb4c0bde5f0126",
   "claim": {
     "id": "claim-5518-terminal-plan-repair",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 15,
+    "generation": 17,
     "acquired_unix_seconds": 1784387769,
     "expires_unix_seconds": 1784474169,
     "heartbeat_unix_seconds": 1784387769,
@@ -29,8 +29,92 @@
     ],
     "purpose": "Add atomic typed terminal plan-step repair and correct #5516 SPP S3"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "scope": [
+      ".csdlc/issues/5516",
+      ".csdlc/issues/5518",
+      ".csdlc/prepared/issues/5518",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+    "scope": [
+      ".csdlc/issues/5516",
+      ".csdlc/issues/5518",
+      ".csdlc/prepared/issues/5518",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "findings": [
+      {
+        "id": "F-5518-1",
+        "severity": "p1",
+        "summary": "Initial cross-issue repair authority did not require exact target-path ownership.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+        "route": null
+      },
+      {
+        "id": "F-5518-2",
+        "severity": "p1",
+        "summary": "Initial terminal receipt compare-and-swap was not serialized across worktrees.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+        "route": null
+      },
+      {
+        "id": "F-5518-3",
+        "severity": "p2",
+        "summary": "Initial repair lacked repeatable Store-level atomicity and stale-CAS coverage.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+        "route": null
+      },
+      {
+        "id": "F-5518-4",
+        "severity": "p1",
+        "summary": "Terminal reconciliation and generic recovery could write common receipts outside the global terminal lock.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+        "route": null
+      },
+      {
+        "id": "F-5518-5",
+        "severity": "p2",
+        "summary": "Terminal reconciliation exposed a projection swap before its recovery journal was durable.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +129,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d1335f30ef2b80c86d554c2fdeae8756c49eed2988d603e3bca1bc7acdc61bab",
+      "values_digest": "371bcece7927bafaf0442a46d4ee4e9dfcb3241d504d69195c7249f1e08d0cc6",
       "rendered_digest": "e359d2217e90276f7f99b5f8683cf7ac6baaf44037b0ffc9b9b1b47efe54fd23",
       "ast_digest": "f1157e7ff40f69ab4c0ae4547edab8f652e884c44c27a0b823edec6c49bc5901"
     },
     "stp": {
-      "values_digest": "8c8451222fc2c0322c343f3da495568a351a0afecec9d2f96b1e892b9667eed4",
+      "values_digest": "90d4a89ff260a4facf757917b4456ec7b99780c6207751f54fc03fea35c5db19",
       "rendered_digest": "16f014fa4ec1c7ba9a7aa5293b06dc5099677f815d4af6e801b899746d5915ac",
       "ast_digest": "6a9ec860265bb07f6f4634f9edde0fb0d6ac75a5b7d7b59e6d5fd3c6f93e1568"
     },
     "spp": {
-      "values_digest": "098a9065dbdb19c3039afcac231b780362997c31632f2cf40ab0de9ab319b946",
+      "values_digest": "af1c9a8e87671a5143224dfe65067fa5a9265d4a7b2f2cc686ca3bfb31d4a118",
       "rendered_digest": "b41ad3f78c9bf41cce08c80ab81ff9e3d9cdd91fae001999edfd8949f8b0e134",
       "ast_digest": "7373d85fdae8d0db0222f219ed2e924acfa537c95c54cc633b66df5d3d54662b"
     },
     "vpp": {
-      "values_digest": "796d8e490f970efbcffde87aba9aa00cf1b0045b6ecea7a794dc53160ebf8c9c",
+      "values_digest": "e527d2e870221762eb653ee10bcf329ee951e9f4eda82b2fd7be0726c939811a",
       "rendered_digest": "f712030d43a6bcbe95ab2fa12dc10c432bae51a6acc3a031f669e6d3343e78cb",
       "ast_digest": "8e78df8c4c8ea709d31653b438dd385934c5c1103505d9de134fae43a3d2c2f0"
     },
     "srp": {
-      "values_digest": "a8b8104dd17f3a3b05b766e21807676b266537b5fa5746d2dd7957ba3dbf914f",
-      "rendered_digest": "8d6e2f6385161160853a09966f8eb40a15c81c33d839cb99f8b2aed15b1ac8bf",
-      "ast_digest": "a7a2b4d35ae6367970488619db43a1b6ed7e3f9e465aee35fb47855fd49344b2"
+      "values_digest": "50625f7034d9dcb898db2526db9ff25ccdbafad96964da710ea648b5346af0c7",
+      "rendered_digest": "db554cc94a2e77a75f8fb6f57ba3c9b127d5f7ccd4a32fdb7070a7f0d7f3d307",
+      "ast_digest": "3f5bf3132f57c5f5554683b26a2f77d3fbba1728ce78240d416d3dafde28f102"
     },
     "sor": {
-      "values_digest": "7fc789be6fd4b3b5cc23b625933d20eaf18b4603c5444809726e61fcf8859c29",
+      "values_digest": "6bad9e462431cf1e876c3c9dddb90a1204868ef25242db9caeb0c6195e8f985c",
       "rendered_digest": "ea4a4de913bda1c9f92daaa8f27f4b821932c7f271eecd741c01d774c7e4bf3c",
       "ast_digest": "14a7981d24f0a20eb9a99e81161d82277f963108f4a2b15d6c9ac1e4439ff2f4"
     }
@@ -96,6 +180,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded terminal repair capability and #5516 correction are implemented and validated."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact substantive revision review is clean after all five findings were fixed and validated."
     }
   ],
   "audit": [
@@ -231,6 +322,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Journal-before-projection ordering passes durability, repair, formatting, and lint validation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"terminal_projection_and_receipt_recover_at_each_durable_boundary\"],\"purpose\":\"Prove the original projection and receipt remain intact when interrupted immediately after journal durability\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: six-boundary durability test, focused terminal repair tests, strict all-target Clippy, cargo fmt check, and git diff check passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact substantive revision review is clean after all five findings were fixed and validated.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
