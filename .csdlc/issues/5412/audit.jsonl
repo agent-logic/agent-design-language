@@ -7,3 +7,6 @@
 {"sequence":7,"generation":5,"actor":"codex-root-design-reapproval","reason":"reapprove changed issue design","operation":"approve_design"}
 {"sequence":8,"generation":6,"actor":"codex-root","reason":"Durably route the stale stable C-SDLC v2 owner-binary provenance defect discovered during exact-review preparation.","operation":"{\"operation\":\"record_finding\",\"finding\":{\"id\":\"F-5412-TOOLING-1\",\"severity\":\"p1\",\"summary\":\"Stable installed csdlc-edit lagged current tracked implemented-phase design reapproval semantics.\",\"actionable\":false,\"in_scope\":false,\"disposition\":\"out_of_scope\",\"fix_revision\":null,\"route\":\"https://github.com/danielbaustin/agent-design-language/issues/5455\"}}"}
 {"sequence":9,"generation":6,"actor":"codex-root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":10,"generation":6,"actor":"codex-root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":7,"actor":"codex-root","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":12,"generation":8,"actor":"codex-root","reason":"Exact-revision bounded review passed after both actionable findings were fixed and revalidated.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
