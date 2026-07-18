@@ -111,13 +111,13 @@ def parse_uses(line: str) -> str | None:
 def require_canonical_action(uses: str, source: str) -> None:
     for action, sha in canonical_actions.items():
         if uses.startswith(f"{action}@"):
-            seen[action] += 1
             expected = f"{action}@{sha}"
             if uses != expected:
                 raise SystemExit(
                     f"workflow must pin {action} to the canonical Node 24 SHA; "
                     f"found {uses!r} in {source}"
                 )
+            seen[action] += 1
 
 for candidate in sorted(workflow_root.glob("*.y*ml")):
     text = candidate.read_text()

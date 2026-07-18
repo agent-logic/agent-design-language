@@ -37,6 +37,16 @@ docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md
     "summary": "Valid quoted YAML uses scalars bypass canonical and deprecated action pin enforcement.",
     "actionable": true,
     "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:7c19d5461d71c79e8a4b9c4ba1a3f7d4f7c991ac:b785ae5945c851b62e70638a0713b7a9d0773a531e0329c20f6035ee19667fa2",
+    "route": null
+  },
+  {
+    "id": "F-5463-2",
+    "severity": "p2",
+    "summary": "Rejected negative fixtures increment real workflow occurrence counts and can mask action disappearance.",
+    "actionable": true,
+    "in_scope": true,
     "disposition": "open",
     "fix_revision": null,
     "route": null
@@ -53,7 +63,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:9c1b1d30100bc92a05b7e0175314a5c132d3c051:840099b7166db6f3b804101949eccd6e40e0ea62e17b9a3fc25fccf76e27ea96")
+Revision: Some("git-blake3:7c19d5461d71c79e8a4b9c4ba1a3f7d4f7c991ac:b785ae5945c851b62e70638a0713b7a9d0773a531e0329c20f6035ee19667fa2")
 
 Reviewer: Some("bounded-subagent-review-5463")
 

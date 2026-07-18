@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Normalize single- and double-quoted uses scalars before canonical action validation and prove both workflow step forms reject floating pins.
+Move occurrence accounting after canonical SHA validation so rejected fixtures cannot satisfy real inventory presence checks.
 
 ## Artifacts
 
@@ -25,6 +25,7 @@ Normalize single- and double-quoted uses scalars before canonical action validat
 - adl/tools/test_ci_path_policy.sh
 - docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md
 - adl/tools/test_ci_runtime_contracts.sh
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -36,6 +37,7 @@ Normalize single- and double-quoted uses scalars before canonical action validat
 - Parse matching single- and double-quoted uses scalars
 - Fail closed on malformed quoted uses scalars
 - Add negative fixtures for quoted list-style and mapping-style floating pins
+- Count a tracked action only after its uses scalar exactly matches the canonical immutable SHA
 
 ## Validation
 
@@ -66,6 +68,15 @@ Normalize single- and double-quoted uses scalars before canonical action validat
     "purpose": "Prove quoted and unquoted tracked action uses cannot escape canonical immutable Node 24 enforcement",
     "outcome": "passed",
     "evidence_ref": "local:5463-quoted-uses-regression-pass"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Prove rejected negative fixtures cannot mask disappearance of a real canonical action occurrence",
+    "outcome": "passed",
+    "evidence_ref": "local:5463-occurrence-accounting-regression-pass"
   }
 ]
 

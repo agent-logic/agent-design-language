@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "f8acfa7ae245012c2e6017e2b33f50c8af46f755be2cb30c945a79c4173be0c5",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "75678d07e238bee07545e7fc4c05809d41658a460995d8fd08382f038230e218",
+  "generation": 10,
+  "digest": "edf5d7868ca8b09c3c1a8f9c1e369f85ca09de7f4e4bc449e6f918904ca7090e",
   "claim": {
     "id": "claim-5463-node24-action-pins",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 7,
+    "generation": 10,
     "acquired_unix_seconds": 1784356628,
     "expires_unix_seconds": 1784443028,
     "heartbeat_unix_seconds": 1784356628,
@@ -30,7 +30,7 @@
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5463",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:9c1b1d30100bc92a05b7e0175314a5c132d3c051:840099b7166db6f3b804101949eccd6e40e0ea62e17b9a3fc25fccf76e27ea96",
+    "revision": "git-blake3:7c19d5461d71c79e8a4b9c4ba1a3f7d4f7c991ac:b785ae5945c851b62e70638a0713b7a9d0773a531e0329c20f6035ee19667fa2",
     "scope": [
       ".github/workflows/aws-codefriend-build.yaml",
       ".github/workflows/aws-spot-remote-validation.yaml",
@@ -54,12 +54,22 @@
       "adl/tools/test_ci_path_policy.sh",
       "docs/tooling/GITHUB_ACTIONS_RUNTIME_PIN_INVENTORY.md"
     ],
-    "reviewed_revision": "git-blake3:9c1b1d30100bc92a05b7e0175314a5c132d3c051:840099b7166db6f3b804101949eccd6e40e0ea62e17b9a3fc25fccf76e27ea96",
+    "reviewed_revision": "git-blake3:7c19d5461d71c79e8a4b9c4ba1a3f7d4f7c991ac:b785ae5945c851b62e70638a0713b7a9d0773a531e0329c20f6035ee19667fa2",
     "findings": [
       {
         "id": "F-5463-1",
         "severity": "p2",
         "summary": "Valid quoted YAML uses scalars bypass canonical and deprecated action pin enforcement.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:7c19d5461d71c79e8a4b9c4ba1a3f7d4f7c991ac:b785ae5945c851b62e70638a0713b7a9d0773a531e0329c20f6035ee19667fa2",
+        "route": null
+      },
+      {
+        "id": "F-5463-2",
+        "severity": "p2",
+        "summary": "Rejected negative fixtures increment real workflow occurrence counts and can mask action disappearance.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -85,34 +95,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ba0769563014cdf65bcdebff280beaad7b2d56e34b272d1ff41dfd04f82cfcaa",
+      "values_digest": "a086ee6f65ca50e7016bfe051256df75a093631f04706b64c5644b1cc754a6f7",
       "rendered_digest": "116ecd514fd218a6b2bfeafeceba5897f833cd75eecca4906aa596c663a42ad1",
       "ast_digest": "055c88cb431f309965d18d1b03e53b285236d3274271fbf29637501e28513148"
     },
     "stp": {
-      "values_digest": "c867a9e0728d7fef2ea25dce61d462cdd254eb0a7b0d6bbf55776593ff0dcbbc",
+      "values_digest": "be84b20e55f99aa294efd00f62edd619bc709d9d3d25a5f1109a087c59796305",
       "rendered_digest": "65c8dc354b936414b8a32edecb10f2c7c786b25a25ecfae40ae7f184fa2f7c3d",
       "ast_digest": "091ab560afbb4b9b8cf99d8062958bf060cc2071b488261c653bebf9029d190e"
     },
     "spp": {
-      "values_digest": "30c6c5d82bc457f3128500bee47a72fcbce548e2029480e8a13f47e00c4bde6f",
+      "values_digest": "4b0c73a7fa4daeae78e10417882b920dc9716003e58e987a7e2fdb353f4cab17",
       "rendered_digest": "e90ef2d4205cb124b557e22c1c43ea52d7770fb4c97deea49ace098a1fcdfab2",
       "ast_digest": "cfa727ea5ef308c202c0ecea492b419bb70f5cebeb9991ececd775f4f39ddf92"
     },
     "vpp": {
-      "values_digest": "c4a5372907bb647ec9982be2f86ab7363c78d7dd87df4ff9849e50d9a4371940",
+      "values_digest": "c914acf8c07656c74ec3181e66b6f98e9f417f9cc0a9b344d715cca5e51894c4",
       "rendered_digest": "9916975d95eaed7aaf8f51caabbda183377af039827c88793385d7761329815e",
       "ast_digest": "8f6f00a2dfc4e8878be02995b0924ea97025a2b98c88520bd6f8991ffd0d3f65"
     },
     "srp": {
-      "values_digest": "9debc71b42da2433187739b932fd7e975ecb8d7dafb359a442a4922a712dc54c",
-      "rendered_digest": "bf758ae7e914f54b9d3490005501265acf748dd86620193b7e9a93844a301dc9",
-      "ast_digest": "5836d3881ee06d7064a0e1b45e50a8bb95f7c25948f5f3a702676d73c6df5b15"
+      "values_digest": "b25e2d845350fc5f5ff67e78f6bc4e1b7022c487f63f8b114958194a0754bee2",
+      "rendered_digest": "51874519eeeb38975cb4e173ea0cfe7c7cc8bb7d05cc9122c8d9fc8bdb9e4d99",
+      "ast_digest": "93d1309752f4459e2824c92b519c656a8cf62394760a38f6edc60ab78cb08428"
     },
     "sor": {
-      "values_digest": "743e3544ea7076b1dc4f2875ea2b8b54c58e2e4ba98b91ac7797a6a4ac53019b",
-      "rendered_digest": "2a252c9cf0db7f2beba124658d5f3b8cdf082eb4232936160375d926dfffb7bd",
-      "ast_digest": "a6f0967ecfb1be7e58c03bbd201ba6801a951eb7d8a8da34fb10c3d6fe764c7d"
+      "values_digest": "aa57e139b93a55db3589cebda9c95161b78b7631cbf318b70ea83f4e0c59de07",
+      "rendered_digest": "aef83baad4fc3d94d7c400a0ee45884310ad114aa392ada90198794e67ea4f99",
+      "ast_digest": "bdec276a8d96c6d654297521963854b208c7879d53eae3da75ece380afd2a489"
     }
   },
   "transitions": [
@@ -208,6 +218,34 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The canonical runtime contract and quoted-scalar negative fixtures pass after F-5463-1 repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove quoted and unquoted tracked action uses cannot escape canonical immutable Node 24 enforcement\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5463-quoted-uses-regression-pass\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "bounded-subagent-review-5463",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fixed F-5463-2 by counting only successfully validated canonical workflow occurrences.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Move occurrence accounting after canonical SHA validation so rejected fixtures cannot satisfy real inventory presence checks.\",\"changes\":[\"Count a tracked action only after its uses scalar exactly matches the canonical immutable SHA\"],\"artifacts\":[\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The canonical runtime contract passes with fixture-isolated occurrence accounting.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Prove rejected negative fixtures cannot mask disappearance of a real canonical action occurrence\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5463-occurrence-accounting-regression-pass\"}}"
     }
   ]
 }
