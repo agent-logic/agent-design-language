@@ -3,31 +3,14 @@
   "issue": 5516,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7bdd347c560965375b7f0a7d9b112887e4beef8851bf44eae2936b487467fc97",
-  "phase": "published",
-  "generation": 11,
-  "digest": "3604d8971a6ef0ce5904e3c6c62c17085d96e4be98dc28c4c384b1ac57077561",
-  "claim": {
-    "id": "claim-5516-5494-terminal-design-repair",
-    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 11,
-    "acquired_unix_seconds": 1784386103,
-    "expires_unix_seconds": 1784472503,
-    "heartbeat_unix_seconds": 1784386103,
-    "branch": "codex/5516-5494-terminal-design-repair",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/5494",
-      ".csdlc/issues/5516",
-      ".csdlc/prepared/issues/5494/reconcile-terminal.json",
-      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
-    ],
-    "purpose": "Correct the retained #5494 Runtime v3 design and diagram through typed terminal repair"
-  },
+  "phase": "closed_out",
+  "generation": 19,
+  "digest": "317cf0e0756f70bc5032dfdc5cdb89365bff11732090a044a5e2689afe26929d",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+    "revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
     "scope": [
       ".csdlc/issues/5494/retained/design.md",
       ".csdlc/issues/5494/retained/diagram.mmd",
@@ -49,7 +32,7 @@
       "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
     ],
-    "reviewed_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+    "reviewed_revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
     "findings": [
       {
         "id": "F-5516-1",
@@ -58,7 +41,7 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+        "fix_revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
         "route": null
       },
       {
@@ -68,7 +51,17 @@
         "actionable": true,
         "in_scope": true,
         "disposition": "fixed",
-        "fix_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+        "fix_revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
+        "route": null
+      },
+      {
+        "id": "F-5516-3",
+        "severity": "p1",
+        "summary": "Committing publication metadata advanced the PR head beyond its recorded review and required exact-head typed recovery before readiness.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
         "route": null
       }
     ],
@@ -83,15 +76,106 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5517",
     "base": "main",
     "head": "codex/5516-5494-terminal-design-repair",
-    "revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
-    "draft": true,
-    "observed_state": "open"
+    "revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
+    "draft": false,
+    "observed_state": "merged"
   },
-  "readiness": null,
-  "terminal": null,
+  "readiness": {
+    "pull_request": 5517,
+    "head_sha": "d80791ff220db788787ce0a7170e14c4fd5a5f3e",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88093008843"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092981707"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "optional",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092961585"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092961578"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092951055"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092961957"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092961892"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092961872"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092961918"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092961961"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29649365860/job/88092961579"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5517,
+    "disposition": "merged",
+    "observed_sha": "d80791ff220db788787ce0a7170e14c4fd5a5f3e",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5516.json",
+    "released_branch": "codex/5516-5494-terminal-design-repair",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      ".csdlc/issues/5494",
+      ".csdlc/issues/5516",
+      ".csdlc/prepared/issues/5494/reconcile-terminal.json",
+      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5516/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5516/diagram.mmd",
+  "design_path": ".csdlc/issues/5516/retained/design.md",
+  "diagram_path": ".csdlc/issues/5516/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
@@ -100,34 +184,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d90f134733a5dbb8fa01bd1d6871cd5094d9c2ca21613494d8866095ee520795",
+      "values_digest": "d3fc9a1dd2db7d34deed03154e5f75954c48c8967724f142028a5e27f7a2d306",
       "rendered_digest": "f4780c7b5bd5ed416d076e7aed55df559b4c7ce4e11176702a7aa7690b13841e",
       "ast_digest": "9bbe855fe8a47c5fbb5dba3098fc0fe05d3b499881eac15876cad28d13b23ff6"
     },
     "stp": {
-      "values_digest": "a55a4a83330f66e26d3d016b618d83581ba3680265d1056688dd502bb5721779",
+      "values_digest": "1fc81481e1013cab55129022fe797aba006abb28623b1e527f0ba21a538a977a",
       "rendered_digest": "8d7a163eb3bd9aedca6b3d4e586b00234e325a0fb18af51eb2b5a485b8a2cf9b",
       "ast_digest": "58c75718e7dec56083311857735aa7885d17709643a4e429abfb0aff0d7a256e"
     },
     "spp": {
-      "values_digest": "34a3baf4bfde6dd0b8e7d6bb3a73fea24dfb1dd658d4ead584a42a96575ad831",
-      "rendered_digest": "dc440e099abf205de8a1e68b4502b71706f668976dcfd11ca338d5854c86a2cc",
-      "ast_digest": "99afea807fa4ef0c24a45e2a4dfeaccefc9a5bf60e7e0f5d6ee0813a1d1b6a97"
+      "values_digest": "95227d029c95f66d0d6971e67987915130f41127b2b86fd4817ea9b602444b0a",
+      "rendered_digest": "e540443743eb65cdfdda278208a5f2fc196b1113a6eb2652bb0d88216a6a5678",
+      "ast_digest": "feefef897401b5bfc74d64f3a6f4e89e796e73b7a902d09af7834c4c29ff79ca"
     },
     "vpp": {
-      "values_digest": "378e8d1934807918d02a7b0b6ed8c6bc175318b80a69e7859b23aefd4973430e",
-      "rendered_digest": "800b49487b426befa6a499588f7788b032cad2716ab88675fc42b48aab5d404c",
-      "ast_digest": "2e0ed3a50f218e246ce30b264f390a0d5d55e17e8250de88b9c6db3e1a19c592"
+      "values_digest": "421b9816603e34975c48bb547977b306ec4046b25a2cb45b53838af1613e875b",
+      "rendered_digest": "23e723a910b7eb99741b33cf6622a0de1ed555ff86dc5215bc45127a914a3771",
+      "ast_digest": "66c140e4a83a492d0934aa003634fa007b2b90129c116fa70ed732ce9ed64e66"
     },
     "srp": {
-      "values_digest": "1eda6082f54cd1d41b093eea3ab20c297315e78220f63907a24e45ca394b2f92",
-      "rendered_digest": "8a71745d8681e4190f09ed5c8c0650b46559597354e77336fb51bf699c1e3b4f",
-      "ast_digest": "1a3810464690f3bb2d7f710fc9eab745e920bd60b34fbaab6ca0c0179d3d51a2"
+      "values_digest": "f3c109783e0b0ee4672461dbce0130c99a7de4fa1aac3fbf9dffb19ba427da77",
+      "rendered_digest": "a44579e31ba2e4b97ea6cf9fc2696d89dec745d932ca0241aac37466c06a721b",
+      "ast_digest": "a4fffad87ba8c095852de107006f917199956845cc96421ea0a6261f14c418bd"
     },
     "sor": {
-      "values_digest": "cdde7ecfa1dcf9a9a5776f9c193502fb132ef504d48ba526fa21779fc12beb43",
-      "rendered_digest": "f355abe5bb180987a4ac5d2c8a46caf52142b53ad6d0c40c2b419a91115c934b",
-      "ast_digest": "74eca449466bd6e7f08d23904d2059fda6ce74741e94283de59dec48c56667c6"
+      "values_digest": "6c6d25e101e948d05acd20a27470675f1991ccc3d3196fdb0f8933c90b283059",
+      "rendered_digest": "97a4d8d835dac711284ac2a9202233259eb52b2bf27de088641c26fcfccd8628",
+      "ast_digest": "4ecb8ea96c9ffbf4023f0854836bb4f5ba0de06401108842410f748488968cda"
     }
   },
   "transitions": [
@@ -179,6 +263,48 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover after committing typed publication metadata so exact PR head d80791ff2 receives current review and publication truth."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact PR-head review passed after typed publication recovery; all three findings are fixed."
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 12,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 13,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -286,6 +412,69 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover after committing typed publication metadata so exact PR head d80791ff2 receives current review and publication truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact PR-head review passed after typed publication recovery; all three findings are fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex-terminal-reconcile",
+      "reason": "Materialize the retained terminal receipt after merged PR #5517 and closed issue #5516, then preserve the corrected #5494 Runtime v3 architecture truth.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "typed terminal plan repair authorized by issue 5518",
+      "operation": "repair_terminal_plan_step:S3"
     }
   ]
 }

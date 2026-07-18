@@ -13,3 +13,12 @@
 {"sequence":13,"generation":9,"actor":"subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":14,"generation":10,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Exact metadata-head review passed after typed recovery; all findings are fixed and Runtime v3 weather ownership remains unchanged.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":15,"generation":11,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":16,"generation":12,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Recover after committing typed publication metadata so exact PR head d80791ff2 receives current review and publication truth.","operation":"recover_review"}
+{"sequence":17,"generation":12,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":18,"generation":13,"actor":"subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":19,"generation":14,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Exact PR-head review passed after typed publication recovery; all three findings are fixed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":20,"generation":15,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":21,"generation":16,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":22,"generation":17,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":23,"generation":18,"actor":"codex-terminal-reconcile","reason":"Materialize the retained terminal receipt after merged PR #5517 and closed issue #5516, then preserve the corrected #5494 Runtime v3 architecture truth.","operation":"reconcile_terminal"}
+{"sequence":24,"generation":19,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"typed terminal plan repair authorized by issue 5518","operation":"repair_terminal_plan_step:S3"}

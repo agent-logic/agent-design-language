@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: draft
+Status: complete
 
 ## Scope
 
@@ -36,7 +36,7 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+    "fix_revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
     "route": null
   },
   {
@@ -46,7 +46,17 @@ docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d",
+    "fix_revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
+    "route": null
+  },
+  {
+    "id": "F-5516-3",
+    "severity": "p1",
+    "summary": "Committing publication metadata advanced the PR head beyond its recorded review and required exact-head typed recovery before readiness.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a",
     "route": null
   }
 ]
@@ -61,7 +71,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:3206c15748f2154d72c28f64cdc27dd3f13bdba1:0ffe78f86f61859cd47f28d74a589fc76fac71b5ca3d4e40d007fc3d1869e10d")
+Revision: Some("git-blake3:d80791ff220db788787ce0a7170e14c4fd5a5f3e:c733f01d089fa6c8e9dc8c295bb7b857d21e22e9e1d328e3d8606638b5e82a4a")
 
 Reviewer: Some("subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc")
 
