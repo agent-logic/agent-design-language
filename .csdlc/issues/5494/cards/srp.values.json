@@ -7,24 +7,87 @@
     "title": "[v0.91.7][review-fix][WP-07A] Complete the unfinished #5409 runtime acceptance boundary",
     "slug": "v0-91-7-wp07a-complete-5409-runtime-acceptance",
     "version": "v0.91.7",
-    "generation": 4
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime/src/runtime_api_auth.rs\nadl-runtime/src/topology.rs\nadl/src/csm_runtime_api.rs\ndocs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "review_revision": "git-blake3:6c779b1aba99312e79ff2cd801c8b9f8e166da6c:1bdeb0703abc8ad44b84baaee8272494b6df2eb4a440c78e31bf915025a811b8",
+      "reviewer": "subagent:019f7455-defb-7250-a22e-26c352e90d0d",
       "review_prompts": [
         "Does production execute rather than merely describe the assembly?",
         "Can any required missing or unhealthy observation leave readiness green?",
         "Does the soak drive real tasks, channels, failure, and recovery?",
         "Is credential overlap bounded without weakening revocation?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "F-5494-1",
+          "severity": "p1",
+          "summary": "Expired non-revoked credentials cannot recover after the renewal window is missed.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5494-2",
+          "severity": "p1",
+          "summary": "Readiness exempts Audit and Evidence channels that channel policy classifies as required.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5494-3",
+          "severity": "p1",
+          "summary": "CSM weather readiness overclaims CPU, memory, and GPU observations from disk pressure only.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5494-4",
+          "severity": "p1",
+          "summary": "The synthetic supervisor test does not execute the production daemon cycle or typed channel fabric.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5494-5",
+          "severity": "p2",
+          "summary": "Credential audit events record a fixed overlap instead of the clipped actual duration.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5494-6",
+          "severity": "p2",
+          "summary": "Repair documentation and the sprint register overstate the first revision's proof.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Strict all-target Clippy is blocked by two pre-existing cav.rs test warnings outside #5494."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

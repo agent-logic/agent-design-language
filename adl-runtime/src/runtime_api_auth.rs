@@ -123,9 +123,7 @@ impl RuntimeApiCredentialStore {
             }
             let renew = metadata.expires_at_epoch_secs.is_some_and(|expires| {
                 now_epoch_secs().is_ok_and(|now| {
-                    expires > now
-                        && expires
-                            <= now.saturating_add(CSM_RUNTIME_API_CREDENTIAL_RENEWAL_WINDOW_SECS)
+                    expires <= now.saturating_add(CSM_RUNTIME_API_CREDENTIAL_RENEWAL_WINDOW_SECS)
                 })
             });
             if renew {
@@ -295,8 +293,16 @@ impl RuntimeApiCredentialStore {
                 expires_at_epoch_secs: now.saturating_add(remaining),
             });
         let previous_generation = previous.as_ref().map(|value| value.generation);
+        let overlap_seconds = previous
+            .as_ref()
+            .map_or(0, |value| value.expires_at_epoch_secs.saturating_sub(now));
         let metadata = self.write_new(current.generation.saturating_add(1), previous)?;
-        self.append_generation_event("credential_rotated", &metadata, previous_generation)?;
+        self.append_generation_event(
+            "credential_rotated",
+            &metadata,
+            previous_generation,
+            overlap_seconds,
+        )?;
         Ok(metadata)
     }
 
@@ -313,7 +319,7 @@ impl RuntimeApiCredentialStore {
         };
         write_private_json_atomic(&self.path, &stored)?;
         let metadata = metadata_from_stored(&stored);
-        self.append_generation_event("credential_revoked", &metadata, None)?;
+        self.append_generation_event("credential_revoked", &metadata, None, 0)?;
         Ok(metadata)
     }
 
@@ -367,6 +373,7 @@ impl RuntimeApiCredentialStore {
         event: &str,
         metadata: &RuntimeApiCredentialMetadata,
         previous_generation: Option<u64>,
+        overlap_seconds: u64,
     ) -> Result<(), String> {
         let path = self
             .path
@@ -379,7 +386,7 @@ impl RuntimeApiCredentialStore {
             "event": event,
             "generation": metadata.generation,
             "previous_generation": previous_generation,
-            "overlap_seconds": if previous_generation.is_some() { CSM_RUNTIME_API_CREDENTIAL_OVERLAP_SECS } else { 0 },
+            "overlap_seconds": overlap_seconds,
             "secret_retained": false
         });
         let mut file = OpenOptions::new()
@@ -621,7 +628,7 @@ mod tests {
     }
 
     #[test]
-    fn credential_store_rejects_expired_material_for_server_and_client() {
+    fn credential_store_recovers_expired_non_revoked_material_without_overlap() {
         let root = tempdir().unwrap();
         let store = RuntimeApiCredentialStore::for_state_root(root.path());
         store.write_new(1, None).unwrap();
@@ -637,15 +644,18 @@ mod tests {
         };
         write_private_json_atomic(store.path(), &expired).unwrap();
         assert!(matches!(
-            store.authorize(Some("Bearer anything")),
+            store.authorize(Some(&format!("Bearer {}", token.expose_secret()))),
             RuntimeApiAuthDecision::Rejected {
-                reason: "credential_expired",
+                reason: "invalid_bearer_token",
                 ..
             }
         ));
-        assert_eq!(
-            store.with_bearer_token(str::to_string).unwrap_err(),
-            "runtime API credential is expired"
+        let recovered = store.metadata().unwrap().unwrap();
+        assert_eq!(recovered.generation, metadata.generation + 1);
+        assert!(store.load_stored().unwrap().previous.is_none());
+        assert_ne!(
+            store.with_bearer_token(str::to_string).unwrap(),
+            token.expose_secret().as_str()
         );
     }
 
@@ -668,6 +678,11 @@ mod tests {
         let renewed = store.ensure().unwrap();
         assert_eq!(renewed.generation, first.generation + 1);
         assert!(renewed.expires_at_epoch_secs.unwrap() > now_epoch_secs().unwrap() + 60);
+        let events =
+            fs::read_to_string(root.path().join(CSM_RUNTIME_API_AUTH_EVENTS_FILE)).unwrap();
+        let rotation: serde_json::Value =
+            serde_json::from_str(events.lines().last().unwrap()).unwrap();
+        assert!(rotation["overlap_seconds"].as_u64().unwrap() <= 60);
     }
 
     #[test]

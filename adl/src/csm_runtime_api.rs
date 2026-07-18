@@ -35,7 +35,7 @@ use crate::csm_resident_agents;
 use crate::csm_shepherd_agent::{self, CSM_SHEPHERD_STATUS_REF};
 use crate::long_lived_agent::{load_spec, AgentStatusState, LoadedAgentSpec, StatusRecord};
 use crate::{csm_freedom_gate, csm_freedom_gate::CSM_FREEDOM_GATE_STATUS_REF};
-use adl_runtime::backpressure::RuntimeChannelId;
+use adl_runtime::backpressure::{runtime_channel_policy, RuntimeChannelId};
 use adl_runtime::continuity_history::{
     CheckpointStore, DomainHealth, LifelogStore, CHECKPOINT_DB_FILE, CHECKPOINT_SCHEMA_V1,
     LIFELOG_DB_FILE, LIFELOG_SCHEMA_V1,
@@ -1695,7 +1695,7 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
         blockers.push("constructability_gate_validation_failed".to_string());
     }
     if let Some(components) = status.get("component_health").and_then(Value::as_object) {
-        for component in ComponentId::ALL {
+        for component in ComponentId::CSM {
             let policy = policy_for(component);
             if policy.telemetry_can_degrade {
                 continue;
@@ -1718,7 +1718,7 @@ fn readiness_blockers(status: &Value) -> Vec<String> {
 
 fn component_health_projection(status: &Value) -> Value {
     let mut components = Map::new();
-    for component in ComponentId::ALL {
+    for component in ComponentId::CSM {
         let (source, state) = match component {
             ComponentId::RuntimeApi => ("request_handler", "ready"),
             ComponentId::Chronosense => (
@@ -1736,22 +1736,7 @@ fn component_health_projection(status: &Value) -> Value {
                 "/scheduler/status",
                 state_when_eq(status, "/scheduler/status", "integrated"),
             ),
-            ComponentId::Weather => (
-                "/backpressure/storage_pressure",
-                if status
-                    .pointer("/backpressure/status")
-                    .and_then(Value::as_str)
-                    == Some("serialized")
-                    && status
-                        .pointer("/backpressure/storage_pressure/state")
-                        .and_then(Value::as_str)
-                        != Some("low_disk")
-                {
-                    "ready"
-                } else {
-                    "not_ready"
-                },
-            ),
+            ComponentId::Weather => unreachable!("Runtime v3 owns weather, not CSM"),
             ComponentId::AcipCarrier => (
                 "/acip_carrier",
                 if state_is(status, "/acip_carrier/readiness", &["ready"])
@@ -1900,13 +1885,7 @@ fn typed_channel_observation_blockers(status: &Value) -> Vec<String> {
         .and_then(Value::as_array);
     RuntimeChannelId::ALL
         .into_iter()
-        .filter(|channel| {
-            !matches!(
-                channel,
-                RuntimeChannelId::ComponentsToObservability
-                    | RuntimeChannelId::CloudBridgeToAwsRoutes
-            )
-        })
+        .filter(|channel| runtime_channel_policy(*channel).priority.is_required())
         .filter_map(|channel| {
             let ready = channels.is_some_and(|entries| {
                 entries.iter().any(|entry| {
@@ -3920,23 +3899,27 @@ memory: {}
         let status = runtime_api_response(&options, "/status").unwrap();
         assert_eq!(
             status["component_health"].as_object().unwrap().len(),
-            ComponentId::ALL.len()
+            ComponentId::CSM.len()
         );
+        assert!(status["component_health"].get("weather").is_none());
         assert!(status["component_health"]
             .as_object()
             .unwrap()
             .values()
             .filter(|component| component["required_for_runtime_ready"] == true)
             .all(|component| component["state"] == "ready"));
-        let mut missing_channel = status.clone();
-        missing_channel["typed_channels"]["channels"]
-            .as_array_mut()
-            .unwrap()
-            .retain(|channel| {
-                channel["channel"] != RuntimeChannelId::RuntimeApiToControlPlane.as_str()
-            });
-        assert!(readiness_blockers(&missing_channel)
-            .contains(&"typed_channel_runtime_api_to_control_plane_not_ready".to_string()));
+        for required in RuntimeChannelId::ALL
+            .into_iter()
+            .filter(|channel| runtime_channel_policy(*channel).priority.is_required())
+        {
+            let mut missing_channel = status.clone();
+            missing_channel["typed_channels"]["channels"]
+                .as_array_mut()
+                .unwrap()
+                .retain(|channel| channel["channel"] != required.as_str());
+            assert!(readiness_blockers(&missing_channel)
+                .contains(&format!("typed_channel_{}_not_ready", required.as_str())));
+        }
 
         let response = runtime_api_response(&options, "/ready").unwrap();
         assert_eq!(response["ready"], "ready", "response: {response}");
