@@ -101,8 +101,6 @@ repository and approved branches/environments. The workflow requires:
 - repository secret `AWS_SPOT_REMOTE_VALIDATION_ROLE_ARN`
 - repository variable `AWS_SPOT_REMOTE_VALIDATION_REGION` (defaults to
   `us-west-2`)
-- repository variable `AWS_SPOT_REMOTE_VALIDATION_SSH_ALLOWED_CIDR`, set to the
-  operator's current public `/32` address
 - protected GitHub environment `adl-spot-ci`; configure it before cutover and
   do not rely on GitHub's unprotected auto-created environment default
 
@@ -114,6 +112,12 @@ required reviewers to this CI environment because unattended required checks
 must not wait for a deployment approval. The workflow still requires a
 same-repository PR head and explicitly routes fork pull requests to hosted
 runners, so no untrusted fork code can enter the Spot job.
+
+For live runs, the remote-validation binary resolves the current hosted
+runner's public IPv4 address through the AWS HTTPS check-IP endpoint and grants
+only that ephemeral `/32` access to the temporary SSH security group. The
+workflow must not reuse an operator workstation CIDR or persist the runner
+address as a repository variable.
 
 Do not store AWS access keys in GitHub. The role needs the bounded EC2, EBS,
 SSM, IAM, ECR-read, and cleanup permissions already created for the Spot lane.
