@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5518,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][csdlc-v2][closeout] Repair stale terminal plan-step truth atomically",
+    "slug": "v0-91-7-csdlc-v2-terminal-plan-step-repair",
+    "version": "v0.91.7",
+    "generation": 15
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the operation narrower than terminal design repair?",
+        "Are all CAS and receipt checks fail closed?",
+        "Can a failed refresh leave split truth?",
+        "Does #5516 S3 match its SOR after repair?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

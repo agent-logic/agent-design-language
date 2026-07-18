@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7bdd347c560965375b7f0a7d9b112887e4beef8851bf44eae2936b487467fc97",
   "phase": "closed_out",
-  "generation": 18,
-  "digest": "43f0983f82d6def3cfe1a60ee6432637d2d35bf55c14f20fb40b69f8014f89a3",
+  "generation": 19,
+  "digest": "317cf0e0756f70bc5032dfdc5cdb89365bff11732090a044a5e2689afe26929d",
   "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
@@ -184,32 +184,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "16b7ff147ad8c8482936ccd8a4a72531fbc3a20d5f236de885630bb83f87b584",
+      "values_digest": "d3fc9a1dd2db7d34deed03154e5f75954c48c8967724f142028a5e27f7a2d306",
       "rendered_digest": "f4780c7b5bd5ed416d076e7aed55df559b4c7ce4e11176702a7aa7690b13841e",
       "ast_digest": "9bbe855fe8a47c5fbb5dba3098fc0fe05d3b499881eac15876cad28d13b23ff6"
     },
     "stp": {
-      "values_digest": "9f3b8f8cf2f7f4af35a2e4e556d40d33bf3d11fbce8196d68a8ef63c27a92f06",
+      "values_digest": "1fc81481e1013cab55129022fe797aba006abb28623b1e527f0ba21a538a977a",
       "rendered_digest": "8d7a163eb3bd9aedca6b3d4e586b00234e325a0fb18af51eb2b5a485b8a2cf9b",
       "ast_digest": "58c75718e7dec56083311857735aa7885d17709643a4e429abfb0aff0d7a256e"
     },
     "spp": {
-      "values_digest": "61936d8278839ad6823506e2273718701716f246a5e72781a801b87b4710e769",
-      "rendered_digest": "aec634f45eaed1695365835e1270a108d7a9a2d6f56a24ff0b8d1c1c5d8106a0",
-      "ast_digest": "a9212b66eb18098d5768094e1d0851ef828c1fe32fbd7fa0118bdace6ef9ca25"
+      "values_digest": "95227d029c95f66d0d6971e67987915130f41127b2b86fd4817ea9b602444b0a",
+      "rendered_digest": "e540443743eb65cdfdda278208a5f2fc196b1113a6eb2652bb0d88216a6a5678",
+      "ast_digest": "feefef897401b5bfc74d64f3a6f4e89e796e73b7a902d09af7834c4c29ff79ca"
     },
     "vpp": {
-      "values_digest": "20f98975eb64ad6689ee0c7ad743f01f391c8e38516eca47eb1d304ec3e6026d",
+      "values_digest": "421b9816603e34975c48bb547977b306ec4046b25a2cb45b53838af1613e875b",
       "rendered_digest": "23e723a910b7eb99741b33cf6622a0de1ed555ff86dc5215bc45127a914a3771",
       "ast_digest": "66c140e4a83a492d0934aa003634fa007b2b90129c116fa70ed732ce9ed64e66"
     },
     "srp": {
-      "values_digest": "b4a635a6bb97b1ab290885c0e5ef754a7dcfbdbe6abd3f784e248094c334f919",
+      "values_digest": "f3c109783e0b0ee4672461dbce0130c99a7de4fa1aac3fbf9dffb19ba427da77",
       "rendered_digest": "a44579e31ba2e4b97ea6cf9fc2696d89dec745d932ca0241aac37466c06a721b",
       "ast_digest": "a4fffad87ba8c095852de107006f917199956845cc96421ea0a6261f14c418bd"
     },
     "sor": {
-      "values_digest": "a1466840e11e94b6e725ecbe1107c5afbc4e504472c1636e1092823ea75be41b",
+      "values_digest": "6c6d25e101e948d05acd20a27470675f1991ccc3d3196fdb0f8933c90b283059",
       "rendered_digest": "97a4d8d835dac711284ac2a9202233259eb52b2bf27de088641c26fcfccd8628",
       "ast_digest": "4ecb8ea96c9ffbf4023f0854836bb4f5ba0de06401108842410f748488968cda"
     }
@@ -468,6 +468,13 @@
       "actor": "codex-terminal-reconcile",
       "reason": "Materialize the retained terminal receipt after merged PR #5517 and closed issue #5516, then preserve the corrected #5494 Runtime v3 architecture truth.",
       "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "typed terminal plan repair authorized by issue 5518",
+      "operation": "repair_terminal_plan_step:S3"
     }
   ]
 }
