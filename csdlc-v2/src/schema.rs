@@ -48,6 +48,7 @@ pub fn public_schema_bundle() -> Value {
         "publication_review_report": schemars::schema_for!(PublicationReviewReport),
         "publication_request": schemars::schema_for!(PublicationRequest),
         "merged_publication_reconciliation_request": schemars::schema_for!(MergedPublicationReconciliationRequest),
+        "merge_publication_request": schemars::schema_for!(crate::publication::MergePublicationRequest),
         "publication_intent": schemars::schema_for!(PublicationIntent),
         "remote_pull_request": schemars::schema_for!(RemotePullRequest),
         "readiness_request": schemars::schema_for!(ReadinessRequest),

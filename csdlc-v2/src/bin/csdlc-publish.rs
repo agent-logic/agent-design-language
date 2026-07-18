@@ -5,8 +5,8 @@ use clap::{Parser, Subcommand};
 use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
     prepare_publication, reconcile_action, record_merged_publication, record_publication,
-    MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
-    PublicationRequest, RemotePullRequest, Store,
+    MergePublicationRequest, MergedPublicationReconciliationRequest, PublicationAction,
+    PublicationIntent, PublicationRequest, RemotePullRequest, Store,
 };
 use octocrab::params::State;
 
@@ -29,6 +29,10 @@ enum Command {
         request: PathBuf,
     },
     ReconcileMerged {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    Merge {
         #[arg(long)]
         request: PathBuf,
     },
@@ -58,9 +62,12 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     if let Command::ReconcileMerged { request } = &cli.command {
         return reconcile_merged(&cli.root, request).await;
     }
+    if let Command::Merge { request } = &cli.command {
+        return merge_pull(&cli.root, request).await;
+    }
     let request_path = match &cli.command {
         Command::Publish { request } | Command::Status { request } => request,
-        Command::ReconcileMerged { .. } | Command::Schema => unreachable!(),
+        Command::ReconcileMerged { .. } | Command::Merge { .. } | Command::Schema => unreachable!(),
     };
     let request: PublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
     let store = Store::new(&cli.root);
@@ -137,6 +144,114 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     Ok(
         serde_json::json!({"schema":"csdlc.publication_result.v1","publication":normalized,"generation":record.generation,"digest":record.digest}),
     )
+}
+
+async fn merge_pull(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
+    let request: MergePublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
+    request.validate()?;
+    let store = Store::new(root);
+    let mut intent = prepare_publication(&store, &request.publication)?;
+    let record = store.load_record(request.publication.issue)?;
+    let publication = record.publication.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidTransition,
+            "merge requires canonical publication evidence",
+        )
+    })?;
+    if record.phase != csdlc_v2::LifecyclePhase::MergeReady
+        || publication.pull_request != request.pull_request
+        || publication.repository != intent.repository
+        || publication.base != intent.base
+        || publication.head != intent.head
+        || publication.revision != intent.revision
+        || !publication.draft
+        || record.readiness.as_ref().is_none_or(|e| {
+            !e.ready || e.pull_request != request.pull_request || e.head_sha != intent.commit_sha
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "merge requires current ready publication and readiness evidence for the exact PR",
+        ));
+    }
+    if intent.commit_sha != request.expected_head_sha {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "merge request SHA differs from the reviewed publication intent",
+        ));
+    }
+    intent.draft = false;
+    let (owner, repo) = intent
+        .repository
+        .split_once('/')
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "repository must be owner/name"))?;
+    let token = csdlc_v2::github_token::resolve(request.publication.token_file.as_deref())?;
+    let crab = octocrab::Octocrab::builder()
+        .personal_token(token)
+        .build()
+        .map_err(|error| remote(error.to_string()))?;
+    let observed = crab
+        .pulls(owner, repo)
+        .get(request.pull_request)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    if pr_number(&observed)? != request.pull_request {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "observed PR number differs from merge request",
+        ));
+    }
+    let normalized = normalize(&intent, &observed)?;
+    csdlc_v2::publication::validate_remote(&intent, &normalized)?;
+    let current = store.load_record(request.publication.issue)?;
+    if current.generation != request.publication.expected_generation
+        || current.digest != request.publication.expected_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "canonical publication changed while preparing the merge",
+        ));
+    }
+    let result = crab
+        .pulls(owner, repo)
+        .merge(request.pull_request)
+        .sha(&request.expected_head_sha)
+        .method(octocrab::params::pulls::MergeMethod::Squash)
+        .send()
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    let merged_sha = require_merge_success(
+        result.merged,
+        result.sha.as_deref(),
+        result.message.as_deref().unwrap_or_default(),
+    )?;
+    Ok(serde_json::json!({
+        "schema": "csdlc.merge_publication_result.v1",
+        "merged": true,
+        "sha": merged_sha,
+        "message": result.message,
+    }))
+}
+
+fn require_merge_success(
+    merged: bool,
+    sha: Option<&str>,
+    message: &str,
+) -> csdlc_v2::Result<String> {
+    if !merged {
+        return Err(V2Error::new(
+            ErrorCode::RemoteFailure,
+            format!("GitHub did not merge the reviewed PR: {message}"),
+        ));
+    }
+    sha.filter(|value| !value.trim().is_empty())
+        .map(ToOwned::to_owned)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::RemoteFailure,
+                "GitHub reported a merge without a resulting commit SHA",
+            )
+        })
 }
 
 async fn reconcile_merged(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
@@ -368,9 +483,21 @@ fn reconcile_create_observation(send_failed: bool, observed: bool) -> csdlc_v2::
 #[cfg(test)]
 mod tests {
     use super::{
-        reconcile_create_observation, remote_url_matches, validate_observed_repository_identity,
+        reconcile_create_observation, remote_url_matches, require_merge_success,
+        validate_observed_repository_identity,
     };
     use csdlc_v2::PublicationIntent;
+
+    #[test]
+    fn merge_result_requires_merged_true_and_sha() {
+        assert!(require_merge_success(false, Some("abc"), "blocked").is_err());
+        assert!(require_merge_success(true, None, "missing").is_err());
+        assert!(require_merge_success(true, Some(" "), "blank").is_err());
+        assert_eq!(
+            require_merge_success(true, Some("abc"), "ok").unwrap(),
+            "abc"
+        );
+    }
 
     #[test]
     fn remote_url_requires_exact_github_host_and_repository() {

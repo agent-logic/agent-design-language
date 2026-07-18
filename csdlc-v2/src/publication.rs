@@ -33,6 +33,29 @@ pub struct MergedPublicationReconciliationRequest {
     pub pull_request: u64,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct MergePublicationRequest {
+    pub schema: String,
+    pub publication: PublicationRequest,
+    pub pull_request: u64,
+    pub expected_head_sha: String,
+}
+
+impl MergePublicationRequest {
+    pub fn validate(&self) -> Result<()> {
+        if self.schema != "csdlc.merge_publication_request.v1"
+            || self.pull_request == 0
+            || self.expected_head_sha.trim().is_empty()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "merge publication request identity is invalid",
+            ));
+        }
+        Ok(())
+    }
+}
+
 impl MergedPublicationReconciliationRequest {
     pub fn validate(&self) -> Result<()> {
         if self.schema != "csdlc.merged_publication_reconciliation_request.v1"
@@ -193,7 +216,7 @@ fn verify_record(record: &IssueRecord, request: &PublicationRequest) -> Result<(
     }
     if !matches!(
         record.phase,
-        LifecyclePhase::Reviewed | LifecyclePhase::Published
+        LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
     ) {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,
