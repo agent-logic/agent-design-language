@@ -1,0 +1,138 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5521,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "0f4f5b5ddef2db077364eb43801ab33059a3a5ad11cf235c657b3b349b76d6b3",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "42bb50f0cac61a5615463111b23e96ca5ec1a3e85f7c1ea8640752845c41e041",
+  "claim": {
+    "id": "claim-5521-terminal-plan-repair",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 4,
+    "acquired_unix_seconds": 1784390428,
+    "expires_unix_seconds": 1784476828,
+    "heartbeat_unix_seconds": 1784390428,
+    "branch": "codex/5521-terminal-plan-repair",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5518",
+      ".csdlc/issues/5521",
+      ".csdlc/prepared/issues/5521"
+    ],
+    "purpose": "Complete #5518 SPP S4 through the typed terminal repair"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5521/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5521/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "revision": "4e65a25513e39209bcb6d1ed624e015a1cc955db8bb05671ce313510d90b3485"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "37386afb869ad090aa0d9081a1ac75e150529b595fe7d5cf7f879f896e9bb78c",
+      "rendered_digest": "84bf39e00364a59f75467a1f712270bcb75c495a27c403326b1f0ad878427685",
+      "ast_digest": "ebc9a31f3e172a685e99bce689b85011ec3d6f321b53b51112ce451e195fc7e3"
+    },
+    "stp": {
+      "values_digest": "2beef78424e02da212215db8898a2da90204ed7579b67159765a56f5533fd642",
+      "rendered_digest": "c1ccd91287311f17331d53c59b32f9c09a18c4ee5390d4809d37efa4130b0dae",
+      "ast_digest": "408042d7b4035d8838dea95e1f81d91520af24b501b76b0c5da6e2127e0bd717"
+    },
+    "spp": {
+      "values_digest": "5c1500acb6321140eb70a093a5f3b8ed341443479edea10d9b620b436769045d",
+      "rendered_digest": "5f5007404c47ef101da11b4280ea1ec1653ab519aec55ef93316b7a3d4c5381e",
+      "ast_digest": "719a9377c50f0a05173dc8bba6595543b37da55c5cda4c9b719524fffa24a00e"
+    },
+    "vpp": {
+      "values_digest": "bc884b87de2528eee67e1b87b7849b76115d29a1f4e02532403d819e63404eb2",
+      "rendered_digest": "cbf9b3b34403dc7af5a7dfbe5610cad408d3b04e0129bcb48ce3def97133c45a",
+      "ast_digest": "b6910f03d68429e878303156331015bd5532e0078ba66cc6080db129b3677496"
+    },
+    "srp": {
+      "values_digest": "6ab7e3449f312eaa21d14f8d4f7bb7a5d0ff9ecee20da204b8980e8c954220ef",
+      "rendered_digest": "fe33d3a4d563e46d55e215b9cb3b79fdcfc8891dc42dd759f4687730ced4bf40",
+      "ast_digest": "fb44b0477ff057055402972ee135f5b391e0610ee7e7e669dee6eb1cba6cbac9"
+    },
+    "sor": {
+      "values_digest": "516c2eba9c6c6d64ca07c38298b7fe8e3d42069c146f72c10f1a0d0a4abd02a9",
+      "rendered_digest": "6a3e2ae2db9c8b951a2d977690a23d0a069eab147ff16000c10b015df64c606e",
+      "ast_digest": "4eb07e6e5026f6e91aa21f14cb417c16c1b4bc5fcbb60e019d6d938ce120bb44"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The records-only terminal repair and validation are complete with no source changes."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Use the merged typed terminal repair to complete #5518 SPP S4.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Advance only #5518 SPP S4 to completed and atomically refresh its terminal receipt.\",\"changes\":[\"Repair #5518 S4 from pending to completed\",\"Regenerate #5518 card projections, audit, generation, and digests\",\"Replace #5518 retained receipt atomically\"],\"artifacts\":[\".csdlc/issues/5518\",\".csdlc/issues/5521\",\".csdlc/prepared/issues/5521\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "#5518 and #5521 typed doctors pass with exact S4 and receipt parity.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-doctor\",\"--issue\",\"5518\"],\"purpose\":\"Prove #5518 remains closed out with S4 completed and exact retained receipt parity\",\"outcome\":\"passed\",\"evidence_ref\":\"local: #5518 generation 29 digest 49c61e6e; receipt digest 7158360c; both #5518 and #5521 doctor reports pass\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "#5518 S4 repair and exact terminal parity validation are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The records-only terminal repair and validation are complete with no source changes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
