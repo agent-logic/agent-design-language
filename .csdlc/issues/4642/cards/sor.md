@@ -46,7 +46,7 @@ Added the WP-15 demo convergence packet, feature proof coverage index, machine-r
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
