@@ -1,0 +1,10 @@
+{
+  "issue": 5466,
+  "card": "srp",
+  "expected_generation": 8,
+  "expected_digest": "3269fdb792989016caecf2f5dba085a79017656e58bb85d477d878fb5474e4ce",
+  "claim_id": "claim-5466-merged-head-closeout",
+  "actor": "codex-root",
+  "reason": "Exact-revision bounded review passed after all three actionable findings were fixed.",
+  "operation": {"operation":"advance_phase","phase":"reviewed"}
+}
