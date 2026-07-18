@@ -28,7 +28,13 @@ path, account_hash = sys.argv[1:3]
 with open(path, "w", encoding="utf-8") as handle:
     json.dump({
         "account_identity": {"account_id_sha256": account_hash},
-        "cache_volume": {"volume_id": "vol-0123456789abcdef0"},
+        "cache_volume": {
+            "volume_id": "vol-0123456789abcdef0",
+            "size_gib": 100,
+            "volume_type": "gp3",
+            "iops": 3000,
+            "throughput_mbps": 125,
+        },
         "launch_surface": {"subnet_id": "subnet-0123456789abcdef0"},
     }, handle)
 PY
@@ -55,7 +61,7 @@ elif [[ "$1 $2" == "ec2 describe-volumes" ]]; then
     *'Volumes[0].State'*) echo available ;;
     *'Volumes[0].Tags'*) echo adl-aws-remote-validation-cache-volume ;;
     *'Volumes[0].AvailabilityZone'*) echo us-west-2a ;;
-    *'Volumes[0].Size'*) echo 500 ;;
+    *'Volumes[0].Size'*) echo 1000 ;;
     *'Volumes[0].VolumeType'*) echo gp3 ;;
     *'Volumes[0].Iops'*) echo 3000 ;;
     *'Volumes[0].Throughput'*) echo 125 ;;
@@ -364,7 +370,7 @@ grep -Fx -- "vol-0123456789abcdef0" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--cache-volume-name" "$TMP/args.txt" >/dev/null
 grep -Fx -- "adl-aws-remote-validation-cache-volume" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--cache-volume-size-gib" "$TMP/args.txt" >/dev/null
-grep -Fx -- "500" "$TMP/args.txt" >/dev/null
+grep -Fx -- "1000" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--cache-volume-type" "$TMP/args.txt" >/dev/null
 grep -Fx -- "gp3" "$TMP/args.txt" >/dev/null
 grep -Fx -- "--cache-volume-iops" "$TMP/args.txt" >/dev/null
