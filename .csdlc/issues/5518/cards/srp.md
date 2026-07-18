@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -39,7 +39,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
     "route": null
   },
   {
@@ -49,7 +49,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
     "route": null
   },
   {
@@ -59,7 +59,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
     "route": null
   },
   {
@@ -69,7 +69,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
     "route": null
   },
   {
@@ -79,7 +79,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c",
+    "fix_revision": "git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed",
     "route": null
   }
 ]
@@ -94,7 +94,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:9a51149d054dcf093543c49735db0817d2def523:17fb0bf862cf60eb19f48df8415db8ffd11d706bd11ad904119e8aeb588b373c")
+Revision: Some("git-blake3:bbb8fddc417eeac61e0cb6cec8b2d1b9ef4a9beb:269b0699be332e2948949c58927f1064ef9f2d41a00dfd6071f103926bf731ed")
 
 Reviewer: Some("subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc")
 

@@ -143,7 +143,7 @@ Make the terminal journal durable before the first reconciled projection swap.
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
