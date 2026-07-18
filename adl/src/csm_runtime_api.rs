@@ -95,19 +95,6 @@ async fn serve_runtime_api_async(
         bail!("CSM runtime API test request limit must be greater than zero");
     }
     let loaded = load_spec(&options.spec_path).context("load CSM runtime API owner spec")?;
-    let auth_store = RuntimeApiCredentialStore::for_state_root(&loaded.state_root);
-    let auth_metadata = auth_store
-        .ensure()
-        .map_err(anyhow::Error::msg)
-        .context("initialize CSM runtime API credential")?;
-    let auth_events_path = loaded.state_root.join(CSM_RUNTIME_API_AUTH_EVENTS_FILE);
-    append_runtime_api_auth_event(
-        &auth_events_path,
-        "credential_ready",
-        None,
-        None,
-        Some(&auth_metadata),
-    )?;
     let listener_config = resolve_main_runtime_api_listener(
         Some(&options.bind),
         options.test_max_requests.is_some()
@@ -132,6 +119,19 @@ async fn serve_runtime_api_async(
         .local_addr()
         .context("read CSM API local address")?;
     validate_loopback_bind(&addr)?;
+    let auth_store = RuntimeApiCredentialStore::for_state_root(&loaded.state_root);
+    let auth_metadata = auth_store
+        .ensure()
+        .map_err(anyhow::Error::msg)
+        .context("initialize CSM runtime API credential")?;
+    let auth_events_path = loaded.state_root.join(CSM_RUNTIME_API_AUTH_EVENTS_FILE);
+    append_runtime_api_auth_event(
+        &auth_events_path,
+        "credential_ready",
+        None,
+        None,
+        Some(&auth_metadata),
+    )?;
     println!(
         "{}",
         serde_json::to_string(&json!({
