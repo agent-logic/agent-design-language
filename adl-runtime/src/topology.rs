@@ -415,7 +415,26 @@ mod tests {
             .all(|snapshot| snapshot.accepted_count >= 100));
         let replay = replay_lifecycle_journal(&journal);
         assert_eq!(replay.invalid_lines, 0);
+        assert_eq!(replay.read_error, None);
         assert!(replay.events.len() >= 201);
+        assert!(replay
+            .events
+            .iter()
+            .all(|event| event.retention == crate::supervision::LifecycleRetention::Retained));
+        assert!(replay
+            .events
+            .windows(2)
+            .all(|events| events[1].sequence == events[0].sequence + 1));
+        assert!(replay.events.windows(4).any(|events| {
+            events[0].event == LifecycleEventKind::Start
+                && events[0].readiness == ComponentReadiness::NotReady
+                && events[1].event == LifecycleEventKind::RestartScheduled
+                && events[1].readiness == ComponentReadiness::NotReady
+                && events[2].event == LifecycleEventKind::Start
+                && events[2].readiness == ComponentReadiness::NotReady
+                && events[3].event == LifecycleEventKind::Healthy
+                && events[3].readiness == ComponentReadiness::Ready
+        }));
     }
 
     #[test]

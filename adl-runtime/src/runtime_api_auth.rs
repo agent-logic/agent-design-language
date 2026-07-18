@@ -95,6 +95,11 @@ pub enum RuntimeApiAuthDecision {
     },
 }
 
+enum AuthorizationPreparation {
+    Decision(RuntimeApiAuthDecision),
+    Ensure,
+}
+
 #[derive(Debug, Clone)]
 pub struct RuntimeApiCredentialStore {
     path: PathBuf,
@@ -148,9 +153,37 @@ impl RuntimeApiCredentialStore {
     }
 
     pub fn authorize(&self, authorization: Option<&str>) -> RuntimeApiAuthDecision {
-        let ensure_error = self.ensure().err();
-        match self.with_read_lock(|| self.authorize_locked(authorization, ensure_error)) {
-            Ok(decision) => decision,
+        let preparation = self.with_read_lock(|| {
+            if !self.path.exists() {
+                return Ok(AuthorizationPreparation::Ensure);
+            }
+            let stored = self.load_stored()?;
+            if stored.revoked {
+                return self
+                    .authorize_stored(stored, authorization, None)
+                    .map(AuthorizationPreparation::Decision);
+            }
+            let renew = stored.expires_at_epoch_secs.is_some_and(|expires| {
+                now_epoch_secs().is_ok_and(|now| {
+                    expires <= now.saturating_add(CSM_RUNTIME_API_CREDENTIAL_RENEWAL_WINDOW_SECS)
+                })
+            });
+            if renew {
+                Ok(AuthorizationPreparation::Ensure)
+            } else {
+                self.authorize_stored(stored, authorization, None)
+                    .map(AuthorizationPreparation::Decision)
+            }
+        });
+        match preparation {
+            Ok(AuthorizationPreparation::Decision(decision)) => decision,
+            Ok(AuthorizationPreparation::Ensure) => {
+                let ensure_error = self.ensure().err();
+                match self.with_read_lock(|| self.authorize_locked(authorization, ensure_error)) {
+                    Ok(decision) => decision,
+                    Err(reason) => RuntimeApiAuthDecision::Unavailable { reason },
+                }
+            }
             Err(reason) => RuntimeApiAuthDecision::Unavailable { reason },
         }
     }
@@ -160,7 +193,15 @@ impl RuntimeApiCredentialStore {
         authorization: Option<&str>,
         ensure_error: Option<String>,
     ) -> Result<RuntimeApiAuthDecision, String> {
-        let stored = self.load_stored()?;
+        self.authorize_stored(self.load_stored()?, authorization, ensure_error)
+    }
+
+    fn authorize_stored(
+        &self,
+        stored: StoredCredential,
+        authorization: Option<&str>,
+        ensure_error: Option<String>,
+    ) -> Result<RuntimeApiAuthDecision, String> {
         let metadata = metadata_from_stored(&stored);
         if stored.revoked {
             return Ok(RuntimeApiAuthDecision::Rejected {
@@ -661,6 +702,35 @@ fn validate_private_file(path: &Path) -> Result<(), String> {
 mod tests {
     use super::*;
     use tempfile::tempdir;
+
+    #[test]
+    fn ordinary_authorization_uses_the_shared_credential_lock() {
+        use std::sync::mpsc;
+        use std::time::Duration;
+
+        let root = tempdir().unwrap();
+        let store = RuntimeApiCredentialStore::for_state_root(root.path());
+        store.ensure().unwrap();
+        let token = store.with_bearer_token(str::to_string).unwrap();
+        let lock = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(root.path().join(CSM_RUNTIME_API_AUTH_LOCK_FILE))
+            .unwrap();
+        FileExt::lock_shared(&lock).unwrap();
+        let (tx, rx) = mpsc::channel();
+        let worker = std::thread::spawn(move || {
+            tx.send(store.authorize(Some(&format!("Bearer {token}"))))
+                .unwrap();
+        });
+
+        assert!(matches!(
+            rx.recv_timeout(Duration::from_millis(250)).unwrap(),
+            RuntimeApiAuthDecision::Authenticated(_)
+        ));
+        FileExt::unlock(&lock).unwrap();
+        worker.join().unwrap();
+    }
 
     #[test]
     fn credential_store_fails_closed_and_rotates_without_exposing_token() {

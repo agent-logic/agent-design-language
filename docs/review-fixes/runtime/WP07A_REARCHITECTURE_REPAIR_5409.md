@@ -26,7 +26,8 @@ weather service.
   - no longer claims static component readiness or independent component tasks;
   - excludes Runtime v3-owned weather from the CSM component assembly;
   - runs 100 supervised task cycles through the real Runtime v3 typed-channel
-    fabric, injects one task failure, and verifies restart plus durable replay.
+    fabric, injects one task failure, and verifies restart plus retained
+    lifecycle-journal sequence and readiness replay.
 - `adl/src/long_lived_agent/tests.rs`
   - invokes the unmodified production daemon entrypoint for three real bounded
     ticks;
@@ -65,13 +66,13 @@ git diff --check
 
 Observed locally:
 
-- `adl-runtime`: 125 unit tests and 1 independence test passed, including 11
+- `adl-runtime`: 126 unit tests and 1 independence test passed, including 12
   focused credential-lifecycle tests.
 - integrated CSM runtime API: 44 focused tests passed.
 - Runtime v3 behavioral soak: 100 completed supervised task cycles and 101
   attempts through all seven real typed channels, including one injected
-  failure, restart, recovery, and valid durable lifecycle replay; focused test
-  execution completed in 1.20 seconds.
+  failure, restart, recovery, and valid retained lifecycle-journal sequence and
+  readiness replay; focused test execution completed in 1.20 seconds.
 - production daemon integration: three completed real ticks with one injected
   workflow failure and clean recovery; focused test execution completed in
   16.77 seconds.

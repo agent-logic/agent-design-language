@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime/src/runtime_api_auth.rs
+adl-runtime/src/supervision.rs
+adl-runtime/src/topology.rs
+adl/src/cli/csmctl_cmd.rs
+adl/src/csm_runtime_api.rs
+adl/src/long_lived_agent/tests.rs
+docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
+docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
 ## Prompts
 
@@ -23,7 +30,28 @@ Status: draft
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5494-11",
+    "severity": "p2",
+    "summary": "The soak claims durable replay without asserting retained sequence continuity and the failure-to-restart-to-ready lifecycle transition.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5494-12",
+    "severity": "p3",
+    "summary": "Ordinary authorization takes the exclusive credential mutation lock before acquiring the shared authorization lock.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -31,12 +59,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI must confirm the revised coverage lane after both findings are fixed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b1c45a6a74e37c7517f9c916ee16f308508b4e60:7637be99e867490334876bcc8882bf913f0d6d9648bbe901bafe8eea86043ed9")
 
-Reviewer: None
+Reviewer: Some("subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc")
 
-Result: pre_review
+Result: changes_required

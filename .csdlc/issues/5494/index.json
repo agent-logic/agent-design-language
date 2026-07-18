@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "6f14e4c9ea83d3837e27c54efaab81a25e4b801f231b3750c4ebe1bde2a0a415",
   "phase": "implemented",
-  "generation": 46,
-  "digest": "e95ff5aa8d65edae249677ca7485eb6c29fb053e8648fe2129d7c138d6de5cbc",
+  "generation": 47,
+  "digest": "17c4b9fc43b8f1074f98ff98aa1884a9ce53a436840dfe32e7c4d89fbd15d0af",
   "claim": {
     "id": "claim-5494-wp07a-completion",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 46,
+    "generation": 47,
     "acquired_unix_seconds": 1784362098,
     "expires_unix_seconds": 1784448498,
     "heartbeat_unix_seconds": 1784362098,
@@ -26,8 +26,62 @@
     ],
     "purpose": "Complete the unfinished #5409 production supervision, observed readiness, assembled soak, and credential-overlap acceptance boundary"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:b1c45a6a74e37c7517f9c916ee16f308508b4e60:7637be99e867490334876bcc8882bf913f0d6d9648bbe901bafe8eea86043ed9",
+    "scope": [
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/topology.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+    "scope": [
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/topology.rs",
+      "adl/src/cli/csmctl_cmd.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      "docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+    ],
+    "reviewed_revision": "git-blake3:b1c45a6a74e37c7517f9c916ee16f308508b4e60:7637be99e867490334876bcc8882bf913f0d6d9648bbe901bafe8eea86043ed9",
+    "findings": [
+      {
+        "id": "F-5494-11",
+        "severity": "p2",
+        "summary": "The soak claims durable replay without asserting retained sequence continuity and the failure-to-restart-to-ready lifecycle transition.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5494-12",
+        "severity": "p3",
+        "summary": "Ordinary authorization takes the exclusive credential mutation lock before acquiring the shared authorization lock.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Hosted CI must confirm the revised coverage lane after both findings are fixed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +96,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "90568625f47fdacd600c9d8869c38160710e87ae54f7b3bb907be367d3973d49",
+      "values_digest": "607346074493578c35305ae08c21ff732c36f2c5c2c83d111cd0b48a85de0d00",
       "rendered_digest": "0577b78e647255e7b492a35492ad56158ccd45749cac524cb1ff2d5c1d3f778f",
       "ast_digest": "92d1bee368f9af95dffabd28301bc12de17c2a5b12774c9ac9e95b8ae9979d91"
     },
     "stp": {
-      "values_digest": "8bbf681f87294a856e250552eb8ce93249cb190270bb4752c43985587ebe49a7",
+      "values_digest": "9b62dc874e4ea7e94af577fba8b63fb2d9ea3e62ce6428f8f6fe8cf4eeda35b0",
       "rendered_digest": "fadf783417cae8bed735f91f626c743c9f38dfd617ab4827da71073138b7d942",
       "ast_digest": "d2845954cf9b984d03990fbdd04fee03a7074dc9ecf40771ac62e7a2a33fe731"
     },
     "spp": {
-      "values_digest": "dc1e8730e3422b4297ed9ec66bef75b9b03cb868122fbc930d18db82c332aa5d",
+      "values_digest": "8dc4ba06cf7b4b029d542ff2852367ff35e667e25f16e890689c59612c469bd0",
       "rendered_digest": "f0463ccf0898c30b49b5b6fc9ce73395872678431ba8aed31379f2439398d806",
       "ast_digest": "60ca25621be22d764231848d864cab5b6dad5f8937194b5b1adcf066f39015f9"
     },
     "vpp": {
-      "values_digest": "82c021bb5aad599fa692f0db018bceb5bc0d26a7cd816664804f62e26d522327",
+      "values_digest": "1888fe572a7ad0d4c7fd4e74ce74887c36189ec6b2d88a5cdeeb52cd62f0a9a1",
       "rendered_digest": "ac3406c5d7fe881297ec080b7d1b35bd7e7fca2101589dec5b766506ae85a652",
       "ast_digest": "98700885a179ae37ce8dfc0cd7d43202629aa443873861142f9e872335dc4bc6"
     },
     "srp": {
-      "values_digest": "cdd92f6095d0f37bf8bb16b2abcc5a9c360e08bd784f8a88352fc912c4bcba2d",
-      "rendered_digest": "902caae0a976cf9aafc150aa83a0e30ec69d6999cb74d2266a2031b79efd027a",
-      "ast_digest": "6f2283b7ce3b73053452b364e960c5918026c31ad661edc1426a7ee520c85e84"
+      "values_digest": "3a33b92addde5c3df14406d1241a5ebd19ae5217d0bb35f1e428eac70d760ba0",
+      "rendered_digest": "912f01936ef5e5db6d79446d153ef923378b690eefc85c24702c4fd6f153e736",
+      "ast_digest": "e43b6f69840ea58cc8e218bb9f54c7487baee37adfb3d5b54211a32a7cf45f13"
     },
     "sor": {
-      "values_digest": "bea1902bbffbbc96d4538208092fdad5f2e537634f89f5c177eec81aaac644b3",
+      "values_digest": "e60392639624f71e1d58ea5cd185ee8c30b885fcc1335a0001cda017f7a6a691",
       "rendered_digest": "7b18835d70f3bc124e9abd328b3796455a44398aa4909752cd9f2c4aec337995",
       "ast_digest": "b3282829c8c695ecc426ff4f99032c652be8b0fdf6da3d8187faf8484ec1ad2a"
     }
@@ -592,6 +646,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The unmodified production daemon entrypoint executes real ticks and recovers after an injected child failure.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"production_daemon_executes_real_ticks_and_recovers_after_child_failure\"],\"purpose\":\"Prove the production daemon executes three real bounded ticks and cleanly recovers after one injected workflow failure\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork: 3 completed production daemon ticks, 1 injected failure, clean recovery; focused test completed in 16.77 seconds\"}}"
+    },
+    {
+      "sequence": 60,
+      "generation": 46,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 47,
+      "actor": "subagent:019f7581-a4bf-7fb3-a900-3d71dfea4abc",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
