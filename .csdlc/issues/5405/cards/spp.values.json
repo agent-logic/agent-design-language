@@ -7,7 +7,7 @@
     "title": "[v0.91.7][review-fix][WP-13] Resolve #5403 guild, Godel, and economics findings",
     "slug": "v0-91-7-review-fix-wp13-guild-godel-economics-findings",
     "version": "v0.91.7",
-    "generation": 16
+    "generation": 39
   },
   "status": "ready",
   "content": {
@@ -69,9 +69,9 @@
         "Parent closeout truth needs operator decision rather than mechanical repair"
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/prepared/issues/5405/design.md",
+      "design_ref": ".csdlc/issues/5405/retained/design.md",
       "design_digest": "94d15fb356b31f02b0d46cc67eb69d558668f1783d2090be1b75914e4866ed68",
-      "diagram_ref": ".csdlc/prepared/issues/5405/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5405/retained/diagram.mmd",
       "diagram_digest": "e6532f69e14e124f0eff40d721bb0a891acdfa8f2a26925fb4ae643f9ecbefd9"
     }
   }

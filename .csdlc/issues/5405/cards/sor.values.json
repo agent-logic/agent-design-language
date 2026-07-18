@@ -7,9 +7,9 @@
     "title": "[v0.91.7][review-fix][WP-13] Resolve #5403 guild, Godel, and economics findings",
     "slug": "v0-91-7-review-fix-wp13-guild-godel-economics-findings",
     "version": "v0.91.7",
-    "generation": 16
+    "generation": 39
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -74,10 +74,10 @@
           "evidence_ref": "docs/milestones/v0.91.7/review/wp13_closeout_4640/closeout_packet.json"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
