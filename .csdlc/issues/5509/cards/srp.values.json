@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5509,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][tooling][CI] Keep mixed Runtime v3 and CSM validation out of Runtime v2 coverage",
+    "slug": "v0-91-7-runtime-v3-csm-fast-lane",
+    "version": "v0.91.7",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can an unrelated mixed-crate change enter the bounded route?",
+        "Does each changed crate execute its own tests?",
+        "Can coverage omit one crate while still reporting success?",
+        "Are Runtime v2 tests excluded by construction?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
