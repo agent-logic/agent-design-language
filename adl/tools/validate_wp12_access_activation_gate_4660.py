@@ -47,8 +47,8 @@ def validate_access_gate(repo_root: Path, data: dict[str, Any]) -> None:
         fail("access gate must be issue 4660")
     if data.get("parent_issue") != 4639:
         fail("access gate must point at parent issue 4639")
-    if data.get("status") != "access_gate_recorded_blockers_remaining":
-        fail("access gate status must preserve remaining blockers")
+    if data.get("status") != "access_gate_recorded":
+        fail("access gate status must reflect the closed WP-12 owner-issue set")
 
     required_consumers = {
         "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
@@ -90,7 +90,7 @@ def validate_access_gate(repo_root: Path, data: dict[str, Any]) -> None:
         4656: "gate_recorded_child_blockers_remaining",
         4657: "integrated_proven",
         4658: "integrated_proven",
-        4659: "pr_open_pending_ci_review",
+        4659: "boundary_proven",
         4660: "access_gate_recorded",
         4914: "boundary_proven",
         4917: "integrated_proven",
@@ -104,9 +104,9 @@ def validate_access_gate(repo_root: Path, data: dict[str, Any]) -> None:
             fail(f"owner issue {issue} state must be {expected_state}")
         require_refs_exist(repo_root, row.get("evidence", []), label=f"checklist issue {issue} evidence")
 
-    blockers = {item.get("issue") for item in data.get("current_blockers", []) if isinstance(item, dict)}
-    if blockers != {4659}:
-        fail("current_blockers must be exactly #4659")
+    blockers = data.get("current_blockers")
+    if blockers != []:
+        fail("current_blockers must be empty after #4659 and PR #5146 closed")
 
     non_claims = data.get("non_claims")
     if not isinstance(non_claims, list) or len(non_claims) < 5:
