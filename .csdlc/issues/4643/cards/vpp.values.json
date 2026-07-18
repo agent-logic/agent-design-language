@@ -7,7 +7,7 @@
     "title": "[v0.91.7][WP-16][quality] Coverage and quality gate",
     "slug": "v0-91-7-wp16-coverage-quality-gate",
     "version": "v0.91.7",
-    "generation": 0
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -27,7 +27,7 @@
           "budget_seconds": 300,
           "budget_tokens": 3000,
           "argv": [
-            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+                        "csdlc-doctor",
             "--repo",
             ".",
             "--issue",

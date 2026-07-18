@@ -35,7 +35,7 @@ Diagram: .csdlc/prepared/issues/4643/diagram.mmd
     "budget_seconds": 300,
     "budget_tokens": 3000,
     "argv": [
-      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+      "csdlc-doctor",
       "--repo",
       ".",
       "--issue",
@@ -78,7 +78,7 @@ Tokens: 25000
 
 ## Commands
 
-- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 4643`
+- `csdlc-doctor --repo . --issue 4643`
 - `git diff --check`
 
 ## Failure Semantics
