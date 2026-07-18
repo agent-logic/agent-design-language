@@ -452,6 +452,103 @@ fn later_failure_blocks_merged_and_closed_unmerged_terminal_closeout() {
     );
 }
 
+#[test]
+fn unresolved_post_review_finding_is_not_projected_as_complete() {
+    let issue = 74;
+    let (temp, store, record, sha) = fixture_with_validation_history(
+        issue,
+        "Gate 7 unresolved review fixture",
+        "unresolved-review",
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+    );
+    let record = record_readiness(
+        &store,
+        ReadinessRequest {
+            schema: "csdlc.readiness_request.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "shepherd".into(),
+            pull_request: 70,
+            head_sha: sha.clone(),
+            required_checks: vec!["fast".into()],
+            require_review: true,
+            checks: vec![csdlc_v2::CheckObservation {
+                name: "fast".into(),
+                requirement: csdlc_v2::CheckRequirement::Required,
+                conclusion: csdlc_v2::CheckConclusion::Success,
+                details_url: None,
+            }],
+            review_state: csdlc_v2::RemoteReviewState::Approved,
+            conflict_state: csdlc_v2::ConflictState::Clean,
+            post_publication_findings: vec![],
+        },
+    )
+    .unwrap();
+    let record = edit(
+        &store,
+        &record,
+        CardKind::Srp,
+        SemanticOperation::RecordFinding {
+            finding: csdlc_v2::cards::ReviewFinding {
+                id: "late-finding".into(),
+                severity: csdlc_v2::cards::FindingSeverity::P1,
+                summary: "late unresolved finding".into(),
+                actionable: true,
+                in_scope: true,
+                disposition: csdlc_v2::cards::FindingDisposition::Open,
+                fix_revision: None,
+                route: None,
+            },
+        },
+    );
+    closeout_issue(
+        &store,
+        TerminalObservation {
+            schema: "csdlc.terminal_observation.v1".into(),
+            issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "closer".into(),
+            pull_request: Some(70),
+            disposition: TerminalDisposition::Merged,
+            observed_sha: Some(sha),
+            observed_state: "merged".into(),
+            approved_no_pr_reason: None,
+            receipt_path: format!("csdlc-v2/closeout/{issue}.json"),
+        },
+    )
+    .unwrap();
+    let receipt = store.retain_terminal_receipt(issue).unwrap();
+    let reconciled = store
+        .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
+            issue,
+            expected_initialization_digest: receipt.initialization_digest,
+            expected_branch: "issue-7".into(),
+            expected_worktree: temp.path().to_string_lossy().into_owned(),
+            actor: "closeout-retainer".into(),
+            reason: "preserve unresolved review truth".into(),
+            follow_ups: vec![],
+        })
+        .unwrap();
+    assert_ne!(
+        store.load_cards(issue).unwrap()[&CardKind::Srp].status,
+        csdlc_v2::cards::CardStatus::Complete
+    );
+    assert_ne!(
+        store.load_terminal_receipt(issue).unwrap().unwrap().cards[&CardKind::Srp].status,
+        csdlc_v2::cards::CardStatus::Complete
+    );
+    assert_eq!(reconciled.phase, LifecyclePhase::ClosedOut);
+}
+
 pub(crate) fn run_complete_lifecycle(
     issue: u64,
     title: &str,
@@ -590,6 +687,10 @@ fn run_complete_lifecycle_with_validation_history(
     let receipt = store.retain_terminal_receipt(issue).unwrap();
     assert_eq!(receipt.record.generation, closed.generation + 1);
     assert_eq!(
+        receipt.cards[&CardKind::Srp].status,
+        csdlc_v2::cards::CardStatus::PrePhase
+    );
+    assert_eq!(
         receipt.record.terminal.as_ref().unwrap().receipt_path,
         format!("csdlc-v2/closeout/{issue}.json")
     );
@@ -672,6 +773,10 @@ fn run_complete_lifecycle_with_validation_history(
         fs::read_to_string(&design_path).unwrap(),
         "# stale design\n"
     );
+    assert_eq!(
+        Store::new(store.root()).load_cards(issue).unwrap()[&CardKind::Srp].status,
+        csdlc_v2::cards::CardStatus::Complete
+    );
     let repeated = store
         .reconcile_terminal(csdlc_v2::ReconcileTerminalRequest {
             issue,
@@ -685,6 +790,10 @@ fn run_complete_lifecycle_with_validation_history(
         .unwrap();
     assert_eq!(repeated, reconciled);
     let reconciled_receipt = store.load_terminal_receipt(issue).unwrap().unwrap();
+    assert_eq!(
+        reconciled_receipt.cards[&CardKind::Srp].status,
+        csdlc_v2::cards::CardStatus::Complete
+    );
     let sor = match &reconciled_receipt.cards[&CardKind::Sor].content {
         csdlc_v2::cards::CardContent::Sor(values) => values,
         _ => panic!("expected SOR card"),
