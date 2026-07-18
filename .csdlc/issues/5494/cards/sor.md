@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Align the retained repair packet and sprint register with the two newly recorded exact-revision findings and their implemented remediation.
+Replace the implicit five-second authenticated API response timeout with an explicit fifteen-second bounded deadline.
 
 ## Artifacts
 
@@ -35,6 +35,7 @@ Align the retained repair packet and sprint register with the two newly recorded
 - adl/src/csm_runtime_api.rs
 - docs/review-fixes/runtime/WP07A_REARCHITECTURE_REPAIR_5409.md
 - docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
+- adl/src/cli/csmctl_cmd.rs
 
 ## Execution
 
@@ -59,6 +60,8 @@ Align the retained repair packet and sprint register with the two newly recorded
 - Document shared-lock authorization serialization and matching-generation gateway overlap
 - Update Runtime v3 validation counts to 124 unit tests, 1 independence test, and 11 focused credential tests
 - Keep exact-head re-review, PR checks, merge, and lifecycle closeout explicitly pending
+- Keep the existing two-second connection timeout and bounded connection retry loop
+- Allow a listening runtime up to fifteen seconds to produce an authenticated response under heavy instrumentation load
 
 ## Validation
 
@@ -225,6 +228,20 @@ Align the retained repair packet and sprint register with the two newly recorded
     "purpose": "Prove warning-free Runtime v3 production code and all changed test targets without widening scope into unrelated CAV test cleanup",
     "outcome": "passed",
     "evidence_ref": "local FastWork: strict library clippy passed; all-target clippy passed with only the pre-existing cav.rs field-reassign lint exempted"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "csmctl_authenticated_api_client_",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove normal authenticated access and delayed listener startup remain correct with the coverage-tolerant deadline",
+    "outcome": "passed",
+    "evidence_ref": "local FastWork: 2 focused csmctl authenticated API tests passed"
   }
 ]
 
