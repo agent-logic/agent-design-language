@@ -204,6 +204,88 @@ fn bind_supports_issue_local_state_without_touching_primary_checkout() {
     assert_eq!(git_branch(temp.path()), "issue-42");
 }
 
+#[test]
+fn closed_issue_claim_release_is_typed_and_compare_and_swap_guarded() {
+    let (temp, store, mut record) = fixture();
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    git(temp.path(), &["add", "docs"]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+        ),
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Bound,
+            },
+        ),
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sor,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "test edit".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "done".into(),
+                changes: vec!["claim".into()],
+                artifacts: vec![],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Implemented,
+            },
+        ),
+    )
+    .unwrap();
+    let claim_id = record.claim.as_ref().unwrap().id.clone();
+    let evidence = csdlc_v2::release_closed_claim(
+        &store,
+        csdlc_v2::ReleaseClosedClaimRequest {
+            issue: 42,
+            expected_claim_id: claim_id,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            actor: "operator".into(),
+            reason: "GitHub issue is closed; release stale broad claim for follow-on setup".into(),
+        },
+    )
+    .unwrap();
+    assert_eq!(evidence.previous_owner, "agent");
+    let released = store.load_record(42).unwrap();
+    assert!(released.claim.is_none());
+    assert_eq!(
+        released.audit.last().unwrap().operation,
+        "release_closed_claim"
+    );
+}
+
 fn git_branch(root: &std::path::Path) -> String {
     let output = std::process::Command::new("git")
         .current_dir(root)
@@ -867,6 +949,7 @@ fn public_schema_bundle_covers_requests_state_and_doctor_output() {
         "bind_request",
         "bind_result",
         "recover_claim_request",
+        "release_closed_claim_request",
         "amend_claim_scope_request",
         "issue_record",
         "terminal_receipt",

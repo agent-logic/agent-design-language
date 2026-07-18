@@ -38,6 +38,16 @@ pub struct RecoverClaimRequest {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ReleaseClosedClaimRequest {
+    pub issue: u64,
+    pub expected_claim_id: String,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub reason: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct HeartbeatRequest {
     pub issue: u64,
     pub claim_id: String,
@@ -138,7 +148,10 @@ pub fn initialize_issue(
                     {
                         return Err(V2Error::new(
                             ErrorCode::ClaimCollision,
-                            format!("protected path overlaps issue {}", other.issue),
+                            format!(
+                                "protected path overlaps issue {} in phase {:?}",
+                                other.issue, other.phase
+                            ),
                         ));
                     }
                 }
@@ -460,7 +473,10 @@ pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Resu
                 }) {
                     return Err(V2Error::new(
                         ErrorCode::ClaimCollision,
-                        format!("protected path overlaps issue {}", other.issue),
+                        format!(
+                            "protected path overlaps issue {} in phase {:?}",
+                            other.issue, other.phase
+                        ),
                     ));
                 }
             }
@@ -538,6 +554,50 @@ pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<Clai
     });
     record.digest = crate::store::record_digest(&record)?;
     store.replace_record(request.issue, &expected_digest, &record)?;
+    Ok(evidence)
+}
+
+pub fn release_closed_claim(
+    store: &Store,
+    request: ReleaseClosedClaimRequest,
+) -> Result<ClaimRecovery> {
+    if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "release actor and reason required",
+        ));
+    }
+    let mut record = store.load_record(request.issue)?;
+    let current = record
+        .claim
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?;
+    if record.phase != crate::LifecyclePhase::Implemented
+        || current.id != request.expected_claim_id
+        || record.generation != request.expected_generation
+        || record.digest != request.expected_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidClaim,
+            "closed-issue claim release compare-and-swap failed",
+        ));
+    }
+    let evidence = ClaimRecovery {
+        previous_owner: current.owner.clone(),
+        observed_expiry_unix_seconds: current.expires_unix_seconds,
+        recovery_actor: request.actor.clone(),
+        reason: request.reason.clone(),
+    };
+    record.claim = None;
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: request.reason,
+        operation: "release_closed_claim".into(),
+    });
+    record.digest = crate::store::record_digest(&record)?;
+    store.replace_record(request.issue, &request.expected_digest, &record)?;
     Ok(evidence)
 }
 
