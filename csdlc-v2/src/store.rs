@@ -159,10 +159,7 @@ impl Store {
         let original_target = target.clone();
         let original_target_cards = target_cards.clone();
         let receipt_path = self.terminal_receipt_path(request.target_issue)?;
-        let original_receipt = receipt_path
-            .is_file()
-            .then(|| fs::read(&receipt_path))
-            .transpose()?;
+        let original_receipt = self.read_terminal_receipt_snapshot(&receipt_path)?;
         for values in target_cards.values_mut() {
             apply(values, &request.operation)?;
         }
@@ -270,10 +267,30 @@ impl Store {
             .write(true)
             .open(parent.join("receipts.lock"))?;
         receipt_lock.lock_exclusive()?;
+        if path.is_file() && fs::read(path)? != bytes {
+            return Ok(());
+        }
         let temporary = path.with_extension("json.restore-tmp");
         fs::write(&temporary, bytes)?;
         fs::rename(temporary, path)?;
         Ok(())
+    }
+
+    fn read_terminal_receipt_snapshot(&self, path: &Path) -> Result<Option<Vec<u8>>> {
+        if !path.is_file() {
+            return Ok(None);
+        }
+        let parent = path.parent().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidInput, "terminal receipt has no parent")
+        })?;
+        let receipt_lock = OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(parent.join("receipts.lock"))?;
+        receipt_lock.lock_exclusive()?;
+        Ok(Some(fs::read(path)?))
     }
 
     pub fn terminal_receipt_path(&self, issue: u64) -> Result<PathBuf> {
