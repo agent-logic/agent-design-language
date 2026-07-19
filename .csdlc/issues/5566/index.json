@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0358d975a44846c484a38efa48a8c55e0ab1ea8e6717d3b2c321730a17c1abb9",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "9180b543d4aa99ad3bca838e76559a2d78c696ccaad6029c32b9cf76bb0b8f3a",
+  "generation": 5,
+  "digest": "81d959b1458a330f9c58fb71ca4b87eb9fca8efc31ed9e9ebe7d356bf4867cde",
   "claim": {
     "id": "claim-5566-existing-worktree-bind",
     "owner": "codex-closeout-audit",
-    "generation": 4,
+    "generation": 5,
     "acquired_unix_seconds": 1784425395,
     "expires_unix_seconds": 1784511795,
     "heartbeat_unix_seconds": 1784425395,
@@ -39,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "49b1f70137a1e41e5a950869e3a22034874c1417cc6315c1b1e585477f33efae",
+      "values_digest": "229fbf7666f94f2b87cb9041493f04dbd0284e1a36ed85032eae9b9b19441e4e",
       "rendered_digest": "3480576725b1becc696685bbfac11d6f8dde5ed93f8a6e6f56ee395175e964fa",
       "ast_digest": "5c221f031bad4648f98416300c38a719254d42eff3673104211058fcf3b08fb1"
     },
     "stp": {
-      "values_digest": "55cea07b47b85b22c7528f8c9557737237f2ba3ff55398a5f8bc7a0a084e4798",
+      "values_digest": "9943df418f6c4f921214302dfaea9f085f513f9b95f3b9442f0d9ba3026d8caa",
       "rendered_digest": "860349dd079401c7d21bcf3ed975aadbfe2b8c4a1096f056490a60cfa07c8780",
       "ast_digest": "c5ada507b8d8b73c5f379e5243cb604bd0c8de06fe59cdc1aa16aa68c2be5096"
     },
     "spp": {
-      "values_digest": "45e95a2b3375d1813c3816e8acff8bc2cbf7dbb03c64dce6252f205813b4f213",
+      "values_digest": "cc129ae6902aef995d17de9895007b1d3e125d9f6a2fc0a782961f6199eb6ce5",
       "rendered_digest": "d599354ef32d97f8661de821711548b77bf7170302490c84befe486f627ee4c4",
       "ast_digest": "1a6764781c66152075d5eb3d0f75c04af5c542c039ef3367fa5c66b4eb4aebdd"
     },
     "vpp": {
-      "values_digest": "10186bd76c5065394e885370401b665429f7d0109a5a0d9819e83c08c04b589e",
+      "values_digest": "7a3feb094346ec1754100d67aa93b82ad185c843c4ebe140826e95e1c9a38f89",
       "rendered_digest": "7678d421dd2d08a480b0bd88d3f4fff9ec13d3730b9e1ae7efd5b45309551509",
       "ast_digest": "2959e881077eff3f3d337d5f4226ae082d1d3bff5f09ae570c541a04f8a3194a"
     },
     "srp": {
-      "values_digest": "88a56777fd81615cbafd3bd745606500b8e4b5dc1f7bc5d3bfb0d748a81ea2e6",
+      "values_digest": "6b7af453c3f44689bdb0e0f08612a611ad4005b07b6d889c8e1bf5781b1f156c",
       "rendered_digest": "bd0086f1be110f8a8879d609a9e7774e6a2a3a3957b6640a87005649050066df",
       "ast_digest": "306821272f591f2a59c614d24ce1e9cd753565dbca0d0cec548b5e0704aee360"
     },
     "sor": {
-      "values_digest": "d3ef22217a26aaee369235a110b80830ceedd869f328d81d0e4f0014dfcc674c",
-      "rendered_digest": "8553f39d2d084cd8c7972e2a1bb0ba4ba44eb1ccc6067e3b5cae5f74c53fa52d",
-      "ast_digest": "ab38d0cce9da2c899f1ea30287f33fcd6fa149ccdd7f8ef6cd8ec48960f98349"
+      "values_digest": "e896cdeb48067e3c2fdf7c5ffa471a6a84e17638ee67383cbd1398427f5a00e4",
+      "rendered_digest": "cb84aa23010bf1e4c88ac890c48ac1e623f52b44a3cb5a239d5d45d1a7d71f1c",
+      "ast_digest": "d54e2d2abc0b4763f772a004a64d5e19a4ecd9fb748fa533d51798082628a819"
     }
   },
   "transitions": [
@@ -134,6 +134,13 @@
       "actor": "codex-closeout-audit",
       "reason": "Bounded implementation and focused validation are recorded.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-closeout-audit",
+      "reason": "Record the review-driven canonical-topology regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"standalone_repository\"],\"purpose\":\"Prove an unrelated repository with the same worktree path suffix cannot activate the reserved claim.\",\"outcome\":\"passed\",\"evidence_ref\":\"Adversarial standalone-repository regression passed 1/1; positive linked-worktree and mismatched-reservation regressions also passed 1/1; strict Clippy passed.\"}}"
     }
   ]
 }

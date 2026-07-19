@@ -43,6 +43,20 @@ Recognize an exact reserved worktree as issue-local when the current Git branch 
     "purpose": "Prove exact existing-worktree activation and mismatched-path rejection.",
     "outcome": "passed",
     "evidence_ref": "Both focused match and mismatch regressions passed independently; cargo fmt --check and strict all-target all-feature Clippy passed."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2",
+      "standalone_repository"
+    ],
+    "purpose": "Prove an unrelated repository with the same worktree path suffix cannot activate the reserved claim.",
+    "outcome": "passed",
+    "evidence_ref": "Adversarial standalone-repository regression passed 1/1; positive linked-worktree and mismatched-reservation regressions also passed 1/1; strict Clippy passed."
   }
 ]
 
