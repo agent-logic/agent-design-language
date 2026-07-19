@@ -5,7 +5,7 @@
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
   "phase": "bound",
   "generation": 0,
-  "digest": "a947cf50370fd1de6ed8932b207ca987cde19745a453756d3c3c2a14c40a4e1b",
+  "digest": "53d954d4d6305d42d89067f9db0388f784adb7cdc94c447ca46d84ba0fcaf393",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -16,9 +16,11 @@
     "branch": "codex/4647-v0917-review-remediation-preflight",
     "worktree": ".worktrees/adl-wp-4647",
     "protected_paths": [
+      ".csdlc/issues/4647",
+      ".csdlc/issues/5467",
+      ".csdlc/issues/5542",
       "docs/milestones/v0.91.7/review/V0917_WP20_REMEDIATION_PREFLIGHT_4647.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_4647",
-      ".csdlc/issues/4647"
+      "docs/milestones/v0.91.7/review/wp20_remediation_4647"
     ],
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
@@ -98,6 +100,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex-closeout-audit",
+      "reason": "WP-20 authorizes typed repair of terminal plan truth found by the exhaustive v0.91.7 closeout review.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5467\",\".csdlc/issues/5542\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

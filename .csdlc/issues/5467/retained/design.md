@@ -2,6 +2,6 @@
 
 Repair the local CI contract so it reaches every backend-snapshot assertion and behaviorally proves hosted, Spot-selected, and invalid backend routing without invoking AWS.
 
-The change is limited to the shell contract and, only if needed for testability, the backend-selection block in `.github/workflows/ci.yaml`. Local fixtures may interpret the workflow selection logic, but must not call cloud commands, credentials, or remote validation workflows.
+The contract covers the SSM `GetParameter`, EBS `AttachVolume`, and IAM `DeleteRolePolicy` policy-owner paths. Local fixtures interpret workflow selection and prove each route deterministically; they do not call cloud commands, credentials, or remote validation workflows.
 
-Acceptance requires the contract to fail if any snapshot assertion is removed or bypassed, and to prove the three backend inputs have deterministic local outcomes.
+Acceptance requires the contract to fail if any snapshot assertion is removed or bypassed, to require exact invalid-backend status `2`, and to prove the three backend inputs have deterministic local outcomes.

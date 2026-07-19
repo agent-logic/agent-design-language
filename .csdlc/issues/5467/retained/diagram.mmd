@@ -1,7 +1,11 @@
 flowchart LR
-  A["Local workflow fixture"] --> B["Backend selection"]
-  B -->|hosted| C["Hosted route"]
-  B -->|spot| D["Spot-selected route only"]
-  B -->|invalid| E["Fail closed"]
-  C --> F["All snapshot assertions reached"]
-  D --> F
+  fixture["local workflow fixture"] --> select["backend selection"]
+  select -->|hosted| hosted["hosted route"]
+  select -->|spot| spot["Spot-selected route only"]
+  select -->|invalid| invalid["fail closed: status 2"]
+  hosted --> ssm["SSM GetParameter"]
+  spot --> ebs["EBS AttachVolume"]
+  spot --> iam["IAM DeleteRolePolicy"]
+  ssm --> snapshots["all snapshot assertions reached"]
+  ebs --> snapshots
+  iam --> snapshots
