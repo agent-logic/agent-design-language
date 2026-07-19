@@ -439,7 +439,10 @@ if [ "$nextest_install_count" -ne 4 ] || [ "$nextest_pinned_count" -ne "$nextest
   exit 1
 fi
 assert_has "$ROOT/adl/.config/nextest.toml" 'retries = 0'
-assert_has "$ROOT/adl/.config/nextest.toml" 'slow-timeout = { period = "90s", terminate-after = 2 }'
+if grep -Fq 'slow-timeout' "$ROOT/adl/.config/nextest.toml"; then
+  echo "nextest must not impose a slow-test timeout" >&2
+  exit 1
+fi
 assert_has "$SCRIPT" "--run requires an explicit --source-version"
 assert_not_has "$WORKFLOW" "pull_request:"
 assert_not_has "$WORKFLOW" "push:"
