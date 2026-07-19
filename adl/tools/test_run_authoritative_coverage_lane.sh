@@ -139,17 +139,12 @@ for required in \
   "--partition count:1/2" \
   "--partition count:2/2" \
   "-- --skip real_pr_" \
-  "--skip runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist" \
-  "--skip runtime_v2_runtime_inhabitant_integration_contract_is_stable" \
-  "--skip runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report" \
-  "--skip runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift" \
-  "--skip runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps" \
-  "--skip runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift" \
-  "--skip runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors" \
-  "--skip runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case" \
-  "--skip runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift" \
-  "--skip runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant" \
-  "--skip runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence" \
+  "--skip runtime_v2_runtime_inhabitant_integration_" \
+  "--skip runtime_v2_theory_of_mind_foundation_" \
+  "--skip runtime_v2_unified_runtime_kernel_" \
+  "--skip csm_service_local_start_stop_retains_status_checkpoint_and_observability" \
+  "--skip csm_runtime_api_serves_status_health_ready_metrics_and_events" \
+  "--skip child_exit_terminates_descendants_and_bounds_inherited_pipe_capture" \
   "--skip csmctl_authenticated_api_client_waits_for_slow_listener_startup" \
   "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass" \
   "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl.json" \

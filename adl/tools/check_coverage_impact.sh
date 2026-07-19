@@ -258,6 +258,11 @@ candidate_filter_for_path() {
     adl/src/cli/tooling_cmd/structured_prompt.rs)
       printf 'structured_prompt'
       ;;
+    adl/src/provider/http_family/config.rs|\
+    adl/src/provider/mod.rs|\
+    adl/src/provider/profiles.rs)
+      printf 'provider_hardening'
+      ;;
     adl/src/cli/tooling_cmd/markdown.rs)
       printf 'markdown'
       ;;
@@ -383,6 +388,9 @@ nextest_expression_for_filter() {
       ;;
     structured_prompt)
       printf 'binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::structured_prompt::/)'
+      ;;
+    provider_hardening)
+      printf 'test(/^provider::/) or test(/^construction::/) or test(/^http_family::/) or test(/^profiles::/) or test(/^process::provider/)'
       ;;
     markdown)
       printf 'binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::markdown/)'
