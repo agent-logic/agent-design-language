@@ -312,8 +312,7 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
         ));
     }
     let before = crate::git::run(repo, &["rev-parse", "HEAD"])?;
-    let clean = crate::git::run(repo, &["diff", "--quiet", "--", "csdlc-v2"]);
-    if clean.is_err() {
+    if !csdlc_sources_are_clean(repo)? {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "refusing to stamp owner binaries from dirty csdlc-v2 sources",
@@ -333,9 +332,7 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
         ));
     }
     let after = crate::git::run(repo, &["rev-parse", "HEAD"])?;
-    if before.stdout != after.stdout
-        || crate::git::run(repo, &["diff", "--quiet", "--", "csdlc-v2"]).is_err()
-    {
+    if before.stdout != after.stdout || !csdlc_sources_are_clean(repo)? {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "csdlc-v2 source revision changed or became dirty during the build",
@@ -346,6 +343,20 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
         destination,
         Some(format!("git:{}", after.stdout)),
     )
+}
+
+fn csdlc_sources_are_clean(repo: &Path) -> Result<bool> {
+    let status = crate::git::run(
+        repo,
+        &[
+            "status",
+            "--porcelain=v1",
+            "--untracked-files=all",
+            "--",
+            "csdlc-v2",
+        ],
+    )?;
+    Ok(status.stdout.trim().is_empty())
 }
 
 fn install_binaries_with_revision(

@@ -145,6 +145,36 @@ fn stale_owner_binary_provenance_fails_closed() {
 }
 
 #[test]
+fn untracked_build_input_is_rejected_before_cargo_runs() {
+    let repo = tempfile::tempdir().unwrap();
+    git(repo.path(), &["init", "-b", "main"]);
+    git(
+        repo.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(repo.path().join("csdlc-v2/src")).unwrap();
+    fs::write(
+        repo.path().join("csdlc-v2/Cargo.toml"),
+        "[package]\nname='fixture'\nversion='0.1.0'\nedition='2021'\n",
+    )
+    .unwrap();
+    fs::write(repo.path().join("csdlc-v2/src/main.rs"), "fn main() {}\n").unwrap();
+    git(repo.path(), &["add", "."]);
+    git(repo.path(), &["commit", "-m", "tracked source"]);
+    fs::write(
+        repo.path().join("csdlc-v2/build.rs"),
+        "fn main() { std::fs::write(\"cargo-ran\", \"bad\").unwrap(); }\n",
+    )
+    .unwrap();
+    let destination = tempfile::tempdir().unwrap().path().join("csdlc-v2");
+    let error = build_and_install_binaries(repo.path(), &destination).unwrap_err();
+    assert!(error.message.contains("dirty csdlc-v2 sources"));
+    assert!(!repo.path().join("cargo-ran").exists());
+    assert!(!destination.exists());
+}
+
+#[test]
 fn freshly_installed_stable_edit_binary_is_executable() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
