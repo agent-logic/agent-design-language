@@ -157,21 +157,13 @@ Dir.chdir(ROOT) do
   end
   checks["cargo_metadata_locked"] = cargo_metadata.values.all?
 
-  audited_paths = (targets + [
-    ".csdlc/prepared/issues/4644/validate_docs_alignment.rb",
-    "docs/planning/ADL_FEATURE_LIST.md"
-  ]).uniq
   untracked = IO.popen(["git", "ls-files", "--others", "--exclude-standard"], &:read)
                 .lines.map(&:strip).reject(&:empty?)
-  untracked_audit_inputs = untracked.select do |path|
-    File.basename(path).match?(/\Areadme.*\.md\z/i) ||
-      path.start_with?("docs/milestones/v0.91.7/") ||
-      path == "REVIEW.md" || path == "docs/planning/ADL_FEATURE_LIST.md" ||
-      path == ".csdlc/prepared/issues/4644/validate_docs_alignment.rb"
-  end
-  checks["no_untracked_audit_inputs"] = untracked_audit_inputs.empty?
-  checks["audited_tree_clean"] = system("git", "diff", "--quiet", "HEAD", "--", *audited_paths,
-                                          out: File::NULL, err: File::NULL)
+  checks["working_tree_matches_head"] = untracked.empty? &&
+                                        system("git", "diff", "--quiet", "HEAD",
+                                               out: File::NULL, err: File::NULL) &&
+                                        system("git", "diff", "--cached", "--quiet", "HEAD",
+                                               out: File::NULL, err: File::NULL)
   checks["git_diff_check"] = [
     ["git", "diff", "--check", "origin/main...HEAD"],
     ["git", "diff", "--check"],
@@ -196,7 +188,7 @@ Dir.chdir(ROOT) do
       "broken_links" => broken_links,
       "invalid_json" => invalid_json.sort,
       "invalid_yaml" => invalid_yaml.sort,
-      "untracked_audit_inputs" => untracked_audit_inputs,
+      "untracked_files" => untracked,
       "cargo_metadata" => cargo_metadata
     },
     "aws_used" => false

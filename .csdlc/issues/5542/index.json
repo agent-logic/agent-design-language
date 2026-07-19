@@ -5,7 +5,7 @@
   "initialization_digest": "4ba22360d9c28877a655c69995e8fec64dd508dd8204c0838e8077a0c90f9d48",
   "phase": "implemented",
   "generation": 6,
-  "digest": "47831ab73fe38a4c55abe381f9be20ca08d41790eb52c9848e656185c6a47638",
+  "digest": "d74b54402a65da52278f30be45eb19b6caa9f2d42859089754ef05df3406ad58",
   "claim": {
     "id": "claim-5542-wp17-closeout-truth",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -44,7 +44,7 @@
   "review_assignment": {
     "reviewer": "codex-subagent:019f77b1-4c8d-7560-8489-bb10c675a6b0",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:66105c185cab116c06c2a7dcc349aaac7959549d:d565e192df56bd3d1414b42dc048789cb813e5b31ea784280a1e905678470e32",
+    "revision": "git-blake3:0a9b1a8fe1711cdb531e2358081a8d12928e2f07:63178c3af2200ea66c2a0e159a36b9e19c3b4ff0426404d209b95c49c55da19c",
     "scope": [
       ".csdlc/issues/5542",
       ".csdlc/prepared/issues/5542",
@@ -190,6 +190,13 @@
     },
     {
       "sequence": 10,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
       "generation": 6,
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "assign bounded exact-revision review",
