@@ -49,11 +49,11 @@ Used separately claimed #5569 authority to align all four #5547 SPP steps with a
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
