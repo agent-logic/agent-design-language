@@ -8,11 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact implementation revision before publication.
+
 
 ## Prompts
 

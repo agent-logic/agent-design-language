@@ -3,24 +3,25 @@
   "issue": 4645,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b83689bd4a80acea6cd1dad467b03005174d03bdf87b95341e9d6235f48796fe",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "6831b34dc0a357ce76292c42b7c5e55a1b3d92c8965eb99d5a393972ac270ece",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "863ae142e573522b147fe89666ad0c4cb13d0221e730d732216da80b8a16ae65",
   "claim": {
     "id": "claim-4645-v0917-internal-review-prep",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 0,
+    "generation": 15,
     "acquired_unix_seconds": 1784359768,
     "expires_unix_seconds": 1784964568,
     "heartbeat_unix_seconds": 1784359768,
     "branch": "codex/4645-v0917-internal-review",
     "worktree": ".worktrees/adl-wp-4645",
     "protected_paths": [
+      ".csdlc/issues/4645",
+      "adl/tools/test_retained_diff_proof_contract.sh",
       "docs/milestones/v0.91.7/review/V0917_INTERNAL_REVIEW_4645.md",
-      "docs/milestones/v0.91.7/review/internal_review_4645",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/reviews/v0.91.7/internal-review-4645",
-      ".csdlc/issues/4645"
+      "docs/milestones/v0.91.7/review/internal_review_4645",
+      "docs/reviews/v0.91.7/internal-review-4645"
     ],
     "purpose": "Prepare and later run the v0.91.7 WP-18 internal milestone review without claiming release readiness"
   },
@@ -40,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "417e342d4b10fcd71fec52b75b362f8ae279f89d2f465d7599850b0c16da8a8a",
+      "values_digest": "4cf49381769454cec057c0e1e603d9dd1a246d6313074abd8b9b46f133e01820",
       "rendered_digest": "e1bf89aef7dad8b7e62722b0916c6bba5ff3bf1565e0bd04fc5955d33f63d739",
       "ast_digest": "e6ac30a25dd6a6a7c4961f6510b70bb96a483fed02a09a2fff081460bab62e5a"
     },
     "stp": {
-      "values_digest": "63cb2c439c0992fb07e1c2374184c52687d341b84b9289a1ae312524b00c4e4e",
+      "values_digest": "1c7ab16595887ecebb4512f0907c205f83ba9163acced68ca6e69f321a979277",
       "rendered_digest": "4eac2fb9b783d00bfb49377c7fe316b145b49273fb0cac63985770dd9782e7a2",
       "ast_digest": "b42c7d1246f0141a9b8131f63a686ae56ec5ba2e74b6b41459d528fa0ea27267"
     },
     "spp": {
-      "values_digest": "3548d1716fd9634741d72ebd0be01c9c33e03f214037d41858b2f7e36b980bd3",
-      "rendered_digest": "f4061d5e60cf4ddaf3915fc2a2e3e617f2ed8b3b11e0645d279a0285d0010ea0",
-      "ast_digest": "9419c497afb4bf656ce8b91b1f2bd7273ded47e38248a3182d09c786e3c377f7"
+      "values_digest": "2bc492d6cd0130634a26a864bc1e73444dcbae4bc15666e376e5460c97f1df73",
+      "rendered_digest": "93d5fd2e0d59cad03e318ca6e9c1080b29dbc23f41e3867d4fe6d5e4dfaf8bcc",
+      "ast_digest": "c3cd5e627c8b2d2ff27ca189a56fa43602d999c98ea668ed41bc0b99caefc634"
     },
     "vpp": {
-      "values_digest": "d8d90baeb32b1ec99b2b361ea23779cf3d7a84a5f9922dcc5df5ea3ae6f3e3cc",
+      "values_digest": "dfc4b8595a42e11123ca0ba49c5b18f7fbeba548a3f63bdbc77c3bc7d80c57c8",
       "rendered_digest": "67c4a527e567c24bbde221d7e3cb734bd6b14f5456f8aef9c2135a056fe4f252",
       "ast_digest": "afbeedd850450474da2fb1c97b98150e5c98a10ab853c2b1563116badf81ca30"
     },
     "srp": {
-      "values_digest": "fa191103929664b41ddf031526246f95435de97b9da8864e8a8743f00242fa85",
-      "rendered_digest": "9a889c836043add7f39adcef6a106366dbe81266ed9814bb7ef59b1edca56ab2",
-      "ast_digest": "bc197bd47268e894f12b056d254c6f4acbfcff923e357e1feb5ab46d971d947b"
+      "values_digest": "cb492411e76fba0dd82cd2ed451c14728a3130bc27bb8fd64e10c30e361ab693",
+      "rendered_digest": "364ef41554f23d76e6d11ade10135daa832f7829b7ff661cae082e3250ce5999",
+      "ast_digest": "46c6f904f4acd33f6911595b8408552367477e8e9b41dbf56552253137c393ec"
     },
     "sor": {
-      "values_digest": "88e6f6002156df72d809f33ba6372b39f04f4de41f353fee34ec4daaa8538219",
-      "rendered_digest": "996de852c1328b77f39c9fa139d04949cc76d05138b82a0e6d99972b4e700e82",
-      "ast_digest": "9f0e3125d9857f00f2d71ce3786ad2cacbb50a93083bfffc7613124147566b79"
+      "values_digest": "0c9c67233763692f551b640da97dadf16eddfef84c220dee314d39fcda02e376",
+      "rendered_digest": "e86d63cb18a951145ac25e989fcfcfbeb7bba51164e5645aacadf51d69a2726d",
+      "ast_digest": "c20052a0d7ffc369b3a18627a7776ccaa827b02f1cc8519e7df488608d3345bf"
     }
   },
   "transitions": [
@@ -84,6 +85,34 @@
       "to": "bound",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "The merged internal review, retained packet, plan execution, local/CI proof, and retrospective validation correction are recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-closeout-audit",
+      "reason": "Retrospective exact-head review completed; both P2 findings are truthfully retained and routed to #5572 and #5571."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-closeout-audit",
+      "reason": "observed exact merged PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "The retrospective committed-range PVF failed after merged-publication reconciliation; recover to implemented so the claimed #4645 surface can repair the defect, add a focused guard, and undergo exact-head re-review before terminal closeout."
     }
   ],
   "audit": [
@@ -100,6 +129,125 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-closeout-audit",
+      "reason": "Record the actual merged WP-18 internal-review execution.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"PR #5543 built, retained, validated, and merged the v0.91.7 findings-first internal milestone review packet.\",\"changes\":[\"Built the bounded repository, live GitHub, typed lifecycle, CI, dependency, architecture, security, runtime, and release-evidence packet.\",\"Synthesized twelve severity-ranked findings with concrete evidence, required dispositions, routes, and explicit release/external-review non-claims.\",\"Retained specialist lane results, machine-readable live-state snapshots, evidence indexes, validation requests, and local proof logs.\"],\"artifacts\":[\"PR #5543\",\"403fc9ec7668d1218ca2cc350d55b180af554005\",\"f393671dce71d5e1a1a94d2444f2d5b451b81581\",\"docs/milestones/v0.91.7/review/V0917_INTERNAL_REVIEW_4645.md\",\"docs/reviews/v0.91.7/internal-review-4645\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-closeout-audit",
+      "reason": "Record retained local PVF and artifact validation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\"docs/reviews/v0.91.7/internal-review-4645/live-state/validate-request.json\"],\"purpose\":\"Validate dependency snapshot JSON, summary JSON, and diff hygiene through the declared typed PVF wave.\",\"outcome\":\"passed\",\"evidence_ref\":\"Retained VALIDATION.md and validation logs record csdlc.pvf.report.v1 disposition local_pass with dependency-json, diff-check, and summary-json selected; no AWS used.\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-closeout-audit",
+      "reason": "Record exact merged-PR integration proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"gh\",\"pr\",\"view\",\"5543\",\"--json\",\"statusCheckRollup\"],\"purpose\":\"Verify the retained internal-review packet passed its complete selected CI policy before merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"PR #5543 exact head 403fc9ec7: adl-path-policy, adl-tooling-contracts, adl-demo-proof, hosted coverage, aggregate adl-ci, and adl-coverage all succeeded; Rust/runtime/slow/Spot lanes were policy-skipped; no AWS execution was used.\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-closeout-audit",
+      "reason": "Correct the scope of the original retained diff proof and preserve the exact-range finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD^..HEAD\"],\"purpose\":\"Retrospectively check the exact committed PR range rather than the clean worktree.\",\"outcome\":\"failed\",\"evidence_ref\":\"Exact PR head 403fc9ec7 reports docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md:49 new blank line at EOF. The original bare git diff --check log was non-proving for committed bytes. Routed to #5572.\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-closeout-audit",
+      "reason": "The typed lifecycle was initialized and bound to the dedicated WP-18 review worktree.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex-closeout-audit",
+      "reason": "The bounded evidence packet and machine-readable live-state inventory were retained in PR #5543.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex-closeout-audit",
+      "reason": "Nine specialist assignments and synthesized severity-ranked findings were retained with routes and non-claims.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex-closeout-audit",
+      "reason": "Validation and publication were performed; retrospective review identified and durably routed the non-proving diff lane (#5572) and missing publication-safety disposition (#5571).",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex-closeout-audit",
+      "reason": "The merged internal review, retained packet, plan execution, local/CI proof, and retrospective validation correction are recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex-closeout-audit",
+      "reason": "Retrospective exact-head review completed; both P2 findings are truthfully retained and routed to #5572 and #5571.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex-closeout-audit",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex-closeout-audit",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex-closeout-audit",
+      "reason": "The retrospective committed-range PVF failed after merged-publication reconciliation; recover to implemented so the claimed #4645 surface can repair the defect, add a focused guard, and undergo exact-head re-review before terminal closeout.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex-closeout-audit",
+      "reason": "Retrospective review requires a focused committed-diff proof guard before terminal closeout.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_retained_diff_proof_contract.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex-closeout-audit",
+      "reason": "Repair the failed committed-range proof under the existing #4645 claim and #5572 route.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed the committed whitespace defect, documented the original clean-worktree proof limitation, and added a fail-closed exact-revision diff helper.\",\"changes\":[\"Removed the blank line at EOF from SPECIALIST_LANE_RESULTS.md.\",\"Added a retrospective validation correction that preserves the original log as non-proving for committed bytes.\",\"Added an executable helper that requires explicit base and head commit revisions before running git diff --check.\"],\"artifacts\":[\"#5572\",\"docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md\",\"docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md\",\"adl/tools/test_retained_diff_proof_contract.sh\"]}"
     }
   ]
 }

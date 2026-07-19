@@ -7,13 +7,13 @@
     "title": "[v0.91.7][WP-18][review] Internal review",
     "slug": "v0-91-7-wp18-internal-review",
     "version": "v0.91.7",
-    "generation": 0
+    "generation": 15
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
