@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5547
+.csdlc/issues/5569
+.csdlc/prepared/issues/5547
+.csdlc/prepared/issues/5569
 
 ## Prompts
 
@@ -33,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:755269ccb0786bbef6234f0d6c9338460b1edcd1:83a1b6637040069543e6fd330d31f18b3b75701c2ce21bfe9ca6e599a423bccd")
 
-Reviewer: None
+Reviewer: Some("subagent:019f669a-596c-71e2-adb3-bd753875989d")
 
-Result: pre_review
+Result: pass

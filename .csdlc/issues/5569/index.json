@@ -3,13 +3,13 @@
   "issue": 5569,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "dae4cdfe09611326641a8b4a1e8ec7422cdcea55c5d19cb248bbec82a95bfd8f",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "935c2a044ac45fc56e76689b0900c8debea98baeb9577eae77359f91bc255128",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "151575cb2809a918a2f152527e1bcbe0aeb269c0bbd092994659cab952bc7b2c",
   "claim": {
     "id": "claim-5569-repair-5547-terminal-plan",
     "owner": "codex-closeout-audit",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1784428095,
     "expires_unix_seconds": 1784514495,
     "heartbeat_unix_seconds": 1784428095,
@@ -23,8 +23,31 @@
     ],
     "purpose": "Repair four proven pending #5547 terminal plan steps through typed receipt and record CAS"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "assigned_by": "codex:closeout-audit",
+    "revision": "git-blake3:755269ccb0786bbef6234f0d6c9338460b1edcd1:83a1b6637040069543e6fd330d31f18b3b75701c2ce21bfe9ca6e599a423bccd",
+    "scope": [
+      ".csdlc/issues/5547",
+      ".csdlc/issues/5569",
+      ".csdlc/prepared/issues/5547",
+      ".csdlc/prepared/issues/5569"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "scope": [
+      ".csdlc/issues/5547",
+      ".csdlc/issues/5569",
+      ".csdlc/prepared/issues/5547",
+      ".csdlc/prepared/issues/5569"
+    ],
+    "reviewed_revision": "git-blake3:755269ccb0786bbef6234f0d6c9338460b1edcd1:83a1b6637040069543e6fd330d31f18b3b75701c2ce21bfe9ca6e599a423bccd",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +62,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fbc39588f6f75d9141448a9fe0c0191c4e0f8955350e784fc31fb055ccff0a3f",
+      "values_digest": "23f4f2c01107ffb471f40fa69859f041af5be942857e7bd023cb3fe87741e396",
       "rendered_digest": "ab16e10e30d8392dce8e78bde05f7d42a450b6a96250c7755ac04192a12db91b",
       "ast_digest": "c3019ddbbf571c9379edf4b5a575fa7b3b38f77ccbd78ef149322b58873d0184"
     },
     "stp": {
-      "values_digest": "33f6902705c0d57ef0381ce63ebc66e8a1d3064065167c5a62b274d7eb273721",
+      "values_digest": "dda8efb97e0374ef66be63b7a540a07e170439fb24228ecf946552a8d1f7a89e",
       "rendered_digest": "2bf1c731c8c9106026ccd9c6fc0466c4b448f1da77e9fbca4a8d87b7c2275a16",
       "ast_digest": "e4a88fe012a86a90e6eb5d767f3e376e70b109c883efef4f152fe08ce57885a3"
     },
     "spp": {
-      "values_digest": "155b8d756c49ac1dd5263d5da97120518b11b339b217c19fcbd8f428289e8524",
+      "values_digest": "7c035865cd5f04d215e69f995d5bc1433139f1bb30ac9494d4372cddd0ce27b2",
       "rendered_digest": "7184ced124376ff5b1d5f8891ccc520a08ed9f9f4460f54a3821c770bc426b2f",
       "ast_digest": "db5f84632d15238c93f3c619b777f530f9ba7e4fc46bc9b26f13865edd105235"
     },
     "vpp": {
-      "values_digest": "b4e476ad68925a19a413ac691b415205d070b6d1a0c714e08280ed8d598ea1f4",
+      "values_digest": "5eba2e07e36f00ca06b4b96c5e6cc223267704f6cc432a261f9a9e79804deb9b",
       "rendered_digest": "3f459015308adb596dddbaf9540925684b549ce62ac56b55951c1d9fa720def4",
       "ast_digest": "cf606c151e1e5f6d2608876caa24e36433353cd054ceb4e280fc88caa04f6ff6"
     },
     "srp": {
-      "values_digest": "ee2d088128aea7936b387e210ad0fb5f97fd9e22f8a0a217e8fdfcc8b839f911",
-      "rendered_digest": "ad0684749559a1ab5d26740c74181105cf70a1747db55becb64592a5856fb86f",
-      "ast_digest": "d675527736382a57fa9fdb06bc0608d962576acaabc630f27eb0b30e1255fee0"
+      "values_digest": "6c74ad0650d9ae317ddc06cee19af8bee94fc04cbe2887b0740cc5adb3b21dfd",
+      "rendered_digest": "c72d2a3e4189eb95dd9460db50963d8d423a543af8f97456be37179b983c7936",
+      "ast_digest": "ad3f8f1c219e414ed749f54ee87d4c5f7505c80289c4a4a3a4c16eb5632225ab"
     },
     "sor": {
-      "values_digest": "a72681dc4ad29c7ea345c2213dab1d305ffb7350fa220324618caf70b1aecf91",
+      "values_digest": "80352a2e320e9d8f694664577bf0a1db3d101d6baa21ab9e0db9bc4ce3046359",
       "rendered_digest": "419f31346b68c2192f5feb82194d5fa751058cbc76defc4257dd94788f52e201",
       "ast_digest": "2aa67c1207b62346c70102f7c6399ba8b54192c6b3943c1a9ad7f76582cca1cb"
     }
@@ -104,6 +127,13 @@
       "to": "implemented",
       "actor": "codex:closeout-audit",
       "reason": "The rebase and typed publication request changed the exact head after review; recover for a bounded current-head metadata review without changing the repaired #5547 terminal record."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:closeout-audit",
+      "reason": "Exact current publication-head metadata review passed with no findings or residual risks."
     }
   ],
   "audit": [
@@ -176,6 +206,27 @@
       "actor": "codex:closeout-audit",
       "reason": "The rebase and typed publication request changed the exact head after review; recover for a bounded current-head metadata review without changing the repaired #5547 terminal record.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:closeout-audit",
+      "reason": "Exact current publication-head metadata review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

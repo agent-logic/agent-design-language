@@ -8,3 +8,6 @@
 {"sequence":8,"generation":5,"actor":"subagent:019f669a-596c-71e2-adb3-bd753875989d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":9,"generation":6,"actor":"codex:closeout-audit","reason":"Exact terminal-repair review passed with no findings or residual risks.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":10,"generation":7,"actor":"codex:closeout-audit","reason":"The rebase and typed publication request changed the exact head after review; recover for a bounded current-head metadata review without changing the repaired #5547 terminal record.","operation":"recover_review"}
+{"sequence":11,"generation":7,"actor":"codex:closeout-audit","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":12,"generation":8,"actor":"subagent:019f669a-596c-71e2-adb3-bd753875989d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":13,"generation":9,"actor":"codex:closeout-audit","reason":"Exact current publication-head metadata review passed with no findings or residual risks.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
