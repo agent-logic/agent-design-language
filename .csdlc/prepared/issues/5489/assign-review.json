@@ -1,0 +1,15 @@
+{
+  "issue": 5489,
+  "expected_generation": 3,
+  "expected_digest": "00ac2e124335ac317bdf94a40a1f998ea0029cb46f49b68a06e3ee342c78d0df",
+  "claim_id": "claim-5489-v0-91-7-wp21a-next-milestone-docs-closeout-plan",
+  "reviewer": "subagent:019f77f3-5985-7971-abb7-55c694472e47",
+  "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
+  "scope": [
+    "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+    "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
+    "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+    "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+    "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml"
+  ]
+}
