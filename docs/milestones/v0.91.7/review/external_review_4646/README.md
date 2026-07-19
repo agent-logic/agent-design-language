@@ -5,13 +5,14 @@ Status: prepared_not_sent
 Issue: #4646
 
 This directory retains the external-review result for the exact revision named
-in `../V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md`.
+in `DISPATCH_RECEIPT.md`.
 
 ## Before Sending
 
 1. Confirm PR #5574 has merged or closed without merge.
 2. Refresh live predecessor and remediation issue truth.
-3. Record the exact target revision and tracked-path digest in the handoff.
+3. Record the exact target revision and tracked-path digest in
+   `DISPATCH_RECEIPT.md`.
 4. Run the handoff's focused preflight.
 5. Give the reviewer read-only authority and the explicit non-claims.
 

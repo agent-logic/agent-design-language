@@ -5,7 +5,7 @@
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
   "phase": "implemented",
   "generation": 7,
-  "digest": "a35f56d5ba5f142ffc77efc193ab18dcd1c7201aba3aaf7c557a0423f884c47b",
+  "digest": "1469907d8f6d05cf547b8bd1b2674233dbbdaaadc4e2c8aa337ecb35c0d380c1",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -22,7 +22,16 @@
     ],
     "purpose": "Prepare and later execute WP-19 without claiming completion from setup"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7bd2-7cff-7e62-8c8b-bb05bde8db65",
+    "assigned_by": "codex:issue-4646",
+    "revision": "git-blake3:91aff3707c11c6dd62494647dee9a0223f72e596:6cc722d413792bc4b311ccb10b0aea68ae5e9583e4b6485c67b1c38e3eaa51dc",
+    "scope": [
+      ".csdlc/issues/4646",
+      ".csdlc/prepared/issues/4646",
+      "docs/milestones/v0.91.7"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -154,6 +163,13 @@
       "actor": "codex:issue-4646",
       "reason": "The bounded WP-19 handoff implementation and focused validation are complete; external dispatch remains held on PR #5574.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-4646",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
