@@ -7,22 +7,45 @@
     "title": "Fail closed on stale stable owner-binary provenance",
     "slug": "stale-owner-binary-provenance",
     "version": "v0.91.7",
-    "generation": 0
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/operator.rs\ncsdlc-v2/tests/gate10a.rs",
+      "review_revision": "git-blake3:fb7d09a561a169e906eb48166f14099c98d5a974:ce03f1948e2744995b893fac63c8da704b499f5b1ecf9151715914f074fbfabf",
+      "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
       "review_prompts": [
         "Does stale provenance fail closed?",
         "Is atomic install preserved?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "F-5455-1",
+          "severity": "p1",
+          "summary": "Content-provenance receipts accept stale externally sourced owner binaries because verification rejects mismatches only for git provenance.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": "#5540"
+        },
+        {
+          "id": "F-5455-2",
+          "severity": "p1",
+          "summary": "Gate 10A runs only csdlc-edit --help and does not prove implemented-phase approve-design through the stable resolved binary.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": "#5540"
+        }
+      ],
+      "residual_risk": [
+        "#5455 cannot advance to reviewed or terminal closeout until both P1 acceptance gaps are fixed and re-reviewed."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

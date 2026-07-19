@@ -12,19 +12,38 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Retrospective recovery: merged PR #5460 implemented stale stable-owner provenance rejection and exact source-checkout binding.
 
 ## Artifacts
 
-- none
+- csdlc-v2/src/operator.rs
+- csdlc-v2/tests/gate10a.rs
+- https://github.com/danielbaustin/agent-design-language/pull/5460
 
 ## Execution
 
-- none
+- Install receipts record source checkout revision or content provenance fallback
+- Coexistence verification rejects stale owner-binary provenance explicitly
+- Gate 10A executes a freshly installed stable editor
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate10a"
+    ],
+    "purpose": "Prove current merged-head install provenance, stale rejection, atomic install, and stable editor execution behavior.",
+    "outcome": "passed",
+    "evidence_ref": "Fresh recovery run at PR #5460 head fb7d09a56: 9 passed, 0 failed"
+  }
+]
 
 ## Integration
 

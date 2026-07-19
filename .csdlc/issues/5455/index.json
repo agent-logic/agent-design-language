@@ -3,26 +3,70 @@
   "issue": 5455,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d2ae121794a7f32acd179c81aea481aa59af9f3f31f85ea8ef242fc462d1df4",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "7d7c4cfbc66a9c413cd679e0631de079608fe1eecc0d7857f33acdda268666b3",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "aad9031673f9a39b0c2a6354b765fe31041bc0d6d3b366afb3a9c10a660aca38",
   "claim": {
-    "id": "claim-5455-owner-provenance",
-    "owner": "codex",
-    "generation": 0,
-    "acquired_unix_seconds": 1784352200,
-    "expires_unix_seconds": 1784355800,
-    "heartbeat_unix_seconds": 1784352200,
+    "id": "claim-5455-closeout-recovery",
+    "owner": "codex-closeout-audit",
+    "generation": 6,
+    "acquired_unix_seconds": 1784422165,
+    "expires_unix_seconds": 1784508565,
+    "heartbeat_unix_seconds": 1784422165,
     "branch": "codex/5455-stale-owner-provenance",
-    "worktree": ".worktrees/adl-wp-5455",
+    "worktree": ".",
     "protected_paths": [
+      ".csdlc/issues/5455",
+      ".csdlc/prepared/issues/5455",
       "csdlc-v2/src/operator.rs",
       "csdlc-v2/tests/gate10a.rs"
     ],
-    "purpose": "Fail closed on stale stable owner-binary provenance"
+    "purpose": "Recover truthful typed lifecycle and terminal evidence for merged PR #5460"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "assigned_by": "codex-closeout-audit",
+    "revision": "git-blake3:fb7d09a561a169e906eb48166f14099c98d5a974:ce03f1948e2744995b893fac63c8da704b499f5b1ecf9151715914f074fbfabf",
+    "scope": [
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/tests/gate10a.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "scope": [
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/tests/gate10a.rs"
+    ],
+    "reviewed_revision": "git-blake3:fb7d09a561a169e906eb48166f14099c98d5a974:ce03f1948e2744995b893fac63c8da704b499f5b1ecf9151715914f074fbfabf",
+    "findings": [
+      {
+        "id": "F-5455-1",
+        "severity": "p1",
+        "summary": "Content-provenance receipts accept stale externally sourced owner binaries because verification rejects mismatches only for git provenance.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "#5540"
+      },
+      {
+        "id": "F-5455-2",
+        "severity": "p1",
+        "summary": "Gate 10A runs only csdlc-edit --help and does not prove implemented-phase approve-design through the stable resolved binary.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "#5540"
+      }
+    ],
+    "residual_risks": [
+      "#5455 cannot advance to reviewed or terminal closeout until both P1 acceptance gaps are fixed and re-reviewed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,37 +81,59 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bbda80b9378937c92605100cc46faf30b4e6b5505f357b3e4b8d736838ce2d61",
+      "values_digest": "cf6df34897c9ffffff7be152f68744c3ae127b445c1e1c79b1168d078fa6c32a",
       "rendered_digest": "a7e66983bd9cc699f02dda3557ed133ada5b913e0dd33ccf563edf8776019b7c",
       "ast_digest": "1fbac3166ccf0d475cc75672e375c55a21e91c90454c8fdcdb5eb13ec2694c29"
     },
     "stp": {
-      "values_digest": "7d506b9e983c7e5fcc8319880baed4e628cf54e27c59293762af76d8d8cbeb5c",
+      "values_digest": "227748a036132d50d6c33797c3d281856e6fec8d21cc70949327374ad8eb53b8",
       "rendered_digest": "2d9d62b64304dca45f181632ebd278f0b0f6d9c112725d2d2c21417a395774aa",
       "ast_digest": "623f06ee07f0e3902d23f5d5460ce030ed92d84ec038a984e6e415ca9a3d1059"
     },
     "spp": {
-      "values_digest": "3e86cb761b10993be48caf6a47ea09c825480e1d15177ec060f579d50b2479fa",
-      "rendered_digest": "5e453a6e4d1e97a189443d534f7e304341ea47eb46a27d244fd6497745279b9c",
-      "ast_digest": "91877968be4e9c237bf12591370efdd53b45bab858f98ba1f737dc01388f9915"
+      "values_digest": "963da903760da52b689d90a130d8445c6c1234b6eb3dc822746c0d870b9894ff",
+      "rendered_digest": "b5814b012d379eb97930a9e6edae426ca99c43a464579244030a46855b8bcc83",
+      "ast_digest": "9d439f6776648fe0ef58b356a80039ade87fd36eead27cb703b829b2a210fe25"
     },
     "vpp": {
-      "values_digest": "736ff285da8812b561719bd0c2648e9f2c4f345a48f8e30d6ffe04132d2dcac0",
+      "values_digest": "6426c6c2d4c6081788fabbbd98f8f4eea54d408a84ff20ebade93b74dc8f9eaf",
       "rendered_digest": "b1385ee2b0e92ffff735fec8f1450cb941d353bedd707466a8a312813c878e77",
       "ast_digest": "03753a5a69af5937790df78430e6d0443f1a443efe29717f8c2aec419ccb92e7"
     },
     "srp": {
-      "values_digest": "cf6de4f668227da92ab177f0f53214110f270b22c4938118f88ed8bff43ff05e",
-      "rendered_digest": "ffd4fa066158af24836800cca403f3ead79639769987e7c2faf0a92ad5df9ce6",
-      "ast_digest": "fa978425a37d5c352788b304178c4c66f97927280248c4f50160dd0bec04331f"
+      "values_digest": "30f9ba5c7b4970ea70273046ba3872b65d66e46669810c64567acf63b71b17fe",
+      "rendered_digest": "0660d6c5900a48ff0581a243fd610ecdae479b1019b517af3a6bd924d6201626",
+      "ast_digest": "bb5e620fbbb8396976ef31fec49e0508c0dc66370fb14d85a197f7fd2be495ec"
     },
     "sor": {
-      "values_digest": "c03f9c8cb89f4863824beaf0b365c3cee8ba5a724f7e607c30890930b6ff0d8d",
-      "rendered_digest": "cc23f1fc645da9cf6ffed8f68ca1d98a7e43caf66338b78f87bdd283379f9bed",
-      "ast_digest": "7e6baa8fceca1fef9bbce45ab1712080ffd64486afec90975ff8f1c8378839fd"
+      "values_digest": "4abc019c80c0ccebf2d1d8a5bbe575fc3217110c779cf9e2d277754f6c54f480",
+      "rendered_digest": "86f63c5d0b477b63f6de0f765c598c19e9664ca18005f90df1fa31d505013d81",
+      "ast_digest": "ebcc7d55cd2434d79e522999bc70a7f1591bfa14d9ae16ce99ea14c3efc5034f"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-closeout-audit",
+      "reason": "Existing issue-specific cards and design are ready; advance only to bind historical merge recovery evidence."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex-closeout-audit",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "Current merged-head implementation, plan completion, and fresh Gate 10A evidence are recorded truthfully."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -75,6 +141,69 @@
       "actor": "codex",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex-closeout-audit",
+      "reason": "The original claim expired after PR #5460 merged while the typed record remained initialized; recover it only to record current evidence and closeout truth.",
+      "operation": "{\"previous_owner\":\"codex\",\"observed_expiry_unix_seconds\":1784355800,\"recovery_actor\":\"codex-closeout-audit\",\"reason\":\"The original claim expired after PR #5460 merged while the typed record remained initialized; recover it only to record current evidence and closeout truth.\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-closeout-audit",
+      "reason": "Existing issue-specific cards and design are ready; advance only to bind historical merge recovery evidence.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex-closeout-audit",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex-closeout-audit",
+      "reason": "Record current evidence for the already-merged implementation without claiming contemporaneous lifecycle execution.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Retrospective recovery: merged PR #5460 implemented stale stable-owner provenance rejection and exact source-checkout binding.\",\"changes\":[\"Install receipts record source checkout revision or content provenance fallback\",\"Coexistence verification rejects stale owner-binary provenance explicitly\",\"Gate 10A executes a freshly installed stable editor\"],\"artifacts\":[\"csdlc-v2/src/operator.rs\",\"csdlc-v2/tests/gate10a.rs\",\"https://github.com/danielbaustin/agent-design-language/pull/5460\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex-closeout-audit",
+      "reason": "Record a fresh exact-head Gate 10A proof during closeout recovery.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove current merged-head install provenance, stale rejection, atomic install, and stable editor execution behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh recovery run at PR #5460 head fb7d09a56: 9 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex-closeout-audit",
+      "reason": "Merged implementation and fresh exact-head validation prove the sole plan step complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"implement\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-closeout-audit",
+      "reason": "Current merged-head implementation, plan completion, and fresh Gate 10A evidence are recorded truthfully.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
