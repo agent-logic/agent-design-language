@@ -60,11 +60,11 @@ Reconciled live predecessor and remediation truth, replaced the stale blocked ha
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

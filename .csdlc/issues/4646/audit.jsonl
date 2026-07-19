@@ -11,3 +11,4 @@
 {"sequence":11,"generation":7,"actor":"codex:issue-4646","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":12,"generation":8,"actor":"subagent:019f7bd2-7cff-7e62-8c8b-bb05bde8db65","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":13,"generation":9,"actor":"codex:issue-4646","reason":"Exact-revision pre-publication review passed after all three actionable packet findings were fixed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":14,"generation":10,"actor":"codex:issue-4646","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
