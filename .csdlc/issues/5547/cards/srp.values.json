@@ -7,9 +7,9 @@
     "title": "[v0.91.7][WP-20][review-fix] Disposition C-SDLC identity and ownership-split residuals",
     "slug": "v0-91-7-wp-20-review-fix-disposition-csdlc-identity-and-ownership-split-residuals",
     "version": "v0.91.7",
-    "generation": 8
+    "generation": 16
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {

@@ -1,0 +1,139 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5569,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "dae4cdfe09611326641a8b4a1e8ec7422cdcea55c5d19cb248bbec82a95bfd8f",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "77a4cc3a8fb8527125ed91b9589dadaccec4035ce06765b118e511e2fad1876d",
+  "claim": {
+    "id": "claim-5569-repair-5547-terminal-plan",
+    "owner": "codex-closeout-audit",
+    "generation": 4,
+    "acquired_unix_seconds": 1784428095,
+    "expires_unix_seconds": 1784514495,
+    "heartbeat_unix_seconds": 1784428095,
+    "branch": "codex/5547-closeout-audit",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5547",
+      ".csdlc/issues/5569",
+      ".csdlc/prepared/issues/5547",
+      ".csdlc/prepared/issues/5569"
+    ],
+    "purpose": "Repair four proven pending #5547 terminal plan steps through typed receipt and record CAS"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5569/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5569/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-closeout-audit",
+      "revision": "4ccd1b246a65bb5dc475aa6c4f0bf607e4c238a1481c7078261489a297fa2c52"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "62df67ba8ea242a1cc0ce0095ecc277a0a9fc9bb2c4a54e119976cc07e4c4ab2",
+      "rendered_digest": "ab16e10e30d8392dce8e78bde05f7d42a450b6a96250c7755ac04192a12db91b",
+      "ast_digest": "c3019ddbbf571c9379edf4b5a575fa7b3b38f77ccbd78ef149322b58873d0184"
+    },
+    "stp": {
+      "values_digest": "c3e7c4d60679b8ceb1a22faf5216c21c97786b0ef1d23f5a1a5595fd8103f1e8",
+      "rendered_digest": "2bf1c731c8c9106026ccd9c6fc0466c4b448f1da77e9fbca4a8d87b7c2275a16",
+      "ast_digest": "e4a88fe012a86a90e6eb5d767f3e376e70b109c883efef4f152fe08ce57885a3"
+    },
+    "spp": {
+      "values_digest": "91d254db0d108f0e9f9f322b1975a78967e9fcd0fec3ca2ffdea7be7ae8f889e",
+      "rendered_digest": "7184ced124376ff5b1d5f8891ccc520a08ed9f9f4460f54a3821c770bc426b2f",
+      "ast_digest": "db5f84632d15238c93f3c619b777f530f9ba7e4fc46bc9b26f13865edd105235"
+    },
+    "vpp": {
+      "values_digest": "ab39a85767e35757cf829afcef87bf66108d39d58ae879efc30a7b9aec0fcd15",
+      "rendered_digest": "3f459015308adb596dddbaf9540925684b549ce62ac56b55951c1d9fa720def4",
+      "ast_digest": "cf606c151e1e5f6d2608876caa24e36433353cd054ceb4e280fc88caa04f6ff6"
+    },
+    "srp": {
+      "values_digest": "966a203078786bb77e219ca7f52deb4481d2bdce30793fd3f9f44bf7fe8241b2",
+      "rendered_digest": "81bcd0f344c678a8c15645989a815d9f84f4bea605185332754fa00b6e8ba084",
+      "ast_digest": "6e36515c654cdf7b2a5680607f4379ff396c579e5c36e2ef73b71192c1537b90"
+    },
+    "sor": {
+      "values_digest": "bdc18ee801d6c61e7ddaac14f587271a5c116d5a24fb20cab31d08e5b8f55372",
+      "rendered_digest": "df3b9bbf7faf616ba46970b8b5b7bcc25a6af4efc9b6ea3e94bb0cf9039e2a48",
+      "ast_digest": "caa86b5dde804596852fabb2c255969e162f1d970c51208a93639de6c43ec40a"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-closeout-audit",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex-closeout-audit",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "Typed terminal repair, completed plan, doctor, parity, and hygiene evidence are recorded."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-closeout-audit",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex-closeout-audit",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-closeout-audit",
+      "reason": "Record four exact typed #5547 terminal plan repairs.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Used separately claimed #5569 authority to align all four #5547 SPP steps with already-retained execution, review, routing, validation, publication, and terminal evidence.\",\"changes\":[\"Completed AC-1 contract inspection step through typed receipt/record CAS.\",\"Completed AC-2 scoped identity implementation and residual routing step through typed receipt/record CAS.\",\"Completed AC-3 ownership-first split-plan step through typed receipt/record CAS.\",\"Completed AC-4 deferred-scope and validation-truth step through typed receipt/record CAS.\"],\"artifacts\":[\".csdlc/issues/5547\",\"csdlc-v2/closeout/5547.json\",\"repair-ac1.json\",\"repair-ac2.json\",\"repair-ac3.json\",\"repair-ac4.json\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-closeout-audit",
+      "reason": "Record #5547 doctor, receipt parity, and diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5547\"],\"purpose\":\"Prove repaired terminal record validity and retained receipt parity.\",\"outcome\":\"passed\",\"evidence_ref\":\"Doctor pass at #5547 generation 16 with zero findings; local index equals retained receipt record; all four SPP steps completed; claim remains null and phase closed_out; git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-closeout-audit",
+      "reason": "Four typed repairs and parity proof complete the bounded plan.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"repair\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-closeout-audit",
+      "reason": "Typed terminal repair, completed plan, doctor, parity, and hygiene evidence are recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
