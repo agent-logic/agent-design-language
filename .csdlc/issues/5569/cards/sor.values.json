@@ -7,7 +7,7 @@
     "title": "Repair #5547 terminal plan-step truth",
     "slug": "repair-5547-terminal-plan",
     "version": "v0.91.8",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
@@ -42,7 +42,7 @@
           "evidence_ref": "Doctor pass at #5547 generation 16 with zero findings; local index equals retained receipt record; all four SPP steps completed; claim remains null and phase closed_out; git diff --check passed."
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

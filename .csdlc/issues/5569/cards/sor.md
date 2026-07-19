@@ -49,7 +49,7 @@ Used separately claimed #5569 authority to align all four #5547 SPP steps with a
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
