@@ -5,7 +5,7 @@
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
   "phase": "implemented",
   "generation": 14,
-  "digest": "a16ce4e05dd56221ed909f4040fa37a64073eda7a144340644409fcd8fefa168",
+  "digest": "0745eb3a57da52ed55f2489b967d9d02c6920faee029f89b36732fffd83d7a2d",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -22,7 +22,42 @@
     ],
     "purpose": "Prepare and later execute WP-19 without claiming completion from setup"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7bd2-7cff-7e62-8c8b-bb05bde8db65",
+    "assigned_by": "codex:issue-4646",
+    "revision": "git-blake3:bd1c12537b28122e187ce1ba9a19349731fd2825:05e5ace0f5d33ab784c3df73c9d97239a5a54600ee7624fe156a8a7654965ea0",
+    "scope": [
+      "docs/milestones/v0.91.7/README.md",
+      "docs/milestones/v0.91.7/WBS_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/RELEASE_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/RELEASE_NOTES_v0.91.7.md",
+      "docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/V0917_CLOSED_ISSUE_CLOSEOUT_REGISTER.md",
+      "docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md",
+      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/README.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt",
+      "docs/milestones/v0.91.7/review/wp20_remediation_5544",
+      "docs/milestones/v0.91.7/review/wp20_supply_chain",
+      "docs/reviews/v0.91.7/internal-review-4645/FINDINGS_REGISTER.md",
+      "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md",
+      "docs/reviews/v0.91.7/review-fixes-5547",
+      "docs/review-fixes/runtime/WP07_HARDENING_REPAIR_5408.md",
+      "docs/review-fixes/runtime/WP07_COHERENCE_GATE_DISPOSITION_5408.md",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/provider",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "docs/milestones/v0.91.8"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -238,6 +273,13 @@
       "actor": "codex:issue-4646",
       "reason": "Record final focused validation for the corrected immutable WP-19 corpus.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"Ruby YAML.safe_load with Date permitted for WP_ISSUE_WAVE_v0.91.7.yaml\",\"authoritative REVIEW_CORPUS.v1.txt uniqueness, exclusion, existence, and 66-file expansion validation\",\"local Markdown link existence check over changed documents\",\"live GitHub verification that PR #5419 is merged and #5573 is open with version:v0.91.7\",\"csdlc-doctor --repo . --issue 4646\"],\"purpose\":\"Prove packet hygiene, stable corpus boundaries, links, typed lifecycle health, and the actual dependency order before freezing the external-review revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh local and live GitHub validation in .worktrees/adl-wp-4646 on 2026-07-19; external review itself remains not run.\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:issue-4646",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
