@@ -8,3 +8,4 @@
 {"sequence":8,"generation":5,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":6,"actor":"codex:root","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":10,"generation":7,"actor":"codex:root","reason":"advance #5547 after bounded subagent review passed","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":11,"generation":8,"actor":"codex:root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
