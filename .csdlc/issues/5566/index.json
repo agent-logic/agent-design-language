@@ -3,13 +3,13 @@
   "issue": 5566,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0358d975a44846c484a38efa48a8c55e0ab1ea8e6717d3b2c321730a17c1abb9",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "2384df248ab78112ec7663be8eb9a57d04fdfecf4eebd9da6afaf1ca9277ea7e",
+  "phase": "published",
+  "generation": 8,
+  "digest": "672e766f1fe3755ac351e13557d4b93b72549abef44f2aa00950c9239921dd93",
   "claim": {
     "id": "claim-5566-existing-worktree-bind",
     "owner": "codex-closeout-audit",
-    "generation": 7,
+    "generation": 8,
     "acquired_unix_seconds": 1784425395,
     "expires_unix_seconds": 1784511795,
     "heartbeat_unix_seconds": 1784425395,
@@ -44,7 +44,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5566,
+    "pull_request": 5567,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5567",
+    "base": "main",
+    "head": "codex/5566-existing-worktree-bind",
+    "revision": "git-blake3:cd521654943cd9fd3a09cc5ed6591c2b46d63aae:8520835fc1cc16c0e37639c3e11dd16bc3f34952923e3971453db4ac4bd777c9",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -58,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5c9925dc2d33d99de924822fc25ff8e9cbd96a5abaecdc19acf0d99cec5cc03f",
+      "values_digest": "2a03ee11868faed6513b532243a34c65fd6a329c5168aa27167120c0679352d0",
       "rendered_digest": "3480576725b1becc696685bbfac11d6f8dde5ed93f8a6e6f56ee395175e964fa",
       "ast_digest": "5c221f031bad4648f98416300c38a719254d42eff3673104211058fcf3b08fb1"
     },
     "stp": {
-      "values_digest": "382462ef2dd0bdb130bcc8575c72fd08c8adfcf3cfc2d9307c37175bb04d0d83",
+      "values_digest": "6ee175d39f2f41fd5923acb14aa84510747710458543901384a9bec7f3493254",
       "rendered_digest": "860349dd079401c7d21bcf3ed975aadbfe2b8c4a1096f056490a60cfa07c8780",
       "ast_digest": "c5ada507b8d8b73c5f379e5243cb604bd0c8de06fe59cdc1aa16aa68c2be5096"
     },
     "spp": {
-      "values_digest": "645e3d3918246b8399086309d664a83b4bdbbb5702ed8ff1caea13c26e8534f6",
+      "values_digest": "0ba96e5276ecab3d1528cb8cd161cb636f74e47ac769fa91ece0fac7b4de853d",
       "rendered_digest": "d599354ef32d97f8661de821711548b77bf7170302490c84befe486f627ee4c4",
       "ast_digest": "1a6764781c66152075d5eb3d0f75c04af5c542c039ef3367fa5c66b4eb4aebdd"
     },
     "vpp": {
-      "values_digest": "d32a49b51d41109fd25872ff7167b00096c06f50bd7d0f4d4f28af030f78c0b7",
+      "values_digest": "a38c7e89043da3561f78612720c35e702acd0898eb6c20c3a907021270bea4d2",
       "rendered_digest": "7678d421dd2d08a480b0bd88d3f4fff9ec13d3730b9e1ae7efd5b45309551509",
       "ast_digest": "2959e881077eff3f3d337d5f4226ae082d1d3bff5f09ae570c541a04f8a3194a"
     },
     "srp": {
-      "values_digest": "4548f0787581f3fae2827901a7c7603f3c341df1746df51ba50baa16c476d093",
+      "values_digest": "9f5ccbed9eacfcbfbad6ad912f475cb3c04c4d6874e2c010bbe5354d18576652",
       "rendered_digest": "2fd8db4a7820d77e6f4189287d59c342b6de3b666049f1b5da0c68e020c26bb3",
       "ast_digest": "cd7a2c55a53ac12dfc437a2c1c997f6bc0cec7decf43971ff9d57783d36874e1"
     },
     "sor": {
-      "values_digest": "67fb47ccab6db816295f290d84fd9b01ef408a161738732deba77a2c723099bb",
-      "rendered_digest": "cb84aa23010bf1e4c88ac890c48ac1e623f52b44a3cb5a239d5d45d1a7d71f1c",
-      "ast_digest": "d54e2d2abc0b4763f772a004a64d5e19a4ecd9fb748fa533d51798082628a819"
+      "values_digest": "6164e79bc51fe617507a078eaf95d8ab562d85ff979dede0da9c28eb7fc4976c",
+      "rendered_digest": "992797cb229854cb311de7c2e9e1fdf78886cf8ddc78522b6ba6b647196a0f7c",
+      "ast_digest": "e116f7c833c7aaaa620f547bac3ccee6e0101544ab09f5208ac40d0028e35f25"
     }
   },
   "transitions": [
@@ -116,6 +126,13 @@
       "to": "reviewed",
       "actor": "codex-closeout-audit",
       "reason": "Exact-revision subagent review passed after the P1 topology fix."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-closeout-audit",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -188,6 +205,13 @@
       "actor": "codex-closeout-audit",
       "reason": "Exact-revision subagent review passed after the P1 topology fix.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex-closeout-audit",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

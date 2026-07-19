@@ -62,11 +62,11 @@ Recognize an exact reserved worktree as issue-local when the current Git branch 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
