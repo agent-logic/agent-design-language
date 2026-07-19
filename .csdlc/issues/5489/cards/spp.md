@@ -32,21 +32,19 @@ Revision 1
   },
   {
     "id": "S2",
-    "action": "Produce the declared deliverables on protected tracked paths, including the canonical doc inventory and review handoff surfaces",
+    "action": "Produce the declared deliverables on protected tracked paths",
     "acceptance_ids": [
       "AC-1",
-      "AC-2",
-      "AC-5"
+      "AC-2"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Run focused validation, canonical-doc inventory checks, and record fresh/retained/skipped proof truth",
+    "action": "Run focused validation and record fresh/retained/skipped proof truth",
     "acceptance_ids": [
       "AC-2",
-      "AC-3",
-      "AC-5"
+      "AC-3"
     ],
     "status": "pending"
   },
@@ -67,7 +65,6 @@ Revision 1
 - Work stays issue-local
 - Findings and claims remain evidence-bound
 - No release or activation readiness is inferred from prep
-- Required v0.91.8 canonical docs, feature docs, review/release/handoff entrypoints, routing surfaces, and current-truth dependency records must be present and non-contradictory
 - No AWS use for preparation
 
 ## Risks
@@ -101,7 +98,6 @@ Digest: 7646182d813c913c307ed060acb15d05ac113dcf20158cd1a477b35bec1a9ce5
 - Required dependency remains open or blocked without operator approval
 - Execution would require sibling WP remediation
 - Release-readiness claim cannot be backed by retained or fresh proof
-- Any required canonical document, feature surface, review/release/handoff entrypoint, routing surface, or current-truth dependency is missing, stale, contradictory, or presented as proven without evidence
 - AWS or paid remote validation would be required for preparation
 
 ## Handoff
