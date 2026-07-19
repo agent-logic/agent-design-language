@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md
+docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md
+adl/tools/test_retained_diff_proof_contract.sh
 
 ## Prompts
 
@@ -31,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The distinct public-packet publication-boundary audit remains routed to GitHub issue #5571.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:67eb3619615b96d7c3d593da6f1c8677e45b53b7:30686ffaee7e3daf29fb92c7ac39621eb2baacc03caa005091758e60a2399152")
 
-Reviewer: None
+Reviewer: Some("subagent:019f669a-596c-71e2-adb3-bd753875989d")
 
-Result: pre_review
+Result: pass

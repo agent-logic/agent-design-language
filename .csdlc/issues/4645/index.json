@@ -3,13 +3,13 @@
   "issue": 4645,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b83689bd4a80acea6cd1dad467b03005174d03bdf87b95341e9d6235f48796fe",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "7525f0fc896905288a6b958b0d80553fbe09841eac78f35adb82658e91f53348",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "83f092330c36c36f0f2d37e39c19940424129f6b847b3886029093bb2b9bd594",
   "claim": {
     "id": "claim-4645-v0917-internal-review-prep",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 22,
+    "generation": 24,
     "acquired_unix_seconds": 1784359768,
     "expires_unix_seconds": 1784964568,
     "heartbeat_unix_seconds": 1784359768,
@@ -25,8 +25,31 @@
     ],
     "purpose": "Prepare and later run the v0.91.7 WP-18 internal milestone review without claiming release readiness"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "assigned_by": "codex-closeout-audit",
+    "revision": "git-blake3:67eb3619615b96d7c3d593da6f1c8677e45b53b7:30686ffaee7e3daf29fb92c7ac39621eb2baacc03caa005091758e60a2399152",
+    "scope": [
+      "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md",
+      "docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md",
+      "adl/tools/test_retained_diff_proof_contract.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "scope": [
+      "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md",
+      "docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md",
+      "adl/tools/test_retained_diff_proof_contract.sh"
+    ],
+    "reviewed_revision": "git-blake3:67eb3619615b96d7c3d593da6f1c8677e45b53b7:30686ffaee7e3daf29fb92c7ac39621eb2baacc03caa005091758e60a2399152",
+    "findings": [],
+    "residual_risks": [
+      "The distinct public-packet publication-boundary audit remains routed to GitHub issue #5571."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9c34e815f8d21010cd780fdc4e9b11613ca271a0d7c80e1af378d67ce5caa61b",
+      "values_digest": "2a7cda07ac04d0751ac68ebdc846ed079857b683d94912b09ebf9160d2e62a0d",
       "rendered_digest": "e1bf89aef7dad8b7e62722b0916c6bba5ff3bf1565e0bd04fc5955d33f63d739",
       "ast_digest": "e6ac30a25dd6a6a7c4961f6510b70bb96a483fed02a09a2fff081460bab62e5a"
     },
     "stp": {
-      "values_digest": "4b72ed56f948cce5925cd8202df85c41ba24b5451203d99a80cf1fe37309a92c",
+      "values_digest": "83474527fc765ba5f8fc5ca8ebc0fdf7c492676237f53df84050874612c7bf86",
       "rendered_digest": "4eac2fb9b783d00bfb49377c7fe316b145b49273fb0cac63985770dd9782e7a2",
       "ast_digest": "b42c7d1246f0141a9b8131f63a686ae56ec5ba2e74b6b41459d528fa0ea27267"
     },
     "spp": {
-      "values_digest": "250968ef4df65dc835ba8da10c3b65afa2b0e01ec3557ea6e8f8a31ad9322ca2",
+      "values_digest": "c39a395b91622c398cb616c50d2c95ddc0ba93c8339d23925d7ac17be4c9c322",
       "rendered_digest": "93d5fd2e0d59cad03e318ca6e9c1080b29dbc23f41e3867d4fe6d5e4dfaf8bcc",
       "ast_digest": "c3cd5e627c8b2d2ff27ca189a56fa43602d999c98ea668ed41bc0b99caefc634"
     },
     "vpp": {
-      "values_digest": "0ee4935f977419a8be36633cc74e61ac96149d1b32549314b2b9cb24059fb2da",
+      "values_digest": "720e22746129e70ec1488ed5fed2c24261d30f51faaa415da89ce3a0f1bf8e4a",
       "rendered_digest": "67c4a527e567c24bbde221d7e3cb734bd6b14f5456f8aef9c2135a056fe4f252",
       "ast_digest": "afbeedd850450474da2fb1c97b98150e5c98a10ab853c2b1563116badf81ca30"
     },
     "srp": {
-      "values_digest": "495817c1be36ce4bd61a9908f8985363aadbf6ffb6c9cd27c3f699f34f9101a2",
-      "rendered_digest": "364ef41554f23d76e6d11ade10135daa832f7829b7ff661cae082e3250ce5999",
-      "ast_digest": "46c6f904f4acd33f6911595b8408552367477e8e9b41dbf56552253137c393ec"
+      "values_digest": "36d8b60b87418621894130e5216fb3ef2bc745e6fa570fc124eb9961bc000783",
+      "rendered_digest": "29d1292a10152a121714a898624c95481ad428d68870a2d4eacc79b7d73e4901",
+      "ast_digest": "bdbda91489736d9976ea517b55d646fbcce4e5c1cbf9c3a99eae990ad8804d32"
     },
     "sor": {
-      "values_digest": "a7e5e9a91dfa217d7f6aaf078a891afc4eb466312350235c1dbbc3ae9b682cbd",
+      "values_digest": "7f960859ca790f9722d41671ac7373d8974ed60404f02a90de3169cfcf0b11c8",
       "rendered_digest": "9b61bd3e979826f7055d909b4e3496e3c4ce5295c4b76aefceb7f3f62e14ed01",
       "ast_digest": "4d057a1043a9e4fa73c7ea17ef0bdd5e350ecad4309e17f4593b594a5282308b"
     }
@@ -134,6 +157,13 @@
       "to": "implemented",
       "actor": "codex-closeout-audit",
       "reason": "GitHub reported PR #5574 conflicting; rebase onto current main changed commit identity, so recover to implemented and require a fresh exact-head review before republishing."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-closeout-audit",
+      "reason": "Exact rebased-head review passed with no findings; the pinned remediation range is isolated and green."
     }
   ],
   "audit": [
@@ -332,6 +362,27 @@
       "actor": "codex-closeout-audit",
       "reason": "GitHub reported PR #5574 conflicting; rebase onto current main changed commit identity, so recover to implemented and require a fresh exact-head review before republishing.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex-closeout-audit",
+      "reason": "Exact rebased-head review passed with no findings; the pinned remediation range is isolated and green.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
