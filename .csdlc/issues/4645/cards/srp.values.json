@@ -7,14 +7,14 @@
     "title": "[v0.91.7][WP-18][review] Internal review",
     "slug": "v0-91-7-wp18-internal-review",
     "version": "v0.91.7",
-    "generation": 24
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md\ndocs/reviews/v0.91.7/internal-review-4645/VALIDATION.md\nadl/tools/test_retained_diff_proof_contract.sh",
-      "review_revision": "git-blake3:67eb3619615b96d7c3d593da6f1c8677e45b53b7:30686ffaee7e3daf29fb92c7ac39621eb2baacc03caa005091758e60a2399152",
+      "review_revision": "git-blake3:bc19a880c9f13d2cae37a0be2e7484993f92f5b1:3e06ec05edd5a6c45c6908286fb5f79f7a225129e72efc3e30c8ef89c5d4f92d",
       "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
       "review_prompts": [
         "Does the internal review cover every v0.91.7 WP and retained sprint packet it claims to cover?",
