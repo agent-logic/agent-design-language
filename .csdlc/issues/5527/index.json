@@ -3,13 +3,13 @@
   "issue": 5527,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b39cf9f23e29cee6b0210b71f27cb741da4101fc49585ca4be7c8eb7a86b8f68",
-  "phase": "reviewed",
-  "generation": 16,
-  "digest": "e28044242f027c72cfa8c04fd3c7b43810f1ef1f194064b0d6cd0377049d29bb",
+  "phase": "implemented",
+  "generation": 17,
+  "digest": "c20ad572df68d473d7b2f118e44230c9ed00e9c6df9941a384cde5a360802ce3",
   "claim": {
     "id": "claim-5527-terminal-sor-artifact-repair",
     "owner": "codex-closeout-audit",
-    "generation": 16,
+    "generation": 17,
     "acquired_unix_seconds": 1784418712,
     "expires_unix_seconds": 1784505112,
     "heartbeat_unix_seconds": 1784418712,
@@ -27,86 +27,8 @@
     ],
     "purpose": "Add atomic typed terminal SOR artifact-reference repair and correct #5390"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
-    "assigned_by": "codex-closeout-audit",
-    "revision": "git-blake3:1e5b6b0f783d68e08e20d6997ca553ab2d4e9f5b:16d10e4195c2d1050d93bfe27688816dcac5510f09f63f00868148b7acf88ad7",
-    "scope": [
-      ".csdlc/issues/5390",
-      ".csdlc/issues/5527",
-      ".csdlc/prepared/issues/5527",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/model.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
-    "scope": [
-      ".csdlc/issues/5390",
-      ".csdlc/issues/5527",
-      ".csdlc/prepared/issues/5527",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/model.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs"
-    ],
-    "reviewed_revision": "git-blake3:1e5b6b0f783d68e08e20d6997ca553ab2d4e9f5b:16d10e4195c2d1050d93bfe27688816dcac5510f09f63f00868148b7acf88ad7",
-    "findings": [
-      {
-        "id": "F-5527-1",
-        "severity": "p1",
-        "summary": "Initial VPP named a nonexistent standalone test target instead of the implemented Gate 7 test.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:1e5b6b0f783d68e08e20d6997ca553ab2d4e9f5b:16d10e4195c2d1050d93bfe27688816dcac5510f09f63f00868148b7acf88ad7",
-        "route": null
-      },
-      {
-        "id": "F-5527-2",
-        "severity": "p1",
-        "summary": "The first corrected VPP argv depended on an unstated subdirectory working directory.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:1e5b6b0f783d68e08e20d6997ca553ab2d4e9f5b:16d10e4195c2d1050d93bfe27688816dcac5510f09f63f00868148b7acf88ad7",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "The pre-existing non-Git Gate 2 fixture failures discovered by the full suite are routed to #5548; focused Gate 7, Clippy, formatting, and doctor proofs pass for this bounded change."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "metadata_only_review_projection",
-      "from_revision": "git-blake3:d1b858942bc8130f03fb26d5f66f6834721816c7:1d70024e040109803c96950722bc2a255acb134fce7e1d5249f297094b719d06",
-      "to_revision": "git-blake3:1e5b6b0f783d68e08e20d6997ca553ab2d4e9f5b:16d10e4195c2d1050d93bfe27688816dcac5510f09f63f00868148b7acf88ad7",
-      "from_commit": "d1b858942bc8130f03fb26d5f66f6834721816c7",
-      "to_commit": "1e5b6b0f783d68e08e20d6997ca553ab2d4e9f5b",
-      "changed_paths": [
-        ".csdlc/issues/5527/audit.jsonl",
-        ".csdlc/issues/5527/cards/sip.values.json",
-        ".csdlc/issues/5527/cards/sor.md",
-        ".csdlc/issues/5527/cards/sor.values.json",
-        ".csdlc/issues/5527/cards/spp.values.json",
-        ".csdlc/issues/5527/cards/srp.md",
-        ".csdlc/issues/5527/cards/srp.values.json",
-        ".csdlc/issues/5527/cards/stp.values.json",
-        ".csdlc/issues/5527/cards/vpp.values.json",
-        ".csdlc/issues/5527/index.json",
-        ".csdlc/prepared/issues/5527/advance-reviewed.json",
-        ".csdlc/prepared/issues/5527/assign-review.json",
-        ".csdlc/prepared/issues/5527/record-review.json",
-        ".csdlc/prepared/issues/5527/recover-review.json"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -121,32 +43,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9e39cf1d5753ef8b65045cf0b87f5159922e93b5e75a06cfdb2aa086dedbd570",
+      "values_digest": "375f8bcf63dd2129fec5d1cef9169e87c99100e1746a7ea190a9d48771def4da",
       "rendered_digest": "2fcef2c8a671de6df948e1f090a4bbd6009874b2e7a24fcf753fbc7f7e985412",
       "ast_digest": "95f89c615430c3d6d0d9cd545ef5fc0287b1d0189dbc35d7d936d0ec23e529a7"
     },
     "stp": {
-      "values_digest": "31a07ec049de6cc43bd3246e4bb7dae540413ab945d099f063ff8130a80f43dc",
+      "values_digest": "6856df525686a411e339ff5ac298ac0a8f27ffa6ad4099c2b0c15d34eb009bbe",
       "rendered_digest": "9f27ff1f7dd70941fa6a040092d128da0790cbc47e17f415bb193c6ee10755b1",
       "ast_digest": "96e122a7bf67f79354b616ba86217d6604c5a4eafd529705f7635a456fc07f45"
     },
     "spp": {
-      "values_digest": "99973f60b5d389fd5fed53e1f986068ef60c9944724b4e83f8b8217165af4197",
+      "values_digest": "64c9ababb309f732b3d928668385e406573b3655951d225d11ff887cfc665183",
       "rendered_digest": "78c9cb6b20aa9628a0cb614ac17e3a8b4b9c68c2a75afaf0c3505f2ed3666997",
       "ast_digest": "f6d99558828ae87f281ac1e5768ad2a0b42fb300c7afc5ebed5ebab950a5d8bc"
     },
     "vpp": {
-      "values_digest": "304996d4c1061996d8e2111f3e865967ee6eb3663f14cc6940c4383390c97e4f",
+      "values_digest": "315269cf75c089e93b2680d9c055775774fdc5345bea83d64da7e7ea4662c721",
       "rendered_digest": "e33d36e45faa63e361f3cdd612c8fcff169d3949afbb54e97fbe73091f37ea35",
       "ast_digest": "95001bf7b86c4778b0f0a1c5323ec44a17b7956e0ce88c85107d8c0fc75b5094"
     },
     "srp": {
-      "values_digest": "fdbaca300f80586c93e028157d92e1e8294fc722b78d686f4b68588aa55e6485",
-      "rendered_digest": "1580c981041dc57eea9b279dd8c0b03073a3e1951fb5d4d914d02b7ad58c5e02",
-      "ast_digest": "06afe38149aa90a5100e1ca1637de7ecc8b763a9f55a55b980d7cc4236fb52a1"
+      "values_digest": "98ac8fb1b86bf36e27a1e8fcfbf17bbcff515f0a7552fbb6aba5f928423f0fd1",
+      "rendered_digest": "0b194bc35e71e0a9e99270351bb478704ac3db56fa7fbb3c48671fcfcbe4f681",
+      "ast_digest": "52b87827dee4561e49b2c4c0d60f2312260b7d368738a2121cd5ea22659277df"
     },
     "sor": {
-      "values_digest": "05df01ad5393b5f4bdad72ed6501e5a97d0e77185aa5a6bbdd94bb2c8b5adc65",
+      "values_digest": "3129e5f22a6d3bfd180e5feb6ff9d40be22e0d0a3c0f3bfce71e81a6c972af2a",
       "rendered_digest": "49488c3bac69396ef11f5eb8e3299daa13d6da5844637a18a36ca86653cf3330",
       "ast_digest": "5520218c2498b1ad75bd711c1d7deae471e3d1fe1d999104dd3b9fd9afbfd15d"
     }
@@ -193,6 +115,13 @@
       "to": "reviewed",
       "actor": "codex-closeout-audit",
       "reason": "Exact metadata-head review is clean; substantive code and tests remain byte-identical and both fixed findings plus #5548 residual risk are restored."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "Recover exact review identity after committing metadata-head review so the publication head receives current review."
     }
   ],
   "audit": [
@@ -342,6 +271,13 @@
       "actor": "codex-closeout-audit",
       "reason": "Exact metadata-head review is clean; substantive code and tests remain byte-identical and both fixed findings plus #5548 residual risk are restored.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex-closeout-audit",
+      "reason": "Recover exact review identity after committing metadata-head review so the publication head receives current review.",
+      "operation": "recover_review"
     }
   ]
 }
