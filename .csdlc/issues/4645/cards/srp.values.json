@@ -7,15 +7,15 @@
     "title": "[v0.91.7][WP-18][review] Internal review",
     "slug": "v0-91-7-wp18-internal-review",
     "version": "v0.91.7",
-    "generation": 0
+    "generation": 24
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md\ndocs/reviews/v0.91.7/internal-review-4645/VALIDATION.md\nadl/tools/test_retained_diff_proof_contract.sh",
+      "review_revision": "git-blake3:67eb3619615b96d7c3d593da6f1c8677e45b53b7:30686ffaee7e3daf29fb92c7ac39621eb2baacc03caa005091758e60a2399152",
+      "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
       "review_prompts": [
         "Does the internal review cover every v0.91.7 WP and retained sprint packet it claims to cover?",
         "Are release-readiness and v0.92 activation claims bounded by integrated proof?",
@@ -23,8 +23,10 @@
         "Does the packet distinguish retained proof, fresh validation, skipped validation, and non-claims?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The distinct public-packet publication-boundary audit remains routed to GitHub issue #5571."
+      ],
+      "review_result": "pass"
     }
   }
 }

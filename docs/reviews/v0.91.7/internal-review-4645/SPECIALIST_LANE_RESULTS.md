@@ -46,4 +46,3 @@ The following observations are explicitly scoped:
 - Missing-packet observations from agents that inspected root are retained as
   context but not counted as final findings, because the #4645 worktree now
   retains the packet under the intended review path.
-

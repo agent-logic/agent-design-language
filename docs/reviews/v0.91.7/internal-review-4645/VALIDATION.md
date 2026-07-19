@@ -34,6 +34,31 @@ Retained logs:
 - `docs/reviews/v0.91.7/internal-review-4645/validation/diff-check.log`
 - `docs/reviews/v0.91.7/internal-review-4645/validation/summary-json.log`
 
+## Retrospective committed-range correction
+
+The original bare `git diff --check` command and empty retained log only proved
+that the worktree had no unstaged whitespace errors at execution time. They did
+not inspect the committed PR range and therefore do not prove the committed
+bytes of PR #5543.
+
+Retrospective exact-head review found a trailing blank line at EOF in
+`SPECIALIST_LANE_RESULTS.md` with `git diff --check HEAD^..HEAD`. Issue #5572
+records that finding. The remediation removes the defect and validates the
+complete remediation range with:
+
+```bash
+bash adl/tools/test_retained_diff_proof_contract.sh \
+  1adb842f8d71506e9eb95de132761cf96eeea55b \
+  246be119d085a647e848b425713a7386c5fb32f4
+```
+
+After rebasing the remediation branch onto current `main`, the pinned endpoints
+identify that immutable rebase base and the exact first remediation commit.
+They isolate the remediation change and do not absorb unrelated later `main`
+changes. The helper fails closed unless both a base and head revision are named.
+This addendum preserves the original limitation instead of rewriting the old
+log as proving evidence.
+
 ## Validation Boundaries
 
 - `/Volumes/home/builds` was not mounted in this session, so the Rust build
