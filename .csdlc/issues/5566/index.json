@@ -3,13 +3,13 @@
   "issue": 5566,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0358d975a44846c484a38efa48a8c55e0ab1ea8e6717d3b2c321730a17c1abb9",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "81d959b1458a330f9c58fb71ca4b87eb9fca8efc31ed9e9ebe7d356bf4867cde",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "2384df248ab78112ec7663be8eb9a57d04fdfecf4eebd9da6afaf1ca9277ea7e",
   "claim": {
     "id": "claim-5566-existing-worktree-bind",
     "owner": "codex-closeout-audit",
-    "generation": 5,
+    "generation": 7,
     "acquired_unix_seconds": 1784425395,
     "expires_unix_seconds": 1784511795,
     "heartbeat_unix_seconds": 1784425395,
@@ -23,8 +23,27 @@
     ],
     "purpose": "Permit exact reserved-claim activation from its registered existing issue worktree"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "assigned_by": "codex-closeout-audit",
+    "revision": "git-blake3:683657fb812a1bfd993191f4cbdbafd9651c1608:c89805c93bda7eddca277b1ae6de9753442961629b499d95398bd008bfb4f834",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ],
+    "reviewed_revision": "git-blake3:683657fb812a1bfd993191f4cbdbafd9651c1608:c89805c93bda7eddca277b1ae6de9753442961629b499d95398bd008bfb4f834",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +58,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "229fbf7666f94f2b87cb9041493f04dbd0284e1a36ed85032eae9b9b19441e4e",
+      "values_digest": "5c9925dc2d33d99de924822fc25ff8e9cbd96a5abaecdc19acf0d99cec5cc03f",
       "rendered_digest": "3480576725b1becc696685bbfac11d6f8dde5ed93f8a6e6f56ee395175e964fa",
       "ast_digest": "5c221f031bad4648f98416300c38a719254d42eff3673104211058fcf3b08fb1"
     },
     "stp": {
-      "values_digest": "9943df418f6c4f921214302dfaea9f085f513f9b95f3b9442f0d9ba3026d8caa",
+      "values_digest": "382462ef2dd0bdb130bcc8575c72fd08c8adfcf3cfc2d9307c37175bb04d0d83",
       "rendered_digest": "860349dd079401c7d21bcf3ed975aadbfe2b8c4a1096f056490a60cfa07c8780",
       "ast_digest": "c5ada507b8d8b73c5f379e5243cb604bd0c8de06fe59cdc1aa16aa68c2be5096"
     },
     "spp": {
-      "values_digest": "cc129ae6902aef995d17de9895007b1d3e125d9f6a2fc0a782961f6199eb6ce5",
+      "values_digest": "645e3d3918246b8399086309d664a83b4bdbbb5702ed8ff1caea13c26e8534f6",
       "rendered_digest": "d599354ef32d97f8661de821711548b77bf7170302490c84befe486f627ee4c4",
       "ast_digest": "1a6764781c66152075d5eb3d0f75c04af5c542c039ef3367fa5c66b4eb4aebdd"
     },
     "vpp": {
-      "values_digest": "7a3feb094346ec1754100d67aa93b82ad185c843c4ebe140826e95e1c9a38f89",
+      "values_digest": "d32a49b51d41109fd25872ff7167b00096c06f50bd7d0f4d4f28af030f78c0b7",
       "rendered_digest": "7678d421dd2d08a480b0bd88d3f4fff9ec13d3730b9e1ae7efd5b45309551509",
       "ast_digest": "2959e881077eff3f3d337d5f4226ae082d1d3bff5f09ae570c541a04f8a3194a"
     },
     "srp": {
-      "values_digest": "6b7af453c3f44689bdb0e0f08612a611ad4005b07b6d889c8e1bf5781b1f156c",
-      "rendered_digest": "bd0086f1be110f8a8879d609a9e7774e6a2a3a3957b6640a87005649050066df",
-      "ast_digest": "306821272f591f2a59c614d24ce1e9cd753565dbca0d0cec548b5e0704aee360"
+      "values_digest": "4548f0787581f3fae2827901a7c7603f3c341df1746df51ba50baa16c476d093",
+      "rendered_digest": "2fd8db4a7820d77e6f4189287d59c342b6de3b666049f1b5da0c68e020c26bb3",
+      "ast_digest": "cd7a2c55a53ac12dfc437a2c1c997f6bc0cec7decf43971ff9d57783d36874e1"
     },
     "sor": {
-      "values_digest": "e896cdeb48067e3c2fdf7c5ffa471a6a84e17638ee67383cbd1398427f5a00e4",
+      "values_digest": "67fb47ccab6db816295f290d84fd9b01ef408a161738732deba77a2c723099bb",
       "rendered_digest": "cb84aa23010bf1e4c88ac890c48ac1e623f52b44a3cb5a239d5d45d1a7d71f1c",
       "ast_digest": "d54e2d2abc0b4763f772a004a64d5e19a4ecd9fb748fa533d51798082628a819"
     }
@@ -90,6 +109,13 @@
       "to": "implemented",
       "actor": "codex-closeout-audit",
       "reason": "Bounded implementation and focused validation are recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-closeout-audit",
+      "reason": "Exact-revision subagent review passed after the P1 topology fix."
     }
   ],
   "audit": [
@@ -141,6 +167,27 @@
       "actor": "codex-closeout-audit",
       "reason": "Record the review-driven canonical-topology regression proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"standalone_repository\"],\"purpose\":\"Prove an unrelated repository with the same worktree path suffix cannot activate the reserved claim.\",\"outcome\":\"passed\",\"evidence_ref\":\"Adversarial standalone-repository regression passed 1/1; positive linked-worktree and mismatched-reservation regressions also passed 1/1; strict Clippy passed.\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex-closeout-audit",
+      "reason": "Exact-revision subagent review passed after the P1 topology fix.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
