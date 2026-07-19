@@ -7,7 +7,7 @@
     "title": "Recover #5306 direct merged PR terminal evidence",
     "slug": "gate10d2-authority-docs",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -44,9 +44,9 @@
       "planned_validation_seconds": 1200,
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed if any current operational surface routes through a sunset command.",
-      "design_ref": ".csdlc/prepared/issues/5541/design.md",
+      "design_ref": ".csdlc/issues/5541/retained/design.md",
       "design_digest": "c9414eecb80e10539771549706400354580c98762b800aebf0c683bc155d2c79",
-      "diagram_ref": ".csdlc/prepared/issues/5541/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5541/retained/diagram.mmd",
       "diagram_digest": "3a249d86dddcf5c290342c46da659600a2224d90f1237c39b179551555c72042"
     }
   }

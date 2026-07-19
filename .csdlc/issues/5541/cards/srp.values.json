@@ -7,9 +7,9 @@
     "title": "Recover #5306 direct merged PR terminal evidence",
     "slug": "gate10d2-authority-docs",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {

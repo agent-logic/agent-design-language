@@ -7,7 +7,7 @@
     "title": "[v0.91.7][WP-20][review-fix] Reconcile release truth and external-review gates",
     "slug": "v0-91-7-wp20-release-truth-gates",
     "version": "v0.91.7",
-    "generation": 20
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -95,9 +95,9 @@
         "The work would require AWS, runtime/provider code remediation, or WP-19 execution"
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/prepared/issues/5544/design.md",
+      "design_ref": ".csdlc/issues/5544/retained/design.md",
       "design_digest": "701a7479eb3019cb0c7b02d9453e6a575f904768fb80b4668304af1993d291ab",
-      "diagram_ref": ".csdlc/prepared/issues/5544/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5544/retained/diagram.mmd",
       "diagram_digest": "656c9804af995d0aa8faaf4ab5557190cb12be85d224be5e09d745ca1250362c"
     }
   }

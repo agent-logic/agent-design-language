@@ -7,7 +7,7 @@
     "title": "Activate an exact reserved claim from its existing issue worktree",
     "slug": "existing-worktree-bind",
     "version": "v0.91.8",
-    "generation": 8
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -44,9 +44,9 @@
       "planned_validation_seconds": 1200,
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed unless the exact claim, current branch, and canonical registered worktree all agree.",
-      "design_ref": ".csdlc/prepared/issues/5566/design.md",
+      "design_ref": ".csdlc/issues/5566/retained/design.md",
       "design_digest": "3f446bdbb3e2b95665a006199a6ab044a892541cbebe355b5ec37f9d32984981",
-      "diagram_ref": ".csdlc/prepared/issues/5566/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5566/retained/diagram.mmd",
       "diagram_digest": "a715bb042f4ba539419d845f967fabfc23ee238f0d98d7493f008c87ada77ec3"
     }
   }

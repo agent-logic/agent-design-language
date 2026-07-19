@@ -7,9 +7,9 @@
     "title": "Repair #5547 terminal plan-step truth",
     "slug": "repair-5547-terminal-plan",
     "version": "v0.91.8",
-    "generation": 10
+    "generation": 15
   },
-  "status": "draft",
+  "status": "complete",
   "content": {
     "card_kind": "srp",
     "values": {
