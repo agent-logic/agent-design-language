@@ -5,7 +5,7 @@
 - Milestone: `v0.91.7`
 - Version: `v0.91.7`
 - Created: `2026-06-21`
-- Last verified: `2026-07-18`
+- Last verified: `2026-07-19`
 - Owner: ADL maintainers
 - Setup lineage: `#3801`, `#3825`, `#4368`
 - Source ledger: `docs/milestones/v0.91.5/PRE_V092_BRIDGE_FEATURE_DOC_LEDGER_v0.91.5.md`
@@ -19,12 +19,18 @@
 
 Current status: closeout tail active after the implementation and demo waves.
 
-Live issue truth was last verified on 2026-07-18. WP-01 through WP-17 are
-closed; WP-17 closed through issue #4644 and merged PR #5539. WP-18, WP-19,
-WP-20, WP-21A, and WP-23 remain open, while WP-21 and WP-22 are closed retained
-planning evidence. Closed issue state does not by itself mean review-clean or
-release-ready; the sprint-review register and issue-local proof packets retain
-findings and non-claims.
+Live issue truth was last verified on 2026-07-19. WP-01 through WP-18 are
+closed. WP-19 is complete through PR #5579. WP-20 and WP-23 remain open, while WP-21, WP-21A, and WP-22
+are closed retained planning evidence. Closed issue state does not by itself
+mean review-clean or release-ready; the sprint-review register and issue-local
+proof packets retain findings and non-claims.
+
+Issues #5572 / PR #5574 and #5575 are v0.91.8 follow-ons and do not block
+v0.91.7. Closeout audit #5573 remains open and underway in another session.
+Its merged PR #5578 already retains Markdown and JSON registers classifying all
+427 issues that were closed when the audit ran. WP-19 does not modify or wait
+on that independently owned closeout. The external review uses a frozen exact
+revision.
 
 | Closeout gate | Issue | Live state | Consumption boundary |
 | --- | ---: | --- | --- |
@@ -32,11 +38,11 @@ findings and non-claims.
 | WP-15 demo convergence | #4642 | closed | Demo/proof coverage, not release approval. |
 | WP-16 quality gate | #4643 | closed | Passed with downstream gates open; retained packet is `review/V0917_WP16_QUALITY_GATE_4643.md`. |
 | WP-17 documentation alignment | #4644 | closed | Merged by PR #5539; alignment packet is under `review/`. |
-| WP-18 internal review | #4645 | open | May consume the merged WP-17 packet. |
-| WP-19 external review | #4646 | open | Starts after internal-review readiness. |
-| WP-20 remediation/preflight | #4647 | open | Owns later review findings. |
+| WP-18 internal review | #4645 | closed | Merged PR #5543; internal findings were routed through closed #5408 and #5544-#5547. |
+| WP-19 external review | #4646 | complete in PR #5579 | Exact-revision review completed with two procedural findings fixed; v0.91.8 follow-ons #5572 / PR #5574 and #5575 remained excluded. |
+| WP-20 remediation/preflight | #4647 | open | Owns findings returned by WP-19. |
 | WP-21 next-milestone planning | #4648 | closed | Retained planning evidence; current v0.91.8 authority supersedes direct activation use. |
-| WP-21A next-milestone closeout planning | #5489 | open | Must settle the canonical next-milestone closeout plan before release ceremony. |
+| WP-21A next-milestone closeout planning | #5489 | closed | Retains the canonical v0.91.8 planning and external-review handoff package. |
 | WP-22 next-milestone review | #4649 | closed | Retained review evidence, not release approval. |
 | WP-23 release ceremony | #4650 | open | Final gate after required review/remediation truth. |
 
@@ -71,9 +77,9 @@ findings and non-claims.
   - `#4652` covers Unity demo surfaces.
   - `#4653` covers dspark speculative decoding evaluation with Qwen and Gemma.
   - `#4654` covers deepseek-v4-flash-dspark smoke testing on ephemeral 2xH100 EC2 with teardown/cost proof.
-- Execution: WP-01 through WP-17 are closed with issue-local evidence and
-  retained limitations. The remaining active work is WP-18, WP-19, and WP-20
-  review/remediation, WP-21A closeout planning, and WP-23 release ceremony.
+- Execution: WP-01 through WP-19 are complete with issue-local evidence and
+  retained limitations. The remaining active work is WP-20
+  remediation/preflight and WP-23 release ceremony.
   This package is a living
   milestone surface, not the original pre-execution planning snapshot.
 - Validation: validation truth is issue-local; completed child issues retain

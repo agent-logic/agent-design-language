@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 4646,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/4646-v0917-external-review",
+  "title": "[v0.91.7][WP-19] Prepare exact-revision external review handoff",
+  "body": "Refs #4646\n\n## Summary\n- reconcile current v0.91.7 milestone, sprint, remediation, and v0.91.8 bridge truth\n- define one authoritative 29-entry publication-safe review corpus\n- separate immutable target identity from the corpus through a non-self-referential dispatch receipt\n- retain PR #5574 as the only transient stable-corpus send hold and #5571 as a disclosed v0.91.8 residual\n\n## Validation\n- `git diff --check`\n- v0.91.7 issue-wave YAML parse\n- 29 manifest entries, 66 tracked files, no duplicates or excluded-path overlap\n- publication-safety and changed-document link scans\n- exact-revision subagent review: pass after three findings fixed\n- C-SDLC v2 doctor: pass\n\nExternal review has not run and this PR does not close #4646 or approve release readiness.",
+  "draft": true,
+  "revision": "git-blake3:8048c812ff3ff5b3f6a4b10abe9805f2747aa8c6:2b23afe7d6fea6b9a6cb66d2799a4949095eed3439a67923a355812e1c8e81db",
+  "commit_sha": "8048c812ff3ff5b3f6a4b10abe9805f2747aa8c6"
+}
