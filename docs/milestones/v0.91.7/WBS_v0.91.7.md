@@ -6,7 +6,7 @@
 - Version: `v0.91.7`
 - Created: `2026-06-21`
 - Last verified: `2026-07-19`
-- Status: closeout tail active; WP-01 through WP-18, WP-21, WP-21A, and WP-22 complete; WP-19, WP-20, and WP-23 open
+- Status: closeout tail active; WP-19 review complete pending result integration; WP-20 and WP-23 open
 - Setup lineage: `#3801`, `#3825`, `#4368`
 - Source capture: `PLANNING_SOURCE_CAPTURE_v0.91.7.md`
 - Release-tail handoff addendum: `V0916_TO_V0917_HANDOFF_ADDENDUM_3982.md`
@@ -16,10 +16,11 @@
 WP allocation is promoted into the v0.91.7 issue wave. WP-01 is `#4628`; WP-02 through WP-23 are `#4629` through `#4650`. Existing v0.91.7 issues are assigned rather than duplicated: `#4603` belongs to WP-06, `#4617` belongs to WP-04, `#4622` belongs to WP-02, and integrated logging/OTel proof `#4718` belongs to WP-07 with WP-08/WP-09 consumers. `#4622` is closed and delivered the repo-native PR inventory command required for release-tail review.
 
 Live WP truth last verified on 2026-07-19: WP-01 through WP-18 are closed.
-WP-19, WP-20, and WP-23 are open; WP-21, WP-21A, and WP-22 are closed retained
-planning evidence. PR #5579 records a historical WP-19 review target, but
-later merged evidence invalidated that corpus and requires a replacement
-exact-revision review. Publication-boundary audit #5571 and closeout audit
+WP-20 and WP-23 are open; WP-19 review work is complete and #4646 remains open
+only for integration of this result. The exact 70-file replacement corpus
+received one Fable 5 lane and three independent shadow lanes, returning 22
+findings for WP-20. WP-21, WP-21A, and WP-22 are closed retained planning
+evidence. Publication-boundary audit #5571 and closeout audit
 #5573 are closed. PR #5578 retains the completed 427-issue closeout register;
 WP-19 does not rerun that audit.
 This sequence snapshot is issue-state truth only.

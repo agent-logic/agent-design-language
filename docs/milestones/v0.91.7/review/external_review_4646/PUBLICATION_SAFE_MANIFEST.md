@@ -1,6 +1,6 @@
 # WP-19 Publication-Safe Manifest
 
-Status: replacement_preflight_required
+Status: exact_target_preflight_passed
 
 Audience: external_reviewer
 
@@ -10,10 +10,11 @@ Last audited: 2026-07-19
 
 ## Authoritative Corpus
 
-`REVIEW_CORPUS.v1.txt` is the sole candidate allowlist for the replacement
-external review. The same file controls publication auditing, path-existence
-validation, reviewer scope, and digest computation. It must be frozen at a new
-exact revision before dispatch. The dispatch receipt is deliberately excluded.
+`REVIEW_CORPUS.v1.txt` is the frozen allowlist used for the completed
+replacement review. The same file controlled publication auditing,
+path-existence validation, reviewer scope, and digest computation at
+`bd9b7a3c58417d20768b31bc1fede03ec8e3cfe5`. The dispatch receipt is
+deliberately excluded from the reviewed corpus.
 
 ## Allowed Internal-Review Inputs
 
@@ -55,4 +56,7 @@ that policy.
 The completed #5571 audit permits sharing only its retained public disposition
 and redaction records plus the other paths listed in `REVIEW_CORPUS.v1.txt`.
 It does not approve publication of every already-retained WP-18 artifact. The
-replacement corpus still requires final preflight at its exact target revision.
+replacement corpus passed path, exclusion, YAML, predecessor-state, and digest
+preflight at `bd9b7a3c58417d20768b31bc1fede03ec8e3cfe5`. Finding WP19-07
+records that the earlier #5571 manual audit remains bound to the superseded
+corpus and must not be treated as replacement-dispatch authority.

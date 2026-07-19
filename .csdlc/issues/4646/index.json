@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
   "phase": "published",
-  "generation": 23,
-  "digest": "21fc668491934f2cd6266cdae3e7dc5633ee07b97632aabe529bd419b7b0a3a2",
+  "generation": 29,
+  "digest": "5c0c0fde954046bb3ac7cc165408b3d9ed5cfdb216d5bd667324d207628d38af",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 23,
+    "generation": 29,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -25,14 +25,14 @@
   "review_assignment": {
     "reviewer": "subagent:019f7c27-5777-7f52-bcbc-8960948e02dd",
     "assigned_by": "codex:issue-4646",
-    "revision": "git-blake3:ee8ab0d76575a4f7f40f25729ac74835dc088850:72da321d576f5f124975d54673c6381a315bedac1144cb839a4367a6f18f13ff",
+    "revision": "git-blake3:1c7c7a2d5406380d23f56ce5a2f2ae2dfd013e1c:61467e63d3caa5a9c7cf240169a681e2e68bb3e8cba13fde6e9a9d5a56ce480c",
     "scope": [
+      ".csdlc/issues/4646",
       "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
       "docs/milestones/v0.91.7/README.md",
       "docs/milestones/v0.91.7/WBS_v0.91.7.md",
       "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md",
       "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
       "docs/milestones/v0.91.7/review/external_review_4646"
     ]
@@ -40,19 +40,20 @@
   "review": {
     "reviewer": "subagent:019f7c27-5777-7f52-bcbc-8960948e02dd",
     "scope": [
+      ".csdlc/issues/4646",
       "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
       "docs/milestones/v0.91.7/README.md",
       "docs/milestones/v0.91.7/WBS_v0.91.7.md",
       "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md",
       "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
       "docs/milestones/v0.91.7/review/external_review_4646"
     ],
-    "reviewed_revision": "git-blake3:ee8ab0d76575a4f7f40f25729ac74835dc088850:72da321d576f5f124975d54673c6381a315bedac1144cb839a4367a6f18f13ff",
+    "reviewed_revision": "git-blake3:1c7c7a2d5406380d23f56ce5a2f2ae2dfd013e1c:61467e63d3caa5a9c7cf240169a681e2e68bb3e8cba13fde6e9a9d5a56ce480c",
     "findings": [],
     "residual_risks": [
-      "Replacement external review has not run; WP-19 remains open and WP-20 cannot yet consume current findings."
+      "Anthropic billing permitted only one completed Fable 5 lane; three independent shadow reviewers covered the remaining 69 files, so the packet is complete with provider degradation rather than full third-party coverage.",
+      "The 22 retained review findings remain for WP-20 disposition and do not constitute release approval."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -60,11 +61,11 @@
   "publication": {
     "repository": "danielbaustin/agent-design-language",
     "issue": 4646,
-    "pull_request": 5582,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5582",
+    "pull_request": 5584,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5584",
     "base": "main",
     "head": "codex/4646-v0917-external-review",
-    "revision": "git-blake3:8bc9232ceba9b074e037ddbd95e3f95a50103316:9155fa23fbf5b8802e347564f4f53c50e7d6917b1a821fd463ea0b013badcb45",
+    "revision": "git-blake3:f3e0e839715921f97738fbeca7f80c0a20a52dbc:0f0f2f242992dcce76c9031e13c04a6cae6ff939979671eb474ae02683bf54b2",
     "draft": true,
     "observed_state": "open"
   },
@@ -81,34 +82,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2bae93c303a562a58bc5154ac7d7583cf9bf1fbb223740386c2bdb0fe18b984e",
+      "values_digest": "b436cf32ed39606c9d4024bcd7f35cbb950b92a6bfff8d2aba08e802b9c59d3b",
       "rendered_digest": "e5b99204539ac0734e24a003ad319a9c5c57079c2969d094225ab0f8614bdc15",
       "ast_digest": "2647e65d641a7245fddedb8dcfefacd3fba8f2211bead0548fdfd07f241893b6"
     },
     "stp": {
-      "values_digest": "e6eb4d9ae8da3be0fd0d477ca4816fc6d1b4acf39efa5333d99b1e0c56b648b5",
+      "values_digest": "a4ba3ebeaf9b8c65908007ef904309d923a0679c68937628b1c1a1d6d186b58c",
       "rendered_digest": "bd38b0c9940a3291d61a13849bfc0ac45983c5927e2204028024f0cb62acf430",
       "ast_digest": "5ab9d2c01e49ae35f3da0008b783e3a945a485900c9b7b1ea592e3a8a8de2778"
     },
     "spp": {
-      "values_digest": "34a099d1e85411dbe2c29d1abe07780ba871c935090e15475996a90e37507fea",
+      "values_digest": "86c948f7f26317da2f6826edb1f0ba6a85c8100b5ec5e2ad00b8f0f5d7040741",
       "rendered_digest": "e7498b8202a19fc799db2bf89e5ad42251f4e69ca99e131841b481491780190c",
       "ast_digest": "ba0ee92c13833b60b683d6f5bd567e495a4e44a3e0782443436d0fd1aa4f45e8"
     },
     "vpp": {
-      "values_digest": "1fb7e6f0377d5d65294d03721854fc1221e6d8aeff1de6ef84fc1d4495ef152a",
+      "values_digest": "bbfde6215e2ab003e0ec1996180c72d5e53f22791a693ecc95b02133cb24fc73",
       "rendered_digest": "60fabb2437618f75504d46fdcc75c4f4c7472beca527c46208439dd80fc6ae16",
       "ast_digest": "2a03e8df19363f4e77e420af1731a250a7470c20705e22dd2cc54b29e606683b"
     },
     "srp": {
-      "values_digest": "662aa3ca36a68be48168303e38665c1c22d67739613c509276ca0f78d1cc0aaa",
-      "rendered_digest": "7694a9087a134a7fd65962ec63371ee1f5643cd4bb9b2635267332b074775873",
-      "ast_digest": "ce1cb39317ec72cc9ad00a6aa35460166fa791fd280e8d2886ae655f227cf67e"
+      "values_digest": "d3057b31870e601f4470e57d0f2ab4676f8cde5c0861288225db714c938506cc",
+      "rendered_digest": "48f27d7c91434684223166c17beb6985ac76d3582fd3ed7328280579eea9d26c",
+      "ast_digest": "6ffd265bffca40bae10ed1e842453d39cc1d3d18570bd722e6d578dbd9ce4b5d"
     },
     "sor": {
-      "values_digest": "9e5c71fe62362038ce84c53669d1d5c8f9f29cf193e0ca38c1e12d705669b67c",
-      "rendered_digest": "12a1d8e180243e6a095d34c6adccfde0bae25cad95ffe60b5f3e7313cfc1da01",
-      "ast_digest": "a62930588bddf28e03b2e21d049fcfd817dd0628a5fa9a29aac2686440f9c0ca"
+      "values_digest": "9fe4cefdbd880d4ed6bb5bfb06926820897ce888735b9e9ac82a5a96aec9d74d",
+      "rendered_digest": "f45ffba6dedf0a46198bb061d23da1d69eabe5b83adcafcd8b7655958d7942c6",
+      "ast_digest": "13ad05c193465ea2659ae3fe101e93e60a5827746a85929a116f2a10b598654e"
     }
   },
   "transitions": [
@@ -177,6 +178,27 @@
     },
     {
       "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-4646",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-4646",
+      "reason": "Record the completed exact-target WP-19 review and its provider-degraded finding set after corrective PR #5582 merged."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-4646",
+      "reason": "The final exact-revision review passed after all integration-truth findings were fixed."
+    },
+    {
+      "sequence": 13,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:issue-4646",
@@ -404,6 +426,69 @@
     {
       "sequence": 32,
       "generation": 23,
+      "actor": "codex:issue-4646",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:issue-4646",
+      "reason": "Record the completed exact-target WP-19 review and its provider-degraded finding set after corrective PR #5582 merged.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:issue-4646",
+      "reason": "Retain the completed frozen-corpus review, findings, and provider-degradation boundary.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Reviewed all 70 frozen files at bd9b7a3c with one completed Claude Fable 5 lane and three independent shadow lanes after Anthropic billing blocked further calls; retained 22 findings for WP-20.\",\"changes\":[\"Record the exact target SHA, content-sensitive corpus digest, and 70-file coverage.\",\"Retain 22 findings: 2 P1, 11 P2, and 9 P3.\",\"Distinguish Fable 5 third-party coverage from shadow-agent coverage and preserve the billing limitation.\",\"Mark WP-19 complete and route findings to open WP-20 without creating one issue per finding.\"],\"artifacts\":[\"docs/milestones/v0.91.7/review/external_review_4646/DISPATCH_RECEIPT.md\",\"docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md\",\"docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:issue-4646",
+      "reason": "Focused validation confirms the completed frozen-corpus review and retained findings.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"Ruby YAML.safe_load with Date permitted for WP_ISSUE_WAVE_v0.91.7.yaml\",\"git ls-tree content digest and corpus expansion verification\",\"findings-register severity count verification\",\"csdlc-doctor --repo . --issue 4646\"],\"purpose\":\"Prove documentation hygiene, machine-readable syntax, exact frozen-corpus identity, complete findings accounting, and typed #4646 lifecycle coherence.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh local validation on 2026-07-19: 33 entries expand to 70 tracked blobs / 700167 bytes at bd9b7a3c; digest ccc7c9dfeb404d3855b8184d5da05367c992771d4c09ec97ff2845dc022fdb32; findings 2 P1, 11 P2, 9 P3; doctor pass.\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:issue-4646",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:issue-4646",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 26,
+      "actor": "codex:issue-4646",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 27,
+      "actor": "subagent:019f7c27-5777-7f52-bcbc-8960948e02dd",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 28,
+      "actor": "codex:issue-4646",
+      "reason": "The final exact-revision review passed after all integration-truth findings were fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 41,
+      "generation": 29,
       "actor": "codex:issue-4646",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

@@ -1,6 +1,6 @@
 # v0.91.7 WP-19 External Review Handoff (#4646)
 
-Status: replacement_review_preparation_required
+Status: complete_with_provider_degradation
 
 Issue: #4646
 
@@ -10,7 +10,9 @@ Last verified: 2026-07-19
 
 The internal-review remediation gate is complete. PR #5579 records a prior
 WP-19 review target, but later merged evidence changed the required corpus and
-invalidated that completion claim. Replacement external review has not run.
+invalidated that completion claim. The replacement review completed against
+the exact target in the dispatch receipt with one Fable 5 lane and three
+independent shadow lanes after Anthropic billing blocked further calls.
 #5572 / PR #5574 and #5575 are v0.91.8 follow-ons and remain outside WP-19.
 
 Issue #5571 is closed with retained publication disposition and redaction
@@ -128,8 +130,9 @@ finding automatically.
 
 ## Non-Claims And Residuals
 
-- The review recorded in the dispatch receipt is historical and superseded by
-  later corpus drift. Replacement external review has not run.
+- The old #5579 review is historical. The replacement review returned 22
+  findings; only one lane has third-party Fable 5 identity, and the other three
+  are explicitly classified as shadow review.
 - This handoff does not approve v0.91.7 release readiness or v0.92 activation.
 - #5571 is closed with retained publication-boundary evidence; no broad
   publication-safety approval is inferred beyond the allowlisted records.

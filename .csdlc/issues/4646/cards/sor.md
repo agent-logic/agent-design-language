@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Current #4646 truth supersedes the historical execution and validation entries below: #5571 and #5573 are closed, WP-19 is open at replacement-review preparation, and no replacement external review has run.
+Reviewed all 70 frozen files at bd9b7a3c with one completed Claude Fable 5 lane and three independent shadow lanes after Anthropic billing blocked further calls; retained 22 findings for WP-20.
 
 ## Artifacts
 
@@ -35,6 +35,10 @@ Current #4646 truth supersedes the historical execution and validation entries b
 - docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt
 - .csdlc/issues/4646/cards/sor.md
 - .csdlc/issues/4646/index.json
+- docs/milestones/v0.91.7/review/external_review_4646/DISPATCH_RECEIPT.md
+- docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md
+- docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md
+- docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 
 ## Execution
 
@@ -57,6 +61,10 @@ Current #4646 truth supersedes the historical execution and validation entries b
 - Supersede the historical SOR statement that WP-19 is ready for external review; the replacement corpus still requires exact-revision preflight and review.
 - Correct audit sequence 25: its phrase '#5573 audit truth is incomplete' was erroneous; the recovery is justified only by current-main corpus drift.
 - Classify earlier 66-file validation entries as historical proof for the superseded PR #5579 target, not current WP-19 completion proof.
+- Record the exact target SHA, content-sensitive corpus digest, and 70-file coverage.
+- Retain 22 findings: 2 P1, 11 P2, and 9 P3.
+- Distinguish Fable 5 third-party coverage from shadow-agent coverage and preserve the billing limitation.
+- Mark WP-19 complete and route findings to open WP-20 without creating one issue per finding.
 
 ## Validation
 
@@ -109,6 +117,18 @@ Current #4646 truth supersedes the historical execution and validation entries b
     "purpose": "Prove documentation hygiene, machine-readable syntax, replacement-corpus integrity, and typed #4646 lifecycle truth without executing external review.",
     "outcome": "passed",
     "evidence_ref": "Fresh local validation in .worktrees/adl-wp-4646 on 2026-07-19; 33 manifest entries expand to 70 tracked files; replacement external review remains not run."
+  },
+  {
+    "command": [
+      "git diff --check",
+      "Ruby YAML.safe_load with Date permitted for WP_ISSUE_WAVE_v0.91.7.yaml",
+      "git ls-tree content digest and corpus expansion verification",
+      "findings-register severity count verification",
+      "csdlc-doctor --repo . --issue 4646"
+    ],
+    "purpose": "Prove documentation hygiene, machine-readable syntax, exact frozen-corpus identity, complete findings accounting, and typed #4646 lifecycle coherence.",
+    "outcome": "passed",
+    "evidence_ref": "Fresh local validation on 2026-07-19: 33 entries expand to 70 tracked blobs / 700167 bytes at bd9b7a3c; digest ccc7c9dfeb404d3855b8184d5da05367c992771d4c09ec97ff2845dc022fdb32; findings 2 P1, 11 P2, 9 P3; doctor pass."
   }
 ]
 
