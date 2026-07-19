@@ -17,10 +17,10 @@ activation readiness. Later gates still own quality, documentation alignment,
 internal review, external review, remediation, next-milestone review, and
 release ceremony truth.
 
-Current 2026-07-19 refresh: WP-16 through WP-18 and WP-21A are complete. WP-19
-is open because later merged evidence invalidated the corpus reviewed by PR
-#5579; replacement external review has not run. WP-20 remains open awaiting
-valid current findings. #5571 and #5573 are closed, with their retained
+Current 2026-07-19 refresh: WP-16 through WP-19 and WP-21A are complete. WP-19
+reviewed the exact 70-file corpus through one Fable 5 lane and three independent
+shadow lanes, returning 22 findings. WP-20 remains open for synthesis and
+remediation. #5571 and #5573 are closed, with their retained
 publication-boundary and closeout-audit evidence preserved; WP-23 remains open.
 
 ## Coverage Table
@@ -72,8 +72,8 @@ The following open gates remain after WP-15:
 | Gate | Issue | Role |
 | --- | ---: | --- |
 | WP-18 | #4645 | Closed through merged PR #5543; internal remediation #5408 and #5544-#5547 closed |
-| WP-19 | #4646 | Open; prior PR #5579 review target invalidated by later merged evidence; replacement review not run |
-| WP-20 | #4647 | Open; awaits findings from a valid current WP-19 review |
+| WP-19 | #4646 | Closed; provider-degraded review complete with 22 findings retained |
+| WP-20 | #4647 | Open; owns synthesis and remediation of the WP-19 findings |
 | WP-21A | #5489 | Closed with retained v0.91.8 planning and review-handoff package |
 | WP-23 | #4650 | Release ceremony |
 

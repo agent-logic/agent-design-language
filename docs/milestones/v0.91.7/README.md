@@ -20,8 +20,8 @@
 Current status: closeout tail active after the implementation and demo waves.
 
 Live issue truth was last verified on 2026-07-19. WP-01 through WP-18 are
-closed. WP-19 is open because later merged evidence invalidated the corpus
-reviewed by PR #5579. WP-20 and WP-23 remain open, while WP-21, WP-21A, and WP-22
+closed. WP-19 is closed with a completed degraded-provider review that returned
+22 findings. WP-20 and WP-23 remain open, while WP-21, WP-21A, and WP-22
 are closed retained planning evidence. Closed issue state does not by itself
 mean review-clean or release-ready; the sprint-review register and issue-local
 proof packets retain findings and non-claims.
@@ -39,8 +39,8 @@ current corpus and obtain a new exact-revision external review.
 | WP-16 quality gate | #4643 | closed | Passed with downstream gates open; retained packet is `review/V0917_WP16_QUALITY_GATE_4643.md`. |
 | WP-17 documentation alignment | #4644 | closed | Merged by PR #5539; alignment packet is under `review/`. |
 | WP-18 internal review | #4645 | closed | Merged PR #5543; internal findings were routed through closed #5408 and #5544-#5547. |
-| WP-19 external review | #4646 | open; prior review invalidated | PR #5579 records a historical review target. Later merged evidence, including #5571 publication-boundary disposition, changed the required corpus; replacement external review has not run. |
-| WP-20 remediation/preflight | #4647 | open | Awaits findings from a valid current WP-19 external review. |
+| WP-19 external review | #4646 | closed; provider-degraded review complete | The exact 70-file corpus received one Fable 5 lane and three independent shadow lanes; 22 findings are retained. |
+| WP-20 remediation/preflight | #4647 | open | Owns synthesis and remediation of the 22 WP-19 findings. |
 | WP-21 next-milestone planning | #4648 | closed | Retained planning evidence; current v0.91.8 authority supersedes direct activation use. |
 | WP-21A next-milestone closeout planning | #5489 | closed | Retains the canonical v0.91.8 planning and external-review handoff package. |
 | WP-22 next-milestone review | #4649 | closed | Retained review evidence, not release approval. |
@@ -77,9 +77,9 @@ current corpus and obtain a new exact-revision external review.
   - `#4652` covers Unity demo surfaces.
   - `#4653` covers dspark speculative decoding evaluation with Qwen and Gemma.
   - `#4654` covers deepseek-v4-flash-dspark smoke testing on ephemeral 2xH100 EC2 with teardown/cost proof.
-- Execution: WP-01 through WP-18 are complete with issue-local evidence and
-  retained limitations. The remaining active work is WP-19 external review,
-  WP-20 remediation/preflight, and WP-23 release ceremony.
+- Execution: WP-01 through WP-19 are complete with issue-local evidence and
+  retained limitations. The remaining active work is WP-20
+  remediation/preflight and WP-23 release ceremony.
   This package is a living
   milestone surface, not the original pre-execution planning snapshot.
 - Validation: validation truth is issue-local; completed child issues retain

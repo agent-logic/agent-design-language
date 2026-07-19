@@ -7,15 +7,15 @@
     "title": "[v0.91.7][WP-19][review] External / 3rd-party review",
     "slug": "v0-91-7-wp19-external-third-party-review",
     "version": "v0.91.7",
-    "generation": 23
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md\ndocs/milestones/v0.91.7/README.md\ndocs/milestones/v0.91.7/WBS_v0.91.7.md\ndocs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\ndocs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md\ndocs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md\ndocs/milestones/v0.91.7/review/external_review_4646",
-      "review_revision": "git-blake3:ee8ab0d76575a4f7f40f25729ac74835dc088850:72da321d576f5f124975d54673c6381a315bedac1144cb839a4367a6f18f13ff",
-      "reviewer": "subagent:019f7c27-5777-7f52-bcbc-8960948e02dd",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the issue stay within its WP scope?",
         "Are claims supported by retained or fresh evidence?",
@@ -23,10 +23,8 @@
         "Are sibling WP and release/activation non-claims preserved?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Replacement external review has not run; WP-19 remains open and WP-20 cannot yet consume current findings."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
