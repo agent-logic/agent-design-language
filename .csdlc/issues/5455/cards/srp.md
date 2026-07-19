@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -32,7 +32,7 @@ csdlc-v2/tests/gate10a.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
+    "fix_revision": "git-blake3:4dcee7813d078ece7e31010465ef1530b102712b:0628955327a373bb561e33e4a032052f46d5ccf59804da8a54255b8cb3d5da36",
     "route": "#5540"
   },
   {
@@ -42,7 +42,7 @@ csdlc-v2/tests/gate10a.rs
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
+    "fix_revision": "git-blake3:4dcee7813d078ece7e31010465ef1530b102712b:0628955327a373bb561e33e4a032052f46d5ccf59804da8a54255b8cb3d5da36",
     "route": "#5540"
   }
 ]
@@ -57,7 +57,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627")
+Revision: Some("git-blake3:4dcee7813d078ece7e31010465ef1530b102712b:0628955327a373bb561e33e4a032052f46d5ccf59804da8a54255b8cb3d5da36")
 
 Reviewer: Some("subagent:019f669a-596c-71e2-adb3-bd753875989d")
 
