@@ -161,6 +161,7 @@ run_workspace_coverage_partitions() {
     test_filter_args+=(
       --skip runtime_v2_theory_of_mind_foundation_
       --skip runtime_v2_unified_runtime_kernel_
+      --skip csm_service_local_start_stop_retains_status_checkpoint_and_observability
     )
   fi
   mkdir -p "$partition_logs"

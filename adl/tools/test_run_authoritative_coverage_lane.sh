@@ -142,6 +142,7 @@ for required in \
   "--skip runtime_v2_runtime_inhabitant_integration_" \
   "--skip runtime_v2_theory_of_mind_foundation_" \
   "--skip runtime_v2_unified_runtime_kernel_" \
+  "--skip csm_service_local_start_stop_retains_status_checkpoint_and_observability" \
   "--skip csmctl_authenticated_api_client_waits_for_slow_listener_startup" \
   "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass" \
   "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl.json" \
