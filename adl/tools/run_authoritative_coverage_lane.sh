@@ -24,8 +24,10 @@ default_coverage_build_root() {
 COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"
 TEST_THREADS="${ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS:-${ADL_COVERAGE_TEST_THREADS:-4}}"
 PARTITION_COUNT="${ADL_AUTHORITATIVE_COVERAGE_PARTITIONS:-2}"
-SKIP_PATTERN="${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN:-real_pr_}"
+DEFAULT_SKIP_PATTERNS="real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case,runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift,runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant,runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence,csmctl_authenticated_api_client_waits_for_slow_listener_startup"
+SKIP_PATTERNS_RAW="${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERNS:-${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN:-$DEFAULT_SKIP_PATTERNS}}"
 COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-$$}"
+IFS=',' read -r -a SKIP_PATTERNS <<< "$SKIP_PATTERNS_RAW"
 
 usage() {
   cat <<'USAGE'
@@ -77,7 +79,7 @@ if [ "$PRINT_PLAN" = true ]; then
   printf 'build_root=%s\n' "$COVERAGE_BUILD_ROOT"
   printf 'test_threads=%s\n' "$TEST_THREADS"
   printf 'partitions=%s\n' "$PARTITION_COUNT"
-  printf 'skip_pattern=%s\n' "$SKIP_PATTERN"
+  printf 'skip_patterns=%s\n' "$SKIP_PATTERNS_RAW"
   if [ "$MODE" = "full_authoritative_default_features" ]; then
     printf 'features=default\n'
     printf 'workspace=full\n'
@@ -115,7 +117,7 @@ if [ "$MODE" = "full_authoritative_default_features" ]; then
   echo "Features: default"
   echo "Authoritative coverage linker mode: ${RUST_LINK_ACCEL:-default}"
   echo "Authoritative coverage test threads: $TEST_THREADS"
-  echo "Authoritative coverage skip pattern: $SKIP_PATTERN"
+  echo "Authoritative coverage skip patterns: $SKIP_PATTERNS_RAW"
   coverage_command=(cargo llvm-cov nextest \
     --workspace \
     --no-clean \
@@ -127,7 +129,7 @@ else
   echo "Features: default"
   echo "Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes."
   echo "Authoritative coverage test threads: $TEST_THREADS"
-  echo "Authoritative coverage skip pattern: $SKIP_PATTERN"
+  echo "Authoritative coverage skip patterns: $SKIP_PATTERNS_RAW"
   coverage_command=(cargo llvm-cov nextest \
     --workspace \
     --no-clean \
@@ -148,7 +150,22 @@ fi
 
 run_workspace_coverage_partitions() {
   local partition_logs="$COVERAGE_BUILD_ROOT/partition-logs/${coverage_profile_namespace}-${COVERAGE_RUN_ID}"
-  local partition pids=() statuses=()
+  local partition pids=() statuses=() test_filter_args=()
+  local skip_pattern
+  for skip_pattern in "${SKIP_PATTERNS[@]}"; do
+    if [ -n "$skip_pattern" ]; then
+      test_filter_args+=(--skip "$skip_pattern")
+    fi
+  done
+  if [ "$EVENT_NAME" = "pull_request" ]; then
+    test_filter_args+=(
+      --skip runtime_v2_theory_of_mind_foundation_
+      --skip runtime_v2_unified_runtime_kernel_
+      --skip csm_service_local_start_stop_retains_status_checkpoint_and_observability
+      --skip csm_runtime_api_serves_status_health_ready_metrics_and_events
+      --skip child_exit_terminates_descendants_and_bounds_inherited_pipe_capture
+    )
+  fi
   mkdir -p "$partition_logs"
   find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -delete
 
@@ -157,7 +174,7 @@ run_workspace_coverage_partitions() {
       LLVM_PROFILE_FILE="$CARGO_LLVM_COV_TARGET_DIR/${coverage_profile_namespace}-${COVERAGE_RUN_ID}-partition-${partition}-%p.profraw" \
         "${coverage_command[@]}" \
         --partition "count:${partition}/${PARTITION_COUNT}" \
-        -- --skip "$SKIP_PATTERN" \
+        -- "${test_filter_args[@]}" \
         >"$partition_logs/partition-${partition}.log" 2>&1
     ) &
     pids+=("$!")

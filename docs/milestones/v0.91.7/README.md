@@ -4,17 +4,41 @@
 
 - Milestone: `v0.91.7`
 - Version: `v0.91.7`
-- Date: `2026-06-21`
+- Created: `2026-06-21`
+- Last verified: `2026-07-18`
 - Owner: ADL maintainers
 - Setup lineage: `#3801`, `#3825`, `#4368`
 - Source ledger: `docs/milestones/v0.91.5/PRE_V092_BRIDGE_FEATURE_DOC_LEDGER_v0.91.5.md`
 - First-tranche input: `docs/milestones/v0.91.6/`
 - Source-capture ledger: `PLANNING_SOURCE_CAPTURE_v0.91.7.md`
 - v0.91.6 handoff addendum: `V0916_TO_V0917_HANDOFF_ADDENDUM_3982.md`
+- Required successor bridge: [`../v0.91.8/README.md`](../v0.91.8/README.md)
+- Required reviewed handoff: [`../v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md`](../v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md)
 
 ## Status
 
-Current status: milestone issue wave opened for the final pre-`v0.92` implementation and integrated-proof tranche.
+Current status: closeout tail active after the implementation and demo waves.
+
+Live issue truth was last verified on 2026-07-18. WP-01 through WP-17 are
+closed; WP-17 closed through issue #4644 and merged PR #5539. WP-18, WP-19,
+WP-20, WP-21A, and WP-23 remain open, while WP-21 and WP-22 are closed retained
+planning evidence. Closed issue state does not by itself mean review-clean or
+release-ready; the sprint-review register and issue-local proof packets retain
+findings and non-claims.
+
+| Closeout gate | Issue | Live state | Consumption boundary |
+| --- | ---: | --- | --- |
+| WP-14 launch/birthday handoff | #4641 | closed | Routing and claim-boundary evidence only. |
+| WP-15 demo convergence | #4642 | closed | Demo/proof coverage, not release approval. |
+| WP-16 quality gate | #4643 | closed | Passed with downstream gates open; retained packet is `review/V0917_WP16_QUALITY_GATE_4643.md`. |
+| WP-17 documentation alignment | #4644 | closed | Merged by PR #5539; alignment packet is under `review/`. |
+| WP-18 internal review | #4645 | open | May consume the merged WP-17 packet. |
+| WP-19 external review | #4646 | open | Starts after internal-review readiness. |
+| WP-20 remediation/preflight | #4647 | open | Owns later review findings. |
+| WP-21 next-milestone planning | #4648 | closed | Retained planning evidence; current v0.91.8 authority supersedes direct activation use. |
+| WP-21A next-milestone closeout planning | #5489 | open | Must settle the canonical next-milestone closeout plan before release ceremony. |
+| WP-22 next-milestone review | #4649 | closed | Retained review evidence, not release approval. |
+| WP-23 release ceremony | #4650 | open | Final gate after required review/remediation truth. |
 
 - Initial planning package: created by earlier v0.91.7 setup work.
 - Source-capture refresh: `#4368`.
@@ -47,10 +71,11 @@ Current status: milestone issue wave opened for the final pre-`v0.92` implementa
   - `#4652` covers Unity demo surfaces.
   - `#4653` covers dspark speculative decoding evaluation with Qwen and Gemma.
   - `#4654` covers deepseek-v4-flash-dspark smoke testing on ephemeral 2xH100 EC2 with teardown/cost proof.
-- Execution: the issue wave is active. WP-01, WP-02, WP-05, WP-06, WP-07, and
-  supporting tools/runtime child issues have executed in parallel with remaining
-  v0.91.7 work; this package should be read as a living milestone surface, not
-  as the original pre-execution planning snapshot.
+- Execution: WP-01 through WP-17 are closed with issue-local evidence and
+  retained limitations. The remaining active work is WP-18, WP-19, and WP-20
+  review/remediation, WP-21A closeout planning, and WP-23 release ceremony.
+  This package is a living
+  milestone surface, not the original pre-execution planning snapshot.
 - Validation: validation truth is issue-local; completed child issues retain
   their focused proof surfaces, while remaining open issues must provide their
   own validation before closeout.
@@ -62,11 +87,17 @@ Current status: milestone issue wave opened for the final pre-`v0.92` implementa
   `#4621`, the WP-02 PR inventory command delivered by `#4622`, and closed
   WP-14A remediation truth before opening dependent execution work.
 
-This package does not by itself claim `v0.92` activation readiness. It exists so every required pre-birthday surface is visible and forced to exit as integrated/proven, already closed with evidence, operator-scoped-out with evidence and approval, or blocked with evidence and operator approval before `v0.92` opens.
+This package does not by itself claim `v0.92` activation readiness. Its reviewed
+outputs feed the required [v0.91.8 bridge](../v0.91.8/README.md), and `v0.92`
+may consume only the reviewed v0.91.8 exact-revision handoff. Every required
+surface must still exit as integrated/proven, already closed with evidence,
+operator-scoped-out with evidence and approval, or blocked with evidence and
+operator approval.
 
 ## Purpose
 
-`v0.91.7` is the final implementation/readiness tranche before `v0.92`.
+`v0.91.7` is the implementation/readiness tranche that feeds the required
+`v0.91.8` bridge before `v0.92`.
 
 It must convert the remaining major pre-birthday surfaces into reviewable issue work, sprint structure, feature docs, and handoff truth:
 
@@ -82,7 +113,9 @@ It must convert the remaining major pre-birthday surfaces into reviewable issue 
 - affect/happiness, Godel mechanics, economics-context, and guild/civilization boundaries;
 - launch/birthday planning and `v0.92` handoff.
 
-`v0.91.7` is not vague spillover. It is the final place to make the work to reach `v0.92` explicit before the first-birthday milestone begins.
+`v0.91.7` is not vague spillover. It makes its implementation and evidence
+truth explicit for reviewed v0.91.8 platform acceptance and handoff before the
+first-birthday milestone begins.
 
 ## Activation Boundary
 
