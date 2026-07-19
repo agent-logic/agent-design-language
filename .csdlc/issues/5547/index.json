@@ -3,13 +3,13 @@
   "issue": 5547,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "51ffcc86c4288f3ab50aec7beb0a0134d2a6763b0a025f7f74fd4c6acb4f0bc6",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "1b0411059b622a6987c93d50f7a6b8a7ff39d727bde068cb85cea2aae1c0984e",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "602f0bafecdad76f09348f25c3cd40f04aac742296f5387e8ae08253691c1cfe",
   "claim": {
     "id": "claim-5547-csdlc-identity-ownership-residuals",
     "owner": "codex:root",
-    "generation": 5,
+    "generation": 7,
     "acquired_unix_seconds": 1784419946,
     "expires_unix_seconds": 1784506346,
     "heartbeat_unix_seconds": 1784419946,
@@ -25,8 +25,46 @@
     ],
     "purpose": "Disposition C-SDLC review identity and ownership-split residuals from IR-4645-011 and IR-4645-012"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f77ca-4728-7271-b9c9-3b536e5e880e",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:f318b425ea09068c2a69fd78f89cfcc0ca1cde87:678f39122fd919313f76e28840f4d59e240d83830a1e3313bfbfd39afd12a12f",
+    "scope": [
+      "csdlc-v2/src/git.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/reviews/v0.91.7/review-fixes-5547",
+      ".csdlc/issues/5547",
+      ".csdlc/prepared/issues/5547"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f77ca-4728-7271-b9c9-3b536e5e880e",
+    "scope": [
+      "csdlc-v2/src/git.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/reviews/v0.91.7/review-fixes-5547",
+      ".csdlc/issues/5547",
+      ".csdlc/prepared/issues/5547"
+    ],
+    "reviewed_revision": "git-blake3:f318b425ea09068c2a69fd78f89cfcc0ca1cde87:678f39122fd919313f76e28840f4d59e240d83830a1e3313bfbfd39afd12a12f",
+    "findings": [
+      {
+        "id": "SUBAGENT-5547-001",
+        "severity": "p3",
+        "summary": "Initial regression test missed in-scope untracked files; fixed by adding docs/new.md assertion.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f318b425ea09068c2a69fd78f89cfcc0ca1cde87:678f39122fd919313f76e28840f4d59e240d83830a1e3313bfbfd39afd12a12f",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Complex Git pathspec magic/no-match cases remain dependent on Git behavior and are outside the focused #5547 proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a3cafd30c52be304cbb44b40a92578a2bedefd532a5594d0151d07791e8d5d8a",
+      "values_digest": "b12c5b83224427e087483f1a82956081ba3f724340793a2db1633f37e2f8beeb",
       "rendered_digest": "cafbd8469f647ba253e674e2eec9c7971efd0959b372cced0e69536cf8f2c47d",
       "ast_digest": "b9ec28b92871cbcb1929428f54e5da69d30f2c505119599366f24f648ebb2d69"
     },
     "stp": {
-      "values_digest": "58547c092a3954255cbdda51b6dc19093fc8dbf7a73d6aeae79d03a2b1f1d4b8",
+      "values_digest": "0caf79e493a5bc37f2ee0c6a0d6d86c1a04ee4aa2a21b60570758a8798b05e8b",
       "rendered_digest": "eb21681baedfd097bbf233ae30698791dd8086069eb485cf869ada1d789690af",
       "ast_digest": "4e48ca298ace221a33bf8dcc4898103a4af91531859ff0eca5a14ef1066ed0fe"
     },
     "spp": {
-      "values_digest": "4fe38a56e006477701e24d9bfcb778f26c63b0c4e221546f9625cd6b84c16721",
+      "values_digest": "a488981ced66036c7fd0d1fa57ddb221ff0d2036f4f075571df4ae42139a0e30",
       "rendered_digest": "7b90f92b60ec548a42d6bf68b5bef22511588201122625a270d7824b572f5b4b",
       "ast_digest": "1fdf2bba2301a378ed35a4c2b51512e7d290f37bf2d0f2c2e0d4319e3be2230c"
     },
     "vpp": {
-      "values_digest": "0782b4baba9bcf3b4b5a71b5d2d0bb33b5e8973d8b24c2a0fa3e3a1ae95906d2",
+      "values_digest": "aa61307df74ca4c36911491ddcc9c3ac98be3bd929bb2a2b8ffc58cb66d8df0c",
       "rendered_digest": "82c8a6a96bf08f484728dc758d7528ddf2cc31e11db143058c3b18aa1046561a",
       "ast_digest": "96ae70e03e72c05c155db744b3182463b174a259fe576945517ad357a55e1c85"
     },
     "srp": {
-      "values_digest": "101cbfa9b5f812620711981c75f250d30c6418ee72b5cf9636d012f744c54367",
-      "rendered_digest": "32497ec8b54e6df9640c0d2ef4c3661f73a3975428c6f67d087549314a9650ed",
-      "ast_digest": "4d784068a273e20440d3e8e365330282a87d24e507fae730ac47089ce0e830ba"
+      "values_digest": "2afdb659f274075fb7201bf863318a6b3b8593c30d8a0890044610cc12db9aed",
+      "rendered_digest": "1b9e94acef72886995a46d3021d7c27bdd90430259f78b1ac2d4809fb71e7dce",
+      "ast_digest": "fab13bf16ad6a77ba1ebc7802e1d337f11b0e495b07a94281b6adb6d93efcbf4"
     },
     "sor": {
-      "values_digest": "b06a80c644b04d9fc0f8c5302ac4c4cbd37b88a29fd3b2c05f9f8c93475eb8bd",
+      "values_digest": "22bf3a7a5973596382466da07fea872f736f7333458bd72d3299b8c68353bccc",
       "rendered_digest": "ebe8be7a6fd636a64a3e4833b250cf02861649a7111f801f46a3d58728edc359",
       "ast_digest": "1fdc67bdf87ea4396b5e752e934b49eb65bd7bf94f2a4b0aadb34f64bec7cdbe"
     }
@@ -92,6 +130,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "advance #5547 after scoped identity implementation, ownership residual plan, and focused validation"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "advance #5547 after bounded subagent review passed"
     }
   ],
   "audit": [
@@ -143,6 +188,27 @@
       "actor": "codex:root",
       "reason": "advance #5547 after scoped identity implementation, ownership residual plan, and focused validation",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:root",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:root",
+      "reason": "advance #5547 after bounded subagent review passed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
