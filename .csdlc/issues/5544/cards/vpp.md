@@ -2,7 +2,7 @@
 
 Template: 1.0.0
 
-Issue: 4644
+Issue: 5544
 
 Repository: danielbaustin/agent-design-language
 
@@ -16,52 +16,53 @@ Execute the smallest proving validation DAG.
 
 ## Lane Inputs
 
-Design: .csdlc/issues/4644/retained/design.md
+Design: .csdlc/prepared/issues/5544/design.md
 
-Diagram: .csdlc/issues/4644/retained/diagram.mmd
+Diagram: .csdlc/prepared/issues/5544/diagram.mmd
 
 ## Selected Lanes
 
 [
   {
-    "lane": "prep-doctor",
-    "proof_role": "Validate typed C-SDLC prep state and issue-local cards",
+    "lane": "csdlc-doctor-5544",
+    "proof_role": "Validate typed C-SDLC issue state and generated cards",
     "acceptance_ids": [
       "AC-1",
-      "AC-4"
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
     ],
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 300,
     "budget_tokens": 3000,
     "argv": [
-      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+      ".adl/bin/csdlc-v2/csdlc-doctor",
       "--repo",
       ".",
       "--issue",
-      "4644"
+      "5544"
     ],
-    "parallel_group": "prep",
+    "parallel_group": "local",
     "defer_reason": null
   },
   {
-    "lane": "artifact-integrity",
-    "proof_role": "Validate future tracked artifacts are clean after execution",
+    "lane": "diff-hygiene",
+    "proof_role": "Check edited artifacts for whitespace and patch hygiene",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
-      "AC-4"
+      "AC-5"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 3000,
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
     "argv": [
       "git",
       "diff",
       "--check"
     ],
-    "parallel_group": "prep",
+    "parallel_group": "local",
     "defer_reason": "Run after execution artifacts are written"
   }
 ]
@@ -78,12 +79,12 @@ Tokens: 25000
 
 ## Commands
 
-- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 4644`
+- `.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 5544`
 - `git diff --check`
 
 ## Failure Semantics
 
-Fail closed on stale live truth, missing retained evidence, overclaim, or dependency ambiguity.
+Fail closed on stale live truth, unresolved ownership collision, missing evidence, or release-readiness overclaim.
 
 ## Handoff
 
