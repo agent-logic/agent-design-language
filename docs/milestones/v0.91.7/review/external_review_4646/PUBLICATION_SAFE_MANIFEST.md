@@ -1,6 +1,6 @@
 # WP-19 Publication-Safe Manifest
 
-Status: pass_for_bounded_external_review
+Status: replacement_preflight_required
 
 Audience: external_reviewer
 
@@ -10,15 +10,17 @@ Last audited: 2026-07-19
 
 ## Authoritative Corpus
 
-`REVIEW_CORPUS.v1.txt` is the sole authoritative allowlist for this external
-review. The same file controls publication auditing, path-existence validation,
-reviewer scope, and digest computation. The dispatch receipt is deliberately
-excluded because it identifies an already-immutable target revision.
+`REVIEW_CORPUS.v1.txt` is the sole candidate allowlist for the replacement
+external review. The same file controls publication auditing, path-existence
+validation, reviewer scope, and digest computation. It must be frozen at a new
+exact revision before dispatch. The dispatch receipt is deliberately excluded.
 
 ## Allowed Internal-Review Inputs
 
 - `docs/reviews/v0.91.7/internal-review-4645/FINDINGS_REGISTER.md`
 - `docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md`
+- `docs/reviews/v0.91.7/internal-review-4645/PUBLICATION_DISPOSITION_5571.md`
+- `docs/reviews/v0.91.7/internal-review-4645/redaction-audit-5571/`
 - `docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md`
 
 These synthesized documents contain issue identifiers, repo-relative evidence
@@ -50,7 +52,7 @@ that policy.
 
 ## Boundary
 
-This bounded audit permits sharing only paths listed in
-`REVIEW_CORPUS.v1.txt` with the named external reviewer. It does not approve
-publication of every already-retained WP-18 artifact. Issue #5571 remains the
-v0.91.7 owner for that broader publication-boundary audit.
+The completed #5571 audit permits sharing only its retained public disposition
+and redaction records plus the other paths listed in `REVIEW_CORPUS.v1.txt`.
+It does not approve publication of every already-retained WP-18 artifact. The
+replacement corpus still requires final preflight at its exact target revision.

@@ -3,13 +3,13 @@
   "issue": 4646,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
-  "phase": "reviewed",
-  "generation": 16,
-  "digest": "7a10b91d33b5cbb2d71b9fc42f9bdb950d191db3153c7786698b6220d8596c24",
+  "phase": "implemented",
+  "generation": 20,
+  "digest": "3b622ddfe662d6cbab990e4cb6032f4024b371cd0f9f08022ac83c8c23f6c4bd",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 16,
+    "generation": 20,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -22,43 +22,8 @@
     ],
     "purpose": "Prepare and later execute WP-19 without claiming completion from setup"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f7bfa-f279-7480-9d98-b2236b50f602",
-    "assigned_by": "codex:issue-4646",
-    "revision": "git-blake3:5ef09cdca67d55009386dfbd4c450aa95a7fe8b8:b7485ac2ca5364d6777baecca1ad86e56e34db7b50334b7a320a55c1c3a86fe5",
-    "scope": [
-      "docs/milestones/v0.91.7/README.md",
-      "docs/milestones/v0.91.7/WBS_v0.91.7.md",
-      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/DISPATCH_RECEIPT.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f7bfa-f279-7480-9d98-b2236b50f602",
-    "scope": [
-      "docs/milestones/v0.91.7/README.md",
-      "docs/milestones/v0.91.7/WBS_v0.91.7.md",
-      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/DISPATCH_RECEIPT.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md"
-    ],
-    "reviewed_revision": "git-blake3:5ef09cdca67d55009386dfbd4c450aa95a7fe8b8:b7485ac2ca5364d6777baecca1ad86e56e34db7b50334b7a320a55c1c3a86fe5",
-    "findings": [],
-    "residual_risks": [
-      "#5571 remains an independently owned publication-boundary residual.",
-      "#5573 remains independently owned and was not closed by WP-19.",
-      "WP-19 does not approve v0.91.7 release readiness."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -73,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "81d4d2dbf6c0a286ddbba363a37b9abbdc572a41dab70d9838e477eaf3f69ca8",
+      "values_digest": "4aae2a720e52cf4da5fa3addce294003e259406b840ce9c345db7e4004a928f6",
       "rendered_digest": "e5b99204539ac0734e24a003ad319a9c5c57079c2969d094225ab0f8614bdc15",
       "ast_digest": "2647e65d641a7245fddedb8dcfefacd3fba8f2211bead0548fdfd07f241893b6"
     },
     "stp": {
-      "values_digest": "d86f2764141a0d1675be9774e34ddc110269458b3c5a0526e695761023ee2a64",
+      "values_digest": "9883f9cde4272a353d8ec22afc60474902e4495c63540bc034588aa2babaef54",
       "rendered_digest": "bd38b0c9940a3291d61a13849bfc0ac45983c5927e2204028024f0cb62acf430",
       "ast_digest": "5ab9d2c01e49ae35f3da0008b783e3a945a485900c9b7b1ea592e3a8a8de2778"
     },
     "spp": {
-      "values_digest": "822c45db1fcdc237c1d620376634e86237ca344b595dbf75237fee9061baaf29",
+      "values_digest": "6d7b16adb511d5351a74ffbc644cd71682025ae65771e1f4ba389393eb212bb5",
       "rendered_digest": "e7498b8202a19fc799db2bf89e5ad42251f4e69ca99e131841b481491780190c",
       "ast_digest": "ba0ee92c13833b60b683d6f5bd567e495a4e44a3e0782443436d0fd1aa4f45e8"
     },
     "vpp": {
-      "values_digest": "aee5d7835453436d5ee7ab099c9c35af57373ff3d7b89ed32f45676deb718932",
+      "values_digest": "fc2accb4ee605b91a9e96bbbdd0dffb5ab66a2df7973114bfe737b9f3483316d",
       "rendered_digest": "60fabb2437618f75504d46fdcc75c4f4c7472beca527c46208439dd80fc6ae16",
       "ast_digest": "2a03e8df19363f4e77e420af1731a250a7470c20705e22dd2cc54b29e606683b"
     },
     "srp": {
-      "values_digest": "4c58e19a3c9aaa93177ca833b25b4ce147a1d0c0695c1f906861802996609c89",
-      "rendered_digest": "63e394bee3996693423cf4704b662f618220edbf54b589c5e3451a7286406dcb",
-      "ast_digest": "9e53b8f90f4a8113534a3bfc80e0d80cf683c13dc254e853db6cc96b35caafa0"
+      "values_digest": "174dd51df69c47a31c5541523ba377a45fb398cec613bea13193a9442049c0bd",
+      "rendered_digest": "8091ec9adf5d4dc2bafb1ad411673019c87c88d542be303a2ac07330b8ece732",
+      "ast_digest": "704639f76190669d16e86bab21bdbc6e660bbe98e16205ddef8aeb455dcecb50"
     },
     "sor": {
-      "values_digest": "367328be5cc321312d351019b1693888452eecc84b1ddf7b89fd1f88588ee962",
-      "rendered_digest": "0448e35c86ec82101855a298d6ac7d2fcd06a4830608b474c99f5037f0003817",
-      "ast_digest": "558bded6ed5652d8a037b39970d968fa0d708ffb8d99cc64d43c1bbde26bebf8"
+      "values_digest": "f1041d6688a787550720cbef9830ee973d71f1bd908bd470587fb1663d5d1f72",
+      "rendered_digest": "45f15a10cb8e0d78fbbf2d832bbdf8092c0a36a9d58af6e6b8f6067a2619abc7",
+      "ast_digest": "78ee1d37ae9ef1ad525507c42d1056910ddce9fe57604c5678a4ff11c4797445"
     }
   },
   "transitions": [
@@ -152,6 +117,13 @@
       "to": "reviewed",
       "actor": "codex:issue-4646",
       "reason": "Exact-head review passed after all actionable documentation findings were fixed."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-4646",
+      "reason": "Recover the premature WP-19 reviewed state because #5573 audit truth is incomplete and current main contains evidence absent from the reviewed corpus."
     }
   ],
   "audit": [
@@ -322,6 +294,34 @@
       "actor": "codex:issue-4646",
       "reason": "Exact-head review passed after all actionable documentation findings were fixed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:issue-4646",
+      "reason": "Recover the premature WP-19 reviewed state because #5573 audit truth is incomplete and current main contains evidence absent from the reviewed corpus.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:issue-4646",
+      "reason": "Correct WP-19 after the merged review packet became stale against current main.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"WP-19 is restored to pre-review truth because later merged evidence changed the required external-review corpus. The original #5573 audit remains complete and is not being rerun.\",\"changes\":[\"Mark PR #5579 and its receipt as a superseded historical review target.\",\"Record #5571 and #5573 as closed and include #5571 publication-safe disposition evidence in the replacement corpus.\",\"Mark WP-19 open and WP-20 awaiting findings from a valid current review.\"],\"artifacts\":[\"docs/milestones/v0.91.7/README.md\",\"docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\",\"docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md\",\"docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:issue-4646",
+      "reason": "Focused validation confirms the corrected WP-19 pre-review state and replacement corpus inventory.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"Ruby YAML.safe_load with Date permitted for WP_ISSUE_WAVE_v0.91.7.yaml\",\"JSON parse for retained #5571 redaction evidence\",\"REVIEW_CORPUS.v1.txt uniqueness, existence, and 70-file expansion validation\",\"csdlc-doctor --repo . --issue 4646\"],\"purpose\":\"Prove documentation hygiene, machine-readable syntax, replacement-corpus integrity, and typed #4646 lifecycle truth without executing external review.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh local validation in .worktrees/adl-wp-4646 on 2026-07-19; 33 manifest entries expand to 70 tracked files; replacement external review remains not run.\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:issue-4646",
+      "reason": "Disposition the review finding by explicitly superseding stale SOR and recovery statements.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Current #4646 truth supersedes the historical execution and validation entries below: #5571 and #5573 are closed, WP-19 is open at replacement-review preparation, and no replacement external review has run.\",\"changes\":[\"Supersede the historical SOR statements that #5571 or #5573 are open.\",\"Supersede the historical SOR statement that WP-19 is ready for external review; the replacement corpus still requires exact-revision preflight and review.\",\"Correct audit sequence 25: its phrase '#5573 audit truth is incomplete' was erroneous; the recovery is justified only by current-main corpus drift.\",\"Classify earlier 66-file validation entries as historical proof for the superseded PR #5579 target, not current WP-19 completion proof.\"],\"artifacts\":[\".csdlc/issues/4646/cards/sor.md\",\".csdlc/issues/4646/index.json\"]}"
     }
   ]
 }

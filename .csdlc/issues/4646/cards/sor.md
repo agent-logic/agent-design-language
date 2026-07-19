@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Verified merged PR #5419 satisfies the #4646 prerequisite and recorded the serial closeout order #4646 then #5574 then #5573.
+Current #4646 truth supersedes the historical execution and validation entries below: #5571 and #5573 are closed, WP-19 is open at replacement-review preparation, and no replacement external review has run.
 
 ## Artifacts
 
@@ -29,6 +29,12 @@ Verified merged PR #5419 satisfies the #4646 prerequisite and recorded the seria
 - docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md
 - docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
 - docs/milestones/v0.91.7/review/V0917_CLOSED_ISSUE_CLOSEOUT_REGISTER.md
+- docs/milestones/v0.91.7/README.md
+- docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml
+- docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md
+- docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt
+- .csdlc/issues/4646/cards/sor.md
+- .csdlc/issues/4646/index.json
 
 ## Execution
 
@@ -44,6 +50,13 @@ Verified merged PR #5419 satisfies the #4646 prerequisite and recorded the seria
 - Recorded #5573 as open and underway in another session rather than completed or not planned
 - Kept #5574 outside the frozen WP-19 corpus because it follows #4646
 - Preserved #5573 ownership in the other session and made no closeout claim
+- Mark PR #5579 and its receipt as a superseded historical review target.
+- Record #5571 and #5573 as closed and include #5571 publication-safe disposition evidence in the replacement corpus.
+- Mark WP-19 open and WP-20 awaiting findings from a valid current review.
+- Supersede the historical SOR statements that #5571 or #5573 are open.
+- Supersede the historical SOR statement that WP-19 is ready for external review; the replacement corpus still requires exact-revision preflight and review.
+- Correct audit sequence 25: its phrase '#5573 audit truth is incomplete' was erroneous; the recovery is justified only by current-main corpus drift.
+- Classify earlier 66-file validation entries as historical proof for the superseded PR #5579 target, not current WP-19 completion proof.
 
 ## Validation
 
@@ -84,6 +97,18 @@ Verified merged PR #5419 satisfies the #4646 prerequisite and recorded the seria
     "purpose": "Prove packet hygiene, stable corpus boundaries, links, typed lifecycle health, and the actual dependency order before freezing the external-review revision.",
     "outcome": "passed",
     "evidence_ref": "Fresh local and live GitHub validation in .worktrees/adl-wp-4646 on 2026-07-19; external review itself remains not run."
+  },
+  {
+    "command": [
+      "git diff --check",
+      "Ruby YAML.safe_load with Date permitted for WP_ISSUE_WAVE_v0.91.7.yaml",
+      "JSON parse for retained #5571 redaction evidence",
+      "REVIEW_CORPUS.v1.txt uniqueness, existence, and 70-file expansion validation",
+      "csdlc-doctor --repo . --issue 4646"
+    ],
+    "purpose": "Prove documentation hygiene, machine-readable syntax, replacement-corpus integrity, and typed #4646 lifecycle truth without executing external review.",
+    "outcome": "passed",
+    "evidence_ref": "Fresh local validation in .worktrees/adl-wp-4646 on 2026-07-19; 33 manifest entries expand to 70 tracked files; replacement external review remains not run."
   }
 ]
 

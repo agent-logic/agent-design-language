@@ -1,6 +1,6 @@
 # v0.91.7 WP-19 External Review Handoff (#4646)
 
-Status: external_review_complete
+Status: replacement_review_preparation_required
 
 Issue: #4646
 
@@ -8,17 +8,16 @@ Last verified: 2026-07-19
 
 ## Decision
 
-The internal-review remediation gate is complete. The operator authorized
-WP-19 to proceed on a frozen exact revision. Open #5572 / PR #5574 and #5575
-are v0.91.8 follow-ons excluded from this review corpus. They must not mutate
-or silently supplement the dispatched snapshot. Closeout audit #5573 remains
-open and underway in another session; merged PR #5578 already retains its
-427-issue register, and WP-19 does not own or wait on its remaining closeout.
+The internal-review remediation gate is complete. PR #5579 records a prior
+WP-19 review target, but later merged evidence changed the required corpus and
+invalidated that completion claim. Replacement external review has not run.
+#5572 / PR #5574 and #5575 are v0.91.8 follow-ons and remain outside WP-19.
 
-Issue #5571 is a `version:v0.91.7` publication-boundary audit. It remains a
-release-tail residual but is not a WP-19 send prerequisite because the bounded
-public allowlist excludes the raw WP-18 packet, live-state, and validation
-trees that #5571 audits.
+Issue #5571 is closed with retained publication disposition and redaction
+evidence. The replacement public allowlist includes those publication-safe
+records while continuing to exclude the raw WP-18 packet, live-state, and
+validation trees. Closeout audit #5573 is also closed; PR #5578 retains the
+completed 427-issue register, and WP-19 does not rerun that audit.
 
 ## Completed Predecessor And Remediation Gates
 
@@ -49,7 +48,7 @@ before sending:
 | Packet digest | Compute and record the authoritative corpus digest in the dispatch receipt. |
 | Predecessor truth | #4645, #5408, #5489, #5527, and #5544-#5547 remain closed; PRs #5419, #5543, and #5557 remain merged. |
 | Validation | Run `git diff --check`, parse the v0.91.7 issue-wave YAML, and validate every manifest path exists. |
-| Publication safety | Exclude secrets, credentials, private prompt output, untracked artifacts, and machine-local scratch evidence. #5571 remains a disclosed v0.91.7 residual; no broader publication approval is inferred. |
+| Publication safety | Exclude secrets, credentials, private prompt output, untracked artifacts, and machine-local scratch evidence. Include only #5571's retained public disposition/redaction records; no broader publication approval is inferred. |
 
 If a row fails, return `blocked` or `deferred`; do not ask the reviewer to
 infer readiness from stale issue state.
@@ -129,15 +128,15 @@ finding automatically.
 
 ## Non-Claims And Residuals
 
-- External review completed against the exact revision in the dispatch receipt;
-  its two procedural findings were fixed before closeout.
+- The review recorded in the dispatch receipt is historical and superseded by
+  later corpus drift. Replacement external review has not run.
 - This handoff does not approve v0.91.7 release readiness or v0.92 activation.
-- #5571 is an open v0.91.7 publication-boundary audit; no secret exposure has
-  been demonstrated, and no publication-safety approval is inferred here.
-- #5572 / PR #5574 and #5575 are open v0.91.8 follow-ons excluded from the
-  frozen review corpus; no result from them is claimed or required here.
-- #5573 remains open and underway in another session. Its merged 427-issue
-  register remains retained; WP-19 does not rerun, expand, or close that work.
+- #5571 is closed with retained publication-boundary evidence; no broad
+  publication-safety approval is inferred beyond the allowlisted records.
+- #5572 / PR #5574 and #5575 are v0.91.8 follow-ons excluded from this work;
+  no result from them is claimed or required here.
+- #5573 is closed and its merged 427-issue register remains retained. WP-19
+  does not rerun or expand that completed audit.
 - #4906 is closed as an issue but retains unresolved `blocked_with_evidence`
   rows; external review must preserve that release-readiness boundary.
 - The ownership-first module splits recorded by #5547 are v0.91.8 work, not

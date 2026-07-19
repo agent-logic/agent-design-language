@@ -17,7 +17,11 @@ docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt
 docs/milestones/v0.91.7/review/wp20_remediation_5544
 docs/milestones/v0.91.7/review/wp20_supply_chain
 docs/reviews/v0.91.7/internal-review-4645/FINDINGS_REGISTER.md
+docs/reviews/v0.91.7/internal-review-4645/PUBLICATION_DISPOSITION_5571.md
 docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md
+docs/reviews/v0.91.7/internal-review-4645/redaction-audit-5571/manual_review.json
+docs/reviews/v0.91.7/internal-review-4645/redaction-audit-5571/redaction_report.json
+docs/reviews/v0.91.7/internal-review-4645/redaction-audit-5571/redaction_report.md
 docs/reviews/v0.91.7/review-fixes-5547
 docs/review-fixes/runtime/WP07_HARDENING_REPAIR_5408.md
 docs/review-fixes/runtime/WP07_COHERENCE_GATE_DISPOSITION_5408.md
