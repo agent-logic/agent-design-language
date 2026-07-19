@@ -62,12 +62,25 @@ Materialized #4644 terminal projection, captured live issue and PR state, refres
     "purpose": "Re-prove final #5544 documentation and evidence parse cleanly after stale WP-17 wording was corrected, and that #5544/#4644 typed lifecycle state remains valid.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5544/live-state/ and local command output in #5544 session"
+  },
+  {
+    "command": [
+      "gh issue view 5489 --json number,title,state,labels,assignees,createdAt,updatedAt,closedAt,url,body",
+      "git diff --check",
+      "jq . docs/milestones/v0.91.7/review/wp20_remediation_5544/live_state_summary_5544.json",
+      "jq . .csdlc/evidence/5544/live-state/github_state.json",
+      "jq . .csdlc/evidence/5544/live-state/issue_5489.json",
+      "ruby -e 'require yaml; YAML.load_file(...)'"
+    ],
+    "purpose": "Prove the corrected #5544 release-tail truth now includes open WP-21A/#5489 in the sprint register, issue wave, coverage/handoff summaries, and retained live-state evidence.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5544/live-state/issue_5489.json and .csdlc/evidence/5544/live-state/github_state.json"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

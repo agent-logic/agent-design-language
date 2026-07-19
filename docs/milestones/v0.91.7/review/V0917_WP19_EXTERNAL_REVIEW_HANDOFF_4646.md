@@ -19,6 +19,7 @@ pre-external-review gates:
 - #4647 remains open as the WP-20 remediation owner.
 - #5544, #5545, #5546, and #5547 remain open grouped remediation issues.
 - #5527 remains open for C-SDLC v2 terminal SOR artifact-reference repair.
+- WP-21A #5489 remains open as the next-milestone docs closeout-planning gate.
 
 ## Required Before Start
 
@@ -42,5 +43,5 @@ The #5544 evidence packet retains live issue/PR state under:
 
 - This file is a handoff gate, not an external review.
 - This file does not approve v0.91.7 release readiness.
-- This file does not close #5408, #5527, #4645, #4646, #4647, or #5544-#5547.
+- This file does not close #5408, #5489, #5527, #4645, #4646, #4647, or #5544-#5547.
 - No AWS command or service was used for this refresh.

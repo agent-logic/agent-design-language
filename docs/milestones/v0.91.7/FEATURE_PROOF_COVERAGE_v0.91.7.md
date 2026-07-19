@@ -19,7 +19,8 @@ release ceremony truth.
 
 Current #5544 refresh: WP-16 and WP-17 are closed, WP-18 internal review is
 recorded on open PR #5543, WP-19 external review is blocked before start, WP-20
-remediation is active through #4647 and #5544-#5547, and WP-23 remains open.
+remediation is active through #4647 and #5544-#5547, WP-21A #5489 remains open
+as the next-milestone docs closeout-planning gate, and WP-23 remains open.
 
 ## Coverage Table
 
@@ -72,6 +73,7 @@ The following open gates remain after WP-15:
 | WP-18 | #4645 | Internal review recorded on open PR #5543; not terminally closed at #5544 capture |
 | WP-19 | #4646 | External review blocked before start |
 | WP-20 | #4647 | Review remediation active through #5544-#5547 |
+| WP-21A | #5489 | Next-milestone docs closeout-planning gate remains open |
 | WP-23 | #4650 | Release ceremony |
 
 Closed downstream gates retained after WP-15:

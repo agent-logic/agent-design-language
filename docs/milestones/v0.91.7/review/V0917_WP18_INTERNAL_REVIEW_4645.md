@@ -36,6 +36,7 @@ The #4645 review recorded twelve findings:
   #5544 capture time.
 - #5544 through #5547 remain open WP-20 remediation issues.
 - #5527 remains open for C-SDLC v2 terminal SOR artifact-reference repair.
+- WP-21A #5489 remains open as the next-milestone docs closeout-planning gate.
 - WP-19 #4646 must not start until the P1/P2 remediation state is fixed or
   explicitly dispositioned with operator approval and retained evidence.
 

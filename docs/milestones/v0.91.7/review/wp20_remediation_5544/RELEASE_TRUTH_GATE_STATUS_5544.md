@@ -21,6 +21,7 @@ register and WP-19 handoff tell the truth before external review.
 | #5408 / PR #5419 | Existing WP-07 blocker remains open; PR is draft with pending checks at capture time. |
 | #5527 | Open C-SDLC v2 terminal SOR artifact-reference repair. |
 | #4647 | Open WP-20 remediation parent. |
+| #5489 / WP-21A | Open next-milestone docs closeout-planning gate. |
 | #5544 | Active release-truth and external-review gate repair. |
 | #5545 | Open provider/runtime hardening repair. |
 | #5546 | Open coverage, supply-chain, and AWS-boundary proof repair. |
@@ -37,6 +38,7 @@ retained evidence.
 ```text
 .csdlc/evidence/5544/live-state/github_state.json
 .csdlc/evidence/5544/live-state/issue_4647.json
+.csdlc/evidence/5544/live-state/issue_5489.json
 .csdlc/evidence/5544/live-state/issue_5408.json
 .csdlc/evidence/5544/live-state/issue_5527.json
 .csdlc/evidence/5544/live-state/pr_5419.json
@@ -47,6 +49,7 @@ retained evidence.
 ## Non-Claims
 
 - This issue does not close #5408 or #5527.
+- This issue does not close WP-21A #5489.
 - This issue does not perform provider/runtime/coverage remediation.
 - This issue does not approve WP-19.
 - This issue does not approve v0.91.7 release readiness.

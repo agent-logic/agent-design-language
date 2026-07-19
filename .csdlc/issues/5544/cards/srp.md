@@ -8,66 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/evidence/5544/live-state/github_state.json
-.csdlc/evidence/5544/live-state/issue_4647.json
-.csdlc/evidence/5544/live-state/issue_5408.json
-.csdlc/evidence/5544/live-state/issue_5527.json
-.csdlc/evidence/5544/live-state/pr_5419.json
-.csdlc/evidence/5544/live-state/pr_5539.json
-.csdlc/evidence/5544/live-state/pr_5543.json
-.csdlc/issues/4644/audit.jsonl
-.csdlc/issues/4644/cards/sip.values.json
-.csdlc/issues/4644/cards/sor.md
-.csdlc/issues/4644/cards/sor.values.json
-.csdlc/issues/4644/cards/spp.md
-.csdlc/issues/4644/cards/spp.values.json
-.csdlc/issues/4644/cards/srp.md
-.csdlc/issues/4644/cards/srp.values.json
-.csdlc/issues/4644/cards/stp.values.json
-.csdlc/issues/4644/cards/vpp.md
-.csdlc/issues/4644/cards/vpp.values.json
-.csdlc/issues/4644/index.json
-.csdlc/issues/4644/retained/design.md
-.csdlc/issues/4644/retained/diagram.mmd
-.csdlc/issues/5544/audit.jsonl
-.csdlc/issues/5544/cards/sip.md
-.csdlc/issues/5544/cards/sip.values.json
-.csdlc/issues/5544/cards/sor.md
-.csdlc/issues/5544/cards/sor.values.json
-.csdlc/issues/5544/cards/spp.md
-.csdlc/issues/5544/cards/spp.values.json
-.csdlc/issues/5544/cards/srp.md
-.csdlc/issues/5544/cards/srp.values.json
-.csdlc/issues/5544/cards/stp.md
-.csdlc/issues/5544/cards/stp.values.json
-.csdlc/issues/5544/cards/vpp.md
-.csdlc/issues/5544/cards/vpp.values.json
-.csdlc/issues/5544/index.json
-.csdlc/prepared/issues/4644/reconcile-terminal-from-5544.json
-.csdlc/prepared/issues/5544/advance-implemented.json
-.csdlc/prepared/issues/5544/amend-review-truth-scope.json
-.csdlc/prepared/issues/5544/bind-request.json
-.csdlc/prepared/issues/5544/bootstrap-request.json
-.csdlc/prepared/issues/5544/complete-S1.json
-.csdlc/prepared/issues/5544/complete-S2.json
-.csdlc/prepared/issues/5544/complete-S3.json
-.csdlc/prepared/issues/5544/complete-S4.json
-.csdlc/prepared/issues/5544/design.md
-.csdlc/prepared/issues/5544/diagram.mmd
-.csdlc/prepared/issues/5544/record-execution.json
-.csdlc/prepared/issues/5544/record-final-validation.json
-.csdlc/prepared/issues/5544/record-validation.json
-docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md
-docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml
-docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md
-docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md
-docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md
-docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md
-docs/milestones/v0.91.7/review/wp20_remediation_5544/live_state_summary_5544.json
+
 
 ## Prompts
 
@@ -86,14 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review consumed the local diff and retained JSON evidence only; it did not refresh GitHub live state after the #5544 capture.
-- Read-only review did not rerun csdlc-doctor; parent session reran csdlc-doctor for #5544 and #4644 after the final doc correction.
-- WP-19 remains blocked and v0.91.7 release readiness remains unapproved until open P1/P2 gates are fixed or explicitly dispositioned.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:868c93bc1bd31c5e1a5c5d7aa51777066f7dcf3b:ea56f05014e43a6f476a45f645655e3029b68d506a642567e19c22ba25044e18")
+Revision: None
 
-Reviewer: Some("subagent:019f77bf-bc21-7c01-af9c-ef11b91e630a")
+Reviewer: None
 
-Result: pass
+Result: pre_review
