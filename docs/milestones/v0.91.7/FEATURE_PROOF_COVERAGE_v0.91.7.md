@@ -72,7 +72,7 @@ The following open gates remain after WP-15:
 | Gate | Issue | Role |
 | --- | ---: | --- |
 | WP-18 | #4645 | Closed through merged PR #5543; internal remediation #5408 and #5544-#5547 closed |
-| WP-19 | #4646 | Review complete with 22 findings retained; integration closeout pending |
+| WP-19 | #4646 | Closed; provider-degraded review complete with 22 findings retained |
 | WP-20 | #4647 | Open; owns synthesis and remediation of the WP-19 findings |
 | WP-21A | #5489 | Closed with retained v0.91.8 planning and review-handoff package |
 | WP-23 | #4650 | Release ceremony |

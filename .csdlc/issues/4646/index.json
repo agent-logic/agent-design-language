@@ -3,25 +3,10 @@
   "issue": 4646,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
-  "phase": "published",
-  "generation": 29,
-  "digest": "5c0c0fde954046bb3ac7cc165408b3d9ed5cfdb216d5bd667324d207628d38af",
-  "claim": {
-    "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
-    "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 29,
-    "acquired_unix_seconds": 1784360472,
-    "expires_unix_seconds": 1784965272,
-    "heartbeat_unix_seconds": 1784360472,
-    "branch": "codex/4646-v0917-external-review",
-    "worktree": ".worktrees/adl-wp-4646",
-    "protected_paths": [
-      "docs/milestones/v0.91.7/review/external_review_4646",
-      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_4646.md",
-      ".csdlc/issues/4646"
-    ],
-    "purpose": "Prepare and later execute WP-19 without claiming completion from setup"
-  },
+  "phase": "closed_out",
+  "generation": 33,
+  "digest": "60d14e41739977088d858db8760e2fa4c5328422f2e39f836e2ff514756800f4",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f7c27-5777-7f52-bcbc-8960948e02dd",
     "assigned_by": "codex:issue-4646",
@@ -65,12 +50,59 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5584",
     "base": "main",
     "head": "codex/4646-v0917-external-review",
-    "revision": "git-blake3:f3e0e839715921f97738fbeca7f80c0a20a52dbc:0f0f2f242992dcce76c9031e13c04a6cae6ff939979671eb474ae02683bf54b2",
-    "draft": true,
-    "observed_state": "open"
+    "revision": "git-blake3:defbbd89ec5760ee437e545167d333ec886e8573:8b43804eab7c99318f867a01cd29701985df11b57373a01207e8eb7704960f9a",
+    "draft": false,
+    "observed_state": "merged"
   },
-  "readiness": null,
-  "terminal": null,
+  "readiness": {
+    "pull_request": 5584,
+    "head_sha": "defbbd89ec5760ee437e545167d333ec886e8573",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29708510708/job/88249285987"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29708510708/job/88249244129"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29708510708/job/88249244035"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29708510708/job/88249234792"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5584,
+    "disposition": "merged",
+    "observed_sha": "defbbd89ec5760ee437e545167d333ec886e8573",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/4646.json",
+    "released_branch": "codex/4646-v0917-external-review",
+    "released_worktree": ".worktrees/adl-wp-4646",
+    "released_protected_paths": [
+      "docs/milestones/v0.91.7/review/external_review_4646",
+      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_4646.md",
+      ".csdlc/issues/4646"
+    ]
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/4646/design.md",
   "diagram_path": ".csdlc/prepared/issues/4646/diagram.mmd",
@@ -82,34 +114,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b436cf32ed39606c9d4024bcd7f35cbb950b92a6bfff8d2aba08e802b9c59d3b",
+      "values_digest": "5e55cd200b6a96121ffa01f9f3294500efe97579f34811facfe8e31fdd04e86c",
       "rendered_digest": "e5b99204539ac0734e24a003ad319a9c5c57079c2969d094225ab0f8614bdc15",
       "ast_digest": "2647e65d641a7245fddedb8dcfefacd3fba8f2211bead0548fdfd07f241893b6"
     },
     "stp": {
-      "values_digest": "a4ba3ebeaf9b8c65908007ef904309d923a0679c68937628b1c1a1d6d186b58c",
+      "values_digest": "7ed54c5ff621a513b823dfcd19b8b8176def8ae1e6027d36c153895959ca54a8",
       "rendered_digest": "bd38b0c9940a3291d61a13849bfc0ac45983c5927e2204028024f0cb62acf430",
       "ast_digest": "5ab9d2c01e49ae35f3da0008b783e3a945a485900c9b7b1ea592e3a8a8de2778"
     },
     "spp": {
-      "values_digest": "86c948f7f26317da2f6826edb1f0ba6a85c8100b5ec5e2ad00b8f0f5d7040741",
+      "values_digest": "c0763bf597dacf47cc0d02fc7717b524b03f0e741c501f7e78f6e0daf1ae2d0b",
       "rendered_digest": "e7498b8202a19fc799db2bf89e5ad42251f4e69ca99e131841b481491780190c",
       "ast_digest": "ba0ee92c13833b60b683d6f5bd567e495a4e44a3e0782443436d0fd1aa4f45e8"
     },
     "vpp": {
-      "values_digest": "bbfde6215e2ab003e0ec1996180c72d5e53f22791a693ecc95b02133cb24fc73",
+      "values_digest": "13f4b73842f1a5794b8615ac28bc43785b611b34c3c8f9a7efbc334f204f5b70",
       "rendered_digest": "60fabb2437618f75504d46fdcc75c4f4c7472beca527c46208439dd80fc6ae16",
       "ast_digest": "2a03e8df19363f4e77e420af1731a250a7470c20705e22dd2cc54b29e606683b"
     },
     "srp": {
-      "values_digest": "d3057b31870e601f4470e57d0f2ab4676f8cde5c0861288225db714c938506cc",
+      "values_digest": "9ae4d570288b4f004d3830b5994fa704b2f11077943544815e9dd4d24549e6c8",
       "rendered_digest": "48f27d7c91434684223166c17beb6985ac76d3582fd3ed7328280579eea9d26c",
       "ast_digest": "6ffd265bffca40bae10ed1e842453d39cc1d3d18570bd722e6d578dbd9ce4b5d"
     },
     "sor": {
-      "values_digest": "9fe4cefdbd880d4ed6bb5bfb06926820897ce888735b9e9ac82a5a96aec9d74d",
-      "rendered_digest": "f45ffba6dedf0a46198bb061d23da1d69eabe5b83adcafcd8b7655958d7942c6",
-      "ast_digest": "13ad05c193465ea2659ae3fe101e93e60a5827746a85929a116f2a10b598654e"
+      "values_digest": "ddb3b8a365e43040c90cebb12d46232fa6b6c16edcda099380c38847920c24e6",
+      "rendered_digest": "76105285d27eaf0d6b3842205033de99d01dd03f8c525ed1e61bd6b3924bad1c",
+      "ast_digest": "24910ab9ef0b6a7d2f5323f4b6bcb26baac9c6b00b55579b8ebeda7587e1a734"
     }
   },
   "transitions": [
@@ -203,6 +235,27 @@
       "to": "published",
       "actor": "codex:issue-4646",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:issue-4646",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 15,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:issue-4646",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 16,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:issue-4646",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -492,6 +545,34 @@
       "actor": "codex:issue-4646",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 42,
+      "generation": 30,
+      "actor": "codex:issue-4646",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 43,
+      "generation": 31,
+      "actor": "codex:issue-4646",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 44,
+      "generation": 32,
+      "actor": "codex:issue-4646",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 45,
+      "generation": 33,
+      "actor": "codex:issue-4646",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
     }
   ]
 }
