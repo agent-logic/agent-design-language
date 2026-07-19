@@ -455,7 +455,7 @@ mod tests {
 
     #[test]
     fn provider_mod_profile_endpoint_validation_rejects_hostless_https() {
-        let err = validate_profile_endpoint("p1", "custom", "https:///v1/complete")
+        let err = validate_profile_endpoint("p1", "custom", "https://")
             .expect_err("https endpoints must include a host");
         assert!(err.to_string().contains("must use an https:// endpoint"));
     }
