@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5544,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][WP-20][review-fix] Reconcile release truth and external-review gates",
+    "slug": "v0-91-7-wp20-release-truth-gates",
+    "version": "v0.91.7",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #5544 preserve existing ownership for #5408 and #5527?",
+        "Does the refreshed register match live GitHub and C-SDLC state?",
+        "Does the handoff avoid starting WP-19 or approving release readiness?",
+        "Are every blocked, residual, and existing-owner state backed by retained evidence?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

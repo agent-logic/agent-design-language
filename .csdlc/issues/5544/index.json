@@ -1,0 +1,181 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5544,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "3cb107cf091a604d64ad723f767c71c0dfd71375a7971dc0584c32af392f0a19",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "356473aa21b7d5ae5a0d5fd3452d057974ac28d70d4b7d0593238a69d9b3253c",
+  "claim": {
+    "id": "claim-5544-v0-91-7-wp20-release-truth-gates",
+    "owner": "codex:issue-5544",
+    "generation": 8,
+    "acquired_unix_seconds": 1784419797,
+    "expires_unix_seconds": 1785024597,
+    "heartbeat_unix_seconds": 1784419797,
+    "branch": "codex/5544-v0917-release-truth-gates",
+    "worktree": ".worktrees/adl-wp-5544",
+    "protected_paths": [
+      ".csdlc/evidence/5544",
+      ".csdlc/issues/4644",
+      ".csdlc/issues/5544",
+      ".csdlc/prepared/issues/4644/reconcile-terminal-from-5544.json",
+      ".csdlc/prepared/issues/5544",
+      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md",
+      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
+      "docs/milestones/v0.91.7/review/wp20_remediation_5544"
+    ],
+    "purpose": "Reconcile v0.91.7 review truth and external-review gates without claiming release readiness"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5544/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5544/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-prep",
+      "revision": "701a7479eb3019cb0c7b02d9453e6a575f904768fb80b4668304af1993d291ab"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "22cb544feb16426435ccbd5a514ac5b94c6ff746a7fc7447564ac6d90fd2b1af",
+      "rendered_digest": "243e45f97fe43e05e504a889e2c36d121789c2ca89aedd00490e7fd8aba5844a",
+      "ast_digest": "aa25ae383996c99471d9e1cb8dce21749076051233c33d58b53ab5daf28b4493"
+    },
+    "stp": {
+      "values_digest": "fc68d388651c8e84ed0c016ecd3b0aa4be931ee267f4f65242429610935cbcf3",
+      "rendered_digest": "d0eec3be60c4a8c6cd8e50d28484ef34ea1cff8751eb0b3c68af1a581a47bdb2",
+      "ast_digest": "91a3643f70974fa65f68d665c14b53aa72ba5fb93dacee8f98c0ab973ffa578d"
+    },
+    "spp": {
+      "values_digest": "303caf5e68c3f069a9abd6b4afbc842cd97bee7ff71a2b3bbf6d730f23ce70da",
+      "rendered_digest": "37180c52bf037079800bd21289ab611b2fd41cb9e4460f5d7e33371161dcbfd6",
+      "ast_digest": "c8a4f3a0e84b47babbde3c4eed8280e2a7ea8fde23a5ef41aebae0b371a7f139"
+    },
+    "vpp": {
+      "values_digest": "721d3323f126faa6882b44b4caf21e34169e172bbb75aadf3cb3164894dc807c",
+      "rendered_digest": "9cd98293bdf676bea30526d41e386d77e9bc29ee0e6174c6ee6e0b910861fb6f",
+      "ast_digest": "8f249e9f4a5379904e46b0cdab712bc605f64b10904f85bd5db46909a7fc6ccf"
+    },
+    "srp": {
+      "values_digest": "bfa6e60f083ab2ffb306687ded565e385724967c12a6e8c5aac3d8324c56a523",
+      "rendered_digest": "ce0744a49dde558a67238ebb4055032d729c6ffefc838f6f08d79d67a778fce2",
+      "ast_digest": "137ee607555be1a56f4379d7eb23682c020fb3e8d633f9ccf413d31fb09eaab2"
+    },
+    "sor": {
+      "values_digest": "d6caa9fdf91ff6ee37516036156c38443cfec260d492ff9ab45f28346649360f",
+      "rendered_digest": "4cfbfba2d40f6242d4b8521c733177aba14c612c161270553ab58687fd0133ce",
+      "ast_digest": "6cba1c3a307e9230a8858597ba28e973a7f4572b37afb41f52f3bdb29a662fde"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5544",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5544",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5544",
+      "reason": "#5544 release-truth reconciliation is implemented and focused local validation has passed."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5544",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5544",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:issue-5544",
+      "reason": "After typed #4644 terminal projection materialization, protect the review truth and handoff paths #5544 must reconcile.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/4644\",\".csdlc/prepared/issues/4644/reconcile-terminal-from-5544.json\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\",\"docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\",\"docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md\",\"docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md\",\"docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md\",\"docs/milestones/v0.91.7/review/wp20_remediation_5544\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-5544",
+      "reason": "#5544 is bound in its issue worktree with non-overlapping lifecycle ownership.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-5544",
+      "reason": "The retained #4644 terminal receipt was materialized through typed closeout projection and copied into #5544 so closed WP-17 paths are not treated as actively claimed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-5544",
+      "reason": "Live GitHub and C-SDLC state was captured for the named WP-14 through WP-20 surfaces and blocker issues.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-5544",
+      "reason": "The sprint review register, issue-wave truth, feature-proof open-gates section, WP-18 handoff, WP-19 handoff, and #5544 status packet were refreshed with blocked-before-external-review truth.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-5544",
+      "reason": "Reconciled v0.91.7 release truth and WP-19 external-review gate status after #4645.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Materialized #4644 terminal projection, captured live issue and PR state, refreshed the sprint review register, issue wave, feature-proof open gates, WP-18 internal-review handoff, WP-19 external-review handoff, and #5544 remediation status packet without claiming release readiness.\",\"changes\":[\"Project #4644 retained terminal truth into the #5544 branch so WP-17 no longer appears as an active register owner\",\"Retain live-state evidence for #5408/#5419, #5527, #4645/#5543, #4647, and #5544-#5547\",\"Update the canonical sprint review register to mark WP-17 closed-out, WP-18 recorded-but-open, WP-19 blocked, and WP-20 active\",\"Update issue-wave and feature-proof coverage surfaces to match the blocked-before-external-review gate\",\"Add WP-18, WP-19, and WP-20 #5544 handoff/status packets with non-claims\"],\"artifacts\":[\".csdlc/issues/4644\",\".csdlc/evidence/5544/live-state\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\",\"docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\",\"docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md\",\"docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md\",\"docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md\",\"docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md\",\"docs/milestones/v0.91.7/review/wp20_remediation_5544/live_state_summary_5544.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-5544",
+      "reason": "Focused release-truth documentation and typed lifecycle validation passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"jq . docs/milestones/v0.91.7/review/wp20_remediation_5544/live_state_summary_5544.json\",\"jq . .csdlc/evidence/5544/live-state/github_state.json\",\"ruby -e 'require yaml; YAML.load_file(...)'\",\"csdlc-doctor --repo . --issue 5544\",\"csdlc-doctor --repo . --issue 4644\"],\"purpose\":\"Prove #5544 edited docs and evidence parse cleanly, diff hygiene is clean, #5544 lifecycle state is valid, and the #4644 terminal projection is closed_out and valid.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5544/live-state/ and local command output in #5544 session\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-5544",
+      "reason": "#5544 release-truth reconciliation is implemented and focused local validation has passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-5544",
+      "reason": "Post-correction release-truth documentation and typed lifecycle validation passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"jq . docs/milestones/v0.91.7/review/wp20_remediation_5544/live_state_summary_5544.json\",\"jq . .csdlc/evidence/5544/live-state/github_state.json\",\"ruby -e 'require yaml; YAML.load_file(...)'\",\"csdlc-doctor --repo . --issue 5544\",\"csdlc-doctor --repo . --issue 4644\"],\"purpose\":\"Re-prove final #5544 documentation and evidence parse cleanly after stale WP-17 wording was corrected, and that #5544/#4644 typed lifecycle state remains valid.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5544/live-state/ and local command output in #5544 session\"}}"
+    }
+  ]
+}
