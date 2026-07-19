@@ -5,7 +5,7 @@
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
   "phase": "implemented",
   "generation": 26,
-  "digest": "27365964ffcc462ef524782d1c27a2185ad70f48bca8d6f225ebd291983cb6c5",
+  "digest": "8ed59231eb9c4ce98f0f8511a77ccf2fe5400e08d3456e23b64bbab885c661c7",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -25,7 +25,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f7c27-5777-7f52-bcbc-8960948e02dd",
     "assigned_by": "codex:issue-4646",
-    "revision": "git-blake3:969d01c254f2f722880a38f024564a947cfbe0df:f7dd13ecc2fb626e3f3243d559f3c62951398b80e48331f62d9d7fac58c2df0c",
+    "revision": "git-blake3:8a87aec48080ddeea7d07f3e9421054380e961bb:fa19cfa7846f0b551eefe0c7d7c8bdb175cc037a1a5be80c01bd7eec1e06cb28",
     "scope": [
       ".csdlc/issues/4646",
       "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
@@ -409,6 +409,13 @@
     },
     {
       "sequence": 36,
+      "generation": 26,
+      "actor": "codex:issue-4646",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
       "generation": 26,
       "actor": "codex:issue-4646",
       "reason": "assign bounded exact-revision review",
