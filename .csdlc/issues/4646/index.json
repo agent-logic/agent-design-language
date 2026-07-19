@@ -3,13 +3,13 @@
   "issue": 4646,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "1469907d8f6d05cf547b8bd1b2674233dbbdaaadc4e2c8aa337ecb35c0d380c1",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "a3d4638b841357a871a9d3ab5ad7b1d2f11e812e2308872dc2393fe6b0565288",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -25,14 +25,59 @@
   "review_assignment": {
     "reviewer": "subagent:019f7bd2-7cff-7e62-8c8b-bb05bde8db65",
     "assigned_by": "codex:issue-4646",
-    "revision": "git-blake3:91aff3707c11c6dd62494647dee9a0223f72e596:6cc722d413792bc4b311ccb10b0aea68ae5e9583e4b6485c67b1c38e3eaa51dc",
+    "revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
     "scope": [
       ".csdlc/issues/4646",
       ".csdlc/prepared/issues/4646",
       "docs/milestones/v0.91.7"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f7bd2-7cff-7e62-8c8b-bb05bde8db65",
+    "scope": [
+      ".csdlc/issues/4646",
+      ".csdlc/prepared/issues/4646",
+      "docs/milestones/v0.91.7"
+    ],
+    "reviewed_revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
+    "findings": [
+      {
+        "id": "F-4646-1",
+        "severity": "p1",
+        "summary": "The original send-time identity procedure was self-referential because the handoff was inside its own digest corpus.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
+        "route": null
+      },
+      {
+        "id": "F-4646-2",
+        "severity": "p2",
+        "summary": "Publication auditing and digest computation originally operated on different path corpora.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
+        "route": null
+      },
+      {
+        "id": "F-4646-3",
+        "severity": "p2",
+        "summary": "The packet README retained a stale instruction to record dispatch identity in the handoff.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "External review has not run; dispatch remains intentionally held until PR #5574 reaches a stable terminal state."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -47,32 +92,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9fbeed46c627ff1822eaf206916c128f23f614a44f1a2d1216a957d4f1f35660",
+      "values_digest": "0c82ec8495e3d42415cf8d5b79b6a8c3cba2c8781ec24d78267050d42f157f23",
       "rendered_digest": "e5b99204539ac0734e24a003ad319a9c5c57079c2969d094225ab0f8614bdc15",
       "ast_digest": "2647e65d641a7245fddedb8dcfefacd3fba8f2211bead0548fdfd07f241893b6"
     },
     "stp": {
-      "values_digest": "fc94374908b034d559e31cee749995d2247d0dcf44fbfdc1fdb693e34d6551ae",
+      "values_digest": "7a66b3a210fe76f20be23d6b4cbe0c3a0f28c48129b7bd61be744e933c61ca86",
       "rendered_digest": "bd38b0c9940a3291d61a13849bfc0ac45983c5927e2204028024f0cb62acf430",
       "ast_digest": "5ab9d2c01e49ae35f3da0008b783e3a945a485900c9b7b1ea592e3a8a8de2778"
     },
     "spp": {
-      "values_digest": "ee1e6b1d32f8a8cbd92149f5055a752047149b3a83345d9d2100d3c2958500f9",
+      "values_digest": "6904e9cf18809479cffc2f4f803b0af0a96617a35c9f85c5d22c46bbf7c49958",
       "rendered_digest": "e7498b8202a19fc799db2bf89e5ad42251f4e69ca99e131841b481491780190c",
       "ast_digest": "ba0ee92c13833b60b683d6f5bd567e495a4e44a3e0782443436d0fd1aa4f45e8"
     },
     "vpp": {
-      "values_digest": "f651864e6c66b36bdb187b977277b9ffbd36681c5cc6a162cc520c07f0e20f8b",
+      "values_digest": "589544db2cdb31b0f0b9f89b71065a128a8bfad3b59dbc8b3bcc408a4cb18786",
       "rendered_digest": "60fabb2437618f75504d46fdcc75c4f4c7472beca527c46208439dd80fc6ae16",
       "ast_digest": "2a03e8df19363f4e77e420af1731a250a7470c20705e22dd2cc54b29e606683b"
     },
     "srp": {
-      "values_digest": "271d9bfbee30d2360fca341a5cfa7031d3e3077aadbd15e2c31b8b05e5cc5960",
-      "rendered_digest": "8ae1445087f03c45c1b9e3ece60636d856fb207861800c77cedb450bb0659b9c",
-      "ast_digest": "3de7ff34c4a8f2effc168d510d4c04e57e4c5ca67fb3d24e27354ebef4011275"
+      "values_digest": "a8c746e9c179e51d2b5638c9baa1a31c058788989ea6f25562f7dffec89cc24b",
+      "rendered_digest": "16b1d135f1b8cd576d3fcca4639d90745c607576d55abd66b89a6f4c2997f951",
+      "ast_digest": "f33697bda9d6fab1856a5dde88091a6af14b1fd551177e4feb59329bb36456af"
     },
     "sor": {
-      "values_digest": "3d467eef396a4244f709c4c391ff63a130997129ecdb1a7f3b1f9708018c82b4",
+      "values_digest": "05fdae00ba185d79053a8ccf06ed8ec352b6911db5ff0b760fcbdc015ba7bae3",
       "rendered_digest": "d5444bbe5eb44b090449e4e7523b39c566bac6d8ce39b0869f4223b764bc48ee",
       "ast_digest": "989f8f136dca451d677dadb18bf68de3bcc8ec9b655d8e80bf0b2907a561e7d6"
     }
@@ -98,6 +143,13 @@
       "to": "implemented",
       "actor": "codex:issue-4646",
       "reason": "The bounded WP-19 handoff implementation and focused validation are complete; external dispatch remains held on PR #5574."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-4646",
+      "reason": "Exact-revision pre-publication review passed after all three actionable packet findings were fixed."
     }
   ],
   "audit": [
@@ -170,6 +222,27 @@
       "actor": "codex:issue-4646",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-4646",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "subagent:019f7bd2-7cff-7e62-8c8b-bb05bde8db65",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-4646",
+      "reason": "Exact-revision pre-publication review passed after all three actionable packet findings were fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
