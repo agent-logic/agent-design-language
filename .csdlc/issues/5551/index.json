@@ -1,0 +1,145 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5551,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "3fc88369990e40c9b73c328c1de0d54b2a00bee7e32e56053060ae27ef2a1b9c",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "a9da366555e016449a3eab597332fe39a3b444d2d0c78c77e5cb51f268edb167",
+  "claim": {
+    "id": "claim-5551-terminal-plan-truth",
+    "owner": "codex-closeout-audit",
+    "generation": 5,
+    "acquired_unix_seconds": 1784421106,
+    "expires_unix_seconds": 1784507506,
+    "heartbeat_unix_seconds": 1784421106,
+    "branch": "codex/5551-terminal-plan-truth",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5527",
+      ".csdlc/issues/5551",
+      ".csdlc/prepared/issues/5551"
+    ],
+    "purpose": "Complete #5527 SPP S2-S4 through exact typed terminal plan-step repairs"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5551/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5551/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-closeout-audit",
+      "revision": "16120fff5843e545d492463285a55139fb36b25ca275a35466e09d29360854b5"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5f07512e918ea79917f7a7bb040e56358655338a970b44d5f2a30a26d3534053",
+      "rendered_digest": "30dcb489a7e041d3c76aab316f6d2adab073f802ffb00832f1fac7551b216113",
+      "ast_digest": "33502f327a095148488099160a50033e8e23e401b610d58cde2bcd6d57d27268"
+    },
+    "stp": {
+      "values_digest": "092ad54acc5be090df80f8313305c56d8f42dd551d6291495ef9b30a1e62dc67",
+      "rendered_digest": "decdc2b41b73bd082e1430b4f5cdffe37b1d2c8a9c57882e3171563a53d65b73",
+      "ast_digest": "a5331e6cd97091256bf6c1dc3b5018454f56702c22d2fc4fd2c800e4b1be4cbf"
+    },
+    "spp": {
+      "values_digest": "b713d7026bafbeeee4dff4167033b1c8462c9bd6794725945be7d7507a2c2167",
+      "rendered_digest": "8c4f8e32192a4de706c69cb5c51c99e859e692aaf2d7f311d5070fa7e53fcc02",
+      "ast_digest": "7810091b9ca9a73ef8e3b12b827a588f2fd2fd599708699469c7259904756d3f"
+    },
+    "vpp": {
+      "values_digest": "1f33da6043e2693f4c70a51dd7a5a80de124fcf9aeb15ba5e499f0b2ea7876d8",
+      "rendered_digest": "d86f5584dcaeaf6a72c08a459d1345c649b0fd1f882d7805fbd3fbf04c916850",
+      "ast_digest": "5623a819df99b8d8e1b635ddbbcacc98d70c787ab915d39e657feb8facb1a6be"
+    },
+    "srp": {
+      "values_digest": "d4c3d182afa1e3ad954fd6226a24c0a5a089176929908beb7c803045ef8d2f5a",
+      "rendered_digest": "daa802833f15211a285d570403e90d35dc6718f11cde183e851b824583f50253",
+      "ast_digest": "773dddd067b05e1e728f989fe6f6bb260df04c05e321cfd376822b2523d04007"
+    },
+    "sor": {
+      "values_digest": "dab98e5f2d40d3365b95b06d69ddc41394fe5bc2a8ef62d84daa01b10cbde12d",
+      "rendered_digest": "f9852d98f8066cf079c6c5b65d855bf8e60cf3010a4bcd3b0ad5e0a1bbc478a9",
+      "ast_digest": "d1af98a3b65116bc004ef9e97492d27f332fc97a6a79d898870b362005b78fbf"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-closeout-audit",
+      "reason": "Issue-specific design, plan, authority boundary, and validation lanes are ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex-closeout-audit",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "The records-only terminal repairs and validation are complete with no source changes."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-closeout-audit",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-closeout-audit",
+      "reason": "Issue-specific design, plan, authority boundary, and validation lanes are ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-closeout-audit",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-closeout-audit",
+      "reason": "Use the merged typed terminal repair to complete #5527 SPP S2-S4.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Advance only #5527 SPP S2, S3, and S4 to completed and atomically refresh its terminal receipt after each exact repair.\",\"changes\":[\"Repair #5527 S2-S4 from pending to completed\",\"Regenerate #5527 card identities, audit, generation, and digests\",\"Replace #5527 retained receipt atomically after each step\"],\"artifacts\":[\".csdlc/issues/5527\",\".csdlc/issues/5551\",\".csdlc/prepared/issues/5551\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-closeout-audit",
+      "reason": "#5527 and #5551 typed doctors pass with exact completed steps and receipt parity.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-doctor\",\"--issue\",\"5527\"],\"purpose\":\"Prove #5527 remains closed out with S1-S4 completed and exact retained receipt parity\",\"outcome\":\"passed\",\"evidence_ref\":\"#5527 generation 29 record digest d17d0b4f; receipt digest 91acffee; #5527 and #5551 doctor reports pass\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-closeout-audit",
+      "reason": "#5527 S2-S4 repairs and exact terminal parity validation are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-closeout-audit",
+      "reason": "The records-only terminal repairs and validation are complete with no source changes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

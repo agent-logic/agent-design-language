@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b39cf9f23e29cee6b0210b71f27cb741da4101fc49585ca4be7c8eb7a86b8f68",
   "phase": "closed_out",
-  "generation": 26,
-  "digest": "123f4991293d328e470ecba04dbc6318797f5ecd434d83bc30b5dd2437a64a10",
+  "generation": 29,
+  "digest": "d17d0b4fbfdd0ca0ab5ce69156fd6dad9351f411e5390572eed983d465203fd2",
   "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
@@ -173,32 +173,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "95f631c48cd938dafa60637d5b1b12e31c3526f330ac0fa6a5fe835f37de4056",
+      "values_digest": "d41495acdccd44d4be33ed1b88e287cb0718f40bd01f5cf9d7122fb67f7167e0",
       "rendered_digest": "2fcef2c8a671de6df948e1f090a4bbd6009874b2e7a24fcf753fbc7f7e985412",
       "ast_digest": "95f89c615430c3d6d0d9cd545ef5fc0287b1d0189dbc35d7d936d0ec23e529a7"
     },
     "stp": {
-      "values_digest": "97fdde495dab0ff8f555366b1b7f94a9fb4dc59caf13b3fbc062c4759eabadfd",
+      "values_digest": "39c1d73544621083287d5c2ac3a8091c3b4bd51970e2b8031d9b184699c4fa6b",
       "rendered_digest": "9f27ff1f7dd70941fa6a040092d128da0790cbc47e17f415bb193c6ee10755b1",
       "ast_digest": "96e122a7bf67f79354b616ba86217d6604c5a4eafd529705f7635a456fc07f45"
     },
     "spp": {
-      "values_digest": "fd7a277d1435b9f3e180ddb144ae589a0704f498973aa298e7c7174ca26a36c6",
-      "rendered_digest": "78c9cb6b20aa9628a0cb614ac17e3a8b4b9c68c2a75afaf0c3505f2ed3666997",
-      "ast_digest": "f6d99558828ae87f281ac1e5768ad2a0b42fb300c7afc5ebed5ebab950a5d8bc"
+      "values_digest": "4ac991f22e98f1b0b02ecc5f877019e98a4a05545d25600fd3375d2e7b9cf0c7",
+      "rendered_digest": "611448eee041ac03dd0ccb27f988f38a18e0aa14002c52d59c7eeefd23230092",
+      "ast_digest": "e824772d1c1c3b1f35930cdd47ad7ffd74b8d31bc08123051aa0dcf9d7fb5c71"
     },
     "vpp": {
-      "values_digest": "806e972f0e6ee940a9ba56ecabadd07639bfedcf4ac7aed03bdf8b743f306f36",
+      "values_digest": "c545480f60f6eeabda3782a07f3fc03dab0641c98e39b45752d549e08b0795c5",
       "rendered_digest": "e33d36e45faa63e361f3cdd612c8fcff169d3949afbb54e97fbe73091f37ea35",
       "ast_digest": "95001bf7b86c4778b0f0a1c5323ec44a17b7956e0ce88c85107d8c0fc75b5094"
     },
     "srp": {
-      "values_digest": "31f1cb7760708832a054899f9199d17bb18047617c2c891384d7b5b886999380",
+      "values_digest": "cf9e991c3903c351dadb722d7a8c1d166350ed5238122cd12dda5488b99778e8",
       "rendered_digest": "0cf31c4a50591a33c0c80e6dcd9f7b7f1bf758053074c7b66c757c87005e8457",
       "ast_digest": "11f5f81d3eef48e62ce30c18b6cdc27a9243dc569dfda495e976b35bff6e91a9"
     },
     "sor": {
-      "values_digest": "94947dffb2507a4d8fec518fac010db3ab3ecdd269f9d9b7ecd9e6027d681ab8",
+      "values_digest": "74c504dfd1f986d4f556e6b42f0bafdbae1f2d1c405513d546c0cd691a110008",
       "rendered_digest": "305927299b14af0a842ae3326269de4d616c9800e2976b9513935dbec9b4f4ff",
       "ast_digest": "70e959271f6eca30d7173ff2adb313e71a672b3ffc50a79ce795e30839565c0e"
     }
@@ -527,6 +527,27 @@
       "actor": "codex-closeout-audit",
       "reason": "atomically finalize SOR/index and release claim/protected paths",
       "operation": "record_terminal"
+    },
+    {
+      "sequence": 33,
+      "generation": 27,
+      "actor": "codex-closeout-audit",
+      "reason": "typed terminal plan repair authorized by issue 5551",
+      "operation": "repair_terminal_plan_step:S2"
+    },
+    {
+      "sequence": 34,
+      "generation": 28,
+      "actor": "codex-closeout-audit",
+      "reason": "typed terminal plan repair authorized by issue 5551",
+      "operation": "repair_terminal_plan_step:S3"
+    },
+    {
+      "sequence": 35,
+      "generation": 29,
+      "actor": "codex-closeout-audit",
+      "reason": "typed terminal plan repair authorized by issue 5551",
+      "operation": "repair_terminal_plan_step:S4"
     }
   ]
 }

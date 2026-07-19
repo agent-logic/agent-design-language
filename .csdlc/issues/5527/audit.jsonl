@@ -30,3 +30,6 @@
 {"sequence":30,"generation":24,"actor":"codex-closeout-audit","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
 {"sequence":31,"generation":25,"actor":"codex-closeout-audit","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
 {"sequence":32,"generation":26,"actor":"codex-closeout-audit","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":33,"generation":27,"actor":"codex-closeout-audit","reason":"typed terminal plan repair authorized by issue 5551","operation":"repair_terminal_plan_step:S2"}
+{"sequence":34,"generation":28,"actor":"codex-closeout-audit","reason":"typed terminal plan repair authorized by issue 5551","operation":"repair_terminal_plan_step:S3"}
+{"sequence":35,"generation":29,"actor":"codex-closeout-audit","reason":"typed terminal plan repair authorized by issue 5551","operation":"repair_terminal_plan_step:S4"}
