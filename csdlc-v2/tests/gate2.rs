@@ -1057,6 +1057,69 @@ fn placeholder_design_is_pending_then_can_be_completed_approved_and_bound() {
 }
 
 #[test]
+fn initialized_approved_stale_design_can_be_reapproved_before_readiness() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    git(temp.path(), &["init", "-b", "main"]);
+    git(
+        temp.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Reviewed design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  A --> B\n",
+    )
+    .expect("diagram");
+    let store = Store::new(temp.path());
+    let record = csdlc_v2::initialize_issue(&store, request()).expect("initialize");
+    let redundant = csdlc_v2::approve_design(
+        &store,
+        csdlc_v2::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            reviewer: "architect".into(),
+        },
+    )
+    .expect_err("unchanged initialized approval must not churn state");
+    assert!(matches!(redundant.code, ErrorCode::InvalidTransition));
+
+    fs::write(
+        temp.path().join("docs/design.md"),
+        "# Approved design changed before readiness\n",
+    )
+    .expect("stale design edit");
+    assert!(!diagnose(&store, 42).ready);
+
+    let recovered = csdlc_v2::approve_design(
+        &store,
+        csdlc_v2::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            claim_id: "claim-1".into(),
+            reviewer: "recovery-reviewer".into(),
+        },
+    )
+    .expect("typed initialized design recovery");
+    assert_eq!(recovered.phase, csdlc_v2::LifecyclePhase::Initialized);
+    assert_eq!(recovered.generation, 1);
+    assert!(matches!(
+        recovered.design_review,
+        csdlc_v2::DesignReview::Approved { reviewer, .. }
+            if reviewer == "recovery-reviewer"
+    ));
+    assert_eq!(
+        recovered.audit.last().expect("audit").reason,
+        "reapprove stale initialized issue design"
+    );
+    assert!(diagnose(&store, 42).ready);
+}
+
+#[test]
 fn bound_and_implemented_design_reapproval_refreshes_truth_and_reviewed_rejects() {
     let (temp, store, record) = fixture();
     let ready = edit_issue(
