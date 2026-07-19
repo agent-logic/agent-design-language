@@ -16,10 +16,10 @@ fixed before closeout.
 
 ## Findings
 
-| ID | Severity | Finding | Disposition |
-| --- | --- | --- | --- |
-| WP19-EXT-01 | P1 | The prepared corpus was not remotely resolvable and its dispatch receipt lacked the exact target identity. | Fixed by pushing the immutable target and recording PR #5579, commit `bd1c12537`, and the corpus digest. |
-| WP19-EXT-02 | P2 | “Ready for dispatch” overstated the state while the receipt was blank. | Fixed when the exact target and digest were recorded; no corpus finding was routed to WP-20. |
+| ID | Severity | Evidence | Impact and invariant | Remediation and disposition | Residual risk |
+| --- | --- | --- | --- | --- | --- |
+| WP19-EXT-01 | P1 | `DISPATCH_RECEIPT.md:3-17` at the reviewed target lacked a remote identity and digest. | An external reviewer could not resolve the immutable corpus; exact-revision review identity was violated. | Fixed by pushing the target and recording PR #5579, commit `bd1c12537`, and digest `8ae1ddd9...e37c`. | None for corpus identity; later source changes remain outside the target. |
+| WP19-EXT-02 | P2 | `V0917_SPRINT_REVIEW_REGISTER.md:102` at the reviewed target said ready while the receipt was blank. | Operational readiness was overstated before the send gate was satisfied. | Fixed by recording the exact target and digest and completing the review; no corpus finding was routed to WP-20. | Live predecessor state still requires normal release-tail verification. |
 
 ## Non-Claims
 
