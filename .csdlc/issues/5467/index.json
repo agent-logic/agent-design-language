@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2ad38313de373e32d209f2a3d3ed3f31060f4b2763fd10f58df6b26c6bb9831f",
   "phase": "closed_out",
-  "generation": 19,
-  "digest": "488e0c78eddd48e94c5c2037e9c40f38c76b0f174acd52ec012cea27ab2a7f90",
+  "generation": 23,
+  "digest": "7b32c1b95c01a119e980427c0704ed60c09752a3d198a9e0d7423b66007c319a",
   "claim": null,
   "review_assignment": {
     "reviewer": "bounded-subagent-review-5467",
@@ -129,32 +129,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d5dbccf5ce66f4496b78ced6105e8ecd217d1ca0965ecba960a6b1232a5a72fe",
+      "values_digest": "0ef037b6a70a7d371339b82f50de695553817994af4513af9449ae11665ae0ec",
       "rendered_digest": "178febf3b5cfdb4b8e7964c67773681647514cc6af6caebf0b643e6cc01f122f",
       "ast_digest": "a81b26e7ff519e7ceadcd67efb7ded9d44a20d01d3e94d4839d431c7752cb7e5"
     },
     "stp": {
-      "values_digest": "53a1de36835533fc8c7aa1b1ad4846860db3ae54a82bd2d43b3889c15eadde02",
+      "values_digest": "317835e6cdd0ec8a9d894daf68637fbe205b006dd34f7e207a6922a8f5b9d566",
       "rendered_digest": "c06a469a2a42e85d566b0e5abd1dd53eaff5254b105e217c14114f9c223a5748",
       "ast_digest": "58c6ea760265ad9c19fe15dcdcf48e4c4636fd9cd0ac659a9c90647a7d49e4e9"
     },
     "spp": {
-      "values_digest": "8f123a0ce99a8d024a8901d4542d748146f67d933a5eb5c3f1737ed21af74455",
-      "rendered_digest": "a3188f5c0925e31381e4aea4e8e2a77f25adb364373c563da4d4b8a39579b268",
-      "ast_digest": "abf46b153ac2b9957dbd01cb2a996401a06d8a2922eecb3a5ad92c1451481926"
+      "values_digest": "78f417fe70afaef88fb368ffade9829041ce7a0b71c285e6684ecf1ccf95d0a1",
+      "rendered_digest": "b2eb78d74dc9d5ad7ccd8bcccacf1a386a5326b2d9c3c38f94a7cfdb421c8d42",
+      "ast_digest": "d11700bf8ab9de4a2c19b51c8b1a1669ba07f86a1feb2cf9f6c69dbc496b34bf"
     },
     "vpp": {
-      "values_digest": "14398ee0aec429032140c01f6a7408a49e982dab4904d94144e3db38301706cd",
+      "values_digest": "b28790bdb6eb40265734d3c90a0b4e7285173fb44e91266e880891fca8740942",
       "rendered_digest": "6b6854ea74150858dc99c6c105a3d00b263a5b2d3cd9dcec95902840bec09d3a",
       "ast_digest": "8a1dd0f999b1402ca0e1053cd48e7759ba189663f357af7e332a6886b54a9a0f"
     },
     "srp": {
-      "values_digest": "f89b9cdd78fbe803daea2a7649d89af3961249c0b123628bcbf98736585fb92a",
-      "rendered_digest": "ba3e3b675efc2097c46ff38421cf671ba2abee324887c877ccad7f80fcdde478",
-      "ast_digest": "2fb8891a3169e4a13bae78fc976088ea9b137c3c964fc4456c2b97a5129b603c"
+      "values_digest": "ea2eed4339f9f9bca600cd06e6caa3bcf5b13d4e09384a90ee5d415ceb98319a",
+      "rendered_digest": "09e209114099487cee5675177f32e7042417475c1c19bdeb48922591032363b0",
+      "ast_digest": "66d30de8f07fd31f87c19da187912b53a93498eb3da1ac83bac5fb51e89073e1"
     },
     "sor": {
-      "values_digest": "2375cd7d6176f3abe86f2d9fbb1562aae71cb6828ad847dfbafd1753d488d0e0",
+      "values_digest": "dfe903b651aba98f1f6c5ad14975e5466c3f619770f4c82a981cd010e05e9d98",
       "rendered_digest": "0d6ef2e041c6e743c2fc87a0d7785c4792d9a5d4bc4ac5d365716a90f4099e9c",
       "ast_digest": "755726a346d47bc42f6eccd2aca47fe5b1285d5130af5cc13d9643d7d8ffff32"
     }
@@ -406,6 +406,34 @@
       "actor": "codex",
       "reason": "typed terminal design repair authorized by issue 5487",
       "operation": "repair_terminal_design"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex-root-closeout",
+      "reason": "Materialize the retained terminal receipt after merged PR #5485 and closed issue #5467.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex-closeout-audit",
+      "reason": "Materialize the retained terminal receipt during exhaustive v0.91.7 closeout audit #5573.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex-closeout-audit",
+      "reason": "Refresh canonical projection and terminal receipt parity in the exhaustive v0.91.7 audit.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex-closeout-audit",
+      "reason": "typed terminal plan repair authorized by issue 4647",
+      "operation": "repair_terminal_plan_step:repair-and-prove"
     }
   ]
 }
