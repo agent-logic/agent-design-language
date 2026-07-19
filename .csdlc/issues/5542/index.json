@@ -3,13 +3,13 @@
   "issue": 5542,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4ba22360d9c28877a655c69995e8fec64dd508dd8204c0838e8077a0c90f9d48",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "d74b54402a65da52278f30be45eb19b6caa9f2d42859089754ef05df3406ad58",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "af4803606c83ae7d8be64fed9a1473a94180e39cb0266fee214ccf8511855564",
   "claim": {
     "id": "claim-5542-wp17-closeout-truth",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 6,
+    "generation": 8,
     "acquired_unix_seconds": 1784418998,
     "expires_unix_seconds": 1785023798,
     "heartbeat_unix_seconds": 1784418998,
@@ -44,7 +44,7 @@
   "review_assignment": {
     "reviewer": "codex-subagent:019f77b1-4c8d-7560-8489-bb10c675a6b0",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:0a9b1a8fe1711cdb531e2358081a8d12928e2f07:63178c3af2200ea66c2a0e159a36b9e19c3b4ff0426404d209b95c49c55da19c",
+    "revision": "git-blake3:f873efb34d6a1bc98c3df9dfe8649b1fc2899e22:124a18c5facd78eccf3204b8618ecb2cd933b207bfd2c3956686c214c596688b",
     "scope": [
       ".csdlc/issues/5542",
       ".csdlc/prepared/issues/5542",
@@ -56,7 +56,79 @@
       "docs/planning/ADL_FEATURE_LIST.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:019f77b1-4c8d-7560-8489-bb10c675a6b0",
+    "scope": [
+      ".csdlc/issues/5542",
+      ".csdlc/prepared/issues/5542",
+      ".csdlc/evidence/5542",
+      ".csdlc/prepared/issues/4644/validate_docs_alignment.rb",
+      "README.md",
+      "REVIEW.md",
+      "docs/milestones/v0.91.7",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ],
+    "reviewed_revision": "git-blake3:f873efb34d6a1bc98c3df9dfe8649b1fc2899e22:124a18c5facd78eccf3204b8618ecb2cd933b207bfd2c3956686c214c596688b",
+    "findings": [
+      {
+        "id": "F-5542-1",
+        "severity": "p1",
+        "summary": "The separately claimed sprint-review register must record #4644 closed and PR #5539 merged before the overall finding is fully resolved.",
+        "actionable": true,
+        "in_scope": false,
+        "disposition": "out_of_scope",
+        "fix_revision": null,
+        "route": "WP-18 #4645 / PR #5543 merge-order dependency"
+      },
+      {
+        "id": "F-5542-2",
+        "severity": "p2",
+        "summary": "A later feature-list section still described v0.91.7 as the direct final tranche before v0.92.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f873efb34d6a1bc98c3df9dfe8649b1fc2899e22:124a18c5facd78eccf3204b8618ecb2cd933b207bfd2c3956686c214c596688b",
+        "route": null
+      },
+      {
+        "id": "F-5542-3",
+        "severity": "p2",
+        "summary": "Bridge validation checked links and version strings without rejecting contradictory precedence prose.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f873efb34d6a1bc98c3df9dfe8649b1fc2899e22:124a18c5facd78eccf3204b8618ecb2cd933b207bfd2c3956686c214c596688b",
+        "route": null
+      },
+      {
+        "id": "F-5542-4",
+        "severity": "p2",
+        "summary": "The validator could consume unchecked working-tree inputs instead of an exact committed tree.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f873efb34d6a1bc98c3df9dfe8649b1fc2899e22:124a18c5facd78eccf3204b8618ecb2cd933b207bfd2c3956686c214c596688b",
+        "route": null
+      },
+      {
+        "id": "F-5542-5",
+        "severity": "p3",
+        "summary": "The follow-up validation receipt was attributed only to source issue #4644.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:f873efb34d6a1bc98c3df9dfe8649b1fc2899e22:124a18c5facd78eccf3204b8618ecb2cd933b207bfd2c3956686c214c596688b",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "PR #5543 must reconcile the sprint-review register before #5542 can claim the overall P1 finding resolved or merge.",
+      "GitHub CI remains publication-time evidence; historical runtime, cloud, provider, Unity, GPU, and activation proofs were not rerun.",
+      "No AWS command or service was used."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -71,32 +143,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9de0dfaadcbb02e41799cb6c5ec31f4e1a0132cf965edd1f81a0edaeebe99bce",
+      "values_digest": "ef064d1488503e7f8bef4e64037117f3771896e866a21bfe73efa8ede4abc660",
       "rendered_digest": "02f4fc7c656039cba2e6b7aabc291ea424d7c6dcc96f3a1c6fe5d21a3de51ad2",
       "ast_digest": "b9ba6846463b5c7662b30f87cb0ef41e4a8661a2f97ea90574337d8eb04a5721"
     },
     "stp": {
-      "values_digest": "a1c7db5530aa25a2a2cdfdf279fbb0e4baa0ecb0d305bdd44eeb3130e7b88056",
+      "values_digest": "d59e95d05cf834d7f929d79d488a7212f39d09868f8eb075f1bbda97c8b8ccb0",
       "rendered_digest": "a6f45791f8e8ebdcf25e9e34d9f79686597359e7bd26af925411e895cf20c8b2",
       "ast_digest": "07ab818f6c3aa0fb9783dad339189a74a40658f63b4175770eb0294a7cd27ab5"
     },
     "spp": {
-      "values_digest": "d72779e1d472f22f80585cd2773a9165cd93fd596aa9f805d2bc6f49a3744e62",
+      "values_digest": "83ec279cf68a4651fdff603ef3371c11bfaa99d992127119941867b48e754738",
       "rendered_digest": "07966a0ef7d8b690b039a91b147da8af1dba64c8b3cb58f3447bd0dd7c8fbcc0",
       "ast_digest": "631a951f50c6bc37a004f8206f350e38bdda702a9a1972448fe3e3aa6e919bc3"
     },
     "vpp": {
-      "values_digest": "21aa745b103f72ae80898d33b321ea6669b4e689e9130c9014971ff7ae61f06f",
+      "values_digest": "be7bcc6efbdf8281f7a3f138fef83a4b40e7d256512be4d5411d1e3385f821bf",
       "rendered_digest": "6a8491f9fd266cb1bac9cd658a84b5f1cdaac5ca0ccc567d1626614b81d77ff9",
       "ast_digest": "f5817f030c08b76f6ca61267246fddc1c54c2024670e9ef0f4a2b549ef21a897"
     },
     "srp": {
-      "values_digest": "112475085a6b8b822432bb637f3fde9866cbc608b3d89838a4abb77fc18b0824",
-      "rendered_digest": "daedee722082de48bedfdc36b96c598b1bc5b0faa4c82ca7802e80279a774369",
-      "ast_digest": "e00aad7459ee97297e5a175bb50f3af205fdec55ace765b4b0c3b5341fbdfe2f"
+      "values_digest": "f6a3b43e15265672319b43d72f3d81aa905f34a46e384bf9888d4e13384aec8a",
+      "rendered_digest": "92b22d3e7a34020a40771b740ad215485f87669ee3faae393794d81435112b17",
+      "ast_digest": "16db8d6fb74231781188093a1996f2f816be4663e15466304159be0b4ef88bf1"
     },
     "sor": {
-      "values_digest": "a19acb60f84d0c6753070d3b3d0dd674e6190e7b9b8e243e36ea2feefb0449c5",
+      "values_digest": "06f61f4684d5ab14c0c2efcf21fc75cecf09f038935d156dc27a2f64047903a9",
       "rendered_digest": "e5e99fa4eeb0ffda61b194845c5816be2b137cb8161f16d2f79e5510ce12a972",
       "ast_digest": "33d15f47b326dd0cccd9f56ce59839aa89c3ee919a394e55c7e2cdb60ab96b65"
     }
@@ -122,6 +194,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded post-merge documentation repair is implemented and locally validated with retained evidence."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The final exact-revision review found no actionable in-branch findings; four findings are fixed and the separately claimed register correction is routed to #4645 / PR #5543."
     }
   ],
   "audit": [
@@ -201,6 +280,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The final exact-revision review found no actionable in-branch findings; four findings are fixed and the separately claimed register correction is routed to #4645 / PR #5543.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
