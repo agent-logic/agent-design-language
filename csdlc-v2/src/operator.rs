@@ -300,6 +300,59 @@ pub fn resolve_operator_generation(
 }
 
 pub fn install_binaries(source: &Path, destination: &Path) -> Result<InstallReceipt> {
+    install_binaries_with_revision(source, destination, None)
+}
+
+pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<InstallReceipt> {
+    let manifest_path = repo.join("csdlc-v2/Cargo.toml");
+    if !is_regular_file(&manifest_path) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "repository is missing csdlc-v2/Cargo.toml",
+        ));
+    }
+    let before = crate::git::run(repo, &["rev-parse", "HEAD"])?;
+    let clean = crate::git::run(repo, &["diff", "--quiet", "--", "csdlc-v2"]);
+    if clean.is_err() {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "refusing to stamp owner binaries from dirty csdlc-v2 sources",
+        ));
+    }
+    let status = std::process::Command::new("cargo")
+        .args(["build", "--manifest-path"])
+        .arg(&manifest_path)
+        .arg("--bins")
+        .current_dir(repo)
+        .status()
+        .map_err(io_error)?;
+    if !status.success() {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "cargo failed to build the typed C-SDLC binaries",
+        ));
+    }
+    let after = crate::git::run(repo, &["rev-parse", "HEAD"])?;
+    if before.stdout != after.stdout
+        || crate::git::run(repo, &["diff", "--quiet", "--", "csdlc-v2"]).is_err()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "csdlc-v2 source revision changed or became dirty during the build",
+        ));
+    }
+    install_binaries_with_revision(
+        &repo.join("csdlc-v2/target/debug"),
+        destination,
+        Some(format!("git:{}", after.stdout)),
+    )
+}
+
+fn install_binaries_with_revision(
+    source: &Path,
+    destination: &Path,
+    trusted_revision: Option<String>,
+) -> Result<InstallReceipt> {
     let manifest = SkillManifest::load()?;
     if destination.file_name().and_then(|value| value.to_str()) != Some("csdlc-v2") {
         return Err(V2Error::new(
@@ -331,7 +384,7 @@ pub fn install_binaries(source: &Path, destination: &Path) -> Result<InstallRece
             blake3: blake3::hash(bytes).to_hex().to_string(),
         })
         .collect();
-    let source_revision = source_provenance(source, &prepared);
+    let source_revision = trusted_revision.unwrap_or_else(|| content_provenance(&prepared));
     let mut receipt = InstallReceipt {
         schema: "csdlc.install_receipt.v1".into(),
         destination: destination.to_path_buf(),
@@ -459,12 +512,7 @@ fn verify_install_receipt(
     Ok(failures)
 }
 
-fn source_provenance(source: &Path, prepared: &[(String, Vec<u8>, fs::Permissions)]) -> String {
-    for ancestor in source.ancestors() {
-        if let Ok(revision) = crate::git::run(ancestor, &["rev-parse", "HEAD"]) {
-            return format!("git:{}", revision.stdout);
-        }
-    }
+fn content_provenance(prepared: &[(String, Vec<u8>, fs::Permissions)]) -> String {
     let mut hasher = blake3::Hasher::new();
     for (name, bytes, _) in prepared {
         hasher.update(name.as_bytes());

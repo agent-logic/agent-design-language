@@ -1,7 +1,7 @@
 use csdlc_v2::{
-    edit_issue, install_binaries, resolve_operator_generation, verify_coexistence,
-    BootstrapRequest, CardKind, Claim, CoexistenceInventory, EditRequest, Generation,
-    LifecyclePhase, SemanticOperation, SkillManifest, Store,
+    build_and_install_binaries, edit_issue, install_binaries, resolve_operator_generation,
+    verify_coexistence, BootstrapRequest, CardKind, Claim, CoexistenceInventory, EditRequest,
+    Generation, LifecyclePhase, SemanticOperation, SkillManifest, Store,
 };
 use std::fs;
 use std::process::Command;
@@ -32,11 +32,10 @@ fn coexistence_fails_closed_when_v1_or_v2_is_missing() {
 #[test]
 fn installer_records_provenance_without_replacing_other_files() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
-    let source = repo.join("csdlc-v2/target/debug");
     let destination_parent = tempfile::tempdir().unwrap();
     let destination = destination_parent.path().join("csdlc-v2");
     fs::write(destination_parent.path().join("v1-stays"), b"v1").unwrap();
-    let receipt = install_binaries(&source, &destination).unwrap();
+    let receipt = build_and_install_binaries(&repo, &destination).unwrap();
     assert_eq!(receipt.binaries.len(), 12);
     assert_eq!(
         fs::read(destination_parent.path().join("v1-stays")).unwrap(),
@@ -86,20 +85,32 @@ fn installer_records_provenance_without_replacing_other_files() {
 
 #[test]
 fn stale_owner_binary_provenance_fails_closed() {
-    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
-    let source = tempfile::tempdir().unwrap();
+    let repo = tempfile::tempdir().unwrap();
+    git(repo.path(), &["init", "-b", "main"]);
+    git(
+        repo.path(),
+        &["config", "user.email", "test@example.invalid"],
+    );
+    git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
+    let source = repo.path().join("csdlc-v2/target/debug");
+    fs::create_dir_all(&source).unwrap();
     let parent = tempfile::tempdir().unwrap();
     let bins = parent.path().join("csdlc-v2");
     for name in SkillManifest::load().unwrap().required_binaries() {
-        fs::write(source.path().join(&name), name.as_bytes()).unwrap();
+        fs::write(source.join(&name), name.as_bytes()).unwrap();
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
-            fs::set_permissions(source.path().join(name), fs::Permissions::from_mode(0o755))
-                .unwrap();
+            fs::set_permissions(source.join(name), fs::Permissions::from_mode(0o755)).unwrap();
         }
     }
-    install_binaries(source.path(), &bins).unwrap();
+    fs::write(repo.path().join("source-revision"), b"one").unwrap();
+    git(repo.path(), &["add", "."]);
+    git(repo.path(), &["commit", "-m", "first revision"]);
+    install_binaries(&source, &bins).unwrap();
+    fs::write(repo.path().join("source-revision"), b"two").unwrap();
+    git(repo.path(), &["add", "source-revision"]);
+    git(repo.path(), &["commit", "-m", "advance source revision"]);
     let receipt_path = bins.join("install-receipt.json");
     let mut receipt: serde_json::Value =
         serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
@@ -108,23 +119,22 @@ fn stale_owner_binary_provenance_fails_closed() {
         .unwrap()
         .starts_with("content:"));
     let error =
-        verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap_err();
+        verify_coexistence(repo.path(), &bins, &CoexistenceInventory::load().unwrap()).unwrap_err();
     assert!(error.message.contains("stale owner-binary provenance"));
 
     receipt["source_revision"] = serde_json::Value::String("git:stale-revision".into());
     fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
     let error =
-        verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap_err();
+        verify_coexistence(repo.path(), &bins, &CoexistenceInventory::load().unwrap()).unwrap_err();
     assert!(error.message.contains("stale owner-binary provenance"));
 }
 
 #[test]
 fn freshly_installed_stable_edit_binary_is_executable() {
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
-    let stable = repo.join("csdlc-v2/target/debug");
     let parent = tempfile::tempdir().unwrap();
     let destination = parent.path().join("csdlc-v2");
-    install_binaries(&stable, &destination).unwrap();
+    build_and_install_binaries(&repo, &destination).unwrap();
 
     let fixture = tempfile::tempdir().unwrap();
     git(fixture.path(), &["init", "-b", "main"]);
@@ -377,10 +387,9 @@ fn shared_destination_and_non_executable_sources_are_rejected_without_mutation()
 fn symlinked_installed_binaries_fail_coexistence() {
     use std::os::unix::fs::symlink;
     let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
-    let source = repo.join("csdlc-v2/target/debug");
     let parent = tempfile::tempdir().unwrap();
     let bins = parent.path().join("csdlc-v2");
-    install_binaries(&source, &bins).unwrap();
+    build_and_install_binaries(&repo, &bins).unwrap();
     fs::remove_file(bins.join("csdlc-init")).unwrap();
     symlink("/bin/true", bins.join("csdlc-init")).unwrap();
     let report = verify_coexistence(&repo, &bins, &CoexistenceInventory::load().unwrap()).unwrap();
