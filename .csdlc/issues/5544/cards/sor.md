@@ -80,11 +80,11 @@ Materialized #4644 terminal projection, captured live issue and PR state, refres
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

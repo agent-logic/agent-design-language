@@ -3,13 +3,13 @@
   "issue": 5544,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "3cb107cf091a604d64ad723f767c71c0dfd71375a7971dc0584c32af392f0a19",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "b6a6f0e1e559a8a20bf98b25115bfd23ed8f1ffc06b1a52922b1caa59d9e0b49",
+  "phase": "published",
+  "generation": 15,
+  "digest": "9e60af613bee5ff2b5eec0fdbede739cf1a1454dfb0095a6fb47df7e1c067d1b",
   "claim": {
     "id": "claim-5544-v0-91-7-wp20-release-truth-gates",
     "owner": "codex:issue-5544",
-    "generation": 14,
+    "generation": 15,
     "acquired_unix_seconds": 1784419797,
     "expires_unix_seconds": 1785024597,
     "heartbeat_unix_seconds": 1784419797,
@@ -175,7 +175,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5544,
+    "pull_request": 5553,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5553",
+    "base": "main",
+    "head": "codex/5544-v0917-release-truth-gates",
+    "revision": "git-blake3:00c520cf46c1822a4468d5c45616e58fdbacd96a:3e893c3471c73d51d9a2a5002460c7fb5c96ea344ccfd32f11ba84c8b856881c",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -189,34 +199,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ff3f05104451ddfc5d2fa4d06a9204464ee43a1e1b6cdcbf61bf050a86f84132",
+      "values_digest": "a136741098460ba1f7a1d9ff23794f1bd0ad81fb811b4b9080b407d7b472afc3",
       "rendered_digest": "243e45f97fe43e05e504a889e2c36d121789c2ca89aedd00490e7fd8aba5844a",
       "ast_digest": "aa25ae383996c99471d9e1cb8dce21749076051233c33d58b53ab5daf28b4493"
     },
     "stp": {
-      "values_digest": "5045a41c15e132c3132b4dd1e22c62807f5e2cca0d19b0247b1b8f1037f33dbb",
+      "values_digest": "d4e0f607ef36387abe22689e8ccf143ceefd3a86cbbdcc57f1708aa4542b2ab3",
       "rendered_digest": "d0eec3be60c4a8c6cd8e50d28484ef34ea1cff8751eb0b3c68af1a581a47bdb2",
       "ast_digest": "91a3643f70974fa65f68d665c14b53aa72ba5fb93dacee8f98c0ab973ffa578d"
     },
     "spp": {
-      "values_digest": "fadbf4e41727671da57e94439bfe3fcb0d6e76fe3bab2279ada7adc609d9e847",
+      "values_digest": "3394f7b57901e89ba841e580cb4ada88160c129b5f1aa02a10220ae4953cfad7",
       "rendered_digest": "37180c52bf037079800bd21289ab611b2fd41cb9e4460f5d7e33371161dcbfd6",
       "ast_digest": "c8a4f3a0e84b47babbde3c4eed8280e2a7ea8fde23a5ef41aebae0b371a7f139"
     },
     "vpp": {
-      "values_digest": "3f796508ebf18a7bae20a6acd4610d82a5743a7e464936aa83e3b190cff2862a",
+      "values_digest": "7f99ddf5af4bf497df25bcfbc70ba225e41e6524d6459e6b84ecbcaab30c7848",
       "rendered_digest": "9cd98293bdf676bea30526d41e386d77e9bc29ee0e6174c6ee6e0b910861fb6f",
       "ast_digest": "8f249e9f4a5379904e46b0cdab712bc605f64b10904f85bd5db46909a7fc6ccf"
     },
     "srp": {
-      "values_digest": "f93f706d775117bda2326222cb3591a3ada014e48baee22dacabcca447b12681",
+      "values_digest": "750c3e3fc0934d89d41823e8f48a8521dd729de421dd2a13a21a15a957b629b1",
       "rendered_digest": "201f82db47d009c2f938f4c48f1e6f0c3d83b6bfe72ca2cf133e921aaeeacec9",
       "ast_digest": "9654f79af7f3e0d0f4affb23b54878f6816a66f90c95dbe7044539ccf4bc1f1e"
     },
     "sor": {
-      "values_digest": "ed3f921ea7416354379fb5cf907407ade52e55c64b7c5c0668a55e1f77bddf6b",
-      "rendered_digest": "1da97a0f5a81453abeaacca2020d2ebf7a95bcd1d36f73bb5fc2f4adb6da5c9f",
-      "ast_digest": "bfb20451a9b33f87208eb981f82efa47f87d1d5ab6f47b278033eaffe68fc2f4"
+      "values_digest": "b4a419dbbe2d42d0b853eae0456dcd1647fd1de14bc8a81b5cb41bfddfcea3cd",
+      "rendered_digest": "c7539131f2f21eca03c2bb9b63bc87eb79746274993a8d18d639e9646d411f9e",
+      "ast_digest": "481fe3018f16ac99c97fc06a737d4ec94259ff7519ebac9e6af1ce7981b648d0"
     }
   },
   "transitions": [
@@ -261,6 +271,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5544",
       "reason": "Exact-head WP-21A correction review by Meitner recorded no findings."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5544",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -396,6 +413,13 @@
       "actor": "codex:issue-5544",
       "reason": "Exact-head WP-21A correction review by Meitner recorded no findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:issue-5544",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
