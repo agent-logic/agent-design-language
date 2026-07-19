@@ -27,7 +27,7 @@ Revision 1
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "AC-2",
@@ -35,7 +35,7 @@ Revision 1
     "acceptance_ids": [
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "AC-3",
@@ -43,7 +43,7 @@ Revision 1
     "acceptance_ids": [
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "AC-4",
@@ -51,7 +51,7 @@ Revision 1
     "acceptance_ids": [
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
@@ -78,13 +78,13 @@ Revision 1
 
 ## Design
 
-.csdlc/prepared/issues/5547/design.md
+.csdlc/issues/5547/retained/design.md
 
 Digest: 0206fe7bcd87b35f0d9da1150602e4e992fb42b312a4328012264ea399d6842b
 
 ## Diagram
 
-.csdlc/prepared/issues/5547/diagram.mmd
+.csdlc/issues/5547/retained/diagram.mmd
 
 Digest: 13f960e77769ab414b3254c4712d2d5436f52911e38563fcf1d43e5e822a2b09
 

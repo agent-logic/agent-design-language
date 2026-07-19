@@ -7,7 +7,7 @@
     "title": "[v0.91.7][WP-20][review-fix] Disposition C-SDLC identity and ownership-split residuals",
     "slug": "v0-91-7-wp-20-review-fix-disposition-csdlc-identity-and-ownership-split-residuals",
     "version": "v0.91.7",
-    "generation": 8
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-1"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "AC-2",
@@ -30,7 +30,7 @@
           "acceptance_ids": [
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "AC-3",
@@ -38,7 +38,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "AC-4",
@@ -46,7 +46,7 @@
           "acceptance_ids": [
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [],
@@ -72,9 +72,9 @@
         "Implementation would require broad module refactors outside #5547 non-goals."
       ],
       "replan_triggers": [],
-      "design_ref": ".csdlc/prepared/issues/5547/design.md",
+      "design_ref": ".csdlc/issues/5547/retained/design.md",
       "design_digest": "0206fe7bcd87b35f0d9da1150602e4e992fb42b312a4328012264ea399d6842b",
-      "diagram_ref": ".csdlc/prepared/issues/5547/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5547/retained/diagram.mmd",
       "diagram_digest": "13f960e77769ab414b3254c4712d2d5436f52911e38563fcf1d43e5e822a2b09"
     }
   }

@@ -3,28 +3,10 @@
   "issue": 5547,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "51ffcc86c4288f3ab50aec7beb0a0134d2a6763b0a025f7f74fd4c6acb4f0bc6",
-  "phase": "published",
-  "generation": 8,
-  "digest": "c9e004a83a52b48efda25a9bb82c23ba40bff07cf058e41340ad038c7199f4fa",
-  "claim": {
-    "id": "claim-5547-csdlc-identity-ownership-residuals",
-    "owner": "codex:root",
-    "generation": 8,
-    "acquired_unix_seconds": 1784419946,
-    "expires_unix_seconds": 1784506346,
-    "heartbeat_unix_seconds": 1784419946,
-    "branch": "codex/5547-csdlc-identity-ownership-residuals",
-    "worktree": ".worktrees/adl-wp-5547",
-    "protected_paths": [
-      "docs/reviews/v0.91.7/review-fixes-5547",
-      "docs/architecture/csdlc-v2",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/git.rs",
-      "csdlc-v2/src/bin/csdlc-review.rs",
-      "csdlc-v2/src/bin/csdlc-publish.rs"
-    ],
-    "purpose": "Disposition C-SDLC review identity and ownership-split residuals from IR-4645-011 and IR-4645-012"
-  },
+  "phase": "closed_out",
+  "generation": 16,
+  "digest": "371c1e809d1895270786a105a71c1cfe0e0b88d8b887e4a8a2733523eafc8d36",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f77ca-4728-7271-b9c9-3b536e5e880e",
     "assigned_by": "codex:root",
@@ -72,15 +54,77 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5554",
     "base": "main",
     "head": "codex/5547-csdlc-identity-ownership-residuals",
-    "revision": "git-blake3:cc5f6ce984d0586ee8828415e85861b76986da49:c355990846b1aaab19c441d8f27e29e8ca96ffdbee14d8cc314249ad058c3835",
-    "draft": true,
-    "observed_state": "open"
+    "revision": "git-blake3:c66c8edf5a32f2711d95e333857f20654214c191:535d2a3f4cbe22eae18458ad85d692008ce149f613e8dad9d83bd77f92f9637d",
+    "draft": false,
+    "observed_state": "merged"
   },
-  "readiness": null,
-  "terminal": null,
+  "readiness": {
+    "pull_request": 5554,
+    "head_sha": "c66c8edf5a32f2711d95e333857f20654214c191",
+    "checks": [
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": null
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": null
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": null
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": null
+      },
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": null
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": null
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5554,
+    "disposition": "merged",
+    "observed_sha": "c66c8edf5a32f2711d95e333857f20654214c191",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5547.json",
+    "released_branch": "codex/5547-csdlc-identity-ownership-residuals",
+    "released_worktree": ".worktrees/adl-wp-5547",
+    "released_protected_paths": [
+      "docs/reviews/v0.91.7/review-fixes-5547",
+      "docs/architecture/csdlc-v2",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/git.rs",
+      "csdlc-v2/src/bin/csdlc-review.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5547/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5547/diagram.mmd",
+  "design_path": ".csdlc/issues/5547/retained/design.md",
+  "diagram_path": ".csdlc/issues/5547/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "codex:root",
@@ -89,34 +133,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bb911088656e4392cd39565ef5b2d33fd509a792687ebf62a59053e6856d0f99",
+      "values_digest": "2b386e5220dcb503fc5ed6ab23f21d997efd638f2d1b665da585381dd086c616",
       "rendered_digest": "cafbd8469f647ba253e674e2eec9c7971efd0959b372cced0e69536cf8f2c47d",
       "ast_digest": "b9ec28b92871cbcb1929428f54e5da69d30f2c505119599366f24f648ebb2d69"
     },
     "stp": {
-      "values_digest": "64f93d186289ca42130b36ec66f8eaad52a222f58be9c4c8789d7f8a0ee87311",
+      "values_digest": "a60d831b1fdfceb11823aa76f42978fb834befc6516be3367b6015d2ee0d850d",
       "rendered_digest": "eb21681baedfd097bbf233ae30698791dd8086069eb485cf869ada1d789690af",
       "ast_digest": "4e48ca298ace221a33bf8dcc4898103a4af91531859ff0eca5a14ef1066ed0fe"
     },
     "spp": {
-      "values_digest": "c64fac8a587a4388e6fcbb28e5f6feb0f074f6923a45d81a499ab1885384462f",
-      "rendered_digest": "7b90f92b60ec548a42d6bf68b5bef22511588201122625a270d7824b572f5b4b",
-      "ast_digest": "1fdf2bba2301a378ed35a4c2b51512e7d290f37bf2d0f2c2e0d4319e3be2230c"
+      "values_digest": "f386ac94f2d134715928239a5fedd3976ae5a756b14878be86ab93845bb08a6e",
+      "rendered_digest": "1506d2bf99baf90fb06f5d04690fe69e503d3df33438f98ce24ad5e211082d8a",
+      "ast_digest": "a66721298d5aae94e99e2f5ce79e26eebbc6b0128f283d5870660b179c7eb3dc"
     },
     "vpp": {
-      "values_digest": "1f9abfb12dbca3be7eefcdaeb9741b8f77f8239f28e4cb69d99e8894c366b4ba",
-      "rendered_digest": "82c8a6a96bf08f484728dc758d7528ddf2cc31e11db143058c3b18aa1046561a",
-      "ast_digest": "96ae70e03e72c05c155db744b3182463b174a259fe576945517ad357a55e1c85"
+      "values_digest": "4456732c671098c155b481504314ba7b8a8fc4b3298841b8ad3846639058e884",
+      "rendered_digest": "9a136cf96d3747dcae9376d2a196c1c57b87ae71c2e677278d664fbdb26d51af",
+      "ast_digest": "c40ff64c6fd31ea5de553c609e05bd110c79481e0193adde7a9d2e7f3a888ae7"
     },
     "srp": {
-      "values_digest": "cc37414ff967f75daec47c5973364c7a8d4f83b966c769b3446054e57548390e",
-      "rendered_digest": "1b9e94acef72886995a46d3021d7c27bdd90430259f78b1ac2d4809fb71e7dce",
-      "ast_digest": "fab13bf16ad6a77ba1ebc7802e1d337f11b0e495b07a94281b6adb6d93efcbf4"
+      "values_digest": "b1e7b652bd82303eea72be236374ca38e85cf44e17563fbfec52580fc159c3de",
+      "rendered_digest": "a66e2136ae0d3d13daa6381d221fcbe3df823a21bf903fc54beeba2b66213c7c",
+      "ast_digest": "cfb7848bb2a6b9a8d031683841f5a0002fb1bec951dcd42c1c8ea34a774a0a90"
     },
     "sor": {
-      "values_digest": "dca0d7f16cdf2cb890073edb2f90b3977a043d2031a1cee1a5e737caf51c8a91",
-      "rendered_digest": "74c9c34910a21798174a93008907d3d4298e77d1a8a457598a2d672f753a265f",
-      "ast_digest": "90a9ebbb13335a29cabb98de5fbac11d688142c76e0ceb5ec666bd0569946fe5"
+      "values_digest": "1ce14b98ba72334a9b5974d92f7eb89eaf028cd9280c2e189de494b142233b96",
+      "rendered_digest": "9ba2ba89e7f60220054802220987fc6000933d684a6a675ee632b17a2cc20c0c",
+      "ast_digest": "39aef3d7397eb4ffd207683b1a3f2618a8aab07702651c68ec3ecae0bba75299"
     }
   },
   "transitions": [
@@ -154,6 +198,27 @@
       "to": "published",
       "actor": "codex:root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex-closeout-audit",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex-closeout-audit",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex-closeout-audit",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -233,6 +298,62 @@
       "actor": "codex:root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex-closeout-audit",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex-closeout-audit",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex-closeout-audit",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex-closeout-audit",
+      "reason": "Materialize the retained #5547 terminal receipt during the complete v0.91.7 closed-issue audit.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex-closeout-audit",
+      "reason": "typed terminal plan repair authorized by issue 5569",
+      "operation": "repair_terminal_plan_step:AC-1"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex-closeout-audit",
+      "reason": "typed terminal plan repair authorized by issue 5569",
+      "operation": "repair_terminal_plan_step:AC-2"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex-closeout-audit",
+      "reason": "typed terminal plan repair authorized by issue 5569",
+      "operation": "repair_terminal_plan_step:AC-3"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex-closeout-audit",
+      "reason": "typed terminal plan repair authorized by issue 5569",
+      "operation": "repair_terminal_plan_step:AC-4"
     }
   ]
 }
