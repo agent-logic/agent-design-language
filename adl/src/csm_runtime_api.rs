@@ -13,7 +13,7 @@ use chrono::{DateTime, Utc};
 use serde_json::{json, Map, Value};
 use std::env;
 use std::fs::{self, OpenOptions};
-use std::io::Write;
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::net::{IpAddr, SocketAddr};
 use std::path::{Path, PathBuf};
 use std::sync::{
@@ -848,17 +848,21 @@ fn ready_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> R
 }
 
 fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
+    const METRICS_EVENT_TAIL_LIMIT: usize = 1_000;
     let status = status_response(loaded, options)?;
     let daemon = read_json_artifact(&artifact_path(loaded, "daemon_status.json"));
     let backpressure_state =
         read_json_artifact(&artifact_path(loaded, "csm_backpressure_state.json"));
     let typed_channel_state =
         read_json_artifact(&artifact_path(loaded, "csm_typed_channel_state.json"));
-    let event_count = read_jsonl_tail(&artifact_path(loaded, "operator_events.jsonl"), usize::MAX)
-        .get("entries")
-        .and_then(Value::as_array)
-        .map(|entries| entries.len())
-        .unwrap_or(0);
+    let event_count = read_jsonl_tail(
+        &artifact_path(loaded, "operator_events.jsonl"),
+        METRICS_EVENT_TAIL_LIMIT,
+    )
+    .get("entries")
+    .and_then(Value::as_array)
+    .map(|entries| entries.len())
+    .unwrap_or(0);
     let response = json!({
         "schema": CSM_RUNTIME_API_METRICS_SCHEMA,
         "runtime_owner": "csm",
@@ -1234,7 +1238,31 @@ fn read_jsonl_tail(path: &Path, limit: usize) -> Value {
     if !path.exists() {
         return json!({"status": "missing", "entries": []});
     }
-    let Ok(raw) = fs::read_to_string(path) else {
+    let Ok(mut file) = fs::File::open(path) else {
+        return json!({"status": "unreadable", "entries": []});
+    };
+    let Ok(file_len) = file.seek(SeekFrom::End(0)) else {
+        return json!({"status": "unreadable", "entries": []});
+    };
+    let mut offset = file_len;
+    let mut bytes = Vec::new();
+    let mut newline_count = 0usize;
+    const CHUNK_SIZE: usize = 8192;
+    while offset > 0 && newline_count <= limit {
+        let chunk_len = offset.min(CHUNK_SIZE as u64) as usize;
+        offset -= chunk_len as u64;
+        if file.seek(SeekFrom::Start(offset)).is_err() {
+            return json!({"status": "unreadable", "entries": []});
+        }
+        let mut chunk = vec![0u8; chunk_len];
+        if file.read_exact(&mut chunk).is_err() {
+            return json!({"status": "unreadable", "entries": []});
+        }
+        newline_count += chunk.iter().filter(|byte| **byte == b'\n').count();
+        chunk.extend_from_slice(&bytes);
+        bytes = chunk;
+    }
+    let Ok(raw) = String::from_utf8(bytes) else {
         return json!({"status": "unreadable", "entries": []});
     };
     let lines = raw
@@ -2352,6 +2380,23 @@ mod tests {
         let _ = fs::remove_dir_all(&root);
         fs::create_dir_all(&root).unwrap();
         root
+    }
+
+    #[test]
+    fn jsonl_tail_reads_only_the_requested_tail() {
+        let root = temp_root("jsonl-tail");
+        let path = root.join("operator_events.jsonl");
+        let mut contents = String::new();
+        for index in 0..1_500 {
+            contents.push_str(&format!("{{\"event\":\"event-{index}\"}}\n"));
+        }
+        fs::write(&path, contents).unwrap();
+
+        let tail = read_jsonl_tail(&path, 10);
+        assert_eq!(tail["tail_limit"], 10);
+        assert_eq!(tail["entries"].as_array().unwrap().len(), 10);
+        assert_eq!(tail["entries"][0]["event"], "event-1490");
+        assert_eq!(tail["entries"][9]["event"], "event-1499");
     }
 
     fn write_spec(root: &Path) -> PathBuf {
