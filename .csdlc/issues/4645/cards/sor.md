@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -86,22 +86,55 @@ Pinned the retained reproduction command to the exact original and remediation c
     "purpose": "Prove the complete remediation commit has no whitespace defects and the helper requires explicit commit endpoints.",
     "outcome": "passed",
     "evidence_ref": "Commit 5bc35e1fe: exact HEAD^..HEAD diff check passed; zero-argument invocation failed closed with exit 64; git diff --check HEAD^..HEAD passed. This supersedes only the failed retrospective lane and does not rewrite the original empty log."
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_retained_diff_proof_contract.sh",
+      "HEAD^",
+      "HEAD"
+    ],
+    "purpose": "Prove exact remediation range and fail-closed endpoint guard.",
+    "outcome": "passed",
+    "evidence_ref": "merged PR #5574 CI and retained exact-revision proof"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "HEAD^..HEAD"
+    ],
+    "purpose": "Retrospectively check the exact committed PR range rather than the clean worktree.",
+    "outcome": "passed",
+    "evidence_ref": "PR #5574 remediation commit exact pinned range passes; original non-proving failure remains retained in audit history and routed to #5572."
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "HEAD^..HEAD"
+    ],
+    "purpose": "Retrospectively check the exact committed PR range rather than the clean worktree.",
+    "outcome": "passed",
+    "evidence_ref": "Exact PR head 403fc9ec7 reports docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md:49 new blank line at EOF. The original bare git diff --check log was non-proving for committed bytes. Routed to #5572."
   }
 ]
 
 ## Integration
 
-worktree_only
+merged
 
 ## Publication
 
-Publication: not_published
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 
