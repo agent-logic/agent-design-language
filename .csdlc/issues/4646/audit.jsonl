@@ -39,3 +39,7 @@
 {"sequence":39,"generation":27,"actor":"subagent:019f7c27-5777-7f52-bcbc-8960948e02dd","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":40,"generation":28,"actor":"codex:issue-4646","reason":"The final exact-revision review passed after all integration-truth findings were fixed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":41,"generation":29,"actor":"codex:issue-4646","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":42,"generation":30,"actor":"codex:issue-4646","reason":"atomically record observed merged GitHub publication and SOR projection","operation":"record_merged_publication"}
+{"sequence":43,"generation":31,"actor":"codex:issue-4646","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":44,"generation":32,"actor":"codex:issue-4646","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":45,"generation":33,"actor":"codex:issue-4646","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
