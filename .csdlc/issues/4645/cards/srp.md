@@ -25,18 +25,7 @@ adl/tools/test_retained_diff_proof_contract.sh
 
 ## Findings
 
-[
-  {
-    "id": "F-4645-3",
-    "severity": "p2",
-    "summary": "The documented moving origin/main to HEAD reproduction range includes unrelated later changes and currently fails, contradicting the claimed complete remediation proof.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -44,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The separate publication-boundary audit remains open under #5571.
+- The distinct public-packet publication-boundary audit remains routed to GitHub issue #5571.
 
 ## Review Result
 
-Revision: Some("git-blake3:5bc35e1fe1106fe248605aae422d7b08c7a6cdbc:8df28881d0a7596c4005495828a800ac524fb4d4e0573b6becbcf3c0fd20160e")
+Revision: Some("git-blake3:be16328075797a90219b832d1727d31abb59000b:55632ceb9ba862e9880d5cb79877b337e0b8e7b65e7857cd639adfd83b2ea543")
 
 Reviewer: Some("subagent:019f669a-596c-71e2-adb3-bd753875989d")
 
-Result: changes_required
+Result: pass

@@ -3,13 +3,13 @@
   "issue": 4645,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b83689bd4a80acea6cd1dad467b03005174d03bdf87b95341e9d6235f48796fe",
-  "phase": "implemented",
-  "generation": 18,
-  "digest": "2d3836c43d871191b3ba4f599b955cdd1f831de792d837bc4420104fef208599",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "41f4ff072020eac9b59d874e8932cf018173fdd52775dfd07adbb8be2145e242",
   "claim": {
     "id": "claim-4645-v0917-internal-review-prep",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 18,
+    "generation": 20,
     "acquired_unix_seconds": 1784359768,
     "expires_unix_seconds": 1784964568,
     "heartbeat_unix_seconds": 1784359768,
@@ -28,7 +28,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
-    "revision": "git-blake3:5bc35e1fe1106fe248605aae422d7b08c7a6cdbc:8df28881d0a7596c4005495828a800ac524fb4d4e0573b6becbcf3c0fd20160e",
+    "revision": "git-blake3:be16328075797a90219b832d1727d31abb59000b:55632ceb9ba862e9880d5cb79877b337e0b8e7b65e7857cd639adfd83b2ea543",
     "scope": [
       "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md",
       "docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md",
@@ -42,21 +42,10 @@
       "docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md",
       "adl/tools/test_retained_diff_proof_contract.sh"
     ],
-    "reviewed_revision": "git-blake3:5bc35e1fe1106fe248605aae422d7b08c7a6cdbc:8df28881d0a7596c4005495828a800ac524fb4d4e0573b6becbcf3c0fd20160e",
-    "findings": [
-      {
-        "id": "F-4645-3",
-        "severity": "p2",
-        "summary": "The documented moving origin/main to HEAD reproduction range includes unrelated later changes and currently fails, contradicting the claimed complete remediation proof.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:be16328075797a90219b832d1727d31abb59000b:55632ceb9ba862e9880d5cb79877b337e0b8e7b65e7857cd639adfd83b2ea543",
+    "findings": [],
     "residual_risks": [
-      "The separate publication-boundary audit remains open under #5571."
+      "The distinct public-packet publication-boundary audit remains routed to GitHub issue #5571."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -75,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fd8501a7bc1415e06130ac79bdab156924b3e2d7a4673bc7008b49c239bcf838",
+      "values_digest": "86b9b3884d0756dfe9891d0289cf8441ae10a3c3cf0d6c14bdde104e819308f4",
       "rendered_digest": "e1bf89aef7dad8b7e62722b0916c6bba5ff3bf1565e0bd04fc5955d33f63d739",
       "ast_digest": "e6ac30a25dd6a6a7c4961f6510b70bb96a483fed02a09a2fff081460bab62e5a"
     },
     "stp": {
-      "values_digest": "3fd8279275c977c80b83d13c5295ae7878bfc7a08cf79b86288024c7d02e772e",
+      "values_digest": "b9e0755e5824361a08048d8b8833065960347f031eb03cb691f5be08478f6a9e",
       "rendered_digest": "4eac2fb9b783d00bfb49377c7fe316b145b49273fb0cac63985770dd9782e7a2",
       "ast_digest": "b42c7d1246f0141a9b8131f63a686ae56ec5ba2e74b6b41459d528fa0ea27267"
     },
     "spp": {
-      "values_digest": "b0897f815a61e0936b9de1f48435ccc521d5849b8c81bb9437e90ac7dcf4be36",
+      "values_digest": "4b9c0d26c83aa71f0462c9de749dcf1745c4fa64eb3f9a0cb5dbe3fef76ae6b6",
       "rendered_digest": "93d5fd2e0d59cad03e318ca6e9c1080b29dbc23f41e3867d4fe6d5e4dfaf8bcc",
       "ast_digest": "c3cd5e627c8b2d2ff27ca189a56fa43602d999c98ea668ed41bc0b99caefc634"
     },
     "vpp": {
-      "values_digest": "edc25f3436854ad2b1960096fa9d23df77c30044e9f9d3932e6b54e47d4997a6",
+      "values_digest": "273096d08e8dff499fefa2555b73719da1aabee32c1819bcc03a818ea88e9e8a",
       "rendered_digest": "67c4a527e567c24bbde221d7e3cb734bd6b14f5456f8aef9c2135a056fe4f252",
       "ast_digest": "afbeedd850450474da2fb1c97b98150e5c98a10ab853c2b1563116badf81ca30"
     },
     "srp": {
-      "values_digest": "883ecd3c814081bdf24f8ecd4c3dcf2424790f691a38c4a5f598bd8c18235880",
-      "rendered_digest": "c328e8ab1669544116e013d590d9620faee5cd1ae4433eeb39043e8b7e31a2c0",
-      "ast_digest": "9a6e0a6a2217adac3eaaaab303ca54b27cc76c1bbaaec79a118647b9b31256ef"
+      "values_digest": "a8f2b3a8a5f21878903dadefeafb836f247aa8905a1e4d3c2e4cc2d1045139ad",
+      "rendered_digest": "9a69b61aa3ee1e2c4a33ad1019eced8947b96de7dbfea1cfc14deafc4355705f",
+      "ast_digest": "29469697d8f7fe43004bc8977f5c6cdd906de54fc9aa5f61e23df2f34ab5045f"
     },
     "sor": {
-      "values_digest": "de1be5e2c27f417fa6826679fa08784169ae13516a909bad4c0cb4886c7a0554",
+      "values_digest": "f4b9850bfe0496b3c3a6b41cd77a069e63ba3c8d23483636c614fe9d6009c0dd",
       "rendered_digest": "9b61bd3e979826f7055d909b4e3496e3c4ce5295c4b76aefceb7f3f62e14ed01",
       "ast_digest": "4d057a1043a9e4fa73c7ea17ef0bdd5e350ecad4309e17f4593b594a5282308b"
     }
@@ -147,6 +136,13 @@
       "to": "implemented",
       "actor": "codex-closeout-audit",
       "reason": "The retrospective committed-range PVF failed after merged-publication reconciliation; recover to implemented so the claimed #4645 surface can repair the defect, add a focused guard, and undergo exact-head re-review before terminal closeout."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-closeout-audit",
+      "reason": "Final exact-revision remediation review passed with no findings; F-4645-3 is fixed by immutable pinned-range proof."
     }
   ],
   "audit": [
@@ -310,6 +306,27 @@
       "actor": "codex-closeout-audit",
       "reason": "Fix F-4645-3 without widening the remediation.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Pinned the retained reproduction command to the exact original and remediation commits.\",\"changes\":[\"Replaced moving origin/main and HEAD endpoints with immutable commit SHAs.\",\"Clarified that the pinned range excludes unrelated later main changes.\"],\"artifacts\":[\"docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md\",\"F-4645-3\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex-closeout-audit",
+      "reason": "Final exact-revision remediation review passed with no findings; F-4645-3 is fixed by immutable pinned-range proof.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

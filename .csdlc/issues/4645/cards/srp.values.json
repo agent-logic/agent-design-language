@@ -7,14 +7,14 @@
     "title": "[v0.91.7][WP-18][review] Internal review",
     "slug": "v0-91-7-wp18-internal-review",
     "version": "v0.91.7",
-    "generation": 18
+    "generation": 20
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md\ndocs/reviews/v0.91.7/internal-review-4645/VALIDATION.md\nadl/tools/test_retained_diff_proof_contract.sh",
-      "review_revision": "git-blake3:5bc35e1fe1106fe248605aae422d7b08c7a6cdbc:8df28881d0a7596c4005495828a800ac524fb4d4e0573b6becbcf3c0fd20160e",
+      "review_revision": "git-blake3:be16328075797a90219b832d1727d31abb59000b:55632ceb9ba862e9880d5cb79877b337e0b8e7b65e7857cd639adfd83b2ea543",
       "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
       "review_prompts": [
         "Does the internal review cover every v0.91.7 WP and retained sprint packet it claims to cover?",
@@ -22,22 +22,11 @@
         "Are findings severity-ranked and routed without absorbing remediation into the review issue?",
         "Does the packet distinguish retained proof, fresh validation, skipped validation, and non-claims?"
       ],
-      "findings": [
-        {
-          "id": "F-4645-3",
-          "severity": "p2",
-          "summary": "The documented moving origin/main to HEAD reproduction range includes unrelated later changes and currently fails, contradicting the claimed complete remediation proof.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [
-        "The separate publication-boundary audit remains open under #5571."
+        "The distinct public-packet publication-boundary audit remains routed to GitHub issue #5571."
       ],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }
