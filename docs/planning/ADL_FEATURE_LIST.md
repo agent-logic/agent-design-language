@@ -508,16 +508,19 @@ practical long-lived runtime supervision:
 The truthful v0.90 story is implemented baseline, with Runtime v2 consuming
 those surfaces rather than replacing them.
 
-## Current Planning Focus: v0.91.7 Implementation Before v0.92
+## Current Planning Focus: v0.91.7 Through v0.91.8 Before v0.92
 
 `v0.91.4` is no longer the active planning center in this feature list. Its
 role is the completed Cognitive SDLC default-operation hardening band that the
 current workflow now consumes.
 
-The current planning focus is the pre-v0.92 implementation/proof path:
+The current planning focus is the pre-v0.92 implementation/proof path through
+the required reviewed v0.91.8 bridge:
 
 - consume the completed `v0.91.6` readiness tranche truthfully
 - finish `v0.91.7` as the required implementation and integrated-proof tranche
+- pass v0.91.7 outputs through the reviewed v0.91.8 exact-revision handoff
+  before v0.92 consumes them
 - keep v0.92 as the first true identity/continuity/birthday milestone
 - keep v0.95 as convergence and packaging, not first implementation of major
   cognitive systems

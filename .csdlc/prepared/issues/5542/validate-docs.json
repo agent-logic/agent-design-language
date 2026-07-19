@@ -22,7 +22,8 @@
         "executable": "/usr/bin/ruby",
         "argv": [
           ".csdlc/prepared/issues/4644/validate_docs_alignment.rb",
-          "."
+          ".",
+          "5542"
         ],
         "evidence": {
           "max_log_bytes": 32768,

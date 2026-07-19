@@ -5,7 +5,7 @@
   "initialization_digest": "4ba22360d9c28877a655c69995e8fec64dd508dd8204c0838e8077a0c90f9d48",
   "phase": "implemented",
   "generation": 6,
-  "digest": "05d69afc4f18ff53ec0c26cb3697739b2676ab57f0259b46824a573f776de575",
+  "digest": "47831ab73fe38a4c55abe381f9be20ca08d41790eb52c9848e656185c6a47638",
   "claim": {
     "id": "claim-5542-wp17-closeout-truth",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -41,7 +41,21 @@
     ],
     "purpose": "Repair post-merge WP-17 closeout, bridge-precedence, and date-semantics findings without absorbing sibling work"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:019f77b1-4c8d-7560-8489-bb10c675a6b0",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:66105c185cab116c06c2a7dcc349aaac7959549d:d565e192df56bd3d1414b42dc048789cb813e5b31ea784280a1e905678470e32",
+    "scope": [
+      ".csdlc/issues/5542",
+      ".csdlc/prepared/issues/5542",
+      ".csdlc/evidence/5542",
+      ".csdlc/prepared/issues/4644/validate_docs_alignment.rb",
+      "README.md",
+      "REVIEW.md",
+      "docs/milestones/v0.91.7",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -173,6 +187,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The bounded post-merge documentation repair is implemented and locally validated with retained evidence.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

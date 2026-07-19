@@ -6,6 +6,7 @@ require "json"
 require "yaml"
 
 ROOT = File.expand_path(ARGV.fetch(0, "."))
+VALIDATION_ISSUE = Integer(ARGV.fetch(1, "4644"))
 
 def fail_check(message)
   warn JSON.generate({ schema: "adl.v0917.wp17.validation_error.v1", error: message })
@@ -17,7 +18,7 @@ def digest_paths(paths)
 end
 
 Dir.chdir(ROOT) do
-  files = IO.popen(["git", "ls-files", "--cached", "--others", "--exclude-standard"], &:read)
+  files = IO.popen(["git", "ls-tree", "-r", "--name-only", "HEAD"], &:read)
             .lines.map(&:strip).reject(&:empty?)
   audit_path = "docs/milestones/v0.91.7/review/wp17_docs_alignment_4644/audit.json"
   audit = JSON.parse(File.read(audit_path))
@@ -97,10 +98,24 @@ Dir.chdir(ROOT) do
     "docs/planning/ADL_FEATURE_LIST.md" => ["../milestones/v0.91.8/README.md",
                                              "../milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md"]
   }
+  required_precedence = {
+    "README.md" => "v0.92 consumes the reviewed v0.91.8 exact-revision handoff",
+    "docs/milestones/v0.91.7/README.md" =>
+      "v0.92 may consume only the reviewed v0.91.8 exact-revision handoff",
+    "docs/planning/ADL_FEATURE_LIST.md" =>
+      "v0.92 consumes its exact-revision handoff rather than v0.91.7 prose directly"
+  }
+  stale_precedence = [
+    "v0.91.7 is the active final pre-v0.92",
+    "v0.91.7 is the final implementation/readiness tranche before v0.92",
+    "finish v0.91.7 as the final direct tranche before v0.92"
+  ]
   checks["v0918_bridge_precedence"] = bridge_requirements.all? do |file, required|
     content = File.read(file)
+    normalized = content.gsub(/[\x60*]/, "").gsub(/\s+/, " ")
     required.all? { |link| content.include?(link) } &&
-      content.include?("v0.92") && content.include?("v0.91.8")
+      normalized.include?(required_precedence.fetch(file)) &&
+      stale_precedence.none? { |phrase| normalized.include?(phrase) }
   end
 
   live_metadata_docs = %w[
@@ -141,6 +156,22 @@ Dir.chdir(ROOT) do
     [manifest, passed]
   end
   checks["cargo_metadata_locked"] = cargo_metadata.values.all?
+
+  audited_paths = (targets + [
+    ".csdlc/prepared/issues/4644/validate_docs_alignment.rb",
+    "docs/planning/ADL_FEATURE_LIST.md"
+  ]).uniq
+  untracked = IO.popen(["git", "ls-files", "--others", "--exclude-standard"], &:read)
+                .lines.map(&:strip).reject(&:empty?)
+  untracked_audit_inputs = untracked.select do |path|
+    File.basename(path).match?(/\Areadme.*\.md\z/i) ||
+      path.start_with?("docs/milestones/v0.91.7/") ||
+      path == "REVIEW.md" || path == "docs/planning/ADL_FEATURE_LIST.md" ||
+      path == ".csdlc/prepared/issues/4644/validate_docs_alignment.rb"
+  end
+  checks["no_untracked_audit_inputs"] = untracked_audit_inputs.empty?
+  checks["audited_tree_clean"] = system("git", "diff", "--quiet", "HEAD", "--", *audited_paths,
+                                          out: File::NULL, err: File::NULL)
   checks["git_diff_check"] = [
     ["git", "diff", "--check", "origin/main...HEAD"],
     ["git", "diff", "--check"],
@@ -150,8 +181,10 @@ Dir.chdir(ROOT) do
   failed = checks.select { |_name, passed| !passed }.keys
   report = {
     "schema" => "adl.v0917.wp17.validation_receipt.v1",
-    "issue" => 4644,
-    "command" => ["ruby", ".csdlc/prepared/issues/4644/validate_docs_alignment.rb", "."],
+    "issue" => VALIDATION_ISSUE,
+    "source_issue" => 4644,
+    "command" => ["ruby", ".csdlc/prepared/issues/4644/validate_docs_alignment.rb", ".",
+                  VALIDATION_ISSUE.to_s],
     "completed_at" => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
     "exit_status" => failed.empty? ? 0 : 1,
     "status" => failed.empty? ? "passed" : "failed",
@@ -163,6 +196,7 @@ Dir.chdir(ROOT) do
       "broken_links" => broken_links,
       "invalid_json" => invalid_json.sort,
       "invalid_yaml" => invalid_yaml.sort,
+      "untracked_audit_inputs" => untracked_audit_inputs,
       "cargo_metadata" => cargo_metadata
     },
     "aws_used" => false
