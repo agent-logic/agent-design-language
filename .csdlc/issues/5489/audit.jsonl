@@ -12,3 +12,4 @@
 {"sequence":12,"generation":5,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":6,"actor":"subagent:019f77fb-5581-7920-9466-dd36bc76999d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":14,"generation":7,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"Exact-revision internal review completed with the only actionable finding fixed and recorded.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":15,"generation":8,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

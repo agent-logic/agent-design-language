@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5489,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5489-v0917-wp21a-next-milestone-docs",
+  "title": "[v0.91.7][WP-21A] Prepare v0.91.8 parallel execution plan",
+  "body": "Closes #5489\n\nAdds the planned-only v0.91.8 parallel execution plan and reconciles the linked sprint plan, WBS, execution-readiness, and issue-wave surfaces. The plan records the Wave 0 card/readiness factory, global writable-actor WIP cap, single serialized integration/merge queue, WP-10/WP-10A fan-out after WP-09, acceptance-gated cutover/deletion ordering, serialized WP-15 through WP-23 release tail, external-shadow read-only boundaries, and current routing authority through version:v0.91.8 labels plus the checked-in wave file.\n\nValidation: git diff --check; YAML parse with Ruby safe_load; targeted assertions for WP-10A, WP-11, WP-13, WIP controls, and #5343/#5347 sidecar readiness gating; stale-wording scans. Internal exact-revision review found one readiness-factory omission and confirmed it fixed. Fable 5 external shadow review was attempted but unavailable after fail-closed runs and is not recorded as approval. No AWS was used, and no v0.91.8 implementation work was executed.",
+  "draft": true,
+  "revision": "git-blake3:99f18097ed4f3c5633374f7d723f2c549fbde618:12d9bf3c60e72e57aae5ffc4c1790b3dc2abf51b50b8e41530ac31cf430fd62b",
+  "commit_sha": "99f18097ed4f3c5633374f7d723f2c549fbde618"
+}
