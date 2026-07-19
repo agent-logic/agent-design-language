@@ -21,6 +21,10 @@ through #4644 and merged PR #5539. WP-18, WP-19, WP-20, WP-21A, and WP-23 are op
 while WP-21 and WP-22 are closed retained planning evidence. Closed work may
 still carry retained findings or non-claims.
 
+Current superseding review-tail truth: `#5408` is closed/remediated via merged
+PR #5419 at `6fcd3accafc15e3b6cc8064d836293b4495983de`; the retained #4906
+blocked-with-evidence gate remains unresolved unless separately dispositioned.
+
 Opened WP issues:
 
 - WP-01: `#4628`
@@ -70,7 +74,7 @@ remediation truth.
 | 2 | v0.91.6 C-SDLC integration control-plane truth gate | WP-02, WP-03, WP-04 | Consume v0.91.6 `#4388`-`#4398` plus late `#4405`, `#4412`-`#4413`, `#4417`-`#4421` plus `#4425`, `#4431`, `#4441`, `#4433`-`#4438`, and `#4442`-`#4443`: VPP defaults, externalized PVF lanes, SEP automation, session ledger, forward metric capture, bounded v0.91.6 metric backfill, GitHub/octocrab convergence, prompt-card/template edge repair, runtime dependency disposition, logging/reliability rough edges, watcher/lifecycle automation, operational adoption, lifecycle shepherding, and FastContext evaluation. Only create v0.91.7 follow-ons for incomplete or explicitly blocked surfaces. | closed; review register retains residuals |
 | 3 | Scheduler/provider/local-agent sprint | WP-05 | Can run alongside build-throughput work after WP-03 boundaries are stable. | closed; review-remediated |
 | 4 | Build throughput and validation-cost sprint | WP-06 | Can run in parallel with scheduler/provider work; isolate CI/workflow changes carefully. Remote-builder proof remains bounded by its retained evidence and non-claims. | closed; review-remediated |
-| 5 | Runtime fire-up, logging/OTel, and Soak #2 sprint | WP-07, WP-08 | `#4718` and retained Soak/runtime packets provide bounded proof; unresolved WP-07 hardening remains tracked by open `#5408`. | closed umbrellas; residual open |
+| 5 | Runtime fire-up, logging/OTel, and Soak #2 sprint | WP-07, WP-08 | `#4718` and retained Soak/runtime packets provide bounded proof. #5408 is closed/remediated through PR #5419; retained #4906 remains blocked-with-evidence until explicitly dispositioned. | closed umbrellas; #4906 residual retained |
 | 6 | Observatory and birthday-visible demo sprint | WP-09 | Demo and Observatory claims remain bounded by WP-09 and WP-15 retained packets. | closed with retained limitations |
 | 7 | Cognitive implementation sprint | WP-10, WP-11, WP-13 | Curiosity, Constructability, reasoning graph, affect/Godel/economics/guild proof and boundary packets are retained. | closed with claim boundaries |
 | 8 | Security and protocol implementation sprint | WP-12 | Security/protocol proof and remediation are retained; broader activation remains evidence-bound. | closed and review-remediated |

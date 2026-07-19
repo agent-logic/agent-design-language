@@ -1,0 +1,427 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5489,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "600d3dc651aca0d42502611fc22299cbab5dbce90d456a219ac98a5c2a2ffbfa",
+  "phase": "published",
+  "generation": 12,
+  "digest": "7a3c9279b45d689a0aa0d4bd269bcb0becece95a03c773a3331b2e210b06497f",
+  "claim": {
+    "id": "claim-5489-v0-91-7-wp21a-next-milestone-docs-closeout-plan",
+    "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
+    "generation": 12,
+    "acquired_unix_seconds": 1784360472,
+    "expires_unix_seconds": 1784965272,
+    "heartbeat_unix_seconds": 1784360472,
+    "branch": "codex/5489-v0917-wp21a-next-milestone-docs",
+    "worktree": ".worktrees/adl-wp-5489",
+    "protected_paths": [
+      ".csdlc/issues/5489",
+      "docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md",
+      "docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md",
+      "docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489",
+      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+      "docs/milestones/v0.91.8/DECISIONS_v0.91.8.md",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md",
+      "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md",
+      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/SPRINT_v0.91.8.md",
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+      "docs/milestones/v0.91.8/VISION_v0.91.8.md",
+      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/DELETION_AND_CUTOVER_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/README.md",
+      "docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/README.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/setup/5383/DESIGN.md",
+      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
+    ],
+    "purpose": "Prepare and later execute WP-21A without claiming completion from setup"
+  },
+  "review_assignment": {
+    "reviewer": "subagent:019f781f-b3b8-76a2-ae0a-253d65c729cf",
+    "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
+    "revision": "git-blake3:92e8dab5f77af9cf390edf4179ac38fcd62800b7:d2a43e751d344b6dfd9180fd41596da1c51f9c07718fc54eff4a336472052f05",
+    "scope": [
+      ".csdlc/issues/5489",
+      ".csdlc/prepared/issues/5489",
+      "docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md",
+      "docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md",
+      "docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489/README.md",
+      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/features",
+      "docs/milestones/v0.91.8/review/README.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f781f-b3b8-76a2-ae0a-253d65c729cf",
+    "scope": [
+      ".csdlc/issues/5489",
+      ".csdlc/prepared/issues/5489",
+      "docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md",
+      "docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md",
+      "docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489/README.md",
+      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/features",
+      "docs/milestones/v0.91.8/review/README.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
+    ],
+    "reviewed_revision": "git-blake3:92e8dab5f77af9cf390edf4179ac38fcd62800b7:d2a43e751d344b6dfd9180fd41596da1c51f9c07718fc54eff4a336472052f05",
+    "findings": [
+      {
+        "id": "F-5489-REVIEW-1",
+        "severity": "p2",
+        "summary": "v0.91.7 feature-doc index still described #5408 as open despite superseding closed/remediated truth.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:92e8dab5f77af9cf390edf4179ac38fcd62800b7:d2a43e751d344b6dfd9180fd41596da1c51f9c07718fc54eff4a336472052f05",
+        "route": null
+      },
+      {
+        "id": "F-5489-REVIEW-2",
+        "severity": "p2",
+        "summary": "Prepared review/publication requests were stale against generation 9 and described only the earlier parallel-plan scope.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:92e8dab5f77af9cf390edf4179ac38fcd62800b7:d2a43e751d344b6dfd9180fd41596da1c51f9c07718fc54eff4a336472052f05",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Fable 5 external shadow review was attempted but unavailable after fail-closed runs and is not recorded as approval.",
+      "Formal v0.91.8 third-party review has not run; handoff remains prepared_not_sent.",
+      "v0.91.8 implementation work was not executed by #5489."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5489,
+    "pull_request": 5564,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5564",
+    "base": "main",
+    "head": "codex/5489-v0917-wp21a-next-milestone-docs",
+    "revision": "git-blake3:43031a4f7d9379028fe8261ddc424ac529bbf684:3746704aa09626785127de3b398c797a8609e0ae13d2ce18284696c709882f7d",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5489/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5489/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-prep-only",
+      "revision": "6c8fad08d8c732b470f0c29378cc6566d23b7f4626218b8c27d19209564f7556"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2d58cdc51d782aa5d0fe0dfa2a704b0331b313a6b44a6f7364bce70568c3a876",
+      "rendered_digest": "c7d6a69690ce861127952d303e6495f29331b5d9dc7f0c45496f71fb7baf4ab3",
+      "ast_digest": "ed4f5f5f4ba54a55e5e803f792a52a22b59fd3170e20e210eecf239ebfa98c18"
+    },
+    "stp": {
+      "values_digest": "aff3c249fdd5f6b9ecb911fb6b3e4f7d5473858fa508510345aef9f6fb3557b4",
+      "rendered_digest": "547d9c6f45c4bdd5f90fce44fcff94f2e358913ee65bcd77c9593fe70506fadd",
+      "ast_digest": "5580da2268a2298072846490644b5d3a2623579f2c88cd81a5117f69cf67d3bd"
+    },
+    "spp": {
+      "values_digest": "840b0ff16fd8ac9e62e8faf9178acc1f3d387d79001f49054239a20fe7d4fa3f",
+      "rendered_digest": "6a09ba12bb8010355daa4d28a7ea4cb6946cf2fd76f3d9ad9568a900cf3e84ce",
+      "ast_digest": "b711925ac17d2ce338660c97c9c128c0e703dacdf45872de901d99c5acc24ae3"
+    },
+    "vpp": {
+      "values_digest": "540e7d58f5fcacac1f4b44b5292fe99f9cd0d5162b35bacd5985234b20f2c3d0",
+      "rendered_digest": "d1e18ba4eeb02e306a5d69d4d69278bb5959efee21e372d68468e6ab35172e51",
+      "ast_digest": "fb89ed7a69b1adbbf1b6e976cbc82cc2fb76436273633587bdbb9491659cf824"
+    },
+    "srp": {
+      "values_digest": "97b042a58c58cde9856178e8d7bff9c65c626d4392c65483dcd5043b03e9470a",
+      "rendered_digest": "07e4b4d447821d812b5f4cc2bd75b8c177d361e6542c21c41cd788c44e3da88f",
+      "ast_digest": "46d1305f76528822d8f28e628f62da2428db33cc657b7a1fa8a54a690bd73ad3"
+    },
+    "sor": {
+      "values_digest": "135fbcf06f358fc3c381c771ff7b3953df8a4ef42e19313f6d20b1945f21dc4f",
+      "rendered_digest": "9d781251184fb627d17da54ea8b4dab50758d14c3c2bc003334da671fd28917d",
+      "ast_digest": "cd3859eb0344e65b2ed96c19fc7f2d6f6e7b210f8d543b466a36164e63493cc9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "The planned-only v0.91.8 parallel execution plan and linked planning-surface reconciliation are implemented and focused validation has passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-revision internal review completed with the only actionable finding fixed and recorded."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator clarified after draft publication that WP-21A must also audit and reconcile all v0.91.8 canonical next-milestone documentation and current #5408 terminal truth; recover to implemented for a new exact-revision review and updated draft publication."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-revision internal review completed for the WP-21A v0.91.8 canonical-doc audit and review-handoff packet; actionable findings are fixed and residual risks recorded."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator assigned #5489 WP-21A to prepare the v0.91.8 parallel execution plan and reconcile the checked-in v0.91.8 planning surfaces without executing v0.91.8 work.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Dependency review identified stale #5383 readiness wording in the v0.91.8 execution-readiness planning surface.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 0,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Second draft review required WBS dependency truth to include WP-10A and make WP-11 depend on both WP-10 and WP-10A live proof.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/WBS_v0.91.8.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 1,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Prepared the planned v0.91.8 parallel execution plan and reconciled linked planning surfaces without executing v0.91.8 work.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added the v0.91.8 parallel execution plan, linked it from the sprint plan, promoted WP-10A into the canonical wave/WBS/readiness surfaces, and recorded routing, card-factory, WIP, review-shadow, acceptance, deletion, and release-tail constraints.\",\"changes\":[\"Add planned-only PARALLEL_EXECUTION_PLAN_v0.91.8.md\",\"Link the parallel execution plan from SPRINT_PLAN_v0.91.8.md\",\"Promote WP-10A #5497 into wp_issue_map and work_packages while keeping #5498-#5502 as children\",\"Add WP-09 provider child #5526 and C-SDLC acceptance inventory defects #5540/#5541/#5558\",\"Update WBS and execution-readiness so WP-11 waits for WP-10 and completed WP-10A live proof\",\"Update deletion readiness so WP-13 waits for WP-12 plus current #5358/#5361 acceptance\"],\"artifacts\":[\"docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\",\"docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md\",\"docs/milestones/v0.91.8/WBS_v0.91.8.md\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 2,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Focused planning validation passed; Fable 5 shadow review was attempted but unavailable and is not recorded as a clean external verdict.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"ruby -e 'require \\\"yaml\\\"; YAML.safe_load(File.read(\\\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\\\"), aliases: true)'\",\"ruby targeted WP-10A/WP-11/WP-13 dependency assertions\",\"rg stale-wording and ordering checks\",\"Fable 5 attempt 001: blocked due missing evidence in prompt\",\"Fable 5 attempt 002: failed provider_empty_text_output with full evidence\",\"Fable 5 attempt 003: failed provider_empty_text_output with smaller evidence\"],\"purpose\":\"Prove touched planning docs parse cleanly, the new parallel plan is included in review scope, WP-10A and deletion dependency truth are represented consistently, stale #5383 wording is absent, and external shadow review truth is fail-closed rather than fabricated.\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation output; uncommitted .adl/local-artifacts/fable5-review-5489/ result and run logs retained locally only\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 3,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "The planned-only v0.91.8 parallel execution plan and linked planning-surface reconciliation are implemented and focused validation has passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 3,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 4,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Internal exact-revision review found missing readiness-factory projections for executable cutover/deletion sidecars #5343 and #5347.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed the v0.91.8 wave readiness factory so executable sidecar issues #5343 and #5347 are included in the missing-projection set before implementation can start.\",\"changes\":[\"Add #5343 to parallel_execution.card_factory.missing_projection_issues\",\"Add #5347 to parallel_execution.card_factory.missing_projection_issues\"],\"artifacts\":[\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 5,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Focused validation passed after the internal review readiness-factory fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"ruby -e 'require \\\"yaml\\\"; YAML.safe_load(File.read(\\\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\\\"), aliases: true)'\",\"ruby targeted assertions for #5343/#5347 missing_projection_issues, WP-10A, WP-11, WP-13, and WIP controls\",\"rg stale-wording checks\"],\"purpose\":\"Prove the post-review fix keeps the v0.91.8 wave YAML parseable and includes every executable cutover/deletion sidecar in typed readiness gating.\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation output in #5489 worktree\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 5,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 6,
+      "actor": "subagent:019f77fb-5581-7920-9466-dd36bc76999d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 7,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-revision internal review completed with the only actionable finding fixed and recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 8,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator clarified after draft publication that WP-21A must also audit and reconcile all v0.91.8 canonical next-milestone documentation and current #5408 terminal truth; recover to implemented for a new exact-revision review and updated draft publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator clarified WP-21A must prepare all next-milestone documentation, including every v0.91.8 feature doc and canonical planning, architecture, review, release, bridge, routing, and validation entrypoint, and must consume current #5408/#5419 terminal truth.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/DECISIONS_v0.91.8.md\",\"docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md\",\"docs/milestones/v0.91.8/DESIGN_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md\",\"docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md\",\"docs/milestones/v0.91.8/README.md\",\"docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md\",\"docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/SPRINT_v0.91.8.md\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\"docs/milestones/v0.91.8/VISION_v0.91.8.md\",\"docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md\",\"docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md\",\"docs/milestones/v0.91.8/features/DELETION_AND_CUTOVER_v0.91.8.md\",\"docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md\",\"docs/milestones/v0.91.8/features/README.md\",\"docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md\",\"docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/setup/5383/DESIGN.md\",\"docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "WP-21A requires a bounded canonical-document inventory and validation matrix for the complete v0.91.8 next-milestone documentation packet.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Current #5408 terminal truth must be consumed by the live v0.91.7 sprint review register while preserving dated historical capture packets.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator required WP-21A to prepare a dedicated v0.91.8 third-party review handoff document and link it from canonical v0.91.8 review/planning entrypoints.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/review/README.md\",\"docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "WP-21A must reconcile current v0.91.7 #5408 blocker/register truth after PR #5419 merged and issue #5408 closed, while preserving historical packets and retained #4906 blocked-with-evidence truth.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md\",\"docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md\",\"docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 10,
+      "actor": "subagent:019f781f-b3b8-76a2-ae0a-253d65c729cf",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 11,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-revision internal review completed for the WP-21A v0.91.8 canonical-doc audit and review-handoff packet; actionable findings are fixed and residual risks recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
