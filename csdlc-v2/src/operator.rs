@@ -422,9 +422,7 @@ fn verify_install_receipt(
     let current_revision = crate::git::run(repo, &["rev-parse", "HEAD"])
         .map(|revision| format!("git:{}", revision.stdout))
         .ok();
-    if current_revision.as_deref() == Some(receipt.source_revision.as_str()) {
-        // Current tracked source revision matches the installed provenance.
-    } else if receipt.source_revision.starts_with("git:") {
+    if current_revision.as_deref() != Some(receipt.source_revision.as_str()) {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             format!(
