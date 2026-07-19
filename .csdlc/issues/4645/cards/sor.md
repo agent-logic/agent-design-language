@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Removed the committed whitespace defect, documented the original clean-worktree proof limitation, and added a fail-closed exact-revision diff helper.
+Pinned the retained reproduction command to the exact original and remediation commits.
 
 ## Artifacts
 
@@ -25,6 +25,8 @@ Removed the committed whitespace defect, documented the original clean-worktree 
 - docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md
 - docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md
 - adl/tools/test_retained_diff_proof_contract.sh
+- docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md
+- F-4645-3
 
 ## Execution
 
@@ -34,6 +36,8 @@ Removed the committed whitespace defect, documented the original clean-worktree 
 - Removed the blank line at EOF from SPECIALIST_LANE_RESULTS.md.
 - Added a retrospective validation correction that preserves the original log as non-proving for committed bytes.
 - Added an executable helper that requires explicit base and head commit revisions before running git diff --check.
+- Replaced moving origin/main and HEAD endpoints with immutable commit SHAs.
+- Clarified that the pinned range excludes unrelated later main changes.
 
 ## Validation
 
@@ -71,6 +75,17 @@ Removed the committed whitespace defect, documented the original clean-worktree 
     "purpose": "Retrospectively check the exact committed PR range rather than the clean worktree.",
     "outcome": "failed",
     "evidence_ref": "Exact PR head 403fc9ec7 reports docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md:49 new blank line at EOF. The original bare git diff --check log was non-proving for committed bytes. Routed to #5572."
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_retained_diff_proof_contract.sh",
+      "HEAD^",
+      "HEAD"
+    ],
+    "purpose": "Prove the complete remediation commit has no whitespace defects and the helper requires explicit commit endpoints.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 5bc35e1fe: exact HEAD^..HEAD diff check passed; zero-argument invocation failed closed with exit 64; git diff --check HEAD^..HEAD passed. This supersedes only the failed retrospective lane and does not rewrite the original empty log."
   }
 ]
 

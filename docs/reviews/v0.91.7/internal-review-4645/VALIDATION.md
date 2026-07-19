@@ -47,12 +47,15 @@ records that finding. The remediation removes the defect and validates the
 complete remediation range with:
 
 ```bash
-bash adl/tools/test_retained_diff_proof_contract.sh origin/main HEAD
+bash adl/tools/test_retained_diff_proof_contract.sh \
+  403fc9ec7668d1218ca2cc350d55b180af554005 \
+  5bc35e1fe1106fe248605aae422d7b08c7a6cdbc
 ```
 
-The helper fails closed unless both a base and head revision are named. This
-addendum preserves the original limitation instead of rewriting the old log as
-proving evidence.
+The pinned endpoints identify the original PR head and the exact first
+remediation commit; they do not absorb later `main` changes. The helper fails
+closed unless both a base and head revision are named. This addendum preserves
+the original limitation instead of rewriting the old log as proving evidence.
 
 ## Validation Boundaries
 

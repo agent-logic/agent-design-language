@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b83689bd4a80acea6cd1dad467b03005174d03bdf87b95341e9d6235f48796fe",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "863ae142e573522b147fe89666ad0c4cb13d0221e730d732216da80b8a16ae65",
+  "generation": 18,
+  "digest": "2d3836c43d871191b3ba4f599b955cdd1f831de792d837bc4420104fef208599",
   "claim": {
     "id": "claim-4645-v0917-internal-review-prep",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 15,
+    "generation": 18,
     "acquired_unix_seconds": 1784359768,
     "expires_unix_seconds": 1784964568,
     "heartbeat_unix_seconds": 1784359768,
@@ -25,8 +25,42 @@
     ],
     "purpose": "Prepare and later run the v0.91.7 WP-18 internal milestone review without claiming release readiness"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "assigned_by": "codex-closeout-audit",
+    "revision": "git-blake3:5bc35e1fe1106fe248605aae422d7b08c7a6cdbc:8df28881d0a7596c4005495828a800ac524fb4d4e0573b6becbcf3c0fd20160e",
+    "scope": [
+      "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md",
+      "docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md",
+      "adl/tools/test_retained_diff_proof_contract.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "scope": [
+      "docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md",
+      "docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md",
+      "adl/tools/test_retained_diff_proof_contract.sh"
+    ],
+    "reviewed_revision": "git-blake3:5bc35e1fe1106fe248605aae422d7b08c7a6cdbc:8df28881d0a7596c4005495828a800ac524fb4d4e0573b6becbcf3c0fd20160e",
+    "findings": [
+      {
+        "id": "F-4645-3",
+        "severity": "p2",
+        "summary": "The documented moving origin/main to HEAD reproduction range includes unrelated later changes and currently fails, contradicting the claimed complete remediation proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The separate publication-boundary audit remains open under #5571."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4cf49381769454cec057c0e1e603d9dd1a246d6313074abd8b9b46f133e01820",
+      "values_digest": "fd8501a7bc1415e06130ac79bdab156924b3e2d7a4673bc7008b49c239bcf838",
       "rendered_digest": "e1bf89aef7dad8b7e62722b0916c6bba5ff3bf1565e0bd04fc5955d33f63d739",
       "ast_digest": "e6ac30a25dd6a6a7c4961f6510b70bb96a483fed02a09a2fff081460bab62e5a"
     },
     "stp": {
-      "values_digest": "1c7ab16595887ecebb4512f0907c205f83ba9163acced68ca6e69f321a979277",
+      "values_digest": "3fd8279275c977c80b83d13c5295ae7878bfc7a08cf79b86288024c7d02e772e",
       "rendered_digest": "4eac2fb9b783d00bfb49377c7fe316b145b49273fb0cac63985770dd9782e7a2",
       "ast_digest": "b42c7d1246f0141a9b8131f63a686ae56ec5ba2e74b6b41459d528fa0ea27267"
     },
     "spp": {
-      "values_digest": "2bc492d6cd0130634a26a864bc1e73444dcbae4bc15666e376e5460c97f1df73",
+      "values_digest": "b0897f815a61e0936b9de1f48435ccc521d5849b8c81bb9437e90ac7dcf4be36",
       "rendered_digest": "93d5fd2e0d59cad03e318ca6e9c1080b29dbc23f41e3867d4fe6d5e4dfaf8bcc",
       "ast_digest": "c3cd5e627c8b2d2ff27ca189a56fa43602d999c98ea668ed41bc0b99caefc634"
     },
     "vpp": {
-      "values_digest": "dfc4b8595a42e11123ca0ba49c5b18f7fbeba548a3f63bdbc77c3bc7d80c57c8",
+      "values_digest": "edc25f3436854ad2b1960096fa9d23df77c30044e9f9d3932e6b54e47d4997a6",
       "rendered_digest": "67c4a527e567c24bbde221d7e3cb734bd6b14f5456f8aef9c2135a056fe4f252",
       "ast_digest": "afbeedd850450474da2fb1c97b98150e5c98a10ab853c2b1563116badf81ca30"
     },
     "srp": {
-      "values_digest": "cb492411e76fba0dd82cd2ed451c14728a3130bc27bb8fd64e10c30e361ab693",
-      "rendered_digest": "364ef41554f23d76e6d11ade10135daa832f7829b7ff661cae082e3250ce5999",
-      "ast_digest": "46c6f904f4acd33f6911595b8408552367477e8e9b41dbf56552253137c393ec"
+      "values_digest": "883ecd3c814081bdf24f8ecd4c3dcf2424790f691a38c4a5f598bd8c18235880",
+      "rendered_digest": "c328e8ab1669544116e013d590d9620faee5cd1ae4433eeb39043e8b7e31a2c0",
+      "ast_digest": "9a6e0a6a2217adac3eaaaab303ca54b27cc76c1bbaaec79a118647b9b31256ef"
     },
     "sor": {
-      "values_digest": "0c9c67233763692f551b640da97dadf16eddfef84c220dee314d39fcda02e376",
-      "rendered_digest": "e86d63cb18a951145ac25e989fcfcfbeb7bba51164e5645aacadf51d69a2726d",
-      "ast_digest": "c20052a0d7ffc369b3a18627a7776ccaa827b02f1cc8519e7df488608d3345bf"
+      "values_digest": "de1be5e2c27f417fa6826679fa08784169ae13516a909bad4c0cb4886c7a0554",
+      "rendered_digest": "9b61bd3e979826f7055d909b4e3496e3c4ce5295c4b76aefceb7f3f62e14ed01",
+      "ast_digest": "4d057a1043a9e4fa73c7ea17ef0bdd5e350ecad4309e17f4593b594a5282308b"
     }
   },
   "transitions": [
@@ -248,6 +282,34 @@
       "actor": "codex-closeout-audit",
       "reason": "Repair the failed committed-range proof under the existing #4645 claim and #5572 route.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed the committed whitespace defect, documented the original clean-worktree proof limitation, and added a fail-closed exact-revision diff helper.\",\"changes\":[\"Removed the blank line at EOF from SPECIALIST_LANE_RESULTS.md.\",\"Added a retrospective validation correction that preserves the original log as non-proving for committed bytes.\",\"Added an executable helper that requires explicit base and head commit revisions before running git diff --check.\"],\"artifacts\":[\"#5572\",\"docs/reviews/v0.91.7/internal-review-4645/SPECIALIST_LANE_RESULTS.md\",\"docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md\",\"adl/tools/test_retained_diff_proof_contract.sh\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex-closeout-audit",
+      "reason": "Record the proving exact-remediation-range validation after fixing F-4645-1.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_retained_diff_proof_contract.sh\",\"HEAD^\",\"HEAD\"],\"purpose\":\"Prove the complete remediation commit has no whitespace defects and the helper requires explicit commit endpoints.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 5bc35e1fe: exact HEAD^..HEAD diff check passed; zero-argument invocation failed closed with exit 64; git diff --check HEAD^..HEAD passed. This supersedes only the failed retrospective lane and does not rewrite the original empty log.\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex-closeout-audit",
+      "reason": "Fix F-4645-3 without widening the remediation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Pinned the retained reproduction command to the exact original and remediation commits.\",\"changes\":[\"Replaced moving origin/main and HEAD endpoints with immutable commit SHAs.\",\"Clarified that the pinned range excludes unrelated later main changes.\"],\"artifacts\":[\"docs/reviews/v0.91.7/internal-review-4645/VALIDATION.md\",\"F-4645-3\"]}"
     }
   ]
 }
