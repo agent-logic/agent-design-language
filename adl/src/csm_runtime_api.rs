@@ -1248,8 +1248,10 @@ fn read_jsonl_tail(path: &Path, limit: usize) -> Value {
     let mut bytes = Vec::new();
     let mut newline_count = 0usize;
     const CHUNK_SIZE: usize = 8192;
-    while offset > 0 && newline_count <= limit {
-        let chunk_len = offset.min(CHUNK_SIZE as u64) as usize;
+    const MAX_TAIL_BYTES: usize = 1024 * 1024;
+    while offset > 0 && newline_count <= limit && bytes.len() < MAX_TAIL_BYTES {
+        let remaining = MAX_TAIL_BYTES - bytes.len();
+        let chunk_len = offset.min(CHUNK_SIZE.min(remaining) as u64) as usize;
         offset -= chunk_len as u64;
         if file.seek(SeekFrom::Start(offset)).is_err() {
             return json!({"status": "unreadable", "entries": []});
@@ -2246,6 +2248,8 @@ fn runtime_api_status_code(status: &str) -> StatusCode {
         "401 Unauthorized" => StatusCode::UNAUTHORIZED,
         "404 Not Found" => StatusCode::NOT_FOUND,
         "405 Method Not Allowed" => StatusCode::METHOD_NOT_ALLOWED,
+        "426 Upgrade Required" => StatusCode::UPGRADE_REQUIRED,
+        "501 Not Implemented" => StatusCode::NOT_IMPLEMENTED,
         "503 Service Unavailable" => StatusCode::SERVICE_UNAVAILABLE,
         "500 Internal Server Error" => StatusCode::INTERNAL_SERVER_ERROR,
         _ => StatusCode::INTERNAL_SERVER_ERROR,
@@ -2397,6 +2401,17 @@ mod tests {
         assert_eq!(tail["entries"].as_array().unwrap().len(), 10);
         assert_eq!(tail["entries"][0]["event"], "event-1490");
         assert_eq!(tail["entries"][9]["event"], "event-1499");
+    }
+
+    #[test]
+    fn jsonl_tail_caps_a_single_low_newline_log() {
+        let root = temp_root("jsonl-tail-cap");
+        let path = root.join("operator_events.jsonl");
+        fs::write(&path, format!("{}\n", "x".repeat(2 * 1024 * 1024))).unwrap();
+
+        let tail = read_jsonl_tail(&path, 10);
+        assert_eq!(tail["tail_limit"], 10);
+        assert!(tail["entries"].as_array().unwrap().is_empty());
     }
 
     fn write_spec(root: &Path) -> PathBuf {
@@ -3692,6 +3707,10 @@ memory: {}
         let response = runtime_api_http_response(&options, &request).unwrap();
         assert_eq!(response.status, "426 Upgrade Required");
         assert_eq!(
+            runtime_api_status_code(response.status),
+            StatusCode::UPGRADE_REQUIRED
+        );
+        assert_eq!(
             response.body.as_ref().unwrap()["status"],
             "websocket_upgrade_not_activated"
         );
@@ -3700,6 +3719,10 @@ memory: {}
         upgraded.upgrade = true;
         let response = runtime_api_http_response(&options, &upgraded).unwrap();
         assert_eq!(response.status, "501 Not Implemented");
+        assert_eq!(
+            runtime_api_status_code(response.status),
+            StatusCode::NOT_IMPLEMENTED
+        );
         assert_eq!(
             response.body.as_ref().unwrap()["activation_policy"],
             "fail_closed_until_runtime_upgrade_handler_is_integrated"

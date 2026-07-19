@@ -460,6 +460,14 @@ mod tests {
     }
 
     #[test]
+    fn provider_mod_profile_endpoint_validation_rejects_loopback_prefix_confusion() {
+        let err =
+            validate_profile_endpoint("p1", "http:gpt-4o-mini", "http://localhost.evil/complete")
+                .expect_err("host suffix must not be treated as loopback");
+        assert!(err.to_string().contains("must use an https:// endpoint"));
+    }
+
+    #[test]
     fn provider_mod_provider_profile_registry_includes_first_class_claude_profiles() {
         let names = provider_profile_names();
         assert!(names.contains(&"claude:claude-3-7-sonnet".to_string()));
