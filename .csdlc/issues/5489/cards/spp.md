@@ -83,13 +83,13 @@ Revision 1
 
 ## Design
 
-.csdlc/prepared/issues/5489/design.md
+.csdlc/issues/5489/retained/design.md
 
 Digest: 6c8fad08d8c732b470f0c29378cc6566d23b7f4626218b8c27d19209564f7556
 
 ## Diagram
 
-.csdlc/prepared/issues/5489/diagram.mmd
+.csdlc/issues/5489/retained/diagram.mmd
 
 Digest: 7646182d813c913c307ed060acb15d05ac113dcf20158cd1a477b35bec1a9ce5
 
