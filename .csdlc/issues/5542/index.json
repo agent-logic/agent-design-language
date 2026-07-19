@@ -1,0 +1,178 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5542,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "4ba22360d9c28877a655c69995e8fec64dd508dd8204c0838e8077a0c90f9d48",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "05d69afc4f18ff53ec0c26cb3697739b2676ab57f0259b46824a573f776de575",
+  "claim": {
+    "id": "claim-5542-wp17-closeout-truth",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 6,
+    "acquired_unix_seconds": 1784418998,
+    "expires_unix_seconds": 1785023798,
+    "heartbeat_unix_seconds": 1784418998,
+    "branch": "codex/5542-wp17-closeout-truth",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5542",
+      ".csdlc/prepared/issues/4644/validate_docs_alignment.rb",
+      ".csdlc/prepared/issues/5542",
+      "README.md",
+      "REVIEW.md",
+      "docs/milestones/v0.91.7/DECISIONS_v0.91.7.md",
+      "docs/milestones/v0.91.7/DESIGN_v0.91.7.md",
+      "docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md",
+      "docs/milestones/v0.91.7/MILESTONE_CHECKLIST_v0.91.7.md",
+      "docs/milestones/v0.91.7/PLANNING_SOURCE_CAPTURE_v0.91.7.md",
+      "docs/milestones/v0.91.7/README.md",
+      "docs/milestones/v0.91.7/RELEASE_NOTES_v0.91.7.md",
+      "docs/milestones/v0.91.7/RELEASE_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/REVIEW_AND_VALIDATION_CHECKLIST_v0.91.7.md",
+      "docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md",
+      "docs/milestones/v0.91.7/VISION_v0.91.7.md",
+      "docs/milestones/v0.91.7/WBS_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/V0917_WP17_DOCS_ALIGNMENT_4644.md",
+      "docs/milestones/v0.91.7/review/wp17_docs_alignment_4644",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ],
+    "purpose": "Repair post-merge WP-17 closeout, bridge-precedence, and date-semantics findings without absorbing sibling work"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5542/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5542/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "revision": "fab781fa23c18fe3049476dfadc24785057e8e01555d71a1ff4c51d49b9deb0e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9de0dfaadcbb02e41799cb6c5ec31f4e1a0132cf965edd1f81a0edaeebe99bce",
+      "rendered_digest": "02f4fc7c656039cba2e6b7aabc291ea424d7c6dcc96f3a1c6fe5d21a3de51ad2",
+      "ast_digest": "b9ba6846463b5c7662b30f87cb0ef41e4a8661a2f97ea90574337d8eb04a5721"
+    },
+    "stp": {
+      "values_digest": "a1c7db5530aa25a2a2cdfdf279fbb0e4baa0ecb0d305bdd44eeb3130e7b88056",
+      "rendered_digest": "a6f45791f8e8ebdcf25e9e34d9f79686597359e7bd26af925411e895cf20c8b2",
+      "ast_digest": "07ab818f6c3aa0fb9783dad339189a74a40658f63b4175770eb0294a7cd27ab5"
+    },
+    "spp": {
+      "values_digest": "d72779e1d472f22f80585cd2773a9165cd93fd596aa9f805d2bc6f49a3744e62",
+      "rendered_digest": "07966a0ef7d8b690b039a91b147da8af1dba64c8b3cb58f3447bd0dd7c8fbcc0",
+      "ast_digest": "631a951f50c6bc37a004f8206f350e38bdda702a9a1972448fe3e3aa6e919bc3"
+    },
+    "vpp": {
+      "values_digest": "21aa745b103f72ae80898d33b321ea6669b4e689e9130c9014971ff7ae61f06f",
+      "rendered_digest": "6a8491f9fd266cb1bac9cd658a84b5f1cdaac5ca0ccc567d1626614b81d77ff9",
+      "ast_digest": "f5817f030c08b76f6ca61267246fddc1c54c2024670e9ef0f4a2b549ef21a897"
+    },
+    "srp": {
+      "values_digest": "112475085a6b8b822432bb637f3fde9866cbc608b3d89838a4abb77fc18b0824",
+      "rendered_digest": "daedee722082de48bedfdc36b96c598b1bc5b0faa4c82ca7802e80279a774369",
+      "ast_digest": "e00aad7459ee97297e5a175bb50f3af205fdec55ace765b4b0c3b5341fbdfe2f"
+    },
+    "sor": {
+      "values_digest": "a19acb60f84d0c6753070d3b3d0dd674e6190e7b9b8e243e36ea2feefb0449c5",
+      "rendered_digest": "e5e99fa4eeb0ffda61b194845c5816be2b137cb8161f16d2f79e5510ce12a972",
+      "ast_digest": "33d15f47b326dd0cccd9f56ce59839aa89c3ee919a394e55c7e2cdb60ab96b65"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The bounded post-merge documentation repair is implemented and locally validated with retained evidence."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Protect every canonical entrypoint that repeats the reviewed WP-17-open, direct-v0.92, or ambiguous-date defects while preserving the active #4645 register boundary.",
+      "operation": "{\"add_protected_paths\":[\"REVIEW.md\",\"docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md\",\"docs/milestones/v0.91.7/RELEASE_PLAN_v0.91.7.md\",\"docs/milestones/v0.91.7/RELEASE_NOTES_v0.91.7.md\",\"docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md\",\"docs/milestones/v0.91.7/DESIGN_v0.91.7.md\",\"docs/milestones/v0.91.7/PLANNING_SOURCE_CAPTURE_v0.91.7.md\",\"docs/milestones/v0.91.7/MILESTONE_CHECKLIST_v0.91.7.md\",\"docs/milestones/v0.91.7/VISION_v0.91.7.md\",\"docs/milestones/v0.91.7/DECISIONS_v0.91.7.md\",\"docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md\",\"docs/milestones/v0.91.7/REVIEW_AND_VALIDATION_CHECKLIST_v0.91.7.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Confirmed live GitHub truth that issue #4644 is closed, PR #5539 is merged, WP-18/WP-19/WP-20/WP-23 remain gates, and active #4645 owns the sprint-review register.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Repaired the non-overlapping canonical entrypoints so WP-17 is closed, v0.91.8 bridge precedence is explicit, and creation dates are distinct from last-verification dates.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The strengthened WP-17 validator, typed local PVF lane, typed doctor, and diff hygiene all passed with 208 READMEs, 830 local links, structured artifacts, ADRs, Cargo manifests, and no AWS use.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The issue-bounded post-merge documentation repair is implemented in the bound worktree.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Reconciled canonical WP-17 closeout truth after #4644 closed and PR #5539 merged, routed v0.92 through the reviewed v0.91.8 bridge, distinguished creation and verification dates, strengthened the executable documentation validator, and coordinated the separately claimed sprint-review register with #4645.\",\"changes\":[\"Remove WP-17 from canonical open-work sets and retain WP-18, WP-19, WP-20, and WP-23 as independent gates\",\"Add v0.91.8 bridge and exact-revision handoff precedence to repository and milestone entrypoints\",\"Replace ambiguous 2026-06-21 Date labels with Created and Last verified metadata\",\"Extend the WP-17 validator with closeout, bridge-precedence, date-semantics, and working-tree diff checks\",\"Request the active #4645 owner to reconcile its claimed sprint-review register without cross-lane editing\"],\"artifacts\":[\"docs/milestones/v0.91.7/review/V0917_WP17_DOCS_ALIGNMENT_4644.md\",\"docs/milestones/v0.91.7/review/wp17_docs_alignment_4644/audit.json\",\".csdlc/prepared/issues/4644/validate_docs_alignment.rb\",\".csdlc/evidence/5542/wp17-post-merge-truth.log\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Focused post-merge documentation proof passed locally and retained typed evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby .csdlc/prepared/issues/4644/validate_docs_alignment.rb .\",\"csdlc-validate --request .csdlc/prepared/issues/5542/validate-docs.json\",\"csdlc-doctor --repo . --issue 5542\",\"git diff --check\"],\"purpose\":\"Prove current WP closeout sets, reviewed v0.91.8 bridge precedence, unambiguous date metadata, 208 README files, 830 resolved local links, expected structured-evidence exceptions only, ADR integrity, locked Cargo metadata, diff hygiene, and lifecycle health.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5542/wp17-post-merge-truth.log\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The bounded post-merge documentation repair is implemented and locally validated with retained evidence.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

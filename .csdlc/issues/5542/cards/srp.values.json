@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5542,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.7][WP-17][docs] Repair post-merge closeout and v0.91.8 bridge truth",
+    "slug": "v0-91-7-wp17-post-merge-closeout-truth",
+    "version": "v0.91.7",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do all canonical entrypoints represent #4644 closed and #5539 merged?",
+        "Are WP-18, WP-19, WP-20, and WP-23 the only remaining release gates?",
+        "Does every direct-v0.92 statement route through the reviewed v0.91.8 bridge?",
+        "Are creation and last-verification dates unambiguous?",
+        "Did the issue avoid the active #4645 register claim and all AWS use?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

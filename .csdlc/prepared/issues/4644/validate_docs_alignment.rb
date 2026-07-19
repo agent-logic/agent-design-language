@@ -80,6 +80,48 @@ Dir.chdir(ROOT) do
   end
   checks["yaml_parses"] = invalid_yaml.empty?
 
+  issue_wave = YAML.safe_load(
+    File.read("docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml"),
+    permitted_classes: [Date, Time], aliases: true
+  )
+  closeout_truth = issue_wave.fetch("closeout_tail_truth")
+  checks["wp17_closed"] = closeout_truth.fetch("closed_wps").include?("WP-17")
+  checks["open_wps_current"] = closeout_truth.fetch("open_wps") ==
+                                %w[WP-18 WP-19 WP-20 WP-23]
+
+  bridge_requirements = {
+    "README.md" => ["docs/milestones/v0.91.8/README.md",
+                    "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md"],
+    "docs/milestones/v0.91.7/README.md" => ["../v0.91.8/README.md",
+                                                   "../v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md"],
+    "docs/planning/ADL_FEATURE_LIST.md" => ["../milestones/v0.91.8/README.md",
+                                             "../milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md"]
+  }
+  checks["v0918_bridge_precedence"] = bridge_requirements.all? do |file, required|
+    content = File.read(file)
+    required.all? { |link| content.include?(link) } &&
+      content.include?("v0.92") && content.include?("v0.91.8")
+  end
+
+  live_metadata_docs = %w[
+    README.md
+    WBS_v0.91.7.md
+    DESIGN_v0.91.7.md
+    PLANNING_SOURCE_CAPTURE_v0.91.7.md
+    MILESTONE_CHECKLIST_v0.91.7.md
+    VISION_v0.91.7.md
+    DECISIONS_v0.91.7.md
+    FEATURE_DOCS_v0.91.7.md
+    REVIEW_AND_VALIDATION_CHECKLIST_v0.91.7.md
+    V092_HANDOFF_v0.91.7.md
+  ].map { |file| "docs/milestones/v0.91.7/#{file}" }
+  checks["metadata_dates_unambiguous"] = live_metadata_docs.all? do |file|
+    content = File.read(file)
+    !content.include?("- Date: `2026-06-21`") &&
+      content.include?("- Created: `2026-06-21`") &&
+      content.include?("- Last verified: `2026-07-18`")
+  end
+
   accepted = File.read("docs/adr/README.md")
                  .scan(/^- \x60(\d{4}-[^\x60]+\.md)\x60$/).flatten
   v0917_adrs = File.read("docs/milestones/v0.91.7/review/V0917_ADR_INDEX_4989.md")
@@ -99,8 +141,11 @@ Dir.chdir(ROOT) do
     [manifest, passed]
   end
   checks["cargo_metadata_locked"] = cargo_metadata.values.all?
-  checks["git_diff_check"] = system("git", "diff", "--check", "origin/main...HEAD",
-                                      out: File::NULL, err: File::NULL)
+  checks["git_diff_check"] = [
+    ["git", "diff", "--check", "origin/main...HEAD"],
+    ["git", "diff", "--check"],
+    ["git", "diff", "--cached", "--check"]
+  ].all? { |command| system(*command, out: File::NULL, err: File::NULL) }
 
   failed = checks.select { |_name, passed| !passed }.keys
   report = {
