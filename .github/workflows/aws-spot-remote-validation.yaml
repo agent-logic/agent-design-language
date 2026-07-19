@@ -34,10 +34,6 @@ on:
         required: false
         default: "c7a.8xlarge,m7a.8xlarge,c7i.8xlarge"
         type: string
-      max_run_seconds:
-        required: false
-        default: "1800"
-        type: string
       builder_image_tag:
         required: false
         default: "v0.91.7-coverage-5243"
@@ -94,10 +90,6 @@ on:
         description: "Ordered comma-separated Spot capacity pool"
         required: true
         default: "c7a.8xlarge,m7a.8xlarge,c7i.8xlarge"
-      max_run_seconds:
-        description: "Hard wall-clock limit for one Spot manager process"
-        required: true
-        default: "1800"
       builder_image_tag:
         description: "ECR image tag; the default contains the CI and coverage toolchains"
         required: true
@@ -119,14 +111,12 @@ jobs:
   spot-remote-validation:
     runs-on: ubuntu-latest
     environment: adl-spot-ci
-    timeout-minutes: 60
     env:
       AWS_SPOT_REMOTE_VALIDATION_REGION: ${{ vars.AWS_SPOT_REMOTE_VALIDATION_REGION || 'us-west-2' }}
       AWS_SPOT_REMOTE_VALIDATION_ROLE_ARN: ${{ secrets.AWS_SPOT_REMOTE_VALIDATION_ROLE_ARN }}
       AWS_SPOT_REMOTE_VALIDATION_SSH_PRIVATE_KEY_B64: ${{ secrets.AWS_SPOT_REMOTE_VALIDATION_SSH_PRIVATE_KEY_B64 }}
       ISSUE_NUMBER: ${{ inputs.issue_number }}
       INSTANCE_TYPES: ${{ inputs.instance_types || inputs.instance_type }}
-      MAX_RUN_SECONDS: ${{ inputs.max_run_seconds || '1800' }}
       SPOT_RUN_ID: adl-wp-${{ inputs.issue_number }}-gha-${{ github.run_id }}-${{ github.run_attempt }}-${{ inputs.profile }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -192,10 +182,6 @@ jobs:
           fi
           if ! [[ "$INSTANCE_TYPES" =~ ^[a-z0-9.-]+(,[a-z0-9.-]+)*$ ]]; then
             echo "::error::instance_types must be a comma-separated EC2 instance-type list"
-            exit 2
-          fi
-          if ! [[ "$MAX_RUN_SECONDS" =~ ^[0-9]+$ ]] || [ "$MAX_RUN_SECONDS" -lt 300 ] || [ "$MAX_RUN_SECONDS" -gt 3600 ]; then
-            echo "::error::max_run_seconds must be between 300 and 3600 seconds"
             exit 2
           fi
 
@@ -274,7 +260,6 @@ jobs:
             --command "$VALIDATION_COMMAND" \
             --instance-type "$INSTANCE_TYPE" \
             --instance-types "$INSTANCE_TYPES" \
-            --max-run-seconds "$MAX_RUN_SECONDS" \
             --builder-image-tag "$BUILDER_IMAGE_TAG" \
             --out .adl/tmp/aws-spot-remote-validation/summary.json \
             --artifact-dir .adl/tmp/aws-spot-remote-validation/artifacts \
@@ -312,7 +297,6 @@ jobs:
             --command "$VALIDATION_COMMAND" \
             --instance-type "$INSTANCE_TYPE" \
             --instance-types "$INSTANCE_TYPES" \
-            --max-run-seconds "$MAX_RUN_SECONDS" \
             --builder-image-tag "$BUILDER_IMAGE_TAG" \
             --ssh-private-key-path "$SSH_KEY_PATH" \
             --out .adl/tmp/aws-spot-remote-validation/summary.json \
