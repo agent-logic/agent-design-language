@@ -134,11 +134,11 @@ Reviewed all 70 frozen files at bd9b7a3c with one completed Claude Fable 5 lane 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

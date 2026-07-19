@@ -38,3 +38,4 @@
 {"sequence":38,"generation":26,"actor":"codex:issue-4646","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":27,"actor":"subagent:019f7c27-5777-7f52-bcbc-8960948e02dd","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":40,"generation":28,"actor":"codex:issue-4646","reason":"The final exact-revision review passed after all integration-truth findings were fixed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":41,"generation":29,"actor":"codex:issue-4646","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

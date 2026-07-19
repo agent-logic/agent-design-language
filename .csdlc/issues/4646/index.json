@@ -3,13 +3,13 @@
   "issue": 4646,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
-  "phase": "reviewed",
-  "generation": 28,
-  "digest": "0f23cbdbbbded837ce820bae5a591d581167b9c5c323a48f407c22220fcb6fb0",
+  "phase": "published",
+  "generation": 29,
+  "digest": "5c0c0fde954046bb3ac7cc165408b3d9ed5cfdb216d5bd667324d207628d38af",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 28,
+    "generation": 29,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -58,7 +58,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 4646,
+    "pull_request": 5584,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5584",
+    "base": "main",
+    "head": "codex/4646-v0917-external-review",
+    "revision": "git-blake3:f3e0e839715921f97738fbeca7f80c0a20a52dbc:0f0f2f242992dcce76c9031e13c04a6cae6ff939979671eb474ae02683bf54b2",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -72,34 +82,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4056a27ffc6b9bc74d728082789340ffd4a87ca287344b1fdc0f3963160e2721",
+      "values_digest": "b436cf32ed39606c9d4024bcd7f35cbb950b92a6bfff8d2aba08e802b9c59d3b",
       "rendered_digest": "e5b99204539ac0734e24a003ad319a9c5c57079c2969d094225ab0f8614bdc15",
       "ast_digest": "2647e65d641a7245fddedb8dcfefacd3fba8f2211bead0548fdfd07f241893b6"
     },
     "stp": {
-      "values_digest": "7c40e016a72abd1910a585a2bce43d6774917f08d1359a6fc05f315d3483098b",
+      "values_digest": "a4ba3ebeaf9b8c65908007ef904309d923a0679c68937628b1c1a1d6d186b58c",
       "rendered_digest": "bd38b0c9940a3291d61a13849bfc0ac45983c5927e2204028024f0cb62acf430",
       "ast_digest": "5ab9d2c01e49ae35f3da0008b783e3a945a485900c9b7b1ea592e3a8a8de2778"
     },
     "spp": {
-      "values_digest": "3dda1b62834203a50e5fb0f08b549f6c056425f9b5c1fe717cbf410dcd0fb788",
+      "values_digest": "86c948f7f26317da2f6826edb1f0ba6a85c8100b5ec5e2ad00b8f0f5d7040741",
       "rendered_digest": "e7498b8202a19fc799db2bf89e5ad42251f4e69ca99e131841b481491780190c",
       "ast_digest": "ba0ee92c13833b60b683d6f5bd567e495a4e44a3e0782443436d0fd1aa4f45e8"
     },
     "vpp": {
-      "values_digest": "067c5bda5ecb4c026de9338c4bd04568dca71435db98a47a61f7d70cfb95f934",
+      "values_digest": "bbfde6215e2ab003e0ec1996180c72d5e53f22791a693ecc95b02133cb24fc73",
       "rendered_digest": "60fabb2437618f75504d46fdcc75c4f4c7472beca527c46208439dd80fc6ae16",
       "ast_digest": "2a03e8df19363f4e77e420af1731a250a7470c20705e22dd2cc54b29e606683b"
     },
     "srp": {
-      "values_digest": "c052f0005f4cd30aea033f9355cb7b09f194444c0c325e515f4a25f291efd5a5",
+      "values_digest": "d3057b31870e601f4470e57d0f2ab4676f8cde5c0861288225db714c938506cc",
       "rendered_digest": "48f27d7c91434684223166c17beb6985ac76d3582fd3ed7328280579eea9d26c",
       "ast_digest": "6ffd265bffca40bae10ed1e842453d39cc1d3d18570bd722e6d578dbd9ce4b5d"
     },
     "sor": {
-      "values_digest": "bc9056a28d20eb14d1b88754439774c02242594a6c87322ad23c820b55a32f7d",
-      "rendered_digest": "8546d800262544c1745ad1d27ff5019c4eee47912b00b2c58cba2608b99d1471",
-      "ast_digest": "dda73de568217c267f5ab3a658b1436a1d83a8f85afd4d45b41bed396c566568"
+      "values_digest": "9fe4cefdbd880d4ed6bb5bfb06926820897ce888735b9e9ac82a5a96aec9d74d",
+      "rendered_digest": "f45ffba6dedf0a46198bb061d23da1d69eabe5b83adcafcd8b7655958d7942c6",
+      "ast_digest": "13ad05c193465ea2659ae3fe101e93e60a5827746a85929a116f2a10b598654e"
     }
   },
   "transitions": [
@@ -186,6 +196,13 @@
       "to": "reviewed",
       "actor": "codex:issue-4646",
       "reason": "The final exact-revision review passed after all integration-truth findings were fixed."
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-4646",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -468,6 +485,13 @@
       "actor": "codex:issue-4646",
       "reason": "The final exact-revision review passed after all integration-truth findings were fixed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 41,
+      "generation": 29,
+      "actor": "codex:issue-4646",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
