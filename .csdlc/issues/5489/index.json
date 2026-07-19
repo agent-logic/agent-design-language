@@ -3,60 +3,10 @@
   "issue": 5489,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "600d3dc651aca0d42502611fc22299cbab5dbce90d456a219ac98a5c2a2ffbfa",
-  "phase": "published",
-  "generation": 12,
-  "digest": "7a3c9279b45d689a0aa0d4bd269bcb0becece95a03c773a3331b2e210b06497f",
-  "claim": {
-    "id": "claim-5489-v0-91-7-wp21a-next-milestone-docs-closeout-plan",
-    "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 12,
-    "acquired_unix_seconds": 1784360472,
-    "expires_unix_seconds": 1784965272,
-    "heartbeat_unix_seconds": 1784360472,
-    "branch": "codex/5489-v0917-wp21a-next-milestone-docs",
-    "worktree": ".worktrees/adl-wp-5489",
-    "protected_paths": [
-      ".csdlc/issues/5489",
-      "docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md",
-      "docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md",
-      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md",
-      "docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489",
-      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md",
-      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
-      "docs/milestones/v0.91.8/DECISIONS_v0.91.8.md",
-      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
-      "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
-      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
-      "docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md",
-      "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
-      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
-      "docs/milestones/v0.91.8/README.md",
-      "docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md",
-      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
-      "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
-      "docs/milestones/v0.91.8/SPRINT_v0.91.8.md",
-      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
-      "docs/milestones/v0.91.8/VISION_v0.91.8.md",
-      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
-      "docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md",
-      "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md",
-      "docs/milestones/v0.91.8/features/DELETION_AND_CUTOVER_v0.91.8.md",
-      "docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md",
-      "docs/milestones/v0.91.8/features/README.md",
-      "docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md",
-      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/README.md",
-      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/setup/5383/DESIGN.md",
-      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
-    ],
-    "purpose": "Prepare and later execute WP-21A without claiming completion from setup"
-  },
+  "phase": "closed_out",
+  "generation": 18,
+  "digest": "80398c05321465aa828932a984172b9dd5a9fbb2c076d43d5e5a20566e5c7513",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f781f-b3b8-76a2-ae0a-253d65c729cf",
     "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -142,15 +92,139 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5564",
     "base": "main",
     "head": "codex/5489-v0917-wp21a-next-milestone-docs",
-    "revision": "git-blake3:43031a4f7d9379028fe8261ddc424ac529bbf684:3746704aa09626785127de3b398c797a8609e0ae13d2ce18284696c709882f7d",
-    "draft": true,
-    "observed_state": "open"
+    "revision": "git-blake3:c19c0c886fb108c35e061b0a94c33f0ddee5e265:335e9d56292ca0f4a59dbe8b26909c5ab433afa392716dd25d1ee891d3eefec5",
+    "draft": false,
+    "observed_state": "merged"
   },
-  "readiness": null,
-  "terminal": null,
+  "readiness": {
+    "pull_request": 5564,
+    "head_sha": "c19c0c886fb108c35e061b0a94c33f0ddee5e265",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147840074"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790518"
+      },
+      {
+        "name": "adl-coverage-hosted",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790711"
+      },
+      {
+        "name": "adl-demo-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790684"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147781565"
+      },
+      {
+        "name": "adl-runtime-v3-fast",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790542"
+      },
+      {
+        "name": "adl-rust-fmt-clippy",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790517"
+      },
+      {
+        "name": "adl-rust-tests",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790620"
+      },
+      {
+        "name": "adl-slow-proof",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790692"
+      },
+      {
+        "name": "adl-spot-ci-and-coverage",
+        "requirement": "optional",
+        "conclusion": "skipped",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790687"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29670236550/job/88147790326"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5564,
+    "disposition": "merged",
+    "observed_sha": "c19c0c886fb108c35e061b0a94c33f0ddee5e265",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5489.json",
+    "released_branch": "codex/5489-v0917-wp21a-next-milestone-docs",
+    "released_worktree": ".worktrees/adl-wp-5489",
+    "released_protected_paths": [
+      ".csdlc/issues/5489",
+      "docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md",
+      "docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md",
+      "docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489",
+      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+      "docs/milestones/v0.91.8/DECISIONS_v0.91.8.md",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md",
+      "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md",
+      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/SPRINT_v0.91.8.md",
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+      "docs/milestones/v0.91.8/VISION_v0.91.8.md",
+      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/DELETION_AND_CUTOVER_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/README.md",
+      "docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/README.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/setup/5383/DESIGN.md",
+      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5489/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5489/diagram.mmd",
+  "design_path": ".csdlc/issues/5489/retained/design.md",
+  "diagram_path": ".csdlc/issues/5489/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "codex-prep-only",
@@ -159,34 +233,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2d58cdc51d782aa5d0fe0dfa2a704b0331b313a6b44a6f7364bce70568c3a876",
+      "values_digest": "314887b8ecf30fcdff7e02aca08b51d82203a3f90cdb57a128abff731d18efc2",
       "rendered_digest": "c7d6a69690ce861127952d303e6495f29331b5d9dc7f0c45496f71fb7baf4ab3",
       "ast_digest": "ed4f5f5f4ba54a55e5e803f792a52a22b59fd3170e20e210eecf239ebfa98c18"
     },
     "stp": {
-      "values_digest": "aff3c249fdd5f6b9ecb911fb6b3e4f7d5473858fa508510345aef9f6fb3557b4",
+      "values_digest": "497a3e1ad9e89508c220b6d0c8115ea937c3bd02e0d42c5c292593a405081bb0",
       "rendered_digest": "547d9c6f45c4bdd5f90fce44fcff94f2e358913ee65bcd77c9593fe70506fadd",
       "ast_digest": "5580da2268a2298072846490644b5d3a2623579f2c88cd81a5117f69cf67d3bd"
     },
     "spp": {
-      "values_digest": "840b0ff16fd8ac9e62e8faf9178acc1f3d387d79001f49054239a20fe7d4fa3f",
-      "rendered_digest": "6a09ba12bb8010355daa4d28a7ea4cb6946cf2fd76f3d9ad9568a900cf3e84ce",
-      "ast_digest": "b711925ac17d2ce338660c97c9c128c0e703dacdf45872de901d99c5acc24ae3"
+      "values_digest": "e7211fd8243c2b0b0e290886d174d652bc8ef407571a4daf27b87d3582b564e8",
+      "rendered_digest": "093c59dbdeba6f1dc9e742777101aa66c903a777d682b1969b06eb1c8c0a66d0",
+      "ast_digest": "9b7f8c413c0b4610f5d150bca42097dc7f83c300d22ff558146c3a8572a489bd"
     },
     "vpp": {
-      "values_digest": "540e7d58f5fcacac1f4b44b5292fe99f9cd0d5162b35bacd5985234b20f2c3d0",
-      "rendered_digest": "d1e18ba4eeb02e306a5d69d4d69278bb5959efee21e372d68468e6ab35172e51",
-      "ast_digest": "fb89ed7a69b1adbbf1b6e976cbc82cc2fb76436273633587bdbb9491659cf824"
+      "values_digest": "3f48591c7c9f75a6742f11c6734c539e42a0bc4fa9e1183a236515e714f60eec",
+      "rendered_digest": "9b1c91fd7babd219afb60ff5feec00754f687294d19fea81c95926a457af67fa",
+      "ast_digest": "af6a82a5351e67250b3b833531e34faed062b825791615c3eea83fd9b4f41489"
     },
     "srp": {
-      "values_digest": "97b042a58c58cde9856178e8d7bff9c65c626d4392c65483dcd5043b03e9470a",
-      "rendered_digest": "07e4b4d447821d812b5f4cc2bd75b8c177d361e6542c21c41cd788c44e3da88f",
-      "ast_digest": "46d1305f76528822d8f28e628f62da2428db33cc657b7a1fa8a54a690bd73ad3"
+      "values_digest": "23606834be44f4aee2a9047b2566d1822390686422cfc54e433b1eecb0ca048d",
+      "rendered_digest": "f4508858af33eff6ca42e375df3e5d0980d11024f719e8bc7c4fca209ad1d008",
+      "ast_digest": "c372d4bc9cee0c7c5ee44cac6251847e7b1b818d32f415cee7d70de04b423328"
     },
     "sor": {
-      "values_digest": "135fbcf06f358fc3c381c771ff7b3953df8a4ef42e19313f6d20b1945f21dc4f",
-      "rendered_digest": "9d781251184fb627d17da54ea8b4dab50758d14c3c2bc003334da671fd28917d",
-      "ast_digest": "cd3859eb0344e65b2ed96c19fc7f2d6f6e7b210f8d543b466a36164e63493cc9"
+      "values_digest": "857dc0d059cda27c4e654c20fc07382f5ecb1c0d998023020e3808c123d7442b",
+      "rendered_digest": "d056ee643d11146801f027e038d9f8d1cda4351fa427f7b5904d07f6922ced09",
+      "ast_digest": "40b8d1284aa13482497e1abeadf37ad199391666ecd7fa88f8687717b4070f1d"
     }
   },
   "transitions": [
@@ -245,6 +319,27 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 10,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 11,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -422,6 +517,48 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 13,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 14,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 28,
+      "generation": 15,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 29,
+      "generation": 16,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 30,
+      "generation": 17,
+      "actor": "codex-closeout-audit",
+      "reason": "Materialize the retained terminal receipt during exhaustive v0.91.7 closeout audit #5573.",
+      "operation": "reconcile_terminal"
+    },
+    {
+      "sequence": 31,
+      "generation": 18,
+      "actor": "codex-closeout-audit",
+      "reason": "Materialize the retained terminal receipt during the complete v0.91.7 closed-issue audit.",
+      "operation": "reconcile_terminal"
     }
   ]
 }
