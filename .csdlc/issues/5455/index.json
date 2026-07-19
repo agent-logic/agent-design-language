@@ -3,13 +3,13 @@
   "issue": 5455,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7d2ae121794a7f32acd179c81aea481aa59af9f3f31f85ea8ef242fc462d1df4",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "3fe666689380a6871813645a25789ccbb06d4bfe6c26413f46cf5467b9b9fb26",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "f6bdecf402688b1fbe80ed7e396d3737c302961c3da6abf5fa2378b88b5aa847",
   "claim": {
     "id": "claim-5455-closeout-recovery",
     "owner": "codex-closeout-audit",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1784422165,
     "expires_unix_seconds": 1784508565,
     "heartbeat_unix_seconds": 1784422165,
@@ -28,8 +28,10 @@
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
-    "revision": "git-blake3:fb7d09a561a169e906eb48166f14099c98d5a974:ce03f1948e2744995b893fac63c8da704b499f5b1ecf9151715914f074fbfabf",
+    "revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
     "scope": [
+      "csdlc-v2/src/bin/csdlc-install.rs",
+      "csdlc-v2/src/lib.rs",
       "csdlc-v2/src/operator.rs",
       "csdlc-v2/tests/gate10a.rs"
     ]
@@ -37,34 +39,36 @@
   "review": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "scope": [
+      "csdlc-v2/src/bin/csdlc-install.rs",
+      "csdlc-v2/src/lib.rs",
       "csdlc-v2/src/operator.rs",
       "csdlc-v2/tests/gate10a.rs"
     ],
-    "reviewed_revision": "git-blake3:fb7d09a561a169e906eb48166f14099c98d5a974:ce03f1948e2744995b893fac63c8da704b499f5b1ecf9151715914f074fbfabf",
+    "reviewed_revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
     "findings": [
       {
         "id": "F-5455-1",
         "severity": "p1",
-        "summary": "Content-provenance receipts accept stale externally sourced owner binaries because verification rejects mismatches only for git provenance.",
+        "summary": "Owner-binary provenance did not prove that installed bytes came from the exact clean repository revision.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
         "route": "#5540"
       },
       {
         "id": "F-5455-2",
         "severity": "p1",
-        "summary": "Gate 10A runs only csdlc-edit --help and does not prove implemented-phase approve-design through the stable resolved binary.",
+        "summary": "Gate 10A did not prove implemented-phase approve-design through the installed typed editor.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
         "route": "#5540"
       }
     ],
     "residual_risks": [
-      "#5455 cannot advance to reviewed or terminal closeout until both P1 acceptance gaps are fixed and re-reviewed."
+      "The broad C-SDLC owner lane remains blocked by unrelated sunset v1 command guidance tracked in #5558; focused Gate 10A and strict Clippy prove this remediation."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -83,32 +87,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2f04680f79906936d781ffe49de2a5a57afaa81b017f71f6154d4fb731a6a039",
+      "values_digest": "af51fd896003cdcc23d3c4c1e6b95e907ab3831ba4a151d099a36092ec2cfcc1",
       "rendered_digest": "a7e66983bd9cc699f02dda3557ed133ada5b913e0dd33ccf563edf8776019b7c",
       "ast_digest": "1fbac3166ccf0d475cc75672e375c55a21e91c90454c8fdcdb5eb13ec2694c29"
     },
     "stp": {
-      "values_digest": "10391b29f9c5aa81f5a82eebeb16038bd1fb015aa5a4ee9dfb57e135eb0adc03",
+      "values_digest": "8389a1905bcfd87d215ab3d4eb2deb1faf2652adcf5b3c5275a686351ea70a31",
       "rendered_digest": "2d9d62b64304dca45f181632ebd278f0b0f6d9c112725d2d2c21417a395774aa",
       "ast_digest": "623f06ee07f0e3902d23f5d5460ce030ed92d84ec038a984e6e415ca9a3d1059"
     },
     "spp": {
-      "values_digest": "646cd488a68be2475b11706c1e140f07b998eda3fea40feb11b2c3d1e510f0ea",
+      "values_digest": "6997f16d56c1474336a37e0d9fdcdd2a87d8e480dd616ec8df98fa8bebc75b69",
       "rendered_digest": "b5814b012d379eb97930a9e6edae426ca99c43a464579244030a46855b8bcc83",
       "ast_digest": "9d439f6776648fe0ef58b356a80039ade87fd36eead27cb703b829b2a210fe25"
     },
     "vpp": {
-      "values_digest": "c163835fccfa955298e586715e1d60df0bba28f9db0754bfa8fb1d848bc57c03",
+      "values_digest": "2664488f9538bfdf26b19ac874b2431293f4afc542d53b4b3b39fd5f3e45e7de",
       "rendered_digest": "b1385ee2b0e92ffff735fec8f1450cb941d353bedd707466a8a312813c878e77",
       "ast_digest": "03753a5a69af5937790df78430e6d0443f1a443efe29717f8c2aec419ccb92e7"
     },
     "srp": {
-      "values_digest": "9a2669b91a91707a0995f2df4c8cb8873aed80b5b49cde49dc1ef50e4b436fc8",
-      "rendered_digest": "0660d6c5900a48ff0581a243fd610ecdae479b1019b517af3a6bd924d6201626",
-      "ast_digest": "bb5e620fbbb8396976ef31fec49e0508c0dc66370fb14d85a197f7fd2be495ec"
+      "values_digest": "f3634f6cd9443e3a14a872afdf5b7580c4e3bafba7ab86159117ed0c2028bafd",
+      "rendered_digest": "eb6fa0d34b9f5daa64e7f11dc086d765177b057d3596ddaf9f6697e49ba8c662",
+      "ast_digest": "c1626b32ceef389dba46542f10796036cd9519cfab26c5e8cb3be5166fac9a16"
     },
     "sor": {
-      "values_digest": "fd6d00b944917f489bf388caa030d767c93c22bb71bc153914d71094368f4607",
+      "values_digest": "2d008ea2ba30c4debc80cd14f547dbc7d6875ccd8f4f972276ece15fcb324d27",
       "rendered_digest": "169725e1773a6319e07c2f6863f66d2bbbf993b815a059100f426011fedd4dd4",
       "ast_digest": "ad508e5fbd1b3560402c6e291bcfa37ab896d293dee28a57c9aa1a6567dfd7c7"
     }
@@ -134,6 +138,13 @@
       "to": "implemented",
       "actor": "codex-closeout-audit",
       "reason": "Current merged-head implementation, plan completion, and fresh Gate 10A evidence are recorded truthfully."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-closeout-audit",
+      "reason": "Exact-revision subagent review passed with both prior P1 findings fixed and no remaining actionable findings."
     }
   ],
   "audit": [
@@ -234,6 +245,27 @@
       "actor": "codex-closeout-audit",
       "reason": "Record the final focused proof after adding untracked build-input rejection.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove exact clean-source build provenance including untracked build inputs, fail-closed artifact provenance, atomic installation, and implemented-phase editor mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Head 7d314fded: Gate 10A 10 passed, 0 failed; strict all-target all-feature Clippy passed. Broad owner lane remains independently blocked by #5558.\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex-closeout-audit",
+      "reason": "Exact-revision subagent review passed with both prior P1 findings fixed and no remaining actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
