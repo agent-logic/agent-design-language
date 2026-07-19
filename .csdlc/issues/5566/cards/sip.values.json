@@ -7,7 +7,7 @@
     "title": "Activate an exact reserved claim from its existing issue worktree",
     "slug": "existing-worktree-bind",
     "version": "v0.91.8",
-    "generation": 8
+    "generation": 13
   },
   "status": "ready",
   "content": {

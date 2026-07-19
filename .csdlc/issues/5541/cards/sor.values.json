@@ -7,9 +7,9 @@
     "title": "Recover #5306 direct merged PR terminal evidence",
     "slug": "gate10d2-authority-docs",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -57,10 +57,10 @@
           "evidence_ref": "Three guidance-focused Gate 10A tests passed, including exact former wrapper mutation; strict Clippy, fmt, and diff hygiene passed."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

@@ -3,26 +3,10 @@
   "issue": 5566,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0358d975a44846c484a38efa48a8c55e0ab1ea8e6717d3b2c321730a17c1abb9",
-  "phase": "published",
-  "generation": 8,
-  "digest": "672e766f1fe3755ac351e13557d4b93b72549abef44f2aa00950c9239921dd93",
-  "claim": {
-    "id": "claim-5566-existing-worktree-bind",
-    "owner": "codex-closeout-audit",
-    "generation": 8,
-    "acquired_unix_seconds": 1784425395,
-    "expires_unix_seconds": 1784511795,
-    "heartbeat_unix_seconds": 1784425395,
-    "branch": "codex/5566-existing-worktree-bind",
-    "worktree": ".",
-    "protected_paths": [
-      ".csdlc/issues/5566",
-      ".csdlc/prepared/issues/5566",
-      "csdlc-v2/src/lifecycle.rs",
-      "csdlc-v2/tests/gate2.rs"
-    ],
-    "purpose": "Permit exact reserved-claim activation from its registered existing issue worktree"
-  },
+  "phase": "closed_out",
+  "generation": 13,
+  "digest": "1870d557806f83d0c8e3acd2fcc27808c1513975d750cd253abc4e613b2e6a3d",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
     "assigned_by": "codex-closeout-audit",
@@ -51,15 +35,63 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5567",
     "base": "main",
     "head": "codex/5566-existing-worktree-bind",
-    "revision": "git-blake3:cd521654943cd9fd3a09cc5ed6591c2b46d63aae:8520835fc1cc16c0e37639c3e11dd16bc3f34952923e3971453db4ac4bd777c9",
-    "draft": true,
-    "observed_state": "open"
+    "revision": "git-blake3:5f40f6cceac6c44518818bf06ad3ee190c8b83a9:2fdc63bda8b54a1c14d4fc3ceadf7248af56b8686939f1edf6b5d88677fcf921",
+    "draft": false,
+    "observed_state": "merged"
   },
-  "readiness": null,
-  "terminal": null,
+  "readiness": {
+    "pull_request": 5567,
+    "head_sha": "5f40f6cceac6c44518818bf06ad3ee190c8b83a9",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29669352764/job/88145552054"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29669352764/job/88145506123"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29669352764/job/88145506039"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29669352764/job/88145493628"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5567,
+    "disposition": "merged",
+    "observed_sha": "5f40f6cceac6c44518818bf06ad3ee190c8b83a9",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5566.json",
+    "released_branch": "codex/5566-existing-worktree-bind",
+    "released_worktree": ".",
+    "released_protected_paths": [
+      ".csdlc/issues/5566",
+      ".csdlc/prepared/issues/5566",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5566/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5566/diagram.mmd",
+  "design_path": ".csdlc/issues/5566/retained/design.md",
+  "diagram_path": ".csdlc/issues/5566/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "codex-closeout-audit",
@@ -68,34 +100,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2a03ee11868faed6513b532243a34c65fd6a329c5168aa27167120c0679352d0",
+      "values_digest": "d47af5cb1b24a964b76ba832bb46e7ae5b50c6af75568474b3d0595ecfdf0b4f",
       "rendered_digest": "3480576725b1becc696685bbfac11d6f8dde5ed93f8a6e6f56ee395175e964fa",
       "ast_digest": "5c221f031bad4648f98416300c38a719254d42eff3673104211058fcf3b08fb1"
     },
     "stp": {
-      "values_digest": "6ee175d39f2f41fd5923acb14aa84510747710458543901384a9bec7f3493254",
+      "values_digest": "ba8f7e82754d98393f4269b6935a0eb36c6a1bcbf3772d427a234ef4c9f2ff6f",
       "rendered_digest": "860349dd079401c7d21bcf3ed975aadbfe2b8c4a1096f056490a60cfa07c8780",
       "ast_digest": "c5ada507b8d8b73c5f379e5243cb604bd0c8de06fe59cdc1aa16aa68c2be5096"
     },
     "spp": {
-      "values_digest": "0ba96e5276ecab3d1528cb8cd161cb636f74e47ac769fa91ece0fac7b4de853d",
-      "rendered_digest": "d599354ef32d97f8661de821711548b77bf7170302490c84befe486f627ee4c4",
-      "ast_digest": "1a6764781c66152075d5eb3d0f75c04af5c542c039ef3367fa5c66b4eb4aebdd"
+      "values_digest": "277d362272642f6277db312ab5fb38a5414f8198b26f90ba5b1f934da753aff2",
+      "rendered_digest": "c6718e0b53e4966e98a7b5d75b73390be057187ebbbd53602cab331b256f96ab",
+      "ast_digest": "c6cfce950a05ed494c236cb9eb3ada6c3b9e743b4257666057cfee529fba3bdd"
     },
     "vpp": {
-      "values_digest": "a38c7e89043da3561f78612720c35e702acd0898eb6c20c3a907021270bea4d2",
-      "rendered_digest": "7678d421dd2d08a480b0bd88d3f4fff9ec13d3730b9e1ae7efd5b45309551509",
-      "ast_digest": "2959e881077eff3f3d337d5f4226ae082d1d3bff5f09ae570c541a04f8a3194a"
+      "values_digest": "9f3460b7bd95282a0f267bf18cebde4d950f8021e4889c65f47e7e7280f46d78",
+      "rendered_digest": "dc20671aee08f52b5fea9b09fbfc202edff5f2b3780f23d93d5ff4b4b097558e",
+      "ast_digest": "a3bca2e2defe75f1770fd9583be67f4750d1d074d08c547fef7a24faaca1eb71"
     },
     "srp": {
-      "values_digest": "9f5ccbed9eacfcbfbad6ad912f475cb3c04c4d6874e2c010bbe5354d18576652",
-      "rendered_digest": "2fd8db4a7820d77e6f4189287d59c342b6de3b666049f1b5da0c68e020c26bb3",
-      "ast_digest": "cd7a2c55a53ac12dfc437a2c1c997f6bc0cec7decf43971ff9d57783d36874e1"
+      "values_digest": "45fd91f31cc946d936b7bf9373d542b7bdeceef618851ce98805056f58d9d6e0",
+      "rendered_digest": "45dd052125f354cc01fb84ead20bb2d68a766852b8d81088995357c51f40f890",
+      "ast_digest": "d3e4981fea5d0921abe2965ef218e0511a443ca922e7e340fe8acbbb69044542"
     },
     "sor": {
-      "values_digest": "6164e79bc51fe617507a078eaf95d8ab562d85ff979dede0da9c28eb7fc4976c",
-      "rendered_digest": "992797cb229854cb311de7c2e9e1fdf78886cf8ddc78522b6ba6b647196a0f7c",
-      "ast_digest": "e116f7c833c7aaaa620f547bac3ccee6e0101544ab09f5208ac40d0028e35f25"
+      "values_digest": "078c1f319c7bdc6a60387deee87299777a96a109a123f91d3ab94ca6c19c0468",
+      "rendered_digest": "8e27ef90b8825b444a39be05fce4f409c612916d6731290ad292ca5c9cc3f8a2",
+      "ast_digest": "1752c7eca6a926628f305c7bee7396760694517fab10a357adef50652d5709cf"
     }
   },
   "transitions": [
@@ -133,6 +165,27 @@
       "to": "published",
       "actor": "codex-closeout-audit",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex-closeout-audit",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex-closeout-audit",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex-closeout-audit",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -212,6 +265,41 @@
       "actor": "codex-closeout-audit",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex-closeout-audit",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex-closeout-audit",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex-closeout-audit",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex-closeout-audit",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex-closeout-audit",
+      "reason": "Materialize retained terminal receipt during exhaustive v0.91.7 closed-issue audit.",
+      "operation": "reconcile_terminal"
     }
   ]
 }
