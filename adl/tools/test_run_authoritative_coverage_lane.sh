@@ -29,6 +29,14 @@ case "$plan" in
     exit 1
     ;;
 esac
+case "$plan" in
+  *"skip_patterns=real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case,runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift,runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant,runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence,csmctl_authenticated_api_client_waits_for_slow_listener_startup"*) ;;
+  *)
+    echo "expected authoritative coverage plan to list default slow/flaky coverage skip patterns" >&2
+    echo "$plan" >&2
+    exit 1
+    ;;
+esac
 
 custom_root="$ROOT_DIR/adl/target/custom-coverage-root"
 custom_plan="$(ADL_COVERAGE_BUILD_ROOT="$custom_root" "$SCRIPT" --print-plan)"
@@ -52,10 +60,12 @@ for required_fragment in \
   "ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS" \
   "ADL_AUTHORITATIVE_COVERAGE_PARTITIONS" \
   "ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN" \
+  "ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERNS" \
+  "DEFAULT_SKIP_PATTERNS=" \
   "--partition" \
   "partition-logs" \
   "LLVM_PROFILE_FILE" \
-  "-- --skip" \
+  "test_filter_args+=(--skip" \
   "cargo llvm-cov report" \
   "--json" \
   "--summary-only" \
@@ -129,6 +139,18 @@ for required in \
   "--partition count:1/2" \
   "--partition count:2/2" \
   "-- --skip real_pr_" \
+  "--skip runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist" \
+  "--skip runtime_v2_runtime_inhabitant_integration_contract_is_stable" \
+  "--skip runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report" \
+  "--skip runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift" \
+  "--skip runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps" \
+  "--skip runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift" \
+  "--skip runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors" \
+  "--skip runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case" \
+  "--skip runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift" \
+  "--skip runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant" \
+  "--skip runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence" \
+  "--skip csmctl_authenticated_api_client_waits_for_slow_listener_startup" \
   "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass" \
   "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl.json" \
   "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl-runtime.json" \

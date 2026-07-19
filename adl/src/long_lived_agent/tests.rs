@@ -4,6 +4,9 @@ use crate::observability::test_env_lock;
 use crate::runtime_aws_signal::mock_signal_artifact_path;
 use adl_runtime::backpressure::runtime_channel_policy;
 use adl_runtime::determinism::verify_retained_cycle_record;
+use base64::engine::general_purpose::STANDARD as BASE64;
+use base64::Engine;
+use ed25519_dalek::{Signer, SigningKey};
 use std::env;
 use std::ffi::OsString;
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -11,6 +14,92 @@ use std::sync::MutexGuard;
 use std::time::{Duration, Instant};
 
 static TEMP_SEQ: AtomicU64 = AtomicU64::new(0);
+
+#[test]
+fn governed_stop_requires_spec_bound_ed25519_authorization() {
+    let signing_key = SigningKey::from_bytes(&[7_u8; 32]);
+    let state_root = temp_dir("signed-stop-policy");
+    let operator = env::var("USER")
+        .or_else(|_| env::var("USERNAME"))
+        .expect("test process OS identity");
+    let loaded = LoadedAgentSpec {
+        spec: AgentSpec {
+            schema: SPEC_SCHEMA.to_string(),
+            agent_instance_id: "signed-stop-agent".to_string(),
+            display_name: "Signed stop agent".to_string(),
+            state_root: state_root.clone(),
+            workflow: WorkflowSpec {
+                kind: "sequential".to_string(),
+                name: None,
+                path: None,
+                run_args: Value::Null,
+            },
+            heartbeat: HeartbeatSpec {
+                interval_secs: Some(1),
+                max_cycles: Some(1),
+                stale_lease_after_secs: Some(60),
+            },
+            checkpoint: AgentCheckpointSpec::default(),
+            safety: json!({
+                "governed_stop_authority": {
+                    "public_key_b64": BASE64.encode(signing_key.verifying_key().to_bytes()),
+                    "operators": [operator]
+                }
+            }),
+            memory: Value::Null,
+        },
+        spec_path: PathBuf::from("agent.yaml"),
+        state_root,
+    };
+    let request = GovernedStopRequest {
+        reason: "test signed stop".to_string(),
+        operator_identity: operator,
+        authorization: String::new(),
+        intent: "recoverability_drill".to_string(),
+        requested_at: chrono::Utc::now(),
+    };
+    let payload = governed_stop_authorization_payload(&loaded.spec.agent_instance_id, &request);
+    let signature = signing_key.sign(payload.as_bytes());
+    let authorized = GovernedStopRequest {
+        authorization: BASE64.encode(signature.to_bytes()),
+        ..request.clone()
+    };
+    assert!(validate_governed_stop_request(&loaded, &authorized).is_ok());
+    consume_governed_stop_authorization(&loaded, &authorized).unwrap();
+    assert!(consume_governed_stop_authorization(&loaded, &authorized).is_err());
+    let forged = GovernedStopRequest {
+        authorization: BASE64.encode(signing_key.sign(b"forged").to_bytes()),
+        ..authorized.clone()
+    };
+    assert!(validate_governed_stop_request(&loaded, &forged).is_err());
+
+    let wrong_operator = GovernedStopRequest {
+        operator_identity: "unlisted-operator".to_string(),
+        ..authorized.clone()
+    };
+    assert!(validate_governed_stop_request(&loaded, &wrong_operator).is_err());
+
+    let mismatch_operator = "different-os-identity".to_string();
+    let mismatch_unsigned = GovernedStopRequest {
+        operator_identity: mismatch_operator.clone(),
+        authorization: String::new(),
+        ..authorized
+    };
+    let mismatch_payload =
+        governed_stop_authorization_payload(&loaded.spec.agent_instance_id, &mismatch_unsigned);
+    let mismatch_request = GovernedStopRequest {
+        authorization: BASE64.encode(signing_key.sign(mismatch_payload.as_bytes()).to_bytes()),
+        ..mismatch_unsigned
+    };
+    let mut mismatch_loaded = loaded.clone();
+    mismatch_loaded.spec.safety = json!({
+        "governed_stop_authority": {
+            "public_key_b64": BASE64.encode(signing_key.verifying_key().to_bytes()),
+            "operators": [mismatch_operator]
+        }
+    });
+    assert!(validate_governed_stop_request(&mismatch_loaded, &mismatch_request).is_err());
+}
 
 #[test]
 fn observability_replay_preserves_every_typed_priority_label() {
