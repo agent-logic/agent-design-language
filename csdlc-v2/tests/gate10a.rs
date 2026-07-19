@@ -92,6 +92,17 @@ fn stale_owner_binary_provenance_fails_closed() {
         &["config", "user.email", "test@example.invalid"],
     );
     git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(repo.path().join("csdlc-v2/operator")).unwrap();
+    fs::write(
+        repo.path()
+            .join("csdlc-v2/operator/generation-selector.json"),
+        fs::read(
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("operator/generation-selector.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
     let source = repo.path().join("csdlc-v2/target/debug");
     fs::create_dir_all(&source).unwrap();
     let parent = tempfile::tempdir().unwrap();
@@ -120,7 +131,11 @@ fn stale_owner_binary_provenance_fails_closed() {
         .starts_with("content:"));
     let error =
         verify_coexistence(repo.path(), &bins, &CoexistenceInventory::load().unwrap()).unwrap_err();
-    assert!(error.message.contains("stale owner-binary provenance"));
+    assert!(
+        error.message.contains("stale owner-binary provenance"),
+        "{}",
+        error.message
+    );
 
     receipt["source_revision"] = serde_json::Value::String("git:stale-revision".into());
     fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
