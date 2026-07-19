@@ -47,7 +47,7 @@ Reconciled canonical WP-17 closeout truth after #4644 closed and PR #5539 merged
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

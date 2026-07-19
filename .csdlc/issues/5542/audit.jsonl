@@ -12,3 +12,4 @@
 {"sequence":12,"generation":6,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":7,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":14,"generation":8,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"The final exact-revision review found no actionable in-branch findings; four findings are fixed and the separately claimed register correction is routed to #4645 / PR #5543.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":15,"generation":9,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"The committed lifecycle projection advanced HEAD after the substantive exact-revision review; recover for a bounded metadata-only current-head review before publication.","operation":"recover_review"}
