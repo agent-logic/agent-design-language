@@ -7,14 +7,14 @@
     "title": "Fail closed on stale stable owner-binary provenance",
     "slug": "stale-owner-binary-provenance",
     "version": "v0.91.7",
-    "generation": 11
+    "generation": 18
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/bin/csdlc-install.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/operator.rs\ncsdlc-v2/tests/gate10a.rs",
-      "review_revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
+      "review_revision": "git-blake3:4dcee7813d078ece7e31010465ef1530b102712b:0628955327a373bb561e33e4a032052f46d5ccf59804da8a54255b8cb3d5da36",
       "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
       "review_prompts": [
         "Does stale provenance fail closed?",
@@ -28,7 +28,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
+          "fix_revision": "git-blake3:4dcee7813d078ece7e31010465ef1530b102712b:0628955327a373bb561e33e4a032052f46d5ccf59804da8a54255b8cb3d5da36",
           "route": "#5540"
         },
         {
@@ -38,7 +38,7 @@
           "actionable": true,
           "in_scope": true,
           "disposition": "fixed",
-          "fix_revision": "git-blake3:1b53e27f9ddf19997978a5f0c0a5285573837497:14893dcbcf9d40b7cdf671d9ce4988bd7a8eb43c763e3c380f48eff550e84627",
+          "fix_revision": "git-blake3:4dcee7813d078ece7e31010465ef1530b102712b:0628955327a373bb561e33e4a032052f46d5ccf59804da8a54255b8cb3d5da36",
           "route": "#5540"
         }
       ],
