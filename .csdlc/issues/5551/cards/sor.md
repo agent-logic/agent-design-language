@@ -43,7 +43,7 @@ Advance only #5527 SPP S2, S3, and S4 to completed and atomically refresh its te
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
