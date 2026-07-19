@@ -17,11 +17,11 @@ activation readiness. Later gates still own quality, documentation alignment,
 internal review, external review, remediation, next-milestone review, and
 release ceremony truth.
 
-Current 2026-07-19 refresh: WP-16 through WP-19 and WP-21A are complete. WP-19
-external review ran on a frozen exact revision that excludes v0.91.8
-follow-ons #5572 / PR #5574 and #5575. WP-20 remains open for returned external
-findings. #5573 remains open and underway in another session, with its merged
-427-issue audit register already retained; WP-23 remains open.
+Current 2026-07-19 refresh: WP-16 through WP-18 and WP-21A are complete. WP-19
+is open because later merged evidence invalidated the corpus reviewed by PR
+#5579; replacement external review has not run. WP-20 remains open awaiting
+valid current findings. #5571 and #5573 are closed, with their retained
+publication-boundary and closeout-audit evidence preserved; WP-23 remains open.
 
 ## Coverage Table
 
@@ -72,8 +72,8 @@ The following open gates remain after WP-15:
 | Gate | Issue | Role |
 | --- | ---: | --- |
 | WP-18 | #4645 | Closed through merged PR #5543; internal remediation #5408 and #5544-#5547 closed |
-| WP-19 | #4646 | Complete through PR #5579; two procedural findings fixed; v0.91.8 #5572 / PR #5574 and #5575 excluded |
-| WP-20 | #4647 | Open to own findings returned by WP-19 |
+| WP-19 | #4646 | Open; prior PR #5579 review target invalidated by later merged evidence; replacement review not run |
+| WP-20 | #4647 | Open; awaits findings from a valid current WP-19 review |
 | WP-21A | #5489 | Closed with retained v0.91.8 planning and review-handoff package |
 | WP-23 | #4650 | Release ceremony |
 

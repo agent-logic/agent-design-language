@@ -34,14 +34,13 @@ The #4645 review recorded twelve findings:
 
 - #5408 and #5544 through #5547 are closed.
 - #5527 and WP-21A #5489 are closed.
-- Open #5572 / PR #5574 is a v0.91.8 exact-revision committed-diff proof
-  follow-on. The operator authorized WP-19 to proceed on a frozen revision
-  that excludes it. Related #5575 is also a v0.91.8 follow-on. Closeout audit
-  #5573 remains open and underway in another session; merged PR #5578 already
-  retains its register, and WP-19 does not own its remaining closeout.
-- #5571 is a v0.91.7 publication-boundary audit. It remains a release-tail
-  residual but does not block this bounded WP-19 send because the public
-  allowlist excludes the raw WP-18 packet, live-state, and validation trees.
+- #5572 / PR #5574 and #5575 are v0.91.8 follow-ons. They do not widen the
+  v0.91.7 WP-19 corpus. Closeout audit #5573 is closed; merged PR #5578 retains
+  its completed register, and WP-19 does not rerun that audit.
+- #5571 is closed with retained publication disposition and redaction evidence
+  under `docs/reviews/v0.91.7/internal-review-4645/`. Those public evidence
+  files belong in the replacement WP-19 corpus; the raw WP-18 packet,
+  live-state, and validation trees remain excluded.
 
 ## Evidence
 
