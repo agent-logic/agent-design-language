@@ -17,10 +17,10 @@ activation readiness. Later gates still own quality, documentation alignment,
 internal review, external review, remediation, next-milestone review, and
 release ceremony truth.
 
-Current #5544 refresh: WP-16 and WP-17 are closed, WP-18 internal review is
-recorded on open PR #5543, WP-19 external review is blocked before start, WP-20
-remediation is active through #4647 and #5544-#5547, WP-21A #5489 remains open
-as the next-milestone docs closeout-planning gate, and WP-23 remains open.
+Current 2026-07-19 refresh: WP-16 through WP-18 and WP-21A are closed. WP-19
+external review is prepared and waits for active PR #5574 to settle before its
+exact-revision snapshot. WP-20 remains open for returned external findings,
+and WP-23 remains open.
 
 ## Coverage Table
 
@@ -70,10 +70,10 @@ The following open gates remain after WP-15:
 
 | Gate | Issue | Role |
 | --- | ---: | --- |
-| WP-18 | #4645 | Internal review recorded on open PR #5543; not terminally closed at #5544 capture |
-| WP-19 | #4646 | External review blocked before start |
-| WP-20 | #4647 | Review remediation active through #5544-#5547 |
-| WP-21A | #5489 | Next-milestone docs closeout-planning gate remains open |
+| WP-18 | #4645 | Closed through merged PR #5543; internal remediation #5408 and #5544-#5547 closed |
+| WP-19 | #4646 | Prepared; exact-revision snapshot waits for PR #5574 to settle |
+| WP-20 | #4647 | Open to own findings returned by WP-19 |
+| WP-21A | #5489 | Closed with retained v0.91.8 planning and review-handoff package |
 | WP-23 | #4650 | Release ceremony |
 
 Closed downstream gates retained after WP-15:
@@ -96,7 +96,7 @@ Fresh WP-15 validation is documentation and ledger integrity:
 ```bash
 git diff --check
 python3 -m json.tool docs/milestones/v0.91.7/review/wp15_demo_convergence_4642/feature_proof_coverage_4642.json
-/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 4642
+.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 4642
 ```
 
 Retained proof remains attached to the source issues named in the table. WP-15

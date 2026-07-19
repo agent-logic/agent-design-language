@@ -1,16 +1,16 @@
 # v0.91.7 WP-18 Internal Review Handoff (#4645)
 
-Status: internal_review_recorded_pr_open
+Status: internal_review_closed_remediation_complete
 
 Issue: #4645
 
-Current refresh: #5544
+Last verified: 2026-07-19
 
 ## Truth
 
-WP-18 internal review has been executed and retained on PR #5543, but #4645 is
-still open at the #5544 live-state capture. Consume this handoff as a current
-review-routing surface, not as closed WP-18 terminal evidence.
+WP-18 internal review has been executed and retained through merged PR #5543.
+Issue #4645 is closed, and the twelve accepted findings have been fixed or
+explicitly dispositioned through closed #5408 and #5544-#5547.
 
 Retained review packet path after #5543 lands:
 
@@ -30,15 +30,14 @@ The #4645 review recorded twelve findings:
 | IR-4645-006, IR-4645-009, IR-4645-010 | #5546 |
 | IR-4645-011, IR-4645-012 | #5547 |
 
-## Current Blockers
+## External Review Readiness
 
-- #5408 remains open; PR #5419 is open and draft with pending checks at the
-  #5544 capture time.
-- #5544 through #5547 remain open WP-20 remediation issues.
-- #5527 remains open for C-SDLC v2 terminal SOR artifact-reference repair.
-- WP-21A #5489 remains open as the next-milestone docs closeout-planning gate.
-- WP-19 #4646 must not start until the P1/P2 remediation state is fixed or
-  explicitly dispositioned with operator approval and retained evidence.
+- #5408 and #5544 through #5547 are closed.
+- #5527 and WP-21A #5489 are closed.
+- PR #5574 is an active exact-revision committed-diff proof repair for this
+  packet. WP-19 should take its final snapshot only after that PR settles.
+- #5571 is a v0.91.8 publication-boundary audit and is disclosed as a
+  downstream residual, not a v0.91.7 WP-19 blocker.
 
 ## Evidence
 
@@ -50,7 +49,8 @@ The #4645 review recorded twelve findings:
 
 ## Non-Claims
 
-- This handoff does not close #4645.
+- This handoff records #4645 as closed; it does not rewrite the dated #5544
+  live-state snapshot.
 - This handoff does not approve WP-19.
 - This handoff does not approve v0.91.7 release readiness.
 - No AWS command or service was used for this refresh.

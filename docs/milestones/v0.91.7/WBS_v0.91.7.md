@@ -5,8 +5,8 @@
 - Milestone: `v0.91.7`
 - Version: `v0.91.7`
 - Created: `2026-06-21`
-- Last verified: `2026-07-18`
-- Status: closeout tail active; WP-01 through WP-17 closed, WP-18, WP-19, WP-20, WP-21A, and WP-23 open
+- Last verified: `2026-07-19`
+- Status: closeout tail active; WP-01 through WP-18, WP-21, WP-21A, and WP-22 closed; WP-19, WP-20, and WP-23 open
 - Setup lineage: `#3801`, `#3825`, `#4368`
 - Source capture: `PLANNING_SOURCE_CAPTURE_v0.91.7.md`
 - Release-tail handoff addendum: `V0916_TO_V0917_HANDOFF_ADDENDUM_3982.md`
@@ -15,9 +15,10 @@
 
 WP allocation is promoted into the v0.91.7 issue wave. WP-01 is `#4628`; WP-02 through WP-23 are `#4629` through `#4650`. Existing v0.91.7 issues are assigned rather than duplicated: `#4603` belongs to WP-06, `#4617` belongs to WP-04, `#4622` belongs to WP-02, and integrated logging/OTel proof `#4718` belongs to WP-07 with WP-08/WP-09 consumers. `#4622` is closed and delivered the repo-native PR inventory command required for release-tail review.
 
-Live WP truth last verified on 2026-07-18: WP-01 through WP-17 are closed;
-WP-17 closed through issue #4644 and merged PR #5539. WP-18, WP-19, WP-20,
-WP-21A, and WP-23 are open; WP-21 and WP-22 are closed retained planning evidence.
+Live WP truth last verified on 2026-07-19: WP-01 through WP-18 are closed.
+WP-19, WP-20, and WP-23 are open; WP-21, WP-21A, and WP-22 are closed retained
+planning evidence. WP-19 waits only for active PR #5574 to settle before its
+exact-revision snapshot; #5571 remains a non-blocking v0.91.8 residual.
 This sequence snapshot is issue-state truth only.
 Review cleanliness and release consumption remain governed by
 `review/V0917_SPRINT_REVIEW_REGISTER.md` and issue-local proof packets.

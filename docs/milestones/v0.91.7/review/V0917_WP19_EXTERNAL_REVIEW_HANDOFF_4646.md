@@ -1,47 +1,140 @@
 # v0.91.7 WP-19 External Review Handoff (#4646)
 
-Status: blocked_before_start
+Status: prepared_waiting_for_stable_revision
 
 Issue: #4646
 
-Current refresh: #5544
+Last verified: 2026-07-19
 
 ## Decision
 
-Do not start WP-19 external review yet.
+The internal-review remediation gate is complete. WP-19 may start as soon as
+the review corpus has a stable exact revision.
 
-The #5544 live-state capture shows that the milestone still has unresolved
-pre-external-review gates:
+Do not send this packet while PR #5574 is open because that PR changes the
+committed-diff proof and retained evidence for WP-18 #4645. Once #5574 is
+merged or explicitly closed without merge, refresh the target revision and
+packet digest below and send the packet without reopening already-completed
+v0.91.7 remediation.
 
-- #4645 / PR #5543 has the internal review packet but #4645 is still open.
-- #5408 / PR #5419 remains open and draft; checks were still pending at
-  capture time.
-- #4647 remains open as the WP-20 remediation owner.
-- #5544, #5545, #5546, and #5547 remain open grouped remediation issues.
-- #5527 remains open for C-SDLC v2 terminal SOR artifact-reference repair.
-- WP-21A #5489 remains open as the next-milestone docs closeout-planning gate.
+Issue #5571 is a `version:v0.91.8` publication-boundary audit. It is a disclosed
+downstream residual, not a v0.91.7 WP-19 prerequisite.
 
-## Required Before Start
+## Completed Predecessor And Remediation Gates
 
-WP-19 may be refreshed for execution only after one of these is true for every
-P1/P2 gate above:
+| Gate | Current truth |
+| --- | --- |
+| WP-18 #4645 / PR #5543 | Issue closed; PR merged at `f393671dce71d5e1a1a94d2444f2d5b451b81581`. |
+| Runtime hardening #5408 / PR #5419 | Issue closed; PR merged at `6fcd3accafc15e3b6cc8064d836293b4495983de`; required CI and hosted coverage passed. |
+| Terminal SOR repair #5527 | Closed with retained terminal reconciliation evidence. |
+| Release-truth repair #5544 | Closed. |
+| Provider and Runtime v3 hardening #5545 / PR #5557 | Issue closed; PR merged at `a5ba8c6bc486f249a29ecdd376ed05a6399aaf60`; required CI and hosted coverage passed. |
+| Coverage, supply-chain, and AWS-boundary proof #5546 | Closed. |
+| C-SDLC identity and ownership residual disposition #5547 | Closed; behavioral module splits remain explicitly deferred to v0.91.8. |
+| WP-21A #5489 | Closed with the v0.91.8 planning and third-party-review handoff package retained. |
 
-- the owning issue is merged, closed, and represented truthfully in retained
-  C-SDLC/review evidence; or
-- the operator explicitly approves a blocked/residual disposition with retained
-  evidence and clear non-claims.
+WP-20 #4647 remains open intentionally. It owns synthesis and remediation of
+any findings returned by this external review; its open state is not a
+pre-review blocker.
 
-## Evidence
+## Send Gate
 
-The #5544 evidence packet retains live issue/PR state under:
+Every row must be satisfied from live repository and GitHub truth immediately
+before sending:
 
-```text
-.csdlc/evidence/5544/live-state/
+| Gate | Required state |
+| --- | --- |
+| Stable corpus | PR #5574 is merged or closed without merge; no other open PR changes the included review corpus. |
+| Exact revision | Record repository, branch or PR, and exact target commit SHA in the dispatch receipt. Any later source change stales the review. |
+| Packet digest | Compute and record the authoritative corpus digest in the dispatch receipt. |
+| Predecessor truth | #4645, #5408, #5489, #5527, and #5544-#5547 remain closed; PRs #5419, #5543, and #5557 remain merged. |
+| Validation | Run `git diff --check`, parse the v0.91.7 issue-wave YAML, and validate every manifest path exists. |
+| Publication safety | Exclude secrets, credentials, private prompt output, untracked artifacts, and machine-local scratch evidence. #5571 remains a disclosed v0.91.8 residual rather than inferred v0.91.7 approval. |
+
+If a row fails, return `blocked` or `deferred`; do not ask the reviewer to
+infer readiness from stale issue state.
+
+## Target Revision
+
+The exact target identity is issued in
+`external_review_4646/DISPATCH_RECEIPT.md` only after the stable-corpus gate
+passes. The receipt is committed after, and excluded from, the immutable target
+revision and corpus digest. This keeps review identity non-self-referential.
+
+## Included Scope
+
+Review the exact target revision for:
+
+1. v0.91.7 milestone, feature, issue-wave, WBS, review-register, and handoff truth;
+2. the WP-18 internal review packet and all twelve finding dispositions;
+3. landed remediation for #5408 and #5544 through #5547;
+4. Runtime v3 and provider API hardening from PR #5557;
+5. coverage, supply-chain, C-SDLC identity, ownership, and publication-boundary residuals;
+6. the retained #4906 `blocked_with_evidence` coherence-gate rows and their
+   release impact without treating closed issue state as resolution;
+7. the v0.91.8 bridge and its precedence before v0.92 consumption.
+
+## Publication-Safe Evidence Manifest
+
+`external_review_4646/REVIEW_CORPUS.v1.txt` is the sole authoritative path
+manifest. Use it unchanged for publication auditing, path-existence validation,
+reviewer scope, and digest computation. Do not supplement it with paths inferred
+from prose in this handoff.
+
+The internal review's `packet/`, `live-state/`, and `validation/` directories
+are explicitly excluded from the external handoff. Their retained manifest is
+`local_only`, forbids publication, and includes machine-local build paths. The
+allowlist above exposes the synthesized findings and dispositions without
+requiring those raw evidence directories. See
+`external_review_4646/PUBLICATION_SAFE_MANIFEST.md` for the bounded audit.
+
+## Digest Procedure
+
+Run from the exact target revision. The first command fails if any manifest
+entry is absent. The second hashes tracked object identity for exactly the same
+manifest entries:
+
+```sh
+while IFS= read -r path; do test -e "$path" || exit 1; done \
+  < docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt
+xargs git ls-tree -r HEAD -- \
+  < docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt \
+  | LC_ALL=C sort > /tmp/v0917-wp19-review-paths.txt
+shasum -a 256 /tmp/v0917-wp19-review-paths.txt
 ```
 
-## Non-Claims
+Normal `git ls-tree` output includes each tracked blob object id, so this digest
+changes when either allowlisted content or paths change. Record the immutable
+target SHA and resulting digest in `DISPATCH_RECEIPT.md`; never add that receipt
+to `REVIEW_CORPUS.v1.txt`. If the target revision changes, issue a new receipt
+before relying on review results.
 
-- This file is a handoff gate, not an external review.
-- This file does not approve v0.91.7 release readiness.
-- This file does not close #5408, #5489, #5527, #4645, #4646, #4647, or #5544-#5547.
-- No AWS command or service was used for this refresh.
+## Reviewer Authority
+
+The external reviewer may inspect the listed repository evidence, run
+read-only validation, and return severity-ranked findings with file and line
+evidence. The reviewer must not edit files, mutate GitHub state, deploy,
+release, use AWS, or infer v0.92 activation readiness.
+
+Return `P0` through `P3` findings with summary, evidence, impact, violated
+invariant, recommended bounded remediation, and residual risk. Return
+`no_findings` only when no actionable finding remains; retain non-claims and
+residual risks either way.
+
+## Finding Return Path
+
+WP-19 retains the external finding register. WP-20 #4647 deduplicates and
+groups accepted findings before implementation. Do not create one issue per
+finding automatically.
+
+## Non-Claims And Residuals
+
+- External review has not run yet.
+- This handoff does not approve v0.91.7 release readiness or v0.92 activation.
+- #5571 is an open v0.91.8 publication-boundary audit; no secret exposure has
+  been demonstrated, and no publication-safety approval is inferred here.
+- #4906 is closed as an issue but retains unresolved `blocked_with_evidence`
+  rows; external review must preserve that release-readiness boundary.
+- The ownership-first module splits recorded by #5547 are v0.91.8 work, not
+  completed v0.91.7 refactoring.
+- No AWS or paid remote validation is required for this review.

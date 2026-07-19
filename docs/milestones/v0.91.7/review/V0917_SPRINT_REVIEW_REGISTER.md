@@ -36,14 +36,13 @@ closed out in the issue/card/PR surfaces.
   the later WP-07/WP-08 CSM governed-notice bridge tail `#4998` also merged
   and closed after adding retained control-plane notice proof.
   WP-16 is closed with a passed quality gate and downstream gates still open;
-  WP-18 through WP-20, WP-21A, and WP-23 remain open release-tail gates.
-- WP-18 internal review is recorded by #4645 / PR #5543, but #4645 remains
-  open until that PR merges and closes truthfully. WP-19 external review is
-  still blocked. WP-20 remediation is active through #4647 and grouped
-  follow-ups #5544-#5547. WP-21 is closed retained planning evidence,
-  WP-21A #5489 remains open as the next-milestone docs closeout-planning gate,
-  WP-22 is closed retained review evidence, and WP-23 remains open for release
-  ceremony.
+  WP-19, WP-20, and WP-23 remain open release-tail gates.
+- WP-18 internal review is closed through #4645 / merged PR #5543. Its
+  internal-remediation owners #5408 and #5544-#5547 are closed, as are #5527
+  and WP-21A #5489. WP-19 is prepared and waits only for active PR #5574 to
+  settle before recording its exact target revision. WP-20 remains open for
+  findings returned by WP-19. WP-21, WP-21A, and WP-22 are closed retained
+  planning/review evidence, and WP-23 remains open for release ceremony.
 - Tools sprint #4806 is closed and review-remediated by #4961 for stale child
   card truth, tracked review evidence, and remaining sprint-conductor raw-`gh`
   helper paths. The former #4950 watcher closeout-state residual is now closed
@@ -71,13 +70,10 @@ closed out in the issue/card/PR surfaces.
   review-remediated after terminal #5406 records authority and terminal #5407
   issue-wave remediation. The other #5403 remediation rows remain unchanged
   until their own terminal retained evidence is available.
-- #5544 refreshes the release-tail truth after the #4645 internal review:
-  #5404 and #5413 are closed-out in typed C-SDLC records; #5408 / PR #5419
-  later merged and closed with terminal C-SDLC v2 truth; #5527 remains
-  an open C-SDLC v2 terminal-artifact repair; WP-21A #5489 remains open as the
-  next-milestone docs closeout-planning gate; and #5545-#5547 remain open
-  sibling remediation issues under #4647. This refresh does not approve WP-19
-  or v0.91.7 release readiness.
+- #5544 originally captured the release-tail truth after the #4645 internal
+  review. Current live truth supersedes that dated snapshot: #5408, #5489,
+  #5527, and #5544-#5547 are closed. This update prepares but does not perform
+  WP-19 and does not approve v0.91.7 release readiness.
 
 ## Review Status Table
 
@@ -100,11 +96,11 @@ closed out in the issue/card/PR surfaces.
 | WP-15 | #4642 | closed | `V0917_WP15_DEMO_CONVERGENCE_4642.md`; `FEATURE_PROOF_COVERAGE_v0.91.7.md` | Demo/proof convergence is retained with explicit limitations. | Keep release approval with later gates. |
 | WP-16 | #4643 | closed; passed with downstream gates open | `V0917_WP16_QUALITY_GATE_4643.md`; `wp16_quality_gate_4643/quality_gate_4643.json` | The quality gate consumes WP-14/WP-15 evidence without claiming release readiness. | Preserve WP-17 through WP-20, WP-21A, and WP-23 as independent downstream gates. |
 | WP-17 | #4644 | closed-out; merged PR #5539 | `V0917_WP17_DOCS_ALIGNMENT_4644.md`; `wp17_docs_alignment_4644/audit.json`; `.csdlc/evidence/4644/validation-receipt.json`; typed terminal projection in `.csdlc/issues/4644/` | The first bounded review found inventory, closeout-disposition, register, and validation-receipt defects; all four were repaired and focused validation passed. PR #5539 is merged and #5544 materialized the retained terminal receipt so the old register claim is no longer active. | Keep WP-17 as closed documentation truth; do not infer release readiness. |
-| WP-18 | #4645 | open; internal review packet published to PR #5543 | `docs/reviews/v0.91.7/internal-review-4645/`; `docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md` | #4645 recorded twelve findings. IR-4645-001 is remediated through closed #5408 / merged PR #5419; IR-4645-002, -003, and -005 are routed to #5544; IR-4645-004, -007, and -008 to #5545; IR-4645-006, -009, and -010 to #5546; IR-4645-011 and -012 to #5547. | Merge/close #4645 truthfully, then consume the remediation wave before WP-19. |
-| WP-19 | #4646 | open; blocked | `docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md` | External review has not started. It remains blocked by open WP-20 remediation #5544-#5547, open #5527 terminal-artifact repair, and #4645 still awaiting terminal closure; #5408 is no longer a current blocker after PR #5419 merged. | Do not start WP-19 until P1/P2 remediation is fixed or explicitly dispositioned by the operator with evidence. |
-| WP-20 | #4647 | open; remediation wave active | #4647 routing comment plus #5544-#5547 | WP-20 now has grouped remediation issues from #4645 instead of one issue per finding. #5544 owns release truth and external-review gates; #5545 owns provider/runtime hardening; #5546 owns coverage, supply-chain, and AWS-boundary proof; #5547 owns C-SDLC identity and ownership-split residual disposition. #5408 is closed/remediated via merged PR #5419. | Work #5544-#5547; keep #5527 as an existing-owner gate. |
+| WP-18 | #4645 | closed; merged PR #5543 | `docs/reviews/v0.91.7/internal-review-4645/`; `docs/milestones/v0.91.7/review/V0917_WP18_INTERNAL_REVIEW_4645.md` | #4645 recorded twelve findings. #5408 and #5544-#5547 are closed with retained remediation or explicit v0.91.8 deferral truth. Active PR #5574 repairs the retained exact-revision diff proof. | Keep the internal packet immutable after #5574 settles; disclose #5571 as a v0.91.8 residual. |
+| WP-19 | #4646 | open; prepared pending stable revision | `docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md` | All original P1/P2 remediation owners and predecessor gates are closed. The final send snapshot waits for PR #5574 because it changes the WP-18 corpus. #5571 is not a v0.91.7 blocker. | After #5574 settles, record exact revision and digest, then send the bounded packet. |
+| WP-20 | #4647 | open; awaiting external findings | #4647 routing comment plus closed #5544-#5547 | Internal-review remediation is complete. WP-20 stays open to synthesize and remediate any findings returned by WP-19. | Do not reopen completed internal remediation unless external evidence identifies a regression. |
 | WP-21 | #4648 | closed; superseded planning with records finding | `docs/reviews/v0.91.7/remaining-sprints-5403/WP21_REVIEW_4648.md` | Two findings: the missed historical review gate is fixed/superseded for current planning consumption; durable lifecycle review evidence remains routed to #5406. Current v0.91.8 planning supersedes direct consumption of the old v0.92 candidate package. | Keep the historical boundary and resolve #5406; use current v0.91.8 planning authority. |
-| WP-21A | #5489 | open; next-milestone docs closeout-planning gate | none yet | #5489 is distinct from closed WP-21 #4648 and must prepare the current v0.91.8/v0.92 next-milestone docs closeout packet before WP-22/release-tail consumption. | Complete #5489 before treating next-milestone docs handoff as clean. |
+| WP-21A | #5489 | closed; merged planning and handoff packet | `V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md`; `wp21a_next_milestone_docs_5489/README.md`; `docs/milestones/v0.91.8/` | #5489 is distinct from closed WP-21 #4648 and retains the current v0.91.8/v0.92 next-milestone planning and third-party-review handoff package. | Consume the v0.91.8 package as planned truth; do not infer v0.92 activation. |
 | WP-22 | #4649 | closed retained review evidence | `V0917_CLOSED_SPRINT_REVIEW_4649.md` | Closed on 2026-07-10; current v0.91.8 planning supersedes direct activation consumption. | Keep as historical review input, not release approval. |
 | WP-23 | #4650 | open | none yet | Release ceremony not yet complete. | Run only after all required review/remediation gates are clean or explicitly blocked with operator approval. |
 
