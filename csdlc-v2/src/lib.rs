@@ -46,8 +46,8 @@ pub use model::{
     TerminalSorArtifactRepairRequest,
 };
 pub use operator::{
-    install_binaries, resolve_operator_generation, verify_coexistence, CoexistenceInventory,
-    InstallReceipt, SkillManifest,
+    build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,
+    CoexistenceInventory, InstallReceipt, SkillManifest,
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
