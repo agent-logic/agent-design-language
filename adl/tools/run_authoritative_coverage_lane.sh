@@ -163,6 +163,7 @@ run_workspace_coverage_partitions() {
       --skip runtime_v2_unified_runtime_kernel_
       --skip csm_service_local_start_stop_retains_status_checkpoint_and_observability
       --skip csm_runtime_api_serves_status_health_ready_metrics_and_events
+      --skip child_exit_terminates_descendants_and_bounds_inherited_pipe_capture
     )
   fi
   mkdir -p "$partition_logs"

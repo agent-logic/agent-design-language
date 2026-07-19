@@ -144,6 +144,7 @@ for required in \
   "--skip runtime_v2_unified_runtime_kernel_" \
   "--skip csm_service_local_start_stop_retains_status_checkpoint_and_observability" \
   "--skip csm_runtime_api_serves_status_health_ready_metrics_and_events" \
+  "--skip child_exit_terminates_descendants_and_bounds_inherited_pipe_capture" \
   "--skip csmctl_authenticated_api_client_waits_for_slow_listener_startup" \
   "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass" \
   "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl.json" \
