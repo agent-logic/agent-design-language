@@ -10,10 +10,11 @@ Last audited: 2026-07-19
 
 ## Authoritative Corpus
 
-`REVIEW_CORPUS.v1.txt` is the sole candidate allowlist for the replacement
-external review. The same file controls publication auditing, path-existence
-validation, reviewer scope, and digest computation. It must be frozen at a new
-exact revision before dispatch. The dispatch receipt is deliberately excluded.
+`REVIEW_CORPUS.v1.txt` is the frozen allowlist used for the completed
+replacement review. The same file controlled publication auditing,
+path-existence validation, reviewer scope, and digest computation at
+`bd9b7a3c58417d20768b31bc1fede03ec8e3cfe5`. The dispatch receipt is
+deliberately excluded from the reviewed corpus.
 
 ## Allowed Internal-Review Inputs
 

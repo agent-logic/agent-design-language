@@ -5,7 +5,7 @@
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
   "phase": "implemented",
   "generation": 26,
-  "digest": "95f1bf18c72ce1d857069b765c9ee358689618239b7b467e2b1074858773c29c",
+  "digest": "27365964ffcc462ef524782d1c27a2185ad70f48bca8d6f225ebd291983cb6c5",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -22,7 +22,21 @@
     ],
     "purpose": "Prepare and later execute WP-19 without claiming completion from setup"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7c27-5777-7f52-bcbc-8960948e02dd",
+    "assigned_by": "codex:issue-4646",
+    "revision": "git-blake3:969d01c254f2f722880a38f024564a947cfbe0df:f7dd13ecc2fb626e3f3243d559f3c62951398b80e48331f62d9d7fac58c2df0c",
+    "scope": [
+      ".csdlc/issues/4646",
+      "docs/milestones/v0.91.7/FEATURE_PROOF_COVERAGE_v0.91.7.md",
+      "docs/milestones/v0.91.7/README.md",
+      "docs/milestones/v0.91.7/WBS_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
+      "docs/milestones/v0.91.7/review/external_review_4646"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -392,6 +406,13 @@
       "actor": "codex:issue-4646",
       "reason": "Focused validation confirms the completed frozen-corpus review and retained findings.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"Ruby YAML.safe_load with Date permitted for WP_ISSUE_WAVE_v0.91.7.yaml\",\"git ls-tree content digest and corpus expansion verification\",\"findings-register severity count verification\",\"csdlc-doctor --repo . --issue 4646\"],\"purpose\":\"Prove documentation hygiene, machine-readable syntax, exact frozen-corpus identity, complete findings accounting, and typed #4646 lifecycle coherence.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh local validation on 2026-07-19: 33 entries expand to 70 tracked blobs / 700167 bytes at bd9b7a3c; digest ccc7c9dfeb404d3855b8184d5da05367c992771d4c09ec97ff2845dc022fdb32; findings 2 P1, 11 P2, 9 P3; doctor pass.\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:issue-4646",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

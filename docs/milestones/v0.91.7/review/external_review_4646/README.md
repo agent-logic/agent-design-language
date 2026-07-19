@@ -7,24 +7,21 @@ Issue: #4646
 This directory retains the superseded prior-review record and the completed
 replacement review. Fable 5 completed one lane; independent shadow reviewers
 completed the remaining lanes after Anthropic billing blocked further calls.
-The candidate allowlist currently contains 33 entries expanding to 70 tracked
-files; that count is preparation evidence, not an immutable review digest.
+The frozen allowlist contains 33 entries expanding to 70 tracked files at
+`bd9b7a3c58417d20768b31bc1fede03ec8e3cfe5`. Its content-sensitive digest is
+retained in `DISPATCH_RECEIPT.md`.
 
-## Before Sending
+## Completed Dispatch
 
-1. Confirm the reviewer receives only the new frozen corpus and does not
-   consume v0.91.8 follow-ons #5572 / PR #5574 or #5575. #5573 is closed; its
-   existing audit register is retained evidence and is not rerun here.
-2. Refresh live predecessor and remediation issue truth.
-3. Replace the superseded target with the new exact target revision and
-   tracked-path digest in `DISPATCH_RECEIPT.md` immediately before dispatch.
-4. Run the handoff's focused preflight.
-5. Give the reviewer read-only authority and the explicit non-claims.
+The completed review excluded v0.91.8 follow-ons #5572 / PR #5574 and #5575.
+#5573 is closed; its existing audit register remains retained evidence and was
+not rerun. The exact target, digest, provider limitation, coverage split, and
+finding totals are immutable dispatch facts in `DISPATCH_RECEIPT.md`.
 
 ## Return Artifact
 
-Record external findings in `FINDINGS_REGISTER.md`. Preserve the original
-review output separately only when it is publication-safe and tracked.
+The normalized findings are retained in `FINDINGS_REGISTER.md`. Raw provider
+output remains local-only and is not publication evidence.
 
 The bounded allowlist and raw WP-18 exclusions are recorded in
 `PUBLICATION_SAFE_MANIFEST.md`.

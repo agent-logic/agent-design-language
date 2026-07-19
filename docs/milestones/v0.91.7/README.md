@@ -20,17 +20,18 @@
 Current status: closeout tail active after the implementation and demo waves.
 
 Live issue truth was last verified on 2026-07-19. WP-01 through WP-18 are
-closed. WP-19 is closed with a completed degraded-provider review that returned
-22 findings. WP-20 and WP-23 remain open, while WP-21, WP-21A, and WP-22
-are closed retained planning evidence. Closed issue state does not by itself
+closed. WP-19 review work is complete with a degraded-provider review that
+returned 22 findings; #4646 remains open only for integration of this result.
+WP-20 and WP-23 remain open, while WP-21, WP-21A, and WP-22 are closed
+retained planning evidence. Closed issue state does not by itself
 mean review-clean or release-ready; the sprint-review register and issue-local
 proof packets retain findings and non-claims.
 
 Issues #5572 / PR #5574 and #5575 are v0.91.8 follow-ons and do not block
 v0.91.7. Closeout audit #5573 is closed; merged PR #5578 retains Markdown and
 JSON registers classifying all 427 issues that were closed when the audit ran.
-No second milestone audit is required or claimed. WP-19 must instead prepare a
-current corpus and obtain a new exact-revision external review.
+No second milestone audit is required or claimed. WP-19 completed its
+replacement review against the frozen exact-revision corpus.
 
 | Closeout gate | Issue | Live state | Consumption boundary |
 | --- | ---: | --- | --- |
@@ -39,7 +40,7 @@ current corpus and obtain a new exact-revision external review.
 | WP-16 quality gate | #4643 | closed | Passed with downstream gates open; retained packet is `review/V0917_WP16_QUALITY_GATE_4643.md`. |
 | WP-17 documentation alignment | #4644 | closed | Merged by PR #5539; alignment packet is under `review/`. |
 | WP-18 internal review | #4645 | closed | Merged PR #5543; internal findings were routed through closed #5408 and #5544-#5547. |
-| WP-19 external review | #4646 | closed; provider-degraded review complete | The exact 70-file corpus received one Fable 5 lane and three independent shadow lanes; 22 findings are retained. |
+| WP-19 external review | #4646 | review complete; integration closeout pending | The exact 70-file corpus received one Fable 5 lane and three independent shadow lanes; 22 findings are retained. |
 | WP-20 remediation/preflight | #4647 | open | Owns synthesis and remediation of the 22 WP-19 findings. |
 | WP-21 next-milestone planning | #4648 | closed | Retained planning evidence; current v0.91.8 authority supersedes direct activation use. |
 | WP-21A next-milestone closeout planning | #5489 | closed | Retains the canonical v0.91.8 planning and external-review handoff package. |
