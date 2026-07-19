@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+.csdlc/issues/5547
+.csdlc/issues/5569
+.csdlc/prepared/issues/5547
+.csdlc/prepared/issues/5569
 
 ## Prompts
 
@@ -33,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9207f57d7b9490129f4a374f68b948bf5f7c5427:7862efdd39523e22d24a186b5d0e840b087404d4d508dd69c0ac3bb8ee234d2e")
 
-Reviewer: None
+Reviewer: Some("subagent:019f669a-596c-71e2-adb3-bd753875989d")
 
-Result: pre_review
+Result: pass
