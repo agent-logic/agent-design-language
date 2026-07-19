@@ -22,9 +22,9 @@ precedence, or leaves current blocker/register truth stale.
   `#5499`, `#5498`, `#5500`, `#5502`, and `#5501`.
 - #5408 is no longer a current blocker. PR #5419 merged at
   `6fcd3accafc15e3b6cc8064d836293b4495983de`; #5408 is closed with typed
-  terminal generation 216, phase `closed_out`, terminal receipt
-  `csdlc-v2/closeout/5408.json`, reviewed head `05ba1f2b`, and merged
-  publication state.
+  terminal generation 216, phase `closed_out`, reviewed head `05ba1f2b`, and
+  merged publication state. Any closeout receipt identifier is observed
+  lifecycle metadata, not a tracked canonical-document path in this packet.
 - The retained #4906 `blocked_with_evidence` gate remains unresolved unless a
   separate issue explicitly dispositions it.
 
@@ -75,6 +75,7 @@ precedence, or leaves current blocker/register truth stale.
 | README links parallel plan | `rg "PARALLEL_EXECUTION_PLAN_v0.91.8.md" docs/milestones/v0.91.8/README.md` | README links the planned parallel execution overlay. |
 | Review handoff linked | `rg "THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md" docs/milestones/v0.91.8/README.md docs/milestones/v0.91.8/review/README.md docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md` | Handoff is reachable from canonical entrypoints. |
 | WP-21A closeout packet present | `test -f docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md && test -f docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489/README.md` | Current #5489 closeout/review packet surfaces exist. |
+| Review packet digest procedure | `git ls-tree -r --name-only HEAD -- docs/milestones/v0.91.8 docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 | LC_ALL=C sort | shasum -a 256` | Send-time reviewer can reproduce the tracked-path manifest digest without hashing the mutable digest field. |
 | YAML parses | Ruby `YAML.safe_load(..., aliases: true)` | `WP_ISSUE_WAVE_v0.91.8.yaml` parses. |
 | Routing assertions | Ruby assertions over `wp_issue_map`, `work_packages`, and `parallel_execution` | WP-10A, WP-11, WP-13, WIP cap, #5343/#5347, and routing authority are consistent. |
 | Stale setup wording | `! rg 'active setup issue|Use \`#5383\` as the active' docs/milestones/v0.91.8/README.md docs/milestones/v0.91.8/DECISIONS_v0.91.8.md docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md docs/milestones/v0.91.8/setup/5383/DESIGN.md` | No stale active-setup wording remains in current v0.91.8 authority entrypoints. |

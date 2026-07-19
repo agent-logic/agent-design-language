@@ -42,11 +42,33 @@ substantive source change:
 | Base branch | `main` |
 | Head branch | `TBD before send` |
 | Exact commit SHA | `TBD before send` |
-| Review packet digest | `TBD before send` |
+| Review packet digest | `TBD before send; compute using the Digest Procedure below` |
 
 Stale-revision rule: if the exact commit SHA, PR head, base, or packet digest
 changes after this handoff is sent, the review is stale until the operator
 approves a bounded refresh.
+
+## Digest Procedure
+
+At send time, create a publication-safe sidecar manifest that lists every
+tracked source/evidence path included in this handoff, one repo-relative path
+per line, sorted bytewise. Exclude the Target Revision table row that stores the
+digest value and exclude untracked/local artifacts.
+
+Use this procedure from the exact target revision:
+
+```sh
+git ls-tree -r --name-only HEAD -- \
+  docs/milestones/v0.91.8 \
+  docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md \
+  docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 \
+  | LC_ALL=C sort > /tmp/v0918-review-packet-paths.txt
+shasum -a 256 /tmp/v0918-review-packet-paths.txt
+```
+
+Record the resulting SHA-256 as the tracked-path manifest digest or commit a
+tracked sidecar generated from the same sorted path list. If the path list
+changes, the digest is stale and the handoff must be refreshed before send.
 
 ## Purpose
 
@@ -162,8 +184,8 @@ Do not review as completed implementation:
 - [../setup/5383/DIAGRAM.mmd](../setup/5383/DIAGRAM.mmd)
 - `#5408` current terminal truth: issue closed, PR #5419 merged at
   `6fcd3accafc15e3b6cc8064d836293b4495983de`, typed generation 216
-  `closed_out`, receipt `csdlc-v2/closeout/5408.json`, reviewed head
-  `05ba1f2b`.
+  `closed_out`, reviewed head `05ba1f2b`. The typed closeout receipt is
+  observed lifecycle metadata, not a tracked path in this review manifest.
 - Retained `#4906` gate remains blocked-with-evidence unless separately
   dispositioned.
 
@@ -227,7 +249,7 @@ Return findings in severity order:
 | Field | Required content |
 | --- | --- |
 | `id` | Stable finding id. |
-| `severity` | `P0`, `P1`, `P2`, `P3`, or `P4`. |
+| `severity` | `P0`, `P1`, `P2`, or `P3`; map informational notes outside P0-P3 into residual risk. |
 | `summary` | One-sentence defect statement. |
 | `evidence` | File and line references, plus issue/PR evidence when relevant. |
 | `impact` | Why the defect matters for v0.91.8 or v0.92 consumption. |
@@ -235,6 +257,26 @@ Return findings in severity order:
 | `failure_mode` | How the defect could mislead execution, review, release, or handoff. |
 | `remediation` | Recommended bounded fix. |
 | `residual_risk` | Remaining risk after the recommended fix, if any. |
+
+## Typed Review Synthesis Mapping
+
+External review output may retain the richer fields above in the source review
+artifact. The internal synthesizer must map each accepted finding into typed
+`csdlc-review` fields before SRP/SOR publication:
+
+| External field | Typed review field |
+| --- | --- |
+| `id` | `id` |
+| `severity` | `severity` (`P0` through `P3` only) |
+| `summary` | `summary` |
+| `evidence` | `evidence` |
+| `impact`, `invariant`, `failure_mode`, `residual_risk` | retained review artifact detail and/or `notes` |
+| `remediation` | `recommended_fix` or `route` |
+
+Typed records must also set `actionable`, `in_scope`, `disposition`,
+`fix_revision`, and `route`. Findings outside the current issue scope are
+retained in the review artifact and routed only after synthesis and operator
+approval.
 
 ## Return Path
 

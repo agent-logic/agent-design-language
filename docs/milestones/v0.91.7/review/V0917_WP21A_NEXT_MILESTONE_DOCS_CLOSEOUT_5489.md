@@ -33,8 +33,8 @@ runtime, C-SDLC, deployment, deletion, or release work.
   issue.
 - `#5408` is closed/remediated. PR #5419 merged at
   `6fcd3accafc15e3b6cc8064d836293b4495983de`; typed terminal generation 216
-  is `closed_out`; reviewed head is `05ba1f2b`; receipt is
-  `csdlc-v2/closeout/5408.json`.
+  is `closed_out`; reviewed head is `05ba1f2b`. The closeout receipt is
+  observed lifecycle metadata, not a tracked file in this review packet.
 - `#5540` is closed; `#5541` and `#5558` remain current C-SDLC v2 acceptance
   preflight inventory items until separately resolved or dispositioned.
 - `#4906` remains retained blocked-with-evidence truth and is not resolved by
