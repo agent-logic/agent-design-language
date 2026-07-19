@@ -2182,21 +2182,6 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
             "design reviewer is required",
         ));
     }
-    let initial_approval = record.phase == LifecyclePhase::Initialized
-        && matches!(
-            record.design_review,
-            DesignReview::Pending | DesignReview::ChangesRequired { .. }
-        );
-    let reapproval = matches!(
-        record.phase,
-        LifecyclePhase::Bound | LifecyclePhase::Implemented
-    );
-    if !initial_approval && !reapproval {
-        return Err(V2Error::new(
-            ErrorCode::InvalidTransition,
-            "design approval is allowed only before readiness or during bound/implemented reapproval",
-        ));
-    }
     record
         .claim
         .as_ref()
@@ -2206,6 +2191,34 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
     verify_card_projections(store, &record, &cards)?;
     let design_digest = digest(&fs::read(store.root.join(&record.design_path))?);
     let diagram_digest = digest(&fs::read(store.root.join(&record.diagram_path))?);
+    let initial_approval = record.phase == LifecyclePhase::Initialized
+        && matches!(
+            record.design_review,
+            DesignReview::Pending | DesignReview::ChangesRequired { .. }
+        );
+    let initialized_reapproval = record.phase == LifecyclePhase::Initialized
+        && matches!(record.design_review, DesignReview::Approved { .. })
+        && [CardKind::Spp, CardKind::Vpp]
+            .iter()
+            .any(|kind| match &cards[kind].content {
+                CardContent::Spp(values) => {
+                    values.design_digest != design_digest || values.diagram_digest != diagram_digest
+                }
+                CardContent::Vpp(values) => {
+                    values.design_digest != design_digest || values.diagram_digest != diagram_digest
+                }
+                _ => unreachable!("design-bearing card"),
+            });
+    let lifecycle_reapproval = matches!(
+        record.phase,
+        LifecyclePhase::Bound | LifecyclePhase::Implemented
+    );
+    if !initial_approval && !initialized_reapproval && !lifecycle_reapproval {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "design approval requires pending initialized review, stale initialized approved inputs, or bound/implemented reapproval",
+        ));
+    }
     for kind in [CardKind::Spp, CardKind::Vpp] {
         match &mut cards.get_mut(&kind).expect("card").content {
             CardContent::Spp(values) => {
@@ -2234,7 +2247,9 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
         sequence: record.audit.len() as u64 + 1,
         generation: record.generation,
         actor: request.reviewer,
-        reason: if reapproval {
+        reason: if initialized_reapproval {
+            "reapprove stale initialized issue design"
+        } else if lifecycle_reapproval {
             "reapprove changed issue design"
         } else {
             "approve completed issue design"
