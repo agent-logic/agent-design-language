@@ -12,3 +12,4 @@
 {"sequence":12,"generation":8,"actor":"codex-closeout-audit","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":9,"actor":"subagent:019f669a-596c-71e2-adb3-bd753875989d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":14,"generation":10,"actor":"codex-closeout-audit","reason":"Exact metadata-head review is clean; repaired target bytes remain unchanged.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":15,"generation":11,"actor":"codex-closeout-audit","reason":"Recover exact review identity after committing metadata-head review so the publication head receives current review.","operation":"recover_review"}

@@ -7,15 +7,15 @@
     "title": "[v0.91.7][csdlc-v2][closeout] Repair #5527 retained terminal plan-step truth",
     "slug": "v0-91-7-csdlc-v2-repair-5527-terminal-plan-truth",
     "version": "v0.91.7",
-    "generation": 10
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5527\n.csdlc/issues/5551\n.csdlc/prepared/issues/5551",
-      "review_revision": "git-blake3:a664fa919abfc47f33f13ac3f6ddf430fc59f048:ed74629d065180e88624b8680fb1b792e836a0335681b40f5b7eeda743cb7e72",
-      "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Did only #5527 S2-S4 advance semantically?",
         "Do local cards, index, and receipt match exactly?",
@@ -23,7 +23,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }
