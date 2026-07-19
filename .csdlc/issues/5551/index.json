@@ -1,0 +1,229 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5551,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "3fc88369990e40c9b73c328c1de0d54b2a00bee7e32e56053060ae27ef2a1b9c",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "ea891f0b88297b34e905b33fc5435426375f36dd2034aad8221b1cf162842f6e",
+  "claim": {
+    "id": "claim-5551-terminal-plan-truth",
+    "owner": "codex-closeout-audit",
+    "generation": 11,
+    "acquired_unix_seconds": 1784421106,
+    "expires_unix_seconds": 1784507506,
+    "heartbeat_unix_seconds": 1784421106,
+    "branch": "codex/5551-terminal-plan-truth",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5527",
+      ".csdlc/issues/5551",
+      ".csdlc/prepared/issues/5551"
+    ],
+    "purpose": "Complete #5527 SPP S2-S4 through exact typed terminal plan-step repairs"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5551/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5551/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-closeout-audit",
+      "revision": "16120fff5843e545d492463285a55139fb36b25ca275a35466e09d29360854b5"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "1c8f61404773e1bca8555e72336d9abef532bd68d756587db5bf0674e8a1f1b9",
+      "rendered_digest": "30dcb489a7e041d3c76aab316f6d2adab073f802ffb00832f1fac7551b216113",
+      "ast_digest": "33502f327a095148488099160a50033e8e23e401b610d58cde2bcd6d57d27268"
+    },
+    "stp": {
+      "values_digest": "9d94b99ff6cf17f4e6b9ab620ffdeeddbfdd3c36a9990f2220855bef4bab8b9a",
+      "rendered_digest": "decdc2b41b73bd082e1430b4f5cdffe37b1d2c8a9c57882e3171563a53d65b73",
+      "ast_digest": "a5331e6cd97091256bf6c1dc3b5018454f56702c22d2fc4fd2c800e4b1be4cbf"
+    },
+    "spp": {
+      "values_digest": "3786e3f8a97dfc2d8de8c6e267471ad37c4b8833c878f25ee47ea159d4a747ae",
+      "rendered_digest": "8c4f8e32192a4de706c69cb5c51c99e859e692aaf2d7f311d5070fa7e53fcc02",
+      "ast_digest": "7810091b9ca9a73ef8e3b12b827a588f2fd2fd599708699469c7259904756d3f"
+    },
+    "vpp": {
+      "values_digest": "339601c4dc09fb7b18c1e6df420b0df34ae992b9b23e70da7549df8c36deb565",
+      "rendered_digest": "d86f5584dcaeaf6a72c08a459d1345c649b0fd1f882d7805fbd3fbf04c916850",
+      "ast_digest": "5623a819df99b8d8e1b635ddbbcacc98d70c787ab915d39e657feb8facb1a6be"
+    },
+    "srp": {
+      "values_digest": "3c85b4f789ecba782fd8f1021a7774543da4d059bc69a4faa8d1033af3054c08",
+      "rendered_digest": "10743bef94f838a2d213626f09881080f6a3850fd7bce0dab6398dd437f4af4f",
+      "ast_digest": "ad174ea28c12ffb05fdd9cf8667003ac058936c1cc9a83576874d949c2e49bad"
+    },
+    "sor": {
+      "values_digest": "765e7872f1eb53db5925623d7f27d96909280e0d7b830caf6116ad75e95a799e",
+      "rendered_digest": "bfa799857aeafee0350dc3a9d143cec995dd0ce9b6fd0c4441cd2dc99aa0a683",
+      "ast_digest": "2e79fb9f98106168bf6d7aa2c77b295d5c07a540ff795e798d0fab88f9e21fc0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-closeout-audit",
+      "reason": "Issue-specific design, plan, authority boundary, and validation lanes are ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex-closeout-audit",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "The records-only terminal repairs and validation are complete with no source changes."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-closeout-audit",
+      "reason": "Exact records-only review is clean with no findings or residual risks."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "Recover exact review identity after committing typed review metadata; target repair truth is unchanged."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-closeout-audit",
+      "reason": "Exact metadata-head review is clean; repaired target bytes remain unchanged."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-closeout-audit",
+      "reason": "Recover exact review identity after committing metadata-head review so the publication head receives current review."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-closeout-audit",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-closeout-audit",
+      "reason": "Issue-specific design, plan, authority boundary, and validation lanes are ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex-closeout-audit",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex-closeout-audit",
+      "reason": "Use the merged typed terminal repair to complete #5527 SPP S2-S4.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Advance only #5527 SPP S2, S3, and S4 to completed and atomically refresh its terminal receipt after each exact repair.\",\"changes\":[\"Repair #5527 S2-S4 from pending to completed\",\"Regenerate #5527 card identities, audit, generation, and digests\",\"Replace #5527 retained receipt atomically after each step\"],\"artifacts\":[\".csdlc/issues/5527\",\".csdlc/issues/5551\",\".csdlc/prepared/issues/5551\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-closeout-audit",
+      "reason": "#5527 and #5551 typed doctors pass with exact completed steps and receipt parity.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-doctor\",\"--issue\",\"5527\"],\"purpose\":\"Prove #5527 remains closed out with S1-S4 completed and exact retained receipt parity\",\"outcome\":\"passed\",\"evidence_ref\":\"#5527 generation 29 record digest d17d0b4f; receipt digest 91acffee; #5527 and #5551 doctor reports pass\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-closeout-audit",
+      "reason": "#5527 S2-S4 repairs and exact terminal parity validation are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-closeout-audit",
+      "reason": "The records-only terminal repairs and validation are complete with no source changes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex-closeout-audit",
+      "reason": "Exact records-only review is clean with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex-closeout-audit",
+      "reason": "Recover exact review identity after committing typed review metadata; target repair truth is unchanged.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex-closeout-audit",
+      "reason": "Exact metadata-head review is clean; repaired target bytes remain unchanged.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex-closeout-audit",
+      "reason": "Recover exact review identity after committing metadata-head review so the publication head receives current review.",
+      "operation": "recover_review"
+    }
+  ]
+}
