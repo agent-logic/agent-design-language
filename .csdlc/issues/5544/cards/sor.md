@@ -75,16 +75,28 @@ Materialized #4644 terminal projection, captured live issue and PR state, refres
     "purpose": "Prove the corrected #5544 release-tail truth now includes open WP-21A/#5489 in the sprint register, issue wave, coverage/handoff summaries, and retained live-state evidence.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5544/live-state/issue_5489.json and .csdlc/evidence/5544/live-state/github_state.json"
+  },
+  {
+    "command": [
+      "git diff --check",
+      "jq . docs/milestones/v0.91.7/review/wp20_remediation_5544/live_state_summary_5544.json",
+      "jq . .csdlc/evidence/5544/live-state/github_state.json",
+      "jq . .csdlc/evidence/5544/live-state/issue_5489.json",
+      "ruby -e 'require yaml; YAML.load_file(...)'"
+    ],
+    "purpose": "Re-prove #5544 documentation and retained evidence after rebasing onto #5552's canonical WP-21A correction.",
+    "outcome": "passed",
+    "evidence_ref": "local #5544 post-rebase validation output"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 
