@@ -7,38 +7,24 @@
     "title": "[v0.91.7][WP-21A][planning] Prepare next milestone docs closeout plan",
     "slug": "v0-91-7-wp21a-next-milestone-docs-closeout-plan",
     "version": "v0.91.7",
-    "generation": 8
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md\ndocs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md\ndocs/milestones/v0.91.8/WBS_v0.91.8.md\ndocs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md\ndocs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
-      "review_revision": "git-blake3:6062400223e46149b07f623c88a2adc7b041d147:e9dad6931a21e227af49ecf439d4cd5d6a20580e8bee4ffdbf3ce72edf0fe583",
-      "reviewer": "subagent:019f77fb-5581-7920-9466-dd36bc76999d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the issue stay within its WP scope?",
         "Are claims supported by retained or fresh evidence?",
         "Are skipped and unproven surfaces explicit?",
         "Are sibling WP and release/activation non-claims preserved?"
       ],
-      "findings": [
-        {
-          "id": "F-5489-1",
-          "severity": "p1",
-          "summary": "Cutover/deletion sidecar issues #5343 and #5347 were executable in the plan but omitted from the card-factory missing-projection set.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": "git-blake3:6062400223e46149b07f623c88a2adc7b041d147:e9dad6931a21e227af49ecf439d4cd5d6a20580e8bee4ffdbf3ce72edf0fe583",
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "Fable 5 external shadow review was attempted but unavailable after fail-closed runs and is not recorded as approval.",
-        "Live GitHub issue state for v0.91.8 issues was not re-verified during the final exact-revision review."
-      ],
-      "review_result": "pass"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

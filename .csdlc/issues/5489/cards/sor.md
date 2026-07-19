@@ -66,11 +66,11 @@ Fixed the v0.91.8 wave readiness factory so executable sidecar issues #5343 and 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

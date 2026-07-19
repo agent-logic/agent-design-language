@@ -15,6 +15,10 @@ WP-13 umbrellas and their declared child issues are closed, with retained
 proof, boundary, and remediation evidence. These docs define consumption
 limits; they are not standalone runtime proof or release approval.
 
+Current superseding review-tail truth: `#5408` is closed/remediated via merged
+PR #5419 at `6fcd3accafc15e3b6cc8064d836293b4495983de`; the retained #4906
+blocked-with-evidence gate remains unresolved unless separately dispositioned.
+
 ## Required Feature Docs And Implementation Records
 
 | Feature doc | Surface | Required questions | Exit state before v0.92 |

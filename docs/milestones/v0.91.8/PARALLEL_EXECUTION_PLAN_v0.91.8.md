@@ -26,14 +26,18 @@ The checked core, acceptance, WP-10A, and provider issues do not currently have
 tracked `.csdlc/issues/<issue>/index.json` projections in the local planning
 surface for:
 
-`#5336`, `#5337`, `#5338`, `#5339`, `#5340`, `#5341`, `#5342`, `#5344`,
-`#5345`, `#5346`, `#5349`, `#5350`, `#5358`, `#5361`, `#5384`, `#5497`,
-`#5498`, `#5499`, `#5500`, `#5501`, `#5502`, and `#5526`.
+`#5336`, `#5337`, `#5338`, `#5339`, `#5340`, `#5341`, `#5342`, `#5343`,
+`#5344`, `#5345`, `#5346`, `#5347`, `#5349`, `#5350`, `#5358`, `#5361`,
+`#5384`, `#5497`, `#5498`, `#5499`, `#5500`, `#5501`, `#5502`, and `#5526`.
 
 Therefore Wave 0 is not optional clerical setup. It is a real parallel
 card/readiness factory using active prompt templates and typed C-SDLC v2
 `init`/`validate` flows. Implementation is forbidden for each issue until its
 issue-specific SIP, STP, SPP, and VPP are ready and validated.
+
+WP-21A fails closed before publication if the canonical-document inventory
+detects a missing or contradictory v0.91.8 planning, architecture, review,
+release, handoff, routing, validation, or feature-doc surface.
 
 ## Roles
 

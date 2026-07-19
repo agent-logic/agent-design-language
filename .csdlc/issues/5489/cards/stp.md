@@ -26,6 +26,7 @@ Prepare and later execute only WP-21A; do not absorb sibling WPs or release-read
 2. AC-2: Deliverables are retained on tracked paths with evidence-bound claims
 3. AC-3: Validation records distinguish fresh checks, retained proof, skipped checks, and unproven surfaces
 4. AC-4: Sibling WP work, v0.91.7 release readiness, and v0.92 activation readiness are not silently claimed
+5. AC-5: WP-21A fails closed if any required v0.91.8 canonical doc, feature doc, review/release/handoff entrypoint, routing surface, or current-truth dependency is missing, contradictory, stale, or presented as proven without evidence
 
 ## Dependencies
 
@@ -36,6 +37,9 @@ Prepare and later execute only WP-21A; do not absorb sibling WPs or release-read
 
 - docs/reviews/v0.91.7/remaining-sprints-5403/WP21_REVIEW_4648.md
 - docs/milestones/v0.91.8/README.md
+- docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md
+- docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md
+- docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md
 - docs/milestones/v0.92/README.md
 - docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml
 

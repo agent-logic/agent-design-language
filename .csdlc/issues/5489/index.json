@@ -3,13 +3,13 @@
   "issue": 5489,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "600d3dc651aca0d42502611fc22299cbab5dbce90d456a219ac98a5c2a2ffbfa",
-  "phase": "published",
-  "generation": 8,
-  "digest": "7b55bb4043e1010d30c7487d922bf2bc2b2f1a723f9559ae1447798ce271c11c",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "86af3593efa205118661e89dd397b5954b901fdcee57c7d8d5d208afe7535c9e",
   "claim": {
     "id": "claim-5489-v0-91-7-wp21a-next-milestone-docs-closeout-plan",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -17,68 +17,49 @@
     "worktree": ".worktrees/adl-wp-5489",
     "protected_paths": [
       ".csdlc/issues/5489",
+      "docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md",
+      "docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
       "docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md",
       "docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489",
+      "docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
+      "docs/milestones/v0.91.8/DECISIONS_v0.91.8.md",
+      "docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md",
+      "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md",
+      "docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md",
       "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md",
+      "docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md",
       "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/SPRINT_v0.91.8.md",
+      "docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md",
+      "docs/milestones/v0.91.8/VISION_v0.91.8.md",
       "docs/milestones/v0.91.8/WBS_v0.91.8.md",
       "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml"
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/DELETION_AND_CUTOVER_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/README.md",
+      "docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md",
+      "docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/review/README.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/setup/5383/DESIGN.md",
+      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
     ],
     "purpose": "Prepare and later execute WP-21A without claiming completion from setup"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f77fb-5581-7920-9466-dd36bc76999d",
-    "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "revision": "git-blake3:6062400223e46149b07f623c88a2adc7b041d147:e9dad6931a21e227af49ecf439d4cd5d6a20580e8bee4ffdbf3ce72edf0fe583",
-    "scope": [
-      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
-      "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
-      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f77fb-5581-7920-9466-dd36bc76999d",
-    "scope": [
-      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
-      "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
-      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
-      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml"
-    ],
-    "reviewed_revision": "git-blake3:6062400223e46149b07f623c88a2adc7b041d147:e9dad6931a21e227af49ecf439d4cd5d6a20580e8bee4ffdbf3ce72edf0fe583",
-    "findings": [
-      {
-        "id": "F-5489-1",
-        "severity": "p1",
-        "summary": "Cutover/deletion sidecar issues #5343 and #5347 were executable in the plan but omitted from the card-factory missing-projection set.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:6062400223e46149b07f623c88a2adc7b041d147:e9dad6931a21e227af49ecf439d4cd5d6a20580e8bee4ffdbf3ce72edf0fe583",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Fable 5 external shadow review was attempted but unavailable after fail-closed runs and is not recorded as approval.",
-      "Live GitHub issue state for v0.91.8 issues was not re-verified during the final exact-revision review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5489,
-    "pull_request": 5564,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5564",
-    "base": "main",
-    "head": "codex/5489-v0917-wp21a-next-milestone-docs",
-    "revision": "git-blake3:99f18097ed4f3c5633374f7d723f2c549fbde618:12d9bf3c60e72e57aae5ffc4c1790b3dc2abf51b50b8e41530ac31cf430fd62b",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -92,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3850a523c849e4208eb5b2a5b6f71e99d9de3d94330853f84493cbb7a7b8bf8c",
+      "values_digest": "cafd3243259e4d757befdb4b4a798d338b201119da3aa3083ce042c7440a3695",
       "rendered_digest": "c7d6a69690ce861127952d303e6495f29331b5d9dc7f0c45496f71fb7baf4ab3",
       "ast_digest": "ed4f5f5f4ba54a55e5e803f792a52a22b59fd3170e20e210eecf239ebfa98c18"
     },
     "stp": {
-      "values_digest": "091e95ce58ad917e352a039b7e2a5df3d9c5051466221361dadea99c92724118",
+      "values_digest": "d563a28dd05e9bad774796ff26041091899190dddb6351a14db565fb9b9ae236",
       "rendered_digest": "547d9c6f45c4bdd5f90fce44fcff94f2e358913ee65bcd77c9593fe70506fadd",
       "ast_digest": "5580da2268a2298072846490644b5d3a2623579f2c88cd81a5117f69cf67d3bd"
     },
     "spp": {
-      "values_digest": "cdd756f52546e0600c2a06fa9afb71b0a5817ac0a19c40b3f763cde6772f8be1",
+      "values_digest": "265ef1d286ee3c733dae0fba717b6ccccca76ed5db4ed4d7c664add92d316549",
       "rendered_digest": "6a09ba12bb8010355daa4d28a7ea4cb6946cf2fd76f3d9ad9568a900cf3e84ce",
       "ast_digest": "b711925ac17d2ce338660c97c9c128c0e703dacdf45872de901d99c5acc24ae3"
     },
     "vpp": {
-      "values_digest": "3f7ad51420aa1033fbd152fcd3e7c84046a0a3a49fac515bd50d9a54018b4946",
+      "values_digest": "16bb3710746377517a72acbd0fb7896bd76b8a9cada57d8076dc0d71986458e4",
       "rendered_digest": "d1e18ba4eeb02e306a5d69d4d69278bb5959efee21e372d68468e6ab35172e51",
       "ast_digest": "fb89ed7a69b1adbbf1b6e976cbc82cc2fb76436273633587bdbb9491659cf824"
     },
     "srp": {
-      "values_digest": "5ab77cebf28ccc5413c979cb900fc56a5be55f1d188f9a15d1fc6fa9598e66a0",
-      "rendered_digest": "ef6af8afc104ac64e6240728fbcad64951f5d9f2aaaa51d94085081adf50b0ac",
-      "ast_digest": "7dd555911f5d419ad355f050ac24fa47507cd7d55be3f9156e3b47ddf1e03431"
+      "values_digest": "48f4014e08b6b4bb28ea1e168aefa026cc659715365139c1b3531f8647f02ddc",
+      "rendered_digest": "488debd12afbe76435e07814e7e1f8f81d609b3b8dd9f2d12d663ef0ed3480d9",
+      "ast_digest": "135fe91e8941facfdf2c42248de2d9749dc2aee1f27d99f27a0cbdf097a68b38"
     },
     "sor": {
-      "values_digest": "5660711db6564f17bb10ec9328ebb0a08681204b24a77965c419c7ddb604166a",
-      "rendered_digest": "9d781251184fb627d17da54ea8b4dab50758d14c3c2bc003334da671fd28917d",
-      "ast_digest": "cd3859eb0344e65b2ed96c19fc7f2d6f6e7b210f8d543b466a36164e63493cc9"
+      "values_digest": "2fe8a1bf40cbdf40c9b266d1b5b858ca21f90eda09e7afbb4bd3b8895abb2934",
+      "rendered_digest": "d164783b23419e727d032ddf71727d066166801262b7f526580766c32e8bb7c5",
+      "ast_digest": "f70dece6f90bcf8391cae1c8b30e17ed0ae5a90207387d4eda822749a58328fb"
     }
   },
   "transitions": [
@@ -157,6 +138,13 @@
       "to": "published",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator clarified after draft publication that WP-21A must also audit and reconcile all v0.91.8 canonical next-milestone documentation and current #5408 terminal truth; recover to implemented for a new exact-revision review and updated draft publication."
     }
   ],
   "audit": [
@@ -264,6 +252,48 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator clarified after draft publication that WP-21A must also audit and reconcile all v0.91.8 canonical next-milestone documentation and current #5408 terminal truth; recover to implemented for a new exact-revision review and updated draft publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator clarified WP-21A must prepare all next-milestone documentation, including every v0.91.8 feature doc and canonical planning, architecture, review, release, bridge, routing, and validation entrypoint, and must consume current #5408/#5419 terminal truth.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/ADR_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/DECISIONS_v0.91.8.md\",\"docs/milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md\",\"docs/milestones/v0.91.8/DESIGN_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md\",\"docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md\",\"docs/milestones/v0.91.8/README.md\",\"docs/milestones/v0.91.8/RELEASE_NOTES_v0.91.8.md\",\"docs/milestones/v0.91.8/RELEASE_PLAN_v0.91.8.md\",\"docs/milestones/v0.91.8/SPRINT_v0.91.8.md\",\"docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md\",\"docs/milestones/v0.91.8/VISION_v0.91.8.md\",\"docs/milestones/v0.91.8/features/ADL_V2_CORE_v0.91.8.md\",\"docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md\",\"docs/milestones/v0.91.8/features/DELETION_AND_CUTOVER_v0.91.8.md\",\"docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md\",\"docs/milestones/v0.91.8/features/README.md\",\"docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md\",\"docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md\",\"docs/milestones/v0.91.8/setup/5383/DESIGN.md\",\"docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "WP-21A requires a bounded canonical-document inventory and validation matrix for the complete v0.91.8 next-milestone documentation packet.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Current #5408 terminal truth must be consumed by the live v0.91.7 sprint review register while preserving dated historical capture packets.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Operator required WP-21A to prepare a dedicated v0.91.8 third-party review handoff document and link it from canonical v0.91.8 review/planning entrypoints.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.8/review/README.md\",\"docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "WP-21A must reconcile current v0.91.7 #5408 blocker/register truth after PR #5419 merged and issue #5408 closed, while preserving historical packets and retained #4906 blocked-with-evidence truth.",
+      "operation": "{\"add_protected_paths\":[\"docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md\",\"docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md\",\"docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
