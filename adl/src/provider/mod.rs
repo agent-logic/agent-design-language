@@ -454,6 +454,13 @@ mod tests {
     }
 
     #[test]
+    fn provider_mod_profile_endpoint_validation_rejects_hostless_https() {
+        let err = validate_profile_endpoint("p1", "custom", "https:///v1/complete")
+            .expect_err("https endpoints must include a host");
+        assert!(err.to_string().contains("must use an https:// endpoint"));
+    }
+
+    #[test]
     fn provider_mod_profile_endpoint_validation_allows_loopback_http_for_local_harnesses() {
         validate_profile_endpoint("p1", "http:gpt-4o-mini", "http://127.0.0.1:8787/complete")
             .expect("loopback http should remain allowed");

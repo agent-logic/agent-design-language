@@ -47,7 +47,7 @@ pub(crate) fn is_allowed_remote_endpoint(endpoint: &str) -> bool {
         return false;
     };
     match url.scheme() {
-        "https" => true,
+        "https" => url.host_str().is_some_and(|host| !host.is_empty()),
         "http" => matches!(
             url.host_str(),
             Some("localhost") | Some("127.0.0.1") | Some("[::1]") | Some("::1")
