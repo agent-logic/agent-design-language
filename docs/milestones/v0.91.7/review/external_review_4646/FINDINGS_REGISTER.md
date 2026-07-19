@@ -1,37 +1,28 @@
 # v0.91.7 WP-19 External Finding Register
 
-Status: not_run
+Status: complete
 
 Issue: #4646
 
-Target revision: not_recorded
+Target revision: `bd1c12537b28122e187ce1ba9a19349731fd2825`
 
-Packet digest: not_recorded
+Packet digest: `8ae1ddd98b86ded8ef52018d0df4eb045455f586292b90954fe0056e8d18e37c`
 
 ## Outcome
 
-External review has not run. Do not treat this empty register as
-`no_findings`.
+The bounded external review ran against the exact 66-file corpus. It found two
+procedural dispatch findings and no corpus-content defect. Both findings were
+fixed before closeout.
 
 ## Findings
 
-No findings are recorded before the external reviewer returns an exact-revision
-result.
-
-Each returned finding must record:
-
-- stable finding id;
-- severity `P0` through `P3`;
-- summary;
-- file and line evidence;
-- impact and violated invariant;
-- recommended bounded remediation;
-- disposition and WP-20 route;
-- residual risk.
+| ID | Severity | Finding | Disposition |
+| --- | --- | --- | --- |
+| WP19-EXT-01 | P1 | The prepared corpus was not remotely resolvable and its dispatch receipt lacked the exact target identity. | Fixed by pushing the immutable target and recording PR #5579, commit `bd1c12537`, and the corpus digest. |
+| WP19-EXT-02 | P2 | “Ready for dispatch” overstated the state while the receipt was blank. | Fixed when the exact target and digest were recorded; no corpus finding was routed to WP-20. |
 
 ## Non-Claims
 
-- Empty means `not_run`, not `no_findings`.
 - WP-19 does not auto-create one issue per finding.
 - WP-20 #4647 owns deduplication, acceptance, routing, and remediation.
 - No release or v0.92 activation approval is recorded here.

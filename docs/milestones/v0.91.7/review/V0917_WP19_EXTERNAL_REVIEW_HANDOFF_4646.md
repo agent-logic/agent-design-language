@@ -1,6 +1,6 @@
 # v0.91.7 WP-19 External Review Handoff (#4646)
 
-Status: ready_for_external_review
+Status: external_review_complete
 
 Issue: #4646
 
@@ -129,7 +129,8 @@ finding automatically.
 
 ## Non-Claims And Residuals
 
-- External review has not run yet.
+- External review completed against the exact revision in the dispatch receipt;
+  its two procedural findings were fixed before closeout.
 - This handoff does not approve v0.91.7 release readiness or v0.92 activation.
 - #5571 is an open v0.91.7 publication-boundary audit; no secret exposure has
   been demonstrated, and no publication-safety approval is inferred here.

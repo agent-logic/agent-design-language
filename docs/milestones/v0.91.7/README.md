@@ -20,7 +20,7 @@
 Current status: closeout tail active after the implementation and demo waves.
 
 Live issue truth was last verified on 2026-07-19. WP-01 through WP-18 are
-closed. WP-19, WP-20, and WP-23 remain open, while WP-21, WP-21A, and WP-22
+closed. WP-19 is complete through PR #5579. WP-20 and WP-23 remain open, while WP-21, WP-21A, and WP-22
 are closed retained planning evidence. Closed issue state does not by itself
 mean review-clean or release-ready; the sprint-review register and issue-local
 proof packets retain findings and non-claims.
@@ -39,7 +39,7 @@ revision.
 | WP-16 quality gate | #4643 | closed | Passed with downstream gates open; retained packet is `review/V0917_WP16_QUALITY_GATE_4643.md`. |
 | WP-17 documentation alignment | #4644 | closed | Merged by PR #5539; alignment packet is under `review/`. |
 | WP-18 internal review | #4645 | closed | Merged PR #5543; internal findings were routed through closed #5408 and #5544-#5547. |
-| WP-19 external review | #4646 | open | Ready to dispatch on the frozen exact revision; v0.91.8 follow-ons #5572 / PR #5574 and #5575 are excluded. Open #5573 is underway in another session; its existing audit register is retained but its closeout is outside WP-19. |
+| WP-19 external review | #4646 | complete in PR #5579 | Exact-revision review completed with two procedural findings fixed; v0.91.8 follow-ons #5572 / PR #5574 and #5575 remained excluded. |
 | WP-20 remediation/preflight | #4647 | open | Owns findings returned by WP-19. |
 | WP-21 next-milestone planning | #4648 | closed | Retained planning evidence; current v0.91.8 authority supersedes direct activation use. |
 | WP-21A next-milestone closeout planning | #5489 | closed | Retains the canonical v0.91.8 planning and external-review handoff package. |
@@ -77,9 +77,9 @@ revision.
   - `#4652` covers Unity demo surfaces.
   - `#4653` covers dspark speculative decoding evaluation with Qwen and Gemma.
   - `#4654` covers deepseek-v4-flash-dspark smoke testing on ephemeral 2xH100 EC2 with teardown/cost proof.
-- Execution: WP-01 through WP-18 are closed with issue-local evidence and
-  retained limitations. The remaining active work is WP-19 external review,
-  WP-20 remediation/preflight, and WP-23 release ceremony.
+- Execution: WP-01 through WP-19 are complete with issue-local evidence and
+  retained limitations. The remaining active work is WP-20
+  remediation/preflight and WP-23 release ceremony.
   This package is a living
   milestone surface, not the original pre-execution planning snapshot.
 - Validation: validation truth is issue-local; completed child issues retain
