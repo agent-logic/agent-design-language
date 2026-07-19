@@ -1,7 +1,7 @@
 {
   "issue": 5489,
-  "expected_generation": 3,
-  "expected_digest": "00ac2e124335ac317bdf94a40a1f998ea0029cb46f49b68a06e3ee342c78d0df",
+  "expected_generation": 5,
+  "expected_digest": "65591f350e5353eaec680399b4b184f3621dedbad051a6d21205fd32ed3e8bcf",
   "claim_id": "claim-5489-v0-91-7-wp21a-next-milestone-docs-closeout-plan",
   "reviewer": "subagent:019f77fb-5581-7920-9466-dd36bc76999d",
   "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",

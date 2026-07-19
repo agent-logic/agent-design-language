@@ -3,13 +3,13 @@
   "issue": 5489,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "600d3dc651aca0d42502611fc22299cbab5dbce90d456a219ac98a5c2a2ffbfa",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "65591f350e5353eaec680399b4b184f3621dedbad051a6d21205fd32ed3e8bcf",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "5f182082a423a46d20ac66445e40b4148e94ff4ddca52012d31650331d0319fe",
   "claim": {
     "id": "claim-5489-v0-91-7-wp21a-next-milestone-docs-closeout-plan",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 5,
+    "generation": 7,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -30,7 +30,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f77fb-5581-7920-9466-dd36bc76999d",
     "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "revision": "git-blake3:ae01bfd2de4d486d116952cdba277d18a8500727:dcbc5346c316185be3a7aea09518c7fa63ab0c0ca4623840116a09ebaef3c764",
+    "revision": "git-blake3:6062400223e46149b07f623c88a2adc7b041d147:e9dad6931a21e227af49ecf439d4cd5d6a20580e8bee4ffdbf3ce72edf0fe583",
     "scope": [
       "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
       "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
@@ -39,7 +39,35 @@
       "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f77fb-5581-7920-9466-dd36bc76999d",
+    "scope": [
+      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md",
+      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml"
+    ],
+    "reviewed_revision": "git-blake3:6062400223e46149b07f623c88a2adc7b041d147:e9dad6931a21e227af49ecf439d4cd5d6a20580e8bee4ffdbf3ce72edf0fe583",
+    "findings": [
+      {
+        "id": "F-5489-1",
+        "severity": "p1",
+        "summary": "Cutover/deletion sidecar issues #5343 and #5347 were executable in the plan but omitted from the card-factory missing-projection set.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:6062400223e46149b07f623c88a2adc7b041d147:e9dad6931a21e227af49ecf439d4cd5d6a20580e8bee4ffdbf3ce72edf0fe583",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Fable 5 external shadow review was attempted but unavailable after fail-closed runs and is not recorded as approval.",
+      "Live GitHub issue state for v0.91.8 issues was not re-verified during the final exact-revision review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -54,32 +82,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4e46d0556f93bcd8ca903b385f71b99e6a628b1a9351df717b34fe2da8eba73b",
+      "values_digest": "b5a1bf4faffa7da4a3cac4d8c48bc1b8e49975acde8ff0dd9f8505e7cec4960a",
       "rendered_digest": "c7d6a69690ce861127952d303e6495f29331b5d9dc7f0c45496f71fb7baf4ab3",
       "ast_digest": "ed4f5f5f4ba54a55e5e803f792a52a22b59fd3170e20e210eecf239ebfa98c18"
     },
     "stp": {
-      "values_digest": "0064158757cfdc5194ac494726935c9d88e1f2c559b31dda6c3b832ae6fa2697",
+      "values_digest": "3bea729ffae01c3599e0519e6340d822ccc3c076d3fcdfe955c753a20cb1f314",
       "rendered_digest": "547d9c6f45c4bdd5f90fce44fcff94f2e358913ee65bcd77c9593fe70506fadd",
       "ast_digest": "5580da2268a2298072846490644b5d3a2623579f2c88cd81a5117f69cf67d3bd"
     },
     "spp": {
-      "values_digest": "f64f9f3a84d2f0ae0911652f3da0f01f60681a55507497c5e2de7709ef60b4f0",
+      "values_digest": "d4831bca95c63bc0fd32a3894e1eedf8a142963592052587cb2d8979b70219ef",
       "rendered_digest": "6a09ba12bb8010355daa4d28a7ea4cb6946cf2fd76f3d9ad9568a900cf3e84ce",
       "ast_digest": "b711925ac17d2ce338660c97c9c128c0e703dacdf45872de901d99c5acc24ae3"
     },
     "vpp": {
-      "values_digest": "cc1d1b2c20be5d37116835841d099f91b4dad187eaae61ee6cdf74d4bfa9cd64",
+      "values_digest": "2828b55623b6502a2ca49b46557176d5054456de76e6bf849d5790a60ac09770",
       "rendered_digest": "d1e18ba4eeb02e306a5d69d4d69278bb5959efee21e372d68468e6ab35172e51",
       "ast_digest": "fb89ed7a69b1adbbf1b6e976cbc82cc2fb76436273633587bdbb9491659cf824"
     },
     "srp": {
-      "values_digest": "b1671a81b5732d905e437fef295d77e7e0990385c66389eecb5256adef24540b",
-      "rendered_digest": "a06474727f6afc2102e29b59e8d865363e3525a3f4e98c65fd629af06f7f0dcf",
-      "ast_digest": "3ba11ea7df4949f06256ddaa5a0586658a6a6b3d8e60cfd1283d5acbc66aa4d9"
+      "values_digest": "c25017caf63c7a42611b18241130dcc8e0e0232d49a08c420236a3d0737fb826",
+      "rendered_digest": "ef6af8afc104ac64e6240728fbcad64951f5d9f2aaaa51d94085081adf50b0ac",
+      "ast_digest": "7dd555911f5d419ad355f050ac24fa47507cd7d55be3f9156e3b47ddf1e03431"
     },
     "sor": {
-      "values_digest": "bd2ec4db750099e73cbdf328bd4bcf273b8c6578626c78dc5728367471c57581",
+      "values_digest": "8469ecf28321631cea6d4e8cc8d6ee6f2a4833b0dfb804b048d9e18c943cecaa",
       "rendered_digest": "338acbd384a72a1bf3d3b64b4d42044207d9969ab4a1da0b11066760c483e92f",
       "ast_digest": "d2aaa4d10ca2fc2da3dea5a2fe6ac74ece1e17e86cd6a5dc823ab75c6178d116"
     }
@@ -105,6 +133,13 @@
       "to": "implemented",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "The planned-only v0.91.8 parallel execution plan and linked planning-surface reconciliation are implemented and focused validation has passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-revision internal review completed with the only actionable finding fixed and recorded."
     }
   ],
   "audit": [
@@ -184,6 +219,27 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Focused validation passed after the internal review readiness-factory fix.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"ruby -e 'require \\\"yaml\\\"; YAML.safe_load(File.read(\\\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\\\"), aliases: true)'\",\"ruby targeted assertions for #5343/#5347 missing_projection_issues, WP-10A, WP-11, WP-13, and WIP controls\",\"rg stale-wording checks\"],\"purpose\":\"Prove the post-review fix keeps the v0.91.8 wave YAML parseable and includes every executable cutover/deletion sidecar in typed readiness gating.\",\"outcome\":\"passed\",\"evidence_ref\":\"local focused validation output in #5489 worktree\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 5,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 6,
+      "actor": "subagent:019f77fb-5581-7920-9466-dd36bc76999d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 7,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-revision internal review completed with the only actionable finding fixed and recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

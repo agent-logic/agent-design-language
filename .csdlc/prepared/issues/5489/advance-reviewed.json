@@ -1,0 +1,13 @@
+{
+  "issue": 5489,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "5d477e0cac47ff5e71054f73216e1f430f1d4dccf317f5ef05d2ea948e649921",
+  "claim_id": "claim-5489-v0-91-7-wp21a-next-milestone-docs-closeout-plan",
+  "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+  "reason": "Exact-revision internal review completed with the only actionable finding fixed and recorded.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  }
+}
