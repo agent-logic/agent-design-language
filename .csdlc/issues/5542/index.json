@@ -3,13 +3,13 @@
   "issue": 5542,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4ba22360d9c28877a655c69995e8fec64dd508dd8204c0838e8077a0c90f9d48",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "7382c4bde5a4faf945c268196cd80e455c30754d1f9ccedb011cb1ad38bacdcd",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "7313d2886add02f23e3c25656392678a071f5e2a923ca4ce8750724559bd2fb0",
   "claim": {
     "id": "claim-5542-wp17-closeout-truth",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 12,
+    "generation": 14,
     "acquired_unix_seconds": 1784418998,
     "expires_unix_seconds": 1785023798,
     "heartbeat_unix_seconds": 1784418998,
@@ -41,8 +41,47 @@
     ],
     "purpose": "Repair post-merge WP-17 closeout, bridge-precedence, and date-semantics findings without absorbing sibling work"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:019f77b1-4c8d-7560-8489-bb10c675a6b0",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:90b89d5c5e4d9404b117e2f39f0af38d7523bcc3:d95b3ec549fde19d6bc99c0d9a6c136662af43a31a4843cd393e9f2da4b45690",
+    "scope": [
+      ".csdlc/prepared/issues/4644/validate_docs_alignment.rb",
+      ".csdlc/prepared/issues/5542",
+      "README.md",
+      "docs/milestones/v0.91.7",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:019f77b1-4c8d-7560-8489-bb10c675a6b0",
+    "scope": [
+      ".csdlc/prepared/issues/4644/validate_docs_alignment.rb",
+      ".csdlc/prepared/issues/5542",
+      "README.md",
+      "docs/milestones/v0.91.7",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ],
+    "reviewed_revision": "git-blake3:90b89d5c5e4d9404b117e2f39f0af38d7523bcc3:d95b3ec549fde19d6bc99c0d9a6c136662af43a31a4843cd393e9f2da4b45690",
+    "findings": [
+      {
+        "id": "F-5542-6",
+        "severity": "p1",
+        "summary": "Open WP-21A issue #5489 was omitted from canonical remaining-gate summaries and machine-readable open-work sets.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:90b89d5c5e4d9404b117e2f39f0af38d7523bcc3:d95b3ec549fde19d6bc99c0d9a6c136662af43a31a4843cd393e9f2da4b45690",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "WP-21A remains open and must settle independently before WP-23 release ceremony.",
+      "No AWS command or service was used."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -57,32 +96,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fa733e367c747fef11ffa56bc7f4cce261cf1ebd21c2f48bd2ecb2a5034f9dd3",
+      "values_digest": "9e5083f74379a43ed3179b651fd1e98f37388cd5764b467c4334d6b6e4c7d804",
       "rendered_digest": "02f4fc7c656039cba2e6b7aabc291ea424d7c6dcc96f3a1c6fe5d21a3de51ad2",
       "ast_digest": "b9ba6846463b5c7662b30f87cb0ef41e4a8661a2f97ea90574337d8eb04a5721"
     },
     "stp": {
-      "values_digest": "49e0c8a8af17d22cba87fb2a418a350dbf14534d2d75e22a7535a6929f5ac033",
+      "values_digest": "3105622d907f93fdcf0ad5bd587505b3eda34f35ac2170c195c2b2df5105015d",
       "rendered_digest": "a6f45791f8e8ebdcf25e9e34d9f79686597359e7bd26af925411e895cf20c8b2",
       "ast_digest": "07ab818f6c3aa0fb9783dad339189a74a40658f63b4175770eb0294a7cd27ab5"
     },
     "spp": {
-      "values_digest": "5b34439894c5fe97accf7df3736acd32371edb851243e5adee24fc5330dc04b5",
+      "values_digest": "4c38fc6eee4ca7219017e2c05544ca56bded7d39056ba6bfb1210895016ee1a0",
       "rendered_digest": "07966a0ef7d8b690b039a91b147da8af1dba64c8b3cb58f3447bd0dd7c8fbcc0",
       "ast_digest": "631a951f50c6bc37a004f8206f350e38bdda702a9a1972448fe3e3aa6e919bc3"
     },
     "vpp": {
-      "values_digest": "d78e36c2201c2aba4955363f3dbd4189ddc5d6b207a511d277c2eaec9087cc50",
+      "values_digest": "80c36f5893e77c8ad9b17477f540c007af7bf03644a15b9f8f5ecbb343de2089",
       "rendered_digest": "6a8491f9fd266cb1bac9cd658a84b5f1cdaac5ca0ccc567d1626614b81d77ff9",
       "ast_digest": "f5817f030c08b76f6ca61267246fddc1c54c2024670e9ef0f4a2b549ef21a897"
     },
     "srp": {
-      "values_digest": "5a09ed88feb4d8070affc5f575e675986b6ce82c4712426450af3369f06f168c",
-      "rendered_digest": "f0e02d931c59a3da8c5402b6a4afb89b775985a862b6d55d6facc2cbbd9c59e8",
-      "ast_digest": "02144fc634da13f6f5768eb142502fcc72d43ae38d93b1c080fc648fae3607f6"
+      "values_digest": "992b55965766e80296230662d5d5fed7c01d307a21ae435aa9cb596782e05786",
+      "rendered_digest": "703f129b8916cfcfde2b96bfe46f31a91f25b1cfc4e6165f19a5dd92dc4a3cfc",
+      "ast_digest": "bd134dd5c5a419b8436ac97bb90aa13b317e5f1aeacef339a85dd6fce9e592fc"
     },
     "sor": {
-      "values_digest": "8e061ee3433dd097ffc471d1b10a0365700719ac12ec7e9f1a443c77ba80625e",
+      "values_digest": "a7c27aeb290a5fec6d588bde5f092c73ac71bdbde60abc21189364884aac889c",
       "rendered_digest": "756ff6863a0c2d4b9d403a199cca9394c49af01de95b5bab40cfdb2fbe0b20e9",
       "ast_digest": "e46ff84d61c091ee31fe2268a6e45b90c59cbbccdab0d69fae4c3e34eef00796"
     }
@@ -136,6 +175,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Operator identified omitted open WP-21A/#5489 after the prior reviewed revision; recover review state for the corrected exact head."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The corrected exact-revision review confirms WP-21A/#5489 is represented consistently and found no remaining actionable findings."
     }
   ],
   "audit": [
@@ -271,6 +317,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Operator identified omitted open WP-21A/#5489 after the prior reviewed revision; recover review state for the corrected exact head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "The corrected exact-revision review confirms WP-21A/#5489 is represented consistently and found no remaining actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
