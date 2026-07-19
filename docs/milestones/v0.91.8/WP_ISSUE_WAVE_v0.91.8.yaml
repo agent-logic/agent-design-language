@@ -79,7 +79,7 @@ parallel_execution:
     authority: "version:v0.91.8 labels plus checked-in WP_ISSUE_WAVE_v0.91.8.yaml"
   card_factory:
     rule: "Prepare cards one dependency wave ahead; implementation is forbidden until issue-specific SIP/STP/SPP and VPP are ready and validated."
-    missing_projection_issues: [5336, 5337, 5338, 5339, 5340, 5341, 5342, 5344, 5345, 5346, 5349, 5350, 5358, 5361, 5384, 5497, 5498, 5499, 5500, 5501, 5502, 5526]
+    missing_projection_issues: [5336, 5337, 5338, 5339, 5340, 5341, 5342, 5343, 5344, 5345, 5346, 5347, 5349, 5350, 5358, 5361, 5384, 5497, 5498, 5499, 5500, 5501, 5502, 5526]
   controls:
     writable_actor_wip_cap: 4
     writable_actor_wip_scope: ["implementation", "card_factory", "acceptance", "janitor_fixes", "other_mutation"]
