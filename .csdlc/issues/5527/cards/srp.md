@@ -8,19 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/issues/5390
-.csdlc/issues/5527
-.csdlc/prepared/issues/5527
-csdlc-v2/src/bin/csdlc-closeout.rs
-csdlc-v2/src/lib.rs
-csdlc-v2/src/model.rs
-csdlc-v2/src/schema.rs
-csdlc-v2/src/store.rs
-csdlc-v2/tests/gate7_lifecycle.rs
+
 
 ## Prompts
 
@@ -31,28 +23,7 @@ csdlc-v2/tests/gate7_lifecycle.rs
 
 ## Findings
 
-[
-  {
-    "id": "F-5527-1",
-    "severity": "p1",
-    "summary": "Initial VPP named a nonexistent standalone test target instead of the implemented Gate 7 test.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:d1b858942bc8130f03fb26d5f66f6834721816c7:1d70024e040109803c96950722bc2a255acb134fce7e1d5249f297094b719d06",
-    "route": null
-  },
-  {
-    "id": "F-5527-2",
-    "severity": "p1",
-    "summary": "The first corrected VPP argv depended on an unstated subdirectory working directory.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:d1b858942bc8130f03fb26d5f66f6834721816c7:1d70024e040109803c96950722bc2a255acb134fce7e1d5249f297094b719d06",
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -60,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The pre-existing non-Git Gate 2 fixture failures discovered by the full suite are routed to #5548; focused Gate 7, Clippy, formatting, and doctor proofs pass for this bounded change.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:d1b858942bc8130f03fb26d5f66f6834721816c7:1d70024e040109803c96950722bc2a255acb134fce7e1d5249f297094b719d06")
+Revision: None
 
-Reviewer: Some("subagent:019f669a-596c-71e2-adb3-bd753875989d")
+Reviewer: None
 
-Result: pass
+Result: pre_review

@@ -119,7 +119,7 @@ Typed terminal repair now replaces one exact stale SOR artifact reference with a
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
