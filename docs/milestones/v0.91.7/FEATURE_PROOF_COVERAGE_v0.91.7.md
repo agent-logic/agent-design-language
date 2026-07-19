@@ -18,9 +18,10 @@ internal review, external review, remediation, next-milestone review, and
 release ceremony truth.
 
 Current 2026-07-19 refresh: WP-16 through WP-18 and WP-21A are closed. WP-19
-external review is prepared and waits for active PR #5574 to settle before its
-exact-revision snapshot. WP-20 remains open for returned external findings,
-and WP-23 remains open.
+external review is ready on a frozen exact revision that excludes v0.91.8
+follow-ons #5572 / PR #5574 and #5575. WP-20 remains open for returned external
+findings. #5573 remains open and underway in another session, with its merged
+427-issue audit register already retained; WP-23 remains open.
 
 ## Coverage Table
 
@@ -71,7 +72,7 @@ The following open gates remain after WP-15:
 | Gate | Issue | Role |
 | --- | ---: | --- |
 | WP-18 | #4645 | Closed through merged PR #5543; internal remediation #5408 and #5544-#5547 closed |
-| WP-19 | #4646 | Prepared; exact-revision snapshot waits for PR #5574 to settle |
+| WP-19 | #4646 | Ready on a frozen exact revision; v0.91.8 #5572 / PR #5574 and #5575 are excluded; open #5573 is independently underway with its audit register already retained |
 | WP-20 | #4647 | Open to own findings returned by WP-19 |
 | WP-21A | #5489 | Closed with retained v0.91.8 planning and review-handoff package |
 | WP-23 | #4650 | Release ceremony |

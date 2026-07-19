@@ -1,6 +1,6 @@
 # v0.91.7 WP-19 External Review Handoff (#4646)
 
-Status: prepared_waiting_for_stable_revision
+Status: ready_for_external_review
 
 Issue: #4646
 
@@ -8,17 +8,17 @@ Last verified: 2026-07-19
 
 ## Decision
 
-The internal-review remediation gate is complete. WP-19 may start as soon as
-the review corpus has a stable exact revision.
+The internal-review remediation gate is complete. The operator authorized
+WP-19 to proceed on a frozen exact revision. Open #5572 / PR #5574 and #5575
+are v0.91.8 follow-ons excluded from this review corpus. They must not mutate
+or silently supplement the dispatched snapshot. Closeout audit #5573 remains
+open and underway in another session; merged PR #5578 already retains its
+427-issue register, and WP-19 does not own or wait on its remaining closeout.
 
-Do not send this packet while PR #5574 is open because that PR changes the
-committed-diff proof and retained evidence for WP-18 #4645. Once #5574 is
-merged or explicitly closed without merge, refresh the target revision and
-packet digest below and send the packet without reopening already-completed
-v0.91.7 remediation.
-
-Issue #5571 is a `version:v0.91.8` publication-boundary audit. It is a disclosed
-downstream residual, not a v0.91.7 WP-19 prerequisite.
+Issue #5571 is a `version:v0.91.7` publication-boundary audit. It remains a
+release-tail residual but is not a WP-19 send prerequisite because the bounded
+public allowlist excludes the raw WP-18 packet, live-state, and validation
+trees that #5571 audits.
 
 ## Completed Predecessor And Remediation Gates
 
@@ -44,12 +44,12 @@ before sending:
 
 | Gate | Required state |
 | --- | --- |
-| Stable corpus | PR #5574 is merged or closed without merge; no other open PR changes the included review corpus. |
+| Stable corpus | Use only the exact frozen revision named in the dispatch receipt; exclude v0.91.8 #5572 / PR #5574, #5575, and any later source changes. |
 | Exact revision | Record repository, branch or PR, and exact target commit SHA in the dispatch receipt. Any later source change stales the review. |
 | Packet digest | Compute and record the authoritative corpus digest in the dispatch receipt. |
 | Predecessor truth | #4645, #5408, #5489, #5527, and #5544-#5547 remain closed; PRs #5419, #5543, and #5557 remain merged. |
 | Validation | Run `git diff --check`, parse the v0.91.7 issue-wave YAML, and validate every manifest path exists. |
-| Publication safety | Exclude secrets, credentials, private prompt output, untracked artifacts, and machine-local scratch evidence. #5571 remains a disclosed v0.91.8 residual rather than inferred v0.91.7 approval. |
+| Publication safety | Exclude secrets, credentials, private prompt output, untracked artifacts, and machine-local scratch evidence. #5571 remains a disclosed v0.91.7 residual; no broader publication approval is inferred. |
 
 If a row fails, return `blocked` or `deferred`; do not ask the reviewer to
 infer readiness from stale issue state.
@@ -57,9 +57,9 @@ infer readiness from stale issue state.
 ## Target Revision
 
 The exact target identity is issued in
-`external_review_4646/DISPATCH_RECEIPT.md` only after the stable-corpus gate
-passes. The receipt is committed after, and excluded from, the immutable target
-revision and corpus digest. This keeps review identity non-self-referential.
+`external_review_4646/DISPATCH_RECEIPT.md`. The receipt is committed after,
+and excluded from, the immutable target revision and corpus digest. This keeps
+review identity non-self-referential.
 
 ## Included Scope
 
@@ -131,8 +131,12 @@ finding automatically.
 
 - External review has not run yet.
 - This handoff does not approve v0.91.7 release readiness or v0.92 activation.
-- #5571 is an open v0.91.8 publication-boundary audit; no secret exposure has
+- #5571 is an open v0.91.7 publication-boundary audit; no secret exposure has
   been demonstrated, and no publication-safety approval is inferred here.
+- #5572 / PR #5574 and #5575 are open v0.91.8 follow-ons excluded from the
+  frozen review corpus; no result from them is claimed or required here.
+- #5573 remains open and underway in another session. Its merged 427-issue
+  register remains retained; WP-19 does not rerun, expand, or close that work.
 - #4906 is closed as an issue but retains unresolved `blocked_with_evidence`
   rows; external review must preserve that release-readiness boundary.
 - The ownership-first module splits recorded by #5547 are v0.91.8 work, not

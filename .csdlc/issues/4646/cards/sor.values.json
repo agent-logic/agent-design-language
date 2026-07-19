@@ -7,25 +7,41 @@
     "title": "[v0.91.7][WP-19][review] External / 3rd-party review",
     "slug": "v0-91-7-wp19-external-third-party-review",
     "version": "v0.91.7",
-    "generation": 10
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Reconciled live predecessor and remediation truth, replaced the stale blocked handoff, added a not-run external finding register, and made PR #5574 the only transient stable-corpus hold while classifying #5571 as a non-blocking v0.91.8 residual.",
+      "summary": "Verified merged PR #5419 satisfies the #4646 prerequisite and recorded the serial closeout order #4646 then #5574 then #5573.",
       "actual_changes": [
         "Updated v0.91.7 README, WBS, issue wave, sprint review register, and WP-18 handoff to current closed/open truth",
         "Expanded the WP-19 handoff with send gates, exact-revision and digest requirements, evidence manifest, reviewer authority, return path, and non-claims",
         "Added the external-review packet README and an explicit not-run finding register",
-        "Removed nonexistent tracked C-SDLC projections from the public evidence manifest"
+        "Removed nonexistent tracked C-SDLC projections from the public evidence manifest",
+        "Classified #5572 / PR #5574 and #5575 as excluded v0.91.8 follow-ons",
+        "Preserved #5571 as an open v0.91.7 residual and recorded #5573 as already completed by its retained 427-issue closeout register without making either a WP-19 send dependency",
+        "Changed the WP-19 handoff to ready_for_external_review on one immutable exact revision",
+        "Preserved the separate dispatch receipt outside the authoritative review corpus",
+        "Verified PR #5419 merged green at merge commit 6fcd3accafc15e3b6cc8064d836293b4495983de",
+        "Recorded #5573 as open and underway in another session rather than completed or not planned",
+        "Kept #5574 outside the frozen WP-19 corpus because it follows #4646",
+        "Preserved #5573 ownership in the other session and made no closeout claim"
       ],
       "artifacts": [
         "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
         "docs/milestones/v0.91.7/review/external_review_4646/README.md",
         "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
         "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-        "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md"
+        "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+        "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
+        "docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt",
+        "docs/milestones/v0.91.7/review/external_review_4646/DISPATCH_RECEIPT.md",
+        "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+        "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+        "docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md",
+        "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+        "docs/milestones/v0.91.7/review/V0917_CLOSED_ISSUE_CLOSEOUT_REGISTER.md"
       ],
       "actual_validation": [
         {
@@ -51,10 +67,23 @@
           "purpose": "Prove packet hygiene, issue-wave syntax, one authoritative review corpus, publication boundaries, and changed-document link integrity.",
           "outcome": "passed",
           "evidence_ref": "Fresh local validation in .worktrees/adl-wp-4646 on 2026-07-19; external review itself remains not run and dispatch remains held on PR #5574."
+        },
+        {
+          "command": [
+            "git diff --check",
+            "Ruby YAML.safe_load with Date permitted for WP_ISSUE_WAVE_v0.91.7.yaml",
+            "authoritative REVIEW_CORPUS.v1.txt uniqueness, exclusion, existence, and 66-file expansion validation",
+            "local Markdown link existence check over changed documents",
+            "live GitHub verification that PR #5419 is merged and #5573 is open with version:v0.91.7",
+            "csdlc-doctor --repo . --issue 4646"
+          ],
+          "purpose": "Prove packet hygiene, stable corpus boundaries, links, typed lifecycle health, and the actual dependency order before freezing the external-review revision.",
+          "outcome": "passed",
+          "evidence_ref": "Fresh local and live GitHub validation in .worktrees/adl-wp-4646 on 2026-07-19; external review itself remains not run."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

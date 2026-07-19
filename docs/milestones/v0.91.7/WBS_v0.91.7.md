@@ -17,8 +17,12 @@ WP allocation is promoted into the v0.91.7 issue wave. WP-01 is `#4628`; WP-02 t
 
 Live WP truth last verified on 2026-07-19: WP-01 through WP-18 are closed.
 WP-19, WP-20, and WP-23 are open; WP-21, WP-21A, and WP-22 are closed retained
-planning evidence. WP-19 waits only for active PR #5574 to settle before its
-exact-revision snapshot; #5571 remains a non-blocking v0.91.8 residual.
+planning evidence. WP-19 proceeds on a frozen exact revision that excludes
+v0.91.8 follow-ons #5572 / PR #5574 and #5575. Publication-boundary audit
+#5571 remains open v0.91.7 work but does not block the bounded WP-19 send.
+Closeout audit #5573 remains open and underway in another session. Merged PR
+#5578 already retains its 427-issue register; its remaining closeout is not a
+WP-19 send dependency and stays with that owning session.
 This sequence snapshot is issue-state truth only.
 Review cleanliness and release consumption remain governed by
 `review/V0917_SPRINT_REVIEW_REGISTER.md` and issue-local proof packets.

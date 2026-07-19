@@ -3,13 +3,13 @@
   "issue": 4646,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "56b5b75b32fafe1ffc6b96e8968dae6b77026c41ddcb7e0bb6b30b826025d31f",
-  "phase": "published",
-  "generation": 10,
-  "digest": "8879503b646b49879b66a973cf18ce79ea9fabc442cdfdd16cfcfb1b26de9c71",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "a16ce4e05dd56221ed909f4040fa37a64073eda7a144340644409fcd8fefa168",
   "claim": {
     "id": "claim-4646-v0-91-7-wp19-external-third-party-review",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 10,
+    "generation": 14,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -22,73 +22,9 @@
     ],
     "purpose": "Prepare and later execute WP-19 without claiming completion from setup"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f7bd2-7cff-7e62-8c8b-bb05bde8db65",
-    "assigned_by": "codex:issue-4646",
-    "revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
-    "scope": [
-      ".csdlc/issues/4646",
-      ".csdlc/prepared/issues/4646",
-      "docs/milestones/v0.91.7"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f7bd2-7cff-7e62-8c8b-bb05bde8db65",
-    "scope": [
-      ".csdlc/issues/4646",
-      ".csdlc/prepared/issues/4646",
-      "docs/milestones/v0.91.7"
-    ],
-    "reviewed_revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
-    "findings": [
-      {
-        "id": "F-4646-1",
-        "severity": "p1",
-        "summary": "The original send-time identity procedure was self-referential because the handoff was inside its own digest corpus.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
-        "route": null
-      },
-      {
-        "id": "F-4646-2",
-        "severity": "p2",
-        "summary": "Publication auditing and digest computation originally operated on different path corpora.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
-        "route": null
-      },
-      {
-        "id": "F-4646-3",
-        "severity": "p2",
-        "summary": "The packet README retained a stale instruction to record dispatch identity in the handoff.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:0c869d5223239c0a70da542d220dc4682536c49f:bfd1a8917fc283737a8f0b4ed307685194049de50566ac62234559d29a64f37b",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "External review has not run; dispatch remains intentionally held until PR #5574 reaches a stable terminal state."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 4646,
-    "pull_request": 5579,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5579",
-    "base": "main",
-    "head": "codex/4646-v0917-external-review",
-    "revision": "git-blake3:8048c812ff3ff5b3f6a4b10abe9805f2747aa8c6:2b23afe7d6fea6b9a6cb66d2799a4949095eed3439a67923a355812e1c8e81db",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -102,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7800de126cb0053f98e76865e24a6aeb984305b37ec946a2ef070bcfeb633104",
+      "values_digest": "cf9ede6e71a9df28d27f8d771ef6625fb1a405abe83409953b9f4cadd58e614f",
       "rendered_digest": "e5b99204539ac0734e24a003ad319a9c5c57079c2969d094225ab0f8614bdc15",
       "ast_digest": "2647e65d641a7245fddedb8dcfefacd3fba8f2211bead0548fdfd07f241893b6"
     },
     "stp": {
-      "values_digest": "fc81bde6ff77e4e05f3ef3fd45ce4dc989e5f28fe0fd5b36054718c2821d596d",
+      "values_digest": "a5a857de93d3caba3f56a523bcc881e93235fbf8bac0378be66f62e7b73b0370",
       "rendered_digest": "bd38b0c9940a3291d61a13849bfc0ac45983c5927e2204028024f0cb62acf430",
       "ast_digest": "5ab9d2c01e49ae35f3da0008b783e3a945a485900c9b7b1ea592e3a8a8de2778"
     },
     "spp": {
-      "values_digest": "353151826ca18659427d5ba3c1d2b47f022e8a030884a1a414948b235cfae24e",
+      "values_digest": "eac44fcc7038a941090ce37687d57cc49471a7175455b9eed21c664b29b9aad0",
       "rendered_digest": "e7498b8202a19fc799db2bf89e5ad42251f4e69ca99e131841b481491780190c",
       "ast_digest": "ba0ee92c13833b60b683d6f5bd567e495a4e44a3e0782443436d0fd1aa4f45e8"
     },
     "vpp": {
-      "values_digest": "5e0c11917ba94afbe5df2040618a7d1d87b816bf4b6e5705ad706348ad98f7e9",
+      "values_digest": "a88153ce668fb023bcad07634865de006f7d879998df1a315019c964cafc1985",
       "rendered_digest": "60fabb2437618f75504d46fdcc75c4f4c7472beca527c46208439dd80fc6ae16",
       "ast_digest": "2a03e8df19363f4e77e420af1731a250a7470c20705e22dd2cc54b29e606683b"
     },
     "srp": {
-      "values_digest": "06b0d63c4c9a26034b1003145edc0c56764981de81941c1d0dd554bbaaec5d16",
-      "rendered_digest": "16b1d135f1b8cd576d3fcca4639d90745c607576d55abd66b89a6f4c2997f951",
-      "ast_digest": "f33697bda9d6fab1856a5dde88091a6af14b1fd551177e4feb59329bb36456af"
+      "values_digest": "48b1b9e73471e95b6482689dfab136f3829b550f729f1c73b593e86dfff2da0d",
+      "rendered_digest": "8091ec9adf5d4dc2bafb1ad411673019c87c88d542be303a2ac07330b8ece732",
+      "ast_digest": "704639f76190669d16e86bab21bdbc6e660bbe98e16205ddef8aeb455dcecb50"
     },
     "sor": {
-      "values_digest": "374e695aa06f351e71630d2cad0bf9d7ca244c7d9908150683d0a99ac1b295f4",
-      "rendered_digest": "a3d528d69f36e51b151c3fc7ecaf12440803d0288102afc3eb46c9dc2ae92fd4",
-      "ast_digest": "5674e9bc41670b87fba6eaea09688aa215cb281153942fe38cc7c31906173578"
+      "values_digest": "cce02197671fe36bb8448167f8a8a07814f35569597d54b9e3b7979195f60877",
+      "rendered_digest": "0448e35c86ec82101855a298d6ac7d2fcd06a4830608b474c99f5037f0003817",
+      "ast_digest": "558bded6ed5652d8a037b39970d968fa0d708ffb8d99cc64d43c1bbde26bebf8"
     }
   },
   "transitions": [
@@ -167,6 +103,13 @@
       "to": "published",
       "actor": "codex:issue-4646",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-4646",
+      "reason": "Operator authorized freezing PR #5574 outside the external-review corpus and proceeding without waiting; recover publication for exact revised handoff review."
     }
   ],
   "audit": [
@@ -267,6 +210,34 @@
       "actor": "codex:issue-4646",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:issue-4646",
+      "reason": "Operator authorized freezing PR #5574 outside the external-review corpus and proceeding without waiting; recover publication for exact revised handoff review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:issue-4646",
+      "reason": "Record the operator-authorized frozen WP-19 corpus and final issue-version boundary without expanding scope.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed PR #5574 as a WP-19 send hold, froze the external-review corpus, and reconciled live version truth without creating new issues.\",\"changes\":[\"Classified #5572 / PR #5574 and #5575 as excluded v0.91.8 follow-ons\",\"Preserved #5571 as an open v0.91.7 residual and recorded #5573 as already completed by its retained 427-issue closeout register without making either a WP-19 send dependency\",\"Changed the WP-19 handoff to ready_for_external_review on one immutable exact revision\",\"Preserved the separate dispatch receipt outside the authoritative review corpus\"],\"artifacts\":[\"docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md\",\"docs/milestones/v0.91.7/review/external_review_4646/REVIEW_CORPUS.v1.txt\",\"docs/milestones/v0.91.7/review/external_review_4646/DISPATCH_RECEIPT.md\",\"docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:issue-4646",
+      "reason": "Correct the dependency chain after operator clarification and live GitHub verification.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Verified merged PR #5419 satisfies the #4646 prerequisite and recorded the serial closeout order #4646 then #5574 then #5573.\",\"changes\":[\"Verified PR #5419 merged green at merge commit 6fcd3accafc15e3b6cc8064d836293b4495983de\",\"Recorded #5573 as open and underway in another session rather than completed or not planned\",\"Kept #5574 outside the frozen WP-19 corpus because it follows #4646\",\"Preserved #5573 ownership in the other session and made no closeout claim\"],\"artifacts\":[\"docs/milestones/v0.91.7/review/V0917_WP19_EXTERNAL_REVIEW_HANDOFF_4646.md\",\"docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\",\"docs/milestones/v0.91.7/review/V0917_CLOSED_ISSUE_CLOSEOUT_REGISTER.md\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:issue-4646",
+      "reason": "Record final focused validation for the corrected immutable WP-19 corpus.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git diff --check\",\"Ruby YAML.safe_load with Date permitted for WP_ISSUE_WAVE_v0.91.7.yaml\",\"authoritative REVIEW_CORPUS.v1.txt uniqueness, exclusion, existence, and 66-file expansion validation\",\"local Markdown link existence check over changed documents\",\"live GitHub verification that PR #5419 is merged and #5573 is open with version:v0.91.7\",\"csdlc-doctor --repo . --issue 4646\"],\"purpose\":\"Prove packet hygiene, stable corpus boundaries, links, typed lifecycle health, and the actual dependency order before freezing the external-review revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh local and live GitHub validation in .worktrees/adl-wp-4646 on 2026-07-19; external review itself remains not run.\"}}"
     }
   ]
 }

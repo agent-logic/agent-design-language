@@ -53,4 +53,4 @@ that policy.
 This bounded audit permits sharing only paths listed in
 `REVIEW_CORPUS.v1.txt` with the named external reviewer. It does not approve
 publication of every already-retained WP-18 artifact. Issue #5571 remains the
-v0.91.8 owner for that broader publication-boundary audit.
+v0.91.7 owner for that broader publication-boundary audit.

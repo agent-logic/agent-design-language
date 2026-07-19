@@ -25,6 +25,13 @@ are closed retained planning evidence. Closed issue state does not by itself
 mean review-clean or release-ready; the sprint-review register and issue-local
 proof packets retain findings and non-claims.
 
+Issues #5572 / PR #5574 and #5575 are v0.91.8 follow-ons and do not block
+v0.91.7. Closeout audit #5573 remains open and underway in another session.
+Its merged PR #5578 already retains Markdown and JSON registers classifying all
+427 issues that were closed when the audit ran. WP-19 does not modify or wait
+on that independently owned closeout. The external review uses a frozen exact
+revision.
+
 | Closeout gate | Issue | Live state | Consumption boundary |
 | --- | ---: | --- | --- |
 | WP-14 launch/birthday handoff | #4641 | closed | Routing and claim-boundary evidence only. |
@@ -32,7 +39,7 @@ proof packets retain findings and non-claims.
 | WP-16 quality gate | #4643 | closed | Passed with downstream gates open; retained packet is `review/V0917_WP16_QUALITY_GATE_4643.md`. |
 | WP-17 documentation alignment | #4644 | closed | Merged by PR #5539; alignment packet is under `review/`. |
 | WP-18 internal review | #4645 | closed | Merged PR #5543; internal findings were routed through closed #5408 and #5544-#5547. |
-| WP-19 external review | #4646 | open | Prepared; take the exact-revision snapshot after active PR #5574 settles. |
+| WP-19 external review | #4646 | open | Ready to dispatch on the frozen exact revision; v0.91.8 follow-ons #5572 / PR #5574 and #5575 are excluded. Open #5573 is underway in another session; its existing audit register is retained but its closeout is outside WP-19. |
 | WP-20 remediation/preflight | #4647 | open | Owns findings returned by WP-19. |
 | WP-21 next-milestone planning | #4648 | closed | Retained planning evidence; current v0.91.8 authority supersedes direct activation use. |
 | WP-21A next-milestone closeout planning | #5489 | closed | Retains the canonical v0.91.8 planning and external-review handoff package. |

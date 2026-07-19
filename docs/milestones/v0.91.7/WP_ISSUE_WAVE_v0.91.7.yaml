@@ -26,13 +26,13 @@ closeout_tail_truth:
   release_ready: false
   evidence: docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md
   blocked_before_external_review: []
-  transient_external_review_send_holds:
-    - {pr: 5574, reason: "Open PR changes the WP-18 evidence corpus; settle it before recording the exact WP-19 revision."}
+  transient_external_review_send_holds: []
   notes:
     - "WP-18 #4645 is closed through merged PR #5543; #5408, #5527, #5489, and grouped remediation #5544-#5547 are also closed."
-    - "WP-19 #4646 may take its exact-revision snapshot after active PR #5574 for #5572 settles."
+    - "WP-19 #4646 proceeds on a frozen exact revision that excludes v0.91.8 follow-ons #5572 / PR #5574 and #5575."
+    - "Closeout audit #5573 remains open and underway in another session; merged PR #5578 retains its 427-issue register, and WP-19 does not own or wait on its remaining closeout."
     - "WP-20 #4647 remains open to own findings returned by WP-19."
-    - "#5571 is a version:v0.91.8 publication-boundary residual, not a v0.91.7 WP-19 prerequisite."
+    - "#5571 is an open v0.91.7 publication-boundary residual, not a WP-19 send prerequisite because the frozen corpus excludes the raw WP-18 packet."
 wp_issue_map:
   - {wp: WP-01, issue: 4628}
   - {wp: WP-02, issue: 4629}

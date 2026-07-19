@@ -13,7 +13,7 @@ the reviewed revision or its digest.
 | --- | --- |
 | Repository | `danielbaustin/agent-design-language` |
 | Review owner | WP-19 / #4646 |
-| Pull request or branch | `TBD after #5574 settles` |
+| Pull request or branch | `TBD after frozen corpus commit` |
 | Base branch | `main` |
-| Exact target commit SHA | `TBD after #5574 settles` |
-| Review corpus digest | `TBD after #5574 settles` |
+| Exact target commit SHA | `TBD after frozen corpus commit` |
+| Review corpus digest | `TBD after frozen corpus commit` |

@@ -9,7 +9,9 @@ in `DISPATCH_RECEIPT.md`.
 
 ## Before Sending
 
-1. Confirm PR #5574 has merged or closed without merge.
+1. Confirm the reviewer receives only the frozen corpus and does not consume
+   v0.91.8 follow-ons #5572 / PR #5574 or #5575. Open #5573 remains underway
+   in another session; its existing audit register is retained evidence only.
 2. Refresh live predecessor and remediation issue truth.
 3. Record the exact target revision and tracked-path digest in
    `DISPATCH_RECEIPT.md`.

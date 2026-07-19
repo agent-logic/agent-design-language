@@ -34,10 +34,14 @@ The #4645 review recorded twelve findings:
 
 - #5408 and #5544 through #5547 are closed.
 - #5527 and WP-21A #5489 are closed.
-- PR #5574 is an active exact-revision committed-diff proof repair for this
-  packet. WP-19 should take its final snapshot only after that PR settles.
-- #5571 is a v0.91.8 publication-boundary audit and is disclosed as a
-  downstream residual, not a v0.91.7 WP-19 blocker.
+- Open #5572 / PR #5574 is a v0.91.8 exact-revision committed-diff proof
+  follow-on. The operator authorized WP-19 to proceed on a frozen revision
+  that excludes it. Related #5575 is also a v0.91.8 follow-on. Closeout audit
+  #5573 remains open and underway in another session; merged PR #5578 already
+  retains its register, and WP-19 does not own its remaining closeout.
+- #5571 is a v0.91.7 publication-boundary audit. It remains a release-tail
+  residual but does not block this bounded WP-19 send because the public
+  allowlist excludes the raw WP-18 packet, live-state, and validation trees.
 
 ## Evidence
 
