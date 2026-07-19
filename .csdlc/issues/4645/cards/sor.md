@@ -91,11 +91,11 @@ Pinned the retained reproduction command to the exact original and remediation c
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

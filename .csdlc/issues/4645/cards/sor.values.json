@@ -7,7 +7,7 @@
     "title": "[v0.91.7][WP-18][review] Internal review",
     "slug": "v0-91-7-wp18-internal-review",
     "version": "v0.91.7",
-    "generation": 20
+    "generation": 21
   },
   "status": "pre_phase",
   "content": {
@@ -84,8 +84,8 @@
           "evidence_ref": "Commit 5bc35e1fe: exact HEAD^..HEAD diff check passed; zero-argument invocation failed closed with exit 64; git diff --check HEAD^..HEAD passed. This supersedes only the failed retrospective lane and does not rewrite the original empty log."
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

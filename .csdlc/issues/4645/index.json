@@ -3,13 +3,13 @@
   "issue": 4645,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b83689bd4a80acea6cd1dad467b03005174d03bdf87b95341e9d6235f48796fe",
-  "phase": "reviewed",
-  "generation": 20,
-  "digest": "41f4ff072020eac9b59d874e8932cf018173fdd52775dfd07adbb8be2145e242",
+  "phase": "published",
+  "generation": 21,
+  "digest": "eefc77f640bd1cce27bc5e066cd239961d35c6ddfc2d04cf47f3b4772fddfd2a",
   "claim": {
     "id": "claim-4645-v0917-internal-review-prep",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 20,
+    "generation": 21,
     "acquired_unix_seconds": 1784359768,
     "expires_unix_seconds": 1784964568,
     "heartbeat_unix_seconds": 1784359768,
@@ -50,7 +50,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 4645,
+    "pull_request": 5574,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5574",
+    "base": "main",
+    "head": "codex/4645-v0917-internal-review",
+    "revision": "git-blake3:577407b813b6fa9a55df9423c2f70c582ad4f4db:12a272e6bb4c1211d06d75be3f16eb36c92c8807ca29818ba00d2f52e386da40",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +74,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "86b9b3884d0756dfe9891d0289cf8441ae10a3c3cf0d6c14bdde104e819308f4",
+      "values_digest": "427d6c0361c38e07bc4b791c6cd8a36987837baca2a5eb83825d7f0a32f58177",
       "rendered_digest": "e1bf89aef7dad8b7e62722b0916c6bba5ff3bf1565e0bd04fc5955d33f63d739",
       "ast_digest": "e6ac30a25dd6a6a7c4961f6510b70bb96a483fed02a09a2fff081460bab62e5a"
     },
     "stp": {
-      "values_digest": "b9e0755e5824361a08048d8b8833065960347f031eb03cb691f5be08478f6a9e",
+      "values_digest": "c1734b04905be98b923f3154c0a574677927f96cee322152a9804102a6a9c454",
       "rendered_digest": "4eac2fb9b783d00bfb49377c7fe316b145b49273fb0cac63985770dd9782e7a2",
       "ast_digest": "b42c7d1246f0141a9b8131f63a686ae56ec5ba2e74b6b41459d528fa0ea27267"
     },
     "spp": {
-      "values_digest": "4b9c0d26c83aa71f0462c9de749dcf1745c4fa64eb3f9a0cb5dbe3fef76ae6b6",
+      "values_digest": "6fab00cf1be7dba19063fb02987b8fbc64b6815a03399561b3b772a693356acb",
       "rendered_digest": "93d5fd2e0d59cad03e318ca6e9c1080b29dbc23f41e3867d4fe6d5e4dfaf8bcc",
       "ast_digest": "c3cd5e627c8b2d2ff27ca189a56fa43602d999c98ea668ed41bc0b99caefc634"
     },
     "vpp": {
-      "values_digest": "273096d08e8dff499fefa2555b73719da1aabee32c1819bcc03a818ea88e9e8a",
+      "values_digest": "45e1181549e195362f9e7e004f85df05e79755ba6846c5d75f2824614ab03e0f",
       "rendered_digest": "67c4a527e567c24bbde221d7e3cb734bd6b14f5456f8aef9c2135a056fe4f252",
       "ast_digest": "afbeedd850450474da2fb1c97b98150e5c98a10ab853c2b1563116badf81ca30"
     },
     "srp": {
-      "values_digest": "a8f2b3a8a5f21878903dadefeafb836f247aa8905a1e4d3c2e4cc2d1045139ad",
+      "values_digest": "4afcddbf00072592e926ed389793bd6eb963c17b040be3c16964d9a9874e06e7",
       "rendered_digest": "9a69b61aa3ee1e2c4a33ad1019eced8947b96de7dbfea1cfc14deafc4355705f",
       "ast_digest": "29469697d8f7fe43004bc8977f5c6cdd906de54fc9aa5f61e23df2f34ab5045f"
     },
     "sor": {
-      "values_digest": "f4b9850bfe0496b3c3a6b41cd77a069e63ba3c8d23483636c614fe9d6009c0dd",
-      "rendered_digest": "9b61bd3e979826f7055d909b4e3496e3c4ce5295c4b76aefceb7f3f62e14ed01",
-      "ast_digest": "4d057a1043a9e4fa73c7ea17ef0bdd5e350ecad4309e17f4593b594a5282308b"
+      "values_digest": "6c54b674337e7e19bf3bcd84d00c8fb445ffddbd744259dbeae8fdbb66f2ec42",
+      "rendered_digest": "a96edc769ae1072938957f91aef66e1ec2562bef6297aeb8e46768d6f0ad785e",
+      "ast_digest": "d99e2719b6d3465b89be8b81e5d1d4d67880e5407ef773bbe3721748aebdf334"
     }
   },
   "transitions": [
@@ -143,6 +153,13 @@
       "to": "reviewed",
       "actor": "codex-closeout-audit",
       "reason": "Final exact-revision remediation review passed with no findings; F-4645-3 is fixed by immutable pinned-range proof."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-closeout-audit",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -327,6 +344,13 @@
       "actor": "codex-closeout-audit",
       "reason": "Final exact-revision remediation review passed with no findings; F-4645-3 is fixed by immutable pinned-range proof.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex-closeout-audit",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
