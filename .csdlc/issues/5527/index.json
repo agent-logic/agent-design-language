@@ -3,13 +3,13 @@
   "issue": 5527,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "b39cf9f23e29cee6b0210b71f27cb741da4101fc49585ca4be7c8eb7a86b8f68",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "fa9e81de530ee767a2379c0e9f91461cda07bb62897a55c8a362011458001dae",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "477865f9447437f16705abd4fb37d526875b0a69650744a5f8e555cbfa026440",
   "claim": {
     "id": "claim-5527-terminal-sor-artifact-repair",
     "owner": "codex-closeout-audit",
-    "generation": 11,
+    "generation": 13,
     "acquired_unix_seconds": 1784418712,
     "expires_unix_seconds": 1784505112,
     "heartbeat_unix_seconds": 1784418712,
@@ -27,8 +27,64 @@
     ],
     "purpose": "Add atomic typed terminal SOR artifact-reference repair and correct #5390"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "assigned_by": "codex-closeout-audit",
+    "revision": "git-blake3:d1b858942bc8130f03fb26d5f66f6834721816c7:1d70024e040109803c96950722bc2a255acb134fce7e1d5249f297094b719d06",
+    "scope": [
+      ".csdlc/issues/5390",
+      ".csdlc/issues/5527",
+      ".csdlc/prepared/issues/5527",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+    "scope": [
+      ".csdlc/issues/5390",
+      ".csdlc/issues/5527",
+      ".csdlc/prepared/issues/5527",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:d1b858942bc8130f03fb26d5f66f6834721816c7:1d70024e040109803c96950722bc2a255acb134fce7e1d5249f297094b719d06",
+    "findings": [
+      {
+        "id": "F-5527-1",
+        "severity": "p1",
+        "summary": "Initial VPP named a nonexistent standalone test target instead of the implemented Gate 7 test.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d1b858942bc8130f03fb26d5f66f6834721816c7:1d70024e040109803c96950722bc2a255acb134fce7e1d5249f297094b719d06",
+        "route": null
+      },
+      {
+        "id": "F-5527-2",
+        "severity": "p1",
+        "summary": "The first corrected VPP argv depended on an unstated subdirectory working directory.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:d1b858942bc8130f03fb26d5f66f6834721816c7:1d70024e040109803c96950722bc2a255acb134fce7e1d5249f297094b719d06",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "The pre-existing non-Git Gate 2 fixture failures discovered by the full suite are routed to #5548; focused Gate 7, Clippy, formatting, and doctor proofs pass for this bounded change."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +99,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c0753a2fcd53e84eed0222b04dd003768b078c9cd9847f41e6305459b131d7dc",
+      "values_digest": "43b525bf54c16a781a4389bcd1efe309d00fbd892f145f8c33bba0f18702ea04",
       "rendered_digest": "2fcef2c8a671de6df948e1f090a4bbd6009874b2e7a24fcf753fbc7f7e985412",
       "ast_digest": "95f89c615430c3d6d0d9cd545ef5fc0287b1d0189dbc35d7d936d0ec23e529a7"
     },
     "stp": {
-      "values_digest": "1ef83330b22e84c623fb13fa023e1b111d9571a15bdc0bd9307eede9ad7657a6",
+      "values_digest": "6ffcee53fdc1a5610ce823c5ef33575fec4fb2bdaf5cb21807d468c5b8504d15",
       "rendered_digest": "9f27ff1f7dd70941fa6a040092d128da0790cbc47e17f415bb193c6ee10755b1",
       "ast_digest": "96e122a7bf67f79354b616ba86217d6604c5a4eafd529705f7635a456fc07f45"
     },
     "spp": {
-      "values_digest": "d444e3f0b3ae339720d2b5ec03777bf7db5b968ab43ea39c3e63e8ec012399a1",
+      "values_digest": "ae3daa89e50477cc94e3794cc259cce1a620261b2917278a3891ac420550e282",
       "rendered_digest": "78c9cb6b20aa9628a0cb614ac17e3a8b4b9c68c2a75afaf0c3505f2ed3666997",
       "ast_digest": "f6d99558828ae87f281ac1e5768ad2a0b42fb300c7afc5ebed5ebab950a5d8bc"
     },
     "vpp": {
-      "values_digest": "f55a9cd59402f0f1488b3da244d3cd58a04c2d311f1b958888ba47aa95e41b6d",
+      "values_digest": "87df7ab0bf3cf39bef743a894a6c6fd4f5fd00eb6e6b8e2e542e8acd26a10a4c",
       "rendered_digest": "e33d36e45faa63e361f3cdd612c8fcff169d3949afbb54e97fbe73091f37ea35",
       "ast_digest": "95001bf7b86c4778b0f0a1c5323ec44a17b7956e0ce88c85107d8c0fc75b5094"
     },
     "srp": {
-      "values_digest": "3e78ed48108c081407dd3c44f2a98e70b511f2d0cbb86a436e407c9e52f265dc",
-      "rendered_digest": "f0ab56d7c7da15bcb2723ad9c09f1bfb47cca232ae20788171cd8326514ef780",
-      "ast_digest": "974f4cc9c81b54baca0c30b81d2b6850fb2a2f83964a063d7f6957374be7bb61"
+      "values_digest": "0881218b2e243eba8f9137981d1d32fb19a3c579977c8979d53c0f6ae70934d9",
+      "rendered_digest": "742115f7f7ed301a168c0514ec82d73bb14cf7b5701a24dc9169a0c3e554d759",
+      "ast_digest": "0f1460dedb71ed97ce3f41a77e1d12445c11670ce3b7511a05366297ffe4ee8e"
     },
     "sor": {
-      "values_digest": "2b8061e1d0ea6da8a0f291676834b55327790cf434a685f80ec7bfc672595264",
+      "values_digest": "9ae5f85090b7b4cff0c8e044e548100bbe49eb44c3e70f4aec9b4afa6fdcad35",
       "rendered_digest": "ecd80cdcd0b229e561cbdefe77fda776a2ebd599a5864930435d0a643a92f522",
       "ast_digest": "9d1b2e17c519d17aafea09471b588f63a6e03395bb5e0be8609e7f04f324bcd9"
     }
@@ -94,6 +150,13 @@
       "to": "implemented",
       "actor": "codex-closeout-audit",
       "reason": "Implementation, focused regression, rollback, lint, and repaired-target validation are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-closeout-audit",
+      "reason": "Exact substantive revision review is clean after both VPP truth findings were fixed and independently rerun."
     }
   ],
   "audit": [
@@ -194,6 +257,27 @@
       "actor": "codex-closeout-audit",
       "reason": "Record the literal root-executable VPP lane after review remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate7_lifecycle\",\"terminal_sor_artifact_repair_is_scoped_atomic_and_receipt_bound\",\"--\",\"--exact\"],\"purpose\":\"Prove the exact declared root-relative atomic SOR artifact repair and rollback lane.\",\"outcome\":\"passed\",\"evidence_ref\":\"Executed literally from the issue worktree root: 1 passed, 0 failed, 11 filtered out\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex-closeout-audit",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "subagent:019f669a-596c-71e2-adb3-bd753875989d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex-closeout-audit",
+      "reason": "Exact substantive revision review is clean after both VPP truth findings were fixed and independently rerun.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
