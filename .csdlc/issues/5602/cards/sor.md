@@ -12,18 +12,24 @@ Status: pre_phase
 
 ## Summary
 
-Add --no-report to every partitioned cargo llvm-cov nextest command and retain the explicit combined ADL and Runtime report commands.
+Use cargo-llvm-cov clean and show-env, run partitioned cargo nextest directly with run-scoped instrumentation targets, and render one explicit combined report per workspace.
 
 ## Artifacts
 
 - adl/tools/run_authoritative_coverage_lane.sh
 - adl/tools/test_run_authoritative_coverage_lane.sh
+- adl/tools/run_authoritative_coverage_lane.sh
+- adl/tools/test_run_authoritative_coverage_lane.sh
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
 - Collect workspace coverage profiles without partition-local reports
 - Collect companion Runtime profiles without partition-local reports
 - Strengthen exact command-shape regression expectations
+- Replace the incompatible no-clean plus no-report wrapper invocation with the documented external-test workflow
+- Isolate CARGO_TARGET_DIR and CARGO_LLVM_COV_TARGET_DIR per coverage run
+- Update the authoritative and CI runtime contracts to prove show-env instrumentation is consumed
 
 ## Validation
 
@@ -41,11 +47,11 @@ Add --no-report to every partitioned cargo llvm-cov nextest command and retain t
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 
