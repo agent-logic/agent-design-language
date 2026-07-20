@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5361,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "ebdd95a3dd79978c1931a478ce8e543a15106fe5d6856db8975346413279baaa",
+  "phase": "bound",
+  "generation": 2,
+  "digest": "eaf9fdb925a07194a6d097d0b215348822856f4d341c84704f7b623a2df2bcee",
+  "claim": {
+    "id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 2,
+    "acquired_unix_seconds": 1784570111,
+    "expires_unix_seconds": 1785174911,
+    "heartbeat_unix_seconds": 1784570111,
+    "branch": "codex/5361-v0918-runtime-v3-acceptance-readiness",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5361",
+      ".csdlc/locks/5361.lock",
+      ".csdlc/prepared/issues/5361"
+    ],
+    "purpose": "Prepare and review Runtime v3 acceptance cards and dependency truth without executing acceptance"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5361/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5361/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "revision": "3dea593c006065eb2ddc44090d2b02ee2342dacaa1c12b2f39be905f8bcbc70a"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "623cc7959881dd52b79dabbadd46cb5e5219f0bddacc1386fecc17370c5c335f",
+      "rendered_digest": "a02b2f8418b14dd974c85ebae88a4214f2d6a8f901c112dd54293fce1b016a3f",
+      "ast_digest": "f4c24a5f6ec316e12b27bb26ba420ddd7bf5f2883261b4d36387c841e1046a0b"
+    },
+    "stp": {
+      "values_digest": "5462d26ded2a4d56d3bbde01ee323a16095ece12c454827c8990de47b927bb70",
+      "rendered_digest": "904d19eaea410e1163274c98b02337d60f6e45a860bdbc58432060a510dd9f66",
+      "ast_digest": "32789fa2d3b96d3baa3f9d7d89e41425b3666fea17e9f1a268fd3106a4885533"
+    },
+    "spp": {
+      "values_digest": "4fb2de6f6d536a4dfa4e9463cced4b193f69118865c944cd909e5fba95679993",
+      "rendered_digest": "8f0bde6c3f63875037dfc08aea675f4f845931fd31358e866d0aa6a94ee0730f",
+      "ast_digest": "647a6690b6597b6664da8380929c4ca268f0d94f3f62654a948651b63223aad0"
+    },
+    "vpp": {
+      "values_digest": "e93da300ed9af2b5febc5d1f9fc5b615df7f49e9ce122089434fa3f717a32244",
+      "rendered_digest": "0866619e0604852d2d2f5d15add14d2c1ab308cc9aefc9b384c42336b89d83a0",
+      "ast_digest": "676cb69cf347c724bfc419ad8f886f018f84a6ec4031e6334800ef74ae348626"
+    },
+    "srp": {
+      "values_digest": "45b8edefbd1b206b0c45cc2df1db38bc56b868cf18177d1b0c042b251d7c060d",
+      "rendered_digest": "25091845f250083186e36d2928955caca3051181cb3263a9952412ea0a33f45b",
+      "ast_digest": "75e1c0313817d8819bc4af2bf3cb2d1e3eda5fb43cf0303f273e430937f63e96"
+    },
+    "sor": {
+      "values_digest": "3603fcaea5dced07e33e4940dd77089f0fc2a3d452561b0d6c27181a2a166b59",
+      "rendered_digest": "0428fc08418f1f1e2f712fbb9e13743cac67e32b8a22bec5b272266a857a0308",
+      "ast_digest": "ddda70a8fa7e24a260403a21a0e41146e9d94ecf024bf61ecde6879b4477ada7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fix review findings by separating dependency, access, operations, quality, and owner-test proof roles and preserving current deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"dependency-and-consumer-register\",\"proof_role\":\"Verify retained exact-revision architecture, parity, adapter, provider/tool, and live workcell evidence is integrated into the accepted revision\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5361/validate_acceptance_register.rb\",\"--section\",\"dependencies\"],\"parallel_group\":\"acceptance-register\",\"defer_reason\":\"Wait for #5336, #5591, #5592, #5589, #5590, #5341, #5349, and #5501 to integrate and publish retained proof.\"},{\"lane\":\"secure-access-and-observatory-register\",\"proof_role\":\"Verify retained HTTPS local/remote access, address configuration, Observatory, and telemetry proof at the accepted revision\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5361/validate_acceptance_register.rb\",\"--section\",\"access\"],\"parallel_group\":\"acceptance-register\",\"defer_reason\":\"Wait for Parity-D #5590 and its retained secure-access and Observatory evidence.\"},{\"lane\":\"operations-and-rollback-register\",\"proof_role\":\"Verify retained guardian, pressure shutdown, checkpoint/replay/resume, rollback, and recovery evidence at the accepted revision\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5361/validate_acceptance_register.rb\",\"--section\",\"operations\"],\"parallel_group\":\"acceptance-register\",\"defer_reason\":\"Wait for Parity-A #5591 and Parity-D #5590 retained operational evidence.\"},{\"lane\":\"quality-and-independence-register\",\"proof_role\":\"Verify Runtime v2 independence, reasoning and learning surfaces, strict lint, test count, CI, retained artifacts, and explicit AWS/GPU/remote-provider non-claims\",\"acceptance_ids\":[\"AC-3\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5361/validate_acceptance_register.rb\",\"--section\",\"quality\"],\"parallel_group\":\"acceptance-register\",\"defer_reason\":\"Wait for all parity packets and accepted-revision CI evidence.\"},{\"lane\":\"runtime-v3-kernel\",\"proof_role\":\"Run the isolated Runtime v3 kernel suite for ingress, continuity, cognition, secure access, Observatory, pressure, and rollback behavior\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-v3-local\",\"defer_reason\":\"Run only after all four parity children integrate into the acceptance candidate.\"},{\"lane\":\"runtime-v3-supervision\",\"proof_role\":\"Run the isolated Runtime v3 supervision and component lifecycle suite\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"parallel_group\":\"runtime-v3-local\",\"defer_reason\":\"Run against the integrated Runtime v3 acceptance candidate.\"},{\"lane\":\"guardian-soak\",\"proof_role\":\"Exercise guardian lifecycle, health, telemetry, pressure response, recovery, and graceful shutdown through the owner script\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"bash\",\"adl/tools/run_runtime_v3_guardian_soak.sh\"],\"parallel_group\":\"runtime-v3-live\",\"defer_reason\":\"Run only after the integrated candidate and init configuration are fixed at an exact revision.\"},{\"lane\":\"runtime-v3-inventory\",\"proof_role\":\"Report Runtime v3 source size, test count, and module-growth budget\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/report_runtime_v3_loc.sh\"],\"parallel_group\":\"runtime-v3-local\",\"defer_reason\":\"Run at the final acceptance candidate revision.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Verify issue-branch patch hygiene at the exact reviewed revision\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    }
+  ]
+}

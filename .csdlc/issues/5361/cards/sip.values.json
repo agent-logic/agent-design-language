@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5361,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14] Fully accept and deploy Runtime v3",
+    "slug": "v0-91-8-wp-14-runtime-v3-acceptance",
+    "version": "v0.91.8",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Accept Runtime v3 at an exact revision after all parity, consumer, operational, rollback, and workcell proof dependencies converge.",
+      "required_outcome": "Runtime v3 is installed through its stable owner path, operationally proven, rollback-capable, reviewed, and consumable by ADL v2 and v0.92 without relying on Runtime v2 implementation paths.",
+      "declared_scope": [
+        "Runtime v3 integrated acceptance and retained proof synthesis",
+        "Parity-A through Parity-D evidence consumption",
+        "ADL v2 adapter and provider/tool consumer proof",
+        "guardian, secure access, Observatory, rollback, and operations proof",
+        "live multi-agent workcell output-contract consumption"
+      ],
+      "authority_boundary": [
+        "#5361 owns Runtime v3 acceptance synthesis",
+        "#5591, #5592, #5589, and #5590 own parity implementation",
+        "#5501 owns live workcell proof",
+        "#5384 consumes completed #5361 evidence",
+        "typed C-SDLC v2 records and exact-revision review govern acceptance"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": []
+    }
+  }
+}
