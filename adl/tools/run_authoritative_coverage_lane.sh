@@ -329,6 +329,26 @@ promote_current_run_summaries() {
       my $target = "$current_link/$base";
       return -l $dest && readlink($dest) eq $target;
     }
+    sub acquire_lock_with_timeout {
+      my ($lock_fh, $lock_path) = @_;
+      my $timeout = $ENV{ADL_COVERAGE_PROMOTION_LOCK_TIMEOUT_SECONDS} // 10;
+      $timeout = 10 unless $timeout =~ /\A[1-9][0-9]*\z/;
+      my $locked = eval {
+        local $SIG{ALRM} = sub { die "__ADL_LOCK_TIMEOUT__\n"; };
+        alarm($timeout);
+        my $ok = flock($lock_fh, LOCK_EX);
+        alarm(0);
+        $ok;
+      };
+      my $err = $@;
+      alarm(0);
+      if (!$locked) {
+        if ($err =~ /__ADL_LOCK_TIMEOUT__/) {
+          fail(46, "timed out waiting up to ${timeout}s for coverage summary promotion lock: $lock_path");
+        }
+        fail(1, "failed to acquire coverage summary promotion lock: " . ($err || $!));
+      }
+    }
 
     my (
       $lock_path, $run_id, $adl_summary, $runtime_summary, $final_summary,
@@ -338,7 +358,7 @@ promote_current_run_summaries() {
 
     make_path($published_root);
     open(my $lock_fh, ">>", $lock_path) or fail(1, "failed to open coverage summary promotion lock: $!");
-    flock($lock_fh, LOCK_EX) or fail(1, "failed to acquire coverage summary promotion lock: $!");
+    acquire_lock_with_timeout($lock_fh, $lock_path);
 
     if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_LOCKED_FAILURE} // "0") eq "1") {
       fail(42, "injected coverage summary locked promotion failure");

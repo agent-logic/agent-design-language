@@ -562,6 +562,8 @@ for required_fragment in (
     'coverage-summary.adl-runtime.json',
     'FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"',
     'SHARED_SUMMARY_CURRENT_LINK="$SHARED_SUMMARY_PUBLISHED_ROOT/current"',
+    'ADL_COVERAGE_PROMOTION_LOCK_TIMEOUT_SECONDS',
+    'timed out waiting up to ${timeout}s for coverage summary promotion lock',
     'flock($lock_fh, LOCK_EX)',
     'symlink("runs/$run_id", $link_tmp)',
     'install_symlink($shared_final_summary, $current_link, $run_id)',

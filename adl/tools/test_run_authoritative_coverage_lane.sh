@@ -335,6 +335,44 @@ do
   assert_no_promotion_temp_residue
 done
 
+live_lock_marker="$temp_root/live-lock-ready"
+perl -MFcntl=:flock -e 'open(my $fh, ">>", $ARGV[0]) or die "$ARGV[0]: $!\n"; flock($fh, LOCK_EX) or die "lock: $!\n"; open(my $ready, ">", $ARGV[1]) or die "$ARGV[1]: $!\n"; print $ready "ready\n"; close($ready); sleep 5;' "$shared_lock" "$live_lock_marker" &
+live_lock_pid="$!"
+for _ in 1 2 3 4 5 6 7 8 9 10; do
+  [ -s "$live_lock_marker" ] && break
+  sleep 0.1
+done
+if [ ! -s "$live_lock_marker" ]; then
+  echo "expected live promotion lock holder to become ready" >&2
+  kill "$live_lock_pid" 2>/dev/null || true
+  wait "$live_lock_pid" 2>/dev/null || true
+  exit 1
+fi
+live_lock_log="$temp_root/live-lock-timeout.log"
+live_lock_stderr="$temp_root/live-lock-timeout.stderr"
+set +e
+PATH="$bin_dir:$PATH" \
+  AUTHORITATIVE_CARGO_LOG="$live_lock_log" \
+  ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+  ADL_COVERAGE_RUN_ID="run-live-lock-timeout" \
+  ADL_COVERAGE_PROMOTION_LOCK_TIMEOUT_SECONDS=1 \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request 2>"$live_lock_stderr"
+live_lock_status=$?
+set -e
+kill "$live_lock_pid" 2>/dev/null || true
+wait "$live_lock_pid" 2>/dev/null || true
+if [ "$live_lock_status" -ne 46 ]; then
+  echo "expected live promotion lock holder to produce bounded timeout exit 46, got $live_lock_status" >&2
+  cat "$live_lock_stderr" >&2
+  exit 1
+fi
+grep -F -- "timed out waiting up to 1s for coverage summary promotion lock" "$live_lock_stderr" >/dev/null
+if [ -e "$shared_published_root/runs/run-live-lock-timeout" ]; then
+  echo "expected live-lock timeout to avoid publishing a run directory" >&2
+  exit 1
+fi
+assert_no_promotion_temp_residue
+
 crash_lock_log="$temp_root/crash-lock.log"
 crash_lock_stderr="$temp_root/crash-lock.stderr"
 set +e
