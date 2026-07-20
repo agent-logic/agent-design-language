@@ -1,8 +1,6 @@
-# v0.91.7 WP-19 External Review Handoff (#4646)
+# ADL v0.91.7 Third-Party Review Handoff
 
 Status: complete_with_provider_degradation
-
-Issue: #4646
 
 Last verified: 2026-07-19
 
