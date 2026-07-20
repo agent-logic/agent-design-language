@@ -7,13 +7,13 @@
     "title": "[v0.91.8][WP-14] Fully accept and deploy Runtime v3",
     "slug": "v0-91-8-wp-14-runtime-v3-acceptance",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
+      "review_scope": "Review the exact #5361 preparation revision across all six typed cards, the acceptance design, dependency diagram, protected paths, acceptance-register validator, and typed preparation requests. Verify complete bidirectional AC-1 through AC-7 SPP/VPP coverage; correct dependency ordering; explicit Runtime v2 independence, HTTPS-only and address-configuration boundaries, no-AWS boundary, and unsupported-claim boundaries; and confirm that no required parity, consumer, operational, rollback, review, or quality obligation is deferred, weakened, omitted, or treated as fixture-only proof. Confirm this revision remains preparation-only and makes no implementation, acceptance, deployment, publication, or closeout claim.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

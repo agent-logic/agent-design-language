@@ -20,21 +20,20 @@ deployment, AWS, or shared milestone file was changed.
   revision, and hashes retained artifacts from `revision:path` rather than the
   current working tree.
 
-## Typed Tooling Blockers
+## Resolved Typed Tooling Preconditions
 
-1. `docs/templates/prompts/current.json` selects active template set `1.0.3`,
-   while `csdlc-v2/src/cards.rs` generates and validates every new card as
-   template `1.0.0`. Direct card edits are prohibited, so this packet cannot
-   truthfully claim active-template compliance.
-2. `SipValues` supports operator constraints, but `csdlc-init` always emits an
-   empty list and no typed semantic operation can populate it. The real no-AWS,
-   no-Runtime-v2-implementation, HTTPS-only, and no-hard-coded-address
-   constraints therefore remain visible in STP/SPP but not SIP.
-3. The generated SRP scope says `Exact implementation revision before
-   publication.` The issue is intentionally preparation-only and remains
-   `bound`; the typed API does not permit a preparation-safe SRP scope update
-   without advancing to a false implementation phase.
+The preparation-safe typed operations delivered by #5597 were used from the
+installed v2 generation to repair both prior card defects without hand-editing
+rendered Markdown or advancing #5361 out of `bound` phase:
 
-These blockers require one shared C-SDLC v2 authority repair. They must not be
-worked around by hand-editing generated Markdown or by falsely advancing
-#5361 into implementation.
+- SIP now records the issue's full operator constraints, including typed-v2
+  authority, preparation-only scope, complete AC-1 through AC-7 execution,
+  Runtime v2 independence, HTTPS-only access, no hard-coded addresses, no raw
+  `gh`, and no AWS.
+- SRP now scopes review to the exact six-card preparation packet, design,
+  diagram, protected paths, validator, and typed requests. It explicitly checks
+  complete SPP/VPP coverage and rejects weakened or fixture-only proof.
+
+The dependency-gated VPP lanes are ordered waits, not deferred acceptance work.
+Every required lane remains release-gating and must execute successfully at the
+integrated candidate revision before #5361 can claim acceptance.
