@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
   "phase": "bound",
-  "generation": 7,
-  "digest": "bb4c1502f0fe51c4b4a1e9897dd741a1b61869eebda6160bc99a8913e19e950b",
+  "generation": 9,
+  "digest": "90afc86369d359862cba08097409bda1fd701a38be04ea69e2868193b4caed6d",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1784570058,
     "expires_unix_seconds": 1784656458,
     "heartbeat_unix_seconds": 1784570058,
@@ -38,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c022148c2f91da1198d3106b2d1de0557846e2f7b811a6a1d5bd76ef27141414",
-      "rendered_digest": "21cf51053ac57282ce5e62f39ad338c182126b7b049b490d952952c2fc7ad6dc",
-      "ast_digest": "e3dbb3c544e068e3657421d4097efdd4907971200a4a27f47929857b1737f176"
+      "values_digest": "92b56b0f5d6312dd5524a6203026e65312ebbbe35d93b981be849a781b1c419c",
+      "rendered_digest": "9f21cc4775b8bbcabe2ff712dff752b2d4c68a2d270906044955ff2f2bd2cae9",
+      "ast_digest": "b15fdebd7434d7b23dce44270f6f9a775eb0f1b870ccbd2afe88f37bda75a0cd"
     },
     "stp": {
-      "values_digest": "e89352e1f99e238868d31a3aed4329a87da3d47731e17848872b813b9686bbf7",
+      "values_digest": "16454645cdfebd24b3fd2804b28c630ee189721a6c2ac8a63a5db7b14fa23523",
       "rendered_digest": "343d76be029d91c8ec5e4e81c8c44881fd18394488b357ac4f659a77b7e114f9",
       "ast_digest": "4adf1d0441cd3bc2e2971643711d59c76582bdd25f7aa34f679e63a39bbcd16a"
     },
     "spp": {
-      "values_digest": "1428f64cdab1504f0adb84fdb65ea9a8e30efd802484b246414eb738853d2db9",
+      "values_digest": "3dfa97bcaa05a2d9cb4d98a4ae2ab2e91726abf9027c8899365a7d8a6e676b42",
       "rendered_digest": "fcf293678748874f8ad9f34f0f9d6389ea8a391f19299214463e2d03c2b12b1b",
       "ast_digest": "19330c5795f97ad966de7811a3a45bd58383f925807b26c7da0a8ad116e65041"
     },
     "vpp": {
-      "values_digest": "96c63bb07110ee92074eca8ca1f2aa6fb6c79c0d437edd612df088908fe40592",
+      "values_digest": "16b0b35d632009064be0ab1bea4719713005d670976a5b7f4db77b388d246f37",
       "rendered_digest": "b8db4593c53ab1064913a886ba06c017a329338eed7541533e1d7bfb3fa375d4",
       "ast_digest": "4075dfa434d9d45e4f89f34d4994e52a082f8cbc5691ee71821299b87aa5c4ce"
     },
     "srp": {
-      "values_digest": "ad61a5ccab149c8b162830bea19fe4e52044b3aa1b8e73f262e9cf02a5797998",
-      "rendered_digest": "92f83e456691324369fb613ef27ecf90091dac07d2868142f86b3460fabb96de",
-      "ast_digest": "de0f1ebadf7c1efb5d5dbcc539776446e8b28eeb94e6a3f3f2f9355a7a742962"
+      "values_digest": "4076c119d83eee4b61b9d1b92e709a2e8ecedcb85e84f9cda3e50e6208a75e97",
+      "rendered_digest": "42daf8004761a07f769c0e8eede70c49761eb8f66502c127171011459463b353",
+      "ast_digest": "29dedd8f5ac642813569652743272aa58184cec926e1bcadbc41e1dd531c390b"
     },
     "sor": {
-      "values_digest": "0b55d8f49a71d3716dd255a9ecab1d073d9d86a9d9f5701fa2d6f795634f79fd",
+      "values_digest": "b8c9d4e2c20108feec30fef5fb634d3be0b804877bf59636dd5e2f406d740dc2",
       "rendered_digest": "3558ba3cae99bccf89c23c9cf1339640c99d64fa9102051c55b75aeb8e1d6779",
       "ast_digest": "b7fd7f0a72ce4041f3b5fdae29bfb56e7fef55f8677a39e8bdc6b352410ee46b"
     }
@@ -147,6 +147,20 @@
       "actor": "codex:issue-5358-slot-3",
       "reason": "Make the bounded review inventory enumerate every untracked issue-local file rather than collapsing directories.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-doctor-5358\",\"proof_role\":\"Check canonical typed state, all six generated cards, digests, retained design, and bound issue integrity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5358\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-local-scope-inventory\",\"proof_role\":\"Enumerate every untracked #5358 issue-local artifact for bounded review\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"ls-files\",\"--others\",\"--exclude-standard\",\"--\",\".csdlc/issues/5358\",\".csdlc/prepared/issues/5358\",\".csdlc/evidence/5358\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:019f8100-844f-76d2-bb5e-c3ec4ca77dcd",
+      "reason": "Replace the empty SIP operator constraints with explicit issue-specific preparation and completeness boundaries",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use only the installed typed C-SDLC v2 binaries and repository owner tools; do not use raw gh or AWS\",\"Work only on the existing bound #5358 branch and limit tracked changes to .csdlc/issues/5358, .csdlc/prepared/issues/5358, and .csdlc/evidence/5358\",\"Preserve every STP acceptance criterion and complete bidirectional SPP and VPP coverage; later acceptance execution must implement and prove every criterion without deferral, omission, or weakening\",\"This preparation may repair issue-local lifecycle truth but must not perform product implementation, deployment, publication, merge, closeout, or edits to independently owned issue surfaces\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:019f8100-844f-76d2-bb5e-c3ec4ca77dcd",
+      "reason": "Replace the generic SRP scope with the exact issue-local preparation review boundary",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Review the exact substantive #5358 preparation revision across .csdlc/issues/5358, .csdlc/prepared/issues/5358, and .csdlc/evidence/5358. Verify all six typed cards plus the retained design and diagram; preserve every STP acceptance criterion; prove complete bidirectional SPP action and VPP lane coverage for AC-1 through AC-6 with no deferred, omitted, or weakened work; confirm closed evidence and independently owned blocker boundaries; and confirm no product, shared milestone, deployment, publication, merge, or closeout changes are claimed.\",\"operation\":\"replan\",\"previous_value\":\"Exact implementation revision before publication.\"}"
     }
   ]
 }

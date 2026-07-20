@@ -1,0 +1,15 @@
+{
+  "issue": 5358,
+  "card": "srp",
+  "expected_generation": 8,
+  "expected_digest": "c00b4509636371b8766d266f37140b91d1b1d451b1d953f0391c8ef3e72d10b0",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f8100-844f-76d2-bb5e-c3ec4ca77dcd",
+  "reason": "Replace the generic SRP scope with the exact issue-local preparation review boundary",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": "Review the exact substantive #5358 preparation revision across .csdlc/issues/5358, .csdlc/prepared/issues/5358, and .csdlc/evidence/5358. Verify all six typed cards plus the retained design and diagram; preserve every STP acceptance criterion; prove complete bidirectional SPP action and VPP lane coverage for AC-1 through AC-6 with no deferred, omitted, or weakened work; confirm closed evidence and independently owned blocker boundaries; and confirm no product, shared milestone, deployment, publication, merge, or closeout changes are claimed."
+  },
+  "fail_after_backup": false
+}

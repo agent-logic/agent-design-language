@@ -40,4 +40,7 @@ All six issue-specific cards, retained design, declared evidence and defect inpu
 
 ## Operator Constraints
 
-- none
+- Use only the installed typed C-SDLC v2 binaries and repository owner tools; do not use raw gh or AWS
+- Work only on the existing bound #5358 branch and limit tracked changes to .csdlc/issues/5358, .csdlc/prepared/issues/5358, and .csdlc/evidence/5358
+- Preserve every STP acceptance criterion and complete bidirectional SPP and VPP coverage; later acceptance execution must implement and prove every criterion without deferral, omission, or weakening
+- This preparation may repair issue-local lifecycle truth but must not perform product implementation, deployment, publication, merge, closeout, or edits to independently owned issue surfaces

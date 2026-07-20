@@ -7,13 +7,13 @@
     "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
     "slug": "v0-91-8-wp14-csdlc-v2-acceptance",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
+      "review_scope": "Review the exact substantive #5358 preparation revision across .csdlc/issues/5358, .csdlc/prepared/issues/5358, and .csdlc/evidence/5358. Verify all six typed cards plus the retained design and diagram; preserve every STP acceptance criterion; prove complete bidirectional SPP action and VPP lane coverage for AC-1 through AC-6 with no deferred, omitted, or weakened work; confirm closed evidence and independently owned blocker boundaries; and confirm no product, shared milestone, deployment, publication, merge, or closeout changes are claimed.",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
