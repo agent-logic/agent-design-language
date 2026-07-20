@@ -2510,6 +2510,31 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         authorize_card_operation(record.phase, request.card, &request.operation)?;
     }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectReviewPromptsAfterRecovery { .. }
+    ) {
+        let recovered = record.transitions.last().is_some_and(|transition| {
+            transition.to == LifecyclePhase::Implemented
+                && matches!(
+                    transition.from,
+                    LifecyclePhase::Reviewed
+                        | LifecyclePhase::Published
+                        | LifecyclePhase::MergeReady
+                )
+        });
+        if !recovered
+            || record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery review prompt correction requires cleared review and publication truth",
+            ));
+        }
+    }
     let replan_before = match &request.operation {
         SemanticOperation::Replan { field, .. } => Some(current_text_value(
             cards
@@ -2982,7 +3007,8 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Srp,
-            SemanticOperation::RecordReview { .. }
+            SemanticOperation::CorrectReviewPromptsAfterRecovery { .. }
+                | SemanticOperation::RecordReview { .. }
                 | SemanticOperation::RecordFinding { .. }
                 | SemanticOperation::DisposeFinding { .. }
                 | SemanticOperation::AppendReference { .. }
