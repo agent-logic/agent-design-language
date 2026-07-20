@@ -29,29 +29,9 @@ docs/milestones/v0.91.8
 
 [
   {
-    "id": "WP01-ER3",
+    "id": "WP01-ER6",
     "severity": "p1",
-    "summary": "The crosswalk counted the Feature band table header, leaving only 122 real feature decisions",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": "issue_5594"
-  },
-  {
-    "id": "WP01-ER4",
-    "severity": "p1",
-    "summary": "Keyword first-match classification produced semantically false feature owners instead of explicit row decisions",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": "issue_5594"
-  },
-  {
-    "id": "WP01-ER5",
-    "severity": "p2",
-    "summary": "The validator and retained review history overstated semantic remediation by proving only heuristic consistency",
+    "summary": "Signing verification and trust policy was routed to Runtime Parity-C instead of ADL v2 WP-07 signing owner #5342",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -66,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Runtime v2 deletion remains forbidden until all real feature rows have explicit reviewed owner and disposition decisions.
+- Structural validation cannot by itself prove semantic ownership decisions.
 
 ## Review Result
 
-Revision: Some("git-blake3:fe16793c3b7410c2e55cd9c3df75e22b23cc512c:172ee10a96515792963622c7e8158f0fce36eb28050e1e0120b7f4c3a7f5166a")
+Revision: Some("git-blake3:c43967edbe804b8e89509ae2d59fcb22e67f98b0:1af897753270b2f2ffd86e141e33713c529a47010d706aee7d680334579370aa")
 
-Reviewer: Some("subagent:Aristotle:019f8049-f2c8-76e3-a153-9c256187fa2a")
+Reviewer: Some("subagent:Popper:019f7ddf-df65-7ec2-a4be-6c5b3efa28b1")
 
 Result: changes_required

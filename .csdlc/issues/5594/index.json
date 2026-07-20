@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2f246e5f1760776340161d5e4722c5a33c98c4dc5224601586d57c734b7d3d71",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "699264b7b03d49a797064552bebf5e74bd32054298d313b9c3885bd32db12f11",
+  "generation": 29,
+  "digest": "bf84814c48738a0be7db8f10eb27d4f56220cdee1fb600342c6641d506486595",
   "claim": {
     "id": "claim-5594-v0918-wp01-readiness",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 28,
+    "generation": 29,
     "acquired_unix_seconds": 1784562133,
     "expires_unix_seconds": 1785166933,
     "heartbeat_unix_seconds": 1784562133,
@@ -26,9 +26,9 @@
     "purpose": "Reconcile v0.91.8 planning, sprint umbrellas, issue readiness, and parallel execution without starting downstream implementation"
   },
   "review_assignment": {
-    "reviewer": "subagent:Aristotle:019f8049-f2c8-76e3-a153-9c256187fa2a",
+    "reviewer": "subagent:Popper:019f7ddf-df65-7ec2-a4be-6c5b3efa28b1",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:fe16793c3b7410c2e55cd9c3df75e22b23cc512c:172ee10a96515792963622c7e8158f0fce36eb28050e1e0120b7f4c3a7f5166a",
+    "revision": "git-blake3:c43967edbe804b8e89509ae2d59fcb22e67f98b0:1af897753270b2f2ffd86e141e33713c529a47010d706aee7d680334579370aa",
     "scope": [
       "README.md",
       "docs/planning/ADL_FEATURE_LIST.md",
@@ -37,39 +37,19 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:Aristotle:019f8049-f2c8-76e3-a153-9c256187fa2a",
+    "reviewer": "subagent:Popper:019f7ddf-df65-7ec2-a4be-6c5b3efa28b1",
     "scope": [
       "README.md",
       "docs/planning/ADL_FEATURE_LIST.md",
       "docs/milestones/v0.91.8",
       ".csdlc/prepared/issues/5594"
     ],
-    "reviewed_revision": "git-blake3:fe16793c3b7410c2e55cd9c3df75e22b23cc512c:172ee10a96515792963622c7e8158f0fce36eb28050e1e0120b7f4c3a7f5166a",
+    "reviewed_revision": "git-blake3:c43967edbe804b8e89509ae2d59fcb22e67f98b0:1af897753270b2f2ffd86e141e33713c529a47010d706aee7d680334579370aa",
     "findings": [
       {
-        "id": "WP01-ER3",
+        "id": "WP01-ER6",
         "severity": "p1",
-        "summary": "The crosswalk counted the Feature band table header, leaving only 122 real feature decisions",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "issue_5594"
-      },
-      {
-        "id": "WP01-ER4",
-        "severity": "p1",
-        "summary": "Keyword first-match classification produced semantically false feature owners instead of explicit row decisions",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": "issue_5594"
-      },
-      {
-        "id": "WP01-ER5",
-        "severity": "p2",
-        "summary": "The validator and retained review history overstated semantic remediation by proving only heuristic consistency",
+        "summary": "Signing verification and trust policy was routed to Runtime Parity-C instead of ADL v2 WP-07 signing owner #5342",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -78,7 +58,7 @@
       }
     ],
     "residual_risks": [
-      "Runtime v2 deletion remains forbidden until all real feature rows have explicit reviewed owner and disposition decisions."
+      "Structural validation cannot by itself prove semantic ownership decisions."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -97,32 +77,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a2eedce1ec515a89009a0e616f118fe37b8e45d86284964fb7d7da665fa6a953",
+      "values_digest": "add8820a11b30587975c5b816b1685261a6b4b7020297cf213aea51e9789329a",
       "rendered_digest": "81808e72a73d79ef29ac9f5863ee67f565eb9d01de4fb482d0ae0c287437123a",
       "ast_digest": "1a3c72bdadd86cebbf239ca170bd155a6c0eb74897cbbdd71375a842ca7db95d"
     },
     "stp": {
-      "values_digest": "99dad93f45df55974bc0c4f9744082db7463b7ff1ceceae579da8194be17cb77",
+      "values_digest": "e739e1f392d6814a748cbb9b3956ce37d389958bc53b7df9359cc7f9c0a52155",
       "rendered_digest": "114f4e06a1e37d1772243c140e76de4a3ea82e9859983a66c041fd68f2f8daa7",
       "ast_digest": "200d9d8166af073b8377f48cf9e7d8787064934801d93e4fd47f40ed6922084e"
     },
     "spp": {
-      "values_digest": "eca077d1a45e2198063b43369e96acc0ccc00009fccb2070e0f3d47417d0928d",
+      "values_digest": "38668164bee133640f603071249c99787e5e24c6ee5954be46a0bc8c58350165",
       "rendered_digest": "61ae8d96bfd05c4f7e2baf77e6b59d0b2cdc9078a9d0653026d0f59cb927b733",
       "ast_digest": "ad92c14f0239341a290bf9802ae33dfd6898d80fca9d2abd49f12dbfa48bc432"
     },
     "vpp": {
-      "values_digest": "f3b16803eb4cd9270e63bab767f16e129520b7a75a69018f9c6f6b9c8411d00f",
+      "values_digest": "36f3fb0852dc0d7fa06f35cc8292bb4a041773eba399d9ebfb5ea9bec98295fa",
       "rendered_digest": "9309e25d5da66fb18b1e349619f6a53257f97e9d8fc5c26de211a38ced673146",
       "ast_digest": "83e74d98846c90b2369aa57b60726c4e27e43ced11411b02fd6a9a8708d9d71b"
     },
     "srp": {
-      "values_digest": "aa068cf4f329139a6291a4bda7067e3e862f1dbcd14fdf13bb467802d4966937",
-      "rendered_digest": "81c3d5bb054db926eae58ed8a5a0b9b9d9ff7fa1abb45f2a9cf0d22be22fe67d",
-      "ast_digest": "0d248a9a90815c7ab261653cac84c43812d38d06c8b3f2a37a388d9eb75db1e1"
+      "values_digest": "72eb0fb6c56c61605f46a134d036fce343795403057ba5c95f3a1535a6949380",
+      "rendered_digest": "78af7d27c79196c769222464bc66734cbafd9aeda33d91eeb6fd78c6b0fdeb53",
+      "ast_digest": "afa5d2faa2e34c2d3931fe1b17c92c27e77472616e53ff2a5fb6a470bdedfb63"
     },
     "sor": {
-      "values_digest": "405f9c7a55ec4a0880a7fe7f07192fbb86f7a4fa7d5abe3df8ce6e12514f24fb",
+      "values_digest": "7edccac019e077cd480261429f9bdc58087561fa6a113369f8bfbe4d48f98989",
       "rendered_digest": "a9992670fa01749d92abe2e91d9708b3f83103083761dd669e9d2be71c5c8a0e",
       "ast_digest": "76d87e9038372cd60c0a16189550fef74f9fd638b050e802c45c4bc7d70783c5"
     }
@@ -371,6 +351,20 @@
     {
       "sequence": 32,
       "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 29,
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"

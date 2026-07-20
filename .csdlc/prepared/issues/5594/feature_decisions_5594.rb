@@ -38,6 +38,12 @@ module FeatureDecisions5594
       disposition: "external_owner_acceptance_required",
       basis: "This is an ADL tooling, adapter, or integration capability governed by ADL v2 acceptance rather than Runtime v3 parity."
     },
+    "S" => {
+      classification: "adl_v2_signing",
+      owner_issues: [5342],
+      disposition: "external_owner_acceptance_required",
+      basis: "Signing, verification, and trust-policy replacement is explicitly owned by ADL v2 WP-07 rather than Runtime v3 governed-operations parity."
+    },
     "D" => {
       classification: "retained_or_later_milestone",
       owner_issues: [5347],
@@ -55,7 +61,7 @@ module FeatureDecisions5594
     211 => "K", # Sequential + fork/join coordination
     212 => "K", # Bounded concurrency and retry/failure controls
     213 => "K", # Run artifacts and replay-oriented inspection
-    214 => "O", # Signing, verification, and trust policy
+    214 => "S", # Signing, verification, and trust policy
     215 => "A", # Provider and transport substrate
     216 => "A", # Remote execution baseline
     217 => "O", # Human-in-the-loop pause/resume

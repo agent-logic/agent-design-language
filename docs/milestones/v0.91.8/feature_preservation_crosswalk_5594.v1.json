@@ -81,12 +81,12 @@
       "canonical_status": "Implemented baseline",
       "canonical_evidence": "signing/verification surfaces, trust docs",
       "canonical_next_target": "Completed baseline in `v0.90`; enterprise hardening complete in `v0.93`",
-      "classification": "governed_operations",
+      "classification": "adl_v2_signing",
       "owner_issues": [
-        5589
+        5342
       ],
-      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
-      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "Signing, verification, and trust-policy replacement is explicitly owned by ADL v2 WP-07 rather than Runtime v3 governed-operations parity."
     },
     {
       "row": 7,

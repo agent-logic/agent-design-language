@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
     "slug": "v0-91-8-wp-01-execution-readiness",
     "version": "v0.91.8",
-    "generation": 28
+    "generation": 29
   },
   "status": "ready",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "README.md\ndocs/planning/ADL_FEATURE_LIST.md\ndocs/milestones/v0.91.8\n.csdlc/prepared/issues/5594",
-      "review_revision": "git-blake3:fe16793c3b7410c2e55cd9c3df75e22b23cc512c:172ee10a96515792963622c7e8158f0fce36eb28050e1e0120b7f4c3a7f5166a",
-      "reviewer": "subagent:Aristotle:019f8049-f2c8-76e3-a153-9c256187fa2a",
+      "review_revision": "git-blake3:c43967edbe804b8e89509ae2d59fcb22e67f98b0:1af897753270b2f2ffd86e141e33713c529a47010d706aee7d680334579370aa",
+      "reviewer": "subagent:Popper:019f7ddf-df65-7ec2-a4be-6c5b3efa28b1",
       "review_prompts": [
         "Does every sprint have one real umbrella and a complete non-overlapping child set?",
         "Do canonical docs agree with live issue, PR, card, and dependency truth?",
@@ -25,29 +25,9 @@
       ],
       "findings": [
         {
-          "id": "WP01-ER3",
+          "id": "WP01-ER6",
           "severity": "p1",
-          "summary": "The crosswalk counted the Feature band table header, leaving only 122 real feature decisions",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": "issue_5594"
-        },
-        {
-          "id": "WP01-ER4",
-          "severity": "p1",
-          "summary": "Keyword first-match classification produced semantically false feature owners instead of explicit row decisions",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": "issue_5594"
-        },
-        {
-          "id": "WP01-ER5",
-          "severity": "p2",
-          "summary": "The validator and retained review history overstated semantic remediation by proving only heuristic consistency",
+          "summary": "Signing verification and trust policy was routed to Runtime Parity-C instead of ADL v2 WP-07 signing owner #5342",
           "actionable": true,
           "in_scope": true,
           "disposition": "open",
@@ -56,7 +36,7 @@
         }
       ],
       "residual_risk": [
-        "Runtime v2 deletion remains forbidden until all real feature rows have explicit reviewed owner and disposition decisions."
+        "Structural validation cannot by itself prove semantic ownership decisions."
       ],
       "review_result": "changes_required"
     }
