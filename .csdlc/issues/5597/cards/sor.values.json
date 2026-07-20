@@ -7,9 +7,9 @@
     "title": "[v0.91.8][WP-14][csdlc-v2] Make typed card generation registry-aware and preparation-safe",
     "slug": "generation-aware-preparation-safe",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 20
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -56,10 +56,10 @@
           "evidence_ref": "Commit 0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48: complete csdlc-v2 all-target suite and doctest passed; focused Gate 5, Gate 7 lifecycle, and Gate 10A suites passed; strict all-target Clippy passed with -D warnings; cargo fmt --check passed; bounded origin/main-to-revision path and whitespace proof passed; stable v2 install/coexistence provenance reports git:0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48; typed doctor passed at issue 5597 generation 12 with zero findings. Builds used the operator-approved external FastWork target; the retained command remains portable."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": [
         "Non-proving: adl/tools/run_owner_validation_lane.sh csdlc stopped at its obsolete requirement for sunset adl/tools/pr.sh run guidance; it was not used for AC-8 or AC-9 and no v1 lifecycle command was invoked."
       ]

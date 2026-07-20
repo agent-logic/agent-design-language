@@ -1,0 +1,12 @@
+{
+  "issue": 5597,
+  "expected_generation": 19,
+  "expected_digest": "ecf9ea1f472b68887eb464903d676da3ff8e40992e611092c3949dd76ac93bdd",
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5598,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": null
+}

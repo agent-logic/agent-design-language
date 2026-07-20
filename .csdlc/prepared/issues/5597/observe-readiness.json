@@ -1,0 +1,12 @@
+{
+  "issue": 5597,
+  "expected_generation": 17,
+  "expected_digest": "861d3fdbcac1a31b798475cb717d31cb547b286f2d3a9870af7e152adbda1263",
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5598,
+  "required_checks": ["adl-ci", "adl-coverage", "adl-tooling-contracts", "adl-path-policy"],
+  "require_review": false,
+  "token_file": null
+}
