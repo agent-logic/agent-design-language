@@ -41,11 +41,11 @@ Add --no-report to every partitioned cargo llvm-cov nextest command and retain t
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

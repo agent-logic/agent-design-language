@@ -3,13 +3,13 @@
   "issue": 5602,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
-  "phase": "published",
-  "generation": 6,
-  "digest": "27410944a5f03e04b39b19c805d0580b66d47b788f76ff1de79942caf5f513f1",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "5da6925dd31f4986b585f3a39227abea891477abe2b0aca5d0b023c1a801502d",
   "claim": {
     "id": "claim-5602-hosted-coverage-no-report",
     "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "generation": 6,
+    "generation": 7,
     "acquired_unix_seconds": 1784584872,
     "expires_unix_seconds": 1784671272,
     "heartbeat_unix_seconds": 1784584872,
@@ -21,40 +21,9 @@
     ],
     "purpose": "Prevent partition-local llvm-cov report crashes without weakening coverage"
   },
-  "review_assignment": {
-    "reviewer": "subagent:review-5602",
-    "assigned_by": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:review-5602",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh"
-    ],
-    "reviewed_revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
-    "findings": [],
-    "residual_risks": [
-      "The full hosted instrumented workspace workload remains CI integration proof; local proof used installed CLI semantics and the focused fake-cargo harness."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5602,
-    "pull_request": 5603,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5603",
-    "base": "main",
-    "head": "codex/5602-hosted-coverage-no-report",
-    "revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +37,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "de21b47163041977c0ba9619632846ac0c3aa00c4848661e1820700e5df70eb9",
+      "values_digest": "33d3c9f26ee388725df87ac76f09f122550eaa9c5040ab780d73ccbfbc523c58",
       "rendered_digest": "f29c939a2f5af25a1986147a24c88c77e4cb3e098387deb638c9ca7c02221236",
       "ast_digest": "dc868767b9da3d0f23e83f59daf4792b535f892948bd50d63d5e172751834701"
     },
     "stp": {
-      "values_digest": "8c4d0522002e41caa8abbf628b7687dc6ae21bea5ff73ae45fbe47aaeaeade1a",
+      "values_digest": "558ee0b9c85d4a4fc91ff48efde0cda05e5472912e08e319df713606b7f67b35",
       "rendered_digest": "7169347c43cc4f22ec2d67cafd4b12be0a88261e42b5825b76a6a5c2a94c4350",
       "ast_digest": "0a305bbdbc7044b0f7a8956e25501a3973c08d81c372948becdbd8676a7d411b"
     },
     "spp": {
-      "values_digest": "5ecb5c3938d204975fc9e98e3c7cff66223914ed4e7213c04f3ae7d74febdcb7",
+      "values_digest": "7b9bfac21a7936b3b71e99d5e156515c4c5e7e787fa951478a09e5ecca79efb6",
       "rendered_digest": "b2a74f27bd07e8ced438a62f24e9a87ca23d7acd291c4383c49afec39b83e8bf",
       "ast_digest": "a5c6942680a7c7b996dde5376907adb70ca14b93009a7ad599200134d2fe0055"
     },
     "vpp": {
-      "values_digest": "4a378a14a2c132c5dc017ddf213a1f16162126aff25c36408946ce80d4c36e21",
+      "values_digest": "920635a8aed452dbc2488d864fce9831bca393c6b89cf747d3c0bb39e07b395a",
       "rendered_digest": "5ee3a0baebc9c56fcb842ee572195c3a41247743e271f5dced953c47316936be",
       "ast_digest": "696c38305d48a39773ae3fcbc00b2ef9ae8d1cc1a5fea3960d9448c5dec7807d"
     },
     "srp": {
-      "values_digest": "6ce98a59d359380fbd6c653d18c00e747134dd3b623b2e5b8aece12b8da88f12",
-      "rendered_digest": "f650a10b16ac29c5135fe24135c3d54fbf720bf7a34fb0439407ca6c17f29d37",
-      "ast_digest": "227fa294e841a656a5fc0c7aa3d5169266b8992804554fb4dd40862061969e48"
+      "values_digest": "67036a89f4353aa8e2cbc84aa2ce01db20949983fa6db898446e3b755d690418",
+      "rendered_digest": "f74666ed270f7c0edee88145741523e2bb5a5a2d2df7b62bb5dfda412984acd1",
+      "ast_digest": "8a08cb244980f8840db7a4e4886ff81af5c8f504d4d620fa245f3e07bb62a064"
     },
     "sor": {
-      "values_digest": "3223bf88ec8dd45c846c54f7d792f4c93b1a5fa8bec6bf7e4de8d58106377e13",
-      "rendered_digest": "557f09e90a5bd250d2fe5550e08439d146a142c2b1b6971ed2f617ad8ef6d7db",
-      "ast_digest": "e39f47f10dcdb16485000b52ba253dfb4d886c3941c5771ac09018a412f061eb"
+      "values_digest": "648ef132ae46e25b6d58fee19cab6b8c067655ccd080d4b4e5733ba51c49e311",
+      "rendered_digest": "5302e570edf71807f87d20731f0b3019fde9b61be4618deac600b40a77c84b92",
+      "ast_digest": "27586af1eb43ca89f0a0d8d68d465cf7a24d3575d124e2e909a9a4d463dc7c22"
     }
   },
   "transitions": [
@@ -133,6 +102,13 @@
       "to": "published",
       "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "Recover exact review identity after committing retained lifecycle and portable validation metadata; the two substantive CI scripts remain byte-identical."
     }
   ],
   "audit": [
@@ -198,6 +174,13 @@
       "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "Recover exact review identity after committing retained lifecycle and portable validation metadata; the two substantive CI scripts remain byte-identical.",
+      "operation": "recover_review"
     }
   ]
 }

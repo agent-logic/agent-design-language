@@ -8,3 +8,4 @@ nextest --no-report`; only the existing explicit post-partition `cargo
 llvm-cov report` commands may render the combined ADL and Runtime summaries.
 This removes redundant partition-local whole-workspace report rendering while
 preserving every test, profile, summary, threshold, and fail-closed gate.
+

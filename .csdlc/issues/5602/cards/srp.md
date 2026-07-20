@@ -8,12 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl/tools/run_authoritative_coverage_lane.sh
-adl/tools/test_run_authoritative_coverage_lane.sh
+
 
 ## Prompts
 
@@ -31,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The full hosted instrumented workspace workload remains CI integration proof; local proof used installed CLI semantics and the focused fake-cargo harness.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886")
+Revision: None
 
-Reviewer: Some("subagent:review-5602")
+Reviewer: None
 
-Result: pass
+Result: pre_review

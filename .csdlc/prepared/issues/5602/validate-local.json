@@ -33,7 +33,7 @@
         "execution": "local",
         "timeout_seconds": 60,
         "executable": "git",
-        "argv": ["diff", "--check", "main...HEAD"],
+        "argv": ["diff", "--check", "main...HEAD", "--", "adl/tools/run_authoritative_coverage_lane.sh", "adl/tools/test_run_authoritative_coverage_lane.sh"],
         "evidence": {"max_log_bytes":12000,"redact_values":[],"require_relative_paths":true}
       }
     ]
