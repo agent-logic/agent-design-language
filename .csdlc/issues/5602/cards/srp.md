@@ -16,9 +16,9 @@ Status: draft
 
 ## Prompts
 
-- Does every partition collect profiles with --no-report?
-- Are the explicit combined reports and gates unchanged?
-- Does the contract prove partition failures still fail closed?
+- Does each workspace source cargo llvm-cov show-env before executing its partitioned cargo nextest runs?
+- Does each workspace emit exactly one explicit cargo llvm-cov report after all partition profiles are collected?
+- Do the focused contracts prove instrumentation export, partition failure propagation, run isolation, and unchanged coverage gates?
 
 ## Findings
 

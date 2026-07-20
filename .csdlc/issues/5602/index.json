@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "f6abc2e9bfc5c54e3747fd63f5bbabcef49238ea04fc751a9cfe9c98320ecd93",
+  "generation": 16,
+  "digest": "2dfe7beca385a09c0d50d2feff3de51788b18c086465b8331ee4dc9579e863c8",
   "claim": {
     "id": "claim-5602-hosted-coverage-no-report",
     "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "generation": 15,
+    "generation": 16,
     "acquired_unix_seconds": 1784584872,
     "expires_unix_seconds": 1784671272,
     "heartbeat_unix_seconds": 1784584872,
@@ -38,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d32643bc7c8f3d2f4ee56de9364cb982627c01670ddb90054a47078666c65762",
+      "values_digest": "b622261d057936a2601892f8385581580538bd82c8e422b87cfc99cf099a523a",
       "rendered_digest": "f29c939a2f5af25a1986147a24c88c77e4cb3e098387deb638c9ca7c02221236",
       "ast_digest": "dc868767b9da3d0f23e83f59daf4792b535f892948bd50d63d5e172751834701"
     },
     "stp": {
-      "values_digest": "c40879f76b5abf87b0d563e94aa0234872abedb2d23028c9351449db2af6b283",
+      "values_digest": "f94364d7eacc1066e1db71a052a59e6aaaf7b48cd05ef18eb433d06a7c85b2c7",
       "rendered_digest": "7169347c43cc4f22ec2d67cafd4b12be0a88261e42b5825b76a6a5c2a94c4350",
       "ast_digest": "0a305bbdbc7044b0f7a8956e25501a3973c08d81c372948becdbd8676a7d411b"
     },
     "spp": {
-      "values_digest": "23631eb4e34469d19f1e69b1f306b92830341bbd92696e68f909ed2cb6996f77",
+      "values_digest": "d004fb2c902e543cb21e535b42eec56b260ef134ceba1b8fefa924e6a0b47df9",
       "rendered_digest": "b2a74f27bd07e8ced438a62f24e9a87ca23d7acd291c4383c49afec39b83e8bf",
       "ast_digest": "a5c6942680a7c7b996dde5376907adb70ca14b93009a7ad599200134d2fe0055"
     },
     "vpp": {
-      "values_digest": "03b7ff53e98de50fcbd8f1dac5c9b80edf710033b40f4510f3ff10b79c94d5af",
+      "values_digest": "5b374cf690699b1465e59c298bef01c5b3df3399edca0b163208361b923d7bd9",
       "rendered_digest": "5ee3a0baebc9c56fcb842ee572195c3a41247743e271f5dced953c47316936be",
       "ast_digest": "696c38305d48a39773ae3fcbc00b2ef9ae8d1cc1a5fea3960d9448c5dec7807d"
     },
     "srp": {
-      "values_digest": "d4248e13f018bce9009c23c6972d3a6c82b10ec03090bb1c5bc22181c9acb95d",
-      "rendered_digest": "f74666ed270f7c0edee88145741523e2bb5a5a2d2df7b62bb5dfda412984acd1",
-      "ast_digest": "8a08cb244980f8840db7a4e4886ff81af5c8f504d4d620fa245f3e07bb62a064"
+      "values_digest": "8e1d5058e14329b98bb01651697fa1afe22e9c71e5482c6510e011a35cf36d01",
+      "rendered_digest": "933f7fa6b197adc97ae37e9d6625eb6471eadb68e080e7f2094aabc74433abcd",
+      "ast_digest": "c4f3e5528901f9d6225cc6ec0777008b8a51ac648750b9d17914c3cbbea93a54"
     },
     "sor": {
-      "values_digest": "a26b1e13653346877e8ff472d53946ab833ed19425155fbf9118826c5e4d8ea7",
+      "values_digest": "630d46e6b2731a905c302725943617e21bc0d80514207e5d63d85563145d033d",
       "rendered_digest": "a886441dfebf7ca106c2f4d5bcec4ec6683b7c90f42bff1a6262e7e84d7d38a2",
       "ast_digest": "403db42c6e4b85b96a5c0563ff1ab40bf4bc091d36d1d296dff366d1f406c309"
     }
@@ -294,6 +294,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Replace the superseded no-report execution summary with the supported external-test workflow proven at the corrected head.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Use cargo-llvm-cov clean and show-env, run partitioned cargo nextest directly with run-scoped instrumentation targets, and render one explicit combined report per workspace.\",\"changes\":[\"Replace the incompatible no-clean plus no-report wrapper invocation with the documented external-test workflow\",\"Isolate CARGO_TARGET_DIR and CARGO_LLVM_COV_TARGET_DIR per coverage run\",\"Update the authoritative and CI runtime contracts to prove show-env instrumentation is consumed\"],\"artifacts\":[\"adl/tools/run_authoritative_coverage_lane.sh\",\"adl/tools/test_run_authoritative_coverage_lane.sh\",\"adl/tools/test_ci_runtime_contracts.sh\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "Correct the recovered SRP questions to review the implemented external-test coverage workflow instead of the superseded incompatible no-report design.",
+      "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Does each workspace source cargo llvm-cov show-env before executing its partitioned cargo nextest runs?\",\"Does each workspace emit exactly one explicit cargo llvm-cov report after all partition profiles are collected?\",\"Do the focused contracts prove instrumentation export, partition failure propagation, run isolation, and unchanged coverage gates?\"]}"
     }
   ]
 }
