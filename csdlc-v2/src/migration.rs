@@ -10,10 +10,11 @@ use strum::{AsRefStr, Display, EnumString};
 
 use crate::cards::{CardContent, CardKind, InitialCardInput, PlanStep, StepStatus, ValidationLane};
 use crate::error::{ErrorCode, Result, V2Error};
+use crate::lifecycle::initialize_issue;
 use crate::model::{LifecyclePhase, MigrationEvidence};
 use crate::{
-    edit_issue, initialize_issue, BootstrapRequest, CardStatus, Claim, EditRequest,
-    PlanningProfile, SemanticOperation, Store,
+    edit_issue, BootstrapRequest, CardStatus, Claim, EditRequest, PlanningProfile,
+    SemanticOperation, Store,
 };
 
 #[derive(
@@ -409,6 +410,12 @@ fn build_initial(
                 )
             })
     };
+    let optional = |kind: CardKind, heading: &str| -> Option<String> {
+        authored
+            .get(&kind.to_string())
+            .and_then(|sections| sections.get(heading))
+            .cloned()
+    };
     let acceptance_criteria = list(&get(CardKind::Stp, "Acceptance Criteria")?);
     let acceptance_ids: Vec<_> = (1..=acceptance_criteria.len())
         .map(|index| format!("AC-{index}"))
@@ -437,6 +444,10 @@ fn build_initial(
         required_outcome: plain(&get(CardKind::Stp, "Required Outcome")?),
         declared_scope: list(&get(CardKind::Sip, "Scope")?),
         authority_boundary: list(&get(CardKind::Sip, "Authority")?),
+        operator_constraints: optional(CardKind::Sip, "Operator Constraints")
+            .map(|value| list(&value))
+            .filter(|values| !values.is_empty())
+            .unwrap_or_else(|| vec!["none".into()]),
         task_boundary: plain(&get(CardKind::Stp, "Summary")?),
         deliverables: list(&get(CardKind::Stp, "Deliverables")?),
         acceptance_criteria,
@@ -460,6 +471,7 @@ fn build_initial(
             .collect(),
         failure_policy: plain(&get(CardKind::Vpp, "Failure Policy")?),
         review_prompts: list(&get(CardKind::Srp, "Prompts")?),
+        review_scope: plain(&get(CardKind::Srp, "Review Scope")?),
     })
 }
 

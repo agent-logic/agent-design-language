@@ -1,0 +1,19 @@
+{
+  "issue": 5600,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "3ae6b3da62837ab6d87712df8ea994ae3b45326d8d7c30263f77b19581d9a1b2",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600",
+  "reason": "Record complete post-review remediation validation",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["csdlc-validate", "--request", ".csdlc/prepared/issues/5600/validate-local.json"],
+      "purpose": "Prove all four review remediations at clean revision b5c35f010 with focused tests, every target, formatting, strict Clippy, and typed doctor.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5600/local contains a local_pass five-lane proof: focused gate2 41/41, all C-SDLC v2 targets, cargo fmt --check, strict all-target Clippy, and typed doctor all passed; no lane was deferred."
+    }
+  },
+  "fail_after_backup": false
+}

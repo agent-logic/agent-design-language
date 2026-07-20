@@ -1,0 +1,15 @@
+{
+  "issue": 5597,
+  "card": "srp",
+  "expected_generation": 1,
+  "expected_digest": "391315c9efa1a67aaefee2b1042d2182243b53e4afb46d0dbad2d128622e52a7",
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+  "reason": "Restore the explicit preparation review scope through authorized bound SRP replanning",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": "Review the exact substantive revision for registry authority, legacy and native compatibility, lossless bootstrap and migration semantics, phase-safe SIP STP SRP edits, atomic acceptance coverage, and review-assignment synchronization."
+  },
+  "fail_after_backup": false
+}

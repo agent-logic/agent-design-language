@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5597,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][csdlc-v2] Make typed card generation registry-aware and preparation-safe",
+    "slug": "generation-aware-preparation-safe",
+    "version": "v0.91.8",
+    "generation": 16
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2\ndocs/templates/prompts/current.json\ndocs/templates/prompts/README.md\ndocs/architecture/csdlc-v2/gate9/samples",
+      "review_revision": "git-blake3:4395749975b1ac99453bf8c7d4f46a7fc1effdec:d80e795d182da456de18cb506799f408f63d203bc9d38833db567da4a8c6ecc9",
+      "reviewer": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+      "review_prompts": [
+        "Are template families distinct and provenance truthful?",
+        "Can any typed edit silently drop acceptance coverage?",
+        "Are bootstrap, migration, and review scope lossless?",
+        "Do focused tests prove existing 1.0.0 compatibility and legacy 1.0.3 separation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

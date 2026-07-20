@@ -1,0 +1,1 @@
+{"issue":5600,"card":"sor","expected_generation":6,"expected_digest":"7723833a979183d0538b2dac7e9b87acda04822a94e4101f82c136c033bf3f56","claim_id":"claim-5600-complete-typed-replanning","actor":"codex:issue-5600","reason":"Complete implementation and enter exact-revision review","operation":{"operation":"advance_phase","phase":"implemented"},"fail_after_backup":false}

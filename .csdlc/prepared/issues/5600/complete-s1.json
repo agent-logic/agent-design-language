@@ -1,0 +1,1 @@
+{"issue":5600,"card":"spp","expected_generation":3,"expected_digest":"d6a064d0441ce62461cf7c47f7524c3776789503cd9917f30755d3fd34236bb4","claim_id":"claim-5600-complete-typed-replanning","actor":"codex:issue-5600","reason":"Complete typed collection operation contracts","operation":{"operation":"update_plan_step","step_id":"S1","status":"completed"},"fail_after_backup":false}

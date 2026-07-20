@@ -1,0 +1,8 @@
+{
+  "issue": 5600,
+  "expected_generation": 17,
+  "expected_digest": "cb63528611727db015697eaa98a4627b64b2744562483597dd289b2c5c1947fd",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600",
+  "reason": "Correct S4 lifecycle truth after validation, exact-revision review, draft publication, and required-check monitoring completed"
+}
