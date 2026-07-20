@@ -19,6 +19,13 @@ used by prompt-card structure validation.
   load schema artifacts, fill templates, or call the Rust-backed validators, but
   they should not become a separate template authority.
 
+The registry is generation-aware. `legacy_import` continues to select the
+full `1.0.3` template set, while `csdlc_v2_native` selects the independently
+compiled compact `1.0.0` projection family. Native v2 initialization validates
+that entry against `csdlc-v2/operator/native-card-shape.json` before writing;
+the two families are compatible lifecycle representations, not interchangeable
+template versions.
+
 ## Previous Set
 
 - Template set: `1.0.2`

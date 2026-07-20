@@ -14,6 +14,7 @@ pub mod proof;
 pub mod publication;
 pub mod pvf;
 pub mod readiness;
+pub mod registry;
 pub mod review;
 pub mod schema;
 pub mod soak;
@@ -30,7 +31,7 @@ pub use eligibility::{
 };
 pub use error::{ErrorCode, Result, V2Error};
 pub use lifecycle::{
-    amend_claim_scope, bind_issue, heartbeat_claim, initialize_issue, recover_claim,
+    amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, recover_claim,
     release_closed_claim, AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest,
     RecoverClaimRequest, ReleaseClosedClaimRequest,
 };
@@ -77,6 +78,6 @@ pub use soak::{
     SoakScenario,
 };
 pub use store::{
-    approve_design, bootstrap_issue, edit_issue, ApproveDesignRequest, BootstrapRequest,
-    EditRequest, RepairIdentityRequest, Store,
+    approve_design, edit_issue, ApproveDesignRequest, BootstrapRequest, EditRequest,
+    RepairIdentityRequest, Store,
 };

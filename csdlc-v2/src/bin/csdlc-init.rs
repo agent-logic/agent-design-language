@@ -1,5 +1,5 @@
 use clap::Parser;
-use csdlc_v2::{initialize_issue, BootstrapRequest, Store};
+use csdlc_v2::{initialize_native_json, Store};
 use std::{fs, path::PathBuf};
 
 #[derive(Parser)]
@@ -14,10 +14,7 @@ fn main() {
     let cli = Cli::parse();
     let result = fs::read(&cli.request)
         .map_err(csdlc_v2::V2Error::from)
-        .and_then(|bytes| {
-            serde_json::from_slice::<BootstrapRequest>(&bytes).map_err(csdlc_v2::V2Error::from)
-        })
-        .and_then(|request| initialize_issue(&Store::new(cli.root), request));
+        .and_then(|bytes| initialize_native_json(&Store::new(cli.root), &bytes));
     match result {
         Ok(record) => println!("{}", serde_json::to_string(&record).expect("JSON")),
         Err(error) => {

@@ -3,14 +3,38 @@ use csdlc_v2::cards::{
     StepStatus, ValidationLane, ValidationResult,
 };
 use csdlc_v2::{
-    assign_review, closeout_issue, edit_issue, initialize_issue, record_merged_publication,
-    record_publication, record_readiness, record_review, BootstrapRequest, CardKind, Claim,
-    EditRequest, InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent,
-    PublicationRequest, ReadinessRequest, ReconcileTerminalRequest, RemotePullRequest,
-    ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store,
-    TerminalDesignRepairRequest, TerminalDisposition, TerminalObservation,
-    TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
+    assign_review, closeout_issue, edit_issue, record_merged_publication, record_publication,
+    record_readiness, record_review, BootstrapRequest, CardKind, Claim, EditRequest,
+    InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest,
+    ReadinessRequest, ReconcileTerminalRequest, RemotePullRequest, ReviewAssignmentRequest,
+    ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store, TerminalDesignRepairRequest,
+    TerminalDisposition, TerminalObservation, TerminalPlanStepRepairRequest,
+    TerminalSorArtifactRepairRequest,
 };
+
+fn install_native_authority(root: &std::path::Path) {
+    let registry = root.join("docs/templates/prompts/current.json");
+    let manifest = root.join("csdlc-v2/operator/native-card-shape.json");
+    std::fs::create_dir_all(registry.parent().unwrap()).unwrap();
+    std::fs::create_dir_all(manifest.parent().unwrap()).unwrap();
+    std::fs::write(
+        registry,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .unwrap();
+    std::fs::write(
+        manifest,
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .unwrap();
+}
+
+fn bootstrap_issue(
+    store: &Store,
+    request: BootstrapRequest,
+) -> csdlc_v2::Result<csdlc_v2::IssueRecord> {
+    csdlc_v2::initialize_native_json(store, &serde_json::to_vec(&request).unwrap())
+}
 
 fn git(root: &std::path::Path, args: &[&str]) {
     let output = std::process::Command::new("git")
@@ -83,19 +107,20 @@ fn fixture_with_validation_history_and_publication(
         "flowchart LR\n A-->B\n",
     )
     .unwrap();
+    install_native_authority(temp.path());
     git(temp.path(), &["init", "-b", "issue-7"]);
     git(
         temp.path(),
         &["config", "user.email", "test@example.invalid"],
     );
     git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
-    git(temp.path(), &["add", "docs"]);
+    git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "fixture"]);
     let sha = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
         .unwrap()
         .stdout;
     let store = Store::new(temp.path());
-    let mut record = initialize_issue(
+    let mut record = bootstrap_issue(
         &store,
         BootstrapRequest {
             issue,
@@ -124,6 +149,7 @@ fn fixture_with_validation_history_and_publication(
                 required_outcome: "truthful closeout".into(),
                 declared_scope: vec![scenario.into()],
                 authority_boundary: vec!["no merge".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: format!("execute {scenario} fixture"),
                 deliverables: vec!["record".into()],
                 acceptance_criteria: vec!["terminal truth".into()],
@@ -155,6 +181,7 @@ fn fixture_with_validation_history_and_publication(
                 }],
                 failure_policy: "fail closed".into(),
                 review_prompts: vec!["review".into()],
+                review_scope: "fixture".into(),
             },
         },
     )
@@ -608,7 +635,7 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
         true,
     );
     let authority_issue = 5_487;
-    let authority = initialize_issue(
+    let authority = bootstrap_issue(
         &store,
         BootstrapRequest {
             issue: authority_issue,
@@ -637,6 +664,7 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
                 required_outcome: "repair authority".into(),
                 declared_scope: vec!["terminal repair authority".into()],
                 authority_boundary: vec!["no merge".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: "authorize fixture repair".into(),
                 deliverables: vec!["authority record".into()],
                 acceptance_criteria: vec!["authority exists".into()],
@@ -668,6 +696,7 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
                 }],
                 failure_policy: "fail closed".into(),
                 review_prompts: vec!["review".into()],
+                review_scope: "fixture".into(),
             },
         },
     )
@@ -1287,7 +1316,7 @@ fn terminal_plan_repair_authority(
     worktree: &std::path::Path,
     protected_paths: Vec<String>,
 ) -> csdlc_v2::IssueRecord {
-    initialize_issue(
+    bootstrap_issue(
         store,
         BootstrapRequest {
             issue,
@@ -1316,6 +1345,7 @@ fn terminal_plan_repair_authority(
                 required_outcome: "atomic terminal plan truth".into(),
                 declared_scope: vec!["terminal plan".into()],
                 authority_boundary: vec!["one target".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: "authorize terminal plan repair".into(),
                 deliverables: vec!["repair".into()],
                 acceptance_criteria: vec!["atomic parity".into()],
@@ -1347,6 +1377,7 @@ fn terminal_plan_repair_authority(
                 }],
                 failure_policy: "fail closed".into(),
                 review_prompts: vec!["review atomicity".into()],
+                review_scope: "fixture".into(),
             },
         },
     )
