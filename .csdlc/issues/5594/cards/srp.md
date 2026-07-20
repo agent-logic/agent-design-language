@@ -29,9 +29,9 @@ docs/milestones/v0.91.8
 
 [
   {
-    "id": "WP01-ER6",
+    "id": "WP01-ER7",
     "severity": "p1",
-    "summary": "Signing verification and trust policy was routed to Runtime Parity-C instead of ADL v2 WP-07 signing owner #5342",
+    "summary": "Provider transport signed-trace and five standalone tooling rows retained semantically incorrect or incomplete cutover owners",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -46,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Structural validation cannot by itself prove semantic ownership decisions.
+- Structural validation cannot establish semantic ownership correctness; exact reviewer inspection remains required.
 
 ## Review Result
 
-Revision: Some("git-blake3:c43967edbe804b8e89509ae2d59fcb22e67f98b0:1af897753270b2f2ffd86e141e33713c529a47010d706aee7d680334579370aa")
+Revision: Some("git-blake3:157b7608ec77cf7b008f388186848b418ee7690f:e4eba2757f882ed66fe9afcb0fa70cf609c5b2cafd3f4005b5755537e868cdce")
 
-Reviewer: Some("subagent:Popper:019f7ddf-df65-7ec2-a4be-6c5b3efa28b1")
+Reviewer: Some("subagent:Halley:019f7e77-cc24-7532-a693-7b04a46fe7d7")
 
 Result: changes_required

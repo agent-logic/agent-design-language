@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
     "slug": "v0-91-8-wp-01-execution-readiness",
     "version": "v0.91.8",
-    "generation": 29
+    "generation": 30
   },
   "status": "ready",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "README.md\ndocs/planning/ADL_FEATURE_LIST.md\ndocs/milestones/v0.91.8\n.csdlc/prepared/issues/5594",
-      "review_revision": "git-blake3:c43967edbe804b8e89509ae2d59fcb22e67f98b0:1af897753270b2f2ffd86e141e33713c529a47010d706aee7d680334579370aa",
-      "reviewer": "subagent:Popper:019f7ddf-df65-7ec2-a4be-6c5b3efa28b1",
+      "review_revision": "git-blake3:157b7608ec77cf7b008f388186848b418ee7690f:e4eba2757f882ed66fe9afcb0fa70cf609c5b2cafd3f4005b5755537e868cdce",
+      "reviewer": "subagent:Halley:019f7e77-cc24-7532-a693-7b04a46fe7d7",
       "review_prompts": [
         "Does every sprint have one real umbrella and a complete non-overlapping child set?",
         "Do canonical docs agree with live issue, PR, card, and dependency truth?",
@@ -25,9 +25,9 @@
       ],
       "findings": [
         {
-          "id": "WP01-ER6",
+          "id": "WP01-ER7",
           "severity": "p1",
-          "summary": "Signing verification and trust policy was routed to Runtime Parity-C instead of ADL v2 WP-07 signing owner #5342",
+          "summary": "Provider transport signed-trace and five standalone tooling rows retained semantically incorrect or incomplete cutover owners",
           "actionable": true,
           "in_scope": true,
           "disposition": "open",
@@ -36,7 +36,7 @@
         }
       ],
       "residual_risk": [
-        "Structural validation cannot by itself prove semantic ownership decisions."
+        "Structural validation cannot establish semantic ownership correctness; exact reviewer inspection remains required."
       ],
       "review_result": "changes_required"
     }

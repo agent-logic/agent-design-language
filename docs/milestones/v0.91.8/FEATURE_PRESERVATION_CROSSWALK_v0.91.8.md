@@ -26,8 +26,8 @@ matrix header is explicitly excluded.
 | `governed_operations` | #5589 | Governance, identity, provider, state, time, tool, and operational services | Runtime v3 implementation or explicit accepted non-runtime/defer disposition |
 | `secure_access_observatory` | #5590 | Secure access, communications, telemetry, guardian, and Observatory behavior | Runtime v3 implementation or explicit accepted non-runtime/defer disposition |
 | `csdlc_v2_acceptance` | #5358 | C-SDLC authoring, review, validation, quality, and control-plane capabilities | Exact C-SDLC v2 acceptance or explicit residual blocker |
-| `adl_v2_acceptance` | #5336 | ADL tooling, adapter, and integration capabilities | Exact ADL v2 acceptance or explicit residual blocker |
 | `adl_v2_signing` | #5342 | Signing, verification, and trust-policy replacement | Exact ADL v2 WP-07 signing acceptance or explicit residual blocker |
+| `provider_and_secure_transport` | #5589 and #5590 | Provider operations plus secure transport and remote access | Both Runtime Parity-C and Parity-D proof, or an explicit accepted disposition |
 | `retained_or_later_milestone` | #5347 | Retained evidence, product/demo surfaces, and canonical later-milestone work | Preserve through deletion eligibility and defer to the canonical target |
 
 The group definitions do not classify rows. The explicit source-line decision

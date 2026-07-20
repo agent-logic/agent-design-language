@@ -32,3 +32,5 @@
 {"sequence":32,"generation":28,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":33,"generation":28,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":34,"generation":29,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":35,"generation":29,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":36,"generation":30,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}

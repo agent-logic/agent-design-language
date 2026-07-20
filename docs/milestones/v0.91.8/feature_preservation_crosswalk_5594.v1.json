@@ -95,12 +95,13 @@
       "canonical_status": "Implemented baseline",
       "canonical_evidence": "provider docs, HTTP/local provider surfaces, reviewer package",
       "canonical_next_target": "Runtime/provider completion target: `v0.92`",
-      "classification": "secure_access_observatory",
+      "classification": "provider_and_secure_transport",
       "owner_issues": [
+        5589,
         5590
       ],
       "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
-      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+      "decision_basis": "Provider operations belong to Runtime v3 Parity-C while secure transport and remote access belong to Parity-D; both proofs are required."
     },
     {
       "row": 8,
@@ -375,12 +376,12 @@
       "canonical_status": "Implemented baseline",
       "canonical_evidence": "`v0.87` skills/control-plane docs and operational demos",
       "canonical_next_target": "MVP completion target: `v0.95`",
-      "classification": "adl_v2_acceptance",
+      "classification": "retained_or_later_milestone",
       "owner_issues": [
-        5336
+        5347
       ],
-      "cutover_disposition": "external_owner_acceptance_required",
-      "decision_basis": "This is an ADL tooling, adapter, or integration capability governed by ADL v2 acceptance rather than Runtime v3 parity."
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
     },
     {
       "row": 28,
@@ -753,12 +754,12 @@
       "canonical_status": "Implemented baseline",
       "canonical_evidence": "`v0.90` compression and repo-visibility docs/proofs",
       "canonical_next_target": "Repo-visibility follow-on target: `v0.91.2`; fuller repo-cognition convergence target: `v0.95`",
-      "classification": "adl_v2_acceptance",
+      "classification": "retained_or_later_milestone",
       "owner_issues": [
-        5336
+        5347
       ],
-      "cutover_disposition": "external_owner_acceptance_required",
-      "decision_basis": "This is an ADL tooling, adapter, or integration capability governed by ADL v2 acceptance rather than Runtime v3 parity."
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
     },
     {
       "row": 55,
@@ -949,12 +950,12 @@
       "canonical_status": "MVP-scoped",
       "canonical_evidence": "`docs/milestones/v0.94/features/SIGNED_TRACE_AND_TRACE_QUERY_v0.94.md`",
       "canonical_next_target": "Reasoning/provenance completion target: `v0.94`",
-      "classification": "governed_operations",
+      "classification": "adl_v2_signing",
       "owner_issues": [
-        5589
+        5342
       ],
-      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
-      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "Signing, verification, and trust-policy replacement is explicitly owned by ADL v2 WP-07 rather than Runtime v3 governed-operations parity."
     },
     {
       "row": 69,
@@ -1117,12 +1118,12 @@
       "canonical_status": "Implemented baseline",
       "canonical_evidence": "`docs/milestones/v0.91.2/features/UTS_ACC_MULTI_MODEL_BENCHMARK.md` plus `docs/milestones/v0.91.2/review/uts_benchmark_evidence/`",
       "canonical_next_target": "`v0.91.2` ADL benchmark baseline complete; standalone UTS repo migration continues under `#3107`",
-      "classification": "adl_v2_acceptance",
+      "classification": "retained_or_later_milestone",
       "owner_issues": [
-        5336
+        5347
       ],
-      "cutover_disposition": "external_owner_acceptance_required",
-      "decision_basis": "This is an ADL tooling, adapter, or integration capability governed by ADL v2 acceptance rather than Runtime v3 parity."
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
     },
     {
       "row": 81,
@@ -1173,12 +1174,12 @@
       "canonical_status": "Implemented baseline plus active hardening",
       "canonical_evidence": "`docs/milestones/v0.91.2/features/GOOGLE_WORKSPACE_CMS_BRIDGE.md`",
       "canonical_next_target": "Completed bounded baseline in `v0.91.2`; live hardening and future project operational use continue as follow-on work",
-      "classification": "adl_v2_acceptance",
+      "classification": "retained_or_later_milestone",
       "owner_issues": [
-        5336
+        5347
       ],
-      "cutover_disposition": "external_owner_acceptance_required",
-      "decision_basis": "This is an ADL tooling, adapter, or integration capability governed by ADL v2 acceptance rather than Runtime v3 parity."
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
     },
     {
       "row": 85,
@@ -1215,12 +1216,12 @@
       "canonical_status": "Implemented baseline",
       "canonical_evidence": "`docs/milestones/v0.91.2/features/REPO_VISIBILITY_FOLLOW_ON.md` plus the `v0.90` repo-visibility baseline",
       "canonical_next_target": "`v0.91.2` follow-on packet complete",
-      "classification": "adl_v2_acceptance",
+      "classification": "retained_or_later_milestone",
       "owner_issues": [
-        5336
+        5347
       ],
-      "cutover_disposition": "external_owner_acceptance_required",
-      "decision_basis": "This is an ADL tooling, adapter, or integration capability governed by ADL v2 acceptance rather than Runtime v3 parity."
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
     },
     {
       "row": 88,

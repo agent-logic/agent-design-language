@@ -32,17 +32,17 @@ module FeatureDecisions5594
       disposition: "external_owner_acceptance_required",
       basis: "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
     },
-    "L" => {
-      classification: "adl_v2_acceptance",
-      owner_issues: [5336],
-      disposition: "external_owner_acceptance_required",
-      basis: "This is an ADL tooling, adapter, or integration capability governed by ADL v2 acceptance rather than Runtime v3 parity."
-    },
     "S" => {
       classification: "adl_v2_signing",
       owner_issues: [5342],
       disposition: "external_owner_acceptance_required",
       basis: "Signing, verification, and trust-policy replacement is explicitly owned by ADL v2 WP-07 rather than Runtime v3 governed-operations parity."
+    },
+    "P" => {
+      classification: "provider_and_secure_transport",
+      owner_issues: [5589, 5590],
+      disposition: "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      basis: "Provider operations belong to Runtime v3 Parity-C while secure transport and remote access belong to Parity-D; both proofs are required."
     },
     "D" => {
       classification: "retained_or_later_milestone",
@@ -62,7 +62,7 @@ module FeatureDecisions5594
     212 => "K", # Bounded concurrency and retry/failure controls
     213 => "K", # Run artifacts and replay-oriented inspection
     214 => "S", # Signing, verification, and trust policy
-    215 => "A", # Provider and transport substrate
+    215 => "P", # Provider and transport substrate
     216 => "A", # Remote execution baseline
     217 => "O", # Human-in-the-loop pause/resume
     218 => "C", # Structured authoring model
@@ -82,7 +82,7 @@ module FeatureDecisions5594
     232 => "O", # Freedom Gate baseline
     233 => "O", # Freedom Gate v2
     234 => "K", # Trace substrate
-    235 => "L", # Operational skills substrate
+    235 => "D", # Operational skills substrate
     236 => "K", # Runtime environment and lifecycle completion
     237 => "K", # Execution boundaries and capability-aware local execution
     238 => "K", # Local runtime resilience and Shepherd preservation
@@ -109,7 +109,7 @@ module FeatureDecisions5594
     259 => "D", # CodeFriend review showcase and architecture-document generation
     260 => "C", # Coverage ratchet, test tracker, and quality tracking
     261 => "C", # Rust refactoring tracker and evidence-driven maintenance
-    262 => "L", # Milestone compression and repo visibility prototypes
+    262 => "D", # Milestone compression and repo visibility prototypes
     263 => "D", # HTML milestone dashboard and compression reporting
     264 => "K", # Runtime v2 foundation prototype
     265 => "A", # CSM Observatory visibility and operator-report surfaces
@@ -123,7 +123,7 @@ module FeatureDecisions5594
     273 => "D", # Cognitive Compression Cost instrumentation
     274 => "D", # Web-based code editor integration
     275 => "R", # Reasoning graph baseline
-    276 => "O", # Signed trace and trace query
+    276 => "S", # Signed trace and trace query
     277 => "R", # Wellbeing, affect, kindness, moral cognition, humor
     278 => "A", # Secure Agent Communication and Invocation Protocol
     279 => "K", # Inhabited runtime readiness
@@ -135,14 +135,14 @@ module FeatureDecisions5594
     285 => "A", # ACIP hardening and local encryption boundary
     286 => "A", # A2A adapter boundary
     287 => "K", # Runtime inhabitant proof
-    288 => "L", # UTS + ACC multi-model benchmark and provider-native tool-call comparison
+    288 => "D", # UTS + ACC multi-model benchmark and provider-native tool-call comparison
     289 => "C", # Runtime/test-cycle recovery and coverage ergonomics
     290 => "D", # CodeFriend repo-review product layer
     291 => "C", # Review heuristics and reviewer demo lane
-    292 => "L", # Google Workspace CMS bridge and Rust-native adapter boundary
+    292 => "D", # Google Workspace CMS bridge and Rust-native adapter boundary
     293 => "D", # Automated repository modernization and external refactoring integration
     294 => "D", # Generic speculative decoding runtime acceleration
-    295 => "L", # Repo visibility follow-on
+    295 => "D", # Repo visibility follow-on
     296 => "D", # Publication packet program and GHB paper lane
     297 => "D", # General-intelligence paper packet
     298 => "C", # Rustdoc/doc cleanup
