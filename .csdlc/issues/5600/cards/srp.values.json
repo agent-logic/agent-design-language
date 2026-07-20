@@ -7,15 +7,15 @@
     "title": "[v0.91.8][csdlc-v2][bug] Support complete typed preparation-to-implementation replanning",
     "slug": "complete-typed-preparation-to-implementation-replanning",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2\n.csdlc/issues/5600\n.csdlc/prepared/issues/5600\n.csdlc/evidence/5600",
+      "review_revision": "git-blake3:61c748be30383baf4227073c125ad4fef582b1d8:463d7d650b161ed755fd39d3dac17ada1c08a7db4388b804d69feccb4f55b418",
+      "reviewer": "subagent:codex-exec-5600-final-head",
       "review_prompts": [
         "Does every required planning collection have an explicit card-owned typed replacement operation?",
         "Can any failed operation change a card, generation, digest, projection, or audit event?",
@@ -23,9 +23,30 @@
         "Does the #5337 fixture prove a real preparation-to-implementation conversion without direct card edits?",
         "Are phase authorization and existing serialized operation compatibility preserved?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "F-5600-5",
+          "severity": "p1",
+          "summary": "The committed publication request has stale generation and digest values after review recovery.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5600-6",
+          "severity": "p2",
+          "summary": "The publication body contains an unsupported whole-lifecycle process claim.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }

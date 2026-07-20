@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "c0955e6b8fc631cce56f7a93db532b21b9bbd42fbd39046bc3332e7bee4b9595",
+  "generation": 14,
+  "digest": "84d20f8677d395dbf43854d91547aa0275025e7f686e119fb0a2ac94613598d4",
   "claim": {
     "id": "claim-5600-complete-typed-replanning",
     "owner": "codex:issue-5600",
-    "generation": 13,
+    "generation": 14,
     "acquired_unix_seconds": 1784577719,
     "expires_unix_seconds": 1785182519,
     "heartbeat_unix_seconds": 1784577719,
@@ -23,8 +23,52 @@
     ],
     "purpose": "Implement complete typed preparation-to-implementation replanning"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:codex-exec-5600-final-head",
+    "assigned_by": "codex:issue-5600",
+    "revision": "git-blake3:61c748be30383baf4227073c125ad4fef582b1d8:463d7d650b161ed755fd39d3dac17ada1c08a7db4388b804d69feccb4f55b418",
+    "scope": [
+      "csdlc-v2",
+      ".csdlc/issues/5600",
+      ".csdlc/prepared/issues/5600",
+      ".csdlc/evidence/5600"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:codex-exec-5600-final-head",
+    "scope": [
+      "csdlc-v2",
+      ".csdlc/issues/5600",
+      ".csdlc/prepared/issues/5600",
+      ".csdlc/evidence/5600"
+    ],
+    "reviewed_revision": "git-blake3:61c748be30383baf4227073c125ad4fef582b1d8:463d7d650b161ed755fd39d3dac17ada1c08a7db4388b804d69feccb4f55b418",
+    "findings": [
+      {
+        "id": "F-5600-5",
+        "severity": "p1",
+        "summary": "The committed publication request has stale generation and digest values after review recovery.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5600-6",
+        "severity": "p2",
+        "summary": "The publication body contains an unsupported whole-lifecycle process claim.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +83,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "43f5761a78597ec9fe8424fffea367e9f498b98d62691ea0fe83821e73a7e1fe",
+      "values_digest": "54eeb060c781dace15293c09c9f8808cdb94db2422156876653c17a6ec592035",
       "rendered_digest": "72d0d26c0a9fca3d92978776997764195776dec41db6d10b05d5838413e2766d",
       "ast_digest": "c130e7367e81abdf59c746c02c1aff2a1b4c2ab16d2eb3f964968a192705a706"
     },
     "stp": {
-      "values_digest": "a9374e83ad7bde6077c88200bbe32c9bb6b7ab0ff09b10de60309c65f4592cdd",
+      "values_digest": "e3b53d504f5e84cf806d1c46d92229d7e1b93cb82dd96a70fe43a67ae8a1fb16",
       "rendered_digest": "0599c33ab3b2da3edd9ba1f4209e8243606a2cac4f94ab01c9a47d075bc36176",
       "ast_digest": "912c0dc482169557913062368c098b68c8757642261ee56bb60db7bb46dfdd4f"
     },
     "spp": {
-      "values_digest": "2cb86828dbb4b998bd835771d0d7600c448a50b931b29169eb88ffb7f39d6b23",
+      "values_digest": "691ae0f8fe84ebe35d6de0728fb4b99e32eb757fad89e4210c5716cb6c250538",
       "rendered_digest": "642a19e5495f730b097167f7d8c47c64c7f9955838675357855b82ad1112ff9a",
       "ast_digest": "54712938f40efa02c44ff3b9bd29dedf4cba4c34e45726cc88c9a30297aca759"
     },
     "vpp": {
-      "values_digest": "07108d89ce97b2f0b8192162a6da5a35b07a7fdd47323cf761364f2a119bce7e",
+      "values_digest": "17bf8b09849fe1b3c616b0bd4fec1c05a020b8e17074b007a22cd4776f496016",
       "rendered_digest": "1cdf94b67e2d968d60bce38010fed88b468f4d9450817305fb1c719bc18e5ed5",
       "ast_digest": "4efaa52bb7bf1a11d75221f41c303e44701f701a6049424648a1c444551446e9"
     },
     "srp": {
-      "values_digest": "4bcefd01ca1de7773b12217c9996eb524f2b296ebdb759034b867b599546ea33",
-      "rendered_digest": "cd435baad8a04cf3c5495830470650489416601300b09559a495a1a9f2cf178a",
-      "ast_digest": "c3181fcdb26c6b40ffbdf45d49dfac86fe263acc5d21632264baa6e1282430e7"
+      "values_digest": "2db623ea4ead900e962cf45b2c7e9b4eda1edeaebd42995e583a06273a5dd119",
+      "rendered_digest": "2120b0aa5022405dc1b8ea8540a7349a203890d77d094b7208feec2eeeadc58c",
+      "ast_digest": "07defdaa8ddf145ad101b06e92a57148fea76177a95e7faf542d4fd996f9f7e3"
     },
     "sor": {
-      "values_digest": "ce78867b7a605d9fbeb0fafff8cb24fe0cac4c40ffe0629813d2c0083bddf24a",
+      "values_digest": "b20ce48a8590bf1960882dbaa3b1c633e63324981294988f1b1352afc9191213",
       "rendered_digest": "51ab3a5fca01b9e2c2091bb9c235c934de6ab1ab0dd8157da317a71abeb7fbae",
       "ast_digest": "06113e2301046fd623bba7caf599f1101d810cb6dbe1d951204548e205515737"
     }
@@ -225,6 +269,20 @@
       "actor": "codex:issue-5600",
       "reason": "Recover committed review metadata and publication request for an exact final-head review before draft publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:issue-5600",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "subagent:codex-exec-5600-final-head",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
