@@ -1,0 +1,203 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5602,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
+  "phase": "published",
+  "generation": 6,
+  "digest": "27410944a5f03e04b39b19c805d0580b66d47b788f76ff1de79942caf5f513f1",
+  "claim": {
+    "id": "claim-5602-hosted-coverage-no-report",
+    "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+    "generation": 6,
+    "acquired_unix_seconds": 1784584872,
+    "expires_unix_seconds": 1784671272,
+    "heartbeat_unix_seconds": 1784584872,
+    "branch": "codex/5602-hosted-coverage-no-report",
+    "worktree": ".worktrees/adl-wp-5602",
+    "protected_paths": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "purpose": "Prevent partition-local llvm-cov report crashes without weakening coverage"
+  },
+  "review_assignment": {
+    "reviewer": "subagent:review-5602",
+    "assigned_by": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+    "revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review-5602",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
+    "findings": [],
+    "residual_risks": [
+      "The full hosted instrumented workspace workload remains CI integration proof; local proof used installed CLI semantics and the focused fake-cargo harness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5602,
+    "pull_request": 5603,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5603",
+    "base": "main",
+    "head": "codex/5602-hosted-coverage-no-report",
+    "revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5602/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5602/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "revision": "f45a2baf128a937eb1fb7bfd0e1d39db33ac3c2efb243efc8b965c7ea0304f82"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "de21b47163041977c0ba9619632846ac0c3aa00c4848661e1820700e5df70eb9",
+      "rendered_digest": "f29c939a2f5af25a1986147a24c88c77e4cb3e098387deb638c9ca7c02221236",
+      "ast_digest": "dc868767b9da3d0f23e83f59daf4792b535f892948bd50d63d5e172751834701"
+    },
+    "stp": {
+      "values_digest": "8c4d0522002e41caa8abbf628b7687dc6ae21bea5ff73ae45fbe47aaeaeade1a",
+      "rendered_digest": "7169347c43cc4f22ec2d67cafd4b12be0a88261e42b5825b76a6a5c2a94c4350",
+      "ast_digest": "0a305bbdbc7044b0f7a8956e25501a3973c08d81c372948becdbd8676a7d411b"
+    },
+    "spp": {
+      "values_digest": "5ecb5c3938d204975fc9e98e3c7cff66223914ed4e7213c04f3ae7d74febdcb7",
+      "rendered_digest": "b2a74f27bd07e8ced438a62f24e9a87ca23d7acd291c4383c49afec39b83e8bf",
+      "ast_digest": "a5c6942680a7c7b996dde5376907adb70ca14b93009a7ad599200134d2fe0055"
+    },
+    "vpp": {
+      "values_digest": "4a378a14a2c132c5dc017ddf213a1f16162126aff25c36408946ce80d4c36e21",
+      "rendered_digest": "5ee3a0baebc9c56fcb842ee572195c3a41247743e271f5dced953c47316936be",
+      "ast_digest": "696c38305d48a39773ae3fcbc00b2ef9ae8d1cc1a5fea3960d9448c5dec7807d"
+    },
+    "srp": {
+      "values_digest": "6ce98a59d359380fbd6c653d18c00e747134dd3b623b2e5b8aece12b8da88f12",
+      "rendered_digest": "f650a10b16ac29c5135fe24135c3d54fbf720bf7a34fb0439407ca6c17f29d37",
+      "ast_digest": "227fa294e841a656a5fc0c7aa3d5169266b8992804554fb4dd40862061969e48"
+    },
+    "sor": {
+      "values_digest": "3223bf88ec8dd45c846c54f7d792f4c93b1a5fa8bec6bf7e4de8d58106377e13",
+      "rendered_digest": "557f09e90a5bd250d2fe5550e08439d146a142c2b1b6971ed2f617ad8ef6d7db",
+      "ast_digest": "e39f47f10dcdb16485000b52ba253dfb4d886c3941c5771ac09018a412f061eb"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "The bounded coverage orchestration repair and focused proof are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "The exact substantive revision received a no-findings bounded review."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "Remove redundant partition-local report rendering while preserving authoritative combined coverage.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Add --no-report to every partitioned cargo llvm-cov nextest command and retain the explicit combined ADL and Runtime report commands.\",\"changes\":[\"Collect workspace coverage profiles without partition-local reports\",\"Collect companion Runtime profiles without partition-local reports\",\"Strengthen exact command-shape regression expectations\"],\"artifacts\":[\"adl/tools/run_authoritative_coverage_lane.sh\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "Focused coverage orchestration contracts and FastWork root proof pass.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"],\"purpose\":\"Prove profile-only partition collection, explicit combined reporting, failure propagation, concurrency isolation, and unchanged gates; FastWork plan separately resolved under /Volumes/FastWork/adl-5602-coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:5602-authoritative-coverage-contract-pass\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "The bounded coverage orchestration repair and focused proof are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "subagent:review-5602",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "The exact substantive revision received a no-findings bounded review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
