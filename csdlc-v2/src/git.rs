@@ -249,7 +249,8 @@ fn safe_metadata_path(path: &str) -> bool {
                 .any(|name| *file == format!("{name}.md") || *file == format!("{name}.values.json"))
         }
         [".csdlc", "prepared", "issues", issue, file]
-            if issue_id(issue) && file.ends_with(".json") =>
+            if issue_id(issue)
+                && (file.ends_with(".json") || typed_review_evidence_markdown(file)) =>
         {
             true
         }
@@ -266,5 +267,36 @@ fn safe_metadata_path(path: &str) -> bool {
             true
         }
         _ => false,
+    }
+}
+
+fn typed_review_evidence_markdown(file: &str) -> bool {
+    ["final-head-review-", "subagent-review-"]
+        .iter()
+        .any(|prefix| {
+            file.strip_prefix(prefix)
+                .and_then(|suffix| suffix.strip_suffix(".md"))
+                .is_some_and(|ordinal| {
+                    !ordinal.is_empty() && ordinal.bytes().all(|byte| byte.is_ascii_digit())
+                })
+        })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::safe_metadata_path;
+
+    #[test]
+    fn prepared_review_evidence_is_narrowly_metadata_safe() {
+        assert!(safe_metadata_path(
+            ".csdlc/prepared/issues/5600/final-head-review-2.md"
+        ));
+        assert!(safe_metadata_path(
+            ".csdlc/prepared/issues/5600/subagent-review-1.md"
+        ));
+        assert!(!safe_metadata_path(".csdlc/prepared/issues/5600/design.md"));
+        assert!(!safe_metadata_path(
+            ".csdlc/prepared/issues/5600/final-head-review-not-a-number.md"
+        ));
     }
 }
