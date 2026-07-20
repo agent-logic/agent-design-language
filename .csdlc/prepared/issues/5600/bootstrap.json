@@ -1,0 +1,192 @@
+{
+  "issue": 5600,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5600/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5600/diagram.mmd",
+  "design_reviewer": "codex:issue-5600",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5600-complete-typed-replanning",
+    "owner": "codex:issue-5600",
+    "generation": 0,
+    "acquired_unix_seconds": 1784577719,
+    "expires_unix_seconds": 1785182519,
+    "heartbeat_unix_seconds": 1784577719,
+    "branch": "codex/5600-complete-typed-replanning",
+    "worktree": ".worktrees/adl-wp-5600",
+    "protected_paths": [
+      ".csdlc/issues/5600",
+      ".csdlc/locks/5600.lock",
+      ".csdlc/prepared/issues/5600",
+      "csdlc-v2"
+    ],
+    "purpose": "Implement complete typed preparation-to-implementation replanning"
+  },
+  "initial": {
+    "title": "[v0.91.8][csdlc-v2][bug] Support complete typed preparation-to-implementation replanning",
+    "slug": "complete-typed-preparation-to-implementation-replanning",
+    "version": "v0.91.8",
+    "goal": "Allow a prepared Bound issue to become a complete implementation plan using typed semantic operations only.",
+    "required_outcome": "Every structured SIP, STP, SPP, VPP, and SRP planning collection needed for authorized Bound replanning is replaceable through card-owned, generation-aware, digest-guarded, atomic, audited operations, with #5337 conversion proof.",
+    "declared_scope": [
+      "csdlc-v2 semantic operation contracts and authorization",
+      "atomic card regeneration and cross-card acceptance validation",
+      "focused and end-to-end typed replanning tests",
+      "issue-local lifecycle evidence"
+    ],
+    "authority_boundary": [
+      "typed C-SDLC v2 binaries are the sole lifecycle authority",
+      "semantic operations own card mutation and rendered Markdown remains derived",
+      "ADL owner tools provide repository and GitHub truth"
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 binaries and ADL owner tools only",
+      "Do not edit main",
+      "Do not use raw gh or AWS",
+      "Implement every acceptance criterion without deferral",
+      "Keep source changes within csdlc-v2"
+    ],
+    "task_boundary": "Implement only issue #5600 typed preparation-to-implementation replanning and its complete proof surface.",
+    "deliverables": [
+      "typed replacement operations for every required SIP, STP, SPP, and SRP planning collection",
+      "phase, ownership, generation, digest, atomicity, and audit enforcement",
+      "cross-card acceptance-coverage enforcement after replanning",
+      "#5337 preparation-to-implementation conversion fixture",
+      "complete focused and regression proof"
+    ],
+    "acceptance_criteria": [
+      "AC-1: A prepared Bound issue can replace every SIP, STP, SPP, VPP, and SRP planning collection required for full implementation without direct Markdown or values-file edits",
+      "AC-2: Every replacement remains card-owned, generation-aware, digest-guarded, claim-authorized, atomically regenerated, and durably audited",
+      "AC-3: Cross-card acceptance coverage rejects stale, missing, duplicate, or extra acceptance IDs after replanning without partial mutation",
+      "AC-4: Negative tests reject empty replacements, wrong-card ownership, stale generation, stale digest, invalid claim, and mutation outside authorized Bound replanning",
+      "AC-5: A #5337 preparation-to-implementation fixture completes through typed operations and passes typed validation and doctor",
+      "AC-6: Existing operation serialization, compact card rendering, and lifecycle behavior remain compatible",
+      "AC-7: Focused tests, all-target tests, formatting, strict Clippy, exact-revision review, and typed draft publication complete with no unresolved findings"
+    ],
+    "dependencies": [
+      "issue #5597 integrated generation-aware preparation semantics",
+      "issue #5337 consumes the integrated result"
+    ],
+    "repo_inputs": [
+      "live issue #5600",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests",
+      "issue #5337 prepared card shape"
+    ],
+    "non_goals": [
+      "ADL language or Runtime implementation",
+      "direct editing of rendered cards or values files",
+      "generic untyped JSON mutation",
+      "AWS",
+      "raw gh",
+      "unrelated lifecycle or documentation refactors"
+    ],
+    "plan_summary": "Add explicit card-owned collection replacement operations, enforce Bound-phase compare-and-swap and atomic cross-card validation, prove all negative cases, and exercise a complete #5337 typed conversion before exact-revision review and publication.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Define typed card-owned replacement operations for all remaining SIP, STP, SPP, and SRP planning collections",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement Bound-phase authorization, atomic regeneration, audit semantics, and cross-card acceptance validation",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add complete positive, negative, compatibility, and #5337 conversion fixtures",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused and all-target proof, strict lint, exact-revision review, typed publication, and check monitoring",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "main remains untouched",
+      "rendered cards and values files are never directly edited",
+      "failed operations change no card, generation, digest, or audit entry",
+      "acceptance coverage is complete before commit",
+      "no acceptance criterion is deferred"
+    ],
+    "risks": [
+      "broad replacement APIs could weaken card ownership",
+      "cross-card changes could commit partially",
+      "acceptance identifiers could drift across STP, SPP, and VPP",
+      "serialized enum changes could regress existing records"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "typed lifecycle authority is unavailable",
+      "another live claim owns issue #5600 or an exact protected path",
+      "the requested behavior requires changes outside csdlc-v2 and issue-local lifecycle paths"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "focused-replanning-tests",
+        "proof_role": "Prove all typed replacement operations, guards, atomicity, acceptance coverage, compatibility, and #5337 conversion",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 6000,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate9_parity"],
+        "parallel_group": "tests",
+        "defer_reason": null
+      },
+      {
+        "lane": "all-target-tests",
+        "proof_role": "Prove complete C-SDLC v2 regression compatibility",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 1200,
+        "budget_tokens": 8000,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets"],
+        "parallel_group": "tests",
+        "defer_reason": null
+      },
+      {
+        "lane": "strict-clippy",
+        "proof_role": "Prove formatting and warning-free all-target Rust implementation",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["cargo", "clippy", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+        "parallel_group": "lint",
+        "defer_reason": null
+      },
+      {
+        "lane": "typed-doctor",
+        "proof_role": "Prove the #5600 record remains structurally and semantically ready",
+        "acceptance_ids": ["AC-2", "AC-5", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["cargo", "run", "--manifest-path", "csdlc-v2/Cargo.toml", "--bin", "csdlc-doctor", "--", "--repo", ".", "--issue", "5600"],
+        "parallel_group": "lint",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on empty or misowned replacements, stale compare-and-swap truth, unauthorized phase or claim, incomplete acceptance coverage, partial regeneration, compatibility regression, stale review, or publication ambiguity.",
+    "review_prompts": [
+      "Does every required planning collection have an explicit card-owned typed replacement operation?",
+      "Can any failed operation change a card, generation, digest, projection, or audit event?",
+      "Does acceptance coverage reject stale, missing, duplicate, and extra identifiers across STP, SPP, and VPP?",
+      "Does the #5337 fixture prove a real preparation-to-implementation conversion without direct card edits?",
+      "Are phase authorization and existing serialized operation compatibility preserved?"
+    ],
+    "review_scope": "Review the exact substantive revision for complete collection coverage, card ownership, phase and claim authorization, generation and digest guards, atomic regeneration, acceptance-ID integrity, compatibility, and #5337 conversion proof."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "issue": 5602,
+  "expected_generation": 3,
+  "expected_digest": "d77bfaf0c90defa4d9386d93a167905d2b0764e23b896ef0c2cfa4e6fc98f634",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "subagent:review-5602",
+  "evidence": {
+    "reviewer": "subagent:review-5602",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
+    "findings": [],
+    "residual_risks": [
+      "The full hosted instrumented workspace workload remains CI integration proof; local proof used installed CLI semantics and the focused fake-cargo harness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

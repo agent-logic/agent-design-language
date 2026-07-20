@@ -1,0 +1,19 @@
+{
+  "issue": 5600,
+  "expected_generation": 13,
+  "expected_digest": "400b5c2f9519a37fe3793234f7b8823020507548d324752045bfecc1c88baaac",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "subagent:codex-exec-5600-final-head",
+  "evidence": {
+    "reviewer": "subagent:codex-exec-5600-final-head",
+    "scope": ["csdlc-v2", ".csdlc/issues/5600", ".csdlc/prepared/issues/5600", ".csdlc/evidence/5600"],
+    "reviewed_revision": "git-blake3:61c748be30383baf4227073c125ad4fef582b1d8:463d7d650b161ed755fd39d3dac17ada1c08a7db4388b804d69feccb4f55b418",
+    "findings": [
+      {"id":"F-5600-5","severity":"p1","summary":"The committed publication request has stale generation and digest values after review recovery.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":null},
+      {"id":"F-5600-6","severity":"p2","summary":"The publication body contains an unsupported whole-lifecycle process claim.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":null}
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

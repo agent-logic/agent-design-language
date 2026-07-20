@@ -1,0 +1,16 @@
+{
+  "issue": 5600,
+  "expected_generation": 10,
+  "expected_digest": "4c126e03839648078d2dcdc42b1a5d4d820e74b8c70e1e23056cf512d2818291",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "reviewer": "subagent:codex-exec-5600-remediation",
+  "assigned_by": "codex:issue-5600",
+  "scope": [
+    "csdlc-v2",
+    ".csdlc/prepared/issues/5600/design.md",
+    ".csdlc/prepared/issues/5600/diagram.mmd",
+    ".csdlc/prepared/issues/5600/bootstrap.json",
+    ".csdlc/prepared/issues/5600/validate-local.json",
+    ".csdlc/evidence/5600"
+  ]
+}

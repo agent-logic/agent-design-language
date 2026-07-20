@@ -21,7 +21,8 @@ pub mod soak;
 pub mod store;
 
 pub use cards::{
-    CardKind, CardStatus, CardValues, InitialCardInput, PlanningProfile, SemanticOperation,
+    CardKind, CardStatus, CardValues, InitialCardInput, PlanningCollectionField, PlanningProfile,
+    SemanticOperation,
 };
 pub use cutover::{run_cutover, CutoverEvidence, CutoverRequest};
 pub use doctor::{diagnose, DoctorReport};

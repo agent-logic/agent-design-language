@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5602,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
+    "slug": "hosted-coverage-no-report",
+    "version": "v0.91.8",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "authoritative-coverage-contract",
+          "proof_role": "Prove profile-only partition collection and unchanged combined reporting",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            "adl/tools/test_run_authoritative_coverage_lane.sh"
+          ],
+          "parallel_group": "tooling-contracts",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed if any test selector, threshold, explicit report, or non-PR failure behavior is weakened.",
+      "design_ref": ".csdlc/prepared/issues/5602/design.md",
+      "design_digest": "f45a2baf128a937eb1fb7bfd0e1d39db33ac3c2efb243efc8b965c7ea0304f82",
+      "diagram_ref": ".csdlc/prepared/issues/5602/diagram.mmd",
+      "diagram_digest": "d7109fa116d0e69fa1da25577a5282e45586699370b8386eba414f20ae6c24d3"
+    }
+  }
+}

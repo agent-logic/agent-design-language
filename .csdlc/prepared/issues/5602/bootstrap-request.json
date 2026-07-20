@@ -1,0 +1,114 @@
+{
+  "issue": 5602,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5602/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5602/diagram.mmd",
+  "design_reviewer": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5602-hosted-coverage-no-report",
+    "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784584872,
+    "expires_unix_seconds": 1784671272,
+    "heartbeat_unix_seconds": 1784584872,
+    "branch": "codex/5602-hosted-coverage-no-report",
+    "worktree": ".worktrees/adl-wp-5602",
+    "protected_paths": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "purpose": "Prevent partition-local llvm-cov report crashes without weakening coverage"
+  },
+  "initial": {
+    "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
+    "slug": "hosted-coverage-no-report",
+    "version": "v0.91.8",
+    "goal": "Make hosted authoritative coverage collect profiles per partition and render only the intended combined reports.",
+    "required_outcome": "Hosted coverage no longer fails because a redundant partition-local llvm-cov report crashes, while test scope and coverage gates remain unchanged.",
+    "declared_scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "authority_boundary": [
+      "Issue #5602 owns only authoritative coverage orchestration",
+      "Issue #5336 and PR #5599 own Runtime v3 planning content",
+      "No AWS execution is authorized"
+    ],
+    "task_boundary": "Add supported no-report profile collection to partition commands and strengthen focused contracts only.",
+    "deliverables": [
+      "Partition commands with --no-report",
+      "Focused command-shape and failure-semantics regression coverage",
+      "Local validation using /Volumes/FastWork"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every partition still executes its full selected test set",
+      "AC-2: Partition commands collect profiles without rendering reports",
+      "AC-3: Explicit combined ADL and Runtime reports remain authoritative",
+      "AC-4: Existing thresholds and fail-closed behavior remain unchanged",
+      "AC-5: Focused contracts pass with build artifacts on /Volumes/FastWork"
+    ],
+    "dependencies": [
+      "PR #5599 run 29773292101 job 88477335280 retained failure evidence"
+    ],
+    "repo_inputs": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "GitHub run 29773292101 job 88477335280"
+    ],
+    "non_goals": [
+      "Coverage threshold changes",
+      "Test-scope reduction",
+      "Runtime product changes",
+      "AWS execution"
+    ],
+    "plan_summary": "Add --no-report to partitioned profile collection, lock the command contract, validate locally, review, and publish.",
+    "steps": [
+      {"id":"S1","action":"Add no-report profile collection to every authoritative coverage partition","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"]},
+      {"id":"S2","action":"Strengthen focused regression contracts and validate on /Volumes/FastWork","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"]},
+      {"id":"S3","action":"Review, publish, and integrate the bounded repair","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"]}
+    ],
+    "risks": [
+      "A command path could omit no-report",
+      "Explicit final reporting could accidentally be weakened",
+      "A test could assert text without exercising failure semantics"
+    ],
+    "invariants": [
+      "Coverage thresholds are unchanged",
+      "Test selectors and partition count are unchanged",
+      "Explicit combined reports remain required",
+      "No AWS route is used"
+    ],
+    "stop_conditions": [
+      "The repair requires product/runtime changes",
+      "The repair requires lowering coverage or skipping tests",
+      "Validation requires AWS"
+    ],
+    "review_prompts": [
+      "Does every partition collect profiles with --no-report?",
+      "Are the explicit combined reports and gates unchanged?",
+      "Does the contract prove partition failures still fail closed?"
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 and ADL owner binaries only",
+      "Never use raw gh or AWS",
+      "Never weaken or bypass the coverage gate"
+    ],
+    "review_scope": "adl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh",
+    "planning_profile": "small",
+    "validation_lanes": [
+      {
+        "lane": "authoritative-coverage-contract",
+        "proof_role": "Prove profile-only partition collection and unchanged combined reporting",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "tooling-contracts",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["bash", "adl/tools/test_run_authoritative_coverage_lane.sh"],
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5"]
+      }
+    ],
+    "failure_policy": "Fail closed if any test selector, threshold, explicit report, or non-PR failure behavior is weakened."
+  }
+}

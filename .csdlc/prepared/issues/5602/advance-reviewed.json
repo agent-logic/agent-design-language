@@ -1,0 +1,10 @@
+{
+  "issue": 5602,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "87084eb6f7c5ff68de17423f9654ca91eb790d195ef4ea3d17ef3547bcbb9bd1",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+  "reason": "The exact substantive revision received a no-findings bounded review.",
+  "operation": {"operation":"advance_phase","phase":"reviewed"}
+}

@@ -137,6 +137,7 @@ if [ "$MODE" = "full_authoritative_default_features" ]; then
   coverage_command=(cargo llvm-cov nextest \
     --workspace \
     --no-clean \
+    --no-report \
     --no-fail-fast \
     --no-tests pass \
     --test-threads "$TEST_THREADS")
@@ -149,6 +150,7 @@ else
   coverage_command=(cargo llvm-cov nextest \
     --workspace \
     --no-clean \
+    --no-report \
     --no-fail-fast \
     --no-tests pass \
     --test-threads "$TEST_THREADS")
@@ -245,6 +247,7 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
   runtime_coverage_command=(cargo llvm-cov nextest \
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
     --no-clean \
+    --no-report \
     --no-fail-fast \
     --no-tests pass \
     --test-threads "$TEST_THREADS")

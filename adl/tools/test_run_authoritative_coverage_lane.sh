@@ -82,6 +82,7 @@ for required_fragment in \
   "cargo llvm-cov nextest" \
   "--workspace" \
   "--no-clean" \
+  "--no-report" \
   "--no-fail-fast" \
   "--no-tests pass" \
   "--test-threads" \
@@ -111,6 +112,10 @@ do
       ;;
   esac
 done
+if [ "$(grep -c -- '--no-report' "$SCRIPT")" -ne 3 ]; then
+  echo "every authoritative nextest command must collect profiles without rendering a partition-local report" >&2
+  exit 1
+fi
 case "$script_text" in
   *"--lib"*|*"--tests"*|*"--bins"*|*"--all-targets"*)
     echo "coverage runner must not narrow authoritative workspace coverage targets" >&2
@@ -184,7 +189,7 @@ for required_dir in "$scratch_root/target" "$scratch_root/target/llvm-cov-target
 done
 
 for required in \
-  "cmd=llvm-cov nextest --workspace --no-clean --no-fail-fast --no-tests pass" \
+  "cmd=llvm-cov nextest --workspace --no-clean --no-report --no-fail-fast --no-tests pass" \
   "--test-threads 4" \
   "--partition count:1/2" \
   "--partition count:2/2" \
@@ -195,7 +200,7 @@ for required in \
   "--skip csm_runtime_api_serves_status_health_ready_metrics_and_events" \
   "--skip child_exit_terminates_descendants_and_bounds_inherited_pipe_capture" \
   "--skip csmctl_authenticated_api_client_waits_for_slow_listener_startup" \
-  "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass" \
+  "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-report --no-fail-fast --no-tests pass" \
   "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl.json" \
   "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl-runtime.json" \
   "target=$scratch_root/target" \
@@ -326,7 +331,7 @@ for required in \
   "link_accel=lld" \
   "--test-threads 2" \
   "-- --skip live_pr_fixture_" \
-  "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass"
+  "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-report --no-fail-fast --no-tests pass"
 do
   if ! grep -F -- "$required" "$lld_cargo_log" >/dev/null 2>&1; then
     echo "missing authoritative coverage concurrency token: $required" >&2

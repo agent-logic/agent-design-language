@@ -1,0 +1,14 @@
+{
+  "issue": 5600,
+  "expected_generation": 14,
+  "expected_digest": "84d20f8677d395dbf43854d91547aa0275025e7f686e119fb0a2ac94613598d4",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "reviewer": "subagent:codex-exec-5600-final-head-2",
+  "assigned_by": "codex:issue-5600",
+  "scope": [
+    "csdlc-v2",
+    ".csdlc/issues/5600",
+    ".csdlc/prepared/issues/5600",
+    ".csdlc/evidence/5600"
+  ]
+}

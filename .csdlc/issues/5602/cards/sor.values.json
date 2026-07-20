@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5602,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
+    "slug": "hosted-coverage-no-report",
+    "version": "v0.91.8",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Add --no-report to every partitioned cargo llvm-cov nextest command and retain the explicit combined ADL and Runtime report commands.",
+      "actual_changes": [
+        "Collect workspace coverage profiles without partition-local reports",
+        "Collect companion Runtime profiles without partition-local reports",
+        "Strengthen exact command-shape regression expectations"
+      ],
+      "artifacts": [
+        "adl/tools/run_authoritative_coverage_lane.sh",
+        "adl/tools/test_run_authoritative_coverage_lane.sh"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_run_authoritative_coverage_lane.sh"
+          ],
+          "purpose": "Prove profile-only partition collection, explicit combined reporting, failure propagation, concurrency isolation, and unchanged gates; FastWork plan separately resolved under /Volumes/FastWork/adl-5602-coverage.",
+          "outcome": "passed",
+          "evidence_ref": "local:5602-authoritative-coverage-contract-pass"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "draft",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

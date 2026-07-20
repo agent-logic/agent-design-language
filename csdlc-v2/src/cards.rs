@@ -496,6 +496,38 @@ pub enum TextField {
     SorSummary,
 }
 
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Serialize,
+    Deserialize,
+    JsonSchema,
+    Display,
+    EnumString,
+    AsRefStr,
+    EnumIter,
+)]
+#[serde(rename_all = "snake_case")]
+#[strum(serialize_all = "snake_case")]
+pub enum PlanningCollectionField {
+    DeclaredScope,
+    AuthorityBoundary,
+    InitialAssumptions,
+    Deliverables,
+    Dependencies,
+    RepoInputs,
+    NonGoals,
+    AffectedAreas,
+    Invariants,
+    Risks,
+    StopConditions,
+    ReplanTriggers,
+    ReviewPrompts,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(tag = "operation", rename_all = "snake_case")]
 pub enum SemanticOperation {
@@ -511,6 +543,18 @@ pub enum SemanticOperation {
     },
     ReplaceAcceptanceCriteria {
         values: Vec<String>,
+    },
+    ReplacePlanningCollection {
+        field: PlanningCollectionField,
+        values: Vec<String>,
+    },
+    ReplacePlanSteps {
+        steps: Vec<PlanStep>,
+    },
+    ReplaceAcceptancePlan {
+        acceptance_criteria: Vec<String>,
+        steps: Vec<PlanStep>,
+        validation_lanes: Vec<ValidationLane>,
     },
     SetField {
         field: TextField,
@@ -813,18 +857,36 @@ pub fn apply(
         SemanticOperation::ReplaceAcceptanceCriteria {
             values: replacement,
         } => {
-            if replacement.is_empty() || replacement.iter().any(|value| value.trim().is_empty()) {
-                return Err(V2Error::new(
-                    ErrorCode::CardInvalid,
-                    "acceptance criteria cannot be empty",
-                ));
-            }
+            validate_replacement(replacement, "acceptance criteria")?;
             match &mut values.content {
                 CardContent::Stp(v) => v.acceptance_criteria = replacement.clone(),
                 _ => return ownership(values.kind(), "replace_acceptance_criteria"),
             }
             Ok(None)
         }
+        SemanticOperation::ReplacePlanningCollection {
+            field,
+            values: replacement,
+        } => {
+            validate_replacement(replacement, field.as_ref())?;
+            replace_planning_collection(values, *field, replacement.clone())?;
+            Ok(None)
+        }
+        SemanticOperation::ReplacePlanSteps { steps } => {
+            validate_plan_steps(steps)?;
+            match &mut values.content {
+                CardContent::Spp(v) => {
+                    v.steps = steps.clone();
+                    v.plan_revision += 1;
+                }
+                _ => return ownership(values.kind(), "replace_plan_steps"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::ReplaceAcceptancePlan { .. } => Err(V2Error::new(
+            ErrorCode::FieldOwnership,
+            "replace_acceptance_plan is a cross-card operation",
+        )),
         SemanticOperation::SetField { field, value } => {
             set_text(values, *field, value.clone())?;
             Ok(None)
@@ -874,28 +936,7 @@ pub fn apply(
         },
         SemanticOperation::ReplaceValidationLanes { lanes } => match &mut values.content {
             CardContent::Vpp(v) => {
-                if lanes.is_empty() {
-                    return Err(V2Error::new(
-                        ErrorCode::CardInvalid,
-                        "validation lanes cannot be empty",
-                    ));
-                }
-                let unique: BTreeSet<_> = lanes.iter().map(|lane| lane.lane.as_str()).collect();
-                if unique.len() != lanes.len()
-                    || lanes.iter().any(|lane| {
-                        lane.lane.trim().is_empty()
-                            || lane.proof_role.trim().is_empty()
-                            || lane.acceptance_ids.is_empty()
-                            || lane.argv.is_empty()
-                            || lane.budget_seconds == 0
-                            || lane.budget_tokens == 0
-                    })
-                {
-                    return Err(V2Error::new(
-                        ErrorCode::CardInvalid,
-                        "validation lanes must be unique and complete",
-                    ));
-                }
+                validate_validation_lanes(lanes)?;
                 v.lanes = lanes.clone();
                 Ok(None)
             }
@@ -1222,7 +1263,9 @@ pub fn validate_cross_card(
         .cloned()
         .collect();
     let accepted: BTreeSet<_> = acceptance_ids.iter().cloned().collect();
-    if acceptance_ids.iter().any(|id| !mapped.contains(id))
+    if spp.steps.iter().any(|step| {
+        step.acceptance_ids.iter().collect::<BTreeSet<_>>().len() != step.acceptance_ids.len()
+    }) || acceptance_ids.iter().any(|id| !mapped.contains(id))
         || mapped.iter().any(|id| !accepted.contains(id))
     {
         return Err(V2Error::new(
@@ -1236,7 +1279,9 @@ pub fn validate_cross_card(
         .flat_map(|lane| lane.acceptance_ids.iter())
         .cloned()
         .collect();
-    if acceptance_ids.iter().any(|id| !proven.contains(id))
+    if vpp.lanes.iter().any(|lane| {
+        lane.acceptance_ids.iter().collect::<BTreeSet<_>>().len() != lane.acceptance_ids.len()
+    }) || acceptance_ids.iter().any(|id| !proven.contains(id))
         || proven.iter().any(|id| !accepted.contains(id))
     {
         return Err(V2Error::new(
@@ -1313,6 +1358,160 @@ fn set_text(values: &mut CardValues, field: TextField, value: String) -> Result<
         (CardContent::Srp(v), TextField::ReviewScope) => v.review_scope = value,
         (CardContent::Sor(v), TextField::SorSummary) => v.summary = value,
         _ => return ownership(values.kind(), field.as_ref()),
+    }
+    Ok(())
+}
+
+fn validate_replacement(values: &[String], field: &str) -> Result<()> {
+    if values.is_empty() || values.iter().any(|value| value.trim().is_empty()) {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            format!("{field} replacement cannot be empty"),
+        ));
+    }
+    Ok(())
+}
+
+fn replace_planning_collection(
+    values: &mut CardValues,
+    field: PlanningCollectionField,
+    replacement: Vec<String>,
+) -> Result<()> {
+    match (&mut values.content, field) {
+        (CardContent::Sip(v), PlanningCollectionField::DeclaredScope) => {
+            v.declared_scope = replacement
+        }
+        (CardContent::Sip(v), PlanningCollectionField::AuthorityBoundary) => {
+            v.authority_boundary = replacement
+        }
+        (CardContent::Sip(v), PlanningCollectionField::InitialAssumptions) => {
+            v.initial_assumptions = replacement
+        }
+        (CardContent::Stp(v), PlanningCollectionField::Deliverables) => {
+            v.deliverables = replacement
+        }
+        (CardContent::Stp(v), PlanningCollectionField::Dependencies) => {
+            v.dependencies = replacement
+        }
+        (CardContent::Stp(v), PlanningCollectionField::RepoInputs) => v.repo_inputs = replacement,
+        (CardContent::Stp(v), PlanningCollectionField::NonGoals) => v.non_goals = replacement,
+        (CardContent::Spp(v), PlanningCollectionField::AffectedAreas) => {
+            v.affected_areas = replacement;
+            v.plan_revision += 1;
+        }
+        (CardContent::Spp(v), PlanningCollectionField::Invariants) => {
+            v.invariants = replacement;
+            v.plan_revision += 1;
+        }
+        (CardContent::Spp(v), PlanningCollectionField::Risks) => {
+            v.risks = replacement;
+            v.plan_revision += 1;
+        }
+        (CardContent::Spp(v), PlanningCollectionField::StopConditions) => {
+            v.stop_conditions = replacement;
+            v.plan_revision += 1;
+        }
+        (CardContent::Spp(v), PlanningCollectionField::ReplanTriggers) => {
+            v.replan_triggers = replacement;
+            v.plan_revision += 1;
+        }
+        (CardContent::Srp(v), PlanningCollectionField::ReviewPrompts) => {
+            v.review_prompts = replacement
+        }
+        _ => return ownership(values.kind(), field.as_ref()),
+    }
+    Ok(())
+}
+
+fn validate_plan_steps(steps: &[PlanStep]) -> Result<()> {
+    let ids: BTreeSet<_> = steps.iter().map(|step| step.id.as_str()).collect();
+    if steps.is_empty()
+        || ids.len() != steps.len()
+        || steps.iter().any(|step| {
+            let acceptance_ids: BTreeSet<_> =
+                step.acceptance_ids.iter().map(String::as_str).collect();
+            step.id.trim().is_empty()
+                || step.action.trim().is_empty()
+                || step.acceptance_ids.is_empty()
+                || acceptance_ids.len() != step.acceptance_ids.len()
+                || step.acceptance_ids.iter().any(|id| id.trim().is_empty())
+                || step.status != StepStatus::Pending
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "replacement plan steps must be unique, pending, and complete",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_validation_lanes(lanes: &[ValidationLane]) -> Result<()> {
+    if lanes.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "validation lanes cannot be empty",
+        ));
+    }
+    let unique: BTreeSet<_> = lanes.iter().map(|lane| lane.lane.as_str()).collect();
+    if unique.len() != lanes.len()
+        || lanes.iter().any(|lane| {
+            let acceptance_ids: BTreeSet<_> =
+                lane.acceptance_ids.iter().map(String::as_str).collect();
+            lane.lane.trim().is_empty()
+                || lane.proof_role.trim().is_empty()
+                || lane.acceptance_ids.is_empty()
+                || acceptance_ids.len() != lane.acceptance_ids.len()
+                || lane.acceptance_ids.iter().any(|id| id.trim().is_empty())
+                || lane.argv.is_empty()
+                || lane.budget_seconds == 0
+                || lane.budget_tokens == 0
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "validation lanes must be unique and complete",
+        ));
+    }
+    Ok(())
+}
+
+pub(crate) fn replace_acceptance_plan(
+    cards: &mut BTreeMap<CardKind, CardValues>,
+    acceptance_criteria: &[String],
+    steps: &[PlanStep],
+    validation_lanes: &[ValidationLane],
+) -> Result<()> {
+    validate_replacement(acceptance_criteria, "acceptance criteria")?;
+    validate_plan_steps(steps)?;
+    validate_validation_lanes(validation_lanes)?;
+
+    match &mut cards
+        .get_mut(&CardKind::Stp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "STP projection missing"))?
+        .content
+    {
+        CardContent::Stp(values) => values.acceptance_criteria = acceptance_criteria.to_vec(),
+        _ => unreachable!("STP card content"),
+    }
+    match &mut cards
+        .get_mut(&CardKind::Spp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "SPP projection missing"))?
+        .content
+    {
+        CardContent::Spp(values) => {
+            values.steps = steps.to_vec();
+            values.plan_revision += 1;
+        }
+        _ => unreachable!("SPP card content"),
+    }
+    match &mut cards
+        .get_mut(&CardKind::Vpp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "VPP projection missing"))?
+        .content
+    {
+        CardContent::Vpp(values) => values.lanes = validation_lanes.to_vec(),
+        _ => unreachable!("VPP card content"),
     }
     Ok(())
 }
