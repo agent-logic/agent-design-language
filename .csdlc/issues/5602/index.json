@@ -3,13 +3,13 @@
   "issue": 5602,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "ebdd52b01bd16c731ee2a8fddf49357f9037b562fa9f53b7639f2307d17ffe44",
+  "phase": "published",
+  "generation": 19,
+  "digest": "7103ed5276f2b7e01a2158a8c7b6a2e6f4367d800d3dacadb8b2da6ea4f161a1",
   "claim": {
     "id": "claim-5602-hosted-coverage-no-report",
     "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1784584872,
     "expires_unix_seconds": 1784671272,
     "heartbeat_unix_seconds": 1784584872,
@@ -51,7 +51,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5602,
+    "pull_request": 5604,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5604",
+    "base": "main",
+    "head": "codex/5602-hosted-coverage-no-report",
+    "revision": "git-blake3:d0acba5ae63d49c893dd1035a7bdd03d35d61bdc:dffce2e07a5433a9b6d236743fa79e5a2b16f7e3b3bb81fad6c7efa140389fa8",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a53c9614a87f150b2c98fe798503951e2856a35acb81434cc1e7a56312fa8bf6",
+      "values_digest": "7aedf2f4861ec68bc37c7c38ba143a3800c6bba9092dbbd87e6ee8f790c74f51",
       "rendered_digest": "f29c939a2f5af25a1986147a24c88c77e4cb3e098387deb638c9ca7c02221236",
       "ast_digest": "dc868767b9da3d0f23e83f59daf4792b535f892948bd50d63d5e172751834701"
     },
     "stp": {
-      "values_digest": "f1e8c2f3c92b89dceb34de7cf9813af43b4433400c02843033c3c5d40f505ddc",
+      "values_digest": "4ec020f9aa071e36434821588b87da9565e7a753fdf7b2039f71fc53820ff66f",
       "rendered_digest": "7169347c43cc4f22ec2d67cafd4b12be0a88261e42b5825b76a6a5c2a94c4350",
       "ast_digest": "0a305bbdbc7044b0f7a8956e25501a3973c08d81c372948becdbd8676a7d411b"
     },
     "spp": {
-      "values_digest": "663348658989abed67c89451754e1bf8e6b9668b71b7743283db0db1cd4d12b5",
+      "values_digest": "b62f7ac9870dcc4a545a8847c930c6ae7e90165e5994ebe58d1313c0d2e59048",
       "rendered_digest": "b2a74f27bd07e8ced438a62f24e9a87ca23d7acd291c4383c49afec39b83e8bf",
       "ast_digest": "a5c6942680a7c7b996dde5376907adb70ca14b93009a7ad599200134d2fe0055"
     },
     "vpp": {
-      "values_digest": "b8da87db88e56281cdc5a04f92b6a9202fd3315895b3e66568e9a03f7f8928ab",
+      "values_digest": "e945fc3b1fe7362df1bf499acec00ada2bf97c93f3b351b19badeba1383f0b84",
       "rendered_digest": "5ee3a0baebc9c56fcb842ee572195c3a41247743e271f5dced953c47316936be",
       "ast_digest": "696c38305d48a39773ae3fcbc00b2ef9ae8d1cc1a5fea3960d9448c5dec7807d"
     },
     "srp": {
-      "values_digest": "b12239c5b19b5e3da7cb76f6c5b03a922a76f82246f09022294ab1c05a24eec1",
+      "values_digest": "436b15c6fe0afefc8dc72c864135a8eec5cbeac824836cbccb9536e3e7df9317",
       "rendered_digest": "f22e0c7faf18233018c9c5ba2563d25d9ad816f7479f987f5437d38787086e12",
       "ast_digest": "abc81b1ab9814d0d98f4e45e3a172d2d2ff45cb6e2cacc1a754e1241096532ef"
     },
     "sor": {
-      "values_digest": "38d9adfd6ae3869307ba6321ebef8445cafd8472819ab8fb57843c4c1b3b4ef4",
-      "rendered_digest": "a886441dfebf7ca106c2f4d5bcec4ec6683b7c90f42bff1a6262e7e84d7d38a2",
-      "ast_digest": "403db42c6e4b85b96a5c0563ff1ab40bf4bc091d36d1d296dff366d1f406c309"
+      "values_digest": "3eab590a2420157cd73a9718435bb243b961087de171efe9ff6ec765747752b6",
+      "rendered_digest": "ace3e889678887b922cb5652ee817d5c94d7b93793b293bdd4453599b7bb633c",
+      "ast_digest": "b0d4b0438c922c4b6fa2ff096ccc03c9292bae7bede4a13d0be5e960a9ac339e"
     }
   },
   "transitions": [
@@ -179,6 +189,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The supported external-test coverage workflow and corrected lifecycle truth received an exact-head no-findings review at e85087c8e."
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -356,6 +373,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The supported external-test coverage workflow and corrected lifecycle truth received an exact-head no-findings review at e85087c8e.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
