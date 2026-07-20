@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5600,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][bug] Support complete typed preparation-to-implementation replanning",
+    "slug": "complete-typed-preparation-to-implementation-replanning",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every required planning collection have an explicit card-owned typed replacement operation?",
+        "Can any failed operation change a card, generation, digest, projection, or audit event?",
+        "Does acceptance coverage reject stale, missing, duplicate, and extra identifiers across STP, SPP, and VPP?",
+        "Does the #5337 fixture prove a real preparation-to-implementation conversion without direct card edits?",
+        "Are phase authorization and existing serialized operation compatibility preserved?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

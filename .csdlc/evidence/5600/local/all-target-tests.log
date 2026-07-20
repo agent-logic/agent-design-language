@@ -1,0 +1,193 @@
+
+running 27 tests
+test cards::tests::latest_failure_supersedes_an_earlier_pass ... ok
+test cards::tests::latest_pass_supersedes_waiting_for_the_same_validation ... ok
+test cutover::tests::clocks_and_deletion_authority_are_fixed ... ok
+test github::tests::classifies_common_tail_states ... ok
+test github_token::tests::explicit_file_is_used ... ok
+test eligibility::tests::schema_bundle_is_versioned ... ok
+test operator::tests::v1_override_is_rejected_after_sunset ... ok
+test store::terminal_design_repair_tests::terminal_design_repair_mermaid_guard_is_fail_closed ... ok
+test store::terminal_design_repair_tests::terminal_design_repair_rejects_incomplete_authority_before_io ... ok
+test store::terminal_design_repair_tests::terminal_plan_repair_rejects_incomplete_authority_before_io ... ok
+test store::terminal_design_repair_tests::terminal_plan_repair_requires_exact_target_scope ... ok
+test store::terminal_design_repair_tests::terminal_plan_repair_status_is_forward_only ... ok
+test schema::tests::exposes_heartbeat_request_schema ... ok
+test store::terminal_design_repair_tests::terminal_sor_artifact_replacement_is_exact_and_nonduplicating ... ok
+test store::terminal_design_repair_tests::terminal_sor_artifact_repair_rejects_incomplete_authority_before_io ... ok
+test eligibility::tests::default_partition_and_exact_overrides_derive_lines ... ok
+test eligibility::tests::mandatory_phase_c_windows_fail_closed ... ok
+test eligibility::tests::missing_approval_fails_closed ... ok
+test eligibility::tests::unknown_or_duplicate_overrides_are_invalid ... ok
+test eligibility::tests::exact_operator_approval_can_accelerate_protection_windows ... ok
+test eligibility::tests::malformed_digest_is_rejected ... ok
+test eligibility::tests::all_authoritative_inputs_are_approval_bound ... ok
+test cutover::tests::failed_smoke_restores_v1 ... ok
+test cutover::tests::changed_path_failure_restores_exact_original_bytes ... ok
+test cutover::tests::successful_transaction_proves_v2_v1_v2_and_keeps_override ... ok
+test cutover::tests::every_selector_write_error_restores_exact_original_bytes ... ok
+test cutover::tests::every_failed_smoke_restores_exact_original_selector_bytes ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.34s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test tests::newer_started_pending_rerun_supersedes_old_completed_identity ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test tests::ambiguous_create_failure_observes_before_deciding_retry ... ok
+test tests::normalization_rejects_fork_or_missing_repository_identity ... ok
+test tests::remote_url_requires_exact_github_host_and_repository ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test identity_operation_updates_all_cards_without_content_drift ... ok
+test malformed_identity_update_is_rejected_before_mutation ... ok
+test pre_change_native_1_0_0_fixture_loads_but_legacy_relabel_is_rejected ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 12 tests
+test current_guidance_guard_rejects_exact_former_wrapper_command ... ok
+test nine_skills_are_typed_and_bind_the_generation_selector ... ok
+test coexistence_fails_closed_when_v1_or_v2_is_missing ... ok
+test operator_guidance_is_bound_to_manifest_and_coexistence_contract ... ok
+test current_operator_guidance_has_no_sunset_v1_route ... ok
+test shared_destination_and_non_executable_sources_are_rejected_without_mutation ... ok
+test missing_late_source_leaves_prior_generation_untouched ... ok
+test freshly_installed_stable_edit_binary_is_executable ... FAILED
+test installer_records_provenance_without_replacing_other_files ... FAILED
+test untracked_build_input_is_rejected_before_cargo_runs ... ok
+test stale_owner_binary_provenance_fails_closed ... ok
+test symlinked_installed_binaries_fail_coexistence ... FAILED
+
+failures:
+
+---- freshly_installed_stable_edit_binary_is_executable stdout ----
+
+thread 'freshly_installed_stable_edit_binary_is_executable' (15309339) panicked at tests/gate10a.rs:225:53:
+called `Result::unwrap()` on an `Err` value: V2Error { code: ValidationFailed, message: "refusing to stamp owner binaries from dirty csdlc-v2 sources" }
+
+---- installer_records_provenance_without_replacing_other_files stdout ----
+
+thread 'installer_records_provenance_without_replacing_other_files' (15309340) panicked at tests/gate10a.rs:81:67:
+called `Result::unwrap()` on an `Err` value: V2Error { code: ValidationFailed, message: "refusing to stamp owner binaries from dirty csdlc-v2 sources" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- symlinked_installed_binaries_fail_coexistence stdout ----
+
+thread 'symlinked_installed_binaries_fail_coexistence' (15309346) panicked at tests/gate10a.rs:504:46:
+called `Result::unwrap()` on an `Err` value: V2Error { code: ValidationFailed, message: "refusing to stamp owner binaries from dirty csdlc-v2 sources" }
+
+
+failures:
+    freshly_installed_stable_edit_binary_is_executable
+    installer_records_provenance_without_replacing_other_files
+    symlinked_installed_binaries_fail_coexistence
+
+test result: FAILED. 9 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.42s
+
+   Compiling csdlc-v2 v0.1.0 (/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5600/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.98s
+     Running unittests src/lib.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_v2-b83621dd56ebb12e)
+     Running unittests src/bin/csdlc-bind.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_bind-bcdcc1392416ac41)
+     Running unittests src/bin/csdlc-closeout.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_closeout-ec800457fbf31932)
+     Running unittests src/bin/csdlc-cutover.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_cutover-f2a8008f82158f9b)
+     Running unittests src/bin/csdlc-doctor.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_doctor-85216f6f5c86f2e3)
+     Running unittests src/bin/csdlc-edit.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_edit-0ee41a65d5f63517)
+     Running unittests src/bin/csdlc-eligibility.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_eligibility-a4fa3a497c5ac2b8)
+     Running unittests src/bin/csdlc-init.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_init-2ca64ab1e0d249a5)
+     Running unittests src/bin/csdlc-install.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_install-78801b70b25b903f)
+     Running unittests src/bin/csdlc-pr-state.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_pr_state-e395424c2aa5d310)
+     Running unittests src/bin/csdlc-proof.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_proof-a3150b53d3b8fbe5)
+     Running unittests src/bin/csdlc-publish.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_publish-efc620baf5593aaa)
+     Running unittests src/bin/csdlc-review.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_review-2915e317bc7b33fb)
+     Running unittests src/bin/csdlc-schedule.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_schedule-45c62ea5d01d8a25)
+     Running unittests src/bin/csdlc-shadow.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_shadow-1541b8161a2f24b1)
+     Running unittests src/bin/csdlc-shepherd.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_shepherd-07ad1ea15555da83)
+     Running unittests src/bin/csdlc-soak.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_soak-16b7d8976a34ad0a)
+     Running unittests src/bin/csdlc-validate.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/csdlc_validate-3cc1012187f6e84b)
+     Running tests/card_identity.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/card_identity-f7e58f2a0e669e49)
+     Running tests/gate10a.rs (/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/deps/gate10a-03f31ad0858e91b3)
+error: test failed, to rerun pass `--test gate10a`

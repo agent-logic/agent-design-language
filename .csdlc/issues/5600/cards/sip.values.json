@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5600,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][bug] Support complete typed preparation-to-implementation replanning",
+    "slug": "complete-typed-preparation-to-implementation-replanning",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Allow a prepared Bound issue to become a complete implementation plan using typed semantic operations only.",
+      "required_outcome": "Every structured SIP, STP, SPP, VPP, and SRP planning collection needed for authorized Bound replanning is replaceable through card-owned, generation-aware, digest-guarded, atomic, audited operations, with #5337 conversion proof.",
+      "declared_scope": [
+        "csdlc-v2 semantic operation contracts and authorization",
+        "atomic card regeneration and cross-card acceptance validation",
+        "focused and end-to-end typed replanning tests",
+        "issue-local lifecycle evidence"
+      ],
+      "authority_boundary": [
+        "typed C-SDLC v2 binaries are the sole lifecycle authority",
+        "semantic operations own card mutation and rendered Markdown remains derived",
+        "ADL owner tools provide repository and GitHub truth"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": []
+    }
+  }
+}

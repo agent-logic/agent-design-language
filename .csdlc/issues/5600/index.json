@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5600,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "67ba31a0b11a91d76062e25d594bedf921f229b1a36460c0e477846e9f546ab0",
+  "claim": {
+    "id": "claim-5600-complete-typed-replanning",
+    "owner": "codex:issue-5600",
+    "generation": 1,
+    "acquired_unix_seconds": 1784577719,
+    "expires_unix_seconds": 1785182519,
+    "heartbeat_unix_seconds": 1784577719,
+    "branch": "codex/5600-complete-typed-replanning",
+    "worktree": ".worktrees/adl-wp-5600",
+    "protected_paths": [
+      ".csdlc/issues/5600",
+      ".csdlc/locks/5600.lock",
+      ".csdlc/prepared/issues/5600",
+      "csdlc-v2"
+    ],
+    "purpose": "Implement complete typed preparation-to-implementation replanning"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5600/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5600/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-5600",
+      "revision": "fb97af4d5a4b4a7c2a0b4d7760e2825f0aababe6cbf57e2758a323c8a172d3c6"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7b20527e469544125a69ca271c38ea5717be94e09ddc4c569faa12541323c464",
+      "rendered_digest": "72d0d26c0a9fca3d92978776997764195776dec41db6d10b05d5838413e2766d",
+      "ast_digest": "c130e7367e81abdf59c746c02c1aff2a1b4c2ab16d2eb3f964968a192705a706"
+    },
+    "stp": {
+      "values_digest": "e607964c8e793888452beb8e3c196024f43fbbc937063df9141ce3eafe47652a",
+      "rendered_digest": "0599c33ab3b2da3edd9ba1f4209e8243606a2cac4f94ab01c9a47d075bc36176",
+      "ast_digest": "912c0dc482169557913062368c098b68c8757642261ee56bb60db7bb46dfdd4f"
+    },
+    "spp": {
+      "values_digest": "9f8095a1e9d870495bc92d405dae5c997c715ae69dce26bd16439769e58b320b",
+      "rendered_digest": "c2d0ca87c4770aed906c308332c19fe8369e4d5293b25aa847e8d1e5b3b83ffe",
+      "ast_digest": "2de35bf89fa8c46ae48f90b7014573e48ae9d0a6554717ab440cce1ff80ba9af"
+    },
+    "vpp": {
+      "values_digest": "0d39ce6646bfe089782a5e5e810f66e595a38b721ecdd4cef2f1b0a53ef41ba6",
+      "rendered_digest": "1cdf94b67e2d968d60bce38010fed88b468f4d9450817305fb1c719bc18e5ed5",
+      "ast_digest": "4efaa52bb7bf1a11d75221f41c303e44701f701a6049424648a1c444551446e9"
+    },
+    "srp": {
+      "values_digest": "f2d72d968022cb2d5c8c30442f207f651c22b809bf223162d1987a85e365718c",
+      "rendered_digest": "760e0d7ae5857b34acf24f0a2976c47bcfff1c7ab0eb8fffd82ecf617187a5c6",
+      "ast_digest": "df3cf549b59521f77f0217cdbc11d9c513160d5c6ff55bd1a0274f981493d659"
+    },
+    "sor": {
+      "values_digest": "446bfbeac93600513f7058900bb0d30ce594e370f3599a2b95229b5db4745c95",
+      "rendered_digest": "8bce3a2014dc67c27e622d3c21183926b793d27eb745b88997da8def161aada8",
+      "ast_digest": "d386efb9a7a54eccf1b7d0ab81c2955e89238d56529830e8a7b5f57118929ec7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5600",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5600",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5600",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5600",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5600",
+      "reason": "Correct the focused target and make formatting proof explicit",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-replanning-tests\",\"proof_role\":\"Prove all typed replacement operations, guards, atomicity, acceptance coverage, compatibility, and #5337 conversion\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"tests\",\"defer_reason\":null},{\"lane\":\"all-target-tests\",\"proof_role\":\"Prove complete C-SDLC v2 regression compatibility\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"tests\",\"defer_reason\":null},{\"lane\":\"strict-clippy\",\"proof_role\":\"Prove warning-free all-target Rust implementation\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"lint\",\"defer_reason\":null},{\"lane\":\"format-check\",\"proof_role\":\"Prove canonical Rust formatting\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"lint\",\"defer_reason\":null},{\"lane\":\"typed-doctor\",\"proof_role\":\"Prove the #5600 record remains structurally and semantically valid\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-doctor\",\"--\",\"--repo\",\".\",\"--issue\",\"5600\"],\"parallel_group\":\"lint\",\"defer_reason\":null}]}"
+    }
+  ]
+}

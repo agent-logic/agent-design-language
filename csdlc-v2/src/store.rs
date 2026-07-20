@@ -2895,6 +2895,14 @@ fn authorize_card_operation(
             SemanticOperation::ReplaceAcceptanceCriteria { .. },
         ) | (
             LifecyclePhase::Bound,
+            CardKind::Sip | CardKind::Stp | CardKind::Spp | CardKind::Srp,
+            SemanticOperation::ReplacePlanningCollection { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanSteps { .. },
+        ) | (
+            LifecyclePhase::Bound,
             CardKind::Sip | CardKind::Stp | CardKind::Spp,
             SemanticOperation::Replan { .. },
         ) | (

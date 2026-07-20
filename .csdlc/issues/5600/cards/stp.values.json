@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5600,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][bug] Support complete typed preparation-to-implementation replanning",
+    "slug": "complete-typed-preparation-to-implementation-replanning",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only issue #5600 typed preparation-to-implementation replanning and its complete proof surface.",
+      "deliverables": [
+        "typed replacement operations for every required SIP, STP, SPP, and SRP planning collection",
+        "phase, ownership, generation, digest, atomicity, and audit enforcement",
+        "cross-card acceptance-coverage enforcement after replanning",
+        "#5337 preparation-to-implementation conversion fixture",
+        "complete focused and regression proof"
+      ],
+      "acceptance_criteria": [
+        "AC-1: A prepared Bound issue can replace every SIP, STP, SPP, VPP, and SRP planning collection required for full implementation without direct Markdown or values-file edits",
+        "AC-2: Every replacement remains card-owned, generation-aware, digest-guarded, claim-authorized, atomically regenerated, and durably audited",
+        "AC-3: Cross-card acceptance coverage rejects stale, missing, duplicate, or extra acceptance IDs after replanning without partial mutation",
+        "AC-4: Negative tests reject empty replacements, wrong-card ownership, stale generation, stale digest, invalid claim, and mutation outside authorized Bound replanning",
+        "AC-5: A #5337 preparation-to-implementation fixture completes through typed operations and passes typed validation and doctor",
+        "AC-6: Existing operation serialization, compact card rendering, and lifecycle behavior remain compatible",
+        "AC-7: Focused tests, all-target tests, formatting, strict Clippy, exact-revision review, and typed draft publication complete with no unresolved findings"
+      ],
+      "dependencies": [
+        "issue #5597 integrated generation-aware preparation semantics",
+        "issue #5337 consumes the integrated result"
+      ],
+      "repo_inputs": [
+        "live issue #5600",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/tests",
+        "issue #5337 prepared card shape"
+      ],
+      "non_goals": [
+        "ADL language or Runtime implementation",
+        "direct editing of rendered cards or values files",
+        "generic untyped JSON mutation",
+        "AWS",
+        "raw gh",
+        "unrelated lifecycle or documentation refactors"
+      ]
+    }
+  }
+}
