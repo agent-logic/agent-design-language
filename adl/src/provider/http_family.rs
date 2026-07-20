@@ -955,8 +955,18 @@ fn sanitize_bedrock_error(message: &str) -> String {
 fn redact_aws_arns(input: &str) -> String {
     let mut redacted = String::with_capacity(input.len());
     let mut cursor = 0;
-    while let Some(relative_start) = input[cursor..].find("arn:aws:") {
+    while let Some(relative_start) = input[cursor..].find("arn:aws") {
         let arn_start = cursor + relative_start;
+        let Some(next) = input[arn_start + "arn:aws".len()..].chars().next() else {
+            redacted.push_str(&input[cursor..]);
+            return redacted;
+        };
+        if next != ':' && next != '-' {
+            let prefix_end = arn_start + "arn:aws".len();
+            redacted.push_str(&input[cursor..prefix_end]);
+            cursor = prefix_end;
+            continue;
+        }
         redacted.push_str(&input[cursor..arn_start]);
         redacted.push_str("<redacted-aws-arn>");
 

@@ -229,6 +229,27 @@ fn bedrock_error_sanitizer_removes_arns_and_account_ids() {
 }
 
 #[test]
+fn bedrock_error_sanitizer_removes_partition_arns() {
+    let sanitized = sanitize_bedrock_error(
+        "AccessDeniedException: principals arn:aws-us-gov:iam::123456789012:role/gov-role, arn:aws-cn:iam::210987654321:role/cn-role, and arn:aws-iso:iam::111122223333:role/iso-role denied bedrock:InvokeModel",
+    );
+
+    assert!(sanitized.contains("AccessDeniedException"));
+    assert!(sanitized.contains("principals"));
+    assert!(sanitized.contains("denied bedrock:InvokeModel"));
+    assert!(sanitized.contains("<redacted-aws-arn>"));
+    assert!(!sanitized.contains("arn:aws-us-gov:"));
+    assert!(!sanitized.contains("arn:aws-cn:"));
+    assert!(!sanitized.contains("arn:aws-iso:"));
+    assert!(!sanitized.contains("123456789012"));
+    assert!(!sanitized.contains("210987654321"));
+    assert!(!sanitized.contains("111122223333"));
+    assert!(!sanitized.contains("gov-role"));
+    assert!(!sanitized.contains("cn-role"));
+    assert!(!sanitized.contains("iso-role"));
+}
+
+#[test]
 fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
     let _guard = env_lock();
     let artifact = std::env::temp_dir().join(format!(

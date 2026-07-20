@@ -106,6 +106,22 @@ Retained the exact reviewer-authored WP-19 verification artifact, remediated bot
     "purpose": "Prove Bedrock diagnostics redact signed AWS values, AWS ARNs, and raw account IDs while retaining useful AccessDenied context.",
     "outcome": "passed",
     "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 3 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "-p",
+      "adl",
+      "bedrock_error_sanitizer",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove Bedrock diagnostics redact standard and partitioned AWS ARNs plus raw account IDs while retaining useful AccessDenied context.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 4 passed"
   }
 ]
 
