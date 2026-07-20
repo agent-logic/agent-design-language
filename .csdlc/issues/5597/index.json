@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0b22f57976eb8d37ecc1796ff4e3e0676d4ff92447fb1c7dff25f16853e3a3cd",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "0a5bb0a9b1b6219c1eecacbb576ab7f966ad5c4f1afc4776da6bda2935daff75",
+  "generation": 14,
+  "digest": "924b069fca4fc00c572081efd5a592c3ab61d3cdda3e0fb90d842dbd7f701059",
   "claim": {
     "id": "claim-5597-generation-aware-preparation-safe",
     "owner": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
-    "generation": 13,
+    "generation": 14,
     "acquired_unix_seconds": 1784571481,
     "expires_unix_seconds": 1785176281,
     "heartbeat_unix_seconds": 1784571481,
@@ -26,8 +26,31 @@
     ],
     "purpose": "Repair generation-aware compact-card authority and preparation-safe typed SIP, STP, and SRP semantics"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:4395749975b1ac99453bf8c7d4f46a7fc1effdec:d80e795d182da456de18cb506799f408f63d203bc9d38833db567da4a8c6ecc9",
+    "scope": [
+      "csdlc-v2",
+      "docs/templates/prompts/current.json",
+      "docs/templates/prompts/README.md",
+      "docs/architecture/csdlc-v2/gate9/samples"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+    "scope": [
+      "csdlc-v2",
+      "docs/templates/prompts/current.json",
+      "docs/templates/prompts/README.md",
+      "docs/architecture/csdlc-v2/gate9/samples"
+    ],
+    "reviewed_revision": "git-blake3:4395749975b1ac99453bf8c7d4f46a7fc1effdec:d80e795d182da456de18cb506799f408f63d203bc9d38833db567da4a8c6ecc9",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "296a28fdfd2c0f615b5385da1654fb4056f21343647ffa0148cf2b0f3c514e01",
+      "values_digest": "6bd3aeeb5e235d18b29b2f8e46ef26a8266125ec8d66ac90c876c892851e730e",
       "rendered_digest": "b8ad4acebc4da56f808586f134a39be1cbc79f4021fbd70426fc3efc676f1a67",
       "ast_digest": "e2af351ba7d2e58e20e2a9de374e8e37ce16b6a37c5c0236ac59a5756380894c"
     },
     "stp": {
-      "values_digest": "02fc4e1abe9727a74056a0ce5aff7ed6d07a2764d77002b1b54e55643b1b5587",
+      "values_digest": "74c2a939e1a8a986182bb2957dbc5ff7a7e939c09fc7b931b270e12af6e5afa1",
       "rendered_digest": "f78872a24cb7e1eb04be18a2892d5d070cd29c8419e1dc9cf14a31de207d3199",
       "ast_digest": "597c82206edab50155b7d5f5f42c96153cd63c87f845cbe8f779b8e19406b4a3"
     },
     "spp": {
-      "values_digest": "da23375a92d3ef85b71c70d457a518836aa36effb8ac05f2f9663c15643f478d",
+      "values_digest": "5305169c1cecebe62bb465988b729bfed6672c07fa9a38f94ba30a08bbe932a5",
       "rendered_digest": "7cdabf15c737e54bea960482752cee275b0829f685ea20851fa85d3cb24b7997",
       "ast_digest": "08c63618b32b0d3d09295cdc705a9bf4d31a63e1990ec186905fb31ca5a829ab"
     },
     "vpp": {
-      "values_digest": "62048a76d0cddc46f5e1e8d4f29da96d24ced313952bd8fc9b5d5e3f2c375c1e",
+      "values_digest": "d03241cd2f833e86c6bafbe68a0a435a2b3e83fd2b93f8731ade8276c65af730",
       "rendered_digest": "7e2351bd8bae541d9398a1d0899d31e6a28a693208fc1d2958d38f3e4e5edda4",
       "ast_digest": "909120be73c58f8ed0d58119450abe582a56577dd73b9798bd09b63d964fa0c0"
     },
     "srp": {
-      "values_digest": "1b161a3070c31413c3bf997e59077baacea0a203eb491706a30c36781cb4e0ae",
-      "rendered_digest": "d08cbbf820a962239f9603cc00cdc8eca7404ec0ad8c95097b3ae8e1525a7582",
-      "ast_digest": "f28984c215842cd74b0f177fcb6769c2229dc1182a32dbd3810433f2ba7c2a72"
+      "values_digest": "80eea242b236883fca678203afad1b033ea1f48966a972740ebbff620bcbffdb",
+      "rendered_digest": "81523266e05070e634a4520eddd4296ed75137f9d7c5629683abcedce77538e2",
+      "ast_digest": "ebffd7eb5222b0f34b1a3fa7063767732acb85afc60d3f01d8cec10806bfa144"
     },
     "sor": {
-      "values_digest": "cb5531874512128ed03c0094e85bafbfc44ee9fa683f4f416432734f0f49d6fc",
+      "values_digest": "ababba9b66ff58591924f1b49fed68c223c41d87cd0a5dea73efc9e8a2a33a98",
       "rendered_digest": "b013db5b6b238bb12421087869e72854a3ac2ddb205e0549764637d96f121560",
       "ast_digest": "447dcb3291dad09357895dc42e48f968a65bd47def98b44909e8da4d6600d0cd"
     }
@@ -207,6 +230,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Record the final exact-revision Gate 10D2 proof after all review fixes",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"CARGO_TARGET_DIR=<operator-approved-external-target>\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Prove complete native v2 behavior, API closure, compatibility, installer provenance, strict lint, owner binaries, typed doctor, formatting, and bounded revision scope for commit 0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48: complete csdlc-v2 all-target suite and doctest passed; focused Gate 5, Gate 7 lifecycle, and Gate 10A suites passed; strict all-target Clippy passed with -D warnings; cargo fmt --check passed; bounded origin/main-to-revision path and whitespace proof passed; stable v2 install/coexistence provenance reports git:0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48; typed doctor passed at issue 5597 generation 12 with zero findings. Builds used the operator-approved external FastWork target; the retained command remains portable.\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
