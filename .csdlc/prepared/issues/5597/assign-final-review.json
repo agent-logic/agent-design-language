@@ -1,0 +1,14 @@
+{
+  "issue": 5597,
+  "expected_generation": 13,
+  "expected_digest": "0a5bb0a9b1b6219c1eecacbb576ab7f966ad5c4f1afc4776da6bda2935daff75",
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "reviewer": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+  "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "scope": [
+    "csdlc-v2",
+    "docs/templates/prompts/current.json",
+    "docs/templates/prompts/README.md",
+    "docs/architecture/csdlc-v2/gate9/samples"
+  ]
+}

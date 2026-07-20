@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5594,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5594-v0918-wp01-readiness",
+  "title": "[v0.91.8][WP-01] Reconcile milestone execution readiness",
+  "body": "Closes #5594\n\n## Summary\n\n- make #5594 the active WP-01 readiness authority and create the single v0.91.8 sprint umbrella #5595\n- route every live v0.91.8 issue, including Runtime v3 parity #5591 -> (#5592, #5589, #5590), acceptance, cutover, and release-tail work\n- pin and explicitly disposition all 122 canonical feature rows so Runtime v3 cutover cannot silently drop retained behavior\n- repair stale live issue parents, dependencies, labels, and malformed bodies\n- retain a four-writer opening wave and one serialized integration queue\n\n## Validation\n\n- `ruby .csdlc/prepared/issues/5594/validate_structured_planning.rb`\n- `ruby .csdlc/prepared/issues/5594/validate_feature_crosswalk.rb`\n- `ruby .csdlc/prepared/issues/5594/validate_live_routing.rb`\n- `ruby .csdlc/prepared/issues/5594/validate_links.rb`\n- `git diff --check origin/main...HEAD`\n- current `csdlc-doctor` reports no findings at implemented phase\n\n## Boundaries\n\n- no downstream product implementation\n- no AWS or raw `gh`\n- Runtime v2 remains retained pending reviewed parity, cutover, rollback, and deletion evidence\n- external model agents remain read-only review evidence, never lifecycle or merge authority",
+  "draft": true,
+  "revision": "git-blake3:25a8c36570c5b26574151fc4912c21ae187f4f95:994596190b10ea3fbb671f049de7283c758bd9c49dcf5f8f78954dea782e3add",
+  "commit_sha": "25a8c36570c5b26574151fc4912c21ae187f4f95"
+}

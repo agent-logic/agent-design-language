@@ -1,0 +1,101 @@
+{
+  "manifest": {
+    "schema": "csdlc.pvf.manifest.v1",
+    "lanes": [
+      {
+        "id": "focused-replanning-tests",
+        "proof_role": "Focused implementation proof",
+        "purpose": "Prove typed collection replacement, #5337 conversion, negative guards, and atomic failure behavior",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 1024, "tokens": 6000},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "tests",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 900,
+        "executable": "/usr/bin/env",
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2"],
+        "evidence": {"max_log_bytes": 131072, "redact_values": [], "require_relative_paths": true}
+      },
+      {
+        "id": "all-target-tests",
+        "proof_role": "Complete regression proof",
+        "purpose": "Prove every C-SDLC v2 target remains compatible",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 1024, "tokens": 8000},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": ["focused-replanning-tests"],
+        "parallel_group": "tests",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 1200,
+        "executable": "/usr/bin/env",
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets"],
+        "evidence": {"max_log_bytes": 262144, "redact_values": [], "require_relative_paths": true}
+      },
+      {
+        "id": "format-check",
+        "proof_role": "Formatting proof",
+        "purpose": "Prove canonical Rust formatting",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 1000},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "lint",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 300,
+        "executable": "/usr/bin/env",
+        "argv": ["cargo", "fmt", "--manifest-path", "csdlc-v2/Cargo.toml", "--", "--check"],
+        "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+      },
+      {
+        "id": "strict-clippy",
+        "proof_role": "Strict lint proof",
+        "purpose": "Prove all targets are warning-free",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 1024, "tokens": 4000},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": ["format-check"],
+        "parallel_group": "lint",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 900,
+        "executable": "/usr/bin/env",
+        "argv": ["cargo", "clippy", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+        "evidence": {"max_log_bytes": 131072, "redact_values": [], "require_relative_paths": true}
+      },
+      {
+        "id": "typed-doctor",
+        "proof_role": "Lifecycle record proof",
+        "purpose": "Prove #5600 card projections, design identity, and lifecycle truth",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 512, "tokens": 2000},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": ["all-target-tests", "strict-clippy"],
+        "parallel_group": "doctor",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 300,
+        "executable": "/usr/bin/env",
+        "argv": ["cargo", "run", "--manifest-path", "csdlc-v2/Cargo.toml", "--bin", "csdlc-doctor", "--", "--repo", ".", "--issue", "5600"],
+        "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+      }
+    ]
+  },
+  "selection": {
+    "requested_lanes": ["focused-replanning-tests", "all-target-tests", "format-check", "strict-clippy", "typed-doctor"],
+    "allow_network": false,
+    "available_credentials": []
+  },
+  "budget": {"max_parallel": 2, "cpu_units": 2, "memory_mib": 2048, "tokens": 21000},
+  "root": ".",
+  "evidence_dir": ".csdlc/evidence/5600/local",
+  "cancellation_file": null
+}

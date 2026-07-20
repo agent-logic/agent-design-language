@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5594,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
+    "slug": "v0-91-8-wp-01-execution-readiness",
+    "version": "v0.91.8",
+    "generation": 36
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make v0.91.8 executable with maximum safe parallelism and no unowned, stale, duplicated, or structurally incomplete work.",
+      "required_outcome": "Every canonical plan, sprint umbrella, child issue, dependency, card, validation contract, and parallel lane has reviewed truthful readiness before implementation starts.",
+      "declared_scope": [
+        "v0.91.8 canonical planning and feature documents",
+        "live v0.91.8 issue and sprint-umbrella graph",
+        "typed card and execution-readiness inventory",
+        "parallel session assignments, collision boundaries, and integration order"
+      ],
+      "authority_boundary": [
+        "Issue #5594 is the active WP-01 readiness authority",
+        "Closed #5383 remains historical setup evidence",
+        "ADL owner binaries provide live issue and PR truth",
+        "Typed C-SDLC v2 records provide lifecycle authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": []
+    }
+  }
+}

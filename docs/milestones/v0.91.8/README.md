@@ -4,9 +4,10 @@
 
 - Milestone: `v0.91.8`
 - Version: `v0.91.8`
-- Status: planned
-- Setup issue: `#5383`
-- Superseded setup predecessor: `#5335`
+- Status: active readiness; implementation not started
+- Active WP-01 readiness issue: `#5594`
+- Milestone sprint umbrella: `#5595`
+- Historical planning sources: `#5335` and `#5383`
 - Restored source issue: `#4641` remains `v0.91.7` WP-14
 - New v0.91.8 platform handoff parent: `#5384` / WP-14A
 - Downstream milestone: `v0.92`
@@ -30,8 +31,12 @@ the missing local source of truth for those issues.
   content that temporarily overwrote `#4641`.
 - `#5383` is the historical v0.91.7 setup authority for this package and is
   closed; do not describe setup as currently in progress.
-- `#5335` is retained as historical/stale setup context and must not be treated
-  as the active setup authority unless the operator explicitly reassigns it.
+- `#5335` is retained as historical setup context and no longer carries active
+  WP-01 ownership.
+- `#5594` is the active WP-01 readiness and canonical reconciliation gate.
+- `#5595` is the single milestone sprint umbrella. Nested umbrellas `#5497`,
+  `#5361`, and `#5384` own bounded multi-agent, Runtime v3, and integrated
+  acceptance child sets without duplicating implementation ownership.
 
 ## Status
 
@@ -53,6 +58,7 @@ Every work package must exit as one of:
 - Work breakdown: [WBS_v0.91.8.md](WBS_v0.91.8.md)
 - Sprint plan: [SPRINT_PLAN_v0.91.8.md](SPRINT_PLAN_v0.91.8.md)
 - Parallel execution plan: [PARALLEL_EXECUTION_PLAN_v0.91.8.md](PARALLEL_EXECUTION_PLAN_v0.91.8.md)
+- WP-01 readiness report: [review/V0918_WP01_EXECUTION_READINESS_5594.md](review/V0918_WP01_EXECUTION_READINESS_5594.md)
 - Issue wave: [WP_ISSUE_WAVE_v0.91.8.yaml](WP_ISSUE_WAVE_v0.91.8.yaml)
 - Canonical document inventory: [CANONICAL_DOC_INVENTORY_v0.91.8.md](CANONICAL_DOC_INVENTORY_v0.91.8.md)
 - Demo matrix: [DEMO_MATRIX_v0.91.8.md](DEMO_MATRIX_v0.91.8.md)
@@ -61,6 +67,7 @@ Every work package must exit as one of:
 - Release notes draft: [RELEASE_NOTES_v0.91.8.md](RELEASE_NOTES_v0.91.8.md)
 - Quality gate: [QUALITY_GATE_v0.91.8.md](QUALITY_GATE_v0.91.8.md)
 - Feature proof coverage: [FEATURE_PROOF_COVERAGE_v0.91.8.md](FEATURE_PROOF_COVERAGE_v0.91.8.md)
+- Feature preservation crosswalk: [FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md](FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md)
 - Execution readiness: [WP_EXECUTION_READINESS_v0.91.8.md](WP_EXECUTION_READINESS_v0.91.8.md)
 - ADR plan: [ADR_PLAN_v0.91.8.md](ADR_PLAN_v0.91.8.md)
 - v0.92 handoff: [NEXT_MILESTONE_HANDOFF_v0.91.8.md](NEXT_MILESTONE_HANDOFF_v0.91.8.md)
@@ -76,10 +83,11 @@ Every work package must exit as one of:
 - Do not claim `v0.92` birthday readiness before review and proof converge.
 - Do not pull Runtime v3 or C-SDLC v2 ownership back into ADL core.
 
-## WP-21A Documentation Gate
+## Documentation Responsibility
 
-WP-21A fails closed if any canonical v0.91.8 planning, architecture, review,
-release, handoff, routing, validation, or feature-doc surface named in
-[CANONICAL_DOC_INVENTORY_v0.91.8.md](CANONICAL_DOC_INVENTORY_v0.91.8.md) is
-missing, contradictory, stale against live issue truth, or presents planned
+WP-01 `#5594` owns the present readiness reconciliation. Closed v0.91.7 WP-21A
+`#5489` is historical preparation evidence. Future v0.91.8 WP-21A `#5355`
+revalidates the canonical packet at the release tail and fails closed if any
+surface named in [CANONICAL_DOC_INVENTORY_v0.91.8.md](CANONICAL_DOC_INVENTORY_v0.91.8.md)
+is missing, contradictory, stale against live issue truth, or presents planned
 work as proven.

@@ -37,6 +37,18 @@
       "structure_schema_path": "docs/templates/prompts/1.0.3/schemas/sor.structure.json"
     }
   },
+  "generations": {
+    "legacy_import": {
+      "template_set": "1.0.3",
+      "projection_family": "legacy_full",
+      "path": "docs/templates/prompts/1.0.3"
+    },
+    "csdlc_v2_native": {
+      "template_set": "1.0.0",
+      "projection_family": "compact_native",
+      "shape_manifest_path": "csdlc-v2/operator/native-card-shape.json"
+    }
+  },
   "compatibility_fallbacks": {
     "sip": ["adl/templates/cards/input_card_template.md", ".adl/templates/input_card_template.md"],
     "sor": ["adl/templates/cards/output_card_template.md", ".adl/templates/output_card_template.md"]

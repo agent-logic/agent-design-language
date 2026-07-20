@@ -1,5 +1,13 @@
 # v0.91.8 Sprint Plan
 
+Sprint umbrella: `#5595`. WP-01 readiness gate: `#5594`. Closed planning
+issues `#5335` and `#5383` are historical sources only.
+
+This milestone contains one sprint with dependency phases. The phases and the
+parallel-plan waves are scheduling units, not additional sprints, and therefore
+do not require duplicate umbrella issues. Nested issue parents remain bounded
+subgraphs under #5595.
+
 ## Execution Order
 
 1. Setup and baseline: WP-01 through WP-03.

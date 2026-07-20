@@ -10,7 +10,10 @@ file does not prove those claims.
 Current preflight defect inventory to consume before acceptance:
 
 - `#5540` is closed and records recovered terminal lifecycle truth for `#5455`.
-- `#5541` remains open and must be resolved or carried as an explicit
-  evidence-backed blocker before C-SDLC v2 acceptance closes.
+- `#5541` closed on 2026-07-19. Acceptance must consume its terminal evidence
+  and retain any explicit residual blocker; closure alone is not proof that the
+  integrated acceptance path passes.
+- `#5548` remains open and must restore Gate 2 fixture validity without
+  weakening real-repository terminal recovery.
 - `#5558` remains open and must be resolved or carried as an explicit
   evidence-backed blocker before C-SDLC v2 acceptance closes.

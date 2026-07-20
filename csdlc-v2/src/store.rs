@@ -2066,9 +2066,14 @@ impl Store {
                 "review assignment requires implemented phase",
             ));
         }
-        let cards = self.load_cards(issue)?;
+        let mut cards = self.load_cards(issue)?;
         verify_cards(self, &record, &cards)?;
         let actor = assignment.assigned_by.clone();
+        let srp = match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
+            CardContent::Srp(values) => values,
+            _ => unreachable!("SRP"),
+        };
+        srp.review_scope = assignment.scope.join("\n");
         record.review_assignment = Some(assignment);
         record.review = None;
         record.audit.push(AuditEvent {
@@ -2078,6 +2083,7 @@ impl Store {
             reason: "assign bounded exact-revision review".into(),
             operation: "assign_review".into(),
         });
+        hydrate_projections(&mut record, &cards)?;
         record.digest = record_digest(&record)?;
         self.commit(issue, &record, &cards, false)?;
         Ok(record)
@@ -2306,7 +2312,7 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
     Ok(record)
 }
 
-pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<IssueRecord> {
+pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<IssueRecord> {
     validate_bootstrap_request(&request)?;
     let initialization_digest = digest(&serde_json::to_vec(&request)?);
     let _lock = store.lock(request.issue)?;
@@ -2491,6 +2497,18 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         for values in cards.values_mut() {
             apply(values, &request.operation)?;
         }
+    } else if let SemanticOperation::ReplaceAcceptancePlan {
+        acceptance_criteria,
+        steps,
+        validation_lanes,
+    } = &request.operation
+    {
+        crate::cards::replace_acceptance_plan(
+            &mut cards,
+            acceptance_criteria,
+            steps,
+            validation_lanes,
+        )?;
     } else {
         let values = cards
             .get_mut(&request.card)
@@ -2540,6 +2558,9 @@ fn current_text_value(values: &CardValues, field: crate::cards::TextField) -> Re
         }
         (CardContent::Spp(value), crate::cards::TextField::PlanSummary) => {
             Ok(value.summary.clone())
+        }
+        (CardContent::Srp(value), crate::cards::TextField::ReviewScope) => {
+            Ok(value.review_scope.clone())
         }
         _ => Err(V2Error::new(
             ErrorCode::FieldOwnership,
@@ -2878,8 +2899,35 @@ fn authorize_card_operation(
                 | SemanticOperation::AdvanceStatus { .. },
         ) | (
             LifecyclePhase::Bound,
+            CardKind::Sip,
+            SemanticOperation::ReplaceOperatorConstraints { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Sip | CardKind::Stp | CardKind::Spp | CardKind::Srp,
+            SemanticOperation::ReplacePlanningCollection { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanSteps { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Spp,
+            SemanticOperation::ReplaceAcceptancePlan { .. },
+        ) | (
+            LifecyclePhase::Bound,
             CardKind::Sip | CardKind::Stp | CardKind::Spp,
             SemanticOperation::Replan { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Srp,
+            SemanticOperation::Replan {
+                field: crate::cards::TextField::ReviewScope,
+                ..
+            },
         ) | (
             LifecyclePhase::Bound | LifecyclePhase::Implemented,
             CardKind::Spp,
@@ -3341,6 +3389,7 @@ mod terminal_design_repair_tests {
                 required_outcome: "test".into(),
                 declared_scope: vec!["test".into()],
                 authority_boundary: vec!["test".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: "test".into(),
                 deliverables: vec!["test".into()],
                 acceptance_criteria: vec!["test".into()],
@@ -3372,6 +3421,7 @@ mod terminal_design_repair_tests {
                 }],
                 failure_policy: "test".into(),
                 review_prompts: vec!["test".into()],
+                review_scope: "test".into(),
             },
         )
         .expect("cards");

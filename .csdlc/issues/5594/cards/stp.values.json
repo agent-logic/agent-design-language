@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5594,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
+    "slug": "v0-91-8-wp-01-execution-readiness",
+    "version": "v0.91.8",
+    "generation": 36
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Reconcile and prove v0.91.8 readiness only; do not execute downstream implementation.",
+      "deliverables": [
+        "reviewed execution-readiness report and reconciliation matrix",
+        "canonical sprint-umbrella and child-issue inventory",
+        "parallel session assignment and dependency map",
+        "ready or not-ready disposition for every sprint",
+        "bounded repairs to stale planning, routing, ownership, and readiness truth"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Live issue and PR inventory is reconciled with every canonical v0.91.8 planning, feature, handoff, review, and release document",
+        "AC-2: Every sprint umbrella exists with a complete non-overlapping child set, dependencies, and terminal acceptance criteria",
+        "AC-3: Every issue has truthful ownership, version, dependency, card, design, validation, and readiness disposition",
+        "AC-4: Parallel lanes have disjoint write scopes or explicit stack order, a four-writer cap, and one integration queue",
+        "AC-5: Runtime v3 parity, multi-agent work, acceptance, external shadows, cutover, and release-tail work are routed without duplication or scope expansion",
+        "AC-6: Focused docs, structured-data, links, issue-routing, dependency, protected-path, and diff validation passes"
+      ],
+      "dependencies": [
+        "merged v0.91.7 WP-23 #4650",
+        "closed historical v0.91.8 setup #5383",
+        "current v0.91.8 planning package and live issue inventory"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.91.8",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "README.md",
+        "live issues including #5336 and #5589-#5592",
+        "typed C-SDLC issue projections and session ledger"
+      ],
+      "non_goals": [
+        "product, Runtime, C-SDLC, demo, Observatory, or infrastructure implementation",
+        "new feature scope or one issue per finding",
+        "downstream implementation binding",
+        "AWS use",
+        "raw gh use",
+        "v0.92 activation or release approval"
+      ]
+    }
+  }
+}

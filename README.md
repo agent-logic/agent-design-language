@@ -149,25 +149,30 @@ from issue
 
 ## Recent Milestones
 
-### v0.91.7 - Active Closeout Tail
+### v0.91.8 - Active Bridge Milestone
 
-v0.91.7 is the active closeout tail feeding the required v0.91.8 bridge.
-WP-01 through WP-17 are closed; WP-17 closed through issue #4644 and merged
-PR #5539. The remaining v0.91.7 gates are WP-18, WP-19, WP-20, WP-21A, and
-WP-23; WP-21 and WP-22 are closed retained planning/review evidence. Closed issue
-state does not imply release readiness, and the milestone sprint-review
-register retains residual findings and non-claims. v0.92 consumes the reviewed
-v0.91.8 exact-revision handoff, not v0.91.7 prose as direct approval.
+v0.91.7 completed its closeout sequence and is retained evidence for the active
+v0.91.8 bridge. v0.91.8 WP-01 `#5594` is reconciling execution readiness under
+milestone sprint umbrella `#5595`; no downstream implementation is ready from
+planning prose alone. The bridge must accept ADL v2, Runtime v3, and C-SDLC v2
+at exact revisions before v0.92 consumes the platform. Closed issue state does
+not imply release readiness, and Runtime v2 remains retained until reviewed
+parity, cutover, rollback, and deletion gates pass.
 
 Start here:
 
+- [v0.91.8 README](docs/milestones/v0.91.8/README.md)
+- [v0.91.8 sprint plan](docs/milestones/v0.91.8/SPRINT_PLAN_v0.91.8.md)
+- [v0.91.8 issue wave](docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml)
+- [v0.91.8 parallel plan](docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md)
+- [v0.91.8 WP-01 readiness](docs/milestones/v0.91.8/review/V0918_WP01_EXECUTION_READINESS_5594.md)
+- [v0.91.8 to v0.92 handoff](docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md)
+Historical v0.91.7 evidence:
 - [v0.91.7 README](docs/milestones/v0.91.7/README.md)
 - [v0.91.7 sprint plan](docs/milestones/v0.91.7/SPRINT_PLAN_v0.91.7.md)
 - [v0.91.7 issue wave](docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml)
 - [v0.91.7 feature-doc index](docs/milestones/v0.91.7/FEATURE_DOCS_v0.91.7.md)
 - [v0.91.7 sprint-review register](docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md)
-- [v0.91.8 bridge package](docs/milestones/v0.91.8/README.md)
-- [v0.91.8 to v0.92 handoff](docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md)
 
 ### v0.91.6 - Completed First Bridge Tranche
 
@@ -308,14 +313,15 @@ production markets.
 
 ## Project Status
 
-- Active milestone: v0.91.7 closeout tail
-- Required next bridge: v0.91.8 exact-revision platform acceptance and handoff
+- Active milestone: v0.91.8 bridge, opening readiness WP-01 #5594
+- Active sprint umbrella: #5595
+- Downstream milestone: v0.92 consumes exact-revision v0.91.8 acceptance and handoff
 - Current ADL and Runtime v2 crate version: 0.91.7
 - Independent Runtime v3 kernel package version: 0.92.0; it remains separately
   versioned and does not by itself claim v0.92 activation readiness
-- Most recently completed milestone: v0.91.6
-- Current milestone state: WP-01 through WP-17 are closed; WP-18, WP-19,
-  WP-20, WP-21A, and WP-23 remain open; WP-21 and WP-22 are closed retained evidence
+- Most recently completed milestone: v0.91.7
+- Current milestone state: WP-01 readiness is in progress; later v0.91.8 work
+  remains planned or dependency-blocked
 - Primary implementation language: Rust
 
 ADL is under active development. The repository contains implemented runtime
