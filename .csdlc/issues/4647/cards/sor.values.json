@@ -7,9 +7,9 @@
     "title": "[v0.91.7][WP-20][review] Remediate review findings",
     "slug": "v0-91-7-wp20-review-remediation-preflight",
     "version": "v0.91.7",
-    "generation": 44
+    "generation": 48
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -252,10 +252,10 @@
           "evidence_ref": "local stdout, exit 0"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

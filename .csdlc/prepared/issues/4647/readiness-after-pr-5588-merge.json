@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.readiness_request.v1",
+  "issue": 4647,
+  "expected_generation": 45,
+  "expected_digest": "55a6cbf13aa97e3432b7b3ab540a2834c328d69cb7937307729be86e589a83ca",
+  "claim_id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
+  "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5588,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage",
+    "adl-tooling-contracts",
+    "adl-path-policy"
+  ],
+  "require_review": false,
+  "token_file": null
+}

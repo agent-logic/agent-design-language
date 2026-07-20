@@ -1,0 +1,46 @@
+{
+  "schema": "csdlc.readiness_request.v1",
+  "issue": 4647,
+  "expected_generation": 46,
+  "expected_digest": "09dddb3d0c6c49ef37d85b5bcd99b2b34fd8e317dd12c4682f17561a3af2449d",
+  "claim_id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
+  "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+  "pull_request": 5588,
+  "head_sha": "66e37f0d2bf679ee1f248c197a6a3065875cda72",
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage",
+    "adl-tooling-contracts",
+    "adl-path-policy"
+  ],
+  "require_review": false,
+  "checks": [
+    {
+      "name": "adl-ci",
+      "requirement": "required",
+      "conclusion": "success",
+      "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29722873373/job/88291093478"
+    },
+    {
+      "name": "adl-coverage",
+      "requirement": "required",
+      "conclusion": "success",
+      "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29722873373/job/88292733409"
+    },
+    {
+      "name": "adl-tooling-contracts",
+      "requirement": "required",
+      "conclusion": "success",
+      "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29722873373/job/88289464538"
+    },
+    {
+      "name": "adl-path-policy",
+      "requirement": "required",
+      "conclusion": "success",
+      "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29722873373/job/88289445606"
+    }
+  ],
+  "review_state": "not_required",
+  "conflict_state": "clean",
+  "post_publication_findings": []
+}

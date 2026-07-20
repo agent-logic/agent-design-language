@@ -1,0 +1,12 @@
+{
+  "issue": 4647,
+  "expected_generation": 47,
+  "expected_digest": "e2c395717fee2e42b932d515ead102885878fdd2d1fca35fbf46525cb4b85240",
+  "claim_id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
+  "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5588,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": null
+}
