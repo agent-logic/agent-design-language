@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "0200d20e0c0d437b16ce7686a921080c3e711aaef53068a27ab67e7d63a29d2d",
+  "generation": 27,
+  "digest": "7591d13bcb620f833561d9dc7c70055a527c4d3d5b0f54af23975208eb889a5d",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 23,
+    "generation": 27,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -67,34 +67,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73a8601db66b2a5d216c9c8b6310d52764658e500b5e0e77196229864e6b970c",
+      "values_digest": "9f51e1707c5a35a50a3165f99896329ebddda1ac6a1c3756fcfa995a384a7e3f",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "6221dd3e476835a0739107328dbe43c0c706c12ab5d5ef2523bfdd6a226dfafc",
+      "values_digest": "2f449dbbe84af924d3925fb7d00569297109484dbabd380015c7259dae9ef76f",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "58c8920e2fc728f81337bd205f4d9acb9f287f33f75359e3c7f5f484ed18ac55",
+      "values_digest": "a5a6629596a751d0e60fec46c670f3ac29c2e8eeddd53ce0f189c98b35493419",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "f4cca3a8fcee299178908df4ddba6316f1b1d7b040c191022d1fcd53c5cc0ecc",
+      "values_digest": "ccc8a3c325dc9a7219a2e00bb286d6d5b9e5adaad6e3ce6b526f9934387af374",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "5cdcd2e7193cf4d21a24f47bc14ea9a3ce5f841aae192169ca83e64b5c824dce",
+      "values_digest": "7589c02be8db40ca1864d27bcd19b6c11cc8d2f55d5083c633722ea2fa18a0fa",
       "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
       "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
     },
     "sor": {
-      "values_digest": "09593231aa8354a62226169ed5b5ee6f400774118ded73f3b1148c8d2f944432",
-      "rendered_digest": "febca262e6397d8efcfd6904a8d24dcfd1b7c53e1c36d2d7604be74b6cb8a4d0",
-      "ast_digest": "23728be8bd3f34c0fb4a658f6f92e9f4ac1620dfab1c218d0ee41c1e3aca3b15"
+      "values_digest": "90bc132ff5a7201a62ba6418a9f20cb8cda23011ba152f53074f90dee4149a1f",
+      "rendered_digest": "454adbe979d76d26b9289bc51e3c3fcd6845375aa0c1935d4be28c29084084c4",
+      "ast_digest": "4a70b257de33317d61577b9bb9cd064bb666140afd9569387285d39d640f0dd8"
     }
   },
   "transitions": [
@@ -407,6 +407,34 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Recover review after post-publication clippy repair required by PR #5588 adl-rust-fmt-clippy failure on run 29718818086.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record post-publication clippy-repair formatting proof after PR #5588 run 29718818086 failed adl-rust-fmt-clippy.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\"],\"purpose\":\"Verify the post-clippy repair formats cleanly before republishing PR #5588.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, exit 0\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record exact local clippy proof for the PR #5588 adl-rust-fmt-clippy repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Verify the post-publication clippy repair satisfies the same all-target warnings-as-errors gate that failed in GitHub.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, Finished dev profile in 36.00s\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record focused Bedrock invocation artifact regression proof after the clippy helper refactor.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"provider::http_family::tests::bedrock_invocation_artifact\",\"--\",\"--nocapture\"],\"purpose\":\"Verify Bedrock invocation artifact record/read/write/create-dir behavior still passes after the helper was refactored to satisfy clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 5 passed\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record focused local-provider UTF-8 regression proof after moving the test module for clippy.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"provider::local::tests::ollama_streaming_buffers_split_multibyte_utf8\",\"--\",\"--nocapture\"],\"purpose\":\"Verify the Ollama streaming UTF-8 buffering regression still passes after moving the test module to satisfy clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed\"}}"
     }
   ]
 }

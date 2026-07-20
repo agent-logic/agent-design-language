@@ -122,6 +122,60 @@ Retained the exact reviewer-authored WP-19 verification artifact, remediated bot
     "purpose": "Prove Bedrock diagnostics redact standard and partitioned AWS ARNs plus raw account IDs while retaining useful AccessDenied context.",
     "outcome": "passed",
     "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 4 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl/Cargo.toml"
+    ],
+    "purpose": "Verify the post-clippy repair formats cleanly before republishing PR #5588.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, exit 0"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Verify the post-publication clippy repair satisfies the same all-target warnings-as-errors gate that failed in GitHub.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, Finished dev profile in 36.00s"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "provider::http_family::tests::bedrock_invocation_artifact",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Verify Bedrock invocation artifact record/read/write/create-dir behavior still passes after the helper was refactored to satisfy clippy.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 5 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "provider::local::tests::ollama_streaming_buffers_split_multibyte_utf8",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Verify the Ollama streaming UTF-8 buffering regression still passes after moving the test module to satisfy clippy.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed"
   }
 ]
 
