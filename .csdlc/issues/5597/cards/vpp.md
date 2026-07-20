@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5597/diagram.mmd
 [
   {
     "lane": "v2-all-target-tests",
-    "proof_role": "Run the complete native C-SDLC v2 all-target test suite including Gates 2, 5, 8, 9, 10 and immutable compatibility fixtures",
+    "proof_role": "Run the complete native v2 all-target suite including Gate 10 install provenance",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -41,20 +41,18 @@ Diagram: .csdlc/prepared/issues/5597/diagram.mmd
     "budget_seconds": 1200,
     "budget_tokens": 8000,
     "argv": [
-      "env",
-      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target",
       "cargo",
       "test",
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
       "--all-targets"
     ],
-    "parallel_group": "v2-proof",
+    "parallel_group": "v2-tests",
     "defer_reason": null
   },
   {
     "lane": "v2-strict-clippy",
-    "proof_role": "Run strict all-target lint for the native v2 crate",
+    "proof_role": "Run strict all-target native v2 lint",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -63,8 +61,6 @@ Diagram: .csdlc/prepared/issues/5597/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 5000,
     "argv": [
-      "env",
-      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target",
       "cargo",
       "clippy",
       "--manifest-path",
@@ -74,36 +70,32 @@ Diagram: .csdlc/prepared/issues/5597/diagram.mmd
       "-D",
       "warnings"
     ],
-    "parallel_group": "v2-proof",
+    "parallel_group": "v2-lint",
     "defer_reason": null
   },
   {
-    "lane": "v2-owner-binaries",
-    "proof_role": "Build the current native v2 owner binaries on FastWork and prove executable owner artifacts without invoking sunset v1 wrappers",
+    "lane": "ordered-owner-doctor",
+    "proof_role": "Build current v2 owner binaries and then run typed doctor from that exact target in one fail-closed ordered script",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
-      "AC-8"
+      "AC-8",
+      "AC-9"
     ],
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 900,
     "budget_tokens": 5000,
     "argv": [
-      "env",
-      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target",
-      "cargo",
-      "build",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--bins"
+      "bash",
+      ".csdlc/prepared/issues/5597/validate-native-owner.sh"
     ],
     "parallel_group": "v2-owner",
     "defer_reason": null
   },
   {
-    "lane": "typed-doctor",
-    "proof_role": "Run the freshly built typed v2 doctor against issue 5597",
+    "lane": "bounded-revision-diff",
+    "proof_role": "Prove origin/main-to-reviewed-revision whitespace hygiene and exact protected-path scope",
     "acceptance_ids": [
       "AC-8",
       "AC-9"
@@ -113,21 +105,19 @@ Diagram: .csdlc/prepared/issues/5597/diagram.mmd
     "budget_seconds": 300,
     "budget_tokens": 2000,
     "argv": [
-      "/Volumes/FastWork/adl-builds/5597/csdlc-v2-target/debug/csdlc-doctor",
-      "--repo",
-      ".",
-      "--issue",
-      "5597"
+      "bash",
+      ".csdlc/prepared/issues/5597/validate-bounded-diff.sh",
+      "origin/main",
+      "HEAD"
     ],
-    "parallel_group": "v2-owner",
+    "parallel_group": "diff-proof",
     "defer_reason": null
   },
   {
-    "lane": "diff-hygiene",
-    "proof_role": "Prove whitespace hygiene and bounded tracked scope",
+    "lane": "worktree-diff-hygiene",
+    "proof_role": "Detect whitespace defects in any remaining uncommitted tracked worktree diff",
     "acceptance_ids": [
-      "AC-8",
-      "AC-9"
+      "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -138,7 +128,7 @@ Diagram: .csdlc/prepared/issues/5597/diagram.mmd
       "diff",
       "--check"
     ],
-    "parallel_group": "v2-owner",
+    "parallel_group": "diff-proof",
     "defer_reason": null
   }
 ]
@@ -155,10 +145,10 @@ Tokens: 25000
 
 ## Commands
 
-- `env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target cargo test --manifest-path csdlc-v2/Cargo.toml --all-targets`
-- `env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`
-- `env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target cargo build --manifest-path csdlc-v2/Cargo.toml --bins`
-- `/Volumes/FastWork/adl-builds/5597/csdlc-v2-target/debug/csdlc-doctor --repo . --issue 5597`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --all-targets`
+- `cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`
+- `bash .csdlc/prepared/issues/5597/validate-native-owner.sh`
+- `bash .csdlc/prepared/issues/5597/validate-bounded-diff.sh origin/main HEAD`
 - `git diff --check`
 
 ## Failure Semantics

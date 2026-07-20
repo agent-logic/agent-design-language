@@ -103,7 +103,7 @@ fn terminally_released(store: &Store, local: &crate::IssueRecord) -> Result<bool
     Ok(true)
 }
 
-pub fn initialize_issue(
+pub(crate) fn initialize_issue(
     store: &Store,
     mut request: BootstrapRequest,
 ) -> Result<crate::IssueRecord> {
@@ -197,14 +197,19 @@ pub fn initialize_issue(
     bootstrap_issue(store, request)
 }
 
-pub fn initialize_native_issue(
-    store: &Store,
-    request: BootstrapRequest,
-) -> Result<crate::IssueRecord> {
+fn initialize_native_issue(store: &Store, request: BootstrapRequest) -> Result<crate::IssueRecord> {
     crate::registry::validate_native_registry(store.root())?;
     initialize_issue(store, request)
 }
 
+/// The sole public native initialization entrypoint validates raw field presence.
+///
+/// Bypassing that proof through a typed request is intentionally not public:
+///
+/// ```compile_fail
+/// let _ = csdlc_v2::initialize_issue;
+/// let _ = csdlc_v2::initialize_native_issue;
+/// ```
 pub fn initialize_native_json(store: &Store, bytes: &[u8]) -> Result<crate::IssueRecord> {
     let value: serde_json::Value = serde_json::from_slice(bytes)?;
     let initial = value

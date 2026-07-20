@@ -43,7 +43,8 @@ fn initialize_issue(
         include_bytes!("../operator/native-card-shape.json"),
     )
     .expect("manifest fixture");
-    csdlc_v2::initialize_native_issue(store, request)
+    let bytes = serde_json::to_vec(&request).expect("native request bytes");
+    csdlc_v2::initialize_native_json(store, &bytes)
 }
 
 fn request() -> BootstrapRequest {
@@ -168,11 +169,63 @@ fn native_registry_is_required_and_shape_checked_before_issue_authoring() {
             fs::create_dir_all(path.parent().unwrap()).unwrap();
             fs::write(path, bytes).unwrap();
         }
-        let error = csdlc_v2::initialize_native_issue(&Store::new(temp.path()), request())
+        let bytes = serde_json::to_vec(&request()).expect("native request bytes");
+        let error = csdlc_v2::initialize_native_json(&Store::new(temp.path()), &bytes)
             .expect_err("invalid registry must fail closed");
         assert!(matches!(error.code, ErrorCode::InvalidManifest));
         assert!(!temp.path().join(".csdlc/issues/42").exists());
     }
+}
+
+#[cfg(unix)]
+#[test]
+fn native_registry_and_manifest_symlink_escapes_fail_before_authoring() {
+    use std::os::unix::fs::symlink;
+
+    let bytes = serde_json::to_vec(&request()).expect("native request bytes");
+    let escaped_registry = tempfile::tempdir().expect("registry root");
+    let outside = tempfile::tempdir().expect("outside registry");
+    let outside_registry = outside.path().join("current.json");
+    fs::write(
+        &outside_registry,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .unwrap();
+    let registry_path = escaped_registry
+        .path()
+        .join("docs/templates/prompts/current.json");
+    fs::create_dir_all(registry_path.parent().unwrap()).unwrap();
+    symlink(&outside_registry, &registry_path).unwrap();
+    let error = csdlc_v2::initialize_native_json(&Store::new(escaped_registry.path()), &bytes)
+        .expect_err("registry symlink escape");
+    assert!(matches!(error.code, ErrorCode::InvalidManifest));
+    assert!(!escaped_registry.path().join(".csdlc/issues/42").exists());
+
+    let escaped_manifest = tempfile::tempdir().expect("manifest root");
+    let registry_path = escaped_manifest
+        .path()
+        .join("docs/templates/prompts/current.json");
+    fs::create_dir_all(registry_path.parent().unwrap()).unwrap();
+    fs::write(
+        &registry_path,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .unwrap();
+    let outside_manifest = outside.path().join("native-card-shape.json");
+    fs::write(
+        &outside_manifest,
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .unwrap();
+    let manifest_path = escaped_manifest
+        .path()
+        .join("csdlc-v2/operator/native-card-shape.json");
+    fs::create_dir_all(manifest_path.parent().unwrap()).unwrap();
+    symlink(&outside_manifest, &manifest_path).unwrap();
+    let error = csdlc_v2::initialize_native_json(&Store::new(escaped_manifest.path()), &bytes)
+        .expect_err("manifest symlink escape");
+    assert!(matches!(error.code, ErrorCode::InvalidManifest));
+    assert!(!escaped_manifest.path().join(".csdlc/issues/42").exists());
 }
 
 #[test]

@@ -1,8 +1,8 @@
 use csdlc_v2::cards::{FindingDisposition, FindingSeverity};
 use csdlc_v2::{
-    assign_review, edit_issue, evaluate_publication_review, evaluate_publication_review_in_repo,
-    initialize_issue, record_review, BootstrapRequest, CardKind, Claim, EditRequest, ErrorCode,
-    InitialCardInput, LifecyclePhase, NonSubstantiveProof, PlanningProfile,
+    assign_review, bootstrap_issue, edit_issue, evaluate_publication_review,
+    evaluate_publication_review_in_repo, record_review, BootstrapRequest, CardKind, Claim,
+    EditRequest, ErrorCode, InitialCardInput, LifecyclePhase, NonSubstantiveProof, PlanningProfile,
     ReviewAssignmentRequest, ReviewEvidence, ReviewFindingEvidence, ReviewRecordRequest,
     ReviewRecoveryRequest, SemanticOperation, Store,
 };
@@ -38,7 +38,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
     git(temp.path(), &["add", "docs"]);
     git(temp.path(), &["commit", "-m", "fixture"]);
     let store = Store::new(temp.path());
-    let mut record = initialize_issue(
+    let mut record = bootstrap_issue(
         &store,
         BootstrapRequest {
             issue: 7,

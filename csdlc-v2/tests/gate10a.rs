@@ -239,7 +239,7 @@ fn freshly_installed_stable_edit_binary_is_executable() {
     )
     .unwrap();
     let store = Store::new(fixture.path());
-    let initialized = csdlc_v2::initialize_issue(&store, bootstrap_request()).unwrap();
+    let initialized = csdlc_v2::bootstrap_issue(&store, bootstrap_request()).unwrap();
     let ready = edit_issue(
         &store,
         edit(

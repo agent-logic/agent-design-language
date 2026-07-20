@@ -10,10 +10,11 @@ use strum::{AsRefStr, Display, EnumString};
 
 use crate::cards::{CardContent, CardKind, InitialCardInput, PlanStep, StepStatus, ValidationLane};
 use crate::error::{ErrorCode, Result, V2Error};
+use crate::lifecycle::initialize_issue;
 use crate::model::{LifecyclePhase, MigrationEvidence};
 use crate::{
-    edit_issue, initialize_issue, BootstrapRequest, CardStatus, Claim, EditRequest,
-    PlanningProfile, SemanticOperation, Store,
+    edit_issue, BootstrapRequest, CardStatus, Claim, EditRequest, PlanningProfile,
+    SemanticOperation, Store,
 };
 
 #[derive(

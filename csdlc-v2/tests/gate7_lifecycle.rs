@@ -3,7 +3,7 @@ use csdlc_v2::cards::{
     StepStatus, ValidationLane, ValidationResult,
 };
 use csdlc_v2::{
-    assign_review, closeout_issue, edit_issue, initialize_issue, record_merged_publication,
+    assign_review, bootstrap_issue, closeout_issue, edit_issue, record_merged_publication,
     record_publication, record_readiness, record_review, BootstrapRequest, CardKind, Claim,
     EditRequest, InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent,
     PublicationRequest, ReadinessRequest, ReconcileTerminalRequest, RemotePullRequest,
@@ -95,7 +95,7 @@ fn fixture_with_validation_history_and_publication(
         .unwrap()
         .stdout;
     let store = Store::new(temp.path());
-    let mut record = initialize_issue(
+    let mut record = bootstrap_issue(
         &store,
         BootstrapRequest {
             issue,
@@ -610,7 +610,7 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
         true,
     );
     let authority_issue = 5_487;
-    let authority = initialize_issue(
+    let authority = bootstrap_issue(
         &store,
         BootstrapRequest {
             issue: authority_issue,
@@ -1291,7 +1291,7 @@ fn terminal_plan_repair_authority(
     worktree: &std::path::Path,
     protected_paths: Vec<String>,
 ) -> csdlc_v2::IssueRecord {
-    initialize_issue(
+    bootstrap_issue(
         store,
         BootstrapRequest {
             issue,

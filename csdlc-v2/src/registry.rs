@@ -42,7 +42,18 @@ struct ShapeManifest {
 }
 
 pub fn validate_native_registry(root: &Path) -> Result<()> {
-    let registry: Registry = read_json(&root.join("docs/templates/prompts/current.json"))?;
+    let root = fs::canonicalize(root).map_err(|error| {
+        V2Error::new(
+            ErrorCode::InvalidManifest,
+            format!("cannot canonicalize registry root: {error}"),
+        )
+    })?;
+    let registry_path = canonical_beneath(
+        &root,
+        &root.join("docs/templates/prompts/current.json"),
+        "prompt registry",
+    )?;
+    let registry: Registry = read_json(&registry_path)?;
     if registry.schema != "adl.csdlc.prompt_template_registry.v1"
         || registry.csdlc_prompt_template_set != "1.0.3"
         || registry.semver != "1.0.3"
@@ -86,7 +97,8 @@ pub fn validate_native_registry(root: &Path) -> Result<()> {
     {
         return invalid("native v2 shape manifest path is not repository-relative");
     }
-    let manifest: ShapeManifest = read_json(&root.join(relative))?;
+    let manifest_path = canonical_beneath(&root, &root.join(relative), "native shape manifest")?;
+    let manifest: ShapeManifest = read_json(&manifest_path)?;
     if manifest.schema != "csdlc.native_card_shape.v1"
         || manifest.generation != NATIVE_GENERATION
         || manifest.template_set != NATIVE_TEMPLATE_SET
@@ -110,6 +122,19 @@ pub fn validate_native_registry(root: &Path) -> Result<()> {
         }
     }
     Ok(())
+}
+
+fn canonical_beneath(root: &Path, path: &Path, label: &str) -> Result<std::path::PathBuf> {
+    let canonical = fs::canonicalize(path).map_err(|error| {
+        V2Error::new(
+            ErrorCode::InvalidManifest,
+            format!("cannot canonicalize {label}: {error}"),
+        )
+    })?;
+    if !canonical.starts_with(root) {
+        return invalid(&format!("{label} escapes the repository root"));
+    }
+    Ok(canonical)
 }
 
 const CARD_KINDS: [CardKind; 6] = [

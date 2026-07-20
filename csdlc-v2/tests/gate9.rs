@@ -290,11 +290,21 @@ fn representative_samples_reopen_persisted_store_between_lifecycle_phases() {
         .unwrap();
         let comparison = csdlc_v2::compare_shadow(&legacy, &outcome);
         assert!(
-            comparison.equivalent,
-            "{slug}: {:?}; legacy={:?}; v2={:?}",
-            comparison.differences, legacy.card_statuses, outcome.card_statuses
+            !comparison.equivalent,
+            "{slug}: retained v1 difference must remain visible"
         );
-        assert!(comparison.differences.is_empty());
+        assert_eq!(comparison.differences, vec!["card_statuses"]);
+        assert_eq!(
+            legacy.card_statuses[&csdlc_v2::CardKind::Srp].to_string(),
+            "pre_phase"
+        );
+        assert_eq!(
+            outcome.card_statuses[&csdlc_v2::CardKind::Srp].to_string(),
+            "complete"
+        );
+        let mut normalized = legacy.clone();
+        normalized.card_statuses = outcome.card_statuses.clone();
+        assert!(csdlc_v2::compare_shadow(&normalized, &outcome).equivalent);
     }
 }
 
