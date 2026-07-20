@@ -3,13 +3,13 @@
   "issue": 5602,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "4741b0806248b2ca8bc191bd99a39b1662fdcff8eeab3833b2914d9640513aef",
+  "phase": "published",
+  "generation": 13,
+  "digest": "45925a292063186bdf6ce8ba12a0a8cd9cf7f274101b8cdae4bf25089c133dde",
   "claim": {
     "id": "claim-5602-hosted-coverage-no-report",
     "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "generation": 12,
+    "generation": 13,
     "acquired_unix_seconds": 1784584872,
     "expires_unix_seconds": 1784671272,
     "heartbeat_unix_seconds": 1784584872,
@@ -51,7 +51,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5602,
+    "pull_request": 5604,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5604",
+    "base": "main",
+    "head": "codex/5602-hosted-coverage-no-report",
+    "revision": "git-blake3:bd1303dc8b15830f5dad61e50c27af8d6660f483:84b2757638e8dfc2be6b02b9e1f345de44e616c3c5688164729625ff8dd8cd4d",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6c3b710fe06261f51eb1a219f323def94766c6441185f757f69c4331e8cc4ef3",
+      "values_digest": "7939742798794af261d822f55ff7918941046c277e7d634a2b056c6288bb8b36",
       "rendered_digest": "f29c939a2f5af25a1986147a24c88c77e4cb3e098387deb638c9ca7c02221236",
       "ast_digest": "dc868767b9da3d0f23e83f59daf4792b535f892948bd50d63d5e172751834701"
     },
     "stp": {
-      "values_digest": "8e3221a1bfe2d513670b0e3ee34ab3f10e3a1f45d3799f1a9bcb247516f3a8c7",
+      "values_digest": "db1005a8414e8d523ce78cf84cffa72d217383e35df4a3d1668ccf0dc6fee301",
       "rendered_digest": "7169347c43cc4f22ec2d67cafd4b12be0a88261e42b5825b76a6a5c2a94c4350",
       "ast_digest": "0a305bbdbc7044b0f7a8956e25501a3973c08d81c372948becdbd8676a7d411b"
     },
     "spp": {
-      "values_digest": "632cc9d3763dcace2aa2cad2898d6f97dbeb26b1d178cc60d89b931e490408d6",
+      "values_digest": "077d2c8e731358a61883d5121c64279693561a69d6b809477a3db5fbe831fa66",
       "rendered_digest": "b2a74f27bd07e8ced438a62f24e9a87ca23d7acd291c4383c49afec39b83e8bf",
       "ast_digest": "a5c6942680a7c7b996dde5376907adb70ca14b93009a7ad599200134d2fe0055"
     },
     "vpp": {
-      "values_digest": "fbb8381bb3244c3ea4388903e058af6b93ec526e21b3353be4f5f247e94bac3a",
+      "values_digest": "e9693d837cc3b914d1bf966efc9b21983ff5c64b1169dcf569f16d0fa3590c7c",
       "rendered_digest": "5ee3a0baebc9c56fcb842ee572195c3a41247743e271f5dced953c47316936be",
       "ast_digest": "696c38305d48a39773ae3fcbc00b2ef9ae8d1cc1a5fea3960d9448c5dec7807d"
     },
     "srp": {
-      "values_digest": "a4580b0c13a454413f4e639474f8e9683fa9f4817a4d517002a2774ca7bac829",
+      "values_digest": "307c5f186171bf9acec97d54d3f03246661e2f9cd1e72b9af3cd3c8807a92c69",
       "rendered_digest": "bf94460a493537b96b0742fff886ccd8d9488c697149069a600037eb77823856",
       "ast_digest": "ddae1b7bd77b0959b272a9bffffbf5aaec0aeeca3776901fbca7fffeb8e1add7"
     },
     "sor": {
-      "values_digest": "c5ba46e289b23c0173b7596bc6aaf5392ac4d922f4af9ea7669b3e65535a5799",
-      "rendered_digest": "5302e570edf71807f87d20731f0b3019fde9b61be4618deac600b40a77c84b92",
-      "ast_digest": "27586af1eb43ca89f0a0d8d68d465cf7a24d3575d124e2e909a9a4d463dc7c22"
+      "values_digest": "11e2bfd63216d37d34252501ad50ed8750fc05b08f4adda10b7e559b14a1075f",
+      "rendered_digest": "557f09e90a5bd250d2fe5550e08439d146a142c2b1b6971ed2f617ad8ef6d7db",
+      "ast_digest": "e39f47f10dcdb16485000b52ba253dfb4d886c3941c5771ac09018a412f061eb"
     }
   },
   "transitions": [
@@ -158,6 +168,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The corrected coverage workflow and coupled CI contract received an exact-head no-findings review."
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -286,6 +303,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The corrected coverage workflow and coupled CI contract received an exact-head no-findings review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
