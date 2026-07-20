@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "179d34b7b170df9f6d59755b31f96d3c9649108feda1121d208329cb150ac607",
+  "phase": "published",
+  "generation": 15,
+  "digest": "9d45c0d6f848d482ce66eb40a94870e31395bd6fb46ba01acd57f9be31705d4b",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 14,
+    "generation": 15,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -48,7 +48,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5336,
+    "pull_request": 5599,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5599",
+    "base": "main",
+    "head": "codex/5336-v0918-runtime-parity-plan",
+    "revision": "git-blake3:0614b0007200a55e966f23363ce5dc603b8b8e8a:b7eb413745140abc1f610d9bcd6b27624dbfac215306f74d9cab63f3feacef53",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "520d4e673c8f8f7906ee4844b3f450a83eac979ee6485e3ed19cae3fc643b16f",
+      "values_digest": "85a84a79b2e8917af07065fe0b7414269df60fbf78e2f323f66e465b5d00db68",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "ae2d74d472d836320cd180023cf2c2f3328230a6bdc5806686c0ef7e48350e19",
+      "values_digest": "2f4abb65bc90979003d2da123734f3a276ab78aaa6c349af93bc24ee9f7724ca",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "497eca07c3203b2f3196e684b03fe4105e34da8210e214244a0a8d4249c2dc61",
+      "values_digest": "5e22e3ff5f309dd7f9af09c19609b5c645e8cf7d493b01aad233b162b31404b3",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "7fc986fd4d6f468fb87b70119b0eddb0d40a164329ead5d97d0f64927429cf52",
+      "values_digest": "e080ee53b902ce4307b6b231bd217ea6c9d7c8b09d44e6c6bb14a047293aa66e",
       "rendered_digest": "7510323bddaa609bfbc5d0113599ce5bb313c92e2d6e204c221d809b5200c436",
       "ast_digest": "d0de2dd6e7ff179c5f415b6a0aa6fee1240b24d77b706096f4788aadc6cd5a8f"
     },
     "srp": {
-      "values_digest": "cafef7cb0c8886fe16290432a2c08251e86fe8425563fee33ef9ce9f9fb656e7",
+      "values_digest": "335c40a8813bce974f4d7462c5e1845237ac7e91276ef16e3a0460008b00d88e",
       "rendered_digest": "b772c77cb12de3850a8574f6a8ee5d7e8b7efeee94e2feee7e55e59a21bb114b",
       "ast_digest": "984d06395659a56b6bf55c9874efd09e6d396f165bec46136bcd5a074a642e43"
     },
     "sor": {
-      "values_digest": "8d6745301be98c1b91943080b78972a7422cccbdc39239f44774be0f7d6aac21",
-      "rendered_digest": "14a2ce6c65a9d4c684201f4c0b40e46c406832f42c15b54c108eebab6492f586",
-      "ast_digest": "63f8fabf6246757c323a89689f917dc5807a39b2c030a5ca1778a02eb36f549e"
+      "values_digest": "22a286aad05449a01b44b1735338548ca016a2233601b1bb287c8a47ae90cd32",
+      "rendered_digest": "ba2aa4963203c8f2fd54f28062934bc191c2d6d906db6c8d7a4ebe1bc423bdd9",
+      "ast_digest": "a0e0e9695948c56187faa715a75362317ba1e1883dfcacd96e0711d8ba53756f"
     }
   },
   "transitions": [
@@ -120,6 +130,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact publication-head review passed with no findings or residual risks."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -241,6 +258,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact publication-head review passed with no findings or residual risks.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
