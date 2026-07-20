@@ -553,10 +553,20 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             );
         }
 
+        let command_id = command.command_id.clone();
+        let terminal = matches!(command.action, ControlAction::Shutdown { .. });
         let service = Arc::clone(self);
-        tokio::spawn(async move { service.execute_reserved(command).await })
+        let result = tokio::spawn(async move { service.execute_reserved(command).await })
             .await
-            .map_err(|_| ControlError::Internal)?
+            .map_err(|_| ControlError::Internal)?;
+        if result.is_err() {
+            let mut state = self.idempotency.lock().expect("idempotency mutex poisoned");
+            state.records.pop(&command_id);
+            if terminal && state.terminal_action.as_deref() == Some(&command_id) {
+                state.terminal_action = None;
+            }
+        }
+        result
     }
 
     async fn execute_reserved(

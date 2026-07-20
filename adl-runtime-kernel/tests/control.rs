@@ -176,6 +176,37 @@ async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
         service.observatory_feed().ingress.completed["work-1"],
         first_result
     );
+    let invalid = DomainWork {
+        schema: "adl.runtime.domain_work.v999".to_owned(),
+        ..work.clone()
+    };
+    assert_eq!(
+        service
+            .execute(signed(
+                &key,
+                "submit-invalid",
+                ControlAction::Submit { work: invalid },
+            ))
+            .await
+            .unwrap_err(),
+        ControlError::InvalidBounds
+    );
+    let oversized = DomainWork {
+        work_id: "oversized-work".to_owned(),
+        payload: vec![0; 1_048_577],
+        ..work.clone()
+    };
+    assert_eq!(
+        service
+            .execute(signed(
+                &key,
+                "submit-oversized",
+                ControlAction::Submit { work: oversized },
+            ))
+            .await
+            .unwrap_err(),
+        ControlError::InvalidBounds
+    );
 
     let identity = LiveKernelSnapshot::new(
         blake3::hash(b"topology").to_hex().to_string(),
@@ -351,6 +382,22 @@ async fn forged_and_unauthorized_commands_never_reach_lifecycle_authority() {
         ControlError::StaleRuntimeInstance
     );
     assert_eq!(calls.load(Ordering::SeqCst), 0);
+    let submit = signed(
+        &key,
+        "submit-without-capability",
+        ControlAction::Submit {
+            work: DomainWork {
+                schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: "unauthorized-work".to_owned(),
+                kind: "parity-a".to_owned(),
+                payload: vec![1],
+            },
+        },
+    );
+    assert_eq!(
+        service.execute(submit).await.unwrap_err(),
+        ControlError::Unauthorized
+    );
 }
 
 #[tokio::test]

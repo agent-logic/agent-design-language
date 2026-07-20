@@ -1,9 +1,6 @@
 use std::{
     collections::BTreeMap,
-    sync::{
-        atomic::{AtomicBool, Ordering},
-        Arc, Mutex,
-    },
+    sync::{Arc, Mutex},
 };
 
 use async_trait::async_trait;
@@ -67,7 +64,22 @@ pub struct CanonicalIngress {
     receiver: Arc<AsyncMutex<BoundedReceiver<Envelope>>>,
     state: Arc<Mutex<IngressSnapshot>>,
     recorder: RuntimeRecorder,
-    accepting: Arc<AtomicBool>,
+    admission: Arc<Mutex<AdmissionState>>,
+}
+
+#[derive(Default)]
+struct AdmissionState {
+    open: bool,
+    active: usize,
+}
+
+struct AdmissionLease(Arc<Mutex<AdmissionState>>);
+
+impl Drop for AdmissionLease {
+    fn drop(&mut self) {
+        let mut admission = self.0.lock().expect("ingress admission mutex poisoned");
+        admission.active = admission.active.saturating_sub(1);
+    }
 }
 
 impl CanonicalIngress {
@@ -79,7 +91,10 @@ impl CanonicalIngress {
             receiver: Arc::new(AsyncMutex::new(receiver)),
             state: Arc::new(Mutex::new(IngressSnapshot::default())),
             recorder,
-            accepting: Arc::new(AtomicBool::new(true)),
+            admission: Arc::new(Mutex::new(AdmissionState {
+                open: true,
+                active: 0,
+            })),
         }
     }
 
@@ -89,9 +104,7 @@ impl CanonicalIngress {
         correlation_id: String,
     ) -> Result<DomainResult, IngressError> {
         validate(&work)?;
-        if !self.accepting.load(Ordering::Acquire) {
-            return Err(IngressError::Closed);
-        }
+        let _lease = self.begin_admission()?;
         let (reply, result) = oneshot::channel();
         self.sender
             .send(Envelope {
@@ -121,15 +134,35 @@ impl CanonicalIngress {
     }
 
     pub fn pause_if_idle(&self) -> bool {
-        if self.sender.metrics().depth() != 0 {
+        let mut admission = self
+            .admission
+            .lock()
+            .expect("ingress admission mutex poisoned");
+        if admission.active != 0 || self.sender.metrics().depth() != 0 {
             return false;
         }
-        self.accepting.store(false, Ordering::Release);
+        admission.open = false;
         true
     }
 
     pub fn reopen(&self) {
-        self.accepting.store(true, Ordering::Release);
+        self.admission
+            .lock()
+            .expect("ingress admission mutex poisoned")
+            .open = true;
+    }
+
+    fn begin_admission(&self) -> Result<AdmissionLease, IngressError> {
+        let mut admission = self
+            .admission
+            .lock()
+            .expect("ingress admission mutex poisoned");
+        if !admission.open {
+            return Err(IngressError::Closed);
+        }
+        admission.active = admission.active.saturating_add(1);
+        drop(admission);
+        Ok(AdmissionLease(self.admission.clone()))
     }
 }
 
@@ -208,4 +241,27 @@ fn apply(state: &Mutex<IngressSnapshot>, work: &DomainWork) -> Result<DomainResu
     };
     state.completed.insert(work.work_id.clone(), result.clone());
     Ok(result)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn pause_and_submit_admission_are_one_atomic_transition() {
+        let ingress = CanonicalIngress::new(1, RuntimeRecorder::new(4));
+        let lease = ingress.begin_admission().unwrap();
+        assert!(
+            !ingress.pause_if_idle(),
+            "an admitted submit must block serialization"
+        );
+        drop(lease);
+        assert!(ingress.pause_if_idle());
+        assert!(matches!(
+            ingress.begin_admission(),
+            Err(IngressError::Closed)
+        ));
+        ingress.reopen();
+        assert!(ingress.begin_admission().is_ok());
+    }
 }
