@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+adl/tools/run_authoritative_coverage_lane.sh
+adl/tools/test_run_authoritative_coverage_lane.sh
+adl/tools/test_ci_runtime_contracts.sh
+.csdlc/issues/5602
+.csdlc/prepared/issues/5602
 
 ## Prompts
 
@@ -30,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The hosted instrumented workspace remains the integration proof for the complete llvm-cov renderer and profile set.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e85087c8e14082990225d44198457e3d1bed7678:464b71a45afbb27e672c88bc61025b4bf381dcfd2bb26bd558dcd4578f8255ea")
 
-Reviewer: None
+Reviewer: Some("codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41")
 
-Result: pre_review
+Result: pass

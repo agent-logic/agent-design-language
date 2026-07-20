@@ -7,23 +7,25 @@
     "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
     "slug": "hosted-coverage-no-report",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\nadl/tools/test_ci_runtime_contracts.sh\n.csdlc/issues/5602\n.csdlc/prepared/issues/5602",
+      "review_revision": "git-blake3:e85087c8e14082990225d44198457e3d1bed7678:464b71a45afbb27e672c88bc61025b4bf381dcfd2bb26bd558dcd4578f8255ea",
+      "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
       "review_prompts": [
         "Does each workspace source cargo llvm-cov show-env before executing its partitioned cargo nextest runs?",
         "Does each workspace emit exactly one explicit cargo llvm-cov report after all partition profiles are collected?",
         "Do the focused contracts prove instrumentation export, partition failure propagation, run isolation, and unchanged coverage gates?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The hosted instrumented workspace remains the integration proof for the complete llvm-cov renderer and profile set."
+      ],
+      "review_result": "pass"
     }
   }
 }
