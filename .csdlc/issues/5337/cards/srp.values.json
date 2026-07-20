@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5337,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
+    "slug": "v0918-wp03-characterization-corpus-preparation",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do all six cards and the design remain preparation-only and issue-specific?",
+        "Is #5336 preserved as a hard implementation dependency while #5595 authorizes only card preparation?",
+        "Does the future corpus contract cover positive and negative behavior, repetition, normalization, coverage, and nondeterminism without implementing them?",
+        "Are protected paths issue-local and collision-safe with shared milestone and sibling work?",
+        "Are PVF lanes and non-claims sufficient for a truthful preparation handoff?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

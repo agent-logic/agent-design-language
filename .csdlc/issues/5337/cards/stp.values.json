@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5337,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
+    "slug": "v0918-wp03-characterization-corpus-preparation",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare cards, design, validation, review, and readiness only; do not implement fixtures, normalizer behavior, replay execution, product tests, or shared milestone-doc changes.",
+      "deliverables": [
+        "six issue-specific cards rendered from docs/templates/prompts/current.json",
+        "issue-local design and architecture diagram",
+        "PVF-classified preparation and future corpus validation plan",
+        "bounded exact-revision subagent review with findings disposition",
+        "preparation-only publication or blocked handoff truth"
+      ],
+      "acceptance_criteria": [
+        "AC-1: SIP, STP, SPP, VPP, SRP, and SOR are generated from the active current.json template set and pass typed schema and structure validation",
+        "AC-2: Cards and design preserve #5595 authorization, #5336 dependency, clean-room behavioral-evidence boundaries, and no shared milestone-doc overlap",
+        "AC-3: The future corpus contract requires versioned positive and negative cases, repeated outcomes, declared normalization, coverage mapping, and nondeterminism disposition",
+        "AC-4: Preparation validation and future corpus proof lanes are PVF-classifiable with proof role, determinism posture, resource profile, and release-gate status",
+        "AC-5: Bounded subagent review covers the exact substantive revision and all actionable findings are dispositioned before publication",
+        "AC-6: Preparation closes or hands off without claiming corpus implementation, WP-02 satisfaction, milestone readiness, cutover, deletion, or v0.92 activation"
+      ],
+      "dependencies": [
+        "open sprint umbrella #5595 opening-wave slot 2 authorization",
+        "WP-02 #5336 must be accepted before future product implementation",
+        "active prompt-template registry docs/templates/prompts/current.json"
+      ],
+      "repo_inputs": [
+        "GitHub issue #5337 retrieved through adl-issue",
+        "GitHub sprint issue #5595 retrieved through adl-issue",
+        "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+        "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+        "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+        "docs/templates/prompts/current.json"
+      ],
+      "non_goals": [
+        "no corpus fixtures, normalizer code, replay execution, or product tests",
+        "no porting of legacy internal tests",
+        "no shared milestone planning or feature-document edits",
+        "no downstream implementation binding or claim-path reservation",
+        "no AWS, raw gh, Runtime/C-SDLC implementation, deletion, cutover, or v0.92 activation"
+      ]
+    }
+  }
+}
