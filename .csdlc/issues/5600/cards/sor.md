@@ -54,7 +54,7 @@ Implemented complete typed preparation-to-implementation collection replanning w
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

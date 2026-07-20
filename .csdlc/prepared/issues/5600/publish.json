@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 5600,
+  "expected_generation": 12,
+  "expected_digest": "ec89d67dffcc278e74572bd8eb3fd29761d43d5ea052e5e2ab9ced84f02dba87",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600",
+  "repository": "danielbaustin/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/5600-complete-typed-replanning",
+  "title": "[v0.91.8][csdlc-v2] Complete typed preparation-to-implementation replanning",
+  "body": "Closes #5600\n\nAdds card-owned typed replacement operations for every remaining SIP, STP, SPP, and SRP planning collection. A coherent acceptance-plan operation atomically replaces STP acceptance criteria, SPP plan steps, and VPP validation lanes, permitting cardinality changes without an invalid intermediate state while preserving generation, digest, claim ownership, phase authorization, complete projection regeneration, audit, backup, and commit semantics.\n\nThe #5337 preparation fixture performs the complete conversion through the real csdlc-edit JSON CLI, changes acceptance cardinality from two to three, and proves cross-card validation plus typed doctor. Negative tests cover empty and misowned fields, stale generation and digest, wrong claims, incomplete and duplicate acceptance mappings, pre-Bound and post-Implemented rejection, progress smuggling, and atomic failure behavior.\n\nValidation is fully green with no deferred lane: focused Gate 2 tests 41/41, every C-SDLC v2 target, cargo fmt --check, strict all-target Clippy, and typed doctor. The first exact-revision review found four defects; all were fixed. A second exact-revision review passed with no actionable findings and explicitly marked all four prior findings fixed. No raw gh or AWS was used.",
+  "draft": true,
+  "token_file": null
+}

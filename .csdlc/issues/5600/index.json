@@ -3,13 +3,13 @@
   "issue": 5600,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "ec89d67dffcc278e74572bd8eb3fd29761d43d5ea052e5e2ab9ced84f02dba87",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "c0955e6b8fc631cce56f7a93db532b21b9bbd42fbd39046bc3332e7bee4b9595",
   "claim": {
     "id": "claim-5600-complete-typed-replanning",
     "owner": "codex:issue-5600",
-    "generation": 12,
+    "generation": 13,
     "acquired_unix_seconds": 1784577719,
     "expires_unix_seconds": 1785182519,
     "heartbeat_unix_seconds": 1784577719,
@@ -23,76 +23,8 @@
     ],
     "purpose": "Implement complete typed preparation-to-implementation replanning"
   },
-  "review_assignment": {
-    "reviewer": "subagent:codex-exec-5600-remediation",
-    "assigned_by": "codex:issue-5600",
-    "revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-    "scope": [
-      "csdlc-v2",
-      ".csdlc/prepared/issues/5600/design.md",
-      ".csdlc/prepared/issues/5600/diagram.mmd",
-      ".csdlc/prepared/issues/5600/bootstrap.json",
-      ".csdlc/prepared/issues/5600/validate-local.json",
-      ".csdlc/evidence/5600"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:codex-exec-5600-remediation",
-    "scope": [
-      "csdlc-v2",
-      ".csdlc/prepared/issues/5600/design.md",
-      ".csdlc/prepared/issues/5600/diagram.mmd",
-      ".csdlc/prepared/issues/5600/bootstrap.json",
-      ".csdlc/prepared/issues/5600/validate-local.json",
-      ".csdlc/evidence/5600"
-    ],
-    "reviewed_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-    "findings": [
-      {
-        "id": "F-5600-1",
-        "severity": "p1",
-        "summary": "Acceptance-set cardinality cannot change atomically across STP, SPP, and VPP.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-        "route": null
-      },
-      {
-        "id": "F-5600-2",
-        "severity": "p2",
-        "summary": "Operator-constraint and acceptance-criteria replacements are not Bound-only.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-        "route": null
-      },
-      {
-        "id": "F-5600-3",
-        "severity": "p2",
-        "summary": "The #5337 real JSON CLI proof covers only SRP review prompts.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-        "route": null
-      },
-      {
-        "id": "F-5600-4",
-        "severity": "p3",
-        "summary": "The issue design assigns dependencies, repository inputs, and non-goals to the wrong card.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -107,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7bd6c1e4767125d4d804a9b22781e843c7cfcc14299b845c9fe9bcf5018a441a",
+      "values_digest": "43f5761a78597ec9fe8424fffea367e9f498b98d62691ea0fe83821e73a7e1fe",
       "rendered_digest": "72d0d26c0a9fca3d92978776997764195776dec41db6d10b05d5838413e2766d",
       "ast_digest": "c130e7367e81abdf59c746c02c1aff2a1b4c2ab16d2eb3f964968a192705a706"
     },
     "stp": {
-      "values_digest": "a2347cc0a9065838799f90aa3da95309175a98224d6f98a4c50d6b98628ba344",
+      "values_digest": "a9374e83ad7bde6077c88200bbe32c9bb6b7ab0ff09b10de60309c65f4592cdd",
       "rendered_digest": "0599c33ab3b2da3edd9ba1f4209e8243606a2cac4f94ab01c9a47d075bc36176",
       "ast_digest": "912c0dc482169557913062368c098b68c8757642261ee56bb60db7bb46dfdd4f"
     },
     "spp": {
-      "values_digest": "b25b9c0f793ee7998e0e6ed931e6b3949b177de03dd4750cd7a8043827836a46",
+      "values_digest": "2cb86828dbb4b998bd835771d0d7600c448a50b931b29169eb88ffb7f39d6b23",
       "rendered_digest": "642a19e5495f730b097167f7d8c47c64c7f9955838675357855b82ad1112ff9a",
       "ast_digest": "54712938f40efa02c44ff3b9bd29dedf4cba4c34e45726cc88c9a30297aca759"
     },
     "vpp": {
-      "values_digest": "df3be4e0cc529ed7bbbc3835e9f732265677e84b1709c43849c343074c1668f9",
+      "values_digest": "07108d89ce97b2f0b8192162a6da5a35b07a7fdd47323cf761364f2a119bce7e",
       "rendered_digest": "1cdf94b67e2d968d60bce38010fed88b468f4d9450817305fb1c719bc18e5ed5",
       "ast_digest": "4efaa52bb7bf1a11d75221f41c303e44701f701a6049424648a1c444551446e9"
     },
     "srp": {
-      "values_digest": "9616e67b8cd87b35789a74de313c2e0f036337ce1b5fb7d8caa7777defef639f",
-      "rendered_digest": "0fecaee17b2be154e0a3c73156c4993042144b0861351cb4a9101e59c939df4e",
-      "ast_digest": "ba8b300682c13d7e5362fb05bf9db20d5a619ed7cb29864b3d4296310b31e82e"
+      "values_digest": "4bcefd01ca1de7773b12217c9996eb524f2b296ebdb759034b867b599546ea33",
+      "rendered_digest": "cd435baad8a04cf3c5495830470650489416601300b09559a495a1a9f2cf178a",
+      "ast_digest": "c3181fcdb26c6b40ffbdf45d49dfac86fe263acc5d21632264baa6e1282430e7"
     },
     "sor": {
-      "values_digest": "f7ff6f5810285a7887f418fa21e4f977c1814445a68afafe2378048b8cc9cdc7",
-      "rendered_digest": "f4399b8b7d02b924a038e3525b69258de6d619198955cd32e185867400a01c70",
-      "ast_digest": "9aec8187c86ce947b35b0aeb6a979a1d913b472fe57eea4a7edd918a98fedbe6"
+      "values_digest": "ce78867b7a605d9fbeb0fafff8cb24fe0cac4c40ffe0629813d2c0083bddf24a",
+      "rendered_digest": "51ab3a5fca01b9e2c2091bb9c235c934de6ab1ab0dd8157da317a71abeb7fbae",
+      "ast_digest": "06113e2301046fd623bba7caf599f1101d810cb6dbe1d951204548e205515737"
     }
   },
   "transitions": [
@@ -165,6 +97,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5600",
       "reason": "Exact-revision remediation review passed with all four findings fixed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-5600",
+      "reason": "Recover committed review metadata and publication request for an exact final-head review before draft publication."
     }
   ],
   "audit": [
@@ -279,6 +218,13 @@
       "actor": "codex:issue-5600",
       "reason": "Exact-revision remediation review passed with all four findings fixed",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:issue-5600",
+      "reason": "Recover committed review metadata and publication request for an exact final-head review before draft publication.",
+      "operation": "recover_review"
     }
   ]
 }

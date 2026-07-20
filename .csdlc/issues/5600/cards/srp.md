@@ -8,16 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v2
-.csdlc/prepared/issues/5600/design.md
-.csdlc/prepared/issues/5600/diagram.mmd
-.csdlc/prepared/issues/5600/bootstrap.json
-.csdlc/prepared/issues/5600/validate-local.json
-.csdlc/evidence/5600
+
 
 ## Prompts
 
@@ -29,48 +24,7 @@ csdlc-v2
 
 ## Findings
 
-[
-  {
-    "id": "F-5600-1",
-    "severity": "p1",
-    "summary": "Acceptance-set cardinality cannot change atomically across STP, SPP, and VPP.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-    "route": null
-  },
-  {
-    "id": "F-5600-2",
-    "severity": "p2",
-    "summary": "Operator-constraint and acceptance-criteria replacements are not Bound-only.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-    "route": null
-  },
-  {
-    "id": "F-5600-3",
-    "severity": "p2",
-    "summary": "The #5337 real JSON CLI proof covers only SRP review prompts.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-    "route": null
-  },
-  {
-    "id": "F-5600-4",
-    "severity": "p3",
-    "summary": "The issue design assigns dependencies, repository inputs, and non-goals to the wrong card.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -82,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d")
+Revision: None
 
-Reviewer: Some("subagent:codex-exec-5600-remediation")
+Reviewer: None
 
-Result: pass
+Result: pre_review
