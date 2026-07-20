@@ -46,6 +46,17 @@ pub(super) fn validate_vendor_credential_endpoint(
     default_auth_env: &str,
     trusted_hosts: &[&str],
 ) -> Result<()> {
+    if Url::parse(endpoint)
+        .ok()
+        .is_some_and(|url| url.scheme() == "http" && !is_loopback_endpoint(endpoint))
+    {
+        return Err(invalid_config(
+            provider_label,
+            format!(
+                "refusing to send {auth_env} credentials to plaintext non-loopback endpoint '{endpoint}'"
+            ),
+        ));
+    }
     if is_loopback_endpoint(endpoint)
         || is_trusted_vendor_endpoint(endpoint, trusted_hosts)
         || cfg_bool(&spec.config, "trust_custom_endpoint", provider_label)?
