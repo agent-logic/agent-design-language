@@ -696,6 +696,109 @@ fn closed_issue_claim_release_is_typed_and_compare_and_swap_guarded() {
     assert_eq!(csdlc_v2::diagnose(&store, 42).status, DoctorStatus::Pass);
 }
 
+#[test]
+fn active_claim_transition_atomically_updates_purpose_and_scope() {
+    let (_temp, store, mut record) = fixture();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+        ),
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Bound,
+            },
+        ),
+    )
+    .unwrap();
+    let before_audit = record.audit.len();
+    let transitioned = csdlc_v2::transition_active_claim(
+        &store,
+        csdlc_v2::TransitionActiveClaimRequest {
+            issue: 42,
+            claim_id: "claim-1".into(),
+            expected_owner: "agent".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            now_unix_seconds: 2,
+            actor: "agent".into(),
+            reason: "begin implementation".into(),
+            purpose: "Implement the accepted issue contract".into(),
+            add_protected_paths: vec!["src".into(), "tests".into()],
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        transitioned.purpose,
+        "Implement the accepted issue contract"
+    );
+    assert!(transitioned.protected_paths.contains(&"src".into()));
+    let updated = store.load_record(42).unwrap();
+    assert_eq!(updated.audit.len(), before_audit + 1);
+    assert!(updated
+        .audit
+        .last()
+        .unwrap()
+        .operation
+        .contains("transition_active_claim"));
+    assert!(updated.audit.last().unwrap().operation.contains("test"));
+}
+
+#[test]
+fn active_claim_transition_rejects_stale_owner_without_any_write() {
+    let (_temp, store, mut record) = fixture();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+        ),
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Bound,
+            },
+        ),
+    )
+    .unwrap();
+    let before = std::fs::read(store.root().join(".csdlc/issues/42/index.json")).unwrap();
+    let error = csdlc_v2::transition_active_claim(
+        &store,
+        csdlc_v2::TransitionActiveClaimRequest {
+            issue: 42,
+            claim_id: "claim-1".into(),
+            expected_owner: "stale-owner".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: 2,
+            actor: "agent".into(),
+            reason: "begin implementation".into(),
+            purpose: "Implement the accepted issue contract".into(),
+            add_protected_paths: vec!["src".into()],
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::InvalidClaim);
+    assert_eq!(
+        std::fs::read(store.root().join(".csdlc/issues/42/index.json")).unwrap(),
+        before
+    );
+}
+
 fn git_branch(root: &std::path::Path) -> String {
     let output = std::process::Command::new("git")
         .current_dir(root)

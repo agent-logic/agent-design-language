@@ -33,8 +33,8 @@ pub use eligibility::{
 pub use error::{ErrorCode, Result, V2Error};
 pub use lifecycle::{
     amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, recover_claim,
-    release_closed_claim, AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest,
-    RecoverClaimRequest, ReleaseClosedClaimRequest,
+    release_closed_claim, transition_active_claim, AmendClaimScopeRequest, BindRequest, BindResult,
+    HeartbeatRequest, RecoverClaimRequest, ReleaseClosedClaimRequest, TransitionActiveClaimRequest,
 };
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,

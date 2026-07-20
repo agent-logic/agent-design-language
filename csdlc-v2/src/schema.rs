@@ -3,7 +3,7 @@ use serde_json::{json, Value};
 use crate::doctor::DoctorReport;
 use crate::lifecycle::{
     AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest, RecoverClaimRequest,
-    ReleaseClosedClaimRequest,
+    ReleaseClosedClaimRequest, TransitionActiveClaimRequest,
 };
 use crate::migration::{ImportReport, LegacyImportRequest, NormalizedOutcome, ShadowComparison};
 use crate::model::IssueRecord;
@@ -35,6 +35,7 @@ pub fn public_schema_bundle() -> Value {
         "recover_claim_request": schemars::schema_for!(RecoverClaimRequest),
         "release_closed_claim_request": schemars::schema_for!(ReleaseClosedClaimRequest),
         "amend_claim_scope_request": schemars::schema_for!(AmendClaimScopeRequest),
+        "transition_active_claim_request": schemars::schema_for!(TransitionActiveClaimRequest),
         "heartbeat_request": schemars::schema_for!(HeartbeatRequest),
         "issue_record": schemars::schema_for!(IssueRecord),
         "terminal_receipt": schemars::schema_for!(TerminalReceipt),
@@ -77,5 +78,6 @@ mod tests {
         assert!(bundle.get("heartbeat_request").is_some());
         assert!(bundle.get("terminal_plan_step_repair_request").is_some());
         assert!(bundle.get("terminal_sor_artifact_repair_request").is_some());
+        assert!(bundle.get("transition_active_claim_request").is_some());
     }
 }
