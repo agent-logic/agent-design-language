@@ -45,41 +45,45 @@ exact_revision!(accepted_revision, "acceptance")
 required = [5336, 5591, 5592, 5589, 5590, 5341, 5349, 5501]
 proofs = Array(data["dependency_proofs"])
 by_issue = proofs.to_h { |proof| [proof["issue"], proof] }
-missing = required.reject do |issue|
-  proof = by_issue[issue]
-  next false unless proof && proof["status"] == "integrated"
+if %w[all dependencies].include?(SECTION)
+  missing = required.reject do |issue|
+    proof = by_issue[issue]
+    next false unless proof && proof["status"] == "integrated"
 
-  retained_proof!(proof, "dependency ##{issue}", accepted_revision)
-  true
+    retained_proof!(proof, "dependency ##{issue}", accepted_revision)
+    true
+  end
+  abort("missing integrated dependency proof: #{missing.join(', ')}") unless missing.empty?
+
+  consumers = Array(data["consumer_proofs"])
+  %w[adl_v2 provider_tools multi_agent_workcell].each do |consumer|
+    proof = consumers.find { |entry| entry["consumer"] == consumer && entry["status"] == "passed" }
+    abort("missing consumer proof: #{consumer}") unless proof
+    retained_proof!(proof, "consumer #{consumer}", accepted_revision)
+  end
 end
-abort("missing integrated dependency proof: #{missing.join(', ')}") unless missing.empty?
 
-consumers = Array(data["consumer_proofs"])
-%w[adl_v2 provider_tools multi_agent_workcell].each do |consumer|
-  proof = consumers.find { |entry| entry["consumer"] == consumer && entry["status"] == "passed" }
-  abort("missing consumer proof: #{consumer}") unless proof
-  retained_proof!(proof, "consumer #{consumer}", accepted_revision)
-end
-
-surfaces = %w[
-  canonical_ingress checkpoint_replay_resume reasoning_graphs loops
-  affect_control adaptive_learning governed_operations secure_local_https
-  secure_remote_https observatory telemetry pressure_shutdown guardian rollback
-  recovery runtime_v2_independence address_configuration strict_lint test_count ci
-]
-proofs = Array(data["proofs"])
-surfaces.each do |surface|
-  proof = proofs.find { |entry| entry["surface"] == surface && entry["status"] == "passed" }
+surface_groups = {
+  "access" => %w[secure_local_https secure_remote_https observatory telemetry address_configuration],
+  "operations" => %w[canonical_ingress checkpoint_replay_resume pressure_shutdown guardian rollback recovery],
+  "quality" => %w[reasoning_graphs loops affect_control adaptive_learning governed_operations runtime_v2_independence strict_lint test_count ci]
+}
+operational_proofs = Array(data["proofs"])
+selected_surfaces = SECTION == "all" ? surface_groups.values.flatten : Array(surface_groups[SECTION])
+selected_surfaces.each do |surface|
+  proof = operational_proofs.find { |entry| entry["surface"] == surface && entry["status"] == "passed" }
   abort("missing operational proof: #{surface}") unless proof
   retained_proof!(proof, "surface #{surface}", accepted_revision)
 end
 
-non_claims = Array(data["non_claims"])
-%w[aws gpu remote_provider].each do |surface|
-  next if non_claims.any? { |entry| entry["surface"] == surface && entry["status"] == "not_claimed" }
-  next if proofs.any? { |proof| proof["surface"] == surface && proof["status"] == "passed" }
+if %w[all quality].include?(SECTION)
+  non_claims = Array(data["non_claims"])
+  %w[aws gpu remote_provider].each do |surface|
+    next if non_claims.any? { |entry| entry["surface"] == surface && entry["status"] == "not_claimed" }
+    next if operational_proofs.any? { |proof| proof["surface"] == surface && proof["status"] == "passed" }
 
-  abort("surface must be proven or retained as a non-claim: #{surface}")
+    abort("surface must be proven or retained as a non-claim: #{surface}")
+  end
 end
 
 case SECTION
