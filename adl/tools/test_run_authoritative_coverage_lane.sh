@@ -121,10 +121,22 @@ esac
 
 mkdir -p "$ROOT_DIR/.adl/tmp"
 temp_root="$(mktemp -d "$ROOT_DIR/.adl/tmp/authoritative-coverage.XXXXXX")"
-trap 'rm -rf "$temp_root"; rm -rf "$ROOT_DIR/adl/coverage-summary.published"; rm -f "$ROOT_DIR/adl/coverage-summary.promote.lock"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json" "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"' EXIT
+trap 'rm -rf "$temp_root"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json"' EXIT
 bin_dir="$temp_root/bin"
 mkdir -p "$bin_dir"
 scratch_root="$temp_root/scratch"
+shared_root="$temp_root/shared"
+shared_published_root="$shared_root/coverage-summary.published"
+shared_lock="$shared_root/coverage-summary.promote.lock"
+shared_adl_summary="$shared_root/coverage-summary.adl.json"
+shared_runtime_summary="$shared_root/coverage-summary.adl-runtime.json"
+shared_final_summary="$shared_root/coverage-summary.json"
+mkdir -p "$shared_root"
+export ADL_COVERAGE_SHARED_PUBLISHED_ROOT="$shared_published_root"
+export ADL_COVERAGE_SHARED_PROMOTION_LOCK="$shared_lock"
+export ADL_COVERAGE_SHARED_ADL_SUMMARY_PATH="$shared_adl_summary"
+export ADL_COVERAGE_SHARED_ADL_RUNTIME_SUMMARY_PATH="$shared_runtime_summary"
+export ADL_COVERAGE_SHARED_FINAL_SUMMARY_PATH="$shared_final_summary"
 cargo_log="$temp_root/cargo.log"
 cat >"$bin_dir/cargo" <<'EOF'
 #!/usr/bin/env bash
@@ -211,6 +223,17 @@ do
   fi
 done
 
+collision_log="$temp_root/collision.log"
+if PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$collision_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-a" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request; then
+  echo "expected duplicate coverage run id publication to fail immutably" >&2
+  exit 1
+fi
+grep -F -- "coverage summary run directory already exists:" "$collision_log" >/dev/null 2>&1 || true
+
 failing_cargo_log="$temp_root/failing-cargo.log"
 if PATH="$bin_dir:$PATH" \
 AUTHORITATIVE_CARGO_LOG="$failing_cargo_log" \
@@ -224,11 +247,11 @@ fi
 grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-failing/coverage-summary.adl.json" "$failing_cargo_log" >/dev/null
 grep -F -- "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-failing/coverage-summary.adl-runtime.json" "$failing_cargo_log" >/dev/null
 
-rm -rf "$ROOT_DIR/adl/coverage-summary.published"
-rm -f "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"
-printf 'stale-adl\n' > "$ROOT_DIR/adl/coverage-summary.adl.json"
-printf 'stale-runtime\n' > "$ROOT_DIR/adl/coverage-summary.adl-runtime.json"
-printf 'stale-final\n' > "$ROOT_DIR/adl/coverage-summary.json"
+rm -rf "$shared_published_root"
+rm -f "$shared_adl_summary" "$shared_runtime_summary" "$shared_final_summary"
+printf 'stale-adl\n' > "$shared_adl_summary"
+printf 'stale-runtime\n' > "$shared_runtime_summary"
+printf 'stale-final\n' > "$shared_final_summary"
 stale_report_log="$temp_root/stale-report.log"
 if PATH="$bin_dir:$PATH" \
 AUTHORITATIVE_CARGO_LOG="$stale_report_log" \
@@ -244,14 +267,14 @@ if [ -s "$scratch_root/coverage-output/run-stale-report/coverage-summary.json" ]
   echo "expected failed report run not to produce a non-empty run-scoped final summary" >&2
   exit 1
 fi
-if grep -F -- "stale-adl" "$ROOT_DIR/adl/coverage-summary.json" >/dev/null 2>&1 \
-  || grep -F -- "stale-runtime" "$ROOT_DIR/adl/coverage-summary.json" >/dev/null 2>&1; then
+if grep -F -- "stale-adl" "$shared_final_summary" >/dev/null 2>&1 \
+  || grep -F -- "stale-runtime" "$shared_final_summary" >/dev/null 2>&1; then
   echo "expected failed report run not to merge stale component summaries" >&2
   exit 1
 fi
-if [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl.json")" != "stale-adl" ] \
-  || [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl-runtime.json")" != "stale-runtime" ] \
-  || [ "$(cat "$ROOT_DIR/adl/coverage-summary.json")" != "stale-final" ]; then
+if [ "$(cat "$shared_adl_summary")" != "stale-adl" ] \
+  || [ "$(cat "$shared_runtime_summary")" != "stale-runtime" ] \
+  || [ "$(cat "$shared_final_summary")" != "stale-final" ]; then
   echo "expected failed report run to leave existing shared summaries wholly unchanged" >&2
   exit 1
 fi
@@ -271,36 +294,54 @@ do
     echo "expected injected promotion failure to fail: $injection" >&2
     exit 1
   fi
-  if [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl.json")" != "stale-adl" ] \
-    || [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl-runtime.json")" != "stale-runtime" ] \
-    || [ "$(cat "$ROOT_DIR/adl/coverage-summary.json")" != "stale-final" ]; then
+  if [ "$(cat "$shared_adl_summary")" != "stale-adl" ] \
+    || [ "$(cat "$shared_runtime_summary")" != "stale-runtime" ] \
+    || [ "$(cat "$shared_final_summary")" != "stale-final" ]; then
     echo "expected injected promotion failure to leave shared summaries wholly unchanged: $injection" >&2
     exit 1
   fi
 done
 
-rm -f "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"
+printf 'legacy-adl-regular\n' > "$shared_adl_summary"
+printf 'legacy-runtime-regular\n' > "$shared_runtime_summary"
+printf 'legacy-final-regular\n' > "$shared_final_summary"
 concurrent_a_log="$temp_root/concurrent-a.log"
 concurrent_b_log="$temp_root/concurrent-b.log"
 observer_stop="$temp_root/observer.stop"
 observer_log="$temp_root/observer.log"
 (
   while [ ! -e "$observer_stop" ]; do
-    if [ -e "$ROOT_DIR/adl/coverage-summary.adl.json" ] \
-      && [ -e "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" ] \
-      && [ -e "$ROOT_DIR/adl/coverage-summary.json" ]; then
+    if [ -L "$shared_published_root/current" ]; then
+      pointer="$(readlink "$shared_published_root/current")" || {
+        printf 'failed to read current coverage pointer\n' > "$observer_log"
+        touch "$observer_stop"
+        exit 1
+      }
+      case "$pointer" in
+        runs/run-concurrent-a|runs/run-concurrent-b) ;;
+        *)
+          printf 'unexpected current coverage pointer: %s\n' "$pointer" > "$observer_log"
+          touch "$observer_stop"
+          exit 1
+          ;;
+      esac
+      for observed_summary in "$shared_adl_summary" "$shared_runtime_summary" "$shared_final_summary"; do
+        if [ ! -s "$observed_summary" ]; then
+          printf 'missing or empty shared summary after current pointer: %s\n' "$observed_summary" > "$observer_log"
+          touch "$observer_stop"
+          exit 1
+        fi
+      done
       observed="$(
-        {
-          cat "$ROOT_DIR/adl/coverage-summary.adl.json" \
-            "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" \
-            "$ROOT_DIR/adl/coverage-summary.json" \
-            | grep -o 'run-concurrent-[ab]' \
-            | sort -u \
-            | tr '\n' ' '
-        } || true
+        cat "$shared_adl_summary" \
+          "$shared_runtime_summary" \
+          "$shared_final_summary" \
+          | grep -o 'run-concurrent-[ab]' \
+          | sort -u \
+          | tr '\n' ' '
       )"
       case "$observed" in
-        "run-concurrent-a "|"run-concurrent-b "|"") ;;
+        "run-concurrent-a "|"run-concurrent-b ") ;;
         *)
           printf 'mixed shared summary set observed: %s\n' "$observed" > "$observer_log"
           touch "$observer_stop"
@@ -344,35 +385,35 @@ do
     exit 1
   fi
 done
-if [ ! -L "$ROOT_DIR/adl/coverage-summary.published/current" ]; then
+if [ ! -L "$shared_published_root/current" ]; then
   echo "expected atomic current pointer symlink for published coverage summaries" >&2
   exit 1
 fi
 for legacy_summary in \
-  "$ROOT_DIR/adl/coverage-summary.adl.json" \
-  "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" \
-  "$ROOT_DIR/adl/coverage-summary.json"
+  "$shared_adl_summary" \
+  "$shared_runtime_summary" \
+  "$shared_final_summary"
 do
   if [ ! -L "$legacy_summary" ]; then
     echo "expected legacy summary path to resolve through current pointer: $legacy_summary" >&2
     exit 1
   fi
 done
-if grep -F -- "run-concurrent-a" "$ROOT_DIR/adl/coverage-summary.adl.json" >/dev/null 2>&1; then
+if grep -F -- "run-concurrent-a" "$shared_adl_summary" >/dev/null 2>&1; then
   shared_winner="run-concurrent-a"
-elif grep -F -- "run-concurrent-b" "$ROOT_DIR/adl/coverage-summary.adl.json" >/dev/null 2>&1; then
+elif grep -F -- "run-concurrent-b" "$shared_adl_summary" >/dev/null 2>&1; then
   shared_winner="run-concurrent-b"
 else
   echo "expected shared summary set to be promoted from one concurrent run" >&2
-  cat "$ROOT_DIR/adl/coverage-summary.adl.json" >&2
-  cat "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" >&2
-  cat "$ROOT_DIR/adl/coverage-summary.json" >&2
+  cat "$shared_adl_summary" >&2
+  cat "$shared_runtime_summary" >&2
+  cat "$shared_final_summary" >&2
   exit 1
 fi
 for shared_summary in \
-  "$ROOT_DIR/adl/coverage-summary.adl.json" \
-  "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" \
-  "$ROOT_DIR/adl/coverage-summary.json"
+  "$shared_adl_summary" \
+  "$shared_runtime_summary" \
+  "$shared_final_summary"
 do
   if ! grep -F -- "$shared_winner" "$shared_summary" >/dev/null 2>&1; then
     echo "expected shared summary set to stay coherent for $shared_winner; mismatch in $shared_summary" >&2

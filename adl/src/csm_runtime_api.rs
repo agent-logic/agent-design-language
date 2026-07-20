@@ -1350,6 +1350,7 @@ fn is_secret_response_key(key: &str) -> bool {
     let lowered = key.to_ascii_lowercase();
     lowered == "secret"
         || lowered.ends_with("_secret")
+        || lowered == "secret_material"
         || lowered == "token"
         || lowered.ends_with("_token")
         || lowered == "authorization"
@@ -1389,14 +1390,15 @@ fn contains_cloud_account_identifier(raw: &str) -> bool {
 }
 
 fn looks_like_host_private_path(raw: &str) -> bool {
+    let lowered = raw.to_ascii_lowercase();
     raw.contains("/Users/")
         || raw.contains("/home/")
         || raw.contains("/private/")
         || raw.contains("/var/folders/")
         || raw.contains("/Volumes/")
         || raw.contains("/tmp/")
-        || raw.contains("\\Users\\")
-        || raw.contains(":\\Users\\")
+        || lowered.contains("\\users\\")
+        || lowered.contains(":\\users\\")
 }
 
 fn file_ref_status(path: &Path, reference: &str) -> Value {
@@ -4136,6 +4138,10 @@ memory: {}
             sanitize_string(r"failed opening C:\Users\daniel\secret"),
             "[redacted]"
         );
+        assert_eq!(
+            sanitize_string(r"failed opening c:\users\daniel\secret"),
+            "[redacted]"
+        );
     }
 
     #[test]
@@ -4155,6 +4161,9 @@ memory: {}
         let secret_like = json!({"api_key": "not-even-secret-looking"});
         assert_api_response_redacted(&secret_like)
             .expect_err("secret-key fields must redact arbitrary values");
+        let secret_material_like = json!({"secret_material": "not_returned"});
+        assert_api_response_redacted(&secret_material_like)
+            .expect_err("secret_material fields must redact arbitrary values");
     }
 
     #[tokio::test]

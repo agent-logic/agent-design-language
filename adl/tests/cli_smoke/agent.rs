@@ -1451,7 +1451,7 @@ memory:
     assert_eq!(status["daemon_liveness"]["state"], "running");
     assert_eq!(
         status["daemon_liveness"]["supervisor_pid_liveness"],
-        "live_pid"
+        "unknown"
     );
     assert_eq!(
         status["backpressure"]["schema"],

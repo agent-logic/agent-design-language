@@ -1,5 +1,6 @@
 use super::*;
 use crate::model_identity::{ModelIdentityStrengthV1, ModelIdentityV1};
+use crate::provider::is_retryable_error;
 use crate::provider_substrate::{
     CapabilityModeV1, CapabilitySupportV1, ProviderCapabilitiesV1, ProviderInvocationTargetV1,
     ProviderTransportV1,
@@ -1658,6 +1659,14 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
             .to_string()
             .contains("partial_success_unknown_invocation_record_lock_unavailable"),
         "timeout should be classified as non-retryable partial-success-unknown: {timeout_err}"
+    );
+    assert!(
+        timeout_err.to_string().contains("timed out"),
+        "timeout cause should remain visible: {timeout_err}"
+    );
+    assert!(
+        !is_retryable_error(&timeout_err),
+        "invocation artifact lock timeout after provider completion must be non-retryable"
     );
     drop(held_lock);
 

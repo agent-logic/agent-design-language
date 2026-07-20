@@ -4,11 +4,11 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ADL_DIR="$ROOT_DIR/adl"
 ADL_RUNTIME_MANIFEST="$ROOT_DIR/adl-runtime/Cargo.toml"
-SHARED_ADL_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl.json"
-SHARED_ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl-runtime.json"
-SHARED_FINAL_SUMMARY_PATH="$ADL_DIR/coverage-summary.json"
-SHARED_SUMMARY_PROMOTION_LOCK="$ADL_DIR/coverage-summary.promote.lock"
-SHARED_SUMMARY_PUBLISHED_ROOT="$ADL_DIR/coverage-summary.published"
+SHARED_ADL_SUMMARY_PATH="${ADL_COVERAGE_SHARED_ADL_SUMMARY_PATH:-$ADL_DIR/coverage-summary.adl.json}"
+SHARED_ADL_RUNTIME_SUMMARY_PATH="${ADL_COVERAGE_SHARED_ADL_RUNTIME_SUMMARY_PATH:-$ADL_DIR/coverage-summary.adl-runtime.json}"
+SHARED_FINAL_SUMMARY_PATH="${ADL_COVERAGE_SHARED_FINAL_SUMMARY_PATH:-$ADL_DIR/coverage-summary.json}"
+SHARED_SUMMARY_PROMOTION_LOCK="${ADL_COVERAGE_SHARED_PROMOTION_LOCK:-$ADL_DIR/coverage-summary.promote.lock}"
+SHARED_SUMMARY_PUBLISHED_ROOT="${ADL_COVERAGE_SHARED_PUBLISHED_ROOT:-$ADL_DIR/coverage-summary.published}"
 SHARED_SUMMARY_RUNS_ROOT="$SHARED_SUMMARY_PUBLISHED_ROOT/runs"
 SHARED_SUMMARY_CURRENT_LINK="$SHARED_SUMMARY_PUBLISHED_ROOT/current"
 PRINT_PLAN=false
@@ -31,7 +31,7 @@ TEST_THREADS="${ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS:-${ADL_COVERAGE_TEST_THR
 PARTITION_COUNT="${ADL_AUTHORITATIVE_COVERAGE_PARTITIONS:-2}"
 DEFAULT_SKIP_PATTERNS="real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup"
 SKIP_PATTERNS_RAW="${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERNS:-${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN:-$DEFAULT_SKIP_PATTERNS}}"
-COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-$$}"
+COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-${GITHUB_RUN_ATTEMPT:-0}-$$}"
 IFS=',' read -r -a SKIP_PATTERNS <<< "$SKIP_PATTERNS_RAW"
 
 usage() {
@@ -321,9 +321,19 @@ install_legacy_summary_symlink() {
   local dest="$1"
   local basename="${dest##*/}"
   local link_tmp="${dest}.${COVERAGE_RUN_ID}.link.tmp"
+  local link_target="${SHARED_SUMMARY_CURRENT_LINK}/$basename"
+  if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$link_target" ]; then
+    return 0
+  fi
   rm -f "$link_tmp" || return "$?"
-  ln -s "coverage-summary.published/current/$basename" "$link_tmp" || return "$?"
+  ln -s "$link_target" "$link_tmp" || return "$?"
   mv -f "$link_tmp" "$dest" || return "$?"
+}
+
+atomic_replace_path() {
+  local source="$1"
+  local dest="$2"
+  perl -e 'rename $ARGV[0], $ARGV[1] or die "$!: $ARGV[0] -> $ARGV[1]\n"' "$source" "$dest"
 }
 
 promote_current_run_summaries() {
@@ -368,13 +378,13 @@ promote_current_run_summaries() {
     rm -rf "$tmp" || true
     return 42
   fi
-  rm -rf "$run_dir" || {
-    local status=$?
+  if [ -e "$run_dir" ]; then
+    echo "coverage summary run directory already exists: $run_dir" >&2
     release_promotion_lock
     trap - EXIT
     rm -rf "$tmp" || true
-    return "$status"
-  }
+    return 44
+  fi
   mv "$tmp" "$run_dir" || {
     local status=$?
     release_promotion_lock
@@ -401,24 +411,11 @@ promote_current_run_summaries() {
     trap - EXIT
     return 43
   fi
-  rm -f "$SHARED_SUMMARY_CURRENT_LINK" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    rm -f "$link_tmp" || true
-    return "$status"
-  }
-  mv "$link_tmp" "$SHARED_SUMMARY_CURRENT_LINK" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    rm -f "$link_tmp" || true
-    return "$status"
-  }
   install_legacy_summary_symlink "$SHARED_ADL_SUMMARY_PATH" || {
     local status=$?
     release_promotion_lock
     trap - EXIT
+    rm -f "$link_tmp" || true
     return "$status"
   }
   if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
@@ -426,6 +423,7 @@ promote_current_run_summaries() {
       local status=$?
       release_promotion_lock
       trap - EXIT
+      rm -f "$link_tmp" || true
       return "$status"
     }
   fi
@@ -433,6 +431,14 @@ promote_current_run_summaries() {
     local status=$?
     release_promotion_lock
     trap - EXIT
+    rm -f "$link_tmp" || true
+    return "$status"
+  }
+  atomic_replace_path "$link_tmp" "$SHARED_SUMMARY_CURRENT_LINK" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    rm -f "$link_tmp" || true
     return "$status"
   }
   release_promotion_lock
