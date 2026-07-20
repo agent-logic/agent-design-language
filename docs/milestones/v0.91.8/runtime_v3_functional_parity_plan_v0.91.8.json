@@ -13,7 +13,11 @@
     "runtime_budget_status": "reviewed_exception_required",
     "runtime_physical_lines": 12209,
     "challenge_target": 10000,
-    "exception_ceiling": 20000
+    "reviewed_target": 12000,
+    "exception_lines": 209,
+    "exception_ceiling": 20000,
+    "test_count": 189,
+    "test_ceiling_exclusive": 1000
   },
   "live_credit_requires": [
     "initialized_process",

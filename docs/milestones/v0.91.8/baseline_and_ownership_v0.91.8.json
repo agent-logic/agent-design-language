@@ -16,12 +16,16 @@
   "deletion_minimum_percent": 80,
   "architecture_ownership_status": "closed_at_product_and_source_root_boundaries",
   "deletion_denominator_status": "pending_file_level_replacement_classification",
-  "runtime_budget_status": "pending_reproducible_implementation_and_test_classification",
+  "runtime_budget_status": "reviewed_exception_required",
   "runtime_owner_report": {
     "command": ["bash", "adl/tools/report_runtime_v3_loc.sh"],
     "physical_lines": 12209,
     "challenge_target": 10000,
+    "reviewed_target": 12000,
+    "exception_lines": 209,
     "exception_ceiling": 20000,
+    "test_count": 189,
+    "test_ceiling_exclusive": 1000,
     "disposition": "reviewed_exception_required"
   },
   "cutover_authorized": false,

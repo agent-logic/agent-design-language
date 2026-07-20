@@ -48,9 +48,14 @@ denominator is the sum of only those baseline rows or files later classified
 as replaced and deletion-eligible. Runtime v3 source and test ceilings require
 a separate reproducible implementation/test classification. The current owner
 report, `bash adl/tools/report_runtime_v3_loc.sh`, observes 12,209 physical
-lines under `adl-runtime-kernel/src`: above its 10,000 challenge target, below
-its 20,000 exception ceiling, and therefore `reviewed_exception_required`.
-This packet does not silently convert that exception posture into a new target.
+lines under `adl-runtime-kernel/src`: above its 10,000 challenge target and
+12,000 reviewed target by 209 lines, below its 20,000 exception ceiling, and
+therefore `reviewed_exception_required`. It also observes 189 Rust test
+functions, below the exclusive 1,000-test ceiling. This packet does not
+silently convert the 209-line exception posture into a new target. Parity work
+must offset growth through duplicate or placeholder deletion or obtain a later
+bounded reviewed exception; budget compliance cannot remove, defer, or weaken
+required live parity, negative-case, continuity, or feature-preservation proof.
 
 Machine-readable parity is retained in
 [`baseline_and_ownership_v0.91.8.json`](baseline_and_ownership_v0.91.8.json).

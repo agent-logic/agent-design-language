@@ -23,11 +23,14 @@ v0.91.8 must close that gap before selector cutover or Runtime v2 deletion.
   or explicitly owned outside Runtime v3; duplicate implementations are then
   deleted.
 - #5336 pins the exact source trees, measurement rule, and ownership boundary
-  in `BASELINE_AND_OWNERSHIP_v0.91.8.md`. A deletion denominator or Runtime v3
-  source/test ceiling is not valid until file roles and implementation/test
-  classifications are reproducibly separated.
+  in `BASELINE_AND_OWNERSHIP_v0.91.8.md`. The pinned owner report measures
+  12,209 physical source lines and 189 Rust test functions. The source posture
+  is a bounded 209-line exception above the 12,000 reviewed target, while the
+  10,000-line challenge remains active and the exclusive 1,000-test ceiling
+  passes. The exception does not authorize feature or proof reduction.
 - Feature work must pay for growth by removing duplicate, placeholder, or
-  degraded code. Four lanes must not produce four new frameworks.
+  degraded code, or obtain a later bounded reviewed exception. Four lanes must
+  not produce four new frameworks.
 
 ## What Counts As Live
 
