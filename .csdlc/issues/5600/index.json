@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "3ae6b3da62837ab6d87712df8ea994ae3b45326d8d7c30263f77b19581d9a1b2",
+  "generation": 10,
+  "digest": "4c126e03839648078d2dcdc42b1a5d4d820e74b8c70e1e23056cf512d2818291",
   "claim": {
     "id": "claim-5600-complete-typed-replanning",
     "owner": "codex:issue-5600",
-    "generation": 9,
+    "generation": 10,
     "acquired_unix_seconds": 1784577719,
     "expires_unix_seconds": 1785182519,
     "heartbeat_unix_seconds": 1784577719,
@@ -107,34 +107,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2f43fa64b28f589722ae4d7995f23ef20366bef4d0b47c073bba526533da6ff9",
+      "values_digest": "45c6a66f98b3803c12384c56f55ba4aceed9b87bb91891a3f6b875bcfc9a15b9",
       "rendered_digest": "72d0d26c0a9fca3d92978776997764195776dec41db6d10b05d5838413e2766d",
       "ast_digest": "c130e7367e81abdf59c746c02c1aff2a1b4c2ab16d2eb3f964968a192705a706"
     },
     "stp": {
-      "values_digest": "23ffb78aceaadf4fc4203252680473ed1dab3d17b4e66766e4c9a7837c2ce320",
+      "values_digest": "60e089f4eb3f22c1f52611f65e10b0fd5f5669a95aa42bd79e1a504d3fba5d89",
       "rendered_digest": "0599c33ab3b2da3edd9ba1f4209e8243606a2cac4f94ab01c9a47d075bc36176",
       "ast_digest": "912c0dc482169557913062368c098b68c8757642261ee56bb60db7bb46dfdd4f"
     },
     "spp": {
-      "values_digest": "49c5366b34bb857d7196725f7be7894c28d86946a726a33883a20e7339fd4f75",
+      "values_digest": "6261f707e93c036371b6c45b709532adb49749979f1b22fe507eb8e26f8549ae",
       "rendered_digest": "642a19e5495f730b097167f7d8c47c64c7f9955838675357855b82ad1112ff9a",
       "ast_digest": "54712938f40efa02c44ff3b9bd29dedf4cba4c34e45726cc88c9a30297aca759"
     },
     "vpp": {
-      "values_digest": "24dda0d2661869615d44112b9927b0cfe22513833b0c82a596d73d9756bc5f81",
+      "values_digest": "ffa9a914da008a968c3dcc3c565be9d8b4b9228850b86d0ac0fdb990a80f2475",
       "rendered_digest": "1cdf94b67e2d968d60bce38010fed88b468f4d9450817305fb1c719bc18e5ed5",
       "ast_digest": "4efaa52bb7bf1a11d75221f41c303e44701f701a6049424648a1c444551446e9"
     },
     "srp": {
-      "values_digest": "5efeb9705340271062e1ee4c07407a1279d8a4e92ce9e81447f3a96167866a9e",
+      "values_digest": "6ab1fb2efcb421966d7adb812f7d079c24c1ab747bbfaf8110d108fdb75fb54d",
       "rendered_digest": "69d67d7ec9dbf972fbfee6a1646d6da7ec378bff066c15d4441e689875979db1",
       "ast_digest": "2ac5f735173e1470ffd7f989d9ef7540584e461550f4ef0bcc4e916aeabe013f"
     },
     "sor": {
-      "values_digest": "6a696243a8ff51ec4fbcd726ade75db65e38bbce35373d05327758e4196fe30f",
-      "rendered_digest": "7d2d59ce5da8864e986548d41befdf9d7c6c3f22949de9b7aeddf967d36ec3f0",
-      "ast_digest": "5aeb23d215d468c5eef35a58350db328c2a1046f8d5f887cf4a65a980eecf092"
+      "values_digest": "3006765f318735ad05a08e12fa51b5b4ba4455df8567a0ffba6baba318300501",
+      "rendered_digest": "f4399b8b7d02b924a038e3525b69258de6d619198955cd32e185867400a01c70",
+      "ast_digest": "9aec8187c86ce947b35b0aeb6a979a1d913b472fe57eea4a7edd918a98fedbe6"
     }
   },
   "transitions": [
@@ -244,6 +244,13 @@
       "actor": "codex:issue-5600",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:issue-5600",
+      "reason": "Record complete post-review remediation validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5600/validate-local.json\"],\"purpose\":\"Prove all four review remediations at clean revision b5c35f010 with focused tests, every target, formatting, strict Clippy, and typed doctor.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5600/local contains a local_pass five-lane proof: focused gate2 41/41, all C-SDLC v2 targets, cargo fmt --check, strict all-target Clippy, and typed doctor all passed; no lane was deferred.\"}}"
     }
   ]
 }

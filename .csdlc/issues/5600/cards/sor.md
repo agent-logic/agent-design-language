@@ -39,6 +39,16 @@ Implemented complete typed preparation-to-implementation collection replanning w
     "purpose": "Prove focused replanning behavior, all-target compatibility, formatting, strict Clippy, and typed doctor at f85b684ee32a3c54b728bd1d7578d4f227a3b7d3.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5600/local contains a local_pass five-lane proof: focused gate2 41/41, all C-SDLC v2 targets, cargo fmt --check, strict all-target Clippy, and typed doctor all passed; no lane was deferred."
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5600/validate-local.json"
+    ],
+    "purpose": "Prove all four review remediations at clean revision b5c35f010 with focused tests, every target, formatting, strict Clippy, and typed doctor.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5600/local contains a local_pass five-lane proof: focused gate2 41/41, all C-SDLC v2 targets, cargo fmt --check, strict all-target Clippy, and typed doctor all passed; no lane was deferred."
   }
 ]
 
