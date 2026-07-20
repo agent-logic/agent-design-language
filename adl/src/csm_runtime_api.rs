@@ -384,7 +384,7 @@ fn runtime_api_response_with_identity(
 ) -> Result<Value> {
     let loaded = load_spec(&options.spec_path)?;
     let endpoint = path.split('?').next().unwrap_or(path);
-    match endpoint {
+    let response = match endpoint {
         "/" | "/status" => status_response(&loaded, options),
         "/health" => health_response(&loaded, options),
         "/ready" => ready_response(&loaded, options),
@@ -406,7 +406,8 @@ fn runtime_api_response_with_identity(
             "endpoint": other,
             "supported_endpoints": CSM_RUNTIME_API_ENDPOINTS
         })),
-    }
+    }?;
+    finalize_api_response(response)
 }
 
 fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -563,8 +564,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
     if !readiness_blockers(&response).is_empty() {
         response["ready"] = json!("not_ready");
     }
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn persistence_response(loaded: &LoadedAgentSpec) -> Result<Value> {
@@ -585,8 +585,7 @@ fn persistence_response(loaded: &LoadedAgentSpec) -> Result<Value> {
         || LifelogStore::open(&loaded.state_root).and_then(|store| store.health()),
     );
     let response = adl_runtime::runtime_api::persistence_health(checkpoint, lifelog);
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn domain_health<F>(
@@ -641,8 +640,7 @@ fn curiosity_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) 
         "runtime_api_path": "/curiosity",
         "component": status["curiosity_engine"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn freedom_gate_response(
@@ -657,8 +655,7 @@ fn freedom_gate_response(
         "runtime_api_path": "/freedom-gate",
         "component": status["freedom_gate"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn reasoning_response(loaded: &LoadedAgentSpec) -> Result<Value> {
@@ -669,8 +666,7 @@ fn reasoning_response(loaded: &LoadedAgentSpec) -> Result<Value> {
         "runtime_api_path": "/reasoning",
         "component": reasoning_api_status(loaded)
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn cav_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -682,8 +678,7 @@ fn cav_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Res
         "runtime_api_path": "/cav",
         "component": status["cav"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn shepherd_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -695,8 +690,7 @@ fn shepherd_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -
         "runtime_api_path": "/shepherd",
         "component": status["polis_shepherd_agent"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn acip_response(
@@ -725,8 +719,7 @@ fn acip_response(
             "activation_policy": "fail_closed_until_runtime_upgrade_handler_is_integrated"
         }
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn constructability_response(
@@ -741,8 +734,7 @@ fn constructability_response(
         "runtime_api_path": "/constructability",
         "component": status["constructability_gate"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn chronosense_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -780,8 +772,7 @@ fn chronosense_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions
             "reference_frames": ["utc_epoch_millis", "local_civil_time", "runtime_lifetime", "runtime_monotonic_elapsed"]
         }
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn api_gateway_bridge_response(
@@ -833,8 +824,7 @@ fn api_gateway_bridge_response(
             "cloud_account_identifiers": "not_returned"
         }
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn health_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -849,8 +839,7 @@ fn health_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "backpressure": status["backpressure"],
         "otel": status["otel"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn ready_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -868,8 +857,7 @@ fn ready_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> R
         "ready": ready,
         "blocking_reasons": blocking_reasons
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -923,8 +911,7 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
             "storage_pressure": backpressure_state.pointer("/value/storage_pressure/state").cloned().unwrap_or(Value::Null)
         }
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn events_response(loaded: &LoadedAgentSpec) -> Result<Value> {
@@ -935,8 +922,7 @@ fn events_response(loaded: &LoadedAgentSpec) -> Result<Value> {
         "agent_instance_id": loaded.spec.agent_instance_id,
         "events": events
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn curiosity_api_status(
@@ -2395,6 +2381,32 @@ fn is_approved_loopback_browser_origin(origin: &str) -> bool {
 }
 
 pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
+    fn visit_strings(value: &Value) -> Result<()> {
+        match value {
+            Value::String(raw) => {
+                if contains_cloud_account_identifier(raw) || looks_like_host_private_path(raw) {
+                    return Err(anyhow!(
+                        "CSM runtime API response leaked sensitive string value"
+                    ));
+                }
+                Ok(())
+            }
+            Value::Array(values) => {
+                for value in values {
+                    visit_strings(value)?;
+                }
+                Ok(())
+            }
+            Value::Object(map) => {
+                for value in map.values() {
+                    visit_strings(value)?;
+                }
+                Ok(())
+            }
+            _ => Ok(()),
+        }
+    }
+    visit_strings(value)?;
     let raw = serde_json::to_string(value)?;
     for forbidden in [
         "/Users/",
@@ -2404,6 +2416,8 @@ pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
         "/Volumes/",
         "/tmp/",
         "\\Users\\",
+        "\\\\Users\\\\",
+        ":\\\\Users\\\\",
         "Authorization:",
         "Bearer ",
         "arn:aws:",
@@ -2415,6 +2429,31 @@ pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
         }
     }
     Ok(())
+}
+
+fn finalize_api_response(mut response: Value) -> Result<Value> {
+    sanitize_api_response_value(&mut response);
+    assert_api_response_redacted(&response)?;
+    Ok(response)
+}
+
+fn sanitize_api_response_value(value: &mut Value) {
+    match value {
+        Value::String(raw) => {
+            *raw = sanitize_string(raw);
+        }
+        Value::Array(values) => {
+            for value in values {
+                sanitize_api_response_value(value);
+            }
+        }
+        Value::Object(map) => {
+            for value in map.values_mut() {
+                sanitize_api_response_value(value);
+            }
+        }
+        _ => {}
+    }
 }
 
 #[cfg(test)]
@@ -4041,6 +4080,74 @@ memory: {}
             sanitize_string(r"failed opening C:\Users\daniel\secret"),
             "[redacted]"
         );
+    }
+
+    #[test]
+    fn runtime_api_redacts_spec_derived_account_ids_and_windows_paths() {
+        let account_root = temp_root("spec-account-redaction");
+        let account_spec = account_root.join("agent.yaml");
+        fs::write(
+            &account_spec,
+            r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: "123456789012"
+display_name: API Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+heartbeat:
+  interval_secs: 1
+safety: {}
+memory: {}
+"#,
+        )
+        .unwrap();
+        let account_options = CsmRuntimeApiOptions {
+            spec_path: account_spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let account_response = runtime_api_response(&account_options, "/status").unwrap();
+        let account_raw = serde_json::to_string(&account_response).unwrap();
+        assert!(!account_raw.contains("123456789012"));
+        assert_eq!(account_response["agent_instance_id"], "[redacted]");
+        assert_api_response_redacted(&account_response).unwrap();
+
+        let windows_root = temp_root("spec-windows-redaction");
+        let windows_spec = windows_root.join("agent.yaml");
+        fs::write(
+            &windows_spec,
+            r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: "C:\\Users\\daniel\\agent"
+display_name: API Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+heartbeat:
+  interval_secs: 1
+safety: {}
+memory: {}
+"#,
+        )
+        .unwrap();
+        let windows_options = CsmRuntimeApiOptions {
+            spec_path: windows_spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let windows_response = runtime_api_response(&windows_options, "/ready").unwrap();
+        let windows_raw = serde_json::to_string(&windows_response).unwrap();
+        assert!(!windows_raw.contains("C:\\\\Users\\\\daniel"));
+        assert!(!windows_raw.contains("\\\\\\\\Users\\\\\\\\"));
+        assert_eq!(windows_response["agent_instance_id"], "[redacted]");
+        assert_api_response_redacted(&windows_response).unwrap();
     }
 
     #[test]

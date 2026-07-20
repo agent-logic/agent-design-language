@@ -6,14 +6,14 @@ Issue: #4647
 
 Source register: `docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md`
 
-Exact retained verification artifact:
+Retained historical finding-validation input:
 `docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md`
 
 ## Disposition Matrix
 
 | Finding | Disposition | Remediation / Evidence |
 | --- | --- | --- |
-| WP19-01 | fixed | `adl/tools/run_authoritative_coverage_lane.sh` rejects dot-component run ids, isolates `CARGO_LLVM_COV_TARGET_DIR` plus component/final summary output by run id, atomically promotes only current-run summaries, and removes failed final output before promotion. `adl/tools/test_run_authoritative_coverage_lane.sh` proves sibling profile survival, concurrent run-scoped summaries, and stale shared-summary non-reuse on report failure. |
+| WP19-01 | fixed | `adl/tools/run_authoritative_coverage_lane.sh` rejects dot-component run ids, isolates `CARGO_LLVM_COV_TARGET_DIR` plus component/final summary output by run id, and promotes the legacy shared component/final summaries only after all reports and merge/copy succeed under one promotion lock. `adl/tools/test_run_authoritative_coverage_lane.sh` proves sibling profile survival, concurrent run-scoped summaries, coherent shared-set promotion with distinguishable payloads, and failed-report non-promotion that leaves seeded shared state wholly unchanged. |
 | WP19-02 | fixed | `AwsBedrockProvider` now requires `ADL_AWS_BEDROCK_ACCOUNT_SHA256` or `config.expected_account_sha256`, treats the operator env pin as authoritative with fail-closed config conflict detection, compares the selected expected hash to the STS account hash before invocation, and records `account_hash_verified` instead of false `sts_verified`. |
 | WP19-03 | fixed | Runtime API auth-event write failures now return `500 Internal Server Error` instead of being discarded; `runtime_api_auth_event_write_failure_fails_closed` proves the policy. |
 | WP19-04 | fixed | Runtime API redaction now includes common secret keys (`api_key`, `password`, `private_key`, `access_key`) plus cloud/account-id key variants; the redaction regression checks arbitrary secret marker values and account identifiers are absent. |
@@ -22,13 +22,13 @@ Exact retained verification artifact:
 | WP19-07 | fixed | The #5571 audit remains historical. Current replacement dispatch authority is `external_review_4646/REVIEW_CORPUS.v1.txt` plus `PUBLICATION_SAFE_MANIFEST.md`, which limits publication to the replacement corpus. |
 | WP19-08 | fixed | Provider endpoint validation parses IPv4/IPv6 loopback hosts with `IpAddr::is_loopback`; bracketed `[::1]` bearer endpoint coverage was added to `http_family` tests. |
 | WP19-09 | fixed | `V0917_SPRINT_REVIEW_REGISTER.md` no longer directs operators to resolve already-closed #5406 and now consumes the closed terminal evidence. |
-| WP19-10 | fixed | Provider invocation artifact locks now write tokenized lease metadata, recover stale directories through atomic rename-based reclamation, check owner tokens before `Drop` cleanup, and classify post-provider lock acquisition failure as non-retryable partial-success to avoid duplicate billable retries. The provider test covers concurrent stale-lock contenders and replacement-owner drop safety. |
+| WP19-10 | fixed | Provider invocation artifact locks now use the existing `fs2` OS advisory exclusive file-lock primitive instead of custom stale-directory reclamation. The OS releases the lock on process exit, removing the stale-lock reclaim/drop TOCTOU path while preserving atomic artifact writes and non-retryable partial-success classification when post-provider lock acquisition fails. The provider test stress-checks repeated concurrent lock contention and mutual exclusion. |
 | WP19-11 | fixed | `adl/src/provider/http_family.rs` maps to the `provider_hardening` coverage-impact lane with a regression in `test_check_coverage_impact.sh`. |
 | WP19-12 | fixed | The v0.91.8 review handoff digest procedure now hashes sorted tracked object records and a normalized handoff record that replaces only the mutable digest cell, avoiding self-inclusion of the digest-bearing document. |
 | WP19-13 | fixed | `WP_ISSUE_WAVE_v0.91.7.yaml` now records WP-21A as closed in both summary and detail truth; YAML parse passed. |
-| WP19-14 | fixed | `resolve_main_runtime_api_listener` parses and rejects non-loopback binds before `TcpListener::bind`; `validate_loopback_bind` remains as post-bind defense. Added `main_runtime_api_rejects_non_loopback_bind_before_listener_creation` as direct pre-bind negative proof. |
-| WP19-15 | fixed | Authenticated GET now computes one identity-aware runtime API response through `runtime_api_get_response`; the admission header is derived from the same loaded response body when shutdown state is present, avoiding incoherent double snapshots. |
-| WP19-16 | fixed | `exact_pid_is_live` still distinguishes missing PIDs as stale, while `daemon_supervisor_pid_liveness` reports existing but unauthenticated PIDs as `unknown` unless a future start-identity proof is available. The focused test uses the current process PID to prove no live claim is made from PID existence alone. |
+| WP19-14 | fixed | `resolve_main_runtime_api_listener` parses and rejects non-loopback binds before `TcpListener::bind`; `validate_loopback_bind` remains as post-bind defense. Added `main_runtime_api_rejects_non_loopback_bind_before_listener_creation` as direct production-order negative proof for the resolver path. |
+| WP19-15 | fixed | Authenticated GET now computes one identity-aware runtime API response through `runtime_api_get_response`; the admission header is derived from the same loaded response body when shutdown state is present, avoiding incoherent double snapshots. `runtime_api_get_admission_header_matches_loaded_shutdown_body` proves the header/body coherence. |
+| WP19-16 | fixed | `exact_pid_is_live` still distinguishes missing PIDs as stale, while `daemon_supervisor_pid_liveness` reports existing but unauthenticated PIDs as `unknown` unless a future start-identity proof is available. `runtime_api_reports_existing_pid_without_start_identity_as_unknown` uses the current process PID to prove no live claim is made from PID existence alone. |
 | WP19-17 | fixed | Unauthenticated OPTIONS responses return before `record_request` and omit `x-csm-admission`, so they no longer consume bounded shutdown/test request budget or disclose admission state. |
 | WP19-18 | fixed | `emit_runtime_api_client_error` now routes through the existing sanitizer before separator masking, and the sanitizer covers `/Users`, `/home`, `/private`, `/var/folders`, `/Volumes`, `/tmp`, and Windows user-path forms. |
 | WP19-19 | fixed | `runtime_api_axum_response` forces HTTP 500 when serialization fallback is used. |
@@ -46,7 +46,11 @@ Exact retained verification artifact:
 - `cargo test -p adl provider::local::tests::ollama_streaming_buffers_split_multibyte_utf8 -- --nocapture`
 - `cargo test -p adl csm_runtime_api::tests::runtime_api_options_does_not_consume_test_request_budget -- --nocapture`
 - `cargo test -p adl csm_runtime_api::tests::runtime_api_redacts_secret_and_host_path_event_payloads -- --nocapture`
+- `cargo test -p adl csm_runtime_api::tests::runtime_api_redacts_spec_derived_account_ids_and_windows_paths -- --nocapture`
+- `cargo test -p adl csm_runtime_api::tests::runtime_api_get_admission_header_matches_loaded_shutdown_body -- --nocapture`
+- `cargo test -p adl csm_runtime_api::tests::runtime_api_reports_existing_pid_without_start_identity_as_unknown -- --nocapture`
 - `cargo test -p adl csm_runtime_api::tests::runtime_api_auth_event_write_failure_fails_closed -- --nocapture`
+- `cargo test -p adl csm_networking::tests::main_runtime_api_rejects_non_loopback_bind_before_listener_creation -- --nocapture`
 - `ruby -e 'require "yaml"; require "date"; YAML.safe_load(File.read("docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml"), permitted_classes: [Date], aliases: true); puts "yaml-ok"'`
 
 ## Non-Claims

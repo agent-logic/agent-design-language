@@ -5,7 +5,9 @@ use super::*;
 use aws_config::{meta::region::RegionProviderChain, BehaviorVersion};
 use aws_sdk_bedrockruntime as bedrockruntime;
 use aws_sdk_sts as sts;
+use fs2::FileExt;
 use sha2::{Digest, Sha256};
+use std::fs::{File, OpenOptions};
 use std::thread;
 use std::time::Duration;
 
@@ -18,20 +20,10 @@ use config::{
 pub(crate) use config::{cfg_u64, timeout_secs};
 
 struct InvocationArtifactLock {
-    path: PathBuf,
-    token: String,
+    _file: File,
 }
 
-const INVOCATION_ARTIFACT_LOCK_STALE_AFTER: Duration = Duration::from_secs(600);
-const INVOCATION_ARTIFACT_LOCK_STALE_AFTER_ENV: &str = "ADL_INVOCATION_LOCK_STALE_AFTER_MS";
-
-impl Drop for InvocationArtifactLock {
-    fn drop(&mut self) {
-        if invocation_artifact_lock_owner_matches(&self.path, &self.token) {
-            let _ = fs::remove_dir_all(&self.path);
-        }
-    }
-}
+const INVOCATION_ARTIFACT_LOCK_TIMEOUT: Duration = Duration::from_secs(2);
 
 fn invocation_lock_path(path: &Path) -> PathBuf {
     let mut os = path.as_os_str().to_os_string();
@@ -41,105 +33,27 @@ fn invocation_lock_path(path: &Path) -> PathBuf {
 
 fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationArtifactLock> {
     let lock_path = invocation_lock_path(path);
-    for _attempt in 0..200 {
-        match fs::create_dir(&lock_path) {
-            Ok(()) => {
-                let token = invocation_artifact_lock_token();
-                let lease = serde_json::json!({
-                    "schema": "adl.provider_invocation_artifact_lock.v1",
-                    "token": token,
-                    "pid": std::process::id(),
-                    "created_unix_ms": SystemTime::now()
-                        .duration_since(UNIX_EPOCH)
-                        .unwrap_or_default()
-                        .as_millis() as u64,
-                    "stale_after_ms": invocation_artifact_lock_stale_after().as_millis() as u64
-                });
-                if let Err(err) = fs::write(
-                    lock_path.join("lease.json"),
-                    serde_json::to_vec_pretty(&lease).unwrap_or_default(),
-                ) {
-                    let _ = fs::remove_dir_all(&lock_path);
-                    return Err(err);
-                }
-                return Ok(InvocationArtifactLock {
-                    path: lock_path,
-                    token,
-                });
-            }
-            Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
-                if invocation_artifact_lock_is_stale(&lock_path) {
-                    reclaim_stale_invocation_artifact_lock(&lock_path)?;
-                    continue;
+    let file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .open(lock_path)?;
+    let started = Instant::now();
+    loop {
+        match file.try_lock_exclusive() {
+            Ok(()) => return Ok(InvocationArtifactLock { _file: file }),
+            Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
+                if started.elapsed() > INVOCATION_ARTIFACT_LOCK_TIMEOUT {
+                    return Err(std::io::Error::new(
+                        std::io::ErrorKind::TimedOut,
+                        "timed out waiting for invocation artifact lock",
+                    ));
                 }
                 thread::sleep(Duration::from_millis(10));
             }
             Err(err) => return Err(err),
         }
     }
-    Err(std::io::Error::new(
-        std::io::ErrorKind::TimedOut,
-        "timed out waiting for invocation artifact lock",
-    ))
-}
-
-fn invocation_artifact_lock_token() -> String {
-    let now = SystemTime::now()
-        .duration_since(UNIX_EPOCH)
-        .unwrap_or_default()
-        .as_nanos();
-    format!("{}-{now}", std::process::id())
-}
-
-fn invocation_artifact_lock_reclaim_path(lock_path: &Path, token: &str) -> PathBuf {
-    let mut os = lock_path.as_os_str().to_os_string();
-    os.push(format!(".reclaim.{token}"));
-    PathBuf::from(os)
-}
-
-fn reclaim_stale_invocation_artifact_lock(lock_path: &Path) -> std::io::Result<()> {
-    let token = invocation_artifact_lock_token();
-    let reclaim_path = invocation_artifact_lock_reclaim_path(lock_path, &token);
-    match fs::rename(lock_path, &reclaim_path) {
-        Ok(()) => {
-            let _ = fs::remove_dir_all(&reclaim_path);
-            Ok(())
-        }
-        Err(err) if err.kind() == std::io::ErrorKind::NotFound => Ok(()),
-        Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => Ok(()),
-        Err(err) => Err(err),
-    }
-}
-
-fn invocation_artifact_lock_is_stale(lock_path: &Path) -> bool {
-    lock_path
-        .metadata()
-        .and_then(|metadata| metadata.modified())
-        .ok()
-        .and_then(|modified| modified.elapsed().ok())
-        .is_some_and(|elapsed| elapsed > invocation_artifact_lock_stale_after())
-}
-
-fn invocation_artifact_lock_owner_matches(lock_path: &Path, token: &str) -> bool {
-    fs::read(lock_path.join("lease.json"))
-        .ok()
-        .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
-        .and_then(|value| {
-            value
-                .get("token")
-                .and_then(Value::as_str)
-                .map(str::to_string)
-        })
-        .as_deref()
-        == Some(token)
-}
-
-fn invocation_artifact_lock_stale_after() -> Duration {
-    env::var(INVOCATION_ARTIFACT_LOCK_STALE_AFTER_ENV)
-        .ok()
-        .and_then(|raw| raw.parse::<u64>().ok())
-        .map(Duration::from_millis)
-        .unwrap_or(INVOCATION_ARTIFACT_LOCK_STALE_AFTER)
 }
 
 /// Maximum number of provider error-body characters kept for inline request-failure messages.

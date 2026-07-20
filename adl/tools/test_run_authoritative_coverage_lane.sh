@@ -155,7 +155,7 @@ for arg in "$@"; do
 done
 if [ -n "$out_path" ]; then
   mkdir -p "$(dirname "$out_path")"
-  printf '{"data":[{"files":[],"totals":{"branches":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":0,"covered":0,"percent":0.0},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":0,"covered":0,"percent":0.0},"regions":{"count":0,"covered":0,"notcovered":0,"percent":0.0}}}]}\n' > "$out_path"
+  printf '{"data":[{"files":[{"filename":"%s:%s"}],"totals":{"branches":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":0,"covered":0,"percent":0.0},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":0,"covered":0,"percent":0.0},"regions":{"count":0,"covered":0,"notcovered":0,"percent":0.0}}}]}\n' "${ADL_COVERAGE_RUN_ID:-missing-run-id}" "$out_path" > "$out_path"
 fi
 exit 0
 EOF
@@ -247,6 +247,12 @@ if grep -F -- "stale-adl" "$ROOT_DIR/adl/coverage-summary.json" >/dev/null 2>&1 
   echo "expected failed report run not to merge stale component summaries" >&2
   exit 1
 fi
+if [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl.json")" != "stale-adl" ] \
+  || [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl-runtime.json")" != "stale-runtime" ] \
+  || [ "$(cat "$ROOT_DIR/adl/coverage-summary.json")" != "stale-final" ]; then
+  echo "expected failed report run to leave existing shared summaries wholly unchanged" >&2
+  exit 1
+fi
 
 concurrent_a_log="$temp_root/concurrent-a.log"
 concurrent_b_log="$temp_root/concurrent-b.log"
@@ -274,6 +280,28 @@ for required in \
 do
   if [ ! -s "$required" ]; then
     echo "expected concurrent run-isolated summary output: $required" >&2
+    exit 1
+  fi
+done
+if grep -F -- "run-concurrent-a" "$ROOT_DIR/adl/coverage-summary.adl.json" >/dev/null 2>&1; then
+  shared_winner="run-concurrent-a"
+elif grep -F -- "run-concurrent-b" "$ROOT_DIR/adl/coverage-summary.adl.json" >/dev/null 2>&1; then
+  shared_winner="run-concurrent-b"
+else
+  echo "expected shared summary set to be promoted from one concurrent run" >&2
+  cat "$ROOT_DIR/adl/coverage-summary.adl.json" >&2
+  cat "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" >&2
+  cat "$ROOT_DIR/adl/coverage-summary.json" >&2
+  exit 1
+fi
+for shared_summary in \
+  "$ROOT_DIR/adl/coverage-summary.adl.json" \
+  "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" \
+  "$ROOT_DIR/adl/coverage-summary.json"
+do
+  if ! grep -F -- "$shared_winner" "$shared_summary" >/dev/null 2>&1; then
+    echo "expected shared summary set to stay coherent for $shared_winner; mismatch in $shared_summary" >&2
+    cat "$shared_summary" >&2
     exit 1
   fi
 done

@@ -72,10 +72,11 @@ Use this procedure from the exact target revision:
 shasum -a 256 .adl/local-artifacts/v0918-review-packet-object-records.txt
 ```
 
-This hashes sorted tracked object records plus one normalized record for this
-handoff that replaces only the mutable digest cell with the template value. Do
-not hash a sidecar that includes its own digest field. To list the underlying
-path corpus without object metadata, use:
+This hashes sorted tracked mode/type/hash/path object records plus one
+normalized synthetic handoff record with the same mode/type/hash/path shape,
+where the hash is computed after replacing only the mutable digest cell with
+the template value. Do not hash a sidecar that includes its own digest field.
+To list the underlying path corpus without object metadata, use:
 
 ```sh
 git ls-tree -r --name-only HEAD -- \

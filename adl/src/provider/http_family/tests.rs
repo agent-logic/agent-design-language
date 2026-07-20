@@ -1509,7 +1509,6 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
 
     let artifact = temp_root.join("invocations.json");
     let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
-    let prev_stale_after = env::var_os("ADL_INVOCATION_LOCK_STALE_AFTER_MS");
     env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
 
     write_native_invocation_record("openai", "gpt-test", "hello", "world", 200)
@@ -1575,10 +1574,8 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
         "concurrent writes should preserve every invocation entry"
     );
 
-    std::fs::create_dir_all(invocation_lock_path(&artifact)).expect("stale lock dir");
-    env::set_var("ADL_INVOCATION_LOCK_STALE_AFTER_MS", "0");
     write_native_invocation_record("openai", "gpt-test", "after-lock", "recorded", 200)
-        .expect("stale invocation lock should be recovered");
+        .expect("advisory invocation lock should write after concurrent writers");
     let recovered_payload: Value =
         serde_json::from_slice(&std::fs::read(&artifact).expect("read recovered artifact"))
             .expect("recovered artifact json");
@@ -1590,55 +1587,41 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
         thread_count + 1
     );
 
-    let owned_lock = acquire_invocation_artifact_lock(&artifact).expect("owned lock");
-    let lease_path = owned_lock.path.join("lease.json");
-    std::fs::write(
-        &lease_path,
-        serde_json::to_vec_pretty(&json!({
-            "schema": "adl.provider_invocation_artifact_lock.v1",
-            "token": "different-owner"
-        }))
-        .expect("lease"),
-    )
-    .expect("replace lease token");
-    let marker = owned_lock.path.join("new-owner-marker");
-    std::fs::write(&marker, "owned by replacement").expect("marker");
-    drop(owned_lock);
-    assert!(
-        marker.exists(),
-        "token-checked drop must not delete a replacement owner lock"
-    );
-    std::fs::remove_dir_all(invocation_lock_path(&artifact)).expect("cleanup replacement lock");
-
-    std::fs::create_dir_all(invocation_lock_path(&artifact)).expect("stale lock for contenders");
-    let contender_count = 6usize;
-    let mut contender_handles = Vec::new();
-    for _ in 0..contender_count {
-        let artifact = artifact.clone();
-        contender_handles.push(std::thread::spawn(move || {
-            let _lock = acquire_invocation_artifact_lock(&artifact)?;
-            std::thread::sleep(Duration::from_millis(2));
-            std::io::Result::Ok(())
-        }));
+    let stress_iterations = 25usize;
+    let contender_count = 8usize;
+    for iteration in 0..stress_iterations {
+        let active = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+        let max_seen = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+        let mut contender_handles = Vec::new();
+        for _ in 0..contender_count {
+            let artifact = artifact.clone();
+            let active = Arc::clone(&active);
+            let max_seen = Arc::clone(&max_seen);
+            contender_handles.push(std::thread::spawn(move || {
+                let _lock = acquire_invocation_artifact_lock(&artifact)?;
+                let now = active.fetch_add(1, std::sync::atomic::Ordering::SeqCst) + 1;
+                max_seen.fetch_max(now, std::sync::atomic::Ordering::SeqCst);
+                std::thread::sleep(Duration::from_millis(1));
+                active.fetch_sub(1, std::sync::atomic::Ordering::SeqCst);
+                std::io::Result::Ok(())
+            }));
+        }
+        for handle in contender_handles {
+            handle
+                .join()
+                .expect("lock contender thread should not panic")
+                .expect("lock contender should wait safely");
+        }
+        assert_eq!(
+            max_seen.load(std::sync::atomic::Ordering::SeqCst),
+            1,
+            "advisory invocation lock must preserve mutual exclusion in iteration {iteration}"
+        );
     }
-    for handle in contender_handles {
-        handle
-            .join()
-            .expect("stale lock contender thread should not panic")
-            .expect("stale lock contender should recover or wait safely");
-    }
-    assert!(
-        !invocation_lock_path(&artifact).exists(),
-        "all contender-owned locks should release without deleting another owner"
-    );
 
     match prev_artifact {
         Some(v) => env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", v),
         None => env::remove_var("ADL_PROVIDER_INVOCATIONS_PATH"),
-    }
-    match prev_stale_after {
-        Some(v) => env::set_var("ADL_INVOCATION_LOCK_STALE_AFTER_MS", v),
-        None => env::remove_var("ADL_INVOCATION_LOCK_STALE_AFTER_MS"),
     }
 
     let target = provider_target(

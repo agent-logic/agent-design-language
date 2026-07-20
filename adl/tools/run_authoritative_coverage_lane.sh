@@ -7,6 +7,7 @@ ADL_RUNTIME_MANIFEST="$ROOT_DIR/adl-runtime/Cargo.toml"
 SHARED_ADL_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl.json"
 SHARED_ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl-runtime.json"
 SHARED_FINAL_SUMMARY_PATH="$ADL_DIR/coverage-summary.json"
+SHARED_SUMMARY_PROMOTION_LOCK="$ADL_DIR/coverage-summary.promote.lock"
 PRINT_PLAN=false
 AUTHORITY="push_main"
 EVENT_NAME="push"
@@ -287,22 +288,57 @@ else
   }
 fi
 
-promote_summary() {
+acquire_promotion_lock() {
+  local attempts=0
+  while ! mkdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null; do
+    attempts=$((attempts + 1))
+    if [ "$attempts" -gt 200 ]; then
+      echo "timed out waiting for coverage summary promotion lock" >&2
+      return 1
+    fi
+    sleep 0.05
+  done
+}
+
+release_promotion_lock() {
+  rmdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null || true
+}
+
+stage_summary() {
   local source="$1"
   local dest="$2"
-  local tmp="${dest}.${COVERAGE_RUN_ID}.tmp"
+  local tmp="$3"
   if [ ! -s "$source" ]; then
     echo "missing coverage summary for current run: $source" >&2
     return 1
   fi
-  cp "$source" "$tmp"
-  mv "$tmp" "$dest"
+  cp "$source" "$tmp/${dest##*/}"
 }
 
-promote_summary "$ADL_SUMMARY_PATH" "$SHARED_ADL_SUMMARY_PATH" || coverage_status=$?
-if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-  promote_summary "$ADL_RUNTIME_SUMMARY_PATH" "$SHARED_ADL_RUNTIME_SUMMARY_PATH" || coverage_status=$?
+promote_current_run_summaries() {
+  local tmp="$ADL_DIR/.coverage-summary.${COVERAGE_RUN_ID}.tmp"
+  rm -rf "$tmp"
+  mkdir -p "$tmp"
+  stage_summary "$ADL_SUMMARY_PATH" "$SHARED_ADL_SUMMARY_PATH" "$tmp"
+  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
+    stage_summary "$ADL_RUNTIME_SUMMARY_PATH" "$SHARED_ADL_RUNTIME_SUMMARY_PATH" "$tmp"
+  fi
+  stage_summary "$FINAL_SUMMARY_PATH" "$SHARED_FINAL_SUMMARY_PATH" "$tmp"
+
+  acquire_promotion_lock
+  trap release_promotion_lock EXIT
+  mv "$tmp/${SHARED_ADL_SUMMARY_PATH##*/}" "$SHARED_ADL_SUMMARY_PATH"
+  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
+    mv "$tmp/${SHARED_ADL_RUNTIME_SUMMARY_PATH##*/}" "$SHARED_ADL_RUNTIME_SUMMARY_PATH"
+  fi
+  mv "$tmp/${SHARED_FINAL_SUMMARY_PATH##*/}" "$SHARED_FINAL_SUMMARY_PATH"
+  release_promotion_lock
+  trap - EXIT
+  rmdir "$tmp" 2>/dev/null || true
+}
+
+if [ "$coverage_status" -eq 0 ]; then
+  promote_current_run_summaries || coverage_status=$?
 fi
-promote_summary "$FINAL_SUMMARY_PATH" "$SHARED_FINAL_SUMMARY_PATH" || coverage_status=$?
 
 exit "$coverage_status"

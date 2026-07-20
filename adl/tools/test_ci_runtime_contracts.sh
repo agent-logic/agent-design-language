@@ -560,7 +560,8 @@ for required_fragment in (
     "--summary-only \\",
     '--output-path "$ADL_SUMMARY_PATH"',
     'coverage-summary.adl-runtime.json',
-    "> coverage-summary.json",
+    'FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"',
+    'mv "$tmp/${SHARED_FINAL_SUMMARY_PATH##*/}" "$SHARED_FINAL_SUMMARY_PATH"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(
