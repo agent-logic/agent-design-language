@@ -36,7 +36,7 @@ Retained the exact reviewer-authored WP-19 verification artifact, remediated bot
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

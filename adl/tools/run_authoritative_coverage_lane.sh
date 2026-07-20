@@ -4,8 +4,9 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ADL_DIR="$ROOT_DIR/adl"
 ADL_RUNTIME_MANIFEST="$ROOT_DIR/adl-runtime/Cargo.toml"
-ADL_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl.json"
-ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl-runtime.json"
+SHARED_ADL_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl.json"
+SHARED_ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl-runtime.json"
+SHARED_FINAL_SUMMARY_PATH="$ADL_DIR/coverage-summary.json"
 PRINT_PLAN=false
 AUTHORITY="push_main"
 EVENT_NAME="push"
@@ -77,8 +78,17 @@ if [[ ! "$COVERAGE_RUN_ID" =~ ^[A-Za-z0-9._-]+$ ]]; then
   echo "coverage run id may contain only letters, digits, '.', '_', and '-'" >&2
   exit 2
 fi
+if [ "$COVERAGE_RUN_ID" = "." ] || [ "$COVERAGE_RUN_ID" = ".." ]; then
+  echo "invalid coverage run id: $COVERAGE_RUN_ID" >&2
+  echo "coverage run id must not be a dot path component" >&2
+  exit 2
+fi
 
 COVERAGE_PROFILE_ROOT="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
+COVERAGE_OUTPUT_ROOT="$COVERAGE_BUILD_ROOT/coverage-output/$COVERAGE_RUN_ID"
+ADL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.adl.json"
+ADL_RUNTIME_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.adl-runtime.json"
+FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"
 
 if [ "$PRINT_PLAN" = true ]; then
   printf 'authority=%s\n' "$AUTHORITY"
@@ -87,6 +97,7 @@ if [ "$PRINT_PLAN" = true ]; then
   printf 'build_root=%s\n' "$COVERAGE_BUILD_ROOT"
   printf 'run_id=%s\n' "$COVERAGE_RUN_ID"
   printf 'profile_root=%s\n' "$COVERAGE_PROFILE_ROOT"
+  printf 'output_root=%s\n' "$COVERAGE_OUTPUT_ROOT"
   printf 'test_threads=%s\n' "$TEST_THREADS"
   printf 'partitions=%s\n' "$PARTITION_COUNT"
   printf 'skip_patterns=%s\n' "$SKIP_PATTERNS_RAW"
@@ -110,8 +121,9 @@ cd "$ADL_DIR"
 # defaults to the cached repo target, while remote builders can opt into a
 # scratch root and warm it from the restored target. Keep the ordinary Cargo
 # target warm, but isolate llvm-cov profile output by run so concurrent lanes
-# cannot delete or report each other's raw profiles.
-mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_PROFILE_ROOT"
+# cannot delete or report each other's raw profiles or JSON summaries.
+mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_PROFILE_ROOT" "$COVERAGE_OUTPUT_ROOT"
+rm -f "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" "$FINAL_SUMMARY_PATH"
 export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
 export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_PROFILE_ROOT"
 # Coverage builds can consume enough runner disk to cross the production CSM
@@ -262,9 +274,35 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
         lines: metric("lines"),
         regions: metric("regions")
       }
-  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > coverage-summary.json || coverage_status=$?
+  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > "$FINAL_SUMMARY_PATH" || {
+    merge_status=$?
+    rm -f "$FINAL_SUMMARY_PATH"
+    coverage_status=$merge_status
+  }
 else
-  cp "$ADL_SUMMARY_PATH" coverage-summary.json || coverage_status=$?
+  cp "$ADL_SUMMARY_PATH" "$FINAL_SUMMARY_PATH" || {
+    copy_status=$?
+    rm -f "$FINAL_SUMMARY_PATH"
+    coverage_status=$copy_status
+  }
 fi
+
+promote_summary() {
+  local source="$1"
+  local dest="$2"
+  local tmp="${dest}.${COVERAGE_RUN_ID}.tmp"
+  if [ ! -s "$source" ]; then
+    echo "missing coverage summary for current run: $source" >&2
+    return 1
+  fi
+  cp "$source" "$tmp"
+  mv "$tmp" "$dest"
+}
+
+promote_summary "$ADL_SUMMARY_PATH" "$SHARED_ADL_SUMMARY_PATH" || coverage_status=$?
+if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
+  promote_summary "$ADL_RUNTIME_SUMMARY_PATH" "$SHARED_ADL_RUNTIME_SUMMARY_PATH" || coverage_status=$?
+fi
+promote_summary "$FINAL_SUMMARY_PATH" "$SHARED_FINAL_SUMMARY_PATH" || coverage_status=$?
 
 exit "$coverage_status"

@@ -3,13 +3,13 @@
   "issue": 4647,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
-  "phase": "reviewed",
-  "generation": 4,
-  "digest": "3cad8c9ddbfc8824ef95724ccdd4fa8c18f8ec1abcb3989623ad811bc7e1d473",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "c4e201be55d3a54b881fc085e47d1cfebf86d0d567370fd441666ffe921e65f5",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 4,
+    "generation": 5,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -24,69 +24,8 @@
     ],
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f7d35-6809-7b53-bc24-cc8ae7c55919",
-    "assigned_by": "codex:issue-4647",
-    "revision": "git-blake3:8c5218388f6bb097d64da9afacd80801992346bd:ac0268df372a76d4b407bd4e7f60d9f6dee6072f58c738df2e453104b40afaa8",
-    "scope": [
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/provider/http_family.rs",
-      "adl/src/provider/http_family/config.rs",
-      "adl/src/provider/http_family/tests.rs",
-      "adl/src/provider/local.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-      "docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md",
-      "docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_4647/WP19_FINDING_REMEDIATION_MATRIX_4647.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md",
-      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f7d35-6809-7b53-bc24-cc8ae7c55919",
-    "scope": [
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/provider/http_family.rs",
-      "adl/src/provider/http_family/config.rs",
-      "adl/src/provider/http_family/tests.rs",
-      "adl/src/provider/local.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-      "docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md",
-      "docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_4647/WP19_FINDING_REMEDIATION_MATRIX_4647.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md",
-      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
-    ],
-    "reviewed_revision": "git-blake3:8c5218388f6bb097d64da9afacd80801992346bd:ac0268df372a76d4b407bd4e7f60d9f6dee6072f58c738df2e453104b40afaa8",
-    "findings": [],
-    "residual_risks": [
-      "Read-only pre-PR review initially found two P3 issues: OPTIONS still leaked x-csm-admission, and local Ollama invalid-byte streaming could block later chunks.",
-      "Both P3 findings were fixed after review and covered by focused tests recorded in docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md.",
-      "Bedrock account pinning is locally unit-tested and statically reviewed; no AWS live operation was run for this remediation."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -101,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a255993eb700a4eb6c2affcc2cf25d7ffca437a14753701747b4ab2eeefeb5b5",
+      "values_digest": "a655f315a170d80fceefbc7bbbab2bc91b70d13949adce9cf0df15b2976dbb8c",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "a67a65689236e2d37e05565e878f32428e540051943ef739cffad022a9adfffa",
+      "values_digest": "278d7397597c9e5ec73554e328b5194f1e5fd19edd384a77ee43b4a464e7dece",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "f9605f5d9e450ba400aa40c52c7f8de73850ac189f1a90c63461408cec2549fc",
+      "values_digest": "2edd105a1e9e6f1bf366eb2d2ba3281745ae52414805af9b7c350ed461c55959",
       "rendered_digest": "63fb67496c8d4da40773e62f325f8fc0c5bae2ad86d3b8783b75694a6822f179",
       "ast_digest": "db3db17f0b342cac7a35f2986ef665e21fff5955b22301d4fd36a3bcabee86c8"
     },
     "vpp": {
-      "values_digest": "37b38582337ba424a589687e49b3678a40d724134819215b1263d2c457e67632",
+      "values_digest": "d1eaaccc6269fb19dc2a989f73c27260ad216e01d7f6a482cd73de3863de3931",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "a8ec30668730d15cb7e2c8fcc8c589dbc90154e75392173fd51d09da51bea4eb",
-      "rendered_digest": "56417214ed34c456c9154c0f8ce8e7492e8b1fe9295ec83c2a5566f8f34e9196",
-      "ast_digest": "4ee1ccd663fa6d8cdd2b6651f0bf6ba74468a15f6bd3a5a9f810af84858fb048"
+      "values_digest": "2b9b96c23fc3cc6c3971a9d469662d1a3432e48a2eb62a94a0b55d21c81d9c17",
+      "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
+      "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
     },
     "sor": {
-      "values_digest": "ec08e7b741e4c67e270915007724ee9cb433b4190cde3f3829d810a6b05af1ee",
-      "rendered_digest": "70385687e56bb9d08ea28a27fbeaaa249d49fd3e9be84f297d200f3c52011c4e",
-      "ast_digest": "ed2d4695e956aaaa7e518359afe88bc31a6f7e1cd4101cb634216cc5b2baf3e4"
+      "values_digest": "fa4e858ec70ac1b361cda62706744070aa52b58224cd6f07d1d4383fe562f3d8",
+      "rendered_digest": "30a01fb5d73640e9712a00f2286d4f72d764b03e53ec47d19624c87e035a2f32",
+      "ast_digest": "02633999c340beccab1ae44de891521ff20461db62e4d31ceb7fe3f3293431e6"
     }
   },
   "transitions": [
@@ -159,6 +98,13 @@
       "to": "reviewed",
       "actor": "codex:issue-4647",
       "reason": "Bounded pre-PR review was recorded; its two P3 findings were fixed and focused tests passed."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-4647",
+      "reason": "Typed doctor reports review_publication_dead_end after lifecycle metadata commits; recover to implemented for exact current-head review before publication."
     }
   ],
   "audit": [
@@ -217,6 +163,13 @@
       "actor": "codex:issue-4647",
       "reason": "Bounded pre-PR review was recorded; its two P3 findings were fixed and focused tests passed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:issue-4647",
+      "reason": "Typed doctor reports review_publication_dead_end after lifecycle metadata commits; recover to implemented for exact current-head review before publication.",
+      "operation": "recover_review"
     }
   ]
 }

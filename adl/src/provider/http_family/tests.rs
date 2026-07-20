@@ -330,11 +330,13 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
     let prev_region = env::var_os("AWS_REGION");
     let prev_default_region = env::var_os("AWS_DEFAULT_REGION");
     let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let prev_expected_account = env::var_os("ADL_AWS_BEDROCK_ACCOUNT_SHA256");
     env::remove_var("ADL_AWS_PROFILE");
     env::remove_var("AWS_PROFILE");
     env::remove_var("AWS_REGION");
     env::remove_var("AWS_DEFAULT_REGION");
     env::remove_var("ADL_PROVIDER_INVOCATIONS_PATH");
+    env::remove_var("ADL_AWS_BEDROCK_ACCOUNT_SHA256");
 
     let spec = adl::ProviderSpec {
         id: Some("bedrock_primary".to_string()),
@@ -362,6 +364,31 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
     assert_eq!(provider.profile, DEFAULT_BEDROCK_PROFILE);
     assert_eq!(provider.max_tokens, 321);
     assert_eq!(provider.timeout_secs, None);
+    assert_eq!(provider.expected_account_sha256, None);
+
+    let env_hash = sha256_hex("env-agent-logic-account");
+    let config_hash = sha256_hex("config-agent-logic-account");
+    env::set_var("ADL_AWS_BEDROCK_ACCOUNT_SHA256", &env_hash);
+    let mut matching_spec = spec.clone();
+    matching_spec.config.insert(
+        "expected_account_sha256".to_string(),
+        json!(env_hash.clone()),
+    );
+    let matching_provider = AwsBedrockProvider::from_target(&matching_spec, &target)
+        .expect("matching env/config account pins should construct");
+    assert_eq!(
+        matching_provider.expected_account_sha256.as_deref(),
+        Some(env_hash.as_str())
+    );
+    let mut conflicting_spec = spec.clone();
+    conflicting_spec
+        .config
+        .insert("expected_account_sha256".to_string(), json!(config_hash));
+    let conflict = AwsBedrockProvider::from_target(&conflicting_spec, &target)
+        .expect_err("host env account pin must be authoritative");
+    assert!(conflict
+        .to_string()
+        .contains("ADL_AWS_BEDROCK_ACCOUNT_SHA256 is authoritative"));
 
     let fallback = extract_bedrock_nova_output_text(&json!({
         "outputText": " fallback bedrock text "
@@ -394,6 +421,7 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
     restore_env_var("AWS_REGION", prev_region);
     restore_env_var("AWS_DEFAULT_REGION", prev_default_region);
     restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    restore_env_var("ADL_AWS_BEDROCK_ACCOUNT_SHA256", prev_expected_account);
 }
 
 #[test]
@@ -1560,6 +1588,48 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
             .expect("recovered invocations array")
             .len(),
         thread_count + 1
+    );
+
+    let owned_lock = acquire_invocation_artifact_lock(&artifact).expect("owned lock");
+    let lease_path = owned_lock.path.join("lease.json");
+    std::fs::write(
+        &lease_path,
+        serde_json::to_vec_pretty(&json!({
+            "schema": "adl.provider_invocation_artifact_lock.v1",
+            "token": "different-owner"
+        }))
+        .expect("lease"),
+    )
+    .expect("replace lease token");
+    let marker = owned_lock.path.join("new-owner-marker");
+    std::fs::write(&marker, "owned by replacement").expect("marker");
+    drop(owned_lock);
+    assert!(
+        marker.exists(),
+        "token-checked drop must not delete a replacement owner lock"
+    );
+    std::fs::remove_dir_all(invocation_lock_path(&artifact)).expect("cleanup replacement lock");
+
+    std::fs::create_dir_all(invocation_lock_path(&artifact)).expect("stale lock for contenders");
+    let contender_count = 6usize;
+    let mut contender_handles = Vec::new();
+    for _ in 0..contender_count {
+        let artifact = artifact.clone();
+        contender_handles.push(std::thread::spawn(move || {
+            let _lock = acquire_invocation_artifact_lock(&artifact)?;
+            std::thread::sleep(Duration::from_millis(2));
+            std::io::Result::Ok(())
+        }));
+    }
+    for handle in contender_handles {
+        handle
+            .join()
+            .expect("stale lock contender thread should not panic")
+            .expect("stale lock contender should recover or wait safely");
+    }
+    assert!(
+        !invocation_lock_path(&artifact).exists(),
+        "all contender-owned locks should release without deleting another owner"
     );
 
     match prev_artifact {

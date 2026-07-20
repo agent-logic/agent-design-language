@@ -58,17 +58,36 @@ digest value and exclude untracked/local artifacts.
 Use this procedure from the exact target revision:
 
 ```sh
-git ls-tree -r HEAD -- \
+{
+  git ls-tree -r HEAD -- \
+    docs/milestones/v0.91.8 \
+    docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md \
+    docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 \
+    | awk '$4 != "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md" {print}'
+  git show HEAD:docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md \
+    | sed 's/| Review packet digest | `[^`]*` |/| Review packet digest | `TBD before send; compute using the Digest Procedure below` |/' \
+    | shasum -a 256 \
+    | awk '{print "100644 blob " $1 "\tdocs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md.normalized"}'
+} | LC_ALL=C sort > .adl/local-artifacts/v0918-review-packet-object-records.txt
+shasum -a 256 .adl/local-artifacts/v0918-review-packet-object-records.txt
+```
+
+This hashes sorted tracked object records plus one normalized record for this
+handoff that replaces only the mutable digest cell with the template value. Do
+not hash a sidecar that includes its own digest field. To list the underlying
+path corpus without object metadata, use:
+
+```sh
+git ls-tree -r --name-only HEAD -- \
   docs/milestones/v0.91.8 \
   docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md \
   docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 \
-  | LC_ALL=C sort > .adl/local-artifacts/v0918-review-packet-ls-tree.txt
-shasum -a 256 .adl/local-artifacts/v0918-review-packet-ls-tree.txt
+  | LC_ALL=C sort > .adl/local-artifacts/v0918-review-packet-paths.txt
 ```
 
-Record the resulting SHA-256 as the tracked object-record manifest digest or
-commit a tracked sidecar generated from the same sorted object-record list. If the object list
-changes, the digest is stale and the handoff must be refreshed before send.
+Record the resulting SHA-256 as the tracked object-record manifest digest. If
+the object-record list or normalized handoff content changes, the digest is
+stale and the handoff must be refreshed before send.
 
 ## Purpose
 

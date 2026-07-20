@@ -74,8 +74,9 @@ closed out in the issue/card/PR surfaces.
   until their own terminal retained evidence is available.
 - #5544 originally captured the release-tail truth after the #4645 internal
   review. Current live truth supersedes that dated snapshot: #5408, #5489,
-  #5527, and #5544-#5547 are closed. This update prepares but does not perform
-  WP-19 and does not approve v0.91.7 release readiness.
+  #5527, and #5544-#5547 are closed. WP-19 is closed with provider-degraded
+  review evidence; WP-20 remains the active remediation gate and this register
+  still does not approve v0.91.7 release readiness.
 
 ## Review Status Table
 

@@ -6,3 +6,4 @@
 {"sequence":6,"generation":2,"actor":"codex:issue-4647","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":7,"generation":3,"actor":"subagent:019f7d35-6809-7b53-bc24-cc8ae7c55919","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":8,"generation":4,"actor":"codex:issue-4647","reason":"Bounded pre-PR review was recorded; its two P3 findings were fixed and focused tests passed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":9,"generation":5,"actor":"codex:issue-4647","reason":"Typed doctor reports review_publication_dead_end after lifecycle metadata commits; recover to implemented for exact current-head review before publication.","operation":"recover_review"}

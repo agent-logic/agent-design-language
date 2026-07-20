@@ -19,6 +19,7 @@ pub(crate) use config::{cfg_u64, timeout_secs};
 
 struct InvocationArtifactLock {
     path: PathBuf,
+    token: String,
 }
 
 const INVOCATION_ARTIFACT_LOCK_STALE_AFTER: Duration = Duration::from_secs(600);
@@ -26,7 +27,9 @@ const INVOCATION_ARTIFACT_LOCK_STALE_AFTER_ENV: &str = "ADL_INVOCATION_LOCK_STAL
 
 impl Drop for InvocationArtifactLock {
     fn drop(&mut self) {
-        let _ = fs::remove_dir_all(&self.path);
+        if invocation_artifact_lock_owner_matches(&self.path, &self.token) {
+            let _ = fs::remove_dir_all(&self.path);
+        }
     }
 }
 
@@ -41,8 +44,10 @@ fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationAr
     for _attempt in 0..200 {
         match fs::create_dir(&lock_path) {
             Ok(()) => {
+                let token = invocation_artifact_lock_token();
                 let lease = serde_json::json!({
                     "schema": "adl.provider_invocation_artifact_lock.v1",
+                    "token": token,
                     "pid": std::process::id(),
                     "created_unix_ms": SystemTime::now()
                         .duration_since(UNIX_EPOCH)
@@ -50,15 +55,21 @@ fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationAr
                         .as_millis() as u64,
                     "stale_after_ms": invocation_artifact_lock_stale_after().as_millis() as u64
                 });
-                let _ = fs::write(
+                if let Err(err) = fs::write(
                     lock_path.join("lease.json"),
                     serde_json::to_vec_pretty(&lease).unwrap_or_default(),
-                );
-                return Ok(InvocationArtifactLock { path: lock_path });
+                ) {
+                    let _ = fs::remove_dir_all(&lock_path);
+                    return Err(err);
+                }
+                return Ok(InvocationArtifactLock {
+                    path: lock_path,
+                    token,
+                });
             }
             Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
                 if invocation_artifact_lock_is_stale(&lock_path) {
-                    let _ = fs::remove_dir_all(&lock_path);
+                    reclaim_stale_invocation_artifact_lock(&lock_path)?;
                     continue;
                 }
                 thread::sleep(Duration::from_millis(10));
@@ -72,6 +83,34 @@ fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationAr
     ))
 }
 
+fn invocation_artifact_lock_token() -> String {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos();
+    format!("{}-{now}", std::process::id())
+}
+
+fn invocation_artifact_lock_reclaim_path(lock_path: &Path, token: &str) -> PathBuf {
+    let mut os = lock_path.as_os_str().to_os_string();
+    os.push(format!(".reclaim.{token}"));
+    PathBuf::from(os)
+}
+
+fn reclaim_stale_invocation_artifact_lock(lock_path: &Path) -> std::io::Result<()> {
+    let token = invocation_artifact_lock_token();
+    let reclaim_path = invocation_artifact_lock_reclaim_path(lock_path, &token);
+    match fs::rename(lock_path, &reclaim_path) {
+        Ok(()) => {
+            let _ = fs::remove_dir_all(&reclaim_path);
+            Ok(())
+        }
+        Err(err) if err.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => Ok(()),
+        Err(err) => Err(err),
+    }
+}
+
 fn invocation_artifact_lock_is_stale(lock_path: &Path) -> bool {
     lock_path
         .metadata()
@@ -79,6 +118,20 @@ fn invocation_artifact_lock_is_stale(lock_path: &Path) -> bool {
         .ok()
         .and_then(|modified| modified.elapsed().ok())
         .is_some_and(|elapsed| elapsed > invocation_artifact_lock_stale_after())
+}
+
+fn invocation_artifact_lock_owner_matches(lock_path: &Path, token: &str) -> bool {
+    fs::read(lock_path.join("lease.json"))
+        .ok()
+        .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+        .and_then(|value| {
+            value
+                .get("token")
+                .and_then(Value::as_str)
+                .map(str::to_string)
+        })
+        .as_deref()
+        == Some(token)
 }
 
 fn invocation_artifact_lock_stale_after() -> Duration {
@@ -750,9 +803,31 @@ impl AwsBedrockProvider {
                 ),
             ));
         }
-        let expected_account_sha256 = cfg_string(&spec.config, "expected_account_sha256")
-            .or_else(|| cfg_string(&spec.config, "expected-account-sha256"))
-            .or_else(|| env::var(BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV).ok());
+        let config_expected_account_sha256 = cfg_string(&spec.config, "expected_account_sha256")
+            .or_else(|| cfg_string(&spec.config, "expected-account-sha256"));
+        let env_expected_account_sha256 = env::var(BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV).ok();
+        let expected_account_sha256 = match (
+            env_expected_account_sha256.as_deref(),
+            config_expected_account_sha256.as_deref(),
+        ) {
+            (Some(env_expected), Some(config_expected)) => {
+                validate_sha256_hex(env_expected).map_err(|err| invalid_config("bedrock", err))?;
+                validate_sha256_hex(config_expected)
+                    .map_err(|err| invalid_config("bedrock", err))?;
+                if !env_expected.eq_ignore_ascii_case(config_expected) {
+                    return Err(invalid_config(
+                        "bedrock",
+                        format!(
+                            "{BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV} is authoritative and conflicts with config.expected_account_sha256"
+                        ),
+                    ));
+                }
+                Some(env_expected.to_string())
+            }
+            (Some(env_expected), None) => Some(env_expected.to_string()),
+            (None, Some(config_expected)) => Some(config_expected.to_string()),
+            (None, None) => None,
+        };
         if let Some(expected) = expected_account_sha256.as_deref() {
             validate_sha256_hex(expected).map_err(|err| invalid_config("bedrock", err))?;
         }

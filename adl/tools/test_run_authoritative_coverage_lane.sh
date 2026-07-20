@@ -56,9 +56,25 @@ case "$custom_plan" in
     exit 1
     ;;
 esac
+case "$custom_plan" in
+  *"output_root=$custom_root/coverage-output/"*) ;;
+  *)
+    echo "expected authoritative coverage plan to expose run-isolated summary output root" >&2
+    echo "$custom_plan" >&2
+    exit 1
+    ;;
+esac
 
 if ADL_COVERAGE_RUN_ID="../bad" "$SCRIPT" --print-plan >/dev/null 2>&1; then
   echo "expected unsafe coverage run id to fail closed" >&2
+  exit 1
+fi
+if ADL_COVERAGE_RUN_ID="." "$SCRIPT" --print-plan >/dev/null 2>&1; then
+  echo "expected dot coverage run id to fail closed" >&2
+  exit 1
+fi
+if ADL_COVERAGE_RUN_ID=".." "$SCRIPT" --print-plan >/dev/null 2>&1; then
+  echo "expected dot-dot coverage run id to fail closed" >&2
   exit 1
 fi
 
@@ -85,7 +101,7 @@ for required_fragment in \
   "--summary-only" \
   "coverage-summary.adl.json" \
   "coverage-summary.adl-runtime.json" \
-  "> coverage-summary.json" \
+  "FINAL_SUMMARY_PATH" \
   'export ADL_CSM_DISK_FLOOR_BYTES="${ADL_CSM_DISK_FLOOR_BYTES:-0}"'
 do
   case "$script_text" in
@@ -105,7 +121,7 @@ esac
 
 mkdir -p "$ROOT_DIR/.adl/tmp"
 temp_root="$(mktemp -d "$ROOT_DIR/.adl/tmp/authoritative-coverage.XXXXXX")"
-trap 'rm -rf "$temp_root"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json"' EXIT
+trap 'rm -rf "$temp_root"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json" "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"' EXIT
 bin_dir="$temp_root/bin"
 mkdir -p "$bin_dir"
 scratch_root="$temp_root/scratch"
@@ -121,6 +137,11 @@ printf 'link_accel=%s\n' "${RUST_LINK_ACCEL:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 case "${AUTHORITATIVE_FAIL_PARTITION:-}:$*" in
   "1:"*"--partition count:1/2"*)
     exit 23
+    ;;
+esac
+case "${AUTHORITATIVE_FAIL_REPORT:-}:$*" in
+  "1:"*"llvm-cov report"*)
+    exit 24
     ;;
 esac
 out_path=""
@@ -178,8 +199,8 @@ for required in \
   "--skip child_exit_terminates_descendants_and_bounds_inherited_pipe_capture" \
   "--skip csmctl_authenticated_api_client_waits_for_slow_listener_startup" \
   "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass" \
-  "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl.json" \
-  "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl-runtime.json" \
+  "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl.json" \
+  "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl-runtime.json" \
   "target=$scratch_root/target" \
   "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-a"
 do
@@ -200,8 +221,62 @@ ADL_COVERAGE_RUN_ID="run-failing" \
   echo "expected authoritative coverage runner to return failed partition status" >&2
   exit 1
 fi
-grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl.json" "$failing_cargo_log" >/dev/null
-grep -F -- "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$failing_cargo_log" >/dev/null
+grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-failing/coverage-summary.adl.json" "$failing_cargo_log" >/dev/null
+grep -F -- "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-failing/coverage-summary.adl-runtime.json" "$failing_cargo_log" >/dev/null
+
+printf 'stale-adl\n' > "$ROOT_DIR/adl/coverage-summary.adl.json"
+printf 'stale-runtime\n' > "$ROOT_DIR/adl/coverage-summary.adl-runtime.json"
+printf 'stale-final\n' > "$ROOT_DIR/adl/coverage-summary.json"
+stale_report_log="$temp_root/stale-report.log"
+if PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$stale_report_log" \
+AUTHORITATIVE_FAIL_REPORT=1 \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-stale-report" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request; then
+  echo "expected authoritative coverage runner to fail when current report generation fails" >&2
+  exit 1
+fi
+grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-stale-report/coverage-summary.adl.json" "$stale_report_log" >/dev/null
+if [ -s "$scratch_root/coverage-output/run-stale-report/coverage-summary.json" ]; then
+  echo "expected failed report run not to produce a non-empty run-scoped final summary" >&2
+  exit 1
+fi
+if grep -F -- "stale-adl" "$ROOT_DIR/adl/coverage-summary.json" >/dev/null 2>&1 \
+  || grep -F -- "stale-runtime" "$ROOT_DIR/adl/coverage-summary.json" >/dev/null 2>&1; then
+  echo "expected failed report run not to merge stale component summaries" >&2
+  exit 1
+fi
+
+concurrent_a_log="$temp_root/concurrent-a.log"
+concurrent_b_log="$temp_root/concurrent-b.log"
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$concurrent_a_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-concurrent-a" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request &
+pid_a="$!"
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$concurrent_b_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-concurrent-b" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request &
+pid_b="$!"
+wait "$pid_a"
+wait "$pid_b"
+for required in \
+  "$scratch_root/coverage-output/run-concurrent-a/coverage-summary.adl.json" \
+  "$scratch_root/coverage-output/run-concurrent-a/coverage-summary.adl-runtime.json" \
+  "$scratch_root/coverage-output/run-concurrent-a/coverage-summary.json" \
+  "$scratch_root/coverage-output/run-concurrent-b/coverage-summary.adl.json" \
+  "$scratch_root/coverage-output/run-concurrent-b/coverage-summary.adl-runtime.json" \
+  "$scratch_root/coverage-output/run-concurrent-b/coverage-summary.json"
+do
+  if [ ! -s "$required" ]; then
+    echo "expected concurrent run-isolated summary output: $required" >&2
+    exit 1
+  fi
+done
 
 lld_cargo_log="$temp_root/lld-cargo.log"
 PATH="$bin_dir:$PATH" \
