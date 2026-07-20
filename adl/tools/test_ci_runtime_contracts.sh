@@ -455,9 +455,11 @@ for required_fragment in (
     'printf \'/mnt/adl-authoritative-coverage\\n\'',
     'printf \'%s\\n\' "$ADL_DIR"',
     'COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"',
-    'mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID" "$COVERAGE_OUTPUT_ROOT"',
-    'export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"',
-    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"',
+    'COVERAGE_CACHE_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"',
+    'COVERAGE_RUN_TARGET_DIR="$COVERAGE_CACHE_TARGET_DIR/llvm-cov-target/$COVERAGE_RUN_ID"',
+    'mkdir -p "$COVERAGE_CACHE_TARGET_DIR" "$COVERAGE_RUN_TARGET_DIR" "$COVERAGE_OUTPUT_ROOT"',
+    'export CARGO_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"',
+    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(
@@ -551,9 +553,11 @@ for required_fragment in (
 if "--test-threads 1" in pr_fast_runner_text:
     raise SystemExit("PR-fast coverage runner must not force single-threaded nextest execution by default")
 for required_fragment in (
-    "cargo llvm-cov nextest \\",
+    "cargo nextest run \\",
     "    --workspace \\",
-    "    --no-clean",
+    "prepare_coverage_environment",
+    "cargo llvm-cov clean --workspace",
+    "cargo llvm-cov show-env --sh",
     "cargo llvm-cov report \\",
     "--json \\",
     "--summary-only \\",

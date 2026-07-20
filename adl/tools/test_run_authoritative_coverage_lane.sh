@@ -156,8 +156,13 @@ printf 'cmd=%s\n' "$*" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'target=%s\n' "${CARGO_TARGET_DIR:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'llvm_cov_target=%s\n' "${CARGO_LLVM_COV_TARGET_DIR:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'llvm_profile=%s\n' "${LLVM_PROFILE_FILE:-}" >> "$AUTHORITATIVE_CARGO_LOG"
+printf 'rustflags=%s\n' "${RUSTFLAGS:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'build_jobs=%s\n' "${CARGO_BUILD_JOBS:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'link_accel=%s\n' "${RUST_LINK_ACCEL:-}" >> "$AUTHORITATIVE_CARGO_LOG"
+if [ "$*" = "llvm-cov show-env --sh" ]; then
+  printf 'export RUSTFLAGS=%q\n' '--cfg coverage_from_show_env'
+  exit 0
+fi
 if [ -n "${LLVM_PROFILE_FILE:-}" ]; then
   profile_path="${LLVM_PROFILE_FILE//%p/$$}"
   mkdir -p "$(dirname "$profile_path")"
@@ -227,6 +232,7 @@ for required in \
   "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl-runtime.json" \
   "target=$scratch_root/target/llvm-cov-target/run-a" \
   "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-a" \
+  "rustflags=--cfg coverage_from_show_env" \
   "llvm_profile=$scratch_root/target/llvm-cov-target/run-a/workspace-run-a-partition-1-%p.profraw"
 do
   if ! grep -F -- "$required" "$cargo_log" >/dev/null 2>&1; then
