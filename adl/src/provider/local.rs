@@ -260,6 +260,28 @@ impl Provider for OllamaProvider {
     }
 }
 
+fn ollama_bin() -> PathBuf {
+    // Allows tests (and power users) to override the binary path.
+    // Defaults to `ollama` on PATH.
+    std::env::var_os("ADL_OLLAMA_BIN")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("ollama"))
+}
+
+pub(crate) fn cfg_f32(cfg: &HashMap<String, Value>, key: &str) -> Option<f32> {
+    cfg.get(key).and_then(|v| {
+        if let Some(f) = v.as_f64() {
+            Some(f as f32)
+        } else if let Some(i) = v.as_i64() {
+            Some(i as f32)
+        } else if let Some(s) = v.as_str() {
+            s.parse::<f32>().ok()
+        } else {
+            None
+        }
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -292,26 +314,4 @@ mod tests {
         assert_eq!(chunks[2], "\u{FFFD}");
         assert_eq!(chunks[3], " after invalid");
     }
-}
-
-fn ollama_bin() -> PathBuf {
-    // Allows tests (and power users) to override the binary path.
-    // Defaults to `ollama` on PATH.
-    std::env::var_os("ADL_OLLAMA_BIN")
-        .map(PathBuf::from)
-        .unwrap_or_else(|| PathBuf::from("ollama"))
-}
-
-pub(crate) fn cfg_f32(cfg: &HashMap<String, Value>, key: &str) -> Option<f32> {
-    cfg.get(key).and_then(|v| {
-        if let Some(f) = v.as_f64() {
-            Some(f as f32)
-        } else if let Some(i) = v.as_i64() {
-            Some(i as f32)
-        } else if let Some(s) = v.as_str() {
-            s.parse::<f32>().ok()
-        } else {
-            None
-        }
-    })
 }

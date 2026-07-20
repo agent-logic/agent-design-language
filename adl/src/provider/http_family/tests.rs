@@ -15,6 +15,21 @@ use std::sync::{Arc, Mutex, OnceLock};
 use std::thread;
 use tiny_http::{Header, Response, Server};
 
+macro_rules! bedrock_invocation_record {
+    ($model:expr, $prompt:expr, $output:expr, $http_status:expr, $profile:expr, $region:expr, $account_id_sha256:expr, $account_profile_validation_status:expr $(,)?) => {
+        BedrockInvocationRecord {
+            model: $model,
+            prompt: $prompt,
+            output: $output,
+            http_status: $http_status,
+            profile: $profile,
+            region: $region,
+            account_id_sha256: $account_id_sha256,
+            account_profile_validation_status: $account_profile_validation_status,
+        }
+    };
+}
+
 #[derive(Debug, Clone)]
 struct CapturedRequest {
     url: String,
@@ -262,7 +277,7 @@ fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
     let _ = fs::remove_dir(invocation_lock_path(&artifact));
     env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
 
-    write_bedrock_invocation_record(
+    write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-lite-v1:0",
         "hello bedrock",
         "bedrock ok",
@@ -271,9 +286,9 @@ fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
         "us-west-2",
         Some("account-hash"),
         "account_hash_verified",
-    )
+    ))
     .expect("first bedrock invocation record should write");
-    write_bedrock_invocation_record(
+    write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-pro-v1:0",
         "second",
         "ok",
@@ -282,7 +297,7 @@ fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
         "us-east-1",
         None,
         "account_hash_verified",
-    )
+    ))
     .expect("second bedrock invocation record should append");
 
     let payload: serde_json::Value =
@@ -326,7 +341,7 @@ fn bedrock_invocation_artifact_rejects_invalid_existing_payloads() {
     env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
 
     fs::write(&artifact, b"{not-json").expect("write invalid json");
-    let err = write_bedrock_invocation_record(
+    let err = write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-lite-v1:0",
         "prompt",
         "output",
@@ -335,14 +350,14 @@ fn bedrock_invocation_artifact_rejects_invalid_existing_payloads() {
         "us-west-2",
         Some("account-hash"),
         "account_hash_verified",
-    )
+    ))
     .expect_err("invalid existing artifact should fail closed");
     assert!(err
         .to_string()
         .contains("provider invocation artifact is invalid JSON"));
 
     fs::write(&artifact, br#"{"schema_version":"x"}"#).expect("write missing array");
-    let err = write_bedrock_invocation_record(
+    let err = write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-lite-v1:0",
         "prompt",
         "output",
@@ -351,7 +366,7 @@ fn bedrock_invocation_artifact_rejects_invalid_existing_payloads() {
         "us-west-2",
         None,
         "account_hash_verified",
-    )
+    ))
     .expect_err("missing invocations array should fail closed");
     assert!(err
         .to_string()
@@ -387,7 +402,7 @@ fn bedrock_invocation_artifact_read_io_failure_is_non_retryable_partial_success_
     fs::set_permissions(&artifact, permissions).expect("remove artifact read permissions");
     env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
 
-    let err = write_bedrock_invocation_record(
+    let err = write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-lite-v1:0",
         "prompt-after-provider",
         "output-after-provider",
@@ -396,7 +411,7 @@ fn bedrock_invocation_artifact_read_io_failure_is_non_retryable_partial_success_
         "us-west-2",
         Some("account-hash"),
         "account_hash_verified",
-    )
+    ))
     .expect_err("post-success artifact read failure should fail closed");
     assert!(
         err.to_string()
@@ -435,7 +450,7 @@ fn bedrock_invocation_artifact_write_io_failure_is_non_retryable_partial_success
     let _ = fs::remove_dir(invocation_lock_path(&artifact));
     env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
 
-    let err = write_bedrock_invocation_record(
+    let err = write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-lite-v1:0",
         "prompt-after-provider",
         "output-after-provider",
@@ -444,7 +459,7 @@ fn bedrock_invocation_artifact_write_io_failure_is_non_retryable_partial_success
         "us-west-2",
         Some("account-hash"),
         "account_hash_verified",
-    )
+    ))
     .expect_err("post-success artifact write failure should fail closed");
     assert!(
         err.to_string()
@@ -479,7 +494,7 @@ fn bedrock_invocation_artifact_create_dir_failure_is_non_retryable_partial_succe
     let _ = fs::remove_dir(invocation_lock_path(&artifact));
     env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
 
-    let err = write_bedrock_invocation_record(
+    let err = write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-lite-v1:0",
         "prompt-after-provider",
         "output-after-provider",
@@ -488,7 +503,7 @@ fn bedrock_invocation_artifact_create_dir_failure_is_non_retryable_partial_succe
         "us-west-2",
         Some("account-hash"),
         "account_hash_verified",
-    )
+    ))
     .expect_err("post-success artifact directory creation failure should fail closed");
     assert!(
         err.to_string()
@@ -589,7 +604,7 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
     assert_eq!(account_hash.len(), 64);
     assert!(account_hash.chars().all(|ch| ch.is_ascii_hexdigit()));
 
-    write_bedrock_invocation_record(
+    write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-lite-v1:0",
         "prompt",
         "output",
@@ -598,7 +613,7 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
         DEFAULT_BEDROCK_REGION,
         None,
         "account_hash_verified",
-    )
+    ))
     .expect("missing artifact path should be a no-op");
 
     restore_env_var("ADL_AWS_PROFILE", prev_profile);
@@ -1845,7 +1860,7 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
         !is_retryable_error(&native_timeout_err),
         "native invocation artifact lock timeout after provider completion must be non-retryable"
     );
-    let bedrock_timeout_err = write_bedrock_invocation_record(
+    let bedrock_timeout_err = write_bedrock_invocation_record(bedrock_invocation_record!(
         "amazon.nova-lite-v1:0",
         "prompt-after-provider",
         "output-after-provider",
@@ -1854,7 +1869,7 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
         DEFAULT_BEDROCK_REGION,
         Some("account-hash"),
         "account_hash_verified",
-    )
+    ))
     .expect_err("held lock should force timeout classification");
     assert!(
         bedrock_timeout_err

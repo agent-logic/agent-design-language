@@ -38,6 +38,7 @@ fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationAr
         .read(true)
         .write(true)
         .create(true)
+        .truncate(false)
         .open(lock_path)?;
     let started = Instant::now();
     let timeout = invocation_artifact_lock_timeout();
@@ -214,16 +215,18 @@ fn write_native_invocation_record(
     })
 }
 
-fn write_bedrock_invocation_record(
-    model: &str,
-    prompt: &str,
-    output: &str,
+struct BedrockInvocationRecord<'a> {
+    model: &'a str,
+    prompt: &'a str,
+    output: &'a str,
     http_status: u16,
-    profile: &str,
-    region: &str,
-    account_id_sha256: Option<&str>,
-    account_profile_validation_status: &str,
-) -> Result<()> {
+    profile: &'a str,
+    region: &'a str,
+    account_id_sha256: Option<&'a str>,
+    account_profile_validation_status: &'a str,
+}
+
+fn write_bedrock_invocation_record(record: BedrockInvocationRecord<'_>) -> Result<()> {
     let Some(path) = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH") else {
         return Ok(());
     };
@@ -278,15 +281,15 @@ fn write_bedrock_invocation_record(
         .as_millis() as u64;
     invocations.push(serde_json::json!({
         "family": "bedrock",
-        "model": model,
-        "http_status": http_status,
+        "model": record.model,
+        "http_status": record.http_status,
         "timestamp_unix_ms": timestamp_unix_ms,
-        "prompt_chars": prompt.chars().count(),
-        "output_chars": output.chars().count(),
-        "aws_profile": profile,
-        "aws_region": region,
-        "account_id_sha256": account_id_sha256,
-        "account_profile_validation_status": account_profile_validation_status
+        "prompt_chars": record.prompt.chars().count(),
+        "output_chars": record.output.chars().count(),
+        "aws_profile": record.profile,
+        "aws_region": record.region,
+        "account_id_sha256": record.account_id_sha256,
+        "account_profile_validation_status": record.account_profile_validation_status
     }));
     let bytes = serde_json::to_vec_pretty(&payload).map_err(|err| {
         runtime_error_non_retryable(
@@ -835,16 +838,16 @@ impl AwsBedrockProvider {
         let output = extract_bedrock_nova_output_text(&json).ok_or_else(|| {
             runtime_error_non_retryable("bedrock", "response missing Bedrock output text")
         })?;
-        write_bedrock_invocation_record(
-            &self.model,
+        write_bedrock_invocation_record(BedrockInvocationRecord {
+            model: &self.model,
             prompt,
-            &output,
-            200,
-            &self.profile,
-            &self.region,
-            account_id_sha256.as_deref(),
-            "account_hash_verified",
-        )?;
+            output: &output,
+            http_status: 200,
+            profile: &self.profile,
+            region: &self.region,
+            account_id_sha256: account_id_sha256.as_deref(),
+            account_profile_validation_status: "account_hash_verified",
+        })?;
         Ok(output)
     }
 }
