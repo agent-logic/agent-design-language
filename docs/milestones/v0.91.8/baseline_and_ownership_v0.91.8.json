@@ -1,0 +1,29 @@
+{
+  "schema": "adl.v0.91.8.baseline_and_ownership.v1",
+  "revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "measurement": {
+    "file_rule": "tracked Rust files under source_root",
+    "line_rule": "sorted-path physical wc -l",
+    "digest_rule": "Git tree object id"
+  },
+  "source_roots": [
+    {"path": "adl/src", "tree": "caeef78124a301b687b6c4461482a4566e4ee210", "rust_files": 560, "physical_lines": 314162, "owner": "incumbent_mixed_adl"},
+    {"path": "adl-runtime/src", "tree": "ca21937d159bf2220060b6cf6b7fe7908778f4fe", "rust_files": 20, "physical_lines": 12251, "owner": "runtime_v3_transitional"},
+    {"path": "adl-runtime-kernel/src", "tree": "99e2abb0839bdd42612a0270bd1d931b84eadea5", "rust_files": 24, "physical_lines": 12209, "owner": "runtime_v3_canonical"},
+    {"path": "csdlc-v2/src", "tree": "64917798a4015a2becf83e75cfe48beadb5af879", "rust_files": 38, "physical_lines": 14149, "owner": "csdlc_v2_independent"}
+  ],
+  "deletion_target_percent": 90,
+  "deletion_minimum_percent": 80,
+  "architecture_ownership_status": "closed_at_product_and_source_root_boundaries",
+  "deletion_denominator_status": "pending_file_level_replacement_classification",
+  "runtime_budget_status": "pending_reproducible_implementation_and_test_classification",
+  "runtime_owner_report": {
+    "command": ["bash", "adl/tools/report_runtime_v3_loc.sh"],
+    "physical_lines": 12209,
+    "challenge_target": 10000,
+    "exception_ceiling": 20000,
+    "disposition": "reviewed_exception_required"
+  },
+  "cutover_authorized": false,
+  "deletion_authorized": false
+}

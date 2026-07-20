@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5336,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
+  "phase": "bound",
+  "generation": 2,
+  "digest": "63aa746cfde567e7df4badb280a72cb982d46629f92a3560f011680eac0dac96",
+  "claim": {
+    "id": "claim-5336-v0918-runtime-functional-parity-plan",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 2,
+    "acquired_unix_seconds": 1784525523,
+    "expires_unix_seconds": 1785130323,
+    "heartbeat_unix_seconds": 1784525523,
+    "branch": "codex/5336-v0918-runtime-parity-plan",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336",
+      ".csdlc/evidence/5336",
+      "docs/milestones/v0.91.8"
+    ],
+    "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5336/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5336/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8036-122b-7311-ba23-a5df0f04f9d2",
+      "revision": "9023d6d2842b7382845abc74d0252d1c267c175e366a79144c1248dd14e36f3f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "cd17d01ea05232e8f24110e302ecde6e6fa527280ed6066d11e1673f09400005",
+      "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
+      "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
+    },
+    "stp": {
+      "values_digest": "1e380e3f8e31575d74c20c9fb208abe0e389c380f0c1f1af62d4e2d9d87c20e4",
+      "rendered_digest": "29daf0ae2a8be8f680a837bbcca9a8c87ba404bf8e4d38f492c79bfa71e43695",
+      "ast_digest": "75e10cbd6fffee3c71cc502a6be03acbeaf62aae16bde8659ad042244e5904a9"
+    },
+    "spp": {
+      "values_digest": "f64e62f88d2e8a0bc053a9f333005e8bf538f1367ec10cf7f6f25f98dd387261",
+      "rendered_digest": "3b3118e7845927bc884a1da5caa10db6c335411e308c4523d5db31f4d0f40e50",
+      "ast_digest": "1697193f5e85de9d2c2d5ca3bff73188d70c5e491e7867b0947b062241c08919"
+    },
+    "vpp": {
+      "values_digest": "f461d97d4bbfb3ee94612998ecb1bc4aae657cce700d09899e79e1d5f4966ea1",
+      "rendered_digest": "3c1d7cd60b07fc9f150c44e312d30cebb8bfe280f64d47428044578b02113c32",
+      "ast_digest": "582e5bc8dad3fd712660ba46580cba77ad6b4825760c77e69db9285da8042ef6"
+    },
+    "srp": {
+      "values_digest": "fe8f0bee9e5dfa22ebe00a26ce85ab134220ac7bfc977a0d2a6ba908d76c1470",
+      "rendered_digest": "d8d4d9b29f394137848a3273fadd16a962c3ec8cdbce595acad809599a774826",
+      "ast_digest": "1b927bd09840b9e41d16cc99a40331af27ea0fec4a4233884469cc09888c201a"
+    },
+    "sor": {
+      "values_digest": "7bbc33224bac7801664d2bfe3c8d01a1b944def9c9eaf8d69ae793542e36138a",
+      "rendered_digest": "0a7f2d5abdce6fe7d7e375bb23476124a27a92a917f646f9776a155f2e246e27",
+      "ast_digest": "f3150317fb6187b42e172037eaef763cf0115db2ca225d9d706670730fc30805"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f8036-122b-7311-ba23-a5df0f04f9d2",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f8036-122b-7311-ba23-a5df0f04f9d2",
+      "reason": "Replace the unrelated repository-wide architecture-doc check with issue-specific baseline, budget, structured-data, and exact-range proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-owner-budget\",\"proof_role\":\"Measure the current canonical Runtime v3 source posture through its owner report\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/report_runtime_v3_loc.sh\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"baseline-json\",\"proof_role\":\"Parse the exact baseline and Runtime v3 parity manifests\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"jq\",\"empty\",\"docs/milestones/v0.91.8/baseline_and_ownership_v0.91.8.json\",\"docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"issue-wave-yaml\",\"proof_role\":\"Parse the canonical v0.91.8 issue graph used by the architecture plan\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"-e\",\"require 'yaml'; YAML.safe_load(File.read('docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml'), aliases: true)\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Check the complete issue branch for patch hygiene\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    }
+  ]
+}
