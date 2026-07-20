@@ -9,8 +9,8 @@
       "id": "WP01-ER6",
       "severity": "p1",
       "summary": "Signing verification and trust policy was routed to Runtime Parity-C instead of ADL v2 WP-07 signing owner #5342",
-      "disposition": "fixed_in_worktree_pending_exact_revision_review",
-      "fix_commit": null,
+      "disposition": "fixed_pending_exact_revision_review",
+      "fix_commit": "329c7b627b1d49d2ae722c0389058f2be54a0152",
       "evidence": ".csdlc/prepared/issues/5594/feature_decisions_5594.rb"
     }
   ],
