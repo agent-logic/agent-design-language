@@ -238,8 +238,13 @@ fn freshly_installed_stable_edit_binary_is_executable() {
         "flowchart LR\n  A --> B\n",
     )
     .unwrap();
+    install_native_authority(fixture.path());
     let store = Store::new(fixture.path());
-    let initialized = csdlc_v2::initialize_issue(&store, bootstrap_request()).unwrap();
+    let initialized = csdlc_v2::initialize_native_json(
+        &store,
+        &serde_json::to_vec(&bootstrap_request()).unwrap(),
+    )
+    .unwrap();
     let ready = edit_issue(
         &store,
         edit(
@@ -314,6 +319,23 @@ fn freshly_installed_stable_edit_binary_is_executable() {
     assert_eq!(reapproved.generation, implemented.generation + 1);
 }
 
+fn install_native_authority(root: &std::path::Path) {
+    let registry = root.join("docs/templates/prompts/current.json");
+    let manifest = root.join("csdlc-v2/operator/native-card-shape.json");
+    fs::create_dir_all(registry.parent().unwrap()).unwrap();
+    fs::create_dir_all(manifest.parent().unwrap()).unwrap();
+    fs::write(
+        registry,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .unwrap();
+    fs::write(
+        manifest,
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .unwrap();
+}
+
 fn git(root: &std::path::Path, args: &[&str]) {
     let output = Command::new("git")
         .current_dir(root)
@@ -369,6 +391,7 @@ fn bootstrap_request() -> BootstrapRequest {
             required_outcome: "Reapprove implemented design.".into(),
             declared_scope: vec!["fixture".into()],
             authority_boundary: vec!["no network".into()],
+            operator_constraints: vec!["none".into()],
             task_boundary: "Fixture only.".into(),
             deliverables: vec!["record".into()],
             acceptance_criteria: vec!["editor reapproves".into()],
@@ -400,6 +423,7 @@ fn bootstrap_request() -> BootstrapRequest {
             }],
             failure_policy: "Fail closed.".into(),
             review_prompts: vec!["Review correctness.".into()],
+            review_scope: "fixture".into(),
         },
     }
 }

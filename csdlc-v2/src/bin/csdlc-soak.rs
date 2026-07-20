@@ -13,6 +13,8 @@ struct Cli {
 #[derive(Subcommand)]
 enum Command {
     GenerateSamples {
+        #[arg(long, default_value = ".")]
+        repo: PathBuf,
         #[arg(long)]
         output: PathBuf,
     },
@@ -27,7 +29,7 @@ enum Command {
 
 fn main() {
     let result: csdlc_v2::Result<serde_json::Value> = match Cli::parse().command {
-        Command::GenerateSamples { output } => generate_sample_packets(&output)
+        Command::GenerateSamples { repo, output } => generate_sample_packets(&repo, &output)
             .and_then(|packets| serde_json::to_value(packets).map_err(Into::into)),
         Command::Decide { evidence, output } => fs::read(evidence)
             .map_err(Into::into)

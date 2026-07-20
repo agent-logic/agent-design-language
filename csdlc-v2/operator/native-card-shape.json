@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.native_card_shape.v1",
+  "generation": "csdlc_v2_native",
+  "template_set": "1.0.0",
+  "projection_family": "compact_native",
+  "cards": {
+    "sip": ["Goal", "Required Outcome", "Scope", "Authority", "Assumptions", "Operator Constraints"],
+    "stp": ["Task", "Deliverables", "Acceptance", "Dependencies", "Inputs", "Non Goals"],
+    "spp": ["Summary", "Plan", "Steps", "Invariants", "Risks", "Estimates", "Design", "Diagram", "Stop Conditions", "Handoff"],
+    "vpp": ["Summary", "Lane Inputs", "Selected Lanes", "Parallelization", "Budgets", "Commands", "Failure Semantics", "Handoff"],
+    "srp": ["Scope", "Prompts", "Findings", "Dispositions", "Residual Risk", "Review Result"],
+    "sor": ["Summary", "Artifacts", "Execution", "Validation", "Integration", "Publication", "Closeout", "Follow Ups"]
+  }
+}

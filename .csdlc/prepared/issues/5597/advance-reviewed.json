@@ -1,0 +1,13 @@
+{
+  "issue": 5597,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "924b069fca4fc00c572081efd5a592c3ab61d3cdda3e0fb90d842dbd7f701059",
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Two independent exact-revision reviews passed with no findings or residual risks.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  }
+}

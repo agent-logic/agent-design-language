@@ -1,0 +1,14 @@
+{
+  "issue": 5597,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "fd2b16edf439e9abd7ec4e1aefe07326d18058e39b0347d4335859e92732f750",
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+  "reason": "Retain the stale legacy owner-runner attempt as non-proving evidence",
+  "operation": {
+    "operation": "append_reference",
+    "value": "Non-proving: adl/tools/run_owner_validation_lane.sh csdlc stopped at its obsolete requirement for sunset adl/tools/pr.sh run guidance; it was not used for AC-8 or AC-9 and no v1 lifecycle command was invoked."
+  },
+  "fail_after_backup": false
+}
