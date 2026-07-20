@@ -3,13 +3,13 @@
   "issue": 4647,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
-  "phase": "reviewed",
-  "generation": 29,
-  "digest": "52901f1dc2c0126fc9a2ea0c27417c8f90379c2f2d3096a16a10f25f37c36002",
+  "phase": "published",
+  "generation": 30,
+  "digest": "f5cba3050bb64bf9ffe22a7aa350e98eee3811bf7fb8075eb043647a844974d9",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 29,
+    "generation": 30,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -82,7 +82,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 4647,
+    "pull_request": 5588,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5588",
+    "base": "main",
+    "head": "codex/4647-v0917-review-remediation-preflight",
+    "revision": "git-blake3:97a22c3311302cdbfbdd99ea32a4d86c86aa5af4:865a7eb12ad82c52e1011457536488e7d47bf5fdc9aff8d14c5a89c6657f713e",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -96,34 +106,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "34ba218881d3f468449b18486dd8861421bf95cca9e70d32119e217b2b492ca4",
+      "values_digest": "f847a7012fc383ad17fd54942c6b16859bac4d4bde363234725fba763be7228c",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "98a711f06af41529fd854ca465b8ab73628e403e11fa26a50b5e22d0f7affebf",
+      "values_digest": "e5d270ebfd21215db6957d2118730ca39eebc4f33b5086bfa945981f9797081c",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "7922c6553139077af2f369098d67a1279df98ddbe7019a271fb720e02bcb49dc",
+      "values_digest": "c9460b3ea227870374a4ea4031c686b74d8e9f6c6e51da7eff7b593f67855941",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "97d16a39868e965460bdf7832df08b71e9f60afd924c1ce6678ac5da9c494b04",
+      "values_digest": "882a64595bab21b9752be70452eea0a7dbc2ed554d50d53b2fa881a0b5c148bf",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "4708a0033183446836a2f74027d92c12514c7f5677fec6616079be19df4fe313",
+      "values_digest": "13de650d09acd2c2ee56711ec240224e59ce8c526648edbf73fa31cee2f0be34",
       "rendered_digest": "08237d1190706acf87c6a9439978f0b63d1248f6f92f1e8232df3d8f0b69947c",
       "ast_digest": "9a56a5517762da842301e6b75e8d66100fca1c4c7e1a3ccd61aa962b482e2c28"
     },
     "sor": {
-      "values_digest": "35c76fbff5c9b2c95bb57ed3c469353bdf8a462db2f8b1c9481197b25b458951",
-      "rendered_digest": "454adbe979d76d26b9289bc51e3c3fcd6845375aa0c1935d4be28c29084084c4",
-      "ast_digest": "4a70b257de33317d61577b9bb9cd064bb666140afd9569387285d39d640f0dd8"
+      "values_digest": "c9898922de4599545b87e20efbf8413a91f6b2a728a856ff6788b9515df723e0",
+      "rendered_digest": "4969d4daa573e915f2287d942d2c098b6b6cd7a25a9f07f2ebc71e9f636a460a",
+      "ast_digest": "b4009c802a3bd64340a627c2198f301767e55be6270c692aae4efd7083297c88"
     }
   },
   "transitions": [
@@ -210,6 +220,13 @@
       "to": "reviewed",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Exact-head bounded review by subagent 019f7e00-3942-7ce3-b123-a8d6bbff9803 confirmed HEAD 5d3b83a63eeca4dc14511fb75e166f24f325e4df is clean/fixed-confirmed after post-publication clippy repair and lifecycle validation recording."
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -492,6 +509,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Exact-head bounded review by subagent 019f7e00-3942-7ce3-b123-a8d6bbff9803 confirmed HEAD 5d3b83a63eeca4dc14511fb75e166f24f325e4df is clean/fixed-confirmed after post-publication clippy repair and lifecycle validation recording.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 41,
+      "generation": 30,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
