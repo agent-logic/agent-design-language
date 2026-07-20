@@ -1,0 +1,464 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5594,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "2f246e5f1760776340161d5e4722c5a33c98c4dc5224601586d57c734b7d3d71",
+  "phase": "published",
+  "generation": 36,
+  "digest": "37e35c3cdde8117efb066ad0befa98da1160d10486c0917d285e9f42e989dc7d",
+  "claim": {
+    "id": "claim-5594-v0918-wp01-readiness",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 36,
+    "acquired_unix_seconds": 1784562133,
+    "expires_unix_seconds": 1785166933,
+    "heartbeat_unix_seconds": 1784562133,
+    "branch": "codex/5594-v0918-wp01-readiness",
+    "worktree": ".worktrees/adl-wp-5594",
+    "protected_paths": [
+      ".csdlc/issues/5594",
+      ".csdlc/locks/5594.lock",
+      ".csdlc/prepared/issues/5594",
+      "README.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.91.8"
+    ],
+    "purpose": "Reconcile v0.91.8 planning, sprint umbrellas, issue readiness, and parallel execution without starting downstream implementation"
+  },
+  "review_assignment": {
+    "reviewer": "subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:8dc446b5272a9aee6c799739bb67cb100d15883b:05a17b801012d91bfa12db5272516c11694e2ff74b705317ae6667215c1011dd",
+    "scope": [
+      "README.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.91.8",
+      ".csdlc/prepared/issues/5594"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+    "scope": [
+      "README.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.91.8",
+      ".csdlc/prepared/issues/5594"
+    ],
+    "reviewed_revision": "git-blake3:8dc446b5272a9aee6c799739bb67cb100d15883b:05a17b801012d91bfa12db5272516c11694e2ff74b705317ae6667215c1011dd",
+    "findings": [],
+    "residual_risks": [
+      "Live issue routing can change after this snapshot.",
+      "The feature crosswalk is planning disposition and deletion protection, not implementation or parity proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5594,
+    "pull_request": 5596,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5596",
+    "base": "main",
+    "head": "codex/5594-v0918-wp01-readiness",
+    "revision": "git-blake3:716fd6de82ffdc213cca56dc606896695e1bf15a:0ab6099ffc2f8a2544a6fe2e284d735ca6012814d7366a971e808a08870b16e6",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5594/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5594/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "revision": "ea5c7237efa120a65e9c075e95cc04809e86b95104cbc4ef61df5012229cb513"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "28adb5e4d210b486602b18c4d8166f9310c83485f4b353e0c18cc3be23740474",
+      "rendered_digest": "81808e72a73d79ef29ac9f5863ee67f565eb9d01de4fb482d0ae0c287437123a",
+      "ast_digest": "1a3c72bdadd86cebbf239ca170bd155a6c0eb74897cbbdd71375a842ca7db95d"
+    },
+    "stp": {
+      "values_digest": "4352c965886672184a6a5def9e4fc11ecfcf603cb3597ce96e3c71243968cd9f",
+      "rendered_digest": "114f4e06a1e37d1772243c140e76de4a3ea82e9859983a66c041fd68f2f8daa7",
+      "ast_digest": "200d9d8166af073b8377f48cf9e7d8787064934801d93e4fd47f40ed6922084e"
+    },
+    "spp": {
+      "values_digest": "9cce9a9664ba9d7e745e9fe0755d217ae0ce736ef63ef54c7c8ae9b4f2f09324",
+      "rendered_digest": "61ae8d96bfd05c4f7e2baf77e6b59d0b2cdc9078a9d0653026d0f59cb927b733",
+      "ast_digest": "ad92c14f0239341a290bf9802ae33dfd6898d80fca9d2abd49f12dbfa48bc432"
+    },
+    "vpp": {
+      "values_digest": "6207fcba4197e382052f19f3c9d1fb1e956f50b777d33eb3475dc15a149b91b9",
+      "rendered_digest": "9309e25d5da66fb18b1e349619f6a53257f97e9d8fc5c26de211a38ced673146",
+      "ast_digest": "83e74d98846c90b2369aa57b60726c4e27e43ced11411b02fd6a9a8708d9d71b"
+    },
+    "srp": {
+      "values_digest": "f25db17ed69f209266d694c09cb6cfbc770e2b67255e83a10c68668b98a2139e",
+      "rendered_digest": "5297ffa37285d7f657d2b120afd3d766acf0db3077a458cac9f9613f937a224d",
+      "ast_digest": "97700539305dfc98c1b70c305d2cea8202d70bd18af596179f4641369ec9fa63"
+    },
+    "sor": {
+      "values_digest": "a0bd8105b73fed6efc77920380e6c35018d72e865773e2cbc81e7f609019df80",
+      "rendered_digest": "f06d4937d0bb47fb1d5e015886cd332c58a837d8f9a2806f0d63dd48904fc762",
+      "ast_digest": "30cb70b243a8bfa45fd1d7df49c7f8f60ab37f6ce3c460790da611bfa1de6163"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance WP-01 to implemented for exact-revision review"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance to reviewed after the clean exact-revision review and publication guard pass."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "WP-01 S1 execution truth",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "WP-01 S2 execution truth",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "WP-01 S3 execution truth",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "WP-01 S4 execution truth",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Align VPP with exact WP-01 proving commands",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"structured-planning\",\"proof_role\":\"Parse and assert v0.91.8 YAML and JSON topology\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_structured_planning.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"local-links\",\"proof_role\":\"Verify local links across touched v0.91.8 documents\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_links.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"live-routing\",\"proof_role\":\"Verify exact live issue labels, parents, dependencies, umbrellas, and malformed-body repair through ADL owner binaries\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_live_routing.rb\"],\"parallel_group\":\"live-read-only\",\"defer_reason\":null},{\"lane\":\"diff-and-lifecycle\",\"proof_role\":\"Verify diff hygiene, protected scope, and typed lifecycle consistency\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Activate SOR for WP-01 execution evidence",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record bounded WP-01 execution",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Reconciled v0.91.8 canonical planning, created one milestone sprint umbrella, repaired live issue routing and metadata, and retained collision-safe readiness evidence without downstream implementation.\",\"changes\":[\"Assigned active WP-01 to #5594 and sprint umbrella to #5595\",\"Routed Runtime v3 parity #5591/#5592/#5589/#5590 under #5361\",\"Repaired WP-14A parent links, deletion dependencies, labels, and malformed issue bodies\",\"Added canonical feature-preservation and activation crosswalks\",\"Recorded four-slot opening card-factory plan and serialized integration contract\"],\"artifacts\":[\"docs/milestones/v0.91.8/review/V0918_WP01_EXECUTION_READINESS_5594.md\",\"docs/milestones/v0.91.8/review/wp01_execution_readiness_5594.v1.json\",\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\",\"docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md\",\"docs/planning/ADL_FEATURE_LIST.md\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record Assert structured milestone topology and JSON validity",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_structured_planning.rb\"],\"purpose\":\"Assert structured milestone topology and JSON validity\",\"outcome\":\"passed\",\"evidence_ref\":\"local validation output: structured planning ok\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record Verify local milestone document links",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_links.rb\"],\"purpose\":\"Verify local milestone document links\",\"outcome\":\"passed\",\"evidence_ref\":\"local validation output: local links ok\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record Verify live issue labels, dependencies, parents, and umbrella routing through adl-issue",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_live_routing.rb\"],\"purpose\":\"Verify live issue labels, dependencies, parents, and umbrella routing through adl-issue\",\"outcome\":\"passed\",\"evidence_ref\":\"local validation output: live routing ok\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record Verify diff whitespace and patch hygiene",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace and patch hygiene\",\"outcome\":\"passed\",\"evidence_ref\":\"local validation exit 0\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Add complete canonical feature-row preservation proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"structured-planning\",\"proof_role\":\"Parse and assert v0.91.8 YAML and JSON topology\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_structured_planning.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"feature-crosswalk\",\"proof_role\":\"Pin and classify every canonical ADL feature row with named cutover owners\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"local-links\",\"proof_role\":\"Verify local links across touched v0.91.8 documents\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_links.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"live-routing\",\"proof_role\":\"Verify exact live issue labels, parents, dependencies, umbrellas, inventory coverage, and malformed-body repair through ADL owner binaries\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_live_routing.rb\"],\"parallel_group\":\"live-read-only\",\"defer_reason\":null},{\"lane\":\"diff-and-lifecycle\",\"proof_role\":\"Verify diff hygiene, protected scope, and typed lifecycle consistency\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record post-review Classify every pinned canonical feature row with a named cutover owner",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb\"],\"purpose\":\"Classify every pinned canonical feature row with a named cutover owner\",\"outcome\":\"passed\",\"evidence_ref\":\"post-review local validation: 123 rows, pinned digest, six owner classes\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record post-review Reverify live issue topology after pre-PR finding repairs",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_live_routing.rb\"],\"purpose\":\"Reverify live issue topology after pre-PR finding repairs\",\"outcome\":\"passed\",\"evidence_ref\":\"post-review local validation: live routing ok\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record post-review Reverify local links after canonical corpus expansion",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_links.rb\"],\"purpose\":\"Reverify local links after canonical corpus expansion\",\"outcome\":\"passed\",\"evidence_ref\":\"post-review local validation: local links ok\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "WP-01 local execution and validation complete",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance WP-01 to implemented for exact-revision review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Activate SRP for bounded pre-PR review",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record fixed bounded pre-PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"WP01-R1\",\"severity\":\"p2\",\"summary\":\"Literal newline escape remained in live #5591 body\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":null,\"route\":\"issue_5594\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record fixed bounded pre-PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"WP01-R2\",\"severity\":\"p2\",\"summary\":\"Decision identifiers D-05 and D-06 were duplicated\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":null,\"route\":\"issue_5594\"}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record fixed bounded pre-PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"WP01-R3\",\"severity\":\"p2\",\"summary\":\"Live-routing validator depended on an unrecorded owner-binary environment path\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":null,\"route\":\"issue_5594\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record fixed bounded pre-PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"WP01-R4\",\"severity\":\"p1\",\"summary\":\"Runtime acceptance #5361 listed parent consumer #5384 as a dependency\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":null,\"route\":\"issue_5594\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record fixed bounded pre-PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"WP01-R5\",\"severity\":\"p1\",\"summary\":\"C-SDLC feature doc reported closed #5541 as open\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":null,\"route\":\"issue_5594\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record fixed bounded pre-PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"WP01-R6\",\"severity\":\"p1\",\"summary\":\"Feature preservation required per-row ownership but validation only checked file existence\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":null,\"route\":\"issue_5594\"}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record fixed bounded pre-PR review finding",
+      "operation": "{\"operation\":\"record_finding\",\"finding\":{\"id\":\"WP01-R7\",\"severity\":\"p2\",\"summary\":\"Root README declared v0.91.8 active but routed Start here primarily to v0.91.7\",\"actionable\":true,\"in_scope\":true,\"disposition\":\"fixed\",\"fix_revision\":null,\"route\":\"issue_5594\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 25,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 26,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Make the diff-hygiene proof cover the complete issue branch against its pinned base.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"structured-planning\",\"proof_role\":\"Parse and assert v0.91.8 YAML and JSON topology\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_structured_planning.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"feature-crosswalk\",\"proof_role\":\"Pin and classify every canonical ADL feature row with named cutover owners and explicit per-row dispositions\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"local-links\",\"proof_role\":\"Verify local links across touched v0.91.8 documents\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_links.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"live-routing\",\"proof_role\":\"Verify exact live issue labels, parents, dependencies, umbrellas, inventory coverage, and malformed-body repair through ADL owner binaries\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_live_routing.rb\"],\"parallel_group\":\"live-read-only\",\"defer_reason\":null},{\"lane\":\"diff-and-lifecycle\",\"proof_role\":\"Verify full branch diff hygiene against origin/main plus protected scope and typed lifecycle consistency\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 29,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 29,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Append current exact feature-crosswalk proof and explicitly supersede the earlier 123-row/six-class validation entry.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb\"],\"purpose\":\"Prove the corrected explicit feature-preservation crosswalk after semantic owner review\",\"outcome\":\"passed\",\"evidence_ref\":\"current proof: 122 real rows, pinned digest, eight explicit decision classes; supersedes the earlier 123-row/six-class entry\"}}"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 34,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 35,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance to reviewed after the clean exact-revision review and publication guard pass.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 36,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

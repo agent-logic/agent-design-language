@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.review.history.v1",
+  "issue": 5594,
+  "reviewer": "subagent:Popper:019f7ddf-df65-7ec2-a4be-6c5b3efa28b1",
+  "reviewed_revision": "git-blake3:c43967edbe804b8e89509ae2d59fcb22e67f98b0:1af897753270b2f2ffd86e141e33713c529a47010d706aee7d680334579370aa",
+  "result": "changes_required",
+  "findings": [
+    {
+      "id": "WP01-ER6",
+      "severity": "p1",
+      "summary": "Signing verification and trust policy was routed to Runtime Parity-C instead of ADL v2 WP-07 signing owner #5342",
+      "disposition": "fixed_pending_exact_revision_review",
+      "fix_commit": "329c7b627b1d49d2ae722c0389058f2be54a0152",
+      "evidence": ".csdlc/prepared/issues/5594/feature_decisions_5594.rb"
+    }
+  ],
+  "validation": [
+    "git diff --check origin/main...c43967edb: pass",
+    "validate_structured_planning.rb: pass",
+    "validate_feature_crosswalk.rb: structural pass with semantic-owner failure",
+    "validate_links.rb: pass",
+    "validate_live_routing.rb: pass"
+  ]
+}

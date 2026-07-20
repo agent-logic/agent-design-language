@@ -6,6 +6,9 @@ run.
 
 ## Entrypoints
 
+- [V0918_WP01_EXECUTION_READINESS_5594.md](V0918_WP01_EXECUTION_READINESS_5594.md)
+  records the opening sprint topology, collision risks, and ready/not-ready
+  dispositions.
 - [THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md](THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md)
   is the prepared formal milestone third-party review handoff.
 

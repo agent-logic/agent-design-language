@@ -1,0 +1,1717 @@
+{
+  "schema": "adl.v0918.feature_preservation_crosswalk.v1",
+  "source": "docs/planning/ADL_FEATURE_LIST.md",
+  "source_row_count": 122,
+  "source_row_digest": "89a94d430a99cae0b529f5447587af41bda9903cecf1e3ebbdc25542d733ed9e",
+  "entries": [
+    {
+      "row": 1,
+      "source_line": 209,
+      "feature": "Deterministic workflow execution",
+      "canonical_status": "Implemented",
+      "canonical_evidence": "runtime/CLI, examples, milestone docs",
+      "canonical_next_target": "Completed baseline by `v0.8`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 2,
+      "source_line": 210,
+      "feature": "ExecutionPlan runtime",
+      "canonical_status": "Implemented",
+      "canonical_evidence": "Rust runtime and plan execution",
+      "canonical_next_target": "Completed baseline by `v0.8`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 3,
+      "source_line": 211,
+      "feature": "Sequential + fork/join coordination",
+      "canonical_status": "Implemented",
+      "canonical_evidence": "examples, tests, demo docs",
+      "canonical_next_target": "Completed baseline by `v0.8`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 4,
+      "source_line": 212,
+      "feature": "Bounded concurrency and retry/failure controls",
+      "canonical_status": "Implemented",
+      "canonical_evidence": "runtime semantics, tests, `v0.7` docs, and `v0.8` crosswalk evidence",
+      "canonical_next_target": "Completed baseline by `v0.8`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 5,
+      "source_line": 213,
+      "feature": "Run artifacts and replay-oriented inspection",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "run artifacts, trace/review docs, milestone demos",
+      "canonical_next_target": "Completed baseline in `v0.90`; inhabited-runtime integration complete in `v0.91.1`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 6,
+      "source_line": 214,
+      "feature": "Signing, verification, and trust policy",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "signing/verification surfaces, trust docs",
+      "canonical_next_target": "Completed baseline in `v0.90`; enterprise hardening complete in `v0.93`",
+      "classification": "adl_v2_signing",
+      "owner_issues": [
+        5342
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "Signing, verification, and trust-policy replacement is explicitly owned by ADL v2 WP-07 rather than Runtime v3 governed-operations parity."
+    },
+    {
+      "row": 7,
+      "source_line": 215,
+      "feature": "Provider and transport substrate",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "provider docs, HTTP/local provider surfaces, reviewer package",
+      "canonical_next_target": "Runtime/provider completion target: `v0.92`",
+      "classification": "provider_and_secure_transport",
+      "owner_issues": [
+        5589,
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Provider operations belong to Runtime v3 Parity-C while secure transport and remote access belong to Parity-D; both proofs are required."
+    },
+    {
+      "row": 8,
+      "source_line": 216,
+      "feature": "Remote execution baseline",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "bounded remote execution surfaces and docs",
+      "canonical_next_target": "Runtime/security completion target: `v0.93`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 9,
+      "source_line": 217,
+      "feature": "Human-in-the-loop pause/resume",
+      "canonical_status": "Implemented baseline; AEE-required subset pulled forward",
+      "canonical_evidence": "runtime/control surfaces and review docs",
+      "canonical_next_target": "AEE-required queue/wake/handoff subset targeted for `v0.92`; broad operator UX polish by `v0.95`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 10,
+      "source_line": 218,
+      "feature": "Structured authoring model",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "SIP/STP/SPP/SRP/SOR contracts and prompt tooling",
+      "canonical_next_target": "MVP completion target: `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 11,
+      "source_line": 219,
+      "feature": "Structured planning and Structured Review Prompt workflow",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.91` SPP/SRP feature docs, readiness records, validation tooling, and issue-bundle workflow surfaces; historical records may still mention the older Structured Review Policy wording",
+      "canonical_next_target": "Completed baseline by `v0.91.0`; validator/closeout hardening continues in `v0.91.1`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 12,
+      "source_line": 220,
+      "feature": "Control-plane lifecycle",
+      "canonical_status": "Implemented baseline; AEE-required truth surfaces pulled forward",
+      "canonical_evidence": "`pr init/create/start/run/finish`, doctor, janitor, closeout surfaces",
+      "canonical_next_target": "AEE/control-path truth subset targeted for `v0.91.5`/`v0.92`; broad hardening by `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 13,
+      "source_line": 221,
+      "feature": "Editor and command-adapter surfaces",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "editor docs, demos, bounded command adapters",
+      "canonical_next_target": "MVP completion target: `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 14,
+      "source_line": 222,
+      "feature": "Review and validation surfaces",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "reviewer contracts, validation tools, review packages",
+      "canonical_next_target": "MVP completion target: `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 15,
+      "source_line": 223,
+      "feature": "Task-bundle workflow",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "issue/task bundles and public execution records",
+      "canonical_next_target": "MVP completion target: `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 16,
+      "source_line": 224,
+      "feature": "Agency, cognitive loop, and cognitive stack",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.86` agency/cognition feature package, demos, and review artifacts",
+      "canonical_next_target": "Cognitive-being completion target: `v0.91`; identity/governance integration complete by `v0.93`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 17,
+      "source_line": 225,
+      "feature": "Fast/slow thinking and cognitive arbitration",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.86` feature docs and bounded proof package",
+      "canonical_next_target": "Moral-cognition completion target: `v0.91`; MVP integration complete by `v0.95`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 18,
+      "source_line": 226,
+      "feature": "Bounded Godel loop",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.8` runtime artifacts, demos, experiment surfaces, `v0.89` experiment package",
+      "canonical_next_target": "Godel-agent completion target: `v0.92`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 19,
+      "source_line": 227,
+      "feature": "Godel agents and Godel-Hadamard-Bayes algorithm",
+      "canonical_status": "Partially implemented",
+      "canonical_evidence": "`v0.8` bounded Godel loop, `v0.89` Godel experiment system, GHB execution/state-space-compression idea docs, reasoning-pattern substrate, ObsMem, trace, cognitive proof surfaces, and `docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md`",
+      "canonical_next_target": "GHB runtime/story explicit in `v0.91.1`; paper packet in `v0.91.2`; first true Godel-agent birthday complete in `v0.92`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 20,
+      "source_line": 228,
+      "feature": "ObsMem indexing, retrieval, and evidence-aware ranking",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.8` / `v0.87` proof surfaces plus `v0.89` D6 retrieval/ranking proof",
+      "canonical_next_target": "Memory/identity completion target: `v0.92`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 21,
+      "source_line": 229,
+      "feature": "Shared ObsMem foundation",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.87` shared-memory docs and proof surfaces",
+      "canonical_next_target": "Identity/continuity completion target: `v0.92`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 22,
+      "source_line": 230,
+      "feature": "Trace validation, trace review, and trace-to-memory ingestion",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.87` trace schema/emission/artifact/review package and trace-ObsMem docs",
+      "canonical_next_target": "Signed/queryable trace completion target: `v0.94`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 23,
+      "source_line": 231,
+      "feature": "Bounded cognitive path",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.86` cognitive demo/artifact package",
+      "canonical_next_target": "Cognitive-being completion target: `v0.91`; MVP integration complete by `v0.95`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 24,
+      "source_line": 232,
+      "feature": "Freedom Gate baseline",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.86` bounded cognitive proof path",
+      "canonical_next_target": "Completed baseline by `v0.86`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 25,
+      "source_line": 233,
+      "feature": "Freedom Gate v2",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89` judgment-boundary and gate proof surfaces",
+      "canonical_next_target": "Governance completion target: `v0.93`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 26,
+      "source_line": 234,
+      "feature": "Trace substrate",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.87` trace docs and reviewer-facing proof surfaces",
+      "canonical_next_target": "Runtime v2 integration complete in `v0.91.1`; signed/queryable trace complete by `v0.94`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 27,
+      "source_line": 235,
+      "feature": "Operational skills substrate",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.87` skills/control-plane docs and operational demos",
+      "canonical_next_target": "MVP completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 28,
+      "source_line": 236,
+      "feature": "Runtime environment and lifecycle completion",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.87.1` runtime docs, demos, and review package",
+      "canonical_next_target": "Agent lifecycle completion target: `v0.91.1`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 29,
+      "source_line": 237,
+      "feature": "Execution boundaries and capability-aware local execution",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.87.1` runtime, local-model, and capability-aware execution docs/demos",
+      "canonical_next_target": "Capability/evaluator completion target: `v0.91.2`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 30,
+      "source_line": 238,
+      "feature": "Local runtime resilience and Shepherd preservation",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.87.1` resilience and preservation docs/demos",
+      "canonical_next_target": "Runtime resilience completion target: `v0.91.2`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 31,
+      "source_line": 239,
+      "feature": "Chronosense / temporal substrate",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.88` feature package and review surfaces",
+      "canonical_next_target": "Identity/governance integration complete by `v0.93`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 32,
+      "source_line": 240,
+      "feature": "Temporal query, retrieval, identity semantics, and continuity hooks",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.88` temporal schema, retrieval, and continuity/identity feature docs",
+      "canonical_next_target": "Identity completion target: `v0.92`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 33,
+      "source_line": 241,
+      "feature": "Commitments, deadlines, and bounded temporal causality",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.88` feature docs and reviewer package",
+      "canonical_next_target": "Governance completion target: `v0.93`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 34,
+      "source_line": 242,
+      "feature": "Cost model, accounting primitives, and bounded economics hooks",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.88` cost-model feature docs and planning surfaces plus `docs/milestones/v0.91.7/features/ECONOMICS_CONTEXT_DECISION_v0.91.7.md`",
+      "canonical_next_target": "Bounded economics baseline complete in `v0.90.4`; MVP integration complete by `v0.95`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 35,
+      "source_line": 243,
+      "feature": "PHI-style integration metrics",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.88` feature docs and review surfaces",
+      "canonical_next_target": "Evaluation completion target: `v0.91.2`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 36,
+      "source_line": 244,
+      "feature": "Instinct and bounded agency",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.88` feature docs, instinct review surface, Paper Sonata",
+      "canonical_next_target": "Cognitive-being completion target: `v0.91`; governance integration complete by `v0.93`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 37,
+      "source_line": 245,
+      "feature": "Paper Sonata public-facing proof surface",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`demo_v088_paper_sonata.sh` and milestone docs",
+      "canonical_next_target": "Publication/demo catalog completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 38,
+      "source_line": 246,
+      "feature": "Deep-agents comparative proof",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`demo_v088_deep_agents_comparative_proof.sh` and `v0.89` follow-on demo docs",
+      "canonical_next_target": "Publication/demo catalog completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 39,
+      "source_line": 247,
+      "feature": "AEE 1.0 convergence",
+      "canonical_status": "Implemented baseline; subsystem closure explicitly pulled forward",
+      "canonical_evidence": "`v0.89` `control_path/convergence.json`, D1 proof row, feature doc, `docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`, `docs/milestones/v0.91.5/features/V092_ACTIVATION_READINESS_v0.91.5.md`, and `docs/milestones/v0.91.6/features/AEE_MEMORY_ACP_BRIDGE_ACCOUNTING_v0.91.6.md`",
+      "canonical_next_target": "Runtime-inhabitant integration complete in `v0.91.1`; closure tranche defined in `v0.91.5`; subsystem proof targeted for `v0.92`; MVP polish only by `v0.95`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 40,
+      "source_line": 248,
+      "feature": "Decision, action, and skill-governance surfaces",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89` and `v0.89.1` decision/action/skill docs, runtime/proof surfaces",
+      "canonical_next_target": "Governance completion target: `v0.93`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 41,
+      "source_line": 249,
+      "feature": "Delegation, refusal, and coordination contracts",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89.1` operational-skill and coordination package",
+      "canonical_next_target": "Governance completion target: `v0.93`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 42,
+      "source_line": 250,
+      "feature": "Provider-extension packaging and safe extension boundaries",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89.1` provider-extension package and proof surfaces",
+      "canonical_next_target": "Provider/security completion target: `v0.93`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 43,
+      "source_line": 251,
+      "feature": "Security, posture, and trust-under-adversary package",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89` security posture package plus `v0.89.1` adversarial-runtime proof surfaces",
+      "canonical_next_target": "Enterprise security completion target: `v0.93`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 44,
+      "source_line": 252,
+      "feature": "Adversarial runtime, exploit/replay, and self-attack band",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89.1` issue wave and feature package",
+      "canonical_next_target": "Enterprise security completion target: `v0.93`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 45,
+      "source_line": 253,
+      "feature": "Demo proof entry points and quality gate",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89.1` demo matrix, proof-entry work, quality gate, and release review surfaces",
+      "canonical_next_target": "MVP demo/review completion target: `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 46,
+      "source_line": 254,
+      "feature": "Five-agent Hey Jude MIDI demo",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89.1` planning/proof surfaces and demo package",
+      "canonical_next_target": "Demo catalog completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 47,
+      "source_line": 255,
+      "feature": "arXiv paper writer and three-paper program",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.89.1` skills/publication package",
+      "canonical_next_target": "Publication packet completion target: `v0.91.2`; MVP publication lane complete by `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 48,
+      "source_line": 256,
+      "feature": "Long-lived supervisor, heartbeat, and cycle artifacts",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90` feature contracts, runtime surfaces, and stock-league demo package",
+      "canonical_next_target": "Inhabited-runtime completion target: `v0.91.1`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 49,
+      "source_line": 257,
+      "feature": "Stock-league long-lived demo family",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90` stock-league scaffold, recurring run, and proof artifacts",
+      "canonical_next_target": "Demo catalog completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 50,
+      "source_line": 258,
+      "feature": "Minimal status/inspection boundary",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90` trace/status issue, CLI/report surfaces, and review gate",
+      "canonical_next_target": "Observatory/runtime completion target: `v0.91.1`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 51,
+      "source_line": 259,
+      "feature": "CodeFriend review showcase and architecture-document generation",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90` repo-review, diagram, product-report, and architecture-doc skill/demo package",
+      "canonical_next_target": "Productization completion target: `v0.91.2`; MVP completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 52,
+      "source_line": 260,
+      "feature": "Coverage ratchet, test tracker, and quality tracking",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90` coverage/test tracker updates and quality-gate docs",
+      "canonical_next_target": "Runtime/test-cycle recovery target: `v0.91.2`; MVP quality target: `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 53,
+      "source_line": 261,
+      "feature": "Rust refactoring tracker and evidence-driven maintenance",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90` refactoring tracker, ADR remediation, and follow-on maintenance planning",
+      "canonical_next_target": "Rustdoc/tooling cleanup target: `v0.91.2`; MVP hardening target: `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 54,
+      "source_line": 262,
+      "feature": "Milestone compression and repo visibility prototypes",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90` compression and repo-visibility docs/proofs",
+      "canonical_next_target": "Repo-visibility follow-on target: `v0.91.2`; fuller repo-cognition convergence target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 55,
+      "source_line": 263,
+      "feature": "HTML milestone dashboard and compression reporting",
+      "canonical_status": "MVP-scoped",
+      "canonical_evidence": "`docs/milestones/v0.95/features/HTML_MILESTONE_DASHBOARD_AND_COMPRESSION_REPORTING_v0.95.md` plus the milestone-dashboard tooling baseline",
+      "canonical_next_target": "Dashboard/compression completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 56,
+      "source_line": 264,
+      "feature": "Runtime v2 foundation prototype",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90.1` feature contracts, Runtime v2 WPs, integrated demo, and proof packet",
+      "canonical_next_target": "Foundation complete; hardened by `v0.90.2`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 57,
+      "source_line": 265,
+      "feature": "CSM Observatory visibility and operator-report surfaces",
+      "canonical_status": "Implemented baseline; Runtime v3 live cutover unproven",
+      "canonical_evidence": "visibility packet, static console, operator report, CLI bundle, command packet design, v0.90.2 operator report integration, v0.90.3 redacted projections, multimode UI architecture, inhabited flagship demo, `docs/milestones/v0.91.5/features/DEMO_AND_UNITY_OBSERVATORY_READINESS_v0.91.5.md`, and `docs/milestones/v0.91.6/features/OBSERVATORY_UNITY_CONSUMPTION_CLASSIFICATION_v0.91.6.md`",
+      "canonical_next_target": "v0.91.8 #5590 must prove authenticated HTML Observatory consumption through configuration-driven Runtime v3 access; #4739/#4741/#5332 remain WP-14A Unity dispositions",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 58,
+      "source_line": 266,
+      "feature": "Runtime v2 hardening, recovery, quarantine, and expanded invariants",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90.2` implementation docs, proof packets, tests, and demo matrix",
+      "canonical_next_target": "Completed baseline by `v0.90.2`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 59,
+      "source_line": 267,
+      "feature": "First bounded CSM run",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`v0.90.2` integrated first-run demo, feature-proof coverage, CSM run packet, Observatory report",
+      "canonical_next_target": "Completed baseline by `v0.90.2`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 60,
+      "source_line": 268,
+      "feature": "Third-party review and review-quality gates",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "v0.90.1 WP-15A, v0.90.2 review-tail planning, review handoff packets, finding disposition",
+      "canonical_next_target": "Release-tail completion target: every milestone through `v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 61,
+      "source_line": 269,
+      "feature": "ANRM / shepherd-model experiments",
+      "canonical_status": "Partially implemented",
+      "canonical_evidence": "v0.90.1 ANRM Gemma scaffold comparison and ten-trial results",
+      "canonical_next_target": "Placement complete in `v0.91.1`; evaluator/training path complete by `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 62,
+      "source_line": 270,
+      "feature": "CSM Shepherd model and Gemma training path",
+      "canonical_status": "MVP-scoped",
+      "canonical_evidence": "`docs/milestones/v0.95/features/CSM_SHEPHERD_AND_GEMMA_TRAINING_PATH_v0.95.md` plus ANRM comparison/trace-dataset foundations",
+      "canonical_next_target": "Placement and trace dataset complete in `v0.91.1`; training/evaluator MVP complete by `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 63,
+      "source_line": 271,
+      "feature": "Capability-testing evidence and Aptitude Atlas boundary",
+      "canonical_status": "Post-MVP Aptitude Atlas productization; v0.95 evidence consumption only",
+      "canonical_evidence": "capability/aptitude harness baseline and `docs/milestones/v0.95/features/APTITUDE_ATLAS_MODEL_EVALUATION_PLATFORM_v0.95.md`",
+      "canonical_next_target": "Harness baseline complete in `v0.91.1`; `v0.95` consumes capability-testing evidence only; Aptitude Atlas product/baseline productization is post-v0.95",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 64,
+      "source_line": 272,
+      "feature": "Governed tool calls and capability contracts",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.90.5` Governed Tools v1.0 planning, Universal Tool Schema, ADL Capability Contract, and tool-to-capability compiler design",
+      "canonical_next_target": "Completed baseline; benchmark and conformance expansion in `v0.91.2`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 65,
+      "source_line": 273,
+      "feature": "Cognitive Compression Cost instrumentation",
+      "canonical_status": "Implemented first pass",
+      "canonical_evidence": "CCC v0 fixture extractor, generated comparison report, validation command, metric draft, and milestone-compression planning",
+      "canonical_next_target": "Trace-backed metric completion target: `v0.91.1`; reporting completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 66,
+      "source_line": 274,
+      "feature": "Web-based code editor integration",
+      "canonical_status": "MVP-scoped",
+      "canonical_evidence": "`docs/milestones/v0.95/features/WEB_BASED_CODE_EDITOR_INTEGRATION_v0.95.md` plus the HTA editor-planning baseline",
+      "canonical_next_target": "Editor/operator completion target: `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 67,
+      "source_line": 275,
+      "feature": "Reasoning graph baseline",
+      "canonical_status": "Bounded Runtime v2 proof retained; Runtime v3 execution unproven; broader provenance MVP-scoped",
+      "canonical_evidence": "`docs/milestones/v0.94/features/REASONING_GRAPH_BASELINE_v0.94.md`, closed #4694-#4697 proof, and v0.91.8 #5592",
+      "canonical_next_target": "#5592 must preserve live graph/loop/adaptation behavior before Runtime v2 deletion; broader reasoning/provenance completion remains v0.94",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 68,
+      "source_line": 276,
+      "feature": "Signed trace and trace query",
+      "canonical_status": "MVP-scoped",
+      "canonical_evidence": "`docs/milestones/v0.94/features/SIGNED_TRACE_AND_TRACE_QUERY_v0.94.md`",
+      "canonical_next_target": "Reasoning/provenance completion target: `v0.94`",
+      "classification": "adl_v2_signing",
+      "owner_issues": [
+        5342
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "Signing, verification, and trust-policy replacement is explicitly owned by ADL v2 WP-07 rather than Runtime v3 governed-operations parity."
+    },
+    {
+      "row": 69,
+      "source_line": 277,
+      "feature": "Wellbeing, affect, kindness, moral cognition, humor",
+      "canonical_status": "Implemented Runtime v2 baseline; Runtime v3 affect control unproven",
+      "canonical_evidence": "`v0.91` feature docs, Runtime v2 proof surfaces, demo matrix, feature-proof coverage, release evidence, ADR 0016, `docs/milestones/v0.91.7/features/AFFECT_HAPPINESS_BRIDGE_v0.91.7.md`, and v0.91.8 #5592",
+      "canonical_next_target": "#5592 must implement or explicitly disposition affect reasoning-control, preserve safe non-claims, and prove adversarial authority isolation before Runtime v2 deletion",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 70,
+      "source_line": 278,
+      "feature": "Secure Agent Communication and Invocation Protocol",
+      "canonical_status": "Implemented baseline plus active hardening",
+      "canonical_evidence": "v0.90.5 ACIP planning plus v0.91 secure local Agent Comms, A2A boundary docs, proof coverage, and ADR 0017",
+      "canonical_next_target": "`v0.91.0` substrate complete; local hardening baseline completes in `v0.91.1`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 71,
+      "source_line": 279,
+      "feature": "Inhabited runtime readiness",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1` WBS, sprint plan, issue-wave YAML, readiness docs, demo matrix, feature index, and completed WP issue wave",
+      "canonical_next_target": "Completed baseline by `v0.91.1`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 72,
+      "source_line": 280,
+      "feature": "Runtime/polis architecture alignment",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1/features/RUNTIME_POLIS_ARCHITECTURE.md` plus landed docs/runtime alignment from closed `WP-02` / `#2824`",
+      "canonical_next_target": "Completed baseline by `v0.91.1`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 73,
+      "source_line": 281,
+      "feature": "Agent lifecycle state model",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1/features/AGENT_LIFECYCLE_STATE_MODEL.md` plus landed runtime/tests from closed `WP-03` / `#2825`",
+      "canonical_next_target": "Completed baseline by `v0.91.1`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 74,
+      "source_line": 282,
+      "feature": "CSM Observatory active agent runtime",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1/features/CSM_OBSERVATORY_ACTIVE_SURFACE.md` plus landed runtime/tests from closed `WP-04` / `#2826`",
+      "canonical_next_target": "Completed baseline by `v0.91.1`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 75,
+      "source_line": 283,
+      "feature": "Citizen standing and citizen state follow-on",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1/features/CITIZEN_STANDING_MODEL.md`, `docs/milestones/v0.91.1/features/CITIZEN_STATE_SUBSTRATE.md`, and landed runtime/fixture proof from closed `WP-05` / `#2827` and `WP-06` / `#2828`",
+      "canonical_next_target": "Completed baseline by `v0.91.1`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 76,
+      "source_line": 284,
+      "feature": "Memory, Theory of Mind, capability testing, intelligence metrics, governed learning, and ANRM/Gemma",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1/features/README.md` plus landed proof surfaces from closed `WP-07` through `WP-12` / `#2829` through `#2834`",
+      "canonical_next_target": "Completed baseline by `v0.91.1`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 77,
+      "source_line": 285,
+      "feature": "ACIP hardening and local encryption boundary",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1/features/ACIP_HARDENING.md` plus landed hardening/conformance work from closed `WP-13` / `#2835`",
+      "canonical_next_target": "Completed local hardening baseline by `v0.91.1`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 78,
+      "source_line": 286,
+      "feature": "A2A adapter boundary",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1/features/A2A_ADAPTER_BOUNDARY.md` and closed `WP-14` / `#2836`",
+      "canonical_next_target": "Completed baseline by `v0.91.1`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 79,
+      "source_line": 287,
+      "feature": "Runtime inhabitant proof",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.1/features/RUNTIME_INHABITANT_PROOF.md` and closed `WP-15` / `#2837`",
+      "canonical_next_target": "Completed baseline by `v0.91.1`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 80,
+      "source_line": 288,
+      "feature": "UTS + ACC multi-model benchmark and provider-native tool-call comparison",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/UTS_ACC_MULTI_MODEL_BENCHMARK.md` plus `docs/milestones/v0.91.2/review/uts_benchmark_evidence/`",
+      "canonical_next_target": "`v0.91.2` ADL benchmark baseline complete; standalone UTS repo migration continues under `#3107`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 81,
+      "source_line": 289,
+      "feature": "Runtime/test-cycle recovery and coverage ergonomics",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/RUNTIME_TEST_CYCLE_RECOVERY.md`, runtime recovery reports, coverage ergonomics report, and CI runtime budget docs",
+      "canonical_next_target": "`v0.91.2` baseline complete with follow-on observability/hardening continuing as needed",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 82,
+      "source_line": 290,
+      "feature": "CodeFriend repo-review product layer",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/CODEFRIEND_PRODUCTIZATION.md` plus existing review-product proof baseline",
+      "canonical_next_target": "`v0.91.2` productization lane complete; MVP polish continues by `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 83,
+      "source_line": 291,
+      "feature": "Review heuristics and reviewer demo lane",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/REVIEW_HEURISTICS_AND_DEMOS.md`",
+      "canonical_next_target": "`v0.91.2` review/demo baseline complete",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 84,
+      "source_line": 292,
+      "feature": "Google Workspace CMS bridge and Rust-native adapter boundary",
+      "canonical_status": "Implemented baseline plus active hardening",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/GOOGLE_WORKSPACE_CMS_BRIDGE.md`",
+      "canonical_next_target": "Completed bounded baseline in `v0.91.2`; live hardening and future project operational use continue as follow-on work",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 85,
+      "source_line": 293,
+      "feature": "Automated repository modernization and external refactoring integration",
+      "canonical_status": "Implemented bounded packet",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/CODE_MODERNIZATION_DEMO.md` plus existing Moderne/OpenRewrite and code-modernization planning docs",
+      "canonical_next_target": "`v0.91.2` bounded Moderne/OpenRewrite LST demo lane complete",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 86,
+      "source_line": 294,
+      "feature": "Generic speculative decoding runtime acceleration",
+      "canonical_status": "Implemented evaluation packet",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/SPECULATIVE_DECODING_PROTOTYPE.md`, `docs/milestones/v0.91.2/review/speculative_decoding/speculative_decoding_prototype_packet.md`, and `docs/adr/0022-speculative-decoding-deterministic-commit-boundary.md`",
+      "canonical_next_target": "`v0.91.2` bounded evaluation complete; productization deferred pending real backend follow-on",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 87,
+      "source_line": 295,
+      "feature": "Repo visibility follow-on",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/REPO_VISIBILITY_FOLLOW_ON.md` plus the `v0.90` repo-visibility baseline",
+      "canonical_next_target": "`v0.91.2` follow-on packet complete",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 88,
+      "source_line": 296,
+      "feature": "Publication packet program and GHB paper lane",
+      "canonical_status": "Implemented packet",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/PUBLICATION_PROGRAM.md` plus GHB paper lineage docs",
+      "canonical_next_target": "`v0.91.2` publication-planning packet complete; no publication approval claimed",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 89,
+      "source_line": 297,
+      "feature": "General-intelligence paper packet",
+      "canonical_status": "Implemented packet",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/GENERAL_INTELLIGENCE_PAPER_PACKET.md`",
+      "canonical_next_target": "`v0.91.2` paper packet complete with canonical paper repo as source of manuscript truth",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 90,
+      "source_line": 298,
+      "feature": "Rustdoc/doc cleanup",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/RUSTDOC_DOC_CLEANUP.md`",
+      "canonical_next_target": "`v0.91.2` cleanup baseline complete",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 91,
+      "source_line": 299,
+      "feature": "Workflow guardrails",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.2/features/WORKFLOW_GUARDRAILS.md`",
+      "canonical_next_target": "`v0.91.2` guardrail baseline complete",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 92,
+      "source_line": 300,
+      "feature": "Cognitive SDLC first slice and transition manifest",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.3/features/COGNITIVE_SDLC_FIRST_SLICE.md`, `docs/milestones/v0.91.3/features/COGNITIVE_TRANSITION_MANIFEST.md`, `docs/milestones/v0.91.3/features/CARD_LIFECYCLE_INTEGRATION.md`, `docs/milestones/v0.91.3/features/TRANSITION_DAG_AND_SHARD_COORDINATION.md`, `docs/milestones/v0.91.3/features/EVIDENCE_BUNDLE_AND_REVIEW_SYNTHESIS.md`, `docs/milestones/v0.91.3/features/GOVERNED_MERGE_READINESS_GATE.md`, `docs/milestones/v0.91.3/features/SRP_SOR_OBSMEM_HANDOFF.md`, and `docs/milestones/v0.91.3/features/FIVE_MINUTE_SPRINT_FIRST_PROOF.md`",
+      "canonical_next_target": "`v0.91.3` proved one bounded Cognitive State Transition; `v0.91.4` hardens repeatable/default operation",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 93,
+      "source_line": 301,
+      "feature": "Cognitive SDLC default operation and five-minute-sprint repeatability",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.91.4/features/COGNITIVE_SDLC_DEFAULT_OPERATION.md`, `docs/milestones/v0.91.4/features/CSDL_VALIDATION_AND_ROUTING_HARDENING.md`, `docs/milestones/v0.91.4/features/SOFTWARE_DEVELOPMENT_POLIS_AND_ACTOR_STANDING.md`, `docs/milestones/v0.91.4/features/SHARD_OWNERSHIP_AND_INTERFACE_FREEZE.md`, `docs/milestones/v0.91.4/features/EVIDENCE_CONVERGENCE_REVIEW_SYNTHESIS_AND_SIGNED_TRACE.md`, `docs/milestones/v0.91.4/features/MERGE_READINESS_AND_PR_GATE_HARDENING.md`, `docs/milestones/v0.91.4/features/OBSMEM_TRANSITION_MEMORY_INTEGRATION.md`, `docs/milestones/v0.91.4/features/SPRINT_CONDUCTOR_DEFAULT_CSDL_LANE.md`, `docs/milestones/v0.91.4/features/FIVE_MINUTE_SPRINT_REPEATABILITY.md`, `docs/milestones/v0.91.4/features/ACTIVE_ISSUE_MIGRATION_POLICY.md`, `docs/milestones/v0.91.4/features/PROCESS_DRIFT_REGRESSION_FIXTURES.md`, and `docs/planning/C_SDLC_PROMPT_TEMPLATE_EDITOR_TRANSITION_PLAN.md`",
+      "canonical_next_target": "`v0.91.4` completes the C-SDLC rollout and makes it the default software-development path, including validation-tail/proof-latency handling and Parallel Validation Fabric planning so sprint speed does not hide long blocking proof cycles; tracked prompt-record migration consumes the versioned `docs/templates/prompts/1.0.0/` substrate, Rust-owned field validation, browser-assisted human review, and the transition plan created in `v0.91.3`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 94,
+      "source_line": 302,
+      "feature": "Logging, observability, and OTel-compatible proof-loop readiness",
+      "canonical_status": "Retained bounded prerequisite and consumer proof",
+      "canonical_evidence": "`docs/milestones/v0.91.5/CONTROL_PLANE_OBSERVABILITY_CONTRACT_3609.md`, `docs/milestones/v0.91.5/SHARED_OBSERVABILITY_AND_OTEL_CONTRACT_3705.md`, `docs/milestones/v0.91.5/OPEN_TELEMETRY_INTEGRATION_BOUNDARY_3709.md`, closed `#4718`, retained Soak #2, and WP-09/WP-15 consumption packets",
+      "canonical_next_target": "`#4718` is the retained prerequisite proof for parse-safe JSON, stderr `adl_event` behavior, redaction hygiene, and OTel-compatible mapping. Soak and Observatory consumers provide bounded consumption evidence; Unity live production export remains unclaimed.",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 95,
+      "source_line": 303,
+      "feature": "Resilience, citizen persistence, and operational sleep/wake",
+      "canonical_status": "Retained bounded integration proof",
+      "canonical_evidence": "`docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`, `docs/milestones/v0.91.6/features/RESILIENCE_PERSISTENCE_SLEEP_WAKE_v0.91.6.md`, closed `#4778`, closed `#4780`-`#4784`, and `docs/milestones/v0.91.7/review/V0917_RESILIENCE_INTEGRATION_MINI_SPRINT_4778.md`",
+      "canonical_next_target": "v0.92 may consume only the retained workflow, provider/model, remote, runtime-middleware, and failure-injection proof. Full product resilience beyond those surfaces is not claimed.",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 96,
+      "source_line": 304,
+      "feature": "Public prompt records export, redaction, validation, and indexing",
+      "canonical_status": "Required pre-v0.92 implementation/proof surface",
+      "canonical_evidence": "local prompt-card authoring surface, public prompt-record export work, `docs/milestones/v0.91.5/features/PUBLIC_PROMPT_RECORDS_v0.91.5.md`, and `docs/milestones/v0.91.6/features/PUBLIC_PROMPT_RECORDS_EXPORT_v0.91.6.md`",
+      "canonical_next_target": "Local cards remain editable; v0.92 may consume public records only after export, redaction, validation, indexing, security, and evidence boundaries are implemented or blocked with evidence.",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 97,
+      "source_line": 305,
+      "feature": "Provider/model reliability and multi-agent readiness",
+      "canonical_status": "Retained bounded implementation/proof",
+      "canonical_evidence": "Sprint 2/remediation proof packets, closed WP-05, provider mini-sprint packets, and scheduler/provider/local-agent review evidence",
+      "canonical_next_target": "Reliability proof remains separate from training or ANRM product claims; v0.92 may consume only paths with role suitability, known failure modes, and retained proof.",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 98,
+      "source_line": 306,
+      "feature": "Security readiness and Continuous Adversarial Verification",
+      "canonical_status": "Retained bounded implementation/proof and review remediation",
+      "canonical_evidence": "v0.91.7 WP-12 packets, closed `#4656`-`#4660`, and closed remediation `#5404`/`#5406`",
+      "canonical_next_target": "v0.92 may consume only the retained CAV, SSM, access, protocol, and validation claims. Broad release security remains gated by the closeout review chain.",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 99,
+      "source_line": 307,
+      "feature": "Curiosity Engine and Discovery Substrate",
+      "canonical_status": "Bounded Runtime v2 cycle implemented/proven",
+      "canonical_evidence": "closed `#4692`, `docs/milestones/v0.91.7/features/CURIOSITY_ENGINE_DISCOVERY_SUBSTRATE_v0.91.7.md`, and the WP-10 review packet",
+      "canonical_next_target": "One governed discovery cycle is retained; autonomous or unbounded discovery is not claimed.",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 100,
+      "source_line": 308,
+      "feature": "Constructability Gate for shared ADL reality",
+      "canonical_status": "Bounded Runtime v2 validator implemented/proven",
+      "canonical_evidence": "closed `#4693`, `docs/milestones/v0.91.7/features/CONSTRUCTABILITY_GATE_v0.91.7.md`, and the WP-10 review packet",
+      "canonical_next_target": "Construction-event, anchor, admissibility, and fail-closed proof is retained; broader shared-reality authority is not claimed.",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 101,
+      "source_line": 309,
+      "feature": "Reasoning graph, loop runtime, and `adl.skill.v1`",
+      "canonical_status": "Bounded Runtime v2 implementation/proof retained; Runtime v3 parity required",
+      "canonical_evidence": "closed `#4694`-`#4697`, WP-11 review and cognitive-control evidence packets, follow-ons `#4912`, `#5096`, `#5136`, and v0.91.8 `#5592`",
+      "canonical_next_target": "Runtime v3 receives no parity credit from metadata or fixtures; #5592 must prove the live kernel path or block Runtime v2 deletion. Full adaptive-learning and final-standard convergence remain later work.",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 102,
+      "source_line": 310,
+      "feature": "ACP / cognitive profiles runtime surface",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md`",
+      "canonical_next_target": "`v0.92`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 103,
+      "source_line": 311,
+      "feature": "ACIP binary schema and WebSocket carrier",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.91.6/features/ACIP_A2A_PROVIDER_COMMUNICATIONS_v0.91.6.md`, `docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md`, and `docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md`",
+      "canonical_next_target": "`v0.92` binary/schema carrier; `v0.93` security; `v0.94` signed trace",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 104,
+      "source_line": 312,
+      "feature": "Identity, stable name, and continuity substrate",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.91.6/features/IDENTITY_CONTINUITY_CAPABILITY_SELECTOR_BRIDGE_v0.91.6.md`, `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`, and `docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md`",
+      "canonical_next_target": "`v0.92`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 105,
+      "source_line": 313,
+      "feature": "Memory grounding, capability envelope, and birth witnesses/receipt",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`",
+      "canonical_next_target": "`v0.92`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 106,
+      "source_line": 314,
+      "feature": "Memory Palace navigable context topology",
+      "canonical_status": "Required v0.92 implementation/proof slice under development",
+      "canonical_evidence": "`docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md` plus context-problem planning",
+      "canonical_next_target": "v0.92 must include the smallest implemented/proven slice that distinguishes ObsMem, palace topology, working set, and context cache.",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 107,
+      "source_line": 315,
+      "feature": "First true Gödel-agent birthday",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md` and `docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md`",
+      "canonical_next_target": "`v0.92`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 108,
+      "source_line": 316,
+      "feature": "Constitutional citizenship, rights/duties, and governance review",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md` plus the `v0.93` citizenship/governance allocation plan",
+      "canonical_next_target": "`v0.93`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 109,
+      "source_line": 317,
+      "feature": "Bounded Theory of Mind, relationship, reputation, and shared social memory boundary",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.93/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md` and `docs/milestones/v0.93/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md`",
+      "canonical_next_target": "`v0.93`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 110,
+      "source_line": 318,
+      "feature": "Delegation, upstream delegation, IAM, standing transition, and challenge/appeal governance",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.93/features/DELEGATION_IAM_STANDING_AND_APPEAL_GOVERNANCE_v0.93.md` plus local upstream-delegation source planning",
+      "canonical_next_target": "`v0.93`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 111,
+      "source_line": 319,
+      "feature": "Guilds and collective organization",
+      "canonical_status": "MVP-scoped planned governance surface",
+      "canonical_evidence": "`docs/milestones/v0.93/features/GUILDS_AND_COLLECTIVE_ORGANIZATION_v0.93.md`",
+      "canonical_next_target": "v0.93 feature doc with v0.95 MVP consumption; must define identity, membership, authority, delegation, shared resources/capabilities, isolation, privacy, trace, and review/challenge boundaries",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 112,
+      "source_line": 320,
+      "feature": "Enterprise security for the ADL polis",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md`, `docs/milestones/v0.93/features/SECURITY_WP_S1_ZERO_TRUST_ARCHITECTURE_v0.93.md`, `docs/milestones/v0.93/features/SECURITY_WP_S2_POLICY_ENFORCEMENT_AUTHORIZATION_v0.93.md`, `docs/milestones/v0.93/features/SECURITY_WP_S3_SECRETS_KEYS_CRYPTOGRAPHIC_TRUST_v0.93.md`, `docs/milestones/v0.93/features/SECURITY_WP_S4_AUDIT_COMPLIANCE_INCIDENT_EVIDENCE_v0.93.md`, `docs/milestones/v0.93/features/SECURITY_WP_S5_ISOLATION_DATA_GOVERNANCE_PRIVACY_v0.93.md`, and `docs/milestones/v0.93/features/SECURITY_WP_S6_SECURITY_OPERATIONS_ADVERSARIAL_PROVENANCE_v0.93.md`",
+      "canonical_next_target": "`v0.93`",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 113,
+      "source_line": 321,
+      "feature": "Secure execution, policy, identity/auth, isolation, and provider-trust convergence",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.94/features/SECURE_EXECUTION_AND_TRUST_CONVERGENCE_v0.94.md` and the tracked `v0.94` milestone package",
+      "canonical_next_target": "`v0.94`; enterprise-security repo/module separation must be explicitly planned before large code movement",
+      "classification": "secure_access_observatory",
+      "owner_issues": [
+        5590
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Secure local or remote access, communications, telemetry, guardian, or Observatory behavior belongs to Runtime v3 Parity-D."
+    },
+    {
+      "row": 114,
+      "source_line": 322,
+      "feature": "Mental time travel / temporal self-projection",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.94/features/MENTAL_TIME_TRAVEL_v0.94.md` plus the `MTT-v1` source note",
+      "canonical_next_target": "`v0.94`",
+      "classification": "reasoning_adaptive_cognition",
+      "owner_issues": [
+        5592
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Reasoning, memory, cognition, affect, or adaptive behavior must be proved or explicitly dispositioned by Runtime v3 Parity-B."
+    },
+    {
+      "row": 115,
+      "source_line": 323,
+      "feature": "Payments, settlement, economic agency, and `x402` / Lightning adapters",
+      "canonical_status": "Planned",
+      "canonical_evidence": "`docs/milestones/v0.94.1/features/PAYMENTS_SETTLEMENT_AND_X402_v0.94.1.md` and the tracked `v0.94.1` milestone package",
+      "canonical_next_target": "`v0.94.1`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 116,
+      "source_line": 324,
+      "feature": "Bounded contract-market and resource-stewardship bridge",
+      "canonical_status": "Implemented baseline",
+      "canonical_evidence": "`docs/milestones/v0.90.4` contract-market docs, proof coverage, and demo matrix",
+      "canonical_next_target": "Completed bounded baseline by `v0.90.4`",
+      "classification": "governed_operations",
+      "owner_issues": [
+        5589
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Governance, identity, provider, state, time, tool, or operational-service behavior belongs to Runtime v3 Parity-C."
+    },
+    {
+      "row": 117,
+      "source_line": 325,
+      "feature": "Distributed execution integration",
+      "canonical_status": "Partially implemented; AEE/multi-agent boundary subset pulled forward",
+      "canonical_evidence": "`docs/milestones/v0.95/features/DISTRIBUTED_EXECUTION_INTEGRATION_v0.95.md`, ADR 0003, cluster-execution groundwork docs, and `docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md`",
+      "canonical_next_target": "AEE/multi-agent boundary proof targeted for `v0.91.5`/`v0.92`; broad distributed integration by `v0.95`",
+      "classification": "kernel_continuity_ingress",
+      "owner_issues": [
+        5591
+      ],
+      "cutover_disposition": "blocked_pending_runtime_v3_parity_or_explicit_non_runtime_disposition",
+      "decision_basis": "Runtime execution, lifecycle, continuity, replay, or canonical-ingress behavior must be proved on the Runtime v3 kernel path."
+    },
+    {
+      "row": 118,
+      "source_line": 326,
+      "feature": "CodeFriend v1 and portable adapter v2",
+      "canonical_status": "MVP-scoped planned product proof",
+      "canonical_evidence": "`docs/milestones/v0.95/features/CODEFRIEND_V1_PORTABLE_ADAPTER_V2_PROOF_v0.95.md` plus tracked CodeFriend planning",
+      "canonical_next_target": "CodeFriend v1 plus adapter v2 must land after v0.92 and before v0.95; broad product UX/accounts/billing/report UX remain post-v0.95",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 119,
+      "source_line": 327,
+      "feature": "Capability-testing evidence consumption / Aptitude Atlas boundary",
+      "canonical_status": "MVP-scoped evidence consumption; productization post-v0.95",
+      "canonical_evidence": "capability-testing harness docs, local capability-testing planning, and `LB-046`",
+      "canonical_next_target": "v0.95 consumes capability-testing evidence only; Aptitude Atlas product/baseline productization is post-v0.95",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 120,
+      "source_line": 328,
+      "feature": "Demo catalog and polished MVP walkthrough",
+      "canonical_status": "Partially implemented",
+      "canonical_evidence": "`docs/milestones/v0.95/features/DEMO_CATALOG_AND_MVP_WALKTHROUGH_v0.95.md` plus milestone demo matrices and reviewer packages",
+      "canonical_next_target": "`v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    },
+    {
+      "row": 121,
+      "source_line": 329,
+      "feature": "Control-plane Rust migration / tooling hardening",
+      "canonical_status": "Partially implemented",
+      "canonical_evidence": "`docs/milestones/v0.95/features/CONTROL_PLANE_RUST_MIGRATION_AND_TOOLING_HARDENING_v0.95.md` and Python-elimination/tooling-hardening planning",
+      "canonical_next_target": "`v0.95`",
+      "classification": "csdlc_v2_acceptance",
+      "owner_issues": [
+        5358
+      ],
+      "cutover_disposition": "external_owner_acceptance_required",
+      "decision_basis": "This is a C-SDLC authoring, review, validation, quality, or control-plane capability governed by C-SDLC v2 acceptance rather than Runtime v3 parity."
+    },
+    {
+      "row": 122,
+      "source_line": 330,
+      "feature": "Zed integration",
+      "canonical_status": "MVP-scoped decision",
+      "canonical_evidence": "`docs/milestones/v0.95/features/ZED_INTEGRATION_v0.95.md` plus the v0.85 MVP-boundary/editor-planning notes",
+      "canonical_next_target": "Complete the adapter or explicitly remove it from MVP scope by `v0.95`",
+      "classification": "retained_or_later_milestone",
+      "owner_issues": [
+        5347
+      ],
+      "cutover_disposition": "deferred_to_canonical_next_target",
+      "decision_basis": "This feature is retained evidence, a product or demonstration surface, or explicitly owned by its canonical later milestone; WP-17 prevents deletion without disposition."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "csdlc.review.history.v1",
+  "issue": 5594,
+  "reviewer": "subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+  "reviewed_revision": "git-blake3:de1011a8bfc95cea511782a66228f2ff83359b43:c463e796007f3e8491305624eb0001b85872cebe386a8727321a95fb032a7326",
+  "result": "changes_required",
+  "findings": [
+    {
+      "id": "WP01-ER1",
+      "severity": "p1",
+      "summary": "The 123-row feature-preservation gate lacks retained per-row owner and cutover dispositions",
+      "disposition": "superseded_by_later_exact_review",
+      "fix_commit": null,
+      "evidence": ".csdlc/prepared/issues/5594/exact-review-fe16793c3.json"
+    },
+    {
+      "id": "WP01-ER2",
+      "severity": "p2",
+      "summary": "Exact commit patch contains four trailing-whitespace lines while SOR records diff hygiene passed",
+      "disposition": "fixed",
+      "fix_commit": "0f504a1458145336d1bc948b532e75a6eff5e5cf",
+      "evidence": "git diff --check origin/main...HEAD"
+    }
+  ]
+}

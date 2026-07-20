@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.review.history.v1",
+  "issue": 5594,
+  "reviewer": "subagent:Halley:019f7e77-cc24-7532-a693-7b04a46fe7d7",
+  "reviewed_revision": "git-blake3:157b7608ec77cf7b008f388186848b418ee7690f:e4eba2757f882ed66fe9afcb0fa70cf609c5b2cafd3f4005b5755537e868cdce",
+  "result": "changes_required",
+  "findings": [
+    {
+      "id": "WP01-ER7",
+      "severity": "p1",
+      "summary": "Provider transport signed-trace and five standalone tooling rows retained semantically incorrect or incomplete cutover owners",
+      "disposition": "fixed_pending_exact_revision_review",
+      "fix_commit": "a45cb49d2bdde4f68e0b94575599680b5b4486a4",
+      "evidence": ".csdlc/prepared/issues/5594/feature_decisions_5594.rb"
+    }
+  ],
+  "validation": [
+    "git diff --check origin/main...157b7608e: pass",
+    "validate_structured_planning.rb: pass",
+    "validate_feature_crosswalk.rb: structural pass with semantic-owner failure",
+    "validate_links.rb: pass",
+    "validate_live_routing.rb: pass"
+  ]
+}

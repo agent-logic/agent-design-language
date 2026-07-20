@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5594,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
+    "slug": "v0-91-8-wp-01-execution-readiness",
+    "version": "v0.91.8",
+    "generation": 36
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "README.md\ndocs/planning/ADL_FEATURE_LIST.md\ndocs/milestones/v0.91.8\n.csdlc/prepared/issues/5594",
+      "review_revision": "git-blake3:8dc446b5272a9aee6c799739bb67cb100d15883b:05a17b801012d91bfa12db5272516c11694e2ff74b705317ae6667215c1011dd",
+      "reviewer": "subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+      "review_prompts": [
+        "Does every sprint have one real umbrella and a complete non-overlapping child set?",
+        "Do canonical docs agree with live issue, PR, card, and dependency truth?",
+        "Are parallel assignments collision-safe and dependency-correct?",
+        "Did WP-01 avoid implementation and scope expansion?",
+        "Are external-agent and merge authorities correctly bounded?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Live issue routing can change after this snapshot.",
+        "The feature crosswalk is planning disposition and deletion protection, not implementation or parity proof."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

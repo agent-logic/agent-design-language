@@ -1,13 +1,15 @@
 milestone: v0.91.8
 version: v0.91.8
-status: planned
-setup_issue: 5383
-superseded_setup_issue: 5335
+status: active_readiness
+readiness_issue: 5594
+sprint_umbrella_issue: 5595
+historical_setup_issues: [5335, 5383]
 restored_v0917_issue: 4641
 wp14a_parent_issue: 5384
 notes:
   - "#5383 is the historical v0.91.7 setup authority for this package."
   - "#5383 is closed as of 2026-07-15; do not describe setup as in progress."
+  - "#5594 is active WP-01 readiness authority; #5595 is the single milestone sprint umbrella."
   - "#4641 remains v0.91.7 WP-14 after restoration."
   - "#5384 preserves the v0.91.8 platform acceptance content formerly on #4641."
   - "All entries are planned until issue-local proof says otherwise."
@@ -15,7 +17,7 @@ notes:
   - "Core, acceptance, WP-10A, and provider child issues require typed card/readiness projections before implementation."
   - "Use one conductor, a global WIP cap of four writable issue/worktree actors, and one serialized integration/merge queue."
 wp_issue_map:
-  - {wp: WP-01, issue: 5383}
+  - {wp: WP-01, issue: 5594}
   - {wp: WP-02, issue: 5336}
   - {wp: WP-03, issue: 5337}
   - {wp: WP-04, issue: 5339}
@@ -41,11 +43,17 @@ wp_issue_map:
   - {wp: WP-22, issue: 5359}
   - {wp: WP-23, issue: 5348}
 sidecar_routes:
-  - {issue: 5335, route: superseded_setup_predecessor, active_owner: 5383}
+  - {issue: 5335, route: historical_setup_source, active_owner: 5594}
+  - {issue: 5383, route: historical_setup_source, active_owner: 5594}
+  - {issue: 5595, route: milestone_sprint_umbrella, active_owner: 5594}
   - {issue: 5343, wp: WP-12, assignment: "Reviewed reversible ADL default switch child"}
   - {issue: 5347, wp: WP-13, assignment: "Externally owned incumbent ADL band deletion child"}
   - {issue: 5358, live_wp: WP-14, parent_wp: WP-14A, assignment: "C-SDLC v2 acceptance and deployment gate"}
   - {issue: 5361, live_wp: WP-14, parent_wp: WP-14A, assignment: "Runtime v3 acceptance and deployment gate"}
+  - {issue: 5591, live_wp: WP-14, parent_issue: 5361, assignment: "Runtime v3 Parity-A kernel continuity and canonical ingress"}
+  - {issue: 5592, live_wp: WP-14, parent_issue: 5361, assignment: "Runtime v3 Parity-B reasoning adaptive learning and governed cognition"}
+  - {issue: 5589, live_wp: WP-14, parent_issue: 5361, assignment: "Runtime v3 Parity-C governed operations adapters"}
+  - {issue: 5590, live_wp: WP-14, parent_issue: 5361, assignment: "Runtime v3 Parity-D secure access Observatory guardian and rollback"}
   - {issue: 5526, wp: WP-09, assignment: "Current provider and model expansion child"}
   - {issue: 5499, wp: WP-10A, assignment: "Conductor issue-graph-to-live-task plan"}
   - {issue: 5498, wp: WP-10A, assignment: "Bounded Codex task and context-handoff adapter"}
@@ -55,6 +63,15 @@ sidecar_routes:
   - {issue: 5540, wp: WP-14A, assignment: "C-SDLC acceptance preflight inventory defect; do not absorb"}
   - {issue: 5541, wp: WP-14A, assignment: "C-SDLC acceptance preflight inventory defect; do not absorb"}
   - {issue: 5558, wp: WP-14A, assignment: "C-SDLC acceptance preflight inventory defect; do not absorb"}
+  - {issue: 5548, wp: WP-14A, assignment: "C-SDLC Gate 2 fixture defect; independently owned acceptance inventory"}
+  - {issue: 5587, route: operational_sidecar, assignment: "Google Drive context mirror; independently owned and not a core sprint blocker without an accepted dependency"}
+  - {issue: 5438, route: closed_repair_history}
+  - {issue: 5470, route: closed_repair_history}
+  - {issue: 5527, route: closed_repair_history}
+  - {issue: 5563, route: closed_repair_history}
+  - {issue: 5566, route: closed_repair_history}
+  - {issue: 5569, route: closed_repair_history}
+  - {issue: 5572, route: closed_repair_history}
   - {issue: 5352, live_wp: WP-14, parent_wp: WP-14A, assignment: "Exact-revision v0.92 consumption handoff"}
   - {issue: 4758, live_wp: WP-14, parent_wp: WP-14A, assignment: "Launch readiness package after platform deployment"}
   - {issue: 4759, live_wp: WP-14, parent_wp: WP-14A, assignment: "v0.92 activation map from accepted deployed products"}
@@ -70,16 +87,20 @@ sidecar_routes:
 parallel_execution:
   status: planned
   plan: docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md
-  setup_truth:
-    issue: 5383
-    state: closed
-    closed_at: "2026-07-15"
+  readiness_truth:
+    issue: 5594
+    state: open
+    historical_sources: [5335, 5383]
+  sprint_umbrella:
+    issue: 5595
+    nested_umbrellas: [5497, 5361, 5384]
   routing_authority:
     github_milestone_configured: false
     authority: "version:v0.91.8 labels plus checked-in WP_ISSUE_WAVE_v0.91.8.yaml"
   card_factory:
     rule: "Prepare cards one dependency wave ahead; implementation is forbidden until issue-specific SIP/STP/SPP and VPP are ready and validated."
-    missing_projection_issues: [5336, 5337, 5338, 5339, 5340, 5341, 5342, 5343, 5344, 5345, 5346, 5347, 5349, 5350, 5358, 5361, 5384, 5497, 5498, 5499, 5500, 5501, 5502, 5526]
+    missing_projection_issues: [5337, 5338, 5339, 5340, 5341, 5342, 5343, 5344, 5345, 5346, 5347, 5349, 5350, 5358, 5361, 5384, 5497, 5498, 5499, 5500, 5501, 5502, 5526, 5548, 5558, 5589, 5590, 5591, 5592]
+    stale_worktree_recovery_issues: [5336, 4739, 4741]
   controls:
     writable_actor_wip_cap: 4
     writable_actor_wip_scope: ["implementation", "card_factory", "acceptance", "janitor_fixes", "other_mutation"]
@@ -100,9 +121,13 @@ parallel_execution:
   acceptance_preflight:
     early_start_allowed: [5358, 5361]
     closure_constraints:
-      "5358": "C-SDLC acceptance inventories #5540/#5541/#5558 and closes only with current integrated proof."
+      "5358": "C-SDLC acceptance inventories #5540/#5541/#5548/#5558 and closes only with current integrated proof."
       "5361": "Runtime v3 acceptance closure consumes #5501 live workcell proof."
-    csdlc_defect_inventory: [5540, 5541, 5558]
+    csdlc_defect_inventory: [5540, 5541, 5548, 5558]
+    runtime_v3_parity_order:
+      first: [5591]
+      after_parity_a: [5592, 5589, 5590]
+      concurrent_execution_requires_disjoint_protected_paths: true
   cutover_deletion_path:
     serial_prefix: [5350, 5344, 5343]
     acceptance: [5358, 5361]
@@ -111,11 +136,11 @@ parallel_execution:
   release_tail_serial: [5354, 5351, 5360, 5356, 5357, 5363, 5362, 5355, 5359, 5348]
 work_packages:
   - wp: WP-01
-    issue: 5383
-    title: Planning package and routing repair
-    outcome: Restore #4641, preserve #5384, create this package, and align live issue-wave truth.
-    depends_on: ["v0.91.7 planning truth"]
-    deliverables: ["complete planning package", "issue routing comments", "focused validation"]
+    issue: 5594
+    title: Execution readiness and routing reconciliation
+    outcome: Reconcile canonical plans, live issue topology, sprint umbrellas, typed readiness, and collision-safe parallel execution.
+    depends_on: ["historical planning #5335/#5383", "closed v0.91.7 WP-23"]
+    deliverables: ["execution readiness report", "sprint and issue routing matrix", "focused validation"]
   - wp: WP-02
     issue: 5336
     title: Pin incumbent baseline and approve clean-room architecture
@@ -156,7 +181,7 @@ work_packages:
     issue: 5341
     title: Implement Runtime v3 adapter
     outcome: Connect ADL plans and engine events to Runtime v3 while preserving authority boundaries.
-    depends_on: ["WP-06", "WP-07"]
+    depends_on: ["WP-06", "WP-07", "#5591 reviewed Runtime v3 ingress contract"]
     deliverables: ["adapter", "authority-boundary proof"]
   - wp: WP-09
     issue: 5349

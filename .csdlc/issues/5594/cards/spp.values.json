@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5594,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
+    "slug": "v0-91-8-wp-01-execution-readiness",
+    "version": "v0.91.8",
+    "generation": 36
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Run parallel read-only truth inventories, synthesize one canonical reconciliation, repair bounded planning/readiness defects, validate, review, and publish the WP-01 gate before downstream execution.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Collect live issue, PR, sprint umbrella, card, and canonical-document inventories in parallel",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Synthesize the dependency graph, collision map, critical path, and sprint readiness dispositions",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Repair bounded canonical planning, issue routing, umbrella, ownership, and readiness defects",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused validation and exact-revision review, then publish the readiness gate",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [],
+      "invariants": [
+        "no tracked work on main",
+        "no downstream implementation before reviewed readiness",
+        "no more than four writable issue actors after WP-01",
+        "one serialized integration and merge queue",
+        "external shadows remain read-only evidence producers",
+        "no AWS and no raw gh"
+      ],
+      "risks": [
+        "stale issue state can make prose-only readiness misleading",
+        "overlapping sprint children can create parallel write collisions",
+        "card preparation can accidentally become downstream implementation",
+        "external-agent output can be mistaken for lifecycle authority"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "live issue truth cannot be obtained through ADL owner binaries",
+        "another active claim or worktree owns #5594",
+        "a required repair would widen scope into implementation",
+        "sprint ownership cannot be made non-overlapping without operator decision"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5594/design.md",
+      "design_digest": "ea5c7237efa120a65e9c075e95cc04809e86b95104cbc4ef61df5012229cb513",
+      "diagram_ref": ".csdlc/prepared/issues/5594/diagram.mmd",
+      "diagram_digest": "30964b8fae8c816e39be22d095395d5fc322e3fc200c4ed35e4fb8a75a59316a"
+    }
+  }
+}

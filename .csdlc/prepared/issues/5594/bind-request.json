@@ -1,0 +1,25 @@
+{
+  "issue": 5594,
+  "base_branch": "main",
+  "branch": "codex/5594-v0918-wp01-readiness",
+  "worktree": ".worktrees/adl-wp-5594",
+  "claim": {
+    "id": "claim-5594-v0918-wp01-readiness",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784562133,
+    "expires_unix_seconds": 1785166933,
+    "heartbeat_unix_seconds": 1784562133,
+    "branch": "codex/5594-v0918-wp01-readiness",
+    "worktree": ".worktrees/adl-wp-5594",
+    "protected_paths": [
+      ".csdlc/issues/5594",
+      ".csdlc/locks/5594.lock",
+      ".csdlc/prepared/issues/5594",
+      "README.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.91.8"
+    ],
+    "purpose": "Reconcile v0.91.8 planning, sprint umbrellas, issue readiness, and parallel execution without starting downstream implementation"
+  }
+}
