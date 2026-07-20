@@ -3,10 +3,11 @@ use csdlc_v2::cards::{
     StepStatus, ValidationLane, ValidationResult,
 };
 use csdlc_v2::{
-    assign_review, closeout_issue, edit_issue, record_merged_publication, record_publication,
-    record_readiness, record_review, BootstrapRequest, CardKind, Claim, ConflictState, EditRequest,
-    ErrorCode, InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent,
-    PublicationRequest, ReadinessRequest, ReconcileTerminalRequest, RemotePullRequest,
+    assign_review, closeout_issue, edit_issue, prepare_ready_publication,
+    record_merged_publication, record_publication, record_readiness, record_ready_publication,
+    record_review, BootstrapRequest, CardKind, Claim, ConflictState, EditRequest, ErrorCode,
+    InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest,
+    ReadinessRequest, ReadyPublicationRequest, ReconcileTerminalRequest, RemotePullRequest,
     RemoteReviewState, ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest,
     SemanticOperation, Store, TerminalDesignRepairRequest, TerminalDisposition,
     TerminalObservation, TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
@@ -343,6 +344,145 @@ fn fixture_with_validation_history_and_publication(
 #[test]
 fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() {
     run_complete_lifecycle(7, "Gate 7 fixture", "gate7", true);
+}
+
+#[test]
+fn typed_mark_ready_is_cas_guarded_and_records_only_confirmed_remote_success() {
+    let (temp, store, record, reviewed_sha) =
+        fixture_with_validation_history(72, "Mark ready fixture", "typed-mark-ready", vec![]);
+    fs::create_dir_all(temp.path().join(".csdlc/evidence/72")).unwrap();
+    fs::write(
+        temp.path()
+            .join(".csdlc/evidence/72/publication-record.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    git(
+        temp.path(),
+        &["add", ".csdlc/evidence/72/publication-record.json"],
+    );
+    git(temp.path(), &["commit", "-m", "typed publication record"]);
+    let published_head = git_output(temp.path(), &["rev-parse", "HEAD"]);
+    assert_ne!(reviewed_sha, published_head);
+    let request = ReadyPublicationRequest {
+        schema: "csdlc.ready_publication_request.v1".into(),
+        issue: 72,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "publisher".into(),
+        repository: "example/repo".into(),
+        pull_request: 70,
+        expected_head_sha: published_head.clone(),
+        token_file: None,
+    };
+    let governed = prepare_ready_publication(&store, &request).unwrap();
+    let before = fs::read(store.issue_dir(72).join("index.json")).unwrap();
+
+    let mut stale = request.clone();
+    stale.expected_head_sha = "stale-head".into();
+    assert_eq!(
+        prepare_ready_publication(&store, &stale).unwrap_err().code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert_eq!(
+        fs::read(store.issue_dir(72).join("index.json")).unwrap(),
+        before
+    );
+
+    let failed_remote_observation = governed.clone();
+    assert_eq!(
+        record_ready_publication(&store, &request, failed_remote_observation)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert_eq!(
+        fs::read(store.issue_dir(72).join("index.json")).unwrap(),
+        before
+    );
+
+    let mut confirmed = governed;
+    confirmed.draft = false;
+    confirmed.observed_state = "open".into();
+    let ready = record_ready_publication(&store, &request, confirmed).unwrap();
+    assert!(!ready.publication.as_ref().unwrap().draft);
+    let CardContent::Sor(sor) = &store.load_cards(72).unwrap()[&CardKind::Sor].content else {
+        panic!("SOR")
+    };
+    assert_eq!(
+        sor.publication_state,
+        csdlc_v2::cards::PublicationState::Ready
+    );
+
+    let mut non_draft = request;
+    non_draft.expected_generation = ready.generation;
+    non_draft.expected_digest = ready.digest;
+    assert_eq!(
+        prepare_ready_publication(&store, &non_draft)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+
+    let (hostile_temp, hostile_store, hostile_record, _) = fixture_with_validation_history(
+        73,
+        "Mark ready reverted substantive fixture",
+        "typed-mark-ready-reverted-substantive",
+        vec![],
+    );
+    fs::create_dir_all(hostile_temp.path().join("src")).unwrap();
+    fs::write(
+        hostile_temp.path().join("src/transient.rs"),
+        b"pub fn transient() {}\n",
+    )
+    .unwrap();
+    git(hostile_temp.path(), &["add", "src/transient.rs"]);
+    git(
+        hostile_temp.path(),
+        &["commit", "-m", "substantive transient"],
+    );
+    let substantive = git_output(hostile_temp.path(), &["rev-parse", "HEAD"]);
+    git(hostile_temp.path(), &["revert", "--no-edit", &substantive]);
+    fs::create_dir_all(hostile_temp.path().join(".csdlc/evidence/73")).unwrap();
+    fs::write(
+        hostile_temp
+            .path()
+            .join(".csdlc/evidence/73/publication-record.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    git(
+        hostile_temp.path(),
+        &["add", ".csdlc/evidence/73/publication-record.json"],
+    );
+    git(
+        hostile_temp.path(),
+        &["commit", "-m", "metadata after substantive revert"],
+    );
+    let hostile_head = git_output(hostile_temp.path(), &["rev-parse", "HEAD"]);
+    let before = fs::read(hostile_store.issue_dir(73).join("index.json")).unwrap();
+    let error = prepare_ready_publication(
+        &hostile_store,
+        &ReadyPublicationRequest {
+            schema: "csdlc.ready_publication_request.v1".into(),
+            issue: 73,
+            expected_generation: hostile_record.generation,
+            expected_digest: hostile_record.digest,
+            claim_id: "claim".into(),
+            actor: "publisher".into(),
+            repository: "example/repo".into(),
+            pull_request: 70,
+            expected_head_sha: hostile_head,
+            token_file: None,
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        fs::read(hostile_store.issue_dir(73).join("index.json")).unwrap(),
+        before
+    );
 }
 
 #[test]

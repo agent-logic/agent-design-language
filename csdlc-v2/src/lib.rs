@@ -53,9 +53,10 @@ pub use operator::{
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
-    prepare_publication, reconcile_action, record_merged_publication, record_publication,
-    MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
-    PublicationRequest, RemotePullRequest,
+    prepare_publication, prepare_ready_publication, reconcile_action, record_merged_publication,
+    record_publication, record_ready_publication, MergedPublicationReconciliationRequest,
+    PublicationAction, PublicationIntent, PublicationRequest, ReadyPublicationRequest,
+    RemotePullRequest,
 };
 pub use pvf::{
     classify_schedule, classify_shepherd, execute, select, ExecutionRequest, PvfManifest,

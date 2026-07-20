@@ -33,6 +33,135 @@ pub struct MergedPublicationReconciliationRequest {
     pub pull_request: u64,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReadyPublicationRequest {
+    pub schema: String,
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub claim_id: String,
+    pub actor: String,
+    pub repository: String,
+    pub pull_request: u64,
+    pub expected_head_sha: String,
+    pub token_file: Option<String>,
+}
+
+pub fn prepare_ready_publication(
+    store: &Store,
+    request: &ReadyPublicationRequest,
+) -> Result<PublicationEvidence> {
+    if request.schema != "csdlc.ready_publication_request.v1"
+        || request.actor.trim().is_empty()
+        || request.repository.split_once('/').is_none()
+        || request.pull_request == 0
+        || request.expected_head_sha.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "ready publication request identity is invalid",
+        ));
+    }
+    let record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation || record.digest != request.expected_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "ready publication request does not match canonical record",
+        ));
+    }
+    if record.phase != LifecyclePhase::Published {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "mark-ready requires published phase",
+        ));
+    }
+    record
+        .claim
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+        .validate(&request.claim_id, crate::store::now_seconds()?)?;
+    let mut publication = record.publication.ok_or_else(|| {
+        V2Error::new(ErrorCode::InvalidTransition, "publication evidence missing")
+    })?;
+    if publication.repository != request.repository
+        || publication.pull_request != request.pull_request
+        || !publication.draft
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "mark-ready request differs from exact governed draft",
+        ));
+    }
+    let observed_revision = crate::git::clean_commit_revision(&request.expected_head_sha);
+    if publication.revision != observed_revision {
+        let Some(from_commit) = publication
+            .revision
+            .strip_prefix("git-blake3:")
+            .and_then(|value| value.split(':').next())
+        else {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "governed publication revision is not a clean commit identity",
+            ));
+        };
+        let changed = crate::git::metadata_only_changed_paths(
+            store.root(),
+            from_commit,
+            &request.expected_head_sha,
+        )
+        .map_err(|_| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "ready head is not a forward metadata-only publication revision",
+            )
+        })?;
+        if changed.is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "ready head changed without typed publication metadata",
+            ));
+        }
+        publication.revision = observed_revision;
+    }
+    let review = evaluate_publication_review_in_repo(
+        store.root(),
+        record.review.as_ref(),
+        &publication.revision,
+    );
+    if !review.ready {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            format!(
+                "mark-ready review guard failed: {}",
+                review.blocker_codes.join(",")
+            ),
+        ));
+    }
+    Ok(publication)
+}
+
+pub fn record_ready_publication(
+    store: &Store,
+    request: &ReadyPublicationRequest,
+    mut observed: PublicationEvidence,
+) -> Result<IssueRecord> {
+    if observed.repository != request.repository
+        || observed.issue != request.issue
+        || observed.pull_request != request.pull_request
+        || observed.revision != crate::git::clean_commit_revision(&request.expected_head_sha)
+        || observed.draft
+        || observed.observed_state != "open"
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "ready PR observation differs from exact governed publication",
+        ));
+    }
+    observed.draft = false;
+    store.commit_ready_publication(request, observed)
+}
+
 impl MergedPublicationReconciliationRequest {
     pub fn validate(&self) -> Result<()> {
         if self.schema != "csdlc.merged_publication_reconciliation_request.v1"

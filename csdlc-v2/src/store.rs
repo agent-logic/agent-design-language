@@ -1726,6 +1726,99 @@ impl Store {
         Ok(record)
     }
 
+    pub(crate) fn commit_ready_publication(
+        &self,
+        request: &crate::publication::ReadyPublicationRequest,
+        evidence: PublicationEvidence,
+    ) -> Result<IssueRecord> {
+        let _lock = self.lock(request.issue)?;
+        self.recover_if_needed(request.issue)?;
+        let mut record = self.load_record(request.issue)?;
+        record
+            .claim
+            .as_ref()
+            .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?
+            .validate(&request.claim_id, now_seconds()?)?;
+        if record.generation != request.expected_generation
+            || record.digest != request.expected_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "ready publication record changed before commit",
+            ));
+        }
+        if record.phase != LifecyclePhase::Published
+            || record.publication.as_ref().is_none_or(|publication| {
+                publication.repository != request.repository
+                    || publication.pull_request != request.pull_request
+                    || !publication.draft
+            })
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "canonical publication is no longer the governed draft",
+            ));
+        }
+        let publication = record.publication.as_ref().expect("publication checked");
+        let observed_revision = crate::git::clean_commit_revision(&request.expected_head_sha);
+        if publication.revision != observed_revision {
+            let Some(from_commit) = publication
+                .revision
+                .strip_prefix("git-blake3:")
+                .and_then(|value| value.split(':').next())
+            else {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "canonical publication revision is invalid",
+                ));
+            };
+            let changed = crate::git::metadata_only_changed_paths(
+                &self.root,
+                from_commit,
+                &request.expected_head_sha,
+            )
+            .map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "ready head is not a forward metadata-only publication revision",
+                )
+            })?;
+            if changed.is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "ready head changed without typed publication metadata",
+                ));
+            }
+        }
+        let mut cards = self.load_cards(request.issue)?;
+        verify_cards(self, &record, &cards)?;
+        let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+            CardContent::Sor(values) => values,
+            _ => unreachable!("SOR"),
+        };
+        sor.publication_state = crate::cards::PublicationState::Ready;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        if let Some(claim) = record.claim.as_mut() {
+            claim.generation = record.generation;
+        }
+        record.publication = Some(evidence);
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: request.actor.clone(),
+            reason: "record exact existing PR ready-for-review after remote success".into(),
+            operation: "record_ready_publication".into(),
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(request.issue, &record, &cards, false)?;
+        Ok(record)
+    }
+
     pub(crate) fn commit_readiness(
         &self,
         request: crate::readiness::ReadinessRequest,

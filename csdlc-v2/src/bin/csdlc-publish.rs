@@ -4,9 +4,10 @@ use std::path::{Path, PathBuf};
 use clap::{Parser, Subcommand};
 use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
-    prepare_publication, reconcile_action, record_merged_publication, record_publication,
-    MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
-    PublicationRequest, RemotePullRequest, Store,
+    prepare_publication, prepare_ready_publication, reconcile_action, record_merged_publication,
+    record_publication, record_ready_publication, MergedPublicationReconciliationRequest,
+    PublicationAction, PublicationIntent, PublicationRequest, ReadyPublicationRequest,
+    RemotePullRequest, Store,
 };
 use octocrab::params::State;
 
@@ -29,6 +30,10 @@ enum Command {
         request: PathBuf,
     },
     ReconcileMerged {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    Ready {
         #[arg(long)]
         request: PathBuf,
     },
@@ -58,9 +63,12 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     if let Command::ReconcileMerged { request } = &cli.command {
         return reconcile_merged(&cli.root, request).await;
     }
+    if let Command::Ready { request } = &cli.command {
+        return mark_ready(&cli.root, request).await;
+    }
     let request_path = match &cli.command {
         Command::Publish { request } | Command::Status { request } => request,
-        Command::ReconcileMerged { .. } | Command::Schema => unreachable!(),
+        Command::ReconcileMerged { .. } | Command::Ready { .. } | Command::Schema => unreachable!(),
     };
     let request: PublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
     let store = Store::new(&cli.root);
@@ -137,6 +145,81 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     Ok(
         serde_json::json!({"schema":"csdlc.publication_result.v1","publication":normalized,"generation":record.generation,"digest":record.digest}),
     )
+}
+
+async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
+    let request: ReadyPublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
+    let store = Store::new(root);
+    let governed = prepare_ready_publication(&store, &request)?;
+    let (owner, repo) = request
+        .repository
+        .split_once('/')
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "repository identity is invalid"))?;
+    let token = csdlc_v2::github_token::resolve(request.token_file.as_deref())?;
+    let crab = octocrab::Octocrab::builder()
+        .personal_token(token)
+        .build()
+        .map_err(|error| remote(error.to_string()))?;
+    let before = crab
+        .pulls(owner, repo)
+        .get(request.pull_request)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    validate_ready_remote(&request, &before, true)?;
+    let node_id = before.node_id.clone().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "draft PR node id is missing",
+        )
+    })?;
+    let _: serde_json::Value = crab
+        .graphql(&serde_json::json!({
+            "query": "mutation MarkReady($pullRequestId: ID!) { markPullRequestReadyForReview(input: {pullRequestId: $pullRequestId}) { pullRequest { id isDraft } } }",
+            "variables": {"pullRequestId": node_id}
+        }))
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    let after = crab
+        .pulls(owner, repo)
+        .get(request.pull_request)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    validate_ready_remote(&request, &after, false)?;
+    let mut observed = governed;
+    observed.draft = false;
+    observed.observed_state = "open".into();
+    let record = record_ready_publication(&store, &request, observed.clone())?;
+    Ok(serde_json::json!({
+        "schema": "csdlc.ready_publication_result.v1",
+        "publication": observed,
+        "generation": record.generation,
+        "digest": record.digest,
+    }))
+}
+
+fn validate_ready_remote(
+    request: &ReadyPublicationRequest,
+    pull: &octocrab::models::pulls::PullRequest,
+    expected_draft: bool,
+) -> csdlc_v2::Result<()> {
+    let repository = pull
+        .base
+        .as_ref()
+        .and_then(|base| base.repo.as_ref())
+        .and_then(|repo| repo.full_name.as_deref());
+    if pull.number != Some(request.pull_request)
+        || repository != Some(request.repository.as_str())
+        || pull.head.as_ref().map(|head| head.sha.as_str())
+            != Some(request.expected_head_sha.as_str())
+        || pull.draft != Some(expected_draft)
+        || pull.merged == Some(true)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "remote PR differs from exact governed draft identity",
+        ));
+    }
+    Ok(())
 }
 
 async fn reconcile_merged(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
