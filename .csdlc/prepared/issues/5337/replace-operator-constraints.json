@@ -1,0 +1,19 @@
+{
+  "issue": 5337,
+  "card": "sip",
+  "expected_generation": 1,
+  "expected_digest": "047c109349f9366bc1fea2840cb11c5767bda0493f71f912dd2c9c7e6e28c6da",
+  "claim_id": "claim-5337-v0918-wp03-preparation",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Record the operator-authorized preparation boundary for issue #5337 through the typed SIP operation",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "Use typed C-SDLC v2 and ADL owner binaries only",
+      "Preparation only until #5336 is integrated",
+      "Do not modify shared or product paths during preparation",
+      "Do not use AWS or raw gh"
+    ]
+  },
+  "fail_after_backup": false
+}

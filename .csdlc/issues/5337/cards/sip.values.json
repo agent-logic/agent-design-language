@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
     "slug": "v0918-wp03-characterization-corpus-preparation",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -28,7 +28,12 @@
         "Typed C-SDLC v2 binaries and records are lifecycle authority"
       ],
       "initial_assumptions": [],
-      "operator_constraints": []
+      "operator_constraints": [
+        "Use typed C-SDLC v2 and ADL owner binaries only",
+        "Preparation only until #5336 is integrated",
+        "Do not modify shared or product paths during preparation",
+        "Do not use AWS or raw gh"
+      ]
     }
   }
 }

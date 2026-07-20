@@ -7,13 +7,13 @@
     "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
     "slug": "v0918-wp03-characterization-corpus-preparation",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 3
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
+      "review_scope": ".csdlc/issues/5337\n.csdlc/prepared/issues/5337\n.csdlc/evidence/5337",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

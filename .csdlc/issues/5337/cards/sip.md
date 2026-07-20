@@ -38,4 +38,7 @@ All six current-template cards, issue-local design, validation contract, depende
 
 ## Operator Constraints
 
-- none
+- Use typed C-SDLC v2 and ADL owner binaries only
+- Preparation only until #5336 is integrated
+- Do not modify shared or product paths during preparation
+- Do not use AWS or raw gh

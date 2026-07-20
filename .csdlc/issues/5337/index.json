@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1c296c01f1a17f4f5f4fdc6770511c4214792aa51221f9b2848501f03abab11e",
   "phase": "bound",
-  "generation": 1,
-  "digest": "047c109349f9366bc1fea2840cb11c5767bda0493f71f912dd2c9c7e6e28c6da",
+  "generation": 3,
+  "digest": "5921f2ce9041d456742ab79f7d284b6499eada014f1b1ac2c09b44e987ad26ee",
   "claim": {
     "id": "claim-5337-v0918-wp03-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 1,
+    "generation": 3,
     "acquired_unix_seconds": 1784570080,
     "expires_unix_seconds": 1785174880,
     "heartbeat_unix_seconds": 1784570080,
@@ -38,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "372dc427f9c3a5c5c162bd5b9d0f106a8f6fd241535c568521f21d2cf65ea718",
-      "rendered_digest": "f38066ec4f298c5b28b9d39d6ae06a2750db034ad03312feef700fd4101c72c4",
-      "ast_digest": "4e46537b85772c02614b2090016f86af6efa84cb04545d022f9332e1e5a8a346"
+      "values_digest": "38ed91af8087c2bd8f45c9a50d17c13b632de2f6e9ef7e317a45494f82f63af4",
+      "rendered_digest": "921efa9f34d4a41f444f1ed49134858f87802c0b6f6a83a24cd1f92a6b73697a",
+      "ast_digest": "e300589c4fec567ed2f544fd71899bffed24cd648caec88997394646e4db3cb3"
     },
     "stp": {
-      "values_digest": "2cf389c8cf24cf66e4d18f8893b0381f26da2e9788c80e47b9a9fa6b83c3df46",
+      "values_digest": "3d6ac7b8d7f1f5980a55176c50ef4eec3a17b5ebb76923d68f54b8ba6b2f1aa0",
       "rendered_digest": "10db1beba34c556c2df65732c9e77f747f9068899df66fa107d86ce08fb0d71e",
       "ast_digest": "fd4e7dd4c112e501a05fb26c2ba7018883f6ffb999809a8993810c5ed33191e9"
     },
     "spp": {
-      "values_digest": "63ad4264815886c66968e99ac4fea3aeb8c400f081490221dc0247f4e30be9f5",
+      "values_digest": "6a374afeac075bf1a05437ad1f3b7b55d910a071ce5540765a50f154d0f84909",
       "rendered_digest": "73edaa414a385adba9b8724f4fc9f7c7fb846f42bc212e09da42c84d470ab357",
       "ast_digest": "53b26a15e5838dbd376a34e31f6c4822547b01e577f828f7bc500d7b4acd95ad"
     },
     "vpp": {
-      "values_digest": "d28850b8b8414d36fbfb615ba1b912c215c1e7eb0a702527db342cbbc3442c3d",
+      "values_digest": "b356b012b73e0913b6ef06a2d5f5a05bef3bbfdfe52634d68e52924f964cca06",
       "rendered_digest": "8d0526bb37842066b17c48e151bc559845b45590dfcec71b4c6696a40ed91ead",
       "ast_digest": "64fd298413cb93594a219eed4b96292e3277fd4d0390801f0931ef47152f81d4"
     },
     "srp": {
-      "values_digest": "2dd3500cc461b3e000cc4771a6e3bcac417edbab912e7a2053636025b19d56bd",
-      "rendered_digest": "6ea617969d6e662caa8668aa15a1f0768f400e363b052bac8d314b918e286923",
-      "ast_digest": "1939144b68ba3ced0f34c6a3ad3ee89d13ff5659caa31b4311731abfcbf7ce11"
+      "values_digest": "bcbfeede504b8d43a7bc29617b40199ea91b329c055464c737ecad64c0700417",
+      "rendered_digest": "005e654100150cc69f0bf1dee9fc56e3968959c56ed1406a66c612077e83f726",
+      "ast_digest": "d255a09bf9bc57c6434e4e09cc77abaf6bd939c5ef5e40167575f47e86815773"
     },
     "sor": {
-      "values_digest": "1a6d6790bf51835fbea43076bd182e91df39eb620d3ba3040dbcd67de9a56fae",
+      "values_digest": "11d7045ba48f723def261d0cb5b6acbe60aa733b025f3cd567a745c7a3e8a556",
       "rendered_digest": "ad2373fdb657a5ddce264b1846a1278779c66a1ea26ff28e70a600f3d51ef23e",
       "ast_digest": "12326e7d2b9223e6c6320f71a48dfa9e031ddc511223b7495406d798b0e0c3fe"
     }
@@ -105,6 +105,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Encode explicit preparation release-gate status in the typed VPP surface after bounded review found the model lacks a dedicated release_gate field.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"typed-card-contracts\",\"proof_role\":\"Required preparation publication gate: validate all six rendered cards, active-template provenance, structure schemas, and canonical lifecycle consistency\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5337\"],\"parallel_group\":\"local-preparation\",\"defer_reason\":null},{\"lane\":\"issue-local-scope\",\"proof_role\":\"Required preparation publication gate: verify diff hygiene and absence of shared milestone or product implementation changes\",\"acceptance_ids\":[\"AC-2\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-preparation\",\"defer_reason\":null},{\"lane\":\"exact-revision-review-evidence\",\"proof_role\":\"Required preparation publication gate: verify bounded subagent review at the substantive revision and typed dispositions for actionable findings\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5337\"],\"parallel_group\":\"local-review\",\"defer_reason\":null},{\"lane\":\"future-corpus-proof\",\"proof_role\":\"Deferred non-preparation release gate: future product proof for versioned positive and negative fixtures, repeated v1 outcomes, normalization safety, coverage mapping, and nondeterminism disposition\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"characterization\"],\"parallel_group\":\"future-implementation\",\"defer_reason\":\"Deferred and not executed: product implementation and focused proof are outside this preparation-only session and remain gated by #5336 plus separate authorization\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the operator-authorized preparation boundary for issue #5337 through the typed SIP operation",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use typed C-SDLC v2 and ADL owner binaries only\",\"Preparation only until #5336 is integrated\",\"Do not modify shared or product paths during preparation\",\"Do not use AWS or raw gh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Bound issue #5337 preparation review to the exact issue-local lifecycle, request, and evidence paths",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\".csdlc/issues/5337\\n.csdlc/prepared/issues/5337\\n.csdlc/evidence/5337\",\"operation\":\"replan\",\"previous_value\":\"Exact implementation revision before publication.\"}"
     }
   ]
 }

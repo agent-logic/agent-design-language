@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+.csdlc/issues/5337
+.csdlc/prepared/issues/5337
+.csdlc/evidence/5337
 
 ## Prompts
 
