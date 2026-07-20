@@ -41,6 +41,18 @@
     {"id": "C", "issue": 5589, "depends_on": [5591], "groups": ["governance.freedom_gate_aee", "contracts.delegation_resources", "agents.providers_scheduler", "private_state.security", "citizen.identity_memory", "clock.checkpoint_lifelog"]},
     {"id": "D", "issue": 5590, "depends_on": [5591], "groups": ["network.acip_a2a_cloud", "control.health_observability", "observatory.live_consumption", "guardian.packaging_soak"]}
   ],
+  "proof_groups": [
+    {"id": 1, "owner_issue": 5591},
+    {"id": 2, "owner_issue": 5591},
+    {"id": 3, "owner_issue": 5591},
+    {"id": 4, "owner_issue": 5591},
+    {"id": 5, "owner_issue": 5592},
+    {"id": 6, "owner_issue": 5589},
+    {"id": 7, "owner_issue": 5589},
+    {"id": 8, "owner_issue": 5589},
+    {"id": 9, "owner_issue": 5590},
+    {"id": 10, "owner_issue": 5590}
+  ],
   "serial_gates": [
     {"gate": "shadow_parity", "issue": 5350, "depends_on": [5591, 5592, 5589, 5590, 5341, 5349]},
     {"gate": "runtime_acceptance", "issue": 5361, "depends_on": [5350, 5591, 5592, 5589, 5590]},
