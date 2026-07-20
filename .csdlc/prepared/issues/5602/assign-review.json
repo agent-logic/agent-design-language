@@ -1,0 +1,12 @@
+{
+  "issue": 5602,
+  "expected_generation": 3,
+  "expected_digest": "94909db0b0516fdbc51686bcc5ebc9cd0c06bc03aaebb3e832014b43cd1572b3",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "reviewer": "subagent:review-5602",
+  "assigned_by": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+  "scope": [
+    "adl/tools/run_authoritative_coverage_lane.sh",
+    "adl/tools/test_run_authoritative_coverage_lane.sh"
+  ]
+}
