@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
     "slug": "v0918-runtime-functional-parity-plan",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 12
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
             "AC-2",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -45,7 +45,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -53,7 +53,7 @@
           "acceptance_ids": [
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -66,7 +66,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [],
