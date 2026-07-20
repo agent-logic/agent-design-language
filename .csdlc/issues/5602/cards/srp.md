@@ -34,11 +34,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The hosted instrumented workspace remains the integration proof for the complete llvm-cov renderer and profile set.
+- The hosted instrumented workspace remains the final integration proof for the complete llvm-cov renderer and profile set.
 
 ## Review Result
 
-Revision: Some("git-blake3:e85087c8e14082990225d44198457e3d1bed7678:464b71a45afbb27e672c88bc61025b4bf381dcfd2bb26bd558dcd4578f8255ea")
+Revision: Some("git-blake3:72656435797693a0aeca1ad9136474626abae6e1:dd473ba812bdcd41213f7d44270894bb323137c3b729cc2c548ebe5322b8e9a3")
 
 Reviewer: Some("codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41")
 

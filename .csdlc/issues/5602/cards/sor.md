@@ -47,11 +47,11 @@ Use cargo-llvm-cov clean and show-env, run partitioned cargo nextest directly wi
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
