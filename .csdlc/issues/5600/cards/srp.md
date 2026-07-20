@@ -29,13 +29,53 @@ csdlc-v2
 
 [
   {
+    "id": "F-5600-1",
+    "severity": "p1",
+    "summary": "Acceptance-set cardinality cannot change atomically across STP, SPP, and VPP.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
+    "route": null
+  },
+  {
+    "id": "F-5600-2",
+    "severity": "p2",
+    "summary": "Operator-constraint and acceptance-criteria replacements are not Bound-only.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
+    "route": null
+  },
+  {
+    "id": "F-5600-3",
+    "severity": "p2",
+    "summary": "The #5337 real JSON CLI proof covers only SRP review prompts.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
+    "route": null
+  },
+  {
+    "id": "F-5600-4",
+    "severity": "p3",
+    "summary": "The issue design assigns dependencies, repository inputs, and non-goals to the wrong card.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
+    "route": null
+  },
+  {
     "id": "F-5600-5",
     "severity": "p1",
     "summary": "The committed publication request has stale generation and digest values after review recovery.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
     "route": null
   },
   {
@@ -44,8 +84,8 @@ csdlc-v2
     "summary": "The publication body contains an unsupported whole-lifecycle process claim.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
     "route": null
   }
 ]
@@ -60,8 +100,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:61c748be30383baf4227073c125ad4fef582b1d8:463d7d650b161ed755fd39d3dac17ada1c08a7db4388b804d69feccb4f55b418")
+Revision: Some("git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0")
 
-Reviewer: Some("subagent:codex-exec-5600-final-head")
+Reviewer: Some("subagent:codex-exec-5600-final-head-2")
 
-Result: changes_required
+Result: pass

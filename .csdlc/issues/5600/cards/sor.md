@@ -54,11 +54,11 @@ Implemented complete typed preparation-to-implementation collection replanning w
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
