@@ -27,18 +27,7 @@ docs/milestones/v0.91.8
 
 ## Findings
 
-[
-  {
-    "id": "WP01-ER8",
-    "severity": "p2",
-    "summary": "Canonical inventory and SOR retained stale 123-row six-class feature-crosswalk truth",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": "issue_5594"
-  }
-]
+[]
 
 ## Dispositions
 
@@ -46,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live issue routing can change after review; the crosswalk is planning disposition, not implementation proof.
+- Live issue routing can change after this snapshot.
+- The feature crosswalk is planning disposition and deletion protection, not implementation or parity proof.
 
 ## Review Result
 
-Revision: Some("git-blake3:79d84abef6edd83714a8328240f8bb06bc5bfe9d:9230b688bcdd5389e69f7fa4dd1651bfbfdb3f5ca2329fbd9008c11ba6d6fc3e")
+Revision: Some("git-blake3:ad455920a8065723c5c6f0aaefe9d31a79bca877:b196aff4f1e274ca3363ccd1dfec9893b2a7e6487de4825aeff2e6c35fef1d6d")
 
-Reviewer: Some("subagent:Raman:019f807f-3387-7b22-aefd-c0fd74bc0f3a")
+Reviewer: Some("subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133")
 
-Result: changes_required
+Result: pass
