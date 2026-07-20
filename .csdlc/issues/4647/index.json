@@ -3,13 +3,13 @@
   "issue": 4647,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
-  "phase": "published",
-  "generation": 22,
-  "digest": "b6ec60f2b773c72ec9a899363f7ba8509517acacfefee62435b8292bda42335f",
+  "phase": "implemented",
+  "generation": 23,
+  "digest": "0200d20e0c0d437b16ce7686a921080c3e711aaef53068a27ab67e7d63a29d2d",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 22,
+    "generation": 23,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -51,102 +51,9 @@
     ],
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f7df0-b305-7403-84db-b4a82cf26d1d",
-    "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "revision": "git-blake3:3f250321dba93a94419b2880baa1905ede9204c5:2fdde5255aece2074c416d20d473ec64ab47af2c9627461f88eb7e04fd8e0192",
-    "scope": [
-      ".csdlc/issues/4647",
-      ".csdlc/issues/5467",
-      ".csdlc/issues/5542",
-      ".csdlc/locks/4647.lock",
-      ".csdlc/prepared/issues/4647",
-      "adl/Cargo.lock",
-      "adl/Cargo.toml",
-      "adl/src/cli/provider_cmd.rs",
-      "adl/src/csm_networking.rs",
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/provider/http_family.rs",
-      "adl/src/provider/http_family/config.rs",
-      "adl/src/provider/http_family/tests.rs",
-      "adl/src/provider/local.rs",
-      "adl/tests/cli_smoke/agent.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-      "docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md",
-      "docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/V0917_WP20_REMEDIATION_PREFLIGHT_4647.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_4647",
-      "docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md",
-      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f7df0-b305-7403-84db-b4a82cf26d1d",
-    "scope": [
-      ".csdlc/issues/4647",
-      ".csdlc/issues/5467",
-      ".csdlc/issues/5542",
-      ".csdlc/locks/4647.lock",
-      ".csdlc/prepared/issues/4647",
-      "adl/Cargo.lock",
-      "adl/Cargo.toml",
-      "adl/src/cli/provider_cmd.rs",
-      "adl/src/csm_networking.rs",
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/provider/http_family.rs",
-      "adl/src/provider/http_family/config.rs",
-      "adl/src/provider/http_family/tests.rs",
-      "adl/src/provider/local.rs",
-      "adl/tests/cli_smoke/agent.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
-      "docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md",
-      "docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md",
-      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
-      "docs/milestones/v0.91.7/review/V0917_WP20_REMEDIATION_PREFLIGHT_4647.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
-      "docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md",
-      "docs/milestones/v0.91.7/review/wp20_remediation_4647",
-      "docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md",
-      "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
-      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
-    ],
-    "reviewed_revision": "git-blake3:3f250321dba93a94419b2880baa1905ede9204c5:2fdde5255aece2074c416d20d473ec64ab47af2c9627461f88eb7e04fd8e0192",
-    "findings": [],
-    "residual_risks": [
-      "Exact-head bounded review by subagent 019f7df0-b305-7403-84db-b4a82cf26d1d confirmed HEAD 3f250321dba93a94419b2880baa1905ede9204c5 is CLEAN/fixed-confirmed for the post-publication coverage-impact mapping fix.",
-      "Focused local proof after the fix: bash adl/tools/test_check_coverage_impact.sh passed; PR-style --print-risk-nextest-expression includes provider, cli::provider_cmd::tests, and csm_networking selectors.",
-      "GitHub run 29718251274 was canceled immediately after the early adl-coverage-hosted failure to avoid continuing failed work; no AWS live operation was run."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 4647,
-    "pull_request": 5588,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5588",
-    "base": "main",
-    "head": "codex/4647-v0917-review-remediation-preflight",
-    "revision": "git-blake3:110d5c034322718c7ee2edf596f3e835a9c01b43:3033634d8bf09b5cf425a18fa00829efbb50b47f7525d77fe84230a1b86989a4",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -160,34 +67,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5e12b179e8679eec7cf47815ba8379406649ed4a426959c26fd9206f7ff2f538",
+      "values_digest": "73a8601db66b2a5d216c9c8b6310d52764658e500b5e0e77196229864e6b970c",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "c0510b431c5ae6406978667c86c0456d04768ec590e1f7c80937a48af90105ab",
+      "values_digest": "6221dd3e476835a0739107328dbe43c0c706c12ab5d5ef2523bfdd6a226dfafc",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "81bb1a17c9bc8eb8cfe0db6ccb134c45831a9585a805c395a2d1fb1a5b970562",
+      "values_digest": "58c8920e2fc728f81337bd205f4d9acb9f287f33f75359e3c7f5f484ed18ac55",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "fe836aa767825cbba8461fe7b14929a40e015b14ffa6e8f24d3938821059a012",
+      "values_digest": "f4cca3a8fcee299178908df4ddba6316f1b1d7b040c191022d1fcd53c5cc0ecc",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "3d484a1664d9111f61b6b4e650217750efcbdaba59a71776d8322e64835a0204",
-      "rendered_digest": "4d2a2b2e4d3341e85f92a918f3094882de9ba557bd51332d490fa72553b5bb6e",
-      "ast_digest": "8f1428f929be49f08459548629a75b8999bc3e38c2513851eda2515930597f16"
+      "values_digest": "5cdcd2e7193cf4d21a24f47bc14ea9a3ce5f841aae192169ca83e64b5c824dce",
+      "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
+      "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
     },
     "sor": {
-      "values_digest": "39b302a7ad288ba28c3c770a8c5562788a5f02a2e3abe9d634a68c92f5258bea",
-      "rendered_digest": "3188f08706adc2d43d6e16cef630b89703005ddbba2bc683d2f3d8f7834308e4",
-      "ast_digest": "8107f043be063e5090668499cc3a70bc7d1b1e34b9ac82948c326259cf15cca9"
+      "values_digest": "09593231aa8354a62226169ed5b5ee6f400774118ded73f3b1148c8d2f944432",
+      "rendered_digest": "febca262e6397d8efcfd6904a8d24dcfd1b7c53e1c36d2d7604be74b6cb8a4d0",
+      "ast_digest": "23728be8bd3f34c0fb4a658f6f92e9f4ac1620dfab1c218d0ee41c1e3aca3b15"
     }
   },
   "transitions": [
@@ -260,6 +167,13 @@
       "to": "published",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover review after post-publication clippy repair required by PR #5588 adl-rust-fmt-clippy failure on run 29718818086."
     }
   ],
   "audit": [
@@ -486,6 +400,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover review after post-publication clippy repair required by PR #5588 adl-rust-fmt-clippy failure on run 29718818086.",
+      "operation": "recover_review"
     }
   ]
 }
