@@ -12,15 +12,15 @@ struct Cli {
     root: PathBuf,
     #[arg(long)]
     request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "recover_request", "amend_request"])]
+    #[arg(long, conflicts_with_all = ["request", "recover_request", "amend_request", "transition_request", "release_request"])]
     heartbeat_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "amend_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "amend_request", "transition_request", "release_request"])]
     recover_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "transition_request", "release_request"])]
     amend_request: Option<PathBuf>,
     #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "release_request"])]
     transition_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "transition_request"])]
     release_request: Option<PathBuf>,
 }
 
@@ -76,7 +76,7 @@ fn main() {
         let path = cli.request.ok_or_else(|| {
             csdlc_v2::V2Error::new(
                 csdlc_v2::ErrorCode::InvalidInput,
-                "one of --request, --heartbeat-request, --recover-request, --amend-request, or --release-request is required",
+                "one of --request, --heartbeat-request, --recover-request, --amend-request, --transition-request, or --release-request is required",
             )
         });
         path.and_then(|path| fs::read(path).map_err(csdlc_v2::V2Error::from))
