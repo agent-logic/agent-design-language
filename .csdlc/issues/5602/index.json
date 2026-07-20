@@ -3,54 +3,28 @@
   "issue": 5602,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
-  "phase": "reviewed",
-  "generation": 23,
-  "digest": "3ea035ffb1bd58c8e32875c888b922f711cbf46804c29150ca7eb3af4d2e50a7",
+  "phase": "implemented",
+  "generation": 24,
+  "digest": "f87d33b707f8d6ffbae2e47b0921975f9bf920d22508ea1c769ffd8e9ba7d0c7",
   "claim": {
     "id": "claim-5602-hosted-coverage-no-report",
     "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "generation": 23,
+    "generation": 24,
     "acquired_unix_seconds": 1784584872,
     "expires_unix_seconds": 1784671272,
     "heartbeat_unix_seconds": 1784584872,
     "branch": "codex/5602-hosted-coverage-no-report",
     "worktree": ".worktrees/adl-wp-5602",
     "protected_paths": [
+      ".github/workflows/ci.yaml",
       "adl/tools/run_authoritative_coverage_lane.sh",
       "adl/tools/test_ci_runtime_contracts.sh",
       "adl/tools/test_run_authoritative_coverage_lane.sh"
     ],
     "purpose": "Prevent partition-local llvm-cov report crashes without weakening coverage"
   },
-  "review_assignment": {
-    "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:72656435797693a0aeca1ad9136474626abae6e1:dd473ba812bdcd41213f7d44270894bb323137c3b729cc2c548ebe5322b8e9a3",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      ".csdlc/issues/5602",
-      ".csdlc/prepared/issues/5602"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      ".csdlc/issues/5602",
-      ".csdlc/prepared/issues/5602"
-    ],
-    "reviewed_revision": "git-blake3:72656435797693a0aeca1ad9136474626abae6e1:dd473ba812bdcd41213f7d44270894bb323137c3b729cc2c548ebe5322b8e9a3",
-    "findings": [],
-    "residual_risks": [
-      "The hosted instrumented workspace remains the final integration proof for the complete llvm-cov renderer and profile set."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -65,32 +39,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fe586e273f8731360de97f904adbf9bc6c2ef1dff0c387c52963d884d5969b72",
+      "values_digest": "c39cf6ed35b022c199e02595940953fd6d911e1f6c1eb8ae2b570e3b478012b0",
       "rendered_digest": "f29c939a2f5af25a1986147a24c88c77e4cb3e098387deb638c9ca7c02221236",
       "ast_digest": "dc868767b9da3d0f23e83f59daf4792b535f892948bd50d63d5e172751834701"
     },
     "stp": {
-      "values_digest": "3e39543fe50cf70e474638659ea46f10871dfd86740b87fadd1bd894d3454970",
+      "values_digest": "6c9b744d56f55e753b187d55b1ad31abc90ff6eefc26eaecc324fd4131803d83",
       "rendered_digest": "7169347c43cc4f22ec2d67cafd4b12be0a88261e42b5825b76a6a5c2a94c4350",
       "ast_digest": "0a305bbdbc7044b0f7a8956e25501a3973c08d81c372948becdbd8676a7d411b"
     },
     "spp": {
-      "values_digest": "ac04db803d9016453c41aa8cac5caf4ecf0bf5c5b4f62678dbd77ec5891083c6",
+      "values_digest": "77fac8e65f9d0aa1b049c5f8add6496e8bd64214d582104a15833800ef14c870",
       "rendered_digest": "b2a74f27bd07e8ced438a62f24e9a87ca23d7acd291c4383c49afec39b83e8bf",
       "ast_digest": "a5c6942680a7c7b996dde5376907adb70ca14b93009a7ad599200134d2fe0055"
     },
     "vpp": {
-      "values_digest": "4812c15984a97a742a5059f2324bad9cd00121904638dc7eb02cb8a80e4b1e4d",
+      "values_digest": "701033ca57c2fb5167707e8235d5b385b07ad207d7855bf25593267c6b8e6987",
       "rendered_digest": "5ee3a0baebc9c56fcb842ee572195c3a41247743e271f5dced953c47316936be",
       "ast_digest": "696c38305d48a39773ae3fcbc00b2ef9ae8d1cc1a5fea3960d9448c5dec7807d"
     },
     "srp": {
-      "values_digest": "3d5cf33357dc19d532e5c9e7f8a5b7f6914940bb7c90fd1b8cb91d8633ecd1f3",
-      "rendered_digest": "1faa9ab2717413db8c564b769d0ead76dc4e6ad4039452dbb39b4aecf3a3c76b",
-      "ast_digest": "0e613e5a126e7d4230c02c6fccb677a186930ad3d1a96b6377f49cac45721e29"
+      "values_digest": "8970bfe6f48cb25e7020115bfc19ecbac3313cfc84b001a99c71226417a1d985",
+      "rendered_digest": "933f7fa6b197adc97ae37e9d6625eb6471eadb68e080e7f2094aabc74433abcd",
+      "ast_digest": "c4f3e5528901f9d6225cc6ec0777008b8a51ac648750b9d17914c3cbbea93a54"
     },
     "sor": {
-      "values_digest": "b78492d0c558465552767cac37d497e3c4d403656a3c3b794473e76660c639dd",
+      "values_digest": "f0e004b9e5debf74f45e217e8e00b523a5762f56f042d7c429bd8132811f233d",
       "rendered_digest": "a886441dfebf7ca106c2f4d5bcec4ec6683b7c90f42bff1a6262e7e84d7d38a2",
       "ast_digest": "403db42c6e4b85b96a5c0563ff1ab40bf4bc091d36d1d296dff366d1f406c309"
     }
@@ -200,6 +174,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The current-main integration merge received an exact-head no-findings review and retained the corrected tree byte-for-byte."
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Hosted CI exposed a coupled workflow installation condition; return to implementation to protect that exact scope and retain the reviewed repair."
     }
   ],
   "audit": [
@@ -419,6 +400,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The current-main integration merge received an exact-head no-findings review and retained the corrected tree byte-for-byte.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Hosted CI exposed a coupled workflow installation condition; return to implementation to protect that exact scope and retain the reviewed repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Hosted CI proved the corrected llvm-cov parser contract also requires the workflow install condition; protect the coupled producer and consumer surfaces explicitly.",
+      "operation": "{\"add_protected_paths\":[\".github/workflows/ci.yaml\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
