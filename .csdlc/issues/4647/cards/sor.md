@@ -127,11 +127,11 @@ Retained the exact reviewer-authored WP-19 verification artifact, remediated bot
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

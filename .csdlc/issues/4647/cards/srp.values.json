@@ -7,15 +7,15 @@
     "title": "[v0.91.7][WP-20][review] Remediate review findings",
     "slug": "v0-91-7-wp20-review-remediation-preflight",
     "version": "v0.91.7",
-    "generation": 18
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/4647\n.csdlc/locks/4647.lock\n.csdlc/prepared/issues/4647\nadl/Cargo.lock\nadl/Cargo.toml\nadl/src/cli/provider_cmd.rs\nadl/src/csm_networking.rs\nadl/src/csm_runtime_api.rs\nadl/src/provider/http_family.rs\nadl/src/provider/http_family/config.rs\nadl/src/provider/http_family/tests.rs\nadl/src/provider/local.rs\nadl/tests/cli_smoke/agent.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_check_coverage_impact.sh\nadl/tools/test_ci_runtime_contracts.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\ndocs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\ndocs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md\ndocs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\ndocs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md\ndocs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md\ndocs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md\ndocs/milestones/v0.91.7/review/wp20_remediation_4647/WP19_FINDING_REMEDIATION_MATRIX_4647.md\ndocs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md\ndocs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md\ndocs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md\ndocs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd",
-      "review_revision": "git-blake3:c8a889da501760e0e9270933023bb72b63117916:d88a20ad50fb684a3c90cc5c22c4f67bbdaed2517cef31a166664027efccd16f",
-      "reviewer": "clean-gate:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the issue stay within its WP scope?",
         "Are claims supported by retained or fresh evidence?",
@@ -23,13 +23,8 @@
         "Are sibling WP and release/activation non-claims preserved?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Final exact-head delta review reported clean after the Bedrock partition ARN redaction fix.",
-        "Coverage exact-head lane reported clean.",
-        "Lifecycle/full branch exact-head lane reported clean; csdlc-doctor passed at generation 15, git diff was clean, all changed paths were protected, and the worktree was clean.",
-        "No AWS live operation was run for this remediation."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
