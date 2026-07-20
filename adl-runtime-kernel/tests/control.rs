@@ -9,13 +9,14 @@ use std::{
 
 use adl_runtime_kernel::{
     channel, load_control_tls, serve_control_listener, serve_control_listener_until,
-    serve_control_listener_until_ready, write_observability_event, write_payload, ClockAuthority,
-    ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlAuthority,
-    ControlCapability, ControlError, ControlExit, ControlObservabilityEvent, ControlOutcome,
-    ControlService, DiskWeather, Kernel, KernelExit, LifecycleControl, ObservabilityDegradation,
-    ObservabilityHealth, Observation, ResourceState, RuntimeEvent, RuntimeRecorder,
-    RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand, TrustedControlKey, WeatherConfig,
-    WeatherHealthReport, WeatherSample,
+    serve_control_listener_until_ready, write_observability_event, write_payload, CanonicalIngress,
+    ClockAuthority, ComponentId, ComponentRegistry, ContinuityHead, ControlAction,
+    ControlAuthority, ControlCapability, ControlError, ControlExit, ControlObservabilityEvent,
+    ControlOutcome, ControlService, DiskWeather, DomainWork, Kernel, KernelExit, LifecycleControl,
+    LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, Observation,
+    ResourceState, RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision,
+    SignedControlCommand, TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample,
+    DOMAIN_WORK_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -126,6 +127,135 @@ fn signed(key: &SigningKey, id: &str, action: ControlAction) -> SignedControlCom
         key,
     )
     .unwrap()
+}
+
+#[tokio::test]
+async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
+    let root = tempfile::tempdir().unwrap();
+    let key = SigningKey::from_bytes(&[37; 32]);
+    let recorder = RuntimeRecorder::new(32);
+    let ingress = CanonicalIngress::new(2, recorder.clone());
+    let mut registry = ComponentRegistry::new();
+    registry.register(ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            recorder.clone(),
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(ingress.clone()),
+    );
+    let work = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "work-1".to_owned(),
+        kind: "parity-a".to_owned(),
+        payload: b"deterministic".to_vec(),
+    };
+    let first = service
+        .execute(signed(
+            &key,
+            "submit-1",
+            ControlAction::Submit { work: work.clone() },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: first_result,
+    } = first.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(first_result.accepted_sequence, 1);
+    assert_eq!(
+        service.observatory_feed().ingress.completed["work-1"],
+        first_result
+    );
+
+    let identity = LiveKernelSnapshot::new(
+        blake3::hash(b"topology").to_hex().to_string(),
+        blake3::hash(b"config").to_hex().to_string(),
+        BTreeMap::new(),
+    );
+    let mut continuity = LiveContinuity::new(root.path(), "live", &[41; 32], identity.clone(), 0)
+        .with_canonical_ingress(ingress);
+    continuity
+        .checkpoint(&recorder, Duration::from_secs(1))
+        .await
+        .unwrap();
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+
+    let restored_recorder = RuntimeRecorder::new(32);
+    let restored_ingress = CanonicalIngress::new(2, restored_recorder.clone());
+    let mut restored = LiveContinuity::new(root.path(), "live", &[41; 32], identity, 1)
+        .with_canonical_ingress(restored_ingress.clone());
+    assert_eq!(
+        restored.restore_latest(&restored_recorder).await.unwrap(),
+        Some(1)
+    );
+    let mut registry = ComponentRegistry::new();
+    registry.register(restored_ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), restored_recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            restored_recorder,
+            handle.control(),
+            authority(&key, [ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(restored_ingress),
+    );
+    let replay = service
+        .execute(signed(
+            &key,
+            "submit-2",
+            ControlAction::Submit { work: work.clone() },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: replay_result,
+    } = replay.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(replay_result, first_result);
+    let next = service
+        .execute(signed(
+            &key,
+            "submit-3",
+            ControlAction::Submit {
+                work: DomainWork {
+                    work_id: "work-2".to_owned(),
+                    ..work
+                },
+            },
+        ))
+        .await
+        .unwrap();
+    let ControlOutcome::Submitted {
+        work_result: next_result,
+    } = next.outcome
+    else {
+        panic!("submit outcome")
+    };
+    assert_eq!(next_result.accepted_sequence, 2);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
 }
 
 #[tokio::test]

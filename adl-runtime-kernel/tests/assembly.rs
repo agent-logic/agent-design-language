@@ -40,6 +40,7 @@ fn bindings(recorder: RuntimeRecorder) -> LiveBindings {
         .collect();
     let key = SigningKey::from_bytes(&[31; 32]);
     LiveBindings {
+        recorder: recorder.clone(),
         operation_executors: executors,
         permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
         reasoning: bootstrap_reasoning_services(recorder).unwrap(),
@@ -64,6 +65,7 @@ fn live_assembly_has_the_frozen_service_inventory() {
         "aee".to_owned(),
         "agent_runtime".to_owned(),
         "checkpoint_store".to_owned(),
+        "canonical_ingress".to_owned(),
         "chronosense".to_owned(),
         "cloud_bridge".to_owned(),
         "cognition_review_record".to_owned(),
@@ -86,7 +88,7 @@ fn live_assembly_has_the_frozen_service_inventory() {
         "trusted_time".to_owned(),
     ]);
     assert_eq!(names, expected);
-    assert_eq!(assembly.topology.startup_order().len(), 26);
+    assert_eq!(assembly.topology.startup_order().len(), 27);
 }
 
 #[test]
@@ -126,7 +128,7 @@ async fn live_assembly_starts_and_qualifies_time() {
     .unwrap();
     mark_unavailable_live_services(&recorder);
     let snapshot = recorder.snapshot();
-    assert_eq!(snapshot.components.len(), 26);
+    assert_eq!(snapshot.components.len(), 27);
     let degraded = REQUIRED_OPERATIONAL_ADAPTERS
         .into_iter()
         .map(|kind| kind.service_name())

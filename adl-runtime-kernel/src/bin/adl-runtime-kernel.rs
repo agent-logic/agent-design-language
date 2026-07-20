@@ -116,6 +116,7 @@ async fn main() -> ExitCode {
             let sntp_server = std::env::var("ADL_RUNTIME_SNTP_SERVER")
                 .unwrap_or_else(|_| "pool.ntp.org".to_owned());
             let assembly = match build_live_assembly(LiveBindings {
+                recorder: recorder.clone(),
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
                 reasoning,
@@ -205,7 +206,8 @@ async fn main() -> ExitCode {
                 &continuity_secret,
                 snapshot,
                 minimum_generation,
-            );
+            )
+            .with_canonical_ingress(assembly.canonical_ingress.clone());
             if let Err(error) = continuity.restore_latest(&recorder).await {
                 eprintln!("runtime continuity restore refused: {error}");
                 return ExitCode::from(78);
@@ -217,6 +219,7 @@ async fn main() -> ExitCode {
                     verifying_key: public_key,
                     capabilities: BTreeSet::from([
                         ControlCapability::Read,
+                        ControlCapability::Execute,
                         ControlCapability::Stop,
                     ]),
                 },
@@ -241,15 +244,18 @@ async fn main() -> ExitCode {
             mark_unavailable_live_services(&recorder);
             let instance_id = generate_runtime_instance_id();
             let (lifecycle, mut shutdown_requests) = CheckpointingControl::channel(4);
-            let service = Arc::new(ControlService::new_with_observatory_config_and_agents(
-                instance_id.clone(),
-                recorder.clone(),
-                lifecycle,
-                authority,
-                1024,
-                init.observatory_allowed_origins(),
-                init.agent_population(),
-            ));
+            let service = Arc::new(
+                ControlService::new_with_observatory_config_and_agents(
+                    instance_id.clone(),
+                    recorder.clone(),
+                    lifecycle,
+                    authority,
+                    1024,
+                    init.observatory_allowed_origins(),
+                    init.agent_population(),
+                )
+                .with_canonical_ingress(assembly.canonical_ingress.clone()),
+            );
             let observatory_token = match std::env::var("ADL_RUNTIME_OBSERVATORY_TOKEN") {
                 Ok(token) => token,
                 Err(_) => {

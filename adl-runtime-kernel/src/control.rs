@@ -24,8 +24,9 @@ use thiserror::Error;
 use tracing::Instrument;
 
 use crate::{
-    BootstrapEvent, KernelControl, KernelExit, ObservabilityHealth, RuntimeRecorder,
-    RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport,
+    BootstrapEvent, CanonicalIngress, DomainResult, DomainWork, IngressError, KernelControl,
+    KernelExit, ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
+    WeatherHealthReport,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -51,6 +52,7 @@ pub fn control_ready_event(instance_id: &str, address: SocketAddr) -> String {
 #[serde(rename_all = "snake_case")]
 pub enum ControlCapability {
     Read,
+    Execute,
     Stop,
 }
 
@@ -58,6 +60,7 @@ pub enum ControlCapability {
 #[serde(tag = "action", rename_all = "snake_case")]
 pub enum ControlAction {
     Snapshot,
+    Submit { work: DomainWork },
     Shutdown { grace_millis: u64 },
 }
 
@@ -65,6 +68,7 @@ impl ControlAction {
     fn capability(&self) -> ControlCapability {
         match self {
             Self::Snapshot => ControlCapability::Read,
+            Self::Submit { .. } => ControlCapability::Execute,
             Self::Shutdown { .. } => ControlCapability::Stop,
         }
     }
@@ -208,6 +212,7 @@ pub enum ControlExit {
 #[serde(tag = "result", rename_all = "snake_case")]
 pub enum ControlOutcome {
     Snapshot { snapshot: Box<RuntimeSnapshot> },
+    Submitted { work_result: DomainResult },
     Shutdown { exit: ControlExit },
 }
 
@@ -255,6 +260,7 @@ pub struct ControlService<C> {
     observatory_allowed_origins: BTreeSet<String>,
     agent_population: AgentPopulationFeed,
     control_addr: Mutex<SocketAddr>,
+    canonical_ingress: Option<CanonicalIngress>,
 }
 
 impl<C: LifecycleControl + 'static> ControlService<C> {
@@ -328,7 +334,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             observatory_allowed_origins,
             agent_population,
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], DEFAULT_CONTROL_API_PORT))),
+            canonical_ingress: None,
         }
+    }
+
+    pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
+        self.canonical_ingress = Some(ingress);
+        self
     }
 
     pub fn initialize_observability(
@@ -411,6 +423,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         {
             return false;
         }
+        if self
+            .canonical_ingress
+            .as_ref()
+            .is_some_and(|ingress| !ingress.pause_if_idle())
+        {
+            return false;
+        }
         state.admission_open = false;
         true
     }
@@ -420,6 +439,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("idempotency mutex poisoned")
             .admission_open = true;
+        if let Some(ingress) = &self.canonical_ingress {
+            ingress.reopen();
+        }
     }
 
     pub fn observatory_feed(&self) -> ObservatoryFeed {
@@ -469,6 +491,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             continuity: ObservatoryContinuityFeed {
                 checkpoint: continuity_head,
             },
+            ingress: self
+                .canonical_ingress
+                .as_ref()
+                .map(CanonicalIngress::snapshot)
+                .unwrap_or_default(),
             agents: self.agent_population.clone(),
             proof: ObservatoryProofFeed {
                 default_runtime_switch_authorized: false,
@@ -544,9 +571,27 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         );
         let outcome = async {
             match command.action {
-                ControlAction::Snapshot => ControlOutcome::Snapshot {
+                ControlAction::Snapshot => Ok(ControlOutcome::Snapshot {
                     snapshot: Box::new(self.recorder.snapshot()),
-                },
+                }),
+                ControlAction::Submit { work } => {
+                    let result = self
+                        .canonical_ingress
+                        .as_ref()
+                        .ok_or(ControlError::AdmissionClosed)?
+                        .submit(work, command.correlation_id.clone())
+                        .await
+                        .map_err(|error| match error {
+                            IngressError::Invalid => ControlError::InvalidBounds,
+                            IngressError::Conflict => ControlError::IdempotencyConflict,
+                            IngressError::Saturated | IngressError::Closed => {
+                                ControlError::AdmissionClosed
+                            }
+                        })?;
+                    Ok(ControlOutcome::Submitted {
+                        work_result: result,
+                    })
+                }
                 ControlAction::Shutdown { grace_millis } => {
                     let exit = self
                         .lifecycle
@@ -557,12 +602,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             _ => ControlExit::Failed,
                         })
                         .unwrap_or(ControlExit::Failed);
-                    ControlOutcome::Shutdown { exit }
+                    Ok(ControlOutcome::Shutdown { exit })
                 }
             }
         }
         .instrument(span)
-        .await;
+        .await?;
         let response = ControlResponse {
             schema: CONTROL_RESPONSE_SCHEMA.to_owned(),
             command_id: command.command_id.clone(),
@@ -670,6 +715,7 @@ pub struct ObservatoryFeed {
     pub weather: Option<WeatherHealthReport>,
     pub weather_freshness: Option<ObservatoryWeatherFreshness>,
     pub continuity: ObservatoryContinuityFeed,
+    pub ingress: crate::IngressSnapshot,
     pub agents: AgentPopulationFeed,
     pub proof: ObservatoryProofFeed,
     pub events: Vec<BootstrapEvent>,
