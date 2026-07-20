@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2f246e5f1760776340161d5e4722c5a33c98c4dc5224601586d57c734b7d3d71",
   "phase": "implemented",
-  "generation": 33,
-  "digest": "30039b602906e55daf7cd5c72959c4bd472639e0732cc78c500cb06e7b2d2b87",
+  "generation": 34,
+  "digest": "d50715551d84273ccda28cad27b716c19a969090b206ebd8f8c2b49857ed1454",
   "claim": {
     "id": "claim-5594-v0918-wp01-readiness",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 33,
+    "generation": 34,
     "acquired_unix_seconds": 1784562133,
     "expires_unix_seconds": 1785166933,
     "heartbeat_unix_seconds": 1784562133,
@@ -28,7 +28,7 @@
   "review_assignment": {
     "reviewer": "subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:ad455920a8065723c5c6f0aaefe9d31a79bca877:b196aff4f1e274ca3363ccd1dfec9893b2a7e6487de4825aeff2e6c35fef1d6d",
+    "revision": "git-blake3:8dc446b5272a9aee6c799739bb67cb100d15883b:05a17b801012d91bfa12db5272516c11694e2ff74b705317ae6667215c1011dd",
     "scope": [
       "README.md",
       "docs/planning/ADL_FEATURE_LIST.md",
@@ -44,7 +44,7 @@
       "docs/milestones/v0.91.8",
       ".csdlc/prepared/issues/5594"
     ],
-    "reviewed_revision": "git-blake3:ad455920a8065723c5c6f0aaefe9d31a79bca877:b196aff4f1e274ca3363ccd1dfec9893b2a7e6487de4825aeff2e6c35fef1d6d",
+    "reviewed_revision": "git-blake3:8dc446b5272a9aee6c799739bb67cb100d15883b:05a17b801012d91bfa12db5272516c11694e2ff74b705317ae6667215c1011dd",
     "findings": [],
     "residual_risks": [
       "Live issue routing can change after this snapshot.",
@@ -67,32 +67,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a4b4063dd1ed65b093ac4f1cd21f6595ff8162dea95ab0bb27d475d5c1f42dd2",
+      "values_digest": "38b9ebe4196474b2bc2f161db90b7464035b5f7b4d55e4a36108219f4bc18b8e",
       "rendered_digest": "81808e72a73d79ef29ac9f5863ee67f565eb9d01de4fb482d0ae0c287437123a",
       "ast_digest": "1a3c72bdadd86cebbf239ca170bd155a6c0eb74897cbbdd71375a842ca7db95d"
     },
     "stp": {
-      "values_digest": "c10084dd10708a1582cc7ba89c2d999df18e0e6d9bc25d2b08306f5f8f9093db",
+      "values_digest": "dc4db763ab6ad0ec2932aac43649d59369694de2bcc27d876607c5f02ca374bc",
       "rendered_digest": "114f4e06a1e37d1772243c140e76de4a3ea82e9859983a66c041fd68f2f8daa7",
       "ast_digest": "200d9d8166af073b8377f48cf9e7d8787064934801d93e4fd47f40ed6922084e"
     },
     "spp": {
-      "values_digest": "b58d59b4a5842396032cb2fc265a1d33048a7a6d49d23283a2d8b97b0c2fe3ae",
+      "values_digest": "f3c82bed8fca5c262ba380b285f9230d00c25724d527d59e526ad6e497778543",
       "rendered_digest": "61ae8d96bfd05c4f7e2baf77e6b59d0b2cdc9078a9d0653026d0f59cb927b733",
       "ast_digest": "ad92c14f0239341a290bf9802ae33dfd6898d80fca9d2abd49f12dbfa48bc432"
     },
     "vpp": {
-      "values_digest": "de995868586cba91e2fdd0612456bcfe29453c2af83b4fdb7045d34b6babd7a4",
+      "values_digest": "ec8b342a06e5a07d445c36522dc991932e40cac2bb70234a042d1029a597f864",
       "rendered_digest": "9309e25d5da66fb18b1e349619f6a53257f97e9d8fc5c26de211a38ced673146",
       "ast_digest": "83e74d98846c90b2369aa57b60726c4e27e43ced11411b02fd6a9a8708d9d71b"
     },
     "srp": {
-      "values_digest": "91036d0fc3b911cf2019db3ddf9515865d95190d40d8188c25a427e9e79ca301",
-      "rendered_digest": "9385a9f20d6bb73f4a191b0b13f65a86bc43c4222d4e2c0105ecb3dcb9e131ba",
-      "ast_digest": "4a76eb44394873e8468980fa9a401e4b2450d73d7ece4029e7843a43d8812c43"
+      "values_digest": "521d51feeee27ba358dc8fcf64c2d5845fab025d28cc92a8018230941e66e336",
+      "rendered_digest": "5297ffa37285d7f657d2b120afd3d766acf0db3077a458cac9f9613f937a224d",
+      "ast_digest": "97700539305dfc98c1b70c305d2cea8202d70bd18af596179f4641369ec9fa63"
     },
     "sor": {
-      "values_digest": "968e2bd58e97207da07a90310fd479a3c9bfbb8677984e7f80d72244baab7c42",
+      "values_digest": "8b39ffac4d8faed1d3080ef768115c7c764f1fa78afaa6acdb7e7addfa6d188b",
       "rendered_digest": "bf1686fce81f6140384822fcdcf90ed1c91efd0a175d8620391df1891ee8ca95",
       "ast_digest": "984c9e21b86f085418eb7fea95c770f57204c52685a258cbe53153d1891d8a19"
     }
@@ -404,6 +404,20 @@
     {
       "sequence": 41,
       "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 34,
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"

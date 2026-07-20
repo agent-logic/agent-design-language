@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
     "slug": "v0-91-8-wp-01-execution-readiness",
     "version": "v0.91.8",
-    "generation": 33
+    "generation": 34
   },
   "status": "ready",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "README.md\ndocs/planning/ADL_FEATURE_LIST.md\ndocs/milestones/v0.91.8\n.csdlc/prepared/issues/5594",
-      "review_revision": "git-blake3:ad455920a8065723c5c6f0aaefe9d31a79bca877:b196aff4f1e274ca3363ccd1dfec9893b2a7e6487de4825aeff2e6c35fef1d6d",
+      "review_revision": "git-blake3:8dc446b5272a9aee6c799739bb67cb100d15883b:05a17b801012d91bfa12db5272516c11694e2ff74b705317ae6667215c1011dd",
       "reviewer": "subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133",
       "review_prompts": [
         "Does every sprint have one real umbrella and a complete non-overlapping child set?",

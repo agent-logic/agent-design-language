@@ -40,7 +40,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:ad455920a8065723c5c6f0aaefe9d31a79bca877:b196aff4f1e274ca3363ccd1dfec9893b2a7e6487de4825aeff2e6c35fef1d6d")
+Revision: Some("git-blake3:8dc446b5272a9aee6c799739bb67cb100d15883b:05a17b801012d91bfa12db5272516c11694e2ff74b705317ae6667215c1011dd")
 
 Reviewer: Some("subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133")
 
