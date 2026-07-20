@@ -3,13 +3,13 @@
   "issue": 4647,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
-  "phase": "published",
-  "generation": 30,
-  "digest": "f5cba3050bb64bf9ffe22a7aa350e98eee3811bf7fb8075eb043647a844974d9",
+  "phase": "implemented",
+  "generation": 31,
+  "digest": "ff8bbdd041a99e22a350abc4ba42abd9868d54231dce78e3b804ef676f4b3075",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 30,
+    "generation": 31,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -51,48 +51,9 @@
     ],
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f7e00-3942-7ce3-b123-a8d6bbff9803",
-    "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "revision": "git-blake3:5d3b83a63eeca4dc14511fb75e166f24f325e4df:5fa5b48962959ccfd37e80dbe6bd902de685c6f1e9eb86c0720822f85f925d0c",
-    "scope": [
-      ".csdlc/issues/4647",
-      ".csdlc/prepared/issues/4647",
-      "adl/src/provider/http_family.rs",
-      "adl/src/provider/http_family/tests.rs",
-      "adl/src/provider/local.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f7e00-3942-7ce3-b123-a8d6bbff9803",
-    "scope": [
-      ".csdlc/issues/4647",
-      ".csdlc/prepared/issues/4647",
-      "adl/src/provider/http_family.rs",
-      "adl/src/provider/http_family/tests.rs",
-      "adl/src/provider/local.rs"
-    ],
-    "reviewed_revision": "git-blake3:5d3b83a63eeca4dc14511fb75e166f24f325e4df:5fa5b48962959ccfd37e80dbe6bd902de685c6f1e9eb86c0720822f85f925d0c",
-    "findings": [],
-    "residual_risks": [
-      "Exact-head bounded review by subagent 019f7e00-3942-7ce3-b123-a8d6bbff9803 confirmed HEAD 5d3b83a63eeca4dc14511fb75e166f24f325e4df is CLEAN/fixed-confirmed for the post-clippy code and lifecycle state.",
-      "The prior P2 lifecycle proof gap is fixed: SOR now records cargo fmt, cargo clippy --all-targets -- -D warnings, provider::http_family::tests::bedrock_invocation_artifact, and provider::local::tests::ollama_streaming_buffers_split_multibyte_utf8.",
-      "GitHub run 29718818086 was canceled immediately after adl-rust-fmt-clippy failed to stop remaining long-running jobs; no AWS live operation was run."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 4647,
-    "pull_request": 5588,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5588",
-    "base": "main",
-    "head": "codex/4647-v0917-review-remediation-preflight",
-    "revision": "git-blake3:97a22c3311302cdbfbdd99ea32a4d86c86aa5af4:865a7eb12ad82c52e1011457536488e7d47bf5fdc9aff8d14c5a89c6657f713e",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -106,34 +67,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f847a7012fc383ad17fd54942c6b16859bac4d4bde363234725fba763be7228c",
+      "values_digest": "1468ad6683a99d54254a256763963b7af6e9d2829c9a043005d53835e580bf76",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "e5d270ebfd21215db6957d2118730ca39eebc4f33b5086bfa945981f9797081c",
+      "values_digest": "06e7a03d17e1849b360f56cea3175f99953f129059077ba12e8e79af6b1a1549",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "c9460b3ea227870374a4ea4031c686b74d8e9f6c6e51da7eff7b593f67855941",
+      "values_digest": "5146061c9d79ad7f96dc5a6797ebe9f409e2d15d9641457b6474d4b70a5216a2",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "882a64595bab21b9752be70452eea0a7dbc2ed554d50d53b2fa881a0b5c148bf",
+      "values_digest": "11f9fd7610dc373f45c37e5eaaa8f95e1641d77451c3e0c8b7267c9c33e2cc52",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "13de650d09acd2c2ee56711ec240224e59ce8c526648edbf73fa31cee2f0be34",
-      "rendered_digest": "08237d1190706acf87c6a9439978f0b63d1248f6f92f1e8232df3d8f0b69947c",
-      "ast_digest": "9a56a5517762da842301e6b75e8d66100fca1c4c7e1a3ccd61aa962b482e2c28"
+      "values_digest": "143dd0d6022e0ae40dbcd73c68f149417d9eef621c47ac1f9318c9468c92e5e1",
+      "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
+      "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
     },
     "sor": {
-      "values_digest": "c9898922de4599545b87e20efbf8413a91f6b2a728a856ff6788b9515df723e0",
-      "rendered_digest": "4969d4daa573e915f2287d942d2c098b6b6cd7a25a9f07f2ebc71e9f636a460a",
-      "ast_digest": "b4009c802a3bd64340a627c2198f301767e55be6270c692aae4efd7083297c88"
+      "values_digest": "be60f75919c6e918960c205bf7bc3000fddf0feb089d855556ee97121a8a4f7a",
+      "rendered_digest": "454adbe979d76d26b9289bc51e3c3fcd6845375aa0c1935d4be28c29084084c4",
+      "ast_digest": "4a70b257de33317d61577b9bb9cd064bb666140afd9569387285d39d640f0dd8"
     }
   },
   "transitions": [
@@ -227,6 +188,13 @@
       "to": "published",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover review after post-publication CSM API Gateway response-finalization repair required by PR #5588 adl-coverage-hosted failure on run 29719551279."
     }
   ],
   "audit": [
@@ -516,6 +484,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 42,
+      "generation": 31,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover review after post-publication CSM API Gateway response-finalization repair required by PR #5588 adl-coverage-hosted failure on run 29719551279.",
+      "operation": "recover_review"
     }
   ]
 }
