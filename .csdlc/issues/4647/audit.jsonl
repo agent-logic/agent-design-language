@@ -24,3 +24,4 @@
 {"sequence":24,"generation":15,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":25,"generation":16,"actor":"clean-gate:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":26,"generation":17,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"Final exact-head clean-gate review evidence was recorded for c8a889da501760e0e9270933023bb72b63117916; advance to reviewed for typed publication.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":27,"generation":18,"actor":"codex:019f3d65-2216-7832-804a-26339473b27d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
