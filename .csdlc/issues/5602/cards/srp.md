@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+adl/tools/run_authoritative_coverage_lane.sh
+adl/tools/test_run_authoritative_coverage_lane.sh
 
 ## Prompts
 
@@ -30,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the full instrumented integration proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a2769d8a672e7c7287440d9a2feda8c59a271f80:654b93e829f3fc563dd69457b8282f2a7d84cf997147967d4f17ab8f53f28f0b")
 
-Reviewer: None
+Reviewer: Some("subagent:review-5602")
 
-Result: pre_review
+Result: pass

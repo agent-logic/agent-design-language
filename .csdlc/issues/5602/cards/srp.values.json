@@ -7,23 +7,25 @@
     "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
     "slug": "hosted-coverage-no-report",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 9
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh",
+      "review_revision": "git-blake3:a2769d8a672e7c7287440d9a2feda8c59a271f80:654b93e829f3fc563dd69457b8282f2a7d84cf997147967d4f17ab8f53f28f0b",
+      "reviewer": "subagent:review-5602",
       "review_prompts": [
         "Does every partition collect profiles with --no-report?",
         "Are the explicit combined reports and gates unchanged?",
         "Does the contract prove partition failures still fail closed?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI remains the full instrumented integration proof."
+      ],
+      "review_result": "pass"
     }
   }
 }
