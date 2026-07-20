@@ -1,6 +1,5 @@
 use super::{
-    assert_api_response_redacted, CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA,
-    CSM_RUNTIME_API_ENDPOINTS,
+    finalize_api_response, CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA, CSM_RUNTIME_API_ENDPOINTS,
 };
 use crate::observability::emit_event;
 use anyhow::{bail, Context, Result};
@@ -323,21 +322,19 @@ pub fn prove_api_gateway_bridge(
             positive.status_code
         );
     }
-    assert_api_response_redacted(&positive.body)?;
-    let response_schema = positive
-        .body
+    let positive_body = finalize_api_response(positive.body)?;
+    let response_schema = positive_body
         .get("schema")
         .and_then(Value::as_str)
         .unwrap_or("unknown");
     if response_schema != CSM_RUNTIME_API_API_GATEWAY_BRIDGE_SCHEMA {
         bail!("API Gateway bridge call did not return CSM runtime API Gateway bridge schema");
     }
-    if positive.body.get("runtime_owner").and_then(Value::as_str) != Some("csm") {
+    if positive_body.get("runtime_owner").and_then(Value::as_str) != Some("csm") {
         bail!("API Gateway bridge call did not return CSM runtime owner");
     }
-    validate_polis_ingress_response(&positive.body, expected_polis_id)?;
-    if positive
-        .body
+    validate_polis_ingress_response(&positive_body, expected_polis_id)?;
+    if positive_body
         .get("agent_instance_id")
         .and_then(Value::as_str)
         != Some(expected_polis_id)
@@ -355,7 +352,7 @@ pub fn prove_api_gateway_bridge(
         .join("redacted_api_gateway_bridge_payload.json");
     fs::write(
         &payload_path,
-        serde_json::to_string_pretty(&positive.body)? + "\n",
+        serde_json::to_string_pretty(&positive_body)? + "\n",
     )
     .with_context(|| format!("failed writing {}", payload_path.display()))?;
 
@@ -418,14 +415,12 @@ pub fn prove_api_gateway_bridge(
             http_status: positive.status_code,
             response_schema: response_schema.to_string(),
             runtime_owner: "csm".to_string(),
-            status_class: positive
-                .body
+            status_class: positive_body
                 .get("status")
                 .and_then(Value::as_str)
                 .unwrap_or("unknown")
                 .to_string(),
-            ready_class: positive
-                .body
+            ready_class: positive_body
                 .get("ready")
                 .and_then(Value::as_str)
                 .unwrap_or("unknown")
@@ -802,7 +797,7 @@ fn probe_required_routes(
                 response.status_code
             );
         }
-        assert_api_response_redacted(&response.body)?;
+        let _redacted_body = finalize_api_response(response.body)?;
         probed.push(json!({"route": route, "http_status": response.status_code}));
     }
     Ok(json!({
@@ -877,7 +872,7 @@ fn run_negative_cases(options: &ApiGatewayBridgeOptions, correlation_id: &str) -
         &options.run_id,
         Some("api_gateway_malformed_request"),
     );
-    assert_api_response_redacted(&malformed.body)?;
+    let _redacted_malformed_body = finalize_api_response(malformed.body)?;
     Ok(json!({
         "missing_token": missing_token["missing_token"],
         "missing_token_http_status": missing_token["http_status"],
