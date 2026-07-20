@@ -21,9 +21,12 @@ struct InvocationArtifactLock {
     path: PathBuf,
 }
 
+const INVOCATION_ARTIFACT_LOCK_STALE_AFTER: Duration = Duration::from_secs(600);
+const INVOCATION_ARTIFACT_LOCK_STALE_AFTER_ENV: &str = "ADL_INVOCATION_LOCK_STALE_AFTER_MS";
+
 impl Drop for InvocationArtifactLock {
     fn drop(&mut self) {
-        let _ = fs::remove_dir(&self.path);
+        let _ = fs::remove_dir_all(&self.path);
     }
 }
 
@@ -37,8 +40,27 @@ fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationAr
     let lock_path = invocation_lock_path(path);
     for _attempt in 0..200 {
         match fs::create_dir(&lock_path) {
-            Ok(()) => return Ok(InvocationArtifactLock { path: lock_path }),
+            Ok(()) => {
+                let lease = serde_json::json!({
+                    "schema": "adl.provider_invocation_artifact_lock.v1",
+                    "pid": std::process::id(),
+                    "created_unix_ms": SystemTime::now()
+                        .duration_since(UNIX_EPOCH)
+                        .unwrap_or_default()
+                        .as_millis() as u64,
+                    "stale_after_ms": invocation_artifact_lock_stale_after().as_millis() as u64
+                });
+                let _ = fs::write(
+                    lock_path.join("lease.json"),
+                    serde_json::to_vec_pretty(&lease).unwrap_or_default(),
+                );
+                return Ok(InvocationArtifactLock { path: lock_path });
+            }
             Err(err) if err.kind() == std::io::ErrorKind::AlreadyExists => {
+                if invocation_artifact_lock_is_stale(&lock_path) {
+                    let _ = fs::remove_dir_all(&lock_path);
+                    continue;
+                }
                 thread::sleep(Duration::from_millis(10));
             }
             Err(err) => return Err(err),
@@ -48,6 +70,23 @@ fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationAr
         std::io::ErrorKind::TimedOut,
         "timed out waiting for invocation artifact lock",
     ))
+}
+
+fn invocation_artifact_lock_is_stale(lock_path: &Path) -> bool {
+    lock_path
+        .metadata()
+        .and_then(|metadata| metadata.modified())
+        .ok()
+        .and_then(|modified| modified.elapsed().ok())
+        .is_some_and(|elapsed| elapsed > invocation_artifact_lock_stale_after())
+}
+
+fn invocation_artifact_lock_stale_after() -> Duration {
+    env::var(INVOCATION_ARTIFACT_LOCK_STALE_AFTER_ENV)
+        .ok()
+        .and_then(|raw| raw.parse::<u64>().ok())
+        .map(Duration::from_millis)
+        .unwrap_or(INVOCATION_ARTIFACT_LOCK_STALE_AFTER)
 }
 
 /// Maximum number of provider error-body characters kept for inline request-failure messages.
@@ -137,9 +176,9 @@ fn write_native_invocation_record(
         })?;
     }
     let _artifact_lock = acquire_invocation_artifact_lock(&path).map_err(|err| {
-        runtime_error(
+        runtime_error_non_retryable(
             family,
-            format!("failed to acquire provider invocation artifact lock: {err}"),
+            format!("partial_success_unknown_invocation_record_lock_unavailable: provider call completed but invocation artifact lock could not be acquired without risking duplicate retry: {err}"),
         )
     })?;
     let mut payload = if path.is_file() {
@@ -206,6 +245,7 @@ fn write_bedrock_invocation_record(
     profile: &str,
     region: &str,
     account_id_sha256: Option<&str>,
+    account_profile_validation_status: &str,
 ) -> Result<()> {
     let Some(path) = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH") else {
         return Ok(());
@@ -220,9 +260,9 @@ fn write_bedrock_invocation_record(
         })?;
     }
     let _artifact_lock = acquire_invocation_artifact_lock(&path).map_err(|err| {
-        runtime_error(
+        runtime_error_non_retryable(
             "bedrock",
-            format!("failed to acquire provider invocation artifact lock: {err}"),
+            format!("partial_success_unknown_invocation_record_lock_unavailable: Bedrock call completed but invocation artifact lock could not be acquired without risking duplicate retry: {err}"),
         )
     })?;
     let mut payload = if path.is_file() {
@@ -269,7 +309,7 @@ fn write_bedrock_invocation_record(
         "aws_profile": profile,
         "aws_region": region,
         "account_id_sha256": account_id_sha256,
-        "account_profile_validation_status": "sts_verified"
+        "account_profile_validation_status": account_profile_validation_status
     }));
     let bytes = serde_json::to_vec_pretty(&payload).map_err(|err| {
         runtime_error_non_retryable(
@@ -675,6 +715,7 @@ impl Provider for OpenRouterProvider {
 
 const DEFAULT_BEDROCK_PROFILE: &str = "agent-logic-admin";
 const DEFAULT_BEDROCK_REGION: &str = "us-west-2";
+const BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV: &str = "ADL_AWS_BEDROCK_ACCOUNT_SHA256";
 
 #[derive(Debug, Clone)]
 /// AWS Bedrock native provider using Bedrock Runtime InvokeModel.
@@ -682,6 +723,7 @@ pub struct AwsBedrockProvider {
     model: String,
     region: String,
     profile: String,
+    expected_account_sha256: Option<String>,
     max_tokens: u64,
     timeout_secs: Option<u64>,
 }
@@ -708,10 +750,17 @@ impl AwsBedrockProvider {
                 ),
             ));
         }
+        let expected_account_sha256 = cfg_string(&spec.config, "expected_account_sha256")
+            .or_else(|| cfg_string(&spec.config, "expected-account-sha256"))
+            .or_else(|| env::var(BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV).ok());
+        if let Some(expected) = expected_account_sha256.as_deref() {
+            validate_sha256_hex(expected).map_err(|err| invalid_config("bedrock", err))?;
+        }
         Ok(Self {
             model: target.provider_model_id.clone(),
             region,
             profile,
+            expected_account_sha256,
             max_tokens: cfg_u64(&spec.config, "max_tokens")
                 .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
                 .unwrap_or(220),
@@ -740,6 +789,10 @@ impl AwsBedrockProvider {
             .await
             .map_err(|err| bedrock_sdk_error(format!("{err:?}")))?;
         let account_id_sha256 = identity.account().map(sha256_hex);
+        verify_bedrock_account_identity(
+            account_id_sha256.as_deref(),
+            self.expected_account_sha256.as_deref(),
+        )?;
         let body = bedrock_nova_request_body(prompt, self.max_tokens);
         let response = bedrockruntime::Client::new(&shared_config)
             .invoke_model()
@@ -771,9 +824,46 @@ impl AwsBedrockProvider {
             &self.profile,
             &self.region,
             account_id_sha256.as_deref(),
+            "account_hash_verified",
         )?;
         Ok(output)
     }
+}
+
+fn validate_sha256_hex(value: &str) -> std::result::Result<(), String> {
+    if value.len() == 64 && value.chars().all(|ch| ch.is_ascii_hexdigit()) {
+        Ok(())
+    } else {
+        Err("expected account hash must be a 64-character SHA-256 hex digest".to_string())
+    }
+}
+
+fn verify_bedrock_account_identity(
+    account_id_sha256: Option<&str>,
+    expected_account_sha256: Option<&str>,
+) -> Result<()> {
+    let Some(expected) = expected_account_sha256 else {
+        return Err(runtime_error_non_retryable(
+            "bedrock",
+            format!(
+                "AWS Bedrock provider requires operator-approved expected account hash; set {BEDROCK_EXPECTED_ACCOUNT_SHA256_ENV} or config.expected_account_sha256"
+            ),
+        ));
+    };
+    validate_sha256_hex(expected).map_err(|err| invalid_config("bedrock", err))?;
+    let Some(observed) = account_id_sha256 else {
+        return Err(runtime_error_non_retryable(
+            "bedrock",
+            "AWS Bedrock STS identity did not include an account id",
+        ));
+    };
+    if observed != expected {
+        return Err(runtime_error_non_retryable(
+            "bedrock",
+            "AWS Bedrock profile account hash does not match expected Agent Logic account hash",
+        ));
+    }
+    Ok(())
 }
 
 impl Provider for AwsBedrockProvider {

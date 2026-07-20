@@ -258,6 +258,7 @@ candidate_filter_for_path() {
     adl/src/cli/tooling_cmd/structured_prompt.rs)
       printf 'structured_prompt'
       ;;
+    adl/src/provider/http_family.rs|\
     adl/src/provider/http_family/config.rs|\
     adl/src/provider/mod.rs|\
     adl/src/provider/profiles.rs)

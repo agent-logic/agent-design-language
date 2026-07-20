@@ -268,9 +268,10 @@ async fn runtime_api_axum_handler(
 ) -> Response<Body> {
     let request = RuntimeApiRequest::from_axum_parts(method, uri, &headers);
     let response = if request.method == "OPTIONS" {
-        runtime_api_http_response(&state.options, &request).unwrap_or_else(|err| {
+        let response = runtime_api_http_response(&state.options, &request).unwrap_or_else(|err| {
             runtime_api_internal_error_response(request.origin.as_deref(), &err)
-        })
+        });
+        return runtime_api_axum_response(response);
     } else {
         match state.auth_store.authorize(request.authorization.as_deref()) {
             RuntimeApiAuthDecision::Authenticated(metadata) => {
@@ -281,13 +282,19 @@ async fn runtime_api_axum_handler(
                 ) {
                     Ok(identity) => identity,
                     Err(reason) => {
-                        let _ = append_runtime_api_auth_event(
+                        if let Err(err) = append_runtime_api_auth_event(
                             &state.auth_events_path,
                             "gateway_identity_rejected",
                             Some(&request),
                             Some(&reason),
                             Some(&metadata),
-                        );
+                        ) {
+                            state.record_request();
+                            return runtime_api_axum_response(runtime_api_internal_error_response(
+                                request.origin.as_deref(),
+                                &err,
+                            ));
+                        }
                         state.record_request();
                         return runtime_api_axum_response(runtime_api_auth_error_response(
                             request.origin.as_deref(),
@@ -296,13 +303,19 @@ async fn runtime_api_axum_handler(
                         ));
                     }
                 };
-                let _ = append_runtime_api_auth_event(
+                if let Err(err) = append_runtime_api_auth_event(
                     &state.auth_events_path,
                     "request_authenticated",
                     Some(&request),
                     None,
                     Some(&metadata),
-                );
+                ) {
+                    state.record_request();
+                    return runtime_api_axum_response(runtime_api_internal_error_response(
+                        request.origin.as_deref(),
+                        &err,
+                    ));
+                }
                 runtime_api_authenticated_http_response(
                     &state.options,
                     &request,
@@ -314,13 +327,19 @@ async fn runtime_api_axum_handler(
                 })
             }
             RuntimeApiAuthDecision::Rejected { reason, metadata } => {
-                let _ = append_runtime_api_auth_event(
+                if let Err(err) = append_runtime_api_auth_event(
                     &state.auth_events_path,
                     "request_rejected",
                     Some(&request),
                     Some(reason),
                     metadata.as_ref(),
-                );
+                ) {
+                    state.record_request();
+                    return runtime_api_axum_response(runtime_api_internal_error_response(
+                        request.origin.as_deref(),
+                        &err,
+                    ));
+                }
                 runtime_api_auth_error_response(
                     request.origin.as_deref(),
                     "401 Unauthorized",
@@ -328,13 +347,19 @@ async fn runtime_api_axum_handler(
                 )
             }
             RuntimeApiAuthDecision::Unavailable { reason } => {
-                let _ = append_runtime_api_auth_event(
+                if let Err(err) = append_runtime_api_auth_event(
                     &state.auth_events_path,
                     "auth_unavailable",
                     Some(&request),
                     Some(&reason),
                     None,
-                );
+                ) {
+                    state.record_request();
+                    return runtime_api_axum_response(runtime_api_internal_error_response(
+                        request.origin.as_deref(),
+                        &err,
+                    ));
+                }
                 runtime_api_auth_error_response(
                     request.origin.as_deref(),
                     "503 Service Unavailable",
@@ -1083,8 +1108,7 @@ fn artifact_path(loaded: &LoadedAgentSpec, name: &str) -> PathBuf {
 }
 
 fn emit_runtime_api_client_error(err: &anyhow::Error) {
-    let error = err
-        .to_string()
+    let error = sanitize_string(&err.to_string())
         .replace(|c: char| c.is_whitespace(), "_")
         .replace('/', "_");
     eprintln!(
@@ -1303,6 +1327,9 @@ fn sanitize_json(value: Value) -> Value {
                         || lowered.contains("token")
                         || lowered.contains("authorization")
                         || lowered.contains("credential")
+                        || lowered.contains("cloud_account")
+                        || lowered.contains("account_id")
+                        || lowered.contains("aws_account")
                     {
                         (key, Value::String("[redacted]".to_string()))
                     } else {
@@ -1537,7 +1564,7 @@ fn exact_pid_is_live(pid: u32) -> Option<bool> {
         return Some(true);
     }
     match std::io::Error::last_os_error().raw_os_error() {
-        Some(EPERM) => Some(true),
+        Some(EPERM) => None,
         Some(ESRCH) => Some(false),
         _ => None,
     }
@@ -2099,44 +2126,15 @@ fn runtime_api_http_response(
         },
     ));
     match request.method.as_str() {
-        "GET" => {
-            if request.path.split('?').next().unwrap_or(&request.path) == "/acip/ws" {
-                return Ok(RuntimeApiHttpResponse {
-                    status: if request.upgrade {
-                        "501 Not Implemented"
-                    } else {
-                        "426 Upgrade Required"
-                    },
-                    headers,
-                    body: Some(json!({
-                        "schema": CSM_RUNTIME_API_ACIP_SCHEMA,
-                        "runtime_owner": "csm",
-                        "status": "websocket_upgrade_not_activated",
-                        "runtime_api_path": "/acip/ws",
-                        "upgrade_required": true,
-                        "upgrade_handler": "not_activated_in_csm_runtime_api",
-                        "transport_contract": "protobuf_frame_contract_available_via_acip_carrier",
-                        "activation_policy": "fail_closed_until_runtime_upgrade_handler_is_integrated"
-                    })),
-                });
-            }
-            let body = runtime_api_response(options, &request.path)?;
-            let status = if body.get("status").and_then(Value::as_str) == Some("not_found") {
-                "404 Not Found"
-            } else {
-                "200 OK"
-            };
+        "GET" => runtime_api_get_response(options, request, headers, None, None),
+        "OPTIONS" => {
+            headers.retain(|(name, _)| *name != "x-csm-admission");
             Ok(RuntimeApiHttpResponse {
-                status,
+                status: "204 No Content",
                 headers,
-                body: Some(body),
+                body: None,
             })
         }
-        "OPTIONS" => Ok(RuntimeApiHttpResponse {
-            status: "204 No Content",
-            headers,
-            body: None,
-        }),
         _ if admission_quiesced => Ok(RuntimeApiHttpResponse {
             status: "503 Service Unavailable",
             headers,
@@ -2159,6 +2157,47 @@ fn runtime_api_http_response(
     }
 }
 
+fn runtime_api_get_response(
+    options: &CsmRuntimeApiOptions,
+    request: &RuntimeApiRequest,
+    headers: Vec<(&'static str, String)>,
+    identity: Option<&adl_runtime::runtime_api_auth::RuntimeApiCredentialMetadata>,
+    gateway_identity: Option<&VerifiedRuntimeApiGatewayIdentity>,
+) -> Result<RuntimeApiHttpResponse> {
+    if request.path.split('?').next().unwrap_or(&request.path) == "/acip/ws" {
+        return Ok(RuntimeApiHttpResponse {
+            status: if request.upgrade {
+                "501 Not Implemented"
+            } else {
+                "426 Upgrade Required"
+            },
+            headers,
+            body: Some(json!({
+                "schema": CSM_RUNTIME_API_ACIP_SCHEMA,
+                "runtime_owner": "csm",
+                "status": "websocket_upgrade_not_activated",
+                "runtime_api_path": "/acip/ws",
+                "upgrade_required": true,
+                "upgrade_handler": "not_activated_in_csm_runtime_api",
+                "transport_contract": "protobuf_frame_contract_available_via_acip_carrier",
+                "activation_policy": "fail_closed_until_runtime_upgrade_handler_is_integrated"
+            })),
+        });
+    }
+    let body =
+        runtime_api_response_with_identity(options, &request.path, identity, gateway_identity)?;
+    let status = if body.get("status").and_then(Value::as_str) == Some("not_found") {
+        "404 Not Found"
+    } else {
+        "200 OK"
+    };
+    Ok(RuntimeApiHttpResponse {
+        status,
+        headers,
+        body: Some(body),
+    })
+}
+
 fn runtime_admission_quiesced(options: &CsmRuntimeApiOptions) -> bool {
     load_spec(&options.spec_path)
         .ok()
@@ -2176,18 +2215,27 @@ fn runtime_api_authenticated_http_response(
     identity: &adl_runtime::runtime_api_auth::RuntimeApiCredentialMetadata,
     gateway_identity: Option<&VerifiedRuntimeApiGatewayIdentity>,
 ) -> Result<RuntimeApiHttpResponse> {
-    let mut response = runtime_api_http_response(options, request)?;
-    if request.method == "GET"
-        && request.path.split('?').next().unwrap_or(&request.path) != "/acip/ws"
-    {
-        response.body = Some(runtime_api_response_with_identity(
+    if request.method == "GET" {
+        let mut headers = loopback_browser_access_headers(request.origin.as_deref());
+        headers.push(("vary", "Origin".to_string()));
+        let admission_quiesced = runtime_admission_quiesced(options);
+        headers.push((
+            "x-csm-admission",
+            if admission_quiesced {
+                "quiesced".to_string()
+            } else {
+                "open".to_string()
+            },
+        ));
+        return runtime_api_get_response(
             options,
-            &request.path,
+            request,
+            headers,
             Some(identity),
             gateway_identity,
-        )?);
+        );
     }
-    Ok(response)
+    runtime_api_http_response(options, request)
 }
 
 fn runtime_api_internal_error_response(
@@ -2208,13 +2256,15 @@ fn runtime_api_internal_error_response(
 }
 
 fn runtime_api_axum_response(response: RuntimeApiHttpResponse) -> Response<Body> {
-    let status = runtime_api_status_code(response.status);
+    let mut status = runtime_api_status_code(response.status);
+    let mut serialization_failed = false;
     let raw = response
         .body
         .as_ref()
         .map(serde_json::to_vec_pretty)
         .transpose()
         .unwrap_or_else(|_| {
+            serialization_failed = true;
             Some(
                 serde_json::to_vec(&json!({
                     "schema": CSM_RUNTIME_API_SCHEMA,
@@ -2224,6 +2274,9 @@ fn runtime_api_axum_response(response: RuntimeApiHttpResponse) -> Response<Body>
             )
         })
         .unwrap_or_default();
+    if serialization_failed {
+        status = StatusCode::INTERNAL_SERVER_ERROR;
+    }
     let mut builder = Response::builder().status(status);
     if response.body.is_some() {
         builder = builder.header("content-type", "application/json");
@@ -2636,6 +2689,52 @@ memory: {}
                 gateway_signature: None,
             }
         );
+    }
+
+    #[tokio::test]
+    async fn runtime_api_options_does_not_consume_test_request_budget() {
+        let root = temp_root("options-budget");
+        let options = test_options(&root);
+        let loaded = load_spec(&options.spec_path).unwrap();
+        let store = RuntimeApiCredentialStore::for_state_root(&loaded.state_root);
+        store.ensure().unwrap();
+        let state = RuntimeApiServerState::new(
+            options,
+            store,
+            loaded.state_root.join(CSM_RUNTIME_API_AUTH_EVENTS_FILE),
+        );
+        let response = runtime_api_axum_handler(
+            State(state.clone()),
+            Method::OPTIONS,
+            Uri::from_static("/status"),
+            HeaderMap::new(),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::NO_CONTENT);
+        assert!(!response.headers().contains_key("x-csm-admission"));
+        assert_eq!(state.served_requests(), 0);
+    }
+
+    #[tokio::test]
+    async fn runtime_api_auth_event_write_failure_fails_closed() {
+        let root = temp_root("auth-event-fail");
+        let options = test_options(&root);
+        let loaded = load_spec(&options.spec_path).unwrap();
+        let store = RuntimeApiCredentialStore::for_state_root(&loaded.state_root);
+        store.ensure().unwrap();
+        let blocked_events_path = loaded.state_root.join("auth-events-blocked");
+        fs::write(&blocked_events_path, "not a directory").unwrap();
+        let state =
+            RuntimeApiServerState::new(options, store, blocked_events_path.join("events.jsonl"));
+
+        let response = runtime_api_axum_handler(
+            State(state),
+            Method::GET,
+            Uri::from_static("/status"),
+            HeaderMap::new(),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::INTERNAL_SERVER_ERROR);
     }
 
     #[tokio::test]
@@ -3878,7 +3977,7 @@ memory: {}
         fs::create_dir_all(&state).unwrap();
         fs::write(
             state.join("operator_events.jsonl"),
-            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","numeric_account":123456789012,"message":"failed opening /Users/example/secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
+            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","account_id":"123456789012","aws_account":"123456789012","cloud_account_identifier":"123456789012","numeric_account":123456789012,"message":"failed opening /Users/example/secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {

@@ -27,12 +27,12 @@ deliberately excluded from the reviewed corpus.
 These synthesized documents contain issue identifiers, repo-relative evidence
 references, finding descriptions, dispositions, and explicit non-claims. A
 deterministic scan found no secret values, private keys, raw provider output,
-private URLs, or absolute user-home paths in the allowlisted files. Security
+private URLs, or operator-specific paths in the allowlisted files. Security
 terms such as `credentials`, `API keys`, and `secret exposure` describe review
 findings; they do not include credential values.
 
 The source portion of the corpus intentionally contains redaction-test
-fixtures. `adl/src/provider/http_family/tests.rs` uses the public AWS
+fixtures with synthetic absolute path markers. `adl/src/provider/http_family/tests.rs` uses the public AWS
 documentation example access-key identifier `AKIAIOSFODNN7EXAMPLE`, and
 `adl/src/csm_runtime_api.rs` contains synthetic `/Users/example/` plus literal
 path-prefix markers used to prove sanitization. These are test inputs, not

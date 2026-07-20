@@ -231,6 +231,7 @@ fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
         "agent-logic-admin",
         "us-west-2",
         Some("account-hash"),
+        "account_hash_verified",
     )
     .expect("first bedrock invocation record should write");
     write_bedrock_invocation_record(
@@ -241,6 +242,7 @@ fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
         "agent-logic-admin",
         "us-east-1",
         None,
+        "account_hash_verified",
     )
     .expect("second bedrock invocation record should append");
 
@@ -263,7 +265,7 @@ fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
     assert_eq!(invocations[0]["account_id_sha256"], "account-hash");
     assert_eq!(
         invocations[0]["account_profile_validation_status"],
-        "sts_verified"
+        "account_hash_verified"
     );
     assert_eq!(invocations[1]["account_id_sha256"], serde_json::Value::Null);
 
@@ -293,6 +295,7 @@ fn bedrock_invocation_artifact_rejects_invalid_existing_payloads() {
         "agent-logic-admin",
         "us-west-2",
         Some("account-hash"),
+        "account_hash_verified",
     )
     .expect_err("invalid existing artifact should fail closed");
     assert!(err
@@ -308,6 +311,7 @@ fn bedrock_invocation_artifact_rejects_invalid_existing_payloads() {
         "agent-logic-admin",
         "us-west-2",
         None,
+        "account_hash_verified",
     )
     .expect_err("missing invocations array should fail closed");
     assert!(err
@@ -381,6 +385,7 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
         DEFAULT_BEDROCK_PROFILE,
         DEFAULT_BEDROCK_REGION,
         None,
+        "account_hash_verified",
     )
     .expect("missing artifact path should be a no-op");
 
@@ -389,6 +394,38 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
     restore_env_var("AWS_REGION", prev_region);
     restore_env_var("AWS_DEFAULT_REGION", prev_default_region);
     restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+}
+
+#[test]
+fn bedrock_account_identity_requires_operator_approved_hash() {
+    let observed = sha256_hex("123456789012");
+
+    verify_bedrock_account_identity(Some(&observed), Some(&observed))
+        .expect("matching account hash should verify");
+
+    let missing_expected = verify_bedrock_account_identity(Some(&observed), None)
+        .expect_err("missing expected account hash should fail closed");
+    assert!(missing_expected
+        .to_string()
+        .contains("requires operator-approved expected account hash"));
+
+    let missing_observed = verify_bedrock_account_identity(None, Some(&observed))
+        .expect_err("missing STS account should fail closed");
+    assert!(missing_observed
+        .to_string()
+        .contains("STS identity did not include an account id"));
+
+    let mismatch = verify_bedrock_account_identity(Some(&observed), Some(&sha256_hex("other")))
+        .expect_err("mismatched account should fail closed");
+    assert!(mismatch
+        .to_string()
+        .contains("does not match expected Agent Logic account hash"));
+
+    let malformed = verify_bedrock_account_identity(Some(&observed), Some("not-a-sha"))
+        .expect_err("malformed expected account hash should fail closed");
+    assert!(malformed
+        .to_string()
+        .contains("64-character SHA-256 hex digest"));
 }
 
 fn provider_spec(
@@ -1444,6 +1481,7 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
 
     let artifact = temp_root.join("invocations.json");
     let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let prev_stale_after = env::var_os("ADL_INVOCATION_LOCK_STALE_AFTER_MS");
     env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
 
     write_native_invocation_record("openai", "gpt-test", "hello", "world", 200)
@@ -1509,9 +1547,28 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
         "concurrent writes should preserve every invocation entry"
     );
 
+    std::fs::create_dir_all(invocation_lock_path(&artifact)).expect("stale lock dir");
+    env::set_var("ADL_INVOCATION_LOCK_STALE_AFTER_MS", "0");
+    write_native_invocation_record("openai", "gpt-test", "after-lock", "recorded", 200)
+        .expect("stale invocation lock should be recovered");
+    let recovered_payload: Value =
+        serde_json::from_slice(&std::fs::read(&artifact).expect("read recovered artifact"))
+            .expect("recovered artifact json");
+    assert_eq!(
+        recovered_payload["invocations"]
+            .as_array()
+            .expect("recovered invocations array")
+            .len(),
+        thread_count + 1
+    );
+
     match prev_artifact {
         Some(v) => env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", v),
         None => env::remove_var("ADL_PROVIDER_INVOCATIONS_PATH"),
+    }
+    match prev_stale_after {
+        Some(v) => env::set_var("ADL_INVOCATION_LOCK_STALE_AFTER_MS", v),
+        None => env::remove_var("ADL_INVOCATION_LOCK_STALE_AFTER_MS"),
     }
 
     let target = provider_target(
@@ -1586,4 +1643,18 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
         .insert("trust_custom_endpoint".to_string(), json!(true));
     HttpProvider::from_target(&untrusted_bearer_spec, &target)
         .expect("explicitly trusted remote bearer endpoint should build");
+
+    let ipv6_loopback_target = provider_target(
+        "http",
+        "http://[::1]:11434/v1/complete".to_string(),
+        "local-model",
+    );
+    let ipv6_loopback_spec = provider_spec(
+        "http",
+        "http://[::1]:11434/v1/complete",
+        Some("HTTP_API_KEY"),
+        &[],
+    );
+    HttpProvider::from_target(&ipv6_loopback_spec, &ipv6_loopback_target)
+        .expect("bracketed IPv6 loopback bearer endpoint should be trusted as loopback");
 }

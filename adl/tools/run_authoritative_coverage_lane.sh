@@ -72,11 +72,21 @@ if [ "$EVENT_NAME" = "pull_request" ] && [ "$AUTHORITY" = "pr_policy_surface_too
   MODE="bounded_policy_surface_pr"
 fi
 
+if [[ ! "$COVERAGE_RUN_ID" =~ ^[A-Za-z0-9._-]+$ ]]; then
+  echo "invalid coverage run id: $COVERAGE_RUN_ID" >&2
+  echo "coverage run id may contain only letters, digits, '.', '_', and '-'" >&2
+  exit 2
+fi
+
+COVERAGE_PROFILE_ROOT="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
+
 if [ "$PRINT_PLAN" = true ]; then
   printf 'authority=%s\n' "$AUTHORITY"
   printf 'event_name=%s\n' "$EVENT_NAME"
   printf 'mode=%s\n' "$MODE"
   printf 'build_root=%s\n' "$COVERAGE_BUILD_ROOT"
+  printf 'run_id=%s\n' "$COVERAGE_RUN_ID"
+  printf 'profile_root=%s\n' "$COVERAGE_PROFILE_ROOT"
   printf 'test_threads=%s\n' "$TEST_THREADS"
   printf 'partitions=%s\n' "$PARTITION_COUNT"
   printf 'skip_patterns=%s\n' "$SKIP_PATTERNS_RAW"
@@ -98,11 +108,12 @@ cd "$ADL_DIR"
 
 # Keep compiled target artifacts warm across CI runs. GitHub-hosted coverage
 # defaults to the cached repo target, while remote builders can opt into a
-# scratch root and warm it from the restored target. Do not delete the
-# llvm-cov target between runs; it is the expensive instrumentation build cache.
-mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target"
+# scratch root and warm it from the restored target. Keep the ordinary Cargo
+# target warm, but isolate llvm-cov profile output by run so concurrent lanes
+# cannot delete or report each other's raw profiles.
+mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_PROFILE_ROOT"
 export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
-export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target"
+export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_PROFILE_ROOT"
 # Coverage builds can consume enough runner disk to cross the production CSM
 # floor. Keep ordinary tests deterministic; low-disk tests set explicit values.
 export ADL_CSM_DISK_FLOOR_BYTES="${ADL_CSM_DISK_FLOOR_BYTES:-0}"
@@ -196,12 +207,13 @@ run_workspace_coverage_partitions() {
 }
 
 coverage_profile_namespace=workspace
-run_workspace_coverage_partitions
+coverage_status=0
+run_workspace_coverage_partitions || coverage_status=$?
 
 cargo llvm-cov report \
   --json \
   --summary-only \
-  --output-path "$ADL_SUMMARY_PATH"
+  --output-path "$ADL_SUMMARY_PATH" || coverage_status=$?
 find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
@@ -214,12 +226,12 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
     --test-threads "$TEST_THREADS")
   coverage_command=("${runtime_coverage_command[@]}")
   coverage_profile_namespace=adl-runtime
-  run_workspace_coverage_partitions
+  run_workspace_coverage_partitions || coverage_status=$?
   cargo llvm-cov report \
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
     --json \
     --summary-only \
-    --output-path "$ADL_RUNTIME_SUMMARY_PATH"
+    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || coverage_status=$?
   jq -s '
     . as $docs
     |
@@ -250,7 +262,9 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
         lines: metric("lines"),
         regions: metric("regions")
       }
-  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > coverage-summary.json
+  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > coverage-summary.json || coverage_status=$?
 else
-  cp "$ADL_SUMMARY_PATH" coverage-summary.json
+  cp "$ADL_SUMMARY_PATH" coverage-summary.json || coverage_status=$?
 fi
+
+exit "$coverage_status"

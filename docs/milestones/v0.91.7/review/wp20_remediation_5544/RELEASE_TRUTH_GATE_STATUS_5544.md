@@ -1,16 +1,23 @@
 # WP-20 Release Truth Gate Status (#5544)
 
-Status: active_blocked_external_review
+Status: historical_snapshot_superseded
 
 Issue: #5544
 
 Captured: 2026-07-18
 
+Superseded-by: `docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md`
+
+This packet is retained as the #5544 capture-time snapshot only. It is not the
+current release-tail gate state after #5408, #5489, and the WP-19 replacement
+review closed; use the sprint review register and WP-20 #4647 records for
+current gate truth.
+
 ## Summary
 
-#5544 reconciles the release-tail review truth after #4645. It does not fix the
-runtime/security/coverage findings itself. Its role is to make the canonical
-register and WP-19 handoff tell the truth before external review.
+#5544 reconciled the release-tail review truth after #4645 at capture time. It
+did not fix the runtime/security/coverage findings itself. Its role was to make
+the canonical register and WP-19 handoff tell the truth before external review.
 
 ## Live State Consumed
 

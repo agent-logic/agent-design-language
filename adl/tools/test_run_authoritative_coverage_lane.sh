@@ -48,6 +48,19 @@ case "$custom_plan" in
     exit 1
     ;;
 esac
+case "$custom_plan" in
+  *"profile_root=$custom_root/target/llvm-cov-target/"*) ;;
+  *)
+    echo "expected authoritative coverage plan to expose run-isolated llvm-cov profile root" >&2
+    echo "$custom_plan" >&2
+    exit 1
+    ;;
+esac
+
+if ADL_COVERAGE_RUN_ID="../bad" "$SCRIPT" --print-plan >/dev/null 2>&1; then
+  echo "expected unsafe coverage run id to fail closed" >&2
+  exit 1
+fi
 
 script_text="$(cat "$SCRIPT")"
 for required_fragment in \
@@ -64,6 +77,7 @@ for required_fragment in \
   "DEFAULT_SKIP_PATTERNS=" \
   "--partition" \
   "partition-logs" \
+  "COVERAGE_PROFILE_ROOT" \
   "LLVM_PROFILE_FILE" \
   "test_filter_args+=(--skip" \
   "cargo llvm-cov report" \
@@ -104,6 +118,11 @@ printf 'target=%s\n' "${CARGO_TARGET_DIR:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'llvm_cov_target=%s\n' "${CARGO_LLVM_COV_TARGET_DIR:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'build_jobs=%s\n' "${CARGO_BUILD_JOBS:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'link_accel=%s\n' "${RUST_LINK_ACCEL:-}" >> "$AUTHORITATIVE_CARGO_LOG"
+case "${AUTHORITATIVE_FAIL_PARTITION:-}:$*" in
+  "1:"*"--partition count:1/2"*)
+    exit 23
+    ;;
+esac
 out_path=""
 prev=""
 for arg in "$@"; do
@@ -121,17 +140,30 @@ exit 0
 EOF
 chmod +x "$bin_dir/cargo"
 
+mkdir -p "$scratch_root/target/llvm-cov-target/run-a" "$scratch_root/target/llvm-cov-target/other-run"
+touch "$scratch_root/target/llvm-cov-target/run-a/stale.profraw"
+touch "$scratch_root/target/llvm-cov-target/other-run/sibling.profraw"
+
 PATH="$bin_dir:$PATH" \
 AUTHORITATIVE_CARGO_LOG="$cargo_log" \
 ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-a" \
   bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
 
-for required_dir in "$scratch_root/target" "$scratch_root/target/llvm-cov-target"; do
+for required_dir in "$scratch_root/target" "$scratch_root/target/llvm-cov-target/run-a"; do
   if [ ! -d "$required_dir" ]; then
     echo "expected authoritative coverage scratch dir: $required_dir" >&2
     exit 1
   fi
 done
+if [ -e "$scratch_root/target/llvm-cov-target/run-a/stale.profraw" ]; then
+  echo "expected current run stale profile data to be cleaned" >&2
+  exit 1
+fi
+if [ ! -e "$scratch_root/target/llvm-cov-target/other-run/sibling.profraw" ]; then
+  echo "expected sibling coverage run profile data to survive current run cleanup" >&2
+  exit 1
+fi
 
 for required in \
   "cmd=llvm-cov nextest --workspace --no-clean --no-fail-fast --no-tests pass" \
@@ -149,7 +181,7 @@ for required in \
   "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl.json" \
   "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl-runtime.json" \
   "target=$scratch_root/target" \
-  "llvm_cov_target=$scratch_root/target/llvm-cov-target"
+  "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-a"
 do
   if ! grep -F -- "$required" "$cargo_log" >/dev/null 2>&1; then
     echo "missing authoritative coverage execution token: $required" >&2
@@ -158,10 +190,24 @@ do
   fi
 done
 
+failing_cargo_log="$temp_root/failing-cargo.log"
+if PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$failing_cargo_log" \
+AUTHORITATIVE_FAIL_PARTITION=1 \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-failing" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request; then
+  echo "expected authoritative coverage runner to return failed partition status" >&2
+  exit 1
+fi
+grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl.json" "$failing_cargo_log" >/dev/null
+grep -F -- "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$failing_cargo_log" >/dev/null
+
 lld_cargo_log="$temp_root/lld-cargo.log"
 PATH="$bin_dir:$PATH" \
 AUTHORITATIVE_CARGO_LOG="$lld_cargo_log" \
 ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-b" \
 ADL_COVERAGE_TEST_THREADS=18 \
 RUST_LINK_ACCEL="lld" \
 ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS="2" \
@@ -172,7 +218,8 @@ for required in \
   "link_accel=lld" \
   "--test-threads 2" \
   "-- --skip live_pr_fixture_" \
-  "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass"
+  "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-fail-fast --no-tests pass" \
+  "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-b"
 do
   if ! grep -F -- "$required" "$lld_cargo_log" >/dev/null 2>&1; then
     echo "missing authoritative coverage concurrency token: $required" >&2

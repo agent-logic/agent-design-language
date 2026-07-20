@@ -58,16 +58,16 @@ digest value and exclude untracked/local artifacts.
 Use this procedure from the exact target revision:
 
 ```sh
-git ls-tree -r --name-only HEAD -- \
+git ls-tree -r HEAD -- \
   docs/milestones/v0.91.8 \
   docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md \
   docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 \
-  | LC_ALL=C sort > /tmp/v0918-review-packet-paths.txt
-shasum -a 256 /tmp/v0918-review-packet-paths.txt
+  | LC_ALL=C sort > .adl/local-artifacts/v0918-review-packet-ls-tree.txt
+shasum -a 256 .adl/local-artifacts/v0918-review-packet-ls-tree.txt
 ```
 
-Record the resulting SHA-256 as the tracked-path manifest digest or commit a
-tracked sidecar generated from the same sorted path list. If the path list
+Record the resulting SHA-256 as the tracked object-record manifest digest or
+commit a tracked sidecar generated from the same sorted object-record list. If the object list
 changes, the digest is stale and the handoff must be refreshed before send.
 
 ## Purpose

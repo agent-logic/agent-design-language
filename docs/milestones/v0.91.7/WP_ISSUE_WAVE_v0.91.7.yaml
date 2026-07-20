@@ -324,7 +324,7 @@ work_packages:
   - wp: WP-21A
     title: Next milestone closeout planning
     issue: 5489
-    status: open
+    status: closed
     outcome: Complete the canonical next-milestone closeout role previously assigned to WP-21.
     depends_on: ["WP-21"]
     deliverables:

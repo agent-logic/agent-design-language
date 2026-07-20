@@ -455,9 +455,10 @@ for required_fragment in (
     'printf \'/mnt/adl-authoritative-coverage\\n\'',
     'printf \'%s\\n\' "$ADL_DIR"',
     'COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"',
-    'mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target"',
+    'COVERAGE_PROFILE_ROOT="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"',
+    'mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_PROFILE_ROOT"',
     'export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"',
-    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target"',
+    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_PROFILE_ROOT"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(

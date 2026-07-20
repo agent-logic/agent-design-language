@@ -67,6 +67,12 @@ control_plane_filters="$TMP/control-plane-filters.txt"
 bash "$SCRIPT" --changed-files "$control_plane_changed" --print-risk-filters >"$control_plane_filters"
 grep -Fx "pr_cmd" "$control_plane_filters" >/dev/null
 
+provider_http_family_changed="$TMP/provider-http-family-changed.txt"
+printf 'M\tadl/src/provider/http_family.rs\n' >"$provider_http_family_changed"
+provider_http_family_filters="$TMP/provider-http-family-filters.txt"
+bash "$SCRIPT" --changed-files "$provider_http_family_changed" --print-risk-filters >"$provider_http_family_filters"
+grep -Fx "provider_hardening" "$provider_http_family_filters" >/dev/null
+
 finish_helper_changed="$TMP/finish-helper-changed.txt"
 printf 'A\tadl/src/cli/pr_cmd/finish_support.rs\n' >"$finish_helper_changed"
 finish_helper_filters="$TMP/finish-helper-filters.txt"

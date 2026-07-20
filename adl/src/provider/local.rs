@@ -135,12 +135,13 @@ impl OllamaProvider {
         let start = Instant::now();
         let timeout = Duration::from_secs(timeout_secs);
         let mut out_buf = Vec::new();
+        let mut stream_utf8_buf = Vec::new();
 
         let status = loop {
             while let Ok(chunk) = rx.try_recv() {
                 out_buf.extend_from_slice(&chunk);
                 if let Some(cb) = on_chunk.as_deref_mut() {
-                    cb(&String::from_utf8_lossy(&chunk));
+                    emit_valid_utf8_chunks(&mut stream_utf8_buf, &chunk, cb);
                 }
             }
 
@@ -180,7 +181,7 @@ impl OllamaProvider {
         while let Ok(chunk) = rx.try_recv() {
             out_buf.extend_from_slice(&chunk);
             if let Some(cb) = on_chunk.as_deref_mut() {
-                cb(&String::from_utf8_lossy(&chunk));
+                emit_valid_utf8_chunks(&mut stream_utf8_buf, &chunk, cb);
             }
         }
 
@@ -192,7 +193,7 @@ impl OllamaProvider {
         while let Ok(chunk) = rx.try_recv() {
             out_buf.extend_from_slice(&chunk);
             if let Some(cb) = on_chunk.as_deref_mut() {
-                cb(&String::from_utf8_lossy(&chunk));
+                emit_valid_utf8_chunks(&mut stream_utf8_buf, &chunk, cb);
             }
         }
         let err_buf = err_handle
@@ -220,6 +221,34 @@ impl OllamaProvider {
     }
 }
 
+fn emit_valid_utf8_chunks(pending: &mut Vec<u8>, chunk: &[u8], on_chunk: &mut dyn FnMut(&str)) {
+    pending.extend_from_slice(chunk);
+    loop {
+        match std::str::from_utf8(pending) {
+            Ok(text) => {
+                if !text.is_empty() {
+                    on_chunk(text);
+                }
+                pending.clear();
+                break;
+            }
+            Err(err) if err.valid_up_to() > 0 => {
+                let valid_up_to = err.valid_up_to();
+                let text = std::str::from_utf8(&pending[..valid_up_to])
+                    .expect("valid_up_to should delimit valid UTF-8");
+                on_chunk(text);
+                pending.drain(..valid_up_to);
+            }
+            Err(err) if err.error_len().is_some() => {
+                let invalid_len = err.error_len().unwrap_or(1);
+                on_chunk("\u{FFFD}");
+                pending.drain(..invalid_len);
+            }
+            Err(_) => break,
+        }
+    }
+}
+
 impl Provider for OllamaProvider {
     /// Execute a prompt through `ollama run` and return complete stdout text.
     fn complete(&self, prompt: &str) -> Result<String> {
@@ -228,6 +257,40 @@ impl Provider for OllamaProvider {
 
     fn complete_stream(&self, prompt: &str, on_chunk: &mut dyn FnMut(&str)) -> Result<String> {
         self.complete_streaming(prompt, Some(on_chunk))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ollama_streaming_buffers_split_multibyte_utf8() {
+        let mut pending = Vec::new();
+        let mut chunks = Vec::new();
+        emit_valid_utf8_chunks(&mut pending, "snow ".as_bytes(), &mut |chunk| {
+            chunks.push(chunk.to_string())
+        });
+        emit_valid_utf8_chunks(&mut pending, &[0xE2, 0x98], &mut |chunk| {
+            chunks.push(chunk.to_string())
+        });
+        assert!(chunks.iter().all(|chunk| !chunk.contains('\u{FFFD}')));
+        assert_eq!(pending, vec![0xE2, 0x98]);
+        emit_valid_utf8_chunks(&mut pending, &[0x83, b'!'], &mut |chunk| {
+            chunks.push(chunk.to_string())
+        });
+        assert!(pending.is_empty());
+        assert_eq!(chunks, vec!["snow ".to_string(), "☃!".to_string()]);
+
+        emit_valid_utf8_chunks(&mut pending, &[0xFF], &mut |chunk| {
+            chunks.push(chunk.to_string())
+        });
+        emit_valid_utf8_chunks(&mut pending, b" after invalid", &mut |chunk| {
+            chunks.push(chunk.to_string())
+        });
+        assert!(pending.is_empty());
+        assert_eq!(chunks[2], "\u{FFFD}");
+        assert_eq!(chunks[3], " after invalid");
     }
 }
 
