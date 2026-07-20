@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0b22f57976eb8d37ecc1796ff4e3e0676d4ff92447fb1c7dff25f16853e3a3cd",
   "phase": "bound",
-  "generation": 3,
-  "digest": "a667346fd7ad7c45f202547d2d423e07361eb5a340b3809a5a42d259842a4e84",
+  "generation": 5,
+  "digest": "fa509d2f0149b9a29bf13d581634dca868c3926c9b58d3d4b40fe2128122336f",
   "claim": {
     "id": "claim-5597-generation-aware-preparation-safe",
     "owner": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
-    "generation": 3,
+    "generation": 5,
     "acquired_unix_seconds": 1784571481,
     "expires_unix_seconds": 1785176281,
     "heartbeat_unix_seconds": 1784571481,
@@ -42,34 +42,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e55144e98c0e4fe5df74377cbe1b18519f8c21ad1544115465fcfb3810b764cf",
+      "values_digest": "12804d3911fd4a62d5d70601b5864355db02b894c00e4bf56319e69c833602a1",
       "rendered_digest": "b8ad4acebc4da56f808586f134a39be1cbc79f4021fbd70426fc3efc676f1a67",
       "ast_digest": "e2af351ba7d2e58e20e2a9de374e8e37ce16b6a37c5c0236ac59a5756380894c"
     },
     "stp": {
-      "values_digest": "7482a4cf324e0ea11fd37a5777e8eaf22f03575694e21dd7375429147a51f42b",
+      "values_digest": "ba47cd219df3b3089ba312a7f76ea2e21250bfc3ed83132fbacae132a58b22bb",
       "rendered_digest": "f78872a24cb7e1eb04be18a2892d5d070cd29c8419e1dc9cf14a31de207d3199",
       "ast_digest": "597c82206edab50155b7d5f5f42c96153cd63c87f845cbe8f779b8e19406b4a3"
     },
     "spp": {
-      "values_digest": "e55209ce635ab1feff61748c1d1d2334283825b23f00c1ccd84cd242aa906319",
+      "values_digest": "02f7d822bd10ee962725eef93c2ac7fe7b51927971843c5bfd93ffc252dfb950",
       "rendered_digest": "4fdf45d67da30b14827be66cb11801e135b233965f861b9b3599cc1e012e55c7",
       "ast_digest": "9907003f49f83d2df441f40b2bb7397eaca5264e0f608013cca4799d105d56ca"
     },
     "vpp": {
-      "values_digest": "706fad19af4b56f9e2416fd5ab04b4f0394c6ccb93239dd5695a3e7f3ea9902b",
+      "values_digest": "c20a49644db0c5ebde1ef9b14251a6492b6aef102842456a1ea3203ee1896282",
       "rendered_digest": "311804fc009f62ad07edcb35f5330a0f7044e3af2f97e09cee9d83db93afbe1c",
       "ast_digest": "0d4565dd8c165d8bb573a5a8336723b8716a67c6283b47520bd51e1d21ef6ccb"
     },
     "srp": {
-      "values_digest": "b955703157b0fcc34dcbd190ac947129710918a0e23164bdd22997e81fa2b4b7",
+      "values_digest": "6ef12f1a990b492b991e151b55a173c8423da450fe8f42e772372c0b67b8bef3",
       "rendered_digest": "d08cbbf820a962239f9603cc00cdc8eca7404ec0ad8c95097b3ae8e1525a7582",
       "ast_digest": "f28984c215842cd74b0f177fcb6769c2229dc1182a32dbd3810433f2ba7c2a72"
     },
     "sor": {
-      "values_digest": "3b34a55dcdf203b3739ded2dea2bcba972734d9a00813092887c8d445feb1728",
-      "rendered_digest": "dd9f04ce19643c7d2712cbd13701a02bce67a7eacc7210e94bc373d7c18b0fa0",
-      "ast_digest": "f1fd85f7143be4add02276595628e6f8d6d0a2c1cbb608b634f70545836986c0"
+      "values_digest": "f5752704eeaf2ce11366d888a0530ce82ac7ae3dda6973abae885e7e0e94cfc5",
+      "rendered_digest": "694bc6460a03836cde4c0d2189273c794ff308c6411bae37d00ba32a453bef98",
+      "ast_digest": "8d22ada89f264d97f8d3f5f0a8dd4464fbbc74396224f5d313dcda726b4d2cb7"
     }
   },
   "transitions": [
@@ -130,6 +130,20 @@
       "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
       "reason": "Replace the sunset v1 runner lane with the actual Gate 10D2 native v2 proof commands",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v2-all-target-tests\",\"proof_role\":\"Run the complete native C-SDLC v2 all-target test suite including Gates 2, 5, 8, 9, 10 and immutable compatibility fixtures\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"v2-proof\",\"defer_reason\":null},{\"lane\":\"v2-strict-clippy\",\"proof_role\":\"Run strict all-target lint for the native v2 crate\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"v2-proof\",\"defer_reason\":null},{\"lane\":\"v2-owner-binaries\",\"proof_role\":\"Build the current native v2 owner binaries on FastWork and prove executable owner artifacts without invoking sunset v1 wrappers\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"build\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bins\"],\"parallel_group\":\"v2-owner\",\"defer_reason\":null},{\"lane\":\"typed-doctor\",\"proof_role\":\"Run the freshly built typed v2 doctor against issue 5597\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"/Volumes/FastWork/adl-builds/5597/csdlc-v2-target/debug/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5597\"],\"parallel_group\":\"v2-owner\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove whitespace hygiene and bounded tracked scope\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"v2-owner\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Record the clean exact-commit Gate 10D2 native v2 proof bundle",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Prove complete native v2 behavior, compatibility, installer provenance, strict lint, owner binaries, typed doctor, and diff hygiene for commit 1e810bde5.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 1e810bde5: complete csdlc-v2 all-target suite passed including Gate 10 install/provenance; strict all-target Clippy passed with -D warnings; all v2 binaries built on FastWork; typed doctor passed at issue 5597 generation 3 with zero findings; git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Retain the stale legacy owner-runner attempt as non-proving evidence",
+      "operation": "{\"operation\":\"append_reference\",\"value\":\"Non-proving: adl/tools/run_owner_validation_lane.sh csdlc stopped at its obsolete requirement for sunset adl/tools/pr.sh run guidance; it was not used for AC-8 or AC-9 and no v1 lifecycle command was invoked.\"}"
     }
   ]
 }
