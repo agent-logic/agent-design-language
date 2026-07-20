@@ -325,6 +325,105 @@ fn bedrock_invocation_artifact_rejects_invalid_existing_payloads() {
 }
 
 #[test]
+#[cfg(unix)]
+fn bedrock_invocation_artifact_read_io_failure_is_non_retryable_partial_success_unknown() {
+    let _guard = env_lock();
+    use std::os::unix::fs::PermissionsExt;
+
+    let temp_root = std::env::temp_dir().join(format!(
+        "adl-bedrock-provider-invocation-read-{}-{}",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("unix epoch")
+            .as_nanos()
+    ));
+    fs::create_dir_all(&temp_root).expect("temp root");
+    let artifact = temp_root.join("invocations.json");
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let _ = fs::remove_dir(invocation_lock_path(&artifact));
+    fs::write(&artifact, br#"{"invocations":[]}"#).expect("artifact seed");
+    let mut permissions = fs::metadata(&artifact)
+        .expect("artifact metadata")
+        .permissions();
+    permissions.set_mode(0o000);
+    fs::set_permissions(&artifact, permissions).expect("remove artifact read permissions");
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+
+    let err = write_bedrock_invocation_record(
+        "amazon.nova-lite-v1:0",
+        "prompt-after-provider",
+        "output-after-provider",
+        200,
+        "agent-logic-admin",
+        "us-west-2",
+        Some("account-hash"),
+        "account_hash_verified",
+    )
+    .expect_err("post-success artifact read failure should fail closed");
+    assert!(
+        err.to_string()
+            .contains("partial_success_unknown_invocation_record_io_failure"),
+        "post-success Bedrock artifact read I/O failure must be partial-success-unknown: {err}"
+    );
+    assert!(
+        !is_retryable_error(&err),
+        "post-success Bedrock artifact read I/O failure must not retry"
+    );
+
+    let mut permissions = fs::metadata(&artifact)
+        .expect("artifact metadata after failure")
+        .permissions();
+    permissions.set_mode(0o600);
+    fs::set_permissions(&artifact, permissions).expect("restore artifact permissions");
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    fs::remove_dir_all(&temp_root).expect("cleanup temp root");
+}
+
+#[test]
+fn bedrock_invocation_artifact_write_io_failure_is_non_retryable_partial_success_unknown() {
+    let _guard = env_lock();
+    let temp_root = std::env::temp_dir().join(format!(
+        "adl-bedrock-provider-invocation-write-{}-{}",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("unix epoch")
+            .as_nanos()
+    ));
+    fs::create_dir_all(&temp_root).expect("temp root");
+    let artifact = temp_root.join("invocations.json");
+    fs::create_dir(&artifact).expect("directory artifact path");
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let _ = fs::remove_dir(invocation_lock_path(&artifact));
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+
+    let err = write_bedrock_invocation_record(
+        "amazon.nova-lite-v1:0",
+        "prompt-after-provider",
+        "output-after-provider",
+        200,
+        "agent-logic-admin",
+        "us-west-2",
+        Some("account-hash"),
+        "account_hash_verified",
+    )
+    .expect_err("post-success artifact write failure should fail closed");
+    assert!(
+        err.to_string()
+            .contains("partial_success_unknown_invocation_record_io_failure"),
+        "post-success Bedrock artifact write I/O failure must be partial-success-unknown: {err}"
+    );
+    assert!(
+        !is_retryable_error(&err),
+        "post-success Bedrock artifact write I/O failure must not retry"
+    );
+
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    fs::remove_dir_all(&temp_root).expect("cleanup temp root");
+}
+
+#[test]
 fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
     let _guard = env_lock();
     let prev_profile = env::var_os("ADL_AWS_PROFILE");
@@ -1786,4 +1885,97 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
     );
     HttpProvider::from_target(&ipv6_loopback_spec, &ipv6_loopback_target)
         .expect("bracketed IPv6 loopback bearer endpoint should be trusted as loopback");
+}
+
+#[test]
+#[cfg(unix)]
+fn native_invocation_artifact_read_io_failure_is_non_retryable_partial_success_unknown() {
+    let _guard = env_lock();
+    use std::os::unix::fs::PermissionsExt;
+
+    let temp_root = std::env::temp_dir().join(format!(
+        "adl-native-provider-invocation-read-{}-{}",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("unix epoch")
+            .as_nanos()
+    ));
+    std::fs::create_dir_all(&temp_root).expect("temp root");
+    let artifact = temp_root.join("invocations.json");
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let _ = std::fs::remove_dir(invocation_lock_path(&artifact));
+    std::fs::write(&artifact, br#"{"invocations":[]}"#).expect("artifact seed");
+    let mut permissions = std::fs::metadata(&artifact)
+        .expect("artifact metadata")
+        .permissions();
+    permissions.set_mode(0o000);
+    std::fs::set_permissions(&artifact, permissions).expect("remove artifact read permissions");
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+
+    let err = write_native_invocation_record(
+        "openai",
+        "gpt-test",
+        "prompt-after-provider",
+        "output-after-provider",
+        200,
+    )
+    .expect_err("post-success artifact read failure should fail closed");
+    assert!(
+        err.to_string()
+            .contains("partial_success_unknown_invocation_record_io_failure"),
+        "post-success native artifact read I/O failure must be partial-success-unknown: {err}"
+    );
+    assert!(
+        !is_retryable_error(&err),
+        "post-success native artifact read I/O failure must not retry"
+    );
+
+    let mut permissions = std::fs::metadata(&artifact)
+        .expect("artifact metadata after failure")
+        .permissions();
+    permissions.set_mode(0o600);
+    std::fs::set_permissions(&artifact, permissions).expect("restore artifact permissions");
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    std::fs::remove_dir_all(&temp_root).expect("cleanup temp root");
+}
+
+#[test]
+fn native_invocation_artifact_write_io_failure_is_non_retryable_partial_success_unknown() {
+    let _guard = env_lock();
+    let temp_root = std::env::temp_dir().join(format!(
+        "adl-native-provider-invocation-write-{}-{}",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("unix epoch")
+            .as_nanos()
+    ));
+    std::fs::create_dir_all(&temp_root).expect("temp root");
+    let artifact = temp_root.join("invocations.json");
+    std::fs::create_dir(&artifact).expect("directory artifact path");
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let _ = std::fs::remove_dir(invocation_lock_path(&artifact));
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+
+    let err = write_native_invocation_record(
+        "openai",
+        "gpt-test",
+        "prompt-after-provider",
+        "output-after-provider",
+        200,
+    )
+    .expect_err("post-success artifact write failure should fail closed");
+    assert!(
+        err.to_string()
+            .contains("partial_success_unknown_invocation_record_io_failure"),
+        "post-success native artifact write I/O failure must be partial-success-unknown: {err}"
+    );
+    assert!(
+        !is_retryable_error(&err),
+        "post-success native artifact write I/O failure must not retry"
+    );
+
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    std::fs::remove_dir_all(&temp_root).expect("cleanup temp root");
 }

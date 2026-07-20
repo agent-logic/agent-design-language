@@ -291,267 +291,134 @@ else
   }
 fi
 
-acquire_promotion_lock() {
-  local attempts=0
-  mkdir -p "$(dirname "$SHARED_SUMMARY_PROMOTION_LOCK")" || return "$?"
-  while ! mkdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null; do
-    recover_stale_promotion_lock || true
-    attempts=$((attempts + 1))
-    if [ "$attempts" -gt 200 ]; then
-      echo "timed out waiting for coverage summary promotion lock" >&2
-      return 1
-    fi
-    sleep 0.05
-  done
-  write_promotion_lock_owner || {
-    local status=$?
-    rmdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null || true
-    return "$status"
-  }
-}
-
-promotion_lock_owner_path() {
-  printf '%s\n' "$SHARED_SUMMARY_PROMOTION_LOCK/owner"
-}
-
-write_promotion_lock_owner() {
-  local owner_path
-  owner_path="$(promotion_lock_owner_path)"
-  {
-    printf 'pid=%s\n' "$$"
-    printf 'run_id=%s\n' "$COVERAGE_RUN_ID"
-    printf 'acquired_unix_seconds=%s\n' "$(date +%s)"
-  } > "$owner_path"
-}
-
-recover_stale_promotion_lock() {
-  local owner_path owner_pid
-  owner_path="$(promotion_lock_owner_path)"
-  [ -d "$SHARED_SUMMARY_PROMOTION_LOCK" ] || return 1
-  owner_pid="$(awk -F= '$1 == "pid" {print $2; exit}' "$owner_path" 2>/dev/null || true)"
-  if [ -z "$owner_pid" ]; then
-    return 1
-  fi
-  if [ -n "$owner_pid" ] && kill -0 "$owner_pid" 2>/dev/null; then
-    return 1
-  fi
-  rm -rf "$SHARED_SUMMARY_PROMOTION_LOCK" || return "$?"
-  echo "recovered stale coverage summary promotion lock" >&2
-}
-
-release_promotion_lock() {
-  rm -f "$(promotion_lock_owner_path)" 2>/dev/null || true
-  rmdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null || true
-}
-
-checked_cp_summary() {
-  local source="$1"
-  local dest="$2"
-  if [ ! -s "$source" ]; then
-    echo "missing coverage summary for current run: $source" >&2
-    return 1
-  fi
-  cp "$source" "$dest" || return "$?"
-}
-
-atomic_replace_path() {
-  local source="$1"
-  local dest="$2"
-  perl -e 'rename $ARGV[0], $ARGV[1] or die "$!: $ARGV[0] -> $ARGV[1]\n"' "$source" "$dest"
-}
-
-install_legacy_summary_regular() {
-  local source="$1"
-  local dest="$2"
-  local tmp="${dest}.${COVERAGE_RUN_ID}.regular.tmp"
-  checked_cp_summary "$source" "$tmp" || return "$?"
-  atomic_replace_path "$tmp" "$dest" || {
-    local status=$?
-    rm -f "$tmp" || true
-    return "$status"
-  }
-}
-
-install_legacy_summary_symlink() {
-  local dest="$1"
-  local basename="${dest##*/}"
-  local link_tmp="${dest}.${COVERAGE_RUN_ID}.link.tmp"
-  local link_target="${SHARED_SUMMARY_CURRENT_LINK}/$basename"
-  if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$link_target" ]; then
-    return 0
-  fi
-  rm -f "$link_tmp" || return "$?"
-  ln -s "$link_target" "$link_tmp" || return "$?"
-  atomic_replace_path "$link_tmp" "$dest" || {
-    local status=$?
-    rm -f "$link_tmp" || true
-    return "$status"
-  }
-}
-
-legacy_summary_symlink_matches() {
-  local dest="$1"
-  local basename="${dest##*/}"
-  local link_target="${SHARED_SUMMARY_CURRENT_LINK}/$basename"
-  [ -L "$dest" ] && [ "$(readlink "$dest")" = "$link_target" ]
-}
-
-ensure_existing_legacy_summary_links_are_stable() {
-  for dest in "$SHARED_ADL_SUMMARY_PATH" "$SHARED_FINAL_SUMMARY_PATH"; do
-    if ! legacy_summary_symlink_matches "$dest"; then
-      echo "coverage summary legacy path is not a stable current symlink: $dest" >&2
-      return 45
-    fi
-  done
-  if [ -f "$ADL_RUNTIME_MANIFEST" ] && ! legacy_summary_symlink_matches "$SHARED_ADL_RUNTIME_SUMMARY_PATH"; then
-    echo "coverage summary legacy path is not a stable current symlink: $SHARED_ADL_RUNTIME_SUMMARY_PATH" >&2
-    return 45
-  fi
-}
-
 promote_current_run_summaries() {
-  local tmp="$SHARED_SUMMARY_RUNS_ROOT/.${COVERAGE_RUN_ID}.tmp"
-  local run_dir="$SHARED_SUMMARY_RUNS_ROOT/$COVERAGE_RUN_ID"
-  local link_tmp="$SHARED_SUMMARY_PUBLISHED_ROOT/current.${COVERAGE_RUN_ID}.tmp"
-  rm -rf "$tmp" "$link_tmp" || return "$?"
-  mkdir -p "$tmp" "$SHARED_SUMMARY_RUNS_ROOT" || return "$?"
-  if [ "${ADL_COVERAGE_INJECT_PROMOTION_STAGE_FAILURE:-0}" = "1" ]; then
-    echo "injected coverage summary staging failure" >&2
-    rm -rf "$tmp" || true
-    return 41
-  fi
-  checked_cp_summary "$ADL_SUMMARY_PATH" "$tmp/${SHARED_ADL_SUMMARY_PATH##*/}" || {
-    local status=$?
-    rm -rf "$tmp" || true
-    return "$status"
-  }
-  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-    checked_cp_summary "$ADL_RUNTIME_SUMMARY_PATH" "$tmp/${SHARED_ADL_RUNTIME_SUMMARY_PATH##*/}" || {
-      local status=$?
-      rm -rf "$tmp" || true
-      return "$status"
+  perl -Mstrict -Mwarnings -MFcntl=:flock -MFile::Basename=basename -MFile::Copy=copy -MFile::Path=make_path,remove_tree -e '
+    sub fail {
+      my ($code, $message) = @_;
+      print STDERR "$message\n" if defined $message && length $message;
+      exit $code;
     }
-  fi
-  checked_cp_summary "$FINAL_SUMMARY_PATH" "$tmp/${SHARED_FINAL_SUMMARY_PATH##*/}" || {
-    local status=$?
-    rm -rf "$tmp" || true
-    return "$status"
-  }
+    sub atomic_rename {
+      my ($source, $dest) = @_;
+      rename($source, $dest) or die "$!: $source -> $dest\n";
+    }
+    sub checked_copy {
+      my ($source, $dest) = @_;
+      die "missing coverage summary for current run: $source\n" unless -s $source;
+      copy($source, $dest) or die "$!: $source -> $dest\n";
+    }
+    sub install_regular {
+      my ($source, $dest, $run_id) = @_;
+      my $tmp = "$dest.$run_id.$$\.regular.tmp";
+      checked_copy($source, $tmp);
+      atomic_rename($tmp, $dest);
+    }
+    sub install_symlink {
+      my ($dest, $current_link, $run_id) = @_;
+      my $base = basename($dest);
+      my $target = "$current_link/$base";
+      return if -l $dest && readlink($dest) eq $target;
+      my $tmp = "$dest.$run_id.$$\.link.tmp";
+      unlink($tmp);
+      symlink($target, $tmp) or die "$!: symlink $target -> $tmp\n";
+      atomic_rename($tmp, $dest);
+    }
+    sub legacy_link_matches {
+      my ($dest, $current_link) = @_;
+      my $base = basename($dest);
+      my $target = "$current_link/$base";
+      return -l $dest && readlink($dest) eq $target;
+    }
 
-  acquire_promotion_lock || {
-    local status=$?
-    rm -rf "$tmp" || true
-    return "$status"
-  }
-  trap 'release_promotion_lock' EXIT
-  if [ "${ADL_COVERAGE_INJECT_PROMOTION_LOCKED_FAILURE:-0}" = "1" ]; then
-    echo "injected coverage summary locked promotion failure" >&2
-    release_promotion_lock
-    trap - EXIT
-    rm -rf "$tmp" || true
-    return 42
-  fi
-  if [ "${ADL_COVERAGE_INJECT_PROMOTION_CRASH_AFTER_LOCK:-0}" = "1" ]; then
-    echo "injected coverage summary crash after lock acquisition" >&2
-    kill -9 $$
-  fi
-  if [ -e "$run_dir" ]; then
-    echo "coverage summary run directory already exists: $run_dir" >&2
-    release_promotion_lock
-    trap - EXIT
-    rm -rf "$tmp" || true
-    return 44
-  fi
-  mv "$tmp" "$run_dir" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    rm -rf "$tmp" || true
-    return "$status"
-  }
-  rm -f "$link_tmp" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    return "$status"
-  }
-  ln -s "runs/$COVERAGE_RUN_ID" "$link_tmp" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    return "$status"
-  }
-  if [ "${ADL_COVERAGE_INJECT_PROMOTION_COMMIT_FAILURE:-0}" = "1" ]; then
-    echo "injected coverage summary commit failure" >&2
-    rm -f "$link_tmp" || true
-    release_promotion_lock
-    trap - EXIT
-    return 43
-  fi
-  if [ -e "$SHARED_SUMMARY_CURRENT_LINK" ]; then
-    ensure_existing_legacy_summary_links_are_stable || {
-      local status=$?
-      release_promotion_lock
-      trap - EXIT
-      rm -f "$link_tmp" || true
-      return "$status"
+    my (
+      $lock_path, $run_id, $adl_summary, $runtime_summary, $final_summary,
+      $published_root, $runs_root, $current_link, $shared_adl_summary,
+      $shared_runtime_summary, $shared_final_summary, $runtime_manifest
+    ) = @ARGV;
+
+    make_path($published_root);
+    open(my $lock_fh, ">>", $lock_path) or fail(1, "failed to open coverage summary promotion lock: $!");
+    flock($lock_fh, LOCK_EX) or fail(1, "failed to acquire coverage summary promotion lock: $!");
+
+    if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_LOCKED_FAILURE} // "0") eq "1") {
+      fail(42, "injected coverage summary locked promotion failure");
     }
-  fi
-  if [ ! -e "$SHARED_SUMMARY_CURRENT_LINK" ]; then
-    install_legacy_summary_regular "$ADL_SUMMARY_PATH" "$SHARED_ADL_SUMMARY_PATH" || {
-      local status=$?
-      release_promotion_lock
-      trap - EXIT
-      rm -f "$link_tmp" || true
-      return "$status"
+    if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_CRASH_AFTER_LOCK} // "0") eq "1") {
+      print STDERR "injected coverage summary crash after lock acquisition\n";
+      kill 9, $$;
     }
-    if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-      install_legacy_summary_regular "$ADL_RUNTIME_SUMMARY_PATH" "$SHARED_ADL_RUNTIME_SUMMARY_PATH" || {
-        local status=$?
-        release_promotion_lock
-        trap - EXIT
-        rm -f "$link_tmp" || true
-        return "$status"
+
+    make_path($runs_root);
+    my $run_dir = "$runs_root/$run_id";
+    if (-e $run_dir) {
+      fail(44, "coverage summary run directory already exists: $run_dir");
+    }
+    if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_STAGE_FAILURE} // "0") eq "1") {
+      fail(41, "injected coverage summary staging failure");
+    }
+    if (-e $current_link) {
+      fail(45, "coverage summary legacy path is not a stable current symlink: $shared_adl_summary")
+        unless legacy_link_matches($shared_adl_summary, $current_link);
+      fail(45, "coverage summary legacy path is not a stable current symlink: $shared_final_summary")
+        unless legacy_link_matches($shared_final_summary, $current_link);
+      if (-f $runtime_manifest) {
+        fail(45, "coverage summary legacy path is not a stable current symlink: $shared_runtime_summary")
+          unless legacy_link_matches($shared_runtime_summary, $current_link);
       }
-    fi
-    install_legacy_summary_regular "$FINAL_SUMMARY_PATH" "$SHARED_FINAL_SUMMARY_PATH" || {
-      local status=$?
-      release_promotion_lock
-      trap - EXIT
-      rm -f "$link_tmp" || true
-      return "$status"
     }
-  fi
-  atomic_replace_path "$link_tmp" "$SHARED_SUMMARY_CURRENT_LINK" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    rm -f "$link_tmp" || true
-    return "$status"
-  }
-  install_legacy_summary_symlink "$SHARED_ADL_SUMMARY_PATH" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    return "$status"
-  }
-  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-    install_legacy_summary_symlink "$SHARED_ADL_RUNTIME_SUMMARY_PATH" || {
-      local status=$?
-      release_promotion_lock
-      trap - EXIT
-      return "$status"
+
+    my $tmp = "$runs_root/.$run_id.$$\.tmp";
+    my $link_tmp = "$published_root/current.$run_id.$$\.tmp";
+    remove_tree($tmp);
+    unlink($link_tmp);
+    make_path($tmp);
+
+    eval {
+      checked_copy($adl_summary, "$tmp/" . basename($shared_adl_summary));
+      checked_copy($runtime_summary, "$tmp/" . basename($shared_runtime_summary)) if -f $runtime_manifest;
+      checked_copy($final_summary, "$tmp/" . basename($shared_final_summary));
+
+      unlink($link_tmp);
+      symlink("runs/$run_id", $link_tmp) or die "$!: symlink runs/$run_id -> $link_tmp\n";
+      if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_COMMIT_FAILURE} // "0") eq "1") {
+        die "__ADL_EXIT_43__: injected coverage summary commit failure\n";
+      }
+
+      atomic_rename($tmp, $run_dir);
+
+      if (!-e $current_link) {
+        install_regular($adl_summary, $shared_adl_summary, $run_id);
+        install_regular($runtime_summary, $shared_runtime_summary, $run_id) if -f $runtime_manifest;
+        install_regular($final_summary, $shared_final_summary, $run_id);
+      }
+
+      atomic_rename($link_tmp, $current_link);
+      install_symlink($shared_adl_summary, $current_link, $run_id);
+      install_symlink($shared_runtime_summary, $current_link, $run_id) if -f $runtime_manifest;
+      install_symlink($shared_final_summary, $current_link, $run_id);
+    };
+    if ($@) {
+      my $err = $@;
+      remove_tree($tmp);
+      unlink($link_tmp);
+      if ($err =~ s/^__ADL_EXIT_43__: //) {
+        fail(43, $err);
+      }
+      fail(1, $err);
     }
-  fi
-  install_legacy_summary_symlink "$SHARED_FINAL_SUMMARY_PATH" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    return "$status"
-  }
-  release_promotion_lock
-  trap - EXIT
-  return 0
+  ' \
+    "$SHARED_SUMMARY_PROMOTION_LOCK" \
+    "$COVERAGE_RUN_ID" \
+    "$ADL_SUMMARY_PATH" \
+    "$ADL_RUNTIME_SUMMARY_PATH" \
+    "$FINAL_SUMMARY_PATH" \
+    "$SHARED_SUMMARY_PUBLISHED_ROOT" \
+    "$SHARED_SUMMARY_RUNS_ROOT" \
+    "$SHARED_SUMMARY_CURRENT_LINK" \
+    "$SHARED_ADL_SUMMARY_PATH" \
+    "$SHARED_ADL_RUNTIME_SUMMARY_PATH" \
+    "$SHARED_FINAL_SUMMARY_PATH" \
+    "$ADL_RUNTIME_MANIFEST"
 }
 
 if [ "$coverage_status" -eq 0 ]; then

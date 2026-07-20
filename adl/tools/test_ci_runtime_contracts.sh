@@ -562,8 +562,9 @@ for required_fragment in (
     'coverage-summary.adl-runtime.json',
     'FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"',
     'SHARED_SUMMARY_CURRENT_LINK="$SHARED_SUMMARY_PUBLISHED_ROOT/current"',
-    'ln -s "runs/$COVERAGE_RUN_ID" "$link_tmp"',
-    'install_legacy_summary_symlink "$SHARED_FINAL_SUMMARY_PATH"',
+    'flock($lock_fh, LOCK_EX)',
+    'symlink("runs/$run_id", $link_tmp)',
+    'install_symlink($shared_final_summary, $current_link, $run_id)',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(

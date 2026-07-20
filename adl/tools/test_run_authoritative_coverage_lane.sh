@@ -138,6 +138,16 @@ export ADL_COVERAGE_SHARED_ADL_SUMMARY_PATH="$shared_adl_summary"
 export ADL_COVERAGE_SHARED_ADL_RUNTIME_SUMMARY_PATH="$shared_runtime_summary"
 export ADL_COVERAGE_SHARED_FINAL_SUMMARY_PATH="$shared_final_summary"
 cargo_log="$temp_root/cargo.log"
+
+assert_no_promotion_temp_residue() {
+  if [ -e "$shared_published_root" ] \
+    && find "$shared_published_root" -name '*.tmp' -print -quit | grep . >/dev/null 2>&1; then
+    echo "expected no coverage promotion temp residue under $shared_published_root" >&2
+    find "$shared_published_root" -name '*.tmp' -print >&2
+    exit 1
+  fi
+}
+
 cat >"$bin_dir/cargo" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -254,6 +264,7 @@ if [ "$(readlink "$shared_published_root/current")" != "$collision_current_befor
   echo "expected duplicate coverage run id failure to leave published current and run contents unchanged" >&2
   exit 1
 fi
+assert_no_promotion_temp_residue
 
 failing_cargo_log="$temp_root/failing-cargo.log"
 if PATH="$bin_dir:$PATH" \
@@ -321,6 +332,7 @@ do
     echo "expected injected promotion failure to leave shared summaries wholly unchanged: $injection" >&2
     exit 1
   fi
+  assert_no_promotion_temp_residue
 done
 
 crash_lock_log="$temp_root/crash-lock.log"
@@ -339,8 +351,8 @@ if [ "$crash_lock_status" -eq 0 ]; then
   exit 1
 fi
 grep -F -- "injected coverage summary crash after lock acquisition" "$crash_lock_stderr" >/dev/null
-if [ ! -d "$shared_lock" ]; then
-  echo "expected injected crash to leave stale promotion lock for recovery proof" >&2
+if [ ! -f "$shared_lock" ]; then
+  echo "expected advisory promotion lock file to persist after abrupt holder exit" >&2
   exit 1
 fi
 after_crash_log="$temp_root/after-crash-lock.log"
@@ -350,11 +362,47 @@ AUTHORITATIVE_CARGO_LOG="$after_crash_log" \
 ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
 ADL_COVERAGE_RUN_ID="run-after-crash-lock" \
   bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request 2>"$after_crash_stderr"
-grep -F -- "recovered stale coverage summary promotion lock" "$after_crash_stderr" >/dev/null
 if [ ! -s "$shared_published_root/runs/run-after-crash-lock/coverage-summary.json" ]; then
-  echo "expected run after stale lock recovery to publish coverage summaries" >&2
+  echo "expected run after abrupt lock-holder exit to publish coverage summaries" >&2
   exit 1
 fi
+assert_no_promotion_temp_residue
+
+same_id_a_log="$temp_root/same-id-a.log"
+same_id_b_log="$temp_root/same-id-b.log"
+same_id_a_stderr="$temp_root/same-id-a.stderr"
+same_id_b_stderr="$temp_root/same-id-b.stderr"
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$same_id_a_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-same-id" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request 2>"$same_id_a_stderr" &
+same_id_a_pid="$!"
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$same_id_b_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-same-id" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request 2>"$same_id_b_stderr" &
+same_id_b_pid="$!"
+same_id_a_status=0
+same_id_b_status=0
+wait "$same_id_a_pid" || same_id_a_status=$?
+wait "$same_id_b_pid" || same_id_b_status=$?
+case "$same_id_a_status:$same_id_b_status" in
+  0:44|44:0) ;;
+  *)
+    echo "expected concurrent duplicate run ids to yield one success and one immutable collision, got $same_id_a_status:$same_id_b_status" >&2
+    cat "$same_id_a_stderr" >&2
+    cat "$same_id_b_stderr" >&2
+    exit 1
+    ;;
+esac
+if [ "$(find "$shared_published_root/runs" -maxdepth 1 -type d -name 'run-same-id' | wc -l | tr -d ' ')" != "1" ]; then
+  echo "expected exactly one published run directory for concurrent duplicate run ids" >&2
+  find "$shared_published_root/runs" -maxdepth 1 -name 'run-same-id*' -print >&2
+  exit 1
+fi
+assert_no_promotion_temp_residue
 
 printf 'legacy-adl-regular\n' > "$shared_adl_summary"
 printf 'legacy-runtime-regular\n' > "$shared_runtime_summary"
@@ -364,6 +412,8 @@ concurrent_a_log="$temp_root/concurrent-a.log"
 concurrent_b_log="$temp_root/concurrent-b.log"
 observer_stop="$temp_root/observer.stop"
 observer_log="$temp_root/observer.log"
+observer_samples="$temp_root/observer.samples"
+: > "$observer_samples"
 (
   while [ ! -e "$observer_stop" ]; do
     if [ -L "$shared_published_root/current" ]; then
@@ -403,6 +453,7 @@ observer_log="$temp_root/observer.log"
           exit 1
           ;;
       esac
+      printf '.\n' >> "$observer_samples"
     fi
     sleep 0.01
   done
@@ -422,11 +473,16 @@ ADL_COVERAGE_RUN_ID="run-concurrent-b" \
 pid_b="$!"
 wait "$pid_a"
 wait "$pid_b"
+sleep 0.05
 touch "$observer_stop"
 wait "$observer_pid" || {
   cat "$observer_log" >&2
   exit 1
 }
+if [ "$(wc -l < "$observer_samples" | tr -d ' ')" -eq 0 ]; then
+  echo "expected coverage publication observer to sample at least one published state" >&2
+  exit 1
+fi
 for required in \
   "$scratch_root/coverage-output/run-concurrent-a/coverage-summary.adl.json" \
   "$scratch_root/coverage-output/run-concurrent-a/coverage-summary.adl-runtime.json" \
@@ -478,6 +534,55 @@ do
 done
 
 lld_cargo_log="$temp_root/lld-cargo.log"
+steady_observer_stop="$temp_root/steady-observer.stop"
+steady_observer_log="$temp_root/steady-observer.log"
+steady_observer_samples="$temp_root/steady-observer.samples"
+: > "$steady_observer_samples"
+(
+  while [ ! -e "$steady_observer_stop" ]; do
+    if [ -L "$shared_published_root/current" ]; then
+      pointer="$(readlink "$shared_published_root/current")" || {
+        printf 'failed to read steady-state current coverage pointer\n' > "$steady_observer_log"
+        touch "$steady_observer_stop"
+        exit 1
+      }
+      case "$pointer" in
+        runs/run-concurrent-a|runs/run-concurrent-b|runs/run-b) ;;
+        *)
+          printf 'unexpected steady-state coverage pointer: %s\n' "$pointer" > "$steady_observer_log"
+          touch "$steady_observer_stop"
+          exit 1
+          ;;
+      esac
+      for observed_summary in "$shared_adl_summary" "$shared_runtime_summary" "$shared_final_summary"; do
+        if [ ! -s "$observed_summary" ]; then
+          printf 'missing or empty steady-state shared summary: %s\n' "$observed_summary" > "$steady_observer_log"
+          touch "$steady_observer_stop"
+          exit 1
+        fi
+      done
+      observed="$(
+        cat "$shared_adl_summary" \
+          "$shared_runtime_summary" \
+          "$shared_final_summary" \
+          | grep -o 'run-\(concurrent-[ab]\|b\)' \
+          | sort -u \
+          | tr '\n' ' '
+      )"
+      case "$observed" in
+        "run-b "|"run-concurrent-a "|"run-concurrent-b ") ;;
+        *)
+          printf 'mixed steady-state shared summary set observed: %s\n' "$observed" > "$steady_observer_log"
+          touch "$steady_observer_stop"
+          exit 1
+          ;;
+      esac
+      printf '%s\n' "$pointer" >> "$steady_observer_samples"
+    fi
+    sleep 0.01
+  done
+) &
+steady_observer_pid="$!"
 PATH="$bin_dir:$PATH" \
 AUTHORITATIVE_CARGO_LOG="$lld_cargo_log" \
 ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
@@ -487,6 +592,22 @@ RUST_LINK_ACCEL="lld" \
 ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS="2" \
 ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN="live_pr_fixture_" \
   bash "$SCRIPT"
+sleep 0.05
+touch "$steady_observer_stop"
+wait "$steady_observer_pid" || {
+  cat "$steady_observer_log" >&2
+  exit 1
+}
+if [ "$(wc -l < "$steady_observer_samples" | tr -d ' ')" -eq 0 ]; then
+  echo "expected steady-state coverage observer to sample at least one published state" >&2
+  exit 1
+fi
+if ! grep -F -- "runs/run-b" "$steady_observer_samples" >/dev/null 2>&1; then
+  echo "expected steady-state coverage observer to sample promoted run-b state" >&2
+  cat "$steady_observer_samples" >&2
+  exit 1
+fi
+assert_no_promotion_temp_residue
 
 for required in \
   "link_accel=lld" \

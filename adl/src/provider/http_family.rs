@@ -146,7 +146,7 @@ fn write_native_invocation_record(
     let path = PathBuf::from(path);
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|err| {
-            runtime_error(
+            post_success_invocation_artifact_io_error(
                 family,
                 format!("failed to create provider invocation artifact directory: {err}"),
             )
@@ -160,7 +160,7 @@ fn write_native_invocation_record(
     })?;
     let mut payload = if path.is_file() {
         serde_json::from_slice::<Value>(&fs::read(&path).map_err(|err| {
-            runtime_error(
+            post_success_invocation_artifact_io_error(
                 family,
                 format!("failed to read provider invocation artifact: {err}"),
             )
@@ -207,7 +207,7 @@ fn write_native_invocation_record(
         )
     })?;
     write_file_atomic(&path, &bytes).map_err(|err| {
-        runtime_error(
+        post_success_invocation_artifact_io_error(
             family,
             format!("failed to write invocation artifact: {err}"),
         )
@@ -230,7 +230,7 @@ fn write_bedrock_invocation_record(
     let path = PathBuf::from(path);
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|err| {
-            runtime_error(
+            post_success_invocation_artifact_io_error(
                 "bedrock",
                 format!("failed to create provider invocation artifact directory: {err}"),
             )
@@ -244,7 +244,7 @@ fn write_bedrock_invocation_record(
     })?;
     let mut payload = if path.is_file() {
         serde_json::from_slice::<Value>(&fs::read(&path).map_err(|err| {
-            runtime_error(
+            post_success_invocation_artifact_io_error(
                 "bedrock",
                 format!("failed to read provider invocation artifact: {err}"),
             )
@@ -295,11 +295,24 @@ fn write_bedrock_invocation_record(
         )
     })?;
     write_file_atomic(&path, &bytes).map_err(|err| {
-        runtime_error(
+        post_success_invocation_artifact_io_error(
             "bedrock",
             format!("failed to write invocation artifact: {err}"),
         )
     })
+}
+
+fn post_success_invocation_artifact_io_error(
+    provider: &str,
+    message: impl Into<String>,
+) -> anyhow::Error {
+    runtime_error_non_retryable(
+        provider,
+        format!(
+            "partial_success_unknown_invocation_record_io_failure: provider call completed but invocation artifact I/O failed without a safe retry boundary: {}",
+            message.into()
+        ),
+    )
 }
 
 fn write_file_atomic(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
