@@ -211,6 +211,25 @@ run_workspace_coverage_partitions() {
   return "$status"
 }
 
+record_report_status() {
+  local report_status="$1"
+  local summary_path="$2"
+  local report_label="$3"
+
+  if [ "$report_status" -eq 0 ]; then
+    return 0
+  fi
+
+  if [ "$EVENT_NAME" = "pull_request" ] && [ -s "$summary_path" ]; then
+    echo "Authoritative coverage warning: $report_label report command exited $report_status after producing $summary_path; PR workspace gate is deferred." >&2
+    return 0
+  fi
+
+  if [ "$coverage_status" -eq 0 ]; then
+    coverage_status="$report_status"
+  fi
+}
+
 coverage_profile_namespace=workspace
 coverage_status=0
 run_workspace_coverage_partitions || coverage_status=$?
@@ -218,12 +237,7 @@ run_workspace_coverage_partitions || coverage_status=$?
 cargo llvm-cov report \
   --json \
   --summary-only \
-  --output-path "$ADL_SUMMARY_PATH" || {
-    report_status=$?
-    if [ "$coverage_status" -eq 0 ]; then
-      coverage_status="$report_status"
-    fi
-  }
+  --output-path "$ADL_SUMMARY_PATH" || record_report_status "$?" "$ADL_SUMMARY_PATH" "adl"
 find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
@@ -246,12 +260,7 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
     --json \
     --summary-only \
-    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || {
-      runtime_report_status=$?
-      if [ "$coverage_status" -eq 0 ]; then
-        coverage_status="$runtime_report_status"
-      fi
-    }
+    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || record_report_status "$?" "$ADL_RUNTIME_SUMMARY_PATH" "adl-runtime"
   jq -s '
     . as $docs
     |

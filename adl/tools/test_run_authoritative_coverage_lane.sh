@@ -158,6 +158,13 @@ done
 if [ -n "$out_path" ]; then
   mkdir -p "$(dirname "$out_path")"
   printf '{"data":[{"files":[],"totals":{"branches":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":0,"covered":0,"percent":0.0},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":0,"covered":0,"percent":0.0},"regions":{"count":0,"covered":0,"notcovered":0,"percent":0.0}}}]}\n' > "$out_path"
+  if [ "${ADL_FAKE_CARGO_FAIL_ADL_REPORT_AFTER_WRITE:-0}" = "1" ]; then
+    case "$out_path" in
+      */coverage-summary.adl.json)
+        exit 88
+        ;;
+    esac
+  fi
 fi
 exit 0
 EOF
@@ -229,6 +236,40 @@ do
 done
 if [ ! -s "$scratch_root/coverage-output/run-failing/coverage-summary.json" ]; then
   echo "expected final run-scoped summary evidence after partition failure" >&2
+  exit 1
+fi
+
+report_crash_log="$temp_root/report-crash.log"
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$report_crash_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-pr-report-crash" \
+ADL_FAKE_CARGO_FAIL_ADL_REPORT_AFTER_WRITE=1 \
+  bash "$SCRIPT" --authority pr_policy_surface_runtime_mixed --event-name pull_request \
+  >"$temp_root/report-crash.stdout" 2>"$temp_root/report-crash.stderr"
+if ! grep -F "PR workspace gate is deferred" "$temp_root/report-crash.stderr" >/dev/null 2>&1; then
+  echo "expected PR report crash warning after summary was produced" >&2
+  cat "$temp_root/report-crash.stderr" >&2
+  exit 1
+fi
+if [ ! -s "$scratch_root/coverage-output/run-pr-report-crash/coverage-summary.json" ]; then
+  echo "expected final run-scoped summary after deferred PR report crash" >&2
+  exit 1
+fi
+
+set +e
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$temp_root/push-report-crash.log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-push-report-crash" \
+ADL_FAKE_CARGO_FAIL_ADL_REPORT_AFTER_WRITE=1 \
+  bash "$SCRIPT" --authority push_main --event-name push \
+  >"$temp_root/push-report-crash.stdout" 2>"$temp_root/push-report-crash.stderr"
+push_report_status=$?
+set -e
+if [ "$push_report_status" -ne 88 ]; then
+  echo "expected non-PR report crash to remain fail-closed with status 88, got $push_report_status" >&2
+  cat "$temp_root/push-report-crash.stderr" >&2
   exit 1
 fi
 
