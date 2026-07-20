@@ -110,11 +110,11 @@ Reconciled v0.91.8 canonical planning, created one milestone sprint umbrella, re
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
