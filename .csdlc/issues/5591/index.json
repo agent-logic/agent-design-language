@@ -5,7 +5,7 @@
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
   "phase": "bound",
   "generation": 2,
-  "digest": "9300282a6d43c8088c79534e04a0add030e78da93f4fd109ed50f197d6f7ca71",
+  "digest": "28fc81b10ca7ed6df449e2e58eb6c5b7030c87820dd9d9e347a741b78c5243b3",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
@@ -16,11 +16,16 @@
     "branch": "codex/5591-runtime-v3-parity-a-preparation",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5591",
       ".csdlc/issues/5591",
       ".csdlc/locks/5591.lock",
-      ".csdlc/prepared/issues/5591"
+      ".csdlc/prepared/issues/5591",
+      "adl-runtime",
+      "adl-runtime-kernel",
+      "adl/tools/run_runtime_v3_guardian_soak.sh",
+      "infra/runtime-v3"
     ],
-    "purpose": "Prepare and review complete six-card Runtime v3 Parity-A truth while #5336 integration remains the sole implementation stop"
+    "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
   "review_assignment": null,
   "review": null,
@@ -112,6 +117,20 @@
       "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
       "reason": "Pin the exact reviewed #5336 implementation base and preserve its merge as the publication gate",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5361 prepared Runtime v3 acceptance umbrella\",\"exact reviewed #5336 head 8fa1bfe66e677ed3ae160b3fee81d204d4211a37 is the stacked implementation base\",\"#5336 green merge into main remains mandatory before #5591 publication, merge, integrated readiness, or final exact-revision acceptance\",\"reviewed #5591 ingress contract before #5592, #5589, and #5590 implementation\",\"#5341 consumes the accepted ingress contract after review\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "reason": "Begin full Runtime v3 Parity-A implementation on the reviewed #5336 stack while preserving its merge as the publication and integration gate",
+      "operation": "{\"add_protected_paths\":[\".csdlc/evidence/5591\",\"adl-runtime-kernel\",\"adl-runtime\",\"infra/runtime-v3\",\"adl/tools/run_runtime_v3_guardian_soak.sh\"],\"expected_owner\":\"codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review complete six-card Runtime v3 Parity-A truth while #5336 integration remains the sole implementation stop\",\"purpose\":\"Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "reason": "Reaffirm the unchanged implementation purpose and path union through receipt-backed csdlc-bind from git:d8b39153d8f3b5ba91d517820ccc3dc7e3875fea after correcting binary provenance",
+      "operation": "{\"add_protected_paths\":[\".csdlc/evidence/5591\",\"adl-runtime-kernel\",\"adl-runtime\",\"infra/runtime-v3\",\"adl/tools/run_runtime_v3_guardian_soak.sh\"],\"expected_owner\":\"codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets\",\"purpose\":\"Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets\"}"
     }
   ]
 }
