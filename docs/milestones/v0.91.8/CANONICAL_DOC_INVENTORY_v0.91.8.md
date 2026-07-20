@@ -81,7 +81,7 @@ precedence, or leaves current blocker/register truth stale.
 | --- | --- | --- |
 | Required docs exist | `test -f` over every path listed above | All listed canonical and feature docs exist. |
 | Canonical feature list included | `test -f docs/planning/ADL_FEATURE_LIST.md && rg 'Canonical ADL feature list' docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md` | Feature-list crosswalk is part of the release-tail audit. |
-| Feature crosswalk complete | `ruby .csdlc/prepared/issues/5594/validate_feature_crosswalk.rb` | All 123 pinned rows classify exactly once with named owners. |
+| Feature crosswalk complete | `ruby .csdlc/prepared/issues/5594/validate_feature_crosswalk.rb` | All 122 real pinned rows have explicit source-line decisions, named owners, dispositions, and decision bases across eight classes. |
 | README links inventory | `rg "CANONICAL_DOC_INVENTORY_v0.91.8.md" docs/milestones/v0.91.8/README.md` | README links this matrix. |
 | README links parallel plan | `rg "PARALLEL_EXECUTION_PLAN_v0.91.8.md" docs/milestones/v0.91.8/README.md` | README links the planned parallel execution overlay. |
 | Review handoff linked | `rg "THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md" docs/milestones/v0.91.8/README.md docs/milestones/v0.91.8/review/README.md docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md` | Handoff is reachable from canonical entrypoints. |

@@ -29,9 +29,9 @@ docs/milestones/v0.91.8
 
 [
   {
-    "id": "WP01-ER7",
-    "severity": "p1",
-    "summary": "Provider transport signed-trace and five standalone tooling rows retained semantically incorrect or incomplete cutover owners",
+    "id": "WP01-ER8",
+    "severity": "p2",
+    "summary": "Canonical inventory and SOR retained stale 123-row six-class feature-crosswalk truth",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -46,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Structural validation cannot establish semantic ownership correctness; exact reviewer inspection remains required.
+- Live issue routing can change after review; the crosswalk is planning disposition, not implementation proof.
 
 ## Review Result
 
-Revision: Some("git-blake3:157b7608ec77cf7b008f388186848b418ee7690f:e4eba2757f882ed66fe9afcb0fa70cf609c5b2cafd3f4005b5755537e868cdce")
+Revision: Some("git-blake3:79d84abef6edd83714a8328240f8bb06bc5bfe9d:9230b688bcdd5389e69f7fa4dd1651bfbfdb3f5ca2329fbd9008c11ba6d6fc3e")
 
-Reviewer: Some("subagent:Halley:019f7e77-cc24-7532-a693-7b04a46fe7d7")
+Reviewer: Some("subagent:Raman:019f807f-3387-7b22-aefd-c0fd74bc0f3a")
 
 Result: changes_required

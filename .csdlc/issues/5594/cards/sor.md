@@ -96,6 +96,15 @@ Reconciled v0.91.8 canonical planning, created one milestone sprint umbrella, re
     "purpose": "Reverify local links after canonical corpus expansion",
     "outcome": "passed",
     "evidence_ref": "post-review local validation: local links ok"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb"
+    ],
+    "purpose": "Prove the corrected explicit feature-preservation crosswalk after semantic owner review",
+    "outcome": "passed",
+    "evidence_ref": "current proof: 122 real rows, pinned digest, eight explicit decision classes; supersedes the earlier 123-row/six-class entry"
   }
 ]
 

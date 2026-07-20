@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "2f246e5f1760776340161d5e4722c5a33c98c4dc5224601586d57c734b7d3d71",
   "phase": "implemented",
-  "generation": 30,
-  "digest": "dd7f27c9a1a383b191ba92a27b05f13800f9dd911f861f962aabceaf7e89f42b",
+  "generation": 32,
+  "digest": "6b524d211c73b0a9600fedbe27c6a41d24c75cb2acd71dfa5efccc0180ed80c0",
   "claim": {
     "id": "claim-5594-v0918-wp01-readiness",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 30,
+    "generation": 32,
     "acquired_unix_seconds": 1784562133,
     "expires_unix_seconds": 1785166933,
     "heartbeat_unix_seconds": 1784562133,
@@ -26,9 +26,9 @@
     "purpose": "Reconcile v0.91.8 planning, sprint umbrellas, issue readiness, and parallel execution without starting downstream implementation"
   },
   "review_assignment": {
-    "reviewer": "subagent:Halley:019f7e77-cc24-7532-a693-7b04a46fe7d7",
+    "reviewer": "subagent:Raman:019f807f-3387-7b22-aefd-c0fd74bc0f3a",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:157b7608ec77cf7b008f388186848b418ee7690f:e4eba2757f882ed66fe9afcb0fa70cf609c5b2cafd3f4005b5755537e868cdce",
+    "revision": "git-blake3:79d84abef6edd83714a8328240f8bb06bc5bfe9d:9230b688bcdd5389e69f7fa4dd1651bfbfdb3f5ca2329fbd9008c11ba6d6fc3e",
     "scope": [
       "README.md",
       "docs/planning/ADL_FEATURE_LIST.md",
@@ -37,19 +37,19 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:Halley:019f7e77-cc24-7532-a693-7b04a46fe7d7",
+    "reviewer": "subagent:Raman:019f807f-3387-7b22-aefd-c0fd74bc0f3a",
     "scope": [
       "README.md",
       "docs/planning/ADL_FEATURE_LIST.md",
       "docs/milestones/v0.91.8",
       ".csdlc/prepared/issues/5594"
     ],
-    "reviewed_revision": "git-blake3:157b7608ec77cf7b008f388186848b418ee7690f:e4eba2757f882ed66fe9afcb0fa70cf609c5b2cafd3f4005b5755537e868cdce",
+    "reviewed_revision": "git-blake3:79d84abef6edd83714a8328240f8bb06bc5bfe9d:9230b688bcdd5389e69f7fa4dd1651bfbfdb3f5ca2329fbd9008c11ba6d6fc3e",
     "findings": [
       {
-        "id": "WP01-ER7",
-        "severity": "p1",
-        "summary": "Provider transport signed-trace and five standalone tooling rows retained semantically incorrect or incomplete cutover owners",
+        "id": "WP01-ER8",
+        "severity": "p2",
+        "summary": "Canonical inventory and SOR retained stale 123-row six-class feature-crosswalk truth",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -58,7 +58,7 @@
       }
     ],
     "residual_risks": [
-      "Structural validation cannot establish semantic ownership correctness; exact reviewer inspection remains required."
+      "Live issue routing can change after review; the crosswalk is planning disposition, not implementation proof."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -77,34 +77,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "262e12cf60d58fc2d91986da5ebedecacdd91ed57260c253fe5a0b63897d528f",
+      "values_digest": "7f03e3719965be587a91eac7e3941334c3e412d164f3c5106fe08908373ef837",
       "rendered_digest": "81808e72a73d79ef29ac9f5863ee67f565eb9d01de4fb482d0ae0c287437123a",
       "ast_digest": "1a3c72bdadd86cebbf239ca170bd155a6c0eb74897cbbdd71375a842ca7db95d"
     },
     "stp": {
-      "values_digest": "314cff88da13d9a1fa30d3c44b9570876588b336244062b21392082026965cae",
+      "values_digest": "d37ea88ef10ac99421ceb0248f99e97049ad3658a9afb430521bb49dc82382f2",
       "rendered_digest": "114f4e06a1e37d1772243c140e76de4a3ea82e9859983a66c041fd68f2f8daa7",
       "ast_digest": "200d9d8166af073b8377f48cf9e7d8787064934801d93e4fd47f40ed6922084e"
     },
     "spp": {
-      "values_digest": "188a1bdc1eca4844b652fd359df1f6bddaad175f6781e297aac204ae234aaf12",
+      "values_digest": "c2f3e465c18d1b448875f66e9c42ca75ef7fac6fa4fa3e497529a267bd0a6f63",
       "rendered_digest": "61ae8d96bfd05c4f7e2baf77e6b59d0b2cdc9078a9d0653026d0f59cb927b733",
       "ast_digest": "ad92c14f0239341a290bf9802ae33dfd6898d80fca9d2abd49f12dbfa48bc432"
     },
     "vpp": {
-      "values_digest": "e01df13c15b0d9bfca93ff9b6aaa8d68e0baf83f5d2d790440f535d54bf8aa0e",
+      "values_digest": "ea69a5cad3e5e6f5502c4148977a751ce3f13c8798fad18cb98e8cbfc06f85fd",
       "rendered_digest": "9309e25d5da66fb18b1e349619f6a53257f97e9d8fc5c26de211a38ced673146",
       "ast_digest": "83e74d98846c90b2369aa57b60726c4e27e43ced11411b02fd6a9a8708d9d71b"
     },
     "srp": {
-      "values_digest": "ccfcc7fef13e9421dd5fc9fecc7d34fd32d1f930fb5198d14c439b5011072f05",
-      "rendered_digest": "ca28483e92a555be3ea0eb0e795a7d455a3d23abecf81c5b33e9cce198234775",
-      "ast_digest": "e0796dd3b648ead1c4ce9d7c8e0d43731da09762557ebf3ed29e0cc0208dfd4d"
+      "values_digest": "0fa72f534309c2b2242a8e3f8685505638c903d1343ba2c870a89474eb90321c",
+      "rendered_digest": "343fb3d1fdc32391974ca5efc2e2eda832126936b5e7becae93dafd4b27d41fc",
+      "ast_digest": "b7225e2c5f3b17a158b17969d1a7e3f06996c661dd003ccc90e93fc672feb57d"
     },
     "sor": {
-      "values_digest": "ef5abbb9dd43b0efe8bfa12b334039198262f707613bd54cd7ac6687b8f3beae",
-      "rendered_digest": "a9992670fa01749d92abe2e91d9708b3f83103083761dd669e9d2be71c5c8a0e",
-      "ast_digest": "76d87e9038372cd60c0a16189550fef74f9fd638b050e802c45c4bc7d70783c5"
+      "values_digest": "7611fc1983fe1993505c5c4408a472f379ba181bad922e740ff123b39553e741",
+      "rendered_digest": "bf1686fce81f6140384822fcdcf90ed1c91efd0a175d8620391df1891ee8ca95",
+      "ast_digest": "984c9e21b86f085418eb7fea95c770f57204c52685a258cbe53153d1891d8a19"
     }
   },
   "transitions": [
@@ -382,6 +382,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Append current exact feature-crosswalk proof and explicitly supersede the earlier 123-row/six-class validation entry.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb\"],\"purpose\":\"Prove the corrected explicit feature-preservation crosswalk after semantic owner review\",\"outcome\":\"passed\",\"evidence_ref\":\"current proof: 122 real rows, pinned digest, eight explicit decision classes; supersedes the earlier 123-row/six-class entry\"}}"
     }
   ]
 }

@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
     "slug": "v0-91-8-wp-01-execution-readiness",
     "version": "v0.91.8",
-    "generation": 30
+    "generation": 32
   },
   "status": "ready",
   "content": {
@@ -92,6 +92,15 @@
           "purpose": "Reverify local links after canonical corpus expansion",
           "outcome": "passed",
           "evidence_ref": "post-review local validation: local links ok"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb"
+          ],
+          "purpose": "Prove the corrected explicit feature-preservation crosswalk after semantic owner review",
+          "outcome": "passed",
+          "evidence_ref": "current proof: 122 real rows, pinned digest, eight explicit decision classes; supersedes the earlier 123-row/six-class entry"
         }
       ],
       "integration_state": "not_started",

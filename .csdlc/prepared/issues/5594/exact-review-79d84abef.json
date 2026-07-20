@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.review.history.v1",
+  "issue": 5594,
+  "reviewer": "subagent:Raman:019f807f-3387-7b22-aefd-c0fd74bc0f3a",
+  "reviewed_revision": "git-blake3:79d84abef6edd83714a8328240f8bb06bc5bfe9d:9230b688bcdd5389e69f7fa4dd1651bfbfdb3f5ca2329fbd9008c11ba6d6fc3e",
+  "result": "changes_required",
+  "findings": [
+    {
+      "id": "WP01-ER8",
+      "severity": "p2",
+      "summary": "Canonical inventory and SOR retained stale 123-row six-class feature-crosswalk truth",
+      "disposition": "fixed_in_worktree_pending_exact_revision_review",
+      "fix_commit": null,
+      "evidence": "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md"
+    }
+  ],
+  "validation": [
+    "git diff --check origin/main...79d84abef: pass",
+    "validate_structured_planning.rb: pass",
+    "validate_feature_crosswalk.rb: pass with 122 rows and eight classes",
+    "validate_links.rb: pass",
+    "validate_live_routing.rb: pass"
+  ]
+}
