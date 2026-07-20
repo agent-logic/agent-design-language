@@ -3,13 +3,13 @@
   "issue": 4647,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
-  "phase": "implemented",
-  "generation": 34,
-  "digest": "23638f899c69e6ab585f6db08d817f5d43ab07cd3143328dd0420f2be24853ee",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "149fe02065e8ca8967e8f8181d8c5c02d29a5add6ec43dcf74929480b7eb0bb7",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 34,
+    "generation": 36,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -53,8 +53,36 @@
     ],
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7e25-c21b-7ed1-a38d-ef3a838a6114",
+    "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
+    "revision": "git-blake3:04bf3d8401a2b8c156546bc64bde065a0342cb34:e912b20abd7fc64b42bc767522e512b37ddf4f8cddc3fa2d7d9092e31da49d59",
+    "scope": [
+      ".csdlc/issues/4647",
+      ".csdlc/prepared/issues/4647",
+      ".csdlc/publication/4647.intent.json",
+      "adl/src/csm_api_gateway_bridge.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f7e25-c21b-7ed1-a38d-ef3a838a6114",
+    "scope": [
+      ".csdlc/issues/4647",
+      ".csdlc/prepared/issues/4647",
+      ".csdlc/publication/4647.intent.json",
+      "adl/src/csm_api_gateway_bridge.rs"
+    ],
+    "reviewed_revision": "git-blake3:04bf3d8401a2b8c156546bc64bde065a0342cb34:e912b20abd7fc64b42bc767522e512b37ddf4f8cddc3fa2d7d9092e31da49d59",
+    "findings": [],
+    "residual_risks": [
+      "Exact-head bounded review by subagent 019f7e25-c21b-7ed1-a38d-ef3a838a6114 confirmed HEAD 04bf3d8401a2b8c156546bc64bde065a0342cb34 is CLEAN/fixed-confirmed for the post-publication CSM API Gateway coverage-hosted repair.",
+      "The prior P2 protected-path finding is fixed: `adl/src/csm_api_gateway_bridge.rs` and `.csdlc/publication/4647.intent.json` are both present in protected paths.",
+      "The branch changed-path-vs-protected-path check over `origin/main...HEAD` returned no output, and `csdlc-doctor` passed at generation 34 implemented.",
+      "No AWS operation was run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -69,32 +97,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9cd9daa3a6be90ac0e1eb1f50b7b8f3f5366a1515f30499ef523b73446a9e58e",
+      "values_digest": "0a73a95cb12db4e28fd8205320734975c029342f21653c099f6deff27aa74d7b",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "d30a8f673ec08e0b573215df6e1f96e58dbbdb57bad9a4f764d0c8444d268b77",
+      "values_digest": "f53470c000b58b927498a634dcc7f456ba448c7c3de2af2bf6d286cc623d91ce",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "94005bac4bb90b7c02f5b13e1c74d54a6d5d9c9808de33fa44da8c020dac60e0",
+      "values_digest": "2b2f6c2755c4109bc008bef0eaf73609d0177d73d5b5eea77fac94087c0c7a95",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "f4316dc14313350b9ce6ee43de1ee884289ffad74adab1a4a79ed63bda284f6c",
+      "values_digest": "5dc0e2caf390afcee3bada55a2f5ed49e03c2664173223e177febb3cbf3eaedf",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "715e29b307360a1d2fc1cc21efef3a7bd4d1dd13a4c3026ec89044b6fc4af96b",
-      "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
-      "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
+      "values_digest": "5fe8564b2f36ad2e8ab9d8f56685b7acd3c4896f13ea0f2773306eeaf244227b",
+      "rendered_digest": "8a8777cad9856287d27961f24a2e7950af05245df41912e7c8cfd92f3c225d9b",
+      "ast_digest": "487b6b9c9f7f54efa7ab68680776bcca7d5a93a66d4ad41460f3d1e595ca43af"
     },
     "sor": {
-      "values_digest": "d7a27f2a6e1f87cb2b3157cf11b959901bb6c3d93b276b61d8ed0691bb9706a5",
+      "values_digest": "27b35894287a21c5c12eee321c5c9c2cc1bf2cd9e526599cee01ed3cbdd3f35d",
       "rendered_digest": "7fd517f8f7a075cc8914fd50cc8ec542647ddb1e520546ba30998364230b4ccc",
       "ast_digest": "171fa131fd12d86d7f54cb01c9348afc923865eb72d5cf59f5748e1104c03b23"
     }
@@ -197,6 +225,13 @@
       "to": "implemented",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Recover review after post-publication CSM API Gateway response-finalization repair required by PR #5588 adl-coverage-hosted failure on run 29719551279."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-head bounded review by subagent 019f7e25-c21b-7ed1-a38d-ef3a838a6114 confirmed HEAD 04bf3d8401a2b8c156546bc64bde065a0342cb34 is clean/fixed-confirmed after the post-publication CSM API Gateway coverage-hosted repair."
     }
   ],
   "audit": [
@@ -528,6 +563,27 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "PR #5588 publication intent is a tracked lifecycle artifact changed on this branch; protected-path truth must include it before exact-head review and publication.",
       "operation": "{\"add_protected_paths\":[\".csdlc/publication/4647.intent.json\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 48,
+      "generation": 34,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 35,
+      "actor": "subagent:019f7e25-c21b-7ed1-a38d-ef3a838a6114",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 36,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-head bounded review by subagent 019f7e25-c21b-7ed1-a38d-ef3a838a6114 confirmed HEAD 04bf3d8401a2b8c156546bc64bde065a0342cb34 is clean/fixed-confirmed after the post-publication CSM API Gateway coverage-hosted repair.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
