@@ -176,6 +176,55 @@ Retained the exact reviewer-authored WP-19 verification artifact, remediated bot
     "purpose": "Verify the Ollama streaming UTF-8 buffering regression still passes after moving the test module to satisfy clippy.",
     "outcome": "passed",
     "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "csm_runtime_api::api_gateway_bridge::tests::api_gateway_bridge_",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Verify the exact API Gateway bridge tests that failed in hosted coverage now finalize and redact external response bodies before retaining proof.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 4 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Verify the CSM bridge response-finalization repair keeps the all-target clippy gate clean before PR #5588 republish.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, Finished dev profile in 19.81s"
+  },
+  {
+    "command": [
+      "cargo",
+      "llvm-cov",
+      "nextest",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--no-clean",
+      "--no-fail-fast",
+      "--no-tests",
+      "pass",
+      "--test-threads",
+      "4",
+      "--",
+      "csm_runtime_api::api_gateway_bridge::tests::api_gateway_bridge_"
+    ],
+    "purpose": "Verify the coverage-hosted harness path passes for the API Gateway bridge tests that failed in PR #5588 run 29719551279.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, CARGO_LLVM_COV_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/llvm-cov-target/bridge-fix, nextest 4 passed"
   }
 ]
 

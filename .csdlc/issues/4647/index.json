@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "ff8bbdd041a99e22a350abc4ba42abd9868d54231dce78e3b804ef676f4b3075",
+  "generation": 34,
+  "digest": "6051dc3578e4eaff9ec7136f516acfb7213d99b60293ab4e3a2c5f69295e99bc",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 31,
+    "generation": 34,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -67,34 +67,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1468ad6683a99d54254a256763963b7af6e9d2829c9a043005d53835e580bf76",
+      "values_digest": "9cd9daa3a6be90ac0e1eb1f50b7b8f3f5366a1515f30499ef523b73446a9e58e",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "06e7a03d17e1849b360f56cea3175f99953f129059077ba12e8e79af6b1a1549",
+      "values_digest": "d30a8f673ec08e0b573215df6e1f96e58dbbdb57bad9a4f764d0c8444d268b77",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "5146061c9d79ad7f96dc5a6797ebe9f409e2d15d9641457b6474d4b70a5216a2",
+      "values_digest": "94005bac4bb90b7c02f5b13e1c74d54a6d5d9c9808de33fa44da8c020dac60e0",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "11f9fd7610dc373f45c37e5eaaa8f95e1641d77451c3e0c8b7267c9c33e2cc52",
+      "values_digest": "f4316dc14313350b9ce6ee43de1ee884289ffad74adab1a4a79ed63bda284f6c",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "143dd0d6022e0ae40dbcd73c68f149417d9eef621c47ac1f9318c9468c92e5e1",
+      "values_digest": "715e29b307360a1d2fc1cc21efef3a7bd4d1dd13a4c3026ec89044b6fc4af96b",
       "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
       "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
     },
     "sor": {
-      "values_digest": "be60f75919c6e918960c205bf7bc3000fddf0feb089d855556ee97121a8a4f7a",
-      "rendered_digest": "454adbe979d76d26b9289bc51e3c3fcd6845375aa0c1935d4be28c29084084c4",
-      "ast_digest": "4a70b257de33317d61577b9bb9cd064bb666140afd9569387285d39d640f0dd8"
+      "values_digest": "d7a27f2a6e1f87cb2b3157cf11b959901bb6c3d93b276b61d8ed0691bb9706a5",
+      "rendered_digest": "7fd517f8f7a075cc8914fd50cc8ec542647ddb1e520546ba30998364230b4ccc",
+      "ast_digest": "171fa131fd12d86d7f54cb01c9348afc923865eb72d5cf59f5748e1104c03b23"
     }
   },
   "transitions": [
@@ -491,6 +491,27 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Recover review after post-publication CSM API Gateway response-finalization repair required by PR #5588 adl-coverage-hosted failure on run 29719551279.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 32,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record focused CSM API Gateway bridge proof after PR #5588 adl-coverage-hosted failed the bridge redaction tests.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api::api_gateway_bridge::tests::api_gateway_bridge_\",\"--\",\"--nocapture\"],\"purpose\":\"Verify the exact API Gateway bridge tests that failed in hosted coverage now finalize and redact external response bodies before retaining proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 4 passed\"}}"
+    },
+    {
+      "sequence": 44,
+      "generation": 33,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record clippy proof after the CSM API Gateway response-finalization repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Verify the CSM bridge response-finalization repair keeps the all-target clippy gate clean before PR #5588 republish.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, Finished dev profile in 19.81s\"}}"
+    },
+    {
+      "sequence": 45,
+      "generation": 34,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record coverage-harness proof after PR #5588 adl-coverage-hosted failed API Gateway bridge redaction tests.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"llvm-cov\",\"nextest\",\"--manifest-path\",\"adl/Cargo.toml\",\"--no-clean\",\"--no-fail-fast\",\"--no-tests\",\"pass\",\"--test-threads\",\"4\",\"--\",\"csm_runtime_api::api_gateway_bridge::tests::api_gateway_bridge_\"],\"purpose\":\"Verify the coverage-hosted harness path passes for the API Gateway bridge tests that failed in PR #5588 run 29719551279.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, CARGO_LLVM_COV_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/llvm-cov-target/bridge-fix, nextest 4 passed\"}}"
     }
   ]
 }
