@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5358,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
+    "slug": "v0-91-8-wp14-csdlc-v2-acceptance",
+    "version": "v0.91.8",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact implementation revision before publication.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do all six cards and the design remain preparation-only and avoid acceptance/deployment overclaim?",
+        "Are #5540 and #5541 consumed only as closed evidence inputs?",
+        "Are #5548 and #5558 retained as independently owned open blockers?",
+        "Are protected paths strictly issue-local with no shared milestone-document ownership?",
+        "Are future proof lanes exact-revision-bound, deterministic where claimed, and fail-closed?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

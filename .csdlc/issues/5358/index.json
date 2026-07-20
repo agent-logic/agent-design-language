@@ -1,0 +1,152 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5358,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
+  "phase": "bound",
+  "generation": 7,
+  "digest": "bb4c1502f0fe51c4b4a1e9897dd741a1b61869eebda6160bc99a8913e19e950b",
+  "claim": {
+    "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+    "owner": "codex:issue-5358-slot-3",
+    "generation": 7,
+    "acquired_unix_seconds": 1784570058,
+    "expires_unix_seconds": 1784656458,
+    "heartbeat_unix_seconds": 1784570058,
+    "branch": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5358",
+      ".csdlc/prepared/issues/5358",
+      ".csdlc/evidence/5358"
+    ],
+    "purpose": "Prepare typed C-SDLC v2 acceptance cards, design, and readiness only under sprint #5595 slot 3"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5358/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5358/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:sprint-5595-slot-3",
+      "revision": "b875a671de05e1c4f769d96ff26cd104c10d8990faa9463881f3a0f131a5620f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c022148c2f91da1198d3106b2d1de0557846e2f7b811a6a1d5bd76ef27141414",
+      "rendered_digest": "21cf51053ac57282ce5e62f39ad338c182126b7b049b490d952952c2fc7ad6dc",
+      "ast_digest": "e3dbb3c544e068e3657421d4097efdd4907971200a4a27f47929857b1737f176"
+    },
+    "stp": {
+      "values_digest": "e89352e1f99e238868d31a3aed4329a87da3d47731e17848872b813b9686bbf7",
+      "rendered_digest": "343d76be029d91c8ec5e4e81c8c44881fd18394488b357ac4f659a77b7e114f9",
+      "ast_digest": "4adf1d0441cd3bc2e2971643711d59c76582bdd25f7aa34f679e63a39bbcd16a"
+    },
+    "spp": {
+      "values_digest": "1428f64cdab1504f0adb84fdb65ea9a8e30efd802484b246414eb738853d2db9",
+      "rendered_digest": "fcf293678748874f8ad9f34f0f9d6389ea8a391f19299214463e2d03c2b12b1b",
+      "ast_digest": "19330c5795f97ad966de7811a3a45bd58383f925807b26c7da0a8ad116e65041"
+    },
+    "vpp": {
+      "values_digest": "96c63bb07110ee92074eca8ca1f2aa6fb6c79c0d437edd612df088908fe40592",
+      "rendered_digest": "b8db4593c53ab1064913a886ba06c017a329338eed7541533e1d7bfb3fa375d4",
+      "ast_digest": "4075dfa434d9d45e4f89f34d4994e52a082f8cbc5691ee71821299b87aa5c4ce"
+    },
+    "srp": {
+      "values_digest": "ad61a5ccab149c8b162830bea19fe4e52044b3aa1b8e73f262e9cf02a5797998",
+      "rendered_digest": "92f83e456691324369fb613ef27ecf90091dac07d2868142f86b3460fabb96de",
+      "ast_digest": "de0f1ebadf7c1efb5d5dbcc539776446e8b28eeb94e6a3f3f2f9355a7a742962"
+    },
+    "sor": {
+      "values_digest": "0b55d8f49a71d3716dd255a9ecab1d073d9d86a9d9f5701fa2d6f795634f79fd",
+      "rendered_digest": "3558ba3cae99bccf89c23c9cf1339640c99d64fa9102051c55b75aeb8e1d6779",
+      "ast_digest": "b7fd7f0a72ce4041f3b5fdae29bfb56e7fef55f8677a39e8bdc6b352410ee46b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "#5358 initialized and bound in its dedicated issue worktree with issue-local protected paths.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "The #5358 design and cards inventory #5540/#5541 only as closed evidence inputs and #5548/#5558 only as independently owned open defect blockers.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Typed PVF validation passed the #5358 doctor and diff-hygiene lanes with retained issue-local evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Record preparation-only validation without asserting C-SDLC v2 acceptance or implementation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate --request .csdlc/prepared/issues/5358/validation-request.json\",\"csdlc-doctor --repo . --issue 5358\",\"git diff --check\"],\"purpose\":\"Validate the typed #5358 six-card bundle, retained design integrity, bound issue state, and issue-local patch hygiene only.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5358/preparation-validation\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Replace the non-proving tracked-diff lane with explicit issue-local artifact inventory and preserve portable owner-binary discovery.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-doctor-5358\",\"proof_role\":\"Check canonical typed state, all six generated cards, digests, retained design, and bound issue integrity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5358\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-local-scope-inventory\",\"proof_role\":\"Enumerate every changed or untracked #5358 issue-local artifact for bounded review\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"status\",\"--short\",\"--\",\".csdlc/issues/5358\",\".csdlc/prepared/issues/5358\",\".csdlc/evidence/5358\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Supersede the non-proving untracked diff-hygiene claim with explicit issue-local artifact inventory and portable owner-binary invocation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate --request .csdlc/prepared/issues/5358/validation-request.json\",\"csdlc-doctor --repo . --issue 5358\",\"git status --short -- .csdlc/issues/5358 .csdlc/prepared/issues/5358 .csdlc/evidence/5358\"],\"purpose\":\"Validate typed record/card integrity and explicitly enumerate the full untracked #5358 review scope. This replaces the earlier git diff --check evidence, which did not cover untracked artifacts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5358/preparation-validation\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Make the bounded review inventory enumerate every untracked issue-local file rather than collapsing directories.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-doctor-5358\",\"proof_role\":\"Check canonical typed state, all six generated cards, digests, retained design, and bound issue integrity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5358\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-local-scope-inventory\",\"proof_role\":\"Enumerate every untracked #5358 issue-local artifact for bounded review\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"ls-files\",\"--others\",\"--exclude-standard\",\"--\",\".csdlc/issues/5358\",\".csdlc/prepared/issues/5358\",\".csdlc/evidence/5358\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    }
+  ]
+}

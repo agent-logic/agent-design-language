@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5358,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
+    "slug": "v0-91-8-wp14-csdlc-v2-acceptance",
+    "version": "v0.91.8",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Pre-execution output record.",
+      "actual_changes": [],
+      "artifacts": [],
+      "actual_validation": [
+        {
+          "command": [
+            "csdlc-validate --request .csdlc/prepared/issues/5358/validation-request.json",
+            "csdlc-doctor --repo . --issue 5358",
+            "git diff --check"
+          ],
+          "purpose": "Validate the typed #5358 six-card bundle, retained design integrity, bound issue state, and issue-local patch hygiene only.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5358/preparation-validation"
+        },
+        {
+          "command": [
+            "csdlc-validate --request .csdlc/prepared/issues/5358/validation-request.json",
+            "csdlc-doctor --repo . --issue 5358",
+            "git status --short -- .csdlc/issues/5358 .csdlc/prepared/issues/5358 .csdlc/evidence/5358"
+          ],
+          "purpose": "Validate typed record/card integrity and explicitly enumerate the full untracked #5358 review scope. This replaces the earlier git diff --check evidence, which did not cover untracked artifacts.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5358/preparation-validation"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
