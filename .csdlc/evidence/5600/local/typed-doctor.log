@@ -15,5 +15,5 @@
    Compiling hyper-rustls v0.27.9
    Compiling octocrab v0.53.1
    Compiling csdlc-v2 v0.1.0 (/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5600/csdlc-v2)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 10.12s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 10.08s
      Running `/Volumes/FastWork/adl-builds/5600/csdlc-v2-target/debug/csdlc-doctor --repo . --issue 5600`
