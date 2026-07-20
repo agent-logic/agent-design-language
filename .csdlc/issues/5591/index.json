@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5591,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
+  "phase": "bound",
+  "generation": 2,
+  "digest": "9300282a6d43c8088c79534e04a0add030e78da93f4fd109ed50f197d6f7ca71",
+  "claim": {
+    "id": "claim-5591-runtime-v3-parity-a-preparation",
+    "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+    "generation": 2,
+    "acquired_unix_seconds": 1784584932,
+    "expires_unix_seconds": 1785189732,
+    "heartbeat_unix_seconds": 1784584932,
+    "branch": "codex/5591-runtime-v3-parity-a-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5591",
+      ".csdlc/locks/5591.lock",
+      ".csdlc/prepared/issues/5591"
+    ],
+    "purpose": "Prepare and review complete six-card Runtime v3 Parity-A truth while #5336 integration remains the sole implementation stop"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5591/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5591/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "revision": "a37a475933669531fcdd203c184f8bafeb6bf969b184f0446cc9e79e2bf7dcfe"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b1c8f2982149be856aaafc46e81f3cfd466c4c38e19c02caed06e741583c18b9",
+      "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
+      "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
+    },
+    "stp": {
+      "values_digest": "b5c52405f963ffeb3b7847f8510e77e4e0f0be388bf8a91e45e7d1f8e99ba8f7",
+      "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
+      "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
+    },
+    "spp": {
+      "values_digest": "35db486d84d0679cd5153b672b36ad8c82cb25cbcc09e6b405252238affa67b5",
+      "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
+      "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
+    },
+    "vpp": {
+      "values_digest": "51229f0656e1abf5dc0e5f6c8aede36ff72263f268f85a5ee3d1778d834dc21f",
+      "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
+      "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
+    },
+    "srp": {
+      "values_digest": "8fede7a094ec17787a03d4d4c59c76d6e26dd17a8d662b022c8b59b386b830d3",
+      "rendered_digest": "54a8db5ceb951a019c675ddf12a639f5882c94909424c69b30311155ce4f87ac",
+      "ast_digest": "48555efa9cdd61637f01fc92a7f26630296fd390c8f2137089e87b8f01e4db20"
+    },
+    "sor": {
+      "values_digest": "40bce1a4861465b3cf07590370d229a8d0aa98c5a3ec2454eafc10ad8b02cb0a",
+      "rendered_digest": "dbc81178f1c254fb617e08a9251f3fe1405f5621dd2d8f67fbff2676db886d68",
+      "ast_digest": "6eb819f538e15fa6523ea32653e5dfe0c5bf7812926dee6d168c1ea1a3ce0f87"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "reason": "Record operator-authorized stacked execution on exact reviewed #5336 head without weakening the merge gate",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use only typed C-SDLC v2 lifecycle owners; no raw gh, AWS, Runtime v2 implementation files, hard-coded IP addresses, or product edits on main\",\"Stack #5591 on exact reviewed #5336 head 8fa1bfe66e677ed3ae160b3fee81d204d4211a37 and preserve that dependency as the implementation base\",\"After preparation validation, amend claim scope through csdlc-bind before touching the smallest collision-free Runtime v3 product paths\",\"Implementation may proceed on the reviewed stack, but publication, merge, integrated readiness, and final exact-revision acceptance remain blocked until #5336 is merged and #5591 is synchronized with main\",\"Implement every AC-1 through AC-8 outcome without deferred, skipped, degraded, fixture-only, library-only, prose-only, or partial acceptance\",\"Use /Volumes/FastWork for Rust build artifacts and maintained COTS crates where practical\",\"Run bounded subagent review at the exact committed revision, fix every actionable finding, and publish or merge only green work\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+      "reason": "Pin the exact reviewed #5336 implementation base and preserve its merge as the publication gate",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5361 prepared Runtime v3 acceptance umbrella\",\"exact reviewed #5336 head 8fa1bfe66e677ed3ae160b3fee81d204d4211a37 is the stacked implementation base\",\"#5336 green merge into main remains mandatory before #5591 publication, merge, integrated readiness, or final exact-revision acceptance\",\"reviewed #5591 ingress contract before #5592, #5589, and #5590 implementation\",\"#5341 consumes the accepted ingress contract after review\"]}"
+    }
+  ]
+}

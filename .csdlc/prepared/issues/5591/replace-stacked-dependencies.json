@@ -1,0 +1,21 @@
+{
+  "issue": 5591,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "8f1b8ca9170efb11ba76115c212e5ba2cc7edac217d38cdb1541aa516001be89",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+  "reason": "Pin the exact reviewed #5336 implementation base and preserve its merge as the publication gate",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "#5361 prepared Runtime v3 acceptance umbrella",
+      "exact reviewed #5336 head 8fa1bfe66e677ed3ae160b3fee81d204d4211a37 is the stacked implementation base",
+      "#5336 green merge into main remains mandatory before #5591 publication, merge, integrated readiness, or final exact-revision acceptance",
+      "reviewed #5591 ingress contract before #5592, #5589, and #5590 implementation",
+      "#5341 consumes the accepted ingress contract after review"
+    ]
+  },
+  "fail_after_backup": false
+}
