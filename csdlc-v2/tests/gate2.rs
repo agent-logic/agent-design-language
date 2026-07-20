@@ -153,6 +153,44 @@ fn bind_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
     (temp, store, bound)
 }
 
+fn bind_issue_5337_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
+    let temp = tempfile::tempdir().expect("tempdir");
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Prepared design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  Prepare --> Implement\n",
+    )
+    .expect("diagram");
+    let store = Store::new(temp.path());
+    let mut request = request();
+    request.issue = 5_337;
+    request.claim.id = "claim-5337".into();
+    request.claim.branch = "issue-5337".into();
+    request.claim.worktree = ".worktrees/issue-5337".into();
+    request.initial.title = "[v0.91.8][WP-03] Prepared characterization corpus".into();
+    request.initial.slug = "prepared-characterization-corpus".into();
+    request.initial.goal =
+        "Prepare the characterization issue without implementation claims.".into();
+    let record = initialize_issue(&store, request).expect("initialize #5337 fixture");
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "prepared #5337 fixture"]);
+    let claim = record.claim.clone().expect("claim");
+    csdlc_v2::bind_issue(
+        &store,
+        csdlc_v2::BindRequest {
+            issue: 5_337,
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
+        },
+    )
+    .expect("bind #5337 fixture");
+    let bound = store.load_record(5_337).expect("bound #5337 record");
+    (temp, store, bound)
+}
+
 fn edit_current(
     store: &Store,
     record: &csdlc_v2::IssueRecord,
@@ -1294,7 +1332,7 @@ fn illegal_transition_fails_closed() {
 
 #[test]
 fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_edits() {
-    let (temp, store, mut record) = bind_fixture();
+    let (temp, store, mut record) = bind_issue_5337_fixture();
 
     for (card, field, replacement) in [
         (
@@ -1357,11 +1395,6 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
             PlanningCollectionField::ReplanTriggers,
             vec!["pinned v1 behavior changes".into()],
         ),
-        (
-            CardKind::Srp,
-            PlanningCollectionField::ReviewPrompts,
-            vec!["Can normalization erase a semantic difference?".into()],
-        ),
     ] {
         record = edit_current(
             &store,
@@ -1384,6 +1417,42 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
             ],
         },
     );
+    let cli_request = EditRequest {
+        issue: 5_337,
+        card: CardKind::Srp,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: "claim-5337".into(),
+        actor: "agent".into(),
+        reason: "replace #5337 review prompts through typed JSON CLI".into(),
+        operation: SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::ReviewPrompts,
+            values: vec!["Can normalization erase a semantic difference?".into()],
+        },
+        fail_after_backup: false,
+    };
+    let cli_request_path = temp.path().join("replace-review-prompts.json");
+    fs::write(
+        &cli_request_path,
+        serde_json::to_vec(&cli_request).expect("CLI request JSON"),
+    )
+    .expect("write CLI request");
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-edit"))
+        .args([
+            "--repo",
+            temp.path().to_str().expect("repo path"),
+            "apply",
+            "--request",
+            cli_request_path.to_str().expect("request path"),
+        ])
+        .output()
+        .expect("run csdlc-edit");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    record = store.load_record(5_337).expect("CLI-updated record");
     record = edit_current(
         &store,
         &record,
@@ -1445,7 +1514,7 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
         },
     );
 
-    let cards = store.load_cards(42).expect("converted cards");
+    let cards = store.load_cards(5_337).expect("converted cards");
     let design_digest =
         csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/design.md")).expect("design"));
     let diagram_digest =
@@ -1458,7 +1527,7 @@ fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_e
         &diagram_digest,
     )
     .expect("typed cross-card validation");
-    let report = diagnose(&store, 42);
+    let report = diagnose(&store, 5_337);
     assert!(matches!(report.status, DoctorStatus::Pass), "{report:?}");
     assert!(report.findings.is_empty());
     assert_eq!(record.generation, 18);
