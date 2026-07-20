@@ -4,7 +4,7 @@ Closes #5594
 
 - make #5594 the active WP-01 readiness authority and create the single
   v0.91.8 sprint umbrella #5595
-- route all 65 live v0.91.8 issues, including Runtime v3 parity
+- route every live v0.91.8 issue, including Runtime v3 parity
   #5591 -> (#5592, #5589, #5590), acceptance, cutover, and release-tail work
 - pin and explicitly disposition all 122 canonical feature rows so Runtime v3 cutover cannot
   silently drop retained behavior
