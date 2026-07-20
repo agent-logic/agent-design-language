@@ -947,7 +947,68 @@ fn sanitize_bedrock_error(message: &str) -> String {
     ] {
         out = redact_aws_error_value(&out, marker);
     }
+    out = redact_aws_arns(&out);
+    out = redact_aws_account_ids(&out);
     truncate_provider_body(&out)
+}
+
+fn redact_aws_arns(input: &str) -> String {
+    let mut redacted = String::with_capacity(input.len());
+    let mut cursor = 0;
+    while let Some(relative_start) = input[cursor..].find("arn:aws:") {
+        let arn_start = cursor + relative_start;
+        redacted.push_str(&input[cursor..arn_start]);
+        redacted.push_str("<redacted-aws-arn>");
+
+        let arn_end = input[arn_start..]
+            .char_indices()
+            .find_map(|(idx, ch)| {
+                matches!(ch, ' ' | ',' | ';' | '"' | '\'' | ')' | '}' | ']')
+                    .then_some(arn_start + idx)
+            })
+            .unwrap_or(input.len());
+        cursor = arn_end;
+    }
+    redacted.push_str(&input[cursor..]);
+    redacted
+}
+
+fn redact_aws_account_ids(input: &str) -> String {
+    let mut redacted = String::with_capacity(input.len());
+    let mut digit_start = None;
+    let mut digit_count = 0usize;
+    let mut last_end = 0usize;
+
+    for (idx, ch) in input.char_indices() {
+        if ch.is_ascii_digit() {
+            if digit_start.is_none() {
+                digit_start = Some(idx);
+            }
+            digit_count += 1;
+            continue;
+        }
+
+        if let Some(start) = digit_start {
+            if digit_count == 12 {
+                redacted.push_str(&input[last_end..start]);
+                redacted.push_str("<redacted-aws-account-id>");
+                last_end = idx;
+            }
+        }
+        digit_start = None;
+        digit_count = 0;
+    }
+
+    if let Some(start) = digit_start {
+        if digit_count == 12 {
+            redacted.push_str(&input[last_end..start]);
+            redacted.push_str("<redacted-aws-account-id>");
+            last_end = input.len();
+        }
+    }
+
+    redacted.push_str(&input[last_end..]);
+    redacted
 }
 
 fn redact_aws_error_value(input: &str, marker: &str) -> String {

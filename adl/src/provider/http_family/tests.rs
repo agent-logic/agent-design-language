@@ -213,6 +213,22 @@ fn bedrock_error_sanitizer_removes_signed_aws_values() {
 }
 
 #[test]
+fn bedrock_error_sanitizer_removes_arns_and_account_ids() {
+    let sanitized = sanitize_bedrock_error(
+        "AccessDeniedException: User arn:aws:iam::123456789012:role/adl-prod denied bedrock:InvokeModel for account 123456789012 by resource policy",
+    );
+
+    assert!(sanitized.contains("AccessDeniedException"));
+    assert!(sanitized.contains("denied bedrock:InvokeModel"));
+    assert!(sanitized.contains("resource policy"));
+    assert!(sanitized.contains("<redacted-aws-arn>"));
+    assert!(sanitized.contains("<redacted-aws-account-id>"));
+    assert!(!sanitized.contains("arn:aws:"));
+    assert!(!sanitized.contains("123456789012"));
+    assert!(!sanitized.contains("adl-prod"));
+}
+
+#[test]
 fn bedrock_invocation_artifact_records_profile_region_and_account_hash() {
     let _guard = env_lock();
     let artifact = std::env::temp_dir().join(format!(

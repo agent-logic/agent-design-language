@@ -90,6 +90,22 @@ Retained the exact reviewer-authored WP-19 verification artifact, remediated bot
     "purpose": "Validate current diff hygiene and C-SDLC v2 doctor pass through the typed PVF request.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/4647/validation/current, disposition local_pass with diff-check and csdlc-doctor passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "-p",
+      "adl",
+      "bedrock_error_sanitizer",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove Bedrock diagnostics redact signed AWS values, AWS ARNs, and raw account IDs while retaining useful AccessDenied context.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 3 passed"
   }
 ]
 

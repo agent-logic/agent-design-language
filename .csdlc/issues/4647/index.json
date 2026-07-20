@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "6d74e30508fda1bf25e5d05cab3da26fc830da1e1840a5e825eacdd85fda07cf",
+  "generation": 14,
+  "digest": "180a13905c4ccfc2ac431f0929151eda04a3441464e1e7f54ef86838d459637a",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 13,
+    "generation": 14,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -67,34 +67,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "779e8775c7f060d499b718cff7288c85000b5224279bdab559446c638bfd3f75",
+      "values_digest": "44f5fc4ce776c470a5934777ac64dadd6e83e9de03903b24057c74b7dca5000e",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "c27666e5ce35238e48275a64b31a3544f505799ff058718dba9f4193fd156693",
+      "values_digest": "7e6e3ae2e94d417e36b4dcd9e943054d01a7b4be48f53e5b984105c895318352",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "251b6b76dee620fddfce6c34d93c5b6504344035cbb7a256e2e759289e3fc4a5",
+      "values_digest": "c9bfb41827543dc8f0217f691f496cfe4f66e3ba82a4b4bb06b2f0e9d9ab255e",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "7ccc82e92888a7b584c7cc0bca8f5dcd4dc0140aa38adb5a4684693409424d12",
+      "values_digest": "214ccfb601089299e0acb3e3cc59e01634533bfe9014a891e0c1c3600ceba3d2",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "8a9939fe6a7ea0a1a7e7b1618c81fc6bd307e2bd0839566dce6e1ab56156eb5d",
+      "values_digest": "087e99d6f2818e41cfb47c264a02cf3b9d192da422f0a61354153c06bcfd275d",
       "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
       "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
     },
     "sor": {
-      "values_digest": "eb7db72cbd2618824ecb11a8085da095b75b5259794d73e82f0018132d5b7bc2",
-      "rendered_digest": "e548c387cd7bd8328c8fe04b7e656b3b531f5b9053ae18974ec84b22d663ee2d",
-      "ast_digest": "b3a47312d7e606ba147a991f9c5e8fa6fa73aea894edea206ce3f32d8e4109cf"
+      "values_digest": "3bf55f7211297d4d165f6f6edf567bd42ef8c33f71527c2c69bc5102c58b93a3",
+      "rendered_digest": "952a39844dc933925cc23e1b096ba6f3fb02d9552abf5fd73269ab7944b412b1",
+      "ast_digest": "c706cb1960364d8d37db98d3e8e181a44b75f4fc401f0f25cb6d53496f0688b5"
     }
   },
   "transitions": [
@@ -281,6 +281,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Record typed PVF validation and doctor proof for the current issue record after SPP/SOR repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/4647/validate-current.json\"],\"purpose\":\"Validate current diff hygiene and C-SDLC v2 doctor pass through the typed PVF request.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/4647/validation/current, disposition local_pass with diff-check and csdlc-doctor passed\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record focused Bedrock diagnostic redaction proof for the final retained WP-19 residual.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"bedrock_error_sanitizer\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Bedrock diagnostics redact signed AWS values, AWS ARNs, and raw account IDs while retaining useful AccessDenied context.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 3 passed\"}}"
     }
   ]
 }
