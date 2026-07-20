@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5600,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5600-complete-typed-replanning",
+  "title": "[v0.91.8][csdlc-v2] Complete typed preparation-to-implementation replanning",
+  "body": "Closes #5600\n\nAdds card-owned typed replacement operations for every remaining SIP, STP, SPP, and SRP planning collection. A coherent acceptance-plan operation atomically replaces STP acceptance criteria, SPP plan steps, and VPP validation lanes, permitting cardinality changes without an invalid intermediate state while preserving generation, digest, claim ownership, phase authorization, complete projection regeneration, audit, backup, and commit semantics.\n\nThe #5337 preparation fixture performs the complete conversion through the real csdlc-edit JSON CLI, changes acceptance cardinality from two to three, and proves cross-card validation plus typed doctor. Negative tests cover empty and misowned fields, stale generation and digest, wrong claims, incomplete and duplicate acceptance mappings, pre-Bound and post-Implemented rejection, progress smuggling, and atomic failure behavior.\n\nValidation is fully green with no deferred lane: focused Gate 2 tests 41/41, every C-SDLC v2 target, cargo fmt --check, strict all-target Clippy, and typed doctor. Exact-revision review findings F-5600-1 through F-5600-6 are fixed, and the final exact-head review passed with no actionable findings.",
+  "draft": true,
+  "revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
+  "commit_sha": "cf3eb5103802da91e50c2dd54ba23b3d194ebc7d"
+}

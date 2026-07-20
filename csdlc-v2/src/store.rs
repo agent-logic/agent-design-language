@@ -2497,6 +2497,18 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         for values in cards.values_mut() {
             apply(values, &request.operation)?;
         }
+    } else if let SemanticOperation::ReplaceAcceptancePlan {
+        acceptance_criteria,
+        steps,
+        validation_lanes,
+    } = &request.operation
+    {
+        crate::cards::replace_acceptance_plan(
+            &mut cards,
+            acceptance_criteria,
+            steps,
+            validation_lanes,
+        )?;
     } else {
         let values = cards
             .get_mut(&request.card)
@@ -2886,13 +2898,25 @@ fn authorize_card_operation(
                 | SemanticOperation::AppendReference { .. }
                 | SemanticOperation::AdvanceStatus { .. },
         ) | (
-            LifecyclePhase::Initialized | LifecyclePhase::Ready | LifecyclePhase::Bound,
+            LifecyclePhase::Bound,
             CardKind::Sip,
             SemanticOperation::ReplaceOperatorConstraints { .. },
         ) | (
-            LifecyclePhase::Initialized | LifecyclePhase::Ready | LifecyclePhase::Bound,
+            LifecyclePhase::Bound,
             CardKind::Stp,
             SemanticOperation::ReplaceAcceptanceCriteria { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Sip | CardKind::Stp | CardKind::Spp | CardKind::Srp,
+            SemanticOperation::ReplacePlanningCollection { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Spp,
+            SemanticOperation::ReplacePlanSteps { .. },
+        ) | (
+            LifecyclePhase::Bound,
+            CardKind::Spp,
+            SemanticOperation::ReplaceAcceptancePlan { .. },
         ) | (
             LifecyclePhase::Bound,
             CardKind::Sip | CardKind::Stp | CardKind::Spp,

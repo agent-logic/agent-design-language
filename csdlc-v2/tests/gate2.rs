@@ -3,7 +3,7 @@ use std::fs;
 use csdlc_v2::doctor::DoctorStatus;
 use csdlc_v2::{
     amend_claim_scope, diagnose, edit_issue, AmendClaimScopeRequest, BootstrapRequest, CardKind,
-    Claim, EditRequest, ErrorCode, SemanticOperation, Store,
+    Claim, EditRequest, ErrorCode, PlanningCollectionField, SemanticOperation, Store,
 };
 use tempfile::TempDir;
 
@@ -131,6 +131,129 @@ fn fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
         record
     );
     (temp, store, record)
+}
+
+fn bind_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    let claim = record.claim.clone().expect("claim");
+    csdlc_v2::bind_issue(
+        &store,
+        csdlc_v2::BindRequest {
+            issue: 42,
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
+        },
+    )
+    .expect("bind fixture");
+    let bound = store.load_record(42).expect("bound record");
+    (temp, store, bound)
+}
+
+fn bind_issue_5337_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
+    let temp = tempfile::tempdir().expect("tempdir");
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Prepared design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  Prepare --> Implement\n",
+    )
+    .expect("diagram");
+    let store = Store::new(temp.path());
+    let mut request = request();
+    request.issue = 5_337;
+    request.claim.id = "claim-5337".into();
+    request.claim.branch = "issue-5337".into();
+    request.claim.worktree = ".worktrees/issue-5337".into();
+    request.initial.title = "[v0.91.8][WP-03] Prepared characterization corpus".into();
+    request.initial.slug = "prepared-characterization-corpus".into();
+    request.initial.goal =
+        "Prepare the characterization issue without implementation claims.".into();
+    let record = initialize_issue(&store, request).expect("initialize #5337 fixture");
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "prepared #5337 fixture"]);
+    let claim = record.claim.clone().expect("claim");
+    csdlc_v2::bind_issue(
+        &store,
+        csdlc_v2::BindRequest {
+            issue: 5_337,
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
+        },
+    )
+    .expect("bind #5337 fixture");
+    let bound = store.load_record(5_337).expect("bound #5337 record");
+    (temp, store, bound)
+}
+
+fn edit_current(
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    card: CardKind,
+    operation: SemanticOperation,
+) -> csdlc_v2::IssueRecord {
+    edit_issue(
+        store,
+        EditRequest {
+            issue: record.issue,
+            card,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: record.claim.as_ref().expect("claim").id.clone(),
+            actor: "agent".into(),
+            reason: "typed preparation-to-implementation replan".into(),
+            operation,
+            fail_after_backup: false,
+        },
+    )
+    .expect("typed edit")
+}
+
+fn cli_edit_current(
+    root: &std::path::Path,
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    card: CardKind,
+    operation: SemanticOperation,
+) -> csdlc_v2::IssueRecord {
+    let request = EditRequest {
+        issue: record.issue,
+        card,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: record.claim.as_ref().expect("claim").id.clone(),
+        actor: "agent".into(),
+        reason: "typed preparation-to-implementation CLI replan".into(),
+        operation,
+        fail_after_backup: false,
+    };
+    let request_path = root.join("typed-replan.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request).expect("CLI request JSON"),
+    )
+    .expect("write CLI request");
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-edit"))
+        .args([
+            "--repo",
+            root.to_str().expect("repo path"),
+            "apply",
+            "--request",
+            request_path.to_str().expect("request path"),
+        ])
+        .output()
+        .expect("run csdlc-edit");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    store.load_record(record.issue).expect("CLI-updated record")
 }
 
 #[test]
@@ -1247,6 +1370,440 @@ fn illegal_transition_fails_closed() {
         store.load_record(42).expect("record").phase,
         csdlc_v2::LifecyclePhase::Initialized
     );
+}
+
+#[test]
+fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_edits() {
+    let (temp, store, mut record) = bind_issue_5337_fixture();
+
+    for (card, field, replacement) in [
+        (
+            CardKind::Sip,
+            PlanningCollectionField::DeclaredScope,
+            vec!["versioned black-box characterization corpus".into()],
+        ),
+        (
+            CardKind::Sip,
+            PlanningCollectionField::AuthorityBoundary,
+            vec!["pinned v1 binary is observed only through process I/O".into()],
+        ),
+        (
+            CardKind::Sip,
+            PlanningCollectionField::InitialAssumptions,
+            vec!["the pinned v1 binary is available locally".into()],
+        ),
+        (
+            CardKind::Stp,
+            PlanningCollectionField::Deliverables,
+            vec!["corpus harness".into(), "retained observations".into()],
+        ),
+        (
+            CardKind::Stp,
+            PlanningCollectionField::Dependencies,
+            vec!["integrated runtime parity plan".into()],
+        ),
+        (
+            CardKind::Stp,
+            PlanningCollectionField::RepoInputs,
+            vec!["adl-characterization".into(), "pinned v1 executable".into()],
+        ),
+        (
+            CardKind::Stp,
+            PlanningCollectionField::NonGoals,
+            vec!["no incumbent ADL Rust dependency".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::AffectedAreas,
+            vec!["adl-characterization crate".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::Invariants,
+            vec!["raw observations remain immutable".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::Risks,
+            vec!["normalization could erase semantic differences".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::StopConditions,
+            vec!["unexplained repeated-run divergence".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::ReplanTriggers,
+            vec!["pinned v1 behavior changes".into()],
+        ),
+    ] {
+        record = cli_edit_current(
+            temp.path(),
+            &store,
+            &record,
+            card,
+            SemanticOperation::ReplacePlanningCollection {
+                field,
+                values: replacement,
+            },
+        );
+    }
+    record = cli_edit_current(
+        temp.path(),
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::ReplaceOperatorConstraints {
+            values: vec![
+                "typed lifecycle only".into(),
+                "no deferred corpus work".into(),
+            ],
+        },
+    );
+    record = cli_edit_current(
+        temp.path(),
+        &store,
+        &record,
+        CardKind::Srp,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::ReviewPrompts,
+            values: vec!["Can normalization erase a semantic difference?".into()],
+        },
+    );
+    record = cli_edit_current(
+        temp.path(),
+        &store,
+        &record,
+        CardKind::Spp,
+        SemanticOperation::ReplaceAcceptancePlan {
+            acceptance_criteria: vec![
+                "every corpus case has repeated raw observations".into(),
+                "coverage and nondeterminism classifications validate".into(),
+                "the retained manifest records every scenario digest".into(),
+            ],
+            steps: vec![
+                csdlc_v2::cards::PlanStep {
+                    id: "capture".into(),
+                    action: "capture every pinned v1 case repeatedly".into(),
+                    acceptance_ids: vec!["AC-1".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                },
+                csdlc_v2::cards::PlanStep {
+                    id: "verify".into(),
+                    action: "verify normalization, coverage, and reproducibility".into(),
+                    acceptance_ids: vec!["AC-2".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                },
+                csdlc_v2::cards::PlanStep {
+                    id: "retain".into(),
+                    action: "retain the complete scenario manifest".into(),
+                    acceptance_ids: vec!["AC-3".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                },
+            ],
+            validation_lanes: vec![csdlc_v2::cards::ValidationLane {
+                lane: "characterization-corpus".into(),
+                proof_role: "verify repeated outcomes and complete coverage".into(),
+                acceptance_ids: vec!["AC-1".into(), "AC-2".into(), "AC-3".into()],
+                deterministic: true,
+                resource_profile: csdlc_v2::cards::ResourceProfile::Small,
+                budget_seconds: 120,
+                budget_tokens: 1_000,
+                argv: vec!["cargo".into(), "test".into()],
+                parallel_group: "local".into(),
+                defer_reason: None,
+            }],
+        },
+    );
+    record = cli_edit_current(
+        temp.path(),
+        &store,
+        &record,
+        CardKind::Srp,
+        SemanticOperation::Replan {
+            field: csdlc_v2::cards::TextField::ReviewScope,
+            value: "exact characterization corpus implementation revision".into(),
+        },
+    );
+
+    let cards = store.load_cards(5_337).expect("converted cards");
+    let design_digest =
+        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/design.md")).expect("design"));
+    let diagram_digest =
+        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/diagram.mmd")).expect("diagram"));
+    csdlc_v2::cards::validate_cross_card(
+        &cards,
+        "docs/design.md",
+        &design_digest,
+        "docs/diagram.mmd",
+        &diagram_digest,
+    )
+    .expect("typed cross-card validation");
+    let report = diagnose(&store, 5_337);
+    assert!(matches!(report.status, DoctorStatus::Pass), "{report:?}");
+    assert!(report.findings.is_empty());
+    assert_eq!(record.generation, 16);
+    assert_eq!(record.audit.len(), 18);
+    assert!(record
+        .audit
+        .iter()
+        .any(|event| event.operation.contains("replace_planning_collection")));
+    assert!(record
+        .audit
+        .iter()
+        .any(|event| event.operation.contains("replace_acceptance_plan")));
+}
+
+#[test]
+fn planning_replacements_reject_invalid_requests_without_mutation() {
+    let (_temp, store, record) = bind_fixture();
+    let before_record = store.load_record(42).expect("record snapshot");
+    let before_cards = store.load_cards(42).expect("card snapshot");
+
+    let cases = [
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "empty replacement".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: Vec::new(),
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "wrong card".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::Deliverables,
+                values: vec!["wrong owner".into()],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation + 1,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "stale generation".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope".into()],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: "stale".into(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "stale digest".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope".into()],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "not-the-claim".into(),
+            actor: "agent".into(),
+            reason: "invalid claim".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope".into()],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Spp,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "stale acceptance mapping".into(),
+            operation: SemanticOperation::ReplacePlanSteps {
+                steps: vec![csdlc_v2::cards::PlanStep {
+                    id: "bad".into(),
+                    action: "map an unknown acceptance identifier".into(),
+                    acceptance_ids: vec!["AC-1".into(), "AC-3".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                }],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Spp,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "incoherent atomic acceptance plan".into(),
+            operation: SemanticOperation::ReplaceAcceptancePlan {
+                acceptance_criteria: vec!["one".into(), "two".into(), "three".into()],
+                steps: vec![csdlc_v2::cards::PlanStep {
+                    id: "incomplete".into(),
+                    action: "omit the new criterion".into(),
+                    acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                }],
+                validation_lanes: vec![csdlc_v2::cards::ValidationLane {
+                    lane: "incomplete".into(),
+                    proof_role: "also omit the new criterion".into(),
+                    acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+                    deterministic: true,
+                    resource_profile: csdlc_v2::cards::ResourceProfile::Small,
+                    budget_seconds: 60,
+                    budget_tokens: 100,
+                    argv: vec!["cargo".into(), "test".into()],
+                    parallel_group: "local".into(),
+                    defer_reason: None,
+                }],
+            },
+            fail_after_backup: false,
+        },
+    ];
+
+    let expected_codes = [
+        ErrorCode::CardInvalid,
+        ErrorCode::FieldOwnership,
+        ErrorCode::StaleGeneration,
+        ErrorCode::StaleDigest,
+        ErrorCode::MissingClaim,
+        ErrorCode::CardInvalid,
+        ErrorCode::CardInvalid,
+    ];
+    for (request, expected) in cases.into_iter().zip(expected_codes) {
+        let error = edit_issue(&store, request).expect_err("invalid replacement");
+        assert_eq!(error.code, expected);
+        assert_eq!(store.load_record(42).unwrap(), before_record);
+        assert_eq!(store.load_cards(42).unwrap(), before_cards);
+    }
+}
+
+#[test]
+fn planning_replacements_are_bound_only_and_cannot_smuggle_progress() {
+    let (_temp, initialized_store, initialized) = fixture();
+    for (card, operation) in [
+        (
+            CardKind::Sip,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope".into()],
+            },
+        ),
+        (
+            CardKind::Sip,
+            SemanticOperation::ReplaceOperatorConstraints {
+                values: vec!["constraint".into()],
+            },
+        ),
+        (
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec!["one".into(), "two".into()],
+            },
+        ),
+    ] {
+        let error = edit_issue(
+            &initialized_store,
+            EditRequest {
+                issue: 42,
+                card,
+                expected_generation: initialized.generation,
+                expected_digest: initialized.digest.clone(),
+                claim_id: "claim-1".into(),
+                actor: "agent".into(),
+                reason: "too early".into(),
+                operation,
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("initialized replacement must fail");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+    }
+
+    let (_temp, store, mut record) = bind_fixture();
+    let smuggled = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Spp,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "smuggle completion".into(),
+            operation: SemanticOperation::ReplacePlanSteps {
+                steps: vec![csdlc_v2::cards::PlanStep {
+                    id: "done".into(),
+                    action: "claim completion".into(),
+                    acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+                    status: csdlc_v2::cards::StepStatus::Completed,
+                }],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("replacement cannot smuggle completed work");
+    assert_eq!(smuggled.code, ErrorCode::CardInvalid);
+
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::RecordExecution {
+            summary: "implemented".into(),
+            changes: vec!["csdlc-v2".into()],
+            artifacts: vec!["tests".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::AdvancePhase {
+            phase: csdlc_v2::LifecyclePhase::Implemented,
+        },
+    );
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Srp,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "too late".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::ReviewPrompts,
+                values: vec!["late prompt".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("post-implementation replan must fail");
+    assert_eq!(error.code, ErrorCode::InvalidTransition);
 }
 
 #[test]
