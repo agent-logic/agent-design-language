@@ -3,13 +3,13 @@
   "issue": 5597,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0b22f57976eb8d37ecc1796ff4e3e0676d4ff92447fb1c7dff25f16853e3a3cd",
-  "phase": "bound",
-  "generation": 5,
-  "digest": "fa509d2f0149b9a29bf13d581634dca868c3926c9b58d3d4b40fe2128122336f",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "92e64c47aea9bf39ec301602ef6a689390204bc2c6f23f1014b33665a2415e94",
   "claim": {
     "id": "claim-5597-generation-aware-preparation-safe",
     "owner": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
-    "generation": 5,
+    "generation": 10,
     "acquired_unix_seconds": 1784571481,
     "expires_unix_seconds": 1785176281,
     "heartbeat_unix_seconds": 1784571481,
@@ -42,34 +42,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "12804d3911fd4a62d5d70601b5864355db02b894c00e4bf56319e69c833602a1",
+      "values_digest": "3e3a5e89ccf69ff8ac3979e5ab43a835ddf47bb5db0e8c9c00b18f4f6e2dbbf2",
       "rendered_digest": "b8ad4acebc4da56f808586f134a39be1cbc79f4021fbd70426fc3efc676f1a67",
       "ast_digest": "e2af351ba7d2e58e20e2a9de374e8e37ce16b6a37c5c0236ac59a5756380894c"
     },
     "stp": {
-      "values_digest": "ba47cd219df3b3089ba312a7f76ea2e21250bfc3ed83132fbacae132a58b22bb",
+      "values_digest": "e844ba2806af6dd787993c5165b13bddecf88dcf56742fb67f60e5a2611ae538",
       "rendered_digest": "f78872a24cb7e1eb04be18a2892d5d070cd29c8419e1dc9cf14a31de207d3199",
       "ast_digest": "597c82206edab50155b7d5f5f42c96153cd63c87f845cbe8f779b8e19406b4a3"
     },
     "spp": {
-      "values_digest": "02f7d822bd10ee962725eef93c2ac7fe7b51927971843c5bfd93ffc252dfb950",
-      "rendered_digest": "4fdf45d67da30b14827be66cb11801e135b233965f861b9b3599cc1e012e55c7",
-      "ast_digest": "9907003f49f83d2df441f40b2bb7397eaca5264e0f608013cca4799d105d56ca"
+      "values_digest": "d6a966e43c5d4461091acd953c12362f3bb6470ce174e4e4719af343aa195a8d",
+      "rendered_digest": "7cdabf15c737e54bea960482752cee275b0829f685ea20851fa85d3cb24b7997",
+      "ast_digest": "08c63618b32b0d3d09295cdc705a9bf4d31a63e1990ec186905fb31ca5a829ab"
     },
     "vpp": {
-      "values_digest": "c20a49644db0c5ebde1ef9b14251a6492b6aef102842456a1ea3203ee1896282",
+      "values_digest": "32cfdccfe3f0af8f86a2e01fc08f64c4a02b249be1eb36a3575ca212d95e657a",
       "rendered_digest": "311804fc009f62ad07edcb35f5330a0f7044e3af2f97e09cee9d83db93afbe1c",
       "ast_digest": "0d4565dd8c165d8bb573a5a8336723b8716a67c6283b47520bd51e1d21ef6ccb"
     },
     "srp": {
-      "values_digest": "6ef12f1a990b492b991e151b55a173c8423da450fe8f42e772372c0b67b8bef3",
+      "values_digest": "bd1b65638e5b555dff2c0883ffc200fb63248db64dada42e058416b9fef86a37",
       "rendered_digest": "d08cbbf820a962239f9603cc00cdc8eca7404ec0ad8c95097b3ae8e1525a7582",
       "ast_digest": "f28984c215842cd74b0f177fcb6769c2229dc1182a32dbd3810433f2ba7c2a72"
     },
     "sor": {
-      "values_digest": "f5752704eeaf2ce11366d888a0530ce82ac7ae3dda6973abae885e7e0e94cfc5",
-      "rendered_digest": "694bc6460a03836cde4c0d2189273c794ff308c6411bae37d00ba32a453bef98",
-      "ast_digest": "8d22ada89f264d97f8d3f5f0a8dd4464fbbc74396224f5d313dcda726b4d2cb7"
+      "values_digest": "52d7633a9391c124aca100ec8aa6dcf37a713bff82044c9d363495e0f6e4c981",
+      "rendered_digest": "26742bb828aecb7cabf070847adc193e37204c1595c4cf5fcade0e84f32d0c10",
+      "ast_digest": "3249f1587fc7db9c4097ca1628251cf7fecdc1ea37e180d913f5c54bbcaad47d"
     }
   },
   "transitions": [
@@ -86,6 +86,13 @@
       "to": "bound",
       "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Bounded implementation and local proof complete; enter exact-revision review"
     }
   ],
   "audit": [
@@ -144,6 +151,41 @@
       "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
       "reason": "Retain the stale legacy owner-runner attempt as non-proving evidence",
       "operation": "{\"operation\":\"append_reference\",\"value\":\"Non-proving: adl/tools/run_owner_validation_lane.sh csdlc stopped at its obsolete requirement for sunset adl/tools/pr.sh run guidance; it was not used for AC-8 or AC-9 and no v1 lifecycle command was invoked.\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Record the bounded implementation before exact-revision review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the compact generation-aware registry contract and preparation-safe typed SIP, STP, and SRP semantics while preserving native 1.0.0 and legacy import 1.0.3.\",\"changes\":[\"Added fail-closed native registry and compiled shape validation\",\"Preserved explicit constraints and review scope through bootstrap and migration\",\"Added atomic phase-safe typed preparation edits and review-assignment synchronization\",\"Added focused immutable compatibility, migration, review, and Gate 9 parity proof\"],\"artifacts\":[\"csdlc-v2/operator/native-card-shape.json\",\"docs/templates/prompts/current.json\",\"csdlc-v2/tests/fixtures/native-1.0.0-sip.values.json\",\".csdlc/issues/5597\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Complete generation-aware registry implementation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Complete lossless bootstrap and migration semantics",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Complete phase-safe typed preparation operations",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Bounded implementation and local proof complete; enter exact-revision review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

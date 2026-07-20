@@ -12,15 +12,21 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented the compact generation-aware registry contract and preparation-safe typed SIP, STP, and SRP semantics while preserving native 1.0.0 and legacy import 1.0.3.
 
 ## Artifacts
 
-- none
+- csdlc-v2/operator/native-card-shape.json
+- docs/templates/prompts/current.json
+- csdlc-v2/tests/fixtures/native-1.0.0-sip.values.json
+- .csdlc/issues/5597
 
 ## Execution
 
-- none
+- Added fail-closed native registry and compiled shape validation
+- Preserved explicit constraints and review scope through bootstrap and migration
+- Added atomic phase-safe typed preparation edits and review-assignment synchronization
+- Added focused immutable compatibility, migration, review, and Gate 9 parity proof
 
 ## Validation
 

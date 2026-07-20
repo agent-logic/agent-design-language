@@ -7,15 +7,25 @@
     "title": "[v0.91.8][WP-14][csdlc-v2] Make typed card generation registry-aware and preparation-safe",
     "slug": "generation-aware-preparation-safe",
     "version": "v0.91.8",
-    "generation": 5
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
+      "summary": "Implemented the compact generation-aware registry contract and preparation-safe typed SIP, STP, and SRP semantics while preserving native 1.0.0 and legacy import 1.0.3.",
+      "actual_changes": [
+        "Added fail-closed native registry and compiled shape validation",
+        "Preserved explicit constraints and review scope through bootstrap and migration",
+        "Added atomic phase-safe typed preparation edits and review-assignment synchronization",
+        "Added focused immutable compatibility, migration, review, and Gate 9 parity proof"
+      ],
+      "artifacts": [
+        "csdlc-v2/operator/native-card-shape.json",
+        "docs/templates/prompts/current.json",
+        "csdlc-v2/tests/fixtures/native-1.0.0-sip.values.json",
+        ".csdlc/issues/5597"
+      ],
       "actual_validation": [
         {
           "command": [

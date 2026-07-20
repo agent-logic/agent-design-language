@@ -335,7 +335,8 @@ const SAMPLES: [SampleDefinition; 3] = [
     },
 ];
 
-pub fn generate_sample_packets(root: &Path) -> Result<Vec<SamplePacket>> {
+pub fn generate_sample_packets(repo: &Path, root: &Path) -> Result<Vec<SamplePacket>> {
+    crate::registry::validate_native_registry(repo)?;
     fs::create_dir_all(root)?;
     let selector = GenerationSelector {
         schema: "csdlc.generation_selector.v1".into(),
