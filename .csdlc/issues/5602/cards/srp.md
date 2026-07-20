@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+.github/workflows/ci.yaml
+adl/tools/run_authoritative_coverage_lane.sh
+adl/tools/test_run_authoritative_coverage_lane.sh
+adl/tools/test_ci_runtime_contracts.sh
+.csdlc/issues/5602
+.csdlc/prepared/issues/5602
 
 ## Prompts
 
@@ -30,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The hosted exact-head CI run remains the final integration proof after lifecycle metadata is pushed.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:628028525be21d9e03bb6a216066422c1757e084:92882ea809c8013868e68be36eb19758a0ba588377d7c1d250fa7fbb0ae72e1a")
 
-Reviewer: None
+Reviewer: Some("codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41")
 
-Result: pre_review
+Result: pass

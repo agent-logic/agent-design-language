@@ -7,23 +7,25 @@
     "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
     "slug": "hosted-coverage-no-report",
     "version": "v0.91.8",
-    "generation": 24
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".github/workflows/ci.yaml\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\nadl/tools/test_ci_runtime_contracts.sh\n.csdlc/issues/5602\n.csdlc/prepared/issues/5602",
+      "review_revision": "git-blake3:628028525be21d9e03bb6a216066422c1757e084:92882ea809c8013868e68be36eb19758a0ba588377d7c1d250fa7fbb0ae72e1a",
+      "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
       "review_prompts": [
         "Does each workspace source cargo llvm-cov show-env before executing its partitioned cargo nextest runs?",
         "Does each workspace emit exactly one explicit cargo llvm-cov report after all partition profiles are collected?",
         "Do the focused contracts prove instrumentation export, partition failure propagation, run isolation, and unchanged coverage gates?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The hosted exact-head CI run remains the final integration proof after lifecycle metadata is pushed."
+      ],
+      "review_result": "pass"
     }
   }
 }
