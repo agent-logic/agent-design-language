@@ -73,6 +73,19 @@ provider_http_family_filters="$TMP/provider-http-family-filters.txt"
 bash "$SCRIPT" --changed-files "$provider_http_family_changed" --print-risk-filters >"$provider_http_family_filters"
 grep -Fx "provider_hardening" "$provider_http_family_filters" >/dev/null
 
+provider_setup_and_local_changed="$TMP/provider-setup-and-local-changed.txt"
+cat >"$provider_setup_and_local_changed" <<'EOF'
+M	adl/src/cli/provider_cmd.rs
+M	adl/src/provider/local.rs
+EOF
+provider_setup_and_local_filters="$TMP/provider-setup-and-local-filters.txt"
+bash "$SCRIPT" --changed-files "$provider_setup_and_local_changed" --print-risk-filters >"$provider_setup_and_local_filters"
+grep -Fx "provider_hardening" "$provider_setup_and_local_filters" >/dev/null
+if [ "$(wc -l <"$provider_setup_and_local_filters" | tr -d ' ')" -ne 1 ]; then
+  echo "expected provider setup and local provider surfaces to collapse to provider_hardening" >&2
+  exit 1
+fi
+
 finish_helper_changed="$TMP/finish-helper-changed.txt"
 printf 'A\tadl/src/cli/pr_cmd/finish_support.rs\n' >"$finish_helper_changed"
 finish_helper_filters="$TMP/finish-helper-filters.txt"
@@ -148,6 +161,7 @@ A	adl/src/csm_constructability_gate.rs
 M	adl/src/csm_curiosity_engine.rs
 A	adl/src/csm_freedom_gate.rs
 M	adl/src/csm_godel_snapshot.rs
+M	adl/src/csm_networking.rs
 M	adl/src/csm_runtime_api.rs
 M	adl/src/csm_shepherd_agent.rs
 M	adl/src/long_lived_agent.rs
@@ -172,6 +186,7 @@ grep -F "test(/^csm_cav::/)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(/^csm_constructability_gate::/)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(/^csm_freedom_gate::/)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(/^csm_godel_snapshot::/)" <<<"$csm_runtime_agent_expression" >/dev/null
+grep -F "test(/^csm_networking::/)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(/^csm_shepherd_agent::/)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(/^long_lived_agent::/)" <<<"$csm_runtime_agent_expression" >/dev/null
 grep -F "test(/^cli::csm_service_cmd::/)" <<<"$csm_runtime_agent_expression" >/dev/null
