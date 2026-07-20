@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][csdlc-v2] Make typed card generation registry-aware and preparation-safe",
     "slug": "generation-aware-preparation-safe",
     "version": "v0.91.8",
-    "generation": 16
+    "generation": 21
   },
   "status": "ready",
   "content": {
@@ -127,9 +127,9 @@
       "planned_validation_seconds": 3600,
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on incompatible registry truth, data loss, incomplete acceptance coverage, stale review, lifecycle ambiguity, or scope expansion.",
-      "design_ref": ".csdlc/prepared/issues/5597/design.md",
+      "design_ref": ".csdlc/issues/5597/retained/design.md",
       "design_digest": "d0c569346b3c9028b5b30681dfe27a832b30f76a0226bdd5fb3a1d78cc787880",
-      "diagram_ref": ".csdlc/prepared/issues/5597/diagram.mmd",
+      "diagram_ref": ".csdlc/issues/5597/retained/diagram.mmd",
       "diagram_digest": "0a2843e2ad932d7e041b1ea28f78fb968c962ce944e03c9348383db23a24ab1e"
     }
   }

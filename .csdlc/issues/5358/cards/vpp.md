@@ -24,53 +24,147 @@ Diagram: .csdlc/prepared/issues/5358/diagram.mmd
 
 [
   {
-    "lane": "csdlc-doctor-5358",
-    "proof_role": "Check canonical typed state, all six generated cards, digests, retained design, and bound issue integrity",
+    "lane": "generation-install-verify",
+    "proof_role": "Verify stable exact-revision v2 installation, inventory, provenance, and selector resolution",
     "acceptance_ids": [
       "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
       "AC-6"
     ],
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 300,
-    "budget_tokens": 3000,
+    "budget_tokens": 2000,
     "argv": [
-      "csdlc-doctor",
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-install",
+      "verify",
+      "--repo",
+      ".",
+      "--bin-dir",
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2",
+      "--inventory",
+      "csdlc-v2/operator/coexistence.json"
+    ],
+    "parallel_group": "authority",
+    "defer_reason": null
+  },
+  {
+    "lane": "focused-terminal-reconciliation",
+    "proof_role": "Prove normal merge, squash merge, published-head reconciliation, and merged-PR unknown mergeability handling",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5",
+      "AC-9",
+      "AC-10"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate7_lifecycle"
+    ],
+    "parallel_group": "tests",
+    "defer_reason": null
+  },
+  {
+    "lane": "all-target-tests",
+    "proof_role": "Prove complete C-SDLC v2 lifecycle and regression compatibility",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9",
+      "AC-10"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 10000,
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets"
+    ],
+    "parallel_group": "tests",
+    "defer_reason": null
+  },
+  {
+    "lane": "strict-clippy",
+    "proof_role": "Prove warning-free all-target Rust implementation",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "lint",
+    "defer_reason": null
+  },
+  {
+    "lane": "format-check",
+    "proof_role": "Prove canonical Rust formatting",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--",
+      "--check"
+    ],
+    "parallel_group": "lint",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-doctor",
+    "proof_role": "Prove #5358 canonical record and six-card integrity after acceptance execution",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-11"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
       "--repo",
       ".",
       "--issue",
       "5358"
     ],
-    "parallel_group": "local",
-    "defer_reason": null
-  },
-  {
-    "lane": "issue-local-scope-inventory",
-    "proof_role": "Enumerate every untracked #5358 issue-local artifact for bounded review",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-5",
-      "AC-6"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1000,
-    "argv": [
-      "git",
-      "ls-files",
-      "--others",
-      "--exclude-standard",
-      "--",
-      ".csdlc/issues/5358",
-      ".csdlc/prepared/issues/5358",
-      ".csdlc/evidence/5358"
-    ],
-    "parallel_group": "local",
+    "parallel_group": "authority",
     "defer_reason": null
   }
 ]
@@ -87,8 +181,12 @@ Tokens: 25000
 
 ## Commands
 
-- `csdlc-doctor --repo . --issue 5358`
-- `git ls-files --others --exclude-standard -- .csdlc/issues/5358 .csdlc/prepared/issues/5358 .csdlc/evidence/5358`
+- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-install verify --repo . --bin-dir /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle`
+- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --all-targets`
+- `cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`
+- `cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check`
+- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 5358`
 
 ## Failure Semantics
 

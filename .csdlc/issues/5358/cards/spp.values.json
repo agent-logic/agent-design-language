@@ -7,53 +7,62 @@
     "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
     "slug": "v0-91-8-wp14-csdlc-v2-acceptance",
     "version": "v0.91.8",
-    "generation": 9
+    "generation": 10
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Bind #5358 in its issue worktree, preserve a narrow issue-local claim, generate six typed cards and retained design, validate and doctor them, run bounded review, fix preparation-only findings, and stop at reviewed readiness.",
       "steps": [
         {
           "id": "S1",
-          "action": "Initialize and bind the typed #5358 record in its dedicated worktree with issue-local protected paths",
+          "action": "Install and verify the exact synced C-SDLC v2 generation in the stable dedicated directory",
           "acceptance_ids": [
             "AC-1",
-            "AC-5"
+            "AC-6"
           ],
-          "status": "completed"
+          "status": "pending"
         },
         {
           "id": "S2",
-          "action": "Inventory #5540, #5541, #5548, and #5558 as evidence or defect inputs without scope absorption",
+          "action": "Verify independent prerequisite issues and repair normal and squash-merge terminal reconciliation defects",
           "acceptance_ids": [
-            "AC-2",
-            "AC-3",
             "AC-4",
-            "AC-5"
+            "AC-7",
+            "AC-9",
+            "AC-10"
           ],
-          "status": "completed"
+          "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Validate all six cards, retained design integrity, typed issue state, and diff hygiene",
+          "action": "Execute the full no-deferral validation DAG and complete a real typed lifecycle acceptance fixture",
           "acceptance_ids": [
-            "AC-1",
             "AC-2",
-            "AC-5"
+            "AC-3",
+            "AC-5",
+            "AC-8"
           ],
-          "status": "completed"
+          "status": "pending"
         },
         {
           "id": "S4",
-          "action": "Run bounded subagent review, correct preparation-only findings, and stop before acceptance execution",
+          "action": "Run bounded exact-revision subagent review, fix every actionable finding, and record current review truth",
           "acceptance_ids": [
             "AC-3",
-            "AC-4",
             "AC-5",
-            "AC-6"
+            "AC-11"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Publish, shepherd required checks, merge only green work, retain receipt, and reconcile terminal tracked truth",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-11"
           ],
           "status": "pending"
         }

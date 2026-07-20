@@ -24,12 +24,17 @@ Generate and validate issue-local acceptance cards, design, diagram, and readine
 
 ## Acceptance
 
-1. AC-1: All six #5358 cards are generated from typed values and pass structure, schema, digest, and doctor checks
-2. AC-2: The design defines exact-revision acceptance for install/selector authority, all typed lifecycle stages, claims, validation, review, publication, shepherding, and closeout
-3. AC-3: #5540 and #5541 are declared as closed evidence inputs without reopening or absorbing their scope
-4. AC-4: #5548 and #5558 are declared as independently owned open acceptance blockers without editing their surfaces
-5. AC-5: Preparation makes no acceptance, deployment, implementation, publication, merge, or closeout claim
-6. AC-6: The typed review card contains a bounded preparation-only review scope and evidence-focused prompts
+1. AC-1: The synced exact revision installs all typed v2 binaries only into .adl/bin/csdlc-v2, verifies provenance and v1_sunset inventory, and resolves generation v2.
+2. AC-2: The complete typed lifecycle initializes, approves design, binds, edits, schedules, validates, reviews, publishes, shepherds, reconciles, merges, and closes without direct Markdown or state edits.
+3. AC-3: All six generated cards remain schema-valid, structurally valid, digest-consistent, and doctor-clean through every lifecycle phase.
+4. AC-4: Claim ownership, protected-path collision rejection, heartbeat and recovery, existing-worktree binding, common-Git terminal receipts, and safe release behavior fail closed.
+5. AC-5: Publication is exact-revision-bound, review-current, issue-linked, base-correct, and unable to bypass required green validation, checks, review, or conflict truth.
+6. AC-6: Stable deployed binaries and all nine operator skill contracts agree with selector authority and current root and nested AGENTS.md policy.
+7. AC-7: Issue #5540, #5541, #5548, and #5558 outcomes are verified integrated from repository and terminal evidence, never waived or absorbed.
+8. AC-8: Focused regression, all-target tests, cargo fmt --check, and strict all-target Clippy pass with no deferral.
+9. AC-9: Merged issue #5597 and PR #5598 prove the normal-merge terminal reconciliation path and remain truthfully closed out.
+10. AC-10: Merged issue #5600 and squash PR #5601 prove published-head and squash-merge reconciliation, including post-merge mergeable_state unknown handling, and remain truthfully closed out.
+11. AC-11: Issue #5358 completes exact-revision subagent review, green typed publication, required-check monitoring, merge, retained terminal receipt, and tracked terminal reconciliation.
 
 ## Dependencies
 
