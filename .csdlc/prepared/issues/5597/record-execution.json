@@ -1,0 +1,16 @@
+{
+  "issue": 5597,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "fa509d2f0149b9a29bf13d581634dca868c3926c9b58d3d4b40fe2128122336f",
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+  "reason": "Record the bounded implementation before exact-revision review",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented the compact generation-aware registry contract and preparation-safe typed SIP, STP, and SRP semantics while preserving native 1.0.0 and legacy import 1.0.3.",
+    "changes": ["Added fail-closed native registry and compiled shape validation", "Preserved explicit constraints and review scope through bootstrap and migration", "Added atomic phase-safe typed preparation edits and review-assignment synchronization", "Added focused immutable compatibility, migration, review, and Gate 9 parity proof"],
+    "artifacts": ["csdlc-v2/operator/native-card-shape.json", "docs/templates/prompts/current.json", "csdlc-v2/tests/fixtures/native-1.0.0-sip.values.json", ".csdlc/issues/5597"]
+  },
+  "fail_after_backup": false
+}

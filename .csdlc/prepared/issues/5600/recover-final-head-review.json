@@ -1,0 +1,8 @@
+{
+  "issue": 5600,
+  "expected_generation": 12,
+  "expected_digest": "ec89d67dffcc278e74572bd8eb3fd29761d43d5ea052e5e2ab9ced84f02dba87",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600",
+  "reason": "Recover committed review metadata and publication request for an exact final-head review before draft publication."
+}

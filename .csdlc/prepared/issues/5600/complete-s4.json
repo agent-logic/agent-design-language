@@ -1,0 +1,15 @@
+{
+  "issue": 5600,
+  "card": "spp",
+  "expected_generation": 18,
+  "expected_digest": "54c53ad990a5eafcec2df0fb42b6cc5ec67850047076805e07835db037d0a6dd",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600",
+  "reason": "Complete validation, exact-revision review, typed draft publication, and required-check monitoring",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "completed"
+  },
+  "fail_after_backup": false
+}

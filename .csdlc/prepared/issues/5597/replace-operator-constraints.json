@@ -1,0 +1,14 @@
+{
+  "issue": 5597,
+  "card": "sip",
+  "expected_generation": 0,
+  "expected_digest": "7b63baf68bd4367845f4334ac2f77a1b085e012dcd7ec006260b7081ccbddfd6",
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+  "reason": "Restore explicit issue #5597 operator constraints through the new preparation-safe typed operation",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": ["Use typed C-SDLC v2 lifecycle and ADL owner binaries only", "Never use raw gh or AWS", "Keep the grouped repair compact and in scope"]
+  },
+  "fail_after_backup": false
+}

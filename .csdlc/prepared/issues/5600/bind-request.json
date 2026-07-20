@@ -1,0 +1,23 @@
+{
+  "issue": 5600,
+  "base_branch": "main",
+  "branch": "codex/5600-complete-typed-replanning",
+  "worktree": ".worktrees/adl-wp-5600",
+  "claim": {
+    "id": "claim-5600-complete-typed-replanning",
+    "owner": "codex:issue-5600",
+    "generation": 0,
+    "acquired_unix_seconds": 1784577719,
+    "expires_unix_seconds": 1785182519,
+    "heartbeat_unix_seconds": 1784577719,
+    "branch": "codex/5600-complete-typed-replanning",
+    "worktree": ".worktrees/adl-wp-5600",
+    "protected_paths": [
+      ".csdlc/issues/5600",
+      ".csdlc/locks/5600.lock",
+      ".csdlc/prepared/issues/5600",
+      "csdlc-v2"
+    ],
+    "purpose": "Implement complete typed preparation-to-implementation replanning"
+  }
+}

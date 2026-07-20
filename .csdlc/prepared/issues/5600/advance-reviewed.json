@@ -1,0 +1,11 @@
+{
+  "issue": 5600,
+  "card": "srp",
+  "expected_generation": 11,
+  "expected_digest": "3f8416ab3547c87a1bf480cfb085094c24a6c479b47440ec693117baba003992",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600",
+  "reason": "Exact-revision remediation review passed with all four findings fixed",
+  "operation": {"operation": "advance_phase", "phase": "reviewed"},
+  "fail_after_backup": false
+}
