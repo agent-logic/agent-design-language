@@ -7,15 +7,15 @@
     "title": "[v0.91.7][WP-20][review] Remediate review findings",
     "slug": "v0-91-7-wp20-review-remediation-preflight",
     "version": "v0.91.7",
-    "generation": 0
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/src/csm_runtime_api.rs\nadl/src/provider/http_family.rs\nadl/src/provider/http_family/config.rs\nadl/src/provider/http_family/tests.rs\nadl/src/provider/local.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_check_coverage_impact.sh\nadl/tools/test_ci_runtime_contracts.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\ndocs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\ndocs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md\ndocs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md\ndocs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md\ndocs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md\ndocs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md\ndocs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md\ndocs/milestones/v0.91.7/review/wp20_remediation_4647/WP19_FINDING_REMEDIATION_MATRIX_4647.md\ndocs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md\ndocs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md\ndocs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd",
+      "review_revision": "git-blake3:8c5218388f6bb097d64da9afacd80801992346bd:ac0268df372a76d4b407bd4e7f60d9f6dee6072f58c738df2e453104b40afaa8",
+      "reviewer": "subagent:019f7d35-6809-7b53-bc24-cc8ae7c55919",
       "review_prompts": [
         "Does the issue stay within its WP scope?",
         "Are claims supported by retained or fresh evidence?",
@@ -23,8 +23,12 @@
         "Are sibling WP and release/activation non-claims preserved?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Read-only pre-PR review initially found two P3 issues: OPTIONS still leaked x-csm-admission, and local Ollama invalid-byte streaming could block later chunks.",
+        "Both P3 findings were fixed after review and covered by focused tests recorded in docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md.",
+        "Bedrock account pinning is locally unit-tested and statically reviewed; no AWS live operation was run for this remediation."
+      ],
+      "review_result": "pass"
     }
   }
 }

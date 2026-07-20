@@ -12,15 +12,23 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Retained the exact reviewer-authored WP-19 verification artifact, remediated both P1 findings, dispositioned all 22 WP-19 findings, fixed accepted P2/P3 code and documentation defects, and added a WP-20 remediation matrix plus pre-PR review record.
 
 ## Artifacts
 
-- none
+- docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md
+- docs/milestones/v0.91.7/review/wp20_remediation_4647/WP19_FINDING_REMEDIATION_MATRIX_4647.md
+- docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md
 
 ## Execution
 
-- none
+- Isolated authoritative coverage LLVM profile output by run id and preserved sibling profile data during cleanup
+- Pinned AWS Bedrock invocation to an operator-approved expected STS account hash before InvokeModel and removed false sts_verified status
+- Hardened CSM runtime API audit-write failure handling, redaction, OPTIONS admission disclosure, GET projection, PID liveness, client-error sanitization, and serialization fallback status
+- Fixed local Ollama streaming UTF-8 chunk handling and malformed-byte recovery
+- Fixed provider IPv6 loopback endpoint classification and provider coverage-impact mapping
+- Updated current v0.91.7/v0.91.8 planning and review surfaces for #5406, #5489, #5383, Fable lane terminology, publication path claims, and digest identity
+- Recorded every WP19-01 through WP19-22 finding as fixed or fixed by current code in a WP-20 remediation matrix
 
 ## Validation
 

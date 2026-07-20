@@ -3,13 +3,13 @@
   "issue": 4647,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
-  "phase": "bound",
-  "generation": 0,
-  "digest": "53d954d4d6305d42d89067f9db0388f784adb7cdc94c447ca46d84ba0fcaf393",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "3cad8c9ddbfc8824ef95724ccdd4fa8c18f8ec1abcb3989623ad811bc7e1d473",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 0,
+    "generation": 4,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -24,8 +24,69 @@
     ],
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7d35-6809-7b53-bc24-cc8ae7c55919",
+    "assigned_by": "codex:issue-4647",
+    "revision": "git-blake3:8c5218388f6bb097d64da9afacd80801992346bd:ac0268df372a76d4b407bd4e7f60d9f6dee6072f58c738df2e453104b40afaa8",
+    "scope": [
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/src/provider/local.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md",
+      "docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md",
+      "docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md",
+      "docs/milestones/v0.91.7/review/wp20_remediation_4647/WP19_FINDING_REMEDIATION_MATRIX_4647.md",
+      "docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f7d35-6809-7b53-bc24-cc8ae7c55919",
+    "scope": [
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/src/provider/local.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md",
+      "docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md",
+      "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md",
+      "docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md",
+      "docs/milestones/v0.91.7/review/wp20_remediation_4647/WP19_FINDING_REMEDIATION_MATRIX_4647.md",
+      "docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md",
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
+    ],
+    "reviewed_revision": "git-blake3:8c5218388f6bb097d64da9afacd80801992346bd:ac0268df372a76d4b407bd4e7f60d9f6dee6072f58c738df2e453104b40afaa8",
+    "findings": [],
+    "residual_risks": [
+      "Read-only pre-PR review initially found two P3 issues: OPTIONS still leaked x-csm-admission, and local Ollama invalid-byte streaming could block later chunks.",
+      "Both P3 findings were fixed after review and covered by focused tests recorded in docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md.",
+      "Bedrock account pinning is locally unit-tested and statically reviewed; no AWS live operation was run for this remediation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,34 +101,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0877c2fcc79225758bc6bf09543bb0de44969300f10e990267e0c4946764eb63",
+      "values_digest": "a255993eb700a4eb6c2affcc2cf25d7ffca437a14753701747b4ab2eeefeb5b5",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "7d103f19376d474022406b89cc5cc2cd33ec4939be29f1c7ab6bca1f7bb8fc5f",
+      "values_digest": "a67a65689236e2d37e05565e878f32428e540051943ef739cffad022a9adfffa",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "d64fd487f0281efab5a6ebf18c29296ffd95efdc172fbb40396738f5b4532496",
+      "values_digest": "f9605f5d9e450ba400aa40c52c7f8de73850ac189f1a90c63461408cec2549fc",
       "rendered_digest": "63fb67496c8d4da40773e62f325f8fc0c5bae2ad86d3b8783b75694a6822f179",
       "ast_digest": "db3db17f0b342cac7a35f2986ef665e21fff5955b22301d4fd36a3bcabee86c8"
     },
     "vpp": {
-      "values_digest": "1c03394540157313ca9b273acbc95ea90f013281d8b392dcb12692b5443a6b0e",
+      "values_digest": "37b38582337ba424a589687e49b3678a40d724134819215b1263d2c457e67632",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "3dccabb0a1150c15151c095c4497e72cd42528fb85616a139aa7fa2acf3a6cd5",
-      "rendered_digest": "4afd9b96d9297ea34ed405e3efdad39fc070ebcd17658dd9bfc25c72a0baa8e2",
-      "ast_digest": "39f2871d2b60d91f7fdacbd5e6fa52d2fcfa177c22dc486f1fa0c6c881e72ffd"
+      "values_digest": "a8ec30668730d15cb7e2c8fcc8c589dbc90154e75392173fd51d09da51bea4eb",
+      "rendered_digest": "56417214ed34c456c9154c0f8ce8e7492e8b1fe9295ec83c2a5566f8f34e9196",
+      "ast_digest": "4ee1ccd663fa6d8cdd2b6651f0bf6ba74468a15f6bd3a5a9f810af84858fb048"
     },
     "sor": {
-      "values_digest": "661814a5bd2c304168f939526e0718ba72c22544ac123d6597a2269a739cc8d7",
-      "rendered_digest": "88bd2ef387b384245ce8d8839e42342aa5fe3f86d382673cbb8c2a0e1a219458",
-      "ast_digest": "4d7ae0c4e10b6c344dea6d4ddc74d7052fa56e7e474e5e9067e6073467633d96"
+      "values_digest": "ec08e7b741e4c67e270915007724ee9cb433b4190cde3f3829d810a6b05af1ee",
+      "rendered_digest": "70385687e56bb9d08ea28a27fbeaaa249d49fd3e9be84f297d200f3c52011c4e",
+      "ast_digest": "ed2d4695e956aaaa7e518359afe88bc31a6f7e1cd4101cb634216cc5b2baf3e4"
     }
   },
   "transitions": [
@@ -84,6 +145,20 @@
       "to": "bound",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-4647",
+      "reason": "All 22 retained WP-19 findings have local remediation or current-code disposition, focused validation has passed, and pre-PR subagent review findings are fixed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-4647",
+      "reason": "Bounded pre-PR review was recorded; its two P3 findings were fixed and focused tests passed."
     }
   ],
   "audit": [
@@ -107,6 +182,41 @@
       "actor": "codex-closeout-audit",
       "reason": "WP-20 authorizes typed repair of terminal plan truth found by the exhaustive v0.91.7 closeout review.",
       "operation": "{\"add_protected_paths\":[\".csdlc/issues/5467\",\".csdlc/issues/5542\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-4647",
+      "reason": "Remediated all retained WP-19 findings and retained exact external-review verification artifact.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Retained the exact reviewer-authored WP-19 verification artifact, remediated both P1 findings, dispositioned all 22 WP-19 findings, fixed accepted P2/P3 code and documentation defects, and added a WP-20 remediation matrix plus pre-PR review record.\",\"changes\":[\"Isolated authoritative coverage LLVM profile output by run id and preserved sibling profile data during cleanup\",\"Pinned AWS Bedrock invocation to an operator-approved expected STS account hash before InvokeModel and removed false sts_verified status\",\"Hardened CSM runtime API audit-write failure handling, redaction, OPTIONS admission disclosure, GET projection, PID liveness, client-error sanitization, and serialization fallback status\",\"Fixed local Ollama streaming UTF-8 chunk handling and malformed-byte recovery\",\"Fixed provider IPv6 loopback endpoint classification and provider coverage-impact mapping\",\"Updated current v0.91.7/v0.91.8 planning and review surfaces for #5406, #5489, #5383, Fable lane terminology, publication path claims, and digest identity\",\"Recorded every WP19-01 through WP19-22 finding as fixed or fixed by current code in a WP-20 remediation matrix\"],\"artifacts\":[\"docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md\",\"docs/milestones/v0.91.7/review/wp20_remediation_4647/WP19_FINDING_REMEDIATION_MATRIX_4647.md\",\"docs/milestones/v0.91.7/review/wp20_remediation_4647/PRE_PR_REVIEW_4647.md\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-4647",
+      "reason": "All 22 retained WP-19 findings have local remediation or current-code disposition, focused validation has passed, and pre-PR subagent review findings are fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:issue-4647",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "subagent:019f7d35-6809-7b53-bc24-cc8ae7c55919",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:issue-4647",
+      "reason": "Bounded pre-PR review was recorded; its two P3 findings were fixed and focused tests passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
