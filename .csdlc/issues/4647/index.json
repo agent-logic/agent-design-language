@@ -3,13 +3,13 @@
   "issue": 4647,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
-  "phase": "published",
-  "generation": 37,
-  "digest": "73f9a2c2ace087c7739a8c4967bf5fa768a64ff86b64b334ee08428dcfd31eea",
+  "phase": "reviewed",
+  "generation": 43,
+  "digest": "73c800470c1909048522a37d5cd3f37d9fe2ac4e95aa9ee55046a5c6d1b59ec0",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 37,
+    "generation": 43,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -54,46 +54,37 @@
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
   "review_assignment": {
-    "reviewer": "subagent:019f7e25-c21b-7ed1-a38d-ef3a838a6114",
+    "reviewer": "subagent:019f7e46-a24a-7f62-b24e-c3b5d9202d63",
     "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "revision": "git-blake3:04bf3d8401a2b8c156546bc64bde065a0342cb34:e912b20abd7fc64b42bc767522e512b37ddf4f8cddc3fa2d7d9092e31da49d59",
+    "revision": "git-blake3:aea910bddf047730f32da0bc31c556ebe86e5097:54a47d362a2404eeb9433a2264810b21bc438d21674e4843121fb8341c4c2948",
     "scope": [
       ".csdlc/issues/4647",
       ".csdlc/prepared/issues/4647",
-      ".csdlc/publication/4647.intent.json",
-      "adl/src/csm_api_gateway_bridge.rs"
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
     ]
   },
   "review": {
-    "reviewer": "subagent:019f7e25-c21b-7ed1-a38d-ef3a838a6114",
+    "reviewer": "subagent:019f7e46-a24a-7f62-b24e-c3b5d9202d63",
     "scope": [
       ".csdlc/issues/4647",
       ".csdlc/prepared/issues/4647",
-      ".csdlc/publication/4647.intent.json",
-      "adl/src/csm_api_gateway_bridge.rs"
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
     ],
-    "reviewed_revision": "git-blake3:04bf3d8401a2b8c156546bc64bde065a0342cb34:e912b20abd7fc64b42bc767522e512b37ddf4f8cddc3fa2d7d9092e31da49d59",
+    "reviewed_revision": "git-blake3:aea910bddf047730f32da0bc31c556ebe86e5097:54a47d362a2404eeb9433a2264810b21bc438d21674e4843121fb8341c4c2948",
     "findings": [],
     "residual_risks": [
-      "Exact-head bounded review by subagent 019f7e25-c21b-7ed1-a38d-ef3a838a6114 confirmed HEAD 04bf3d8401a2b8c156546bc64bde065a0342cb34 is CLEAN/fixed-confirmed for the post-publication CSM API Gateway coverage-hosted repair.",
-      "The prior P2 protected-path finding is fixed: `adl/src/csm_api_gateway_bridge.rs` and `.csdlc/publication/4647.intent.json` are both present in protected paths.",
-      "The branch changed-path-vs-protected-path check over `origin/main...HEAD` returned no output, and `csdlc-doctor` passed at generation 34 implemented.",
+      "Exact-head bounded review by subagent 019f7e46-a24a-7f62-b24e-c3b5d9202d63 confirmed HEAD aea910bdd is CLEAN/fixed-confirmed for the post-publication PR coverage report-renderer repair.",
+      "The reviewer verified report nonzero is tolerated only for pull_request events and only when the specific run-scoped summary path is non-empty.",
+      "Partition/test failures remain sticky through coverage_status, so the report tolerance does not mask failed tests.",
+      "Focused parent validation was adequate for this delta: test_run_authoritative_coverage_lane, test_ci_runtime_contracts, and bash -n passed.",
       "No AWS operation was run."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 4647,
-    "pull_request": 5588,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5588",
-    "base": "main",
-    "head": "codex/4647-v0917-review-remediation-preflight",
-    "revision": "git-blake3:a2732fc981663c764b8f3d4ed2f820061d6dea9f:dcb59a97d136c403cdfcd3c127c0c51e95abd206dbfb9b6afa1c1c102b693953",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -107,34 +98,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "337adbb65c73ce08f7286955833279d43918b7b15d40ef18b9fde156310525b3",
+      "values_digest": "0b9c3e53c1e7a0fef30929bbbf6983ca3832c7ed49ae35e4999ed3c05110b3d2",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "28fbe3936ea36e66feaff5ad9a8d2001c38147944dc66491ea9f095e9441c5dd",
+      "values_digest": "c8d8efb70f92a0903370e8da1c564076cb401e17fd6f47452da7c436ab95619d",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "2969c729bcef4c31a3ae96b9d8253bd6e9dfeaa96ed47ba1c954ce1fddcdcf82",
+      "values_digest": "6e546f5fa8ba0a2c06155a229f2151d92a938ef1da66c0fd7febe70d1d2ee5d1",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "4cd7d43ee36882efd5ce4c44cd2269acb85846a6638ce041962f2d71dd207d44",
+      "values_digest": "a9e50d2dadc10cebcd119acbee900fbd33a6f6d038790f6bba95b3d2589d08c2",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "db1907c02b083ff16ee6782aa0cd3384ba7c00311fbaf6f8c9d243ced3bad448",
-      "rendered_digest": "8a8777cad9856287d27961f24a2e7950af05245df41912e7c8cfd92f3c225d9b",
-      "ast_digest": "487b6b9c9f7f54efa7ab68680776bcca7d5a93a66d4ad41460f3d1e595ca43af"
+      "values_digest": "b7928e92ed09408f96c2ed6bdc8d3d3924e17ed942ff20ca8cadec327be6f87b",
+      "rendered_digest": "cb2130ae205df7007c6966344a0bd57faee966f50b8c35ee666b42077ee8456f",
+      "ast_digest": "41be9bc2e150e9714525dc16fdd7cd60c3a21b62d030b60a9dfa0690d11094e4"
     },
     "sor": {
-      "values_digest": "724aa09d58fa00ba8ccfd12e53db08701d582f9ef1ec281e3e4d3aa8fe46cd2f",
-      "rendered_digest": "c88a7abd996c8551d5e5feabfeef63cb5920ef5d0d5661a221733cac3d4a65f3",
-      "ast_digest": "d16317e9b6534efc8f12ba5e631c82a62d900c5e7aa9cdf3635a4be5b8377434"
+      "values_digest": "aedd12625c91deea28147a94885f1a5c5a84b768812d2645ee71fa69723b2126",
+      "rendered_digest": "38115122b8468a13ec6dff53db374a513caf991ecb87c78c71458f133a85e34e",
+      "ast_digest": "a5c62e871ed55c8b233bb608fd78884b23f7659fb35b215181f29e002f46b2c7"
     }
   },
   "transitions": [
@@ -249,6 +240,20 @@
       "to": "published",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover review after post-publication PR #5588 adl-coverage-hosted failure on run 29721377401. The failure was an llvm-cov report renderer crash after all tests passed and run-scoped summaries were produced; the repair keeps PR report-render failures soft only when summary evidence exists."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-head bounded review by subagent 019f7e46-a24a-7f62-b24e-c3b5d9202d63 confirmed HEAD aea910bdd is clean/fixed-confirmed after the post-publication PR coverage report-renderer repair."
     }
   ],
   "audit": [
@@ -608,6 +613,55 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 52,
+      "generation": 38,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Recover review after post-publication PR #5588 adl-coverage-hosted failure on run 29721377401. The failure was an llvm-cov report renderer crash after all tests passed and run-scoped summaries were produced; the repair keeps PR report-render failures soft only when summary evidence exists.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 39,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record focused coverage runner contract proof for the PR report-renderer crash repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"],\"purpose\":\"Prove the authoritative coverage runner keeps PR report-render crashes soft only when summary evidence exists, while non-PR report crashes remain fail-closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, PASS test_run_authoritative_coverage_lane\"}}"
+    },
+    {
+      "sequence": 54,
+      "generation": 40,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record CI runtime contract proof after coverage report-renderer repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Verify the authoritative coverage runner change preserves CI runtime contract expectations.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, PASS test_ci_runtime_contracts and PASS test_run_pr_fast_coverage_lane\"}}"
+    },
+    {
+      "sequence": 55,
+      "generation": 41,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record shell syntax proof for the coverage runner and contract test.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"-n\",\"adl/tools/run_authoritative_coverage_lane.sh\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"],\"purpose\":\"Verify the coverage runner and contract test remain valid shell after the report-renderer crash repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, exit 0\"}}"
+    },
+    {
+      "sequence": 56,
+      "generation": 41,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 42,
+      "actor": "subagent:019f7e46-a24a-7f62-b24e-c3b5d9202d63",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 43,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-head bounded review by subagent 019f7e46-a24a-7f62-b24e-c3b5d9202d63 confirmed HEAD aea910bdd is clean/fixed-confirmed after the post-publication PR coverage report-renderer repair.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

@@ -14,8 +14,8 @@ Status: draft
 
 .csdlc/issues/4647
 .csdlc/prepared/issues/4647
-.csdlc/publication/4647.intent.json
-adl/src/csm_api_gateway_bridge.rs
+adl/tools/run_authoritative_coverage_lane.sh
+adl/tools/test_run_authoritative_coverage_lane.sh
 
 ## Prompts
 
@@ -34,15 +34,16 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Exact-head bounded review by subagent 019f7e25-c21b-7ed1-a38d-ef3a838a6114 confirmed HEAD 04bf3d8401a2b8c156546bc64bde065a0342cb34 is CLEAN/fixed-confirmed for the post-publication CSM API Gateway coverage-hosted repair.
-- The prior P2 protected-path finding is fixed: `adl/src/csm_api_gateway_bridge.rs` and `.csdlc/publication/4647.intent.json` are both present in protected paths.
-- The branch changed-path-vs-protected-path check over `origin/main...HEAD` returned no output, and `csdlc-doctor` passed at generation 34 implemented.
+- Exact-head bounded review by subagent 019f7e46-a24a-7f62-b24e-c3b5d9202d63 confirmed HEAD aea910bdd is CLEAN/fixed-confirmed for the post-publication PR coverage report-renderer repair.
+- The reviewer verified report nonzero is tolerated only for pull_request events and only when the specific run-scoped summary path is non-empty.
+- Partition/test failures remain sticky through coverage_status, so the report tolerance does not mask failed tests.
+- Focused parent validation was adequate for this delta: test_run_authoritative_coverage_lane, test_ci_runtime_contracts, and bash -n passed.
 - No AWS operation was run.
 
 ## Review Result
 
-Revision: Some("git-blake3:04bf3d8401a2b8c156546bc64bde065a0342cb34:e912b20abd7fc64b42bc767522e512b37ddf4f8cddc3fa2d7d9092e31da49d59")
+Revision: Some("git-blake3:aea910bddf047730f32da0bc31c556ebe86e5097:54a47d362a2404eeb9433a2264810b21bc438d21674e4843121fb8341c4c2948")
 
-Reviewer: Some("subagent:019f7e25-c21b-7ed1-a38d-ef3a838a6114")
+Reviewer: Some("subagent:019f7e46-a24a-7f62-b24e-c3b5d9202d63")
 
 Result: pass

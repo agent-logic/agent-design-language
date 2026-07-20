@@ -225,16 +225,45 @@ Retained the exact reviewer-authored WP-19 verification artifact, remediated bot
     "purpose": "Verify the coverage-hosted harness path passes for the API Gateway bridge tests that failed in PR #5588 run 29719551279.",
     "outcome": "passed",
     "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, CARGO_LLVM_COV_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/llvm-cov-target/bridge-fix, nextest 4 passed"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "purpose": "Prove the authoritative coverage runner keeps PR report-render crashes soft only when summary evidence exists, while non-PR report crashes remain fail-closed.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, PASS test_run_authoritative_coverage_lane"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "purpose": "Verify the authoritative coverage runner change preserves CI runtime contract expectations.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, PASS test_ci_runtime_contracts and PASS test_run_pr_fast_coverage_lane"
+  },
+  {
+    "command": [
+      "bash",
+      "-n",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "purpose": "Verify the coverage runner and contract test remain valid shell after the report-renderer crash repair.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, exit 0"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 
