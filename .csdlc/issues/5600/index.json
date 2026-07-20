@@ -3,13 +3,13 @@
   "issue": 5600,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
-  "phase": "bound",
-  "generation": 1,
-  "digest": "67ba31a0b11a91d76062e25d594bedf921f229b1a36460c0e477846e9f546ab0",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "bc3ad979efe66b4e19d7ede2b7f750cc54d35d439e29476df5b227bb3df9d898",
   "claim": {
     "id": "claim-5600-complete-typed-replanning",
     "owner": "codex:issue-5600",
-    "generation": 1,
+    "generation": 7,
     "acquired_unix_seconds": 1784577719,
     "expires_unix_seconds": 1785182519,
     "heartbeat_unix_seconds": 1784577719,
@@ -39,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7b20527e469544125a69ca271c38ea5717be94e09ddc4c569faa12541323c464",
+      "values_digest": "44313999476b7cb45d84dd1d7c5f13e6c0a350210e0b7fc81d9dd5102ce9d77e",
       "rendered_digest": "72d0d26c0a9fca3d92978776997764195776dec41db6d10b05d5838413e2766d",
       "ast_digest": "c130e7367e81abdf59c746c02c1aff2a1b4c2ab16d2eb3f964968a192705a706"
     },
     "stp": {
-      "values_digest": "e607964c8e793888452beb8e3c196024f43fbbc937063df9141ce3eafe47652a",
+      "values_digest": "4dabfc4409bab04c11f95ac8b0df382013f2c2721903f18891df16751d67f08f",
       "rendered_digest": "0599c33ab3b2da3edd9ba1f4209e8243606a2cac4f94ab01c9a47d075bc36176",
       "ast_digest": "912c0dc482169557913062368c098b68c8757642261ee56bb60db7bb46dfdd4f"
     },
     "spp": {
-      "values_digest": "9f8095a1e9d870495bc92d405dae5c997c715ae69dce26bd16439769e58b320b",
-      "rendered_digest": "c2d0ca87c4770aed906c308332c19fe8369e4d5293b25aa847e8d1e5b3b83ffe",
-      "ast_digest": "2de35bf89fa8c46ae48f90b7014573e48ae9d0a6554717ab440cce1ff80ba9af"
+      "values_digest": "450c6aa03ea63243f2bbd2f780f75f004c95c85905b41020e4bdbc25b62bdfce",
+      "rendered_digest": "d7eafc40518f3d254de3b4c201d96acb140aa6628bfa67fe57449ded9e97bdc7",
+      "ast_digest": "17d41bf4fe1c196ffaef2b3bb9c9a0e88fe6d2f0eae436fee16cf66ff1e2aa7a"
     },
     "vpp": {
-      "values_digest": "0d39ce6646bfe089782a5e5e810f66e595a38b721ecdd4cef2f1b0a53ef41ba6",
+      "values_digest": "725f15949b9f45480c76a3e9febb4aff9e33ef097a4e2f7d961a39d180f1cdfe",
       "rendered_digest": "1cdf94b67e2d968d60bce38010fed88b468f4d9450817305fb1c719bc18e5ed5",
       "ast_digest": "4efaa52bb7bf1a11d75221f41c303e44701f701a6049424648a1c444551446e9"
     },
     "srp": {
-      "values_digest": "f2d72d968022cb2d5c8c30442f207f651c22b809bf223162d1987a85e365718c",
+      "values_digest": "177382dedf3cb064ce20665e0acd10765c67fddbd2095d3699f609061e542ef9",
       "rendered_digest": "760e0d7ae5857b34acf24f0a2976c47bcfff1c7ab0eb8fffd82ecf617187a5c6",
       "ast_digest": "df3cf549b59521f77f0217cdbc11d9c513160d5c6ff55bd1a0274f981493d659"
     },
     "sor": {
-      "values_digest": "446bfbeac93600513f7058900bb0d30ce594e370f3599a2b95229b5db4745c95",
-      "rendered_digest": "8bce3a2014dc67c27e622d3c21183926b793d27eb745b88997da8def161aada8",
-      "ast_digest": "d386efb9a7a54eccf1b7d0ab81c2955e89238d56529830e8a7b5f57118929ec7"
+      "values_digest": "55c3efc8d01cd5af77317d105cfbebb290435fd84bad90e15be5486d9476e857",
+      "rendered_digest": "7d2d59ce5da8864e986548d41befdf9d7c6c3f22949de9b7aeddf967d36ec3f0",
+      "ast_digest": "5aeb23d215d468c5eef35a58350db328c2a1046f8d5f887cf4a65a980eecf092"
     }
   },
   "transitions": [
@@ -83,6 +83,13 @@
       "to": "bound",
       "actor": "codex:issue-5600",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-5600",
+      "reason": "Complete implementation and enter exact-revision review"
     }
   ],
   "audit": [
@@ -106,6 +113,48 @@
       "actor": "codex:issue-5600",
       "reason": "Correct the focused target and make formatting proof explicit",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-replanning-tests\",\"proof_role\":\"Prove all typed replacement operations, guards, atomicity, acceptance coverage, compatibility, and #5337 conversion\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"parallel_group\":\"tests\",\"defer_reason\":null},{\"lane\":\"all-target-tests\",\"proof_role\":\"Prove complete C-SDLC v2 regression compatibility\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"tests\",\"defer_reason\":null},{\"lane\":\"strict-clippy\",\"proof_role\":\"Prove warning-free all-target Rust implementation\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"lint\",\"defer_reason\":null},{\"lane\":\"format-check\",\"proof_role\":\"Prove canonical Rust formatting\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"lint\",\"defer_reason\":null},{\"lane\":\"typed-doctor\",\"proof_role\":\"Prove the #5600 record remains structurally and semantically valid\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-doctor\",\"--\",\"--repo\",\".\",\"--issue\",\"5600\"],\"parallel_group\":\"lint\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-5600",
+      "reason": "Record the complete bounded implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented complete typed preparation-to-implementation collection replanning with card ownership, Bound-phase authorization, atomic cross-card validation, and #5337 CLI conversion proof.\",\"changes\":[\"Added typed collection and plan-step replacement operations\",\"Enforced empty-value, ownership, phase, claim, generation, digest, acceptance-coverage, and progress-smuggling guards\",\"Added complete #5337 positive and adversarial regression coverage\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate2.rs\",\".csdlc/evidence/5600/local\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-5600",
+      "reason": "Record the complete typed local validation DAG",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5600/validate-local.json\"],\"purpose\":\"Prove focused replanning behavior, all-target compatibility, formatting, strict Clippy, and typed doctor at f85b684ee32a3c54b728bd1d7578d4f227a3b7d3.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5600/local contains a local_pass five-lane proof: focused gate2 41/41, all C-SDLC v2 targets, cargo fmt --check, strict all-target Clippy, and typed doctor all passed; no lane was deferred.\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-5600",
+      "reason": "Complete typed collection operation contracts",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-5600",
+      "reason": "Complete atomic authorization and coverage enforcement",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-5600",
+      "reason": "Complete positive, negative, compatibility, and #5337 fixtures",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-5600",
+      "reason": "Complete implementation and enter exact-revision review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
