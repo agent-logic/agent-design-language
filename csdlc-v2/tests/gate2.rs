@@ -731,6 +731,7 @@ fn active_claim_transition_atomically_updates_purpose_and_scope() {
             now_unix_seconds: 2,
             actor: "agent".into(),
             reason: "begin implementation".into(),
+            expected_purpose: "test".into(),
             purpose: "Implement the accepted issue contract".into(),
             add_protected_paths: vec!["src".into(), "tests".into()],
         },
@@ -749,7 +750,14 @@ fn active_claim_transition_atomically_updates_purpose_and_scope() {
         .unwrap()
         .operation
         .contains("transition_active_claim"));
-    assert!(updated.audit.last().unwrap().operation.contains("test"));
+    let audit: serde_json::Value =
+        serde_json::from_str(&updated.audit.last().unwrap().operation).unwrap();
+    assert_eq!(audit["expected_purpose"], "test");
+    assert_eq!(audit["purpose"], "Implement the accepted issue contract");
+    assert_eq!(
+        audit["add_protected_paths"],
+        serde_json::json!(["src", "tests"])
+    );
 }
 
 #[test]
@@ -787,6 +795,7 @@ fn active_claim_transition_rejects_stale_owner_without_any_write() {
             now_unix_seconds: 2,
             actor: "agent".into(),
             reason: "begin implementation".into(),
+            expected_purpose: "test".into(),
             purpose: "Implement the accepted issue contract".into(),
             add_protected_paths: vec!["src".into()],
         },
@@ -797,6 +806,119 @@ fn active_claim_transition_rejects_stale_owner_without_any_write() {
         std::fs::read(store.root().join(".csdlc/issues/42/index.json")).unwrap(),
         before
     );
+}
+
+#[test]
+fn active_claim_transition_guards_cas_expiry_collision_and_real_cli() {
+    let (temp, store, mut record) = fixture();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+        ),
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Bound,
+            },
+        ),
+    )
+    .unwrap();
+    let base = csdlc_v2::TransitionActiveClaimRequest {
+        issue: 42,
+        claim_id: "claim-1".into(),
+        expected_owner: "agent".into(),
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        now_unix_seconds: 2,
+        actor: "agent".into(),
+        reason: "begin implementation".into(),
+        expected_purpose: "test".into(),
+        purpose: "implementation".into(),
+        add_protected_paths: vec!["product".into()],
+    };
+    let index = store.issue_dir(42).join("index.json");
+    let before = fs::read(&index).unwrap();
+    let mut stale_generation = base.clone();
+    stale_generation.expected_generation += 1;
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, stale_generation)
+            .unwrap_err()
+            .code,
+        ErrorCode::StaleGeneration
+    );
+    assert_eq!(fs::read(&index).unwrap(), before);
+    let mut stale_digest = base.clone();
+    stale_digest.expected_digest = "stale".into();
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, stale_digest)
+            .unwrap_err()
+            .code,
+        ErrorCode::StaleDigest
+    );
+    let mut wrong_source = base.clone();
+    wrong_source.expected_purpose = "already implementation".into();
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, wrong_source)
+            .unwrap_err()
+            .code,
+        ErrorCode::InvalidClaim
+    );
+    let mut expired = base.clone();
+    expired.now_unix_seconds = u64::MAX;
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, expired)
+            .unwrap_err()
+            .code,
+        ErrorCode::ExpiredClaim
+    );
+    assert_eq!(fs::read(&index).unwrap(), before);
+
+    let mut other = record.clone();
+    other.issue = 43;
+    let other_claim = other.claim.as_mut().unwrap();
+    other_claim.id = "claim-43".into();
+    other_claim.protected_paths = vec!["product/nested".into()];
+    fs::create_dir_all(store.issue_dir(43)).unwrap();
+    fs::write(
+        store.issue_dir(43).join("index.json"),
+        serde_json::to_vec(&other).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, base.clone())
+            .unwrap_err()
+            .code,
+        ErrorCode::ClaimCollision
+    );
+    assert_eq!(fs::read(&index).unwrap(), before);
+    fs::remove_dir_all(store.issue_dir(43)).unwrap();
+
+    let request_path = temp.path().join("transition.json");
+    fs::write(&request_path, serde_json::to_vec(&base).unwrap()).unwrap();
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-bind"))
+        .args([
+            "--root",
+            temp.path().to_str().unwrap(),
+            "--transition-request",
+            request_path.to_str().unwrap(),
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let updated = store.load_record(42).unwrap();
+    assert_eq!(updated.claim.unwrap().purpose, "implementation");
 }
 
 fn git_branch(root: &std::path::Path) -> String {

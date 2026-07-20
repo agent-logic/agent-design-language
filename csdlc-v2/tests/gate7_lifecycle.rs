@@ -4,12 +4,12 @@ use csdlc_v2::cards::{
 };
 use csdlc_v2::{
     assign_review, closeout_issue, edit_issue, record_merged_publication, record_publication,
-    record_readiness, record_review, BootstrapRequest, CardKind, Claim, EditRequest,
-    InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest,
-    ReadinessRequest, ReconcileTerminalRequest, RemotePullRequest, ReviewAssignmentRequest,
-    ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store, TerminalDesignRepairRequest,
-    TerminalDisposition, TerminalObservation, TerminalPlanStepRepairRequest,
-    TerminalSorArtifactRepairRequest,
+    record_readiness, record_review, BootstrapRequest, CardKind, Claim, ConflictState, EditRequest,
+    ErrorCode, InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent,
+    PublicationRequest, ReadinessRequest, ReconcileTerminalRequest, RemotePullRequest,
+    RemoteReviewState, ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest,
+    SemanticOperation, Store, TerminalDesignRepairRequest, TerminalDisposition,
+    TerminalObservation, TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
 };
 
 fn install_native_authority(root: &std::path::Path) {
@@ -47,6 +47,16 @@ fn git(root: &std::path::Path, args: &[&str]) {
         "{}",
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+fn git_output(root: &std::path::Path, args: &[&str]) -> String {
+    let output = std::process::Command::new("git")
+        .current_dir(root)
+        .args(args)
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    String::from_utf8(output.stdout).unwrap().trim().to_owned()
 }
 
 fn edit(
@@ -333,6 +343,97 @@ fn fixture_with_validation_history_and_publication(
 #[test]
 fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() {
     run_complete_lifecycle(7, "Gate 7 fixture", "gate7", true);
+}
+
+#[test]
+fn squash_merge_metadata_revision_reconciles_but_substantive_delta_fails_closed() {
+    let (temp, store, record, reviewed_sha) = fixture_with_validation_history(
+        71,
+        "Squash merge closeout fixture",
+        "squash-merge-metadata-reconciliation",
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+    );
+    fs::create_dir_all(temp.path().join(".csdlc/evidence/71")).unwrap();
+    fs::write(
+        temp.path().join(".csdlc/evidence/71/squash-proof.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    git(
+        temp.path(),
+        &["add", ".csdlc/evidence/71/squash-proof.json"],
+    );
+    git(temp.path(), &["commit", "-m", "record squash metadata"]);
+    let merged_sha = git_output(temp.path(), &["rev-parse", "HEAD"]);
+    assert_ne!(merged_sha, reviewed_sha);
+    let request = ReadinessRequest {
+        schema: "csdlc.readiness_request.v1".into(),
+        issue: 71,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "closer".into(),
+        pull_request: 70,
+        head_sha: merged_sha.clone(),
+        required_checks: vec![],
+        require_review: false,
+        checks: vec![],
+        review_state: RemoteReviewState::NotRequired,
+        conflict_state: ConflictState::Clean,
+        post_publication_findings: vec![],
+    };
+    let reconciled = record_readiness(&store, request).unwrap();
+    assert_eq!(
+        reconciled.publication.unwrap().revision,
+        csdlc_v2::git::clean_commit_revision(&merged_sha)
+    );
+
+    fs::create_dir_all(temp.path().join("src")).unwrap();
+    fs::write(
+        temp.path().join("src/substantive.rs"),
+        b"pub fn changed() {}\n",
+    )
+    .unwrap();
+    git(temp.path(), &["add", "src/substantive.rs"]);
+    git(temp.path(), &["commit", "-m", "substantive drift"]);
+    let substantive_sha = git_output(temp.path(), &["rev-parse", "HEAD"]);
+    let current = store.load_record(71).unwrap();
+    let before = fs::read(store.issue_dir(71).join("index.json")).unwrap();
+    let error = record_readiness(
+        &store,
+        ReadinessRequest {
+            expected_generation: current.generation,
+            expected_digest: current.digest,
+            head_sha: substantive_sha,
+            ..ReadinessRequest {
+                schema: "csdlc.readiness_request.v1".into(),
+                issue: 71,
+                expected_generation: 0,
+                expected_digest: String::new(),
+                claim_id: "claim".into(),
+                actor: "closer".into(),
+                pull_request: 70,
+                head_sha: String::new(),
+                required_checks: vec![],
+                require_review: false,
+                checks: vec![],
+                review_state: RemoteReviewState::NotRequired,
+                conflict_state: ConflictState::Clean,
+                post_publication_findings: vec![],
+            }
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        fs::read(store.issue_dir(71).join("index.json")).unwrap(),
+        before
+    );
 }
 
 #[test]

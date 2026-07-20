@@ -1759,19 +1759,50 @@ impl Store {
         let publication = record.publication.as_ref().ok_or_else(|| {
             V2Error::new(ErrorCode::InvalidTransition, "publication evidence missing")
         })?;
-        if publication.pull_request != request.pull_request
-            || publication.revision != crate::git::clean_commit_revision(&request.head_sha)
-        {
+        if publication.pull_request != request.pull_request {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "readiness observation does not match published PR revision",
             ));
         }
+        let observed_revision = crate::git::clean_commit_revision(&request.head_sha);
+        let publication_revision_reconciled = if publication.revision != observed_revision {
+            let Some(from_commit) = publication
+                .revision
+                .strip_prefix("git-blake3:")
+                .and_then(|value| value.split(':').next())
+            else {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "published PR revision is not a clean commit identity",
+                ));
+            };
+            let changed_paths =
+                crate::git::metadata_only_changed_paths(&self.root, from_commit, &request.head_sha)
+                    .map_err(|_| {
+                        V2Error::new(
+                            ErrorCode::ReconciliationRequired,
+                            "readiness observation does not match published PR revision",
+                        )
+                    })?;
+            if changed_paths.is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "published PR revision changed without typed metadata delta",
+                ));
+            }
+            true
+        } else {
+            false
+        };
         if record.readiness.as_ref() == Some(&evidence) {
             return Ok(record);
         }
         let mut cards = self.load_cards(request.issue)?;
         verify_cards(self, &record, &cards)?;
+        if publication_revision_reconciled {
+            record.publication.as_mut().expect("publication").revision = observed_revision;
+        }
         let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
             CardContent::Sor(value) => value,
             _ => unreachable!(),
@@ -1816,7 +1847,12 @@ impl Store {
             actor: request.actor,
             reason: "record normalized remote readiness without replacing pre-publication review"
                 .into(),
-            operation: "record_readiness".into(),
+            operation: if publication_revision_reconciled {
+                "record_readiness_reconcile_metadata_only_published_revision"
+            } else {
+                "record_readiness"
+            }
+            .into(),
         });
         validate_updated_cards(self, &record, &cards)?;
         hydrate_projections(&mut record, &cards)?;

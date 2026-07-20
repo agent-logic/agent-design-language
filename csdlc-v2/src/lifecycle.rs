@@ -82,6 +82,7 @@ pub struct TransitionActiveClaimRequest {
     pub now_unix_seconds: u64,
     pub actor: String,
     pub reason: String,
+    pub expected_purpose: String,
     pub purpose: String,
     pub add_protected_paths: Vec<String>,
 }
@@ -601,6 +602,7 @@ pub fn transition_active_claim(
     if request.actor.trim().is_empty()
         || request.reason.trim().is_empty()
         || request.expected_owner.trim().is_empty()
+        || request.expected_purpose.trim().is_empty()
         || request.purpose.trim().is_empty()
         || request.add_protected_paths.is_empty()
         || request
@@ -642,6 +644,12 @@ pub fn transition_active_claim(
         return Err(V2Error::new(
             ErrorCode::InvalidClaim,
             "active claim owner does not match expected owner",
+        ));
+    }
+    if claim.purpose != request.expected_purpose {
+        return Err(V2Error::new(
+            ErrorCode::InvalidClaim,
+            "active claim purpose does not match expected source purpose",
         ));
     }
 
@@ -695,6 +703,7 @@ pub fn transition_active_claim(
         operation: serde_json::json!({
             "operation": "transition_active_claim",
             "expected_owner": request.expected_owner,
+            "expected_purpose": request.expected_purpose,
             "previous_purpose": previous_purpose,
             "purpose": request.purpose,
             "add_protected_paths": request.add_protected_paths,
