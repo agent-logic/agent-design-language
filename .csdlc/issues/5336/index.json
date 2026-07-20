@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
   "phase": "bound",
-  "generation": 2,
-  "digest": "63aa746cfde567e7df4badb280a72cb982d46629f92a3560f011680eac0dac96",
+  "generation": 4,
+  "digest": "d23ad9340c01d0926bd9e69d4a3633dd861cd6967b8b90e18b698a01fac85d87",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 2,
+    "generation": 4,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -39,32 +39,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cd17d01ea05232e8f24110e302ecde6e6fa527280ed6066d11e1673f09400005",
+      "values_digest": "d6d91286310d52757a8ba52f2769e6a06c35771b72dee62eaafdbd5707d6c974",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "1e380e3f8e31575d74c20c9fb208abe0e389c380f0c1f1af62d4e2d9d87c20e4",
-      "rendered_digest": "29daf0ae2a8be8f680a837bbcca9a8c87ba404bf8e4d38f492c79bfa71e43695",
-      "ast_digest": "75e10cbd6fffee3c71cc502a6be03acbeaf62aae16bde8659ad042244e5904a9"
+      "values_digest": "1cc047f0a33a6ce83d4f8289a8ae5862a9c6f2b84d4f6c58b9872cd73fe86285",
+      "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
+      "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "f64e62f88d2e8a0bc053a9f333005e8bf538f1367ec10cf7f6f25f98dd387261",
+      "values_digest": "a6faed23998f3c07852baaa59a41062c1872c569ee92b777ce32e059804346a2",
       "rendered_digest": "3b3118e7845927bc884a1da5caa10db6c335411e308c4523d5db31f4d0f40e50",
       "ast_digest": "1697193f5e85de9d2c2d5ca3bff73188d70c5e491e7867b0947b062241c08919"
     },
     "vpp": {
-      "values_digest": "f461d97d4bbfb3ee94612998ecb1bc4aae657cce700d09899e79e1d5f4966ea1",
-      "rendered_digest": "3c1d7cd60b07fc9f150c44e312d30cebb8bfe280f64d47428044578b02113c32",
-      "ast_digest": "582e5bc8dad3fd712660ba46580cba77ad6b4825760c77e69db9285da8042ef6"
+      "values_digest": "560e24238e9ab004b3d9385883849c25c470fb404c5bf941acafe490ff4acb3e",
+      "rendered_digest": "7510323bddaa609bfbc5d0113599ce5bb313c92e2d6e204c221d809b5200c436",
+      "ast_digest": "d0de2dd6e7ff179c5f415b6a0aa6fee1240b24d77b706096f4788aadc6cd5a8f"
     },
     "srp": {
-      "values_digest": "fe8f0bee9e5dfa22ebe00a26ce85ab134220ac7bfc977a0d2a6ba908d76c1470",
+      "values_digest": "d78964302e3976bb4bf7569730d48b10de524c81ca726308333c50ed4c81f9ab",
       "rendered_digest": "d8d4d9b29f394137848a3273fadd16a962c3ec8cdbce595acad809599a774826",
       "ast_digest": "1b927bd09840b9e41d16cc99a40331af27ea0fec4a4233884469cc09888c201a"
     },
     "sor": {
-      "values_digest": "7bbc33224bac7801664d2bfe3c8d01a1b944def9c9eaf8d69ae793542e36138a",
+      "values_digest": "ce008d8514168bba4a8329f7599df9aa49f6560de82aa129c057874b892a5e79",
       "rendered_digest": "0a7f2d5abdce6fe7d7e375bb23476124a27a92a917f646f9776a155f2e246e27",
       "ast_digest": "f3150317fb6187b42e172037eaef763cf0115db2ca225d9d706670730fc30805"
     }
@@ -113,6 +113,20 @@
       "actor": "codex:019f8036-122b-7311-ba23-a5df0f04f9d2",
       "reason": "Replace the unrelated repository-wide architecture-doc check with issue-specific baseline, budget, structured-data, and exact-range proof.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-owner-budget\",\"proof_role\":\"Measure the current canonical Runtime v3 source posture through its owner report\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/report_runtime_v3_loc.sh\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"baseline-json\",\"proof_role\":\"Parse the exact baseline and Runtime v3 parity manifests\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"jq\",\"empty\",\"docs/milestones/v0.91.8/baseline_and_ownership_v0.91.8.json\",\"docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"issue-wave-yaml\",\"proof_role\":\"Parse the canonical v0.91.8 issue graph used by the architecture plan\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\"-e\",\"require 'yaml'; YAML.safe_load(File.read('docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml'), aliases: true)\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Check the complete issue branch for patch hygiene\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Pin the measured Runtime v3 budget truth without weakening any parity requirement.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The nine historical fixture groups plus Observatory have explicit live-process proof requirements\",\"AC-2: Every v0.91.7 feature document and implemented feature-list row has a required pre-deletion disposition\",\"AC-3: Four disjoint implementation lanes fit the global writable WIP cap and converge before WP-11\",\"AC-4: #5361 acceptance precedes WP-12 cutover and WP-13 deletion\",\"AC-5: The plan names adl-runtime-kernel as the sole canonical Runtime v3, retains 12,000 Rust source lines as the reviewed target and fewer than 1,000 tests as a hard ceiling, records the pinned 12,209-line measurement as a bounded 209-line exception requiring exact-revision approval, and requires parity work to offset source growth through duplicate or placeholder deletion or obtain a later bounded reviewed exception; budget compliance must not remove, defer, or weaken required live parity, negative-case, continuity, or feature-preservation proof\",\"AC-6: Canonical docs, YAML, JSON, links, and diff hygiene validate without Runtime implementation or AWS\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Make semantic architecture, budget, dependency, link, and hygiene proof mandatory in the VPP.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-owner-budget\",\"proof_role\":\"Measure and enforce the canonical Runtime v3 source and test budget posture\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/report_runtime_v3_loc.sh\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"runtime-architecture-semantics\",\"proof_role\":\"Prove JSON and YAML schemas, canonical ownership, exact budgets, ten parity groups, four lanes, feature dispositions, non-authorization, dependency ordering, and graph acyclicity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5336/validate_architecture_plan.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"milestone-local-links\",\"proof_role\":\"Prove every local Markdown link in the v0.91.8 milestone planning package resolves\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5336/validate_links.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Check the complete issue branch for patch hygiene\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
     }
   ]
 }

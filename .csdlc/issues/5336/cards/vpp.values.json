@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
     "slug": "v0918-runtime-functional-parity-plan",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "runtime-owner-budget",
-          "proof_role": "Measure the current canonical Runtime v3 source posture through its owner report",
+          "proof_role": "Measure and enforce the canonical Runtime v3 source and test budget posture",
           "acceptance_ids": [
             "AC-1",
             "AC-5",
@@ -35,8 +35,8 @@
           "defer_reason": null
         },
         {
-          "lane": "baseline-json",
-          "proof_role": "Parse the exact baseline and Runtime v3 parity manifests",
+          "lane": "runtime-architecture-semantics",
+          "proof_role": "Prove JSON and YAML schemas, canonical ownership, exact budgets, ten parity groups, four lanes, feature dispositions, non-authorization, dependency ordering, and graph acyclicity",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -48,22 +48,18 @@
           "deterministic": true,
           "resource_profile": "small",
           "budget_seconds": 120,
-          "budget_tokens": 1000,
+          "budget_tokens": 1500,
           "argv": [
-            "jq",
-            "empty",
-            "docs/milestones/v0.91.8/baseline_and_ownership_v0.91.8.json",
-            "docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json"
+            "ruby",
+            ".csdlc/prepared/issues/5336/validate_architecture_plan.rb"
           ],
           "parallel_group": "local-docs",
           "defer_reason": null
         },
         {
-          "lane": "issue-wave-yaml",
-          "proof_role": "Parse the canonical v0.91.8 issue graph used by the architecture plan",
+          "lane": "milestone-local-links",
+          "proof_role": "Prove every local Markdown link in the v0.91.8 milestone planning package resolves",
           "acceptance_ids": [
-            "AC-3",
-            "AC-4",
             "AC-6"
           ],
           "deterministic": true,
@@ -72,8 +68,7 @@
           "budget_tokens": 1000,
           "argv": [
             "ruby",
-            "-e",
-            "require 'yaml'; YAML.safe_load(File.read('docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml'), aliases: true)"
+            ".csdlc/prepared/issues/5336/validate_links.rb"
           ],
           "parallel_group": "local-docs",
           "defer_reason": null

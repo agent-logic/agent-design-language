@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5336/diagram.mmd
 [
   {
     "lane": "runtime-owner-budget",
-    "proof_role": "Measure the current canonical Runtime v3 source posture through its owner report",
+    "proof_role": "Measure and enforce the canonical Runtime v3 source and test budget posture",
     "acceptance_ids": [
       "AC-1",
       "AC-5",
@@ -43,8 +43,8 @@ Diagram: .csdlc/prepared/issues/5336/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "baseline-json",
-    "proof_role": "Parse the exact baseline and Runtime v3 parity manifests",
+    "lane": "runtime-architecture-semantics",
+    "proof_role": "Prove JSON and YAML schemas, canonical ownership, exact budgets, ten parity groups, four lanes, feature dispositions, non-authorization, dependency ordering, and graph acyclicity",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -56,22 +56,18 @@ Diagram: .csdlc/prepared/issues/5336/diagram.mmd
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 120,
-    "budget_tokens": 1000,
+    "budget_tokens": 1500,
     "argv": [
-      "jq",
-      "empty",
-      "docs/milestones/v0.91.8/baseline_and_ownership_v0.91.8.json",
-      "docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json"
+      "ruby",
+      ".csdlc/prepared/issues/5336/validate_architecture_plan.rb"
     ],
     "parallel_group": "local-docs",
     "defer_reason": null
   },
   {
-    "lane": "issue-wave-yaml",
-    "proof_role": "Parse the canonical v0.91.8 issue graph used by the architecture plan",
+    "lane": "milestone-local-links",
+    "proof_role": "Prove every local Markdown link in the v0.91.8 milestone planning package resolves",
     "acceptance_ids": [
-      "AC-3",
-      "AC-4",
       "AC-6"
     ],
     "deterministic": true,
@@ -80,8 +76,7 @@ Diagram: .csdlc/prepared/issues/5336/diagram.mmd
     "budget_tokens": 1000,
     "argv": [
       "ruby",
-      "-e",
-      "require 'yaml'; YAML.safe_load(File.read('docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml'), aliases: true)"
+      ".csdlc/prepared/issues/5336/validate_links.rb"
     ],
     "parallel_group": "local-docs",
     "defer_reason": null
@@ -120,8 +115,8 @@ Tokens: 50000
 ## Commands
 
 - `bash adl/tools/report_runtime_v3_loc.sh`
-- `jq empty docs/milestones/v0.91.8/baseline_and_ownership_v0.91.8.json docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json`
-- `ruby -e require 'yaml'; YAML.safe_load(File.read('docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml'), aliases: true)`
+- `ruby .csdlc/prepared/issues/5336/validate_architecture_plan.rb`
+- `ruby .csdlc/prepared/issues/5336/validate_links.rb`
 - `git diff --check origin/main...HEAD`
 
 ## Failure Semantics

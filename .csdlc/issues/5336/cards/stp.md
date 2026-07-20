@@ -28,7 +28,7 @@ Plan and prepare Runtime v3 functional parity only; do not execute runtime imple
 2. AC-2: Every v0.91.7 feature document and implemented feature-list row has a required pre-deletion disposition
 3. AC-3: Four disjoint implementation lanes fit the global writable WIP cap and converge before WP-11
 4. AC-4: #5361 acceptance precedes WP-12 cutover and WP-13 deletion
-5. AC-5: The plan names one canonical Runtime v3 and enforces the 12K source and fewer-than-1000-test budgets
+5. AC-5: The plan names adl-runtime-kernel as the sole canonical Runtime v3, retains 12,000 Rust source lines as the reviewed target and fewer than 1,000 tests as a hard ceiling, records the pinned 12,209-line measurement as a bounded 209-line exception requiring exact-revision approval, and requires parity work to offset source growth through duplicate or placeholder deletion or obtain a later bounded reviewed exception; budget compliance must not remove, defer, or weaken required live parity, negative-case, continuity, or feature-preservation proof
 6. AC-6: Canonical docs, YAML, JSON, links, and diff hygiene validate without Runtime implementation or AWS
 
 ## Dependencies
