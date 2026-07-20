@@ -13,14 +13,18 @@ swap guards, atomic regeneration, and the audit log.
 Extend `SemanticOperation` with card-owned replacement operations for the
 remaining planning collections:
 
-- SIP: declared scope, authority boundary, operator constraints, dependencies,
-  repository inputs, and non-goals.
-- STP: deliverables and acceptance criteria.
+- SIP: declared scope, authority boundary, initial assumptions, and operator
+  constraints.
+- STP: deliverables, acceptance criteria, dependencies, repository inputs, and
+  non-goals.
 - SPP: steps, invariants, risks, and stop conditions.
 - SRP: review prompts, while retaining the existing review-scope replanning
   operation.
 
-Each operation accepts a complete replacement collection. The store validates
+Each operation accepts a complete replacement collection. A coherent
+acceptance-plan operation replaces STP acceptance criteria, SPP plan steps, and
+VPP validation lanes in one transaction so acceptance cardinality can change
+without exposing an invalid intermediate state. The store validates
 non-empty values, card ownership, lifecycle authorization, generation, digest,
 and claim identity before changing an in-memory card set. Cross-card acceptance
 coverage is checked across STP, SPP, and VPP before the transactional commit.
@@ -47,4 +51,3 @@ generation, stale digest, phase rejection, atomic rollback, and acceptance-ID
 drift. A #5337 fixture starts from preparation-only Bound cards, performs only
 typed operations, and finishes with complete implementation truth that passes
 typed validation and doctor.
-

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "bc3ad979efe66b4e19d7ede2b7f750cc54d35d439e29476df5b227bb3df9d898",
+  "generation": 9,
+  "digest": "3ae6b3da62837ab6d87712df8ea994ae3b45326d8d7c30263f77b19581d9a1b2",
   "claim": {
     "id": "claim-5600-complete-typed-replanning",
     "owner": "codex:issue-5600",
-    "generation": 7,
+    "generation": 9,
     "acquired_unix_seconds": 1784577719,
     "expires_unix_seconds": 1785182519,
     "heartbeat_unix_seconds": 1784577719,
@@ -23,8 +23,76 @@
     ],
     "purpose": "Implement complete typed preparation-to-implementation replanning"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:codex-exec-5600",
+    "assigned_by": "codex:issue-5600",
+    "revision": "git-blake3:16a916638428b519abe22ee665717ba8e097ddde:b9637c5a6bc99eead9886d42e18730890446f0dab92cb786f512d6f932d4767f",
+    "scope": [
+      "csdlc-v2",
+      ".csdlc/prepared/issues/5600/design.md",
+      ".csdlc/prepared/issues/5600/diagram.mmd",
+      ".csdlc/prepared/issues/5600/bootstrap.json",
+      ".csdlc/prepared/issues/5600/validate-local.json",
+      ".csdlc/evidence/5600"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:codex-exec-5600",
+    "scope": [
+      "csdlc-v2",
+      ".csdlc/prepared/issues/5600/design.md",
+      ".csdlc/prepared/issues/5600/diagram.mmd",
+      ".csdlc/prepared/issues/5600/bootstrap.json",
+      ".csdlc/prepared/issues/5600/validate-local.json",
+      ".csdlc/evidence/5600"
+    ],
+    "reviewed_revision": "git-blake3:16a916638428b519abe22ee665717ba8e097ddde:b9637c5a6bc99eead9886d42e18730890446f0dab92cb786f512d6f932d4767f",
+    "findings": [
+      {
+        "id": "F-5600-1",
+        "severity": "p1",
+        "summary": "Acceptance-set cardinality cannot change atomically across STP, SPP, and VPP.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5600-2",
+        "severity": "p2",
+        "summary": "Operator-constraint and acceptance-criteria replacements are not Bound-only.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5600-3",
+        "severity": "p2",
+        "summary": "The #5337 real JSON CLI proof covers only SRP review prompts.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5600-4",
+        "severity": "p3",
+        "summary": "The issue design assigns dependencies, repository inputs, and non-goals to the wrong card.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,37 +102,37 @@
   "design_review": {
     "approved": {
       "reviewer": "codex:issue-5600",
-      "revision": "fb97af4d5a4b4a7c2a0b4d7760e2825f0aababe6cbf57e2758a323c8a172d3c6"
+      "revision": "2efd372b91c99232ee7d72d03393d183fa1fbece30443390b501fb4fa4223c0a"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "44313999476b7cb45d84dd1d7c5f13e6c0a350210e0b7fc81d9dd5102ce9d77e",
+      "values_digest": "2f43fa64b28f589722ae4d7995f23ef20366bef4d0b47c073bba526533da6ff9",
       "rendered_digest": "72d0d26c0a9fca3d92978776997764195776dec41db6d10b05d5838413e2766d",
       "ast_digest": "c130e7367e81abdf59c746c02c1aff2a1b4c2ab16d2eb3f964968a192705a706"
     },
     "stp": {
-      "values_digest": "4dabfc4409bab04c11f95ac8b0df382013f2c2721903f18891df16751d67f08f",
+      "values_digest": "23ffb78aceaadf4fc4203252680473ed1dab3d17b4e66766e4c9a7837c2ce320",
       "rendered_digest": "0599c33ab3b2da3edd9ba1f4209e8243606a2cac4f94ab01c9a47d075bc36176",
       "ast_digest": "912c0dc482169557913062368c098b68c8757642261ee56bb60db7bb46dfdd4f"
     },
     "spp": {
-      "values_digest": "450c6aa03ea63243f2bbd2f780f75f004c95c85905b41020e4bdbc25b62bdfce",
-      "rendered_digest": "d7eafc40518f3d254de3b4c201d96acb140aa6628bfa67fe57449ded9e97bdc7",
-      "ast_digest": "17d41bf4fe1c196ffaef2b3bb9c9a0e88fe6d2f0eae436fee16cf66ff1e2aa7a"
+      "values_digest": "49c5366b34bb857d7196725f7be7894c28d86946a726a33883a20e7339fd4f75",
+      "rendered_digest": "642a19e5495f730b097167f7d8c47c64c7f9955838675357855b82ad1112ff9a",
+      "ast_digest": "54712938f40efa02c44ff3b9bd29dedf4cba4c34e45726cc88c9a30297aca759"
     },
     "vpp": {
-      "values_digest": "725f15949b9f45480c76a3e9febb4aff9e33ef097a4e2f7d961a39d180f1cdfe",
+      "values_digest": "24dda0d2661869615d44112b9927b0cfe22513833b0c82a596d73d9756bc5f81",
       "rendered_digest": "1cdf94b67e2d968d60bce38010fed88b468f4d9450817305fb1c719bc18e5ed5",
       "ast_digest": "4efaa52bb7bf1a11d75221f41c303e44701f701a6049424648a1c444551446e9"
     },
     "srp": {
-      "values_digest": "177382dedf3cb064ce20665e0acd10765c67fddbd2095d3699f609061e542ef9",
-      "rendered_digest": "760e0d7ae5857b34acf24f0a2976c47bcfff1c7ab0eb8fffd82ecf617187a5c6",
-      "ast_digest": "df3cf549b59521f77f0217cdbc11d9c513160d5c6ff55bd1a0274f981493d659"
+      "values_digest": "5efeb9705340271062e1ee4c07407a1279d8a4e92ce9e81447f3a96167866a9e",
+      "rendered_digest": "69d67d7ec9dbf972fbfee6a1646d6da7ec378bff066c15d4441e689875979db1",
+      "ast_digest": "2ac5f735173e1470ffd7f989d9ef7540584e461550f4ef0bcc4e916aeabe013f"
     },
     "sor": {
-      "values_digest": "55c3efc8d01cd5af77317d105cfbebb290435fd84bad90e15be5486d9476e857",
+      "values_digest": "6a696243a8ff51ec4fbcd726ade75db65e38bbce35373d05327758e4196fe30f",
       "rendered_digest": "7d2d59ce5da8864e986548d41befdf9d7c6c3f22949de9b7aeddf967d36ec3f0",
       "ast_digest": "5aeb23d215d468c5eef35a58350db328c2a1046f8d5f887cf4a65a980eecf092"
     }
@@ -155,6 +223,27 @@
       "actor": "codex:issue-5600",
       "reason": "Complete implementation and enter exact-revision review",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-5600",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "subagent:codex-exec-5600",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:issue-5600",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

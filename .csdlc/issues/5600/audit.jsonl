@@ -7,3 +7,6 @@
 {"sequence":7,"generation":5,"actor":"codex:issue-5600","reason":"Complete atomic authorization and coverage enforcement","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"}
 {"sequence":8,"generation":6,"actor":"codex:issue-5600","reason":"Complete positive, negative, compatibility, and #5337 fixtures","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"}
 {"sequence":9,"generation":7,"actor":"codex:issue-5600","reason":"Complete implementation and enter exact-revision review","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
+{"sequence":10,"generation":7,"actor":"codex:issue-5600","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":8,"actor":"subagent:codex-exec-5600","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":12,"generation":9,"actor":"codex:issue-5600","reason":"reapprove changed issue design","operation":"approve_design"}

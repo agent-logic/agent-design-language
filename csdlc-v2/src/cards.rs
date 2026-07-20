@@ -551,6 +551,11 @@ pub enum SemanticOperation {
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
     },
+    ReplaceAcceptancePlan {
+        acceptance_criteria: Vec<String>,
+        steps: Vec<PlanStep>,
+        validation_lanes: Vec<ValidationLane>,
+    },
     SetField {
         field: TextField,
         value: String,
@@ -878,6 +883,10 @@ pub fn apply(
             }
             Ok(None)
         }
+        SemanticOperation::ReplaceAcceptancePlan { .. } => Err(V2Error::new(
+            ErrorCode::FieldOwnership,
+            "replace_acceptance_plan is a cross-card operation",
+        )),
         SemanticOperation::SetField { field, value } => {
             set_text(values, *field, value.clone())?;
             Ok(None)
@@ -927,28 +936,7 @@ pub fn apply(
         },
         SemanticOperation::ReplaceValidationLanes { lanes } => match &mut values.content {
             CardContent::Vpp(v) => {
-                if lanes.is_empty() {
-                    return Err(V2Error::new(
-                        ErrorCode::CardInvalid,
-                        "validation lanes cannot be empty",
-                    ));
-                }
-                let unique: BTreeSet<_> = lanes.iter().map(|lane| lane.lane.as_str()).collect();
-                if unique.len() != lanes.len()
-                    || lanes.iter().any(|lane| {
-                        lane.lane.trim().is_empty()
-                            || lane.proof_role.trim().is_empty()
-                            || lane.acceptance_ids.is_empty()
-                            || lane.argv.is_empty()
-                            || lane.budget_seconds == 0
-                            || lane.budget_tokens == 0
-                    })
-                {
-                    return Err(V2Error::new(
-                        ErrorCode::CardInvalid,
-                        "validation lanes must be unique and complete",
-                    ));
-                }
+                validate_validation_lanes(lanes)?;
                 v.lanes = lanes.clone();
                 Ok(None)
             }
@@ -1454,6 +1442,76 @@ fn validate_plan_steps(steps: &[PlanStep]) -> Result<()> {
             ErrorCode::CardInvalid,
             "replacement plan steps must be unique, pending, and complete",
         ));
+    }
+    Ok(())
+}
+
+fn validate_validation_lanes(lanes: &[ValidationLane]) -> Result<()> {
+    if lanes.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "validation lanes cannot be empty",
+        ));
+    }
+    let unique: BTreeSet<_> = lanes.iter().map(|lane| lane.lane.as_str()).collect();
+    if unique.len() != lanes.len()
+        || lanes.iter().any(|lane| {
+            let acceptance_ids: BTreeSet<_> =
+                lane.acceptance_ids.iter().map(String::as_str).collect();
+            lane.lane.trim().is_empty()
+                || lane.proof_role.trim().is_empty()
+                || lane.acceptance_ids.is_empty()
+                || acceptance_ids.len() != lane.acceptance_ids.len()
+                || lane.acceptance_ids.iter().any(|id| id.trim().is_empty())
+                || lane.argv.is_empty()
+                || lane.budget_seconds == 0
+                || lane.budget_tokens == 0
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "validation lanes must be unique and complete",
+        ));
+    }
+    Ok(())
+}
+
+pub(crate) fn replace_acceptance_plan(
+    cards: &mut BTreeMap<CardKind, CardValues>,
+    acceptance_criteria: &[String],
+    steps: &[PlanStep],
+    validation_lanes: &[ValidationLane],
+) -> Result<()> {
+    validate_replacement(acceptance_criteria, "acceptance criteria")?;
+    validate_plan_steps(steps)?;
+    validate_validation_lanes(validation_lanes)?;
+
+    match &mut cards
+        .get_mut(&CardKind::Stp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "STP projection missing"))?
+        .content
+    {
+        CardContent::Stp(values) => values.acceptance_criteria = acceptance_criteria.to_vec(),
+        _ => unreachable!("STP card content"),
+    }
+    match &mut cards
+        .get_mut(&CardKind::Spp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "SPP projection missing"))?
+        .content
+    {
+        CardContent::Spp(values) => {
+            values.steps = steps.to_vec();
+            values.plan_revision += 1;
+        }
+        _ => unreachable!("SPP card content"),
+    }
+    match &mut cards
+        .get_mut(&CardKind::Vpp)
+        .ok_or_else(|| V2Error::new(ErrorCode::CorruptRecord, "VPP projection missing"))?
+        .content
+    {
+        CardContent::Vpp(values) => values.lanes = validation_lanes.to_vec(),
+        _ => unreachable!("VPP card content"),
     }
     Ok(())
 }

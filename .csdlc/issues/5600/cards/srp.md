@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Exact implementation revision before publication.
+csdlc-v2
+.csdlc/prepared/issues/5600/design.md
+.csdlc/prepared/issues/5600/diagram.mmd
+.csdlc/prepared/issues/5600/bootstrap.json
+.csdlc/prepared/issues/5600/validate-local.json
+.csdlc/evidence/5600
 
 ## Prompts
 
@@ -24,7 +29,48 @@ Exact implementation revision before publication.
 
 ## Findings
 
-[]
+[
+  {
+    "id": "F-5600-1",
+    "severity": "p1",
+    "summary": "Acceptance-set cardinality cannot change atomically across STP, SPP, and VPP.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5600-2",
+    "severity": "p2",
+    "summary": "Operator-constraint and acceptance-criteria replacements are not Bound-only.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5600-3",
+    "severity": "p2",
+    "summary": "The #5337 real JSON CLI proof covers only SRP review prompts.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "F-5600-4",
+    "severity": "p3",
+    "summary": "The issue design assigns dependencies, repository inputs, and non-goals to the wrong card.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -36,8 +82,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:16a916638428b519abe22ee665717ba8e097ddde:b9637c5a6bc99eead9886d42e18730890446f0dab92cb786f512d6f932d4767f")
 
-Reviewer: None
+Reviewer: Some("subagent:codex-exec-5600")
 
-Result: pre_review
+Result: changes_required

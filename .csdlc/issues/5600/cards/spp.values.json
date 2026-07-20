@@ -7,7 +7,7 @@
     "title": "[v0.91.8][csdlc-v2][bug] Support complete typed preparation-to-implementation replanning",
     "slug": "complete-typed-preparation-to-implementation-replanning",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -88,7 +88,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5600/design.md",
-      "design_digest": "fb97af4d5a4b4a7c2a0b4d7760e2825f0aababe6cbf57e2758a323c8a172d3c6",
+      "design_digest": "2efd372b91c99232ee7d72d03393d183fa1fbece30443390b501fb4fa4223c0a",
       "diagram_ref": ".csdlc/prepared/issues/5600/diagram.mmd",
       "diagram_digest": "8495aaea349825fdd80ce41a4a46d8f3e0f911f4a4e0a249b295e8c3aa8266be"
     }

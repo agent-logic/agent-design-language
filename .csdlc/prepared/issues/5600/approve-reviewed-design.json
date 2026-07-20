@@ -1,0 +1,7 @@
+{
+  "issue": 5600,
+  "expected_generation": 8,
+  "expected_digest": "0fc359eb5bb758a7a1de0e029f3a368b2343d7201466cc4ab62f54d2e7df1f21",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "reviewer": "codex:issue-5600"
+}
