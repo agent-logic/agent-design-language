@@ -139,6 +139,13 @@ if [ -n "${LLVM_PROFILE_FILE:-}" ]; then
   mkdir -p "$(dirname "$profile_path")"
   printf 'profile for %s\n' "${ADL_COVERAGE_RUN_ID:-unknown}" > "$profile_path"
 fi
+if [ "${ADL_FAKE_CARGO_FAIL_PARTITION_1:-0}" = "1" ]; then
+  for arg in "$@"; do
+    if [ "$arg" = "count:1/2" ]; then
+      exit 77
+    fi
+  done
+fi
 out_path=""
 prev=""
 for arg in "$@"; do
@@ -194,6 +201,36 @@ do
     exit 1
   fi
 done
+
+failing_cargo_log="$temp_root/failing-cargo.log"
+set +e
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$failing_cargo_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-failing" \
+ADL_FAKE_CARGO_FAIL_PARTITION_1=1 \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
+failing_status=$?
+set -e
+if [ "$failing_status" -ne 77 ]; then
+  echo "expected partition failure status 77 to be returned after report evidence, got $failing_status" >&2
+  cat "$failing_cargo_log" >&2
+  exit 1
+fi
+for required in \
+  "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-failing/coverage-summary.adl.json" \
+  "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-failing/coverage-summary.adl-runtime.json"
+do
+  if ! grep -F -- "$required" "$failing_cargo_log" >/dev/null 2>&1; then
+    echo "missing report evidence after partition failure: $required" >&2
+    cat "$failing_cargo_log" >&2
+    exit 1
+  fi
+done
+if [ ! -s "$scratch_root/coverage-output/run-failing/coverage-summary.json" ]; then
+  echo "expected final run-scoped summary evidence after partition failure" >&2
+  exit 1
+fi
 
 concurrent_a_log="$temp_root/concurrent-a.log"
 concurrent_b_log="$temp_root/concurrent-b.log"

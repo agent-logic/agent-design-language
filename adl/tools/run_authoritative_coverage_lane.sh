@@ -212,12 +212,18 @@ run_workspace_coverage_partitions() {
 }
 
 coverage_profile_namespace=workspace
-run_workspace_coverage_partitions
+coverage_status=0
+run_workspace_coverage_partitions || coverage_status=$?
 
 cargo llvm-cov report \
   --json \
   --summary-only \
-  --output-path "$ADL_SUMMARY_PATH"
+  --output-path "$ADL_SUMMARY_PATH" || {
+    report_status=$?
+    if [ "$coverage_status" -eq 0 ]; then
+      coverage_status="$report_status"
+    fi
+  }
 find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
@@ -230,12 +236,22 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
     --test-threads "$TEST_THREADS")
   coverage_command=("${runtime_coverage_command[@]}")
   coverage_profile_namespace=adl-runtime
-  run_workspace_coverage_partitions
+  run_workspace_coverage_partitions || {
+    runtime_status=$?
+    if [ "$coverage_status" -eq 0 ]; then
+      coverage_status="$runtime_status"
+    fi
+  }
   cargo llvm-cov report \
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
     --json \
     --summary-only \
-    --output-path "$ADL_RUNTIME_SUMMARY_PATH"
+    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || {
+      runtime_report_status=$?
+      if [ "$coverage_status" -eq 0 ]; then
+        coverage_status="$runtime_report_status"
+      fi
+    }
   jq -s '
     . as $docs
     |
@@ -266,13 +282,31 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
         lines: metric("lines"),
         regions: metric("regions")
       }
-  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > "$FINAL_SUMMARY_PATH"
+  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > "$FINAL_SUMMARY_PATH" || {
+    merge_status=$?
+    rm -f "$FINAL_SUMMARY_PATH"
+    if [ "$coverage_status" -eq 0 ]; then
+      coverage_status="$merge_status"
+    fi
+  }
 else
-  cp "$ADL_SUMMARY_PATH" "$FINAL_SUMMARY_PATH"
+  cp "$ADL_SUMMARY_PATH" "$FINAL_SUMMARY_PATH" || {
+    copy_status=$?
+    rm -f "$FINAL_SUMMARY_PATH"
+    if [ "$coverage_status" -eq 0 ]; then
+      coverage_status="$copy_status"
+    fi
+  }
 fi
 
-cp "$ADL_SUMMARY_PATH" "$LEGACY_ADL_SUMMARY_PATH"
+if [ -f "$ADL_SUMMARY_PATH" ]; then
+  cp "$ADL_SUMMARY_PATH" "$LEGACY_ADL_SUMMARY_PATH"
+fi
 if [ -f "$ADL_RUNTIME_SUMMARY_PATH" ]; then
   cp "$ADL_RUNTIME_SUMMARY_PATH" "$LEGACY_ADL_RUNTIME_SUMMARY_PATH"
 fi
-cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"
+if [ -f "$FINAL_SUMMARY_PATH" ]; then
+  cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"
+fi
+
+exit "$coverage_status"
