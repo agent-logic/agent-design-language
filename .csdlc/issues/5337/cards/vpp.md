@@ -24,73 +24,15 @@ Diagram: .csdlc/prepared/issues/5337/diagram.mmd
 
 [
   {
-    "lane": "typed-card-contracts",
-    "proof_role": "Required preparation publication gate: validate all six rendered cards, active-template provenance, structure schemas, and canonical lifecycle consistency",
+    "lane": "characterization-unit-and-integration",
+    "proof_role": "Prove manifest/schema, runner, normalization, comparison, coverage, and negative safety contracts",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
-      "AC-6"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2000,
-    "argv": [
-      ".adl/bin/csdlc-v2/csdlc-doctor",
-      "--repo",
-      ".",
-      "--issue",
-      "5337"
-    ],
-    "parallel_group": "local-preparation",
-    "defer_reason": null
-  },
-  {
-    "lane": "issue-local-scope",
-    "proof_role": "Required preparation publication gate: verify diff hygiene and absence of shared milestone or product implementation changes",
-    "acceptance_ids": [
-      "AC-2",
-      "AC-6"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1000,
-    "argv": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "parallel_group": "local-preparation",
-    "defer_reason": null
-  },
-  {
-    "lane": "exact-revision-review-evidence",
-    "proof_role": "Required preparation publication gate: verify bounded subagent review at the substantive revision and typed dispositions for actionable findings",
-    "acceptance_ids": [
+      "AC-4",
       "AC-5",
-      "AC-6"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2000,
-    "argv": [
-      ".adl/bin/csdlc-v2/csdlc-doctor",
-      "--repo",
-      ".",
-      "--issue",
-      "5337"
-    ],
-    "parallel_group": "local-review",
-    "defer_reason": null
-  },
-  {
-    "lane": "future-corpus-proof",
-    "proof_role": "Deferred non-preparation release gate: future product proof for versioned positive and negative fixtures, repeated v1 outcomes, normalization safety, coverage mapping, and nondeterminism disposition",
-    "acceptance_ids": [
-      "AC-3",
-      "AC-4"
+      "AC-6",
+      "AC-7"
     ],
     "deterministic": true,
     "resource_profile": "medium",
@@ -100,11 +42,87 @@ Diagram: .csdlc/prepared/issues/5337/diagram.mmd
       "cargo",
       "test",
       "--manifest-path",
-      "adl/Cargo.toml",
-      "characterization"
+      "adl-characterization/Cargo.toml",
+      "--all-targets"
     ],
-    "parallel_group": "future-implementation",
-    "defer_reason": "Deferred and not executed: product implementation and focused proof are outside this preparation-only session and remain gated by #5336 plus separate authorization"
+    "parallel_group": "local-rust",
+    "defer_reason": null
+  },
+  {
+    "lane": "pinned-v1-corpus-verification",
+    "proof_role": "Verify all retained repeated observations and the complete coverage map against the versioned corpus",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 4000,
+    "argv": [
+      "cargo",
+      "run",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--bin",
+      "adl-characterize",
+      "--",
+      "verify",
+      "--corpus",
+      "adl-characterization/corpus/v1/corpus.yaml",
+      "--observations",
+      "adl-characterization/observations/v1"
+    ],
+    "parallel_group": "local-proof",
+    "defer_reason": null
+  },
+  {
+    "lane": "format-and-lint",
+    "proof_role": "Prove the standalone crate is formatted and warning-free under strict Clippy",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 600,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "local-rust",
+    "defer_reason": null
+  },
+  {
+    "lane": "typed-review-and-publication",
+    "proof_role": "Prove exact-revision review, resolved findings, lifecycle integrity, and publication readiness",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 600,
+    "budget_tokens": 2000,
+    "argv": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+      "--repo",
+      ".",
+      "--issue",
+      "5337"
+    ],
+    "parallel_group": "local-review",
+    "defer_reason": null
   }
 ]
 
@@ -120,10 +138,10 @@ Tokens: 25000
 
 ## Commands
 
-- `.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 5337`
-- `git diff --check`
-- `.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 5337`
-- `cargo test --manifest-path adl/Cargo.toml characterization`
+- `cargo test --manifest-path adl-characterization/Cargo.toml --all-targets`
+- `cargo run --manifest-path adl-characterization/Cargo.toml --bin adl-characterize -- verify --corpus adl-characterization/corpus/v1/corpus.yaml --observations adl-characterization/observations/v1`
+- `cargo clippy --manifest-path adl-characterization/Cargo.toml --all-targets -- -D warnings`
+- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue 5337`
 
 ## Failure Semantics
 

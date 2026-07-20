@@ -1,0 +1,21 @@
+{
+  "issue": 5337,
+  "card": "sip",
+  "expected_generation": 6,
+  "expected_digest": "d62a4d36f059c420aca9061b4f93af2cebb467e0a4399e4471ab86418102a2cc",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Declare the complete issue-owned implementation scope",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "independent adl-characterization Rust crate and CLI",
+      "versioned positive and negative corpus fixtures and schema",
+      "pinned-v1 repeated raw and normalized observation evidence",
+      "normalizer contract, coverage map, deterministic reports, tests, and documentation",
+      "issue-local typed lifecycle, validation, review, and publication records"
+    ]
+  },
+  "fail_after_backup": false
+}

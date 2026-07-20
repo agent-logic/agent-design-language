@@ -4,23 +4,24 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1c296c01f1a17f4f5f4fdc6770511c4214792aa51221f9b2848501f03abab11e",
   "phase": "bound",
-  "generation": 3,
-  "digest": "5921f2ce9041d456742ab79f7d284b6499eada014f1b1ac2c09b44e987ad26ee",
+  "generation": 28,
+  "digest": "dfffa6feba458d78ebf7eea58e2b3602febf9153e6cdf7b97abf5ddd28d1c400",
   "claim": {
-    "id": "claim-5337-v0918-wp03-preparation",
-    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 3,
-    "acquired_unix_seconds": 1784570080,
-    "expires_unix_seconds": 1785174880,
-    "heartbeat_unix_seconds": 1784570080,
+    "id": "claim-5337-v0918-wp03-implementation",
+    "owner": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+    "generation": 28,
+    "acquired_unix_seconds": 1784585647,
+    "expires_unix_seconds": 1785190447,
+    "heartbeat_unix_seconds": 1784585647,
     "branch": "codex/5337-v0918-wp03-preparation",
     "worktree": ".worktrees/adl-wp-5337",
     "protected_paths": [
+      ".csdlc/evidence/5337",
       ".csdlc/issues/5337",
       ".csdlc/prepared/issues/5337",
-      ".csdlc/evidence/5337"
+      "adl-characterization"
     ],
-    "purpose": "Prepare typed #5337 cards, design, validation, and readiness one dependency wave ahead without implementing the characterization corpus"
+    "purpose": "Fully implement, validate, review, and publish issue #5337's independent pinned-v1 characterization corpus; keep integration blocked until PR #5599 merges"
   },
   "review_assignment": null,
   "review": null,
@@ -32,38 +33,38 @@
   "diagram_path": ".csdlc/prepared/issues/5337/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-      "revision": "6e71aba9982df2cfbf79bf7798d795d32ce1c11dbf3e37cc1184b9587ac16a15"
+      "reviewer": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "revision": "63eb061cae17d02f12cc846890e2bb29b89712629c097962ae6601c83b89cf0a"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "38ed91af8087c2bd8f45c9a50d17c13b632de2f6e9ef7e317a45494f82f63af4",
-      "rendered_digest": "921efa9f34d4a41f444f1ed49134858f87802c0b6f6a83a24cd1f92a6b73697a",
-      "ast_digest": "e300589c4fec567ed2f544fd71899bffed24cd648caec88997394646e4db3cb3"
+      "values_digest": "9baa030c2d57f6e7febbd018ff2e59d3d33e265fc790c34a6bf52e6954d93a19",
+      "rendered_digest": "a3e23ea6aa2fc61a99a804d8f1224bd9aa0f1c31b7d4e0d5a9f7508c80264e94",
+      "ast_digest": "ed7b655823cb326d1c02f24d14cc120a818a119fc9cbe6a28d385c839b12dead"
     },
     "stp": {
-      "values_digest": "3d6ac7b8d7f1f5980a55176c50ef4eec3a17b5ebb76923d68f54b8ba6b2f1aa0",
-      "rendered_digest": "10db1beba34c556c2df65732c9e77f747f9068899df66fa107d86ce08fb0d71e",
-      "ast_digest": "fd4e7dd4c112e501a05fb26c2ba7018883f6ffb999809a8993810c5ed33191e9"
+      "values_digest": "0b3ddb2309aa5a1aee696779178b9be45e6b36a5166f8d905cc684e8538b5bad",
+      "rendered_digest": "4cdf1243cc2510c5fab05f620392100b36e013744d8c4bc5a8ddf93e72c48675",
+      "ast_digest": "db44314a4da872b87fc4fa7bb8a45732bc6e719dcefaa5fc188ac0e2451a79b7"
     },
     "spp": {
-      "values_digest": "6a374afeac075bf1a05437ad1f3b7b55d910a071ce5540765a50f154d0f84909",
-      "rendered_digest": "73edaa414a385adba9b8724f4fc9f7c7fb846f42bc212e09da42c84d470ab357",
-      "ast_digest": "53b26a15e5838dbd376a34e31f6c4822547b01e577f828f7bc500d7b4acd95ad"
+      "values_digest": "5f0f2acbd71ea8c2f56f57c2c0d763343e7e9649dc88e37617db7c104b90f807",
+      "rendered_digest": "24f190ee9dbff6d7ee2e4abb0e0ef4fa425b7052863193709a30640486ec066e",
+      "ast_digest": "2a54ea504757f8ac61c38ed3062c65e540572d788c5de562c23ec199769a3c95"
     },
     "vpp": {
-      "values_digest": "b356b012b73e0913b6ef06a2d5f5a05bef3bbfdfe52634d68e52924f964cca06",
-      "rendered_digest": "8d0526bb37842066b17c48e151bc559845b45590dfcec71b4c6696a40ed91ead",
-      "ast_digest": "64fd298413cb93594a219eed4b96292e3277fd4d0390801f0931ef47152f81d4"
+      "values_digest": "d456176c9a5ced92db3ca99f81424a67841c476c16fa62b26c384525a9d01cfc",
+      "rendered_digest": "56ffb9fb26637127ec10296fde156dae2e324462788e426d603f04662d9a26fc",
+      "ast_digest": "44d8f3ebd3229521b7ef29851f2d32592ad821cb911e551e8fc5b45c3eb76274"
     },
     "srp": {
-      "values_digest": "bcbfeede504b8d43a7bc29617b40199ea91b329c055464c737ecad64c0700417",
-      "rendered_digest": "005e654100150cc69f0bf1dee9fc56e3968959c56ed1406a66c612077e83f726",
-      "ast_digest": "d255a09bf9bc57c6434e4e09cc77abaf6bd939c5ef5e40167575f47e86815773"
+      "values_digest": "6df661e0fee2e36fce192721fa43ebc5f2b062ef075be20d9def3a2defd98781",
+      "rendered_digest": "40aec2a918815cfcc4a6cd56f13fe73a574b4e5796452214463887ccbeeba120",
+      "ast_digest": "09256047411e66a567878b421f8982bd2f3016ad5b86e366693747113e20f6c7"
     },
     "sor": {
-      "values_digest": "11d7045ba48f723def261d0cb5b6acbe60aa733b025f3cd567a745c7a3e8a556",
+      "values_digest": "198e1aa7cf3a904858f7dfe1994e0a9f4dd2e35ed619886fff334e54de581485",
       "rendered_digest": "ad2373fdb657a5ddce264b1846a1278779c66a1ea26ff28e70a600f3d51ef23e",
       "ast_digest": "12326e7d2b9223e6c6320f71a48dfa9e031ddc511223b7495406d798b0e0c3fe"
     }
@@ -119,6 +120,195 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Bound issue #5337 preparation review to the exact issue-local lifecycle, request, and evidence paths",
       "operation": "{\"field\":\"review_scope\",\"new_value\":\".csdlc/issues/5337\\n.csdlc/prepared/issues/5337\\n.csdlc/evidence/5337\",\"operation\":\"replan\",\"previous_value\":\"Exact implementation revision before publication.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Authorize the complete issue implementation while preserving strict issue-local ownership",
+      "operation": "{\"add_protected_paths\":[\"adl-characterization\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Voluntarily expire the preparation-only claim and reacquire truthful implementation authority with the same narrow protected paths",
+      "operation": "{\"previous_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"observed_expiry_unix_seconds\":1784585646,\"recovery_actor\":\"codex:019f8188-089f-7580-8ae8-fffef0d52539\",\"reason\":\"Voluntarily expire the preparation-only claim and reacquire truthful implementation authority with the same narrow protected paths\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Replace preparation-only goal with the full implementation goal",
+      "operation": "{\"field\":\"goal\",\"new_value\":\"Implement and prove an independent, versioned characterization and determinism corpus for pinned ADL v1 behavior.\",\"operation\":\"replan\",\"previous_value\":\"Prepare #5337 for a future compact normalized v1 characterization and determinism corpus without executing product scope.\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Replace preparation-only outcome with complete issue acceptance",
+      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"A complete adl-characterization crate, versioned corpus, narrow normalizer contract, at least three retained v1 observations per case, coverage map, deterministic reports, focused and full tests, exact-revision review, and typed publication all pass with no deferred criteria.\",\"operation\":\"replan\",\"previous_value\":\"All six current-template cards, issue-local design, validation contract, dependency boundary, and preparation-only readiness truth are complete and reviewed while corpus implementation remains pending on WP-02 and separate authorization.\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Declare the complete issue-owned implementation scope",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"independent adl-characterization Rust crate and CLI\",\"versioned positive and negative corpus fixtures and schema\",\"pinned-v1 repeated raw and normalized observation evidence\",\"normalizer contract, coverage map, deterministic reports, tests, and documentation\",\"issue-local typed lifecycle, validation, review, and publication records\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record clean-room and execution authority",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue #5337 and the operator instruction authorize the complete WP-03 implementation\",\"Pinned revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72 is behavioral evidence only\",\"The independent harness invokes a caller-supplied v1 binary and does not depend on incumbent ADL Rust code\",\"Typed C-SDLC v2 binaries and records are lifecycle authority\",\"No credentialed, network, remote, or AWS provider execution is authorized\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Make implementation assumptions explicit",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"initial_assumptions\",\"values\":[\"the pinned v1 revision can be built locally with Cargo output on /Volumes/FastWork\",\"ADL_OBSERVABILITY=0 suppresses ordinary observability noise for black-box capture\",\"fixed local fixtures and mock providers are sufficient to exercise the declared behavioral surface\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Replace preparation-only constraints with full implementation constraints",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use installed typed C-SDLC v2 binaries and card-editor semantics only\",\"Implement every acceptance criterion in this issue; do not defer product work\",\"Do not edit incumbent adl, Runtime v2, main, sibling worktrees, or shared milestone files\",\"Use /Volumes/FastWork for Cargo output\",\"Do not use AWS, raw gh, credentials, or network providers\",\"Use COTS crates for parsing, schema validation, assertions, and temporary files\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Define the complete bounded implementation task",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Build, populate, document, and prove the independent adl-characterization crate and its complete pinned-v1 corpus; modify only adl-characterization and issue-local #5337 lifecycle/evidence paths.\",\"operation\":\"replan\",\"previous_value\":\"Prepare cards, design, validation, review, and readiness only; do not implement fixtures, normalizer behavior, replay execution, product tests, or shared milestone-doc changes.\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Replace preparation deliverables with complete product deliverables",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"standalone adl-characterization library and adl-characterize CLI\",\"versioned corpus manifest and JSON Schema\",\"positive and negative ADL fixtures covering every required behavior\",\"three or more raw pinned-v1 observations per corpus case plus deterministic normalized outcomes\",\"declared normalizer contract and implementation that preserves semantic arrays, identifiers, errors, exits, and signature verdicts\",\"complete behavior-to-case coverage map with fail-closed validation\",\"focused unit, integration, CLI, and full-crate tests\",\"README, architecture design, evidence manifest, and exact-revision review/publication proof\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Replace preparation dependencies with executable dependencies",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"operator-authorized #5337 implementation and bound worktree\",\"pinned incumbent revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72\",\"locally built caller-supplied v1 binary with no network or credentials\",\"WP-02 #5336 architecture denominator as planning context; no source dependency\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record exact implementation inputs",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"GitHub issue #5337 retrieved through adl-issue\",\"docs/milestones/v0.91.8/DESIGN_v0.91.8.md\",\"docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md\",\"docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml\",\"pinned ADL v1 public CLI behavior at 19c2b6e2ad18bddc75db9231643a54b2a446ce72\",\"adl/tests/cli_smoke behavior names used only to identify public black-box surfaces\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Remove preparation non-goals and preserve clean-room limits",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"no porting or linking of incumbent ADL internal implementation or tests\",\"no Runtime v2 or incumbent adl source edits\",\"no replacement ADL compiler or runtime implementation\",\"no credentialed, network, remote, AWS, or paid-provider execution\",\"no normalization that erases semantic differences\",\"no shared milestone, cutover, deletion, or v0.92 changes\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Atomically replace acceptance criteria, implementation steps, and validation lanes",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: The standalone adl-characterization crate and CLI build without depending on the incumbent adl crate and pin v1 revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72 in the corpus contract\",\"AC-2: The versioned schema-valid corpus covers CLI help/version, six-primitives print-plan, graph JSON, prompts, fork/join, map and branch reorder equivalence, sequential reorder difference, argument/YAML/schema/reference/state/cycle negatives, repeated byte stability, local mock execution, and fixed Ed25519 sign/verify/tamper\",\"AC-3: Every corpus case has at least three retained raw v1 observations recording binary digest, arguments, exit status, stdout, stderr, repetition, and derived normalized result\",\"AC-4: Normalization is declared per case, limited to JSON object-key order, declared root prefixes, named volatile fields, and exact observability lines, while preserving arrays, IDs, errors, values, exits, prompt order, and signature verdicts\",\"AC-5: The comparator proves repeated stability, declared equivalence and semantic difference groups, expected exits/fragments, and fails on unexplained nondeterminism or overbroad/no-op normalization\",\"AC-6: A complete coverage map assigns every required behavior to known corpus cases and rejects missing, duplicate, or unknown mappings\",\"AC-7: Focused unit, integration, CLI, schema, evidence, and full-crate validation pass locally with Cargo output on /Volumes/FastWork and without AWS, credentials, or network providers\",\"AC-8: Exact-revision bounded review has no unresolved actionable findings, typed C-SDLC review/publication truth is current, and no acceptance criterion is deferred\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement the independent crate, typed manifest/schema model, runner, normalizer, comparator, report model, and CLI\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Author the complete versioned positive and negative fixture corpus and behavior coverage map\",\"acceptance_ids\":[\"AC-2\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Build the pinned v1 binary locally and capture at least three immutable observations for every case\",\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Verify normalization, equivalence, semantic differences, expected failures, coverage, and deterministic reports\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Run focused and full validation with external Cargo output and retain exact evidence\",\"acceptance_ids\":[\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"Run bounded exact-revision review, fix every actionable finding, and publish through typed lifecycle gates\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"characterization-unit-and-integration\",\"proof_role\":\"Prove manifest/schema, runner, normalization, comparison, coverage, and negative safety contracts\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-characterization/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"local-rust\",\"defer_reason\":null},{\"lane\":\"pinned-v1-corpus-verification\",\"proof_role\":\"Verify all retained repeated observations and the complete coverage map against the versioned corpus\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"run\",\"--manifest-path\",\"adl-characterization/Cargo.toml\",\"--bin\",\"adl-characterize\",\"--\",\"verify\",\"--corpus\",\"adl-characterization/corpus/v1/corpus.yaml\",\"--observations\",\"adl-characterization/observations/v1\"],\"parallel_group\":\"local-proof\",\"defer_reason\":null},{\"lane\":\"format-and-lint\",\"proof_role\":\"Prove the standalone crate is formatted and warning-free under strict Clippy\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-characterization/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local-rust\",\"defer_reason\":null},{\"lane\":\"typed-review-and-publication\",\"proof_role\":\"Prove exact-revision review, resolved findings, lifecycle integrity, and publication readiness\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5337\"],\"parallel_group\":\"local-review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Replace preparation plan with the complete execution plan",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Implement the standalone harness and full corpus, capture the pinned v1 behavior at least three times per case, verify narrow normalization and coverage fail closed, run all crate proof, fix exact-revision review findings, and publish only with every acceptance criterion complete.\",\"operation\":\"replan\",\"previous_value\":\"Initialize and bind #5337, verify and semantically normalize all six generated cards, validate current-template and PVF truth, commit issue-local preparation artifacts, run bounded exact-revision subagent review, fix findings, and publish only if the typed lifecycle accepts a preparation-only boundary.\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Declare only issue-owned implementation areas",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-characterization crate, corpus, observations, tests, and documentation\",\"issue-local .csdlc/issues/5337, .csdlc/prepared/issues/5337, and .csdlc/evidence/5337\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Replace preparation invariants with implementation invariants",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"no tracked work on main or sibling worktrees\",\"no dependency on or edits to incumbent adl or Runtime v2 source\",\"raw observations remain immutable and normalized observations remain derived\",\"array order, IDs, errors, exits, prompt content/order, and signature verdicts are semantic\",\"every case repeats at least three times\",\"network and credential variables are denied to child processes\",\"every acceptance criterion has required local proof and none is deferred\",\"all card changes use typed C-SDLC v2 operations\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record complete implementation risks",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"normalization could hide a semantic regression\",\"graph output alone may hide sequential ordering, requiring print-plan comparison\",\"environmental noise may cause false nondeterminism\",\"fixed signing evidence could accidentally retain private material\",\"large raw evidence could obscure corpus coverage\",\"v1 build provenance could drift from the pinned revision\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Fail closed on incomplete or unsafe implementation",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"the v1 binary cannot be proven to come from the pinned revision\",\"any case requires credentials, network, remote, or AWS execution\",\"a normalizer would need to erase semantic arrays, identifiers, errors, exits, or signature verdicts\",\"any required behavior lacks three retained observations or coverage mapping\",\"unexplained repeated-run divergence remains\",\"exact-revision review has unresolved actionable findings\",\"publication would require bypassing typed lifecycle truth\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record bounded replan triggers",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"the public v1 CLI shape at the pinned revision differs from a planned command\",\"a required behavior needs a safer local fixture to avoid network or credentials\",\"a declared normalizer rule matches no evidence or masks a semantic difference\",\"the coverage map reveals a required behavior with no executable case\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Replace preparation review prompts with full code and architecture review prompts",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the crate remain independent of incumbent ADL source and accept only a caller-supplied pinned v1 binary?\",\"Does the corpus cover every required positive, negative, ordering, determinism, mock-execution, and signing behavior?\",\"Can any normalizer rule erase array order, identifiers, error class/value, exit status, prompt order/content, or signature verdicts?\",\"Are all cases repeated at least three times with immutable raw evidence and exact binary provenance?\",\"Do equivalence, difference, stability, and coverage checks fail closed on unexplained or missing evidence?\",\"Can any command execute a network, credentialed, remote, AWS, or paid provider?\",\"Are tests PVF-classified, deterministic, complete, and run with external Cargo output?\",\"Are all findings resolved at the exact substantive revision with no deferred acceptance criteria?\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Bind review to the complete exact implementation revision",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Exact #5337 implementation revision: adl-characterization source, corpus schema and fixtures, retained repeated v1 observations, normalizer contract, coverage map, tests, documentation, issue-local lifecycle/evidence, and all no-network/no-credential boundaries.\",\"operation\":\"replan\",\"previous_value\":\".csdlc/issues/5337\\n.csdlc/prepared/issues/5337\\n.csdlc/evidence/5337\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Start the complete implementation plan after typed replanning",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record the operator-authorized exact reviewed WP-02 stacked base and integration gate",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"operator-authorized #5337 implementation and bound worktree\",\"reviewed WP-02 #5336 head 8fa1bfe66e677ed3ae160b3fee81d204d4211a37 is the explicit stacked architecture base\",\"PR #5599 must merge before #5337 publication or integration; then current main must be integrated and exact-revision proof rerun\",\"pinned incumbent revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72\",\"locally built caller-supplied v1 binary with no network or credentials\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Update the explicit reviewed WP-02 stacked base after coverage repair #5602 integrated",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"operator-authorized #5337 implementation and bound worktree\",\"reviewed WP-02 #5336 head 8c9a8687d is the explicit stacked architecture base and includes merged coverage repair #5602\",\"PR #5599 must merge before #5337 publication or integration; then current main must be integrated and exact-revision proof rerun\",\"pinned incumbent revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72\",\"locally built caller-supplied v1 binary with no network or credentials\"]}"
     }
   ]
 }

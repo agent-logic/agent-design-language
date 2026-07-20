@@ -12,44 +12,52 @@ Status: ready
 
 ## Task
 
-Prepare cards, design, validation, review, and readiness only; do not implement fixtures, normalizer behavior, replay execution, product tests, or shared milestone-doc changes.
+Build, populate, document, and prove the independent adl-characterization crate and its complete pinned-v1 corpus; modify only adl-characterization and issue-local #5337 lifecycle/evidence paths.
 
 ## Deliverables
 
-- six issue-specific cards rendered from docs/templates/prompts/current.json
-- issue-local design and architecture diagram
-- PVF-classified preparation and future corpus validation plan
-- bounded exact-revision subagent review with findings disposition
-- preparation-only publication or blocked handoff truth
+- standalone adl-characterization library and adl-characterize CLI
+- versioned corpus manifest and JSON Schema
+- positive and negative ADL fixtures covering every required behavior
+- three or more raw pinned-v1 observations per corpus case plus deterministic normalized outcomes
+- declared normalizer contract and implementation that preserves semantic arrays, identifiers, errors, exits, and signature verdicts
+- complete behavior-to-case coverage map with fail-closed validation
+- focused unit, integration, CLI, and full-crate tests
+- README, architecture design, evidence manifest, and exact-revision review/publication proof
 
 ## Acceptance
 
-1. AC-1: SIP, STP, SPP, VPP, SRP, and SOR are generated from the active current.json template set and pass typed schema and structure validation
-2. AC-2: Cards and design preserve #5595 authorization, #5336 dependency, clean-room behavioral-evidence boundaries, and no shared milestone-doc overlap
-3. AC-3: The future corpus contract requires versioned positive and negative cases, repeated outcomes, declared normalization, coverage mapping, and nondeterminism disposition
-4. AC-4: Preparation validation and future corpus proof lanes are PVF-classifiable with proof role, determinism posture, resource profile, and release-gate status
-5. AC-5: Bounded subagent review covers the exact substantive revision and all actionable findings are dispositioned before publication
-6. AC-6: Preparation closes or hands off without claiming corpus implementation, WP-02 satisfaction, milestone readiness, cutover, deletion, or v0.92 activation
+1. AC-1: The standalone adl-characterization crate and CLI build without depending on the incumbent adl crate and pin v1 revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72 in the corpus contract
+2. AC-2: The versioned schema-valid corpus covers CLI help/version, six-primitives print-plan, graph JSON, prompts, fork/join, map and branch reorder equivalence, sequential reorder difference, argument/YAML/schema/reference/state/cycle negatives, repeated byte stability, local mock execution, and fixed Ed25519 sign/verify/tamper
+3. AC-3: Every corpus case has at least three retained raw v1 observations recording binary digest, arguments, exit status, stdout, stderr, repetition, and derived normalized result
+4. AC-4: Normalization is declared per case, limited to JSON object-key order, declared root prefixes, named volatile fields, and exact observability lines, while preserving arrays, IDs, errors, values, exits, prompt order, and signature verdicts
+5. AC-5: The comparator proves repeated stability, declared equivalence and semantic difference groups, expected exits/fragments, and fails on unexplained nondeterminism or overbroad/no-op normalization
+6. AC-6: A complete coverage map assigns every required behavior to known corpus cases and rejects missing, duplicate, or unknown mappings
+7. AC-7: Focused unit, integration, CLI, schema, evidence, and full-crate validation pass locally with Cargo output on /Volumes/FastWork and without AWS, credentials, or network providers
+8. AC-8: Exact-revision bounded review has no unresolved actionable findings, typed C-SDLC review/publication truth is current, and no acceptance criterion is deferred
 
 ## Dependencies
 
-- open sprint umbrella #5595 opening-wave slot 2 authorization
-- WP-02 #5336 must be accepted before future product implementation
-- active prompt-template registry docs/templates/prompts/current.json
+- operator-authorized #5337 implementation and bound worktree
+- reviewed WP-02 #5336 head 8c9a8687d is the explicit stacked architecture base and includes merged coverage repair #5602
+- PR #5599 must merge before #5337 publication or integration; then current main must be integrated and exact-revision proof rerun
+- pinned incumbent revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72
+- locally built caller-supplied v1 binary with no network or credentials
 
 ## Inputs
 
 - GitHub issue #5337 retrieved through adl-issue
-- GitHub sprint issue #5595 retrieved through adl-issue
-- docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml
 - docs/milestones/v0.91.8/DESIGN_v0.91.8.md
 - docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md
-- docs/templates/prompts/current.json
+- docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml
+- pinned ADL v1 public CLI behavior at 19c2b6e2ad18bddc75db9231643a54b2a446ce72
+- adl/tests/cli_smoke behavior names used only to identify public black-box surfaces
 
 ## Non Goals
 
-- no corpus fixtures, normalizer code, replay execution, or product tests
-- no porting of legacy internal tests
-- no shared milestone planning or feature-document edits
-- no downstream implementation binding or claim-path reservation
-- no AWS, raw gh, Runtime/C-SDLC implementation, deletion, cutover, or v0.92 activation
+- no porting or linking of incumbent ADL internal implementation or tests
+- no Runtime v2 or incumbent adl source edits
+- no replacement ADL compiler or runtime implementation
+- no credentialed, network, remote, AWS, or paid-provider execution
+- no normalization that erases semantic differences
+- no shared milestone, cutover, deletion, or v0.92 changes

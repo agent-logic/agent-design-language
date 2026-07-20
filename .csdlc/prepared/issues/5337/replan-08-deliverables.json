@@ -1,0 +1,24 @@
+{
+  "issue": 5337,
+  "card": "stp",
+  "expected_generation": 11,
+  "expected_digest": "a070871ea42f929faf820103d91a882ece8e054b3a124fecc6f11544c93749fa",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Replace preparation deliverables with complete product deliverables",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "standalone adl-characterization library and adl-characterize CLI",
+      "versioned corpus manifest and JSON Schema",
+      "positive and negative ADL fixtures covering every required behavior",
+      "three or more raw pinned-v1 observations per corpus case plus deterministic normalized outcomes",
+      "declared normalizer contract and implementation that preserves semantic arrays, identifiers, errors, exits, and signature verdicts",
+      "complete behavior-to-case coverage map with fail-closed validation",
+      "focused unit, integration, CLI, and full-crate tests",
+      "README, architecture design, evidence manifest, and exact-revision review/publication proof"
+    ]
+  },
+  "fail_after_backup": false
+}

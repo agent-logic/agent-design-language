@@ -1,60 +1,93 @@
-# #5337 Design: Characterization-Corpus Preparation
+# #5337 Design: Independent ADL v1 Characterization Corpus
 
 ## Decision
 
-Prepare #5337 as the v0.91.8 WP-03 owner for a future normalized v1
-characterization and determinism corpus. This preparation defines the contract,
-evidence boundaries, and validation plan; it does not capture fixtures, execute
-v1 behavior, implement a normalizer, or modify shared milestone documents.
+Implement an independent `adl-characterization` crate that executes the pinned
+ADL v1 binary as a black box, captures raw observations, applies only declared
+normalization, and verifies a versioned positive and negative behavior corpus.
+The harness does not depend on the incumbent `adl` crate and does not port
+incumbent internal tests or implementation logic.
 
-## Dependency Boundary
+The incumbent revision is fixed at
+`19c2b6e2ad18bddc75db9231643a54b2a446ce72`. Every retained observation records
+that revision, the binary digest, command arguments, exit status, stdout,
+stderr, normalized output, and repetition number.
 
-- Sprint umbrella #5595 authorizes this opening-wave preparation slot.
-- WP-02 #5336 remains the hard implementation dependency.
-- Preparation may finish before #5336 integrates, but product execution may not
-  start until current typed evidence confirms WP-02 acceptance and the future
-  implementation paths are bound without collision.
+## Components
 
-## Future Corpus Contract
+- `manifest`: parses and schema-validates the versioned corpus definition.
+- `runner`: invokes a caller-supplied pinned v1 binary with a denied-network,
+  credential-free environment and captures byte-exact process outcomes.
+- `normalize`: canonicalizes JSON object keys and explicitly declared volatile
+  values only. Array order, identifiers, error classes, field values, prompt
+  order, exit status, and signature verdicts remain semantic.
+- `compare`: checks repeated-run stability, equivalence groups, difference
+  groups, expected exits and required output fragments.
+- `adl-characterize`: captures or verifies a corpus and writes deterministic
+  machine-readable reports.
 
-The later implementation must define a compact, versioned black-box corpus that
-includes positive and negative cases, repeated outcomes, normalization rules,
-coverage mapping, and explicit nondeterminism disposition. V1 is behavioral
-evidence only: legacy internal tests and source movement are not clean-room
-implementation authority.
+## Corpus Boundary
 
-Normalizer rules must distinguish stable semantic fields from volatile data
-such as timestamps, host paths, generated identifiers, ordering that is not
-contractual, and provider/runtime noise. Every normalization must be declared,
-reviewable, and narrow enough that it cannot erase a semantic mismatch.
+The v1 corpus covers CLI help/version, six-primitives planning, graph JSON,
+prompt projection, fork/join ordering, map and branch reorder equivalence,
+sequential reorder difference, invalid arguments, malformed YAML, schema and
+reference errors, state-reference errors, dependency cycles, repeated byte
+stability, a deterministic local mock run, and fixed Ed25519 sign, verify, and
+tamper rejection.
 
-## Preparation Deliverables
+Provider schemas may be parsed and validated, but no credentialed, network, or
+AWS provider is executed. The local mock case is the only execution case.
 
-- Six issue-specific cards rendered by the active `current.json` template set.
-- This issue-local design and diagram.
-- Typed PVF lanes for template/card validation, issue-local scope checks, and
-  later focused corpus proof.
-- A truthful readiness disposition that leaves product implementation pending
-  on WP-02 and separate implementation authorization.
+## Normalization Contract
 
-## Protected-Scope Boundary
+Normalization is opt-in per case. It may:
 
-This preparation claim protects only `.csdlc/issues/5337`,
-`.csdlc/prepared/issues/5337`, and `.csdlc/evidence/5337`. It deliberately does
-not claim shared v0.91.8 planning files or future product/corpus paths. Those
-paths must be resolved and added through typed claim amendment only when
-implementation is authorized.
+1. parse JSON and sort object keys recursively while preserving array order;
+2. replace the declared workspace root prefix with `<ROOT>`;
+3. replace fields explicitly named by the corpus as volatile timestamps,
+   timing values, run identifiers, or artifact roots; and
+4. remove the exact `adl_event` observability line when observability cannot be
+   disabled.
+
+It may not reorder arrays, rewrite arbitrary strings, discard exit status,
+coarsen error text, hide identifiers, or normalize signature results. A rule
+that matches nothing or an undeclared volatile field is a verification error.
+
+## Evidence And Reproducibility
+
+Each case runs at least three times. Raw observations are immutable inputs to
+comparison; normalized observations are derived artifacts. The coverage map
+maps every required behavior to one or more case identifiers and fails closed
+for missing, duplicate, or unknown mappings. Any repeated-run divergence not
+explicitly covered by a narrow normalizer fails verification.
+
+The checked-in observations are captured from the pinned v1 binary. Unit and
+integration tests also use deterministic fixture executables so ordinary test
+runs never require rebuilding v1 or reaching the network.
+
+## Scope And Dependencies
+
+Issue #5337 owns `adl-characterization/` and issue-local C-SDLC records and
+evidence. This branch is explicitly stacked on the reviewed WP-02 #5336 head
+`8c9a8687d`, which includes the reviewed WP-02 work plus integrated coverage
+repair #5602 and defines the broader
+clean-room architecture denominator. Publication and integration remain
+blocked until PR #5599 merges. After that merge, this branch must integrate
+current `main` and rerun exact-revision proof before publication.
+
+The operator-authorized implementation pins the exact incumbent revision here
+so this issue can proceed without importing source authority from v1.
 
 ## Non-Goals
 
-- No corpus fixtures, normalizer code, replay execution, or product tests.
-- No porting of legacy internal tests.
-- No edits to `docs/milestones/v0.91.8` or other shared milestone surfaces.
-- No v0.92 scope expansion, Runtime/C-SDLC implementation, AWS, or raw `gh`.
+- No incumbent `adl` or Runtime v2 source changes.
+- No network, credentialed provider, AWS, or remote execution.
+- No generalized replay engine or replacement ADL implementation.
+- No normalization that masks semantic differences.
+- No deferred acceptance criteria.
 
-## Readiness Rule
+## Completion Rule
 
-Preparation is complete only when all six cards are current-template derived,
-schema/structure-valid, issue-specific, reviewed at an exact substantive
-revision, and published only if typed lifecycle gates permit a preparation-only
-handoff without claiming product completion.
+#5337 is complete only when the full corpus, retained repeated observations,
+normalizer contract, coverage map, focused and full crate tests, exact-revision
+review, and typed publication truth are present and green.

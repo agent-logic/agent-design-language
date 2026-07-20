@@ -1,0 +1,10 @@
+{
+  "issue": 5337,
+  "expected_generation": 4,
+  "expected_digest": "8e10b3189cf8a437efe9b57f5547d3adc6cee196a7021c47e13313c7154fbd96",
+  "claim_id": "claim-5337-v0918-wp03-preparation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Authorize the complete issue implementation while preserving strict issue-local ownership",
+  "now_unix_seconds": 1784585645,
+  "add_protected_paths": ["adl-characterization"]
+}

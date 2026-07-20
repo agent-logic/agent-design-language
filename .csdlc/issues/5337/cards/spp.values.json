@@ -7,80 +7,92 @@
     "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
     "slug": "v0918-wp03-characterization-corpus-preparation",
     "version": "v0.91.8",
-    "generation": 3
+    "generation": 28
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Initialize and bind #5337, verify and semantically normalize all six generated cards, validate current-template and PVF truth, commit issue-local preparation artifacts, run bounded exact-revision subagent review, fix findings, and publish only if the typed lifecycle accepts a preparation-only boundary.",
+      "plan_revision": 8,
+      "summary": "Implement the standalone harness and full corpus, capture the pinned v1 behavior at least three times per case, verify narrow normalization and coverage fail closed, run all crate proof, fix exact-revision review findings, and publish only with every acceptance criterion complete.",
       "steps": [
         {
           "id": "S1",
-          "action": "Initialize and bind the issue-local typed lifecycle record in the dedicated #5337 worktree",
+          "action": "Implement the independent crate, typed manifest/schema model, runner, normalizer, comparator, report model, and CLI",
           "acceptance_ids": [
             "AC-1",
-            "AC-2"
+            "AC-4",
+            "AC-5"
           ],
-          "status": "pending"
+          "status": "in_progress"
         },
         {
           "id": "S2",
-          "action": "Validate and, only through csdlc-edit, normalize six current-template cards for preparation-only truth",
+          "action": "Author the complete versioned positive and negative fixture corpus and behavior coverage map",
           "acceptance_ids": [
-            "AC-1",
             "AC-2",
-            "AC-3",
-            "AC-4",
             "AC-6"
           ],
           "status": "pending"
         },
         {
           "id": "S3",
-          "action": "Run focused typed validation and confirm protected-path and dependency boundaries",
+          "action": "Build the pinned v1 binary locally and capture at least three immutable observations for every case",
           "acceptance_ids": [
             "AC-1",
-            "AC-2",
-            "AC-3",
-            "AC-4",
-            "AC-6"
+            "AC-3"
           ],
           "status": "pending"
         },
         {
           "id": "S4",
-          "action": "Commit the substantive preparation revision and run bounded exact-revision subagent review",
+          "action": "Verify normalization, equivalence, semantic differences, expected failures, coverage, and deterministic reports",
           "acceptance_ids": [
-            "AC-5"
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
           ],
           "status": "pending"
         },
         {
           "id": "S5",
-          "action": "Record findings disposition and publish or retain a truthful blocked preparation handoff through typed lifecycle gates",
+          "action": "Run focused and full validation with external Cargo output and retain exact evidence",
           "acceptance_ids": [
-            "AC-5",
-            "AC-6"
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Run bounded exact-revision review, fix every actionable finding, and publish through typed lifecycle gates",
+          "acceptance_ids": [
+            "AC-8"
           ],
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        "adl-characterization crate, corpus, observations, tests, and documentation",
+        "issue-local .csdlc/issues/5337, .csdlc/prepared/issues/5337, and .csdlc/evidence/5337"
+      ],
       "invariants": [
-        "no tracked issue work on main",
-        "all card mutation remains csdlc-edit owned",
-        "only issue-local preparation paths are protected",
-        "WP-02 acceptance precedes future implementation",
-        "v1 is behavioral evidence rather than source authority",
-        "no AWS and no raw gh"
+        "no tracked work on main or sibling worktrees",
+        "no dependency on or edits to incumbent adl or Runtime v2 source",
+        "raw observations remain immutable and normalized observations remain derived",
+        "array order, IDs, errors, exits, prompt content/order, and signature verdicts are semantic",
+        "every case repeats at least three times",
+        "network and credential variables are denied to child processes",
+        "every acceptance criterion has required local proof and none is deferred",
+        "all card changes use typed C-SDLC v2 operations"
       ],
       "risks": [
-        "preparation language could be mistaken for authorization to implement the corpus",
-        "overbroad protected paths could collide with shared milestone documentation or sibling lanes",
-        "normalization rules could hide semantic mismatches if left unconstrained",
-        "generated cards could remain generic while passing only superficial structure checks"
+        "normalization could hide a semantic regression",
+        "graph output alone may hide sequential ordering, requiring print-plan comparison",
+        "environmental noise may cause false nondeterminism",
+        "fixed signing evidence could accidentally retain private material",
+        "large raw evidence could obscure corpus coverage",
+        "v1 build provenance could drift from the pinned revision"
       ],
       "execution_estimates": {
         "elapsed_seconds": 21600,
@@ -88,17 +100,24 @@
         "validation_seconds": 3600
       },
       "stop_conditions": [
-        "another live claim or worktree owns #5337",
-        "WP-03 preparation would require shared milestone-doc edits",
-        "a lifecycle route would record product implementation or dependency satisfaction",
-        "current-template provenance or typed card validation cannot be established",
-        "publication would require bypassing current review truth"
+        "the v1 binary cannot be proven to come from the pinned revision",
+        "any case requires credentials, network, remote, or AWS execution",
+        "a normalizer would need to erase semantic arrays, identifiers, errors, exits, or signature verdicts",
+        "any required behavior lacks three retained observations or coverage mapping",
+        "unexplained repeated-run divergence remains",
+        "exact-revision review has unresolved actionable findings",
+        "publication would require bypassing typed lifecycle truth"
       ],
-      "replan_triggers": [],
+      "replan_triggers": [
+        "the public v1 CLI shape at the pinned revision differs from a planned command",
+        "a required behavior needs a safer local fixture to avoid network or credentials",
+        "a declared normalizer rule matches no evidence or masks a semantic difference",
+        "the coverage map reveals a required behavior with no executable case"
+      ],
       "design_ref": ".csdlc/prepared/issues/5337/design.md",
-      "design_digest": "6e71aba9982df2cfbf79bf7798d795d32ce1c11dbf3e37cc1184b9587ac16a15",
+      "design_digest": "63eb061cae17d02f12cc846890e2bb29b89712629c097962ae6601c83b89cf0a",
       "diagram_ref": ".csdlc/prepared/issues/5337/diagram.mmd",
-      "diagram_digest": "d14510e4439edfcc48a78fb640efdf43feed2dbfeaa0a1d58e2d30507a1209e7"
+      "diagram_digest": "17b80b451761cbde4b63925271b2df0d3ffd17c7c255f1c63840a73ad5b85e82"
     }
   }
 }

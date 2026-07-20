@@ -1,0 +1,15 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 16,
+  "expected_digest": "8d951ba633b09d3bf2b5d21ef10f314b7e270d2e94758598c78377eacf0b0e24",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Replace preparation plan with the complete execution plan",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Implement the standalone harness and full corpus, capture the pinned v1 behavior at least three times per case, verify narrow normalization and coverage fail closed, run all crate proof, fix exact-revision review findings, and publish only with every acceptance criterion complete."
+  },
+  "fail_after_backup": false
+}

@@ -12,17 +12,18 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5337
-.csdlc/prepared/issues/5337
-.csdlc/evidence/5337
+Exact #5337 implementation revision: adl-characterization source, corpus schema and fixtures, retained repeated v1 observations, normalizer contract, coverage map, tests, documentation, issue-local lifecycle/evidence, and all no-network/no-credential boundaries.
 
 ## Prompts
 
-- Do all six cards and the design remain preparation-only and issue-specific?
-- Is #5336 preserved as a hard implementation dependency while #5595 authorizes only card preparation?
-- Does the future corpus contract cover positive and negative behavior, repetition, normalization, coverage, and nondeterminism without implementing them?
-- Are protected paths issue-local and collision-safe with shared milestone and sibling work?
-- Are PVF lanes and non-claims sufficient for a truthful preparation handoff?
+- Does the crate remain independent of incumbent ADL source and accept only a caller-supplied pinned v1 binary?
+- Does the corpus cover every required positive, negative, ordering, determinism, mock-execution, and signing behavior?
+- Can any normalizer rule erase array order, identifiers, error class/value, exit status, prompt order/content, or signature verdicts?
+- Are all cases repeated at least three times with immutable raw evidence and exact binary provenance?
+- Do equivalence, difference, stability, and coverage checks fail closed on unexplained or missing evidence?
+- Can any command execute a network, credentialed, remote, AWS, or paid provider?
+- Are tests PVF-classified, deterministic, complete, and run with external Cargo output?
+- Are all findings resolved at the exact substantive revision with no deferred acceptance criteria?
 
 ## Findings
 
