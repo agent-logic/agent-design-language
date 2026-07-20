@@ -209,6 +209,7 @@ fn initialize_native_issue(store: &Store, request: BootstrapRequest) -> Result<c
 /// ```compile_fail
 /// let _ = csdlc_v2::initialize_issue;
 /// let _ = csdlc_v2::initialize_native_issue;
+/// let _ = csdlc_v2::bootstrap_issue;
 /// ```
 pub fn initialize_native_json(store: &Store, bytes: &[u8]) -> Result<crate::IssueRecord> {
     let value: serde_json::Value = serde_json::from_slice(bytes)?;

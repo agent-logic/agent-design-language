@@ -2312,7 +2312,7 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
     Ok(record)
 }
 
-pub fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<IssueRecord> {
+pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<IssueRecord> {
     validate_bootstrap_request(&request)?;
     let initialization_digest = digest(&serde_json::to_vec(&request)?);
     let _lock = store.lock(request.issue)?;

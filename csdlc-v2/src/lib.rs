@@ -78,6 +78,6 @@ pub use soak::{
     SoakScenario,
 };
 pub use store::{
-    approve_design, bootstrap_issue, edit_issue, ApproveDesignRequest, BootstrapRequest,
-    EditRequest, RepairIdentityRequest, Store,
+    approve_design, edit_issue, ApproveDesignRequest, BootstrapRequest, EditRequest,
+    RepairIdentityRequest, Store,
 };
