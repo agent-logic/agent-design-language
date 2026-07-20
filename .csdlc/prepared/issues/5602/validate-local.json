@@ -17,7 +17,7 @@
         "timeout_seconds": 300,
         "executable": "bash",
         "argv": ["adl/tools/test_run_authoritative_coverage_lane.sh"],
-        "evidence": {"max_log_bytes":131072,"redact_values":[],"require_relative_paths":true}
+        "evidence": {"max_log_bytes":131072,"redact_values":["/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602","/Users/daniel/git/agent-design-language"],"require_relative_paths":true}
       },
       {
         "id": "diff-check",
