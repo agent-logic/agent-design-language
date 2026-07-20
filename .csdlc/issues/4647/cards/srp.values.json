@@ -7,15 +7,15 @@
     "title": "[v0.91.7][WP-20][review] Remediate review findings",
     "slug": "v0-91-7-wp20-review-remediation-preflight",
     "version": "v0.91.7",
-    "generation": 27
+    "generation": 29
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/4647\n.csdlc/prepared/issues/4647\nadl/src/provider/http_family.rs\nadl/src/provider/http_family/tests.rs\nadl/src/provider/local.rs",
+      "review_revision": "git-blake3:5d3b83a63eeca4dc14511fb75e166f24f325e4df:5fa5b48962959ccfd37e80dbe6bd902de685c6f1e9eb86c0720822f85f925d0c",
+      "reviewer": "subagent:019f7e00-3942-7ce3-b123-a8d6bbff9803",
       "review_prompts": [
         "Does the issue stay within its WP scope?",
         "Are claims supported by retained or fresh evidence?",
@@ -23,8 +23,12 @@
         "Are sibling WP and release/activation non-claims preserved?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Exact-head bounded review by subagent 019f7e00-3942-7ce3-b123-a8d6bbff9803 confirmed HEAD 5d3b83a63eeca4dc14511fb75e166f24f325e4df is CLEAN/fixed-confirmed for the post-clippy code and lifecycle state.",
+        "The prior P2 lifecycle proof gap is fixed: SOR now records cargo fmt, cargo clippy --all-targets -- -D warnings, provider::http_family::tests::bedrock_invocation_artifact, and provider::local::tests::ollama_streaming_buffers_split_multibyte_utf8.",
+        "GitHub run 29718818086 was canceled immediately after adl-rust-fmt-clippy failed to stop remaining long-running jobs; no AWS live operation was run."
+      ],
+      "review_result": "pass"
     }
   }
 }

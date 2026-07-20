@@ -3,13 +3,13 @@
   "issue": 4647,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
-  "phase": "implemented",
-  "generation": 27,
-  "digest": "7591d13bcb620f833561d9dc7c70055a527c4d3d5b0f54af23975208eb889a5d",
+  "phase": "reviewed",
+  "generation": 29,
+  "digest": "52901f1dc2c0126fc9a2ea0c27417c8f90379c2f2d3096a16a10f25f37c36002",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 27,
+    "generation": 29,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -51,8 +51,37 @@
     ],
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f7e00-3942-7ce3-b123-a8d6bbff9803",
+    "assigned_by": "codex:019f3d65-2216-7832-804a-26339473b27d",
+    "revision": "git-blake3:5d3b83a63eeca4dc14511fb75e166f24f325e4df:5fa5b48962959ccfd37e80dbe6bd902de685c6f1e9eb86c0720822f85f925d0c",
+    "scope": [
+      ".csdlc/issues/4647",
+      ".csdlc/prepared/issues/4647",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/src/provider/local.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f7e00-3942-7ce3-b123-a8d6bbff9803",
+    "scope": [
+      ".csdlc/issues/4647",
+      ".csdlc/prepared/issues/4647",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/src/provider/local.rs"
+    ],
+    "reviewed_revision": "git-blake3:5d3b83a63eeca4dc14511fb75e166f24f325e4df:5fa5b48962959ccfd37e80dbe6bd902de685c6f1e9eb86c0720822f85f925d0c",
+    "findings": [],
+    "residual_risks": [
+      "Exact-head bounded review by subagent 019f7e00-3942-7ce3-b123-a8d6bbff9803 confirmed HEAD 5d3b83a63eeca4dc14511fb75e166f24f325e4df is CLEAN/fixed-confirmed for the post-clippy code and lifecycle state.",
+      "The prior P2 lifecycle proof gap is fixed: SOR now records cargo fmt, cargo clippy --all-targets -- -D warnings, provider::http_family::tests::bedrock_invocation_artifact, and provider::local::tests::ollama_streaming_buffers_split_multibyte_utf8.",
+      "GitHub run 29718818086 was canceled immediately after adl-rust-fmt-clippy failed to stop remaining long-running jobs; no AWS live operation was run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -67,32 +96,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9f51e1707c5a35a50a3165f99896329ebddda1ac6a1c3756fcfa995a384a7e3f",
+      "values_digest": "34ba218881d3f468449b18486dd8861421bf95cca9e70d32119e217b2b492ca4",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "2f449dbbe84af924d3925fb7d00569297109484dbabd380015c7259dae9ef76f",
+      "values_digest": "98a711f06af41529fd854ca465b8ab73628e403e11fa26a50b5e22d0f7affebf",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "a5a6629596a751d0e60fec46c670f3ac29c2e8eeddd53ce0f189c98b35493419",
+      "values_digest": "7922c6553139077af2f369098d67a1279df98ddbe7019a271fb720e02bcb49dc",
       "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
       "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "ccc8a3c325dc9a7219a2e00bb286d6d5b9e5adaad6e3ce6b526f9934387af374",
+      "values_digest": "97d16a39868e965460bdf7832df08b71e9f60afd924c1ce6678ac5da9c494b04",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "7589c02be8db40ca1864d27bcd19b6c11cc8d2f55d5083c633722ea2fa18a0fa",
-      "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
-      "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
+      "values_digest": "4708a0033183446836a2f74027d92c12514c7f5677fec6616079be19df4fe313",
+      "rendered_digest": "08237d1190706acf87c6a9439978f0b63d1248f6f92f1e8232df3d8f0b69947c",
+      "ast_digest": "9a56a5517762da842301e6b75e8d66100fca1c4c7e1a3ccd61aa962b482e2c28"
     },
     "sor": {
-      "values_digest": "90bc132ff5a7201a62ba6418a9f20cb8cda23011ba152f53074f90dee4149a1f",
+      "values_digest": "35c76fbff5c9b2c95bb57ed3c469353bdf8a462db2f8b1c9481197b25b458951",
       "rendered_digest": "454adbe979d76d26b9289bc51e3c3fcd6845375aa0c1935d4be28c29084084c4",
       "ast_digest": "4a70b257de33317d61577b9bb9cd064bb666140afd9569387285d39d640f0dd8"
     }
@@ -174,6 +203,13 @@
       "to": "implemented",
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Recover review after post-publication clippy repair required by PR #5588 adl-rust-fmt-clippy failure on run 29718818086."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-head bounded review by subagent 019f7e00-3942-7ce3-b123-a8d6bbff9803 confirmed HEAD 5d3b83a63eeca4dc14511fb75e166f24f325e4df is clean/fixed-confirmed after post-publication clippy repair and lifecycle validation recording."
     }
   ],
   "audit": [
@@ -435,6 +471,27 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Record focused local-provider UTF-8 regression proof after moving the test module for clippy.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"provider::local::tests::ollama_streaming_buffers_split_multibyte_utf8\",\"--\",\"--nocapture\"],\"purpose\":\"Verify the Ollama streaming UTF-8 buffering regression still passes after moving the test module to satisfy clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed\"}}"
+    },
+    {
+      "sequence": 38,
+      "generation": 27,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 28,
+      "actor": "subagent:019f7e00-3942-7ce3-b123-a8d6bbff9803",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 29,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact-head bounded review by subagent 019f7e00-3942-7ce3-b123-a8d6bbff9803 confirmed HEAD 5d3b83a63eeca4dc14511fb75e166f24f325e4df is clean/fixed-confirmed after post-publication clippy repair and lifecycle validation recording.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

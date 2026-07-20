@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/4647
+.csdlc/prepared/issues/4647
+adl/src/provider/http_family.rs
+adl/src/provider/http_family/tests.rs
+adl/src/provider/local.rs
 
 ## Prompts
 
@@ -31,12 +35,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Exact-head bounded review by subagent 019f7e00-3942-7ce3-b123-a8d6bbff9803 confirmed HEAD 5d3b83a63eeca4dc14511fb75e166f24f325e4df is CLEAN/fixed-confirmed for the post-clippy code and lifecycle state.
+- The prior P2 lifecycle proof gap is fixed: SOR now records cargo fmt, cargo clippy --all-targets -- -D warnings, provider::http_family::tests::bedrock_invocation_artifact, and provider::local::tests::ollama_streaming_buffers_split_multibyte_utf8.
+- GitHub run 29718818086 was canceled immediately after adl-rust-fmt-clippy failed to stop remaining long-running jobs; no AWS live operation was run.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5d3b83a63eeca4dc14511fb75e166f24f325e4df:5fa5b48962959ccfd37e80dbe6bd902de685c6f1e9eb86c0720822f85f925d0c")
 
-Reviewer: None
+Reviewer: Some("subagent:019f7e00-3942-7ce3-b123-a8d6bbff9803")
 
-Result: pre_review
+Result: pass
