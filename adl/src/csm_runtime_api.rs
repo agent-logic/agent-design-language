@@ -1308,6 +1308,14 @@ fn sanitize_json_with_key(key: Option<&str>, value: Value) -> Value {
     }
     match value {
         Value::String(raw) => sanitize_string_for_key(key, &raw).into(),
+        Value::Number(number)
+            if key.is_some_and(|key| {
+                is_account_response_key(key)
+                    && contains_cloud_account_identifier(&number.to_string())
+            }) =>
+        {
+            Value::String("[redacted]".to_string())
+        }
         Value::Array(values) => Value::Array(
             values
                 .into_iter()
@@ -1336,6 +1344,7 @@ fn sanitize_string_for_key(key: Option<&str>, raw: &str) -> String {
         || raw.to_ascii_lowercase().contains("bearer ")
         || raw.to_ascii_lowercase().contains("aws_secret_access_key")
         || raw.contains("arn:aws:")
+        || contains_freeform_cloud_account_identifier(raw)
         || key.is_some_and(|key| {
             is_account_response_key(key) && contains_cloud_account_identifier(raw)
         })
@@ -1389,6 +1398,10 @@ fn contains_cloud_account_identifier(raw: &str) -> bool {
     digits == 12
 }
 
+fn contains_freeform_cloud_account_identifier(raw: &str) -> bool {
+    raw.to_ascii_lowercase().contains("account") && contains_cloud_account_identifier(raw)
+}
+
 fn looks_like_host_private_path(raw: &str) -> bool {
     let lowered = raw.to_ascii_lowercase();
     raw.contains("/Users/")
@@ -1397,6 +1410,8 @@ fn looks_like_host_private_path(raw: &str) -> bool {
         || raw.contains("/var/folders/")
         || raw.contains("/Volumes/")
         || raw.contains("/tmp/")
+        || lowered.contains("/users/")
+        || lowered.contains(":/users/")
         || lowered.contains("\\users\\")
         || lowered.contains(":\\users\\")
 }
@@ -2427,12 +2442,24 @@ pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
         match value {
             Value::String(raw) => {
                 if looks_like_host_private_path(raw)
+                    || contains_freeform_cloud_account_identifier(raw)
                     || key.is_some_and(|key| {
                         is_account_response_key(key) && contains_cloud_account_identifier(raw)
                     })
                 {
                     return Err(anyhow!(
                         "CSM runtime API response leaked sensitive string value"
+                    ));
+                }
+                Ok(())
+            }
+            Value::Number(number) => {
+                if key.is_some_and(|key| {
+                    is_account_response_key(key)
+                        && contains_cloud_account_identifier(&number.to_string())
+                }) {
+                    return Err(anyhow!(
+                        "CSM runtime API response leaked sensitive numeric account value"
                     ));
                 }
                 Ok(())
@@ -2495,6 +2522,14 @@ fn sanitize_api_response_value_with_key(key: Option<&str>, value: &mut Value) {
     match value {
         Value::String(raw) => {
             *raw = sanitize_string_for_key(key, raw);
+        }
+        Value::Number(number)
+            if key.is_some_and(|key| {
+                is_account_response_key(key)
+                    && contains_cloud_account_identifier(&number.to_string())
+            }) =>
+        {
+            *value = Value::String("[redacted]".to_string());
         }
         Value::Array(values) => {
             for value in values {
@@ -4096,7 +4131,7 @@ memory: {}
         fs::create_dir_all(&state).unwrap();
         fs::write(
             state.join("operator_events.jsonl"),
-            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","api_key":"adl-api-key-secret","password":"adl-password-secret","private_key":"adl-private-key-secret","access_key":"adl-access-key-secret","account_id":"123456789012","aws_account":"123456789012","cloud_account_identifier":"123456789012","ordinary_counter":123456789012,"message":"failed opening /Users/example/secret and /Volumes/home/private and /tmp/adl-secret and C:\\Users\\daniel\\secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
+            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","api_key":"adl-api-key-secret","password":"adl-password-secret","private_key":"adl-private-key-secret","access_key":"adl-access-key-secret","account_id":"123456789012","aws_account":"123456789012","cloud_account_identifier":"123456789012","numeric_account_id":123456789012,"ordinary_counter":123456789012,"message":"failed opening /Users/example/secret and /Volumes/home/private and /tmp/adl-secret and C:\\Users\\daniel\\secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
@@ -4124,7 +4159,9 @@ memory: {}
         assert_eq!(details["account_id"], "[redacted]");
         assert_eq!(details["aws_account"], "[redacted]");
         assert_eq!(details["cloud_account_identifier"], "[redacted]");
+        assert_eq!(details["numeric_account_id"], "[redacted]");
         assert_eq!(details["ordinary_counter"], 123456789012u64);
+        assert_eq!(details["message"], "[redacted]");
         assert!(raw.contains("[redacted]"));
         assert_eq!(
             sanitize_string("failed opening /Volumes/home/private"),
@@ -4140,6 +4177,10 @@ memory: {}
         );
         assert_eq!(
             sanitize_string(r"failed opening c:\users\daniel\secret"),
+            "[redacted]"
+        );
+        assert_eq!(
+            sanitize_string("failed opening c:/users/daniel/secret"),
             "[redacted]"
         );
     }
@@ -4164,6 +4205,12 @@ memory: {}
         let secret_material_like = json!({"secret_material": "not_returned"});
         assert_api_response_redacted(&secret_material_like)
             .expect_err("secret_material fields must redact arbitrary values");
+        let numeric_account_like = json!({"account_id": 123456789012u64});
+        assert_api_response_redacted(&numeric_account_like)
+            .expect_err("numeric account IDs under account keys must fail");
+        let freeform_account_like = json!({"message": "account 123456789012"});
+        assert_api_response_redacted(&freeform_account_like)
+            .expect_err("free-form cloud account identifiers must fail");
     }
 
     #[tokio::test]

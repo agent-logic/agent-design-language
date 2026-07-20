@@ -293,7 +293,9 @@ fi
 
 acquire_promotion_lock() {
   local attempts=0
+  mkdir -p "$(dirname "$SHARED_SUMMARY_PROMOTION_LOCK")" || return "$?"
   while ! mkdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null; do
+    recover_stale_promotion_lock || true
     attempts=$((attempts + 1))
     if [ "$attempts" -gt 200 ]; then
       echo "timed out waiting for coverage summary promotion lock" >&2
@@ -301,9 +303,44 @@ acquire_promotion_lock() {
     fi
     sleep 0.05
   done
+  write_promotion_lock_owner || {
+    local status=$?
+    rmdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null || true
+    return "$status"
+  }
+}
+
+promotion_lock_owner_path() {
+  printf '%s\n' "$SHARED_SUMMARY_PROMOTION_LOCK/owner"
+}
+
+write_promotion_lock_owner() {
+  local owner_path
+  owner_path="$(promotion_lock_owner_path)"
+  {
+    printf 'pid=%s\n' "$$"
+    printf 'run_id=%s\n' "$COVERAGE_RUN_ID"
+    printf 'acquired_unix_seconds=%s\n' "$(date +%s)"
+  } > "$owner_path"
+}
+
+recover_stale_promotion_lock() {
+  local owner_path owner_pid
+  owner_path="$(promotion_lock_owner_path)"
+  [ -d "$SHARED_SUMMARY_PROMOTION_LOCK" ] || return 1
+  owner_pid="$(awk -F= '$1 == "pid" {print $2; exit}' "$owner_path" 2>/dev/null || true)"
+  if [ -z "$owner_pid" ]; then
+    return 1
+  fi
+  if [ -n "$owner_pid" ] && kill -0 "$owner_pid" 2>/dev/null; then
+    return 1
+  fi
+  rm -rf "$SHARED_SUMMARY_PROMOTION_LOCK" || return "$?"
+  echo "recovered stale coverage summary promotion lock" >&2
 }
 
 release_promotion_lock() {
+  rm -f "$(promotion_lock_owner_path)" 2>/dev/null || true
   rmdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null || true
 }
 
@@ -413,6 +450,10 @@ promote_current_run_summaries() {
     trap - EXIT
     rm -rf "$tmp" || true
     return 42
+  fi
+  if [ "${ADL_COVERAGE_INJECT_PROMOTION_CRASH_AFTER_LOCK:-0}" = "1" ]; then
+    echo "injected coverage summary crash after lock acquisition" >&2
+    kill -9 $$
   fi
   if [ -e "$run_dir" ]; then
     echo "coverage summary run directory already exists: $run_dir" >&2

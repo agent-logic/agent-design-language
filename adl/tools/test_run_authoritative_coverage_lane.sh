@@ -323,9 +323,43 @@ do
   fi
 done
 
+crash_lock_log="$temp_root/crash-lock.log"
+crash_lock_stderr="$temp_root/crash-lock.stderr"
+set +e
+PATH="$bin_dir:$PATH" \
+  AUTHORITATIVE_CARGO_LOG="$crash_lock_log" \
+  ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+  ADL_COVERAGE_RUN_ID="run-crash-lock" \
+  ADL_COVERAGE_INJECT_PROMOTION_CRASH_AFTER_LOCK=1 \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request 2>"$crash_lock_stderr"
+crash_lock_status=$?
+set -e
+if [ "$crash_lock_status" -eq 0 ]; then
+  echo "expected injected promotion crash to terminate runner" >&2
+  exit 1
+fi
+grep -F -- "injected coverage summary crash after lock acquisition" "$crash_lock_stderr" >/dev/null
+if [ ! -d "$shared_lock" ]; then
+  echo "expected injected crash to leave stale promotion lock for recovery proof" >&2
+  exit 1
+fi
+after_crash_log="$temp_root/after-crash-lock.log"
+after_crash_stderr="$temp_root/after-crash-lock.stderr"
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$after_crash_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-after-crash-lock" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request 2>"$after_crash_stderr"
+grep -F -- "recovered stale coverage summary promotion lock" "$after_crash_stderr" >/dev/null
+if [ ! -s "$shared_published_root/runs/run-after-crash-lock/coverage-summary.json" ]; then
+  echo "expected run after stale lock recovery to publish coverage summaries" >&2
+  exit 1
+fi
+
 printf 'legacy-adl-regular\n' > "$shared_adl_summary"
 printf 'legacy-runtime-regular\n' > "$shared_runtime_summary"
 printf 'legacy-final-regular\n' > "$shared_final_summary"
+rm -f "$shared_published_root/current"
 concurrent_a_log="$temp_root/concurrent-a.log"
 concurrent_b_log="$temp_root/concurrent-b.log"
 observer_stop="$temp_root/observer.stop"
