@@ -44,6 +44,20 @@ Implemented the compact generation-aware registry contract and preparation-safe 
     "purpose": "Prove complete native v2 behavior, compatibility, installer provenance, strict lint, owner binaries, typed doctor, and diff hygiene for commit 1e810bde5.",
     "outcome": "passed",
     "evidence_ref": "Commit 1e810bde5: complete csdlc-v2 all-target suite passed including Gate 10 install/provenance; strict all-target Clippy passed with -D warnings; all v2 binaries built on FastWork; typed doctor passed at issue 5597 generation 3 with zero findings; git diff --check passed."
+  },
+  {
+    "command": [
+      "env",
+      "CARGO_TARGET_DIR=<operator-approved-external-target>",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets"
+    ],
+    "purpose": "Prove complete native v2 behavior, API closure, compatibility, installer provenance, strict lint, owner binaries, typed doctor, formatting, and bounded revision scope for commit 0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48: complete csdlc-v2 all-target suite and doctest passed; focused Gate 5, Gate 7 lifecycle, and Gate 10A suites passed; strict all-target Clippy passed with -D warnings; cargo fmt --check passed; bounded origin/main-to-revision path and whitespace proof passed; stable v2 install/coexistence provenance reports git:0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48; typed doctor passed at issue 5597 generation 12 with zero findings. Builds used the operator-approved external FastWork target; the retained command remains portable."
   }
 ]
 
