@@ -5,7 +5,7 @@
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
   "phase": "implemented",
   "generation": 5,
-  "digest": "26ade57c9d5577d1ad81ead2281bd2e0d183903cd2088436cd0f130c57db3c46",
+  "digest": "35884f38b45716b0160c872dd6278af8c97db801665678f94a04abc6e36a82c4",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -26,16 +26,27 @@
       "adl/src/csm_networking.rs",
       "adl/src/csm_runtime_api.rs",
       "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
       "adl/src/provider/http_family/tests.rs",
+      "adl/src/provider/local.rs",
       "adl/tests/cli_smoke/agent.rs",
+      "adl/tools/check_coverage_impact.sh",
       "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_check_coverage_impact.sh",
       "adl/tools/test_ci_runtime_contracts.sh",
       "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+      "docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md",
+      "docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md",
       "docs/milestones/v0.91.7/review/V0917_SPRINT_REVIEW_REGISTER.md",
       "docs/milestones/v0.91.7/review/V0917_WP20_REMEDIATION_PREFLIGHT_4647.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md",
+      "docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md",
       "docs/milestones/v0.91.7/review/wp20_remediation_4647",
+      "docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md",
       "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md",
-      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md"
+      "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md",
+      "docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd"
     ],
     "purpose": "Prepare and later execute WP-20 without claiming completion from setup"
   },
@@ -199,6 +210,13 @@
       "actor": "codex-019f3d65-2216-7832-804a-26339473b27d",
       "reason": "csdlc-bind materialized the issue-local lifecycle lock file for #4647; if retained in the branch, protected paths must cover the exact lock path.",
       "operation": "{\"add_protected_paths\":[\".csdlc/locks/4647.lock\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 5,
+      "actor": "codex-019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Exact path comparison found additional non-lifecycle WP-20 remediation paths changed on the branch; protected paths must include these exact changed paths before publication.",
+      "operation": "{\"add_protected_paths\":[\"adl/src/provider/http_family/config.rs\",\"adl/src/provider/local.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\",\"docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md\",\"docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md\",\"docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md\",\"docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md\",\"docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md\",\"docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
