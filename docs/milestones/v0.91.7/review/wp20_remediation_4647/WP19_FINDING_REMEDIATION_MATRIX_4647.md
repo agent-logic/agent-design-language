@@ -28,7 +28,7 @@ Retained historical finding-validation input:
 | WP19-13 | fixed | `WP_ISSUE_WAVE_v0.91.7.yaml` now records WP-21A as closed in both summary and detail truth; YAML parse passed. |
 | WP19-14 | fixed | `resolve_main_runtime_api_listener` parses and rejects non-loopback binds before `TcpListener::bind`; `validate_loopback_bind` remains as post-bind defense. Added `main_runtime_api_rejects_non_loopback_bind_before_listener_creation` as direct production-order negative proof for the resolver path. |
 | WP19-15 | fixed | Authenticated GET now computes one identity-aware runtime API response through `runtime_api_get_response`; the admission header is derived from the same loaded response body when shutdown state is present, avoiding incoherent double snapshots. `runtime_api_get_admission_header_matches_loaded_shutdown_body` proves the header/body coherence. |
-| WP19-16 | fixed | `exact_pid_is_live` still distinguishes missing PIDs as stale, while `daemon_supervisor_pid_liveness` reports existing but unauthenticated PIDs as `unknown` unless a future start-identity proof is available. `runtime_api_reports_existing_pid_without_start_identity_as_unknown` uses the current process PID to prove no live claim is made from PID existence alone. |
+| WP19-16 | fixed | `exact_pid_is_live` still distinguishes missing PIDs as stale, while `daemon_supervisor_pid_liveness` reports existing but unauthenticated PIDs as `unknown` unless a future start-identity proof is available. `daemon_pid_liveness_does_not_claim_live_without_start_identity` uses the current process PID to prove no live claim is made from PID existence alone. |
 | WP19-17 | fixed | Unauthenticated OPTIONS responses return before `record_request` and omit `x-csm-admission`, so they no longer consume bounded shutdown/test request budget or disclose admission state. |
 | WP19-18 | fixed | `emit_runtime_api_client_error` now routes through the existing sanitizer before separator masking, and the sanitizer covers `/Users`, `/home`, `/private`, `/var/folders`, `/Volumes`, `/tmp`, and Windows user-path forms. |
 | WP19-19 | fixed | `runtime_api_axum_response` forces HTTP 500 when serialization fallback is used. |
@@ -48,7 +48,7 @@ Retained historical finding-validation input:
 - `cargo test -p adl csm_runtime_api::tests::runtime_api_redacts_secret_and_host_path_event_payloads -- --nocapture`
 - `cargo test -p adl csm_runtime_api::tests::runtime_api_redacts_spec_derived_account_ids_and_windows_paths -- --nocapture`
 - `cargo test -p adl csm_runtime_api::tests::runtime_api_get_admission_header_matches_loaded_shutdown_body -- --nocapture`
-- `cargo test -p adl csm_runtime_api::tests::runtime_api_reports_existing_pid_without_start_identity_as_unknown -- --nocapture`
+- `cargo test -p adl csm_runtime_api::tests::daemon_pid_liveness_does_not_claim_live_without_start_identity -- --nocapture`
 - `cargo test -p adl csm_runtime_api::tests::runtime_api_auth_event_write_failure_fails_closed -- --nocapture`
 - `cargo test -p adl csm_networking::tests::main_runtime_api_rejects_non_loopback_bind_before_listener_creation -- --nocapture`
 - `ruby -e 'require "yaml"; require "date"; YAML.safe_load(File.read("docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml"), permitted_classes: [Date], aliases: true); puts "yaml-ok"'`

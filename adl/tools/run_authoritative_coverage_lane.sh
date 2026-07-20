@@ -8,6 +8,9 @@ SHARED_ADL_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl.json"
 SHARED_ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl-runtime.json"
 SHARED_FINAL_SUMMARY_PATH="$ADL_DIR/coverage-summary.json"
 SHARED_SUMMARY_PROMOTION_LOCK="$ADL_DIR/coverage-summary.promote.lock"
+SHARED_SUMMARY_PUBLISHED_ROOT="$ADL_DIR/coverage-summary.published"
+SHARED_SUMMARY_RUNS_ROOT="$SHARED_SUMMARY_PUBLISHED_ROOT/runs"
+SHARED_SUMMARY_CURRENT_LINK="$SHARED_SUMMARY_PUBLISHED_ROOT/current"
 PRINT_PLAN=false
 AUTHORITY="push_main"
 EVENT_NAME="push"
@@ -304,37 +307,137 @@ release_promotion_lock() {
   rmdir "$SHARED_SUMMARY_PROMOTION_LOCK" 2>/dev/null || true
 }
 
-stage_summary() {
+checked_cp_summary() {
   local source="$1"
   local dest="$2"
-  local tmp="$3"
   if [ ! -s "$source" ]; then
     echo "missing coverage summary for current run: $source" >&2
     return 1
   fi
-  cp "$source" "$tmp/${dest##*/}"
+  cp "$source" "$dest" || return "$?"
+}
+
+install_legacy_summary_symlink() {
+  local dest="$1"
+  local basename="${dest##*/}"
+  local link_tmp="${dest}.${COVERAGE_RUN_ID}.link.tmp"
+  rm -f "$link_tmp" || return "$?"
+  ln -s "coverage-summary.published/current/$basename" "$link_tmp" || return "$?"
+  mv -f "$link_tmp" "$dest" || return "$?"
 }
 
 promote_current_run_summaries() {
-  local tmp="$ADL_DIR/.coverage-summary.${COVERAGE_RUN_ID}.tmp"
-  rm -rf "$tmp"
-  mkdir -p "$tmp"
-  stage_summary "$ADL_SUMMARY_PATH" "$SHARED_ADL_SUMMARY_PATH" "$tmp"
-  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-    stage_summary "$ADL_RUNTIME_SUMMARY_PATH" "$SHARED_ADL_RUNTIME_SUMMARY_PATH" "$tmp"
+  local tmp="$SHARED_SUMMARY_RUNS_ROOT/.${COVERAGE_RUN_ID}.tmp"
+  local run_dir="$SHARED_SUMMARY_RUNS_ROOT/$COVERAGE_RUN_ID"
+  local link_tmp="$SHARED_SUMMARY_PUBLISHED_ROOT/current.${COVERAGE_RUN_ID}.tmp"
+  rm -rf "$tmp" "$link_tmp" || return "$?"
+  mkdir -p "$tmp" "$SHARED_SUMMARY_RUNS_ROOT" || return "$?"
+  if [ "${ADL_COVERAGE_INJECT_PROMOTION_STAGE_FAILURE:-0}" = "1" ]; then
+    echo "injected coverage summary staging failure" >&2
+    rm -rf "$tmp" || true
+    return 41
   fi
-  stage_summary "$FINAL_SUMMARY_PATH" "$SHARED_FINAL_SUMMARY_PATH" "$tmp"
+  checked_cp_summary "$ADL_SUMMARY_PATH" "$tmp/${SHARED_ADL_SUMMARY_PATH##*/}" || {
+    local status=$?
+    rm -rf "$tmp" || true
+    return "$status"
+  }
+  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
+    checked_cp_summary "$ADL_RUNTIME_SUMMARY_PATH" "$tmp/${SHARED_ADL_RUNTIME_SUMMARY_PATH##*/}" || {
+      local status=$?
+      rm -rf "$tmp" || true
+      return "$status"
+    }
+  fi
+  checked_cp_summary "$FINAL_SUMMARY_PATH" "$tmp/${SHARED_FINAL_SUMMARY_PATH##*/}" || {
+    local status=$?
+    rm -rf "$tmp" || true
+    return "$status"
+  }
 
-  acquire_promotion_lock
-  trap release_promotion_lock EXIT
-  mv "$tmp/${SHARED_ADL_SUMMARY_PATH##*/}" "$SHARED_ADL_SUMMARY_PATH"
-  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-    mv "$tmp/${SHARED_ADL_RUNTIME_SUMMARY_PATH##*/}" "$SHARED_ADL_RUNTIME_SUMMARY_PATH"
+  acquire_promotion_lock || {
+    local status=$?
+    rm -rf "$tmp" || true
+    return "$status"
+  }
+  trap 'release_promotion_lock' EXIT
+  if [ "${ADL_COVERAGE_INJECT_PROMOTION_LOCKED_FAILURE:-0}" = "1" ]; then
+    echo "injected coverage summary locked promotion failure" >&2
+    release_promotion_lock
+    trap - EXIT
+    rm -rf "$tmp" || true
+    return 42
   fi
-  mv "$tmp/${SHARED_FINAL_SUMMARY_PATH##*/}" "$SHARED_FINAL_SUMMARY_PATH"
+  rm -rf "$run_dir" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    rm -rf "$tmp" || true
+    return "$status"
+  }
+  mv "$tmp" "$run_dir" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    rm -rf "$tmp" || true
+    return "$status"
+  }
+  rm -f "$link_tmp" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    return "$status"
+  }
+  ln -s "runs/$COVERAGE_RUN_ID" "$link_tmp" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    return "$status"
+  }
+  if [ "${ADL_COVERAGE_INJECT_PROMOTION_COMMIT_FAILURE:-0}" = "1" ]; then
+    echo "injected coverage summary commit failure" >&2
+    rm -f "$link_tmp" || true
+    release_promotion_lock
+    trap - EXIT
+    return 43
+  fi
+  rm -f "$SHARED_SUMMARY_CURRENT_LINK" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    rm -f "$link_tmp" || true
+    return "$status"
+  }
+  mv "$link_tmp" "$SHARED_SUMMARY_CURRENT_LINK" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    rm -f "$link_tmp" || true
+    return "$status"
+  }
+  install_legacy_summary_symlink "$SHARED_ADL_SUMMARY_PATH" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    return "$status"
+  }
+  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
+    install_legacy_summary_symlink "$SHARED_ADL_RUNTIME_SUMMARY_PATH" || {
+      local status=$?
+      release_promotion_lock
+      trap - EXIT
+      return "$status"
+    }
+  fi
+  install_legacy_summary_symlink "$SHARED_FINAL_SUMMARY_PATH" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
+    return "$status"
+  }
   release_promotion_lock
   trap - EXIT
-  rmdir "$tmp" 2>/dev/null || true
+  return 0
 }
 
 if [ "$coverage_status" -eq 0 ]; then

@@ -50,14 +50,15 @@ approves a bounded refresh.
 
 ## Digest Procedure
 
-At send time, create a publication-safe sidecar manifest that lists every
-tracked source/evidence path included in this handoff, one repo-relative path
-per line, sorted bytewise. Exclude the Target Revision table row that stores the
-digest value and exclude untracked/local artifacts.
+At send time, create a publication-safe sidecar record with sorted tracked
+mode/type/hash/path records plus the normalized synthetic handoff record defined
+below. Exclude the Target Revision table row that stores the digest value and
+exclude untracked/local artifacts.
 
 Use this procedure from the exact target revision:
 
 ```sh
+mkdir -p .adl/local-artifacts
 {
   git ls-tree -r HEAD -- \
     docs/milestones/v0.91.8 \

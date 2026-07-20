@@ -121,7 +121,7 @@ esac
 
 mkdir -p "$ROOT_DIR/.adl/tmp"
 temp_root="$(mktemp -d "$ROOT_DIR/.adl/tmp/authoritative-coverage.XXXXXX")"
-trap 'rm -rf "$temp_root"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json" "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"' EXIT
+trap 'rm -rf "$temp_root"; rm -rf "$ROOT_DIR/adl/coverage-summary.published"; rm -f "$ROOT_DIR/adl/coverage-summary.promote.lock"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json" "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"' EXIT
 bin_dir="$temp_root/bin"
 mkdir -p "$bin_dir"
 scratch_root="$temp_root/scratch"
@@ -224,6 +224,8 @@ fi
 grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-failing/coverage-summary.adl.json" "$failing_cargo_log" >/dev/null
 grep -F -- "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-failing/coverage-summary.adl-runtime.json" "$failing_cargo_log" >/dev/null
 
+rm -rf "$ROOT_DIR/adl/coverage-summary.published"
+rm -f "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"
 printf 'stale-adl\n' > "$ROOT_DIR/adl/coverage-summary.adl.json"
 printf 'stale-runtime\n' > "$ROOT_DIR/adl/coverage-summary.adl-runtime.json"
 printf 'stale-final\n' > "$ROOT_DIR/adl/coverage-summary.json"
@@ -254,8 +256,62 @@ if [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl.json")" != "stale-adl" ] \
   exit 1
 fi
 
+for injection in \
+  ADL_COVERAGE_INJECT_PROMOTION_STAGE_FAILURE \
+  ADL_COVERAGE_INJECT_PROMOTION_LOCKED_FAILURE \
+  ADL_COVERAGE_INJECT_PROMOTION_COMMIT_FAILURE
+do
+  injection_log="$temp_root/${injection}.log"
+  if env "$injection=1" \
+    PATH="$bin_dir:$PATH" \
+    AUTHORITATIVE_CARGO_LOG="$injection_log" \
+    ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+    ADL_COVERAGE_RUN_ID="run-${injection}" \
+      bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request; then
+    echo "expected injected promotion failure to fail: $injection" >&2
+    exit 1
+  fi
+  if [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl.json")" != "stale-adl" ] \
+    || [ "$(cat "$ROOT_DIR/adl/coverage-summary.adl-runtime.json")" != "stale-runtime" ] \
+    || [ "$(cat "$ROOT_DIR/adl/coverage-summary.json")" != "stale-final" ]; then
+    echo "expected injected promotion failure to leave shared summaries wholly unchanged: $injection" >&2
+    exit 1
+  fi
+done
+
+rm -f "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"
 concurrent_a_log="$temp_root/concurrent-a.log"
 concurrent_b_log="$temp_root/concurrent-b.log"
+observer_stop="$temp_root/observer.stop"
+observer_log="$temp_root/observer.log"
+(
+  while [ ! -e "$observer_stop" ]; do
+    if [ -e "$ROOT_DIR/adl/coverage-summary.adl.json" ] \
+      && [ -e "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" ] \
+      && [ -e "$ROOT_DIR/adl/coverage-summary.json" ]; then
+      observed="$(
+        {
+          cat "$ROOT_DIR/adl/coverage-summary.adl.json" \
+            "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" \
+            "$ROOT_DIR/adl/coverage-summary.json" \
+            | grep -o 'run-concurrent-[ab]' \
+            | sort -u \
+            | tr '\n' ' '
+        } || true
+      )"
+      case "$observed" in
+        "run-concurrent-a "|"run-concurrent-b "|"") ;;
+        *)
+          printf 'mixed shared summary set observed: %s\n' "$observed" > "$observer_log"
+          touch "$observer_stop"
+          exit 1
+          ;;
+      esac
+    fi
+    sleep 0.01
+  done
+) &
+observer_pid="$!"
 PATH="$bin_dir:$PATH" \
 AUTHORITATIVE_CARGO_LOG="$concurrent_a_log" \
 ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
@@ -270,6 +326,11 @@ ADL_COVERAGE_RUN_ID="run-concurrent-b" \
 pid_b="$!"
 wait "$pid_a"
 wait "$pid_b"
+touch "$observer_stop"
+wait "$observer_pid" || {
+  cat "$observer_log" >&2
+  exit 1
+}
 for required in \
   "$scratch_root/coverage-output/run-concurrent-a/coverage-summary.adl.json" \
   "$scratch_root/coverage-output/run-concurrent-a/coverage-summary.adl-runtime.json" \
@@ -280,6 +341,20 @@ for required in \
 do
   if [ ! -s "$required" ]; then
     echo "expected concurrent run-isolated summary output: $required" >&2
+    exit 1
+  fi
+done
+if [ ! -L "$ROOT_DIR/adl/coverage-summary.published/current" ]; then
+  echo "expected atomic current pointer symlink for published coverage summaries" >&2
+  exit 1
+fi
+for legacy_summary in \
+  "$ROOT_DIR/adl/coverage-summary.adl.json" \
+  "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" \
+  "$ROOT_DIR/adl/coverage-summary.json"
+do
+  if [ ! -L "$legacy_summary" ]; then
+    echo "expected legacy summary path to resolve through current pointer: $legacy_summary" >&2
     exit 1
   fi
 done

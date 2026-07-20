@@ -1299,36 +1299,26 @@ fn read_jsonl_tail(path: &Path, limit: usize) -> Value {
 }
 
 fn sanitize_json(value: Value) -> Value {
+    sanitize_json_with_key(None, value)
+}
+
+fn sanitize_json_with_key(key: Option<&str>, value: Value) -> Value {
+    if key.is_some_and(is_secret_response_key) {
+        return Value::String("[redacted]".to_string());
+    }
     match value {
-        Value::String(raw) => sanitize_string(&raw).into(),
-        Value::Number(raw) if contains_cloud_account_identifier(&raw.to_string()) => {
-            Value::String("[redacted]".to_string())
-        }
-        Value::Array(values) => Value::Array(values.into_iter().map(sanitize_json).collect()),
+        Value::String(raw) => sanitize_string_for_key(key, &raw).into(),
+        Value::Array(values) => Value::Array(
+            values
+                .into_iter()
+                .map(|value| sanitize_json_with_key(key, value))
+                .collect(),
+        ),
         Value::Object(map) => Value::Object(
             map.into_iter()
                 .map(|(key, value)| {
-                    let lowered = key.to_ascii_lowercase();
-                    if lowered.contains("secret")
-                        || lowered.contains("token")
-                        || lowered.contains("authorization")
-                        || lowered.contains("credential")
-                        || lowered == "api_key"
-                        || lowered.ends_with("_api_key")
-                        || lowered == "password"
-                        || lowered.ends_with("_password")
-                        || lowered == "private_key"
-                        || lowered.ends_with("_private_key")
-                        || lowered == "access_key"
-                        || lowered.ends_with("_access_key")
-                        || lowered.contains("cloud_account")
-                        || lowered.contains("account_id")
-                        || lowered.contains("aws_account")
-                    {
-                        (key, Value::String("[redacted]".to_string()))
-                    } else {
-                        (key, sanitize_json(value))
-                    }
+                    let sanitized = sanitize_json_with_key(Some(&key), value);
+                    (key, sanitized)
                 })
                 .collect(),
         ),
@@ -1337,17 +1327,50 @@ fn sanitize_json(value: Value) -> Value {
 }
 
 fn sanitize_string(raw: &str) -> String {
+    sanitize_string_for_key(None, raw)
+}
+
+fn sanitize_string_for_key(key: Option<&str>, raw: &str) -> String {
     if looks_like_host_private_path(raw)
         || raw.contains("Authorization:")
         || raw.to_ascii_lowercase().contains("bearer ")
         || raw.to_ascii_lowercase().contains("aws_secret_access_key")
         || raw.contains("arn:aws:")
-        || contains_cloud_account_identifier(raw)
+        || key.is_some_and(|key| {
+            is_account_response_key(key) && contains_cloud_account_identifier(raw)
+        })
     {
         "[redacted]".to_string()
     } else {
         raw.to_string()
     }
+}
+
+fn is_secret_response_key(key: &str) -> bool {
+    let lowered = key.to_ascii_lowercase();
+    lowered == "secret"
+        || lowered.ends_with("_secret")
+        || lowered == "token"
+        || lowered.ends_with("_token")
+        || lowered == "authorization"
+        || lowered.ends_with("_authorization")
+        || lowered == "api_key"
+        || lowered.ends_with("_api_key")
+        || lowered == "password"
+        || lowered.ends_with("_password")
+        || lowered == "private_key"
+        || lowered.ends_with("_private_key")
+        || lowered == "access_key"
+        || lowered.ends_with("_access_key")
+}
+
+fn is_account_response_key(key: &str) -> bool {
+    let lowered = key.to_ascii_lowercase();
+    lowered == "agent_instance_id"
+        || lowered == "polis_id"
+        || lowered.contains("cloud_account")
+        || lowered.contains("account_id")
+        || lowered.contains("aws_account")
 }
 
 fn contains_cloud_account_identifier(raw: &str) -> bool {
@@ -2272,8 +2295,20 @@ fn runtime_api_internal_error_response(
 fn runtime_api_axum_response(response: RuntimeApiHttpResponse) -> Response<Body> {
     let mut status = runtime_api_status_code(response.status);
     let mut serialization_failed = false;
-    let raw = response
-        .body
+    let body = match response.body {
+        Some(body) => match finalize_api_response(body) {
+            Ok(body) => Some(body),
+            Err(_) => {
+                serialization_failed = true;
+                Some(json!({
+                    "schema": CSM_RUNTIME_API_SCHEMA,
+                    "status": "serialization_error"
+                }))
+            }
+        },
+        None => None,
+    };
+    let raw = body
         .as_ref()
         .map(serde_json::to_vec_pretty)
         .transpose()
@@ -2292,7 +2327,7 @@ fn runtime_api_axum_response(response: RuntimeApiHttpResponse) -> Response<Body>
         status = StatusCode::INTERNAL_SERVER_ERROR;
     }
     let mut builder = Response::builder().status(status);
-    if response.body.is_some() {
+    if body.is_some() {
         builder = builder.header("content-type", "application/json");
     }
     for (name, value) in response.headers {
@@ -2381,10 +2416,19 @@ fn is_approved_loopback_browser_origin(origin: &str) -> bool {
 }
 
 pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
-    fn visit_strings(value: &Value) -> Result<()> {
+    fn visit_strings(key: Option<&str>, value: &Value) -> Result<()> {
+        if key.is_some_and(is_secret_response_key) && value != &json!("[redacted]") {
+            return Err(anyhow!(
+                "CSM runtime API response leaked unredacted secret-key value"
+            ));
+        }
         match value {
             Value::String(raw) => {
-                if contains_cloud_account_identifier(raw) || looks_like_host_private_path(raw) {
+                if looks_like_host_private_path(raw)
+                    || key.is_some_and(|key| {
+                        is_account_response_key(key) && contains_cloud_account_identifier(raw)
+                    })
+                {
                     return Err(anyhow!(
                         "CSM runtime API response leaked sensitive string value"
                     ));
@@ -2393,20 +2437,20 @@ pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
             }
             Value::Array(values) => {
                 for value in values {
-                    visit_strings(value)?;
+                    visit_strings(key, value)?;
                 }
                 Ok(())
             }
             Value::Object(map) => {
-                for value in map.values() {
-                    visit_strings(value)?;
+                for (key, value) in map {
+                    visit_strings(Some(key), value)?;
                 }
                 Ok(())
             }
             _ => Ok(()),
         }
     }
-    visit_strings(value)?;
+    visit_strings(None, value)?;
     let raw = serde_json::to_string(value)?;
     for forbidden in [
         "/Users/",
@@ -2438,18 +2482,26 @@ fn finalize_api_response(mut response: Value) -> Result<Value> {
 }
 
 fn sanitize_api_response_value(value: &mut Value) {
+    sanitize_api_response_value_with_key(None, value);
+}
+
+fn sanitize_api_response_value_with_key(key: Option<&str>, value: &mut Value) {
+    if key.is_some_and(is_secret_response_key) {
+        *value = Value::String("[redacted]".to_string());
+        return;
+    }
     match value {
         Value::String(raw) => {
-            *raw = sanitize_string(raw);
+            *raw = sanitize_string_for_key(key, raw);
         }
         Value::Array(values) => {
             for value in values {
-                sanitize_api_response_value(value);
+                sanitize_api_response_value_with_key(key, value);
             }
         }
         Value::Object(map) => {
-            for value in map.values_mut() {
-                sanitize_api_response_value(value);
+            for (key, value) in map {
+                sanitize_api_response_value_with_key(Some(key), value);
             }
         }
         _ => {}
@@ -4042,7 +4094,7 @@ memory: {}
         fs::create_dir_all(&state).unwrap();
         fs::write(
             state.join("operator_events.jsonl"),
-            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","api_key":"adl-api-key-secret","password":"adl-password-secret","private_key":"adl-private-key-secret","access_key":"adl-access-key-secret","account_id":"123456789012","aws_account":"123456789012","cloud_account_identifier":"123456789012","numeric_account":123456789012,"message":"failed opening /Users/example/secret and /Volumes/home/private and /tmp/adl-secret and C:\\Users\\daniel\\secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
+            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","api_key":"adl-api-key-secret","password":"adl-password-secret","private_key":"adl-private-key-secret","access_key":"adl-access-key-secret","account_id":"123456789012","aws_account":"123456789012","cloud_account_identifier":"123456789012","ordinary_counter":123456789012,"message":"failed opening /Users/example/secret and /Volumes/home/private and /tmp/adl-secret and C:\\Users\\daniel\\secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
@@ -4065,8 +4117,12 @@ memory: {}
         assert!(!raw.contains("/Volumes/"));
         assert!(!raw.contains("/tmp/"));
         assert!(!raw.contains("C:\\\\Users\\\\daniel"));
-        assert!(!raw.contains("123456789012"));
         assert!(!raw.contains("arn:aws:"));
+        let details = &response["events"]["entries"][0]["details"];
+        assert_eq!(details["account_id"], "[redacted]");
+        assert_eq!(details["aws_account"], "[redacted]");
+        assert_eq!(details["cloud_account_identifier"], "[redacted]");
+        assert_eq!(details["ordinary_counter"], 123456789012u64);
         assert!(raw.contains("[redacted]"));
         assert_eq!(
             sanitize_string("failed opening /Volumes/home/private"),
@@ -4080,6 +4136,50 @@ memory: {}
             sanitize_string(r"failed opening C:\Users\daniel\secret"),
             "[redacted]"
         );
+    }
+
+    #[test]
+    fn runtime_api_redaction_is_key_aware_and_preserves_benign_ids() {
+        let benign = json!({
+            "completed_cycle_count": 123456789012u64,
+            "public_fixture_id": "123456789012",
+            "ordinary_counter": 42
+        });
+        assert_api_response_redacted(&benign)
+            .expect("ordinary counters and non-account fixture ids should remain allowed");
+
+        let account_like = json!({"agent_instance_id": "123456789012"});
+        assert_api_response_redacted(&account_like)
+            .expect_err("account-like strings in agent identity context must fail");
+
+        let secret_like = json!({"api_key": "not-even-secret-looking"});
+        assert_api_response_redacted(&secret_like)
+            .expect_err("secret-key fields must redact arbitrary values");
+    }
+
+    #[tokio::test]
+    async fn runtime_api_axum_response_finalizes_direct_error_and_auth_bodies() {
+        let response = runtime_api_axum_response(RuntimeApiHttpResponse {
+            status: "401 Unauthorized",
+            headers: vec![(
+                "www-authenticate",
+                "Bearer realm=\"csm-runtime-api\"".to_string(),
+            )],
+            body: Some(json!({
+                "schema": CSM_RUNTIME_API_SCHEMA,
+                "status": "unauthorized",
+                "api_key": "arbitrary-api-key-value",
+                "agent_instance_id": "123456789012",
+                "path": r"C:\Users\daniel\secret"
+            })),
+        });
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        let body = to_bytes(response.into_body(), 64 * 1024).await.unwrap();
+        let body: Value = serde_json::from_slice(&body).unwrap();
+        assert_eq!(body["api_key"], "[redacted]");
+        assert_eq!(body["agent_instance_id"], "[redacted]");
+        assert_eq!(body["path"], "[redacted]");
+        assert_api_response_redacted(&body).unwrap();
     }
 
     #[test]
@@ -4111,8 +4211,6 @@ memory: {}
             otel_log_path: None,
         };
         let account_response = runtime_api_response(&account_options, "/status").unwrap();
-        let account_raw = serde_json::to_string(&account_response).unwrap();
-        assert!(!account_raw.contains("123456789012"));
         assert_eq!(account_response["agent_instance_id"], "[redacted]");
         assert_api_response_redacted(&account_response).unwrap();
 

@@ -561,7 +561,9 @@ for required_fragment in (
     '--output-path "$ADL_SUMMARY_PATH"',
     'coverage-summary.adl-runtime.json',
     'FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"',
-    'mv "$tmp/${SHARED_FINAL_SUMMARY_PATH##*/}" "$SHARED_FINAL_SUMMARY_PATH"',
+    'SHARED_SUMMARY_CURRENT_LINK="$SHARED_SUMMARY_PUBLISHED_ROOT/current"',
+    'ln -s "runs/$COVERAGE_RUN_ID" "$link_tmp"',
+    'install_legacy_summary_symlink "$SHARED_FINAL_SUMMARY_PATH"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(

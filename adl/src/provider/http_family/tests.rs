@@ -9,6 +9,7 @@ use std::collections::HashMap;
 use std::env;
 use std::fs;
 use std::net::TcpListener;
+use std::process::Command;
 use std::sync::{Arc, Mutex, OnceLock};
 use std::thread;
 use tiny_http::{Header, Response, Server};
@@ -368,7 +369,10 @@ fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
 
     let env_hash = sha256_hex("env-agent-logic-account");
     let config_hash = sha256_hex("config-agent-logic-account");
-    env::set_var("ADL_AWS_BEDROCK_ACCOUNT_SHA256", &env_hash);
+    env::set_var(
+        "ADL_AWS_BEDROCK_ACCOUNT_SHA256",
+        env_hash.to_ascii_uppercase(),
+    );
     let mut matching_spec = spec.clone();
     matching_spec.config.insert(
         "expected_account_sha256".to_string(),
@@ -430,6 +434,8 @@ fn bedrock_account_identity_requires_operator_approved_hash() {
 
     verify_bedrock_account_identity(Some(&observed), Some(&observed))
         .expect("matching account hash should verify");
+    verify_bedrock_account_identity(Some(&observed), Some(&observed.to_ascii_uppercase()))
+        .expect("uppercase expected account hash should normalize and verify");
 
     let missing_expected = verify_bedrock_account_identity(Some(&observed), None)
         .expect_err("missing expected account hash should fail closed");
@@ -454,6 +460,20 @@ fn bedrock_account_identity_requires_operator_approved_hash() {
     assert!(malformed
         .to_string()
         .contains("64-character SHA-256 hex digest"));
+}
+
+#[test]
+fn invocation_artifact_lock_child_process_helper() {
+    let Some(lock_path) = env::var_os("ADL_INVOCATION_LOCK_CHILD_PATH") else {
+        return;
+    };
+    let artifact = PathBuf::from(lock_path);
+    let marker =
+        PathBuf::from(env::var_os("ADL_INVOCATION_LOCK_CHILD_MARKER").expect("child marker env"));
+    let _lock = acquire_invocation_artifact_lock(&artifact).expect("child lock");
+    fs::write(marker, "locked").expect("child marker write");
+    std::thread::sleep(Duration::from_millis(50));
+    std::process::exit(0);
 }
 
 fn provider_spec(
@@ -1509,6 +1529,7 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
 
     let artifact = temp_root.join("invocations.json");
     let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let prev_lock_timeout = env::var_os("ADL_INVOCATION_LOCK_TIMEOUT_MS");
     env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
 
     write_native_invocation_record("openai", "gpt-test", "hello", "world", 200)
@@ -1619,9 +1640,55 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
         );
     }
 
+    let held_lock = acquire_invocation_artifact_lock(&artifact).expect("held advisory lock");
+    env::set_var("ADL_INVOCATION_LOCK_TIMEOUT_MS", "5");
+    let timeout_err = write_bedrock_invocation_record(
+        "amazon.nova-lite-v1:0",
+        "prompt-after-provider",
+        "output-after-provider",
+        200,
+        DEFAULT_BEDROCK_PROFILE,
+        DEFAULT_BEDROCK_REGION,
+        Some("account-hash"),
+        "account_hash_verified",
+    )
+    .expect_err("held lock should force timeout classification");
+    assert!(
+        timeout_err
+            .to_string()
+            .contains("partial_success_unknown_invocation_record_lock_unavailable"),
+        "timeout should be classified as non-retryable partial-success-unknown: {timeout_err}"
+    );
+    drop(held_lock);
+
+    let child_artifact = temp_root.join("child-invocations.json");
+    let marker = temp_root.join("child-lock-marker");
+    let child_status = Command::new(env::current_exe().expect("current test executable"))
+        .arg("--exact")
+        .arg("provider::http_family::tests::invocation_artifact_lock_child_process_helper")
+        .arg("--nocapture")
+        .env("ADL_INVOCATION_LOCK_CHILD_PATH", &child_artifact)
+        .env("ADL_INVOCATION_LOCK_CHILD_MARKER", &marker)
+        .status()
+        .expect("spawn child lock helper");
+    assert!(
+        child_status.success(),
+        "child lock helper should exit cleanly"
+    );
+    assert!(
+        marker.exists(),
+        "child helper must prove it acquired the lock"
+    );
+    acquire_invocation_artifact_lock(&child_artifact)
+        .expect("OS must release advisory invocation lock after child process exits");
+
     match prev_artifact {
         Some(v) => env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", v),
         None => env::remove_var("ADL_PROVIDER_INVOCATIONS_PATH"),
+    }
+    match prev_lock_timeout {
+        Some(v) => env::set_var("ADL_INVOCATION_LOCK_TIMEOUT_MS", v),
+        None => env::remove_var("ADL_INVOCATION_LOCK_TIMEOUT_MS"),
     }
 
     let target = provider_target(

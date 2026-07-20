@@ -24,6 +24,7 @@ struct InvocationArtifactLock {
 }
 
 const INVOCATION_ARTIFACT_LOCK_TIMEOUT: Duration = Duration::from_secs(2);
+const INVOCATION_ARTIFACT_LOCK_TIMEOUT_ENV: &str = "ADL_INVOCATION_LOCK_TIMEOUT_MS";
 
 fn invocation_lock_path(path: &Path) -> PathBuf {
     let mut os = path.as_os_str().to_os_string();
@@ -39,11 +40,12 @@ fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationAr
         .create(true)
         .open(lock_path)?;
     let started = Instant::now();
+    let timeout = invocation_artifact_lock_timeout();
     loop {
         match file.try_lock_exclusive() {
             Ok(()) => return Ok(InvocationArtifactLock { _file: file }),
             Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
-                if started.elapsed() > INVOCATION_ARTIFACT_LOCK_TIMEOUT {
+                if started.elapsed() > timeout {
                     return Err(std::io::Error::new(
                         std::io::ErrorKind::TimedOut,
                         "timed out waiting for invocation artifact lock",
@@ -54,6 +56,14 @@ fn acquire_invocation_artifact_lock(path: &Path) -> std::io::Result<InvocationAr
             Err(err) => return Err(err),
         }
     }
+}
+
+fn invocation_artifact_lock_timeout() -> Duration {
+    env::var(INVOCATION_ARTIFACT_LOCK_TIMEOUT_ENV)
+        .ok()
+        .and_then(|raw| raw.parse::<u64>().ok())
+        .map(Duration::from_millis)
+        .unwrap_or(INVOCATION_ARTIFACT_LOCK_TIMEOUT)
 }
 
 /// Maximum number of provider error-body characters kept for inline request-failure messages.
@@ -725,10 +735,12 @@ impl AwsBedrockProvider {
             config_expected_account_sha256.as_deref(),
         ) {
             (Some(env_expected), Some(config_expected)) => {
-                validate_sha256_hex(env_expected).map_err(|err| invalid_config("bedrock", err))?;
+                let env_expected = normalize_sha256_hex(env_expected)
+                    .map_err(|err| invalid_config("bedrock", err))?;
                 validate_sha256_hex(config_expected)
                     .map_err(|err| invalid_config("bedrock", err))?;
-                if !env_expected.eq_ignore_ascii_case(config_expected) {
+                let config_expected = config_expected.to_ascii_lowercase();
+                if env_expected != config_expected {
                     return Err(invalid_config(
                         "bedrock",
                         format!(
@@ -736,10 +748,15 @@ impl AwsBedrockProvider {
                         ),
                     ));
                 }
-                Some(env_expected.to_string())
+                Some(env_expected)
             }
-            (Some(env_expected), None) => Some(env_expected.to_string()),
-            (None, Some(config_expected)) => Some(config_expected.to_string()),
+            (Some(env_expected), None) => Some(
+                normalize_sha256_hex(env_expected).map_err(|err| invalid_config("bedrock", err))?,
+            ),
+            (None, Some(config_expected)) => Some(
+                normalize_sha256_hex(config_expected)
+                    .map_err(|err| invalid_config("bedrock", err))?,
+            ),
             (None, None) => None,
         };
         if let Some(expected) = expected_account_sha256.as_deref() {
@@ -827,6 +844,11 @@ fn validate_sha256_hex(value: &str) -> std::result::Result<(), String> {
     }
 }
 
+fn normalize_sha256_hex(value: &str) -> std::result::Result<String, String> {
+    validate_sha256_hex(value)?;
+    Ok(value.to_ascii_lowercase())
+}
+
 fn verify_bedrock_account_identity(
     account_id_sha256: Option<&str>,
     expected_account_sha256: Option<&str>,
@@ -839,7 +861,7 @@ fn verify_bedrock_account_identity(
             ),
         ));
     };
-    validate_sha256_hex(expected).map_err(|err| invalid_config("bedrock", err))?;
+    let expected = normalize_sha256_hex(expected).map_err(|err| invalid_config("bedrock", err))?;
     let Some(observed) = account_id_sha256 else {
         return Err(runtime_error_non_retryable(
             "bedrock",
