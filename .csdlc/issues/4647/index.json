@@ -5,7 +5,7 @@
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
   "phase": "implemented",
   "generation": 34,
-  "digest": "a09bc5236493616bec9539a2ddce1c8aac633ab0c0eb132004d1e83f9525801b",
+  "digest": "23638f899c69e6ab585f6db08d817f5d43ab07cd3143328dd0420f2be24853ee",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -21,6 +21,7 @@
       ".csdlc/issues/5542",
       ".csdlc/locks/4647.lock",
       ".csdlc/prepared/issues/4647",
+      ".csdlc/publication/4647.intent.json",
       "adl/Cargo.lock",
       "adl/Cargo.toml",
       "adl/src/cli/provider_cmd.rs",
@@ -520,6 +521,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Post-publication CSM API Gateway response-finalization repair touched this source path; protected-path truth must include the exact changed file before review/publication.",
       "operation": "{\"add_protected_paths\":[\"adl/src/csm_api_gateway_bridge.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 47,
+      "generation": 34,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "PR #5588 publication intent is a tracked lifecycle artifact changed on this branch; protected-path truth must include it before exact-head review and publication.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/publication/4647.intent.json\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
