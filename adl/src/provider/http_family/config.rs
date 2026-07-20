@@ -1,5 +1,6 @@
 use super::*;
 use reqwest::Url;
+use std::net::IpAddr;
 
 pub(super) fn cfg_str<'a>(cfg: &'a HashMap<String, Value>, key: &str) -> Option<&'a str> {
     cfg.get(key).and_then(|v| v.as_str()).map(str::trim)
@@ -23,10 +24,14 @@ fn endpoint_host(endpoint: &str) -> Option<String> {
 }
 
 fn is_loopback_endpoint(endpoint: &str) -> bool {
-    matches!(
-        endpoint_host(endpoint).as_deref(),
-        Some("localhost") | Some("127.0.0.1") | Some("::1")
-    )
+    let Some(host) = endpoint_host(endpoint) else {
+        return false;
+    };
+    let host = host
+        .strip_prefix('[')
+        .and_then(|value| value.strip_suffix(']'))
+        .unwrap_or(&host);
+    host == "localhost" || host.parse::<IpAddr>().is_ok_and(|addr| addr.is_loopback())
 }
 
 fn is_trusted_vendor_endpoint(endpoint: &str, trusted_hosts: &[&str]) -> bool {

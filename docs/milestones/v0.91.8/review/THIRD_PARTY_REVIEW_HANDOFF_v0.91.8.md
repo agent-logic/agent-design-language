@@ -50,25 +50,46 @@ approves a bounded refresh.
 
 ## Digest Procedure
 
-At send time, create a publication-safe sidecar manifest that lists every
-tracked source/evidence path included in this handoff, one repo-relative path
-per line, sorted bytewise. Exclude the Target Revision table row that stores the
-digest value and exclude untracked/local artifacts.
+At send time, create a publication-safe sidecar record with sorted tracked
+mode/type/hash/path records plus the normalized synthetic handoff record defined
+below. Exclude the Target Revision table row that stores the digest value and
+exclude untracked/local artifacts.
 
 Use this procedure from the exact target revision:
+
+```sh
+mkdir -p .adl/local-artifacts
+{
+  git ls-tree -r HEAD -- \
+    docs/milestones/v0.91.8 \
+    docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md \
+    docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 \
+    | awk '$4 != "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md" {print}'
+  git show HEAD:docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md \
+    | sed 's/| Review packet digest | `[^`]*` |/| Review packet digest | `TBD before send; compute using the Digest Procedure below` |/' \
+    | shasum -a 256 \
+    | awk '{print "100644 blob " $1 "\tdocs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md.normalized"}'
+} | LC_ALL=C sort > .adl/local-artifacts/v0918-review-packet-object-records.txt
+shasum -a 256 .adl/local-artifacts/v0918-review-packet-object-records.txt
+```
+
+This hashes sorted tracked mode/type/hash/path object records plus one
+normalized synthetic handoff record with the same mode/type/hash/path shape,
+where the hash is computed after replacing only the mutable digest cell with
+the template value. Do not hash a sidecar that includes its own digest field.
+To list the underlying path corpus without object metadata, use:
 
 ```sh
 git ls-tree -r --name-only HEAD -- \
   docs/milestones/v0.91.8 \
   docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md \
   docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 \
-  | LC_ALL=C sort > /tmp/v0918-review-packet-paths.txt
-shasum -a 256 /tmp/v0918-review-packet-paths.txt
+  | LC_ALL=C sort > .adl/local-artifacts/v0918-review-packet-paths.txt
 ```
 
-Record the resulting SHA-256 as the tracked-path manifest digest or commit a
-tracked sidecar generated from the same sorted path list. If the path list
-changes, the digest is stale and the handoff must be refreshed before send.
+Record the resulting SHA-256 as the tracked object-record manifest digest. If
+the object-record list or normalized handoff content changes, the digest is
+stale and the handoff must be refreshed before send.
 
 ## Purpose
 

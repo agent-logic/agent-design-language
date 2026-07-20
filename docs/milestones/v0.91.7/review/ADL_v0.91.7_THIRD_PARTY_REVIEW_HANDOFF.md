@@ -129,8 +129,8 @@ finding automatically.
 ## Non-Claims And Residuals
 
 - The old #5579 review is historical. The replacement review returned 22
-  findings; only one lane has third-party Fable 5 identity, and the other three
-  are explicitly classified as shadow review.
+  findings; one lane is the operator-dispatched automated Fable 5 external-model
+  review, and the other three are explicitly classified as shadow review.
 - This handoff does not approve v0.91.7 release readiness or v0.92 activation.
 - #5571 is closed with retained publication-boundary evidence; no broad
   publication-safety approval is inferred beyond the allowlisted records.

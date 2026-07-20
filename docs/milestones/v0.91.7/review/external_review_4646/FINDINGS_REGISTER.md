@@ -12,12 +12,13 @@ Corpus: 33 manifest entries expanding to 70 tracked blobs
 
 ## Outcome
 
-All 70 frozen files received findings-first review. Claude Fable 5 completed
-the 182,171-byte `adl/src/csm_runtime_api.rs` lane. The remaining three Fable
+All 70 frozen files received findings-first review. The operator-dispatched
+automated Fable 5 lane completed the 182,171-byte `adl/src/csm_runtime_api.rs`
+lane. The remaining three Fable
 calls could not complete after the Anthropic account became billing-blocked;
 three independent shadow reviewers covered the remaining 69 files. This is a
 completed bounded review with explicit provider degradation, not a claim that
-all 70 files received third-party model coverage.
+all 70 files received independently controlled third-party model coverage.
 
 The combined result contains 22 actionable findings: 2 P1, 11 P2, and 9 P3.
 WP-20 #4647 owns deduplication, acceptance, remediation, and any issue routing.

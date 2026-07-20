@@ -455,9 +455,9 @@ for required_fragment in (
     'printf \'/mnt/adl-authoritative-coverage\\n\'',
     'printf \'%s\\n\' "$ADL_DIR"',
     'COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"',
-    'mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target"',
+    'mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID" "$COVERAGE_OUTPUT_ROOT"',
     'export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"',
-    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target"',
+    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(
@@ -559,7 +559,9 @@ for required_fragment in (
     "--summary-only \\",
     '--output-path "$ADL_SUMMARY_PATH"',
     'coverage-summary.adl-runtime.json',
-    "> coverage-summary.json",
+    'COVERAGE_OUTPUT_ROOT="$COVERAGE_BUILD_ROOT/coverage-output/$COVERAGE_RUN_ID"',
+    'FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"',
+    'cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(

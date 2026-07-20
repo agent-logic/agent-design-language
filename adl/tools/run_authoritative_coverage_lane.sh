@@ -4,8 +4,9 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ADL_DIR="$ROOT_DIR/adl"
 ADL_RUNTIME_MANIFEST="$ROOT_DIR/adl-runtime/Cargo.toml"
-ADL_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl.json"
-ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl-runtime.json"
+LEGACY_ADL_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl.json"
+LEGACY_ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl-runtime.json"
+LEGACY_FINAL_SUMMARY_PATH="$ADL_DIR/coverage-summary.json"
 PRINT_PLAN=false
 AUTHORITY="push_main"
 EVENT_NAME="push"
@@ -28,6 +29,18 @@ DEFAULT_SKIP_PATTERNS="real_pr_,runtime_v2_runtime_inhabitant_integration_proof_
 SKIP_PATTERNS_RAW="${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERNS:-${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN:-$DEFAULT_SKIP_PATTERNS}}"
 COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-$$}"
 IFS=',' read -r -a SKIP_PATTERNS <<< "$SKIP_PATTERNS_RAW"
+
+case "$COVERAGE_RUN_ID" in
+  ""|"."|".."|*/*|*\\*|*[!A-Za-z0-9._-]*)
+    echo "unsafe coverage run id: $COVERAGE_RUN_ID" >&2
+    exit 2
+    ;;
+esac
+
+COVERAGE_OUTPUT_ROOT="$COVERAGE_BUILD_ROOT/coverage-output/$COVERAGE_RUN_ID"
+ADL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.adl.json"
+ADL_RUNTIME_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.adl-runtime.json"
+FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"
 
 usage() {
   cat <<'USAGE'
@@ -77,6 +90,9 @@ if [ "$PRINT_PLAN" = true ]; then
   printf 'event_name=%s\n' "$EVENT_NAME"
   printf 'mode=%s\n' "$MODE"
   printf 'build_root=%s\n' "$COVERAGE_BUILD_ROOT"
+  printf 'run_id=%s\n' "$COVERAGE_RUN_ID"
+  printf 'profile_root=%s\n' "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
+  printf 'output_root=%s\n' "$COVERAGE_OUTPUT_ROOT"
   printf 'test_threads=%s\n' "$TEST_THREADS"
   printf 'partitions=%s\n' "$PARTITION_COUNT"
   printf 'skip_patterns=%s\n' "$SKIP_PATTERNS_RAW"
@@ -100,9 +116,9 @@ cd "$ADL_DIR"
 # defaults to the cached repo target, while remote builders can opt into a
 # scratch root and warm it from the restored target. Do not delete the
 # llvm-cov target between runs; it is the expensive instrumentation build cache.
-mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target"
+mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID" "$COVERAGE_OUTPUT_ROOT"
 export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
-export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target"
+export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
 # Coverage builds can consume enough runner disk to cross the production CSM
 # floor. Keep ordinary tests deterministic; low-disk tests set explicit values.
 export ADL_CSM_DISK_FLOOR_BYTES="${ADL_CSM_DISK_FLOOR_BYTES:-0}"
@@ -195,13 +211,33 @@ run_workspace_coverage_partitions() {
   return "$status"
 }
 
+record_report_status() {
+  local report_status="$1"
+  local summary_path="$2"
+  local report_label="$3"
+
+  if [ "$report_status" -eq 0 ]; then
+    return 0
+  fi
+
+  if [ "$EVENT_NAME" = "pull_request" ] && [ -s "$summary_path" ]; then
+    echo "Authoritative coverage warning: $report_label report command exited $report_status after producing $summary_path; PR workspace gate is deferred." >&2
+    return 0
+  fi
+
+  if [ "$coverage_status" -eq 0 ]; then
+    coverage_status="$report_status"
+  fi
+}
+
 coverage_profile_namespace=workspace
-run_workspace_coverage_partitions
+coverage_status=0
+run_workspace_coverage_partitions || coverage_status=$?
 
 cargo llvm-cov report \
   --json \
   --summary-only \
-  --output-path "$ADL_SUMMARY_PATH"
+  --output-path "$ADL_SUMMARY_PATH" || record_report_status "$?" "$ADL_SUMMARY_PATH" "adl"
 find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
@@ -214,12 +250,17 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
     --test-threads "$TEST_THREADS")
   coverage_command=("${runtime_coverage_command[@]}")
   coverage_profile_namespace=adl-runtime
-  run_workspace_coverage_partitions
+  run_workspace_coverage_partitions || {
+    runtime_status=$?
+    if [ "$coverage_status" -eq 0 ]; then
+      coverage_status="$runtime_status"
+    fi
+  }
   cargo llvm-cov report \
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
     --json \
     --summary-only \
-    --output-path "$ADL_RUNTIME_SUMMARY_PATH"
+    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || record_report_status "$?" "$ADL_RUNTIME_SUMMARY_PATH" "adl-runtime"
   jq -s '
     . as $docs
     |
@@ -250,7 +291,31 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
         lines: metric("lines"),
         regions: metric("regions")
       }
-  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > coverage-summary.json
+  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > "$FINAL_SUMMARY_PATH" || {
+    merge_status=$?
+    rm -f "$FINAL_SUMMARY_PATH"
+    if [ "$coverage_status" -eq 0 ]; then
+      coverage_status="$merge_status"
+    fi
+  }
 else
-  cp "$ADL_SUMMARY_PATH" coverage-summary.json
+  cp "$ADL_SUMMARY_PATH" "$FINAL_SUMMARY_PATH" || {
+    copy_status=$?
+    rm -f "$FINAL_SUMMARY_PATH"
+    if [ "$coverage_status" -eq 0 ]; then
+      coverage_status="$copy_status"
+    fi
+  }
 fi
+
+if [ -f "$ADL_SUMMARY_PATH" ]; then
+  cp "$ADL_SUMMARY_PATH" "$LEGACY_ADL_SUMMARY_PATH"
+fi
+if [ -f "$ADL_RUNTIME_SUMMARY_PATH" ]; then
+  cp "$ADL_RUNTIME_SUMMARY_PATH" "$LEGACY_ADL_RUNTIME_SUMMARY_PATH"
+fi
+if [ -f "$FINAL_SUMMARY_PATH" ]; then
+  cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"
+fi
+
+exit "$coverage_status"

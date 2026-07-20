@@ -268,9 +268,10 @@ async fn runtime_api_axum_handler(
 ) -> Response<Body> {
     let request = RuntimeApiRequest::from_axum_parts(method, uri, &headers);
     let response = if request.method == "OPTIONS" {
-        runtime_api_http_response(&state.options, &request).unwrap_or_else(|err| {
+        let response = runtime_api_http_response(&state.options, &request).unwrap_or_else(|err| {
             runtime_api_internal_error_response(request.origin.as_deref(), &err)
-        })
+        });
+        return runtime_api_axum_response(response);
     } else {
         match state.auth_store.authorize(request.authorization.as_deref()) {
             RuntimeApiAuthDecision::Authenticated(metadata) => {
@@ -281,13 +282,19 @@ async fn runtime_api_axum_handler(
                 ) {
                     Ok(identity) => identity,
                     Err(reason) => {
-                        let _ = append_runtime_api_auth_event(
+                        if let Err(err) = append_runtime_api_auth_event(
                             &state.auth_events_path,
                             "gateway_identity_rejected",
                             Some(&request),
                             Some(&reason),
                             Some(&metadata),
-                        );
+                        ) {
+                            state.record_request();
+                            return runtime_api_axum_response(runtime_api_internal_error_response(
+                                request.origin.as_deref(),
+                                &err,
+                            ));
+                        }
                         state.record_request();
                         return runtime_api_axum_response(runtime_api_auth_error_response(
                             request.origin.as_deref(),
@@ -296,13 +303,19 @@ async fn runtime_api_axum_handler(
                         ));
                     }
                 };
-                let _ = append_runtime_api_auth_event(
+                if let Err(err) = append_runtime_api_auth_event(
                     &state.auth_events_path,
                     "request_authenticated",
                     Some(&request),
                     None,
                     Some(&metadata),
-                );
+                ) {
+                    state.record_request();
+                    return runtime_api_axum_response(runtime_api_internal_error_response(
+                        request.origin.as_deref(),
+                        &err,
+                    ));
+                }
                 runtime_api_authenticated_http_response(
                     &state.options,
                     &request,
@@ -314,13 +327,19 @@ async fn runtime_api_axum_handler(
                 })
             }
             RuntimeApiAuthDecision::Rejected { reason, metadata } => {
-                let _ = append_runtime_api_auth_event(
+                if let Err(err) = append_runtime_api_auth_event(
                     &state.auth_events_path,
                     "request_rejected",
                     Some(&request),
                     Some(reason),
                     metadata.as_ref(),
-                );
+                ) {
+                    state.record_request();
+                    return runtime_api_axum_response(runtime_api_internal_error_response(
+                        request.origin.as_deref(),
+                        &err,
+                    ));
+                }
                 runtime_api_auth_error_response(
                     request.origin.as_deref(),
                     "401 Unauthorized",
@@ -328,13 +347,19 @@ async fn runtime_api_axum_handler(
                 )
             }
             RuntimeApiAuthDecision::Unavailable { reason } => {
-                let _ = append_runtime_api_auth_event(
+                if let Err(err) = append_runtime_api_auth_event(
                     &state.auth_events_path,
                     "auth_unavailable",
                     Some(&request),
                     Some(&reason),
                     None,
-                );
+                ) {
+                    state.record_request();
+                    return runtime_api_axum_response(runtime_api_internal_error_response(
+                        request.origin.as_deref(),
+                        &err,
+                    ));
+                }
                 runtime_api_auth_error_response(
                     request.origin.as_deref(),
                     "503 Service Unavailable",
@@ -359,7 +384,7 @@ fn runtime_api_response_with_identity(
 ) -> Result<Value> {
     let loaded = load_spec(&options.spec_path)?;
     let endpoint = path.split('?').next().unwrap_or(path);
-    match endpoint {
+    let response = match endpoint {
         "/" | "/status" => status_response(&loaded, options),
         "/health" => health_response(&loaded, options),
         "/ready" => ready_response(&loaded, options),
@@ -381,7 +406,8 @@ fn runtime_api_response_with_identity(
             "endpoint": other,
             "supported_endpoints": CSM_RUNTIME_API_ENDPOINTS
         })),
-    }
+    }?;
+    finalize_api_response(response)
 }
 
 fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -538,8 +564,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
     if !readiness_blockers(&response).is_empty() {
         response["ready"] = json!("not_ready");
     }
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn persistence_response(loaded: &LoadedAgentSpec) -> Result<Value> {
@@ -560,8 +585,7 @@ fn persistence_response(loaded: &LoadedAgentSpec) -> Result<Value> {
         || LifelogStore::open(&loaded.state_root).and_then(|store| store.health()),
     );
     let response = adl_runtime::runtime_api::persistence_health(checkpoint, lifelog);
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn domain_health<F>(
@@ -616,8 +640,7 @@ fn curiosity_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) 
         "runtime_api_path": "/curiosity",
         "component": status["curiosity_engine"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn freedom_gate_response(
@@ -632,8 +655,7 @@ fn freedom_gate_response(
         "runtime_api_path": "/freedom-gate",
         "component": status["freedom_gate"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn reasoning_response(loaded: &LoadedAgentSpec) -> Result<Value> {
@@ -644,8 +666,7 @@ fn reasoning_response(loaded: &LoadedAgentSpec) -> Result<Value> {
         "runtime_api_path": "/reasoning",
         "component": reasoning_api_status(loaded)
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn cav_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -657,8 +678,7 @@ fn cav_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Res
         "runtime_api_path": "/cav",
         "component": status["cav"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn shepherd_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -670,8 +690,7 @@ fn shepherd_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -
         "runtime_api_path": "/shepherd",
         "component": status["polis_shepherd_agent"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn acip_response(
@@ -700,8 +719,7 @@ fn acip_response(
             "activation_policy": "fail_closed_until_runtime_upgrade_handler_is_integrated"
         }
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn constructability_response(
@@ -716,8 +734,7 @@ fn constructability_response(
         "runtime_api_path": "/constructability",
         "component": status["constructability_gate"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn chronosense_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -755,8 +772,7 @@ fn chronosense_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions
             "reference_frames": ["utc_epoch_millis", "local_civil_time", "runtime_lifetime", "runtime_monotonic_elapsed"]
         }
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn api_gateway_bridge_response(
@@ -808,8 +824,7 @@ fn api_gateway_bridge_response(
             "cloud_account_identifiers": "not_returned"
         }
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn health_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -824,8 +839,7 @@ fn health_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "backpressure": status["backpressure"],
         "otel": status["otel"]
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn ready_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -843,8 +857,7 @@ fn ready_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> R
         "ready": ready,
         "blocking_reasons": blocking_reasons
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> Result<Value> {
@@ -898,8 +911,7 @@ fn metrics_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) ->
             "storage_pressure": backpressure_state.pointer("/value/storage_pressure/state").cloned().unwrap_or(Value::Null)
         }
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn events_response(loaded: &LoadedAgentSpec) -> Result<Value> {
@@ -910,8 +922,7 @@ fn events_response(loaded: &LoadedAgentSpec) -> Result<Value> {
         "agent_instance_id": loaded.spec.agent_instance_id,
         "events": events
     });
-    assert_api_response_redacted(&response)?;
-    Ok(response)
+    finalize_api_response(response)
 }
 
 fn curiosity_api_status(
@@ -1083,8 +1094,7 @@ fn artifact_path(loaded: &LoadedAgentSpec, name: &str) -> PathBuf {
 }
 
 fn emit_runtime_api_client_error(err: &anyhow::Error) {
-    let error = err
-        .to_string()
+    let error = sanitize_string(&err.to_string())
         .replace(|c: char| c.is_whitespace(), "_")
         .replace('/', "_");
     eprintln!(
@@ -1289,25 +1299,34 @@ fn read_jsonl_tail(path: &Path, limit: usize) -> Value {
 }
 
 fn sanitize_json(value: Value) -> Value {
+    sanitize_json_with_key(None, value)
+}
+
+fn sanitize_json_with_key(key: Option<&str>, value: Value) -> Value {
+    if key.is_some_and(is_secret_response_key) {
+        return Value::String("[redacted]".to_string());
+    }
     match value {
-        Value::String(raw) => sanitize_string(&raw).into(),
-        Value::Number(raw) if contains_cloud_account_identifier(&raw.to_string()) => {
+        Value::String(raw) => sanitize_string_for_key(key, &raw).into(),
+        Value::Number(number)
+            if key.is_some_and(|key| {
+                is_account_response_key(key)
+                    && contains_cloud_account_identifier(&number.to_string())
+            }) =>
+        {
             Value::String("[redacted]".to_string())
         }
-        Value::Array(values) => Value::Array(values.into_iter().map(sanitize_json).collect()),
+        Value::Array(values) => Value::Array(
+            values
+                .into_iter()
+                .map(|value| sanitize_json_with_key(key, value))
+                .collect(),
+        ),
         Value::Object(map) => Value::Object(
             map.into_iter()
                 .map(|(key, value)| {
-                    let lowered = key.to_ascii_lowercase();
-                    if lowered.contains("secret")
-                        || lowered.contains("token")
-                        || lowered.contains("authorization")
-                        || lowered.contains("credential")
-                    {
-                        (key, Value::String("[redacted]".to_string()))
-                    } else {
-                        (key, sanitize_json(value))
-                    }
+                    let sanitized = sanitize_json_with_key(Some(&key), value);
+                    (key, sanitized)
                 })
                 .collect(),
         ),
@@ -1316,17 +1335,53 @@ fn sanitize_json(value: Value) -> Value {
 }
 
 fn sanitize_string(raw: &str) -> String {
+    sanitize_string_for_key(None, raw)
+}
+
+fn sanitize_string_for_key(key: Option<&str>, raw: &str) -> String {
     if looks_like_host_private_path(raw)
         || raw.contains("Authorization:")
         || raw.to_ascii_lowercase().contains("bearer ")
         || raw.to_ascii_lowercase().contains("aws_secret_access_key")
         || raw.contains("arn:aws:")
-        || contains_cloud_account_identifier(raw)
+        || contains_freeform_cloud_account_identifier(raw)
+        || key.is_some_and(|key| {
+            is_account_response_key(key) && contains_cloud_account_identifier(raw)
+        })
     {
         "[redacted]".to_string()
     } else {
         raw.to_string()
     }
+}
+
+fn is_secret_response_key(key: &str) -> bool {
+    let lowered = key.to_ascii_lowercase();
+    lowered == "secret"
+        || lowered.ends_with("_secret")
+        || lowered == "secret_material"
+        || lowered == "token"
+        || lowered.ends_with("_token")
+        || lowered == "authorization"
+        || lowered.ends_with("_authorization")
+        || lowered == "api_key"
+        || lowered.ends_with("_api_key")
+        || lowered == "password"
+        || lowered.ends_with("_password")
+        || lowered == "private_key"
+        || lowered.ends_with("_private_key")
+        || lowered == "access_key"
+        || lowered.ends_with("_access_key")
+}
+
+fn is_account_response_key(key: &str) -> bool {
+    let lowered = key.to_ascii_lowercase();
+    lowered == "account"
+        || lowered == "agent_instance_id"
+        || lowered == "polis_id"
+        || lowered.contains("cloud_account")
+        || lowered.contains("account_id")
+        || lowered.contains("aws_account")
 }
 
 fn contains_cloud_account_identifier(raw: &str) -> bool {
@@ -1344,11 +1399,22 @@ fn contains_cloud_account_identifier(raw: &str) -> bool {
     digits == 12
 }
 
+fn contains_freeform_cloud_account_identifier(raw: &str) -> bool {
+    raw.to_ascii_lowercase().contains("account") && contains_cloud_account_identifier(raw)
+}
+
 fn looks_like_host_private_path(raw: &str) -> bool {
+    let lowered = raw.to_ascii_lowercase();
     raw.contains("/Users/")
         || raw.contains("/home/")
         || raw.contains("/private/")
         || raw.contains("/var/folders/")
+        || raw.contains("/Volumes/")
+        || raw.contains("/tmp/")
+        || lowered.contains("/users/")
+        || lowered.contains(":/users/")
+        || lowered.contains("\\users\\")
+        || lowered.contains(":\\users\\")
 }
 
 fn file_ref_status(path: &Path, reference: &str) -> Value {
@@ -1516,7 +1582,7 @@ fn daemon_supervisor_pid_liveness(daemon_status: &Value) -> Option<String> {
         .and_then(Value::as_u64)
         .and_then(|pid| u32::try_from(pid).ok())?;
     Some(match exact_pid_is_live(pid) {
-        Some(true) => "live_pid".to_string(),
+        Some(true) => "unknown".to_string(),
         Some(false) => "stale_pid".to_string(),
         None => "unknown".to_string(),
     })
@@ -1537,7 +1603,7 @@ fn exact_pid_is_live(pid: u32) -> Option<bool> {
         return Some(true);
     }
     match std::io::Error::last_os_error().raw_os_error() {
-        Some(EPERM) => Some(true),
+        Some(EPERM) => None,
         Some(ESRCH) => Some(false),
         _ => None,
     }
@@ -2087,10 +2153,11 @@ fn runtime_api_http_response(
     options: &CsmRuntimeApiOptions,
     request: &RuntimeApiRequest,
 ) -> Result<RuntimeApiHttpResponse> {
-    let mut headers = loopback_browser_access_headers(request.origin.as_deref());
-    headers.push(("vary", "Origin".to_string()));
+    let headers = loopback_browser_access_headers(request.origin.as_deref());
+    let mut method_headers = headers.clone();
+    method_headers.push(("vary", "Origin".to_string()));
     let admission_quiesced = runtime_admission_quiesced(options);
-    headers.push((
+    method_headers.push((
         "x-csm-admission",
         if admission_quiesced {
             "quiesced".to_string()
@@ -2099,47 +2166,19 @@ fn runtime_api_http_response(
         },
     ));
     match request.method.as_str() {
-        "GET" => {
-            if request.path.split('?').next().unwrap_or(&request.path) == "/acip/ws" {
-                return Ok(RuntimeApiHttpResponse {
-                    status: if request.upgrade {
-                        "501 Not Implemented"
-                    } else {
-                        "426 Upgrade Required"
-                    },
-                    headers,
-                    body: Some(json!({
-                        "schema": CSM_RUNTIME_API_ACIP_SCHEMA,
-                        "runtime_owner": "csm",
-                        "status": "websocket_upgrade_not_activated",
-                        "runtime_api_path": "/acip/ws",
-                        "upgrade_required": true,
-                        "upgrade_handler": "not_activated_in_csm_runtime_api",
-                        "transport_contract": "protobuf_frame_contract_available_via_acip_carrier",
-                        "activation_policy": "fail_closed_until_runtime_upgrade_handler_is_integrated"
-                    })),
-                });
-            }
-            let body = runtime_api_response(options, &request.path)?;
-            let status = if body.get("status").and_then(Value::as_str) == Some("not_found") {
-                "404 Not Found"
-            } else {
-                "200 OK"
-            };
+        "GET" => runtime_api_get_response(options, request, headers, None, None),
+        "OPTIONS" => {
+            let mut headers = headers;
+            headers.push(("vary", "Origin".to_string()));
             Ok(RuntimeApiHttpResponse {
-                status,
+                status: "204 No Content",
                 headers,
-                body: Some(body),
+                body: None,
             })
         }
-        "OPTIONS" => Ok(RuntimeApiHttpResponse {
-            status: "204 No Content",
-            headers,
-            body: None,
-        }),
         _ if admission_quiesced => Ok(RuntimeApiHttpResponse {
             status: "503 Service Unavailable",
-            headers,
+            headers: method_headers,
             body: Some(json!({
                 "schema": CSM_RUNTIME_API_SCHEMA,
                 "status": "admission_quiesced",
@@ -2149,7 +2188,7 @@ fn runtime_api_http_response(
         }),
         _ => Ok(RuntimeApiHttpResponse {
             status: "405 Method Not Allowed",
-            headers,
+            headers: method_headers,
             body: Some(json!({
                 "schema": CSM_RUNTIME_API_SCHEMA,
                 "status": "method_not_allowed",
@@ -2157,6 +2196,71 @@ fn runtime_api_http_response(
             })),
         }),
     }
+}
+
+fn runtime_api_admission_header_from_body(
+    options: &CsmRuntimeApiOptions,
+    body: &Value,
+) -> (&'static str, String) {
+    let admission_quiesced = body
+        .pointer("/shutdown/admission_quiesced")
+        .and_then(Value::as_bool)
+        .unwrap_or_else(|| runtime_admission_quiesced(options));
+    (
+        "x-csm-admission",
+        if admission_quiesced {
+            "quiesced".to_string()
+        } else {
+            "open".to_string()
+        },
+    )
+}
+
+fn runtime_api_get_response(
+    options: &CsmRuntimeApiOptions,
+    request: &RuntimeApiRequest,
+    mut headers: Vec<(&'static str, String)>,
+    identity: Option<&adl_runtime::runtime_api_auth::RuntimeApiCredentialMetadata>,
+    gateway_identity: Option<&VerifiedRuntimeApiGatewayIdentity>,
+) -> Result<RuntimeApiHttpResponse> {
+    headers.push(("vary", "Origin".to_string()));
+    if request.path.split('?').next().unwrap_or(&request.path) == "/acip/ws" {
+        headers.push(runtime_api_admission_header_from_body(
+            options,
+            &json!({ "shutdown": { "admission_quiesced": runtime_admission_quiesced(options) } }),
+        ));
+        return Ok(RuntimeApiHttpResponse {
+            status: if request.upgrade {
+                "501 Not Implemented"
+            } else {
+                "426 Upgrade Required"
+            },
+            headers,
+            body: Some(json!({
+                "schema": CSM_RUNTIME_API_ACIP_SCHEMA,
+                "runtime_owner": "csm",
+                "status": "websocket_upgrade_not_activated",
+                "runtime_api_path": "/acip/ws",
+                "upgrade_required": true,
+                "upgrade_handler": "not_activated_in_csm_runtime_api",
+                "transport_contract": "protobuf_frame_contract_available_via_acip_carrier",
+                "activation_policy": "fail_closed_until_runtime_upgrade_handler_is_integrated"
+            })),
+        });
+    }
+    let body =
+        runtime_api_response_with_identity(options, &request.path, identity, gateway_identity)?;
+    let status = if body.get("status").and_then(Value::as_str) == Some("not_found") {
+        "404 Not Found"
+    } else {
+        "200 OK"
+    };
+    headers.push(runtime_api_admission_header_from_body(options, &body));
+    Ok(RuntimeApiHttpResponse {
+        status,
+        headers,
+        body: Some(body),
+    })
 }
 
 fn runtime_admission_quiesced(options: &CsmRuntimeApiOptions) -> bool {
@@ -2176,18 +2280,17 @@ fn runtime_api_authenticated_http_response(
     identity: &adl_runtime::runtime_api_auth::RuntimeApiCredentialMetadata,
     gateway_identity: Option<&VerifiedRuntimeApiGatewayIdentity>,
 ) -> Result<RuntimeApiHttpResponse> {
-    let mut response = runtime_api_http_response(options, request)?;
-    if request.method == "GET"
-        && request.path.split('?').next().unwrap_or(&request.path) != "/acip/ws"
-    {
-        response.body = Some(runtime_api_response_with_identity(
+    if request.method == "GET" {
+        let headers = loopback_browser_access_headers(request.origin.as_deref());
+        return runtime_api_get_response(
             options,
-            &request.path,
+            request,
+            headers,
             Some(identity),
             gateway_identity,
-        )?);
+        );
     }
-    Ok(response)
+    runtime_api_http_response(options, request)
 }
 
 fn runtime_api_internal_error_response(
@@ -2208,13 +2311,27 @@ fn runtime_api_internal_error_response(
 }
 
 fn runtime_api_axum_response(response: RuntimeApiHttpResponse) -> Response<Body> {
-    let status = runtime_api_status_code(response.status);
-    let raw = response
-        .body
+    let mut status = runtime_api_status_code(response.status);
+    let mut serialization_failed = false;
+    let body = match response.body {
+        Some(body) => match finalize_api_response(body) {
+            Ok(body) => Some(body),
+            Err(_) => {
+                serialization_failed = true;
+                Some(json!({
+                    "schema": CSM_RUNTIME_API_SCHEMA,
+                    "status": "serialization_error"
+                }))
+            }
+        },
+        None => None,
+    };
+    let raw = body
         .as_ref()
         .map(serde_json::to_vec_pretty)
         .transpose()
         .unwrap_or_else(|_| {
+            serialization_failed = true;
             Some(
                 serde_json::to_vec(&json!({
                     "schema": CSM_RUNTIME_API_SCHEMA,
@@ -2224,8 +2341,11 @@ fn runtime_api_axum_response(response: RuntimeApiHttpResponse) -> Response<Body>
             )
         })
         .unwrap_or_default();
+    if serialization_failed {
+        status = StatusCode::INTERNAL_SERVER_ERROR;
+    }
     let mut builder = Response::builder().status(status);
-    if response.body.is_some() {
+    if body.is_some() {
         builder = builder.header("content-type", "application/json");
     }
     for (name, value) in response.headers {
@@ -2314,12 +2434,64 @@ fn is_approved_loopback_browser_origin(origin: &str) -> bool {
 }
 
 pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
+    fn visit_strings(key: Option<&str>, value: &Value) -> Result<()> {
+        if key.is_some_and(is_secret_response_key) && value != &json!("[redacted]") {
+            return Err(anyhow!(
+                "CSM runtime API response leaked unredacted secret-key value"
+            ));
+        }
+        match value {
+            Value::String(raw) => {
+                if looks_like_host_private_path(raw)
+                    || contains_freeform_cloud_account_identifier(raw)
+                    || key.is_some_and(|key| {
+                        is_account_response_key(key) && contains_cloud_account_identifier(raw)
+                    })
+                {
+                    return Err(anyhow!(
+                        "CSM runtime API response leaked sensitive string value"
+                    ));
+                }
+                Ok(())
+            }
+            Value::Number(number) => {
+                if key.is_some_and(|key| {
+                    is_account_response_key(key)
+                        && contains_cloud_account_identifier(&number.to_string())
+                }) {
+                    return Err(anyhow!(
+                        "CSM runtime API response leaked sensitive numeric account value"
+                    ));
+                }
+                Ok(())
+            }
+            Value::Array(values) => {
+                for value in values {
+                    visit_strings(key, value)?;
+                }
+                Ok(())
+            }
+            Value::Object(map) => {
+                for (key, value) in map {
+                    visit_strings(Some(key), value)?;
+                }
+                Ok(())
+            }
+            _ => Ok(()),
+        }
+    }
+    visit_strings(None, value)?;
     let raw = serde_json::to_string(value)?;
     for forbidden in [
         "/Users/",
         "/home/",
         "/private/",
         "/var/folders/",
+        "/Volumes/",
+        "/tmp/",
+        "\\Users\\",
+        "\\\\Users\\\\",
+        ":\\\\Users\\\\",
         "Authorization:",
         "Bearer ",
         "arn:aws:",
@@ -2330,12 +2502,48 @@ pub fn assert_api_response_redacted(value: &Value) -> Result<()> {
             ));
         }
     }
-    if contains_cloud_account_identifier(&raw) {
-        return Err(anyhow!(
-            "CSM runtime API response leaked forbidden cloud account identifier"
-        ));
-    }
     Ok(())
+}
+
+fn finalize_api_response(mut response: Value) -> Result<Value> {
+    sanitize_api_response_value(&mut response);
+    assert_api_response_redacted(&response)?;
+    Ok(response)
+}
+
+fn sanitize_api_response_value(value: &mut Value) {
+    sanitize_api_response_value_with_key(None, value);
+}
+
+fn sanitize_api_response_value_with_key(key: Option<&str>, value: &mut Value) {
+    if key.is_some_and(is_secret_response_key) {
+        *value = Value::String("[redacted]".to_string());
+        return;
+    }
+    match value {
+        Value::String(raw) => {
+            *raw = sanitize_string_for_key(key, raw);
+        }
+        Value::Number(number)
+            if key.is_some_and(|key| {
+                is_account_response_key(key)
+                    && contains_cloud_account_identifier(&number.to_string())
+            }) =>
+        {
+            *value = Value::String("[redacted]".to_string());
+        }
+        Value::Array(values) => {
+            for value in values {
+                sanitize_api_response_value_with_key(key, value);
+            }
+        }
+        Value::Object(map) => {
+            for (key, value) in map {
+                sanitize_api_response_value_with_key(Some(key), value);
+            }
+        }
+        _ => {}
+    }
 }
 
 #[cfg(test)]
@@ -2636,6 +2844,52 @@ memory: {}
                 gateway_signature: None,
             }
         );
+    }
+
+    #[tokio::test]
+    async fn runtime_api_options_does_not_consume_test_request_budget() {
+        let root = temp_root("options-budget");
+        let options = test_options(&root);
+        let loaded = load_spec(&options.spec_path).unwrap();
+        let store = RuntimeApiCredentialStore::for_state_root(&loaded.state_root);
+        store.ensure().unwrap();
+        let state = RuntimeApiServerState::new(
+            options,
+            store,
+            loaded.state_root.join(CSM_RUNTIME_API_AUTH_EVENTS_FILE),
+        );
+        let response = runtime_api_axum_handler(
+            State(state.clone()),
+            Method::OPTIONS,
+            Uri::from_static("/status"),
+            HeaderMap::new(),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::NO_CONTENT);
+        assert!(!response.headers().contains_key("x-csm-admission"));
+        assert_eq!(state.served_requests(), 0);
+    }
+
+    #[tokio::test]
+    async fn runtime_api_auth_event_write_failure_fails_closed() {
+        let root = temp_root("auth-event-fail");
+        let options = test_options(&root);
+        let loaded = load_spec(&options.spec_path).unwrap();
+        let store = RuntimeApiCredentialStore::for_state_root(&loaded.state_root);
+        store.ensure().unwrap();
+        let blocked_events_path = loaded.state_root.join("auth-events-blocked");
+        fs::write(&blocked_events_path, "not a directory").unwrap();
+        let state =
+            RuntimeApiServerState::new(options, store, blocked_events_path.join("events.jsonl"));
+
+        let response = runtime_api_axum_handler(
+            State(state),
+            Method::GET,
+            Uri::from_static("/status"),
+            HeaderMap::new(),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::INTERNAL_SERVER_ERROR);
     }
 
     #[tokio::test]
@@ -3878,7 +4132,7 @@ memory: {}
         fs::create_dir_all(&state).unwrap();
         fs::write(
             state.join("operator_events.jsonl"),
-            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","numeric_account":123456789012,"message":"failed opening /Users/example/secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
+            r#"{"schema":"adl.long_lived_agent_operator_event.v1","event":"probe","details":{"token":"abc","api_key":"adl-api-key-secret","password":"adl-password-secret","private_key":"adl-private-key-secret","access_key":"adl-access-key-secret","account_id":"123456789012","aws_account":"123456789012","cloud_account_identifier":"123456789012","numeric_account_id":123456789012,"ordinary_counter":123456789012,"message":"failed opening /Users/example/secret and /Volumes/home/private and /tmp/adl-secret and C:\\Users\\daniel\\secret from account 123456789012","arn":"arn:aws:iam::123456789012:role/example"}}"#,
         )
         .unwrap();
         let options = CsmRuntimeApiOptions {
@@ -3893,10 +4147,225 @@ memory: {}
         let response = runtime_api_response(&options, "/events").unwrap();
         let raw = serde_json::to_string(&response).unwrap();
         assert!(!raw.contains("abc"));
+        assert!(!raw.contains("adl-api-key-secret"));
+        assert!(!raw.contains("adl-password-secret"));
+        assert!(!raw.contains("adl-private-key-secret"));
+        assert!(!raw.contains("adl-access-key-secret"));
         assert!(!raw.contains("/Users/"));
-        assert!(!raw.contains("123456789012"));
+        assert!(!raw.contains("/Volumes/"));
+        assert!(!raw.contains("/tmp/"));
+        assert!(!raw.contains("C:\\\\Users\\\\daniel"));
         assert!(!raw.contains("arn:aws:"));
+        let details = &response["events"]["entries"][0]["details"];
+        assert_eq!(details["account_id"], "[redacted]");
+        assert_eq!(details["aws_account"], "[redacted]");
+        assert_eq!(details["cloud_account_identifier"], "[redacted]");
+        assert_eq!(details["numeric_account_id"], "[redacted]");
+        assert_eq!(details["ordinary_counter"], 123456789012u64);
+        assert_eq!(details["message"], "[redacted]");
         assert!(raw.contains("[redacted]"));
+        assert_eq!(
+            sanitize_string("failed opening /Volumes/home/private"),
+            "[redacted]"
+        );
+        assert_eq!(
+            sanitize_string("failed opening /tmp/adl-secret"),
+            "[redacted]"
+        );
+        assert_eq!(
+            sanitize_string(r"failed opening C:\Users\daniel\secret"),
+            "[redacted]"
+        );
+        assert_eq!(
+            sanitize_string(r"failed opening c:\users\daniel\secret"),
+            "[redacted]"
+        );
+        assert_eq!(
+            sanitize_string("failed opening c:/users/daniel/secret"),
+            "[redacted]"
+        );
+    }
+
+    #[test]
+    fn runtime_api_redaction_is_key_aware_and_preserves_benign_ids() {
+        let benign = json!({
+            "completed_cycle_count": 123456789012u64,
+            "public_fixture_id": "123456789012",
+            "ordinary_counter": 42
+        });
+        assert_api_response_redacted(&benign)
+            .expect("ordinary counters and non-account fixture ids should remain allowed");
+
+        let account_like = json!({"agent_instance_id": "123456789012"});
+        assert_api_response_redacted(&account_like)
+            .expect_err("account-like strings in agent identity context must fail");
+
+        let secret_like = json!({"api_key": "not-even-secret-looking"});
+        assert_api_response_redacted(&secret_like)
+            .expect_err("secret-key fields must redact arbitrary values");
+        let secret_material_like = json!({"secret_material": "not_returned"});
+        assert_api_response_redacted(&secret_material_like)
+            .expect_err("secret_material fields must redact arbitrary values");
+        let numeric_account_like = json!({"account_id": 123456789012u64});
+        assert_api_response_redacted(&numeric_account_like)
+            .expect_err("numeric account IDs under account keys must fail");
+        let exact_account_string_like = json!({"account": "123456789012"});
+        assert_api_response_redacted(&exact_account_string_like)
+            .expect_err("exact account keys with account-like strings must fail");
+        let exact_account_numeric_like = json!({"account": 123456789012u64});
+        assert_api_response_redacted(&exact_account_numeric_like)
+            .expect_err("exact account keys with numeric account IDs must fail");
+        let freeform_account_like = json!({"message": "account 123456789012"});
+        assert_api_response_redacted(&freeform_account_like)
+            .expect_err("free-form cloud account identifiers must fail");
+    }
+
+    #[tokio::test]
+    async fn runtime_api_axum_response_finalizes_direct_error_and_auth_bodies() {
+        let response = runtime_api_axum_response(RuntimeApiHttpResponse {
+            status: "401 Unauthorized",
+            headers: vec![(
+                "www-authenticate",
+                "Bearer realm=\"csm-runtime-api\"".to_string(),
+            )],
+            body: Some(json!({
+                "schema": CSM_RUNTIME_API_SCHEMA,
+                "status": "unauthorized",
+                "api_key": "arbitrary-api-key-value",
+                "agent_instance_id": "123456789012",
+                "path": r"C:\Users\daniel\secret"
+            })),
+        });
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        let body = to_bytes(response.into_body(), 64 * 1024).await.unwrap();
+        let body: Value = serde_json::from_slice(&body).unwrap();
+        assert_eq!(body["api_key"], "[redacted]");
+        assert_eq!(body["agent_instance_id"], "[redacted]");
+        assert_eq!(body["path"], "[redacted]");
+        assert_api_response_redacted(&body).unwrap();
+    }
+
+    #[test]
+    fn runtime_api_redacts_spec_derived_account_ids_and_windows_paths() {
+        let account_root = temp_root("spec-account-redaction");
+        let account_spec = account_root.join("agent.yaml");
+        fs::write(
+            &account_spec,
+            r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: "123456789012"
+display_name: API Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+heartbeat:
+  interval_secs: 1
+safety: {}
+memory: {}
+"#,
+        )
+        .unwrap();
+        let account_options = CsmRuntimeApiOptions {
+            spec_path: account_spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let account_response = runtime_api_response(&account_options, "/status").unwrap();
+        assert_eq!(account_response["agent_instance_id"], "[redacted]");
+        assert_api_response_redacted(&account_response).unwrap();
+
+        let windows_root = temp_root("spec-windows-redaction");
+        let windows_spec = windows_root.join("agent.yaml");
+        fs::write(
+            &windows_spec,
+            r#"schema: adl.long_lived_agent_spec.v1
+agent_instance_id: "C:\\Users\\daniel\\agent"
+display_name: API Agent
+state_root: state
+workflow:
+  kind: demo_adapter
+heartbeat:
+  interval_secs: 1
+safety: {}
+memory: {}
+"#,
+        )
+        .unwrap();
+        let windows_options = CsmRuntimeApiOptions {
+            spec_path: windows_spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let windows_response = runtime_api_response(&windows_options, "/ready").unwrap();
+        let windows_raw = serde_json::to_string(&windows_response).unwrap();
+        assert!(!windows_raw.contains("C:\\\\Users\\\\daniel"));
+        assert!(!windows_raw.contains("\\\\\\\\Users\\\\\\\\"));
+        assert_eq!(windows_response["agent_instance_id"], "[redacted]");
+        assert_api_response_redacted(&windows_response).unwrap();
+    }
+
+    #[test]
+    fn runtime_api_get_admission_header_matches_loaded_shutdown_body() {
+        let root = temp_root("admission-body-coherent");
+        let spec = write_spec(&root);
+        let state = root.join("state");
+        fs::create_dir_all(&state).unwrap();
+        fs::write(
+            state.join("csm_shutdown_state.json"),
+            serde_json::to_vec_pretty(&json!({
+                "schema": "adl.csm.shutdown_state.v1",
+                "admission_quiesced": true,
+                "active_phase": "drain_work"
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        let options = CsmRuntimeApiOptions {
+            spec_path: spec,
+            bind: test_api_bind(SEQ.load(Ordering::SeqCst)),
+            test_max_requests: Some(1),
+            idle_timeout_ms: None,
+            shutdown_file: None,
+            otel_status_path: None,
+            otel_log_path: None,
+        };
+        let request = RuntimeApiRequest {
+            method: "GET".to_string(),
+            path: "/status".to_string(),
+            origin: None,
+            upgrade: false,
+            authorization: None,
+            gateway_identity: None,
+            gateway_signature: None,
+        };
+        let response = runtime_api_http_response(&options, &request).expect("response");
+        assert_eq!(
+            response.body.as_ref().unwrap()["shutdown"]["admission_quiesced"],
+            true
+        );
+        assert!(response
+            .headers
+            .contains(&("x-csm-admission", "quiesced".to_string())));
+    }
+
+    #[test]
+    fn daemon_pid_liveness_does_not_claim_live_without_start_identity() {
+        let status = json!({
+            "value": {
+                "supervisor_pid": std::process::id()
+            }
+        });
+        assert_eq!(
+            daemon_supervisor_pid_liveness(&status).as_deref(),
+            Some("unknown")
+        );
     }
 
     #[test]
