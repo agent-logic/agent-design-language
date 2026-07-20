@@ -3,123 +3,13 @@
   "issue": 5600,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
-  "phase": "published",
-  "generation": 22,
-  "digest": "d6a9e0b8d8594659768e08de2d4bc9aba6dff5d8ea5632b6944875ff47f3871d",
-  "claim": {
-    "id": "claim-5600-complete-typed-replanning",
-    "owner": "codex:issue-5600",
-    "generation": 22,
-    "acquired_unix_seconds": 1784577719,
-    "expires_unix_seconds": 1785182519,
-    "heartbeat_unix_seconds": 1784577719,
-    "branch": "codex/5600-complete-typed-replanning",
-    "worktree": ".worktrees/adl-wp-5600",
-    "protected_paths": [
-      ".csdlc/issues/5600",
-      ".csdlc/locks/5600.lock",
-      ".csdlc/prepared/issues/5600",
-      "csdlc-v2"
-    ],
-    "purpose": "Implement complete typed preparation-to-implementation replanning"
-  },
-  "review_assignment": {
-    "reviewer": "subagent:codex-exec-5600-final-head-2",
-    "assigned_by": "codex:issue-5600",
-    "revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-    "scope": [
-      "csdlc-v2",
-      ".csdlc/issues/5600",
-      ".csdlc/prepared/issues/5600",
-      ".csdlc/evidence/5600"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:codex-exec-5600-final-head-2",
-    "scope": [
-      "csdlc-v2",
-      ".csdlc/issues/5600",
-      ".csdlc/prepared/issues/5600",
-      ".csdlc/evidence/5600"
-    ],
-    "reviewed_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-    "findings": [
-      {
-        "id": "F-5600-1",
-        "severity": "p1",
-        "summary": "Acceptance-set cardinality cannot change atomically across STP, SPP, and VPP.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-        "route": null
-      },
-      {
-        "id": "F-5600-2",
-        "severity": "p2",
-        "summary": "Operator-constraint and acceptance-criteria replacements are not Bound-only.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-        "route": null
-      },
-      {
-        "id": "F-5600-3",
-        "severity": "p2",
-        "summary": "The #5337 real JSON CLI proof covers only SRP review prompts.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-        "route": null
-      },
-      {
-        "id": "F-5600-4",
-        "severity": "p3",
-        "summary": "The issue design assigns dependencies, repository inputs, and non-goals to the wrong card.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-        "route": null
-      },
-      {
-        "id": "F-5600-5",
-        "severity": "p1",
-        "summary": "The committed publication request has stale generation and digest values after review recovery.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-        "route": null
-      },
-      {
-        "id": "F-5600-6",
-        "severity": "p2",
-        "summary": "The publication body contains an unsupported whole-lifecycle process claim.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5600,
-    "pull_request": 5601,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5601",
-    "base": "main",
-    "head": "codex/5600-complete-typed-replanning",
-    "revision": "git-blake3:cf3eb5103802da91e50c2dd54ba23b3d194ebc7d:65b9e83dfece1e867911c4afa0d38b28dceb558ea47174bad32ade456aa29ef0",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "phase": "implemented",
+  "generation": 23,
+  "digest": "06722079d46e75e5cd6964018c26184ef3449efb65268157eff35b013fa98905",
+  "claim": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -133,34 +23,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bebc0e0ad80f7a421c5b9aba46667439cfbbb7fa80462b06a7ca84fdf920e7fd",
+      "values_digest": "74a3a520a5c9322681c47f0decb9448b37cf9986195c2ca539a0d730d884116d",
       "rendered_digest": "72d0d26c0a9fca3d92978776997764195776dec41db6d10b05d5838413e2766d",
       "ast_digest": "c130e7367e81abdf59c746c02c1aff2a1b4c2ab16d2eb3f964968a192705a706"
     },
     "stp": {
-      "values_digest": "5ccb4e1381e8451e715fe01d15efcac9956c91ccb6e9bc672224bfa50e48516b",
+      "values_digest": "b067bc7fbac7858f563a1fb01fe1f55c95e13c0c63b63e685e5bf1140c4861b6",
       "rendered_digest": "0599c33ab3b2da3edd9ba1f4209e8243606a2cac4f94ab01c9a47d075bc36176",
       "ast_digest": "912c0dc482169557913062368c098b68c8757642261ee56bb60db7bb46dfdd4f"
     },
     "spp": {
-      "values_digest": "e05009cf794155210471c3cd7c197eab45bf5ea0a5de1b213179bd10911f36ce",
+      "values_digest": "d969e4990edeaa93f98e75458482601b603b4aca9d1129252920638afb208efc",
       "rendered_digest": "c9560b727666cdf1caf42ddc21ba4fe79e74dfef744ef56e6d46639c4a2573ba",
       "ast_digest": "88f34654f7a49bf956f976c117f30f2668f37c1aa6276d38d611de6b619a4f17"
     },
     "vpp": {
-      "values_digest": "1f23fe0151f3d7fa75ac748bdff4536494aa700e9862777278f636b68c74ae25",
+      "values_digest": "ec25d8bc8e3c764cb66abce1e4d479ddb43fd94095ebdc47cf645064d0445033",
       "rendered_digest": "1cdf94b67e2d968d60bce38010fed88b468f4d9450817305fb1c719bc18e5ed5",
       "ast_digest": "4efaa52bb7bf1a11d75221f41c303e44701f701a6049424648a1c444551446e9"
     },
     "srp": {
-      "values_digest": "01809a4e6e683b006b9dcc5e5e0d38e76e375f965c259fb77864530b7002010d",
-      "rendered_digest": "b916a38079f42f3f6aadb98f22416251d9e139566b793210952a273b99c423b9",
-      "ast_digest": "398643ac8721457187d7a2e7d936dbcf110f1f3f76b8a85c7c0a2cf876a79596"
+      "values_digest": "ff974b3a40b882bff7a32ced1f2725d42e0cfac8498e14635b5c8297e9f7a808",
+      "rendered_digest": "cd435baad8a04cf3c5495830470650489416601300b09559a495a1a9f2cf178a",
+      "ast_digest": "c3181fcdb26c6b40ffbdf45d49dfac86fe263acc5d21632264baa6e1282430e7"
     },
     "sor": {
-      "values_digest": "40c1d223f83bd0df3e6e67e7a124be043986460ca6cc97b76f83b7474e17ea01",
-      "rendered_digest": "ce5dc43fba7d2c1a7672f25b750e35e4cec7a685f606c0e750414e69ee930d94",
-      "ast_digest": "5f6f18369c806aa80ccd95826d96dc1f5ab0a580041957d4272b0201e2f1ad20"
+      "values_digest": "34c9fb8af62e864fcdd34e2a9555c789e4078e13155cb000955647345dc71983",
+      "rendered_digest": "51ab3a5fca01b9e2c2091bb9c235c934de6ab1ab0dd8157da317a71abeb7fbae",
+      "ast_digest": "06113e2301046fd623bba7caf599f1101d810cb6dbe1d951204548e205515737"
     }
   },
   "transitions": [
@@ -233,6 +123,13 @@
       "to": "published",
       "actor": "codex:issue-5600",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-5600-terminal-reconcile-5358",
+      "reason": "Recover stale cf3eb510 review and publication truth because the merged PR head is ea6e5949 and terminal reconciliation must be re-established by corrected typed closeout tooling."
     }
   ],
   "audit": [
@@ -438,6 +335,20 @@
       "actor": "codex:issue-5600",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:issue-5600-terminal-reconcile-5358",
+      "reason": "Recover stale cf3eb510 review and publication truth because the merged PR head is ea6e5949 and terminal reconciliation must be re-established by corrected typed closeout tooling.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:issue-5600-terminal-reconcile-5358",
+      "reason": "Release the closed and merged issue claim without asserting terminal closeout so issue 5358 can own and repair the typed squash-merge closeout defect before truthful terminal reconciliation.",
+      "operation": "{\"observation_source\":\"github://danielbaustin/agent-design-language/issues/5600\",\"observed_issue_state\":\"closed\",\"operation\":\"release_closed_claim\"}"
     }
   ]
 }
