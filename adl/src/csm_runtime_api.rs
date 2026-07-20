@@ -1376,7 +1376,8 @@ fn is_secret_response_key(key: &str) -> bool {
 
 fn is_account_response_key(key: &str) -> bool {
     let lowered = key.to_ascii_lowercase();
-    lowered == "agent_instance_id"
+    lowered == "account"
+        || lowered == "agent_instance_id"
         || lowered == "polis_id"
         || lowered.contains("cloud_account")
         || lowered.contains("account_id")
@@ -4208,6 +4209,12 @@ memory: {}
         let numeric_account_like = json!({"account_id": 123456789012u64});
         assert_api_response_redacted(&numeric_account_like)
             .expect_err("numeric account IDs under account keys must fail");
+        let exact_account_string_like = json!({"account": "123456789012"});
+        assert_api_response_redacted(&exact_account_string_like)
+            .expect_err("exact account keys with account-like strings must fail");
+        let exact_account_numeric_like = json!({"account": 123456789012u64});
+        assert_api_response_redacted(&exact_account_numeric_like)
+            .expect_err("exact account keys with numeric account IDs must fail");
         let freeform_account_like = json!({"message": "account 123456789012"});
         assert_api_response_redacted(&freeform_account_like)
             .expect_err("free-form cloud account identifiers must fail");

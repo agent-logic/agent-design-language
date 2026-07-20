@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "35884f38b45716b0160c872dd6278af8c97db801665678f94a04abc6e36a82c4",
+  "generation": 13,
+  "digest": "6d74e30508fda1bf25e5d05cab3da26fc830da1e1840a5e825eacdd85fda07cf",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
-    "generation": 5,
+    "generation": 13,
     "acquired_unix_seconds": 1784360472,
     "expires_unix_seconds": 1784965272,
     "heartbeat_unix_seconds": 1784360472,
@@ -23,6 +23,7 @@
       ".csdlc/prepared/issues/4647",
       "adl/Cargo.lock",
       "adl/Cargo.toml",
+      "adl/src/cli/provider_cmd.rs",
       "adl/src/csm_networking.rs",
       "adl/src/csm_runtime_api.rs",
       "adl/src/provider/http_family.rs",
@@ -66,34 +67,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a655f315a170d80fceefbc7bbbab2bc91b70d13949adce9cf0df15b2976dbb8c",
+      "values_digest": "779e8775c7f060d499b718cff7288c85000b5224279bdab559446c638bfd3f75",
       "rendered_digest": "e81a7c41d08030b37ad10c9e154b7dea1ca8184f6add7879a256058298c2d572",
       "ast_digest": "1c427f7fca63ffc6ca4edab193549256edd36068a51de7890b62b87f67d7998f"
     },
     "stp": {
-      "values_digest": "278d7397597c9e5ec73554e328b5194f1e5fd19edd384a77ee43b4a464e7dece",
+      "values_digest": "c27666e5ce35238e48275a64b31a3544f505799ff058718dba9f4193fd156693",
       "rendered_digest": "f475ca8470b658722b37c9aa28f663a3754e32133e7e8016fc4708e511e4c156",
       "ast_digest": "967e7ee9695e8cece048443536ee72fc9944c08ca5d6d6a2840b72d49fcb48e4"
     },
     "spp": {
-      "values_digest": "2edd105a1e9e6f1bf366eb2d2ba3281745ae52414805af9b7c350ed461c55959",
-      "rendered_digest": "63fb67496c8d4da40773e62f325f8fc0c5bae2ad86d3b8783b75694a6822f179",
-      "ast_digest": "db3db17f0b342cac7a35f2986ef665e21fff5955b22301d4fd36a3bcabee86c8"
+      "values_digest": "251b6b76dee620fddfce6c34d93c5b6504344035cbb7a256e2e759289e3fc4a5",
+      "rendered_digest": "30aa27ac3b5ad59ba2afee3ad847cd965199e4943ba89f7b85373ed46ba18f00",
+      "ast_digest": "dea26c43126166b4a11f07b4bdf395f72270ac155cbe4738dee2bcc2958f5d57"
     },
     "vpp": {
-      "values_digest": "d1eaaccc6269fb19dc2a989f73c27260ad216e01d7f6a482cd73de3863de3931",
+      "values_digest": "7ccc82e92888a7b584c7cc0bca8f5dcd4dc0140aa38adb5a4684693409424d12",
       "rendered_digest": "d57feb0cf99f8c10f9cf157b81aa43be02c07448866d3eb37e0579de6482a3aa",
       "ast_digest": "f0460021675411d0969f8a41ada2ab4d2756181b12a031c9121edc62adad14f6"
     },
     "srp": {
-      "values_digest": "2b9b96c23fc3cc6c3971a9d469662d1a3432e48a2eb62a94a0b55d21c81d9c17",
+      "values_digest": "8a9939fe6a7ea0a1a7e7b1618c81fc6bd307e2bd0839566dce6e1ab56156eb5d",
       "rendered_digest": "4baeecb52f44cc8343337132e80bc296fe4a6d7b618893c5b5f1cf1e13f271c4",
       "ast_digest": "96053e7efd793b73fb59e26f36e144231bb269806d95f5ed867d9b75c9a2989c"
     },
     "sor": {
-      "values_digest": "fa4e858ec70ac1b361cda62706744070aa52b58224cd6f07d1d4383fe562f3d8",
-      "rendered_digest": "30a01fb5d73640e9712a00f2286d4f72d764b03e53ec47d19624c87e035a2f32",
-      "ast_digest": "02633999c340beccab1ae44de891521ff20461db62e4d31ceb7fe3f3293431e6"
+      "values_digest": "eb7db72cbd2618824ecb11a8085da095b75b5259794d73e82f0018132d5b7bc2",
+      "rendered_digest": "e548c387cd7bd8328c8fe04b7e656b3b531f5b9053ae18974ec84b22d663ee2d",
+      "ast_digest": "b3a47312d7e606ba147a991f9c5e8fa6fa73aea894edea206ce3f32d8e4109cf"
     }
   },
   "transitions": [
@@ -217,6 +218,69 @@
       "actor": "codex-019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Exact path comparison found additional non-lifecycle WP-20 remediation paths changed on the branch; protected paths must include these exact changed paths before publication.",
       "operation": "{\"add_protected_paths\":[\"adl/src/provider/http_family/config.rs\",\"adl/src/provider/local.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml\",\"docs/milestones/v0.91.7/review/ADL_v0.91.7_THIRD_PARTY_REVIEW_HANDOFF.md\",\"docs/milestones/v0.91.7/review/V0917_EXTERNAL_REVIEW_VERIFICATION_2026-07-19.md\",\"docs/milestones/v0.91.7/review/external_review_4646/FINDINGS_REGISTER.md\",\"docs/milestones/v0.91.7/review/external_review_4646/PUBLICATION_SAFE_MANIFEST.md\",\"docs/milestones/v0.91.7/review/wp20_remediation_5544/RELEASE_TRUTH_GATE_STATUS_5544.md\",\"docs/milestones/v0.91.8/setup/5383/DIAGRAM.mmd\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 5,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Bedrock setup remediation touches provider CLI setup template and tests.",
+      "operation": "{\"add_protected_paths\":[\"adl/src/cli/provider_cmd.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 6,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "WP-20 execution confirmed live issue/dependency truth before remediation and review validation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 7,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "WP-20 produced protected-path remediation for CSM account redaction, Bedrock setup account pinning, and native provider lock-timeout proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 8,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "WP-20 ran focused CSM, provider setup, and provider invocation artifact regressions against the current residual patch.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 9,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "WP-20 updated SRP/SOR lifecycle truth through typed routes before the next exact-head review and publication gate.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 10,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record focused CSM account redaction regression proof for the current residual patch.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"runtime_api_redaction_is_key_aware_and_preserves_benign_ids\",\"--\",\"--nocapture\"],\"purpose\":\"Prove exact account keys redact string and numeric account identifiers while benign counters remain allowed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 11,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record focused Bedrock provider setup account-pin regression proof for the current residual patch.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"provider_setup_writes_bedrock_account_pin_material\",\"--\",\"--nocapture\"],\"purpose\":\"Prove generated Bedrock setup includes profile, region, account hash environment pin, and clear fail-closed README guidance.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record focused native and Bedrock invocation artifact lock-timeout regression proof for the current residual patch.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"-p\",\"adl\",\"invocation_artifact_and_http_constructor_error_paths_are_exercised\",\"--\",\"--nocapture\"],\"purpose\":\"Prove held invocation artifact locks classify native and Bedrock post-success artifact failures as non-retryable partial-success-unknown.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Record typed PVF validation and doctor proof for the current issue record after SPP/SOR repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/4647/validate-current.json\"],\"purpose\":\"Validate current diff hygiene and C-SDLC v2 doctor pass through the typed PVF request.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/4647/validation/current, disposition local_pass with diff-check and csdlc-doctor passed\"}}"
     }
   ]
 }

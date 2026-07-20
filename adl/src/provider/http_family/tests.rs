@@ -1786,7 +1786,29 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
 
     let held_lock = acquire_invocation_artifact_lock(&artifact).expect("held advisory lock");
     env::set_var("ADL_INVOCATION_LOCK_TIMEOUT_MS", "5");
-    let timeout_err = write_bedrock_invocation_record(
+    let native_timeout_err = write_native_invocation_record(
+        "openai",
+        "gpt-test",
+        "prompt-after-provider",
+        "output-after-provider",
+        200,
+    )
+    .expect_err("held lock should force native timeout classification");
+    assert!(
+        native_timeout_err
+            .to_string()
+            .contains("partial_success_unknown_invocation_record_lock_unavailable"),
+        "native timeout should be classified as non-retryable partial-success-unknown: {native_timeout_err}"
+    );
+    assert!(
+        native_timeout_err.to_string().contains("timed out"),
+        "native timeout cause should remain visible: {native_timeout_err}"
+    );
+    assert!(
+        !is_retryable_error(&native_timeout_err),
+        "native invocation artifact lock timeout after provider completion must be non-retryable"
+    );
+    let bedrock_timeout_err = write_bedrock_invocation_record(
         "amazon.nova-lite-v1:0",
         "prompt-after-provider",
         "output-after-provider",
@@ -1798,18 +1820,18 @@ fn invocation_artifact_and_http_constructor_error_paths_are_exercised() {
     )
     .expect_err("held lock should force timeout classification");
     assert!(
-        timeout_err
+        bedrock_timeout_err
             .to_string()
             .contains("partial_success_unknown_invocation_record_lock_unavailable"),
-        "timeout should be classified as non-retryable partial-success-unknown: {timeout_err}"
+        "Bedrock timeout should be classified as non-retryable partial-success-unknown: {bedrock_timeout_err}"
     );
     assert!(
-        timeout_err.to_string().contains("timed out"),
-        "timeout cause should remain visible: {timeout_err}"
+        bedrock_timeout_err.to_string().contains("timed out"),
+        "Bedrock timeout cause should remain visible: {bedrock_timeout_err}"
     );
     assert!(
-        !is_retryable_error(&timeout_err),
-        "invocation artifact lock timeout after provider completion must be non-retryable"
+        !is_retryable_error(&bedrock_timeout_err),
+        "Bedrock invocation artifact lock timeout after provider completion must be non-retryable"
     );
     drop(held_lock);
 

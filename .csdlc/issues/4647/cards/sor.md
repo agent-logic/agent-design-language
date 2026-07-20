@@ -32,7 +32,66 @@ Retained the exact reviewer-authored WP-19 verification artifact, remediated bot
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "-p",
+      "adl",
+      "runtime_api_redaction_is_key_aware_and_preserves_benign_ids",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove exact account keys redact string and numeric account identifiers while benign counters remain allowed.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "-p",
+      "adl",
+      "provider_setup_writes_bedrock_account_pin_material",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove generated Bedrock setup includes profile, region, account hash environment pin, and clear fail-closed README guidance.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "-p",
+      "adl",
+      "invocation_artifact_and_http_constructor_error_paths_are_exercised",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove held invocation artifact locks classify native and Bedrock post-success artifact failures as non-retryable partial-success-unknown.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, 1 passed"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/4647/validate-current.json"
+    ],
+    "purpose": "Validate current diff hygiene and C-SDLC v2 doctor pass through the typed PVF request.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/4647/validation/current, disposition local_pass with diff-check and csdlc-doctor passed"
+  }
+]
 
 ## Integration
 
