@@ -3,13 +3,13 @@
   "issue": 5602,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
-  "phase": "reviewed",
-  "generation": 9,
-  "digest": "147bd4853552970b7089db5e75fe13ea79d892cde22b509b56ee5c05368b9e58",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "f93bea8f2430ac403f528b9419ef89020120b2b3ad995e8763f66200e20a991c",
   "claim": {
     "id": "claim-5602-hosted-coverage-no-report",
     "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "generation": 9,
+    "generation": 10,
     "acquired_unix_seconds": 1784584872,
     "expires_unix_seconds": 1784671272,
     "heartbeat_unix_seconds": 1784584872,
@@ -17,46 +17,13 @@
     "worktree": ".worktrees/adl-wp-5602",
     "protected_paths": [
       "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
       "adl/tools/test_run_authoritative_coverage_lane.sh"
     ],
     "purpose": "Prevent partition-local llvm-cov report crashes without weakening coverage"
   },
-  "review_assignment": {
-    "reviewer": "subagent:review-5602",
-    "assigned_by": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "revision": "git-blake3:a2769d8a672e7c7287440d9a2feda8c59a271f80:654b93e829f3fc563dd69457b8282f2a7d84cf997147967d4f17ab8f53f28f0b",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:review-5602",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh"
-    ],
-    "reviewed_revision": "git-blake3:a2769d8a672e7c7287440d9a2feda8c59a271f80:654b93e829f3fc563dd69457b8282f2a7d84cf997147967d4f17ab8f53f28f0b",
-    "findings": [],
-    "residual_risks": [
-      "Hosted CI remains the full instrumented integration proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "metadata_only_review_projection",
-      "from_revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
-      "to_revision": "git-blake3:a2769d8a672e7c7287440d9a2feda8c59a271f80:654b93e829f3fc563dd69457b8282f2a7d84cf997147967d4f17ab8f53f28f0b",
-      "from_commit": "ffcd2f6d347af87bb3551b6c19c333966e90f05f",
-      "to_commit": "a2769d8a672e7c7287440d9a2feda8c59a271f80",
-      "changed_paths": [
-        ".csdlc/evidence/5602/local/coverage-contract.log",
-        ".csdlc/evidence/5602/local/diff-check.log",
-        ".csdlc/issues/5602",
-        ".csdlc/prepared/issues/5602",
-        ".csdlc/publication/5602.intent.json"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -71,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "549a013743c147d82e1d1ac6c9f27626d2e8388eb98bc5016d9f0f7fe2b23289",
+      "values_digest": "48467fc3729aef57fe00790118c927f5e01408eabe009d92656e238029365305",
       "rendered_digest": "f29c939a2f5af25a1986147a24c88c77e4cb3e098387deb638c9ca7c02221236",
       "ast_digest": "dc868767b9da3d0f23e83f59daf4792b535f892948bd50d63d5e172751834701"
     },
     "stp": {
-      "values_digest": "4fe69e99fb8d36f6f376130856ee3d770a0c15d8830bda435668214b8bd4d803",
+      "values_digest": "ae1830efa8a68df5343986f33c569e1b5659b712bd93c6f7d7300e150f6946a1",
       "rendered_digest": "7169347c43cc4f22ec2d67cafd4b12be0a88261e42b5825b76a6a5c2a94c4350",
       "ast_digest": "0a305bbdbc7044b0f7a8956e25501a3973c08d81c372948becdbd8676a7d411b"
     },
     "spp": {
-      "values_digest": "1874ea29b1d6c90cbfbed8e0a70379941d630b25d146efa3d642b7cda5baa861",
+      "values_digest": "5a33fbe2d04d4328e2b6052ca79fdd42ad177feec2cacf090be4fdec04fa1b75",
       "rendered_digest": "b2a74f27bd07e8ced438a62f24e9a87ca23d7acd291c4383c49afec39b83e8bf",
       "ast_digest": "a5c6942680a7c7b996dde5376907adb70ca14b93009a7ad599200134d2fe0055"
     },
     "vpp": {
-      "values_digest": "94ffda60e6f54d5a97bb02f173c1f64ad1bd1fe3876b27b75a6fda8fc8372ba0",
+      "values_digest": "8de8f39f5c05b0adf757a57901ff6cc83cd1e396acf64373675a99623dbb2ca5",
       "rendered_digest": "5ee3a0baebc9c56fcb842ee572195c3a41247743e271f5dced953c47316936be",
       "ast_digest": "696c38305d48a39773ae3fcbc00b2ef9ae8d1cc1a5fea3960d9448c5dec7807d"
     },
     "srp": {
-      "values_digest": "206fa7ab430111371497e621865cf2a59e9d7b3dc95e9d21aa6b1ff60c54668f",
-      "rendered_digest": "ce213ce929e9578ad17cbf02a3960fb2f3f61960f0c1b27d241c01e14236b5c4",
-      "ast_digest": "7d9f057db8efd928b458d669e446d4e49813b52a70c8cad371a9313a77f4129b"
+      "values_digest": "4900332c01880a76526e4c8c64431ace00ad2b60dd2062ebe0e292ada8e80ae4",
+      "rendered_digest": "f74666ed270f7c0edee88145741523e2bb5a5a2d2df7b62bb5dfda412984acd1",
+      "ast_digest": "8a08cb244980f8840db7a4e4886ff81af5c8f504d4d620fa245f3e07bb62a064"
     },
     "sor": {
-      "values_digest": "8c0dd454bb69b38a055dd1575e4d58e9d8137e47c3ad30d344f9ae2342d8209c",
+      "values_digest": "178ba872425cd93859637e2c2f0cf651b05988456c119ec4c6c579d1885f5863",
       "rendered_digest": "5302e570edf71807f87d20731f0b3019fde9b61be4618deac600b40a77c84b92",
       "ast_digest": "27586af1eb43ca89f0a0d8d68d465cf7a24d3575d124e2e909a9a4d463dc7c22"
     }
@@ -150,6 +117,13 @@
       "to": "reviewed",
       "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
       "reason": "Final exact-head review at a2769d8a completed with no findings."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Hosted validation exposed incompatible cargo-llvm-cov flags and a stale coupled CI runtime contract; recover the prior review before recording the corrected exact-head review."
     }
   ],
   "audit": [
@@ -243,6 +217,20 @@
       "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
       "reason": "Final exact-head review at a2769d8a completed with no findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Hosted validation exposed incompatible cargo-llvm-cov flags and a stale coupled CI runtime contract; recover the prior review before recording the corrected exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact review found that the authoritative coverage target and command contract is also enforced by the coupled CI runtime contract test; protect that repaired contract explicitly.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_ci_runtime_contracts.sh\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
