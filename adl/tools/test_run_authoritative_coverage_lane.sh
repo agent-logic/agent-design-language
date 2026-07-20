@@ -78,11 +78,30 @@ if ADL_COVERAGE_RUN_ID=".." "$SCRIPT" --print-plan >/dev/null 2>&1; then
 fi
 
 script_text="$(cat "$SCRIPT")"
+set +e
+incompatible_parser_output="$(
+  cd "$ROOT_DIR/adl"
+  cargo llvm-cov nextest --no-clean --no-report --manifest-path Cargo.toml 2>&1
+)"
+incompatible_parser_status=$?
+set -e
+if [ "$incompatible_parser_status" -eq 0 ]; then
+  echo "expected the installed cargo-llvm-cov parser to reject --no-clean with --no-report" >&2
+  exit 1
+fi
+case "$incompatible_parser_output" in
+  *"--no-report may not be used together with --no-clean"*) ;;
+  *)
+    echo "installed cargo-llvm-cov did not report the expected incompatible flag pair" >&2
+    echo "$incompatible_parser_output" >&2
+    exit 1
+    ;;
+esac
 for required_fragment in \
-  "cargo llvm-cov nextest" \
+  "cargo llvm-cov clean" \
+  "cargo llvm-cov show-env --sh" \
+  "cargo nextest run" \
   "--workspace" \
-  "--no-clean" \
-  "--no-report" \
   "--no-fail-fast" \
   "--no-tests pass" \
   "--test-threads" \
@@ -112,8 +131,8 @@ do
       ;;
   esac
 done
-if [ "$(grep -c -- '--no-report' "$SCRIPT")" -ne 3 ]; then
-  echo "every authoritative nextest command must collect profiles without rendering a partition-local report" >&2
+if grep -Eq -- '--no-clean|--no-report' "$SCRIPT"; then
+  echo "external-test coverage must not pass cargo-llvm-cov wrapper-only flags to direct nextest" >&2
   exit 1
 fi
 case "$script_text" in
@@ -189,7 +208,9 @@ for required_dir in "$scratch_root/target" "$scratch_root/target/llvm-cov-target
 done
 
 for required in \
-  "cmd=llvm-cov nextest --workspace --no-clean --no-report --no-fail-fast --no-tests pass" \
+  "cmd=llvm-cov clean --workspace" \
+  "cmd=llvm-cov show-env --sh" \
+  "cmd=nextest run --workspace --no-fail-fast --no-tests pass" \
   "--test-threads 4" \
   "--partition count:1/2" \
   "--partition count:2/2" \
@@ -200,10 +221,11 @@ for required in \
   "--skip csm_runtime_api_serves_status_health_ready_metrics_and_events" \
   "--skip child_exit_terminates_descendants_and_bounds_inherited_pipe_capture" \
   "--skip csmctl_authenticated_api_client_waits_for_slow_listener_startup" \
-  "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-report --no-fail-fast --no-tests pass" \
+  "cmd=llvm-cov clean --workspace --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" \
+  "cmd=nextest run --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-fail-fast --no-tests pass" \
   "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl.json" \
   "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl-runtime.json" \
-  "target=$scratch_root/target" \
+  "target=$scratch_root/target/llvm-cov-target/run-a" \
   "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-a" \
   "llvm_profile=$scratch_root/target/llvm-cov-target/run-a/workspace-run-a-partition-1-%p.profraw"
 do
@@ -298,6 +320,7 @@ for run_id in run-concurrent-a run-concurrent-b; do
   log_var="concurrent_${run_id#run-concurrent-}_log"
   log_path="${!log_var}"
   for required in \
+    "target=$scratch_root/target/llvm-cov-target/$run_id" \
     "llvm_cov_target=$scratch_root/target/llvm-cov-target/$run_id" \
     "--output-path $scratch_root/coverage-output/$run_id/coverage-summary.adl.json" \
     "--output-path $scratch_root/coverage-output/$run_id/coverage-summary.adl-runtime.json"
@@ -331,7 +354,7 @@ for required in \
   "link_accel=lld" \
   "--test-threads 2" \
   "-- --skip live_pr_fixture_" \
-  "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-clean --no-report --no-fail-fast --no-tests pass"
+  "cmd=nextest run --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-fail-fast --no-tests pass"
 do
   if ! grep -F -- "$required" "$lld_cargo_log" >/dev/null 2>&1; then
     echo "missing authoritative coverage concurrency token: $required" >&2
