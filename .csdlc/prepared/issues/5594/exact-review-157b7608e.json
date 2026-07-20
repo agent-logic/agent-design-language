@@ -9,8 +9,8 @@
       "id": "WP01-ER7",
       "severity": "p1",
       "summary": "Provider transport signed-trace and five standalone tooling rows retained semantically incorrect or incomplete cutover owners",
-      "disposition": "fixed_in_worktree_pending_exact_revision_review",
-      "fix_commit": null,
+      "disposition": "fixed_pending_exact_revision_review",
+      "fix_commit": "a45cb49d2bdde4f68e0b94575599680b5b4486a4",
       "evidence": ".csdlc/prepared/issues/5594/feature_decisions_5594.rb"
     }
   ],
