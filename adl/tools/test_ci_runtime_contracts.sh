@@ -455,10 +455,9 @@ for required_fragment in (
     'printf \'/mnt/adl-authoritative-coverage\\n\'',
     'printf \'%s\\n\' "$ADL_DIR"',
     'COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"',
-    'COVERAGE_PROFILE_ROOT="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"',
-    'mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_PROFILE_ROOT"',
+    'mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID" "$COVERAGE_OUTPUT_ROOT"',
     'export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"',
-    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_PROFILE_ROOT"',
+    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(
@@ -560,13 +559,9 @@ for required_fragment in (
     "--summary-only \\",
     '--output-path "$ADL_SUMMARY_PATH"',
     'coverage-summary.adl-runtime.json',
+    'COVERAGE_OUTPUT_ROOT="$COVERAGE_BUILD_ROOT/coverage-output/$COVERAGE_RUN_ID"',
     'FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"',
-    'SHARED_SUMMARY_CURRENT_LINK="$SHARED_SUMMARY_PUBLISHED_ROOT/current"',
-    'ADL_COVERAGE_PROMOTION_LOCK_TIMEOUT_SECONDS',
-    'timed out waiting up to ${timeout}s for coverage summary promotion lock',
-    'flock($lock_fh, LOCK_EX)',
-    'symlink("runs/$run_id", $link_tmp)',
-    'install_symlink($shared_final_summary, $current_link, $run_id)',
+    'cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(

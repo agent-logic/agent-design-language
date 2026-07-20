@@ -424,6 +424,50 @@ fn bedrock_invocation_artifact_write_io_failure_is_non_retryable_partial_success
 }
 
 #[test]
+fn bedrock_invocation_artifact_create_dir_failure_is_non_retryable_partial_success_unknown() {
+    let _guard = env_lock();
+    let temp_root = std::env::temp_dir().join(format!(
+        "adl-bedrock-provider-invocation-create-dir-{}-{}",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("unix epoch")
+            .as_nanos()
+    ));
+    fs::create_dir_all(&temp_root).expect("temp root");
+    let parent_file = temp_root.join("not-a-directory");
+    fs::write(&parent_file, b"blocks mkdir").expect("parent blocker file");
+    let artifact = parent_file.join("invocations.json");
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let _ = fs::remove_dir(invocation_lock_path(&artifact));
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+
+    let err = write_bedrock_invocation_record(
+        "amazon.nova-lite-v1:0",
+        "prompt-after-provider",
+        "output-after-provider",
+        200,
+        "agent-logic-admin",
+        "us-west-2",
+        Some("account-hash"),
+        "account_hash_verified",
+    )
+    .expect_err("post-success artifact directory creation failure should fail closed");
+    assert!(
+        err.to_string()
+            .contains("partial_success_unknown_invocation_record_io_failure"),
+        "post-success Bedrock artifact create-dir failure must be partial-success-unknown: {err}"
+    );
+    assert!(
+        !is_retryable_error(&err),
+        "post-success Bedrock artifact create-dir failure must not retry"
+    );
+
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    fs::remove_dir_all(&temp_root).expect("cleanup temp root");
+}
+
+#[test]
 fn bedrock_constructor_and_helpers_cover_default_safe_paths() {
     let _guard = env_lock();
     let prev_profile = env::var_os("ADL_AWS_PROFILE");
@@ -1974,6 +2018,47 @@ fn native_invocation_artifact_write_io_failure_is_non_retryable_partial_success_
     assert!(
         !is_retryable_error(&err),
         "post-success native artifact write I/O failure must not retry"
+    );
+
+    restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);
+    std::fs::remove_dir_all(&temp_root).expect("cleanup temp root");
+}
+
+#[test]
+fn native_invocation_artifact_create_dir_failure_is_non_retryable_partial_success_unknown() {
+    let _guard = env_lock();
+    let temp_root = std::env::temp_dir().join(format!(
+        "adl-native-provider-invocation-create-dir-{}-{}",
+        std::process::id(),
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("unix epoch")
+            .as_nanos()
+    ));
+    std::fs::create_dir_all(&temp_root).expect("temp root");
+    let parent_file = temp_root.join("not-a-directory");
+    std::fs::write(&parent_file, b"blocks mkdir").expect("parent blocker file");
+    let artifact = parent_file.join("invocations.json");
+    let prev_artifact = env::var_os("ADL_PROVIDER_INVOCATIONS_PATH");
+    let _ = std::fs::remove_dir(invocation_lock_path(&artifact));
+    env::set_var("ADL_PROVIDER_INVOCATIONS_PATH", &artifact);
+
+    let err = write_native_invocation_record(
+        "openai",
+        "gpt-test",
+        "prompt-after-provider",
+        "output-after-provider",
+        200,
+    )
+    .expect_err("post-success artifact directory creation failure should fail closed");
+    assert!(
+        err.to_string()
+            .contains("partial_success_unknown_invocation_record_io_failure"),
+        "post-success native artifact create-dir failure must be partial-success-unknown: {err}"
+    );
+    assert!(
+        !is_retryable_error(&err),
+        "post-success native artifact create-dir failure must not retry"
     );
 
     restore_env_var("ADL_PROVIDER_INVOCATIONS_PATH", prev_artifact);

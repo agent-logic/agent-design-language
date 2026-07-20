@@ -4,13 +4,9 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ADL_DIR="$ROOT_DIR/adl"
 ADL_RUNTIME_MANIFEST="$ROOT_DIR/adl-runtime/Cargo.toml"
-SHARED_ADL_SUMMARY_PATH="${ADL_COVERAGE_SHARED_ADL_SUMMARY_PATH:-$ADL_DIR/coverage-summary.adl.json}"
-SHARED_ADL_RUNTIME_SUMMARY_PATH="${ADL_COVERAGE_SHARED_ADL_RUNTIME_SUMMARY_PATH:-$ADL_DIR/coverage-summary.adl-runtime.json}"
-SHARED_FINAL_SUMMARY_PATH="${ADL_COVERAGE_SHARED_FINAL_SUMMARY_PATH:-$ADL_DIR/coverage-summary.json}"
-SHARED_SUMMARY_PROMOTION_LOCK="${ADL_COVERAGE_SHARED_PROMOTION_LOCK:-$ADL_DIR/coverage-summary.promote.lock}"
-SHARED_SUMMARY_PUBLISHED_ROOT="${ADL_COVERAGE_SHARED_PUBLISHED_ROOT:-$ADL_DIR/coverage-summary.published}"
-SHARED_SUMMARY_RUNS_ROOT="$SHARED_SUMMARY_PUBLISHED_ROOT/runs"
-SHARED_SUMMARY_CURRENT_LINK="$SHARED_SUMMARY_PUBLISHED_ROOT/current"
+LEGACY_ADL_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl.json"
+LEGACY_ADL_RUNTIME_SUMMARY_PATH="$ADL_DIR/coverage-summary.adl-runtime.json"
+LEGACY_FINAL_SUMMARY_PATH="$ADL_DIR/coverage-summary.json"
 PRINT_PLAN=false
 AUTHORITY="push_main"
 EVENT_NAME="push"
@@ -31,8 +27,20 @@ TEST_THREADS="${ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS:-${ADL_COVERAGE_TEST_THR
 PARTITION_COUNT="${ADL_AUTHORITATIVE_COVERAGE_PARTITIONS:-2}"
 DEFAULT_SKIP_PATTERNS="real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup"
 SKIP_PATTERNS_RAW="${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERNS:-${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN:-$DEFAULT_SKIP_PATTERNS}}"
-COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-${GITHUB_RUN_ATTEMPT:-0}-$$}"
+COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-$$}"
 IFS=',' read -r -a SKIP_PATTERNS <<< "$SKIP_PATTERNS_RAW"
+
+case "$COVERAGE_RUN_ID" in
+  ""|"."|".."|*/*|*\\*|*[!A-Za-z0-9._-]*)
+    echo "unsafe coverage run id: $COVERAGE_RUN_ID" >&2
+    exit 2
+    ;;
+esac
+
+COVERAGE_OUTPUT_ROOT="$COVERAGE_BUILD_ROOT/coverage-output/$COVERAGE_RUN_ID"
+ADL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.adl.json"
+ADL_RUNTIME_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.adl-runtime.json"
+FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"
 
 usage() {
   cat <<'USAGE'
@@ -77,30 +85,13 @@ if [ "$EVENT_NAME" = "pull_request" ] && [ "$AUTHORITY" = "pr_policy_surface_too
   MODE="bounded_policy_surface_pr"
 fi
 
-if [[ ! "$COVERAGE_RUN_ID" =~ ^[A-Za-z0-9._-]+$ ]]; then
-  echo "invalid coverage run id: $COVERAGE_RUN_ID" >&2
-  echo "coverage run id may contain only letters, digits, '.', '_', and '-'" >&2
-  exit 2
-fi
-if [ "$COVERAGE_RUN_ID" = "." ] || [ "$COVERAGE_RUN_ID" = ".." ]; then
-  echo "invalid coverage run id: $COVERAGE_RUN_ID" >&2
-  echo "coverage run id must not be a dot path component" >&2
-  exit 2
-fi
-
-COVERAGE_PROFILE_ROOT="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
-COVERAGE_OUTPUT_ROOT="$COVERAGE_BUILD_ROOT/coverage-output/$COVERAGE_RUN_ID"
-ADL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.adl.json"
-ADL_RUNTIME_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.adl-runtime.json"
-FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"
-
 if [ "$PRINT_PLAN" = true ]; then
   printf 'authority=%s\n' "$AUTHORITY"
   printf 'event_name=%s\n' "$EVENT_NAME"
   printf 'mode=%s\n' "$MODE"
   printf 'build_root=%s\n' "$COVERAGE_BUILD_ROOT"
   printf 'run_id=%s\n' "$COVERAGE_RUN_ID"
-  printf 'profile_root=%s\n' "$COVERAGE_PROFILE_ROOT"
+  printf 'profile_root=%s\n' "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
   printf 'output_root=%s\n' "$COVERAGE_OUTPUT_ROOT"
   printf 'test_threads=%s\n' "$TEST_THREADS"
   printf 'partitions=%s\n' "$PARTITION_COUNT"
@@ -123,13 +114,11 @@ cd "$ADL_DIR"
 
 # Keep compiled target artifacts warm across CI runs. GitHub-hosted coverage
 # defaults to the cached repo target, while remote builders can opt into a
-# scratch root and warm it from the restored target. Keep the ordinary Cargo
-# target warm, but isolate llvm-cov profile output by run so concurrent lanes
-# cannot delete or report each other's raw profiles or JSON summaries.
-mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_PROFILE_ROOT" "$COVERAGE_OUTPUT_ROOT"
-rm -f "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" "$FINAL_SUMMARY_PATH"
+# scratch root and warm it from the restored target. Do not delete the
+# llvm-cov target between runs; it is the expensive instrumentation build cache.
+mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID" "$COVERAGE_OUTPUT_ROOT"
 export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
-export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_PROFILE_ROOT"
+export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
 # Coverage builds can consume enough runner disk to cross the production CSM
 # floor. Keep ordinary tests deterministic; low-disk tests set explicit values.
 export ADL_CSM_DISK_FLOOR_BYTES="${ADL_CSM_DISK_FLOOR_BYTES:-0}"
@@ -223,13 +212,12 @@ run_workspace_coverage_partitions() {
 }
 
 coverage_profile_namespace=workspace
-coverage_status=0
-run_workspace_coverage_partitions || coverage_status=$?
+run_workspace_coverage_partitions
 
 cargo llvm-cov report \
   --json \
   --summary-only \
-  --output-path "$ADL_SUMMARY_PATH" || coverage_status=$?
+  --output-path "$ADL_SUMMARY_PATH"
 find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
@@ -242,12 +230,12 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
     --test-threads "$TEST_THREADS")
   coverage_command=("${runtime_coverage_command[@]}")
   coverage_profile_namespace=adl-runtime
-  run_workspace_coverage_partitions || coverage_status=$?
+  run_workspace_coverage_partitions
   cargo llvm-cov report \
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
     --json \
     --summary-only \
-    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || coverage_status=$?
+    --output-path "$ADL_RUNTIME_SUMMARY_PATH"
   jq -s '
     . as $docs
     |
@@ -278,171 +266,13 @@ if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
         lines: metric("lines"),
         regions: metric("regions")
       }
-  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > "$FINAL_SUMMARY_PATH" || {
-    merge_status=$?
-    rm -f "$FINAL_SUMMARY_PATH"
-    coverage_status=$merge_status
-  }
+  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > "$FINAL_SUMMARY_PATH"
 else
-  cp "$ADL_SUMMARY_PATH" "$FINAL_SUMMARY_PATH" || {
-    copy_status=$?
-    rm -f "$FINAL_SUMMARY_PATH"
-    coverage_status=$copy_status
-  }
+  cp "$ADL_SUMMARY_PATH" "$FINAL_SUMMARY_PATH"
 fi
 
-promote_current_run_summaries() {
-  perl -Mstrict -Mwarnings -MFcntl=:flock -MFile::Basename=basename -MFile::Copy=copy -MFile::Path=make_path,remove_tree -e '
-    sub fail {
-      my ($code, $message) = @_;
-      print STDERR "$message\n" if defined $message && length $message;
-      exit $code;
-    }
-    sub atomic_rename {
-      my ($source, $dest) = @_;
-      rename($source, $dest) or die "$!: $source -> $dest\n";
-    }
-    sub checked_copy {
-      my ($source, $dest) = @_;
-      die "missing coverage summary for current run: $source\n" unless -s $source;
-      copy($source, $dest) or die "$!: $source -> $dest\n";
-    }
-    sub install_regular {
-      my ($source, $dest, $run_id) = @_;
-      my $tmp = "$dest.$run_id.$$\.regular.tmp";
-      checked_copy($source, $tmp);
-      atomic_rename($tmp, $dest);
-    }
-    sub install_symlink {
-      my ($dest, $current_link, $run_id) = @_;
-      my $base = basename($dest);
-      my $target = "$current_link/$base";
-      return if -l $dest && readlink($dest) eq $target;
-      my $tmp = "$dest.$run_id.$$\.link.tmp";
-      unlink($tmp);
-      symlink($target, $tmp) or die "$!: symlink $target -> $tmp\n";
-      atomic_rename($tmp, $dest);
-    }
-    sub legacy_link_matches {
-      my ($dest, $current_link) = @_;
-      my $base = basename($dest);
-      my $target = "$current_link/$base";
-      return -l $dest && readlink($dest) eq $target;
-    }
-    sub acquire_lock_with_timeout {
-      my ($lock_fh, $lock_path) = @_;
-      my $timeout = $ENV{ADL_COVERAGE_PROMOTION_LOCK_TIMEOUT_SECONDS} // 10;
-      $timeout = 10 unless $timeout =~ /\A[1-9][0-9]*\z/;
-      my $locked = eval {
-        local $SIG{ALRM} = sub { die "__ADL_LOCK_TIMEOUT__\n"; };
-        alarm($timeout);
-        my $ok = flock($lock_fh, LOCK_EX);
-        alarm(0);
-        $ok;
-      };
-      my $err = $@;
-      alarm(0);
-      if (!$locked) {
-        if ($err =~ /__ADL_LOCK_TIMEOUT__/) {
-          fail(46, "timed out waiting up to ${timeout}s for coverage summary promotion lock: $lock_path");
-        }
-        fail(1, "failed to acquire coverage summary promotion lock: " . ($err || $!));
-      }
-    }
-
-    my (
-      $lock_path, $run_id, $adl_summary, $runtime_summary, $final_summary,
-      $published_root, $runs_root, $current_link, $shared_adl_summary,
-      $shared_runtime_summary, $shared_final_summary, $runtime_manifest
-    ) = @ARGV;
-
-    make_path($published_root);
-    open(my $lock_fh, ">>", $lock_path) or fail(1, "failed to open coverage summary promotion lock: $!");
-    acquire_lock_with_timeout($lock_fh, $lock_path);
-
-    if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_LOCKED_FAILURE} // "0") eq "1") {
-      fail(42, "injected coverage summary locked promotion failure");
-    }
-    if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_CRASH_AFTER_LOCK} // "0") eq "1") {
-      print STDERR "injected coverage summary crash after lock acquisition\n";
-      kill 9, $$;
-    }
-
-    make_path($runs_root);
-    my $run_dir = "$runs_root/$run_id";
-    if (-e $run_dir) {
-      fail(44, "coverage summary run directory already exists: $run_dir");
-    }
-    if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_STAGE_FAILURE} // "0") eq "1") {
-      fail(41, "injected coverage summary staging failure");
-    }
-    if (-e $current_link) {
-      fail(45, "coverage summary legacy path is not a stable current symlink: $shared_adl_summary")
-        unless legacy_link_matches($shared_adl_summary, $current_link);
-      fail(45, "coverage summary legacy path is not a stable current symlink: $shared_final_summary")
-        unless legacy_link_matches($shared_final_summary, $current_link);
-      if (-f $runtime_manifest) {
-        fail(45, "coverage summary legacy path is not a stable current symlink: $shared_runtime_summary")
-          unless legacy_link_matches($shared_runtime_summary, $current_link);
-      }
-    }
-
-    my $tmp = "$runs_root/.$run_id.$$\.tmp";
-    my $link_tmp = "$published_root/current.$run_id.$$\.tmp";
-    remove_tree($tmp);
-    unlink($link_tmp);
-    make_path($tmp);
-
-    eval {
-      checked_copy($adl_summary, "$tmp/" . basename($shared_adl_summary));
-      checked_copy($runtime_summary, "$tmp/" . basename($shared_runtime_summary)) if -f $runtime_manifest;
-      checked_copy($final_summary, "$tmp/" . basename($shared_final_summary));
-
-      unlink($link_tmp);
-      symlink("runs/$run_id", $link_tmp) or die "$!: symlink runs/$run_id -> $link_tmp\n";
-      if (($ENV{ADL_COVERAGE_INJECT_PROMOTION_COMMIT_FAILURE} // "0") eq "1") {
-        die "__ADL_EXIT_43__: injected coverage summary commit failure\n";
-      }
-
-      atomic_rename($tmp, $run_dir);
-
-      if (!-e $current_link) {
-        install_regular($adl_summary, $shared_adl_summary, $run_id);
-        install_regular($runtime_summary, $shared_runtime_summary, $run_id) if -f $runtime_manifest;
-        install_regular($final_summary, $shared_final_summary, $run_id);
-      }
-
-      atomic_rename($link_tmp, $current_link);
-      install_symlink($shared_adl_summary, $current_link, $run_id);
-      install_symlink($shared_runtime_summary, $current_link, $run_id) if -f $runtime_manifest;
-      install_symlink($shared_final_summary, $current_link, $run_id);
-    };
-    if ($@) {
-      my $err = $@;
-      remove_tree($tmp);
-      unlink($link_tmp);
-      if ($err =~ s/^__ADL_EXIT_43__: //) {
-        fail(43, $err);
-      }
-      fail(1, $err);
-    }
-  ' \
-    "$SHARED_SUMMARY_PROMOTION_LOCK" \
-    "$COVERAGE_RUN_ID" \
-    "$ADL_SUMMARY_PATH" \
-    "$ADL_RUNTIME_SUMMARY_PATH" \
-    "$FINAL_SUMMARY_PATH" \
-    "$SHARED_SUMMARY_PUBLISHED_ROOT" \
-    "$SHARED_SUMMARY_RUNS_ROOT" \
-    "$SHARED_SUMMARY_CURRENT_LINK" \
-    "$SHARED_ADL_SUMMARY_PATH" \
-    "$SHARED_ADL_RUNTIME_SUMMARY_PATH" \
-    "$SHARED_FINAL_SUMMARY_PATH" \
-    "$ADL_RUNTIME_MANIFEST"
-}
-
-if [ "$coverage_status" -eq 0 ]; then
-  promote_current_run_summaries || coverage_status=$?
+cp "$ADL_SUMMARY_PATH" "$LEGACY_ADL_SUMMARY_PATH"
+if [ -f "$ADL_RUNTIME_SUMMARY_PATH" ]; then
+  cp "$ADL_RUNTIME_SUMMARY_PATH" "$LEGACY_ADL_RUNTIME_SUMMARY_PATH"
 fi
-
-exit "$coverage_status"
+cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"
