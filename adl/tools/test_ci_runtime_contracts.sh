@@ -325,7 +325,7 @@ if authoritative_contract != "bash adl/tools/test_run_authoritative_coverage_lan
         f"found: {authoritative_contract}"
     )
 expected_split_conditions = {
-    "Install cargo-llvm-cov for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'",
+    "Install cargo-llvm-cov for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.full_coverage_required == 'true'",
     "Install cargo-nextest for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'",
     "PVF CI release policy contract": "needs.adl_path_policy.outputs.pvf_ci_release_contract_required == 'true'",
     "tracked proof-validation lane contract": "needs.adl_path_policy.outputs.v0913_proof_contract_required == 'true'",
