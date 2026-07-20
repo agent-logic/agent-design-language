@@ -44,7 +44,7 @@ Diagram: .csdlc/prepared/issues/5594/diagram.mmd
   },
   {
     "lane": "feature-crosswalk",
-    "proof_role": "Pin and classify every canonical ADL feature row with named cutover owners",
+    "proof_role": "Pin and classify every canonical ADL feature row with named cutover owners and explicit per-row dispositions",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -103,7 +103,7 @@ Diagram: .csdlc/prepared/issues/5594/diagram.mmd
   },
   {
     "lane": "diff-and-lifecycle",
-    "proof_role": "Verify diff hygiene, protected scope, and typed lifecycle consistency",
+    "proof_role": "Verify full branch diff hygiene against origin/main plus protected scope and typed lifecycle consistency",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -116,7 +116,8 @@ Diagram: .csdlc/prepared/issues/5594/diagram.mmd
     "argv": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...HEAD"
     ],
     "parallel_group": "local-control",
     "defer_reason": null
@@ -139,7 +140,7 @@ Tokens: 50000
 - `ruby .csdlc/prepared/issues/5594/validate_feature_crosswalk.rb`
 - `ruby .csdlc/prepared/issues/5594/validate_links.rb`
 - `ruby .csdlc/prepared/issues/5594/validate_live_routing.rb`
-- `git diff --check`
+- `git diff --check origin/main...HEAD`
 
 ## Failure Semantics
 

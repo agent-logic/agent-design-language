@@ -12,7 +12,10 @@ Status: ready
 
 ## Scope
 
-Exact implementation revision before publication.
+README.md
+docs/planning/ADL_FEATURE_LIST.md
+docs/milestones/v0.91.8
+.csdlc/prepared/issues/5594
 
 ## Prompts
 
@@ -26,72 +29,22 @@ Exact implementation revision before publication.
 
 [
   {
-    "id": "WP01-R1",
-    "severity": "p2",
-    "summary": "Literal newline escape remained in live #5591 body",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": null,
-    "route": "issue_5594"
-  },
-  {
-    "id": "WP01-R2",
-    "severity": "p2",
-    "summary": "Decision identifiers D-05 and D-06 were duplicated",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": null,
-    "route": "issue_5594"
-  },
-  {
-    "id": "WP01-R3",
-    "severity": "p2",
-    "summary": "Live-routing validator depended on an unrecorded owner-binary environment path",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": null,
-    "route": "issue_5594"
-  },
-  {
-    "id": "WP01-R4",
+    "id": "WP01-ER1",
     "severity": "p1",
-    "summary": "Runtime acceptance #5361 listed parent consumer #5384 as a dependency",
+    "summary": "The 123-row feature-preservation gate lacks retained per-row owner and cutover dispositions",
     "actionable": true,
     "in_scope": true,
-    "disposition": "fixed",
+    "disposition": "open",
     "fix_revision": null,
     "route": "issue_5594"
   },
   {
-    "id": "WP01-R5",
-    "severity": "p1",
-    "summary": "C-SDLC feature doc reported closed #5541 as open",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": null,
-    "route": "issue_5594"
-  },
-  {
-    "id": "WP01-R6",
-    "severity": "p1",
-    "summary": "Feature preservation required per-row ownership but validation only checked file existence",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "fixed",
-    "fix_revision": null,
-    "route": "issue_5594"
-  },
-  {
-    "id": "WP01-R7",
+    "id": "WP01-ER2",
     "severity": "p2",
-    "summary": "Root README declared v0.91.8 active but routed Start here primarily to v0.91.7",
+    "summary": "Exact commit patch contains four trailing-whitespace lines while SOR records diff hygiene passed",
     "actionable": true,
     "in_scope": true,
-    "disposition": "fixed",
+    "disposition": "open",
     "fix_revision": null,
     "route": "issue_5594"
   }
@@ -103,12 +56,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Feature dispositions require a row-level retained artifact before Runtime v2 deletion planning can be trusted.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:de1011a8bfc95cea511782a66228f2ff83359b43:c463e796007f3e8491305624eb0001b85872cebe386a8727321a95fb032a7326")
 
-Reviewer: None
+Reviewer: Some("subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133")
 
-Result: pre_review
+Result: changes_required

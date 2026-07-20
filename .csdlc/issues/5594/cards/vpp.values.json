@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
     "slug": "v0-91-8-wp-01-execution-readiness",
     "version": "v0.91.8",
-    "generation": 25
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -36,7 +36,7 @@
         },
         {
           "lane": "feature-crosswalk",
-          "proof_role": "Pin and classify every canonical ADL feature row with named cutover owners",
+          "proof_role": "Pin and classify every canonical ADL feature row with named cutover owners and explicit per-row dispositions",
           "acceptance_ids": [
             "AC-1",
             "AC-3",
@@ -95,7 +95,7 @@
         },
         {
           "lane": "diff-and-lifecycle",
-          "proof_role": "Verify diff hygiene, protected scope, and typed lifecycle consistency",
+          "proof_role": "Verify full branch diff hygiene against origin/main plus protected scope and typed lifecycle consistency",
           "acceptance_ids": [
             "AC-3",
             "AC-4",
@@ -108,7 +108,8 @@
           "argv": [
             "git",
             "diff",
-            "--check"
+            "--check",
+            "origin/main...HEAD"
           ],
           "parallel_group": "local-control",
           "defer_reason": null

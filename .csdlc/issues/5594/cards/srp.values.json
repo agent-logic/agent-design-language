@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
     "slug": "v0-91-8-wp-01-execution-readiness",
     "version": "v0.91.8",
-    "generation": 25
+    "generation": 27
   },
   "status": "ready",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "README.md\ndocs/planning/ADL_FEATURE_LIST.md\ndocs/milestones/v0.91.8\n.csdlc/prepared/issues/5594",
+      "review_revision": "git-blake3:de1011a8bfc95cea511782a66228f2ff83359b43:c463e796007f3e8491305624eb0001b85872cebe386a8727321a95fb032a7326",
+      "reviewer": "subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133",
       "review_prompts": [
         "Does every sprint have one real umbrella and a complete non-overlapping child set?",
         "Do canonical docs agree with live issue, PR, card, and dependency truth?",
@@ -25,78 +25,30 @@
       ],
       "findings": [
         {
-          "id": "WP01-R1",
-          "severity": "p2",
-          "summary": "Literal newline escape remained in live #5591 body",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": null,
-          "route": "issue_5594"
-        },
-        {
-          "id": "WP01-R2",
-          "severity": "p2",
-          "summary": "Decision identifiers D-05 and D-06 were duplicated",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": null,
-          "route": "issue_5594"
-        },
-        {
-          "id": "WP01-R3",
-          "severity": "p2",
-          "summary": "Live-routing validator depended on an unrecorded owner-binary environment path",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": null,
-          "route": "issue_5594"
-        },
-        {
-          "id": "WP01-R4",
+          "id": "WP01-ER1",
           "severity": "p1",
-          "summary": "Runtime acceptance #5361 listed parent consumer #5384 as a dependency",
+          "summary": "The 123-row feature-preservation gate lacks retained per-row owner and cutover dispositions",
           "actionable": true,
           "in_scope": true,
-          "disposition": "fixed",
+          "disposition": "open",
           "fix_revision": null,
           "route": "issue_5594"
         },
         {
-          "id": "WP01-R5",
-          "severity": "p1",
-          "summary": "C-SDLC feature doc reported closed #5541 as open",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": null,
-          "route": "issue_5594"
-        },
-        {
-          "id": "WP01-R6",
-          "severity": "p1",
-          "summary": "Feature preservation required per-row ownership but validation only checked file existence",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "fixed",
-          "fix_revision": null,
-          "route": "issue_5594"
-        },
-        {
-          "id": "WP01-R7",
+          "id": "WP01-ER2",
           "severity": "p2",
-          "summary": "Root README declared v0.91.8 active but routed Start here primarily to v0.91.7",
+          "summary": "Exact commit patch contains four trailing-whitespace lines while SOR records diff hygiene passed",
           "actionable": true,
           "in_scope": true,
-          "disposition": "fixed",
+          "disposition": "open",
           "fix_revision": null,
           "route": "issue_5594"
         }
       ],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Feature dispositions require a row-level retained artifact before Runtime v2 deletion planning can be trusted."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

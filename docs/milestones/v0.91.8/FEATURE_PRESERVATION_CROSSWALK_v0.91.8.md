@@ -1,13 +1,19 @@
 # v0.91.8 Feature Preservation Crosswalk
 
-Source: `docs/planning/ADL_FEATURE_LIST.md`  
-Pinned feature rows: 123  
+Source: `docs/planning/ADL_FEATURE_LIST.md`
+
+Pinned feature rows: 123
+
 Normalized row digest: `5ecc0649f731c7b6afc71e33441924266df540a0997e2aa7b7f889db0005df65`
 
 This crosswalk prevents a canonical feature from disappearing during ADL v2
 or Runtime v3 cutover. It is a planning disposition, not implementation proof.
 Every source row is classified deterministically by
 `.csdlc/prepared/issues/5594/validate_feature_crosswalk.rb`.
+The retained row-by-row artifact is
+[feature_preservation_crosswalk_5594.v1.json](feature_preservation_crosswalk_5594.v1.json);
+it records canonical status/evidence/target, owner issues, and an explicit
+cutover disposition for all 123 rows.
 
 ## Classification Order
 
@@ -34,6 +40,8 @@ The validator fails if:
 - feature names are duplicated;
 - any row has zero or multiple classifications;
 - any class lacks a named issue owner.
+- the retained per-row artifact differs from the canonical row, deterministic
+  class, owner, or allowed cutover disposition.
 
 WP-02 `#5336` may deliberately revise the pinned baseline and classification
 rules, but that change requires review. Runtime v2 deletion remains forbidden

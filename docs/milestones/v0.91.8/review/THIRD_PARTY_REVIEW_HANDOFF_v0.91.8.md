@@ -194,6 +194,7 @@ Do not review as completed implementation:
 - [../features/V092_HANDOFF_v0.91.8.md](../features/V092_HANDOFF_v0.91.8.md)
 - [../FEATURE_PROOF_COVERAGE_v0.91.8.md](../FEATURE_PROOF_COVERAGE_v0.91.8.md)
 - [../FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md](../FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md)
+- [../feature_preservation_crosswalk_5594.v1.json](../feature_preservation_crosswalk_5594.v1.json)
 - [../DEMO_MATRIX_v0.91.8.md](../DEMO_MATRIX_v0.91.8.md)
 - [../QUALITY_GATE_v0.91.8.md](../QUALITY_GATE_v0.91.8.md)
 - [../MILESTONE_CHECKLIST_v0.91.8.md](../MILESTONE_CHECKLIST_v0.91.8.md)

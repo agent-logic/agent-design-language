@@ -1,7 +1,9 @@
 # v0.91.8 WP-01 Execution Readiness
 
-Issue: `#5594`  
-Sprint umbrella: `#5595`  
+Issue: `#5594`
+
+Sprint umbrella: `#5595`
+
 Status: in progress until reviewed, merged, and closed
 
 ## Findings Resolved By This Packet
