@@ -3,13 +3,13 @@
   "issue": 5597,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0b22f57976eb8d37ecc1796ff4e3e0676d4ff92447fb1c7dff25f16853e3a3cd",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "924b069fca4fc00c572081efd5a592c3ab61d3cdda3e0fb90d842dbd7f701059",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "b4da90e02ca687dc6a47f6355fe907ccecaa990e8524ec7cc8570020cb92b8d8",
   "claim": {
     "id": "claim-5597-generation-aware-preparation-safe",
     "owner": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
-    "generation": 14,
+    "generation": 15,
     "acquired_unix_seconds": 1784571481,
     "expires_unix_seconds": 1785176281,
     "heartbeat_unix_seconds": 1784571481,
@@ -65,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6bd3aeeb5e235d18b29b2f8e46ef26a8266125ec8d66ac90c876c892851e730e",
+      "values_digest": "bc20fc38015380879621b7e00c687d4435086418d04263512d6ffe7e464df360",
       "rendered_digest": "b8ad4acebc4da56f808586f134a39be1cbc79f4021fbd70426fc3efc676f1a67",
       "ast_digest": "e2af351ba7d2e58e20e2a9de374e8e37ce16b6a37c5c0236ac59a5756380894c"
     },
     "stp": {
-      "values_digest": "74c2a939e1a8a986182bb2957dbc5ff7a7e939c09fc7b931b270e12af6e5afa1",
+      "values_digest": "e4cc2ab848dc2b18929827f57438367592fc770b4a2a2909179f327afa237a46",
       "rendered_digest": "f78872a24cb7e1eb04be18a2892d5d070cd29c8419e1dc9cf14a31de207d3199",
       "ast_digest": "597c82206edab50155b7d5f5f42c96153cd63c87f845cbe8f779b8e19406b4a3"
     },
     "spp": {
-      "values_digest": "5305169c1cecebe62bb465988b729bfed6672c07fa9a38f94ba30a08bbe932a5",
+      "values_digest": "dca71d2d8670acd8e7dc19621140e7cfa29d47b0eb696397893b17ff8f5b9f58",
       "rendered_digest": "7cdabf15c737e54bea960482752cee275b0829f685ea20851fa85d3cb24b7997",
       "ast_digest": "08c63618b32b0d3d09295cdc705a9bf4d31a63e1990ec186905fb31ca5a829ab"
     },
     "vpp": {
-      "values_digest": "d03241cd2f833e86c6bafbe68a0a435a2b3e83fd2b93f8731ade8276c65af730",
+      "values_digest": "8d848d6edabdbbd1c5c5027fb3d6d96d986ee4643fb83fc578f7c74eccb8898a",
       "rendered_digest": "7e2351bd8bae541d9398a1d0899d31e6a28a693208fc1d2958d38f3e4e5edda4",
       "ast_digest": "909120be73c58f8ed0d58119450abe582a56577dd73b9798bd09b63d964fa0c0"
     },
     "srp": {
-      "values_digest": "80eea242b236883fca678203afad1b033ea1f48966a972740ebbff620bcbffdb",
+      "values_digest": "f79cd57ec6ffcafcb36bf1cda6f1ab32415b6f76927714f1da575cbb61f9944f",
       "rendered_digest": "81523266e05070e634a4520eddd4296ed75137f9d7c5629683abcedce77538e2",
       "ast_digest": "ebffd7eb5222b0f34b1a3fa7063767732acb85afc60d3f01d8cec10806bfa144"
     },
     "sor": {
-      "values_digest": "ababba9b66ff58591924f1b49fed68c223c41d87cd0a5dea73efc9e8a2a33a98",
+      "values_digest": "419975f1378f811e4bd37bdc9b101de51c32d0833b18cd85f25b95f18b3ec668",
       "rendered_digest": "b013db5b6b238bb12421087869e72854a3ac2ddb205e0549764637d96f121560",
       "ast_digest": "447dcb3291dad09357895dc42e48f968a65bd47def98b44909e8da4d6600d0cd"
     }
@@ -116,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
       "reason": "Bounded implementation and local proof complete; enter exact-revision review"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Two independent exact-revision reviews passed with no findings or residual risks."
     }
   ],
   "audit": [
@@ -244,6 +251,13 @@
       "actor": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Two independent exact-revision reviews passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

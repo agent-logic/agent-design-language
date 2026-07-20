@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.publication_request.v1",
   "issue": 5597,
-  "expected_generation": 14,
-  "expected_digest": "924b069fca4fc00c572081efd5a592c3ab61d3cdda3e0fb90d842dbd7f701059",
+  "expected_generation": 15,
+  "expected_digest": "b4da90e02ca687dc6a47f6355fe907ccecaa990e8524ec7cc8570020cb92b8d8",
   "claim_id": "claim-5597-generation-aware-preparation-safe",
   "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
   "repository": "danielbaustin/agent-design-language",
