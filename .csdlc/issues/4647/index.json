@@ -5,7 +5,7 @@
   "initialization_digest": "134b044ac1ac0621ec1a8075682990e61a9b8227919ed1a0657cc40a4bbce1a9",
   "phase": "implemented",
   "generation": 34,
-  "digest": "6051dc3578e4eaff9ec7136f516acfb7213d99b60293ab4e3a2c5f69295e99bc",
+  "digest": "a09bc5236493616bec9539a2ddce1c8aac633ab0c0eb132004d1e83f9525801b",
   "claim": {
     "id": "claim-4647-v0-91-7-wp20-review-remediation-preflight",
     "owner": "codex:019f3d65-2216-7832-804a-26339473b27d",
@@ -24,6 +24,7 @@
       "adl/Cargo.lock",
       "adl/Cargo.toml",
       "adl/src/cli/provider_cmd.rs",
+      "adl/src/csm_api_gateway_bridge.rs",
       "adl/src/csm_networking.rs",
       "adl/src/csm_runtime_api.rs",
       "adl/src/provider/http_family.rs",
@@ -512,6 +513,13 @@
       "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
       "reason": "Record coverage-harness proof after PR #5588 adl-coverage-hosted failed API Gateway bridge redaction tests.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"llvm-cov\",\"nextest\",\"--manifest-path\",\"adl/Cargo.toml\",\"--no-clean\",\"--no-fail-fast\",\"--no-tests\",\"pass\",\"--test-threads\",\"4\",\"--\",\"csm_runtime_api::api_gateway_bridge::tests::api_gateway_bridge_\"],\"purpose\":\"Verify the coverage-hosted harness path passes for the API Gateway bridge tests that failed in PR #5588 run 29719551279.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout, CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/adl-target, CARGO_LLVM_COV_TARGET_DIR=/Volumes/FastWork/adl-builds/4647/llvm-cov-target/bridge-fix, nextest 4 passed\"}}"
+    },
+    {
+      "sequence": 46,
+      "generation": 34,
+      "actor": "codex:019f3d65-2216-7832-804a-26339473b27d",
+      "reason": "Post-publication CSM API Gateway response-finalization repair touched this source path; protected-path truth must include the exact changed file before review/publication.",
+      "operation": "{\"add_protected_paths\":[\"adl/src/csm_api_gateway_bridge.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
