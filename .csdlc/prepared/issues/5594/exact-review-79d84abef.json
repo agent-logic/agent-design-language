@@ -9,8 +9,8 @@
       "id": "WP01-ER8",
       "severity": "p2",
       "summary": "Canonical inventory and SOR retained stale 123-row six-class feature-crosswalk truth",
-      "disposition": "fixed_in_worktree_pending_exact_revision_review",
-      "fix_commit": null,
+      "disposition": "fixed_pending_exact_revision_review",
+      "fix_commit": "1404618f901dd07e338b35d00bb1eb1918f4b61d",
       "evidence": "docs/milestones/v0.91.8/CANONICAL_DOC_INVENTORY_v0.91.8.md"
     }
   ],
