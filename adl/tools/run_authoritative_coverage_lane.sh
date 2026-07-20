@@ -317,6 +317,24 @@ checked_cp_summary() {
   cp "$source" "$dest" || return "$?"
 }
 
+atomic_replace_path() {
+  local source="$1"
+  local dest="$2"
+  perl -e 'rename $ARGV[0], $ARGV[1] or die "$!: $ARGV[0] -> $ARGV[1]\n"' "$source" "$dest"
+}
+
+install_legacy_summary_regular() {
+  local source="$1"
+  local dest="$2"
+  local tmp="${dest}.${COVERAGE_RUN_ID}.regular.tmp"
+  checked_cp_summary "$source" "$tmp" || return "$?"
+  atomic_replace_path "$tmp" "$dest" || {
+    local status=$?
+    rm -f "$tmp" || true
+    return "$status"
+  }
+}
+
 install_legacy_summary_symlink() {
   local dest="$1"
   local basename="${dest##*/}"
@@ -327,13 +345,31 @@ install_legacy_summary_symlink() {
   fi
   rm -f "$link_tmp" || return "$?"
   ln -s "$link_target" "$link_tmp" || return "$?"
-  mv -f "$link_tmp" "$dest" || return "$?"
+  atomic_replace_path "$link_tmp" "$dest" || {
+    local status=$?
+    rm -f "$link_tmp" || true
+    return "$status"
+  }
 }
 
-atomic_replace_path() {
-  local source="$1"
-  local dest="$2"
-  perl -e 'rename $ARGV[0], $ARGV[1] or die "$!: $ARGV[0] -> $ARGV[1]\n"' "$source" "$dest"
+legacy_summary_symlink_matches() {
+  local dest="$1"
+  local basename="${dest##*/}"
+  local link_target="${SHARED_SUMMARY_CURRENT_LINK}/$basename"
+  [ -L "$dest" ] && [ "$(readlink "$dest")" = "$link_target" ]
+}
+
+ensure_existing_legacy_summary_links_are_stable() {
+  for dest in "$SHARED_ADL_SUMMARY_PATH" "$SHARED_FINAL_SUMMARY_PATH"; do
+    if ! legacy_summary_symlink_matches "$dest"; then
+      echo "coverage summary legacy path is not a stable current symlink: $dest" >&2
+      return 45
+    fi
+  done
+  if [ -f "$ADL_RUNTIME_MANIFEST" ] && ! legacy_summary_symlink_matches "$SHARED_ADL_RUNTIME_SUMMARY_PATH"; then
+    echo "coverage summary legacy path is not a stable current symlink: $SHARED_ADL_RUNTIME_SUMMARY_PATH" >&2
+    return 45
+  fi
 }
 
 promote_current_run_summaries() {
@@ -411,15 +447,8 @@ promote_current_run_summaries() {
     trap - EXIT
     return 43
   fi
-  install_legacy_summary_symlink "$SHARED_ADL_SUMMARY_PATH" || {
-    local status=$?
-    release_promotion_lock
-    trap - EXIT
-    rm -f "$link_tmp" || true
-    return "$status"
-  }
-  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-    install_legacy_summary_symlink "$SHARED_ADL_RUNTIME_SUMMARY_PATH" || {
+  if [ -e "$SHARED_SUMMARY_CURRENT_LINK" ]; then
+    ensure_existing_legacy_summary_links_are_stable || {
       local status=$?
       release_promotion_lock
       trap - EXIT
@@ -427,18 +456,56 @@ promote_current_run_summaries() {
       return "$status"
     }
   fi
-  install_legacy_summary_symlink "$SHARED_FINAL_SUMMARY_PATH" || {
+  if [ ! -e "$SHARED_SUMMARY_CURRENT_LINK" ]; then
+    install_legacy_summary_regular "$ADL_SUMMARY_PATH" "$SHARED_ADL_SUMMARY_PATH" || {
+      local status=$?
+      release_promotion_lock
+      trap - EXIT
+      rm -f "$link_tmp" || true
+      return "$status"
+    }
+    if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
+      install_legacy_summary_regular "$ADL_RUNTIME_SUMMARY_PATH" "$SHARED_ADL_RUNTIME_SUMMARY_PATH" || {
+        local status=$?
+        release_promotion_lock
+        trap - EXIT
+        rm -f "$link_tmp" || true
+        return "$status"
+      }
+    fi
+    install_legacy_summary_regular "$FINAL_SUMMARY_PATH" "$SHARED_FINAL_SUMMARY_PATH" || {
+      local status=$?
+      release_promotion_lock
+      trap - EXIT
+      rm -f "$link_tmp" || true
+      return "$status"
+    }
+  fi
+  atomic_replace_path "$link_tmp" "$SHARED_SUMMARY_CURRENT_LINK" || {
     local status=$?
     release_promotion_lock
     trap - EXIT
     rm -f "$link_tmp" || true
     return "$status"
   }
-  atomic_replace_path "$link_tmp" "$SHARED_SUMMARY_CURRENT_LINK" || {
+  install_legacy_summary_symlink "$SHARED_ADL_SUMMARY_PATH" || {
     local status=$?
     release_promotion_lock
     trap - EXIT
-    rm -f "$link_tmp" || true
+    return "$status"
+  }
+  if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
+    install_legacy_summary_symlink "$SHARED_ADL_RUNTIME_SUMMARY_PATH" || {
+      local status=$?
+      release_promotion_lock
+      trap - EXIT
+      return "$status"
+    }
+  fi
+  install_legacy_summary_symlink "$SHARED_FINAL_SUMMARY_PATH" || {
+    local status=$?
+    release_promotion_lock
+    trap - EXIT
     return "$status"
   }
   release_promotion_lock

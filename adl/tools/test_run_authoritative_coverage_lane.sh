@@ -224,15 +224,36 @@ do
 done
 
 collision_log="$temp_root/collision.log"
-if PATH="$bin_dir:$PATH" \
-AUTHORITATIVE_CARGO_LOG="$collision_log" \
-ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
-ADL_COVERAGE_RUN_ID="run-a" \
-  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request; then
+collision_stderr="$temp_root/collision.stderr"
+collision_current_before="$(readlink "$shared_published_root/current")"
+collision_adl_before="$(cat "$shared_published_root/$collision_current_before/coverage-summary.adl.json")"
+collision_runtime_before="$(cat "$shared_published_root/$collision_current_before/coverage-summary.adl-runtime.json")"
+collision_final_before="$(cat "$shared_published_root/$collision_current_before/coverage-summary.json")"
+set +e
+PATH="$bin_dir:$PATH" \
+  AUTHORITATIVE_CARGO_LOG="$collision_log" \
+  ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+  ADL_COVERAGE_RUN_ID="run-a" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request 2>"$collision_stderr"
+collision_status=$?
+set -e
+if [ "$collision_status" -eq 0 ]; then
   echo "expected duplicate coverage run id publication to fail immutably" >&2
   exit 1
 fi
-grep -F -- "coverage summary run directory already exists:" "$collision_log" >/dev/null 2>&1 || true
+if [ "$collision_status" -ne 44 ]; then
+  echo "expected duplicate coverage run id to exit 44, got $collision_status" >&2
+  cat "$collision_stderr" >&2
+  exit 1
+fi
+grep -F -- "coverage summary run directory already exists:" "$collision_stderr" >/dev/null
+if [ "$(readlink "$shared_published_root/current")" != "$collision_current_before" ] \
+  || [ "$(cat "$shared_published_root/$collision_current_before/coverage-summary.adl.json")" != "$collision_adl_before" ] \
+  || [ "$(cat "$shared_published_root/$collision_current_before/coverage-summary.adl-runtime.json")" != "$collision_runtime_before" ] \
+  || [ "$(cat "$shared_published_root/$collision_current_before/coverage-summary.json")" != "$collision_final_before" ]; then
+  echo "expected duplicate coverage run id failure to leave published current and run contents unchanged" >&2
+  exit 1
+fi
 
 failing_cargo_log="$temp_root/failing-cargo.log"
 if PATH="$bin_dir:$PATH" \
