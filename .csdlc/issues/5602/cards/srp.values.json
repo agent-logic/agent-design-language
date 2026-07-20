@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5602,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
+    "slug": "hosted-coverage-no-report",
+    "version": "v0.91.8",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh",
+      "review_revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
+      "reviewer": "subagent:review-5602",
+      "review_prompts": [
+        "Does every partition collect profiles with --no-report?",
+        "Are the explicit combined reports and gates unchanged?",
+        "Does the contract prove partition failures still fail closed?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The full hosted instrumented workspace workload remains CI integration proof; local proof used installed CLI semantics and the focused fake-cargo harness."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

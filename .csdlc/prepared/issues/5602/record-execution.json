@@ -1,0 +1,22 @@
+{
+  "issue": 5602,
+  "card": "sor",
+  "expected_generation": 0,
+  "expected_digest": "a5c7ad0db36703c952ca46cfd0b4283d7365c4ded076eeb1469b3ed9e4263afe",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+  "reason": "Remove redundant partition-local report rendering while preserving authoritative combined coverage.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Add --no-report to every partitioned cargo llvm-cov nextest command and retain the explicit combined ADL and Runtime report commands.",
+    "changes": [
+      "Collect workspace coverage profiles without partition-local reports",
+      "Collect companion Runtime profiles without partition-local reports",
+      "Strengthen exact command-shape regression expectations"
+    ],
+    "artifacts": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ]
+  }
+}
