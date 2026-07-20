@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][csdlc-v2] Make typed card generation registry-aware and preparation-safe",
     "slug": "generation-aware-preparation-safe",
     "version": "v0.91.8",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
