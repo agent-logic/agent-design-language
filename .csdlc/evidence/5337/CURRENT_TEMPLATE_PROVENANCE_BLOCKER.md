@@ -46,10 +46,11 @@ The required read-only subagent review also found:
 - The generated SOR default is generic pre-execution prose rather than a
   #5337-specific preparation outcome.
 
-An attempted typed SRP `set_field(review_scope)` operation failed closed with
-`invalid_transition: srp mutation is not allowed during bound`. Advancing into
-the implementation phase solely to alter this prose would misstate the session,
-so SRP/SOR were not hand-edited and remain additional publication blockers.
+The committed typed SRP `set_field(review_scope)` request did not apply during
+the bound phase; the canonical audit contains no successful SRP mutation and
+the generated SRP remains unchanged. Advancing into the implementation phase
+solely to alter this prose would misstate the session, so SRP/SOR were not
+hand-edited and remain additional publication blockers.
 
 ## Required Resolution
 
