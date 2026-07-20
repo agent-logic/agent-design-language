@@ -394,7 +394,7 @@ nextest_expression_for_filter() {
       printf 'binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::structured_prompt::/)'
       ;;
     provider_hardening)
-      printf 'test(/^provider::/) or test(/^construction::/) or test(/^http_family::/) or test(/^profiles::/) or test(/^process::provider/)'
+      printf 'test(/^provider::/) or test(/^construction::/) or test(/^http_family::/) or test(/^profiles::/) or test(/^process::provider/) or test(/^cli::provider_cmd::tests::/)'
       ;;
     markdown)
       printf 'binary_id(adl::bin/adl) and test(/^cli::tooling_cmd::tests::markdown/)'

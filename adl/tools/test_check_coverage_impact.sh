@@ -85,6 +85,9 @@ if [ "$(wc -l <"$provider_setup_and_local_filters" | tr -d ' ')" -ne 1 ]; then
   echo "expected provider setup and local provider surfaces to collapse to provider_hardening" >&2
   exit 1
 fi
+provider_setup_and_local_expression="$(bash "$SCRIPT" --changed-files "$provider_setup_and_local_changed" --print-risk-nextest-expression)"
+grep -F "test(/^cli::provider_cmd::tests::/)" <<<"$provider_setup_and_local_expression" >/dev/null
+grep -F "test(/^provider::/)" <<<"$provider_setup_and_local_expression" >/dev/null
 
 finish_helper_changed="$TMP/finish-helper-changed.txt"
 printf 'A\tadl/src/cli/pr_cmd/finish_support.rs\n' >"$finish_helper_changed"
