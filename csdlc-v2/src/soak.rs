@@ -380,6 +380,7 @@ pub fn generate_sample_packets(root: &Path) -> Result<Vec<SamplePacket>> {
                 ),
                 declared_scope: vec![sample.scenario.into(), "C-SDLC v2 qualification".into()],
                 authority_boundary: vec!["No default-generation change".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: format!("Exercise only the {} qualification path.", sample.scenario),
                 deliverables: vec![
                     "six generated cards".into(),
@@ -432,6 +433,7 @@ pub fn generate_sample_packets(root: &Path) -> Result<Vec<SamplePacket>> {
                 review_prompts: vec![
                     "Check scope, evidence, retry truth, and non-overclaiming.".into()
                 ],
+                review_scope: "generated sample packet".into(),
             },
         )?;
         let mut card_paths = BTreeMap::new();

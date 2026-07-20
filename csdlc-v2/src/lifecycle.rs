@@ -197,6 +197,30 @@ pub fn initialize_issue(
     bootstrap_issue(store, request)
 }
 
+pub fn initialize_native_issue(
+    store: &Store,
+    request: BootstrapRequest,
+) -> Result<crate::IssueRecord> {
+    crate::registry::validate_native_registry(store.root())?;
+    initialize_issue(store, request)
+}
+
+pub fn initialize_native_json(store: &Store, bytes: &[u8]) -> Result<crate::IssueRecord> {
+    let value: serde_json::Value = serde_json::from_slice(bytes)?;
+    let initial = value
+        .get("initial")
+        .and_then(serde_json::Value::as_object)
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "native initial input is missing"))?;
+    if !initial.contains_key("operator_constraints") || !initial.contains_key("review_scope") {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "native bootstrap requires explicit operator_constraints and review_scope",
+        ));
+    }
+    let request: BootstrapRequest = serde_json::from_value(value)?;
+    initialize_native_issue(store, request)
+}
+
 fn validate_validation_lanes(
     root: &std::path::Path,
     lanes: &[crate::cards::ValidationLane],

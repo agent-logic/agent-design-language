@@ -441,6 +441,8 @@ pub struct InitialCardInput {
     pub required_outcome: String,
     pub declared_scope: Vec<String>,
     pub authority_boundary: Vec<String>,
+    #[serde(default = "explicit_none_list")]
+    pub operator_constraints: Vec<String>,
     pub task_boundary: String,
     pub deliverables: Vec<String>,
     pub acceptance_criteria: Vec<String>,
@@ -456,6 +458,16 @@ pub struct InitialCardInput {
     pub validation_lanes: Vec<ValidationLane>,
     pub failure_policy: String,
     pub review_prompts: Vec<String>,
+    #[serde(default = "explicit_none")]
+    pub review_scope: String,
+}
+
+fn explicit_none_list() -> Vec<String> {
+    vec!["none".into()]
+}
+
+fn explicit_none() -> String {
+    "none".into()
 }
 
 #[derive(
@@ -493,6 +505,12 @@ pub enum SemanticOperation {
     Replan {
         field: TextField,
         value: String,
+    },
+    ReplaceOperatorConstraints {
+        values: Vec<String>,
+    },
+    ReplaceAcceptanceCriteria {
+        values: Vec<String>,
     },
     SetField {
         field: TextField,
@@ -627,6 +645,10 @@ fn template_for(kind: CardKind) -> CardTemplate {
     }
 }
 
+pub(crate) fn compiled_headings(kind: CardKind) -> Vec<&'static str> {
+    template_for(kind).headings.to_vec()
+}
+
 pub fn initial_cards(
     issue: u64,
     repository: &str,
@@ -659,7 +681,7 @@ pub fn initial_cards(
                 declared_scope: input.declared_scope,
                 authority_boundary: input.authority_boundary,
                 initial_assumptions: Vec::new(),
-                operator_constraints: Vec::new(),
+                operator_constraints: input.operator_constraints,
             }),
         ),
         (
@@ -712,7 +734,7 @@ pub fn initial_cards(
             CardKind::Srp,
             CardStatus::PrePhase,
             CardContent::Srp(SrpValues {
-                review_scope: "Exact implementation revision before publication.".into(),
+                review_scope: input.review_scope,
                 review_revision: None,
                 reviewer: None,
                 review_prompts: input.review_prompts,
@@ -771,6 +793,36 @@ pub fn apply(
         }
         SemanticOperation::Replan { field, value } => {
             set_text(values, *field, value.clone())?;
+            Ok(None)
+        }
+        SemanticOperation::ReplaceOperatorConstraints {
+            values: replacement,
+        } => {
+            if replacement.is_empty() || replacement.iter().any(|value| value.trim().is_empty()) {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "operator constraints cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Sip(v) => v.operator_constraints = replacement.clone(),
+                _ => return ownership(values.kind(), "replace_operator_constraints"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::ReplaceAcceptanceCriteria {
+            values: replacement,
+        } => {
+            if replacement.is_empty() || replacement.iter().any(|value| value.trim().is_empty()) {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "acceptance criteria cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Stp(v) => v.acceptance_criteria = replacement.clone(),
+                _ => return ownership(values.kind(), "replace_acceptance_criteria"),
+            }
             Ok(None)
         }
         SemanticOperation::SetField { field, value } => {
@@ -1169,10 +1221,13 @@ pub fn validate_cross_card(
         .flat_map(|step| step.acceptance_ids.iter())
         .cloned()
         .collect();
-    if acceptance_ids.iter().any(|id| !mapped.contains(id)) {
+    let accepted: BTreeSet<_> = acceptance_ids.iter().cloned().collect();
+    if acceptance_ids.iter().any(|id| !mapped.contains(id))
+        || mapped.iter().any(|id| !accepted.contains(id))
+    {
         return Err(V2Error::new(
             ErrorCode::CardInvalid,
-            "acceptance criterion lacks a plan step",
+            "plan-step acceptance coverage is incomplete or stale",
         ));
     }
     let proven: BTreeSet<_> = vpp
@@ -1181,10 +1236,12 @@ pub fn validate_cross_card(
         .flat_map(|lane| lane.acceptance_ids.iter())
         .cloned()
         .collect();
-    if acceptance_ids.iter().any(|id| !proven.contains(id)) {
+    if acceptance_ids.iter().any(|id| !proven.contains(id))
+        || proven.iter().any(|id| !accepted.contains(id))
+    {
         return Err(V2Error::new(
             ErrorCode::CardInvalid,
-            "acceptance criterion lacks a VPP proof role",
+            "VPP acceptance coverage is incomplete or stale",
         ));
     }
     let lane_seconds: u64 = vpp.lanes.iter().map(|lane| lane.budget_seconds).sum();
@@ -1224,11 +1281,13 @@ fn require_input(input: &InitialCardInput) -> Result<()> {
     .any(|v| v.trim().is_empty())
         || input.declared_scope.is_empty()
         || input.authority_boundary.is_empty()
+        || input.operator_constraints.is_empty()
         || input.deliverables.is_empty()
         || input.acceptance_criteria.is_empty()
         || input.steps.is_empty()
         || input.stop_conditions.is_empty()
         || input.review_prompts.is_empty()
+        || input.review_scope.trim().is_empty()
     {
         return Err(V2Error::new(
             ErrorCode::CardInvalid,

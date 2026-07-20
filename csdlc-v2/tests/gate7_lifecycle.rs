@@ -124,6 +124,7 @@ fn fixture_with_validation_history_and_publication(
                 required_outcome: "truthful closeout".into(),
                 declared_scope: vec![scenario.into()],
                 authority_boundary: vec!["no merge".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: format!("execute {scenario} fixture"),
                 deliverables: vec!["record".into()],
                 acceptance_criteria: vec!["terminal truth".into()],
@@ -155,6 +156,7 @@ fn fixture_with_validation_history_and_publication(
                 }],
                 failure_policy: "fail closed".into(),
                 review_prompts: vec!["review".into()],
+                review_scope: "fixture".into(),
             },
         },
     )
@@ -637,6 +639,7 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
                 required_outcome: "repair authority".into(),
                 declared_scope: vec!["terminal repair authority".into()],
                 authority_boundary: vec!["no merge".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: "authorize fixture repair".into(),
                 deliverables: vec!["authority record".into()],
                 acceptance_criteria: vec!["authority exists".into()],
@@ -668,6 +671,7 @@ fn terminal_design_repair_after_journal_interruption_preserves_recoverable_journ
                 }],
                 failure_policy: "fail closed".into(),
                 review_prompts: vec!["review".into()],
+                review_scope: "fixture".into(),
             },
         },
     )
@@ -1316,6 +1320,7 @@ fn terminal_plan_repair_authority(
                 required_outcome: "atomic terminal plan truth".into(),
                 declared_scope: vec!["terminal plan".into()],
                 authority_boundary: vec!["one target".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: "authorize terminal plan repair".into(),
                 deliverables: vec!["repair".into()],
                 acceptance_criteria: vec!["atomic parity".into()],
@@ -1347,6 +1352,7 @@ fn terminal_plan_repair_authority(
                 }],
                 failure_policy: "fail closed".into(),
                 review_prompts: vec!["review atomicity".into()],
+                review_scope: "fixture".into(),
             },
         },
     )

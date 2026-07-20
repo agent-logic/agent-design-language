@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5597,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][csdlc-v2] Make typed card generation registry-aware and preparation-safe",
+    "slug": "generation-aware-preparation-safe",
+    "version": "v0.91.8",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the grouped C-SDLC v2 authority repair required by issue #5597.",
+      "deliverables": [
+        "generation-aware registry contract",
+        "lossless typed input and migration",
+        "preparation-safe SIP, STP, and SRP operations",
+        "review-assignment synchronization",
+        "focused regression proof"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Registry distinguishes legacy/import 1.0.3 from native compact v2 1.0.0 without false provenance",
+        "AC-2: Initialization validates registry and compact shape before writing and fails closed on incompatible truth",
+        "AC-3: Existing native 1.0.0 records remain readable and legacy 1.0.3 import remains separate",
+        "AC-4: Bootstrap and migration preserve explicit SIP operator constraints and SRP review scope including explicit none",
+        "AC-5: Typed SIP operator-constraint replacement is preparation-safe in initialized, ready, and bound phases",
+        "AC-6: Typed STP acceptance replacement atomically revalidates SPP step and VPP proof-role coverage",
+        "AC-7: Bound SRP replanning is preparation-safe and review assignment synchronizes authoritative scope immediately",
+        "AC-8: Focused Gate 2, identity, review, migration, and Gate 9 parity tests plus strict lint and owner validation pass",
+        "AC-9: Exact-revision review has no unresolved actionable finding and blocked consumer packets can use typed repair"
+      ],
+      "dependencies": [
+        "sprint umbrella #5595",
+        "blocked consumers #5336, #5337, #5358, and #5361"
+      ],
+      "repo_inputs": [
+        "docs/templates/prompts/current.json",
+        "csdlc-v2/src",
+        "csdlc-v2/tests",
+        "issue #5597"
+      ],
+      "non_goals": [
+        "product or runtime implementation",
+        "bulk historical migration",
+        "template-family relabeling",
+        "AWS",
+        "raw gh",
+        "new issues"
+      ]
+    }
+  }
+}

@@ -7,7 +7,7 @@
     "stp": "ready",
     "spp": "ready",
     "vpp": "ready",
-    "srp": "pre_phase",
+    "srp": "complete",
     "sor": "complete"
   },
   "review_result": "pass",

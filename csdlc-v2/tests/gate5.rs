@@ -67,6 +67,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                 required_outcome: "review truth".into(),
                 declared_scope: vec!["src".into()],
                 authority_boundary: vec!["no network".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: "review only".into(),
                 deliverables: vec!["review".into()],
                 acceptance_criteria: vec!["review current".into()],
@@ -98,6 +99,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                 }],
                 failure_policy: "fail closed".into(),
                 review_prompts: vec!["review correctness".into()],
+                review_scope: "fixture".into(),
             },
         },
     )
@@ -196,6 +198,12 @@ fn assignment_and_recording_update_index_and_srp_without_publication_side_effect
         },
     )
     .expect("assign");
+    let cards = store.load_cards(7).expect("assigned cards");
+    let csdlc_v2::cards::CardContent::Srp(srp) = &cards[&CardKind::Srp].content else {
+        panic!("SRP");
+    };
+    assert_eq!(srp.review_scope, "src");
+    assert!(assigned.review.is_none());
     let revision = assigned
         .review_assignment
         .as_ref()

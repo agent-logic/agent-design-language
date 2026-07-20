@@ -20,6 +20,32 @@ fn git(root: &std::path::Path, args: &[&str]) {
     );
 }
 
+fn initialize_issue(
+    store: &Store,
+    request: BootstrapRequest,
+) -> csdlc_v2::Result<csdlc_v2::IssueRecord> {
+    if !store.root().join(".git").exists() {
+        git(store.root(), &["init", "-b", "main"]);
+    }
+    let registry = store.root().join("docs/templates/prompts/current.json");
+    let manifest = store
+        .root()
+        .join("csdlc-v2/operator/native-card-shape.json");
+    fs::create_dir_all(registry.parent().expect("registry parent")).expect("registry dir");
+    fs::create_dir_all(manifest.parent().expect("manifest parent")).expect("manifest dir");
+    fs::write(
+        &registry,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .expect("registry fixture");
+    fs::write(
+        &manifest,
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .expect("manifest fixture");
+    csdlc_v2::initialize_native_issue(store, request)
+}
+
 fn request() -> BootstrapRequest {
     BootstrapRequest {
         issue: 42,
@@ -48,6 +74,7 @@ fn request() -> BootstrapRequest {
             required_outcome: "Construct and validate six typed cards.".into(),
             declared_scope: vec!["fixture record".into()],
             authority_boundary: vec!["no network".into()],
+            operator_constraints: vec!["none".into()],
             task_boundary: "Implement only the fixture.".into(),
             deliverables: vec!["record".into()],
             acceptance_criteria: vec!["six cards exist".into(), "doctor is ready".into()],
@@ -79,6 +106,7 @@ fn request() -> BootstrapRequest {
             }],
             failure_policy: "Fail closed.".into(),
             review_prompts: vec!["Review correctness.".into()],
+            review_scope: "fixture".into(),
         },
     }
 }
@@ -94,11 +122,11 @@ fn fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
     .expect("diagram");
     let store = Store::new(temp.path());
     let request = request();
-    let record = csdlc_v2::initialize_issue(&store, request.clone()).expect("initialize");
+    let record = initialize_issue(&store, request.clone()).expect("initialize");
     assert!(temp.path().join("docs/design.md").exists());
     assert!(temp.path().join("docs/diagram.mmd").exists());
     assert_eq!(
-        csdlc_v2::initialize_issue(&store, request).expect("idempotent init"),
+        initialize_issue(&store, request).expect("idempotent init"),
         record
     );
     (temp, store, record)
@@ -113,9 +141,55 @@ fn bootstrap_rejects_missing_vpp_command_before_authoring_files() {
         "bash".into(),
         "adl/tools/validate_planning_templates.sh".into(),
     ];
-    let error = csdlc_v2::initialize_issue(&store, request).expect_err("missing command");
+    let error = initialize_issue(&store, request).expect_err("missing command");
     assert!(matches!(error.code, ErrorCode::InvalidInput));
     assert!(!temp.path().join("docs/design.md").exists());
+    assert!(!temp.path().join(".csdlc/issues/42").exists());
+}
+
+#[test]
+fn native_registry_is_required_and_shape_checked_before_issue_authoring() {
+    for registry in [
+        None,
+        Some(b"not-json".as_slice()),
+        Some(br#"{"generations":{}}"#.as_slice()),
+        Some(include_bytes!("../../docs/templates/prompts/current.json").as_slice()),
+    ] {
+        let temp = tempfile::tempdir().expect("tempdir");
+        fs::create_dir_all(temp.path().join("docs")).expect("docs");
+        fs::write(temp.path().join("docs/design.md"), "# Design\n").expect("design");
+        fs::write(
+            temp.path().join("docs/diagram.mmd"),
+            "flowchart LR\n A-->B\n",
+        )
+        .expect("diagram");
+        if let Some(bytes) = registry {
+            let path = temp.path().join("docs/templates/prompts/current.json");
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, bytes).unwrap();
+        }
+        let error = csdlc_v2::initialize_native_issue(&Store::new(temp.path()), request())
+            .expect_err("invalid registry must fail closed");
+        assert!(matches!(error.code, ErrorCode::InvalidManifest));
+        assert!(!temp.path().join(".csdlc/issues/42").exists());
+    }
+}
+
+#[test]
+fn retained_bootstrap_without_new_fields_loads_as_explicit_none() {
+    let mut value = serde_json::to_value(request()).expect("request JSON");
+    let initial = value["initial"].as_object_mut().expect("initial object");
+    initial.remove("operator_constraints");
+    initial.remove("review_scope");
+    let retained: BootstrapRequest =
+        serde_json::from_value(value.clone()).expect("retained request");
+    assert_eq!(retained.initial.operator_constraints, vec!["none"]);
+    assert_eq!(retained.initial.review_scope, "none");
+    let temp = tempfile::tempdir().expect("tempdir");
+    let bytes = serde_json::to_vec(&value).expect("retained bytes");
+    let error = csdlc_v2::initialize_native_json(&Store::new(temp.path()), &bytes)
+        .expect_err("native entrypoint requires explicit fields");
+    assert!(matches!(error.code, ErrorCode::InvalidInput));
     assert!(!temp.path().join(".csdlc/issues/42").exists());
 }
 
@@ -125,7 +199,7 @@ fn bootstrap_rejects_one_path_for_both_authored_artifact_roles() {
     let store = Store::new(temp.path());
     let mut request = request();
     request.diagram_path = request.design_path.clone();
-    let error = csdlc_v2::initialize_issue(&store, request).expect_err("shared authored path");
+    let error = initialize_issue(&store, request).expect_err("shared authored path");
     assert!(matches!(error.code, ErrorCode::InvalidInput));
     assert!(!temp.path().join("docs/design.md").exists());
     assert!(!temp.path().join(".csdlc/issues/42").exists());
@@ -178,7 +252,7 @@ fn bind_supports_issue_local_state_without_touching_primary_checkout() {
     let mut initial = request();
     initial.claim.worktree = ".".into();
     let store = Store::new(temp.path());
-    let record = csdlc_v2::initialize_issue(&store, initial).unwrap();
+    let record = initialize_issue(&store, initial).unwrap();
     git(temp.path(), &["init", "-b", "main"]);
     git(
         temp.path(),
@@ -222,7 +296,7 @@ fn bind_activates_exact_reserved_claim_from_existing_worktree() {
     );
     git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
     let store = Store::new(temp.path());
-    csdlc_v2::initialize_issue(&store, request()).unwrap();
+    initialize_issue(&store, request()).unwrap();
     git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "prepared issue"]);
     git(
@@ -278,7 +352,7 @@ fn bind_rejects_reserved_worktree_that_does_not_match_current_checkout() {
     );
     git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
     let store = Store::new(temp.path());
-    csdlc_v2::initialize_issue(&store, initial).unwrap();
+    initialize_issue(&store, initial).unwrap();
     git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "prepared issue"]);
     git(
@@ -333,7 +407,7 @@ fn bind_rejects_standalone_repository_with_matching_worktree_suffix() {
     );
     git(&issue_root, &["config", "user.name", "C-SDLC Test"]);
     let store = Store::new(&issue_root);
-    let record = csdlc_v2::initialize_issue(&store, request()).unwrap();
+    let record = initialize_issue(&store, request()).unwrap();
     git(&issue_root, &["add", "."]);
     git(&issue_root, &["commit", "-m", "copied prepared issue"]);
     let claim = record.claim.unwrap();
@@ -458,7 +532,7 @@ fn git_branch(root: &std::path::Path) -> String {
 #[test]
 fn bind_refuses_primary_checkout_and_worktree_mismatch() {
     let (temp, store, record) = fixture();
-    git(temp.path(), &["init", "-b", "wrong"]);
+    git(temp.path(), &["checkout", "-b", "wrong"]);
     git(
         temp.path(),
         &["config", "user.email", "test@example.invalid"],
@@ -724,11 +798,17 @@ fn edit(record: &csdlc_v2::IssueRecord, operation: SemanticOperation) -> EditReq
 fn bootstrap_constructs_all_six_cards_and_ready_doctor() {
     let (_temp, store, record) = fixture();
     assert_eq!(record.cards.len(), 6);
-    assert_eq!(store.load_cards(42).expect("cards").len(), 6);
-    assert_eq!(
-        sip_goal(&store.load_cards(42).expect("cards")),
-        "Prove Gate 2."
-    );
+    let cards = store.load_cards(42).expect("cards");
+    assert_eq!(cards.len(), 6);
+    assert_eq!(sip_goal(&cards), "Prove Gate 2.");
+    let csdlc_v2::cards::CardContent::Sip(sip) = &cards[&CardKind::Sip].content else {
+        panic!("SIP");
+    };
+    assert_eq!(sip.operator_constraints, vec!["none"]);
+    let csdlc_v2::cards::CardContent::Srp(srp) = &cards[&CardKind::Srp].content else {
+        panic!("SRP");
+    };
+    assert_eq!(srp.review_scope, "fixture");
     let report = diagnose(&store, 42);
     assert!(report.ready, "{report:?}");
     assert!(report.findings.is_empty());
@@ -848,13 +928,104 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
         },
     )
     .expect("STP replan");
+    let sip_constraints = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: stp.generation,
+            expected_digest: stp.digest,
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "replace preparation constraints".into(),
+            operation: SemanticOperation::ReplaceOperatorConstraints {
+                values: vec!["owner binaries only".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("SIP constraint replacement");
+    let srp_scope = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Srp,
+            expected_generation: sip_constraints.generation,
+            expected_digest: sip_constraints.digest,
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "correct preparation review scope".into(),
+            operation: SemanticOperation::Replan {
+                field: csdlc_v2::cards::TextField::ReviewScope,
+                value: "exact compact-card repair".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("bound SRP scope replan");
+    let before_invalid = store.load_cards(42).expect("cards before invalid edit");
+    let invalid = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Stp,
+            expected_generation: srp_scope.generation,
+            expected_digest: srp_scope.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "try uncovered criterion".into(),
+            operation: SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec!["one".into(), "two".into(), "uncovered".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("SPP and VPP must cover every replacement criterion");
+    assert!(matches!(invalid.code, ErrorCode::CardInvalid));
+    assert_eq!(store.load_cards(42).unwrap(), before_invalid);
+    let stale = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Stp,
+            expected_generation: srp_scope.generation,
+            expected_digest: srp_scope.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "try stale removed criterion mapping".into(),
+            operation: SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec!["one".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("removed criteria cannot leave stale SPP or VPP mappings");
+    assert!(matches!(stale.code, ErrorCode::CardInvalid));
+    assert_eq!(store.load_cards(42).unwrap(), before_invalid);
+    let prepared = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Stp,
+            expected_generation: srp_scope.generation,
+            expected_digest: srp_scope.digest,
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "replace covered criteria".into(),
+            operation: SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec!["one".into(), "two".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("covered STP replacement");
     let sor = edit_issue(
         &store,
         EditRequest {
             issue: 42,
             card: CardKind::Sor,
-            expected_generation: stp.generation,
-            expected_digest: stp.digest,
+            expected_generation: prepared.generation,
+            expected_digest: prepared.digest,
             claim_id: "claim-1".into(),
             actor: "agent".into(),
             reason: "unauthorized bound replan".into(),
@@ -1138,7 +1309,7 @@ fn lifecycle_binaries_share_stable_typed_exit_classes() {
 fn placeholder_design_is_pending_then_can_be_completed_approved_and_bound() {
     let temp = tempfile::tempdir().expect("tempdir");
     let store = Store::new(temp.path());
-    let record = csdlc_v2::initialize_issue(&store, request()).expect("placeholder init");
+    let record = initialize_issue(&store, request()).expect("placeholder init");
     assert!(matches!(
         record.design_review,
         csdlc_v2::DesignReview::Pending
@@ -1225,7 +1396,7 @@ fn initialized_approved_stale_design_can_be_reapproved_before_readiness() {
     )
     .expect("diagram");
     let store = Store::new(temp.path());
-    let record = csdlc_v2::initialize_issue(&store, request()).expect("initialize");
+    let record = initialize_issue(&store, request()).expect("initialize");
     let redundant = csdlc_v2::approve_design(
         &store,
         csdlc_v2::ApproveDesignRequest {
@@ -1513,7 +1684,7 @@ fn issue_local_design_paths_do_not_look_like_existing_records() {
     bootstrap.diagram_path = ".csdlc/issues/42/diagram.mmd".into();
     bootstrap.design_approved = false;
 
-    let record = csdlc_v2::initialize_issue(&store, bootstrap).expect("issue-local init");
+    let record = initialize_issue(&store, bootstrap).expect("issue-local init");
     assert_eq!(record.issue, 42);
     assert!(store.issue_dir(42).join("index.json").exists());
     assert!(store.issue_dir(42).join("design.md").exists());
@@ -1534,7 +1705,7 @@ fn invalid_issue_local_init_fails_before_creating_artifacts() {
     bootstrap.design_path = ".csdlc/issues/43/design.md".into();
     bootstrap.diagram_path = ".csdlc/issues/43/diagram.mmd".into();
 
-    let error = csdlc_v2::initialize_issue(&store, bootstrap).expect_err("invalid claim");
+    let error = initialize_issue(&store, bootstrap).expect_err("invalid claim");
     assert!(matches!(error.code, ErrorCode::InvalidInput));
     assert!(!store.issue_dir(43).exists());
 }

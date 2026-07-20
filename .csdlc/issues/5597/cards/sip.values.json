@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5597,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][csdlc-v2] Make typed card generation registry-aware and preparation-safe",
+    "slug": "generation-aware-preparation-safe",
+    "version": "v0.91.8",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Unblock typed C-SDLC v2 preparation by making native compact generation registry-aware and lossless.",
+      "required_outcome": "Native compact v2 1.0.0 and legacy/import 1.0.3 remain distinct while bootstrap, migration, preparation edits, and review assignment preserve explicit constraints, criteria, and review scope.",
+      "declared_scope": [
+        "active prompt registry and documentation",
+        "crate-owned compact shape manifest",
+        "bootstrap, migration, semantic edit, review assignment, and focused tests"
+      ],
+      "authority_boundary": [
+        "typed C-SDLC v2 lifecycle is authoritative",
+        "ADL owner binaries provide GitHub truth",
+        "legacy/import 1.0.3 and native compact v2 1.0.0 are distinct families"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle and ADL owner binaries only",
+        "Never use raw gh or AWS",
+        "Keep the grouped repair compact and in scope"
+      ]
+    }
+  }
+}

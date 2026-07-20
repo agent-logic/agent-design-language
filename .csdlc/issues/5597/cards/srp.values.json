@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5597,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][csdlc-v2] Make typed card generation registry-aware and preparation-safe",
+    "slug": "generation-aware-preparation-safe",
+    "version": "v0.91.8",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review the exact substantive revision for registry authority, legacy and native compatibility, lossless bootstrap and migration semantics, phase-safe SIP STP SRP edits, atomic acceptance coverage, and review-assignment synchronization.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are template families distinct and provenance truthful?",
+        "Can any typed edit silently drop acceptance coverage?",
+        "Are bootstrap, migration, and review scope lossless?",
+        "Do focused tests prove existing 1.0.0 compatibility and legacy 1.0.3 separation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

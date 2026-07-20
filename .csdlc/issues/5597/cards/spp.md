@@ -1,0 +1,111 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 5597
+
+Repository: danielbaustin/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Add compact native registry authority, thread explicit semantics through input and migration, add phase-safe typed operations with atomic coverage checks, synchronize review scope, and prove the exact compatibility boundary.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Add generation-aware registry and crate-owned compact shape validation",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Preserve constraints and review scope through bootstrap and migration",
+    "acceptance_ids": [
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement preparation-safe SIP, STP, and bound SRP semantic operations with atomic coverage validation",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run focused proof, strict lint, owner validation, exact-revision review, publication, and closeout",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8",
+      "AC-9"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- no tracked implementation on main
+- no false family provenance
+- no silent criteria or scope loss
+- no scope expansion
+
+## Risks
+
+- registry drift could stamp incompatible shapes
+- preparation edits could bypass coverage invariants
+- review assignment could leave stale SRP truth
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/5597/design.md
+
+Digest: d0c569346b3c9028b5b30681dfe27a832b30f76a0226bdd5fb3a1d78cc787880
+
+## Diagram
+
+.csdlc/prepared/issues/5597/diagram.mmd
+
+Digest: 0a2843e2ad932d7e041b1ea28f78fb968c962ce944e03c9348383db23a24ab1e
+
+## Stop Conditions
+
+- typed lifecycle authority is unavailable
+- another live claim owns issue #5597
+- required work expands beyond the grouped repair
+
+## Handoff
+
+Proceed only after doctor readiness.

@@ -1,0 +1,10 @@
+{
+  "issue": 5597,
+  "claim_id": "claim-5597-generation-aware-preparation-safe",
+  "expected_generation": 0,
+  "expected_digest": "6265837ec72a81583d09cc10513b84863c51cb0f7c2eb93d802ce659a76a5d31",
+  "now_unix_seconds": 1784572931,
+  "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+  "reason": "Issue #5597 requires Gate 9 parity fixture truth for synchronized completed SRP review state",
+  "add_protected_paths": ["docs/architecture/csdlc-v2/gate9/samples"]
+}

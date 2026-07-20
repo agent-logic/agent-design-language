@@ -21,6 +21,15 @@ fn passing_scenarios() -> Vec<ScenarioEvidence> {
         .collect()
 }
 
+#[test]
+fn native_sample_authority_resolves_distinct_native_and_import_families() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("repository root");
+    csdlc_v2::registry::validate_native_registry(repo)
+        .expect("generation-aware native and legacy registry authority");
+}
+
 fn passing_budgets() -> Vec<BudgetEvidence> {
     BudgetKind::iter()
         .map(|name| {
@@ -261,7 +270,13 @@ fn representative_samples_reopen_persisted_store_between_lifecycle_phases() {
         )
         .unwrap();
         let comparison = csdlc_v2::compare_shadow(&legacy, &outcome);
-        assert!(comparison.equivalent);
+        assert!(
+            comparison.equivalent,
+            "{slug}: {:?}; legacy={:?}; v2={:?}",
+            comparison.differences,
+            legacy.card_statuses,
+            outcome.card_statuses
+        );
         assert!(comparison.differences.is_empty());
     }
 }

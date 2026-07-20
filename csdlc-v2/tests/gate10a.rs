@@ -369,6 +369,7 @@ fn bootstrap_request() -> BootstrapRequest {
             required_outcome: "Reapprove implemented design.".into(),
             declared_scope: vec!["fixture".into()],
             authority_boundary: vec!["no network".into()],
+            operator_constraints: vec!["none".into()],
             task_boundary: "Fixture only.".into(),
             deliverables: vec!["record".into()],
             acceptance_criteria: vec!["editor reapproves".into()],
@@ -400,6 +401,7 @@ fn bootstrap_request() -> BootstrapRequest {
             }],
             failure_policy: "Fail closed.".into(),
             review_prompts: vec!["Review correctness.".into()],
+            review_scope: "fixture".into(),
         },
     }
 }
