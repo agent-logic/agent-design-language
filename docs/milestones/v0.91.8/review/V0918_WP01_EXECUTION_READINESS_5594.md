@@ -25,7 +25,7 @@ Status: in progress until reviewed, merged, and closed
    present WP-01 `#5594`, and future v0.91.8 WP-21A `#5355`. Their roles are
    now distinct.
 6. The canonical ADL feature list was outside the inventory and external-review
-   corpus. It is now a required 123-row deterministic crosswalk and packet input.
+   corpus. It is now a required 122-row explicit-decision crosswalk and packet input.
 7. `#5336` contains unpublished issue-local planning in a behind-main worktree.
    Its first action is recovery/reconciliation, never regeneration from main.
 

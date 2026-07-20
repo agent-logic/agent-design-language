@@ -9,9 +9,9 @@
       "id": "WP01-ER1",
       "severity": "p1",
       "summary": "The 123-row feature-preservation gate lacks retained per-row owner and cutover dispositions",
-      "disposition": "fixed",
-      "fix_commit": "0f504a1458145336d1bc948b532e75a6eff5e5cf",
-      "evidence": "docs/milestones/v0.91.8/feature_preservation_crosswalk_5594.v1.json"
+      "disposition": "superseded_by_later_exact_review",
+      "fix_commit": null,
+      "evidence": ".csdlc/prepared/issues/5594/exact-review-fe16793c3.json"
     },
     {
       "id": "WP01-ER2",

@@ -29,9 +29,9 @@ docs/milestones/v0.91.8
 
 [
   {
-    "id": "WP01-ER1",
+    "id": "WP01-ER3",
     "severity": "p1",
-    "summary": "The 123-row feature-preservation gate lacks retained per-row owner and cutover dispositions",
+    "summary": "The crosswalk counted the Feature band table header, leaving only 122 real feature decisions",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -39,9 +39,19 @@ docs/milestones/v0.91.8
     "route": "issue_5594"
   },
   {
-    "id": "WP01-ER2",
+    "id": "WP01-ER4",
+    "severity": "p1",
+    "summary": "Keyword first-match classification produced semantically false feature owners instead of explicit row decisions",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": "issue_5594"
+  },
+  {
+    "id": "WP01-ER5",
     "severity": "p2",
-    "summary": "Exact commit patch contains four trailing-whitespace lines while SOR records diff hygiene passed",
+    "summary": "The validator and retained review history overstated semantic remediation by proving only heuristic consistency",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -56,12 +66,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Feature dispositions require a row-level retained artifact before Runtime v2 deletion planning can be trusted.
+- Runtime v2 deletion remains forbidden until all real feature rows have explicit reviewed owner and disposition decisions.
 
 ## Review Result
 
-Revision: Some("git-blake3:de1011a8bfc95cea511782a66228f2ff83359b43:c463e796007f3e8491305624eb0001b85872cebe386a8727321a95fb032a7326")
+Revision: Some("git-blake3:fe16793c3b7410c2e55cd9c3df75e22b23cc512c:172ee10a96515792963622c7e8158f0fce36eb28050e1e0120b7f4c3a7f5166a")
 
-Reviewer: Some("subagent:Planck:019f8057-e16d-76f1-99c1-5ef2ea96f133")
+Reviewer: Some("subagent:Aristotle:019f8049-f2c8-76e3-a153-9c256187fa2a")
 
 Result: changes_required

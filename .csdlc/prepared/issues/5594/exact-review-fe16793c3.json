@@ -1,0 +1,40 @@
+{
+  "schema": "csdlc.review.history.v1",
+  "issue": 5594,
+  "reviewer": "subagent:Aristotle:019f8049-f2c8-76e3-a153-9c256187fa2a",
+  "reviewed_revision": "git-blake3:fe16793c3b7410c2e55cd9c3df75e22b23cc512c:172ee10a96515792963622c7e8158f0fce36eb28050e1e0120b7f4c3a7f5166a",
+  "result": "changes_required",
+  "findings": [
+    {
+      "id": "WP01-ER3",
+      "severity": "p1",
+      "summary": "The crosswalk counted the Feature band table header, leaving only 122 real feature decisions",
+      "disposition": "fixed_in_worktree_pending_exact_revision_review",
+      "fix_commit": null,
+      "evidence": ".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb"
+    },
+    {
+      "id": "WP01-ER4",
+      "severity": "p1",
+      "summary": "Keyword first-match classification produced semantically false feature owners instead of explicit row decisions",
+      "disposition": "fixed_in_worktree_pending_exact_revision_review",
+      "fix_commit": null,
+      "evidence": ".csdlc/prepared/issues/5594/feature_decisions_5594.rb"
+    },
+    {
+      "id": "WP01-ER5",
+      "severity": "p2",
+      "summary": "The validator and retained review history overstated semantic remediation by proving only heuristic consistency",
+      "disposition": "fixed_in_worktree_pending_exact_revision_review",
+      "fix_commit": null,
+      "evidence": "docs/milestones/v0.91.8/FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md"
+    }
+  ],
+  "validation": [
+    "git diff --check origin/main...fe16793c3: pass",
+    "validate_structured_planning.rb: pass",
+    "validate_feature_crosswalk.rb: structural pass but semantic failure",
+    "validate_links.rb: pass",
+    "validate_live_routing.rb: pass"
+  ]
+}
