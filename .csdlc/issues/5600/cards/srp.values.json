@@ -7,15 +7,15 @@
     "title": "[v0.91.8][csdlc-v2][bug] Support complete typed preparation-to-implementation replanning",
     "slug": "complete-typed-preparation-to-implementation-replanning",
     "version": "v0.91.8",
-    "generation": 10
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2\n.csdlc/prepared/issues/5600/design.md\n.csdlc/prepared/issues/5600/diagram.mmd\n.csdlc/prepared/issues/5600/bootstrap.json\n.csdlc/prepared/issues/5600/validate-local.json\n.csdlc/evidence/5600",
-      "review_revision": "git-blake3:16a916638428b519abe22ee665717ba8e097ddde:b9637c5a6bc99eead9886d42e18730890446f0dab92cb786f512d6f932d4767f",
-      "reviewer": "subagent:codex-exec-5600",
+      "review_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
+      "reviewer": "subagent:codex-exec-5600-remediation",
       "review_prompts": [
         "Does every required planning collection have an explicit card-owned typed replacement operation?",
         "Can any failed operation change a card, generation, digest, projection, or audit event?",
@@ -30,8 +30,8 @@
           "summary": "Acceptance-set cardinality cannot change atomically across STP, SPP, and VPP.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
           "route": null
         },
         {
@@ -40,8 +40,8 @@
           "summary": "Operator-constraint and acceptance-criteria replacements are not Bound-only.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
           "route": null
         },
         {
@@ -50,8 +50,8 @@
           "summary": "The #5337 real JSON CLI proof covers only SRP review prompts.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
           "route": null
         },
         {
@@ -60,13 +60,13 @@
           "summary": "The issue design assigns dependencies, repository inputs, and non-goals to the wrong card.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
           "route": null
         }
       ],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }

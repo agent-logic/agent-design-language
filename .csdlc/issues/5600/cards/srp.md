@@ -36,8 +36,8 @@ csdlc-v2
     "summary": "Acceptance-set cardinality cannot change atomically across STP, SPP, and VPP.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
     "route": null
   },
   {
@@ -46,8 +46,8 @@ csdlc-v2
     "summary": "Operator-constraint and acceptance-criteria replacements are not Bound-only.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
     "route": null
   },
   {
@@ -56,8 +56,8 @@ csdlc-v2
     "summary": "The #5337 real JSON CLI proof covers only SRP review prompts.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
     "route": null
   },
   {
@@ -66,8 +66,8 @@ csdlc-v2
     "summary": "The issue design assigns dependencies, repository inputs, and non-goals to the wrong card.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d",
     "route": null
   }
 ]
@@ -82,8 +82,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:16a916638428b519abe22ee665717ba8e097ddde:b9637c5a6bc99eead9886d42e18730890446f0dab92cb786f512d6f932d4767f")
+Revision: Some("git-blake3:45fbcdbe6159321e7cdaab7745e1aaf58336a159:0dc92af0433614a6582c354632c9ae69fe943bd718bff62fde89d9b03e691f6d")
 
-Reviewer: Some("subagent:codex-exec-5600")
+Reviewer: Some("subagent:codex-exec-5600-remediation")
 
-Result: changes_required
+Result: pass
