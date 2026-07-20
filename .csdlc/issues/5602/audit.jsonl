@@ -24,3 +24,4 @@
 {"sequence":24,"generation":17,"actor":"codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":25,"generation":18,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"The supported external-test coverage workflow and corrected lifecycle truth received an exact-head no-findings review at e85087c8e.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":26,"generation":19,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":27,"generation":20,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
