@@ -154,6 +154,17 @@ pub fn metadata_only_changed_paths(
 }
 
 fn validate_card_projection_commits(root: &Path, from_commit: &str, to_commit: &str) -> Result<()> {
+    let ancestry = Command::new("git")
+        .current_dir(root)
+        .args(["merge-base", "--is-ancestor", from_commit, to_commit])
+        .status()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !ancestry.success() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "metadata revision reconciliation requires forward ancestry",
+        ));
+    }
     let output = Command::new("git")
         .current_dir(root)
         .args([
@@ -171,6 +182,12 @@ fn validate_card_projection_commits(root: &Path, from_commit: &str, to_commit: &
     }
     for commit in String::from_utf8_lossy(&output.stdout).lines() {
         let paths = commit_changed_paths(root, commit)?;
+        if paths.iter().any(|path| !safe_metadata_path(path)) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "metadata revision range contains a substantive commit",
+            ));
+        }
         for path in paths.iter().filter(|path| is_card_markdown(path)) {
             let values = format!("{}.values.json", path.trim_end_matches(".md"));
             if !paths.iter().any(|candidate| candidate == &values) {

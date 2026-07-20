@@ -409,7 +409,7 @@ fn squash_merge_metadata_revision_reconciles_but_substantive_delta_fails_closed(
         ReadinessRequest {
             expected_generation: current.generation,
             expected_digest: current.digest,
-            head_sha: substantive_sha,
+            head_sha: substantive_sha.clone(),
             ..ReadinessRequest {
                 schema: "csdlc.readiness_request.v1".into(),
                 issue: 71,
@@ -426,6 +426,48 @@ fn squash_merge_metadata_revision_reconciles_but_substantive_delta_fails_closed(
                 conflict_state: ConflictState::Clean,
                 post_publication_findings: vec![],
             }
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        fs::read(store.issue_dir(71).join("index.json")).unwrap(),
+        before
+    );
+
+    git(temp.path(), &["revert", "--no-edit", &substantive_sha]);
+    fs::write(
+        temp.path().join(".csdlc/evidence/71/after-revert.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    git(
+        temp.path(),
+        &["add", ".csdlc/evidence/71/after-revert.json"],
+    );
+    git(
+        temp.path(),
+        &["commit", "-m", "metadata after substantive revert"],
+    );
+    let reverted_endpoint = git_output(temp.path(), &["rev-parse", "HEAD"]);
+    let current = store.load_record(71).unwrap();
+    let error = record_readiness(
+        &store,
+        ReadinessRequest {
+            schema: "csdlc.readiness_request.v1".into(),
+            issue: 71,
+            expected_generation: current.generation,
+            expected_digest: current.digest,
+            claim_id: "claim".into(),
+            actor: "closer".into(),
+            pull_request: 70,
+            head_sha: reverted_endpoint,
+            required_checks: vec![],
+            require_review: false,
+            checks: vec![],
+            review_state: RemoteReviewState::NotRequired,
+            conflict_state: ConflictState::Clean,
+            post_publication_findings: vec![],
         },
     )
     .unwrap_err();
