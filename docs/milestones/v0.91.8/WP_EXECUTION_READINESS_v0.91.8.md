@@ -2,8 +2,8 @@
 
 | WP | Ready to start after | Current planned state |
 | --- | --- | --- |
-| WP-01 | Operator approval of #5383 | Closed; #5383 closed on 2026-07-15 |
-| WP-02 | WP-01 package review and typed card readiness | Waiting |
+| WP-01 | Operator start of #5594 | In progress; closes only after reviewed canonical reconciliation and sprint readiness proof |
+| WP-02 | WP-01 #5594 closeout and #5336 stale-worktree recovery | Not ready: recover unpublished #5336 authority before regeneration or execution |
 | WP-03 | WP-02 denominator | Waiting |
 | WP-04 | WP-02 and WP-03 | Waiting |
 | WP-05 | WP-04 | Waiting |
@@ -18,6 +18,17 @@
 | WP-13 | WP-12 plus current #5358/#5361 acceptance; deletion manifests proven disjoint | Waiting |
 | WP-14A | WP-13 plus #5358 and #5361 | Waiting |
 | WP-15-WP-23 | Prior closeout gates | Waiting |
+
+## Opening Card-Factory Wave
+
+After WP-01 closes, the four writable slots are #5336 recovery, #5337 card
+preparation, #5358 acceptance-card preparation, and #5361 acceptance-card
+preparation. No slot is implementation-ready merely because it is allocated.
+
+Runtime v3 Parity-A #5591 is prepared only after #5336 architecture authority
+is integrated. Parity-B #5592, Parity-C #5589, and Parity-D #5590 remain
+dependency-blocked behind Parity-A and require disjoint protected paths before
+concurrent execution.
 
 Readiness must be refreshed from live issue and PR truth before starting each
 work package.

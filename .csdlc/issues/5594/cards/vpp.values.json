@@ -1,0 +1,126 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5594,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
+    "slug": "v0-91-8-wp-01-execution-readiness",
+    "version": "v0.91.8",
+    "generation": 25
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "structured-planning",
+          "proof_role": "Parse and assert v0.91.8 YAML and JSON topology",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5594/validate_structured_planning.rb"
+          ],
+          "parallel_group": "local-docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "feature-crosswalk",
+          "proof_role": "Pin and classify every canonical ADL feature row with named cutover owners",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5594/validate_feature_crosswalk.rb"
+          ],
+          "parallel_group": "local-docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "local-links",
+          "proof_role": "Verify local links across touched v0.91.8 documents",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5594/validate_links.rb"
+          ],
+          "parallel_group": "local-docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "live-routing",
+          "proof_role": "Verify exact live issue labels, parents, dependencies, umbrellas, inventory coverage, and malformed-body repair through ADL owner binaries",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5594/validate_live_routing.rb"
+          ],
+          "parallel_group": "live-read-only",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-and-lifecycle",
+          "proof_role": "Verify diff hygiene, protected scope, and typed lifecycle consistency",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local-control",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on stale live truth, missing or overlapping sprint ownership, incomplete cards or contracts, write-scope collisions, unsupported readiness claims, scope expansion, AWS use, or raw gh use.",
+      "design_ref": ".csdlc/prepared/issues/5594/design.md",
+      "design_digest": "ea5c7237efa120a65e9c075e95cc04809e86b95104cbc4ef61df5012229cb513",
+      "diagram_ref": ".csdlc/prepared/issues/5594/diagram.mmd",
+      "diagram_digest": "30964b8fae8c816e39be22d095395d5fc322e3fc200c4ed35e4fb8a75a59316a"
+    }
+  }
+}

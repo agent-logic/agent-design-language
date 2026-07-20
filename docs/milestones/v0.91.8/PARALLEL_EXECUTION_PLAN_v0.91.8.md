@@ -22,13 +22,18 @@ them.
 
 ## Current Readiness Constraint
 
+WP-01 `#5594` is the active readiness authority and milestone sprint `#5595`
+is the single sprint umbrella. Closed `#5335` and `#5383` are historical
+planning inputs, not active WP-01 owners.
+
 The checked core, acceptance, WP-10A, and provider issues do not currently have
 tracked `.csdlc/issues/<issue>/index.json` projections in the local planning
 surface for:
 
 `#5336`, `#5337`, `#5338`, `#5339`, `#5340`, `#5341`, `#5342`, `#5343`,
 `#5344`, `#5345`, `#5346`, `#5347`, `#5349`, `#5350`, `#5358`, `#5361`,
-`#5384`, `#5497`, `#5498`, `#5499`, `#5500`, `#5501`, `#5502`, and `#5526`.
+`#5384`, `#5497`, `#5498`, `#5499`, `#5500`, `#5501`, `#5502`, `#5526`,
+`#5548`, `#5558`, `#5589`, `#5590`, `#5591`, and `#5592`.
 
 Therefore Wave 0 is not optional clerical setup. It is a real parallel
 card/readiness factory using active prompt templates and typed C-SDLC v2
@@ -113,15 +118,20 @@ authority:
 4. Record dependencies, non-goals, proof lanes, and negative cases.
 5. Stop before implementation.
 
-Initial Wave 0 targets:
+Initial Wave 0 targets after WP-01 closes:
 
-- WP-02 `#5336`
+- WP-02 `#5336` stale-worktree recovery; do not regenerate its unpublished cards
 - WP-03 `#5337`
 - C-SDLC acceptance sidecar `#5358`
 - Runtime v3 acceptance sidecar `#5361`
 
 Next Wave 0 targets are admitted only after the conductor verifies predecessor
 truth and WIP capacity.
+
+After #5336 authority is integrated, prepare Runtime v3 Parity-A #5591. Only
+after Parity-A's ingress contract is reviewed may #5592, #5589, and #5590 be
+prepared or executed. Their capability lists do not by themselves prove
+disjoint writes; explicit protected-path manifests are required.
 
 ## Wave 1: Early Acceptance Lanes
 
@@ -134,7 +144,7 @@ defines acceptance criteria rather than implementing ADL core internals:
 They are parallel to early ADL core prep, but they cannot approve WP-14A or
 v0.92 handoff alone. Their outputs become acceptance inputs for WP-14A.
 C-SDLC acceptance preflight must inventory current defects `#5540`, `#5541`,
-and `#5558` without absorbing them into the acceptance issue. Runtime v3
+`#5548`, and `#5558` without absorbing them into the acceptance issue. Runtime v3
 acceptance may start preflight early, but `#5361` closure consumes the live
 distributed workcell proof from `#5501`.
 
@@ -162,7 +172,8 @@ Parallelism rules:
   implementation merge for each of WP-04 through WP-07 waits for the preceding
   reviewed interface.
 - WP-08 prep may run while WP-07 is under review, but implementation waits for
-  WP-06 and WP-07 reviewed interfaces.
+  WP-06 and WP-07 reviewed interfaces plus the reviewed #5591 Runtime v3
+  ingress contract. #5341 consumes that contract; it does not redefine it.
 - WP-09 prep may run while WP-08 is under review, but implementation waits for
   WP-06 and WP-08 reviewed interfaces.
 - WP-10 prep may run while WP-09 is under review, but implementation waits for
@@ -200,8 +211,8 @@ Parity, soak, cutover, acceptance, and deletion are constrained:
 2. WP-12 soak `#5344`.
 3. WP-12 reversible default switch `#5343`.
 4. Current C-SDLC and Runtime v3 acceptance closure:
-   - `#5358` C-SDLC v2 acceptance, after inventorying `#5540`, `#5541`, and
-     `#5558`.
+   - `#5358` C-SDLC v2 acceptance, after inventorying `#5540`, `#5541`,
+     `#5548`, and `#5558`.
    - `#5361` Runtime v3 acceptance, consuming `#5501`.
 5. WP-13 deletion may execute in parallel only on disjoint manifests:
    - `#5346` final replaced ADL language compiler engine and CLI.

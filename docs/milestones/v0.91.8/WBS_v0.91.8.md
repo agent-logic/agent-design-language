@@ -2,18 +2,18 @@
 
 | WP | Issue | Title | Planned outcome | Depends on |
 | --- | ---: | --- | --- | --- |
-| WP-01 | #5383 | Planning package and routing repair | Create this package, restore `#4641`, preserve WP-14A, and align issue-wave truth. | v0.91.7 planning truth |
+| WP-01 | #5594 | Execution readiness and routing reconciliation | Reconcile live issue truth, sprint ownership, cards, dependencies, feature dispositions, and the parallel execution plan. | Historical planning #5335/#5383 and closed v0.91.7 WP-23 |
 | WP-02 | #5336 | Baseline and clean-room architecture | Pin incumbent denominator, ownership, architecture, and budgets. | WP-01 |
 | WP-03 | #5337 | Characterization corpus | Capture normalized v1 behavior and deterministic comparison rules. | WP-02 |
 | WP-04 | #5339 | Six-primitives language core | Implement typed provider/tool/agent/task/workflow/run contracts. | WP-02, WP-03 |
 | WP-05 | #5338 | Deterministic compiler | Compile validated documents into canonical execution plans. | WP-04 |
 | WP-06 | #5340 | Portable execution engine | Implement bounded scheduling, retries, joins, resume, and ports. | WP-05 |
 | WP-07 | #5342 | Records signing and trust contracts | Implement stable records, signing, verification, traces, artifacts, and errors. | WP-04, WP-06 |
-| WP-08 | #5341 | Runtime v3 adapter | Connect ADL plans and events to Runtime v3 without changing ownership. | WP-06, WP-07 |
+| WP-08 | #5341 | Runtime v3 adapter | Connect ADL plans and events to Runtime v3 without changing ownership. | WP-06, WP-07, reviewed #5591 ingress contract |
 | WP-09 | #5349 | Provider and governed-tool adapters | Implement mock, HTTP, governed-tool, and compatibility adapters behind typed ports. | WP-06, WP-08 |
 | WP-10 | #5345 | Thin CLI and selector | Implement validate, schema, plan, run, inspect, sign, verify, and generation selection. | WP-04 through WP-09 |
 | WP-10A | #5497 | Distributed C-SDLC workcell | Prove conductor, Codex task adapter, dashboard, convergence, and live distributed workcell without autonomous merge or closeout authority. | WP-09; children #5499, #5498, #5500, #5502, #5501 |
-| WP-11 | #5350 | Shadow parity | Compare exact revisions across the approved corpus and classify mismatches. | WP-03, WP-10, completed WP-10A live proof |
+| WP-11 | #5350 | Shadow parity | Compare exact ADL v1/v2 revisions across the approved corpus and classify mismatches; Runtime v3 parity is separately owned by #5361 and #5591/#5592/#5589/#5590. | WP-03, WP-10, completed WP-10A live proof, current Runtime v3 acceptance inputs |
 | WP-12 | #5344, #5343 | Soak, rollback, and reversible cutover | Run opt-in soak, prove rollback, and execute reviewed selector switch. | WP-11 |
 | WP-13 | #5346, #5347 | Deletion wave | Delete only reviewed and replaced incumbent surfaces after eligibility proof. | WP-12 plus current #5358/#5361 acceptance; disjoint manifests |
 | WP-14A | #5384 | Integrated platform acceptance and v0.92 handoff | Accept/deploy ADL v2, Runtime v3, C-SDLC v2, and dispose moved handoff children. | WP-13, #5358, #5361 |
@@ -33,3 +33,8 @@
 WP-14A consumes `#5358`, `#5361`, `#5352`, `#4758`-`#4763`, `#5007`, `#4739`,
 `#4741`, `#5332`, and `#5107`. Each child must close with evidence or remain
 blocked with operator-approved evidence before WP-14A can claim readiness.
+
+Runtime v3 acceptance `#5361` is a nested umbrella under milestone sprint
+`#5595`. It owns Parity-A `#5591`, then Parity-B `#5592`, Parity-C `#5589`, and
+Parity-D `#5590`. These issues preserve Runtime v2 until reviewed cutover proof;
+they do not extend WP-11's ADL v1/v2 parity corpus.

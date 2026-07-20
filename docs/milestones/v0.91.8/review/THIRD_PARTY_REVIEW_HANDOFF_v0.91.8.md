@@ -5,7 +5,9 @@
 - Milestone: `v0.91.8`
 - Version: `v0.91.8`
 - Review lane: formal milestone third-party review
-- Prepared by: WP-21A / `#5489`
+- Initial preparation: closed v0.91.7 WP-21A / `#5489`
+- Current readiness reconciliation: v0.91.8 WP-01 / `#5594`
+- Release-tail revalidation owner: v0.91.8 WP-21A / `#5355`
 - Packet status: `prepared_not_sent`
 - Review performed: false
 - Release approval claimed: false
@@ -61,7 +63,9 @@ Use this procedure from the exact target revision:
 mkdir -p .adl/local-artifacts
 {
   git ls-tree -r HEAD -- \
+    README.md \
     docs/milestones/v0.91.8 \
+    docs/planning/ADL_FEATURE_LIST.md \
     docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md \
     docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 \
     | awk '$4 != "docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md" {print}'
@@ -81,7 +85,9 @@ To list the underlying path corpus without object metadata, use:
 
 ```sh
 git ls-tree -r --name-only HEAD -- \
+  README.md \
   docs/milestones/v0.91.8 \
+  docs/planning/ADL_FEATURE_LIST.md \
   docs/milestones/v0.91.7/review/V0917_WP21A_NEXT_MILESTONE_DOCS_CLOSEOUT_5489.md \
   docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489 \
   | LC_ALL=C sort > .adl/local-artifacts/v0918-review-packet-paths.txt
@@ -163,6 +169,7 @@ Do not review as completed implementation:
 
 ### Canonical v0.91.8 planning surfaces
 
+- [../../../../README.md](../../../../README.md)
 - [../README.md](../README.md)
 - [../VISION_v0.91.8.md](../VISION_v0.91.8.md)
 - [../DESIGN_v0.91.8.md](../DESIGN_v0.91.8.md)
@@ -174,6 +181,7 @@ Do not review as completed implementation:
 - [../WP_ISSUE_WAVE_v0.91.8.yaml](../WP_ISSUE_WAVE_v0.91.8.yaml)
 - [../WP_EXECUTION_READINESS_v0.91.8.md](../WP_EXECUTION_READINESS_v0.91.8.md)
 - [../CANONICAL_DOC_INVENTORY_v0.91.8.md](../CANONICAL_DOC_INVENTORY_v0.91.8.md)
+- [V0918_WP01_EXECUTION_READINESS_5594.md](V0918_WP01_EXECUTION_READINESS_5594.md)
 
 ### Feature, proof, and quality surfaces
 
@@ -185,9 +193,11 @@ Do not review as completed implementation:
 - [../features/DELETION_AND_CUTOVER_v0.91.8.md](../features/DELETION_AND_CUTOVER_v0.91.8.md)
 - [../features/V092_HANDOFF_v0.91.8.md](../features/V092_HANDOFF_v0.91.8.md)
 - [../FEATURE_PROOF_COVERAGE_v0.91.8.md](../FEATURE_PROOF_COVERAGE_v0.91.8.md)
+- [../FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md](../FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md)
 - [../DEMO_MATRIX_v0.91.8.md](../DEMO_MATRIX_v0.91.8.md)
 - [../QUALITY_GATE_v0.91.8.md](../QUALITY_GATE_v0.91.8.md)
 - [../MILESTONE_CHECKLIST_v0.91.8.md](../MILESTONE_CHECKLIST_v0.91.8.md)
+- [../../../planning/ADL_FEATURE_LIST.md](../../../planning/ADL_FEATURE_LIST.md)
 
 ### Review, release, and handoff surfaces
 
@@ -223,8 +233,8 @@ owner surface:
 | Surface | Send-time requirement |
 | --- | --- |
 | ADL v2 core and owner binaries | List landed source, tests, generated/stable binary provenance, owner validation records, and issue closeout evidence for WP-02 through WP-08 as applicable. |
-| C-SDLC v2 acceptance | List landed typed-command source/tests, lifecycle proof packets, validation receipts, and open/closed acceptance-defect disposition including `#5540`, `#5541`, and `#5558`. |
-| Runtime v3 adapter and distributed workcells | List landed runtime/task-adapter source, tests, acceptance proof, workcell/output-contract proof, and dependent issue evidence including WP-10A closure truth. |
+| C-SDLC v2 acceptance | List landed typed-command source/tests, lifecycle proof packets, validation receipts, and open/closed acceptance-defect disposition including `#5540`, `#5541`, `#5548`, and `#5558`. |
+| Runtime v3 adapter and distributed workcells | List landed runtime/task-adapter source, tests, acceptance proof, workcell/output-contract proof, and dependent issue evidence including WP-10A plus `#5591`, `#5592`, `#5589`, and `#5590` closure truth. |
 | Platform acceptance, deployment, observatory, and rollback/cutover | List landed scripts/config/docs/tests/proof packets for acceptance, soak, deployment/observatory, rollback, deletion, and cutover gates. |
 | Review/remediation/release tail | List landed review packets, remediation proof, release-plan evidence, handoff evidence, and closeout records through the exact send revision. |
 

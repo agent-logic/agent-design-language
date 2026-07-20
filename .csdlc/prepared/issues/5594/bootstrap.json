@@ -1,0 +1,184 @@
+{
+  "issue": 5594,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5594/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5594/diagram.mmd",
+  "design_reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5594-v0918-wp01-readiness",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784562133,
+    "expires_unix_seconds": 1785166933,
+    "heartbeat_unix_seconds": 1784562133,
+    "branch": "codex/5594-v0918-wp01-readiness",
+    "worktree": ".worktrees/adl-wp-5594",
+    "protected_paths": [
+      ".csdlc/issues/5594",
+      ".csdlc/locks/5594.lock",
+      ".csdlc/prepared/issues/5594",
+      "README.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.91.8"
+    ],
+    "purpose": "Reconcile v0.91.8 planning, sprint umbrellas, issue readiness, and parallel execution without starting downstream implementation"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-01][readiness] Reconcile plans, sprint umbrellas, and parallel execution",
+    "slug": "v0-91-8-wp-01-execution-readiness",
+    "version": "v0.91.8",
+    "goal": "Make v0.91.8 executable with maximum safe parallelism and no unowned, stale, duplicated, or structurally incomplete work.",
+    "required_outcome": "Every canonical plan, sprint umbrella, child issue, dependency, card, validation contract, and parallel lane has reviewed truthful readiness before implementation starts.",
+    "declared_scope": [
+      "v0.91.8 canonical planning and feature documents",
+      "live v0.91.8 issue and sprint-umbrella graph",
+      "typed card and execution-readiness inventory",
+      "parallel session assignments, collision boundaries, and integration order"
+    ],
+    "authority_boundary": [
+      "Issue #5594 is the active WP-01 readiness authority",
+      "Closed #5383 remains historical setup evidence",
+      "ADL owner binaries provide live issue and PR truth",
+      "Typed C-SDLC v2 records provide lifecycle authority"
+    ],
+    "task_boundary": "Reconcile and prove v0.91.8 readiness only; do not execute downstream implementation.",
+    "deliverables": [
+      "reviewed execution-readiness report and reconciliation matrix",
+      "canonical sprint-umbrella and child-issue inventory",
+      "parallel session assignment and dependency map",
+      "ready or not-ready disposition for every sprint",
+      "bounded repairs to stale planning, routing, ownership, and readiness truth"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Live issue and PR inventory is reconciled with every canonical v0.91.8 planning, feature, handoff, review, and release document",
+      "AC-2: Every sprint umbrella exists with a complete non-overlapping child set, dependencies, and terminal acceptance criteria",
+      "AC-3: Every issue has truthful ownership, version, dependency, card, design, validation, and readiness disposition",
+      "AC-4: Parallel lanes have disjoint write scopes or explicit stack order, a four-writer cap, and one integration queue",
+      "AC-5: Runtime v3 parity, multi-agent work, acceptance, external shadows, cutover, and release-tail work are routed without duplication or scope expansion",
+      "AC-6: Focused docs, structured-data, links, issue-routing, dependency, protected-path, and diff validation passes"
+    ],
+    "dependencies": [
+      "merged v0.91.7 WP-23 #4650",
+      "closed historical v0.91.8 setup #5383",
+      "current v0.91.8 planning package and live issue inventory"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.91.8",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "README.md",
+      "live issues including #5336 and #5589-#5592",
+      "typed C-SDLC issue projections and session ledger"
+    ],
+    "non_goals": [
+      "product, Runtime, C-SDLC, demo, Observatory, or infrastructure implementation",
+      "new feature scope or one issue per finding",
+      "downstream implementation binding",
+      "AWS use",
+      "raw gh use",
+      "v0.92 activation or release approval"
+    ],
+    "plan_summary": "Run parallel read-only truth inventories, synthesize one canonical reconciliation, repair bounded planning/readiness defects, validate, review, and publish the WP-01 gate before downstream execution.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Collect live issue, PR, sprint umbrella, card, and canonical-document inventories in parallel",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"]
+      },
+      {
+        "id": "S2",
+        "action": "Synthesize the dependency graph, collision map, critical path, and sprint readiness dispositions",
+        "status": "pending",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "S3",
+        "action": "Repair bounded canonical planning, issue routing, umbrella, ownership, and readiness defects",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5"]
+      },
+      {
+        "id": "S4",
+        "action": "Run focused validation and exact-revision review, then publish the readiness gate",
+        "status": "pending",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "risks": [
+      "stale issue state can make prose-only readiness misleading",
+      "overlapping sprint children can create parallel write collisions",
+      "card preparation can accidentally become downstream implementation",
+      "external-agent output can be mistaken for lifecycle authority"
+    ],
+    "invariants": [
+      "no tracked work on main",
+      "no downstream implementation before reviewed readiness",
+      "no more than four writable issue actors after WP-01",
+      "one serialized integration and merge queue",
+      "external shadows remain read-only evidence producers",
+      "no AWS and no raw gh"
+    ],
+    "stop_conditions": [
+      "live issue truth cannot be obtained through ADL owner binaries",
+      "another active claim or worktree owns #5594",
+      "a required repair would widen scope into implementation",
+      "sprint ownership cannot be made non-overlapping without operator decision"
+    ],
+    "review_prompts": [
+      "Does every sprint have one real umbrella and a complete non-overlapping child set?",
+      "Do canonical docs agree with live issue, PR, card, and dependency truth?",
+      "Are parallel assignments collision-safe and dependency-correct?",
+      "Did WP-01 avoid implementation and scope expansion?",
+      "Are external-agent and merge authorities correctly bounded?"
+    ],
+    "planning_profile": "large",
+    "validation_lanes": [
+      {
+        "lane": "structured-planning",
+        "proof_role": "Parse and validate v0.91.8 YAML and JSON planning surfaces",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-docs",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5594/validate_structured_planning.rb"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-6"]
+      },
+      {
+        "lane": "local-links",
+        "proof_role": "Verify local links across touched v0.91.8 documents",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-docs",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["ruby", ".csdlc/prepared/issues/5594/validate_links.rb"],
+        "acceptance_ids": ["AC-1", "AC-6"]
+      },
+      {
+        "lane": "live-routing",
+        "proof_role": "Verify issue, label, umbrella, dependency, and PR routing through ADL owner binaries",
+        "deterministic": false,
+        "resource_profile": "small",
+        "parallel_group": "live-read-only",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": ["adl-issue", "list", "--state", "all", "--json"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5", "AC-6"]
+      },
+      {
+        "lane": "diff-and-lifecycle",
+        "proof_role": "Verify diff hygiene, protected scope, and typed lifecycle consistency",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local-control",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-3", "AC-4", "AC-6"]
+      }
+    ],
+    "failure_policy": "Fail closed on stale live truth, missing or overlapping sprint ownership, incomplete cards or contracts, write-scope collisions, unsupported readiness claims, scope expansion, AWS use, or raw gh use."
+  }
+}
