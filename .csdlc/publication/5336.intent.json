@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5336,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5336-v0918-runtime-parity-plan",
+  "title": "[v0.91.8][WP-02] Pin Runtime v3 baseline and functional-parity architecture",
+  "body": "Closes #5336\n\nPins adl-runtime-kernel as the sole canonical Runtime v3 owner and records the exact current budget posture: 12,209 physical source lines, a 12,000 reviewed target with a bounded 209-line exception, a continuing 10,000-line challenge target, 189 tests, and a hard fewer-than-1,000-test ceiling. Budget work may not weaken required functionality or proof.\n\nDefines ten live-process parity groups including Observatory, four disjoint implementation lanes, complete pre-deletion feature dispositions, and the mandatory ordering that #5361 acceptance precedes WP-12 cutover and WP-13 deletion. Runtime implementation, cutover, deletion, v0.92 activation, and AWS remain unauthorized by this planning issue.\n\nSemantic architecture, budget, dependency, acyclicity, feature-disposition, local-link, and diff checks pass. Independent exact-revision reviews found and drove fixes for dependency, budget, and VPP proof gaps; the final publication-head review passed with no findings.",
+  "draft": true,
+  "revision": "git-blake3:0614b0007200a55e966f23363ce5dc603b8b8e8a:b7eb413745140abc1f610d9bcd6b27624dbfac215306f74d9cab63f3feacef53",
+  "commit_sha": "0614b0007200a55e966f23363ce5dc603b8b8e8a"
+}

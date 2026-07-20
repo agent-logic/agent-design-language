@@ -1,0 +1,21 @@
+{
+  "issue": 5336,
+  "card": "stp",
+  "expected_generation": 2,
+  "expected_digest": "63aa746cfde567e7df4badb280a72cb982d46629f92a3560f011680eac0dac96",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Pin the measured Runtime v3 budget truth without weakening any parity requirement.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: The nine historical fixture groups plus Observatory have explicit live-process proof requirements",
+      "AC-2: Every v0.91.7 feature document and implemented feature-list row has a required pre-deletion disposition",
+      "AC-3: Four disjoint implementation lanes fit the global writable WIP cap and converge before WP-11",
+      "AC-4: #5361 acceptance precedes WP-12 cutover and WP-13 deletion",
+      "AC-5: The plan names adl-runtime-kernel as the sole canonical Runtime v3, retains 12,000 Rust source lines as the reviewed target and fewer than 1,000 tests as a hard ceiling, records the pinned 12,209-line measurement as a bounded 209-line exception requiring exact-revision approval, and requires parity work to offset source growth through duplicate or placeholder deletion or obtain a later bounded reviewed exception; budget compliance must not remove, defer, or weaken required live parity, negative-case, continuity, or feature-preservation proof",
+      "AC-6: Canonical docs, YAML, JSON, links, and diff hygiene validate without Runtime implementation or AWS"
+    ]
+  },
+  "fail_after_backup": false
+}

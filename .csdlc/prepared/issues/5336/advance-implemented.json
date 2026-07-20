@@ -1,0 +1,11 @@
+{
+  "issue": 5336,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "c0511524f292be61a1250c50bf3bb1154dd9d6bfe09fca56ca7a0aad7120ee42",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "All planning acceptance criteria, validation lanes, and plan steps are complete; enter exact-revision review.",
+  "operation": {"operation": "advance_phase", "phase": "implemented"},
+  "fail_after_backup": false
+}
