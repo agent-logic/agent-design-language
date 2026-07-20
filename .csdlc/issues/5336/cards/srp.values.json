@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
     "slug": "v0918-runtime-functional-parity-plan",
     "version": "v0.91.8",
-    "generation": 12
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact implementation revision before publication.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/tools/report_runtime_v3_loc.sh\ndocs/milestones/v0.91.8\n.csdlc/prepared/issues/5336/validate_architecture_plan.rb\n.csdlc/prepared/issues/5336/validate_links.rb",
+      "review_revision": "git-blake3:6eb0ad621033e8baafeef0f357900c883c4ea92b:5dc9049dc1f1db3cdc078b96b906b6f7ebaff1b3c40e0865ef88d8123dbd5ecb",
+      "reviewer": "task:019f80f2-e712-7000-ab8a-8b843d435321",
       "review_prompts": [
         "Does the plan distinguish fixture/library proof from live process functionality?",
         "Can every v0.91.7 feature survive Runtime v2 deletion or retain an explicit non-runtime owner?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
