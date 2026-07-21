@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5610,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5610-coverage-path-normalization",
+  "title": "[v0.91.8][CI][coverage] Normalize safe in-repo coverage paths",
+  "body": "Closes #5610\n\nNormalizes slash-unified llvm-cov filenames with platform-independent POSIX lexical semantics before owned-source matching. Safe in-root `bin/..` paths canonicalize, while repository-prefix and owned-root traversal escapes fail closed.\n\nFocused FastWork proof passed: coverage-summary merge contract, coupled CI runtime contract, authoritative coverage-lane contract, Python compilation, and diff hygiene. Exact-head bounded review found no issues. Provenance, metric validation, duplicate rejection, total recomputation, atomic output, and coverage gates are unchanged.\n\nIssue #5602 terminal truth remains immutable; consumer PR #5607 and PR #5608 branches are untouched.",
+  "draft": true,
+  "revision": "git-blake3:afe8dde4e928ddb76c75c9b9e531cfff8c2dc4b4:1961151f2efa9338dfb25d8917f5de86b1b19984561d21899414259f0a6b3fb3",
+  "commit_sha": "afe8dde4e928ddb76c75c9b9e531cfff8c2dc4b4"
+}

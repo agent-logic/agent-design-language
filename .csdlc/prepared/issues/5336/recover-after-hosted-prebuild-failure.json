@@ -1,0 +1,8 @@
+{
+  "issue": 5336,
+  "expected_generation": 24,
+  "expected_digest": "de3c02c9e5e2ec5bd3c00554f381f1e20043d837687c7798f3a7e5fbaaff6aa4",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Recover exact review after hosted CI proved incompatible nextest prebuild flags and a missing Cargo CACHEDIR.TAG in the warmed run target."
+}

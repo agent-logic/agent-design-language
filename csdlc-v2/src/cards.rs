@@ -548,6 +548,9 @@ pub enum SemanticOperation {
         field: PlanningCollectionField,
         values: Vec<String>,
     },
+    CorrectReviewPromptsAfterRecovery {
+        values: Vec<String>,
+    },
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
     },
@@ -870,6 +873,16 @@ pub fn apply(
         } => {
             validate_replacement(replacement, field.as_ref())?;
             replace_planning_collection(values, *field, replacement.clone())?;
+            Ok(None)
+        }
+        SemanticOperation::CorrectReviewPromptsAfterRecovery {
+            values: replacement,
+        } => {
+            validate_replacement(replacement, "review prompts")?;
+            match &mut values.content {
+                CardContent::Srp(value) => value.review_prompts = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_review_prompts_after_recovery"),
+            }
             Ok(None)
         }
         SemanticOperation::ReplacePlanSteps { steps } => {

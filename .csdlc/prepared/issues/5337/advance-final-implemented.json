@@ -1,0 +1,14 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 46,
+  "expected_digest": "dd3b72f9d1c15cae0fe9dfdaa3608b3c86c230def020b3c56f0fcf48dc5efc45",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Implementation and all local acceptance proof are complete at reviewed substantive revision 13f21e6bc; enter typed exact-revision review while publication remains gated on #5336.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,15 @@
+{
+  "issue": 5336,
+  "expected_generation": 46,
+  "expected_digest": "f88892e5bceec99b702a06aa04eb3fd3425ab803087c23b9e3db1f98e62f6440",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5599,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": null
+}

@@ -1,0 +1,11 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 30,
+  "expected_digest": "dc945749ecef0d9731a3003eb014089597f88660e87f1d569b5137374e89abd0",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "The exact pinned v1 revision was built locally and all 25 cases were captured three times with matching binary provenance.",
+  "operation": {"operation": "update_plan_step", "step_id": "S3", "status": "completed"},
+  "fail_after_backup": false
+}

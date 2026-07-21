@@ -1,0 +1,14 @@
+{
+  "issue": 5336,
+  "expected_generation": 12,
+  "expected_digest": "25499288bab9fcd370c6f647db4e51d170e357261edd4c2fbf2ed3935358d4ae",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "reviewer": "task:019f80f2-e712-7000-ab8a-8b843d435321",
+  "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "scope": [
+    "adl/tools/report_runtime_v3_loc.sh",
+    "docs/milestones/v0.91.8",
+    ".csdlc/prepared/issues/5336/validate_architecture_plan.rb",
+    ".csdlc/prepared/issues/5336/validate_links.rb"
+  ]
+}

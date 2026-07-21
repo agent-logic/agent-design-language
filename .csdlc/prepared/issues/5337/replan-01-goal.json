@@ -1,0 +1,15 @@
+{
+  "issue": 5337,
+  "card": "sip",
+  "expected_generation": 4,
+  "expected_digest": "48d696d3243a4f8902d3a4e33cff3c8e154ac86ad4682c04c958c7f7ae713f76",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Replace preparation-only goal with the full implementation goal",
+  "operation": {
+    "operation": "replan",
+    "field": "goal",
+    "value": "Implement and prove an independent, versioned characterization and determinism corpus for pinned ADL v1 behavior."
+  },
+  "fail_after_backup": false
+}

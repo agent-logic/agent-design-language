@@ -23,7 +23,7 @@ def require_nextest_contract(source)
     tools = step.fetch("with", {}).fetch("tool", "").to_s.split(/[\s,]+/).reject(&:empty?)
     selected << [step, tools] if tools.any? { |tool| tool.match?(/\A(?:cargo-)?nextest(?:@.*)?\z/) }
   end
-  raise NextestContractError, "CI must retain exactly four declared nextest install steps" unless nextest_steps.length == 4
+  raise NextestContractError, "CI must retain exactly five declared nextest install steps" unless nextest_steps.length == 5
 
   nextest_steps.each do |step, tools|
     name = step.fetch("name", "unnamed nextest install")
@@ -149,6 +149,7 @@ def job_block(job_name: str) -> str:
 
 canonical_actions = {
     "actions/checkout": "9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0",
+    "actions/download-artifact": "37930b1c2abaa49bbe596cd826c3c89aef350131",
     "actions/upload-artifact": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
     "Swatinem/rust-cache": "c19371144df3bb44fab255c43d04cbc2ab54d1c4",
 }
@@ -325,8 +326,6 @@ if authoritative_contract != "bash adl/tools/test_run_authoritative_coverage_lan
         f"found: {authoritative_contract}"
     )
 expected_split_conditions = {
-    "Install cargo-llvm-cov for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.full_coverage_required == 'true'",
-    "Install cargo-nextest for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'",
     "PVF CI release policy contract": "needs.adl_path_policy.outputs.pvf_ci_release_contract_required == 'true'",
     "tracked proof-validation lane contract": "needs.adl_path_policy.outputs.v0913_proof_contract_required == 'true'",
     "PR-fast test lane contract": "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.rust_required == 'true'",
@@ -347,6 +346,18 @@ for step_name, expected_if in expected_split_conditions.items():
         raise SystemExit(
             "adl-ci contract checks must use granular path-policy outputs so narrow policy PRs do not run unrelated contracts; "
             f"{step_name!r} has if: {observed_if!r}"
+        )
+
+for step_name in (
+    "Install cargo-llvm-cov for CI contract checks",
+    "Install cargo-nextest for CI contract checks",
+):
+    install_block = step_block(step_name)
+    conditional = re.search(r"^\s+if:\s+(.+)$", install_block, re.MULTILINE)
+    if conditional:
+        raise SystemExit(
+            "always-run tooling contracts require their llvm-cov and nextest prerequisites to be installed unconditionally; "
+            f"{step_name!r} has if: {conditional.group(1).strip()!r}"
         )
 
 slow_proof_job = job_block("adl-slow-proof")
@@ -394,47 +405,145 @@ if "tool: nextest" not in workflow:
 if "cargo llvm-cov nextest" in workflow:
     raise SystemExit("adl-coverage workflow must delegate coverage execution to runner scripts, not inline nextest")
 
-expected_coverage = (
-    'bash adl/tools/run_authoritative_coverage_lane.sh --authority "${{ steps.path-policy.outputs.coverage_authority }}" '
-    '--event-name "${{ github.event_name }}"'
-)
-expected_wrapped_coverage = (
-    'bash adl/tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- '
-    + expected_coverage
-)
-coverage_step = step_run("Coverage run and summary (json)")
-if coverage_step not in {expected_coverage, expected_wrapped_coverage}:
-    raise SystemExit(
-        "authoritative coverage lane must route through the bounded runner, optionally via the ADL-owned step-log wrapper; "
-        f"found: {coverage_step}"
-    )
-coverage_step_if = step_if("Coverage run and summary (json)")
-if coverage_step_if != "steps.path-policy.outputs.full_coverage_required == 'true'":
-    raise SystemExit(
-        "authoritative coverage execution must be limited to full_coverage_required surfaces; "
-        f"found: {coverage_step_if}"
-    )
+workspace_coverage_step = step_run("Workspace coverage run and summary (json)")
+for required_fragment in (
+    '--name "coverage-workspace-summary-json" --log-root ci-step-logs',
+    'run_authoritative_coverage_lane.sh --profile workspace',
+    '--authority "${{ steps.path-policy.outputs.coverage_authority }}"',
+    '--event-name "${{ github.event_name }}"',
+):
+    if required_fragment not in workspace_coverage_step:
+        raise SystemExit(
+            "workspace producer must run only the workspace authoritative coverage profile; "
+            f"missing fragment: {required_fragment}"
+        )
+if step_if("Workspace coverage run and summary (json)") != "steps.path-policy.outputs.full_coverage_required == 'true'":
+    raise SystemExit("workspace authoritative coverage must remain limited to full_coverage_required surfaces")
+workspace_coverage_block = step_block("Workspace coverage run and summary (json)")
+for required_fragment in (
+    "ADL_AUTHORITATIVE_COVERAGE_LCOV_PATH",
+    "ADL_AUTHORITATIVE_COVERAGE_TEXT_SUMMARY_PATH",
+    "github.event_name != 'pull_request'",
+    "coverage_authority != 'pr_policy_surface_tooling_only'",
+):
+    if required_fragment not in workspace_coverage_block:
+        raise SystemExit(
+            "workspace release artifacts must be generated inside the exact isolated profile run; "
+            f"missing fragment: {required_fragment}"
+        )
+
+runtime_coverage_step = step_run("Runtime coverage run and summary (json)")
+for required_fragment in (
+    '--name "coverage-runtime-summary-json" --log-root ci-step-logs',
+    'run_authoritative_coverage_lane.sh --profile adl-runtime',
+    '--authority "${{ steps.path-policy.outputs.coverage_authority }}"',
+    '--event-name "${{ github.event_name }}"',
+):
+    if required_fragment not in runtime_coverage_step:
+        raise SystemExit(
+            "runtime producer must run only the adl-runtime authoritative coverage profile; "
+            f"missing fragment: {required_fragment}"
+        )
 for root_script_step in (
     "Install lld for coverage",
     "Configure Rust acceleration for coverage",
     "Verify required coverage toolchain",
-    "Coverage run and summary (json)",
+    "Workspace coverage run and summary (json)",
+    "Install lld for runtime coverage",
+    "Configure Rust acceleration for runtime coverage",
+    "Verify required runtime coverage toolchain",
+    "Runtime coverage run and summary (json)",
     "PR fast coverage summary (json)",
-    "Enforce coverage policy gates (workspace + per-file)",
     "Rust acceleration stats for coverage",
+    "Rust acceleration stats for runtime coverage",
 ):
     if step_working_directory(root_script_step) != ".":
         raise SystemExit(
             "coverage workflow steps that call repo-root adl/tools scripts must run from the repository root; "
             f"{root_script_step!r} has working-directory: {step_working_directory(root_script_step)!r}"
         )
-coverage_not_required_step = step_if("Coverage not required by path policy")
-if coverage_not_required_step != "steps.path-policy.outputs.coverage_required != 'true'":
-    raise SystemExit(
-        "adl-coverage must report a truthful non-rust/no-coverage-required state instead of compiling unrelated Rust; "
-        f"found: {coverage_not_required_step}"
-    )
 
+runtime_job = job_block("adl_coverage_runtime_hosted")
+workspace_job = job_block("adl_coverage_workspace_hosted")
+hosted_aggregator = job_block("adl_coverage_hosted")
+required_status_job = job_block("adl-coverage")
+if "cargo llvm-cov report --lcov" in workspace_job:
+    raise SystemExit("workspace workflow must not run detached post-profile lcov commands")
+
+if "runs-on: ubuntu-latest" not in runtime_job or "runs-on: ubuntu-latest" not in workspace_job:
+    raise SystemExit("both isolated coverage producers must use fresh GitHub-hosted runners")
+if "needs.adl_path_policy.outputs.full_coverage_required == 'true'" not in runtime_job.split("runs-on:", 1)[0]:
+    raise SystemExit("runtime coverage producer must run only for full authoritative coverage")
+if "needs.adl_path_policy.outputs.coverage_required == 'true'" not in workspace_job.split("runs-on:", 1)[0]:
+    raise SystemExit("workspace coverage producer must retain coverage-required and PR-fast routing")
+if "PR fast coverage summary (json)" not in workspace_job or "PR fast coverage summary (json)" in runtime_job:
+    raise SystemExit("only the workspace producer may own PR-fast coverage")
+
+for job, artifact_name, summary_name, provenance_name in (
+    (runtime_job, "adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}", "coverage-summary.adl-runtime.json", "coverage-provenance.adl-runtime.json"),
+    (workspace_job, "adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}", "coverage-summary.adl.json", "coverage-provenance.workspace.json"),
+):
+    for required_fragment in (artifact_name, summary_name, provenance_name, "ci-step-logs/"):
+        if required_fragment not in job:
+            raise SystemExit(f"isolated producer artifact is missing {required_fragment}")
+    if "adl/ci-step-logs/" in job:
+        raise SystemExit("coverage log artifacts must upload from repo-root ci-step-logs/")
+
+for job, profile in ((runtime_job, "adl-runtime"), (workspace_job, "workspace")):
+    for required_fragment in (
+        'COVERAGE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}',
+        'COVERAGE_RUN_ID: ${{ github.run_id }}',
+        '"head_sha"',
+        f'"profile": "{profile}"',
+        '"run_id"',
+    ):
+        if required_fragment not in job:
+            raise SystemExit(f"{profile} producer provenance is missing exact run/head/profile evidence: {required_fragment}")
+
+aggregator_header = hosted_aggregator.split("steps:", 1)[0]
+for required_fragment in (
+    "if: always()",
+    "adl_coverage_runtime_hosted",
+    "adl_coverage_workspace_hosted",
+    "route_result: ${{ steps.producer-results.outputs.route_result }}",
+):
+    if required_fragment not in aggregator_header:
+        raise SystemExit(f"hosted coverage aggregator topology is missing {required_fragment}")
+for required_fragment in (
+    "actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131",
+    "coverage-artifacts/runtime",
+    "coverage-artifacts/workspace",
+    'document != expected',
+    'coverage provenance mismatch',
+    'expected_workspace=skipped',
+    'expected_runtime=skipped',
+    'expected_workspace=success',
+    'expected_runtime=success',
+    'PATH_POLICY_RESULT" != success',
+    'WORKSPACE_RESULT" != "$expected_workspace',
+    'RUNTIME_RESULT" != "$expected_runtime',
+    'echo "route_result=success" >> "$GITHUB_OUTPUT"',
+    'echo "route_result=skipped" >> "$GITHUB_OUTPUT"',
+    "python3 adl/tools/merge_coverage_summaries.py",
+    "--workspace coverage-artifacts/workspace/adl/coverage-summary.adl.json",
+    "--adl-runtime coverage-artifacts/runtime/adl/coverage-summary.adl-runtime.json",
+    "--output adl/coverage-summary.json",
+):
+    if required_fragment not in hosted_aggregator:
+        raise SystemExit(f"hosted coverage aggregator is missing fail-closed evidence handling: {required_fragment}")
+
+if "Enforce coverage policy gates (workspace + per-file)" not in hosted_aggregator:
+    raise SystemExit("existing coverage gates must run in the hosted aggregator after summary merge")
+if "Enforce coverage policy gates (workspace + per-file)" in workspace_job:
+    raise SystemExit("workspace producer must not gate an unmerged profile summary")
+if re.search(r"(?:^|\s)aws(?:\s|$)", runtime_job + workspace_job + hosted_aggregator, re.IGNORECASE):
+    raise SystemExit("hosted coverage isolation must not invoke AWS execution")
+
+required_status_names = re.findall(r"^    name:\s+adl-coverage\s*$", workflow, re.MULTILINE)
+if len(required_status_names) != 1 or "name: adl-coverage" not in required_status_job:
+    raise SystemExit("CI must expose exactly one stable required adl-coverage status")
+if '--hosted-result "coverage=${{ needs.adl_coverage_hosted.outputs.route_result }}"' not in required_status_job:
+    raise SystemExit("stable adl-coverage status must verify the aggregator's semantic hosted/Spot route result")
 if not runner_test.exists():
     raise SystemExit(
         "authoritative coverage runner contract test must exist"
@@ -456,10 +565,11 @@ for required_fragment in (
     'printf \'%s\\n\' "$ADL_DIR"',
     'COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"',
     'COVERAGE_CACHE_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"',
-    'COVERAGE_RUN_TARGET_DIR="$COVERAGE_CACHE_TARGET_DIR/llvm-cov-target/$COVERAGE_RUN_ID"',
-    'mkdir -p "$COVERAGE_CACHE_TARGET_DIR" "$COVERAGE_RUN_TARGET_DIR" "$COVERAGE_OUTPUT_ROOT"',
-    'export CARGO_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"',
-    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"',
+    'COVERAGE_RUN_TARGET_ROOT="$COVERAGE_CACHE_TARGET_DIR/llvm-cov-target/$COVERAGE_RUN_ID"',
+    'mkdir -p "$COVERAGE_CACHE_TARGET_DIR" "$COVERAGE_RUN_TARGET_ROOT" "$COVERAGE_OUTPUT_ROOT"',
+    'local profile_target="$COVERAGE_RUN_TARGET_ROOT/$coverage_profile_namespace"',
+    'export CARGO_TARGET_DIR="$profile_target"',
+    'export CARGO_LLVM_COV_TARGET_DIR="$profile_target"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(
@@ -561,10 +671,13 @@ for required_fragment in (
     "cargo llvm-cov report \\",
     "--json \\",
     "--summary-only \\",
-    '--output-path "$ADL_SUMMARY_PATH"',
+    '--output-path "$summary_path"',
     'coverage-summary.adl-runtime.json',
     'COVERAGE_OUTPUT_ROOT="$COVERAGE_BUILD_ROOT/coverage-output/$COVERAGE_RUN_ID"',
     'FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"',
+    'if [ "$PROFILE" = "adl-runtime" ] || [ "$PROFILE" = "all" ]; then',
+    'if [ "$PROFILE" = "workspace" ] || [ "$PROFILE" = "all" ]; then',
+    'python3 "$MERGE_HELPER"',
     'cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"',
 ):
     if required_fragment not in runner_script_text:
@@ -576,25 +689,23 @@ if "    --lib \\" in runner_script_text or "    --tests \\" in runner_script_tex
     raise SystemExit("authoritative coverage runner must not narrow workspace coverage targets")
 
 authoritative_gate_step = step_block("Coverage-impact changed-source gate")
-if 'summary_path="adl/coverage-summary.json"' not in authoritative_gate_step:
+if '--summary adl/coverage-summary.json' not in authoritative_gate_step:
     raise SystemExit(
-        "authoritative changed-source coverage gate must default to adl/coverage-summary.json from the runner output; "
-        "workflow is missing that summary fallback"
+        "authoritative changed-source coverage gate must consume the merged isolated summary"
     )
-if 'adl/target/coverage-impact-summary.json' not in authoritative_gate_step:
+if "coverage-artifacts/workspace/adl/target/coverage-impact-summary.json" in authoritative_gate_step:
     raise SystemExit(
-        "authoritative changed-source coverage gate must prefer focused PR impact summaries when present; "
-        "workflow is missing the focused summary path"
+        "full authoritative changed-source gate must not replace merged coverage with a producer-local focused summary"
     )
 
 pr_preflight_if = step_if("PR coverage-impact preflight")
-if "steps.path-policy.outputs.full_coverage_required != 'true'" not in pr_preflight_if:
+if "needs.adl_path_policy.outputs.full_coverage_required != 'true'" not in pr_preflight_if:
     raise SystemExit(
         "PR coverage-impact preflight must be limited to non-full PR coverage; "
         f"found: {pr_preflight_if}"
     )
 pr_preflight_step = step_block("PR coverage-impact preflight")
-if "args+=(--summary adl/target/coverage-impact-summary.json)" not in pr_preflight_step:
+if "args+=(--summary coverage-artifacts/workspace/adl/target/coverage-impact-summary.json)" not in pr_preflight_step:
     raise SystemExit(
         "PR coverage-impact preflight must validate the focused summary emitted by the PR-fast coverage runner; "
         "workflow is still reading a stale default coverage-summary.json path"
@@ -606,7 +717,7 @@ if "github.event_name != 'pull_request'" not in gate_if:
         "workspace coverage gate must be skipped for pull_request coverage runs; "
         f"found: {gate_if}"
     )
-expected_gate_fragment = "steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'"
+expected_gate_fragment = "needs.adl_path_policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'"
 if expected_gate_fragment not in gate_if:
     raise SystemExit(
         "workspace coverage gate must defer for tooling-only policy authoritative PRs; "
@@ -639,11 +750,13 @@ if expected_deferred_fragment not in deferred_policy_step:
 coverage_profile_summary = step_block("Validation profile summary (adl-coverage)")
 for required_fragment in (
     "ADL coverage validation profile",
-    "steps.path-policy.outputs.coverage_lane",
-    "steps.path-policy.outputs.coverage_authority",
-    "steps.path-policy.outputs.validation_profile_status",
-    "steps.path-policy.outputs.validation_profile_run_lanes",
-    "steps.path-policy.outputs.validation_profile_escalation_required",
+    "needs.adl_path_policy.outputs.coverage_lane",
+    "needs.adl_path_policy.outputs.coverage_authority",
+    "needs.adl_path_policy.outputs.validation_profile_status",
+    "needs.adl_path_policy.outputs.validation_profile_run_lanes",
+    "needs.adl_path_policy.outputs.validation_profile_escalation_required",
+    "needs.adl_coverage_workspace_hosted.result",
+    "needs.adl_coverage_runtime_hosted.result",
     "GITHUB_STEP_SUMMARY",
 ):
     if required_fragment not in coverage_profile_summary:
@@ -659,11 +772,8 @@ if "schedule:" not in nightly or 'cron: "43 11 * * *"' not in nightly:
     )
 
 for step_name in (
-    "Coverage (ADL Rust workspace lcov)",
-    "Coverage summary (text)",
     "Verify generated lcov file",
     "Verify lcov path from repository root",
-    "Upload coverage artifact",
 ):
     step_condition = step_if(step_name)
     if "github.event_name != 'pull_request'" not in step_condition:
@@ -671,6 +781,10 @@ for step_name in (
             f"{step_name} must be skipped for pull_request authoritative coverage runs so PRs avoid nonessential reporting tail; "
             f"found: {step_condition}"
         )
+
+workspace_artifact_if = step_if("Upload workspace coverage evidence")
+if workspace_artifact_if != "always()":
+    raise SystemExit("workspace summary/lcov/log evidence must upload even when a producer step fails")
 
 print("PASS test_ci_runtime_contracts")
 PY

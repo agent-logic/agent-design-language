@@ -1,0 +1,13 @@
+{
+  "issue": 5591,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "fdae035fe3585752ee292cb6755c5fbdd0d616eeb1866bfce84681a0b3e54ce4",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "reason": "Exact integrated-fix-head rereview passed with no findings; retain the explicit +474 reviewed exception and fixed-port SIGTERM residual.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  }
+}

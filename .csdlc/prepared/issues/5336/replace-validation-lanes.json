@@ -1,0 +1,63 @@
+{
+  "issue": 5336,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "c25995322408af20e526a213cf4a98bbccb547a9b2f52a449518e307d94a5632",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f8036-122b-7311-ba23-a5df0f04f9d2",
+  "reason": "Replace the unrelated repository-wide architecture-doc check with issue-specific baseline, budget, structured-data, and exact-range proof.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "runtime-owner-budget",
+        "proof_role": "Measure the current canonical Runtime v3 source posture through its owner report",
+        "acceptance_ids": ["AC-1", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["bash", "adl/tools/report_runtime_v3_loc.sh"],
+        "parallel_group": "local-docs",
+        "defer_reason": null
+      },
+      {
+        "lane": "baseline-json",
+        "proof_role": "Parse the exact baseline and Runtime v3 parity manifests",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["jq", "empty", "docs/milestones/v0.91.8/baseline_and_ownership_v0.91.8.json", "docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json"],
+        "parallel_group": "local-docs",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-wave-yaml",
+        "proof_role": "Parse the canonical v0.91.8 issue graph used by the architecture plan",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["ruby", "-e", "require 'yaml'; YAML.safe_load(File.read('docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml'), aliases: true)"],
+        "parallel_group": "local-docs",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Check the complete issue branch for patch hygiene",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["git", "diff", "--check", "origin/main...HEAD"],
+        "parallel_group": "local-control",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

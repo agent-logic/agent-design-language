@@ -1,0 +1,8 @@
+{
+  "issue": 5336,
+  "expected_generation": 15,
+  "expected_digest": "9d45c0d6f848d482ce66eb40a94870e31395bd6fb46ba01acd57f9be31705d4b",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Recover exact review and publication identity after synchronizing PR #5599 with current main following merged CI repair #5604."
+}

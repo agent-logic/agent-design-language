@@ -1,0 +1,11 @@
+{
+  "schema": "adl.characterization.verification.v1",
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "case_count": 25,
+  "observation_count": 75,
+  "behavior_count": 23,
+  "equivalence_group_count": 2,
+  "difference_group_count": 1,
+  "status": "pass"
+}

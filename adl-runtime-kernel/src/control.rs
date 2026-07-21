@@ -24,7 +24,8 @@ use thiserror::Error;
 use tracing::Instrument;
 
 use crate::{
-    BootstrapEvent, KernelControl, KernelExit, ObservabilityHealth, RuntimeRecorder,
+    BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, IngressError,
+    KernelControl, KernelExit, LiveContinuity, ObservabilityHealth, RuntimeRecorder,
     RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport,
 };
 
@@ -51,6 +52,7 @@ pub fn control_ready_event(instance_id: &str, address: SocketAddr) -> String {
 #[serde(rename_all = "snake_case")]
 pub enum ControlCapability {
     Read,
+    Execute,
     Stop,
 }
 
@@ -58,6 +60,7 @@ pub enum ControlCapability {
 #[serde(tag = "action", rename_all = "snake_case")]
 pub enum ControlAction {
     Snapshot,
+    Submit { work: DomainWork },
     Shutdown { grace_millis: u64 },
 }
 
@@ -65,6 +68,7 @@ impl ControlAction {
     fn capability(&self) -> ControlCapability {
         match self {
             Self::Snapshot => ControlCapability::Read,
+            Self::Submit { .. } => ControlCapability::Execute,
             Self::Shutdown { .. } => ControlCapability::Stop,
         }
     }
@@ -208,6 +212,7 @@ pub enum ControlExit {
 #[serde(tag = "result", rename_all = "snake_case")]
 pub enum ControlOutcome {
     Snapshot { snapshot: Box<RuntimeSnapshot> },
+    Submitted { work_result: DomainResult },
     Shutdown { exit: ControlExit },
 }
 
@@ -255,6 +260,7 @@ pub struct ControlService<C> {
     observatory_allowed_origins: BTreeSet<String>,
     agent_population: AgentPopulationFeed,
     control_addr: Mutex<SocketAddr>,
+    canonical_ingress: Option<CanonicalIngress>,
 }
 
 impl<C: LifecycleControl + 'static> ControlService<C> {
@@ -328,7 +334,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             observatory_allowed_origins,
             agent_population,
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], DEFAULT_CONTROL_API_PORT))),
+            canonical_ingress: None,
         }
+    }
+
+    pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
+        self.canonical_ingress = Some(ingress);
+        self
     }
 
     pub fn initialize_observability(
@@ -402,24 +414,41 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .expect("control address mutex poisoned") = address;
     }
 
-    pub fn pause_admission_if_idle(&self) -> bool {
-        let mut state = self.idempotency.lock().expect("idempotency mutex poisoned");
-        if state
-            .records
-            .iter()
-            .any(|(_, record)| record.response.is_none())
-        {
-            return false;
-        }
-        state.admission_open = false;
-        true
-    }
-
-    pub fn reopen_admission(&self) {
+    pub async fn close_admission_and_drain(&self, deadline: Duration) -> Result<(), IngressError> {
         self.idempotency
             .lock()
             .expect("idempotency mutex poisoned")
-            .admission_open = true;
+            .admission_open = false;
+        if let Some(ingress) = &self.canonical_ingress {
+            ingress.close_and_drain(deadline).await?;
+        }
+        Ok(())
+    }
+
+    pub async fn serialize_terminal_checkpoint(
+        &self,
+        continuity: &mut LiveContinuity,
+        deadline: Duration,
+    ) -> Result<CheckpointManifest, String> {
+        self.close_admission_and_drain(deadline)
+            .await
+            .map_err(|error| error.to_string())?;
+        continuity
+            .checkpoint(&self.recorder, deadline)
+            .await
+            .map_err(|error| error.to_string())
+    }
+
+    pub fn reopen_admission_if_no_terminal(&self) -> bool {
+        let mut state = self.idempotency.lock().expect("idempotency mutex poisoned");
+        if state.terminal_action.is_some() {
+            return false;
+        }
+        state.admission_open = true;
+        if let Some(ingress) = &self.canonical_ingress {
+            ingress.reopen();
+        }
+        true
     }
 
     pub fn observatory_feed(&self) -> ObservatoryFeed {
@@ -469,6 +498,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             continuity: ObservatoryContinuityFeed {
                 checkpoint: continuity_head,
             },
+            ingress: self
+                .canonical_ingress
+                .as_ref()
+                .map(CanonicalIngress::snapshot)
+                .unwrap_or_default(),
             agents: self.agent_population.clone(),
             proof: ObservatoryProofFeed {
                 default_runtime_switch_authorized: false,
@@ -516,6 +550,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     return Err(ControlError::LifecycleAlreadyRequested);
                 }
                 state.terminal_action = Some(command.command_id.clone());
+                state.admission_open = false;
+                if let Some(ingress) = &self.canonical_ingress {
+                    ingress.close();
+                }
             }
             state.records.put(
                 command.command_id.clone(),
@@ -526,10 +564,24 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             );
         }
 
+        let command_id = command.command_id.clone();
+        let terminal = matches!(command.action, ControlAction::Shutdown { .. });
         let service = Arc::clone(self);
-        tokio::spawn(async move { service.execute_reserved(command).await })
+        let result = tokio::spawn(async move { service.execute_reserved(command).await })
             .await
-            .map_err(|_| ControlError::Internal)?
+            .map_err(|_| ControlError::Internal)?;
+        if result.is_err() {
+            let mut state = self.idempotency.lock().expect("idempotency mutex poisoned");
+            state.records.pop(&command_id);
+            if terminal && state.terminal_action.as_deref() == Some(&command_id) {
+                state.terminal_action = None;
+                state.admission_open = true;
+                if let Some(ingress) = &self.canonical_ingress {
+                    ingress.reopen();
+                }
+            }
+        }
+        result
     }
 
     async fn execute_reserved(
@@ -544,9 +596,32 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         );
         let outcome = async {
             match command.action {
-                ControlAction::Snapshot => ControlOutcome::Snapshot {
+                ControlAction::Snapshot => Ok(ControlOutcome::Snapshot {
                     snapshot: Box::new(self.recorder.snapshot()),
-                },
+                }),
+                ControlAction::Submit { work } => {
+                    let result = self
+                        .canonical_ingress
+                        .as_ref()
+                        .ok_or(ControlError::AdmissionClosed)?
+                        .submit(work, command.correlation_id.clone())
+                        .await
+                        .map_err(|error| match error {
+                            IngressError::Invalid | IngressError::UnsupportedKind => {
+                                ControlError::InvalidBounds
+                            }
+                            IngressError::Conflict => ControlError::IdempotencyConflict,
+                            IngressError::Saturated | IngressError::Closed => {
+                                ControlError::AdmissionClosed
+                            }
+                            IngressError::ExecutionFailed | IngressError::DrainTimeout => {
+                                ControlError::Internal
+                            }
+                        })?;
+                    Ok(ControlOutcome::Submitted {
+                        work_result: result,
+                    })
+                }
                 ControlAction::Shutdown { grace_millis } => {
                     let exit = self
                         .lifecycle
@@ -557,12 +632,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             _ => ControlExit::Failed,
                         })
                         .unwrap_or(ControlExit::Failed);
-                    ControlOutcome::Shutdown { exit }
+                    Ok(ControlOutcome::Shutdown { exit })
                 }
             }
         }
         .instrument(span)
-        .await;
+        .await?;
         let response = ControlResponse {
             schema: CONTROL_RESPONSE_SCHEMA.to_owned(),
             command_id: command.command_id.clone(),
@@ -670,6 +745,7 @@ pub struct ObservatoryFeed {
     pub weather: Option<WeatherHealthReport>,
     pub weather_freshness: Option<ObservatoryWeatherFreshness>,
     pub continuity: ObservatoryContinuityFeed,
+    pub ingress: crate::IngressSnapshot,
     pub agents: AgentPopulationFeed,
     pub proof: ObservatoryProofFeed,
     pub events: Vec<BootstrapEvent>,

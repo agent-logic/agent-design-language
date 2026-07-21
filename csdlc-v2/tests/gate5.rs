@@ -395,6 +395,29 @@ fn metadata_only_changes_do_not_stale_a_clean_review() {
 #[test]
 fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
     let (temp, store, implemented) = implemented_fixture();
+    let before = std::fs::read(store.issue_dir(7).join("index.json")).unwrap();
+    let premature = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Srp,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "operator".into(),
+            reason: "not actually recovered".into(),
+            operation: SemanticOperation::CorrectReviewPromptsAfterRecovery {
+                values: vec!["truthful prompt".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .unwrap_err();
+    assert_eq!(premature.code, ErrorCode::InvalidTransition);
+    assert_eq!(
+        std::fs::read(store.issue_dir(7).join("index.json")).unwrap(),
+        before
+    );
     let assigned = assign_review(
         &store,
         ReviewAssignmentRequest {
@@ -483,14 +506,40 @@ fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
         .iter()
         .any(|event| event.operation == "recover_review"));
 
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Srp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            claim_id: "claim".into(),
+            actor: "operator".into(),
+            reason: "correct stale review question after recovery".into(),
+            operation: SemanticOperation::CorrectReviewPromptsAfterRecovery {
+                values: vec!["Does the final hosted mode match current truth?".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct prompts after recovery");
+    let cards = store.load_cards(7).unwrap();
+    let csdlc_v2::cards::CardContent::Srp(srp) = &cards[&CardKind::Srp].content else {
+        panic!("SRP")
+    };
+    assert_eq!(
+        srp.review_prompts,
+        vec!["Does the final hosted mode match current truth?"]
+    );
+
     git(temp.path(), &["add", "docs/new-proof.md"]);
     git(temp.path(), &["commit", "-m", "finalize reviewed changes"]);
     let reassigned = assign_review(
         &store,
         ReviewAssignmentRequest {
             issue: 7,
-            expected_generation: recovered.generation,
-            expected_digest: recovered.digest,
+            expected_generation: corrected.generation,
+            expected_digest: corrected.digest,
             claim_id: "claim".into(),
             reviewer: "reviewer".into(),
             assigned_by: "operator".into(),
