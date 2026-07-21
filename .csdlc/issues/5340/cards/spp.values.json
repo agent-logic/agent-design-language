@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-06] Implement portable bounded execution engine",
     "slug": "v0918-wp06-portable-bounded-execution-engine",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -48,7 +48,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "in_progress"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -62,7 +62,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
