@@ -6,7 +6,7 @@
   "claim": {
     "id": "claim-5498-v0918-wp10a-task-context-adapter-preparation",
     "owner": "codex:issue-5498-preparation",
-    "generation": 0,
+    "generation": 1,
     "acquired_unix_seconds": 1784664000,
     "expires_unix_seconds": 1785268800,
     "heartbeat_unix_seconds": 1784664000,

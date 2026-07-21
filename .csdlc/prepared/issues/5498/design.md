@@ -54,10 +54,15 @@ results to the authorized caller; they do not mutate C-SDLC state directly.
 ## Planned Product Boundary
 
 After the gates open, implementation is isolated under
-`adl-v2/crates/adl-workcell-task-adapter/`. This is disjoint from planned
-`adl-v2/crates/adl-workcell-conductor/` (#5499), the existing milestone
-dashboard extended by #5500, and the separate convergence component owned by
-#5502. Any workspace-manifest edit requires a later typed claim amendment.
+`adl-v2/crates/adl-workcell-task-adapter/`. The normalized planning inventory
+reserves `adl-v2/crates/adl-workcell-conductor/` for #5499,
+`docs/tooling/milestone-dashboard/` for #5500, and
+`adl-v2/crates/adl-workcell-convergence/` for #5502. The preparation validator
+proves these four sets are pairwise disjoint. Because #5502 has not yet bound
+its product claim, its reservation is a fail-closed planning constraint rather
+than authority over #5502: implementation cannot amend the #5498 claim until
+the adjacent owners confirm non-overlapping normalized sets. Any
+workspace-manifest edit also requires a later typed claim amendment.
 
 The public surface should remain small:
 
@@ -98,6 +103,10 @@ custom cryptography, or transcript store is planned.
   not appear in Debug, Display, JSON, logs, or fixtures.
 - Deadlines and cancellation are explicit; unknown completion after timeout is
   classified as indeterminate and cannot be retried as a fresh create.
+- Cancellation uses typed `cancelled`, `already_cancelled`, `completed_before_cancel`,
+  `cancel_rejected`, and `indeterminate` outcomes. Repeated cancellation is
+  idempotent. The transport's final inspect result is authoritative when cancel
+  races completion; no message or handoff is admitted after a terminal cancel.
 
 ## Budgets
 
@@ -105,7 +114,10 @@ custom cryptography, or transcript store is planned.
 - Tests and fixtures: at most 2,500 physical lines and fewer than 100 focused
   tests.
 - Focused validation: at most 180 seconds on FastWork.
-- Complete issue validation: at most 600 seconds on FastWork.
+- Aggregate local validation: at most 600 seconds on FastWork.
+- Complete issue validation including deferred hosted CI: at most 3,600
+  seconds. Hosted CI is integration proof, not a substitute for the 600-second
+  local aggregate.
 - Direct crates: only the six reviewed COTS families above, reusing workspace
   dependencies where present.
 
@@ -121,8 +133,9 @@ exception. The repository-wide 20K ceiling does not authorize local growth.
    disposition, and ancestry for #5499 and #5349.
 3. Future deterministic fixtures cover every operation, identical and
    conflicting retries, stale owner/task/revision/claim/dependency/path state,
-   transcript redaction, cancellation, timeout, unknown completion, and
-   transport failure.
+   transcript redaction, repeated cancellation, cancellation-versus-completion,
+   post-cancellation message and handoff rejection, authoritative terminal
+   inspection, timeout, unknown completion, and transport failure.
 4. Future focused tests prove sanitized #5500 observations and #5502 handoff
    references without retaining transcript bodies.
 5. Strict Clippy, formatting, line/test budgets, network-denied tests, diff

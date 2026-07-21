@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5498/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove six-card, design, diagram, dependency, scope, COTS, budget, privacy, and no-product-change preparation truth",
+    "proof_role": "[release gate: required] Prove six-card, design, diagram, dependency, scope, COTS, budget, privacy, and no-product-change preparation truth",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -46,7 +46,7 @@ Diagram: .csdlc/prepared/issues/5498/diagram.mmd
   },
   {
     "lane": "dependency-gate",
-    "proof_role": "Fail closed until #5499 and final WP-09 gate #5349 have merged typed closeout receipts ancestral to HEAD",
+    "proof_role": "[release gate: optional during preparation; required before implementation] Fail closed until #5499 and final WP-09 gate #5349 have merged typed closeout receipts ancestral to HEAD and adjacent path owners confirm disjoint reservations",
     "acceptance_ids": [
       "AC-2",
       "AC-6"
@@ -64,7 +64,7 @@ Diagram: .csdlc/prepared/issues/5498/diagram.mmd
   },
   {
     "lane": "task-adapter-contract",
-    "proof_role": "Run focused all-target task-adapter tests and strict Clippy from FastWork after dependency gates open",
+    "proof_role": "[release gate: required before publication] Run focused all-target task-adapter tests and strict Clippy from FastWork after dependency gates open",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -83,11 +83,11 @@ Diagram: .csdlc/prepared/issues/5498/diagram.mmd
       ".csdlc/prepared/issues/5498/validate-task-adapter.sh"
     ],
     "parallel_group": "task-adapter-local",
-    "defer_reason": "Preparation only: do not select until #5499 and #5349 are merged, typed closed_out, receipt-backed, ancestral, and the product manifest exists"
+    "defer_reason": "Preparation only: do not select until #5499 and #5349 are merged, typed closed_out, receipt-backed, ancestral, adjacent path owners confirm disjoint reservations, and the product manifest exists"
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Verify the committed preparation patch contains only issue-local lifecycle paths",
+    "proof_role": "[release gate: required] Verify the exact committed preparation patch contains only issue-local lifecycle paths",
     "acceptance_ids": [
       "AC-7"
     ],

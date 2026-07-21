@@ -11,8 +11,9 @@ flowchart TD
     R --> X["#5502 output/handoff reference"]
     X --> L["#5501 live workcell proof"]
 
-    D5499["#5499 merged + typed closed_out"] --> Gate["Implementation dependency gate"]
-    D5349["#5349 WP-09 merged + typed closed_out"] --> Gate
+    D5499["#5499 merged + typed closed_out + retained receipt + ancestry"] --> Gate["Implementation dependency gate"]
+    D5349["#5349 WP-09 merged + typed closed_out + retained receipt + ancestry"] --> Gate
+    Paths["Pairwise-disjoint normalized paths for #5499 / #5498 / #5500 / #5502"] --> Gate
     Gate --> A
 
     M["#4760 Memory Palace at WP-14"] -. "durable context authority" .-> C

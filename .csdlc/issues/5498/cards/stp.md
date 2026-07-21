@@ -31,7 +31,7 @@ Prepare all issue contracts now; do not implement or claim product paths until #
 4. AC-4: Make duplicate requests idempotent and fail closed on stale owner, task identity, revision, claim, dependency, path, or operation-sequence collisions
 5. AC-5: Emit sanitized canonically ordered observation records for #5500 and typed output/handoff references for #5502 without copying private task transcripts
 6. AC-6: Preserve operator control: cancellation and escalation are explicit, time bounded, observable, and cannot grant merge, publication, closeout, issue creation, or scope-widening authority
-7. AC-7: Remain independent of Runtime v2 and stay within 2,500 implementation LoC, 2,500 test/fixture LoC, fewer than 100 focused tests, 180-second focused validation, and 600-second full validation
+7. AC-7: Remain independent of Runtime v2 and stay within 2,500 implementation LoC, 2,500 test/fixture LoC, fewer than 100 focused tests, 180-second focused validation, 600-second aggregate local validation, and 3,600-second complete validation including hosted CI
 
 ## Dependencies
 
