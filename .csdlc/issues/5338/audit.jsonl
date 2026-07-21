@@ -30,3 +30,4 @@
 {"sequence":30,"generation":23,"actor":"subagent:/root/review_5338_exact","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":31,"generation":24,"actor":"codex:5338-owner-watch","reason":"Exact substantive revision 44e8470ce has completed bounded review with no actionable findings after all remediations and fresh FastWork proof.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":32,"generation":25,"actor":"codex:5338-owner-watch","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":33,"generation":26,"actor":"codex:5338-owner-watch","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
