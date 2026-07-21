@@ -33,7 +33,19 @@ Completed the repaired #5589 preparation-only package with all six typed cards s
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_retained_diff_proof_contract.sh",
+      "0dcd4d64616f37937032d9f94356b8319e31dfc2",
+      "19453ea91ba082c87ab971b3e5cc8a2c58f86c92"
+    ],
+    "purpose": "Validate the complete base-to-reviewed-head range for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5589/preparation/committed-review-range.log"
+  }
+]
 
 ## Integration
 

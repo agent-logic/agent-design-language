@@ -20,6 +20,23 @@
         "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
       },
       {
+        "id": "committed-review-range",
+        "proof_role": "Explicit base-to-reviewed-head committed-range proof",
+        "purpose": "Prove the retained substantive repair range exists and has no diff hygiene defects",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "preparation",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 60,
+        "executable": "/usr/bin/env",
+        "argv": ["bash", "adl/tools/test_retained_diff_proof_contract.sh", "0dcd4d64616f37937032d9f94356b8319e31dfc2", "19453ea91ba082c87ab971b3e5cc8a2c58f86c92"],
+        "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+      },
+      {
         "id": "diff-hygiene",
         "proof_role": "Preparation patch hygiene",
         "purpose": "Prove the #5589 preparation packet has no whitespace errors",
@@ -39,11 +56,11 @@
     ]
   },
   "selection": {
-    "requested_lanes": ["complete-preparation-contract", "diff-hygiene"],
+    "requested_lanes": ["complete-preparation-contract", "committed-review-range", "diff-hygiene"],
     "allow_network": false,
     "available_credentials": []
   },
-  "budget": {"max_parallel": 2, "cpu_units": 2, "memory_mib": 256, "tokens": 0},
+  "budget": {"max_parallel": 3, "cpu_units": 3, "memory_mib": 384, "tokens": 0},
   "root": ".",
   "evidence_dir": ".csdlc/evidence/5589/preparation",
   "cancellation_file": null

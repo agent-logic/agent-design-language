@@ -1,0 +1,7 @@
+{
+  "schema": "adl.csdlc.review_range.v1",
+  "issue": 5589,
+  "base_revision": "0dcd4d64616f37937032d9f94356b8319e31dfc2",
+  "reviewed_head_revision": "19453ea91ba082c87ab971b3e5cc8a2c58f86c92",
+  "purpose": "Bind retained validation to the complete substantive repair range for all three exact-review findings"
+}

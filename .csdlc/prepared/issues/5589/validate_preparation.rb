@@ -100,6 +100,42 @@ abort "diagram omits gate-before-actuation flow" unless %w[identity delegation g
 abort "adapter matrix is incomplete" unless matrix.scan(/^\| [^|]+ \|/).length >= 10
 abort "matrix omits degraded zero-credit rule" unless matrix.include?("zero parity credit")
 
+range = JSON.parse(File.read(".csdlc/prepared/issues/5589/review-range.json"))
+base_revision = range.fetch("base_revision")
+reviewed_head_revision = range.fetch("reviewed_head_revision")
+full_revision = /\A[0-9a-f]{40}\z/
+abort "review base is not a full revision" unless full_revision.match?(base_revision)
+abort "review head is not a full revision" unless full_revision.match?(reviewed_head_revision)
+abort "review base does not resolve exactly" unless run_git("rev-parse", base_revision).strip == base_revision
+abort "review head does not resolve exactly" unless run_git("rev-parse", reviewed_head_revision).strip == reviewed_head_revision
+_ancestor_stdout, ancestor_stderr, ancestor_status = Open3.capture3(
+  "git", "merge-base", "--is-ancestor", base_revision, reviewed_head_revision
+)
+abort "review range is not ancestral: #{ancestor_stderr}" unless ancestor_status.success?
+
+reviewed_paths = run_git("diff", "--name-only", "#{base_revision}..#{reviewed_head_revision}").lines.map(&:strip).reject(&:empty?)
+abort "review range is empty" if reviewed_paths.empty?
+reviewed_paths_allowed = reviewed_paths.all? do |path|
+  path.start_with?(".csdlc/issues/5589", ".csdlc/locks/5589.lock", ".csdlc/prepared/issues/5589", ".csdlc/evidence/5589")
+end
+abort "review range contains an out-of-claim path: #{reviewed_paths.join(', ')}" unless reviewed_paths_allowed
+run_git("diff", "--check", "#{base_revision}..#{reviewed_head_revision}")
+
+reviewed_bootstrap = JSON.parse(run_git("show", "#{reviewed_head_revision}:.csdlc/prepared/issues/5589/bootstrap-request.json"))
+abort "reviewed bootstrap title mismatch" unless reviewed_bootstrap.dig("initial", "title") == EXPECTED_TITLE
+KINDS.each do |kind|
+  reviewed_card = JSON.parse(run_git("show", "#{reviewed_head_revision}:.csdlc/issues/5589/cards/#{kind}.values.json"))
+  abort "reviewed #{kind} title mismatch" unless reviewed_card.dig("identity", "title") == EXPECTED_TITLE
+end
+
+reviewed_inventory = JSON.parse(run_git("show", "#{reviewed_head_revision}:#{inventory_path}")).fetch("lanes")
+abort "reviewed focused inventory mismatch" unless reviewed_inventory.keys.sort == FOCUSED_LANES.sort
+reviewed_vpp = JSON.parse(run_git("show", "#{reviewed_head_revision}:.csdlc/issues/5589/cards/vpp.values.json"))
+reviewed_commands = reviewed_vpp.dig("content", "values", "lanes").to_h { |lane| [lane.fetch("lane"), lane.fetch("argv")] }
+FOCUSED_LANES.each do |lane_id|
+  abort "reviewed #{lane_id} omits count guard" unless reviewed_commands.fetch(lane_id).include?(runner_path)
+end
+
 status_paths = run_git("status", "--porcelain=v1").lines.map { |line| line[3..].strip }
 allowed = status_paths.all? do |path|
   path.start_with?(".csdlc/issues/5589", ".csdlc/locks/5589.lock", ".csdlc/prepared/issues/5589", ".csdlc/evidence/5589")
@@ -115,4 +151,5 @@ abort "#5591 unexpectedly satisfies the implementation gate; replan against its 
 abort "#5591 blocker is not concrete" unless parity_a.fetch("phase") == "bound" && parity_a["review"].nil?
 
 puts "cards=6 acceptance=8 spp=complete vpp=complete deferrals=0 claim=preparation-only product_changes=0"
+puts "review_range_base=#{base_revision} review_range_head=#{reviewed_head_revision} reviewed_paths=#{reviewed_paths.length}"
 puts "parity_a_revision=#{parity_a_revision} parity_a_phase=#{parity_a.fetch('phase')} parity_a_review=absent implementation=blocked"

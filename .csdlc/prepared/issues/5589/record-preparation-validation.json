@@ -1,0 +1,24 @@
+{
+  "issue": 5589,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "f9180d46864a23d183b9c09be651f97b8a6ee836d74c69013d9a6f81e12faadc",
+  "claim_id": "claim-5589-runtime-v3-parity-c-preparation",
+  "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+  "reason": "Record the explicit committed repair range after all three exact-review findings pass retained validation",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "adl/tools/test_retained_diff_proof_contract.sh",
+        "0dcd4d64616f37937032d9f94356b8319e31dfc2",
+        "19453ea91ba082c87ab971b3e5cc8a2c58f86c92"
+      ],
+      "purpose": "Validate the complete base-to-reviewed-head range for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5589/preparation/committed-review-range.log"
+    }
+  },
+  "fail_after_backup": false
+}

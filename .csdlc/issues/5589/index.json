@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "812bcef468b7261d7d8cb522251cb0734425060895701091efad37a816ece601",
   "phase": "bound",
-  "generation": 2,
-  "digest": "f9180d46864a23d183b9c09be651f97b8a6ee836d74c69013d9a6f81e12faadc",
+  "generation": 3,
+  "digest": "862858e785607ce354cce9d2122c3ac43503a21b40adca8ce3a5c3d3fc225ca3",
   "claim": {
     "id": "claim-5589-runtime-v3-parity-c-preparation",
     "owner": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1784601578,
     "expires_unix_seconds": 1785206378,
     "heartbeat_unix_seconds": 1784601578,
@@ -39,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b2e01b4d403057fc5f171ffce75be917d469ed9eaddae396b9597d2a1a6aa339",
+      "values_digest": "1ca984ca43df4814c5940d7e6fe62992936bad6668060f92b9b6b4653f897448",
       "rendered_digest": "e4eb2c40819044f7cc76ce912abe672db74767294dc52d3cb4e9bc299c84521a",
       "ast_digest": "b5c2a719075cdd0116ddb7ef2ee6cfe965d29a50aa3a751399579f3d779e92ae"
     },
     "stp": {
-      "values_digest": "c5ea57eeecff67dc192290a1230a168a83057305f2e939eab236dbd5ced5e47e",
+      "values_digest": "4372add16dc67aa2058b30bf1d08d481913bb744ee35cf3c0557943b1eb0e147",
       "rendered_digest": "0bb5d39c70d4b3d76bc1afaf3499fb08556b2be2fb543fa2e58eb333756d433a",
       "ast_digest": "d8a3c985226d547ba7b559e6d58576a7c43a9c621c16289a7d5e14f4cb672bcf"
     },
     "spp": {
-      "values_digest": "ba56d84ab9cc0fa16b7380d78819927fc77f1a4efa33af086353bfa73bd7a779",
+      "values_digest": "58470c7206a0e906ab1686e9a8b934faf33526c6e9477391c1e9ec02aaab4d5b",
       "rendered_digest": "ec52f422fc300685a15bbf82358d67f5081db6f47f2dca4b828dcfd61cd46c8e",
       "ast_digest": "2f3dda8795734696db8ac5d0324eb65df7f0608e8ab60d4e47bf8848758c1524"
     },
     "vpp": {
-      "values_digest": "b1e01058a9c2a3e75bb02d3ddbd7e68d4518e71dfbeb3de5b40003572812c05a",
+      "values_digest": "43b87c96596e7e4e7ed38d28f182e5951d91b58ab915b6559d3720f683c935be",
       "rendered_digest": "436e57ced1c8fce2e364b7f0c755df3c6b07585d1851c213b880e0a8de707b2e",
       "ast_digest": "9505b0680657b74adcbd6d759de219f8245f28d43aa7c1946143c4be5564fe83"
     },
     "srp": {
-      "values_digest": "31507e2534a26ad9f0bbadf7ea7e62eed3fc731862f902c95ea28ad93708746d",
+      "values_digest": "3c1cd63e543888afcd06876392e159e56f2ba5cba790b0554659bb697430b221",
       "rendered_digest": "bb26271a56a8de4cee86a2f38cc9a53ab33ce36cf227a57a20139820bc0ad356",
       "ast_digest": "b71f768652d14ef47271df9cf058cf494b82ef875a9fadf8b330571447d566f3"
     },
     "sor": {
-      "values_digest": "f881dbbe23dd6290e6102a8910068d4187e590589aee5829a6a05d154f0b2a21",
-      "rendered_digest": "95de59e4ca2bdb2a53e67165c2a0ea1e1f4ee5c5673da41a28215402f0747fe4",
-      "ast_digest": "493b5c51290f3334ab7615cf862ae4be9edcd3c62e5836bac6ff542c9be92d4f"
+      "values_digest": "09011e37b1186f82569da811d6966560171fb11fbc738a8b538541cfb05ca0fe",
+      "rendered_digest": "0cd86dc23d4f7f7e83897071068e874ae37930da87eccb15bb6abb5638086693",
+      "ast_digest": "437788df9777ccc2acbe605ca3de1e6c89ca0e9f1ba5912fcd97f20996e786c8"
     }
   },
   "transitions": [
@@ -113,6 +113,13 @@
       "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
       "reason": "Mark only the completed preparation step while preserving every implementation and publication step as pending",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "Record the explicit committed repair range after all three exact-review findings pass retained validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_retained_diff_proof_contract.sh\",\"0dcd4d64616f37937032d9f94356b8319e31dfc2\",\"19453ea91ba082c87ab971b3e5cc8a2c58f86c92\"],\"purpose\":\"Validate the complete base-to-reviewed-head range for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5589/preparation/committed-review-range.log\"}}"
     }
   ]
 }
