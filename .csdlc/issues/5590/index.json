@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
   "phase": "published",
-  "generation": 9,
-  "digest": "97b39c23135488add8da87f7164f1cb6b4ec748a46aa6263bbd0de3e609f38fa",
+  "generation": 10,
+  "digest": "1c1b3801e5abbae2648208881cb37431c0f192581a4b66a0580cd831794a1e80",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 9,
+    "generation": 10,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -169,8 +169,8 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5621",
     "base": "main",
     "head": "codex/5590-runtime-v3-parity-d",
-    "revision": "git-blake3:1f05e2a7da2441d98eff3943e83361540ba8d83e:92f3a8904b4857f91e2e586c8b9c3543407a812147ab34744daf1b3f47be2ad9",
-    "draft": true,
+    "revision": "git-blake3:db0cf4591c87d63c9924fef76a14bec4e375df7c:d66f6e860149f31aa936910839e46e5e2cf1e787f04047c135830b04a8917aa6",
+    "draft": false,
     "observed_state": "open"
   },
   "readiness": null,
@@ -186,34 +186,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "887f43a659c6ef3d2f328fac6d5ec4d16adc0c507e4564087e11ad31c6492119",
+      "values_digest": "50f35db4fb0b9f3ffb6d879ff91225e97844961c4a70057b88500e3a7c0d6a72",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "27addad01943258188848a310684c40897a071779948274ce1ad5b787e9832b8",
+      "values_digest": "2216fed9e9f7225ba01e835755760a66931567b0500c22d779aec8c7ea857a00",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "15cc1856f06129e1cd774a8503eef7500b2400671f7a4eb4548d1365734943ac",
+      "values_digest": "00b09c07eee82987890f8ba89ec4aaf6a3be1550583f12f85296681513dc6c14",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "8116ffc77ac0cac157118022620d88c2d9aa314b1c59ec83742351ce70b6d2aa",
+      "values_digest": "cd987ab572b15148c34c912d67497347966bc8119c72ea1783d2f1ce82b9690d",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "b17cf7a33d6c48d663c4181e93c0dbfd6588ccf197cbd8b0c8c226cf0eea4119",
+      "values_digest": "e9c0aa7b074347f91b900e631722a3f93c66fdb75e6230a1be539e56fe7f128c",
       "rendered_digest": "d219de15fae5c980b13ae530e2a4a1d383429d7443a33e6d0677ba672689ae83",
       "ast_digest": "b9e0e558d796e82a441377de221c2ecaad9572f8bbcd43a6d48f039c9cfde613"
     },
     "sor": {
-      "values_digest": "a7407265402945083572f79ece9aa9ce0cb699c1c5fd361ad60406c848c2d070",
-      "rendered_digest": "ba7f63b0709faf30b96e7feead175b146a018c6d109dda6939a536dab8ce7683",
-      "ast_digest": "c5fb405ecad805f6ee5ce9ae6bd9d00ab38af7a3e4d6574350b86221b5113b37"
+      "values_digest": "c54ec638cefa143f9530d4e7d2ab1a2724d29f3d7d9dab3b15f84131ded62801",
+      "rendered_digest": "9e41f00807b6a29a55e32e3d004957cbdff359027c7bb43d2aa1960306420a82",
+      "ast_digest": "9699d1fd040e94ef7ed105498b34833281b41a2b9c1f9172124187d1fe616118"
     }
   },
   "transitions": [
@@ -386,6 +386,13 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 10,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
     }
   ]
 }
