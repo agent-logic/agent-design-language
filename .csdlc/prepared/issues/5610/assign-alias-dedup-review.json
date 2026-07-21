@@ -1,0 +1,12 @@
+{
+  "issue": 5610,
+  "expected_generation": 16,
+  "expected_digest": "805305b29585edc4674ba20bf19f956edfedec000aa03030868fd0b61f819907",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "reviewer": "subagent:review-5610-alias-dedup",
+  "assigned_by": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "scope": [
+    "adl/tools/merge_coverage_summaries.py",
+    "adl/tools/test_merge_coverage_summaries.sh"
+  ]
+}

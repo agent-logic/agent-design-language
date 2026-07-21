@@ -1,0 +1,22 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 0,
+  "expected_digest": "c7d08cf10d599f876df12c99ca84ad28e692f294d1f58a91b26a080ecb2a7f2c",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Record the bounded, previously reviewed two-file shared coverage correction.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Normalize compiler-emitted coverage filenames lexically before ownership matching while failing closed on repository-prefix or owned-root traversal escapes.",
+    "changes": [
+      "Normalize slash-unified filenames with POSIX lexical semantics",
+      "Permit bounded parent traversal only beneath the owned source root",
+      "Add exact safe-path and repository/owned-root escape regressions"
+    ],
+    "artifacts": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ]
+  }
+}

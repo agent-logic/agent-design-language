@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5610,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][CI][coverage] Normalize safe in-repo coverage paths without weakening traversal rejection",
+    "slug": "coverage-path-normalization",
+    "version": "v0.91.8",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Apply the already-reviewed two-file lexical normalization correction and exact regressions only.",
+      "deliverables": [
+        "Platform-independent lexical filename normalization",
+        "Exact safe-path and traversal-escape regressions",
+        "Focused FastWork validation and exact-head review"
+      ],
+      "acceptance_criteria": [
+        "AC-1: /repo/adl/src/bin/../aws_remote_validation.rs canonicalizes to /adl/src/aws_remote_validation.rs",
+        "AC-2: /repo/adl/src/../../outside.rs and ../adl/src/x.rs fail closed",
+        "AC-3: prefix traversal into an owned marker fails closed",
+        "AC-4: normalized paths outside /adl/src/ and /adl-runtime/src/ are not accepted",
+        "AC-5: provenance, metric, duplicate, total, atomic-output, and coverage gates are unchanged"
+      ],
+      "dependencies": [
+        "Issue #5602 terminal receipt",
+        "PR #5607 failed hosted coverage job 88566164781"
+      ],
+      "repo_inputs": [
+        "adl/tools/merge_coverage_summaries.py",
+        "adl/tools/test_merge_coverage_summaries.sh",
+        "reviewed commit 5c1bbe71f"
+      ],
+      "non_goals": [
+        "No PR #5607 or PR #5608 branch edits",
+        "No coverage threshold or producer changes",
+        "No #5602 terminal-state rewrite",
+        "No AWS work"
+      ]
+    }
+  }
+}

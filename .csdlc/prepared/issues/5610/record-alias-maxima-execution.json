@@ -1,0 +1,24 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 20,
+  "expected_digest": "2e2760a79d65d5dc0ced4d90cb7db73fbe8a81e3609fc4c970332a07fc62c0c4",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record the artifact-grounded conservative canonical-alias correction.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Coalesce lexical aliases for one canonical coverage file conservatively from summary-only evidence.",
+    "changes": [
+      "Require identical metric-name and per-metric field schemas plus identical non-summary fields",
+      "Use per-metric maximum count and covered values without summing",
+      "Recompute notcovered and percent for every coalesced metric",
+      "Add exact artifact-derived and fail-closed regressions"
+    ],
+    "artifacts": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ]
+  },
+  "fail_after_backup": false
+}

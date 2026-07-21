@@ -1,0 +1,10 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "bf841a3af635cf9611d216b47f7a1e09418e34c7f09cec4276c54bcf52cacb87",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Current-main integrated head was re-reviewed with no findings; scoped blobs are byte-identical and focused proof passes.",
+  "operation": {"operation":"advance_phase","phase":"reviewed"}
+}
