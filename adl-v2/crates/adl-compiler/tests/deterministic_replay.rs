@@ -118,8 +118,19 @@ fn clean_process_plan_and_diagnostic_replay_is_byte_identical() {
     let second = run();
     assert!(first.status.success());
     assert!(second.status.success());
-    assert_eq!(first.stdout, second.stdout);
-    assert!(String::from_utf8(first.stdout).unwrap().contains("PLAN="));
+    let payloads = |output: Vec<u8>| {
+        String::from_utf8(output)
+            .unwrap()
+            .lines()
+            .filter(|line| line.starts_with("PLAN=") || line.starts_with("DIAGNOSTICS="))
+            .map(str::to_owned)
+            .collect::<Vec<_>>()
+    };
+    let first_payloads = payloads(first.stdout);
+    let second_payloads = payloads(second.stdout);
+    assert_eq!(first_payloads.len(), 2);
+    assert_eq!(second_payloads.len(), 2);
+    assert_eq!(first_payloads, second_payloads);
 }
 
 #[test]

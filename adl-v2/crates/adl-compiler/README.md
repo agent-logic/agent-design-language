@@ -15,7 +15,9 @@ provenance so a later executor does not need to reread the source document.
 Plan ordering uses ordered collections and a lexical Kahn traversal. Node IDs
 use an explicit `node_v1_` prefix and SHA-256 over the execution-plan contract
 plus a versioned, domain-separated, length-delimited semantic tuple containing
-a digest of the resolved step, task, agent, and provider declarations. Source
-digests use the language crate's canonical bytes. Declared port order is
-preserved. All graph and aggregate input limits are explicit through
-`CompilerLimits` and enforced during construction.
+a digest of effective node semantics: resolved refs and model, effective sorted
+tools, prompt, declared ports, step inputs, and output. Normalized-equivalent or
+unused declaration changes do not churn IDs. Source digests use the language
+crate's canonical bytes. Declared port order is preserved. All graph and
+aggregate input limits are explicit through `CompilerLimits` and enforced
+during construction.

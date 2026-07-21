@@ -494,14 +494,30 @@ fn resolved_declaration_digest(
         })?;
     let agent = &document.agents[agent_ref];
     let provider = &document.providers[&agent.provider];
-    let bytes = serde_json::to_vec(&(step, task, agent_ref, agent, &agent.provider, provider))
-        .map_err(|error| {
-            vec![diagnostic(
-                CompilerDiagnosticCode::InternalInvariant,
-                format!("$.run.workflow.steps.{}", step.id),
-                format!("resolved declaration serialization failed: {error}"),
-            )]
-        })?;
+    let resolved_model = agent.model.as_ref().or(provider.default_model.as_ref());
+    let mut effective_tools: BTreeSet<&str> = agent.tools.iter().map(String::as_str).collect();
+    if !task.tool_allowlist.is_empty() {
+        effective_tools.retain(|tool| task.tool_allowlist.iter().any(|allowed| allowed == tool));
+    }
+    let bytes = serde_json::to_vec(&(
+        &step.id,
+        &step.task,
+        agent_ref,
+        &agent.provider,
+        resolved_model,
+        effective_tools,
+        &task.inputs,
+        &task.prompt,
+        &step.inputs,
+        &step.save_as,
+    ))
+    .map_err(|error| {
+        vec![diagnostic(
+            CompilerDiagnosticCode::InternalInvariant,
+            format!("$.run.workflow.steps.{}", step.id),
+            format!("resolved declaration serialization failed: {error}"),
+        )]
+    })?;
     Ok(sha256_hex(&bytes))
 }
 

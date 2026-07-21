@@ -65,7 +65,29 @@ fn stable_ids_change_with_resolved_execution_semantics() {
         .into_iter()
         .map(|node| node.id)
         .collect();
-    assert_ne!(original_ids, tool_ids);
+    assert_ne!(original_ids[0], tool_ids[0]);
+    assert_eq!(original_ids[1], tool_ids[1]);
+
+    let mut normalized_equivalent = original.clone();
+    normalized_equivalent
+        .agents
+        .get_mut("worker")
+        .unwrap()
+        .tools
+        .reverse();
+    normalized_equivalent
+        .providers
+        .get_mut("local")
+        .unwrap()
+        .config
+        .insert("unused".into(), serde_json::json!(true));
+    let equivalent_ids: Vec<_> = compile(&normalized_equivalent)
+        .unwrap()
+        .nodes
+        .into_iter()
+        .map(|node| node.id)
+        .collect();
+    assert_eq!(original_ids, equivalent_ids);
 }
 
 #[test]
@@ -84,6 +106,6 @@ fn stable_identity_golden_vector_is_versioned() {
     let plan = compile(&common::document(WorkflowKind::Sequential)).unwrap();
     assert_eq!(
         plan.nodes[0].id,
-        "node_v1_b7e032400690bd8bd4abaa32252903ccdc2119d28751e1af5149fbfb21fbce9e"
+        "node_v1_4c74406a7d00ee7c00554dc8aba2a8b76166f30bc812e072a85da0a5b47663ea"
     );
 }
