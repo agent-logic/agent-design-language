@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5384,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14A] Integrated platform acceptance deployment and v0.92 birthday handoff",
+    "slug": "v0918-wp14a-integrated-platform-acceptance-preparation",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Bounded preparation review of only .csdlc/issues/5384, .csdlc/prepared/issues/5384, and .csdlc/locks/5384.lock for card truth, design completeness, dependency topology, PVF/COTS/budget contracts, and inability to authorize product work.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet capture every predecessor named by the live issue, routing comment, canonical wave, and nested Runtime/workcell topology?",
+        "Can this claim authorize any product, Runtime, shared documentation, workflow, test, deployment, or publication write?",
+        "Are COTS, budget, PVF, and promotion requirements concrete and internally consistent?",
+        "Do all six cards remain truthful that preparation is complete while implementation has not started?",
+        "Would any missing receipt, terminal phase, merge disposition, or ancestry fact fail closed?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
