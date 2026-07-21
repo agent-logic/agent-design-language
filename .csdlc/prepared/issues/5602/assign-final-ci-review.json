@@ -1,0 +1,16 @@
+{
+  "issue": 5602,
+  "expected_generation": 24,
+  "expected_digest": "f87d33b707f8d6ffbae2e47b0921975f9bf920d22508ea1c769ffd8e9ba7d0c7",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
+  "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "scope": [
+    ".github/workflows/ci.yaml",
+    "adl/tools/run_authoritative_coverage_lane.sh",
+    "adl/tools/test_run_authoritative_coverage_lane.sh",
+    "adl/tools/test_ci_runtime_contracts.sh",
+    ".csdlc/issues/5602",
+    ".csdlc/prepared/issues/5602"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 5602,
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "expected_generation": 24,
+  "expected_digest": "d1f2a8691448573c51eb2f64d8223f3569c0944382e31c9842f9a0c974215548",
+  "now_unix_seconds": 1784591530,
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Hosted CI proved the corrected llvm-cov parser contract also requires the workflow install condition; protect the coupled producer and consumer surfaces explicitly.",
+  "add_protected_paths": [
+    ".github/workflows/ci.yaml"
+  ]
+}

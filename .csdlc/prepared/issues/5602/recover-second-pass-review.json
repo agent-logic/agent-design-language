@@ -1,0 +1,8 @@
+{
+  "issue": 5602,
+  "expected_generation": 9,
+  "expected_digest": "147bd4853552970b7089db5e75fe13ea79d892cde22b509b56ee5c05368b9e58",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Hosted validation exposed incompatible cargo-llvm-cov flags and a stale coupled CI runtime contract; recover the prior review before recording the corrected exact-head review."
+}
