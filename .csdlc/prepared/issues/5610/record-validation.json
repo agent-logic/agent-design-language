@@ -1,0 +1,18 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 1,
+  "expected_digest": "68741eb735e007ef0280480739cfff988b22dc819073af910f2763372be37263",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Record focused FastWork coverage merger and coupled CI contract proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "adl/tools/test_merge_coverage_summaries.sh"],
+      "purpose": "Prove exact safe lexical normalization, repository and owned-root escape rejection, unchanged merge semantics, and coupled authoritative coverage contracts.",
+      "outcome": "passed",
+      "evidence_ref": "FastWork: test_merge_coverage_summaries, test_ci_runtime_contracts, and test_run_authoritative_coverage_lane all passed; py_compile and git diff --check passed."
+    }
+  }
+}

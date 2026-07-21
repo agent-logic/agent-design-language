@@ -7,7 +7,7 @@
     "title": "[v0.91.8][CI][coverage] Normalize safe in-repo coverage paths without weakening traversal rejection",
     "slug": "coverage-path-normalization",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -26,7 +26,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -38,7 +38,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
