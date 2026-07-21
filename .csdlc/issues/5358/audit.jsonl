@@ -26,3 +26,4 @@
 {"sequence":26,"generation":20,"actor":"codex:019f829f-49d4-7a61-aaf4-3b0b77d07288","reason":"The assigned DeepSeek exact-revision review completed with no actionable findings.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"}
 {"sequence":27,"generation":21,"actor":"codex:019f829f-49d4-7a61-aaf4-3b0b77d07288","reason":"Advance #5358 after exact assigned review completed with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":28,"generation":22,"actor":"codex:issue-5358-slot-3","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":29,"generation":23,"actor":"codex:issue-5358-slot-3","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
