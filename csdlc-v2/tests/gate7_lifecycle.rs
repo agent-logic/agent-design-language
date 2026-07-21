@@ -16,10 +16,11 @@ use csdlc_v2::{
 };
 use std::collections::BTreeMap;
 use std::fs;
-use std::io::{Read, Write};
+use std::io::{BufRead, BufReader, Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::sync::mpsc;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -71,7 +72,9 @@ fn git_output(root: &std::path::Path, args: &[&str]) -> String {
     String::from_utf8(output.stdout).unwrap().trim().to_owned()
 }
 
-#[derive(Clone, Debug)]
+const PULL_REQUEST_PATH: &str = "/repos/example/repo/pulls/70";
+
+#[derive(Clone, Debug, PartialEq, Eq)]
 struct HttpRequest {
     method: String,
     path: String,
@@ -85,6 +88,7 @@ struct HttpResponse {
 struct LocalHttpMock {
     address: SocketAddr,
     requests: Arc<Mutex<Vec<HttpRequest>>>,
+    failures: Arc<Mutex<Vec<String>>>,
     stop: Arc<AtomicBool>,
     thread: Option<thread::JoinHandle<()>>,
 }
@@ -98,28 +102,65 @@ impl LocalHttpMock {
         let address = listener.local_addr().unwrap();
         let requests = Arc::new(Mutex::new(Vec::new()));
         let observed = Arc::clone(&requests);
+        let failures = Arc::new(Mutex::new(Vec::new()));
+        let observed_failures = Arc::clone(&failures);
         let stop = Arc::new(AtomicBool::new(false));
         let should_stop = Arc::clone(&stop);
         let respond = Arc::new(respond);
+        let (started_tx, started_rx) = mpsc::sync_channel(0);
         let thread = thread::spawn(move || {
+            if started_tx.send(()).is_err() {
+                return;
+            }
             while !should_stop.load(Ordering::SeqCst) {
                 match listener.accept() {
                     Ok((mut stream, _)) => {
-                        if let Some(request) = read_http_request(&mut stream) {
-                            observed.lock().unwrap().push(request.clone());
-                            write_http_response(&mut stream, respond(&request));
+                        if let Err(error) = stream.set_nonblocking(false) {
+                            observed_failures
+                                .lock()
+                                .unwrap()
+                                .push(format!("failed to configure accepted stream: {error}"));
+                            continue;
+                        }
+                        match read_http_request(&mut stream) {
+                            Ok(Some(request)) => {
+                                observed.lock().unwrap().push(request.clone());
+                                if let Err(error) =
+                                    write_http_response(&mut stream, respond(&request))
+                                {
+                                    observed_failures
+                                        .lock()
+                                        .unwrap()
+                                        .push(format!("response write failed: {error}"));
+                                }
+                            }
+                            Ok(None) => {}
+                            Err(error) => observed_failures
+                                .lock()
+                                .unwrap()
+                                .push(format!("request read failed: {error}")),
                         }
                     }
                     Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                         thread::sleep(Duration::from_millis(2));
                     }
-                    Err(error) => panic!("mock listener failed: {error}"),
+                    Err(error) => {
+                        observed_failures
+                            .lock()
+                            .unwrap()
+                            .push(format!("listener failed: {error}"));
+                        break;
+                    }
                 }
             }
         });
+        started_rx
+            .recv_timeout(Duration::from_secs(2))
+            .expect("mock listener thread did not start");
         LocalHttpMock {
             address,
             requests,
+            failures,
             stop,
             thread: Some(thread),
         }
@@ -137,6 +178,14 @@ impl LocalHttpMock {
             .filter(|request| request.method == method && request.path == path)
             .count()
     }
+
+    fn requests(&self) -> Vec<HttpRequest> {
+        self.requests.lock().unwrap().clone()
+    }
+
+    fn failures(&self) -> Vec<String> {
+        self.failures.lock().unwrap().clone()
+    }
 }
 
 impl Drop for LocalHttpMock {
@@ -144,36 +193,54 @@ impl Drop for LocalHttpMock {
         self.stop.store(true, Ordering::SeqCst);
         let _ = TcpStream::connect(self.address);
         if let Some(thread) = self.thread.take() {
-            thread.join().unwrap();
+            thread.join().expect("mock listener thread panicked");
         }
     }
 }
 
-fn read_http_request(stream: &mut TcpStream) -> Option<HttpRequest> {
-    stream
-        .set_read_timeout(Some(Duration::from_secs(2)))
-        .unwrap();
-    let mut bytes = Vec::new();
-    let mut chunk = [0_u8; 4096];
+fn read_http_request(stream: &mut TcpStream) -> std::io::Result<Option<HttpRequest>> {
+    stream.set_read_timeout(Some(Duration::from_secs(2)))?;
+    let mut reader = BufReader::new(stream);
+    let mut request_line = String::new();
+    if reader.read_line(&mut request_line)? == 0 {
+        return Ok(None);
+    }
+    let mut content_length = 0;
     loop {
-        let count = stream.read(&mut chunk).ok()?;
-        if count == 0 {
+        let mut header = String::new();
+        if reader.read_line(&mut header)? == 0 {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::UnexpectedEof,
+                "connection closed before request headers completed",
+            ));
+        }
+        if header == "\r\n" {
             break;
         }
-        bytes.extend_from_slice(&chunk[..count]);
-        if bytes.windows(4).any(|window| window == b"\r\n\r\n") {
-            break;
+        if let Some((name, value)) = header.split_once(':') {
+            if name.eq_ignore_ascii_case("content-length") {
+                content_length = value
+                    .trim()
+                    .parse()
+                    .map_err(|error| std::io::Error::new(std::io::ErrorKind::InvalidData, error))?;
+            }
         }
     }
-    let first_line = String::from_utf8_lossy(&bytes).lines().next()?.to_owned();
-    let mut parts = first_line.split_whitespace();
-    Some(HttpRequest {
-        method: parts.next()?.to_owned(),
-        path: parts.next()?.to_owned(),
-    })
+    reader.read_exact(&mut vec![0; content_length])?;
+
+    let mut parts = request_line.split_whitespace();
+    let invalid_request = || {
+        std::io::Error::new(
+            std::io::ErrorKind::InvalidData,
+            "request line is incomplete",
+        )
+    };
+    let method = parts.next().ok_or_else(invalid_request)?.to_owned();
+    let path = parts.next().ok_or_else(invalid_request)?.to_owned();
+    Ok(Some(HttpRequest { method, path }))
 }
 
-fn write_http_response(stream: &mut TcpStream, response: HttpResponse) {
+fn write_http_response(stream: &mut TcpStream, response: HttpResponse) -> std::io::Result<()> {
     let reason = match response.status {
         200 => "OK",
         500 => "Internal Server Error",
@@ -187,7 +254,24 @@ fn write_http_response(stream: &mut TcpStream, response: HttpResponse) {
         response.body.len(),
         response.body
     );
-    stream.write_all(wire.as_bytes()).unwrap();
+    stream.write_all(wire.as_bytes())
+}
+
+fn unexpected_http_request(request: &HttpRequest) -> HttpResponse {
+    HttpResponse {
+        status: 500,
+        body: serde_json::json!({
+            "message": format!("unexpected mock request: {} {}", request.method, request.path)
+        })
+        .to_string(),
+    }
+}
+
+fn http_request(method: &str, path: &str) -> HttpRequest {
+    HttpRequest {
+        method: method.into(),
+        path: path.into(),
+    }
 }
 
 fn issue_snapshot(root: &Path, issue: u64) -> BTreeMap<PathBuf, Vec<u8>> {
@@ -909,11 +993,14 @@ fn ready_command_records_only_exact_open_remote_success() {
         "issue-7",
     );
     let server = LocalHttpMock::start(move |request| {
-        if request.path == "/graphql" {
+        if request.method == "POST" && request.path == "/graphql" {
             return HttpResponse {
                 status: 200,
                 body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR_80","isDraft":false}}}}).to_string(),
             };
+        }
+        if request.method != "GET" || request.path != PULL_REQUEST_PATH {
+            return unexpected_http_request(request);
         }
         let response = if observed_gets.fetch_add(1, Ordering::SeqCst) == 0 {
             &before
@@ -989,9 +1076,14 @@ fn ready_command_rejects_wrong_identity_closed_and_non_draft_without_writes() {
                 "issue-7"
             },
         );
-        let server = LocalHttpMock::start(move |_| HttpResponse {
-            status: 200,
-            body: response.to_string(),
+        let server = LocalHttpMock::start(move |request| {
+            if request.method != "GET" || request.path != PULL_REQUEST_PATH {
+                return unexpected_http_request(request);
+            }
+            HttpResponse {
+                status: 200,
+                body: response.to_string(),
+            }
         });
 
         let output = run_publish_command(temp.path(), "ready", &request, &server);
@@ -1034,7 +1126,7 @@ fn ready_command_graphql_and_post_get_failures_leave_zero_local_writes() {
             "wrong-head",
         );
         let server = LocalHttpMock::start(move |request| {
-            if request.path == "/graphql" {
+            if request.method == "POST" && request.path == "/graphql" {
                 return HttpResponse {
                     status: 200,
                     body: if graphql_failure {
@@ -1043,6 +1135,9 @@ fn ready_command_graphql_and_post_get_failures_leave_zero_local_writes() {
                         serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string()
                     },
                 };
+            }
+            if request.method != "GET" || request.path != PULL_REQUEST_PATH {
+                return unexpected_http_request(request);
             }
             let response = if observed_gets.fetch_add(1, Ordering::SeqCst) == 0 {
                 &initial
@@ -1056,7 +1151,45 @@ fn ready_command_graphql_and_post_get_failures_leave_zero_local_writes() {
         });
 
         let output = run_publish_command(temp.path(), "ready", &request, &server);
-        assert!(!output.status.success());
+        let result: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+        let (expected_status, expected_code, expected_requests) = if graphql_failure {
+            (
+                Some(74),
+                "remote_failure",
+                vec![
+                    http_request("GET", PULL_REQUEST_PATH),
+                    http_request("POST", "/graphql"),
+                ],
+            )
+        } else {
+            (
+                Some(75),
+                "reconciliation_required",
+                vec![
+                    http_request("GET", PULL_REQUEST_PATH),
+                    http_request("POST", "/graphql"),
+                    http_request("GET", PULL_REQUEST_PATH),
+                ],
+            )
+        };
+        assert_eq!(
+            output.status.code(),
+            expected_status,
+            "issue {issue}: stdout={} stderr={} mock_failures={:?}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr),
+            server.failures()
+        );
+        assert_eq!(result["code"], expected_code);
+        assert_eq!(
+            server.requests(),
+            expected_requests,
+            "issue {issue}: stdout={} stderr={} mock_failures={:?}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr),
+            server.failures()
+        );
+        assert!(server.failures().is_empty(), "{:?}", server.failures());
         assert_eq!(server.count("POST", "/graphql"), 1);
         assert_eq!(issue_snapshot(temp.path(), issue), before_files);
     }
@@ -1089,11 +1222,14 @@ fn ambiguous_post_get_recovers_without_repeating_graphql() {
         "issue-7",
     );
     let server = LocalHttpMock::start(move |request| {
-        if request.path == "/graphql" {
+        if request.method == "POST" && request.path == "/graphql" {
             return HttpResponse {
                 status: 200,
                 body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string(),
             };
+        }
+        if request.method != "GET" || request.path != PULL_REQUEST_PATH {
+            return unexpected_http_request(request);
         }
         match observed_gets.fetch_add(1, Ordering::SeqCst) {
             0 => HttpResponse {
@@ -1155,11 +1291,14 @@ fn post_mutation_cas_failure_recovers_without_repeating_graphql() {
         "issue-7",
     );
     let server = LocalHttpMock::start(move |request| {
-        if request.path == "/graphql" {
+        if request.method == "POST" && request.path == "/graphql" {
             return HttpResponse {
                 status: 200,
                 body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string(),
             };
+        }
+        if request.method != "GET" || request.path != PULL_REQUEST_PATH {
+            return unexpected_http_request(request);
         }
         let ordinal = observed_gets.fetch_add(1, Ordering::SeqCst);
         if ordinal == 1 {
