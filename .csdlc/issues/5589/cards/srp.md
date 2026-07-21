@@ -32,78 +32,7 @@ adl-runtime-kernel/tests/governed_operations.rs
 
 ## Findings
 
-[
-  {
-    "id": "replay-fingerprint-bypass",
-    "severity": "p1",
-    "summary": "Cached replay compares only request and citizen identity, allowing changed governed fields and a substituted unrevoked commitment to bypass gate validation.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "provider-io-unbounded",
-    "severity": "p1",
-    "summary": "Blocking process wait cannot be preempted by the Tokio timeout and accumulates unbounded stdout before checking its limit.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "crash-stale-lock",
-    "severity": "p1",
-    "summary": "Directory locking removed only by Drop leaves state permanently busy after process or host crash.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "synthetic-per-request-services",
-    "severity": "p1",
-    "summary": "Fresh passthrough scheduler and shepherd adapters plus a global operation lock do not establish shared resident multi-agent scheduling, saturation, resource races, or cleanup.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "proof-name-overstatement",
-    "severity": "p2",
-    "summary": "Appeal, cancellation-race, scheduler-saturation, and append-only non-authority tests still do not exercise their named semantics.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "unbounded-authoritative-state",
-    "severity": "p2",
-    "summary": "Completed, request-id, and private-state checkpoint collections grow without a declared bound.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "budget-exception-still-unjustified",
-    "severity": "p1",
-    "summary": "The 13,496-line result is additive, duplicates existing assembly patterns, retains synthetic components, and does not justify the +1,287 baseline exception.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -111,12 +40,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The exact +1,095 source delta over the authoritative 12,683 post-#5591 baseline is accepted as functionally necessary and non-duplicative; optional classification/inventory consolidation is non-gating cleanup.
 
 ## Review Result
 
-Revision: Some("git-blake3:353459e57e5f9b3cd96a5372d927088f8c4f8e34:089d7652ef41a655f6879ea90345ddf0cf9e5d6f3b090ea45729306760f1ad20")
+Revision: Some("git-blake3:df71546b6711bab72b7abece94d74317079bedec:1fc64a5141bff924f7b291829fde9103863493aad426fac0f7954e6b1b3d25a4")
 
 Reviewer: Some("subagent:/root/review_5589_exact")
 
-Result: changes_required
+Result: pass
