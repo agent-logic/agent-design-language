@@ -194,6 +194,14 @@ if [ "${ADL_FAKE_CARGO_FAIL_PARTITION_1:-0}" = "1" ]; then
     fi
   done
 fi
+if [ "${ADL_FAKE_CARGO_FAIL_DISTINCT_PARTITIONS:-0}" = "1" ]; then
+  for arg in "$@"; do
+    case "$arg" in
+      count:1/2) exit 77 ;;
+      count:2/2) exit 88 ;;
+    esac
+  done
+fi
 if [ "${ADL_FAKE_CARGO_FAIL_WORKSPACE_PREBUILD:-0}" = "1" ]; then
   saw_workspace=0
   saw_no_run=0
@@ -434,6 +442,22 @@ do
 done
 if [ ! -s "$scratch_root/coverage-output/run-failing/coverage-summary.json" ]; then
   echo "expected final run-scoped summary evidence after partition failure" >&2
+  exit 1
+fi
+
+distinct_failure_log="$temp_root/distinct-failure.log"
+set +e
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$distinct_failure_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-distinct-failures" \
+ADL_FAKE_CARGO_FAIL_DISTINCT_PARTITIONS=1 \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
+distinct_failure_status=$?
+set -e
+if [ "$distinct_failure_status" -ne 77 ]; then
+  echo "expected first partition failure status 77 to win over later status 88, got $distinct_failure_status" >&2
+  cat "$distinct_failure_log" >&2
   exit 1
 fi
 

@@ -239,7 +239,7 @@ run_workspace_coverage_partitions() {
     partition_status=0
     wait "$pid" || partition_status=$?
     statuses+=("$partition_status")
-    if (( partition_status != 0 )); then
+    if (( partition_status != 0 && status == 0 )); then
       status="$partition_status"
     fi
   done

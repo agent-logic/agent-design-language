@@ -1,0 +1,33 @@
+{
+  "issue": 5336,
+  "expected_generation": 21,
+  "expected_digest": "c519edbc6ae8d345b93a9477644f10b2ae23fc24f80a89d1c15b19fffca33e38",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+  "evidence": {
+    "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+    "scope": [
+      "adl/.gitignore",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:c91a6b8cd0f29566c796e2127be91005093e7d7e:dbc3e8bed12dd5ebc032ebc55f572adbe3821fc54c7d1f9955a83eb8703e0cc0",
+    "findings": [
+      {
+        "id": "coverage-first-partition-failure",
+        "severity": "p2",
+        "summary": "Multiple partition failures overwrite the first causal nonzero status.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
