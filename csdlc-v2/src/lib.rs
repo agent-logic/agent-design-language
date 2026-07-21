@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 pub mod cards;
 pub mod cutover;
 pub mod doctor;
@@ -53,9 +55,11 @@ pub use operator::{
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
-    prepare_publication, prepare_ready_publication, reconcile_action, record_merged_publication,
-    record_publication, record_ready_publication, MergedPublicationReconciliationRequest,
-    PublicationAction, PublicationIntent, PublicationRequest, ReadyPublicationRequest,
+    prepare_publication, prepare_ready_publication, prepare_ready_reconciliation, reconcile_action,
+    record_merged_publication, record_publication, record_ready_publication,
+    validate_ready_reconciliation_state, validate_ready_remote,
+    MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
+    PublicationRequest, ReadyPublicationReconciliationRequest, ReadyPublicationRequest,
     RemotePullRequest,
 };
 pub use pvf::{

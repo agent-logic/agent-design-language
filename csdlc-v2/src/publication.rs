@@ -34,6 +34,13 @@ pub struct MergedPublicationReconciliationRequest {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct ReadyPublicationReconciliationRequest {
+    pub schema: String,
+    pub publication: PublicationRequest,
+    pub pull_request: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct ReadyPublicationRequest {
     pub schema: String,
     pub issue: u64,
@@ -174,6 +181,44 @@ impl MergedPublicationReconciliationRequest {
         }
         Ok(())
     }
+}
+
+impl ReadyPublicationReconciliationRequest {
+    pub fn validate(&self) -> Result<()> {
+        if self.schema != "csdlc.ready_publication_reconciliation_request.v1"
+            || self.pull_request == 0
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "ready publication reconciliation request identity is invalid",
+            ));
+        }
+        Ok(())
+    }
+}
+
+pub fn prepare_ready_reconciliation(
+    store: &Store,
+    request: &ReadyPublicationReconciliationRequest,
+) -> Result<PublicationIntent> {
+    request.validate()?;
+    let record = store.load_record(request.publication.issue)?;
+    validate_ready_reconciliation_state(&record)?;
+    let mut preparation = request.publication.clone();
+    preparation.draft = true;
+    let mut intent = prepare_publication(store, &preparation)?;
+    intent.draft = false;
+    Ok(intent)
+}
+
+pub fn validate_ready_reconciliation_state(record: &IssueRecord) -> Result<()> {
+    if record.phase != LifecyclePhase::Reviewed || record.publication.is_some() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "ready reconciliation requires publication-absent reviewed state",
+        ));
+    }
+    Ok(())
 }
 
 fn default_draft() -> bool {
@@ -347,6 +392,21 @@ pub fn validate_remote(intent: &PublicationIntent, remote: &RemotePullRequest) -
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
             "remote PR did not converge to the exact reviewed draft intent",
+        ));
+    }
+    Ok(())
+}
+
+pub fn validate_ready_remote(
+    intent: &PublicationIntent,
+    remote: &RemotePullRequest,
+    pull_request: u64,
+) -> Result<()> {
+    validate_remote(intent, remote)?;
+    if intent.draft || remote.number != pull_request || remote.draft || remote.state != "open" {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "ready PR did not converge to the exact final reviewed intent",
         ));
     }
     Ok(())

@@ -13,7 +13,7 @@ use crate::model::{
 };
 use crate::publication::{
     MergedPublicationReconciliationRequest, PublicationIntent, PublicationRequest,
-    ReadyPublicationRequest, RemotePullRequest,
+    ReadyPublicationReconciliationRequest, ReadyPublicationRequest, RemotePullRequest,
 };
 use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
 use crate::readiness::{ReadinessReport, ReadinessRequest, TerminalObservation};
@@ -55,6 +55,7 @@ pub fn public_schema_bundle() -> Value {
         "publication_review_report": schemars::schema_for!(PublicationReviewReport),
         "publication_request": schemars::schema_for!(PublicationRequest),
         "ready_publication_request": schemars::schema_for!(ReadyPublicationRequest),
+        "ready_publication_reconciliation_request": schemars::schema_for!(ReadyPublicationReconciliationRequest),
         "merged_publication_reconciliation_request": schemars::schema_for!(MergedPublicationReconciliationRequest),
         "publication_intent": schemars::schema_for!(PublicationIntent),
         "remote_pull_request": schemars::schema_for!(RemotePullRequest),

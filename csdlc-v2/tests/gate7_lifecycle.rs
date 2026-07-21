@@ -4,13 +4,15 @@ use csdlc_v2::cards::{
 };
 use csdlc_v2::{
     assign_review, closeout_issue, edit_issue, prepare_ready_publication,
-    record_merged_publication, record_publication, record_readiness, record_ready_publication,
-    record_review, BootstrapRequest, CardKind, Claim, ConflictState, EditRequest, ErrorCode,
-    InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest,
-    ReadinessRequest, ReadyPublicationRequest, ReconcileTerminalRequest, RemotePullRequest,
-    RemoteReviewState, ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest,
-    SemanticOperation, Store, TerminalDesignRepairRequest, TerminalDisposition,
-    TerminalObservation, TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
+    prepare_ready_reconciliation, record_merged_publication, record_publication, record_readiness,
+    record_ready_publication, record_review, validate_ready_reconciliation_state,
+    validate_ready_remote, BootstrapRequest, CardKind, Claim, ConflictState, EditRequest,
+    ErrorCode, InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent,
+    PublicationRequest, ReadinessRequest, ReadyPublicationReconciliationRequest,
+    ReadyPublicationRequest, ReconcileTerminalRequest, RemotePullRequest, RemoteReviewState,
+    ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store,
+    TerminalDesignRepairRequest, TerminalDisposition, TerminalObservation,
+    TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
 };
 
 fn install_native_authority(root: &std::path::Path) {
@@ -482,6 +484,115 @@ fn typed_mark_ready_is_cas_guarded_and_records_only_confirmed_remote_success() {
     assert_eq!(
         fs::read(hostile_store.issue_dir(73).join("index.json")).unwrap(),
         before
+    );
+}
+
+#[test]
+fn typed_ready_reconciliation_records_only_the_exact_open_non_draft_pr() {
+    let (_temp, store, reviewed, sha) = fixture_with_validation_history_and_publication(
+        74,
+        "Ready reconciliation fixture",
+        "typed-ready-reconciliation",
+        vec![],
+        false,
+    );
+    let publication = PublicationRequest {
+        schema: "csdlc.publication_request.v1".into(),
+        issue: 74,
+        expected_generation: reviewed.generation,
+        expected_digest: reviewed.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "publisher".into(),
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "issue-7".into(),
+        title: "Fixture".into(),
+        body: "Closes #74".into(),
+        draft: true,
+        remote: "origin".into(),
+        token_file: None,
+    };
+    let request = ReadyPublicationReconciliationRequest {
+        schema: "csdlc.ready_publication_reconciliation_request.v1".into(),
+        publication: publication.clone(),
+        pull_request: 74,
+    };
+    request.validate().unwrap();
+    let intent = prepare_ready_reconciliation(&store, &request).unwrap();
+    assert!(!intent.draft);
+    let remote = RemotePullRequest {
+        number: 74,
+        url: "https://example.invalid/74".into(),
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "issue-7".into(),
+        title: "Fixture".into(),
+        body: "Closes #74".into(),
+        draft: false,
+        state: "open".into(),
+        head_sha: sha,
+    };
+    validate_ready_remote(&intent, &remote, 74).unwrap();
+    for invalid in [
+        RemotePullRequest {
+            draft: true,
+            ..remote.clone()
+        },
+        RemotePullRequest {
+            state: "closed".into(),
+            ..remote.clone()
+        },
+        RemotePullRequest {
+            number: 75,
+            ..remote.clone()
+        },
+        RemotePullRequest {
+            head_sha: "wrong".into(),
+            ..remote.clone()
+        },
+        RemotePullRequest {
+            repository: "wrong/repo".into(),
+            ..remote.clone()
+        },
+    ] {
+        assert_eq!(
+            validate_ready_remote(&intent, &invalid, 74)
+                .unwrap_err()
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+    }
+    let before = fs::read(store.issue_dir(74).join("index.json")).unwrap();
+    let mut stale = publication.clone();
+    stale.expected_digest = "stale".into();
+    assert_eq!(
+        record_publication(&store, &stale, &intent, remote.clone())
+            .unwrap_err()
+            .code,
+        ErrorCode::StaleDigest
+    );
+    assert_eq!(
+        fs::read(store.issue_dir(74).join("index.json")).unwrap(),
+        before
+    );
+    let published = record_publication(&store, &publication, &intent, remote).unwrap();
+    assert_eq!(published.phase, LifecyclePhase::Published);
+    assert!(!published.publication.as_ref().unwrap().draft);
+    assert_eq!(
+        prepare_ready_reconciliation(&store, &request)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+
+    let mut later_record = reviewed;
+    later_record.phase = LifecyclePhase::Published;
+    assert!(later_record.publication.is_none());
+    assert_eq!(
+        validate_ready_reconciliation_state(&later_record)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
     );
 }
 

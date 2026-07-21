@@ -4,11 +4,13 @@ use std::path::{Path, PathBuf};
 use clap::{Parser, Subcommand};
 use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
-    prepare_publication, prepare_ready_publication, reconcile_action, record_merged_publication,
-    record_publication, record_ready_publication, MergedPublicationReconciliationRequest,
-    PublicationAction, PublicationIntent, PublicationRequest, ReadyPublicationRequest,
+    prepare_publication, prepare_ready_publication, prepare_ready_reconciliation, reconcile_action,
+    record_merged_publication, record_publication, record_ready_publication,
+    MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
+    PublicationRequest, ReadyPublicationReconciliationRequest, ReadyPublicationRequest,
     RemotePullRequest, Store,
 };
+use octocrab::models::IssueState;
 use octocrab::params::State;
 
 #[derive(Parser)]
@@ -30,6 +32,10 @@ enum Command {
         request: PathBuf,
     },
     ReconcileMerged {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    ReconcileReady {
         #[arg(long)]
         request: PathBuf,
     },
@@ -63,12 +69,18 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     if let Command::ReconcileMerged { request } = &cli.command {
         return reconcile_merged(&cli.root, request).await;
     }
+    if let Command::ReconcileReady { request } = &cli.command {
+        return reconcile_ready(&cli.root, request).await;
+    }
     if let Command::Ready { request } = &cli.command {
         return mark_ready(&cli.root, request).await;
     }
     let request_path = match &cli.command {
         Command::Publish { request } | Command::Status { request } => request,
-        Command::ReconcileMerged { .. } | Command::Ready { .. } | Command::Schema => unreachable!(),
+        Command::ReconcileMerged { .. }
+        | Command::ReconcileReady { .. }
+        | Command::Ready { .. }
+        | Command::Schema => unreachable!(),
     };
     let request: PublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
     let store = Store::new(&cli.root);
@@ -256,6 +268,42 @@ async fn reconcile_merged(root: &Path, request_path: &Path) -> csdlc_v2::Result<
         record_merged_publication(&store, &request.publication, &intent, normalized.clone())?;
     Ok(serde_json::json!({
         "schema": "csdlc.merged_publication_reconciliation_result.v1",
+        "publication": normalized,
+        "generation": record.generation,
+        "digest": record.digest,
+    }))
+}
+
+async fn reconcile_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
+    let request: ReadyPublicationReconciliationRequest =
+        serde_json::from_slice(&fs::read(request_path)?)?;
+    let store = Store::new(root);
+    let intent = prepare_ready_reconciliation(&store, &request)?;
+    verify_git_remote(root, &request.publication.remote, &intent)?;
+    let token = resolve_token(&request.publication)?;
+    let crab = octocrab::Octocrab::builder()
+        .personal_token(token)
+        .build()
+        .map_err(|error| remote(error.to_string()))?;
+    let observed = crab
+        .pulls(owner(&intent)?, repo(&intent)?)
+        .get(request.pull_request)
+        .await
+        .map_err(|error| remote(error.to_string()))?;
+    if observed.state != Some(IssueState::Open)
+        || observed.merged == Some(true)
+        || observed.draft != Some(false)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "explicit PR is not open and ready for review",
+        ));
+    }
+    let normalized = normalize(&intent, &observed)?;
+    csdlc_v2::validate_ready_remote(&intent, &normalized, request.pull_request)?;
+    let record = record_publication(&store, &request.publication, &intent, normalized.clone())?;
+    Ok(serde_json::json!({
+        "schema": "csdlc.ready_publication_reconciliation_result.v1",
         "publication": normalized,
         "generation": record.generation,
         "digest": record.digest,
