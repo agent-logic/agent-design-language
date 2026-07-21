@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5613,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][closeout] Reconcile stranded terminal projections atomically",
+    "slug": "terminal-projection-repair",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/model.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/bin/csdlc-closeout.rs\ncsdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md\ncsdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs\n.csdlc/issues/5337\n.csdlc/issues/5339\n.csdlc/issues/5591\n.csdlc/issues/5613\n.csdlc/prepared/issues/5613",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller mutate a terminal SOR without a distinct live authority claim and exact CAS?",
+        "Can matching select zero or multiple validation results?",
+        "Can a failed receipt update leave projection and receipt divergent?",
+        "Does portable issue 5591 evidence remain truthful and preserve original outcomes?",
+        "Do all three terminal projections preserve original PR identity and disposition?",
+        "Does fresh checkout prove collision-free terminal truth?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

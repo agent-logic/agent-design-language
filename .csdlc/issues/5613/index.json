@@ -1,0 +1,86 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5613,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "07b04572fcd246d29c269aaca54e7008ed6db05c08914a976a6f6a506f7fb4fc",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "15aa0835354a90b1b41eff5d70b4fb7c3320c143b1d21900621d3007d482623f",
+  "claim": {
+    "id": "claim-5613-terminal-projection-repair",
+    "owner": "codex:issue-5613-owner",
+    "generation": 0,
+    "acquired_unix_seconds": 1784664530,
+    "expires_unix_seconds": 1784750930,
+    "heartbeat_unix_seconds": 1784664530,
+    "branch": "codex/5613-terminal-projection-repair",
+    "worktree": ".",
+    "protected_paths": [
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md",
+      "csdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs",
+      ".csdlc/issues/5337",
+      ".csdlc/issues/5339",
+      ".csdlc/issues/5591",
+      ".csdlc/evidence/5591/exact-revision/guardian-soak.json",
+      ".csdlc/issues/5613",
+      ".csdlc/prepared/issues/5613",
+      ".csdlc/evidence/5613"
+    ],
+    "purpose": "Atomically repair terminal SOR validation evidence and materialize proven terminal projections"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5613/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5613/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "cd48bf71cf2c212ea50805a523b5bea9c0e96ebcc252b90321026d97b143afae",
+      "rendered_digest": "f8f4aa970408ca8f1fe60b054b7d34d9f88123250e16914f7e7aba78ad683dfd",
+      "ast_digest": "f9a6244d35d0fb37415150cf8a36f8a70891272c91190ce4f1d01a88bcc41e9b"
+    },
+    "stp": {
+      "values_digest": "79308d5a6f9965456d45cc5a7517bf85b0e33891a51b6735d57ffc923ca43ef0",
+      "rendered_digest": "e7753c0606f9f22664b54b80fa2029a9484ef20f4ee665ff6ecc0a6f223ceeca",
+      "ast_digest": "51305d33a67521aa7ddd4de02196dfe4bc43b4f66cd014220c63b4f4a897becb"
+    },
+    "spp": {
+      "values_digest": "3fe478e55e2cd53cd73b369b5ab8f64b5799d84af326eaf9cba09b90b4d98a4f",
+      "rendered_digest": "2c4544f82445e814bd30816e8c60a441f1b4ddc91a5e29860243048adee9e69b",
+      "ast_digest": "1ffa9b372dfb8c4eab6fa9bab97d90140dc053c794cdbea6690dca72cfd22ecf"
+    },
+    "vpp": {
+      "values_digest": "39ece162274e99a67b4eda8309fc5d7230cc546c53c3b88e1cbece967a80d852",
+      "rendered_digest": "a63e75aa9d960a9dd351b9d5fcdada6d9d8ddf1d4883d017f077210c0c97bbdd",
+      "ast_digest": "512c378b68fc8a7f65a92151d6929af88481f44ee9bf1668a87418e9d77a6630"
+    },
+    "srp": {
+      "values_digest": "2b6e72c318d99fac67c31a1baf86beec0913c7d375deb31d1fee251b4abd4aad",
+      "rendered_digest": "3e33381a1bc4c798192c6091312ef4f2139d3649fd2e13a659575327d5d6e442",
+      "ast_digest": "97b03a48315f37db7ebe914e2cce952dc01918bdcd8c2e85b4decaf8443dcf8e"
+    },
+    "sor": {
+      "values_digest": "de890b2c968a5aa1e40d2eb05a25fc3c175ceeaf651d1baf521c72459c871e92",
+      "rendered_digest": "3da22254dd349d9e1205cd77dd0ee6c98c0b676bd214fa8047fbb24fca1951f3",
+      "ast_digest": "a297d98bb2043f7fd321ee3af1520d79666f8c86c5f55f6a977f7ceb461d27a8"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5613-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}
