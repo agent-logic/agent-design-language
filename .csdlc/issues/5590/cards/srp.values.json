@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
     "slug": "v0-91-8-runtime-v3-parity-d-secure-operations",
     "version": "v0.91.8",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/5590/audit.jsonl\n.csdlc/issues/5590/index.json\n.csdlc/prepared/issues/5590/run_filtered_test_lane.sh\n.csdlc/prepared/issues/5590/run_operational_selector_transition.sh\n.csdlc/prepared/issues/5590/transition-guardian-binary-claim.json\n.csdlc/prepared/issues/5590/transition-implementation-claim.json\n.csdlc/prepared/issues/5590/transition-lockfile-claim.json\n.csdlc/prepared/issues/5590/transition-operational-proof-claim.json\n.csdlc/prepared/issues/5590/transition-websocket-dependency-claim.json\nadl-runtime-kernel/Cargo.lock\nadl-runtime-kernel/Cargo.toml\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl/tools/run_runtime_v3_operational_proof.sh\nadl/tools/runtime_v3_operational_selector.sh\nadl/tools/test_runtime_v3_operational_selector.sh\ndemos/v0.91.7/html-observatory/app.js",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:680f5908818c353f8d7df054ad9a87884adbac0f:c11c9725081bd67bf9b48c0ad08ab9ce6007a1a620c2918934d5236fe8852dbc",
+      "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
       "review_prompts": [
         "Does one init model and one Axum/rustls router truthfully cover local and remote access without hard-coded addresses or HTTP?",
         "Do HTTP and WebSocket Observatory paths share authentication, origin, authority, frame, redaction, and live-state contracts?",
@@ -25,9 +25,72 @@
         "Is rollback explicit, reviewed, evidence-preserving, and free of Runtime v2 source edits, automatic cutover, AWS, or deployment claims?",
         "Do S1 through S6 and all lanes cover AC-1 through AC-8 with no deferred or fixture-only parity credit?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "selector-process-ownership",
+          "severity": "p1",
+          "summary": "The operational selector trusts a reusable bare PID and lacks serialization across stop, launch, and state replacement.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "selector-descendant-shutdown",
+          "severity": "p1",
+          "summary": "Forced selector shutdown kills only the guardian PID and can bypass guardian descendant cleanup, orphaning the kernel.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "websocket-token-revocation",
+          "severity": "p1",
+          "summary": "An authenticated Observatory WebSocket remains authorized after bearer-token rotation.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "continuity-proof-overclaim",
+          "severity": "p2",
+          "summary": "The operational proof reports signed continuity without exercising cryptographic restore verification, key identity, integrity, and lineage.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "proof-cleanup-liveness",
+          "severity": "p2",
+          "summary": "Failed-proof cleanup can remove the proof tree before guardian and descendant termination is confirmed.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "observatory-stale-close-state",
+          "severity": "p2",
+          "summary": "The browser does not downgrade live Observatory status after a clean or policy WebSocket close.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "control.rs is 1,248 lines after the issue delta and should be watched for future decomposition; no additional module growth is authorized by this review."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

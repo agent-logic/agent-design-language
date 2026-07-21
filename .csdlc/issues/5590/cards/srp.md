@@ -45,7 +45,68 @@ demos/v0.91.7/html-observatory/app.js
 
 ## Findings
 
-[]
+[
+  {
+    "id": "selector-process-ownership",
+    "severity": "p1",
+    "summary": "The operational selector trusts a reusable bare PID and lacks serialization across stop, launch, and state replacement.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "selector-descendant-shutdown",
+    "severity": "p1",
+    "summary": "Forced selector shutdown kills only the guardian PID and can bypass guardian descendant cleanup, orphaning the kernel.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "websocket-token-revocation",
+    "severity": "p1",
+    "summary": "An authenticated Observatory WebSocket remains authorized after bearer-token rotation.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "continuity-proof-overclaim",
+    "severity": "p2",
+    "summary": "The operational proof reports signed continuity without exercising cryptographic restore verification, key identity, integrity, and lineage.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "proof-cleanup-liveness",
+    "severity": "p2",
+    "summary": "Failed-proof cleanup can remove the proof tree before guardian and descendant termination is confirmed.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "observatory-stale-close-state",
+    "severity": "p2",
+    "summary": "The browser does not downgrade live Observatory status after a clean or policy WebSocket close.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -53,12 +114,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- control.rs is 1,248 lines after the issue delta and should be watched for future decomposition; no additional module growth is authorized by this review.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:680f5908818c353f8d7df054ad9a87884adbac0f:c11c9725081bd67bf9b48c0ad08ab9ce6007a1a620c2918934d5236fe8852dbc")
 
-Reviewer: None
+Reviewer: Some("subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a")
 
-Result: pre_review
+Result: changes_required

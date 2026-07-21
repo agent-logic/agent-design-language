@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "43af8224c14f1af4f612adda620e8bf1cb46b5ea7f19fbb226b6257b35aaf35d",
+  "generation": 6,
+  "digest": "e5f09931a1d53518717331bde7f3f893cfb6b37d0ecd11f75edccabc02584197",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 5,
+    "generation": 6,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -42,9 +42,9 @@
     "purpose": "Implement every #5590 Runtime v3 Parity-D outcome: secure configured HTTPS and WebSocket access, live Observatory consumption, external guardian recovery, Vector telemetry boundary, operational Runtime v3 rollback, and exact positive and negative proof"
   },
   "review_assignment": {
-    "reviewer": "subagent:claude-fable-5",
+    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
     "assigned_by": "codex:5590-sole-writer-takeover",
-    "revision": "git-blake3:e53609a1866e3dd67e27a70fe48a07e4a05b5c03:2438fd628e58c82dc85e19b9c66c6b6168846ac7746acbe02a82d7500637dcaf",
+    "revision": "git-blake3:680f5908818c353f8d7df054ad9a87884adbac0f:c11c9725081bd67bf9b48c0ad08ab9ce6007a1a620c2918934d5236fe8852dbc",
     "scope": [
       ".csdlc/issues/5590/audit.jsonl",
       ".csdlc/issues/5590/index.json",
@@ -68,7 +68,99 @@
       "demos/v0.91.7/html-observatory/app.js"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+    "scope": [
+      ".csdlc/issues/5590/audit.jsonl",
+      ".csdlc/issues/5590/index.json",
+      ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
+      ".csdlc/prepared/issues/5590/run_operational_selector_transition.sh",
+      ".csdlc/prepared/issues/5590/transition-guardian-binary-claim.json",
+      ".csdlc/prepared/issues/5590/transition-implementation-claim.json",
+      ".csdlc/prepared/issues/5590/transition-lockfile-claim.json",
+      ".csdlc/prepared/issues/5590/transition-operational-proof-claim.json",
+      ".csdlc/prepared/issues/5590/transition-websocket-dependency-claim.json",
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/tools/run_runtime_v3_operational_proof.sh",
+      "adl/tools/runtime_v3_operational_selector.sh",
+      "adl/tools/test_runtime_v3_operational_selector.sh",
+      "demos/v0.91.7/html-observatory/app.js"
+    ],
+    "reviewed_revision": "git-blake3:680f5908818c353f8d7df054ad9a87884adbac0f:c11c9725081bd67bf9b48c0ad08ab9ce6007a1a620c2918934d5236fe8852dbc",
+    "findings": [
+      {
+        "id": "selector-process-ownership",
+        "severity": "p1",
+        "summary": "The operational selector trusts a reusable bare PID and lacks serialization across stop, launch, and state replacement.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "selector-descendant-shutdown",
+        "severity": "p1",
+        "summary": "Forced selector shutdown kills only the guardian PID and can bypass guardian descendant cleanup, orphaning the kernel.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "websocket-token-revocation",
+        "severity": "p1",
+        "summary": "An authenticated Observatory WebSocket remains authorized after bearer-token rotation.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "continuity-proof-overclaim",
+        "severity": "p2",
+        "summary": "The operational proof reports signed continuity without exercising cryptographic restore verification, key identity, integrity, and lineage.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "proof-cleanup-liveness",
+        "severity": "p2",
+        "summary": "Failed-proof cleanup can remove the proof tree before guardian and descendant termination is confirmed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "observatory-stale-close-state",
+        "severity": "p2",
+        "summary": "The browser does not downgrade live Observatory status after a clean or policy WebSocket close.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "control.rs is 1,248 lines after the issue delta and should be watched for future decomposition; no additional module growth is authorized by this review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -83,32 +175,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "96005ba3c31fa553578ad84a83070360c9ee79b79c8ff4a81474f44225fec895",
+      "values_digest": "f6ba0c3eb8eca0635a956b879cd41d18af1fd2cef195b6a44105d88ee837f87d",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "0119773d0ee6371442ba24eedd8dd31ed7c02a4ff7c439b654d2d87c5f45ad4f",
+      "values_digest": "68523869690f4da6624ad3015b8b792b4ea5e59d1f92696ee7f46c6c26f90fae",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "d264e32933b9145188a07493dda24e0f7a76a075bc760461c9bde54251744759",
+      "values_digest": "b42d230c6c791d80a85abe214ae03495592418057359e4066d3dd2dd31ff5f26",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "0aa266b21af442e247d6fedd4fb05abf39e1890ee62501cec6e585c6d9dfc3b7",
+      "values_digest": "aa1d082e4e1f08a89110098a05491ee0659b0ffe3b9d70002815da8cb5a1e563",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "758b5546ba5df29b7468306d0db5222eef973ef4c6d5cdfeea0c5997a718007c",
-      "rendered_digest": "7108c15efbba302410db42d5251deb2659fbea684a5525d3b49ea0e0c4bd439f",
-      "ast_digest": "dfca6fdfd7d6b80223392dc7c8e6beda610a29f80fb66a8c3aa7489c96378c21"
+      "values_digest": "26ab8510b72ec9ba17e9ba43d361721c0104b2e886bcc82b5343d779c94c4ed2",
+      "rendered_digest": "378e78c89d7846dc376a4f182e8f532e45621cf811566473e71f3b7f0b695044",
+      "ast_digest": "4a6fa8c7d394cebb154dde978f09942c1947ca6a86232a52cdf76bd4ef57558f"
     },
     "sor": {
-      "values_digest": "122e85350df495c14a1fa138915284c690fed7cf1a85d9bb33c728db473cfbde",
+      "values_digest": "1e6ecd630f5e181f2cdaf0cdf2d93c25878c742a0134e1c2dd4b9407ec98d818",
       "rendered_digest": "3f877294b0d11d0689f04cbc913d47bfc7bc704ca5d71a4357c996d8ee84ba85",
       "ast_digest": "290197c34d1b51b71110f57e4164341e72d8c0a307beffdab0d08c3b97b24ea6"
     }
@@ -227,6 +319,20 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 5,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 6,
+      "actor": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }
