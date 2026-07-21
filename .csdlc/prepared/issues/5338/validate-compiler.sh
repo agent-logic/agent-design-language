@@ -48,8 +48,8 @@ case "${mode}" in
     ;;
   budgets)
     start="$(date +%s)"
-    implementation_lines="$({ find "${crate_root}/src" "${crate_root}/examples" -type f -print0 2>/dev/null; find "${crate_root}" -maxdepth 1 -type f -name 'build.rs' -print0 2>/dev/null; } | sort -z | xargs -0 wc -l | awk 'END {print $1 + 0}')"
-    test_lines="$({ find "${crate_root}/tests" "${crate_root}/fixtures" "${crate_root}/benches" "${crate_root}/scripts" -type f -print0 2>/dev/null; } | sort -z | xargs -0 wc -l | awk 'END {print $1 + 0}')"
+    implementation_lines="$(find "${crate_root}" -type f \( -path "${crate_root}/src/*" -o -path "${crate_root}/examples/*" -o -path "${crate_root}/build.rs" \) -print0 | sort -z | xargs -0 wc -l | awk 'END {print $1 + 0}')"
+    test_lines="$(find "${crate_root}" -type f \( -path "${crate_root}/tests/*" -o -path "${crate_root}/fixtures/*" -o -path "${crate_root}/benches/*" -o -path "${crate_root}/scripts/*" \) -print0 | sort -z | xargs -0 wc -l | awk 'END {print $1 + 0}')"
     unbudgeted_code="$(find "${crate_root}" -type f \( -name '*.rs' -o -name '*.sh' -o -name '*.rb' -o -name '*.py' \) ! -path "${crate_root}/src/*" ! -path "${crate_root}/examples/*" ! -path "${crate_root}/tests/*" ! -path "${crate_root}/fixtures/*" ! -path "${crate_root}/benches/*" ! -path "${crate_root}/scripts/*" ! -path "${crate_root}/build.rs" -print)"
     if [[ -n "${unbudgeted_code}" ]]; then
       echo "unbudgeted code surface detected" >&2

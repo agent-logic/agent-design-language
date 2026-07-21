@@ -27,7 +27,8 @@ The public compiler is one total, side-effect-free transformation:
 
 1. Resolve declared language identities and references against the validated
    document without consulting external registries.
-2. Expand composition and pattern constructs in an explicitly specified order.
+2. Expand validated workflow composition in an explicitly specified order:
+   sequential edges, concurrent fan-out, saved-state dependencies, and joins.
 3. Lower the expanded graph into typed plan nodes and edges.
 4. Derive each node identity from a domain-separated canonical semantic path,
    never traversal order, address, process state, clock, or randomness.
@@ -55,6 +56,18 @@ Golden vectors pin preimages and IDs. Permutation, repeated-run, clean-process,
 and equivalent-source tests require identical plan bytes. Semantic changes
 that affect execution identity must change the relevant node ID; unrelated
 changes must not churn stable identities.
+
+## Landed language boundary
+
+The merged #5339 API represents composition with `WorkflowKind::Sequential`,
+`WorkflowKind::Concurrent`, ordered `WorkflowStep` values, and `@state:` input
+references. It deliberately rejects the incumbent top-level `patterns` and
+`run.pattern_ref` syntax. The compiler therefore expands only constructs that
+survive typed language validation. The characterization fixtures `branch-a`,
+`branch-b`, and `fork-join` remain explicit legacy-pattern evidence and are
+classified as non-input cases until a separately reviewed language version
+adds an equivalent typed construct. WP-05 must not acquire YAML parsing or
+silently accept rejected legacy syntax to manufacture pattern coverage.
 
 ## ExecutionPlan boundary
 
@@ -99,7 +112,8 @@ budget proof, must complete within 600 seconds. All Cargo output uses
 
 ## Validation and fixtures
 
-- Golden fixtures cover resolution, composition, pattern expansion, ports,
+- Golden fixtures cover resolution, sequential/concurrent composition,
+  saved-state dependency expansion, joins, ports,
   edges, stable node identity, and canonical JSON.
 - Negative fixtures cover unresolved or ambiguous references, expansion
   conflicts, cycles discovered during lowering, duplicate node preimages,
@@ -107,7 +121,8 @@ budget proof, must complete within 600 seconds. All Cargo output uses
 - Equivalent-document permutations and repeated fresh-process runs must emit
   byte-identical plans and diagnostics.
 - The compiler must map every applicable #5339 fixture and explicitly classify
-  non-compiler cases; no fixture is silently skipped.
+  language-rejected legacy-pattern and other non-compiler cases; no fixture is
+  silently skipped.
 - Contract tests prove `ExecutionPlan` contains no execution authority and is
   consumable as deterministic data by the future WP-06 boundary.
 - Dependency, source/test LoC, strict Clippy, diff hygiene, focused latency,

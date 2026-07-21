@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-05] Implement pure deterministic ADL compiler",
     "slug": "v0918-wp05-pure-deterministic-adl-compiler",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -115,7 +115,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed without implementation, publication, merge, or closeout on a false or stale #5339 dependency signal, ambiguous resolution or expansion semantics, identity collision, nondeterministic plan or diagnostic bytes, silent fixture skip, execution-authority leak, forbidden dependency, unsupported budget variance, stale review, red CI, absent merge authorization, or incomplete post-merge typed evidence.",
       "design_ref": ".csdlc/prepared/issues/5338/design.md",
-      "design_digest": "3d2b4d399dad8b8e49df841f46015505a73633d55de777b476f235ef0b7954b5",
+      "design_digest": "b0034e2fae42d5d23cee5dd0f9c320a932b3c067d7dd69194548c672263946f9",
       "diagram_ref": ".csdlc/prepared/issues/5338/diagram.mmd",
       "diagram_digest": "80b58c32f620c43cb0aaedfa8ebfe6ede9501523d87e67718f12eb4c1b843756"
     }

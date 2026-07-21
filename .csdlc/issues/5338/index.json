@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "199fbe42a3df206676fb4c08e306473ef17bb34c2be2c2e69c0cd371890f5f6f",
   "phase": "bound",
-  "generation": 7,
-  "digest": "5944fcaf2e3d9a5bb75a776aac72d1a030ec3873b44486638443f5118346e041",
+  "generation": 13,
+  "digest": "462efc321c6e44df3b0af1c66da8d58f6889d142da8ca985a0835d6fc2769533",
   "claim": {
     "id": "claim-5338-v0918-wp05-owner",
     "owner": "codex:5338-owner-watch",
-    "generation": 7,
+    "generation": 13,
     "acquired_unix_seconds": 1784616770,
     "expires_unix_seconds": 1785221570,
     "heartbeat_unix_seconds": 1784616770,
@@ -20,9 +20,10 @@
       ".csdlc/issues/5338",
       ".csdlc/locks/5338.lock",
       ".csdlc/prepared/issues/5338",
-      "adl-v2/crates/adl-compiler"
+      "adl-v2/crates/adl-compiler",
+      "adl-v2/crates/adl-compiler/Cargo.toml"
     ],
-    "purpose": "Own, prepare, and watch #5338 one dependency wave ahead; product implementation remains prohibited until #5339 is merged and typed closed_out"
+    "purpose": "Implement, validate, review, publish, shepherd, merge with authorization, prove post-merge state, and typed-closeout #5338 after the #5339 terminal predicate passed"
   },
   "review_assignment": null,
   "review": null,
@@ -34,40 +35,40 @@
   "diagram_path": ".csdlc/prepared/issues/5338/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5338-preparation-review",
-      "revision": "3d2b4d399dad8b8e49df841f46015505a73633d55de777b476f235ef0b7954b5"
+      "reviewer": "codex:5338-landed-api-replan",
+      "revision": "b0034e2fae42d5d23cee5dd0f9c320a932b3c067d7dd69194548c672263946f9"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "b22acfa7c5bf33dd5644c0af0ab3558117ccd582b7d7dd26a07bf2a1e5396b1f",
+      "values_digest": "a5103299f6d993a6bbd3e1dfc7d842c441a2bf0c6c92db31c167fbff5b208df9",
       "rendered_digest": "143b769211b927ac15dc47385247f82553065dc1e01f662f9fde0e5fce05eda7",
       "ast_digest": "6cbfc5d575d66a724a66b9c43fc5a2c1f47ace0af0c4070a5eebe9817bc3826c"
     },
     "stp": {
-      "values_digest": "801dcb9c36757414b6f5e7a59d5401289452b6cabbde113253334fcb57fe082e",
+      "values_digest": "7ee2bca1afd6b3078d60a856df48259ff32adad4e5c36ad024ec1ca4faaa6232",
       "rendered_digest": "9d3b3fe4361aa7190e23a0b9f5ba75d24310b019284eed25338e3271fa7d47d8",
       "ast_digest": "47e7f76523de89603aff666d1b56df4a4179ab6394b7f047875e81816332f2f3"
     },
     "spp": {
-      "values_digest": "c7466571d60f39a478b2296222e5ce7a99ae3451eb215f3c049f78d674848b9a",
-      "rendered_digest": "d18c2786aac23a6470ac3ccced3095356cab1ce826958d45711560bbde978b8c",
-      "ast_digest": "1492d89a06aa8cacef2ba01c2bac3690fc1de21ddc8b9a935ae0ea51d65c627d"
+      "values_digest": "e7376d4c3e727099e5933b5e2e8230c39572b346b63092dc1c1c5049e7f59b48",
+      "rendered_digest": "b11f3324f5450722bb5188da4006821a634cba186cef6f19c28758396a7faad6",
+      "ast_digest": "d273c69d8df6a2e15baceac7dd4b696ae299192e314155bfdb5aa987c1bb9792"
     },
     "vpp": {
-      "values_digest": "d1007f0053a1caf0899cc07909acc818bd8a47404b5c93a55238108d59329d18",
+      "values_digest": "ea2fead93eea8d15626e75e07896480552e891faf7dcd92571db04c435d24c66",
       "rendered_digest": "eed7f6f64832f8a361ca6e38253a002cd49f66644b96e9b95a5f6a36a22e77bf",
       "ast_digest": "976777fee88652944f810af9caeea3058370a7e5a3c91cd67e1e84a088bd4570"
     },
     "srp": {
-      "values_digest": "025872413b141662bab47e7d4fbedaf5da0044111c9021632a66b288e1c93041",
+      "values_digest": "179a8439ee8e792ecb743645595e602210ce050e3e579a6af226c574127d3775",
       "rendered_digest": "1be23a77f282043362877d65d297ded80dd8d63e1251813aa96d2cccdea2fcdc",
       "ast_digest": "96b10751ac0c856b8ce7317e901302c2903d93617c9f6a3693b9c40155bcc26d"
     },
     "sor": {
-      "values_digest": "6c7cfc30eddec1a4a033e7bd92ab140c9cb7acffca4ce88679e74ad975d55229",
-      "rendered_digest": "617d017b18c349cc0f032df135abc9ac3e105258edcadc5da9e30aba361efa94",
-      "ast_digest": "ce52a7d071c803589e0ec3051b46f43e5841bfdc1038508cfd435d8deded8295"
+      "values_digest": "284871d0d518341da52052fb1707508d65a80f6ee4b5f594c27babf72befae69",
+      "rendered_digest": "fdfba4f8843d7f975140ade738208466bb638702b77bddecea1246eb5f90689e",
+      "ast_digest": "ebab9284f01d37fb22f195066f2669beb80dfe55643836c39a2b541c22efd57b"
     }
   },
   "transitions": [
@@ -156,6 +157,55 @@
       "actor": "codex:5338-owner-watch",
       "reason": "Record the typed local preparation proof after all bounded review findings were fixed.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"preparation-contract-5338\",\"typed-doctor-5338\"],\"purpose\":\"Prove six-card integrity, bound protected scope, reviewed design and diagram, executable dependency and budget contract, root safety, and typed doctor health without running product implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5338/preparation-validation: local_pass; preparation-contract 163ms; typed doctor 29ms; bounded preparation review PASS with no remaining actionable findings\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Retained #5339 receipt proves closed_out with released claim and merged ancestry on current origin/main; activate the prepared deterministic compiler implementation lane.",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/crates/adl-compiler/Cargo.toml\"],\"expected_owner\":\"codex:5338-owner-watch\",\"expected_purpose\":\"Own, prepare, and watch #5338 one dependency wave ahead; product implementation remains prohibited until #5339 is merged and typed closed_out\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Own, prepare, and watch #5338 one dependency wave ahead; product implementation remains prohibited until #5339 is merged and typed closed_out\",\"purpose\":\"Implement, validate, review, publish, shepherd, merge with authorization, prove post-merge state, and typed-closeout #5338 after the #5339 terminal predicate passed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5338-landed-api-replan",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Reconcile the prepared compiler plan with the exact #5339 language API and merged squash ancestry before implementation.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"The retained #5339 terminal receipt is closed_out with claim released, PR #5612 merged at reviewed head ba604e5f0ee16af901a4d8d7cb801c323500828d, and squash merge 860aa9f18946a2cd9407b610d5c00d44ddc89053 is an ancestor of this issue worktree. Implement only against the landed typed adl-language API: lower validated sequential or concurrent workflows plus explicit saved-state dependencies into an inert deterministic ExecutionPlan; resolve task, agent, provider, model, and tool references; canonicalize with ordered collections; generate versioned domain-separated stable node identities; and fail closed on limits, collisions, cycles, or unsupported inputs. Legacy top-level patterns remain intentionally outside the compiler input contract because adl-language rejects and cannot represent them. Preserve the reviewed COTS set and executable ceilings: focused <=120 seconds, quality <=120 seconds, replay <=300 seconds, and full measurement plus tests <=600 seconds. Any boundary, dependency, protected-path, or budget variance requires typed replanning and review.\",\"operation\":\"replan\",\"previous_value\":\"Freeze compiler purity, ExecutionPlan shape, stable identity, COTS, protected paths, and hard budgets during preparation; wait for #5339 merged plus typed closed_out; then implement, prove, review, publish, shepherd, and close out. The automatically generated large-profile SPP execution_estimates.validation_seconds and VPP planned_validation_seconds fields are end-to-end lifecycle, deferred-lane, and CI scheduling reservations, not acceptance allowances. The VPP per-lane budget_seconds values and executable gates are authoritative: focused <=120 seconds, quality <=120 seconds, replay <=300 seconds, and the complete deterministic budget lane including measurement and tests <=600 seconds. Exceeding any lane ceiling requires typed replanning and review.\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:5338-owner-watch",
+      "reason": "The retained #5339 closed_out receipt, released claim, exact reviewed PR head, merged squash commit, and current branch ancestry all pass the executable dependency verifier.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Implemented the pure deterministic compiler, inert versioned ExecutionPlan, bounded lowering, ordered diagnostics, and domain-separated stable identities within the approved crate boundary.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Added real landed-fixture characterization, JSON/YAML and repeated replay parity, stable identity locality and golden vectors, fail-closed limits and diagnostics, exact COTS enforcement, and executable LoC/time budgets.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Record the bounded local compiler proof before exact-revision review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"validate-compiler.sh focused\",\"validate-compiler.sh quality\",\"validate-compiler.sh determinism\",\"validate-compiler.sh budgets\"],\"purpose\":\"Prove deterministic pure lowering, landed characterization mapping, stable node identity, diagnostics and limits, dependency/COTS restrictions, formatting/clippy quality, LoC ceilings, and FastWork execution-time ceilings.\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork proof: 12 tests passed; clippy -D warnings passed; implementation 447 LoC; tests/fixtures 289 LoC; full budget lane 1s; all declared ceilings satisfied\"}}"
     }
   ]
 }

@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Freeze compiler purity, ExecutionPlan shape, stable identity, COTS, protected paths, and hard budgets during preparation; wait for #5339 merged plus typed closed_out; then implement, prove, review, publish, shepherd, and close out. The automatically generated large-profile SPP execution_estimates.validation_seconds and VPP planned_validation_seconds fields are end-to-end lifecycle, deferred-lane, and CI scheduling reservations, not acceptance allowances. The VPP per-lane budget_seconds values and executable gates are authoritative: focused <=120 seconds, quality <=120 seconds, replay <=300 seconds, and the complete deterministic budget lane including measurement and tests <=600 seconds. Exceeding any lane ceiling requires typed replanning and review.
+The retained #5339 terminal receipt is closed_out with claim released, PR #5612 merged at reviewed head ba604e5f0ee16af901a4d8d7cb801c323500828d, and squash merge 860aa9f18946a2cd9407b610d5c00d44ddc89053 is an ancestor of this issue worktree. Implement only against the landed typed adl-language API: lower validated sequential or concurrent workflows plus explicit saved-state dependencies into an inert deterministic ExecutionPlan; resolve task, agent, provider, model, and tool references; canonicalize with ordered collections; generate versioned domain-separated stable node identities; and fail closed on limits, collisions, cycles, or unsupported inputs. Legacy top-level patterns remain intentionally outside the compiler input contract because adl-language rejects and cannot represent them. Preserve the reviewed COTS set and executable ceilings: focused <=120 seconds, quality <=120 seconds, replay <=300 seconds, and full measurement plus tests <=600 seconds. Any boundary, dependency, protected-path, or budget variance requires typed replanning and review.
 
 ## Plan
 
-Revision 5
+Revision 6
 
 ## Steps
 
@@ -39,7 +39,7 @@ Revision 5
       "AC-6",
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -50,7 +50,7 @@ Revision 5
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -62,7 +62,7 @@ Revision 5
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",
@@ -110,7 +110,7 @@ Revision 5
 
 .csdlc/prepared/issues/5338/design.md
 
-Digest: 3d2b4d399dad8b8e49df841f46015505a73633d55de777b476f235ef0b7954b5
+Digest: b0034e2fae42d5d23cee5dd0f9c320a932b3c067d7dd69194548c672263946f9
 
 ## Diagram
 
