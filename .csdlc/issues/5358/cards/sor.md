@@ -59,6 +59,14 @@ Implemented fail-closed ready-publication validation and deterministic recovery 
     "purpose": "Prove the ready-publication command matrix, recovery/CAS invariants, warning-free all-target compilation, and canonical formatting.",
     "outcome": "passed",
     "evidence_ref": "local-fastwork:gate7-21-pass-clippy-fmt"
+  },
+  {
+    "command": [
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-test-target cargo test --locked --manifest-path csdlc-v2/Cargo.toml --all-targets"
+    ],
+    "purpose": "Prove the complete C-SDLC v2 test surface, including clean-source installer and provenance contracts, after committing the publication repair implementation.",
+    "outcome": "passed",
+    "evidence_ref": "local-fastwork:csdlc-v2-all-targets-pass-167e8b9b4"
   }
 ]
 

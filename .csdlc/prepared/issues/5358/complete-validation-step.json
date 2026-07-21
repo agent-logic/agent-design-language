@@ -1,0 +1,14 @@
+{
+  "issue": 5358,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "9cacebf38e512be500a4648553a839da3aafb670828eaceb1ce5abf742e3e1ff",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+  "reason": "Focused lifecycle tests, all-target tests, strict Clippy, formatting, and typed doctor validation are green.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "completed"
+  }
+}

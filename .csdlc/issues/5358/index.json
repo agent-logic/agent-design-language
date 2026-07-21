@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "01f1cbd130568ad8c19e505efe3e30a63e54dd6cdfee7aa974b0a5d51b174510",
+  "generation": 16,
+  "digest": "5c8a5b6474ab48b0d52040d5f6357a3368f9a53e5a0b4667d0b21fd50e4f8d59",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
-    "generation": 13,
+    "generation": 16,
     "acquired_unix_seconds": 1784570058,
     "expires_unix_seconds": 1784656458,
     "heartbeat_unix_seconds": 1784570058,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2c62b8b82db4663ad9f00144f162e07d37ca850499513d343111cee3302b2c2c",
+      "values_digest": "38ef943104f550dbebd2c92e53f0c516df0dc5191dad101fd20147eb26792241",
       "rendered_digest": "9f21cc4775b8bbcabe2ff712dff752b2d4c68a2d270906044955ff2f2bd2cae9",
       "ast_digest": "b15fdebd7434d7b23dce44270f6f9a775eb0f1b870ccbd2afe88f37bda75a0cd"
     },
     "stp": {
-      "values_digest": "d1416b5bf6f71c7d2da3b1ee05d16e851476c7af0ae8576028a024b477ae82e7",
+      "values_digest": "0d64ac6ad5dbe54eb22bc120e36b47aae04987d3b1b4661aa8a4d9598be13fef",
       "rendered_digest": "b5143b47908a8e957062f266a604edc85d25fe22d686363fa1e7b7acec6bd2f1",
       "ast_digest": "10cfdd266214a8019fae67f221034ad7724705ecc9f0ac27108946291688295b"
     },
     "spp": {
-      "values_digest": "1a5bfec748afa260585b0df5cdbae976ce6783ee0d4cfc4feaeac8127e606c0d",
-      "rendered_digest": "e658fc97fc48ebe5c866e33aefaeb6cbc7906dc6db31bc6e463da9c59c9ba310",
-      "ast_digest": "06790296e6bbc482dfea719bb497f1f27e3805c362293ee282ebe00824fea09d"
+      "values_digest": "6fc8edf1c0a85e5f193691197594fb88269d409c84f1555b82f95387af04c6ba",
+      "rendered_digest": "004d0a15672c36b70d4f6e9a41224115e0089a69f0e8de31046661104860bfd3",
+      "ast_digest": "32bfdbdcd35df37923f564992b12eb5cf9788d8badcc67f0650122ee51173ea6"
     },
     "vpp": {
-      "values_digest": "230f931b95ef833a733ec2c63b045923f4b9af1135121913a464b87d9f1d4905",
+      "values_digest": "ebf38a11b1e9ce0d27b603ff5244b69d4cb5b63c6842a8a27e04f386c4be19fa",
       "rendered_digest": "89805e2390eca8fc218075ccb9c7005350d3fdbfb6fe35bf1ec31d58561b7e73",
       "ast_digest": "15c75fc980fb0de8c59870880af59448adde13834d81df8a00163492c0fb8d29"
     },
     "srp": {
-      "values_digest": "3764af7cdb52d1bc44a72c9b537db99f4df8967be9cf103af0d5bb61d00ebe4d",
+      "values_digest": "a832a1b21ccfd910f5c1d878c1fb986f5caa4378ae1cd585cea1bf94c7ccbf40",
       "rendered_digest": "42daf8004761a07f769c0e8eede70c49761eb8f66502c127171011459463b353",
       "ast_digest": "29dedd8f5ac642813569652743272aa58184cec926e1bcadbc41e1dd531c390b"
     },
     "sor": {
-      "values_digest": "f7b3214dd58b7b93f0fe54bd2ad7bdc25fe7e45589ee0e2ea7e2ac5e0def807a",
-      "rendered_digest": "d14ff2c416d7bc42355f6b23cf2567ff9d2c7333d48cc74aa004d1805b550ddf",
-      "ast_digest": "676d198bb440bd7427f9bf19027514b1a21d73d827df3b9767b155cff1755362"
+      "values_digest": "c23a31d5c5762f0c430120b25c490b48ea46b1c821acdb646b6fb43c1bede75d",
+      "rendered_digest": "e8135f4c218b4c5ae5af7567422110491a7a00d6c5388f8035109b4839b69989",
+      "ast_digest": "a9c2affe408200c845632b5312b12b99e40ad690c4f721d6fbbdeb4136e480c7"
     }
   },
   "transitions": [
@@ -205,6 +205,27 @@
       "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
       "reason": "Advance #5358 to implemented after bounded code and focused validation evidence were recorded.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+      "reason": "Record the clean-revision all-target C-SDLC v2 validation result.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-test-target cargo test --locked --manifest-path csdlc-v2/Cargo.toml --all-targets\"],\"purpose\":\"Prove the complete C-SDLC v2 test surface, including clean-source installer and provenance contracts, after committing the publication repair implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-fastwork:csdlc-v2-all-targets-pass-167e8b9b4\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+      "reason": "The publication reconciliation and terminal lifecycle repair step is implemented and covered by focused and all-target proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+      "reason": "Focused lifecycle tests, all-target tests, strict Clippy, formatting, and typed doctor validation are green.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }
