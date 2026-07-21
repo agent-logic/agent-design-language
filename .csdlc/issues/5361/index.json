@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "ebdd95a3dd79978c1931a478ce8e543a15106fe5d6856db8975346413279baaa",
   "phase": "bound",
-  "generation": 4,
-  "digest": "7a5a155b1a96ec395e45861b2b26eec86572a9cd517f074a32d1f83fa167ea79",
+  "generation": 9,
+  "digest": "bb0965ad21cd29958698641db2e39bad096db4ccd2e06ce2615bf75370990ad1",
   "claim": {
     "id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 4,
+    "generation": 9,
     "acquired_unix_seconds": 1784570111,
     "expires_unix_seconds": 1785174911,
     "heartbeat_unix_seconds": 1784570111,
@@ -32,38 +32,38 @@
   "diagram_path": ".csdlc/prepared/issues/5361/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-      "revision": "3dea593c006065eb2ddc44090d2b02ee2342dacaa1c12b2f39be905f8bcbc70a"
+      "reviewer": "subagent:019f85f7-c1ec-7493-98b8-5182d395d2e8",
+      "revision": "d08fa0bf8576b19c81e1c37ce5742681d1ba3de8ad4f576a0d79dd9669766ae9"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "87cc1f36611871aae447f4badc308c7ca4a89e151c105837bcd038051a2c87f5",
+      "values_digest": "c02115c2205de5e5e436fccd838a7d1d199309ba8576e03aad7b451130b3d78f",
       "rendered_digest": "6aa78535f4f63b766b922a584705026557ec56a41ae2ed71d52edfbb1f765e56",
       "ast_digest": "82a351bc376e35f8e07ac2f983acfe4a7491ccf8027c70bbedf4e3047681c29f"
     },
     "stp": {
-      "values_digest": "ffd1baf438bf2fcf0482266019716d1a2ceb64f6b1bd24556a74b5422906fe6e",
-      "rendered_digest": "904d19eaea410e1163274c98b02337d60f6e45a860bdbc58432060a510dd9f66",
-      "ast_digest": "32789fa2d3b96d3baa3f9d7d89e41425b3666fea17e9f1a268fd3106a4885533"
+      "values_digest": "a39a882fcf5e87347265c077eef7a946d86b8f6bc91d42ae7a64e64fb3a7aab4",
+      "rendered_digest": "575ead3c9dea30a617a405d0492883e3a70c13957f12056c7267edd511fcbe41",
+      "ast_digest": "21e0002a8cd85ee18787f9169ad1ba94b8d71499ec9f67be13bd61c08124907a"
     },
     "spp": {
-      "values_digest": "cdc2c2513ffd6d0578d0b80da2f450c023e7927c30197b1270048cb92b790104",
-      "rendered_digest": "8f0bde6c3f63875037dfc08aea675f4f845931fd31358e866d0aa6a94ee0730f",
-      "ast_digest": "647a6690b6597b6664da8380929c4ca268f0d94f3f62654a948651b63223aad0"
+      "values_digest": "471caf90e8b32feb4a7834cdc7f9372124e046898152cee504fd842bd5f8e54f",
+      "rendered_digest": "0b473194c1eb5f8618365aca0b4a45fd7d19716bd0a2caaf86e13d977dd9d22e",
+      "ast_digest": "ee439ab143bea00bef6c42c8cc750c6348d43657794020233fce263afd639cdb"
     },
     "vpp": {
-      "values_digest": "a536b74f193812f931307be7454ac3def2afdc7c4ec57ff13d0e94fddf1f6852",
-      "rendered_digest": "0866619e0604852d2d2f5d15add14d2c1ab308cc9aefc9b384c42336b89d83a0",
-      "ast_digest": "676cb69cf347c724bfc419ad8f886f018f84a6ec4031e6334800ef74ae348626"
+      "values_digest": "392960082c923f2c2e4d87ed77356854ee5e9955896f11deb2a99405abf1b71b",
+      "rendered_digest": "8badb6f862fcc246fbadcd2dd0b89f63c1fac9360b4ce512694019c9deec3ff6",
+      "ast_digest": "926f5d3711c59b566783d129172572177e6254456811b0a5fea7670236016e65"
     },
     "srp": {
-      "values_digest": "e5d10543c1cbd2045a17a7fbee296c0ec2e812ec39fcf7f05648e590ebe48b9a",
+      "values_digest": "cfe76be8d52fea89150e81dd7035887196f4c7407e7fb4354fd2030fa068f2c2",
       "rendered_digest": "92cdc1f6d9376d89afe2df7e0ec34da7687e41d2d82a2767a32a9f28a6880179",
       "ast_digest": "9ecca93efc33bee80e68473696ec84118423e80de7fd64579e5db479dfb7bab1"
     },
     "sor": {
-      "values_digest": "7c9642c5440afbdb600cd5b5b6f2bb8d8522489c8b79d91e78f352afca203dc1",
+      "values_digest": "87af7f92dfce3c882c87f94e2995daad9b6b681a86158b0d7aacbc52b773e11c",
       "rendered_digest": "0428fc08418f1f1e2f712fbb9e13743cac67e32b8a22bec5b272266a857a0308",
       "ast_digest": "ddda70a8fa7e24a260403a21a0e41146e9d94ecf024bf61ecde6879b4477ada7"
     }
@@ -126,6 +126,41 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Replace generic implementation review wording with the exact preparation review boundary",
       "operation": "{\"field\":\"review_scope\",\"new_value\":\"Review the exact #5361 preparation revision across all six typed cards, the acceptance design, dependency diagram, protected paths, acceptance-register validator, and typed preparation requests. Verify complete bidirectional AC-1 through AC-7 SPP/VPP coverage; correct dependency ordering; explicit Runtime v2 independence, HTTPS-only and address-configuration boundaries, no-AWS boundary, and unsupported-claim boundaries; and confirm that no required parity, consumer, operational, rollback, review, or quality obligation is deferred, weakened, omitted, or treated as fixture-only proof. Confirm this revision remains preparation-only and makes no implementation, acceptance, deployment, publication, or closeout claim.\",\"operation\":\"replan\",\"previous_value\":\"Exact implementation revision before publication.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "subagent:019f85f7-c1ec-7493-98b8-5182d395d2e8",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Align Runtime v3 acceptance dependencies with the canonical v0.91.8 shadow-parity gate",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"merged WP-01 #5594\",\"Runtime v3 architecture authority #5336\",\"Parity-A #5591 before Parity-B #5592, Parity-C #5589, and Parity-D #5590\",\"ADL v2 Runtime adapter #5341\",\"provider and tool adapter owner #5349\",\"exact-revision shadow parity #5350 with every mismatch dispositioned\",\"live multi-agent workcell proof #5501\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Require exact-revision shadow parity in the typed Runtime v3 acceptance criteria",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #5591 completes before #5592, #5589, and #5590, and all four parity packets are reviewed and integrated\",\"AC-2: Runtime v3 executes canonical ingress, continuity, checkpoint/replay/resume, and graceful pressure shutdown at the accepted revision\",\"AC-3: Reasoning graphs, loops, affect-control, adaptive learning, governed operations, and secure access have explicit parity proof or blocker disposition\",\"AC-4: #5341, #5349, #5350, and #5501 prove real Runtime v3 consumers and exact-revision shadow parity without Runtime v2 implementation dependencies\",\"AC-5: Guardian, HTTPS local/remote API, Observatory, telemetry, rollback, and recovery proof passes with no hard-coded address\",\"AC-6: Focused tests, strict lint, CI, line-count, module-growth, dependency, and exact-revision review gates pass\",\"AC-7: Unsupported GPU, remote-provider, or deployment claims remain explicit non-claims and cannot be promoted by this umbrella\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Align typed acceptance deliverables with the complete AC-6 proof contract",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"reviewed Runtime v3 acceptance contract and dependency graph\",\"exact-revision parity and consumer proof register including #5350 shadow parity\",\"guardian, access, Observatory, operations, and rollback evidence\",\"line-count, module-growth, dependency-audit, test-count, CI, and exact-revision review report\",\"truthful acceptance or blocker disposition for #5384 consumption\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Fix review findings by separating dependency, access, operations, quality, and owner-test proof roles and preserving current deferrals.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"dependency-and-consumer-register\",\"proof_role\":\"Verify retained exact-revision architecture, Runtime parity, ADL v1/v2 shadow parity, adapter, provider/tool, and live workcell evidence is integrated into the accepted revision\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5361/validate_acceptance_register.rb\",\"--section\",\"dependencies\"],\"parallel_group\":\"acceptance-register\",\"defer_reason\":\"Wait for #5336, #5591, #5592, #5589, #5590, #5341, #5349, #5350, and #5501 to integrate and publish retained proof.\"},{\"lane\":\"secure-access-and-observatory-register\",\"proof_role\":\"Verify retained HTTPS local/remote access, address configuration, Observatory, and telemetry proof at the accepted revision\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5361/validate_acceptance_register.rb\",\"--section\",\"access\"],\"parallel_group\":\"acceptance-register\",\"defer_reason\":\"Wait for Parity-D #5590 and its retained secure-access and Observatory evidence.\"},{\"lane\":\"operations-and-rollback-register\",\"proof_role\":\"Verify retained guardian, pressure shutdown, checkpoint/replay/resume, rollback, and recovery evidence at the accepted revision\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5361/validate_acceptance_register.rb\",\"--section\",\"operations\"],\"parallel_group\":\"acceptance-register\",\"defer_reason\":\"Wait for Parity-A #5591 and Parity-D #5590 retained operational evidence.\"},{\"lane\":\"quality-and-independence-register\",\"proof_role\":\"Verify Runtime v2 independence, reasoning and learning surfaces, strict lint, line count, module growth, dependency audit, test count, CI, exact-revision review, retained artifacts, and explicit AWS/GPU/remote-provider non-claims\",\"acceptance_ids\":[\"AC-3\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5361/validate_acceptance_register.rb\",\"--section\",\"quality\"],\"parallel_group\":\"acceptance-register\",\"defer_reason\":\"Wait for all parity packets and accepted-revision CI evidence.\"},{\"lane\":\"runtime-v3-kernel\",\"proof_role\":\"Run the isolated Runtime v3 kernel suite for ingress, continuity, cognition, secure access, Observatory, pressure, and rollback behavior\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-v3-local\",\"defer_reason\":\"Run only after all four parity children integrate into the acceptance candidate.\"},{\"lane\":\"runtime-v3-supervision\",\"proof_role\":\"Run the isolated Runtime v3 supervision and component lifecycle suite\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1500,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"parallel_group\":\"runtime-v3-local\",\"defer_reason\":\"Run against the integrated Runtime v3 acceptance candidate.\"},{\"lane\":\"guardian-soak\",\"proof_role\":\"Exercise guardian lifecycle, health, telemetry, pressure response, recovery, and graceful shutdown through the owner script\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"bash\",\"adl/tools/run_runtime_v3_guardian_soak.sh\"],\"parallel_group\":\"runtime-v3-live\",\"defer_reason\":\"Run only after the integrated candidate and init configuration are fixed at an exact revision.\"},{\"lane\":\"runtime-v3-inventory\",\"proof_role\":\"Report Runtime v3 line count, module growth, dependency audit, test count, and exact-revision review evidence\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/report_runtime_v3_loc.sh\"],\"parallel_group\":\"runtime-v3-local\",\"defer_reason\":\"Run at the final acceptance candidate revision.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Verify issue-branch patch hygiene at the exact reviewed revision\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
     }
   ]
 }
