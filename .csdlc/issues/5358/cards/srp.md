@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Review the exact substantive #5358 preparation revision across .csdlc/issues/5358, .csdlc/prepared/issues/5358, and .csdlc/evidence/5358. Verify all six typed cards plus the retained design and diagram; preserve every STP acceptance criterion; prove complete bidirectional SPP action and VPP lane coverage for AC-1 through AC-6 with no deferred, omitted, or weakened work; confirm closed evidence and independently owned blocker boundaries; and confirm no product, shared milestone, deployment, publication, merge, or closeout changes are claimed.
+csdlc-v2/src/bin/csdlc-publish.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/publication.rs
+csdlc-v2/tests/gate7_lifecycle.rs
 
 ## Prompts
 

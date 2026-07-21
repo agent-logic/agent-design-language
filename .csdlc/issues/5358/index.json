@@ -5,7 +5,7 @@
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
   "phase": "implemented",
   "generation": 16,
-  "digest": "5c8a5b6474ab48b0d52040d5f6357a3368f9a53e5a0b4667d0b21fd50e4f8d59",
+  "digest": "e19f5f334337935fdf6e51b04a37d7c1cf49016ff446b6e0ae4c943993c64032",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
@@ -24,7 +24,17 @@
     ],
     "purpose": "Implement and complete the full C-SDLC v2 acceptance, deployment, review, publication, merge, and terminal closeout contract for issue #5358."
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
+    "assigned_by": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+    "revision": "git-blake3:6ac43ad6d0038e09ac8a137fcf70e9af357b8bd7:63190899544bd17c8a557543e11606db21d86d6700843caddd30b55ba21f8321",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -60,9 +70,9 @@
       "ast_digest": "15c75fc980fb0de8c59870880af59448adde13834d81df8a00163492c0fb8d29"
     },
     "srp": {
-      "values_digest": "a832a1b21ccfd910f5c1d878c1fb986f5caa4378ae1cd585cea1bf94c7ccbf40",
-      "rendered_digest": "42daf8004761a07f769c0e8eede70c49761eb8f66502c127171011459463b353",
-      "ast_digest": "29dedd8f5ac642813569652743272aa58184cec926e1bcadbc41e1dd531c390b"
+      "values_digest": "7d11bf1d262875d57bea8e55aa571d3d5d72aaf2491a2aa5f46fa9291d628023",
+      "rendered_digest": "bc53e699e8a775b11a0e9808ff07e97eafa4bbcac54ee09f082f969e36c78606",
+      "ast_digest": "c7521e0c985bffda0061894705afe99ab9f39aabaa318ab7dddc46773add3c2c"
     },
     "sor": {
       "values_digest": "c23a31d5c5762f0c430120b25c490b48ea46b1c821acdb646b6fb43c1bede75d",
@@ -226,6 +236,13 @@
       "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
       "reason": "Focused lifecycle tests, all-target tests, strict Clippy, formatting, and typed doctor validation are green.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
