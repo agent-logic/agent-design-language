@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "a765731ae5cae751fb70481a6fdd6d6873174da8ed70742c0a722764b72a610e",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "8d13e3f0c7916b877a63fd1d8a2d6ee946c27f85902e7ef6f0dd7f5b43f4488f",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 16,
+    "generation": 18,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -23,8 +23,31 @@
     ],
     "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "task:019f80f2-e712-7000-ab8a-8b843d435321",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:5330c2e578c985167a69d1779ed6e75499457771:a25b60f3fe9c85c479ecca3a613c32e1609b54c549a51cc9010b744222957401",
+    "scope": [
+      "adl/tools/report_runtime_v3_loc.sh",
+      "docs/milestones/v0.91.8",
+      ".csdlc/prepared/issues/5336/validate_architecture_plan.rb",
+      ".csdlc/prepared/issues/5336/validate_links.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "task:019f80f2-e712-7000-ab8a-8b843d435321",
+    "scope": [
+      "adl/tools/report_runtime_v3_loc.sh",
+      "docs/milestones/v0.91.8",
+      ".csdlc/prepared/issues/5336/validate_architecture_plan.rb",
+      ".csdlc/prepared/issues/5336/validate_links.rb"
+    ],
+    "reviewed_revision": "git-blake3:5330c2e578c985167a69d1779ed6e75499457771:a25b60f3fe9c85c479ecca3a613c32e1609b54c549a51cc9010b744222957401",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +62,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8981130572d94db06fa6900f9fdf7ea5d88287dd4914d3305ce53d69a9d0774e",
+      "values_digest": "d7c132d99e2522cf0eebde923425ffd002829df6f7422d6e8475fdd70c5a6bfd",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "8a92dbf2396d8f250beb257175599ba3e10c2f17e3acb8c425469e5381facc00",
+      "values_digest": "172612b3ee71ed899e15ac7e245cc43feca0f9e401f2c28b5044bc382a712adb",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "96776f0771261e900841d0a150ad37acad196d65fed59cf80e844d4e824b01c9",
+      "values_digest": "7057bf2a4660718b3bf25a1a55f025d94b7750956a2720940b17cf840d9a62ef",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "b4b6d93c3e884041066d611b7adf649fabb82116b4e3fe5e25e23ca4c81912d7",
+      "values_digest": "60716b510cbed10029318396ad69da43f25145e05c2ab55436d082e949cc7bb0",
       "rendered_digest": "7510323bddaa609bfbc5d0113599ce5bb313c92e2d6e204c221d809b5200c436",
       "ast_digest": "d0de2dd6e7ff179c5f415b6a0aa6fee1240b24d77b706096f4788aadc6cd5a8f"
     },
     "srp": {
-      "values_digest": "0166ef0848389ad0a04d2283b480982fdcdba5f1085de6e596ec6c400c886ca6",
-      "rendered_digest": "3782d3cb08b4154486b0360b134101f55b636d16f16f2259a3e1f996275b9900",
-      "ast_digest": "c3089c902e1388a33153b8bf1fa65df31d6e8ecfd58551d756255bfbeb3db7f6"
+      "values_digest": "45e9a8bd2df442796483495a316c2d3734265b206d2728318ff026eaf01090f7",
+      "rendered_digest": "22a321251404b8ca95a36ed35938234686ce8b1ec7ac84fe5167708a292acc92",
+      "ast_digest": "6d88e8fad4818c2337fdfa47822075f4d567ac1e9e33ea161a1ca4ea6bb173a2"
     },
     "sor": {
-      "values_digest": "d177cdf585b7b2e42c5ca0942dc8d8c29aef88b914972f1b4ca996445c4dfb85",
+      "values_digest": "2fada792f0821aeb13279a1879848bc285096930d97818bd83810e71f70b6837",
       "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
       "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
@@ -111,6 +134,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover exact review and publication identity after synchronizing PR #5599 with current main following merged CI repair #5604."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Current-main exact substantive review passed with no findings or residual risks."
     }
   ],
   "audit": [
@@ -246,6 +276,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover exact review and publication identity after synchronizing PR #5599 with current main following merged CI repair #5604.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "task:019f80f2-e712-7000-ab8a-8b843d435321",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Current-main exact substantive review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

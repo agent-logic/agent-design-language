@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+adl/tools/report_runtime_v3_loc.sh
+docs/milestones/v0.91.8
+.csdlc/prepared/issues/5336/validate_architecture_plan.rb
+.csdlc/prepared/issues/5336/validate_links.rb
 
 ## Prompts
 
@@ -36,8 +39,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5330c2e578c985167a69d1779ed6e75499457771:a25b60f3fe9c85c479ecca3a613c32e1609b54c549a51cc9010b744222957401")
 
-Reviewer: None
+Reviewer: Some("task:019f80f2-e712-7000-ab8a-8b843d435321")
 
-Result: pre_review
+Result: pass
