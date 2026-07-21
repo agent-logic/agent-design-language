@@ -21,8 +21,8 @@
       },
       {
         "id": "committed-review-range",
-        "proof_role": "Explicit base-to-reviewed-head committed-range proof",
-        "purpose": "Prove the retained substantive repair range exists and has no diff hygiene defects",
+        "proof_role": "Explicit base-to-final-evidence-head committed-range proof",
+        "purpose": "Prove the full retained repair range and exact 15-path post-substantive metadata/evidence delta are non-empty, scoped, content-verifiable, and diff-clean",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
         "credentials": [],
@@ -33,7 +33,7 @@
         "execution": "local",
         "timeout_seconds": 60,
         "executable": "/usr/bin/env",
-        "argv": ["bash", "adl/tools/test_retained_diff_proof_contract.sh", "0dcd4d64616f37937032d9f94356b8319e31dfc2", "19453ea91ba082c87ab971b3e5cc8a2c58f86c92"],
+        "argv": ["ruby", ".csdlc/prepared/issues/5589/validate_review_range.rb", "--request", ".csdlc/prepared/issues/5589/review-range.json"],
         "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
       },
       {

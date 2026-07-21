@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-c] Replace degraded governed operations adapters",
     "slug": "v0-91-8-runtime-v3-parity-c-governed-operations",
     "version": "v0.91.8",
-    "generation": 3
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
@@ -38,6 +38,17 @@
             "19453ea91ba082c87ab971b3e5cc8a2c58f86c92"
           ],
           "purpose": "Validate the complete base-to-reviewed-head range for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5589/preparation/committed-review-range.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5589/validate_review_range.rb",
+            "--request",
+            ".csdlc/prepared/issues/5589/review-range.json"
+          ],
+          "purpose": "Validate the complete base-to-final-evidence-head range and exact 15-path post-substantive metadata/evidence inventory for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/5589/preparation/committed-review-range.log"
         }

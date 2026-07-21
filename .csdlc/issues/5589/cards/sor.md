@@ -44,6 +44,17 @@ Completed the repaired #5589 preparation-only package with all six typed cards s
     "purpose": "Validate the complete base-to-reviewed-head range for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5589/preparation/committed-review-range.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/5589/validate_review_range.rb",
+      "--request",
+      ".csdlc/prepared/issues/5589/review-range.json"
+    ],
+    "purpose": "Validate the complete base-to-final-evidence-head range and exact 15-path post-substantive metadata/evidence inventory for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5589/preparation/committed-review-range.log"
   }
 ]
 
