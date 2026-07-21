@@ -68,16 +68,27 @@ Implemented signed-policy Runtime v3 Parity-B graph execution through the extern
     "purpose": "Prove all seven exact Parity-B identities including external guardian-launched TLS signed-control canonical ingress, the complete Runtime v3 suite, strict warning-free code, format/dependency/collision hygiene, and exact budget truth. Runtime v3 is 13,504 physical lines: +1,295 over pinned baseline and +1,504 over reviewed target, under the 20,000 safety ceiling but requiring explicit exact-review exception disposition.",
     "outcome": "passed",
     "evidence_ref": "owner:019f836b-dfdb-7b33-8e27-4c9478b75421@fa7a37551:/Volumes/FastWork/adl-5592/{exact-final,full-final,guardian-route}"
+  },
+  {
+    "command": [
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5592/integrated cargo test --manifest-path adl-runtime-kernel/Cargo.toml",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5592/integrated-clippy cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings",
+      "git merge --no-edit origin/main",
+      "git diff --check"
+    ],
+    "purpose": "Prove current main integrates without protected-path collision and the complete Runtime v3 suite, guardian black-box path, operations regressions, and strict lint remain green at the integrated head.",
+    "outcome": "passed",
+    "evidence_ref": "owner:019f836b-dfdb-7b33-8e27-4c9478b75421@05dc14883:/Volumes/FastWork/adl-5592/{integrated,integrated-clippy}"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

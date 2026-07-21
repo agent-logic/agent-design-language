@@ -8,18 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/operations.rs
-adl-runtime-kernel/src/parity_b.rs
-adl-runtime-kernel/src/reasoning.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/tests/parity_b_live_kernel.rs
-.csdlc/issues/5592/cards/sor.values.json
-.csdlc/issues/5592/cards/srp.values.json
-.csdlc/issues/5592/cards/vpp.values.json
+
 
 ## Prompts
 
@@ -42,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Runtime v3 is 13,547 physical lines, an explicitly accepted +1,338 exception over the pinned 12,209 baseline and +1,547 over the reviewed target; it remains below the 20,000 hard ceiling and exact review found the cohesive issue scope complete and non-deferred.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b6a63af868ca140e817c485dc2c3491222ab4675:65b144b8ccfe0c11c263284ab0ec0d1e8b08b35728123b0bee8b575f615c5352")
+Revision: None
 
-Reviewer: Some("subagent:/root/review_5592_final_exact")
+Reviewer: None
 
-Result: pass
+Result: pre_review

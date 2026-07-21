@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-b] Make reasoning, adaptive learning, and governed cognition live",
     "slug": "v0-91-8-runtime-v3-parity-b-governed-cognition",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 15
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/operations.rs\nadl-runtime-kernel/src/parity_b.rs\nadl-runtime-kernel/src/reasoning.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\n.csdlc/issues/5592/cards/sor.values.json\n.csdlc/issues/5592/cards/srp.values.json\n.csdlc/issues/5592/cards/vpp.values.json",
-      "review_revision": "git-blake3:b6a63af868ca140e817c485dc2c3491222ab4675:65b144b8ccfe0c11c263284ab0ec0d1e8b08b35728123b0bee8b575f615c5352",
-      "reviewer": "subagent:/root/review_5592_final_exact",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every live-credit claim require a real initialized adl-runtime-kernel process through the reviewed #5591 ingress rather than fixture, library, metadata, or fixed-bootstrap evidence?",
         "Can loop checkpoint/resume ever reset a bound, duplicate an effect, evade cancellation, or continue after shutdown?",
@@ -27,10 +27,8 @@
         "Are Runtime v2, AWS, publication, cutover, deletion, other-lane ownership, claim collisions, and budget/proof weakening excluded?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Runtime v3 is 13,547 physical lines, an explicitly accepted +1,338 exception over the pinned 12,209 baseline and +1,547 over the reviewed target; it remains below the 20,000 hard ceiling and exact review found the cohesive issue scope complete and non-deferred."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
