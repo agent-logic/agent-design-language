@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Legacy pattern fixtures remain intentionally outside the compiler input model because the landed language boundary rejects them; this boundary is explicitly classified and tested.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:44e8470ce3fcf0396885c74c0dd0347279449ecd:a8a7ef14f7dd8856a0c09e3a089cd3994d2cc9f943197fe326ad5e9bfacfe466")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_5338_exact")
 
-Result: pre_review
+Result: pass
