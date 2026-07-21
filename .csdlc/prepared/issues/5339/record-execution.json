@@ -1,0 +1,25 @@
+{
+  "issue": 5339,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "701e4025df3d4ac49ade841d182035aeea80dd1a82861f1291098273f201b6e1",
+  "claim_id": "claim-5339-v0918-wp04-preparation",
+  "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+  "reason": "Record the clean-room language-core implementation after the #5337 terminal dependency gate opened.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented a pure independent Rust language crate for the six ADL primitives with strict parsing, generated checked schema, semantic validation, deterministic canonicalization, stable diagnostics, and mapped #5337 characterization proof.",
+    "changes": [
+      "Added typed provider, tool, agent, task, workflow, and singular run models with strict unknown-field rejection",
+      "Added duplicate-key-safe YAML and JSON parsing plus version, identity, reference, state, cycle, and run-target validation",
+      "Added deterministic canonical JSON, a checked schema generator, focused tests, and an explicit #5337 corpus parity map",
+      "Kept compiler expansion, runtime execution, provider invocation, control-plane, cloud, storage, and migration outside the crate"
+    ],
+    "artifacts": [
+      "adl-v2/crates/adl-language",
+      "adl-v2/crates/adl-language/schema/adl-document.schema.json",
+      "adl-v2/crates/adl-language/CHARACTERIZATION_PARITY.md"
+    ]
+  },
+  "fail_after_backup": false
+}

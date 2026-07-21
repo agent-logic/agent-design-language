@@ -1,0 +1,301 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5339,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8cb0d0afdcbaed1cf35b1b2acff6481c7e7e263056d01af50bcea90452747ec0",
+  "phase": "published",
+  "generation": 17,
+  "digest": "523152c4db6923fbc58ab6cea8d8257dbd80b46857a4d422e14d698980bb4772",
+  "claim": {
+    "id": "claim-5339-v0918-wp04-preparation",
+    "owner": "codex:5339-preparation",
+    "generation": 17,
+    "acquired_unix_seconds": 1784615902,
+    "expires_unix_seconds": 1785220702,
+    "heartbeat_unix_seconds": 1784615902,
+    "branch": "codex/5339-v0918-wp04-language-core",
+    "worktree": ".worktrees/adl-wp-5339",
+    "protected_paths": [
+      ".csdlc/issues/5339",
+      ".csdlc/prepared/issues/5339",
+      ".csdlc/evidence/5339",
+      "adl-v2/crates/adl-language"
+    ],
+    "purpose": "Prepare the complete #5339 clean-room language-core contract one dependency wave ahead; implementation remains prohibited until #5337 is merged and typed closed_out"
+  },
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5339_impl",
+    "assigned_by": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+    "revision": "git-blake3:23c3bfa74484d0780dc802c4f4a2d49384acae74:80eb44dcbb1c085665705a6acd663bb337755a76fa35a52b5e0350cfe8a121c1",
+    "scope": [
+      "adl-v2/crates/adl-language",
+      ".csdlc/issues/5339",
+      ".csdlc/prepared/issues/5339",
+      ".csdlc/evidence/5339"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_5339_impl",
+    "scope": [
+      "adl-v2/crates/adl-language",
+      ".csdlc/issues/5339",
+      ".csdlc/prepared/issues/5339",
+      ".csdlc/evidence/5339"
+    ],
+    "reviewed_revision": "git-blake3:23c3bfa74484d0780dc802c4f4a2d49384acae74:80eb44dcbb1c085665705a6acd663bb337755a76fa35a52b5e0350cfe8a121c1",
+    "findings": [],
+    "residual_risks": [
+      "YAML alias and resource-exhaustion limits are delegated to the pinned parser and are not separately characterized in WP-04.",
+      "Sequential forward saved-state references are modeled as dependency edges rather than rejected solely by declaration order; characterized ordering remains preserved."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5339,
+    "pull_request": 5612,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5612",
+    "base": "main",
+    "head": "codex/5339-v0918-wp04-language-core",
+    "revision": "git-blake3:280bc824d691578caaac73e8ef1e07b23f0a4312:dd29fa7511628e33dbed402418a260a9f91baf7d6170ee0ead0fd0bcadf0315b",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5339/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5339/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:/root/review_5339_prep",
+      "revision": "4ba65266b7f69d5c946b730ee2bd9c0a0b1b861f3ca87adb790a9018ba576913"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "de287ca3aa6f6f8c298ee554c51bc84cd8d4f8a93162817eeeacfbdd3bcab58f",
+      "rendered_digest": "e76d11b0e955840e18feaaa62f3bc5130f55d87cb116878f80ec2bdc5d123367",
+      "ast_digest": "c91941f5e2337b1a7bc7d44bc39fc5bf9b6fc067a5e7f384fcbcc4dd889331a5"
+    },
+    "stp": {
+      "values_digest": "c77da5641e14359eb14f2e0338b33cccb4190de3c25dce9f4f58dcd32ecea9fe",
+      "rendered_digest": "b3d74cec9ed77cd978da9e7967b062b250416208c08459b92722744fdd55227f",
+      "ast_digest": "4642caf40e2f316ff9261a6800db70b386f5288fd4da03030424897d7eee20a0"
+    },
+    "spp": {
+      "values_digest": "f69b3283c1c6ad2cf0d0009584a69d99a3d5a3ffaf439b4faed50b51ce5cfbae",
+      "rendered_digest": "77b542e77c275c27ea0ab895f0500761779b7b0b53c84b35af57f93d38278376",
+      "ast_digest": "0c3a4b77566b18e0101ba7282bb232a472e42710449c80cfd3f338655090e05f"
+    },
+    "vpp": {
+      "values_digest": "51ca7da1635d53357d87c6434a2bb69cdacb7e0c2f50387bc056242c3d82f5d1",
+      "rendered_digest": "9b657237203f13bb4ac46f4e6ae39d763405ad069f29b9d1642b69ea260367cf",
+      "ast_digest": "774200a4f8481f841f3a131f0433a69e26c1f6693877bb2eed49e80f02f385c7"
+    },
+    "srp": {
+      "values_digest": "272caebb8a323fcfcc13602e2b11e3db6cbd7c8cdc28cac314757a71a70ac7f2",
+      "rendered_digest": "15a29d458897ad8c03a6c0ba0bc961927074e0cdd5b55e5682624469c0021a62",
+      "ast_digest": "5fbe7797b47b4a6f3e3e038b2dfd383697aca3d4f0ef7f95430bd83738182081"
+    },
+    "sor": {
+      "values_digest": "1cfd2276cc58fa3cb929e07f1deed69d4d565cfb6738096dac5e3a56de8ddb5f",
+      "rendered_digest": "cb205e19652a55e5c83bbbdbb6a1d96cc3b0bd9c87709086916dfeaf4ce8a75e",
+      "ast_digest": "eed5af3c398589f5b388529d6a3add7e0c9211a3c2965c1a6a4ddb41c343fff0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5339-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5339-preparation",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Implementation and all planned local proving lanes are complete at substantive commit 7edf4e67b; enter exact-revision review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "The exact substantive revision 23c3bfa74 has a completed bounded review with no actionable findings and current passing validation evidence."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5339-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5339-preparation",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5339-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "subagent:/root/review_5339_prep",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5339-preparation",
+      "reason": "Resolve preparation review findings with executable issue-local validation adapters and real dependency, LoC, and latency budget proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"typed-preparation\",\"proof_role\":\"Required preparation gate: validate all six canonical cards, design references, protected-path scope, dependency stop, and lifecycle consistency\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5339\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"language-focused\",\"proof_role\":\"Prove strict parse, schema alignment, semantic validation, diagnostics, and canonicalization across all six primitives\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":120,\"budget_tokens\":6000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"focused\"],\"parallel_group\":\"language-local\",\"defer_reason\":\"Execute only after #5337 is merged and typed closed_out and implementation exists\"},{\"lane\":\"language-quality\",\"proof_role\":\"Prove warning-free clean-room language implementation and test code\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"quality\"],\"parallel_group\":\"language-local\",\"defer_reason\":\"Execute only after #5337 is merged and typed closed_out and implementation exists\"},{\"lane\":\"characterization-parity\",\"proof_role\":\"Map and prove every applicable reviewed #5337 language case with explicit intentional-difference classification\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"parity\"],\"parallel_group\":\"language-parity\",\"defer_reason\":\"Execute only after #5337 is merged and typed closed_out and its corpus is on current main\"},{\"lane\":\"language-budgets\",\"proof_role\":\"Measure and enforce forbidden dependency families, 4000 implementation LoC, 4000 test/fixture LoC, and complete deterministic validation under 600 seconds\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"budgets\"],\"parallel_group\":\"language-budget\",\"defer_reason\":\"Execute at the implementation revision after the dependency gate opens\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5339-preparation",
+      "reason": "All six cards, clean-room design, diagram, protected paths, COTS selections, budgets, executable validation plan, dependency stop, and bounded preparation review are complete with no actionable findings.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "The #5337 terminal gate passed, origin/main containing c9013d9c3 was integrated, and the independent crate now implements all six typed primitives plus strict YAML and JSON parsing.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Checked generated schema, semantic reference and cycle validation, deterministic canonicalization, stable diagnostic codes, and positive and negative tests are implemented and locally passing.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Record the clean-room language-core implementation after the #5337 terminal dependency gate opened.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented a pure independent Rust language crate for the six ADL primitives with strict parsing, generated checked schema, semantic validation, deterministic canonicalization, stable diagnostics, and mapped #5337 characterization proof.\",\"changes\":[\"Added typed provider, tool, agent, task, workflow, and singular run models with strict unknown-field rejection\",\"Added duplicate-key-safe YAML and JSON parsing plus version, identity, reference, state, cycle, and run-target validation\",\"Added deterministic canonical JSON, a checked schema generator, focused tests, and an explicit #5337 corpus parity map\",\"Kept compiler expansion, runtime execution, provider invocation, control-plane, cloud, storage, and migration outside the crate\"],\"artifacts\":[\"adl-v2/crates/adl-language\",\"adl-v2/crates/adl-language/schema/adl-document.schema.json\",\"adl-v2/crates/adl-language/CHARACTERIZATION_PARITY.md\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Record the complete prepared local validation DAG after all four issue-specific lanes passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"focused|quality|parity|budgets\"],\"purpose\":\"Prove the six-primitives language model, strict parsing and schema alignment, semantic diagnostics, canonical ordering, #5337 corpus mapping, dependency boundary, LoC budgets, and latency budget.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused: 9 tests passed. Quality: strict Clippy passed. Parity: 3 mapped corpus tests passed. Budgets: 637 implementation lines, 254 test lines, exact five-dependency COTS set, no forbidden dependency family, warm all-target validation 0 seconds. git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Local corpus, dependency, size, latency, and strict-Clippy proof passed; begin exact-revision review and publication readiness.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Implementation and all planned local proving lanes are complete at substantive commit 7edf4e67b; enter exact-revision review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Resolve all four bounded exact-revision review findings and rerun the typed validation DAG.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed all initial exact-review findings with complete identity/reference validation, locally expressible schema constraints, full budget-surface accounting, and EOF hygiene.\",\"changes\":[\"Validate run, inline workflow, saved-state, step, map, and every reference identity with stable invalid_identity diagnostics\",\"Constrain generated schema versions and exclusive run targets; test invalid version, run shape, nested type, and nested unknown fields against schema and parser\",\"Count src/examples and tests/schema/parity-map surfaces in the implementation and test-fixture budgets\",\"Remove trailing blank lines and retain a clean diff\"],\"artifacts\":[\"adl-v2/crates/adl-language/src/validate.rs\",\"adl-v2/crates/adl-language/src/lib.rs\",\"adl-v2/crates/adl-language/schema/adl-document.schema.json\",\"adl-v2/crates/adl-language/tests/language.rs\",\".csdlc/evidence/5339/implementation-validation\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Close the remaining schema parity finding for explicit null run targets and rerun the typed validation DAG.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Made each run-target schema branch require the corresponding non-null string or workflow object and added null regressions for both alternatives.\",\"changes\":[\"Add non-null workflow_ref and workflow property constraints inside the generated oneOf branches\",\"Test explicit null workflow_ref and workflow values against both JSON Schema and parser/semantic validation\"],\"artifacts\":[\"adl-v2/crates/adl-language/src/lib.rs\",\"adl-v2/crates/adl-language/schema/adl-document.schema.json\",\"adl-v2/crates/adl-language/tests/language.rs\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "subagent:/root/review_5339_impl",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Corpus parity, strict Clippy, dependency and size budgets, typed validation, and exact-revision review all pass with no actionable findings.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "The exact substantive revision 23c3bfa74 has a completed bounded review with no actionable findings and current passing validation evidence.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
+    }
+  ]
+}

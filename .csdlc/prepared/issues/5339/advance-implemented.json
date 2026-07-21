@@ -1,0 +1,3 @@
+{
+  "issue":5339,"card":"sor","expected_generation":9,"expected_digest":"e9a993a2e82beda0f20927ff59907e0d18a698556fe800c357b027eaaf02fc6d","claim_id":"claim-5339-v0918-wp04-preparation","actor":"codex:019f8363-51f7-7102-881c-d47e18fdfae6","reason":"Implementation and all planned local proving lanes are complete at substantive commit 7edf4e67b; enter exact-revision review.","operation":{"operation":"advance_phase","phase":"implemented"},"fail_after_backup":false
+}
