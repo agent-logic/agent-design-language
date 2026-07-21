@@ -5,7 +5,7 @@
   "initialization_digest": "36d04edef06074ba46ddc14aab9493fc35023e2395b1fac82d2c714b0cde44e0",
   "phase": "implemented",
   "generation": 9,
-  "digest": "4e8631d203e9c8d598044e6520e98caa066c29fd72fe041166add0ae88698719",
+  "digest": "675f284a0f4033c8b8e48d7d54b9d1a1da76c536abf92064c1f324d920a3c192",
   "claim": {
     "id": "claim-5615-csdlc-ci-fastwork-routing",
     "owner": "codex:5615-owner",
@@ -33,7 +33,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f86ae-7d7a-7161-b2e4-67264db9ef0f",
     "assigned_by": "codex:5615-owner",
-    "revision": "git-blake3:d0a23536ec79b6c2bf0067d7a8ba1b0e184dc925:d7c03dc4da802c7ec404063ddd472a0a78706662540d0b40f9435cebb3a2a05b",
+    "revision": "git-blake3:271d7d8f2a626467f1542a60a2969bb70b9f9654:dfd028b922459dd737cce249fc644f8c34718da17b6a7b31b92146493bcb49d0",
     "scope": [
       ".csdlc/evidence/5615",
       ".csdlc/issues/5615",
@@ -48,58 +48,7 @@
       "adl/tools/test_select_validation_lanes.sh"
     ]
   },
-  "review": {
-    "reviewer": "subagent:019f86ae-7d7a-7161-b2e4-67264db9ef0f",
-    "scope": [
-      ".csdlc/evidence/5615",
-      ".csdlc/issues/5615",
-      ".csdlc/prepared/issues/5615",
-      ".github/workflows/ci.yaml",
-      "adl/config/validation_lane_selector.v0.91.6.json",
-      "adl/tools/ci_path_policy.sh",
-      "adl/tools/run_cargo_validation.sh",
-      "adl/tools/test_ci_path_policy.sh",
-      "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_cargo_validation.sh",
-      "adl/tools/test_select_validation_lanes.sh"
-    ],
-    "reviewed_revision": "git-blake3:d0a23536ec79b6c2bf0067d7a8ba1b0e184dc925:d7c03dc4da802c7ec404063ddd472a0a78706662540d0b40f9435cebb3a2a05b",
-    "findings": [
-      {
-        "id": "F-5615-1",
-        "severity": "p1",
-        "summary": "Selector authority can select standalone C-SDLC v2 proof while the classifier leaves its required boolean false.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5615-2",
-        "severity": "p1",
-        "summary": "Mixed C-SDLC v2 and Runtime v3 changes suppress the Runtime focused proof because routing matches exact lane strings.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5615-3",
-        "severity": "p1",
-        "summary": "Pre-created Cargo child symlinks can escape the validated external build root.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -265,6 +214,13 @@
       "actor": "codex:5615-owner",
       "reason": "Record focused adversarial contracts and complete standalone C-SDLC v2 proof after exact-review remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\",\"&&\",\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\",\"&&\",\"bash\",\"adl/tools/test_run_cargo_validation.sh\",\"&&\",\"bash\",\"adl/tools/test_select_validation_lanes.sh\",\"&&\",\"bash\",\".csdlc/prepared/issues/5615/run_csdlc_v2_standalone.sh\"],\"purpose\":\"Prove selector/classifier agreement, compositional Runtime routing, child-symlink rejection, and the complete C-SDLC v2 test/fmt/strict-Clippy lane on FastWork.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue-5615:exact-review-remediation:focused-and-standalone-pass\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:5615-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
