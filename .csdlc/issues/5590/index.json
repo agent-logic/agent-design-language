@@ -3,13 +3,13 @@
   "issue": 5590,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
-  "phase": "bound",
-  "generation": 3,
-  "digest": "2fffc6d5a07cf659983ab62acd9d4945a8164251bd07f5be9abcb7bb655bb4dd",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "4dae10259c88088828e271da2f935e7644c0bfacfb4d305b7bd6671a53f17e63",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 3,
+    "generation": 5,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -57,34 +57,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2d4ce1c5895499df46e3d8d30b80eca5b1445754a42775e0a8b72b132c3f7661",
+      "values_digest": "96005ba3c31fa553578ad84a83070360c9ee79b79c8ff4a81474f44225fec895",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "1f126238f720d6d80ca3e44d8a99f06cca316b5a3021784ca824e3b1c9919b97",
+      "values_digest": "0119773d0ee6371442ba24eedd8dd31ed7c02a4ff7c439b654d2d87c5f45ad4f",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "da05ab1565a2c5091a57a638da7943917d2be1177344ecb55dc281fbabd31948",
+      "values_digest": "d264e32933b9145188a07493dda24e0f7a76a075bc760461c9bde54251744759",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "ead7b403f5e8b6214a43d022e06e0a73f94a12e6fbdaef2f07032ec23173e141",
+      "values_digest": "0aa266b21af442e247d6fedd4fb05abf39e1890ee62501cec6e585c6d9dfc3b7",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "e61c60a0cb8897506ab3c2904c1f8232a5819cda2db98aac1638ce0de8c15344",
+      "values_digest": "621f5bdd1fe2ecb2d751040b340442043744050e63de8d5aac64efe0d2f2628d",
       "rendered_digest": "e9ea1ef134c8213e265c88796dbfb8c97f0dc23a61f2fcba59fdf0ac412d8c22",
       "ast_digest": "651e35157218229bdc102566f66b225a85893546ad706debec983798338aa69e"
     },
     "sor": {
-      "values_digest": "1178a8f3ddec6ce4ed83791e8f7f4708413bf84e2f9e768f5d268d2e5c3143dd",
-      "rendered_digest": "4acbaa9ec13c1f04e55fd5ecb11bed5405ec28aa4932e07474a1c91ca14d93c2",
-      "ast_digest": "823df8a1c5803260df4b7fdb096e097fff89bad2b5b1144bd7b07ecd646bbfa6"
+      "values_digest": "122e85350df495c14a1fa138915284c690fed7cf1a85d9bb33c728db473cfbde",
+      "rendered_digest": "3f877294b0d11d0689f04cbc913d47bfc7bc704ca5d71a4357c996d8ee84ba85",
+      "ast_digest": "290197c34d1b51b71110f57e4164341e72d8c0a307beffdab0d08c3b97b24ea6"
     }
   },
   "transitions": [
@@ -101,6 +101,13 @@
       "to": "bound",
       "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "The complete Runtime v3 Parity-D scope is durably implemented and its focused, full-crate, security, rollback, and operational proofs are locally green."
     }
   ],
   "audit": [
@@ -173,6 +180,20 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "Protect the kernel lockfile required by the already-claimed WebSocket manifest dependency change before the durability checkpoint",
       "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/Cargo.lock\"],\"expected_owner\":\"codex:019f828e-8480-7242-a054-1b9df00f2f17\",\"expected_purpose\":\"Implement every #5590 Runtime v3 Parity-D outcome: secure configured HTTPS and WebSocket access, live Observatory consumption, external guardian recovery, Vector telemetry boundary, operational Runtime v3 rollback, and exact positive and negative proof\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Implement every #5590 Runtime v3 Parity-D outcome: secure configured HTTPS and WebSocket access, live Observatory consumption, external guardian recovery, Vector telemetry boundary, operational Runtime v3 rollback, and exact positive and negative proof\",\"purpose\":\"Implement every #5590 Runtime v3 Parity-D outcome: secure configured HTTPS and WebSocket access, live Observatory consumption, external guardian recovery, Vector telemetry boundary, operational Runtime v3 rollback, and exact positive and negative proof\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 4,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "Record the complete durable Runtime v3 Parity-D implementation and exact local proof before bounded review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented secure Runtime v3 local and remote Observatory access through configured HTTPS and authenticated WebSocket transport, an external guardian executable, actual-address discovery, Vector-owned telemetry boundaries, operational selector rollback, and signed continuity proof for candidate and restored prior runtimes.\",\"changes\":[\"Expose actual bound control address, configured public HTTPS base, and WSS discovery in Runtime-owned readiness and Observatory feeds\",\"Require configured-origin WebSocket upgrades and bounded session bearer authentication before read-only live feed delivery\",\"Run the HTML Observatory over authenticated HTTP fallback and authenticated WSS live updates without hard-coded deployment addresses\",\"Add the standalone external guardian binary over the existing guardian library with bounded restart, backoff, and shutdown controls\",\"Add an operational process selector that activates candidate or prior Runtime v3 launch contracts and performs bounded graceful replacement\",\"Prove candidate-to-prior rollback over real TLS processes with signed generation-1 continuity for both shutdowns\",\"Align the WebSocket test dependency with Axum's protocol version and retain exact lockfile truth\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl/tools/runtime_v3_operational_selector.sh\",\"adl/tools/test_runtime_v3_operational_selector.sh\",\"adl/tools/run_runtime_v3_operational_proof.sh\",\"demos/v0.91.7/html-observatory/app.js\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 5,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "The complete Runtime v3 Parity-D scope is durably implemented and its focused, full-crate, security, rollback, and operational proofs are locally green.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
