@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5590,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "f5e28075e7874b78c4cbdc3cf1548d405a65e0d92c0f7090989d75ea1919639b",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "3463e3cad2930df250d02e43d643271830f84bc4cb3be27570ca77250c4780a6",
+  "claim": {
+    "id": "claim-5590-runtime-v3-parity-d-preparation",
+    "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+    "generation": 1,
+    "acquired_unix_seconds": 1784601952,
+    "expires_unix_seconds": 1785206752,
+    "heartbeat_unix_seconds": 1784601952,
+    "branch": "codex/5590-runtime-v3-parity-d",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5590",
+      ".csdlc/issues/5590",
+      ".csdlc/locks/5590.lock",
+      ".csdlc/prepared/issues/5590"
+    ],
+    "purpose": "Prepare and review complete six-card Runtime v3 Parity-D truth without product edits until #5591 integration eligibility is confirmed"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5590/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5590/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+      "revision": "87afbc54bee34e340ed8b1e2c9bc6a5f0adcb5460bb723342b77f4ecaa3f7f34"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5a1ee5c544ecd2712f24863c305370fe5a0b090d4222d2a980aa41428cb600ec",
+      "rendered_digest": "cf823c55e8e0d1cf2879d7a99dce669dbef717fb3fbef5fdf5fbbea43adbc774",
+      "ast_digest": "33e33f9c03df87be9ea9bc316b21f59610e58fafbacdaddae45d49b0b7a3e40a"
+    },
+    "stp": {
+      "values_digest": "a20d2bfc5659fc5be41d040dfe7afbf07920628372712641b9f984dff0b3b3e6",
+      "rendered_digest": "e059ed875c8673fb3b5e26bca3d96551042773017faedc7d9fe9d127f231752b",
+      "ast_digest": "0fddb668e0aee4e751674c7a6fe7f7f311518fb11fca7d58813ccedf6702fdc1"
+    },
+    "spp": {
+      "values_digest": "327deb4810cf09664ba821684cdc9b9a60c1899bc6a8515b3b9475ba0780ce87",
+      "rendered_digest": "58a042cdb8f3a73a9f8ed5392de284882e2b53b78d3a3be238b8c9153d2c23ce",
+      "ast_digest": "9f5ab8482fe358a8cf0a8d43cd8e8200e461ac3f540d2b40c8a15a0a87b80573"
+    },
+    "vpp": {
+      "values_digest": "c310edd7a1d8e74bf6ba98f652a30023321e9d0ddd19d17680c53280cf4fb8c9",
+      "rendered_digest": "b531743aaa1a3bb80445b18c05b36ed6d2a110a73f4616c55bce544e540e7255",
+      "ast_digest": "97881aca7744d3181df59ee37dedb90f19dd54135c38a61c8901d73da6564a5d"
+    },
+    "srp": {
+      "values_digest": "dd2c2bc31fe1103210f387afa6b58068f0fdd356d90114136f033ee2f382607b",
+      "rendered_digest": "e9ea1ef134c8213e265c88796dbfb8c97f0dc23a61f2fcba59fdf0ac412d8c22",
+      "ast_digest": "651e35157218229bdc102566f66b225a85893546ad706debec983798338aa69e"
+    },
+    "sor": {
+      "values_digest": "b4e4aee42b5b2b52740fcefcb6ba35b984982da990e2b8ca702b8b39d92bffca",
+      "rendered_digest": "4acbaa9ec13c1f04e55fd5ecb11bed5405ec28aa4932e07474a1c91ca14d93c2",
+      "ast_digest": "823df8a1c5803260df4b7fdb096e097fff89bad2b5b1144bd7b07ecd646bbfa6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

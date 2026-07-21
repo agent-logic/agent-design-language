@@ -1,0 +1,67 @@
+{
+  "manifest": {
+    "schema": "csdlc.pvf.manifest.v1",
+    "lanes": [
+      {
+        "id": "typed-doctor",
+        "proof_role": "Typed lifecycle and six-card structural truth",
+        "purpose": "Prove the bound #5590 preparation record is internally consistent",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "preparation",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 60,
+        "executable": "/usr/bin/env",
+        "argv": [".adl/bin/csdlc-v2/csdlc-doctor", "--repo", ".", "--issue", "5590"],
+        "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+      },
+      {
+        "id": "complete-card-contract",
+        "proof_role": "Complete non-deferred Parity-D preparation truth",
+        "purpose": "Prove six cards, AC coverage, no deferred lanes, architecture terms, matrix, and preparation-only claim",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "preparation",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 60,
+        "executable": "/usr/bin/env",
+        "argv": ["ruby", ".csdlc/prepared/issues/5590/validate_preparation.rb"],
+        "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+      },
+      {
+        "id": "diff-hygiene",
+        "proof_role": "Preparation patch hygiene",
+        "purpose": "Prove the preparation packet has no whitespace errors",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "preparation",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 60,
+        "executable": "/usr/bin/env",
+        "argv": ["git", "diff", "--check"],
+        "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+      }
+    ]
+  },
+  "selection": {
+    "requested_lanes": ["typed-doctor", "complete-card-contract", "diff-hygiene"],
+    "allow_network": false,
+    "available_credentials": []
+  },
+  "budget": {"max_parallel": 3, "cpu_units": 3, "memory_mib": 384, "tokens": 0},
+  "root": ".",
+  "evidence_dir": ".csdlc/evidence/5590/preparation",
+  "cancellation_file": null
+}
