@@ -8,12 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl/tools/merge_coverage_summaries.py
-adl/tools/test_merge_coverage_summaries.sh
+
 
 ## Prompts
 
@@ -31,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Normalization intentionally remains lexical and does not resolve filesystem symlinks; llvm-cov filename ownership consumes lexical provenance only.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:652e06ba304f43d5d7de801f24a88e3c78b08a71:50e37fa8a90a8964aad0d5f2f7dbbe287441c6becd620f2e2bd432700bc875b4")
+Revision: None
 
-Reviewer: Some("subagent:review-5610")
+Reviewer: None
 
-Result: pass
+Result: pre_review

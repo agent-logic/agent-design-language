@@ -41,7 +41,7 @@ Normalize compiler-emitted coverage filenames lexically before ownership matchin
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
