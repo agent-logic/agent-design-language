@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Normalization intentionally remains lexical and does not resolve filesystem symlinks; llvm-cov filename ownership consumes lexical provenance only.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:652e06ba304f43d5d7de801f24a88e3c78b08a71:50e37fa8a90a8964aad0d5f2f7dbbe287441c6becd620f2e2bd432700bc875b4")
 
-Reviewer: None
+Reviewer: Some("subagent:review-5610")
 
-Result: pre_review
+Result: pass
