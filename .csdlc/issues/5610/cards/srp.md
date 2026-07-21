@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Normalization intentionally remains lexical and does not resolve filesystem symlinks; llvm-cov filename ownership consumes lexical provenance only.
+- Record equality is intentionally structural after filename canonicalization; any additional producer field mismatch remains fail-closed.
 
 ## Review Result
 
-Revision: Some("git-blake3:1d37fd8aaf903d115f025511831882853194c3c3:d01383fc5d3c5a844a62b27cab55d0b313c2af1cc27cd6369247dacccf0f4f9c")
+Revision: Some("git-blake3:905f558d24529546eb1185d0265bb81a89c6b9ae:196cc2e0afa4a8fe8d1b1b1b122a7aed6fca578e4fa48fc905417879be680949")
 
-Reviewer: Some("subagent:review-5610-current-main")
+Reviewer: Some("subagent:review-5610-alias-dedup")
 
 Result: pass

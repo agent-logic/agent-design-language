@@ -1,0 +1,8 @@
+{
+  "issue": 5610,
+  "expected_generation": 13,
+  "expected_digest": "73e5da89e77aba4caf7d3f235241684d3536b5ad66db5a0befbc7729689cf59a",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Exact-head hosted aggregate exposed canonical aliases with identical records; recover publication review truth for the bounded fail-closed correction."
+}
