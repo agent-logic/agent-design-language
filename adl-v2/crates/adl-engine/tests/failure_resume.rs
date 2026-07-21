@@ -351,3 +351,104 @@ fn output_limit_accepts_below_and_at_then_rejects_above_atomically() {
     );
     assert_eq!(engine.snapshot(), &before);
 }
+
+#[test]
+fn resume_rejects_semantically_unreachable_graph_and_journal_mutations() {
+    let graph_plan = common::plan(&["a", "b"], &[("a", "b")]);
+    let graph_policy = common::provider_policy(&graph_plan);
+    let graph_engine =
+        Engine::new(graph_plan.clone(), graph_policy.clone(), common::limits()).unwrap();
+    let mut impossible_ready: EngineSnapshot =
+        serde_json::from_slice(&graph_engine.checkpoint().unwrap()).unwrap();
+    impossible_ready.nodes.get_mut("b").unwrap().state = NodeState::Ready;
+    assert_eq!(
+        Engine::resume(
+            graph_plan,
+            graph_policy,
+            common::limits(),
+            &serde_json::to_vec(&impossible_ready).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
+    let plan = common::plan(&["a"], &[]);
+    let policy = common::retry_policy(&plan, 2, 2);
+    let mut engine = Engine::new(plan.clone(), policy.clone(), common::limits()).unwrap();
+    let first = common::provider_request(&engine.turn(TurnInput::tick(1)).unwrap());
+    engine
+        .turn(TurnInput {
+            logical_tick: 2,
+            completions: vec![common::provider_failure(&first, FailureClass::Retryable)],
+            cancellations: vec![],
+        })
+        .unwrap();
+    let checkpoint = engine.checkpoint().unwrap();
+    let original: EngineSnapshot = serde_json::from_slice(&checkpoint).unwrap();
+
+    let mut truncated = original.clone();
+    truncated.consumed_completion_digests.clear();
+    assert_eq!(
+        Engine::resume(
+            plan.clone(),
+            policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&truncated).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
+    let mut recreated_work = original.clone();
+    recreated_work.nodes.get_mut("a").unwrap().state = NodeState::Pending;
+    assert_eq!(
+        Engine::resume(
+            plan.clone(),
+            policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&recreated_work).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
+    let mut matured_retry = original.clone();
+    matured_retry.nodes.get_mut("a").unwrap().state = NodeState::RetryWait {
+        ready_at_tick: matured_retry.logical_tick,
+    };
+    assert_eq!(
+        Engine::resume(
+            plan.clone(),
+            policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&matured_retry).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
+    let mut forged_request = original;
+    let receipt = forged_request
+        .consumed_completion_digests
+        .pop_first()
+        .unwrap()
+        .1;
+    forged_request
+        .consumed_completion_digests
+        .insert("b".repeat(64), receipt);
+    assert_eq!(
+        Engine::resume(
+            plan,
+            policy,
+            common::limits(),
+            &serde_json::to_vec(&forged_request).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+}

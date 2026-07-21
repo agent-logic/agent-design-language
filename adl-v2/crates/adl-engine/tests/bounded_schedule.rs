@@ -378,3 +378,122 @@ fn checkpoint_byte_limit_accepts_exact_minimum_and_rejects_one_less() {
         assert!(Engine::new(plan.clone(), policy.clone(), limits).is_ok());
     }
 }
+
+#[test]
+fn plan_policy_and_turn_input_limits_cover_below_at_and_above_edges() {
+    let plan = common::plan(&["a"], &[]);
+    let policy = common::provider_policy(&plan);
+    let plan_bytes = u64::try_from(serde_json::to_vec(&plan).unwrap().len()).unwrap();
+    let policy_bytes = u64::try_from(serde_json::to_vec(&policy).unwrap().len()).unwrap();
+    for allowance in [0_u64, 1] {
+        let mut limits = common::limits();
+        limits.max_plan_bytes = plan_bytes + allowance;
+        limits.max_policy_bytes = policy_bytes + allowance;
+        assert!(Engine::new(plan.clone(), policy.clone(), limits).is_ok());
+    }
+    let mut below_plan = common::limits();
+    below_plan.max_plan_bytes = plan_bytes - 1;
+    assert_eq!(
+        Engine::new(plan.clone(), policy.clone(), below_plan)
+            .unwrap_err()
+            .code,
+        EngineErrorCode::ResourceLimit
+    );
+    let mut below_policy = common::limits();
+    below_policy.max_policy_bytes = policy_bytes - 1;
+    assert_eq!(
+        Engine::new(plan.clone(), policy.clone(), below_policy)
+            .unwrap_err()
+            .code,
+        EngineErrorCode::ResourceLimit
+    );
+
+    let mut seed = Engine::new(plan.clone(), policy.clone(), common::limits()).unwrap();
+    let request = common::provider_request(&seed.turn(TurnInput::tick(1)).unwrap());
+    let completion = common::provider_success(&request, b"bounded");
+    let completion_bytes = u64::try_from(serde_json::to_vec(&completion).unwrap().len()).unwrap();
+    for allowance in [0_u64, 1] {
+        let mut limits = common::limits();
+        limits.max_completion_bytes = completion_bytes + allowance;
+        let mut engine = Engine::new(plan.clone(), policy.clone(), limits).unwrap();
+        let request = common::provider_request(&engine.turn(TurnInput::tick(1)).unwrap());
+        assert!(engine
+            .turn(TurnInput {
+                logical_tick: 2,
+                completions: vec![common::provider_success(&request, b"bounded")],
+                cancellations: vec![],
+            })
+            .is_ok());
+    }
+    let mut limits = common::limits();
+    limits.max_completion_bytes = completion_bytes - 1;
+    let mut engine = Engine::new(plan.clone(), policy.clone(), limits).unwrap();
+    let request = common::provider_request(&engine.turn(TurnInput::tick(1)).unwrap());
+    let before = engine.snapshot().clone();
+    assert_eq!(
+        engine
+            .turn(TurnInput {
+                logical_tick: 2,
+                completions: vec![common::provider_success(&request, b"bounded")],
+                cancellations: vec![],
+            })
+            .unwrap_err()
+            .code,
+        EngineErrorCode::ResourceLimit
+    );
+    assert_eq!(&before, engine.snapshot());
+
+    let mut limits = common::limits();
+    limits.max_completions_per_turn = 1;
+    let mut engine = Engine::new(plan.clone(), policy.clone(), limits).unwrap();
+    let request = common::provider_request(&engine.turn(TurnInput::tick(1)).unwrap());
+    let duplicate = common::provider_success(&request, b"bounded");
+    assert_eq!(
+        engine
+            .turn(TurnInput {
+                logical_tick: 2,
+                completions: vec![duplicate.clone(), duplicate],
+                cancellations: vec![],
+            })
+            .unwrap_err()
+            .code,
+        EngineErrorCode::ResourceLimit
+    );
+
+    let turn = TurnInput {
+        logical_tick: 1,
+        completions: vec![],
+        cancellations: vec!["a".into()],
+    };
+    let turn_bytes = u64::try_from(serde_json::to_vec(&turn).unwrap().len()).unwrap();
+    for allowance in [0_u64, 1] {
+        let mut limits = common::limits();
+        limits.max_completion_bytes = 1;
+        limits.max_turn_input_bytes = turn_bytes + allowance;
+        let mut engine = Engine::new(plan.clone(), policy.clone(), limits).unwrap();
+        assert!(engine.turn(turn.clone()).is_ok());
+    }
+    let mut limits = common::limits();
+    limits.max_completion_bytes = 1;
+    limits.max_turn_input_bytes = turn_bytes - 1;
+    let mut engine = Engine::new(plan.clone(), policy.clone(), limits).unwrap();
+    assert_eq!(
+        engine.turn(turn).unwrap_err().code,
+        EngineErrorCode::ResourceLimit
+    );
+
+    let mut limits = common::limits();
+    limits.max_cancellations_per_turn = 1;
+    let mut engine = Engine::new(plan, policy, limits).unwrap();
+    assert_eq!(
+        engine
+            .turn(TurnInput {
+                logical_tick: 1,
+                completions: vec![],
+                cancellations: vec!["a".into(), "a".into()],
+            })
+            .unwrap_err()
+            .code,
+        EngineErrorCode::ResourceLimit
+    );
+}

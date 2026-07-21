@@ -21,6 +21,11 @@ pub fn plan_with_edge_kind(
         .iter()
         .enumerate()
         .map(|(index, node_id)| {
+            let inputs = if edge_kind == "state_dependency" && index == 1 {
+                json!({"input": "@state:state-0"})
+            } else {
+                json!({"ordinal": index})
+            };
             json!({
                 "id": node_id,
                 "step_id": format!("step-{index}"),
@@ -31,7 +36,7 @@ pub fn plan_with_edge_kind(
                 "tools": ["tool-a"],
                 "ports": {"inputs": ["input"], "outputs": ["output"]},
                 "prompt": {"system": "system", "user": format!("node-{index}")},
-                "inputs": {"ordinal": index},
+                "inputs": inputs,
                 "save_as": format!("state-{index}"),
                 "provenance": {
                     "document_version": "0.5",
@@ -47,11 +52,17 @@ pub fn plan_with_edge_kind(
     let edges = edges
         .iter()
         .map(|(from, to)| {
+            let state = if edge_kind == "state_dependency" {
+                let index = node_ids.iter().position(|node_id| node_id == from).unwrap();
+                Some(format!("state-{index}"))
+            } else {
+                None
+            };
             json!({
                 "from": from,
                 "to": to,
                 "kind": edge_kind,
-                "state": null
+                "state": state
             })
         })
         .collect::<Vec<_>>();
@@ -75,11 +86,17 @@ pub fn limits() -> EngineLimits {
     EngineLimits {
         max_plan_nodes: 32,
         max_dependency_edges: 64,
+        max_plan_bytes: 1_048_576,
+        max_policy_bytes: 1_048_576,
         max_ready_nodes: 32,
         max_in_flight: 32,
         max_total_attempts: 128,
         max_attempts_per_node: 8,
         max_request_bytes: 65_536,
+        max_completion_bytes: 65_536,
+        max_completions_per_turn: 32,
+        max_cancellations_per_turn: 32,
+        max_turn_input_bytes: 131_072,
         max_output_bytes: 65_536,
         max_events: 1_024,
         max_checkpoint_bytes: 1_048_576,
@@ -155,10 +172,7 @@ pub fn provider_success(request: &ProviderRequest, bytes: &[u8]) -> PortCompleti
         request_id: request.request_id.clone(),
         node_id: request.node_id.clone(),
         attempt: request.attempt,
-        outcome: CompletionOutcome::Success(PortOutput::new(
-            "application/octet-stream",
-            bytes.to_vec(),
-        )),
+        outcome: CompletionOutcome::Success(PortOutput::new("text/plain", bytes.to_vec())),
     }))
 }
 
@@ -176,10 +190,7 @@ pub fn tool_success(request: &ToolRequest, bytes: &[u8]) -> PortCompletion {
         request_id: request.request_id.clone(),
         node_id: request.node_id.clone(),
         attempt: request.attempt,
-        outcome: CompletionOutcome::Success(PortOutput::new(
-            "application/octet-stream",
-            bytes.to_vec(),
-        )),
+        outcome: CompletionOutcome::Success(PortOutput::new("text/plain", bytes.to_vec())),
     }))
 }
 

@@ -1,11 +1,13 @@
 use crate::model::{
-    CancelRequest, CompletionOutcome, EngineEffect, EngineError, EngineErrorCode, EngineEvent,
-    EngineLimits, EnginePolicy, EngineSnapshot, EventKind, FailureClass, JoinPolicy, NodeSnapshot,
-    NodeState, PortCompletion, PortFailure, PortKind, ProviderRequest, ToolRequest, TurnInput,
-    TurnOutput, CHECKPOINT_CONTRACT_VERSION, ENGINE_CONTRACT_VERSION,
+    CancelRequest, CompletionOutcome, CompletionReceipt, EngineEffect, EngineError,
+    EngineErrorCode, EngineEvent, EngineLimits, EnginePolicy, EngineSnapshot, EventKind,
+    FailureClass, JoinPolicy, NodeSnapshot, NodeState, PortCompletion, PortFailure, PortKind,
+    PortOutput, ProviderRequest, ToolRequest, TurnInput, TurnOutput, CHECKPOINT_CONTRACT_VERSION,
+    ENGINE_CONTRACT_VERSION,
 };
-use adl_compiler::{canonical_plan_bytes, ExecutionPlan, PlanNode, EXECUTION_PLAN_VERSION};
+use adl_compiler::{ExecutionPlan, PlanEdgeKind, PlanNode, EXECUTION_PLAN_VERSION};
 use serde::Serialize;
+use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -16,12 +18,14 @@ const REQUEST_ID_DOMAIN: &[u8] = b"adl.engine.request.v1\0";
 const IDEMPOTENCY_DOMAIN: &[u8] = b"adl.engine.idempotency.v1\0";
 const CANCEL_IDEMPOTENCY_DOMAIN: &[u8] = b"adl.engine.cancel.v1\0";
 const COMPLETION_DIGEST_DOMAIN: &[u8] = b"adl.engine.completion.v1\0";
+const INPUT_DIGEST_DOMAIN: &[u8] = b"adl.engine.input.v1\0";
 
 #[derive(Debug, Clone)]
 pub struct Engine {
     plan: ExecutionPlan,
     policy: EnginePolicy,
     predecessors: BTreeMap<String, Vec<String>>,
+    state_bindings: BTreeMap<String, BTreeMap<String, String>>,
     nodes: BTreeMap<String, PlanNode>,
     snapshot: EngineSnapshot,
 }
@@ -33,13 +37,14 @@ impl Engine {
         limits: EngineLimits,
     ) -> Result<Self, EngineError> {
         validate_limits(&limits)?;
-        let (nodes, predecessors, node_ids, edge_ids) = validate_plan(&plan, &limits)?;
+        preflight_plan(&plan, limits.max_plan_bytes)?;
+        preflight_policy(&policy, limits.max_policy_bytes)?;
+        let plan_bytes = encode_bounded(&plan, limits.max_plan_bytes, "plan")?;
+        let policy_bytes = encode_bounded(&policy, limits.max_policy_bytes, "policy")?;
+        let (nodes, predecessors, state_bindings, node_ids, edge_ids) =
+            validate_plan(&plan, &limits)?;
         validate_policy(&plan, &policy, &predecessors, &limits)?;
 
-        let plan_bytes = canonical_plan_bytes(&plan).map_err(|error| {
-            EngineError::new(EngineErrorCode::Serialization, "plan", &error.to_string())
-        })?;
-        let policy_bytes = encode(&policy, "policy")?;
         let plan_digest = hash_parts(PLAN_DIGEST_DOMAIN, &[&plan_bytes]);
         let policy_digest = hash_parts(POLICY_DIGEST_DOMAIN, &[&policy_bytes]);
 
@@ -80,6 +85,7 @@ impl Engine {
             plan,
             policy,
             predecessors,
+            state_bindings,
             nodes,
             snapshot,
         })
@@ -114,7 +120,7 @@ impl Engine {
                 "checkpoint encoding is not canonical",
             ));
         }
-        validate_resumed_snapshot(&snapshot, &expected.snapshot)?;
+        validate_resumed_snapshot(&snapshot, &expected)?;
         let mut resumed = expected;
         resumed.snapshot = snapshot;
         Ok(resumed)
@@ -146,18 +152,15 @@ impl Engine {
                 "checkpoint requires a quiescent engine",
             ));
         }
-        let bytes = encode(&self.snapshot, "checkpoint")?;
-        if count_u64(bytes.len(), "checkpoint")? > self.snapshot.limits.max_checkpoint_bytes {
-            return Err(EngineError::new(
-                EngineErrorCode::ResourceLimit,
-                "checkpoint",
-                "checkpoint byte limit exceeded",
-            ));
-        }
-        Ok(bytes)
+        encode_bounded(
+            &self.snapshot,
+            self.snapshot.limits.max_checkpoint_bytes,
+            "checkpoint",
+        )
     }
 
     pub fn turn(&mut self, mut input: TurnInput) -> Result<TurnOutput, EngineError> {
+        validate_turn_input(&input, &self.snapshot.limits)?;
         if input.logical_tick <= self.snapshot.logical_tick {
             return Err(EngineError::new(
                 EngineErrorCode::Protocol,
@@ -217,11 +220,15 @@ impl Engine {
         events: &mut Vec<EngineEvent>,
         completed_nodes: &mut BTreeSet<String>,
     ) -> Result<bool, EngineError> {
-        let encoded = encode(completion, "completion")?;
+        let encoded = encode_bounded(
+            completion,
+            snapshot.limits.max_completion_bytes,
+            "completion",
+        )?;
         let digest = hash_parts(COMPLETION_DIGEST_DOMAIN, &[&encoded]);
         let request_id = completion.request_id();
         if let Some(previous) = snapshot.consumed_completion_digests.get(request_id) {
-            if previous == &digest {
+            if previous.completion_digest == digest {
                 return Ok(false);
             }
             return Err(EngineError::new(
@@ -275,9 +282,19 @@ impl Engine {
                 "active node is absent",
             )
         })?;
-        let (active_attempt, cancelling) = match &current.state {
-            NodeState::Dispatched { attempt, .. } => (*attempt, false),
-            NodeState::Cancelling { attempt, .. } => (*attempt, true),
+        let (active_attempt, sequence, input_digest, cancelling) = match &current.state {
+            NodeState::Dispatched {
+                attempt,
+                sequence,
+                input_digest,
+                ..
+            } => (*attempt, *sequence, input_digest.clone(), false),
+            NodeState::Cancelling {
+                attempt,
+                sequence,
+                input_digest,
+                ..
+            } => (*attempt, *sequence, input_digest.clone(), true),
             NodeState::Pending
             | NodeState::Ready
             | NodeState::RetryWait { .. }
@@ -349,9 +366,16 @@ impl Engine {
             }
         };
 
-        snapshot
-            .consumed_completion_digests
-            .insert(String::from(request_id), digest);
+        snapshot.consumed_completion_digests.insert(
+            String::from(request_id),
+            CompletionReceipt {
+                node_id: node_id.clone(),
+                attempt: active_attempt,
+                sequence,
+                input_digest,
+                completion_digest: digest,
+            },
+        );
         if let Some(value) = outcome {
             self.apply_outcome(snapshot, &node_id, value, events)?;
         } else {
@@ -516,6 +540,7 @@ impl Engine {
                 request_id,
                 attempt,
                 sequence,
+                input_digest,
             } => {
                 let cancel_key = hash_parts(
                     CANCEL_IDEMPOTENCY_DOMAIN,
@@ -532,6 +557,7 @@ impl Engine {
                     request_id: request_id.clone(),
                     attempt,
                     sequence,
+                    input_digest,
                 };
                 effects.push(EngineEffect::Cancel(CancelRequest {
                     request_id: request_id.clone(),
@@ -587,8 +613,12 @@ impl Engine {
                         "predecessor set is absent",
                     )
                 })?;
-                if dependency_decision(snapshot, predecessors, &self.policy.nodes[node_id])
-                    == DependencyDecision::Fail
+                if dependency_decision(
+                    snapshot,
+                    predecessors,
+                    &self.policy.nodes[node_id],
+                    &self.state_bindings[node_id],
+                ) == DependencyDecision::Fail
                 {
                     failures.push(node_id.clone());
                 }
@@ -625,8 +655,12 @@ impl Engine {
                     "predecessor set is absent",
                 )
             })?;
-            if dependency_decision(snapshot, predecessors, &self.policy.nodes[node_id])
-                == DependencyDecision::Ready
+            if dependency_decision(
+                snapshot,
+                predecessors,
+                &self.policy.nodes[node_id],
+                &self.state_bindings[node_id],
+            ) == DependencyDecision::Ready
             {
                 eligible.push(node_id.clone());
             }
@@ -738,22 +772,26 @@ impl Engine {
                     "dispatch policy is absent",
                 )
             })?;
+            let resolved_inputs = self.resolve_inputs(snapshot, node)?;
+            let input_bytes = encode_bounded(
+                &resolved_inputs,
+                snapshot.limits.max_request_bytes,
+                "effect.inputs",
+            )?;
+            let input_digest = hash_parts(INPUT_DIGEST_DOMAIN, &[&input_bytes]);
             let effect = make_effect(
                 &self.plan,
                 node,
                 node_policy,
                 &snapshot.plan_digest,
-                attempt,
-                sequence,
+                DispatchInput {
+                    attempt,
+                    sequence,
+                    inputs: &resolved_inputs,
+                    input_digest: &input_digest,
+                },
             );
-            let effect_bytes = encode(&effect, "effect")?;
-            if count_u64(effect_bytes.len(), "effect")? > snapshot.limits.max_request_bytes {
-                return Err(EngineError::new(
-                    EngineErrorCode::ResourceLimit,
-                    "effect",
-                    "request byte limit exceeded",
-                ));
-            }
+            encode_bounded(&effect, snapshot.limits.max_request_bytes, "effect")?;
             let request_id = effect_request_id(&effect);
             let state = snapshot.nodes.get_mut(&node_id).ok_or_else(|| {
                 EngineError::new(
@@ -767,6 +805,7 @@ impl Engine {
                 request_id: request_id.clone(),
                 attempt,
                 sequence,
+                input_digest,
             };
             snapshot.attempts_consumed += 1;
             snapshot.next_request_sequence += 1;
@@ -784,6 +823,138 @@ impl Engine {
         }
         Ok(())
     }
+
+    fn resolve_inputs(
+        &self,
+        snapshot: &EngineSnapshot,
+        node: &PlanNode,
+    ) -> Result<BTreeMap<String, Value>, EngineError> {
+        let bindings = self.state_bindings.get(&node.id).ok_or_else(|| {
+            EngineError::new(
+                EngineErrorCode::InvalidPlan,
+                "plan.edges",
+                "state binding set is absent",
+            )
+        })?;
+        node.inputs
+            .iter()
+            .map(|(name, value)| {
+                resolve_state_value(value, bindings, snapshot)
+                    .map(|resolved| (name.clone(), resolved))
+            })
+            .collect()
+    }
+}
+
+fn resolve_state_value(
+    value: &Value,
+    bindings: &BTreeMap<String, String>,
+    snapshot: &EngineSnapshot,
+) -> Result<Value, EngineError> {
+    match value {
+        Value::String(text) => {
+            let Some(state) = text.strip_prefix("@state:") else {
+                return Ok(value.clone());
+            };
+            let source = bindings.get(state).ok_or_else(|| {
+                EngineError::new(
+                    EngineErrorCode::InvalidPlan,
+                    "plan.nodes.inputs",
+                    "state reference has no typed dependency edge",
+                )
+            })?;
+            let node = snapshot.nodes.get(source).ok_or_else(|| {
+                EngineError::new(
+                    EngineErrorCode::InvalidPlan,
+                    "snapshot.nodes",
+                    "state source is absent",
+                )
+            })?;
+            match &node.state {
+                NodeState::Succeeded { output } => state_output_value(output),
+                NodeState::Pending
+                | NodeState::Ready
+                | NodeState::Dispatched { .. }
+                | NodeState::RetryWait { .. }
+                | NodeState::Cancelling { .. }
+                | NodeState::Failed { .. }
+                | NodeState::Cancelled => Err(EngineError::new(
+                    EngineErrorCode::Protocol,
+                    "snapshot.nodes",
+                    "state dependency output is unavailable",
+                )),
+            }
+        }
+        Value::Array(values) => values
+            .iter()
+            .map(|item| resolve_state_value(item, bindings, snapshot))
+            .collect::<Result<Vec<_>, _>>()
+            .map(Value::Array),
+        Value::Object(values) => values
+            .iter()
+            .map(|(key, item)| {
+                resolve_state_value(item, bindings, snapshot)
+                    .map(|resolved| (key.clone(), resolved))
+            })
+            .collect::<Result<serde_json::Map<_, _>, _>>()
+            .map(Value::Object),
+        Value::Null | Value::Bool(_) | Value::Number(_) => Ok(value.clone()),
+    }
+}
+
+fn state_output_value(output: &PortOutput) -> Result<Value, EngineError> {
+    let media_type = output
+        .media_type
+        .split(';')
+        .next()
+        .unwrap_or_default()
+        .trim();
+    if media_type == "application/json" {
+        serde_json::from_slice(&output.bytes).map_err(|error| {
+            EngineError::new(
+                EngineErrorCode::Protocol,
+                "completion.output",
+                &error.to_string(),
+            )
+        })
+    } else if media_type.starts_with("text/") {
+        String::from_utf8(output.bytes.clone())
+            .map(Value::String)
+            .map_err(|error| {
+                EngineError::new(
+                    EngineErrorCode::Protocol,
+                    "completion.output",
+                    &error.to_string(),
+                )
+            })
+    } else {
+        Err(EngineError::new(
+            EngineErrorCode::Protocol,
+            "completion.output.media_type",
+            "state dependency requires application/json or text/* output",
+        ))
+    }
+}
+
+fn collect_state_references(value: &Value, references: &mut BTreeSet<String>) {
+    match value {
+        Value::String(text) => {
+            if let Some(reference) = text.strip_prefix("@state:") {
+                references.insert(reference.to_owned());
+            }
+        }
+        Value::Array(values) => {
+            for item in values {
+                collect_state_references(item, references);
+            }
+        }
+        Value::Object(values) => {
+            for item in values.values() {
+                collect_state_references(item, references);
+            }
+        }
+        Value::Null | Value::Bool(_) | Value::Number(_) => {}
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -797,13 +968,28 @@ fn dependency_decision(
     snapshot: &EngineSnapshot,
     predecessors: &[String],
     policy: &crate::model::NodePolicy,
+    state_bindings: &BTreeMap<String, String>,
 ) -> DependencyDecision {
+    for source in state_bindings.values() {
+        match snapshot.nodes[source].state {
+            NodeState::Succeeded { .. } => {}
+            NodeState::Failed { .. } | NodeState::Cancelled => {
+                return DependencyDecision::Fail;
+            }
+            NodeState::Pending
+            | NodeState::Ready
+            | NodeState::Dispatched { .. }
+            | NodeState::RetryWait { .. }
+            | NodeState::Cancelling { .. } => return DependencyDecision::Wait,
+        }
+    }
     if predecessors.is_empty() {
         return DependencyDecision::Ready;
     }
-    let mut succeeded = 0;
-    let mut terminal = 0;
-    let mut failed = 0;
+    let mut succeeded = 0_u64;
+    let mut terminal = 0_u64;
+    let mut failed = 0_u64;
+    let predecessor_count = u64::try_from(predecessors.len()).unwrap_or(u64::MAX);
     for predecessor in predecessors {
         let state = &snapshot.nodes[predecessor].state;
         match state {
@@ -824,9 +1010,9 @@ fn dependency_decision(
     }
     match policy.join {
         JoinPolicy::All => {
-            if succeeded == predecessors.len() {
+            if succeeded == predecessor_count {
                 DependencyDecision::Ready
-            } else if terminal == predecessors.len() {
+            } else if terminal == predecessor_count {
                 DependencyDecision::Fail
             } else {
                 DependencyDecision::Wait
@@ -835,16 +1021,17 @@ fn dependency_decision(
         JoinPolicy::FailFast => {
             if failed > 0 {
                 DependencyDecision::Fail
-            } else if succeeded == predecessors.len() {
+            } else if succeeded == predecessor_count {
                 DependencyDecision::Ready
             } else {
                 DependencyDecision::Wait
             }
         }
         JoinPolicy::AtLeast { required } => {
+            let possible = succeeded + (predecessor_count - terminal);
             if succeeded >= required {
                 DependencyDecision::Ready
-            } else if succeeded + (predecessors.len() - terminal) < required {
+            } else if possible < required {
                 DependencyDecision::Fail
             } else {
                 DependencyDecision::Wait
@@ -856,11 +1043,17 @@ fn dependency_decision(
 fn validate_limits(limits: &EngineLimits) -> Result<(), EngineError> {
     if limits.max_plan_nodes == 0
         || limits.max_dependency_edges == 0
+        || limits.max_plan_bytes == 0
+        || limits.max_policy_bytes == 0
         || limits.max_ready_nodes == 0
         || limits.max_in_flight == 0
         || limits.max_total_attempts == 0
         || limits.max_attempts_per_node == 0
         || limits.max_request_bytes == 0
+        || limits.max_completion_bytes == 0
+        || limits.max_completions_per_turn == 0
+        || limits.max_cancellations_per_turn == 0
+        || limits.max_turn_input_bytes == 0
         || limits.max_output_bytes == 0
         || limits.max_events == 0
         || limits.max_checkpoint_bytes == 0
@@ -875,6 +1068,7 @@ fn validate_limits(limits: &EngineLimits) -> Result<(), EngineError> {
     if limits.max_in_flight > limits.max_ready_nodes
         || limits.max_ready_nodes > limits.max_plan_nodes
         || u64::from(limits.max_attempts_per_node) > limits.max_total_attempts
+        || limits.max_completion_bytes > limits.max_turn_input_bytes
     {
         return Err(EngineError::new(
             EngineErrorCode::InvalidLimits,
@@ -884,9 +1078,21 @@ fn validate_limits(limits: &EngineLimits) -> Result<(), EngineError> {
     }
     limit_usize(limits.max_plan_nodes, "limits.max_plan_nodes")?;
     limit_usize(limits.max_dependency_edges, "limits.max_dependency_edges")?;
+    limit_usize(limits.max_plan_bytes, "limits.max_plan_bytes")?;
+    limit_usize(limits.max_policy_bytes, "limits.max_policy_bytes")?;
     limit_usize(limits.max_ready_nodes, "limits.max_ready_nodes")?;
     limit_usize(limits.max_in_flight, "limits.max_in_flight")?;
     limit_usize(limits.max_request_bytes, "limits.max_request_bytes")?;
+    limit_usize(limits.max_completion_bytes, "limits.max_completion_bytes")?;
+    limit_usize(
+        limits.max_completions_per_turn,
+        "limits.max_completions_per_turn",
+    )?;
+    limit_usize(
+        limits.max_cancellations_per_turn,
+        "limits.max_cancellations_per_turn",
+    )?;
+    limit_usize(limits.max_turn_input_bytes, "limits.max_turn_input_bytes")?;
     limit_usize(limits.max_output_bytes, "limits.max_output_bytes")?;
     limit_usize(limits.max_checkpoint_bytes, "limits.max_checkpoint_bytes")?;
     Ok(())
@@ -895,6 +1101,7 @@ fn validate_limits(limits: &EngineLimits) -> Result<(), EngineError> {
 type PlanIndex = (
     BTreeMap<String, PlanNode>,
     BTreeMap<String, Vec<String>>,
+    BTreeMap<String, BTreeMap<String, String>>,
     Vec<String>,
     Vec<String>,
 );
@@ -959,6 +1166,10 @@ fn validate_plan(plan: &ExecutionPlan, limits: &EngineLimits) -> Result<PlanInde
         .map(|node_id| (node_id.clone(), BTreeSet::new()))
         .collect::<BTreeMap<_, _>>();
     let mut successor_sets = predecessor_sets.clone();
+    let mut state_bindings = node_ids
+        .iter()
+        .map(|node_id| (node_id.clone(), BTreeMap::new()))
+        .collect::<BTreeMap<_, _>>();
     let mut edge_encodings = BTreeSet::new();
     let mut edge_ids = Vec::new();
     for edge in &plan.edges {
@@ -977,6 +1188,64 @@ fn validate_plan(plan: &ExecutionPlan, limits: &EngineLimits) -> Result<PlanInde
                 "plan.edges",
                 "duplicate plan edge",
             ));
+        }
+        match edge.kind {
+            PlanEdgeKind::Sequential if edge.state.is_some() => {
+                return Err(EngineError::new(
+                    EngineErrorCode::InvalidPlan,
+                    "plan.edges.state",
+                    "sequential edge cannot carry state identity",
+                ));
+            }
+            PlanEdgeKind::Sequential => {}
+            PlanEdgeKind::StateDependency => {
+                let state = edge
+                    .state
+                    .as_deref()
+                    .filter(|value| !value.is_empty())
+                    .ok_or_else(|| {
+                        EngineError::new(
+                            EngineErrorCode::InvalidPlan,
+                            "plan.edges.state",
+                            "state dependency requires a state identity",
+                        )
+                    })?;
+                if nodes[&edge.from].save_as.as_deref() != Some(state) {
+                    return Err(EngineError::new(
+                        EngineErrorCode::InvalidPlan,
+                        "plan.edges.state",
+                        "state dependency does not match its source output",
+                    ));
+                }
+                let mut references = BTreeSet::new();
+                for value in nodes[&edge.to].inputs.values() {
+                    collect_state_references(value, &mut references);
+                }
+                if !references.contains(state) {
+                    return Err(EngineError::new(
+                        EngineErrorCode::InvalidPlan,
+                        "plan.edges.state",
+                        "state dependency is not referenced by its target inputs",
+                    ));
+                }
+                let bindings = state_bindings.get_mut(&edge.to).ok_or_else(|| {
+                    EngineError::new(
+                        EngineErrorCode::InvalidPlan,
+                        "plan.edges",
+                        "state dependency target is absent",
+                    )
+                })?;
+                if bindings
+                    .insert(state.to_owned(), edge.from.clone())
+                    .is_some()
+                {
+                    return Err(EngineError::new(
+                        EngineErrorCode::InvalidPlan,
+                        "plan.edges.state",
+                        "state dependency identity is ambiguous for its target",
+                    ));
+                }
+            }
         }
         edge_ids.push(hash_parts(EDGE_DIGEST_DOMAIN, &[&encoded]));
         predecessor_sets
@@ -1002,11 +1271,28 @@ fn validate_plan(plan: &ExecutionPlan, limits: &EngineLimits) -> Result<PlanInde
     }
     edge_ids.sort();
     validate_acyclic(&node_ids, &predecessor_sets, &successor_sets)?;
+    for node_id in &node_ids {
+        let mut references = BTreeSet::new();
+        for value in nodes[node_id].inputs.values() {
+            collect_state_references(value, &mut references);
+        }
+        let bound = state_bindings[node_id]
+            .keys()
+            .cloned()
+            .collect::<BTreeSet<_>>();
+        if references != bound {
+            return Err(EngineError::new(
+                EngineErrorCode::InvalidPlan,
+                "plan.nodes.inputs",
+                "state references must exactly match typed state dependency edges",
+            ));
+        }
+    }
     let predecessors = predecessor_sets
         .into_iter()
         .map(|(node_id, values)| (node_id, values.into_iter().collect()))
         .collect();
-    Ok((nodes, predecessors, node_ids, edge_ids))
+    Ok((nodes, predecessors, state_bindings, node_ids, edge_ids))
 }
 
 fn validate_acyclic(
@@ -1118,7 +1404,7 @@ fn validate_policy(
                 }
             }
         }
-        let incoming = predecessors[&node.id].len();
+        let incoming = count_u64(predecessors[&node.id].len(), "policy.nodes.join")?;
         if let JoinPolicy::AtLeast { required } = node_policy.join {
             if required == 0 || required > incoming {
                 return Err(EngineError::new(
@@ -1141,23 +1427,36 @@ fn validate_request_envelopes(
 ) -> Result<(), EngineError> {
     for (node_id, node) in nodes {
         let node_policy = &policy.nodes[node_id];
+        let input_bytes = encode_bounded(&node.inputs, limits.max_request_bytes, "effect.inputs")?;
+        let input_digest = hash_parts(INPUT_DIGEST_DOMAIN, &[&input_bytes]);
         let effect = make_effect(
             plan,
             node,
             node_policy,
             plan_digest,
-            node_policy.retry.max_attempts,
-            limits.max_total_attempts,
+            DispatchInput {
+                attempt: node_policy.retry.max_attempts,
+                sequence: limits.max_total_attempts,
+                inputs: &node.inputs,
+                input_digest: &input_digest,
+            },
         );
-        if count_u64(encode(&effect, "effect")?.len(), "effect")? > limits.max_request_bytes {
-            return Err(EngineError::new(
+        encode_bounded(&effect, limits.max_request_bytes, "effect").map_err(|_| {
+            EngineError::new(
                 EngineErrorCode::InvalidLimits,
                 "limits.max_request_bytes",
                 "request byte limit cannot admit a plan node",
-            ));
-        }
+            )
+        })?;
     }
     Ok(())
+}
+
+struct DispatchInput<'a> {
+    attempt: u32,
+    sequence: u64,
+    inputs: &'a BTreeMap<String, Value>,
+    input_digest: &'a str,
 }
 
 fn make_effect(
@@ -1165,19 +1464,14 @@ fn make_effect(
     node: &PlanNode,
     policy: &crate::model::NodePolicy,
     plan_digest: &str,
-    attempt: u32,
-    sequence: u64,
+    dispatch: DispatchInput<'_>,
 ) -> EngineEffect {
-    let attempt_bytes = attempt.to_be_bytes();
-    let sequence_bytes = sequence.to_be_bytes();
-    let request_id = hash_parts(
-        REQUEST_ID_DOMAIN,
-        &[
-            plan_digest.as_bytes(),
-            node.id.as_bytes(),
-            &attempt_bytes,
-            &sequence_bytes,
-        ],
+    let request_id = request_identity(
+        plan_digest,
+        &node.id,
+        dispatch.attempt,
+        dispatch.sequence,
+        dispatch.input_digest,
     );
     let idempotency_key = hash_parts(
         IDEMPOTENCY_DOMAIN,
@@ -1187,27 +1481,48 @@ fn make_effect(
         PortKind::Provider => EngineEffect::Provider(Box::new(ProviderRequest {
             request_id,
             idempotency_key,
-            sequence,
+            sequence: dispatch.sequence,
             node_id: node.id.clone(),
-            attempt,
+            attempt: dispatch.attempt,
             provider_ref: node.provider_ref.clone(),
             model: node.model.clone(),
             prompt: node.prompt.clone(),
-            inputs: node.inputs.clone(),
+            inputs: dispatch.inputs.clone(),
             timeout_ticks: policy.timeout_ticks,
         })),
         PortKind::Tool { name } => EngineEffect::Tool(Box::new(ToolRequest {
             request_id,
             idempotency_key,
-            sequence,
+            sequence: dispatch.sequence,
             node_id: node.id.clone(),
-            attempt,
+            attempt: dispatch.attempt,
             tool: name.clone(),
             run: plan.run.clone(),
-            inputs: node.inputs.clone(),
+            inputs: dispatch.inputs.clone(),
             timeout_ticks: policy.timeout_ticks,
         })),
     }
+}
+
+fn request_identity(
+    plan_digest: &str,
+    node_id: &str,
+    attempt: u32,
+    sequence: u64,
+    input_digest: &str,
+) -> String {
+    let attempt_bytes = attempt.to_be_bytes();
+    let sequence_bytes = sequence.to_be_bytes();
+    hash_parts(
+        REQUEST_ID_DOMAIN,
+        &[
+            plan_digest.as_bytes(),
+            node_id.as_bytes(),
+            &attempt_bytes,
+            &sequence_bytes,
+            input_digest.as_bytes(),
+        ],
+    )
 }
 
 fn effect_request_id(effect: &EngineEffect) -> String {
@@ -1267,22 +1582,15 @@ fn emit(
 }
 
 fn ensure_snapshot_bound(snapshot: &EngineSnapshot) -> Result<(), EngineError> {
-    if count_u64(encode(snapshot, "checkpoint")?.len(), "checkpoint")?
-        > snapshot.limits.max_checkpoint_bytes
-    {
-        return Err(EngineError::new(
-            EngineErrorCode::ResourceLimit,
-            "checkpoint",
-            "checkpoint byte limit exceeded",
-        ));
-    }
+    encode_bounded(snapshot, snapshot.limits.max_checkpoint_bytes, "checkpoint")?;
     Ok(())
 }
 
 fn validate_resumed_snapshot(
     snapshot: &EngineSnapshot,
-    expected: &EngineSnapshot,
+    expected_engine: &Engine,
 ) -> Result<(), EngineError> {
+    let expected = &expected_engine.snapshot;
     if snapshot.checkpoint_contract != expected.checkpoint_contract
         || snapshot.engine_contract != expected.engine_contract
         || snapshot.plan_contract != expected.plan_contract
@@ -1316,7 +1624,7 @@ fn validate_resumed_snapshot(
     }
     let mut attempts = 0_u64;
     let mut output_bytes = 0_u64;
-    for node in snapshot.nodes.values() {
+    for (node_id, node) in &snapshot.nodes {
         if node.attempts > snapshot.limits.max_attempts_per_node {
             return Err(EngineError::new(
                 EngineErrorCode::CheckpointIncompatible,
@@ -1341,11 +1649,20 @@ fn validate_resumed_snapshot(
                     "checkpoint contains an in-flight request",
                 ));
             }
-            NodeState::RetryWait { .. } if node.attempts == 0 => {
+            NodeState::Pending if node.attempts != 0 => {
                 return Err(EngineError::new(
                     EngineErrorCode::CheckpointIncompatible,
                     "checkpoint.nodes",
-                    "retry wait has no consumed attempt",
+                    "pending node cannot retain consumed attempts",
+                ));
+            }
+            NodeState::RetryWait { ready_at_tick }
+                if node.attempts == 0 || *ready_at_tick <= snapshot.logical_tick =>
+            {
+                return Err(EngineError::new(
+                    EngineErrorCode::CheckpointIncompatible,
+                    "checkpoint.nodes",
+                    "retry wait is missing an attempt or is already mature",
                 ));
             }
             NodeState::Succeeded { .. } if node.attempts == 0 => {
@@ -1366,11 +1683,49 @@ fn validate_resumed_snapshot(
                         )
                     })?;
             }
+            NodeState::Failed { failure }
+                if node.attempts == 0 && !undispatched_failure_allowed(&failure.class) =>
+            {
+                return Err(EngineError::new(
+                    EngineErrorCode::CheckpointIncompatible,
+                    "checkpoint.nodes",
+                    "undispatched failed node has an unreachable failure class",
+                ));
+            }
             NodeState::Pending
             | NodeState::Ready
             | NodeState::RetryWait { .. }
             | NodeState::Failed { .. }
             | NodeState::Cancelled => {}
+        }
+        let policy = &expected_engine.policy.nodes[node_id];
+        if node.attempts > policy.retry.max_attempts {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.nodes",
+                "node attempts exceed its retry policy",
+            ));
+        }
+        if ready_or_retrying(&node.state) && node.attempts >= policy.retry.max_attempts {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.nodes",
+                "nonterminal node has exhausted its retry policy",
+            ));
+        }
+        if ready_or_retrying(&node.state)
+            && dependency_decision(
+                snapshot,
+                &expected_engine.predecessors[node_id],
+                policy,
+                &expected_engine.state_bindings[node_id],
+            ) != DependencyDecision::Ready
+        {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.nodes",
+                "ready or retrying node contradicts its dependency graph",
+            ));
         }
     }
     if attempts != snapshot.attempts_consumed || output_bytes != snapshot.output_bytes {
@@ -1383,24 +1738,331 @@ fn validate_resumed_snapshot(
     if count_u64(
         snapshot.consumed_completion_digests.len(),
         "checkpoint.completions",
-    )? > snapshot.attempts_consumed
-        || snapshot
-            .consumed_completion_digests
-            .iter()
-            .any(|(request_id, digest)| !is_hex_digest(request_id) || !is_hex_digest(digest))
+    )? != snapshot.attempts_consumed
     {
         return Err(EngineError::new(
             EngineErrorCode::CheckpointIncompatible,
             "checkpoint.completions",
-            "checkpoint completion digest set is invalid",
+            "checkpoint completion journal is truncated",
+        ));
+    }
+    let mut sequences = BTreeSet::new();
+    let mut attempts_by_node = BTreeMap::<String, u32>::new();
+    for (request_id, receipt) in &snapshot.consumed_completion_digests {
+        let node = snapshot.nodes.get(&receipt.node_id).ok_or_else(|| {
+            EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.completions",
+                "completion journal names an unknown node",
+            )
+        })?;
+        if !is_hex_digest(request_id)
+            || !is_hex_digest(&receipt.input_digest)
+            || !is_hex_digest(&receipt.completion_digest)
+            || receipt.attempt == 0
+            || receipt.attempt > node.attempts
+            || receipt.sequence >= snapshot.attempts_consumed
+            || !sequences.insert(receipt.sequence)
+        {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.completions",
+                "completion journal identity or sequence is invalid",
+            ));
+        }
+        let plan_node = &expected_engine.nodes[&receipt.node_id];
+        let inputs = expected_engine
+            .resolve_inputs(snapshot, plan_node)
+            .map_err(|_| {
+                EngineError::new(
+                    EngineErrorCode::CheckpointIncompatible,
+                    "checkpoint.completions",
+                    "completion journal inputs cannot be resolved",
+                )
+            })?;
+        let input_bytes = encode_bounded(
+            &inputs,
+            snapshot.limits.max_request_bytes,
+            "checkpoint.completions.inputs",
+        )?;
+        let input_digest = hash_parts(INPUT_DIGEST_DOMAIN, &[&input_bytes]);
+        let expected_request = request_identity(
+            &snapshot.plan_digest,
+            &receipt.node_id,
+            receipt.attempt,
+            receipt.sequence,
+            &input_digest,
+        );
+        if input_digest != receipt.input_digest || expected_request != *request_id {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.completions",
+                "completion journal does not match deterministic request identity",
+            ));
+        }
+        let count = attempts_by_node.entry(receipt.node_id.clone()).or_default();
+        *count = count.checked_add(1).ok_or_else(|| {
+            EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.completions",
+                "completion journal attempt count overflow",
+            )
+        })?;
+    }
+    if snapshot.nodes.iter().any(|(node_id, node)| {
+        attempts_by_node.get(node_id).copied().unwrap_or_default() != node.attempts
+    }) {
+        return Err(EngineError::new(
+            EngineErrorCode::CheckpointIncompatible,
+            "checkpoint.completions",
+            "completion journal does not exactly cover node attempts",
         ));
     }
     ensure_snapshot_bound(snapshot)
 }
 
+fn undispatched_failure_allowed(failure: &FailureClass) -> bool {
+    match failure {
+        FailureClass::Dependency | FailureClass::RetryExhausted => true,
+        FailureClass::Retryable
+        | FailureClass::Permanent
+        | FailureClass::InvalidRequest
+        | FailureClass::PolicyDenied
+        | FailureClass::Cancelled
+        | FailureClass::Saturation
+        | FailureClass::Protocol
+        | FailureClass::Timeout
+        | FailureClass::Resource => false,
+    }
+}
+
+fn ready_or_retrying(state: &NodeState) -> bool {
+    match state {
+        NodeState::Ready | NodeState::RetryWait { .. } => true,
+        NodeState::Pending
+        | NodeState::Dispatched { .. }
+        | NodeState::Cancelling { .. }
+        | NodeState::Succeeded { .. }
+        | NodeState::Failed { .. }
+        | NodeState::Cancelled => false,
+    }
+}
+
 fn count_u64(value: usize, path: &str) -> Result<u64, EngineError> {
     u64::try_from(value)
         .map_err(|error| EngineError::new(EngineErrorCode::ResourceLimit, path, &error.to_string()))
+}
+
+fn validate_turn_input(input: &TurnInput, limits: &EngineLimits) -> Result<(), EngineError> {
+    if count_u64(input.completions.len(), "turn.completions")? > limits.max_completions_per_turn
+        || count_u64(input.cancellations.len(), "turn.cancellations")?
+            > limits.max_cancellations_per_turn
+    {
+        return Err(EngineError::new(
+            EngineErrorCode::ResourceLimit,
+            "turn",
+            "turn input cardinality limit exceeded",
+        ));
+    }
+    preflight_turn(input, limits.max_turn_input_bytes)?;
+    encode_bounded(input, limits.max_turn_input_bytes, "turn")?;
+    for completion in &input.completions {
+        preflight_completion(completion, limits.max_completion_bytes)?;
+        encode_bounded(completion, limits.max_completion_bytes, "turn.completions")?;
+    }
+    Ok(())
+}
+
+fn preflight_plan(plan: &ExecutionPlan, maximum: u64) -> Result<(), EngineError> {
+    let mut size = 1_u64;
+    add_text(&mut size, &plan.contract, maximum, "plan")?;
+    add_text(&mut size, &plan.source_digest, maximum, "plan")?;
+    add_text(&mut size, &plan.run.identity, maximum, "plan")?;
+    add_text(&mut size, &plan.run.name, maximum, "plan")?;
+    if let Some(target) = &plan.run.placement_target {
+        add_text(&mut size, target, maximum, "plan")?;
+    }
+    for (key, value) in &plan.run.inputs {
+        add_text(&mut size, key, maximum, "plan")?;
+        add_value(&mut size, value, maximum, "plan")?;
+    }
+    add_text(&mut size, &plan.workflow.identity, maximum, "plan")?;
+    for node in &plan.nodes {
+        add_size(&mut size, 1, maximum, "plan")?;
+        for text in [
+            &node.id,
+            &node.step_id,
+            &node.task_ref,
+            &node.agent_ref,
+            &node.provider_ref,
+            &node.prompt.user,
+            &node.provenance.document_version,
+            &node.provenance.workflow_identity,
+            &node.provenance.semantic_path,
+            &node.provenance.task_ref,
+            &node.provenance.agent_ref,
+            &node.provenance.provider_ref,
+        ] {
+            add_text(&mut size, text, maximum, "plan")?;
+        }
+        for text in node
+            .model
+            .iter()
+            .chain(node.save_as.iter())
+            .chain(node.prompt.system.iter())
+            .chain(node.tools.iter())
+            .chain(node.ports.inputs.iter())
+            .chain(node.ports.outputs.iter())
+        {
+            add_text(&mut size, text, maximum, "plan")?;
+        }
+        for (key, value) in &node.inputs {
+            add_text(&mut size, key, maximum, "plan")?;
+            add_value(&mut size, value, maximum, "plan")?;
+        }
+    }
+    for edge in &plan.edges {
+        add_size(&mut size, 1, maximum, "plan")?;
+        add_text(&mut size, &edge.from, maximum, "plan")?;
+        add_text(&mut size, &edge.to, maximum, "plan")?;
+        if let Some(state) = &edge.state {
+            add_text(&mut size, state, maximum, "plan")?;
+        }
+    }
+    Ok(())
+}
+
+fn preflight_policy(policy: &EnginePolicy, maximum: u64) -> Result<(), EngineError> {
+    let mut size = 1_u64;
+    for (node_id, node) in &policy.nodes {
+        add_text(&mut size, node_id, maximum, "policy")?;
+        add_size(&mut size, 1, maximum, "policy")?;
+        add_size(
+            &mut size,
+            count_u64(node.retry.retryable.len(), "policy")?,
+            maximum,
+            "policy",
+        )?;
+        add_size(
+            &mut size,
+            count_u64(node.retry.delay_ticks.len(), "policy")?,
+            maximum,
+            "policy",
+        )?;
+        if let PortKind::Tool { name } = &node.port {
+            add_text(&mut size, name, maximum, "policy")?;
+        }
+    }
+    Ok(())
+}
+
+fn preflight_turn(input: &TurnInput, maximum: u64) -> Result<(), EngineError> {
+    let mut size = 1_u64;
+    for completion in &input.completions {
+        add_completion(&mut size, completion, maximum, "turn")?;
+    }
+    for node_id in &input.cancellations {
+        add_text(&mut size, node_id, maximum, "turn")?;
+    }
+    Ok(())
+}
+
+fn preflight_completion(completion: &PortCompletion, maximum: u64) -> Result<(), EngineError> {
+    let mut size = 1_u64;
+    add_completion(&mut size, completion, maximum, "turn.completions")
+}
+
+fn add_completion(
+    size: &mut u64,
+    completion: &PortCompletion,
+    maximum: u64,
+    path: &str,
+) -> Result<(), EngineError> {
+    add_size(size, 1, maximum, path)?;
+    match completion {
+        PortCompletion::Provider(value) => {
+            add_text(size, &value.request_id, maximum, path)?;
+            add_text(size, &value.node_id, maximum, path)?;
+            add_outcome(size, &value.outcome, maximum, path)
+        }
+        PortCompletion::Tool(value) => {
+            add_text(size, &value.request_id, maximum, path)?;
+            add_text(size, &value.node_id, maximum, path)?;
+            add_outcome(size, &value.outcome, maximum, path)
+        }
+        PortCompletion::Cancel(value) => {
+            add_text(size, &value.request_id, maximum, path)?;
+            add_text(size, &value.node_id, maximum, path)
+        }
+    }
+}
+
+fn add_outcome(
+    size: &mut u64,
+    outcome: &CompletionOutcome,
+    maximum: u64,
+    path: &str,
+) -> Result<(), EngineError> {
+    match outcome {
+        CompletionOutcome::Success(output) => {
+            add_text(size, &output.media_type, maximum, path)?;
+            add_size(size, count_u64(output.bytes.len(), path)?, maximum, path)
+        }
+        CompletionOutcome::Failure(failure) => add_text(size, &failure.message, maximum, path),
+    }
+}
+
+fn add_value(size: &mut u64, value: &Value, maximum: u64, path: &str) -> Result<(), EngineError> {
+    add_size(size, 1, maximum, path)?;
+    match value {
+        Value::String(text) => add_text(size, text, maximum, path),
+        Value::Array(values) => {
+            for item in values {
+                add_value(size, item, maximum, path)?;
+            }
+            Ok(())
+        }
+        Value::Object(values) => {
+            for (key, item) in values {
+                add_text(size, key, maximum, path)?;
+                add_value(size, item, maximum, path)?;
+            }
+            Ok(())
+        }
+        Value::Null | Value::Bool(_) => Ok(()),
+        Value::Number(_) => add_size(size, 32, maximum, path),
+    }
+}
+
+fn add_text(size: &mut u64, value: &str, maximum: u64, path: &str) -> Result<(), EngineError> {
+    let bytes = count_u64(value.len(), path)?
+        .checked_add(1)
+        .ok_or_else(|| {
+            EngineError::new(
+                EngineErrorCode::ResourceLimit,
+                path,
+                "preflight string byte accounting overflow",
+            )
+        })?;
+    add_size(size, bytes, maximum, path)
+}
+
+fn add_size(size: &mut u64, value: u64, maximum: u64, path: &str) -> Result<(), EngineError> {
+    *size = size.checked_add(value).ok_or_else(|| {
+        EngineError::new(
+            EngineErrorCode::ResourceLimit,
+            path,
+            "preflight byte accounting overflow",
+        )
+    })?;
+    if *size > maximum {
+        return Err(EngineError::new(
+            EngineErrorCode::ResourceLimit,
+            path,
+            "preflight byte limit exceeded",
+        ));
+    }
+    Ok(())
 }
 
 fn limit_usize(value: u64, path: &str) -> Result<usize, EngineError> {
@@ -1411,6 +2073,22 @@ fn limit_usize(value: u64, path: &str) -> Result<usize, EngineError> {
 fn encode<T: Serialize>(value: &T, path: &str) -> Result<Vec<u8>, EngineError> {
     serde_json::to_vec(value)
         .map_err(|error| EngineError::new(EngineErrorCode::Serialization, path, &error.to_string()))
+}
+
+fn encode_bounded<T: Serialize>(
+    value: &T,
+    maximum: u64,
+    path: &str,
+) -> Result<Vec<u8>, EngineError> {
+    let bytes = encode(value, path)?;
+    if count_u64(bytes.len(), path)? > maximum {
+        return Err(EngineError::new(
+            EngineErrorCode::ResourceLimit,
+            path,
+            "serialized byte limit exceeded",
+        ));
+    }
+    Ok(bytes)
 }
 
 fn hash_parts(domain: &[u8], parts: &[&[u8]]) -> String {

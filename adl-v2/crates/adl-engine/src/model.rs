@@ -42,11 +42,17 @@ impl EngineError {
 pub struct EngineLimits {
     pub max_plan_nodes: u64,
     pub max_dependency_edges: u64,
+    pub max_plan_bytes: u64,
+    pub max_policy_bytes: u64,
     pub max_ready_nodes: u64,
     pub max_in_flight: u64,
     pub max_total_attempts: u64,
     pub max_attempts_per_node: u32,
     pub max_request_bytes: u64,
+    pub max_completion_bytes: u64,
+    pub max_completions_per_turn: u64,
+    pub max_cancellations_per_turn: u64,
+    pub max_turn_input_bytes: u64,
     pub max_output_bytes: u64,
     pub max_events: u64,
     pub max_checkpoint_bytes: u64,
@@ -58,11 +64,17 @@ impl Default for EngineLimits {
         Self {
             max_plan_nodes: 10_000,
             max_dependency_edges: 100_000,
+            max_plan_bytes: 16_777_216,
+            max_policy_bytes: 16_777_216,
             max_ready_nodes: 1_000,
             max_in_flight: 64,
             max_total_attempts: 100_000,
             max_attempts_per_node: 8,
             max_request_bytes: 1_048_576,
+            max_completion_bytes: 16_777_216,
+            max_completions_per_turn: 1_000,
+            max_cancellations_per_turn: 10_000,
+            max_turn_input_bytes: 33_554_432,
             max_output_bytes: 16_777_216,
             max_events: 1_000_000,
             max_checkpoint_bytes: 33_554_432,
@@ -137,7 +149,7 @@ pub enum PortKind {
 #[serde(rename_all = "snake_case")]
 pub enum JoinPolicy {
     All,
-    AtLeast { required: usize },
+    AtLeast { required: u64 },
     FailFast,
 }
 
@@ -307,6 +319,7 @@ pub enum NodeState {
         request_id: String,
         attempt: u32,
         sequence: u64,
+        input_digest: String,
     },
     RetryWait {
         ready_at_tick: u64,
@@ -315,6 +328,7 @@ pub enum NodeState {
         request_id: String,
         attempt: u32,
         sequence: u64,
+        input_digest: String,
     },
     Succeeded {
         output: PortOutput,
@@ -359,6 +373,16 @@ pub struct NodeSnapshot {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+pub struct CompletionReceipt {
+    pub node_id: String,
+    pub attempt: u32,
+    pub sequence: u64,
+    pub input_digest: String,
+    pub completion_digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct EngineSnapshot {
     pub checkpoint_contract: String,
     pub engine_contract: String,
@@ -377,7 +401,7 @@ pub struct EngineSnapshot {
     pub next_event_sequence: u64,
     pub next_request_sequence: u64,
     pub nodes: BTreeMap<String, NodeSnapshot>,
-    pub consumed_completion_digests: BTreeMap<String, String>,
+    pub consumed_completion_digests: BTreeMap<String, CompletionReceipt>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

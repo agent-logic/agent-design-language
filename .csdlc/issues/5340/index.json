@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8863afa2116f00a1d2454a78df6f0287e360060ac0565d961b33c1da3c447617",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "fe7e001ed59b402eeb4f5cf6f17128c48216c86e37488aa5ed0290e58d897361",
+  "generation": 23,
+  "digest": "966f7a1a30d4db3a9cc996c5804c61a14fbb20451a772c42047c2e339e8864cf",
   "claim": {
     "id": "claim-5340-v0918-wp06-owner-watch",
     "owner": "codex:5340-owner-watch",
-    "generation": 22,
+    "generation": 23,
     "acquired_unix_seconds": 1784619054,
     "expires_unix_seconds": 1785223854,
     "heartbeat_unix_seconds": 1784619054,
@@ -24,8 +24,76 @@
     ],
     "purpose": "Implement, validate, exact-revision review, publish, shepherd, authorized-merge, post-merge validate, and typed-closeout #5340's portable bounded adl-engine while preserving the five disjoint protected paths and excluding Runtime v2/v3, adapters, CLI, cloud, and incumbent ADL authority"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5340_exact",
+    "assigned_by": "codex:5340-owner-watch",
+    "revision": "git-blake3:b9ba0c37f4bc381cb2d74589ad0d27dc1b6fe7be:154cca22aa607086e7ec9fb5109c5671db2c2d96dbe850335766f04c59873c72",
+    "scope": [
+      "adl-v2/crates/adl-engine"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_5340_exact",
+    "scope": [
+      "adl-v2/crates/adl-engine"
+    ],
+    "reviewed_revision": "git-blake3:b9ba0c37f4bc381cb2d74589ad0d27dc1b6fe7be:154cca22aa607086e7ec9fb5109c5671db2c2d96dbe850335766f04c59873c72",
+    "findings": [
+      {
+        "id": "F-5340-1-state-dataflow-unresolved",
+        "severity": "p1",
+        "summary": "Landed state-dependency outputs are never resolved into downstream requests or request identity.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5340-2-turn-input-unbounded",
+        "severity": "p1",
+        "summary": "Completion/cancellation cardinality and payload, plan bytes, and policy bytes are unbounded before processing.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5340-3-resume-semantic-truncation",
+        "severity": "p1",
+        "summary": "Resume accepts canonical but semantically unreachable graph states and truncated or arbitrary completion journals.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5340-4-compiler-fixture-mapping-absent",
+        "severity": "p1",
+        "summary": "AC-6 lacks a mechanically checked landed compiler-fixture inventory and actual compiler-produced plan coverage.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5340-5-usize-policy-contract",
+        "severity": "p2",
+        "summary": "JoinPolicy::AtLeast serializes an architecture-width-dependent usize threshold.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +108,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c23f3070cabbb3f0a07b9623b32febe6bcdc1be5f904d8f0cba0750249b15bb0",
+      "values_digest": "dcb5ec8e95addf49df64a0b4a114079b12e22f45cc13b61d6cee5a5ee519b71c",
       "rendered_digest": "89b09b0e450ddd7efb55816ac6604326382c3e8976d112bd18c9847f4c6e6309",
       "ast_digest": "f8c5fd0db072f65fa89e0d9dcc29934d6219925a15e6b0478f1ec223dbede876"
     },
     "stp": {
-      "values_digest": "34be2a120bd7a443784c424f70fba7515082363fd05cb0fa8a9aead192b360db",
+      "values_digest": "3e21e200ee6137709e8fc97b016040927725408daaf5babbd4f35de63cd78f41",
       "rendered_digest": "2d4f29e605035d0c85da7bfada7d463f3f27fe4546e38bc8dffadcc9510771fa",
       "ast_digest": "f3745e071ea9bcadd8ae499c89a7dd9e574600d035b0d6a8d092b3f26ee03c25"
     },
     "spp": {
-      "values_digest": "9ec6d7bae4658f8e7cc5c6300531d1753e880825fcbadb2cc749e80086fec004",
+      "values_digest": "c3d9c08b2bdd393cface541f4c0da4209ca0642f36c4f6d2bad9b3d27294af02",
       "rendered_digest": "dc97d6daebb426d7ca911764be05d92716990cbc0fc62cd8b75706d525721af3",
       "ast_digest": "0833844c7535db6ea9e6642f37bb7e03b2555d57ee583de1f472f6490d8a75bc"
     },
     "vpp": {
-      "values_digest": "cd61a97d05e38a046c41c7e34408909b89417a50aac4fa62285043f160e1e8cd",
+      "values_digest": "9f7298a25494788c813e5584eab6cf5cf95f8967e9562892d8b886d2a25cfdb1",
       "rendered_digest": "6ce70a28eb85688c195502de77dbbcf7aa5f3c38897640c6275929056265c2b8",
       "ast_digest": "7ea7f4080d60b398d0b99625947ac1b191dae9f80f9b0a802f7b6339517de8d0"
     },
     "srp": {
-      "values_digest": "0cd554eda08e876d74a3078d5c93a7eaf6a5e6ef429b1d92eec1d75f3d9959dd",
-      "rendered_digest": "f188ec02b6f0f48d94a90f6a8de81540683240c249fddf7388223612b8de3066",
-      "ast_digest": "025edc6b7b011924b2eb1dca82351f1e30d90bedc8ea2d6ebd5a1c69e8320d9b"
+      "values_digest": "f55fec54e581bc6018a69b2dd2fb1fd4f6dafc51c69aa41441f9bf6c378f86d4",
+      "rendered_digest": "8b904c91d07264559e0d38ab3130c359506cef688ac14ec6190365a07c2b95e5",
+      "ast_digest": "bd537aba393220ac2d99633dda8deed196f7592b250a8ccaed1d230750267bcf"
     },
     "sor": {
-      "values_digest": "6786b4a726fe8a1df124d34f629e1033f62ac7a17ee8227f7016e2118759488b",
+      "values_digest": "ad23c4570f587a2a4076239f7e8892a138be2a94878f25c5a4a7d22bdc01eff7",
       "rendered_digest": "2e658d191157e03f0f51deb014d996f36fe7e9e66aadbdc37bfa14448914a9b2",
       "ast_digest": "f5ce19254cbd0b6edc3233048416441a948bea2819c549e42378bf7012cced72"
     }
@@ -268,6 +336,20 @@
       "actor": "codex:5340-owner-watch",
       "reason": "The bounded engine implementation and every pre-review FastWork acceptance lane are complete with retained evidence; advance to implemented for exact-revision review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:5340-owner-watch",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "subagent:/root/review_5340_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }

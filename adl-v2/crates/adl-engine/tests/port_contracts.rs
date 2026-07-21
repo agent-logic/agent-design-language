@@ -233,3 +233,14 @@ fn pending_ready_retry_and_dispatched_cancellation_paths_are_distinct() {
         .unwrap();
     assert!(engine.is_terminal());
 }
+
+#[test]
+fn at_least_join_threshold_has_a_fixed_width_serialized_contract() {
+    let threshold = JoinPolicy::AtLeast {
+        required: u64::from(u32::MAX) + 1,
+    };
+    let encoded = serde_json::to_vec(&threshold).unwrap();
+    let decoded: JoinPolicy = serde_json::from_slice(&encoded).unwrap();
+    assert_eq!(decoded, threshold);
+    assert!(String::from_utf8(encoded).unwrap().contains("4294967296"));
+}
