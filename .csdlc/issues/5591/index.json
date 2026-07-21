@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "published",
-  "generation": 25,
-  "digest": "7e39fd20d3f2e140779956735a26efbbeaf651afd24fce17a8ce81a773fc1857",
+  "phase": "reviewed",
+  "generation": 29,
+  "digest": "69b88d3a92fa77da7405cf51924f99b0a714d065d566d788a0ccfb2c21cdcab5",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 25,
+    "generation": 29,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -28,50 +28,32 @@
     "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
   "review_assignment": {
-    "reviewer": "subagent:/root/review_5591_exact_head",
+    "reviewer": "subagent:/root/review_5591_coverage_fix",
     "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
-    "revision": "git-blake3:da5a666bb2436afd45311ff8a2abcf732d4feb67:cc48b6813d8c86a3aaad5426f289caebfaf810fc4ab9cab25bedcb91242f4e04",
+    "revision": "git-blake3:469a18c11a849450cacc4f69d439c0cedd09c2d7:9337215d67c352e9f65f505e8f9323687bae48d1ee3dff9a29648624e4a826a9",
     "scope": [
       "adl-runtime/src/guardian.rs",
-      "adl-runtime-kernel",
-      "adl/tools/merge_coverage_summaries.py",
-      "adl/tools/test_merge_coverage_summaries.sh",
-      "adl/tools/report_runtime_v3_loc.sh",
       ".csdlc/issues/5591/cards/sor.values.json",
       ".csdlc/issues/5591/cards/srp.values.json"
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_5591_exact_head",
+    "reviewer": "subagent:/root/review_5591_coverage_fix",
     "scope": [
       "adl-runtime/src/guardian.rs",
-      "adl-runtime-kernel",
-      "adl/tools/merge_coverage_summaries.py",
-      "adl/tools/test_merge_coverage_summaries.sh",
-      "adl/tools/report_runtime_v3_loc.sh",
       ".csdlc/issues/5591/cards/sor.values.json",
       ".csdlc/issues/5591/cards/srp.values.json"
     ],
-    "reviewed_revision": "git-blake3:da5a666bb2436afd45311ff8a2abcf732d4feb67:cc48b6813d8c86a3aaad5426f289caebfaf810fc4ab9cab25bedcb91242f4e04",
+    "reviewed_revision": "git-blake3:469a18c11a849450cacc4f69d439c0cedd09c2d7:9337215d67c352e9f65f505e8f9323687bae48d1ee3dff9a29648624e4a826a9",
     "findings": [],
     "residual_risks": [
       "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
-      "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
+      "Runtime v3 remains 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the extra lines necessary, non-duplicative, and functionally required after safe consolidation. The 20,000 ceiling is not exception authority."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5591,
-    "pull_request": 5608,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5608",
-    "base": "main",
-    "head": "codex/5591-runtime-v3-parity-a-preparation",
-    "revision": "git-blake3:5ea9eaa920ddfcb727fd07b201b33acd0cb97744:fa1ec302c82260e7e41b5b7c3859703f4b3d6b7cebc30ca1c55f100bc0bedf3d",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -85,34 +67,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ce103dfa1f9d8a132f15ac4ca7cfd8594b36a3c284a7893b048b4ae470a31a2",
+      "values_digest": "7cec213d7cf5b6ee171291bf2586bde5bcc2894913f86b16515bc4d5f520ee63",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "15f5f452491a459917e6663e396fb119567026507e58617fe1d9d8ff9da3291e",
+      "values_digest": "c5b1f15deaf223aa1020cc2a2305658889a53d2ba68025af18fcb376f7eb62e6",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "d5f94e94c293a2b0a6cbf1e549db4875a69a39fb49032fb8efefa7ced875578d",
+      "values_digest": "8beb950d0e278c9c11731a08cd3135834bd72abc735f19748c506569f8bd6a52",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "15163dd3f08f3ceba572c431152e2de9e706660f537076efa5394e8b428fb7f2",
+      "values_digest": "d4bd26cadebe18211676ad3d46f02ed7feffab1d98ed45e439bb4faf4caa8875",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "24acdf4cbd3306b865e393fcdca4fd5ecfdb304e93d18ee742ad617fbce7deb5",
-      "rendered_digest": "ed2e7034dabd5b118e1f29579d49fbfb6c523ffe36070853f76a39ce9f350f45",
-      "ast_digest": "59a20ff312b4fe6f6d179d87bafde7cc1e2862335cf3cdf873ae00b4672d9485"
+      "values_digest": "b8c2a0702ee1d2a9e6afd862e0bf51a5a00ed38ba47f10381f50465bf6709e2e",
+      "rendered_digest": "e695caf943c1c3592896dcfacd306b429e2e225accba9f4b456b8f90bf36af29",
+      "ast_digest": "43082f47eeb1e775353527256ca413451c394dc3f165ee66a7e64c656b0ab957"
     },
     "sor": {
-      "values_digest": "7ba1b5fd48fedf52eeba7c0e2297c828ccef23cb0cf4ac006c52ea69925dd28c",
-      "rendered_digest": "28598fc727ebe987d3a1db3349e9f5495e639f4694dea104e2122fef954b12ca",
-      "ast_digest": "e25683bb029c32045d240c7f1ccf8687c27e13a1b138d4a8fb9f50ff2ded81ae"
+      "values_digest": "768b0d080da341cc62a8ab2ec6ce2ca69e2c06ad73ea7fef9f9e44ee4d7c8d0e",
+      "rendered_digest": "8419c8d5938663c0f82064b814aafe7397b71e31201f3f653550c68a5a092a44",
+      "ast_digest": "0196929b5241f1b4a01a32746eadb0a94533948992b301372c7a25ab13929321"
     }
   },
   "transitions": [
@@ -199,6 +181,20 @@
       "to": "published",
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Exact-head CI exposed guardian.rs below the 80% changed-source coverage floor; recover published review truth for bounded fail-closed configuration and spawn-path tests, exact PR-mode coverage proof, and rereview."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Exact-head coverage-impact rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual."
     }
   ],
   "audit": [
@@ -439,6 +435,41 @@
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Exact-head CI exposed guardian.rs below the 80% changed-source coverage floor; recover published review truth for bounded fail-closed configuration and spawn-path tests, exact PR-mode coverage proof, and rereview.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Record the bounded exact-head coverage-impact repair proof before rereview.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ADL_COVERAGE_BUILD_ROOT=/Volumes/FastWork/adl-5591/ci-coverage ADL_COVERAGE_RUN_ID=local-pr-5591-final bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority pr_full_runtime --event-name pull_request\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-test-target cargo test --manifest-path adl-runtime/Cargo.toml\",\"cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check\",\"git diff --check\"],\"purpose\":\"Prove deterministic fail-closed guardian configuration and missing-program handling without weakening policy. Exact PR-mode coverage exercises 530 of 639 guardian.rs lines (82.94%, above the 80% gate); the complete adl-runtime crate passes 128 tests including independence; formatting and diff hygiene pass.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f8362-357c-7621-95b7-afb314e0c61d@469a18c11a849450cacc4f69d439c0cedd09c2d7:/Volumes/FastWork/adl-5591/ci-coverage/coverage-output/local-pr-5591-final\"}}"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "subagent:/root/review_5591_coverage_fix",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Exact-head coverage-impact rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

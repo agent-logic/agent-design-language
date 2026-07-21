@@ -13,10 +13,6 @@ Status: draft
 ## Scope
 
 adl-runtime/src/guardian.rs
-adl-runtime-kernel
-adl/tools/merge_coverage_summaries.py
-adl/tools/test_merge_coverage_summaries.sh
-adl/tools/report_runtime_v3_loc.sh
 .csdlc/issues/5591/cards/sor.values.json
 .csdlc/issues/5591/cards/srp.values.json
 
@@ -41,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.
-- Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required.
+- Runtime v3 remains 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the extra lines necessary, non-duplicative, and functionally required after safe consolidation. The 20,000 ceiling is not exception authority.
 
 ## Review Result
 
-Revision: Some("git-blake3:da5a666bb2436afd45311ff8a2abcf732d4feb67:cc48b6813d8c86a3aaad5426f289caebfaf810fc4ab9cab25bedcb91242f4e04")
+Revision: Some("git-blake3:469a18c11a849450cacc4f69d439c0cedd09c2d7:9337215d67c352e9f65f505e8f9323687bae48d1ee3dff9a29648624e4a826a9")
 
-Reviewer: Some("subagent:/root/review_5591_exact_head")
+Reviewer: Some("subagent:/root/review_5591_coverage_fix")
 
 Result: pass

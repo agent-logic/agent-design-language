@@ -120,16 +120,27 @@ Implemented canonical Runtime v3 ingress, deterministic execution and replay con
     "purpose": "Prove the one-time final integration: 34 focused and 187 complete Runtime v3 kernel tests, strict kernel lint, 127 adl-runtime tests, 25 consecutive guardian race regressions, the corrected shared coverage merger, formatting and diff hygiene, and unchanged budget truth of 12,683 lines with the reviewed +474 exception over pinned baseline 12,209.",
     "outcome": "passed",
     "evidence_ref": "owner:019f8362-357c-7621-95b7-afb314e0c61d@7725c67db7b82f076e56e9d560e5a292a5171496:/Volumes/FastWork/adl-5591/final-*"
+  },
+  {
+    "command": [
+      "ADL_COVERAGE_BUILD_ROOT=/Volumes/FastWork/adl-5591/ci-coverage ADL_COVERAGE_RUN_ID=local-pr-5591-final bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority pr_full_runtime --event-name pull_request",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-test-target cargo test --manifest-path adl-runtime/Cargo.toml",
+      "cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check",
+      "git diff --check"
+    ],
+    "purpose": "Prove deterministic fail-closed guardian configuration and missing-program handling without weakening policy. Exact PR-mode coverage exercises 530 of 639 guardian.rs lines (82.94%, above the 80% gate); the complete adl-runtime crate passes 128 tests including independence; formatting and diff hygiene pass.",
+    "outcome": "passed",
+    "evidence_ref": "owner:019f8362-357c-7621-95b7-afb314e0c61d@469a18c11a849450cacc4f69d439c0cedd09c2d7:/Volumes/FastWork/adl-5591/ci-coverage/coverage-output/local-pr-5591-final"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
