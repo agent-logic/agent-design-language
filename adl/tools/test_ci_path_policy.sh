@@ -255,6 +255,16 @@ PY
   assert_has "$csdlc_v2_output" "full_coverage_required=false"
   assert_has "$csdlc_v2_output" "reason=standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
 
+  git checkout -q -b csdlc-v2-operator-surface "$base_sha"
+  mkdir -p csdlc-v2/operator/skills/example
+  printf 'contract\n' > csdlc-v2/operator/skills/example/SKILL.md
+  git add csdlc-v2/operator/skills/example/SKILL.md
+  git commit -q -m csdlc-v2-operator-surface
+  csdlc_v2_operator_head="$(git rev-parse HEAD)"
+  csdlc_v2_operator_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_v2_operator_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_v2_operator_output" "validation_profile_run_lanes=csdlc_v2_standalone"
+  assert_has "$csdlc_v2_operator_output" "csdlc_v2_standalone_required=true"
+
   git checkout -q -b runtime-v3-with-lifecycle "$base_sha"
   mkdir -p adl-runtime-kernel/src .csdlc/issues/5589
   printf 'pub fn governed_operations() {}\n' > adl-runtime-kernel/src/governed_operations.rs
@@ -265,6 +275,19 @@ PY
   runtime_v3_lifecycle_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_lifecycle_head" --ref "refs/pull/1/merge")"
   assert_has "$runtime_v3_lifecycle_output" "runtime_v3_fast_required=true"
   assert_has "$runtime_v3_lifecycle_output" "csdlc_v2_standalone_required=false"
+
+  git checkout -q -b runtime-v3-with-csdlc-v2 "$base_sha"
+  mkdir -p adl-runtime-kernel/src csdlc-v2/operator/skills/example
+  printf 'pub fn governed_operations() {}\n' > adl-runtime-kernel/src/governed_operations.rs
+  printf 'contract\n' > csdlc-v2/operator/skills/example/SKILL.md
+  git add adl-runtime-kernel/src/governed_operations.rs csdlc-v2/operator/skills/example/SKILL.md
+  git commit -q -m runtime-v3-with-csdlc-v2
+  runtime_v3_csdlc_head="$(git rev-parse HEAD)"
+  runtime_v3_csdlc_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$runtime_v3_csdlc_head" --ref "refs/pull/1/merge")"
+  assert_has "$runtime_v3_csdlc_output" "validation_profile_run_lanes=csdlc_v2_standalone,runtime_kernel_contracts"
+  assert_has "$runtime_v3_csdlc_output" "csdlc_v2_standalone_required=true"
+  assert_has "$runtime_v3_csdlc_output" "runtime_v3_fast_required=true"
+  assert_has "$runtime_v3_csdlc_output" "reason=csdlc_v2_and_runtime_v3_surfaces_run_both_independent_focused_lanes"
 
   git checkout -q -b runtime-v3-only "$base_sha"
   mkdir -p infra/runtime-v3

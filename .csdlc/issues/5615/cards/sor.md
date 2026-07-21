@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Separate lifecycle metadata from standalone C-SDLC v2 Rust proof, require the selected lane in stable adl-ci, preserve coverage truth, and route Cargo state to a validated external root.
+Fix all exact-review routing and external-build-root findings without widening issue scope.
 
 ## Artifacts
 
@@ -24,6 +24,10 @@ Separate lifecycle metadata from standalone C-SDLC v2 Rust proof, require the se
 - adl/tools/test_ci_runtime_contracts.sh
 - adl/tools/test_run_cargo_validation.sh
 - adl/tools/test_select_validation_lanes.sh
+- adl/tools/ci_path_policy.sh
+- adl/tools/run_cargo_validation.sh
+- adl/tools/test_ci_path_policy.sh
+- adl/tools/test_run_cargo_validation.sh
 
 ## Execution
 
@@ -32,6 +36,10 @@ Separate lifecycle metadata from standalone C-SDLC v2 Rust proof, require the se
 - Fail closed on malformed selector output and required-but-skipped standalone proof
 - Preserve Runtime v3 focused routing when issue lifecycle metadata is present
 - Add an external Cargo build-root wrapper with FastWork fallback and compatibility symlink
+- Derive standalone C-SDLC v2 proof from the selector's complete csdlc-v2 surface
+- Compose standalone C-SDLC v2 and Runtime v3 focused lanes for mixed changes
+- Reject pre-created Cargo child symlinks and require canonical child containment
+- Add exact operator-path, mixed-lane, and symlink-escape regressions
 
 ## Validation
 
@@ -59,6 +67,27 @@ Separate lifecycle metadata from standalone C-SDLC v2 Rust proof, require the se
     "purpose": "Prove all C-SDLC v2 targets with locked tests, formatting, and strict Clippy while Cargo state remains on the external SSD.",
     "outcome": "passed",
     "evidence_ref": "issue-5615:csdlc-v2-standalone-fastwork:test-fmt-clippy-pass"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_ci_path_policy.sh",
+      "&&",
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "&&",
+      "bash",
+      "adl/tools/test_run_cargo_validation.sh",
+      "&&",
+      "bash",
+      "adl/tools/test_select_validation_lanes.sh",
+      "&&",
+      "bash",
+      ".csdlc/prepared/issues/5615/run_csdlc_v2_standalone.sh"
+    ],
+    "purpose": "Prove selector/classifier agreement, compositional Runtime routing, child-symlink rejection, and the complete C-SDLC v2 test/fmt/strict-Clippy lane on FastWork.",
+    "outcome": "passed",
+    "evidence_ref": "issue-5615:exact-review-remediation:focused-and-standalone-pass"
   }
 ]
 

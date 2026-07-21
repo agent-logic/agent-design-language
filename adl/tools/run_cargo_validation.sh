@@ -23,7 +23,20 @@ esac
 
 export CARGO_HOME="$build_root/cargo-home"
 export CARGO_TARGET_DIR="$build_root/cargo-target"
+for cargo_path in "$CARGO_HOME" "$CARGO_TARGET_DIR"; do
+  if [[ -L "$cargo_path" ]]; then
+    echo "Cargo validation child path must not be a symlink: $cargo_path" >&2
+    exit 2
+  fi
+done
 mkdir -p "$CARGO_HOME" "$CARGO_TARGET_DIR"
+for cargo_path in "$CARGO_HOME" "$CARGO_TARGET_DIR"; do
+  canonical_cargo_path="$(cd "$cargo_path" && pwd -P)"
+  if [[ "$canonical_cargo_path" != "$cargo_path" ]]; then
+    echo "Cargo validation child path escaped the selected build root: $cargo_path" >&2
+    exit 2
+  fi
+done
 
 # Gate 10A installer proofs resolve binaries through the crate-local target
 # path. Keep that compatibility name as a symlink while all build bytes remain

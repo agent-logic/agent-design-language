@@ -50,4 +50,20 @@ if ADL_FASTWORK_ROOT="$tmp_dir/missing-fallback" bash "$WRAPPER" "$fake" >/dev/n
   exit 1
 fi
 
+escaped="$tmp_dir/escaped"
+mkdir -p "$escaped"
+symlink_root="$tmp_dir/symlink-root"
+mkdir -p "$symlink_root"
+ln -s "$escaped" "$symlink_root/cargo-home"
+if ADL_CARGO_BUILD_ROOT="$symlink_root" bash "$WRAPPER" "$fake" >/dev/null 2>&1; then
+  echo "symlinked Cargo home escaped the selected build root" >&2
+  exit 1
+fi
+rm -f "$symlink_root/cargo-home"
+ln -s "$escaped" "$symlink_root/cargo-target"
+if ADL_CARGO_BUILD_ROOT="$symlink_root" bash "$WRAPPER" "$fake" >/dev/null 2>&1; then
+  echo "symlinked Cargo target escaped the selected build root" >&2
+  exit 1
+fi
+
 echo "portable Cargo validation wrapper contract: pass"

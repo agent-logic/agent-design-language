@@ -1235,6 +1235,37 @@ apply_validation_manager_routing() {
     mark_runtime_v3_csm_focused_validation
     return 0
   fi
+  if [ "$validation_profile_status" = "ready_to_run" ] \
+    && [ "$validation_profile_escalation_required" = "false" ]; then
+    selected_csdlc_v2=false
+    selected_runtime_kernel=false
+    case ",$validation_profile_run_lanes," in
+      *,csdlc_v2_standalone,*) selected_csdlc_v2=true ;;
+    esac
+    case ",$validation_profile_run_lanes," in
+      *,runtime_kernel_contracts,*) selected_runtime_kernel=true ;;
+    esac
+    if [ "$selected_csdlc_v2" = true ] || [ "$selected_runtime_kernel" = true ]; then
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      if [ "$selected_csdlc_v2" = true ]; then
+        csdlc_v2_standalone_required=true
+        ci_contracts_required=true
+      fi
+      if [ "$selected_runtime_kernel" = true ]; then
+        runtime_v3_fast_required=true
+      fi
+      if [ "$selected_csdlc_v2" = true ] && [ "$selected_runtime_kernel" = true ]; then
+        reason="csdlc_v2_and_runtime_v3_surfaces_run_both_independent_focused_lanes"
+      elif [ "$selected_csdlc_v2" = true ]; then
+        reason="standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+      else
+        reason="runtime_v3_only_change_runs_independent_runtime_kernel_fast_lane"
+      fi
+      return 0
+    fi
+  fi
   case "$validation_profile_status:$validation_profile_run_lanes:$validation_profile_escalation_required" in
     ready_to_run:csdlc_v2_standalone:false)
       ci_contracts_required=true
@@ -1399,7 +1430,7 @@ else
     changed_count="$(printf '%s\n' "$changed_files" | sed '/^$/d' | wc -l | tr -d ' ')"
     while IFS= read -r path; do
       case "$path" in
-        csdlc-v2/Cargo.toml|csdlc-v2/Cargo.lock|csdlc-v2/build.rs|csdlc-v2/src/*|csdlc-v2/tests/*)
+        csdlc-v2/*)
           csdlc_v2_standalone_required=true
           ;;
       esac
