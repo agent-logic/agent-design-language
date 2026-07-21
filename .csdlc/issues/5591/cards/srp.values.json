@@ -7,13 +7,13 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
     "slug": "v0-91-8-runtime-v3-parity-a-kernel-continuity-ingress",
     "version": "v0.91.8",
-    "generation": 10
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/live_continuity.rs\nadl-runtime-kernel/src/telemetry.rs\nadl-runtime-kernel/src/weather.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/guardian_soak.rs\ninfra/horust/adl-runtime-kernel.toml\n.csdlc/issues/5591/cards/sor.values.json\n.csdlc/issues/5591/cards/vpp.values.json",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

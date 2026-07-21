@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "6ebc211c0969d3da6c96a7521adaabcf7f7eaea51b72310fa78f4877cb774195",
+  "generation": 11,
+  "digest": "e889677f329a9babda6bc4472c2bb9e48fa3fc03011c1e4bcd0c75f19ea16713",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 10,
+    "generation": 11,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -27,7 +27,27 @@
     ],
     "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5591_exact_head",
+    "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+    "revision": "git-blake3:be9daf2ea3677e688d33a96b11497c0f46f02a79:64ebeb8ba1a776f9bc999569e6f72f658b7fe2a937f4abb64a7054f0e11c058c",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/weather.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "infra/horust/adl-runtime-kernel.toml",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/vpp.values.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -43,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "662e2264d699698ff16dbc9dcb781b37d64cfb2ec3c70b8789198d6ef02c0565",
+      "values_digest": "952d6b2729c504a43fa2a836e1852a5e3b3d725c33fec0fd02df7135c3540c2b",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "cda4ff13b164337962ee5ad0dbd0f2933878f0741093b81d9e3cecc4136f112e",
+      "values_digest": "e8a45ae37c446d398378a4e512a91a99f92407dfae952a42cd72e0bb1854a3eb",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "621a341ab0014a849a098252f83aed6df5ed9433489a08814564de7aa1832523",
+      "values_digest": "b3ba28cb8772bb8292e73f5b4f597574f742289a88535ccf149956166363defc",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "b18b64cd577cc204b0fb3fc369cae8767bd9e18cb4ec5ab3b14e18b0ab7db555",
+      "values_digest": "68a24f67b714b0853f10b56926dbf5ed55bfb7943fd2e2f2f99f740ebeb6b9e4",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "a11325edda6255fc67a25f3a2dd7dc436ac30f8582f30727d595afc75bb86d07",
-      "rendered_digest": "ad4a980a0e737e0c7f01de4ad76e7eca73b016332a9dde6a67044fa5faf86d28",
-      "ast_digest": "9ce8e5a6a15a085691d90cbc2955f381306b86c02d9ab1998f8e09b15ed60144"
+      "values_digest": "c7ce729e98c198f5d40098272acc88d53a123d73ca3d7c1b4c53da21d7a615d9",
+      "rendered_digest": "c54110b99fc22b4b22e5acfbdc3a90ff41d15ca108498bc5b2f58135b4da532c",
+      "ast_digest": "389059c788910847f6653f434409b0c0e2513ff27864079c6ce4b27ff3282cb4"
     },
     "sor": {
-      "values_digest": "c80fcbcabd160c1f1b69cac022df5d5d49af6c3155c5b72ab4d803e472e7fd72",
-      "rendered_digest": "dafec3380dc476596fa4b8d2f1121a15bc1c03f4485697ca43b296d209a0010e",
-      "ast_digest": "aa5425d2bf3efa5c5656536b0cb560a3ebd4609944472e769f23234d2b84381d"
+      "values_digest": "8bb186dd1de77078dc65df9233bb802856a50e8d0d246558b350605f20b9b91d",
+      "rendered_digest": "9e89bdfd9eb18be0ec97e0050bccf43eaee749ab5f2b96e4211a9a9160842b2c",
+      "ast_digest": "ee5b01c106c81b7ad4100feafef59932c04f21ca036253261ecd6c78ae5fbec5"
     }
   },
   "transitions": [
@@ -215,6 +235,20 @@
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Record complete integrated-main Runtime v3 proof before exact-head review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-focused cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly --test control --test operations\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-full cargo test --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-clippy cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"ADL_HORUST_BIN=/Volumes/FastWork/adl-5591/horust-install/bin/horust CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-horust cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test guardian_soak horust_restarts_once_and_restores_continuity -- --ignored --exact\",\"ADL_HORUST_BIN=/Volumes/FastWork/adl-5591/horust-install/bin/horust CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-horust cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test guardian_soak horust_allowlists_child_environment -- --ignored --exact\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"cargo tree --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check origin/main...HEAD\"],\"purpose\":\"Prove the integrated Parity-A head: 34 focused and 187 complete-suite tests, strict all-target/all-feature lint, Horust restart/continuity and environment isolation, formatting and diff hygiene, locked COTS inventory, and exact budget truth. The report records 12,683 physical lines and 195 tests: 683 lines above the 12,000 reviewed target but within the explicit 20,000 exception ceiling, requiring review disposition.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f8362-357c-7621-95b7-afb314e0c61d@740a65ba2c60d06915ce8c6e08b8b5756d245ccc:/Volumes/FastWork/adl-5591/integrated-*\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Correct the exact-head reviewer P1 by recording the pinned #5336 baseline and the explicit non-authority of the broad hard safety ceiling.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash -n adl/tools/report_runtime_v3_loc.sh\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check\"],\"purpose\":\"Record 12,683 physical source lines as exactly +474 over the pinned #5336 baseline of 12,209 and +683 over the 12,000 target. The 20,000 hard safety ceiling does not authorize an exception. Exact review found the +474 functional delta necessary and non-duplicative: signed ingress +323, control/admission +76, assembly +45, continuity +21, and terminal/misc wiring +9; identified safe consolidation cannot recover the delta without removing acceptance behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"subagent:/root/review_5591_exact_head@be9daf2ea:P1-budget-authority-correction\"}}"
     }
   ]
 }

@@ -12,7 +12,20 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/ingress.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/live_continuity.rs
+adl-runtime-kernel/src/telemetry.rs
+adl-runtime-kernel/src/weather.rs
+adl-runtime-kernel/tests/assembly.rs
+adl-runtime-kernel/tests/control.rs
+adl-runtime-kernel/tests/guardian_soak.rs
+infra/horust/adl-runtime-kernel.toml
+.csdlc/issues/5591/cards/sor.values.json
+.csdlc/issues/5591/cards/vpp.values.json
 
 ## Prompts
 
