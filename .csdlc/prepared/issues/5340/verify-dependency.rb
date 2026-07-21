@@ -12,7 +12,11 @@ DEPENDENCY = 5338
 REPOSITORY = "danielbaustin/agent-design-language"
 
 def capture!(*argv, chdir: nil)
-  stdout, stderr, status = Open3.capture3(*argv, chdir: chdir)
+  stdout, stderr, status = if chdir
+                             Open3.capture3(*argv, chdir: chdir)
+                           else
+                             Open3.capture3(*argv)
+                           end
   abort("command failed: #{argv.join(' ')}\n#{stderr}#{stdout}") unless status.success?
   stdout
 end

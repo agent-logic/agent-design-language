@@ -10,7 +10,11 @@ ISSUE = 5340
 REPOSITORY = "danielbaustin/agent-design-language"
 
 def capture!(*argv, chdir: nil, env: {})
-  stdout, stderr, status = Open3.capture3(env, *argv, chdir: chdir)
+  stdout, stderr, status = if chdir
+                             Open3.capture3(env, *argv, chdir: chdir)
+                           else
+                             Open3.capture3(env, *argv)
+                           end
   abort("command failed: #{argv.join(' ')}\n#{stderr}#{stdout}") unless status.success?
   stdout
 end
