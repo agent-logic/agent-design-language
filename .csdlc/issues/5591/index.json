@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "implemented",
-  "generation": 18,
-  "digest": "71ef1f50d7bb375fac118d48e354c4807d20ce0b27e50bbe2565399180d00411",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "a339116166d4d823721f8846c5adc9aa703ee0e02d87cc79a8a04af662eae3d7",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 18,
+    "generation": 20,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -27,8 +27,32 @@
     ],
     "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5591_exact_head",
+    "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+    "revision": "git-blake3:a3fd76181cf3b922eeccd555fccb846d2ad8447b:275fdc0c21d309343bca0b3e68a8f0207b6707fc6305f9a50e0cfadbba203eb8",
+    "scope": [
+      "adl-runtime/src/guardian.rs",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/srp.values.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_5591_exact_head",
+    "scope": [
+      "adl-runtime/src/guardian.rs",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/srp.values.json"
+    ],
+    "reviewed_revision": "git-blake3:a3fd76181cf3b922eeccd555fccb846d2ad8447b:275fdc0c21d309343bca0b3e68a8f0207b6707fc6305f9a50e0cfadbba203eb8",
+    "findings": [],
+    "residual_risks": [
+      "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
+      "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +67,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "39795cb420604dfd1e2c73ff50ffdd2270290ac918a3efce7a450af15981b64f",
+      "values_digest": "c3589549d14b866b7658f7a0a4b94c2d693b19eea36062ba2cdbc7eb1bfda3bd",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "900c2ade362c84572d1d6a85281f40de2fc10f647de92df7854db5ea5e8c9e3f",
+      "values_digest": "88b73a04ebf9d3c799f7471130181496299b18319d8a056fa94d609965c6d491",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "ec44ad92f607c8e2a6bc68fef8349429ba1925ce5c57931a090f1909808d6f46",
+      "values_digest": "b9f999b595e328336d5503cb5ad97ab46e407c72ca21e551c5df0d54e3d44e58",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "89589d67b475b5ae5b19fdbba7ceb05f28725990db1de654c83e6902d597c356",
+      "values_digest": "df885a7d33d168959cf1d9c137122ada95078dabda4dd080d609efffe01c8841",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "95822b306c7f82bb2fdaf1d7b405d73b0c70e289eb03e497e4945d4369aaac41",
-      "rendered_digest": "ad4a980a0e737e0c7f01de4ad76e7eca73b016332a9dde6a67044fa5faf86d28",
-      "ast_digest": "9ce8e5a6a15a085691d90cbc2955f381306b86c02d9ab1998f8e09b15ed60144"
+      "values_digest": "440b27dfdadb75037ed4f4a9cb452b79ffa8ffe9591b2b1e83e429a6339cc75c",
+      "rendered_digest": "3cd4a3af6cebf60bbc03e8d6806eed4580b69c6e5d28042b29f77a04cff1a0f5",
+      "ast_digest": "d1f577c7bc74c43d57d270baf2eedd01bdd310b60c2c66558f44cf751f669718"
     },
     "sor": {
-      "values_digest": "1aaf52ef9b1cfaa6eeeb784f2b664e6d889798fdadfb86ae5abbc518e84619ea",
+      "values_digest": "3082dd810fb51644410b709f0546f2d40d28beec77d21a5fea9ec4e181b339a2",
       "rendered_digest": "4e52ce66b329c8adec3403dbe2e10478878afad7443489f6af2db6460e44b6b4",
       "ast_digest": "ac0f7be2e4f248cbd5facb72f46c8dd40e0e8a36b5fc69d525081eac425fa0ed"
     }
@@ -129,6 +153,13 @@
       "to": "implemented",
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Current hosted Runtime coverage exposed a nondeterministic guardian descendant-startup proof race; recover published review truth for exact-head validation and rereview of the deterministic readiness handshake."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Exact-head guardian proof rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual."
     }
   ],
   "audit": [
@@ -306,6 +337,27 @@
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Record deterministic guardian descendant-readiness race proof before exact-head rereview.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"for iteration in 1..25: CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/guardian-defect cargo test --locked --manifest-path adl-runtime/Cargo.toml guardian::tests::child_exit_terminates_descendants_and_bounds_inherited_pipe_capture -- --exact\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/guardian-full cargo test --locked --manifest-path adl-runtime/Cargo.toml\",\"cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check\",\"git diff --check\"],\"purpose\":\"Prove the guardian descendant installs its SIGTERM disposition before the parent exits, eliminating the hosted coverage startup race without changing guardian shutdown behavior. The exact regression passed 25 consecutive runs; the complete adl-runtime crate passed 127 tests including independence; formatting and diff hygiene passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f8362-357c-7621-95b7-afb314e0c61d@8871cb4847a50e483092c6771462c8e59c969085:/Volumes/FastWork/adl-5591/guardian-*\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "subagent:/root/review_5591_exact_head",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Exact-head guardian proof rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
