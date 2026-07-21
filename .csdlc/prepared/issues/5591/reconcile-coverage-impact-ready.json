@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.ready_publication_reconciliation_request.v1",
+  "publication": {
+    "schema": "csdlc.publication_request.v1",
+    "issue": 5591,
+    "expected_generation": 29,
+    "expected_digest": "69b88d3a92fa77da7405cf51924f99b0a714d065d566d788a0ccfb2c21cdcab5",
+    "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+    "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+    "repository": "danielbaustin/agent-design-language",
+    "remote": "origin",
+    "base": "main",
+    "head": "codex/5591-runtime-v3-parity-a-preparation",
+    "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
+    "body": "Closes #5591\n\nImplements canonical signed Runtime v3 ingress, atomic admission closure, deterministic checkpoint/replay/resume, pressure-triggered serialization and graceful shutdown, configured TLS-authenticated local/remote access, Observatory output, and Horust guardian integration without Runtime v2 source or AWS.\n\nExact integrated-head proof passes: 34 focused tests, 187 complete-suite tests, strict all-target/all-feature Clippy, formatting and diff hygiene, locked dependency inventory, dynamic-port pressure/signed shutdown, and Horust restart/continuity plus environment isolation. Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 necessary and non-duplicative exception over the pinned #5336 baseline of 12,209; the 20,000 hard ceiling is not exception authority.\n\nResidual risk: the fixed-port Horust SIGTERM process test remains intentionally ignored; dynamic-port pressure and signed terminal paths exercise the shared serialization helper.",
+    "draft": false,
+    "token_file": null
+  },
+  "pull_request": 5608
+}

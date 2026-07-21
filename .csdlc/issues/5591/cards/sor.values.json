@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
     "slug": "v0-91-8-runtime-v3-parity-a-kernel-continuity-ingress",
     "version": "v0.91.8",
-    "generation": 29
+    "generation": 30
   },
   "status": "pre_phase",
   "content": {
@@ -129,8 +129,8 @@
           "evidence_ref": "owner:019f8362-357c-7621-95b7-afb314e0c61d@469a18c11a849450cacc4f69d439c0cedd09c2d7:/Volumes/FastWork/adl-5591/ci-coverage/coverage-output/local-pr-5591-final"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
