@@ -43,6 +43,6 @@ fn stable_identity_golden_vector_is_versioned() {
     let plan = compile(&common::document(WorkflowKind::Sequential)).unwrap();
     assert_eq!(
         plan.nodes[0].id,
-        "node_ad1743daa0c3c322a785355fc7bb3619b6b998411f86238e35bf93ec31045742"
+        "node_v1_3e3c5d4a53bf98a70af30baa2d7e41b31c1fac90774f7b799d4df987b3a11172"
     );
 }

@@ -89,9 +89,35 @@ pub struct PlanNode {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub model: Option<String>,
     pub tools: Vec<String>,
+    pub ports: PlanPorts,
+    pub prompt: PlanPrompt,
     pub inputs: BTreeMap<String, Value>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub save_as: Option<String>,
+    pub provenance: PlanProvenance,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PlanPorts {
+    pub inputs: Vec<String>,
+    pub outputs: Vec<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PlanPrompt {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub system: Option<String>,
+    pub user: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct PlanProvenance {
+    pub document_version: String,
+    pub workflow_identity: String,
+    pub semantic_path: String,
+    pub task_ref: String,
+    pub agent_ref: String,
+    pub provider_ref: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -133,13 +159,16 @@ pub fn compile_with_limits(
             ),
         )]);
     }
+    let mut input_value_count = 0;
+    for value in document.run.inputs.values() {
+        check_value_limits(value, 1, &mut input_value_count, limits, "$.run.inputs")?;
+    }
     for (index, step) in workflow.steps.iter().enumerate() {
         for value in step.inputs.values() {
-            let mut count = 0;
             check_value_limits(
                 value,
                 1,
-                &mut count,
+                &mut input_value_count,
                 limits,
                 &format!("$.run.workflow.steps[{index}].inputs"),
             )?;
@@ -168,12 +197,16 @@ pub fn compile_with_limits(
     let mut edge_steps = BTreeSet::new();
     if workflow.kind == WorkflowKind::Sequential {
         for pair in workflow.steps.windows(2) {
-            edge_steps.insert((
-                pair[0].id.clone(),
-                pair[1].id.clone(),
-                PlanEdgeKind::Sequential,
-                None,
-            ));
+            insert_edge(
+                &mut edge_steps,
+                (
+                    pair[0].id.clone(),
+                    pair[1].id.clone(),
+                    PlanEdgeKind::Sequential,
+                    None,
+                ),
+                limits.max_edges,
+            )?;
         }
     }
     let state_owners: BTreeMap<_, _> = workflow
@@ -198,24 +231,17 @@ pub fn compile_with_limits(
                     format!("validated state `{state}` has no owner"),
                 )]
             })?;
-            edge_steps.insert((
-                owner.clone(),
-                step.id.clone(),
-                PlanEdgeKind::StateDependency,
-                Some(state),
-            ));
+            insert_edge(
+                &mut edge_steps,
+                (
+                    owner.clone(),
+                    step.id.clone(),
+                    PlanEdgeKind::StateDependency,
+                    Some(state),
+                ),
+                limits.max_edges,
+            )?;
         }
-    }
-    if edge_steps.len() > limits.max_edges {
-        return Err(vec![diagnostic(
-            CompilerDiagnosticCode::LimitExceeded,
-            "$.run.workflow",
-            format!(
-                "workflow has {} edges; limit is {}",
-                edge_steps.len(),
-                limits.max_edges
-            ),
-        )]);
     }
     let order = topological_order(workflow, &edge_steps)?;
     let step_by_id: BTreeMap<_, _> = workflow
@@ -244,6 +270,9 @@ pub fn compile_with_limits(
         if !task.tool_allowlist.is_empty() {
             tools.retain(|tool| task.tool_allowlist.contains(tool));
         }
+        let mut input_ports = task.inputs.clone();
+        input_ports.sort();
+        input_ports.dedup();
         nodes.push(PlanNode {
             id: node_ids[&step.id].clone(),
             step_id: step.id.clone(),
@@ -255,8 +284,24 @@ pub fn compile_with_limits(
                 .clone()
                 .or_else(|| provider.default_model.clone()),
             tools: tools.into_iter().collect(),
+            ports: PlanPorts {
+                inputs: input_ports,
+                outputs: step.save_as.iter().cloned().collect(),
+            },
+            prompt: PlanPrompt {
+                system: task.prompt.system.clone(),
+                user: task.prompt.user.clone(),
+            },
             inputs: step.inputs.clone(),
             save_as: step.save_as.clone(),
+            provenance: PlanProvenance {
+                document_version: document.version.clone(),
+                workflow_identity: workflow_identity.clone(),
+                semantic_path: format!("$.run.workflow.steps.{}", step.id),
+                task_ref: step.task.clone(),
+                agent_ref: agent_ref.clone(),
+                provider_ref: agent.provider.clone(),
+            },
         });
     }
     let edges = edge_steps
@@ -350,6 +395,22 @@ fn topological_order(
     Ok(order)
 }
 
+fn insert_edge(
+    edges: &mut BTreeSet<(String, String, PlanEdgeKind, Option<String>)>,
+    edge: (String, String, PlanEdgeKind, Option<String>),
+    max_edges: usize,
+) -> Result<(), Vec<CompilerDiagnostic>> {
+    if !edges.contains(&edge) && edges.len() >= max_edges {
+        return Err(vec![diagnostic(
+            CompilerDiagnosticCode::LimitExceeded,
+            "$.run.workflow",
+            format!("workflow exceeds edge limit {max_edges}"),
+        )]);
+    }
+    edges.insert(edge);
+    Ok(())
+}
+
 fn check_value_limits(
     value: &Value,
     depth: usize,
@@ -408,11 +469,11 @@ fn collect_state_references(value: &Value, references: &mut BTreeSet<String>) {
 fn stable_node_id(run: &str, workflow: &str, step: &str, task: &str) -> String {
     let mut hasher = Sha256::new();
     hasher.update(NODE_ID_DOMAIN);
-    for component in [run, workflow, step, task, "task"] {
+    for component in [EXECUTION_PLAN_VERSION, run, workflow, step, task, "task"] {
         hasher.update((component.len() as u64).to_be_bytes());
         hasher.update(component.as_bytes());
     }
-    format!("node_{}", hex::encode(hasher.finalize()))
+    format!("node_v1_{}", hex::encode(hasher.finalize()))
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {

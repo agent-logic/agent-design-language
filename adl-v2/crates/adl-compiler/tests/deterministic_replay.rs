@@ -50,6 +50,13 @@ fn concurrent_workflow_only_orders_explicit_state_dependencies() {
     assert_eq!(plan.edges[0].state.as_deref(), Some("result"));
     assert_eq!(plan.nodes[1].tools, vec!["alpha"]);
     assert_eq!(plan.nodes[0].model.as_deref(), Some("model-a"));
+    assert_eq!(plan.nodes[1].ports.inputs, vec!["source"]);
+    assert!(plan.nodes[1].ports.outputs.is_empty());
+    assert_eq!(plan.nodes[1].prompt.user, "consume");
+    assert_eq!(
+        plan.nodes[1].provenance.semantic_path,
+        "$.run.workflow.steps.second"
+    );
 }
 
 #[test]

@@ -2,11 +2,11 @@
 
 ## Status and dependency gate
 
-This design is preparation-complete but implementation-blocked. Product code
-may begin only after issue #5339 is merged and its retained typed lifecycle is
-`closed_out`. The landed `adl-language` API and its reviewed fixtures then
-become read-only compiler inputs. A green PR or a merged GitHub state alone is
-not sufficient.
+The dependency gate passed: issue #5339 is merged, its retained typed lifecycle
+is `closed_out`, its claim is released, and the squash merge is an ancestor of
+this worktree. Implementation and local validation are complete; exact-revision
+review remediation is in progress. The landed `adl-language` API and its
+reviewed fixtures remain read-only compiler inputs.
 
 ## Ownership and authority
 
