@@ -93,11 +93,11 @@ Fix all exact-review routing and external-build-root findings without widening i
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

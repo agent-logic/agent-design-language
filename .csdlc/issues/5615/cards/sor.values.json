@@ -7,7 +7,7 @@
     "title": "[v0.91.8][ci][tooling] Route C-SDLC proof and FastWork builds correctly",
     "slug": "csdlc-ci-fastwork-routing",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
@@ -86,8 +86,8 @@
           "evidence_ref": "issue-5615:exact-review-remediation:focused-and-standalone-pass"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

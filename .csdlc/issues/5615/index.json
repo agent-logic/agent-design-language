@@ -3,13 +3,13 @@
   "issue": 5615,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "36d04edef06074ba46ddc14aab9493fc35023e2395b1fac82d2c714b0cde44e0",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "e343c408a4e693c7b40e360458064bd528fbf3a10549b9775bf618afaf26725e",
+  "phase": "published",
+  "generation": 12,
+  "digest": "ab9638f91032214fd32acf146d540ef0d1cb2e086835100846ce3a26f9c5eafc",
   "claim": {
     "id": "claim-5615-csdlc-ci-fastwork-routing",
     "owner": "codex:5615-owner",
-    "generation": 11,
+    "generation": 12,
     "acquired_unix_seconds": 1784669026,
     "expires_unix_seconds": 1784755426,
     "heartbeat_unix_seconds": 1784669026,
@@ -69,7 +69,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5615,
+    "pull_request": 5622,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5622",
+    "base": "main",
+    "head": "codex/5615-csdlc-ci-fastwork-routing",
+    "revision": "git-blake3:5fea2d3e77ed788adc80f796ee92ecdf5b78344f:314ad2574fabde4648b7a9bb3a868c10d6ac56fda628ba66003833ea7577ec46",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -83,34 +93,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ea9f8ad5e8bf7d0cfd3f395fda7297cafc04fe3d871dd5ce4135b2804bfa3b14",
+      "values_digest": "baecd8a0328469ccf18ded079aabaa5c7a41c2a7e6be6f52db4823da1d46b109",
       "rendered_digest": "be640d024da16ba461e342ca879bd18ccb5a94d3e2e30929a32e8cd5c5f934e8",
       "ast_digest": "bc5391a707067b1bbc3d2de5e4c96dc08f93b1432936430e49ca9d1b800dff97"
     },
     "stp": {
-      "values_digest": "46bb451b18fbbc092931cdfc8ca7f7d6f77043e7d553acd6f8481d3e0e4fb419",
+      "values_digest": "7c4e9e29a5924fd531877e2153dcf986990c02244f251d16e83a07bdb3d85de6",
       "rendered_digest": "f7a191e9d029748eb3099859f1538f9aad0d923ec8b93be1fe014c1e81608ca8",
       "ast_digest": "b64629174c1fb8dd2121ab2ca4b014eaca6d4249bd88572a9bada856f3b1fe15"
     },
     "spp": {
-      "values_digest": "dffeb75ff5971d154a9bb8f295bf8c40573dbc153d33a4d0a0629afaef12da95",
+      "values_digest": "c6595164c3b078e6a96c7f50f5db17cb0a2f67da6cbf43a7ffa4280dedf2aa07",
       "rendered_digest": "973dd60787d6042b0950e1a9a8c8fc276f57b00b6dfaca30337d1111749b7fce",
       "ast_digest": "396c5db84e434ad1a9493920bf66c41387cb028376e4d47a8a7c7115f5721fc9"
     },
     "vpp": {
-      "values_digest": "f82c16ee47a605faf89baac4cc1a18d05e95140df9a50d7add1ff81aaa594e62",
+      "values_digest": "84815708a54fd289c5cf6a3a2d1fc24ef503c247c558fa9e5df51c574209de3c",
       "rendered_digest": "1a0def1323d9b5974aa111585d67017f3dd9ae217d48107f0f33f6ba0ac54929",
       "ast_digest": "0924498c22b4cdffb38c7c2b3a69f979a971b4f52b1111cbde5322bbc0237bc7"
     },
     "srp": {
-      "values_digest": "d2757dc90ed45ff8a2b74104c96417b10ef4b281dcaf23ac9a1c0d9269c57fd6",
+      "values_digest": "5a5f201a2053f2d0cf69231754ae3ace68a1534044aa71fd393d6e042e41568f",
       "rendered_digest": "536065b41ce7df11299febe65aedf42ee400a4a7b0dc87b3ab887720655c1c38",
       "ast_digest": "1db9d68d7213cc8d957140143eac4ba9036ba1987ea8849c6ecf2f7f30930922"
     },
     "sor": {
-      "values_digest": "3379ef5b8b1fb6ff91df80a0aa222253725ae2272d94a1061f0a93e1cf17b04d",
-      "rendered_digest": "2274cfe3b271be193ce08b11bc376361cecefd28d119c7a2b46290860c7acb85",
-      "ast_digest": "124343e55fb3132d84c306f9316ad56d8bfdd8edf3d280b9de099cae012de35e"
+      "values_digest": "d60e46f2fe86cc634514fe6dd928d5fa18ad00feff9414e14defa6be3fe915a9",
+      "rendered_digest": "fee1f5e9988d58f34c5fd6dfdd2e132a26406d46e23e1b416305e26449654b60",
+      "ast_digest": "470808d55e9c33f1cb4cdc0ecda51f6f97b1008b73cac242dc2bd0bbc8947470"
     }
   },
   "transitions": [
@@ -141,6 +151,13 @@
       "to": "reviewed",
       "actor": "codex:5615-owner",
       "reason": "Exact remediation review passed with zero findings after all three P1s were fixed and revalidated."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5615-owner",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -269,6 +286,13 @@
       "actor": "codex:5615-owner",
       "reason": "Exact remediation review passed with zero findings after all three P1s were fixed and revalidated.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:5615-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -16,3 +16,4 @@
 {"sequence":16,"generation":9,"actor":"codex:5615-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":17,"generation":10,"actor":"subagent:019f86c0-2ed0-7783-9f63-bb0dc38861ae","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":18,"generation":11,"actor":"codex:5615-owner","reason":"Exact remediation review passed with zero findings after all three P1s were fixed and revalidated.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":19,"generation":12,"actor":"codex:5615-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
