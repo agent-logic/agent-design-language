@@ -1,0 +1,7 @@
+{
+  "issue": 5344,
+  "expected_generation": 0,
+  "expected_digest": "023ce5b8a70350716bbfea015d5d0ebc99bbad35faf15cbb13dab204a03deab9",
+  "claim_id": "claim-5344-v0918-wp12-soak-rollback-preparation",
+  "reviewer": "subagent:019f861f-f629-7e71-8596-060ac0f87665"
+}

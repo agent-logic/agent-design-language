@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5344,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-12] Run opt-in soak and prove rollback",
+    "slug": "v0918-wp12-opt-in-soak-rollback",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5344\n.csdlc/locks/5344.lock\n.csdlc/prepared/issues/5344\n.csdlc/evidence/5344\nadl-v2/tools/run-soak.sh\nadl-v2/tools/prove-rollback.sh\ndocs/milestones/v0.91.8/evidence/wp12",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any path, symlink, environment value, stale receipt, or argument escape the isolated selector root or mutate the default selector?",
+        "Does every selector mutation use the authoritative locked compare-and-swap API and prove exact prior-byte preservation or explicit exact rollback?",
+        "Do successful selection, failed selection, failed soak, interruption, contention, and verification mismatch all have deterministic negative proof?",
+        "Are #5350/#5361 merge, typed closeout, retained receipt, claim release, and ancestry predicates exact and fail-closed?",
+        "Does the manifest cover local, CI, Runtime v3, provider-disposition, demo, negative, and rollback scenarios without production overclaim?",
+        "Are COTS, dependency exclusions, LoC/module/test/time budgets, PVF classification, no-deferral, redaction, exact review, and post-merge proof complete?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
