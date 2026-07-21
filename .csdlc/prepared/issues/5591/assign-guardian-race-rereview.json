@@ -1,0 +1,13 @@
+{
+  "issue": 5591,
+  "expected_generation": 18,
+  "expected_digest": "71ef1f50d7bb375fac118d48e354c4807d20ce0b27e50bbe2565399180d00411",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "reviewer": "subagent:/root/review_5591_exact_head",
+  "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "scope": [
+    "adl-runtime/src/guardian.rs",
+    ".csdlc/issues/5591/cards/sor.values.json",
+    ".csdlc/issues/5591/cards/srp.values.json"
+  ]
+}

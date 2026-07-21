@@ -1,0 +1,15 @@
+{
+  "issue": 5337,
+  "card": "stp",
+  "expected_generation": 10,
+  "expected_digest": "a4e3a42fa9451b8512485d1abfe911801ef089bd92aa17e4910f8343fb6774dd",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Define the complete bounded implementation task",
+  "operation": {
+    "operation": "replan",
+    "field": "task_boundary",
+    "value": "Build, populate, document, and prove the independent adl-characterization crate and its complete pinned-v1 corpus; modify only adl-characterization and issue-local #5337 lifecycle/evidence paths."
+  },
+  "fail_after_backup": false
+}

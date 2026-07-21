@@ -1,0 +1,16 @@
+{
+  "manifest": {
+    "schema": "csdlc.pvf.manifest.v1",
+    "lanes": [
+      {"id":"language-focused","proof_role":"Six primitives, strict parsing, schemas, semantic validation, diagnostics, canonicalization","purpose":"Run all crate tests","determinism":"deterministic","resources":{"cpu_units":1,"memory_mib":2048,"tokens":0},"credentials":[],"network":"denied","dependencies":[],"parallel_group":"rust","release_gate":"required","execution":"local","timeout_seconds":120,"executable":"bash","argv":[".csdlc/prepared/issues/5339/validate-language.sh","focused"],"evidence":{"max_log_bytes":40000,"redact_values":[],"require_relative_paths":true}},
+      {"id":"language-quality","proof_role":"Warning-free clean-room implementation","purpose":"Run strict Clippy","determinism":"deterministic","resources":{"cpu_units":1,"memory_mib":2048,"tokens":0},"credentials":[],"network":"denied","dependencies":[],"parallel_group":"rust","release_gate":"required","execution":"local","timeout_seconds":120,"executable":"bash","argv":[".csdlc/prepared/issues/5339/validate-language.sh","quality"],"evidence":{"max_log_bytes":40000,"redact_values":[],"require_relative_paths":true}},
+      {"id":"characterization-parity","proof_role":"Mapped #5337 language corpus outcomes and ordering","purpose":"Run corpus parity tests","determinism":"deterministic","resources":{"cpu_units":1,"memory_mib":2048,"tokens":0},"credentials":[],"network":"denied","dependencies":[],"parallel_group":"rust","release_gate":"required","execution":"local","timeout_seconds":300,"executable":"bash","argv":[".csdlc/prepared/issues/5339/validate-language.sh","parity"],"evidence":{"max_log_bytes":40000,"redact_values":[],"require_relative_paths":true}},
+      {"id":"language-budgets","proof_role":"Dependency, LoC, and full-validation latency budgets","purpose":"Enforce reviewed budgets","determinism":"deterministic","resources":{"cpu_units":1,"memory_mib":2048,"tokens":0},"credentials":[],"network":"denied","dependencies":[],"parallel_group":"budget","release_gate":"required","execution":"local","timeout_seconds":600,"executable":"bash","argv":[".csdlc/prepared/issues/5339/validate-language.sh","budgets"],"evidence":{"max_log_bytes":40000,"redact_values":[],"require_relative_paths":true}}
+    ]
+  },
+  "selection": {"requested_lanes":["language-focused","language-quality","characterization-parity","language-budgets"],"allow_network":false,"available_credentials":[]},
+  "budget": {"max_parallel":2,"cpu_units":2,"memory_mib":4096,"tokens":0},
+  "root": ".",
+  "evidence_dir": ".csdlc/evidence/5339/implementation-validation",
+  "cancellation_file": null
+}

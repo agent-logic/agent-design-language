@@ -1,0 +1,124 @@
+{
+  "issue": 5610,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5610/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5610/diagram.mmd",
+  "design_reviewer": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5610-coverage-path-normalization",
+    "owner": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+    "generation": 0,
+    "acquired_unix_seconds": 1784618518,
+    "expires_unix_seconds": 1784704918,
+    "heartbeat_unix_seconds": 1784618518,
+    "branch": "codex/5610-coverage-path-normalization",
+    "worktree": ".",
+    "protected_paths": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "purpose": "Normalize safe in-repo coverage paths without weakening traversal rejection"
+  },
+  "initial": {
+    "title": "[v0.91.8][CI][coverage] Normalize safe in-repo coverage paths without weakening traversal rejection",
+    "slug": "coverage-path-normalization",
+    "version": "v0.91.8",
+    "goal": "Accept safe lexical normalization inside owned coverage roots while rejecting every repository or owned-root escape.",
+    "required_outcome": "Hosted coverage merge accepts safe in-repo bin/.. filenames and continues failing closed on traversal outside repository-owned source roots.",
+    "declared_scope": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "authority_boundary": [
+      "Issue #5610 owns only the two-file shared coverage merge correction",
+      "Issue #5602 remains immutable closed-out evidence",
+      "PR #5607 and PR #5608 remain owned by their existing branches"
+    ],
+    "task_boundary": "Apply the already-reviewed two-file lexical normalization correction and exact regressions only.",
+    "deliverables": [
+      "Platform-independent lexical filename normalization",
+      "Exact safe-path and traversal-escape regressions",
+      "Focused FastWork validation and exact-head review"
+    ],
+    "acceptance_criteria": [
+      "AC-1: /repo/adl/src/bin/../aws_remote_validation.rs canonicalizes to /adl/src/aws_remote_validation.rs",
+      "AC-2: /repo/adl/src/../../outside.rs and ../adl/src/x.rs fail closed",
+      "AC-3: prefix traversal into an owned marker fails closed",
+      "AC-4: normalized paths outside /adl/src/ and /adl-runtime/src/ are not accepted",
+      "AC-5: provenance, metric, duplicate, total, atomic-output, and coverage gates are unchanged"
+    ],
+    "dependencies": [
+      "Issue #5602 terminal receipt",
+      "PR #5607 failed hosted coverage job 88566164781"
+    ],
+    "repo_inputs": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh",
+      "reviewed commit 5c1bbe71f"
+    ],
+    "non_goals": [
+      "No PR #5607 or PR #5608 branch edits",
+      "No coverage threshold or producer changes",
+      "No #5602 terminal-state rewrite",
+      "No AWS work"
+    ],
+    "plan_summary": "Transplant the reviewed two-file correction, validate exact positive and negative contracts, review exact head, publish, merge, and close out.",
+    "steps": [
+      {"id":"S1","action":"Apply bounded lexical normalization and regressions","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"]},
+      {"id":"S2","action":"Run focused FastWork contracts and exact-head review","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"]},
+      {"id":"S3","action":"Publish, merge, and close out through typed v2","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"]}
+    ],
+    "risks": [
+      "Normalization could relabel escaped paths as owned",
+      "Overbroad rejection could reject safe compiler-emitted bin/.. paths"
+    ],
+    "invariants": [
+      "Only canonical owned source roots are merged",
+      "All existing coverage and provenance gates remain intact",
+      "Issue #5602 terminal truth is untouched"
+    ],
+    "stop_conditions": [
+      "Any need to weaken coverage or provenance gates",
+      "Any need to edit consumer PR branches",
+      "Any need to rewrite #5602 terminal records"
+    ],
+    "review_prompts": [
+      "Does safe lexical normalization remain inside the owned root?",
+      "Can any prefix or owned-root traversal normalize into accepted ownership?",
+      "Are all existing merge and coverage gates unchanged?"
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 only",
+      "Use /Volumes/FastWork for validation",
+      "No raw gh or AWS"
+    ],
+    "review_scope": "adl/tools/merge_coverage_summaries.py\nadl/tools/test_merge_coverage_summaries.sh",
+    "planning_profile": "small",
+    "validation_lanes": [
+      {
+        "lane": "coverage-summary-merge-contract",
+        "proof_role": "Prove safe canonicalization and fail-closed ownership traversal",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "coverage-contracts",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["bash", "adl/tools/test_merge_coverage_summaries.sh"],
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5"]
+      },
+      {
+        "lane": "ci-runtime-contract",
+        "proof_role": "Prove coupled CI coverage orchestration remains unchanged",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "coverage-contracts",
+        "budget_seconds": 300,
+        "budget_tokens": 2000,
+        "argv": ["bash", "adl/tools/test_ci_runtime_contracts.sh"],
+        "acceptance_ids": ["AC-5"]
+      }
+    ],
+    "failure_policy": "Fail closed on any repository-prefix or owned-root escape, malformed summary, duplicate canonical filename, metric error, or output-write failure."
+  }
+}

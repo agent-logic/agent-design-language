@@ -1,0 +1,19 @@
+{
+  "issue": 5337,
+  "card": "sip",
+  "expected_generation": 8,
+  "expected_digest": "76372039e03cb560da91926dc400faf6d0c9f31599405924d700b58549d39ca5",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Make implementation assumptions explicit",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "initial_assumptions",
+    "values": [
+      "the pinned v1 revision can be built locally with Cargo output on /Volumes/FastWork",
+      "ADL_OBSERVABILITY=0 suppresses ordinary observability noise for black-box capture",
+      "fixed local fixtures and mock providers are sufficient to exercise the declared behavioral surface"
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,22 @@
+{
+  "issue": 5361,
+  "base_branch": "main",
+  "branch": "codex/5361-v0918-runtime-v3-acceptance-readiness",
+  "worktree": ".",
+  "claim": {
+    "id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784570111,
+    "expires_unix_seconds": 1785174911,
+    "heartbeat_unix_seconds": 1784570111,
+    "branch": "codex/5361-v0918-runtime-v3-acceptance-readiness",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5361",
+      ".csdlc/locks/5361.lock",
+      ".csdlc/prepared/issues/5361"
+    ],
+    "purpose": "Prepare and review Runtime v3 acceptance cards and dependency truth without executing acceptance"
+  }
+}

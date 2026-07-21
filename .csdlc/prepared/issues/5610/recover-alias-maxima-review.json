@@ -1,0 +1,8 @@
+{
+  "issue": 5610,
+  "expected_generation": 18,
+  "expected_digest": "18391153d615ef2c314c9bd3bd51cd9b014f829f634d3ac5a643ca3b4131e428",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Recover review truth after exact hosted evidence required conservative canonical-alias maxima coalescing; the prior owner was explicitly stopped and the coordinator assigned this actor as sole replacement writer."
+}

@@ -1,0 +1,8 @@
+{
+  "issue": 5591,
+  "expected_generation": 8,
+  "expected_digest": "a20198d18ca8c10a99bb0a3fb4173d2dce6c9e91bcb52f2c2e658cf425bb0c71",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "reason": "Integration of merged #5336/current origin/main changed exact revision identity; recover to implemented for complete integrated-head proof and bounded exact-head review before publication."
+}

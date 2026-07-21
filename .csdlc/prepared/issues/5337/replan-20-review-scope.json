@@ -1,0 +1,15 @@
+{
+  "issue": 5337,
+  "card": "srp",
+  "expected_generation": 23,
+  "expected_digest": "b41a49ac58bbffc161a9b177a1097491255574b94248f7ccbb2dd99fe5cea46c",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Bind review to the complete exact implementation revision",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": "Exact #5337 implementation revision: adl-characterization source, corpus schema and fixtures, retained repeated v1 observations, normalizer contract, coverage map, tests, documentation, issue-local lifecycle/evidence, and all no-network/no-credential boundaries."
+  },
+  "fail_after_backup": false
+}

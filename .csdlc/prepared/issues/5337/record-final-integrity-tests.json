@@ -1,0 +1,18 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 43,
+  "expected_digest": "2ee642f9e0b36a5388a1345545d27f94bef5d6ca0c4b3c005c2b50789eedb643",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record the complete final-remediation test proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "adl-characterization/Cargo.toml", "--all-targets"],
+      "purpose": "Prove exact command-shape rejection, corpus and observation integrity, every prior remediation, retained evidence, and CLI behavior.",
+      "outcome": "passed",
+      "evidence_ref": "Commit 13f21e6bc: 29 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target; exact re-review independently repeated 29/29 under /Volumes/FastWork/adl-5337-rereview2-target."
+    }
+  }
+}

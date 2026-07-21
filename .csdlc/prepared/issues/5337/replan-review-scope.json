@@ -1,0 +1,15 @@
+{
+  "issue": 5337,
+  "card": "srp",
+  "expected_generation": 2,
+  "expected_digest": "cebd543579c1e534d1c1606f276fe1ca995f96c6b020b3b2e91555db882bcc5f",
+  "claim_id": "claim-5337-v0918-wp03-preparation",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Bound issue #5337 preparation review to the exact issue-local lifecycle, request, and evidence paths",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": ".csdlc/issues/5337\n.csdlc/prepared/issues/5337\n.csdlc/evidence/5337"
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,24 @@
+{
+  "issue": 5337,
+  "card": "srp",
+  "expected_generation": 22,
+  "expected_digest": "8ecd3186226d8de03ccf01ecbc79f1b5ca917ea08c009348c0f66bd979546758",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Replace preparation review prompts with full code and architecture review prompts",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Does the crate remain independent of incumbent ADL source and accept only a caller-supplied pinned v1 binary?",
+      "Does the corpus cover every required positive, negative, ordering, determinism, mock-execution, and signing behavior?",
+      "Can any normalizer rule erase array order, identifiers, error class/value, exit status, prompt order/content, or signature verdicts?",
+      "Are all cases repeated at least three times with immutable raw evidence and exact binary provenance?",
+      "Do equivalence, difference, stability, and coverage checks fail closed on unexplained or missing evidence?",
+      "Can any command execute a network, credentialed, remote, AWS, or paid provider?",
+      "Are tests PVF-classified, deterministic, complete, and run with external Cargo output?",
+      "Are all findings resolved at the exact substantive revision with no deferred acceptance criteria?"
+    ]
+  },
+  "fail_after_backup": false
+}
