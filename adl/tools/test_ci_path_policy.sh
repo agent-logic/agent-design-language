@@ -59,7 +59,7 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" "if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true' && steps.coverage-impact.outputs.needs_fast_summary == 'true'"
   assert_file_has "$workflow" 'bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"'
   assert_file_has "$workflow" 'PR coverage-impact preflight'
-  assert_file_has "$workflow" 'args+=(--summary adl/target/coverage-impact-summary.json)'
+  assert_file_has "$workflow" 'args+=(--summary coverage-artifacts/workspace/adl/target/coverage-impact-summary.json)'
   assert_file_has "$workflow" 'args+=(--require-summary-for-risk)'
   assert_file_has "$workflow" "if: steps.path-policy.outputs.full_coverage_required == 'true' || steps.coverage-impact.outputs.needs_fast_summary == 'true'"
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld'
