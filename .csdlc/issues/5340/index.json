@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8863afa2116f00a1d2454a78df6f0287e360060ac0565d961b33c1da3c447617",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "966f7a1a30d4db3a9cc996c5804c61a14fbb20451a772c42047c2e339e8864cf",
+  "generation": 27,
+  "digest": "6954749e95640ecf7dcfe1ecbf7b9b6d8b4a885b8949ff39b1fbc341d1ec41de",
   "claim": {
     "id": "claim-5340-v0918-wp06-owner-watch",
     "owner": "codex:5340-owner-watch",
-    "generation": 23,
+    "generation": 27,
     "acquired_unix_seconds": 1784619054,
     "expires_unix_seconds": 1785223854,
     "heartbeat_unix_seconds": 1784619054,
@@ -108,34 +108,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dcb5ec8e95addf49df64a0b4a114079b12e22f45cc13b61d6cee5a5ee519b71c",
+      "values_digest": "9c6da7a73640e0badf9968f6e9061907576fcd4dcfe0fdbd6545c3d4ae02c6d9",
       "rendered_digest": "89b09b0e450ddd7efb55816ac6604326382c3e8976d112bd18c9847f4c6e6309",
       "ast_digest": "f8c5fd0db072f65fa89e0d9dcc29934d6219925a15e6b0478f1ec223dbede876"
     },
     "stp": {
-      "values_digest": "3e21e200ee6137709e8fc97b016040927725408daaf5babbd4f35de63cd78f41",
+      "values_digest": "6d43f8827b3f97348bc8d5820b445e7d88b28817552b21dd6a078e2b704b8288",
       "rendered_digest": "2d4f29e605035d0c85da7bfada7d463f3f27fe4546e38bc8dffadcc9510771fa",
       "ast_digest": "f3745e071ea9bcadd8ae499c89a7dd9e574600d035b0d6a8d092b3f26ee03c25"
     },
     "spp": {
-      "values_digest": "c3d9c08b2bdd393cface541f4c0da4209ca0642f36c4f6d2bad9b3d27294af02",
+      "values_digest": "c538ce988cd91a037b4bc4d3ec177ffcc11107466e1fe8655837e05e55562784",
       "rendered_digest": "dc97d6daebb426d7ca911764be05d92716990cbc0fc62cd8b75706d525721af3",
       "ast_digest": "0833844c7535db6ea9e6642f37bb7e03b2555d57ee583de1f472f6490d8a75bc"
     },
     "vpp": {
-      "values_digest": "9f7298a25494788c813e5584eab6cf5cf95f8967e9562892d8b886d2a25cfdb1",
+      "values_digest": "8757905eaf98925c9c95baa102136edd5d7013b3d549f570ebc0e7367d7c2a1a",
       "rendered_digest": "6ce70a28eb85688c195502de77dbbcf7aa5f3c38897640c6275929056265c2b8",
       "ast_digest": "7ea7f4080d60b398d0b99625947ac1b191dae9f80f9b0a802f7b6339517de8d0"
     },
     "srp": {
-      "values_digest": "f55fec54e581bc6018a69b2dd2fb1fd4f6dafc51c69aa41441f9bf6c378f86d4",
+      "values_digest": "b0036db5d8141be688bae01ab3a78aa5cf773a8f0639204cc98ea0fd38c4835f",
       "rendered_digest": "8b904c91d07264559e0d38ab3130c359506cef688ac14ec6190365a07c2b95e5",
       "ast_digest": "bd537aba393220ac2d99633dda8deed196f7592b250a8ccaed1d230750267bcf"
     },
     "sor": {
-      "values_digest": "ad23c4570f587a2a4076239f7e8892a138be2a94878f25c5a4a7d22bdc01eff7",
-      "rendered_digest": "2e658d191157e03f0f51deb014d996f36fe7e9e66aadbdc37bfa14448914a9b2",
-      "ast_digest": "f5ce19254cbd0b6edc3233048416441a948bea2819c549e42378bf7012cced72"
+      "values_digest": "baa9ba30e273f7dd3452a83e3f86d45aa70b1643bd23aef79438cab61cb6592b",
+      "rendered_digest": "bd1a7c557754d934c16285639a9800da13172b1a88f5503fe587088bd0eca3cc",
+      "ast_digest": "b5e5e8902c61bdbc6017a88dce7dc0e0c9098bacab21890a93b795a39f305b83"
     }
   },
   "transitions": [
@@ -350,6 +350,34 @@
       "actor": "subagent:/root/review_5340_exact",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Record focused FastWork proof for the exact-review repairs.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/focused.json\"],\"purpose\":\"Prove the repaired state dataflow, bounded turn inputs, compiler fixture mapping, and surrounding portable engine contracts on the sealed repair commit.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-focused/engine-focused.log at repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Record strict offline quality proof for the exact-review repairs.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/quality.json\"],\"purpose\":\"Prove formatting, strict all-target linting, and the issue-local syn source-authority boundary on the sealed repair commit.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-quality/engine-quality.log at repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Record determinism and semantic-resume proof for the exact-review repairs.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/determinism.json\"],\"purpose\":\"Prove deterministic scheduling and rejection of unreachable graph states, truncated journals, and altered request identities on the sealed repair commit.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-determinism/engine-determinism.log at repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e\"}}"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Record release-budget and full-suite proof for the exact-review repairs.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/budgets.json\"],\"purpose\":\"Prove the repaired engine remains within declared LoC, COTS, authority, scope, dependency, and validation-time budgets and passes the complete offline suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2579; test_fixture_lines=1647; unbudgeted_code=[]; repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e\"}}"
     }
   ]
 }

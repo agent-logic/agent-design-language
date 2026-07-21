@@ -1,4 +1,4 @@
-{"schema":"adl.csdlc.dependency-gate.v2","issue":5340,"dependency_issue":5338,"repository":"danielbaustin/agent-design-language","phase":"closed_out","disposition":"merged","observed_state":"merged","pull_request":5617,"merged_sha":"2c0cdd4522e6d7a062595706249894be3e16b2b3","origin_main_sha":"09c0bd1784216dbce1ad4cdebfe2d453af6e3d9d","fetched_unix_seconds":1784671532,"head_sha":"b9ba0c37f4bc381cb2d74589ad0d27dc1b6fe7be","typed_receipt_digest":"d8410dda41515b144fcec22a2e9af7e0fd6f029680e9659970aa5b3bf3b21bb1","typed_receipt_validation":"scratch_retain_receipt_passed","ancestry":["merge_to_origin_main","merge_to_head","origin_main_to_head"],"sole_writer":true,"outcome":"passed"}
+{"schema":"adl.csdlc.dependency-gate.v2","issue":5340,"dependency_issue":5338,"repository":"danielbaustin/agent-design-language","phase":"closed_out","disposition":"merged","observed_state":"merged","pull_request":5617,"merged_sha":"2c0cdd4522e6d7a062595706249894be3e16b2b3","origin_main_sha":"09c0bd1784216dbce1ad4cdebfe2d453af6e3d9d","fetched_unix_seconds":1784671789,"head_sha":"a87c36c4a813ed0e7d0cd3292434874d7be2bb0e","typed_receipt_digest":"d8410dda41515b144fcec22a2e9af7e0fd6f029680e9659970aa5b3bf3b21bb1","typed_receipt_validation":"scratch_retain_receipt_passed","ancestry":["merge_to_origin_main","merge_to_head","origin_main_to_head"],"sole_writer":true,"outcome":"passed"}
 {"schema":"adl.csdlc.scope-proof.v1","issue":5340,"branch":"codex/5340-v0918-wp06-portable-engine","claim":"claim-5340-v0918-wp06-owner-watch","protected_paths":[".csdlc/issues/5340",".csdlc/locks/5340.lock",".csdlc/prepared/issues/5340",".csdlc/evidence/5340","adl-v2/crates/adl-engine"],"changed_paths":[".csdlc/evidence/5340/engine-budgets/engine-budgets.log",".csdlc/evidence/5340/engine-determinism/engine-determinism.log",".csdlc/evidence/5340/engine-focused/engine-focused.log",".csdlc/evidence/5340/engine-quality/engine-quality.log",".csdlc/evidence/5340/engine-warm-cache/engine-warm-cache.log",".csdlc/evidence/5340/preparation/preparation-contract.log",".csdlc/evidence/5340/preparation/preparation-tool-cache.log",".csdlc/issues/5340/audit.jsonl",".csdlc/issues/5340/cards/sip.md",".csdlc/issues/5340/cards/sip.values.json",".csdlc/issues/5340/cards/sor.md",".csdlc/issues/5340/cards/sor.values.json",".csdlc/issues/5340/cards/spp.md",".csdlc/issues/5340/cards/spp.values.json",".csdlc/issues/5340/cards/srp.md",".csdlc/issues/5340/cards/srp.values.json",".csdlc/issues/5340/cards/stp.md",".csdlc/issues/5340/cards/stp.values.json",".csdlc/issues/5340/cards/vpp.md",".csdlc/issues/5340/cards/vpp.values.json",".csdlc/issues/5340/index.json",".csdlc/locks/5340.lock",".csdlc/prepared/issues/5340/advance-implemented.json",".csdlc/prepared/issues/5340/assign-exact-review.json",".csdlc/prepared/issues/5340/check-dependency.sh",".csdlc/prepared/issues/5340/complete-s2.json",".csdlc/prepared/issues/5340/complete-s3-implementation.json",".csdlc/prepared/issues/5340/complete-s4-proof.json",".csdlc/prepared/issues/5340/design.md",".csdlc/prepared/issues/5340/diagram.mmd",".csdlc/prepared/issues/5340/fetch-dependency.sh",".csdlc/prepared/issues/5340/fixtures/source-authority/async_fn.rs",".csdlc/prepared/issues/5340/fixtures/source-authority/core_future.rs",".csdlc/prepared/issues/5340/fixtures/source-authority/grouped_fs.rs",".csdlc/prepared/issues/5340/fixtures/source-authority/native_export.rs",".csdlc/prepared/issues/5340/fixtures/source-authority/path_module.rs",".csdlc/prepared/issues/5340/fixtures/source-authority/stdout.rs",".csdlc/prepared/issues/5340/measure-engine.rb",".csdlc/prepared/issues/5340/preparation-validation.json",".csdlc/prepared/issues/5340/pvf/budgets.json",".csdlc/prepared/issues/5340/pvf/determinism.json",".csdlc/prepared/issues/5340/pvf/focused.json",".csdlc/prepared/issues/5340/pvf/postmerge.json",".csdlc/prepared/issues/5340/pvf/quality.json",".csdlc/prepared/issues/5340/pvf/warm-cache.json",".csdlc/prepared/issues/5340/record-budgets-validation.json",".csdlc/prepared/issues/5340/record-determinism-validation.json",".csdlc/prepared/issues/5340/record-execution.json",".csdlc/prepared/issues/5340/record-first-exact-review.json",".csdlc/prepared/issues/5340/record-focused-validation.json",".csdlc/prepared/issues/5340/record-quality-validation.json",".csdlc/prepared/issues/5340/source-authority-validator/Cargo.lock",".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",".csdlc/prepared/issues/5340/source-authority-validator/src/main.rs",".csdlc/prepared/issues/5340/start-s3.json",".csdlc/prepared/issues/5340/start-s4-proof.json",".csdlc/prepared/issues/5340/transition-implementation-claim.json",".csdlc/prepared/issues/5340/validate-cots.rb",".csdlc/prepared/issues/5340/validate-engine-lane.sh",".csdlc/prepared/issues/5340/validate-engine.sh",".csdlc/prepared/issues/5340/validate-post-merge-lane.sh",".csdlc/prepared/issues/5340/validate-post-merge.rb",".csdlc/prepared/issues/5340/validate-preparation.rb",".csdlc/prepared/issues/5340/validate-preparation.sh",".csdlc/prepared/issues/5340/validate-source-authority-fixtures.rb",".csdlc/prepared/issues/5340/validate-source-authority.rb",".csdlc/prepared/issues/5340/verify-dependency.rb",".csdlc/prepared/issues/5340/verify-scope.rb",".csdlc/prepared/issues/5340/warm-source-authority-validator.sh","adl-v2/crates/adl-engine/Cargo.lock","adl-v2/crates/adl-engine/Cargo.toml","adl-v2/crates/adl-engine/README.md","adl-v2/crates/adl-engine/src/engine.rs","adl-v2/crates/adl-engine/src/lib.rs","adl-v2/crates/adl-engine/src/model.rs","adl-v2/crates/adl-engine/tests/bounded_schedule.rs","adl-v2/crates/adl-engine/tests/common/mod.rs","adl-v2/crates/adl-engine/tests/compiler_fixture_mapping.rs","adl-v2/crates/adl-engine/tests/failure_resume.rs","adl-v2/crates/adl-engine/tests/fresh_process_driver.rs","adl-v2/crates/adl-engine/tests/port_contracts.rs"],"overlapping_claims":[],"outcome":"passed"}
 {"schema":"adl.wp06.source-authority-proof.v3","parser":"syn-2.0.118","scanned_files":3,"outcome":"passed"}
 {"schema":"adl.wp06.loc-proof.v1","implementation_lines":2579,"implementation_ceiling":4000,"test_fixture_lines":1647,"test_fixture_ceiling":3500,"unbudgeted_code":[],"outcome":"passed"}
@@ -10,12 +10,12 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 
 running 8 tests
-test event_and_turn_budgets_fail_closed_without_partial_state ... ok
 test canonical_ready_and_dispatch_order_survives_saturation ... ok
+test event_and_turn_budgets_fail_closed_without_partial_state ... ok
 test all_at_least_and_fail_fast_joins_have_explicit_outcomes ... ok
-test checkpoint_byte_limit_accepts_exact_minimum_and_rejects_one_less ... ok
 test plan_node_and_edge_limits_accept_below_and_at_then_reject_above ... ok
 test plan_policy_and_turn_input_limits_cover_below_at_and_above_edges ... ok
+test checkpoint_byte_limit_accepts_exact_minimum_and_rejects_one_less ... ok
 test ready_in_flight_and_attempt_limits_cover_below_at_and_above_edges ... ok
 test request_envelope_limit_is_admission_bound ... ok
 
@@ -31,12 +31,12 @@ test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 
 running 8 tests
-test checkpoint_rejects_in_flight_noncanonical_truncated_and_changed_contracts ... ok
-test cancellation_emits_once_and_same_turn_terminal_completion_wins ... ok
-test retry_delay_and_attempt_exhaustion_are_monotonic ... ok
-test output_limit_accepts_below_and_at_then_rejects_above_atomically ... ok
 test duplicate_completion_is_idempotent_but_changed_replay_is_protocol_error ... ok
+test retry_delay_and_attempt_exhaustion_are_monotonic ... ok
+test cancellation_emits_once_and_same_turn_terminal_completion_wins ... ok
 test completion_permutations_produce_identical_snapshots_and_events ... ok
+test output_limit_accepts_below_and_at_then_rejects_above_atomically ... ok
+test checkpoint_rejects_in_flight_noncanonical_truncated_and_changed_contracts ... ok
 test quiescent_resume_matches_uninterrupted_retry_execution ... ok
 test resume_rejects_semantically_unreachable_graph_and_journal_mutations ... ok
 
@@ -46,17 +46,16 @@ test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 running 7 tests
 test at_least_join_threshold_has_a_fixed_width_serialized_contract ... ok
-test compiler_sequential_and_state_dependency_edges_are_both_admitted ... ok
-test completion_kind_unknown_identity_and_attempt_mismatch_fail_closed ... ok
 test policy_must_exactly_cover_nodes_and_only_declared_tools ... ok
 test retry_policy_and_join_thresholds_are_admission_bounded ... ok
+test completion_kind_unknown_identity_and_attempt_mismatch_fail_closed ... ok
 test pending_ready_retry_and_dispatched_cancellation_paths_are_distinct ... ok
 test provider_and_tool_effects_are_separate_stable_typed_ports ... ok
+test compiler_sequential_and_state_dependency_edges_are_both_admitted ... ok
 
 test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-    Blocking waiting for file lock on build directory
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.01s
      Running unittests src/lib.rs (/Volumes/FastWork/adl-wp-5340/target/debug/deps/adl_engine-c2700b455b5b0f8a)
      Running tests/bounded_schedule.rs (/Volumes/FastWork/adl-wp-5340/target/debug/deps/bounded_schedule-be1a4ffa13edaa91)
      Running tests/compiler_fixture_mapping.rs (/Volumes/FastWork/adl-wp-5340/target/debug/deps/compiler_fixture_mapping-d247ad96f61be0e7)

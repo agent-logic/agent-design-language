@@ -77,6 +77,46 @@ Implemented an independent portable adl-engine crate that consumes the landed in
     "purpose": "Prove the engine stays within 4,000 implementation LoC and 3,500 test/fixture LoC, preserves exact COTS pins and sole-writer scope, and completes under the declared bounded validation budgets.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=1876; test_fixture_lines=1204; unbudgeted_code=[]; substantive commit c2f4e072b8049daa68b18e1d917b57747864b6b7"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/focused.json"
+    ],
+    "purpose": "Prove the repaired state dataflow, bounded turn inputs, compiler fixture mapping, and surrounding portable engine contracts on the sealed repair commit.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-focused/engine-focused.log at repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/quality.json"
+    ],
+    "purpose": "Prove formatting, strict all-target linting, and the issue-local syn source-authority boundary on the sealed repair commit.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-quality/engine-quality.log at repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/determinism.json"
+    ],
+    "purpose": "Prove deterministic scheduling and rejection of unreachable graph states, truncated journals, and altered request identities on the sealed repair commit.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-determinism/engine-determinism.log at repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/budgets.json"
+    ],
+    "purpose": "Prove the repaired engine remains within declared LoC, COTS, authority, scope, dependency, and validation-time budgets and passes the complete offline suite.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2579; test_fixture_lines=1647; unbudgeted_code=[]; repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e"
   }
 ]
 
