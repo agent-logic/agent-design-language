@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 0,
+      "stdout_sha256": "3da6243a4ef9f3e637380952834de9f0caa536eb78c2e91a274b6c10a0c83f4d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "Resolved run: fork-join\nWorkflow:     pattern:parallel\nSteps:        3\n  0. p::parallel::left-branch::left  agent=worker provider=local task=left\n  1. p::parallel::right-branch::right  agent=worker provider=local task=right\n  2. p::parallel::join  agent=worker provider=local task=join\n",
       "stderr": ""
     }

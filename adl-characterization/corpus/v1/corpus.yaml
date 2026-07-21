@@ -2,6 +2,7 @@ schema: adl.characterization.corpus.v1
 incumbent_revision: 19c2b6e2ad18bddc75db9231643a54b2a446ce72
 binary_sha256: f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c
 repetitions: 3
+command_timeout_ms: 10000
 schema_path: schema.json
 
 required_behaviors:
@@ -22,7 +23,7 @@ required_behaviors:
   - unknown-task-reference
   - unknown-tool-reference
   - unknown-workflow-reference
-  - unknown-run-reference
+  - unsupported-run-field
   - missing-state-reference
   - dependency-cycle
   - repeated-byte-stability
@@ -116,45 +117,36 @@ cases:
     behaviors: [malformed-yaml]
     steps:
       - {id: parse, args: ["{ROOT}/fixtures/malformed.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["parse adl yaml", "did not find expected"]}
-    normalization:
-      - {kind: replace_root, step: parse, stream: stderr}
 
   - id: schema-error
     behaviors: [schema-error]
     steps:
       - {id: validate, args: ["{ROOT}/fixtures/schema-unknown.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["ADL schema validation failed", "unknown_top_level"]}
-    normalization: [{kind: replace_root, step: validate, stream: stderr}]
 
   - id: unknown-provider
     behaviors: [unknown-provider-reference]
     steps:
       - {id: validate, args: ["{ROOT}/fixtures/unknown-provider.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown provider 'missing'"]}
-    normalization: [{kind: replace_root, step: validate, stream: stderr}]
   - id: unknown-agent
     behaviors: [unknown-agent-reference]
     steps:
       - {id: validate, args: ["{ROOT}/fixtures/unknown-agent.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown agent 'missing'"]}
-    normalization: [{kind: replace_root, step: validate, stream: stderr}]
   - id: unknown-task
     behaviors: [unknown-task-reference]
     steps:
       - {id: validate, args: ["{ROOT}/fixtures/unknown-task.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown task 'missing'"]}
-    normalization: [{kind: replace_root, step: validate, stream: stderr}]
   - id: unknown-tool
     behaviors: [unknown-tool-reference]
     steps:
       - {id: validate, args: ["{ROOT}/fixtures/unknown-tool.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown tool 'missing'"]}
-    normalization: [{kind: replace_root, step: validate, stream: stderr}]
   - id: unknown-workflow
     behaviors: [unknown-workflow-reference]
     steps:
       - {id: validate, args: ["{ROOT}/fixtures/unknown-workflow.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown workflow 'missing'"]}
-    normalization: [{kind: replace_root, step: validate, stream: stderr}]
-  - id: unknown-run-reference
-    behaviors: [unknown-run-reference]
+  - id: unsupported-run-field
+    behaviors: [unsupported-run-field]
     steps:
-      - {id: validate, args: ["{ROOT}/fixtures/unknown-run-ref.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["ADL schema validation failed", "agent_ref"]}
-    normalization: [{kind: replace_root, step: validate, stream: stderr}]
+      - {id: validate, args: ["{ROOT}/fixtures/unsupported-run-field.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["ADL schema validation failed", "agent_ref"]}
   - id: missing-state
     behaviors: [missing-state-reference]
     steps:
@@ -189,8 +181,6 @@ cases:
         stderr_contains: ["signature verification failed"]
         pre_actions:
           - {kind: replace_text, path: "{WORK}/signed.adl.yaml", from: "Summarize {{topic}}.", to: "Tampered {{topic}}."}
-    normalization:
-      - {kind: replace_workdir, step: sign, stream: stdout}
 
 equivalence_groups:
   - {id: map-declaration-order, cases: [map-order-a, map-order-b]}
@@ -216,7 +206,7 @@ coverage:
   - {behavior: unknown-task-reference, cases: [unknown-task]}
   - {behavior: unknown-tool-reference, cases: [unknown-tool]}
   - {behavior: unknown-workflow-reference, cases: [unknown-workflow]}
-  - {behavior: unknown-run-reference, cases: [unknown-run-reference]}
+  - {behavior: unsupported-run-field, cases: [unsupported-run-field]}
   - {behavior: missing-state-reference, cases: [missing-state]}
   - {behavior: dependency-cycle, cases: [dependency-cycle]}
   - {behavior: repeated-byte-stability, cases: [cli-help]}

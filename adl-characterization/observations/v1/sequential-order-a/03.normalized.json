@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 0,
+      "stdout_sha256": "8236b50143e4cd4fb165589cedfef0b102e68c97760675f35cb470241b9ddb81",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "Resolved run: sequential-order\nWorkflow:     workflow\nSteps:        2\n  0. first  agent=worker provider=local task=first\n  1. second  agent=worker provider=local task=second\n",
       "stderr": ""
     }

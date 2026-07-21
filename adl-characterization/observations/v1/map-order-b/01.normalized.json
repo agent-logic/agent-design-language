@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 0,
+      "stdout_sha256": "9164f0df46accd328bc6bb0d62b00be443c00492d6cbea017af9a5840a388ce4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "Resolved run: map-order\nWorkflow:     workflow\nSteps:        1\n  0. one  agent=worker provider=alpha task=one\n",
       "stderr": ""
     }

@@ -19,7 +19,7 @@ pub fn normalize(
             .collect();
     }
     for rule in rules {
-        apply_rule(&mut commands, raw, rule)?;
+        apply_rule(&mut commands, rule)?;
     }
     Ok(NormalizedObservation {
         schema: NORMALIZED_SCHEMA.into(),
@@ -31,15 +31,9 @@ pub fn normalize(
     })
 }
 
-fn apply_rule(
-    commands: &mut [CommandObservation],
-    raw: &RawObservation,
-    rule: &NormalizationRule,
-) -> Result<()> {
+fn apply_rule(commands: &mut [CommandObservation], rule: &NormalizationRule) -> Result<()> {
     let (step, stream) = match rule {
         NormalizationRule::CanonicalJson { step, stream }
-        | NormalizationRule::ReplaceRoot { step, stream }
-        | NormalizationRule::ReplaceWorkdir { step, stream }
         | NormalizationRule::ReplaceJsonFields { step, stream, .. }
         | NormalizationRule::RemoveExactLine { step, stream, .. } => (step, *stream),
     };
@@ -55,8 +49,6 @@ fn apply_rule(
                 serde_json::from_str(text).context("canonical_json requires a JSON stream")?;
             *text = serde_json::to_string_pretty(&sort_value(value))? + "\n";
         }
-        NormalizationRule::ReplaceRoot { .. } => *text = text.replace(&raw.corpus_root, "<ROOT>"),
-        NormalizationRule::ReplaceWorkdir { .. } => *text = text.replace(&raw.workdir, "<WORK>"),
         NormalizationRule::ReplaceJsonFields { fields, .. } => {
             if fields.is_empty() {
                 bail!("replace_json_fields requires named fields");
@@ -153,13 +145,13 @@ mod tests {
             repetition: 1,
             incumbent_revision: "a".repeat(40),
             binary_sha256: "b".repeat(64),
-            corpus_root: "/corpus".into(),
-            workdir: "/work".into(),
             commands: vec![CommandObservation {
                 step_id: "step".into(),
                 declared_args: vec![],
                 expanded_args: vec![],
                 exit_code: 0,
+                stdout_sha256: "a".repeat(64),
+                stderr_sha256: "b".repeat(64),
                 stdout: stdout.into(),
                 stderr: String::new(),
             }],
@@ -186,10 +178,11 @@ mod tests {
     #[test]
     fn no_op_normalizer_is_rejected() {
         let error = normalize(
-            &observation("stable"),
-            &[NormalizationRule::ReplaceRoot {
+            &observation("stable\n"),
+            &[NormalizationRule::RemoveExactLine {
                 step: "step".into(),
                 stream: Stream::Stdout,
+                line: "absent".into(),
             }],
         )
         .unwrap_err();

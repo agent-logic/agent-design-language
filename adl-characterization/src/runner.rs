@@ -1,11 +1,14 @@
 use std::fs;
+use std::io::Read;
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
+use std::time::Duration;
 
 use anyhow::{bail, Context, Result};
 use base64::Engine;
 use ed25519_dalek::SigningKey;
 use sha2::{Digest, Sha256};
+use wait_timeout::ChildExt;
 
 use crate::model::{Case, CommandObservation, PreAction, RawObservation, OBSERVATION_SCHEMA};
 
@@ -21,6 +24,7 @@ pub fn run_case(
     corpus_root: &Path,
     case: &Case,
     repetition: u32,
+    timeout_ms: u64,
 ) -> Result<RawObservation> {
     let temp = tempfile::Builder::new()
         .prefix("adl-characterization-")
@@ -37,7 +41,7 @@ pub fn run_case(
             .iter()
             .map(|arg| expand(arg, &corpus_root, &workdir))
             .collect::<Result<Vec<_>>>()?;
-        let output = Command::new(binary)
+        let mut child = Command::new(binary)
             .args(&expanded_args)
             .current_dir(&workdir)
             .env_clear()
@@ -46,11 +50,48 @@ pub fn run_case(
             .env("TMPDIR", &workdir)
             .env("ADL_OBSERVABILITY", "0")
             .env("NO_PROXY", "*")
-            .output()
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
             .with_context(|| format!("execute case {} step {}", case.id, step.id))?;
-        let exit_code = output.status.code().unwrap_or(-1);
-        let stdout = String::from_utf8(output.stdout).context("v1 stdout is not UTF-8")?;
-        let stderr = String::from_utf8(output.stderr).context("v1 stderr is not UTF-8")?;
+        let status = match child.wait_timeout(Duration::from_millis(timeout_ms))? {
+            Some(status) => status,
+            None => {
+                child.kill().context("kill timed-out incumbent child")?;
+                child.wait().context("reap timed-out incumbent child")?;
+                bail!(
+                    "case {} step {} timed out after {} ms",
+                    case.id,
+                    step.id,
+                    timeout_ms
+                );
+            }
+        };
+        let mut stdout_bytes = Vec::new();
+        let mut stderr_bytes = Vec::new();
+        child
+            .stdout
+            .take()
+            .expect("piped stdout")
+            .read_to_end(&mut stdout_bytes)?;
+        child
+            .stderr
+            .take()
+            .expect("piped stderr")
+            .read_to_end(&mut stderr_bytes)?;
+        let exit_code = status.code().unwrap_or(-1);
+        let stdout_sha256 = format!("{:x}", Sha256::digest(&stdout_bytes));
+        let stderr_sha256 = format!("{:x}", Sha256::digest(&stderr_bytes));
+        let stdout = portable_text(
+            String::from_utf8(stdout_bytes).context("v1 stdout is not UTF-8")?,
+            &corpus_root,
+            &workdir,
+        );
+        let stderr = portable_text(
+            String::from_utf8(stderr_bytes).context("v1 stderr is not UTF-8")?,
+            &corpus_root,
+            &workdir,
+        );
         if exit_code != step.expected_exit {
             bail!(
                 "case {} step {} exit {exit_code}, expected {}: {stderr}",
@@ -77,11 +118,18 @@ pub fn run_case(
                 );
             }
         }
+        let portable_args = step
+            .args
+            .iter()
+            .map(|arg| arg.replace("{ROOT}", "<ROOT>").replace("{WORK}", "<WORK>"))
+            .collect();
         commands.push(CommandObservation {
             step_id: step.id.clone(),
             declared_args: step.args.clone(),
-            expanded_args,
+            expanded_args: portable_args,
             exit_code,
+            stdout_sha256,
+            stderr_sha256,
             stdout,
             stderr,
         });
@@ -92,8 +140,6 @@ pub fn run_case(
         repetition,
         incumbent_revision: revision.into(),
         binary_sha256: binary_digest.into(),
-        corpus_root: corpus_root.display().to_string(),
-        workdir: workdir.display().to_string(),
         commands,
     })
 }
@@ -181,9 +227,16 @@ fn expand(value: &str, root: &Path, workdir: &Path) -> Result<String> {
     Ok(expanded)
 }
 
+fn portable_text(value: String, root: &Path, workdir: &Path) -> String {
+    value
+        .replace(&root.display().to_string(), "<ROOT>")
+        .replace(&workdir.display().to_string(), "<WORK>")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::model::Case;
 
     #[test]
     fn pre_actions_reject_paths_outside_the_workdir() {
@@ -207,5 +260,45 @@ mod tests {
         symlink(outside.path(), work.path().join("escape")).unwrap();
         let error = resolve_work_path("{WORK}/escape/file", work.path()).unwrap_err();
         assert!(error.to_string().contains("escapes"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn hung_child_is_killed_and_reported_as_a_bounded_timeout() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let root = tempfile::tempdir().unwrap();
+        let script = root.path().join("hang.sh");
+        fs::write(&script, "#!/bin/sh\nexec sleep 5\n").unwrap();
+        let mut permissions = fs::metadata(&script).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&script, permissions).unwrap();
+        let case = Case {
+            id: "hang".into(),
+            behaviors: vec!["timeout".into()],
+            steps: vec![crate::model::Step {
+                id: "wait".into(),
+                args: vec![],
+                expected_exit: 0,
+                stdout_contains: vec![],
+                stderr_contains: vec![],
+                pre_actions: vec![],
+            }],
+            normalization: vec![],
+        };
+        let error = run_case(
+            &script,
+            &"a".repeat(64),
+            &"b".repeat(40),
+            root.path(),
+            &case,
+            1,
+            25,
+        )
+        .unwrap_err();
+        assert_eq!(
+            error.to_string(),
+            "case hang step wait timed out after 25 ms"
+        );
     }
 }

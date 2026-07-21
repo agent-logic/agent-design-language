@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "80c7139bed87b97bf29f87ecfedff7197d462dbd5afa6699dbb3661edb1edfad",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/unknown-tool.adl.yaml\n  0: validate adl\n  1: agents.worker.tools references unknown tool 'missing'\n"
     }

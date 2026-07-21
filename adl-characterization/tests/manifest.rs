@@ -6,6 +6,25 @@ fn corpus_path() -> std::path::PathBuf {
     std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("corpus/v1/corpus.yaml")
 }
 
+fn prepare_corpus(original: &str) -> (tempfile::TempDir, std::path::PathBuf) {
+    let temp = tempfile::tempdir().unwrap();
+    let canonical = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("corpus/v1");
+    fs::copy(
+        canonical.join("schema.json"),
+        temp.path().join("schema.json"),
+    )
+    .unwrap();
+    fs::create_dir_all(temp.path().join("fixtures")).unwrap();
+    fs::copy(
+        canonical.join("fixtures/mock-run.adl.yaml"),
+        temp.path().join("fixtures/mock-run.adl.yaml"),
+    )
+    .unwrap();
+    let path = temp.path().join("corpus.yaml");
+    fs::write(&path, original).unwrap();
+    (temp, path)
+}
+
 #[test]
 fn canonical_corpus_is_schema_and_semantically_complete() {
     let corpus = load_corpus(&corpus_path()).expect("canonical corpus");
@@ -16,51 +35,47 @@ fn canonical_corpus_is_schema_and_semantically_complete() {
 
 #[test]
 fn fewer_than_three_repetitions_is_rejected() {
-    let temp = tempfile::tempdir().unwrap();
     let original = fs::read_to_string(corpus_path()).unwrap();
-    fs::copy(
-        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("corpus/v1/schema.json"),
-        temp.path().join("schema.json"),
-    )
-    .unwrap();
-    fs::write(
-        temp.path().join("corpus.yaml"),
-        original.replacen("repetitions: 3", "repetitions: 2", 1),
-    )
-    .unwrap();
-    let error = load_corpus(&temp.path().join("corpus.yaml")).unwrap_err();
+    let (_temp, path) = prepare_corpus(&original.replacen("repetitions: 3", "repetitions: 2", 1));
+    let error = load_corpus(&path).unwrap_err();
     assert!(error.to_string().contains("schema validation failed"));
 }
 
 #[test]
 fn schema_path_traversal_is_rejected_before_reading() {
-    let temp = tempfile::tempdir().unwrap();
     let original = fs::read_to_string(corpus_path()).unwrap();
-    fs::write(
-        temp.path().join("corpus.yaml"),
-        original.replacen("schema_path: schema.json", "schema_path: ../schema.json", 1),
-    )
-    .unwrap();
-    let error = load_corpus(&temp.path().join("corpus.yaml")).unwrap_err();
+    let (_temp, path) = prepare_corpus(&original.replacen(
+        "schema_path: schema.json",
+        "schema_path: ../schema.json",
+        1,
+    ));
+    let error = load_corpus(&path).unwrap_err();
     assert!(error.to_string().contains("clean relative path"));
 }
 
 #[test]
 fn coverage_must_exactly_match_required_behaviors() {
-    let temp = tempfile::tempdir().unwrap();
     let original = fs::read_to_string(corpus_path()).unwrap();
-    fs::copy(
-        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("corpus/v1/schema.json"),
-        temp.path().join("schema.json"),
-    )
-    .unwrap();
-    fs::write(
-        temp.path().join("corpus.yaml"),
-        original.replace("  - {behavior: cli-version, cases: [cli-version]}\n", ""),
-    )
-    .unwrap();
-    let error = load_corpus(&temp.path().join("corpus.yaml")).unwrap_err();
+    let (_temp, path) = prepare_corpus(
+        &original.replace("  - {behavior: cli-version, cases: [cli-version]}\n", ""),
+    );
+    let error = load_corpus(&path).unwrap_err();
     assert!(error
         .to_string()
         .contains("coverage map does not exactly cover required behaviors"));
+}
+
+#[test]
+fn network_capable_execution_is_rejected_by_corpus_policy() {
+    let original = fs::read_to_string(corpus_path()).unwrap();
+    let changed = original.replacen(
+        "args: [\"{ROOT}/fixtures/six-primitives.adl.yaml\", --print-plan]",
+        "args: [\"{ROOT}/fixtures/six-primitives.adl.yaml\", --run]",
+        1,
+    );
+    let (_temp, path) = prepare_corpus(&changed);
+    let error = load_corpus(&path).unwrap_err();
+    assert!(error
+        .to_string()
+        .contains("without local-mock-run behavior"));
 }

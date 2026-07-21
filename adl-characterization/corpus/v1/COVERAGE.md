@@ -10,7 +10,7 @@ The machine-authoritative map is the `required_behaviors`, per-case
 | projections | `graph-json`, `prompt-projection` | typed graph JSON and rendered prompts |
 | graph ordering | `fork-join-ordering`, `map-order-a/b`, `branch-order-a/b`, `sequential-order-a/b` | fork/join order, map/branch equivalence, sequential difference |
 | parser and schema failures | `invalid-argument`, `malformed-yaml`, `schema-error` | nonzero exits and stable diagnostics |
-| reference failures | `unknown-provider`, `unknown-agent`, `unknown-task`, `unknown-tool`, `unknown-workflow`, `unknown-run-reference`, `missing-state` | reference-specific nonzero exits and diagnostics |
+| reference and shape failures | `unknown-provider`, `unknown-agent`, `unknown-task`, `unknown-tool`, `unknown-workflow`, `unsupported-run-field`, `missing-state` | reference-specific failures plus explicit unsupported run-field schema rejection |
 | graph failure | `dependency-cycle` | state-derived cycle rejection |
 | local execution | `local-mock-run` | credential-free deterministic local run |
 | signing | `ed25519-sign-verify-tamper` | fixed Ed25519 sign, verify, then tamper rejection |

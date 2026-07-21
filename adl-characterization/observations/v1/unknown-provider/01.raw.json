@@ -4,8 +4,6 @@
   "repetition": 1,
   "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
   "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
-  "corpus_root": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1",
-  "workdir": "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-qUR2Oo",
   "commands": [
     {
       "step_id": "validate",
@@ -14,12 +12,14 @@
         "--print-plan"
       ],
       "expanded_args": [
-        "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/unknown-provider.adl.yaml",
+        "<ROOT>/fixtures/unknown-provider.adl.yaml",
         "--print-plan"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "2f1c6b59a2dae8cc561980c9649b0a53a659daa73bef1230184341e270eecc48",
       "stdout": "",
-      "stderr": "Error: failed to load ADL document: /Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/unknown-provider.adl.yaml\n  0: validate adl\n  1: agents.worker.provider references unknown provider 'missing'\n"
+      "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/unknown-provider.adl.yaml\n  0: validate adl\n  1: agents.worker.provider references unknown provider 'missing'\n"
     }
   ]
 }

@@ -4,8 +4,6 @@
   "repetition": 1,
   "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
   "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
-  "corpus_root": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1",
-  "workdir": "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-hG3RC0",
   "commands": [
     {
       "step_id": "version",
@@ -16,6 +14,8 @@
         "--version"
       ],
       "exit_code": 0,
+      "stdout_sha256": "81154bdb8f14fbab3804ea41cfe2a701e9e34c3ec9ee23ac041bbc58ec232089",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "0.91.7\n",
       "stderr": ""
     }

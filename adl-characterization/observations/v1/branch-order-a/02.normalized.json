@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 0,
+      "stdout_sha256": "b9999b0ed2095443f9d7f34a91177fad6b2f66bb4344cdd28b853101ffbf4c86",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "Resolved run: branch-order\nWorkflow:     pattern:p\nSteps:        3\n  0. p::p::a::left  agent=worker provider=local task=left\n  1. p::p::b::right  agent=worker provider=local task=right\n  2. p::p::join  agent=worker provider=local task=join\n",
       "stderr": ""
     }

@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3210ae706807f02158877f7f8792302821c955d2ee754b5222b256f99df343bb",
       "stdout": "",
       "stderr": "Error: failed to build execution plan\n  0: workflow contains a dependency cycle (0 of 2 nodes resolved)\n"
     }

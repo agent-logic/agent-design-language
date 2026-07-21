@@ -11,6 +11,7 @@ pub struct Corpus {
     pub incumbent_revision: String,
     pub binary_sha256: String,
     pub repetitions: u32,
+    pub command_timeout_ms: u64,
     pub schema_path: String,
     pub required_behaviors: Vec<String>,
     pub cases: Vec<Case>,
@@ -74,14 +75,6 @@ pub enum NormalizationRule {
         step: String,
         stream: Stream,
     },
-    ReplaceRoot {
-        step: String,
-        stream: Stream,
-    },
-    ReplaceWorkdir {
-        step: String,
-        stream: Stream,
-    },
     ReplaceJsonFields {
         step: String,
         stream: Stream,
@@ -116,8 +109,6 @@ pub struct RawObservation {
     pub repetition: u32,
     pub incumbent_revision: String,
     pub binary_sha256: String,
-    pub corpus_root: String,
-    pub workdir: String,
     pub commands: Vec<CommandObservation>,
 }
 
@@ -128,6 +119,8 @@ pub struct CommandObservation {
     pub declared_args: Vec<String>,
     pub expanded_args: Vec<String>,
     pub exit_code: i32,
+    pub stdout_sha256: String,
+    pub stderr_sha256: String,
     pub stdout: String,
     pub stderr: String,
 }

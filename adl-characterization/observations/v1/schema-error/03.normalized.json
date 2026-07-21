@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "f67d7c6c9f01f1acc3d911f56daad0b8b4d8edecd39a5ebaeff6bd7727320f8f",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/schema-unknown.adl.yaml\n  0: schema validate adl yaml: <ROOT>/fixtures/schema-unknown.adl.yaml\n  1: ADL schema validation failed:\nat /: Additional properties are not allowed ('unknown_top_level' was unexpected)\n"
     }

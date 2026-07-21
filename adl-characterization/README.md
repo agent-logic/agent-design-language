@@ -15,9 +15,13 @@ exact executable used to create the retained observations.
 
 The harness clears the child environment and supplies only a minimal local
 `PATH`, isolated `HOME` and `TMPDIR`, disabled ADL observability, and
-`NO_PROXY=*`. The corpus never invokes a credentialed, network, cloud, or AWS
-provider. Its only execution case uses the incumbent's deterministic
-`local_mock` provider.
+`NO_PROXY=*`. A fail-closed command-policy validator permits only local parser,
+projection, signing, verification, and fixture operations. The sole `--run`
+case must declare `local-mock-run`, use the exact bounded argument set, and
+reference a fixture whose providers all use `mock:*` profiles and whose run has
+no remote route. The harness does not claim to be an operating-system network
+sandbox; corpus validation prevents network-capable execution from reaching
+the child process. No credentialed, network, cloud, or AWS provider is invoked.
 
 ## Contract
 
@@ -30,16 +34,21 @@ fragments.
 Normalization is deliberately narrow:
 
 - object keys in declared JSON streams may be sorted; array order is retained;
-- corpus and temporary-work paths may be replaced only by an explicit rule;
 - named JSON fields or an exact line may be removed only when declared;
 - no-op rules fail, so the manifest cannot hide imaginary nondeterminism;
-- declared `{ROOT}` and `{WORK}` argument placeholders become `<ROOT>` and
-  `<WORK>` in normalized evidence; raw evidence retains the executed values.
+- capture replaces only the known corpus and temporary-work prefixes with
+  `<ROOT>` and `<WORK>` before evidence retention; SHA-256 fields preserve the
+  identity of the exact pre-tokenization stdout and stderr byte streams;
+- declared `{ROOT}` and `{WORK}` arguments become the same portable tokens in
+  retained raw and normalized evidence.
 
 Exit codes, semantic arrays, identifiers, diagnostics, and signature verdicts
-are never discarded. Verification derives every normalized record again from
-its raw record, checks all repeated outputs byte-for-byte at the command-stream
-boundary, and enforces the declared equivalence and difference groups.
+are never discarded. Verification rechecks step count/order, declared and
+portable arguments, exits, and required stdout/stderr fragments before it
+derives every normalized record again. It then checks repeated portable output
+bytes and enforces the declared equivalence and difference groups. Every child
+command has the manifest-declared timeout; timeout kills and reaps the process
+and returns a deterministic case/step error.
 
 ## Run
 

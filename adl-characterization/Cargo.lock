@@ -19,6 +19,7 @@ dependencies = [
  "sha2",
  "tempfile",
  "thiserror",
+ "wait-timeout",
 ]
 
 [[package]]

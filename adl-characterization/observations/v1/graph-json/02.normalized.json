@@ -22,6 +22,8 @@
         "json"
       ],
       "exit_code": 0,
+      "stdout_sha256": "bf854a93427551d7a4530888634f881b13898571b4ee18c1342826c0c0fe439a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "{\n  \"edges\": [],\n  \"nodes\": [\n    {\n      \"id\": \"summarize.topic\",\n      \"save_as\": null\n    }\n  ],\n  \"workflow_kind\": \"sequential\"\n}\n",
       "stderr": ""
     }

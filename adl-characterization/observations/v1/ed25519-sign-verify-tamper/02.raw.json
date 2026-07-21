@@ -4,8 +4,6 @@
   "repetition": 2,
   "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
   "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
-  "corpus_root": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1",
-  "workdir": "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-W6DJCJ",
   "commands": [
     {
       "step_id": "sign",
@@ -21,16 +19,18 @@
       ],
       "expanded_args": [
         "sign",
-        "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/six-primitives.adl.yaml",
+        "<ROOT>/fixtures/six-primitives.adl.yaml",
         "--key",
-        "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-W6DJCJ/keys/private.b64",
+        "<WORK>/keys/private.b64",
         "--key-id",
         "characterization-fixed",
         "--out",
-        "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-W6DJCJ/signed.adl.yaml"
+        "<WORK>/signed.adl.yaml"
       ],
       "exit_code": 0,
-      "stdout": "SIGN ok path=/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-W6DJCJ/signed.adl.yaml\n",
+      "stdout_sha256": "30c6762b30db51f129c6fa49d83750290389633aa82ec24e4aad8d667f3402ab",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "SIGN ok path=<WORK>/signed.adl.yaml\n",
       "stderr": ""
     },
     {
@@ -43,11 +43,13 @@
       ],
       "expanded_args": [
         "verify",
-        "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-W6DJCJ/signed.adl.yaml",
+        "<WORK>/signed.adl.yaml",
         "--key",
-        "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-W6DJCJ/keys/public.b64"
+        "<WORK>/keys/public.b64"
       ],
       "exit_code": 0,
+      "stdout_sha256": "a9873feccf069830b1da6ab8f6f5338539b660b45a0427f5a3458406c08533ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "VERIFY ok\n",
       "stderr": ""
     },
@@ -61,11 +63,13 @@
       ],
       "expanded_args": [
         "verify",
-        "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-W6DJCJ/signed.adl.yaml",
+        "<WORK>/signed.adl.yaml",
         "--key",
-        "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-W6DJCJ/keys/public.b64"
+        "<WORK>/keys/public.b64"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "91105dd7cf605fa2ad10b55fc42a3ae06148fc226946a54a0ec0bd50dc0c58a4",
       "stdout": "",
       "stderr": "Error: SIGNATURE_MISMATCH: signature verification failed: signature error: Verification equation was not satisfied\n"
     }

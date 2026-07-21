@@ -35,10 +35,15 @@ pub fn capture_corpus(
             corpus.binary_sha256
         );
     }
-    fs::create_dir_all(output)?;
+    let parent = output.parent().unwrap_or_else(|| Path::new("."));
+    fs::create_dir_all(parent)?;
+    let staging = tempfile::Builder::new()
+        .prefix("adl-characterization-capture-")
+        .tempdir_in(parent)?;
+    let staged_output = staging.path();
     let root = corpus_path.parent().unwrap_or_else(|| Path::new("."));
     for case in &corpus.cases {
-        let case_dir = output.join(&case.id);
+        let case_dir = staged_output.join(&case.id);
         fs::create_dir_all(&case_dir)?;
         for repetition in 1..=corpus.repetitions {
             let raw = run_case(
@@ -48,6 +53,7 @@ pub fn capture_corpus(
                 root,
                 case,
                 repetition,
+                corpus.command_timeout_ms,
             )?;
             write_json(&case_dir.join(format!("{repetition:02}.raw.json")), &raw)?;
             let normalized = normalize(&raw, &case.normalization)?;
@@ -57,7 +63,36 @@ pub fn capture_corpus(
             )?;
         }
     }
-    verify_corpus(corpus, output)
+    let report = verify_corpus(corpus, staged_output)?;
+    replace_capture(staging, output)?;
+    Ok(report)
+}
+
+fn replace_capture(staging: tempfile::TempDir, output: &Path) -> Result<()> {
+    let staged = staging.keep();
+    if !output.exists() {
+        fs::rename(&staged, output)
+            .with_context(|| format!("install capture at {}", output.display()))?;
+        return Ok(());
+    }
+    let name = output
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or("observations");
+    let backup = output
+        .parent()
+        .unwrap_or_else(|| Path::new("."))
+        .join(format!(".{name}.backup-{}", std::process::id()));
+    if backup.exists() {
+        bail!("capture backup path already exists at {}", backup.display());
+    }
+    fs::rename(output, &backup).context("move prior capture to rollback path")?;
+    if let Err(error) = fs::rename(&staged, output) {
+        fs::rename(&backup, output).context("restore prior capture after install failure")?;
+        return Err(error).context("install staged capture");
+    }
+    fs::remove_dir_all(&backup).context("remove replaced capture backup")?;
+    Ok(())
 }
 
 pub fn verify_corpus(corpus: &Corpus, observations: &Path) -> Result<VerificationReport> {
@@ -80,6 +115,7 @@ pub fn verify_corpus(corpus: &Corpus, observations: &Path) -> Result<Verificatio
             {
                 bail!("observation identity mismatch at {}", raw_path.display());
             }
+            verify_command_contract(case, &raw)?;
             let derived = normalize(&raw, &case.normalization)?;
             let retained: NormalizedObservation = read_json(&normalized_path)?;
             if derived != retained {
@@ -125,6 +161,89 @@ pub fn verify_corpus(corpus: &Corpus, observations: &Path) -> Result<Verificatio
     })
 }
 
+fn verify_command_contract(case: &crate::model::Case, raw: &RawObservation) -> Result<()> {
+    if raw.commands.len() != case.steps.len() {
+        bail!("case {} command count does not match corpus steps", case.id);
+    }
+    for (step, command) in case.steps.iter().zip(&raw.commands) {
+        if command.step_id != step.id {
+            bail!(
+                "case {} command order does not match step {}",
+                case.id,
+                step.id
+            );
+        }
+        if command.declared_args != step.args {
+            bail!(
+                "case {} step {} declared args do not match corpus",
+                case.id,
+                step.id
+            );
+        }
+        let portable_args = step
+            .args
+            .iter()
+            .map(|arg| arg.replace("{ROOT}", "<ROOT>").replace("{WORK}", "<WORK>"))
+            .collect::<Vec<_>>();
+        if command.expanded_args != portable_args {
+            bail!(
+                "case {} step {} expanded args are not portable corpus arguments",
+                case.id,
+                step.id
+            );
+        }
+        for (label, digest) in [
+            ("stdout", &command.stdout_sha256),
+            ("stderr", &command.stderr_sha256),
+        ] {
+            if digest.len() != 64 || !digest.chars().all(|ch| ch.is_ascii_hexdigit()) {
+                bail!(
+                    "case {} step {} has invalid {label} SHA-256",
+                    case.id,
+                    step.id
+                );
+            }
+        }
+        if command.stdout.contains("/Users/")
+            || command.stderr.contains("/Users/")
+            || command.stdout.contains("/private/var/")
+            || command.stderr.contains("/private/var/")
+        {
+            bail!(
+                "case {} step {} retains a machine-local path",
+                case.id,
+                step.id
+            );
+        }
+        if command.exit_code != step.expected_exit {
+            bail!(
+                "case {} step {} exit does not match corpus",
+                case.id,
+                step.id
+            );
+        }
+        for fragment in &step.stdout_contains {
+            if !command.stdout.contains(fragment) {
+                bail!(
+                    "case {} step {} stdout misses required fragment",
+                    case.id,
+                    step.id
+                );
+            }
+        }
+        for fragment in &step.stderr_contains {
+            if !command.stderr.contains(fragment) {
+                bail!(
+                    "case {} step {} stderr misses required fragment",
+                    case.id,
+                    step.id
+                );
+            }
+        }
+    }
+    Ok(())
+}
+
 fn semantic(value: &NormalizedObservation) -> Vec<(&str, i32, &str, &str)> {
     value
         .commands
@@ -159,4 +278,62 @@ fn write_json<T: Serialize>(path: &Path, value: &T) -> Result<()> {
     let mut bytes = serde_json::to_vec_pretty(value)?;
     bytes.push(b'\n');
     fs::write(path, bytes).with_context(|| format!("write {}", path.display()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::{Case, CoverageEntry, Step, CORPUS_SCHEMA};
+
+    #[cfg(unix)]
+    #[test]
+    fn timed_out_capture_preserves_the_prior_complete_output() {
+        use std::os::unix::fs::PermissionsExt;
+
+        let temp = tempfile::tempdir().unwrap();
+        let binary = temp.path().join("hang.sh");
+        fs::write(&binary, "#!/bin/sh\nexec sleep 5\n").unwrap();
+        let mut permissions = fs::metadata(&binary).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&binary, permissions).unwrap();
+        let output = temp.path().join("observations");
+        fs::create_dir(&output).unwrap();
+        fs::write(output.join("complete.marker"), "prior").unwrap();
+        let digest = binary_sha256(&binary).unwrap();
+        let corpus = Corpus {
+            schema: CORPUS_SCHEMA.into(),
+            incumbent_revision: "a".repeat(40),
+            binary_sha256: digest,
+            repetitions: 3,
+            command_timeout_ms: 25,
+            schema_path: "schema.json".into(),
+            required_behaviors: vec!["timeout".into()],
+            cases: vec![Case {
+                id: "hang".into(),
+                behaviors: vec!["timeout".into()],
+                steps: vec![Step {
+                    id: "wait".into(),
+                    args: vec![],
+                    expected_exit: 0,
+                    stdout_contains: vec![],
+                    stderr_contains: vec![],
+                    pre_actions: vec![],
+                }],
+                normalization: vec![],
+            }],
+            equivalence_groups: vec![],
+            difference_groups: vec![],
+            coverage: vec![CoverageEntry {
+                behavior: "timeout".into(),
+                cases: vec!["hang".into()],
+            }],
+        };
+        let error = capture_corpus(&binary, &temp.path().join("corpus.yaml"), &corpus, &output)
+            .unwrap_err();
+        assert!(error.to_string().contains("timed out"));
+        assert_eq!(
+            fs::read_to_string(output.join("complete.marker")).unwrap(),
+            "prior"
+        );
+    }
 }

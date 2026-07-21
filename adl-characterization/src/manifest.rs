@@ -14,7 +14,7 @@ pub fn load_corpus(path: &Path) -> Result<Corpus> {
     let schema_path = resolve_sibling(path, schema_path(&json)?)?;
     validate_schema(&json, &schema_path)?;
     let corpus: Corpus = serde_json::from_value(json).context("decode typed corpus")?;
-    validate_semantics(&corpus)?;
+    validate_semantics(&corpus, path.parent().unwrap_or_else(|| Path::new(".")))?;
     Ok(corpus)
 }
 
@@ -54,7 +54,7 @@ fn validate_schema(instance: &Value, schema_path: &Path) -> Result<()> {
     Ok(())
 }
 
-fn validate_semantics(corpus: &Corpus) -> Result<()> {
+fn validate_semantics(corpus: &Corpus, corpus_root: &Path) -> Result<()> {
     if corpus.schema != CORPUS_SCHEMA {
         bail!("unsupported corpus schema {}", corpus.schema);
     }
@@ -73,6 +73,9 @@ fn validate_semantics(corpus: &Corpus) -> Result<()> {
     }
     if corpus.repetitions < 3 {
         bail!("corpus requires at least three repetitions");
+    }
+    if corpus.command_timeout_ms == 0 || corpus.command_timeout_ms > 300_000 {
+        bail!("command_timeout_ms must be between 1 and 300000");
     }
     unique_nonempty(
         corpus.required_behaviors.iter().map(String::as_str),
@@ -158,6 +161,98 @@ fn validate_semantics(corpus: &Corpus) -> Result<()> {
                 .map(|group| group.id.as_str()),
             "comparison group id",
         )?;
+    }
+    validate_execution_policy(corpus, corpus_root)?;
+    Ok(())
+}
+
+fn validate_execution_policy(corpus: &Corpus, corpus_root: &Path) -> Result<()> {
+    for case in &corpus.cases {
+        for step in &case.steps {
+            let first = step.args.first().map(String::as_str).unwrap_or_default();
+            let allowed = matches!(first, "--help" | "--version" | "--definitely-invalid")
+                || matches!(first, "sign" | "verify")
+                || (first == "instrument" && step.args.get(1).is_some_and(|arg| arg == "graph"))
+                || first.starts_with("{ROOT}/fixtures/");
+            if !allowed
+                || step
+                    .args
+                    .iter()
+                    .any(|arg| arg.contains("://") || arg.eq_ignore_ascii_case("provider"))
+            {
+                bail!(
+                    "case {} step {} is outside the local-only command policy",
+                    case.id,
+                    step.id
+                );
+            }
+            if step.args.iter().any(|arg| arg == "--run") {
+                validate_local_mock_run(case, step, corpus_root)?;
+            }
+        }
+    }
+    Ok(())
+}
+
+fn validate_local_mock_run(
+    case: &crate::model::Case,
+    step: &crate::model::Step,
+    corpus_root: &Path,
+) -> Result<()> {
+    if !case
+        .behaviors
+        .iter()
+        .any(|behavior| behavior == "local-mock-run")
+    {
+        bail!(
+            "case {} executes --run without local-mock-run behavior",
+            case.id
+        );
+    }
+    let fixture = step
+        .args
+        .first()
+        .and_then(|arg| arg.strip_prefix("{ROOT}/"))
+        .ok_or_else(|| anyhow::anyhow!("local mock run must use a corpus-root fixture"))?;
+    let fixture = resolve_sibling(&corpus_root.join("corpus.yaml"), fixture)?;
+    let yaml: serde_yaml::Value = serde_yaml::from_slice(
+        &fs::read(&fixture)
+            .with_context(|| format!("read local mock fixture {}", fixture.display()))?,
+    )?;
+    let json = serde_json::to_value(yaml)?;
+    let providers = json
+        .get("providers")
+        .and_then(Value::as_object)
+        .ok_or_else(|| anyhow::anyhow!("local mock fixture requires providers"))?;
+    if providers.is_empty()
+        || providers.values().any(|provider| {
+            provider.as_object().is_none_or(|object| object.len() != 1)
+                || !provider
+                    .get("profile")
+                    .and_then(Value::as_str)
+                    .is_some_and(|profile| profile.starts_with("mock:"))
+        })
+        || json.pointer("/run/remote").is_some()
+    {
+        bail!(
+            "case {} --run fixture is not exclusively local_mock",
+            case.id
+        );
+    }
+    let allowed = [
+        "--run",
+        "--allow-unsigned",
+        "--out",
+        "{WORK}/run",
+        "--quiet",
+    ];
+    if step
+        .args
+        .iter()
+        .skip(1)
+        .any(|arg| !allowed.contains(&arg.as_str()))
+    {
+        bail!("case {} local mock run has an unapproved argument", case.id);
     }
     Ok(())
 }

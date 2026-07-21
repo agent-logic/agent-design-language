@@ -25,8 +25,8 @@ serde_yaml = "0.9"
 sha2 = "0.10"
 tempfile = "3.20"
 thiserror = "2.0"
+wait-timeout = "0.2"
 
 [dev-dependencies]
 assert_cmd = "2.0"
 predicates = "3.1"
-

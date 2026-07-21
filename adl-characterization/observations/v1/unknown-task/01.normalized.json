@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1cf25d232a6604eaa65b161480ef5ff12f84456f5ae6e8ef04ae003e169a8818",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/unknown-task.adl.yaml\n  0: validate adl\n  1: run.workflow.steps[0] references unknown task 'missing'\n"
     }

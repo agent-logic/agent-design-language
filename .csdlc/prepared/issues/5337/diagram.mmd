@@ -3,7 +3,9 @@ flowchart LR
   P --> B["Externally supplied v1 binary"]
   M["Versioned corpus manifest"] --> R["Independent runner"]
   B --> R
-  R --> O["Raw repeated observations"]
+  A["Local-only corpus policy"] --> R
+  T["Bounded child timeout"] --> R
+  R --> O["Portable observations + exact byte hashes"]
   O --> N["Declared narrow normalizer"]
   N --> C["Comparator"]
   M --> C
@@ -11,5 +13,5 @@ flowchart LR
   M --> V["Coverage-map validator"]
   E --> G["Exact-revision proof gate"]
   V --> G
-  X["Network and credentials denied"] --> R
+  X["Credentials denied; network-capable commands rejected"] --> R
   G --> I["Publication after PR #5599 merge and main resync"]

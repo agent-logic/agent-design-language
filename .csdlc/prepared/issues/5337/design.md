@@ -3,26 +3,30 @@
 ## Decision
 
 Implement an independent `adl-characterization` crate that executes the pinned
-ADL v1 binary as a black box, captures raw observations, applies only declared
+ADL v1 binary as a black box, captures portable hashed observations, applies only declared
 normalization, and verifies a versioned positive and negative behavior corpus.
 The harness does not depend on the incumbent `adl` crate and does not port
 incumbent internal tests or implementation logic.
 
 The incumbent revision is fixed at
 `19c2b6e2ad18bddc75db9231643a54b2a446ce72`. Every retained observation records
-that revision, the binary digest, command arguments, exit status, stdout,
-stderr, normalized output, and repetition number.
+that revision, the binary digest, command arguments, exit status, portable
+stdout and stderr, hashes of the exact captured output bytes, normalized output,
+and repetition number.
 
 ## Components
 
 - `manifest`: parses and schema-validates the versioned corpus definition.
-- `runner`: invokes a caller-supplied pinned v1 binary with a denied-network,
-  credential-free environment and captures byte-exact process outcomes.
+- `runner`: invokes a caller-supplied pinned v1 binary with a cleared,
+  credential-free environment, an executable local-only corpus policy, and a
+  bounded COTS-backed child timeout. It captures exact byte hashes and portable
+  tokenized process outcomes.
 - `normalize`: canonicalizes JSON object keys and explicitly declared volatile
   values only. Array order, identifiers, error classes, field values, prompt
   order, exit status, and signature verdicts remain semantic.
-- `compare`: checks repeated-run stability, equivalence groups, difference
-  groups, expected exits and required output fragments.
+- `compare`: rechecks the complete command contract offline, then checks
+  repeated-run stability, equivalence groups, difference groups, expected exits,
+  and required output fragments.
 - `adl-characterize`: captures or verifies a corpus and writes deterministic
   machine-readable reports.
 
@@ -36,17 +40,19 @@ stability, a deterministic local mock run, and fixed Ed25519 sign, verify, and
 tamper rejection.
 
 Provider schemas may be parsed and validated, but no credentialed, network, or
-AWS provider is executed. The local mock case is the only execution case.
+AWS provider is executed. The local mock case is the only execution case. The
+harness is not an operating-system network sandbox: corpus loading fails closed
+unless every command is in the local-only allowlist and the only `--run` fixture
+uses exclusively `mock:*` provider profiles with no remote route.
 
 ## Normalization Contract
 
 Normalization is opt-in per case. It may:
 
 1. parse JSON and sort object keys recursively while preserving array order;
-2. replace the declared workspace root prefix with `<ROOT>`;
-3. replace fields explicitly named by the corpus as volatile timestamps,
+2. replace fields explicitly named by the corpus as volatile timestamps,
    timing values, run identifiers, or artifact roots; and
-4. remove the exact `adl_event` observability line when observability cannot be
+3. remove the exact `adl_event` observability line when observability cannot be
    disabled.
 
 It may not reorder arrays, rewrite arbitrary strings, discard exit status,
@@ -55,13 +61,18 @@ that matches nothing or an undeclared volatile field is a verification error.
 
 ## Evidence And Reproducibility
 
-Each case runs at least three times. Raw observations are immutable inputs to
-comparison; normalized observations are derived artifacts. The coverage map
+Each case runs at least three times. Before retention, only the known corpus and
+temporary-work prefixes are replaced with portable tokens; SHA-256 fields retain
+the identity of the exact pre-tokenization streams. Portable raw observations
+are immutable inputs to comparison, and normalized observations are derived
+artifacts. Offline verification rechecks command count/order, arguments, exits,
+and required fragments against the current corpus before accepting evidence. The coverage map
 maps every required behavior to one or more case identifiers and fails closed
 for missing, duplicate, or unknown mappings. Any repeated-run divergence not
 explicitly covered by a narrow normalizer fails verification.
 
-The checked-in observations are captured from the pinned v1 binary. Unit and
+Every child command has a manifest-declared timeout and is killed and reaped on
+expiry with a deterministic timeout classification. The checked-in observations are captured from the pinned v1 binary. Unit and
 integration tests also use deterministic fixture executables so ordinary test
 runs never require rebuilding v1 or reaching the network.
 

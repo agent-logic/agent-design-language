@@ -28,6 +28,8 @@
         "<WORK>/signed.adl.yaml"
       ],
       "exit_code": 0,
+      "stdout_sha256": "e1680f2e344bd9d4aa7630c4a9c09018bf341ff856bf28bf43f733416e730a96",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "SIGN ok path=<WORK>/signed.adl.yaml\n",
       "stderr": ""
     },
@@ -46,6 +48,8 @@
         "<WORK>/keys/public.b64"
       ],
       "exit_code": 0,
+      "stdout_sha256": "a9873feccf069830b1da6ab8f6f5338539b660b45a0427f5a3458406c08533ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "VERIFY ok\n",
       "stderr": ""
     },
@@ -64,6 +68,8 @@
         "<WORK>/keys/public.b64"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "91105dd7cf605fa2ad10b55fc42a3ae06148fc226946a54a0ec0bd50dc0c58a4",
       "stdout": "",
       "stderr": "Error: SIGNATURE_MISMATCH: signature verification failed: signature error: Verification equation was not satisfied\n"
     }

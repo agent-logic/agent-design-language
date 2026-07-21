@@ -4,8 +4,6 @@
   "repetition": 3,
   "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
   "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
-  "corpus_root": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1",
-  "workdir": "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-FR943G",
   "commands": [
     {
       "step_id": "validate",
@@ -14,12 +12,14 @@
         "--print-plan"
       ],
       "expanded_args": [
-        "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/schema-unknown.adl.yaml",
+        "<ROOT>/fixtures/schema-unknown.adl.yaml",
         "--print-plan"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "f67d7c6c9f01f1acc3d911f56daad0b8b4d8edecd39a5ebaeff6bd7727320f8f",
       "stdout": "",
-      "stderr": "Error: failed to load ADL document: /Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/schema-unknown.adl.yaml\n  0: schema validate adl yaml: /Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/schema-unknown.adl.yaml\n  1: ADL schema validation failed:\nat /: Additional properties are not allowed ('unknown_top_level' was unexpected)\n"
+      "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/schema-unknown.adl.yaml\n  0: schema validate adl yaml: <ROOT>/fixtures/schema-unknown.adl.yaml\n  1: ADL schema validation failed:\nat /: Additional properties are not allowed ('unknown_top_level' was unexpected)\n"
     }
   ]
 }

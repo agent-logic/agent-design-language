@@ -16,6 +16,8 @@
         "--print-plan"
       ],
       "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ff7c8b7c314762b1f4fffd43aa75826bf04dedee5b8fded79bca5181aa4a36fb",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/unknown-workflow.adl.yaml\n  0: validate adl\n  1: run.workflow_ref references unknown workflow 'missing'\n"
     }
