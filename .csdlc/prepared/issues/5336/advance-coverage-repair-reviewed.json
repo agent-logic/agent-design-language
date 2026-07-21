@@ -1,0 +1,11 @@
+{
+  "issue": 5336,
+  "card": "sor",
+  "expected_generation": 23,
+  "expected_digest": "1477be98f9a796b6071925fc6218c04df6a1d1ef1e5f6f8551c6a78610f71a0e",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Exact coverage-orchestration repair rereview passed with no findings or residual risks.",
+  "operation": {"operation": "advance_phase", "phase": "reviewed"},
+  "fail_after_backup": false
+}

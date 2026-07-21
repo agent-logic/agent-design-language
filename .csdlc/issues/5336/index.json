@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "ce0539a93ba823ffc1ee279f56656a7670c98a4ea8d4de0b1130799f8b30a8fa",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "de3c02c9e5e2ec5bd3c00554f381f1e20043d837687c7798f3a7e5fbaaff6aa4",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 22,
+    "generation": 24,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -38,7 +38,21 @@
       ".csdlc/prepared/issues/5336"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+    "scope": [
+      "adl/.gitignore",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:ba0d287c54fd61d1c97f2789126a1882c1c06a53:718b223a7c53c6ad2cc3391eac6274cf24a4c33587235b1ea438ee6cf962fe61",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -53,32 +67,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b71327700e0ea5c14ed7e2afb3e55ad9b5c83f10be28994b2c02e13fae6e85bb",
+      "values_digest": "de303e2327127fd03c37cf5f7dad918caef84155e8d3606433b13fbf12911969",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "abde760f4edb7a66528e51316508eb424b238f351b341fcff4ac120cfb777ec2",
+      "values_digest": "861b2c2d3412e7862283a454abc4853eef0916657fb98880766c43e38db9b636",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "f0ef52e439e94ada5f347468e9ce6248b4046f3452250569866843da3647d196",
+      "values_digest": "a47e3d0ca0a4ec837ef3349f6e23c23d0448fe3b01ec3e909f7248e4b7706eec",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "7926f675d3c66da9029cb1f3c078542722081632cd8227dcef7568c9fe074402",
+      "values_digest": "d47442d62325f5eedbf5899751e1591935cd5719cac09a4cc92607e8ae304832",
       "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "7f5c25a48b7a4fe9bbee2e0c8c9cca6d830ec7def6e1b329600f396237ec4c72",
-      "rendered_digest": "9f7585e38051e7c44cefa36053ab8003698a1e56b37bad7b3ced8394af477478",
-      "ast_digest": "7a1fd68c15760c3a7aef0218bed14c6961878e321da46d9840ce41e0babcb3ba"
+      "values_digest": "5e409db6b80b46dc977805988519b08122022539ac9ed341d522ff8dd9bc75dc",
+      "rendered_digest": "68967128f51931d2c38946707d55ceca98af810989e0d86a761a2af8921862c7",
+      "ast_digest": "e9db6176820dc896c5717df6feeaaf7661e2ed8074721be2fb65c92dbc04c6e2"
     },
     "sor": {
-      "values_digest": "95e30c81443d524a92f09915a67fa1e9f6e1445ca23037c294e28a30802232c7",
+      "values_digest": "cea596e230a597eb16659896b3044b15b5f71770e5d2d4563e1a891a881f57f4",
       "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
       "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
@@ -146,6 +160,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover exact review and publication after hosted coverage proved cold companion partition process exhaustion on PR #5599."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact coverage-orchestration repair rereview passed with no findings or residual risks."
     }
   ],
   "audit": [
@@ -358,6 +379,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact coverage-orchestration repair rereview passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

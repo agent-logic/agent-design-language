@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
     "slug": "v0918-runtime-functional-parity-plan",
     "version": "v0.91.8",
-    "generation": 22
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl/.gitignore\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\n.csdlc/issues/5336\n.csdlc/prepared/issues/5336",
-      "review_revision": "git-blake3:c91a6b8cd0f29566c796e2127be91005093e7d7e:dbc3e8bed12dd5ebc032ebc55f572adbe3821fc54c7d1f9955a83eb8703e0cc0",
+      "review_revision": "git-blake3:ba0d287c54fd61d1c97f2789126a1882c1c06a53:718b223a7c53c6ad2cc3391eac6274cf24a4c33587235b1ea438ee6cf962fe61",
       "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
       "review_prompts": [
         "Does the plan distinguish fixture/library proof from live process functionality?",
@@ -23,20 +23,9 @@
         "Do acceptance, cutover, and deletion dependencies fail closed?",
         "Does the plan prevent duplicate Runtime v3 implementations and uncontrolled LoC/test growth?"
       ],
-      "findings": [
-        {
-          "id": "coverage-first-partition-failure",
-          "severity": "p2",
-          "summary": "Multiple partition failures overwrite the first causal nonzero status.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }

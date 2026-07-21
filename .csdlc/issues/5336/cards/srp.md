@@ -28,18 +28,7 @@ adl/tools/test_run_authoritative_coverage_lane.sh
 
 ## Findings
 
-[
-  {
-    "id": "coverage-first-partition-failure",
-    "severity": "p2",
-    "summary": "Multiple partition failures overwrite the first causal nonzero status.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -51,8 +40,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:c91a6b8cd0f29566c796e2127be91005093e7d7e:dbc3e8bed12dd5ebc032ebc55f572adbe3821fc54c7d1f9955a83eb8703e0cc0")
+Revision: Some("git-blake3:ba0d287c54fd61d1c97f2789126a1882c1c06a53:718b223a7c53c6ad2cc3391eac6274cf24a4c33587235b1ea438ee6cf962fe61")
 
 Reviewer: Some("task:019f8273-47ae-7d01-85db-cb67c70554ec")
 
-Result: changes_required
+Result: pass
