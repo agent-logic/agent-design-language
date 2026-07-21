@@ -3547,8 +3547,8 @@ fn validate_portable_validation_result(result: &ValidationResult) -> Result<()> 
     if result
         .command
         .iter()
-        .any(|part| contains_machine_local_path(part))
-        || contains_machine_local_path(&result.evidence_ref)
+        .any(|part| contains_machine_local_path(part, true))
+        || contains_machine_local_path(&result.evidence_ref, false)
     {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
@@ -3558,27 +3558,60 @@ fn validate_portable_validation_result(result: &ValidationResult) -> Result<()> 
     Ok(())
 }
 
-fn contains_machine_local_path(value: &str) -> bool {
-    if value.contains('$')
-        || value.contains('`')
-        || value.to_ascii_lowercase().contains("file://")
+fn contains_machine_local_path(value: &str, shell_context: bool) -> bool {
+    if value.to_ascii_lowercase().contains("file://")
+        || contains_shell_expansion(value)
+        || (shell_context && value.contains('`'))
+        || contains_backtick_path_expansion(value)
         || contains_windows_environment_expansion(value)
     {
         return true;
     }
-    value.split_ascii_whitespace().any(|word| {
-        let candidate = word
-            .trim_matches(|character: char| matches!(character, '\'' | '"' | '(' | ')' | ',' | ';'))
-            .rsplit_once('=')
-            .map_or(word, |(_, assigned)| assigned)
-            .trim_matches(|character: char| matches!(character, '\'' | '"'));
-        candidate.starts_with('/')
-            || candidate.starts_with("~/")
-            || candidate.starts_with("~\\")
-            || candidate.starts_with("\\\\")
-            || candidate.starts_with("//")
-            || is_windows_absolute_path(candidate)
+    value.split_whitespace().any(|word| {
+        if word.starts_with("http://") || word.starts_with("https://") {
+            return false;
+        }
+        word.split(['=', '[', '(', '{', ',', ';']).any(|segment| {
+            let candidate = segment
+                .trim_matches(|character: char| matches!(character, '\'' | '"' | ')' | ']' | '}'));
+            candidate.starts_with('/')
+                || candidate.starts_with("~/")
+                || candidate.starts_with("~\\")
+                || candidate.starts_with("\\\\")
+                || candidate.starts_with("//")
+                || is_windows_absolute_path(candidate)
+        })
     })
+}
+
+fn contains_shell_expansion(value: &str) -> bool {
+    value.char_indices().any(|(index, character)| {
+        if character != '$' {
+            return false;
+        }
+        let suffix = &value[index + character.len_utf8()..];
+        if suffix.starts_with(['(', '{']) {
+            return true;
+        }
+        let boundary = value[..index].chars().next_back().is_none_or(|previous| {
+            previous.is_whitespace() || matches!(previous, '=' | '\'' | '"')
+        });
+        boundary
+            && suffix
+                .chars()
+                .next()
+                .is_some_and(|next| next.is_ascii_alphabetic() || next == '_')
+    })
+}
+
+fn contains_backtick_path_expansion(value: &str) -> bool {
+    let Some(start) = value.find('`') else {
+        return false;
+    };
+    let Some(end) = value[start + 1..].find('`') else {
+        return false;
+    };
+    value[start + end + 2..].starts_with(['/', '\\'])
 }
 
 fn contains_windows_environment_expansion(value: &str) -> bool {
@@ -4040,10 +4073,22 @@ mod terminal_design_repair_tests {
             assert_eq!(error.code.to_string(), "invalid_input");
         }
 
+        for machine_local in ["proof\u{a0}/home/alice/out", "proof=[/home/alice/out]"] {
+            let result = ValidationResult {
+                command: vec!["proof".into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: machine_local.into(),
+            };
+            validate_portable_validation_result(&result).expect_err(machine_local);
+        }
+
         for portable in [
             "evidence/portable.json",
+            "evidence/report$final.json",
             "--target-dir=target/coverage",
             "https://example.invalid/proof",
+            "https://example.invalid/proof?$select=id",
             "retained terminal receipt",
         ] {
             let result = ValidationResult {
@@ -4054,6 +4099,14 @@ mod terminal_design_repair_tests {
             };
             validate_portable_validation_result(&result).expect(portable);
         }
+
+        let symbolic_result = ValidationResult {
+            command: vec!["proof".into()],
+            purpose: "proof".into(),
+            outcome: crate::cards::EvidenceOutcome::Passed,
+            evidence_ref: "reviewed `proof command`".into(),
+        };
+        validate_portable_validation_result(&symbolic_result).expect("stable symbolic evidence");
 
         let result = ValidationResult {
             command: vec!["proof".into()],
