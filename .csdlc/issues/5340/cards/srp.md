@@ -33,87 +33,87 @@ adl-v2/crates/adl-engine
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   },
   {
     "id": "F-5340-2-turn-input-unbounded",
     "severity": "p1",
-    "summary": "Plan, policy, turn, completion, and materialization work is bounded.",
+    "summary": "Plan, policy, turn, completion, and serialization bounds remain enforced.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   },
   {
     "id": "F-5340-3-resume-semantic-truncation",
     "severity": "p1",
-    "summary": "Base semantic resume checks are fixed, but residual completion-history reachability remains in F-5340-6.",
+    "summary": "Normalized successful turns are retained and replayed from the exact initial engine with full snapshot equality.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   },
   {
     "id": "F-5340-4-compiler-fixture-mapping-absent",
     "severity": "p1",
-    "summary": "All six applicable landed fixtures are parsed, compiled, classified, and engine-executed.",
+    "summary": "All six landed fixtures are inventoried, parsed, compiled, classified, and executed.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   },
   {
     "id": "F-5340-5-usize-policy-contract",
     "severity": "p2",
-    "summary": "JoinPolicy threshold uses a fixed-width u64 contract.",
+    "summary": "JoinPolicy AtLeast.required uses fixed-width u64.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   },
   {
     "id": "F-5340-6-resume-journal-reachability",
     "severity": "p1",
-    "summary": "Resume does not reconstruct intermediate completion, tick, turn, and event history and accepts a coherently altered impossible retry history.",
+    "summary": "Canonical exact replay rejects forged counters and coherently altered intermediate completion histories.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   },
   {
     "id": "F-5340-7-state-materialization-bound",
     "severity": "p1",
-    "summary": "Repeated state materialization is charged before clones and serialization uses a capped writer.",
+    "summary": "Repeated state materialization is charged before cloning and serialization is capped.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   },
   {
     "id": "F-5340-8-applicable-fixtures-not-executed",
     "severity": "p1",
-    "summary": "Actual applicable landed fixture content is exercised end to end.",
+    "summary": "Every applicable actual fixture executes language to compiler to engine without silent skips.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   },
   {
     "id": "F-5340-9-design-truth-drift",
     "severity": "p2",
-    "summary": "Amended design, diagram, SPP/VPP artifact digests, and typed approval are current.",
+    "summary": "Approved design and diagram accurately specify bounded normalized-turn replay and exact snapshot reconstruction.",
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+    "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "route": null
   }
 ]
@@ -124,12 +124,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Replay cost grows with the retained turn journal, but journal size and turn count are bounded by checkpoint, turn-input, cardinality, and logical-turn limits.
 
 ## Review Result
 
-Revision: Some("git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380")
+Revision: Some("git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a")
 
 Reviewer: Some("subagent:/root/review_5340_exact")
 
-Result: changes_required
+Result: pass

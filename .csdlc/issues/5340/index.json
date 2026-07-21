@@ -3,13 +3,13 @@
   "issue": 5340,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8863afa2116f00a1d2454a78df6f0287e360060ac0565d961b33c1da3c447617",
-  "phase": "implemented",
-  "generation": 39,
-  "digest": "e7ec74e009b3122a546b7e791c097e10dc908c10ac9de6b6c92e4aba367c394d",
+  "phase": "reviewed",
+  "generation": 41,
+  "digest": "8eeaaa70aa5358978861037ff5c8ae7d32035576e22912c94bd48ba58468c2c9",
   "claim": {
     "id": "claim-5340-v0918-wp06-owner-watch",
     "owner": "codex:5340-owner-watch",
-    "generation": 39,
+    "generation": 41,
     "acquired_unix_seconds": 1784619054,
     "expires_unix_seconds": 1785223854,
     "heartbeat_unix_seconds": 1784619054,
@@ -32,7 +32,110 @@
       "adl-v2/crates/adl-engine"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_5340_exact",
+    "scope": [
+      "adl-v2/crates/adl-engine"
+    ],
+    "reviewed_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+    "findings": [
+      {
+        "id": "F-5340-1-state-dataflow-unresolved",
+        "severity": "p1",
+        "summary": "State dependency resolution and request identity are fixed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      },
+      {
+        "id": "F-5340-2-turn-input-unbounded",
+        "severity": "p1",
+        "summary": "Plan, policy, turn, completion, and serialization bounds remain enforced.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      },
+      {
+        "id": "F-5340-3-resume-semantic-truncation",
+        "severity": "p1",
+        "summary": "Normalized successful turns are retained and replayed from the exact initial engine with full snapshot equality.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      },
+      {
+        "id": "F-5340-4-compiler-fixture-mapping-absent",
+        "severity": "p1",
+        "summary": "All six landed fixtures are inventoried, parsed, compiled, classified, and executed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      },
+      {
+        "id": "F-5340-5-usize-policy-contract",
+        "severity": "p2",
+        "summary": "JoinPolicy AtLeast.required uses fixed-width u64.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      },
+      {
+        "id": "F-5340-6-resume-journal-reachability",
+        "severity": "p1",
+        "summary": "Canonical exact replay rejects forged counters and coherently altered intermediate completion histories.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      },
+      {
+        "id": "F-5340-7-state-materialization-bound",
+        "severity": "p1",
+        "summary": "Repeated state materialization is charged before cloning and serialization is capped.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      },
+      {
+        "id": "F-5340-8-applicable-fixtures-not-executed",
+        "severity": "p1",
+        "summary": "Every applicable actual fixture executes language to compiler to engine without silent skips.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      },
+      {
+        "id": "F-5340-9-design-truth-drift",
+        "severity": "p2",
+        "summary": "Approved design and diagram accurately specify bounded normalized-turn replay and exact snapshot reconstruction.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Replay cost grows with the retained turn journal, but journal size and turn count are bounded by checkpoint, turn-input, cardinality, and logical-turn limits."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -47,32 +150,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cd7ecf3505f279715d46ebc0684914f4ee2152ac167090446afd913097d65688",
+      "values_digest": "c9de4a790908c8337f1de86042deed57a9b3be389a37b9b2c7245597bbecba74",
       "rendered_digest": "89b09b0e450ddd7efb55816ac6604326382c3e8976d112bd18c9847f4c6e6309",
       "ast_digest": "f8c5fd0db072f65fa89e0d9dcc29934d6219925a15e6b0478f1ec223dbede876"
     },
     "stp": {
-      "values_digest": "558bc0521942a0901cb6c0b4515c142056c72867acc0f6821fc75442f0caddd6",
+      "values_digest": "dba45749b63581eefead1c0645feddcc9f217dc2647fe8648e0716e4060e8b7b",
       "rendered_digest": "2d4f29e605035d0c85da7bfada7d463f3f27fe4546e38bc8dffadcc9510771fa",
       "ast_digest": "f3745e071ea9bcadd8ae499c89a7dd9e574600d035b0d6a8d092b3f26ee03c25"
     },
     "spp": {
-      "values_digest": "3161da310b150ed756eb09830965230cc161efb6eab8ec01a5bb4887e4892f0b",
+      "values_digest": "29b8b73a4750d3f138815c8566abec894572acd5cb1f648cffe51ae761d451c8",
       "rendered_digest": "1344077f5ac2e374781b4ebaea1b8e5eecb590ac924a671582a0c8ab578046e5",
       "ast_digest": "4d46a34ce59b99c2dcf9d0d0aa205406925d2a8b91f09e2e71634d980cc79110"
     },
     "vpp": {
-      "values_digest": "f9bc53a6d9d04218c26769ac9278296a2932502b1defd35053d018b5823c2ec2",
+      "values_digest": "6634903ca6f113ab0a5c4522964f7fb24eb1a0841dd557999569c23c7f2090ee",
       "rendered_digest": "6ce70a28eb85688c195502de77dbbcf7aa5f3c38897640c6275929056265c2b8",
       "ast_digest": "7ea7f4080d60b398d0b99625947ac1b191dae9f80f9b0a802f7b6339517de8d0"
     },
     "srp": {
-      "values_digest": "f0877ae76fca7fb20ecda60cf3e1e615ddddfc0d972faeb6613a9a710d5e41fb",
-      "rendered_digest": "39b70af0f63517e2b08e34475fdc3207dedf1d62b961e1cca3b84ca60ac349fc",
-      "ast_digest": "83d3a251c7468ff18ae719848f2722f5c9a442eff497a4c0ee96c93f7d50b0cc"
+      "values_digest": "1bde2e4f1b2124586327937f0546a7be0f345ded43b5f6cc5a5f18e60f575843",
+      "rendered_digest": "36ab9f57bdefc556ffb52b8d09bacd3e58d0a71ef53386de8c672c3e526924a0",
+      "ast_digest": "cc8db0f1c6db01adb3c238282a0d2ba244c76657f86abde0aee5f0a879fcdf90"
     },
     "sor": {
-      "values_digest": "062801909ae316940244c54694cd711a0389934bc96eaa466abec2befb27c503",
+      "values_digest": "e96644045904b07985c337b04488066896d1a64982a44854b233faaea73d2252",
       "rendered_digest": "9559191ec51a6cadfffda2d664e59e8eec9577da072b21d5bff7421c07fdd599",
       "ast_digest": "d6d8aa7bac9a25ca8c9cdef160904a9056083d7b8af934dd2508cd4b02ac0c9b"
     }
@@ -98,6 +201,13 @@
       "to": "implemented",
       "actor": "codex:5340-owner-watch",
       "reason": "The bounded engine implementation and every pre-review FastWork acceptance lane are complete with retained evidence; advance to implemented for exact-revision review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5340-owner-watch",
+      "reason": "Fresh exact scoped review fixed all nine prior findings and approved the canonical turn-replay revision for publication."
     }
   ],
   "audit": [
@@ -422,6 +532,20 @@
       "actor": "codex:5340-owner-watch",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 40,
+      "actor": "subagent:/root/review_5340_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 41,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Fresh exact scoped review fixed all nine prior findings and approved the canonical turn-replay revision for publication.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
