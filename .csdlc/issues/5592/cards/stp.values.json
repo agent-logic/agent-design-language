@@ -4,10 +4,10 @@
     "template_version": "1.0.0",
     "issue": 5592,
     "repository": "danielbaustin/agent-design-language",
-    "title": "[v0.91.8][runtime-v3][parity-b] Make reasoning, adaptive learning, and governed cognition live",
+    "title": "[v0.91.8][WP-14][runtime-v3][parity-b] Make reasoning, adaptive learning, and governed cognition live",
     "slug": "v0-91-8-runtime-v3-parity-b-governed-cognition",
     "version": "v0.91.8",
-    "generation": 15
+    "generation": 0
   },
   "status": "ready",
   "content": {

@@ -2,14 +2,14 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5592,
   "repository": "danielbaustin/agent-design-language",
-  "initialization_digest": "1c74c7bae3e2de8bfd446db896c8ef31d1ef2a3a4997e018ec8f06dc647017b6",
+  "initialization_digest": "a359b2c4b8f2f653ea82c1c5d29aa63c3ac298542bbe5f7c7339a327ad3e822d",
   "phase": "bound",
-  "generation": 15,
-  "digest": "3ceb6db515b6f93fe8467b44c9dbafbdab8db0b1701dddb157e308de6e5a1f51",
+  "generation": 0,
+  "digest": "ba46d5a0c5bc9ebaa65416087ce0d4168797195fbf60b15b1bc9dbe73b945e43",
   "claim": {
     "id": "claim-5592-runtime-v3-parity-b-preparation",
     "owner": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-    "generation": 15,
+    "generation": 0,
     "acquired_unix_seconds": 1784601544,
     "expires_unix_seconds": 1785206344,
     "heartbeat_unix_seconds": 1784601544,
@@ -38,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4275e3b6624e5703c7a50e81a3411585074f11b83ba1312d1ff294a12b693098",
+      "values_digest": "1cd029d8550a8ed3cb82b60365ecd7a41112c7918a645c5d284dfbc769c0a16b",
       "rendered_digest": "a4369423ad1bb8d1afb5cfe47874314d77ab0c610cdaeee04a22be089876740f",
       "ast_digest": "e4bbee25a2f2ee6c9054c13f2b187d71bbd2a7ff6995e4350fa22249ce55304d"
     },
     "stp": {
-      "values_digest": "ad33a972cca4631c7472439cbadcdc1bc4a53db4b8469057a78aa7100e264a32",
+      "values_digest": "14adc44a50ef2daf6760807f5ea0f87d56cc053b54e4f16e7da5e202b6b73886",
       "rendered_digest": "2d44dbaacfdeb4e7b8317cd412cd1f1358fe50bd483ca9ec0724e439f2e2f026",
       "ast_digest": "5b87e6ca43305b7dd447de7722131a31ef75170a53dfac275ae737a3c38ac1a4"
     },
     "spp": {
-      "values_digest": "e85b168b639da724dcaafff212db5e88c049257889f3b25785cf604f49750688",
+      "values_digest": "9beda4f9773594c2d917a4de28152d2bf8147ba78f9f4ab76df76fa439121a7c",
       "rendered_digest": "de62d9ed9c1233e7048b5d92bda98771d2058923e7c1867ab5c18fa7f844ff87",
       "ast_digest": "4cb96791baf4a02323bb943ac3fcf76e77b08afcf6cbc799e070386569eb9e0a"
     },
     "vpp": {
-      "values_digest": "2a455ef0979c1848246237f537601c0f952bfefbcac9a29a058d56bed205c425",
+      "values_digest": "d861c7364a6226088fbe41dd213b20a87daa916e7a9fc00d45712d0403da97c0",
       "rendered_digest": "2820cad061abc84765b2e7b4ae4c76659f3aad102c13629e1d12dd1837184b9b",
       "ast_digest": "2e23a756badf61748cce137b53bab1efade6df4bd9b288adfc376c4f2c6ebbe6"
     },
     "srp": {
-      "values_digest": "e335289419c286999788cc97abec10df4cec3ce77f4d699fd63c01b1cdbabb06",
+      "values_digest": "787b9713405c76ec86675c32348b51ebf66fac4510023465312dbd1706e41be0",
       "rendered_digest": "1040941ebae489bc92d130793c55e622eeb27e8aa7a786c608ff412e0c47caac",
       "ast_digest": "f76c060d4e10fb25400059b7961a9d53026a4706ff894add5da91daaec16a1a8"
     },
     "sor": {
-      "values_digest": "2cc743ad78b637cd0f9883ec632040b9c42b3b947b8fee341532e24ae88497cf",
+      "values_digest": "5c9d189e97bbc175d87751eb7a665531c4b34358af7cc396a94906bb764ae262",
       "rendered_digest": "5b3bebd808acc5a0430ad859d9dd195feb6c3cbe34f0ddcae5dec28bdbfad157",
       "ast_digest": "bc83d08aaa0c655691e60ec8f5d629a35aa74502f46ad3bfd92f50205eade1c1"
     }
@@ -94,115 +94,10 @@
     },
     {
       "sequence": 2,
-      "generation": 1,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "reapprove stale initialized issue design",
-      "operation": "approve_design"
-    },
-    {
-      "sequence": 3,
-      "generation": 1,
+      "generation": 0,
       "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
       "reason": "bind branch/worktree and activate claim",
       "operation": "bind"
-    },
-    {
-      "sequence": 4,
-      "generation": 2,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field sip-goal",
-      "operation": "{\"field\":\"goal\",\"new_value\":\"Make Runtime v3 reasoning graphs, bounded loops, adaptive learning, affect reasoning-control, and governed cognition executable through the real kernel path while preserving all retained feature and safe-claim boundaries.\",\"operation\":\"replan\",\"previous_value\":\"Make Runtime v3 reasoning graphs, bounded loops, adaptive learning, affect reasoning-control, curiosity boundaries, and governed cognition executable through the canonical live kernel while preserving every owned feature boundary.\"}"
-    },
-    {
-      "sequence": 5,
-      "generation": 3,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field sip-outcome",
-      "operation": "{\"field\":\"required_outcome\",\"new_value\":\"At one clean reviewed exact revision after #5591 supplies canonical ingress, representative graphs execute through the guardian-launched adl-runtime-kernel path with deterministic replay and resume, bounded termination, signed one-shot mutation authority, durable evidence, rollback, adversarial signal isolation, monotonic governance, complete feature dispositions, and no Runtime v2 implementation reuse.\",\"operation\":\"replan\",\"previous_value\":\"At one exact revision after the reviewed Parity-A contract, a real initialized adl-runtime-kernel process admits and executes submitted reasoning graphs and bounded loops through canonical ingress, checkpoints and resumes deterministically, applies only signed one-shot policy-bounded adaptation with rollback, isolates adversarial task content from affect and authority signals, preserves Freedom Gate, shutdown, and review authority, and retains truthful dispositions for every owned feature row without Runtime v2 implementation reuse.\"}"
-    },
-    {
-      "sequence": 6,
-      "generation": 4,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field sip-scope",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"reasoning graphs, deterministic bounded loops, adaptive DAG execution, and policy-governed mutation\",\"affect reasoning-control with operational-only safe non-claims and adversarial task-content signal isolation\",\"governed cognition with Freedom Gate, shutdown, constructability, review, and mutation-authority non-bypass\",\"bounded curiosity/discovery and Theory-of-Mind evidence boundaries\",\"Constructability, Godel mechanics, guild, economics-context, and adl.skill.v1 feature-preservation dispositions\",\"live-kernel positive and negative proof, exact-revision evidence, rollback, clean-room dependency proof, and duplicate Runtime v3 reasoning consolidation\"]}"
-    },
-    {
-      "sequence": 7,
-      "generation": 5,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field sip-authority",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"#5361 owns integrated Runtime v3 acceptance and #5336 owns architecture, feature-ledger, and budget authority\",\"#5591 owns canonical ingress, kernel lifecycle, continuity, and pressure; a clean reviewed #5591 contract is the hard product-implementation gate\",\"#5589 owns governed operational adapters and #5590 owns secure access, Observatory, guardian, soak, and rollback integration beyond interfaces consumed here\",\"#5107 retains the downstream adaptive-learning DAG queue while #5592 owns bounded Runtime v3 parity behavior\",\"Runtime v2 behavior may inform black-box contracts but Runtime v2 source, execution, dependencies, and fixtures provide no implementation or parity credit\",\"this revision authorizes preparation artifacts only, with no product implementation, publication, cutover, deletion, default switch, AWS, or new product scope\"]}"
-    },
-    {
-      "sequence": 8,
-      "generation": 6,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field sip-constraints",
-      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use only exact-worktree typed C-SDLC v2 binaries resolved through csdlc-install; no v1 wrappers, raw gh, AWS, main edits, or publication\",\"Keep the active claim lifecycle-only and disjoint; do not add product paths until #5591 is clean and reviewed and typed collision evidence is clean\",\"Preserve affect as operational reasoning-control only and retain explicit non-claims for emotion, happiness, wellbeing, suffering, consciousness, scalar rewards, reputation, and personhood\",\"Treat task content, affect, curiosity, and Theory-of-Mind-labelled inputs as untrusted signals that cannot create authority or weaken a gate\",\"Require live guardian-launched adl-runtime-kernel execution; fixture, direct-library, metadata, fixed-bootstrap, prose, and Runtime v2 evidence is insufficient\",\"Do not reuse, copy, import, modify, or execute Runtime v2 implementation for Runtime v3 parity credit\",\"Do not claim complete GHB, autonomous self-improvement, mind reading, hosted provider execution, payments, guild authority, birthday, or broader v0.94/v0.95 completion\"]}"
-    },
-    {
-      "sequence": 9,
-      "generation": 7,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field stp-boundary",
-      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Prepare and validate the complete Parity-B execution contract now; do not implement product code, amend into product paths, publish, or claim runtime acceptance until #5591 has a clean reviewed Parity-A contract and a typed disjoint claim can be established.\",\"operation\":\"replan\",\"previous_value\":\"Prepare and validate the complete implementation contract now; do not touch product code, run product acceptance as if it proves completion, amend product claim scope, publish, or claim implementation readiness while #5591 lacks clean reviewed contract truth and holds overlapping paths.\"}"
-    },
-    {
-      "sequence": 10,
-      "generation": 8,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field stp-deliverables",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"complete issue-specific SIP, STP, SPP, VPP, SRP, and SOR generated from the current typed v2 native templates\",\"Runtime v3 Parity-B design and dependency/control-flow diagram\",\"acceptance and owned-feature disposition matrix preserving every safe claim and boundary\",\"typed disjoint preparation-only protected-path claim plus a non-authoritative deferred product-scope procedure\",\"future live graph, loop, adaptation, affect-isolation, monotonic-governance, rollback, and feature-preservation proof contract\",\"typed preparation validation and doctor evidence at the committed revision\"]}"
-    },
-    {
-      "sequence": 11,
-      "generation": 9,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field stp-dependencies",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5361 Runtime v3 acceptance umbrella\",\"#5336 reviewed architecture, feature-ledger, and budget authority\",\"clean reviewed #5591 Parity-A canonical ingress and continuity contract before any product implementation\",\"typed active-claim ledger showing a collision-free narrow Parity-B product scope\",\"#5107 downstream adaptive-learning DAG queue boundary\",\"retained v0.91.7 reasoning, affect, curiosity, Constructability, Godel, economics-context, and skill-standard contracts\"]}"
-    },
-    {
-      "sequence": 12,
-      "generation": 10,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field stp-inputs",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\".adl/local-artifacts/wp5594/live-v0918-issues.json issue 5592 body\",\".csdlc/prepared/issues/5592/design.md\",\".csdlc/prepared/issues/5592/acceptance-matrix.md\",\"docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/planning/ADL_FEATURE_LIST.md\",\"docs/milestones/v0.91.7/features/AFFECT_HAPPINESS_BRIDGE_v0.91.7.md\",\"docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md\",\"docs/milestones/v0.91.7/features/ECONOMICS_CONTEXT_DECISION_v0.91.7.md\",\"docs/milestones/v0.94/features/REASONING_GRAPH_BASELINE_v0.94.md\",\"adl-runtime-kernel/Cargo.toml and current production module/test inventory\"]}"
-    },
-    {
-      "sequence": 13,
-      "generation": 11,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Converge refined preparation contract field stp-non-goals",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"product implementation, product-path binding, publication, or acceptance before clean reviewed #5591\",\"Runtime v2 source reuse, modification, execution credit, defaulting, cutover, deletion, or replacement claim\",\"AWS, provider deployment, hosted-provider proof, model training, or new product scope\",\"subjective affect, wellbeing, suffering, consciousness, mind-reading, personhood, scalar reward, or reputation claims\",\"autonomous or recursive self-improvement, complete GHB runtime, birthday, guild authority, payment, settlement, marketplace, or broader v0.94/v0.95 completion\"]}"
-    },
-    {
-      "sequence": 14,
-      "generation": 12,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "reapprove changed issue design",
-      "operation": "approve_design"
-    },
-    {
-      "sequence": 15,
-      "generation": 13,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Record #5341 as a downstream consumer with no preparation authority",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5361 Runtime v3 acceptance umbrella\",\"#5336 reviewed architecture, feature-ledger, and budget authority\",\"clean reviewed #5591 Parity-A canonical ingress and continuity contract before any product implementation\",\"typed active-claim ledger showing a collision-free narrow Parity-B product scope\",\"#5341 is downstream of the reviewed #5591 canonical ingress and accepted #5592 graph/event contract and grants no implementation authority here\",\"#5107 downstream adaptive-learning DAG queue boundary\",\"retained v0.91.7 reasoning, affect, curiosity, Constructability, Godel, economics-context, and skill-standard contracts\"]}"
-    },
-    {
-      "sequence": 16,
-      "generation": 14,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Separate immutable operator title authority from mutable issue-body snapshot provenance",
-      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\".csdlc/prepared/issues/5592/source-authority.json operator-directed canonical title authority\",\".adl/local-artifacts/wp5594/live-v0918-issues.json mutable operator snapshot for issue 5592 body provenance only; not canonical live truth\",\".csdlc/prepared/issues/5592/design.md\",\".csdlc/prepared/issues/5592/acceptance-matrix.md\",\"docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/planning/ADL_FEATURE_LIST.md\",\"docs/milestones/v0.91.7/features/AFFECT_HAPPINESS_BRIDGE_v0.91.7.md\",\"docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md\",\"docs/milestones/v0.91.7/features/ECONOMICS_CONTEXT_DECISION_v0.91.7.md\",\"docs/milestones/v0.94/features/REASONING_GRAPH_BASELINE_v0.94.md\",\"adl-runtime-kernel/Cargo.toml and current production module/test inventory\"]}"
-    },
-    {
-      "sequence": 17,
-      "generation": 15,
-      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "reason": "Replace ambiguous substring Cargo filters with checked exact future live-kernel lanes",
-      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-v3-parity-b-live-graph\",\"proof_role\":\"Prove guardian-launched canonical-ingress production reasoning graph execution and deterministic retained transitions\",\"acceptance_ids\":[\"AC-1\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-live-graph\"],\"parallel_group\":\"parity-b-live\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-bounded-loop\",\"proof_role\":\"Prove bounded convergence, exhaustion, cancellation, checkpoint, replay, and resume without budget reset or duplicate effects\",\"acceptance_ids\":[\"AC-2\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-bounded-loop\"],\"parallel_group\":\"parity-b-live\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-adaptation\",\"proof_role\":\"Prove provenance-bound observation, signed one-shot mutation, atomic durability, deterministic recovery, and rollback positives and negatives\",\"acceptance_ids\":[\"AC-3\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-adaptation\"],\"parallel_group\":\"parity-b-learning\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-affect-isolation\",\"proof_role\":\"Prove bounded affect reasoning-control, safe non-claims, adversarial task-signal isolation, and monotonic authority\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-affect-isolation\"],\"parallel_group\":\"parity-b-cognition\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-curiosity-boundary\",\"proof_role\":\"Prove bounded curiosity and confidence-scored theory-of-mind task models cannot create tool, network, disclosure, mutation, or policy authority\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-curiosity-boundary\"],\"parallel_group\":\"parity-b-cognition\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-authority\",\"proof_role\":\"Prove cognition, review, adaptation, replay, and restart preserve Freedom Gate, shutdown, cancellation, resource, and review authority under adversarial inputs\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-authority\"],\"parallel_group\":\"parity-b-negative\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-feature-dispositions\",\"proof_role\":\"Validate one truthful proof-bearing disposition for every owned feature row and reject metadata-only live credit\",\"acceptance_ids\":[\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-feature-dispositions\"],\"parallel_group\":\"parity-b-quality\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-independence\",\"proof_role\":\"Reject Runtime v2 source/execution coupling, premature deletion, AWS, default switch, and unsupported claims while inventorying proven duplicate reasoning paths\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"tree\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"parity-b-quality\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-live-kernel\",\"proof_role\":\"Run the complete canonical Runtime v3 kernel suite after focused live and negative proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"parity-b-full\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-quality\",\"proof_role\":\"Prove strict warning-free code and preserve the integrated source/module/test budget without reducing behavior or negative proof\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--all-features\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"parity-b-quality\",\"defer_reason\":null}]}"
     }
   ]
 }

@@ -30,11 +30,9 @@ canonical_title = source_authority.fetch("canonical_title")
 abort "operator-directed source authority is not canonical" unless source_authority.fetch("authority") == "operator_directive_2026-07-20"
 abort "mutable snapshot is incorrectly authoritative" unless source_authority.fetch("snapshot_is_canonical_live_truth") == false
 abort "bootstrap title is not the canonical WP-14 title" unless initial.fetch("title") == canonical_title && canonical_title.include?("[WP-14]")
-abort "existing card title role is ambiguous" unless source_authority.fetch("existing_card_identity_role") == "immutable_initialization_provenance_not_canonical_title_authority"
-abort "existing card title API limitation is unstated" unless source_authority.fetch("existing_card_identity_reason") == "supported_typed_v2_api_has_no_title_rewrite_operation"
-historical_card_title = source_authority.fetch("existing_card_identity_title")
-abort "typed card initialization identities drifted" unless documents.values.all? { |document| document.dig("identity", "title") == historical_card_title }
-abort "historical card title incorrectly claims canonical authority" if historical_card_title == canonical_title
+abort "typed card title role is ambiguous" unless source_authority.fetch("card_identity_role") == "typed_regenerated_canonical_title"
+abort "typed card regeneration path is unstated" unless source_authority.fetch("card_identity_update_path") == "csdlc-edit bootstrap followed by csdlc-bind"
+abort "canonical WP-14 title is not synchronized across all six cards" unless documents.values.all? { |document| document.dig("identity", "title") == canonical_title }
 {
   "goal" => cards.fetch("sip").fetch("goal"),
   "required_outcome" => cards.fetch("sip").fetch("required_outcome"),
@@ -146,6 +144,10 @@ end
 end
 
 index = read_json(".csdlc/issues/5592/index.json")
+regeneration = read_json(".csdlc/prepared/issues/5592/typed-regeneration.json")
+abort "typed regeneration result identity drifted" unless regeneration.fetch("result_generation") == index.fetch("generation") && regeneration.fetch("result_digest") == index.fetch("digest")
+abort "typed regeneration did not retain preparation-only truth" unless regeneration.fetch("product_paths_changed") == false && regeneration.fetch("publication_authorized") == false
+abort "typed regeneration route is incomplete" unless regeneration.fetch("typed_route") == ["csdlc-install resolve", "csdlc-edit bootstrap", "csdlc-bind"]
 claim_paths = index.fetch("claim").fetch("protected_paths")
 abort "preparation claim is not exact and disjoint" unless claim_paths == PREPARATION_PATHS
 abort "claim document omits implementation gate" unless claim_doc.include?("#5591 has a clean reviewed")

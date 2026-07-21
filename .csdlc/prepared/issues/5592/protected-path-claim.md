@@ -31,3 +31,6 @@ final head. `validate_range_scope.rb HEAD` resolves and reports both exact
 commit identities, runs `git diff --check` on that exact two-dot range, fails
 on an empty inventory, permits only the three claimed preparation surfaces
 above, and rejects product or Runtime v2 paths.
+The retained `base-to-reviewed-head-paths.json` records the exact reviewed
+content revision and complete path set; a later evidence-only commit may carry
+that self-referential record without changing the reviewed preparation scope.
