@@ -325,7 +325,7 @@ if authoritative_contract != "bash adl/tools/test_run_authoritative_coverage_lan
         f"found: {authoritative_contract}"
     )
 expected_split_conditions = {
-    "Install cargo-llvm-cov for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'",
+    "Install cargo-llvm-cov for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.full_coverage_required == 'true'",
     "Install cargo-nextest for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'",
     "PVF CI release policy contract": "needs.adl_path_policy.outputs.pvf_ci_release_contract_required == 'true'",
     "tracked proof-validation lane contract": "needs.adl_path_policy.outputs.v0913_proof_contract_required == 'true'",
@@ -455,9 +455,11 @@ for required_fragment in (
     'printf \'/mnt/adl-authoritative-coverage\\n\'',
     'printf \'%s\\n\' "$ADL_DIR"',
     'COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"',
-    'mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID" "$COVERAGE_OUTPUT_ROOT"',
-    'export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"',
-    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"',
+    'COVERAGE_CACHE_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"',
+    'COVERAGE_RUN_TARGET_DIR="$COVERAGE_CACHE_TARGET_DIR/llvm-cov-target/$COVERAGE_RUN_ID"',
+    'mkdir -p "$COVERAGE_CACHE_TARGET_DIR" "$COVERAGE_RUN_TARGET_DIR" "$COVERAGE_OUTPUT_ROOT"',
+    'export CARGO_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"',
+    'export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"',
 ):
     if required_fragment not in runner_script_text:
         raise SystemExit(
@@ -551,9 +553,11 @@ for required_fragment in (
 if "--test-threads 1" in pr_fast_runner_text:
     raise SystemExit("PR-fast coverage runner must not force single-threaded nextest execution by default")
 for required_fragment in (
-    "cargo llvm-cov nextest \\",
+    "cargo nextest run \\",
     "    --workspace \\",
-    "    --no-clean",
+    "prepare_coverage_environment",
+    "cargo llvm-cov clean --workspace",
+    "cargo llvm-cov show-env --sh",
     "cargo llvm-cov report \\",
     "--json \\",
     "--summary-only \\",

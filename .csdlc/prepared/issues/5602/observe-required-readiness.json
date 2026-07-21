@@ -1,0 +1,15 @@
+{
+  "issue": 5602,
+  "expected_generation": 28,
+  "expected_digest": "78136ed50c655b70be193a9bbd3c0307eb3d7e263ddc4058f8817445f701f9da",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5604,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": null
+}

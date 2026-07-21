@@ -116,9 +116,14 @@ cd "$ADL_DIR"
 # defaults to the cached repo target, while remote builders can opt into a
 # scratch root and warm it from the restored target. Do not delete the
 # llvm-cov target between runs; it is the expensive instrumentation build cache.
-mkdir -p "$COVERAGE_BUILD_ROOT/target" "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID" "$COVERAGE_OUTPUT_ROOT"
-export CARGO_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
-export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
+COVERAGE_CACHE_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
+COVERAGE_RUN_TARGET_DIR="$COVERAGE_CACHE_TARGET_DIR/llvm-cov-target/$COVERAGE_RUN_ID"
+mkdir -p "$COVERAGE_CACHE_TARGET_DIR" "$COVERAGE_RUN_TARGET_DIR" "$COVERAGE_OUTPUT_ROOT"
+# `cargo llvm-cov show-env` derives its target from CARGO_TARGET_DIR. Keep both
+# variables run-scoped so sourcing that output cannot collapse concurrent runs
+# back onto the shared cache target.
+export CARGO_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"
+export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"
 # Coverage builds can consume enough runner disk to cross the production CSM
 # floor. Keep ordinary tests deterministic; low-disk tests set explicit values.
 export ADL_CSM_DISK_FLOOR_BYTES="${ADL_CSM_DISK_FLOOR_BYTES:-0}"
@@ -134,10 +139,8 @@ if [ "$MODE" = "full_authoritative_default_features" ]; then
   echo "Authoritative coverage linker mode: ${RUST_LINK_ACCEL:-default}"
   echo "Authoritative coverage test threads: $TEST_THREADS"
   echo "Authoritative coverage skip patterns: $SKIP_PATTERNS_RAW"
-  coverage_command=(cargo llvm-cov nextest \
+  coverage_command=(cargo nextest run \
     --workspace \
-    --no-clean \
-    --no-report \
     --no-fail-fast \
     --no-tests pass \
     --test-threads "$TEST_THREADS")
@@ -147,10 +150,8 @@ else
   echo "Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes."
   echo "Authoritative coverage test threads: $TEST_THREADS"
   echo "Authoritative coverage skip patterns: $SKIP_PATTERNS_RAW"
-  coverage_command=(cargo llvm-cov nextest \
+  coverage_command=(cargo nextest run \
     --workspace \
-    --no-clean \
-    --no-report \
     --no-fail-fast \
     --no-tests pass \
     --test-threads "$TEST_THREADS")
@@ -213,6 +214,26 @@ run_workspace_coverage_partitions() {
   return "$status"
 }
 
+prepare_coverage_environment() {
+  local manifest_path="${1:-}"
+  local env_path="$COVERAGE_OUTPUT_ROOT/${coverage_profile_namespace}-coverage-env.sh"
+
+  if [ -n "$manifest_path" ]; then
+    cargo llvm-cov clean --workspace --manifest-path "$manifest_path"
+    (
+      cd "$(dirname "$manifest_path")"
+      cargo llvm-cov show-env --sh
+    ) > "$env_path"
+  else
+    cargo llvm-cov clean --workspace
+    cargo llvm-cov show-env --sh > "$env_path"
+  fi
+  # cargo-llvm-cov emits shell exports specifically for this external-test
+  # workflow. The file is generated locally by the installed binary.
+  # shellcheck disable=SC1090
+  source "$env_path"
+}
+
 record_report_status() {
   local report_status="$1"
   local summary_path="$2"
@@ -234,6 +255,7 @@ record_report_status() {
 
 coverage_profile_namespace=workspace
 coverage_status=0
+prepare_coverage_environment
 run_workspace_coverage_partitions || coverage_status=$?
 
 cargo llvm-cov report \
@@ -244,15 +266,14 @@ find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
   echo "Authoritative coverage companion: adl-runtime"
-  runtime_coverage_command=(cargo llvm-cov nextest \
+  runtime_coverage_command=(cargo nextest run \
     --manifest-path "$ADL_RUNTIME_MANIFEST" \
-    --no-clean \
-    --no-report \
     --no-fail-fast \
     --no-tests pass \
     --test-threads "$TEST_THREADS")
   coverage_command=("${runtime_coverage_command[@]}")
   coverage_profile_namespace=adl-runtime
+  prepare_coverage_environment "$ADL_RUNTIME_MANIFEST"
   run_workspace_coverage_partitions || {
     runtime_status=$?
     if [ "$coverage_status" -eq 0 ]; then
