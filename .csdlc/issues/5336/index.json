@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "f780ffe51d368014f188c8bedd08f930257bde291077e2e9567da474ac85aeda",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "6bea45314ed9e1cd68491ffdf6ac763e2f25e832d8d4cec32c382555446c95e1",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 25,
+    "generation": 27,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -38,7 +38,21 @@
       ".csdlc/prepared/issues/5336"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+    "scope": [
+      "adl/.gitignore",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:34fcd44d1e6f02700858232b232d1638ff390059:07f0a93f12b6c95571b8fceb59ed89fa78353ee3951d6ec894d3eaedcf66ac0e",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -53,32 +67,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "767b638bceff70464b7e64f2f97218c3b8621cfcee674c251056c220179d93af",
+      "values_digest": "57396fa405f2b68e5a1b45ff795363945f6bf6a31b6dca0823cba41b56df2c69",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "9f7702dc0df8e109f3db67e441c2af41ad1e76767f5d583ba2949e1564986b6f",
+      "values_digest": "fb07277b70667b19eef4b738fff189645c72473f31401d0ddf5ac804137099cf",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "9555136394e5f290c057edfe6944cbae19f01eb445012372db0da98fe2ac43c2",
+      "values_digest": "b45fec3fb9d77d26abdc6424d847eda4467276fbaed0e7e53a7e9086935609b5",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "e29d8b79fc7148d19a77d933f7570b2577710a4cc3e4f547d8c6cfa10314c14b",
+      "values_digest": "1542ea54d573ea3e7b9d27c98ad2270d9343b6cf9bd070da7439bad0ab7423e3",
       "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "d2637ea14c71917df5ad87648d6b00fcc67d044ded1feda3a493b02ad2d9b069",
-      "rendered_digest": "0c197c589e5cdd74152fe004965ffa730f3974ef8a84b57ff5d8174040bc5bc3",
-      "ast_digest": "29abe6a7273bb2f009de2edcf629c6575b3a28e33610d576d6a3afeb73803957"
+      "values_digest": "dbde0f9068c27480bca8d998c85c24b96ed6e7eb696d54bff3f7ed15b755986f",
+      "rendered_digest": "2433ddf818a92cb793623234ca44851bf6cef07993975ed6c3b1c8b13d6732ca",
+      "ast_digest": "e6a3ad9a24bd6e0943ef17e05cfbcfc2f80c0f63f8a063f0af22143030e10709"
     },
     "sor": {
-      "values_digest": "98b0949966feb53fc677a70ec78f17897c7aea0b31ffc54ce48b6f79e98f414d",
+      "values_digest": "db781766b0642400aaa36e80a9ed5fa60a76a93b044eab1c710ef7583bee5691",
       "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
       "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
@@ -160,6 +174,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover exact review after hosted CI proved incompatible nextest prebuild flags and a missing Cargo CACHEDIR.TAG in the warmed run target."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact hosted prebuild compatibility and cache-marker fix review passed with no findings or residual risks."
     }
   ],
   "audit": [
@@ -400,6 +421,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact hosted prebuild compatibility and cache-marker fix review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

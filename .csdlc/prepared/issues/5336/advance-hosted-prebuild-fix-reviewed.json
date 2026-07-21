@@ -1,0 +1,11 @@
+{
+  "issue": 5336,
+  "card": "sor",
+  "expected_generation": 26,
+  "expected_digest": "65c427b0513aad064d6c6d8d6e06b3504fb20996275051d5338319acbb180c2a",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Exact hosted prebuild compatibility and cache-marker fix review passed with no findings or residual risks.",
+  "operation": {"operation": "advance_phase", "phase": "reviewed"},
+  "fail_after_backup": false
+}
