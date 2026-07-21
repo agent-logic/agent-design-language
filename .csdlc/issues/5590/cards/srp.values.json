@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review exact #5590 preparation truth across all six typed cards, design, current Runtime v3 diagram, security matrix, preparation-only claim, future disjoint scope, AC-1 through AC-8, S1 through S6, and every positive and negative validation lane. Reject product edits, weak local access, HTTP, hard-coded IPs, fake port discovery, unauthenticated WebSockets, secret leakage, sidecars, custom OTel, unbounded guardian behavior, Runtime v2 coupling, AWS, partial acceptance, or premature readiness.",
+      "review_scope": ".csdlc/issues/5590/audit.jsonl\n.csdlc/issues/5590/index.json\n.csdlc/prepared/issues/5590/run_filtered_test_lane.sh\n.csdlc/prepared/issues/5590/run_operational_selector_transition.sh\n.csdlc/prepared/issues/5590/transition-guardian-binary-claim.json\n.csdlc/prepared/issues/5590/transition-implementation-claim.json\n.csdlc/prepared/issues/5590/transition-lockfile-claim.json\n.csdlc/prepared/issues/5590/transition-operational-proof-claim.json\n.csdlc/prepared/issues/5590/transition-websocket-dependency-claim.json\nadl-runtime-kernel/Cargo.lock\nadl-runtime-kernel/Cargo.toml\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl/tools/run_runtime_v3_operational_proof.sh\nadl/tools/runtime_v3_operational_selector.sh\nadl/tools/test_runtime_v3_operational_selector.sh\ndemos/v0.91.7/html-observatory/app.js",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -12,7 +12,26 @@ Status: pre_phase
 
 ## Scope
 
-Review exact #5590 preparation truth across all six typed cards, design, current Runtime v3 diagram, security matrix, preparation-only claim, future disjoint scope, AC-1 through AC-8, S1 through S6, and every positive and negative validation lane. Reject product edits, weak local access, HTTP, hard-coded IPs, fake port discovery, unauthenticated WebSockets, secret leakage, sidecars, custom OTel, unbounded guardian behavior, Runtime v2 coupling, AWS, partial acceptance, or premature readiness.
+.csdlc/issues/5590/audit.jsonl
+.csdlc/issues/5590/index.json
+.csdlc/prepared/issues/5590/run_filtered_test_lane.sh
+.csdlc/prepared/issues/5590/run_operational_selector_transition.sh
+.csdlc/prepared/issues/5590/transition-guardian-binary-claim.json
+.csdlc/prepared/issues/5590/transition-implementation-claim.json
+.csdlc/prepared/issues/5590/transition-lockfile-claim.json
+.csdlc/prepared/issues/5590/transition-operational-proof-claim.json
+.csdlc/prepared/issues/5590/transition-websocket-dependency-claim.json
+adl-runtime-kernel/Cargo.lock
+adl-runtime-kernel/Cargo.toml
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/tests/control.rs
+adl-runtime-kernel/tests/observatory.rs
+adl-runtime/src/bin/adl-runtime-guardian.rs
+adl/tools/run_runtime_v3_operational_proof.sh
+adl/tools/runtime_v3_operational_selector.sh
+adl/tools/test_runtime_v3_operational_selector.sh
+demos/v0.91.7/html-observatory/app.js
 
 ## Prompts
 

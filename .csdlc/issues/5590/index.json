@@ -5,7 +5,7 @@
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
   "phase": "implemented",
   "generation": 5,
-  "digest": "4dae10259c88088828e271da2f935e7644c0bfacfb4d305b7bd6671a53f17e63",
+  "digest": "43af8224c14f1af4f612adda620e8bf1cb46b5ea7f19fbb226b6257b35aaf35d",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
@@ -41,7 +41,33 @@
     ],
     "purpose": "Implement every #5590 Runtime v3 Parity-D outcome: secure configured HTTPS and WebSocket access, live Observatory consumption, external guardian recovery, Vector telemetry boundary, operational Runtime v3 rollback, and exact positive and negative proof"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:claude-fable-5",
+    "assigned_by": "codex:5590-sole-writer-takeover",
+    "revision": "git-blake3:e53609a1866e3dd67e27a70fe48a07e4a05b5c03:2438fd628e58c82dc85e19b9c66c6b6168846ac7746acbe02a82d7500637dcaf",
+    "scope": [
+      ".csdlc/issues/5590/audit.jsonl",
+      ".csdlc/issues/5590/index.json",
+      ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
+      ".csdlc/prepared/issues/5590/run_operational_selector_transition.sh",
+      ".csdlc/prepared/issues/5590/transition-guardian-binary-claim.json",
+      ".csdlc/prepared/issues/5590/transition-implementation-claim.json",
+      ".csdlc/prepared/issues/5590/transition-lockfile-claim.json",
+      ".csdlc/prepared/issues/5590/transition-operational-proof-claim.json",
+      ".csdlc/prepared/issues/5590/transition-websocket-dependency-claim.json",
+      "adl-runtime-kernel/Cargo.lock",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl/tools/run_runtime_v3_operational_proof.sh",
+      "adl/tools/runtime_v3_operational_selector.sh",
+      "adl/tools/test_runtime_v3_operational_selector.sh",
+      "demos/v0.91.7/html-observatory/app.js"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -77,9 +103,9 @@
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "621f5bdd1fe2ecb2d751040b340442043744050e63de8d5aac64efe0d2f2628d",
-      "rendered_digest": "e9ea1ef134c8213e265c88796dbfb8c97f0dc23a61f2fcba59fdf0ac412d8c22",
-      "ast_digest": "651e35157218229bdc102566f66b225a85893546ad706debec983798338aa69e"
+      "values_digest": "758b5546ba5df29b7468306d0db5222eef973ef4c6d5cdfeea0c5997a718007c",
+      "rendered_digest": "7108c15efbba302410db42d5251deb2659fbea684a5525d3b49ea0e0c4bd439f",
+      "ast_digest": "dfca6fdfd7d6b80223392dc7c8e6beda610a29f80fb66a8c3aa7489c96378c21"
     },
     "sor": {
       "values_digest": "122e85350df495c14a1fa138915284c690fed7cf1a85d9bb33c728db473cfbde",
@@ -194,6 +220,13 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "The complete Runtime v3 Parity-D scope is durably implemented and its focused, full-crate, security, rollback, and operational proofs are locally green.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 5,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
