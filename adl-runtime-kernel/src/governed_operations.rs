@@ -11,11 +11,12 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    ActuationShell, AdapterKind, AdapterPolicy, Aee, AuthorityGrant, AuthorityMode,
-    CanonicalIngress, Commitment, ComponentRegistry, DomainWork, ExecutorError, FailureClass,
-    FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, MediationDecision,
-    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, RefusalReason,
-    RuntimeRecorder, TrustedGovernanceTime, DOMAIN_WORK_SCHEMA, OPERATION_REQUEST_SCHEMA,
+    bootstrap_reasoning_services, build_live_assembly, ActuationShell, AdapterKind, AdapterPolicy,
+    Aee, AuthorityGrant, AuthorityMode, CanonicalIngress, Commitment, DomainWork, ExecutorError,
+    FailureClass, FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, LiveBindings,
+    LocalAgentExecutor, MediationDecision, OperationExecutor, OperationRequest, OperationalAdapter,
+    RefusalReason, RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError,
+    TimeSampleSource, TrustedGovernanceTime, DOMAIN_WORK_SCHEMA, OPERATION_REQUEST_SCHEMA,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use serde::{Deserialize, Serialize};
@@ -312,21 +313,13 @@ impl ActuationShell for ProductionShell {
         &self,
         permit: &adl_runtime_kernel::ExecutionPermit,
     ) -> Result<Vec<u8>, String> {
-        let request = |kind: &str, payload: Vec<u8>, governed: bool| OperationRequest {
+        let request = |kind: &str, payload: Vec<u8>| OperationRequest {
             schema: OPERATION_REQUEST_SCHEMA.to_owned(),
-            request_id: if governed {
-                self.command.request_id.clone()
-            } else {
-                format!("{}-{kind}", self.command.request_id)
-            },
-            idempotency_key: if governed {
-                self.command.idempotency_key.clone()
-            } else {
-                format!("{}-{kind}", self.command.idempotency_key)
-            },
+            request_id: format!("{}-{kind}", self.command.request_id),
+            idempotency_key: format!("{}-{kind}", self.command.idempotency_key),
             principal: self.command.citizen_id.clone(),
             payload,
-            permit: governed.then(|| permit.clone()),
+            permit: None,
         };
         if self.command.cancelled {
             return Err("scheduler_cancelled".to_owned());
@@ -335,10 +328,16 @@ impl ActuationShell for ProductionShell {
             .invoke(request(
                 "shepherd",
                 self.command.agent_id.as_bytes().to_vec(),
-                false,
             ))
             .await
-            .map_err(classify_operation)?;
+            .map_err(|error| {
+                let classification = classify_operation(error);
+                self.failure
+                    .lock()
+                    .expect("failure mutex poisoned")
+                    .insert(self.command.request_id.clone(), classification.clone());
+                classification
+            })?;
         self.scheduler
             .invoke(request(
                 "scheduler",
@@ -347,12 +346,15 @@ impl ActuationShell for ProductionShell {
                     permit: permit.clone(),
                 })
                 .map_err(|_| "scheduled_work_invalid".to_owned())?,
-                false,
             ))
             .await
             .map(|result| result.payload)
             .map_err(|error| {
-                let classification = classify_operation(error);
+                let classification = if error.to_string().contains("timed out") {
+                    "provider_timeout".to_owned()
+                } else {
+                    classify_operation(error)
+                };
                 self.failure
                     .lock()
                     .expect("failure mutex poisoned")
@@ -363,7 +365,7 @@ impl ActuationShell for ProductionShell {
 }
 
 struct SchedulerPort {
-    provider: Arc<OperationalAdapter>,
+    provider: ProviderPort,
     tool: ToolPort,
 }
 
@@ -375,7 +377,7 @@ impl OperationExecutor for SchedulerPort {
         match work.command.action.as_str() {
             "provider.invoke" => self
                 .provider
-                .invoke(OperationRequest {
+                .execute(&OperationRequest {
                     schema: OPERATION_REQUEST_SCHEMA.to_owned(),
                     request_id: work.command.request_id,
                     idempotency_key: work.command.idempotency_key,
@@ -384,8 +386,14 @@ impl OperationExecutor for SchedulerPort {
                     permit: Some(work.permit),
                 })
                 .await
-                .map(|result| result.payload)
-                .map_err(|error| executor_error(&classify_operation(error))),
+                .map_err(|error| {
+                    let message = error.message;
+                    executor_error(if message.contains("timed out") {
+                        "provider_timeout"
+                    } else {
+                        &message
+                    })
+                }),
             "tool.file_metadata" => self
                 .tool
                 .execute(&work.command.payload)
@@ -403,77 +411,97 @@ struct LiveServices {
     clock: AtomicU64,
 }
 
+struct FixedTime(u64);
+#[async_trait::async_trait]
+impl TimeSampleSource for FixedTime {
+    async fn sample(&self) -> Result<TimeSample, TimeSampleError> {
+        Ok(TimeSample {
+            source: "parity-c-qualified".to_owned(),
+            unix_millis: self.0,
+            offset_millis: 0,
+            round_trip: Duration::ZERO,
+        })
+    }
+}
+
 async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> {
     let permit_key = SigningKey::from_bytes(&config.permit_key).verifying_key();
-    let policy = |authority, capacity, max_in_flight| AdapterPolicy {
-        capacity,
-        max_in_flight,
+    let failure = Arc::new(Mutex::new(BTreeMap::new()));
+    let policy = |kind| AdapterPolicy {
+        capacity: 64,
+        max_in_flight: if kind == AdapterKind::Scheduler {
+            2
+        } else {
+            16
+        },
         timeout_millis: 2_000,
         max_attempts: 1,
         idempotency_entries: 64,
-        authority,
+        authority: AuthorityMode::Internal,
     };
-    let provider = Arc::new(
-        OperationalAdapter::with_permit_keys(
-            AdapterKind::Provider,
-            policy(AuthorityMode::Governed, 2, 2),
-            Arc::new(ProviderPort {
-                program: config.provider_program.clone(),
-                condition: config.provider_condition.clone(),
-            }),
-            BTreeMap::from([("permit".to_owned(), permit_key)]),
-        )
-        .map_err(|_| "provider_configuration".to_owned())?,
-    );
-    let scheduler = Arc::new(
-        OperationalAdapter::new(
-            AdapterKind::Scheduler,
-            policy(AuthorityMode::Internal, 2, 2),
-            Arc::new(SchedulerPort {
-                provider: provider.clone(),
-                tool: ToolPort(config.tool_root.clone()),
-            }),
-        )
-        .map_err(|_| "scheduler_configuration".to_owned())?,
-    );
     let shepherd = Arc::new(
         OperationalAdapter::new(
             AdapterKind::Shepherd,
-            policy(AuthorityMode::Internal, 3, 3),
+            policy(AdapterKind::Shepherd),
             Arc::new(ShepherdPort(Mutex::new(BTreeSet::new()))),
         )
         .map_err(|_| "shepherd_configuration".to_owned())?,
     );
-    let failure = Arc::new(Mutex::new(BTreeMap::new()));
-    let agent = Arc::new(
+    let scheduler_executor = Arc::new(SchedulerPort {
+        provider: ProviderPort {
+            program: config.provider_program.clone(),
+            condition: config.provider_condition.clone(),
+        },
+        tool: ToolPort(config.tool_root.clone()),
+    });
+    let scheduler = Arc::new(
         OperationalAdapter::new(
-            AdapterKind::Agent,
-            policy(AuthorityMode::Internal, 3, 3),
-            Arc::new(GovernedExecutor {
-                permit_key,
-                scheduler: scheduler.clone(),
-                shepherd: shepherd.clone(),
-                failure: failure.clone(),
-            }),
+            AdapterKind::Scheduler,
+            policy(AdapterKind::Scheduler),
+            scheduler_executor.clone(),
         )
-        .map_err(|_| "agent_configuration".to_owned())?,
+        .map_err(|_| "scheduler_configuration".to_owned())?,
     );
-    let agent_factory = OperationalFactory::new(agent, vec![]);
-    let ingress = CanonicalIngress::new(
-        1,
-        RuntimeRecorder::new(64),
-        BTreeMap::from([("governed".to_owned(), agent_factory.clone())]),
+    let mut executors = adl_runtime_kernel::REQUIRED_OPERATIONAL_ADAPTERS
+        .into_iter()
+        .map(|kind| {
+            (
+                kind,
+                Arc::new(LocalAgentExecutor) as Arc<dyn OperationExecutor>,
+            )
+        })
+        .collect::<BTreeMap<_, _>>();
+    executors.insert(
+        AdapterKind::Agent,
+        Arc::new(GovernedExecutor {
+            permit_key,
+            scheduler,
+            shepherd,
+            failure: failure.clone(),
+        }),
     );
-    let mut components = ComponentRegistry::new();
-    components.register(agent_factory);
-    components.register(OperationalFactory::new(scheduler, vec![]));
-    components.register(OperationalFactory::new(shepherd, vec![]));
-    components.register(OperationalFactory::new(provider, vec![]));
-    components.register(ingress.clone());
-    let topology = components
-        .validate()
-        .map_err(|_| "topology_invalid".to_owned())?;
-    let kernel = Kernel::new(topology, RuntimeRecorder::new(64))
+    executors.insert(
+        AdapterKind::Shepherd,
+        Arc::new(ShepherdPort(Mutex::new(BTreeSet::new()))),
+    );
+    executors.insert(AdapterKind::Scheduler, scheduler_executor);
+    let recorder = RuntimeRecorder::new(64);
+    let assembly = build_live_assembly(LiveBindings {
+        recorder: recorder.clone(),
+        operation_executors: executors,
+        permit_keys: BTreeMap::from([("permit".to_owned(), permit_key)]),
+        reasoning: bootstrap_reasoning_services(recorder.clone())
+            .map_err(|_| "reasoning_configuration".to_owned())?,
+        time_source: Arc::new(FixedTime(config.trusted_time_millis)),
+        time_bounds: TimeQualificationBounds {
+            timeout: Duration::from_secs(1),
+            max_offset: Duration::ZERO,
+            max_round_trip: Duration::ZERO,
+        },
+    })
+    .map_err(|_| "topology_invalid".to_owned())?;
+    let ingress = assembly.canonical_ingress;
+    let kernel = Kernel::new(assembly.topology, recorder)
         .start()
         .await
         .map_err(|_| "kernel_start_failed".to_owned())?;
@@ -498,12 +526,23 @@ pub async fn execute_many(
                 .collect()
         }
     };
-    let results = futures::future::join_all(
-        commands
-            .iter()
-            .map(|command| execute_inner(&config, command, &services)),
-    )
-    .await;
+    let results = if commands
+        .iter()
+        .any(|command| command.action == "system.shutdown")
+    {
+        let mut results = Vec::with_capacity(commands.len());
+        for command in &commands {
+            results.push(execute_inner(&config, command, &services).await);
+        }
+        results
+    } else {
+        futures::future::join_all(
+            commands
+                .iter()
+                .map(|command| execute_inner(&config, command, &services)),
+        )
+        .await
+    };
     services.ingress.close();
     let _ = services.kernel.shutdown(Duration::from_secs(2)).await;
     results
@@ -649,7 +688,7 @@ async fn execute_inner(
             DomainWork {
                 schema: DOMAIN_WORK_SCHEMA.to_owned(),
                 work_id: command.request_id.clone(),
-                kind: "governed".to_owned(),
+                kind: AdapterKind::Agent.service_name().to_owned(),
                 payload: serde_json::to_vec(&PreparedWork {
                     command: command.clone(),
                     permit,

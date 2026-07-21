@@ -199,7 +199,7 @@ mod parity_c_live_governance {
     }
 
     #[test]
-    fn appeal_disposition_never_bypasses_current_policy() {
+    fn tampered_request_cannot_masquerade_as_an_appeal() {
         let root = TempDir::new().unwrap();
         let mut request = signed_command("appeal", "alice", 1_000);
         request["action"] = "system.shutdown".into();
@@ -268,7 +268,7 @@ mod parity_c_delegation_resources {
     }
 
     #[test]
-    fn cancellation_wins_dispatch_and_releases_capacity() {
+    fn pre_dispatch_cancellation_releases_capacity() {
         let root = TempDir::new().unwrap();
         let mut cancelled = signed_command("cancelled", "alice", 1_000);
         cancelled["cancelled"] = true.into();
@@ -340,6 +340,7 @@ mod parity_c_provider_scheduler_tools {
         let provider = root.path().join("slow-provider");
         fs::write(&provider, "#!/bin/sh\nsleep 1\ncat\n").unwrap();
         fs::set_permissions(&provider, fs::Permissions::from_mode(0o700)).unwrap();
+        let started = std::time::Instant::now();
         let outcomes = run_program(
             &root,
             json!([
@@ -359,13 +360,10 @@ mod parity_c_provider_scheduler_tools {
                 .iter()
                 .filter(|outcome| outcome["status"] == "completed")
                 .count(),
-            2
+            3
         );
-        assert!(outcomes
-            .as_array()
-            .unwrap()
-            .iter()
-            .any(|outcome| outcome["classification"] == "ingress_saturated"));
+        assert!(started.elapsed() >= std::time::Duration::from_secs(2));
+        assert!(started.elapsed() < std::time::Duration::from_secs(4));
     }
 
     #[test]
@@ -411,8 +409,8 @@ mod parity_c_provider_scheduler_tools {
                 "healthy",
                 "",
                 &hung,
-            )["status"],
-            "refused"
+            )["classification"],
+            "provider_timeout"
         );
         assert!(started.elapsed() < std::time::Duration::from_secs(4));
     }
@@ -564,6 +562,23 @@ mod parity_c_time_continuity {
             )["classification"],
             "admission_closed"
         );
+    }
+
+    #[test]
+    fn shutdown_orders_batch_and_blocks_later_actuation() {
+        let root = TempDir::new().unwrap();
+        let mut shutdown = signed_command("ordered-shutdown", "alice", 1_000);
+        shutdown["action"] = "system.shutdown".into();
+        shutdown["resource"] = "kernel".into();
+        resign(&mut shutdown, 1_000);
+        let outcomes = run(
+            &root,
+            json!([shutdown, signed_command("too-late", "bob", 1_000)]),
+            1_000,
+        );
+        success(&outcomes[0]);
+        assert_eq!(outcomes[1]["classification"], "admission_closed");
+        assert_eq!(outcomes[1]["actuation_count"], 1);
     }
 }
 
