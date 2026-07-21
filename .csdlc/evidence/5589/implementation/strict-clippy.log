@@ -1,2 +1,2 @@
-2026-07-21 redesign validation: PASS
-command=CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/clippy-redesign cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings
+2026-07-21 exact faf59af8 validation: PASS
+command=CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/clippy-final2 cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings

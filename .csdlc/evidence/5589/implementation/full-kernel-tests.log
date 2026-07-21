@@ -1,4 +1,4 @@
-2026-07-21 redesign validation: PASS
-command=CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/full-redesign cargo test --manifest-path adl-runtime-kernel/Cargo.toml
-result=220 tests discovered; all non-ignored tests passed; 8 explicitly declared environment/process tests ignored
-focused_governed_operations=25 passed, 0 failed, 0 ignored
+2026-07-21 exact faf59af8 validation: PASS
+command=CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/full-repair cargo test --manifest-path adl-runtime-kernel/Cargo.toml --all-targets
+result=223 tests discovered; all non-ignored tests passed; 8 explicitly declared environment/process tests ignored
+focused_governed_operations=28 passed, 0 failed, 0 ignored
