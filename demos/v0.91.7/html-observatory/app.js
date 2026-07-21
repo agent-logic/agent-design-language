@@ -690,7 +690,7 @@ function runtimeV3SnapshotFromFeed(feed) {
   };
 }
 
-function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError) {
+function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError, onClose = onError) {
   const base = normalizeApiBase(apiBase);
   if (!isRuntimeV3ApiBase(base)) {
     throw new Error("Runtime v3 selection requires a configured HTTPS runtime API base.");
@@ -718,6 +718,9 @@ function connectRuntimeV3ObservatoryWebSocket(apiBase, onSnapshot, onError) {
   });
   socket.addEventListener("error", () => {
     onError(new Error("Runtime v3 Observatory WebSocket failed."));
+  });
+  socket.addEventListener("close", (event) => {
+    onClose(new Error(`Runtime v3 Observatory WebSocket closed (${event.code}).`));
   });
   return socket;
 }
@@ -1486,7 +1489,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       setText("live-status", "connecting secure stream");
       setRuntimeTestStatus("connecting secure stream", `Opening ${base}${RUNTIME_V3_OBSERVATORY_WS_ENDPOINT}.`);
       try {
-        liveSocket = connectRuntimeV3ObservatoryWebSocket(
+        let socket;
+        socket = connectRuntimeV3ObservatoryWebSocket(
           base,
           (snapshot) => {
             lastLiveError = null;
@@ -1494,8 +1498,15 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             setText("live-status", "live secure stream");
             setRuntimeTestStatus("live secure stream", "Runtime v3 authenticated WebSocket feed is active.");
           },
-          (error) => renderLiveError(error)
+          (error) => renderLiveError(error),
+          (error) => {
+            if (liveSocket === socket) {
+              liveSocket = null;
+              renderLiveError(error);
+            }
+          }
         );
+        liveSocket = socket;
       } catch (error) {
         renderLiveError(error);
       }

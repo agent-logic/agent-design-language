@@ -245,3 +245,38 @@ async fn observatory_websocket_rejects_a_token_after_rotation() {
     assert!(matches!(socket.next().await, Some(Ok(Message::Close(_)))));
     server.abort();
 }
+
+#[tokio::test]
+async fn observatory_websocket_revokes_an_authenticated_session_after_rotation() {
+    let token = "test-observatory-websocket-token-0005";
+    let service = service(token);
+    let (address, connector, server) = websocket_server(service.clone()).await;
+    let (mut socket, _) = connect_async_tls_with_config(
+        request(address, "https://observatory.example.test"),
+        None,
+        false,
+        Some(connector),
+    )
+    .await
+    .unwrap();
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_AUTH_SCHEMA,
+                "bearer_token": token,
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    assert!(matches!(socket.next().await, Some(Ok(Message::Text(_)))));
+    service
+        .set_observatory_bearer_token("rotated-observatory-websocket-token-0006")
+        .unwrap();
+    assert!(matches!(
+        tokio::time::timeout(Duration::from_secs(3), socket.next()).await,
+        Ok(Some(Ok(Message::Close(_))))
+    ));
+    server.abort();
+}

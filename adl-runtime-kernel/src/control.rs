@@ -959,16 +959,20 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
     service: Arc<ControlService<C>>,
 ) {
     let authenticated = tokio::time::timeout(OBSERVATORY_WS_AUTH_TIMEOUT, socket.recv()).await;
-    let authorized = match authenticated {
+    let bearer_token = match authenticated {
         Ok(Some(Ok(Message::Text(payload)))) if payload.len() <= MAX_OBSERVATORY_WS_FRAME_BYTES => {
             serde_json::from_str::<ObservatoryWsAuth>(&payload)
                 .ok()
                 .filter(|auth| auth.schema == OBSERVATORY_WS_AUTH_SCHEMA)
-                .is_some_and(|auth| service.observatory_token_authorized(&auth.bearer_token))
+                .and_then(|auth| {
+                    service
+                        .observatory_token_authorized(&auth.bearer_token)
+                        .then_some(auth.bearer_token)
+                })
         }
-        _ => false,
+        _ => None,
     };
-    if !authorized {
+    let Some(bearer_token) = bearer_token else {
         let _ = socket
             .send(Message::Close(Some(CloseFrame {
                 code: close_code::POLICY,
@@ -976,12 +980,19 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
             })))
             .await;
         return;
-    }
+    };
 
     let mut refresh = tokio::time::interval(OBSERVATORY_WS_REFRESH);
     loop {
         tokio::select! {
             _ = refresh.tick() => {
+                if !service.observatory_token_authorized(&bearer_token) {
+                    let _ = socket.send(Message::Close(Some(CloseFrame {
+                        code: close_code::POLICY,
+                        reason: "credential_revoked".into(),
+                    }))).await;
+                    break;
+                }
                 let Ok(payload) = serde_json::to_string(&service.observatory_feed()) else {
                     break;
                 };

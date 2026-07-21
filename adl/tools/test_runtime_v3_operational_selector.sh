@@ -5,13 +5,30 @@ ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 SELECTOR="$ROOT_DIR/adl/tools/runtime_v3_operational_selector.sh"
 TRANSITION="$ROOT_DIR/.csdlc/prepared/issues/5590/run_operational_selector_transition.sh"
 TMP=$(mktemp -d "${TMPDIR:-/tmp}/adl-runtime-v3-selector.XXXXXX")
-trap 'if [ -f "$TMP/state/runtime.pid" ]; then kill -TERM "$(cat "$TMP/state/runtime.pid")" 2>/dev/null || true; fi; rm -rf "$TMP"' EXIT
+cleanup() {
+  ADL_RUNTIME_V3_SELECTOR_STATE_DIR="$TMP/state" "$SELECTOR" stop >/dev/null 2>&1 || true
+  if [ -n "${unrelated_pid:-}" ]; then
+    kill -TERM "$unrelated_pid" 2>/dev/null || true
+    wait "$unrelated_pid" 2>/dev/null || true
+  fi
+  rm -rf "$TMP"
+}
+trap cleanup EXIT INT TERM
 
 mkdir -p "$TMP/candidate" "$TMP/prior" "$TMP/state"
 cat > "$TMP/runtime-child.sh" <<'SH'
 #!/usr/bin/env bash
 set -euo pipefail
-trap 'exit 0' TERM INT
+sleep 300 &
+descendant=$!
+printf '%s\n' "$descendant" > "$ADL_SELECTOR_DESCENDANT_FILE"
+shutdown() {
+  kill -TERM "$descendant" 2>/dev/null || true
+  wait "$descendant" 2>/dev/null || true
+  : > "$ADL_SELECTOR_CLEANUP_FILE"
+  exit 0
+}
+trap shutdown TERM INT
 printf '%s\n' "$ADL_SELECTOR_ID" > "$ADL_SELECTOR_READY_FILE"
 while :; do sleep 1; done
 SH
@@ -22,6 +39,8 @@ for name in candidate prior; do
 #!/usr/bin/env bash
 export ADL_SELECTOR_ID=$name
 export ADL_SELECTOR_READY_FILE=$TMP/$name.ready
+export ADL_SELECTOR_DESCENDANT_FILE=$TMP/$name.descendant
+export ADL_SELECTOR_CLEANUP_FILE=$TMP/$name.cleaned
 exec $TMP/runtime-child.sh
 SH
   chmod +x "$TMP/$name/launch"
@@ -49,6 +68,38 @@ export ADL_SELECTOR_PROOF_ROOT="$TMP"
   "https://runtime.test/candidate" "https://runtime.test/prior"
 test "$(cat "$TMP/state/current-selector")" = "$(cd "$TMP/prior" && pwd -P)"
 test "$(cat "$TMP/prior.ready")" = prior
+test -f "$TMP/candidate.cleaned"
+candidate_descendant=$(cat "$TMP/candidate.descendant")
+if kill -0 "$candidate_descendant" 2>/dev/null; then
+  echo "candidate descendant survived confirmed selector shutdown" >&2
+  exit 1
+fi
+
+"$SELECTOR" stop
+test -f "$TMP/prior.cleaned"
+prior_descendant=$(cat "$TMP/prior.descendant")
+if kill -0 "$prior_descendant" 2>/dev/null; then
+  echo "prior descendant survived confirmed selector shutdown" >&2
+  exit 1
+fi
+
+sleep 300 &
+unrelated_pid=$!
+printf '%s\n' "$unrelated_pid" > "$TMP/state/runtime.pid"
+printf '%s\n' "$TMP/prior" > "$TMP/state/current-selector"
+if "$SELECTOR" activate --selector "$TMP/prior" 2>/dev/null; then
+  echo "incomplete selector state unexpectedly activated" >&2
+  exit 1
+fi
+kill -0 "$unrelated_pid"
+rm -f "$TMP/state/runtime.pid" "$TMP/state/current-selector"
+
+mkdir "$TMP/state/.selector-lock"
+if "$SELECTOR" activate --selector "$TMP/prior" 2>/dev/null; then
+  echo "concurrent selector activation unexpectedly acquired the lock" >&2
+  exit 1
+fi
+rmdir "$TMP/state/.selector-lock"
 
 if "$SELECTOR" activate --selector "$TMP/missing" 2>/dev/null; then
   echo "missing selector unexpectedly activated" >&2
