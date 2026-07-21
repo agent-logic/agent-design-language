@@ -378,8 +378,12 @@ run_profile() {
     mkdir -p "$(dirname "$TEXT_SUMMARY_OUTPUT_PATH")"
     set +e
     cargo llvm-cov report --summary-only | tee "$TEXT_SUMMARY_OUTPUT_PATH"
-    artifact_status=${PIPESTATUS[0]}
+    pipeline_status=("${PIPESTATUS[@]}")
     set -e
+    artifact_status=${pipeline_status[0]}
+    if (( pipeline_status[1] != 0 )); then
+      artifact_status=${pipeline_status[1]}
+    fi
     if (( artifact_status != 0 && status == 0 )); then
       status="$artifact_status"
     fi

@@ -177,6 +177,17 @@ scratch_root="$temp_root/scratch"
 cargo_log="$temp_root/cargo.log"
 AUTHORITATIVE_REAL_FIND="$(command -v find)"
 export AUTHORITATIVE_REAL_FIND
+AUTHORITATIVE_REAL_TEE="$(command -v tee)"
+export AUTHORITATIVE_REAL_TEE
+cat >"$bin_dir/tee" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+if [ "${ADL_FAKE_TEE_FAIL:-0}" = "1" ]; then
+  cat >/dev/null
+  exit 73
+fi
+exec "$AUTHORITATIVE_REAL_TEE" "$@"
+EOF
 cat >"$bin_dir/cargo" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -260,6 +271,11 @@ for arg in "$@"; do
   prev="$arg"
 done
 if [ -n "$out_path" ]; then
+  if [ "${ADL_FAKE_CARGO_REQUIRE_PROFRAW:-0}" = "1" ] &&
+     ! "$AUTHORITATIVE_REAL_FIND" "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -print -quit | grep -q .; then
+    echo "fake report requires current-run profraw" >&2
+    exit 74
+  fi
   mkdir -p "$(dirname "$out_path")"
   metric='{"branches":{"count":2,"covered":1},"mcdc":{"count":0,"covered":0},"functions":{"count":3,"covered":2},"instantiations":{"count":1,"covered":1},"lines":{"count":5,"covered":4},"regions":{"count":4,"covered":3}}'
   case "$out_path" in
@@ -279,11 +295,16 @@ if [ -n "$out_path" ]; then
   fi
 fi
 if [[ " $* " = *" llvm-cov report --summary-only "* ]] && [ -z "$out_path" ]; then
+  if [ "${ADL_FAKE_CARGO_REQUIRE_PROFRAW:-0}" = "1" ] &&
+     ! "$AUTHORITATIVE_REAL_FIND" "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -print -quit | grep -q .; then
+    echo "fake report requires current-run profraw" >&2
+    exit 74
+  fi
   printf 'workspace summary from current isolated profile\n'
 fi
 exit 0
 EOF
-chmod +x "$bin_dir/cargo"
+chmod +x "$bin_dir/cargo" "$bin_dir/tee"
 cat >"$bin_dir/find" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -467,6 +488,7 @@ ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
 ADL_COVERAGE_RUN_ID="run-release-artifacts" \
 ADL_AUTHORITATIVE_COVERAGE_LCOV_PATH="$release_lcov" \
 ADL_AUTHORITATIVE_COVERAGE_TEXT_SUMMARY_PATH="$release_text" \
+ADL_FAKE_CARGO_REQUIRE_PROFRAW=1 \
   bash "$SCRIPT" --profile workspace
 test -s "$release_lcov"
 grep -Fxq 'workspace summary from current isolated profile' "$release_text"
@@ -474,6 +496,21 @@ grep -Fq 'cmd=llvm-cov report --lcov --output-path' "$release_artifact_log"
 grep -Fq 'cmd=llvm-cov report --summary-only' "$release_artifact_log"
 if find "$scratch_root/target/llvm-cov-target/run-release-artifacts/workspace" -name '*.profraw' -print -quit | grep . >/dev/null; then
   echo "release artifacts must be emitted before current-run profiles are cleaned" >&2
+  exit 1
+fi
+
+set +e
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$temp_root/release-text-failure.log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-release-text-failure" \
+ADL_AUTHORITATIVE_COVERAGE_TEXT_SUMMARY_PATH="$scratch_root/release/failing-summary.txt" \
+ADL_FAKE_TEE_FAIL=1 \
+  bash "$SCRIPT" --profile workspace
+text_failure_status=$?
+set -e
+if [ "$text_failure_status" -ne 73 ]; then
+  echo "text-summary write failure must fail closed with tee status 73, got $text_failure_status" >&2
   exit 1
 fi
 
