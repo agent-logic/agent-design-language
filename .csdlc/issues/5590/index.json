@@ -3,13 +3,13 @@
   "issue": 5590,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
-  "phase": "reviewed",
-  "generation": 8,
-  "digest": "ac874a5161338fcf66d77ab75eb9af345f71065907f52419830a7a68fcc7e975",
+  "phase": "published",
+  "generation": 9,
+  "digest": "97b39c23135488add8da87f7164f1cb6b4ec748a46aa6263bbd0de3e609f38fa",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -162,7 +162,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5590,
+    "pull_request": 5621,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5621",
+    "base": "main",
+    "head": "codex/5590-runtime-v3-parity-d",
+    "revision": "git-blake3:1f05e2a7da2441d98eff3943e83361540ba8d83e:92f3a8904b4857f91e2e586c8b9c3543407a812147ab34744daf1b3f47be2ad9",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -176,34 +186,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b928754f1baa8cb4bf35adf1848f63abc44604faa61c361c81e074db466e308c",
+      "values_digest": "887f43a659c6ef3d2f328fac6d5ec4d16adc0c507e4564087e11ad31c6492119",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "724d44e935d7c850c118538bd39ec64b41e30eb5d4ac283f29f48812beb373ba",
+      "values_digest": "27addad01943258188848a310684c40897a071779948274ce1ad5b787e9832b8",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "fe78418350efea10c05b0b88ebb40dfed3397810c01cd29f85abab3b6c84e85f",
+      "values_digest": "15cc1856f06129e1cd774a8503eef7500b2400671f7a4eb4548d1365734943ac",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "086b559f29ae2d51ddd00032e20a54b8334719a0a85f8d1b3b44f35ae644fce7",
+      "values_digest": "8116ffc77ac0cac157118022620d88c2d9aa314b1c59ec83742351ce70b6d2aa",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "2c79b27a75d820ef57d22fc1a5b6f616a946614e4e4bf2448e3d7f8480b0de30",
+      "values_digest": "b17cf7a33d6c48d663c4181e93c0dbfd6588ccf197cbd8b0c8c226cf0eea4119",
       "rendered_digest": "d219de15fae5c980b13ae530e2a4a1d383429d7443a33e6d0677ba672689ae83",
       "ast_digest": "b9e0e558d796e82a441377de221c2ecaad9572f8bbcd43a6d48f039c9cfde613"
     },
     "sor": {
-      "values_digest": "0bf94d55367e1b135d2e795da957f6438d4763d1231d3c6d5f0b50c7b9478885",
-      "rendered_digest": "3f877294b0d11d0689f04cbc913d47bfc7bc704ca5d71a4357c996d8ee84ba85",
-      "ast_digest": "290197c34d1b51b71110f57e4164341e72d8c0a307beffdab0d08c3b97b24ea6"
+      "values_digest": "a7407265402945083572f79ece9aa9ce0cb699c1c5fd361ad60406c848c2d070",
+      "rendered_digest": "ba7f63b0709faf30b96e7feead175b146a018c6d109dda6939a536dab8ce7683",
+      "ast_digest": "c5fb405ecad805f6ee5ce9ae6bd9d00ab38af7a3e4d6574350b86221b5113b37"
     }
   },
   "transitions": [
@@ -234,6 +244,13 @@
       "to": "reviewed",
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "Exact remediation rereview passed with all six findings fixed, zero blockers, and a reviewed necessary +159-line delta."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -362,6 +379,13 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "Exact remediation rereview passed with all six findings fixed, zero blockers, and a reviewed necessary +159-line delta.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 9,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
