@@ -88,6 +88,7 @@ validation_profile_error=""
 validation_profile_report=""
 validation_profile_contract_lanes_selected="$bool_false"
 runtime_v3_fast_required="$bool_false"
+csdlc_v2_standalone_required="$bool_false"
 large_file_lines="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 large_file_delta="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
 pvf_slow_proof_policy_change=false
@@ -1235,7 +1236,17 @@ apply_validation_manager_routing() {
     return 0
   fi
   case "$validation_profile_status:$validation_profile_run_lanes:$validation_profile_escalation_required" in
-    ready_to_run:runtime_kernel_contracts:false)
+    ready_to_run:csdlc_v2_standalone:false)
+      ci_contracts_required=true
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+      return 0
+      ;;
+    ready_to_run:runtime_kernel_contracts:false|\
+    ready_to_run:docs_diff_check,runtime_kernel_contracts:false|\
+    ready_to_run:runtime_kernel_contracts,docs_diff_check:false)
       runtime_v3_fast_required=true
       rust_required=false
       coverage_required=false
@@ -1386,6 +1397,15 @@ else
     saw_full_coverage_policy_surface=false
     saw_v0913_proof_surface=false
     changed_count="$(printf '%s\n' "$changed_files" | sed '/^$/d' | wc -l | tr -d ' ')"
+    while IFS= read -r path; do
+      case "$path" in
+        csdlc-v2/Cargo.toml|csdlc-v2/Cargo.lock|csdlc-v2/build.rs|csdlc-v2/src/*|csdlc-v2/tests/*)
+          csdlc_v2_standalone_required=true
+          ;;
+      esac
+    done <<EOF
+$changed_files
+EOF
     if is_release_version_only_surface_change; then
       release_version_only=true
       reason="release_version_only_cargo_surface_change_runs_lightweight_validation"
@@ -1611,6 +1631,7 @@ emit "slow_proof_contract_required" "$slow_proof_contract_required"
 emit "skill_author_contracts_required" "$skill_author_contracts_required"
 emit "validation_profile_contract_lanes_selected" "$validation_profile_contract_lanes_selected"
 emit "runtime_v3_fast_required" "$runtime_v3_fast_required"
+emit "csdlc_v2_standalone_required" "$csdlc_v2_standalone_required"
 emit "fail_closed" "$fail_closed"
 emit "coverage_lane" "$coverage_lane"
 emit "coverage_authority" "$coverage_authority"

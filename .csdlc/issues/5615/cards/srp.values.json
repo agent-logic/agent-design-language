@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5615,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][ci][tooling] Route C-SDLC proof and FastWork builds correctly",
+    "slug": "csdlc-ci-fastwork-routing",
+    "version": "v0.91.8",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".github/workflows/ci.yaml\nadl/tools/ci_path_policy.sh\nadl/tools/test_ci_path_policy.sh\nadl/tools/test_ci_runtime_contracts.sh\nadl/tools/run_cargo_validation.sh\nadl/tools/test_run_cargo_validation.sh\n.csdlc/issues/5615\n.csdlc/prepared/issues/5615",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can a C-SDLC v2 source/test diff report green if its standalone job is absent or skipped?",
+        "Can metadata-only or C-SDLC-only changes launch ADL workspace or Runtime coverage?",
+        "Do mixed diffs retain every stronger pre-existing proof requirement?",
+        "Does the wrapper fail closed without a declared or writable external root?",
+        "Are stable aggregate names and semantics unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
