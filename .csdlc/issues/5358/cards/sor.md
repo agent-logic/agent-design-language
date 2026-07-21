@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed C-SDLC v2 publication lifecycle acceptance and repaired the always-run tooling-contract prerequisites exposed by exact PR CI.
+Aligned the CI runtime contract with the always-run llvm-cov and nextest prerequisite installation behavior.
 
 ## Artifacts
 
@@ -22,6 +22,7 @@ Completed C-SDLC v2 publication lifecycle acceptance and repaired the always-run
 - csdlc-v2/tests/gate7_lifecycle.rs
 - .github/workflows/ci.yaml
 - adl/tools/test_ci_path_policy.sh
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -30,6 +31,8 @@ Completed C-SDLC v2 publication lifecycle acceptance and repaired the always-run
 - Add command-level loopback HTTP tests for success, identity drift, closed/non-draft state, remote failures, ambiguous confirmation, and CAS recovery.
 - Install cargo-llvm-cov and cargo-nextest unconditionally before the always-run tooling contracts.
 - Make the CI path-policy contract reject reintroduction of the invalid conditional tool installation.
+- Require the two tooling prerequisite install steps to have no conditional.
+- Preserve all granular path-policy conditions for contract steps that are not always run.
 
 ## Validation
 
@@ -92,16 +95,28 @@ Completed C-SDLC v2 publication lifecycle acceptance and repaired the always-run
     "purpose": "Prove the workflow always installs tools required by its always-run tooling contracts and preserve all existing path-policy and coverage-impact behavior.",
     "outcome": "passed",
     "evidence_ref": "local:pr-5606-run-29798806089-toolchain-repair"
+  },
+  {
+    "command": [
+      "bash -n adl/tools/test_ci_runtime_contracts.sh",
+      "bash adl/tools/test_ci_runtime_contracts.sh",
+      "bash adl/tools/test_ci_path_policy.sh",
+      "bash adl/tools/test_check_coverage_impact.sh",
+      "git diff --check"
+    ],
+    "purpose": "Prove unconditional prerequisite installation and retain every neighboring path-policy and coverage-impact contract.",
+    "outcome": "passed",
+    "evidence_ref": "local:pr-5606-run-29799791075-ci-runtime-contract-repair"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

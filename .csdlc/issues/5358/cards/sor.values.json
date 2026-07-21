@@ -7,19 +7,21 @@
     "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
     "slug": "v0-91-8-wp14-csdlc-v2-acceptance",
     "version": "v0.91.8",
-    "generation": 33
+    "generation": 36
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Completed C-SDLC v2 publication lifecycle acceptance and repaired the always-run tooling-contract prerequisites exposed by exact PR CI.",
+      "summary": "Aligned the CI runtime contract with the always-run llvm-cov and nextest prerequisite installation behavior.",
       "actual_changes": [
         "Validate remote open/draft state and exact base/head repository, ref, and SHA before and after mark-ready.",
         "Record ready state only from confirmed remote observations and support typed ready reconciliation from reviewed or governed draft state.",
         "Add command-level loopback HTTP tests for success, identity drift, closed/non-draft state, remote failures, ambiguous confirmation, and CAS recovery.",
         "Install cargo-llvm-cov and cargo-nextest unconditionally before the always-run tooling contracts.",
-        "Make the CI path-policy contract reject reintroduction of the invalid conditional tool installation."
+        "Make the CI path-policy contract reject reintroduction of the invalid conditional tool installation.",
+        "Require the two tooling prerequisite install steps to have no conditional.",
+        "Preserve all granular path-policy conditions for contract steps that are not always run."
       ],
       "artifacts": [
         "csdlc-v2/src/publication.rs",
@@ -27,7 +29,8 @@
         "csdlc-v2/src/lib.rs",
         "csdlc-v2/tests/gate7_lifecycle.rs",
         ".github/workflows/ci.yaml",
-        "adl/tools/test_ci_path_policy.sh"
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/test_ci_runtime_contracts.sh"
       ],
       "actual_validation": [
         {
@@ -88,10 +91,22 @@
           "purpose": "Prove the workflow always installs tools required by its always-run tooling contracts and preserve all existing path-policy and coverage-impact behavior.",
           "outcome": "passed",
           "evidence_ref": "local:pr-5606-run-29798806089-toolchain-repair"
+        },
+        {
+          "command": [
+            "bash -n adl/tools/test_ci_runtime_contracts.sh",
+            "bash adl/tools/test_ci_runtime_contracts.sh",
+            "bash adl/tools/test_ci_path_policy.sh",
+            "bash adl/tools/test_check_coverage_impact.sh",
+            "git diff --check"
+          ],
+          "purpose": "Prove unconditional prerequisite installation and retain every neighboring path-policy and coverage-impact contract.",
+          "outcome": "passed",
+          "evidence_ref": "local:pr-5606-run-29799791075-ci-runtime-contract-repair"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

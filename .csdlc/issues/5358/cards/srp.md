@@ -12,8 +12,7 @@ Status: draft
 
 ## Scope
 
-.github/workflows/ci.yaml
-adl/tools/test_ci_path_policy.sh
+
 
 ## Prompts
 
@@ -33,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The review is bounded to the already identified always-run tooling-contract prerequisite repair; repository-wide CI behavior remains governed by required hosted checks.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b2d16654c6737e92155bc2abb3f05e0b87699e3a:a3193789149d8abd3ae1faccbd71981b085a2643d6f07c64c7323a42cb174f26")
+Revision: None
 
-Reviewer: Some("provider:deepseek:deepseek-chat")
+Reviewer: None
 
-Result: pass
+Result: pre_review
