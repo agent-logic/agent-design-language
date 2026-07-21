@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+adl/.gitignore
+adl/tools/run_authoritative_coverage_lane.sh
+adl/tools/test_run_authoritative_coverage_lane.sh
+.csdlc/issues/5336
+.csdlc/prepared/issues/5336
 
 ## Prompts
 

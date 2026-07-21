@@ -5,7 +5,7 @@
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
   "phase": "implemented",
   "generation": 25,
-  "digest": "a51bd4f7c5669d9901971822160c602c029e88a8818f28b354027dacc1e27e5a",
+  "digest": "f780ffe51d368014f188c8bedd08f930257bde291077e2e9567da474ac85aeda",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -26,7 +26,18 @@
     ],
     "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:34fcd44d1e6f02700858232b232d1638ff390059:07f0a93f12b6c95571b8fceb59ed89fa78353ee3951d6ec894d3eaedcf66ac0e",
+    "scope": [
+      "adl/.gitignore",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -62,9 +73,9 @@
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "195fc39b03025260c44dae1f26c75fa1c25ff1f67b64dd67335c18d0cc6ed703",
-      "rendered_digest": "3782d3cb08b4154486b0360b134101f55b636d16f16f2259a3e1f996275b9900",
-      "ast_digest": "c3089c902e1388a33153b8bf1fa65df31d6e8ecfd58551d756255bfbeb3db7f6"
+      "values_digest": "d2637ea14c71917df5ad87648d6b00fcc67d044ded1feda3a493b02ad2d9b069",
+      "rendered_digest": "0c197c589e5cdd74152fe004965ffa730f3974ef8a84b57ff5d8174040bc5bc3",
+      "ast_digest": "29abe6a7273bb2f009de2edcf629c6575b3a28e33610d576d6a3afeb73803957"
     },
     "sor": {
       "values_digest": "98b0949966feb53fc677a70ec78f17897c7aea0b31ffc54ce48b6f79e98f414d",
@@ -382,6 +393,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover exact review after hosted CI proved incompatible nextest prebuild flags and a missing Cargo CACHEDIR.TAG in the warmed run target.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
