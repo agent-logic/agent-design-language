@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "published",
-  "generation": 40,
-  "digest": "d5be3c0a0ec9af17b14b05e30ad7e44b368f94b1c1d066c4b092ab023c003d48",
+  "phase": "reviewed",
+  "generation": 44,
+  "digest": "088b7805b2e49b6c4ab99dd403b49a77e615589afe6e44a60b0503782c9b5350",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 40,
+    "generation": 44,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -23,6 +23,7 @@
       "adl/.gitignore",
       "adl/tools/merge_coverage_summaries.py",
       "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_path_policy.sh",
       "adl/tools/test_ci_runtime_contracts.sh",
       "adl/tools/test_merge_coverage_summaries.sh",
       "adl/tools/test_run_authoritative_coverage_lane.sh",
@@ -33,14 +34,11 @@
   "review_assignment": {
     "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:656aa4c4170b1461b367f7d964d3e9a1bc4f0292:307cb2adf9a7b2b5738dcbf0f70c09078b5d93cbb484d90a3dfcf66622e815f3",
+    "revision": "git-blake3:02ef273a804dbd52dcc0d6ddb3adb0d16d0160ec:2ab4631b728b44094f94af6c70c9df7fb212a1a935e3f1c73a03d8c9ca53fde0",
     "scope": [
       ".github/workflows/ci.yaml",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_ci_path_policy.sh",
       "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "adl/tools/test_merge_coverage_summaries.sh",
       ".csdlc/issues/5336",
       ".csdlc/prepared/issues/5336"
     ]
@@ -49,31 +47,18 @@
     "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
     "scope": [
       ".github/workflows/ci.yaml",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_ci_path_policy.sh",
       "adl/tools/test_ci_runtime_contracts.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "adl/tools/test_merge_coverage_summaries.sh",
       ".csdlc/issues/5336",
       ".csdlc/prepared/issues/5336"
     ],
-    "reviewed_revision": "git-blake3:656aa4c4170b1461b367f7d964d3e9a1bc4f0292:307cb2adf9a7b2b5738dcbf0f70c09078b5d93cbb484d90a3dfcf66622e815f3",
+    "reviewed_revision": "git-blake3:02ef273a804dbd52dcc0d6ddb3adb0d16d0160ec:2ab4631b728b44094f94af6c70c9df7fb212a1a935e3f1c73a03d8c9ca53fde0",
     "findings": [],
     "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5336,
-    "pull_request": 5599,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5599",
-    "base": "main",
-    "head": "codex/5336-v0918-runtime-parity-plan",
-    "revision": "git-blake3:e329779a9e8b614d0309b966a11ddf5df33cdaa9:b17c81d5a437ec11fb2086042ec0bf3f966aca832422cdceecf00368705d3097",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -87,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5431fa6f72dfc346b268d8b0acb3458be3a9dd1c8c48a2603306d382a0969294",
+      "values_digest": "eadf42a0d1e552a435f4eb842513619fd11620cb1fe1e020c7d45cfc2f07e13e",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "59c874da49210a86f7bd41ac0bb6e88cd098d26db81233cc2f9874c3c2fde9d0",
+      "values_digest": "168c5001f9ae2b146949260820c0ea9108312e23d5515e65186b0d2ac6e0a65d",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "964ae748e4fc3536e24c88f2f6e53ff4f52000016015815db27112a274ef1f88",
+      "values_digest": "a23d98740a673ed46132cefe2f6ed48c4838c11c2fd2a5ce487be118b6fbdd7e",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "ba14a360af44f300bee4c5c194752a4221798153048c49f3dbb53a97a43be25b",
+      "values_digest": "75b6f3cd8c871acb1fe9891bca64d2609a58c8733da4780f963d263ccbd88745",
       "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "f5b2e9022f49b4eaf99615e863513488cebc12c082c6bd5916c131f706ab390e",
-      "rendered_digest": "78e547f5a857cdc4427e0c37c15ed973bec8f5bde88c5db7b58bd4d0255b1b96",
-      "ast_digest": "5341d20fe8a53601d807bba2ebd184a324c35533606bc838a92127d6e451c84b"
+      "values_digest": "19fe13ea98097d83e79e76d39e8e6c8da8db23ef72e10b336be91881398b8142",
+      "rendered_digest": "1e8b9dde290f9638fa774f00542a74925b45d7bf00290e528a932cb511e42aac",
+      "ast_digest": "ba7db63e8546263306402547b40ce0c31d0bd36a192566ff73a1b532045c2055"
     },
     "sor": {
-      "values_digest": "0e0eb2264291eee302c8af3e235b0a96501dc51f5de7bec44ccd653e87353b49",
-      "rendered_digest": "7be2a3910524f20c6ac274535fa3bbcbd38d42c84237e2d1f94712a147d3cb21",
-      "ast_digest": "0e9bed183ea55b0390001d209813f3064679b57c0c1d639a271a709cb3a086c8"
+      "values_digest": "d2c26017eff3de17c66ccb6a18d9e2f1ae8f0a77920f0de38603afe7ca935d25",
+      "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
+      "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
   },
   "transitions": [
@@ -257,6 +242,20 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 21,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after hosted tooling contracts proved the PR-fast path-policy assertion still named the pre-isolation summary location."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact isolated path-policy contract rereview passed with no findings or residual risks."
     }
   ],
   "audit": [
@@ -644,6 +643,55 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 41,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after hosted tooling contracts proved the PR-fast path-policy assertion still named the pre-isolation summary location.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 41,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Update the existing PR-fast path-policy contract to assert the isolated workspace artifact location proven by hosted CI.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_ci_path_policy.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 58,
+      "generation": 41,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 42,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 42,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 43,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 44,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact isolated path-policy contract rereview passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

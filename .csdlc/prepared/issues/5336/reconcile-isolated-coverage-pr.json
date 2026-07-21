@@ -3,8 +3,8 @@
   "publication": {
     "schema": "csdlc.publication_request.v1",
     "issue": 5336,
-    "expected_generation": 39,
-    "expected_digest": "d60c742eb1c532988ebda53a6da400773340abf0a9021803de39398c68f076e0",
+    "expected_generation": 44,
+    "expected_digest": "088b7805b2e49b6c4ab99dd403b49a77e615589afe6e44a60b0503782c9b5350",
     "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
     "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
     "repository": "danielbaustin/agent-design-language",

@@ -1,0 +1,12 @@
+{
+  "issue": 5336,
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "expected_generation": 41,
+  "expected_digest": "a318edefca990188642dc5e7d4442916dd235934f914a87d5e33a621e0ab261b",
+  "now_unix_seconds": 1784613947,
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Update the existing PR-fast path-policy contract to assert the isolated workspace artifact location proven by hosted CI.",
+  "add_protected_paths": [
+    "adl/tools/test_ci_path_policy.sh"
+  ]
+}

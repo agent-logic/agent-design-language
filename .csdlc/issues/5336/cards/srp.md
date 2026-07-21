@@ -13,11 +13,8 @@ Status: draft
 ## Scope
 
 .github/workflows/ci.yaml
-adl/tools/run_authoritative_coverage_lane.sh
-adl/tools/merge_coverage_summaries.py
+adl/tools/test_ci_path_policy.sh
 adl/tools/test_ci_runtime_contracts.sh
-adl/tools/test_run_authoritative_coverage_lane.sh
-adl/tools/test_merge_coverage_summaries.sh
 .csdlc/issues/5336
 .csdlc/prepared/issues/5336
 
@@ -43,7 +40,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:656aa4c4170b1461b367f7d964d3e9a1bc4f0292:307cb2adf9a7b2b5738dcbf0f70c09078b5d93cbb484d90a3dfcf66622e815f3")
+Revision: Some("git-blake3:02ef273a804dbd52dcc0d6ddb3adb0d16d0160ec:2ab4631b728b44094f94af6c70c9df7fb212a1a935e3f1c73a03d8c9ca53fde0")
 
 Reviewer: Some("subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7")
 

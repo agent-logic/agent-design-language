@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
     "slug": "v0918-runtime-functional-parity-plan",
     "version": "v0.91.8",
-    "generation": 40
+    "generation": 44
   },
   "status": "pre_phase",
   "content": {
@@ -39,8 +39,8 @@
           "evidence_ref": "Commit e4ceda3fbb01593ff64e86a3dcf4a9bdf38f8046: runtime owner report passed with 12,209 lines, 209-line reviewed exception, and 189 tests; architecture semantics passed with ten proof groups and #5361 cutover dependency; all v0.91.8 local links resolved; origin/main...HEAD diff hygiene passed; typed doctor passed at generation 4 with zero findings; final independent review passed with no findings."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

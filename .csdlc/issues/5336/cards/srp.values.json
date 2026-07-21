@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
     "slug": "v0918-runtime-functional-parity-plan",
     "version": "v0.91.8",
-    "generation": 40
+    "generation": 44
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".github/workflows/ci.yaml\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/merge_coverage_summaries.py\nadl/tools/test_ci_runtime_contracts.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\nadl/tools/test_merge_coverage_summaries.sh\n.csdlc/issues/5336\n.csdlc/prepared/issues/5336",
-      "review_revision": "git-blake3:656aa4c4170b1461b367f7d964d3e9a1bc4f0292:307cb2adf9a7b2b5738dcbf0f70c09078b5d93cbb484d90a3dfcf66622e815f3",
+      "review_scope": ".github/workflows/ci.yaml\nadl/tools/test_ci_path_policy.sh\nadl/tools/test_ci_runtime_contracts.sh\n.csdlc/issues/5336\n.csdlc/prepared/issues/5336",
+      "review_revision": "git-blake3:02ef273a804dbd52dcc0d6ddb3adb0d16d0160ec:2ab4631b728b44094f94af6c70c9df7fb212a1a935e3f1c73a03d8c9ca53fde0",
       "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
       "review_prompts": [
         "Does the plan distinguish fixture/library proof from live process functionality?",
