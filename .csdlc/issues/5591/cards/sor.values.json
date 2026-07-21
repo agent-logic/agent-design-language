@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
     "slug": "v0-91-8-runtime-v3-parity-a-kernel-continuity-ingress",
     "version": "v0.91.8",
-    "generation": 20
+    "generation": 22
   },
   "status": "pre_phase",
   "content": {
@@ -99,6 +99,23 @@
           "purpose": "Prove the guardian descendant installs its SIGTERM disposition before the parent exits, eliminating the hosted coverage startup race without changing guardian shutdown behavior. The exact regression passed 25 consecutive runs; the complete adl-runtime crate passed 127 tests including independence; formatting and diff hygiene passed.",
           "outcome": "passed",
           "evidence_ref": "owner:019f8362-357c-7621-95b7-afb314e0c61d@8871cb4847a50e483092c6771462c8e59c969085:/Volumes/FastWork/adl-5591/guardian-*"
+        },
+        {
+          "command": [
+            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-focused cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test assembly --test control --test operations",
+            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-full cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml",
+            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-clippy cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings",
+            "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-runtime-full cargo test --locked --manifest-path adl-runtime/Cargo.toml",
+            "for iteration in 1..25: CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-guardian-stress cargo test --locked --manifest-path adl-runtime/Cargo.toml guardian::tests::child_exit_terminates_descendants_and_bounds_inherited_pipe_capture -- --exact",
+            "bash adl/tools/test_merge_coverage_summaries.sh",
+            "cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check",
+            "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check",
+            "bash adl/tools/report_runtime_v3_loc.sh",
+            "git diff --check origin/main...HEAD"
+          ],
+          "purpose": "Prove the one-time final integration: 34 focused and 187 complete Runtime v3 kernel tests, strict kernel lint, 127 adl-runtime tests, 25 consecutive guardian race regressions, the corrected shared coverage merger, formatting and diff hygiene, and unchanged budget truth of 12,683 lines with the reviewed +474 exception over pinned baseline 12,209.",
+          "outcome": "passed",
+          "evidence_ref": "owner:019f8362-357c-7621-95b7-afb314e0c61d@7725c67db7b82f076e56e9d560e5a292a5171496:/Volumes/FastWork/adl-5591/final-*"
         }
       ],
       "integration_state": "worktree_only",

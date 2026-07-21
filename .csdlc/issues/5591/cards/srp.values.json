@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
     "slug": "v0-91-8-runtime-v3-parity-a-kernel-continuity-ingress",
     "version": "v0.91.8",
-    "generation": 20
+    "generation": 22
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/guardian.rs\n.csdlc/issues/5591/cards/sor.values.json\n.csdlc/issues/5591/cards/srp.values.json",
-      "review_revision": "git-blake3:a3fd76181cf3b922eeccd555fccb846d2ad8447b:275fdc0c21d309343bca0b3e68a8f0207b6707fc6305f9a50e0cfadbba203eb8",
-      "reviewer": "subagent:/root/review_5591_exact_head",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every acceptance criterion require guardian-launched live production behavior rather than fixture or library evidence?",
         "Are checkpoint/replay/resume determinism, authenticity, duplicate prevention, and corrupt-state negatives fully specified?",
@@ -26,11 +26,8 @@
         "Is #5336 integration the sole current stop while the future claim-scope proposal remains non-authoritative?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
-        "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

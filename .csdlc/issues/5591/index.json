@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "reviewed",
-  "generation": 20,
-  "digest": "a339116166d4d823721f8846c5adc9aa703ee0e02d87cc79a8a04af662eae3d7",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "4f0d48f1f4da15b75b89c1cba890f526cfa01c17c832bb37c6d3496240a87705",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 20,
+    "generation": 22,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -27,32 +27,8 @@
     ],
     "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_5591_exact_head",
-    "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
-    "revision": "git-blake3:a3fd76181cf3b922eeccd555fccb846d2ad8447b:275fdc0c21d309343bca0b3e68a8f0207b6707fc6305f9a50e0cfadbba203eb8",
-    "scope": [
-      "adl-runtime/src/guardian.rs",
-      ".csdlc/issues/5591/cards/sor.values.json",
-      ".csdlc/issues/5591/cards/srp.values.json"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_5591_exact_head",
-    "scope": [
-      "adl-runtime/src/guardian.rs",
-      ".csdlc/issues/5591/cards/sor.values.json",
-      ".csdlc/issues/5591/cards/srp.values.json"
-    ],
-    "reviewed_revision": "git-blake3:a3fd76181cf3b922eeccd555fccb846d2ad8447b:275fdc0c21d309343bca0b3e68a8f0207b6707fc6305f9a50e0cfadbba203eb8",
-    "findings": [],
-    "residual_risks": [
-      "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
-      "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -67,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c3589549d14b866b7658f7a0a4b94c2d693b19eea36062ba2cdbc7eb1bfda3bd",
+      "values_digest": "a840c28757d52621b137a1e2dd0587ced2cfb2ada557a6469d0a5045c586d35c",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "88b73a04ebf9d3c799f7471130181496299b18319d8a056fa94d609965c6d491",
+      "values_digest": "04a0aeddf77d99855c8f9d9b9ecdf7856a27176f7676c2ef3e489b71097e7d7b",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "b9f999b595e328336d5503cb5ad97ab46e407c72ca21e551c5df0d54e3d44e58",
+      "values_digest": "fc336b188a9be492387eb5039177977db9925c69bdbc6abc6c04108e3a90874c",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "df885a7d33d168959cf1d9c137122ada95078dabda4dd080d609efffe01c8841",
+      "values_digest": "88fcb67cb175a3b07c6373e5657070c8f5ae2cba88fa1ed772e9876f20788874",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "440b27dfdadb75037ed4f4a9cb452b79ffa8ffe9591b2b1e83e429a6339cc75c",
-      "rendered_digest": "3cd4a3af6cebf60bbc03e8d6806eed4580b69c6e5d28042b29f77a04cff1a0f5",
-      "ast_digest": "d1f577c7bc74c43d57d270baf2eedd01bdd310b60c2c66558f44cf751f669718"
+      "values_digest": "cb934b939120c3e9e032fbb0686d612d72d9baf2d600f42c461b18301c9843bb",
+      "rendered_digest": "ad4a980a0e737e0c7f01de4ad76e7eca73b016332a9dde6a67044fa5faf86d28",
+      "ast_digest": "9ce8e5a6a15a085691d90cbc2955f381306b86c02d9ab1998f8e09b15ed60144"
     },
     "sor": {
-      "values_digest": "3082dd810fb51644410b709f0546f2d40d28beec77d21a5fea9ec4e181b339a2",
-      "rendered_digest": "4e52ce66b329c8adec3403dbe2e10478878afad7443489f6af2db6460e44b6b4",
-      "ast_digest": "ac0f7be2e4f248cbd5facb72f46c8dd40e0e8a36b5fc69d525081eac425fa0ed"
+      "values_digest": "624f8af6ca81d4264c6bd8134b9888dd403a732faacc9595563651b962f46e5f",
+      "rendered_digest": "2b5d90dac6217b24e5752a5dba1d0c76da493235ae87264ede38a464b29bc8e0",
+      "ast_digest": "ca9ed55bf3b9a60a96fcaef0747c19ae6b7c160fc696278868cce621d7d77e6d"
     }
   },
   "transitions": [
@@ -160,6 +136,13 @@
       "to": "reviewed",
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Exact-head guardian proof rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual."
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Merged #5610 coverage normalization changed the exact publication revision; recover review truth for one final integrated validation and exact-head rereview while preserving the guardian correction."
     }
   ],
   "audit": [
@@ -358,6 +341,20 @@
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Exact-head guardian proof rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Merged #5610 coverage normalization changed the exact publication revision; recover review truth for one final integrated validation and exact-head rereview while preserving the guardian correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Record exact integrated Runtime v3 and shared coverage proof after terminal #5610 integration.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-focused cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test assembly --test control --test operations\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-full cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-clippy cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-runtime-full cargo test --locked --manifest-path adl-runtime/Cargo.toml\",\"for iteration in 1..25: CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-guardian-stress cargo test --locked --manifest-path adl-runtime/Cargo.toml guardian::tests::child_exit_terminates_descendants_and_bounds_inherited_pipe_capture -- --exact\",\"bash adl/tools/test_merge_coverage_summaries.sh\",\"cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check origin/main...HEAD\"],\"purpose\":\"Prove the one-time final integration: 34 focused and 187 complete Runtime v3 kernel tests, strict kernel lint, 127 adl-runtime tests, 25 consecutive guardian race regressions, the corrected shared coverage merger, formatting and diff hygiene, and unchanged budget truth of 12,683 lines with the reviewed +474 exception over pinned baseline 12,209.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f8362-357c-7621-95b7-afb314e0c61d@7725c67db7b82f076e56e9d560e5a292a5171496:/Volumes/FastWork/adl-5591/final-*\"}}"
     }
   ]
 }

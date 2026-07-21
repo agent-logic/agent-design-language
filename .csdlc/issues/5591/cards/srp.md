@@ -12,9 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/guardian.rs
-.csdlc/issues/5591/cards/sor.values.json
-.csdlc/issues/5591/cards/srp.values.json
+
 
 ## Prompts
 
@@ -36,13 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.
-- Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:a3fd76181cf3b922eeccd555fccb846d2ad8447b:275fdc0c21d309343bca0b3e68a8f0207b6707fc6305f9a50e0cfadbba203eb8")
+Revision: None
 
-Reviewer: Some("subagent:/root/review_5591_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review
