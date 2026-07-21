@@ -48,3 +48,4 @@
 {"sequence":48,"generation":41,"actor":"codex:5340-owner-watch","reason":"Fresh exact scoped review fixed all nine prior findings and approved the canonical turn-replay revision for publication.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":49,"generation":42,"actor":"codex:5340-owner-watch","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":50,"generation":43,"actor":"codex:5340-owner-watch","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
+{"sequence":51,"generation":44,"actor":"codex:5340-owner-watch","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
