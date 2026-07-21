@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "8d13e3f0c7916b877a63fd1d8a2d6ee946c27f85902e7ef6f0dd7f5b43f4488f",
+  "phase": "published",
+  "generation": 19,
+  "digest": "5876f3444ede2e8ab10b296ddcac80f644929f1ff348b8a2469536f0815d07d0",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -48,7 +48,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5336,
+    "pull_request": 5599,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5599",
+    "base": "main",
+    "head": "codex/5336-v0918-runtime-parity-plan",
+    "revision": "git-blake3:12e2c43de5682d0fa758855223ad7ca114386586:6b6ce91b53cc1742dc5e1406244cc51dca1315d108b7a7ca6ca3d1e344d47212",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d7c132d99e2522cf0eebde923425ffd002829df6f7422d6e8475fdd70c5a6bfd",
+      "values_digest": "b6e058ba9996309794b0b1f61fca358efebf84d35f85c393eaa961994f2a74d3",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "172612b3ee71ed899e15ac7e245cc43feca0f9e401f2c28b5044bc382a712adb",
+      "values_digest": "618f7abb12900e06eb64a24eef0712b034b74be3e122e5c475fc0b6cbe865898",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "7057bf2a4660718b3bf25a1a55f025d94b7750956a2720940b17cf840d9a62ef",
+      "values_digest": "49e9e8f4c7f7917895eb02804e99f917c002f1ef7d97e840361be299ee23e8df",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "60716b510cbed10029318396ad69da43f25145e05c2ab55436d082e949cc7bb0",
+      "values_digest": "f3315622ef2db302d977a5d1615722f96dc72ec97e91f0789eaf169b357788bd",
       "rendered_digest": "7510323bddaa609bfbc5d0113599ce5bb313c92e2d6e204c221d809b5200c436",
       "ast_digest": "d0de2dd6e7ff179c5f415b6a0aa6fee1240b24d77b706096f4788aadc6cd5a8f"
     },
     "srp": {
-      "values_digest": "45e9a8bd2df442796483495a316c2d3734265b206d2728318ff026eaf01090f7",
+      "values_digest": "7fa7b7c37f4721f6f3098a33585fc2de94288924f755ea108d32bb3dce93715a",
       "rendered_digest": "22a321251404b8ca95a36ed35938234686ce8b1ec7ac84fe5167708a292acc92",
       "ast_digest": "6d88e8fad4818c2337fdfa47822075f4d567ac1e9e33ea161a1ca4ea6bb173a2"
     },
     "sor": {
-      "values_digest": "2fada792f0821aeb13279a1879848bc285096930d97818bd83810e71f70b6837",
-      "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
-      "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
+      "values_digest": "52eb261adfba4e90fa5ca0e73bd8dc147b6496460892cffecd2fd45e64190faf",
+      "rendered_digest": "7be2a3910524f20c6ac274535fa3bbcbd38d42c84237e2d1f94712a147d3cb21",
+      "ast_digest": "0e9bed183ea55b0390001d209813f3064679b57c0c1d639a271a709cb3a086c8"
     }
   },
   "transitions": [
@@ -141,6 +151,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Current-main exact substantive review passed with no findings or residual risks."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -297,6 +314,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Current-main exact substantive review passed with no findings or residual risks.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
