@@ -5,7 +5,7 @@
   "initialization_digest": "8863afa2116f00a1d2454a78df6f0287e360060ac0565d961b33c1da3c447617",
   "phase": "implemented",
   "generation": 39,
-  "digest": "92379c0c7014f9841490d5ee9562e1851daef476b622f76b590092b36cbf0665",
+  "digest": "e7ec74e009b3122a546b7e791c097e10dc908c10ac9de6b6c92e4aba367c394d",
   "claim": {
     "id": "claim-5340-v0918-wp06-owner-watch",
     "owner": "codex:5340-owner-watch",
@@ -27,113 +27,12 @@
   "review_assignment": {
     "reviewer": "subagent:/root/review_5340_exact",
     "assigned_by": "codex:5340-owner-watch",
-    "revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+    "revision": "git-blake3:1eee1895ece9fb283386b4c369d46d8e82c7f972:1a1f533251e8337fba78546f56f23048e0566139986971acd6e318de4094059a",
     "scope": [
       "adl-v2/crates/adl-engine"
     ]
   },
-  "review": {
-    "reviewer": "subagent:/root/review_5340_exact",
-    "scope": [
-      "adl-v2/crates/adl-engine"
-    ],
-    "reviewed_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
-    "findings": [
-      {
-        "id": "F-5340-1-state-dataflow-unresolved",
-        "severity": "p1",
-        "summary": "State dependency resolution and request identity are fixed.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
-        "route": null
-      },
-      {
-        "id": "F-5340-2-turn-input-unbounded",
-        "severity": "p1",
-        "summary": "Plan, policy, turn, completion, and materialization work is bounded.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
-        "route": null
-      },
-      {
-        "id": "F-5340-3-resume-semantic-truncation",
-        "severity": "p1",
-        "summary": "Base semantic resume checks are fixed, but residual completion-history reachability remains in F-5340-6.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5340-4-compiler-fixture-mapping-absent",
-        "severity": "p1",
-        "summary": "All six applicable landed fixtures are parsed, compiled, classified, and engine-executed.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
-        "route": null
-      },
-      {
-        "id": "F-5340-5-usize-policy-contract",
-        "severity": "p2",
-        "summary": "JoinPolicy threshold uses a fixed-width u64 contract.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
-        "route": null
-      },
-      {
-        "id": "F-5340-6-resume-journal-reachability",
-        "severity": "p1",
-        "summary": "Resume does not reconstruct intermediate completion, tick, turn, and event history and accepts a coherently altered impossible retry history.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-5340-7-state-materialization-bound",
-        "severity": "p1",
-        "summary": "Repeated state materialization is charged before clones and serialization uses a capped writer.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
-        "route": null
-      },
-      {
-        "id": "F-5340-8-applicable-fixtures-not-executed",
-        "severity": "p1",
-        "summary": "Actual applicable landed fixture content is exercised end to end.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
-        "route": null
-      },
-      {
-        "id": "F-5340-9-design-truth-drift",
-        "severity": "p2",
-        "summary": "Amended design, diagram, SPP/VPP artifact digests, and typed approval are current.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -516,6 +415,13 @@
       "actor": "codex:5340-owner-watch",
       "reason": "Record final complete release-budget proof after canonical turn-replay remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/budgets.json\"],\"purpose\":\"Prove exact dependency, COTS, source authority, sole-writer scope, all tests, LoC ceilings, and validation deadlines on the final substantive revision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2928; test_fixture_lines=1946; unbudgeted_code=[]; substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75\"}}"
+    },
+    {
+      "sequence": 46,
+      "generation": 39,
+      "actor": "codex:5340-owner-watch",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
