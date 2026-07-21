@@ -4,10 +4,10 @@
     "template_version": "1.0.0",
     "issue": 5590,
     "repository": "danielbaustin/agent-design-language",
-    "title": "[v0.91.8][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
+    "title": "[v0.91.8][WP-14][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
     "slug": "v0-91-8-runtime-v3-parity-d-secure-operations",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -29,7 +29,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -63,7 +63,7 @@
         },
         {
           "id": "S5",
-          "action": "Complete external guardian launch/reaping/restart/pressure recovery, Vector routing/degradation/redaction, and explicit rollback proof without sidecars or Runtime v2 edits",
+          "action": "Complete external guardian launch/reaping/restart/pressure recovery, Vector routing/degradation/redaction, and an executable candidate-to-prior Runtime v3 selector transition with authenticated HTTPS health before and after",
           "acceptance_ids": [
             "AC-5",
             "AC-6",
@@ -121,7 +121,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/5590/design.md",
-      "design_digest": "87afbc54bee34e340ed8b1e2c9bc6a5f0adcb5460bb723342b77f4ecaa3f7f34",
+      "design_digest": "7a800211ce03930cd0fe590615cc611084bb346b2923539216dd325800dad005",
       "diagram_ref": ".csdlc/prepared/issues/5590/diagram.mmd",
       "diagram_digest": "ef1c6d3a06558528c0037c41274be3d93a43a3dd17e712d8198587b2367c1f6c"
     }

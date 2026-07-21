@@ -4,10 +4,10 @@
     "template_version": "1.0.0",
     "issue": 5590,
     "repository": "danielbaustin/agent-design-language",
-    "title": "[v0.91.8][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
+    "title": "[v0.91.8][WP-14][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
     "slug": "v0-91-8-runtime-v3-parity-d-secure-operations",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "runtime-v3-secure-config-access",
-          "proof_role": "Prove init validation, TLS-only configured local/remote access, actual listener discovery, and negative transport/authority cases",
+          "proof_role": "Inventory a positive configuration test count, fail closed on zero matches, then prove init validation, TLS-only configured local/remote access, actual listener discovery, and negative transport/authority cases",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -28,9 +28,8 @@
           "budget_seconds": 600,
           "budget_tokens": 4000,
           "argv": [
-            "cargo",
-            "test",
-            "--manifest-path",
+            "bash",
+            ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
             "adl-runtime-kernel/Cargo.toml",
             "configuration"
           ],
@@ -39,7 +38,7 @@
         },
         {
           "lane": "runtime-v3-observatory-http-websocket",
-          "proof_role": "Prove authenticated live HTTP and WebSocket Observatory state plus origin, bearer, session, malformed, and oversized-frame negatives",
+          "proof_role": "Inventory a positive Observatory test count, fail closed on zero matches, then prove authenticated live HTTP and WebSocket state plus origin, bearer, session, malformed, and oversized-frame negatives",
           "acceptance_ids": [
             "AC-2",
             "AC-3",
@@ -50,9 +49,8 @@
           "budget_seconds": 600,
           "budget_tokens": 4000,
           "argv": [
-            "cargo",
-            "test",
-            "--manifest-path",
+            "bash",
+            ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
             "adl-runtime-kernel/Cargo.toml",
             "observatory"
           ],
@@ -61,7 +59,7 @@
         },
         {
           "lane": "runtime-v3-guardian-recovery",
-          "proof_role": "Prove external launch, signal forwarding, child reaping, bounded restart, pressure serialization, checkpoint restore, and invalid-config/intended-stop negatives",
+          "proof_role": "Inventory a positive guardian test count, fail closed on zero matches, then prove launch, signals, reaping, bounded restart, pressure serialization, restore, and invalid-config/intended-stop negatives",
           "acceptance_ids": [
             "AC-5",
             "AC-7"
@@ -71,9 +69,8 @@
           "budget_seconds": 900,
           "budget_tokens": 5000,
           "argv": [
-            "cargo",
-            "test",
-            "--manifest-path",
+            "bash",
+            ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
             "adl-runtime/Cargo.toml",
             "guardian"
           ],
@@ -82,7 +79,7 @@
         },
         {
           "lane": "runtime-v3-vector-telemetry",
-          "proof_role": "Prove redacted stderr to Vector routing and truthful collector-degraded kernel behavior without custom OTel",
+          "proof_role": "Inventory a positive telemetry test count, fail closed on zero matches, then prove redacted stderr to Vector routing and truthful collector-degraded kernel behavior without custom OTel",
           "acceptance_ids": [
             "AC-6"
           ],
@@ -91,9 +88,8 @@
           "budget_seconds": 450,
           "budget_tokens": 3000,
           "argv": [
-            "cargo",
-            "test",
-            "--manifest-path",
+            "bash",
+            ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
             "adl-runtime-kernel/Cargo.toml",
             "telemetry"
           ],
@@ -101,17 +97,39 @@
           "defer_reason": null
         },
         {
-          "lane": "runtime-v3-rollback-soak",
-          "proof_role": "Prove bounded guardian soak and explicit selector rollback without automatic cutover, Runtime v2 source edits, or AWS",
+          "lane": "runtime-v3-operational-selector-rollback",
+          "proof_role": "Execute authenticated candidate Runtime v3 health, operational selector transition to the prior approved Runtime v3 target, and restored authenticated HTTPS health; report-only selection fails",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/5590/run_operational_selector_transition.sh",
+            "<selector-executable>",
+            "<authenticated-health-probe-executable>",
+            "<candidate-selector-ref>",
+            "<prior-selector-ref>",
+            "<candidate-health-url>",
+            "<prior-health-url>"
+          ],
+          "parallel_group": "runtime-v3-full",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-v3-guardian-soak",
+          "proof_role": "Execute the bounded guardian launch, pressure-stop, restart, and recovery soak independently of selector rollback",
           "acceptance_ids": [
             "AC-5",
-            "AC-7",
             "AC-8"
           ],
           "deterministic": true,
           "resource_profile": "large",
-          "budget_seconds": 1200,
-          "budget_tokens": 5000,
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
           "argv": [
             "bash",
             "adl/tools/run_runtime_v3_guardian_soak.sh"
@@ -134,7 +152,7 @@
           ],
           "deterministic": true,
           "resource_profile": "large",
-          "budget_seconds": 1200,
+          "budget_seconds": 900,
           "budget_tokens": 8000,
           "argv": [
             "cargo",
@@ -155,7 +173,7 @@
           ],
           "deterministic": true,
           "resource_profile": "large",
-          "budget_seconds": 900,
+          "budget_seconds": 600,
           "budget_tokens": 5000,
           "argv": [
             "cargo",
@@ -194,7 +212,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on missing #5591 integration eligibility, claim collision, plaintext access, weak or missing authentication, fake discovery, WebSocket policy bypass, secret leakage, unbounded restart, lost pressure state, collector-owned liveness, Runtime v2 edits, AWS use, hard-coded IPs, sidecars, deferred proof, budget breach, actionable review findings, or non-green exact-revision state.",
       "design_ref": ".csdlc/prepared/issues/5590/design.md",
-      "design_digest": "87afbc54bee34e340ed8b1e2c9bc6a5f0adcb5460bb723342b77f4ecaa3f7f34",
+      "design_digest": "7a800211ce03930cd0fe590615cc611084bb346b2923539216dd325800dad005",
       "diagram_ref": ".csdlc/prepared/issues/5590/diagram.mmd",
       "diagram_digest": "ef1c6d3a06558528c0037c41274be3d93a43a3dd17e712d8198587b2367c1f6c"
     }

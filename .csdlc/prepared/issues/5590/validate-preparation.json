@@ -37,6 +37,23 @@
         "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
       },
       {
+        "id": "preparation-guard-contracts",
+        "proof_role": "Executable zero-match and operational-selector guard contracts",
+        "purpose": "Prove filtered tests deny zero matches and operational rollback requires two HTTPS health checks around a real selector transition",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "preparation",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 60,
+        "executable": "/usr/bin/env",
+        "argv": ["bash", ".csdlc/prepared/issues/5590/test_preparation_guards.sh"],
+        "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+      },
+      {
         "id": "diff-hygiene",
         "proof_role": "Preparation patch hygiene",
         "purpose": "Prove the preparation packet has no whitespace errors",
@@ -56,11 +73,11 @@
     ]
   },
   "selection": {
-    "requested_lanes": ["typed-doctor", "complete-card-contract", "diff-hygiene"],
+    "requested_lanes": ["typed-doctor", "complete-card-contract", "preparation-guard-contracts", "diff-hygiene"],
     "allow_network": false,
     "available_credentials": []
   },
-  "budget": {"max_parallel": 3, "cpu_units": 3, "memory_mib": 384, "tokens": 0},
+  "budget": {"max_parallel": 4, "cpu_units": 4, "memory_mib": 512, "tokens": 0},
   "root": ".",
   "evidence_dir": ".csdlc/evidence/5590/preparation",
   "cancellation_file": null

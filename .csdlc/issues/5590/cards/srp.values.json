@@ -4,10 +4,10 @@
     "template_version": "1.0.0",
     "issue": 5590,
     "repository": "danielbaustin/agent-design-language",
-    "title": "[v0.91.8][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
+    "title": "[v0.91.8][WP-14][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
     "slug": "v0-91-8-runtime-v3-parity-d-secure-operations",
     "version": "v0.91.8",
-    "generation": 1
+    "generation": 3
   },
   "status": "pre_phase",
   "content": {

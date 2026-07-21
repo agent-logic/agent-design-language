@@ -34,7 +34,7 @@ Revision 1
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -68,7 +68,7 @@ Revision 1
   },
   {
     "id": "S5",
-    "action": "Complete external guardian launch/reaping/restart/pressure recovery, Vector routing/degradation/redaction, and explicit rollback proof without sidecars or Runtime v2 edits",
+    "action": "Complete external guardian launch/reaping/restart/pressure recovery, Vector routing/degradation/redaction, and an executable candidate-to-prior Runtime v3 selector transition with authenticated HTTPS health before and after",
     "acceptance_ids": [
       "AC-5",
       "AC-6",
@@ -126,7 +126,7 @@ Revision 1
 
 .csdlc/prepared/issues/5590/design.md
 
-Digest: 87afbc54bee34e340ed8b1e2c9bc6a5f0adcb5460bb723342b77f4ecaa3f7f34
+Digest: 7a800211ce03930cd0fe590615cc611084bb346b2923539216dd325800dad005
 
 ## Diagram
 

@@ -2,14 +2,14 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5590,
   "repository": "danielbaustin/agent-design-language",
-  "initialization_digest": "f5e28075e7874b78c4cbdc3cf1548d405a65e0d92c0f7090989d75ea1919639b",
+  "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
   "phase": "bound",
-  "generation": 1,
-  "digest": "3463e3cad2930df250d02e43d643271830f84bc4cb3be27570ca77250c4780a6",
+  "generation": 3,
+  "digest": "1b733a313cb604806ebbabf1e6266b76f93be39a6a6d47e3f7a8f674e6b354b6",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 1,
+    "generation": 3,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -34,37 +34,37 @@
   "design_review": {
     "approved": {
       "reviewer": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-      "revision": "87afbc54bee34e340ed8b1e2c9bc6a5f0adcb5460bb723342b77f4ecaa3f7f34"
+      "revision": "7a800211ce03930cd0fe590615cc611084bb346b2923539216dd325800dad005"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "5a1ee5c544ecd2712f24863c305370fe5a0b090d4222d2a980aa41428cb600ec",
-      "rendered_digest": "cf823c55e8e0d1cf2879d7a99dce669dbef717fb3fbef5fdf5fbbea43adbc774",
-      "ast_digest": "33e33f9c03df87be9ea9bc316b21f59610e58fafbacdaddae45d49b0b7a3e40a"
+      "values_digest": "2d4ce1c5895499df46e3d8d30b80eca5b1445754a42775e0a8b72b132c3f7661",
+      "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
+      "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "a20d2bfc5659fc5be41d040dfe7afbf07920628372712641b9f984dff0b3b3e6",
-      "rendered_digest": "e059ed875c8673fb3b5e26bca3d96551042773017faedc7d9fe9d127f231752b",
-      "ast_digest": "0fddb668e0aee4e751674c7a6fe7f7f311518fb11fca7d58813ccedf6702fdc1"
+      "values_digest": "1f126238f720d6d80ca3e44d8a99f06cca316b5a3021784ca824e3b1c9919b97",
+      "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
+      "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "327deb4810cf09664ba821684cdc9b9a60c1899bc6a8515b3b9475ba0780ce87",
-      "rendered_digest": "58a042cdb8f3a73a9f8ed5392de284882e2b53b78d3a3be238b8c9153d2c23ce",
-      "ast_digest": "9f5ab8482fe358a8cf0a8d43cd8e8200e461ac3f540d2b40c8a15a0a87b80573"
+      "values_digest": "da05ab1565a2c5091a57a638da7943917d2be1177344ecb55dc281fbabd31948",
+      "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
+      "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "c310edd7a1d8e74bf6ba98f652a30023321e9d0ddd19d17680c53280cf4fb8c9",
-      "rendered_digest": "b531743aaa1a3bb80445b18c05b36ed6d2a110a73f4616c55bce544e540e7255",
-      "ast_digest": "97881aca7744d3181df59ee37dedb90f19dd54135c38a61c8901d73da6564a5d"
+      "values_digest": "ead7b403f5e8b6214a43d022e06e0a73f94a12e6fbdaef2f07032ec23173e141",
+      "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
+      "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "dd2c2bc31fe1103210f387afa6b58068f0fdd356d90114136f033ee2f382607b",
+      "values_digest": "e61c60a0cb8897506ab3c2904c1f8232a5819cda2db98aac1638ce0de8c15344",
       "rendered_digest": "e9ea1ef134c8213e265c88796dbfb8c97f0dc23a61f2fcba59fdf0ac412d8c22",
       "ast_digest": "651e35157218229bdc102566f66b225a85893546ad706debec983798338aa69e"
     },
     "sor": {
-      "values_digest": "b4e4aee42b5b2b52740fcefcb6ba35b984982da990e2b8ca702b8b39d92bffca",
+      "values_digest": "1178a8f3ddec6ce4ed83791e8f7f4708413bf84e2f9e768f5d268d2e5c3143dd",
       "rendered_digest": "4acbaa9ec13c1f04e55fd5ecb11bed5405ec28aa4932e07474a1c91ca14d93c2",
       "ast_digest": "823df8a1c5803260df4b7fdb096e097fff89bad2b5b1144bd7b07ecd646bbfa6"
     }
@@ -104,8 +104,22 @@
       "sequence": 3,
       "generation": 1,
       "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-      "reason": "reapprove changed issue design",
-      "operation": "approve_design"
+      "reason": "Mark the completed six-card design, diagram, security matrix, validator, and preparation-only claim step truthfully complete after typed regeneration",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+      "reason": "Replace filtered lanes with positive inventory and zero-match guards and split operational selector rollback from guardian soak",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-v3-secure-config-access\",\"proof_role\":\"Inventory a positive configuration test count, fail closed on zero matches, then prove init validation, TLS-only configured local/remote access, actual listener discovery, and negative transport/authority cases\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_filtered_test_lane.sh\",\"adl-runtime-kernel/Cargo.toml\",\"configuration\"],\"parallel_group\":\"runtime-v3-access\",\"defer_reason\":null},{\"lane\":\"runtime-v3-observatory-http-websocket\",\"proof_role\":\"Inventory a positive Observatory test count, fail closed on zero matches, then prove authenticated live HTTP and WebSocket state plus origin, bearer, session, malformed, and oversized-frame negatives\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_filtered_test_lane.sh\",\"adl-runtime-kernel/Cargo.toml\",\"observatory\"],\"parallel_group\":\"runtime-v3-access\",\"defer_reason\":null},{\"lane\":\"runtime-v3-guardian-recovery\",\"proof_role\":\"Inventory a positive guardian test count, fail closed on zero matches, then prove launch, signals, reaping, bounded restart, pressure serialization, restore, and invalid-config/intended-stop negatives\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_filtered_test_lane.sh\",\"adl-runtime/Cargo.toml\",\"guardian\"],\"parallel_group\":\"runtime-v3-operations\",\"defer_reason\":null},{\"lane\":\"runtime-v3-vector-telemetry\",\"proof_role\":\"Inventory a positive telemetry test count, fail closed on zero matches, then prove redacted stderr to Vector routing and truthful collector-degraded kernel behavior without custom OTel\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":450,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_filtered_test_lane.sh\",\"adl-runtime-kernel/Cargo.toml\",\"telemetry\"],\"parallel_group\":\"runtime-v3-operations\",\"defer_reason\":null},{\"lane\":\"runtime-v3-operational-selector-rollback\",\"proof_role\":\"Execute candidate Runtime v3 health, operational selector transition to the prior approved Runtime v3 target, and restored authenticated HTTPS health; report-only selection fails\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_operational_selector_transition.sh\",\"<selector-executable>\",\"<candidate-selector-ref>\",\"<prior-selector-ref>\",\"<candidate-health-url>\",\"<prior-health-url>\"],\"parallel_group\":\"runtime-v3-full\",\"defer_reason\":null},{\"lane\":\"runtime-v3-guardian-soak\",\"proof_role\":\"Execute the bounded guardian launch, pressure-stop, restart, and recovery soak independently of selector rollback\",\"acceptance_ids\":[\"AC-5\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/run_runtime_v3_guardian_soak.sh\"],\"parallel_group\":\"runtime-v3-full\",\"defer_reason\":null},{\"lane\":\"runtime-v3-full-kernel\",\"proof_role\":\"Run the complete independent Runtime v3 kernel test suite\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-v3-full\",\"defer_reason\":null},{\"lane\":\"runtime-v3-strict-quality\",\"proof_role\":\"Prove strict lint plus exact dependency, LoC, module-growth, test-count, boundary, and evidence hygiene\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--all-features\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-v3-quality\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Verify the exact issue patch has no whitespace or unrelated product changes\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
+      "reason": "Require an authenticated health-probe executable around the operational candidate-to-prior Runtime v3 selector transition",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-v3-secure-config-access\",\"proof_role\":\"Inventory a positive configuration test count, fail closed on zero matches, then prove init validation, TLS-only configured local/remote access, actual listener discovery, and negative transport/authority cases\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_filtered_test_lane.sh\",\"adl-runtime-kernel/Cargo.toml\",\"configuration\"],\"parallel_group\":\"runtime-v3-access\",\"defer_reason\":null},{\"lane\":\"runtime-v3-observatory-http-websocket\",\"proof_role\":\"Inventory a positive Observatory test count, fail closed on zero matches, then prove authenticated live HTTP and WebSocket state plus origin, bearer, session, malformed, and oversized-frame negatives\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_filtered_test_lane.sh\",\"adl-runtime-kernel/Cargo.toml\",\"observatory\"],\"parallel_group\":\"runtime-v3-access\",\"defer_reason\":null},{\"lane\":\"runtime-v3-guardian-recovery\",\"proof_role\":\"Inventory a positive guardian test count, fail closed on zero matches, then prove launch, signals, reaping, bounded restart, pressure serialization, restore, and invalid-config/intended-stop negatives\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_filtered_test_lane.sh\",\"adl-runtime/Cargo.toml\",\"guardian\"],\"parallel_group\":\"runtime-v3-operations\",\"defer_reason\":null},{\"lane\":\"runtime-v3-vector-telemetry\",\"proof_role\":\"Inventory a positive telemetry test count, fail closed on zero matches, then prove redacted stderr to Vector routing and truthful collector-degraded kernel behavior without custom OTel\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":450,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_filtered_test_lane.sh\",\"adl-runtime-kernel/Cargo.toml\",\"telemetry\"],\"parallel_group\":\"runtime-v3-operations\",\"defer_reason\":null},{\"lane\":\"runtime-v3-operational-selector-rollback\",\"proof_role\":\"Execute authenticated candidate Runtime v3 health, operational selector transition to the prior approved Runtime v3 target, and restored authenticated HTTPS health; report-only selection fails\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5590/run_operational_selector_transition.sh\",\"<selector-executable>\",\"<authenticated-health-probe-executable>\",\"<candidate-selector-ref>\",\"<prior-selector-ref>\",\"<candidate-health-url>\",\"<prior-health-url>\"],\"parallel_group\":\"runtime-v3-full\",\"defer_reason\":null},{\"lane\":\"runtime-v3-guardian-soak\",\"proof_role\":\"Execute the bounded guardian launch, pressure-stop, restart, and recovery soak independently of selector rollback\",\"acceptance_ids\":[\"AC-5\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/run_runtime_v3_guardian_soak.sh\"],\"parallel_group\":\"runtime-v3-full\",\"defer_reason\":null},{\"lane\":\"runtime-v3-full-kernel\",\"proof_role\":\"Run the complete independent Runtime v3 kernel test suite\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-v3-full\",\"defer_reason\":null},{\"lane\":\"runtime-v3-strict-quality\",\"proof_role\":\"Prove strict lint plus exact dependency, LoC, module-growth, test-count, boundary, and evidence hygiene\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--all-features\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-v3-quality\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Verify the exact issue patch has no whitespace or unrelated product changes\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
     }
   ]
 }

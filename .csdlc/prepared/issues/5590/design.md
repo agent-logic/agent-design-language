@@ -1,7 +1,7 @@
 # Runtime v3 Parity-D Secure Operations Design
 
-Issue #5590 owns the secure operations edge of Runtime v3 under acceptance
-umbrella #5361. This preparation packet defines the complete outcome without
+Issue #5590 owns the secure operations edge of Runtime v3 under WP-14
+acceptance umbrella #5361. This preparation packet defines the complete outcome without
 editing product code. Parity-A #5591 must be integrated before this claim may
 expand into Runtime source paths.
 
@@ -22,8 +22,16 @@ expand into Runtime source paths.
 - The external guardian launches exactly
   `adl-runtime-kernel serve --init <path> --continuity-root <path>`, owns child
   signals/reaping/restart delay, and never becomes an in-process sidecar.
-- Runtime selection remains explicit and rollback remains a reviewed selector
-  operation. This issue neither imports nor edits Runtime v2.
+- Runtime selection must be an operational process/configuration transition,
+  not the existing report-only `adl runtime-v3 select` surface. This issue
+  neither imports nor edits Runtime v2.
+
+## Revision identity
+
+The preparation corpus starts at exact base
+`6d0f6115632a06619544b8ad4792792e741f1f31`. The first reviewed preparation
+head is `2f26da4455efd4dfc7ab6c65df5d19327fe765c8`; every repair and re-review must
+descend from that head, and retained validation must record both revisions.
 
 ## One configuration-driven network model
 
@@ -58,9 +66,14 @@ graceful shutdown. Retained proof must show redaction and must never contain
 tokens, private keys, certificate contents, machine-local absolute paths, or
 uncontrolled upstream error text.
 
-Rollback proof must verify the explicit selector transition and restored
-service health without deleting Runtime v3 evidence or touching Runtime v2
-implementation. No automatic default switch or decommission is authorized.
+Rollback proof must execute an operational selector transition from the
+candidate Runtime v3 process/configuration to the previous approved Runtime v3
+process/configuration. It must prove candidate health, perform the transition,
+then prove restored authenticated HTTPS service health at the prior selector
+revision. A report-only selector, environment echo, metadata assertion, or
+in-memory facade receives no credit. The transition retains Runtime v3 evidence
+and never touches Runtime v2 implementation. No automatic default switch or
+decommission is authorized.
 
 ## Future implementation scope
 
@@ -85,4 +98,6 @@ bound-address discovery, guardian launch/restart/pressure-stop behavior, Vector
 degradation and routing boundaries, and explicit rollback. Positive and
 fail-closed negative cases must execute against production Runtime v3 paths;
 fixture-only, prose-only, degraded, deferred, or metadata-only evidence receives
-no parity credit.
+no parity credit. Every filtered Rust test lane inventories the exact filter,
+records a positive test count, fails closed on zero matches, and only then runs
+the filtered tests.

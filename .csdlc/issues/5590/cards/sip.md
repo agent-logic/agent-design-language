@@ -49,3 +49,4 @@ At one exact revision, the external guardian reads the init file and launches th
 - Port 20997 is configuration-driven and discovery must report the actual bound listener rather than a constant
 - Implement AC-1 through AC-8 without deferred, fixture-only, degraded, metadata-only, prose-only, or partial acceptance
 - Run bounded exact-revision review, fix every actionable finding, and publish or merge only green work
+- Bind preparation validation to exact base 6d0f6115632a06619544b8ad4792792e741f1f31 and reviewed head 2f26da4455efd4dfc7ab6c65df5d19327fe765c8, and require every repair to descend from that reviewed head

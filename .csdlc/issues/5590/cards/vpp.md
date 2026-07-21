@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
 [
   {
     "lane": "runtime-v3-secure-config-access",
-    "proof_role": "Prove init validation, TLS-only configured local/remote access, actual listener discovery, and negative transport/authority cases",
+    "proof_role": "Inventory a positive configuration test count, fail closed on zero matches, then prove init validation, TLS-only configured local/remote access, actual listener discovery, and negative transport/authority cases",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -36,9 +36,8 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
+      "bash",
+      ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
       "adl-runtime-kernel/Cargo.toml",
       "configuration"
     ],
@@ -47,7 +46,7 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
   },
   {
     "lane": "runtime-v3-observatory-http-websocket",
-    "proof_role": "Prove authenticated live HTTP and WebSocket Observatory state plus origin, bearer, session, malformed, and oversized-frame negatives",
+    "proof_role": "Inventory a positive Observatory test count, fail closed on zero matches, then prove authenticated live HTTP and WebSocket state plus origin, bearer, session, malformed, and oversized-frame negatives",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -58,9 +57,8 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
+      "bash",
+      ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
       "adl-runtime-kernel/Cargo.toml",
       "observatory"
     ],
@@ -69,7 +67,7 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
   },
   {
     "lane": "runtime-v3-guardian-recovery",
-    "proof_role": "Prove external launch, signal forwarding, child reaping, bounded restart, pressure serialization, checkpoint restore, and invalid-config/intended-stop negatives",
+    "proof_role": "Inventory a positive guardian test count, fail closed on zero matches, then prove launch, signals, reaping, bounded restart, pressure serialization, restore, and invalid-config/intended-stop negatives",
     "acceptance_ids": [
       "AC-5",
       "AC-7"
@@ -79,9 +77,8 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 5000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
+      "bash",
+      ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
       "adl-runtime/Cargo.toml",
       "guardian"
     ],
@@ -90,7 +87,7 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
   },
   {
     "lane": "runtime-v3-vector-telemetry",
-    "proof_role": "Prove redacted stderr to Vector routing and truthful collector-degraded kernel behavior without custom OTel",
+    "proof_role": "Inventory a positive telemetry test count, fail closed on zero matches, then prove redacted stderr to Vector routing and truthful collector-degraded kernel behavior without custom OTel",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -99,9 +96,8 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
     "budget_seconds": 450,
     "budget_tokens": 3000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
+      "bash",
+      ".csdlc/prepared/issues/5590/run_filtered_test_lane.sh",
       "adl-runtime-kernel/Cargo.toml",
       "telemetry"
     ],
@@ -109,17 +105,39 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "runtime-v3-rollback-soak",
-    "proof_role": "Prove bounded guardian soak and explicit selector rollback without automatic cutover, Runtime v2 source edits, or AWS",
+    "lane": "runtime-v3-operational-selector-rollback",
+    "proof_role": "Execute authenticated candidate Runtime v3 health, operational selector transition to the prior approved Runtime v3 target, and restored authenticated HTTPS health; report-only selection fails",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "bash",
+      ".csdlc/prepared/issues/5590/run_operational_selector_transition.sh",
+      "<selector-executable>",
+      "<authenticated-health-probe-executable>",
+      "<candidate-selector-ref>",
+      "<prior-selector-ref>",
+      "<candidate-health-url>",
+      "<prior-health-url>"
+    ],
+    "parallel_group": "runtime-v3-full",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-v3-guardian-soak",
+    "proof_role": "Execute the bounded guardian launch, pressure-stop, restart, and recovery soak independently of selector rollback",
     "acceptance_ids": [
       "AC-5",
-      "AC-7",
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1200,
-    "budget_tokens": 5000,
+    "budget_seconds": 900,
+    "budget_tokens": 4000,
     "argv": [
       "bash",
       "adl/tools/run_runtime_v3_guardian_soak.sh"
@@ -142,7 +160,7 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 1200,
+    "budget_seconds": 900,
     "budget_tokens": 8000,
     "argv": [
       "cargo",
@@ -163,7 +181,7 @@ Diagram: .csdlc/prepared/issues/5590/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 900,
+    "budget_seconds": 600,
     "budget_tokens": 5000,
     "argv": [
       "cargo",
@@ -211,10 +229,11 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml configuration`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml observatory`
-- `cargo test --manifest-path adl-runtime/Cargo.toml guardian`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml telemetry`
+- `bash .csdlc/prepared/issues/5590/run_filtered_test_lane.sh adl-runtime-kernel/Cargo.toml configuration`
+- `bash .csdlc/prepared/issues/5590/run_filtered_test_lane.sh adl-runtime-kernel/Cargo.toml observatory`
+- `bash .csdlc/prepared/issues/5590/run_filtered_test_lane.sh adl-runtime/Cargo.toml guardian`
+- `bash .csdlc/prepared/issues/5590/run_filtered_test_lane.sh adl-runtime-kernel/Cargo.toml telemetry`
+- `bash .csdlc/prepared/issues/5590/run_operational_selector_transition.sh <selector-executable> <authenticated-health-probe-executable> <candidate-selector-ref> <prior-selector-ref> <candidate-health-url> <prior-health-url>`
 - `bash adl/tools/run_runtime_v3_guardian_soak.sh`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml`
 - `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings`

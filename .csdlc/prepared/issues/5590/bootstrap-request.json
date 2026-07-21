@@ -23,7 +23,7 @@
     "purpose": "Prepare and review complete six-card Runtime v3 Parity-D truth without product edits until #5591 integration eligibility is confirmed"
   },
   "initial": {
-    "title": "[v0.91.8][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
+    "title": "[v0.91.8][WP-14][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
     "slug": "v0-91-8-runtime-v3-parity-d-secure-operations",
     "version": "v0.91.8",
     "goal": "Make Runtime v3 simple to operate locally and remotely through one secure configuration-driven API, external guardian supervision, live Observatory consumption, Vector telemetry, and reviewed rollback.",
@@ -51,7 +51,8 @@
       "Use /Volumes/FastWork for Rust build artifacts and maintained COTS crates rather than custom transport, TLS, telemetry, or supervision frameworks",
       "Port 20997 is configuration-driven and discovery must report the actual bound listener rather than a constant",
       "Implement AC-1 through AC-8 without deferred, fixture-only, degraded, metadata-only, prose-only, or partial acceptance",
-      "Run bounded exact-revision review, fix every actionable finding, and publish or merge only green work"
+      "Run bounded exact-revision review, fix every actionable finding, and publish or merge only green work",
+      "Bind preparation validation to exact base 6d0f6115632a06619544b8ad4792792e741f1f31 and reviewed head 2f26da4455efd4dfc7ab6c65df5d19327fe765c8, and require every repair to descend from that reviewed head"
     ],
     "task_boundary": "Prepare, validate, review, commit, and push the complete six-card design package now; do not touch Runtime product code, claim implementation authority, publish acceptance, or claim readiness until #5591 integration eligibility is confirmed.",
     "deliverables": [
@@ -60,7 +61,7 @@
       "security and acceptance matrix covering positive and fail-closed behavior",
       "future disjoint implementation claim-scope proposal",
       "configured HTTPS HTTP/WebSocket access and live Observatory implementation proof",
-      "guardian launch, pressure-stop, restart, soak, and rollback proof",
+      "guardian launch, pressure-stop, restart, soak, and operational selector transition with restored authenticated HTTPS service-health proof",
       "Vector telemetry route and degraded-collector proof",
       "exact-revision COTS, LoC, module-growth, test-count, lint, and evidence report"
     ],
@@ -71,7 +72,7 @@
       "AC-4: Readiness, feed, and discovery expose the actual bound or configured listener and public HTTPS base, including ephemeral test ports, without hard-coded IPs or substitution of default port 20997",
       "AC-5: The external guardian starts and reaps one canonical kernel child, forwards graceful signals, permits pressure serialization and checkpoint restore, bounds eligible crash restarts, and does not restart intentional stop or invalid configuration",
       "AC-6: Redacted structured tracing events reach the checked-in Vector route while absent Vector degrades truthfully without disabling stderr, health, control, or shutdown; secrets, key material, unsafe errors, and host paths never emit",
-      "AC-7: Explicit reviewed selector rollback restores the declared target and service health while retaining evidence, with no automatic default switch, Runtime v2 source edit or deletion, sidecar, cloud deployment, or AWS operation",
+      "AC-7: An executable operational selector transitions the candidate Runtime v3 process/configuration to the previous approved Runtime v3 process/configuration and authenticated HTTPS health passes before and after; report-only selection, metadata assertions, environment echoes, in-memory facades, Runtime v2 edits, sidecars, cloud deployment, and AWS receive no credit",
       "AC-8: Exact-revision positive and negative tests, strict lint, dependency inventory, source LoC, module growth, test count, and bounded soak satisfy #5336 without fixture-only, deferred, skipped, stale, or prose-only parity credit"
     ],
     "dependencies": [
@@ -79,7 +80,8 @@
       "#5336 architecture and budget authority",
       "#5591 clean-reviewed Parity-A contracts and confirmed integration eligibility before any Runtime product edit",
       "disjoint protected paths from #5592 Parity-B and #5589 Parity-C",
-      "existing Runtime v3 control, configuration, guardian, Observatory, telemetry, and rollback source evidence"
+      "existing Runtime v3 control, configuration, guardian, Observatory, telemetry, and rollback source evidence",
+      "exact preparation base 6d0f6115632a06619544b8ad4792792e741f1f31 and first reviewed preparation head 2f26da4455efd4dfc7ab6c65df5d19327fe765c8"
     ],
     "repo_inputs": [
       "https://github.com/danielbaustin/agent-design-language/issues/5590",
@@ -109,7 +111,7 @@
       {"id":"S2","action":"After #5591 integration eligibility, synchronize the accepted contracts, check active claim collisions, and amend only the smallest Runtime v3 product paths","status":"pending","acceptance_ids":["AC-7","AC-8"]},
       {"id":"S3","action":"Implement one configuration-driven HTTPS Axum router, actual-listener discovery, and identical local/remote authority using existing COTS crates","status":"pending","acceptance_ids":["AC-1","AC-2","AC-4","AC-8"]},
       {"id":"S4","action":"Implement authenticated bounded HTTP and WebSocket Observatory consumption against live admitted-agent and Runtime state with fail-closed origin/session/frame handling","status":"pending","acceptance_ids":["AC-2","AC-3","AC-4"]},
-      {"id":"S5","action":"Complete external guardian launch/reaping/restart/pressure recovery, Vector routing/degradation/redaction, and explicit rollback proof without sidecars or Runtime v2 edits","status":"pending","acceptance_ids":["AC-5","AC-6","AC-7"]},
+      {"id":"S5","action":"Complete external guardian launch/reaping/restart/pressure recovery, Vector routing/degradation/redaction, and an executable candidate-to-prior Runtime v3 selector transition with authenticated HTTPS health before and after","status":"pending","acceptance_ids":["AC-5","AC-6","AC-7"]},
       {"id":"S6","action":"Run exact-revision positive and negative tests, strict lint, dependency and budget reports, bounded soak, exact review, remediation, and green publication","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"]}
     ],
     "invariants": [
@@ -140,13 +142,14 @@
       "completion would require HTTP Runtime access, hard-coded IP, sidecar, AWS operation, or unsupported deployment claim"
     ],
     "validation_lanes": [
-      {"lane":"runtime-v3-secure-config-access","proof_role":"Prove init validation, TLS-only configured local/remote access, actual listener discovery, and negative transport/authority cases","acceptance_ids":["AC-1","AC-2","AC-4"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","configuration"],"parallel_group":"runtime-v3-access","defer_reason":null},
-      {"lane":"runtime-v3-observatory-http-websocket","proof_role":"Prove authenticated live HTTP and WebSocket Observatory state plus origin, bearer, session, malformed, and oversized-frame negatives","acceptance_ids":["AC-2","AC-3","AC-4"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","observatory"],"parallel_group":"runtime-v3-access","defer_reason":null},
-      {"lane":"runtime-v3-guardian-recovery","proof_role":"Prove external launch, signal forwarding, child reaping, bounded restart, pressure serialization, checkpoint restore, and invalid-config/intended-stop negatives","acceptance_ids":["AC-5","AC-7"],"deterministic":true,"resource_profile":"large","budget_seconds":900,"budget_tokens":5000,"argv":["cargo","test","--manifest-path","adl-runtime/Cargo.toml","guardian"],"parallel_group":"runtime-v3-operations","defer_reason":null},
-      {"lane":"runtime-v3-vector-telemetry","proof_role":"Prove redacted stderr to Vector routing and truthful collector-degraded kernel behavior without custom OTel","acceptance_ids":["AC-6"],"deterministic":true,"resource_profile":"large","budget_seconds":450,"budget_tokens":3000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","telemetry"],"parallel_group":"runtime-v3-operations","defer_reason":null},
-      {"lane":"runtime-v3-rollback-soak","proof_role":"Prove bounded guardian soak and explicit selector rollback without automatic cutover, Runtime v2 source edits, or AWS","acceptance_ids":["AC-5","AC-7","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":1200,"budget_tokens":5000,"argv":["bash","adl/tools/run_runtime_v3_guardian_soak.sh"],"parallel_group":"runtime-v3-full","defer_reason":null},
-      {"lane":"runtime-v3-full-kernel","proof_role":"Run the complete independent Runtime v3 kernel test suite","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":1200,"budget_tokens":8000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml"],"parallel_group":"runtime-v3-full","defer_reason":null},
-      {"lane":"runtime-v3-strict-quality","proof_role":"Prove strict lint plus exact dependency, LoC, module-growth, test-count, boundary, and evidence hygiene","acceptance_ids":["AC-6","AC-7","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":900,"budget_tokens":5000,"argv":["cargo","clippy","--manifest-path","adl-runtime-kernel/Cargo.toml","--all-targets","--all-features","--","-D","warnings"],"parallel_group":"runtime-v3-quality","defer_reason":null},
+      {"lane":"runtime-v3-secure-config-access","proof_role":"Inventory a positive configuration test count, fail closed on zero matches, then prove init validation, TLS-only configured local/remote access, actual listener discovery, and negative transport/authority cases","acceptance_ids":["AC-1","AC-2","AC-4"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["bash",".csdlc/prepared/issues/5590/run_filtered_test_lane.sh","adl-runtime-kernel/Cargo.toml","configuration"],"parallel_group":"runtime-v3-access","defer_reason":null},
+      {"lane":"runtime-v3-observatory-http-websocket","proof_role":"Inventory a positive Observatory test count, fail closed on zero matches, then prove authenticated live HTTP and WebSocket state plus origin, bearer, session, malformed, and oversized-frame negatives","acceptance_ids":["AC-2","AC-3","AC-4"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["bash",".csdlc/prepared/issues/5590/run_filtered_test_lane.sh","adl-runtime-kernel/Cargo.toml","observatory"],"parallel_group":"runtime-v3-access","defer_reason":null},
+      {"lane":"runtime-v3-guardian-recovery","proof_role":"Inventory a positive guardian test count, fail closed on zero matches, then prove launch, signals, reaping, bounded restart, pressure serialization, restore, and invalid-config/intended-stop negatives","acceptance_ids":["AC-5","AC-7"],"deterministic":true,"resource_profile":"large","budget_seconds":900,"budget_tokens":5000,"argv":["bash",".csdlc/prepared/issues/5590/run_filtered_test_lane.sh","adl-runtime/Cargo.toml","guardian"],"parallel_group":"runtime-v3-operations","defer_reason":null},
+      {"lane":"runtime-v3-vector-telemetry","proof_role":"Inventory a positive telemetry test count, fail closed on zero matches, then prove redacted stderr to Vector routing and truthful collector-degraded kernel behavior without custom OTel","acceptance_ids":["AC-6"],"deterministic":true,"resource_profile":"large","budget_seconds":450,"budget_tokens":3000,"argv":["bash",".csdlc/prepared/issues/5590/run_filtered_test_lane.sh","adl-runtime-kernel/Cargo.toml","telemetry"],"parallel_group":"runtime-v3-operations","defer_reason":null},
+      {"lane":"runtime-v3-operational-selector-rollback","proof_role":"Execute authenticated candidate Runtime v3 health, operational selector transition to the prior approved Runtime v3 target, and restored authenticated HTTPS health; report-only selection fails","acceptance_ids":["AC-7"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["bash",".csdlc/prepared/issues/5590/run_operational_selector_transition.sh","<selector-executable>","<authenticated-health-probe-executable>","<candidate-selector-ref>","<prior-selector-ref>","<candidate-health-url>","<prior-health-url>"],"parallel_group":"runtime-v3-full","defer_reason":null},
+      {"lane":"runtime-v3-guardian-soak","proof_role":"Execute the bounded guardian launch, pressure-stop, restart, and recovery soak independently of selector rollback","acceptance_ids":["AC-5","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":900,"budget_tokens":4000,"argv":["bash","adl/tools/run_runtime_v3_guardian_soak.sh"],"parallel_group":"runtime-v3-full","defer_reason":null},
+      {"lane":"runtime-v3-full-kernel","proof_role":"Run the complete independent Runtime v3 kernel test suite","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":900,"budget_tokens":8000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml"],"parallel_group":"runtime-v3-full","defer_reason":null},
+      {"lane":"runtime-v3-strict-quality","proof_role":"Prove strict lint plus exact dependency, LoC, module-growth, test-count, boundary, and evidence hygiene","acceptance_ids":["AC-6","AC-7","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":5000,"argv":["cargo","clippy","--manifest-path","adl-runtime-kernel/Cargo.toml","--all-targets","--all-features","--","-D","warnings"],"parallel_group":"runtime-v3-quality","defer_reason":null},
       {"lane":"diff-hygiene","proof_role":"Verify the exact issue patch has no whitespace or unrelated product changes","acceptance_ids":["AC-8"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":500,"argv":["git","diff","--check"],"parallel_group":"local-control","defer_reason":null}
     ],
     "failure_policy": "Fail closed on missing #5591 integration eligibility, claim collision, plaintext access, weak or missing authentication, fake discovery, WebSocket policy bypass, secret leakage, unbounded restart, lost pressure state, collector-owned liveness, Runtime v2 edits, AWS use, hard-coded IPs, sidecars, deferred proof, budget breach, actionable review findings, or non-green exact-revision state.",
