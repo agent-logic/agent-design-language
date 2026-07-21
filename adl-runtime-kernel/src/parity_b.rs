@@ -4,14 +4,16 @@ use std::{
 };
 
 use async_trait::async_trait;
+use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    execute_loop, AdaptationState, ExecutorError, FailureClass, LoopDefinition, LoopStatus,
-    OperationExecutor, OperationRequest, ReasoningCheckpoint, ReasoningGraphDefinition,
-    RecordedObservation, ValidatedReasoningGraph,
+    execute_loop, resume_reasoning, AdaptationState, ExecutorError, FailureClass, GraphPatch,
+    LoopDefinition, LoopStatus, MutationEvidence, MutationGate, MutationGrant, OperationExecutor,
+    OperationRequest, ReasoningCheckpoint, ReasoningGraphDefinition, RecordedObservation,
+    ValidatedReasoningGraph,
 };
 
 pub const PARITY_B_REQUEST_SCHEMA: &str = "adl.runtime.parity_b.request.v1";
@@ -63,6 +65,27 @@ pub struct ParityBRequest {
     pub loop_definition: LoopDefinition,
     pub signals: AdvisorySignals,
     pub gates: CognitionGates,
+    pub resume: Option<ParityBLoopCheckpoint>,
+    pub execution_slice_iterations: u32,
+    pub mutation: Option<ParityBMutation>,
+    pub policy_key_id: String,
+    pub policy_signature: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ParityBMutation {
+    pub grant: MutationGrant,
+    pub patches: Vec<GraphPatch>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ParityBLoopCheckpoint {
+    pub reasoning: ReasoningCheckpoint,
+    pub completed_iterations: u32,
+    pub remaining_deadline_millis: u64,
+    pub cancellation_observed: bool,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -112,6 +135,8 @@ pub struct ParityBReceipt {
     pub state_hash: String,
     pub evidence_anchor: String,
     pub features: Vec<FeatureDisposition>,
+    pub resume: Option<ParityBLoopCheckpoint>,
+    pub mutation_evidence: Option<MutationEvidence>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -124,6 +149,7 @@ struct StoredReceipt {
 struct ExecutorState {
     accepted_sequence: u64,
     evidence_anchor: String,
+    shutdown: bool,
     completed: BTreeMap<String, StoredReceipt>,
 }
 
@@ -132,23 +158,36 @@ struct ExecutorCheckpoint {
     schema: String,
     state: ExecutorState,
     state_hash: String,
+    signing_key_id: String,
+    signature: String,
 }
 
 pub struct ParityBExecutor {
     state: Mutex<ExecutorState>,
-}
-
-impl Default for ParityBExecutor {
-    fn default() -> Self {
-        Self::new()
-    }
+    policy_keys: BTreeMap<String, VerifyingKey>,
+    checkpoint_key_id: String,
+    checkpoint_signing_key: SigningKey,
+    mutation_gate: Option<std::sync::Arc<MutationGate>>,
 }
 
 impl ParityBExecutor {
-    pub fn new() -> Self {
-        Self {
-            state: Mutex::new(ExecutorState::default()),
+    pub fn new(
+        policy_keys: BTreeMap<String, VerifyingKey>,
+        checkpoint_key_id: impl Into<String>,
+        checkpoint_signing_key: SigningKey,
+        mutation_gate: Option<std::sync::Arc<MutationGate>>,
+    ) -> Result<Self, ParityBError> {
+        let checkpoint_key_id = checkpoint_key_id.into();
+        if policy_keys.is_empty() || checkpoint_key_id.trim().is_empty() {
+            return Err(ParityBError::Authority);
         }
+        Ok(Self {
+            state: Mutex::new(ExecutorState::default()),
+            policy_keys,
+            checkpoint_key_id,
+            checkpoint_signing_key,
+            mutation_gate,
+        })
     }
 
     pub fn snapshot(&self) -> Result<Vec<u8>, ParityBError> {
@@ -158,30 +197,53 @@ impl ParityBExecutor {
             .map_err(|_| ParityBError::StatePoisoned)?
             .clone();
         let state_hash = canonical_hash(&state)?;
-        serde_json::to_vec(&ExecutorCheckpoint {
+        let mut checkpoint = ExecutorCheckpoint {
             schema: PARITY_B_CHECKPOINT_SCHEMA.to_owned(),
             state,
             state_hash,
-        })
-        .map_err(|error| ParityBError::Encoding(error.to_string()))
+            signing_key_id: self.checkpoint_key_id.clone(),
+            signature: String::new(),
+        };
+        checkpoint.signature = hex::encode(
+            self.checkpoint_signing_key
+                .sign(&checkpoint_signing_bytes(&checkpoint)?)
+                .to_bytes(),
+        );
+        serde_json::to_vec(&checkpoint).map_err(|error| ParityBError::Encoding(error.to_string()))
     }
 
-    pub fn restore(bytes: &[u8]) -> Result<Self, ParityBError> {
+    pub fn restore(
+        bytes: &[u8],
+        policy_keys: BTreeMap<String, VerifyingKey>,
+        checkpoint_key_id: impl Into<String>,
+        checkpoint_signing_key: SigningKey,
+        mutation_gate: Option<std::sync::Arc<MutationGate>>,
+    ) -> Result<Self, ParityBError> {
         let checkpoint: ExecutorCheckpoint = serde_json::from_slice(bytes)
             .map_err(|error| ParityBError::Encoding(error.to_string()))?;
+        let checkpoint_key_id = checkpoint_key_id.into();
+        let signature = decode_signature(&checkpoint.signature)?;
         if checkpoint.schema != PARITY_B_CHECKPOINT_SCHEMA
+            || checkpoint.signing_key_id != checkpoint_key_id
+            || checkpoint_signing_key
+                .verifying_key()
+                .verify(&checkpoint_signing_bytes(&checkpoint)?, &signature)
+                .is_err()
             || checkpoint.state_hash != canonical_hash(&checkpoint.state)?
             || checkpoint.state.completed.len() > MAX_RETAINED_RECEIPTS
-            || checkpoint
-                .state
-                .completed
-                .values()
-                .any(|stored| stored.receipt.accepted_sequence == 0)
+            || !valid_completed_state(&checkpoint.state)?
         {
             return Err(ParityBError::CheckpointIntegrity);
         }
+        if policy_keys.is_empty() {
+            return Err(ParityBError::Authority);
+        }
         Ok(Self {
             state: Mutex::new(checkpoint.state),
+            policy_keys,
+            checkpoint_key_id,
+            checkpoint_signing_key,
+            mutation_gate,
         })
     }
 
@@ -205,6 +267,17 @@ impl ParityBExecutor {
         let request: ParityBRequest = serde_json::from_slice(&operation.payload)
             .map_err(|error| ParityBError::Encoding(error.to_string()))?;
         validate_request(&request)?;
+        self.verify_policy(&request)?;
+        {
+            let mut state = self.state.lock().map_err(|_| ParityBError::StatePoisoned)?;
+            if state.shutdown {
+                return Err(ParityBError::Shutdown);
+            }
+            if request.gates.shutdown_requested {
+                state.shutdown = true;
+                return Err(ParityBError::Shutdown);
+            }
+        }
         let request_hash = canonical_hash(&request)?;
         if let Some(existing) = self
             .state
@@ -224,25 +297,87 @@ impl ParityBExecutor {
         if matches!(disposition, ParityBCognitionDisposition::Refuse) {
             return Err(ParityBError::FreedomGate);
         }
-        if matches!(disposition, ParityBCognitionDisposition::Shutdown) {
-            return Err(ParityBError::Shutdown);
+        if matches!(disposition, ParityBCognitionDisposition::ReviewRequired) {
+            return Err(ParityBError::HumanReviewRequired);
         }
 
-        let graph = ValidatedReasoningGraph::validate(request.graph.clone())?;
-        let initial = AdaptationState::new(
-            request.observation.score,
-            graph.hash(),
-            &request.policy_hash,
-        );
+        let submitted_graph = ValidatedReasoningGraph::validate(request.graph.clone())?;
+        let mutation_evidence = match (&request.mutation, &self.mutation_gate) {
+            (Some(mutation), Some(gate)) if gate.graph().hash() == submitted_graph.hash() => {
+                Some(gate.apply_and_migrate(&mutation.grant, &mutation.patches)?)
+            }
+            (None, _) => None,
+            _ => return Err(ParityBError::MutationAuthority),
+        };
+        let graph = self
+            .mutation_gate
+            .as_ref()
+            .filter(|_| mutation_evidence.is_some())
+            .map(|gate| gate.graph())
+            .unwrap_or(submitted_graph);
+        let (initial, completed_iterations, remaining_deadline_millis) =
+            if let Some(resume) = &request.resume {
+                if resume.cancellation_observed
+                    || resume.completed_iterations >= request.loop_definition.max_iterations
+                    || resume.remaining_deadline_millis == 0
+                {
+                    return Err(ParityBError::ResumeBudget);
+                }
+                (
+                    resume_reasoning(
+                        &graph,
+                        &request.policy_hash,
+                        &request.loop_definition,
+                        &request.observation,
+                        &resume.reasoning,
+                        &[],
+                    )?,
+                    resume.completed_iterations,
+                    resume.remaining_deadline_millis,
+                )
+            } else {
+                (
+                    AdaptationState::new(
+                        request.observation.score,
+                        graph.hash(),
+                        &request.policy_hash,
+                    ),
+                    0,
+                    request.loop_definition.deadline_millis,
+                )
+            };
+        let remaining_iterations = request
+            .loop_definition
+            .max_iterations
+            .checked_sub(completed_iterations)
+            .ok_or(ParityBError::ResumeBudget)?;
+        let mut slice = request.loop_definition.clone();
+        slice.max_iterations = remaining_iterations.min(request.execution_slice_iterations);
+        slice.deadline_millis = remaining_deadline_millis;
+        let started = std::time::Instant::now();
         let outcome = execute_loop(
             &graph,
-            &request.loop_definition,
+            &slice,
             &request.observation,
             initial,
             CancellationToken::new(),
         )
         .await?;
         let checkpoint = ReasoningCheckpoint::from_state(outcome.state.clone())?;
+        let elapsed = u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX);
+        let total_iterations = completed_iterations
+            .checked_add(outcome.iterations)
+            .ok_or(ParityBError::ResumeBudget)?;
+        let remaining_deadline_millis = remaining_deadline_millis.saturating_sub(elapsed.max(1));
+        let resume = (outcome.status != LoopStatus::Converged
+            && total_iterations < request.loop_definition.max_iterations
+            && remaining_deadline_millis > 0)
+            .then_some(ParityBLoopCheckpoint {
+                reasoning: checkpoint.clone(),
+                completed_iterations: total_iterations,
+                remaining_deadline_millis,
+                cancellation_observed: outcome.status == LoopStatus::Cancelled,
+            });
 
         let mut state = self.state.lock().map_err(|_| ParityBError::StatePoisoned)?;
         if state.completed.len() >= MAX_RETAINED_RECEIPTS {
@@ -273,6 +408,8 @@ impl ParityBExecutor {
             state_hash: checkpoint.state_hash,
             evidence_anchor: evidence_anchor.clone(),
             features: feature_dispositions(),
+            resume,
+            mutation_evidence,
         };
         state.evidence_anchor = evidence_anchor;
         state.completed.insert(
@@ -283,6 +420,18 @@ impl ParityBExecutor {
             },
         );
         Ok(receipt)
+    }
+
+    fn verify_policy(&self, request: &ParityBRequest) -> Result<(), ParityBError> {
+        let key = self
+            .policy_keys
+            .get(&request.policy_key_id)
+            .ok_or(ParityBError::Authority)?;
+        key.verify(
+            &policy_signing_bytes(request)?,
+            &decode_signature(&request.policy_signature)?,
+        )
+        .map_err(|_| ParityBError::Authority)
     }
 }
 
@@ -306,22 +455,28 @@ pub fn feature_dispositions() -> Vec<FeatureDisposition> {
     [
         ("reasoning_graph", FeatureDispositionKind::LiveRuntimeV3),
         ("bounded_loop", FeatureDispositionKind::LiveRuntimeV3),
-        ("adaptive_learning", FeatureDispositionKind::LiveRuntimeV3),
+        (
+            "adaptive_learning",
+            FeatureDispositionKind::AcceptedBoundary,
+        ),
         (
             "affect_reasoning_control",
             FeatureDispositionKind::LiveRuntimeV3,
         ),
         ("governed_cognition", FeatureDispositionKind::LiveRuntimeV3),
-        ("curiosity_discovery", FeatureDispositionKind::LiveRuntimeV3),
+        (
+            "curiosity_discovery",
+            FeatureDispositionKind::AcceptedBoundary,
+        ),
         ("theory_of_mind", FeatureDispositionKind::AcceptedBoundary),
-        ("constructability", FeatureDispositionKind::LiveRuntimeV3),
-        ("godel_mechanics", FeatureDispositionKind::LiveRuntimeV3),
+        ("constructability", FeatureDispositionKind::AcceptedBoundary),
+        ("godel_mechanics", FeatureDispositionKind::AcceptedBoundary),
         ("guild", FeatureDispositionKind::AcceptedBoundary),
         (
             "economics_context",
             FeatureDispositionKind::AcceptedBoundary,
         ),
-        ("adl.skill.v1", FeatureDispositionKind::LiveRuntimeV3),
+        ("adl.skill.v1", FeatureDispositionKind::AcceptedBoundary),
     ]
     .into_iter()
     .map(|(feature, disposition)| FeatureDisposition {
@@ -339,6 +494,66 @@ pub fn feature_dispositions() -> Vec<FeatureDisposition> {
     .collect()
 }
 
+pub fn sign_policy_request(
+    request: &mut ParityBRequest,
+    key_id: impl Into<String>,
+    signing_key: &SigningKey,
+) -> Result<(), ParityBError> {
+    request.policy_key_id = key_id.into();
+    request.policy_signature.clear();
+    request.policy_signature =
+        hex::encode(signing_key.sign(&policy_signing_bytes(request)?).to_bytes());
+    Ok(())
+}
+
+fn policy_signing_bytes(request: &ParityBRequest) -> Result<Vec<u8>, ParityBError> {
+    let mut unsigned = request.clone();
+    unsigned.policy_signature.clear();
+    serde_json::to_vec(&unsigned).map_err(|error| ParityBError::Encoding(error.to_string()))
+}
+
+fn checkpoint_signing_bytes(checkpoint: &ExecutorCheckpoint) -> Result<Vec<u8>, ParityBError> {
+    let mut unsigned = checkpoint.clone();
+    unsigned.signature.clear();
+    serde_json::to_vec(&unsigned).map_err(|error| ParityBError::Encoding(error.to_string()))
+}
+
+fn decode_signature(value: &str) -> Result<Signature, ParityBError> {
+    let bytes = hex::decode(value).map_err(|_| ParityBError::Authority)?;
+    let bytes: [u8; 64] = bytes.try_into().map_err(|_| ParityBError::Authority)?;
+    Ok(Signature::from_bytes(&bytes))
+}
+
+fn valid_completed_state(state: &ExecutorState) -> Result<bool, ParityBError> {
+    let mut anchor = String::new();
+    let mut sequence = 0_u64;
+    let mut ordered = state.completed.iter().collect::<Vec<_>>();
+    ordered.sort_by_key(|(_, stored)| stored.receipt.accepted_sequence);
+    for (request_id, stored) in ordered {
+        sequence = sequence
+            .checked_add(1)
+            .ok_or(ParityBError::CheckpointIntegrity)?;
+        let receipt = &stored.receipt;
+        if receipt.schema != PARITY_B_RECEIPT_SCHEMA
+            || receipt.request_id != *request_id
+            || receipt.accepted_sequence != sequence
+            || !is_hash(&stored.request_hash)
+            || !is_hash(&receipt.state_hash)
+            || canonical_hash(&(
+                &anchor,
+                request_id,
+                &stored.request_hash,
+                &receipt.state_hash,
+                sequence,
+            ))? != receipt.evidence_anchor
+        {
+            return Ok(false);
+        }
+        anchor = receipt.evidence_anchor.clone();
+    }
+    Ok(sequence == state.accepted_sequence && anchor == state.evidence_anchor)
+}
+
 fn validate_request(request: &ParityBRequest) -> Result<(), ParityBError> {
     if request.schema != PARITY_B_REQUEST_SCHEMA
         || !is_hash(&request.policy_hash)
@@ -349,6 +564,8 @@ fn validate_request(request: &ParityBRequest) -> Result<(), ParityBError> {
         || request.signals.affect_adjustment.unsigned_abs() > 100
         || request.signals.theory_of_mind_confidence > 100
         || request.signals.curiosity_steps > MAX_DISCOVERY_STEPS
+        || request.execution_slice_iterations == 0
+        || request.execution_slice_iterations > request.loop_definition.max_iterations
     {
         return Err(ParityBError::InvalidRequest);
     }
@@ -446,12 +663,18 @@ pub enum ParityBError {
     FreedomGate,
     #[error("shutdown monotonically denies new execution")]
     Shutdown,
+    #[error("human review is required before execution")]
+    HumanReviewRequired,
     #[error("request id was reused with different content")]
     RequestConflict,
     #[error("retained evidence capacity is exhausted")]
     EvidenceCapacity,
     #[error("checkpoint authenticity or bounds failed")]
     CheckpointIntegrity,
+    #[error("resume cannot reset iteration, deadline, or cancellation budgets")]
+    ResumeBudget,
+    #[error("signed one-shot mutation authority is unavailable or mismatched")]
+    MutationAuthority,
     #[error("Parity-B state mutex is poisoned")]
     StatePoisoned,
     #[error("Parity-B encoding failed: {0}")]

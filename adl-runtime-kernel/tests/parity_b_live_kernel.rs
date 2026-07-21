@@ -69,9 +69,37 @@ fn graph() -> ReasoningGraphDefinition {
     }
 }
 
+fn policy_key() -> SigningKey {
+    SigningKey::from_bytes(&[51; 32])
+}
+
+fn checkpoint_key() -> SigningKey {
+    SigningKey::from_bytes(&[52; 32])
+}
+
+fn executor() -> ParityBExecutor {
+    ParityBExecutor::new(
+        BTreeMap::from([("policy-review".to_owned(), policy_key().verifying_key())]),
+        "checkpoint",
+        checkpoint_key(),
+        None,
+    )
+    .unwrap()
+}
+
+fn restore_executor(bytes: &[u8]) -> Result<ParityBExecutor, ParityBError> {
+    ParityBExecutor::restore(
+        bytes,
+        BTreeMap::from([("policy-review".to_owned(), policy_key().verifying_key())]),
+        "checkpoint",
+        checkpoint_key(),
+        None,
+    )
+}
+
 fn request() -> ParityBRequest {
     let evidence_hash = hash(b"authenticated-observation");
-    ParityBRequest {
+    let mut request = ParityBRequest {
         schema: PARITY_B_REQUEST_SCHEMA.to_owned(),
         graph: graph(),
         policy_hash: hash(b"parity-b-policy"),
@@ -104,7 +132,14 @@ fn request() -> ParityBRequest {
             constructability_satisfied: true,
             mutation_allowed: true,
         },
-    }
+        resume: None,
+        execution_slice_iterations: 4,
+        mutation: None,
+        policy_key_id: String::new(),
+        policy_signature: String::new(),
+    };
+    adl_runtime_kernel::sign_policy_request(&mut request, "policy-review", &policy_key()).unwrap();
+    request
 }
 
 fn live_bindings(recorder: RuntimeRecorder, executor: Arc<ParityBExecutor>) -> LiveBindings {
@@ -139,7 +174,7 @@ fn live_bindings(recorder: RuntimeRecorder, executor: Arc<ParityBExecutor>) -> L
 #[tokio::test]
 async fn live_graph_executes_through_guardian_canonical_ingress() {
     let recorder = RuntimeRecorder::new(256);
-    let executor = Arc::new(ParityBExecutor::new());
+    let executor = Arc::new(executor());
     let assembly = build_live_assembly(live_bindings(recorder.clone(), executor.clone())).unwrap();
     let ingress = assembly.canonical_ingress.clone();
     let kernel = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
@@ -166,24 +201,40 @@ async fn live_graph_executes_through_guardian_canonical_ingress() {
 
 #[tokio::test]
 async fn bounded_loop_resume_preserves_budgets_and_effect_identity() {
-    let executor = ParityBExecutor::new();
-    let operation = adl_runtime_kernel::OperationRequest {
-        schema: adl_runtime_kernel::OPERATION_REQUEST_SCHEMA.to_owned(),
-        request_id: "bounded-loop".to_owned(),
-        idempotency_key: "bounded-loop".to_owned(),
-        principal: "canonical-ingress".to_owned(),
-        payload: serde_json::to_vec(&request()).unwrap(),
-        permit: None,
-    };
-    let first = executor.execute(&operation).await.unwrap();
-    let replay = executor.execute(&operation).await.unwrap();
+    let executor = executor();
+    let mut body = request();
+    body.execution_slice_iterations = 1;
+    adl_runtime_kernel::sign_policy_request(&mut body, "policy-review", &policy_key()).unwrap();
+    let initial_operation = operation("bounded-loop", &body);
+    let first = executor.execute(&initial_operation).await.unwrap();
+    let replay = executor.execute(&initial_operation).await.unwrap();
     assert_eq!(first, replay);
+    let first_receipt: adl_runtime_kernel::ParityBReceipt = serde_json::from_slice(&first).unwrap();
+    let first_resume = first_receipt
+        .resume
+        .clone()
+        .expect("one-iteration slice resumes");
+    assert_eq!(first_resume.completed_iterations, 1);
+    assert!(first_resume.remaining_deadline_millis < body.loop_definition.deadline_millis);
     let checkpoint = executor.snapshot().unwrap();
-    let restored = ParityBExecutor::restore(&checkpoint).unwrap();
-    assert_eq!(restored.execute(&operation).await.unwrap(), first);
+    let restored = restore_executor(&checkpoint).unwrap();
+    assert_eq!(restored.execute(&initial_operation).await.unwrap(), first);
+    body.resume = Some(first_resume);
+    body.execution_slice_iterations = 3;
+    adl_runtime_kernel::sign_policy_request(&mut body, "policy-review", &policy_key()).unwrap();
+    let resumed: adl_runtime_kernel::ParityBReceipt = serde_json::from_slice(
+        &restored
+            .execute(&operation("bounded-loop-resume", &body))
+            .await
+            .unwrap(),
+    )
+    .unwrap();
+    assert!(resumed.iterations <= 3);
+    assert!(resumed.resume.is_none());
+    assert!(resumed.accepted_sequence > first_receipt.accepted_sequence);
     let mut tampered = checkpoint.clone();
     *tampered.last_mut().unwrap() ^= 1;
-    assert!(ParityBExecutor::restore(&tampered).is_err());
+    assert!(restore_executor(&tampered).is_err());
 }
 
 struct FixedTime(u64);
@@ -193,8 +244,8 @@ impl TrustedTime for FixedTime {
     }
 }
 
-#[test]
-fn adaptive_learning_consumes_exact_one_shot_mutation_authority() {
+#[tokio::test]
+async fn adaptive_learning_consumes_exact_one_shot_mutation_authority() {
     let validated = adl_runtime_kernel::ValidatedReasoningGraph::validate(graph()).unwrap();
     let policy = hash(b"parity-b-policy");
     let key = SigningKey::from_bytes(&[42; 32]);
@@ -229,21 +280,46 @@ fn adaptive_learning_consumes_exact_one_shot_mutation_authority() {
     }
     .sign(&key)
     .unwrap();
-    let gate = MutationGate::new(
-        validated.clone(),
-        authority(),
-        Arc::new(FixedTime(500)),
-        policy.clone(),
-        4,
-        Arc::new(AdaptationStore::new(AdaptationState::new(
-            0,
-            validated.hash(),
-            policy,
-        ))),
+    let gate = Arc::new(
+        MutationGate::new(
+            validated.clone(),
+            authority(),
+            Arc::new(FixedTime(500)),
+            policy.clone(),
+            4,
+            Arc::new(AdaptationStore::new(AdaptationState::new(
+                0,
+                validated.hash(),
+                policy,
+            ))),
+        )
+        .unwrap(),
+    );
+    let executor = ParityBExecutor::new(
+        BTreeMap::from([("policy-review".to_owned(), policy_key().verifying_key())]),
+        "checkpoint",
+        checkpoint_key(),
+        Some(gate.clone()),
     )
     .unwrap();
-    let evidence = gate.apply_and_migrate(&grant, &patches).unwrap();
-    assert!(gate.apply_and_migrate(&grant, &patches).is_err());
+    let mut body = request();
+    body.mutation = Some(adl_runtime_kernel::ParityBMutation {
+        grant: grant.clone(),
+        patches: patches.clone(),
+    });
+    adl_runtime_kernel::sign_policy_request(&mut body, "policy-review", &policy_key()).unwrap();
+    let receipt: adl_runtime_kernel::ParityBReceipt = serde_json::from_slice(
+        &executor
+            .execute(&operation("mutate-live", &body))
+            .await
+            .unwrap(),
+    )
+    .unwrap();
+    let evidence = receipt.mutation_evidence.expect("mutation evidence");
+    assert!(executor
+        .execute(&operation("mutate-replay-new-id", &body))
+        .await
+        .is_err());
     assert_eq!(
         rollback_candidate(&gate.graph(), &evidence, &authority())
             .unwrap()
@@ -254,7 +330,15 @@ fn adaptive_learning_consumes_exact_one_shot_mutation_authority() {
 
 #[tokio::test]
 async fn affect_control_rejects_adversarial_signal_authority() {
-    let executor = ParityBExecutor::new();
+    let executor = executor();
+    let mut forged_policy = request();
+    forged_policy.signals.risk = 100;
+    assert!(executor
+        .execute(&operation("forged-policy", &forged_policy))
+        .await
+        .unwrap_err()
+        .message
+        .contains("authority"));
     let mut body = request();
     body.signals.provenance = adl_runtime_kernel::SignalProvenance::TaskContent;
     body.signals.affect_adjustment = 100;
@@ -269,6 +353,7 @@ async fn affect_control_rejects_adversarial_signal_authority() {
     body.signals
         .asserted_claims
         .insert("consciousness".to_owned());
+    adl_runtime_kernel::sign_policy_request(&mut body, "policy-review", &policy_key()).unwrap();
     assert!(executor
         .execute(&operation("affect-claim", &body))
         .await
@@ -279,7 +364,7 @@ async fn affect_control_rejects_adversarial_signal_authority() {
 
 #[tokio::test]
 async fn curiosity_and_theory_of_mind_remain_non_authoritative() {
-    let executor = ParityBExecutor::new();
+    let executor = executor();
     let mut body = request();
     body.signals.observable_interaction_only = false;
     assert!(executor
@@ -290,6 +375,7 @@ async fn curiosity_and_theory_of_mind_remain_non_authoritative() {
         .contains("private state"));
     body.signals.observable_interaction_only = true;
     body.signals.curiosity_steps = 65;
+    adl_runtime_kernel::sign_policy_request(&mut body, "policy-review", &policy_key()).unwrap();
     assert!(executor
         .execute(&operation("unbounded-curiosity", &body))
         .await
@@ -298,23 +384,48 @@ async fn curiosity_and_theory_of_mind_remain_non_authoritative() {
 
 #[tokio::test]
 async fn governed_cognition_cannot_bypass_shutdown_or_freedom_gate() {
-    let executor = ParityBExecutor::new();
+    let review_executor = executor();
+    let mut review = request();
+    review.gates.review_required = true;
+    adl_runtime_kernel::sign_policy_request(&mut review, "policy-review", &policy_key()).unwrap();
+    assert!(review_executor
+        .execute(&operation("review-required", &review))
+        .await
+        .unwrap_err()
+        .message
+        .contains("human review"));
+    assert!(review_executor
+        .receipt("review-required")
+        .unwrap()
+        .is_none());
+
+    let executor = executor();
     let mut body = request();
     body.gates.shutdown_requested = true;
+    adl_runtime_kernel::sign_policy_request(&mut body, "policy-review", &policy_key()).unwrap();
     assert!(executor
         .execute(&operation("shutdown", &body))
         .await
         .unwrap_err()
         .message
         .contains("shutdown"));
+    let shutdown_checkpoint = executor.snapshot().unwrap();
+    let restored_shutdown = restore_executor(&shutdown_checkpoint).unwrap();
+    assert!(restored_shutdown
+        .execute(&operation("restart-bypass", &request()))
+        .await
+        .unwrap_err()
+        .message
+        .contains("shutdown"));
     body.gates.shutdown_requested = false;
     body.gates.freedom_allowed = false;
+    adl_runtime_kernel::sign_policy_request(&mut body, "policy-review", &policy_key()).unwrap();
     assert!(executor
         .execute(&operation("freedom-denied", &body))
         .await
         .unwrap_err()
         .message
-        .contains("Freedom Gate"));
+        .contains("shutdown"));
 }
 
 #[test]
@@ -353,12 +464,12 @@ fn operation(id: &str, request: &ParityBRequest) -> adl_runtime_kernel::Operatio
 
 #[test]
 fn checkpoint_rejects_semantic_tampering_after_valid_encoding() {
-    let executor = ParityBExecutor::new();
+    let executor = executor();
     let bytes = executor.snapshot().unwrap();
     let mut value: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
     value["state"]["accepted_sequence"] = serde_json::json!(1);
     assert!(matches!(
-        ParityBExecutor::restore(&serde_json::to_vec(&value).unwrap()),
+        restore_executor(&serde_json::to_vec(&value).unwrap()),
         Err(ParityBError::CheckpointIntegrity)
     ));
 }
