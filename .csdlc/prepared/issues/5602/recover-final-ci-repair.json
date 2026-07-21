@@ -1,0 +1,8 @@
+{
+  "issue": 5602,
+  "expected_generation": 23,
+  "expected_digest": "3ea035ffb1bd58c8e32875c888b922f711cbf46804c29150ca7eb3af4d2e50a7",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Hosted CI exposed a coupled workflow installation condition; return to implementation to protect that exact scope and retain the reviewed repair."
+}

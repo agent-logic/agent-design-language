@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "base": "main",
   "head": "codex/5602-hosted-coverage-no-report",
-  "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes",
-  "body": "Closes #5602\n\nRepairs the hosted authoritative coverage lane after PR #5599 run 29773292101 proved that all tests could pass while a redundant partition-local `llvm-cov report` crashed with SIGBUS. Every partitioned `cargo llvm-cov nextest` command now uses supported `--no-report` profile-collection mode; the existing explicit combined ADL and Runtime reports remain authoritative.\n\nNo test selector, partition, threshold, summary, or fail-closed gate is weakened. The focused typed PVF lane passed, the build/profile/output plan resolves under `/Volumes/FastWork/adl-5602-coverage`, and an exact-revision bounded review returned no findings. No AWS or raw gh was used.",
+  "title": "[v0.91.8][CI] Complete external nextest coverage collection",
+  "body": "Follow-up to #5602.\n\nThe first repair used an incompatible cargo-llvm-cov flag pair. This correction uses cargo-llvm-cov's supported external-test workflow: clean and source show-env, execute partitioned cargo nextest run, and render one explicit combined report per workspace. Run-specific Cargo and llvm-cov targets preserve concurrent isolation.\n\nThe authoritative coverage contract and the coupled CI runtime contract both pass. Tests prove that the generated instrumentation environment is consumed, while selectors, partitions, summaries, thresholds, and fail-closed behavior remain intact. Final exact-head review returned no findings. No AWS or raw gh was used.",
   "draft": true,
-  "revision": "git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886",
-  "commit_sha": "ffcd2f6d347af87bb3551b6c19c333966e90f05f"
+  "revision": "git-blake3:d0acba5ae63d49c893dd1035a7bdd03d35d61bdc:dffce2e07a5433a9b6d236743fa79e5a2b16f7e3b3bb81fad6c7efa140389fa8",
+  "commit_sha": "d0acba5ae63d49c893dd1035a7bdd03d35d61bdc"
 }

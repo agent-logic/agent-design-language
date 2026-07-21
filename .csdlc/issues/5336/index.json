@@ -4,45 +4,55 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
   "phase": "published",
-  "generation": 15,
-  "digest": "9d45c0d6f848d482ce66eb40a94870e31395bd6fb46ba01acd57f9be31705d4b",
+  "generation": 45,
+  "digest": "ed65a8d9b412331dcd45bcf1b7c84fbd0f00b1d65f95680ec00fb68b14289be1",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 15,
+    "generation": 45,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
     "branch": "codex/5336-v0918-runtime-parity-plan",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5336",
       ".csdlc/issues/5336",
       ".csdlc/prepared/issues/5336",
-      ".csdlc/evidence/5336",
+      ".github/workflows/ci.yaml",
+      "adl/.gitignore",
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_merge_coverage_summaries.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
       "docs/milestones/v0.91.8"
     ],
     "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
   },
   "review_assignment": {
-    "reviewer": "task:019f80f2-e712-7000-ab8a-8b843d435321",
+    "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:6eb0ad621033e8baafeef0f357900c883c4ea92b:5dc9049dc1f1db3cdc078b96b906b6f7ebaff1b3c40e0865ef88d8123dbd5ecb",
+    "revision": "git-blake3:02ef273a804dbd52dcc0d6ddb3adb0d16d0160ec:2ab4631b728b44094f94af6c70c9df7fb212a1a935e3f1c73a03d8c9ca53fde0",
     "scope": [
-      "adl/tools/report_runtime_v3_loc.sh",
-      "docs/milestones/v0.91.8",
-      ".csdlc/prepared/issues/5336/validate_architecture_plan.rb",
-      ".csdlc/prepared/issues/5336/validate_links.rb"
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
     ]
   },
   "review": {
-    "reviewer": "task:019f80f2-e712-7000-ab8a-8b843d435321",
+    "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
     "scope": [
-      "adl/tools/report_runtime_v3_loc.sh",
-      "docs/milestones/v0.91.8",
-      ".csdlc/prepared/issues/5336/validate_architecture_plan.rb",
-      ".csdlc/prepared/issues/5336/validate_links.rb"
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
     ],
-    "reviewed_revision": "git-blake3:6eb0ad621033e8baafeef0f357900c883c4ea92b:5dc9049dc1f1db3cdc078b96b906b6f7ebaff1b3c40e0865ef88d8123dbd5ecb",
+    "reviewed_revision": "git-blake3:02ef273a804dbd52dcc0d6ddb3adb0d16d0160ec:2ab4631b728b44094f94af6c70c9df7fb212a1a935e3f1c73a03d8c9ca53fde0",
     "findings": [],
     "residual_risks": [],
     "completed": true,
@@ -55,8 +65,8 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5599",
     "base": "main",
     "head": "codex/5336-v0918-runtime-parity-plan",
-    "revision": "git-blake3:0614b0007200a55e966f23363ce5dc603b8b8e8a:b7eb413745140abc1f610d9bcd6b27624dbfac215306f74d9cab63f3feacef53",
-    "draft": true,
+    "revision": "git-blake3:f0da8cec9f76c8ca9d6472bc7b93285e50712f52:4168f2f2cb990a6a83b704aefbb80188ec5955f11194e88057269ef22e7a04ee",
+    "draft": false,
     "observed_state": "open"
   },
   "readiness": null,
@@ -72,34 +82,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "85a84a79b2e8917af07065fe0b7414269df60fbf78e2f323f66e465b5d00db68",
+      "values_digest": "f01a9d82be288b2cde748e11571e2b98cd1d0f2287143bc62fa8c8c89f63ad9c",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "2f4abb65bc90979003d2da123734f3a276ab78aaa6c349af93bc24ee9f7724ca",
+      "values_digest": "740e29b9a30bfb2d7234eadbcf5a528ff5405e8b950d0a546c8919a7d5380d27",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "5e22e3ff5f309dd7f9af09c19609b5c645e8cf7d493b01aad233b162b31404b3",
+      "values_digest": "815e6810f1fa3424be8faa22e6d2b6662165b375813129a733a44f8790596703",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "e080ee53b902ce4307b6b231bd217ea6c9d7c8b09d44e6c6bb14a047293aa66e",
-      "rendered_digest": "7510323bddaa609bfbc5d0113599ce5bb313c92e2d6e204c221d809b5200c436",
-      "ast_digest": "d0de2dd6e7ff179c5f415b6a0aa6fee1240b24d77b706096f4788aadc6cd5a8f"
+      "values_digest": "6744760d95ee77bbf0585896e9351d29cdb6db69bc78e10b33ed36bb706387a1",
+      "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
+      "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "335c40a8813bce974f4d7462c5e1845237ac7e91276ef16e3a0460008b00d88e",
-      "rendered_digest": "b772c77cb12de3850a8574f6a8ee5d7e8b7efeee94e2feee7e55e59a21bb114b",
-      "ast_digest": "984d06395659a56b6bf55c9874efd09e6d396f165bec46136bcd5a074a642e43"
+      "values_digest": "cbfd4ec4d066f6fb25430dc2a58d505b5d0a51bb787e68247beb6d782a00e0f1",
+      "rendered_digest": "1e8b9dde290f9638fa774f00542a74925b45d7bf00290e528a932cb511e42aac",
+      "ast_digest": "ba7db63e8546263306402547b40ce0c31d0bd36a192566ff73a1b532045c2055"
     },
     "sor": {
-      "values_digest": "22a286aad05449a01b44b1735338548ca016a2233601b1bb287c8a47ae90cd32",
-      "rendered_digest": "ba2aa4963203c8f2fd54f28062934bc191c2d6d906db6c8d7a4ebe1bc423bdd9",
-      "ast_digest": "a0e0e9695948c56187faa715a75362317ba1e1883dfcacd96e0711d8ba53756f"
+      "values_digest": "d655554aa5dd4441e83e4ad7d903356c73f3edf84335a4d6981207308ae22c97",
+      "rendered_digest": "7be2a3910524f20c6ac274535fa3bbcbd38d42c84237e2d1f94712a147d3cb21",
+      "ast_digest": "0e9bed183ea55b0390001d209813f3064679b57c0c1d639a271a709cb3a086c8"
     }
   },
   "transitions": [
@@ -133,6 +143,132 @@
     },
     {
       "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review and publication identity after synchronizing PR #5599 with current main following merged CI repair #5604."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Current-main exact substantive review passed with no findings or residual risks."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review and publication after hosted coverage proved cold companion partition process exhaustion on PR #5599."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact coverage-orchestration repair rereview passed with no findings or residual risks."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after hosted CI proved incompatible nextest prebuild flags and a missing Cargo CACHEDIR.TAG in the warmed run target."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact hosted prebuild compatibility and cache-marker fix review passed with no findings or residual risks."
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after hosted CI proved process exhaustion in the cold adl-runtime companion build following the 1,406-test workspace run."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact companion-first coverage orchestration and profile-specific failure review passed with no findings or residual risks."
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after final hosted CI proved that sequential profile ordering cannot prevent cross-profile process exhaustion; independent fresh-runner coverage workers are required."
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact isolated-worker coverage orchestration review passed with no findings or residual risks."
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity for the metadata-only publication head after the substantive isolated-worker coverage review passed."
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Metadata-only publication-head review passed after the substantive isolated-worker coverage review, with no findings or residual risks."
+    },
+    {
+      "sequence": 20,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 21,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after hosted tooling contracts proved the PR-fast path-policy assertion still named the pre-isolation summary location."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact isolated path-policy contract rereview passed with no findings or residual risks."
+    },
+    {
+      "sequence": 23,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -262,6 +398,321 @@
     {
       "sequence": 18,
       "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review and publication identity after synchronizing PR #5599 with current main following merged CI repair #5604.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "task:019f80f2-e712-7000-ab8a-8b843d435321",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Current-main exact substantive review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review and publication after hosted coverage proved cold companion partition process exhaustion on PR #5599.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Own the smallest repository coverage-orchestration correction required to make PR #5599's full hosted coverage lane reliable without weakening coverage.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/run_authoritative_coverage_lane.sh\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Keep the coverage runner's generated legacy summaries out of tracked issue scope and working-tree noise.",
+      "operation": "{\"add_protected_paths\":[\"adl/.gitignore\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the bounded fail-closed coverage orchestration repair required after the hosted runner process-exhaustion failure.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-owner-budget\",\"proof_role\":\"Measure and enforce the canonical Runtime v3 source and test budget posture\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/report_runtime_v3_loc.sh\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"runtime-architecture-semantics\",\"proof_role\":\"Prove JSON and YAML schemas, canonical ownership, exact budgets, ten parity groups, four lanes, feature dispositions, non-authorization, dependency ordering, and graph acyclicity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5336/validate_architecture_plan.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"milestone-local-links\",\"proof_role\":\"Prove every local Markdown link in the v0.91.8 milestone planning package resolves\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5336/validate_links.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"coverage-orchestration-contract\",\"proof_role\":\"Prove one bounded instrumented prebuild per profile, fail-closed profile cleanup, preserved causal status, and unchanged two-partition single-report execution\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"],\"parallel_group\":\"local-control\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Check the complete issue branch for patch hygiene\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact coverage-orchestration repair rereview passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after hosted CI proved incompatible nextest prebuild flags and a missing Cargo CACHEDIR.TAG in the warmed run target.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact hosted prebuild compatibility and cache-marker fix review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after hosted CI proved process exhaustion in the cold adl-runtime companion build following the 1,406-test workspace run.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "subagent:019f82af-8377-7763-9dbd-6ad8c4373f11",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact companion-first coverage orchestration and profile-specific failure review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 41,
+      "generation": 31,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 42,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after final hosted CI proved that sequential profile ordering cannot prevent cross-profile process exhaustion; independent fresh-runner coverage workers are required.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Own the bounded hosted-runner isolation, deterministic summary merge, fail-closed contract tests, and corrected coverage-log artifact path proven necessary by repeated #5599 EAGAIN failures.",
+      "operation": "{\"add_protected_paths\":[\".github/workflows/ci.yaml\",\"adl/tools/merge_coverage_summaries.py\",\"adl/tools/test_merge_coverage_summaries.sh\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 33,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 34,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 34,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 35,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 36,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact isolated-worker coverage orchestration review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 51,
+      "generation": 37,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity for the metadata-only publication head after the substantive isolated-worker coverage review passed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 37,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 38,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 39,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Metadata-only publication-head review passed after the substantive isolated-worker coverage review, with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 55,
+      "generation": 40,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 41,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after hosted tooling contracts proved the PR-fast path-policy assertion still named the pre-isolation summary location.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 41,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Update the existing PR-fast path-policy contract to assert the isolated workspace artifact location proven by hosted CI.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/test_ci_path_policy.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 58,
+      "generation": 41,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 42,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 42,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 43,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 44,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact isolated path-policy contract rereview passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 63,
+      "generation": 45,
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

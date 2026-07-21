@@ -1,0 +1,18 @@
+{
+  "issue": 5336,
+  "expected_generation": 32,
+  "expected_digest": "8fb3e6cceaf3bd25b40ae9c0ac3f13bed85cfcf70d7ff2b34ce77edeca15b4a4",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+  "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "scope": [
+    ".github/workflows/ci.yaml",
+    "adl/tools/run_authoritative_coverage_lane.sh",
+    "adl/tools/merge_coverage_summaries.py",
+    "adl/tools/test_ci_runtime_contracts.sh",
+    "adl/tools/test_run_authoritative_coverage_lane.sh",
+    "adl/tools/test_merge_coverage_summaries.sh",
+    ".csdlc/issues/5336",
+    ".csdlc/prepared/issues/5336"
+  ]
+}

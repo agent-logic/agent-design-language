@@ -8,18 +8,22 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
+.github/workflows/ci.yaml
 adl/tools/run_authoritative_coverage_lane.sh
 adl/tools/test_run_authoritative_coverage_lane.sh
+adl/tools/test_ci_runtime_contracts.sh
+.csdlc/issues/5602
+.csdlc/prepared/issues/5602
 
 ## Prompts
 
-- Does every partition collect profiles with --no-report?
-- Are the explicit combined reports and gates unchanged?
-- Does the contract prove partition failures still fail closed?
+- Does each workspace source cargo llvm-cov show-env before executing its partitioned cargo nextest runs?
+- Does each workspace emit exactly one explicit cargo llvm-cov report after all partition profiles are collected?
+- Do the focused contracts prove instrumentation export, partition failure propagation, run isolation, and unchanged coverage gates?
 
 ## Findings
 
@@ -31,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The full hosted instrumented workspace workload remains CI integration proof; local proof used installed CLI semantics and the focused fake-cargo harness.
+- The hosted exact-head CI run remains the final integration proof after lifecycle metadata is pushed.
 
 ## Review Result
 
-Revision: Some("git-blake3:ffcd2f6d347af87bb3551b6c19c333966e90f05f:7162d9bd3201819a3dfbcaf5f2543f4ed45275a161c83b45694c7b17aba90886")
+Revision: Some("git-blake3:628028525be21d9e03bb6a216066422c1757e084:92882ea809c8013868e68be36eb19758a0ba588377d7c1d250fa7fbb0ae72e1a")
 
-Reviewer: Some("subagent:review-5602")
+Reviewer: Some("codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41")
 
 Result: pass

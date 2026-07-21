@@ -1,0 +1,25 @@
+{
+  "issue": 5602,
+  "expected_generation": 24,
+  "expected_digest": "55ac01f600395b3e0ab02a72455ee2107c2219ee374065874fa3e5705a966575",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
+  "evidence": {
+    "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/issues/5602",
+      ".csdlc/prepared/issues/5602"
+    ],
+    "reviewed_revision": "git-blake3:628028525be21d9e03bb6a216066422c1757e084:92882ea809c8013868e68be36eb19758a0ba588377d7c1d250fa7fbb0ae72e1a",
+    "findings": [],
+    "residual_risks": [
+      "The hosted exact-head CI run remains the final integration proof after lifecycle metadata is pushed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

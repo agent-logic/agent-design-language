@@ -1,0 +1,41 @@
+{
+  "issue": 5358,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "90afc86369d359862cba08097409bda1fd701a38be04ea69e2868193b4caed6d",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-acceptance",
+  "reason": "Atomically convert the preparation-only acceptance set, implementation plan, and PVF DAG into the complete no-deferral C-SDLC v2 acceptance contract.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "AC-1: The synced exact revision installs all typed v2 binaries only into .adl/bin/csdlc-v2, verifies provenance and v1_sunset inventory, and resolves generation v2.",
+      "AC-2: The complete typed lifecycle initializes, approves design, binds, edits, schedules, validates, reviews, publishes, shepherds, reconciles, merges, and closes without direct Markdown or state edits.",
+      "AC-3: All six generated cards remain schema-valid, structurally valid, digest-consistent, and doctor-clean through every lifecycle phase.",
+      "AC-4: Claim ownership, protected-path collision rejection, heartbeat and recovery, existing-worktree binding, common-Git terminal receipts, and safe release behavior fail closed.",
+      "AC-5: Publication is exact-revision-bound, review-current, issue-linked, base-correct, and unable to bypass required green validation, checks, review, or conflict truth.",
+      "AC-6: Stable deployed binaries and all nine operator skill contracts agree with selector authority and current root and nested AGENTS.md policy.",
+      "AC-7: Issue #5540, #5541, #5548, and #5558 outcomes are verified integrated from repository and terminal evidence, never waived or absorbed.",
+      "AC-8: Focused regression, all-target tests, cargo fmt --check, and strict all-target Clippy pass with no deferral.",
+      "AC-9: Merged issue #5597 and PR #5598 prove the normal-merge terminal reconciliation path and remain truthfully closed out.",
+      "AC-10: Merged issue #5600 and squash PR #5601 prove published-head and squash-merge reconciliation, including post-merge mergeable_state unknown handling, and remain truthfully closed out.",
+      "AC-11: Issue #5358 completes exact-revision subagent review, green typed publication, required-check monitoring, merge, retained terminal receipt, and tracked terminal reconciliation."
+    ],
+    "steps": [
+      {"id":"S1","action":"Install and verify the exact synced C-SDLC v2 generation in the stable dedicated directory","acceptance_ids":["AC-1","AC-6"],"status":"pending"},
+      {"id":"S2","action":"Verify independent prerequisite issues and repair normal and squash-merge terminal reconciliation defects","acceptance_ids":["AC-4","AC-7","AC-9","AC-10"],"status":"pending"},
+      {"id":"S3","action":"Execute the full no-deferral validation DAG and complete a real typed lifecycle acceptance fixture","acceptance_ids":["AC-2","AC-3","AC-5","AC-8"],"status":"pending"},
+      {"id":"S4","action":"Run bounded exact-revision subagent review, fix every actionable finding, and record current review truth","acceptance_ids":["AC-3","AC-5","AC-11"],"status":"pending"},
+      {"id":"S5","action":"Publish, shepherd required checks, merge only green work, retain receipt, and reconcile terminal tracked truth","acceptance_ids":["AC-5","AC-11"],"status":"pending"}
+    ],
+    "validation_lanes": [
+      {"lane":"generation-install-verify","proof_role":"Verify stable exact-revision v2 installation, inventory, provenance, and selector resolution","acceptance_ids":["AC-1","AC-6"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-install","verify","--repo",".","--bin-dir","/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2","--inventory","csdlc-v2/operator/coexistence.json"],"parallel_group":"authority","defer_reason":null},
+      {"lane":"focused-terminal-reconciliation","proof_role":"Prove normal merge, squash merge, published-head reconciliation, and merged-PR unknown mergeability handling","acceptance_ids":["AC-4","AC-5","AC-9","AC-10"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","gate7_lifecycle"],"parallel_group":"tests","defer_reason":null},
+      {"lane":"all-target-tests","proof_role":"Prove complete C-SDLC v2 lifecycle and regression compatibility","acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8","AC-9","AC-10"],"deterministic":true,"resource_profile":"large","budget_seconds":1200,"budget_tokens":10000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--all-targets"],"parallel_group":"tests","defer_reason":null},
+      {"lane":"strict-clippy","proof_role":"Prove warning-free all-target Rust implementation","acceptance_ids":["AC-8"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","clippy","--locked","--manifest-path","csdlc-v2/Cargo.toml","--all-targets","--","-D","warnings"],"parallel_group":"lint","defer_reason":null},
+      {"lane":"format-check","proof_role":"Prove canonical Rust formatting","acceptance_ids":["AC-8"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":1000,"argv":["cargo","fmt","--manifest-path","csdlc-v2/Cargo.toml","--","--check"],"parallel_group":"lint","defer_reason":null},
+      {"lane":"typed-doctor","proof_role":"Prove #5358 canonical record and six-card integrity after acceptance execution","acceptance_ids":["AC-3","AC-11"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor","--repo",".","--issue","5358"],"parallel_group":"authority","defer_reason":null}
+    ]
+  },
+  "fail_after_backup": false
+}

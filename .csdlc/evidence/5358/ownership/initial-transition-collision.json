@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.acceptance.observation.v1",
+  "issue": 5358,
+  "operation": "transition_active_claim",
+  "binary_source_revision": "git:d8b39153d8f3b5ba91d517820ccc3dc7e3875fea",
+  "request": ".csdlc/prepared/issues/5358/transition-to-implementation.json",
+  "outcome": "expected_fail_closed",
+  "error": {
+    "code": "claim_collision",
+    "message": "protected path 'csdlc-v2' overlaps requested 'csdlc-v2' from issue 5600 in phase Published"
+  },
+  "mutation_observed": false
+}

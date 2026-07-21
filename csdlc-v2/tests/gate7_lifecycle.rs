@@ -3,14 +3,26 @@ use csdlc_v2::cards::{
     StepStatus, ValidationLane, ValidationResult,
 };
 use csdlc_v2::{
-    assign_review, closeout_issue, edit_issue, record_merged_publication, record_publication,
-    record_readiness, record_review, BootstrapRequest, CardKind, Claim, EditRequest,
-    InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent, PublicationRequest,
-    ReadinessRequest, ReconcileTerminalRequest, RemotePullRequest, ReviewAssignmentRequest,
-    ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store, TerminalDesignRepairRequest,
-    TerminalDisposition, TerminalObservation, TerminalPlanStepRepairRequest,
-    TerminalSorArtifactRepairRequest,
+    assign_review, closeout_issue, edit_issue, prepare_ready_publication,
+    prepare_ready_reconciliation, record_merged_publication, record_publication, record_readiness,
+    record_ready_publication, record_review, validate_ready_reconciliation_state,
+    validate_ready_remote, BootstrapRequest, CardKind, Claim, ConflictState, EditRequest,
+    ErrorCode, InitialCardInput, LifecyclePhase, PlanningProfile, PublicationIntent,
+    PublicationRequest, ReadinessRequest, ReadyPublicationReconciliationRequest,
+    ReadyPublicationRequest, ReconcileTerminalRequest, RemotePullRequest, RemoteReviewState,
+    ReviewAssignmentRequest, ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store,
+    TerminalDesignRepairRequest, TerminalDisposition, TerminalObservation,
+    TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
 };
+use std::collections::BTreeMap;
+use std::fs;
+use std::io::{Read, Write};
+use std::net::{SocketAddr, TcpListener, TcpStream};
+use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
 
 fn install_native_authority(root: &std::path::Path) {
     let registry = root.join("docs/templates/prompts/current.json");
@@ -47,6 +59,294 @@ fn git(root: &std::path::Path, args: &[&str]) {
         "{}",
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+fn git_output(root: &std::path::Path, args: &[&str]) -> String {
+    let output = std::process::Command::new("git")
+        .current_dir(root)
+        .args(args)
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    String::from_utf8(output.stdout).unwrap().trim().to_owned()
+}
+
+#[derive(Clone, Debug)]
+struct HttpRequest {
+    method: String,
+    path: String,
+}
+
+struct HttpResponse {
+    status: u16,
+    body: String,
+}
+
+struct LocalHttpMock {
+    address: SocketAddr,
+    requests: Arc<Mutex<Vec<HttpRequest>>>,
+    stop: Arc<AtomicBool>,
+    thread: Option<thread::JoinHandle<()>>,
+}
+
+impl LocalHttpMock {
+    fn start(
+        respond: impl Fn(&HttpRequest) -> HttpResponse + Send + Sync + 'static,
+    ) -> LocalHttpMock {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        listener.set_nonblocking(true).unwrap();
+        let address = listener.local_addr().unwrap();
+        let requests = Arc::new(Mutex::new(Vec::new()));
+        let observed = Arc::clone(&requests);
+        let stop = Arc::new(AtomicBool::new(false));
+        let should_stop = Arc::clone(&stop);
+        let respond = Arc::new(respond);
+        let thread = thread::spawn(move || {
+            while !should_stop.load(Ordering::SeqCst) {
+                match listener.accept() {
+                    Ok((mut stream, _)) => {
+                        if let Some(request) = read_http_request(&mut stream) {
+                            observed.lock().unwrap().push(request.clone());
+                            write_http_response(&mut stream, respond(&request));
+                        }
+                    }
+                    Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                        thread::sleep(Duration::from_millis(2));
+                    }
+                    Err(error) => panic!("mock listener failed: {error}"),
+                }
+            }
+        });
+        LocalHttpMock {
+            address,
+            requests,
+            stop,
+            thread: Some(thread),
+        }
+    }
+
+    fn uri(&self) -> String {
+        format!("http://{}/", self.address)
+    }
+
+    fn count(&self, method: &str, path: &str) -> usize {
+        self.requests
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|request| request.method == method && request.path == path)
+            .count()
+    }
+}
+
+impl Drop for LocalHttpMock {
+    fn drop(&mut self) {
+        self.stop.store(true, Ordering::SeqCst);
+        let _ = TcpStream::connect(self.address);
+        if let Some(thread) = self.thread.take() {
+            thread.join().unwrap();
+        }
+    }
+}
+
+fn read_http_request(stream: &mut TcpStream) -> Option<HttpRequest> {
+    stream
+        .set_read_timeout(Some(Duration::from_secs(2)))
+        .unwrap();
+    let mut bytes = Vec::new();
+    let mut chunk = [0_u8; 4096];
+    loop {
+        let count = stream.read(&mut chunk).ok()?;
+        if count == 0 {
+            break;
+        }
+        bytes.extend_from_slice(&chunk[..count]);
+        if bytes.windows(4).any(|window| window == b"\r\n\r\n") {
+            break;
+        }
+    }
+    let first_line = String::from_utf8_lossy(&bytes).lines().next()?.to_owned();
+    let mut parts = first_line.split_whitespace();
+    Some(HttpRequest {
+        method: parts.next()?.to_owned(),
+        path: parts.next()?.to_owned(),
+    })
+}
+
+fn write_http_response(stream: &mut TcpStream, response: HttpResponse) {
+    let reason = match response.status {
+        200 => "OK",
+        500 => "Internal Server Error",
+        503 => "Service Unavailable",
+        _ => "Error",
+    };
+    let wire = format!(
+        "HTTP/1.1 {} {}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+        response.status,
+        reason,
+        response.body.len(),
+        response.body
+    );
+    stream.write_all(wire.as_bytes()).unwrap();
+}
+
+fn issue_snapshot(root: &Path, issue: u64) -> BTreeMap<PathBuf, Vec<u8>> {
+    fn visit(root: &Path, path: &Path, files: &mut BTreeMap<PathBuf, Vec<u8>>) {
+        for entry in std::fs::read_dir(path).unwrap() {
+            let entry = entry.unwrap();
+            let path = entry.path();
+            if path.is_dir() {
+                visit(root, &path, files);
+            } else {
+                files.insert(
+                    path.strip_prefix(root).unwrap().to_owned(),
+                    fs::read(path).unwrap(),
+                );
+            }
+        }
+    }
+    let issue_root = root.join(format!(".csdlc/issues/{issue}"));
+    let mut files = BTreeMap::new();
+    visit(root, &issue_root, &mut files);
+    files
+}
+
+fn pull_response(
+    issue: u64,
+    sha: &str,
+    draft: bool,
+    state: &str,
+    base_repository: &str,
+    head_repository: &str,
+    head_ref: &str,
+) -> serde_json::Value {
+    serde_json::json!({
+        "number": 70,
+        "node_id": format!("PR_{issue}"),
+        "html_url": format!("https://github.com/example/repo/pull/70"),
+        "state": state,
+        "title": "Fixture",
+        "body": format!("Closes #{issue}"),
+        "draft": draft,
+        "merged": false,
+        "base": {
+            "ref": "main",
+            "sha": "base-sha",
+            "repo": {"id": 1, "name": "repo", "full_name": base_repository, "url": "https://api.github.com/repos/example/repo"}
+        },
+        "head": {
+            "ref": head_ref,
+            "sha": sha,
+            "repo": {"id": 1, "name": "repo", "full_name": head_repository, "url": "https://api.github.com/repos/example/repo"}
+        }
+    })
+}
+
+fn setup_ready_command_fixture(
+    issue: u64,
+) -> (
+    tempfile::TempDir,
+    Store,
+    csdlc_v2::IssueRecord,
+    String,
+    PathBuf,
+) {
+    let (temp, store, record, sha) =
+        fixture_with_validation_history(issue, "Ready command fixture", "ready-command", vec![]);
+    git(
+        temp.path(),
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/example/repo.git",
+        ],
+    );
+    git(
+        temp.path(),
+        &["update-ref", "refs/remotes/origin/main", "HEAD"],
+    );
+    let token = temp.path().join("github.token");
+    fs::write(&token, "test-token\n").unwrap();
+    (temp, store, record, sha, token)
+}
+
+fn write_ready_request(
+    root: &Path,
+    record: &csdlc_v2::IssueRecord,
+    sha: &str,
+    token: &Path,
+) -> PathBuf {
+    let path = root.join("ready-request.json");
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&ReadyPublicationRequest {
+            schema: "csdlc.ready_publication_request.v1".into(),
+            issue: record.issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "publisher".into(),
+            repository: "example/repo".into(),
+            pull_request: 70,
+            expected_head_sha: sha.into(),
+            token_file: Some(token.to_string_lossy().into_owned()),
+        })
+        .unwrap(),
+    )
+    .unwrap();
+    path
+}
+
+fn write_ready_reconciliation_request(
+    root: &Path,
+    record: &csdlc_v2::IssueRecord,
+    token: &Path,
+) -> PathBuf {
+    let path = root.join("ready-reconciliation-request.json");
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&ReadyPublicationReconciliationRequest {
+            schema: "csdlc.ready_publication_reconciliation_request.v1".into(),
+            publication: PublicationRequest {
+                schema: "csdlc.publication_request.v1".into(),
+                issue: record.issue,
+                expected_generation: record.generation,
+                expected_digest: record.digest.clone(),
+                claim_id: "claim".into(),
+                actor: "publisher".into(),
+                repository: "example/repo".into(),
+                base: "main".into(),
+                head: "issue-7".into(),
+                title: "Fixture".into(),
+                body: format!("Closes #{}", record.issue),
+                draft: true,
+                remote: "origin".into(),
+                token_file: Some(token.to_string_lossy().into_owned()),
+            },
+            pull_request: 70,
+        })
+        .unwrap(),
+    )
+    .unwrap();
+    path
+}
+
+fn run_publish_command(
+    root: &Path,
+    command: &str,
+    request: &Path,
+    server: &LocalHttpMock,
+) -> std::process::Output {
+    std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-publish"))
+        .arg("--root")
+        .arg(root)
+        .arg(command)
+        .arg("--request")
+        .arg(request)
+        .env("CSDLC_V2_TEST_GITHUB_API_BASE", server.uri())
+        .output()
+        .unwrap()
 }
 
 fn edit(
@@ -333,6 +633,695 @@ fn fixture_with_validation_history_and_publication(
 #[test]
 fn readiness_regression_and_exact_terminal_closeout_are_atomic_and_idempotent() {
     run_complete_lifecycle(7, "Gate 7 fixture", "gate7", true);
+}
+
+#[test]
+fn typed_mark_ready_is_cas_guarded_and_records_only_confirmed_remote_success() {
+    let (temp, store, record, reviewed_sha) =
+        fixture_with_validation_history(72, "Mark ready fixture", "typed-mark-ready", vec![]);
+    fs::create_dir_all(temp.path().join(".csdlc/evidence/72")).unwrap();
+    fs::write(
+        temp.path()
+            .join(".csdlc/evidence/72/publication-record.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    git(
+        temp.path(),
+        &["add", ".csdlc/evidence/72/publication-record.json"],
+    );
+    git(temp.path(), &["commit", "-m", "typed publication record"]);
+    let published_head = git_output(temp.path(), &["rev-parse", "HEAD"]);
+    assert_ne!(reviewed_sha, published_head);
+    let request = ReadyPublicationRequest {
+        schema: "csdlc.ready_publication_request.v1".into(),
+        issue: 72,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "publisher".into(),
+        repository: "example/repo".into(),
+        pull_request: 70,
+        expected_head_sha: published_head.clone(),
+        token_file: None,
+    };
+    let governed = prepare_ready_publication(&store, &request).unwrap();
+    let before = fs::read(store.issue_dir(72).join("index.json")).unwrap();
+
+    let mut stale = request.clone();
+    stale.expected_head_sha = "stale-head".into();
+    assert_eq!(
+        prepare_ready_publication(&store, &stale).unwrap_err().code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert_eq!(
+        fs::read(store.issue_dir(72).join("index.json")).unwrap(),
+        before
+    );
+
+    let failed_remote_observation = governed.clone();
+    assert_eq!(
+        record_ready_publication(&store, &request, failed_remote_observation)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+    assert_eq!(
+        fs::read(store.issue_dir(72).join("index.json")).unwrap(),
+        before
+    );
+
+    let mut confirmed = governed;
+    confirmed.draft = false;
+    confirmed.observed_state = "open".into();
+    let ready = record_ready_publication(&store, &request, confirmed).unwrap();
+    assert!(!ready.publication.as_ref().unwrap().draft);
+    let CardContent::Sor(sor) = &store.load_cards(72).unwrap()[&CardKind::Sor].content else {
+        panic!("SOR")
+    };
+    assert_eq!(
+        sor.publication_state,
+        csdlc_v2::cards::PublicationState::Ready
+    );
+
+    let mut non_draft = request;
+    non_draft.expected_generation = ready.generation;
+    non_draft.expected_digest = ready.digest;
+    assert_eq!(
+        prepare_ready_publication(&store, &non_draft)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+
+    let (hostile_temp, hostile_store, hostile_record, _) = fixture_with_validation_history(
+        73,
+        "Mark ready reverted substantive fixture",
+        "typed-mark-ready-reverted-substantive",
+        vec![],
+    );
+    fs::create_dir_all(hostile_temp.path().join("src")).unwrap();
+    fs::write(
+        hostile_temp.path().join("src/transient.rs"),
+        b"pub fn transient() {}\n",
+    )
+    .unwrap();
+    git(hostile_temp.path(), &["add", "src/transient.rs"]);
+    git(
+        hostile_temp.path(),
+        &["commit", "-m", "substantive transient"],
+    );
+    let substantive = git_output(hostile_temp.path(), &["rev-parse", "HEAD"]);
+    git(hostile_temp.path(), &["revert", "--no-edit", &substantive]);
+    fs::create_dir_all(hostile_temp.path().join(".csdlc/evidence/73")).unwrap();
+    fs::write(
+        hostile_temp
+            .path()
+            .join(".csdlc/evidence/73/publication-record.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    git(
+        hostile_temp.path(),
+        &["add", ".csdlc/evidence/73/publication-record.json"],
+    );
+    git(
+        hostile_temp.path(),
+        &["commit", "-m", "metadata after substantive revert"],
+    );
+    let hostile_head = git_output(hostile_temp.path(), &["rev-parse", "HEAD"]);
+    let before = fs::read(hostile_store.issue_dir(73).join("index.json")).unwrap();
+    let error = prepare_ready_publication(
+        &hostile_store,
+        &ReadyPublicationRequest {
+            schema: "csdlc.ready_publication_request.v1".into(),
+            issue: 73,
+            expected_generation: hostile_record.generation,
+            expected_digest: hostile_record.digest,
+            claim_id: "claim".into(),
+            actor: "publisher".into(),
+            repository: "example/repo".into(),
+            pull_request: 70,
+            expected_head_sha: hostile_head,
+            token_file: None,
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        fs::read(hostile_store.issue_dir(73).join("index.json")).unwrap(),
+        before
+    );
+}
+
+#[test]
+fn typed_ready_reconciliation_records_only_the_exact_open_non_draft_pr() {
+    let (_temp, store, reviewed, sha) = fixture_with_validation_history_and_publication(
+        74,
+        "Ready reconciliation fixture",
+        "typed-ready-reconciliation",
+        vec![],
+        false,
+    );
+    let publication = PublicationRequest {
+        schema: "csdlc.publication_request.v1".into(),
+        issue: 74,
+        expected_generation: reviewed.generation,
+        expected_digest: reviewed.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "publisher".into(),
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "issue-7".into(),
+        title: "Fixture".into(),
+        body: "Closes #74".into(),
+        draft: true,
+        remote: "origin".into(),
+        token_file: None,
+    };
+    let request = ReadyPublicationReconciliationRequest {
+        schema: "csdlc.ready_publication_reconciliation_request.v1".into(),
+        publication: publication.clone(),
+        pull_request: 74,
+    };
+    request.validate().unwrap();
+    let intent = prepare_ready_reconciliation(&store, &request).unwrap();
+    assert!(!intent.draft);
+    let remote = RemotePullRequest {
+        number: 74,
+        url: "https://example.invalid/74".into(),
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "issue-7".into(),
+        title: "Fixture".into(),
+        body: "Closes #74".into(),
+        draft: false,
+        state: "open".into(),
+        head_sha: sha,
+    };
+    validate_ready_remote(&intent, &remote, 74).unwrap();
+    for invalid in [
+        RemotePullRequest {
+            draft: true,
+            ..remote.clone()
+        },
+        RemotePullRequest {
+            state: "closed".into(),
+            ..remote.clone()
+        },
+        RemotePullRequest {
+            number: 75,
+            ..remote.clone()
+        },
+        RemotePullRequest {
+            head_sha: "wrong".into(),
+            ..remote.clone()
+        },
+        RemotePullRequest {
+            repository: "wrong/repo".into(),
+            ..remote.clone()
+        },
+    ] {
+        assert_eq!(
+            validate_ready_remote(&intent, &invalid, 74)
+                .unwrap_err()
+                .code,
+            ErrorCode::ReconciliationRequired
+        );
+    }
+    let before = fs::read(store.issue_dir(74).join("index.json")).unwrap();
+    let mut stale = publication.clone();
+    stale.expected_digest = "stale".into();
+    assert_eq!(
+        record_publication(&store, &stale, &intent, remote.clone())
+            .unwrap_err()
+            .code,
+        ErrorCode::StaleDigest
+    );
+    assert_eq!(
+        fs::read(store.issue_dir(74).join("index.json")).unwrap(),
+        before
+    );
+    let published = record_publication(&store, &publication, &intent, remote).unwrap();
+    assert_eq!(published.phase, LifecyclePhase::Published);
+    assert!(!published.publication.as_ref().unwrap().draft);
+    assert_eq!(
+        prepare_ready_reconciliation(&store, &request)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+
+    let mut later_record = reviewed;
+    later_record.phase = LifecyclePhase::Published;
+    assert!(later_record.publication.is_none());
+    assert_eq!(
+        validate_ready_reconciliation_state(&later_record)
+            .unwrap_err()
+            .code,
+        ErrorCode::ReconciliationRequired
+    );
+}
+
+#[test]
+fn ready_command_records_only_exact_open_remote_success() {
+    let issue = 80;
+    let (temp, store, record, sha, token) = setup_ready_command_fixture(issue);
+    let request = write_ready_request(temp.path(), &record, &sha, &token);
+    let get_count = Arc::new(AtomicUsize::new(0));
+    let observed_gets = Arc::clone(&get_count);
+    let before = pull_response(
+        issue,
+        &sha,
+        true,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let after = pull_response(
+        issue,
+        &sha,
+        false,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let server = LocalHttpMock::start(move |request| {
+        if request.path == "/graphql" {
+            return HttpResponse {
+                status: 200,
+                body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR_80","isDraft":false}}}}).to_string(),
+            };
+        }
+        let response = if observed_gets.fetch_add(1, Ordering::SeqCst) == 0 {
+            &before
+        } else {
+            &after
+        };
+        HttpResponse {
+            status: 200,
+            body: response.to_string(),
+        }
+    });
+
+    let output = run_publish_command(temp.path(), "ready", &request, &server);
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    let ready = store.load_record(issue).unwrap();
+    let publication = ready.publication.unwrap();
+    assert!(!publication.draft);
+    assert_eq!(publication.observed_state, "open");
+    assert_eq!(publication.head, "issue-7");
+    assert_eq!(server.count("POST", "/graphql"), 1);
+    assert_eq!(server.count("GET", "/repos/example/repo/pulls/70"), 2);
+}
+
+#[test]
+fn ready_command_rejects_wrong_identity_closed_and_non_draft_without_writes() {
+    enum Drift {
+        BaseRepository,
+        HeadRepository,
+        HeadRef,
+        Closed,
+        NonDraft,
+    }
+    for (offset, drift) in [
+        Drift::BaseRepository,
+        Drift::HeadRepository,
+        Drift::HeadRef,
+        Drift::Closed,
+        Drift::NonDraft,
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let issue = 81 + offset as u64;
+        let (temp, _store, record, sha, token) = setup_ready_command_fixture(issue);
+        let request = write_ready_request(temp.path(), &record, &sha, &token);
+        let before = issue_snapshot(temp.path(), issue);
+        let response = pull_response(
+            issue,
+            &sha,
+            !matches!(drift, Drift::NonDraft),
+            if matches!(drift, Drift::Closed) {
+                "closed"
+            } else {
+                "open"
+            },
+            if matches!(drift, Drift::BaseRepository) {
+                "wrong/repo"
+            } else {
+                "example/repo"
+            },
+            if matches!(drift, Drift::HeadRepository) {
+                "fork/repo"
+            } else {
+                "example/repo"
+            },
+            if matches!(drift, Drift::HeadRef) {
+                "wrong-head"
+            } else {
+                "issue-7"
+            },
+        );
+        let server = LocalHttpMock::start(move |_| HttpResponse {
+            status: 200,
+            body: response.to_string(),
+        });
+
+        let output = run_publish_command(temp.path(), "ready", &request, &server);
+        assert_eq!(
+            output.status.code(),
+            Some(75),
+            "issue {issue}: stdout={} stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert_eq!(server.count("POST", "/graphql"), 0);
+        assert_eq!(issue_snapshot(temp.path(), issue), before);
+    }
+}
+
+#[test]
+fn ready_command_graphql_and_post_get_failures_leave_zero_local_writes() {
+    for (issue, graphql_failure) in [(90, true), (91, false)] {
+        let (temp, _store, record, sha, token) = setup_ready_command_fixture(issue);
+        let request = write_ready_request(temp.path(), &record, &sha, &token);
+        let before_files = issue_snapshot(temp.path(), issue);
+        let get_count = Arc::new(AtomicUsize::new(0));
+        let observed_gets = Arc::clone(&get_count);
+        let initial = pull_response(
+            issue,
+            &sha,
+            true,
+            "open",
+            "example/repo",
+            "example/repo",
+            "issue-7",
+        );
+        let mismatch = pull_response(
+            issue,
+            &sha,
+            false,
+            "open",
+            "example/repo",
+            "example/repo",
+            "wrong-head",
+        );
+        let server = LocalHttpMock::start(move |request| {
+            if request.path == "/graphql" {
+                return HttpResponse {
+                    status: 200,
+                    body: if graphql_failure {
+                        serde_json::json!({"errors":[{"message":"mutation failed"}]}).to_string()
+                    } else {
+                        serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string()
+                    },
+                };
+            }
+            let response = if observed_gets.fetch_add(1, Ordering::SeqCst) == 0 {
+                &initial
+            } else {
+                &mismatch
+            };
+            HttpResponse {
+                status: 200,
+                body: response.to_string(),
+            }
+        });
+
+        let output = run_publish_command(temp.path(), "ready", &request, &server);
+        assert!(!output.status.success());
+        assert_eq!(server.count("POST", "/graphql"), 1);
+        assert_eq!(issue_snapshot(temp.path(), issue), before_files);
+    }
+}
+
+#[test]
+fn ambiguous_post_get_recovers_without_repeating_graphql() {
+    let issue = 92;
+    let (temp, store, record, sha, token) = setup_ready_command_fixture(issue);
+    let request = write_ready_request(temp.path(), &record, &sha, &token);
+    let before_files = issue_snapshot(temp.path(), issue);
+    let get_count = Arc::new(AtomicUsize::new(0));
+    let observed_gets = Arc::clone(&get_count);
+    let draft = pull_response(
+        issue,
+        &sha,
+        true,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let ready = pull_response(
+        issue,
+        &sha,
+        false,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let server = LocalHttpMock::start(move |request| {
+        if request.path == "/graphql" {
+            return HttpResponse {
+                status: 200,
+                body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string(),
+            };
+        }
+        match observed_gets.fetch_add(1, Ordering::SeqCst) {
+            0 => HttpResponse {
+                status: 200,
+                body: draft.to_string(),
+            },
+            1 => HttpResponse {
+                status: 503,
+                body: serde_json::json!({"message":"confirmation unavailable"}).to_string(),
+            },
+            _ => HttpResponse {
+                status: 200,
+                body: ready.to_string(),
+            },
+        }
+    });
+
+    let failed = run_publish_command(temp.path(), "ready", &request, &server);
+    assert_eq!(failed.status.code(), Some(74));
+    assert_eq!(issue_snapshot(temp.path(), issue), before_files);
+    let recovery = write_ready_reconciliation_request(temp.path(), &record, &token);
+    let recovered = run_publish_command(temp.path(), "reconcile-ready", &recovery, &server);
+    assert!(
+        recovered.status.success(),
+        "{}",
+        String::from_utf8_lossy(&recovered.stdout)
+    );
+    assert_eq!(server.count("POST", "/graphql"), 1);
+    let publication = store.load_record(issue).unwrap().publication.unwrap();
+    assert!(!publication.draft);
+    assert_eq!(publication.observed_state, "open");
+}
+
+#[test]
+fn post_mutation_cas_failure_recovers_without_repeating_graphql() {
+    let issue = 93;
+    let (temp, store, record, sha, token) = setup_ready_command_fixture(issue);
+    let request = write_ready_request(temp.path(), &record, &sha, &token);
+    let get_count = Arc::new(AtomicUsize::new(0));
+    let observed_gets = Arc::clone(&get_count);
+    let root = temp.path().to_owned();
+    let generation = record.generation;
+    let draft = pull_response(
+        issue,
+        &sha,
+        true,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let ready = pull_response(
+        issue,
+        &sha,
+        false,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let server = LocalHttpMock::start(move |request| {
+        if request.path == "/graphql" {
+            return HttpResponse {
+                status: 200,
+                body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string(),
+            };
+        }
+        let ordinal = observed_gets.fetch_add(1, Ordering::SeqCst);
+        if ordinal == 1 {
+            csdlc_v2::heartbeat_claim(&Store::new(&root), issue, "claim", generation, 2, u64::MAX)
+                .unwrap();
+        }
+        HttpResponse {
+            status: 200,
+            body: if ordinal == 0 {
+                draft.to_string()
+            } else {
+                ready.to_string()
+            },
+        }
+    });
+
+    let failed = run_publish_command(temp.path(), "ready", &request, &server);
+    assert_eq!(failed.status.code(), Some(66));
+    let refreshed = store.load_record(issue).unwrap();
+    assert!(refreshed.publication.as_ref().unwrap().draft);
+    let recovery = write_ready_reconciliation_request(temp.path(), &refreshed, &token);
+    let recovered = run_publish_command(temp.path(), "reconcile-ready", &recovery, &server);
+    assert!(
+        recovered.status.success(),
+        "{}",
+        String::from_utf8_lossy(&recovered.stdout)
+    );
+    assert_eq!(server.count("POST", "/graphql"), 1);
+    assert!(!store.load_record(issue).unwrap().publication.unwrap().draft);
+}
+
+#[test]
+fn squash_merge_metadata_revision_reconciles_but_substantive_delta_fails_closed() {
+    let (temp, store, record, reviewed_sha) = fixture_with_validation_history(
+        71,
+        "Squash merge closeout fixture",
+        "squash-merge-metadata-reconciliation",
+        vec![ValidationResult {
+            command: vec!["cargo".into(), "test".into()],
+            purpose: "proof".into(),
+            outcome: EvidenceOutcome::Passed,
+            evidence_ref: "evidence.json".into(),
+        }],
+    );
+    fs::create_dir_all(temp.path().join(".csdlc/evidence/71")).unwrap();
+    fs::write(
+        temp.path().join(".csdlc/evidence/71/squash-proof.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    git(
+        temp.path(),
+        &["add", ".csdlc/evidence/71/squash-proof.json"],
+    );
+    git(temp.path(), &["commit", "-m", "record squash metadata"]);
+    let merged_sha = git_output(temp.path(), &["rev-parse", "HEAD"]);
+    assert_ne!(merged_sha, reviewed_sha);
+    let request = ReadinessRequest {
+        schema: "csdlc.readiness_request.v1".into(),
+        issue: 71,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: "claim".into(),
+        actor: "closer".into(),
+        pull_request: 70,
+        head_sha: merged_sha.clone(),
+        required_checks: vec![],
+        require_review: false,
+        checks: vec![],
+        review_state: RemoteReviewState::NotRequired,
+        conflict_state: ConflictState::Clean,
+        post_publication_findings: vec![],
+    };
+    let reconciled = record_readiness(&store, request).unwrap();
+    assert_eq!(
+        reconciled.publication.unwrap().revision,
+        csdlc_v2::git::clean_commit_revision(&merged_sha)
+    );
+
+    fs::create_dir_all(temp.path().join("src")).unwrap();
+    fs::write(
+        temp.path().join("src/substantive.rs"),
+        b"pub fn changed() {}\n",
+    )
+    .unwrap();
+    git(temp.path(), &["add", "src/substantive.rs"]);
+    git(temp.path(), &["commit", "-m", "substantive drift"]);
+    let substantive_sha = git_output(temp.path(), &["rev-parse", "HEAD"]);
+    let current = store.load_record(71).unwrap();
+    let before = fs::read(store.issue_dir(71).join("index.json")).unwrap();
+    let error = record_readiness(
+        &store,
+        ReadinessRequest {
+            expected_generation: current.generation,
+            expected_digest: current.digest,
+            head_sha: substantive_sha.clone(),
+            ..ReadinessRequest {
+                schema: "csdlc.readiness_request.v1".into(),
+                issue: 71,
+                expected_generation: 0,
+                expected_digest: String::new(),
+                claim_id: "claim".into(),
+                actor: "closer".into(),
+                pull_request: 70,
+                head_sha: String::new(),
+                required_checks: vec![],
+                require_review: false,
+                checks: vec![],
+                review_state: RemoteReviewState::NotRequired,
+                conflict_state: ConflictState::Clean,
+                post_publication_findings: vec![],
+            }
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        fs::read(store.issue_dir(71).join("index.json")).unwrap(),
+        before
+    );
+
+    git(temp.path(), &["revert", "--no-edit", &substantive_sha]);
+    fs::write(
+        temp.path().join(".csdlc/evidence/71/after-revert.json"),
+        b"{}\n",
+    )
+    .unwrap();
+    git(
+        temp.path(),
+        &["add", ".csdlc/evidence/71/after-revert.json"],
+    );
+    git(
+        temp.path(),
+        &["commit", "-m", "metadata after substantive revert"],
+    );
+    let reverted_endpoint = git_output(temp.path(), &["rev-parse", "HEAD"]);
+    let current = store.load_record(71).unwrap();
+    let error = record_readiness(
+        &store,
+        ReadinessRequest {
+            schema: "csdlc.readiness_request.v1".into(),
+            issue: 71,
+            expected_generation: current.generation,
+            expected_digest: current.digest,
+            claim_id: "claim".into(),
+            actor: "closer".into(),
+            pull_request: 70,
+            head_sha: reverted_endpoint,
+            required_checks: vec![],
+            require_review: false,
+            checks: vec![],
+            review_state: RemoteReviewState::NotRequired,
+            conflict_state: ConflictState::Clean,
+            post_publication_findings: vec![],
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    assert_eq!(
+        fs::read(store.issue_dir(71).join("index.json")).unwrap(),
+        before
+    );
 }
 
 #[test]
@@ -1870,4 +2859,3 @@ fn copy_dir_all(source: &std::path::Path, destination: &std::path::Path) {
         }
     }
 }
-use std::fs;
