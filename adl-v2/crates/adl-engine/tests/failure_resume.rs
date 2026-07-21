@@ -373,6 +373,53 @@ fn resume_rejects_semantically_unreachable_graph_and_journal_mutations() {
         EngineErrorCode::CheckpointIncompatible
     );
 
+    let root_plan = common::plan(&["root"], &[]);
+    let root_policy = common::provider_policy(&root_plan);
+    let root_engine =
+        Engine::new(root_plan.clone(), root_policy.clone(), common::limits()).unwrap();
+    let mut impossible_initial_ready: EngineSnapshot =
+        serde_json::from_slice(&root_engine.checkpoint().unwrap()).unwrap();
+    impossible_initial_ready
+        .nodes
+        .get_mut("root")
+        .unwrap()
+        .state = NodeState::Ready;
+    assert_eq!(
+        Engine::resume(
+            root_plan.clone(),
+            root_policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&impossible_initial_ready).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
+    let mut cancelled =
+        Engine::new(root_plan.clone(), root_policy.clone(), common::limits()).unwrap();
+    cancelled
+        .turn(TurnInput {
+            logical_tick: 1,
+            completions: vec![],
+            cancellations: vec!["root".into()],
+        })
+        .unwrap();
+    let mut recreated_cancelled: EngineSnapshot =
+        serde_json::from_slice(&cancelled.checkpoint().unwrap()).unwrap();
+    recreated_cancelled.nodes.get_mut("root").unwrap().state = NodeState::Pending;
+    assert_eq!(
+        Engine::resume(
+            root_plan,
+            root_policy,
+            common::limits(),
+            &serde_json::to_vec(&recreated_cancelled).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
     let plan = common::plan(&["a"], &[]);
     let policy = common::retry_policy(&plan, 2, 2);
     let mut engine = Engine::new(plan.clone(), policy.clone(), common::limits()).unwrap();
@@ -446,6 +493,92 @@ fn resume_rejects_semantically_unreachable_graph_and_journal_mutations() {
             policy,
             common::limits(),
             &serde_json::to_vec(&forged_request).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+}
+
+#[test]
+fn resume_binds_contiguous_attempts_completion_digests_and_terminal_output() {
+    let plan = common::plan(&["a"], &[]);
+    let policy = common::retry_policy(&plan, 2, 1);
+    let mut engine = Engine::new(plan.clone(), policy.clone(), common::limits()).unwrap();
+    let first = common::provider_request(&engine.turn(TurnInput::tick(1)).unwrap());
+    engine
+        .turn(TurnInput {
+            logical_tick: 2,
+            completions: vec![common::provider_failure(&first, FailureClass::Retryable)],
+            cancellations: vec![],
+        })
+        .unwrap();
+    let second = common::provider_request(&engine.turn(TurnInput::tick(3)).unwrap());
+    engine
+        .turn(TurnInput {
+            logical_tick: 4,
+            completions: vec![common::provider_success(&second, b"terminal")],
+            cancellations: vec![],
+        })
+        .unwrap();
+    let original: EngineSnapshot = serde_json::from_slice(&engine.checkpoint().unwrap()).unwrap();
+
+    let mut duplicate_attempt = original.clone();
+    let final_receipt = duplicate_attempt
+        .consumed_completion_digests
+        .values_mut()
+        .find(|receipt| receipt.attempt == 2)
+        .unwrap();
+    final_receipt.attempt = 1;
+    match &mut final_receipt.completion {
+        PortCompletion::Provider(value) => value.attempt = 1,
+        PortCompletion::Tool(value) => value.attempt = 1,
+        PortCompletion::Cancel(value) => value.attempt = 1,
+    }
+    assert_eq!(
+        Engine::resume(
+            plan.clone(),
+            policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&duplicate_attempt).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
+    let mut changed_digest = original.clone();
+    changed_digest
+        .consumed_completion_digests
+        .values_mut()
+        .next()
+        .unwrap()
+        .completion_digest = "b".repeat(64);
+    assert_eq!(
+        Engine::resume(
+            plan.clone(),
+            policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&changed_digest).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
+    let mut changed_output = original;
+    let NodeState::Succeeded { output } = &mut changed_output.nodes.get_mut("a").unwrap().state
+    else {
+        panic!("expected terminal success");
+    };
+    output.bytes = b"altered!".to_vec();
+    changed_output.output_bytes = output.bytes.len() as u64;
+    assert_eq!(
+        Engine::resume(
+            plan,
+            policy,
+            common::limits(),
+            &serde_json::to_vec(&changed_output).unwrap(),
         )
         .unwrap_err()
         .code,

@@ -3,7 +3,8 @@ flowchart LR
   P --> V["Plan, EnginePolicy, and EngineLimits validation"]
   Y["WP-06 EnginePolicy: joins, retry, failure, cancellation"] --> V
   V --> R["Canonical ready-set and join evaluation"]
-  R --> B["Bounded dispatch by stable node identity"]
+  R --> SB["Typed state-edge output decode, cached once and charged per materialization"]
+  SB --> B["Bounded dispatch by stable node identity and resolved-input digest"]
   B --> Q["Typed provider or tool request effect"]
   Q --> H["Runtime v3 / #5349 host adapter outside WP-06"]
   H --> C["Typed completion input"]
@@ -19,11 +20,16 @@ flowchart LR
   A --> R
   F --> J{"Whole engine has zero dispatched or cancelling requests"}
   A --> J
-  J --> X["Quiescent canonical checkpoint"]
-  X --> M["Strict plan, limits, budget, and sequence match"]
+  J --> X["Quiescent canonical checkpoint plus typed completion journal"]
+  X --> M["Strict plan, limits, contiguous attempts, outcome digest, budget, and sequence match"]
   M --> R
-  S["Node, edge, ready, in-flight, attempt, byte, event, turn bounds"] --> V
+  S["Node, edge, plan, policy, ready, in-flight, attempt, request, completion, turn, output, event, checkpoint bounds"] --> V
   S --> B
+  CW["serde_json through capped in-memory writer"] --> V
+  FX["Canonical landed #5338 YAML fixtures, read in place by tests only"] --> LY["Test-only adl-language parse and validation"]
+  LY --> CP["Landed adl-compiler compile"]
+  CP --> EP["Engine fixture classification and execution proof"]
+  EP -. "validation evidence only" .-> O
   O["Typed PVF: hard process-group deadlines and FastWork-only caches"] --> V
   W["Controlled cache warm, then offline required lanes"] --> O
   L["Typed merged publication and governed PR head"] --> I["Captured current-main integration SHA"]

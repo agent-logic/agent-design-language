@@ -10,6 +10,7 @@ use serde::Serialize;
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
+use std::io::{Error as IoError, Result as IoResult, Write};
 
 const PLAN_DIGEST_DOMAIN: &[u8] = b"adl.engine.plan.v1\0";
 const POLICY_DIGEST_DOMAIN: &[u8] = b"adl.engine.policy.v1\0";
@@ -373,6 +374,8 @@ impl Engine {
                 attempt: active_attempt,
                 sequence,
                 input_digest,
+                completed_at_tick: snapshot.logical_tick,
+                completion: completion.clone(),
                 completion_digest: digest,
             },
         );
@@ -836,13 +839,28 @@ impl Engine {
                 "state binding set is absent",
             )
         })?;
-        node.inputs
-            .iter()
-            .map(|(name, value)| {
-                resolve_state_value(value, bindings, snapshot)
-                    .map(|resolved| (name.clone(), resolved))
-            })
-            .collect()
+        let maximum = snapshot.limits.max_request_bytes;
+        let mut materialized = 1_u64;
+        let mut remaining = BTreeMap::new();
+        for value in node.inputs.values() {
+            collect_state_reference_counts(value, &mut remaining)?;
+        }
+        let mut cache = BTreeMap::new();
+        let mut resolved = BTreeMap::new();
+        for (name, value) in &node.inputs {
+            add_text(&mut materialized, name, maximum, "effect.inputs")?;
+            let value = resolve_state_value(
+                value,
+                bindings,
+                snapshot,
+                &mut cache,
+                &mut remaining,
+                &mut materialized,
+                maximum,
+            )?;
+            resolved.insert(name.clone(), value);
+        }
+        Ok(resolved)
     }
 }
 
@@ -850,10 +868,15 @@ fn resolve_state_value(
     value: &Value,
     bindings: &BTreeMap<String, String>,
     snapshot: &EngineSnapshot,
+    cache: &mut BTreeMap<String, Value>,
+    remaining: &mut BTreeMap<String, u64>,
+    materialized: &mut u64,
+    maximum: u64,
 ) -> Result<Value, EngineError> {
     match value {
         Value::String(text) => {
             let Some(state) = text.strip_prefix("@state:") else {
+                add_text(materialized, text, maximum, "effect.inputs")?;
                 return Ok(value.clone());
             };
             let source = bindings.get(state).ok_or_else(|| {
@@ -871,7 +894,50 @@ fn resolve_state_value(
                 )
             })?;
             match &node.state {
-                NodeState::Succeeded { output } => state_output_value(output),
+                NodeState::Succeeded { output } => {
+                    if !cache.contains_key(state) {
+                        add_size(
+                            materialized,
+                            count_u64(output.bytes.len(), "effect.inputs")?,
+                            maximum,
+                            "effect.inputs",
+                        )?;
+                        cache.insert(state.to_owned(), state_output_value(output)?);
+                    }
+                    let uses = remaining.get_mut(state).ok_or_else(|| {
+                        EngineError::new(
+                            EngineErrorCode::InvalidPlan,
+                            "plan.nodes.inputs",
+                            "state reference count is absent",
+                        )
+                    })?;
+                    *uses = uses.checked_sub(1).ok_or_else(|| {
+                        EngineError::new(
+                            EngineErrorCode::InvalidPlan,
+                            "plan.nodes.inputs",
+                            "state reference count underflow",
+                        )
+                    })?;
+                    if *uses == 0 {
+                        cache.remove(state).ok_or_else(|| {
+                            EngineError::new(
+                                EngineErrorCode::Protocol,
+                                "completion.output",
+                                "parsed state output cache is absent",
+                            )
+                        })
+                    } else {
+                        let cached = cache.get(state).ok_or_else(|| {
+                            EngineError::new(
+                                EngineErrorCode::Protocol,
+                                "completion.output",
+                                "parsed state output cache is absent",
+                            )
+                        })?;
+                        add_value(materialized, cached, maximum, "effect.inputs")?;
+                        Ok(cached.clone())
+                    }
+                }
                 NodeState::Pending
                 | NodeState::Ready
                 | NodeState::Dispatched { .. }
@@ -885,21 +951,83 @@ fn resolve_state_value(
                 )),
             }
         }
-        Value::Array(values) => values
-            .iter()
-            .map(|item| resolve_state_value(item, bindings, snapshot))
-            .collect::<Result<Vec<_>, _>>()
-            .map(Value::Array),
-        Value::Object(values) => values
-            .iter()
-            .map(|(key, item)| {
-                resolve_state_value(item, bindings, snapshot)
-                    .map(|resolved| (key.clone(), resolved))
-            })
-            .collect::<Result<serde_json::Map<_, _>, _>>()
-            .map(Value::Object),
-        Value::Null | Value::Bool(_) | Value::Number(_) => Ok(value.clone()),
+        Value::Array(values) => {
+            add_size(materialized, 1, maximum, "effect.inputs")?;
+            let mut resolved = Vec::new();
+            for item in values {
+                resolved.push(resolve_state_value(
+                    item,
+                    bindings,
+                    snapshot,
+                    cache,
+                    remaining,
+                    materialized,
+                    maximum,
+                )?);
+            }
+            Ok(Value::Array(resolved))
+        }
+        Value::Object(values) => {
+            add_size(materialized, 1, maximum, "effect.inputs")?;
+            let mut resolved = serde_json::Map::new();
+            for (key, item) in values {
+                add_text(materialized, key, maximum, "effect.inputs")?;
+                resolved.insert(
+                    key.clone(),
+                    resolve_state_value(
+                        item,
+                        bindings,
+                        snapshot,
+                        cache,
+                        remaining,
+                        materialized,
+                        maximum,
+                    )?,
+                );
+            }
+            Ok(Value::Object(resolved))
+        }
+        Value::Null | Value::Bool(_) => {
+            add_size(materialized, 1, maximum, "effect.inputs")?;
+            Ok(value.clone())
+        }
+        Value::Number(_) => {
+            add_size(materialized, 32, maximum, "effect.inputs")?;
+            Ok(value.clone())
+        }
     }
+}
+
+fn collect_state_reference_counts(
+    value: &Value,
+    references: &mut BTreeMap<String, u64>,
+) -> Result<(), EngineError> {
+    match value {
+        Value::String(text) => {
+            if let Some(reference) = text.strip_prefix("@state:") {
+                let count = references.entry(reference.to_owned()).or_default();
+                *count = count.checked_add(1).ok_or_else(|| {
+                    EngineError::new(
+                        EngineErrorCode::ResourceLimit,
+                        "plan.nodes.inputs",
+                        "state reference count overflow",
+                    )
+                })?;
+            }
+        }
+        Value::Array(values) => {
+            for item in values {
+                collect_state_reference_counts(item, references)?;
+            }
+        }
+        Value::Object(values) => {
+            for item in values.values() {
+                collect_state_reference_counts(item, references)?;
+            }
+        }
+        Value::Null | Value::Bool(_) | Value::Number(_) => {}
+    }
+    Ok(())
 }
 
 fn state_output_value(output: &PortOutput) -> Result<Value, EngineError> {
@@ -1622,6 +1750,23 @@ fn validate_resumed_snapshot(
             "checkpoint counters or identity set are invalid",
         ));
     }
+    if snapshot.logical_turns == 0 {
+        if snapshot != expected {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint",
+                "zero-turn checkpoint differs from the exact initial snapshot",
+            ));
+        }
+        return ensure_snapshot_bound(snapshot);
+    }
+    if snapshot.logical_tick == 0 {
+        return Err(EngineError::new(
+            EngineErrorCode::CheckpointIncompatible,
+            "checkpoint.logical_tick",
+            "executed checkpoint has no logical tick",
+        ));
+    }
     let mut attempts = 0_u64;
     let mut output_bytes = 0_u64;
     for (node_id, node) in &snapshot.nodes {
@@ -1656,6 +1801,13 @@ fn validate_resumed_snapshot(
                     "pending node cannot retain consumed attempts",
                 ));
             }
+            NodeState::Ready => {
+                return Err(EngineError::new(
+                    EngineErrorCode::CheckpointIncompatible,
+                    "checkpoint.nodes",
+                    "quiescent checkpoint cannot retain ready work",
+                ));
+            }
             NodeState::RetryWait { ready_at_tick }
                 if node.attempts == 0 || *ready_at_tick <= snapshot.logical_tick =>
             {
@@ -1683,17 +1835,7 @@ fn validate_resumed_snapshot(
                         )
                     })?;
             }
-            NodeState::Failed { failure }
-                if node.attempts == 0 && !undispatched_failure_allowed(&failure.class) =>
-            {
-                return Err(EngineError::new(
-                    EngineErrorCode::CheckpointIncompatible,
-                    "checkpoint.nodes",
-                    "undispatched failed node has an unreachable failure class",
-                ));
-            }
             NodeState::Pending
-            | NodeState::Ready
             | NodeState::RetryWait { .. }
             | NodeState::Failed { .. }
             | NodeState::Cancelled => {}
@@ -1706,26 +1848,60 @@ fn validate_resumed_snapshot(
                 "node attempts exceed its retry policy",
             ));
         }
-        if ready_or_retrying(&node.state) && node.attempts >= policy.retry.max_attempts {
-            return Err(EngineError::new(
-                EngineErrorCode::CheckpointIncompatible,
-                "checkpoint.nodes",
-                "nonterminal node has exhausted its retry policy",
-            ));
+        if let NodeState::RetryWait { .. } = &node.state {
+            if node.attempts >= policy.retry.max_attempts {
+                return Err(EngineError::new(
+                    EngineErrorCode::CheckpointIncompatible,
+                    "checkpoint.nodes",
+                    "nonterminal node has exhausted its retry policy",
+                ));
+            }
         }
-        if ready_or_retrying(&node.state)
-            && dependency_decision(
-                snapshot,
-                &expected_engine.predecessors[node_id],
-                policy,
-                &expected_engine.state_bindings[node_id],
-            ) != DependencyDecision::Ready
-        {
-            return Err(EngineError::new(
-                EngineErrorCode::CheckpointIncompatible,
-                "checkpoint.nodes",
-                "ready or retrying node contradicts its dependency graph",
-            ));
+        let decision = dependency_decision(
+            snapshot,
+            &expected_engine.predecessors[node_id],
+            policy,
+            &expected_engine.state_bindings[node_id],
+        );
+        match &node.state {
+            NodeState::Pending if decision != DependencyDecision::Wait => {
+                return Err(EngineError::new(
+                    EngineErrorCode::CheckpointIncompatible,
+                    "checkpoint.nodes",
+                    "pending node is not waiting on its dependency graph",
+                ));
+            }
+            NodeState::RetryWait { .. } if decision != DependencyDecision::Ready => {
+                return Err(EngineError::new(
+                    EngineErrorCode::CheckpointIncompatible,
+                    "checkpoint.nodes",
+                    "retrying node contradicts its dependency graph",
+                ));
+            }
+            NodeState::Failed { failure } if node.attempts == 0 => {
+                let dependency = failure.class == FailureClass::Dependency
+                    && failure.message == "join condition became impossible"
+                    && decision == DependencyDecision::Fail;
+                let exhausted = failure.class == FailureClass::RetryExhausted
+                    && failure.message == "attempt budget exhausted"
+                    && decision == DependencyDecision::Ready
+                    && snapshot.attempts_consumed >= snapshot.limits.max_total_attempts;
+                if !dependency && !exhausted {
+                    return Err(EngineError::new(
+                        EngineErrorCode::CheckpointIncompatible,
+                        "checkpoint.nodes",
+                        "undispatched failure contradicts graph or attempt truth",
+                    ));
+                }
+            }
+            NodeState::Pending
+            | NodeState::Ready
+            | NodeState::Dispatched { .. }
+            | NodeState::RetryWait { .. }
+            | NodeState::Cancelling { .. }
+            | NodeState::Succeeded { .. }
+            | NodeState::Failed { .. }
+            | NodeState::Cancelled => {}
         }
     }
     if attempts != snapshot.attempts_consumed || output_bytes != snapshot.output_bytes {
@@ -1747,7 +1923,7 @@ fn validate_resumed_snapshot(
         ));
     }
     let mut sequences = BTreeSet::new();
-    let mut attempts_by_node = BTreeMap::<String, u32>::new();
+    let mut attempts_by_node = BTreeMap::<String, BTreeSet<u32>>::new();
     for (request_id, receipt) in &snapshot.consumed_completion_digests {
         let node = snapshot.nodes.get(&receipt.node_id).ok_or_else(|| {
             EngineError::new(
@@ -1761,6 +1937,8 @@ fn validate_resumed_snapshot(
             || !is_hex_digest(&receipt.completion_digest)
             || receipt.attempt == 0
             || receipt.attempt > node.attempts
+            || receipt.completed_at_tick == 0
+            || receipt.completed_at_tick > snapshot.logical_tick
             || receipt.sequence >= snapshot.attempts_consumed
             || !sequences.insert(receipt.sequence)
         {
@@ -1768,6 +1946,44 @@ fn validate_resumed_snapshot(
                 EngineErrorCode::CheckpointIncompatible,
                 "checkpoint.completions",
                 "completion journal identity or sequence is invalid",
+            ));
+        }
+        let (completion_node, completion_attempt) = receipt.completion.identity();
+        if receipt.completion.request_id() != request_id
+            || completion_node != receipt.node_id
+            || completion_attempt != receipt.attempt
+        {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.completions",
+                "completion journal typed completion identity is inconsistent",
+            ));
+        }
+        let completion_bytes = encode_bounded(
+            &receipt.completion,
+            snapshot.limits.max_completion_bytes,
+            "checkpoint.completions.outcome",
+        )?;
+        if hash_parts(COMPLETION_DIGEST_DOMAIN, &[&completion_bytes]) != receipt.completion_digest {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.completions",
+                "completion journal digest does not bind its typed completion",
+            ));
+        }
+        let node_policy = &expected_engine.policy.nodes[&receipt.node_id];
+        let kind_matches = match (&receipt.completion, &node_policy.port) {
+            (PortCompletion::Provider(_), PortKind::Provider)
+            | (PortCompletion::Tool(_), PortKind::Tool { .. }) => true,
+            (PortCompletion::Cancel(value), _) => value.acknowledged,
+            (PortCompletion::Provider(_), PortKind::Tool { .. })
+            | (PortCompletion::Tool(_), PortKind::Provider) => false,
+        };
+        if !kind_matches {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.completions",
+                "completion journal port kind is invalid",
             ));
         }
         let plan_node = &expected_engine.nodes[&receipt.node_id];
@@ -1800,52 +2016,126 @@ fn validate_resumed_snapshot(
                 "completion journal does not match deterministic request identity",
             ));
         }
-        let count = attempts_by_node.entry(receipt.node_id.clone()).or_default();
-        *count = count.checked_add(1).ok_or_else(|| {
-            EngineError::new(
+        if !attempts_by_node
+            .entry(receipt.node_id.clone())
+            .or_default()
+            .insert(receipt.attempt)
+        {
+            return Err(EngineError::new(
                 EngineErrorCode::CheckpointIncompatible,
                 "checkpoint.completions",
-                "completion journal attempt count overflow",
-            )
-        })?;
+                "completion journal repeats a node attempt",
+            ));
+        }
     }
-    if snapshot.nodes.iter().any(|(node_id, node)| {
-        attempts_by_node.get(node_id).copied().unwrap_or_default() != node.attempts
-    }) {
-        return Err(EngineError::new(
-            EngineErrorCode::CheckpointIncompatible,
-            "checkpoint.completions",
-            "completion journal does not exactly cover node attempts",
-        ));
+    for (node_id, node) in &snapshot.nodes {
+        let observed = attempts_by_node.get(node_id).cloned().unwrap_or_default();
+        let expected_attempts = (1..=node.attempts).collect::<BTreeSet<_>>();
+        if observed != expected_attempts {
+            return Err(EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.completions",
+                "completion journal does not contiguously cover node attempts",
+            ));
+        }
+        if node.attempts > 0 {
+            let receipt = snapshot
+                .consumed_completion_digests
+                .values()
+                .find(|receipt| {
+                    receipt.node_id.as_str() == node_id && receipt.attempt == node.attempts
+                })
+                .ok_or_else(|| {
+                    EngineError::new(
+                        EngineErrorCode::CheckpointIncompatible,
+                        "checkpoint.completions",
+                        "completion journal lacks the final node attempt",
+                    )
+                })?;
+            validate_final_completion(snapshot, node_id, node, receipt, expected_engine)?;
+        }
     }
     ensure_snapshot_bound(snapshot)
 }
 
-fn undispatched_failure_allowed(failure: &FailureClass) -> bool {
-    match failure {
-        FailureClass::Dependency | FailureClass::RetryExhausted => true,
-        FailureClass::Retryable
-        | FailureClass::Permanent
-        | FailureClass::InvalidRequest
-        | FailureClass::PolicyDenied
-        | FailureClass::Cancelled
-        | FailureClass::Saturation
-        | FailureClass::Protocol
-        | FailureClass::Timeout
-        | FailureClass::Resource => false,
+fn validate_final_completion(
+    snapshot: &EngineSnapshot,
+    node_id: &str,
+    node: &NodeSnapshot,
+    receipt: &CompletionReceipt,
+    engine: &Engine,
+) -> Result<(), EngineError> {
+    let policy = &engine.policy.nodes[node_id];
+    let outcome = match &receipt.completion {
+        PortCompletion::Provider(value) => Some(&value.outcome),
+        PortCompletion::Tool(value) => Some(&value.outcome),
+        PortCompletion::Cancel(_) => None,
+    };
+    let valid = match (&node.state, outcome) {
+        (NodeState::Succeeded { output }, Some(CompletionOutcome::Success(observed))) => {
+            output == observed
+        }
+        (NodeState::RetryWait { ready_at_tick }, Some(CompletionOutcome::Failure(failure))) => {
+            if !policy.retry.retryable.contains(&failure.class)
+                || receipt.attempt >= policy.retry.max_attempts
+            {
+                false
+            } else {
+                let index = usize::try_from(receipt.attempt - 1).map_err(|error| {
+                    EngineError::new(
+                        EngineErrorCode::CheckpointIncompatible,
+                        "checkpoint.completions",
+                        &error.to_string(),
+                    )
+                })?;
+                receipt
+                    .completed_at_tick
+                    .checked_add(policy.retry.delay_ticks[index])
+                    == Some(*ready_at_tick)
+            }
+        }
+        (NodeState::Failed { failure }, Some(CompletionOutcome::Failure(observed))) => {
+            if policy.retry.retryable.contains(&observed.class) {
+                let policy_exhausted = receipt.attempt >= policy.retry.max_attempts
+                    && *failure
+                        == PortFailure::new(
+                            FailureClass::RetryExhausted,
+                            "retry attempts exhausted",
+                        );
+                let global_exhausted = receipt.attempt < policy.retry.max_attempts
+                    && snapshot.attempts_consumed >= snapshot.limits.max_total_attempts
+                    && *failure
+                        == PortFailure::new(
+                            FailureClass::RetryExhausted,
+                            "attempt budget exhausted",
+                        );
+                policy_exhausted || global_exhausted
+            } else {
+                failure == observed
+            }
+        }
+        (NodeState::Cancelled, None) => true,
+        (NodeState::Cancelled, Some(CompletionOutcome::Failure(failure))) => {
+            policy.retry.retryable.contains(&failure.class)
+                && receipt.attempt < policy.retry.max_attempts
+        }
+        (NodeState::Pending, _)
+        | (NodeState::Ready, _)
+        | (NodeState::Dispatched { .. }, _)
+        | (NodeState::RetryWait { .. }, _)
+        | (NodeState::Cancelling { .. }, _)
+        | (NodeState::Succeeded { .. }, _)
+        | (NodeState::Failed { .. }, _)
+        | (NodeState::Cancelled, _) => false,
+    };
+    if !valid {
+        return Err(EngineError::new(
+            EngineErrorCode::CheckpointIncompatible,
+            "checkpoint.completions",
+            "final node state is not explained by its final typed completion",
+        ));
     }
-}
-
-fn ready_or_retrying(state: &NodeState) -> bool {
-    match state {
-        NodeState::Ready | NodeState::RetryWait { .. } => true,
-        NodeState::Pending
-        | NodeState::Dispatched { .. }
-        | NodeState::Cancelling { .. }
-        | NodeState::Succeeded { .. }
-        | NodeState::Failed { .. }
-        | NodeState::Cancelled => false,
-    }
+    Ok(())
 }
 
 fn count_u64(value: usize, path: &str) -> Result<u64, EngineError> {
@@ -2075,20 +2365,54 @@ fn encode<T: Serialize>(value: &T, path: &str) -> Result<Vec<u8>, EngineError> {
         .map_err(|error| EngineError::new(EngineErrorCode::Serialization, path, &error.to_string()))
 }
 
+struct CappedBuffer {
+    bytes: Vec<u8>,
+    maximum: usize,
+    exceeded: bool,
+}
+
+impl Write for CappedBuffer {
+    fn write(&mut self, bytes: &[u8]) -> IoResult<usize> {
+        let Some(next) = self.bytes.len().checked_add(bytes.len()) else {
+            self.exceeded = true;
+            return Err(IoError::other("serialized byte accounting overflow"));
+        };
+        if next > self.maximum {
+            self.exceeded = true;
+            return Err(IoError::other("serialized byte limit exceeded"));
+        }
+        self.bytes.extend_from_slice(bytes);
+        Ok(bytes.len())
+    }
+
+    fn flush(&mut self) -> IoResult<()> {
+        Ok(())
+    }
+}
+
 fn encode_bounded<T: Serialize>(
     value: &T,
     maximum: u64,
     path: &str,
 ) -> Result<Vec<u8>, EngineError> {
-    let bytes = encode(value, path)?;
-    if count_u64(bytes.len(), path)? > maximum {
+    let maximum = limit_usize(maximum, path)?;
+    let mut writer = CappedBuffer {
+        bytes: Vec::with_capacity(maximum.min(4096)),
+        maximum,
+        exceeded: false,
+    };
+    let result = serde_json::to_writer(&mut writer, value);
+    if writer.exceeded {
         return Err(EngineError::new(
             EngineErrorCode::ResourceLimit,
             path,
             "serialized byte limit exceeded",
         ));
     }
-    Ok(bytes)
+    result.map_err(|error| {
+        EngineError::new(EngineErrorCode::Serialization, path, &error.to_string())
+    })?;
+    Ok(writer.bytes)
 }
 
 fn hash_parts(domain: &[u8], parts: &[&[u8]]) -> String {

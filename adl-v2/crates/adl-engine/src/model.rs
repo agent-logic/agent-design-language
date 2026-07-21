@@ -378,6 +378,8 @@ pub struct CompletionReceipt {
     pub attempt: u32,
     pub sequence: u64,
     pub input_digest: String,
+    pub completed_at_tick: u64,
+    pub completion: PortCompletion,
     pub completion_digest: String,
 }
 

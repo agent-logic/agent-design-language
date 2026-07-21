@@ -30,9 +30,14 @@ struct AuthorityVisitor {
 
 impl AuthorityVisitor {
     fn inspect_path(&mut self, path: &[String]) {
+        let bounded_memory_writer = path.len() == 3
+            && path[0] == "std"
+            && path[1] == "io"
+            && matches!(path[2].as_str(), "Error" | "Result" | "Write");
         if path.len() > 1
             && matches!(path[0].as_str(), "std" | "core")
             && FORBIDDEN_NAMESPACES.contains(&path[1].as_str())
+            && !bounded_memory_writer
         {
             self.findings.push("forbidden std/core authority path");
         }

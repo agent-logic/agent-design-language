@@ -120,13 +120,13 @@ Revision 4
 
 .csdlc/prepared/issues/5340/design.md
 
-Digest: 8854515fa8815a23cf491cf376ed96c4398feec7dc6c9c3a6f19aa507852cb5c
+Digest: 3d096673857e88045ca227174709c88f002d45188077fafb2c5623a2c8ef92ed
 
 ## Diagram
 
 .csdlc/prepared/issues/5340/diagram.mmd
 
-Digest: 122d1edc61b5f2565b13d65dd765f887d7784ef8284aafc770a9337df1fd0461
+Digest: 7a172c5c5cac1c1425684092237cdf0a6ef5c8daa928ddb4509fd034eb6399ad
 
 ## Stop Conditions
 

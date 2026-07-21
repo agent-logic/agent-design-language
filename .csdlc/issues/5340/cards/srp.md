@@ -27,9 +27,9 @@ adl-v2/crates/adl-engine
 
 [
   {
-    "id": "F-5340-1-state-dataflow-unresolved",
+    "id": "F-5340-6-resume-journal-reachability",
     "severity": "p1",
-    "summary": "Landed state-dependency outputs are never resolved into downstream requests or request identity.",
+    "summary": "Quiescent resume accepts root Ready and cancelled-to-Pending states and does not bind contiguous attempts or terminal outcomes to completion receipts.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -37,9 +37,9 @@ adl-v2/crates/adl-engine
     "route": null
   },
   {
-    "id": "F-5340-2-turn-input-unbounded",
+    "id": "F-5340-7-state-materialization-bound",
     "severity": "p1",
-    "summary": "Completion/cancellation cardinality and payload, plan bytes, and policy bytes are unbounded before processing.",
+    "summary": "Repeated state references can clone expanded outputs before max_request enforcement and encode_bounded allocates the full serialization first.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -47,9 +47,9 @@ adl-v2/crates/adl-engine
     "route": null
   },
   {
-    "id": "F-5340-3-resume-semantic-truncation",
+    "id": "F-5340-8-applicable-fixtures-not-executed",
     "severity": "p1",
-    "summary": "Resume accepts canonical but semantically unreachable graph states and truncated or arbitrary completion journals.",
+    "summary": "The landed applicable fixture inventory is name-checked but none of the six actual files is parsed, compiled, and engine-executed.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -57,19 +57,9 @@ adl-v2/crates/adl-engine
     "route": null
   },
   {
-    "id": "F-5340-4-compiler-fixture-mapping-absent",
-    "severity": "p1",
-    "summary": "AC-6 lacks a mechanically checked landed compiler-fixture inventory and actual compiler-produced plan coverage.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "F-5340-5-usize-policy-contract",
+    "id": "F-5340-9-design-truth-drift",
     "severity": "p2",
-    "summary": "JoinPolicy::AtLeast serializes an architecture-width-dependent usize threshold.",
+    "summary": "Approved design/SPP/VPP truth omits the public byte/cardinality bounds and JSON/text state-output contract added during remediation.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -88,7 +78,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:b9ba0c37f4bc381cb2d74589ad0d27dc1b6fe7be:154cca22aa607086e7ec9fb5109c5671db2c2d96dbe850335766f04c59873c72")
+Revision: Some("git-blake3:2bed30d6d2a298eb0a3db2d030f06f20901e22de:4b52630fa14ff4ef854bfa4a9485367e01fadbb4623debfab2d866d6085270f2")
 
 Reviewer: Some("subagent:/root/review_5340_exact")
 

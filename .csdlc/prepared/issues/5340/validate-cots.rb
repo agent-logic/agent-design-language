@@ -16,6 +16,7 @@ abort("engine package missing from cargo metadata") unless engine_package
 
 expected = {
   "adl-compiler" => nil,
+  "adl-language" => nil,
   "serde" => "=1.0.229",
   "serde_json" => "=1.0.151",
   "sha2" => "=0.10.9",
@@ -55,6 +56,12 @@ dependencies.each do |dependency|
     path = dependency.fetch("path")
     abort("adl-compiler is not the canonical path dependency") unless path && File.realpath(path) == compiler
     abort("adl-compiler unexpectedly has a registry or Git source") unless dependency["source"].nil?
+    abort("adl-compiler must be a normal product dependency") unless dependency["kind"].nil?
+  elsif name == "adl-language"
+    path = dependency.fetch("path")
+    abort("adl-language is not the canonical test-only path dependency") unless path && File.realpath(path) == language
+    abort("adl-language unexpectedly has a registry or Git source") unless dependency["source"].nil?
+    abort("adl-language must remain test-only") unless dependency.fetch("kind") == "dev"
   else
     abort("#{name} requirement is not exact #{expected.fetch(name)}") unless dependency.fetch("req") == expected.fetch(name)
     source = dependency.fetch("source")
@@ -86,7 +93,7 @@ forbidden = /(?:\A|[-_])(runtime|csdlc|tokio|async|smol|reqwest|hyper|rustls|ope
 forbidden_packages = packages.map { |package| package.fetch("name") }.select { |name| name.match?(forbidden) }
 abort("forbidden dependency families: #{forbidden_packages.sort.join(', ')}") unless forbidden_packages.empty?
 
-resolved_direct = dependencies.reject { |dependency| dependency.fetch("name") == "adl-compiler" }.to_h do |dependency|
+resolved_direct = dependencies.reject { |dependency| %w[adl-compiler adl-language].include?(dependency.fetch("name")) }.to_h do |dependency|
   name = dependency.fetch("name")
   version = expected.fetch(name).delete_prefix("=")
   package = packages.find { |item| item.fetch("name") == name && item.fetch("version") == version }
@@ -96,7 +103,7 @@ end
 puts JSON.generate(
   schema: "adl.wp06.cots-proof.v1",
   compiler_path: "adl-v2/crates/adl-compiler",
-  permitted_transitive_path: "adl-v2/crates/adl-language",
+  test_language_path: "adl-v2/crates/adl-language",
   registry_dependencies: resolved_direct,
   forbidden_dependencies: forbidden_packages,
   outcome: "passed"

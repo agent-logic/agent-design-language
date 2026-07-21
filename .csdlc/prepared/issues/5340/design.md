@@ -2,25 +2,24 @@
 
 ## Status and exact dependency gate
 
-This design is under preparation review and implementation-blocked. Product
-code may begin only after a fetch-only refresh of `origin/main` proves issue
-#5338 is GitHub merged, its retained receipt passes the installed typed v2
-terminal-receipt validator, the retained record is `closed_out` with terminal
-disposition and observed state both `merged`, the receipt identifies a positive
-pull request and non-empty observed merge SHA, the merge SHA is an ancestor of
-both current `origin/main` and the #5340 implementation revision, and current
-`origin/main` is itself an ancestor of that revision. A green or merged GitHub
-state without the retained typed receipt, current-main ancestry, and active
-sole-writer proof is insufficient.
+This design is implemented and in exact-revision remediation review. Before
+product work began, a fetch-only refresh of `origin/main` proved issue #5338
+GitHub merged, its retained receipt passed the installed typed v2
+terminal-receipt validator, the retained record was `closed_out` with terminal
+disposition and observed state both `merged`, and its governed merge ancestry
+reached both current `origin/main` and the #5340 implementation revision. That
+dependency, ancestry, and active sole-writer proof remains a required validation
+gate through publication and closeout. Publication remains blocked until this
+post-implementation amendment has renewed design approval and the repaired
+product receives a clean exact-revision rereview.
 
 #5338 is the sole direct WP-06 execution dependency. #5336 is transitive
 architecture, ownership, clean-room, and budget authority only; it is an input
 to this design, not a second gate.
 
-After the gate opens, the executor must first compare the landed
-`adl_compiler::ExecutionPlan` API and fixtures with this provisional consumer
-contract. Any material mismatch requires a typed SPP/VPP amendment and renewed
-design review before implementation continues.
+The landed `adl_compiler::ExecutionPlan` API and fixture inventory were
+reconciled before implementation. Any later material mismatch still requires a
+typed SPP/VPP amendment and renewed design review before work continues.
 
 ## Ownership and authority
 
@@ -40,8 +39,11 @@ changes Runtime v3 nor redefines its supervision, recovery, or resource-policy
 contracts. Provider and governed-tool adapters remain #5349 scope.
 
 Incumbent ADL implementation and tests are behavioral evidence only. No
-incumbent implementation, fixture, internal crate, Runtime v2 source, or Runtime
-v3 source may be copied, adapted, imported, linked, or changed for WP-06.
+incumbent implementation, internal crate, Runtime v2 source, or Runtime v3
+source may be copied, adapted, imported, linked, or changed for WP-06. The sole
+fixture exception is read-only test access to the canonical six landed #5338
+YAML fixtures through test-only `adl-language`; fixture content is neither
+copied into nor linked by the product library.
 
 ## Portable execution model
 
@@ -79,13 +81,24 @@ Port completions are applied in request identity order, independent of arrival
 order. An impossible join becomes a stable typed failure rather than waiting
 forever.
 
+State-dependency inputs are resolved only from the typed output of their
+declared landed edge. `application/json` output is decoded as a JSON value and
+`text/*` output as a UTF-8 string; every other media type and invalid encoding
+fails closed. Parsed state output is cached once, every repeated materialization
+is charged before cloning, and the resolved input digest is bound into both the
+request identity and idempotency key.
+
 ## Mandatory bounds and saturation behavior
 
 `EngineLimits` rejects zero, contradictory, or plan-incompatible limits before
 execution. It contains explicit ceilings for plan nodes, dependency edges,
-ready nodes, in-flight requests, total attempts, per-node attempts, retained
-output bytes, event count, checkpoint bytes, and logical turns. No default is
-unbounded.
+serialized plan bytes, serialized policy bytes, ready nodes, in-flight
+requests, total attempts, per-node attempts, serialized request bytes,
+serialized completion bytes, completions per turn, cancellations per turn,
+serialized turn-input bytes, retained output bytes, event count, checkpoint
+bytes, and logical turns. No default is unbounded. A small in-memory capped
+writer delegates JSON encoding to `serde_json` and stops before the byte limit;
+it has no filesystem, socket, process, or other external I/O capability.
 
 Reaching a ceiling has one declared outcome:
 
@@ -157,6 +170,14 @@ contract version, plan source digest, canonical node/edge identity set,
 limits, canonical engine-policy digest, logical turn, consumed attempt budgets,
 terminal outputs, retry waits, and next event/request sequences.
 
+The checkpoint completion journal retains each typed completion, its logical
+completion tick, input digest, sequence, and completion digest. Resume requires
+contiguous attempts `1..=attempts` per node, exact global sequence coverage,
+recomputed request and completion identities, and a final typed completion that
+explains the retained terminal or retry state. A zero-turn checkpoint must be
+the exact initial snapshot; later quiescent checkpoints cannot retain `ready`
+work, and `pending` work must still be waiting on its dependency decision.
+
 Resume accepts only an exact compatible plan and limits contract. Unknown or
 missing nodes, changed edges/ports, changed limits, truncated state, invalid
 state transitions, attempt rollback, sequence rollback, oversized data, or a
@@ -170,7 +191,8 @@ recover an in-flight side effect.
 | Concern | Decision | Boundary |
 | --- | --- | --- |
 | Plan input | path dependency on the landed `adl-compiler` crate from #5338 | Consume only the reviewed inert `ExecutionPlan` public contract. |
-| Serialization | provisional exact `serde` 1.0.229 and `serde_json` 1.0.151 pins from the reviewed #5339/#5338 preparation contract | Typed snapshots, effects, and canonical fixture encoding; reconcile against the actually landed lock before product code and use typed replanning on any mismatch. |
+| Landed fixture parsing in tests | test-only path dependency on canonical `adl-language` | Parse and validate every applicable landed YAML fixture before compiler and engine execution; never link language parsing into the product library. |
+| Serialization | exact `serde` 1.0.229 and `serde_json` 1.0.151 pins reconciled with the landed #5338 lock | Typed snapshots, effects, canonical fixture encoding, and capped in-memory serialization; any later mismatch requires typed replanning. |
 | Stable request/checkpoint identity | `sha2` 0.10.9 and `hex` 0.4.3, matching #5338 | Domain-separated SHA-256 identities over length-delimited canonical fields only. |
 | Scheduling, joins, queues, state, and bounds | Rust standard-library enums, ordered collections, and stable sorts | No graph, scheduler, workflow, retry, actor, async-runtime, or persistence framework. |
 | Validation-only source-authority proof | `syn` `2.0.118` in the issue-local validator | Proven Rust AST parsing replaces custom lexical/parser logic. Because macro bodies are opaque token streams, product-source macro invocations/definitions fail closed; derive/serde attributes remain available. The validator is not linked into `adl-engine`, is excluded from product LoC/dependency budgets, and builds only under `/Volumes/FastWork`. |
@@ -178,13 +200,16 @@ recover an in-flight side effect.
 
 The engine manifest must use exact-version requirements for all four registry
 COTS, and its lockfile must preserve those exact resolved versions and registry
-checksums from the approved crates.io registry source. The listed registry pins
-are provisional until the #5338 gate opens; a landed source, version, or
-checksum mismatch is a mandatory typed replan, never an implicit substitution.
+checksums from the approved crates.io registry source. These pins have been
+reconciled with landed #5338; any later source, version, or checksum mismatch is
+a mandatory typed replan, never an implicit substitution.
 `adl-compiler` must resolve only as the canonical repository path
-`adl-v2/crates/adl-compiler`; its permitted transitive local input is the landed
-`adl-v2/crates/adl-language`. Any source, path, version, checksum, or dependency
-set drift requires a typed, evidence-backed COTS amendment before review.
+`adl-v2/crates/adl-compiler`. The landed `adl-v2/crates/adl-language` path is
+permitted transitively and as a test-only direct dependency solely so AC-6 can
+parse the six actual YAML fixtures before compiling and engine-executing them;
+it is not a normal product dependency. Any source, path, version, checksum, or
+dependency set drift requires a typed, evidence-backed COTS amendment before
+review.
 Forbidden direct
 or transitive dependency families include incumbent ADL crates other than the
 new compiler and its language input, Runtime v2/v3, C-SDLC, Tokio, async-std,

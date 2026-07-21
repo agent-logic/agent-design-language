@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-06] Implement portable bounded execution engine",
     "slug": "v0918-wp06-portable-bounded-execution-engine",
     "version": "v0.91.8",
-    "generation": 27
+    "generation": 29
   },
   "status": "ready",
   "content": {
@@ -134,9 +134,9 @@
         "Required proof cannot remain deterministic and offline after the bounded FastWork cache-warm step, or detached exact-integration post-merge validation cannot run"
       ],
       "design_ref": ".csdlc/prepared/issues/5340/design.md",
-      "design_digest": "8854515fa8815a23cf491cf376ed96c4398feec7dc6c9c3a6f19aa507852cb5c",
+      "design_digest": "3d096673857e88045ca227174709c88f002d45188077fafb2c5623a2c8ef92ed",
       "diagram_ref": ".csdlc/prepared/issues/5340/diagram.mmd",
-      "diagram_digest": "122d1edc61b5f2565b13d65dd765f887d7784ef8284aafc770a9337df1fd0461"
+      "diagram_digest": "7a172c5c5cac1c1425684092237cdf0a6ef5c8daa928ddb4509fd034eb6399ad"
     }
   }
 }
