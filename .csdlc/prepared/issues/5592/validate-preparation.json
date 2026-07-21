@@ -73,7 +73,7 @@
       {
         "id": "base-to-final-head-scope",
         "proof_role": "Explicit base-to-final-head path and diff proof",
-        "purpose": "Prove the exact 6d0f6115 base through final HEAD changes only the claimed #5592 preparation surfaces",
+        "purpose": "Prove the exact 6d0f6115 base through reviewed content head 44c36edd6 changes only the claimed #5592 preparation surfaces",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
         "credentials": [],
@@ -84,7 +84,7 @@
         "execution": "local",
         "timeout_seconds": 60,
         "executable": "/usr/bin/env",
-        "argv": ["ruby", ".csdlc/prepared/issues/5592/validate_range_scope.rb", "HEAD"],
+        "argv": ["ruby", ".csdlc/prepared/issues/5592/validate_range_scope.rb", "44c36edd600c24a651d332e9f4cd61f0f3df19e2"],
         "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
       }
     ]
