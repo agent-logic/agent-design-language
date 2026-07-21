@@ -1,0 +1,121 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 5357
+
+Repository: danielbaustin/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Render and validate six cards; freeze exact #5356 terminal gating, issue-local ownership, canonical handoff identity, corpus/receipt schemas, reviewer boundaries, findings synthesis, COTS, budgets, PVF, redaction and rollback; obtain bounded review and fixes; typed approve/bind/doctor; commit and push preparation only.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Complete six cards, design, diagram, exact paths, dependency gate, corpus and dispatch templates, COTS, budgets, PVF, bounded review and fixes, typed approval/bind/doctor, commit and push preparation",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "in_progress"
+  },
+  {
+    "id": "S2",
+    "action": "Wait fail-closed until #5356 is merged, typed closed_out, claim-free, receipt-backed, and ancestral",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Freeze exact landed corpus, run redaction and dispatch preflight, obtain operator-selected independent reviewer, dispatch once, and retain immutable receipt and findings-first result",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Synthesize findings through typed review, publish exact evidence, shepherd green CI and authorized serialized merge, run post-merge proof, close out, and release WP-20",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6",
+      "AC-8"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- preparation owns only four exact #5357 issue-local lifecycle and evidence paths
+- the canonical handoff filename and content remain unchanged during preparation
+- no dispatch occurs before complete #5356 terminal proof and exact corpus freeze
+- reviewer identity, process independence, evidence, inference, and author decisions remain distinct
+- review output cannot mutate lifecycle state or approve release
+- Runtime v2, AWS, credentials, host paths, private prompts, product changes, shared-document changes, and new dependencies are forbidden during preparation
+
+## Risks
+
+- a model selected and prompted by the project could be mislabeled independent
+- corpus or implementation proof could drift after dispatch
+- a self-hashing or mutable receipt could make review identity unverifiable
+- reviewer assertions could be mistaken for observed code evidence
+- redaction could remove context or leak sensitive data
+- findings could trigger scope sprawl or one-issue-per-finding churn
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/5357/design.md
+
+Digest: 0a2cedc5c4b91bb7704ac5e240b38bfabdd1fd8b63e95e7875939231897321a3
+
+## Diagram
+
+.csdlc/prepared/issues/5357/diagram.mmd
+
+Digest: 4868b7e6e805ebf6cbf9326d2aad6e502b7fd52685afd1338b550bd5b5959270
+
+## Stop Conditions
+
+- #5356 lacks merge, typed closed_out, claim release, retained receipt, or ancestry
+- the canonical handoff is renamed, rewritten during preparation, stale, or not at its canonical path
+- corpus or receipt identity is mutable, incomplete, self-referential, non-reproducible, or contains untracked/host-local inputs
+- reviewer identity, independence, conflict, prompt, model/provider, timing, outcome, or output digest cannot be retained truthfully
+- retained evidence contains secrets, private prompts, credentials, host paths, raw provider payloads, or personal data
+- a required proof is deferred, review is stale, scope collides, budget is exceeded without exact review, or product/shared-document work is required
+
+## Handoff
+
+Proceed only after doctor readiness.

@@ -1,0 +1,49 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 5357
+
+Repository: danielbaustin/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Prepare and later run an independent exact-revision external review after WP-18 is terminal, using the canonical v0.91.8 third-party-review handoff without renaming or rewriting it.
+
+## Required Outcome
+
+A future immutable exact-revision corpus and dispatch receipt produce findings-first external review output whose evidence, inference, and author-decision content is explicitly separated and safely routable into typed remediation.
+
+## Scope
+
+- issue-local typed lifecycle, preparation, validation, review, and evidence records
+- future read-only exact-revision corpus manifest and content digest derived from the canonical handoff and landed implementation/proof surfaces
+- future dispatch receipt binding reviewer identity, independence statement, prompt digest, corpus digest, target revision, timing, provider outcome, and output digest
+- future findings-first review artifact and typed synthesis without automatic issue creation
+- future exact review, publication, serialized merge, post-merge validation, and closeout
+
+## Authority
+
+- Preparation protects only four exact #5357 issue-local lifecycle and evidence paths and does not edit the canonical handoff
+- WP-18 #5356 owns internal milestone review and must be terminal before external dispatch
+- The external reviewer is a read-only evidence producer and cannot mutate lifecycle state, approve release, create scope, merge, close, or publish
+- Reviewer identity is not equivalent to independence; dispatch records who selected the corpus, prompt, provider, model, and process
+- External findings are evidence inputs until internally synthesized and dispositioned through typed C-SDLC v2
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use installed typed C-SDLC v2 binaries and the current-registry native six-card projection only
+- Keep root main untouched; all tracked preparation stays in the dedicated /Volumes/FastWork #5357 worktree
+- Preparation only: no external review dispatch, product or canonical-handoff edit, PR, publication, merge, closeout, Runtime v2, AWS, raw gh, credentials, paid service, or hidden network authority
+- Do not execute until #5356 is merged, typed closed_out, claim-free, retained-receipt-backed, and its observed merge SHA is ancestral to the exact #5357 execution revision
+- Reuse docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md under its canonical filename without attaching an issue number or rewriting it during preparation
+- Retain repository-relative, publication-safe evidence only; exclude secrets, private prompts, raw credentials, host paths, unredacted provider output, and local scratch roots
+- Run bounded preparation review, fix every actionable finding, typed design approval, validate, bind, doctor, commit and push, then stop
