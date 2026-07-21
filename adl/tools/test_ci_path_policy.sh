@@ -69,11 +69,13 @@ assert_current_coverage_workflow_contract() {
   assert_file_order "$workflow" 'Install cargo-nextest for CI contract checks' 'path-policy PR-fast coverage contract'
   assert_file_has "$workflow" 'Coverage not required by path policy'
   assert_file_has "$workflow" "if: steps.path-policy.outputs.coverage_required != 'true'"
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'Upload ADL-owned coverage step logs'
-  assert_file_has "$workflow" "if: always() && steps.path-policy.outputs.coverage_required == 'true'"
-  assert_file_has "$workflow" 'name: adl-coverage-step-logs'
-  assert_file_has "$workflow" 'Actual adl-coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'Upload runtime coverage evidence'
+  assert_file_has "$workflow" 'Upload workspace coverage evidence'
+  assert_file_has "$workflow" 'name: adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}'
+  assert_file_has "$workflow" 'name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}'
+  assert_file_has "$workflow" 'Coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}'
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
   assert_file_has "$workflow" 'actual adl-coverage execution state'
