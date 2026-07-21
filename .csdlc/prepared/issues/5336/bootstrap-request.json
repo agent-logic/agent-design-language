@@ -1,0 +1,147 @@
+{
+  "issue": 5336,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5336/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5336/diagram.mmd",
+  "design_reviewer": "codex-planning",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5336-v0918-runtime-functional-parity-plan",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784525523,
+    "expires_unix_seconds": 1785130323,
+    "heartbeat_unix_seconds": 1784525523,
+    "branch": "codex/5336-v0918-runtime-parity-plan",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336",
+      ".csdlc/evidence/5336",
+      "docs/milestones/v0.91.8"
+    ],
+    "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
+    "slug": "v0918-runtime-functional-parity-plan",
+    "version": "v0.91.8",
+    "goal": "Complete the v0.91.8 planning package with a bounded, parallel Runtime v3 functional-parity program before cutover and deletion.",
+    "required_outcome": "Canonical v0.91.8 documents enumerate the Runtime v3 live-parity groups, feature-preservation ledger, four implementation lanes, source/test budgets, dependencies, proof gates, and non-claims without executing implementation.",
+    "declared_scope": [
+      "v0.91.8 canonical planning and feature documents",
+      "Runtime v3 architecture, ownership, budgets, and live-parity definition",
+      "WP-11, #5361, WP-12, and WP-13 dependency correction",
+      "four bounded Runtime v3 child-lane issue definitions",
+      "v0.92 handoff and activation non-claims"
+    ],
+    "authority_boundary": [
+      "#5336 owns baseline, architecture, budgets, and planning corrections",
+      "Runtime v3 implementation remains with issue-bound Runtime v3 child lanes",
+      "#5361 remains the Runtime v3 acceptance umbrella",
+      "WP-11 owns parity verification, WP-12 cutover, and WP-13 deletion"
+    ],
+    "task_boundary": "Plan and prepare Runtime v3 functional parity only; do not execute runtime implementation, cutover, deletion, or v0.92 activation.",
+    "deliverables": [
+      "Runtime v3 functional-parity plan and machine-readable matrix",
+      "Updated canonical v0.91.8 planning, proof, demo, review, release, and handoff surfaces",
+      "Four bounded parallel implementation lane definitions under #5361",
+      "Architecture diagram and explicit 12K source / fewer-than-1000-test budgets",
+      "Typed lifecycle records, focused validation, and bounded review"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The nine historical fixture groups plus Observatory have explicit live-process proof requirements",
+      "AC-2: Every v0.91.7 feature document and implemented feature-list row has a required pre-deletion disposition",
+      "AC-3: Four disjoint implementation lanes fit the global writable WIP cap and converge before WP-11",
+      "AC-4: #5361 acceptance precedes WP-12 cutover and WP-13 deletion",
+      "AC-5: The plan names one canonical Runtime v3 and enforces the 12K source and fewer-than-1000-test budgets",
+      "AC-6: Canonical docs, YAML, JSON, links, and diff hygiene validate without Runtime implementation or AWS"
+    ],
+    "dependencies": [
+      "Closed v0.91.7 Runtime v3 implementation and review packets",
+      "docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json",
+      "Current Runtime v3 source and feature-list audit",
+      "Closed v0.91.8 setup issue #5383"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.91.8/README.md",
+      "docs/milestones/v0.91.8/WBS_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md",
+      "docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.91.7/features",
+      "adl-runtime/src",
+      "adl-runtime-kernel/src"
+    ],
+    "non_goals": [
+      "Do not implement Runtime v3 behavior",
+      "Do not switch the default runtime or delete Runtime v2",
+      "Do not use AWS",
+      "Do not add hard-coded hosts, IP addresses, credentials, or ports",
+      "Do not expand the product feature list"
+    ],
+    "plan_summary": "Pin the truthful Runtime v3 baseline, define live parity and feature preservation, organize four parallel lanes, repair canonical dependencies and proof surfaces, validate, review, and publish the plan.",
+    "steps": [
+      {"id": "S1", "action": "Pin Runtime v3 implementation, fixture, feature, and budget baseline", "acceptance_ids": ["AC-1", "AC-2", "AC-5"], "status": "pending"},
+      {"id": "S2", "action": "Define four implementation lanes and corrected dependency graph", "acceptance_ids": ["AC-3", "AC-4"], "status": "pending"},
+      {"id": "S3", "action": "Update every affected canonical planning, proof, demo, release, and handoff surface", "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"], "status": "pending"},
+      {"id": "S4", "action": "Validate YAML, JSON, links, planning truth, and diff hygiene", "acceptance_ids": ["AC-6"], "status": "pending"},
+      {"id": "S5", "action": "Run bounded review, fix findings, and prepare publication", "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"], "status": "pending"}
+    ],
+    "invariants": [
+      "No tracked work on main",
+      "Generated cards remain typed-tool owned",
+      "Fixture-only evidence is not live parity",
+      "No feature disappears during Runtime v2 deletion",
+      "No AWS use"
+    ],
+    "risks": [
+      "The existing plan assumes Runtime v3 parity that current source does not expose through live ingress",
+      "Two Runtime v3 crates can grow in parallel unless one canonical owner is selected",
+      "A broad #5361 acceptance issue would prevent safe parallel implementation without bounded child lanes",
+      "Cutover or deletion could erase Runtime v2-only features if the feature ledger is incomplete"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "The plan would require Runtime implementation or deletion in #5336",
+      "A proposed lane duplicates another milestone owner without explicit disposition",
+      "The feature ledger cannot account for a Runtime v2-only capability",
+      "The work would require AWS"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "planning-docs",
+        "proof_role": "Validate canonical planning documents, links, YAML, JSON, and issue-wave consistency",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 6000,
+        "argv": ["python3", "adl/tools/validate_architecture_docs.py"],
+        "parallel_group": "local",
+        "defer_reason": "Supplement the architecture validator with scoped YAML, JSON, Markdown-link, and planning-truth checks"
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Check edited artifacts for patch hygiene",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on missing feature disposition, fixture-as-live overclaim, dependency cycles, budget ambiguity, invalid planning artifacts, or AWS reliance.",
+    "review_prompts": [
+      "Does the plan distinguish fixture/library proof from live process functionality?",
+      "Can every v0.91.7 feature survive Runtime v2 deletion or retain an explicit non-runtime owner?",
+      "Do four lanes maximize parallelism without overlapping source ownership?",
+      "Do acceptance, cutover, and deletion dependencies fail closed?",
+      "Does the plan prevent duplicate Runtime v3 implementations and uncontrolled LoC/test growth?"
+    ]
+  }
+}

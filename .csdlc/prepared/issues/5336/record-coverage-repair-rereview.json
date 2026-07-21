@@ -1,0 +1,22 @@
+{
+  "issue": 5336,
+  "expected_generation": 22,
+  "expected_digest": "ce0539a93ba823ffc1ee279f56656a7670c98a4ea8d4de0b1130799f8b30a8fa",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+  "evidence": {
+    "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+    "scope": [
+      "adl/.gitignore",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:ba0d287c54fd61d1c97f2789126a1882c1c06a53:718b223a7c53c6ad2cc3391eac6274cf24a4c33587235b1ea438ee6cf962fe61",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

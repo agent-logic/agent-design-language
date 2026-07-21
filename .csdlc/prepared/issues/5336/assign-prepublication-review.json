@@ -1,0 +1,19 @@
+{
+  "issue": 5336,
+  "expected_generation": 1,
+  "expected_digest": "c25995322408af20e526a213cf4a98bbccb547a9b2f52a449518e307d94a5632",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "reviewer": "subagent:/root/review_5336",
+  "assigned_by": "codex:019f8036-122b-7311-ba23-a5df0f04f9d2",
+  "scope": [
+    ".csdlc/issues/5336",
+    ".csdlc/prepared/issues/5336",
+    "docs/milestones/v0.91.8/BASELINE_AND_OWNERSHIP_v0.91.8.md",
+    "docs/milestones/v0.91.8/baseline_and_ownership_v0.91.8.json",
+    "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+    "docs/milestones/v0.91.8/RUNTIME_V3_FUNCTIONAL_PARITY_PLAN_v0.91.8.md",
+    "docs/milestones/v0.91.8/RUNTIME_V3_FUNCTIONAL_PARITY_DIAGRAM_v0.91.8.mmd",
+    "docs/milestones/v0.91.8/features/RUNTIME_V3_FUNCTIONAL_PARITY_v0.91.8.md",
+    "docs/milestones/v0.91.8/runtime_v3_functional_parity_plan_v0.91.8.json"
+  ]
+}

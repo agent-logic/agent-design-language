@@ -1,0 +1,15 @@
+{
+  "issue": 5336,
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "expected_generation": 32,
+  "expected_digest": "def38e24ae71bd5cb688cb6a032f41ef8ae807f284a72ec3bef56f58646e2777",
+  "now_unix_seconds": 1784605916,
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Own the bounded hosted-runner isolation, deterministic summary merge, fail-closed contract tests, and corrected coverage-log artifact path proven necessary by repeated #5599 EAGAIN failures.",
+  "add_protected_paths": [
+    ".github/workflows/ci.yaml",
+    "adl/tools/merge_coverage_summaries.py",
+    "adl/tools/test_merge_coverage_summaries.sh",
+    "adl/tools/test_ci_runtime_contracts.sh"
+  ]
+}

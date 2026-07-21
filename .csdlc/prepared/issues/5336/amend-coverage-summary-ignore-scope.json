@@ -1,0 +1,12 @@
+{
+  "issue": 5336,
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "expected_generation": 20,
+  "expected_digest": "218b740a926a2980cf5579ae40c54a91cc7998e760d7792f2a3311bf07a35e42",
+  "now_unix_seconds": 1784599007,
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Keep the coverage runner's generated legacy summaries out of tracked issue scope and working-tree noise.",
+  "add_protected_paths": [
+    "adl/.gitignore"
+  ]
+}

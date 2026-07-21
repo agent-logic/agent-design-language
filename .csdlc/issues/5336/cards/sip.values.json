@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5336,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
+    "slug": "v0918-runtime-functional-parity-plan",
+    "version": "v0.91.8",
+    "generation": 45
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Complete the v0.91.8 planning package with a bounded, parallel Runtime v3 functional-parity program before cutover and deletion.",
+      "required_outcome": "Canonical v0.91.8 documents enumerate the Runtime v3 live-parity groups, feature-preservation ledger, four implementation lanes, source/test budgets, dependencies, proof gates, and non-claims without executing implementation.",
+      "declared_scope": [
+        "v0.91.8 canonical planning and feature documents",
+        "Runtime v3 architecture, ownership, budgets, and live-parity definition",
+        "WP-11, #5361, WP-12, and WP-13 dependency correction",
+        "four bounded Runtime v3 child-lane issue definitions",
+        "v0.92 handoff and activation non-claims"
+      ],
+      "authority_boundary": [
+        "#5336 owns baseline, architecture, budgets, and planning corrections",
+        "Runtime v3 implementation remains with issue-bound Runtime v3 child lanes",
+        "#5361 remains the Runtime v3 acceptance umbrella",
+        "WP-11 owns parity verification, WP-12 cutover, and WP-13 deletion"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": []
+    }
+  }
+}

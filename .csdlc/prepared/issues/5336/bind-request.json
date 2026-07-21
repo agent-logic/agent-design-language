@@ -1,0 +1,23 @@
+{
+  "issue": 5336,
+  "base_branch": "main",
+  "branch": "codex/5336-v0918-runtime-parity-plan",
+  "worktree": ".",
+  "claim": {
+    "id": "claim-5336-v0918-runtime-functional-parity-plan",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784525523,
+    "expires_unix_seconds": 1785130323,
+    "heartbeat_unix_seconds": 1784525523,
+    "branch": "codex/5336-v0918-runtime-parity-plan",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336",
+      ".csdlc/evidence/5336",
+      "docs/milestones/v0.91.8"
+    ],
+    "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
+  }
+}
