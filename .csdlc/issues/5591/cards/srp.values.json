@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
     "slug": "v0-91-8-runtime-v3-parity-a-kernel-continuity-ingress",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/live_continuity.rs\nadl-runtime-kernel/src/telemetry.rs\nadl-runtime-kernel/src/weather.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/guardian_soak.rs\ninfra/horust/adl-runtime-kernel.toml\n.csdlc/issues/5591/cards/sor.values.json\n.csdlc/issues/5591/cards/vpp.values.json",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/live_continuity.rs\nadl-runtime-kernel/src/telemetry.rs\nadl-runtime-kernel/src/weather.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/guardian_soak.rs\ninfra/horust/adl-runtime-kernel.toml\nadl/tools/report_runtime_v3_loc.sh\n.csdlc/issues/5591/cards/sor.values.json\n.csdlc/issues/5591/cards/vpp.values.json",
+      "review_revision": "git-blake3:80abe5c5aadc99beb74b155065901fb4496aead2:8ac3095c8fd548f8238c603de7810fb0f0cf0b58e0cb14dc319c007043c8ce8e",
+      "reviewer": "subagent:/root/review_5591_exact_head",
       "review_prompts": [
         "Does every acceptance criterion require guardian-launched live production behavior rather than fixture or library evidence?",
         "Are checkpoint/replay/resume determinism, authenticity, duplicate prevention, and corrupt-state negatives fully specified?",
@@ -26,8 +26,11 @@
         "Is #5336 integration the sole current stop while the future claim-scope proposal remains non-authoritative?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
+        "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
+      ],
+      "review_result": "pass"
     }
   }
 }

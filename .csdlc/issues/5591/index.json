@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "e889677f329a9babda6bc4472c2bb9e48fa3fc03011c1e4bcd0c75f19ea16713",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "2a269227ad0689d3a71102b301b8f240236371fb6a7958f96101ab6c73697bd6",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 11,
+    "generation": 14,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -30,7 +30,7 @@
   "review_assignment": {
     "reviewer": "subagent:/root/review_5591_exact_head",
     "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
-    "revision": "git-blake3:be9daf2ea3677e688d33a96b11497c0f46f02a79:64ebeb8ba1a776f9bc999569e6f72f658b7fe2a937f4abb64a7054f0e11c058c",
+    "revision": "git-blake3:80abe5c5aadc99beb74b155065901fb4496aead2:8ac3095c8fd548f8238c603de7810fb0f0cf0b58e0cb14dc319c007043c8ce8e",
     "scope": [
       "adl-runtime-kernel/src/assembly.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
@@ -44,11 +44,39 @@
       "adl-runtime-kernel/tests/control.rs",
       "adl-runtime-kernel/tests/guardian_soak.rs",
       "infra/horust/adl-runtime-kernel.toml",
+      "adl/tools/report_runtime_v3_loc.sh",
       ".csdlc/issues/5591/cards/sor.values.json",
       ".csdlc/issues/5591/cards/vpp.values.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_5591_exact_head",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/weather.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "infra/horust/adl-runtime-kernel.toml",
+      "adl/tools/report_runtime_v3_loc.sh",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/vpp.values.json"
+    ],
+    "reviewed_revision": "git-blake3:80abe5c5aadc99beb74b155065901fb4496aead2:8ac3095c8fd548f8238c603de7810fb0f0cf0b58e0cb14dc319c007043c8ce8e",
+    "findings": [],
+    "residual_risks": [
+      "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
+      "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -63,32 +91,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "952d6b2729c504a43fa2a836e1852a5e3b3d725c33fec0fd02df7135c3540c2b",
+      "values_digest": "421158c770c8048c0b20497fe03c397c51719c36838dee6ba8df68c4b71ebf23",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "e8a45ae37c446d398378a4e512a91a99f92407dfae952a42cd72e0bb1854a3eb",
+      "values_digest": "bed2af563f7730cdffa782da90356fbccf5aa041eb71821ac58ffd6faf180459",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "b3ba28cb8772bb8292e73f5b4f597574f742289a88535ccf149956166363defc",
+      "values_digest": "4469c4958c545fbcdbf6b8a82643624db5bbdc10034630bd03f903704a171448",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "68a24f67b714b0853f10b56926dbf5ed55bfb7943fd2e2f2f99f740ebeb6b9e4",
+      "values_digest": "861527df0e2fd018864f8b1d36a88699178b38d6881b3575a838dfd6c340dc73",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "c7ce729e98c198f5d40098272acc88d53a123d73ca3d7c1b4c53da21d7a615d9",
-      "rendered_digest": "c54110b99fc22b4b22e5acfbdc3a90ff41d15ca108498bc5b2f58135b4da532c",
-      "ast_digest": "389059c788910847f6653f434409b0c0e2513ff27864079c6ce4b27ff3282cb4"
+      "values_digest": "fca26e843aed7bab5c29d681f987af2b305f21ac732fd1a860db82fd18d88e87",
+      "rendered_digest": "3051f299042636e176d4a717db8cb23c488e8d531a39c365e23ec6170c979863",
+      "ast_digest": "5096ec2f1a93d7dccaf26b1b5c8043e6d049593e4466d76ca3a5b5a597f988d4"
     },
     "sor": {
-      "values_digest": "8bb186dd1de77078dc65df9233bb802856a50e8d0d246558b350605f20b9b91d",
+      "values_digest": "2cc5c8a3f8aa65b61e71471c90ce960b53d1fc9eb9aae22a004b94347175296e",
       "rendered_digest": "9e89bdfd9eb18be0ec97e0050bccf43eaee749ab5f2b96e4211a9a9160842b2c",
       "ast_digest": "ee5b01c106c81b7ad4100feafef59932c04f21ca036253261ecd6c78ae5fbec5"
     }
@@ -128,6 +156,13 @@
       "to": "implemented",
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Integration of merged #5336/current origin/main changed exact revision identity; recover to implemented for complete integrated-head proof and bounded exact-head review before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Exact integrated-fix-head rereview passed with no findings; retain the explicit +474 reviewed exception and fixed-port SIGTERM residual."
     }
   ],
   "audit": [
@@ -249,6 +284,34 @@
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Correct the exact-head reviewer P1 by recording the pinned #5336 baseline and the explicit non-authority of the broad hard safety ceiling.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash -n adl/tools/report_runtime_v3_loc.sh\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check\"],\"purpose\":\"Record 12,683 physical source lines as exactly +474 over the pinned #5336 baseline of 12,209 and +683 over the 12,000 target. The 20,000 hard safety ceiling does not authorize an exception. Exact review found the +474 functional delta necessary and non-duplicative: signed ingress +323, control/admission +76, assembly +45, continuity +21, and terminal/misc wiring +9; identified safe consolidation cannot recover the delta without removing acceptance behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"subagent:/root/review_5591_exact_head@be9daf2ea:P1-budget-authority-correction\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "subagent:/root/review_5591_exact_head",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "subagent:/root/review_5591_exact_head",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Exact integrated-fix-head rereview passed with no findings; retain the explicit +474 reviewed exception and fixed-port SIGTERM residual.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
