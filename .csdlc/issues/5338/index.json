@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "199fbe42a3df206676fb4c08e306473ef17bb34c2be2c2e69c0cd371890f5f6f",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "1bee746ecdb1a6f5554e81f9e437b16c7684b50b0f77965ca74dd02f48e1aacd",
+  "generation": 20,
+  "digest": "c2e126729ae951a50a3fb5ba307990fae3814206ead5da3ac9d158778b5981d0",
   "claim": {
     "id": "claim-5338-v0918-wp05-owner",
     "owner": "codex:5338-owner-watch",
-    "generation": 18,
+    "generation": 20,
     "acquired_unix_seconds": 1784616770,
     "expires_unix_seconds": 1785221570,
     "heartbeat_unix_seconds": 1784616770,
@@ -25,7 +25,17 @@
     ],
     "purpose": "Implement, validate, review, publish, shepherd, merge with authorization, prove post-merge state, and typed-closeout #5338 after the #5339 terminal predicate passed"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5338_exact",
+    "assigned_by": "codex:5338-owner-watch",
+    "revision": "git-blake3:0b97e5bca6f84b97c78404a704f6affdfba37a01:377a2cb549b7acbac63753788c9676640ace049294f8a8145e11c7ae9f777436",
+    "scope": [
+      "adl-v2/crates/adl-compiler",
+      ".csdlc/issues/5338",
+      ".csdlc/prepared/issues/5338",
+      ".csdlc/evidence/5338"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,34 +51,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eeb741bd9dd91a178aa4790c8d4c1f4a3c9deeab2a1cc012819961055285c34a",
+      "values_digest": "246f26773699da6cca5f0f115f00d075a588626b77f2c5a997fa7c13cbb44843",
       "rendered_digest": "143b769211b927ac15dc47385247f82553065dc1e01f662f9fde0e5fce05eda7",
       "ast_digest": "6cbfc5d575d66a724a66b9c43fc5a2c1f47ace0af0c4070a5eebe9817bc3826c"
     },
     "stp": {
-      "values_digest": "2b61e950318667ed896fd027536aaa146a96d85a72d32010f925e0b2fc09cf9b",
+      "values_digest": "4b8b17a588f13677af3da145153055b33c3203c12cd3a73cddac72d73b4a423a",
       "rendered_digest": "9d3b3fe4361aa7190e23a0b9f5ba75d24310b019284eed25338e3271fa7d47d8",
       "ast_digest": "47e7f76523de89603aff666d1b56df4a4179ab6394b7f047875e81816332f2f3"
     },
     "spp": {
-      "values_digest": "d59e8f03766b169bae316606e7c03c5562fb24582410d70279ff57c06d541aa7",
+      "values_digest": "0d22dcaf0ae22a8cf69c022a48a28b669ed8c49d2d357563ada74cdfa926133a",
       "rendered_digest": "4746489fb3b137b4bd3adc4283baf1c06b6813ef618e0e9ef54a2b7ec8cd3003",
       "ast_digest": "cca8945b94a654a10a8b9451a5c2b57ebe9ff9b1db5cb5d34edd6c658465d6f6"
     },
     "vpp": {
-      "values_digest": "14ccd7ec82ab8f0f1bb56a5e12536b39e8fb050e6a75031b46fc894421be8625",
+      "values_digest": "5df09240a62b459282a71fe951589678a80aff98e4871e6d25d4508a61978d58",
       "rendered_digest": "eed7f6f64832f8a361ca6e38253a002cd49f66644b96e9b95a5f6a36a22e77bf",
       "ast_digest": "976777fee88652944f810af9caeea3058370a7e5a3c91cd67e1e84a088bd4570"
     },
     "srp": {
-      "values_digest": "eb8e06dc33beaa483898268acca0012888cb366c389fd6f0c55f5596662689bc",
-      "rendered_digest": "1be23a77f282043362877d65d297ded80dd8d63e1251813aa96d2cccdea2fcdc",
-      "ast_digest": "96b10751ac0c856b8ce7317e901302c2903d93617c9f6a3693b9c40155bcc26d"
+      "values_digest": "1d49f32dae0f5408a290aade6b56e59e5e7b4b925e208a1a38e2ebb88cc25262",
+      "rendered_digest": "19f3cb85138e2945f81477fa657ef7bdf0d69a416ff3a967d56a3b188c4c78a9",
+      "ast_digest": "069224d62c25ed7df31255cff0c8fa51e6b0fd931621b64163654e56dc32f2b0"
     },
     "sor": {
-      "values_digest": "5690c5ec4a43f686d89979034f9e35de42297ab38758279b2cac5c4f292490a7",
-      "rendered_digest": "8458b98888cd0cfeb0b1352892b16cca7baba29f8a433cebe7c5c453d98720c2",
-      "ast_digest": "300b39340270d23bec7fdab9ce0ebc3032af71f513b2862ab6a8f1e39edd71fb"
+      "values_digest": "2005d8d97a31621b6d9eac133e2140c90021b140b9932399aa2206c220d1db10",
+      "rendered_digest": "38859115fefeabfdb7bfc31e121ab68ed8aeccdbbe72e4ee6f2e7b5d4fc47508",
+      "ast_digest": "df9a047740e32923d7f3ded31efdd238b339f47397dd1c59528445c59bc6d78e"
     }
   },
   "transitions": [
@@ -248,6 +258,27 @@
       "actor": "codex:5338-owner-watch",
       "reason": "Implementation, exact-review remediation, and all planned local FastWork proof lanes are complete; enter exact-revision review after committing the remediated candidate.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:5338-owner-watch",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Resolve all three remediated-candidate exact-review findings before reassignment.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the second exact-review findings by binding stable IDs to resolved execution semantics, preserving declared input-port order, and proving clean-process plan plus canonical diagnostic replay.\",\"changes\":[\"Added a canonical digest of resolved step, task, agent, and provider declarations to the stable node identity preimage\",\"Added locality tests for prompt, model, and tool changes while retaining stability for unrelated run inputs\",\"Preserved the language-declared Task.inputs vector order in plan ports\",\"Added equivalent JSON/YAML diagnostic-byte proof and an actual subprocess replay harness for plan and diagnostic bytes\"],\"artifacts\":[\"adl-v2/crates/adl-compiler/src/lib.rs\",\"adl-v2/crates/adl-compiler/tests/deterministic_replay.rs\",\"adl-v2/crates/adl-compiler/tests/stable_identity.rs\",\"adl-v2/crates/adl-compiler/README.md\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Record the bounded local compiler proof before exact-revision review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"validate-compiler.sh focused\",\"validate-compiler.sh quality\",\"validate-compiler.sh determinism\",\"validate-compiler.sh budgets\"],\"purpose\":\"Prove deterministic pure lowering, landed characterization mapping, stable node identity, diagnostics and limits, dependency/COTS restrictions, formatting/clippy quality, LoC ceilings, and FastWork execution-time ceilings.\",\"outcome\":\"passed\",\"evidence_ref\":\"second post-review-remediation local FastWork proof: 18 tests passed including clean subprocess replay and canonical diagnostic parity; clippy -D warnings passed; implementation 561 LoC; tests/fixtures 486 LoC; full budget lane 0s warm; all declared ceilings satisfied\"}}"
     }
   ]
 }

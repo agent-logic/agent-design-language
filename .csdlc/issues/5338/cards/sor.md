@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Closed all initial exact-review findings with complete inert port, prompt, and provenance data; construction-time graph bounds; aggregate run and step input limits; exhaustive landed-fixture classification; explicit versioned node IDs; and current design truth.
+Closed the second exact-review findings by binding stable IDs to resolved execution semantics, preserving declared input-port order, and proving clean-process plan plus canonical diagnostic replay.
 
 ## Artifacts
 
@@ -24,6 +24,10 @@ Closed all initial exact-review findings with complete inert port, prompt, and p
 - adl-v2/crates/adl-compiler/tests
 - adl-v2/crates/adl-compiler/README.md
 - .csdlc/prepared/issues/5338/design.md
+- adl-v2/crates/adl-compiler/src/lib.rs
+- adl-v2/crates/adl-compiler/tests/deterministic_replay.rs
+- adl-v2/crates/adl-compiler/tests/stable_identity.rs
+- adl-v2/crates/adl-compiler/README.md
 
 ## Execution
 
@@ -37,6 +41,10 @@ Closed all initial exact-review findings with complete inert port, prompt, and p
 - Mechanically inventoried and classified all nineteen landed characterization fixtures with fail-on-new-fixture behavior
 - Included the execution-plan contract in stable identity preimages and exposed node_v1_ IDs with refreshed golden proof
 - Updated and reapproved the canonical design status after the dependency gate and implementation completed
+- Added a canonical digest of resolved step, task, agent, and provider declarations to the stable node identity preimage
+- Added locality tests for prompt, model, and tool changes while retaining stability for unrelated run inputs
+- Preserved the language-declared Task.inputs vector order in plan ports
+- Added equivalent JSON/YAML diagnostic-byte proof and an actual subprocess replay harness for plan and diagnostic bytes
 
 ## Validation
 
@@ -72,6 +80,17 @@ Closed all initial exact-review findings with complete inert port, prompt, and p
     "purpose": "Prove deterministic pure lowering, landed characterization mapping, stable node identity, diagnostics and limits, dependency/COTS restrictions, formatting/clippy quality, LoC ceilings, and FastWork execution-time ceilings.",
     "outcome": "passed",
     "evidence_ref": "post-review-remediation local FastWork proof: 13 tests passed; clippy -D warnings passed; implementation 508 LoC; tests/fixtures 380 LoC; full budget lane 0s warm; all declared ceilings satisfied"
+  },
+  {
+    "command": [
+      "validate-compiler.sh focused",
+      "validate-compiler.sh quality",
+      "validate-compiler.sh determinism",
+      "validate-compiler.sh budgets"
+    ],
+    "purpose": "Prove deterministic pure lowering, landed characterization mapping, stable node identity, diagnostics and limits, dependency/COTS restrictions, formatting/clippy quality, LoC ceilings, and FastWork execution-time ceilings.",
+    "outcome": "passed",
+    "evidence_ref": "second post-review-remediation local FastWork proof: 18 tests passed including clean subprocess replay and canonical diagnostic parity; clippy -D warnings passed; implementation 561 LoC; tests/fixtures 486 LoC; full budget lane 0s warm; all declared ceilings satisfied"
   }
 ]
 

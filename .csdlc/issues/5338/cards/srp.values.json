@@ -7,13 +7,13 @@
     "title": "[v0.91.8][WP-05] Implement pure deterministic ADL compiler",
     "slug": "v0918-wp05-pure-deterministic-adl-compiler",
     "version": "v0.91.8",
-    "generation": 18
+    "generation": 20
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/5338\n.csdlc/prepared/issues/5338\n.csdlc/evidence/5338\nadl-v2/crates/adl-compiler",
+      "review_scope": "adl-v2/crates/adl-compiler\n.csdlc/issues/5338\n.csdlc/prepared/issues/5338\n.csdlc/evidence/5338",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -12,10 +12,10 @@ Status: pre_phase
 
 ## Scope
 
+adl-v2/crates/adl-compiler
 .csdlc/issues/5338
 .csdlc/prepared/issues/5338
 .csdlc/evidence/5338
-adl-v2/crates/adl-compiler
 
 ## Prompts
 

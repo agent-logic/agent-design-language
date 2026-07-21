@@ -1,7 +1,10 @@
 mod common;
 
-use adl_compiler::{canonical_plan_bytes, compile, PlanEdgeKind};
-use adl_language::{parse_and_validate_json, parse_and_validate_yaml, WorkflowKind};
+use adl_compiler::{canonical_diagnostic_bytes, canonical_plan_bytes, compile, PlanEdgeKind};
+use adl_language::{
+    parse_and_validate_json, parse_and_validate_yaml, parse_json, parse_yaml, WorkflowKind,
+};
+use std::process::Command;
 
 #[test]
 fn repeated_compilation_is_byte_identical() {
@@ -71,4 +74,66 @@ fn sequential_and_state_edges_are_both_explicit() {
         .edges
         .iter()
         .any(|edge| edge.kind == PlanEdgeKind::StateDependency));
+}
+
+#[test]
+fn declared_input_port_order_is_preserved() {
+    let mut document = common::document(WorkflowKind::Sequential);
+    document.tasks.get_mut("consume").unwrap().inputs = vec!["zeta".into(), "alpha".into()];
+    let plan = compile(&document).unwrap();
+    assert_eq!(plan.nodes[1].ports.inputs, vec!["zeta", "alpha"]);
+}
+
+#[test]
+fn equivalent_invalid_representations_have_identical_diagnostic_bytes() {
+    let json = r#"{"version":"0.5","providers":{},"agents":{"worker":{"provider":"missing"}},"tasks":{"one":{"agent_ref":"worker","prompt":{"user":"one"}}},"run":{"name":"bad","workflow":{"kind":"sequential","steps":[{"id":"one","task":"one"}]}}}"#;
+    let yaml = r#"
+version: "0.5"
+providers: {}
+agents: {worker: {provider: missing}}
+tasks: {one: {agent_ref: worker, prompt: {user: one}}}
+run:
+  name: bad
+  workflow: {kind: sequential, steps: [{id: one, task: one}]}
+"#;
+    let json_errors = compile(&parse_json(json).unwrap()).unwrap_err();
+    let yaml_errors = compile(&parse_yaml(yaml).unwrap()).unwrap_err();
+    assert_eq!(
+        canonical_diagnostic_bytes(&json_errors).unwrap(),
+        canonical_diagnostic_bytes(&yaml_errors).unwrap()
+    );
+}
+
+#[test]
+fn clean_process_plan_and_diagnostic_replay_is_byte_identical() {
+    let executable = std::env::current_exe().unwrap();
+    let run = || {
+        Command::new(&executable)
+            .args(["--exact", "clean_process_worker", "--nocapture"])
+            .env("ADL_COMPILER_REPLAY_CHILD", "1")
+            .output()
+            .unwrap()
+    };
+    let first = run();
+    let second = run();
+    assert!(first.status.success());
+    assert!(second.status.success());
+    assert_eq!(first.stdout, second.stdout);
+    assert!(String::from_utf8(first.stdout).unwrap().contains("PLAN="));
+}
+
+#[test]
+fn clean_process_worker() {
+    if std::env::var_os("ADL_COMPILER_REPLAY_CHILD").is_none() {
+        return;
+    }
+    let plan = compile(&common::document(WorkflowKind::Sequential)).unwrap();
+    let mut invalid = common::document(WorkflowKind::Sequential);
+    invalid.agents.get_mut("worker").unwrap().provider = "missing".into();
+    let diagnostics = compile(&invalid).unwrap_err();
+    println!("PLAN={}", hex::encode(canonical_plan_bytes(&plan).unwrap()));
+    println!(
+        "DIAGNOSTICS={}",
+        hex::encode(canonical_diagnostic_bytes(&diagnostics).unwrap())
+    );
 }

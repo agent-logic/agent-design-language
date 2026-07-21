@@ -183,7 +183,14 @@ pub fn compile_with_limits(
     let mut node_ids = BTreeMap::new();
     let mut identities = BTreeSet::new();
     for step in &workflow.steps {
-        let id = stable_node_id(&run_identity, &workflow_identity, &step.id, &step.task);
+        let semantic_digest = resolved_declaration_digest(document, step)?;
+        let id = stable_node_id(
+            &run_identity,
+            &workflow_identity,
+            &step.id,
+            &step.task,
+            &semantic_digest,
+        );
         if !identities.insert(id.clone()) {
             return Err(vec![diagnostic(
                 CompilerDiagnosticCode::IdentityCollision,
@@ -270,9 +277,6 @@ pub fn compile_with_limits(
         if !task.tool_allowlist.is_empty() {
             tools.retain(|tool| task.tool_allowlist.contains(tool));
         }
-        let mut input_ports = task.inputs.clone();
-        input_ports.sort();
-        input_ports.dedup();
         nodes.push(PlanNode {
             id: node_ids[&step.id].clone(),
             step_id: step.id.clone(),
@@ -285,7 +289,7 @@ pub fn compile_with_limits(
                 .or_else(|| provider.default_model.clone()),
             tools: tools.into_iter().collect(),
             ports: PlanPorts {
-                inputs: input_ports,
+                inputs: task.inputs.clone(),
                 outputs: step.save_as.iter().cloned().collect(),
             },
             prompt: PlanPrompt {
@@ -338,6 +342,12 @@ pub fn compile_with_limits(
 
 pub fn canonical_plan_bytes(plan: &ExecutionPlan) -> Result<Vec<u8>, serde_json::Error> {
     serde_json::to_vec(plan)
+}
+
+pub fn canonical_diagnostic_bytes(
+    diagnostics: &[CompilerDiagnostic],
+) -> Result<Vec<u8>, serde_json::Error> {
+    serde_json::to_vec(diagnostics)
 }
 
 fn resolve_workflow(document: &AdlDocument) -> (String, &Workflow) {
@@ -466,10 +476,53 @@ fn collect_state_references(value: &Value, references: &mut BTreeSet<String>) {
     }
 }
 
-fn stable_node_id(run: &str, workflow: &str, step: &str, task: &str) -> String {
+fn resolved_declaration_digest(
+    document: &AdlDocument,
+    step: &adl_language::WorkflowStep,
+) -> Result<String, Vec<CompilerDiagnostic>> {
+    let task = &document.tasks[&step.task];
+    let agent_ref = step
+        .agent
+        .as_ref()
+        .or(task.agent_ref.as_ref())
+        .ok_or_else(|| {
+            vec![diagnostic(
+                CompilerDiagnosticCode::InvalidDocument,
+                format!("$.run.workflow.steps.{}.agent", step.id),
+                "step and task do not resolve an agent",
+            )]
+        })?;
+    let agent = &document.agents[agent_ref];
+    let provider = &document.providers[&agent.provider];
+    let bytes = serde_json::to_vec(&(step, task, agent_ref, agent, &agent.provider, provider))
+        .map_err(|error| {
+            vec![diagnostic(
+                CompilerDiagnosticCode::InternalInvariant,
+                format!("$.run.workflow.steps.{}", step.id),
+                format!("resolved declaration serialization failed: {error}"),
+            )]
+        })?;
+    Ok(sha256_hex(&bytes))
+}
+
+fn stable_node_id(
+    run: &str,
+    workflow: &str,
+    step: &str,
+    task: &str,
+    semantic_digest: &str,
+) -> String {
     let mut hasher = Sha256::new();
     hasher.update(NODE_ID_DOMAIN);
-    for component in [EXECUTION_PLAN_VERSION, run, workflow, step, task, "task"] {
+    for component in [
+        EXECUTION_PLAN_VERSION,
+        run,
+        workflow,
+        step,
+        task,
+        "task",
+        semantic_digest,
+    ] {
         hasher.update((component.len() as u64).to_be_bytes());
         hasher.update(component.as_bytes());
     }
