@@ -52,3 +52,4 @@
 {"sequence":52,"generation":37,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":53,"generation":38,"actor":"subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":54,"generation":39,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Metadata-only publication-head review passed after the substantive isolated-worker coverage review, with no findings or residual risks.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":55,"generation":40,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

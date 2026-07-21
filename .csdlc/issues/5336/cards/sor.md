@@ -46,11 +46,11 @@ Pinned the truthful Runtime v3 baseline and sole canonical owner, defined ten li
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
