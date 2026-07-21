@@ -3,13 +3,13 @@
   "issue": 5592,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a359b2c4b8f2f653ea82c1c5d29aa63c3ac298542bbe5f7c7339a327ad3e822d",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "ac71574497472699be41f90668c9350d40219ec7550a3bc6f2be6950987f0c39",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "c3205f81b41fdccbbf54f2e1afbd26a94ed568733607fe0ed752b93efbf574e4",
   "claim": {
     "id": "claim-5592-runtime-v3-parity-b-preparation",
     "owner": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1784601544,
     "expires_unix_seconds": 1785206344,
     "heartbeat_unix_seconds": 1784601544,
@@ -29,12 +29,13 @@
     "purpose": "Implement every #5592 Runtime v3 Parity-B reasoning graph, bounded loop, governed adaptation, affect, curiosity, cognition, feature-disposition, exact-proof, review, publication, and closeout outcome"
   },
   "review_assignment": {
-    "reviewer": "subagent:/root/review_5592_repaired_exact",
+    "reviewer": "subagent:/root/review_5592_final_exact",
     "assigned_by": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
-    "revision": "git-blake3:e0276c61a3d409a87170da96ee359cb4e8b424c5:01d41ac8cc0ccb6970f62cdb7fb980d32927b1506a824c123e91678d961c398c",
+    "revision": "git-blake3:b6a63af868ca140e817c485dc2c3491222ab4675:65b144b8ccfe0c11c263284ab0ec0d1e8b08b35728123b0bee8b575f615c5352",
     "scope": [
       "adl-runtime-kernel/src/operations.rs",
       "adl-runtime-kernel/src/parity_b.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
       "adl-runtime-kernel/src/lib.rs",
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
       ".csdlc/issues/5592/cards/sor.values.json",
@@ -43,41 +44,21 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_5592_repaired_exact",
+    "reviewer": "subagent:/root/review_5592_final_exact",
     "scope": [
       "adl-runtime-kernel/src/operations.rs",
       "adl-runtime-kernel/src/parity_b.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
       "adl-runtime-kernel/src/lib.rs",
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
       ".csdlc/issues/5592/cards/sor.values.json",
       ".csdlc/issues/5592/cards/srp.values.json",
       ".csdlc/issues/5592/cards/vpp.values.json"
     ],
-    "reviewed_revision": "git-blake3:e0276c61a3d409a87170da96ee359cb4e8b424c5:01d41ac8cc0ccb6970f62cdb7fb980d32927b1506a824c123e91678d961c398c",
-    "findings": [
-      {
-        "id": "mutation-recovery-omits-gate-state",
-        "severity": "p1",
-        "summary": "Parity-B checkpoint omits authenticated MutationGate graph, consumed grants, evidence, and adaptation state, permitting grant reuse and adaptive rollback after restart.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "live-cancellation-and-inflight-shutdown-unreachable",
-        "severity": "p1",
-        "summary": "Loop execution uses an unreachable fresh cancellation token and does not recheck shutdown before receipt commit, so actual cancellation and in-flight monotonic shutdown are unproved.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:b6a63af868ca140e817c485dc2c3491222ab4675:65b144b8ccfe0c11c263284ab0ec0d1e8b08b35728123b0bee8b575f615c5352",
+    "findings": [],
     "residual_risks": [
-      "The accepted 13,504-line exception must remain explicit in final review and SOR truth."
+      "Runtime v3 is 13,547 physical lines, an explicitly accepted +1,338 exception over the pinned 12,209 baseline and +1,547 over the reviewed target; it remains below the 20,000 hard ceiling and exact review found the cohesive issue scope complete and non-deferred."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -96,32 +77,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3fc1e8cc3a3580a09acefdf98b2fbdbf96a9d079f8bc3fb186cde722acd1e806",
+      "values_digest": "910448580212558d8041755510300dc51dda1d256cd2129a3539490ad7401af4",
       "rendered_digest": "a4369423ad1bb8d1afb5cfe47874314d77ab0c610cdaeee04a22be089876740f",
       "ast_digest": "e4bbee25a2f2ee6c9054c13f2b187d71bbd2a7ff6995e4350fa22249ce55304d"
     },
     "stp": {
-      "values_digest": "23abe0cdc738b95f416aa0cdf16d0c771ee458ec69bef56b82eb4ee4b91791e8",
+      "values_digest": "8f2f4feaaabe9f743284dd21debb44e37c93d5259bc9636b42b76c5579950c30",
       "rendered_digest": "2d44dbaacfdeb4e7b8317cd412cd1f1358fe50bd483ca9ec0724e439f2e2f026",
       "ast_digest": "5b87e6ca43305b7dd447de7722131a31ef75170a53dfac275ae737a3c38ac1a4"
     },
     "spp": {
-      "values_digest": "d41ab28f8c3703b515a66c65d08dd8d13d4b3277df06b21fcc2197330097568d",
+      "values_digest": "2a6223c565038deccd18d35c635b65cfc16ecff95908b18ea213b71b6e9ecb3c",
       "rendered_digest": "a31c29f58f4b9890ef74dbe01c2817f78c68b89846cbd26b80fdd40b0f568c53",
       "ast_digest": "e6e2fc41cc44dd45836726815b8a6a431af1e266548d761fe8129934b4d6b101"
     },
     "vpp": {
-      "values_digest": "f1affa102520d6075a8e9d563eee685faa2e9215bfad175a0da42e7e4d86ace4",
+      "values_digest": "84c09837ceddc2573e4a26db0c79d6ec14391c8e4ff464dadd5e09462d7bd863",
       "rendered_digest": "2820cad061abc84765b2e7b4ae4c76659f3aad102c13629e1d12dd1837184b9b",
       "ast_digest": "2e23a756badf61748cce137b53bab1efade6df4bd9b288adfc376c4f2c6ebbe6"
     },
     "srp": {
-      "values_digest": "0ff95b9b31a441a9fe71d4729e20d79e7bd879c21674f9ffd77ffbf84594f06a",
-      "rendered_digest": "7f49daceeeef488f4f54d864d0908ced9e89e687650f9853d4051bc1263f8495",
-      "ast_digest": "8a8979dc3717e2a2c238faf6bb3026222b824e31e63050a559af424dea4d3f7c"
+      "values_digest": "f5a699321725018795c1afa094387551cd74c3f20afe36836fbe3345ad26956e",
+      "rendered_digest": "7a7aff727227794392031f930bd7c33882509706639f6dd0daa8230b31207b30",
+      "ast_digest": "1d4875ffaf3fb660fa08c1e51c1fcaaec7208bc4b08d9eb5ec6cd0e695af1c3a"
     },
     "sor": {
-      "values_digest": "5b1d552d61f17f3ee0095af36e09a3ccb15fe5eebcb5aab9d604ab7c64945470",
+      "values_digest": "da844c01e9a1515a8b1f7f987f8da183a0bdd0a1efa180627da9ca8264126d58",
       "rendered_digest": "5917961363a64a2d14de62773551a5031469f2166226017724a8f078fe75f00e",
       "ast_digest": "890cade513a57840f7861deaf3dad773dc4197577db830160395a9a7ff38abee"
     }
@@ -147,6 +128,13 @@
       "to": "implemented",
       "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
       "reason": "Complete Parity-B implementation and FastWork proof are ready for exact-revision review"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "Fresh exact-head review passed with zero actionable findings; retain the explicit accepted 13,547-line cohesive-scope exception."
     }
   ],
   "audit": [
@@ -268,6 +256,27 @@
       "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
       "reason": "Fresh exact review requires a minimal public authenticated MutationGate snapshot helper so Parity-B restart recovery retains mutated graph, consumed grants, evidence, and adaptation state.",
       "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/src/reasoning.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 9,
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 10,
+      "actor": "subagent:/root/review_5592_final_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 11,
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "Fresh exact-head review passed with zero actionable findings; retain the explicit accepted 13,547-line cohesive-scope exception.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

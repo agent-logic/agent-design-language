@@ -14,6 +14,7 @@ Status: pre_phase
 
 adl-runtime-kernel/src/operations.rs
 adl-runtime-kernel/src/parity_b.rs
+adl-runtime-kernel/src/reasoning.rs
 adl-runtime-kernel/src/lib.rs
 adl-runtime-kernel/tests/parity_b_live_kernel.rs
 .csdlc/issues/5592/cards/sor.values.json
@@ -33,28 +34,7 @@ adl-runtime-kernel/tests/parity_b_live_kernel.rs
 
 ## Findings
 
-[
-  {
-    "id": "mutation-recovery-omits-gate-state",
-    "severity": "p1",
-    "summary": "Parity-B checkpoint omits authenticated MutationGate graph, consumed grants, evidence, and adaptation state, permitting grant reuse and adaptive rollback after restart.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "live-cancellation-and-inflight-shutdown-unreachable",
-    "severity": "p1",
-    "summary": "Loop execution uses an unreachable fresh cancellation token and does not recheck shutdown before receipt commit, so actual cancellation and in-flight monotonic shutdown are unproved.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -62,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The accepted 13,504-line exception must remain explicit in final review and SOR truth.
+- Runtime v3 is 13,547 physical lines, an explicitly accepted +1,338 exception over the pinned 12,209 baseline and +1,547 over the reviewed target; it remains below the 20,000 hard ceiling and exact review found the cohesive issue scope complete and non-deferred.
 
 ## Review Result
 
-Revision: Some("git-blake3:e0276c61a3d409a87170da96ee359cb4e8b424c5:01d41ac8cc0ccb6970f62cdb7fb980d32927b1506a824c123e91678d961c398c")
+Revision: Some("git-blake3:b6a63af868ca140e817c485dc2c3491222ab4675:65b144b8ccfe0c11c263284ab0ec0d1e8b08b35728123b0bee8b575f615c5352")
 
-Reviewer: Some("subagent:/root/review_5592_repaired_exact")
+Reviewer: Some("subagent:/root/review_5592_final_exact")
 
-Result: changes_required
+Result: pass

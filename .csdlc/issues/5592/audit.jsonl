@@ -15,3 +15,6 @@
 {"sequence":15,"generation":8,"actor":"codex:019f836b-dfdb-7b33-8e27-4c9478b75421","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":16,"generation":9,"actor":"subagent:/root/review_5592_repaired_exact","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":17,"generation":9,"actor":"codex:019f836b-dfdb-7b33-8e27-4c9478b75421","reason":"Fresh exact review requires a minimal public authenticated MutationGate snapshot helper so Parity-B restart recovery retains mutated graph, consumed grants, evidence, and adaptation state.","operation":"{\"add_protected_paths\":[\"adl-runtime-kernel/src/reasoning.rs\"],\"operation\":\"amend_claim_scope\"}"}
+{"sequence":18,"generation":9,"actor":"codex:019f836b-dfdb-7b33-8e27-4c9478b75421","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":19,"generation":10,"actor":"subagent:/root/review_5592_final_exact","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":20,"generation":11,"actor":"codex:019f836b-dfdb-7b33-8e27-4c9478b75421","reason":"Fresh exact-head review passed with zero actionable findings; retain the explicit accepted 13,547-line cohesive-scope exception.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
