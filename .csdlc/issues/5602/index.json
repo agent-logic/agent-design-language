@@ -3,13 +3,13 @@
   "issue": 5602,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "201fe4e5031353df1eefd7d52854ff0c11cf337de347ec3e6807833a88070cb6",
-  "phase": "reviewed",
-  "generation": 26,
-  "digest": "e318e199f383dc3b6ecc27b8cea6978883c0534d7c1d49f6a856ad5f225e908b",
+  "phase": "published",
+  "generation": 27,
+  "digest": "7866b731f0334ecd141bd88499df4730aec3f85b8c14713d4577211c26d8f407",
   "claim": {
     "id": "claim-5602-hosted-coverage-no-report",
     "owner": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
-    "generation": 26,
+    "generation": 27,
     "acquired_unix_seconds": 1784584872,
     "expires_unix_seconds": 1784671272,
     "heartbeat_unix_seconds": 1784584872,
@@ -54,7 +54,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5602,
+    "pull_request": 5604,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5604",
+    "base": "main",
+    "head": "codex/5602-hosted-coverage-no-report",
+    "revision": "git-blake3:8684e6997c8911f362e40a89054d1ae5618b8d17:3d0a0d60e03386057491224b9ff1ae54ef379b0e04ab5a43603fe72372e64ecc",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +78,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ab3afe0b78d2b52021f97eb02e6534991e1dde46c1ff2bef79500cbf7c510f7b",
+      "values_digest": "29de1a9855b82a0e4fb4decdfe0c34498dd894e6a1bdfaf7be65bef8a0a2576d",
       "rendered_digest": "f29c939a2f5af25a1986147a24c88c77e4cb3e098387deb638c9ca7c02221236",
       "ast_digest": "dc868767b9da3d0f23e83f59daf4792b535f892948bd50d63d5e172751834701"
     },
     "stp": {
-      "values_digest": "754f030efd4304154c209e891411d422b26b6d3563ce4232c0838bee72f1ceb6",
+      "values_digest": "af35798ddba99966821e5c5a6390ccaae0973b12720e785f833856bf83120649",
       "rendered_digest": "7169347c43cc4f22ec2d67cafd4b12be0a88261e42b5825b76a6a5c2a94c4350",
       "ast_digest": "0a305bbdbc7044b0f7a8956e25501a3973c08d81c372948becdbd8676a7d411b"
     },
     "spp": {
-      "values_digest": "653f187550aab7ec5981d7f3f040b378c552ed9d9a7692f944ff20670f1ebdf1",
+      "values_digest": "ded7fe6cec9d44e64f1689d18784a5ca24ec67841820d4786ff93d6f80300f39",
       "rendered_digest": "b2a74f27bd07e8ced438a62f24e9a87ca23d7acd291c4383c49afec39b83e8bf",
       "ast_digest": "a5c6942680a7c7b996dde5376907adb70ca14b93009a7ad599200134d2fe0055"
     },
     "vpp": {
-      "values_digest": "a46c0b91525307b332691f8964d50ee5b7f65a2934d02673965a63f49c403776",
+      "values_digest": "778a2148b14b20658e9a1cdaf84e735bc652f72a22ca881492fb4de569de5480",
       "rendered_digest": "5ee3a0baebc9c56fcb842ee572195c3a41247743e271f5dced953c47316936be",
       "ast_digest": "696c38305d48a39773ae3fcbc00b2ef9ae8d1cc1a5fea3960d9448c5dec7807d"
     },
     "srp": {
-      "values_digest": "57fa58915a75451b472f577d05fce2e50dfe7cfd2fd8c46d6f07eacf1dd8bcaf",
+      "values_digest": "afaef4278ac52721ce11e9b14783c972bffa3c0203d01aed5952569092b623cb",
       "rendered_digest": "d41f46b69b9576f7b2ff966a8b6d16215fd4bde824e1ab41d1127158be0198c8",
       "ast_digest": "f9b5fb9ad5f3034b394fe2b4a7c9f49b6da05b518c442e226862590af2abc65d"
     },
     "sor": {
-      "values_digest": "4076f4e7e605909a99a691e4435e1453f61fd2cde9f0eb194774f1262d8a6d14",
-      "rendered_digest": "a886441dfebf7ca106c2f4d5bcec4ec6683b7c90f42bff1a6262e7e84d7d38a2",
-      "ast_digest": "403db42c6e4b85b96a5c0563ff1ab40bf4bc091d36d1d296dff366d1f406c309"
+      "values_digest": "44d7e3d0dbd3150e1510e73a61955371ba1e1f2ea6eb4a6fde46ecf2b4df8480",
+      "rendered_digest": "c6ac9699cb1e4ec7e4546ca9a1f75432940291937ecd23103090e533b020e69d",
+      "ast_digest": "8dbe181cb3831f22ad52dac1e25604f098615a09511db4a8a77719bda123f23b"
     }
   },
   "transitions": [
@@ -217,6 +227,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The coupled workflow installation repair passed focused validation, hosted CI, and bounded exact-head review with no findings."
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -471,6 +488,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The coupled workflow installation repair passed focused validation, hosted CI, and bounded exact-head review with no findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

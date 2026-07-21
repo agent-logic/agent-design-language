@@ -34,3 +34,4 @@
 {"sequence":34,"generation":24,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":35,"generation":25,"actor":"codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":36,"generation":26,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"The coupled workflow installation repair passed focused validation, hosted CI, and bounded exact-head review with no findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":37,"generation":27,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
