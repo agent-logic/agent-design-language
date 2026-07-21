@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+adl-characterization
+.csdlc/issues/5337
+.csdlc/prepared/issues/5337
+.csdlc/evidence/5337
 
 ## Prompts
 
@@ -35,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Pre-tokenization stream bytes are not retained; capture hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable.
+- The upstream #5610 tracked projection remains reviewed rather than terminal on integrated main; its shared retained receipt proves terminal state, and that upstream lifecycle drift is outside #5337 product scope.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5f7598c562a0ae4801eeec7eafae77e2116c5ee8:2c2b8cdb28855a75bccd7cc27e7da7fcfdb372dbf5c49e25eee22c4d65a02f60")
 
-Reviewer: None
+Reviewer: Some("task:019f4b3e-6c61-7653-957b-7a2a6042a80d")
 
-Result: pre_review
+Result: pass
