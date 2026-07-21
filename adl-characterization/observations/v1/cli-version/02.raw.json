@@ -1,0 +1,23 @@
+{
+  "schema": "adl.characterization.observation.v1",
+  "case_id": "cli-version",
+  "repetition": 2,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_root": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1",
+  "workdir": "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-3VVHPP",
+  "commands": [
+    {
+      "step_id": "version",
+      "declared_args": [
+        "--version"
+      ],
+      "expanded_args": [
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "0.91.7\n",
+      "stderr": ""
+    }
+  ]
+}

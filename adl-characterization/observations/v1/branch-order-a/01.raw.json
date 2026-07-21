@@ -1,0 +1,25 @@
+{
+  "schema": "adl.characterization.observation.v1",
+  "case_id": "branch-order-a",
+  "repetition": 1,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_root": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1",
+  "workdir": "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-4pFoxc",
+  "commands": [
+    {
+      "step_id": "plan",
+      "declared_args": [
+        "{ROOT}/fixtures/branch-a.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/branch-a.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 0,
+      "stdout": "Resolved run: branch-order\nWorkflow:     pattern:p\nSteps:        3\n  0. p::p::a::left  agent=worker provider=local task=left\n  1. p::p::b::right  agent=worker provider=local task=right\n  2. p::p::join  agent=worker provider=local task=join\n",
+      "stderr": ""
+    }
+  ]
+}

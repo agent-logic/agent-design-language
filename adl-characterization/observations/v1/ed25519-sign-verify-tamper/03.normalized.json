@@ -1,0 +1,71 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "ed25519-sign-verify-tamper",
+  "repetition": 3,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "sign",
+      "declared_args": [
+        "sign",
+        "{ROOT}/fixtures/six-primitives.adl.yaml",
+        "--key",
+        "{WORK}/keys/private.b64",
+        "--key-id",
+        "characterization-fixed",
+        "--out",
+        "{WORK}/signed.adl.yaml"
+      ],
+      "expanded_args": [
+        "sign",
+        "<ROOT>/fixtures/six-primitives.adl.yaml",
+        "--key",
+        "<WORK>/keys/private.b64",
+        "--key-id",
+        "characterization-fixed",
+        "--out",
+        "<WORK>/signed.adl.yaml"
+      ],
+      "exit_code": 0,
+      "stdout": "SIGN ok path=<WORK>/signed.adl.yaml\n",
+      "stderr": ""
+    },
+    {
+      "step_id": "verify",
+      "declared_args": [
+        "verify",
+        "{WORK}/signed.adl.yaml",
+        "--key",
+        "{WORK}/keys/public.b64"
+      ],
+      "expanded_args": [
+        "verify",
+        "<WORK>/signed.adl.yaml",
+        "--key",
+        "<WORK>/keys/public.b64"
+      ],
+      "exit_code": 0,
+      "stdout": "VERIFY ok\n",
+      "stderr": ""
+    },
+    {
+      "step_id": "tamper",
+      "declared_args": [
+        "verify",
+        "{WORK}/signed.adl.yaml",
+        "--key",
+        "{WORK}/keys/public.b64"
+      ],
+      "expanded_args": [
+        "verify",
+        "<WORK>/signed.adl.yaml",
+        "--key",
+        "<WORK>/keys/public.b64"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Error: SIGNATURE_MISMATCH: signature verification failed: signature error: Verification equation was not satisfied\n"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "adl.characterization.observation.v1",
+  "case_id": "unknown-run-reference",
+  "repetition": 1,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_root": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1",
+  "workdir": "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-m9DTAR",
+  "commands": [
+    {
+      "step_id": "validate",
+      "declared_args": [
+        "{ROOT}/fixtures/unknown-run-ref.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/unknown-run-ref.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Error: failed to load ADL document: /Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/unknown-run-ref.adl.yaml\n  0: schema validate adl yaml: /Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/unknown-run-ref.adl.yaml\n  1: ADL schema validation failed:\nat /run: Additional properties are not allowed ('agent_ref' was unexpected)\n"
+    }
+  ]
+}

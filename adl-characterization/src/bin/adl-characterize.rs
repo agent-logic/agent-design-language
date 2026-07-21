@@ -25,12 +25,16 @@ enum Command {
         corpus: PathBuf,
         #[arg(long)]
         observations: PathBuf,
+        #[arg(long)]
+        report: Option<PathBuf>,
     },
     Verify {
         #[arg(long)]
         corpus: PathBuf,
         #[arg(long)]
         observations: PathBuf,
+        #[arg(long)]
+        report: Option<PathBuf>,
     },
 }
 
@@ -41,18 +45,39 @@ fn main() -> Result<()> {
             binary,
             corpus,
             observations,
+            report,
         } => {
             let manifest = load_corpus(&corpus)?;
-            capture_corpus(&binary, &corpus, &manifest, &observations)?
+            let result = capture_corpus(&binary, &corpus, &manifest, &observations)?;
+            write_report(report.as_ref(), &result)?;
+            result
         }
         Command::Verify {
             corpus,
             observations,
+            report,
         } => {
             let manifest = load_corpus(&corpus)?;
-            verify_corpus(&manifest, &observations)?
+            let result = verify_corpus(&manifest, &observations)?;
+            write_report(report.as_ref(), &result)?;
+            result
         }
     };
     println!("{}", serde_json::to_string_pretty(&report)?);
+    Ok(())
+}
+
+fn write_report(
+    path: Option<&PathBuf>,
+    report: &adl_characterization::VerificationReport,
+) -> Result<()> {
+    if let Some(path) = path {
+        if let Some(parent) = path.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+        let mut bytes = serde_json::to_vec_pretty(report)?;
+        bytes.push(b'\n');
+        std::fs::write(path, bytes)?;
+    }
     Ok(())
 }

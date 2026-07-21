@@ -1,0 +1,224 @@
+schema: adl.characterization.corpus.v1
+incumbent_revision: 19c2b6e2ad18bddc75db9231643a54b2a446ce72
+binary_sha256: f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c
+repetitions: 3
+schema_path: schema.json
+
+required_behaviors:
+  - cli-help
+  - cli-version
+  - six-primitives-plan
+  - graph-json
+  - prompt-projection
+  - fork-join-ordering
+  - map-reorder-equivalence
+  - branch-reorder-equivalence
+  - sequential-reorder-difference
+  - invalid-argument
+  - malformed-yaml
+  - schema-error
+  - unknown-provider-reference
+  - unknown-agent-reference
+  - unknown-task-reference
+  - unknown-tool-reference
+  - unknown-workflow-reference
+  - unknown-run-reference
+  - missing-state-reference
+  - dependency-cycle
+  - repeated-byte-stability
+  - local-mock-run
+  - ed25519-sign-verify-tamper
+
+cases:
+  - id: cli-help
+    behaviors: [cli-help, repeated-byte-stability]
+    steps:
+      - id: help
+        args: [--help]
+        expected_exit: 0
+        stdout_contains: ["Usage:", "adl sign", "adl verify"]
+
+  - id: cli-version
+    behaviors: [cli-version]
+    steps:
+      - id: version
+        args: [--version]
+        expected_exit: 0
+        stdout_contains: ["0.91.7"]
+
+  - id: six-primitives-plan
+    behaviors: [six-primitives-plan]
+    steps:
+      - id: plan
+        args: ["{ROOT}/fixtures/six-primitives.adl.yaml", --print-plan]
+        expected_exit: 0
+        stdout_contains: ["Resolved run: six-primitives", "Steps:        1", "summarize.topic"]
+
+  - id: graph-json
+    behaviors: [graph-json]
+    steps:
+      - id: graph
+        args: [instrument, graph, "{ROOT}/fixtures/six-primitives.adl.yaml", --format, json]
+        expected_exit: 0
+        stdout_contains: ['"workflow_kind": "sequential"', '"id": "summarize.topic"']
+    normalization:
+      - {kind: canonical_json, step: graph, stream: stdout}
+
+  - id: prompt-projection
+    behaviors: [prompt-projection]
+    steps:
+      - id: prompts
+        args: ["{ROOT}/fixtures/six-primitives.adl.yaml", --print-prompts]
+        expected_exit: 0
+        stdout_contains: ["SYSTEM:", "You summarize deterministically.", "USER:"]
+
+  - id: fork-join-ordering
+    behaviors: [fork-join-ordering]
+    steps:
+      - id: plan
+        args: ["{ROOT}/fixtures/fork-join.adl.yaml", --print-plan]
+        expected_exit: 0
+        stdout_contains: ["left-branch::left", "right-branch::right", "parallel::join"]
+
+  - id: map-order-a
+    behaviors: [map-reorder-equivalence]
+    steps:
+      - {id: plan, args: ["{ROOT}/fixtures/map-a.adl.yaml", --print-plan], expected_exit: 0, stdout_contains: ["provider=alpha"]}
+  - id: map-order-b
+    behaviors: [map-reorder-equivalence]
+    steps:
+      - {id: plan, args: ["{ROOT}/fixtures/map-b.adl.yaml", --print-plan], expected_exit: 0, stdout_contains: ["provider=alpha"]}
+
+  - id: branch-order-a
+    behaviors: [branch-reorder-equivalence]
+    steps:
+      - {id: plan, args: ["{ROOT}/fixtures/branch-a.adl.yaml", --print-plan], expected_exit: 0, stdout_contains: ["p::p::a::left", "p::p::b::right"]}
+  - id: branch-order-b
+    behaviors: [branch-reorder-equivalence]
+    steps:
+      - {id: plan, args: ["{ROOT}/fixtures/branch-b.adl.yaml", --print-plan], expected_exit: 0, stdout_contains: ["p::p::a::left", "p::p::b::right"]}
+
+  - id: sequential-order-a
+    behaviors: [sequential-reorder-difference]
+    steps:
+      - {id: plan, args: ["{ROOT}/fixtures/sequential-a.adl.yaml", --print-plan], expected_exit: 0, stdout_contains: ["0. first", "1. second"]}
+  - id: sequential-order-b
+    behaviors: [sequential-reorder-difference]
+    steps:
+      - {id: plan, args: ["{ROOT}/fixtures/sequential-b.adl.yaml", --print-plan], expected_exit: 0, stdout_contains: ["0. second", "1. first"]}
+
+  - id: invalid-argument
+    behaviors: [invalid-argument]
+    steps:
+      - {id: invalid, args: [--definitely-invalid], expected_exit: 1, stderr_contains: ["No such file or directory"]}
+
+  - id: malformed-yaml
+    behaviors: [malformed-yaml]
+    steps:
+      - {id: parse, args: ["{ROOT}/fixtures/malformed.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["parse adl yaml", "did not find expected"]}
+    normalization:
+      - {kind: replace_root, step: parse, stream: stderr}
+
+  - id: schema-error
+    behaviors: [schema-error]
+    steps:
+      - {id: validate, args: ["{ROOT}/fixtures/schema-unknown.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["ADL schema validation failed", "unknown_top_level"]}
+    normalization: [{kind: replace_root, step: validate, stream: stderr}]
+
+  - id: unknown-provider
+    behaviors: [unknown-provider-reference]
+    steps:
+      - {id: validate, args: ["{ROOT}/fixtures/unknown-provider.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown provider 'missing'"]}
+    normalization: [{kind: replace_root, step: validate, stream: stderr}]
+  - id: unknown-agent
+    behaviors: [unknown-agent-reference]
+    steps:
+      - {id: validate, args: ["{ROOT}/fixtures/unknown-agent.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown agent 'missing'"]}
+    normalization: [{kind: replace_root, step: validate, stream: stderr}]
+  - id: unknown-task
+    behaviors: [unknown-task-reference]
+    steps:
+      - {id: validate, args: ["{ROOT}/fixtures/unknown-task.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown task 'missing'"]}
+    normalization: [{kind: replace_root, step: validate, stream: stderr}]
+  - id: unknown-tool
+    behaviors: [unknown-tool-reference]
+    steps:
+      - {id: validate, args: ["{ROOT}/fixtures/unknown-tool.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown tool 'missing'"]}
+    normalization: [{kind: replace_root, step: validate, stream: stderr}]
+  - id: unknown-workflow
+    behaviors: [unknown-workflow-reference]
+    steps:
+      - {id: validate, args: ["{ROOT}/fixtures/unknown-workflow.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown workflow 'missing'"]}
+    normalization: [{kind: replace_root, step: validate, stream: stderr}]
+  - id: unknown-run-reference
+    behaviors: [unknown-run-reference]
+    steps:
+      - {id: validate, args: ["{ROOT}/fixtures/unknown-run-ref.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["ADL schema validation failed", "agent_ref"]}
+    normalization: [{kind: replace_root, step: validate, stream: stderr}]
+  - id: missing-state
+    behaviors: [missing-state-reference]
+    steps:
+      - {id: plan, args: ["{ROOT}/fixtures/state-missing.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["references unknown saved state 'missing'"]}
+  - id: dependency-cycle
+    behaviors: [dependency-cycle]
+    steps:
+      - {id: plan, args: ["{ROOT}/fixtures/cycle.adl.yaml", --print-plan], expected_exit: 1, stderr_contains: ["workflow contains a dependency cycle"]}
+
+  - id: local-mock-run
+    behaviors: [local-mock-run]
+    steps:
+      - id: run
+        args: ["{ROOT}/fixtures/mock-run.adl.yaml", --run, --allow-unsigned, --out, "{WORK}/run", --quiet]
+        expected_exit: 0
+        stdout_contains: ["RUN SUMMARY: 1 step(s)", "provider=local_mock status=success"]
+
+  - id: ed25519-sign-verify-tamper
+    behaviors: [ed25519-sign-verify-tamper]
+    steps:
+      - id: sign
+        args: [sign, "{ROOT}/fixtures/six-primitives.adl.yaml", --key, "{WORK}/keys/private.b64", --key-id, characterization-fixed, --out, "{WORK}/signed.adl.yaml"]
+        expected_exit: 0
+        pre_actions:
+          - {kind: fixed_ed25519_keypair, private_path: "{WORK}/keys/private.b64", public_path: "{WORK}/keys/public.b64", seed_byte: 42}
+      - id: verify
+        args: [verify, "{WORK}/signed.adl.yaml", --key, "{WORK}/keys/public.b64"]
+        expected_exit: 0
+      - id: tamper
+        args: [verify, "{WORK}/signed.adl.yaml", --key, "{WORK}/keys/public.b64"]
+        expected_exit: 1
+        stderr_contains: ["signature verification failed"]
+        pre_actions:
+          - {kind: replace_text, path: "{WORK}/signed.adl.yaml", from: "Summarize {{topic}}.", to: "Tampered {{topic}}."}
+    normalization:
+      - {kind: replace_workdir, step: sign, stream: stdout}
+
+equivalence_groups:
+  - {id: map-declaration-order, cases: [map-order-a, map-order-b]}
+  - {id: branch-declaration-order, cases: [branch-order-a, branch-order-b]}
+difference_groups:
+  - {id: sequential-step-order, cases: [sequential-order-a, sequential-order-b]}
+
+coverage:
+  - {behavior: cli-help, cases: [cli-help]}
+  - {behavior: cli-version, cases: [cli-version]}
+  - {behavior: six-primitives-plan, cases: [six-primitives-plan]}
+  - {behavior: graph-json, cases: [graph-json]}
+  - {behavior: prompt-projection, cases: [prompt-projection]}
+  - {behavior: fork-join-ordering, cases: [fork-join-ordering]}
+  - {behavior: map-reorder-equivalence, cases: [map-order-a, map-order-b]}
+  - {behavior: branch-reorder-equivalence, cases: [branch-order-a, branch-order-b]}
+  - {behavior: sequential-reorder-difference, cases: [sequential-order-a, sequential-order-b]}
+  - {behavior: invalid-argument, cases: [invalid-argument]}
+  - {behavior: malformed-yaml, cases: [malformed-yaml]}
+  - {behavior: schema-error, cases: [schema-error]}
+  - {behavior: unknown-provider-reference, cases: [unknown-provider]}
+  - {behavior: unknown-agent-reference, cases: [unknown-agent]}
+  - {behavior: unknown-task-reference, cases: [unknown-task]}
+  - {behavior: unknown-tool-reference, cases: [unknown-tool]}
+  - {behavior: unknown-workflow-reference, cases: [unknown-workflow]}
+  - {behavior: unknown-run-reference, cases: [unknown-run-reference]}
+  - {behavior: missing-state-reference, cases: [missing-state]}
+  - {behavior: dependency-cycle, cases: [dependency-cycle]}
+  - {behavior: repeated-byte-stability, cases: [cli-help]}
+  - {behavior: local-mock-run, cases: [local-mock-run]}
+  - {behavior: ed25519-sign-verify-tamper, cases: [ed25519-sign-verify-tamper]}

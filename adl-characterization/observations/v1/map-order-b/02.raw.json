@@ -1,0 +1,25 @@
+{
+  "schema": "adl.characterization.observation.v1",
+  "case_id": "map-order-b",
+  "repetition": 2,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_root": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1",
+  "workdir": "/private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/adl-characterization-tuEha3",
+  "commands": [
+    {
+      "step_id": "plan",
+      "declared_args": [
+        "{ROOT}/fixtures/map-b.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5337/adl-characterization/corpus/v1/fixtures/map-b.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 0,
+      "stdout": "Resolved run: map-order\nWorkflow:     workflow\nSteps:        1\n  0. one  agent=worker provider=alpha task=one\n",
+      "stderr": ""
+    }
+  ]
+}

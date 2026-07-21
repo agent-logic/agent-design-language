@@ -149,6 +149,16 @@ fn validate_semantics(corpus: &Corpus) -> Result<()> {
             );
         }
     }
+    if !corpus.equivalence_groups.is_empty() || !corpus.difference_groups.is_empty() {
+        unique_nonempty(
+            corpus
+                .equivalence_groups
+                .iter()
+                .chain(&corpus.difference_groups)
+                .map(|group| group.id.as_str()),
+            "comparison group id",
+        )?;
+    }
     Ok(())
 }
 

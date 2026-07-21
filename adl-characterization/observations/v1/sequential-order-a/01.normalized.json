@@ -1,0 +1,23 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "sequential-order-a",
+  "repetition": 1,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "plan",
+      "declared_args": [
+        "{ROOT}/fixtures/sequential-a.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/sequential-a.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 0,
+      "stdout": "Resolved run: sequential-order\nWorkflow:     workflow\nSteps:        2\n  0. first  agent=worker provider=local task=first\n  1. second  agent=worker provider=local task=second\n",
+      "stderr": ""
+    }
+  ]
+}

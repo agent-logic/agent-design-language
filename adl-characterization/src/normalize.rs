@@ -11,18 +11,15 @@ pub fn normalize(
     rules: &[NormalizationRule],
 ) -> Result<NormalizedObservation> {
     let mut commands = raw.commands.clone();
-    for rule in rules {
-        apply_rule(&mut commands, raw, rule)?;
-    }
     for command in &mut commands {
         command.expanded_args = command
-            .expanded_args
+            .declared_args
             .iter()
-            .map(|arg| {
-                arg.replace(&raw.workdir, "<WORK>")
-                    .replace(&raw.corpus_root, "<ROOT>")
-            })
+            .map(|arg| arg.replace("{ROOT}", "<ROOT>").replace("{WORK}", "<WORK>"))
             .collect();
+    }
+    for rule in rules {
+        apply_rule(&mut commands, raw, rule)?;
     }
     Ok(NormalizedObservation {
         schema: NORMALIZED_SCHEMA.into(),

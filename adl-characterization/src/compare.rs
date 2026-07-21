@@ -125,8 +125,19 @@ pub fn verify_corpus(corpus: &Corpus, observations: &Path) -> Result<Verificatio
     })
 }
 
-fn semantic(value: &NormalizedObservation) -> Vec<crate::model::CommandObservation> {
-    value.commands.clone()
+fn semantic(value: &NormalizedObservation) -> Vec<(&str, i32, &str, &str)> {
+    value
+        .commands
+        .iter()
+        .map(|command| {
+            (
+                command.step_id.as_str(),
+                command.exit_code,
+                command.stdout.as_str(),
+                command.stderr.as_str(),
+            )
+        })
+        .collect()
 }
 
 fn first_case<'a>(
