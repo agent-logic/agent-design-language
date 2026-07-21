@@ -1,0 +1,7 @@
+{
+  "issue": 5589,
+  "expected_generation": 4,
+  "expected_digest": "2ca6d40fb0732a9082b7f74bb9f0ad9d0d7c7ff7440e5a4a99f86bca5170bfbe",
+  "claim_id": "claim-5589-runtime-v3-parity-c-preparation",
+  "reviewer": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90"
+}

@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5589,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][runtime-v3][parity-c] Replace degraded governed operations adapters",
+    "slug": "v0-91-8-runtime-v3-parity-c-governed-operations",
+    "version": "v0.91.8",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review the exact #5589 preparation revision across all six generated cards, design, Mermaid diagram, adapter/authority matrix, typed bootstrap and bind requests, preparation-only protected paths, AC-1 through AC-8 coverage, S1 through S7 plan, every live positive and negative PVF lane, production/COTS credit rule, #5591 clean-review and collision gates, and zero publication/product implementation truth. Reject partial, deferred, degraded, fixture-only, metadata-only, library-only, governance-bypassing, identity-leaking, continuity-ambiguous, AWS, Runtime v2, cross-lane, budget-weakening, product-edit, readiness, publication, or acceptance claims.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every capability require a production or maintained COTS-backed adapter invoked by a live initialized kernel, with explicit zero credit for degraded and fixture evidence?",
+        "Is signed governance observably before every provider/tool actuation and recovery dispatch, including revocation, replay, expiry, appeal, and quarantine negatives?",
+        "Are delegation attenuation, resource cleanup, cancellation precedence, retry/idempotency, and scheduler race behavior fully bounded?",
+        "Do provider, scheduler, governed-tool, Agent, and Shepherd proofs execute live multi-agent work without treating provider output as authority?",
+        "Are citizen identity, private state, qualified time, checkpoint authority, lifelog non-authority, redaction, restart, and no-duplicate continuity complete?",
+        "Are #5591, #5592, #5590, ADL v2, C-SDLC v2, Runtime v2, AWS, cutover, and publication boundaries explicit and disjoint?",
+        "Do SPP steps and VPP lanes cover AC-1 through AC-8 bidirectionally with no deferral and no nonexistent proof command at implementation time?",
+        "Does the current preparation claim protect only #5589 lifecycle/evidence paths and preserve the #5591 review and collision blockers truthfully?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5589,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "521dc0584a6000b59185099141975aecda88cf909b892ccd6ca705a4686c5fde",
+  "phase": "bound",
+  "generation": 5,
+  "digest": "82fdcec6f51aeebbcea73b0cb3a584134479dea66c55cf33ab59b9661ded39da",
+  "claim": {
+    "id": "claim-5589-runtime-v3-parity-c-preparation",
+    "owner": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+    "generation": 5,
+    "acquired_unix_seconds": 1784601578,
+    "expires_unix_seconds": 1785206378,
+    "heartbeat_unix_seconds": 1784601578,
+    "branch": "codex/5589-runtime-v3-parity-c",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5589",
+      ".csdlc/issues/5589",
+      ".csdlc/locks/5589.lock",
+      ".csdlc/prepared/issues/5589"
+    ],
+    "purpose": "Prepare complete Runtime v3 Parity-C contracts and proof gates without product implementation until #5591 has a clean reviewed contract and disjoint paths"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5589/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5589/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "revision": "6c6bae9d4a320b3f50953784a0309f60f293b8ad88da3f43c2fa96ca4a240a5e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c7c4e50a39f67583274cf95ed1a1c7908d77c91ac1c6e275e647c3b151142c15",
+      "rendered_digest": "e4eb2c40819044f7cc76ce912abe672db74767294dc52d3cb4e9bc299c84521a",
+      "ast_digest": "b5c2a719075cdd0116ddb7ef2ee6cfe965d29a50aa3a751399579f3d779e92ae"
+    },
+    "stp": {
+      "values_digest": "627447cf9bf1ae66d484999af988629fae559d6290cf1396538cc8409ae62e54",
+      "rendered_digest": "0bb5d39c70d4b3d76bc1afaf3499fb08556b2be2fb543fa2e58eb333756d433a",
+      "ast_digest": "d8a3c985226d547ba7b559e6d58576a7c43a9c621c16289a7d5e14f4cb672bcf"
+    },
+    "spp": {
+      "values_digest": "53b54bdd0364fbeed20df7d282a56ab83056c00c57456ba07abef7b62d882f86",
+      "rendered_digest": "ec52f422fc300685a15bbf82358d67f5081db6f47f2dca4b828dcfd61cd46c8e",
+      "ast_digest": "2f3dda8795734696db8ac5d0324eb65df7f0608e8ab60d4e47bf8848758c1524"
+    },
+    "vpp": {
+      "values_digest": "5dbca2b5033fbc6fab8eb1028ac5369b13f61b2c4c844984d44f84316c8ae6de",
+      "rendered_digest": "c435873b5795f5bac90e77b7a7f9df6194d69c1497b39d0fffb4e99a00ab975e",
+      "ast_digest": "934250a491de80a9e758e6138d39f54698f83ec7e2cddbbaa56f17f64cb21631"
+    },
+    "srp": {
+      "values_digest": "e9b86583a62d4d731326c7801bb434c5cbb0312470a021d38e85b6daf4e943a8",
+      "rendered_digest": "bb26271a56a8de4cee86a2f38cc9a53ab33ce36cf227a57a20139820bc0ad356",
+      "ast_digest": "b71f768652d14ef47271df9cf058cf494b82ef875a9fadf8b330571447d566f3"
+    },
+    "sor": {
+      "values_digest": "13b54ad1929bf659e2e88cebaf8bd1e26b120fcb0fd3b18b8eadb720d0a916cb",
+      "rendered_digest": "4e7ba8a421093de772e2b29615774ff817076baeb20c83f1e37cedde1f9ac156",
+      "ast_digest": "7eb94a5cca3b4127e3845c96855e6ce4bb31961162e9e1827a81deb56403cdee"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "Record truthful completion of the preparation-only lane without claiming product implementation or publication",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed the #5589 preparation-only package with all six typed cards, approved design and diagram, adapter/authority matrix, disjoint lifecycle claim, deterministic preparation validation, and explicit #5591 implementation blockers; no product code or publication was performed.\",\"changes\":[\"generated issue-specific SIP, STP, SPP, VPP, SRP, and SOR through csdlc-init\",\"bound a preparation-only claim protecting only #5589 lifecycle and evidence paths\",\"authored the Runtime v3 Parity-C design, diagram, adapter/authority matrix, and readiness-blocker record\",\"declared complete live positive, negative, continuity, shutdown, budget, and zero-degraded-credit proof lanes\"],\"artifacts\":[\".csdlc/prepared/issues/5589/design.md\",\".csdlc/prepared/issues/5589/diagram.mmd\",\".csdlc/prepared/issues/5589/adapter-authority-matrix.md\",\".csdlc/prepared/issues/5589/readiness-blockers.md\",\".csdlc/evidence/5589/preparation/complete-preparation-contract.log\",\".csdlc/evidence/5589/preparation/diff-hygiene.log\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "Mark only the completed preparation step while preserving every implementation and publication step as pending",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "Record the typed local-pass preparation PVF result without promoting it to product acceptance",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5589/validate-preparation.json\"],\"purpose\":\"Validate complete six-card preparation, design and matrix coverage, disjoint claim scope, patch hygiene, zero product changes, and exact #5591 blockers\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5589/preparation\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "issue": 5589,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "611e17b9464d58913171b2955a50eddee5e07115870ee262c04366668d6b24f4",
+  "claim_id": "claim-5589-runtime-v3-parity-c-preparation",
+  "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
+  "reason": "Record the typed local-pass preparation PVF result without promoting it to product acceptance",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "csdlc-validate",
+        "--request",
+        ".csdlc/prepared/issues/5589/validate-preparation.json"
+      ],
+      "purpose": "Validate complete six-card preparation, design and matrix coverage, disjoint claim scope, patch hygiene, zero product changes, and exact #5591 blockers",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5589/preparation"
+    }
+  },
+  "fail_after_backup": false
+}
