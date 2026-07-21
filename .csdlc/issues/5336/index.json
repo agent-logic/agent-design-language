@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "published",
-  "generation": 31,
-  "digest": "30d33432436b08845f5a594c6809523eab81ad89bb534f3bc4bb87263b70e207",
+  "phase": "implemented",
+  "generation": 32,
+  "digest": "8fb3e6cceaf3bd25b40ae9c0ac3f13bed85cfcf70d7ff2b34ce77edeca15b4a4",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 31,
+    "generation": 32,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -19,49 +19,20 @@
       ".csdlc/evidence/5336",
       ".csdlc/issues/5336",
       ".csdlc/prepared/issues/5336",
+      ".github/workflows/ci.yaml",
       "adl/.gitignore",
+      "adl/tools/merge_coverage_summaries.py",
       "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_merge_coverage_summaries.sh",
       "adl/tools/test_run_authoritative_coverage_lane.sh",
       "docs/milestones/v0.91.8"
     ],
     "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f82af-8377-7763-9dbd-6ad8c4373f11",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:bc0d73defab493d9c55cfd3abdc94d9545b2bfc6:cce8fd140a9d1d36e03e2ca41309b515ac079470594e42fb5553f82acf8f9656",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/5336",
-      ".csdlc/prepared/issues/5336"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f82af-8377-7763-9dbd-6ad8c4373f11",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/5336",
-      ".csdlc/prepared/issues/5336"
-    ],
-    "reviewed_revision": "git-blake3:bc0d73defab493d9c55cfd3abdc94d9545b2bfc6:cce8fd140a9d1d36e03e2ca41309b515ac079470594e42fb5553f82acf8f9656",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5336,
-    "pull_request": 5599,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5599",
-    "base": "main",
-    "head": "codex/5336-v0918-runtime-parity-plan",
-    "revision": "git-blake3:08e6e7cb8d2db14220524e21ec1e82d36b0707eb:feed52c18883563148e27b135628a1212b41961d897e1e21d9ed18b7208fca84",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +46,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "94d6d7e354826d654313dab1c4434c1914a11d65162cea2257acf99134f5a38f",
+      "values_digest": "e0fc4ae0bf41dcfdf6af4494923872cd2f71c0ae8dfde841944170c5cfb35008",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "30df0d5a5ae67961add9d7ece33adf4f67dbf8597850eb2ddcba9c7f5cb2faf9",
+      "values_digest": "f5846dfe7a1591f47889cb39bef013cafc170f9c932f84add94135fa0bd47f57",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "791a9fed242259b96854af4d10d5823cbe6ff37ba5c379f165f09cf686952519",
+      "values_digest": "731cd5c427997d2ead8efdb0d21f4f292b3ec7ab94342f5b96eaaeb9a5d67509",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "a9e5a59ea561bbd064f121ee5180c9052bca0909c84b4b6e245c61214380771c",
+      "values_digest": "a37dbac0429c0fdc7bc2e6dcd714eaaed17e57837ba3290e4adc6375c4e3533d",
       "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "019f4fb6cfed9e581bcd3305e5b73ec6e7c6bb1ac638bb5e1e38246b5c774842",
-      "rendered_digest": "576e5cf605b22185a74de74530449fcfa89db75d96dfea05ee1f02d5b8cc4371",
-      "ast_digest": "e1fb8064a47b4c57f84bfeeaa53e5b73bff403e629f3b23e3894aaafef4b00f2"
+      "values_digest": "9d6b90e95b78505b870d65e167b47ec100bb223288e4baf2ec8ad9004ec3edc3",
+      "rendered_digest": "3782d3cb08b4154486b0360b134101f55b636d16f16f2259a3e1f996275b9900",
+      "ast_digest": "c3089c902e1388a33153b8bf1fa65df31d6e8ecfd58551d756255bfbeb3db7f6"
     },
     "sor": {
-      "values_digest": "2a2226777b3ba2393e9d41d81c56dedccae96c0a270480a663857bef429abb0b",
-      "rendered_digest": "7be2a3910524f20c6ac274535fa3bbcbd38d42c84237e2d1f94712a147d3cb21",
-      "ast_digest": "0e9bed183ea55b0390001d209813f3064679b57c0c1d639a271a709cb3a086c8"
+      "values_digest": "40e9dbb4a29c1d5e761aef01caa786decefebca9317c0e5c360ae4c0d871a1df",
+      "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
+      "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
   },
   "transitions": [
@@ -210,6 +181,13 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after final hosted CI proved that sequential profile ordering cannot prevent cross-profile process exhaustion; independent fresh-runner coverage workers are required."
     }
   ],
   "audit": [
@@ -499,6 +477,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 42,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review after final hosted CI proved that sequential profile ordering cannot prevent cross-profile process exhaustion; independent fresh-runner coverage workers are required.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Own the bounded hosted-runner isolation, deterministic summary merge, fail-closed contract tests, and corrected coverage-log artifact path proven necessary by repeated #5599 EAGAIN failures.",
+      "operation": "{\"add_protected_paths\":[\".github/workflows/ci.yaml\",\"adl/tools/merge_coverage_summaries.py\",\"adl/tools/test_merge_coverage_summaries.sh\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

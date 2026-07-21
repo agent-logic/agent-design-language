@@ -11,6 +11,8 @@ PRINT_PLAN=false
 AUTHORITY="push_main"
 EVENT_NAME="push"
 MODE="full_authoritative_default_features"
+PROFILE="all"
+MERGE_HELPER="$ADL_DIR/tools/merge_coverage_summaries.py"
 
 default_coverage_build_root() {
   if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
@@ -46,13 +48,13 @@ FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"
 usage() {
   cat <<'USAGE'
 Usage:
-  adl/tools/run_authoritative_coverage_lane.sh [--print-plan] [--authority <authority>] [--event-name <name>]
+  adl/tools/run_authoritative_coverage_lane.sh [--profile workspace|adl-runtime|all] [--print-plan] [--authority <authority>] [--event-name <name>]
 
 Run the authoritative coverage lane in one bounded pass per event:
 - full authoritative default-feature coverage on push/main and other full-evidence events
 - bounded workspace coverage on tooling-only policy pull requests
 
-The run always emits one final coverage summary report.
+The default all profile emits isolated raw reports and one ownership-filtered final report.
 USAGE
 }
 
@@ -70,6 +72,10 @@ while [ "$#" -gt 0 ]; do
       EVENT_NAME="${2:-}"
       shift 2
       ;;
+    --profile)
+      PROFILE="${2:-}"
+      shift 2
+      ;;
     -h|--help)
       usage
       exit 0
@@ -81,6 +87,15 @@ while [ "$#" -gt 0 ]; do
       ;;
   esac
 done
+
+case "$PROFILE" in
+  workspace|adl-runtime|all) ;;
+  *)
+    echo "invalid coverage profile: $PROFILE" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
 
 if [ "$EVENT_NAME" = "pull_request" ] && [ "$AUTHORITY" = "pr_policy_surface_tooling_only" ]; then
   MODE="bounded_policy_surface_pr"
@@ -95,9 +110,12 @@ if [ "$PRINT_PLAN" = true ]; then
   printf 'authority=%s\n' "$AUTHORITY"
   printf 'event_name=%s\n' "$EVENT_NAME"
   printf 'mode=%s\n' "$MODE"
+  printf 'profile=%s\n' "$PROFILE"
   printf 'build_root=%s\n' "$COVERAGE_BUILD_ROOT"
   printf 'run_id=%s\n' "$COVERAGE_RUN_ID"
   printf 'profile_root=%s\n' "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID"
+  printf 'workspace_profile_root=%s\n' "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID/workspace"
+  printf 'adl_runtime_profile_root=%s\n' "$COVERAGE_BUILD_ROOT/target/llvm-cov-target/$COVERAGE_RUN_ID/adl-runtime"
   printf 'output_root=%s\n' "$COVERAGE_OUTPUT_ROOT"
   printf 'test_threads=%s\n' "$TEST_THREADS"
   printf 'partitions=%s\n' "$PARTITION_COUNT"
@@ -107,12 +125,12 @@ if [ "$PRINT_PLAN" = true ]; then
     printf 'features=default\n'
     printf 'workspace=full\n'
     printf 'targets=workspace\n'
-    printf 'companion_adl_runtime=enabled\n'
+    printf 'companion_adl_runtime=%s\n' "$([ "$PROFILE" = workspace ] && printf disabled || printf enabled)"
   else
     printf 'features=default\n'
     printf 'workspace=bounded_policy_surface\n'
     printf 'targets=workspace\n'
-    printf 'companion_adl_runtime=enabled\n'
+    printf 'companion_adl_runtime=%s\n' "$([ "$PROFILE" = workspace ] && printf disabled || printf enabled)"
   fi
   exit 0
 fi
@@ -124,31 +142,12 @@ cd "$ADL_DIR"
 # scratch root and warm it from the restored target. Do not delete the
 # llvm-cov target between runs; it is the expensive instrumentation build cache.
 COVERAGE_CACHE_TARGET_DIR="$COVERAGE_BUILD_ROOT/target"
-COVERAGE_RUN_TARGET_DIR="$COVERAGE_CACHE_TARGET_DIR/llvm-cov-target/$COVERAGE_RUN_ID"
-mkdir -p "$COVERAGE_CACHE_TARGET_DIR" "$COVERAGE_RUN_TARGET_DIR" "$COVERAGE_OUTPUT_ROOT"
-# `cargo llvm-cov show-env` derives its target from CARGO_TARGET_DIR. Keep both
-# variables run-scoped so sourcing that output cannot collapse concurrent runs
-# back onto the shared cache target.
-export CARGO_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"
-export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"
+COVERAGE_RUN_TARGET_ROOT="$COVERAGE_CACHE_TARGET_DIR/llvm-cov-target/$COVERAGE_RUN_ID"
+mkdir -p "$COVERAGE_CACHE_TARGET_DIR" "$COVERAGE_RUN_TARGET_ROOT" "$COVERAGE_OUTPUT_ROOT"
 export CARGO_BUILD_JOBS="$BUILD_JOBS"
 # Coverage builds can consume enough runner disk to cross the production CSM
 # floor. Keep ordinary tests deterministic; low-disk tests set explicit values.
 export ADL_CSM_DISK_FLOOR_BYTES="${ADL_CSM_DISK_FLOOR_BYTES:-0}"
-ADL_RUST_WARM_CACHE="${ADL_COVERAGE_WARM_CACHE:-${ADL_RUST_WARM_CACHE:-1}}" \
-ADL_RUST_WARM_CACHE_SOURCE_TARGET="${ADL_COVERAGE_WARM_SOURCE_TARGET:-}" \
-ADL_RUST_WARM_CACHE_DEST_TARGET="$CARGO_TARGET_DIR" \
-ADL_RUST_WARM_CACHE_OUTPUT="$ADL_DIR/coverage-warm-cache.json" \
-  bash "$ADL_DIR/tools/rust_validation_warm_cache.sh"
-
-# cargo refuses destructive target cleanup unless this standard marker proves
-# the run-scoped directory is a disposable cache.
-cat > "$COVERAGE_RUN_TARGET_DIR/CACHEDIR.TAG" <<'CACHEDIR_TAG'
-Signature: 8a477f597d28d172789f06886806bc55d
-# This file is a cache directory tag created by cargo.
-# For information about cache directory tags, see:
-#       https://bford.info/cachedir/
-CACHEDIR_TAG
 
 if [ "$MODE" = "full_authoritative_default_features" ]; then
   echo "Authoritative coverage mode: full_authoritative_default_features"
@@ -181,19 +180,43 @@ if [[ ! "$TEST_THREADS" =~ ^[1-9][0-9]*$ ]]; then
 fi
 
 if [[ ! "$PARTITION_COUNT" =~ ^[1-9][0-9]*$ ]]; then
-    echo "invalid coverage partition count: $PARTITION_COUNT" >&2
-    exit 2
+  echo "invalid coverage partition count: $PARTITION_COUNT" >&2
+  exit 2
 fi
 
-partition_execution_enabled=true
+configure_profile_environment() {
+  coverage_profile_namespace="$1"
+  local profile_target="$COVERAGE_RUN_TARGET_ROOT/$coverage_profile_namespace"
+  local warm_manifest="$ADL_DIR/Cargo.toml"
+  if [ "$coverage_profile_namespace" = "adl-runtime" ]; then
+    warm_manifest="$ADL_RUNTIME_MANIFEST"
+  fi
+  mkdir -p "$profile_target"
+  export CARGO_TARGET_DIR="$profile_target"
+  export CARGO_LLVM_COV_TARGET_DIR="$profile_target"
+
+  ADL_RUST_WARM_CACHE="${ADL_COVERAGE_WARM_CACHE:-${ADL_RUST_WARM_CACHE:-1}}" \
+  ADL_RUST_WARM_CACHE_SOURCE_TARGET="${ADL_COVERAGE_WARM_SOURCE_TARGET:-}" \
+  ADL_RUST_WARM_CACHE_DEST_TARGET="$profile_target" \
+  ADL_RUST_WARM_CACHE_MANIFEST_PATH="$warm_manifest" \
+  ADL_RUST_WARM_CACHE_OUTPUT="$COVERAGE_OUTPUT_ROOT/$coverage_profile_namespace-warm-cache.json" \
+    bash "$ADL_DIR/tools/rust_validation_warm_cache.sh"
+
+  # cargo requires this marker before destructive cleanup of a target directory.
+  cat > "$profile_target/CACHEDIR.TAG" <<'CACHEDIR_TAG'
+Signature: 8a477f597d28d172789f06886806bc55d
+# This file is a cache directory tag created by cargo.
+# For information about cache directory tags, see:
+#       https://bford.info/cachedir/
+CACHEDIR_TAG
+}
+
+profile_compile_ready=false
 
 run_workspace_coverage_partitions() {
   local partition_logs="$COVERAGE_BUILD_ROOT/partition-logs/${coverage_profile_namespace}-${COVERAGE_RUN_ID}"
   local partition pids=() statuses=() test_filter_args=()
-  if [ "$partition_execution_enabled" != true ]; then
-    echo "Authoritative coverage partitions suppressed for $coverage_profile_namespace after an earlier preparation failure" >&2
-    return 0
-  fi
+  profile_compile_ready=false
   local skip_pattern
   for skip_pattern in "${SKIP_PATTERNS[@]}"; do
     if [ -n "$skip_pattern" ]; then
@@ -226,7 +249,6 @@ run_workspace_coverage_partitions() {
   local cleanup_status=0
   find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -delete || cleanup_status=$?
   if (( cleanup_status != 0 )); then
-    partition_execution_enabled=false
     echo "Authoritative coverage profile cleanup failed for $coverage_profile_namespace: $cleanup_status" >&2
     if (( compile_status != 0 )); then
       return "$compile_status"
@@ -234,10 +256,10 @@ run_workspace_coverage_partitions() {
     return "$cleanup_status"
   fi
   if (( compile_status != 0 )); then
-    partition_execution_enabled=false
-    echo "Authoritative coverage compile failed for $coverage_profile_namespace: $compile_status" >&2
+    echo "Authoritative coverage compile failed for $coverage_profile_namespace: $compile_status; partitions and report command suppressed" >&2
     return "$compile_status"
   fi
+  profile_compile_ready=true
 
   for ((partition = 1; partition <= PARTITION_COUNT; partition++)); do
     (
@@ -286,128 +308,110 @@ prepare_coverage_environment() {
   source "$env_path"
 }
 
-record_report_status() {
-  local report_status="$1"
-  local summary_path="$2"
-  local report_label="$3"
+run_profile() {
+  local profile="$1"
+  local manifest_path=""
+  local summary_path="$ADL_SUMMARY_PATH"
+  local report_label="adl"
+  local status=0 operation_status=0 report_status=0 cleanup_status=0
 
-  if [ "$report_status" -eq 0 ]; then
-    return 0
+  configure_profile_environment "$profile" || return $?
+  if [ "$profile" = "adl-runtime" ]; then
+    manifest_path="$ADL_RUNTIME_MANIFEST"
+    summary_path="$ADL_RUNTIME_SUMMARY_PATH"
+    report_label="adl-runtime"
+    echo "Authoritative coverage companion: adl-runtime"
+    coverage_command=(cargo nextest run \
+      --manifest-path "$ADL_RUNTIME_MANIFEST" \
+      --no-fail-fast \
+      --no-tests pass \
+      --test-threads "$TEST_THREADS")
+  else
+    coverage_command=("${workspace_coverage_command[@]}")
+  fi
+  rm -f "$summary_path"
+
+  prepare_coverage_environment "$manifest_path" || operation_status=$?
+  if (( operation_status != 0 )); then
+    echo "Authoritative coverage preparation failed for $profile: $operation_status; partitions and report command suppressed" >&2
+    return "$operation_status"
   fi
 
-  if [ "$EVENT_NAME" = "pull_request" ] && [ -s "$summary_path" ]; then
-    echo "Authoritative coverage warning: $report_label report command exited $report_status after producing $summary_path; PR workspace gate is deferred." >&2
-    return 0
+  run_workspace_coverage_partitions || status=$?
+  if [ "$profile_compile_ready" != true ]; then
+    return "$status"
   fi
 
-  if [ "$coverage_status" -eq 0 ]; then
-    coverage_status="$report_status"
+  if [ -n "$manifest_path" ]; then
+    cargo llvm-cov report \
+      --manifest-path "$manifest_path" \
+      --json \
+      --summary-only \
+      --output-path "$summary_path" || report_status=$?
+  else
+    cargo llvm-cov report \
+      --json \
+      --summary-only \
+      --output-path "$summary_path" || report_status=$?
   fi
+  if (( report_status != 0 )); then
+    if [ "$EVENT_NAME" = "pull_request" ] && [ -s "$summary_path" ]; then
+      echo "Authoritative coverage warning: $report_label report command exited $report_status after producing $summary_path; PR workspace gate is deferred." >&2
+    elif (( status == 0 )); then
+      status="$report_status"
+    fi
+  fi
+
+  find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -delete || cleanup_status=$?
+  if (( cleanup_status != 0 )); then
+    echo "Authoritative coverage post-report cleanup failed for $report_label: $cleanup_status" >&2
+    if (( status == 0 )); then
+      status="$cleanup_status"
+    fi
+  fi
+  return "$status"
 }
 
-coverage_profile_namespace=workspace
 coverage_status=0
+rm -f "$FINAL_SUMMARY_PATH"
 
-# Cover the small companion before the main workspace. Hosted runners can retain
-# enough completed test processes after the large workspace run to exhaust
-# process creation during a subsequent cold companion build.
-if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-  echo "Authoritative coverage companion: adl-runtime"
-  runtime_coverage_command=(cargo nextest run \
-    --manifest-path "$ADL_RUNTIME_MANIFEST" \
-    --no-fail-fast \
-    --no-tests pass \
-    --test-threads "$TEST_THREADS")
-  coverage_command=("${runtime_coverage_command[@]}")
-  coverage_profile_namespace=adl-runtime
-  prepare_coverage_environment "$ADL_RUNTIME_MANIFEST"
-  run_workspace_coverage_partitions || coverage_status=$?
-  cargo llvm-cov report \
-    --manifest-path "$ADL_RUNTIME_MANIFEST" \
-    --json \
-    --summary-only \
-    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || record_report_status "$?" "$ADL_RUNTIME_SUMMARY_PATH" "adl-runtime"
+# Cover the smaller runtime profile first while keeping its target and profiles
+# completely separate from the workspace run.
+if [ "$PROFILE" = "adl-runtime" ] || [ "$PROFILE" = "all" ]; then
+  if [ ! -f "$ADL_RUNTIME_MANIFEST" ]; then
+    echo "adl-runtime coverage manifest is missing: $ADL_RUNTIME_MANIFEST" >&2
+    coverage_status=2
+  else
+    run_profile adl-runtime || coverage_status=$?
+  fi
 fi
 
-coverage_command=("${workspace_coverage_command[@]}")
-coverage_profile_namespace=workspace
-prepare_coverage_environment
-run_workspace_coverage_partitions || {
-  workspace_status=$?
-  if [ "$coverage_status" -eq 0 ]; then
+if [ "$PROFILE" = "workspace" ] || [ "$PROFILE" = "all" ]; then
+  workspace_status=0
+  run_profile workspace || workspace_status=$?
+  if (( coverage_status == 0 && workspace_status != 0 )); then
     coverage_status="$workspace_status"
   fi
-}
+fi
 
-cargo llvm-cov report \
-  --json \
-  --summary-only \
-  --output-path "$ADL_SUMMARY_PATH" || record_report_status "$?" "$ADL_SUMMARY_PATH" "adl"
-post_report_cleanup_status=0
-find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete || post_report_cleanup_status=$?
-if (( post_report_cleanup_status != 0 )); then
-  partition_execution_enabled=false
-  echo "Authoritative coverage post-report cleanup failed for adl: $post_report_cleanup_status" >&2
-  if (( coverage_status == 0 )); then
-    coverage_status="$post_report_cleanup_status"
+if [ "$PROFILE" = "all" ]; then
+  merge_status=0
+  python3 "$MERGE_HELPER" \
+    --workspace "$ADL_SUMMARY_PATH" \
+    --adl-runtime "$ADL_RUNTIME_SUMMARY_PATH" \
+    --output "$FINAL_SUMMARY_PATH" || merge_status=$?
+  if (( coverage_status == 0 && merge_status != 0 )); then
+    coverage_status="$merge_status"
   fi
 fi
 
-if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-  jq -s '
-    . as $docs
-    |
-    def metric($name):
-      (
-        [$docs[].data[0].totals[$name].count // 0] | add
-      ) as $count
-      | (
-        [$docs[].data[0].totals[$name].covered // 0] | add
-      ) as $covered
-      | {
-          count: $count,
-          covered: $covered,
-          percent: (if $count == 0 then 0 else (($covered * 100) / $count) end)
-        }
-      | if $name == "branches" or $name == "mcdc" or $name == "regions" then
-          . + {notcovered: ($count - $covered)}
-        else
-          .
-        end;
-    $docs[0]
-    | .data[0].files = ([$docs[].data[0].files[]])
-    | .data[0].totals = {
-        branches: metric("branches"),
-        mcdc: metric("mcdc"),
-        functions: metric("functions"),
-        instantiations: metric("instantiations"),
-        lines: metric("lines"),
-        regions: metric("regions")
-      }
-  ' "$ADL_SUMMARY_PATH" "$ADL_RUNTIME_SUMMARY_PATH" > "$FINAL_SUMMARY_PATH" || {
-    merge_status=$?
-    rm -f "$FINAL_SUMMARY_PATH"
-    if [ "$coverage_status" -eq 0 ]; then
-      coverage_status="$merge_status"
-    fi
-  }
-else
-  cp "$ADL_SUMMARY_PATH" "$FINAL_SUMMARY_PATH" || {
-    copy_status=$?
-    rm -f "$FINAL_SUMMARY_PATH"
-    if [ "$coverage_status" -eq 0 ]; then
-      coverage_status="$copy_status"
-    fi
-  }
-fi
-
-if [ -f "$ADL_SUMMARY_PATH" ]; then
+if { [ "$PROFILE" = workspace ] || [ "$PROFILE" = all ]; } && [ -f "$ADL_SUMMARY_PATH" ]; then
   cp "$ADL_SUMMARY_PATH" "$LEGACY_ADL_SUMMARY_PATH"
 fi
-if [ -f "$ADL_RUNTIME_SUMMARY_PATH" ]; then
+if { [ "$PROFILE" = adl-runtime ] || [ "$PROFILE" = all ]; } && [ -f "$ADL_RUNTIME_SUMMARY_PATH" ]; then
   cp "$ADL_RUNTIME_SUMMARY_PATH" "$LEGACY_ADL_RUNTIME_SUMMARY_PATH"
 fi
-if [ -f "$FINAL_SUMMARY_PATH" ]; then
+if [ "$PROFILE" = all ] && [ -f "$FINAL_SUMMARY_PATH" ]; then
   cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"
 fi
 

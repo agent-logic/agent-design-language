@@ -644,8 +644,116 @@ jobs:
         run: |
           bash tools/run_slow_proof_family.sh --family all --run --partition "count:${{ matrix.shard }}/4"
 
-  adl_coverage_hosted:
-    name: adl-coverage-hosted
+  adl_coverage_runtime_hosted:
+    name: adl-coverage-runtime-hosted
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.full_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: adl
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Classify runtime coverage paths
+        id: path-policy
+        run: |
+          bash adl/tools/ci_path_policy.sh \
+            --event-name "${{ github.event_name }}" \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.event.pull_request.head.sha }}" \
+            --ref "${{ github.ref }}" \
+            --github-output "$GITHUB_OUTPUT"
+        working-directory: .
+
+      - name: Install runtime coverage Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        with:
+          components: llvm-tools-preview
+
+      - name: Free runner disk space for runtime coverage
+        run: |
+          df -h
+          sudo rm -rf /usr/share/dotnet || true
+          sudo rm -rf /usr/local/lib/android || true
+          sudo rm -rf /opt/ghc || true
+          sudo rm -rf /opt/hostedtoolcache/CodeQL || true
+          df -h
+        working-directory: .
+
+      - name: Runtime coverage Rust cache
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
+        with:
+          workspaces: |
+            adl -> target
+          cache-directories: |
+            ~/.cache/sccache
+
+      - name: Install cargo-llvm-cov for runtime coverage
+        uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # cargo-llvm-cov
+
+      - name: Install cargo-nextest for runtime coverage
+        uses: taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c # v2.82.10
+        with:
+          tool: nextest@0.9.140
+          fallback: none
+
+      - name: Install sccache for runtime coverage
+        uses: taiki-e/install-action@e5c52b603cc5f5e9b52b6a43afad8e9fe0527090 # install-action
+        with:
+          tool: sccache
+
+      - name: Install lld for runtime coverage
+        run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld
+        working-directory: .
+
+      - name: Configure Rust acceleration for runtime coverage
+        id: runtime-coverage-toolchain
+        run: |
+          bash adl/tools/setup_required_coverage_toolchain.sh configure "$GITHUB_ENV"
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+        working-directory: .
+
+      - name: Verify required runtime coverage toolchain
+        run: bash adl/tools/setup_required_coverage_toolchain.sh verify
+        working-directory: .
+
+      - name: Runtime coverage run and summary (json)
+        run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"
+        working-directory: .
+
+      - name: Write runtime coverage provenance
+        if: always()
+        env:
+          COVERAGE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          COVERAGE_RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 -c 'import json, os, pathlib; pathlib.Path("adl/coverage-provenance.adl-runtime.json").write_text(json.dumps({"head_sha": os.environ["COVERAGE_HEAD_SHA"], "profile": "adl-runtime", "run_id": os.environ["COVERAGE_RUN_ID"]}, sort_keys=True) + "\n")'
+        working-directory: .
+
+      - name: Upload runtime coverage evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            adl/coverage-summary.adl-runtime.json
+            adl/coverage-provenance.adl-runtime.json
+            ci-step-logs/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Rust acceleration stats for runtime coverage
+        if: always() && steps.runtime-coverage-toolchain.outputs.ready == 'true'
+        run: bash adl/tools/setup_required_coverage_toolchain.sh stats
+        working-directory: .
+
+  adl_coverage_workspace_hosted:
+    name: adl-coverage-workspace-hosted
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
     runs-on: ubuntu-latest
@@ -670,7 +778,7 @@ jobs:
             --github-output "$GITHUB_OUTPUT"
         working-directory: .
 
-      - name: Validation profile summary (adl-coverage)
+      - name: Validation profile summary (workspace producer)
         run: |
           {
             echo "## ADL coverage validation profile"
@@ -785,9 +893,9 @@ jobs:
           echo "Coverage lane: ${{ steps.path-policy.outputs.coverage_lane }}"
           echo "Coverage authority: ${{ steps.path-policy.outputs.coverage_authority }}"
           echo "Coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}"
-      - name: Coverage run and summary (json)
+      - name: Workspace coverage run and summary (json)
         if: steps.path-policy.outputs.full_coverage_required == 'true'
-        run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-run-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"
+        run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"
         working-directory: .
 
       - name: PR fast coverage summary (json)
@@ -805,72 +913,14 @@ jobs:
           bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression "${{ steps.coverage-impact.outputs.filter_expression }}"
         working-directory: .
 
-      - name: Upload ADL-owned coverage step logs
-        if: always() && steps.path-policy.outputs.coverage_required == 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: adl-coverage-step-logs
-          path: adl/ci-step-logs/
-          if-no-files-found: warn
-          retention-days: 14
-
-      - name: Coverage-impact changed-source gate
-        if: github.event_name == 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true'
+      - name: Write workspace coverage provenance
+        if: always()
         env:
-          PER_FILE_LINE_THRESHOLD: "80"
+          COVERAGE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          COVERAGE_RUN_ID: ${{ github.run_id }}
         run: |
-          summary_path="adl/coverage-summary.json"
-          if [ -s adl/target/coverage-impact-summary.json ]; then
-            summary_path="adl/target/coverage-impact-summary.json"
-          fi
-          bash adl/tools/check_coverage_impact.sh \
-            --base "${{ github.event.pull_request.base.sha }}" \
-            --head "${{ github.event.pull_request.head.sha }}" \
-            --summary "$summary_path" \
-            --threshold "$PER_FILE_LINE_THRESHOLD"
+          python3 -c 'import json, os, pathlib; pathlib.Path("adl/coverage-provenance.workspace.json").write_text(json.dumps({"head_sha": os.environ["COVERAGE_HEAD_SHA"], "profile": "workspace", "run_id": os.environ["COVERAGE_RUN_ID"]}, sort_keys=True) + "\n")'
         working-directory: .
-
-      - name: PR coverage-impact preflight
-        if: github.event_name == 'pull_request' && steps.path-policy.outputs.coverage_required == 'true' && steps.path-policy.outputs.full_coverage_required != 'true'
-        env:
-          PER_FILE_LINE_THRESHOLD: "80"
-        run: |
-          set -euo pipefail
-          args=(
-            --base "${{ github.event.pull_request.base.sha }}"
-            --head "${{ github.event.pull_request.head.sha }}"
-            --threshold "$PER_FILE_LINE_THRESHOLD"
-          )
-          if [ "${{ steps.coverage-impact.outputs.needs_fast_summary }}" = "true" ]; then
-            args+=(--summary adl/target/coverage-impact-summary.json)
-          else
-            args+=(--require-summary-for-risk)
-          fi
-          bash adl/tools/check_coverage_impact.sh "${args[@]}"
-        working-directory: .
-
-      - name: Enforce coverage policy gates (workspace + per-file)
-        if: github.event_name != 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'
-        env:
-          WORKSPACE_LINE_THRESHOLD: "90"
-          PER_FILE_LINE_THRESHOLD: "80"
-          EXCLUDE_FROM_FILE_FLOOR_REGEX: 'adl/src/runtime_v2/(a2a_adapter_boundary|access_control|acip_hardening|challenge|contract_registry_accessors)\.rs$'
-        run: |
-          set -eu
-          bash adl/tools/enforce_coverage_gates.sh coverage-summary.json
-        working-directory: .
-
-      - name: Full workspace coverage gate deferred for PR
-        if: github.event_name == 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true'
-        run: |
-          echo "Workspace coverage gate and lcov artifact generation are deferred for pull requests."
-          echo "This PR ran the authoritative coverage pass plus changed-source coverage-impact validation."
-          echo "Full workspace coverage gating remains required on push-to-main, nightly ratchet, and non-PR fail-closed events."
-          echo "Policy reason: ${{ steps.path-policy.outputs.reason }}"
-          echo "Coverage lane: ${{ steps.path-policy.outputs.coverage_lane }}"
-          echo "Coverage authority: ${{ steps.path-policy.outputs.coverage_authority }}"
-          echo "Policy coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}"
-          echo "Actual adl-coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}"
 
       - name: Coverage (ADL Rust workspace lcov)
         if: github.event_name != 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'
@@ -889,16 +939,21 @@ jobs:
         run: test -s adl/lcov.info && ls -l adl/lcov.info
         working-directory: .
 
-      - name: Upload coverage artifact
-        if: github.event_name != 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'
+      - name: Upload workspace coverage evidence
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: adl-coverage-lcov
+          name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            adl/coverage-summary.adl.json
+            adl/target/coverage-impact-summary.json
             adl/lcov.info
-            adl/coverage-summary.json
             adl/coverage-summary.txt
+            adl/coverage-provenance.workspace.json
+            ci-step-logs/
           if-no-files-found: error
+          retention-days: 14
+
       - name: Coverage artifact publication boundary
         if: github.event_name != 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'
         run: |
@@ -917,21 +972,198 @@ jobs:
           echo "Actual adl-coverage execution state: skipped_by_path_policy"
         working-directory: .
 
-      - name: Upload coverage to Codecov
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.path-policy.outputs.full_coverage_required == 'true'
-        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: adl/lcov.info
-          flags: adl
-          # Keep CI signal stable during transient Codecov outages; upload is informational.
-          fail_ci_if_error: false
-          verbose: true
-
       - name: Rust acceleration stats for coverage
         if: always() && steps.coverage-toolchain.outputs.ready == 'true'
         run: bash adl/tools/setup_required_coverage_toolchain.sh stats
         working-directory: .
+
+  adl_coverage_hosted:
+    name: adl-coverage-hosted
+    needs:
+      - adl_path_policy
+      - adl_coverage_runtime_hosted
+      - adl_coverage_workspace_hosted
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      route_result: ${{ steps.producer-results.outputs.route_result }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Verify hosted coverage producer results
+        id: producer-results
+        env:
+          BACKEND: ${{ needs.adl_path_policy.outputs.heavy_ci_backend }}
+          COVERAGE_REQUIRED: ${{ needs.adl_path_policy.outputs.coverage_required }}
+          FULL_COVERAGE_REQUIRED: ${{ needs.adl_path_policy.outputs.full_coverage_required }}
+          PATH_POLICY_RESULT: ${{ needs.adl_path_policy.result }}
+          RUNTIME_RESULT: ${{ needs.adl_coverage_runtime_hosted.result }}
+          WORKSPACE_RESULT: ${{ needs.adl_coverage_workspace_hosted.result }}
+          SAME_REPO_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+          SPOT_OPT_IN: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'ci:spot') }}
+        run: |
+          set -euo pipefail
+          if [ "$PATH_POLICY_RESULT" != success ]; then
+            echo "::error::coverage path policy result $PATH_POLICY_RESULT; expected success"
+            exit 1
+          fi
+          hosted_required=false
+          if [ "$COVERAGE_REQUIRED" = true ] && ! { [ "$BACKEND" = spot ] && [ "$SAME_REPO_PR" = true ] && [ "$SPOT_OPT_IN" = true ]; }; then
+            hosted_required=true
+          fi
+          expected_workspace=skipped
+          expected_runtime=skipped
+          if [ "$hosted_required" = true ]; then
+            expected_workspace=success
+            if [ "$FULL_COVERAGE_REQUIRED" = true ]; then
+              expected_runtime=success
+            fi
+          fi
+          if [ "$WORKSPACE_RESULT" != "$expected_workspace" ]; then
+            echo "::error::workspace coverage producer result $WORKSPACE_RESULT; expected $expected_workspace"
+            exit 1
+          fi
+          if [ "$RUNTIME_RESULT" != "$expected_runtime" ]; then
+            echo "::error::runtime coverage producer result $RUNTIME_RESULT; expected $expected_runtime"
+            exit 1
+          fi
+          if [ "$hosted_required" = true ]; then
+            echo "route_result=success" >> "$GITHUB_OUTPUT"
+          else
+            echo "route_result=skipped" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download runtime coverage evidence
+        if: needs.adl_coverage_runtime_hosted.result == 'success'
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v8.0.1
+        with:
+          name: adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}
+          path: coverage-artifacts/runtime
+
+      - name: Download workspace coverage evidence
+        if: needs.adl_coverage_workspace_hosted.result == 'success'
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v8.0.1
+        with:
+          name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}
+          path: coverage-artifacts/workspace
+
+      - name: Verify hosted coverage provenance
+        if: needs.adl_coverage_workspace_hosted.result == 'success'
+        env:
+          COVERAGE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          COVERAGE_RUN_ID: ${{ github.run_id }}
+          RUNTIME_REQUIRED: ${{ needs.adl_path_policy.outputs.full_coverage_required }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          def verify(path, profile):
+              document = json.loads(path.read_text(encoding="utf-8"))
+              expected = {"head_sha": os.environ["COVERAGE_HEAD_SHA"], "profile": profile, "run_id": os.environ["COVERAGE_RUN_ID"]}
+              if document != expected:
+                  raise SystemExit(f"coverage provenance mismatch for {profile}: {document!r} != {expected!r}")
+
+          workspace = Path("coverage-artifacts/workspace/adl")
+          verify(workspace / "coverage-provenance.workspace.json", "workspace")
+          if os.environ["RUNTIME_REQUIRED"] == "true":
+              runtime = Path("coverage-artifacts/runtime/adl")
+              verify(runtime / "coverage-provenance.adl-runtime.json", "adl-runtime")
+              if not (runtime / "coverage-summary.adl-runtime.json").is_file():
+                  raise SystemExit("runtime coverage summary is missing")
+              if not (workspace / "coverage-summary.adl.json").is_file():
+                  raise SystemExit("workspace coverage summary is missing")
+          PY
+
+      - name: Merge isolated coverage summaries
+        if: needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_runtime_hosted.result == 'success' && needs.adl_coverage_workspace_hosted.result == 'success'
+        run: |
+          python3 adl/tools/merge_coverage_summaries.py \
+            --workspace coverage-artifacts/workspace/adl/coverage-summary.adl.json \
+            --adl-runtime coverage-artifacts/runtime/adl/coverage-summary.adl-runtime.json \
+            --output adl/coverage-summary.json
+
+      - name: Coverage-impact changed-source gate
+        if: github.event_name == 'pull_request' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
+        env:
+          PER_FILE_LINE_THRESHOLD: "80"
+        run: |
+          bash adl/tools/check_coverage_impact.sh \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.event.pull_request.head.sha }}" \
+            --summary adl/coverage-summary.json \
+            --threshold "$PER_FILE_LINE_THRESHOLD"
+
+      - name: PR coverage-impact preflight
+        if: github.event_name == 'pull_request' && needs.adl_path_policy.outputs.coverage_required == 'true' && needs.adl_path_policy.outputs.full_coverage_required != 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
+        env:
+          PER_FILE_LINE_THRESHOLD: "80"
+        run: |
+          set -euo pipefail
+          args=(
+            --base "${{ github.event.pull_request.base.sha }}"
+            --head "${{ github.event.pull_request.head.sha }}"
+            --threshold "$PER_FILE_LINE_THRESHOLD"
+          )
+          if [ -s coverage-artifacts/workspace/adl/target/coverage-impact-summary.json ]; then
+            args+=(--summary coverage-artifacts/workspace/adl/target/coverage-impact-summary.json)
+          else
+            args+=(--require-summary-for-risk)
+          fi
+          bash adl/tools/check_coverage_impact.sh "${args[@]}"
+
+      - name: Enforce coverage policy gates (workspace + per-file)
+        if: github.event_name != 'pull_request' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_path_policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only' && needs.adl_coverage_workspace_hosted.result == 'success'
+        env:
+          WORKSPACE_LINE_THRESHOLD: "90"
+          PER_FILE_LINE_THRESHOLD: "80"
+          EXCLUDE_FROM_FILE_FLOOR_REGEX: 'adl/src/runtime_v2/(a2a_adapter_boundary|access_control|acip_hardening|challenge|contract_registry_accessors)\.rs$'
+        run: |
+          set -eu
+          bash adl/tools/enforce_coverage_gates.sh adl/coverage-summary.json
+
+      - name: Full workspace coverage gate deferred for PR
+        if: github.event_name == 'pull_request' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
+        run: |
+          echo "Workspace coverage gate and lcov artifact generation are deferred for pull requests."
+          echo "This PR ran isolated workspace and runtime coverage plus changed-source coverage-impact validation."
+          echo "Full workspace coverage gating remains required on push-to-main, nightly ratchet, and non-PR fail-closed events."
+          echo "Policy reason: ${{ needs.adl_path_policy.outputs.reason }}"
+          echo "Coverage lane: ${{ needs.adl_path_policy.outputs.coverage_lane }}"
+          echo "Coverage authority: ${{ needs.adl_path_policy.outputs.coverage_authority }}"
+
+      - name: Validation profile summary (adl-coverage)
+        run: |
+          {
+            echo "## ADL coverage validation profile"
+            echo
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| reason | \`${{ needs.adl_path_policy.outputs.reason }}\` |"
+            echo "| selected profile | \`${{ needs.adl_path_policy.outputs.validation_profile_selected }}\` |"
+            echo "| profile status | \`${{ needs.adl_path_policy.outputs.validation_profile_status }}\` |"
+            echo "| policy coverage lane | \`${{ needs.adl_path_policy.outputs.coverage_lane }}\` |"
+            echo "| policy coverage authority | \`${{ needs.adl_path_policy.outputs.coverage_authority }}\` |"
+            echo "| workspace producer | \`${{ needs.adl_coverage_workspace_hosted.result }}\` |"
+            echo "| runtime producer | \`${{ needs.adl_coverage_runtime_hosted.result }}\` |"
+            echo "| profile run lanes | \`${{ needs.adl_path_policy.outputs.validation_profile_run_lanes }}\` |"
+            echo "| escalation required | \`${{ needs.adl_path_policy.outputs.validation_profile_escalation_required }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.adl_path_policy.outputs.full_coverage_required == 'true' && needs.adl_coverage_workspace_hosted.result == 'success'
+        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage-artifacts/workspace/adl/lcov.info
+          flags: adl
+          fail_ci_if_error: false
+          verbose: true
 
   adl-coverage:
     name: adl-coverage
@@ -966,7 +1198,7 @@ jobs:
             --spot-work-required "$SPOT_WORK_REQUIRED" \
             --path-policy-result "${{ needs.adl_path_policy.result }}" \
             --spot-result "${{ needs.adl_spot_ci_and_coverage.result }}" \
-            --hosted-result "coverage=${{ needs.adl_coverage_hosted.result }}"
+            --hosted-result "coverage=${{ needs.adl_coverage_hosted.outputs.route_result }}"
           failed=""
           for lane in \
             "adl_path_policy:${{ needs.adl_path_policy.result }}" \

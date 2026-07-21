@@ -88,6 +88,17 @@ if ADL_AUTHORITATIVE_COVERAGE_BUILD_JOBS=0 "$SCRIPT" --print-plan >/dev/null 2>&
   echo "expected zero coverage build jobs to fail closed" >&2
   exit 1
 fi
+if "$SCRIPT" --profile invalid --print-plan >/dev/null 2>&1; then
+  echo "expected invalid coverage profile to fail closed" >&2
+  exit 1
+fi
+for profile in workspace adl-runtime all; do
+  profile_plan="$($SCRIPT --profile "$profile" --print-plan)"
+  if ! grep -Fx "profile=$profile" <<<"$profile_plan" >/dev/null; then
+    echo "expected plan to report selected profile $profile" >&2
+    exit 1
+  fi
+done
 
 script_text="$(cat "$SCRIPT")"
 set +e
@@ -132,6 +143,7 @@ for required_fragment in \
   "--summary-only" \
   "coverage-summary.adl.json" \
   "coverage-summary.adl-runtime.json" \
+  "merge_coverage_summaries.py" \
   'FINAL_SUMMARY_PATH="$COVERAGE_OUTPUT_ROOT/coverage-summary.json"' \
   'cp "$FINAL_SUMMARY_PATH" "$LEGACY_FINAL_SUMMARY_PATH"' \
   'export ADL_CSM_DISK_FLOOR_BYTES="${ADL_CSM_DISK_FLOOR_BYTES:-0}"'
@@ -155,8 +167,9 @@ case "$script_text" in
     ;;
 esac
 
-mkdir -p "$ROOT_DIR/.adl/tmp"
-temp_root="$(mktemp -d "$ROOT_DIR/.adl/tmp/authoritative-coverage.XXXXXX")"
+temp_base="${ADL_TEST_TMP_ROOT:-${TMPDIR:-$ROOT_DIR/.adl/tmp}}"
+mkdir -p "$temp_base"
+temp_root="$(mktemp -d "$temp_base/authoritative-coverage.XXXXXX")"
 trap 'rm -rf "$temp_root"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json" "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"' EXIT
 bin_dir="$temp_root/bin"
 mkdir -p "$bin_dir"
@@ -248,7 +261,15 @@ for arg in "$@"; do
 done
 if [ -n "$out_path" ]; then
   mkdir -p "$(dirname "$out_path")"
-  printf '{"data":[{"files":[],"totals":{"branches":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"mcdc":{"count":0,"covered":0,"notcovered":0,"percent":0.0},"functions":{"count":0,"covered":0,"percent":0.0},"instantiations":{"count":0,"covered":0,"percent":0.0},"lines":{"count":0,"covered":0,"percent":0.0},"regions":{"count":0,"covered":0,"notcovered":0,"percent":0.0}}}]}\n' > "$out_path"
+  metric='{"branches":{"count":2,"covered":1},"mcdc":{"count":0,"covered":0},"functions":{"count":3,"covered":2},"instantiations":{"count":1,"covered":1},"lines":{"count":5,"covered":4},"regions":{"count":4,"covered":3}}'
+  case "$out_path" in
+    */coverage-summary.adl-runtime.json)
+      printf '{"data":[{"files":[{"filename":"/repo/adl/src/dependency.rs","summary":%s},{"filename":"/repo/adl-runtime/src/runtime.rs","summary":%s}],"totals":{}}]}\n' "$metric" "$metric" > "$out_path"
+      ;;
+    *)
+      printf '{"data":[{"files":[{"filename":"/repo/adl-runtime/src/dependency.rs","summary":%s},{"filename":"/repo/adl/src/workspace.rs","summary":%s}],"totals":{}}]}\n' "$metric" "$metric" > "$out_path"
+      ;;
+  esac
   if [ "${ADL_FAKE_CARGO_FAIL_ADL_REPORT_AFTER_WRITE:-0}" = "1" ]; then
     case "$out_path" in
       */coverage-summary.adl.json)
@@ -287,7 +308,12 @@ ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
 ADL_COVERAGE_RUN_ID="run-a" \
   bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
 
-for required_dir in "$scratch_root/target" "$scratch_root/target/llvm-cov-target/run-a" "$scratch_root/coverage-output/run-a"; do
+for required_dir in \
+  "$scratch_root/target" \
+  "$scratch_root/target/llvm-cov-target/run-a/workspace" \
+  "$scratch_root/target/llvm-cov-target/run-a/adl-runtime" \
+  "$scratch_root/coverage-output/run-a"
+do
   if [ ! -d "$required_dir" ]; then
     echo "expected authoritative coverage scratch dir: $required_dir" >&2
     exit 1
@@ -312,11 +338,14 @@ for required in \
   "cmd=nextest run --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-fail-fast --no-tests pass" \
   "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl.json" \
   "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl-runtime.json" \
-  "target=$scratch_root/target/llvm-cov-target/run-a" \
-  "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-a" \
+  "target=$scratch_root/target/llvm-cov-target/run-a/workspace" \
+  "target=$scratch_root/target/llvm-cov-target/run-a/adl-runtime" \
+  "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-a/workspace" \
+  "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-a/adl-runtime" \
   "rustflags=--cfg coverage_from_show_env" \
   "build_jobs=1" \
-  "llvm_profile=$scratch_root/target/llvm-cov-target/run-a/workspace-run-a-partition-1-%p.profraw"
+  "llvm_profile=$scratch_root/target/llvm-cov-target/run-a/workspace/workspace-run-a-partition-1-%p.profraw" \
+  "llvm_profile=$scratch_root/target/llvm-cov-target/run-a/adl-runtime/adl-runtime-run-a-partition-1-%p.profraw"
 do
   if ! grep -F -- "$required" "$cargo_log" >/dev/null 2>&1; then
     echo "missing authoritative coverage execution token: $required" >&2
@@ -369,10 +398,62 @@ if [ "$(grep -Fxc -- "cmd=llvm-cov report --json --summary-only --output-path $s
   cat "$cargo_log" >&2
   exit 1
 fi
-if [ -e "$scratch_root/target/llvm-cov-target/run-a/prebuild-sentinel.profraw" ]; then
+if [ -e "$scratch_root/target/llvm-cov-target/run-a/workspace/prebuild-sentinel.profraw" ] ||
+   [ -e "$scratch_root/target/llvm-cov-target/run-a/adl-runtime/prebuild-sentinel.profraw" ]; then
   echo "prebuild profile must be removed before test partitions and reports" >&2
   exit 1
 fi
+
+python3 - "$scratch_root/coverage-output/run-a/coverage-summary.json" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    summary = json.load(stream)["data"][0]
+filenames = [entry["filename"] for entry in summary["files"]]
+expected = ["/adl-runtime/src/runtime.rs", "/adl/src/workspace.rs"]
+if filenames != expected:
+    raise SystemExit(f"ownership-filtered merge mismatch: {filenames!r}")
+if summary["totals"]["lines"] != {"count": 10, "covered": 8, "percent": 80.0}:
+    raise SystemExit(f"recomputed line totals mismatch: {summary['totals']['lines']!r}")
+PY
+
+for selected_profile in workspace adl-runtime; do
+  isolated_log="$temp_root/isolated-$selected_profile.log"
+  isolated_run_id="run-isolated-$selected_profile"
+  PATH="$bin_dir:$PATH" \
+  AUTHORITATIVE_CARGO_LOG="$isolated_log" \
+  ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+  ADL_COVERAGE_RUN_ID="$isolated_run_id" \
+    bash "$SCRIPT" --profile "$selected_profile"
+
+  if [ "$selected_profile" = workspace ]; then
+    selected_summary=coverage-summary.adl.json
+    unselected_summary=coverage-summary.adl-runtime.json
+    forbidden_command="--manifest-path $ROOT_DIR/adl-runtime/Cargo.toml"
+  else
+    selected_summary=coverage-summary.adl-runtime.json
+    unselected_summary=coverage-summary.adl.json
+    forbidden_command="nextest run --workspace"
+  fi
+  output_dir="$scratch_root/coverage-output/$isolated_run_id"
+  if [ ! -s "$output_dir/$selected_summary" ] ||
+     [ -e "$output_dir/$unselected_summary" ] ||
+     [ -e "$output_dir/coverage-summary.json" ]; then
+    echo "profile $selected_profile did not isolate raw and final summaries" >&2
+    exit 1
+  fi
+  if grep -F -- "$forbidden_command" "$isolated_log" >/dev/null 2>&1; then
+    echo "profile $selected_profile executed an unselected coverage command" >&2
+    cat "$isolated_log" >&2
+    exit 1
+  fi
+  if grep '^target=' "$isolated_log" | grep -v "^target=$scratch_root/target/llvm-cov-target/$isolated_run_id/$selected_profile$" >/dev/null 2>&1; then
+    echo "profile $selected_profile escaped its isolated target" >&2
+    cat "$isolated_log" >&2
+    exit 1
+  fi
+done
 
 prebuild_failure_log="$temp_root/prebuild-failure.log"
 set +e
@@ -394,12 +475,12 @@ if grep -E '^cmd=nextest run .*--partition ' "$prebuild_failure_log" | grep -vF 
   cat "$prebuild_failure_log" >&2
   exit 1
 fi
-if ! grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-prebuild-failure/coverage-summary.adl.json" "$prebuild_failure_log" >/dev/null 2>&1; then
-  echo "expected report attempt after compile-only failure" >&2
+if grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-prebuild-failure/coverage-summary.adl.json" "$prebuild_failure_log" >/dev/null 2>&1; then
+  echo "workspace report must be suppressed after compile-only failure" >&2
   cat "$prebuild_failure_log" >&2
   exit 1
 fi
-if [ -e "$scratch_root/target/llvm-cov-target/run-prebuild-failure/prebuild-sentinel.profraw" ]; then
+if [ -e "$scratch_root/target/llvm-cov-target/run-prebuild-failure/workspace/prebuild-sentinel.profraw" ]; then
   echo "failed prebuild profile must be removed before report attempts" >&2
   exit 1
 fi
@@ -412,7 +493,7 @@ AUTHORITATIVE_CARGO_LOG="$combined_failure_log" \
 ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
 ADL_COVERAGE_RUN_ID="run-combined-failure" \
 ADL_FAKE_CARGO_FAIL_WORKSPACE_PREBUILD=1 \
-ADL_FAKE_FIND_FAIL_ON_CALL=2 \
+ADL_FAKE_FIND_FAIL_ON_CALL=3 \
 ADL_FAKE_FIND_COUNTER="$combined_find_counter" \
   bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
 combined_failure_status=$?
@@ -579,8 +660,10 @@ for run_id in run-concurrent-a run-concurrent-b; do
   log_var="concurrent_${run_id#run-concurrent-}_log"
   log_path="${!log_var}"
   for required in \
-    "target=$scratch_root/target/llvm-cov-target/$run_id" \
-    "llvm_cov_target=$scratch_root/target/llvm-cov-target/$run_id" \
+    "target=$scratch_root/target/llvm-cov-target/$run_id/workspace" \
+    "target=$scratch_root/target/llvm-cov-target/$run_id/adl-runtime" \
+    "llvm_cov_target=$scratch_root/target/llvm-cov-target/$run_id/workspace" \
+    "llvm_cov_target=$scratch_root/target/llvm-cov-target/$run_id/adl-runtime" \
     "--output-path $scratch_root/coverage-output/$run_id/coverage-summary.adl.json" \
     "--output-path $scratch_root/coverage-output/$run_id/coverage-summary.adl-runtime.json"
   do
