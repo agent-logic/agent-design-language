@@ -8,7 +8,7 @@ Repository: danielbaustin/agent-design-language
 
 Card: sor
 
-Status: complete
+Status: pre_phase
 
 ## Summary
 
@@ -47,17 +47,17 @@ Use cargo-llvm-cov clean and show-env, run partitioned cargo nextest directly wi
 
 ## Integration
 
-merged
+pr_open
 
 ## Publication
 
-Publication: closed
+Publication: ready
 
-Merge: merged
+Merge: not_merged
 
 ## Closeout
 
-complete
+not_started
 
 ## Follow Ups
 

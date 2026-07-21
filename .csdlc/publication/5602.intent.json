@@ -6,7 +6,7 @@
   "head": "codex/5602-hosted-coverage-no-report",
   "title": "[v0.91.8][CI] Complete external nextest coverage collection",
   "body": "Follow-up to #5602.\n\nThe first repair used an incompatible cargo-llvm-cov flag pair. This correction uses cargo-llvm-cov's supported external-test workflow: clean and source show-env, execute partitioned cargo nextest run, and render one explicit combined report per workspace. Run-specific Cargo and llvm-cov targets preserve concurrent isolation.\n\nThe authoritative coverage contract and the coupled CI runtime contract both pass. Tests prove that the generated instrumentation environment is consumed, while selectors, partitions, summaries, thresholds, and fail-closed behavior remain intact. Final exact-head review returned no findings. No AWS or raw gh was used.",
-  "draft": false,
-  "revision": "git-blake3:6c6b512286cca4833fd19e35b9377b3994d76b5b:16edce41fa56cb16bea6a3f4c78b22db746c96f7a20df97927ddb855909d8592",
-  "commit_sha": "6c6b512286cca4833fd19e35b9377b3994d76b5b"
+  "draft": true,
+  "revision": "git-blake3:d0acba5ae63d49c893dd1035a7bdd03d35d61bdc:dffce2e07a5433a9b6d236743fa79e5a2b16f7e3b3bb81fad6c7efa140389fa8",
+  "commit_sha": "d0acba5ae63d49c893dd1035a7bdd03d35d61bdc"
 }
