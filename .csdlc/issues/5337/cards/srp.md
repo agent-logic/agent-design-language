@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+adl-characterization
+.csdlc/issues/5337
+.csdlc/prepared/issues/5337
+.csdlc/evidence/5337
 
 ## Prompts
 
@@ -35,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Pre-tokenization stream bytes are not retained; captured-stream hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable.
+- An inherited blank-line-at-EOF warning exists in upstream main at .csdlc/issues/5600/retained/diagram.mmd; it is outside #5337 and absent from the issue-range diff.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c5b7fda0e618ca15d322f3a0052b70a3278ba012:cabd4a1dd3bb609efb1a1667e149be2cce26a549f610a9ef36489fe665e6f17d")
 
-Reviewer: None
+Reviewer: Some("task:019f4b3e-6c61-7653-957b-7a2a6042a80d")
 
-Result: pre_review
+Result: pass

@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
     "slug": "v0918-wp03-characterization-corpus-preparation",
     "version": "v0.91.8",
-    "generation": 50
+    "generation": 52
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-characterization\n.csdlc/issues/5337\n.csdlc/prepared/issues/5337\n.csdlc/evidence/5337",
+      "review_revision": "git-blake3:c5b7fda0e618ca15d322f3a0052b70a3278ba012:cabd4a1dd3bb609efb1a1667e149be2cce26a549f610a9ef36489fe665e6f17d",
+      "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "review_prompts": [
         "Does the crate remain independent of incumbent ADL source and accept only a caller-supplied pinned v1 binary?",
         "Does the corpus cover every required positive, negative, ordering, determinism, mock-execution, and signing behavior?",
@@ -27,8 +27,11 @@
         "Are all findings resolved at the exact substantive revision with no deferred acceptance criteria?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Pre-tokenization stream bytes are not retained; captured-stream hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable.",
+        "An inherited blank-line-at-EOF warning exists in upstream main at .csdlc/issues/5600/retained/diagram.mmd; it is outside #5337 and absent from the issue-range diff."
+      ],
+      "review_result": "pass"
     }
   }
 }
