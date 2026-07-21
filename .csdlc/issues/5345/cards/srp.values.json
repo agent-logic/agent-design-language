@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5345,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-10] Implement thin ADL CLI and authoritative selector",
+    "slug": "v0918-wp10-thin-adl-cli-authoritative-selector",
+    "version": "v0.91.8",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5345\n.csdlc/locks/5345.lock\n.csdlc/prepared/issues/5345\n.csdlc/evidence/5345\nadl-v2/crates/adl-cli\nadl-v2/tools/install-adl-v2.sh",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every command remain a typed adapter over exactly one reviewed WP-04 through WP-09 boundary without duplicate domain logic?",
+        "Can any argument, environment value, malformed receipt, stale writer, lock race, symlink, path traversal, interruption, or re-read mismatch bypass exact installation verification or alter prior selector bytes?",
+        "Is rollback explicit, compare-and-swap protected, exact-receipt verified, and free of implicit fallback or cutover authority?",
+        "Are machine-readable stdout, diagnostic stderr, stable exit codes, no-network/no-credential behavior, and host-path/secret redaction proven for every command?",
+        "Are COTS, dependency exclusions, LoC/test/module/time budgets, PVF classification, no-deferral, CI, and exact-revision review complete and executable?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
