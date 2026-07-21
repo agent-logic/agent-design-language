@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-06] Implement portable bounded execution engine",
     "slug": "v0918-wp06-portable-bounded-execution-engine",
     "version": "v0.91.8",
-    "generation": 41
+    "generation": 42
   },
   "status": "pre_phase",
   "content": {
@@ -195,8 +195,8 @@
           "evidence_ref": ".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2928; test_fixture_lines=1946; unbudgeted_code=[]; substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

@@ -202,11 +202,11 @@ Implemented an independent portable adl-engine crate that consumes the landed in
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
