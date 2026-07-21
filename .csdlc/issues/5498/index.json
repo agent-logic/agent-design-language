@@ -1,0 +1,76 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5498,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "5641d1b95d616b80f136aa634bd62c0690db925d85c3841f15df8b666fe5c66c",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "ba95fbe1155b7d970976eea3f273fa5e0d0f437e4599b74c051f96a005c5bfba",
+  "claim": {
+    "id": "claim-5498-v0918-wp10a-task-context-adapter-preparation",
+    "owner": "codex:issue-5498-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784664000,
+    "expires_unix_seconds": 1785268800,
+    "heartbeat_unix_seconds": 1784664000,
+    "branch": "codex/5498-v0918-wp10a-task-context-adapter",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5498",
+      ".csdlc/locks/5498.lock",
+      ".csdlc/prepared/issues/5498"
+    ],
+    "purpose": "Prepare and review WP-10A task and context-handoff adapter contracts only; implementation remains blocked on #5499 and the WP-09 interface gate"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5498/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5498/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "8a0f4292ed610ea52747fa9138d6c5ce8dfa4bc00cc0de9642d237d8041dfc93",
+      "rendered_digest": "f692d2099dcbd33878015ac059cf7dd257735a72b72ca29456da2ee6a4c45980",
+      "ast_digest": "d09d794737e285b51cdcd371effc4edda6123799cf9964abb93757f994ad3439"
+    },
+    "stp": {
+      "values_digest": "2c2909e90a5e61c8d6248724dc0d6f451d5021bff98ffc663e088a53a992b2cc",
+      "rendered_digest": "3f8f68627f779f8ed89dfb232deb41bee8bec803f27637a29c2338cb92d3a394",
+      "ast_digest": "e281cb05665123bbb2c8885988a7322523d52fe0a2d12a321576ca9ed32a9ecf"
+    },
+    "spp": {
+      "values_digest": "749eab7bde7f778f7a4e9db6ea63f85e9c247cfc27da6bfe8624a6cfc4cda21e",
+      "rendered_digest": "85b64f7b0d80c72169544f1d324be9f233f12dc3dc76ccf9e5773cca49050431",
+      "ast_digest": "7e2f1dcd1802d6ad5619a03600a7e27bd032077d2ae97009d1e7873bb7e298ec"
+    },
+    "vpp": {
+      "values_digest": "83dfab6fdc66a47e3db0b537234b7f975a37f0f49093b277459bb947ecce3790",
+      "rendered_digest": "7b4d0b8149a9410b50f57bf98c455fcdb017034f94c6728bd0ea0135ea8ec007",
+      "ast_digest": "b978f7f003214f6d9a4ce5a976b5a08bf1252d22cb9be56b9ee7c9b9d143343e"
+    },
+    "srp": {
+      "values_digest": "5417d2b836b70b981f65591d6383d58507a534452cb6d9e0abe970d08eb2d087",
+      "rendered_digest": "360ea2312814aad796bc6e8e757cbcf069b8671bde10d90bbcb8eb6f3bd13406",
+      "ast_digest": "180986a6bbbdcd5f003b3bb17ca7c90dc735c048739f3df655b3535a1ee47e0d"
+    },
+    "sor": {
+      "values_digest": "96f48814c4ef33b2f60778b4b83c5fa49346bbdcf4372c95a150c7d36c12ad05",
+      "rendered_digest": "cad5f1c83fd5f22aade6f342cb24f2716927a1825af29ffd92d53e64209eb629",
+      "ast_digest": "74ee336fa9e05ad164634ea20734741f99ce28c7ab3d561a8fa27de1950e2bbf"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5498-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}
