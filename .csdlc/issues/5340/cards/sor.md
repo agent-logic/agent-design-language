@@ -117,6 +117,46 @@ Implemented an independent portable adl-engine crate that consumes the landed in
     "purpose": "Prove the repaired engine remains within declared LoC, COTS, authority, scope, dependency, and validation-time budgets and passes the complete offline suite.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2579; test_fixture_lines=1647; unbudgeted_code=[]; repair commit a87c36c4a813ed0e7d0cd3292434874d7be2bb0e"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/focused.json"
+    ],
+    "purpose": "Prove all portable engine behavior including bounded state materialization, actual fixture execution, and strict resume contracts.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-focused/engine-focused.log at substantive commit 0b0c0b2c2d934482b3eed7d481f1e44f2ecd28c4"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/quality.json"
+    ],
+    "purpose": "Prove formatting, strict linting, COTS-first capped serialization, and the narrow source-authority contract.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-quality/engine-quality.log at substantive commit 0b0c0b2c2d934482b3eed7d481f1e44f2ecd28c4"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/determinism.json"
+    ],
+    "purpose": "Prove completion-order invariance, fresh-process equivalence, exact-initial and quiescent reachability, contiguous attempts, and outcome-bound receipts.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-determinism/engine-determinism.log at substantive commit 0b0c0b2c2d934482b3eed7d481f1e44f2ecd28c4"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/budgets.json"
+    ],
+    "purpose": "Prove exact dependency, COTS, source authority, sole-writer scope, all tests, LoC ceilings, and validation deadlines on the final substantive revision.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2905; test_fixture_lines=1878; unbudgeted_code=[]; substantive commit 0b0c0b2c2d934482b3eed7d481f1e44f2ecd28c4"
   }
 ]
 
