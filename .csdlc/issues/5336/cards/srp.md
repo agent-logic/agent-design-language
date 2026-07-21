@@ -31,18 +31,7 @@ adl/tools/test_merge_coverage_summaries.sh
 
 ## Findings
 
-[
-  {
-    "id": "isolated-workspace-lcov-provenance",
-    "severity": "p1",
-    "summary": "The workspace worker deletes run-scoped profiles before a later fresh-shell lcov command, allowing missing or stale Codecov evidence.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -54,8 +43,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:35e7e81c54843212c215dee3e1fd956beda76c1d:df225151a2e07871f666313d58ff9e13f4a9c8032f14b2e8a60b4b4c90eae0ad")
+Revision: Some("git-blake3:2db027d9c76cbe17b5d385b0ae4fdb4f443c6268:15836daa92a726f4bdbbd236313517ae155dbb8b42d7cb61ab97f78a8bb0adf6")
 
 Reviewer: Some("subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7")
 
-Result: changes_required
+Result: pass

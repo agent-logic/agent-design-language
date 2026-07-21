@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "implemented",
-  "generation": 33,
-  "digest": "6afc21ba99b777e6036a117d90487aab230aec752e6eb212b59403efe0aff235",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "2814ec338a4f58e5e830c3e9c34f212a76f89b47eba5d338ed31dea363fca956",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 33,
+    "generation": 36,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -33,7 +33,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:35e7e81c54843212c215dee3e1fd956beda76c1d:df225151a2e07871f666313d58ff9e13f4a9c8032f14b2e8a60b4b4c90eae0ad",
+    "revision": "git-blake3:2db027d9c76cbe17b5d385b0ae4fdb4f443c6268:15836daa92a726f4bdbbd236313517ae155dbb8b42d7cb61ab97f78a8bb0adf6",
     "scope": [
       ".github/workflows/ci.yaml",
       "adl/tools/run_authoritative_coverage_lane.sh",
@@ -57,19 +57,8 @@
       ".csdlc/issues/5336",
       ".csdlc/prepared/issues/5336"
     ],
-    "reviewed_revision": "git-blake3:35e7e81c54843212c215dee3e1fd956beda76c1d:df225151a2e07871f666313d58ff9e13f4a9c8032f14b2e8a60b4b4c90eae0ad",
-    "findings": [
-      {
-        "id": "isolated-workspace-lcov-provenance",
-        "severity": "p1",
-        "summary": "The workspace worker deletes run-scoped profiles before a later fresh-shell lcov command, allowing missing or stale Codecov evidence.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:2db027d9c76cbe17b5d385b0ae4fdb4f443c6268:15836daa92a726f4bdbbd236313517ae155dbb8b42d7cb61ab97f78a8bb0adf6",
+    "findings": [],
     "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
@@ -88,32 +77,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9956b278b33136e8f417aef7d7cea54524313c85c948d5978594eebc7aa97741",
+      "values_digest": "4f3437aa10fdc8752a5317a81a492f61798cecf121d44f8d733be1dcb4e142d8",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "7fedba0ce7edf9321a1279337741cc9a573d3cdd19ba58d4c14cab8393d787e6",
+      "values_digest": "e45b4741168a9c3ef21612222b1ff42ce577db409e5e1f5c0e84827622ace977",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "2b5ce584b90b7b36563065cc051c33dcb3059597ec6148dd174e8a08ab220e6e",
+      "values_digest": "5872fef12b40c02ac5a93288ecba0d6de9a08b12707224e31e3b180ee76edaa6",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "d37c6b6505e3af0a702a1d8df79526748f476fde45e9dcab6bf2581bd5aece7f",
+      "values_digest": "f1ff2d4bfe6ecad6d471a0bccb87fb370d1161f9bacb772d4c6e076bc3affb40",
       "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "9e08ef241ce0eda6337f4724fbc1f04061631bb42e78a18185d16683296563ac",
-      "rendered_digest": "f6c3275935da3ffe06694b2c9e2ece18bafa0609899b224ee11c9e6fa30f1af4",
-      "ast_digest": "5e8b53fd8ecbff53728b1de22d85256e07cd2262c9a3e04deb2bdd3fd057c888"
+      "values_digest": "fd28e3219ab27f242126acf97a037b47a332255b6d34c86f5b0d200211bbe43b",
+      "rendered_digest": "29c68cbb3ea6ed8e7723056ac68a5f600955d106a30125bcb384c52730b15b0b",
+      "ast_digest": "f7471dfcf8043201cce7b834edc4f32d4cfd567f0a7a8030102cb502d44fd26c"
     },
     "sor": {
-      "values_digest": "360f42c473561a2ca18d12e0da85ea106f38d7f5c9f4ddd0e630f8abea25c487",
+      "values_digest": "86149da76a6770fbf2bc0ea8a6b45f0f2ad612326c2a21561e978769f7fcdf0d",
       "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
       "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
@@ -230,6 +219,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover exact review after final hosted CI proved that sequential profile ordering cannot prevent cross-profile process exhaustion; independent fresh-runner coverage workers are required."
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact isolated-worker coverage orchestration review passed with no findings or residual risks."
     }
   ],
   "audit": [
@@ -547,6 +543,41 @@
       "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 33,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 34,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 34,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 35,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 36,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact isolated-worker coverage orchestration review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
