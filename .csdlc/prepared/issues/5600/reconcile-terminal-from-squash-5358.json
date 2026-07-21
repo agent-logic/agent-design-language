@@ -1,0 +1,9 @@
+{
+  "issue": 5600,
+  "expected_initialization_digest": "14e981decd71194412f4d8e074a1678d9b7127d64a4662fb041631df70c1ae1c",
+  "expected_branch": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+  "expected_worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5358",
+  "actor": "codex:issue-5358-acceptance",
+  "reason": "Integrate the receipt-backed squash-merge terminal truth proven from exact baseline 2a6727a7 while preserving the earlier closed-claim release audit history.",
+  "follow_ups": []
+}

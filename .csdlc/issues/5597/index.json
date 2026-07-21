@@ -3,29 +3,10 @@
   "issue": 5597,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "0b22f57976eb8d37ecc1796ff4e3e0676d4ff92447fb1c7dff25f16853e3a3cd",
-  "phase": "published",
-  "generation": 16,
-  "digest": "8721562f7bf132a9ea072487f72675b18db037974ece722690d2ed6363aaca30",
-  "claim": {
-    "id": "claim-5597-generation-aware-preparation-safe",
-    "owner": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
-    "generation": 16,
-    "acquired_unix_seconds": 1784571481,
-    "expires_unix_seconds": 1785176281,
-    "heartbeat_unix_seconds": 1784571481,
-    "branch": "codex/5597-generation-aware-preparation-safe",
-    "worktree": ".worktrees/adl-wp-5597",
-    "protected_paths": [
-      ".csdlc/issues/5597",
-      ".csdlc/locks/5597.lock",
-      ".csdlc/prepared/issues/5597",
-      "csdlc-v2",
-      "docs/architecture/csdlc-v2/gate9/samples",
-      "docs/templates/prompts/README.md",
-      "docs/templates/prompts/current.json"
-    ],
-    "purpose": "Repair generation-aware compact-card authority and preparation-safe typed SIP, STP, and SRP semantics"
-  },
+  "phase": "closed_out",
+  "generation": 21,
+  "digest": "819c1521ca6c8abe8ecd4b1841500b623e65476d5988d1e16f4a0a7403075683",
+  "claim": null,
   "review_assignment": {
     "reviewer": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -58,15 +39,66 @@
     "url": "https://github.com/danielbaustin/agent-design-language/pull/5598",
     "base": "main",
     "head": "codex/5597-generation-aware-preparation-safe",
-    "revision": "git-blake3:712f2cfcd0516d5df4c4474077f9ed07c702f796:4a3e5b7d07216ec3dde3b09b6bed368908284e53cdf249be927ddae24877c05d",
-    "draft": true,
-    "observed_state": "open"
+    "revision": "git-blake3:dce4f1f5cf795ff90c8a47c5a8b5d29f74adade6:820ffb444cde86c19231a76d42e494cc7c9c8624a42fb27268ae420bad7e76b4",
+    "draft": false,
+    "observed_state": "merged"
   },
-  "readiness": null,
-  "terminal": null,
+  "readiness": {
+    "pull_request": 5598,
+    "head_sha": "dce4f1f5cf795ff90c8a47c5a8b5d29f74adade6",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29772536073/job/88454180575"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29772536073/job/88454019485"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29772536073/job/88453977529"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29772536073/job/88454019022"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5598,
+    "disposition": "merged",
+    "observed_sha": "dce4f1f5cf795ff90c8a47c5a8b5d29f74adade6",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5597.json",
+    "released_branch": "codex/5597-generation-aware-preparation-safe",
+    "released_worktree": ".worktrees/adl-wp-5597",
+    "released_protected_paths": [
+      ".csdlc/issues/5597",
+      ".csdlc/locks/5597.lock",
+      ".csdlc/prepared/issues/5597",
+      "csdlc-v2",
+      "docs/architecture/csdlc-v2/gate9/samples",
+      "docs/templates/prompts/README.md",
+      "docs/templates/prompts/current.json"
+    ]
+  },
   "migration": null,
-  "design_path": ".csdlc/prepared/issues/5597/design.md",
-  "diagram_path": ".csdlc/prepared/issues/5597/diagram.mmd",
+  "design_path": ".csdlc/issues/5597/retained/design.md",
+  "diagram_path": ".csdlc/issues/5597/retained/diagram.mmd",
   "design_review": {
     "approved": {
       "reviewer": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
@@ -75,34 +107,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ba086d9a2f2e8d7371ace6bc225e19144a13dfdb6f5649a86935f9728a219352",
+      "values_digest": "6cc4da764159bc6aed7301d9290a3a01f6890a3e11d0129b6e3fb01fa5b46230",
       "rendered_digest": "b8ad4acebc4da56f808586f134a39be1cbc79f4021fbd70426fc3efc676f1a67",
       "ast_digest": "e2af351ba7d2e58e20e2a9de374e8e37ce16b6a37c5c0236ac59a5756380894c"
     },
     "stp": {
-      "values_digest": "dcf221ef626862f7cf10273bfc85e480d9f1baa81c7c66643e9335e484ea2c2a",
+      "values_digest": "4fb8e1707a423577358c17c0af2eb03cb555bfcc73991cdc9b68a64c8eec33bf",
       "rendered_digest": "f78872a24cb7e1eb04be18a2892d5d070cd29c8419e1dc9cf14a31de207d3199",
       "ast_digest": "597c82206edab50155b7d5f5f42c96153cd63c87f845cbe8f779b8e19406b4a3"
     },
     "spp": {
-      "values_digest": "3c1e4d07fb06aa8eb8fb41a6d1829a31c028176b4afba9f76b343e53a1888d93",
-      "rendered_digest": "7cdabf15c737e54bea960482752cee275b0829f685ea20851fa85d3cb24b7997",
-      "ast_digest": "08c63618b32b0d3d09295cdc705a9bf4d31a63e1990ec186905fb31ca5a829ab"
+      "values_digest": "8d354801baf268f940d43865752313657bf2c1bc655f5a99ea8feb53bf1e0bf8",
+      "rendered_digest": "d520677e856b5466c635b680c72a0fcfd393419310a6e8f483bec04e1a8cbc6e",
+      "ast_digest": "c72e351da10b8954b10903a477d6327dbfd43edebd3419c473789eba24ab26f0"
     },
     "vpp": {
-      "values_digest": "d8324c27abce587e2a491d2d2697d2c9887b45c870e79291f2465ae1ce901156",
-      "rendered_digest": "7e2351bd8bae541d9398a1d0899d31e6a28a693208fc1d2958d38f3e4e5edda4",
-      "ast_digest": "909120be73c58f8ed0d58119450abe582a56577dd73b9798bd09b63d964fa0c0"
+      "values_digest": "72026b17a4fb5560bb34a8944dd693c6c41fe6dce4300e281c1daebe4895e1a1",
+      "rendered_digest": "ac05aa8441f11d878e77fae2288b52bb0b40fd59c8d7c8a477ecd8d13a4db60b",
+      "ast_digest": "f7becbf7d1f0282779ffe548fbf8399066ba9dd97340f18949ee46435c061063"
     },
     "srp": {
-      "values_digest": "4652c4c086b882d714579e548321e6f7ea1260df099f9751eaa970f17f3d5d62",
-      "rendered_digest": "81523266e05070e634a4520eddd4296ed75137f9d7c5629683abcedce77538e2",
-      "ast_digest": "ebffd7eb5222b0f34b1a3fa7063767732acb85afc60d3f01d8cec10806bfa144"
+      "values_digest": "e9a9adbc1c12b5ba69d1b4b4fb0ab0497427e717e4b67ed952a1b0bebc89064d",
+      "rendered_digest": "eebf7a5dbc22450ca2ec2f9b35e11d5a81f636a79f8352eea1614171eafed493",
+      "ast_digest": "f15d9979fb6891e48f5e957132b48b1cb528d2c8341d865d11252ec2c66ffe17"
     },
     "sor": {
-      "values_digest": "7d2b8aae2092a678eaf44423aecbf8f7cd8a4e5a723e8de52ba51bb23345995d",
-      "rendered_digest": "a82ff25332a4bca11754ef0ef04e831fa4ed9f1c10770dd20f649edc27876b63",
-      "ast_digest": "7a5c060690b5ac5b52b11af14aa43b3794dba2bec98cd99abca09025626ef26a"
+      "values_digest": "118e4a57f2d3ac74e5304293a54de94c13de036cec8bcf9b11872787a2f714a0",
+      "rendered_digest": "2767f949be6ac063f4ee9380a61c5ab20435dbd4af48d38a7dd848e48e930774",
+      "ast_digest": "214db24c17c68b4322094856703d31f690280137fbe6d21bf084aef867f257c6"
     }
   },
   "transitions": [
@@ -140,6 +172,27 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "terminal truth recorded and claim released"
     }
   ],
   "audit": [
@@ -282,6 +335,41 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:issue-5358-acceptance",
+      "reason": "Integrate the existing receipt-backed normal-merge terminal truth for issue 5597 into the issue 5358 acceptance branch.",
+      "operation": "reconcile_terminal"
     }
   ]
 }

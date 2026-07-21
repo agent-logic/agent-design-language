@@ -1,0 +1,19 @@
+{
+  "issue": 5358,
+  "card": "sip",
+  "expected_generation": 7,
+  "expected_digest": "bb4c1502f0fe51c4b4a1e9897dd741a1b61869eebda6160bc99a8913e19e950b",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f8100-844f-76d2-bb5e-c3ec4ca77dcd",
+  "reason": "Replace the empty SIP operator constraints with explicit issue-specific preparation and completeness boundaries",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "Use only the installed typed C-SDLC v2 binaries and repository owner tools; do not use raw gh or AWS",
+      "Work only on the existing bound #5358 branch and limit tracked changes to .csdlc/issues/5358, .csdlc/prepared/issues/5358, and .csdlc/evidence/5358",
+      "Preserve every STP acceptance criterion and complete bidirectional SPP and VPP coverage; later acceptance execution must implement and prove every criterion without deferral, omission, or weakening",
+      "This preparation may repair issue-local lifecycle truth but must not perform product implementation, deployment, publication, merge, closeout, or edits to independently owned issue surfaces"
+    ]
+  },
+  "fail_after_backup": false
+}

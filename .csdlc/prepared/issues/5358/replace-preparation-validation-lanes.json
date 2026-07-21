@@ -1,0 +1,38 @@
+{
+  "issue": 5358,
+  "card": "vpp",
+  "expected_generation": 4,
+  "expected_digest": "833b48e5781600c36c3d6bb572f272cba3558be71381df5d71f557e0ada8a0d2",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "Replace the non-proving tracked-diff lane with explicit issue-local artifact inventory and preserve portable owner-binary discovery.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "csdlc-doctor-5358",
+        "proof_role": "Check canonical typed state, all six generated cards, digests, retained design, and bound issue integrity",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["csdlc-doctor", "--repo", ".", "--issue", "5358"],
+        "parallel_group": "local",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-local-scope-inventory",
+        "proof_role": "Enumerate every changed or untracked #5358 issue-local artifact for bounded review",
+        "acceptance_ids": ["AC-1", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["git", "status", "--short", "--", ".csdlc/issues/5358", ".csdlc/prepared/issues/5358", ".csdlc/evidence/5358"],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ]
+  }
+}

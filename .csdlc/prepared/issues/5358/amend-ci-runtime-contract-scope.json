@@ -1,0 +1,12 @@
+{
+  "issue": 5358,
+  "expected_generation": 34,
+  "expected_digest": "7145957b5d06f386c8a3946fb1468e4a6b504e149cd2029def4f698681b9d08c",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "add_protected_paths": [
+    "adl/tools/test_ci_runtime_contracts.sh"
+  ],
+  "reason": "Protect the single stale contract assertion that directly contradicts the already reviewed unconditional llvm-cov and nextest installation repair.",
+  "now_unix_seconds": 1784606279
+}

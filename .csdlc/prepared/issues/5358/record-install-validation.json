@@ -1,0 +1,22 @@
+{
+  "issue": 5358,
+  "card": "sor",
+  "expected_generation": 16,
+  "expected_digest": "e19f5f334337935fdf6e51b04a37d7c1cf49016ff446b6e0ae4c943993c64032",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+  "reason": "Record exact-revision stable C-SDLC v2 installation, provenance, coexistence, and selector verification.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "csdlc-install install --repo . --destination /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2",
+        "csdlc-install verify --repo . --bin-dir /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json",
+        "csdlc-install resolve --repo . --issue 5358"
+      ],
+      "purpose": "Deploy and prove the stable v2 binary set from exact head 2059e03007f7056b96a3f12ace7e018ee2f6153a, with v1_sunset coexistence and v2 selector authority.",
+      "outcome": "passed",
+      "evidence_ref": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/install-receipt.json"
+    }
+  }
+}
