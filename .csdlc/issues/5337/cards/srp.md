@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Exact #5337 implementation revision: adl-characterization source, corpus schema and fixtures, retained repeated v1 observations, normalizer contract, coverage map, tests, documentation, issue-local lifecycle/evidence, and all no-network/no-credential boundaries.
+adl-characterization
+.csdlc/issues/5337
+.csdlc/prepared/issues/5337
+.csdlc/evidence/5337
 
 ## Prompts
 
@@ -35,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Pre-tokenization stream bytes are not retained; captured-stream hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9042a20823f6b160377021542de19293cb724fc1:d1d5cf629d5c6c016b273d743eac3f9c5ce07401841cbd8d45931c543ea633ac")
 
-Reviewer: None
+Reviewer: Some("task:019f4b3e-6c61-7653-957b-7a2a6042a80d")
 
-Result: pre_review
+Result: pass

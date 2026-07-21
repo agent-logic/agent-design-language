@@ -3,13 +3,13 @@
   "issue": 5337,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1c296c01f1a17f4f5f4fdc6770511c4214792aa51221f9b2848501f03abab11e",
-  "phase": "implemented",
-  "generation": 47,
-  "digest": "a0b25bd5b76e9abc9c43f069ace801ef1df14ecf60dc327b059346c0af91bf9a",
+  "phase": "reviewed",
+  "generation": 49,
+  "digest": "4341a7e9b3ea7983ac2c1ea30dc0d14d8b9faa08b43228b7c5ba53b1757859ec",
   "claim": {
     "id": "claim-5337-v0918-wp03-implementation",
     "owner": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
-    "generation": 47,
+    "generation": 49,
     "acquired_unix_seconds": 1784585647,
     "expires_unix_seconds": 1785190447,
     "heartbeat_unix_seconds": 1784585647,
@@ -23,8 +23,33 @@
     ],
     "purpose": "Fully implement, validate, review, and publish issue #5337's independent pinned-v1 characterization corpus; keep integration blocked until PR #5599 merges"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "assigned_by": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+    "revision": "git-blake3:9042a20823f6b160377021542de19293cb724fc1:d1d5cf629d5c6c016b273d743eac3f9c5ce07401841cbd8d45931c543ea633ac",
+    "scope": [
+      "adl-characterization",
+      ".csdlc/issues/5337",
+      ".csdlc/prepared/issues/5337",
+      ".csdlc/evidence/5337"
+    ]
+  },
+  "review": {
+    "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "scope": [
+      "adl-characterization",
+      ".csdlc/issues/5337",
+      ".csdlc/prepared/issues/5337",
+      ".csdlc/evidence/5337"
+    ],
+    "reviewed_revision": "git-blake3:9042a20823f6b160377021542de19293cb724fc1:d1d5cf629d5c6c016b273d743eac3f9c5ce07401841cbd8d45931c543ea633ac",
+    "findings": [],
+    "residual_risks": [
+      "Pre-tokenization stream bytes are not retained; captured-stream hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "61aed27636a5fa8b4d168f67ecac346a3c5fb5c3830d0334b11a12bfca9ededf",
+      "values_digest": "ba83a603bff6eeb45b864b68ea7de8f5afdcd9b5918eda497aa2b1ebef85ba79",
       "rendered_digest": "a3e23ea6aa2fc61a99a804d8f1224bd9aa0f1c31b7d4e0d5a9f7508c80264e94",
       "ast_digest": "ed7b655823cb326d1c02f24d14cc120a818a119fc9cbe6a28d385c839b12dead"
     },
     "stp": {
-      "values_digest": "905cad739dff466823ff33e016e36b110ea5dc07d9486897d028d5860e191f3c",
+      "values_digest": "67f96c77f1a05b54307e3fe74f018ed2ce66700a5250a8c00950f5c9730aad8c",
       "rendered_digest": "4cdf1243cc2510c5fab05f620392100b36e013744d8c4bc5a8ddf93e72c48675",
       "ast_digest": "db44314a4da872b87fc4fa7bb8a45732bc6e719dcefaa5fc188ac0e2451a79b7"
     },
     "spp": {
-      "values_digest": "ac2973f3f8b535096dfa88b926549535dfd37d1aff6a4fe3b27dbc6d18d7f38b",
+      "values_digest": "f9ffd1f2b89a96de9ff40348a547f124df5563d977bd5b16ac9a4041136684a0",
       "rendered_digest": "40768381755cc083af2a38af30400f01206915a1d9b4322236b3607081813d63",
       "ast_digest": "b631288b2007b51ae3bf50fc78e21802b354008cc2b46f36ec28cd233fe0199a"
     },
     "vpp": {
-      "values_digest": "93f67cef110d66a64ce7d4fa60452c3abed6a68f22d47297bbce03e712b58e8e",
+      "values_digest": "529d4ec0bc8b28f86e084fc159fba4e036a3516ad83fab85e31bb66c4e59855a",
       "rendered_digest": "56ffb9fb26637127ec10296fde156dae2e324462788e426d603f04662d9a26fc",
       "ast_digest": "44d8f3ebd3229521b7ef29851f2d32592ad821cb911e551e8fc5b45c3eb76274"
     },
     "srp": {
-      "values_digest": "c610222e8f3a10bf30f9adc7cb8c87b8f3b8eabcb0ff4c1b7ce55c52df375474",
-      "rendered_digest": "40aec2a918815cfcc4a6cd56f13fe73a574b4e5796452214463887ccbeeba120",
-      "ast_digest": "09256047411e66a567878b421f8982bd2f3016ad5b86e366693747113e20f6c7"
+      "values_digest": "00aa458d7f279c635deb65ee04fc6b1b5de2c44469ec55915139ee8566167529",
+      "rendered_digest": "68e3551268d826accedbbd8e1785b80f48f5dde8b3db22208251641b3fc57e48",
+      "ast_digest": "0379867b0d6dbe54435ffde1e18aa6e2d4a61ee5ef8f3c5c795db177d1454f19"
     },
     "sor": {
-      "values_digest": "c751a99b9113232e0d9ab4321c371875cce61ec01aa6bd1b0562fbb8a0cdb8ca",
+      "values_digest": "24fc601f0475c400dad4c4f318dd672368327543b98fb9a71bde9d9d9141f002",
       "rendered_digest": "2e8f368d6b7f91b0c6c5925516d3a115536d4d3a92607c13092154eaff30691f",
       "ast_digest": "f5debd02c65657df5b98e55fec681a3ed71ec7433a5e70b9fcb1fb5cd489806d"
     }
@@ -90,6 +115,13 @@
       "to": "implemented",
       "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
       "reason": "Implementation and all local acceptance proof are complete at reviewed substantive revision 13f21e6bc; enter typed exact-revision review while publication remains gated on #5336."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Advance the clean assigned exact-revision review while retaining the explicit #5336 publication gate."
     }
   ],
   "audit": [
@@ -449,6 +481,27 @@
       "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
       "reason": "Implementation and all local acceptance proof are complete at reviewed substantive revision 13f21e6bc; enter typed exact-revision review while publication remains gated on #5336.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 52,
+      "generation": 47,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 48,
+      "actor": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 49,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Advance the clean assigned exact-revision review while retaining the explicit #5336 publication gate.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
