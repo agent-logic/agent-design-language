@@ -3,13 +3,13 @@
   "issue": 5358,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
-  "phase": "reviewed",
-  "generation": 21,
-  "digest": "ffe3f3de6c811adf0ec532addceafbe3354f850251dbaded203c12711e9323fb",
+  "phase": "published",
+  "generation": 22,
+  "digest": "37474df010ea91c9c12311c5f65e388bf39037e0759374cd3d2569f0cd240ecd",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
-    "generation": 21,
+    "generation": 22,
     "acquired_unix_seconds": 1784570058,
     "expires_unix_seconds": 1784656458,
     "heartbeat_unix_seconds": 1784570058,
@@ -51,7 +51,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5358,
+    "pull_request": 5606,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5606",
+    "base": "main",
+    "head": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+    "revision": "git-blake3:394a5c9d764e8a24b3bdf37f0f3ca4735ba878ac:19f3cded7ece1545a84050303cae44235dd6c9631769e2d9f9fcd18e103819c5",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f984936e2479273dbd0e2b553a3484cf0fcc42259a7717fb830975f57cf6e575",
+      "values_digest": "77c0c9477b3399eb5eed388413d6c0a9eee046fd96b6356706f86504ab862993",
       "rendered_digest": "9f21cc4775b8bbcabe2ff712dff752b2d4c68a2d270906044955ff2f2bd2cae9",
       "ast_digest": "b15fdebd7434d7b23dce44270f6f9a775eb0f1b870ccbd2afe88f37bda75a0cd"
     },
     "stp": {
-      "values_digest": "8f6695af89226f6932cdf31fd5499d978b7e23c916c834bb2ba8131ae82fd1ad",
+      "values_digest": "59b7cca4e1bdfdf8f9d6c1a41c08fe82af7eff55841de96615a30f5ebbfbbef2",
       "rendered_digest": "b5143b47908a8e957062f266a604edc85d25fe22d686363fa1e7b7acec6bd2f1",
       "ast_digest": "10cfdd266214a8019fae67f221034ad7724705ecc9f0ac27108946291688295b"
     },
     "spp": {
-      "values_digest": "4273f8405b68b4260388e02893bdd8309a58d3763d0aeafc44c449d15ec84a9d",
+      "values_digest": "f4ffb7618ba486ffc507736e2092dbcd53d91294731d0e325db8b9fc79e654ff",
       "rendered_digest": "0999e3f92a9ad15165802f7409a392b84aeac7e871e040721c197a0fe79b9f85",
       "ast_digest": "0f71821898d59f174e13eff6fd7cb68e552c6e5d9994d8b2b6aa513308777c95"
     },
     "vpp": {
-      "values_digest": "3c41975273381c9559c9f1c0e8e7c9efef89239fdbce7531b5cd883565dbaab9",
+      "values_digest": "ec1fd802222cf2419839a9ec23bda20b4a52ce90d2feb71d58311fda411874d7",
       "rendered_digest": "89805e2390eca8fc218075ccb9c7005350d3fdbfb6fe35bf1ec31d58561b7e73",
       "ast_digest": "15c75fc980fb0de8c59870880af59448adde13834d81df8a00163492c0fb8d29"
     },
     "srp": {
-      "values_digest": "1799d02b36dd658167a5fab4b5404b5f9eabbb272595d496a3f8c3597357b6ed",
+      "values_digest": "2f044938e56d210267092a120797cd02e00247c0dd3df93894ca4da4f89cdce4",
       "rendered_digest": "fbe86d31881a7e266a17b3f2c3cff93112ce17757fd97eabb24e3650c116e7b5",
       "ast_digest": "6ebfe55dd46bd944b660c8bab075b187ff7711e95b1e054c77227dbd05450945"
     },
     "sor": {
-      "values_digest": "309145d0a1e18c62c67e3ace994e5a0d88641c26c163978654b1b7d1bca8865d",
-      "rendered_digest": "362d9ea429551cccefc0fb3dad22524e2da69480f6bab561e0f8ab9987638510",
-      "ast_digest": "2598db450a39bb4e01129286957aa03da7c960e025a5317d6f0854b600ada650"
+      "values_digest": "746b260302216526748b17e508e73919b1a9180dc6e7c87f38008e8ade8d28db",
+      "rendered_digest": "a71943bf273d3c258a2e40916bbe80e657a1ae5def7b943c1f38242d5c484dae",
+      "ast_digest": "64bc2e3ab61624e707e76a5fa369c527b3e35d659c53d83a1a9853b204e605cf"
     }
   },
   "transitions": [
@@ -123,6 +133,13 @@
       "to": "reviewed",
       "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
       "reason": "Advance #5358 after exact assigned review completed with no actionable findings."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -314,6 +331,13 @@
       "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
       "reason": "Advance #5358 after exact assigned review completed with no actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
