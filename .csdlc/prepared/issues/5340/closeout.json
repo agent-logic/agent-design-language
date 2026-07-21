@@ -1,0 +1,12 @@
+{
+  "issue": 5340,
+  "expected_generation": 56,
+  "expected_digest": "c4a40458d72bbb17315e350359619f881722b0457afaa29a469b7674a30a0885",
+  "claim_id": "claim-5340-v0918-wp06-owner-watch",
+  "actor": "codex:5340-owner-watch",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5623,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": "/Users/daniel/keys/github.token"
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "csdlc.pvf.report.v1",
+  "disposition": "local_pass",
+  "selected_waves": [
+    [
+      "post-merge-exact"
+    ]
+  ],
+  "evidence": [
+    {
+      "lane": "post-merge-exact",
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/5340/validate-post-merge-lane.sh"
+      ],
+      "purpose": "Validate the exact observed merge SHA in a detached FastWork clone before closeout",
+      "status": "passed",
+      "duration_ms": 8865,
+      "log_ref": "post-merge-exact.log",
+      "redaction_ok": true,
+      "redactions_applied": 0,
+      "path_hygiene_ok": true
+    }
+  ],
+  "pull_request": 5623,
+  "reviewed_head_sha": "f38f662acb3988ef0704a54da055b14812c898d9",
+  "integration_sha": "19601faec54a53e8bab90af484f745bc4972f116"
+}

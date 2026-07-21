@@ -1,0 +1,19 @@
+{
+  "issue": 5340,
+  "card": "sor",
+  "expected_generation": 55,
+  "expected_digest": "56df860ed4559afa58440d71667e0c9833105b13f92783c7829dfb346157eb6f",
+  "claim_id": "claim-5340-v0918-wp06-owner-watch",
+  "actor": "codex:5340-owner-watch",
+  "reason": "Record mandatory detached FastWork validation of the exact merged integration tree.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", ".csdlc/prepared/issues/5340/validate-post-merge.rb"],
+      "purpose": "Prove the governed PR head is ancestral to the captured origin/main merge commit and the exact detached integration tree passes the bounded engine post-merge lane.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5340/post-merge-exact/report.json: reviewed_head_sha=f38f662acb3988ef0704a54da055b14812c898d9; integration_sha=19601faec54a53e8bab90af484f745bc4972f116; disposition=local_pass"
+    }
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.merged_publication_reconciliation_request.v1",
+  "pull_request": 5623,
+  "publication": {
+    "schema": "csdlc.publication_request.v1",
+    "issue": 5340,
+    "expected_generation": 54,
+    "expected_digest": "c358b1d6cd1fdf2031173a1baef7bc25fb5e024b16f1a9fdb14b1acb34d4c043",
+    "claim_id": "claim-5340-v0918-wp06-owner-watch",
+    "actor": "codex:5340-owner-watch",
+    "repository": "danielbaustin/agent-design-language",
+    "remote": "origin",
+    "base": "main",
+    "head": "codex/5340-v0918-wp06-portable-engine",
+    "title": "[v0.91.8][WP-06] Implement portable bounded execution engine",
+    "body": "Closes #5340\n\nIntroduces the independent portable `adl-engine` crate over the landed compiler contract, with deterministic bounded scheduling, joins, retry, cancellation, typed provider/tool ports, capped state materialization, and strict checkpoint resume through bounded canonical turn replay. It does not change Runtime v2/v3 or add external-I/O authority.\n\nAll four FastWork PVF lanes pass, including 28 tests, strict clippy, fixture execution, COTS/source-boundary proof, deterministic resume, and LoC/time budgets. Fresh exact-revision review fixed and closed all nine findings.",
+    "draft": false,
+    "token_file": "/Users/daniel/keys/github.token"
+  }
+}
