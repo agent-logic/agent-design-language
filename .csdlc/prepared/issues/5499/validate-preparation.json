@@ -37,6 +37,40 @@
         "evidence": {"max_log_bytes": 12000, "redact_values": [], "require_relative_paths": true}
       },
       {
+        "id": "dependency-gate",
+        "proof_role": "Terminal dependency and ancestry gate",
+        "purpose": "Fail closed until #5340, #5341, #5342, and final WP-09 gate #5349 are merged, typed closed_out, receipt-backed, and ancestral",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "future-conductor",
+        "release_gate": "optional",
+        "execution": "local",
+        "timeout_seconds": 60,
+        "executable": "ruby",
+        "argv": [".csdlc/prepared/issues/5499/check-dependencies.rb"],
+        "evidence": {"max_log_bytes": 12000, "redact_values": [], "require_relative_paths": true}
+      },
+      {
+        "id": "conductor-contract",
+        "proof_role": "Offline focused conductor tests and strict Clippy after dependency admission",
+        "purpose": "Retain the executable future product lane without selecting it during preparation",
+        "determinism": "deterministic",
+        "resources": {"cpu_units": 2, "memory_mib": 512, "tokens": 0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": ["dependency-gate"],
+        "parallel_group": "future-conductor",
+        "release_gate": "optional",
+        "execution": "local",
+        "timeout_seconds": 180,
+        "executable": "bash",
+        "argv": [".csdlc/prepared/issues/5499/validate-conductor.sh"],
+        "evidence": {"max_log_bytes": 12000, "redact_values": [], "require_relative_paths": true}
+      },
+      {
         "id": "diff-hygiene",
         "proof_role": "Preparation patch hygiene",
         "purpose": "Verify the #5499 preparation diff has no whitespace errors",
@@ -49,8 +83,8 @@
         "release_gate": "required",
         "execution": "local",
         "timeout_seconds": 60,
-        "executable": "git",
-        "argv": ["diff", "--check"],
+        "executable": "bash",
+        "argv": [".csdlc/prepared/issues/5499/check-preparation-diff.sh"],
         "evidence": {"max_log_bytes": 12000, "redact_values": [], "require_relative_paths": true}
       }
     ]
@@ -60,7 +94,7 @@
     "allow_network": false,
     "available_credentials": []
   },
-  "budget": {"max_parallel": 3, "cpu_units": 3, "memory_mib": 384, "tokens": 0},
+  "budget": {"max_parallel": 3, "cpu_units": 4, "memory_mib": 768, "tokens": 0},
   "root": ".",
   "evidence_dir": ".csdlc/prepared/issues/5499/validation/preparation",
   "cancellation_file": null

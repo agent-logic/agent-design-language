@@ -3,7 +3,7 @@
   "issue": 5499,
   "status": "pass",
   "phase": "bound",
-  "generation": 0,
+  "generation": 2,
   "ready": false,
   "findings": [],
   "next_operation": "inspect_phase"

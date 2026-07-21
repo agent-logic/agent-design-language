@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-10A][multi-agent] Implement issue-graph-to-live-task conductor",
     "slug": "v0-91-8-wp-10a-issue-graph-live-task-conductor",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 2
   },
   "status": "ready",
   "content": {
@@ -55,7 +55,7 @@
         },
         {
           "lane": "conductor-contract",
-          "proof_role": "Run focused all-target conductor tests and strict Clippy from FastWork after the dependency gate opens",
+          "proof_role": "Run offline focused all-target conductor tests and strict Clippy from FastWork after the dependency gate opens",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -74,11 +74,11 @@
             ".csdlc/prepared/issues/5499/validate-conductor.sh"
           ],
           "parallel_group": "conductor-local",
-          "defer_reason": null
+          "defer_reason": "Preparation only: do not select until #5340, #5341, #5342, and final WP-09 gate #5349 are merged, typed closed_out, receipt-backed, and ancestral, and the product manifest exists"
         },
         {
           "lane": "diff-hygiene",
-          "proof_role": "Verify exact issue-branch patch hygiene",
+          "proof_role": "Verify the exact committed issue-branch patch from its recorded base through HEAD",
           "acceptance_ids": [
             "AC-7"
           ],
@@ -87,9 +87,8 @@
           "budget_seconds": 60,
           "budget_tokens": 1000,
           "argv": [
-            "git",
-            "diff",
-            "--check"
+            "bash",
+            ".csdlc/prepared/issues/5499/check-preparation-diff.sh"
           ],
           "parallel_group": "local-control",
           "defer_reason": null
@@ -99,7 +98,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on missing or stale lifecycle input, unresolved or cyclic dependencies, unknown lanes, WIP overflow, path overlap, ambiguous authority, nondeterministic output, absent retained receipts, or budget breach; never convert blocked preparation into product authority.",
       "design_ref": ".csdlc/prepared/issues/5499/design.md",
-      "design_digest": "9427e6ecb1d3fe5155e81b77843333f026c7ce1779d8559bd5708af0887ac099",
+      "design_digest": "808a27103da870697efd0b927a2dabc699c5bccc42a58f85d3bbf287743b86f4",
       "diagram_ref": ".csdlc/prepared/issues/5499/diagram.mmd",
       "diagram_digest": "f271df2d7413ad573a07bea66b13ffcbe5151f8c273d26aa9c64dc0ef426849e"
     }

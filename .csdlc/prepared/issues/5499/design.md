@@ -107,6 +107,12 @@ exception; the 20K repository ceiling is not authority for growth here.
    serialization gates, and content-derived correlation ids.
 4. Strict Clippy, format, line/test budgets, diff hygiene, and exact-revision
    subagent review complete before publication.
+5. The future conductor lane is retained in the network-denied PVF manifest but
+   remains unselected and explicitly deferred until every dependency gate is
+   terminal and the product manifest exists. Its Cargo commands use `--offline`
+   so a missing same-host cache fails closed instead of reaching the network.
+6. Preparation diff hygiene compares the recorded issue base to exact `HEAD`,
+   rather than treating a clean working tree as proof of the committed patch.
 
 ## Non-Goals
 

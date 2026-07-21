@@ -3,7 +3,7 @@
   "repository": "danielbaustin/agent-design-language",
   "design_path": ".csdlc/prepared/issues/5499/design.md",
   "diagram_path": ".csdlc/prepared/issues/5499/diagram.mmd",
-  "design_reviewer": "codex:issue-5499-preparation",
+  "design_reviewer": "subagent:019f8612-1b9a-7cf0-9ac1-016f112ea7f6",
   "design_approved": true,
   "claim": {
     "id": "claim-5499-v0918-wp10a-conductor-preparation",
@@ -185,7 +185,8 @@
         "budget_seconds": 180,
         "budget_tokens": 4000,
         "argv": ["bash", ".csdlc/prepared/issues/5499/validate-conductor.sh"],
-        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"]
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "defer_reason": "Preparation only: do not select until #5340, #5341, #5342, and final WP-09 gate #5349 are merged, typed closed_out, receipt-backed, and ancestral, and the product manifest exists"
       },
       {
         "lane": "diff-hygiene",
@@ -195,7 +196,7 @@
         "parallel_group": "local-control",
         "budget_seconds": 60,
         "budget_tokens": 1000,
-        "argv": ["git", "diff", "--check"],
+        "argv": ["bash", ".csdlc/prepared/issues/5499/check-preparation-diff.sh"],
         "acceptance_ids": ["AC-7"]
       }
     ],

@@ -10,5 +10,5 @@ if [[ ! -f "$manifest" ]]; then
 fi
 
 target_dir="${CARGO_TARGET_DIR:-/Volumes/FastWork/adl-5499/conductor-target}"
-cargo test --locked --manifest-path "$manifest" --target-dir "$target_dir" --all-targets
-cargo clippy --locked --manifest-path "$manifest" --target-dir "$target_dir" --all-targets -- -D warnings
+cargo test --locked --offline --manifest-path "$manifest" --target-dir "$target_dir" --all-targets
+cargo clippy --locked --offline --manifest-path "$manifest" --target-dir "$target_dir" --all-targets -- -D warnings

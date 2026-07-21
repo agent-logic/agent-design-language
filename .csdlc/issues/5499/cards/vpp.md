@@ -63,7 +63,7 @@ Diagram: .csdlc/prepared/issues/5499/diagram.mmd
   },
   {
     "lane": "conductor-contract",
-    "proof_role": "Run focused all-target conductor tests and strict Clippy from FastWork after the dependency gate opens",
+    "proof_role": "Run offline focused all-target conductor tests and strict Clippy from FastWork after the dependency gate opens",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -82,11 +82,11 @@ Diagram: .csdlc/prepared/issues/5499/diagram.mmd
       ".csdlc/prepared/issues/5499/validate-conductor.sh"
     ],
     "parallel_group": "conductor-local",
-    "defer_reason": null
+    "defer_reason": "Preparation only: do not select until #5340, #5341, #5342, and final WP-09 gate #5349 are merged, typed closed_out, receipt-backed, and ancestral, and the product manifest exists"
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Verify exact issue-branch patch hygiene",
+    "proof_role": "Verify the exact committed issue-branch patch from its recorded base through HEAD",
     "acceptance_ids": [
       "AC-7"
     ],
@@ -95,9 +95,8 @@ Diagram: .csdlc/prepared/issues/5499/diagram.mmd
     "budget_seconds": 60,
     "budget_tokens": 1000,
     "argv": [
-      "git",
-      "diff",
-      "--check"
+      "bash",
+      ".csdlc/prepared/issues/5499/check-preparation-diff.sh"
     ],
     "parallel_group": "local-control",
     "defer_reason": null
@@ -119,7 +118,7 @@ Tokens: 25000
 - `ruby .csdlc/prepared/issues/5499/validate-preparation.rb`
 - `ruby .csdlc/prepared/issues/5499/check-dependencies.rb`
 - `bash .csdlc/prepared/issues/5499/validate-conductor.sh`
-- `git diff --check`
+- `bash .csdlc/prepared/issues/5499/check-preparation-diff.sh`
 
 ## Failure Semantics
 
