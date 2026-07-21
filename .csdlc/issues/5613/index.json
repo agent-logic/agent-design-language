@@ -3,13 +3,13 @@
   "issue": 5613,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "07b04572fcd246d29c269aaca54e7008ed6db05c08914a976a6f6a506f7fb4fc",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "1247b6bc1234206ff619db5f117e9eb54edb25722a24e50c90dedf1cb257877d",
+  "phase": "published",
+  "generation": 13,
+  "digest": "37ac9a43b4aab3059ad6954da5249ec010c62a0f29813a6697202f3f7e095ee3",
   "claim": {
     "id": "claim-5613-terminal-projection-repair",
     "owner": "codex:issue-5613-owner",
-    "generation": 11,
+    "generation": 13,
     "acquired_unix_seconds": 1784664530,
     "expires_unix_seconds": 1784750930,
     "heartbeat_unix_seconds": 1784664530,
@@ -83,7 +83,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5613,
+    "pull_request": 5619,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5619",
+    "base": "main",
+    "head": "codex/5613-terminal-projection-repair",
+    "revision": "git-blake3:b04845b033b454a482eaa35bd96b91c83d0cc6dc:20b50a58c95354bfa12ad61c90ec5e94e0ca67cc29275141c565f77233b13d4f",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -97,34 +107,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "acc95ec236866049653c5f729d9808d39fbd55bc282bfa2126eb85023d3db39c",
+      "values_digest": "861b649a669a14829728beeee12c78708581901c4ddd4e4bed7249e8275413c7",
       "rendered_digest": "f8f4aa970408ca8f1fe60b054b7d34d9f88123250e16914f7e7aba78ad683dfd",
       "ast_digest": "f9a6244d35d0fb37415150cf8a36f8a70891272c91190ce4f1d01a88bcc41e9b"
     },
     "stp": {
-      "values_digest": "47be2a04c732eed5fabfd03000dc3ac6d4e3a67d514be087f087271b12b19e07",
+      "values_digest": "04f9a2cccf47ca389b1912140735550a64ccf94269448d4666b464b7b3e4c6e6",
       "rendered_digest": "c29e9fca09e5cea67cc5179e8c2230241229c7cc16657be74f9fda3e12078f9b",
       "ast_digest": "22451a3da261805337710bbb8001f93e836f0798c667b074a38aeba8fb29b937"
     },
     "spp": {
-      "values_digest": "a20a702087de0e480b1f9cd1d30177f0e1ef6c21459b5c7063cbccc9349164c2",
+      "values_digest": "37e7a550ff7c8abdfdec6fbf8987c2057fc325bb111b7455ef0814cdc052b591",
       "rendered_digest": "7ef6d172a897ebeb07f0157f6971e47031518ef9a151fac5572f2f4eac82801d",
       "ast_digest": "7131b33ab141adc7e9d660bb81d1b50052389ee785172b0fb7a30841c150bd34"
     },
     "vpp": {
-      "values_digest": "991b1a623db28fd24300a86ca605495514344b0ed2ba0314107639b2355d173d",
+      "values_digest": "d460485234c2439178d4972a14deefc3597246406c54504509672f1fa828c429",
       "rendered_digest": "a63e75aa9d960a9dd351b9d5fcdada6d9d8ddf1d4883d017f077210c0c97bbdd",
       "ast_digest": "512c378b68fc8a7f65a92151d6929af88481f44ee9bf1668a87418e9d77a6630"
     },
     "srp": {
-      "values_digest": "b1dbb51365535c923aa8cc6c6565cf44291b6781fcfc3bc1824c2eedf56a7f06",
+      "values_digest": "ffa7eae16cfb862c61f5d0141236aaacdd21c2d72c87f101e5f37b361c8b3f9e",
       "rendered_digest": "d1e8c4cf0443ac2fbfef0d0a4ac87369aae64a97e7dbd23ed35aa02b7d2d3338",
       "ast_digest": "db0b21f32f957fccd4bf6b5f320708b0b502f1797ba24bb2f30f93bf6f373f28"
     },
     "sor": {
-      "values_digest": "9da33c4b2708e44de74c29af519a25614d0696e8e2327d11fc77b4c7ced24ea0",
-      "rendered_digest": "06afab4b58344d68d6135a46b5d90a97bbc1f62141a57cb22e4c261fbe00e0d3",
-      "ast_digest": "20fbb62d55d8d0c26dc59d21ce07c73288c3b3964f8a19d2b5bbff82bddb2702"
+      "values_digest": "a05c2ccb9a30e1f65a33adc09fdcc7740f691752cdb618e13b07059d91ab7dc0",
+      "rendered_digest": "a1021e24ba7bbf2e20039217ff97c8e2d9acc56f976a7eef1db9c92f68d35d5b",
+      "ast_digest": "076fa093c9284592d15277c68108ca84a1133d832ab6a65e1d47d8bb4d294849"
     }
   },
   "transitions": [
@@ -155,6 +165,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5613-owner",
       "reason": "Exact product and assigned scoped-revision reviews passed with zero findings after all concrete portability findings were fixed."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5613-owner",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -262,6 +279,20 @@
       "actor": "codex:issue-5613-owner",
       "reason": "Exact product and assigned scoped-revision reviews passed with zero findings after all concrete portability findings were fixed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:issue-5613-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:issue-5613-owner",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
     }
   ]
 }
