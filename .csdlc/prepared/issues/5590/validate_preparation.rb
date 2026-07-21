@@ -6,6 +6,7 @@ require "json"
 issue = 5590
 base = "6d0f6115632a06619544b8ad4792792e741f1f31"
 reviewed_head = "2f26da4455efd4dfc7ab6c65df5d19327fe765c8"
+substantive_repair_head = "f2eda77cf6a36d9a07d7d64041d8eae99b18239b"
 kinds = %w[sip stp spp vpp srp sor]
 cards = kinds.to_h do |kind|
   path = ".csdlc/issues/#{issue}/cards/#{kind}.values.json"
@@ -44,10 +45,17 @@ abort "claim is not preparation-only" unless claim.fetch("protected_paths").sort
 abort "claim purpose omits implementation gate" unless claim.fetch("purpose").include?("without product edits")
 
 abort "reviewed head does not descend from exact base" unless system("git", "merge-base", "--is-ancestor", base, reviewed_head)
-abort "current head does not descend from reviewed head" unless system("git", "merge-base", "--is-ancestor", reviewed_head, "HEAD")
+abort "substantive repair head does not descend from reviewed head" unless system("git", "merge-base", "--is-ancestor", reviewed_head, substantive_repair_head)
+abort "current head does not descend from substantive repair head" unless system("git", "merge-base", "--is-ancestor", substantive_repair_head, "HEAD")
 binding = JSON.parse(File.read(".csdlc/prepared/issues/5590/revision-binding.json"))
 abort "revision binding base drift" unless binding.fetch("exact_base") == base
 abort "revision binding reviewed-head drift" unless binding.fetch("first_reviewed_head") == reviewed_head
+abort "revision binding repair-head drift" unless binding.fetch("substantive_repair_head") == substantive_repair_head
+range_proof = binding.fetch("range_proof")
+abort "revision range drift" unless range_proof.fetch("range") == "#{base}..#{substantive_repair_head}"
+abort "revision inventory drift" unless range_proof.fetch("changed_path_inventory") == ".csdlc/prepared/issues/5590/revision-scope-inventory.txt"
+abort "revision proof is not fail closed" unless range_proof.fetch("requires_non_empty_range") && range_proof.fetch("requires_range_bound_diff_check")
+abort "substantive/evidence boundary missing" unless binding.dig("boundaries", "substantive")&.include?("f2eda77") && binding.dig("boundaries", "evidence_only")&.include?("re-review target")
 constraints = cards.fetch("sip").fetch("operator_constraints").join("\n")
 dependencies = cards.fetch("stp").fetch("dependencies").join("\n")
 abort "exact base missing" unless constraints.include?(base) && dependencies.include?(base)
@@ -77,5 +85,7 @@ abort "S1 not complete" unless cards.fetch("spp").fetch("steps").find { |step| s
 forbidden = %w[adl-runtime adl-runtime-kernel infra/runtime-v3 demos/v0.91.7/html-observatory]
 abort "product path protected prematurely" if claim.fetch("protected_paths").any? { |path| forbidden.include?(path) }
 abort "guard contract test missing" unless File.file?(".csdlc/prepared/issues/5590/test_preparation_guards.sh")
+abort "revision scope proof missing" unless File.file?(".csdlc/prepared/issues/5590/run_revision_scope_proof.sh")
+abort "revision inventory missing" unless File.file?(".csdlc/prepared/issues/5590/revision-scope-inventory.txt")
 
-puts "cards=6 generation=#{generations.first} acceptance=8 steps=complete lanes=complete deferrals=0 claim=preparation-only base=#{base} reviewed_head=#{reviewed_head}"
+puts "cards=6 generation=#{generations.first} acceptance=8 steps=complete lanes=complete deferrals=0 claim=preparation-only base=#{base} reviewed_head=#{reviewed_head} substantive_repair_head=#{substantive_repair_head}"

@@ -54,9 +54,9 @@
         "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
       },
       {
-        "id": "diff-hygiene",
-        "proof_role": "Preparation patch hygiene",
-        "purpose": "Prove the preparation packet has no whitespace errors",
+        "id": "revision-scope-proof",
+        "proof_role": "Exact non-empty base-through-repair revision and path-scope proof",
+        "purpose": "Prove the full base-through-f2eda77 preparation range exactly matches its retained path inventory, stays in #5590 scope, and passes range-bound whitespace validation",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
         "credentials": [],
@@ -67,13 +67,13 @@
         "execution": "local",
         "timeout_seconds": 60,
         "executable": "/usr/bin/env",
-        "argv": ["git", "diff", "--check"],
+        "argv": ["bash", ".csdlc/prepared/issues/5590/run_revision_scope_proof.sh", "6d0f6115632a06619544b8ad4792792e741f1f31", "f2eda77cf6a36d9a07d7d64041d8eae99b18239b", ".csdlc/prepared/issues/5590/revision-scope-inventory.txt"],
         "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
       }
     ]
   },
   "selection": {
-    "requested_lanes": ["typed-doctor", "complete-card-contract", "preparation-guard-contracts", "diff-hygiene"],
+    "requested_lanes": ["typed-doctor", "complete-card-contract", "preparation-guard-contracts", "revision-scope-proof"],
     "allow_network": false,
     "available_credentials": []
   },
