@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Fix all exact-review routing and external-build-root findings without widening issue scope.
+Initialize the standalone C-SDLC v2 external Cargo root inside a run step using RUNNER_TEMP and export it through GITHUB_ENV.
 
 ## Artifacts
 
@@ -28,6 +28,8 @@ Fix all exact-review routing and external-build-root findings without widening i
 - adl/tools/run_cargo_validation.sh
 - adl/tools/test_ci_path_policy.sh
 - adl/tools/test_run_cargo_validation.sh
+- .github/workflows/ci.yaml
+- adl/tools/test_ci_runtime_contracts.sh
 
 ## Execution
 
@@ -40,6 +42,10 @@ Fix all exact-review routing and external-build-root findings without widening i
 - Compose standalone C-SDLC v2 and Runtime v3 focused lanes for mixed changes
 - Reject pre-created Cargo child symlinks and require canonical child containment
 - Add exact operator-path, mixed-lane, and symlink-escape regressions
+- Remove the invalid runner.temp expression from job-level env
+- Create the external Cargo root in the preparation step from RUNNER_TEMP
+- Export ADL_CARGO_BUILD_ROOT through GITHUB_ENV for later steps
+- Add a contract rejecting runner.temp at standalone job scope
 
 ## Validation
 
@@ -88,16 +94,32 @@ Fix all exact-review routing and external-build-root findings without widening i
     "purpose": "Prove selector/classifier agreement, compositional Runtime routing, child-symlink rejection, and the complete C-SDLC v2 test/fmt/strict-Clippy lane on FastWork.",
     "outcome": "passed",
     "evidence_ref": "issue-5615:exact-review-remediation:focused-and-standalone-pass"
+  },
+  {
+    "command": [
+      "ruby",
+      "-e",
+      "YAML.safe_load(File.read('.github/workflows/ci.yaml'), permitted_classes: [Date], aliases: true)",
+      "&&",
+      "bash",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "&&",
+      "bash",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "purpose": "Prove the workflow parses, the standalone build root is initialized through RUNNER_TEMP and GITHUB_ENV, and the stable CI contract remains fail closed.",
+    "outcome": "passed",
+    "evidence_ref": "issue-5615:workflow-expression-repair:yaml-and-contracts-pass"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

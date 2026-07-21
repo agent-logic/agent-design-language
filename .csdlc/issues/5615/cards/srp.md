@@ -8,21 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/evidence/5615
-.csdlc/issues/5615
-.csdlc/prepared/issues/5615
-.github/workflows/ci.yaml
-adl/config/validation_lane_selector.v0.91.6.json
-adl/tools/ci_path_policy.sh
-adl/tools/run_cargo_validation.sh
-adl/tools/test_ci_path_policy.sh
-adl/tools/test_ci_runtime_contracts.sh
-adl/tools/test_run_cargo_validation.sh
-adl/tools/test_select_validation_lanes.sh
+
 
 ## Prompts
 
@@ -46,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:08cbee2374af24474a4c1daac2dd4398d25b7c4d:f091bd59b2abc98c2edaa44bf5e9c0ad84d792332bf03dcfcd947bc8f1f94c52")
+Revision: None
 
-Reviewer: Some("subagent:019f86c0-2ed0-7783-9f63-bb0dc38861ae")
+Reviewer: None
 
-Result: pass
+Result: pre_review

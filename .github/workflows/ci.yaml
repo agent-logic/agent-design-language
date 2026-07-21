@@ -114,8 +114,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    env:
-      ADL_CARGO_BUILD_ROOT: ${{ runner.temp }}/adl-csdlc-v2
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
@@ -127,7 +125,10 @@ jobs:
           components: rustfmt, clippy
 
       - name: Prepare external Cargo build root
-        run: mkdir -p "$ADL_CARGO_BUILD_ROOT"
+        run: |
+          build_root="$RUNNER_TEMP/adl-csdlc-v2"
+          mkdir -p "$build_root"
+          echo "ADL_CARGO_BUILD_ROOT=$build_root" >> "$GITHUB_ENV"
 
       - name: C-SDLC v2 tests
         run: bash adl/tools/run_cargo_validation.sh cargo test --locked --manifest-path csdlc-v2/Cargo.toml

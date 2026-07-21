@@ -7,15 +7,15 @@
     "title": "[v0.91.8][ci][tooling] Route C-SDLC proof and FastWork builds correctly",
     "slug": "csdlc-ci-fastwork-routing",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 16
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/5615\n.csdlc/issues/5615\n.csdlc/prepared/issues/5615\n.github/workflows/ci.yaml\nadl/config/validation_lane_selector.v0.91.6.json\nadl/tools/ci_path_policy.sh\nadl/tools/run_cargo_validation.sh\nadl/tools/test_ci_path_policy.sh\nadl/tools/test_ci_runtime_contracts.sh\nadl/tools/test_run_cargo_validation.sh\nadl/tools/test_select_validation_lanes.sh",
-      "review_revision": "git-blake3:08cbee2374af24474a4c1daac2dd4398d25b7c4d:f091bd59b2abc98c2edaa44bf5e9c0ad84d792332bf03dcfcd947bc8f1f94c52",
-      "reviewer": "subagent:019f86c0-2ed0-7783-9f63-bb0dc38861ae",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can a C-SDLC v2 source/test diff report green if its standalone job is absent or skipped?",
         "Can metadata-only or C-SDLC-only changes launch ADL workspace or Runtime coverage?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }
