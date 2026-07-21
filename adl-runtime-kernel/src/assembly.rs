@@ -103,6 +103,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
                 AuthorityMode::Internal
             },
         };
+        let domain_work_allowed = policy.authority == AuthorityMode::Internal;
         let adapter = Arc::new(OperationalAdapter::with_permit_keys(
             kind,
             policy,
@@ -115,9 +116,11 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
             .map(|dependency| ComponentId::new(dependency.service_name()))
             .collect();
         let factory = OperationalFactory::new(adapter.clone(), ids);
-        ingress_dispatchers.insert(kind.service_name().to_owned(), factory.clone());
-        if kind == AdapterKind::Agent {
-            ingress_dispatchers.insert("parity-a".to_owned(), factory.clone());
+        if domain_work_allowed {
+            ingress_dispatchers.insert(kind.service_name().to_owned(), factory.clone());
+            if kind == AdapterKind::Agent {
+                ingress_dispatchers.insert("parity-a".to_owned(), factory.clone());
+            }
         }
         registrations.push((Arc::new(factory), adapter.contract(kinds)));
     }

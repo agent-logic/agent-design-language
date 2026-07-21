@@ -367,41 +367,38 @@ async fn main() -> ExitCode {
                 },
                 };
 
+                let standard_deadline = std::time::Duration::from_secs(5);
+                let shutdown_grace = std::time::Duration::from_secs(10);
                 let (label, deadline, grace, retry_pressure, mut request) = match trigger {
                     TerminalTrigger::Pressure => (
                         "pressure",
                         pressure_checkpoint_deadline,
-                        std::time::Duration::from_secs(10),
+                        shutdown_grace,
                         true,
                         None,
                     ),
-                    TerminalTrigger::Signal => (
-                        "signal",
-                        std::time::Duration::from_secs(5),
-                        std::time::Duration::from_secs(10),
-                        false,
-                        None,
-                    ),
+                    TerminalTrigger::Signal => {
+                        ("signal", standard_deadline, shutdown_grace, false, None)
+                    }
                     TerminalTrigger::Signed(request) => (
                         "signed",
-                        std::time::Duration::from_secs(5),
+                        standard_deadline,
                         request.grace,
                         false,
                         Some(request),
                     ),
                 };
-                let terminal_result = match service.close_admission_and_drain(deadline).await {
-                    Ok(()) => continuity
-                        .checkpoint(&recorder, deadline)
-                        .await
-                        .map(|_| ())
-                        .map_err(|error| format!("continuity checkpoint: {error}")),
-                    Err(error) => Err(format!("admission drain: {error}")),
-                };
+                let terminal_result = service
+                    .serialize_terminal_checkpoint(&mut continuity, deadline)
+                    .await;
                 if let Err(error) = terminal_result {
                     if retry_pressure {
                         eprintln!("runtime pressure continuity checkpoint failed: {error}");
-                        service.reopen_admission();
+                        if !service.reopen_admission_if_no_terminal() {
+                            eprintln!(
+                                "event=resource_pressure_wait reason=terminal_request_pending"
+                            );
+                        }
                         pressure_retry_at = Some(
                             tokio::time::Instant::now()
                                 + std::time::Duration::from_millis(init.weather.sample_millis),

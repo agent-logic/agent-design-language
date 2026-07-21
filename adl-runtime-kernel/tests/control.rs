@@ -10,13 +10,13 @@ use std::{
 use adl_runtime_kernel::{
     channel, load_control_tls, serve_control_listener, serve_control_listener_until,
     serve_control_listener_until_ready, write_observability_event, write_payload, AdapterKind,
-    AdapterPolicy, AuthorityMode, CanonicalIngress, ClockAuthority, ComponentId, ComponentRegistry,
-    ContinuityHead, ControlAction, ControlAuthority, ControlCapability, ControlError, ControlExit,
-    ControlObservabilityEvent, ControlOutcome, ControlService, DiskWeather, DomainWork,
-    ExecutorError, Kernel, KernelExit, LifecycleControl, LiveContinuity, LiveKernelSnapshot,
-    ObservabilityDegradation, ObservabilityHealth, Observation, OperationExecutor,
-    OperationRequest, OperationalAdapter, OperationalFactory, ResourceState, RuntimeEvent,
-    RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand,
+    AdapterPolicy, AuthorityMode, CanonicalIngress, CheckpointingControl, ClockAuthority,
+    ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlAuthority,
+    ControlCapability, ControlError, ControlExit, ControlObservabilityEvent, ControlOutcome,
+    ControlService, DiskWeather, DomainWork, ExecutorError, Kernel, KernelExit, LifecycleControl,
+    LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, Observation,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, ResourceState,
+    RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand,
     TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample, DOMAIN_WORK_SCHEMA,
 };
 use async_trait::async_trait;
@@ -86,6 +86,11 @@ struct BlockingLifecycle {
 
 struct EchoExecutor;
 
+struct DelayedExecutor {
+    started: Arc<Notify>,
+    release: Arc<Notify>,
+}
+
 #[async_trait]
 impl OperationExecutor for EchoExecutor {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
@@ -93,9 +98,26 @@ impl OperationExecutor for EchoExecutor {
     }
 }
 
+#[async_trait]
+impl OperationExecutor for DelayedExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.started.notify_one();
+        self.release.notified().await;
+        Ok(request.payload.clone())
+    }
+}
+
 fn test_ingress(
     capacity: usize,
     recorder: RuntimeRecorder,
+) -> (CanonicalIngress, OperationalFactory) {
+    test_ingress_with(capacity, recorder, Arc::new(EchoExecutor))
+}
+
+fn test_ingress_with(
+    capacity: usize,
+    recorder: RuntimeRecorder,
+    executor: Arc<dyn OperationExecutor>,
 ) -> (CanonicalIngress, OperationalFactory) {
     let adapter = Arc::new(
         OperationalAdapter::new(
@@ -108,7 +130,7 @@ fn test_ingress(
                 idempotency_entries: 16,
                 authority: AuthorityMode::Internal,
             },
-            Arc::new(EchoExecutor),
+            executor,
         )
         .unwrap(),
     );
@@ -330,6 +352,102 @@ async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
 }
 
 #[tokio::test]
+async fn terminal_serialization_drains_accepted_work_into_checkpoint() {
+    let root = tempfile::tempdir().unwrap();
+    let key = SigningKey::from_bytes(&[38; 32]);
+    let recorder = RuntimeRecorder::new(32);
+    let started = Arc::new(Notify::new());
+    let release = Arc::new(Notify::new());
+    let (ingress, operation) = test_ingress_with(
+        2,
+        recorder.clone(),
+        Arc::new(DelayedExecutor {
+            started: started.clone(),
+            release: release.clone(),
+        }),
+    );
+    let mut registry = ComponentRegistry::new();
+    registry.register(operation);
+    registry.register(ingress.clone());
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    let service = Arc::new(
+        ControlService::new(
+            "instance-1",
+            recorder,
+            handle.control(),
+            authority(&key, [ControlCapability::Read, ControlCapability::Execute]),
+            8,
+        )
+        .with_canonical_ingress(ingress.clone()),
+    );
+    let accepted = {
+        let service = service.clone();
+        let submit_key = key.clone();
+        tokio::spawn(async move {
+            service
+                .execute(signed(
+                    &submit_key,
+                    "accepted-before-terminal",
+                    ControlAction::Submit {
+                        work: DomainWork {
+                            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                            work_id: "accepted-before-terminal".to_owned(),
+                            kind: "parity-a".to_owned(),
+                            payload: b"delayed-terminal-work".to_vec(),
+                        },
+                    },
+                ))
+                .await
+        })
+    };
+    started.notified().await;
+    let identity = LiveKernelSnapshot::new(
+        blake3::hash(b"terminal-topology").to_hex().to_string(),
+        blake3::hash(b"terminal-config").to_hex().to_string(),
+        BTreeMap::new(),
+    );
+    let mut continuity = LiveContinuity::new(root.path(), "live", &[42; 32], identity, 0)
+        .with_canonical_ingress(ingress);
+    let terminal = service.serialize_terminal_checkpoint(&mut continuity, Duration::from_secs(1));
+    tokio::pin!(terminal);
+    assert!(
+        tokio::time::timeout(Duration::from_millis(10), terminal.as_mut())
+            .await
+            .is_err()
+    );
+    assert!(!root.path().join("generation-1").exists());
+    assert_eq!(
+        service
+            .execute(signed(&key, "late-terminal-read", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
+    release.notify_one();
+    let response = accepted.await.unwrap().unwrap();
+    let ControlOutcome::Submitted { work_result } = response.outcome else {
+        panic!("submit outcome")
+    };
+    assert_eq!(work_result.accepted_sequence, 1);
+    terminal.await.unwrap();
+    let checkpoint: serde_json::Value = serde_json::from_slice(
+        &tokio::fs::read(root.path().join("generation-1/0000-live_kernel.bin"))
+            .await
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(checkpoint["ingress"]["accepted_through"], 1);
+    assert!(checkpoint["ingress"]["completed"]["accepted-before-terminal"].is_object());
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+#[tokio::test]
 async fn snapshot_is_revisioned_and_contains_complete_health_state() {
     let recorder = RuntimeRecorder::new(8);
     recorder.set_topology_generation(9);
@@ -464,11 +582,56 @@ async fn pressure_admission_gate_refuses_new_commands_until_reopened() {
             .unwrap_err(),
         ControlError::AdmissionClosed
     );
-    service.reopen_admission();
+    assert!(service.reopen_admission_if_no_terminal());
     service
         .execute(signed(&key, "read-open", ControlAction::Snapshot))
         .await
         .unwrap();
+}
+
+#[tokio::test]
+async fn pressure_cannot_reopen_after_signed_shutdown_is_enqueued() {
+    let key = SigningKey::from_bytes(&[32; 32]);
+    let (lifecycle, mut requests) = CheckpointingControl::channel(1);
+    let service = Arc::new(ControlService::new(
+        "instance-1",
+        RuntimeRecorder::new(4),
+        lifecycle,
+        authority(&key, [ControlCapability::Read, ControlCapability::Stop]),
+        4,
+    ));
+    let shutdown = {
+        let service = service.clone();
+        let shutdown_key = key.clone();
+        tokio::spawn(async move {
+            service
+                .execute(signed(
+                    &shutdown_key,
+                    "signed-terminal-race",
+                    ControlAction::Shutdown { grace_millis: 50 },
+                ))
+                .await
+        })
+    };
+    let request = tokio::time::timeout(Duration::from_secs(1), requests.recv())
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(!service.reopen_admission_if_no_terminal());
+    assert_eq!(
+        service
+            .execute(signed(&key, "read-terminal-race", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
+    request.respond(Err(()));
+    assert_eq!(
+        shutdown.await.unwrap().unwrap().outcome,
+        ControlOutcome::Shutdown {
+            exit: ControlExit::Failed
+        }
+    );
 }
 
 #[tokio::test]

@@ -77,26 +77,19 @@ pub struct CanonicalIngress {
     dispatchers: Arc<BTreeMap<String, OperationalFactory>>,
 }
 
-#[derive(Default)]
 struct AdmissionState {
     open: bool,
     active: usize,
 }
 
-struct AdmissionLease {
-    admission: Arc<Mutex<AdmissionState>>,
-    drained: Arc<Notify>,
-}
+struct AdmissionLease(Arc<Mutex<AdmissionState>>, Arc<Notify>);
 
 impl Drop for AdmissionLease {
     fn drop(&mut self) {
-        let mut admission = self
-            .admission
-            .lock()
-            .expect("ingress admission mutex poisoned");
+        let mut admission = self.0.lock().expect("ingress admission mutex poisoned");
         admission.active = admission.active.saturating_sub(1);
         if admission.active == 0 {
-            self.drained.notify_one();
+            self.1.notify_one();
         }
     }
 }
@@ -164,9 +157,6 @@ impl CanonicalIngress {
             .lock()
             .expect("ingress admission mutex poisoned");
         admission.open = false;
-        if admission.active == 0 {
-            self.drained.notify_one();
-        }
     }
 
     pub async fn close_and_drain(&self, deadline: Duration) -> Result<(), IngressError> {
@@ -174,13 +164,12 @@ impl CanonicalIngress {
         tokio::time::timeout(deadline, async {
             loop {
                 let drained = self.drained.notified();
-                if self
+                let active = self
                     .admission
                     .lock()
                     .expect("ingress admission mutex poisoned")
-                    .active
-                    == 0
-                {
+                    .active;
+                if active == 0 {
                     return;
                 }
                 drained.await;
@@ -206,11 +195,29 @@ impl CanonicalIngress {
             return Err(IngressError::Closed);
         }
         admission.active = admission.active.saturating_add(1);
-        drop(admission);
-        Ok(AdmissionLease {
-            admission: self.admission.clone(),
-            drained: self.drained.clone(),
-        })
+        Ok(AdmissionLease(self.admission.clone(), self.drained.clone()))
+    }
+
+    async fn dispatch(&self, work: &DomainWork) -> Result<DomainResult, IngressError> {
+        let dispatcher = self
+            .dispatchers
+            .get(&work.kind)
+            .ok_or(IngressError::UnsupportedKind)?;
+        let operation = dispatcher
+            .submit(OperationRequest {
+                schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                request_id: work.work_id.clone(),
+                idempotency_key: work.work_id.clone(),
+                principal: "canonical-ingress".to_owned(),
+                payload: work.payload.clone(),
+                permit: None,
+            })
+            .await
+            .map_err(|error| match error {
+                OperationError::InvalidRequest => IngressError::Conflict,
+                _ => IngressError::ExecutionFailed,
+            })?;
+        apply(&self.state, work, &operation)
     }
 }
 
@@ -248,30 +255,6 @@ impl ComponentFactory for CanonicalIngress {
     }
     fn build(&self) -> Box<dyn Component> {
         Box::new(self.clone())
-    }
-}
-
-impl CanonicalIngress {
-    async fn dispatch(&self, work: &DomainWork) -> Result<DomainResult, IngressError> {
-        let dispatcher = self
-            .dispatchers
-            .get(&work.kind)
-            .ok_or(IngressError::UnsupportedKind)?;
-        let operation = dispatcher
-            .submit(OperationRequest {
-                schema: OPERATION_REQUEST_SCHEMA.to_owned(),
-                request_id: work.work_id.clone(),
-                idempotency_key: work.work_id.clone(),
-                principal: "canonical-ingress".to_owned(),
-                payload: work.payload.clone(),
-                permit: None,
-            })
-            .await
-            .map_err(|error| match error {
-                OperationError::InvalidRequest => IngressError::Conflict,
-                _ => IngressError::ExecutionFailed,
-            })?;
-        apply(&self.state, work, &operation)
     }
 }
 

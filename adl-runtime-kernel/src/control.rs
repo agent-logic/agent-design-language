@@ -24,9 +24,9 @@ use thiserror::Error;
 use tracing::Instrument;
 
 use crate::{
-    BootstrapEvent, CanonicalIngress, DomainResult, DomainWork, IngressError, KernelControl,
-    KernelExit, ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
-    WeatherHealthReport,
+    BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult, DomainWork, IngressError,
+    KernelControl, KernelExit, LiveContinuity, ObservabilityHealth, RuntimeRecorder,
+    RuntimeSnapshot, RuntimeTlsInitConfig, WeatherHealthReport,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -425,14 +425,30 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         Ok(())
     }
 
-    pub fn reopen_admission(&self) {
-        self.idempotency
-            .lock()
-            .expect("idempotency mutex poisoned")
-            .admission_open = true;
+    pub async fn serialize_terminal_checkpoint(
+        &self,
+        continuity: &mut LiveContinuity,
+        deadline: Duration,
+    ) -> Result<CheckpointManifest, String> {
+        self.close_admission_and_drain(deadline)
+            .await
+            .map_err(|error| error.to_string())?;
+        continuity
+            .checkpoint(&self.recorder, deadline)
+            .await
+            .map_err(|error| error.to_string())
+    }
+
+    pub fn reopen_admission_if_no_terminal(&self) -> bool {
+        let mut state = self.idempotency.lock().expect("idempotency mutex poisoned");
+        if state.terminal_action.is_some() {
+            return false;
+        }
+        state.admission_open = true;
         if let Some(ingress) = &self.canonical_ingress {
             ingress.reopen();
         }
+        true
     }
 
     pub fn observatory_feed(&self) -> ObservatoryFeed {
