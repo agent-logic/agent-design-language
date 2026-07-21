@@ -66,12 +66,28 @@ Implemented canonical Runtime v3 ingress, deterministic execution and replay con
     "purpose": "Prove the Parity-A implementation and test targets are warning-free under strict Clippy",
     "outcome": "passed",
     "evidence_ref": "owner:019f8189-8205-7dd3-bbe2-f7f4dddd098a@6f19349e6d6227c362f5d73dce2c977aab41c1db:/Volumes/FastWork/adl-5591/runtime-target"
+  },
+  {
+    "command": [
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-focused cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly --test control --test operations",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-full cargo test --manifest-path adl-runtime-kernel/Cargo.toml",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-clippy cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings",
+      "ADL_HORUST_BIN=/Volumes/FastWork/adl-5591/horust-install/bin/horust CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-horust cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test guardian_soak horust_restarts_once_and_restores_continuity -- --ignored --exact",
+      "ADL_HORUST_BIN=/Volumes/FastWork/adl-5591/horust-install/bin/horust CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-horust cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test guardian_soak horust_allowlists_child_environment -- --ignored --exact",
+      "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check",
+      "cargo tree --locked --manifest-path adl-runtime-kernel/Cargo.toml",
+      "bash adl/tools/report_runtime_v3_loc.sh",
+      "git diff --check origin/main...HEAD"
+    ],
+    "purpose": "Prove the integrated Parity-A head: 34 focused and 187 complete-suite tests, strict all-target/all-feature lint, Horust restart/continuity and environment isolation, formatting and diff hygiene, locked COTS inventory, and exact budget truth. The report records 12,683 physical lines and 195 tests: 683 lines above the 12,000 reviewed target but within the explicit 20,000 exception ceiling, requiring review disposition.",
+    "outcome": "passed",
+    "evidence_ref": "owner:019f8362-357c-7621-95b7-afb314e0c61d@740a65ba2c60d06915ce8c6e08b8b5756d245ccc:/Volumes/FastWork/adl-5591/integrated-*"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

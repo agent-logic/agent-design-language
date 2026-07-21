@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "reviewed",
-  "generation": 8,
-  "digest": "a20198d18ca8c10a99bb0a3fb4173d2dce6c9e91bcb52f2c2e658cf425bb0c71",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "6ebc211c0969d3da6c96a7521adaabcf7f7eaea51b72310fa78f4877cb774195",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 8,
+    "generation": 10,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -27,37 +27,8 @@
     ],
     "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
-  "review_assignment": {
-    "reviewer": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
-    "assigned_by": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
-    "revision": "git-blake3:6f19349e6d6227c362f5d73dce2c977aab41c1db:816baf9d3b09ceb37995f05a501ddbebb0ed379c433fd00b4f8751a9775005ce",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/control.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/control.rs"
-    ],
-    "reviewed_revision": "git-blake3:6f19349e6d6227c362f5d73dce2c977aab41c1db:816baf9d3b09ceb37995f05a501ddbebb0ed379c433fd00b4f8751a9775005ce",
-    "findings": [],
-    "residual_risks": [
-      "The existing SIGTERM process test remains ignored because it binds the fixed control test port; signal, pressure, and signed terminal triggers share the reviewed serialization helper, and the focused pressure and signed process proofs pass."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -72,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "07bdfc780180a5ea211c8d620ef1a5807f48f5ff0fd6f39f80251b06380026e4",
+      "values_digest": "662e2264d699698ff16dbc9dcb781b37d64cfb2ec3c70b8789198d6ef02c0565",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "7b921ae7e705c289a194931d7ce9fb2f9b33fbd21a5fde502e185fc586f7e8ec",
+      "values_digest": "cda4ff13b164337962ee5ad0dbd0f2933878f0741093b81d9e3cecc4136f112e",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "52e9b80357f1fb4203aea01a3449eee8089621b71e7dd97c752d4608d1dd0ff2",
+      "values_digest": "621a341ab0014a849a098252f83aed6df5ed9433489a08814564de7aa1832523",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "861dff3b7600794d172f525e75f5c8293996b56a92870786ff85f6aa14dbda2e",
+      "values_digest": "b18b64cd577cc204b0fb3fc369cae8767bd9e18cb4ec5ab3b14e18b0ab7db555",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "0cee52fb874a8e34a7692b2de983f90b1076385a07dd51c9cb0f6fd75fb4ca94",
-      "rendered_digest": "71f2ca0fb78931533ef616f6b02a3d65b4b71dc3d3dd86364af968530f0ce424",
-      "ast_digest": "ce972da9791575f6f1a5a511c5e017ea61baae22443bb5aed32a70fd7a9628c9"
+      "values_digest": "a11325edda6255fc67a25f3a2dd7dc436ac30f8582f30727d595afc75bb86d07",
+      "rendered_digest": "ad4a980a0e737e0c7f01de4ad76e7eca73b016332a9dde6a67044fa5faf86d28",
+      "ast_digest": "9ce8e5a6a15a085691d90cbc2955f381306b86c02d9ab1998f8e09b15ed60144"
     },
     "sor": {
-      "values_digest": "0c205652f196f91705a9bb94e2954b5b43b8be2cb665b848088ba0fb4bd82048",
-      "rendered_digest": "cde3827ae0211794fc660a40a2fea53c91b7a90941e91fff21d854594e3f8122",
-      "ast_digest": "28af1f0ef46f093d293dbd439f9dd86cbcfb386d8729af7ff163f59e35886aa0"
+      "values_digest": "c80fcbcabd160c1f1b69cac022df5d5d49af6c3155c5b72ab4d803e472e7fd72",
+      "rendered_digest": "dafec3380dc476596fa4b8d2f1121a15bc1c03f4485697ca43b296d209a0010e",
+      "ast_digest": "aa5425d2bf3efa5c5656536b0cb560a3ebd4609944472e769f23234d2b84381d"
     }
   },
   "transitions": [
@@ -130,6 +101,13 @@
       "to": "reviewed",
       "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
       "reason": "Independent exact-product rereview passed with no findings; retain the fixed-port SIGTERM test limitation as residual risk."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Integration of merged #5336/current origin/main changed exact revision identity; recover to implemented for complete integrated-head proof and bounded exact-head review before publication."
     }
   ],
   "audit": [
@@ -223,6 +201,20 @@
       "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
       "reason": "Independent exact-product rereview passed with no findings; retain the fixed-port SIGTERM test limitation as residual risk.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Integration of merged #5336/current origin/main changed exact revision identity; recover to implemented for complete integrated-head proof and bounded exact-head review before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Record complete integrated-main Runtime v3 proof before exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-focused cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test assembly --test control --test operations\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-full cargo test --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-clippy cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"ADL_HORUST_BIN=/Volumes/FastWork/adl-5591/horust-install/bin/horust CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-horust cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test guardian_soak horust_restarts_once_and_restores_continuity -- --ignored --exact\",\"ADL_HORUST_BIN=/Volumes/FastWork/adl-5591/horust-install/bin/horust CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/integrated-horust cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test guardian_soak horust_allowlists_child_environment -- --ignored --exact\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"cargo tree --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check origin/main...HEAD\"],\"purpose\":\"Prove the integrated Parity-A head: 34 focused and 187 complete-suite tests, strict all-target/all-feature lint, Horust restart/continuity and environment isolation, formatting and diff hygiene, locked COTS inventory, and exact budget truth. The report records 12,683 physical lines and 195 tests: 683 lines above the 12,000 reviewed target but within the explicit 20,000 exception ceiling, requiring review disposition.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f8362-357c-7621-95b7-afb314e0c61d@740a65ba2c60d06915ce8c6e08b8b5756d245ccc:/Volumes/FastWork/adl-5591/integrated-*\"}}"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
     "slug": "v0-91-8-runtime-v3-parity-a-kernel-continuity-ingress",
     "version": "v0.91.8",
-    "generation": 8
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/ingress.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/control.rs",
-      "review_revision": "git-blake3:6f19349e6d6227c362f5d73dce2c977aab41c1db:816baf9d3b09ceb37995f05a501ddbebb0ed379c433fd00b4f8751a9775005ce",
-      "reviewer": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every acceptance criterion require guardian-launched live production behavior rather than fixture or library evidence?",
         "Are checkpoint/replay/resume determinism, authenticity, duplicate prevention, and corrupt-state negatives fully specified?",
@@ -26,10 +26,8 @@
         "Is #5336 integration the sole current stop while the future claim-scope proposal remains non-authoritative?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The existing SIGTERM process test remains ignored because it binds the fixed control test port; signal, pressure, and signed terminal triggers share the reviewed serialization helper, and the focused pressure and signed process proofs pass."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
