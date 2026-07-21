@@ -3,13 +3,13 @@
   "issue": 5358,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
-  "phase": "published",
-  "generation": 29,
-  "digest": "95623878a58af57caef19c87d38c102353d26f68081ad5106cf4e2c255c3ccc7",
+  "phase": "implemented",
+  "generation": 30,
+  "digest": "8ddc6c86d8b50880bd52ed574d79f82f76dbcafddb5da7d877a7a6ecaac5ae60",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
-    "generation": 29,
+    "generation": 30,
     "acquired_unix_seconds": 1784570058,
     "expires_unix_seconds": 1784656458,
     "heartbeat_unix_seconds": 1784570058,
@@ -26,41 +26,9 @@
     ],
     "purpose": "Implement and complete the full C-SDLC v2 acceptance, deployment, review, publication, merge, and terminal closeout contract for issue #5358."
   },
-  "review_assignment": {
-    "reviewer": "provider:deepseek:deepseek-chat",
-    "assigned_by": "codex:issue-5358-slot-3",
-    "revision": "git-blake3:b142aa99870ecad5c304635851d6b1f516dd463d:3543c041833fb150520be97e35c347e4ca62c85858e076773f0fc1dd1d3ae32c",
-    "scope": [
-      ".github/workflows/ci.yaml",
-      "adl/tools/test_ci_path_policy.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "provider:deepseek:deepseek-chat",
-    "scope": [
-      ".github/workflows/ci.yaml",
-      "adl/tools/test_ci_path_policy.sh"
-    ],
-    "reviewed_revision": "git-blake3:b142aa99870ecad5c304635851d6b1f516dd463d:3543c041833fb150520be97e35c347e4ca62c85858e076773f0fc1dd1d3ae32c",
-    "findings": [],
-    "residual_risks": [
-      "The existing repository-wide cargo-llvm-cov version policy is unchanged; install-action remains commit-pinned, and this repair introduces no new action or download source.",
-      "The provider-asserted reviewer consumed the exact scoped patch and supplied source evidence rather than direct repository filesystem access; local executable contract proof remains authoritative."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5358,
-    "pull_request": 5606,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5606",
-    "base": "main",
-    "head": "codex/5358-v0918-csdlc-v2-acceptance-prep",
-    "revision": "git-blake3:ba8fb31dee4ec69d50f676283121946117c0deba:e554494c84162e887c15aed380fd0aef5e2f8bce88919d7c663fb2821a3d6563",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -74,34 +42,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "923a8453da0fc61c60c0dc991458e9522c3fd5d4fbceba0d1ee02b48c7128680",
+      "values_digest": "4cb3c1cf3b0cc43afbd7a1ff68a81664613d3b611c4d70d5b636b00888da887b",
       "rendered_digest": "9f21cc4775b8bbcabe2ff712dff752b2d4c68a2d270906044955ff2f2bd2cae9",
       "ast_digest": "b15fdebd7434d7b23dce44270f6f9a775eb0f1b870ccbd2afe88f37bda75a0cd"
     },
     "stp": {
-      "values_digest": "4775f85f7dec047c30494ed4abbe6c2254bb08af58408cc81890de6c76a3116b",
+      "values_digest": "8e015448e9835869660b24d5f8591a219efd8ac06823533047ae9527b4b99616",
       "rendered_digest": "b5143b47908a8e957062f266a604edc85d25fe22d686363fa1e7b7acec6bd2f1",
       "ast_digest": "10cfdd266214a8019fae67f221034ad7724705ecc9f0ac27108946291688295b"
     },
     "spp": {
-      "values_digest": "840fa47303ab6a703d43afb997c662897f01fe1f7f80641c90cf700fa74e3afa",
+      "values_digest": "8725a10acfea2c0974843ff9d458c17045fdaa1b33d1ffabad83bf44daf88fbd",
       "rendered_digest": "0999e3f92a9ad15165802f7409a392b84aeac7e871e040721c197a0fe79b9f85",
       "ast_digest": "0f71821898d59f174e13eff6fd7cb68e552c6e5d9994d8b2b6aa513308777c95"
     },
     "vpp": {
-      "values_digest": "81e9bf4031167d87230ee4c71a8d33edd56f028fc34bca517a48bdf90eebae80",
+      "values_digest": "9e28cc457d01650d4f9bf0228b30ed97dc4d2eb0f2096aa9a86315d45e1fc0ef",
       "rendered_digest": "89805e2390eca8fc218075ccb9c7005350d3fdbfb6fe35bf1ec31d58561b7e73",
       "ast_digest": "15c75fc980fb0de8c59870880af59448adde13834d81df8a00163492c0fb8d29"
     },
     "srp": {
-      "values_digest": "c7e7ffb8189a8164ec09b575c575e63e8afb3c0b8f52bfc461f32fcd8e581db4",
-      "rendered_digest": "cb13d1c92c900ee0d5a703f6019aa8493d024d6f1d05c0ebab4d3ff95aa0408c",
-      "ast_digest": "c2a25c6ffb4b061451933f270f083eae84a543766ccb830a2c05dd6b3c2d42ee"
+      "values_digest": "d980eebc8632fe818a9aab17122e4cf19a4f0b22b608c4df92d5e6dffdb814e6",
+      "rendered_digest": "cc68cf41287008a54cba8e0506da4cba7da56607fa8ea304075df64d5d2fd828",
+      "ast_digest": "70d3a09025ab1fb66fd29ce7f78b954bd396cea9d59ecec3ac9ce91b3d9ffcd9"
     },
     "sor": {
-      "values_digest": "ac598adb1c49a0e2853a5459f0f2dc12364299a6fc28310d645c71a5c30bec75",
-      "rendered_digest": "5d2a16efdb32624dd32b01e970a718ddcd2e062a87e91c6121d3bf2c72791e05",
-      "ast_digest": "4ea10e8469a2aeecca08e2353684319ae92a28ac9e73af1f3a9c06abadca6499"
+      "values_digest": "204c55659e2532459a0d8b7a25b8e6a0fcf05dc6ee6acac8090c851bc550be81",
+      "rendered_digest": "51ecaf1e4b0693ed3ab22cb33390fb15f2b12c6c36eb6c62c522bd411b905fdf",
+      "ast_digest": "fee94d0ce6e7e250390ad397ac75ca955266e58595caa723bec5dda6a00a08aa"
     }
   },
   "transitions": [
@@ -160,6 +128,13 @@
       "to": "published",
       "actor": "codex:issue-5358-slot-3",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Recover exact review and publication truth after integrating current main; the two issue-scoped CI files remain byte-identical to the previously clean-reviewed repair."
     }
   ],
   "audit": [
@@ -421,6 +396,13 @@
       "actor": "codex:issue-5358-slot-3",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 38,
+      "generation": 30,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Recover exact review and publication truth after integrating current main; the two issue-scoped CI files remain byte-identical to the previously clean-reviewed repair.",
+      "operation": "recover_review"
     }
   ]
 }

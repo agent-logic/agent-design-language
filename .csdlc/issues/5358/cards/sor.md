@@ -97,11 +97,11 @@ Completed C-SDLC v2 publication lifecycle acceptance and repaired the always-run
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
