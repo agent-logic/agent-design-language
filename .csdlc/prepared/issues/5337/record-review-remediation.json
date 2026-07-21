@@ -1,0 +1,29 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 37,
+  "expected_digest": "041e87fc14b9c3a8c40bbbad5d6927430eb91245076138c50f3a5d7f93f50e00",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record complete remediation of all findings from exact-revision review 5da012921 at substantive commit 6652c4ab7.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Closed all five exact-review findings with offline command-contract verification, a truthful local-only execution policy, COTS-backed timeout and atomic capture replacement, corrected schema-shape coverage, and portable hashed observations.",
+    "changes": [
+      "Revalidate step count/order, declared and portable arguments, exits, required fragments, digest shape, and path hygiene during offline verify with class-specific tamper tests",
+      "Fail corpus loading unless commands are local-only and the sole --run case uses only mock profiles, approved arguments, and no remote route",
+      "Use wait-timeout for bounded child execution, kill and reap timeout, classify deterministically, and preserve prior complete output through staged replacement",
+      "Rename the false unknown-run-reference claim to the observed unsupported-run-field schema rejection",
+      "Retain portable ROOT/WORK-tokenized streams plus hashes of exact pre-tokenization bytes and reject machine-local retained paths"
+    ],
+    "artifacts": [
+      ".csdlc/evidence/5337/review-5da012921.md",
+      "adl-characterization/src/compare.rs",
+      "adl-characterization/src/manifest.rs",
+      "adl-characterization/src/runner.rs",
+      "adl-characterization/tests/evidence.rs",
+      "adl-characterization/tests/manifest.rs"
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "adl.characterization.observation.v1",
+  "case_id": "unsupported-run-field",
+  "repetition": 3,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_bundle_sha256": "5c42a61fab6cbfaebf8a77ebeb3fcc6ab7ae71beb086ee011a2fb525ad4cb63b",
+  "commands": [
+    {
+      "step_id": "validate",
+      "declared_args": [
+        "{ROOT}/fixtures/unsupported-run-field.adl.yaml",
+        "--print-plan"
+      ],
+      "expanded_args": [
+        "<ROOT>/fixtures/unsupported-run-field.adl.yaml",
+        "--print-plan"
+      ],
+      "exit_code": 1,
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "4ffd6db7853adc40836928218adae786d3a054ff281bfb6b76df4e3c87e04b96",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "19b75c8390cebe4fcd0cf7e6a19910607a1aba50070dd6cf78299c99e17f30e7",
+      "stdout": "",
+      "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/unsupported-run-field.adl.yaml\n  0: schema validate adl yaml: <ROOT>/fixtures/unsupported-run-field.adl.yaml\n  1: ADL schema validation failed:\nat /run: Additional properties are not allowed ('agent_ref' was unexpected)\n"
+    }
+  ],
+  "evidence_envelope_sha256": "010057eea1ac1dc2200e54e7bd51294e3c2bd8de909417dfc571faf67a1afdf5"
+}

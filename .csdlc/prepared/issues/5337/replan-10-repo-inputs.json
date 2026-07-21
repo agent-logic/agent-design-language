@@ -1,0 +1,22 @@
+{
+  "issue": 5337,
+  "card": "stp",
+  "expected_generation": 13,
+  "expected_digest": "6665cbf561acb97185588950211963c08e21dbe4075e04a2d321b05d404f9152",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record exact implementation inputs",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "GitHub issue #5337 retrieved through adl-issue",
+      "docs/milestones/v0.91.8/DESIGN_v0.91.8.md",
+      "docs/milestones/v0.91.8/QUALITY_GATE_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "pinned ADL v1 public CLI behavior at 19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+      "adl/tests/cli_smoke behavior names used only to identify public black-box surfaces"
+    ]
+  },
+  "fail_after_backup": false
+}

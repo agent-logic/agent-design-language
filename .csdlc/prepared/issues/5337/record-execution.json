@@ -1,0 +1,28 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 34,
+  "expected_digest": "9e56da516ff29f4f51b10556a9bbca749c30b9646d17537f8e8f535a7ea11c99",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record the complete independent incumbent-v1 characterization implementation at substantive commit 5da012921.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented and retained an independent, fail-closed characterization harness for exact incumbent revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72 with deterministic repeated evidence and no incumbent source dependency.",
+    "changes": [
+      "Implemented the typed corpus manifest, JSON Schema validation, runner, narrow normalizer, comparator, verification report, and CLI",
+      "Added 19 fixtures and 25 cases covering 23 required positive, negative, ordering, mock-execution, determinism, and Ed25519 behaviors",
+      "Retained 75 raw and 75 derived normalized observations plus an exact binary and source identity report",
+      "Added 13 unit, manifest, evidence-integrity, and CLI tests plus PVF-classified documentation"
+    ],
+    "artifacts": [
+      "adl-characterization/README.md",
+      "adl-characterization/corpus/v1/corpus.yaml",
+      "adl-characterization/corpus/v1/schema.json",
+      "adl-characterization/corpus/v1/COVERAGE.md",
+      "adl-characterization/observations/v1/verification.json",
+      "adl-characterization/tests"
+    ]
+  },
+  "fail_after_backup": false
+}
