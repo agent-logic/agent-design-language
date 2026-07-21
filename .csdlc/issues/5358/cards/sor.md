@@ -67,6 +67,16 @@ Implemented fail-closed ready-publication validation and deterministic recovery 
     "purpose": "Prove the complete C-SDLC v2 test surface, including clean-source installer and provenance contracts, after committing the publication repair implementation.",
     "outcome": "passed",
     "evidence_ref": "local-fastwork:csdlc-v2-all-targets-pass-167e8b9b4"
+  },
+  {
+    "command": [
+      "csdlc-install install --repo . --destination /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2",
+      "csdlc-install verify --repo . --bin-dir /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json",
+      "csdlc-install resolve --repo . --issue 5358"
+    ],
+    "purpose": "Deploy and prove the stable v2 binary set from exact head 2059e03007f7056b96a3f12ace7e018ee2f6153a, with v1_sunset coexistence and v2 selector authority.",
+    "outcome": "passed",
+    "evidence_ref": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/install-receipt.json"
   }
 ]
 

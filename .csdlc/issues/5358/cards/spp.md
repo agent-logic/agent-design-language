@@ -28,7 +28,7 @@ Revision 2
       "AC-1",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
