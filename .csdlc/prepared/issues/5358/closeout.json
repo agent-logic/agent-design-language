@@ -1,0 +1,12 @@
+{
+  "issue": 5358,
+  "expected_generation": 41,
+  "expected_digest": "5e2b021133cb07ac20e5c7d4804e059ae8c9578d461c23832970953712c6fa06",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5606,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": null
+}

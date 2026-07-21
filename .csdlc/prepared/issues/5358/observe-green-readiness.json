@@ -1,0 +1,17 @@
+{
+  "issue": 5358,
+  "expected_generation": 39,
+  "expected_digest": "bd2500360e367a41e5ce292f740f2e9138abfcb651b0ba233d37613357a57e94",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5606,
+  "required_checks": [
+    "adl-path-policy",
+    "adl-tooling-contracts",
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": null
+}

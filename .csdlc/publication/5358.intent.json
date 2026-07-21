@@ -6,7 +6,7 @@
   "head": "codex/5358-v0918-csdlc-v2-acceptance-prep",
   "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
   "body": "Closes #5358\n\nCompletes C-SDLC v2 acceptance and repairs the publication lifecycle so ready-PR reconciliation is exact, fail-closed, and recoverable. The implementation validates remote open state, repository and head identity, exact branch and revision, and supports recovery after a remote ready transition succeeds before local typed state commits.\n\nThe command-level HTTP matrix covers success and mismatch paths. Focused lifecycle tests pass 21/21, the complete csdlc-v2 all-target suite passes, strict all-target Clippy and formatting pass, typed doctor passes, and exact-revision DeepSeek review returned no findings. No AWS or raw gh was used.",
-  "draft": true,
-  "revision": "git-blake3:394a5c9d764e8a24b3bdf37f0f3ca4735ba878ac:19f3cded7ece1545a84050303cae44235dd6c9631769e2d9f9fcd18e103819c5",
-  "commit_sha": "394a5c9d764e8a24b3bdf37f0f3ca4735ba878ac"
+  "draft": false,
+  "revision": "git-blake3:e048230245b1ad101c8056678123a2747faa4b60:d63c87640146c71d5ecda0707099a0d7a6b236d0f8bd8e9ad04a942c071d0583",
+  "commit_sha": "e048230245b1ad101c8056678123a2747faa4b60"
 }
