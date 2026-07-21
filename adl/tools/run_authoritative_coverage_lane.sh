@@ -28,6 +28,8 @@ COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"
 TEST_THREADS="${ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS:-${ADL_COVERAGE_TEST_THREADS:-4}}"
 PARTITION_COUNT="${ADL_AUTHORITATIVE_COVERAGE_PARTITIONS:-2}"
 BUILD_JOBS="${ADL_AUTHORITATIVE_COVERAGE_BUILD_JOBS:-1}"
+LCOV_OUTPUT_PATH="${ADL_AUTHORITATIVE_COVERAGE_LCOV_PATH:-}"
+TEXT_SUMMARY_OUTPUT_PATH="${ADL_AUTHORITATIVE_COVERAGE_TEXT_SUMMARY_PATH:-}"
 DEFAULT_SKIP_PATTERNS="real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup"
 SKIP_PATTERNS_RAW="${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERNS:-${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN:-$DEFAULT_SKIP_PATTERNS}}"
 COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-$$}"
@@ -359,6 +361,27 @@ run_profile() {
       echo "Authoritative coverage warning: $report_label report command exited $report_status after producing $summary_path; PR workspace gate is deferred." >&2
     elif (( status == 0 )); then
       status="$report_status"
+    fi
+  fi
+
+  # Non-PR release artifacts must be generated while this exact profile target
+  # and its current-run profraw files are still bound in this shell.
+  if [ "$profile" = "workspace" ] && [ -n "$LCOV_OUTPUT_PATH" ]; then
+    mkdir -p "$(dirname "$LCOV_OUTPUT_PATH")"
+    artifact_status=0
+    cargo llvm-cov report --lcov --output-path "$LCOV_OUTPUT_PATH" || artifact_status=$?
+    if (( artifact_status != 0 && status == 0 )); then
+      status="$artifact_status"
+    fi
+  fi
+  if [ "$profile" = "workspace" ] && [ -n "$TEXT_SUMMARY_OUTPUT_PATH" ]; then
+    mkdir -p "$(dirname "$TEXT_SUMMARY_OUTPUT_PATH")"
+    set +e
+    cargo llvm-cov report --summary-only | tee "$TEXT_SUMMARY_OUTPUT_PATH"
+    artifact_status=${PIPESTATUS[0]}
+    set -e
+    if (( artifact_status != 0 && status == 0 )); then
+      status="$artifact_status"
     fi
   fi
 

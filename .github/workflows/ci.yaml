@@ -893,6 +893,9 @@ jobs:
           echo "Coverage execution state: ${{ steps.path-policy.outputs.coverage_execution_state }}"
       - name: Workspace coverage run and summary (json)
         if: steps.path-policy.outputs.full_coverage_required == 'true'
+        env:
+          ADL_AUTHORITATIVE_COVERAGE_LCOV_PATH: ${{ github.event_name != 'pull_request' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only' && 'lcov.info' || '' }}
+          ADL_AUTHORITATIVE_COVERAGE_TEXT_SUMMARY_PATH: ${{ github.event_name != 'pull_request' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only' && 'coverage-summary.txt' || '' }}
         run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ steps.path-policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"
         working-directory: .
 
@@ -919,14 +922,6 @@ jobs:
         run: |
           python3 -c 'import json, os, pathlib; pathlib.Path("adl/coverage-provenance.workspace.json").write_text(json.dumps({"head_sha": os.environ["COVERAGE_HEAD_SHA"], "profile": "workspace", "run_id": os.environ["COVERAGE_RUN_ID"]}, sort_keys=True) + "\n")'
         working-directory: .
-
-      - name: Coverage (ADL Rust workspace lcov)
-        if: github.event_name != 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'
-        run: cargo llvm-cov report --lcov --output-path lcov.info
-
-      - name: Coverage summary (text)
-        if: github.event_name != 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'
-        run: cargo llvm-cov report --summary-only | tee coverage-summary.txt
 
       - name: Verify generated lcov file
         if: github.event_name != 'pull_request' && steps.path-policy.outputs.full_coverage_required == 'true' && steps.path-policy.outputs.coverage_authority != 'pr_policy_surface_tooling_only'

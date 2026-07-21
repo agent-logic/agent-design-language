@@ -419,6 +419,18 @@ for required_fragment in (
         )
 if step_if("Workspace coverage run and summary (json)") != "steps.path-policy.outputs.full_coverage_required == 'true'":
     raise SystemExit("workspace authoritative coverage must remain limited to full_coverage_required surfaces")
+workspace_coverage_block = step_block("Workspace coverage run and summary (json)")
+for required_fragment in (
+    "ADL_AUTHORITATIVE_COVERAGE_LCOV_PATH",
+    "ADL_AUTHORITATIVE_COVERAGE_TEXT_SUMMARY_PATH",
+    "github.event_name != 'pull_request'",
+    "coverage_authority != 'pr_policy_surface_tooling_only'",
+):
+    if required_fragment not in workspace_coverage_block:
+        raise SystemExit(
+            "workspace release artifacts must be generated inside the exact isolated profile run; "
+            f"missing fragment: {required_fragment}"
+        )
 
 runtime_coverage_step = step_run("Runtime coverage run and summary (json)")
 for required_fragment in (
@@ -455,6 +467,8 @@ runtime_job = job_block("adl_coverage_runtime_hosted")
 workspace_job = job_block("adl_coverage_workspace_hosted")
 hosted_aggregator = job_block("adl_coverage_hosted")
 required_status_job = job_block("adl-coverage")
+if "cargo llvm-cov report --lcov" in workspace_job:
+    raise SystemExit("workspace workflow must not run detached post-profile lcov commands")
 
 if "runs-on: ubuntu-latest" not in runtime_job or "runs-on: ubuntu-latest" not in workspace_job:
     raise SystemExit("both isolated coverage producers must use fresh GitHub-hosted runners")
@@ -758,8 +772,6 @@ if "schedule:" not in nightly or 'cron: "43 11 * * *"' not in nightly:
     )
 
 for step_name in (
-    "Coverage (ADL Rust workspace lcov)",
-    "Coverage summary (text)",
     "Verify generated lcov file",
     "Verify lcov path from repository root",
 ):

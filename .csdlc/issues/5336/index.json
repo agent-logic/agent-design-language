@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "8fb3e6cceaf3bd25b40ae9c0ac3f13bed85cfcf70d7ff2b34ce77edeca15b4a4",
+  "generation": 33,
+  "digest": "6afc21ba99b777e6036a117d90487aab230aec752e6eb212b59403efe0aff235",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 32,
+    "generation": 33,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -30,8 +30,50 @@
     ],
     "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:35e7e81c54843212c215dee3e1fd956beda76c1d:df225151a2e07871f666313d58ff9e13f4a9c8032f14b2e8a60b4b4c90eae0ad",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/tools/test_merge_coverage_summaries.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/tools/test_merge_coverage_summaries.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:35e7e81c54843212c215dee3e1fd956beda76c1d:df225151a2e07871f666313d58ff9e13f4a9c8032f14b2e8a60b4b4c90eae0ad",
+    "findings": [
+      {
+        "id": "isolated-workspace-lcov-provenance",
+        "severity": "p1",
+        "summary": "The workspace worker deletes run-scoped profiles before a later fresh-shell lcov command, allowing missing or stale Codecov evidence.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -46,32 +88,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e0fc4ae0bf41dcfdf6af4494923872cd2f71c0ae8dfde841944170c5cfb35008",
+      "values_digest": "9956b278b33136e8f417aef7d7cea54524313c85c948d5978594eebc7aa97741",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "f5846dfe7a1591f47889cb39bef013cafc170f9c932f84add94135fa0bd47f57",
+      "values_digest": "7fedba0ce7edf9321a1279337741cc9a573d3cdd19ba58d4c14cab8393d787e6",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "731cd5c427997d2ead8efdb0d21f4f292b3ec7ab94342f5b96eaaeb9a5d67509",
+      "values_digest": "2b5ce584b90b7b36563065cc051c33dcb3059597ec6148dd174e8a08ab220e6e",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "a37dbac0429c0fdc7bc2e6dcd714eaaed17e57837ba3290e4adc6375c4e3533d",
+      "values_digest": "d37c6b6505e3af0a702a1d8df79526748f476fde45e9dcab6bf2581bd5aece7f",
       "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "9d6b90e95b78505b870d65e167b47ec100bb223288e4baf2ec8ad9004ec3edc3",
-      "rendered_digest": "3782d3cb08b4154486b0360b134101f55b636d16f16f2259a3e1f996275b9900",
-      "ast_digest": "c3089c902e1388a33153b8bf1fa65df31d6e8ecfd58551d756255bfbeb3db7f6"
+      "values_digest": "9e08ef241ce0eda6337f4724fbc1f04061631bb42e78a18185d16683296563ac",
+      "rendered_digest": "f6c3275935da3ffe06694b2c9e2ece18bafa0609899b224ee11c9e6fa30f1af4",
+      "ast_digest": "5e8b53fd8ecbff53728b1de22d85256e07cd2262c9a3e04deb2bdd3fd057c888"
     },
     "sor": {
-      "values_digest": "40e9dbb4a29c1d5e761aef01caa786decefebca9317c0e5c360ae4c0d871a1df",
+      "values_digest": "360f42c473561a2ca18d12e0da85ea106f38d7f5c9f4ddd0e630f8abea25c487",
       "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
       "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
@@ -491,6 +533,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Own the bounded hosted-runner isolation, deterministic summary merge, fail-closed contract tests, and corrected coverage-log artifact path proven necessary by repeated #5599 EAGAIN failures.",
       "operation": "{\"add_protected_paths\":[\".github/workflows/ci.yaml\",\"adl/tools/merge_coverage_summaries.py\",\"adl/tools/test_merge_coverage_summaries.sh\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 32,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 33,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
     }
   ]
 }

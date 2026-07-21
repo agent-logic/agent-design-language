@@ -278,6 +278,9 @@ if [ -n "$out_path" ]; then
     esac
   fi
 fi
+if [[ " $* " = *" llvm-cov report --summary-only "* ]] && [ -z "$out_path" ]; then
+  printf 'workspace summary from current isolated profile\n'
+fi
 exit 0
 EOF
 chmod +x "$bin_dir/cargo"
@@ -454,6 +457,25 @@ for selected_profile in workspace adl-runtime; do
     exit 1
   fi
 done
+
+release_artifact_log="$temp_root/release-artifacts.log"
+release_lcov="$scratch_root/release/lcov.info"
+release_text="$scratch_root/release/coverage-summary.txt"
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$release_artifact_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-release-artifacts" \
+ADL_AUTHORITATIVE_COVERAGE_LCOV_PATH="$release_lcov" \
+ADL_AUTHORITATIVE_COVERAGE_TEXT_SUMMARY_PATH="$release_text" \
+  bash "$SCRIPT" --profile workspace
+test -s "$release_lcov"
+grep -Fxq 'workspace summary from current isolated profile' "$release_text"
+grep -Fq 'cmd=llvm-cov report --lcov --output-path' "$release_artifact_log"
+grep -Fq 'cmd=llvm-cov report --summary-only' "$release_artifact_log"
+if find "$scratch_root/target/llvm-cov-target/run-release-artifacts/workspace" -name '*.profraw' -print -quit | grep . >/dev/null; then
+  echo "release artifacts must be emitted before current-run profiles are cleaned" >&2
+  exit 1
+fi
 
 prebuild_failure_log="$temp_root/prebuild-failure.log"
 set +e

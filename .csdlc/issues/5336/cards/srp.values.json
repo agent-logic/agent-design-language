@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
     "slug": "v0918-runtime-functional-parity-plan",
     "version": "v0.91.8",
-    "generation": 32
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".github/workflows/ci.yaml\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/merge_coverage_summaries.py\nadl/tools/test_ci_runtime_contracts.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\nadl/tools/test_merge_coverage_summaries.sh\n.csdlc/issues/5336\n.csdlc/prepared/issues/5336",
+      "review_revision": "git-blake3:35e7e81c54843212c215dee3e1fd956beda76c1d:df225151a2e07871f666313d58ff9e13f4a9c8032f14b2e8a60b4b4c90eae0ad",
+      "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
       "review_prompts": [
         "Does the plan distinguish fixture/library proof from live process functionality?",
         "Can every v0.91.7 feature survive Runtime v2 deletion or retain an explicit non-runtime owner?",
@@ -23,9 +23,20 @@
         "Do acceptance, cutover, and deletion dependencies fail closed?",
         "Does the plan prevent duplicate Runtime v3 implementations and uncontrolled LoC/test growth?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "isolated-workspace-lcov-provenance",
+          "severity": "p1",
+          "summary": "The workspace worker deletes run-scoped profiles before a later fresh-shell lcov command, allowing missing or stale Codecov evidence.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }
