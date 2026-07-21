@@ -3,13 +3,13 @@
   "issue": 5615,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "36d04edef06074ba46ddc14aab9493fc35023e2395b1fac82d2c714b0cde44e0",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "4e1b72676daf00eaec519fa19014c21f95e4c953f4a73fd76f46099aceafe94b",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "022ab4dc19b44a280e38c481484c27d3bd176b8e288d1f26c8fa5562fcf65cbd",
   "claim": {
     "id": "claim-5615-csdlc-ci-fastwork-routing",
     "owner": "codex:5615-owner",
-    "generation": 16,
+    "generation": 18,
     "acquired_unix_seconds": 1784669026,
     "expires_unix_seconds": 1784755426,
     "heartbeat_unix_seconds": 1784669026,
@@ -30,8 +30,29 @@
     ],
     "purpose": "Implement focused C-SDLC CI classification and portable external Cargo build routing"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f86da-0771-72d1-bbeb-a9aead4be515",
+    "assigned_by": "codex:5615-owner",
+    "revision": "git-blake3:9e90d958e9cf86c72ee12fe7200289a29973d847:9c26ce5021525e7b890389f5ff3a3127883beebc8a556f1809c181c298b4bd14",
+    "scope": [
+      ".csdlc/issues/5615",
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f86da-0771-72d1-bbeb-a9aead4be515",
+    "scope": [
+      ".csdlc/issues/5615",
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "reviewed_revision": "git-blake3:9e90d958e9cf86c72ee12fe7200289a29973d847:9c26ce5021525e7b890389f5ff3a3127883beebc8a556f1809c181c298b4bd14",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -46,32 +67,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "57d204041768daba2f6469457f9c6f7bf2d93f879b09fdaed1de0e89c37eeae8",
+      "values_digest": "dd705613e4243b825dffe07a7054db35e5b44b4d90ddce4d63446c899228c2c2",
       "rendered_digest": "be640d024da16ba461e342ca879bd18ccb5a94d3e2e30929a32e8cd5c5f934e8",
       "ast_digest": "bc5391a707067b1bbc3d2de5e4c96dc08f93b1432936430e49ca9d1b800dff97"
     },
     "stp": {
-      "values_digest": "dbe5216e21f31aa0ad07912959e52544a656a221b813fe85e863b0494695ecf3",
+      "values_digest": "8bd148ddde51cfd8e31fe074dd51db855c82bfcbfae5fca9668e4a65c9f45cb8",
       "rendered_digest": "f7a191e9d029748eb3099859f1538f9aad0d923ec8b93be1fe014c1e81608ca8",
       "ast_digest": "b64629174c1fb8dd2121ab2ca4b014eaca6d4249bd88572a9bada856f3b1fe15"
     },
     "spp": {
-      "values_digest": "7c278cad0c73f2257fc3311b90fed76ec87829034c398802fc6d03a89d9652ff",
+      "values_digest": "39ac2423e860f9a82e5d47971174ef42fc6928ac8c6e970a5a2266b79344a115",
       "rendered_digest": "973dd60787d6042b0950e1a9a8c8fc276f57b00b6dfaca30337d1111749b7fce",
       "ast_digest": "396c5db84e434ad1a9493920bf66c41387cb028376e4d47a8a7c7115f5721fc9"
     },
     "vpp": {
-      "values_digest": "35598a70027c598e64aa3a4156bb62b8843b90175fb1993718b862c8daf46ecb",
+      "values_digest": "2cb17c24adc3a2fb6f9a10bddb74aa15395ff48208de431b3a4766e03bdb23ce",
       "rendered_digest": "1a0def1323d9b5974aa111585d67017f3dd9ae217d48107f0f33f6ba0ac54929",
       "ast_digest": "0924498c22b4cdffb38c7c2b3a69f979a971b4f52b1111cbde5322bbc0237bc7"
     },
     "srp": {
-      "values_digest": "91160cc6e9679bdea00b8b1806a17cd11976f4f312ed0c0d64c07e2c66c7573e",
-      "rendered_digest": "90a8b756ab89476421d4801e2b0ffe7155f346b796398f0a200e7054a78f9185",
-      "ast_digest": "e85c4517fd946a1a3752a6f1fc598f5597f055385ab5642231a0af0239da0da5"
+      "values_digest": "9a46f8367d1905e9c28ec80bb34dd20f15ac977d446360e5580556a54f5712c3",
+      "rendered_digest": "ac75da82076ea873b4d1b08d11dc8b89c4649b1ccefd948d21ec6d7a673f46da",
+      "ast_digest": "eba3f7bb9cff55f78554c6d2c4b60bc7189595ac767ef99b6ec3b866daf87e69"
     },
     "sor": {
-      "values_digest": "ff2208c92aab76049e23db4b56059b49c3fe9d4e1f83b98c0e3aff9568dd6b0f",
+      "values_digest": "d5aee51b95c5e8b5aa2c2d757751ce1383a8ad54d8b3e06d2f90283cc326b6c4",
       "rendered_digest": "874c5f08fb9d686c6d0cbf366802c1eccc4fb3f985114367e355a295188b035b",
       "ast_digest": "c1a98697e552cd950019c2a1ff362315ffd9086c7bd55541cae0a25cb0c47de7"
     }
@@ -118,6 +139,13 @@
       "to": "implemented",
       "actor": "codex:5615-owner",
       "reason": "Recover exact review truth after GitHub rejected the published workflow because runner.temp is unavailable in job-level env; move the external build-root initialization into a step and add a regression contract."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5615-owner",
+      "reason": "Exact workflow-expression repair review passed with zero findings."
     }
   ],
   "audit": [
@@ -281,6 +309,27 @@
       "actor": "codex:5615-owner",
       "reason": "Record YAML parsing and focused CI contract proof for the hosted workflow expression repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\"-e\",\"YAML.safe_load(File.read('.github/workflows/ci.yaml'), permitted_classes: [Date], aliases: true)\",\"&&\",\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\",\"&&\",\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"purpose\":\"Prove the workflow parses, the standalone build root is initialized through RUNNER_TEMP and GITHUB_ENV, and the stable CI contract remains fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue-5615:workflow-expression-repair:yaml-and-contracts-pass\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:5615-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "subagent:019f86da-0771-72d1-bbeb-a9aead4be515",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:5615-owner",
+      "reason": "Exact workflow-expression repair review passed with zero findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
