@@ -14,3 +14,5 @@
 {"sequence":14,"generation":5,"actor":"codex:5590-sole-writer-takeover","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":15,"generation":6,"actor":"subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":16,"generation":6,"actor":"codex:5590-sole-writer-takeover","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":17,"generation":7,"actor":"subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
+{"sequence":18,"generation":8,"actor":"codex:5590-sole-writer-takeover","reason":"Exact remediation rereview passed with all six findings fixed, zero blockers, and a reviewed necessary +159-line delta.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}

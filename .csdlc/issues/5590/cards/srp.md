@@ -49,61 +49,61 @@ demos/v0.91.7/html-observatory/app.js
   {
     "id": "selector-process-ownership",
     "severity": "p1",
-    "summary": "The operational selector trusts a reusable bare PID and lacks serialization across stop, launch, and state replacement.",
+    "summary": "The selector now serializes transitions and routes stop through instance-owned supervisor state rather than externally signaling a stored PID.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
     "route": null
   },
   {
     "id": "selector-descendant-shutdown",
     "severity": "p1",
-    "summary": "Forced selector shutdown kills only the guardian PID and can bypass guardian descendant cleanup, orphaning the kernel.",
+    "summary": "Replacement waits for a stopped receipt emitted only after guardian exit and descendant cleanup; timeout fails closed.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
     "route": null
   },
   {
     "id": "websocket-token-revocation",
     "severity": "p1",
-    "summary": "An authenticated Observatory WebSocket remains authorized after bearer-token rotation.",
+    "summary": "Authenticated sessions revalidate credentials on every refresh and close after rotation.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
     "route": null
   },
   {
     "id": "continuity-proof-overclaim",
     "severity": "p2",
-    "summary": "The operational proof reports signed continuity without exercising cryptographic restore verification, key identity, integrity, and lineage.",
+    "summary": "The proof restarts candidate and prior runtimes through the cryptographic restore path and verifies generation-2 key, integrity, and lineage.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
     "route": null
   },
   {
     "id": "proof-cleanup-liveness",
     "severity": "p2",
-    "summary": "Failed-proof cleanup can remove the proof tree before guardian and descendant termination is confirmed.",
+    "summary": "Proof cleanup uses confirmed selector shutdown and preserves the proof directory on unconfirmed termination.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
     "route": null
   },
   {
     "id": "observatory-stale-close-state",
     "severity": "p2",
-    "summary": "The browser does not downgrade live Observatory status after a clean or policy WebSocket close.",
+    "summary": "The browser handles close events, clears matching socket identity, and downgrades live state.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a",
     "route": null
   }
 ]
@@ -114,12 +114,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- control.rs is 1,248 lines after the issue delta and should be watched for future decomposition; no additional module growth is authorized by this review.
+- A selector killed with SIGKILL can leave a stale lock requiring explicit operator recovery; the stale lock fails closed and cannot launch a competing Runtime.
+- Runtime v3 is 12,842 physical lines, a reviewed necessary and nonduplicative +159 delta over the prior 12,683 reviewed point and +633 over the pinned 12,209 baseline.
 
 ## Review Result
 
-Revision: Some("git-blake3:680f5908818c353f8d7df054ad9a87884adbac0f:c11c9725081bd67bf9b48c0ad08ab9ce6007a1a620c2918934d5236fe8852dbc")
+Revision: Some("git-blake3:0b5280459a97427cfef8fe478f532b2842f6c2bd:a7805563e9e143a5a5d47162b508742e30374146a503cec3796e8c4d68b9e08a")
 
 Reviewer: Some("subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a")
 
-Result: changes_required
+Result: pass
