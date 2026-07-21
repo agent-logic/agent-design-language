@@ -8,14 +8,11 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl/tools/report_runtime_v3_loc.sh
-docs/milestones/v0.91.8
-.csdlc/prepared/issues/5336/validate_architecture_plan.rb
-.csdlc/prepared/issues/5336/validate_links.rb
+
 
 ## Prompts
 
@@ -39,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:6eb0ad621033e8baafeef0f357900c883c4ea92b:5dc9049dc1f1db3cdc078b96b906b6f7ebaff1b3c40e0865ef88d8123dbd5ecb")
+Revision: None
 
-Reviewer: Some("task:019f80f2-e712-7000-ab8a-8b843d435321")
+Reviewer: None
 
-Result: pass
+Result: pre_review
