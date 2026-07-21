@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5350,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-11] Run exact-revision normalized shadow parity",
+    "slug": "v0918-wp11-exact-revision-normalized-shadow-parity",
+    "version": "v0.91.8",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5350\n.csdlc/locks/5350.lock\n.csdlc/prepared/issues/5350",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are both subjects, the corpus, every dependency receipt, and all retained evidence bound to immutable exact identities with current-main ancestry?",
+        "Can any normalization, tokenization, comparison, or intentional-difference path hide a real semantic, ordering, diagnostic, exit, signature, or evidence-integrity mismatch?",
+        "Does the matrix cover every #5337 case/behavior/group and reject unknown, unsupported, invalid, or deferred rows?",
+        "Do Runtime and WP-10A overlays prove live owner-produced behavior without fixture, metadata, library-only, issue-closure, or Runtime-v2-reuse credit?",
+        "Are COTS reuse, scope, LoC/test/time budgets, no-network policy, exact reviews, and downstream gate effects fully enforced?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
