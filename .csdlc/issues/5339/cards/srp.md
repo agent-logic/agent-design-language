@@ -35,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- YAML alias and resource-exhaustion limits are delegated to the pinned parser and are not separately characterized in WP-04.
+- Sequential forward saved-state references are modeled as dependency edges rather than rejected solely by declaration order; characterized ordering remains preserved.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:23c3bfa74484d0780dc802c4f4a2d49384acae74:80eb44dcbb1c085665705a6acd663bb337755a76fa35a52b5e0350cfe8a121c1")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_5339_impl")
 
-Result: pre_review
+Result: pass

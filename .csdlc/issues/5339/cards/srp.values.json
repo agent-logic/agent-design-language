@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-04] Implement clean-room six-primitives language core",
     "slug": "v0918-wp04-clean-room-six-primitives-language-core",
     "version": "v0.91.8",
-    "generation": 12
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-v2/crates/adl-language\n.csdlc/issues/5339\n.csdlc/prepared/issues/5339\n.csdlc/evidence/5339",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:23c3bfa74484d0780dc802c4f4a2d49384acae74:80eb44dcbb1c085665705a6acd663bb337755a76fa35a52b5e0350cfe8a121c1",
+      "reviewer": "subagent:/root/review_5339_impl",
       "review_prompts": [
         "Does the model define exactly the six primitives without absorbing compiler, engine, runtime, adapter, CLI, or C-SDLC authority?",
         "Can YAML or JSON coercion, duplicate keys, unknown fields, aliases, ordering, or numeric representation bypass strict validation or canonical equality?",
@@ -24,8 +24,11 @@
         "Are COTS choices and the provisional LoC/test/latency allocation minimal, measured, and subordinate to correctness?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "YAML alias and resource-exhaustion limits are delegated to the pinned parser and are not separately characterized in WP-04.",
+        "Sequential forward saved-state references are modeled as dependency edges rather than rejected solely by declaration order; characterized ordering remains preserved."
+      ],
+      "review_result": "pass"
     }
   }
 }
