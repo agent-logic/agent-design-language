@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "json"
+require "open3"
+require "pathname"
+
+ROOT = Pathname.new(__dir__).join("../../../..").expand_path
+PREP = ROOT.join(".csdlc/prepared/issues/5346")
+MANIFEST = ROOT.join("docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json")
+POST = ROOT.join("docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json")
+LANES = %w[eligibility-before-deletion complete-post-deletion post-merge-exact].freeze
+
+def installed_binary(name)
+  common, status = Open3.capture2e("git", "-C", ROOT.to_s, "rev-parse", "--git-common-dir")
+  abort("#5346 cannot resolve shared Git directory: #{common}") unless status.success?
+  common = Pathname.new(common.strip)
+  common = ROOT.join(common) unless common.absolute?
+  binary = common.parent.join(".adl/bin/csdlc-v2", name)
+  abort("#5346 installed typed binary is absent: #{binary}") unless binary.file? && binary.executable?
+  binary.to_s
+end
+
+def run!(*argv)
+  out, status = Open3.capture2e(*argv, chdir: ROOT.to_s)
+  abort("#5346 command failed: #{argv.join(' ')}\n#{out}") unless status.success?
+  out
+end
+
+def load_json(path, label)
+  abort("#5346 missing #{label}: #{path}") unless path.file?
+  JSON.parse(path.read)
+rescue JSON::ParserError => e
+  abort("#5346 invalid #{label}: #{e.message}")
+end
+
+lane = ARGV.fetch(0, "")
+abort("unsupported #5346 validation lane: #{lane}") unless LANES.include?(lane)
+run!("ruby", PREP.join("check-dependencies.rb").to_s)
+manifest = load_json(MANIFEST, "eligibility manifest")
+request = ROOT.join(manifest.fetch("eligibility_request"))
+decision = JSON.parse(run!(installed_binary("csdlc-eligibility"), "evaluate", "--repo", ROOT.to_s, "--request", request.to_s))
+abort("#5346 eligibility rejected") unless decision["eligible"] == true && decision["deletion_executed"] == false
+abort("#5346 eligibility revision mismatch") unless decision["code_revision"] == run!("git", "rev-parse", "HEAD").strip
+
+if lane != "eligibility-before-deletion"
+  packet = load_json(POST, "post-deletion validation packet")
+  abort("#5346 post-deletion packet schema mismatch") unless packet["schema"] == "adl.wp13.post_deletion_validation.v1"
+  abort("#5346 post-deletion packet is not green") unless packet["status"] == "pass" && packet["deferred"] == []
+  accounting = packet.fetch("loc_accounting")
+  total = accounting.fetch("deleted") + accounting.fetch("retained")
+  abort("#5346 invalid LoC denominator") unless total == accounting.fetch("pinned_denominator") && total.positive?
+  basis_points = accounting.fetch("deleted") * 10_000 / total
+  abort("#5346 deletion is below 80 percent") if basis_points < 8_000
+  abort("#5346 80-89 percent deletion lacks reviewed exception") if basis_points < 9_000 && packet["reviewed_80_to_89_exception"] != true
+  run!("bash", ROOT.join("adl/tools/run_owner_validation_lane.sh").to_s, "all")
+end
+
+if lane == "post-merge-exact"
+  packet = load_json(POST, "post-deletion validation packet")
+  head = run!("git", "rev-parse", "HEAD").strip
+  abort("#5346 post-merge packet revision mismatch") unless packet["post_merge_revision"] == head && packet["serialized_after_5347"] == true
+end
+
+puts JSON.generate(status: "pass", issue: 5346, lane: lane, revision: run!("git", "rev-parse", "HEAD").strip)

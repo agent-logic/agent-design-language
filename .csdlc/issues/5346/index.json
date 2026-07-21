@@ -1,0 +1,106 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5346,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "d391333554b11b0dae9033fb57979c1abf35567ca36a3bc2e29fc1802987f01b",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "dbc9aa11a89b0ac131f2009e0a2c8e1303acb4d3a2ead33dc398116bff280fad",
+  "claim": {
+    "id": "claim-5346-v0918-wp13-deletion-preparation",
+    "owner": "codex:5346-preparation-owner",
+    "generation": 0,
+    "acquired_unix_seconds": 1784661641,
+    "expires_unix_seconds": 1785266441,
+    "heartbeat_unix_seconds": 1784661641,
+    "branch": "codex/5346-v0918-wp13-final-adl-deletion",
+    "worktree": ".worktrees/adl-wp-5346",
+    "protected_paths": [
+      ".csdlc/issues/5346",
+      ".csdlc/locks/5346.lock",
+      ".csdlc/prepared/issues/5346",
+      ".csdlc/evidence/5346",
+      "docs/milestones/v0.91.8/evidence/wp13/5346-deletion-eligibility.v1.json",
+      "docs/milestones/v0.91.8/evidence/wp13/5346-post-deletion-validation.v1.json"
+    ],
+    "purpose": "Prepare and review #5346 only; no source path may be claimed or deleted until #5344/#5343/#5358/#5361 are merged, typed closed_out, receipt-backed, claim-free, ancestral, and the #5346/#5347 manifests prove disjoint ownership"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5346/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5346/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019f862b-7a09-7f72-997e-4a23af10e57e",
+      "revision": "14dfc6b19de9acb122b4054f1629ccbfc9fc685e74b83d9fe63cf990027ad402"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "650fa57af0559c98cdb12a14d9c83f19360b9d39b8d555430945cabb8eb5e648",
+      "rendered_digest": "968e8022aa69522a40e0b4015c80ea9c0e5b7476594e4376f591451444a87134",
+      "ast_digest": "291dc8e45933eef134a357751c07ede5a3b27617e508cc331acdaa65fc44d728"
+    },
+    "stp": {
+      "values_digest": "ea93186aa617bddd8045d3ff4d5d35e4d87aa7ba7f8bc24da32d9919a686776b",
+      "rendered_digest": "d19faaf7f27aad6bff1eeddf9f940951082fa77fa4203d56c414a2b14fc56d9c",
+      "ast_digest": "ad32822d631d5e0f67775513ee499790357b0cb86befb3ba5eb5c34d9a6ef906"
+    },
+    "spp": {
+      "values_digest": "e5250e4b02d5a0b09aa74ff1315435c821b911e19b649a1fd557b5969464c5fb",
+      "rendered_digest": "a688e4f7a7ca56788e5dbc2691e03c5f362223f243e4b506bc1c5000ce44a663",
+      "ast_digest": "a09c529c4d1f1fa1850289616ae0544b01157acb80c269a424ca3855f81a9b60"
+    },
+    "vpp": {
+      "values_digest": "177382c31d60d3daddce040d2a3a7a3fe83da27f218b698d293ff6220389fcd9",
+      "rendered_digest": "e0c886eb4fb651849d4772cd4b08e951e457ce4df239ac62ecad89dd89e0a187",
+      "ast_digest": "318c5e2f0d567c01af2582134d08c4926438a9983daffdd890fdd572ca00f6f3"
+    },
+    "srp": {
+      "values_digest": "b49cbbe6f894cb103dd9e4e7ef8a2d1f7c940318c4c5f4feee63bd133497f111",
+      "rendered_digest": "2d098e932e05ccd2d62eb51db377136bbc8087b2f1390c8e23df33e60b46b0d5",
+      "ast_digest": "5395e9c543378320d990afad8968d3f33105e089c709f1c222f31d48dde7904d"
+    },
+    "sor": {
+      "values_digest": "deac57e411c6256e5b9065523d6aa84abee24ce4b3bf3d3ff96cce9193b572ce",
+      "rendered_digest": "f22ab2b8fe07b6b56a58738155da7f1afe5c944b97a5aa0862ab59f9add336fc",
+      "ast_digest": "9d0da2cd6ab6a79fe7b1c1e6c7a93bb7c6768ae68fa40688230259dcebc936db"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5346-preparation-owner",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5346-preparation-owner",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5346-preparation-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5346-preparation-owner",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
