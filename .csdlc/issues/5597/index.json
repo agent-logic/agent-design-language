@@ -1,0 +1,375 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5597,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "0b22f57976eb8d37ecc1796ff4e3e0676d4ff92447fb1c7dff25f16853e3a3cd",
+  "phase": "closed_out",
+  "generation": 21,
+  "digest": "819c1521ca6c8abe8ecd4b1841500b623e65476d5988d1e16f4a0a7403075683",
+  "claim": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:4395749975b1ac99453bf8c7d4f46a7fc1effdec:d80e795d182da456de18cb506799f408f63d203bc9d38833db567da4a8c6ecc9",
+    "scope": [
+      "csdlc-v2",
+      "docs/templates/prompts/current.json",
+      "docs/templates/prompts/README.md",
+      "docs/architecture/csdlc-v2/gate9/samples"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+    "scope": [
+      "csdlc-v2",
+      "docs/templates/prompts/current.json",
+      "docs/templates/prompts/README.md",
+      "docs/architecture/csdlc-v2/gate9/samples"
+    ],
+    "reviewed_revision": "git-blake3:4395749975b1ac99453bf8c7d4f46a7fc1effdec:d80e795d182da456de18cb506799f408f63d203bc9d38833db567da4a8c6ecc9",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5597,
+    "pull_request": 5598,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5598",
+    "base": "main",
+    "head": "codex/5597-generation-aware-preparation-safe",
+    "revision": "git-blake3:dce4f1f5cf795ff90c8a47c5a8b5d29f74adade6:820ffb444cde86c19231a76d42e494cc7c9c8624a42fb27268ae420bad7e76b4",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": {
+    "pull_request": 5598,
+    "head_sha": "dce4f1f5cf795ff90c8a47c5a8b5d29f74adade6",
+    "checks": [
+      {
+        "name": "adl-ci",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29772536073/job/88454180575"
+      },
+      {
+        "name": "adl-coverage",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29772536073/job/88454019485"
+      },
+      {
+        "name": "adl-path-policy",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29772536073/job/88453977529"
+      },
+      {
+        "name": "adl-tooling-contracts",
+        "requirement": "required",
+        "conclusion": "success",
+        "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29772536073/job/88454019022"
+      }
+    ],
+    "review_state": "not_required",
+    "conflict_state": "clean",
+    "post_publication_findings": [],
+    "ready": true,
+    "blockers": []
+  },
+  "terminal": {
+    "pull_request": 5598,
+    "disposition": "merged",
+    "observed_sha": "dce4f1f5cf795ff90c8a47c5a8b5d29f74adade6",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/5597.json",
+    "released_branch": "codex/5597-generation-aware-preparation-safe",
+    "released_worktree": ".worktrees/adl-wp-5597",
+    "released_protected_paths": [
+      ".csdlc/issues/5597",
+      ".csdlc/locks/5597.lock",
+      ".csdlc/prepared/issues/5597",
+      "csdlc-v2",
+      "docs/architecture/csdlc-v2/gate9/samples",
+      "docs/templates/prompts/README.md",
+      "docs/templates/prompts/current.json"
+    ]
+  },
+  "migration": null,
+  "design_path": ".csdlc/issues/5597/retained/design.md",
+  "diagram_path": ".csdlc/issues/5597/retained/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "revision": "d0c569346b3c9028b5b30681dfe27a832b30f76a0226bdd5fb3a1d78cc787880"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6cc4da764159bc6aed7301d9290a3a01f6890a3e11d0129b6e3fb01fa5b46230",
+      "rendered_digest": "b8ad4acebc4da56f808586f134a39be1cbc79f4021fbd70426fc3efc676f1a67",
+      "ast_digest": "e2af351ba7d2e58e20e2a9de374e8e37ce16b6a37c5c0236ac59a5756380894c"
+    },
+    "stp": {
+      "values_digest": "4fb8e1707a423577358c17c0af2eb03cb555bfcc73991cdc9b68a64c8eec33bf",
+      "rendered_digest": "f78872a24cb7e1eb04be18a2892d5d070cd29c8419e1dc9cf14a31de207d3199",
+      "ast_digest": "597c82206edab50155b7d5f5f42c96153cd63c87f845cbe8f779b8e19406b4a3"
+    },
+    "spp": {
+      "values_digest": "8d354801baf268f940d43865752313657bf2c1bc655f5a99ea8feb53bf1e0bf8",
+      "rendered_digest": "d520677e856b5466c635b680c72a0fcfd393419310a6e8f483bec04e1a8cbc6e",
+      "ast_digest": "c72e351da10b8954b10903a477d6327dbfd43edebd3419c473789eba24ab26f0"
+    },
+    "vpp": {
+      "values_digest": "72026b17a4fb5560bb34a8944dd693c6c41fe6dce4300e281c1daebe4895e1a1",
+      "rendered_digest": "ac05aa8441f11d878e77fae2288b52bb0b40fd59c8d7c8a477ecd8d13a4db60b",
+      "ast_digest": "f7becbf7d1f0282779ffe548fbf8399066ba9dd97340f18949ee46435c061063"
+    },
+    "srp": {
+      "values_digest": "e9a9adbc1c12b5ba69d1b4b4fb0ab0497427e717e4b67ed952a1b0bebc89064d",
+      "rendered_digest": "eebf7a5dbc22450ca2ec2f9b35e11d5a81f636a79f8352eea1614171eafed493",
+      "ast_digest": "f15d9979fb6891e48f5e957132b48b1cb528d2c8341d865d11252ec2c66ffe17"
+    },
+    "sor": {
+      "values_digest": "118e4a57f2d3ac74e5304293a54de94c13de036cec8bcf9b11872787a2f714a0",
+      "rendered_digest": "2767f949be6ac063f4ee9380a61c5ab20435dbd4af48d38a7dd848e48e930774",
+      "ast_digest": "214db24c17c68b4322094856703d31f690280137fbe6d21bf084aef867f257c6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Bounded implementation and local proof complete; enter exact-revision review"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Two independent exact-revision reviews passed with no findings or residual risks."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "terminal truth recorded and claim released"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Issue #5597 requires Gate 9 parity fixture truth for synchronized completed SRP review state",
+      "operation": "{\"add_protected_paths\":[\"docs/architecture/csdlc-v2/gate9/samples\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Restore explicit issue #5597 operator constraints through the new preparation-safe typed operation",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use typed C-SDLC v2 lifecycle and ADL owner binaries only\",\"Never use raw gh or AWS\",\"Keep the grouped repair compact and in scope\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Restore the explicit preparation review scope through authorized bound SRP replanning",
+      "operation": "{\"field\":\"review_scope\",\"new_value\":\"Review the exact substantive revision for registry authority, legacy and native compatibility, lossless bootstrap and migration semantics, phase-safe SIP STP SRP edits, atomic acceptance coverage, and review-assignment synchronization.\",\"operation\":\"replan\",\"previous_value\":\"Exact implementation revision before publication.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Replace the sunset v1 runner lane with the actual Gate 10D2 native v2 proof commands",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v2-all-target-tests\",\"proof_role\":\"Run the complete native C-SDLC v2 all-target test suite including Gates 2, 5, 8, 9, 10 and immutable compatibility fixtures\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"v2-proof\",\"defer_reason\":null},{\"lane\":\"v2-strict-clippy\",\"proof_role\":\"Run strict all-target lint for the native v2 crate\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"v2-proof\",\"defer_reason\":null},{\"lane\":\"v2-owner-binaries\",\"proof_role\":\"Build the current native v2 owner binaries on FastWork and prove executable owner artifacts without invoking sunset v1 wrappers\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"build\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bins\"],\"parallel_group\":\"v2-owner\",\"defer_reason\":null},{\"lane\":\"typed-doctor\",\"proof_role\":\"Run the freshly built typed v2 doctor against issue 5597\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"/Volumes/FastWork/adl-builds/5597/csdlc-v2-target/debug/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5597\"],\"parallel_group\":\"v2-owner\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove whitespace hygiene and bounded tracked scope\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"v2-owner\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Record the clean exact-commit Gate 10D2 native v2 proof bundle",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Prove complete native v2 behavior, compatibility, installer provenance, strict lint, owner binaries, typed doctor, and diff hygiene for commit 1e810bde5.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 1e810bde5: complete csdlc-v2 all-target suite passed including Gate 10 install/provenance; strict all-target Clippy passed with -D warnings; all v2 binaries built on FastWork; typed doctor passed at issue 5597 generation 3 with zero findings; git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Retain the stale legacy owner-runner attempt as non-proving evidence",
+      "operation": "{\"operation\":\"append_reference\",\"value\":\"Non-proving: adl/tools/run_owner_validation_lane.sh csdlc stopped at its obsolete requirement for sunset adl/tools/pr.sh run guidance; it was not used for AC-8 or AC-9 and no v1 lifecycle command was invoked.\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Record the bounded implementation before exact-revision review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the compact generation-aware registry contract and preparation-safe typed SIP, STP, and SRP semantics while preserving native 1.0.0 and legacy import 1.0.3.\",\"changes\":[\"Added fail-closed native registry and compiled shape validation\",\"Preserved explicit constraints and review scope through bootstrap and migration\",\"Added atomic phase-safe typed preparation edits and review-assignment synchronization\",\"Added focused immutable compatibility, migration, review, and Gate 9 parity proof\"],\"artifacts\":[\"csdlc-v2/operator/native-card-shape.json\",\"docs/templates/prompts/current.json\",\"csdlc-v2/tests/fixtures/native-1.0.0-sip.values.json\",\".csdlc/issues/5597\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Complete generation-aware registry implementation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Complete lossless bootstrap and migration semantics",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Complete phase-safe typed preparation operations",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Bounded implementation and local proof complete; enter exact-revision review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Make fresh-owner ordering and bounded-diff proof explicit after review",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v2-all-target-tests\",\"proof_role\":\"Run the complete native v2 all-target suite including Gate 10 install provenance\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"v2-tests\",\"defer_reason\":null},{\"lane\":\"v2-strict-clippy\",\"proof_role\":\"Run strict all-target native v2 lint\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/5597/csdlc-v2-target\",\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"v2-lint\",\"defer_reason\":null},{\"lane\":\"ordered-owner-doctor\",\"proof_role\":\"Build current v2 owner binaries and then run typed doctor from that exact target in one fail-closed ordered script\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5597/validate-native-owner.sh\"],\"parallel_group\":\"v2-owner\",\"defer_reason\":null},{\"lane\":\"bounded-revision-diff\",\"proof_role\":\"Prove origin/main-to-reviewed-revision whitespace hygiene and exact protected-path scope\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5597/validate-bounded-diff.sh\",\"origin/main\",\"HEAD\"],\"parallel_group\":\"diff-proof\",\"defer_reason\":null},{\"lane\":\"worktree-diff-hygiene\",\"proof_role\":\"Detect whitespace defects in any remaining uncommitted tracked worktree diff\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"diff-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+      "reason": "Make fresh-owner ordering and bounded-diff proof explicit after review",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v2-all-target-tests\",\"proof_role\":\"Run the complete native v2 all-target suite including Gate 10 install provenance\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"v2-tests\",\"defer_reason\":null},{\"lane\":\"v2-strict-clippy\",\"proof_role\":\"Run strict all-target native v2 lint\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"v2-lint\",\"defer_reason\":null},{\"lane\":\"ordered-owner-doctor\",\"proof_role\":\"Build current v2 owner binaries and then run typed doctor from that exact target in one fail-closed ordered script\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5597/validate-native-owner.sh\"],\"parallel_group\":\"v2-owner\",\"defer_reason\":null},{\"lane\":\"bounded-revision-diff\",\"proof_role\":\"Prove origin/main-to-reviewed-revision whitespace hygiene and exact protected-path scope\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5597/validate-bounded-diff.sh\",\"origin/main\",\"HEAD\"],\"parallel_group\":\"diff-proof\",\"defer_reason\":null},{\"lane\":\"worktree-diff-hygiene\",\"proof_role\":\"Detect whitespace defects in any remaining uncommitted tracked worktree diff\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"diff-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the final exact-revision Gate 10D2 proof after all review fixes",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"CARGO_TARGET_DIR=<operator-approved-external-target>\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Prove complete native v2 behavior, API closure, compatibility, installer provenance, strict lint, owner binaries, typed doctor, formatting, and bounded revision scope for commit 0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48: complete csdlc-v2 all-target suite and doctest passed; focused Gate 5, Gate 7 lifecycle, and Gate 10A suites passed; strict all-target Clippy passed with -D warnings; cargo fmt --check passed; bounded origin/main-to-revision path and whitespace proof passed; stable v2 install/coexistence provenance reports git:0edf30b56f4d4c0e2dad35055b7fd5f5deb6fe48; typed doctor passed at issue 5597 generation 12 with zero findings. Builds used the operator-approved external FastWork target; the retained command remains portable.\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Two independent exact-revision reviews passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed merged GitHub publication and SOR projection",
+      "operation": "record_merged_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record normalized remote readiness without replacing pre-publication review",
+      "operation": "record_readiness"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically finalize SOR/index and release claim/protected paths",
+      "operation": "record_terminal"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:issue-5358-acceptance",
+      "reason": "Integrate the existing receipt-backed normal-merge terminal truth for issue 5597 into the issue 5358 acceptance branch.",
+      "operation": "reconcile_terminal"
+    }
+  ]
+}

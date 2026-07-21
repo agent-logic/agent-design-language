@@ -1,0 +1,8 @@
+{
+  "issue": 5600,
+  "expected_generation": 22,
+  "expected_digest": "d6a9e0b8d8594659768e08de2d4bc9aba6dff5d8ea5632b6944875ff47f3871d",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600-terminal-reconcile-5358",
+  "reason": "Recover stale cf3eb510 review and publication truth because the merged PR head is ea6e5949 and terminal reconciliation must be re-established by corrected typed closeout tooling."
+}

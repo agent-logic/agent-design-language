@@ -1,0 +1,11 @@
+{
+  "issue": 5600,
+  "card": "srp",
+  "expected_generation": 15,
+  "expected_digest": "1d42014ed3180b63f4a4d1f695d397bbb42b357312ecd057aafbc49ffac4e8bb",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600",
+  "reason": "Final exact-head review passed with all six findings fixed",
+  "operation": {"operation": "advance_phase", "phase": "reviewed"},
+  "fail_after_backup": false
+}

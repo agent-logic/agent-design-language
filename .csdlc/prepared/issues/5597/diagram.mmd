@@ -1,0 +1,8 @@
+flowchart LR
+  R["Generation-aware registry"] --> V["Fail-closed compact shape validation"]
+  V --> I["Native v2 init 1.0.0"]
+  L["Legacy import 1.0.3"] --> M["Lossless migration"]
+  I --> E["Preparation-safe typed edits"]
+  M --> E
+  E --> S["SIP constraints and STP criteria"]
+  E --> P["SRP scope and review assignment"]

@@ -21,6 +21,31 @@ fn passing_scenarios() -> Vec<ScenarioEvidence> {
         .collect()
 }
 
+#[test]
+fn native_sample_authority_resolves_distinct_native_and_import_families() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("repository root");
+    csdlc_v2::registry::validate_native_registry(repo)
+        .expect("generation-aware native and legacy registry authority");
+
+    let malformed_repo = tempfile::tempdir().expect("malformed repo");
+    let registry = malformed_repo
+        .path()
+        .join("docs/templates/prompts/current.json");
+    std::fs::create_dir_all(registry.parent().unwrap()).unwrap();
+    std::fs::write(registry, br#"{"generations":{}}"#).unwrap();
+    let output = tempfile::tempdir().expect("sample output");
+    let output_path = output.path().join("samples");
+    let error = generate_sample_packets(malformed_repo.path(), &output_path)
+        .expect_err("malformed authority must fail sample generation");
+    assert!(matches!(error.code, csdlc_v2::ErrorCode::InvalidManifest));
+    assert!(
+        !output_path.exists(),
+        "registry failure must precede authoring"
+    );
+}
+
 fn passing_budgets() -> Vec<BudgetEvidence> {
     BudgetKind::iter()
         .map(|name| {
@@ -83,8 +108,11 @@ fn selector_requires_opt_in_before_cutover_and_supports_v1_override_after_cutove
 #[test]
 fn sample_generation_is_idempotent_and_builds_six_ast_validated_cards_each() {
     let root = tempfile::tempdir().unwrap();
-    let first = generate_sample_packets(root.path()).unwrap();
-    let second = generate_sample_packets(root.path()).unwrap();
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("repository root");
+    let first = generate_sample_packets(repo, root.path()).unwrap();
+    let second = generate_sample_packets(repo, root.path()).unwrap();
     assert_eq!(first, second);
     assert_eq!(first.len(), 3);
     for packet in first {
@@ -261,8 +289,22 @@ fn representative_samples_reopen_persisted_store_between_lifecycle_phases() {
         )
         .unwrap();
         let comparison = csdlc_v2::compare_shadow(&legacy, &outcome);
-        assert!(comparison.equivalent);
-        assert!(comparison.differences.is_empty());
+        assert!(
+            !comparison.equivalent,
+            "{slug}: retained v1 difference must remain visible"
+        );
+        assert_eq!(comparison.differences, vec!["card_statuses"]);
+        assert_eq!(
+            legacy.card_statuses[&csdlc_v2::CardKind::Srp].to_string(),
+            "pre_phase"
+        );
+        assert_eq!(
+            outcome.card_statuses[&csdlc_v2::CardKind::Srp].to_string(),
+            "complete"
+        );
+        let mut normalized = legacy.clone();
+        normalized.card_statuses = outcome.card_statuses.clone();
+        assert!(csdlc_v2::compare_shadow(&normalized, &outcome).equivalent);
     }
 }
 

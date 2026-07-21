@@ -3,8 +3,8 @@ use std::path::PathBuf;
 
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    approve_design, bootstrap_issue, edit_issue, public_schema_bundle, ApproveDesignRequest,
-    BootstrapRequest, EditRequest, ErrorCode, RepairIdentityRequest, Store,
+    approve_design, edit_issue, initialize_native_json, public_schema_bundle, ApproveDesignRequest,
+    EditRequest, ErrorCode, RepairIdentityRequest, Store,
 };
 use serde::Serialize;
 
@@ -56,9 +56,9 @@ fn main() {
         return;
     }
     let result = match args.command {
-        Command::Bootstrap { request } => {
-            read::<BootstrapRequest>(&request).and_then(|request| bootstrap_issue(&store, request))
-        }
+        Command::Bootstrap { request } => fs::read(request)
+            .map_err(Into::into)
+            .and_then(|bytes| initialize_native_json(&store, &bytes)),
         Command::Apply { request } => {
             read::<EditRequest>(&request).and_then(|request| edit_issue(&store, request))
         }

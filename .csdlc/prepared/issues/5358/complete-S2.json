@@ -1,0 +1,14 @@
+{
+  "issue": 5358,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "2e906851ef011fe19f832e9846d3120531d555907c106a4a49215808bcceda14",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "The #5358 design and cards inventory #5540/#5541 only as closed evidence inputs and #5548/#5558 only as independently owned open defect blockers.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  }
+}

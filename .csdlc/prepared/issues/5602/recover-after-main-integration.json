@@ -1,0 +1,8 @@
+{
+  "issue": 5602,
+  "expected_generation": 20,
+  "expected_digest": "b0e54e4020b227eb007096fbb9c81cd831054d91e66ea05f46f6a8392cea6387",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Refresh exact review and publication identity after integrating current main; the merge tree is byte-identical to the corrected reviewed tree and received a no-findings integration review."
+}

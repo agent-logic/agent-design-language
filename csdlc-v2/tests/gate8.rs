@@ -9,7 +9,7 @@ use csdlc_v2::{
 
 fn write_cards(root: &std::path::Path) -> BTreeMap<CardKind, String> {
     let cards = [
-        (CardKind::Sip, "# SIP\n\n## Goal\n\nPreserve **authored** intent.\n\n## Scope\n\n- importer\n- parity\n\n## Authority\n\n- no legacy mutation\n"),
+        (CardKind::Sip, "# SIP\n\n## Goal\n\nPreserve **authored** intent.\n\n## Scope\n\n- importer\n- parity\n\n## Authority\n\n- no legacy mutation\n\n## Operator Constraints\n\n- owner binaries only\n"),
         (CardKind::Stp, "# STP\n\n## Summary\n\nImport one bounded issue.\n\n## Required Outcome\n\nTyped v2 truth.\n\n## Deliverables\n\n- report\n- cards\n\n## Acceptance Criteria\n\n- content retained\n"),
         (CardKind::Spp, "# SPP\n\n## Plan\n\n- parse AST\n- construct values\n\n## Invariants\n\n- one way\n\n## Risks\n\n- ambiguity\n\n## Stop Conditions\n\n- duplicate heading\n"),
         (CardKind::Vpp, "# VPP\n\n## Validation\n\n- focused proof\n\n## Failure Policy\n\nFail closed with diagnostics.\n"),
@@ -26,6 +26,14 @@ fn write_cards(root: &std::path::Path) -> BTreeMap<CardKind, String> {
 }
 
 fn request(legacy: &std::path::Path, output: &std::path::Path) -> LegacyImportRequest {
+    if !output.join(".git").exists() {
+        let status = std::process::Command::new("git")
+            .current_dir(output)
+            .args(["init", "-b", "main"])
+            .status()
+            .expect("git init");
+        assert!(status.success());
+    }
     std::fs::create_dir_all(output.join("docs")).unwrap();
     std::fs::write(output.join("docs/design.md"), "# Imported design\n").unwrap();
     std::fs::write(output.join("docs/diagram.mmd"), "flowchart LR\n A-->B\n").unwrap();
@@ -86,7 +94,7 @@ fn one_way_ast_import_retains_every_authored_section_and_generates_view() {
     let report = import_legacy(request.clone()).unwrap();
     assert_eq!(report.status, ImportStatus::Imported);
     assert_eq!(report.sunset_unix_seconds, 1_000 + 30 * 24 * 60 * 60);
-    assert_eq!(report.retained_section_count, 22);
+    assert_eq!(report.retained_section_count, 23);
     let after: Vec<_> = request
         .card_paths
         .values()
@@ -103,7 +111,16 @@ fn one_way_ast_import_retains_every_authored_section_and_generates_view() {
         migration.authored_sources["sip"],
         std::fs::read_to_string(legacy.path().join("sip.md")).unwrap()
     );
-    assert_eq!(store.load_cards(88).unwrap().len(), 6);
+    let cards = store.load_cards(88).unwrap();
+    assert_eq!(cards.len(), 6);
+    let csdlc_v2::cards::CardContent::Sip(sip) = &cards[&CardKind::Sip].content else {
+        panic!("SIP");
+    };
+    assert_eq!(sip.operator_constraints, vec!["owner binaries only"]);
+    let csdlc_v2::cards::CardContent::Srp(srp) = &cards[&CardKind::Srp].content else {
+        panic!("SRP");
+    };
+    assert_eq!(srp.review_scope, "Imported authored truth.");
     let view = generate_compatibility_view(&store, 88).unwrap();
     assert!(view.contains("Preserve **authored** intent."));
     assert!(view.contains("Generated from canonical migration evidence. Do not edit."));

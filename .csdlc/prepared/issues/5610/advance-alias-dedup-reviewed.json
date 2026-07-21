@@ -1,0 +1,10 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "2543ad3d320bc6585d0dcc141b45296a8e6a378244ae82a2726580cd19df7676",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Exact correction head passed focused contracts and bounded review with no findings.",
+  "operation": {"operation":"advance_phase","phase":"reviewed"}
+}

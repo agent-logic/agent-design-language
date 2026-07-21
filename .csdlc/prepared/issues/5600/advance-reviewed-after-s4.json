@@ -1,0 +1,14 @@
+{
+  "issue": 5600,
+  "card": "srp",
+  "expected_generation": 20,
+  "expected_digest": "7386b0f7ce2420e31335f31952a18a4f177ea0a9d036cc78dbd45c8de09525b3",
+  "claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600",
+  "reason": "Restore reviewed truth after completing all four plan steps",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  },
+  "fail_after_backup": false
+}

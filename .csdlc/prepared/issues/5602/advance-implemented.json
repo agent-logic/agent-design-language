@@ -1,0 +1,10 @@
+{
+  "issue": 5602,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "18ab204f607304a1416326cd96a7359394098ef68f7db456616c113d65640b16",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+  "reason": "The bounded coverage orchestration repair and focused proof are complete.",
+  "operation": {"operation":"advance_phase","phase":"implemented"}
+}

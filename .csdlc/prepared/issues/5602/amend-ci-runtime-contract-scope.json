@@ -1,0 +1,12 @@
+{
+  "issue": 5602,
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "expected_generation": 10,
+  "expected_digest": "630ce3d301a3aa38ca476fb646e888b3d0bad38d440e981d8e1c3bf07dc1735b",
+  "now_unix_seconds": 1784587425,
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Exact review found that the authoritative coverage target and command contract is also enforced by the coupled CI runtime contract test; protect that repaired contract explicitly.",
+  "add_protected_paths": [
+    "adl/tools/test_ci_runtime_contracts.sh"
+  ]
+}

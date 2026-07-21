@@ -1,0 +1,84 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5602,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
+    "slug": "hosted-coverage-no-report",
+    "version": "v0.91.8",
+    "generation": 29
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Add --no-report to partitioned profile collection, lock the command contract, validate locally, review, and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Add no-report profile collection to every authoritative coverage partition",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Strengthen focused regression contracts and validate on /Volumes/FastWork",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Review, publish, and integrate the bounded repair",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [],
+      "invariants": [
+        "Coverage thresholds are unchanged",
+        "Test selectors and partition count are unchanged",
+        "Explicit combined reports remain required",
+        "No AWS route is used"
+      ],
+      "risks": [
+        "A command path could omit no-report",
+        "Explicit final reporting could accidentally be weakened",
+        "A test could assert text without exercising failure semantics"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "The repair requires product/runtime changes",
+        "The repair requires lowering coverage or skipping tests",
+        "Validation requires AWS"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5602/design.md",
+      "design_digest": "f45a2baf128a937eb1fb7bfd0e1d39db33ac3c2efb243efc8b965c7ea0304f82",
+      "diagram_ref": ".csdlc/prepared/issues/5602/diagram.mmd",
+      "diagram_digest": "d7109fa116d0e69fa1da25577a5282e45586699370b8386eba414f20ae6c24d3"
+    }
+  }
+}

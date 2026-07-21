@@ -3,7 +3,7 @@ use std::fs;
 use csdlc_v2::doctor::DoctorStatus;
 use csdlc_v2::{
     amend_claim_scope, diagnose, edit_issue, AmendClaimScopeRequest, BootstrapRequest, CardKind,
-    Claim, EditRequest, ErrorCode, SemanticOperation, Store,
+    Claim, EditRequest, ErrorCode, PlanningCollectionField, SemanticOperation, Store,
 };
 use tempfile::TempDir;
 
@@ -18,6 +18,33 @@ fn git(root: &std::path::Path, args: &[&str]) {
         "{}",
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+fn initialize_issue(
+    store: &Store,
+    request: BootstrapRequest,
+) -> csdlc_v2::Result<csdlc_v2::IssueRecord> {
+    if !store.root().join(".git").exists() {
+        git(store.root(), &["init", "-b", "main"]);
+    }
+    let registry = store.root().join("docs/templates/prompts/current.json");
+    let manifest = store
+        .root()
+        .join("csdlc-v2/operator/native-card-shape.json");
+    fs::create_dir_all(registry.parent().expect("registry parent")).expect("registry dir");
+    fs::create_dir_all(manifest.parent().expect("manifest parent")).expect("manifest dir");
+    fs::write(
+        &registry,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .expect("registry fixture");
+    fs::write(
+        &manifest,
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .expect("manifest fixture");
+    let bytes = serde_json::to_vec(&request).expect("native request bytes");
+    csdlc_v2::initialize_native_json(store, &bytes)
 }
 
 fn request() -> BootstrapRequest {
@@ -48,6 +75,7 @@ fn request() -> BootstrapRequest {
             required_outcome: "Construct and validate six typed cards.".into(),
             declared_scope: vec!["fixture record".into()],
             authority_boundary: vec!["no network".into()],
+            operator_constraints: vec!["none".into()],
             task_boundary: "Implement only the fixture.".into(),
             deliverables: vec!["record".into()],
             acceptance_criteria: vec!["six cards exist".into(), "doctor is ready".into()],
@@ -79,6 +107,7 @@ fn request() -> BootstrapRequest {
             }],
             failure_policy: "Fail closed.".into(),
             review_prompts: vec!["Review correctness.".into()],
+            review_scope: "fixture".into(),
         },
     }
 }
@@ -94,14 +123,137 @@ fn fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
     .expect("diagram");
     let store = Store::new(temp.path());
     let request = request();
-    let record = csdlc_v2::initialize_issue(&store, request.clone()).expect("initialize");
+    let record = initialize_issue(&store, request.clone()).expect("initialize");
     assert!(temp.path().join("docs/design.md").exists());
     assert!(temp.path().join("docs/diagram.mmd").exists());
     assert_eq!(
-        csdlc_v2::initialize_issue(&store, request).expect("idempotent init"),
+        initialize_issue(&store, request).expect("idempotent init"),
         record
     );
     (temp, store, record)
+}
+
+fn bind_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
+    let (temp, store, record) = fixture();
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "fixture"]);
+    let claim = record.claim.clone().expect("claim");
+    csdlc_v2::bind_issue(
+        &store,
+        csdlc_v2::BindRequest {
+            issue: 42,
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
+        },
+    )
+    .expect("bind fixture");
+    let bound = store.load_record(42).expect("bound record");
+    (temp, store, bound)
+}
+
+fn bind_issue_5337_fixture() -> (TempDir, Store, csdlc_v2::IssueRecord) {
+    let temp = tempfile::tempdir().expect("tempdir");
+    fs::create_dir_all(temp.path().join("docs")).expect("docs");
+    fs::write(temp.path().join("docs/design.md"), "# Prepared design\n").expect("design");
+    fs::write(
+        temp.path().join("docs/diagram.mmd"),
+        "flowchart LR\n  Prepare --> Implement\n",
+    )
+    .expect("diagram");
+    let store = Store::new(temp.path());
+    let mut request = request();
+    request.issue = 5_337;
+    request.claim.id = "claim-5337".into();
+    request.claim.branch = "issue-5337".into();
+    request.claim.worktree = ".worktrees/issue-5337".into();
+    request.initial.title = "[v0.91.8][WP-03] Prepared characterization corpus".into();
+    request.initial.slug = "prepared-characterization-corpus".into();
+    request.initial.goal =
+        "Prepare the characterization issue without implementation claims.".into();
+    let record = initialize_issue(&store, request).expect("initialize #5337 fixture");
+    git(temp.path(), &["add", "."]);
+    git(temp.path(), &["commit", "-m", "prepared #5337 fixture"]);
+    let claim = record.claim.clone().expect("claim");
+    csdlc_v2::bind_issue(
+        &store,
+        csdlc_v2::BindRequest {
+            issue: 5_337,
+            base_branch: "main".into(),
+            branch: claim.branch.clone(),
+            worktree: claim.worktree.clone(),
+            claim,
+        },
+    )
+    .expect("bind #5337 fixture");
+    let bound = store.load_record(5_337).expect("bound #5337 record");
+    (temp, store, bound)
+}
+
+fn edit_current(
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    card: CardKind,
+    operation: SemanticOperation,
+) -> csdlc_v2::IssueRecord {
+    edit_issue(
+        store,
+        EditRequest {
+            issue: record.issue,
+            card,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: record.claim.as_ref().expect("claim").id.clone(),
+            actor: "agent".into(),
+            reason: "typed preparation-to-implementation replan".into(),
+            operation,
+            fail_after_backup: false,
+        },
+    )
+    .expect("typed edit")
+}
+
+fn cli_edit_current(
+    root: &std::path::Path,
+    store: &Store,
+    record: &csdlc_v2::IssueRecord,
+    card: CardKind,
+    operation: SemanticOperation,
+) -> csdlc_v2::IssueRecord {
+    let request = EditRequest {
+        issue: record.issue,
+        card,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        claim_id: record.claim.as_ref().expect("claim").id.clone(),
+        actor: "agent".into(),
+        reason: "typed preparation-to-implementation CLI replan".into(),
+        operation,
+        fail_after_backup: false,
+    };
+    let request_path = root.join("typed-replan.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request).expect("CLI request JSON"),
+    )
+    .expect("write CLI request");
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-edit"))
+        .args([
+            "--repo",
+            root.to_str().expect("repo path"),
+            "apply",
+            "--request",
+            request_path.to_str().expect("request path"),
+        ])
+        .output()
+        .expect("run csdlc-edit");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    store.load_record(record.issue).expect("CLI-updated record")
 }
 
 #[test]
@@ -113,9 +265,107 @@ fn bootstrap_rejects_missing_vpp_command_before_authoring_files() {
         "bash".into(),
         "adl/tools/validate_planning_templates.sh".into(),
     ];
-    let error = csdlc_v2::initialize_issue(&store, request).expect_err("missing command");
+    let error = initialize_issue(&store, request).expect_err("missing command");
     assert!(matches!(error.code, ErrorCode::InvalidInput));
     assert!(!temp.path().join("docs/design.md").exists());
+    assert!(!temp.path().join(".csdlc/issues/42").exists());
+}
+
+#[test]
+fn native_registry_is_required_and_shape_checked_before_issue_authoring() {
+    for registry in [
+        None,
+        Some(b"not-json".as_slice()),
+        Some(br#"{"generations":{}}"#.as_slice()),
+        Some(include_bytes!("../../docs/templates/prompts/current.json").as_slice()),
+    ] {
+        let temp = tempfile::tempdir().expect("tempdir");
+        fs::create_dir_all(temp.path().join("docs")).expect("docs");
+        fs::write(temp.path().join("docs/design.md"), "# Design\n").expect("design");
+        fs::write(
+            temp.path().join("docs/diagram.mmd"),
+            "flowchart LR\n A-->B\n",
+        )
+        .expect("diagram");
+        if let Some(bytes) = registry {
+            let path = temp.path().join("docs/templates/prompts/current.json");
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, bytes).unwrap();
+        }
+        let bytes = serde_json::to_vec(&request()).expect("native request bytes");
+        let error = csdlc_v2::initialize_native_json(&Store::new(temp.path()), &bytes)
+            .expect_err("invalid registry must fail closed");
+        assert!(matches!(error.code, ErrorCode::InvalidManifest));
+        assert!(!temp.path().join(".csdlc/issues/42").exists());
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn native_registry_and_manifest_symlink_escapes_fail_before_authoring() {
+    use std::os::unix::fs::symlink;
+
+    let bytes = serde_json::to_vec(&request()).expect("native request bytes");
+    let escaped_registry = tempfile::tempdir().expect("registry root");
+    let outside = tempfile::tempdir().expect("outside registry");
+    let outside_registry = outside.path().join("current.json");
+    fs::write(
+        &outside_registry,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .unwrap();
+    let registry_path = escaped_registry
+        .path()
+        .join("docs/templates/prompts/current.json");
+    fs::create_dir_all(registry_path.parent().unwrap()).unwrap();
+    symlink(&outside_registry, &registry_path).unwrap();
+    let error = csdlc_v2::initialize_native_json(&Store::new(escaped_registry.path()), &bytes)
+        .expect_err("registry symlink escape");
+    assert!(matches!(error.code, ErrorCode::InvalidManifest));
+    assert!(!escaped_registry.path().join(".csdlc/issues/42").exists());
+
+    let escaped_manifest = tempfile::tempdir().expect("manifest root");
+    let registry_path = escaped_manifest
+        .path()
+        .join("docs/templates/prompts/current.json");
+    fs::create_dir_all(registry_path.parent().unwrap()).unwrap();
+    fs::write(
+        &registry_path,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .unwrap();
+    let outside_manifest = outside.path().join("native-card-shape.json");
+    fs::write(
+        &outside_manifest,
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .unwrap();
+    let manifest_path = escaped_manifest
+        .path()
+        .join("csdlc-v2/operator/native-card-shape.json");
+    fs::create_dir_all(manifest_path.parent().unwrap()).unwrap();
+    symlink(&outside_manifest, &manifest_path).unwrap();
+    let error = csdlc_v2::initialize_native_json(&Store::new(escaped_manifest.path()), &bytes)
+        .expect_err("manifest symlink escape");
+    assert!(matches!(error.code, ErrorCode::InvalidManifest));
+    assert!(!escaped_manifest.path().join(".csdlc/issues/42").exists());
+}
+
+#[test]
+fn retained_bootstrap_without_new_fields_loads_as_explicit_none() {
+    let mut value = serde_json::to_value(request()).expect("request JSON");
+    let initial = value["initial"].as_object_mut().expect("initial object");
+    initial.remove("operator_constraints");
+    initial.remove("review_scope");
+    let retained: BootstrapRequest =
+        serde_json::from_value(value.clone()).expect("retained request");
+    assert_eq!(retained.initial.operator_constraints, vec!["none"]);
+    assert_eq!(retained.initial.review_scope, "none");
+    let temp = tempfile::tempdir().expect("tempdir");
+    let bytes = serde_json::to_vec(&value).expect("retained bytes");
+    let error = csdlc_v2::initialize_native_json(&Store::new(temp.path()), &bytes)
+        .expect_err("native entrypoint requires explicit fields");
+    assert!(matches!(error.code, ErrorCode::InvalidInput));
     assert!(!temp.path().join(".csdlc/issues/42").exists());
 }
 
@@ -125,7 +375,7 @@ fn bootstrap_rejects_one_path_for_both_authored_artifact_roles() {
     let store = Store::new(temp.path());
     let mut request = request();
     request.diagram_path = request.design_path.clone();
-    let error = csdlc_v2::initialize_issue(&store, request).expect_err("shared authored path");
+    let error = initialize_issue(&store, request).expect_err("shared authored path");
     assert!(matches!(error.code, ErrorCode::InvalidInput));
     assert!(!temp.path().join("docs/design.md").exists());
     assert!(!temp.path().join(".csdlc/issues/42").exists());
@@ -178,7 +428,7 @@ fn bind_supports_issue_local_state_without_touching_primary_checkout() {
     let mut initial = request();
     initial.claim.worktree = ".".into();
     let store = Store::new(temp.path());
-    let record = csdlc_v2::initialize_issue(&store, initial).unwrap();
+    let record = initialize_issue(&store, initial).unwrap();
     git(temp.path(), &["init", "-b", "main"]);
     git(
         temp.path(),
@@ -222,7 +472,7 @@ fn bind_activates_exact_reserved_claim_from_existing_worktree() {
     );
     git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
     let store = Store::new(temp.path());
-    csdlc_v2::initialize_issue(&store, request()).unwrap();
+    initialize_issue(&store, request()).unwrap();
     git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "prepared issue"]);
     git(
@@ -278,7 +528,7 @@ fn bind_rejects_reserved_worktree_that_does_not_match_current_checkout() {
     );
     git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
     let store = Store::new(temp.path());
-    csdlc_v2::initialize_issue(&store, initial).unwrap();
+    initialize_issue(&store, initial).unwrap();
     git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "prepared issue"]);
     git(
@@ -333,7 +583,7 @@ fn bind_rejects_standalone_repository_with_matching_worktree_suffix() {
     );
     git(&issue_root, &["config", "user.name", "C-SDLC Test"]);
     let store = Store::new(&issue_root);
-    let record = csdlc_v2::initialize_issue(&store, request()).unwrap();
+    let record = initialize_issue(&store, request()).unwrap();
     git(&issue_root, &["add", "."]);
     git(&issue_root, &["commit", "-m", "copied prepared issue"]);
     let claim = record.claim.unwrap();
@@ -446,6 +696,231 @@ fn closed_issue_claim_release_is_typed_and_compare_and_swap_guarded() {
     assert_eq!(csdlc_v2::diagnose(&store, 42).status, DoctorStatus::Pass);
 }
 
+#[test]
+fn active_claim_transition_atomically_updates_purpose_and_scope() {
+    let (_temp, store, mut record) = fixture();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+        ),
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Bound,
+            },
+        ),
+    )
+    .unwrap();
+    let before_audit = record.audit.len();
+    let transitioned = csdlc_v2::transition_active_claim(
+        &store,
+        csdlc_v2::TransitionActiveClaimRequest {
+            issue: 42,
+            claim_id: "claim-1".into(),
+            expected_owner: "agent".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            now_unix_seconds: 2,
+            actor: "agent".into(),
+            reason: "begin implementation".into(),
+            expected_purpose: "test".into(),
+            purpose: "Implement the accepted issue contract".into(),
+            add_protected_paths: vec!["src".into(), "tests".into()],
+        },
+    )
+    .unwrap();
+    assert_eq!(
+        transitioned.purpose,
+        "Implement the accepted issue contract"
+    );
+    assert!(transitioned.protected_paths.contains(&"src".into()));
+    let updated = store.load_record(42).unwrap();
+    assert_eq!(updated.audit.len(), before_audit + 1);
+    assert!(updated
+        .audit
+        .last()
+        .unwrap()
+        .operation
+        .contains("transition_active_claim"));
+    let audit: serde_json::Value =
+        serde_json::from_str(&updated.audit.last().unwrap().operation).unwrap();
+    assert_eq!(audit["expected_purpose"], "test");
+    assert_eq!(audit["purpose"], "Implement the accepted issue contract");
+    assert_eq!(
+        audit["add_protected_paths"],
+        serde_json::json!(["src", "tests"])
+    );
+}
+
+#[test]
+fn active_claim_transition_rejects_stale_owner_without_any_write() {
+    let (_temp, store, mut record) = fixture();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+        ),
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Bound,
+            },
+        ),
+    )
+    .unwrap();
+    let before = std::fs::read(store.root().join(".csdlc/issues/42/index.json")).unwrap();
+    let error = csdlc_v2::transition_active_claim(
+        &store,
+        csdlc_v2::TransitionActiveClaimRequest {
+            issue: 42,
+            claim_id: "claim-1".into(),
+            expected_owner: "stale-owner".into(),
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            now_unix_seconds: 2,
+            actor: "agent".into(),
+            reason: "begin implementation".into(),
+            expected_purpose: "test".into(),
+            purpose: "Implement the accepted issue contract".into(),
+            add_protected_paths: vec!["src".into()],
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code, ErrorCode::InvalidClaim);
+    assert_eq!(
+        std::fs::read(store.root().join(".csdlc/issues/42/index.json")).unwrap(),
+        before
+    );
+}
+
+#[test]
+fn active_claim_transition_guards_cas_expiry_collision_and_real_cli() {
+    let (temp, store, mut record) = fixture();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+        ),
+    )
+    .unwrap();
+    record = csdlc_v2::edit_issue(
+        &store,
+        edit(
+            &record,
+            SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Bound,
+            },
+        ),
+    )
+    .unwrap();
+    let base = csdlc_v2::TransitionActiveClaimRequest {
+        issue: 42,
+        claim_id: "claim-1".into(),
+        expected_owner: "agent".into(),
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        now_unix_seconds: 2,
+        actor: "agent".into(),
+        reason: "begin implementation".into(),
+        expected_purpose: "test".into(),
+        purpose: "implementation".into(),
+        add_protected_paths: vec!["product".into()],
+    };
+    let index = store.issue_dir(42).join("index.json");
+    let before = fs::read(&index).unwrap();
+    let mut stale_generation = base.clone();
+    stale_generation.expected_generation += 1;
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, stale_generation)
+            .unwrap_err()
+            .code,
+        ErrorCode::StaleGeneration
+    );
+    assert_eq!(fs::read(&index).unwrap(), before);
+    let mut stale_digest = base.clone();
+    stale_digest.expected_digest = "stale".into();
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, stale_digest)
+            .unwrap_err()
+            .code,
+        ErrorCode::StaleDigest
+    );
+    let mut wrong_source = base.clone();
+    wrong_source.expected_purpose = "already implementation".into();
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, wrong_source)
+            .unwrap_err()
+            .code,
+        ErrorCode::InvalidClaim
+    );
+    let mut expired = base.clone();
+    expired.now_unix_seconds = u64::MAX;
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, expired)
+            .unwrap_err()
+            .code,
+        ErrorCode::ExpiredClaim
+    );
+    assert_eq!(fs::read(&index).unwrap(), before);
+
+    let mut other = record.clone();
+    other.issue = 43;
+    let other_claim = other.claim.as_mut().unwrap();
+    other_claim.id = "claim-43".into();
+    other_claim.protected_paths = vec!["product/nested".into()];
+    fs::create_dir_all(store.issue_dir(43)).unwrap();
+    fs::write(
+        store.issue_dir(43).join("index.json"),
+        serde_json::to_vec(&other).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        csdlc_v2::transition_active_claim(&store, base.clone())
+            .unwrap_err()
+            .code,
+        ErrorCode::ClaimCollision
+    );
+    assert_eq!(fs::read(&index).unwrap(), before);
+    fs::remove_dir_all(store.issue_dir(43)).unwrap();
+
+    let request_path = temp.path().join("transition.json");
+    fs::write(&request_path, serde_json::to_vec(&base).unwrap()).unwrap();
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-bind"))
+        .args([
+            "--root",
+            temp.path().to_str().unwrap(),
+            "--transition-request",
+            request_path.to_str().unwrap(),
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let updated = store.load_record(42).unwrap();
+    assert_eq!(updated.claim.unwrap().purpose, "implementation");
+}
+
 fn git_branch(root: &std::path::Path) -> String {
     let output = std::process::Command::new("git")
         .current_dir(root)
@@ -458,7 +933,7 @@ fn git_branch(root: &std::path::Path) -> String {
 #[test]
 fn bind_refuses_primary_checkout_and_worktree_mismatch() {
     let (temp, store, record) = fixture();
-    git(temp.path(), &["init", "-b", "wrong"]);
+    git(temp.path(), &["checkout", "-b", "wrong"]);
     git(
         temp.path(),
         &["config", "user.email", "test@example.invalid"],
@@ -724,11 +1199,17 @@ fn edit(record: &csdlc_v2::IssueRecord, operation: SemanticOperation) -> EditReq
 fn bootstrap_constructs_all_six_cards_and_ready_doctor() {
     let (_temp, store, record) = fixture();
     assert_eq!(record.cards.len(), 6);
-    assert_eq!(store.load_cards(42).expect("cards").len(), 6);
-    assert_eq!(
-        sip_goal(&store.load_cards(42).expect("cards")),
-        "Prove Gate 2."
-    );
+    let cards = store.load_cards(42).expect("cards");
+    assert_eq!(cards.len(), 6);
+    assert_eq!(sip_goal(&cards), "Prove Gate 2.");
+    let csdlc_v2::cards::CardContent::Sip(sip) = &cards[&CardKind::Sip].content else {
+        panic!("SIP");
+    };
+    assert_eq!(sip.operator_constraints, vec!["none"]);
+    let csdlc_v2::cards::CardContent::Srp(srp) = &cards[&CardKind::Srp].content else {
+        panic!("SRP");
+    };
+    assert_eq!(srp.review_scope, "fixture");
     let report = diagnose(&store, 42);
     assert!(report.ready, "{report:?}");
     assert!(report.findings.is_empty());
@@ -848,13 +1329,104 @@ fn bound_replan_is_typed_claimed_and_limited_to_planning_cards() {
         },
     )
     .expect("STP replan");
+    let sip_constraints = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: stp.generation,
+            expected_digest: stp.digest,
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "replace preparation constraints".into(),
+            operation: SemanticOperation::ReplaceOperatorConstraints {
+                values: vec!["owner binaries only".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("SIP constraint replacement");
+    let srp_scope = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Srp,
+            expected_generation: sip_constraints.generation,
+            expected_digest: sip_constraints.digest,
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "correct preparation review scope".into(),
+            operation: SemanticOperation::Replan {
+                field: csdlc_v2::cards::TextField::ReviewScope,
+                value: "exact compact-card repair".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("bound SRP scope replan");
+    let before_invalid = store.load_cards(42).expect("cards before invalid edit");
+    let invalid = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Stp,
+            expected_generation: srp_scope.generation,
+            expected_digest: srp_scope.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "try uncovered criterion".into(),
+            operation: SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec!["one".into(), "two".into(), "uncovered".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("SPP and VPP must cover every replacement criterion");
+    assert!(matches!(invalid.code, ErrorCode::CardInvalid));
+    assert_eq!(store.load_cards(42).unwrap(), before_invalid);
+    let stale = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Stp,
+            expected_generation: srp_scope.generation,
+            expected_digest: srp_scope.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "try stale removed criterion mapping".into(),
+            operation: SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec!["one".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("removed criteria cannot leave stale SPP or VPP mappings");
+    assert!(matches!(stale.code, ErrorCode::CardInvalid));
+    assert_eq!(store.load_cards(42).unwrap(), before_invalid);
+    let prepared = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Stp,
+            expected_generation: srp_scope.generation,
+            expected_digest: srp_scope.digest,
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "replace covered criteria".into(),
+            operation: SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec!["one".into(), "two".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("covered STP replacement");
     let sor = edit_issue(
         &store,
         EditRequest {
             issue: 42,
             card: CardKind::Sor,
-            expected_generation: stp.generation,
-            expected_digest: stp.digest,
+            expected_generation: prepared.generation,
+            expected_digest: prepared.digest,
             claim_id: "claim-1".into(),
             actor: "agent".into(),
             reason: "unauthorized bound replan".into(),
@@ -1026,6 +1598,440 @@ fn illegal_transition_fails_closed() {
 }
 
 #[test]
+fn issue_5337_preparation_converts_to_complete_implementation_truth_with_typed_edits() {
+    let (temp, store, mut record) = bind_issue_5337_fixture();
+
+    for (card, field, replacement) in [
+        (
+            CardKind::Sip,
+            PlanningCollectionField::DeclaredScope,
+            vec!["versioned black-box characterization corpus".into()],
+        ),
+        (
+            CardKind::Sip,
+            PlanningCollectionField::AuthorityBoundary,
+            vec!["pinned v1 binary is observed only through process I/O".into()],
+        ),
+        (
+            CardKind::Sip,
+            PlanningCollectionField::InitialAssumptions,
+            vec!["the pinned v1 binary is available locally".into()],
+        ),
+        (
+            CardKind::Stp,
+            PlanningCollectionField::Deliverables,
+            vec!["corpus harness".into(), "retained observations".into()],
+        ),
+        (
+            CardKind::Stp,
+            PlanningCollectionField::Dependencies,
+            vec!["integrated runtime parity plan".into()],
+        ),
+        (
+            CardKind::Stp,
+            PlanningCollectionField::RepoInputs,
+            vec!["adl-characterization".into(), "pinned v1 executable".into()],
+        ),
+        (
+            CardKind::Stp,
+            PlanningCollectionField::NonGoals,
+            vec!["no incumbent ADL Rust dependency".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::AffectedAreas,
+            vec!["adl-characterization crate".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::Invariants,
+            vec!["raw observations remain immutable".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::Risks,
+            vec!["normalization could erase semantic differences".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::StopConditions,
+            vec!["unexplained repeated-run divergence".into()],
+        ),
+        (
+            CardKind::Spp,
+            PlanningCollectionField::ReplanTriggers,
+            vec!["pinned v1 behavior changes".into()],
+        ),
+    ] {
+        record = cli_edit_current(
+            temp.path(),
+            &store,
+            &record,
+            card,
+            SemanticOperation::ReplacePlanningCollection {
+                field,
+                values: replacement,
+            },
+        );
+    }
+    record = cli_edit_current(
+        temp.path(),
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::ReplaceOperatorConstraints {
+            values: vec![
+                "typed lifecycle only".into(),
+                "no deferred corpus work".into(),
+            ],
+        },
+    );
+    record = cli_edit_current(
+        temp.path(),
+        &store,
+        &record,
+        CardKind::Srp,
+        SemanticOperation::ReplacePlanningCollection {
+            field: PlanningCollectionField::ReviewPrompts,
+            values: vec!["Can normalization erase a semantic difference?".into()],
+        },
+    );
+    record = cli_edit_current(
+        temp.path(),
+        &store,
+        &record,
+        CardKind::Spp,
+        SemanticOperation::ReplaceAcceptancePlan {
+            acceptance_criteria: vec![
+                "every corpus case has repeated raw observations".into(),
+                "coverage and nondeterminism classifications validate".into(),
+                "the retained manifest records every scenario digest".into(),
+            ],
+            steps: vec![
+                csdlc_v2::cards::PlanStep {
+                    id: "capture".into(),
+                    action: "capture every pinned v1 case repeatedly".into(),
+                    acceptance_ids: vec!["AC-1".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                },
+                csdlc_v2::cards::PlanStep {
+                    id: "verify".into(),
+                    action: "verify normalization, coverage, and reproducibility".into(),
+                    acceptance_ids: vec!["AC-2".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                },
+                csdlc_v2::cards::PlanStep {
+                    id: "retain".into(),
+                    action: "retain the complete scenario manifest".into(),
+                    acceptance_ids: vec!["AC-3".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                },
+            ],
+            validation_lanes: vec![csdlc_v2::cards::ValidationLane {
+                lane: "characterization-corpus".into(),
+                proof_role: "verify repeated outcomes and complete coverage".into(),
+                acceptance_ids: vec!["AC-1".into(), "AC-2".into(), "AC-3".into()],
+                deterministic: true,
+                resource_profile: csdlc_v2::cards::ResourceProfile::Small,
+                budget_seconds: 120,
+                budget_tokens: 1_000,
+                argv: vec!["cargo".into(), "test".into()],
+                parallel_group: "local".into(),
+                defer_reason: None,
+            }],
+        },
+    );
+    record = cli_edit_current(
+        temp.path(),
+        &store,
+        &record,
+        CardKind::Srp,
+        SemanticOperation::Replan {
+            field: csdlc_v2::cards::TextField::ReviewScope,
+            value: "exact characterization corpus implementation revision".into(),
+        },
+    );
+
+    let cards = store.load_cards(5_337).expect("converted cards");
+    let design_digest =
+        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/design.md")).expect("design"));
+    let diagram_digest =
+        csdlc_v2::cards::digest(&fs::read(temp.path().join("docs/diagram.mmd")).expect("diagram"));
+    csdlc_v2::cards::validate_cross_card(
+        &cards,
+        "docs/design.md",
+        &design_digest,
+        "docs/diagram.mmd",
+        &diagram_digest,
+    )
+    .expect("typed cross-card validation");
+    let report = diagnose(&store, 5_337);
+    assert!(matches!(report.status, DoctorStatus::Pass), "{report:?}");
+    assert!(report.findings.is_empty());
+    assert_eq!(record.generation, 16);
+    assert_eq!(record.audit.len(), 18);
+    assert!(record
+        .audit
+        .iter()
+        .any(|event| event.operation.contains("replace_planning_collection")));
+    assert!(record
+        .audit
+        .iter()
+        .any(|event| event.operation.contains("replace_acceptance_plan")));
+}
+
+#[test]
+fn planning_replacements_reject_invalid_requests_without_mutation() {
+    let (_temp, store, record) = bind_fixture();
+    let before_record = store.load_record(42).expect("record snapshot");
+    let before_cards = store.load_cards(42).expect("card snapshot");
+
+    let cases = [
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "empty replacement".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: Vec::new(),
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "wrong card".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::Deliverables,
+                values: vec!["wrong owner".into()],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation + 1,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "stale generation".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope".into()],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: "stale".into(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "stale digest".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope".into()],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "not-the-claim".into(),
+            actor: "agent".into(),
+            reason: "invalid claim".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope".into()],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Spp,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "stale acceptance mapping".into(),
+            operation: SemanticOperation::ReplacePlanSteps {
+                steps: vec![csdlc_v2::cards::PlanStep {
+                    id: "bad".into(),
+                    action: "map an unknown acceptance identifier".into(),
+                    acceptance_ids: vec!["AC-1".into(), "AC-3".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                }],
+            },
+            fail_after_backup: false,
+        },
+        EditRequest {
+            issue: 42,
+            card: CardKind::Spp,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "incoherent atomic acceptance plan".into(),
+            operation: SemanticOperation::ReplaceAcceptancePlan {
+                acceptance_criteria: vec!["one".into(), "two".into(), "three".into()],
+                steps: vec![csdlc_v2::cards::PlanStep {
+                    id: "incomplete".into(),
+                    action: "omit the new criterion".into(),
+                    acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+                    status: csdlc_v2::cards::StepStatus::Pending,
+                }],
+                validation_lanes: vec![csdlc_v2::cards::ValidationLane {
+                    lane: "incomplete".into(),
+                    proof_role: "also omit the new criterion".into(),
+                    acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+                    deterministic: true,
+                    resource_profile: csdlc_v2::cards::ResourceProfile::Small,
+                    budget_seconds: 60,
+                    budget_tokens: 100,
+                    argv: vec!["cargo".into(), "test".into()],
+                    parallel_group: "local".into(),
+                    defer_reason: None,
+                }],
+            },
+            fail_after_backup: false,
+        },
+    ];
+
+    let expected_codes = [
+        ErrorCode::CardInvalid,
+        ErrorCode::FieldOwnership,
+        ErrorCode::StaleGeneration,
+        ErrorCode::StaleDigest,
+        ErrorCode::MissingClaim,
+        ErrorCode::CardInvalid,
+        ErrorCode::CardInvalid,
+    ];
+    for (request, expected) in cases.into_iter().zip(expected_codes) {
+        let error = edit_issue(&store, request).expect_err("invalid replacement");
+        assert_eq!(error.code, expected);
+        assert_eq!(store.load_record(42).unwrap(), before_record);
+        assert_eq!(store.load_cards(42).unwrap(), before_cards);
+    }
+}
+
+#[test]
+fn planning_replacements_are_bound_only_and_cannot_smuggle_progress() {
+    let (_temp, initialized_store, initialized) = fixture();
+    for (card, operation) in [
+        (
+            CardKind::Sip,
+            SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::DeclaredScope,
+                values: vec!["scope".into()],
+            },
+        ),
+        (
+            CardKind::Sip,
+            SemanticOperation::ReplaceOperatorConstraints {
+                values: vec!["constraint".into()],
+            },
+        ),
+        (
+            CardKind::Stp,
+            SemanticOperation::ReplaceAcceptanceCriteria {
+                values: vec!["one".into(), "two".into()],
+            },
+        ),
+    ] {
+        let error = edit_issue(
+            &initialized_store,
+            EditRequest {
+                issue: 42,
+                card,
+                expected_generation: initialized.generation,
+                expected_digest: initialized.digest.clone(),
+                claim_id: "claim-1".into(),
+                actor: "agent".into(),
+                reason: "too early".into(),
+                operation,
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("initialized replacement must fail");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+    }
+
+    let (_temp, store, mut record) = bind_fixture();
+    let smuggled = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Spp,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "smuggle completion".into(),
+            operation: SemanticOperation::ReplacePlanSteps {
+                steps: vec![csdlc_v2::cards::PlanStep {
+                    id: "done".into(),
+                    action: "claim completion".into(),
+                    acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+                    status: csdlc_v2::cards::StepStatus::Completed,
+                }],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("replacement cannot smuggle completed work");
+    assert_eq!(smuggled.code, ErrorCode::CardInvalid);
+
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sor,
+        SemanticOperation::RecordExecution {
+            summary: "implemented".into(),
+            changes: vec!["csdlc-v2".into()],
+            artifacts: vec!["tests".into()],
+        },
+    );
+    record = edit_current(
+        &store,
+        &record,
+        CardKind::Sip,
+        SemanticOperation::AdvancePhase {
+            phase: csdlc_v2::LifecyclePhase::Implemented,
+        },
+    );
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 42,
+            card: CardKind::Srp,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            claim_id: "claim-1".into(),
+            actor: "agent".into(),
+            reason: "too late".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: PlanningCollectionField::ReviewPrompts,
+                values: vec!["late prompt".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("post-implementation replan must fail");
+    assert_eq!(error.code, ErrorCode::InvalidTransition);
+}
+
+#[test]
 fn direct_markdown_drift_is_corruption() {
     let (_temp, store, _record) = fixture();
     fs::write(
@@ -1138,7 +2144,7 @@ fn lifecycle_binaries_share_stable_typed_exit_classes() {
 fn placeholder_design_is_pending_then_can_be_completed_approved_and_bound() {
     let temp = tempfile::tempdir().expect("tempdir");
     let store = Store::new(temp.path());
-    let record = csdlc_v2::initialize_issue(&store, request()).expect("placeholder init");
+    let record = initialize_issue(&store, request()).expect("placeholder init");
     assert!(matches!(
         record.design_review,
         csdlc_v2::DesignReview::Pending
@@ -1225,7 +2231,7 @@ fn initialized_approved_stale_design_can_be_reapproved_before_readiness() {
     )
     .expect("diagram");
     let store = Store::new(temp.path());
-    let record = csdlc_v2::initialize_issue(&store, request()).expect("initialize");
+    let record = initialize_issue(&store, request()).expect("initialize");
     let redundant = csdlc_v2::approve_design(
         &store,
         csdlc_v2::ApproveDesignRequest {
@@ -1513,7 +2519,7 @@ fn issue_local_design_paths_do_not_look_like_existing_records() {
     bootstrap.diagram_path = ".csdlc/issues/42/diagram.mmd".into();
     bootstrap.design_approved = false;
 
-    let record = csdlc_v2::initialize_issue(&store, bootstrap).expect("issue-local init");
+    let record = initialize_issue(&store, bootstrap).expect("issue-local init");
     assert_eq!(record.issue, 42);
     assert!(store.issue_dir(42).join("index.json").exists());
     assert!(store.issue_dir(42).join("design.md").exists());
@@ -1534,7 +2540,7 @@ fn invalid_issue_local_init_fails_before_creating_artifacts() {
     bootstrap.design_path = ".csdlc/issues/43/design.md".into();
     bootstrap.diagram_path = ".csdlc/issues/43/diagram.mmd".into();
 
-    let error = csdlc_v2::initialize_issue(&store, bootstrap).expect_err("invalid claim");
+    let error = initialize_issue(&store, bootstrap).expect_err("invalid claim");
     assert!(matches!(error.code, ErrorCode::InvalidInput));
     assert!(!store.issue_dir(43).exists());
 }

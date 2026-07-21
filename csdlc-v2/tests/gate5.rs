@@ -1,11 +1,34 @@
 use csdlc_v2::cards::{FindingDisposition, FindingSeverity};
 use csdlc_v2::{
     assign_review, edit_issue, evaluate_publication_review, evaluate_publication_review_in_repo,
-    initialize_issue, record_review, BootstrapRequest, CardKind, Claim, EditRequest, ErrorCode,
-    InitialCardInput, LifecyclePhase, NonSubstantiveProof, PlanningProfile,
-    ReviewAssignmentRequest, ReviewEvidence, ReviewFindingEvidence, ReviewRecordRequest,
-    ReviewRecoveryRequest, SemanticOperation, Store,
+    record_review, BootstrapRequest, CardKind, Claim, EditRequest, ErrorCode, InitialCardInput,
+    LifecyclePhase, NonSubstantiveProof, PlanningProfile, ReviewAssignmentRequest, ReviewEvidence,
+    ReviewFindingEvidence, ReviewRecordRequest, ReviewRecoveryRequest, SemanticOperation, Store,
 };
+
+fn install_native_authority(root: &std::path::Path) {
+    let registry = root.join("docs/templates/prompts/current.json");
+    let manifest = root.join("csdlc-v2/operator/native-card-shape.json");
+    std::fs::create_dir_all(registry.parent().unwrap()).unwrap();
+    std::fs::create_dir_all(manifest.parent().unwrap()).unwrap();
+    std::fs::write(
+        registry,
+        include_bytes!("../../docs/templates/prompts/current.json"),
+    )
+    .unwrap();
+    std::fs::write(
+        manifest,
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .unwrap();
+}
+
+fn bootstrap_issue(
+    store: &Store,
+    request: BootstrapRequest,
+) -> csdlc_v2::Result<csdlc_v2::IssueRecord> {
+    csdlc_v2::initialize_native_json(store, &serde_json::to_vec(&request).unwrap())
+}
 
 fn finding(id: &str) -> ReviewFindingEvidence {
     ReviewFindingEvidence {
@@ -29,16 +52,17 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
         "flowchart LR\n A-->B\n",
     )
     .expect("diagram");
+    install_native_authority(temp.path());
     git(temp.path(), &["init", "-b", "main"]);
     git(
         temp.path(),
         &["config", "user.email", "test@example.invalid"],
     );
     git(temp.path(), &["config", "user.name", "C-SDLC Test"]);
-    git(temp.path(), &["add", "docs"]);
+    git(temp.path(), &["add", "."]);
     git(temp.path(), &["commit", "-m", "fixture"]);
     let store = Store::new(temp.path());
-    let mut record = initialize_issue(
+    let mut record = bootstrap_issue(
         &store,
         BootstrapRequest {
             issue: 7,
@@ -67,6 +91,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                 required_outcome: "review truth".into(),
                 declared_scope: vec!["src".into()],
                 authority_boundary: vec!["no network".into()],
+                operator_constraints: vec!["none".into()],
                 task_boundary: "review only".into(),
                 deliverables: vec!["review".into()],
                 acceptance_criteria: vec!["review current".into()],
@@ -98,6 +123,7 @@ fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
                 }],
                 failure_policy: "fail closed".into(),
                 review_prompts: vec!["review correctness".into()],
+                review_scope: "fixture".into(),
             },
         },
     )
@@ -196,6 +222,12 @@ fn assignment_and_recording_update_index_and_srp_without_publication_side_effect
         },
     )
     .expect("assign");
+    let cards = store.load_cards(7).expect("assigned cards");
+    let csdlc_v2::cards::CardContent::Srp(srp) = &cards[&CardKind::Srp].content else {
+        panic!("SRP");
+    };
+    assert_eq!(srp.review_scope, "src");
+    assert!(assigned.review.is_none());
     let revision = assigned
         .review_assignment
         .as_ref()
@@ -363,6 +395,29 @@ fn metadata_only_changes_do_not_stale_a_clean_review() {
 #[test]
 fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
     let (temp, store, implemented) = implemented_fixture();
+    let before = std::fs::read(store.issue_dir(7).join("index.json")).unwrap();
+    let premature = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Srp,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "operator".into(),
+            reason: "not actually recovered".into(),
+            operation: SemanticOperation::CorrectReviewPromptsAfterRecovery {
+                values: vec!["truthful prompt".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .unwrap_err();
+    assert_eq!(premature.code, ErrorCode::InvalidTransition);
+    assert_eq!(
+        std::fs::read(store.issue_dir(7).join("index.json")).unwrap(),
+        before
+    );
     let assigned = assign_review(
         &store,
         ReviewAssignmentRequest {
@@ -451,14 +506,40 @@ fn reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview() {
         .iter()
         .any(|event| event.operation == "recover_review"));
 
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Srp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            claim_id: "claim".into(),
+            actor: "operator".into(),
+            reason: "correct stale review question after recovery".into(),
+            operation: SemanticOperation::CorrectReviewPromptsAfterRecovery {
+                values: vec!["Does the final hosted mode match current truth?".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct prompts after recovery");
+    let cards = store.load_cards(7).unwrap();
+    let csdlc_v2::cards::CardContent::Srp(srp) = &cards[&CardKind::Srp].content else {
+        panic!("SRP")
+    };
+    assert_eq!(
+        srp.review_prompts,
+        vec!["Does the final hosted mode match current truth?"]
+    );
+
     git(temp.path(), &["add", "docs/new-proof.md"]);
     git(temp.path(), &["commit", "-m", "finalize reviewed changes"]);
     let reassigned = assign_review(
         &store,
         ReviewAssignmentRequest {
             issue: 7,
-            expected_generation: recovered.generation,
-            expected_digest: recovered.digest,
+            expected_generation: corrected.generation,
+            expected_digest: corrected.digest,
             claim_id: "claim".into(),
             reviewer: "reviewer".into(),
             assigned_by: "operator".into(),

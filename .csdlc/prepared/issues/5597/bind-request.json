@@ -1,0 +1,18 @@
+{
+  "issue": 5597,
+  "base_branch": "main",
+  "branch": "codex/5597-generation-aware-preparation-safe",
+  "worktree": ".worktrees/adl-wp-5597",
+  "claim": {
+    "id": "claim-5597-generation-aware-preparation-safe",
+    "owner": "codex:019f80bd-8bc3-7ac1-bba3-a82935775ca0",
+    "generation": 0,
+    "acquired_unix_seconds": 1784571481,
+    "expires_unix_seconds": 1785176281,
+    "heartbeat_unix_seconds": 1784571481,
+    "branch": "codex/5597-generation-aware-preparation-safe",
+    "worktree": ".worktrees/adl-wp-5597",
+    "protected_paths": [".csdlc/issues/5597", ".csdlc/locks/5597.lock", ".csdlc/prepared/issues/5597", "docs/templates/prompts/current.json", "docs/templates/prompts/README.md", "csdlc-v2"],
+    "purpose": "Repair generation-aware compact-card authority and preparation-safe typed SIP, STP, and SRP semantics"
+  }
+}

@@ -1,0 +1,14 @@
+flowchart LR
+  P["Typed preparation for #5358"] --> C["Six generated cards"]
+  P --> D["Issue-local acceptance design"]
+  E1["#5540 closed recovery evidence"] --> I["Declared input inventory"]
+  E2["#5541 closed D2 authority evidence"] --> I
+  B1["#5548 open Gate 2 defect"] --> G["Future acceptance gate"]
+  B2["#5558 open guidance defect"] --> G
+  C --> V["Typed validation and doctor"]
+  D --> V
+  I --> G
+  V --> R["Bounded preparation review"]
+  R --> H["Ready for later acceptance execution decision"]
+  G --> H
+  H -. "does not prove" .-> X["Acceptance, deployment, or closeout"]

@@ -1,0 +1,46 @@
+{
+  "manifest": {
+    "schema": "csdlc.pvf.manifest.v1",
+    "lanes": [
+      {
+        "id": "coverage-contract",
+        "proof_role": "Authoritative coverage orchestration regression proof",
+        "purpose": "Prove profile-only partition collection, explicit reports, and fail-closed behavior",
+        "determinism": "deterministic",
+        "resources": {"cpu_units":1,"memory_mib":1024,"tokens":2000},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "local",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 300,
+        "executable": "bash",
+        "argv": ["adl/tools/test_run_authoritative_coverage_lane.sh"],
+        "evidence": {"max_log_bytes":131072,"redact_values":["/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602","/Users/daniel/git/agent-design-language"],"require_relative_paths":true}
+      },
+      {
+        "id": "diff-check",
+        "proof_role": "Patch hygiene",
+        "purpose": "Verify the substantive patch has no whitespace errors",
+        "determinism": "deterministic",
+        "resources": {"cpu_units":1,"memory_mib":128,"tokens":0},
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "local",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 60,
+        "executable": "git",
+        "argv": ["diff", "--check", "main...HEAD", "--", "adl/tools/run_authoritative_coverage_lane.sh", "adl/tools/test_run_authoritative_coverage_lane.sh"],
+        "evidence": {"max_log_bytes":12000,"redact_values":[],"require_relative_paths":true}
+      }
+    ]
+  },
+  "selection": {"requested_lanes":["coverage-contract","diff-check"],"allow_network":false,"available_credentials":[]},
+  "budget": {"max_parallel":2,"cpu_units":2,"memory_mib":2048,"tokens":2000},
+  "root": ".",
+  "evidence_dir": ".csdlc/evidence/5602/local",
+  "cancellation_file": null
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 5600,
+  "expected_generation": 23,
+  "expected_digest": "539e4701ca20339f87811ef3afd5d69bdddb0e5876ec55799ed81426e9d189b2",
+  "expected_claim_id": "claim-5600-complete-typed-replanning",
+  "actor": "codex:issue-5600-terminal-reconcile-5358",
+  "repository": "danielbaustin/agent-design-language",
+  "observed_issue": 5600,
+  "observed_issue_state": "closed",
+  "observation_source": "github://danielbaustin/agent-design-language/issues/5600",
+  "reason": "Release the closed and merged issue claim without asserting terminal closeout so issue 5358 can own and repair the typed squash-merge closeout defect before truthful terminal reconciliation."
+}

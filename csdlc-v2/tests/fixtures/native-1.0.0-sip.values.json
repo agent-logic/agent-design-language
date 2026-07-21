@@ -1,0 +1,24 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5000,
+    "repository": "example/repo",
+    "title": "pre-change native fixture",
+    "slug": "pre-change-native-fixture",
+    "version": "v0.91.7",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "prove old native readability",
+      "required_outcome": "render without migration",
+      "declared_scope": ["fixture"],
+      "authority_boundary": ["immutable bytes"],
+      "initial_assumptions": [],
+      "operator_constraints": ["none"]
+    }
+  }
+}

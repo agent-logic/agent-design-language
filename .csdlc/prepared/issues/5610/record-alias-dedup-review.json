@@ -1,0 +1,20 @@
+{
+  "issue": 5610,
+  "expected_generation": 16,
+  "expected_digest": "ef84e22008e69b91a4b27e6e38b8abccfb00ffd21b994c58d9f46f381c8279ae",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "subagent:review-5610-alias-dedup",
+  "evidence": {
+    "reviewer": "subagent:review-5610-alias-dedup",
+    "scope": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "reviewed_revision": "git-blake3:905f558d24529546eb1185d0265bb81a89c6b9ae:196cc2e0afa4a8fe8d1b1b1b122a7aed6fca578e4fa48fc905417879be680949",
+    "findings": [],
+    "residual_risks": [
+      "Record equality is intentionally structural after filename canonicalization; any additional producer field mismatch remains fail-closed."
+    ],
+    "completed": true
+  }
+}

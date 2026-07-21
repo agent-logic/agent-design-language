@@ -29,10 +29,16 @@ surface, with 80 percent as the fail-closed minimum. The actual denominator,
 retained lines, and deletion eligibility must be produced by execution issues;
 this design does not pre-approve deletion.
 
+WP-02 pins the exact source-tree baseline, measurement rule, and product
+ownership boundary in
+[`BASELINE_AND_OWNERSHIP_v0.91.8.md`](BASELINE_AND_OWNERSHIP_v0.91.8.md).
+Raw directory line counts are inventory facts, not an automatic deletion
+denominator. File-level replacement and reachability classification remains a
+fail-closed prerequisite for WP-13.
+
 ## Operational Invariants
 
 - Stable binaries are installed outside Cargo build output.
 - Generation selection is explicit and reversible.
 - Exact revision, digest, and rollback evidence are retained.
 - Docs and issue records distinguish planned posture from proven state.
-

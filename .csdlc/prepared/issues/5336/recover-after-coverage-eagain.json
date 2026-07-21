@@ -1,0 +1,8 @@
+{
+  "issue": 5336,
+  "expected_generation": 19,
+  "expected_digest": "5876f3444ede2e8ab10b296ddcac80f644929f1ff348b8a2469536f0815d07d0",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Recover exact review and publication after hosted coverage proved cold companion partition process exhaustion on PR #5599."
+}

@@ -211,7 +211,7 @@ work_packages:
     issue: 5344
     title: Run opt-in soak and prove rollback
     outcome: Prove opt-in scenarios, rollback to v1, and reviewed selector switch through #5343.
-    depends_on: ["WP-11"]
+    depends_on: ["WP-11", "#5361"]
     deliverables: ["soak packet", "rollback proof", "cutover gate"]
   - wp: WP-13
     issue: 5346

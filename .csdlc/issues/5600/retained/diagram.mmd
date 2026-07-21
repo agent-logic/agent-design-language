@@ -1,0 +1,11 @@
+flowchart LR
+    P["Prepared Bound cards"] --> R["Typed replacement request"]
+    R --> G["Generation, digest, claim, and phase guards"]
+    G --> O["Card ownership validation"]
+    O --> C["Cross-card acceptance coverage"]
+    C --> T["Atomic card and record commit"]
+    T --> I["Implementation-ready Bound cards"]
+    G -. reject .-> U["No state change"]
+    O -. reject .-> U
+    C -. reject .-> U
+

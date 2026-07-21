@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 
 use csdlc_v2::cards::{
-    apply, initial_cards, CardContent, InitialCardInput, PlanStep, ResourceProfile,
+    apply, initial_cards, render, CardContent, InitialCardInput, PlanStep, ResourceProfile,
     SemanticOperation, StepStatus, ValidationLane,
 };
 use csdlc_v2::{CardKind, PlanningProfile};
@@ -15,6 +15,7 @@ fn input() -> InitialCardInput {
         required_outcome: "all cards agree".into(),
         declared_scope: vec!["cards".into()],
         authority_boundary: vec!["typed operation".into()],
+        operator_constraints: vec!["none".into()],
         task_boundary: "identity only".into(),
         deliverables: vec!["repair".into()],
         acceptance_criteria: vec!["round trip".into()],
@@ -46,7 +47,23 @@ fn input() -> InitialCardInput {
         }],
         failure_policy: "fail closed".into(),
         review_prompts: vec!["identity".into()],
+        review_scope: "identity".into(),
     }
+}
+
+#[test]
+fn pre_change_native_1_0_0_fixture_loads_but_legacy_relabel_is_rejected() {
+    let fixture: csdlc_v2::CardValues =
+        serde_json::from_str(include_str!("fixtures/native-1.0.0-sip.values.json"))
+            .expect("immutable native fixture");
+    render(&fixture).expect("existing native 1.0.0 remains readable");
+
+    let mut relabeled = fixture;
+    relabeled.identity.template_version = "1.0.3".into();
+    assert!(
+        render(&relabeled).is_err(),
+        "compact native cards cannot be relabeled as legacy"
+    );
 }
 
 fn fixture() -> BTreeMap<CardKind, csdlc_v2::CardValues> {

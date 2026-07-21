@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 pub mod cards;
 pub mod cutover;
 pub mod doctor;
@@ -14,13 +16,15 @@ pub mod proof;
 pub mod publication;
 pub mod pvf;
 pub mod readiness;
+pub mod registry;
 pub mod review;
 pub mod schema;
 pub mod soak;
 pub mod store;
 
 pub use cards::{
-    CardKind, CardStatus, CardValues, InitialCardInput, PlanningProfile, SemanticOperation,
+    CardKind, CardStatus, CardValues, InitialCardInput, PlanningCollectionField, PlanningProfile,
+    SemanticOperation,
 };
 pub use cutover::{run_cutover, CutoverEvidence, CutoverRequest};
 pub use doctor::{diagnose, DoctorReport};
@@ -30,9 +34,9 @@ pub use eligibility::{
 };
 pub use error::{ErrorCode, Result, V2Error};
 pub use lifecycle::{
-    amend_claim_scope, bind_issue, heartbeat_claim, initialize_issue, recover_claim,
-    release_closed_claim, AmendClaimScopeRequest, BindRequest, BindResult, HeartbeatRequest,
-    RecoverClaimRequest, ReleaseClosedClaimRequest,
+    amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, recover_claim,
+    release_closed_claim, transition_active_claim, AmendClaimScopeRequest, BindRequest, BindResult,
+    HeartbeatRequest, RecoverClaimRequest, ReleaseClosedClaimRequest, TransitionActiveClaimRequest,
 };
 pub use migration::{
     compare_shadow, generate_compatibility_view, import_legacy, write_compatibility_view_atomic,
@@ -51,9 +55,12 @@ pub use operator::{
 };
 pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofStep};
 pub use publication::{
-    prepare_publication, reconcile_action, record_merged_publication, record_publication,
+    prepare_publication, prepare_ready_publication, prepare_ready_reconciliation, reconcile_action,
+    record_merged_publication, record_publication, record_ready_publication,
+    record_ready_reconciliation, validate_ready_reconciliation_state, validate_ready_remote,
     MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
-    PublicationRequest, RemotePullRequest,
+    PublicationRequest, ReadyPublicationReconciliationRequest, ReadyPublicationRequest,
+    RemotePullRequest,
 };
 pub use pvf::{
     classify_schedule, classify_shepherd, execute, select, ExecutionRequest, PvfManifest,
@@ -77,6 +84,6 @@ pub use soak::{
     SoakScenario,
 };
 pub use store::{
-    approve_design, bootstrap_issue, edit_issue, ApproveDesignRequest, BootstrapRequest,
-    EditRequest, RepairIdentityRequest, Store,
+    approve_design, edit_issue, ApproveDesignRequest, BootstrapRequest, EditRequest,
+    RepairIdentityRequest, Store,
 };
