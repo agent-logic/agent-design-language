@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5384,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "4fecd6caf5933cf3222a602ae1033477f116376e15c34477ee930a42928b0422",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "0231e53be8cd0bbea10d7bd0453499b2f4b0742675b3f69f3d070f928fa182ea",
+  "claim": {
+    "id": "claim-5384-v0918-wp14a-preparation-only",
+    "owner": "codex:5384-preparation-only",
+    "generation": 1,
+    "acquired_unix_seconds": 1784673029,
+    "expires_unix_seconds": 1785277829,
+    "heartbeat_unix_seconds": 1784673029,
+    "branch": "codex/5384-v0918-wp14a-preparation-bound",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5384",
+      ".csdlc/locks/5384.lock",
+      ".csdlc/prepared/issues/5384"
+    ],
+    "purpose": "Prepare and review #5384 lifecycle cards and issue-local gates only; product, Runtime, documentation, deployment, publication, and implementation writes remain unauthorized until every declared predecessor is merged, typed closed_out, receipted, and ancestral to current origin/main"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5384/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5384/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019f86f0-22ca-7682-a340-7ae5c89e5c82:git-blob-a41df3a3e967dd5e00961da7d353f1fb0f282ae6",
+      "revision": "bec76e87d1e5520193a101ef4cbd9e4d90b77526334e3991524782e0fc68fe77"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "cf5ac99dcde638bb9bc4dcb357af34ac73a22def18b7e3662a345edb36de5322",
+      "rendered_digest": "c7628723949f0d9488ff68f8170ca7160ff5a11258c94e81d864862da60fb521",
+      "ast_digest": "4ae1f8cf723a4f03355fca44c78c359ff85f266d48aa02dc18ecda97d7e3fc63"
+    },
+    "stp": {
+      "values_digest": "748b60a1ec82527f68fb255ae97da0cf52ff7a21a8701058c9246c89563a0da7",
+      "rendered_digest": "ea15f992a03c11501bb57bb7b56ee41b79d1f30243fe85b96357efa6319a3631",
+      "ast_digest": "c826e2004446a1b8e75391288a422f997068a1b70daac6dfa3f51b241aa9f2ca"
+    },
+    "spp": {
+      "values_digest": "647c22fc9f484bd49e16284bedd7c8c6f7b7b7d9b2768b3cc8d8fe33176a8a61",
+      "rendered_digest": "3afcf9f16e545d66bff4cae4ed5e379631bcc1dc51d1ff376ec72e3a25035002",
+      "ast_digest": "aafa1ab79c1da5c5b58def5f30e49b37cb120846025b23832987ae9f6cb2ceff"
+    },
+    "vpp": {
+      "values_digest": "7d5bebd46280028aef672796e64e0b66a8baaf90c06dce488ee12f35c3af548f",
+      "rendered_digest": "2729a14acaffab3959b8d2d31ebdf82d0d1e51be1288b5872076685c050908af",
+      "ast_digest": "8bc560e8a9bdc9dbc8c93369f13d2891a7e38605bcc640fcf749fe09550523e8"
+    },
+    "srp": {
+      "values_digest": "f6d52959a79936b1d192ee410d25379de404a84ad55c9f85b95427907d0d4dec",
+      "rendered_digest": "c7c0c43c0643e072de3a22fab37245109140bba4225efb38815e4a40566e133a",
+      "ast_digest": "d5107207e195ea80d84580c123d16a5fa163fd0637c7fac1dda45010cac692a2"
+    },
+    "sor": {
+      "values_digest": "db790706a69db49c7001378745c8fcf14da9ddb513af7f676874b4d8cd4dfcfd",
+      "rendered_digest": "19e2b34390df04e963e610882de0adb13f9224d5a86a2554f2f2d3ee493c1a28",
+      "ast_digest": "226f341442c0e22ba8298338f2096052957926feb68d3d4046d7d1aca4d66e3f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5384-preparation-only",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5384-preparation-only",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5384-preparation-only",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:019f86f0-22ca-7682-a340-7ae5c89e5c82:git-blob-a41df3a3e967dd5e00961da7d353f1fb0f282ae6",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5384-preparation-only",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

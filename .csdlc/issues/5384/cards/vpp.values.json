@@ -1,0 +1,131 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5384,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14A] Integrated platform acceptance deployment and v0.92 birthday handoff",
+    "slug": "v0918-wp14a-integrated-platform-acceptance-preparation",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "typed-card-contracts",
+          "proof_role": "Required preparation gate for six-card current-native identity, structure, schema, digest, and canonical lifecycle consistency",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            ".adl/bin/csdlc-v2/csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "5384"
+          ],
+          "parallel_group": "local-preparation",
+          "defer_reason": null
+        },
+        {
+          "lane": "dependency-terminal-gate",
+          "proof_role": "Required promotion gate for complete predecessor typed closed_out receipts, merged disposition, and observed-SHA ancestry; live issue and PR state is separately refreshed through the approved connector",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5384/validate_dependency_gate.rb"
+          ],
+          "parallel_group": "local-preparation",
+          "defer_reason": null
+        },
+        {
+          "lane": "preparation-scope",
+          "proof_role": "Required preparation gate confirming that tracked and untracked changes remain inside the three authorized #5384 lifecycle paths",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5384/validate_preparation_scope.rb"
+          ],
+          "parallel_group": "local-preparation",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Required preparation gate for whitespace and patch hygiene",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local-preparation",
+          "defer_reason": null
+        },
+        {
+          "lane": "exact-preparation-review",
+          "proof_role": "Required preparation gate for bounded independent review of cards, design, diagram, gates, and protected-path authority before typed approval and bind",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 6000,
+          "argv": [
+            "codex",
+            "exec",
+            "--sandbox",
+            "read-only"
+          ],
+          "parallel_group": "review",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing current-template proof, incomplete dependency topology, absent merged/closed_out/receipt/ancestry evidence, protected-path widening, stale live truth, unsupported claims, unresolved review findings, or any request to implement, publish, merge, use AWS, use Runtime v2, or invoke raw gh.",
+      "design_ref": ".csdlc/prepared/issues/5384/design.md",
+      "design_digest": "bec76e87d1e5520193a101ef4cbd9e4d90b77526334e3991524782e0fc68fe77",
+      "diagram_ref": ".csdlc/prepared/issues/5384/diagram.mmd",
+      "diagram_digest": "5dcaa986a3318096cb25ba898cc6ffa1f26790c0b952b0679195992ec7db91f2"
+    }
+  }
+}

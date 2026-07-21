@@ -1,0 +1,16 @@
+flowchart TD
+    WP10A["WP-10A #5497 and #5498-#5502"] --> R3["Runtime v3 acceptance #5361"]
+    PARITY["Runtime parity #5591 #5592 #5589 #5590"] --> R3
+    PROVIDER["Provider input #5526"] --> R3
+    R3 --> DEL["WP-13 #5346 and #5347"]
+    CSDLC["C-SDLC v2 acceptance #5358"] --> DEL
+    DEL --> GATE["WP-14A #5384 terminal evidence gate"]
+    CHILDREN["WP-14 children #5352 #4758-#4763 #5007 #4739 #4741 #5332 #5107"] --> GATE
+    INVENTORY["Independent acceptance inputs #5540 #5541 #5558 #5548"] --> GATE
+    GATE --> DEMO["WP-15 #5354"]
+    DEMO --> QUALITY["WP-16 #5351"]
+    QUALITY --> DOCS["WP-17 #5360"]
+    DOCS --> INTERNAL["WP-18 #5356"]
+    INTERNAL --> EXTERNAL["WP-19 #5357"]
+
+    LOCK["Preparation claim: only .csdlc issue/request/lock paths"] -. blocks product edits .-> GATE
