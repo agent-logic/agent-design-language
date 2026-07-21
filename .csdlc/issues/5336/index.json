@@ -3,13 +3,13 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "implemented",
-  "generation": 28,
-  "digest": "51b2cf7841106a0e7227650ef6b4f77430f105cc1f940ffde6ee039dfd815d69",
+  "phase": "reviewed",
+  "generation": 30,
+  "digest": "dca09378b5b68d78592a66779ee90ac86ad1e8f7fd2731016971a2a6a708e1cb",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 28,
+    "generation": 30,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -26,8 +26,31 @@
     ],
     "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f82af-8377-7763-9dbd-6ad8c4373f11",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:bc0d73defab493d9c55cfd3abdc94d9545b2bfc6:cce8fd140a9d1d36e03e2ca41309b515ac079470594e42fb5553f82acf8f9656",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f82af-8377-7763-9dbd-6ad8c4373f11",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:bc0d73defab493d9c55cfd3abdc94d9545b2bfc6:cce8fd140a9d1d36e03e2ca41309b515ac079470594e42fb5553f82acf8f9656",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c9da5f08aaaa1c25c6763565a60e1d5fff90e329322076f8f24e255b2c8a20b4",
+      "values_digest": "d477f3a0a7da60b8fa35fbc008d5200a5bcb8a994281fd17bbef0d78a2cf4925",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "61513ad6bb92a8220cd7e2ee44097f6f1611ec71ce5d70a7fa9b8c060827d921",
+      "values_digest": "0f85534fe1d12d435bfaba4490c4e73de5ddcb526b1b908e21492c9aa6b774e3",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "299248cb6de23c92d0b2ce4c75af490980d0260fc05d94d3e60ecdbff2bac006",
+      "values_digest": "6d0d9122260e6ddeaf52e303a91b4aec3ae48d7cbf0f2249c8ed281c48aa5bf7",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "721c16cb6164d6c4553e6c40841a59b1878489b8d1371d6483527a5656820b32",
+      "values_digest": "8cccfecb4668d1acb66eaf2141b2036f241a5757064554527c8212e346269e01",
       "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "510295e78016c3b0e593fe8024286213f179f31e01fe58c667fbb7e26b0bd29c",
-      "rendered_digest": "3782d3cb08b4154486b0360b134101f55b636d16f16f2259a3e1f996275b9900",
-      "ast_digest": "c3089c902e1388a33153b8bf1fa65df31d6e8ecfd58551d756255bfbeb3db7f6"
+      "values_digest": "5f1a04b027d272a09317ce3fe1a70fd855f4e7b5c2919b4cce78eafddb54ff42",
+      "rendered_digest": "576e5cf605b22185a74de74530449fcfa89db75d96dfea05ee1f02d5b8cc4371",
+      "ast_digest": "e1fb8064a47b4c57f84bfeeaa53e5b73bff403e629f3b23e3894aaafef4b00f2"
     },
     "sor": {
-      "values_digest": "cba91472b0690134981d04bda1f2beac3c360254255e7a6ddf55d748bb421efd",
+      "values_digest": "7839763db6f0813913772788d91ac5d82254715905e1cb7a5f16db1f9edbdf98",
       "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
       "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
@@ -163,6 +186,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover exact review after hosted CI proved process exhaustion in the cold adl-runtime companion build following the 1,406-test workspace run."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact companion-first coverage orchestration and profile-specific failure review passed with no findings or residual risks."
     }
   ],
   "audit": [
@@ -424,6 +454,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Recover exact review after hosted CI proved process exhaustion in the cold adl-runtime companion build following the 1,406-test workspace run.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "subagent:019f82af-8377-7763-9dbd-6ad8c4373f11",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 30,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact companion-first coverage orchestration and profile-specific failure review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
