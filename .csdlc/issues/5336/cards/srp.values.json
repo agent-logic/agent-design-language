@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-02] Pin incumbent baseline and approve clean-room architecture",
     "slug": "v0918-runtime-functional-parity-plan",
     "version": "v0.91.8",
-    "generation": 36
+    "generation": 39
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".github/workflows/ci.yaml\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/merge_coverage_summaries.py\nadl/tools/test_ci_runtime_contracts.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\nadl/tools/test_merge_coverage_summaries.sh\n.csdlc/issues/5336\n.csdlc/prepared/issues/5336",
-      "review_revision": "git-blake3:2db027d9c76cbe17b5d385b0ae4fdb4f443c6268:15836daa92a726f4bdbbd236313517ae155dbb8b42d7cb61ab97f78a8bb0adf6",
+      "review_revision": "git-blake3:656aa4c4170b1461b367f7d964d3e9a1bc4f0292:307cb2adf9a7b2b5738dcbf0f70c09078b5d93cbb484d90a3dfcf66622e815f3",
       "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
       "review_prompts": [
         "Does the plan distinguish fixture/library proof from live process functionality?",

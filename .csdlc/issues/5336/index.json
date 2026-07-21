@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
   "phase": "reviewed",
-  "generation": 36,
-  "digest": "2814ec338a4f58e5e830c3e9c34f212a76f89b47eba5d338ed31dea363fca956",
+  "generation": 39,
+  "digest": "d60c742eb1c532988ebda53a6da400773340abf0a9021803de39398c68f076e0",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 36,
+    "generation": 39,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
@@ -33,7 +33,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:2db027d9c76cbe17b5d385b0ae4fdb4f443c6268:15836daa92a726f4bdbbd236313517ae155dbb8b42d7cb61ab97f78a8bb0adf6",
+    "revision": "git-blake3:656aa4c4170b1461b367f7d964d3e9a1bc4f0292:307cb2adf9a7b2b5738dcbf0f70c09078b5d93cbb484d90a3dfcf66622e815f3",
     "scope": [
       ".github/workflows/ci.yaml",
       "adl/tools/run_authoritative_coverage_lane.sh",
@@ -57,7 +57,7 @@
       ".csdlc/issues/5336",
       ".csdlc/prepared/issues/5336"
     ],
-    "reviewed_revision": "git-blake3:2db027d9c76cbe17b5d385b0ae4fdb4f443c6268:15836daa92a726f4bdbbd236313517ae155dbb8b42d7cb61ab97f78a8bb0adf6",
+    "reviewed_revision": "git-blake3:656aa4c4170b1461b367f7d964d3e9a1bc4f0292:307cb2adf9a7b2b5738dcbf0f70c09078b5d93cbb484d90a3dfcf66622e815f3",
     "findings": [],
     "residual_risks": [],
     "completed": true,
@@ -77,32 +77,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f3437aa10fdc8752a5317a81a492f61798cecf121d44f8d733be1dcb4e142d8",
+      "values_digest": "26a18bfea492f9bbeb69641525565a584fe35327d34cc45c3483d18ae929fd30",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "e45b4741168a9c3ef21612222b1ff42ce577db409e5e1f5c0e84827622ace977",
+      "values_digest": "23359ffe5c5970977f2e2f068261c6bb01812439f15b6bbb13cdb94fd54d5205",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "5872fef12b40c02ac5a93288ecba0d6de9a08b12707224e31e3b180ee76edaa6",
+      "values_digest": "ff16b43723702b80bea825d7e03a36b6816e6ae273df0c9eb4960c2815ed3647",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "f1ff2d4bfe6ecad6d471a0bccb87fb370d1161f9bacb772d4c6e076bc3affb40",
+      "values_digest": "6644ff2c680e44d20cf5409d45321d8d3630d46013050107ea947142793c4cf6",
       "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "fd28e3219ab27f242126acf97a037b47a332255b6d34c86f5b0d200211bbe43b",
-      "rendered_digest": "29c68cbb3ea6ed8e7723056ac68a5f600955d106a30125bcb384c52730b15b0b",
-      "ast_digest": "f7471dfcf8043201cce7b834edc4f32d4cfd567f0a7a8030102cb502d44fd26c"
+      "values_digest": "a50997d71b7a65249e5f6b7057abace9179464d7f416a8366478c4bd987506c9",
+      "rendered_digest": "78e547f5a857cdc4427e0c37c15ed973bec8f5bde88c5db7b58bd4d0255b1b96",
+      "ast_digest": "5341d20fe8a53601d807bba2ebd184a324c35533606bc838a92127d6e451c84b"
     },
     "sor": {
-      "values_digest": "86149da76a6770fbf2bc0ea8a6b45f0f2ad612326c2a21561e978769f7fcdf0d",
+      "values_digest": "85f3419c8ad9b356e0ece5c9f706cd7c5d64a1d64b1dd33fd1295e88785f0454",
       "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
       "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
@@ -226,6 +226,20 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact isolated-worker coverage orchestration review passed with no findings or residual risks."
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity for the metadata-only publication head after the substantive isolated-worker coverage review passed."
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Metadata-only publication-head review passed after the substantive isolated-worker coverage review, with no findings or residual risks."
     }
   ],
   "audit": [
@@ -577,6 +591,34 @@
       "generation": 36,
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Exact isolated-worker coverage orchestration review passed with no findings or residual risks.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 51,
+      "generation": 37,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review identity for the metadata-only publication head after the substantive isolated-worker coverage review passed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 37,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 38,
+      "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 39,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Metadata-only publication-head review passed after the substantive isolated-worker coverage review, with no findings or residual risks.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]

@@ -1,0 +1,11 @@
+{
+  "issue": 5336,
+  "card": "sor",
+  "expected_generation": 38,
+  "expected_digest": "cc07a8f20e087affc07ed320804d107cce7821e6832e134ad7cccdc8e9a04aae",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Metadata-only publication-head review passed after the substantive isolated-worker coverage review, with no findings or residual risks.",
+  "operation": {"operation": "advance_phase", "phase": "reviewed"},
+  "fail_after_backup": false
+}
