@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5501,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "a6431154f7be59025286f7b5235b96d831871ce2b05f99bb4bb953c68443e0cf",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "b5f8a46a21b1285b36c03a493ce04fe8949f243925e8a5bba3b45d9cd5527766",
+  "claim": {
+    "id": "claim-5501-v0918-live-workcell-proof-preparation",
+    "owner": "codex:5501-preparation-owner",
+    "generation": 1,
+    "acquired_unix_seconds": 1784663431,
+    "expires_unix_seconds": 1785268231,
+    "heartbeat_unix_seconds": 1784663431,
+    "branch": "codex/5501-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5501",
+      ".csdlc/locks/5501.lock",
+      ".csdlc/prepared/issues/5501",
+      ".csdlc/evidence/5501"
+    ],
+    "purpose": "Prepare and review #5501 live distributed Codex workcell proof contracts only; no execution or product work until #5349, #5499, #5498, #5500, and #5502 are merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5501/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5501/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-subagent:gpt-5.4-mini:019f8650-2547-7822-bf4d-863f36428162",
+      "revision": "1e55bed0d09764e9005b2294741c6465c4330c5da7870ce2bae997f7838ce24b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "fd40307ccb8b8a731e4670380d55179844214106e1418962e6c83b3ee8bea6d8",
+      "rendered_digest": "9feb6587915ded447aa5d2b73388149c4ebe69c9ce7758f044f18b066d5d0457",
+      "ast_digest": "5d263d3bd2fb86f063ceb2d468f5cb120f54b3b3c3f492bdb85eca7564d318aa"
+    },
+    "stp": {
+      "values_digest": "5d722a85f975c933b06f67fb3ca3ab4a8f6291a15b6d3233fa78ac11e195ac0e",
+      "rendered_digest": "69de3d147c28e9a6942e5f8edefacb92342699300cd7a6fa501f88eee15283f6",
+      "ast_digest": "900c57724e7a599db22fcd82c5253ef714487595d6c243849402e0e78beb3fae"
+    },
+    "spp": {
+      "values_digest": "2b00659c09e8c184fb88787d22c768576856ee05c89fffed26697d3db097c8c2",
+      "rendered_digest": "d23e00b6a1d674f5ce1a2061d4ff8fe8027f5e2a1e3cf726118e0eb252520e6a",
+      "ast_digest": "c256c180b85c9a40e21e21182449fde8ca6af56e1885a43ab7ad7a600852b275"
+    },
+    "vpp": {
+      "values_digest": "0f80b0dc119a54f15471a81c47b19653b3317a06ae1f2f91320fbac934f046c8",
+      "rendered_digest": "d46089fa38a6bcc620228795f331e2aaa79a48c8ffa19976d842463638431c89",
+      "ast_digest": "650f9efad077952e41e4ab02caed71f600dc1b09495cd95d1e56df0d9387c83b"
+    },
+    "srp": {
+      "values_digest": "299c4efe5bb29e0bff30eda6fa5f1183a859ea606e23b6d644f37004f30b7709",
+      "rendered_digest": "8401f7f2e7ab14d9c8c3d8dab3b03a1031e9605fb842bcdfc469cc0545239f96",
+      "ast_digest": "6de0b75ccdd913f075db035a601c22dbb5e8d24c01ddeacebd58967a35b603df"
+    },
+    "sor": {
+      "values_digest": "84388e317ffad374fbc9143dcd3f5dec587b8f3b66573cb644cf9ff3364d2566",
+      "rendered_digest": "9f5f6e1b5210caf30b2cb16ead7d1827de977b2278ec5cb60a276ea39393da8d",
+      "ast_digest": "2efd90f802aea778813128649e9907996674d6e5ad9a2d2769c6b300ab6d814b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5501-preparation-owner",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5501-preparation-owner",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5501-preparation-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-subagent:gpt-5.4-mini:019f8650-2547-7822-bf4d-863f36428162",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5501-preparation-owner",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
