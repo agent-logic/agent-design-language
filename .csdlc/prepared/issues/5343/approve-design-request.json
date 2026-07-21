@@ -1,0 +1,7 @@
+{
+  "issue": 5343,
+  "expected_generation": 0,
+  "expected_digest": "5381d31020681b0a9c4c603be9c4b5551caa733f9af41f06ac634af3f82f86cd",
+  "claim_id": "claim-5343-v0918-wp12-reversible-default-switch-preparation",
+  "reviewer": "external:deepseek:deepseek-chat"
+}

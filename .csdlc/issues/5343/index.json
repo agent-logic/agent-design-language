@@ -1,0 +1,112 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5343,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "127a38733444c4011c10f8fa65c3e68206f3321214fa979b021718b733e184e8",
+  "claim": {
+    "id": "claim-5343-v0918-wp12-reversible-default-switch-preparation",
+    "owner": "codex:5343-preparation-owner",
+    "generation": 1,
+    "acquired_unix_seconds": 1784661008,
+    "expires_unix_seconds": 1785265808,
+    "heartbeat_unix_seconds": 1784661008,
+    "branch": "codex/5343-v0918-wp12-reversible-default-switch",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5343",
+      ".csdlc/locks/5343.lock",
+      ".csdlc/prepared/issues/5343",
+      ".csdlc/evidence/5343",
+      "docs/milestones/v0.91.8/evidence/wp12/cutover-5343"
+    ],
+    "purpose": "Prepare and review #5343 reversible default-switch contracts only; no selector transaction or implementation until #5344 is merged, typed closed_out, receipt-backed, claim-free, ancestral, and accepted"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5343/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5343/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "external:deepseek:deepseek-chat",
+      "revision": "c3f3c434b119ebc89ffffb8bc5f343d3a9df97d4ba7e8d32678028e28fd9af83"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7437436740fc9b77312319aa5265f66993af8ef7355a03b329b32d8c45b16e00",
+      "rendered_digest": "56e9f6179e9157659276d6bcf35efb8f016bba7c7822b2b0d797679cd31adf6b",
+      "ast_digest": "4bed42107b13c69d3d7d4cb8f18e052c2f7c26199f6173d1dc3260de1fe9a993"
+    },
+    "stp": {
+      "values_digest": "cc9b40917bbdfb991b2eff4964e5c1f126177f0f924779ba6620c0fb6ad362b3",
+      "rendered_digest": "2603a355245577778350785ca55e828e84a8d35adeb0eb9f05104b02c8c6526c",
+      "ast_digest": "af5271338c52d97d190cb14ef68d417dc5c34afcf8b72c635a7f9459680efb65"
+    },
+    "spp": {
+      "values_digest": "30a598a831c6b7f4c599207028e002f6e61fb313d652681be4ed5434e4efec52",
+      "rendered_digest": "2e204fe39458d542b47650dd55911782ef612c0302bf1423d484871d6477ae8e",
+      "ast_digest": "374c21848278c23d31cbdf29d0e3c3878a82f7305a0169618c822295620dce40"
+    },
+    "vpp": {
+      "values_digest": "99b018e7af30742c6e12f284b9b6a174291c2bf6071ae08e5b661a8b0d156392",
+      "rendered_digest": "fce8305ab1090841e17e497762748258f6161061e41dcaaea2cf51fa8305a404",
+      "ast_digest": "37eb53d9ee8c01020aee78e6453d0a09e2372697646dc623e5dd5c339ed913f0"
+    },
+    "srp": {
+      "values_digest": "2d3566ab7d8d1f71c381e0d656300d14db14c26a17f36928936dc9b1fb5d823e",
+      "rendered_digest": "f4731a595f0ea709411ae2a767f16132b61ed257458d981bdf08189045ea5f01",
+      "ast_digest": "9159372c6f4b2a7bea8ec696ce1ccec0a6ab2c276b740e65603dff8585d11472"
+    },
+    "sor": {
+      "values_digest": "57b81acfe48e1d8a791f6bb4a0e850cae75e20490e1742ac8826744dbe09a58d",
+      "rendered_digest": "69db27ce1aefed9fd2e870c57fc5b3a1c8774407e607f668343698a4e632d107",
+      "ast_digest": "7c9edd7d19be81fc09e9373523b99e7387931ab7021ec4b9404269bc5cd98cf6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5343-preparation-owner",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5343-preparation-owner",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5343-preparation-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "external:deepseek:deepseek-chat",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5343-preparation-owner",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

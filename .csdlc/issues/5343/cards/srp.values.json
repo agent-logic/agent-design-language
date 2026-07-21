@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5343,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-12][cutover] Execute reviewed reversible ADL default switch",
+    "slug": "v0918-wp12-reversible-adl-default-switch",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5343\n.csdlc/locks/5343.lock\n.csdlc/prepared/issues/5343\n.csdlc/evidence/5343\ndocs/milestones/v0.91.8/evidence/wp12/cutover-5343",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any missing, stale, malformed, contradictory, non-ancestral, or metadata-only #5344/#5345 fact bypass the execution gate?",
+        "Can any argument, environment value, path, symlink, stale writer, lock race, interruption, or malformed receipt bypass exact installation verification or alter prior selector bytes outside the #5345 transaction?",
+        "Are fresh-install selection, explicit v1 override, rollback-window checkpoints, exact restoration, and every failure class deterministic and fail-closed?",
+        "Does #5343 own only cutover evidence and avoid selector implementation, Runtime v2 edits, legacy deletion, AWS, credentials, hidden network, and production overclaim?",
+        "Are COTS, protected paths, LoC/test/module/time budgets, PVF classification, no-deferral, CI, exact review, and post-merge proof complete and executable?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

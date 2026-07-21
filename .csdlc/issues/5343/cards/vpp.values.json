@@ -1,0 +1,170 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5343,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-12][cutover] Execute reviewed reversible ADL default switch",
+    "slug": "v0918-wp12-reversible-adl-default-switch",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-contract",
+          "proof_role": "Prove six typed cards, design/diagram, exact #5344/#5345 dependencies, protected paths, transaction and rollback-window invariants, COTS, budgets, PVF, no-deferral, and root safety",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5343/validate-preparation.rb"
+          ],
+          "parallel_group": "preparation",
+          "defer_reason": null
+        },
+        {
+          "lane": "dependency-terminal-gate",
+          "proof_role": "Fail closed unless #5344 is merged, typed closed_out, receipt-backed, claim-free, ancestral, and accompanied by accepted exact soak/rollback handoff evidence",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5343/check-dependencies.rb"
+          ],
+          "parallel_group": "execution-gate",
+          "defer_reason": "Run only when execution is requested; it must fail closed until #5344 is terminal and accepted"
+        },
+        {
+          "lane": "transaction-fault-matrix",
+          "proof_role": "Prove fresh-install identity, locked compare-and-swap selection, prior-byte preservation, deterministic receipt, and all transaction failure classes",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 6000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5343/run-validation-lane.rb",
+            "transaction-fault-matrix"
+          ],
+          "parallel_group": "transaction",
+          "defer_reason": "Mandatory after terminal dependency gates and before publication"
+        },
+        {
+          "lane": "fresh-install-override",
+          "proof_role": "Prove the selected generation from a fresh install and explicit v1 override while retaining exact prior executable and receipt identity",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 6000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5343/run-validation-lane.rb",
+            "fresh-install-override"
+          ],
+          "parallel_group": "cutover",
+          "defer_reason": "Mandatory after terminal dependency gates and before publication"
+        },
+        {
+          "lane": "rollback-window-evidence",
+          "proof_role": "Prove rollback-window start/end, checkpoint cadence, explicit-v1 checkpoints, exact rollback, and deterministic redacted evidence",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 6000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5343/run-validation-lane.rb",
+            "rollback-window-evidence"
+          ],
+          "parallel_group": "rollback-window",
+          "defer_reason": "Mandatory after the reviewed selector transaction and before publication"
+        },
+        {
+          "lane": "cutover-budgets",
+          "proof_role": "Enforce no new dependencies, no product or Runtime v2 edits, orchestration/test/module LoC, test count, complete no-deferral proof, and 1200-second ceiling",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5343/run-validation-lane.rb",
+            "cutover-budgets"
+          ],
+          "parallel_group": "budgets",
+          "defer_reason": "Mandatory at the exact execution revision before publication"
+        },
+        {
+          "lane": "post-merge-exact",
+          "proof_role": "Re-run dependency ancestry, selector identity, explicit-v1, rollback-window, evidence integrity, budgets, exact revision identity, and WP-13 blocking gates after authorized merge",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 10000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5343/run-validation-lane.rb",
+            "post-merge-exact"
+          ],
+          "parallel_group": "post-merge",
+          "defer_reason": "Execute only after authorized merge and typed merged-state reconciliation; mandatory before closeout"
+        }
+      ],
+      "planned_validation_seconds": 21600,
+      "planned_validation_tokens": 100000,
+      "failure_policy": "Fail closed without selector mutation, publication, merge, closeout, rollback-window start, or WP-13 handoff on an incomplete #5344/#5345 gate, claim collision, unverified fresh install, non-atomic transaction, prior-state damage, explicit-v1 or rollback failure, ambiguous window, hidden network/credential/AWS use, Runtime v2 edit, legacy deletion, secret or host-path disclosure, overclaim, budget violation, deferred acceptance, stale review, red CI, or absent post-merge proof.",
+      "design_ref": ".csdlc/prepared/issues/5343/design.md",
+      "design_digest": "c3f3c434b119ebc89ffffb8bc5f343d3a9df97d4ba7e8d32678028e28fd9af83",
+      "diagram_ref": ".csdlc/prepared/issues/5343/diagram.mmd",
+      "diagram_digest": "9c3173bf34cdfcdc240b257dab20ffe3b2646471586e28eaa5bfdb8b9b2e239e"
+    }
+  }
+}
