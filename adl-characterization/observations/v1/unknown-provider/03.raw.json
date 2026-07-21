@@ -4,6 +4,7 @@
   "repetition": 3,
   "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
   "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_bundle_sha256": "5c42a61fab6cbfaebf8a77ebeb3fcc6ab7ae71beb086ee011a2fb525ad4cb63b",
   "commands": [
     {
       "step_id": "validate",
@@ -16,10 +17,13 @@
         "--print-plan"
       ],
       "exit_code": 1,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "2f1c6b59a2dae8cc561980c9649b0a53a659daa73bef1230184341e270eecc48",
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "2f1c6b59a2dae8cc561980c9649b0a53a659daa73bef1230184341e270eecc48",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "867c011de419d30a4c10edae959d255f0c6184834bb653d8b3e0d920f18b8021",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/unknown-provider.adl.yaml\n  0: validate adl\n  1: agents.worker.provider references unknown provider 'missing'\n"
     }
-  ]
+  ],
+  "evidence_envelope_sha256": "3dda3479a905df148f546562148c0b7a00d8e0def63f9399407f389b72be40bc"
 }

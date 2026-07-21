@@ -16,8 +16,10 @@
         "--print-plan"
       ],
       "exit_code": 1,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "1537be5a1eee9123856bdb96f02f0718a96bb884471fe8ab12ad2af00e770c29",
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "1537be5a1eee9123856bdb96f02f0718a96bb884471fe8ab12ad2af00e770c29",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "1537be5a1eee9123856bdb96f02f0718a96bb884471fe8ab12ad2af00e770c29",
       "stdout": "",
       "stderr": "Error: failed to build execution plan\n  0: step 'two' references unknown saved state 'missing' via @state:missing\n"
     }

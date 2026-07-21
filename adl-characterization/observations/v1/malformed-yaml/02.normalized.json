@@ -16,8 +16,10 @@
         "--print-plan"
       ],
       "exit_code": 1,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "c716c9db8c214af507bd1831f5a7d6669202c53506a008c264da1305b21bdf34",
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "c716c9db8c214af507bd1831f5a7d6669202c53506a008c264da1305b21bdf34",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "d9070acf556be016f09a51ac7515c71a690443489b7d6fc185661e333547d891",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/malformed.adl.yaml\n  0: read/merge adl file (with includes): <ROOT>/fixtures/malformed.adl.yaml\n  1: parse adl yaml: <ROOT>/fixtures/malformed.adl.yaml\n  2: did not find expected ',' or ']' at line 3 column 1, while parsing a flow sequence at line 2 column 12\n"
     }

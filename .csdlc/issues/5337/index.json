@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1c296c01f1a17f4f5f4fdc6770511c4214792aa51221f9b2848501f03abab11e",
   "phase": "bound",
-  "generation": 37,
-  "digest": "041e87fc14b9c3a8c40bbbad5d6927430eb91245076138c50f3a5d7f93f50e00",
+  "generation": 41,
+  "digest": "0031fc39fb0a96c6a8db86048bbed409034db2d50b5708b3401a56fbf443ab77",
   "claim": {
     "id": "claim-5337-v0918-wp03-implementation",
     "owner": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
-    "generation": 37,
+    "generation": 41,
     "acquired_unix_seconds": 1784585647,
     "expires_unix_seconds": 1785190447,
     "heartbeat_unix_seconds": 1784585647,
@@ -39,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "47f8d64ee3435b97eac632687a645e70d091102a3211018327264a11a41c7e05",
+      "values_digest": "85b59d544c5ecf51f199885ff288bdef6391d096f43437a1095e43e2b85b7a67",
       "rendered_digest": "a3e23ea6aa2fc61a99a804d8f1224bd9aa0f1c31b7d4e0d5a9f7508c80264e94",
       "ast_digest": "ed7b655823cb326d1c02f24d14cc120a818a119fc9cbe6a28d385c839b12dead"
     },
     "stp": {
-      "values_digest": "213c30e85079ae7076324f624371e7b4cc9ac0d4df4919c7d5b7a11cff3890b5",
+      "values_digest": "865eba5901ef9c458458aa3507b9094b32f7859d78fded427e5130eddc225edd",
       "rendered_digest": "4cdf1243cc2510c5fab05f620392100b36e013744d8c4bc5a8ddf93e72c48675",
       "ast_digest": "db44314a4da872b87fc4fa7bb8a45732bc6e719dcefaa5fc188ac0e2451a79b7"
     },
     "spp": {
-      "values_digest": "3e24934207c58810aa54b11da8ed834cefbb160ee167e8a2f5896fad839bd21f",
+      "values_digest": "56215e765c7664e61c219281894f0373dab77cb6b311cd79db06e6e1c6105d7f",
       "rendered_digest": "26492c4df67844f88c6991dd2f58802611e2affabee5d85741b3d466e96991a3",
       "ast_digest": "2dd75cfc98f1659d227cbc79653a9b5bcf569b42ae7f32919d02455aca95658d"
     },
     "vpp": {
-      "values_digest": "eb038fdebfd7dfc89e8944ebcd53102699ad26ff160c1354cb3eb4f17777f04c",
+      "values_digest": "e9db76d52121514c45ee13677fc3d638b037b6575d80628f6c1ade7470c2b153",
       "rendered_digest": "56ffb9fb26637127ec10296fde156dae2e324462788e426d603f04662d9a26fc",
       "ast_digest": "44d8f3ebd3229521b7ef29851f2d32592ad821cb911e551e8fc5b45c3eb76274"
     },
     "srp": {
-      "values_digest": "f82000c6a25b88a881d99c63acb74e32f7299c61a88696892297b6f72436ce3a",
+      "values_digest": "cbcb27684cf6fa26c34a9ac2c3423fe400c769336120932e67069f8e2ca9b0e3",
       "rendered_digest": "40aec2a918815cfcc4a6cd56f13fe73a574b4e5796452214463887ccbeeba120",
       "ast_digest": "09256047411e66a567878b421f8982bd2f3016ad5b86e366693747113e20f6c7"
     },
     "sor": {
-      "values_digest": "e2466eaab49aa979d1a22abd28c20bf37209f2f0152e66ed67741a157e0887af",
-      "rendered_digest": "517aa856714c5600a161e943c4f69ac4720bbd3d43d6ceda1fed692d00e00792",
-      "ast_digest": "5a4e71a77ea338411018ffa7a7d22c22eec544f06e7fca97400a2b632815f43e"
+      "values_digest": "718cd9c46b906ee474166952bd086d6860ffe23764df9fef74e0b7517154252c",
+      "rendered_digest": "9067fc5c1f3f338837d624e5db7e4f8e28ae7496a40d0fb3aefe46ce9223b393",
+      "ast_digest": "169810eaa5f2b9e83ae470c972d305abd63286585a2a08daf4e8825d2ae027aa"
     }
   },
   "transitions": [
@@ -372,6 +372,34 @@
       "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 42,
+      "generation": 38,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record complete remediation of all findings from exact-revision review 5da012921 at substantive commit 6652c4ab7.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed all five exact-review findings with offline command-contract verification, a truthful local-only execution policy, COTS-backed timeout and atomic capture replacement, corrected schema-shape coverage, and portable hashed observations.\",\"changes\":[\"Revalidate step count/order, declared and portable arguments, exits, required fragments, digest shape, and path hygiene during offline verify with class-specific tamper tests\",\"Fail corpus loading unless commands are local-only and the sole --run case uses only mock profiles, approved arguments, and no remote route\",\"Use wait-timeout for bounded child execution, kill and reap timeout, classify deterministically, and preserve prior complete output through staged replacement\",\"Rename the false unknown-run-reference claim to the observed unsupported-run-field schema rejection\",\"Retain portable ROOT/WORK-tokenized streams plus hashes of exact pre-tokenization bytes and reject machine-local retained paths\"],\"artifacts\":[\".csdlc/evidence/5337/review-5da012921.md\",\"adl-characterization/src/compare.rs\",\"adl-characterization/src/manifest.rs\",\"adl-characterization/src/runner.rs\",\"adl-characterization/tests/evidence.rs\",\"adl-characterization/tests/manifest.rs\"]}"
+    },
+    {
+      "sequence": 43,
+      "generation": 39,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record the expanded exact-remediation test proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-characterization/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Prove all original contracts plus command-contract tamper classes, local-only policy rejection, portable path hygiene, bounded timeout, and atomic prior-capture preservation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 6652c4ab7: 23 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target.\"}}"
+    },
+    {
+      "sequence": 44,
+      "generation": 40,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record strict lint proof at the remediated substantive revision.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-characterization/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all remediated source and tests are warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 6652c4ab7: strict all-target Clippy passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target.\"}}"
+    },
+    {
+      "sequence": 45,
+      "generation": 41,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record exact pinned-binary capture, offline verification, and portable evidence proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"adl-characterize\",\"capture\",\"--binary\",\"/Volumes/FastWork/adl-5337-v1-target/debug/adl\",\"--corpus\",\"adl-characterization/corpus/v1/corpus.yaml\",\"--observations\",\"adl-characterization/observations/v1\",\"--report\",\"adl-characterization/observations/v1/verification.json\"],\"purpose\":\"Capture and then offline-verify all 25 cases and 75 executions from the exact pinned binary, atomically replace evidence, and retain only portable tokenized streams plus exact byte hashes.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-characterization/observations/v1/verification.json at commit 6652c4ab7: 25 cases, 75 observations, 23 behaviors, two equivalence groups, one difference group, status pass; no /Users or /private/var path remained.\"}}"
     }
   ]
 }

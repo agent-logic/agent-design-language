@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 pub const CORPUS_SCHEMA: &str = "adl.characterization.corpus.v1";
 pub const OBSERVATION_SCHEMA: &str = "adl.characterization.observation.v1";
@@ -109,7 +110,9 @@ pub struct RawObservation {
     pub repetition: u32,
     pub incumbent_revision: String,
     pub binary_sha256: String,
+    pub corpus_bundle_sha256: String,
     pub commands: Vec<CommandObservation>,
+    pub evidence_envelope_sha256: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -119,10 +122,38 @@ pub struct CommandObservation {
     pub declared_args: Vec<String>,
     pub expanded_args: Vec<String>,
     pub exit_code: i32,
-    pub stdout_sha256: String,
-    pub stderr_sha256: String,
+    pub captured_stdout_sha256: String,
+    pub captured_stderr_sha256: String,
+    pub portable_stdout_sha256: String,
+    pub portable_stderr_sha256: String,
     pub stdout: String,
     pub stderr: String,
+}
+
+impl RawObservation {
+    pub fn compute_evidence_envelope_sha256(&self) -> Result<String, serde_json::Error> {
+        #[derive(Serialize)]
+        struct Envelope<'a> {
+            schema: &'a str,
+            case_id: &'a str,
+            repetition: u32,
+            incumbent_revision: &'a str,
+            binary_sha256: &'a str,
+            corpus_bundle_sha256: &'a str,
+            commands: &'a [CommandObservation],
+        }
+
+        let bytes = serde_json::to_vec(&Envelope {
+            schema: &self.schema,
+            case_id: &self.case_id,
+            repetition: self.repetition,
+            incumbent_revision: &self.incumbent_revision,
+            binary_sha256: &self.binary_sha256,
+            corpus_bundle_sha256: &self.corpus_bundle_sha256,
+            commands: &self.commands,
+        })?;
+        Ok(format!("{:x}", Sha256::digest(bytes)))
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

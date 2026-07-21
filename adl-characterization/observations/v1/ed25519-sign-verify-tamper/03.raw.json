@@ -4,6 +4,7 @@
   "repetition": 3,
   "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
   "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_bundle_sha256": "5c42a61fab6cbfaebf8a77ebeb3fcc6ab7ae71beb086ee011a2fb525ad4cb63b",
   "commands": [
     {
       "step_id": "sign",
@@ -28,8 +29,10 @@
         "<WORK>/signed.adl.yaml"
       ],
       "exit_code": 0,
-      "stdout_sha256": "e448f68c121a8237b5b4478915bf17911810274db3d115f5f8c148b681d7e917",
-      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stdout_sha256": "8a711051231c0f7202d1f6af2dc03f2f22861072a2fe6f82fa9acb71bc553a46",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "35904205cc7ec8934a4c036b8a0a386dfb685e878c1f13f6d355433473e52d2c",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "SIGN ok path=<WORK>/signed.adl.yaml\n",
       "stderr": ""
     },
@@ -48,8 +51,10 @@
         "<WORK>/keys/public.b64"
       ],
       "exit_code": 0,
-      "stdout_sha256": "a9873feccf069830b1da6ab8f6f5338539b660b45a0427f5a3458406c08533ba",
-      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stdout_sha256": "a9873feccf069830b1da6ab8f6f5338539b660b45a0427f5a3458406c08533ba",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "a9873feccf069830b1da6ab8f6f5338539b660b45a0427f5a3458406c08533ba",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "VERIFY ok\n",
       "stderr": ""
     },
@@ -68,10 +73,13 @@
         "<WORK>/keys/public.b64"
       ],
       "exit_code": 1,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "91105dd7cf605fa2ad10b55fc42a3ae06148fc226946a54a0ec0bd50dc0c58a4",
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "91105dd7cf605fa2ad10b55fc42a3ae06148fc226946a54a0ec0bd50dc0c58a4",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "91105dd7cf605fa2ad10b55fc42a3ae06148fc226946a54a0ec0bd50dc0c58a4",
       "stdout": "",
       "stderr": "Error: SIGNATURE_MISMATCH: signature verification failed: signature error: Verification equation was not satisfied\n"
     }
-  ]
+  ],
+  "evidence_envelope_sha256": "d926c0266a46c7a96bfb1439a5f431c755d481ad7314aa5cd2a061d1fa42f436"
 }

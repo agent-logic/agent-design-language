@@ -4,6 +4,7 @@
   "repetition": 1,
   "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
   "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_bundle_sha256": "5c42a61fab6cbfaebf8a77ebeb3fcc6ab7ae71beb086ee011a2fb525ad4cb63b",
   "commands": [
     {
       "step_id": "invalid",
@@ -14,10 +15,13 @@
         "--definitely-invalid"
       ],
       "exit_code": 1,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "ea7413afb08a749bcfe677e05cbe86b91ea3f3d1684dd87deb565a82aacc3d3c",
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "ea7413afb08a749bcfe677e05cbe86b91ea3f3d1684dd87deb565a82aacc3d3c",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "ea7413afb08a749bcfe677e05cbe86b91ea3f3d1684dd87deb565a82aacc3d3c",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: --definitely-invalid\n  0: read/merge adl file (with includes): --definitely-invalid\n  1: resolve include path: --definitely-invalid\n  2: No such file or directory (os error 2)\n"
     }
-  ]
+  ],
+  "evidence_envelope_sha256": "1d66e974e97f7b73786e45456ffb82f31712bca4790100db474ed680945146c9"
 }

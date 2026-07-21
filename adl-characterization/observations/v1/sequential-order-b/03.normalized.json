@@ -16,8 +16,10 @@
         "--print-plan"
       ],
       "exit_code": 0,
-      "stdout_sha256": "d6f7339694756f46f6395e48d2d483d8132872e445b6e25b3e464a67a5f8f5c3",
-      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stdout_sha256": "d6f7339694756f46f6395e48d2d483d8132872e445b6e25b3e464a67a5f8f5c3",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "d6f7339694756f46f6395e48d2d483d8132872e445b6e25b3e464a67a5f8f5c3",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "Resolved run: sequential-order\nWorkflow:     workflow\nSteps:        2\n  0. second  agent=worker provider=local task=second\n  1. first  agent=worker provider=local task=first\n",
       "stderr": ""
     }

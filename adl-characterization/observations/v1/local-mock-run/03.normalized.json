@@ -24,8 +24,10 @@
         "--quiet"
       ],
       "exit_code": 0,
-      "stdout_sha256": "11ce9c2c7bc32a9cf30f0ab4abc24df0b0e740b5ab2253a691b8c7ca983cb1ae",
-      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stdout_sha256": "11ce9c2c7bc32a9cf30f0ab4abc24df0b0e740b5ab2253a691b8c7ca983cb1ae",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "11ce9c2c7bc32a9cf30f0ab4abc24df0b0e740b5ab2253a691b8c7ca983cb1ae",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "RUN SUMMARY: 1 step(s)\n  step=emit provider=local_mock status=success attempts=1 bytes=30\n",
       "stderr": ""
     }

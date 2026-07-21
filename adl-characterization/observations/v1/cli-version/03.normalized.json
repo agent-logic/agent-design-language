@@ -14,8 +14,10 @@
         "--version"
       ],
       "exit_code": 0,
-      "stdout_sha256": "81154bdb8f14fbab3804ea41cfe2a701e9e34c3ec9ee23ac041bbc58ec232089",
-      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stdout_sha256": "81154bdb8f14fbab3804ea41cfe2a701e9e34c3ec9ee23ac041bbc58ec232089",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "81154bdb8f14fbab3804ea41cfe2a701e9e34c3ec9ee23ac041bbc58ec232089",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "0.91.7\n",
       "stderr": ""
     }

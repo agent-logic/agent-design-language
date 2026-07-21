@@ -16,8 +16,10 @@
         "--print-prompts"
       ],
       "exit_code": 0,
-      "stdout_sha256": "2b532c8c66e200321fccc7e43958bcd5344f075924aae7c8b773437d68b4b183",
-      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stdout_sha256": "2b532c8c66e200321fccc7e43958bcd5344f075924aae7c8b773437d68b4b183",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "2b532c8c66e200321fccc7e43958bcd5344f075924aae7c8b773437d68b4b183",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stdout": "--- step 0: summarize.topic ---\nSYSTEM:\nYou summarize deterministically.\n\nUSER:\nSummarize characterization.\n\n",
       "stderr": ""
     }

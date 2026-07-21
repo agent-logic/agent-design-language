@@ -15,13 +15,15 @@ exact executable used to create the retained observations.
 
 The harness clears the child environment and supplies only a minimal local
 `PATH`, isolated `HOME` and `TMPDIR`, disabled ADL observability, and
-`NO_PROXY=*`. A fail-closed command-policy validator permits only local parser,
-projection, signing, verification, and fixture operations. The sole `--run`
-case must declare `local-mock-run`, use the exact bounded argument set, and
-reference a fixture whose providers all use `mock:*` profiles and whose run has
-no remote route. The harness does not claim to be an operating-system network
-sandbox; corpus validation prevents network-capable execution from reaching
-the child process. No credentialed, network, cloud, or AWS provider is invoked.
+`NO_PROXY=*`. A fail-closed command-policy validator permits only exact known
+non-executing command shapes (`--help`, `--version`, planning, prompt, graph,
+signing, and verification) plus one exact local-mock execution shape. A fixture
+path without an approved mode is rejected because default document invocation
+may execute. The sole `--run` case must declare `local-mock-run` and reference a
+fixture whose providers all use `mock:*` profiles and whose run has no remote
+route. The harness does not claim to be an operating-system network sandbox;
+corpus validation prevents network-capable commands from reaching the child
+process. No credentialed, network, cloud, or AWS provider is invoked.
 
 ## Contract
 
@@ -37,18 +39,22 @@ Normalization is deliberately narrow:
 - named JSON fields or an exact line may be removed only when declared;
 - no-op rules fail, so the manifest cannot hide imaginary nondeterminism;
 - capture replaces only the known corpus and temporary-work prefixes with
-  `<ROOT>` and `<WORK>` before evidence retention; SHA-256 fields preserve the
-  identity of the exact pre-tokenization stdout and stderr byte streams;
+  `<ROOT>` and `<WORK>` before evidence retention; separate SHA-256 fields bind
+  both exact pre-tokenization streams and recomputable portable streams;
 - declared `{ROOT}` and `{WORK}` arguments become the same portable tokens in
-  retained raw and normalized evidence.
+  retained raw and normalized evidence;
+- every raw observation carries the digest of the sorted corpus bundle and a
+  recomputable envelope digest over its identity, command contract, stream
+  digests, and portable output.
 
 Exit codes, semantic arrays, identifiers, diagnostics, and signature verdicts
-are never discarded. Verification rechecks step count/order, declared and
-portable arguments, exits, and required stdout/stderr fragments before it
-derives every normalized record again. It then checks repeated portable output
-bytes and enforces the declared equivalence and difference groups. Every child
-command has the manifest-declared timeout; timeout kills and reaps the process
-and returns a deterministic case/step error.
+are never discarded. Verification recomputes the corpus bundle, evidence
+envelope, and portable stream digests; rechecks step count/order, declared and
+portable arguments, exits, and required stdout/stderr fragments; and derives
+every normalized record again. It then checks repeated portable output bytes
+and enforces the declared equivalence and difference groups. Every child command
+has the manifest-declared timeout; timeout kills and reaps the process and
+returns a deterministic case/step error.
 
 ## Run
 

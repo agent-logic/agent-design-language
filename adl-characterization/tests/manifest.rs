@@ -77,5 +77,20 @@ fn network_capable_execution_is_rejected_by_corpus_policy() {
     let error = load_corpus(&path).unwrap_err();
     assert!(error
         .to_string()
-        .contains("without local-mock-run behavior"));
+        .contains("outside the local-only command policy"));
+}
+
+#[test]
+fn default_document_execution_is_rejected_by_corpus_policy() {
+    let original = fs::read_to_string(corpus_path()).unwrap();
+    let changed = original.replacen(
+        "args: [\"{ROOT}/fixtures/six-primitives.adl.yaml\", --print-plan]",
+        "args: [\"{ROOT}/fixtures/six-primitives.adl.yaml\"]",
+        1,
+    );
+    let (_temp, path) = prepare_corpus(&changed);
+    let error = load_corpus(&path).unwrap_err();
+    assert!(error
+        .to_string()
+        .contains("outside the local-only command policy"));
 }

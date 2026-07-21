@@ -16,8 +16,10 @@
         "--print-plan"
       ],
       "exit_code": 1,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "4ffd6db7853adc40836928218adae786d3a054ff281bfb6b76df4e3c87e04b96",
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "4ffd6db7853adc40836928218adae786d3a054ff281bfb6b76df4e3c87e04b96",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "19b75c8390cebe4fcd0cf7e6a19910607a1aba50070dd6cf78299c99e17f30e7",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/unsupported-run-field.adl.yaml\n  0: schema validate adl yaml: <ROOT>/fixtures/unsupported-run-field.adl.yaml\n  1: ADL schema validation failed:\nat /run: Additional properties are not allowed ('agent_ref' was unexpected)\n"
     }

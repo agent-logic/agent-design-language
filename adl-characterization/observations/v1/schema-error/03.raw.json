@@ -4,6 +4,7 @@
   "repetition": 3,
   "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
   "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "corpus_bundle_sha256": "5c42a61fab6cbfaebf8a77ebeb3fcc6ab7ae71beb086ee011a2fb525ad4cb63b",
   "commands": [
     {
       "step_id": "validate",
@@ -16,10 +17,13 @@
         "--print-plan"
       ],
       "exit_code": 1,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "f67d7c6c9f01f1acc3d911f56daad0b8b4d8edecd39a5ebaeff6bd7727320f8f",
+      "captured_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "captured_stderr_sha256": "f67d7c6c9f01f1acc3d911f56daad0b8b4d8edecd39a5ebaeff6bd7727320f8f",
+      "portable_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stderr_sha256": "e7f9a7fa7c1cbed102b06d62de200b798a710dcecb161958d8dfca06a800fe93",
       "stdout": "",
       "stderr": "Error: failed to load ADL document: <ROOT>/fixtures/schema-unknown.adl.yaml\n  0: schema validate adl yaml: <ROOT>/fixtures/schema-unknown.adl.yaml\n  1: ADL schema validation failed:\nat /: Additional properties are not allowed ('unknown_top_level' was unexpected)\n"
     }
-  ]
+  ],
+  "evidence_envelope_sha256": "23a1c6e45c156348173882035978a053c78f0772b3563fca229c1a1646a27d32"
 }

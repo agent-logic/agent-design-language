@@ -12,6 +12,12 @@ use wait_timeout::ChildExt;
 
 use crate::model::{Case, CommandObservation, PreAction, RawObservation, OBSERVATION_SCHEMA};
 
+pub struct CaptureIdentity<'a> {
+    pub binary_sha256: &'a str,
+    pub incumbent_revision: &'a str,
+    pub corpus_bundle_sha256: &'a str,
+}
+
 pub fn binary_sha256(binary: &Path) -> Result<String> {
     let bytes = fs::read(binary).with_context(|| format!("read binary {}", binary.display()))?;
     Ok(format!("{:x}", Sha256::digest(bytes)))
@@ -19,8 +25,7 @@ pub fn binary_sha256(binary: &Path) -> Result<String> {
 
 pub fn run_case(
     binary: &Path,
-    binary_digest: &str,
-    revision: &str,
+    identity: &CaptureIdentity<'_>,
     corpus_root: &Path,
     case: &Case,
     repetition: u32,
@@ -80,8 +85,8 @@ pub fn run_case(
             .expect("piped stderr")
             .read_to_end(&mut stderr_bytes)?;
         let exit_code = status.code().unwrap_or(-1);
-        let stdout_sha256 = format!("{:x}", Sha256::digest(&stdout_bytes));
-        let stderr_sha256 = format!("{:x}", Sha256::digest(&stderr_bytes));
+        let captured_stdout_sha256 = format!("{:x}", Sha256::digest(&stdout_bytes));
+        let captured_stderr_sha256 = format!("{:x}", Sha256::digest(&stderr_bytes));
         let stdout = portable_text(
             String::from_utf8(stdout_bytes).context("v1 stdout is not UTF-8")?,
             &corpus_root,
@@ -92,6 +97,8 @@ pub fn run_case(
             &corpus_root,
             &workdir,
         );
+        let portable_stdout_sha256 = format!("{:x}", Sha256::digest(stdout.as_bytes()));
+        let portable_stderr_sha256 = format!("{:x}", Sha256::digest(stderr.as_bytes()));
         if exit_code != step.expected_exit {
             bail!(
                 "case {} step {} exit {exit_code}, expected {}: {stderr}",
@@ -128,20 +135,26 @@ pub fn run_case(
             declared_args: step.args.clone(),
             expanded_args: portable_args,
             exit_code,
-            stdout_sha256,
-            stderr_sha256,
+            captured_stdout_sha256,
+            captured_stderr_sha256,
+            portable_stdout_sha256,
+            portable_stderr_sha256,
             stdout,
             stderr,
         });
     }
-    Ok(RawObservation {
+    let mut observation = RawObservation {
         schema: OBSERVATION_SCHEMA.into(),
         case_id: case.id.clone(),
         repetition,
-        incumbent_revision: revision.into(),
-        binary_sha256: binary_digest.into(),
+        incumbent_revision: identity.incumbent_revision.into(),
+        binary_sha256: identity.binary_sha256.into(),
+        corpus_bundle_sha256: identity.corpus_bundle_sha256.into(),
         commands,
-    })
+        evidence_envelope_sha256: String::new(),
+    };
+    observation.evidence_envelope_sha256 = observation.compute_evidence_envelope_sha256()?;
+    Ok(observation)
 }
 
 fn apply_pre_action(action: &PreAction, workdir: &Path) -> Result<()> {
@@ -288,8 +301,11 @@ mod tests {
         };
         let error = run_case(
             &script,
-            &"a".repeat(64),
-            &"b".repeat(40),
+            &CaptureIdentity {
+                binary_sha256: &"a".repeat(64),
+                incumbent_revision: &"b".repeat(40),
+                corpus_bundle_sha256: &"c".repeat(64),
+            },
             root.path(),
             &case,
             1,

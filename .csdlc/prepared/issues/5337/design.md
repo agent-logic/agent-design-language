@@ -10,9 +10,10 @@ incumbent internal tests or implementation logic.
 
 The incumbent revision is fixed at
 `19c2b6e2ad18bddc75db9231643a54b2a446ce72`. Every retained observation records
-that revision, the binary digest, command arguments, exit status, portable
-stdout and stderr, hashes of the exact captured output bytes, normalized output,
-and repetition number.
+that revision, the binary and corpus-bundle digests, command arguments, exit
+status, portable stdout and stderr, hashes of the exact captured and portable
+output bytes, a recomputable evidence-envelope digest, normalized output, and
+repetition number.
 
 ## Components
 
@@ -42,8 +43,10 @@ tamper rejection.
 Provider schemas may be parsed and validated, but no credentialed, network, or
 AWS provider is executed. The local mock case is the only execution case. The
 harness is not an operating-system network sandbox: corpus loading fails closed
-unless every command is in the local-only allowlist and the only `--run` fixture
-uses exclusively `mock:*` provider profiles with no remote route.
+unless every command matches an exact non-executing command shape or the sole
+local-mock execution shape. A fixture-only default invocation is rejected. The
+only `--run` fixture uses exclusively `mock:*` provider profiles with no remote
+route.
 
 ## Normalization Contract
 
@@ -62,14 +65,18 @@ that matches nothing or an undeclared volatile field is a verification error.
 ## Evidence And Reproducibility
 
 Each case runs at least three times. Before retention, only the known corpus and
-temporary-work prefixes are replaced with portable tokens; SHA-256 fields retain
-the identity of the exact pre-tokenization streams. Portable raw observations
-are immutable inputs to comparison, and normalized observations are derived
-artifacts. Offline verification rechecks command count/order, arguments, exits,
-and required fragments against the current corpus before accepting evidence. The coverage map
-maps every required behavior to one or more case identifiers and fails closed
-for missing, duplicate, or unknown mappings. Any repeated-run divergence not
-explicitly covered by a narrow normalizer fails verification.
+temporary-work prefixes are replaced with portable tokens. Separate SHA-256
+fields retain the identity of exact pre-tokenization streams and permit offline
+recomputation of portable stream integrity. Every observation also binds the
+sorted corpus bundle and carries an envelope digest over its complete retained
+contract and output. Portable raw observations are immutable inputs to
+comparison, and normalized observations are derived artifacts. Offline
+verification recomputes these bindings and rechecks command count/order,
+arguments, exits, and required fragments against the current corpus before
+accepting evidence. The coverage map maps every required behavior to one or more
+case identifiers and fails closed for missing, duplicate, or unknown mappings.
+Any repeated-run divergence not explicitly covered by a narrow normalizer fails
+verification.
 
 Every child command has a manifest-declared timeout and is killed and reaped on
 expiry with a deterministic timeout classification. The checked-in observations are captured from the pinned v1 binary. Unit and

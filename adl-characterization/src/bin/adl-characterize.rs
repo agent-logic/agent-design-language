@@ -58,7 +58,7 @@ fn main() -> Result<()> {
             report,
         } => {
             let manifest = load_corpus(&corpus)?;
-            let result = verify_corpus(&manifest, &observations)?;
+            let result = verify_corpus(&corpus, &manifest, &observations)?;
             write_report(report.as_ref(), &result)?;
             result
         }

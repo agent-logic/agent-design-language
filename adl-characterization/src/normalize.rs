@@ -145,16 +145,20 @@ mod tests {
             repetition: 1,
             incumbent_revision: "a".repeat(40),
             binary_sha256: "b".repeat(64),
+            corpus_bundle_sha256: "c".repeat(64),
             commands: vec![CommandObservation {
                 step_id: "step".into(),
                 declared_args: vec![],
                 expanded_args: vec![],
                 exit_code: 0,
-                stdout_sha256: "a".repeat(64),
-                stderr_sha256: "b".repeat(64),
+                captured_stdout_sha256: "a".repeat(64),
+                captured_stderr_sha256: "b".repeat(64),
+                portable_stdout_sha256: "c".repeat(64),
+                portable_stderr_sha256: "d".repeat(64),
                 stdout: stdout.into(),
                 stderr: String::new(),
             }],
+            evidence_envelope_sha256: "e".repeat(64),
         }
     }
 

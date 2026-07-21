@@ -4,10 +4,12 @@ use std::path::Path;
 
 use anyhow::{bail, Context, Result};
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
+use crate::manifest::corpus_bundle_sha256;
 use crate::model::{Corpus, NormalizedObservation, RawObservation, OBSERVATION_SCHEMA};
 use crate::normalize::normalize;
-use crate::runner::{binary_sha256, run_case};
+use crate::runner::{binary_sha256, run_case, CaptureIdentity};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct VerificationReport {
@@ -29,6 +31,7 @@ pub fn capture_corpus(
     output: &Path,
 ) -> Result<VerificationReport> {
     let digest = binary_sha256(binary)?;
+    let corpus_bundle_digest = corpus_bundle_sha256(corpus_path)?;
     if digest != corpus.binary_sha256 {
         bail!(
             "binary digest {digest} does not match corpus pin {}",
@@ -42,14 +45,18 @@ pub fn capture_corpus(
         .tempdir_in(parent)?;
     let staged_output = staging.path();
     let root = corpus_path.parent().unwrap_or_else(|| Path::new("."));
+    let identity = CaptureIdentity {
+        binary_sha256: &digest,
+        incumbent_revision: &corpus.incumbent_revision,
+        corpus_bundle_sha256: &corpus_bundle_digest,
+    };
     for case in &corpus.cases {
         let case_dir = staged_output.join(&case.id);
         fs::create_dir_all(&case_dir)?;
         for repetition in 1..=corpus.repetitions {
             let raw = run_case(
                 binary,
-                &digest,
-                &corpus.incumbent_revision,
+                &identity,
                 root,
                 case,
                 repetition,
@@ -63,7 +70,7 @@ pub fn capture_corpus(
             )?;
         }
     }
-    let report = verify_corpus(corpus, staged_output)?;
+    let report = verify_corpus(corpus_path, corpus, staged_output)?;
     replace_capture(staging, output)?;
     Ok(report)
 }
@@ -95,7 +102,12 @@ fn replace_capture(staging: tempfile::TempDir, output: &Path) -> Result<()> {
     Ok(())
 }
 
-pub fn verify_corpus(corpus: &Corpus, observations: &Path) -> Result<VerificationReport> {
+pub fn verify_corpus(
+    corpus_path: &Path,
+    corpus: &Corpus,
+    observations: &Path,
+) -> Result<VerificationReport> {
+    let corpus_bundle_digest = corpus_bundle_sha256(corpus_path)?;
     let mut normalized_by_case = BTreeMap::<String, Vec<NormalizedObservation>>::new();
     for case in &corpus.cases {
         let mut values = Vec::new();
@@ -112,9 +124,11 @@ pub fn verify_corpus(corpus: &Corpus, observations: &Path) -> Result<Verificatio
                 || raw.repetition != repetition
                 || raw.incumbent_revision != corpus.incumbent_revision
                 || raw.binary_sha256 != corpus.binary_sha256
+                || raw.corpus_bundle_sha256 != corpus_bundle_digest
             {
                 bail!("observation identity mismatch at {}", raw_path.display());
             }
+            verify_observation_envelope(case, &raw)?;
             verify_command_contract(case, &raw)?;
             let derived = normalize(&raw, &case.normalization)?;
             let retained: NormalizedObservation = read_json(&normalized_path)?;
@@ -161,6 +175,20 @@ pub fn verify_corpus(corpus: &Corpus, observations: &Path) -> Result<Verificatio
     })
 }
 
+fn verify_observation_envelope(case: &crate::model::Case, raw: &RawObservation) -> Result<()> {
+    verify_digest_shape(
+        &case.id,
+        "observation",
+        "evidence envelope",
+        &raw.evidence_envelope_sha256,
+    )?;
+    let derived = raw.compute_evidence_envelope_sha256()?;
+    if raw.evidence_envelope_sha256 != derived {
+        bail!("case {} evidence envelope digest mismatch", case.id);
+    }
+    Ok(())
+}
+
 fn verify_command_contract(case: &crate::model::Case, raw: &RawObservation) -> Result<()> {
     if raw.commands.len() != case.steps.len() {
         bail!("case {} command count does not match corpus steps", case.id);
@@ -193,16 +221,23 @@ fn verify_command_contract(case: &crate::model::Case, raw: &RawObservation) -> R
             );
         }
         for (label, digest) in [
-            ("stdout", &command.stdout_sha256),
-            ("stderr", &command.stderr_sha256),
+            ("captured stdout", &command.captured_stdout_sha256),
+            ("captured stderr", &command.captured_stderr_sha256),
+            ("portable stdout", &command.portable_stdout_sha256),
+            ("portable stderr", &command.portable_stderr_sha256),
         ] {
-            if digest.len() != 64 || !digest.chars().all(|ch| ch.is_ascii_hexdigit()) {
-                bail!(
-                    "case {} step {} has invalid {label} SHA-256",
-                    case.id,
-                    step.id
-                );
-            }
+            verify_digest_shape(&case.id, &step.id, label, digest)?;
+        }
+        let portable_stdout = format!("{:x}", Sha256::digest(command.stdout.as_bytes()));
+        let portable_stderr = format!("{:x}", Sha256::digest(command.stderr.as_bytes()));
+        if command.portable_stdout_sha256 != portable_stdout
+            || command.portable_stderr_sha256 != portable_stderr
+        {
+            bail!(
+                "case {} step {} portable stream digest mismatch",
+                case.id,
+                step.id
+            );
         }
         if command.stdout.contains("/Users/")
             || command.stderr.contains("/Users/")
@@ -240,6 +275,13 @@ fn verify_command_contract(case: &crate::model::Case, raw: &RawObservation) -> R
                 );
             }
         }
+    }
+    Ok(())
+}
+
+fn verify_digest_shape(case: &str, step: &str, label: &str, digest: &str) -> Result<()> {
+    if digest.len() != 64 || !digest.chars().all(|ch| ch.is_ascii_hexdigit()) {
+        bail!("case {case} step {step} has invalid {label} SHA-256");
     }
     Ok(())
 }
