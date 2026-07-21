@@ -1,0 +1,15 @@
+{
+  "issue": 5337,
+  "expected_generation": 64,
+  "expected_digest": "d38abead879ca4e5ceec2cfcc575812b8f611726ada048cd605dcb9ae0398364",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5607,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": null
+}

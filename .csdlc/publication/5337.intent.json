@@ -6,7 +6,7 @@
   "head": "codex/5337-v0918-wp03-preparation",
   "title": "[v0.91.8][WP-03] Characterize pinned ADL v1 behavior",
   "body": "Closes #5337\n\nImplements the independent pinned-v1 characterization harness required before Runtime v3 parity work. The crate provides a versioned corpus and schema, deterministic normalizer and comparator, portable retained observations, integrity envelopes, bounded local-only execution policy, timeout handling, and coverage documentation.\n\nThe retained corpus covers 25 cases, 75 observations, and 23 behaviors, including CLI surfaces, all six primitives, graph and prompt output, ordering equivalence and difference, negative validation paths, local mock execution, and fixed Ed25519 sign/verify/tamper behavior. Locked all-target tests pass 29/29, characterization verification passes, strict all-target Clippy passes, and the final integrated-head exact-revision review found no actionable blockers. Cargo output remained on /Volumes/FastWork; no AWS or raw gh was used.",
-  "draft": true,
-  "revision": "git-blake3:373f99bd940304734ef64dcdd511303533a00c38:5ec95b77513108a18befc289b80723b44e571cb95de72060af0dcf911d38d78f",
-  "commit_sha": "373f99bd940304734ef64dcdd511303533a00c38"
+  "draft": false,
+  "revision": "git-blake3:73665c0571d417dedf689f3afeb009df7cbeea1f:cfa4418dc6c9dabe6cadb1657a16409b2baec690c8b16a1ca489700f3f24294f",
+  "commit_sha": "73665c0571d417dedf689f3afeb009df7cbeea1f"
 }
