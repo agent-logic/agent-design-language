@@ -786,11 +786,13 @@ mod tests {
     async fn child_exit_terminates_descendants_and_bounds_inherited_pipe_capture() {
         let root = TestRoot::new("descendant-cleanup");
         let descendant_file = root.path("descendant-pid");
+        let descendant_ready = root.path("descendant-ready");
         let script = root.script(
             "descendant.sh",
             &format!(
-                "#!/bin/sh\n(trap '' TERM; while true; do sleep 1; done) &\necho $! > {descendant_file}\nexit 0\n",
-                descendant_file = descendant_file.display()
+                "#!/bin/sh\n(trap '' TERM; echo ready > {descendant_ready}; while true; do sleep 1; done) &\necho $! > {descendant_file}\nwhile [ ! -f {descendant_ready} ]; do sleep 0.01; done\nexit 0\n",
+                descendant_file = descendant_file.display(),
+                descendant_ready = descendant_ready.display()
             ),
         );
         let mut config = GuardianConfig::runtime_kernel(script, "unused", "runtime-init.toml");
