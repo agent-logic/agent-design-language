@@ -1,0 +1,12 @@
+{
+  "issue": 5610,
+  "expected_generation": 19,
+  "expected_digest": "47dbc138030f537747509aa3dd248e7a540306a0d9a2a108c0d461712df67fa0",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "reviewer": "coordinator:exact-review-5610-alias-maxima",
+  "assigned_by": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "scope": [
+    "adl/tools/merge_coverage_summaries.py",
+    "adl/tools/test_merge_coverage_summaries.sh"
+  ]
+}
