@@ -17,4 +17,3 @@ jsonschema = { version = "=0.48.2", default-features = false }
 
 [lints.rust]
 unsafe_code = "forbid"
-

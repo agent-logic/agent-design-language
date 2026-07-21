@@ -17,6 +17,12 @@ pub use validate::validate;
 
 /// Generate the schema from the same types used for parsing.
 pub fn json_schema() -> serde_json::Value {
-    serde_json::to_value(schemars::schema_for!(AdlDocument))
-        .expect("schema serialization is infallible")
+    let mut schema = serde_json::to_value(schemars::schema_for!(AdlDocument))
+        .expect("schema serialization is infallible");
+    schema["properties"]["version"] = serde_json::json!({"enum": ["0.3", "0.5"]});
+    schema["$defs"]["Run"]["oneOf"] = serde_json::json!([
+        {"required": ["workflow_ref"], "not": {"required": ["workflow"]}},
+        {"required": ["workflow"], "not": {"required": ["workflow_ref"]}}
+    ]);
+    schema
 }

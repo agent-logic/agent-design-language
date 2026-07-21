@@ -24,4 +24,3 @@ work packages.
 The characterization parity test consumes the reviewed #5337 corpus directly
 and records why compiler-, CLI-, execution-, and signing-owned cases are not
 WP-04 language claims.
-

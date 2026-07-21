@@ -12,13 +12,18 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a pure independent Rust language crate for the six ADL primitives with strict parsing, generated checked schema, semantic validation, deterministic canonicalization, stable diagnostics, and mapped #5337 characterization proof.
+Closed all initial exact-review findings with complete identity/reference validation, locally expressible schema constraints, full budget-surface accounting, and EOF hygiene.
 
 ## Artifacts
 
 - adl-v2/crates/adl-language
 - adl-v2/crates/adl-language/schema/adl-document.schema.json
 - adl-v2/crates/adl-language/CHARACTERIZATION_PARITY.md
+- adl-v2/crates/adl-language/src/validate.rs
+- adl-v2/crates/adl-language/src/lib.rs
+- adl-v2/crates/adl-language/schema/adl-document.schema.json
+- adl-v2/crates/adl-language/tests/language.rs
+- .csdlc/evidence/5339/implementation-validation
 
 ## Execution
 
@@ -26,6 +31,10 @@ Implemented a pure independent Rust language crate for the six ADL primitives wi
 - Added duplicate-key-safe YAML and JSON parsing plus version, identity, reference, state, cycle, and run-target validation
 - Added deterministic canonical JSON, a checked schema generator, focused tests, and an explicit #5337 corpus parity map
 - Kept compiler expansion, runtime execution, provider invocation, control-plane, cloud, storage, and migration outside the crate
+- Validate run, inline workflow, saved-state, step, map, and every reference identity with stable invalid_identity diagnostics
+- Constrain generated schema versions and exclusive run targets; test invalid version, run shape, nested type, and nested unknown fields against schema and parser
+- Count src/examples and tests/schema/parity-map surfaces in the implementation and test-fixture budgets
+- Remove trailing blank lines and retain a clean diff
 
 ## Validation
 

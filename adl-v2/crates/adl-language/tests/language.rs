@@ -132,6 +132,26 @@ fn rejects_bad_version_references_and_cycles() {
 }
 
 #[test]
+fn rejects_malformed_identities_on_every_identity_surface() {
+    for malformed in [
+        COMPLETE.replace("id: run-main", "id: 'bad id'"),
+        COMPLETE.replace("id: main\n    kind", "id: 'bad id'\n    kind"),
+        COMPLETE.replace("save_as: summary", "save_as: 'bad state'"),
+        COMPLETE.replace("provider: local", "provider: 'bad provider'"),
+        COMPLETE.replace("tools: [docs]", "tools: ['bad tool']"),
+        COMPLETE.replace("agent_ref: planner", "agent_ref: 'bad agent'"),
+        COMPLETE.replace("task: summarize", "task: 'bad task'"),
+        COMPLETE.replace("workflow_ref: main", "workflow_ref: 'bad workflow'"),
+        COMPLETE.replace("{topic: test}", "{topic: '@state:bad state'}"),
+    ] {
+        assert!(parse_and_validate_yaml(&malformed)
+            .unwrap_err()
+            .iter()
+            .any(|error| error.code == DiagnosticCode::InvalidIdentity));
+    }
+}
+
+#[test]
 fn generated_schema_matches_parser_contract() {
     let schema = json_schema();
     let checked_schema = fs::read_to_string(
@@ -151,4 +171,15 @@ fn generated_schema_matches_parser_contract() {
         .unwrap()
         .insert("unknown".into(), true.into());
     assert!(!validator.is_valid(&invalid));
+
+    for invalid in [
+        serde_json::json!({"version":"9","run":{"name":"x","workflow":{"kind":"sequential","steps":[]}}}),
+        serde_json::json!({"version":"0.5","run":{"name":"x"}}),
+        serde_json::json!({"version":"0.5","run":{"name":"x","workflow_ref":"a","workflow":{"kind":"sequential","steps":[]}}}),
+        serde_json::json!({"version":"0.5","run":{"name":"x","workflow":{"kind":"sequential","steps":[],"unknown":true}}}),
+        serde_json::json!({"version":"0.5","run":{"name":7,"workflow":{"kind":"sequential","steps":[]}}}),
+    ] {
+        assert!(!validator.is_valid(&invalid), "schema accepted {invalid}");
+        assert!(parse_and_validate_json(&invalid.to_string()).is_err());
+    }
 }

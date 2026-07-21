@@ -17,6 +17,7 @@ pub fn validate(document: &AdlDocument) -> Result<(), Vec<Diagnostic>> {
         |value| value.id.as_deref(),
         &mut diagnostics,
     );
+    validate_optional_id("$.run.id", document.run.id.as_deref(), &mut diagnostics);
     validate_named_ids(
         "tools",
         &document.tools,
@@ -43,7 +44,12 @@ pub fn validate(document: &AdlDocument) -> Result<(), Vec<Diagnostic>> {
     );
 
     for (name, agent) in &document.agents {
-        if !document.providers.contains_key(&agent.provider) {
+        if validate_reference(
+            &format!("$.agents.{name}.provider"),
+            &agent.provider,
+            &mut diagnostics,
+        ) && !document.providers.contains_key(&agent.provider)
+        {
             diagnostics.push(Diagnostic::new(
                 DiagnosticCode::UnknownProvider,
                 format!("$.agents.{name}.provider"),
@@ -51,7 +57,9 @@ pub fn validate(document: &AdlDocument) -> Result<(), Vec<Diagnostic>> {
             ));
         }
         for tool in &agent.tools {
-            if !document.tools.contains_key(tool) {
+            if validate_reference(&format!("$.agents.{name}.tools"), tool, &mut diagnostics)
+                && !document.tools.contains_key(tool)
+            {
                 diagnostics.push(Diagnostic::new(
                     DiagnosticCode::UnknownTool,
                     format!("$.agents.{name}.tools"),
@@ -62,7 +70,12 @@ pub fn validate(document: &AdlDocument) -> Result<(), Vec<Diagnostic>> {
     }
     for (name, task) in &document.tasks {
         if let Some(agent) = &task.agent_ref {
-            if !document.agents.contains_key(agent) {
+            if validate_reference(
+                &format!("$.tasks.{name}.agent_ref"),
+                agent,
+                &mut diagnostics,
+            ) && !document.agents.contains_key(agent)
+            {
                 diagnostics.push(Diagnostic::new(
                     DiagnosticCode::UnknownAgent,
                     format!("$.tasks.{name}.agent_ref"),
@@ -71,7 +84,12 @@ pub fn validate(document: &AdlDocument) -> Result<(), Vec<Diagnostic>> {
             }
         }
         for tool in &task.tool_allowlist {
-            if !document.tools.contains_key(tool) {
+            if validate_reference(
+                &format!("$.tasks.{name}.tool_allowlist"),
+                tool,
+                &mut diagnostics,
+            ) && !document.tools.contains_key(tool)
+            {
                 diagnostics.push(Diagnostic::new(
                     DiagnosticCode::UnknownTool,
                     format!("$.tasks.{name}.tool_allowlist"),
@@ -90,7 +108,9 @@ pub fn validate(document: &AdlDocument) -> Result<(), Vec<Diagnostic>> {
     }
     match (&document.run.workflow_ref, &document.run.workflow) {
         (Some(reference), None) => {
-            if !document.workflows.contains_key(reference) {
+            if validate_reference("$.run.workflow_ref", reference, &mut diagnostics)
+                && !document.workflows.contains_key(reference)
+            {
                 diagnostics.push(Diagnostic::new(
                     DiagnosticCode::UnknownWorkflow,
                     "$.run.workflow_ref",
@@ -155,12 +175,32 @@ fn valid_id(value: &str) -> bool {
         })
 }
 
+fn validate_optional_id(path: &str, value: Option<&str>, diagnostics: &mut Vec<Diagnostic>) {
+    if let Some(value) = value {
+        validate_reference(path, value, diagnostics);
+    }
+}
+
+fn validate_reference(path: &str, value: &str, diagnostics: &mut Vec<Diagnostic>) -> bool {
+    if valid_id(value) {
+        true
+    } else {
+        diagnostics.push(Diagnostic::new(
+            DiagnosticCode::InvalidIdentity,
+            path,
+            format!("invalid identity or reference `{value}`"),
+        ));
+        false
+    }
+}
+
 fn validate_workflow(
     document: &AdlDocument,
     workflow: &Workflow,
     path: &str,
     diagnostics: &mut Vec<Diagnostic>,
 ) {
+    validate_optional_id(&format!("{path}.id"), workflow.id.as_deref(), diagnostics);
     let mut step_ids = BTreeSet::new();
     let mut states = BTreeMap::new();
     for (index, step) in workflow.steps.iter().enumerate() {
@@ -179,7 +219,9 @@ fn validate_workflow(
                 format!("duplicate step identity `{}`", step.id),
             ));
         }
-        if !document.tasks.contains_key(&step.task) {
+        if validate_reference(&format!("{step_path}.task"), &step.task, diagnostics)
+            && !document.tasks.contains_key(&step.task)
+        {
             diagnostics.push(Diagnostic::new(
                 DiagnosticCode::UnknownTask,
                 format!("{step_path}.task"),
@@ -187,7 +229,9 @@ fn validate_workflow(
             ));
         }
         if let Some(agent) = &step.agent {
-            if !document.agents.contains_key(agent) {
+            if validate_reference(&format!("{step_path}.agent"), agent, diagnostics)
+                && !document.agents.contains_key(agent)
+            {
                 diagnostics.push(Diagnostic::new(
                     DiagnosticCode::UnknownAgent,
                     format!("{step_path}.agent"),
@@ -196,7 +240,9 @@ fn validate_workflow(
             }
         }
         if let Some(state) = &step.save_as {
-            if states.insert(state.clone(), step.id.clone()).is_some() {
+            if validate_reference(&format!("{step_path}.save_as"), state, diagnostics)
+                && states.insert(state.clone(), step.id.clone()).is_some()
+            {
                 diagnostics.push(Diagnostic::new(
                     DiagnosticCode::DuplicateIdentity,
                     format!("{step_path}.save_as"),
@@ -212,6 +258,13 @@ fn validate_workflow(
         .collect();
     for (index, step) in workflow.steps.iter().enumerate() {
         for reference in state_references(step) {
+            if !validate_reference(
+                &format!("{path}.steps[{index}].inputs"),
+                &reference,
+                diagnostics,
+            ) {
+                continue;
+            }
             match states.get(&reference) {
                 Some(owner) => {
                     dependencies
