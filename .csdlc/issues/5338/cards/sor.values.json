@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5338,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-05] Implement pure deterministic ADL compiler",
+    "slug": "v0918-wp05-pure-deterministic-adl-compiler",
+    "version": "v0.91.8",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Pre-execution output record.",
+      "actual_changes": [],
+      "artifacts": [],
+      "actual_validation": [
+        {
+          "command": [
+            "csdlc-validate",
+            "preparation-contract-5338",
+            "typed-doctor-5338"
+          ],
+          "purpose": "Prove six-card integrity, bound protected scope, reviewed design and diagram, executable dependency and budget contract, root safety, and typed doctor health without running product implementation.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/5338/preparation-validation: local_pass; preparation-contract 163ms; typed doctor 29ms; bounded preparation review PASS with no remaining actionable findings"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

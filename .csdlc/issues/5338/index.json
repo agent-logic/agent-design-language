@@ -1,0 +1,161 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5338,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "199fbe42a3df206676fb4c08e306473ef17bb34c2be2c2e69c0cd371890f5f6f",
+  "phase": "bound",
+  "generation": 7,
+  "digest": "5944fcaf2e3d9a5bb75a776aac72d1a030ec3873b44486638443f5118346e041",
+  "claim": {
+    "id": "claim-5338-v0918-wp05-owner",
+    "owner": "codex:5338-owner-watch",
+    "generation": 7,
+    "acquired_unix_seconds": 1784616770,
+    "expires_unix_seconds": 1785221570,
+    "heartbeat_unix_seconds": 1784616770,
+    "branch": "codex/5338-v0918-wp05-deterministic-compiler",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/evidence/5338",
+      ".csdlc/issues/5338",
+      ".csdlc/locks/5338.lock",
+      ".csdlc/prepared/issues/5338",
+      "adl-v2/crates/adl-compiler"
+    ],
+    "purpose": "Own, prepare, and watch #5338 one dependency wave ahead; product implementation remains prohibited until #5339 is merged and typed closed_out"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5338/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5338/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5338-preparation-review",
+      "revision": "3d2b4d399dad8b8e49df841f46015505a73633d55de777b476f235ef0b7954b5"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b22acfa7c5bf33dd5644c0af0ab3558117ccd582b7d7dd26a07bf2a1e5396b1f",
+      "rendered_digest": "143b769211b927ac15dc47385247f82553065dc1e01f662f9fde0e5fce05eda7",
+      "ast_digest": "6cbfc5d575d66a724a66b9c43fc5a2c1f47ace0af0c4070a5eebe9817bc3826c"
+    },
+    "stp": {
+      "values_digest": "801dcb9c36757414b6f5e7a59d5401289452b6cabbde113253334fcb57fe082e",
+      "rendered_digest": "9d3b3fe4361aa7190e23a0b9f5ba75d24310b019284eed25338e3271fa7d47d8",
+      "ast_digest": "47e7f76523de89603aff666d1b56df4a4179ab6394b7f047875e81816332f2f3"
+    },
+    "spp": {
+      "values_digest": "c7466571d60f39a478b2296222e5ce7a99ae3451eb215f3c049f78d674848b9a",
+      "rendered_digest": "d18c2786aac23a6470ac3ccced3095356cab1ce826958d45711560bbde978b8c",
+      "ast_digest": "1492d89a06aa8cacef2ba01c2bac3690fc1de21ddc8b9a935ae0ea51d65c627d"
+    },
+    "vpp": {
+      "values_digest": "d1007f0053a1caf0899cc07909acc818bd8a47404b5c93a55238108d59329d18",
+      "rendered_digest": "eed7f6f64832f8a361ca6e38253a002cd49f66644b96e9b95a5f6a36a22e77bf",
+      "ast_digest": "976777fee88652944f810af9caeea3058370a7e5a3c91cd67e1e84a088bd4570"
+    },
+    "srp": {
+      "values_digest": "025872413b141662bab47e7d4fbedaf5da0044111c9021632a66b288e1c93041",
+      "rendered_digest": "1be23a77f282043362877d65d297ded80dd8d63e1251813aa96d2cccdea2fcdc",
+      "ast_digest": "96b10751ac0c856b8ce7317e901302c2903d93617c9f6a3693b9c40155bcc26d"
+    },
+    "sor": {
+      "values_digest": "6c7cfc30eddec1a4a033e7bd92ab140c9cb7acffca4ce88679e74ad975d55229",
+      "rendered_digest": "617d017b18c349cc0f032df135abc9ac3e105258edcadc5da9e30aba361efa94",
+      "ast_digest": "ce52a7d071c803589e0ec3051b46f43e5841bfdc1038508cfd435d8deded8295"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5338-owner-watch",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5338-owner-watch",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5338-owner-watch",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5338-preparation-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5338-owner-watch",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Protect the canonical issue-local lifecycle lock materialized by typed initialization.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/locks/5338.lock\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Fix preparation review finding by declaring the exact planned issue, design, validation, and compiler surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/5338\",\".csdlc/prepared/issues/5338\",\".csdlc/evidence/5338\",\"adl-v2/crates/adl-compiler\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Fix preparation review finding by making dependency API drift, semantic ambiguity, COTS change, protected-scope change, and budget variance explicit replan triggers.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"replan_triggers\",\"values\":[\"The landed #5339 adl-language API, canonicalization contract, or fixture inventory differs materially from this prepared compiler input boundary\",\"Resolution, composition, pattern expansion, ordering, bound, diagnostic, or stable-identity semantics remain ambiguous after #5339 closeout\",\"Implementation requires a direct dependency outside the reviewed adl-language, serde, serde_json, sha2, and hex set\",\"Implementation requires a shared workspace, selector, or other path outside the protected #5338 scope\",\"Measured implementation LoC, test/fixture LoC, focused, quality, replay, or full validation time would exceed the declared hard budget\",\"ExecutionPlan would need scheduling, retry, runtime, provider, IO, record, CLI, selector, or lifecycle authority\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Resolve review ambiguity between automatic large-profile lifecycle reservation estimates and strict executable validation acceptance ceilings.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Freeze compiler purity, ExecutionPlan shape, stable identity, COTS, protected paths, and hard budgets during preparation; wait for #5339 merged plus typed closed_out; then implement, prove, review, publish, shepherd, and close out. The automatically generated large-profile SPP validation_seconds value is an end-to-end lifecycle and CI reservation estimate, not an acceptance allowance. Executable acceptance ceilings are authoritative: focused <=120 seconds, quality <=120 seconds, replay <=300 seconds, and the complete deterministic budget lane including measurement and tests <=600 seconds. Exceeding any lane ceiling requires typed replanning and review.\",\"operation\":\"replan\",\"previous_value\":\"Freeze compiler purity, ExecutionPlan shape, stable identity, COTS, protected paths, and hard budgets during preparation; wait for #5339 merged plus typed closed_out; then implement the isolated deterministic pipeline, prove canonical replay and fixture mapping, complete exact-revision review, publish through typed v2, shepherd required CI and authorized merge, and retain post-merge typed closeout proof.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Resolve review ambiguity between automatic large-profile lifecycle reservation estimates and strict executable validation acceptance ceilings.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Freeze compiler purity, ExecutionPlan shape, stable identity, COTS, protected paths, and hard budgets during preparation; wait for #5339 merged plus typed closed_out; then implement, prove, review, publish, shepherd, and close out. The automatically generated large-profile SPP execution_estimates.validation_seconds and VPP planned_validation_seconds fields are end-to-end lifecycle, deferred-lane, and CI scheduling reservations, not acceptance allowances. The VPP per-lane budget_seconds values and executable gates are authoritative: focused <=120 seconds, quality <=120 seconds, replay <=300 seconds, and the complete deterministic budget lane including measurement and tests <=600 seconds. Exceeding any lane ceiling requires typed replanning and review.\",\"operation\":\"replan\",\"previous_value\":\"Freeze compiler purity, ExecutionPlan shape, stable identity, COTS, protected paths, and hard budgets during preparation; wait for #5339 merged plus typed closed_out; then implement, prove, review, publish, shepherd, and close out. The automatically generated large-profile SPP validation_seconds value is an end-to-end lifecycle and CI reservation estimate, not an acceptance allowance. Executable acceptance ceilings are authoritative: focused <=120 seconds, quality <=120 seconds, replay <=300 seconds, and the complete deterministic budget lane including measurement and tests <=600 seconds. Exceeding any lane ceiling requires typed replanning and review.\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:5338-owner-watch",
+      "reason": "All preparation artifacts are bound, executable validation and root-safety checks pass, and bounded subagent review findings are fixed with final PASS.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:5338-owner-watch",
+      "reason": "Record the typed local preparation proof after all bounded review findings were fixed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"preparation-contract-5338\",\"typed-doctor-5338\"],\"purpose\":\"Prove six-card integrity, bound protected scope, reviewed design and diagram, executable dependency and budget contract, root safety, and typed doctor health without running product implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5338/preparation-validation: local_pass; preparation-contract 163ms; typed doctor 29ms; bounded preparation review PASS with no remaining actionable findings\"}}"
+    }
+  ]
+}
