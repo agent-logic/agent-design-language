@@ -5,7 +5,7 @@
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
   "phase": "implemented",
   "generation": 21,
-  "digest": "127968421901348a453672ff1850b95ee13941e94be8042f67c92f8037aa4987",
+  "digest": "c519edbc6ae8d345b93a9477644f10b2ae23fc24f80a89d1c15b19fffca33e38",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -26,7 +26,18 @@
     ],
     "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:c91a6b8cd0f29566c796e2127be91005093e7d7e:dbc3e8bed12dd5ebc032ebc55f572adbe3821fc54c7d1f9955a83eb8703e0cc0",
+    "scope": [
+      "adl/.gitignore",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -62,9 +73,9 @@
       "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "3539d423545f13433d68889f1b712449748d720dc650b22adac8808d1d7a371a",
-      "rendered_digest": "3782d3cb08b4154486b0360b134101f55b636d16f16f2259a3e1f996275b9900",
-      "ast_digest": "c3089c902e1388a33153b8bf1fa65df31d6e8ecfd58551d756255bfbeb3db7f6"
+      "values_digest": "6741a1cf92e094ec0c89637c018ca65603d172c2abe3f4eb9be102174001d482",
+      "rendered_digest": "0c197c589e5cdd74152fe004965ffa730f3974ef8a84b57ff5d8174040bc5bc3",
+      "ast_digest": "29abe6a7273bb2f009de2edcf629c6575b3a28e33610d576d6a3afeb73803957"
     },
     "sor": {
       "values_digest": "e3c33a4d0f24575f19f056821a04902cde2da32d9c1424b5a3ccbb8a4d35dcc4",
@@ -326,6 +337,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Record the bounded fail-closed coverage orchestration repair required after the hosted runner process-exhaustion failure.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-owner-budget\",\"proof_role\":\"Measure and enforce the canonical Runtime v3 source and test budget posture\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/report_runtime_v3_loc.sh\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"runtime-architecture-semantics\",\"proof_role\":\"Prove JSON and YAML schemas, canonical ownership, exact budgets, ten parity groups, four lanes, feature dispositions, non-authorization, dependency ordering, and graph acyclicity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5336/validate_architecture_plan.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"milestone-local-links\",\"proof_role\":\"Prove every local Markdown link in the v0.91.8 milestone planning package resolves\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5336/validate_links.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"coverage-orchestration-contract\",\"proof_role\":\"Prove one bounded instrumented prebuild per profile, fail-closed profile cleanup, preserved causal status, and unchanged two-partition single-report execution\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"],\"parallel_group\":\"local-control\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Check the complete issue branch for patch hygiene\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
