@@ -3,13 +3,13 @@
   "issue": 5613,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "07b04572fcd246d29c269aaca54e7008ed6db05c08914a976a6f6a506f7fb4fc",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "b813814834a1896f30f6db3b674db1830447e1da9093ece4162571dcc5e44d8f",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "1247b6bc1234206ff619db5f117e9eb54edb25722a24e50c90dedf1cb257877d",
   "claim": {
     "id": "claim-5613-terminal-projection-repair",
     "owner": "codex:issue-5613-owner",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1784664530,
     "expires_unix_seconds": 1784750930,
     "heartbeat_unix_seconds": 1784664530,
@@ -34,8 +34,55 @@
     ],
     "purpose": "Atomically repair terminal SOR validation evidence and materialize proven terminal projections"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f867f-9b7d-7fc2-99bd-5bda9a7a067a",
+    "assigned_by": "codex:issue-5613-owner",
+    "revision": "git-blake3:48013eaf1748c7d162b1ed75ce058122a88325bd:0ad1b2639a865319e3c3b0a51b8a185ca864c803f0f7821d513ed88d84130520",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md",
+      "csdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs",
+      ".csdlc/issues/5337",
+      ".csdlc/issues/5339",
+      ".csdlc/issues/5358",
+      ".csdlc/issues/5591",
+      ".csdlc/issues/5602",
+      ".csdlc/issues/5613",
+      ".csdlc/prepared/issues/5613"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f867f-9b7d-7fc2-99bd-5bda9a7a067a",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md",
+      "csdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs",
+      ".csdlc/issues/5337",
+      ".csdlc/issues/5339",
+      ".csdlc/issues/5358",
+      ".csdlc/issues/5591",
+      ".csdlc/issues/5602",
+      ".csdlc/issues/5613",
+      ".csdlc/prepared/issues/5613"
+    ],
+    "reviewed_revision": "git-blake3:48013eaf1748c7d162b1ed75ce058122a88325bd:0ad1b2639a865319e3c3b0a51b8a185ca864c803f0f7821d513ed88d84130520",
+    "findings": [],
+    "residual_risks": [
+      "Append-only audit provenance intentionally retains original machine-local validation paths; the portable boundary applies to current projected and retained SOR validation arrays."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,32 +97,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8dbfb1018d97b483aaa925f4dc0bd4d543cbc5f9d123828828c74cfb6019f59",
+      "values_digest": "acc95ec236866049653c5f729d9808d39fbd55bc282bfa2126eb85023d3db39c",
       "rendered_digest": "f8f4aa970408ca8f1fe60b054b7d34d9f88123250e16914f7e7aba78ad683dfd",
       "ast_digest": "f9a6244d35d0fb37415150cf8a36f8a70891272c91190ce4f1d01a88bcc41e9b"
     },
     "stp": {
-      "values_digest": "c114f99352b5239cfcbce4f8973cf082f749ee80a78396379e6f7d2696b0a39a",
+      "values_digest": "47be2a04c732eed5fabfd03000dc3ac6d4e3a67d514be087f087271b12b19e07",
       "rendered_digest": "c29e9fca09e5cea67cc5179e8c2230241229c7cc16657be74f9fda3e12078f9b",
       "ast_digest": "22451a3da261805337710bbb8001f93e836f0798c667b074a38aeba8fb29b937"
     },
     "spp": {
-      "values_digest": "6ebbd2fa89736ed3b256a5e24d8c3e5187609c27567eaeb2cd87977ddc2c6b87",
+      "values_digest": "a20a702087de0e480b1f9cd1d30177f0e1ef6c21459b5c7063cbccc9349164c2",
       "rendered_digest": "7ef6d172a897ebeb07f0157f6971e47031518ef9a151fac5572f2f4eac82801d",
       "ast_digest": "7131b33ab141adc7e9d660bb81d1b50052389ee785172b0fb7a30841c150bd34"
     },
     "vpp": {
-      "values_digest": "7fe77db29d74b62fdd5c7bdfc536348b301ce1b398da007e1c25838457ddd17e",
+      "values_digest": "991b1a623db28fd24300a86ca605495514344b0ed2ba0314107639b2355d173d",
       "rendered_digest": "a63e75aa9d960a9dd351b9d5fcdada6d9d8ddf1d4883d017f077210c0c97bbdd",
       "ast_digest": "512c378b68fc8a7f65a92151d6929af88481f44ee9bf1668a87418e9d77a6630"
     },
     "srp": {
-      "values_digest": "33992cb76f028c049622f416489589af2cbbbfd4b6123f9782c131beeb656013",
-      "rendered_digest": "3e33381a1bc4c798192c6091312ef4f2139d3649fd2e13a659575327d5d6e442",
-      "ast_digest": "97b03a48315f37db7ebe914e2cce952dc01918bdcd8c2e85b4decaf8443dcf8e"
+      "values_digest": "b1dbb51365535c923aa8cc6c6565cf44291b6781fcfc3bc1824c2eedf56a7f06",
+      "rendered_digest": "d1e8c4cf0443ac2fbfef0d0a4ac87369aae64a97e7dbd23ed35aa02b7d2d3338",
+      "ast_digest": "db0b21f32f957fccd4bf6b5f320708b0b502f1797ba24bb2f30f93bf6f373f28"
     },
     "sor": {
-      "values_digest": "61d44bfa12da75d5c7c06ec5bd2fe064fbf34de4df3b03db9ef7ae5d72744ef2",
+      "values_digest": "9da33c4b2708e44de74c29af519a25614d0696e8e2327d11fc77b4c7ced24ea0",
       "rendered_digest": "06afab4b58344d68d6135a46b5d90a97bbc1f62141a57cb22e4c261fbe00e0d3",
       "ast_digest": "20fbb62d55d8d0c26dc59d21ce07c73288c3b3964f8a19d2b5bbff82bddb2702"
     }
@@ -101,6 +148,13 @@
       "to": "implemented",
       "actor": "codex:issue-5613-owner",
       "reason": "The bounded terminal repair, five reconciliations, focused proof, strict lint, and fresh-checkout proof are complete for exact review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5613-owner",
+      "reason": "Exact product and assigned scoped-revision reviews passed with zero findings after all concrete portability findings were fixed."
     }
   ],
   "audit": [
@@ -187,6 +241,27 @@
       "actor": "codex:issue-5613-owner",
       "reason": "The bounded terminal repair, five reconciliations, focused proof, strict lint, and fresh-checkout proof are complete for exact review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-5613-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "subagent:019f867f-9b7d-7fc2-99bd-5bda9a7a067a",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:issue-5613-owner",
+      "reason": "Exact product and assigned scoped-revision reviews passed with zero findings after all concrete portability findings were fixed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
