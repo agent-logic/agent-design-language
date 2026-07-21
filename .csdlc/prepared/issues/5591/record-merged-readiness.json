@@ -1,0 +1,32 @@
+{
+  "schema": "csdlc.readiness_request.v1",
+  "issue": 5591,
+  "expected_generation": 32,
+  "expected_digest": "e18d54b6d9d033d175ac49858a0dc365b8195a6077393515b415f7b90fc39de6",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "pull_request": 5608,
+  "head_sha": "59b61985c9964e56d83272efa7035f12be462fd7",
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "checks": [
+    {
+      "name": "adl-ci",
+      "requirement": "required",
+      "conclusion": "success",
+      "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29859740523/job/88736147040"
+    },
+    {
+      "name": "adl-coverage",
+      "requirement": "required",
+      "conclusion": "success",
+      "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29859740523/job/88739235550"
+    }
+  ],
+  "review_state": "not_required",
+  "conflict_state": "clean",
+  "post_publication_findings": []
+}

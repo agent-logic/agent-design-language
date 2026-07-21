@@ -1,0 +1,12 @@
+{
+  "issue": 5591,
+  "expected_generation": 33,
+  "expected_digest": "6e82e7328c638638371af509494c512144fe1148b675d95f231fea9f52b1d5c1",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5608,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": null
+}

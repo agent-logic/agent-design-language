@@ -1,0 +1,15 @@
+{
+  "issue": 5591,
+  "expected_generation": 31,
+  "expected_digest": "7d60ecc15b7a76ad758392b769d6ca32034bf08937392cd470228d04409b6cec",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5608,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": null
+}

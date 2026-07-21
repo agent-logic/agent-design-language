@@ -1,0 +1,17 @@
+{
+  "automatic_cutover": false,
+  "continuity_generation": 100,
+  "cycles": 100,
+  "faults": {
+    "child_crash_restart": "classified fatal exit followed by continuity generation recovery",
+    "clock_degradation": "observed_before_authority_promotion",
+    "component_failure": "restart succeeded after injected post-readiness failure",
+    "corrupt_continuity": "failed closed without replacing corrupt bytes",
+    "queue_saturation": "bounded reject policy and counters observed",
+    "shutdown_deadline": "non-cooperative component forcibly aborted"
+  },
+  "items_per_cycle": 16,
+  "processed_items": 1600,
+  "result": "pass",
+  "schema": "adl.runtime_v3.guardian_soak_execution.v1"
+}

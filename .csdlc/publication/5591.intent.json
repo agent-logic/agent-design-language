@@ -6,7 +6,7 @@
   "head": "codex/5591-runtime-v3-parity-a-preparation",
   "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
   "body": "Closes #5591\n\nImplements canonical signed Runtime v3 ingress, atomic admission closure, deterministic checkpoint/replay/resume, pressure-triggered serialization and graceful shutdown, configured TLS-authenticated local/remote access, Observatory output, and Horust guardian integration without Runtime v2 source or AWS.\n\nExact integrated-head proof passes: 34 focused tests, 187 complete-suite tests, strict all-target/all-feature Clippy, formatting and diff hygiene, locked dependency inventory, dynamic-port pressure/signed shutdown, and Horust restart/continuity plus environment isolation. Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 necessary and non-duplicative exception over the pinned #5336 baseline of 12,209; the 20,000 hard ceiling is not exception authority.\n\nResidual risk: the fixed-port Horust SIGTERM process test remains intentionally ignored; dynamic-port pressure and signed terminal paths exercise the shared serialization helper.",
-  "draft": true,
-  "revision": "git-blake3:71c6c35aef8dab4bea424521b49023d7c5a1a2b3:ec50f10642a475e1425bbf0ee4b0a76e45e8330b00c7328fb5e3c3a85a92e39d",
-  "commit_sha": "71c6c35aef8dab4bea424521b49023d7c5a1a2b3"
+  "draft": false,
+  "revision": "git-blake3:59b61985c9964e56d83272efa7035f12be462fd7:8fd45b5e641edb67c29de299bfe7acd5875ef8e8473c0a0d70116e758962b177",
+  "commit_sha": "59b61985c9964e56d83272efa7035f12be462fd7"
 }
