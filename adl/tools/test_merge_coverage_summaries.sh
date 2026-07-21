@@ -15,6 +15,7 @@ cat > "$TMP/workspace.json" <<JSON
 {"type":"llvm.coverage.json.export","version":"2.0.1","data":[{"files":[
   {"filename":"/repo/other/src/ignored.rs","summary":$metric_summary},
   {"filename":"/repo/adl/src/z.rs","summary":$metric_summary},
+  {"filename":"/repo/adl/src/bin/../aws_remote_validation.rs","summary":$metric_summary},
   {"filename":"adl/src/a.rs","summary":$metric_summary},
   {"filename":"/repo/adl-runtime/src/dependency.rs","summary":$metric_summary}
 ],"totals":{"lines":{"count":999,"covered":999}}}]}
@@ -44,17 +45,18 @@ expected = [
     "/adl-runtime/src/a.rs",
     "/adl-runtime/src/b.rs",
     "/adl/src/a.rs",
+    "/adl/src/aws_remote_validation.rs",
     "/adl/src/z.rs",
 ]
 if filenames != expected:
     raise SystemExit(f"unexpected ownership or sort result: {filenames!r}")
 expected_totals = {
-    "branches": {"count": 16, "covered": 12, "notcovered": 4, "percent": 75.0},
-    "functions": {"count": 12, "covered": 8, "percent": 200 / 3},
-    "instantiations": {"count": 4, "covered": 4, "percent": 100.0},
-    "lines": {"count": 40, "covered": 32, "percent": 80.0},
-    "mcdc": {"count": 6, "covered": 3, "notcovered": 3, "percent": 50.0},
-    "regions": {"count": 24, "covered": 20, "notcovered": 4, "percent": 250 / 3},
+    "branches": {"count": 20, "covered": 15, "notcovered": 5, "percent": 75.0},
+    "functions": {"count": 15, "covered": 10, "percent": 200 / 3},
+    "instantiations": {"count": 5, "covered": 5, "percent": 100.0},
+    "lines": {"count": 50, "covered": 40, "percent": 80.0},
+    "mcdc": {"count": 8, "covered": 4, "notcovered": 4, "percent": 50.0},
+    "regions": {"count": 30, "covered": 25, "notcovered": 5, "percent": 250 / 3},
 }
 if data[0]["totals"] != expected_totals:
     raise SystemExit(f"totals were not recomputed from retained files: {data[0]['totals']!r}")
@@ -109,9 +111,29 @@ expect_failure empty-ownership "$TMP/empty-ownership.json" "$TMP/runtime.json"
 
 expect_failure missing "$TMP/does-not-exist.json" "$TMP/runtime.json"
 
-cat > "$TMP/traversal.json" <<JSON
-{"data":[{"files":[{"filename":"adl/src/../escape.rs","summary":$metric_summary}],"totals":{}}]}
+cat > "$TMP/owned-root-escape.json" <<JSON
+{"data":[{"files":[{"filename":"/repo/adl/src/../../outside.rs","summary":$metric_summary}],"totals":{}}]}
 JSON
-expect_failure traversal "$TMP/traversal.json" "$TMP/runtime.json"
+expect_failure owned-root-escape "$TMP/owned-root-escape.json" "$TMP/runtime.json"
+
+cat > "$TMP/relative-root-escape.json" <<JSON
+{"data":[{"files":[{"filename":"../adl/src/x.rs","summary":$metric_summary}],"totals":{}}]}
+JSON
+expect_failure relative-root-escape "$TMP/relative-root-escape.json" "$TMP/runtime.json"
+
+cat > "$TMP/absolute-prefix-escape.json" <<JSON
+{"data":[{"files":[{"filename":"/repo/../adl/src/x.rs","summary":$metric_summary}],"totals":{}}]}
+JSON
+expect_failure absolute-prefix-escape "$TMP/absolute-prefix-escape.json" "$TMP/runtime.json"
+
+cat > "$TMP/relative-prefix-escape.json" <<JSON
+{"data":[{"files":[{"filename":"repo/../adl/src/x.rs","summary":$metric_summary}],"totals":{}}]}
+JSON
+expect_failure relative-prefix-escape "$TMP/relative-prefix-escape.json" "$TMP/runtime.json"
+
+cat > "$TMP/normalized-outside-owned-root.json" <<JSON
+{"data":[{"files":[{"filename":"/repo/adl/src/../outside.rs","summary":$metric_summary}],"totals":{}}]}
+JSON
+expect_failure normalized-outside-owned-root "$TMP/normalized-outside-owned-root.json" "$TMP/runtime.json"
 
 echo "PASS test_merge_coverage_summaries"

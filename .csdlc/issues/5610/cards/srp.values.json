@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5610,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][CI][coverage] Normalize safe in-repo coverage paths without weakening traversal rejection",
+    "slug": "coverage-path-normalization",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/merge_coverage_summaries.py\nadl/tools/test_merge_coverage_summaries.sh",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does safe lexical normalization remain inside the owned root?",
+        "Can any prefix or owned-root traversal normalize into accepted ownership?",
+        "Are all existing merge and coverage gates unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

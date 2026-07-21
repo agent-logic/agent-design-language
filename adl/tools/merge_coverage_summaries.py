@@ -7,6 +7,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import posixpath
 import tempfile
 from typing import Any
 
@@ -71,16 +72,36 @@ def validate_metric(metric: Any, context: str) -> tuple[int, int]:
 
 
 def canonical_owned_filename(filename: str, ownership_segment: str) -> str | None:
-    normalized = filename.replace("\\", "/")
-    if ".." in normalized.split("/"):
-        raise fail(f"coverage filename contains parent traversal: {filename}")
+    lexical = filename.replace("\\", "/")
     marker = ownership_segment if ownership_segment.startswith("/") else f"/{ownership_segment}"
     relative_marker = marker.lstrip("/")
+
+    marker_index = lexical.find(marker)
+    prefix = lexical[:marker_index] if marker_index >= 0 else lexical
+    if ".." in prefix.split("/"):
+        raise fail(f"coverage filename escapes repository root: {filename}")
+    if marker_index >= 0:
+        depth = 0
+        for component in lexical[marker_index + len(marker) :].split("/"):
+            if component in ("", "."):
+                continue
+            if component == "..":
+                if depth == 0:
+                    raise fail(f"coverage filename escapes owned source root: {filename}")
+                depth -= 1
+            else:
+                depth += 1
+
+    normalized = posixpath.normpath(lexical)
+    if normalized == ".." or normalized.startswith("../"):
+        raise fail(f"coverage filename escapes repository root: {filename}")
     if normalized.startswith(relative_marker):
         return f"/{normalized}"
-    marker_index = normalized.find(marker)
+    normalized_marker_index = normalized.find(marker)
+    if normalized_marker_index >= 0:
+        return normalized[normalized_marker_index:]
     if marker_index >= 0:
-        return normalized[marker_index:]
+        raise fail(f"coverage filename escapes owned source root: {filename}")
     return None
 
 

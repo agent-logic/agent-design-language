@@ -1,0 +1,83 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5610,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][CI][coverage] Normalize safe in-repo coverage paths without weakening traversal rejection",
+    "slug": "coverage-path-normalization",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Transplant the reviewed two-file correction, validate exact positive and negative contracts, review exact head, publish, merge, and close out.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Apply bounded lexical normalization and regressions",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Run focused FastWork contracts and exact-head review",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Publish, merge, and close out through typed v2",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [],
+      "invariants": [
+        "Only canonical owned source roots are merged",
+        "All existing coverage and provenance gates remain intact",
+        "Issue #5602 terminal truth is untouched"
+      ],
+      "risks": [
+        "Normalization could relabel escaped paths as owned",
+        "Overbroad rejection could reject safe compiler-emitted bin/.. paths"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Any need to weaken coverage or provenance gates",
+        "Any need to edit consumer PR branches",
+        "Any need to rewrite #5602 terminal records"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5610/design.md",
+      "design_digest": "263277f2da12412a98233272e0d5b6d1a8f57661f01f4179fc7152adf52a577d",
+      "diagram_ref": ".csdlc/prepared/issues/5610/diagram.mmd",
+      "diagram_digest": "11ad38b26ee71bee5c0281ff0e6c1a08c1389176e51a81c7cfc86765fb832302"
+    }
+  }
+}

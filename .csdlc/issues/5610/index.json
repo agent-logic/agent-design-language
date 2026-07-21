@@ -1,0 +1,102 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5610,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "cddcaba6cb5630f40f5a0351b4235eeec48846d450e812101f1ddb865a799e8f",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "c7d08cf10d599f876df12c99ca84ad28e692f294d1f58a91b26a080ecb2a7f2c",
+  "claim": {
+    "id": "claim-5610-coverage-path-normalization",
+    "owner": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+    "generation": 0,
+    "acquired_unix_seconds": 1784618518,
+    "expires_unix_seconds": 1784704918,
+    "heartbeat_unix_seconds": 1784618518,
+    "branch": "codex/5610-coverage-path-normalization",
+    "worktree": ".",
+    "protected_paths": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "purpose": "Normalize safe in-repo coverage paths without weakening traversal rejection"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5610/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5610/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "revision": "263277f2da12412a98233272e0d5b6d1a8f57661f01f4179fc7152adf52a577d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "946e04eaa944007f180ed9728d08519cfc4071a31aa92671f8abf043bebea673",
+      "rendered_digest": "68787b8f8b1004bb2426f04d06a7eef1bf77a34102917f9c355c1cd561e9c35c",
+      "ast_digest": "88188682e91c60b78c657dd575f86dfef12923aab2bac61e31f9240aef1e0d3a"
+    },
+    "stp": {
+      "values_digest": "c6aff69a41c1f048c3a723ff37a23080608ab4c84da328080604f9c354296457",
+      "rendered_digest": "715210a73a70eed839ca547d894e1610fef3d20a63f9fae7c3f5f6593268ee77",
+      "ast_digest": "897dffc44f6e90e4a43aff7a5bd7bd267798b12cc24a99a798ad070094dc9adf"
+    },
+    "spp": {
+      "values_digest": "c9f326fef52e6b6f48e6a33942196f050a8b0b44c7cde5de11dd1e007d5981d2",
+      "rendered_digest": "37cbdd0a07e13ae5eb822c3ca738ed4d76ed1b7062521c9ee6d617f8c4312a65",
+      "ast_digest": "fa43c3d9b2f9e8175ec9b7f95c22de48731fcacb4502d7a69324e0bc3f5fefaa"
+    },
+    "vpp": {
+      "values_digest": "d16e9bda456d9c0b30cf9c8472fa5dc154dda9fe880f898bcff2003248435be8",
+      "rendered_digest": "2cf20a7741d9893350f646ba6154eb142a6a242c1f3bb2f099d2be71f1aadc08",
+      "ast_digest": "f15cbfbc09e2d4ae8a1e892a2a34cf09ab333575e40ebbf1f98a07f8b784291d"
+    },
+    "srp": {
+      "values_digest": "151b3038d6d5aef5c8bd1d07fb7cd250210278999b4eabdb1c6ac51a23bc4a06",
+      "rendered_digest": "ca449c33923b3a466a9e338c4f9e8dba41a88c0c18a80a772772f2e9292789bb",
+      "ast_digest": "af1c8c0e8b56af1ddb04f9e6b33c4380ea58aaabb1a18776a0ab8d3cec212936"
+    },
+    "sor": {
+      "values_digest": "f3dc7740023580b1aefc3a29623f10db43ad6d1e1af21d2a4295b9a59cd24af5",
+      "rendered_digest": "bc829fd051c5eb2c0e53dab9f923fc0ed55eb9955d7b41f4536fd14292a7b639",
+      "ast_digest": "3a0cab3cd6fb71648879e6a90839d8ba15b221c673997a5ee77fc714d5ddf2dd"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
