@@ -1,0 +1,7 @@
+{
+  "issue": 5361,
+  "expected_generation": 0,
+  "expected_digest": "943bcf21ab346b906242f3283f9d87695d9403c36a57c271193c29e05b837c10",
+  "claim_id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
+  "reviewer": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d"
+}

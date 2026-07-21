@@ -1,0 +1,15 @@
+{
+  "issue": 5361,
+  "card": "srp",
+  "expected_generation": 3,
+  "expected_digest": "c601a3188de8d60348c099afd02d8521d6daa7eb024aab65a6c9129601239087",
+  "claim_id": "claim-5361-v0918-runtime-v3-acceptance-readiness",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Replace generic implementation review wording with the exact preparation review boundary",
+  "operation": {
+    "operation": "replan",
+    "field": "review_scope",
+    "value": "Review the exact #5361 preparation revision across all six typed cards, the acceptance design, dependency diagram, protected paths, acceptance-register validator, and typed preparation requests. Verify complete bidirectional AC-1 through AC-7 SPP/VPP coverage; correct dependency ordering; explicit Runtime v2 independence, HTTPS-only and address-configuration boundaries, no-AWS boundary, and unsupported-claim boundaries; and confirm that no required parity, consumer, operational, rollback, review, or quality obligation is deferred, weakened, omitted, or treated as fixture-only proof. Confirm this revision remains preparation-only and makes no implementation, acceptance, deployment, publication, or closeout claim."
+  },
+  "fail_after_backup": false
+}

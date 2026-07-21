@@ -1,0 +1,162 @@
+{
+  "issue": 5591,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5591/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5591/diagram.mmd",
+  "design_reviewer": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5591-runtime-v3-parity-a-preparation",
+    "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+    "generation": 0,
+    "acquired_unix_seconds": 1784584932,
+    "expires_unix_seconds": 1785189732,
+    "heartbeat_unix_seconds": 1784584932,
+    "branch": "codex/5591-runtime-v3-parity-a-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5591",
+      ".csdlc/locks/5591.lock",
+      ".csdlc/prepared/issues/5591"
+    ],
+    "purpose": "Prepare and review complete six-card Runtime v3 Parity-A truth while #5336 integration remains the sole implementation stop"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
+    "slug": "v0-91-8-runtime-v3-parity-a-kernel-continuity-ingress",
+    "version": "v0.91.8",
+    "goal": "Make the canonical independent Runtime v3 kernel accept and execute real domain work through guardian-launched secure typed ingress with deterministic continuity and graceful pressure behavior.",
+    "required_outcome": "At one exact revision, a guardian-launched configured Runtime v3 process accepts representative work through one canonical secure typed ingress, executes production components across bounded channels, emits retained and Observatory-readable evidence, checkpoints/replays/resumes deterministically, and serializes then shuts down gracefully under configured pressure without Runtime v2 dependencies.",
+    "declared_scope": [
+      "canonical Runtime v3 kernel lifecycle, topology, bounded backpressure, service contracts, and configuration",
+      "guardian-launched canonical secure typed local and remote ingress",
+      "deterministic checkpoint, replay, resume, state authenticity, and duplicate-work prevention",
+      "configured pressure detection, admission quiescence, graceful serialization, and bounded shutdown",
+      "Observatory lifecycle, ingress, continuity, pressure, access, health, and terminal output",
+      "negative authority, malformed-input, insecure-access, state-corruption, and pressure-failure proof",
+      "COTS dependency use plus exact-revision source-line, module-growth, and test-count budget proof"
+    ],
+    "authority_boundary": [
+      "#5361 owns integrated Runtime v3 acceptance and #5591 owns Parity-A implementation evidence",
+      "#5336 is the architecture and budget authority and its integration is the sole current stop condition",
+      "adl-runtime-kernel remains the independent canonical Runtime v3 kernel",
+      "#5341 consumes the reviewed canonical ingress contract but does not own it",
+      "Runtime v2 implementation, cutover, deletion, AWS, provider deployment, and new product scope are not authorized"
+    ],
+    "operator_constraints": [
+      "Use only typed C-SDLC v2 lifecycle owners; no raw gh, AWS, Runtime v2 implementation files, hard-coded IP addresses, or product edits on main",
+      "Keep the current claim preparation-only and protect only #5591 lifecycle artifacts until typed evidence confirms #5336 is green and merged",
+      "After the sole gate clears, amend claim scope through csdlc-bind before touching the smallest collision-free Runtime v3 product paths",
+      "Implement every AC-1 through AC-8 outcome without deferred, skipped, degraded, fixture-only, library-only, prose-only, or partial acceptance",
+      "Use /Volumes/FastWork for Rust build artifacts and maintained COTS crates where practical",
+      "Run bounded subagent review at the exact committed revision, fix every actionable finding, and publish or merge only green work"
+    ],
+    "task_boundary": "Prepare the complete implementation contract now; do not amend into product paths, edit product code, run acceptance, bind implementation authority, or claim readiness until #5336 is green and merged.",
+    "deliverables": [
+      "guardian-launched canonical ingress implementation and typed contract",
+      "live initialized-process proof across lifecycle, topology, backpressure, configuration, continuity, recovery, access, and Observatory surfaces",
+      "versioned atomic checkpoint plus deterministic replay/resume implementation and authenticity proof",
+      "configured resource-pressure graceful serialization and shutdown implementation",
+      "configured TLS-authenticated local and remote access with no hard-coded address",
+      "negative authority, insecure-access, malformed-input, corrupt-state, duplicate-work, and pressure-path evidence",
+      "consolidation or deletion of overlapping placeholder Runtime v3 core code without Runtime v2 edits",
+      "exact-revision COTS dependency inventory and current Runtime v3 LoC/module/test budget report"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The guardian launches the configured canonical Runtime v3 process and representative domain work traverses one production secure typed ingress and bounded channels; fixture, library-only, mocked-process, or degraded evidence is insufficient",
+      "AC-2: Kernel lifecycle, topology, backpressure, service contracts, and configuration execute live with deterministic retained evidence at the exact accepted revision",
+      "AC-3: Versioned checksummed atomic checkpoints replay and resume deterministically with identical observable state and next-work results, no duplicate execution, and fail-closed rejection of corrupt, truncated, incompatible, out-of-order, duplicate, or unauthorized state",
+      "AC-4: Configured resource pressure stops admission, drains or serializes bounded work, commits a final checkpoint, emits terminal evidence, and shuts down gracefully within a tested bound; restart resumes without loss or duplication",
+      "AC-5: Configuration-driven TLS-authenticated local and remote access works without hard-coded addresses, while HTTP-only, missing or invalid credentials, authority escalation, malformed ingress, unknown types, and oversized frames fail closed",
+      "AC-6: Observatory exposes authenticated machine-readable lifecycle, ingress, queue, checkpoint, replay, resume, pressure, access, health, and shutdown output from the live guardian-launched process",
+      "AC-7: Maintained COTS crates are used where practical, Runtime v2 implementation paths remain absent, overlapping Runtime v3 placeholders are consolidated, and no AWS, cutover, deletion, provider-deployment, or unsupported remote-execution claim is introduced",
+      "AC-8: Focused tests, strict format/lint, exact-revision review, dependency inventory, source LoC, module growth, and test count pass the integrated #5336 budget without weakening any behavioral or negative proof"
+    ],
+    "dependencies": [
+      "#5361 prepared Runtime v3 acceptance umbrella",
+      "#5336 green integration into main as the sole current stop condition",
+      "reviewed #5591 ingress contract before #5592, #5589, and #5590 implementation",
+      "#5341 consumes the accepted ingress contract after review"
+    ],
+    "repo_inputs": [
+      "https://github.com/danielbaustin/agent-design-language/issues/5591",
+      ".csdlc/prepared/issues/5361/design.md",
+      "docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md",
+      "docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md",
+      "docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md",
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime/Cargo.toml",
+      "infra/runtime-v3"
+    ],
+    "non_goals": [
+      "partial implementation before #5336 integration",
+      "Runtime v2 source reuse, modification, defaulting, cutover, or deletion",
+      "AWS, GPU, provider deployment, or unsupported remote-execution claims",
+      "hard-coded IP addresses, HTTP-only access, or unauthenticated Observatory output",
+      "reasoning, adaptive-learning, governed-operations, or rollback scope owned by later parity children except interfaces strictly required by Parity-A"
+    ],
+    "plan_summary": "Prepare and review the full contract, wait only for #5336 integration, amend the claim to verified product paths, implement the live ingress/continuity/pressure/access/Observatory outcome without partial acceptance, validate all positive and negative lanes at one revision, then exact-revision review and publication.",
+    "steps": [
+      {"id":"S1","action":"Prepare and exact-review all six cards, design, diagram, full validation contract, future claim-scope proposal, and sole #5336 stop truth without product edits","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"]},
+      {"id":"S2","action":"After #5336 integrates, refresh main, verify protected-path collisions, amend the typed claim to the smallest Runtime v3 implementation scope, and pin the accepted architecture/budget revision","status":"pending","acceptance_ids":["AC-7","AC-8"]},
+      {"id":"S3","action":"Implement guardian-launched canonical secure typed ingress, live kernel lifecycle, bounded topology/backpressure, and configuration-driven local/remote access using maintained COTS crates","status":"pending","acceptance_ids":["AC-1","AC-2","AC-5","AC-7"]},
+      {"id":"S4","action":"Implement versioned atomic checkpoint, authentic replay, deterministic resume, configured pressure quiescence/serialization, graceful shutdown, and no-duplicate recovery","status":"pending","acceptance_ids":["AC-3","AC-4"]},
+      {"id":"S5","action":"Emit authenticated Observatory lifecycle and operational output and implement all positive and fail-closed negative proofs against the live guardian-launched process","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"]},
+      {"id":"S6","action":"Consolidate overlapping Runtime v3 placeholders, prove Runtime v2 independence and COTS posture, and satisfy exact LoC/module/test budgets without weakening functionality","status":"pending","acceptance_ids":["AC-7","AC-8"]},
+      {"id":"S7","action":"Run every release-gating PVF lane at one clean committed revision, obtain bounded subagent review, fix every actionable finding, revalidate, and publish only green exact-revision truth","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"]}
+    ],
+    "risks": [
+      "fixture success could be mistaken for guardian-launched production ingress",
+      "checkpoint serialization could appear deterministic while replay duplicates side effects",
+      "pressure handling could terminate before durable final state",
+      "remote access could regress to literal addresses, plaintext, or weak authority checks",
+      "Observatory output could disclose credentials or diverge from machine-readable runtime truth",
+      "budget pressure could tempt deletion or deferral of required behavior",
+      "claim expansion could collide with later parity children"
+    ],
+    "invariants": [
+      "#5336 integration is the sole current stop condition and no product work begins before it clears",
+      "one independent canonical Runtime v3 kernel with no Runtime v2 implementation dependency",
+      "one secure typed canonical ingress and configuration-driven addresses",
+      "bounded channels and deterministic state transitions for identical accepted input",
+      "atomic authenticated continuity records and fail-closed replay",
+      "pressure stop preserves durable state and emits truthful terminal Observatory output",
+      "no secrets, credentials, prompts, hard-coded IP addresses, or machine-local absolute paths in retained evidence",
+      "all acceptance is exact-revision, live-process, non-deferred, reviewed, and green"
+    ],
+    "stop_conditions": [
+      "#5336 is not integrated into main",
+      "typed claim-scope amendment reports a collision or includes a Runtime v2 implementation path",
+      "the accepted #5336 authority contradicts this package and cannot be repaired through typed replanning",
+      "any required positive, negative, continuity, access, Observatory, budget, or exact-revision lane is skipped, pending, degraded, fixture-only, or failing",
+      "completion would require AWS, a hard-coded address, HTTP-only access, Runtime v2 reuse, or an unsupported claim"
+    ],
+    "review_prompts": [
+      "Does every acceptance criterion require guardian-launched live production behavior rather than fixture or library evidence?",
+      "Are checkpoint/replay/resume determinism, authenticity, duplicate prevention, and corrupt-state negatives fully specified?",
+      "Does pressure handling prove admission quiescence, durable serialization, terminal Observatory output, bounded shutdown, and correct restart?",
+      "Are local/remote access and Observatory configuration-driven, TLS-authenticated, redacted, and free of hard-coded addresses?",
+      "Are Runtime v2, AWS, cutover, deletion, provider deployment, and later-parity ownership boundaries explicit?",
+      "Do plan steps and validation lanes cover AC-1 through AC-8 bidirectionally with no deferred acceptance?",
+      "Is #5336 integration the sole current stop while the future claim-scope proposal remains non-authoritative?"
+    ],
+    "review_scope": "Review the exact #5591 preparation revision across all six generated cards, design, diagram, bootstrap request, preparation-only claim paths, future implementation claim-scope proposal, AC-1 through AC-8 coverage, S1 through S7 plan, every positive and negative PVF lane, and sole #5336 stop truth. Reject any partial, deferred, fixture-only, insecure, Runtime v2-dependent, hard-coded-address, AWS, unsupported-claim, budget-weakening, product-edit, implementation-readiness, publication, or acceptance claim.",
+    "planning_profile": "large",
+    "validation_lanes": [
+      {"lane":"runtime-v3-live-ingress","proof_role":"Prove guardian-launched canonical secure typed ingress, production component execution, bounded topology/backpressure, and retained live evidence","acceptance_ids":["AC-1","AC-2"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","live_ingress"],"parallel_group":"runtime-v3-behavior","defer_reason":null},
+      {"lane":"runtime-v3-continuity","proof_role":"Prove atomic checkpoint, deterministic replay/resume, identical next-work result, authenticity, and no duplicate execution","acceptance_ids":["AC-3"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","continuity"],"parallel_group":"runtime-v3-behavior","defer_reason":null},
+      {"lane":"runtime-v3-pressure-stop","proof_role":"Prove configured pressure detection, admission quiescence, final serialization, terminal evidence, bounded graceful shutdown, and correct restart","acceptance_ids":["AC-4"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","pressure"],"parallel_group":"runtime-v3-behavior","defer_reason":null},
+      {"lane":"runtime-v3-secure-access","proof_role":"Prove configured TLS-authenticated local/remote access and fail-closed plaintext, credential, authority, malformed, unknown-type, and oversized-frame negatives","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","secure_access"],"parallel_group":"runtime-v3-access","defer_reason":null},
+      {"lane":"runtime-v3-observatory","proof_role":"Prove authenticated redacted machine-readable Observatory output for lifecycle, ingress, queue, continuity, pressure, access, health, and shutdown","acceptance_ids":["AC-6"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","observatory"],"parallel_group":"runtime-v3-access","defer_reason":null},
+      {"lane":"runtime-v3-negative-authority","proof_role":"Prove malformed ingress, unauthorized commands, corrupt continuity state, insecure transport, address literals, and Runtime v2 dependency paths fail closed","acceptance_ids":["AC-3","AC-5","AC-7"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","negative"],"parallel_group":"runtime-v3-negative","defer_reason":null},
+      {"lane":"runtime-v3-supervision","proof_role":"Prove guardian launch, lifecycle supervision, pressure propagation, graceful stop, and restart integration","acceptance_ids":["AC-1","AC-4","AC-6"],"deterministic":true,"resource_profile":"large","budget_seconds":600,"budget_tokens":4000,"argv":["cargo","test","--manifest-path","adl-runtime/Cargo.toml","guardian"],"parallel_group":"runtime-v3-behavior","defer_reason":null},
+      {"lane":"runtime-v3-full-kernel","proof_role":"Run the complete canonical Runtime v3 kernel suite after focused proof","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":1200,"budget_tokens":8000,"argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml"],"parallel_group":"runtime-v3-full","defer_reason":null},
+      {"lane":"runtime-v3-strict-lint","proof_role":"Prove format and strict warning-free canonical Runtime v3 code","acceptance_ids":["AC-8"],"deterministic":true,"resource_profile":"large","budget_seconds":900,"budget_tokens":4000,"argv":["cargo","clippy","--manifest-path","adl-runtime-kernel/Cargo.toml","--all-targets","--all-features","--","-D","warnings"],"parallel_group":"runtime-v3-quality","defer_reason":null},
+      {"lane":"runtime-v3-cots-inventory","proof_role":"Record maintained dependency use and reject undeclared Runtime v2 implementation coupling","acceptance_ids":["AC-7","AC-8"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["cargo","tree","--manifest-path","adl-runtime-kernel/Cargo.toml"],"parallel_group":"runtime-v3-quality","defer_reason":null},
+      {"lane":"runtime-v3-budget","proof_role":"Measure exact source lines, module growth, and test count against integrated #5336 authority without weakening proof","acceptance_ids":["AC-7","AC-8"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["bash","adl/tools/report_runtime_v3_loc.sh"],"parallel_group":"runtime-v3-quality","defer_reason":null},
+      {"lane":"runtime-v3-boundary-scan","proof_role":"Reject hard-coded address, plaintext-only access, Runtime v2 coupling, AWS, secret, and machine-local evidence patterns","acceptance_ids":["AC-5","AC-7","AC-8"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["rg","-n","127[.]0[.]0[.]1|0[.]0[.]0[.]0|http:|runtime_v2|AWS_|Users|Volumes","adl-runtime-kernel"],"parallel_group":"runtime-v3-quality","defer_reason":null},
+      {"lane":"diff-hygiene","proof_role":"Verify exact issue-branch patch hygiene","acceptance_ids":["AC-8"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["git","diff","--check","main...HEAD"],"parallel_group":"local-control","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on missing #5336 integration, claim collision, partial or fixture-only behavior, skipped proof, nondeterministic continuity, insecure access, unredacted Observatory output, pressure-state loss, Runtime v2 coupling, hard-coded addresses, AWS use, unsupported claims, budget breach, actionable review findings, or non-green exact-revision state."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "issue": 5591,
+  "card": "sor",
+  "expected_generation": 19,
+  "expected_digest": "a550f12863c2b13e9877d59b2d1288ebefc0b7fbe1635adde36a1c111a8de949",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "reason": "Exact-head guardian proof rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  },
+  "fail_after_backup": false
+}
