@@ -1,8 +1,8 @@
 {
   "schema": "csdlc.publication_request.v1",
   "issue": 5589,
-  "expected_generation": 18,
-  "expected_digest": "57aafc3e00d9760565e899e03f234f705ec9240b0c646d7bfcc91881b5609d50",
+  "expected_generation": 20,
+  "expected_digest": "c038c9d30ecaae376fd8022c5e14991105406b4dde8146b47b38e501ae8bffd8",
   "claim_id": "claim-5589-runtime-v3-parity-c-preparation",
   "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
   "repository": "danielbaustin/agent-design-language",
