@@ -3,62 +3,32 @@
   "issue": 5336,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
-  "phase": "published",
-  "generation": 19,
-  "digest": "5876f3444ede2e8ab10b296ddcac80f644929f1ff348b8a2469536f0815d07d0",
+  "phase": "implemented",
+  "generation": 21,
+  "digest": "127968421901348a453672ff1850b95ee13941e94be8042f67c92f8037aa4987",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 19,
+    "generation": 21,
     "acquired_unix_seconds": 1784525523,
     "expires_unix_seconds": 1785130323,
     "heartbeat_unix_seconds": 1784525523,
     "branch": "codex/5336-v0918-runtime-parity-plan",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5336",
       ".csdlc/issues/5336",
       ".csdlc/prepared/issues/5336",
-      ".csdlc/evidence/5336",
+      "adl/.gitignore",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
       "docs/milestones/v0.91.8"
     ],
     "purpose": "Correct v0.91.8 architecture and execution planning so Runtime v3 functional parity precedes cutover and deletion"
   },
-  "review_assignment": {
-    "reviewer": "task:019f80f2-e712-7000-ab8a-8b843d435321",
-    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:5330c2e578c985167a69d1779ed6e75499457771:a25b60f3fe9c85c479ecca3a613c32e1609b54c549a51cc9010b744222957401",
-    "scope": [
-      "adl/tools/report_runtime_v3_loc.sh",
-      "docs/milestones/v0.91.8",
-      ".csdlc/prepared/issues/5336/validate_architecture_plan.rb",
-      ".csdlc/prepared/issues/5336/validate_links.rb"
-    ]
-  },
-  "review": {
-    "reviewer": "task:019f80f2-e712-7000-ab8a-8b843d435321",
-    "scope": [
-      "adl/tools/report_runtime_v3_loc.sh",
-      "docs/milestones/v0.91.8",
-      ".csdlc/prepared/issues/5336/validate_architecture_plan.rb",
-      ".csdlc/prepared/issues/5336/validate_links.rb"
-    ],
-    "reviewed_revision": "git-blake3:5330c2e578c985167a69d1779ed6e75499457771:a25b60f3fe9c85c479ecca3a613c32e1609b54c549a51cc9010b744222957401",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5336,
-    "pull_request": 5599,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5599",
-    "base": "main",
-    "head": "codex/5336-v0918-runtime-parity-plan",
-    "revision": "git-blake3:12e2c43de5682d0fa758855223ad7ca114386586:6b6ce91b53cc1742dc5e1406244cc51dca1315d108b7a7ca6ca3d1e344d47212",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -72,34 +42,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b6e058ba9996309794b0b1f61fca358efebf84d35f85c393eaa961994f2a74d3",
+      "values_digest": "76156228ae257a1bc359d7d97830ec60d188e089c6cacb84b4318bb0edf04ae3",
       "rendered_digest": "67ff7bc7e068fa4b598f6ac1fc1735008737e242a07b2b7eea362d36ed99124f",
       "ast_digest": "58a1a03a74c31f00d31ee9d666e218aef66f6dafa126dcc0c0cd2ad02ec3c63c"
     },
     "stp": {
-      "values_digest": "618f7abb12900e06eb64a24eef0712b034b74be3e122e5c475fc0b6cbe865898",
+      "values_digest": "5875668754410c3ba4298360cdf971586f8a5d865f58dc7bedc4c96b81028f9c",
       "rendered_digest": "a619f1e95514cae10c0bab3ef46de79b6adda427a0e378fc3c58613011d4334f",
       "ast_digest": "b82790797677ae2947ef9bde279d64e959aa0f479805102d7662a9b72f67a054"
     },
     "spp": {
-      "values_digest": "49e9e8f4c7f7917895eb02804e99f917c002f1ef7d97e840361be299ee23e8df",
+      "values_digest": "4e6be3e1af322e91f4fd09c4b370fb6a3557dcafeb23ed1992c45f7329025e0a",
       "rendered_digest": "9b7b152bd09a05b45a8a0dcb89dc361866bbc93af8e693c50d02b6610c9cfccd",
       "ast_digest": "ce95ec09f290c0054c17602388d5b5e561de86afe2b0666fe7c22c516d0e04d4"
     },
     "vpp": {
-      "values_digest": "f3315622ef2db302d977a5d1615722f96dc72ec97e91f0789eaf169b357788bd",
-      "rendered_digest": "7510323bddaa609bfbc5d0113599ce5bb313c92e2d6e204c221d809b5200c436",
-      "ast_digest": "d0de2dd6e7ff179c5f415b6a0aa6fee1240b24d77b706096f4788aadc6cd5a8f"
+      "values_digest": "89f1368a38102bf8829484813e64a35041f36196c547db610613c3b96e15157f",
+      "rendered_digest": "a639f502c745101aab575350d16b453213f264fefe6377a00e7b01aa24d92725",
+      "ast_digest": "e0b9846f73cae938884b6fccfaeb335bc99dceab2947e0ebbc775252c9695c4a"
     },
     "srp": {
-      "values_digest": "7fa7b7c37f4721f6f3098a33585fc2de94288924f755ea108d32bb3dce93715a",
-      "rendered_digest": "22a321251404b8ca95a36ed35938234686ce8b1ec7ac84fe5167708a292acc92",
-      "ast_digest": "6d88e8fad4818c2337fdfa47822075f4d567ac1e9e33ea161a1ca4ea6bb173a2"
+      "values_digest": "3539d423545f13433d68889f1b712449748d720dc650b22adac8808d1d7a371a",
+      "rendered_digest": "3782d3cb08b4154486b0360b134101f55b636d16f16f2259a3e1f996275b9900",
+      "ast_digest": "c3089c902e1388a33153b8bf1fa65df31d6e8ecfd58551d756255bfbeb3db7f6"
     },
     "sor": {
-      "values_digest": "52eb261adfba4e90fa5ca0e73bd8dc147b6496460892cffecd2fd45e64190faf",
-      "rendered_digest": "7be2a3910524f20c6ac274535fa3bbcbd38d42c84237e2d1f94712a147d3cb21",
-      "ast_digest": "0e9bed183ea55b0390001d209813f3064679b57c0c1d639a271a709cb3a086c8"
+      "values_digest": "e3c33a4d0f24575f19f056821a04902cde2da32d9c1424b5a3ccbb8a4d35dcc4",
+      "rendered_digest": "f6b600cac36f977c40ff95c0c5d5ccce876db97018fc8f142e57f325a7dacfec",
+      "ast_digest": "e03127c8a1caa2a84b8a8d1d107e39e284e500427afb921187f95642c8da4a2a"
     }
   },
   "transitions": [
@@ -158,6 +128,13 @@
       "to": "published",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review and publication after hosted coverage proved cold companion partition process exhaustion on PR #5599."
     }
   ],
   "audit": [
@@ -321,6 +298,34 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Recover exact review and publication after hosted coverage proved cold companion partition process exhaustion on PR #5599.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Own the smallest repository coverage-orchestration correction required to make PR #5599's full hosted coverage lane reliable without weakening coverage.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/run_authoritative_coverage_lane.sh\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Keep the coverage runner's generated legacy summaries out of tracked issue scope and working-tree noise.",
+      "operation": "{\"add_protected_paths\":[\"adl/.gitignore\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record the bounded fail-closed coverage orchestration repair required after the hosted runner process-exhaustion failure.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-owner-budget\",\"proof_role\":\"Measure and enforce the canonical Runtime v3 source and test budget posture\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/report_runtime_v3_loc.sh\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"runtime-architecture-semantics\",\"proof_role\":\"Prove JSON and YAML schemas, canonical ownership, exact budgets, ten parity groups, four lanes, feature dispositions, non-authorization, dependency ordering, and graph acyclicity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5336/validate_architecture_plan.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"milestone-local-links\",\"proof_role\":\"Prove every local Markdown link in the v0.91.8 milestone planning package resolves\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5336/validate_links.rb\"],\"parallel_group\":\"local-docs\",\"defer_reason\":null},{\"lane\":\"coverage-orchestration-contract\",\"proof_role\":\"Prove one bounded instrumented prebuild per profile, fail-closed profile cleanup, preserved causal status, and unchanged two-partition single-report execution\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_authoritative_coverage_lane.sh\"],\"parallel_group\":\"local-control\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Check the complete issue branch for patch hygiene\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
     }
   ]
 }

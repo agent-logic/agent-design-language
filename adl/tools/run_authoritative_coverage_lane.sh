@@ -25,6 +25,7 @@ default_coverage_build_root() {
 COVERAGE_BUILD_ROOT="${ADL_COVERAGE_BUILD_ROOT:-$(default_coverage_build_root)}"
 TEST_THREADS="${ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS:-${ADL_COVERAGE_TEST_THREADS:-4}}"
 PARTITION_COUNT="${ADL_AUTHORITATIVE_COVERAGE_PARTITIONS:-2}"
+BUILD_JOBS="${ADL_AUTHORITATIVE_COVERAGE_BUILD_JOBS:-1}"
 DEFAULT_SKIP_PATTERNS="real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup"
 SKIP_PATTERNS_RAW="${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERNS:-${ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN:-$DEFAULT_SKIP_PATTERNS}}"
 COVERAGE_RUN_ID="${ADL_COVERAGE_RUN_ID:-${GITHUB_RUN_ID:-local}-$$}"
@@ -85,6 +86,11 @@ if [ "$EVENT_NAME" = "pull_request" ] && [ "$AUTHORITY" = "pr_policy_surface_too
   MODE="bounded_policy_surface_pr"
 fi
 
+if [[ ! "$BUILD_JOBS" =~ ^[1-9][0-9]*$ ]]; then
+  echo "invalid coverage cargo build job count: $BUILD_JOBS" >&2
+  exit 2
+fi
+
 if [ "$PRINT_PLAN" = true ]; then
   printf 'authority=%s\n' "$AUTHORITY"
   printf 'event_name=%s\n' "$EVENT_NAME"
@@ -95,6 +101,7 @@ if [ "$PRINT_PLAN" = true ]; then
   printf 'output_root=%s\n' "$COVERAGE_OUTPUT_ROOT"
   printf 'test_threads=%s\n' "$TEST_THREADS"
   printf 'partitions=%s\n' "$PARTITION_COUNT"
+  printf 'build_jobs=%s\n' "$BUILD_JOBS"
   printf 'skip_patterns=%s\n' "$SKIP_PATTERNS_RAW"
   if [ "$MODE" = "full_authoritative_default_features" ]; then
     printf 'features=default\n'
@@ -124,6 +131,7 @@ mkdir -p "$COVERAGE_CACHE_TARGET_DIR" "$COVERAGE_RUN_TARGET_DIR" "$COVERAGE_OUTP
 # back onto the shared cache target.
 export CARGO_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"
 export CARGO_LLVM_COV_TARGET_DIR="$COVERAGE_RUN_TARGET_DIR"
+export CARGO_BUILD_JOBS="$BUILD_JOBS"
 # Coverage builds can consume enough runner disk to cross the production CSM
 # floor. Keep ordinary tests deterministic; low-disk tests set explicit values.
 export ADL_CSM_DISK_FLOOR_BYTES="${ADL_CSM_DISK_FLOOR_BYTES:-0}"
@@ -167,9 +175,15 @@ if [[ ! "$PARTITION_COUNT" =~ ^[1-9][0-9]*$ ]]; then
     exit 2
 fi
 
+partition_execution_enabled=true
+
 run_workspace_coverage_partitions() {
   local partition_logs="$COVERAGE_BUILD_ROOT/partition-logs/${coverage_profile_namespace}-${COVERAGE_RUN_ID}"
   local partition pids=() statuses=() test_filter_args=()
+  if [ "$partition_execution_enabled" != true ]; then
+    echo "Authoritative coverage partitions suppressed for $coverage_profile_namespace after an earlier preparation failure" >&2
+    return 0
+  fi
   local skip_pattern
   for skip_pattern in "${SKIP_PATTERNS[@]}"; do
     if [ -n "$skip_pattern" ]; then
@@ -185,7 +199,29 @@ run_workspace_coverage_partitions() {
     )
   fi
   mkdir -p "$partition_logs"
-  find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -delete
+
+  # Compile the instrumented profile once before partition fan-out. Without
+  # this barrier, cold partitions can each spawn a full rustc graph into the
+  # same target and exhaust hosted-runner process capacity.
+  local compile_status=0
+  "${coverage_command[@]}" --no-run || compile_status=$?
+
+  # Build-script profiles are not test coverage.
+  local cleanup_status=0
+  find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name '*.profraw' -delete || cleanup_status=$?
+  if (( cleanup_status != 0 )); then
+    partition_execution_enabled=false
+    echo "Authoritative coverage profile cleanup failed for $coverage_profile_namespace: $cleanup_status" >&2
+    if (( compile_status != 0 )); then
+      return "$compile_status"
+    fi
+    return "$cleanup_status"
+  fi
+  if (( compile_status != 0 )); then
+    partition_execution_enabled=false
+    echo "Authoritative coverage compile failed for $coverage_profile_namespace: $compile_status" >&2
+    return "$compile_status"
+  fi
 
   for ((partition = 1; partition <= PARTITION_COUNT; partition++)); do
     (
@@ -262,7 +298,15 @@ cargo llvm-cov report \
   --json \
   --summary-only \
   --output-path "$ADL_SUMMARY_PATH" || record_report_status "$?" "$ADL_SUMMARY_PATH" "adl"
-find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete
+post_report_cleanup_status=0
+find "$CARGO_LLVM_COV_TARGET_DIR" -type f -name 'workspace-*.profraw' -delete || post_report_cleanup_status=$?
+if (( post_report_cleanup_status != 0 )); then
+  partition_execution_enabled=false
+  echo "Authoritative coverage post-report cleanup failed for adl: $post_report_cleanup_status" >&2
+  if (( coverage_status == 0 )); then
+    coverage_status="$post_report_cleanup_status"
+  fi
+fi
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
   echo "Authoritative coverage companion: adl-runtime"

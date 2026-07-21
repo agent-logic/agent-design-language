@@ -30,6 +30,14 @@ case "$plan" in
     ;;
 esac
 case "$plan" in
+  *"build_jobs=1"*) ;;
+  *)
+    echo "expected authoritative coverage plan to bound Cargo build fan-out" >&2
+    echo "$plan" >&2
+    exit 1
+    ;;
+esac
+case "$plan" in
   *"skip_patterns=real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup"*) ;;
   *)
     echo "expected authoritative coverage plan to list default slow/flaky coverage skip patterns" >&2
@@ -76,6 +84,10 @@ if ADL_COVERAGE_RUN_ID=".." "$SCRIPT" --print-plan >/dev/null 2>&1; then
   echo "expected dot-dot coverage run id to fail closed" >&2
   exit 1
 fi
+if ADL_AUTHORITATIVE_COVERAGE_BUILD_JOBS=0 "$SCRIPT" --print-plan >/dev/null 2>&1; then
+  echo "expected zero coverage build jobs to fail closed" >&2
+  exit 1
+fi
 
 script_text="$(cat "$SCRIPT")"
 set +e
@@ -107,6 +119,7 @@ for required_fragment in \
   "--test-threads" \
   "ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS" \
   "ADL_AUTHORITATIVE_COVERAGE_PARTITIONS" \
+  "ADL_AUTHORITATIVE_COVERAGE_BUILD_JOBS" \
   "ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN" \
   "ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERNS" \
   "DEFAULT_SKIP_PATTERNS=" \
@@ -144,11 +157,13 @@ esac
 
 mkdir -p "$ROOT_DIR/.adl/tmp"
 temp_root="$(mktemp -d "$ROOT_DIR/.adl/tmp/authoritative-coverage.XXXXXX")"
-trap 'rm -rf "$temp_root"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json"' EXIT
+trap 'rm -rf "$temp_root"; rm -f "$ROOT_DIR/adl/coverage-warm-cache.json" "$ROOT_DIR/adl/coverage-summary.adl.json" "$ROOT_DIR/adl/coverage-summary.adl-runtime.json" "$ROOT_DIR/adl/coverage-summary.json"' EXIT
 bin_dir="$temp_root/bin"
 mkdir -p "$bin_dir"
 scratch_root="$temp_root/scratch"
 cargo_log="$temp_root/cargo.log"
+AUTHORITATIVE_REAL_FIND="$(command -v find)"
+export AUTHORITATIVE_REAL_FIND
 cat >"$bin_dir/cargo" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -163,6 +178,10 @@ if [ "$*" = "llvm-cov show-env --sh" ]; then
   printf 'export RUSTFLAGS=%q\n' '--cfg coverage_from_show_env'
   exit 0
 fi
+if [[ " $* " = *" --no-run "* ]]; then
+  mkdir -p "$CARGO_LLVM_COV_TARGET_DIR"
+  printf 'build profile\n' > "$CARGO_LLVM_COV_TARGET_DIR/prebuild-sentinel.profraw"
+fi
 if [ -n "${LLVM_PROFILE_FILE:-}" ]; then
   profile_path="${LLVM_PROFILE_FILE//%p/$$}"
   mkdir -p "$(dirname "$profile_path")"
@@ -174,6 +193,17 @@ if [ "${ADL_FAKE_CARGO_FAIL_PARTITION_1:-0}" = "1" ]; then
       exit 77
     fi
   done
+fi
+if [ "${ADL_FAKE_CARGO_FAIL_WORKSPACE_PREBUILD:-0}" = "1" ]; then
+  saw_workspace=0
+  saw_no_run=0
+  for arg in "$@"; do
+    [ "$arg" = "--workspace" ] && saw_workspace=1
+    [ "$arg" = "--no-run" ] && saw_no_run=1
+  done
+  if [ "$saw_workspace" = "1" ] && [ "$saw_no_run" = "1" ]; then
+    exit 66
+  fi
 fi
 out_path=""
 prev=""
@@ -198,6 +228,26 @@ fi
 exit 0
 EOF
 chmod +x "$bin_dir/cargo"
+cat >"$bin_dir/find" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ " $* " = *" -delete "* ]] && [ -n "${ADL_FAKE_FIND_FAIL_ON_CALL:-}" ]; then
+  find_call_count=0
+  if [ -f "$ADL_FAKE_FIND_COUNTER" ]; then
+    find_call_count="$(cat "$ADL_FAKE_FIND_COUNTER")"
+  fi
+  find_call_count=$((find_call_count + 1))
+  printf '%s\n' "$find_call_count" > "$ADL_FAKE_FIND_COUNTER"
+  if [ "$find_call_count" -eq "$ADL_FAKE_FIND_FAIL_ON_CALL" ]; then
+    exit 55
+  fi
+fi
+if [ "${ADL_FAKE_FIND_FAIL:-0}" = "1" ] && [[ " $* " = *" -delete "* ]]; then
+  exit 55
+fi
+exec "$AUTHORITATIVE_REAL_FIND" "$@"
+EOF
+chmod +x "$bin_dir/find"
 
 PATH="$bin_dir:$PATH" \
 AUTHORITATIVE_CARGO_LOG="$cargo_log" \
@@ -233,6 +283,7 @@ for required in \
   "target=$scratch_root/target/llvm-cov-target/run-a" \
   "llvm_cov_target=$scratch_root/target/llvm-cov-target/run-a" \
   "rustflags=--cfg coverage_from_show_env" \
+  "build_jobs=1" \
   "llvm_profile=$scratch_root/target/llvm-cov-target/run-a/workspace-run-a-partition-1-%p.profraw"
 do
   if ! grep -F -- "$required" "$cargo_log" >/dev/null 2>&1; then
@@ -241,6 +292,120 @@ do
     exit 1
   fi
 done
+
+workspace_prebuild="cmd=nextest run --workspace --no-fail-fast --no-tests pass --test-threads 4 --no-run"
+runtime_prebuild="cmd=nextest run --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-fail-fast --no-tests pass --test-threads 4 --no-run"
+if [ "$(grep -Fxc -- "$workspace_prebuild" "$cargo_log")" -ne 1 ] ||
+   [ "$(grep -Fxc -- "$runtime_prebuild" "$cargo_log")" -ne 1 ]; then
+  echo "expected exactly one compile-only invocation per coverage profile" >&2
+  cat "$cargo_log" >&2
+  exit 1
+fi
+if grep -E '^cmd=.*--partition .*--no-run' "$cargo_log" >/dev/null 2>&1; then
+  echo "coverage partitions must execute tests after the compile-only barrier" >&2
+  cat "$cargo_log" >&2
+  exit 1
+fi
+workspace_prebuild_line="$(grep -nF -- "$workspace_prebuild" "$cargo_log" | cut -d: -f1)"
+workspace_partition_line="$(grep -nF -- '--partition count:1/2' "$cargo_log" | head -1 | cut -d: -f1)"
+runtime_prebuild_line="$(grep -nF -- "$runtime_prebuild" "$cargo_log" | cut -d: -f1)"
+runtime_partition_line="$(grep -nF -- '--manifest-path '"$ROOT_DIR"'/adl-runtime/Cargo.toml' "$cargo_log" | grep -- '--partition count:1/2' | head -1 | cut -d: -f1)"
+if [ "$workspace_prebuild_line" -ge "$workspace_partition_line" ] ||
+   [ "$runtime_prebuild_line" -ge "$runtime_partition_line" ]; then
+  echo "compile-only invocation must precede partition fan-out" >&2
+  cat "$cargo_log" >&2
+  exit 1
+fi
+if grep '^build_jobs=' "$cargo_log" | grep -v '^build_jobs=1$' >/dev/null 2>&1; then
+  echo "every default coverage Cargo invocation must use one build job" >&2
+  cat "$cargo_log" >&2
+  exit 1
+fi
+if [ "$(grep -Fxc -- "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl.json" "$cargo_log")" -ne 1 ] ||
+   [ "$(grep -Fxc -- "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $scratch_root/coverage-output/run-a/coverage-summary.adl-runtime.json" "$cargo_log")" -ne 1 ]; then
+  echo "expected exactly one report invocation per coverage profile" >&2
+  cat "$cargo_log" >&2
+  exit 1
+fi
+if [ -e "$scratch_root/target/llvm-cov-target/run-a/prebuild-sentinel.profraw" ]; then
+  echo "prebuild profile must be removed before test partitions and reports" >&2
+  exit 1
+fi
+
+prebuild_failure_log="$temp_root/prebuild-failure.log"
+set +e
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$prebuild_failure_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-prebuild-failure" \
+ADL_FAKE_CARGO_FAIL_WORKSPACE_PREBUILD=1 \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
+prebuild_failure_status=$?
+set -e
+if [ "$prebuild_failure_status" -ne 66 ]; then
+  echo "expected compile-only failure status 66, got $prebuild_failure_status" >&2
+  cat "$prebuild_failure_log" >&2
+  exit 1
+fi
+if grep -E '^cmd=nextest run .*--partition ' "$prebuild_failure_log" >/dev/null 2>&1; then
+  echo "no partitions may launch after compile-only failure" >&2
+  cat "$prebuild_failure_log" >&2
+  exit 1
+fi
+if ! grep -F -- "cmd=llvm-cov report --json --summary-only --output-path $scratch_root/coverage-output/run-prebuild-failure/coverage-summary.adl.json" "$prebuild_failure_log" >/dev/null 2>&1; then
+  echo "expected report attempt after compile-only failure" >&2
+  cat "$prebuild_failure_log" >&2
+  exit 1
+fi
+if [ -e "$scratch_root/target/llvm-cov-target/run-prebuild-failure/prebuild-sentinel.profraw" ]; then
+  echo "failed prebuild profile must be removed before report attempts" >&2
+  exit 1
+fi
+
+combined_failure_log="$temp_root/combined-failure.log"
+combined_find_counter="$temp_root/combined-find-counter"
+set +e
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$combined_failure_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-combined-failure" \
+ADL_FAKE_CARGO_FAIL_WORKSPACE_PREBUILD=1 \
+ADL_FAKE_FIND_FAIL_ON_CALL=2 \
+ADL_FAKE_FIND_COUNTER="$combined_find_counter" \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
+combined_failure_status=$?
+set -e
+if [ "$combined_failure_status" -ne 66 ]; then
+  echo "expected original compile-only status 66 to survive later cleanup failure, got $combined_failure_status" >&2
+  cat "$combined_failure_log" >&2
+  exit 1
+fi
+if grep -E '^cmd=nextest run .*--partition ' "$combined_failure_log" >/dev/null 2>&1; then
+  echo "no partitions may launch after combined compile and cleanup failure" >&2
+  cat "$combined_failure_log" >&2
+  exit 1
+fi
+
+cleanup_failure_log="$temp_root/cleanup-failure.log"
+set +e
+PATH="$bin_dir:$PATH" \
+AUTHORITATIVE_CARGO_LOG="$cleanup_failure_log" \
+ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+ADL_COVERAGE_RUN_ID="run-cleanup-failure" \
+ADL_FAKE_FIND_FAIL=1 \
+  bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
+cleanup_failure_status=$?
+set -e
+if [ "$cleanup_failure_status" -ne 55 ]; then
+  echo "expected profile cleanup failure status 55, got $cleanup_failure_status" >&2
+  cat "$cleanup_failure_log" >&2
+  exit 1
+fi
+if grep -E '^cmd=nextest run .*--partition ' "$cleanup_failure_log" >/dev/null 2>&1; then
+  echo "no partitions may launch after profile cleanup failure" >&2
+  cat "$cleanup_failure_log" >&2
+  exit 1
+fi
 
 failing_cargo_log="$temp_root/failing-cargo.log"
 set +e
@@ -353,11 +518,13 @@ ADL_COVERAGE_RUN_ID="run-lld" \
 ADL_COVERAGE_TEST_THREADS=18 \
 RUST_LINK_ACCEL="lld" \
 ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS="2" \
+ADL_AUTHORITATIVE_COVERAGE_BUILD_JOBS="2" \
 ADL_AUTHORITATIVE_COVERAGE_SKIP_PATTERN="live_pr_fixture_" \
   bash "$SCRIPT"
 
 for required in \
   "link_accel=lld" \
+  "build_jobs=2" \
   "--test-threads 2" \
   "-- --skip live_pr_fixture_" \
   "cmd=nextest run --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-fail-fast --no-tests pass"

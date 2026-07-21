@@ -1,0 +1,13 @@
+{
+  "issue": 5336,
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "expected_generation": 20,
+  "expected_digest": "402ee456cb16573ad5896ec0ca61aeb4c23c2120bb5bc662f6938db2759e8703",
+  "now_unix_seconds": 1784599007,
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Own the smallest repository coverage-orchestration correction required to make PR #5599's full hosted coverage lane reliable without weakening coverage.",
+  "add_protected_paths": [
+    "adl/tools/run_authoritative_coverage_lane.sh",
+    "adl/tools/test_run_authoritative_coverage_lane.sh"
+  ]
+}
