@@ -1,19 +1,52 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    sync::Arc,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc, Mutex,
+    },
     time::Duration,
 };
 
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, mark_unavailable_live_services, AdapterKind,
-    ClockAuthority, ComponentId, DegradedOperationExecutor, LiveBindings, RunningState,
-    RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
+    ClockAuthority, ComponentId, DegradedOperationExecutor, DomainWork, ExecutorError,
+    IngressError, LiveBindings, OperationExecutor, OperationRequest, RunningState, RuntimeRecorder,
+    TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
     PASSIVE_LIVE_SERVICES, REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
+use tokio::sync::Notify;
 
 struct FixedTime;
+
+struct EchoExecutor {
+    calls: Arc<AtomicUsize>,
+    request: Arc<Mutex<Option<OperationRequest>>>,
+}
+
+#[async_trait]
+impl OperationExecutor for EchoExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.calls.fetch_add(1, Ordering::SeqCst);
+        *self.request.lock().unwrap() = Some(request.clone());
+        Ok(request.payload.clone())
+    }
+}
+
+struct DelayedExecutor {
+    started: Arc<Notify>,
+    release: Arc<Notify>,
+}
+
+#[async_trait]
+impl OperationExecutor for DelayedExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.started.notify_one();
+        self.release.notified().await;
+        Ok(request.payload.clone())
+    }
+}
 
 #[async_trait]
 impl TimeSampleSource for FixedTime {
@@ -146,6 +179,144 @@ async fn live_assembly_starts_and_qualifies_time() {
         snapshot.components[&ComponentId::new("observability")],
         RunningState::Running
     );
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        adl_runtime_kernel::KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn canonical_ingress_dispatches_allowlisted_work_and_commits_only_success() {
+    let recorder = RuntimeRecorder::new(128);
+    let calls = Arc::new(AtomicUsize::new(0));
+    let dispatched = Arc::new(Mutex::new(None));
+    let mut live = bindings(recorder.clone());
+    live.operation_executors.insert(
+        AdapterKind::Agent,
+        Arc::new(EchoExecutor {
+            calls: calls.clone(),
+            request: dispatched.clone(),
+        }),
+    );
+    let assembly = build_live_assembly(live).unwrap();
+    let ingress = assembly.canonical_ingress.clone();
+    let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
+        .start()
+        .await
+        .unwrap();
+    let work = DomainWork {
+        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "dispatch-success".to_owned(),
+        kind: "parity-a".to_owned(),
+        payload: b"component-output".to_vec(),
+    };
+    let result = ingress
+        .submit(work.clone(), "0123456789abcdef0123456789abcdef".to_owned())
+        .await
+        .unwrap();
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+    assert_eq!(result.accepted_sequence, 1);
+    assert_eq!(
+        dispatched.lock().unwrap().as_ref().unwrap(),
+        &OperationRequest {
+            schema: adl_runtime_kernel::OPERATION_REQUEST_SCHEMA.to_owned(),
+            request_id: "dispatch-success".to_owned(),
+            idempotency_key: "dispatch-success".to_owned(),
+            principal: "canonical-ingress".to_owned(),
+            payload: b"component-output".to_vec(),
+            permit: None,
+        }
+    );
+
+    let unsupported = ingress
+        .submit(
+            DomainWork {
+                work_id: "dispatch-unsupported".to_owned(),
+                kind: "not-allowlisted".to_owned(),
+                ..work.clone()
+            },
+            "1123456789abcdef0123456789abcdef".to_owned(),
+        )
+        .await;
+    assert_eq!(unsupported, Err(IngressError::UnsupportedKind));
+    let failed = ingress
+        .submit(
+            DomainWork {
+                work_id: "dispatch-failed".to_owned(),
+                kind: AdapterKind::Shepherd.service_name().to_owned(),
+                ..work
+            },
+            "2123456789abcdef0123456789abcdef".to_owned(),
+        )
+        .await;
+    assert_eq!(failed, Err(IngressError::ExecutionFailed));
+    assert_eq!(ingress.snapshot().accepted_through, 1);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        adl_runtime_kernel::KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn closing_ingress_rejects_new_work_and_drains_an_accepted_dispatch() {
+    let recorder = RuntimeRecorder::new(128);
+    let started = Arc::new(Notify::new());
+    let release = Arc::new(Notify::new());
+    let mut live = bindings(recorder.clone());
+    live.operation_executors.insert(
+        AdapterKind::Agent,
+        Arc::new(DelayedExecutor {
+            started: started.clone(),
+            release: release.clone(),
+        }),
+    );
+    let assembly = build_live_assembly(live).unwrap();
+    let ingress = assembly.canonical_ingress.clone();
+    let handle = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
+        .start()
+        .await
+        .unwrap();
+    let accepted = {
+        let ingress = ingress.clone();
+        tokio::spawn(async move {
+            ingress
+                .submit(
+                    DomainWork {
+                        schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                        work_id: "accepted-before-close".to_owned(),
+                        kind: "parity-a".to_owned(),
+                        payload: b"delayed".to_vec(),
+                    },
+                    "3123456789abcdef0123456789abcdef".to_owned(),
+                )
+                .await
+        })
+    };
+    started.notified().await;
+    let drain = {
+        let ingress = ingress.clone();
+        tokio::spawn(async move { ingress.close_and_drain(Duration::from_secs(1)).await })
+    };
+    tokio::task::yield_now().await;
+    assert_eq!(
+        ingress
+            .submit(
+                DomainWork {
+                    schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                    work_id: "rejected-after-close".to_owned(),
+                    kind: "parity-a".to_owned(),
+                    payload: b"late".to_vec(),
+                },
+                "4123456789abcdef0123456789abcdef".to_owned(),
+            )
+            .await,
+        Err(IngressError::Closed)
+    );
+    assert!(!drain.is_finished());
+    release.notify_one();
+    assert!(accepted.await.unwrap().is_ok());
+    drain.await.unwrap().unwrap();
+    assert_eq!(ingress.snapshot().accepted_through, 1);
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         adl_runtime_kernel::KernelExit::Clean

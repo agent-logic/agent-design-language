@@ -1,17 +1,19 @@
 use std::{
     collections::BTreeMap,
     sync::{Arc, Mutex},
+    time::Duration,
 };
 
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
-use tokio::sync::{oneshot, Mutex as AsyncMutex};
+use tokio::sync::{oneshot, Mutex as AsyncMutex, Notify};
 
 use crate::{
     channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, Component, ComponentContext,
-    ComponentError, ComponentFactory, ComponentId, ComponentSpec, FailurePolicy, RuntimeEvent,
-    RuntimeRecorder, SendError,
+    ComponentError, ComponentFactory, ComponentId, ComponentSpec, FailurePolicy, OperationError,
+    OperationRequest, OperationalFactory, RuntimeEvent, RuntimeRecorder, SendError,
+    OPERATION_REQUEST_SCHEMA,
 };
 
 pub const DOMAIN_WORK_SCHEMA: &str = "adl.runtime.domain_work.v1";
@@ -50,6 +52,12 @@ pub enum IngressError {
     Saturated,
     #[error("canonical ingress is closed")]
     Closed,
+    #[error("domain work kind is not allowlisted")]
+    UnsupportedKind,
+    #[error("domain work execution failed")]
+    ExecutionFailed,
+    #[error("canonical ingress drain timed out")]
+    DrainTimeout,
 }
 
 struct Envelope {
@@ -65,6 +73,8 @@ pub struct CanonicalIngress {
     state: Arc<Mutex<IngressSnapshot>>,
     recorder: RuntimeRecorder,
     admission: Arc<Mutex<AdmissionState>>,
+    drained: Arc<Notify>,
+    dispatchers: Arc<BTreeMap<String, OperationalFactory>>,
 }
 
 #[derive(Default)]
@@ -73,17 +83,30 @@ struct AdmissionState {
     active: usize,
 }
 
-struct AdmissionLease(Arc<Mutex<AdmissionState>>);
+struct AdmissionLease {
+    admission: Arc<Mutex<AdmissionState>>,
+    drained: Arc<Notify>,
+}
 
 impl Drop for AdmissionLease {
     fn drop(&mut self) {
-        let mut admission = self.0.lock().expect("ingress admission mutex poisoned");
+        let mut admission = self
+            .admission
+            .lock()
+            .expect("ingress admission mutex poisoned");
         admission.active = admission.active.saturating_sub(1);
+        if admission.active == 0 {
+            self.drained.notify_one();
+        }
     }
 }
 
 impl CanonicalIngress {
-    pub fn new(capacity: usize, recorder: RuntimeRecorder) -> Self {
+    pub fn new(
+        capacity: usize,
+        recorder: RuntimeRecorder,
+        dispatchers: BTreeMap<String, OperationalFactory>,
+    ) -> Self {
         let (sender, receiver) = channel(capacity, ChannelFullPolicy::Reject);
         recorder.set_queue_health("canonical_ingress", &sender.metrics());
         Self {
@@ -95,6 +118,8 @@ impl CanonicalIngress {
                 open: true,
                 active: 0,
             })),
+            drained: Arc::new(Notify::new()),
+            dispatchers: Arc::new(dispatchers),
         }
     }
 
@@ -133,16 +158,36 @@ impl CanonicalIngress {
         *self.state.lock().expect("ingress state mutex poisoned") = snapshot;
     }
 
-    pub fn pause_if_idle(&self) -> bool {
+    pub fn close(&self) {
         let mut admission = self
             .admission
             .lock()
             .expect("ingress admission mutex poisoned");
-        if admission.active != 0 || self.sender.metrics().depth() != 0 {
-            return false;
-        }
         admission.open = false;
-        true
+        if admission.active == 0 {
+            self.drained.notify_one();
+        }
+    }
+
+    pub async fn close_and_drain(&self, deadline: Duration) -> Result<(), IngressError> {
+        self.close();
+        tokio::time::timeout(deadline, async {
+            loop {
+                let drained = self.drained.notified();
+                if self
+                    .admission
+                    .lock()
+                    .expect("ingress admission mutex poisoned")
+                    .active
+                    == 0
+                {
+                    return;
+                }
+                drained.await;
+            }
+        })
+        .await
+        .map_err(|_| IngressError::DrainTimeout)
     }
 
     pub fn reopen(&self) {
@@ -162,7 +207,10 @@ impl CanonicalIngress {
         }
         admission.active = admission.active.saturating_add(1);
         drop(admission);
-        Ok(AdmissionLease(self.admission.clone()))
+        Ok(AdmissionLease {
+            admission: self.admission.clone(),
+            drained: self.drained.clone(),
+        })
     }
 }
 
@@ -176,7 +224,7 @@ impl Component for CanonicalIngress {
                 envelope = async { self.receiver.lock().await.recv().await } => {
                     let Some(envelope) = envelope else { return Ok(()); };
                     self.recorder.set_queue_health("canonical_ingress", &self.sender.metrics());
-                    let result = apply(&self.state, &envelope.work);
+                    let result = self.dispatch(&envelope.work).await;
                     if result.is_ok() {
                         self.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
                             RuntimeEvent::DomainWorkCompleted, Some(&envelope.correlation_id));
@@ -203,6 +251,30 @@ impl ComponentFactory for CanonicalIngress {
     }
 }
 
+impl CanonicalIngress {
+    async fn dispatch(&self, work: &DomainWork) -> Result<DomainResult, IngressError> {
+        let dispatcher = self
+            .dispatchers
+            .get(&work.kind)
+            .ok_or(IngressError::UnsupportedKind)?;
+        let operation = dispatcher
+            .submit(OperationRequest {
+                schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                request_id: work.work_id.clone(),
+                idempotency_key: work.work_id.clone(),
+                principal: "canonical-ingress".to_owned(),
+                payload: work.payload.clone(),
+                permit: None,
+            })
+            .await
+            .map_err(|error| match error {
+                OperationError::InvalidRequest => IngressError::Conflict,
+                _ => IngressError::ExecutionFailed,
+            })?;
+        apply(&self.state, work, &operation)
+    }
+}
+
 fn validate(work: &DomainWork) -> Result<(), IngressError> {
     let safe = |value: &str| {
         !value.is_empty()
@@ -222,10 +294,15 @@ fn validate(work: &DomainWork) -> Result<(), IngressError> {
     Ok(())
 }
 
-fn apply(state: &Mutex<IngressSnapshot>, work: &DomainWork) -> Result<DomainResult, IngressError> {
-    let result_hash = blake3::hash(&serde_json::to_vec(work).map_err(|_| IngressError::Invalid)?)
-        .to_hex()
-        .to_string();
+fn apply(
+    state: &Mutex<IngressSnapshot>,
+    work: &DomainWork,
+    operation: &crate::OperationResult,
+) -> Result<DomainResult, IngressError> {
+    let result_hash =
+        blake3::hash(&serde_json::to_vec(&(work, operation)).map_err(|_| IngressError::Invalid)?)
+            .to_hex()
+            .to_string();
     let mut state = state.lock().expect("ingress state mutex poisoned");
     if let Some(existing) = state.completed.get(&work.work_id) {
         return (existing.result_hash == result_hash)
@@ -249,18 +326,14 @@ mod tests {
 
     #[test]
     fn pause_and_submit_admission_are_one_atomic_transition() {
-        let ingress = CanonicalIngress::new(1, RuntimeRecorder::new(4));
+        let ingress = CanonicalIngress::new(1, RuntimeRecorder::new(4), BTreeMap::new());
         let lease = ingress.begin_admission().unwrap();
-        assert!(
-            !ingress.pause_if_idle(),
-            "an admitted submit must block serialization"
-        );
-        drop(lease);
-        assert!(ingress.pause_if_idle());
+        ingress.close();
         assert!(matches!(
             ingress.begin_admission(),
             Err(IngressError::Closed)
         ));
+        drop(lease);
         ingress.reopen();
         assert!(ingress.begin_admission().is_ok());
     }

@@ -414,24 +414,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .expect("control address mutex poisoned") = address;
     }
 
-    pub fn pause_admission_if_idle(&self) -> bool {
-        let mut state = self.idempotency.lock().expect("idempotency mutex poisoned");
-        if state
-            .records
-            .iter()
-            .any(|(_, record)| record.response.is_none())
-        {
-            return false;
+    pub async fn close_admission_and_drain(&self, deadline: Duration) -> Result<(), IngressError> {
+        self.idempotency
+            .lock()
+            .expect("idempotency mutex poisoned")
+            .admission_open = false;
+        if let Some(ingress) = &self.canonical_ingress {
+            ingress.close_and_drain(deadline).await?;
         }
-        if self
-            .canonical_ingress
-            .as_ref()
-            .is_some_and(|ingress| !ingress.pause_if_idle())
-        {
-            return false;
-        }
-        state.admission_open = false;
-        true
+        Ok(())
     }
 
     pub fn reopen_admission(&self) {
@@ -543,6 +534,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     return Err(ControlError::LifecycleAlreadyRequested);
                 }
                 state.terminal_action = Some(command.command_id.clone());
+                state.admission_open = false;
+                if let Some(ingress) = &self.canonical_ingress {
+                    ingress.close();
+                }
             }
             state.records.put(
                 command.command_id.clone(),
@@ -564,6 +559,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             state.records.pop(&command_id);
             if terminal && state.terminal_action.as_deref() == Some(&command_id) {
                 state.terminal_action = None;
+                state.admission_open = true;
+                if let Some(ingress) = &self.canonical_ingress {
+                    ingress.reopen();
+                }
             }
         }
         result
@@ -592,10 +591,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         .submit(work, command.correlation_id.clone())
                         .await
                         .map_err(|error| match error {
-                            IngressError::Invalid => ControlError::InvalidBounds,
+                            IngressError::Invalid | IngressError::UnsupportedKind => {
+                                ControlError::InvalidBounds
+                            }
                             IngressError::Conflict => ControlError::IdempotencyConflict,
                             IngressError::Saturated | IngressError::Closed => {
                                 ControlError::AdmissionClosed
+                            }
+                            IngressError::ExecutionFailed | IngressError::DrainTimeout => {
+                                ControlError::Internal
                             }
                         })?;
                     Ok(ControlOutcome::Submitted {

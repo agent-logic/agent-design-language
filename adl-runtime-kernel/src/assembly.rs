@@ -87,8 +87,8 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         return Err(AssemblyError::MissingBindings(missing));
     }
 
-    let canonical_ingress = CanonicalIngress::new(64, bindings.recorder.clone());
     let mut registrations = Vec::<(Arc<dyn ComponentFactory>, ServiceContract)>::new();
+    let mut ingress_dispatchers = BTreeMap::new();
     let dependencies = representative_dependencies();
     for kind in REQUIRED_OPERATIONAL_ADAPTERS {
         let policy = AdapterPolicy {
@@ -114,10 +114,12 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
             .iter()
             .map(|dependency| ComponentId::new(dependency.service_name()))
             .collect();
-        registrations.push((
-            Arc::new(OperationalFactory::new(adapter.clone(), ids)),
-            adapter.contract(kinds),
-        ));
+        let factory = OperationalFactory::new(adapter.clone(), ids);
+        ingress_dispatchers.insert(kind.service_name().to_owned(), factory.clone());
+        if kind == AdapterKind::Agent {
+            ingress_dispatchers.insert("parity-a".to_owned(), factory.clone());
+        }
+        registrations.push((Arc::new(factory), adapter.contract(kinds)));
     }
 
     append_factories(
@@ -142,6 +144,8 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         let factory = InfrastructureFactory { role };
         registrations.push((Arc::new(factory), role.contract()));
     }
+    let canonical_ingress =
+        CanonicalIngress::new(64, bindings.recorder.clone(), ingress_dispatchers);
     registrations.push((
         Arc::new(canonical_ingress.clone()),
         ServiceContract {
@@ -407,6 +411,15 @@ pub fn bootstrap_reasoning_services(
 
 pub struct DegradedOperationExecutor {
     reason: String,
+}
+
+pub struct LocalAgentExecutor;
+
+#[async_trait::async_trait]
+impl OperationExecutor for LocalAgentExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        Ok(request.payload.clone())
+    }
 }
 
 impl DegradedOperationExecutor {

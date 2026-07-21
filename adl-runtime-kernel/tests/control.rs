@@ -9,14 +9,15 @@ use std::{
 
 use adl_runtime_kernel::{
     channel, load_control_tls, serve_control_listener, serve_control_listener_until,
-    serve_control_listener_until_ready, write_observability_event, write_payload, CanonicalIngress,
-    ClockAuthority, ComponentId, ComponentRegistry, ContinuityHead, ControlAction,
-    ControlAuthority, ControlCapability, ControlError, ControlExit, ControlObservabilityEvent,
-    ControlOutcome, ControlService, DiskWeather, DomainWork, Kernel, KernelExit, LifecycleControl,
-    LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, Observation,
-    ResourceState, RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision,
-    SignedControlCommand, TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample,
-    DOMAIN_WORK_SCHEMA,
+    serve_control_listener_until_ready, write_observability_event, write_payload, AdapterKind,
+    AdapterPolicy, AuthorityMode, CanonicalIngress, ClockAuthority, ComponentId, ComponentRegistry,
+    ContinuityHead, ControlAction, ControlAuthority, ControlCapability, ControlError, ControlExit,
+    ControlObservabilityEvent, ControlOutcome, ControlService, DiskWeather, DomainWork,
+    ExecutorError, Kernel, KernelExit, LifecycleControl, LiveContinuity, LiveKernelSnapshot,
+    ObservabilityDegradation, ObservabilityHealth, Observation, OperationExecutor,
+    OperationRequest, OperationalAdapter, OperationalFactory, ResourceState, RuntimeEvent,
+    RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand,
+    TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample, DOMAIN_WORK_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -83,6 +84,43 @@ struct BlockingLifecycle {
     release: Arc<Notify>,
 }
 
+struct EchoExecutor;
+
+#[async_trait]
+impl OperationExecutor for EchoExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        Ok(request.payload.clone())
+    }
+}
+
+fn test_ingress(
+    capacity: usize,
+    recorder: RuntimeRecorder,
+) -> (CanonicalIngress, OperationalFactory) {
+    let adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            AdapterPolicy {
+                capacity,
+                max_in_flight: capacity,
+                timeout_millis: 1_000,
+                max_attempts: 1,
+                idempotency_entries: 16,
+                authority: AuthorityMode::Internal,
+            },
+            Arc::new(EchoExecutor),
+        )
+        .unwrap(),
+    );
+    let factory = OperationalFactory::new(adapter, vec![]);
+    let ingress = CanonicalIngress::new(
+        capacity,
+        recorder,
+        BTreeMap::from([("parity-a".to_owned(), factory.clone())]),
+    );
+    (ingress, factory)
+}
+
 #[async_trait]
 impl LifecycleControl for BlockingLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -134,8 +172,9 @@ async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
     let root = tempfile::tempdir().unwrap();
     let key = SigningKey::from_bytes(&[37; 32]);
     let recorder = RuntimeRecorder::new(32);
-    let ingress = CanonicalIngress::new(2, recorder.clone());
+    let (ingress, operation) = test_ingress(2, recorder.clone());
     let mut registry = ComponentRegistry::new();
+    registry.register(operation);
     registry.register(ingress.clone());
     let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
         .start()
@@ -225,7 +264,7 @@ async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
     );
 
     let restored_recorder = RuntimeRecorder::new(32);
-    let restored_ingress = CanonicalIngress::new(2, restored_recorder.clone());
+    let (restored_ingress, restored_operation) = test_ingress(2, restored_recorder.clone());
     let mut restored = LiveContinuity::new(root.path(), "live", &[41; 32], identity, 1)
         .with_canonical_ingress(restored_ingress.clone());
     assert_eq!(
@@ -233,6 +272,7 @@ async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
         Some(1)
     );
     let mut registry = ComponentRegistry::new();
+    registry.register(restored_operation);
     registry.register(restored_ingress.clone());
     let handle = Kernel::new(registry.validate().unwrap(), restored_recorder.clone())
         .start()
@@ -413,7 +453,10 @@ async fn pressure_admission_gate_refuses_new_commands_until_reopened() {
         4,
     ));
 
-    assert!(service.pause_admission_if_idle());
+    service
+        .close_admission_and_drain(Duration::from_secs(1))
+        .await
+        .unwrap();
     assert_eq!(
         service
             .execute(signed(&key, "read-paused", ControlAction::Snapshot))
@@ -511,14 +554,20 @@ async fn cancelled_client_does_not_cancel_execution_or_exceed_idempotency_bound(
         tokio::spawn(async move { service.execute(command).await })
     };
     started.notified().await;
-    assert!(!service.pause_admission_if_idle());
+    assert_eq!(
+        service
+            .execute(signed(&key, "read-closed", ControlAction::Snapshot))
+            .await
+            .unwrap_err(),
+        ControlError::AdmissionClosed
+    );
     request.abort();
     assert_eq!(
         service
             .execute(signed(&key, "read-capacity", ControlAction::Snapshot))
             .await
             .unwrap_err(),
-        ControlError::IdempotencyCapacity
+        ControlError::AdmissionClosed
     );
     release.notify_one();
     let response = loop {
