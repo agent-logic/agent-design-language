@@ -12,21 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/assembly.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/ingress.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/src/live_continuity.rs
-adl-runtime-kernel/src/telemetry.rs
-adl-runtime-kernel/src/weather.rs
-adl-runtime-kernel/tests/assembly.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/guardian_soak.rs
-infra/horust/adl-runtime-kernel.toml
-adl/tools/report_runtime_v3_loc.sh
-.csdlc/issues/5591/cards/sor.values.json
-.csdlc/issues/5591/cards/vpp.values.json
+
 
 ## Prompts
 
@@ -48,13 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.
-- Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:80abe5c5aadc99beb74b155065901fb4496aead2:8ac3095c8fd548f8238c603de7810fb0f0cf0b58e0cb14dc319c007043c8ce8e")
+Revision: None
 
-Reviewer: Some("subagent:/root/review_5591_exact_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review

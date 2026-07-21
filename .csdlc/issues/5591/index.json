@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "published",
-  "generation": 16,
-  "digest": "c4662c4caac383eabee527ffe92822c2f3f657a6864051e37d5344a3532104b5",
+  "phase": "implemented",
+  "generation": 18,
+  "digest": "71ef1f50d7bb375fac118d48e354c4807d20ce0b27e50bbe2565399180d00411",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 16,
+    "generation": 18,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -27,67 +27,9 @@
     ],
     "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_5591_exact_head",
-    "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
-    "revision": "git-blake3:80abe5c5aadc99beb74b155065901fb4496aead2:8ac3095c8fd548f8238c603de7810fb0f0cf0b58e0cb14dc319c007043c8ce8e",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      "adl-runtime-kernel/src/weather.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "infra/horust/adl-runtime-kernel.toml",
-      "adl/tools/report_runtime_v3_loc.sh",
-      ".csdlc/issues/5591/cards/sor.values.json",
-      ".csdlc/issues/5591/cards/vpp.values.json"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_5591_exact_head",
-    "scope": [
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/ingress.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "adl-runtime-kernel/src/telemetry.rs",
-      "adl-runtime-kernel/src/weather.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "infra/horust/adl-runtime-kernel.toml",
-      "adl/tools/report_runtime_v3_loc.sh",
-      ".csdlc/issues/5591/cards/sor.values.json",
-      ".csdlc/issues/5591/cards/vpp.values.json"
-    ],
-    "reviewed_revision": "git-blake3:80abe5c5aadc99beb74b155065901fb4496aead2:8ac3095c8fd548f8238c603de7810fb0f0cf0b58e0cb14dc319c007043c8ce8e",
-    "findings": [],
-    "residual_risks": [
-      "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
-      "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5591,
-    "pull_request": 5608,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5608",
-    "base": "main",
-    "head": "codex/5591-runtime-v3-parity-a-preparation",
-    "revision": "git-blake3:7438231154fbb61fafb34e4d8bef42b38af41b56:61f2a8db2105d602ff17fed81b2f543d12d61c49e5959180ccdb2bb6a31e25de",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -101,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8d73c37e6900dc50dc10a0d9ad55fc298c986bc8e71c6ac56cc786ac95eb2f73",
+      "values_digest": "39795cb420604dfd1e2c73ff50ffdd2270290ac918a3efce7a450af15981b64f",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "e084d3b91e85c0d8138613013c3b8650f59ffe2c7e4d935dbbf1499e4398266a",
+      "values_digest": "900c2ade362c84572d1d6a85281f40de2fc10f647de92df7854db5ea5e8c9e3f",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "472d08ae16e3ac1d91b081cf8ec8541eee4485cc3e2977b5253b8d1c008013a4",
+      "values_digest": "ec44ad92f607c8e2a6bc68fef8349429ba1925ce5c57931a090f1909808d6f46",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "ad6bb3a861049c8ca1f52c837f1f6ee309590e8cfdd0fbf93550a11d204ec267",
+      "values_digest": "89589d67b475b5ae5b19fdbba7ceb05f28725990db1de654c83e6902d597c356",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "17a3c1b869d474d98dc69e64c596c4f3a43d2697c786867abe4ef42de7d796d1",
-      "rendered_digest": "3051f299042636e176d4a717db8cb23c488e8d531a39c365e23ec6170c979863",
-      "ast_digest": "5096ec2f1a93d7dccaf26b1b5c8043e6d049593e4466d76ca3a5b5a597f988d4"
+      "values_digest": "95822b306c7f82bb2fdaf1d7b405d73b0c70e289eb03e497e4945d4369aaac41",
+      "rendered_digest": "ad4a980a0e737e0c7f01de4ad76e7eca73b016332a9dde6a67044fa5faf86d28",
+      "ast_digest": "9ce8e5a6a15a085691d90cbc2955f381306b86c02d9ab1998f8e09b15ed60144"
     },
     "sor": {
-      "values_digest": "cf021880e288355a5c66caa233eafa186d45362cd271e1ad52117453df01fd67",
-      "rendered_digest": "d431130a984d0d030a06a042d0654f8ff5e2e28ec3fe85141e4950ffd7514dc5",
-      "ast_digest": "0b73891166a811c7fe49a4012219f1cdcc9c3f9c4bf7d005df033e9dfcf2b148"
+      "values_digest": "1aaf52ef9b1cfaa6eeeb784f2b664e6d889798fdadfb86ae5abbc518e84619ea",
+      "rendered_digest": "4e52ce66b329c8adec3403dbe2e10478878afad7443489f6af2db6460e44b6b4",
+      "ast_digest": "ac0f7be2e4f248cbd5facb72f46c8dd40e0e8a36b5fc69d525081eac425fa0ed"
     }
   },
   "transitions": [
@@ -180,6 +122,13 @@
       "to": "published",
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Current hosted Runtime coverage exposed a nondeterministic guardian descendant-startup proof race; recover published review truth for exact-head validation and rereview of the deterministic readiness handshake."
     }
   ],
   "audit": [
@@ -343,6 +292,20 @@
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "record exact existing PR ready-for-review after remote success",
       "operation": "record_ready_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Current hosted Runtime coverage exposed a nondeterministic guardian descendant-startup proof race; recover published review truth for exact-head validation and rereview of the deterministic readiness handshake.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Record deterministic guardian descendant-readiness race proof before exact-head rereview.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"for iteration in 1..25: CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/guardian-defect cargo test --locked --manifest-path adl-runtime/Cargo.toml guardian::tests::child_exit_terminates_descendants_and_bounds_inherited_pipe_capture -- --exact\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/guardian-full cargo test --locked --manifest-path adl-runtime/Cargo.toml\",\"cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check\",\"git diff --check\"],\"purpose\":\"Prove the guardian descendant installs its SIGTERM disposition before the parent exits, eliminating the hosted coverage startup race without changing guardian shutdown behavior. The exact regression passed 25 consecutive runs; the complete adl-runtime crate passed 127 tests including independence; formatting and diff hygiene passed.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f8362-357c-7621-95b7-afb314e0c61d@8871cb4847a50e483092c6771462c8e59c969085:/Volumes/FastWork/adl-5591/guardian-*\"}}"
     }
   ]
 }

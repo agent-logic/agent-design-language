@@ -92,16 +92,27 @@ Implemented canonical Runtime v3 ingress, deterministic execution and replay con
     "purpose": "Record 12,683 physical source lines as exactly +474 over the pinned #5336 baseline of 12,209 and +683 over the 12,000 target. The 20,000 hard safety ceiling does not authorize an exception. Exact review found the +474 functional delta necessary and non-duplicative: signed ingress +323, control/admission +76, assembly +45, continuity +21, and terminal/misc wiring +9; identified safe consolidation cannot recover the delta without removing acceptance behavior.",
     "outcome": "passed",
     "evidence_ref": "subagent:/root/review_5591_exact_head@be9daf2ea:P1-budget-authority-correction"
+  },
+  {
+    "command": [
+      "for iteration in 1..25: CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/guardian-defect cargo test --locked --manifest-path adl-runtime/Cargo.toml guardian::tests::child_exit_terminates_descendants_and_bounds_inherited_pipe_capture -- --exact",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/guardian-full cargo test --locked --manifest-path adl-runtime/Cargo.toml",
+      "cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check",
+      "git diff --check"
+    ],
+    "purpose": "Prove the guardian descendant installs its SIGTERM disposition before the parent exits, eliminating the hosted coverage startup race without changing guardian shutdown behavior. The exact regression passed 25 consecutive runs; the complete adl-runtime crate passed 127 tests including independence; formatting and diff hygiene passed.",
+    "outcome": "passed",
+    "evidence_ref": "owner:019f8362-357c-7621-95b7-afb314e0c61d@8871cb4847a50e483092c6771462c8e59c969085:/Volumes/FastWork/adl-5591/guardian-*"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
