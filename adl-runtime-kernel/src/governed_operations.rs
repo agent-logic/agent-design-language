@@ -45,6 +45,10 @@ pub struct GovernedCommand {
     pub cancelled: bool,
     #[serde(default)]
     pub cancel_after_millis: Option<u64>,
+    #[serde(default)]
+    pub appeal_id: Option<String>,
+    #[serde(default)]
+    pub operator_decision: Option<adl_runtime_kernel::OperatorDecision>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -70,6 +74,7 @@ pub struct RuntimeConfig {
     policy_hash: String,
     policy_key: VerifyingKey,
     authority_key: VerifyingKey,
+    operator_key: VerifyingKey,
     authority_principal: String,
     permit_key: [u8; 32],
     checkpoint_key: [u8; 32],
@@ -95,6 +100,7 @@ impl RuntimeConfig {
             policy_hash: required_env("ADL_PARITY_C_POLICY_HASH")?,
             policy_key: public_env("ADL_PARITY_C_POLICY_PUBLIC_KEY_HEX")?,
             authority_key: public_env("ADL_PARITY_C_AUTHORITY_PUBLIC_KEY_HEX")?,
+            operator_key: public_env("ADL_PARITY_C_OPERATOR_PUBLIC_KEY_HEX")?,
             authority_principal: required_env("ADL_PARITY_C_AUTHORITY_PRINCIPAL")?,
             permit_key: secret_env("ADL_PARITY_C_PERMIT_KEY_HEX")?,
             checkpoint_key: secret_env("ADL_PARITY_C_CHECKPOINT_KEY_HEX")?,
@@ -204,6 +210,14 @@ struct ProviderPort {
     program: PathBuf,
     condition: String,
 }
+struct ProcessGroup(Option<u32>);
+impl Drop for ProcessGroup {
+    fn drop(&mut self) {
+        if let Some(pid) = self.0 {
+            unsafe { libc::kill(-(pid as i32), libc::SIGKILL) };
+        }
+    }
+}
 #[async_trait::async_trait]
 impl OperationExecutor for ProviderPort {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
@@ -218,13 +232,19 @@ impl OperationExecutor for ProviderPort {
                 message: format!("provider_{}", self.condition),
             });
         }
-        let mut child = tokio::process::Command::new(&self.program)
+        use std::os::unix::process::CommandExt;
+        let mut command = tokio::process::Command::new(&self.program);
+        command
+            .as_std_mut()
+            .process_group(0)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
-            .stderr(Stdio::null())
+            .stderr(Stdio::null());
+        let mut child = command
             .kill_on_drop(true)
             .spawn()
             .map_err(|_| executor_error("provider_unavailable"))?;
+        let mut group = ProcessGroup(child.id());
         child
             .stdin
             .take()
@@ -240,6 +260,7 @@ impl OperationExecutor for ProviderPort {
         let mut output = Vec::new();
         let (status, _) = tokio::try_join!(child.wait(), stdout.read_to_end(&mut output))
             .map_err(|_| executor_error("provider_unavailable"))?;
+        group.0 = None;
         if !status.success() || output.len() as u64 > MAX_PROVIDER_OUTPUT {
             return Err(executor_error("provider_malformed_output"));
         }
@@ -687,7 +708,7 @@ async fn execute_inner(
             config.authority_principal.clone(),
         )]),
         root_authority_keys: BTreeSet::from(["authority".to_owned()]),
-        operator: BTreeMap::new(),
+        operator: BTreeMap::from([("operator".to_owned(), config.operator_key)]),
     };
     let gate = FreedomGate::new(
         config.policy_hash.clone(),
@@ -714,7 +735,17 @@ async fn execute_inner(
     let permit = match gate.mediate(&request) {
         MediationDecision::Allowed(permit) => permit,
         MediationDecision::Refused(evidence) => {
-            return refuse(refusal_classification(evidence.reason), &state)
+            let appealed = command
+                .appeal_id
+                .as_ref()
+                .zip(command.operator_decision.as_ref())
+                .and_then(|(id, decision)| gate.record_appeal(id, &evidence, decision).ok())
+                .is_some_and(|appeal| appeal.accepted);
+            if appealed {
+                return refuse("appeal_retry_recorded", &state);
+            } else {
+                return refuse(refusal_classification(evidence.reason), &state);
+            }
         }
     };
 

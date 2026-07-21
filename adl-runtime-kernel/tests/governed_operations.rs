@@ -4,13 +4,24 @@ use std::{
     process::{Command, Stdio},
 };
 
-use adl_runtime_kernel::{AuthorityGrant, Commitment, AUTHORITY_GRANT_SCHEMA, COMMITMENT_SCHEMA};
+use adl_runtime_kernel::{
+    AuthorityGrant, Commitment, FreedomGate, GovernanceKeys, GovernedActionRequest,
+    MediationDecision, OperatorDecision, OperatorDisposition, TrustedGovernanceTime,
+    AUTHORITY_GRANT_SCHEMA, COMMITMENT_SCHEMA, OPERATOR_DECISION_SCHEMA,
+};
 use ed25519_dalek::SigningKey;
 use serde_json::{json, Value};
 use tempfile::TempDir;
 
 const BIN: &str = env!("CARGO_BIN_EXE_adl-runtime-governed-operations");
 const POLICY: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+struct TestTime(u64);
+impl TrustedGovernanceTime for TestTime {
+    fn now_unix_millis(&self) -> u64 {
+        self.0
+    }
+}
 
 fn signed_command(id: &str, citizen: &str, now: u64) -> Value {
     let policy = SigningKey::from_bytes(&[1; 32]);
@@ -134,6 +145,10 @@ fn run_program(
             "ADL_PARITY_C_AUTHORITY_PUBLIC_KEY_HEX",
             hex::encode(authority.verifying_key().to_bytes()),
         )
+        .env(
+            "ADL_PARITY_C_OPERATOR_PUBLIC_KEY_HEX",
+            hex::encode(SigningKey::from_bytes(&[5; 32]).verifying_key().to_bytes()),
+        )
         .env("ADL_PARITY_C_AUTHORITY_PRINCIPAL", "alice")
         .env("ADL_PARITY_C_PERMIT_KEY_HEX", hex::encode([3; 32]))
         .env("ADL_PARITY_C_CHECKPOINT_KEY_HEX", hex::encode([4; 32]))
@@ -206,6 +221,74 @@ mod parity_c_live_governance {
         let value = run(&root, request, 1_000);
         assert_eq!(value["classification"], "invalid_commitment");
         assert_eq!(value["actuation_count"], 0);
+    }
+
+    #[test]
+    fn signed_appeal_disposition_is_recorded_without_actuation() {
+        use std::{
+            collections::{BTreeMap, BTreeSet},
+            sync::Arc,
+        };
+        let root = TempDir::new().unwrap();
+        let mut command = signed_command("appeal-live", "alice", 1_000);
+        command["action"] = "system.shutdown".into();
+        let request = GovernedActionRequest {
+            request_id: "appeal-live".to_owned(),
+            principal: "alice".to_owned(),
+            action: "system.shutdown".to_owned(),
+            resource: "provider".to_owned(),
+            units: 1,
+            payload_hash: blake3::hash(b"private-appeal-live").to_hex().to_string(),
+            policy_hash: POLICY.to_owned(),
+            commitment: serde_json::from_value(command["commitment"].clone()).unwrap(),
+            authority_chain: serde_json::from_value(command["authority_chain"].clone()).unwrap(),
+        };
+        let operator = SigningKey::from_bytes(&[5; 32]);
+        let gate = FreedomGate::new(
+            POLICY,
+            GovernanceKeys {
+                policy: BTreeMap::from([(
+                    "policy".to_owned(),
+                    SigningKey::from_bytes(&[1; 32]).verifying_key(),
+                )]),
+                authority: BTreeMap::from([(
+                    "authority".to_owned(),
+                    SigningKey::from_bytes(&[2; 32]).verifying_key(),
+                )]),
+                authority_principals: BTreeMap::from([(
+                    "authority".to_owned(),
+                    "alice".to_owned(),
+                )]),
+                root_authority_keys: BTreeSet::from(["authority".to_owned()]),
+                operator: BTreeMap::from([("operator".to_owned(), operator.verifying_key())]),
+            },
+            "permit",
+            SigningKey::from_bytes(&[3; 32]),
+            Arc::new(TestTime(1_000)),
+            BTreeMap::from([("provider".to_owned(), 8)]),
+        )
+        .unwrap();
+        let refusal = match gate.mediate(&request) {
+            MediationDecision::Refused(evidence) => evidence,
+            MediationDecision::Allowed(_) => panic!("tampered commitment was allowed"),
+        };
+        let decision = OperatorDecision {
+            schema: OPERATOR_DECISION_SCHEMA.to_owned(),
+            decision_id: "review-appeal-live".to_owned(),
+            request_id: "appeal-live".to_owned(),
+            refusal_hash: refusal.evidence_hash,
+            disposition: OperatorDisposition::Retry,
+            expires_unix_millis: 2_000,
+            signing_key_id: "operator".to_owned(),
+            signature: String::new(),
+        }
+        .sign(&operator)
+        .unwrap();
+        command["appeal_id"] = "appeal-live-1".into();
+        command["operator_decision"] = serde_json::to_value(decision).unwrap();
+        let outcome = run(&root, command, 1_000);
+        assert_eq!(outcome["classification"], "appeal_retry_recorded");
+        assert_eq!(outcome["actuation_count"], 0);
     }
 
     #[test]
@@ -286,7 +369,12 @@ mod parity_c_delegation_resources {
         use std::os::unix::fs::PermissionsExt;
         let root = TempDir::new().unwrap();
         let provider = root.path().join("slow-provider");
-        fs::write(&provider, "#!/bin/sh\nsleep 5\ncat\n").unwrap();
+        let marker = root.path().join("descendant-side-effect");
+        fs::write(
+            &provider,
+            format!("#!/bin/sh\nsleep 1\necho leaked > {}\n", marker.display()),
+        )
+        .unwrap();
         fs::set_permissions(&provider, fs::Permissions::from_mode(0o700)).unwrap();
         let mut cancelled = signed_command("cancel-race", "alice", 1_000);
         cancelled["cancel_after_millis"] = 50.into();
@@ -294,6 +382,13 @@ mod parity_c_delegation_resources {
         let value = run_program(&root, cancelled, 1_000, "healthy", "", &provider);
         assert_eq!(value["classification"], "scheduler_cancelled");
         assert!(started.elapsed() < std::time::Duration::from_secs(2));
+        std::thread::sleep(std::time::Duration::from_millis(1_200));
+        assert!(!marker.exists());
+        success(&run(
+            &root,
+            signed_command("after-cancel-race", "alice", 2_000),
+            2_000,
+        ));
     }
 
     #[test]
