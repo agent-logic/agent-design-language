@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5602,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][CI] Prevent partition-local llvm-cov report crashes from failing hosted coverage",
+    "slug": "hosted-coverage-no-report",
+    "version": "v0.91.8",
+    "generation": 29
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Add supported no-report profile collection to partition commands and strengthen focused contracts only.",
+      "deliverables": [
+        "Partition commands with --no-report",
+        "Focused command-shape and failure-semantics regression coverage",
+        "Local validation using /Volumes/FastWork"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every partition still executes its full selected test set",
+        "AC-2: Partition commands collect profiles without rendering reports",
+        "AC-3: Explicit combined ADL and Runtime reports remain authoritative",
+        "AC-4: Existing thresholds and fail-closed behavior remain unchanged",
+        "AC-5: Focused contracts pass with build artifacts on /Volumes/FastWork"
+      ],
+      "dependencies": [
+        "PR #5599 run 29773292101 job 88477335280 retained failure evidence"
+      ],
+      "repo_inputs": [
+        "adl/tools/run_authoritative_coverage_lane.sh",
+        "adl/tools/test_run_authoritative_coverage_lane.sh",
+        "GitHub run 29773292101 job 88477335280"
+      ],
+      "non_goals": [
+        "Coverage threshold changes",
+        "Test-scope reduction",
+        "Runtime product changes",
+        "AWS execution"
+      ]
+    }
+  }
+}

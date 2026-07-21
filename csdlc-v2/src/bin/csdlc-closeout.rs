@@ -306,12 +306,7 @@ async fn observe_readiness(
     } else {
         RemoteReviewState::NotRequired
     };
-    let conflict_state = match pr.mergeable_state {
-        Some(MergeableState::Clean | MergeableState::HasHooks) => ConflictState::Clean,
-        Some(MergeableState::Dirty) => ConflictState::Conflicted,
-        Some(MergeableState::Unknown) | None => ConflictState::Unknown,
-        _ => ConflictState::Pending,
-    };
+    let conflict_state = observed_conflict_state(pr.merged == Some(true), pr.mergeable_state);
     let request = ReadinessRequest {
         schema: "csdlc.readiness_request.v1".into(),
         issue: input.issue,
@@ -329,6 +324,18 @@ async fn observe_readiness(
         post_publication_findings: findings,
     };
     json(record_readiness(store, request)?)
+}
+
+fn observed_conflict_state(merged: bool, mergeable_state: Option<MergeableState>) -> ConflictState {
+    if merged {
+        return ConflictState::Clean;
+    }
+    match mergeable_state {
+        Some(MergeableState::Clean | MergeableState::HasHooks) => ConflictState::Clean,
+        Some(MergeableState::Dirty) => ConflictState::Conflicted,
+        Some(MergeableState::Unknown) | None => ConflictState::Unknown,
+        _ => ConflictState::Pending,
+    }
 }
 
 async fn observe_closeout(
@@ -432,11 +439,24 @@ fn terminal_receipt_ref(issue: u64) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::run_is_newer;
+    use super::*;
 
     #[test]
     fn newer_started_pending_rerun_supersedes_old_completed_identity() {
         assert!(run_is_newer(Some(20), 2, Some(10), 1));
         assert!(!run_is_newer(Some(10), 1, Some(20), 2));
+    }
+
+    #[test]
+    fn merged_pull_request_is_clean_even_when_github_mergeability_is_unknown() {
+        assert_eq!(
+            observed_conflict_state(true, Some(MergeableState::Unknown)),
+            ConflictState::Clean
+        );
+        assert_eq!(observed_conflict_state(true, None), ConflictState::Clean);
+        assert_eq!(
+            observed_conflict_state(false, Some(MergeableState::Unknown)),
+            ConflictState::Unknown
+        );
     }
 }

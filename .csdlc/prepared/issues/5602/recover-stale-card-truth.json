@@ -1,0 +1,8 @@
+{
+  "issue": 5602,
+  "expected_generation": 13,
+  "expected_digest": "45925a292063186bdf6ce8ba12a0a8cd9cf7f274101b8cdae4bf25089c133dde",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Final publication-head review found that the SRP prompt and SOR execution summary still describe the superseded incompatible no-report design; recover review and publication truth before typed card correction and re-review."
+}

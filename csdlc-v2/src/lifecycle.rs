@@ -72,6 +72,21 @@ pub struct AmendClaimScopeRequest {
     pub add_protected_paths: Vec<String>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct TransitionActiveClaimRequest {
+    pub issue: u64,
+    pub claim_id: String,
+    pub expected_owner: String,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub now_unix_seconds: u64,
+    pub actor: String,
+    pub reason: String,
+    pub expected_purpose: String,
+    pub purpose: String,
+    pub add_protected_paths: Vec<String>,
+}
+
 fn clean_relative(value: &str) -> bool {
     !value.is_empty()
         && Path::new(value)
@@ -578,6 +593,126 @@ pub fn amend_claim_scope(store: &Store, request: AmendClaimScopeRequest) -> Resu
     record.digest = crate::store::record_digest(&record)?;
     store.replace_record(request.issue, &expected_digest, &record)?;
     Ok(amended)
+}
+
+pub fn transition_active_claim(
+    store: &Store,
+    request: TransitionActiveClaimRequest,
+) -> Result<Claim> {
+    if request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || request.expected_owner.trim().is_empty()
+        || request.expected_purpose.trim().is_empty()
+        || request.purpose.trim().is_empty()
+        || request.add_protected_paths.is_empty()
+        || request
+            .add_protected_paths
+            .iter()
+            .any(|path| !clean_relative(path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "actor, reason, owner, purpose, and clean protected paths are required",
+        ));
+    }
+    let _binding_lock = store.binding_lock()?;
+    let mut record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "expected generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "expected issue digest is stale",
+        ));
+    }
+    if record.phase != crate::LifecyclePhase::Bound {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "active claim transition requires bound preparation state",
+        ));
+    }
+    let claim = record
+        .claim
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::MissingClaim, "claim missing"))?;
+    claim.validate(&request.claim_id, request.now_unix_seconds)?;
+    if claim.owner != request.expected_owner {
+        return Err(V2Error::new(
+            ErrorCode::InvalidClaim,
+            "active claim owner does not match expected owner",
+        ));
+    }
+    if claim.purpose != request.expected_purpose {
+        return Err(V2Error::new(
+            ErrorCode::InvalidClaim,
+            "active claim purpose does not match expected source purpose",
+        ));
+    }
+
+    let issues = store.root().join(".csdlc/issues");
+    if issues.exists() {
+        for entry in fs::read_dir(issues)? {
+            let path = entry?.path().join("index.json");
+            if !path.exists() {
+                continue;
+            }
+            let other: crate::IssueRecord = serde_json::from_slice(&fs::read(path)?)?;
+            if other.issue == request.issue || terminally_released(store, &other)? {
+                continue;
+            }
+            if let Some(other_claim) = other.claim {
+                if let Some((reserved, candidate)) =
+                    other_claim.protected_paths.iter().find_map(|reserved| {
+                        request
+                            .add_protected_paths
+                            .iter()
+                            .find(|candidate| overlaps(reserved, candidate))
+                            .map(|candidate| (reserved, candidate))
+                    })
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ClaimCollision,
+                        format!(
+                            "protected path '{}' overlaps requested '{}' from issue {} in phase {:?}",
+                            reserved, candidate, other.issue, other.phase
+                        ),
+                    ));
+                }
+            }
+        }
+    }
+
+    let expected_digest = record.digest.clone();
+    let claim = record.claim.as_mut().expect("validated claim");
+    let previous_purpose = std::mem::replace(&mut claim.purpose, request.purpose.clone());
+    claim
+        .protected_paths
+        .extend(request.add_protected_paths.iter().cloned());
+    claim.protected_paths.sort();
+    claim.protected_paths.dedup();
+    let transitioned = claim.clone();
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: request.reason,
+        operation: serde_json::json!({
+            "operation": "transition_active_claim",
+            "expected_owner": request.expected_owner,
+            "expected_purpose": request.expected_purpose,
+            "previous_purpose": previous_purpose,
+            "purpose": request.purpose,
+            "add_protected_paths": request.add_protected_paths,
+        })
+        .to_string(),
+    });
+    record.digest = crate::store::record_digest(&record)?;
+    store.replace_record(request.issue, &expected_digest, &record)?;
+    Ok(transitioned)
 }
 
 pub fn recover_claim(store: &Store, request: RecoverClaimRequest) -> Result<ClaimRecovery> {

@@ -1,0 +1,18 @@
+{
+  "issue": 5602,
+  "card": "sor",
+  "expected_generation": 1,
+  "expected_digest": "710430e0210e100071435a4e9988cb29b6272373c31f655d59363383cced7a3c",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+  "reason": "Focused coverage orchestration contracts and FastWork root proof pass.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "adl/tools/test_run_authoritative_coverage_lane.sh"],
+      "purpose": "Prove profile-only partition collection, explicit combined reporting, failure propagation, concurrency isolation, and unchanged gates; FastWork plan separately resolved under /Volumes/FastWork/adl-5602-coverage.",
+      "outcome": "passed",
+      "evidence_ref": "local:5602-authoritative-coverage-contract-pass"
+    }
+  }
+}

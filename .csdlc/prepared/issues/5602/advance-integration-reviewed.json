@@ -1,0 +1,14 @@
+{
+  "issue": 5602,
+  "card": "sor",
+  "expected_generation": 22,
+  "expected_digest": "e7e719f8019dda8105555b71f1f47b9fb3d44db176fb74a1572a87c642b6a4bd",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "The current-main integration merge received an exact-head no-findings review and retained the corrected tree byte-for-byte.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  },
+  "fail_after_backup": false
+}

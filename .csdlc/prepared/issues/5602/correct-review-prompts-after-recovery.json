@@ -1,0 +1,18 @@
+{
+  "issue": 5602,
+  "card": "srp",
+  "expected_generation": 15,
+  "expected_digest": "f6abc2e9bfc5c54e3747fd63f5bbabcef49238ea04fc751a9cfe9c98320ecd93",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f8189-841f-7bd1-805c-a1dfddf2056d",
+  "reason": "Correct the recovered SRP questions to review the implemented external-test coverage workflow instead of the superseded incompatible no-report design.",
+  "operation": {
+    "operation": "correct_review_prompts_after_recovery",
+    "values": [
+      "Does each workspace source cargo llvm-cov show-env before executing its partitioned cargo nextest runs?",
+      "Does each workspace emit exactly one explicit cargo llvm-cov report after all partition profiles are collected?",
+      "Do the focused contracts prove instrumentation export, partition failure propagation, run isolation, and unchanged coverage gates?"
+    ]
+  },
+  "fail_after_backup": false
+}

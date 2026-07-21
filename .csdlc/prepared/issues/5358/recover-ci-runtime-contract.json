@@ -1,0 +1,8 @@
+{
+  "issue": 5358,
+  "expected_generation": 33,
+  "expected_digest": "ec50587dbde71977da2bce9bff142c2b858836b1f083024f9925b8a3013e7711",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "Recover exact review and publication truth after PR #5606 run 29799791075 proved the stale ci-runtime contract still required conditional installation for tools consumed by always-run tooling contracts."
+}

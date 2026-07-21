@@ -1,0 +1,8 @@
+{
+  "issue": 5336,
+  "expected_generation": 27,
+  "expected_digest": "6bea45314ed9e1cd68491ffdf6ac763e2f25e832d8d4cec32c382555446c95e1",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Recover exact review after hosted CI proved process exhaustion in the cold adl-runtime companion build following the 1,406-test workspace run."
+}

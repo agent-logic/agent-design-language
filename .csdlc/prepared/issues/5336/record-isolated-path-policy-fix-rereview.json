@@ -1,0 +1,22 @@
+{
+  "issue": 5336,
+  "expected_generation": 42,
+  "expected_digest": "b110226d308c0d5ab07ae09dbefdf1b56ab01a6473c8f7c2955498f4fd0a3136",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+  "evidence": {
+    "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:02ef273a804dbd52dcc0d6ddb3adb0d16d0160ec:2ab4631b728b44094f94af6c70c9df7fb212a1a935e3f1c73a03d8c9ca53fde0",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

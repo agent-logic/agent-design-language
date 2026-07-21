@@ -1,0 +1,13 @@
+{
+  "issue": 5602,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "4757cfc837578e56bbb7a93e013e32b8031eb28ad55766a117a319d86dc2b763",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "The corrected coverage workflow and coupled CI contract received an exact-head no-findings review.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "issue": 5358,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "fc25b81ed0644ca6f31b036a03f2b9584d413654fd500e27c4771225e3821450",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "Typed PVF validation passed the #5358 doctor and diff-hygiene lanes with retained issue-local evidence.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "completed"
+  }
+}

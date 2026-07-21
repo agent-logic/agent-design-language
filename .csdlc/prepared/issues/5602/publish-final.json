@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 5602,
+  "expected_generation": 18,
+  "expected_digest": "ebdd52b01bd16c731ee2a8fddf49357f9037b562fa9f53b7639f2307d17ffe44",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "repository": "danielbaustin/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/5602-hosted-coverage-no-report",
+  "title": "[v0.91.8][CI] Complete external nextest coverage collection",
+  "body": "Follow-up to #5602.\n\nThe first repair used an incompatible cargo-llvm-cov flag pair. This correction uses cargo-llvm-cov's supported external-test workflow: clean and source show-env, execute partitioned cargo nextest run, and render one explicit combined report per workspace. Run-specific Cargo and llvm-cov targets preserve concurrent isolation.\n\nThe authoritative coverage contract and the coupled CI runtime contract both pass. Tests prove that the generated instrumentation environment is consumed, while selectors, partitions, summaries, thresholds, and fail-closed behavior remain intact. Final exact-head review returned no findings. No AWS or raw gh was used.",
+  "draft": true,
+  "token_file": null
+}

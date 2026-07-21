@@ -1,0 +1,24 @@
+{
+  "issue": 5602,
+  "expected_generation": 16,
+  "expected_digest": "c0822e80623df81596141987bbf722ae4084336ed890a9e62d9b32c2b92ec467",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
+  "evidence": {
+    "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/issues/5602",
+      ".csdlc/prepared/issues/5602"
+    ],
+    "reviewed_revision": "git-blake3:e85087c8e14082990225d44198457e3d1bed7678:464b71a45afbb27e672c88bc61025b4bf381dcfd2bb26bd558dcd4578f8255ea",
+    "findings": [],
+    "residual_risks": [
+      "The hosted instrumented workspace remains the integration proof for the complete llvm-cov renderer and profile set."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

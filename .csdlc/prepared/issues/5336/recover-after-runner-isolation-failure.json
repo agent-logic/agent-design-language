@@ -1,0 +1,8 @@
+{
+  "issue": 5336,
+  "expected_generation": 31,
+  "expected_digest": "30d33432436b08845f5a594c6809523eab81ad89bb534f3bc4bb87263b70e207",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Recover exact review after final hosted CI proved that sequential profile ordering cannot prevent cross-profile process exhaustion; independent fresh-runner coverage workers are required."
+}

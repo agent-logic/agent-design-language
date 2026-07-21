@@ -82,6 +82,23 @@ Diagram: .csdlc/prepared/issues/5336/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "coverage-orchestration-contract",
+    "proof_role": "Prove one bounded instrumented prebuild per profile, fail-closed profile cleanup, preserved causal status, and unchanged two-partition single-report execution",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "bash",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "parallel_group": "local-control",
+    "defer_reason": null
+  },
+  {
     "lane": "diff-hygiene",
     "proof_role": "Check the complete issue branch for patch hygiene",
     "acceptance_ids": [
@@ -117,6 +134,7 @@ Tokens: 50000
 - `bash adl/tools/report_runtime_v3_loc.sh`
 - `ruby .csdlc/prepared/issues/5336/validate_architecture_plan.rb`
 - `ruby .csdlc/prepared/issues/5336/validate_links.rb`
+- `bash adl/tools/test_run_authoritative_coverage_lane.sh`
 - `git diff --check origin/main...HEAD`
 
 ## Failure Semantics

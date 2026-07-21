@@ -1,0 +1,46 @@
+{
+  "issue": 5336,
+  "expected_generation": 33,
+  "expected_digest": "0d2cca5a0badc170471c1cfef4cec507bed1cce712669774ea6d93fa0f0ac702",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+  "evidence": {
+    "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/tools/test_merge_coverage_summaries.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:32f29ecc08ca8fb1fc5ffb12b933176e9eb9fa3b:5d6e34f2dff41947dc33b22e535e59172b879851af7454a96988836f3078d149",
+    "findings": [
+      {
+        "id": "text-summary-tee-status",
+        "severity": "p2",
+        "summary": "Text-summary generation ignored tee write failures and could report success with a missing or truncated release artifact.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "report-before-cleanup-test-gap",
+        "severity": "p2",
+        "summary": "The focused test did not require live current-run profraw data while generating release reports.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
