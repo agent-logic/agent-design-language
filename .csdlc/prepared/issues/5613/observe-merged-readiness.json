@@ -1,0 +1,15 @@
+{
+  "issue": 5613,
+  "expected_generation": 14,
+  "expected_digest": "a1991e1002ed8b72b8936f1096c44f2fb7ece2e91c3ab0f3ea5a909806aaf7e3",
+  "claim_id": "claim-5613-terminal-projection-repair",
+  "actor": "codex:issue-5613-owner",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5619,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "token_file": null
+}
