@@ -31,3 +31,6 @@
 {"sequence":31,"generation":24,"actor":"codex:5338-owner-watch","reason":"Exact substantive revision 44e8470ce has completed bounded review with no actionable findings after all remediations and fresh FastWork proof.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":32,"generation":25,"actor":"codex:5338-owner-watch","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":33,"generation":26,"actor":"codex:5338-owner-watch","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
+{"sequence":34,"generation":27,"actor":"codex:5338-owner-watch","reason":"atomically record observed merged GitHub publication and SOR projection","operation":"record_merged_publication"}
+{"sequence":35,"generation":28,"actor":"codex:5338-owner-watch","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":36,"generation":29,"actor":"codex:5338-owner-watch","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
