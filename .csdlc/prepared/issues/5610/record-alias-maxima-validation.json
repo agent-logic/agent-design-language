@@ -1,0 +1,19 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 21,
+  "expected_digest": "4d4b1def32aeb2722073d77b5c4666c1cb134354286831eb5e1a3a130f0588e5",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record focused and exact hosted-artifact proof for conservative canonical-alias coalescing.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "adl/tools/test_merge_coverage_summaries.sh"],
+      "purpose": "Prove conservative maxima coalescing, exact hosted artifact compatibility, malformed/schema/non-summary rejection, coupled CI contracts, and unchanged authoritative coverage behavior.",
+      "outcome": "passed",
+      "evidence_ref": "FastWork: synthetic merger regressions passed; exact run 29813137619 artifacts merged with agent_cmd.rs instantiations 246/61/185; py_compile, test_ci_runtime_contracts, test_run_authoritative_coverage_lane, test_coverage_authority_contract, and git diff --check passed."
+    }
+  },
+  "fail_after_backup": false
+}

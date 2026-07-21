@@ -1,0 +1,20 @@
+{
+  "issue": 5610,
+  "expected_generation": 5,
+  "expected_digest": "a29e31a4f880cd707ed59056d94adaed0ab72b26eb007910291060b557689c5f",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "subagent:review-5610",
+  "evidence": {
+    "reviewer": "subagent:review-5610",
+    "scope": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "reviewed_revision": "git-blake3:652e06ba304f43d5d7de801f24a88e3c78b08a71:50e37fa8a90a8964aad0d5f2f7dbbe287441c6becd620f2e2bd432700bc875b4",
+    "findings": [],
+    "residual_risks": [
+      "Normalization intentionally remains lexical and does not resolve filesystem symlinks; llvm-cov filename ownership consumes lexical provenance only."
+    ],
+    "completed": true
+  }
+}

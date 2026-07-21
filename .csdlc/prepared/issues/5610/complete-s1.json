@@ -1,0 +1,10 @@
+{
+  "issue": 5610,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "399165dbe72aff9bce3201fa8002964cee2c4dec82185295975152d923c4ab3d",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "The bounded lexical normalization and exact regressions are implemented.",
+  "operation": {"operation":"update_plan_step","step_id":"S1","status":"completed"}
+}

@@ -1,0 +1,382 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5610,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "cddcaba6cb5630f40f5a0351b4235eeec48846d450e812101f1ddb865a799e8f",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "93469f958633fee8e13356ae1cc07f03f5b2a0a3a2fb26fde2526ed8fe1259fa",
+  "claim": {
+    "id": "claim-5610-coverage-path-normalization",
+    "owner": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+    "generation": 23,
+    "acquired_unix_seconds": 1784618518,
+    "expires_unix_seconds": 1784704918,
+    "heartbeat_unix_seconds": 1784618518,
+    "branch": "codex/5610-coverage-path-normalization",
+    "worktree": ".",
+    "protected_paths": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "purpose": "Normalize safe in-repo coverage paths without weakening traversal rejection"
+  },
+  "review_assignment": {
+    "reviewer": "coordinator:exact-review-5610-alias-maxima",
+    "assigned_by": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+    "revision": "git-blake3:a799b468904c07d42ce13b933db47cb3bf3a1dc0:f4b9a2bd513860697fff8ecbf81abe56565c25f149ba6895914cd7c7c7ade4c9",
+    "scope": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "coordinator:exact-review-5610-alias-maxima",
+    "scope": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "reviewed_revision": "git-blake3:a799b468904c07d42ce13b933db47cb3bf3a1dc0:f4b9a2bd513860697fff8ecbf81abe56565c25f149ba6895914cd7c7c7ade4c9",
+    "findings": [],
+    "residual_risks": [
+      "Summary-only canonical-alias coalescing is conservative rather than an exact covered-set union because producer summaries do not retain covered-set identity."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5610/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5610/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "revision": "263277f2da12412a98233272e0d5b6d1a8f57661f01f4179fc7152adf52a577d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d8a0f4ad34f22a02e9cea46c44b52378078c63be4709a889b0ce4d486d2b58a5",
+      "rendered_digest": "68787b8f8b1004bb2426f04d06a7eef1bf77a34102917f9c355c1cd561e9c35c",
+      "ast_digest": "88188682e91c60b78c657dd575f86dfef12923aab2bac61e31f9240aef1e0d3a"
+    },
+    "stp": {
+      "values_digest": "385d295cbab7d2780750ac8ce90b07d9d0b30283bfbace2f807220a8c3a02761",
+      "rendered_digest": "715210a73a70eed839ca547d894e1610fef3d20a63f9fae7c3f5f6593268ee77",
+      "ast_digest": "897dffc44f6e90e4a43aff7a5bd7bd267798b12cc24a99a798ad070094dc9adf"
+    },
+    "spp": {
+      "values_digest": "8703a27e80eb2eaf5e1ccf9f5ebbdd1210f7ca2b0c84900395200f851f7e9f85",
+      "rendered_digest": "dd9ed39b9003aa964b0a402eae1f9fb6b0e11b7b39a387d69035bf23cdb69c3b",
+      "ast_digest": "dd8ca034113c78d59c03b558bdbfa2a2c36f4311b599bfca4cfb403b93b9d9ed"
+    },
+    "vpp": {
+      "values_digest": "40c7cb3a4ffc7ed7f1d94aa51d431de2ca6cfd8a5e168253ae0b0deed39ed620",
+      "rendered_digest": "2cf20a7741d9893350f646ba6154eb142a6a242c1f3bb2f099d2be71f1aadc08",
+      "ast_digest": "f15cbfbc09e2d4ae8a1e892a2a34cf09ab333575e40ebbf1f98a07f8b784291d"
+    },
+    "srp": {
+      "values_digest": "dbe5f342d55d5a662f5607d7944dbf5d2b33f299dc132586f96b9cf843943664",
+      "rendered_digest": "53ea647a8b789382e083308b8b80db58960355dd78bcb2b10278eec7ae9d66c3",
+      "ast_digest": "656eb7ef1d0e99df8252bb74ffb08d827e5e750d3e7708de2541e24af208e155"
+    },
+    "sor": {
+      "values_digest": "028524f1ee632ddcd51c1f62699937e3714ec196ba786eec3d82bd0e1cc15c7f",
+      "rendered_digest": "19a6edf72fdc709011f94bd2246bafc11f4e5fb08d73ad2b7826fee5cd7a5ab8",
+      "ast_digest": "2b8984bf66a78a8576fbf2ed52cfccaee106726b9512420cb5682a3deb62955f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "The two-file correction and focused local proof are complete and ready for exact-head review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Exact-head review completed with no findings and unchanged provenance/coverage gates."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Current main advanced after publication; recover stale exact-head review and publication truth before re-reviewing the merged head."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Current-main integrated head was re-reviewed with no findings; scoped blobs are byte-identical and focused proof passes."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Exact-head hosted aggregate exposed canonical aliases with identical records; recover publication review truth for the bounded fail-closed correction."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Exact correction head passed focused contracts and bounded review with no findings."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Recover review truth after exact hosted evidence required conservative canonical-alias maxima coalescing; the prior owner was explicitly stopped and the coordinator assigned this actor as sole replacement writer."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Exact scoped review passed with no findings after artifact-grounded implementation and validation."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Record the bounded, previously reviewed two-file shared coverage correction.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Normalize compiler-emitted coverage filenames lexically before ownership matching while failing closed on repository-prefix or owned-root traversal escapes.\",\"changes\":[\"Normalize slash-unified filenames with POSIX lexical semantics\",\"Permit bounded parent traversal only beneath the owned source root\",\"Add exact safe-path and repository/owned-root escape regressions\"],\"artifacts\":[\"adl/tools/merge_coverage_summaries.py\",\"adl/tools/test_merge_coverage_summaries.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Record focused FastWork coverage merger and coupled CI contract proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_merge_coverage_summaries.sh\"],\"purpose\":\"Prove exact safe lexical normalization, repository and owned-root escape rejection, unchanged merge semantics, and coupled authoritative coverage contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork: test_merge_coverage_summaries, test_ci_runtime_contracts, and test_run_authoritative_coverage_lane all passed; py_compile and git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "The bounded lexical normalization and exact regressions are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Focused FastWork contracts and the first bounded review cycle are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "The two-file correction and focused local proof are complete and ready for exact-head review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:review-5610",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Exact-head review completed with no findings and unchanged provenance/coverage gates.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Current main advanced after publication; recover stale exact-head review and publication truth before re-reviewing the merged head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "subagent:review-5610-current-main",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Current-main integrated head was re-reviewed with no findings; scoped blobs are byte-identical and focused proof passes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Exact-head hosted aggregate exposed canonical aliases with identical records; recover publication review truth for the bounded fail-closed correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Record the bounded exact-head aggregate repair exposed by hosted coverage.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Coalesce canonical coverage aliases only when their complete normalized records are identical, while failing closed on conflicts.\",\"changes\":[\"Deduplicate identical complete records after ownership canonicalization\",\"Reject conflicting records for the same canonical owned filename\",\"Add exact identical-alias acceptance and conflicting-alias rejection regressions\"],\"artifacts\":[\"adl/tools/merge_coverage_summaries.py\",\"adl/tools/test_merge_coverage_summaries.sh\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Record focused proof for identical alias coalescing and conflicting alias rejection.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_merge_coverage_summaries.sh\"],\"purpose\":\"Prove complete-record equality is required before canonical alias coalescing and conflicts remain fail-closed.\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork: py_compile, test_merge_coverage_summaries, test_ci_runtime_contracts, test_run_authoritative_coverage_lane, and git diff --check all passed.\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "subagent:review-5610-alias-dedup",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+      "reason": "Exact correction head passed focused contracts and bounded review with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Recover review truth after exact hosted evidence required conservative canonical-alias maxima coalescing; the prior owner was explicitly stopped and the coordinator assigned this actor as sole replacement writer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "coordinator:exact-review-5610-alias-maxima",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record the artifact-grounded conservative canonical-alias correction.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Coalesce lexical aliases for one canonical coverage file conservatively from summary-only evidence.\",\"changes\":[\"Require identical metric-name and per-metric field schemas plus identical non-summary fields\",\"Use per-metric maximum count and covered values without summing\",\"Recompute notcovered and percent for every coalesced metric\",\"Add exact artifact-derived and fail-closed regressions\"],\"artifacts\":[\"adl/tools/merge_coverage_summaries.py\",\"adl/tools/test_merge_coverage_summaries.sh\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record focused and exact hosted-artifact proof for conservative canonical-alias coalescing.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_merge_coverage_summaries.sh\"],\"purpose\":\"Prove conservative maxima coalescing, exact hosted artifact compatibility, malformed/schema/non-summary rejection, coupled CI contracts, and unchanged authoritative coverage behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"FastWork: synthetic merger regressions passed; exact run 29813137619 artifacts merged with agent_cmd.rs instantiations 246/61/185; py_compile, test_ci_runtime_contracts, test_run_authoritative_coverage_lane, test_coverage_authority_contract, and git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Exact scoped review passed with no findings after artifact-grounded implementation and validation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    }
+  ]
+}
