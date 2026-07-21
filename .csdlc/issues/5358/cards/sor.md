@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented fail-closed ready-publication validation and deterministic recovery after ambiguous remote success or local CAS failure.
+Completed C-SDLC v2 publication lifecycle acceptance and repaired the always-run tooling-contract prerequisites exposed by exact PR CI.
 
 ## Artifacts
 
@@ -20,12 +20,16 @@ Implemented fail-closed ready-publication validation and deterministic recovery 
 - csdlc-v2/src/bin/csdlc-publish.rs
 - csdlc-v2/src/lib.rs
 - csdlc-v2/tests/gate7_lifecycle.rs
+- .github/workflows/ci.yaml
+- adl/tools/test_ci_path_policy.sh
 
 ## Execution
 
 - Validate remote open/draft state and exact base/head repository, ref, and SHA before and after mark-ready.
 - Record ready state only from confirmed remote observations and support typed ready reconciliation from reviewed or governed draft state.
 - Add command-level loopback HTTP tests for success, identity drift, closed/non-draft state, remote failures, ambiguous confirmation, and CAS recovery.
+- Install cargo-llvm-cov and cargo-nextest unconditionally before the always-run tooling contracts.
+- Make the CI path-policy contract reject reintroduction of the invalid conditional tool installation.
 
 ## Validation
 
@@ -77,16 +81,27 @@ Implemented fail-closed ready-publication validation and deterministic recovery 
     "purpose": "Deploy and prove the stable v2 binary set from exact head 2059e03007f7056b96a3f12ace7e018ee2f6153a, with v1_sunset coexistence and v2 selector authority.",
     "outcome": "passed",
     "evidence_ref": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/install-receipt.json"
+  },
+  {
+    "command": [
+      "bash -n adl/tools/test_ci_path_policy.sh",
+      "bash adl/tools/test_ci_path_policy.sh",
+      "bash adl/tools/test_check_coverage_impact.sh",
+      "git diff --check"
+    ],
+    "purpose": "Prove the workflow always installs tools required by its always-run tooling contracts and preserve all existing path-policy and coverage-impact behavior.",
+    "outcome": "passed",
+    "evidence_ref": "local:pr-5606-run-29798806089-toolchain-repair"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
