@@ -42,12 +42,14 @@ Prepare and validate the complete Parity-B execution contract now; do not implem
 - #5336 reviewed architecture, feature-ledger, and budget authority
 - clean reviewed #5591 Parity-A canonical ingress and continuity contract before any product implementation
 - typed active-claim ledger showing a collision-free narrow Parity-B product scope
+- #5341 is downstream of the reviewed #5591 canonical ingress and accepted #5592 graph/event contract and grants no implementation authority here
 - #5107 downstream adaptive-learning DAG queue boundary
 - retained v0.91.7 reasoning, affect, curiosity, Constructability, Godel, economics-context, and skill-standard contracts
 
 ## Inputs
 
-- .adl/local-artifacts/wp5594/live-v0918-issues.json issue 5592 body
+- .csdlc/prepared/issues/5592/source-authority.json operator-directed canonical title authority
+- .adl/local-artifacts/wp5594/live-v0918-issues.json mutable operator snapshot for issue 5592 body provenance only; not canonical live truth
 - .csdlc/prepared/issues/5592/design.md
 - .csdlc/prepared/issues/5592/acceptance-matrix.md
 - docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md

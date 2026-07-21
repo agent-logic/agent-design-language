@@ -22,3 +22,12 @@ must inspect the exact claim ledger and reviewed module boundary. It may then
 use typed `csdlc-bind` to add only collision-free Parity-B modules, focused
 tests, and `.csdlc/evidence/5592`. Broad directory ownership, Runtime v2 paths,
 or any collision remains a stop condition.
+
+## Reviewed Range Proof
+
+The final preparation review retains an explicit path inventory from base
+`6d0f6115632a06619544b8ad4792792e741f1f31` to the reviewed preparation
+final head. `validate_range_scope.rb HEAD` resolves and reports both exact
+commit identities, runs `git diff --check` on that exact two-dot range, fails
+on an empty inventory, permits only the three claimed preparation surfaces
+above, and rejects product or Runtime v2 paths.

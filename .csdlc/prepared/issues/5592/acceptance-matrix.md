@@ -44,3 +44,12 @@ granted by this preparation packet.
 | Product protected paths | No disjoint product claim is presently truthful | Inspect the post-#5591 ledger and amend through typed `csdlc-bind` to exact modules/tests/evidence only |
 | Runtime v2 | Retained behavior source, forbidden implementation source | Use contracts and black-box behavior only; no source reuse or parity execution credit |
 | Publication | Not authorized | Remain unpublished until implementation, validation, and review gates are separately satisfied |
+| #5341 downstream consumer | Depends on the reviewed #5591 ingress and accepted #5592 graph/event contract | Grants no implementation authority here; consume only after its upstream contracts are accepted |
+
+## Exact Future Test Inventory
+
+Focused live-kernel credit is limited to the exact identities in
+`future-live-test-inventory.json`, discovered under the dedicated future
+`parity_b_live_kernel` integration-test target and executed by
+`run_exact_live_test_lane.rb`. Zero exact matches fail. Substring matches and
+the existing adaptive-learning metadata test are explicitly non-proving.

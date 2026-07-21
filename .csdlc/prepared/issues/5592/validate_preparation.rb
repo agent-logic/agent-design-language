@@ -25,6 +25,16 @@ end
 cards = documents.transform_values { |document| document.fetch("content").fetch("values") }
 
 initial = read_json(".csdlc/prepared/issues/5592/bootstrap-request.json").fetch("initial")
+source_authority = read_json(".csdlc/prepared/issues/5592/source-authority.json")
+canonical_title = source_authority.fetch("canonical_title")
+abort "operator-directed source authority is not canonical" unless source_authority.fetch("authority") == "operator_directive_2026-07-20"
+abort "mutable snapshot is incorrectly authoritative" unless source_authority.fetch("snapshot_is_canonical_live_truth") == false
+abort "bootstrap title is not the canonical WP-14 title" unless initial.fetch("title") == canonical_title && canonical_title.include?("[WP-14]")
+abort "existing card title role is ambiguous" unless source_authority.fetch("existing_card_identity_role") == "immutable_initialization_provenance_not_canonical_title_authority"
+abort "existing card title API limitation is unstated" unless source_authority.fetch("existing_card_identity_reason") == "supported_typed_v2_api_has_no_title_rewrite_operation"
+historical_card_title = source_authority.fetch("existing_card_identity_title")
+abort "typed card initialization identities drifted" unless documents.values.all? { |document| document.dig("identity", "title") == historical_card_title }
+abort "historical card title incorrectly claims canonical authority" if historical_card_title == canonical_title
 {
   "goal" => cards.fetch("sip").fetch("goal"),
   "required_outcome" => cards.fetch("sip").fetch("required_outcome"),
@@ -62,12 +72,27 @@ abort "native projection authority is not 1.0.0" unless registry.dig("generation
 git_common_dir, git_common_result = Open3.capture2("git", "rev-parse", "--git-common-dir")
 abort "cannot resolve shared repository root" unless git_common_result.success?
 shared_root = File.dirname(File.expand_path(git_common_dir.strip))
-issue_source = read_json(File.join(shared_root, ".adl/local-artifacts/wp5594/live-v0918-issues.json"))
+issue_source = read_json(File.join(shared_root, source_authority.fetch("retained_snapshot")))
 issue = issue_source.find { |entry| (entry["number"] || entry["issue_number"]) == ISSUE }
-abort "live issue source missing" unless issue
-abort "live issue title mismatch" unless documents.fetch("sip").fetch("identity").fetch("title") == issue.fetch("title")
+abort "retained issue-body snapshot missing" unless issue
 %w[reasoning graphs bounded loops adaptive learning governed cognition].each do |term|
-  abort "live issue body missing #{term}" unless issue.fetch("body").downcase.include?(term)
+  abort "retained issue-body snapshot missing #{term}" unless issue.fetch("body").downcase.include?(term)
+end
+
+inventory = read_json(".csdlc/prepared/issues/5592/future-live-test-inventory.json")
+abort "future inventory issue mismatch" unless inventory.fetch("issue") == ISSUE
+abort "future inventory is not live-kernel proof" unless inventory.fetch("proof_class") == "future_live_kernel"
+abort "future inventory does not reject zero matches" unless inventory.fetch("zero_matches") == "fail"
+abort "future inventory can credit mutable metadata" unless inventory.fetch("forbidden_credit").include?("metadata")
+future_lanes = inventory.fetch("lanes")
+abort "future inventory must contain seven exact lanes" unless future_lanes.length == 7
+future_tests = future_lanes.flat_map { |lane| lane.fetch("exact_tests") }
+abort "future inventory contains empty or duplicate exact identities" if future_tests.any?(&:empty?) || future_tests.uniq != future_tests
+vpp_lanes = cards.fetch("vpp").fetch("lanes").to_h { |lane| [lane.fetch("lane"), lane] }
+future_lanes.each do |lane|
+  id = lane.fetch("id")
+  argv = vpp_lanes.fetch(id).fetch("argv")
+  abort "VPP lane #{id} is not bound to the exact runner" unless argv == ["ruby", ".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb", "--lane", id]
 end
 
 by_number = ->(id) { id.delete_prefix("AC-").to_i }
@@ -85,6 +110,10 @@ non_goals = cards.fetch("stp").fetch("non_goals").join("\n")
 review_scope = cards.fetch("srp").fetch("review_scope")
 abort "#5591 clean-review stop missing" unless dependencies.include?("clean reviewed #5591") && dependencies.include?("before any product implementation")
 abort "typed collision-free claim gate missing" unless dependencies.include?("typed active-claim ledger") && dependencies.include?("collision-free narrow Parity-B")
+abort "#5341 downstream truth missing" unless dependencies.include?("#5341 is downstream") && dependencies.include?("grants no implementation authority")
+repo_inputs = cards.fetch("stp").fetch("repo_inputs").join("\n")
+abort "operator-directed title authority missing" unless repo_inputs.include?("source-authority.json operator-directed canonical title authority")
+abort "mutable snapshot authority is ambiguous" unless repo_inputs.include?("mutable operator snapshot") && repo_inputs.include?("not canonical live truth")
 abort "typed-only constraint missing" unless constraints.include?("typed C-SDLC v2")
 abort "adversarial signal constraint missing" unless constraints.include?("untrusted signals") && constraints.include?("cannot create authority")
 abort "safe affect non-claims missing" unless constraints.include?("affect") && constraints.include?("non-claims") && non_goals.include?("subjective affect")

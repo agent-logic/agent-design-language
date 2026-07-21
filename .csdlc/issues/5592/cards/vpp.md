@@ -35,11 +35,10 @@ Diagram: .csdlc/prepared/issues/5592/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "live_reasoning_graph"
+      "ruby",
+      ".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb",
+      "--lane",
+      "runtime-v3-parity-b-live-graph"
     ],
     "parallel_group": "parity-b-live",
     "defer_reason": null
@@ -56,11 +55,10 @@ Diagram: .csdlc/prepared/issues/5592/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "bounded_loop"
+      "ruby",
+      ".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb",
+      "--lane",
+      "runtime-v3-parity-b-bounded-loop"
     ],
     "parallel_group": "parity-b-live",
     "defer_reason": null
@@ -77,11 +75,10 @@ Diagram: .csdlc/prepared/issues/5592/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "adaptive_learning"
+      "ruby",
+      ".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb",
+      "--lane",
+      "runtime-v3-parity-b-adaptation"
     ],
     "parallel_group": "parity-b-learning",
     "defer_reason": null
@@ -99,11 +96,10 @@ Diagram: .csdlc/prepared/issues/5592/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "affect_isolation"
+      "ruby",
+      ".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb",
+      "--lane",
+      "runtime-v3-parity-b-affect-isolation"
     ],
     "parallel_group": "parity-b-cognition",
     "defer_reason": null
@@ -121,11 +117,10 @@ Diagram: .csdlc/prepared/issues/5592/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "curiosity_boundary"
+      "ruby",
+      ".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb",
+      "--lane",
+      "runtime-v3-parity-b-curiosity-boundary"
     ],
     "parallel_group": "parity-b-cognition",
     "defer_reason": null
@@ -143,11 +138,10 @@ Diagram: .csdlc/prepared/issues/5592/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "governed_cognition_authority"
+      "ruby",
+      ".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb",
+      "--lane",
+      "runtime-v3-parity-b-authority"
     ],
     "parallel_group": "parity-b-negative",
     "defer_reason": null
@@ -164,11 +158,10 @@ Diagram: .csdlc/prepared/issues/5592/diagram.mmd
     "budget_seconds": 120,
     "budget_tokens": 1000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "feature_disposition"
+      "ruby",
+      ".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb",
+      "--lane",
+      "runtime-v3-parity-b-feature-dispositions"
     ],
     "parallel_group": "parity-b-quality",
     "defer_reason": null
@@ -260,13 +253,13 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml live_reasoning_graph`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml bounded_loop`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml adaptive_learning`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml affect_isolation`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml curiosity_boundary`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml governed_cognition_authority`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml feature_disposition`
+- `ruby .csdlc/prepared/issues/5592/run_exact_live_test_lane.rb --lane runtime-v3-parity-b-live-graph`
+- `ruby .csdlc/prepared/issues/5592/run_exact_live_test_lane.rb --lane runtime-v3-parity-b-bounded-loop`
+- `ruby .csdlc/prepared/issues/5592/run_exact_live_test_lane.rb --lane runtime-v3-parity-b-adaptation`
+- `ruby .csdlc/prepared/issues/5592/run_exact_live_test_lane.rb --lane runtime-v3-parity-b-affect-isolation`
+- `ruby .csdlc/prepared/issues/5592/run_exact_live_test_lane.rb --lane runtime-v3-parity-b-curiosity-boundary`
+- `ruby .csdlc/prepared/issues/5592/run_exact_live_test_lane.rb --lane runtime-v3-parity-b-authority`
+- `ruby .csdlc/prepared/issues/5592/run_exact_live_test_lane.rb --lane runtime-v3-parity-b-feature-dispositions`
 - `cargo tree --manifest-path adl-runtime-kernel/Cargo.toml`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml`
 - `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings`

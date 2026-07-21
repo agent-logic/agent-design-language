@@ -1,11 +1,11 @@
 {
   "issue": 5592,
   "card": "stp",
-  "expected_generation": 9,
-  "expected_digest": "a486bb2eed30a57d54a50ea5c3219cc2efc1484ce75977e8591c735ca632c462",
+  "expected_generation": 13,
+  "expected_digest": "ac20cf9d12d3e15843e513d1094d77595f07e3f1f76544189227a9b577ff8a79",
   "claim_id": "claim-5592-runtime-v3-parity-b-preparation",
   "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-  "reason": "Converge refined preparation contract field stp-inputs",
+  "reason": "Separate immutable operator title authority from mutable issue-body snapshot provenance",
   "operation": {
     "operation": "replace_planning_collection",
     "field": "repo_inputs",

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1c74c7bae3e2de8bfd446db896c8ef31d1ef2a3a4997e018ec8f06dc647017b6",
   "phase": "bound",
-  "generation": 11,
-  "digest": "c4f5a1378ec6f7b4ab9c96441356cd46b90788ce2f50efc8f658531a49688049",
+  "generation": 15,
+  "digest": "3ceb6db515b6f93fe8467b44c9dbafbdab8db0b1701dddb157e308de6e5a1f51",
   "claim": {
     "id": "claim-5592-runtime-v3-parity-b-preparation",
     "owner": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-    "generation": 11,
+    "generation": 15,
     "acquired_unix_seconds": 1784601544,
     "expires_unix_seconds": 1785206344,
     "heartbeat_unix_seconds": 1784601544,
@@ -33,37 +33,37 @@
   "design_review": {
     "approved": {
       "reviewer": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-      "revision": "9f7a795ea0444e06d4c23a8b427c124aa1a958d2d2f80a39b53c0b0ed2d607c5"
+      "revision": "4fe10bb664da859777129704939d5eef22ec52996d5f951911c0149574be658a"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "db2ef52a9b9e29c1ef587a37d47a28b0cff6fd08e5a6554990d4c73af9e0a754",
+      "values_digest": "4275e3b6624e5703c7a50e81a3411585074f11b83ba1312d1ff294a12b693098",
       "rendered_digest": "a4369423ad1bb8d1afb5cfe47874314d77ab0c610cdaeee04a22be089876740f",
       "ast_digest": "e4bbee25a2f2ee6c9054c13f2b187d71bbd2a7ff6995e4350fa22249ce55304d"
     },
     "stp": {
-      "values_digest": "642aa79fde391216e37f65701f0a684c6a7d50ba8278ba3cab4454a9737c99dc",
-      "rendered_digest": "498c63b4b52cb4c3a4495fd1b98c37c862d8797656fc238a9761322d70faf87a",
-      "ast_digest": "6a9d1b90592af740a2d0a4fc525e11f869ec0b8db9e163d2e6d57d7c0d7577b2"
+      "values_digest": "ad33a972cca4631c7472439cbadcdc1bc4a53db4b8469057a78aa7100e264a32",
+      "rendered_digest": "2d44dbaacfdeb4e7b8317cd412cd1f1358fe50bd483ca9ec0724e439f2e2f026",
+      "ast_digest": "5b87e6ca43305b7dd447de7722131a31ef75170a53dfac275ae737a3c38ac1a4"
     },
     "spp": {
-      "values_digest": "69129499ad7722bf5111edf022f3594e311a08777445baeac9992f01240930d3",
-      "rendered_digest": "08c675bcc14a9b9160e5a2d34446a6c36ea0f6ceb3c8c2b25dc8dba467fdbb7e",
-      "ast_digest": "402e6a318c64f8d4bd6617c481dfddb22029543dd9ffeecf21f0c6749e4ac5c1"
+      "values_digest": "e85b168b639da724dcaafff212db5e88c049257889f3b25785cf604f49750688",
+      "rendered_digest": "de62d9ed9c1233e7048b5d92bda98771d2058923e7c1867ab5c18fa7f844ff87",
+      "ast_digest": "4cb96791baf4a02323bb943ac3fcf76e77b08afcf6cbc799e070386569eb9e0a"
     },
     "vpp": {
-      "values_digest": "0f03def4eba09fbe44d843d98105eed9df43a153863f89874e1d43728d5d8e1e",
-      "rendered_digest": "e18272dd7ecc719939eb53d6dba254eeed927fafd2a50b37bc76a1a57fb47cb0",
-      "ast_digest": "50c0fcc1d4b02845190407a5fcabbb7fd571a0fba6aa665af0483b15a4bfd2df"
+      "values_digest": "2a455ef0979c1848246237f537601c0f952bfefbcac9a29a058d56bed205c425",
+      "rendered_digest": "2820cad061abc84765b2e7b4ae4c76659f3aad102c13629e1d12dd1837184b9b",
+      "ast_digest": "2e23a756badf61748cce137b53bab1efade6df4bd9b288adfc376c4f2c6ebbe6"
     },
     "srp": {
-      "values_digest": "29a7e929427c9b36bdd5660de234c5fb55df804661713afa7f94c15e48317626",
+      "values_digest": "e335289419c286999788cc97abec10df4cec3ce77f4d699fd63c01b1cdbabb06",
       "rendered_digest": "1040941ebae489bc92d130793c55e622eeb27e8aa7a786c608ff412e0c47caac",
       "ast_digest": "f76c060d4e10fb25400059b7961a9d53026a4706ff894add5da91daaec16a1a8"
     },
     "sor": {
-      "values_digest": "a51f5dd2092faabb20b0b78d24a647986bdb3f4f9aede1d4cecf321fd533e8f8",
+      "values_digest": "2cc743ad78b637cd0f9883ec632040b9c42b3b947b8fee341532e24ae88497cf",
       "rendered_digest": "5b3bebd808acc5a0430ad859d9dd195feb6c3cbe34f0ddcae5dec28bdbfad157",
       "ast_digest": "bc83d08aaa0c655691e60ec8f5d629a35aa74502f46ad3bfd92f50205eade1c1"
     }
@@ -175,6 +175,34 @@
       "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
       "reason": "Converge refined preparation contract field stp-non-goals",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"product implementation, product-path binding, publication, or acceptance before clean reviewed #5591\",\"Runtime v2 source reuse, modification, execution credit, defaulting, cutover, deletion, or replacement claim\",\"AWS, provider deployment, hosted-provider proof, model training, or new product scope\",\"subjective affect, wellbeing, suffering, consciousness, mind-reading, personhood, scalar reward, or reputation claims\",\"autonomous or recursive self-improvement, complete GHB runtime, birthday, guild authority, payment, settlement, marketplace, or broader v0.94/v0.95 completion\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
+      "reason": "Record #5341 as a downstream consumer with no preparation authority",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5361 Runtime v3 acceptance umbrella\",\"#5336 reviewed architecture, feature-ledger, and budget authority\",\"clean reviewed #5591 Parity-A canonical ingress and continuity contract before any product implementation\",\"typed active-claim ledger showing a collision-free narrow Parity-B product scope\",\"#5341 is downstream of the reviewed #5591 canonical ingress and accepted #5592 graph/event contract and grants no implementation authority here\",\"#5107 downstream adaptive-learning DAG queue boundary\",\"retained v0.91.7 reasoning, affect, curiosity, Constructability, Godel, economics-context, and skill-standard contracts\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
+      "reason": "Separate immutable operator title authority from mutable issue-body snapshot provenance",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\".csdlc/prepared/issues/5592/source-authority.json operator-directed canonical title authority\",\".adl/local-artifacts/wp5594/live-v0918-issues.json mutable operator snapshot for issue 5592 body provenance only; not canonical live truth\",\".csdlc/prepared/issues/5592/design.md\",\".csdlc/prepared/issues/5592/acceptance-matrix.md\",\"docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md\",\"docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md\",\"docs/planning/ADL_FEATURE_LIST.md\",\"docs/milestones/v0.91.7/features/AFFECT_HAPPINESS_BRIDGE_v0.91.7.md\",\"docs/milestones/v0.91.7/features/GODEL_MECHANICS_BRIDGE_v0.91.7.md\",\"docs/milestones/v0.91.7/features/ECONOMICS_CONTEXT_DECISION_v0.91.7.md\",\"docs/milestones/v0.94/features/REASONING_GRAPH_BASELINE_v0.94.md\",\"adl-runtime-kernel/Cargo.toml and current production module/test inventory\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
+      "reason": "Replace ambiguous substring Cargo filters with checked exact future live-kernel lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-v3-parity-b-live-graph\",\"proof_role\":\"Prove guardian-launched canonical-ingress production reasoning graph execution and deterministic retained transitions\",\"acceptance_ids\":[\"AC-1\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-live-graph\"],\"parallel_group\":\"parity-b-live\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-bounded-loop\",\"proof_role\":\"Prove bounded convergence, exhaustion, cancellation, checkpoint, replay, and resume without budget reset or duplicate effects\",\"acceptance_ids\":[\"AC-2\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-bounded-loop\"],\"parallel_group\":\"parity-b-live\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-adaptation\",\"proof_role\":\"Prove provenance-bound observation, signed one-shot mutation, atomic durability, deterministic recovery, and rollback positives and negatives\",\"acceptance_ids\":[\"AC-3\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-adaptation\"],\"parallel_group\":\"parity-b-learning\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-affect-isolation\",\"proof_role\":\"Prove bounded affect reasoning-control, safe non-claims, adversarial task-signal isolation, and monotonic authority\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-affect-isolation\"],\"parallel_group\":\"parity-b-cognition\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-curiosity-boundary\",\"proof_role\":\"Prove bounded curiosity and confidence-scored theory-of-mind task models cannot create tool, network, disclosure, mutation, or policy authority\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-curiosity-boundary\"],\"parallel_group\":\"parity-b-cognition\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-authority\",\"proof_role\":\"Prove cognition, review, adaptation, replay, and restart preserve Freedom Gate, shutdown, cancellation, resource, and review authority under adversarial inputs\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-authority\"],\"parallel_group\":\"parity-b-negative\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-feature-dispositions\",\"proof_role\":\"Validate one truthful proof-bearing disposition for every owned feature row and reject metadata-only live credit\",\"acceptance_ids\":[\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5592/run_exact_live_test_lane.rb\",\"--lane\",\"runtime-v3-parity-b-feature-dispositions\"],\"parallel_group\":\"parity-b-quality\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-independence\",\"proof_role\":\"Reject Runtime v2 source/execution coupling, premature deletion, AWS, default switch, and unsupported claims while inventorying proven duplicate reasoning paths\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"tree\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"parity-b-quality\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-live-kernel\",\"proof_role\":\"Run the complete canonical Runtime v3 kernel suite after focused live and negative proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"parity-b-full\",\"defer_reason\":null},{\"lane\":\"runtime-v3-parity-b-quality\",\"proof_role\":\"Prove strict warning-free code and preserve the integrated source/module/test budget without reducing behavior or negative proof\",\"acceptance_ids\":[\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--all-features\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"parity-b-quality\",\"defer_reason\":null}]}"
     }
   ]
 }

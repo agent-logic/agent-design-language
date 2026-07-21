@@ -1,11 +1,11 @@
 {
   "issue": 5592,
   "card": "stp",
-  "expected_generation": 8,
-  "expected_digest": "4062a21570e7557890149b436a87e306776a37fd73f4e927fe9f3d153ec6243c",
+  "expected_generation": 12,
+  "expected_digest": "71123c65f8d5e4296018858de3720ae0902d37e9eb43c704ca1c13774f6a9794",
   "claim_id": "claim-5592-runtime-v3-parity-b-preparation",
   "actor": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-  "reason": "Converge refined preparation contract field stp-dependencies",
+  "reason": "Record #5341 as a downstream consumer with no preparation authority",
   "operation": {
     "operation": "replace_planning_collection",
     "field": "dependencies",

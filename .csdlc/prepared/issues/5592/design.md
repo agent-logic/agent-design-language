@@ -23,6 +23,9 @@ publication, cutover, Runtime v2 deletion, or a Runtime v3 default switch.
   operational adapters from #5589, or access/Observatory/rollback from #5590.
 - #5107 remains the downstream adaptive-learning DAG queue; #5592 owns only the
   bounded Runtime v3 execution and authority contract required for parity.
+- #5341 is downstream of the reviewed #5591 canonical ingress and the accepted
+  #5592 graph/event contract. It grants no implementation authority to this
+  preparation lane.
 
 ## Canonical Runtime Path
 
@@ -147,6 +150,14 @@ negative evidence proving:
 - Freedom Gate, shutdown, constructability, and review non-bypass;
 - complete feature dispositions and no Runtime v2 implementation reuse;
 - exact #5336 budget, dependency, source-line, module, and test-count truth.
+
+The seven focused future proof lanes are declared in
+`future-live-test-inventory.json`. Each lane names an exact test identity in the
+dedicated future `parity_b_live_kernel` integration target. The checked runner
+lists that target first, fails if there are zero exact matches, then invokes
+each exact test with Cargo's `--exact` filter. Existing parity metadata tests,
+including the old adaptive-learning DAG metadata proof, cannot satisfy this
+contract.
 
 ## Failure And Rollback
 
