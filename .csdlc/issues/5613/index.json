@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "07b04572fcd246d29c269aaca54e7008ed6db05c08914a976a6f6a506f7fb4fc",
   "phase": "bound",
-  "generation": 2,
-  "digest": "224b8f198fc594027c046a2cac3c0f068a27797697928d9db0c65069b96a7723",
+  "generation": 3,
+  "digest": "b6be61169a657f6556acfb71906747addb237c9c6aec2512ce01c3ffd419a433",
   "claim": {
     "id": "claim-5613-terminal-projection-repair",
     "owner": "codex:issue-5613-owner",
-    "generation": 2,
+    "generation": 3,
     "acquired_unix_seconds": 1784664530,
     "expires_unix_seconds": 1784750930,
     "heartbeat_unix_seconds": 1784664530,
@@ -50,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d7688451383a5a569e382cc444ed495217e827c19c035b5cf9ad33f1331b46c1",
+      "values_digest": "f72fa931ee40a6a48eb3c317d21362348f8800830e82b989778e22370d278708",
       "rendered_digest": "f8f4aa970408ca8f1fe60b054b7d34d9f88123250e16914f7e7aba78ad683dfd",
       "ast_digest": "f9a6244d35d0fb37415150cf8a36f8a70891272c91190ce4f1d01a88bcc41e9b"
     },
     "stp": {
-      "values_digest": "66efa37ac309fb0e82b0e5f6b044ff3b521c67ff4aa4a05a7061b4287c155eb9",
-      "rendered_digest": "593563171cc9eda4c229dbfa52ebed3fe471add8631088ff2a875d40d8a2022f",
-      "ast_digest": "e0e1a1eb32816291cae9b91c5f5b752dfbb0de0bf6a369a7d590b4d7fe036de0"
+      "values_digest": "1940009fd7d9837a2f30d7c88d7c03ab809a33cd70b026b8576b960134e8dc9e",
+      "rendered_digest": "c29e9fca09e5cea67cc5179e8c2230241229c7cc16657be74f9fda3e12078f9b",
+      "ast_digest": "22451a3da261805337710bbb8001f93e836f0798c667b074a38aeba8fb29b937"
     },
     "spp": {
-      "values_digest": "d74c1a1242ccf31bca723189d15647d8f27c1ac708797aa8df5d06eb32d1ca4d",
+      "values_digest": "510c8b49ed3ddf2735c7fbc85a211698345fca0f22cbec3507f9e0a96387f982",
       "rendered_digest": "7ef6d172a897ebeb07f0157f6971e47031518ef9a151fac5572f2f4eac82801d",
       "ast_digest": "7131b33ab141adc7e9d660bb81d1b50052389ee785172b0fb7a30841c150bd34"
     },
     "vpp": {
-      "values_digest": "0ee276cf9a86f26a44944d19113189101513a3682814071ff269491082aedb7e",
+      "values_digest": "b62a4bef9fe810d15dd1e1a6be0eccee3038eafd1eccddb5f07094e7e74bff9b",
       "rendered_digest": "a63e75aa9d960a9dd351b9d5fcdada6d9d8ddf1d4883d017f077210c0c97bbdd",
       "ast_digest": "512c378b68fc8a7f65a92151d6929af88481f44ee9bf1668a87418e9d77a6630"
     },
     "srp": {
-      "values_digest": "8c06a390ecf9140e25a412d3eac5e43531f95d5233d3d4cd087b1f3a22927089",
+      "values_digest": "979faf5ac89244cbf673db23cacc74902668c46b593d95f6a3bf0041523243ed",
       "rendered_digest": "3e33381a1bc4c798192c6091312ef4f2139d3649fd2e13a659575327d5d6e442",
       "ast_digest": "97b03a48315f37db7ebe914e2cce952dc01918bdcd8c2e85b4decaf8443dcf8e"
     },
     "sor": {
-      "values_digest": "b0bc8f4525107b937a95905bda573996b7df5393d4595ac64f8a31e71ca66785",
+      "values_digest": "72e0726f2cf75a8753d44fe9ddec2093a2308217217f8888212c2ff279010594",
       "rendered_digest": "3da22254dd349d9e1205cd77dd0ee6c98c0b676bd214fa8047fbb24fca1951f3",
       "ast_digest": "a297d98bb2043f7fd321ee3af1520d79666f8c86c5f55f6a977f7ceb461d27a8"
     }
@@ -131,6 +131,13 @@
       "actor": "codex:issue-5613-owner",
       "reason": "Resolve all reviewed terminal inputs to full commit identities before binding.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Retained terminal receipts for issues 5337, 5339, 5358, 5591, and 5602\",\"Terminal commits 461713dc10d26fa5336a054c07ef1844f804ec8f, 817126889942fc57820bf9f05f5cc40e2debd683, 23ea342fd, 8cfb7b25ad246dd411a57ecc4fda8e47665912fc, and fa1b5b6f2\",\"Existing terminal transaction and receipt-refresh implementation\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-5613-owner",
+      "reason": "Resolve the two added stale terminal projections to full commit identities.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Retained terminal receipts for issues 5337, 5339, 5358, 5591, and 5602\",\"Terminal commits 461713dc10d26fa5336a054c07ef1844f804ec8f, 817126889942fc57820bf9f05f5cc40e2debd683, 23ea342fdc1e4080a4e8d2236c8514ab4a9fc15f, 8cfb7b25ad246dd411a57ecc4fda8e47665912fc, and 5fc1ec96e5f1e8f2080af16caf1344295fb13064\",\"Existing terminal transaction and receipt-refresh implementation\"]}"
     }
   ]
 }

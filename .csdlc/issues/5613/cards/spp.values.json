@@ -7,7 +7,7 @@
     "title": "[v0.91.8][csdlc-v2][closeout] Reconcile stranded terminal projections atomically",
     "slug": "terminal-projection-repair",
     "version": "v0.91.8",
-    "generation": 2
+    "generation": 3
   },
   "status": "ready",
   "content": {

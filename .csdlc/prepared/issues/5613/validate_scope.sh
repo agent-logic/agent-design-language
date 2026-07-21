@@ -4,7 +4,7 @@ set -euo pipefail
 root="${1:-.}"
 base="${ADL_5613_SCOPE_BASE:-origin/main}"
 
-allowed='^(\.csdlc/(issues/(5337|5339|5591|5613)|prepared/issues/5613|evidence/(5591|5613)|locks/5613\.lock)|csdlc-v2/(src/(model|store|schema)\.rs|src/bin/csdlc-closeout\.rs|operator/skills/csdlc-v2-closeout/SKILL\.md|tests/gate7_terminal_sor_validation_repair_5613\.rs))$'
+allowed='^(\.csdlc/(issues/(5337|5339|5358|5591|5602|5613)(/.*)?|prepared/issues/5613(/.*)?|evidence/(5591|5613)(/.*)?|locks/5613\.lock)|csdlc-v2/(src/(cards|lib|model|store|schema)\.rs|src/bin/csdlc-closeout\.rs|operator/skills/csdlc-v2-closeout/SKILL\.md|tests/gate7_terminal_sor_validation_repair_5613\.rs))$'
 
 unexpected="$(git -C "$root" diff --name-only "$base"...HEAD | rg -v "$allowed" || true)"
 if [[ -n "$unexpected" ]]; then

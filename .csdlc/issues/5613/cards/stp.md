@@ -39,7 +39,7 @@ Add the narrow atomic operation, repair only issue 5591 terminal validation port
 ## Dependencies
 
 - Retained terminal receipts for issues 5337, 5339, 5358, 5591, and 5602
-- Terminal commits 461713dc10d26fa5336a054c07ef1844f804ec8f, 817126889942fc57820bf9f05f5cc40e2debd683, 23ea342fd, 8cfb7b25ad246dd411a57ecc4fda8e47665912fc, and fa1b5b6f2
+- Terminal commits 461713dc10d26fa5336a054c07ef1844f804ec8f, 817126889942fc57820bf9f05f5cc40e2debd683, 23ea342fdc1e4080a4e8d2236c8514ab4a9fc15f, 8cfb7b25ad246dd411a57ecc4fda8e47665912fc, and 5fc1ec96e5f1e8f2080af16caf1344295fb13064
 - Existing terminal transaction and receipt-refresh implementation
 
 ## Inputs

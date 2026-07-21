@@ -5,7 +5,7 @@ root="$(git rev-parse --show-toplevel)"
 fresh="$root/.adl/tmp/5613-fresh-worktree"
 doctor="${ADL_CSDLC_DOCTOR:-}"
 if [[ -z "$doctor" ]]; then
-  primary="$(git -C "$root" worktree list --porcelain | awk '/^worktree / {print substr($0, 10); exit}')"
+  primary="$(git -C "$root" worktree list --porcelain | awk '/^worktree / && !seen {print substr($0, 10); seen=1}')"
   doctor="$primary/.adl/bin/csdlc-v2/csdlc-doctor"
 fi
 test -x "$doctor"
@@ -18,7 +18,7 @@ cleanup
 mkdir -p "$(dirname "$fresh")"
 git -C "$root" worktree add --detach "$fresh" HEAD >/dev/null
 
-for issue in 5337 5339 5591; do
+for issue in 5337 5339 5358 5591 5602; do
   jq -e '.phase == "closed_out" and .claim == null' \
     "$fresh/.csdlc/issues/$issue/index.json" >/dev/null
   "$doctor" --repo "$fresh" --issue "$issue" \

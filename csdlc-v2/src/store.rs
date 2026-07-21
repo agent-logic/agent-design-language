@@ -177,7 +177,7 @@ impl Store {
         self.recover_with_terminal_lock(request.authority_issue)?;
         self.recover_with_terminal_lock(request.target_issue)?;
         let authority = self.load_record(request.authority_issue)?;
-        let target = self.load_record(request.target_issue)?;
+        let mut target = self.load_record(request.target_issue)?;
         if authority.generation != request.expected_authority_generation
             || authority.digest != request.expected_authority_digest
         {
@@ -297,7 +297,7 @@ impl Store {
         self.recover_with_terminal_lock(request.authority_issue)?;
         self.recover_with_terminal_lock(request.target_issue)?;
         let authority = self.load_record(request.authority_issue)?;
-        let target = self.load_record(request.target_issue)?;
+        let mut target = self.load_record(request.target_issue)?;
         if authority.generation != request.expected_authority_generation
             || authority.digest != request.expected_authority_digest
         {
@@ -666,7 +666,7 @@ impl Store {
         self.recover_with_terminal_lock(request.authority_issue)?;
         self.recover_with_terminal_lock(request.target_issue)?;
         let authority = self.load_record(request.authority_issue)?;
-        let mut target = self.load_record(request.target_issue)?;
+        let target = self.load_record(request.target_issue)?;
         if authority.generation != request.expected_authority_generation
             || authority.digest != request.expected_authority_digest
         {
@@ -796,7 +796,7 @@ impl Store {
         self.recover_with_terminal_lock(request.authority_issue)?;
         self.recover_with_terminal_lock(request.target_issue)?;
         let authority = self.load_record(request.authority_issue)?;
-        let mut target = self.load_record(request.target_issue)?;
+        let target = self.load_record(request.target_issue)?;
         if authority.generation != request.expected_authority_generation
             || authority.digest != request.expected_authority_digest
         {

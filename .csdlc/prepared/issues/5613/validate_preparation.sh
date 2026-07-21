@@ -23,7 +23,7 @@ jq -e '
   (.initial.operator_constraints | index("No raw gh, AWS, Runtime v2, or ADL-v2 product changes"))
 ' "$packet/bootstrap-request.json" >/dev/null
 
-for issue in 5337 5339 5591; do
+for issue in 5337 5339 5358 5591 5602; do
   receipt="$(git -C "$root" rev-parse --git-common-dir)/csdlc-v2/closeout/$issue.json"
   test -f "$receipt"
   jq -e --argjson issue "$issue" '.issue == $issue and .record.phase == "closed_out" and .record.claim == null' "$receipt" >/dev/null
