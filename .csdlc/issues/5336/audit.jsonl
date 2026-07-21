@@ -30,3 +30,4 @@
 {"sequence":30,"generation":22,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":23,"actor":"task:019f8273-47ae-7d01-85db-cb67c70554ec","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":32,"generation":24,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Exact coverage-orchestration repair rereview passed with no findings or residual risks.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":33,"generation":25,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Recover exact review after hosted CI proved incompatible nextest prebuild flags and a missing Cargo CACHEDIR.TAG in the warmed run target.","operation":"recover_review"}

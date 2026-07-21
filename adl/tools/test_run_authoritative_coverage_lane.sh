@@ -174,6 +174,12 @@ printf 'llvm_profile=%s\n' "${LLVM_PROFILE_FILE:-}" >> "$AUTHORITATIVE_CARGO_LOG
 printf 'rustflags=%s\n' "${RUSTFLAGS:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'build_jobs=%s\n' "${CARGO_BUILD_JOBS:-}" >> "$AUTHORITATIVE_CARGO_LOG"
 printf 'link_accel=%s\n' "${RUST_LINK_ACCEL:-}" >> "$AUTHORITATIVE_CARGO_LOG"
+if [[ " $* " = *" llvm-cov clean "* ]]; then
+  cache_tag="$CARGO_LLVM_COV_TARGET_DIR/CACHEDIR.TAG"
+  if ! grep -Fxq 'Signature: 8a477f597d28d172789f06886806bc55d' "$cache_tag"; then
+    exit 91
+  fi
+fi
 if [ "$*" = "llvm-cov show-env --sh" ]; then
   printf 'export RUSTFLAGS=%q\n' '--cfg coverage_from_show_env'
   exit 0
@@ -301,8 +307,8 @@ do
   fi
 done
 
-workspace_prebuild="cmd=nextest run --workspace --no-fail-fast --no-tests pass --test-threads 4 --no-run"
-runtime_prebuild="cmd=nextest run --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-fail-fast --no-tests pass --test-threads 4 --no-run"
+workspace_prebuild="cmd=nextest run --workspace --no-tests pass --test-threads 4 --no-run"
+runtime_prebuild="cmd=nextest run --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-tests pass --test-threads 4 --no-run"
 if [ "$(grep -Fxc -- "$workspace_prebuild" "$cargo_log")" -ne 1 ] ||
    [ "$(grep -Fxc -- "$runtime_prebuild" "$cargo_log")" -ne 1 ]; then
   echo "expected exactly one compile-only invocation per coverage profile" >&2
@@ -311,6 +317,11 @@ if [ "$(grep -Fxc -- "$workspace_prebuild" "$cargo_log")" -ne 1 ] ||
 fi
 if grep -E '^cmd=.*--partition .*--no-run' "$cargo_log" >/dev/null 2>&1; then
   echo "coverage partitions must execute tests after the compile-only barrier" >&2
+  cat "$cargo_log" >&2
+  exit 1
+fi
+if grep -E '^cmd=.*--no-fail-fast.*--no-run' "$cargo_log" >/dev/null 2>&1; then
+  echo "compile-only nextest invocation must not combine --no-fail-fast with --no-run" >&2
   cat "$cargo_log" >&2
   exit 1
 fi

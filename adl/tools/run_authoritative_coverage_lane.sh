@@ -141,6 +141,15 @@ ADL_RUST_WARM_CACHE_DEST_TARGET="$CARGO_TARGET_DIR" \
 ADL_RUST_WARM_CACHE_OUTPUT="$ADL_DIR/coverage-warm-cache.json" \
   bash "$ADL_DIR/tools/rust_validation_warm_cache.sh"
 
+# cargo refuses destructive target cleanup unless this standard marker proves
+# the run-scoped directory is a disposable cache.
+cat > "$COVERAGE_RUN_TARGET_DIR/CACHEDIR.TAG" <<'CACHEDIR_TAG'
+Signature: 8a477f597d28d172789f06886806bc55d
+# This file is a cache directory tag created by cargo.
+# For information about cache directory tags, see:
+#       https://bford.info/cachedir/
+CACHEDIR_TAG
+
 if [ "$MODE" = "full_authoritative_default_features" ]; then
   echo "Authoritative coverage mode: full_authoritative_default_features"
   echo "Features: default"
@@ -204,7 +213,13 @@ run_workspace_coverage_partitions() {
   # this barrier, cold partitions can each spawn a full rustc graph into the
   # same target and exhaust hosted-runner process capacity.
   local compile_status=0
-  "${coverage_command[@]}" --no-run || compile_status=$?
+  local compile_command=() argument
+  for argument in "${coverage_command[@]}"; do
+    if [ "$argument" != "--no-fail-fast" ]; then
+      compile_command+=("$argument")
+    fi
+  done
+  "${compile_command[@]}" --no-run || compile_status=$?
 
   # Build-script profiles are not test coverage.
   local cleanup_status=0

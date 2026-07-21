@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/.gitignore
-adl/tools/run_authoritative_coverage_lane.sh
-adl/tools/test_run_authoritative_coverage_lane.sh
-.csdlc/issues/5336
-.csdlc/prepared/issues/5336
+
 
 ## Prompts
 
@@ -40,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:ba0d287c54fd61d1c97f2789126a1882c1c06a53:718b223a7c53c6ad2cc3391eac6274cf24a4c33587235b1ea438ee6cf962fe61")
+Revision: None
 
-Reviewer: Some("task:019f8273-47ae-7d01-85db-cb67c70554ec")
+Reviewer: None
 
-Result: pass
+Result: pre_review
