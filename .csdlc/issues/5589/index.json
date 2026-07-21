@@ -5,7 +5,7 @@
   "initialization_digest": "812bcef468b7261d7d8cb522251cb0734425060895701091efad37a816ece601",
   "phase": "implemented",
   "generation": 16,
-  "digest": "2da7f28a46bfc31ac6e869d207b84f9732892a006cf9b4d7ab9efd79e77b9b16",
+  "digest": "82f067c03743115b18a282ced3c9a0db0def5fc2cb308674d03d0fe5ff7c8461",
   "claim": {
     "id": "claim-5589-runtime-v3-parity-c-preparation",
     "owner": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
@@ -29,7 +29,7 @@
   "review_assignment": {
     "reviewer": "subagent:/root/review_5589_exact",
     "assigned_by": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
-    "revision": "git-blake3:353459e57e5f9b3cd96a5372d927088f8c4f8e34:089d7652ef41a655f6879ea90345ddf0cf9e5d6f3b090ea45729306760f1ad20",
+    "revision": "git-blake3:d1bd84e1b473985d653d826e2e635eddf61ffd53:d00d77d6312b186ad85fcf2296dcf83d3fffdd493dcf394d3ef2ba81e4874322",
     "scope": [
       "adl-runtime-kernel/src/governed_operations.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
@@ -39,93 +39,7 @@
       ".csdlc/evidence/5589/implementation"
     ]
   },
-  "review": {
-    "reviewer": "subagent:/root/review_5589_exact",
-    "scope": [
-      "adl-runtime-kernel/src/governed_operations.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
-      "adl-runtime-kernel/tests/governed_operations.rs",
-      ".csdlc/issues/5589/cards/sor.values.json",
-      ".csdlc/issues/5589/cards/srp.values.json",
-      ".csdlc/evidence/5589/implementation"
-    ],
-    "reviewed_revision": "git-blake3:353459e57e5f9b3cd96a5372d927088f8c4f8e34:089d7652ef41a655f6879ea90345ddf0cf9e5d6f3b090ea45729306760f1ad20",
-    "findings": [
-      {
-        "id": "replay-fingerprint-bypass",
-        "severity": "p1",
-        "summary": "Cached replay compares only request and citizen identity, allowing changed governed fields and a substituted unrevoked commitment to bypass gate validation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "provider-io-unbounded",
-        "severity": "p1",
-        "summary": "Blocking process wait cannot be preempted by the Tokio timeout and accumulates unbounded stdout before checking its limit.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "crash-stale-lock",
-        "severity": "p1",
-        "summary": "Directory locking removed only by Drop leaves state permanently busy after process or host crash.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "synthetic-per-request-services",
-        "severity": "p1",
-        "summary": "Fresh passthrough scheduler and shepherd adapters plus a global operation lock do not establish shared resident multi-agent scheduling, saturation, resource races, or cleanup.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "proof-name-overstatement",
-        "severity": "p2",
-        "summary": "Appeal, cancellation-race, scheduler-saturation, and append-only non-authority tests still do not exercise their named semantics.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "unbounded-authoritative-state",
-        "severity": "p2",
-        "summary": "Completed, request-id, and private-state checkpoint collections grow without a declared bound.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "budget-exception-still-unjustified",
-        "severity": "p1",
-        "summary": "The 13,496-line result is additive, duplicates existing assembly patterns, retains synthetic components, and does not justify the +1,287 baseline exception.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -340,6 +254,13 @@
       "actor": "subagent:/root/review_5589_exact",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
