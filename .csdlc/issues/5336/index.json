@@ -5,7 +5,7 @@
   "initialization_digest": "c68d603fedf6992afa5b5e8f3828ec50148c17518f5fbe3ac244cbf261bef9b5",
   "phase": "implemented",
   "generation": 22,
-  "digest": "1866d6e478878415e30bb2d88fbe5facab88825051c1dba1c16d1c712442af8f",
+  "digest": "ce0539a93ba823ffc1ee279f56656a7670c98a4ea8d4de0b1130799f8b30a8fa",
   "claim": {
     "id": "claim-5336-v0918-runtime-functional-parity-plan",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -29,7 +29,7 @@
   "review_assignment": {
     "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:c91a6b8cd0f29566c796e2127be91005093e7d7e:dbc3e8bed12dd5ebc032ebc55f572adbe3821fc54c7d1f9955a83eb8703e0cc0",
+    "revision": "git-blake3:ba0d287c54fd61d1c97f2789126a1882c1c06a53:718b223a7c53c6ad2cc3391eac6274cf24a4c33587235b1ea438ee6cf962fe61",
     "scope": [
       "adl/.gitignore",
       "adl/tools/run_authoritative_coverage_lane.sh",
@@ -38,32 +38,7 @@
       ".csdlc/prepared/issues/5336"
     ]
   },
-  "review": {
-    "reviewer": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
-    "scope": [
-      "adl/.gitignore",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/5336",
-      ".csdlc/prepared/issues/5336"
-    ],
-    "reviewed_revision": "git-blake3:c91a6b8cd0f29566c796e2127be91005093e7d7e:dbc3e8bed12dd5ebc032ebc55f572adbe3821fc54c7d1f9955a83eb8703e0cc0",
-    "findings": [
-      {
-        "id": "coverage-first-partition-failure",
-        "severity": "p2",
-        "summary": "Multiple partition failures overwrite the first causal nonzero status.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -376,6 +351,13 @@
       "actor": "task:019f8273-47ae-7d01-85db-cb67c70554ec",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
