@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "bound",
-  "generation": 2,
-  "digest": "28fc81b10ca7ed6df449e2e58eb6c5b7030c87820dd9d9e347a741b78c5243b3",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "a20198d18ca8c10a99bb0a3fb4173d2dce6c9e91bcb52f2c2e658cf425bb0c71",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 2,
+    "generation": 8,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -27,8 +27,37 @@
     ],
     "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
+    "assigned_by": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+    "revision": "git-blake3:6f19349e6d6227c362f5d73dce2c977aab41c1db:816baf9d3b09ceb37995f05a501ddbebb0ed379c433fd00b4f8751a9775005ce",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs"
+    ],
+    "reviewed_revision": "git-blake3:6f19349e6d6227c362f5d73dce2c977aab41c1db:816baf9d3b09ceb37995f05a501ddbebb0ed379c433fd00b4f8751a9775005ce",
+    "findings": [],
+    "residual_risks": [
+      "The existing SIGTERM process test remains ignored because it binds the fixed control test port; signal, pressure, and signed terminal triggers share the reviewed serialization helper, and the focused pressure and signed process proofs pass."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b1c8f2982149be856aaafc46e81f3cfd466c4c38e19c02caed06e741583c18b9",
+      "values_digest": "07bdfc780180a5ea211c8d620ef1a5807f48f5ff0fd6f39f80251b06380026e4",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "b5c52405f963ffeb3b7847f8510e77e4e0f0be388bf8a91e45e7d1f8e99ba8f7",
+      "values_digest": "7b921ae7e705c289a194931d7ce9fb2f9b33fbd21a5fde502e185fc586f7e8ec",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "35db486d84d0679cd5153b672b36ad8c82cb25cbcc09e6b405252238affa67b5",
+      "values_digest": "52e9b80357f1fb4203aea01a3449eee8089621b71e7dd97c752d4608d1dd0ff2",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "51229f0656e1abf5dc0e5f6c8aede36ff72263f268f85a5ee3d1778d834dc21f",
+      "values_digest": "861dff3b7600794d172f525e75f5c8293996b56a92870786ff85f6aa14dbda2e",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "8fede7a094ec17787a03d4d4c59c76d6e26dd17a8d662b022c8b59b386b830d3",
-      "rendered_digest": "54a8db5ceb951a019c675ddf12a639f5882c94909424c69b30311155ce4f87ac",
-      "ast_digest": "48555efa9cdd61637f01fc92a7f26630296fd390c8f2137089e87b8f01e4db20"
+      "values_digest": "0cee52fb874a8e34a7692b2de983f90b1076385a07dd51c9cb0f6fd75fb4ca94",
+      "rendered_digest": "71f2ca0fb78931533ef616f6b02a3d65b4b71dc3d3dd86364af968530f0ce424",
+      "ast_digest": "ce972da9791575f6f1a5a511c5e017ea61baae22443bb5aed32a70fd7a9628c9"
     },
     "sor": {
-      "values_digest": "40bce1a4861465b3cf07590370d229a8d0aa98c5a3ec2454eafc10ad8b02cb0a",
-      "rendered_digest": "dbc81178f1c254fb617e08a9251f3fe1405f5621dd2d8f67fbff2676db886d68",
-      "ast_digest": "6eb819f538e15fa6523ea32653e5dfe0c5bf7812926dee6d168c1ea1a3ce0f87"
+      "values_digest": "0c205652f196f91705a9bb94e2954b5b43b8be2cb665b848088ba0fb4bd82048",
+      "rendered_digest": "cde3827ae0211794fc660a40a2fea53c91b7a90941e91fff21d854594e3f8122",
+      "ast_digest": "28af1f0ef46f093d293dbd439f9dd86cbcfb386d8729af7ff163f59e35886aa0"
     }
   },
   "transitions": [
@@ -87,6 +116,20 @@
       "to": "bound",
       "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+      "reason": "Bounded Parity-A implementation and focused FastWork validation are complete; enter exact-revision review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+      "reason": "Independent exact-product rereview passed with no findings; retain the fixed-port SIGTERM test limitation as residual risk."
     }
   ],
   "audit": [
@@ -131,6 +174,55 @@
       "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
       "reason": "Reaffirm the unchanged implementation purpose and path union through receipt-backed csdlc-bind from git:d8b39153d8f3b5ba91d517820ccc3dc7e3875fea after correcting binary provenance",
       "operation": "{\"add_protected_paths\":[\".csdlc/evidence/5591\",\"adl-runtime-kernel\",\"adl-runtime\",\"infra/runtime-v3\",\"adl/tools/run_runtime_v3_guardian_soak.sh\"],\"expected_owner\":\"codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets\",\"purpose\":\"Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+      "reason": "Record the completed bounded Parity-A implementation before exact-revision review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented canonical Runtime v3 ingress, deterministic execution and replay continuity, and graceful terminal serialization without Runtime v2 or AWS.\",\"changes\":[\"Route signed Execute capability through bounded canonical Runtime v3 components and deterministic results\",\"Persist signed checkpoints and restore fresh-runtime sequence and duplicate-safe replay continuity\",\"Close admission and drain accepted work before terminal checkpoint serialization\",\"Keep governed provider and cloud-bridge operations behind permit-authoritative operational APIs\",\"Prevent pressure recovery from reopening admission after a signed terminal action is reserved\",\"Keep unsupported and failed dispatch retries deterministic without advancing accepted state\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/control.rs\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+      "reason": "Retain the exact-product rereview validation performed with FastWork build output.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\",\"--test\",\"control\",\"--test\",\"operations\"],\"purpose\":\"Prove governed routing, terminal-pressure race safety, delayed-work checkpoint ordering, deterministic retries, and focused Runtime v3 regressions; assembly 4, control 21, operations 9, ingress atomic admission, and focused process pressure/signed shutdown yielded 36 unique passing tests\",\"outcome\":\"passed\",\"evidence_ref\":\"subagent:019f8277-0050-7db0-a96b-05593df9c703@6f19349e6d6227c362f5d73dce2c977aab41c1db:36-focused-tests:/Volumes/FastWork/adl-5591-rereview-target\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+      "reason": "Retain the strict all-target Runtime v3 lint proof from the implementation owner.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the Parity-A implementation and test targets are warning-free under strict Clippy\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f8189-8205-7dd3-bbe2-f7f4dddd098a@6f19349e6d6227c362f5d73dce2c977aab41c1db:/Volumes/FastWork/adl-5591/runtime-target\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+      "reason": "Bounded Parity-A implementation and focused FastWork validation are complete; enter exact-revision review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+      "reason": "Independent exact-product rereview passed with no findings; retain the fixed-port SIGTERM test limitation as residual risk.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
