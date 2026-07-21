@@ -1,0 +1,23 @@
+{
+  "issue": 5358,
+  "card": "sor",
+  "expected_generation": 25,
+  "expected_digest": "ab464e5dd848853bb83b7eba860a49f68d9cd8365136bce4fe8c02cd73869d36",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "Record focused proof for the exact CI toolchain repair.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash -n adl/tools/test_ci_path_policy.sh",
+        "bash adl/tools/test_ci_path_policy.sh",
+        "bash adl/tools/test_check_coverage_impact.sh",
+        "git diff --check"
+      ],
+      "purpose": "Prove the workflow always installs tools required by its always-run tooling contracts and preserve all existing path-policy and coverage-impact behavior.",
+      "outcome": "passed",
+      "evidence_ref": "local:pr-5606-run-29798806089-toolchain-repair"
+    }
+  }
+}

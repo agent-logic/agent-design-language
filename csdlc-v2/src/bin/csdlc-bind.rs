@@ -1,8 +1,8 @@
 use clap::Parser;
 use csdlc_v2::{
     amend_claim_scope, bind_issue, heartbeat_claim, recover_claim, release_closed_claim,
-    AmendClaimScopeRequest, BindRequest, HeartbeatRequest, RecoverClaimRequest,
-    ReleaseClosedClaimRequest, Store,
+    transition_active_claim, AmendClaimScopeRequest, BindRequest, HeartbeatRequest,
+    RecoverClaimRequest, ReleaseClosedClaimRequest, Store, TransitionActiveClaimRequest,
 };
 use std::{fs, path::PathBuf};
 
@@ -12,19 +12,32 @@ struct Cli {
     root: PathBuf,
     #[arg(long)]
     request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "recover_request", "amend_request"])]
+    #[arg(long, conflicts_with_all = ["request", "recover_request", "amend_request", "transition_request", "release_request"])]
     heartbeat_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "amend_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "amend_request", "transition_request", "release_request"])]
     recover_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "transition_request", "release_request"])]
     amend_request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request"])]
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "release_request"])]
+    transition_request: Option<PathBuf>,
+    #[arg(long, conflicts_with_all = ["request", "heartbeat_request", "recover_request", "amend_request", "transition_request"])]
     release_request: Option<PathBuf>,
 }
 
 fn main() {
     let cli = Cli::parse();
-    let result = if let Some(path) = cli.release_request {
+    let result = if let Some(path) = cli.transition_request {
+        fs::read(path)
+            .map_err(csdlc_v2::V2Error::from)
+            .and_then(|bytes| {
+                serde_json::from_slice::<TransitionActiveClaimRequest>(&bytes)
+                    .map_err(csdlc_v2::V2Error::from)
+            })
+            .and_then(|request| {
+                transition_active_claim(&Store::new(cli.root.clone()), request)
+                    .map(|value| serde_json::to_value(value).expect("JSON"))
+            })
+    } else if let Some(path) = cli.release_request {
         fs::read(path)
             .map_err(csdlc_v2::V2Error::from)
             .and_then(|bytes| {
@@ -63,7 +76,7 @@ fn main() {
         let path = cli.request.ok_or_else(|| {
             csdlc_v2::V2Error::new(
                 csdlc_v2::ErrorCode::InvalidInput,
-                "one of --request, --heartbeat-request, --recover-request, --amend-request, or --release-request is required",
+                "one of --request, --heartbeat-request, --recover-request, --amend-request, --transition-request, or --release-request is required",
             )
         });
         path.and_then(|path| fs::read(path).map_err(csdlc_v2::V2Error::from))

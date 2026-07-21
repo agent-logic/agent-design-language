@@ -1,0 +1,22 @@
+{
+  "issue": 5358,
+  "base_branch": "main",
+  "branch": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+  "worktree": ".",
+  "claim": {
+    "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+    "owner": "codex:issue-5358-slot-3",
+    "generation": 0,
+    "acquired_unix_seconds": 1784570058,
+    "expires_unix_seconds": 1784656458,
+    "heartbeat_unix_seconds": 1784570058,
+    "branch": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5358",
+      ".csdlc/prepared/issues/5358",
+      ".csdlc/evidence/5358"
+    ],
+    "purpose": "Prepare typed C-SDLC v2 acceptance cards, design, and readiness only under sprint #5595 slot 3"
+  }
+}

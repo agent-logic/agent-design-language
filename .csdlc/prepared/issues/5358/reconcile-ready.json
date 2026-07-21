@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.ready_publication_reconciliation_request.v1",
+  "publication": {
+    "schema": "csdlc.publication_request.v1",
+    "issue": 5358,
+    "expected_generation": 28,
+    "expected_digest": "c9b9ffa2ddbf6f4dcab391b2715cc92ce1e9429a862e2802cdcde1c835fe51e2",
+    "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+    "actor": "codex:issue-5358-slot-3",
+    "repository": "danielbaustin/agent-design-language",
+    "remote": "origin",
+    "base": "main",
+    "head": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+    "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
+    "body": "Closes #5358\n\nCompletes C-SDLC v2 acceptance and repairs the publication lifecycle so ready-PR reconciliation is exact, fail-closed, and recoverable. The implementation validates remote open state, repository and head identity, exact branch and revision, and supports recovery after a remote ready transition succeeds before local typed state commits.\n\nThe command-level HTTP matrix covers success and mismatch paths. Focused lifecycle tests pass 21/21, the complete csdlc-v2 all-target suite passes, strict all-target Clippy and formatting pass, typed doctor passes, and exact-revision DeepSeek review returned no findings. No AWS or raw gh was used.",
+    "draft": false,
+    "token_file": null
+  },
+  "pull_request": 5606
+}

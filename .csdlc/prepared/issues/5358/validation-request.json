@@ -1,0 +1,71 @@
+{
+  "manifest": {
+    "schema": "csdlc.pvf.manifest.v1",
+    "lanes": [
+      {
+        "id": "csdlc-doctor-5358",
+        "proof_role": "typed_issue_and_six_card_integrity",
+        "purpose": "Check canonical typed state, all six generated cards, digests, retained design, and bound issue integrity.",
+        "determinism": "deterministic",
+        "resources": {
+          "cpu_units": 1,
+          "memory_mib": 256,
+          "tokens": 3000
+        },
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "local",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 300,
+        "executable": "csdlc-doctor",
+        "argv": ["--repo", ".", "--issue", "5358"],
+        "evidence": {
+          "max_log_bytes": 65536,
+          "redact_values": [],
+          "require_relative_paths": true
+        }
+      },
+      {
+        "id": "issue-local-scope-inventory",
+        "proof_role": "issue_local_artifact_scope_inventory",
+        "purpose": "Enumerate every untracked #5358 issue-local artifact so review cannot mistake an empty tracked diff for coverage.",
+        "determinism": "deterministic",
+        "resources": {
+          "cpu_units": 1,
+          "memory_mib": 128,
+          "tokens": 1000
+        },
+        "credentials": [],
+        "network": "denied",
+        "dependencies": [],
+        "parallel_group": "local",
+        "release_gate": "required",
+        "execution": "local",
+        "timeout_seconds": 120,
+        "executable": "git",
+        "argv": ["ls-files", "--others", "--exclude-standard", "--", ".csdlc/issues/5358", ".csdlc/prepared/issues/5358", ".csdlc/evidence/5358"],
+        "evidence": {
+          "max_log_bytes": 65536,
+          "redact_values": [],
+          "require_relative_paths": true
+        }
+      }
+    ]
+  },
+  "selection": {
+    "requested_lanes": ["csdlc-doctor-5358", "issue-local-scope-inventory"],
+    "allow_network": false,
+    "available_credentials": []
+  },
+  "budget": {
+    "max_parallel": 2,
+    "cpu_units": 2,
+    "memory_mib": 512,
+    "tokens": 5000
+  },
+  "root": ".",
+  "evidence_dir": ".csdlc/evidence/5358/preparation-validation",
+  "cancellation_file": null
+}

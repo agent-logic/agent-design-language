@@ -1,0 +1,22 @@
+{
+  "issue": 5358,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "ba16d46ec07ca8ab5c24f58f908a4b74c6ba08fa86f0837389230d89c84c1c1e",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+  "reason": "Record focused publication lifecycle validation before exact-revision review.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-test-target cargo test --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle",
+        "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-clippy-target cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings",
+        "cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check"
+      ],
+      "purpose": "Prove the ready-publication command matrix, recovery/CAS invariants, warning-free all-target compilation, and canonical formatting.",
+      "outcome": "passed",
+      "evidence_ref": "local-fastwork:gate7-21-pass-clippy-fmt"
+    }
+  }
+}

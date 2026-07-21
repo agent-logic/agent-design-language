@@ -1,0 +1,22 @@
+{
+  "issue": 5358,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "b1deafd43538dfc73e2b2b9b527b7b5f405f960331e43a9627d8c875cf125788",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "Supersede the non-proving untracked diff-hygiene claim with explicit issue-local artifact inventory and portable owner-binary invocation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "csdlc-validate --request .csdlc/prepared/issues/5358/validation-request.json",
+        "csdlc-doctor --repo . --issue 5358",
+        "git status --short -- .csdlc/issues/5358 .csdlc/prepared/issues/5358 .csdlc/evidence/5358"
+      ],
+      "purpose": "Validate typed record/card integrity and explicitly enumerate the full untracked #5358 review scope. This replaces the earlier git diff --check evidence, which did not cover untracked artifacts.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/5358/preparation-validation"
+    }
+  }
+}

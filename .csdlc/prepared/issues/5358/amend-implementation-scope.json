@@ -1,0 +1,13 @@
+{
+  "issue": 5358,
+  "expected_generation": 10,
+  "expected_digest": "aa764931abc9922e8d9678f034c3e24ed75f05da02303814b172c59afd5f0c95",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-acceptance",
+  "reason": "Convert the authorized preparation claim into the bounded full acceptance and deployment implementation claim.",
+  "add_protected_paths": [
+    "csdlc-v2",
+    "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md"
+  ],
+  "now_unix_seconds": 1784586200
+}

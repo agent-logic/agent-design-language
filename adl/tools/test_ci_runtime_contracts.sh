@@ -325,8 +325,6 @@ if authoritative_contract != "bash adl/tools/test_run_authoritative_coverage_lan
         f"found: {authoritative_contract}"
     )
 expected_split_conditions = {
-    "Install cargo-llvm-cov for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.full_coverage_required == 'true'",
-    "Install cargo-nextest for CI contract checks": "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'",
     "PVF CI release policy contract": "needs.adl_path_policy.outputs.pvf_ci_release_contract_required == 'true'",
     "tracked proof-validation lane contract": "needs.adl_path_policy.outputs.v0913_proof_contract_required == 'true'",
     "PR-fast test lane contract": "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' || needs.adl_path_policy.outputs.rust_required == 'true'",
@@ -347,6 +345,18 @@ for step_name, expected_if in expected_split_conditions.items():
         raise SystemExit(
             "adl-ci contract checks must use granular path-policy outputs so narrow policy PRs do not run unrelated contracts; "
             f"{step_name!r} has if: {observed_if!r}"
+        )
+
+for step_name in (
+    "Install cargo-llvm-cov for CI contract checks",
+    "Install cargo-nextest for CI contract checks",
+):
+    install_block = step_block(step_name)
+    conditional = re.search(r"^\s+if:\s+(.+)$", install_block, re.MULTILINE)
+    if conditional:
+        raise SystemExit(
+            "always-run tooling contracts require their llvm-cov and nextest prerequisites to be installed unconditionally; "
+            f"{step_name!r} has if: {conditional.group(1).strip()!r}"
         )
 
 slow_proof_job = job_block("adl-slow-proof")

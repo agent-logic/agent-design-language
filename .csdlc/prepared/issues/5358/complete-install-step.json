@@ -1,0 +1,14 @@
+{
+  "issue": 5358,
+  "card": "spp",
+  "expected_generation": 17,
+  "expected_digest": "2422a38d5ebb3ae547ebbff837a8cbd0c7d81aa61fab72e4f218494b3bf082b7",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+  "reason": "The exact current C-SDLC v2 generation is installed in the stable directory and verified against selector and coexistence authority.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  }
+}

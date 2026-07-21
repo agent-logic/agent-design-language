@@ -77,7 +77,8 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
   assert_file_has "$workflow" 'actual adl-coverage execution state'
-  assert_file_has "$workflow" "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'"
+  # The tooling-contract job always executes nested llvm-cov/nextest contracts.
+  assert_file_not_has "$workflow" "needs.adl_path_policy.outputs.ci_contract_toolchain_required == 'true'"
   assert_file_has "$workflow" "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'"
   assert_file_has "$workflow" "needs.adl_path_policy.outputs.skill_author_contracts_required == 'true'"
   assert_file_has "$workflow" "Aggregate split adl-ci lanes"
