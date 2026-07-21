@@ -112,11 +112,11 @@ Aligned the CI runtime contract with the always-run llvm-cov and nextest prerequ
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
