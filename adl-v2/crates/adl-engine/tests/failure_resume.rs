@@ -4,6 +4,16 @@ use adl_engine::{
     CancelCompletion, CompletionOutcome, Engine, EngineEffect, EngineErrorCode, EngineSnapshot,
     FailureClass, NodeState, PortCompletion, PortOutput, ProviderCompletion, TurnInput,
 };
+use sha2::{Digest, Sha256};
+
+fn completion_digest(completion: &PortCompletion) -> String {
+    let bytes = serde_json::to_vec(completion).unwrap();
+    let mut hasher = Sha256::new();
+    hasher.update(b"adl.engine.completion.v1\0");
+    hasher.update((bytes.len() as u64).to_be_bytes());
+    hasher.update(bytes);
+    hex::encode(hasher.finalize())
+}
 
 #[test]
 fn retry_delay_and_attempt_exhaustion_are_monotonic() {
@@ -405,8 +415,36 @@ fn resume_rejects_semantically_unreachable_graph_and_journal_mutations() {
             cancellations: vec!["root".into()],
         })
         .unwrap();
-    let mut recreated_cancelled: EngineSnapshot =
+    let cancelled_snapshot: EngineSnapshot =
         serde_json::from_slice(&cancelled.checkpoint().unwrap()).unwrap();
+    let mut impossible_turn_count = cancelled_snapshot.clone();
+    impossible_turn_count.logical_turns += 1;
+    assert_eq!(
+        Engine::resume(
+            root_plan.clone(),
+            root_policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&impossible_turn_count).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+    let mut missing_cancellation_event = cancelled_snapshot.clone();
+    missing_cancellation_event.event_count = 0;
+    missing_cancellation_event.next_event_sequence = 0;
+    assert_eq!(
+        Engine::resume(
+            root_plan.clone(),
+            root_policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&missing_cancellation_event).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+    let mut recreated_cancelled = cancelled_snapshot;
     recreated_cancelled.nodes.get_mut("root").unwrap().state = NodeState::Pending;
     assert_eq!(
         Engine::resume(
@@ -560,6 +598,36 @@ fn resume_binds_contiguous_attempts_completion_digests_and_terminal_output() {
             policy.clone(),
             common::limits(),
             &serde_json::to_vec(&changed_digest).unwrap(),
+        )
+        .unwrap_err()
+        .code,
+        EngineErrorCode::CheckpointIncompatible
+    );
+
+    let mut impossible_intermediate_success = original.clone();
+    let first_receipt = impossible_intermediate_success
+        .consumed_completion_digests
+        .values_mut()
+        .find(|receipt| receipt.attempt == 1)
+        .unwrap();
+    match &mut first_receipt.completion {
+        PortCompletion::Provider(value) => {
+            value.outcome =
+                CompletionOutcome::Success(PortOutput::new("text/plain", b"premature".to_vec()));
+        }
+        PortCompletion::Tool(_) | PortCompletion::Cancel(_) => {
+            panic!("expected provider completion")
+        }
+    }
+    first_receipt.completion_digest = completion_digest(&first_receipt.completion);
+    impossible_intermediate_success.turn_journal[1].completions[0] =
+        first_receipt.completion.clone();
+    assert_eq!(
+        Engine::resume(
+            plan.clone(),
+            policy.clone(),
+            common::limits(),
+            &serde_json::to_vec(&impossible_intermediate_success).unwrap(),
         )
         .unwrap_err()
         .code,

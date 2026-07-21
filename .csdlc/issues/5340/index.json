@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8863afa2116f00a1d2454a78df6f0287e360060ac0565d961b33c1da3c447617",
   "phase": "implemented",
-  "generation": 33,
-  "digest": "88cd8fa137061474e76fff4e95d007339e7c730c07611c1626d6424f98296208",
+  "generation": 35,
+  "digest": "47d8f2c3b391d91c2765697fbddfdafd996fd31f2d28b0ac5cf46135bff93c84",
   "claim": {
     "id": "claim-5340-v0918-wp06-owner-watch",
     "owner": "codex:5340-owner-watch",
-    "generation": 33,
+    "generation": 35,
     "acquired_unix_seconds": 1784619054,
     "expires_unix_seconds": 1785223854,
     "heartbeat_unix_seconds": 1784619054,
@@ -27,7 +27,7 @@
   "review_assignment": {
     "reviewer": "subagent:/root/review_5340_exact",
     "assigned_by": "codex:5340-owner-watch",
-    "revision": "git-blake3:2bed30d6d2a298eb0a3db2d030f06f20901e22de:4b52630fa14ff4ef854bfa4a9485367e01fadbb4623debfab2d866d6085270f2",
+    "revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
     "scope": [
       "adl-v2/crates/adl-engine"
     ]
@@ -37,12 +37,62 @@
     "scope": [
       "adl-v2/crates/adl-engine"
     ],
-    "reviewed_revision": "git-blake3:2bed30d6d2a298eb0a3db2d030f06f20901e22de:4b52630fa14ff4ef854bfa4a9485367e01fadbb4623debfab2d866d6085270f2",
+    "reviewed_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
     "findings": [
+      {
+        "id": "F-5340-1-state-dataflow-unresolved",
+        "severity": "p1",
+        "summary": "State dependency resolution and request identity are fixed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+        "route": null
+      },
+      {
+        "id": "F-5340-2-turn-input-unbounded",
+        "severity": "p1",
+        "summary": "Plan, policy, turn, completion, and materialization work is bounded.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+        "route": null
+      },
+      {
+        "id": "F-5340-3-resume-semantic-truncation",
+        "severity": "p1",
+        "summary": "Base semantic resume checks are fixed, but residual completion-history reachability remains in F-5340-6.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "F-5340-4-compiler-fixture-mapping-absent",
+        "severity": "p1",
+        "summary": "All six applicable landed fixtures are parsed, compiled, classified, and engine-executed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+        "route": null
+      },
+      {
+        "id": "F-5340-5-usize-policy-contract",
+        "severity": "p2",
+        "summary": "JoinPolicy threshold uses a fixed-width u64 contract.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+        "route": null
+      },
       {
         "id": "F-5340-6-resume-journal-reachability",
         "severity": "p1",
-        "summary": "Quiescent resume accepts root Ready and cancelled-to-Pending states and does not bind contiguous attempts or terminal outcomes to completion receipts.",
+        "summary": "Resume does not reconstruct intermediate completion, tick, turn, and event history and accepts a coherently altered impossible retry history.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -52,31 +102,31 @@
       {
         "id": "F-5340-7-state-materialization-bound",
         "severity": "p1",
-        "summary": "Repeated state references can clone expanded outputs before max_request enforcement and encode_bounded allocates the full serialization first.",
+        "summary": "Repeated state materialization is charged before clones and serialization uses a capped writer.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
         "route": null
       },
       {
         "id": "F-5340-8-applicable-fixtures-not-executed",
         "severity": "p1",
-        "summary": "The landed applicable fixture inventory is name-checked but none of the six actual files is parsed, compiled, and engine-executed.",
+        "summary": "Actual applicable landed fixture content is exercised end to end.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
         "route": null
       },
       {
         "id": "F-5340-9-design-truth-drift",
         "severity": "p2",
-        "summary": "Approved design/SPP/VPP truth omits the public byte/cardinality bounds and JSON/text state-output contract added during remediation.",
+        "summary": "Amended design, diagram, SPP/VPP artifact digests, and typed approval are current.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
         "route": null
       }
     ],
@@ -93,37 +143,37 @@
   "design_review": {
     "approved": {
       "reviewer": "subagent:/root/review_5340_exact",
-      "revision": "3d096673857e88045ca227174709c88f002d45188077fafb2c5623a2c8ef92ed"
+      "revision": "11d1545c9eb05a81f550d896c310688c192206d312f391d922d64310c2d6723e"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e6da6f9a49deb8645c9706e6a8286c4364685157f291da6399f407490e881c8a",
+      "values_digest": "f5dff71463562b8e0cac201dad751396fae6beee8df349865a3987aec478ed9f",
       "rendered_digest": "89b09b0e450ddd7efb55816ac6604326382c3e8976d112bd18c9847f4c6e6309",
       "ast_digest": "f8c5fd0db072f65fa89e0d9dcc29934d6219925a15e6b0478f1ec223dbede876"
     },
     "stp": {
-      "values_digest": "266355a6b9b3bbfbaebd1be2d635d14be94ad8c55d0c99b18153f9f80669f026",
+      "values_digest": "43f514ad736d970cd9a610d5cfe8df1ecebd3ac782191cd706fefeaf55ce0dfa",
       "rendered_digest": "2d4f29e605035d0c85da7bfada7d463f3f27fe4546e38bc8dffadcc9510771fa",
       "ast_digest": "f3745e071ea9bcadd8ae499c89a7dd9e574600d035b0d6a8d092b3f26ee03c25"
     },
     "spp": {
-      "values_digest": "b16053bb6547e4878a63aa6d87cdd2365d85bb9e319db957c79c25d3e9207b60",
-      "rendered_digest": "005fe77dc2935674db73f1da95244e54151578801238dcbd51caea9e619a3b30",
-      "ast_digest": "a5bc010f52348e8f5bb4f52e2c08aa29c0a4f2df7a97e258b8555b0b14d1d1bd"
+      "values_digest": "d716ef40785ff37902a5bed4c74405a25400e6683b273d7c9a2010d88d6ec855",
+      "rendered_digest": "1344077f5ac2e374781b4ebaea1b8e5eecb590ac924a671582a0c8ab578046e5",
+      "ast_digest": "4d46a34ce59b99c2dcf9d0d0aa205406925d2a8b91f09e2e71634d980cc79110"
     },
     "vpp": {
-      "values_digest": "86011002f2726d69e79d2cef0cd353e265fd04c3a046544e3bd1e77da9de6e5f",
+      "values_digest": "566d9917880cc542092fffaf919362be3df344552e08b85d9f6f4de3ab742ef2",
       "rendered_digest": "6ce70a28eb85688c195502de77dbbcf7aa5f3c38897640c6275929056265c2b8",
       "ast_digest": "7ea7f4080d60b398d0b99625947ac1b191dae9f80f9b0a802f7b6339517de8d0"
     },
     "srp": {
-      "values_digest": "c74f304b77bb1ab30a35c80b42e9030ecd0654e8a5fad307b5f2dff82c70266a",
-      "rendered_digest": "ed11cfccd99bddf3232ea9a5228a4aa860130749f776dde6d34b8d0323b10755",
-      "ast_digest": "1de3d9b5940f08a30eb49233b2a2598b4bbbd9e3283b509861b2352f947bea45"
+      "values_digest": "ae01211906b98e086e007bd2a955c9a4486158b373f0b86258bf4b2fa1344574",
+      "rendered_digest": "39b70af0f63517e2b08e34475fdc3207dedf1d62b961e1cca3b84ca60ac349fc",
+      "ast_digest": "83d3a251c7468ff18ae719848f2722f5c9a442eff497a4c0ee96c93f7d50b0cc"
     },
     "sor": {
-      "values_digest": "b0e35146b7b9dc93825b5e281e6ee6d24a28b53f14c143f4f7ed1dd8d53f27cf",
+      "values_digest": "e9d580ee4c51c1526377b95aabd775c524b8616c12beb054a1b2618cd793a0b7",
       "rendered_digest": "abd383283e54ced65f8822fa984fbd50a9fdd0b297025c86ef16cfa21a7d03d6",
       "ast_digest": "bfb3bfb050527816d85cf58960e4d4f48a944ac0c5db415e3555904a04087956"
     }
@@ -417,6 +467,27 @@
       "actor": "codex:5340-owner-watch",
       "reason": "Record final complete release-budget proof after all exact-review repairs.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/budgets.json\"],\"purpose\":\"Prove exact dependency, COTS, source authority, sole-writer scope, all tests, LoC ceilings, and validation deadlines on the final substantive revision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2905; test_fixture_lines=1878; unbudgeted_code=[]; substantive commit 0b0c0b2c2d934482b3eed7d481f1e44f2ecd28c4\"}}"
+    },
+    {
+      "sequence": 39,
+      "generation": 33,
+      "actor": "codex:5340-owner-watch",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 34,
+      "actor": "subagent:/root/review_5340_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 35,
+      "actor": "subagent:/root/review_5340_exact",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

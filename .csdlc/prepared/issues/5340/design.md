@@ -170,13 +170,17 @@ contract version, plan source digest, canonical node/edge identity set,
 limits, canonical engine-policy digest, logical turn, consumed attempt budgets,
 terminal outputs, retry waits, and next event/request sequences.
 
-The checkpoint completion journal retains each typed completion, its logical
-completion tick, input digest, sequence, and completion digest. Resume requires
+The checkpoint retains a bounded canonical journal of every normalized
+`TurnInput` plus each typed completion, its logical completion tick, input
+digest, sequence, and completion digest. Resume deterministically replays that
+turn journal from the exact initial engine and requires byte-for-byte snapshot
+equality, binding logical ticks, turn count, event count, intermediate retry
+outcomes, cancellations, dispatch chronology, and final state. It also requires
 contiguous attempts `1..=attempts` per node, exact global sequence coverage,
-recomputed request and completion identities, and a final typed completion that
-explains the retained terminal or retry state. A zero-turn checkpoint must be
-the exact initial snapshot; later quiescent checkpoints cannot retain `ready`
-work, and `pending` work must still be waiting on its dependency decision.
+and recomputed request and completion identities. A zero-turn checkpoint must
+be the exact initial snapshot; later quiescent checkpoints cannot retain
+`ready` work, and `pending` work must still be waiting on its dependency
+decision.
 
 Resume accepts only an exact compatible plan and limits contract. Unknown or
 missing nodes, changed edges/ports, changed limits, truncated state, invalid

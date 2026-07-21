@@ -79,6 +79,7 @@ impl Engine {
             next_event_sequence: 0,
             next_request_sequence: 0,
             nodes: node_states,
+            turn_journal: Vec::new(),
             consumed_completion_digests: BTreeMap::new(),
         };
         ensure_snapshot_bound(&snapshot)?;
@@ -204,6 +205,7 @@ impl Engine {
 
         self.promote_ready(&mut working, &mut events)?;
         self.dispatch(&mut working, &mut effects, &mut events)?;
+        working.turn_journal.push(input);
         ensure_snapshot_bound(&working)?;
 
         self.snapshot = working.clone();
@@ -1743,11 +1745,31 @@ fn validate_resumed_snapshot(
         || snapshot.attempts_consumed > snapshot.limits.max_total_attempts
         || snapshot.attempts_consumed != snapshot.next_request_sequence
         || snapshot.output_bytes > snapshot.limits.max_output_bytes
+        || count_u64(snapshot.turn_journal.len(), "checkpoint.turn_journal")?
+            != snapshot.logical_turns
+        || snapshot.logical_tick < snapshot.logical_turns
     {
         return Err(EngineError::new(
             EngineErrorCode::CheckpointIncompatible,
             "checkpoint",
             "checkpoint counters or identity set are invalid",
+        ));
+    }
+    let mut replayed = expected_engine.clone();
+    for input in &snapshot.turn_journal {
+        replayed.turn(input.clone()).map_err(|_| {
+            EngineError::new(
+                EngineErrorCode::CheckpointIncompatible,
+                "checkpoint.turn_journal",
+                "checkpoint turn journal is not replayable",
+            )
+        })?;
+    }
+    if replayed.snapshot != *snapshot {
+        return Err(EngineError::new(
+            EngineErrorCode::CheckpointIncompatible,
+            "checkpoint.turn_journal",
+            "checkpoint does not equal deterministic replay of its turn journal",
         ));
     }
     if snapshot.logical_turns == 0 {

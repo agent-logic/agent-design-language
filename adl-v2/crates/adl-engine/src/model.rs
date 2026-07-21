@@ -403,6 +403,7 @@ pub struct EngineSnapshot {
     pub next_event_sequence: u64,
     pub next_request_sequence: u64,
     pub nodes: BTreeMap<String, NodeSnapshot>,
+    pub turn_journal: Vec<TurnInput>,
     pub consumed_completion_digests: BTreeMap<String, CompletionReceipt>,
 }
 

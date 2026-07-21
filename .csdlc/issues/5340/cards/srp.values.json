@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-06] Implement portable bounded execution engine",
     "slug": "v0918-wp06-portable-bounded-execution-engine",
     "version": "v0.91.8",
-    "generation": 33
+    "generation": 35
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-v2/crates/adl-engine",
-      "review_revision": "git-blake3:2bed30d6d2a298eb0a3db2d030f06f20901e22de:4b52630fa14ff4ef854bfa4a9485367e01fadbb4623debfab2d866d6085270f2",
+      "review_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
       "reviewer": "subagent:/root/review_5340_exact",
       "review_prompts": [
         "Does the engine consume only the landed inert #5338 plan and keep ADL plan-level scheduling distinct from Runtime v3 operational scheduling, supervision, recovery, and policy?",
@@ -26,9 +26,59 @@
       ],
       "findings": [
         {
+          "id": "F-5340-1-state-dataflow-unresolved",
+          "severity": "p1",
+          "summary": "State dependency resolution and request identity are fixed.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+          "route": null
+        },
+        {
+          "id": "F-5340-2-turn-input-unbounded",
+          "severity": "p1",
+          "summary": "Plan, policy, turn, completion, and materialization work is bounded.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+          "route": null
+        },
+        {
+          "id": "F-5340-3-resume-semantic-truncation",
+          "severity": "p1",
+          "summary": "Base semantic resume checks are fixed, but residual completion-history reachability remains in F-5340-6.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "F-5340-4-compiler-fixture-mapping-absent",
+          "severity": "p1",
+          "summary": "All six applicable landed fixtures are parsed, compiled, classified, and engine-executed.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+          "route": null
+        },
+        {
+          "id": "F-5340-5-usize-policy-contract",
+          "severity": "p2",
+          "summary": "JoinPolicy threshold uses a fixed-width u64 contract.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
+          "route": null
+        },
+        {
           "id": "F-5340-6-resume-journal-reachability",
           "severity": "p1",
-          "summary": "Quiescent resume accepts root Ready and cancelled-to-Pending states and does not bind contiguous attempts or terminal outcomes to completion receipts.",
+          "summary": "Resume does not reconstruct intermediate completion, tick, turn, and event history and accepts a coherently altered impossible retry history.",
           "actionable": true,
           "in_scope": true,
           "disposition": "open",
@@ -38,31 +88,31 @@
         {
           "id": "F-5340-7-state-materialization-bound",
           "severity": "p1",
-          "summary": "Repeated state references can clone expanded outputs before max_request enforcement and encode_bounded allocates the full serialization first.",
+          "summary": "Repeated state materialization is charged before clones and serialization uses a capped writer.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
           "route": null
         },
         {
           "id": "F-5340-8-applicable-fixtures-not-executed",
           "severity": "p1",
-          "summary": "The landed applicable fixture inventory is name-checked but none of the six actual files is parsed, compiled, and engine-executed.",
+          "summary": "Actual applicable landed fixture content is exercised end to end.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
           "route": null
         },
         {
           "id": "F-5340-9-design-truth-drift",
           "severity": "p2",
-          "summary": "Approved design/SPP/VPP truth omits the public byte/cardinality bounds and JSON/text state-output contract added during remediation.",
+          "summary": "Amended design, diagram, SPP/VPP artifact digests, and typed approval are current.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:485d5058d893a7e68fc187dd2a685382cc5d5dbd:84c331d8cfe2d88347396cdd2ec687104e228908527d7864f92f462b452b8380",
           "route": null
         }
       ],

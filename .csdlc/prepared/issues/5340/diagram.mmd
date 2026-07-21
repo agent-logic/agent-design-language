@@ -21,7 +21,8 @@ flowchart LR
   F --> J{"Whole engine has zero dispatched or cancelling requests"}
   A --> J
   J --> X["Quiescent canonical checkpoint plus typed completion journal"]
-  X --> M["Strict plan, limits, contiguous attempts, outcome digest, budget, and sequence match"]
+  X --> TJ["Replay canonical bounded TurnInput journal from exact initial engine"]
+  TJ --> M["Exact snapshot, tick, event, intermediate outcome, contiguous attempt, digest, budget, and sequence match"]
   M --> R
   S["Node, edge, plan, policy, ready, in-flight, attempt, request, completion, turn, output, event, checkpoint bounds"] --> V
   S --> B
