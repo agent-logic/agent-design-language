@@ -1,0 +1,24 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 18,
+  "expected_digest": "04f08edbb6ab2d1a527ebcc8aefce8a607992f3bc4c8a4722cc99d2092da0e73",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Replace preparation invariants with implementation invariants",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "no tracked work on main or sibling worktrees",
+      "no dependency on or edits to incumbent adl or Runtime v2 source",
+      "raw observations remain immutable and normalized observations remain derived",
+      "array order, IDs, errors, exits, prompt content/order, and signature verdicts are semantic",
+      "every case repeats at least three times",
+      "network and credential variables are denied to child processes",
+      "every acceptance criterion has required local proof and none is deferred",
+      "all card changes use typed C-SDLC v2 operations"
+    ]
+  },
+  "fail_after_backup": false
+}

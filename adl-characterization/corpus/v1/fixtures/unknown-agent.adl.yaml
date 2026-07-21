@@ -1,0 +1,7 @@
+version: "0.5"
+providers: {local: {type: ollama}}
+agents: {known: {provider: local, model: test}}
+tasks: {one: {prompt: {user: one}}}
+run:
+  name: unknown-agent
+  workflow: {kind: sequential, steps: [{id: one, agent: missing, task: one}]}

@@ -1,0 +1,21 @@
+{
+  "issue": 5337,
+  "card": "sip",
+  "expected_generation": 7,
+  "expected_digest": "a11db20f577a29591d9844df5655b4364ee7edefc58ad5020b09f0cdc29cbcfd",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record clean-room and execution authority",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "Issue #5337 and the operator instruction authorize the complete WP-03 implementation",
+      "Pinned revision 19c2b6e2ad18bddc75db9231643a54b2a446ce72 is behavioral evidence only",
+      "The independent harness invokes a caller-supplied v1 binary and does not depend on incumbent ADL Rust code",
+      "Typed C-SDLC v2 binaries and records are lifecycle authority",
+      "No credentialed, network, remote, or AWS provider execution is authorized"
+    ]
+  },
+  "fail_after_backup": false
+}

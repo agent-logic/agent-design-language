@@ -1,0 +1,15 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 24,
+  "expected_digest": "3546041b83f82b2a0d29910699848c5cf799adaf9042ea7e2475c1686e5d81fd",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Start the complete implementation plan after typed replanning",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "in_progress"
+  },
+  "fail_after_backup": false
+}
