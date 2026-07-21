@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.ready_publication_reconciliation_request.v1",
+  "publication": {
+    "schema": "csdlc.publication_request.v1",
+    "issue": 5610,
+    "expected_generation": 23,
+    "expected_digest": "93469f958633fee8e13356ae1cc07f03f5b2a0a3a2fb26fde2526ed8fe1259fa",
+    "claim_id": "claim-5610-coverage-path-normalization",
+    "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+    "repository": "danielbaustin/agent-design-language",
+    "remote": "origin",
+    "base": "main",
+    "head": "codex/5610-coverage-path-normalization",
+    "title": "[v0.91.8][CI][coverage] Normalize safe in-repo coverage paths",
+    "body": "Closes #5610\n\nNormalizes slash-unified llvm-cov filenames with platform-independent POSIX lexical semantics before owned-source matching. Safe in-root `bin/..` paths canonicalize, while repository-prefix and owned-root traversal escapes fail closed. When lexical aliases identify one canonical file, the merger requires matching metric schemas and non-summary fields, conservatively retains each metric's maximum count and covered values without summing, and recomputes percent and notcovered.\n\nFocused FastWork proof passed: synthetic positive and negative regressions, exact replay of hosted run 29813137619 artifacts, Python compilation, coupled CI-runtime contracts, authoritative coverage-lane contracts, and diff hygiene. Exact scoped review found no findings. Summary-only coalescing is explicitly conservative because producer summaries do not retain covered-set identity.\n\nIssue #5602 terminal truth remains immutable; consumer PR #5607 and PR #5608 branches are untouched.",
+    "draft": false,
+    "token_file": "/Users/daniel/keys/github.token"
+  },
+  "pull_request": 5611
+}
