@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
 [
   {
     "lane": "parity-c-live-governance",
-    "proof_role": "Prove signed Freedom Gate/AEE gate-before-actuation and denial, appeal, revocation, quarantine, replay, and expiry negatives on live work",
+    "proof_role": "Prove signed Freedom Gate/AEE gate-before-actuation and denial, appeal, revocation, quarantine, replay, and expiry negatives on live work; fail closed unless the exact nonzero test inventory matches",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
@@ -35,18 +35,21 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "parity_c_live_governance"
+      "ruby",
+      ".csdlc/prepared/issues/5589/run_focused_test_lane.rb",
+      "--inventory",
+      ".csdlc/prepared/issues/5589/focused-test-inventory.json",
+      "--lane",
+      "parity-c-live-governance",
+      "--manifest",
+      "adl-runtime-kernel/Cargo.toml"
     ],
     "parallel_group": "parity-c-live",
     "defer_reason": null
   },
   {
     "lane": "parity-c-delegation-resources",
-    "proof_role": "Prove attenuating delegation, resource bounds, cancellation precedence, retry/idempotency, saturation, and cleanup",
+    "proof_role": "Prove attenuating delegation, resource bounds, cancellation precedence, retry/idempotency, saturation, and cleanup; fail closed unless the exact nonzero test inventory matches",
     "acceptance_ids": [
       "AC-3"
     ],
@@ -55,18 +58,21 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "parity_c_delegation_resources"
+      "ruby",
+      ".csdlc/prepared/issues/5589/run_focused_test_lane.rb",
+      "--inventory",
+      ".csdlc/prepared/issues/5589/focused-test-inventory.json",
+      "--lane",
+      "parity-c-delegation-resources",
+      "--manifest",
+      "adl-runtime-kernel/Cargo.toml"
     ],
     "parallel_group": "parity-c-live",
     "defer_reason": null
   },
   {
     "lane": "parity-c-provider-scheduler-tools",
-    "proof_role": "Prove live multi-agent Shepherd/provider/scheduler/governed-tool execution and provider/scheduler negative classifications",
+    "proof_role": "Prove live multi-agent Shepherd/provider/scheduler/governed-tool execution and provider/scheduler negative classifications; fail closed unless the exact nonzero test inventory matches",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -76,18 +82,21 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 6000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "parity_c_provider_scheduler_tools"
+      "ruby",
+      ".csdlc/prepared/issues/5589/run_focused_test_lane.rb",
+      "--inventory",
+      ".csdlc/prepared/issues/5589/focused-test-inventory.json",
+      "--lane",
+      "parity-c-provider-scheduler-tools",
+      "--manifest",
+      "adl-runtime-kernel/Cargo.toml"
     ],
     "parallel_group": "parity-c-live",
     "defer_reason": null
   },
   {
     "lane": "parity-c-private-identity",
-    "proof_role": "Prove authoritative identity, private-state partitioning, restart persistence, revocation, cross-identity rejection, and evidence redaction",
+    "proof_role": "Prove authoritative identity, private-state partitioning, restart persistence, revocation, cross-identity rejection, and evidence redaction; fail closed unless the exact nonzero test inventory matches",
     "acceptance_ids": [
       "AC-5"
     ],
@@ -96,18 +105,21 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
     "budget_seconds": 600,
     "budget_tokens": 4000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "parity_c_private_identity"
+      "ruby",
+      ".csdlc/prepared/issues/5589/run_focused_test_lane.rb",
+      "--inventory",
+      ".csdlc/prepared/issues/5589/focused-test-inventory.json",
+      "--lane",
+      "parity-c-private-identity",
+      "--manifest",
+      "adl-runtime-kernel/Cargo.toml"
     ],
     "parallel_group": "parity-c-state",
     "defer_reason": null
   },
   {
     "lane": "parity-c-time-continuity",
-    "proof_role": "Prove qualified time, authenticated checkpoints, non-authoritative lifelog, restart/no-duplicate continuity, corruption/replay rejection, failure isolation, and final shutdown checkpoint",
+    "proof_role": "Prove qualified time, authenticated checkpoints, non-authoritative lifelog, restart/no-duplicate continuity, corruption/replay rejection, failure isolation, and final shutdown checkpoint; fail closed unless the exact nonzero test inventory matches",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
@@ -117,18 +129,21 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
     "budget_seconds": 900,
     "budget_tokens": 6000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "parity_c_time_continuity"
+      "ruby",
+      ".csdlc/prepared/issues/5589/run_focused_test_lane.rb",
+      "--inventory",
+      ".csdlc/prepared/issues/5589/focused-test-inventory.json",
+      "--lane",
+      "parity-c-time-continuity",
+      "--manifest",
+      "adl-runtime-kernel/Cargo.toml"
     ],
     "parallel_group": "parity-c-state",
     "defer_reason": null
   },
   {
     "lane": "parity-c-production-credit",
-    "proof_role": "Reject DegradedOperationExecutor, fixture, mock, metadata-only, library-only, and fixed-bootstrap parity credit and inventory production/COTS adapters",
+    "proof_role": "Reject DegradedOperationExecutor, fixture, mock, metadata-only, library-only, and fixed-bootstrap parity credit and inventory production/COTS adapters; fail closed unless the exact nonzero test inventory matches",
     "acceptance_ids": [
       "AC-1",
       "AC-8"
@@ -138,11 +153,14 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
     "budget_seconds": 300,
     "budget_tokens": 2000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "parity_c_production_credit"
+      "ruby",
+      ".csdlc/prepared/issues/5589/run_focused_test_lane.rb",
+      "--inventory",
+      ".csdlc/prepared/issues/5589/focused-test-inventory.json",
+      "--lane",
+      "parity-c-production-credit",
+      "--manifest",
+      "adl-runtime-kernel/Cargo.toml"
     ],
     "parallel_group": "parity-c-quality",
     "defer_reason": null
@@ -216,7 +234,7 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
   },
   {
     "lane": "parity-c-boundary-scan",
-    "proof_role": "Reject Runtime v2, AWS, credential, machine-local, degraded-credit, and cross-lane ownership drift",
+    "proof_role": "Reject Runtime v2, AWS, credential, machine-local, degraded-credit, and cross-lane ownership drift; fail closed unless the exact nonzero test inventory matches",
     "acceptance_ids": [
       "AC-1",
       "AC-8"
@@ -226,11 +244,14 @@ Diagram: .csdlc/prepared/issues/5589/diagram.mmd
     "budget_seconds": 300,
     "budget_tokens": 2000,
     "argv": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "parity_c_boundary_contract"
+      "ruby",
+      ".csdlc/prepared/issues/5589/run_focused_test_lane.rb",
+      "--inventory",
+      ".csdlc/prepared/issues/5589/focused-test-inventory.json",
+      "--lane",
+      "parity-c-boundary-scan",
+      "--manifest",
+      "adl-runtime-kernel/Cargo.toml"
     ],
     "parallel_group": "parity-c-quality",
     "defer_reason": null
@@ -267,16 +288,16 @@ Tokens: 50000
 
 ## Commands
 
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml parity_c_live_governance`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml parity_c_delegation_resources`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml parity_c_provider_scheduler_tools`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml parity_c_private_identity`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml parity_c_time_continuity`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml parity_c_production_credit`
+- `ruby .csdlc/prepared/issues/5589/run_focused_test_lane.rb --inventory .csdlc/prepared/issues/5589/focused-test-inventory.json --lane parity-c-live-governance --manifest adl-runtime-kernel/Cargo.toml`
+- `ruby .csdlc/prepared/issues/5589/run_focused_test_lane.rb --inventory .csdlc/prepared/issues/5589/focused-test-inventory.json --lane parity-c-delegation-resources --manifest adl-runtime-kernel/Cargo.toml`
+- `ruby .csdlc/prepared/issues/5589/run_focused_test_lane.rb --inventory .csdlc/prepared/issues/5589/focused-test-inventory.json --lane parity-c-provider-scheduler-tools --manifest adl-runtime-kernel/Cargo.toml`
+- `ruby .csdlc/prepared/issues/5589/run_focused_test_lane.rb --inventory .csdlc/prepared/issues/5589/focused-test-inventory.json --lane parity-c-private-identity --manifest adl-runtime-kernel/Cargo.toml`
+- `ruby .csdlc/prepared/issues/5589/run_focused_test_lane.rb --inventory .csdlc/prepared/issues/5589/focused-test-inventory.json --lane parity-c-time-continuity --manifest adl-runtime-kernel/Cargo.toml`
+- `ruby .csdlc/prepared/issues/5589/run_focused_test_lane.rb --inventory .csdlc/prepared/issues/5589/focused-test-inventory.json --lane parity-c-production-credit --manifest adl-runtime-kernel/Cargo.toml`
 - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml`
 - `cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings`
 - `bash adl/tools/report_runtime_v3_loc.sh`
-- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml parity_c_boundary_contract`
+- `ruby .csdlc/prepared/issues/5589/run_focused_test_lane.rb --inventory .csdlc/prepared/issues/5589/focused-test-inventory.json --lane parity-c-boundary-scan --manifest adl-runtime-kernel/Cargo.toml`
 - `git diff --check`
 
 ## Failure Semantics

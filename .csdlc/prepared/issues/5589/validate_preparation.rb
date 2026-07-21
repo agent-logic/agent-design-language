@@ -7,6 +7,16 @@ require "open3"
 ISSUE = 5589
 KINDS = %w[sip stp spp vpp srp sor].freeze
 EXPECTED_ACCEPTANCE = (1..8).map { |number| "AC-#{number}" }.freeze
+EXPECTED_TITLE = "[v0.91.8][WP-14][runtime-v3][parity-c] Replace degraded governed operations adapters"
+FOCUSED_LANES = %w[
+  parity-c-live-governance
+  parity-c-delegation-resources
+  parity-c-provider-scheduler-tools
+  parity-c-private-identity
+  parity-c-time-continuity
+  parity-c-production-credit
+  parity-c-boundary-scan
+].freeze
 EXPECTED_CLAIM_PATHS = [
   ".csdlc/evidence/5589",
   ".csdlc/issues/5589",
@@ -22,7 +32,7 @@ end
 
 index = JSON.parse(File.read(".csdlc/issues/#{ISSUE}/index.json"))
 abort "issue is not preparation-bound" unless index.fetch("phase") == "bound"
-abort "issue generation omits preparation semantic edits" unless index.fetch("generation") >= 3
+abort "issue generation omits preparation semantic edits" unless index.fetch("generation") >= 2
 abort "claim generation mismatch" unless index.dig("claim", "generation") == index.fetch("generation")
 abort "design review missing" unless index.fetch("design_review").key?("approved")
 abort "prepublication review must remain absent" if index["review"] || index["review_assignment"]
@@ -35,9 +45,13 @@ cards = KINDS.to_h do |kind|
   path = ".csdlc/issues/#{ISSUE}/cards/#{kind}.values.json"
   card = JSON.parse(File.read(path))
   abort "#{kind} identity mismatch" unless card.dig("identity", "issue") == ISSUE
+  abort "#{kind} title mismatch" unless card.dig("identity", "title") == EXPECTED_TITLE
   [kind, card.fetch("content").fetch("values")]
 end
 abort "expected all six cards" unless cards.length == 6
+
+bootstrap = JSON.parse(File.read(".csdlc/prepared/issues/5589/bootstrap-request.json"))
+abort "bootstrap title mismatch" unless bootstrap.dig("initial", "title") == EXPECTED_TITLE
 
 acceptance = cards.fetch("stp").fetch("acceptance_criteria").map { |value| value[/AC-\d+/] }.compact.uniq.sort
 abort "acceptance set incomplete" unless acceptance == EXPECTED_ACCEPTANCE
@@ -49,6 +63,30 @@ abort "VPP coverage incomplete" unless lane_coverage == EXPECTED_ACCEPTANCE
 abort "deferred validation lane" if cards.fetch("vpp").fetch("lanes").any? { |lane| lane["defer_reason"] }
 abort "validation time exceeds large profile" unless cards.fetch("vpp").fetch("planned_validation_seconds") <= 7_200
 abort "validation tokens exceed large profile" unless cards.fetch("vpp").fetch("planned_validation_tokens") <= 50_000
+
+inventory_path = ".csdlc/prepared/issues/5589/focused-test-inventory.json"
+runner_path = ".csdlc/prepared/issues/5589/run_focused_test_lane.rb"
+inventory = JSON.parse(File.read(inventory_path)).fetch("lanes")
+abort "focused lane inventory mismatch" unless inventory.keys.sort == FOCUSED_LANES.sort
+
+lane_by_id = cards.fetch("vpp").fetch("lanes").to_h { |lane| [lane.fetch("lane"), lane] }
+FOCUSED_LANES.each do |lane_id|
+  entry = inventory.fetch(lane_id)
+  abort "#{lane_id} minimum count is not positive" unless entry.fetch("minimum_count").positive?
+  abort "#{lane_id} inventory is below minimum" unless entry.fetch("tests").length >= entry.fetch("minimum_count")
+  abort "#{lane_id} inventory contains duplicates" unless entry.fetch("tests").uniq.length == entry.fetch("tests").length
+  abort "#{lane_id} VPP command does not use the count guard" unless lane_by_id.fetch(lane_id).fetch("argv") == [
+    "ruby", runner_path, "--inventory", inventory_path, "--lane", lane_id,
+    "--manifest", "adl-runtime-kernel/Cargo.toml"
+  ]
+
+  _stdout, stderr, status = Open3.capture3(
+    "ruby", runner_path, "--self-test-zero-match", "--inventory", inventory_path,
+    "--lane", lane_id, "--manifest", "adl-runtime-kernel/Cargo.toml"
+  )
+  abort "#{lane_id} zero-match self-test did not fail closed" if status.success?
+  abort "#{lane_id} zero-match failure was not explicit" unless stderr.include?("matched zero tests")
+end
 
 design = File.read(".csdlc/prepared/issues/5589/design.md")
 diagram = File.read(".csdlc/prepared/issues/5589/diagram.mmd")

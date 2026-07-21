@@ -2,14 +2,14 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5589,
   "repository": "danielbaustin/agent-design-language",
-  "initialization_digest": "521dc0584a6000b59185099141975aecda88cf909b892ccd6ca705a4686c5fde",
+  "initialization_digest": "812bcef468b7261d7d8cb522251cb0734425060895701091efad37a816ece601",
   "phase": "bound",
-  "generation": 5,
-  "digest": "82fdcec6f51aeebbcea73b0cb3a584134479dea66c55cf33ab59b9661ded39da",
+  "generation": 2,
+  "digest": "f9180d46864a23d183b9c09be651f97b8a6ee836d74c69013d9a6f81e12faadc",
   "claim": {
     "id": "claim-5589-runtime-v3-parity-c-preparation",
     "owner": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
-    "generation": 5,
+    "generation": 2,
     "acquired_unix_seconds": 1784601578,
     "expires_unix_seconds": 1785206378,
     "heartbeat_unix_seconds": 1784601578,
@@ -39,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c7c4e50a39f67583274cf95ed1a1c7908d77c91ac1c6e275e647c3b151142c15",
+      "values_digest": "b2e01b4d403057fc5f171ffce75be917d469ed9eaddae396b9597d2a1a6aa339",
       "rendered_digest": "e4eb2c40819044f7cc76ce912abe672db74767294dc52d3cb4e9bc299c84521a",
       "ast_digest": "b5c2a719075cdd0116ddb7ef2ee6cfe965d29a50aa3a751399579f3d779e92ae"
     },
     "stp": {
-      "values_digest": "627447cf9bf1ae66d484999af988629fae559d6290cf1396538cc8409ae62e54",
+      "values_digest": "c5ea57eeecff67dc192290a1230a168a83057305f2e939eab236dbd5ced5e47e",
       "rendered_digest": "0bb5d39c70d4b3d76bc1afaf3499fb08556b2be2fb543fa2e58eb333756d433a",
       "ast_digest": "d8a3c985226d547ba7b559e6d58576a7c43a9c621c16289a7d5e14f4cb672bcf"
     },
     "spp": {
-      "values_digest": "53b54bdd0364fbeed20df7d282a56ab83056c00c57456ba07abef7b62d882f86",
+      "values_digest": "ba56d84ab9cc0fa16b7380d78819927fc77f1a4efa33af086353bfa73bd7a779",
       "rendered_digest": "ec52f422fc300685a15bbf82358d67f5081db6f47f2dca4b828dcfd61cd46c8e",
       "ast_digest": "2f3dda8795734696db8ac5d0324eb65df7f0608e8ab60d4e47bf8848758c1524"
     },
     "vpp": {
-      "values_digest": "5dbca2b5033fbc6fab8eb1028ac5369b13f61b2c4c844984d44f84316c8ae6de",
-      "rendered_digest": "c435873b5795f5bac90e77b7a7f9df6194d69c1497b39d0fffb4e99a00ab975e",
-      "ast_digest": "934250a491de80a9e758e6138d39f54698f83ec7e2cddbbaa56f17f64cb21631"
+      "values_digest": "b1e01058a9c2a3e75bb02d3ddbd7e68d4518e71dfbeb3de5b40003572812c05a",
+      "rendered_digest": "436e57ced1c8fce2e364b7f0c755df3c6b07585d1851c213b880e0a8de707b2e",
+      "ast_digest": "9505b0680657b74adcbd6d759de219f8245f28d43aa7c1946143c4be5564fe83"
     },
     "srp": {
-      "values_digest": "e9b86583a62d4d731326c7801bb434c5cbb0312470a021d38e85b6daf4e943a8",
+      "values_digest": "31507e2534a26ad9f0bbadf7ea7e62eed3fc731862f902c95ea28ad93708746d",
       "rendered_digest": "bb26271a56a8de4cee86a2f38cc9a53ab33ce36cf227a57a20139820bc0ad356",
       "ast_digest": "b71f768652d14ef47271df9cf058cf494b82ef875a9fadf8b330571447d566f3"
     },
     "sor": {
-      "values_digest": "13b54ad1929bf659e2e88cebaf8bd1e26b120fcb0fd3b18b8eadb720d0a916cb",
-      "rendered_digest": "4e7ba8a421093de772e2b29615774ff817076baeb20c83f1e37cedde1f9ac156",
-      "ast_digest": "7eb94a5cca3b4127e3845c96855e6ce4bb31961162e9e1827a81deb56403cdee"
+      "values_digest": "f881dbbe23dd6290e6102a8910068d4187e590589aee5829a6a05d154f0b2a21",
+      "rendered_digest": "95de59e4ca2bdb2a53e67165c2a0ea1e1f4ee5c5673da41a28215402f0747fe4",
+      "ast_digest": "493b5c51290f3334ab7615cf862ae4be9edcd3c62e5836bac6ff542c9be92d4f"
     }
   },
   "transitions": [
@@ -104,36 +104,15 @@
       "sequence": 3,
       "generation": 1,
       "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
-      "reason": "reapprove changed issue design",
-      "operation": "approve_design"
+      "reason": "Record truthful completion of the preparation-only lane without claiming product implementation or publication",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed the repaired #5589 preparation-only package with all six typed cards synchronized to the canonical [WP-14] title, approved design and diagram, adapter/authority matrix, disjoint lifecycle claim, fail-closed focused-test inventory guards, and explicit #5591 implementation blockers; no product code or publication was performed.\",\"changes\":[\"generated issue-specific SIP, STP, SPP, VPP, SRP, and SOR through csdlc-init\",\"bound a preparation-only claim protecting only #5589 lifecycle and evidence paths\",\"authored the Runtime v3 Parity-C design, diagram, adapter/authority matrix, and readiness-blocker record\",\"declared complete live positive, negative, continuity, shutdown, budget, and zero-degraded-credit proof lanes\",\"made every eventual focused test lane require an exact nonzero inventory before executing each named test\"],\"artifacts\":[\".csdlc/prepared/issues/5589/design.md\",\".csdlc/prepared/issues/5589/diagram.mmd\",\".csdlc/prepared/issues/5589/adapter-authority-matrix.md\",\".csdlc/prepared/issues/5589/readiness-blockers.md\",\".csdlc/prepared/issues/5589/focused-test-inventory.json\",\".csdlc/prepared/issues/5589/run_focused_test_lane.rb\"]}"
     },
     {
       "sequence": 4,
       "generation": 2,
       "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
-      "reason": "Record truthful completion of the preparation-only lane without claiming product implementation or publication",
-      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Completed the #5589 preparation-only package with all six typed cards, approved design and diagram, adapter/authority matrix, disjoint lifecycle claim, deterministic preparation validation, and explicit #5591 implementation blockers; no product code or publication was performed.\",\"changes\":[\"generated issue-specific SIP, STP, SPP, VPP, SRP, and SOR through csdlc-init\",\"bound a preparation-only claim protecting only #5589 lifecycle and evidence paths\",\"authored the Runtime v3 Parity-C design, diagram, adapter/authority matrix, and readiness-blocker record\",\"declared complete live positive, negative, continuity, shutdown, budget, and zero-degraded-credit proof lanes\"],\"artifacts\":[\".csdlc/prepared/issues/5589/design.md\",\".csdlc/prepared/issues/5589/diagram.mmd\",\".csdlc/prepared/issues/5589/adapter-authority-matrix.md\",\".csdlc/prepared/issues/5589/readiness-blockers.md\",\".csdlc/evidence/5589/preparation/complete-preparation-contract.log\",\".csdlc/evidence/5589/preparation/diff-hygiene.log\"]}"
-    },
-    {
-      "sequence": 5,
-      "generation": 3,
-      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
       "reason": "Mark only the completed preparation step while preserving every implementation and publication step as pending",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
-    },
-    {
-      "sequence": 6,
-      "generation": 4,
-      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
-      "reason": "Record the typed local-pass preparation PVF result without promoting it to product acceptance",
-      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5589/validate-preparation.json\"],\"purpose\":\"Validate complete six-card preparation, design and matrix coverage, disjoint claim scope, patch hygiene, zero product changes, and exact #5591 blockers\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5589/preparation\"}}"
-    },
-    {
-      "sequence": 7,
-      "generation": 5,
-      "actor": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
-      "reason": "reapprove changed issue design",
-      "operation": "approve_design"
     }
   ]
 }
