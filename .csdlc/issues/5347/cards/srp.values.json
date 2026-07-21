@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5347,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-13][deletion] Delete externally owned incumbent ADL bands",
+    "slug": "v0918-wp13-external-band-deletion",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5347\n.csdlc/locks/5347.lock\n.csdlc/prepared/issues/5347\n.csdlc/evidence/5347\ndocs/milestones/v0.91.8/evidence/wp13-external-bands",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet preserve the operator-mandated terminal #5346 gate while truthfully exposing the current #5346/#5347 dependency cycle?",
+        "Can any alias, traversal, symlink, submodule, generated path, directory prefix, or stale manifest create overlap or deletion authority outside the exact typed claim?",
+        "Does every delete_external row require an accepted owner, exact revision, terminal receipt, behavior proof, and authority-rooted reachability evidence?",
+        "Are retained files and historical evidence given explicit owners, consumers, rationales, proof roles, and sunset conditions?",
+        "Do Runtime v2 and #5346 language/compiler/engine/CLI paths remain outside #5347 authority?",
+        "Are COTS, budgets, net-negative accounting, PVF classification, rollback, serialized integration, no-deferral, exact review, and post-merge proof complete?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

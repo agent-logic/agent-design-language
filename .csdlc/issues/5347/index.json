@@ -1,0 +1,112 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5347,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "4379da53c4006fc48b7aa0358cdc5518623fd15b918ae42ea519c372e95f784f",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "66f957822a3177917e34bce9141aa1e776e1344322bb9fb158e33a46218f182d",
+  "claim": {
+    "id": "claim-5347-v0918-wp13-external-band-deletion-preparation",
+    "owner": "codex:current-session-5347",
+    "generation": 1,
+    "acquired_unix_seconds": 1784662079,
+    "expires_unix_seconds": 1785266879,
+    "heartbeat_unix_seconds": 1784662079,
+    "branch": "codex/5347-v0918-wp13-external-band-deletion",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5347",
+      ".csdlc/locks/5347.lock",
+      ".csdlc/prepared/issues/5347",
+      ".csdlc/evidence/5347",
+      "docs/milestones/v0.91.8/evidence/wp13-external-bands"
+    ],
+    "purpose": "Prepare and review #5347 external-band deletion contracts only; no product path or deletion authority until #5346 and every acceptance/cutover dependency are merged, typed closed_out, receipt-backed, claim-free, ancestral, and the issue-graph cycle is reconciled"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5347/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5347/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:gpt-5.3-codex-spark-bounded-review",
+      "revision": "47d6ecf36eebe48654aab29e403bac103b3a01e32244491ecb3bd39245c8aad7"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "aa676f35320c371281eee6d983409589fd42c2a234ac89ca5cfd68b270f890c8",
+      "rendered_digest": "9e73ad0bdbbfea120d9162c977de7c7263aaec87dac0550760f76d75259fa7f7",
+      "ast_digest": "5262b6553fb4fd034e38e50e05622657f6463121dd64c711092439c657945636"
+    },
+    "stp": {
+      "values_digest": "7c88a4009327408d901f1b04279c09bc8a22ffbcd62556fe0dbc228183447a91",
+      "rendered_digest": "f1e111b0ed24a230f48d3a7260e0b22936093d2d679bab2ba179d03665d5e724",
+      "ast_digest": "a2a171d4116deb4cc6ffba0a86d48a821f2a04fbe77554af9ee941ce3781d544"
+    },
+    "spp": {
+      "values_digest": "40e0f0ba61269c4283ca6aee516cbe1302d3704c7a2c264e85fbe5bc8f7ae6d8",
+      "rendered_digest": "f6b0388f91dea18cef27f7063bc860523ce6c6b931104e56ce9542763c857730",
+      "ast_digest": "efa4e9a9a13fd710686cef64862561adf949666dbde5c4a2afa1583d155f9f5f"
+    },
+    "vpp": {
+      "values_digest": "c96ccfdf1b9014d79e5fb4f04e6c77cf219daa752b1015c00b99baf82f1d02ef",
+      "rendered_digest": "c576a1f02770ec91a9246641040f72159f783c514641c2dc2221ee163ebc3dd4",
+      "ast_digest": "3097609279b1a90402b210565fc00efd392d12568569c756b0fd36c5bf3160cc"
+    },
+    "srp": {
+      "values_digest": "bb5f1f49de04a91c501f8181491e21200fa7f2cd60fdd162d0fa1fe2944c6a4b",
+      "rendered_digest": "c8e597630b464ddd8d3a5eea9a0118ddd500115dec18913b4549418bf339785f",
+      "ast_digest": "56d4f4b12afd863aec827968e941ff566059f98eb3e7e62e6326d41f6869a76e"
+    },
+    "sor": {
+      "values_digest": "3cbc9addad22b842f84eb5fd2e7ad2529489fff364e41e268e0ea2c711756794",
+      "rendered_digest": "5a46fdbe89e547359b08a57eefcceded166cc7508f3713d7ab4494b397b514a5",
+      "ast_digest": "ef2bde73611140248a6b4cb2391bb6e11995b74fc604786ce16055708e072351"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:current-session-5347",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:current-session-5347",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:current-session-5347",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:gpt-5.3-codex-spark-bounded-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:current-session-5347",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

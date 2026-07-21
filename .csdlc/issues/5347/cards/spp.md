@@ -1,0 +1,138 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 5347
+
+Repository: danielbaustin/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Render and validate all six cards; freeze manifest schema, exact dependency and cycle gate, owner/reachability proof, disjointness boundary, protected paths, COTS, budgets, PVF, rollback, and no-deferral rules; obtain bounded preparation review and fix findings; commit and push preparation only; remain read-only until every terminal gate and issue-graph predicate passes.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Complete all six typed cards, design, diagram, preparation executables, protected paths, COTS, budgets, PVF, bounded review/fixes, commit, and push without product work",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "in_progress"
+  },
+  {
+    "id": "S2",
+    "action": "Maintain a read-only dependency watch and reject execution until all terminal receipts, ancestry checks, and the #5346/#5347 cycle reconciliation pass",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Freeze and review exact #5346 and #5347 manifests, prove canonical disjointness, then amend the typed claim with only exact eligible product paths",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Delete only exact delete_external rows and run every owner, parity, security, rollback, CI, reachability, budget, and evidence-integrity proof without deferral",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Obtain exact review, publish through typed v2, serialize merge after #5346, run post-merge proof, close out, retain receipt, and release claims",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- No execution or product-path claim begins before every terminal dependency, receipt, claim-release, ancestry, and issue-graph predicate passes
+- #5347 and #5346 manifests have zero canonical path overlap
+- Only individually manifested tracked files may be deletion candidates; directory-prefix authority is forbidden
+- Unknown reachability, mixed ownership, missing replacement proof, stale receipts, or manifest drift produce blocked rows
+- Runtime v2 and all accepted replacement owner implementations remain untouched
+- Historical evidence can reference deleted tools without retaining executable authority
+- Evidence is deterministic, redacted, repo-relative, exact-revision bound, and claim-classified
+- Deletion and post-deletion merges are serialized and rollback is an exact Git revert
+- All applicable acceptance and PVF lanes complete without deferral before publication
+
+## Risks
+
+- The live #5346/#5347 dependency cycle can make execution impossible or invite an unsafe bypass
+- A coarse directory manifest can overlap #5346 or delete mixed-owner behavior
+- Historical textual references can be mistaken for current executable authority
+- Metadata-only replacement claims can remove the last live implementation, especially Runtime v2 behavior
+- Canonical path aliases, traversal, symlinks, submodules, or generated files can defeat disjointness checks
+- Deleting white-box tests before replacement contracts are accepted can hide behavior loss
+- Line-reduction pressure can erase retained evidence or encourage code movement instead of deletion
+- Parallel deletion branches can be individually valid but unsafe when merged without serial revalidation
+
+## Estimates
+
+{
+  "elapsed_seconds": 86400,
+  "total_tokens": 240000,
+  "validation_seconds": 21600
+}
+
+## Design
+
+.csdlc/prepared/issues/5347/design.md
+
+Digest: 47d6ecf36eebe48654aab29e403bac103b3a01e32244491ecb3bd39245c8aad7
+
+## Diagram
+
+.csdlc/prepared/issues/5347/diagram.mmd
+
+Digest: d550ff159858d31a2499c34ac10cd8bfb30dfbe3d6c9dd83ed8d42551480ceb3
+
+## Stop Conditions
+
+- Any #5346, #5344, #5343, #5358, or #5361 merge, typed closed_out, receipt, claim-release, or ancestry predicate is absent or contradictory
+- The #5346/#5347 live dependency cycle has not been authoritatively reconciled
+- The exact #5346 manifest is missing, stale, unreviewed, or overlaps a #5347 candidate
+- Any candidate lacks accepted replacement owner, exact revision, receipt, behavior proof, or authority-rooted reachability evidence
+- Any path is absolute, escaping, duplicated, symlinked outside root, untracked, generated, submodule-owned, or outside a typed exact-path claim
+- Any operation would edit Runtime v2, replacement products, selector/cutover state, historical evidence, root main, or another claim
+- Any acceptance or validation item would be deferred, skipped, overclaimed, or replaced with metadata-only proof
+- A LoC, test, dependency, duration, evidence, or net-negative budget fails without exact reviewed variance
+
+## Handoff
+
+Proceed only after doctor readiness.
