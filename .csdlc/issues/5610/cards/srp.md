@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+adl/tools/merge_coverage_summaries.py
+adl/tools/test_merge_coverage_summaries.sh
 
 ## Prompts
 
@@ -30,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Normalization intentionally remains lexical and does not resolve filesystem symlinks; llvm-cov filename ownership consumes lexical provenance only.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1d37fd8aaf903d115f025511831882853194c3c3:d01383fc5d3c5a844a62b27cab55d0b313c2af1cc27cd6369247dacccf0f4f9c")
 
-Reviewer: None
+Reviewer: Some("subagent:review-5610-current-main")
 
-Result: pre_review
+Result: pass
