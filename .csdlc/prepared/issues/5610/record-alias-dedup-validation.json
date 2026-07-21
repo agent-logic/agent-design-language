@@ -1,0 +1,18 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 15,
+  "expected_digest": "6b8e18864f419c28ec83bee4f0285d661d56c70872a8393b6317f1b764a89c0c",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Record focused proof for identical alias coalescing and conflicting alias rejection.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "adl/tools/test_merge_coverage_summaries.sh"],
+      "purpose": "Prove complete-record equality is required before canonical alias coalescing and conflicts remain fail-closed.",
+      "outcome": "passed",
+      "evidence_ref": "FastWork: py_compile, test_merge_coverage_summaries, test_ci_runtime_contracts, test_run_authoritative_coverage_lane, and git diff --check all passed."
+    }
+  }
+}

@@ -27,3 +27,6 @@
 {"sequence":27,"generation":20,"actor":"subagent:codex-exec-5600-final-head-2","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":28,"generation":21,"actor":"codex:issue-5600","reason":"Restore reviewed truth after completing all four plan steps","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":29,"generation":22,"actor":"codex:issue-5600","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":30,"generation":23,"actor":"codex:issue-5600-terminal-at-squash","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness_reconcile_metadata_only_published_revision"}
+{"sequence":31,"generation":24,"actor":"codex:issue-5600-terminal-at-squash","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":32,"generation":25,"actor":"codex:issue-5358-acceptance","reason":"Integrate the receipt-backed squash-merge terminal truth proven from exact baseline 2a6727a7 while preserving the earlier closed-claim release audit history.","operation":"reconcile_terminal"}

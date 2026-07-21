@@ -1,0 +1,20 @@
+{
+  "issue": 5358,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "01f1cbd130568ad8c19e505efe3e30a63e54dd6cdfee7aa974b0a5d51b174510",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+  "reason": "Record the clean-revision all-target C-SDLC v2 validation result.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-test-target cargo test --locked --manifest-path csdlc-v2/Cargo.toml --all-targets"
+      ],
+      "purpose": "Prove the complete C-SDLC v2 test surface, including clean-source installer and provenance contracts, after committing the publication repair implementation.",
+      "outcome": "passed",
+      "evidence_ref": "local-fastwork:csdlc-v2-all-targets-pass-167e8b9b4"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "issue": 5336,
+  "expected_generation": 40,
+  "expected_digest": "d5be3c0a0ec9af17b14b05e30ad7e44b368f94b1c1d066c4b092ab023c003d48",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Recover exact review after hosted tooling contracts proved the PR-fast path-policy assertion still named the pre-isolation summary location."
+}

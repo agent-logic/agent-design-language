@@ -1,0 +1,8 @@
+{
+  "issue": 5337,
+  "expected_generation": 58,
+  "expected_digest": "aa69f0feae8c05a4bf1583011d1dfcf618b404e7eec5284f9636b8805377ce00",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Recover the incomplete published projection produced while reconciling an already-ready PR so the supported draft-to-ready typed path can establish readiness truth."
+}

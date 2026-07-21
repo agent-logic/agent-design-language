@@ -1,0 +1,33 @@
+{
+  "issue": 5336,
+  "expected_generation": 41,
+  "expected_digest": "4f5fd9e7da60352b6642a4f58a7de43bb144beb50d6c8b08874e73bb6a0f2c18",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+  "evidence": {
+    "reviewer": "subagent:019f832a-9a9e-7331-a0dc-ce6807bd6fb7",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      ".csdlc/issues/5336",
+      ".csdlc/prepared/issues/5336"
+    ],
+    "reviewed_revision": "git-blake3:0ec5a038259e2534c573de3c0ef1b049df6c831c:0c37d92696d67804ec0c7e061e7eb29b5cb42599e25a414831cb894b479cbc0c",
+    "findings": [
+      {
+        "id": "stale-pre-isolation-path-policy-assertions",
+        "severity": "p1",
+        "summary": "The path-policy contract still required removed pre-isolation coverage command and artifact names after the first path correction.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

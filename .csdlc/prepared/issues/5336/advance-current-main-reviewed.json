@@ -1,0 +1,11 @@
+{
+  "issue": 5336,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "6830c755009d9f44277d433df5bb52341d2706d542c83f116b15d331b38a3543",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Current-main exact substantive review passed with no findings or residual risks.",
+  "operation": {"operation": "advance_phase", "phase": "reviewed"},
+  "fail_after_backup": false
+}

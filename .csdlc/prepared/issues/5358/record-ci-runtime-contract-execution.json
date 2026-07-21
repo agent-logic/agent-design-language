@@ -1,0 +1,20 @@
+{
+  "issue": 5358,
+  "card": "sor",
+  "expected_generation": 34,
+  "expected_digest": "9427a6996b5e6adb37a1a196b0530dc28ed9409e15f144befcfe50fb3ff96a3f",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "Record the single stale CI runtime-contract assertion repair proven necessary by PR #5606 run 29799791075.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Aligned the CI runtime contract with the always-run llvm-cov and nextest prerequisite installation behavior.",
+    "changes": [
+      "Require the two tooling prerequisite install steps to have no conditional.",
+      "Preserve all granular path-policy conditions for contract steps that are not always run."
+    ],
+    "artifacts": [
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ]
+  }
+}

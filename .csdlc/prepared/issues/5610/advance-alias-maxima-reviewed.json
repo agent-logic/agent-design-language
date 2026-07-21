@@ -1,0 +1,11 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 22,
+  "expected_digest": "a0eca4f01527db68fc3701038828fa88792ae36cf5a7d27454cc65a5ce7fbf34",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Exact scoped review passed with no findings after artifact-grounded implementation and validation.",
+  "operation": {"operation": "advance_phase", "phase": "reviewed"},
+  "fail_after_backup": false
+}

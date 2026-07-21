@@ -1,0 +1,14 @@
+{
+  "issue": 5337,
+  "expected_generation": 50,
+  "expected_digest": "e97b654e56e6b1677b70d6cbfb1bf5a080a61025fe641ee22bab974969696c93",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "assigned_by": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "scope": [
+    "adl-characterization",
+    ".csdlc/issues/5337",
+    ".csdlc/prepared/issues/5337",
+    ".csdlc/evidence/5337"
+  ]
+}

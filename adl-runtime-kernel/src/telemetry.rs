@@ -50,6 +50,7 @@ pub enum RuntimeEvent {
     ComponentState(RunningState),
     ClockAuthorityUpdated,
     ControlCommandCompleted,
+    DomainWorkCompleted,
     KernelStarting,
     ComponentsReady,
 }
@@ -63,6 +64,7 @@ impl RuntimeEvent {
             Self::ComponentState(state) => format!("state:{state:?}"),
             Self::ClockAuthorityUpdated => "clock_authority_updated".to_owned(),
             Self::ControlCommandCompleted => "control_command_completed".to_owned(),
+            Self::DomainWorkCompleted => "domain_work_completed".to_owned(),
             Self::KernelStarting => "kernel_starting".to_owned(),
             Self::ComponentsReady => "components_ready".to_owned(),
         }

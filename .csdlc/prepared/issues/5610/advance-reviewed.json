@@ -1,0 +1,10 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "a6cd179371ced66eab25582359e7ad5a336466055699d59ff55d357a7e3c2650",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Exact-head review completed with no findings and unchanged provenance/coverage gates.",
+  "operation": {"operation":"advance_phase","phase":"reviewed"}
+}

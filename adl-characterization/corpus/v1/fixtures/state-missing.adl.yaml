@@ -1,0 +1,12 @@
+version: "0.3"
+providers: {local: {type: local_ollama, default_model: test}}
+agents: {worker: {provider: local, model: test}}
+tasks:
+  one: {prompt: {user: one}}
+  two: {prompt: {user: "{{input}}"}}
+run:
+  name: missing-state
+  workflow:
+    kind: sequential
+    steps:
+      - {id: two, agent: worker, task: two, inputs: {input: "@state:missing"}}

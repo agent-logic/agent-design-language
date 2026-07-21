@@ -1,0 +1,10 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "7842bcf1764ee1e937c015a861ab6152e166cb8a4de33ad2c0bfb24ccd95812d",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "The two-file correction and focused local proof are complete and ready for exact-head review.",
+  "operation": {"operation":"advance_phase","phase":"implemented"}
+}

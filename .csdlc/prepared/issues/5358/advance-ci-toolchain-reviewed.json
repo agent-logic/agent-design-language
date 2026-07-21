@@ -1,0 +1,13 @@
+{
+  "issue": 5358,
+  "card": "srp",
+  "expected_generation": 27,
+  "expected_digest": "4f43f9bedcb54c924056cb0a4a644c8b4ce2ee9bb5a704f88206a1431f4d2b46",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "Advance #5358 after exact scoped DeepSeek review of the CI toolchain repair passed with no actionable findings.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  }
+}

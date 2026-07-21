@@ -1,0 +1,22 @@
+{
+  "issue": 5591,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "6cebb600c0deabd40d74c589c630c306e45eb02d969830798ed553babbea9038",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "reason": "Correct the exact-head reviewer P1 by recording the pinned #5336 baseline and the explicit non-authority of the broad hard safety ceiling.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash -n adl/tools/report_runtime_v3_loc.sh",
+        "bash adl/tools/report_runtime_v3_loc.sh",
+        "git diff --check"
+      ],
+      "purpose": "Record 12,683 physical source lines as exactly +474 over the pinned #5336 baseline of 12,209 and +683 over the 12,000 target. The 20,000 hard safety ceiling does not authorize an exception. Exact review found the +474 functional delta necessary and non-duplicative: signed ingress +323, control/admission +76, assembly +45, continuity +21, and terminal/misc wiring +9; identified safe consolidation cannot recover the delta without removing acceptance behavior.",
+      "outcome": "passed",
+      "evidence_ref": "subagent:/root/review_5591_exact_head@be9daf2ea:P1-budget-authority-correction"
+    }
+  }
+}

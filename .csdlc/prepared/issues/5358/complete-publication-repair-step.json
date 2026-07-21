@@ -1,0 +1,14 @@
+{
+  "issue": 5358,
+  "card": "spp",
+  "expected_generation": 14,
+  "expected_digest": "9b94eb476d3d33513bbba2384a2b2e77a3e1ceb1b905035c72d9f5e9993c3f7f",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+  "reason": "The publication reconciliation and terminal lifecycle repair step is implemented and covered by focused and all-target proof.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  }
+}

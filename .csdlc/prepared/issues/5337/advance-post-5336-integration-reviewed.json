@@ -1,0 +1,14 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 51,
+  "expected_digest": "c567d3c5b06383ecdc6e757e2ffa30470d6a910fe815dc1d311bdc40a5bbde1c",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Advance the clean post-dependency exact-revision review for typed publication.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,140 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5591,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][runtime-v3][parity-a] Make kernel, continuity, and domain ingress live",
+    "slug": "v0-91-8-runtime-v3-parity-a-kernel-continuity-ingress",
+    "version": "v0.91.8",
+    "generation": 30
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Prepare and review the full contract, wait only for #5336 integration, amend the claim to verified product paths, implement the live ingress/continuity/pressure/access/Observatory outcome without partial acceptance, validate all positive and negative lanes at one revision, then exact-revision review and publication.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Prepare and exact-review all six cards, design, diagram, full validation contract, future claim-scope proposal, and sole #5336 stop truth without product edits",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "After #5336 integrates, refresh main, verify protected-path collisions, amend the typed claim to the smallest Runtime v3 implementation scope, and pin the accepted architecture/budget revision",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement guardian-launched canonical secure typed ingress, live kernel lifecycle, bounded topology/backpressure, and configuration-driven local/remote access using maintained COTS crates",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Implement versioned atomic checkpoint, authentic replay, deterministic resume, configured pressure quiescence/serialization, graceful shutdown, and no-duplicate recovery",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Emit authenticated Observatory lifecycle and operational output and implement all positive and fail-closed negative proofs against the live guardian-launched process",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Consolidate overlapping Runtime v3 placeholders, prove Runtime v2 independence and COTS posture, and satisfy exact LoC/module/test budgets without weakening functionality",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S7",
+          "action": "Run every release-gating PVF lane at one clean committed revision, obtain bounded subagent review, fix every actionable finding, revalidate, and publish only green exact-revision truth",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [],
+      "invariants": [
+        "#5336 integration is the sole current stop condition and no product work begins before it clears",
+        "one independent canonical Runtime v3 kernel with no Runtime v2 implementation dependency",
+        "one secure typed canonical ingress and configuration-driven addresses",
+        "bounded channels and deterministic state transitions for identical accepted input",
+        "atomic authenticated continuity records and fail-closed replay",
+        "pressure stop preserves durable state and emits truthful terminal Observatory output",
+        "no secrets, credentials, prompts, hard-coded IP addresses, or machine-local absolute paths in retained evidence",
+        "all acceptance is exact-revision, live-process, non-deferred, reviewed, and green"
+      ],
+      "risks": [
+        "fixture success could be mistaken for guardian-launched production ingress",
+        "checkpoint serialization could appear deterministic while replay duplicates side effects",
+        "pressure handling could terminate before durable final state",
+        "remote access could regress to literal addresses, plaintext, or weak authority checks",
+        "Observatory output could disclose credentials or diverge from machine-readable runtime truth",
+        "budget pressure could tempt deletion or deferral of required behavior",
+        "claim expansion could collide with later parity children"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "#5336 is not integrated into main",
+        "typed claim-scope amendment reports a collision or includes a Runtime v2 implementation path",
+        "the accepted #5336 authority contradicts this package and cannot be repaired through typed replanning",
+        "any required positive, negative, continuity, access, Observatory, budget, or exact-revision lane is skipped, pending, degraded, fixture-only, or failing",
+        "completion would require AWS, a hard-coded address, HTTP-only access, Runtime v2 reuse, or an unsupported claim"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5591/design.md",
+      "design_digest": "a37a475933669531fcdd203c184f8bafeb6bf969b184f0446cc9e79e2bf7dcfe",
+      "diagram_ref": ".csdlc/prepared/issues/5591/diagram.mmd",
+      "diagram_digest": "a0d23d250227bd1d079fbcc92a9675cc39ddbd44c80cf83ca18be8b786794886"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+flowchart TD
+  GATE["Sole current stop: #5336 green and merged"] --> AMEND["Typed claim-scope amendment"]
+  AMEND --> GUARD["Guardian launches configured Runtime v3"]
+  CFG["TLS, addresses, limits, pressure thresholds"] --> GUARD
+  GUARD --> INGRESS["Secure typed canonical ingress"]
+  INGRESS --> NEG["Fail-closed authority and malformed-input checks"]
+  INGRESS --> QUEUE["Bounded typed channels and backpressure"]
+  QUEUE --> KERNEL["Canonical Runtime v3 production components"]
+  KERNEL --> EVIDENCE["Retained deterministic evidence"]
+  KERNEL --> CHECKPOINT["Versioned atomic checkpoint"]
+  CHECKPOINT --> REPLAY["Verified replay"]
+  REPLAY --> RESUME["Deterministic resume without duplicate work"]
+  PRESSURE["Configured resource pressure"] --> QUIESCE["Stop admission and drain or serialize"]
+  QUEUE --> QUIESCE
+  QUIESCE --> CHECKPOINT
+  QUIESCE --> SHUTDOWN["Bounded graceful shutdown"]
+  GUARD --> OBS["Observatory lifecycle and health output"]
+  INGRESS --> OBS
+  CHECKPOINT --> OBS
+  REPLAY --> OBS
+  SHUTDOWN --> OBS
+  EVIDENCE --> EXACT["Exact-revision tests, LoC, test count, lint, COTS inventory"]
+  OBS --> EXACT
+  NEG --> EXACT
+  V2["Runtime v2 implementation paths"] -. "excluded" .-> KERNEL
+  AWS["AWS, default switch, deployment claims"] -. "not authorized" .-> EXACT

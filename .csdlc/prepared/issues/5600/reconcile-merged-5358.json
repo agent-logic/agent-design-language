@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.merged_publication_reconciliation_request.v1",
+  "publication": {
+    "schema": "csdlc.publication_request.v1",
+    "issue": 5600,
+    "expected_generation": 22,
+    "expected_digest": "d6a9e0b8d8594659768e08de2d4bc9aba6dff5d8ea5632b6944875ff47f3871d",
+    "claim_id": "claim-5600-complete-typed-replanning",
+    "actor": "codex:issue-5600-terminal-reconcile-5358",
+    "repository": "danielbaustin/agent-design-language",
+    "remote": "origin",
+    "base": "main",
+    "head": "codex/5600-complete-typed-replanning",
+    "title": "[v0.91.8][csdlc-v2] Complete typed preparation-to-implementation replanning",
+    "body": "Closes #5600\n\nAdds card-owned typed replacement operations for every remaining SIP, STP, SPP, and SRP planning collection. A coherent acceptance-plan operation atomically replaces STP acceptance criteria, SPP plan steps, and VPP validation lanes, permitting cardinality changes without an invalid intermediate state while preserving generation, digest, claim ownership, phase authorization, complete projection regeneration, audit, backup, and commit semantics.\n\nThe #5337 preparation fixture performs the complete conversion through the real csdlc-edit JSON CLI, changes acceptance cardinality from two to three, and proves cross-card validation plus typed doctor. Negative tests cover empty and misowned fields, stale generation and digest, wrong claims, incomplete and duplicate acceptance mappings, pre-Bound and post-Implemented rejection, progress smuggling, and atomic failure behavior.\n\nValidation is fully green with no deferred lane: focused Gate 2 tests 41/41, every C-SDLC v2 target, cargo fmt --check, strict all-target Clippy, and typed doctor. Exact-revision review findings F-5600-1 through F-5600-6 are fixed, and the final exact-head review passed with no actionable findings.",
+    "draft": true,
+    "token_file": "/Users/daniel/keys/github.token"
+  },
+  "pull_request": 5601
+}
