@@ -5,32 +5,19 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly, feature_dispositions, graph_patch_hash,
-    rollback_candidate, AdaptationState, AdaptationStore, AdapterKind, AdvisorySignals,
-    CognitionGates, DegradedOperationExecutor, DomainWork, FeatureDispositionKind, GraphPatch,
-    LiveBindings, LoopDefinition, LoopStatus, MutationAuthority, MutationGate, MutationGrant,
-    OperationExecutor, ParityBCognitionDisposition, ParityBError, ParityBExecutor, ParityBRequest,
-    PatchKind, ReasoningEdge, ReasoningGraphDefinition, ReasoningNode, RecordedObservation,
-    RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
-    TrustedMutationKey, TrustedTime, PARITY_B_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA,
-    REQUIRED_OPERATIONAL_ADAPTERS,
+    feature_dispositions, graph_patch_hash, rollback_candidate, AdaptationState, AdaptationStore,
+    AdapterKind, AdvisorySignals, CognitionGates, DomainWork, FeatureDispositionKind, GraphPatch,
+    LoopDefinition, MutationAuthority, MutationGate, MutationGrant, OperationExecutor,
+    ParityBError, ParityBExecutor, ParityBRequest, PatchKind, ReasoningEdge,
+    ReasoningGraphDefinition, ReasoningNode, RecordedObservation, TrustedMutationKey, TrustedTime,
+    PARITY_B_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA,
 };
-use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
 
-struct FixedSample;
-
-#[async_trait]
-impl TimeSampleSource for FixedSample {
-    async fn sample(&self) -> Result<TimeSample, TimeSampleError> {
-        Ok(TimeSample {
-            source: "parity-b-test-time".to_owned(),
-            unix_millis: 1_720_000_000_000,
-            offset_millis: 0,
-            round_trip: Duration::from_millis(1),
-        })
-    }
-}
+#[cfg(unix)]
+#[allow(dead_code)]
+#[path = "../../adl-runtime/src/guardian.rs"]
+mod runtime_guardian;
 
 fn hash(value: &[u8]) -> String {
     blake3::hash(value).to_hex().to_string()
@@ -142,60 +129,116 @@ fn request() -> ParityBRequest {
     request
 }
 
-fn live_bindings(recorder: RuntimeRecorder, executor: Arc<ParityBExecutor>) -> LiveBindings {
-    let operation_executors = REQUIRED_OPERATIONAL_ADAPTERS
-        .into_iter()
-        .map(|kind| {
-            let value: Arc<dyn OperationExecutor> = if kind == AdapterKind::Agent {
-                executor.clone()
-            } else {
-                Arc::new(DegradedOperationExecutor::new("not configured"))
-            };
-            (kind, value)
-        })
-        .collect();
-    LiveBindings {
-        recorder: recorder.clone(),
-        operation_executors,
-        permit_keys: BTreeMap::from([(
-            "test-operations".to_owned(),
-            SigningKey::from_bytes(&[7; 32]).verifying_key(),
-        )]),
-        reasoning: bootstrap_reasoning_services(recorder).unwrap(),
-        time_source: Arc::new(FixedSample),
-        time_bounds: TimeQualificationBounds {
-            timeout: Duration::from_secs(1),
-            max_offset: Duration::from_millis(10),
-            max_round_trip: Duration::from_millis(10),
-        },
-    }
-}
-
 #[tokio::test]
+#[cfg(unix)]
 async fn live_graph_executes_through_guardian_canonical_ingress() {
-    let recorder = RuntimeRecorder::new(256);
-    let executor = Arc::new(executor());
-    let assembly = build_live_assembly(live_bindings(recorder.clone(), executor.clone())).unwrap();
-    let ingress = assembly.canonical_ingress.clone();
-    let kernel = adl_runtime_kernel::Kernel::new(assembly.topology, recorder)
-        .start()
-        .await
-        .unwrap();
+    use adl_runtime_kernel::{
+        ControlAction, ControlOutcome, ControlResponse, SignedControlCommand,
+    };
+    use runtime_guardian::{run_guardian, GuardianConfig, GuardianTerminalState};
+
+    let directory = tempfile::tempdir().unwrap();
+    let continuity_root = directory.path().join("continuity");
+    let probe = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let address = probe.local_addr().unwrap();
+    drop(probe);
+    let (init, certificate_der) = write_runtime_init(directory.path(), address);
+    let control_key = SigningKey::from_bytes(&[61; 32]);
+    let operation_key = SigningKey::from_bytes(&[62; 32]);
+    let shutdown = tokio_util::sync::CancellationToken::new();
+    let mut guardian = GuardianConfig::runtime_kernel(
+        env!("CARGO_BIN_EXE_adl-runtime-kernel"),
+        continuity_root.to_string_lossy(),
+        init.to_string_lossy(),
+    );
+    guardian.restart_budget = 0;
+    guardian.env = guardian_environment(&control_key, &operation_key);
+    let guardian_task = tokio::spawn(run_guardian(guardian, shutdown.clone()));
+    let connector = tls_connector(certificate_der);
+    let observatory = match wait_for_runtime(
+        &connector,
+        address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer guardian-observatory-token-00000001\r\nConnection: close\r\n\r\n",
+    )
+    .await {
+        Ok(response) => response,
+        Err(()) => panic!("guardian exited before readiness: {:?}", guardian_task.await.unwrap()),
+    };
+    assert!(observatory.starts_with("HTTP/1.1 200 OK"));
+    let feed: serde_json::Value =
+        serde_json::from_str(observatory.split("\r\n\r\n").nth(1).unwrap()).unwrap();
+    let instance_id = feed["runtime_instance_id"].as_str().unwrap();
+    let mut forged = request();
+    forged.signals.risk = 100;
+    let forged_work = DomainWork {
+        schema: adl_runtime_kernel::DOMAIN_WORK_SCHEMA.to_owned(),
+        work_id: "parity-b-forged-policy".to_owned(),
+        kind: "parity-a".to_owned(),
+        payload: serde_json::to_vec(&forged).unwrap(),
+    };
+    let forged_command = SignedControlCommand::sign(
+        "parity-b-forged-submit",
+        hash(b"parity-b-forged-correlation")[..32].to_owned(),
+        instance_id,
+        "guardian-reviewer",
+        ControlAction::Submit { work: forged_work },
+        "guardian-control",
+        &control_key,
+    )
+    .unwrap();
+    let forged_response = post_control(&connector, address, &forged_command).await;
+    assert!(
+        !forged_response.starts_with("HTTP/1.1 200 OK"),
+        "forged policy authority reached execution"
+    );
     let work = DomainWork {
         schema: adl_runtime_kernel::DOMAIN_WORK_SCHEMA.to_owned(),
         work_id: "parity-b-live-graph".to_owned(),
         kind: "parity-a".to_owned(),
         payload: serde_json::to_vec(&request()).unwrap(),
     };
-    let result = ingress.submit(work, hash(b"correlation")).await.unwrap();
-    assert_eq!(result.accepted_sequence, 1);
-    let receipt = executor.receipt("parity-b-live-graph").unwrap().unwrap();
-    assert_eq!(receipt.disposition, ParityBCognitionDisposition::Execute);
-    assert_eq!(receipt.loop_status, LoopStatus::Converged);
-    assert_eq!(receipt.final_score, 9);
+    let command = SignedControlCommand::sign(
+        "parity-b-guardian-submit",
+        hash(b"parity-b-guardian-correlation")[..32].to_owned(),
+        instance_id,
+        "guardian-reviewer",
+        ControlAction::Submit { work: work.clone() },
+        "guardian-control",
+        &control_key,
+    )
+    .unwrap();
+    let response = post_control(&connector, address, &command).await;
+    assert!(response.starts_with("HTTP/1.1 200 OK"), "{response}");
+    let response: ControlResponse =
+        serde_json::from_str(response.split("\r\n\r\n").nth(1).unwrap()).unwrap();
+    let ControlOutcome::Submitted { work_result } = response.outcome else {
+        panic!("signed submit did not reach canonical ingress")
+    };
+    assert_eq!(work_result.accepted_sequence, 1);
+    let expected_payload = executor()
+        .execute(&operation("parity-b-live-graph", &request()))
+        .await
+        .unwrap();
+    let expected_operation = adl_runtime_kernel::OperationResult {
+        schema: adl_runtime_kernel::OPERATION_RESULT_SCHEMA.to_owned(),
+        request_id: work.work_id.clone(),
+        adapter: AdapterKind::Agent,
+        attempts: 1,
+        payload: expected_payload,
+    };
     assert_eq!(
-        kernel.shutdown(Duration::from_secs(1)).await.unwrap(),
-        adl_runtime_kernel::KernelExit::Clean
+        work_result.result_hash,
+        hash(&serde_json::to_vec(&(&work, &expected_operation)).unwrap())
+    );
+    shutdown.cancel();
+    let outcome = tokio::time::timeout(Duration::from_secs(5), guardian_task)
+        .await
+        .unwrap()
+        .unwrap()
+        .unwrap();
+    assert_eq!(
+        outcome.terminal_state,
+        GuardianTerminalState::ShutdownForwarded
     );
 }
 
@@ -477,6 +520,179 @@ fn operation(id: &str, request: &ParityBRequest) -> adl_runtime_kernel::Operatio
         payload: serde_json::to_vec(request).unwrap(),
         permit: None,
     }
+}
+
+#[cfg(unix)]
+fn guardian_environment(
+    control_key: &SigningKey,
+    operation_key: &SigningKey,
+) -> Vec<(String, String)> {
+    vec![
+        (
+            "ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX".to_owned(),
+            hex::encode(control_key.verifying_key().as_bytes()),
+        ),
+        (
+            "ADL_RUNTIME_CONTROL_KEY_ID".to_owned(),
+            "guardian-control".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_CONTROL_PRINCIPAL".to_owned(),
+            "guardian-reviewer".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX".to_owned(),
+            hex::encode([63_u8; 32]),
+        ),
+        (
+            "ADL_RUNTIME_CONTINUITY_KEY_ID".to_owned(),
+            "guardian-continuity".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_CONTINUITY_MIN_GENERATION".to_owned(),
+            "0".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX".to_owned(),
+            hex::encode(operation_key.verifying_key().as_bytes()),
+        ),
+        (
+            "ADL_RUNTIME_OPERATION_KEY_ID".to_owned(),
+            "guardian-operation".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_OBSERVATORY_TOKEN".to_owned(),
+            "guardian-observatory-token-00000001".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_SNTP_SERVER".to_owned(),
+            "127.0.0.1:9".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_PARITY_B_POLICY_KEY_ID".to_owned(),
+            "policy-review".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_PARITY_B_POLICY_PUBLIC_KEY_HEX".to_owned(),
+            hex::encode(policy_key().verifying_key().as_bytes()),
+        ),
+        (
+            "ADL_RUNTIME_PARITY_B_CHECKPOINT_KEY_ID".to_owned(),
+            "checkpoint".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_PARITY_B_CHECKPOINT_SIGNING_KEY_HEX".to_owned(),
+            hex::encode(checkpoint_key().to_bytes()),
+        ),
+        (
+            "ADL_RUNTIME_PARITY_B_MUTATION_KEY_ID".to_owned(),
+            "review-key".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_PARITY_B_MUTATION_PRINCIPAL".to_owned(),
+            "review-board".to_owned(),
+        ),
+        (
+            "ADL_RUNTIME_PARITY_B_MUTATION_PUBLIC_KEY_HEX".to_owned(),
+            hex::encode(SigningKey::from_bytes(&[42; 32]).verifying_key().as_bytes()),
+        ),
+    ]
+}
+
+#[cfg(unix)]
+fn write_runtime_init(
+    directory: &std::path::Path,
+    address: std::net::SocketAddr,
+) -> (std::path::PathBuf, Vec<u8>) {
+    use rcgen::{generate_simple_self_signed, CertifiedKey};
+    let CertifiedKey { cert, signing_key } =
+        generate_simple_self_signed(["localhost".to_owned()]).unwrap();
+    let certificate = directory.join("cert.pem");
+    let private_key = directory.join("key.pem");
+    std::fs::write(&certificate, cert.pem()).unwrap();
+    std::fs::write(&private_key, signing_key.serialize_pem()).unwrap();
+    let init = directory.join("runtime-init.toml");
+    std::fs::write(
+        &init,
+        format!(
+            "schema = \"adl.runtime_v3.init.v1\"\n[api]\naddress = \"{address}\"\npublic_base_url = \"https://localhost:{}\"\n[api.tls]\ncertificate_chain_path = \"{}\"\nprivate_key_path = \"{}\"\n[observatory]\nallowed_origins = [\"https://localhost:8765\"]\n[agents]\ncount = 1\nsample_limit = 1\n",
+            address.port(),
+            certificate.to_string_lossy().replace('\\', "\\\\").replace('"', "\\\""),
+            private_key.to_string_lossy().replace('\\', "\\\\").replace('"', "\\\"")
+        ),
+    )
+    .unwrap();
+    (init, cert.der().to_vec())
+}
+
+#[cfg(unix)]
+async fn wait_for_runtime(
+    connector: &tokio_rustls::TlsConnector,
+    address: std::net::SocketAddr,
+    request: &[u8],
+) -> Result<String, ()> {
+    let deadline = tokio::time::Instant::now() + Duration::from_secs(5);
+    loop {
+        if let Ok(response) = try_tls_request(connector, address, request).await {
+            return Ok(response);
+        }
+        if tokio::time::Instant::now() >= deadline {
+            return Err(());
+        }
+        tokio::time::sleep(Duration::from_millis(20)).await;
+    }
+}
+
+#[cfg(unix)]
+fn tls_connector(certificate_der: Vec<u8>) -> tokio_rustls::TlsConnector {
+    use tokio_rustls::rustls::{pki_types::CertificateDer, ClientConfig, RootCertStore};
+    let mut roots = RootCertStore::empty();
+    roots.add(CertificateDer::from(certificate_der)).unwrap();
+    tokio_rustls::TlsConnector::from(Arc::new(
+        ClientConfig::builder()
+            .with_root_certificates(roots)
+            .with_no_client_auth(),
+    ))
+}
+
+#[cfg(unix)]
+async fn tls_request(
+    connector: &tokio_rustls::TlsConnector,
+    address: std::net::SocketAddr,
+    request: &[u8],
+) -> String {
+    try_tls_request(connector, address, request).await.unwrap()
+}
+
+#[cfg(unix)]
+async fn post_control(
+    connector: &tokio_rustls::TlsConnector,
+    address: std::net::SocketAddr,
+    command: &adl_runtime_kernel::SignedControlCommand,
+) -> String {
+    let body = serde_json::to_vec(command).unwrap();
+    let head = format!("POST /v1/control HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n", body.len());
+    let mut request = head.into_bytes();
+    request.extend(body);
+    tls_request(connector, address, &request).await
+}
+
+#[cfg(unix)]
+async fn try_tls_request(
+    connector: &tokio_rustls::TlsConnector,
+    address: std::net::SocketAddr,
+    request: &[u8],
+) -> Result<String, Box<dyn std::error::Error>> {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    use tokio_rustls::rustls::pki_types::ServerName;
+    let stream = tokio::net::TcpStream::connect(address).await?;
+    let mut stream = connector
+        .connect(ServerName::try_from("localhost").unwrap(), stream)
+        .await?;
+    stream.write_all(request).await?;
+    let mut response = Vec::new();
+    stream.read_to_end(&mut response).await?;
+    Ok(String::from_utf8(response)?)
 }
 
 #[test]

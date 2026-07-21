@@ -5,7 +5,7 @@
   "initialization_digest": "a359b2c4b8f2f653ea82c1c5d29aa63c3ac298542bbe5f7c7339a327ad3e822d",
   "phase": "implemented",
   "generation": 6,
-  "digest": "ccddab4422106a4ef8feba8c76541c6d425a57b13040f43064258bae15425074",
+  "digest": "56f3cc0be626d22304f8c8f4b2186f31bfc790c304a7fc60bb444af2c169429f",
   "claim": {
     "id": "claim-5592-runtime-v3-parity-b-preparation",
     "owner": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
@@ -21,6 +21,7 @@
       ".csdlc/locks/5592.lock",
       ".csdlc/prepared/issues/5592",
       "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
       "adl-runtime-kernel/src/parity_b.rs",
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs"
     ],
@@ -282,6 +283,13 @@
       "actor": "subagent:/root/review_5592_exact",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 6,
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "Exact review requires the smallest disjoint schema-only route from the existing guardian-launched canonical ingress into the persistent Parity-B executor; coordinator confirmed operations.rs is outside #5589 and #5590 exact claims.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/src/operations.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

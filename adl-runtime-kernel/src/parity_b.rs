@@ -1,6 +1,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    sync::Mutex,
+    sync::{Arc, Mutex},
+    time::{SystemTime, UNIX_EPOCH},
 };
 
 use async_trait::async_trait;
@@ -10,9 +11,10 @@ use thiserror::Error;
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    execute_loop, resume_reasoning, AdaptationState, ExecutorError, FailureClass, GraphPatch,
-    LoopDefinition, LoopStatus, MutationEvidence, MutationGate, MutationGrant, OperationExecutor,
-    OperationRequest, ReasoningCheckpoint, ReasoningGraphDefinition, RecordedObservation,
+    execute_loop, resume_reasoning, AdaptationState, AdaptationStore, ExecutorError, FailureClass,
+    GraphPatch, LoopDefinition, LoopStatus, MutationAuthority, MutationEvidence, MutationGate,
+    MutationGrant, OperationExecutor, OperationRequest, ReasoningCheckpoint,
+    ReasoningGraphDefinition, RecordedObservation, TrustedMutationKey, TrustedTime,
     ValidatedReasoningGraph,
 };
 
@@ -171,6 +173,46 @@ pub struct ParityBExecutor {
 }
 
 impl ParityBExecutor {
+    pub fn from_environment(request: &ParityBRequest) -> Result<Self, ParityBError> {
+        let policy_key_id = required_env("ADL_RUNTIME_PARITY_B_POLICY_KEY_ID")?;
+        let policy_key = verifying_key_env("ADL_RUNTIME_PARITY_B_POLICY_PUBLIC_KEY_HEX")?;
+        let checkpoint_key_id = required_env("ADL_RUNTIME_PARITY_B_CHECKPOINT_KEY_ID")?;
+        let checkpoint_signing_key =
+            signing_key_env("ADL_RUNTIME_PARITY_B_CHECKPOINT_SIGNING_KEY_HEX")?;
+        let mutation_key_id = required_env("ADL_RUNTIME_PARITY_B_MUTATION_KEY_ID")?;
+        let mutation_principal = required_env("ADL_RUNTIME_PARITY_B_MUTATION_PRINCIPAL")?;
+        let mutation_key = verifying_key_env("ADL_RUNTIME_PARITY_B_MUTATION_PUBLIC_KEY_HEX")?;
+        let graph = ValidatedReasoningGraph::validate(request.graph.clone())?;
+        let adaptation = Arc::new(AdaptationStore::new(AdaptationState::new(
+            request.observation.score,
+            graph.hash(),
+            &request.policy_hash,
+        )));
+        let mutation_gate = Arc::new(MutationGate::new(
+            graph,
+            MutationAuthority::new(BTreeMap::from([(
+                mutation_key_id,
+                TrustedMutationKey {
+                    principal: mutation_principal,
+                    verifying_key: mutation_key,
+                },
+            )])),
+            Arc::new(SystemTrustedTime),
+            request.policy_hash.clone(),
+            MAX_RETAINED_RECEIPTS,
+            adaptation,
+        )?);
+        let executor = Self::new(
+            BTreeMap::from([(policy_key_id, policy_key)]),
+            checkpoint_key_id,
+            checkpoint_signing_key,
+            Some(mutation_gate),
+        )?;
+        validate_request(request)?;
+        executor.verify_policy(request)?;
+        Ok(executor)
+    }
+
     pub fn new(
         policy_keys: BTreeMap<String, VerifyingKey>,
         checkpoint_key_id: impl Into<String>,
@@ -538,6 +580,37 @@ pub fn sign_policy_request(
     request.policy_signature =
         hex::encode(signing_key.sign(&policy_signing_bytes(request)?).to_bytes());
     Ok(())
+}
+
+struct SystemTrustedTime;
+
+impl TrustedTime for SystemTrustedTime {
+    fn now_unix_millis(&self) -> u64 {
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .ok()
+            .and_then(|duration| u64::try_from(duration.as_millis()).ok())
+            .unwrap_or(0)
+    }
+}
+
+fn required_env(name: &str) -> Result<String, ParityBError> {
+    std::env::var(name)
+        .ok()
+        .filter(|value| !value.trim().is_empty())
+        .ok_or(ParityBError::Authority)
+}
+
+fn verifying_key_env(name: &str) -> Result<VerifyingKey, ParityBError> {
+    let bytes = hex::decode(required_env(name)?).map_err(|_| ParityBError::Authority)?;
+    let bytes: [u8; 32] = bytes.try_into().map_err(|_| ParityBError::Authority)?;
+    VerifyingKey::from_bytes(&bytes).map_err(|_| ParityBError::Authority)
+}
+
+fn signing_key_env(name: &str) -> Result<SigningKey, ParityBError> {
+    let bytes = hex::decode(required_env(name)?).map_err(|_| ParityBError::Authority)?;
+    let bytes: [u8; 32] = bytes.try_into().map_err(|_| ParityBError::Authority)?;
+    Ok(SigningKey::from_bytes(&bytes))
 }
 
 fn policy_signing_bytes(request: &ParityBRequest) -> Result<Vec<u8>, ParityBError> {
