@@ -1,0 +1,132 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5339,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "8cb0d0afdcbaed1cf35b1b2acff6481c7e7e263056d01af50bcea90452747ec0",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "889a9c620bd49fe12cf1abdf9923129b0762414163407302508a8cb4f98ab17e",
+  "claim": {
+    "id": "claim-5339-v0918-wp04-preparation",
+    "owner": "codex:5339-preparation",
+    "generation": 4,
+    "acquired_unix_seconds": 1784615902,
+    "expires_unix_seconds": 1785220702,
+    "heartbeat_unix_seconds": 1784615902,
+    "branch": "codex/5339-v0918-wp04-language-core",
+    "worktree": ".worktrees/adl-wp-5339",
+    "protected_paths": [
+      ".csdlc/issues/5339",
+      ".csdlc/prepared/issues/5339",
+      ".csdlc/evidence/5339",
+      "adl-v2/crates/adl-language"
+    ],
+    "purpose": "Prepare the complete #5339 clean-room language-core contract one dependency wave ahead; implementation remains prohibited until #5337 is merged and typed closed_out"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5339/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5339/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:/root/review_5339_prep",
+      "revision": "4ba65266b7f69d5c946b730ee2bd9c0a0b1b861f3ca87adb790a9018ba576913"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "38b54ff238aeea76cc3cfa3de0603d158f1f8cb5e87d65292a94cfa32db6a456",
+      "rendered_digest": "e76d11b0e955840e18feaaa62f3bc5130f55d87cb116878f80ec2bdc5d123367",
+      "ast_digest": "c91941f5e2337b1a7bc7d44bc39fc5bf9b6fc067a5e7f384fcbcc4dd889331a5"
+    },
+    "stp": {
+      "values_digest": "f9da1eff96e74b8a2c4ef586568434b4ade83a7052626a8727565033477b35cf",
+      "rendered_digest": "b3d74cec9ed77cd978da9e7967b062b250416208c08459b92722744fdd55227f",
+      "ast_digest": "4642caf40e2f316ff9261a6800db70b386f5288fd4da03030424897d7eee20a0"
+    },
+    "spp": {
+      "values_digest": "bdc14882cac0840ddd78aab7647ebe430138477fb2e3f168c6931b6e2b447afa",
+      "rendered_digest": "d77759a87b27ec35d8e0d889986ffa005e08f5577cdaadc3f1e447d8c5453b89",
+      "ast_digest": "194de203df29d198d8188fab489819927f762db9577094b14e7933d4ffba20d8"
+    },
+    "vpp": {
+      "values_digest": "a73f11bd32d96ebf99a701ca3521b5873a19f5b4cf528f2d8ba72396132769b6",
+      "rendered_digest": "9b657237203f13bb4ac46f4e6ae39d763405ad069f29b9d1642b69ea260367cf",
+      "ast_digest": "774200a4f8481f841f3a131f0433a69e26c1f6693877bb2eed49e80f02f385c7"
+    },
+    "srp": {
+      "values_digest": "cbd0ab31e2ff0895d549d0ec728199ffc9e29c50c573d5b655a4010cf765ad9e",
+      "rendered_digest": "f805b66be6dd8fda0bdd817f7cf9f42d3219fc42547c7cdfc09c887a03329865",
+      "ast_digest": "82bd09cb208f682c1cb713453e92cba5f047826c2084eca1c68a9bd1c892bc68"
+    },
+    "sor": {
+      "values_digest": "87df910bb23fd51b885d577f658096163a52eb5c9886af52a177ccdbf1b007fa",
+      "rendered_digest": "ce2570c201da2617bed7076dfcda320f7615d417781cf94dd800be43889f11a1",
+      "ast_digest": "e3dd1d7cf59d65e4032f5adb94d708a3e772237c7347689e72abdee151692bf2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5339-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5339-preparation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5339-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:5339-preparation",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5339-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "subagent:/root/review_5339_prep",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5339-preparation",
+      "reason": "Resolve preparation review findings with executable issue-local validation adapters and real dependency, LoC, and latency budget proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"typed-preparation\",\"proof_role\":\"Required preparation gate: validate all six canonical cards, design references, protected-path scope, dependency stop, and lifecycle consistency\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5339\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"language-focused\",\"proof_role\":\"Prove strict parse, schema alignment, semantic validation, diagnostics, and canonicalization across all six primitives\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":120,\"budget_tokens\":6000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"focused\"],\"parallel_group\":\"language-local\",\"defer_reason\":\"Execute only after #5337 is merged and typed closed_out and implementation exists\"},{\"lane\":\"language-quality\",\"proof_role\":\"Prove warning-free clean-room language implementation and test code\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"quality\"],\"parallel_group\":\"language-local\",\"defer_reason\":\"Execute only after #5337 is merged and typed closed_out and implementation exists\"},{\"lane\":\"characterization-parity\",\"proof_role\":\"Map and prove every applicable reviewed #5337 language case with explicit intentional-difference classification\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"parity\"],\"parallel_group\":\"language-parity\",\"defer_reason\":\"Execute only after #5337 is merged and typed closed_out and its corpus is on current main\"},{\"lane\":\"language-budgets\",\"proof_role\":\"Measure and enforce forbidden dependency families, 4000 implementation LoC, 4000 test/fixture LoC, and complete deterministic validation under 600 seconds\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"budgets\"],\"parallel_group\":\"language-budget\",\"defer_reason\":\"Execute at the implementation revision after the dependency gate opens\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5339-preparation",
+      "reason": "All six cards, clean-room design, diagram, protected paths, COTS selections, budgets, executable validation plan, dependency stop, and bounded preparation review are complete with no actionable findings.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    }
+  ]
+}

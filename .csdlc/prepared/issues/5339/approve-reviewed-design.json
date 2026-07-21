@@ -1,0 +1,7 @@
+{
+  "issue": 5339,
+  "expected_generation": 1,
+  "expected_digest": "80327e27c632887b197609f9505dd8e5f31114c8b44de81f2f37cffa0e417842",
+  "claim_id": "claim-5339-v0918-wp04-preparation",
+  "reviewer": "subagent:/root/review_5339_prep"
+}
