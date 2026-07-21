@@ -3544,14 +3544,11 @@ fn replace_terminal_sor_validation(
 }
 
 fn validate_portable_validation_result(result: &ValidationResult) -> Result<()> {
-    let machine_local = |value: &str| {
-        value.contains("/Volumes/")
-            || value.contains("/private/tmp/")
-            || value.contains("/var/folders/")
-            || value.contains("/Users/")
-            || value.contains("\\\\Users\\")
-    };
-    if result.command.iter().any(|part| machine_local(part)) || machine_local(&result.evidence_ref)
+    if result
+        .command
+        .iter()
+        .any(|part| contains_machine_local_path(part))
+        || contains_machine_local_path(&result.evidence_ref)
     {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
@@ -3559,6 +3556,30 @@ fn validate_portable_validation_result(result: &ValidationResult) -> Result<()> 
         ));
     }
     Ok(())
+}
+
+fn contains_machine_local_path(value: &str) -> bool {
+    value.split_ascii_whitespace().any(|word| {
+        let candidate = word
+            .trim_matches(|character: char| matches!(character, '\'' | '"' | '(' | ')' | ',' | ';'))
+            .rsplit_once('=')
+            .map_or(word, |(_, assigned)| assigned)
+            .trim_matches(|character: char| matches!(character, '\'' | '"'));
+        candidate.starts_with('/')
+            || candidate.starts_with("~/")
+            || candidate.starts_with("~\\")
+            || candidate.starts_with("\\\\")
+            || candidate.starts_with("//")
+            || is_windows_absolute_path(candidate)
+    })
+}
+
+fn is_windows_absolute_path(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    bytes.len() >= 3
+        && bytes[0].is_ascii_alphabetic()
+        && bytes[1] == b':'
+        && matches!(bytes[2], b'/' | b'\\')
 }
 
 fn claim_covers_issue(claim: &Claim, issue: u64) -> bool {
@@ -3968,17 +3989,47 @@ mod terminal_design_repair_tests {
     }
 
     #[test]
-    fn terminal_sor_validation_repair_rejects_machine_local_replacement() {
+    fn terminal_sor_validation_repair_enforces_portable_replacements() {
+        for machine_local in [
+            "/tmp/build",
+            "--target-dir=/home/alice/build",
+            "cd /mnt/worker/checkout",
+            r"C:\Users\alice\checkout",
+            r"--out=Z:\build\target",
+            r"\\server\share\checkout",
+            "~/checkout",
+        ] {
+            let result = ValidationResult {
+                command: vec!["proof".into(), machine_local.into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: "evidence/portable.json".into(),
+            };
+            let error = validate_portable_validation_result(&result).expect_err(machine_local);
+            assert_eq!(error.code.to_string(), "invalid_input");
+        }
+
+        for portable in [
+            "evidence/portable.json",
+            "--target-dir=target/coverage",
+            "https://example.invalid/proof",
+            "retained terminal receipt",
+        ] {
+            let result = ValidationResult {
+                command: vec!["proof".into(), portable.into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: portable.into(),
+            };
+            validate_portable_validation_result(&result).expect(portable);
+        }
+
         let result = ValidationResult {
-            command: vec![
-                "cargo".into(),
-                "--target-dir=/Volumes/FastWork/build".into(),
-            ],
+            command: vec!["proof".into()],
             purpose: "proof".into(),
             outcome: crate::cards::EvidenceOutcome::Passed,
-            evidence_ref: "portable".into(),
+            evidence_ref: "/home/runner/evidence.json".into(),
         };
-        let error = validate_portable_validation_result(&result).expect_err("machine local");
-        assert_eq!(error.code.to_string(), "invalid_input");
+        validate_portable_validation_result(&result).expect_err("machine-local evidence reference");
     }
 }
