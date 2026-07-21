@@ -601,19 +601,58 @@ mod tests {
     }
 
     #[test]
-    fn invalid_environment_name_fails_closed() {
+    fn invalid_configuration_and_spawn_failure_fail_closed() {
+        let base = || {
+            GuardianConfig::runtime_kernel(
+                "adl-runtime-kernel",
+                "continuity.json",
+                "runtime-init.toml",
+            )
+        };
+        let mut invalid_env = base();
+        invalid_env
+            .env
+            .push(("BAD=NAME".to_string(), "value".to_string()));
+        let mut missing_program = base();
+        missing_program.program.clear();
+        let mut zero_backoff = base();
+        zero_backoff.backoff_base_ms = 0;
+        let mut inverted_backoff = base();
+        inverted_backoff.backoff_base_ms = inverted_backoff.backoff_cap_ms + 1;
+        let mut zero_shutdown_grace = base();
+        zero_shutdown_grace.shutdown_grace_ms = 0;
+
+        for (config, expected) in [
+            (invalid_env, GuardianConfigError::InvalidEnvironmentName),
+            (missing_program, GuardianConfigError::MissingProgram),
+            (zero_backoff, GuardianConfigError::ZeroBackoff),
+            (inverted_backoff, GuardianConfigError::BackoffCapBelowBase),
+            (zero_shutdown_grace, GuardianConfigError::ZeroShutdownGrace),
+        ] {
+            assert_eq!(config.validate(), Err(expected));
+        }
+    }
+
+    #[tokio::test]
+    async fn missing_child_program_is_reported_without_restart() {
+        let root = TestRoot::new("missing-program");
         let mut config = GuardianConfig::runtime_kernel(
-            "adl-runtime-kernel",
+            root.path("adl-guardian-program-that-does-not-exist"),
             "continuity.json",
             "runtime-init.toml",
         );
-        config
-            .env
-            .push(("BAD=NAME".to_string(), "value".to_string()));
-        assert_eq!(
-            config.validate(),
-            Err(GuardianConfigError::InvalidEnvironmentName)
-        );
+        config.restart_budget = 5;
+
+        let outcome = run_guardian(config, CancellationToken::new())
+            .await
+            .unwrap();
+
+        assert_eq!(outcome.terminal_state, GuardianTerminalState::SpawnFailed);
+        assert_eq!(outcome.attempts, 1);
+        assert_eq!(outcome.restarts, 0);
+        assert!(outcome
+            .last_reason()
+            .is_some_and(|reason| reason.starts_with("spawn_failed:")));
     }
 
     #[cfg(unix)]
