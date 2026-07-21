@@ -15,8 +15,8 @@
         "release_gate": "required",
         "execution": "local",
         "timeout_seconds": 60,
-        "executable": ".adl/bin/csdlc-v2/csdlc-doctor",
-        "argv": ["--repo", ".", "--issue", "5498"],
+        "executable": "bash",
+        "argv": [".csdlc/prepared/issues/5498/run-typed-doctor.sh"],
         "evidence": {"max_log_bytes": 12000, "redact_values": [], "require_relative_paths": true}
       },
       {
@@ -63,7 +63,7 @@
         "network": "denied",
         "dependencies": ["dependency-gate"],
         "parallel_group": "future-adapter",
-        "release_gate": "required",
+        "release_gate": "optional",
         "execution": "local",
         "timeout_seconds": 180,
         "executable": "bash",

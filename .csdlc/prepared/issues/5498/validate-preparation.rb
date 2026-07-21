@@ -10,7 +10,7 @@ issue_dir = root.join(".csdlc", "issues", "5498")
 prepared = root.join(".csdlc", "prepared", "issues", "5498")
 
 required = %w[sip stp spp vpp srp sor].map { |card| issue_dir.join("cards", "#{card}.md") }
-required += [prepared.join("design.md"), prepared.join("diagram.mmd"), prepared.join("planned-path-sets.json"), prepared.join("check-dependencies.rb"), prepared.join("validate-task-adapter.sh")]
+required += [prepared.join("design.md"), prepared.join("diagram.mmd"), prepared.join("planned-path-sets.json"), prepared.join("check-dependencies.rb"), prepared.join("run-typed-doctor.sh"), prepared.join("validate-task-adapter.sh")]
 missing = required.reject(&:file?)
 abort("missing preparation artifacts: #{missing.join(', ')}") unless missing.empty?
 
