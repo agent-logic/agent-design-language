@@ -3,13 +3,13 @@
   "issue": 5592,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a359b2c4b8f2f653ea82c1c5d29aa63c3ac298542bbe5f7c7339a327ad3e822d",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "8def67ca47c4a2f67d1107397770e53727982c82a5da4bb123583c20db0c616f",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "123091483a5175143a381da9fb9026aae877adb3b1bae431ca2c72b3304ca0a1",
   "claim": {
     "id": "claim-5592-runtime-v3-parity-b-preparation",
     "owner": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-    "generation": 15,
+    "generation": 17,
     "acquired_unix_seconds": 1784601544,
     "expires_unix_seconds": 1785206344,
     "heartbeat_unix_seconds": 1784601544,
@@ -28,8 +28,43 @@
     ],
     "purpose": "Implement every #5592 Runtime v3 Parity-B reasoning graph, bounded loop, governed adaptation, affect, curiosity, cognition, feature-disposition, exact-proof, review, publication, and closeout outcome"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5592_integrated_exact",
+    "assigned_by": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+    "revision": "git-blake3:73bd5d04cb5f10d9e64586f80ff434b7d77fa52e:2962f8ca10a796dde9cf3cef7bdb4cd0b07915dc64cf59c8af4aa43f9548200b",
+    "scope": [
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/src/parity_b.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      ".csdlc/issues/5592/cards/sor.values.json",
+      ".csdlc/issues/5592/cards/srp.values.json",
+      ".csdlc/issues/5592/cards/vpp.values.json",
+      "origin/main integration at 860aa9f18946a2cd9407b610d5c00d44ddc89053"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_5592_integrated_exact",
+    "scope": [
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/src/parity_b.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      ".csdlc/issues/5592/cards/sor.values.json",
+      ".csdlc/issues/5592/cards/srp.values.json",
+      ".csdlc/issues/5592/cards/vpp.values.json",
+      "origin/main integration at 860aa9f18946a2cd9407b610d5c00d44ddc89053"
+    ],
+    "reviewed_revision": "git-blake3:73bd5d04cb5f10d9e64586f80ff434b7d77fa52e:2962f8ca10a796dde9cf3cef7bdb4cd0b07915dc64cf59c8af4aa43f9548200b",
+    "findings": [],
+    "residual_risks": [
+      "Runtime v3 is 13,547 physical lines, an explicitly accepted +1,338 exception over the pinned baseline and +1,547 over the reviewed target; integrated exact review found the cohesive scope complete, disjoint, and non-deferred."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c5a24a0ff153ae41c64d33377be2389f7a045a57808f9a0835589dcf87d56768",
+      "values_digest": "44d50317f69a7451264a994369f4c04c9f00a4b2c6e10392cd15fd5eebed656d",
       "rendered_digest": "a4369423ad1bb8d1afb5cfe47874314d77ab0c610cdaeee04a22be089876740f",
       "ast_digest": "e4bbee25a2f2ee6c9054c13f2b187d71bbd2a7ff6995e4350fa22249ce55304d"
     },
     "stp": {
-      "values_digest": "3be45910686204b358ab33b965e1d2e30efc04058f93bb3782bba68d0fae47cc",
+      "values_digest": "5e449c6758b4b14b95335ca57486bb7514e95a66b746917e0a53efad28338bdb",
       "rendered_digest": "2d44dbaacfdeb4e7b8317cd412cd1f1358fe50bd483ca9ec0724e439f2e2f026",
       "ast_digest": "5b87e6ca43305b7dd447de7722131a31ef75170a53dfac275ae737a3c38ac1a4"
     },
     "spp": {
-      "values_digest": "d235f73928dbf4f430d479d600f5884d2f5c021f61bebf683f7e441dc09ce9a2",
+      "values_digest": "894dec72f2d8265aceb4447aba9ef5b308d8c80a9ef39e5b5b92ddbeed72b443",
       "rendered_digest": "a31c29f58f4b9890ef74dbe01c2817f78c68b89846cbd26b80fdd40b0f568c53",
       "ast_digest": "e6e2fc41cc44dd45836726815b8a6a431af1e266548d761fe8129934b4d6b101"
     },
     "vpp": {
-      "values_digest": "79fe200790efa8fb8dd81fc7c3c452d26e4b2cd4ae809a6aefd371bf332d8fe0",
+      "values_digest": "9487807895d1051c57bfcb92b5aa25bfd040d08afcc9007f39b06b7d9acebe1d",
       "rendered_digest": "2820cad061abc84765b2e7b4ae4c76659f3aad102c13629e1d12dd1837184b9b",
       "ast_digest": "2e23a756badf61748cce137b53bab1efade6df4bd9b288adfc376c4f2c6ebbe6"
     },
     "srp": {
-      "values_digest": "298c86787623db34c3de6157d68d1edad59dc0aab43a6e2006d8eacbdf874473",
-      "rendered_digest": "3777e84b940bad8af1bcc4693b15537c1fa72c1d9944407300835eeb11ea5cd1",
-      "ast_digest": "1aae9641aa92008307d9a1fc309a4afe3dd22d4ef2c3c88af91dccb1f6ac2a7f"
+      "values_digest": "e0029b3a6aef03b6b4d013484ab4835b5ea39ce96810b6783fadaa7b5a7597da",
+      "rendered_digest": "fa7e61811f1d0bd34f2a5b08fd2b4fc8c8dede809fd358896f932e6510c44d6b",
+      "ast_digest": "d4eaf47b7784d306568269c459fac4e264a713f6d8cd92c62d5998d268079105"
     },
     "sor": {
-      "values_digest": "58dbe85174a1e97b39d3eb5cab25f6d549175dbb5617a8ab03692bc949fcf378",
+      "values_digest": "be04c8d8a4fa7a03d135c71138fc1640fa677afcbc0d58bc42ec6ce198c71f61",
       "rendered_digest": "682cd2adf511a1214261f0d42dda3a9296f889fd3433e44f16a23a104ddab0f9",
       "ast_digest": "ea8bd9f2453b3f9cd1252d79a44d7a3382e3187ad150fd6adc459350165b476f"
     }
@@ -116,6 +151,13 @@
       "to": "implemented",
       "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
       "reason": "Current main advanced after publication; recover published review truth for exact integrated-head validation and rereview after the clean disjoint main merge."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "Integrated exact-head review passed with zero findings; retain the accepted 13,547-line exception and clean current-main ancestry."
     }
   ],
   "audit": [
@@ -286,6 +328,27 @@
       "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
       "reason": "Record exact integrated-main FastWork proof before integrated-head rereview.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5592/integrated cargo test --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5592/integrated-clippy cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings\",\"git merge --no-edit origin/main\",\"git diff --check\"],\"purpose\":\"Prove current main integrates without protected-path collision and the complete Runtime v3 suite, guardian black-box path, operations regressions, and strict lint remain green at the integrated head.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f836b-dfdb-7b33-8e27-4c9478b75421@05dc14883:/Volumes/FastWork/adl-5592/{integrated,integrated-clippy}\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 15,
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 16,
+      "actor": "subagent:/root/review_5592_integrated_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 17,
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "Integrated exact-head review passed with zero findings; retain the accepted 13,547-line exception and clean current-main ancestry.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
