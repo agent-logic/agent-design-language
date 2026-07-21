@@ -11,15 +11,16 @@ use serde::{Deserialize, Serialize};
 
 use crate::cards::{
     apply, digest, initial_cards, render, terminal_validation_passed, validate_cross_card,
-    validate_identity_version, CardContent, CardKind, CardValues, InitialCardInput,
-    SemanticOperation, StepStatus,
+    validate_identity_version, validate_result, CardContent, CardKind, CardValues,
+    InitialCardInput, SemanticOperation, StepStatus, ValidationResult,
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
     AuditEvent, CardProjection, Claim, DesignReview, IssueRecord, LifecyclePhase,
     PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest, ReviewAssignment,
     ReviewEvidence, TerminalDesignRepairRequest, TerminalEvidence, TerminalPlanStepRepairRequest,
-    TerminalReceipt, TerminalSorArtifactRepairRequest, TransitionEvent,
+    TerminalReceipt, TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
+    TransitionEvent,
 };
 use crate::review::evaluate_publication_review_in_repo;
 
@@ -665,7 +666,7 @@ impl Store {
         self.recover_with_terminal_lock(request.authority_issue)?;
         self.recover_with_terminal_lock(request.target_issue)?;
         let authority = self.load_record(request.authority_issue)?;
-        let mut target = self.load_record(request.target_issue)?;
+        let target = self.load_record(request.target_issue)?;
         if authority.generation != request.expected_authority_generation
             || authority.digest != request.expected_authority_digest
         {
@@ -744,6 +745,146 @@ impl Store {
         let mut cards = original_cards.clone();
         replace_terminal_sor_artifact(&mut cards, &request.stale_ref, &request.retained_ref)?;
 
+        self.commit_terminal_card_repair(
+            target,
+            cards,
+            original_cards,
+            original_receipt,
+            original_receipt_bytes,
+            receipt_path,
+            &request.actor,
+            format!(
+                "typed terminal SOR artifact repair authorized by issue {}",
+                request.authority_issue
+            ),
+            format!(
+                "repair_terminal_sor_artifact:{}->{}",
+                request.stale_ref, request.retained_ref
+            ),
+            "terminal_sor_artifact_repair",
+            request.fail_after_stage.as_deref(),
+        )
+    }
+
+    pub fn repair_terminal_sor_validation(
+        &self,
+        request: TerminalSorValidationRepairRequest,
+    ) -> Result<IssueRecord> {
+        if request.authority_issue == request.target_issue
+            || request.actor.trim().is_empty()
+            || request.expected_authority_digest.trim().is_empty()
+            || request.expected_target_digest.trim().is_empty()
+            || request.expected_receipt_digest.trim().is_empty()
+            || request.expected_result == request.replacement_result
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "terminal SOR validation repair identity or authority is incomplete",
+            ));
+        }
+        validate_result(&request.replacement_result)?;
+        validate_portable_validation_result(&request.replacement_result)?;
+
+        let _terminal_repair_lock = self.terminal_repair_lock()?;
+        let (first, second) = if request.authority_issue < request.target_issue {
+            (request.authority_issue, request.target_issue)
+        } else {
+            (request.target_issue, request.authority_issue)
+        };
+        let _first_lock = self.lock(first)?;
+        let _second_lock = self.lock(second)?;
+        self.recover_with_terminal_lock(request.authority_issue)?;
+        self.recover_with_terminal_lock(request.target_issue)?;
+        let authority = self.load_record(request.authority_issue)?;
+        let target = self.load_record(request.target_issue)?;
+        if authority.generation != request.expected_authority_generation
+            || authority.digest != request.expected_authority_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "repair authority record is stale",
+            ));
+        }
+        if target.generation != request.expected_target_generation
+            || target.digest != request.expected_target_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "repair target record is stale",
+            ));
+        }
+        if target.phase != LifecyclePhase::ClosedOut || target.claim.is_some() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "terminal SOR validation repair requires a closed-out target without a claim",
+            ));
+        }
+        let authority_claim = authority.claim.as_ref().ok_or_else(|| {
+            V2Error::new(ErrorCode::MissingClaim, "repair authority claim missing")
+        })?;
+        authority_claim.validate(&request.authority_claim_id, now_seconds()?)?;
+        if !claim_covers_issue(authority_claim, request.target_issue) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "repair authority claim does not cover the target issue",
+            ));
+        }
+
+        let receipt_path = self.terminal_receipt_path(request.target_issue)?;
+        let original_receipt_bytes = fs::read(&receipt_path)?;
+        let original_receipt: TerminalReceipt = serde_json::from_slice(&original_receipt_bytes)?;
+        validate_terminal_receipt(&original_receipt)?;
+        if original_receipt.digest != request.expected_receipt_digest
+            || original_receipt.record.digest != target.digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "terminal receipt is stale",
+            ));
+        }
+
+        let original_cards = self.load_cards(request.target_issue)?;
+        verify_cards(self, &target, &original_cards)?;
+        let mut cards = original_cards.clone();
+        replace_terminal_sor_validation(
+            &mut cards,
+            &request.expected_result,
+            &request.replacement_result,
+        )?;
+
+        self.commit_terminal_card_repair(
+            target,
+            cards,
+            original_cards,
+            original_receipt,
+            original_receipt_bytes,
+            receipt_path,
+            &request.actor,
+            format!(
+                "typed terminal SOR validation repair authorized by issue {}",
+                request.authority_issue
+            ),
+            "repair_terminal_sor_validation".into(),
+            "terminal_sor_validation_repair",
+            request.fail_after_stage.as_deref(),
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn commit_terminal_card_repair(
+        &self,
+        mut target: IssueRecord,
+        mut cards: BTreeMap<CardKind, CardValues>,
+        original_cards: BTreeMap<CardKind, CardValues>,
+        original_receipt: TerminalReceipt,
+        original_receipt_bytes: Vec<u8>,
+        receipt_path: PathBuf,
+        actor: &str,
+        reason: String,
+        operation: String,
+        stage_suffix: &str,
+        fail_after_stage: Option<&str>,
+    ) -> Result<IssueRecord> {
         let original_target = target.clone();
         target.generation += 1;
         for values in cards.values_mut() {
@@ -752,15 +893,9 @@ impl Store {
         target.audit.push(AuditEvent {
             sequence: target.audit.len() as u64 + 1,
             generation: target.generation,
-            actor: request.actor.clone(),
-            reason: format!(
-                "typed terminal SOR artifact repair authorized by issue {}",
-                request.authority_issue
-            ),
-            operation: format!(
-                "repair_terminal_sor_artifact:{}->{}",
-                request.stale_ref, request.retained_ref
-            ),
+            actor: actor.into(),
+            reason,
+            operation,
         });
         hydrate_projections(&mut target, &cards)?;
         target.digest = record_digest(&target)?;
@@ -771,33 +906,32 @@ impl Store {
         repaired_receipt.digest.clear();
         repaired_receipt.digest = terminal_receipt_digest(&repaired_receipt)?;
         validate_terminal_receipt(&repaired_receipt)?;
-        let target_receipt = serde_json::to_vec_pretty(&repaired_receipt)?;
         let mut journal = TerminalTransactionJournal {
             schema: "csdlc.terminal_transaction.v1".into(),
-            issue: request.target_issue,
-            stage: "prepared_terminal_sor_artifact_repair".into(),
-            original_record_digest: original_receipt.record.digest.clone(),
+            issue: target.issue,
+            stage: format!("prepared_{stage_suffix}"),
+            original_record_digest: original_receipt.record.digest,
             target_record_digest: target.digest.clone(),
             original_receipt: Some(original_receipt_bytes.clone()),
-            target_receipt,
+            target_receipt: serde_json::to_vec_pretty(&repaired_receipt)?,
         };
         self.write_terminal_transaction_journal(&journal)?;
-        if request.fail_after_stage.as_deref() == Some("after_journal") {
-            self.remove_terminal_transaction_journal(request.target_issue)?;
+        if fail_after_stage == Some("after_journal") {
+            self.remove_terminal_transaction_journal(target.issue)?;
             return Err(V2Error::new(
                 ErrorCode::InterruptedTransaction,
                 "injected repair failure",
             ));
         }
-        if let Err(error) = self.commit(request.target_issue, &target, &cards, false) {
-            let _ = self.remove_terminal_transaction_journal(request.target_issue);
+        if let Err(error) = self.commit(target.issue, &target, &cards, false) {
+            let _ = self.remove_terminal_transaction_journal(target.issue);
             return Err(error);
         }
-        journal.stage = "projection_committed_terminal_sor_artifact_repair".into();
+        journal.stage = format!("projection_committed_{stage_suffix}");
         self.write_terminal_transaction_journal(&journal)?;
-        if request.fail_after_stage.as_deref() == Some("after_projection") {
+        if fail_after_stage == Some("after_projection") {
             self.rollback_terminal_repair(
-                request.target_issue,
+                target.issue,
                 &original_target,
                 &original_cards,
                 &receipt_path,
@@ -811,7 +945,7 @@ impl Store {
         if let Err(error) = self.replace_receipt_bytes(&receipt_path, Some(&journal.target_receipt))
         {
             self.rollback_terminal_repair(
-                request.target_issue,
+                target.issue,
                 &original_target,
                 &original_cards,
                 &receipt_path,
@@ -819,9 +953,9 @@ impl Store {
             )?;
             return Err(error);
         }
-        journal.stage = "receipt_committed_terminal_sor_artifact_repair".into();
+        journal.stage = format!("receipt_committed_{stage_suffix}");
         self.write_terminal_transaction_journal(&journal)?;
-        self.remove_terminal_transaction_journal(request.target_issue)?;
+        self.remove_terminal_transaction_journal(target.issue)?;
         Ok(target)
     }
 
@@ -3385,6 +3519,128 @@ fn replace_terminal_sor_artifact(
     Ok(())
 }
 
+fn replace_terminal_sor_validation(
+    cards: &mut BTreeMap<CardKind, CardValues>,
+    expected: &ValidationResult,
+    replacement: &ValidationResult,
+) -> Result<()> {
+    let sor = match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+        CardContent::Sor(values) => values,
+        _ => unreachable!("SOR card content"),
+    };
+    let matches: Vec<_> = sor
+        .actual_validation
+        .iter_mut()
+        .filter(|result| *result == expected)
+        .collect();
+    if matches.len() != 1 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "terminal SOR validation repair requires exactly one expected result",
+        ));
+    }
+    *matches.into_iter().next().expect("one match") = replacement.clone();
+    Ok(())
+}
+
+fn validate_portable_validation_result(result: &ValidationResult) -> Result<()> {
+    if result
+        .command
+        .iter()
+        .any(|part| contains_machine_local_path(part, true))
+        || contains_machine_local_path(&result.evidence_ref, false)
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "terminal SOR validation replacement contains a machine-local path",
+        ));
+    }
+    Ok(())
+}
+
+fn contains_machine_local_path(value: &str, shell_context: bool) -> bool {
+    if value.to_ascii_lowercase().contains("file://")
+        || contains_shell_expansion(value)
+        || (shell_context && value.contains('`'))
+        || contains_backtick_path_expansion(value)
+        || contains_windows_environment_expansion(value)
+    {
+        return true;
+    }
+    value.split_whitespace().any(|word| {
+        if word.starts_with("http://") || word.starts_with("https://") {
+            return false;
+        }
+        word.split(['=', '[', '(', '{', ',', ';', '>', '<', '|', '&'])
+            .any(|segment| {
+                let candidate = segment.trim_matches(|character: char| {
+                    matches!(character, '\'' | '"' | ')' | ']' | '}')
+                });
+                candidate.starts_with('/')
+                    || candidate.starts_with("~/")
+                    || candidate.starts_with("~\\")
+                    || candidate.starts_with("\\\\")
+                    || candidate.starts_with("//")
+                    || is_windows_absolute_path(candidate)
+            })
+    })
+}
+
+fn contains_shell_expansion(value: &str) -> bool {
+    value.char_indices().any(|(index, character)| {
+        if character != '$' {
+            return false;
+        }
+        let suffix = &value[index + character.len_utf8()..];
+        if suffix.starts_with(['(', '{']) {
+            return true;
+        }
+        let boundary = value[..index].chars().next_back().is_none_or(|previous| {
+            previous.is_whitespace() || matches!(previous, '=' | '\'' | '"')
+        });
+        boundary
+            && suffix
+                .chars()
+                .next()
+                .is_some_and(|next| next.is_ascii_alphabetic() || next == '_')
+    })
+}
+
+fn contains_backtick_path_expansion(value: &str) -> bool {
+    let Some(start) = value.find('`') else {
+        return false;
+    };
+    let Some(end) = value[start + 1..].find('`') else {
+        return false;
+    };
+    value[start + end + 2..].starts_with(['/', '\\'])
+}
+
+fn contains_windows_environment_expansion(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    bytes.iter().enumerate().any(|(start, byte)| {
+        if *byte != b'%' {
+            return false;
+        }
+        let name = &bytes[start + 1..];
+        let Some(end) = name.iter().position(|candidate| *candidate == b'%') else {
+            return false;
+        };
+        end > 0
+            && name[..end]
+                .iter()
+                .all(|candidate| candidate.is_ascii_alphanumeric() || *candidate == b'_')
+    })
+}
+
+fn is_windows_absolute_path(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    bytes.len() >= 3
+        && bytes[0].is_ascii_alphabetic()
+        && bytes[1] == b':'
+        && matches!(bytes[2], b'/' | b'\\')
+}
+
 fn claim_covers_issue(claim: &Claim, issue: u64) -> bool {
     let target = format!(".csdlc/issues/{issue}");
     claim
@@ -3419,6 +3675,124 @@ fn valid_mermaid_diagram(diagram: &str) -> bool {
 #[cfg(test)]
 mod terminal_design_repair_tests {
     use super::*;
+
+    fn copy_tree(source: &Path, destination: &Path) {
+        fs::create_dir_all(destination).expect("create fixture directory");
+        for entry in fs::read_dir(source).expect("read fixture directory") {
+            let entry = entry.expect("fixture entry");
+            let target = destination.join(entry.file_name());
+            if entry.file_type().expect("fixture type").is_dir() {
+                copy_tree(&entry.path(), &target);
+            } else {
+                fs::copy(entry.path(), target).expect("copy fixture file");
+            }
+        }
+    }
+
+    fn terminal_validation_fixture() -> (
+        tempfile::TempDir,
+        Store,
+        IssueRecord,
+        IssueRecord,
+        TerminalReceipt,
+        ValidationResult,
+    ) {
+        let source_root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("..");
+        let source_store = Store::new(&source_root);
+        let temp = tempfile::tempdir().expect("temp root");
+        let status = std::process::Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(temp.path())
+            .status()
+            .expect("git init");
+        assert!(status.success());
+        for issue in [5358, 5613] {
+            copy_tree(
+                &source_store.issue_dir(issue),
+                &temp.path().join(".csdlc/issues").join(issue.to_string()),
+            );
+            let record = source_store.load_record(issue).expect("source record");
+            for path in [&record.design_path, &record.diagram_path] {
+                let destination = temp.path().join(path);
+                fs::create_dir_all(destination.parent().expect("authored parent"))
+                    .expect("create authored parent");
+                fs::copy(source_root.join(path), destination).expect("copy authored file");
+            }
+        }
+
+        let store = Store::new(temp.path());
+        let mut authority = store.load_record(5613).expect("authority");
+        authority
+            .claim
+            .as_mut()
+            .expect("authority claim")
+            .expires_unix_seconds = u64::MAX;
+        let authority_cards = store.load_cards(5613).expect("authority cards");
+        hydrate_projections(&mut authority, &authority_cards).expect("authority projections");
+        authority.digest = record_digest(&authority).expect("authority digest");
+        store
+            .commit(5613, &authority, &authority_cards, false)
+            .expect("authority commit");
+
+        let target = store.load_record(5358).expect("target");
+        let cards = store.load_cards(5358).expect("target cards");
+        let mut authored_artifacts = BTreeMap::new();
+        for path in [&target.design_path, &target.diagram_path] {
+            authored_artifacts.insert(
+                path.clone(),
+                fs::read_to_string(temp.path().join(path)).expect("authored contents"),
+            );
+        }
+        let mut receipt = TerminalReceipt {
+            schema: "csdlc.terminal_receipt.v1".into(),
+            issue: target.issue,
+            repository: target.repository.clone(),
+            initialization_digest: target.initialization_digest.clone(),
+            receipt_ref: format!("csdlc-v2/closeout/{}.json", target.issue),
+            authored_artifacts,
+            record: target.clone(),
+            cards: cards.clone(),
+            digest: String::new(),
+        };
+        receipt.digest = terminal_receipt_digest(&receipt).expect("receipt digest");
+        validate_terminal_receipt(&receipt).expect("valid receipt");
+        let receipt_path = store
+            .terminal_receipt_path(target.issue)
+            .expect("receipt path");
+        fs::create_dir_all(receipt_path.parent().expect("receipt parent"))
+            .expect("create receipt parent");
+        write_json(&receipt_path, &receipt).expect("write receipt");
+        let CardContent::Sor(sor) = &cards[&CardKind::Sor].content else {
+            panic!("SOR");
+        };
+        let expected = sor.actual_validation.first().expect("validation").clone();
+        (temp, store, authority, target, receipt, expected)
+    }
+
+    fn validation_repair_request(
+        authority: &IssueRecord,
+        target: &IssueRecord,
+        receipt: &TerminalReceipt,
+        expected: ValidationResult,
+        fail_after_stage: Option<&str>,
+    ) -> TerminalSorValidationRepairRequest {
+        let mut replacement = expected.clone();
+        replacement.evidence_ref = "issue-5358:portable-terminal-proof".into();
+        TerminalSorValidationRepairRequest {
+            authority_issue: authority.issue,
+            target_issue: target.issue,
+            expected_authority_generation: authority.generation,
+            expected_authority_digest: authority.digest.clone(),
+            expected_target_generation: target.generation,
+            expected_target_digest: target.digest.clone(),
+            expected_receipt_digest: receipt.digest.clone(),
+            authority_claim_id: authority.claim.as_ref().expect("claim").id.clone(),
+            actor: "codex:test".into(),
+            expected_result: expected,
+            replacement_result: replacement,
+            fail_after_stage: fail_after_stage.map(str::to_owned),
+        }
+    }
 
     #[test]
     fn terminal_design_repair_rejects_incomplete_authority_before_io() {
@@ -3590,5 +3964,166 @@ mod terminal_design_repair_tests {
         };
         assert_eq!(sor.artifacts, vec!["retained"]);
         assert!(replace_terminal_sor_artifact(&mut cards, "old", "retained").is_err());
+    }
+
+    #[test]
+    fn terminal_sor_validation_repair_updates_projection_and_receipt_atomically() {
+        let (_temp, store, authority, target, receipt, expected) = terminal_validation_fixture();
+        let request =
+            validation_repair_request(&authority, &target, &receipt, expected.clone(), None);
+        let replacement = request.replacement_result.clone();
+        let repaired = store
+            .repair_terminal_sor_validation(request)
+            .expect("terminal validation repair");
+        assert_eq!(repaired.phase, LifecyclePhase::ClosedOut);
+        assert!(repaired.claim.is_none());
+        assert_eq!(repaired.generation, target.generation + 1);
+        let cards = store.load_cards(target.issue).expect("repaired cards");
+        let CardContent::Sor(sor) = &cards[&CardKind::Sor].content else {
+            panic!("SOR");
+        };
+        assert!(!sor.actual_validation.contains(&expected));
+        assert_eq!(
+            sor.actual_validation
+                .iter()
+                .filter(|result| *result == &replacement)
+                .count(),
+            1
+        );
+        let repaired_receipt = store
+            .load_terminal_receipt(target.issue)
+            .expect("receipt load")
+            .expect("receipt");
+        assert_eq!(repaired_receipt.record.digest, repaired.digest);
+        assert_eq!(repaired_receipt.cards, cards);
+    }
+
+    #[test]
+    fn terminal_sor_validation_repair_rejects_stale_receipt_without_mutation() {
+        let (_temp, store, authority, target, receipt, expected) = terminal_validation_fixture();
+        let index_path = store.issue_dir(target.issue).join("index.json");
+        let receipt_path = store
+            .terminal_receipt_path(target.issue)
+            .expect("receipt path");
+        let original_index = fs::read(&index_path).expect("index bytes");
+        let original_receipt = fs::read(&receipt_path).expect("receipt bytes");
+        let mut request = validation_repair_request(&authority, &target, &receipt, expected, None);
+        request.expected_receipt_digest = "stale".into();
+        let error = store
+            .repair_terminal_sor_validation(request)
+            .expect_err("stale receipt must fail");
+        assert_eq!(error.code.to_string(), "stale_digest");
+        assert_eq!(fs::read(index_path).expect("index bytes"), original_index);
+        assert_eq!(
+            fs::read(receipt_path).expect("receipt bytes"),
+            original_receipt
+        );
+    }
+
+    #[test]
+    fn terminal_sor_validation_repair_rolls_back_projection_and_receipt() {
+        let (_temp, store, authority, target, receipt, expected) = terminal_validation_fixture();
+        let index_path = store.issue_dir(target.issue).join("index.json");
+        let receipt_path = store
+            .terminal_receipt_path(target.issue)
+            .expect("receipt path");
+        let original_index = fs::read(&index_path).expect("index bytes");
+        let original_receipt = fs::read(&receipt_path).expect("receipt bytes");
+        let request = validation_repair_request(
+            &authority,
+            &target,
+            &receipt,
+            expected,
+            Some("after_projection"),
+        );
+        let error = store
+            .repair_terminal_sor_validation(request)
+            .expect_err("injected failure must roll back");
+        assert_eq!(error.code.to_string(), "interrupted_transaction");
+        assert_eq!(fs::read(index_path).expect("index bytes"), original_index);
+        assert_eq!(
+            fs::read(receipt_path).expect("receipt bytes"),
+            original_receipt
+        );
+    }
+
+    #[test]
+    fn terminal_sor_validation_repair_enforces_portable_replacements() {
+        for machine_local in [
+            "/tmp/build",
+            "--target-dir=/home/alice/build",
+            "cd /mnt/worker/checkout",
+            r"C:\Users\alice\checkout",
+            r"--out=Z:\build\target",
+            r"\\server\share\checkout",
+            "~/checkout",
+            "CARGO_TARGET_DIR=$HOME/build",
+            "CARGO_TARGET_DIR=${HOME}/build",
+            "sh -c 'cd ${HOME}/checkout'",
+            "$(pwd)/target",
+            "`pwd`/target",
+            "file:///home/alice/proof.json",
+            r"%USERPROFILE%\checkout",
+        ] {
+            let result = ValidationResult {
+                command: vec!["proof".into(), machine_local.into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: "evidence/portable.json".into(),
+            };
+            let error = validate_portable_validation_result(&result).expect_err(machine_local);
+            assert_eq!(error.code.to_string(), "invalid_input");
+        }
+
+        for machine_local in [
+            "proof\u{a0}/home/alice/out",
+            "proof=[/home/alice/out]",
+            "echo proof >/tmp/result",
+            "tool 2>/home/alice/log",
+            "cmd|/opt/local/tool",
+            r"type NUL >C:\Users\alice\proof",
+            r"proof&\\server\share\result",
+        ] {
+            let result = ValidationResult {
+                command: vec!["proof".into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: machine_local.into(),
+            };
+            validate_portable_validation_result(&result).expect_err(machine_local);
+        }
+
+        for portable in [
+            "evidence/portable.json",
+            "evidence/report$final.json",
+            "--target-dir=target/coverage",
+            "https://example.invalid/proof",
+            "https://example.invalid/proof?$select=id",
+            "retained terminal receipt",
+        ] {
+            let result = ValidationResult {
+                command: vec!["proof".into(), portable.into()],
+                purpose: "proof".into(),
+                outcome: crate::cards::EvidenceOutcome::Passed,
+                evidence_ref: portable.into(),
+            };
+            validate_portable_validation_result(&result).expect(portable);
+        }
+
+        let symbolic_result = ValidationResult {
+            command: vec!["proof".into()],
+            purpose: "proof".into(),
+            outcome: crate::cards::EvidenceOutcome::Passed,
+            evidence_ref: "reviewed `proof command`".into(),
+        };
+        validate_portable_validation_result(&symbolic_result).expect("stable symbolic evidence");
+
+        let result = ValidationResult {
+            command: vec!["proof".into()],
+            purpose: "proof".into(),
+            outcome: crate::cards::EvidenceOutcome::Passed,
+            evidence_ref: "/home/runner/evidence.json".into(),
+        };
+        validate_portable_validation_result(&result).expect_err("machine-local evidence reference");
     }
 }
