@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Review the exact #5589 preparation revision across all six generated cards, design, Mermaid diagram, adapter/authority matrix, typed bootstrap and bind requests, preparation-only protected paths, AC-1 through AC-8 coverage, S1 through S7 plan, every live positive and negative PVF lane, production/COTS credit rule, #5591 clean-review and collision gates, and zero publication/product implementation truth. Reject partial, deferred, degraded, fixture-only, metadata-only, library-only, governance-bypassing, identity-leaking, continuity-ambiguous, AWS, Runtime v2, cross-lane, budget-weakening, product-edit, readiness, publication, or acceptance claims.
+adl-runtime-kernel/src/governed_operations.rs
+adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs
+adl-runtime-kernel/tests/governed_operations.rs
+.csdlc/issues/5589/cards/sor.values.json
+.csdlc/issues/5589/cards/srp.values.json
+.csdlc/evidence/5589/implementation
 
 ## Prompts
 
@@ -27,7 +32,108 @@ Review the exact #5589 preparation revision across all six generated cards, desi
 
 ## Findings
 
-[]
+[
+  {
+    "id": "self-issued-authority",
+    "severity": "p1",
+    "summary": "The service mints commitment and root authority from caller-controlled fields instead of enforcing independently established authenticated authority.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "caller-controlled-governance-time",
+    "severity": "p1",
+    "summary": "Caller-controlled qualified time can mint fresh grants and poison persisted monotonic time.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "checkpoint-concurrency-race",
+    "severity": "p1",
+    "summary": "Unlocked cross-process checkpoint read-modify-write and a shared temporary path permit duplicate actuation and checkpoint corruption.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "tool-allowlist-escape",
+    "severity": "p1",
+    "summary": "Relative-path validation follows symlinks and is not anchored to a configured canonical allowlist root.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "missing-parity-components",
+    "severity": "p1",
+    "summary": "The implementation lacks the declared authenticated ingress, bounded scheduler and reservations, resident Agent and Shepherd adapters, configured production provider port, and current-revocation recovery; tests do not prove those claims.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "retry-quarantine",
+    "severity": "p2",
+    "summary": "Pre-side-effect provider, tool, quota, cancellation, and unavailable failures leave pending requests quarantined forever instead of permitting truthful cleanup and retry.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "checkpoint-durability",
+    "severity": "p2",
+    "summary": "Checkpoint writes do not fsync the file and parent directory, so crash recovery and no-duplicate claims are unproved.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "state-capability-scope",
+    "severity": "p2",
+    "summary": "Persisted private state is keyed only by citizen and overwrites across action, resource, and capability scope.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "mislabeled-release-tests",
+    "severity": "p2",
+    "summary": "Named expiry, appeal, saturation, authentication, cancellation, and lifelog-failure tests do not exercise their claimed scenarios.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "budget-exception-unjustified",
+    "severity": "p1",
+    "summary": "The 935-line additive implementation has no offset deletion and materially under-delivers its parity contract, so the baseline exception is not justified.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -39,8 +145,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3bd3d7cd629eff184a2b56368ff74dc2c2998c8e:5471805aff15682acaba30fe978e9057d743a2acaff4f29dbe9ec8e8995a329a")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_5589_exact")
 
-Result: pre_review
+Result: changes_required

@@ -1,0 +1,2 @@
+2026-07-21 redesign validation: PASS
+command=cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check

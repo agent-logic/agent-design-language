@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a live Runtime v3 governed-operations process with signed Freedom Gate and AEE dispatch, production local provider and governed-tool adapters, identity-scoped authenticated checkpoints, monotonic qualified time, redacted non-authoritative lifelog, idempotent recovery, cancellation/failure classification, and fail-closed shutdown.
+Replaced the rejected self-authorizing candidate with a live canonical-ingress implementation that accepts independently signed commitment/delegation evidence, uses trusted runtime time and revocation configuration, runs resident bounded Agent/Shepherd/Scheduler/provider adapters, canonicalizes governed-tool paths, and durably serializes capability-scoped recovery state.
 
 ## Artifacts
 
@@ -25,6 +25,10 @@ Implemented a live Runtime v3 governed-operations process with signed Freedom Ga
 - adl-runtime-kernel/src/governed_operations.rs
 - adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs
 - adl-runtime-kernel/tests/governed_operations.rs
+- adl-runtime-kernel/src/governed_operations.rs
+- adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs
+- adl-runtime-kernel/tests/governed_operations.rs
+- .csdlc/evidence/5589/implementation
 
 ## Execution
 
@@ -39,6 +43,13 @@ Implemented a live Runtime v3 governed-operations process with signed Freedom Ga
 - Persisted authenticated identity-scoped checkpoints with pending-request crash quarantine and idempotent replay
 - Kept lifelog append-only, redacted, non-authoritative, and isolated from checkpoint and actuation success
 - Added all 25 exact named positive, negative, restart, shutdown, production-credit, and boundary tests
+- Removed service-held policy and authority signing keys; runtime configuration contains only their public verification keys, while commands carry signed commitments and authority chains
+- Moved governance time and revocation truth out of caller input into trusted runtime configuration and revalidates revocation before cached replay
+- Started CanonicalIngress and operational Agent, Shepherd, Scheduler, and governed provider components under the Runtime v3 Kernel for each admitted process request
+- Invoked a configured external provider executable and a canonical-root allowlisted metadata tool; symlink escape fails before tool actuation
+- Serialized cross-process state transitions with a checkpoint lock, unique temporary files, file and directory fsync, authenticated state, and capability-scoped private-state keys
+- Cleared pending requests after pre-side-effect cancellation/provider/tool failure so retry can requalify; retained quarantine only for genuine incomplete recovery
+- Strengthened the 25 named tests to exercise signed authority, expiry, attenuation/widening, provider classifications and retry, symlink escape, identity/capability scope, current revocation, checkpoint tamper authentication, trusted-time regression, and lifelog failure isolation
 
 ## Validation
 
@@ -75,6 +86,19 @@ Implemented a live Runtime v3 governed-operations process with signed Freedom Ga
       "git diff --check"
     ],
     "purpose": "Prove all Parity-C live positive, negative, identity, continuity, shutdown, production-credit, and boundary outcomes plus the complete Runtime v3 suite, strict lint, format, budget, and diff hygiene. Budget result is 13,266 physical lines and 220 tests: +1,057 over pinned #5336 baseline, including merged #5591, and requires explicit exact-review disposition because the 20,000 safety ceiling is non-authorizing.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5589/implementation"
+  },
+  {
+    "command": [
+      "seven exact inventory-guarded Parity-C lanes (25 discovered and executed tests)",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/full-redesign cargo test --manifest-path adl-runtime-kernel/Cargo.toml",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/clippy-redesign cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings",
+      "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check",
+      "bash adl/tools/report_runtime_v3_loc.sh",
+      "git diff --check"
+    ],
+    "purpose": "Prove the corrected live signed-authority, canonical-ingress, Agent/Shepherd/Scheduler/provider/tool, identity/capability-state, trusted-time, durable checkpoint, retry/revocation, lifelog, shutdown, zero-degraded-credit, complete-kernel, lint, format, budget, and diff outcomes. Budget is exactly 13,496 physical lines and 220 tests: +1,287 over pinned baseline 12,209 and requires explicit review disposition because the 20,000 safety ceiling is non-authorizing.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5589/implementation"
   }

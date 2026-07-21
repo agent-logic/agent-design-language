@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "812bcef468b7261d7d8cb522251cb0734425060895701091efad37a816ece601",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "2c0e2895fad0278ef7a1f08480f0320b78a672953376eabc847a8eaf16a1178e",
+  "generation": 15,
+  "digest": "81aefdefd81518c60aa4c2e9b1525e8e674a6e1b768a2d328244554889fa9f66",
   "claim": {
     "id": "claim-5589-runtime-v3-parity-c-preparation",
     "owner": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
-    "generation": 12,
+    "generation": 15,
     "acquired_unix_seconds": 1784601578,
     "expires_unix_seconds": 1785206378,
     "heartbeat_unix_seconds": 1784601578,
@@ -26,8 +26,136 @@
     ],
     "purpose": "Implement every #5589 Runtime v3 Parity-C governed-operations adapter and live authority, identity, continuity, shutdown, budget, review, publication, integration, and closeout outcome."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5589_exact",
+    "assigned_by": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+    "revision": "git-blake3:3bd3d7cd629eff184a2b56368ff74dc2c2998c8e:5471805aff15682acaba30fe978e9057d743a2acaff4f29dbe9ec8e8995a329a",
+    "scope": [
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      ".csdlc/issues/5589/cards/sor.values.json",
+      ".csdlc/issues/5589/cards/srp.values.json",
+      ".csdlc/evidence/5589/implementation"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_5589_exact",
+    "scope": [
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      ".csdlc/issues/5589/cards/sor.values.json",
+      ".csdlc/issues/5589/cards/srp.values.json",
+      ".csdlc/evidence/5589/implementation"
+    ],
+    "reviewed_revision": "git-blake3:3bd3d7cd629eff184a2b56368ff74dc2c2998c8e:5471805aff15682acaba30fe978e9057d743a2acaff4f29dbe9ec8e8995a329a",
+    "findings": [
+      {
+        "id": "self-issued-authority",
+        "severity": "p1",
+        "summary": "The service mints commitment and root authority from caller-controlled fields instead of enforcing independently established authenticated authority.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "caller-controlled-governance-time",
+        "severity": "p1",
+        "summary": "Caller-controlled qualified time can mint fresh grants and poison persisted monotonic time.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "checkpoint-concurrency-race",
+        "severity": "p1",
+        "summary": "Unlocked cross-process checkpoint read-modify-write and a shared temporary path permit duplicate actuation and checkpoint corruption.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "tool-allowlist-escape",
+        "severity": "p1",
+        "summary": "Relative-path validation follows symlinks and is not anchored to a configured canonical allowlist root.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "missing-parity-components",
+        "severity": "p1",
+        "summary": "The implementation lacks the declared authenticated ingress, bounded scheduler and reservations, resident Agent and Shepherd adapters, configured production provider port, and current-revocation recovery; tests do not prove those claims.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "retry-quarantine",
+        "severity": "p2",
+        "summary": "Pre-side-effect provider, tool, quota, cancellation, and unavailable failures leave pending requests quarantined forever instead of permitting truthful cleanup and retry.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "checkpoint-durability",
+        "severity": "p2",
+        "summary": "Checkpoint writes do not fsync the file and parent directory, so crash recovery and no-duplicate claims are unproved.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "state-capability-scope",
+        "severity": "p2",
+        "summary": "Persisted private state is keyed only by citizen and overwrites across action, resource, and capability scope.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "mislabeled-release-tests",
+        "severity": "p2",
+        "summary": "Named expiry, appeal, saturation, authentication, cancellation, and lifelog-failure tests do not exercise their claimed scenarios.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "budget-exception-unjustified",
+        "severity": "p1",
+        "summary": "The 935-line additive implementation has no offset deletion and materially under-delivers its parity contract, so the baseline exception is not justified.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,34 +170,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "93b03f1e36dab745d5747dbb667fc7441929a51ac9cb8ffaee2a0a2789868e8d",
+      "values_digest": "aa52ed1df136a2299d599661f4936ee41a54043c472e975caeae492b8a63975c",
       "rendered_digest": "e4eb2c40819044f7cc76ce912abe672db74767294dc52d3cb4e9bc299c84521a",
       "ast_digest": "b5c2a719075cdd0116ddb7ef2ee6cfe965d29a50aa3a751399579f3d779e92ae"
     },
     "stp": {
-      "values_digest": "976995c8076c0a73c9d23acf5b4cec3d99a958cb4d507305a1f16744499a1cb0",
+      "values_digest": "a59c1f499051db807dc023a91ca8fd06206b6a03492d7e24466e9416d5943fec",
       "rendered_digest": "0bb5d39c70d4b3d76bc1afaf3499fb08556b2be2fb543fa2e58eb333756d433a",
       "ast_digest": "d8a3c985226d547ba7b559e6d58576a7c43a9c621c16289a7d5e14f4cb672bcf"
     },
     "spp": {
-      "values_digest": "caafb18bc5f0981f0e68ffc1a6f503a8e8c6894b32d2748102791df126ed5fd0",
+      "values_digest": "d78653f21ddc2b38cf05f772383c5458c87f55d0e37e0bec678bf52414a51110",
       "rendered_digest": "1872da139fd6e2771f5accaaf4f7a66c4e3ef80830b8709b1600deb3bea70980",
       "ast_digest": "45a0a8b2067008300f8ad18b8e7d118cdfbed39ee9c3be63cc5098ef2f92ec7f"
     },
     "vpp": {
-      "values_digest": "d62638d501f92867374cfa633136be09a83ce86b03762fce3101615fcee7875f",
+      "values_digest": "b2e198bf010eafe68907cc29de3d5682eee87889832a782fcc651c8c55b7fefa",
       "rendered_digest": "436e57ced1c8fce2e364b7f0c755df3c6b07585d1851c213b880e0a8de707b2e",
       "ast_digest": "9505b0680657b74adcbd6d759de219f8245f28d43aa7c1946143c4be5564fe83"
     },
     "srp": {
-      "values_digest": "f187f385243771df69a8c0231f9ed3296e20269fc95f1b69e678c433625afdb0",
-      "rendered_digest": "bb26271a56a8de4cee86a2f38cc9a53ab33ce36cf227a57a20139820bc0ad356",
-      "ast_digest": "b71f768652d14ef47271df9cf058cf494b82ef875a9fadf8b330571447d566f3"
+      "values_digest": "8d65d964bd2e18f4885768ecba085756e959a2c1ae2e7a751ef927de0d7b0967",
+      "rendered_digest": "dd68778207ae357d6370bcd7f8b337f5aeb8b61199c48284754de4a83c9c8ed1",
+      "ast_digest": "3076d8fd62f663b6d9afb16ff097eb1ca2457e1703608f0399f0f8f4662a181e"
     },
     "sor": {
-      "values_digest": "5430b9ca680a180aa1e885156526b6f94c571188f1599dfd6cfef7f33c7af5c0",
-      "rendered_digest": "dd5604901bd69cd8bc61766bd64ae1c6d8943b8ef662632952c474a58a00b208",
-      "ast_digest": "4f233071a487f5300b3c579f2da923b3de127e739d1402ebdcca6fdcc54205f9"
+      "values_digest": "532fe1309763f29a3f839bb22c869844e66db3900eb271d463ecdeef36d8f686",
+      "rendered_digest": "20e5f696b3126a1836b1b6979bd21d85493c201689082945b033d47ba54230ea",
+      "ast_digest": "d0300808b3b10ad9aaf343222306b46996a945c9422872b52a0c516451be893c"
     }
   },
   "transitions": [
@@ -200,6 +328,34 @@
       "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
       "reason": "Complete bounded Parity-C implementation and all declared FastWork proof before exact-revision review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "subagent:/root/review_5589_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Record the substantive redesign that fixes every changes-required exact-review finding before re-review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replaced the rejected self-authorizing candidate with a live canonical-ingress implementation that accepts independently signed commitment/delegation evidence, uses trusted runtime time and revocation configuration, runs resident bounded Agent/Shepherd/Scheduler/provider adapters, canonicalizes governed-tool paths, and durably serializes capability-scoped recovery state.\",\"changes\":[\"Removed service-held policy and authority signing keys; runtime configuration contains only their public verification keys, while commands carry signed commitments and authority chains\",\"Moved governance time and revocation truth out of caller input into trusted runtime configuration and revalidates revocation before cached replay\",\"Started CanonicalIngress and operational Agent, Shepherd, Scheduler, and governed provider components under the Runtime v3 Kernel for each admitted process request\",\"Invoked a configured external provider executable and a canonical-root allowlisted metadata tool; symlink escape fails before tool actuation\",\"Serialized cross-process state transitions with a checkpoint lock, unique temporary files, file and directory fsync, authenticated state, and capability-scoped private-state keys\",\"Cleared pending requests after pre-side-effect cancellation/provider/tool failure so retry can requalify; retained quarantine only for genuine incomplete recovery\",\"Strengthened the 25 named tests to exercise signed authority, expiry, attenuation/widening, provider classifications and retry, symlink escape, identity/capability scope, current revocation, checkpoint tamper authentication, trusted-time regression, and lifelog failure isolation\"],\"artifacts\":[\"adl-runtime-kernel/src/governed_operations.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs\",\"adl-runtime-kernel/tests/governed_operations.rs\",\".csdlc/evidence/5589/implementation\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "Record complete FastWork validation of the review-fix redesign and preserve the non-authorizing budget exception for exact re-review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"seven exact inventory-guarded Parity-C lanes (25 discovered and executed tests)\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/full-redesign cargo test --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/clippy-redesign cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check\"],\"purpose\":\"Prove the corrected live signed-authority, canonical-ingress, Agent/Shepherd/Scheduler/provider/tool, identity/capability-state, trusted-time, durable checkpoint, retry/revocation, lifelog, shutdown, zero-degraded-credit, complete-kernel, lint, format, budget, and diff outcomes. Budget is exactly 13,496 physical lines and 220 tests: +1,287 over pinned baseline 12,209 and requires explicit review disposition because the 20,000 safety ceiling is non-authorizing.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5589/implementation\"}}"
     }
   ]
 }

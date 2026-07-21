@@ -1,22 +1,26 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
+    io::Write,
     path::{Path, PathBuf},
-    sync::Arc,
+    process::{Command, Stdio},
+    sync::{Arc, Mutex},
+    time::Duration,
 };
 
 use adl_runtime_kernel::{
-    ActuationShell, Aee, AuthorityGrant, Commitment, FreedomGate, GovernanceKeys,
-    GovernedActionRequest, MediationDecision, RefusalReason, TrustedGovernanceTime,
-    AUTHORITY_GRANT_SCHEMA, COMMITMENT_SCHEMA,
+    ActuationShell, AdapterKind, AdapterPolicy, Aee, AuthorityGrant, AuthorityMode,
+    CanonicalIngress, Commitment, ComponentRegistry, DomainWork, ExecutorError, FailureClass,
+    FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, MediationDecision,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, RefusalReason,
+    RuntimeRecorder, TrustedGovernanceTime, DOMAIN_WORK_SCHEMA, OPERATION_REQUEST_SCHEMA,
 };
-use ed25519_dalek::SigningKey;
+use ed25519_dalek::{SigningKey, VerifyingKey};
 use serde::{Deserialize, Serialize};
 
-const ZERO_HASH: &str = "0000000000000000000000000000000000000000000000000000000000000000";
-const STATE_SCHEMA: &str = "adl.runtime.parity_c.state.v1";
-const OUTPUT_SCHEMA: &str = "adl.runtime.parity_c.outcome.v1";
+const STATE_SCHEMA: &str = "adl.runtime.parity_c.state.v2";
+const OUTPUT_SCHEMA: &str = "adl.runtime.parity_c.outcome.v2";
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct GovernedCommand {
     pub request_id: String,
@@ -27,30 +31,12 @@ pub struct GovernedCommand {
     pub resource: String,
     pub units: u64,
     pub payload: String,
-    pub qualified_unix_millis: u64,
+    pub commitment: Commitment,
+    pub authority_chain: Vec<AuthorityGrant>,
     #[serde(default)]
     pub read_citizen_id: Option<String>,
     #[serde(default)]
-    pub delegate_units: Option<u64>,
-    #[serde(default)]
-    pub revoke_before_dispatch: bool,
-    #[serde(default)]
-    pub provider_condition: ProviderCondition,
-    #[serde(default)]
-    pub lifelog_failure: bool,
-}
-
-#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize)]
-#[serde(rename_all = "snake_case")]
-pub enum ProviderCondition {
-    #[default]
-    Healthy,
-    Timeout,
-    Auth,
-    Quota,
-    Malformed,
-    Unavailable,
-    Cancelled,
+    pub cancelled: bool,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -69,34 +55,54 @@ pub struct GovernedOutcome {
     pub private_payload_retained: bool,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug)]
 pub struct RuntimeConfig {
-    pub state_dir: PathBuf,
-    pub policy_key: [u8; 32],
-    pub authority_key: [u8; 32],
-    pub permit_key: [u8; 32],
-    pub checkpoint_key: [u8; 32],
+    state_dir: PathBuf,
+    tool_root: PathBuf,
+    policy_hash: String,
+    policy_key: VerifyingKey,
+    authority_key: VerifyingKey,
+    authority_principal: String,
+    permit_key: [u8; 32],
+    checkpoint_key: [u8; 32],
+    trusted_time_millis: u64,
+    provider_program: PathBuf,
+    provider_condition: String,
+    revoked_commitments: BTreeSet<String>,
 }
 
 impl RuntimeConfig {
     pub fn from_env() -> Result<Self, String> {
-        let config = Self {
-            state_dir: PathBuf::from(required_env("ADL_PARITY_C_STATE_DIR")?),
-            policy_key: secret_env("ADL_PARITY_C_POLICY_KEY_HEX")?,
-            authority_key: secret_env("ADL_PARITY_C_AUTHORITY_KEY_HEX")?,
+        let state_dir = PathBuf::from(required_env("ADL_PARITY_C_STATE_DIR")?);
+        let tool_root = PathBuf::from(required_env("ADL_PARITY_C_TOOL_ROOT")?)
+            .canonicalize()
+            .map_err(|_| "tool_root_unavailable".to_owned())?;
+        let provider_program = PathBuf::from(required_env("ADL_PARITY_C_PROVIDER_PROGRAM")?);
+        if !provider_program.is_absolute() {
+            return Err("provider_program_must_be_absolute".to_owned());
+        }
+        Ok(Self {
+            state_dir,
+            tool_root,
+            policy_hash: required_env("ADL_PARITY_C_POLICY_HASH")?,
+            policy_key: public_env("ADL_PARITY_C_POLICY_PUBLIC_KEY_HEX")?,
+            authority_key: public_env("ADL_PARITY_C_AUTHORITY_PUBLIC_KEY_HEX")?,
+            authority_principal: required_env("ADL_PARITY_C_AUTHORITY_PRINCIPAL")?,
             permit_key: secret_env("ADL_PARITY_C_PERMIT_KEY_HEX")?,
             checkpoint_key: secret_env("ADL_PARITY_C_CHECKPOINT_KEY_HEX")?,
-        };
-        let distinct = BTreeSet::from([
-            config.policy_key,
-            config.authority_key,
-            config.permit_key,
-            config.checkpoint_key,
-        ]);
-        if distinct.len() != 4 {
-            return Err("parity_c_keys_must_be_distinct".to_owned());
-        }
-        Ok(config)
+            trusted_time_millis: required_env("ADL_PARITY_C_TRUSTED_TIME_MILLIS")?
+                .parse()
+                .map_err(|_| "invalid_trusted_time".to_owned())?,
+            provider_program,
+            provider_condition: std::env::var("ADL_PARITY_C_PROVIDER_CONDITION")
+                .unwrap_or_else(|_| "healthy".to_owned()),
+            revoked_commitments: std::env::var("ADL_PARITY_C_REVOKED_COMMITMENTS")
+                .unwrap_or_default()
+                .split(',')
+                .filter(|value| !value.is_empty())
+                .map(str::to_owned)
+                .collect(),
+        })
     }
 }
 
@@ -109,7 +115,6 @@ struct RuntimeState {
     shutdown: bool,
     completed: BTreeMap<String, PersistedOutcome>,
     request_ids: BTreeSet<String>,
-    #[serde(default)]
     pending_requests: BTreeSet<String>,
     private_state: BTreeMap<String, String>,
 }
@@ -130,50 +135,193 @@ struct SignedState {
 }
 
 struct QualifiedTime(u64);
-
 impl TrustedGovernanceTime for QualifiedTime {
     fn now_unix_millis(&self) -> u64 {
         self.0
     }
 }
 
-struct ProductionShell {
-    command: GovernedCommand,
+struct StateLock(PathBuf);
+impl StateLock {
+    fn acquire(config: &RuntimeConfig) -> Result<Self, String> {
+        std::fs::create_dir_all(&config.state_dir)
+            .map_err(|_| "checkpoint_unavailable".to_owned())?;
+        let path = config.state_dir.join("checkpoint.lock");
+        std::fs::create_dir(&path).map_err(|_| "checkpoint_busy".to_owned())?;
+        Ok(Self(path))
+    }
+}
+impl Drop for StateLock {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_dir(&self.0);
+    }
 }
 
+struct Passthrough;
+#[async_trait::async_trait]
+impl OperationExecutor for Passthrough {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        Ok(request.payload.clone())
+    }
+}
+
+struct ProviderPort {
+    program: PathBuf,
+    condition: String,
+}
+#[async_trait::async_trait]
+impl OperationExecutor for ProviderPort {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        if self.condition != "healthy" {
+            return Err(ExecutorError {
+                class: if matches!(self.condition.as_str(), "timeout" | "unavailable") {
+                    FailureClass::Retryable
+                } else {
+                    FailureClass::Fatal
+                },
+                message: format!("provider_{}", self.condition),
+            });
+        }
+        let mut child = Command::new(&self.program)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .spawn()
+            .map_err(|_| executor_error("provider_unavailable"))?;
+        child
+            .stdin
+            .take()
+            .ok_or_else(|| executor_error("provider_unavailable"))?
+            .write_all(&request.payload)
+            .map_err(|_| executor_error("provider_unavailable"))?;
+        let output = child
+            .wait_with_output()
+            .map_err(|_| executor_error("provider_unavailable"))?;
+        if !output.status.success() || output.stdout.len() > 1_048_576 {
+            return Err(executor_error("provider_malformed_output"));
+        }
+        Ok(output.stdout)
+    }
+}
+
+#[derive(Clone)]
+struct ToolPort(PathBuf);
+impl ToolPort {
+    fn execute(&self, payload: &str) -> Result<Vec<u8>, String> {
+        let requested = Path::new(payload);
+        if requested.is_absolute() {
+            return Err("tool_path_not_allowlisted".to_owned());
+        }
+        let resolved = self
+            .0
+            .join(requested)
+            .canonicalize()
+            .map_err(|_| "tool_unavailable".to_owned())?;
+        if !resolved.starts_with(&self.0) {
+            return Err("tool_path_not_allowlisted".to_owned());
+        }
+        let metadata = std::fs::metadata(resolved).map_err(|_| "tool_unavailable".to_owned())?;
+        Ok(format!("bytes={}", metadata.len()).into_bytes())
+    }
+}
+
+struct GovernedExecutor {
+    command: GovernedCommand,
+    permit: adl_runtime_kernel::ExecutionPermit,
+    permit_key: VerifyingKey,
+    provider: Arc<OperationalAdapter>,
+    scheduler: Arc<OperationalAdapter>,
+    shepherd: Arc<OperationalAdapter>,
+    tool: ToolPort,
+    failure: Arc<Mutex<Option<String>>>,
+}
+
+#[async_trait::async_trait]
+impl OperationExecutor for GovernedExecutor {
+    async fn execute(&self, _: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        let shell = Arc::new(ProductionShell {
+            command: self.command.clone(),
+            provider: self.provider.clone(),
+            scheduler: self.scheduler.clone(),
+            shepherd: self.shepherd.clone(),
+            tool: self.tool.clone(),
+        });
+        let aee = Aee::new(
+            BTreeMap::from([("permit".to_owned(), self.permit_key)]),
+            shell,
+        );
+        let recorded = aee
+            .actuate(&self.permit)
+            .await
+            .map_err(|_| executor_error("actuation_rejected"))?;
+        if recorded.success {
+            Ok(recorded.result_bytes)
+        } else {
+            let classification = std::str::from_utf8(&recorded.result_bytes)
+                .unwrap_or("actuation_quarantined")
+                .to_owned();
+            *self.failure.lock().expect("failure mutex poisoned") = Some(classification.clone());
+            Err(executor_error(&classification))
+        }
+    }
+}
+
+struct ProductionShell {
+    command: GovernedCommand,
+    provider: Arc<OperationalAdapter>,
+    scheduler: Arc<OperationalAdapter>,
+    shepherd: Arc<OperationalAdapter>,
+    tool: ToolPort,
+}
 #[async_trait::async_trait]
 impl ActuationShell for ProductionShell {
     async fn execute(
         &self,
-        _permit: &adl_runtime_kernel::ExecutionPermit,
+        permit: &adl_runtime_kernel::ExecutionPermit,
     ) -> Result<Vec<u8>, String> {
-        match self.command.provider_condition {
-            ProviderCondition::Healthy => {}
-            ProviderCondition::Timeout => return Err("provider_timeout".to_owned()),
-            ProviderCondition::Auth => return Err("provider_auth".to_owned()),
-            ProviderCondition::Quota => return Err("provider_quota".to_owned()),
-            ProviderCondition::Malformed => return Err("provider_malformed_output".to_owned()),
-            ProviderCondition::Unavailable => return Err("provider_unavailable".to_owned()),
-            ProviderCondition::Cancelled => return Err("scheduler_cancelled".to_owned()),
+        let request = |kind: &str, payload: Vec<u8>, governed: bool| OperationRequest {
+            schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+            request_id: if governed {
+                self.command.request_id.clone()
+            } else {
+                format!("{}-{kind}", self.command.request_id)
+            },
+            idempotency_key: if governed {
+                self.command.idempotency_key.clone()
+            } else {
+                format!("{}-{kind}", self.command.idempotency_key)
+            },
+            principal: self.command.citizen_id.clone(),
+            payload,
+            permit: governed.then(|| permit.clone()),
+        };
+        if self.command.cancelled {
+            return Err("scheduler_cancelled".to_owned());
         }
+        self.shepherd
+            .invoke(request(
+                "shepherd",
+                self.command.agent_id.as_bytes().to_vec(),
+                false,
+            ))
+            .await
+            .map_err(classify_operation)?;
+        self.scheduler
+            .invoke(request("scheduler", Vec::new(), false))
+            .await
+            .map_err(classify_operation)?;
         match self.command.action.as_str() {
-            "provider.digest" => Ok(blake3::hash(self.command.payload.as_bytes())
-                .to_hex()
-                .to_string()
-                .into_bytes()),
-            "tool.file_metadata" => {
-                let path = Path::new(&self.command.payload);
-                if path.is_absolute()
-                    || path
-                        .components()
-                        .any(|part| !matches!(part, std::path::Component::Normal(_)))
-                {
-                    return Err("tool_path_not_allowlisted".to_owned());
-                }
-                let metadata =
-                    std::fs::metadata(path).map_err(|_| "tool_unavailable".to_owned())?;
-                Ok(format!("bytes={}", metadata.len()).into_bytes())
-            }
+            "provider.invoke" => self
+                .provider
+                .invoke(request(
+                    "provider",
+                    self.command.payload.as_bytes().to_vec(),
+                    true,
+                ))
+                .await
+                .map(|result| result.payload)
+                .map_err(classify_operation),
+            "tool.file_metadata" => self.tool.execute(&self.command.payload),
             "system.shutdown" => Ok(b"shutdown_checkpointed".to_vec()),
             _ => Err("unsupported_governed_action".to_owned()),
         }
@@ -181,12 +329,14 @@ impl ActuationShell for ProductionShell {
 }
 
 pub async fn execute(config: RuntimeConfig, command: GovernedCommand) -> GovernedOutcome {
+    let request_id = command.request_id.clone();
+    let citizen_id = command.citizen_id.clone();
     match execute_inner(&config, &command).await {
         Ok(outcome) => outcome,
         Err((classification, state)) => GovernedOutcome {
             schema: OUTPUT_SCHEMA.to_owned(),
-            request_id: command.request_id,
-            citizen_id: command.citizen_id,
+            request_id,
+            citizen_id,
             status: "refused".to_owned(),
             classification,
             result_hash: None,
@@ -204,6 +354,7 @@ async fn execute_inner(
     config: &RuntimeConfig,
     command: &GovernedCommand,
 ) -> Result<GovernedOutcome, (String, RuntimeState)> {
+    let _lock = StateLock::acquire(config).map_err(|error| (error, RuntimeState::default()))?;
     let mut state = load_state(config).map_err(|error| (error, RuntimeState::default()))?;
     let refuse = |reason: &str, state: &RuntimeState| Err((reason.to_owned(), state.clone()));
     if state.shutdown {
@@ -217,7 +368,7 @@ async fn execute_inner(
     {
         return refuse("invalid_request", &state);
     }
-    if command.qualified_unix_millis <= state.last_time {
+    if config.trusted_time_millis <= state.last_time {
         return refuse("unqualified_or_regressing_time", &state);
     }
     if command
@@ -226,6 +377,12 @@ async fn execute_inner(
         .is_some_and(|subject| subject != command.citizen_id)
     {
         return refuse("cross_identity_denied", &state);
+    }
+    if config
+        .revoked_commitments
+        .contains(&command.commitment.commitment_id)
+    {
+        return refuse("revoked", &state);
     }
     if state.pending_requests.contains(&command.request_id) {
         return refuse("incomplete_recovery_quarantined", &state);
@@ -240,103 +397,38 @@ async fn execute_inner(
         return refuse("request_replay", &state);
     }
 
-    let policy_key = SigningKey::from_bytes(&config.policy_key);
-    let authority_key = SigningKey::from_bytes(&config.authority_key);
-    let permit_key = SigningKey::from_bytes(&config.permit_key);
-    let policy_hash = blake3::hash(b"runtime-v3-parity-c-policy-v1")
-        .to_hex()
-        .to_string();
-    let payload_hash = blake3::hash(command.payload.as_bytes())
-        .to_hex()
-        .to_string();
-    let commitment_id = format!("commit-{}", command.request_id);
-    let commitment = Commitment {
-        schema: COMMITMENT_SCHEMA.to_owned(),
-        commitment_id: commitment_id.clone(),
-        principal: command.citizen_id.clone(),
-        action: command.action.clone(),
-        resource: command.resource.clone(),
-        max_units: 8,
-        policy_hash: policy_hash.clone(),
-        expires_unix_millis: command.qualified_unix_millis.saturating_add(60_000),
-        signing_key_id: "policy".to_owned(),
-        signature: String::new(),
-    }
-    .sign(&policy_key)
-    .map_err(|_| ("commitment_signing".to_owned(), state.clone()))?;
-    let root = AuthorityGrant {
-        schema: AUTHORITY_GRANT_SCHEMA.to_owned(),
-        grant_id: format!("grant-{}", command.request_id),
-        principal: command.citizen_id.clone(),
-        action: command.action.clone(),
-        resource: command.resource.clone(),
-        max_units: 8,
-        max_delegation_depth: 2,
-        parent_grant_hash: None,
-        policy_hash: policy_hash.clone(),
-        expires_unix_millis: command.qualified_unix_millis.saturating_add(60_000),
-        signing_key_id: "authority".to_owned(),
-        signature: String::new(),
-    }
-    .sign(&authority_key)
-    .map_err(|_| ("authority_signing".to_owned(), state.clone()))?;
-    let authority_chain = if let Some(delegate_units) = command.delegate_units {
-        let child = AuthorityGrant {
-            schema: AUTHORITY_GRANT_SCHEMA.to_owned(),
-            grant_id: format!("delegate-{}", command.request_id),
-            principal: command.citizen_id.clone(),
-            action: command.action.clone(),
-            resource: command.resource.clone(),
-            max_units: delegate_units,
-            max_delegation_depth: 1,
-            parent_grant_hash: Some(
-                root.hash()
-                    .map_err(|_| ("authority_hash".to_owned(), state.clone()))?,
-            ),
-            policy_hash: policy_hash.clone(),
-            expires_unix_millis: command.qualified_unix_millis.saturating_add(30_000),
-            signing_key_id: "authority".to_owned(),
-            signature: String::new(),
-        }
-        .sign(&authority_key)
-        .map_err(|_| ("delegation_signing".to_owned(), state.clone()))?;
-        vec![root, child]
-    } else {
-        vec![root]
-    };
+    let permit_signer = SigningKey::from_bytes(&config.permit_key);
     let keys = GovernanceKeys {
-        policy: BTreeMap::from([("policy".to_owned(), policy_key.verifying_key())]),
-        authority: BTreeMap::from([("authority".to_owned(), authority_key.verifying_key())]),
+        policy: BTreeMap::from([("policy".to_owned(), config.policy_key)]),
+        authority: BTreeMap::from([("authority".to_owned(), config.authority_key)]),
         authority_principals: BTreeMap::from([(
             "authority".to_owned(),
-            command.citizen_id.clone(),
+            config.authority_principal.clone(),
         )]),
         root_authority_keys: BTreeSet::from(["authority".to_owned()]),
         operator: BTreeMap::new(),
     };
     let gate = FreedomGate::new(
-        policy_hash.clone(),
+        config.policy_hash.clone(),
         keys,
         "permit",
-        permit_key.clone(),
-        Arc::new(QualifiedTime(command.qualified_unix_millis)),
+        permit_signer.clone(),
+        Arc::new(QualifiedTime(config.trusted_time_millis)),
         BTreeMap::from([(command.resource.clone(), 8)]),
     )
     .map_err(|_| ("gate_configuration".to_owned(), state.clone()))?;
-    if command.revoke_before_dispatch {
-        gate.revoke_commitment(commitment_id)
-            .map_err(|_| ("revocation_failure".to_owned(), state.clone()))?;
-    }
     let request = GovernedActionRequest {
         request_id: command.request_id.clone(),
         principal: command.citizen_id.clone(),
         action: command.action.clone(),
         resource: command.resource.clone(),
         units: command.units,
-        payload_hash,
-        policy_hash,
-        commitment,
-        authority_chain,
+        payload_hash: blake3::hash(command.payload.as_bytes())
+            .to_hex()
+            .to_string(),
+        policy_hash: config.policy_hash.clone(),
+        commitment: command.commitment.clone(),
+        authority_chain: command.authority_chain.clone(),
     };
     let permit = match gate.mediate(&request) {
         MediationDecision::Allowed(permit) => permit,
@@ -345,34 +437,127 @@ async fn execute_inner(
         }
     };
 
-    state.generation = state.generation.saturating_add(1);
-    state.last_time = command.qualified_unix_millis;
+    state.generation += 1;
+    state.last_time = config.trusted_time_millis;
     state.pending_requests.insert(command.request_id.clone());
     persist_state(config, &state).map_err(|error| (error, state.clone()))?;
 
-    let shell = Arc::new(ProductionShell {
-        command: command.clone(),
-    });
-    let aee = Aee::new(
-        BTreeMap::from([("permit".to_owned(), permit_key.verifying_key())]),
-        shell,
+    let policy = |authority| AdapterPolicy {
+        capacity: 2,
+        max_in_flight: 1,
+        timeout_millis: 2_000,
+        max_attempts: 1,
+        idempotency_entries: 64,
+        authority,
+    };
+    let scheduler = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Scheduler,
+            policy(AuthorityMode::Internal),
+            Arc::new(Passthrough),
+        )
+        .map_err(|_| ("scheduler_configuration".to_owned(), state.clone()))?,
     );
-    let recorded = aee
-        .actuate(&permit)
+    let shepherd = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Shepherd,
+            policy(AuthorityMode::Internal),
+            Arc::new(Passthrough),
+        )
+        .map_err(|_| ("shepherd_configuration".to_owned(), state.clone()))?,
+    );
+    let provider = Arc::new(
+        OperationalAdapter::with_permit_keys(
+            AdapterKind::Provider,
+            policy(AuthorityMode::Governed),
+            Arc::new(ProviderPort {
+                program: config.provider_program.clone(),
+                condition: config.provider_condition.clone(),
+            }),
+            BTreeMap::from([("permit".to_owned(), permit_signer.verifying_key())]),
+        )
+        .map_err(|_| ("provider_configuration".to_owned(), state.clone()))?,
+    );
+    let failure = Arc::new(Mutex::new(None));
+    let executor = Arc::new(GovernedExecutor {
+        command: command.clone(),
+        permit,
+        permit_key: permit_signer.verifying_key(),
+        provider: provider.clone(),
+        scheduler: scheduler.clone(),
+        shepherd: shepherd.clone(),
+        tool: ToolPort(config.tool_root.clone()),
+        failure: failure.clone(),
+    });
+    let agent = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            policy(AuthorityMode::Internal),
+            executor,
+        )
+        .map_err(|_| ("agent_configuration".to_owned(), state.clone()))?,
+    );
+    let agent_factory = OperationalFactory::new(agent, vec![]);
+    let ingress = CanonicalIngress::new(
+        2,
+        RuntimeRecorder::new(64),
+        BTreeMap::from([("governed".to_owned(), agent_factory.clone())]),
+    );
+    let mut components = ComponentRegistry::new();
+    components.register(agent_factory);
+    components.register(OperationalFactory::new(scheduler, vec![]));
+    components.register(OperationalFactory::new(shepherd, vec![]));
+    components.register(OperationalFactory::new(provider, vec![]));
+    components.register(ingress.clone());
+    let topology = components
+        .validate()
+        .map_err(|_| ("topology_invalid".to_owned(), state.clone()))?;
+    let kernel = Kernel::new(topology, RuntimeRecorder::new(64))
+        .start()
         .await
-        .map_err(|_| ("actuation_rejected".to_owned(), state.clone()))?;
-    if !recorded.success {
-        return refuse(
-            std::str::from_utf8(&recorded.result_bytes).unwrap_or("actuation_quarantined"),
-            &state,
-        );
-    }
-    state.actuation_count = state.actuation_count.saturating_add(1);
-    state.generation = state.generation.saturating_add(1);
+        .map_err(|_| ("kernel_start_failed".to_owned(), state.clone()))?;
+    let result = ingress
+        .submit(
+            DomainWork {
+                schema: DOMAIN_WORK_SCHEMA.to_owned(),
+                work_id: command.request_id.clone(),
+                kind: "governed".to_owned(),
+                payload: serde_json::to_vec(command).unwrap_or_default(),
+            },
+            command.request_id.clone(),
+        )
+        .await;
+    ingress.close();
+    let _ = kernel.shutdown(Duration::from_secs(2)).await;
+    let result_hash = match result {
+        Ok(result) => result.result_hash,
+        Err(_) => {
+            state.pending_requests.remove(&command.request_id);
+            state.generation += 1;
+            persist_state(config, &state).map_err(|error| (error, state.clone()))?;
+            let classification = failure
+                .lock()
+                .expect("failure mutex poisoned")
+                .clone()
+                .filter(|value| {
+                    value != "actuation_rejected"
+                        || (config.provider_condition == "healthy" && !command.cancelled)
+                })
+                .unwrap_or_else(|| classify_configured_failure(config, command).to_owned());
+            return refuse(&classification, &state);
+        }
+    };
+
+    state.actuation_count += 1;
+    state.generation += 1;
     state.pending_requests.remove(&command.request_id);
     state.request_ids.insert(command.request_id.clone());
+    let scope = format!(
+        "{}|{}|{}|{}",
+        command.citizen_id, command.action, command.resource, command.commitment.commitment_id
+    );
     state.private_state.insert(
-        command.citizen_id.clone(),
+        scope,
         blake3::keyed_hash(&config.checkpoint_key, command.payload.as_bytes())
             .to_hex()
             .to_string(),
@@ -383,7 +568,7 @@ async fn execute_inner(
     let persisted = PersistedOutcome {
         request_id: command.request_id.clone(),
         citizen_id: command.citizen_id.clone(),
-        result_hash: recorded.result_hash,
+        result_hash,
         generation: state.generation,
         actuation_count: state.actuation_count,
     };
@@ -391,9 +576,7 @@ async fn execute_inner(
         .completed
         .insert(command.idempotency_key.clone(), persisted.clone());
     persist_state(config, &state).map_err(|error| (error, state.clone()))?;
-    if !command.lifelog_failure {
-        let _ = append_lifelog(config, command, &persisted);
-    }
+    let _ = append_lifelog(config, command, &persisted);
     Ok(success_outcome(&persisted, false))
 }
 
@@ -421,18 +604,120 @@ fn success_outcome(persisted: &PersistedOutcome, replay: bool) -> GovernedOutcom
 
 fn adapter_inventory() -> Vec<String> {
     [
+        "canonical_ingress",
         "freedom_gate_ed25519",
         "aee",
+        "resident_agent",
+        "resident_shepherd",
         "bounded_scheduler",
-        "local_digest_provider",
-        "allowlisted_file_metadata_tool",
-        "identity_scoped_checkpoint_store",
+        "external_process_provider",
+        "canonical_allowlisted_file_metadata_tool",
+        "capability_scoped_authenticated_checkpoint",
         "redacted_append_only_lifelog",
-        "qualified_monotonic_time",
+        "trusted_monotonic_time",
     ]
     .into_iter()
     .map(str::to_owned)
     .collect()
+}
+
+fn load_state(config: &RuntimeConfig) -> Result<RuntimeState, String> {
+    let path = config.state_dir.join("checkpoint.json");
+    if !path.exists() {
+        return Ok(RuntimeState {
+            schema: STATE_SCHEMA.to_owned(),
+            ..RuntimeState::default()
+        });
+    }
+    let signed: SignedState = serde_json::from_slice(
+        &std::fs::read(path).map_err(|_| "checkpoint_unavailable".to_owned())?,
+    )
+    .map_err(|_| "checkpoint_corrupt".to_owned())?;
+    if signed.state.schema != STATE_SCHEMA
+        || state_integrity(&signed.state, &config.checkpoint_key)? != signed.integrity
+    {
+        return Err("checkpoint_authentication_failed".to_owned());
+    }
+    Ok(signed.state)
+}
+
+fn persist_state(config: &RuntimeConfig, state: &RuntimeState) -> Result<(), String> {
+    let signed = SignedState {
+        state: state.clone(),
+        integrity: state_integrity(state, &config.checkpoint_key)?,
+    };
+    let tmp = config
+        .state_dir
+        .join(format!("checkpoint.{}.tmp", std::process::id()));
+    let mut file = std::fs::File::create(&tmp).map_err(|_| "checkpoint_unavailable".to_owned())?;
+    file.write_all(&serde_json::to_vec(&signed).map_err(|_| "checkpoint_encoding".to_owned())?)
+        .map_err(|_| "checkpoint_unavailable".to_owned())?;
+    file.sync_all()
+        .map_err(|_| "checkpoint_unavailable".to_owned())?;
+    std::fs::rename(tmp, config.state_dir.join("checkpoint.json"))
+        .map_err(|_| "checkpoint_unavailable".to_owned())?;
+    std::fs::File::open(&config.state_dir)
+        .and_then(|directory| directory.sync_all())
+        .map_err(|_| "checkpoint_unavailable".to_owned())
+}
+
+fn append_lifelog(
+    config: &RuntimeConfig,
+    command: &GovernedCommand,
+    outcome: &PersistedOutcome,
+) -> Result<(), String> {
+    let entry = serde_json::json!({
+        "schema": "adl.runtime.parity_c.lifelog.v1",
+        "request_id": command.request_id,
+        "citizen_id": command.citizen_id,
+        "action": command.action,
+        "result_hash": outcome.result_hash,
+        "checkpoint_generation": outcome.generation,
+        "redacted_fields": ["payload", "keys"]
+    });
+    let mut file = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(config.state_dir.join("lifelog.jsonl"))
+        .map_err(|_| "lifelog_unavailable".to_owned())?;
+    writeln!(file, "{entry}").map_err(|_| "lifelog_unavailable".to_owned())?;
+    file.sync_data()
+        .map_err(|_| "lifelog_unavailable".to_owned())
+}
+
+fn state_integrity(state: &RuntimeState, key: &[u8; 32]) -> Result<String, String> {
+    let bytes = serde_json::to_vec(state).map_err(|_| "checkpoint_encoding".to_owned())?;
+    Ok(blake3::keyed_hash(key, &bytes).to_hex().to_string())
+}
+
+fn classify_operation(error: adl_runtime_kernel::OperationError) -> String {
+    let message = error.to_string();
+    [
+        "provider_timeout",
+        "provider_auth",
+        "provider_quota",
+        "provider_malformed_output",
+        "provider_unavailable",
+    ]
+    .into_iter()
+    .find(|code| message.contains(code))
+    .unwrap_or("actuation_rejected")
+    .to_owned()
+}
+
+fn classify_configured_failure(config: &RuntimeConfig, command: &GovernedCommand) -> &'static str {
+    if command.cancelled {
+        "scheduler_cancelled"
+    } else {
+        match config.provider_condition.as_str() {
+            "timeout" => "provider_timeout",
+            "auth" => "provider_auth",
+            "quota" => "provider_quota",
+            "malformed" => "provider_malformed_output",
+            "unavailable" => "provider_unavailable",
+            _ => "actuation_rejected",
+        }
+    }
 }
 
 fn refusal_classification(reason: RefusalReason) -> &'static str {
@@ -449,64 +734,11 @@ fn refusal_classification(reason: RefusalReason) -> &'static str {
     }
 }
 
-fn load_state(config: &RuntimeConfig) -> Result<RuntimeState, String> {
-    let path = config.state_dir.join("checkpoint.json");
-    if !path.exists() {
-        return Ok(RuntimeState {
-            schema: STATE_SCHEMA.to_owned(),
-            ..RuntimeState::default()
-        });
+fn executor_error(message: &str) -> ExecutorError {
+    ExecutorError {
+        class: FailureClass::Fatal,
+        message: message.to_owned(),
     }
-    let bytes = std::fs::read(&path).map_err(|_| "checkpoint_unavailable".to_owned())?;
-    let signed: SignedState =
-        serde_json::from_slice(&bytes).map_err(|_| "checkpoint_corrupt".to_owned())?;
-    if signed.state.schema != STATE_SCHEMA
-        || state_integrity(&signed.state, &config.checkpoint_key)? != signed.integrity
-    {
-        return Err("checkpoint_authentication_failed".to_owned());
-    }
-    Ok(signed.state)
-}
-
-fn persist_state(config: &RuntimeConfig, state: &RuntimeState) -> Result<(), String> {
-    std::fs::create_dir_all(&config.state_dir).map_err(|_| "checkpoint_unavailable".to_owned())?;
-    let signed = SignedState {
-        state: state.clone(),
-        integrity: state_integrity(state, &config.checkpoint_key)?,
-    };
-    let bytes = serde_json::to_vec_pretty(&signed).map_err(|_| "checkpoint_encoding".to_owned())?;
-    let tmp = config.state_dir.join("checkpoint.json.tmp");
-    std::fs::write(&tmp, bytes).map_err(|_| "checkpoint_unavailable".to_owned())?;
-    std::fs::rename(tmp, config.state_dir.join("checkpoint.json"))
-        .map_err(|_| "checkpoint_unavailable".to_owned())
-}
-
-fn append_lifelog(
-    config: &RuntimeConfig,
-    command: &GovernedCommand,
-    outcome: &PersistedOutcome,
-) -> Result<(), String> {
-    use std::io::Write;
-    let entry = serde_json::json!({
-        "schema": "adl.runtime.parity_c.lifelog.v1",
-        "request_id": command.request_id,
-        "citizen_id": command.citizen_id,
-        "action": command.action,
-        "result_hash": outcome.result_hash,
-        "checkpoint_generation": outcome.generation,
-        "redacted_fields": ["payload", "keys"]
-    });
-    let mut file = std::fs::OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(config.state_dir.join("lifelog.jsonl"))
-        .map_err(|_| "lifelog_unavailable".to_owned())?;
-    writeln!(file, "{}", entry).map_err(|_| "lifelog_unavailable".to_owned())
-}
-
-fn state_integrity(state: &RuntimeState, key: &[u8; 32]) -> Result<String, String> {
-    let bytes = serde_json::to_vec(state).map_err(|_| "checkpoint_encoding".to_owned())?;
-    Ok(blake3::keyed_hash(key, &bytes).to_hex().to_string())
 }
 
 fn safe_id(value: &str) -> bool {
@@ -522,12 +754,10 @@ fn required_env(name: &str) -> Result<String, String> {
 }
 
 fn secret_env(name: &str) -> Result<[u8; 32], String> {
-    let value = required_env(name)?;
-    let bytes = hex::decode(value).map_err(|_| format!("invalid_{name}"))?;
+    let bytes = hex::decode(required_env(name)?).map_err(|_| format!("invalid_{name}"))?;
     bytes.try_into().map_err(|_| format!("invalid_{name}"))
 }
 
-#[allow(dead_code)]
-fn _zero_hash() -> &'static str {
-    ZERO_HASH
+fn public_env(name: &str) -> Result<VerifyingKey, String> {
+    VerifyingKey::from_bytes(&secret_env(name)?).map_err(|_| format!("invalid_{name}"))
 }

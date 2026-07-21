@@ -1,0 +1,2 @@
+2026-07-21 redesign validation: PASS
+command=git diff --check
