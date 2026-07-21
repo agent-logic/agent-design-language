@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5360,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "c644edc3992ebad636bd12a7abfc00f880251e4cc54513ea00c3de803c347dac",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "c292a04f4010e3ff2f5d65ac351f1744a41f5b2d55d6f94a4c09b1b3fe00d03f",
+  "claim": {
+    "id": "claim-5360-v0918-wp17-documentation-preparation",
+    "owner": "codex:5360-preparation-owner",
+    "generation": 1,
+    "acquired_unix_seconds": 1784667701,
+    "expires_unix_seconds": 1785272501,
+    "heartbeat_unix_seconds": 1784667701,
+    "branch": "codex/5360-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5360",
+      ".csdlc/locks/5360.lock",
+      ".csdlc/prepared/issues/5360",
+      ".csdlc/evidence/5360"
+    ],
+    "purpose": "Prepare and review #5360 WP-17 documentation and release-truth alignment contracts only; no shared-document or product work until WP-16 #5351 is merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5360/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5360/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:5360-preparation-review",
+      "revision": "bdfce9b6454323e72a3f62c2e00065e53897dc06b564ba8dce426337163040fb"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "babeda117f943c54da0db201ad97f2b4881babcbf7951ace4f932d508665d2cb",
+      "rendered_digest": "b8e0434cdd615ea17a6f6d04c21434882d938e4b1d0e216074aa4caaa99d3675",
+      "ast_digest": "d258855ecb4abedfd0c3023f443cfdd129eadcc809af3f38f521a6b3da8a7043"
+    },
+    "stp": {
+      "values_digest": "7097398b4c6bf417d82fadaa1b8cf4de71b9c171c8efe4a6232de240a07b0d10",
+      "rendered_digest": "03a3ad3189f81a28acf5b33f9180ff5ec520e0e94bd3932dcca8cf6370b0af42",
+      "ast_digest": "6b32d0a7b65b67f60d8f32c0e4dccb29f274dc5c27d611488462063996003b07"
+    },
+    "spp": {
+      "values_digest": "a8828ca67397ae16f61d43a60993068cec7f35676910eed3973ab80890ac37ef",
+      "rendered_digest": "904110fe2df701ae7649b67064f0dcc045cb873946136f73b03f3d7e9082e0ab",
+      "ast_digest": "4507c195224df993daf4d9b0632ee2bfa88bcc684e7e4ec471bf5f5093556019"
+    },
+    "vpp": {
+      "values_digest": "8a4a4f8f73f489550780c254f591a80aae822ac261d7b6cf143e9ef964f1e69f",
+      "rendered_digest": "daefc56b6eee0fcefc764945031894c67d507b91fd5e9aca7dd5a77aaee1a04e",
+      "ast_digest": "45d4ee5dc9ddb0a8755b91e865916b7ca88458da179a08ac77b3c438a33b3007"
+    },
+    "srp": {
+      "values_digest": "36e78fed85716a8a9cf2e7a29cede0f717d1033465149e83431a625825b154cd",
+      "rendered_digest": "2e4281326fb6e4ef546e68c83e3dd7d112b4a80a490be19f66b08b11151ae786",
+      "ast_digest": "b0b9ba4b62c87b31a3eb9b6eeb10626f6f91db694c534a48e902dbca5a042902"
+    },
+    "sor": {
+      "values_digest": "726491e7ec25e0ee5d799fff165c110db7f900c5f6948a637a084603950c29d2",
+      "rendered_digest": "89212a1fc001304f24a2290b132d12d0df1553c346c9e62eb4d2aceaac55334c",
+      "ast_digest": "f318400cad9d7f7cb11ece88404ab19683ba234ec65895fb5cacb336d8bc70c3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5360-preparation-owner",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5360-preparation-owner",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5360-preparation-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:5360-preparation-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5360-preparation-owner",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
