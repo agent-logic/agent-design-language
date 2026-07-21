@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8cb0d0afdcbaed1cf35b1b2acff6481c7e7e263056d01af50bcea90452747ec0",
   "phase": "bound",
-  "generation": 4,
-  "digest": "889a9c620bd49fe12cf1abdf9923129b0762414163407302508a8cb4f98ab17e",
+  "generation": 8,
+  "digest": "32c59041af10d9eeccb0b0e1d03b730e88cf011d181c850228289d86631dfbae",
   "claim": {
     "id": "claim-5339-v0918-wp04-preparation",
     "owner": "codex:5339-preparation",
-    "generation": 4,
+    "generation": 8,
     "acquired_unix_seconds": 1784615902,
     "expires_unix_seconds": 1785220702,
     "heartbeat_unix_seconds": 1784615902,
@@ -39,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "38b54ff238aeea76cc3cfa3de0603d158f1f8cb5e87d65292a94cfa32db6a456",
+      "values_digest": "b30965a3b4a8e246f76233e5bcc81f4ff9742cab2b13c5ebbe3aef000efc453b",
       "rendered_digest": "e76d11b0e955840e18feaaa62f3bc5130f55d87cb116878f80ec2bdc5d123367",
       "ast_digest": "c91941f5e2337b1a7bc7d44bc39fc5bf9b6fc067a5e7f384fcbcc4dd889331a5"
     },
     "stp": {
-      "values_digest": "f9da1eff96e74b8a2c4ef586568434b4ade83a7052626a8727565033477b35cf",
+      "values_digest": "3cf9eed3557d5dfaf70adfa1145751b3fadd1c62cf49f7c0748a729c6e8e7b53",
       "rendered_digest": "b3d74cec9ed77cd978da9e7967b062b250416208c08459b92722744fdd55227f",
       "ast_digest": "4642caf40e2f316ff9261a6800db70b386f5288fd4da03030424897d7eee20a0"
     },
     "spp": {
-      "values_digest": "bdc14882cac0840ddd78aab7647ebe430138477fb2e3f168c6931b6e2b447afa",
-      "rendered_digest": "d77759a87b27ec35d8e0d889986ffa005e08f5577cdaadc3f1e447d8c5453b89",
-      "ast_digest": "194de203df29d198d8188fab489819927f762db9577094b14e7933d4ffba20d8"
+      "values_digest": "8edcef2df0e2648f15ad23fe7d078a5ad3f886430d5b819e70c1060a85f4645a",
+      "rendered_digest": "8d4f920f3e0f86b0023b2124c40720341837abbdec842f870aca993dfcce9ce8",
+      "ast_digest": "14c45127e6d683bd800796f1b433df219ad853b116199a4fc8f501078dfad330"
     },
     "vpp": {
-      "values_digest": "a73f11bd32d96ebf99a701ca3521b5873a19f5b4cf528f2d8ba72396132769b6",
+      "values_digest": "6f5c8b97c5186afb9220f9854f2bf37a222ea8d0f55a0f96d9699091c4456b53",
       "rendered_digest": "9b657237203f13bb4ac46f4e6ae39d763405ad069f29b9d1642b69ea260367cf",
       "ast_digest": "774200a4f8481f841f3a131f0433a69e26c1f6693877bb2eed49e80f02f385c7"
     },
     "srp": {
-      "values_digest": "cbd0ab31e2ff0895d549d0ec728199ffc9e29c50c573d5b655a4010cf765ad9e",
+      "values_digest": "f4333eec6c29e6da743ff275f0daa194bf21565dc740b5ef5be913bc639d6ab9",
       "rendered_digest": "f805b66be6dd8fda0bdd817f7cf9f42d3219fc42547c7cdfc09c887a03329865",
       "ast_digest": "82bd09cb208f682c1cb713453e92cba5f047826c2084eca1c68a9bd1c892bc68"
     },
     "sor": {
-      "values_digest": "87df910bb23fd51b885d577f658096163a52eb5c9886af52a177ccdbf1b007fa",
-      "rendered_digest": "ce2570c201da2617bed7076dfcda320f7615d417781cf94dd800be43889f11a1",
-      "ast_digest": "e3dd1d7cf59d65e4032f5adb94d708a3e772237c7347689e72abdee151692bf2"
+      "values_digest": "70e40c27804c851e464432917eb06492c32265b5fc6876b7242cd12832492e49",
+      "rendered_digest": "fa501ca33af5f0625949f48de0f8475dce30d5fa8fffbaaf63366cf40c7fd5a4",
+      "ast_digest": "b1809d026cb83ddead488734e2d6323ab5d667b77367e9fb0b87bac5e2cc7c2f"
     }
   },
   "transitions": [
@@ -127,6 +127,34 @@
       "actor": "codex:5339-preparation",
       "reason": "All six cards, clean-room design, diagram, protected paths, COTS selections, budgets, executable validation plan, dependency stop, and bounded preparation review are complete with no actionable findings.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "The #5337 terminal gate passed, origin/main containing c9013d9c3 was integrated, and the independent crate now implements all six typed primitives plus strict YAML and JSON parsing.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Checked generated schema, semantic reference and cycle validation, deterministic canonicalization, stable diagnostic codes, and positive and negative tests are implemented and locally passing.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Record the clean-room language-core implementation after the #5337 terminal dependency gate opened.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented a pure independent Rust language crate for the six ADL primitives with strict parsing, generated checked schema, semantic validation, deterministic canonicalization, stable diagnostics, and mapped #5337 characterization proof.\",\"changes\":[\"Added typed provider, tool, agent, task, workflow, and singular run models with strict unknown-field rejection\",\"Added duplicate-key-safe YAML and JSON parsing plus version, identity, reference, state, cycle, and run-target validation\",\"Added deterministic canonical JSON, a checked schema generator, focused tests, and an explicit #5337 corpus parity map\",\"Kept compiler expansion, runtime execution, provider invocation, control-plane, cloud, storage, and migration outside the crate\"],\"artifacts\":[\"adl-v2/crates/adl-language\",\"adl-v2/crates/adl-language/schema/adl-document.schema.json\",\"adl-v2/crates/adl-language/CHARACTERIZATION_PARITY.md\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Record the complete prepared local validation DAG after all four issue-specific lanes passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/5339/validate-language.sh\",\"focused|quality|parity|budgets\"],\"purpose\":\"Prove the six-primitives language model, strict parsing and schema alignment, semantic diagnostics, canonical ordering, #5337 corpus mapping, dependency boundary, LoC budgets, and latency budget.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused: 9 tests passed. Quality: strict Clippy passed. Parity: 3 mapped corpus tests passed. Budgets: 637 implementation lines, 254 test lines, exact five-dependency COTS set, no forbidden dependency family, warm all-target validation 0 seconds. git diff --check passed.\"}}"
     }
   ]
 }

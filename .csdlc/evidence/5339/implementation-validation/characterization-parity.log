@@ -1,0 +1,10 @@
+
+running 3 tests
+test compiler_and_runtime_cases_are_explicitly_outside_wp04 ... ok
+test characterization_ordering_contract_is_preserved ... ok
+test applicable_characterization_cases_map_to_language_outcomes ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running tests/characterization_parity.rs (/Volumes/FastWork/adl-wp-5339-target/debug/deps/characterization_parity-9f68f465cef21acb)

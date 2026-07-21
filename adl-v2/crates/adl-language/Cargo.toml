@@ -1,0 +1,20 @@
+[package]
+name = "adl-language"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+license = "Apache-2.0"
+description = "Pure clean-room six-primitives language core for ADL v2"
+
+[dependencies]
+schemars = { version = "=1.2.1", default-features = false, features = ["derive", "std"] }
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+yaml_serde = "=0.10.4"
+
+[dev-dependencies]
+jsonschema = { version = "=0.48.2", default-features = false }
+
+[lints.rust]
+unsafe_code = "forbid"
+

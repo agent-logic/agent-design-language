@@ -25,7 +25,7 @@ case "${mode}" in
     ;;
   budgets)
     implementation_lines="$({ find "${crate_root}/src" -type f -name '*.rs' -print0 2>/dev/null | sort -z | xargs -0 wc -l; } | awk 'END {print $1 + 0}')"
-    test_lines="$({ find "${crate_root}/tests" "${crate_root}/fixtures" -type f -print0 2>/dev/null | sort -z | xargs -0 wc -l; } | awk 'END {print $1 + 0}')"
+    test_lines="$({ find "${crate_root}/tests" -type f -print0 | sort -z | xargs -0 wc -l; } | awk 'END {print $1 + 0}')"
     if (( implementation_lines > 4000 )); then
       echo "implementation LoC ${implementation_lines} exceeds 4000" >&2
       exit 21

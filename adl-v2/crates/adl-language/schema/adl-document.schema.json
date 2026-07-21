@@ -1,0 +1,28 @@
+{
+  "$defs": {
+    "Agent": {"additionalProperties": false, "properties": {"id": {"type": ["string", "null"]}, "model": {"type": ["string", "null"]}, "provider": {"type": "string"}, "tools": {"items": {"type": "string"}, "type": "array"}}, "required": ["provider"], "type": "object"},
+    "Placement": {"additionalProperties": false, "properties": {"target": {"type": "string"}}, "required": ["target"], "type": "object"},
+    "Prompt": {"additionalProperties": false, "properties": {"system": {"type": ["string", "null"]}, "user": {"type": "string"}}, "required": ["user"], "type": "object"},
+    "Provider": {"additionalProperties": false, "properties": {"config": {"additionalProperties": true, "type": "object"}, "default_model": {"type": ["string", "null"]}, "id": {"type": ["string", "null"]}, "profile": {"type": ["string", "null"]}, "type": {"type": ["string", "null"]}}, "type": "object"},
+    "Run": {"additionalProperties": false, "properties": {"id": {"type": ["string", "null"]}, "inputs": {"additionalProperties": true, "type": "object"}, "name": {"type": "string"}, "placement": {"anyOf": [{"$ref": "#/$defs/Placement"}, {"type": "null"}]}, "workflow": {"anyOf": [{"$ref": "#/$defs/Workflow"}, {"type": "null"}]}, "workflow_ref": {"type": ["string", "null"]}}, "required": ["name"], "type": "object"},
+    "Task": {"additionalProperties": false, "properties": {"agent_ref": {"type": ["string", "null"]}, "id": {"type": ["string", "null"]}, "inputs": {"items": {"type": "string"}, "type": "array"}, "prompt": {"$ref": "#/$defs/Prompt"}, "tool_allowlist": {"items": {"type": "string"}, "type": "array"}}, "required": ["prompt"], "type": "object"},
+    "Tool": {"additionalProperties": false, "properties": {"config": {"additionalProperties": true, "type": "object"}, "id": {"type": ["string", "null"]}, "type": {"type": "string"}}, "required": ["type"], "type": "object"},
+    "Workflow": {"additionalProperties": false, "properties": {"id": {"type": ["string", "null"]}, "kind": {"$ref": "#/$defs/WorkflowKind"}, "steps": {"items": {"$ref": "#/$defs/WorkflowStep"}, "type": "array"}}, "required": ["kind", "steps"], "type": "object"},
+    "WorkflowKind": {"enum": ["sequential", "concurrent"], "type": "string"},
+    "WorkflowStep": {"additionalProperties": false, "properties": {"agent": {"type": ["string", "null"]}, "id": {"type": "string"}, "inputs": {"additionalProperties": true, "type": "object"}, "save_as": {"type": ["string", "null"]}, "task": {"type": "string"}}, "required": ["id", "task"], "type": "object"}
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "agents": {"additionalProperties": {"$ref": "#/$defs/Agent"}, "type": "object"},
+    "providers": {"additionalProperties": {"$ref": "#/$defs/Provider"}, "type": "object"},
+    "run": {"$ref": "#/$defs/Run"},
+    "tasks": {"additionalProperties": {"$ref": "#/$defs/Task"}, "type": "object"},
+    "tools": {"additionalProperties": {"$ref": "#/$defs/Tool"}, "type": "object"},
+    "version": {"type": "string"},
+    "workflows": {"additionalProperties": {"$ref": "#/$defs/Workflow"}, "type": "object"}
+  },
+  "required": ["version", "run"],
+  "title": "AdlDocument",
+  "type": "object"
+}
