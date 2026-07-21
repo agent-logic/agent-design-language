@@ -114,11 +114,11 @@ Closed third-pass review findings by hashing canonical effective node semantics 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
