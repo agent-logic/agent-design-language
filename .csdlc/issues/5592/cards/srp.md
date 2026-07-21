@@ -12,6 +12,7 @@ Status: pre_phase
 
 ## Scope
 
+adl-runtime-kernel/src/operations.rs
 adl-runtime-kernel/src/parity_b.rs
 adl-runtime-kernel/src/lib.rs
 adl-runtime-kernel/tests/parity_b_live_kernel.rs
@@ -34,9 +35,9 @@ adl-runtime-kernel/tests/parity_b_live_kernel.rs
 
 [
   {
-    "id": "guardian-proof-not-process-live",
+    "id": "mutation-recovery-omits-gate-state",
     "severity": "p1",
-    "summary": "The guardian positive test is in-process library execution rather than guardian-launched signed-ingress process proof.",
+    "summary": "Parity-B checkpoint omits authenticated MutationGate graph, consumed grants, evidence, and adaptation state, permitting grant reuse and adaptive rollback after restart.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -44,69 +45,9 @@ adl-runtime-kernel/tests/parity_b_live_kernel.rs
     "route": null
   },
   {
-    "id": "caller-forgeable-policy-authority",
+    "id": "live-cancellation-and-inflight-shutdown-unreachable",
     "severity": "p1",
-    "summary": "Signals, policy identity, and cognition gates are caller-controlled and unauthenticated.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "review-required-still-executes",
-    "severity": "p1",
-    "summary": "ReviewRequired continues through loop execution instead of halting for human authority.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "checkpoint-is-forgeable",
-    "severity": "p1",
-    "summary": "The checkpoint uses only an unkeyed digest and lacks complete semantic-chain validation.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "resume-does-not-preserve-budgets",
-    "severity": "p1",
-    "summary": "The claimed resume path only replays a completed receipt and resets loop and cancellation state.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "shutdown-is-not-monotonic",
-    "severity": "p1",
-    "summary": "Shutdown is request-local and a later request or restart can execute.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "mutation-and-feature-credit-disconnected",
-    "severity": "p1",
-    "summary": "Signed mutation is not composed into the executor and multiple feature rows receive unsupported live credit.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "budget-exception-undisposed",
-    "severity": "p2",
-    "summary": "The 13146-line result requires explicit exact-review budget disposition before publication.",
+    "summary": "Loop execution uses an unreachable fresh cancellation token and does not recheck shutdown before receipt commit, so actual cancellation and in-flight monotonic shutdown are unproved.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -121,12 +62,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Guardian proof requires consuming the disjoint #5590-owned black-box signed-ingress interface.
+- The accepted 13,504-line exception must remain explicit in final review and SOR truth.
 
 ## Review Result
 
-Revision: Some("git-blake3:df118b0d1ecdd7fbf22b3019c516df2ab1f87fec:240037f42afe5ba5140d331d6fe41f158c4f4bfe90c3c61fff4af851ac155462")
+Revision: Some("git-blake3:e0276c61a3d409a87170da96ee359cb4e8b424c5:01d41ac8cc0ccb6970f62cdb7fb980d32927b1506a824c123e91678d961c398c")
 
-Reviewer: Some("subagent:/root/review_5592_exact")
+Reviewer: Some("subagent:/root/review_5592_repaired_exact")
 
 Result: changes_required

@@ -162,6 +162,7 @@ struct ExecutorCheckpoint {
     state_hash: String,
     signing_key_id: String,
     signature: String,
+    mutation_snapshot: Option<Vec<u8>>,
 }
 
 pub struct ParityBExecutor {
@@ -170,6 +171,7 @@ pub struct ParityBExecutor {
     checkpoint_key_id: String,
     checkpoint_signing_key: SigningKey,
     mutation_gate: Option<std::sync::Arc<MutationGate>>,
+    cancellation: CancellationToken,
 }
 
 impl ParityBExecutor {
@@ -229,6 +231,7 @@ impl ParityBExecutor {
             checkpoint_key_id,
             checkpoint_signing_key,
             mutation_gate,
+            cancellation: CancellationToken::new(),
         })
     }
 
@@ -245,6 +248,11 @@ impl ParityBExecutor {
             state_hash,
             signing_key_id: self.checkpoint_key_id.clone(),
             signature: String::new(),
+            mutation_snapshot: self
+                .mutation_gate
+                .as_ref()
+                .map(|gate| gate.snapshot_bytes())
+                .transpose()?,
         };
         checkpoint.signature = hex::encode(
             self.checkpoint_signing_key
@@ -280,12 +288,18 @@ impl ParityBExecutor {
         if policy_keys.is_empty() {
             return Err(ParityBError::Authority);
         }
+        let mutation_gate = match (checkpoint.mutation_snapshot.as_deref(), mutation_gate) {
+            (Some(snapshot), Some(gate)) => Some(Arc::new(gate.restore_from_snapshot(snapshot)?)),
+            (None, None) => None,
+            _ => return Err(ParityBError::CheckpointIntegrity),
+        };
         Ok(Self {
             state: Mutex::new(checkpoint.state),
             policy_keys,
             checkpoint_key_id,
             checkpoint_signing_key,
             mutation_gate,
+            cancellation: CancellationToken::new(),
         })
     }
 
@@ -297,6 +311,16 @@ impl ParityBExecutor {
             .completed
             .get(request_id)
             .map(|stored| stored.receipt.clone()))
+    }
+
+    pub fn cancel(&self) {
+        self.cancellation.cancel();
+    }
+
+    pub fn mutation_graph_hash(&self) -> Option<String> {
+        self.mutation_gate
+            .as_ref()
+            .map(|gate| gate.graph().hash().to_owned())
     }
 
     async fn execute_parity_b(
@@ -317,6 +341,7 @@ impl ParityBExecutor {
             }
             if request.gates.shutdown_requested {
                 state.shutdown = true;
+                self.cancellation.cancel();
                 return Err(ParityBError::Shutdown);
             }
         }
@@ -402,7 +427,7 @@ impl ParityBExecutor {
             &slice,
             &request.observation,
             initial,
-            CancellationToken::new(),
+            self.cancellation.child_token(),
         )
         .await?;
         let checkpoint = ReasoningCheckpoint::from_state(outcome.state.clone())?;
@@ -422,6 +447,9 @@ impl ParityBExecutor {
             });
 
         let mut state = self.state.lock().map_err(|_| ParityBError::StatePoisoned)?;
+        if state.shutdown {
+            return Err(ParityBError::Shutdown);
+        }
         if let Some(existing) = state.completed.get(&operation.request_id) {
             return (existing.request_hash == request_hash)
                 .then_some(existing.receipt.clone())

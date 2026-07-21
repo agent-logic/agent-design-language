@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a359b2c4b8f2f653ea82c1c5d29aa63c3ac298542bbe5f7c7339a327ad3e822d",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "2d25299fa999dcc509494cace9909cf523fc7fa1ee5c6f9a8c2209c3a0add905",
+  "generation": 9,
+  "digest": "ac71574497472699be41f90668c9350d40219ec7550a3bc6f2be6950987f0c39",
   "claim": {
     "id": "claim-5592-runtime-v3-parity-b-preparation",
     "owner": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1784601544,
     "expires_unix_seconds": 1785206344,
     "heartbeat_unix_seconds": 1784601544,
@@ -23,15 +23,17 @@
       "adl-runtime-kernel/src/lib.rs",
       "adl-runtime-kernel/src/operations.rs",
       "adl-runtime-kernel/src/parity_b.rs",
+      "adl-runtime-kernel/src/reasoning.rs",
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs"
     ],
     "purpose": "Implement every #5592 Runtime v3 Parity-B reasoning graph, bounded loop, governed adaptation, affect, curiosity, cognition, feature-disposition, exact-proof, review, publication, and closeout outcome"
   },
   "review_assignment": {
-    "reviewer": "subagent:/root/review_5592_exact",
+    "reviewer": "subagent:/root/review_5592_repaired_exact",
     "assigned_by": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
-    "revision": "git-blake3:df118b0d1ecdd7fbf22b3019c516df2ab1f87fec:240037f42afe5ba5140d331d6fe41f158c4f4bfe90c3c61fff4af851ac155462",
+    "revision": "git-blake3:e0276c61a3d409a87170da96ee359cb4e8b424c5:01d41ac8cc0ccb6970f62cdb7fb980d32927b1506a824c123e91678d961c398c",
     "scope": [
+      "adl-runtime-kernel/src/operations.rs",
       "adl-runtime-kernel/src/parity_b.rs",
       "adl-runtime-kernel/src/lib.rs",
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
@@ -41,8 +43,9 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_5592_exact",
+    "reviewer": "subagent:/root/review_5592_repaired_exact",
     "scope": [
+      "adl-runtime-kernel/src/operations.rs",
       "adl-runtime-kernel/src/parity_b.rs",
       "adl-runtime-kernel/src/lib.rs",
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
@@ -50,12 +53,12 @@
       ".csdlc/issues/5592/cards/srp.values.json",
       ".csdlc/issues/5592/cards/vpp.values.json"
     ],
-    "reviewed_revision": "git-blake3:df118b0d1ecdd7fbf22b3019c516df2ab1f87fec:240037f42afe5ba5140d331d6fe41f158c4f4bfe90c3c61fff4af851ac155462",
+    "reviewed_revision": "git-blake3:e0276c61a3d409a87170da96ee359cb4e8b424c5:01d41ac8cc0ccb6970f62cdb7fb980d32927b1506a824c123e91678d961c398c",
     "findings": [
       {
-        "id": "guardian-proof-not-process-live",
+        "id": "mutation-recovery-omits-gate-state",
         "severity": "p1",
-        "summary": "The guardian positive test is in-process library execution rather than guardian-launched signed-ingress process proof.",
+        "summary": "Parity-B checkpoint omits authenticated MutationGate graph, consumed grants, evidence, and adaptation state, permitting grant reuse and adaptive rollback after restart.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -63,69 +66,9 @@
         "route": null
       },
       {
-        "id": "caller-forgeable-policy-authority",
+        "id": "live-cancellation-and-inflight-shutdown-unreachable",
         "severity": "p1",
-        "summary": "Signals, policy identity, and cognition gates are caller-controlled and unauthenticated.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "review-required-still-executes",
-        "severity": "p1",
-        "summary": "ReviewRequired continues through loop execution instead of halting for human authority.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "checkpoint-is-forgeable",
-        "severity": "p1",
-        "summary": "The checkpoint uses only an unkeyed digest and lacks complete semantic-chain validation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "resume-does-not-preserve-budgets",
-        "severity": "p1",
-        "summary": "The claimed resume path only replays a completed receipt and resets loop and cancellation state.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "shutdown-is-not-monotonic",
-        "severity": "p1",
-        "summary": "Shutdown is request-local and a later request or restart can execute.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "mutation-and-feature-credit-disconnected",
-        "severity": "p1",
-        "summary": "Signed mutation is not composed into the executor and multiple feature rows receive unsupported live credit.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "budget-exception-undisposed",
-        "severity": "p2",
-        "summary": "The 13146-line result requires explicit exact-review budget disposition before publication.",
+        "summary": "Loop execution uses an unreachable fresh cancellation token and does not recheck shutdown before receipt commit, so actual cancellation and in-flight monotonic shutdown are unproved.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -134,7 +77,7 @@
       }
     ],
     "residual_risks": [
-      "Guardian proof requires consuming the disjoint #5590-owned black-box signed-ingress interface."
+      "The accepted 13,504-line exception must remain explicit in final review and SOR truth."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -153,32 +96,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "05f6e5adaf6bbd8b485a9ba846d94df0418c9b8cafb1070aee7392021bb14e72",
+      "values_digest": "3fc1e8cc3a3580a09acefdf98b2fbdbf96a9d079f8bc3fb186cde722acd1e806",
       "rendered_digest": "a4369423ad1bb8d1afb5cfe47874314d77ab0c610cdaeee04a22be089876740f",
       "ast_digest": "e4bbee25a2f2ee6c9054c13f2b187d71bbd2a7ff6995e4350fa22249ce55304d"
     },
     "stp": {
-      "values_digest": "9688f40a40b89c56bb9b0337abf475014c78496fa57131b8500af9b7eec36ae4",
+      "values_digest": "23abe0cdc738b95f416aa0cdf16d0c771ee458ec69bef56b82eb4ee4b91791e8",
       "rendered_digest": "2d44dbaacfdeb4e7b8317cd412cd1f1358fe50bd483ca9ec0724e439f2e2f026",
       "ast_digest": "5b87e6ca43305b7dd447de7722131a31ef75170a53dfac275ae737a3c38ac1a4"
     },
     "spp": {
-      "values_digest": "07ed951d3d42bf02f832d2d2daedf1287e678372bccaab611a340a26d929adc8",
+      "values_digest": "d41ab28f8c3703b515a66c65d08dd8d13d4b3277df06b21fcc2197330097568d",
       "rendered_digest": "a31c29f58f4b9890ef74dbe01c2817f78c68b89846cbd26b80fdd40b0f568c53",
       "ast_digest": "e6e2fc41cc44dd45836726815b8a6a431af1e266548d761fe8129934b4d6b101"
     },
     "vpp": {
-      "values_digest": "542ff3b02d72d2558fb31906b5b9ee16f2eefe62b12820fb1045a0317d601f86",
+      "values_digest": "f1affa102520d6075a8e9d563eee685faa2e9215bfad175a0da42e7e4d86ace4",
       "rendered_digest": "2820cad061abc84765b2e7b4ae4c76659f3aad102c13629e1d12dd1837184b9b",
       "ast_digest": "2e23a756badf61748cce137b53bab1efade6df4bd9b288adfc376c4f2c6ebbe6"
     },
     "srp": {
-      "values_digest": "9c5502c00655c2c3893a100213682f0d366de829bc1ff855df23f3be8a9a53c3",
-      "rendered_digest": "2fd892d08450ccfe9f9e3d5f63032c012f722909a765f779f052ea3dd121da74",
-      "ast_digest": "1b55f7a5be68fd1749e836f675d02d9818f3c24f201a73e426dc49ebef4941d4"
+      "values_digest": "0ff95b9b31a441a9fe71d4729e20d79e7bd879c21674f9ffd77ffbf84594f06a",
+      "rendered_digest": "7f49daceeeef488f4f54d864d0908ced9e89e687650f9853d4051bc1263f8495",
+      "ast_digest": "8a8979dc3717e2a2c238faf6bb3026222b824e31e63050a559af424dea4d3f7c"
     },
     "sor": {
-      "values_digest": "ac7bbf9dd1fe4678b8b0ed9eed73c0f1979d5fc28c9f8efc7c4b018dedcb69f2",
+      "values_digest": "5b1d552d61f17f3ee0095af36e09a3ccb15fe5eebcb5aab9d604ab7c64945470",
       "rendered_digest": "5917961363a64a2d14de62773551a5031469f2166226017724a8f078fe75f00e",
       "ast_digest": "890cade513a57840f7861deaf3dad773dc4197577db830160395a9a7ff38abee"
     }
@@ -304,6 +247,27 @@
       "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
       "reason": "Record final exact guardian, focused, complete, strict-lint, dependency, hygiene, and budget proof before fresh exact review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5592/exact-final ruby .csdlc/prepared/issues/5592/run_exact_live_test_lane.rb --lane <each-seven-declared-lanes>\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5592/full-final cargo test --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5592/guardian-route cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"cargo tree --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check\"],\"purpose\":\"Prove all seven exact Parity-B identities including external guardian-launched TLS signed-control canonical ingress, the complete Runtime v3 suite, strict warning-free code, format/dependency/collision hygiene, and exact budget truth. Runtime v3 is 13,504 physical lines: +1,295 over pinned baseline and +1,504 over reviewed target, under the 20,000 safety ceiling but requiring explicit exact-review exception disposition.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f836b-dfdb-7b33-8e27-4c9478b75421@fa7a37551:/Volumes/FastWork/adl-5592/{exact-final,full-final,guardian-route}\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 8,
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "subagent:/root/review_5592_repaired_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 9,
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "Fresh exact review requires a minimal public authenticated MutationGate snapshot helper so Parity-B restart recovery retains mutated graph, consumed grants, evidence, and adaptation state.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime-kernel/src/reasoning.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

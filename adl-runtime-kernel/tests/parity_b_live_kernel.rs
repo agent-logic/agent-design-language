@@ -7,7 +7,7 @@ use std::{
 use adl_runtime_kernel::{
     feature_dispositions, graph_patch_hash, rollback_candidate, AdaptationState, AdaptationStore,
     AdapterKind, AdvisorySignals, CognitionGates, DomainWork, FeatureDispositionKind, GraphPatch,
-    LoopDefinition, MutationAuthority, MutationGate, MutationGrant, OperationExecutor,
+    LoopDefinition, LoopStatus, MutationAuthority, MutationGate, MutationGrant, OperationExecutor,
     ParityBError, ParityBExecutor, ParityBRequest, PatchKind, ReasoningEdge,
     ReasoningGraphDefinition, ReasoningNode, RecordedObservation, TrustedMutationKey, TrustedTime,
     PARITY_B_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA,
@@ -244,13 +244,13 @@ async fn live_graph_executes_through_guardian_canonical_ingress() {
 
 #[tokio::test]
 async fn bounded_loop_resume_preserves_budgets_and_effect_identity() {
-    let executor = executor();
+    let loop_executor = executor();
     let mut body = request();
     body.execution_slice_iterations = 1;
     adl_runtime_kernel::sign_policy_request(&mut body, "policy-review", &policy_key()).unwrap();
     let initial_operation = operation("bounded-loop", &body);
-    let first = executor.execute(&initial_operation).await.unwrap();
-    let replay = executor.execute(&initial_operation).await.unwrap();
+    let first = loop_executor.execute(&initial_operation).await.unwrap();
+    let replay = loop_executor.execute(&initial_operation).await.unwrap();
     assert_eq!(first, replay);
     let first_receipt: adl_runtime_kernel::ParityBReceipt = serde_json::from_slice(&first).unwrap();
     let first_resume = first_receipt
@@ -259,7 +259,7 @@ async fn bounded_loop_resume_preserves_budgets_and_effect_identity() {
         .expect("one-iteration slice resumes");
     assert_eq!(first_resume.completed_iterations, 1);
     assert!(first_resume.remaining_deadline_millis < body.loop_definition.deadline_millis);
-    let checkpoint = executor.snapshot().unwrap();
+    let checkpoint = loop_executor.snapshot().unwrap();
     let restored = restore_executor(&checkpoint).unwrap();
     assert_eq!(restored.execute(&initial_operation).await.unwrap(), first);
     body.resume = Some(first_resume);
@@ -278,6 +278,29 @@ async fn bounded_loop_resume_preserves_budgets_and_effect_identity() {
     let mut tampered = checkpoint.clone();
     *tampered.last_mut().unwrap() ^= 1;
     assert!(restore_executor(&tampered).is_err());
+
+    let cancelled_executor = executor();
+    cancelled_executor.cancel();
+    let cancelled: adl_runtime_kernel::ParityBReceipt = serde_json::from_slice(
+        &cancelled_executor
+            .execute(&operation("cancelled-loop", &request()))
+            .await
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(cancelled.loop_status, LoopStatus::Cancelled);
+    let cancelled_resume = cancelled.resume.expect("cancelled loop checkpoint");
+    assert!(cancelled_resume.cancellation_observed);
+    let cancelled_snapshot = cancelled_executor.snapshot().unwrap();
+    let restored_cancelled = restore_executor(&cancelled_snapshot).unwrap();
+    let mut forbidden_resume = request();
+    forbidden_resume.resume = Some(cancelled_resume);
+    adl_runtime_kernel::sign_policy_request(&mut forbidden_resume, "policy-review", &policy_key())
+        .unwrap();
+    assert!(restored_cancelled
+        .execute(&operation("resume-after-cancellation", &forbidden_resume))
+        .await
+        .is_err());
 }
 
 struct FixedTime(u64);
@@ -323,21 +346,24 @@ async fn adaptive_learning_consumes_exact_one_shot_mutation_authority() {
     }
     .sign(&key)
     .unwrap();
-    let gate = Arc::new(
-        MutationGate::new(
-            validated.clone(),
-            authority(),
-            Arc::new(FixedTime(500)),
-            policy.clone(),
-            4,
-            Arc::new(AdaptationStore::new(AdaptationState::new(
-                0,
-                validated.hash(),
-                policy,
-            ))),
+    let gate_factory = || {
+        Arc::new(
+            MutationGate::new(
+                validated.clone(),
+                authority(),
+                Arc::new(FixedTime(500)),
+                policy.clone(),
+                4,
+                Arc::new(AdaptationStore::new(AdaptationState::new(
+                    0,
+                    validated.hash(),
+                    policy.clone(),
+                ))),
+            )
+            .unwrap(),
         )
-        .unwrap(),
-    );
+    };
+    let gate = gate_factory();
     let executor = ParityBExecutor::new(
         BTreeMap::from([("policy-review".to_owned(), policy_key().verifying_key())]),
         "checkpoint",
@@ -359,8 +385,24 @@ async fn adaptive_learning_consumes_exact_one_shot_mutation_authority() {
     )
     .unwrap();
     let evidence = receipt.mutation_evidence.expect("mutation evidence");
+    let mutated_hash = executor.mutation_graph_hash().unwrap();
+    assert_ne!(mutated_hash, validated.hash());
     assert!(executor
         .execute(&operation("mutate-replay-new-id", &body))
+        .await
+        .is_err());
+    let snapshot = executor.snapshot().unwrap();
+    let restored = ParityBExecutor::restore(
+        &snapshot,
+        BTreeMap::from([("policy-review".to_owned(), policy_key().verifying_key())]),
+        "checkpoint",
+        checkpoint_key(),
+        Some(gate_factory()),
+    )
+    .unwrap();
+    assert_eq!(restored.mutation_graph_hash().unwrap(), mutated_hash);
+    assert!(restored
+        .execute(&operation("mutate-after-restart", &body))
         .await
         .is_err());
     assert_eq!(
@@ -439,6 +481,40 @@ async fn governed_cognition_cannot_bypass_shutdown_or_freedom_gate() {
         .contains("human review"));
     assert!(review_executor
         .receipt("review-required")
+        .unwrap()
+        .is_none());
+
+    let racing_executor = Arc::new(executor());
+    let mut long_running = request();
+    long_running.loop_definition.target_score = 1_000_000;
+    long_running.loop_definition.max_iterations = 10_000;
+    long_running.loop_definition.deadline_millis = 5_000;
+    long_running.execution_slice_iterations = 10_000;
+    adl_runtime_kernel::sign_policy_request(&mut long_running, "policy-review", &policy_key())
+        .unwrap();
+    let active_executor = racing_executor.clone();
+    let active = tokio::spawn(async move {
+        active_executor
+            .execute(&operation("active-during-shutdown", &long_running))
+            .await
+    });
+    tokio::task::yield_now().await;
+    let mut racing_shutdown = request();
+    racing_shutdown.gates.shutdown_requested = true;
+    adl_runtime_kernel::sign_policy_request(&mut racing_shutdown, "policy-review", &policy_key())
+        .unwrap();
+    assert!(racing_executor
+        .execute(&operation("racing-shutdown", &racing_shutdown))
+        .await
+        .is_err());
+    assert!(active
+        .await
+        .unwrap()
+        .unwrap_err()
+        .message
+        .contains("shutdown"));
+    assert!(racing_executor
+        .receipt("active-during-shutdown")
         .unwrap()
         .is_none());
 
