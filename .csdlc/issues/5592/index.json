@@ -3,13 +3,13 @@
   "issue": 5592,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "a359b2c4b8f2f653ea82c1c5d29aa63c3ac298542bbe5f7c7339a327ad3e822d",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "c3205f81b41fdccbbf54f2e1afbd26a94ed568733607fe0ed752b93efbf574e4",
+  "phase": "published",
+  "generation": 12,
+  "digest": "790d4bdfc0a94e66bf01ef6ffeadf95ca5a8b9a93d63da658219afd2b107ace8",
   "claim": {
     "id": "claim-5592-runtime-v3-parity-b-preparation",
     "owner": "codex:019f8288-14b3-7722-bf61-2b3e76c51124",
-    "generation": 11,
+    "generation": 12,
     "acquired_unix_seconds": 1784601544,
     "expires_unix_seconds": 1785206344,
     "heartbeat_unix_seconds": 1784601544,
@@ -63,7 +63,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5592,
+    "pull_request": 5618,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5618",
+    "base": "main",
+    "head": "codex/5592-runtime-v3-parity-b",
+    "revision": "git-blake3:237d3f8201a8d383cbb097b2c69caf8068c2683f:9067f436eeb043675712d58216fc736e6a6c4d2d15726872aad842442a62c43a",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -77,34 +87,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "910448580212558d8041755510300dc51dda1d256cd2129a3539490ad7401af4",
+      "values_digest": "243e048917785f1cc68317e7af16da48ddc3b2b04bd1c8e0359c57ed0277eb6c",
       "rendered_digest": "a4369423ad1bb8d1afb5cfe47874314d77ab0c610cdaeee04a22be089876740f",
       "ast_digest": "e4bbee25a2f2ee6c9054c13f2b187d71bbd2a7ff6995e4350fa22249ce55304d"
     },
     "stp": {
-      "values_digest": "8f2f4feaaabe9f743284dd21debb44e37c93d5259bc9636b42b76c5579950c30",
+      "values_digest": "a04fcbf18e2c32027597fe185784fb49a7bb5bd74f4eae3db01ca5311404ff37",
       "rendered_digest": "2d44dbaacfdeb4e7b8317cd412cd1f1358fe50bd483ca9ec0724e439f2e2f026",
       "ast_digest": "5b87e6ca43305b7dd447de7722131a31ef75170a53dfac275ae737a3c38ac1a4"
     },
     "spp": {
-      "values_digest": "2a6223c565038deccd18d35c635b65cfc16ecff95908b18ea213b71b6e9ecb3c",
+      "values_digest": "1387a05e6b987fa35d4e488d8c2c3f03181142d19ec4e027ed5d0023a5a8c577",
       "rendered_digest": "a31c29f58f4b9890ef74dbe01c2817f78c68b89846cbd26b80fdd40b0f568c53",
       "ast_digest": "e6e2fc41cc44dd45836726815b8a6a431af1e266548d761fe8129934b4d6b101"
     },
     "vpp": {
-      "values_digest": "84c09837ceddc2573e4a26db0c79d6ec14391c8e4ff464dadd5e09462d7bd863",
+      "values_digest": "113d9be9ee3479a53e4ba22c20828e748e39cc445c42c585cb5853fbd8335b88",
       "rendered_digest": "2820cad061abc84765b2e7b4ae4c76659f3aad102c13629e1d12dd1837184b9b",
       "ast_digest": "2e23a756badf61748cce137b53bab1efade6df4bd9b288adfc376c4f2c6ebbe6"
     },
     "srp": {
-      "values_digest": "f5a699321725018795c1afa094387551cd74c3f20afe36836fbe3345ad26956e",
+      "values_digest": "e00e2dc1e6a847a13b29808e7908ddd2484f6d6a8bc08395b5055781cba30e48",
       "rendered_digest": "7a7aff727227794392031f930bd7c33882509706639f6dd0daa8230b31207b30",
       "ast_digest": "1d4875ffaf3fb660fa08c1e51c1fcaaec7208bc4b08d9eb5ec6cd0e695af1c3a"
     },
     "sor": {
-      "values_digest": "da844c01e9a1515a8b1f7f987f8da183a0bdd0a1efa180627da9ca8264126d58",
-      "rendered_digest": "5917961363a64a2d14de62773551a5031469f2166226017724a8f078fe75f00e",
-      "ast_digest": "890cade513a57840f7861deaf3dad773dc4197577db830160395a9a7ff38abee"
+      "values_digest": "a2f8b240985d53c6dc82425a7d579a76b38250c236d7588b079fde3b16364d2f",
+      "rendered_digest": "6e2e3a22595aaef4f079a54cd5425056e696419a16cbcf07a2783314df5d5a69",
+      "ast_digest": "215139818cee254bb415356240ea640a3054ca7df652137a8a56f6ce842f7442"
     }
   },
   "transitions": [
@@ -135,6 +145,13 @@
       "to": "reviewed",
       "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
       "reason": "Fresh exact-head review passed with zero actionable findings; retain the explicit accepted 13,547-line cohesive-scope exception."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -277,6 +294,13 @@
       "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
       "reason": "Fresh exact-head review passed with zero actionable findings; retain the explicit accepted 13,547-line cohesive-scope exception.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 12,
+      "actor": "codex:019f836b-dfdb-7b33-8e27-4c9478b75421",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

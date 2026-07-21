@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-b] Make reasoning, adaptive learning, and governed cognition live",
     "slug": "v0-91-8-runtime-v3-parity-b-governed-cognition",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
@@ -66,8 +66,8 @@
           "evidence_ref": "owner:019f836b-dfdb-7b33-8e27-4c9478b75421@fa7a37551:/Volumes/FastWork/adl-5592/{exact-final,full-final,guardian-route}"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
