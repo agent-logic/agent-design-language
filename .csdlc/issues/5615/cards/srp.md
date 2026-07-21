@@ -12,14 +12,17 @@ Status: pre_phase
 
 ## Scope
 
-.github/workflows/ci.yaml
-adl/tools/ci_path_policy.sh
-adl/tools/test_ci_path_policy.sh
-adl/tools/test_ci_runtime_contracts.sh
-adl/tools/run_cargo_validation.sh
-adl/tools/test_run_cargo_validation.sh
+.csdlc/evidence/5615
 .csdlc/issues/5615
 .csdlc/prepared/issues/5615
+.github/workflows/ci.yaml
+adl/config/validation_lane_selector.v0.91.6.json
+adl/tools/ci_path_policy.sh
+adl/tools/run_cargo_validation.sh
+adl/tools/test_ci_path_policy.sh
+adl/tools/test_ci_runtime_contracts.sh
+adl/tools/test_run_cargo_validation.sh
+adl/tools/test_select_validation_lanes.sh
 
 ## Prompts
 
