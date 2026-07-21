@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed the repaired #5589 preparation-only package with all six typed cards synchronized to the canonical [WP-14] title, approved design and diagram, adapter/authority matrix, disjoint lifecycle claim, fail-closed focused-test inventory guards, and explicit #5591 implementation blockers; no product code or publication was performed.
+Implemented a live Runtime v3 governed-operations process with signed Freedom Gate and AEE dispatch, production local provider and governed-tool adapters, identity-scoped authenticated checkpoints, monotonic qualified time, redacted non-authoritative lifelog, idempotent recovery, cancellation/failure classification, and fail-closed shutdown.
 
 ## Artifacts
 
@@ -22,6 +22,9 @@ Completed the repaired #5589 preparation-only package with all six typed cards s
 - .csdlc/prepared/issues/5589/readiness-blockers.md
 - .csdlc/prepared/issues/5589/focused-test-inventory.json
 - .csdlc/prepared/issues/5589/run_focused_test_lane.rb
+- adl-runtime-kernel/src/governed_operations.rs
+- adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs
+- adl-runtime-kernel/tests/governed_operations.rs
 
 ## Execution
 
@@ -30,6 +33,12 @@ Completed the repaired #5589 preparation-only package with all six typed cards s
 - authored the Runtime v3 Parity-C design, diagram, adapter/authority matrix, and readiness-blocker record
 - declared complete live positive, negative, continuity, shutdown, budget, and zero-degraded-credit proof lanes
 - made every eventual focused test lane require an exact nonzero inventory before executing each named test
+- Added the process-backed adl-runtime-governed-operations production entrypoint without changing Runtime v2, main, AWS, or cross-lane paths
+- Bound signed commitments, attenuating grants, policy, payload digest, identity, resources, and qualified time before AEE actuation
+- Added a COTS-backed local digest provider and real allowlisted file-metadata governed tool with deterministic bounded dispatch
+- Persisted authenticated identity-scoped checkpoints with pending-request crash quarantine and idempotent replay
+- Kept lifelog append-only, redacted, non-authoritative, and isolated from checkpoint and actuation success
+- Added all 25 exact named positive, negative, restart, shutdown, production-credit, and boundary tests
 
 ## Validation
 
@@ -55,6 +64,19 @@ Completed the repaired #5589 preparation-only package with all six typed cards s
     "purpose": "Validate the complete base-to-final-evidence-head range and exact 15-path post-substantive metadata/evidence inventory for title synchronization, fail-closed focused test inventories, claim scope, and diff hygiene",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5589/preparation/committed-review-range.log"
+  },
+  {
+    "command": [
+      "seven exact inventory-guarded Parity-C lanes (25 discovered and executed tests)",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/full cargo test --manifest-path adl-runtime-kernel/Cargo.toml",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5589/clippy cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings",
+      "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check",
+      "bash adl/tools/report_runtime_v3_loc.sh",
+      "git diff --check"
+    ],
+    "purpose": "Prove all Parity-C live positive, negative, identity, continuity, shutdown, production-credit, and boundary outcomes plus the complete Runtime v3 suite, strict lint, format, budget, and diff hygiene. Budget result is 13,266 physical lines and 220 tests: +1,057 over pinned #5336 baseline, including merged #5591, and requires explicit exact-review disposition because the 20,000 safety ceiling is non-authorizing.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5589/implementation"
   }
 ]
 
