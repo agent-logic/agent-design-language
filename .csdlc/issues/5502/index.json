@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5502,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "934f17887e0891330b3a364da07a049b3a1cdb0d4855d4ab65eb1a06d32d2630",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "cd52eb2c71b42605e14f778b56b5547b84a148340a4c534cf2c90fdc40764524",
+  "claim": {
+    "id": "claim-5502-v0918-output-convergence-preparation",
+    "owner": "codex:5502-preparation-owner",
+    "generation": 1,
+    "acquired_unix_seconds": 1784662362,
+    "expires_unix_seconds": 1785267162,
+    "heartbeat_unix_seconds": 1784662362,
+    "branch": "codex/5502-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5502",
+      ".csdlc/locks/5502.lock",
+      ".csdlc/prepared/issues/5502",
+      ".csdlc/evidence/5502"
+    ],
+    "purpose": "Prepare and review #5502 output convergence and deterministic replanning contracts only; no product implementation until #5499 and #5498 are merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5502/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5502/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-subagent:gpt-5.4-mini:019f862d-8b86-78d2-8911-59f626471d49",
+      "revision": "972c110f05121be3929448f1ae979e262118fb7dd8c3388a502d64dba817d737"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "59dafdc6523420b289bd8ad8b8584fca59587ff899b37c277fe7f1c877906264",
+      "rendered_digest": "0724b3eaba7fb94ae6fa13ca521fe4dedeec92ff4f59758ab8c8bf003aab23ff",
+      "ast_digest": "24c095ad78cf9b8c025d64b2fce771cf1179172b2f4c3d7ec35ca0bec73d3b58"
+    },
+    "stp": {
+      "values_digest": "31d682b730da8bea9b10f914fa570d88029f2fd257df80b90a7945464a2d2f24",
+      "rendered_digest": "10b47a4c29746e93963a83a7800cf345339d9d7f4fd948321e472e7f48dd7aaa",
+      "ast_digest": "032c48294933d1cd8c7a2832405d7b0f5287a1e0b118448fd3bf0e7120aaf70a"
+    },
+    "spp": {
+      "values_digest": "29410565cac416c8f5eece3bdabd54b3876b0fc546c43b4a7e4006f7479afe2a",
+      "rendered_digest": "0366327dc8a9d825cbb986351f2edb04d6f5a3935d4cc5b86cf21f8c76840788",
+      "ast_digest": "972ede5880c9fb06e2e4c974714230fcbf3b1190dd147b1f4d7d0f5d8a984df5"
+    },
+    "vpp": {
+      "values_digest": "889095f85dc894e4a3db7c48012c5c4c81ef1805922ff6fffcc6a28879324999",
+      "rendered_digest": "b058aaca1be0fc1412112cca41f46d1e52b8b7f57ea8de02413d18fe41e92a5c",
+      "ast_digest": "3832f5a3b7177145c94602d2a3a7e4ad15448f5a3f10197701c1a70b15f48923"
+    },
+    "srp": {
+      "values_digest": "fafcf6e018e0c6b80d3c45c3557324fb9912a6f243a8350023e589ce63e76ddb",
+      "rendered_digest": "5fae4a1c9dbbecaac3eb2ac2fd522358cf424ded430225d20fdd4c22cafba1cf",
+      "ast_digest": "fca0e82e0a45e6bdfb06603865c1cdb2eb32696601612980ccd45895ced332fa"
+    },
+    "sor": {
+      "values_digest": "698e1fe5bc17fefa37582cc50545da255d878875ecced26ed49aa3be8ef4bead",
+      "rendered_digest": "40d5eef953ed93b20784934e720ae4ea34096f622cd5e048ddb041f808f0f00d",
+      "ast_digest": "17c4f6ab1f97bd77880e62187b845fd97295f6fb51dd3bc639f5781ed9dca616"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5502-preparation-owner",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5502-preparation-owner",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5502-preparation-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-subagent:gpt-5.4-mini:019f862d-8b86-78d2-8911-59f626471d49",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5502-preparation-owner",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

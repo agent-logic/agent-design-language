@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5502,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-10A][multi-agent] Implement output convergence and deterministic replanning",
+    "slug": "v0918-wp10a-output-convergence-deterministic-replanning",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5502\n.csdlc/locks/5502.lock\n.csdlc/prepared/issues/5502\n.csdlc/evidence/5502",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any missing, stale, forged, overlapping, out-of-scope, or revision-discontinuous output bypass convergence rejection?",
+        "Can changed assumptions or partial success be hidden, reordered nondeterministically, or converted into silent scope expansion?",
+        "Does the component retain pure decision authority and avoid task, filesystem, network, GitHub, review, merge, and closeout mutation?",
+        "Are dependency, COTS, protected-path, LoC/test/module/time, PVF, no-deferral, CI, exact-review, and post-merge contracts complete?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
