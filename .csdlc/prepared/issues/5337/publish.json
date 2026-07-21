@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 5337,
+  "expected_generation": 52,
+  "expected_digest": "f3a0e50da9bfa9f5aa05f5c658ae4c95a9c704e5b15cdc73a21101f90fdd3f46",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "repository": "danielbaustin/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/5337-v0918-wp03-preparation",
+  "title": "[v0.91.8][WP-03] Characterize pinned ADL v1 behavior",
+  "body": "Closes #5337\n\nImplements the independent pinned-v1 characterization harness required before Runtime v3 parity work. The crate provides a versioned corpus and schema, deterministic normalizer and comparator, portable retained observations, integrity envelopes, bounded local-only execution policy, timeout handling, and coverage documentation.\n\nThe retained corpus covers 25 cases, 75 observations, and 23 behaviors, including CLI surfaces, all six primitives, graph and prompt output, ordering equivalence and difference, negative validation paths, local mock execution, and fixed Ed25519 sign/verify/tamper behavior. Locked all-target tests pass 29/29, characterization verification passes, strict all-target Clippy passes, and the post-#5336 exact-revision review found no actionable blockers. Cargo output remained on /Volumes/FastWork; no AWS or raw gh was used.",
+  "draft": true,
+  "token_file": null
+}
