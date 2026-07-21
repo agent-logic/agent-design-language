@@ -17,7 +17,12 @@ case "$candidate_health" in https://*) ;; *) echo "candidate health URL must use
 case "$prior_health" in https://*) ;; *) echo "prior health URL must use HTTPS" >&2; exit 65 ;; esac
 
 "$selector" activate --selector "$candidate_ref"
-"$health_probe" "$candidate_health"
+if ! "$health_probe" "$candidate_health"; then
+  "$selector" activate --selector "$prior_ref"
+  "$health_probe" "$prior_health"
+  echo "candidate Runtime v3 health failed; prior selector was restored" >&2
+  exit 70
+fi
 "$selector" activate --selector "$prior_ref"
 "$health_probe" "$prior_health"
 printf 'operational_selector_transition candidate=%s prior=%s health=restored\n' "$candidate_ref" "$prior_ref"
