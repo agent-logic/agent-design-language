@@ -34,38 +34,7 @@ adl/tools/test_select_validation_lanes.sh
 
 ## Findings
 
-[
-  {
-    "id": "F-5615-1",
-    "severity": "p1",
-    "summary": "Selector authority can select standalone C-SDLC v2 proof while the classifier leaves its required boolean false.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "F-5615-2",
-    "severity": "p1",
-    "summary": "Mixed C-SDLC v2 and Runtime v3 changes suppress the Runtime focused proof because routing matches exact lane strings.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "F-5615-3",
-    "severity": "p1",
-    "summary": "Pre-created Cargo child symlinks can escape the validated external build root.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -77,8 +46,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:d0a23536ec79b6c2bf0067d7a8ba1b0e184dc925:d7c03dc4da802c7ec404063ddd472a0a78706662540d0b40f9435cebb3a2a05b")
+Revision: Some("git-blake3:08cbee2374af24474a4c1daac2dd4398d25b7c4d:f091bd59b2abc98c2edaa44bf5e9c0ad84d792332bf03dcfcd947bc8f1f94c52")
 
-Reviewer: Some("subagent:019f86ae-7d7a-7161-b2e4-67264db9ef0f")
+Reviewer: Some("subagent:019f86c0-2ed0-7783-9f63-bb0dc38861ae")
 
-Result: changes_required
+Result: pass

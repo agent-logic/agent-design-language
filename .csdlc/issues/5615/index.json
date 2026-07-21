@@ -3,13 +3,13 @@
   "issue": 5615,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "36d04edef06074ba46ddc14aab9493fc35023e2395b1fac82d2c714b0cde44e0",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "1ab44507645ad70fa3425cd207c73054e3af63538932f8be7e1ac17684eefeca",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "e343c408a4e693c7b40e360458064bd528fbf3a10549b9775bf618afaf26725e",
   "claim": {
     "id": "claim-5615-csdlc-ci-fastwork-routing",
     "owner": "codex:5615-owner",
-    "generation": 9,
+    "generation": 11,
     "acquired_unix_seconds": 1784669026,
     "expires_unix_seconds": 1784755426,
     "heartbeat_unix_seconds": 1784669026,
@@ -48,7 +48,27 @@
       "adl/tools/test_select_validation_lanes.sh"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f86c0-2ed0-7783-9f63-bb0dc38861ae",
+    "scope": [
+      ".csdlc/evidence/5615",
+      ".csdlc/issues/5615",
+      ".csdlc/prepared/issues/5615",
+      ".github/workflows/ci.yaml",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/run_cargo_validation.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/test_run_cargo_validation.sh",
+      "adl/tools/test_select_validation_lanes.sh"
+    ],
+    "reviewed_revision": "git-blake3:08cbee2374af24474a4c1daac2dd4398d25b7c4d:f091bd59b2abc98c2edaa44bf5e9c0ad84d792332bf03dcfcd947bc8f1f94c52",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -63,32 +83,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fe64af7c9f8a01d22bb0177c8852b6c181d6041267d6849f87116b20847b4fe3",
+      "values_digest": "ea9f8ad5e8bf7d0cfd3f395fda7297cafc04fe3d871dd5ce4135b2804bfa3b14",
       "rendered_digest": "be640d024da16ba461e342ca879bd18ccb5a94d3e2e30929a32e8cd5c5f934e8",
       "ast_digest": "bc5391a707067b1bbc3d2de5e4c96dc08f93b1432936430e49ca9d1b800dff97"
     },
     "stp": {
-      "values_digest": "bad8be15333e8f92bf778d58d1c1f7e535dde461a9e1a6eb5546ec045c320e1b",
+      "values_digest": "46bb451b18fbbc092931cdfc8ca7f7d6f77043e7d553acd6f8481d3e0e4fb419",
       "rendered_digest": "f7a191e9d029748eb3099859f1538f9aad0d923ec8b93be1fe014c1e81608ca8",
       "ast_digest": "b64629174c1fb8dd2121ab2ca4b014eaca6d4249bd88572a9bada856f3b1fe15"
     },
     "spp": {
-      "values_digest": "ff5fcc885a2a454abf4dfbc462a43fca61d494ef08a45382070c1e38a2efc99f",
+      "values_digest": "dffeb75ff5971d154a9bb8f295bf8c40573dbc153d33a4d0a0629afaef12da95",
       "rendered_digest": "973dd60787d6042b0950e1a9a8c8fc276f57b00b6dfaca30337d1111749b7fce",
       "ast_digest": "396c5db84e434ad1a9493920bf66c41387cb028376e4d47a8a7c7115f5721fc9"
     },
     "vpp": {
-      "values_digest": "ecc588ccc8905112bf855b7555eb87b266f7cfa6256d0870d7a6f7646557b5c4",
+      "values_digest": "f82c16ee47a605faf89baac4cc1a18d05e95140df9a50d7add1ff81aaa594e62",
       "rendered_digest": "1a0def1323d9b5974aa111585d67017f3dd9ae217d48107f0f33f6ba0ac54929",
       "ast_digest": "0924498c22b4cdffb38c7c2b3a69f979a971b4f52b1111cbde5322bbc0237bc7"
     },
     "srp": {
-      "values_digest": "f283c7414cb3b8892f9aa3222cb1c2b3e196044c2d2bf55bfd6c9c68f8a40e1d",
-      "rendered_digest": "c649c1dc97914e9bfd8519af57ca259a32739c416104c022d60af4af26a1f219",
-      "ast_digest": "69f9dd816a4ec7bfab81646659e93e57dac212956d0763e9fcfcdc052d14eaab"
+      "values_digest": "d2757dc90ed45ff8a2b74104c96417b10ef4b281dcaf23ac9a1c0d9269c57fd6",
+      "rendered_digest": "536065b41ce7df11299febe65aedf42ee400a4a7b0dc87b3ab887720655c1c38",
+      "ast_digest": "1db9d68d7213cc8d957140143eac4ba9036ba1987ea8849c6ecf2f7f30930922"
     },
     "sor": {
-      "values_digest": "be1d6b399b6002991268ebcda9dfa4cad11c6647043de04c4d65705b0495c1eb",
+      "values_digest": "3379ef5b8b1fb6ff91df80a0aa222253725ae2272d94a1061f0a93e1cf17b04d",
       "rendered_digest": "2274cfe3b271be193ce08b11bc376361cecefd28d119c7a2b46290860c7acb85",
       "ast_digest": "124343e55fb3132d84c306f9316ad56d8bfdd8edf3d280b9de099cae012de35e"
     }
@@ -114,6 +134,13 @@
       "to": "implemented",
       "actor": "codex:5615-owner",
       "reason": "The bounded classifier, standalone job, fail-closed aggregate, portable wrapper, and all local proof are complete for exact review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5615-owner",
+      "reason": "Exact remediation review passed with zero findings after all three P1s were fixed and revalidated."
     }
   ],
   "audit": [
@@ -228,6 +255,20 @@
       "actor": "codex:5615-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "subagent:019f86c0-2ed0-7783-9f63-bb0dc38861ae",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:5615-owner",
+      "reason": "Exact remediation review passed with zero findings after all three P1s were fixed and revalidated.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
