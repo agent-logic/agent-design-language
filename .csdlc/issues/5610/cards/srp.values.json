@@ -7,25 +7,23 @@
     "title": "[v0.91.8][CI][coverage] Normalize safe in-repo coverage paths without weakening traversal rejection",
     "slug": "coverage-path-normalization",
     "version": "v0.91.8",
-    "generation": 18
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/merge_coverage_summaries.py\nadl/tools/test_merge_coverage_summaries.sh",
-      "review_revision": "git-blake3:905f558d24529546eb1185d0265bb81a89c6b9ae:196cc2e0afa4a8fe8d1b1b1b122a7aed6fca578e4fa48fc905417879be680949",
-      "reviewer": "subagent:review-5610-alias-dedup",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does safe lexical normalization remain inside the owned root?",
         "Can any prefix or owned-root traversal normalize into accepted ownership?",
         "Are all existing merge and coverage gates unchanged?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Record equality is intentionally structural after filename canonicalization; any additional producer field mismatch remains fail-closed."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

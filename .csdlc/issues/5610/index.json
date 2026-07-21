@@ -3,13 +3,13 @@
   "issue": 5610,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "cddcaba6cb5630f40f5a0351b4235eeec48846d450e812101f1ddb865a799e8f",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "18391153d615ef2c314c9bd3bd51cd9b014f829f634d3ac5a643ca3b4131e428",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "47dbc138030f537747509aa3dd248e7a540306a0d9a2a108c0d461712df67fa0",
   "claim": {
     "id": "claim-5610-coverage-path-normalization",
     "owner": "codex:019f8380-f385-72c1-9890-33d3676eab84",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1784618518,
     "expires_unix_seconds": 1784704918,
     "heartbeat_unix_seconds": 1784618518,
@@ -21,29 +21,8 @@
     ],
     "purpose": "Normalize safe in-repo coverage paths without weakening traversal rejection"
   },
-  "review_assignment": {
-    "reviewer": "subagent:review-5610-alias-dedup",
-    "assigned_by": "codex:019f8380-f385-72c1-9890-33d3676eab84",
-    "revision": "git-blake3:905f558d24529546eb1185d0265bb81a89c6b9ae:196cc2e0afa4a8fe8d1b1b1b122a7aed6fca578e4fa48fc905417879be680949",
-    "scope": [
-      "adl/tools/merge_coverage_summaries.py",
-      "adl/tools/test_merge_coverage_summaries.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:review-5610-alias-dedup",
-    "scope": [
-      "adl/tools/merge_coverage_summaries.py",
-      "adl/tools/test_merge_coverage_summaries.sh"
-    ],
-    "reviewed_revision": "git-blake3:905f558d24529546eb1185d0265bb81a89c6b9ae:196cc2e0afa4a8fe8d1b1b1b122a7aed6fca578e4fa48fc905417879be680949",
-    "findings": [],
-    "residual_risks": [
-      "Record equality is intentionally structural after filename canonicalization; any additional producer field mismatch remains fail-closed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -58,32 +37,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cea2eb8219a6bc02c56c0d8fb1438ace6ea66539746d7ac8204a1cfbe933a621",
+      "values_digest": "d9ba40abf6be651c0c441a377e1c17baa5595a2502df74802f829adbeda58389",
       "rendered_digest": "68787b8f8b1004bb2426f04d06a7eef1bf77a34102917f9c355c1cd561e9c35c",
       "ast_digest": "88188682e91c60b78c657dd575f86dfef12923aab2bac61e31f9240aef1e0d3a"
     },
     "stp": {
-      "values_digest": "45f3a0d60a242ed18180026e9af704d83bd451633c42823367f4100c1eb7a48d",
+      "values_digest": "657d84b55cfa0461cc29438ae640b616ebe6134fd2cff59e244cbe252dac48a2",
       "rendered_digest": "715210a73a70eed839ca547d894e1610fef3d20a63f9fae7c3f5f6593268ee77",
       "ast_digest": "897dffc44f6e90e4a43aff7a5bd7bd267798b12cc24a99a798ad070094dc9adf"
     },
     "spp": {
-      "values_digest": "aea3c753dcb0f45f07ab04e01b532cd1eb477f37f4836cbd91a5141e3fbf3e5d",
+      "values_digest": "2d4d66289c3442c1ed8b51f24ea828ca1822293a7d99dd9d87de45da2731e64e",
       "rendered_digest": "dd9ed39b9003aa964b0a402eae1f9fb6b0e11b7b39a387d69035bf23cdb69c3b",
       "ast_digest": "dd8ca034113c78d59c03b558bdbfa2a2c36f4311b599bfca4cfb403b93b9d9ed"
     },
     "vpp": {
-      "values_digest": "6041423dbd4646648806e7d53f7e8222b98555306c1b38f92cb5fef0997c704e",
+      "values_digest": "1d4ec6a1dce55dda8647b1083f8730d2a4e9cc37da1ad66507538af2791797c3",
       "rendered_digest": "2cf20a7741d9893350f646ba6154eb142a6a242c1f3bb2f099d2be71f1aadc08",
       "ast_digest": "f15cbfbc09e2d4ae8a1e892a2a34cf09ab333575e40ebbf1f98a07f8b784291d"
     },
     "srp": {
-      "values_digest": "b17bd94b10b94d2ba88925d71f2b11a68ad2cb26636f3bd4ce45eeaaeab7840c",
-      "rendered_digest": "6ea25e2f47ec1a9ebf8d8aa549241a8d16859c7876081a8c8366176822b702ca",
-      "ast_digest": "6617c83872aaf1ddd21157a86d53ec435edfa945bb7e1e5d2da63188374f0501"
+      "values_digest": "a037e04a761135b28a097cb2733a118eb9ae3c9794d51915a09698b322c33454",
+      "rendered_digest": "045fd20965f330d8a66c8edde80ce8138299afc24839f67b521e155ed54eb41e",
+      "ast_digest": "9524b77cc98c95ef52d94c0ee3578033f86a0fa881b66c144487d75b13c7d116"
     },
     "sor": {
-      "values_digest": "b2facb1d753a10c3a3e7081e5b6cbf2bc50a38401dbe09e80c3e198383639cc8",
+      "values_digest": "641614d3306f36f91b3c96c9a512d070fa000c6a4f265b094c08281ff53a027b",
       "rendered_digest": "edaff98f14ed7f4fc16e7b547e6ceae28eba590b33fa8249533b1576499a6186",
       "ast_digest": "2ff04c31893c14aa622a43033edfdecb7bdaeeaa3b06e21902f45474110b26c6"
     }
@@ -158,6 +137,13 @@
       "to": "reviewed",
       "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
       "reason": "Exact correction head passed focused contracts and bounded review with no findings."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Recover review truth after exact hosted evidence required conservative canonical-alias maxima coalescing; the prior owner was explicitly stopped and the coordinator assigned this actor as sole replacement writer."
     }
   ],
   "audit": [
@@ -321,6 +307,13 @@
       "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
       "reason": "Exact correction head passed focused contracts and bounded review with no findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Recover review truth after exact hosted evidence required conservative canonical-alias maxima coalescing; the prior owner was explicitly stopped and the coordinator assigned this actor as sole replacement writer.",
+      "operation": "recover_review"
     }
   ]
 }
