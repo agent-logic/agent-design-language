@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-b] Make reasoning, adaptive learning, and governed cognition live",
     "slug": "v0-91-8-runtime-v3-parity-b-governed-cognition",
     "version": "v0.91.8",
-    "generation": 0
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Complete and validate the preparation package, remain blocked until #5591 supplies a clean reviewed ingress contract and releases overlapping paths, then amend the typed claim to the smallest collision-free Parity-B files, implement live reasoning/adaptation/governed-cognition behavior with adversarial isolation and feature dispositions, prove every criterion at one exact revision, delete only proven duplicates, review, and publish only in a later authorized lane.",
+      "plan_revision": 3,
+      "summary": "At the integrated post-#5591 baseline, claim only exact collision-free Parity-B files, implement every reasoning graph, bounded loop, adaptation, affect, curiosity, governed-cognition, feature-disposition, and exact-evidence outcome, run all FastWork proof, fix exact-revision review findings, publish, shepherd green CI through authorized merge, run post-merge validation, and complete typed closeout without deferred acceptance.",
       "steps": [
         {
           "id": "S1",
@@ -100,7 +100,12 @@
           "status": "pending"
         }
       ],
-      "affected_areas": [],
+      "affected_areas": [
+        "adl-runtime-kernel/src/parity_b.rs production reasoning, bounded-loop, adaptation, affect, curiosity, and governed-cognition module",
+        "adl-runtime-kernel/tests/parity_b_live_kernel.rs exact canonical-ingress integration proof",
+        "adl-runtime-kernel/src/lib.rs module export only",
+        "issue-local .csdlc/issues/5592, .csdlc/prepared/issues/5592, and .csdlc/evidence/5592"
+      ],
       "invariants": [
         "No product edit or product claim amendment before #5591 has a clean reviewed Parity-A contract and overlapping claim release",
         "Only a real initialized adl-runtime-kernel path through canonical ingress earns live credit",

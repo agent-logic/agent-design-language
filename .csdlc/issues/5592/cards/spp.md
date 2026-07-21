@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Complete and validate the preparation package, remain blocked until #5591 supplies a clean reviewed ingress contract and releases overlapping paths, then amend the typed claim to the smallest collision-free Parity-B files, implement live reasoning/adaptation/governed-cognition behavior with adversarial isolation and feature dispositions, prove every criterion at one exact revision, delete only proven duplicates, review, and publish only in a later authorized lane.
+At the integrated post-#5591 baseline, claim only exact collision-free Parity-B files, implement every reasoning graph, bounded loop, adaptation, affect, curiosity, governed-cognition, feature-disposition, and exact-evidence outcome, run all FastWork proof, fix exact-revision review findings, publish, shepherd green CI through authorized merge, run post-merge validation, and complete typed closeout without deferred acceptance.
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 
