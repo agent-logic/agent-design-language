@@ -401,7 +401,8 @@ impl ActuationShell for ProductionShell {
             invoke.await
         };
         result.map(|result| result.payload).map_err(|error| {
-            let classification = if error.to_string().contains("timed out") {
+            let message = error.to_string();
+            let classification = if message.contains("timeout") || message.contains("timed out") {
                 "provider_timeout".to_owned()
             } else {
                 classify_operation(error)
