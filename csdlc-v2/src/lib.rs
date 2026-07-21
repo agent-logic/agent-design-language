@@ -57,7 +57,7 @@ pub use proof::{run_pre_switch_proof, PreSwitchEvidence, ProofManifest, ProofSte
 pub use publication::{
     prepare_publication, prepare_ready_publication, prepare_ready_reconciliation, reconcile_action,
     record_merged_publication, record_publication, record_ready_publication,
-    validate_ready_reconciliation_state, validate_ready_remote,
+    record_ready_reconciliation, validate_ready_reconciliation_state, validate_ready_remote,
     MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
     PublicationRequest, ReadyPublicationReconciliationRequest, ReadyPublicationRequest,
     RemotePullRequest,

@@ -1,0 +1,13 @@
+{
+  "issue": 5358,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "2791f999fc22f6483366fbcd484d4920e2b059af95814fc3d20d8530e4f5d369",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+  "reason": "Advance #5358 to implemented after bounded code and focused validation evidence were recorded.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

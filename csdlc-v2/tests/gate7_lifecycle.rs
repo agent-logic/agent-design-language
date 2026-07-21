@@ -14,6 +14,15 @@ use csdlc_v2::{
     TerminalDesignRepairRequest, TerminalDisposition, TerminalObservation,
     TerminalPlanStepRepairRequest, TerminalSorArtifactRepairRequest,
 };
+use std::collections::BTreeMap;
+use std::fs;
+use std::io::{Read, Write};
+use std::net::{SocketAddr, TcpListener, TcpStream};
+use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
 
 fn install_native_authority(root: &std::path::Path) {
     let registry = root.join("docs/templates/prompts/current.json");
@@ -60,6 +69,284 @@ fn git_output(root: &std::path::Path, args: &[&str]) -> String {
         .unwrap();
     assert!(output.status.success());
     String::from_utf8(output.stdout).unwrap().trim().to_owned()
+}
+
+#[derive(Clone, Debug)]
+struct HttpRequest {
+    method: String,
+    path: String,
+}
+
+struct HttpResponse {
+    status: u16,
+    body: String,
+}
+
+struct LocalHttpMock {
+    address: SocketAddr,
+    requests: Arc<Mutex<Vec<HttpRequest>>>,
+    stop: Arc<AtomicBool>,
+    thread: Option<thread::JoinHandle<()>>,
+}
+
+impl LocalHttpMock {
+    fn start(
+        respond: impl Fn(&HttpRequest) -> HttpResponse + Send + Sync + 'static,
+    ) -> LocalHttpMock {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        listener.set_nonblocking(true).unwrap();
+        let address = listener.local_addr().unwrap();
+        let requests = Arc::new(Mutex::new(Vec::new()));
+        let observed = Arc::clone(&requests);
+        let stop = Arc::new(AtomicBool::new(false));
+        let should_stop = Arc::clone(&stop);
+        let respond = Arc::new(respond);
+        let thread = thread::spawn(move || {
+            while !should_stop.load(Ordering::SeqCst) {
+                match listener.accept() {
+                    Ok((mut stream, _)) => {
+                        if let Some(request) = read_http_request(&mut stream) {
+                            observed.lock().unwrap().push(request.clone());
+                            write_http_response(&mut stream, respond(&request));
+                        }
+                    }
+                    Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                        thread::sleep(Duration::from_millis(2));
+                    }
+                    Err(error) => panic!("mock listener failed: {error}"),
+                }
+            }
+        });
+        LocalHttpMock {
+            address,
+            requests,
+            stop,
+            thread: Some(thread),
+        }
+    }
+
+    fn uri(&self) -> String {
+        format!("http://{}/", self.address)
+    }
+
+    fn count(&self, method: &str, path: &str) -> usize {
+        self.requests
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|request| request.method == method && request.path == path)
+            .count()
+    }
+}
+
+impl Drop for LocalHttpMock {
+    fn drop(&mut self) {
+        self.stop.store(true, Ordering::SeqCst);
+        let _ = TcpStream::connect(self.address);
+        if let Some(thread) = self.thread.take() {
+            thread.join().unwrap();
+        }
+    }
+}
+
+fn read_http_request(stream: &mut TcpStream) -> Option<HttpRequest> {
+    stream
+        .set_read_timeout(Some(Duration::from_secs(2)))
+        .unwrap();
+    let mut bytes = Vec::new();
+    let mut chunk = [0_u8; 4096];
+    loop {
+        let count = stream.read(&mut chunk).ok()?;
+        if count == 0 {
+            break;
+        }
+        bytes.extend_from_slice(&chunk[..count]);
+        if bytes.windows(4).any(|window| window == b"\r\n\r\n") {
+            break;
+        }
+    }
+    let first_line = String::from_utf8_lossy(&bytes).lines().next()?.to_owned();
+    let mut parts = first_line.split_whitespace();
+    Some(HttpRequest {
+        method: parts.next()?.to_owned(),
+        path: parts.next()?.to_owned(),
+    })
+}
+
+fn write_http_response(stream: &mut TcpStream, response: HttpResponse) {
+    let reason = match response.status {
+        200 => "OK",
+        500 => "Internal Server Error",
+        503 => "Service Unavailable",
+        _ => "Error",
+    };
+    let wire = format!(
+        "HTTP/1.1 {} {}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+        response.status,
+        reason,
+        response.body.len(),
+        response.body
+    );
+    stream.write_all(wire.as_bytes()).unwrap();
+}
+
+fn issue_snapshot(root: &Path, issue: u64) -> BTreeMap<PathBuf, Vec<u8>> {
+    fn visit(root: &Path, path: &Path, files: &mut BTreeMap<PathBuf, Vec<u8>>) {
+        for entry in std::fs::read_dir(path).unwrap() {
+            let entry = entry.unwrap();
+            let path = entry.path();
+            if path.is_dir() {
+                visit(root, &path, files);
+            } else {
+                files.insert(
+                    path.strip_prefix(root).unwrap().to_owned(),
+                    fs::read(path).unwrap(),
+                );
+            }
+        }
+    }
+    let issue_root = root.join(format!(".csdlc/issues/{issue}"));
+    let mut files = BTreeMap::new();
+    visit(root, &issue_root, &mut files);
+    files
+}
+
+fn pull_response(
+    issue: u64,
+    sha: &str,
+    draft: bool,
+    state: &str,
+    base_repository: &str,
+    head_repository: &str,
+    head_ref: &str,
+) -> serde_json::Value {
+    serde_json::json!({
+        "number": 70,
+        "node_id": format!("PR_{issue}"),
+        "html_url": format!("https://github.com/example/repo/pull/70"),
+        "state": state,
+        "title": "Fixture",
+        "body": format!("Closes #{issue}"),
+        "draft": draft,
+        "merged": false,
+        "base": {
+            "ref": "main",
+            "sha": "base-sha",
+            "repo": {"id": 1, "name": "repo", "full_name": base_repository, "url": "https://api.github.com/repos/example/repo"}
+        },
+        "head": {
+            "ref": head_ref,
+            "sha": sha,
+            "repo": {"id": 1, "name": "repo", "full_name": head_repository, "url": "https://api.github.com/repos/example/repo"}
+        }
+    })
+}
+
+fn setup_ready_command_fixture(
+    issue: u64,
+) -> (
+    tempfile::TempDir,
+    Store,
+    csdlc_v2::IssueRecord,
+    String,
+    PathBuf,
+) {
+    let (temp, store, record, sha) =
+        fixture_with_validation_history(issue, "Ready command fixture", "ready-command", vec![]);
+    git(
+        temp.path(),
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/example/repo.git",
+        ],
+    );
+    git(
+        temp.path(),
+        &["update-ref", "refs/remotes/origin/main", "HEAD"],
+    );
+    let token = temp.path().join("github.token");
+    fs::write(&token, "test-token\n").unwrap();
+    (temp, store, record, sha, token)
+}
+
+fn write_ready_request(
+    root: &Path,
+    record: &csdlc_v2::IssueRecord,
+    sha: &str,
+    token: &Path,
+) -> PathBuf {
+    let path = root.join("ready-request.json");
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&ReadyPublicationRequest {
+            schema: "csdlc.ready_publication_request.v1".into(),
+            issue: record.issue,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            claim_id: "claim".into(),
+            actor: "publisher".into(),
+            repository: "example/repo".into(),
+            pull_request: 70,
+            expected_head_sha: sha.into(),
+            token_file: Some(token.to_string_lossy().into_owned()),
+        })
+        .unwrap(),
+    )
+    .unwrap();
+    path
+}
+
+fn write_ready_reconciliation_request(
+    root: &Path,
+    record: &csdlc_v2::IssueRecord,
+    token: &Path,
+) -> PathBuf {
+    let path = root.join("ready-reconciliation-request.json");
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&ReadyPublicationReconciliationRequest {
+            schema: "csdlc.ready_publication_reconciliation_request.v1".into(),
+            publication: PublicationRequest {
+                schema: "csdlc.publication_request.v1".into(),
+                issue: record.issue,
+                expected_generation: record.generation,
+                expected_digest: record.digest.clone(),
+                claim_id: "claim".into(),
+                actor: "publisher".into(),
+                repository: "example/repo".into(),
+                base: "main".into(),
+                head: "issue-7".into(),
+                title: "Fixture".into(),
+                body: format!("Closes #{}", record.issue),
+                draft: true,
+                remote: "origin".into(),
+                token_file: Some(token.to_string_lossy().into_owned()),
+            },
+            pull_request: 70,
+        })
+        .unwrap(),
+    )
+    .unwrap();
+    path
+}
+
+fn run_publish_command(
+    root: &Path,
+    command: &str,
+    request: &Path,
+    server: &LocalHttpMock,
+) -> std::process::Output {
+    std::process::Command::new(env!("CARGO_BIN_EXE_csdlc-publish"))
+        .arg("--root")
+        .arg(root)
+        .arg(command)
+        .arg("--request")
+        .arg(request)
+        .env("CSDLC_V2_TEST_GITHUB_API_BASE", server.uri())
+        .output()
+        .unwrap()
 }
 
 fn edit(
@@ -594,6 +881,314 @@ fn typed_ready_reconciliation_records_only_the_exact_open_non_draft_pr() {
             .code,
         ErrorCode::ReconciliationRequired
     );
+}
+
+#[test]
+fn ready_command_records_only_exact_open_remote_success() {
+    let issue = 80;
+    let (temp, store, record, sha, token) = setup_ready_command_fixture(issue);
+    let request = write_ready_request(temp.path(), &record, &sha, &token);
+    let get_count = Arc::new(AtomicUsize::new(0));
+    let observed_gets = Arc::clone(&get_count);
+    let before = pull_response(
+        issue,
+        &sha,
+        true,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let after = pull_response(
+        issue,
+        &sha,
+        false,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let server = LocalHttpMock::start(move |request| {
+        if request.path == "/graphql" {
+            return HttpResponse {
+                status: 200,
+                body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR_80","isDraft":false}}}}).to_string(),
+            };
+        }
+        let response = if observed_gets.fetch_add(1, Ordering::SeqCst) == 0 {
+            &before
+        } else {
+            &after
+        };
+        HttpResponse {
+            status: 200,
+            body: response.to_string(),
+        }
+    });
+
+    let output = run_publish_command(temp.path(), "ready", &request, &server);
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    let ready = store.load_record(issue).unwrap();
+    let publication = ready.publication.unwrap();
+    assert!(!publication.draft);
+    assert_eq!(publication.observed_state, "open");
+    assert_eq!(publication.head, "issue-7");
+    assert_eq!(server.count("POST", "/graphql"), 1);
+    assert_eq!(server.count("GET", "/repos/example/repo/pulls/70"), 2);
+}
+
+#[test]
+fn ready_command_rejects_wrong_identity_closed_and_non_draft_without_writes() {
+    enum Drift {
+        BaseRepository,
+        HeadRepository,
+        HeadRef,
+        Closed,
+        NonDraft,
+    }
+    for (offset, drift) in [
+        Drift::BaseRepository,
+        Drift::HeadRepository,
+        Drift::HeadRef,
+        Drift::Closed,
+        Drift::NonDraft,
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let issue = 81 + offset as u64;
+        let (temp, _store, record, sha, token) = setup_ready_command_fixture(issue);
+        let request = write_ready_request(temp.path(), &record, &sha, &token);
+        let before = issue_snapshot(temp.path(), issue);
+        let response = pull_response(
+            issue,
+            &sha,
+            !matches!(drift, Drift::NonDraft),
+            if matches!(drift, Drift::Closed) {
+                "closed"
+            } else {
+                "open"
+            },
+            if matches!(drift, Drift::BaseRepository) {
+                "wrong/repo"
+            } else {
+                "example/repo"
+            },
+            if matches!(drift, Drift::HeadRepository) {
+                "fork/repo"
+            } else {
+                "example/repo"
+            },
+            if matches!(drift, Drift::HeadRef) {
+                "wrong-head"
+            } else {
+                "issue-7"
+            },
+        );
+        let server = LocalHttpMock::start(move |_| HttpResponse {
+            status: 200,
+            body: response.to_string(),
+        });
+
+        let output = run_publish_command(temp.path(), "ready", &request, &server);
+        assert_eq!(
+            output.status.code(),
+            Some(75),
+            "issue {issue}: stdout={} stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert_eq!(server.count("POST", "/graphql"), 0);
+        assert_eq!(issue_snapshot(temp.path(), issue), before);
+    }
+}
+
+#[test]
+fn ready_command_graphql_and_post_get_failures_leave_zero_local_writes() {
+    for (issue, graphql_failure) in [(90, true), (91, false)] {
+        let (temp, _store, record, sha, token) = setup_ready_command_fixture(issue);
+        let request = write_ready_request(temp.path(), &record, &sha, &token);
+        let before_files = issue_snapshot(temp.path(), issue);
+        let get_count = Arc::new(AtomicUsize::new(0));
+        let observed_gets = Arc::clone(&get_count);
+        let initial = pull_response(
+            issue,
+            &sha,
+            true,
+            "open",
+            "example/repo",
+            "example/repo",
+            "issue-7",
+        );
+        let mismatch = pull_response(
+            issue,
+            &sha,
+            false,
+            "open",
+            "example/repo",
+            "example/repo",
+            "wrong-head",
+        );
+        let server = LocalHttpMock::start(move |request| {
+            if request.path == "/graphql" {
+                return HttpResponse {
+                    status: 200,
+                    body: if graphql_failure {
+                        serde_json::json!({"errors":[{"message":"mutation failed"}]}).to_string()
+                    } else {
+                        serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string()
+                    },
+                };
+            }
+            let response = if observed_gets.fetch_add(1, Ordering::SeqCst) == 0 {
+                &initial
+            } else {
+                &mismatch
+            };
+            HttpResponse {
+                status: 200,
+                body: response.to_string(),
+            }
+        });
+
+        let output = run_publish_command(temp.path(), "ready", &request, &server);
+        assert!(!output.status.success());
+        assert_eq!(server.count("POST", "/graphql"), 1);
+        assert_eq!(issue_snapshot(temp.path(), issue), before_files);
+    }
+}
+
+#[test]
+fn ambiguous_post_get_recovers_without_repeating_graphql() {
+    let issue = 92;
+    let (temp, store, record, sha, token) = setup_ready_command_fixture(issue);
+    let request = write_ready_request(temp.path(), &record, &sha, &token);
+    let before_files = issue_snapshot(temp.path(), issue);
+    let get_count = Arc::new(AtomicUsize::new(0));
+    let observed_gets = Arc::clone(&get_count);
+    let draft = pull_response(
+        issue,
+        &sha,
+        true,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let ready = pull_response(
+        issue,
+        &sha,
+        false,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let server = LocalHttpMock::start(move |request| {
+        if request.path == "/graphql" {
+            return HttpResponse {
+                status: 200,
+                body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string(),
+            };
+        }
+        match observed_gets.fetch_add(1, Ordering::SeqCst) {
+            0 => HttpResponse {
+                status: 200,
+                body: draft.to_string(),
+            },
+            1 => HttpResponse {
+                status: 503,
+                body: serde_json::json!({"message":"confirmation unavailable"}).to_string(),
+            },
+            _ => HttpResponse {
+                status: 200,
+                body: ready.to_string(),
+            },
+        }
+    });
+
+    let failed = run_publish_command(temp.path(), "ready", &request, &server);
+    assert_eq!(failed.status.code(), Some(74));
+    assert_eq!(issue_snapshot(temp.path(), issue), before_files);
+    let recovery = write_ready_reconciliation_request(temp.path(), &record, &token);
+    let recovered = run_publish_command(temp.path(), "reconcile-ready", &recovery, &server);
+    assert!(
+        recovered.status.success(),
+        "{}",
+        String::from_utf8_lossy(&recovered.stdout)
+    );
+    assert_eq!(server.count("POST", "/graphql"), 1);
+    let publication = store.load_record(issue).unwrap().publication.unwrap();
+    assert!(!publication.draft);
+    assert_eq!(publication.observed_state, "open");
+}
+
+#[test]
+fn post_mutation_cas_failure_recovers_without_repeating_graphql() {
+    let issue = 93;
+    let (temp, store, record, sha, token) = setup_ready_command_fixture(issue);
+    let request = write_ready_request(temp.path(), &record, &sha, &token);
+    let get_count = Arc::new(AtomicUsize::new(0));
+    let observed_gets = Arc::clone(&get_count);
+    let root = temp.path().to_owned();
+    let generation = record.generation;
+    let draft = pull_response(
+        issue,
+        &sha,
+        true,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let ready = pull_response(
+        issue,
+        &sha,
+        false,
+        "open",
+        "example/repo",
+        "example/repo",
+        "issue-7",
+    );
+    let server = LocalHttpMock::start(move |request| {
+        if request.path == "/graphql" {
+            return HttpResponse {
+                status: 200,
+                body: serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR","isDraft":false}}}}).to_string(),
+            };
+        }
+        let ordinal = observed_gets.fetch_add(1, Ordering::SeqCst);
+        if ordinal == 1 {
+            csdlc_v2::heartbeat_claim(&Store::new(&root), issue, "claim", generation, 2, u64::MAX)
+                .unwrap();
+        }
+        HttpResponse {
+            status: 200,
+            body: if ordinal == 0 {
+                draft.to_string()
+            } else {
+                ready.to_string()
+            },
+        }
+    });
+
+    let failed = run_publish_command(temp.path(), "ready", &request, &server);
+    assert_eq!(failed.status.code(), Some(66));
+    let refreshed = store.load_record(issue).unwrap();
+    assert!(refreshed.publication.as_ref().unwrap().draft);
+    let recovery = write_ready_reconciliation_request(temp.path(), &refreshed, &token);
+    let recovered = run_publish_command(temp.path(), "reconcile-ready", &recovery, &server);
+    assert!(
+        recovered.status.success(),
+        "{}",
+        String::from_utf8_lossy(&recovered.stdout)
+    );
+    assert_eq!(server.count("POST", "/graphql"), 1);
+    assert!(!store.load_record(issue).unwrap().publication.unwrap().draft);
 }
 
 #[test]
@@ -2264,4 +2859,3 @@ fn copy_dir_all(source: &std::path::Path, destination: &std::path::Path) {
         }
     }
 }
-use std::fs;

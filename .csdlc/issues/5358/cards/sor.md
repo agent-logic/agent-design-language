@@ -12,15 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented fail-closed ready-publication validation and deterministic recovery after ambiguous remote success or local CAS failure.
 
 ## Artifacts
 
-- none
+- csdlc-v2/src/publication.rs
+- csdlc-v2/src/bin/csdlc-publish.rs
+- csdlc-v2/src/lib.rs
+- csdlc-v2/tests/gate7_lifecycle.rs
 
 ## Execution
 
-- none
+- Validate remote open/draft state and exact base/head repository, ref, and SHA before and after mark-ready.
+- Record ready state only from confirmed remote observations and support typed ready reconciliation from reviewed or governed draft state.
+- Add command-level loopback HTTP tests for success, identity drift, closed/non-draft state, remote failures, ambiguous confirmation, and CAS recovery.
 
 ## Validation
 
@@ -44,6 +49,16 @@ Pre-execution output record.
     "purpose": "Validate typed record/card integrity and explicitly enumerate the full untracked #5358 review scope. This replaces the earlier git diff --check evidence, which did not cover untracked artifacts.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5358/preparation-validation"
+  },
+  {
+    "command": [
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-test-target cargo test --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-clippy-target cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings",
+      "cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check"
+    ],
+    "purpose": "Prove the ready-publication command matrix, recovery/CAS invariants, warning-free all-target compilation, and canonical formatting.",
+    "outcome": "passed",
+    "evidence_ref": "local-fastwork:gate7-21-pass-clippy-fmt"
   }
 ]
 

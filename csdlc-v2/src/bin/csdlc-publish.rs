@@ -6,9 +6,9 @@ use csdlc_v2::error::{ErrorCode, V2Error};
 use csdlc_v2::{
     prepare_publication, prepare_ready_publication, prepare_ready_reconciliation, reconcile_action,
     record_merged_publication, record_publication, record_ready_publication,
-    MergedPublicationReconciliationRequest, PublicationAction, PublicationIntent,
-    PublicationRequest, ReadyPublicationReconciliationRequest, ReadyPublicationRequest,
-    RemotePullRequest, Store,
+    record_ready_reconciliation, MergedPublicationReconciliationRequest, PublicationAction,
+    PublicationEvidence, PublicationIntent, PublicationRequest,
+    ReadyPublicationReconciliationRequest, ReadyPublicationRequest, RemotePullRequest, Store,
 };
 use octocrab::models::IssueState;
 use octocrab::params::State;
@@ -86,10 +86,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     let store = Store::new(&cli.root);
     let intent = prepare_publication(&store, &request)?;
     let token = resolve_token(&request)?;
-    let crab = octocrab::Octocrab::builder()
-        .personal_token(token)
-        .build()
-        .map_err(|e| remote(e.to_string()))?;
+    let crab = github_client(token)?;
     let observed = find_pr(&crab, &intent).await?;
     if matches!(cli.command, Command::Status { .. }) {
         let observed = observed.ok_or_else(|| {
@@ -168,16 +165,13 @@ async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_
         .split_once('/')
         .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "repository identity is invalid"))?;
     let token = csdlc_v2::github_token::resolve(request.token_file.as_deref())?;
-    let crab = octocrab::Octocrab::builder()
-        .personal_token(token)
-        .build()
-        .map_err(|error| remote(error.to_string()))?;
+    let crab = github_client(token)?;
     let before = crab
         .pulls(owner, repo)
         .get(request.pull_request)
         .await
         .map_err(|error| remote(error.to_string()))?;
-    validate_ready_remote(&request, &before, true)?;
+    validate_ready_remote(&request, &governed, &before, true)?;
     let node_id = before.node_id.clone().ok_or_else(|| {
         V2Error::new(
             ErrorCode::ReconciliationRequired,
@@ -196,10 +190,8 @@ async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_
         .get(request.pull_request)
         .await
         .map_err(|error| remote(error.to_string()))?;
-    validate_ready_remote(&request, &after, false)?;
-    let mut observed = governed;
-    observed.draft = false;
-    observed.observed_state = "open".into();
+    validate_ready_remote(&request, &governed, &after, false)?;
+    let observed = ready_observation(&governed, &after)?;
     let record = record_ready_publication(&store, &request, observed.clone())?;
     Ok(serde_json::json!({
         "schema": "csdlc.ready_publication_result.v1",
@@ -211,18 +203,37 @@ async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_
 
 fn validate_ready_remote(
     request: &ReadyPublicationRequest,
+    governed: &PublicationEvidence,
     pull: &octocrab::models::pulls::PullRequest,
     expected_draft: bool,
 ) -> csdlc_v2::Result<()> {
-    let repository = pull
-        .base
+    let base = pull.base.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "remote PR has no base identity",
+        )
+    })?;
+    let head = pull.head.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "remote PR has no head identity",
+        )
+    })?;
+    let base_repository = base
+        .repo
         .as_ref()
-        .and_then(|base| base.repo.as_ref())
         .and_then(|repo| repo.full_name.as_deref());
-    if pull.number != Some(request.pull_request)
-        || repository != Some(request.repository.as_str())
-        || pull.head.as_ref().map(|head| head.sha.as_str())
-            != Some(request.expected_head_sha.as_str())
+    let head_repository = head
+        .repo
+        .as_ref()
+        .and_then(|repo| repo.full_name.as_deref());
+    if pull.state != Some(IssueState::Open)
+        || pull.number != Some(request.pull_request)
+        || base_repository != Some(request.repository.as_str())
+        || head_repository != Some(request.repository.as_str())
+        || base.ref_field != governed.base
+        || head.ref_field != governed.head
+        || head.sha != request.expected_head_sha
         || pull.draft != Some(expected_draft)
         || pull.merged == Some(true)
     {
@@ -232,6 +243,48 @@ fn validate_ready_remote(
         ));
     }
     Ok(())
+}
+
+fn ready_observation(
+    governed: &PublicationEvidence,
+    pull: &octocrab::models::pulls::PullRequest,
+) -> csdlc_v2::Result<PublicationEvidence> {
+    let base = pull
+        .base
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::ReconciliationRequired, "base identity missing"))?;
+    let head = pull
+        .head
+        .as_ref()
+        .ok_or_else(|| V2Error::new(ErrorCode::ReconciliationRequired, "head identity missing"))?;
+    let observed_state = match pull.state {
+        Some(IssueState::Open) if pull.merged != Some(true) => "open",
+        _ => {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "ready publication observation is not open",
+            ))
+        }
+    };
+    Ok(PublicationEvidence {
+        repository: governed.repository.clone(),
+        issue: governed.issue,
+        pull_request: pull
+            .number
+            .ok_or_else(|| V2Error::new(ErrorCode::ReconciliationRequired, "PR number missing"))?,
+        url: pull
+            .html_url
+            .as_ref()
+            .map(ToString::to_string)
+            .unwrap_or_else(|| governed.url.clone()),
+        base: base.ref_field.clone(),
+        head: head.ref_field.clone(),
+        revision: governed.revision.clone(),
+        draft: pull.draft.ok_or_else(|| {
+            V2Error::new(ErrorCode::ReconciliationRequired, "draft state missing")
+        })?,
+        observed_state: observed_state.into(),
+    })
 }
 
 async fn reconcile_merged(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_json::Value> {
@@ -245,10 +298,7 @@ async fn reconcile_merged(root: &Path, request_path: &Path) -> csdlc_v2::Result<
     intent.draft = false;
     verify_git_remote(root, &request.publication.remote, &intent)?;
     let token = resolve_token(&request.publication)?;
-    let crab = octocrab::Octocrab::builder()
-        .personal_token(token)
-        .build()
-        .map_err(|error| remote(error.to_string()))?;
+    let crab = github_client(token)?;
     let observed = crab
         .pulls(owner(&intent)?, repo(&intent)?)
         .get(request.pull_request)
@@ -281,10 +331,7 @@ async fn reconcile_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<s
     let intent = prepare_ready_reconciliation(&store, &request)?;
     verify_git_remote(root, &request.publication.remote, &intent)?;
     let token = resolve_token(&request.publication)?;
-    let crab = octocrab::Octocrab::builder()
-        .personal_token(token)
-        .build()
-        .map_err(|error| remote(error.to_string()))?;
+    let crab = github_client(token)?;
     let observed = crab
         .pulls(owner(&intent)?, repo(&intent)?)
         .get(request.pull_request)
@@ -301,7 +348,7 @@ async fn reconcile_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<s
     }
     let normalized = normalize(&intent, &observed)?;
     csdlc_v2::validate_ready_remote(&intent, &normalized, request.pull_request)?;
-    let record = record_publication(&store, &request.publication, &intent, normalized.clone())?;
+    let record = record_ready_reconciliation(&store, &request, &intent, normalized.clone())?;
     Ok(serde_json::json!({
         "schema": "csdlc.ready_publication_reconciliation_result.v1",
         "publication": normalized,
@@ -435,9 +482,47 @@ fn normalize(
         title: pr.title.clone().unwrap_or_default(),
         body: pr.body.clone().unwrap_or_default(),
         draft: pr.draft.unwrap_or(false),
-        state: "open".into(),
+        state: normalized_remote_state(pr).into(),
         head_sha: head.sha.clone(),
     })
+}
+
+fn normalized_remote_state(pr: &octocrab::models::pulls::PullRequest) -> &'static str {
+    if pr.merged == Some(true) {
+        "merged"
+    } else {
+        match pr.state {
+            Some(IssueState::Open) => "open",
+            Some(IssueState::Closed) => "closed",
+            _ => "unknown",
+        }
+    }
+}
+
+fn github_client(token: String) -> csdlc_v2::Result<octocrab::Octocrab> {
+    let mut builder = octocrab::Octocrab::builder().personal_token(token);
+    #[cfg(debug_assertions)]
+    if let Some(base) = std::env::var_os("CSDLC_V2_TEST_GITHUB_API_BASE") {
+        let base = base.to_string_lossy();
+        let parsed = url::Url::parse(&base)
+            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "test API base is invalid"))?;
+        let loopback = match parsed.host() {
+            Some(url::Host::Domain("localhost")) => true,
+            Some(url::Host::Ipv4(address)) => address.is_loopback(),
+            Some(url::Host::Ipv6(address)) => address.is_loopback(),
+            _ => false,
+        };
+        if parsed.scheme() != "http" || !loopback || parsed.path() != "/" {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "test API base must be an HTTP loopback origin",
+            ));
+        }
+        builder = builder
+            .base_uri(base.as_ref())
+            .map_err(|error| remote(error.to_string()))?;
+    }
+    builder.build().map_err(|error| remote(error.to_string()))
 }
 
 fn validate_observed_repository_identity(

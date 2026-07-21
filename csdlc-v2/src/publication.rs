@@ -208,14 +208,36 @@ pub fn prepare_ready_reconciliation(
     preparation.draft = true;
     let mut intent = prepare_publication(store, &preparation)?;
     intent.draft = false;
+    if let Some(publication) = &record.publication {
+        if publication.repository != intent.repository
+            || publication.issue != intent.issue
+            || publication.pull_request != request.pull_request
+            || publication.base != intent.base
+            || publication.head != intent.head
+            || !publication.draft
+            || publication.observed_state != "open"
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "ready recovery differs from the exact governed draft publication",
+            ));
+        }
+    }
     Ok(intent)
 }
 
 pub fn validate_ready_reconciliation_state(record: &IssueRecord) -> Result<()> {
-    if record.phase != LifecyclePhase::Reviewed || record.publication.is_some() {
+    let recoverable = matches!(
+        (&record.phase, &record.publication),
+        (LifecyclePhase::Reviewed, None)
+    ) || matches!(
+        (&record.phase, &record.publication),
+        (LifecyclePhase::Published, Some(publication)) if publication.draft
+    );
+    if !recoverable {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "ready reconciliation requires publication-absent reviewed state",
+            "ready reconciliation requires publication-absent reviewed state or an exact published draft",
         ));
     }
     Ok(())
@@ -461,17 +483,7 @@ pub fn record_publication(
     remote: RemotePullRequest,
 ) -> Result<IssueRecord> {
     validate_remote(intent, &remote)?;
-    let evidence = PublicationEvidence {
-        repository: remote.repository,
-        issue: request.issue,
-        pull_request: remote.number,
-        url: remote.url,
-        base: remote.base,
-        head: remote.head,
-        revision: intent.revision.clone(),
-        draft: remote.draft,
-        observed_state: remote.state,
-    };
+    let evidence = publication_evidence(request.issue, intent, remote);
     let current = store.load_record(request.issue)?;
     if current.digest == request.expected_digest && current.publication.as_ref() == Some(&evidence)
     {
@@ -487,6 +499,44 @@ pub fn record_publication(
     )
 }
 
+pub fn record_ready_reconciliation(
+    store: &Store,
+    request: &ReadyPublicationReconciliationRequest,
+    intent: &PublicationIntent,
+    remote: RemotePullRequest,
+) -> Result<IssueRecord> {
+    validate_ready_remote(intent, &remote, request.pull_request)?;
+    let current = store.load_record(request.publication.issue)?;
+    match (&current.phase, &current.publication) {
+        (LifecyclePhase::Reviewed, None) => {
+            record_publication(store, &request.publication, intent, remote)
+        }
+        (LifecyclePhase::Published, Some(publication)) if publication.draft => {
+            let ready_request = ReadyPublicationRequest {
+                schema: "csdlc.ready_publication_request.v1".into(),
+                issue: request.publication.issue,
+                expected_generation: request.publication.expected_generation,
+                expected_digest: request.publication.expected_digest.clone(),
+                claim_id: request.publication.claim_id.clone(),
+                actor: request.publication.actor.clone(),
+                repository: request.publication.repository.clone(),
+                pull_request: request.pull_request,
+                expected_head_sha: intent.commit_sha.clone(),
+                token_file: request.publication.token_file.clone(),
+            };
+            record_ready_publication(
+                store,
+                &ready_request,
+                publication_evidence(request.publication.issue, intent, remote),
+            )
+        }
+        _ => Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "canonical state changed before ready reconciliation commit",
+        )),
+    }
+}
+
 pub fn record_merged_publication(
     store: &Store,
     request: &PublicationRequest,
@@ -494,17 +544,7 @@ pub fn record_merged_publication(
     remote: RemotePullRequest,
 ) -> Result<IssueRecord> {
     validate_merged_remote(intent, &remote)?;
-    let evidence = PublicationEvidence {
-        repository: remote.repository,
-        issue: request.issue,
-        pull_request: remote.number,
-        url: remote.url,
-        base: remote.base,
-        head: remote.head,
-        revision: intent.revision.clone(),
-        draft: remote.draft,
-        observed_state: remote.state,
-    };
+    let evidence = publication_evidence(request.issue, intent, remote);
     let current = store.load_record(request.issue)?;
     if current.digest == request.expected_digest && current.publication.as_ref() == Some(&evidence)
     {
@@ -518,6 +558,24 @@ pub fn record_merged_publication(
         evidence,
         true,
     )
+}
+
+fn publication_evidence(
+    issue: u64,
+    intent: &PublicationIntent,
+    remote: RemotePullRequest,
+) -> PublicationEvidence {
+    PublicationEvidence {
+        repository: remote.repository,
+        issue,
+        pull_request: remote.number,
+        url: remote.url,
+        base: remote.base,
+        head: remote.head,
+        revision: intent.revision.clone(),
+        draft: remote.draft,
+        observed_state: remote.state,
+    }
 }
 
 fn valid_ref_name(value: &str) -> bool {
