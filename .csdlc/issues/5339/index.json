@@ -3,13 +3,13 @@
   "issue": 5339,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8cb0d0afdcbaed1cf35b1b2acff6481c7e7e263056d01af50bcea90452747ec0",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "3472786fec4def19870116650d93cd2a49c0b06f516d42a2095f5c30d2dd3fae",
+  "phase": "published",
+  "generation": 16,
+  "digest": "163fb7fe704080092fba9f10509d1dbe3a7b325d55f78ac8fdcdbfbbac565900",
   "claim": {
     "id": "claim-5339-v0918-wp04-preparation",
     "owner": "codex:5339-preparation",
-    "generation": 15,
+    "generation": 16,
     "acquired_unix_seconds": 1784615902,
     "expires_unix_seconds": 1785220702,
     "heartbeat_unix_seconds": 1784615902,
@@ -51,7 +51,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5339,
+    "pull_request": 5612,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5612",
+    "base": "main",
+    "head": "codex/5339-v0918-wp04-language-core",
+    "revision": "git-blake3:dd381726b9440060d35cc59cf2d02a32e86c89f6:91eac4b05e798f0d5b1e3fdd1d77e94d19129d7a6d1d5da4a11c3cd1e2da0b82",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1d069c641331d9c26b6d46031be51fe863ce6861198e606172a01a169758e701",
+      "values_digest": "c1e5e4ec1a62608790cd7cb5a10364f46268a4bdd1f856c889ad31044ca0a406",
       "rendered_digest": "e76d11b0e955840e18feaaa62f3bc5130f55d87cb116878f80ec2bdc5d123367",
       "ast_digest": "c91941f5e2337b1a7bc7d44bc39fc5bf9b6fc067a5e7f384fcbcc4dd889331a5"
     },
     "stp": {
-      "values_digest": "e9e1cdc14556f22eeeb2bcfd4c433e138aca07fd717ecc620f3f38327d473ef1",
+      "values_digest": "8bae8584c5f3d5f1742a4852cf7ee7ef4ef2cf50f67b407686312dedd6d49c94",
       "rendered_digest": "b3d74cec9ed77cd978da9e7967b062b250416208c08459b92722744fdd55227f",
       "ast_digest": "4642caf40e2f316ff9261a6800db70b386f5288fd4da03030424897d7eee20a0"
     },
     "spp": {
-      "values_digest": "0b645dc228db26f5a757d1326760f1f0b7320eebd8bcf6c783c4a1ab0a87b9dc",
+      "values_digest": "bab4daacf7934be12fbcbcaeffb2eeeac40fc6d23599a85e10cdf19d258e2430",
       "rendered_digest": "77b542e77c275c27ea0ab895f0500761779b7b0b53c84b35af57f93d38278376",
       "ast_digest": "0c3a4b77566b18e0101ba7282bb232a472e42710449c80cfd3f338655090e05f"
     },
     "vpp": {
-      "values_digest": "4ae1d39cbc63a4378f999a4b13a466fa7673df8ba90b91077f47801e6e1cc19e",
+      "values_digest": "a58143ea087fd69aa5efcbc74c7aa0967613f2aa1ddad2c7bb5585819de4db5a",
       "rendered_digest": "9b657237203f13bb4ac46f4e6ae39d763405ad069f29b9d1642b69ea260367cf",
       "ast_digest": "774200a4f8481f841f3a131f0433a69e26c1f6693877bb2eed49e80f02f385c7"
     },
     "srp": {
-      "values_digest": "a4a51dc696dc6c9a9b2a6c059284d27e492bddb62ef3095264957f9fea71362d",
+      "values_digest": "b6e963f5d700b6e7ffaf23d56de0938c8ab8dd0d7cd82201be7192246aad8441",
       "rendered_digest": "15a29d458897ad8c03a6c0ba0bc961927074e0cdd5b55e5682624469c0021a62",
       "ast_digest": "5fbe7797b47b4a6f3e3e038b2dfd383697aca3d4f0ef7f95430bd83738182081"
     },
     "sor": {
-      "values_digest": "b4654c4cd21f184140f7187a26a89b4f6318b56fe1a34757fa2ae45247f40c23",
-      "rendered_digest": "5bb70076078af12c573800570d2d9682db309d48a7e8c6e999dc649eae2caf89",
-      "ast_digest": "66b509b44e8113f2c8d4a3b6f7d93d1a06588f10baee30a95408e4724d2a14c2"
+      "values_digest": "d34a3e854cf976e253ae9baac8be729f02276619dd3ffc4e849ecd5cc47fe30d",
+      "rendered_digest": "059fe5272fb8e84e4c129d4deb2df442c2e542627e4d0546161f15b1194c0479",
+      "ast_digest": "b14df01a1c75e3ec9c5447629af21b1a12ec0d826b678faadff5a6d67910556e"
     }
   },
   "transitions": [
@@ -123,6 +133,13 @@
       "to": "reviewed",
       "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
       "reason": "The exact substantive revision 23c3bfa74 has a completed bounded review with no actionable findings and current passing validation evidence."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -265,6 +282,13 @@
       "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
       "reason": "The exact substantive revision 23c3bfa74 has a completed bounded review with no actionable findings and current passing validation evidence.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

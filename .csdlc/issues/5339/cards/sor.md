@@ -58,11 +58,11 @@ Made each run-target schema branch require the corresponding non-null string or 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
