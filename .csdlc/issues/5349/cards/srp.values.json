@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5349,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-09] Implement provider and governed-tool adapters",
+    "slug": "v0-91-8-wp09-provider-governed-tool-adapters",
+    "version": "v0.91.8",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5349\n.csdlc/locks/5349.lock\n.csdlc/prepared/issues/5349\n.csdlc/evidence/5349\nadl-v2/crates/adl-adapters",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do the direct dependencies exactly match the canonical WP-06 and WP-08 wave, with WP-07/#5591 transitive through #5341 and #5526 correctly downstream?",
+        "Are preparation and future product protected paths disjoint from every active claim, with no shared-manifest or Runtime source write?",
+        "Does every adapter have explicit preconditions, postconditions, stable errors, bounds, cancellation, and no hidden retry/scheduling/policy/signing authority?",
+        "Can URL parsing, redirects, proxies, DNS/endpoint authority, oversized bodies, malformed JSON, header values, or cancellation bypass the HTTPS contract?",
+        "Can any governed-tool input mint or widen authority, bypass Freedom Gate, suppress denial, execute a shell, alter evidence, or invoke a different tool?",
+        "Do compatibility mappings reject unknown, ambiguous, lossy, extra-field, and alias-drift inputs without incumbent source reuse or silent fallback?",
+        "Do exact COTS versions/features, LoC/module/test/time budgets, secret-canary proof, no-deferral matrix, rollback, and no-credential live-claim gate cover every acceptance criterion?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

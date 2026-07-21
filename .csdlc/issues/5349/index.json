@@ -1,0 +1,132 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5349,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "4e26eb217e43960d3dbad13db595449f162a84223564e3cf1152670c4e4aed55",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "c57037577a4086a6465abfade77a038d37e992dcae3acc484988c35ef8f89af4",
+  "claim": {
+    "id": "claim-5349-v0918-wp09-preparation",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 4,
+    "acquired_unix_seconds": 1784659955,
+    "expires_unix_seconds": 1785264755,
+    "heartbeat_unix_seconds": 1784659955,
+    "branch": "codex/5349-v0918-wp09-provider-tool-adapters",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5349",
+      ".csdlc/locks/5349.lock",
+      ".csdlc/prepared/issues/5349",
+      ".csdlc/evidence/5349"
+    ],
+    "purpose": "Prepare, review, bind, commit, and push #5349 without product implementation; product authority remains prohibited until #5340 and #5341 are merged, typed closed_out, receipt-retained, and ancestral to current origin/main"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5349/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5349/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f861b-e5fc-75e3-bf0c-f9c4b80264ab",
+      "revision": "ef8a5a6821cec0ee9fbf1113abb81560f89afaff00c89525d2f26fb44b3a41e4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4289aabe7dd1d32b762136826d1277d060747112ba598a48e68d8c615046aca1",
+      "rendered_digest": "4d0014dc8618360e088f92ff3fa32cf0eae86c5cfc425f91d3859f1875ae7a08",
+      "ast_digest": "ddeba1292182940648a69f3105f16a578d61c1183303c73f57e73a5c98e7cd3c"
+    },
+    "stp": {
+      "values_digest": "cf28313606fb221a6bf1d35e5303d868c09bf12dc81de984a6dd3fc17f3bcfd0",
+      "rendered_digest": "9ccede0ef333777153ddf50aea7e114c3d524340466709a40004213c0c3598ed",
+      "ast_digest": "98ef6231e5b454bf77943dd61afd99af7077ddc5f22adefc7b245379d3b92b1d"
+    },
+    "spp": {
+      "values_digest": "789845721f4fe8b4556021e0a8627a65ed281ac26e6fe4242290a6527ae2dc6b",
+      "rendered_digest": "f4dbf38ca766798bdc744954ddb479c4d38f75d2e7a6c62f8ff0e0de7486c244",
+      "ast_digest": "eeaee1176b824927d50c15d1018c9632af214b1039af8d7608bfe9aafb01ac57"
+    },
+    "vpp": {
+      "values_digest": "f7c118dc33130221639813dc59d5192a2fa2a60c541b4cd6b8ee6b3e5f0e4267",
+      "rendered_digest": "6082806fabcb0876e88845a3efd5261bce310f64a459d22a9a34ed68e5a2e067",
+      "ast_digest": "59ac5444a83c9b036c4d7e7376cbabc6dda04c2cabf42fc2e05ade20a4fd23d9"
+    },
+    "srp": {
+      "values_digest": "e11703c0092e87b9f246451789cf0c55e52d8e905a89b3998eca314d916f6c88",
+      "rendered_digest": "9c94a40b39f7b79bacbdf66a246895bbb228302a3d783d64078e7b7ba3c0634f",
+      "ast_digest": "7f340ec15e6f89c466813f6e43f4465814e0e6725b1a6e61902f00d7520d6e36"
+    },
+    "sor": {
+      "values_digest": "588c866002a928dbc7447a855fefd48639ad2dee8e401bb6d7a4470049051f76",
+      "rendered_digest": "0f38c06865bd544de3b7c1655c606cb40f74c8e6d623a3ade7c989754f1fbac0",
+      "ast_digest": "55faf5377f0e1c551a48ab959d193ae1d739d0b42dcd01d1a0d5e8955f7a5c27"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:019f861b-e5fc-75e3-bf0c-f9c4b80264ab",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "align typed acceptance, plan, and validation budget truth after bounded preparation review",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Before any product edit or product-path claim, #5340 and #5341 are each live-GitHub merged, typed closed_out, receipt-retained, and their terminal merged SHAs are ancestors of current origin/main\",\"AC-2: The deterministic mock adapter produces identical scripted observations for identical canonical requests and rejects unexpected order, identity, input, or exhausted scripts without clock, environment, filesystem, network, or credentials\",\"AC-3: The HTTPS adapter accepts only a runtime-issued endpoint permit for an HTTPS URL, disables redirects and proxy discovery, enforces explicit deadlines and body limits, honors cancellation, and classifies malformed, oversized, timeout, unavailable, authentication, rate-limit, and unsupported responses without internal retry\",\"AC-4: The governed-tool adapter requires a verified authorization envelope whose subject, action, resource, scope, expiry, and request digest match; it invokes exactly one named typed port and preserves denial, refusal, appeal, provenance, and error evidence without policy or shell authority\",\"AC-5: The compatibility adapter accepts only explicit approved versions and lossless mappings, emits a stable classification, and rejects unknown, ambiguous, lossy, alias-drift, and extra-field inputs without incumbent source reuse or fallback\",\"AC-6: Accepted, saturated, cancelled, timed out, denied, unsupported, conflicting, malformed, rate-limited, authentication-failed, unavailable, and execution-failed outcomes remain distinct and cannot be retried, hidden, reordered, or converted to success by the adapter\",\"AC-7: Secrets use non-serializable secrecy wrappers and a canary is absent from stdout, stderr, Debug, Display, errors, traces, fixtures, snapshots, and retained artifacts across every success and failure path\",\"AC-8: Product scope is confined to adl-v2/crates/adl-adapters and uses only reqwest 0.13.4, secrecy 0.10.3, url 2.5.8, serde 1.0.229, serde_json 1.0.151, tokio 1.53.1, wiremock 0.6.5, and terminal in-repo path contracts; Runtime v2, AWS, provider SDKs, shells, dynamic loading, policy engines, databases, alternate HTTP/TLS stacks, shared manifests, and sibling-owner writes are absent\",\"AC-9: Exact physical-line proof stays within 1500 production lines, 2500 test lines, 350 lines per production module, at least 30 explicit tests, six direct production COTS, one direct dev COTS, a 3600-second required-lane allocation, and a 7200-second hard local FastWork ceiling; any variance requires typed replanning and exact review without weakening proof\",\"AC-10: Every required PVF lane passes at one clean committed revision, bounded exact-revision review has no actionable finding, required CI is green, the exact head is merged, post-merge validation passes, and typed closed_out receipt truth is retained\",\"AC-11: Parent #5349 makes no credentialed or live-provider readiness claim; mocks, protocol compatibility, OpenRouter, or missing credentials never count as direct-provider proof, and #5526 owns bounded operator-credential smoke after interface freeze\",\"AC-12: Rollback unregisters the opt-in adapters and returns typed adapter_unavailable without silent fallback to incumbent ADL, Runtime v2, raw HTTP, alternate providers, or ungoverned tools\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Verify live issue/canonical wave truth, clean worktree ownership, active claim collisions, exact dependencies, and disjoint preparation/future product paths\",\"acceptance_ids\":[\"AC-1\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Generate all six cards, design, diagram, COTS/budget/PVF/no-deferral/no-live-claim gates through typed v2, bind issue-local preparation scope, doctor, review, fix, commit, and push without product work\",\"acceptance_ids\":[\"AC-1\",\"AC-8\",\"AC-9\",\"AC-11\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"After terminal dependency clearance and typed claim amendment, implement deterministic mock and bounded HTTPS adapters with stable outcomes and secret hygiene\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Implement verified governed-tool and versioned compatibility adapters with denial preservation and no policy, shell, incumbent, or fallback authority\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Run every FastWork PVF lane, exact COTS/LoC/test/time inventory, negative authority and no-live-claim proof, fixing every failure without deferral\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-11\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"Obtain bounded exact-revision review, fix every actionable finding, typed-publish, require green CI, merge exact head, post-merge validate, and retain typed closed_out receipt\",\"acceptance_ids\":[\"AC-10\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"dependency-and-ownership-gate\",\"proof_role\":\"Prove terminal #5340/#5341 receipts and ancestry plus disjoint issue-local/future product claims\",\"acceptance_ids\":[\"AC-1\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/dependency_gate.rb\"],\"parallel_group\":\"adapter-control\",\"defer_reason\":null},{\"lane\":\"deterministic-mock-matrix\",\"proof_role\":\"Prove canonical scripted success and every typed failure without external state\",\"acceptance_ids\":[\"AC-2\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"mock\"],\"parallel_group\":\"adapter-local\",\"defer_reason\":null},{\"lane\":\"https-contract-matrix\",\"proof_role\":\"Prove endpoint permit, TLS-only, redirect/proxy denial, bounds, cancellation, response normalization, and error fidelity\",\"acceptance_ids\":[\"AC-3\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"https\"],\"parallel_group\":\"adapter-local\",\"defer_reason\":null},{\"lane\":\"governed-tool-matrix\",\"proof_role\":\"Prove authorization binding, one named call, denial/appeal preservation, and no policy or direct-execution bypass\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"governed-tool\"],\"parallel_group\":\"adapter-local\",\"defer_reason\":null},{\"lane\":\"compatibility-matrix\",\"proof_role\":\"Prove explicit lossless translation and stable classification plus unknown/lossy/ambiguous/alias-drift rejection\",\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"compatibility\"],\"parallel_group\":\"adapter-local\",\"defer_reason\":null},{\"lane\":\"secret-and-negative-authority\",\"proof_role\":\"Prove canary non-leakage and reject escalation, retry, fallback, shell, AWS, Runtime v2, provider SDK, direct Runtime, and lifecycle authority\",\"acceptance_ids\":[\"AC-4\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-11\",\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":480,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"negative-authority\"],\"parallel_group\":\"adapter-security\",\"defer_reason\":null},{\"lane\":\"complete-adapter-suite\",\"proof_role\":\"Run every adapter target and doctest at one revision\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":420,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"complete\"],\"parallel_group\":\"adapter-regression\",\"defer_reason\":null},{\"lane\":\"strict-quality\",\"proof_role\":\"Prove exact formatting and warning-free all-target/all-feature adapter code\",\"acceptance_ids\":[\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"strict-quality\"],\"parallel_group\":\"adapter-quality\",\"defer_reason\":null},{\"lane\":\"cots-budget-path-inventory\",\"proof_role\":\"Enforce exact COTS requirements/features, approved path dependencies, forbidden-package absence, source/module/test budgets, minimum tests, and exact crate scope\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/validate_budget.rb\"],\"parallel_group\":\"adapter-quality\",\"defer_reason\":null},{\"lane\":\"exact-revision-lifecycle-truth\",\"proof_role\":\"Prove clean diff, typed doctor, exact review identity, no-deferral matrix, rollback, and retained lifecycle truth\",\"acceptance_ids\":[\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"exact-revision\"],\"parallel_group\":\"adapter-lifecycle\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "align typed deliverable budget language after bounded preparation review",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"all six issue-specific C-SDLC v2 cards generated and validated through typed v2\",\"reviewed provider/governed-tool adapter design and architecture diagram\",\"executable fail-closed dependency gate for terminal #5340 and #5341 merge, closeout receipt, and ancestry truth\",\"exact preparation protected paths and one future adl-v2/crates/adl-adapters product path with collision proof\",\"pinned COTS inventory for reqwest, secrecy, url, serde, serde_json, tokio, and wiremock with explicit feature boundaries\",\"1500-source-line, 2500-test-line, 350-line module, minimum-30-test, six-production-COTS, one-dev-COTS, 3600-second lane allocation, and 7200-second hard validation ceiling\",\"no-deferral positive/negative PVF matrix for mock, HTTPS, governed-tool, compatibility, error, denial, secret, rollback, and exact-revision behavior\",\"truthful no-credential live-claim gate routing direct-provider smoke and vendor/model expansion to #5526\",\"bounded preparation review with every actionable finding fixed, followed by a clean commit and pushed branch\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "align typed stop-condition budget language after bounded preparation review",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#5340 or #5341 terminal merge, closeout receipt, or ancestry truth is absent when product work would begin\",\"an active or recovered claim overlaps issue-local preparation paths or adl-v2/crates/adl-adapters\",\"terminal predecessor contracts contradict the prepared port, authority, COTS, budget, test, or validation assumptions and typed replanning has not completed\",\"implementation requires any path outside the exact adapter crate, including shared manifests, sibling ADL v2 crates, Runtime source trees, Runtime v2, or C-SDLC product code\",\"implementation requires provider SDKs, AWS, credential files, live providers, shells/processes, dynamic plugins, policy decisions, or another HTTP/TLS stack\",\"any required deterministic, denial, secret, error, compatibility, COTS, budget, exact-revision, review, CI, post-merge, or closeout proof is absent, stale, weakened, or deferred\",\"source, module, test, COTS, 3600-second lane allocation, or 7200-second hard validation ceiling cannot be met without reducing functionality or proof\"]}"
+    }
+  ]
+}
