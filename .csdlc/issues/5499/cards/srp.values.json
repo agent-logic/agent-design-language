@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5499,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-10A][multi-agent] Implement issue-graph-to-live-task conductor",
+    "slug": "v0-91-8-wp-10a-issue-graph-live-task-conductor",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5499\n.csdlc/locks/5499.lock\n.csdlc/prepared/issues/5499\n.csdlc/evidence/5499\nadl-v2/crates/adl-workcell-conductor",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the component remain a pure deterministic planner rather than a scheduler or lifecycle store?",
+        "Do dependency, claim, path-overlap, validation-lane, WIP, and serialized-gate checks fail closed?",
+        "Are assignment and refusal records complete enough for #5498 without hidden authority?",
+        "Are path normalization and correlation ids deterministic and resistant to traversal or alias collisions?",
+        "Are COTS choices and growth budgets small, sufficient, and executable?",
+        "Does preparation preserve #5349 as the final WP-09 implementation gate?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
