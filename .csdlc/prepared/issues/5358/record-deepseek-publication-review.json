@@ -1,0 +1,23 @@
+{
+  "issue": 5358,
+  "expected_generation": 18,
+  "expected_digest": "de37cf2a20ecac448c49353cecb04af73ada62187fe0df8313dd3f88e1e4e322",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "provider:deepseek:deepseek-chat",
+  "evidence": {
+    "reviewer": "provider:deepseek:deepseek-chat",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
+    ],
+    "reviewed_revision": "git-blake3:dfbe308df42f777c0b3e004e9acb71ab596b2244:17885bb82e9e8a3502d3e8c65ff6e524978e32c817db765e97ab3ac9ade4bb5a",
+    "findings": [],
+    "residual_risks": [
+      "The provider-asserted reviewer consumed the exact scoped diff rather than direct repository filesystem access; local source inspection and executable validation remain authoritative."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

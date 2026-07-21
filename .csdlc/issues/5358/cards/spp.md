@@ -60,7 +60,7 @@ Revision 2
       "AC-5",
       "AC-11"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",

@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
     "slug": "v0-91-8-wp14-csdlc-v2-acceptance",
     "version": "v0.91.8",
-    "generation": 18
+    "generation": 21
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/tests/gate7_lifecycle.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:dfbe308df42f777c0b3e004e9acb71ab596b2244:17885bb82e9e8a3502d3e8c65ff6e524978e32c817db765e97ab3ac9ade4bb5a",
+      "reviewer": "provider:deepseek:deepseek-chat",
       "review_prompts": [
         "Do all six cards and the design remain preparation-only and avoid acceptance/deployment overclaim?",
         "Are #5540 and #5541 consumed only as closed evidence inputs?",
@@ -24,8 +24,10 @@
         "Are future proof lanes exact-revision-bound, deterministic where claimed, and fail-closed?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The provider-asserted reviewer consumed the exact scoped diff rather than direct repository filesystem access; local source inspection and executable validation remain authoritative."
+      ],
+      "review_result": "pass"
     }
   }
 }

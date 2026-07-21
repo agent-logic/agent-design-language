@@ -35,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The provider-asserted reviewer consumed the exact scoped diff rather than direct repository filesystem access; local source inspection and executable validation remain authoritative.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:dfbe308df42f777c0b3e004e9acb71ab596b2244:17885bb82e9e8a3502d3e8c65ff6e524978e32c817db765e97ab3ac9ade4bb5a")
 
-Reviewer: None
+Reviewer: Some("provider:deepseek:deepseek-chat")
 
-Result: pre_review
+Result: pass
