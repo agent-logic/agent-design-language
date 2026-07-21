@@ -108,6 +108,17 @@ fn run(root: &TempDir, request: Value, time: u64) -> Value {
 }
 
 fn run_with(root: &TempDir, request: Value, time: u64, condition: &str, revoked: &str) -> Value {
+    run_program(root, request, time, condition, revoked, "/bin/cat")
+}
+
+fn run_program(
+    root: &TempDir,
+    request: Value,
+    time: u64,
+    condition: &str,
+    revoked: &str,
+    program: impl AsRef<std::ffi::OsStr>,
+) -> Value {
     let policy = SigningKey::from_bytes(&[1; 32]);
     let authority = SigningKey::from_bytes(&[2; 32]);
     let mut child = Command::new(BIN)
@@ -127,7 +138,7 @@ fn run_with(root: &TempDir, request: Value, time: u64, condition: &str, revoked:
         .env("ADL_PARITY_C_PERMIT_KEY_HEX", hex::encode([3; 32]))
         .env("ADL_PARITY_C_CHECKPOINT_KEY_HEX", hex::encode([4; 32]))
         .env("ADL_PARITY_C_TRUSTED_TIME_MILLIS", time.to_string())
-        .env("ADL_PARITY_C_PROVIDER_PROGRAM", "/bin/cat")
+        .env("ADL_PARITY_C_PROVIDER_PROGRAM", program)
         .env("ADL_PARITY_C_PROVIDER_CONDITION", condition)
         .env("ADL_PARITY_C_REVOKED_COMMITMENTS", revoked)
         .stdin(Stdio::piped())
@@ -261,15 +272,13 @@ mod parity_c_delegation_resources {
         let root = TempDir::new().unwrap();
         let mut cancelled = signed_command("cancelled", "alice", 1_000);
         cancelled["cancelled"] = true.into();
-        assert_eq!(
-            run(&root, cancelled, 1_000)["classification"],
-            "scheduler_cancelled"
-        );
-        success(&run(
+        let outcomes = run(
             &root,
-            signed_command("after-cancel", "alice", 2_000),
-            2_000,
-        ));
+            json!([cancelled, signed_command("after-cancel", "alice", 1_000)]),
+            1_000,
+        );
+        assert_eq!(outcomes[0]["classification"], "scheduler_cancelled");
+        success(&outcomes[1]);
     }
 
     #[test]
@@ -277,9 +286,15 @@ mod parity_c_delegation_resources {
         let root = TempDir::new().unwrap();
         let request = signed_command("idem", "alice", 1_000);
         success(&run(&root, request.clone(), 1_000));
-        let replay = run(&root, request, 2_000);
+        let replay = run(&root, request.clone(), 2_000);
         assert_eq!(replay["classification"], "idempotent_replay");
         assert_eq!(replay["actuation_count"], 1);
+        let mut changed = request;
+        changed["payload"] = "changed-after-completion".into();
+        assert_eq!(
+            run(&root, changed, 3_000)["classification"],
+            "idempotency_conflict"
+        );
     }
 }
 
@@ -289,18 +304,19 @@ mod parity_c_provider_scheduler_tools {
     #[test]
     fn two_agents_execute_governed_provider_and_tool_work() {
         let root = TempDir::new().unwrap();
-        success(&run(
-            &root,
-            signed_command("agent-a", "alice", 1_000),
-            1_000,
-        ));
         fs::write(root.path().join("tool-target"), b"real-file").unwrap();
-        let mut tool = signed_command("agent-b", "bob", 2_000);
+        let mut tool = signed_command("agent-b", "bob", 1_000);
         tool["action"] = "tool.file_metadata".into();
         tool["resource"] = "tool-root".into();
         tool["payload"] = "tool-target".into();
-        resign(&mut tool, 2_000);
-        success(&run(&root, tool, 2_000));
+        resign(&mut tool, 1_000);
+        let outcomes = run(
+            &root,
+            json!([signed_command("agent-a", "alice", 1_000), tool]),
+            1_000,
+        );
+        success(&outcomes[0]);
+        success(&outcomes[1]);
 
         let outside = TempDir::new().unwrap();
         fs::write(outside.path().join("secret"), b"not allowlisted").unwrap();
@@ -319,15 +335,37 @@ mod parity_c_provider_scheduler_tools {
 
     #[test]
     fn scheduler_dispatch_is_deterministic_and_bounded() {
-        let first = TempDir::new().unwrap();
-        let second = TempDir::new().unwrap();
-        let left = run(&first, signed_command("ordered", "alice", 1_000), 1_000);
-        let right = run(&second, signed_command("ordered", "alice", 1_000), 1_000);
-        assert_eq!(left["result_hash"], right["result_hash"]);
-        assert!(left["adapters"]
+        use std::os::unix::fs::PermissionsExt;
+        let root = TempDir::new().unwrap();
+        let provider = root.path().join("slow-provider");
+        fs::write(&provider, "#!/bin/sh\nsleep 1\ncat\n").unwrap();
+        fs::set_permissions(&provider, fs::Permissions::from_mode(0o700)).unwrap();
+        let outcomes = run_program(
+            &root,
+            json!([
+                signed_command("scheduled-a", "alice", 1_000),
+                signed_command("scheduled-b", "bob", 1_000),
+                signed_command("scheduled-c", "carol", 1_000)
+            ]),
+            1_000,
+            "healthy",
+            "",
+            &provider,
+        );
+        assert_eq!(
+            outcomes
+                .as_array()
+                .unwrap()
+                .iter()
+                .filter(|outcome| outcome["status"] == "completed")
+                .count(),
+            2
+        );
+        assert!(outcomes
             .as_array()
             .unwrap()
-            .contains(&json!("bounded_scheduler")));
+            .iter()
+            .any(|outcome| outcome["classification"] == "ingress_saturated"));
     }
 
     #[test]
@@ -358,6 +396,25 @@ mod parity_c_provider_scheduler_tools {
             "provider_timeout"
         );
         success(&run(&root, request, 2_000));
+
+        use std::os::unix::fs::PermissionsExt;
+        let root = TempDir::new().unwrap();
+        let hung = root.path().join("hung-provider");
+        fs::write(&hung, "#!/bin/sh\nsleep 5\n").unwrap();
+        fs::set_permissions(&hung, fs::Permissions::from_mode(0o700)).unwrap();
+        let started = std::time::Instant::now();
+        assert_eq!(
+            run_program(
+                &root,
+                signed_command("hung", "alice", 1_000),
+                1_000,
+                "healthy",
+                "",
+                &hung,
+            )["status"],
+            "refused"
+        );
+        assert!(started.elapsed() < std::time::Duration::from_secs(4));
     }
 
     #[test]
@@ -446,6 +503,8 @@ mod parity_c_time_continuity {
     #[test]
     fn authenticated_checkpoint_is_the_only_restore_authority() {
         let root = TempDir::new().unwrap();
+        fs::create_dir_all(root.path().join("state")).unwrap();
+        fs::write(root.path().join("state/checkpoint.lock"), b"stale-owner").unwrap();
         success(&run(
             &root,
             signed_command("checkpoint", "alice", 1_000),
@@ -473,6 +532,8 @@ mod parity_c_time_continuity {
         let log = fs::read_to_string(root.path().join("state/lifelog.jsonl")).unwrap();
         assert_eq!(log.lines().count(), 2);
         assert!(!log.contains("private-log"));
+        fs::write(root.path().join("state/lifelog.jsonl"), b"tampered\n").unwrap();
+        success(&run(&root, signed_command("log-c", "alice", 3_000), 3_000));
     }
 
     #[test]

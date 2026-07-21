@@ -2,8 +2,11 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     io::Write,
     path::{Path, PathBuf},
-    process::{Command, Stdio},
-    sync::{Arc, Mutex},
+    process::Stdio,
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc, Mutex,
+    },
     time::Duration,
 };
 
@@ -17,8 +20,10 @@ use adl_runtime_kernel::{
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use serde::{Deserialize, Serialize};
 
-const STATE_SCHEMA: &str = "adl.runtime.parity_c.state.v2";
+const STATE_SCHEMA: &str = "adl.runtime.parity_c.state.v3";
 const OUTPUT_SCHEMA: &str = "adl.runtime.parity_c.outcome.v2";
+const MAX_STATE_ENTRIES: usize = 1_024;
+const MAX_PROVIDER_OUTPUT: u64 = 1_048_576;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -126,6 +131,7 @@ struct PersistedOutcome {
     result_hash: String,
     generation: u64,
     actuation_count: u64,
+    command_fingerprint: String,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -141,26 +147,39 @@ impl TrustedGovernanceTime for QualifiedTime {
     }
 }
 
-struct StateLock(PathBuf);
+struct StateLock(std::fs::File);
 impl StateLock {
     fn acquire(config: &RuntimeConfig) -> Result<Self, String> {
         std::fs::create_dir_all(&config.state_dir)
             .map_err(|_| "checkpoint_unavailable".to_owned())?;
-        let path = config.state_dir.join("checkpoint.lock");
-        std::fs::create_dir(&path).map_err(|_| "checkpoint_busy".to_owned())?;
-        Ok(Self(path))
+        let file = std::fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .read(true)
+            .write(true)
+            .open(config.state_dir.join("checkpoint.lock"))
+            .map_err(|_| "checkpoint_unavailable".to_owned())?;
+        file.lock().map_err(|_| "checkpoint_busy".to_owned())?;
+        Ok(Self(file))
     }
 }
 impl Drop for StateLock {
     fn drop(&mut self) {
-        let _ = std::fs::remove_dir(&self.0);
+        let _ = self.0.unlock();
     }
 }
 
-struct Passthrough;
+struct ShepherdPort(Mutex<BTreeSet<String>>);
 #[async_trait::async_trait]
-impl OperationExecutor for Passthrough {
+impl OperationExecutor for ShepherdPort {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        let agent = std::str::from_utf8(&request.payload)
+            .map_err(|_| executor_error("invalid_agent_identity"))?;
+        let mut residents = self.0.lock().expect("shepherd mutex poisoned");
+        if !safe_id(agent) || (residents.len() >= 64 && !residents.contains(agent)) {
+            return Err(executor_error("shepherd_capacity_exhausted"));
+        }
+        residents.insert(agent.to_owned());
         Ok(request.payload.clone())
     }
 }
@@ -172,6 +191,7 @@ struct ProviderPort {
 #[async_trait::async_trait]
 impl OperationExecutor for ProviderPort {
     async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        use tokio::io::{AsyncReadExt, AsyncWriteExt};
         if self.condition != "healthy" {
             return Err(ExecutorError {
                 class: if matches!(self.condition.as_str(), "timeout" | "unavailable") {
@@ -182,10 +202,11 @@ impl OperationExecutor for ProviderPort {
                 message: format!("provider_{}", self.condition),
             });
         }
-        let mut child = Command::new(&self.program)
+        let mut child = tokio::process::Command::new(&self.program)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::null())
+            .kill_on_drop(true)
             .spawn()
             .map_err(|_| executor_error("provider_unavailable"))?;
         child
@@ -193,14 +214,20 @@ impl OperationExecutor for ProviderPort {
             .take()
             .ok_or_else(|| executor_error("provider_unavailable"))?
             .write_all(&request.payload)
+            .await
             .map_err(|_| executor_error("provider_unavailable"))?;
-        let output = child
-            .wait_with_output()
+        let mut stdout = child
+            .stdout
+            .take()
+            .ok_or_else(|| executor_error("provider_unavailable"))?
+            .take(MAX_PROVIDER_OUTPUT + 1);
+        let mut output = Vec::new();
+        let (status, _) = tokio::try_join!(child.wait(), stdout.read_to_end(&mut output))
             .map_err(|_| executor_error("provider_unavailable"))?;
-        if !output.status.success() || output.stdout.len() > 1_048_576 {
+        if !status.success() || output.len() as u64 > MAX_PROVIDER_OUTPUT {
             return Err(executor_error("provider_malformed_output"));
         }
-        Ok(output.stdout)
+        Ok(output)
     }
 }
 
@@ -225,33 +252,36 @@ impl ToolPort {
     }
 }
 
-struct GovernedExecutor {
+#[derive(Clone, Deserialize, Serialize)]
+struct PreparedWork {
     command: GovernedCommand,
     permit: adl_runtime_kernel::ExecutionPermit,
+}
+
+struct GovernedExecutor {
     permit_key: VerifyingKey,
-    provider: Arc<OperationalAdapter>,
     scheduler: Arc<OperationalAdapter>,
     shepherd: Arc<OperationalAdapter>,
-    tool: ToolPort,
-    failure: Arc<Mutex<Option<String>>>,
+    failure: Arc<Mutex<BTreeMap<String, String>>>,
 }
 
 #[async_trait::async_trait]
 impl OperationExecutor for GovernedExecutor {
-    async fn execute(&self, _: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        let prepared: PreparedWork = serde_json::from_slice(&request.payload)
+            .map_err(|_| executor_error("prepared_work_invalid"))?;
         let shell = Arc::new(ProductionShell {
-            command: self.command.clone(),
-            provider: self.provider.clone(),
+            command: prepared.command.clone(),
             scheduler: self.scheduler.clone(),
             shepherd: self.shepherd.clone(),
-            tool: self.tool.clone(),
+            failure: self.failure.clone(),
         });
         let aee = Aee::new(
             BTreeMap::from([("permit".to_owned(), self.permit_key)]),
             shell,
         );
         let recorded = aee
-            .actuate(&self.permit)
+            .actuate(&prepared.permit)
             .await
             .map_err(|_| executor_error("actuation_rejected"))?;
         if recorded.success {
@@ -260,7 +290,11 @@ impl OperationExecutor for GovernedExecutor {
             let classification = std::str::from_utf8(&recorded.result_bytes)
                 .unwrap_or("actuation_quarantined")
                 .to_owned();
-            *self.failure.lock().expect("failure mutex poisoned") = Some(classification.clone());
+            self.failure
+                .lock()
+                .expect("failure mutex poisoned")
+                .entry(prepared.command.request_id)
+                .or_insert_with(|| classification.clone());
             Err(executor_error(&classification))
         }
     }
@@ -268,10 +302,9 @@ impl OperationExecutor for GovernedExecutor {
 
 struct ProductionShell {
     command: GovernedCommand,
-    provider: Arc<OperationalAdapter>,
     scheduler: Arc<OperationalAdapter>,
     shepherd: Arc<OperationalAdapter>,
-    tool: ToolPort,
+    failure: Arc<Mutex<BTreeMap<String, String>>>,
 }
 #[async_trait::async_trait]
 impl ActuationShell for ProductionShell {
@@ -307,55 +340,211 @@ impl ActuationShell for ProductionShell {
             .await
             .map_err(classify_operation)?;
         self.scheduler
-            .invoke(request("scheduler", Vec::new(), false))
+            .invoke(request(
+                "scheduler",
+                serde_json::to_vec(&PreparedWork {
+                    command: self.command.clone(),
+                    permit: permit.clone(),
+                })
+                .map_err(|_| "scheduled_work_invalid".to_owned())?,
+                false,
+            ))
             .await
-            .map_err(classify_operation)?;
-        match self.command.action.as_str() {
+            .map(|result| result.payload)
+            .map_err(|error| {
+                let classification = classify_operation(error);
+                self.failure
+                    .lock()
+                    .expect("failure mutex poisoned")
+                    .insert(self.command.request_id.clone(), classification.clone());
+                classification
+            })
+    }
+}
+
+struct SchedulerPort {
+    provider: Arc<OperationalAdapter>,
+    tool: ToolPort,
+}
+
+#[async_trait::async_trait]
+impl OperationExecutor for SchedulerPort {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        let work: PreparedWork = serde_json::from_slice(&request.payload)
+            .map_err(|_| executor_error("scheduled_work_invalid"))?;
+        match work.command.action.as_str() {
             "provider.invoke" => self
                 .provider
-                .invoke(request(
-                    "provider",
-                    self.command.payload.as_bytes().to_vec(),
-                    true,
-                ))
+                .invoke(OperationRequest {
+                    schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                    request_id: work.command.request_id,
+                    idempotency_key: work.command.idempotency_key,
+                    principal: work.command.citizen_id,
+                    payload: work.command.payload.into_bytes(),
+                    permit: Some(work.permit),
+                })
                 .await
                 .map(|result| result.payload)
-                .map_err(classify_operation),
-            "tool.file_metadata" => self.tool.execute(&self.command.payload),
+                .map_err(|error| executor_error(&classify_operation(error))),
+            "tool.file_metadata" => self
+                .tool
+                .execute(&work.command.payload)
+                .map_err(|error| executor_error(&error)),
             "system.shutdown" => Ok(b"shutdown_checkpointed".to_vec()),
-            _ => Err("unsupported_governed_action".to_owned()),
+            _ => Err(executor_error("unsupported_governed_action")),
         }
     }
 }
 
-pub async fn execute(config: RuntimeConfig, command: GovernedCommand) -> GovernedOutcome {
-    let request_id = command.request_id.clone();
-    let citizen_id = command.citizen_id.clone();
-    match execute_inner(&config, &command).await {
-        Ok(outcome) => outcome,
-        Err((classification, state)) => GovernedOutcome {
-            schema: OUTPUT_SCHEMA.to_owned(),
-            request_id,
-            citizen_id,
-            status: "refused".to_owned(),
-            classification,
-            result_hash: None,
-            checkpoint_generation: state.generation,
-            actuation_count: state.actuation_count,
-            adapters: adapter_inventory(),
-            gate_before_actuation: true,
-            lifelog_authoritative: false,
-            private_payload_retained: false,
-        },
+struct LiveServices {
+    ingress: CanonicalIngress,
+    kernel: adl_runtime_kernel::KernelHandle,
+    failure: Arc<Mutex<BTreeMap<String, String>>>,
+    clock: AtomicU64,
+}
+
+async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> {
+    let permit_key = SigningKey::from_bytes(&config.permit_key).verifying_key();
+    let policy = |authority, capacity, max_in_flight| AdapterPolicy {
+        capacity,
+        max_in_flight,
+        timeout_millis: 2_000,
+        max_attempts: 1,
+        idempotency_entries: 64,
+        authority,
+    };
+    let provider = Arc::new(
+        OperationalAdapter::with_permit_keys(
+            AdapterKind::Provider,
+            policy(AuthorityMode::Governed, 2, 2),
+            Arc::new(ProviderPort {
+                program: config.provider_program.clone(),
+                condition: config.provider_condition.clone(),
+            }),
+            BTreeMap::from([("permit".to_owned(), permit_key)]),
+        )
+        .map_err(|_| "provider_configuration".to_owned())?,
+    );
+    let scheduler = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Scheduler,
+            policy(AuthorityMode::Internal, 2, 2),
+            Arc::new(SchedulerPort {
+                provider: provider.clone(),
+                tool: ToolPort(config.tool_root.clone()),
+            }),
+        )
+        .map_err(|_| "scheduler_configuration".to_owned())?,
+    );
+    let shepherd = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Shepherd,
+            policy(AuthorityMode::Internal, 3, 3),
+            Arc::new(ShepherdPort(Mutex::new(BTreeSet::new()))),
+        )
+        .map_err(|_| "shepherd_configuration".to_owned())?,
+    );
+    let failure = Arc::new(Mutex::new(BTreeMap::new()));
+    let agent = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            policy(AuthorityMode::Internal, 3, 3),
+            Arc::new(GovernedExecutor {
+                permit_key,
+                scheduler: scheduler.clone(),
+                shepherd: shepherd.clone(),
+                failure: failure.clone(),
+            }),
+        )
+        .map_err(|_| "agent_configuration".to_owned())?,
+    );
+    let agent_factory = OperationalFactory::new(agent, vec![]);
+    let ingress = CanonicalIngress::new(
+        1,
+        RuntimeRecorder::new(64),
+        BTreeMap::from([("governed".to_owned(), agent_factory.clone())]),
+    );
+    let mut components = ComponentRegistry::new();
+    components.register(agent_factory);
+    components.register(OperationalFactory::new(scheduler, vec![]));
+    components.register(OperationalFactory::new(shepherd, vec![]));
+    components.register(OperationalFactory::new(provider, vec![]));
+    components.register(ingress.clone());
+    let topology = components
+        .validate()
+        .map_err(|_| "topology_invalid".to_owned())?;
+    let kernel = Kernel::new(topology, RuntimeRecorder::new(64))
+        .start()
+        .await
+        .map_err(|_| "kernel_start_failed".to_owned())?;
+    Ok(LiveServices {
+        ingress,
+        kernel,
+        failure,
+        clock: AtomicU64::new(config.trusted_time_millis),
+    })
+}
+
+pub async fn execute_many(
+    config: RuntimeConfig,
+    commands: Vec<GovernedCommand>,
+) -> Vec<GovernedOutcome> {
+    let services = match start_services(&config).await {
+        Ok(services) => services,
+        Err(error) => {
+            return commands
+                .into_iter()
+                .map(|command| refused_outcome(command, error.clone(), RuntimeState::default()))
+                .collect()
+        }
+    };
+    let results = futures::future::join_all(
+        commands
+            .iter()
+            .map(|command| execute_inner(&config, command, &services)),
+    )
+    .await;
+    services.ingress.close();
+    let _ = services.kernel.shutdown(Duration::from_secs(2)).await;
+    results
+        .into_iter()
+        .zip(commands)
+        .map(|(result, command)| match result {
+            Ok(outcome) => outcome,
+            Err((classification, state)) => refused_outcome(command, classification, state),
+        })
+        .collect()
+}
+
+fn refused_outcome(
+    command: GovernedCommand,
+    classification: String,
+    state: RuntimeState,
+) -> GovernedOutcome {
+    GovernedOutcome {
+        schema: OUTPUT_SCHEMA.to_owned(),
+        request_id: command.request_id,
+        citizen_id: command.citizen_id,
+        status: "refused".to_owned(),
+        classification,
+        result_hash: None,
+        checkpoint_generation: state.generation,
+        actuation_count: state.actuation_count,
+        adapters: adapter_inventory(),
+        gate_before_actuation: true,
+        lifelog_authoritative: false,
+        private_payload_retained: false,
     }
 }
 
 async fn execute_inner(
     config: &RuntimeConfig,
     command: &GovernedCommand,
+    services: &LiveServices,
 ) -> Result<GovernedOutcome, (String, RuntimeState)> {
-    let _lock = StateLock::acquire(config).map_err(|error| (error, RuntimeState::default()))?;
+    let lock = StateLock::acquire(config).map_err(|error| (error, RuntimeState::default()))?;
     let mut state = load_state(config).map_err(|error| (error, RuntimeState::default()))?;
+    let now = services.clock.fetch_add(1, Ordering::SeqCst);
     let refuse = |reason: &str, state: &RuntimeState| Err((reason.to_owned(), state.clone()));
     if state.shutdown {
         return refuse("admission_closed", &state);
@@ -368,7 +557,7 @@ async fn execute_inner(
     {
         return refuse("invalid_request", &state);
     }
-    if config.trusted_time_millis <= state.last_time {
+    if now <= state.last_time {
         return refuse("unqualified_or_regressing_time", &state);
     }
     if command
@@ -388,13 +577,24 @@ async fn execute_inner(
         return refuse("incomplete_recovery_quarantined", &state);
     }
     if let Some(cached) = state.completed.get(&command.idempotency_key) {
-        if cached.request_id != command.request_id || cached.citizen_id != command.citizen_id {
+        if cached.request_id != command.request_id
+            || cached.citizen_id != command.citizen_id
+            || cached.command_fingerprint
+                != command_fingerprint(command).map_err(|error| (error, state.clone()))?
+        {
             return refuse("idempotency_conflict", &state);
         }
         return Ok(success_outcome(cached, true));
     }
     if state.request_ids.contains(&command.request_id) {
         return refuse("request_replay", &state);
+    }
+    if state.completed.len() >= MAX_STATE_ENTRIES
+        || state.request_ids.len() >= MAX_STATE_ENTRIES
+        || (state.private_state.len() >= MAX_STATE_ENTRIES
+            && !state.private_state.contains_key(&capability_scope(command)))
+    {
+        return refuse("state_capacity_exhausted", &state);
     }
 
     let permit_signer = SigningKey::from_bytes(&config.permit_key);
@@ -413,7 +613,7 @@ async fn execute_inner(
         keys,
         "permit",
         permit_signer.clone(),
-        Arc::new(QualifiedTime(config.trusted_time_millis)),
+        Arc::new(QualifiedTime(now)),
         BTreeMap::from([(command.resource.clone(), 8)]),
     )
     .map_err(|_| ("gate_configuration".to_owned(), state.clone()))?;
@@ -438,112 +638,49 @@ async fn execute_inner(
     };
 
     state.generation += 1;
-    state.last_time = config.trusted_time_millis;
+    state.last_time = now;
     state.pending_requests.insert(command.request_id.clone());
     persist_state(config, &state).map_err(|error| (error, state.clone()))?;
+    drop(lock);
 
-    let policy = |authority| AdapterPolicy {
-        capacity: 2,
-        max_in_flight: 1,
-        timeout_millis: 2_000,
-        max_attempts: 1,
-        idempotency_entries: 64,
-        authority,
-    };
-    let scheduler = Arc::new(
-        OperationalAdapter::new(
-            AdapterKind::Scheduler,
-            policy(AuthorityMode::Internal),
-            Arc::new(Passthrough),
-        )
-        .map_err(|_| ("scheduler_configuration".to_owned(), state.clone()))?,
-    );
-    let shepherd = Arc::new(
-        OperationalAdapter::new(
-            AdapterKind::Shepherd,
-            policy(AuthorityMode::Internal),
-            Arc::new(Passthrough),
-        )
-        .map_err(|_| ("shepherd_configuration".to_owned(), state.clone()))?,
-    );
-    let provider = Arc::new(
-        OperationalAdapter::with_permit_keys(
-            AdapterKind::Provider,
-            policy(AuthorityMode::Governed),
-            Arc::new(ProviderPort {
-                program: config.provider_program.clone(),
-                condition: config.provider_condition.clone(),
-            }),
-            BTreeMap::from([("permit".to_owned(), permit_signer.verifying_key())]),
-        )
-        .map_err(|_| ("provider_configuration".to_owned(), state.clone()))?,
-    );
-    let failure = Arc::new(Mutex::new(None));
-    let executor = Arc::new(GovernedExecutor {
-        command: command.clone(),
-        permit,
-        permit_key: permit_signer.verifying_key(),
-        provider: provider.clone(),
-        scheduler: scheduler.clone(),
-        shepherd: shepherd.clone(),
-        tool: ToolPort(config.tool_root.clone()),
-        failure: failure.clone(),
-    });
-    let agent = Arc::new(
-        OperationalAdapter::new(
-            AdapterKind::Agent,
-            policy(AuthorityMode::Internal),
-            executor,
-        )
-        .map_err(|_| ("agent_configuration".to_owned(), state.clone()))?,
-    );
-    let agent_factory = OperationalFactory::new(agent, vec![]);
-    let ingress = CanonicalIngress::new(
-        2,
-        RuntimeRecorder::new(64),
-        BTreeMap::from([("governed".to_owned(), agent_factory.clone())]),
-    );
-    let mut components = ComponentRegistry::new();
-    components.register(agent_factory);
-    components.register(OperationalFactory::new(scheduler, vec![]));
-    components.register(OperationalFactory::new(shepherd, vec![]));
-    components.register(OperationalFactory::new(provider, vec![]));
-    components.register(ingress.clone());
-    let topology = components
-        .validate()
-        .map_err(|_| ("topology_invalid".to_owned(), state.clone()))?;
-    let kernel = Kernel::new(topology, RuntimeRecorder::new(64))
-        .start()
-        .await
-        .map_err(|_| ("kernel_start_failed".to_owned(), state.clone()))?;
-    let result = ingress
+    let result = services
+        .ingress
         .submit(
             DomainWork {
                 schema: DOMAIN_WORK_SCHEMA.to_owned(),
                 work_id: command.request_id.clone(),
                 kind: "governed".to_owned(),
-                payload: serde_json::to_vec(command).unwrap_or_default(),
+                payload: serde_json::to_vec(&PreparedWork {
+                    command: command.clone(),
+                    permit,
+                })
+                .unwrap_or_default(),
             },
             command.request_id.clone(),
         )
         .await;
-    ingress.close();
-    let _ = kernel.shutdown(Duration::from_secs(2)).await;
+    let _lock = StateLock::acquire(config).map_err(|error| (error, state.clone()))?;
+    state = load_state(config).map_err(|error| (error, state.clone()))?;
     let result_hash = match result {
         Ok(result) => result.result_hash,
-        Err(_) => {
+        Err(error) => {
             state.pending_requests.remove(&command.request_id);
             state.generation += 1;
             persist_state(config, &state).map_err(|error| (error, state.clone()))?;
-            let classification = failure
-                .lock()
-                .expect("failure mutex poisoned")
-                .clone()
-                .filter(|value| {
-                    value != "actuation_rejected"
-                        || (config.provider_condition == "healthy" && !command.cancelled)
-                })
-                .unwrap_or_else(|| classify_configured_failure(config, command).to_owned());
+            let classification = if matches!(error, adl_runtime_kernel::IngressError::Saturated) {
+                "ingress_saturated".to_owned()
+            } else {
+                services
+                    .failure
+                    .lock()
+                    .expect("failure mutex poisoned")
+                    .remove(&command.request_id)
+                    .filter(|value| {
+                        value != "actuation_rejected"
+                            || (config.provider_condition == "healthy" && !command.cancelled)
+                    })
+                    .unwrap_or_else(|| classify_configured_failure(config, command).to_owned())
+            };
             return refuse(&classification, &state);
         }
     };
@@ -552,10 +689,7 @@ async fn execute_inner(
     state.generation += 1;
     state.pending_requests.remove(&command.request_id);
     state.request_ids.insert(command.request_id.clone());
-    let scope = format!(
-        "{}|{}|{}|{}",
-        command.citizen_id, command.action, command.resource, command.commitment.commitment_id
-    );
+    let scope = capability_scope(command);
     state.private_state.insert(
         scope,
         blake3::keyed_hash(&config.checkpoint_key, command.payload.as_bytes())
@@ -571,6 +705,8 @@ async fn execute_inner(
         result_hash,
         generation: state.generation,
         actuation_count: state.actuation_count,
+        command_fingerprint: command_fingerprint(command)
+            .map_err(|error| (error, state.clone()))?,
     };
     state
         .completed
@@ -690,7 +826,23 @@ fn state_integrity(state: &RuntimeState, key: &[u8; 32]) -> Result<String, Strin
     Ok(blake3::keyed_hash(key, &bytes).to_hex().to_string())
 }
 
+fn command_fingerprint(command: &GovernedCommand) -> Result<String, String> {
+    serde_json::to_vec(command)
+        .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
+        .map_err(|_| "command_encoding".to_owned())
+}
+
+fn capability_scope(command: &GovernedCommand) -> String {
+    format!(
+        "{}|{}|{}|{}",
+        command.citizen_id, command.action, command.resource, command.commitment.commitment_id
+    )
+}
+
 fn classify_operation(error: adl_runtime_kernel::OperationError) -> String {
+    if matches!(error, adl_runtime_kernel::OperationError::Saturated) {
+        return "scheduler_saturated".to_owned();
+    }
     let message = error.to_string();
     [
         "provider_timeout",
@@ -698,6 +850,8 @@ fn classify_operation(error: adl_runtime_kernel::OperationError) -> String {
         "provider_quota",
         "provider_malformed_output",
         "provider_unavailable",
+        "tool_path_not_allowlisted",
+        "tool_unavailable",
     ]
     .into_iter()
     .find(|code| message.contains(code))

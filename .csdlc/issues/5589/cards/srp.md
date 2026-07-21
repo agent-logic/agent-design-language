@@ -34,9 +34,9 @@ adl-runtime-kernel/tests/governed_operations.rs
 
 [
   {
-    "id": "self-issued-authority",
+    "id": "replay-fingerprint-bypass",
     "severity": "p1",
-    "summary": "The service mints commitment and root authority from caller-controlled fields instead of enforcing independently established authenticated authority.",
+    "summary": "Cached replay compares only request and citizen identity, allowing changed governed fields and a substituted unrevoked commitment to bypass gate validation.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -44,9 +44,9 @@ adl-runtime-kernel/tests/governed_operations.rs
     "route": null
   },
   {
-    "id": "caller-controlled-governance-time",
+    "id": "provider-io-unbounded",
     "severity": "p1",
-    "summary": "Caller-controlled qualified time can mint fresh grants and poison persisted monotonic time.",
+    "summary": "Blocking process wait cannot be preempted by the Tokio timeout and accumulates unbounded stdout before checking its limit.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -54,9 +54,9 @@ adl-runtime-kernel/tests/governed_operations.rs
     "route": null
   },
   {
-    "id": "checkpoint-concurrency-race",
+    "id": "crash-stale-lock",
     "severity": "p1",
-    "summary": "Unlocked cross-process checkpoint read-modify-write and a shared temporary path permit duplicate actuation and checkpoint corruption.",
+    "summary": "Directory locking removed only by Drop leaves state permanently busy after process or host crash.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -64,9 +64,9 @@ adl-runtime-kernel/tests/governed_operations.rs
     "route": null
   },
   {
-    "id": "tool-allowlist-escape",
+    "id": "synthetic-per-request-services",
     "severity": "p1",
-    "summary": "Relative-path validation follows symlinks and is not anchored to a configured canonical allowlist root.",
+    "summary": "Fresh passthrough scheduler and shepherd adapters plus a global operation lock do not establish shared resident multi-agent scheduling, saturation, resource races, or cleanup.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -74,19 +74,9 @@ adl-runtime-kernel/tests/governed_operations.rs
     "route": null
   },
   {
-    "id": "missing-parity-components",
-    "severity": "p1",
-    "summary": "The implementation lacks the declared authenticated ingress, bounded scheduler and reservations, resident Agent and Shepherd adapters, configured production provider port, and current-revocation recovery; tests do not prove those claims.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "retry-quarantine",
+    "id": "proof-name-overstatement",
     "severity": "p2",
-    "summary": "Pre-side-effect provider, tool, quota, cancellation, and unavailable failures leave pending requests quarantined forever instead of permitting truthful cleanup and retry.",
+    "summary": "Appeal, cancellation-race, scheduler-saturation, and append-only non-authority tests still do not exercise their named semantics.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -94,9 +84,9 @@ adl-runtime-kernel/tests/governed_operations.rs
     "route": null
   },
   {
-    "id": "checkpoint-durability",
+    "id": "unbounded-authoritative-state",
     "severity": "p2",
-    "summary": "Checkpoint writes do not fsync the file and parent directory, so crash recovery and no-duplicate claims are unproved.",
+    "summary": "Completed, request-id, and private-state checkpoint collections grow without a declared bound.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -104,29 +94,9 @@ adl-runtime-kernel/tests/governed_operations.rs
     "route": null
   },
   {
-    "id": "state-capability-scope",
-    "severity": "p2",
-    "summary": "Persisted private state is keyed only by citizen and overwrites across action, resource, and capability scope.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "mislabeled-release-tests",
-    "severity": "p2",
-    "summary": "Named expiry, appeal, saturation, authentication, cancellation, and lifelog-failure tests do not exercise their claimed scenarios.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "budget-exception-unjustified",
+    "id": "budget-exception-still-unjustified",
     "severity": "p1",
-    "summary": "The 935-line additive implementation has no offset deletion and materially under-delivers its parity contract, so the baseline exception is not justified.",
+    "summary": "The 13,496-line result is additive, duplicates existing assembly patterns, retains synthetic components, and does not justify the +1,287 baseline exception.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -145,7 +115,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:3bd3d7cd629eff184a2b56368ff74dc2c2998c8e:5471805aff15682acaba30fe978e9057d743a2acaff4f29dbe9ec8e8995a329a")
+Revision: Some("git-blake3:353459e57e5f9b3cd96a5372d927088f8c4f8e34:089d7652ef41a655f6879ea90345ddf0cf9e5d6f3b090ea45729306760f1ad20")
 
 Reviewer: Some("subagent:/root/review_5589_exact")
 
