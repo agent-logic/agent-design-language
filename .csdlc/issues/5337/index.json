@@ -3,13 +3,13 @@
   "issue": 5337,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1c296c01f1a17f4f5f4fdc6770511c4214792aa51221f9b2848501f03abab11e",
-  "phase": "reviewed",
-  "generation": 49,
-  "digest": "4341a7e9b3ea7983ac2c1ea30dc0d14d8b9faa08b43228b7c5ba53b1757859ec",
+  "phase": "implemented",
+  "generation": 50,
+  "digest": "e97b654e56e6b1677b70d6cbfb1bf5a080a61025fe641ee22bab974969696c93",
   "claim": {
     "id": "claim-5337-v0918-wp03-implementation",
     "owner": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
-    "generation": 49,
+    "generation": 50,
     "acquired_unix_seconds": 1784585647,
     "expires_unix_seconds": 1785190447,
     "heartbeat_unix_seconds": 1784585647,
@@ -23,33 +23,8 @@
     ],
     "purpose": "Fully implement, validate, review, and publish issue #5337's independent pinned-v1 characterization corpus; keep integration blocked until PR #5599 merges"
   },
-  "review_assignment": {
-    "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "assigned_by": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
-    "revision": "git-blake3:9042a20823f6b160377021542de19293cb724fc1:d1d5cf629d5c6c016b273d743eac3f9c5ce07401841cbd8d45931c543ea633ac",
-    "scope": [
-      "adl-characterization",
-      ".csdlc/issues/5337",
-      ".csdlc/prepared/issues/5337",
-      ".csdlc/evidence/5337"
-    ]
-  },
-  "review": {
-    "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "scope": [
-      "adl-characterization",
-      ".csdlc/issues/5337",
-      ".csdlc/prepared/issues/5337",
-      ".csdlc/evidence/5337"
-    ],
-    "reviewed_revision": "git-blake3:9042a20823f6b160377021542de19293cb724fc1:d1d5cf629d5c6c016b273d743eac3f9c5ce07401841cbd8d45931c543ea633ac",
-    "findings": [],
-    "residual_risks": [
-      "Pre-tokenization stream bytes are not retained; captured-stream hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -64,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ba83a603bff6eeb45b864b68ea7de8f5afdcd9b5918eda497aa2b1ebef85ba79",
+      "values_digest": "a2331c07bd4d7623afc3d47074b6a335a2619320b546c9186f70e6f52861a677",
       "rendered_digest": "a3e23ea6aa2fc61a99a804d8f1224bd9aa0f1c31b7d4e0d5a9f7508c80264e94",
       "ast_digest": "ed7b655823cb326d1c02f24d14cc120a818a119fc9cbe6a28d385c839b12dead"
     },
     "stp": {
-      "values_digest": "67f96c77f1a05b54307e3fe74f018ed2ce66700a5250a8c00950f5c9730aad8c",
+      "values_digest": "5d7788432c442ca7eaff57b8774c7b6b0da6a5495956919328ac66ecf3d4f17c",
       "rendered_digest": "4cdf1243cc2510c5fab05f620392100b36e013744d8c4bc5a8ddf93e72c48675",
       "ast_digest": "db44314a4da872b87fc4fa7bb8a45732bc6e719dcefaa5fc188ac0e2451a79b7"
     },
     "spp": {
-      "values_digest": "f9ffd1f2b89a96de9ff40348a547f124df5563d977bd5b16ac9a4041136684a0",
+      "values_digest": "449140efdd3f994d0b946307dd1d3058a5d02dd8d66b1df8eb4ddac57fb95aad",
       "rendered_digest": "40768381755cc083af2a38af30400f01206915a1d9b4322236b3607081813d63",
       "ast_digest": "b631288b2007b51ae3bf50fc78e21802b354008cc2b46f36ec28cd233fe0199a"
     },
     "vpp": {
-      "values_digest": "529d4ec0bc8b28f86e084fc159fba4e036a3516ad83fab85e31bb66c4e59855a",
+      "values_digest": "36f6a3f23fc7232c6add982be92d61cb97389aca13eed356a1a7d557cd883121",
       "rendered_digest": "56ffb9fb26637127ec10296fde156dae2e324462788e426d603f04662d9a26fc",
       "ast_digest": "44d8f3ebd3229521b7ef29851f2d32592ad821cb911e551e8fc5b45c3eb76274"
     },
     "srp": {
-      "values_digest": "00aa458d7f279c635deb65ee04fc6b1b5de2c44469ec55915139ee8566167529",
-      "rendered_digest": "68e3551268d826accedbbd8e1785b80f48f5dde8b3db22208251641b3fc57e48",
-      "ast_digest": "0379867b0d6dbe54435ffde1e18aa6e2d4a61ee5ef8f3c5c795db177d1454f19"
+      "values_digest": "e8cc86109faa7777ff6522b68df648ea260d9b7d27cee696c4bd4d58ccdd8846",
+      "rendered_digest": "b7de0cc7478abb7f26c0ca00dc535518506661b87aff03ebd9ff8df768d76caf",
+      "ast_digest": "eb90c608059c41575ecb693a8871ac4781a61f5a16d03c15c8141e4b7c2608f6"
     },
     "sor": {
-      "values_digest": "24fc601f0475c400dad4c4f318dd672368327543b98fb9a71bde9d9d9141f002",
-      "rendered_digest": "2e8f368d6b7f91b0c6c5925516d3a115536d4d3a92607c13092154eaff30691f",
-      "ast_digest": "f5debd02c65657df5b98e55fec681a3ed71ec7433a5e70b9fcb1fb5cd489806d"
+      "values_digest": "001036c8c1531ae36008dd12a7e525f58f0d87dafb879f7edfcc7cc1f6620254",
+      "rendered_digest": "1d5212d1dd2a091e0f5138c8ce86a0c62ecec2365547ff1240bf96e85bf134c4",
+      "ast_digest": "8dc41dfb657d64b94389f1ab234aa48f7c0be1bd178c2947bbc3fd38704a014e"
     }
   },
   "transitions": [
@@ -122,6 +97,13 @@
       "to": "reviewed",
       "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
       "reason": "Advance the clean assigned exact-revision review while retaining the explicit #5336 publication gate."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "PR #5599 merged and current origin/main was integrated; recover the prior clean review so the post-dependency exact head can be revalidated and reviewed before publication."
     }
   ],
   "audit": [
@@ -502,6 +484,13 @@
       "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
       "reason": "Advance the clean assigned exact-revision review while retaining the explicit #5336 publication gate.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 55,
+      "generation": 50,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "PR #5599 merged and current origin/main was integrated; recover the prior clean review so the post-dependency exact head can be revalidated and reviewed before publication.",
+      "operation": "recover_review"
     }
   ]
 }

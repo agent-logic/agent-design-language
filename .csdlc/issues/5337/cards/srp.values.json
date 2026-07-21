@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
     "slug": "v0918-wp03-characterization-corpus-preparation",
     "version": "v0.91.8",
-    "generation": 49
+    "generation": 50
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-characterization\n.csdlc/issues/5337\n.csdlc/prepared/issues/5337\n.csdlc/evidence/5337",
-      "review_revision": "git-blake3:9042a20823f6b160377021542de19293cb724fc1:d1d5cf629d5c6c016b273d743eac3f9c5ce07401841cbd8d45931c543ea633ac",
-      "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the crate remain independent of incumbent ADL source and accept only a caller-supplied pinned v1 binary?",
         "Does the corpus cover every required positive, negative, ordering, determinism, mock-execution, and signing behavior?",
@@ -27,10 +27,8 @@
         "Are all findings resolved at the exact substantive revision with no deferred acceptance criteria?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Pre-tokenization stream bytes are not retained; captured-stream hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
