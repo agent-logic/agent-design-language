@@ -282,6 +282,21 @@ mod parity_c_delegation_resources {
     }
 
     #[test]
+    fn in_flight_cancellation_kills_provider_and_releases_capacity() {
+        use std::os::unix::fs::PermissionsExt;
+        let root = TempDir::new().unwrap();
+        let provider = root.path().join("slow-provider");
+        fs::write(&provider, "#!/bin/sh\nsleep 5\ncat\n").unwrap();
+        fs::set_permissions(&provider, fs::Permissions::from_mode(0o700)).unwrap();
+        let mut cancelled = signed_command("cancel-race", "alice", 1_000);
+        cancelled["cancel_after_millis"] = 50.into();
+        let started = std::time::Instant::now();
+        let value = run_program(&root, cancelled, 1_000, "healthy", "", &provider);
+        assert_eq!(value["classification"], "scheduler_cancelled");
+        assert!(started.elapsed() < std::time::Duration::from_secs(2));
+    }
+
+    #[test]
     fn retry_and_idempotency_bounds_prevent_duplicate_work() {
         let root = TempDir::new().unwrap();
         let request = signed_command("idem", "alice", 1_000);
@@ -360,10 +375,14 @@ mod parity_c_provider_scheduler_tools {
                 .iter()
                 .filter(|outcome| outcome["status"] == "completed")
                 .count(),
-            3
+            2
         );
-        assert!(started.elapsed() >= std::time::Duration::from_secs(2));
-        assert!(started.elapsed() < std::time::Duration::from_secs(4));
+        assert!(started.elapsed() < std::time::Duration::from_secs(2));
+        assert!(outcomes
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|outcome| outcome["classification"] == "scheduler_saturated"));
     }
 
     #[test]

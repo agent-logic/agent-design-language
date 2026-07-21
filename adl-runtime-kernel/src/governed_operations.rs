@@ -12,11 +12,11 @@ use std::{
 
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, ActuationShell, AdapterKind, AdapterPolicy,
-    Aee, AuthorityGrant, AuthorityMode, CanonicalIngress, Commitment, DomainWork, ExecutorError,
-    FailureClass, FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, LiveBindings,
-    LocalAgentExecutor, MediationDecision, OperationExecutor, OperationRequest, OperationalAdapter,
-    RefusalReason, RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError,
-    TimeSampleSource, TrustedGovernanceTime, DOMAIN_WORK_SCHEMA, OPERATION_REQUEST_SCHEMA,
+    Aee, AuthorityGrant, AuthorityMode, CanonicalIngress, Commitment, ExecutorError, FailureClass,
+    FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, LiveBindings, LocalAgentExecutor,
+    MediationDecision, OperationExecutor, OperationRequest, OperationalAdapter, RefusalReason,
+    RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
+    TrustedGovernanceTime, OPERATION_REQUEST_SCHEMA,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use serde::{Deserialize, Serialize};
@@ -43,6 +43,8 @@ pub struct GovernedCommand {
     pub read_citizen_id: Option<String>,
     #[serde(default)]
     pub cancelled: bool,
+    #[serde(default)]
+    pub cancel_after_millis: Option<u64>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -151,6 +153,14 @@ impl TrustedGovernanceTime for QualifiedTime {
 struct StateLock(std::fs::File);
 impl StateLock {
     fn acquire(config: &RuntimeConfig) -> Result<Self, String> {
+        Self::at(config, "checkpoint.lock", false)
+    }
+
+    fn actuation(config: &RuntimeConfig, exclusive: bool) -> Result<Self, String> {
+        Self::at(config, "actuation.lock", !exclusive)
+    }
+
+    fn at(config: &RuntimeConfig, name: &str, shared: bool) -> Result<Self, String> {
         std::fs::create_dir_all(&config.state_dir)
             .map_err(|_| "checkpoint_unavailable".to_owned())?;
         let file = std::fs::OpenOptions::new()
@@ -158,9 +168,14 @@ impl StateLock {
             .truncate(false)
             .read(true)
             .write(true)
-            .open(config.state_dir.join("checkpoint.lock"))
+            .open(config.state_dir.join(name))
             .map_err(|_| "checkpoint_unavailable".to_owned())?;
-        file.lock().map_err(|_| "checkpoint_busy".to_owned())?;
+        if shared {
+            std::fs::File::lock_shared(&file)
+        } else {
+            file.lock()
+        }
+        .map_err(|_| "checkpoint_busy".to_owned())?;
         Ok(Self(file))
     }
 }
@@ -264,6 +279,7 @@ struct GovernedExecutor {
     scheduler: Arc<OperationalAdapter>,
     shepherd: Arc<OperationalAdapter>,
     failure: Arc<Mutex<BTreeMap<String, String>>>,
+    scheduler_admission: Arc<tokio::sync::Semaphore>,
 }
 
 #[async_trait::async_trait]
@@ -276,6 +292,7 @@ impl OperationExecutor for GovernedExecutor {
             scheduler: self.scheduler.clone(),
             shepherd: self.shepherd.clone(),
             failure: self.failure.clone(),
+            scheduler_admission: self.scheduler_admission.clone(),
         });
         let aee = Aee::new(
             BTreeMap::from([("permit".to_owned(), self.permit_key)]),
@@ -306,6 +323,7 @@ struct ProductionShell {
     scheduler: Arc<OperationalAdapter>,
     shepherd: Arc<OperationalAdapter>,
     failure: Arc<Mutex<BTreeMap<String, String>>>,
+    scheduler_admission: Arc<tokio::sync::Semaphore>,
 }
 #[async_trait::async_trait]
 impl ActuationShell for ProductionShell {
@@ -324,6 +342,11 @@ impl ActuationShell for ProductionShell {
         if self.command.cancelled {
             return Err("scheduler_cancelled".to_owned());
         }
+        let _capacity = self
+            .scheduler_admission
+            .clone()
+            .try_acquire_owned()
+            .map_err(|_| "scheduler_saturated".to_owned())?;
         self.shepherd
             .invoke(request(
                 "shepherd",
@@ -338,29 +361,36 @@ impl ActuationShell for ProductionShell {
                     .insert(self.command.request_id.clone(), classification.clone());
                 classification
             })?;
-        self.scheduler
-            .invoke(request(
-                "scheduler",
-                serde_json::to_vec(&PreparedWork {
-                    command: self.command.clone(),
-                    permit: permit.clone(),
-                })
-                .map_err(|_| "scheduled_work_invalid".to_owned())?,
-            ))
-            .await
-            .map(|result| result.payload)
-            .map_err(|error| {
-                let classification = if error.to_string().contains("timed out") {
-                    "provider_timeout".to_owned()
-                } else {
-                    classify_operation(error)
-                };
-                self.failure
-                    .lock()
-                    .expect("failure mutex poisoned")
-                    .insert(self.command.request_id.clone(), classification.clone());
-                classification
+        let invoke = self.scheduler.invoke(request(
+            "scheduler",
+            serde_json::to_vec(&PreparedWork {
+                command: self.command.clone(),
+                permit: permit.clone(),
             })
+            .map_err(|_| "scheduled_work_invalid".to_owned())?,
+        ));
+        let result = if let Some(delay) = self.command.cancel_after_millis {
+            tokio::select! {
+                result = invoke => result,
+                _ = tokio::time::sleep(Duration::from_millis(delay)) => {
+                    return Err("scheduler_cancelled".to_owned());
+                }
+            }
+        } else {
+            invoke.await
+        };
+        result.map(|result| result.payload).map_err(|error| {
+            let classification = if error.to_string().contains("timed out") {
+                "provider_timeout".to_owned()
+            } else {
+                classify_operation(error)
+            };
+            self.failure
+                .lock()
+                .expect("failure mutex poisoned")
+                .insert(self.command.request_id.clone(), classification.clone());
+            classification
+        })
     }
 }
 
@@ -406,6 +436,7 @@ impl OperationExecutor for SchedulerPort {
 
 struct LiveServices {
     ingress: CanonicalIngress,
+    agent: Arc<OperationalAdapter>,
     kernel: adl_runtime_kernel::KernelHandle,
     failure: Arc<Mutex<BTreeMap<String, String>>>,
     clock: AtomicU64,
@@ -427,6 +458,7 @@ impl TimeSampleSource for FixedTime {
 async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> {
     let permit_key = SigningKey::from_bytes(&config.permit_key).verifying_key();
     let failure = Arc::new(Mutex::new(BTreeMap::new()));
+    let scheduler_admission = Arc::new(tokio::sync::Semaphore::new(2));
     let policy = |kind| AdapterPolicy {
         capacity: 64,
         max_in_flight: if kind == AdapterKind::Scheduler {
@@ -471,15 +503,14 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
             )
         })
         .collect::<BTreeMap<_, _>>();
-    executors.insert(
-        AdapterKind::Agent,
-        Arc::new(GovernedExecutor {
-            permit_key,
-            scheduler,
-            shepherd,
-            failure: failure.clone(),
-        }),
-    );
+    let agent_executor = Arc::new(GovernedExecutor {
+        permit_key,
+        scheduler,
+        shepherd,
+        failure: failure.clone(),
+        scheduler_admission,
+    });
+    executors.insert(AdapterKind::Agent, agent_executor.clone());
     executors.insert(
         AdapterKind::Shepherd,
         Arc::new(ShepherdPort(Mutex::new(BTreeSet::new()))),
@@ -501,12 +532,21 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
     })
     .map_err(|_| "topology_invalid".to_owned())?;
     let ingress = assembly.canonical_ingress;
+    let agent = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            policy(AdapterKind::Agent),
+            agent_executor,
+        )
+        .map_err(|_| "agent_configuration".to_owned())?,
+    );
     let kernel = Kernel::new(assembly.topology, recorder)
         .start()
         .await
         .map_err(|_| "kernel_start_failed".to_owned())?;
     Ok(LiveServices {
         ingress,
+        agent,
         kernel,
         failure,
         clock: AtomicU64::new(config.trusted_time_millis),
@@ -581,6 +621,8 @@ async fn execute_inner(
     command: &GovernedCommand,
     services: &LiveServices,
 ) -> Result<GovernedOutcome, (String, RuntimeState)> {
+    let _actuation = StateLock::actuation(config, command.action == "system.shutdown")
+        .map_err(|error| (error, RuntimeState::default()))?;
     let lock = StateLock::acquire(config).map_err(|error| (error, RuntimeState::default()))?;
     let mut state = load_state(config).map_err(|error| (error, RuntimeState::default()))?;
     let now = services.clock.fetch_add(1, Ordering::SeqCst);
@@ -683,31 +725,30 @@ async fn execute_inner(
     drop(lock);
 
     let result = services
-        .ingress
-        .submit(
-            DomainWork {
-                schema: DOMAIN_WORK_SCHEMA.to_owned(),
-                work_id: command.request_id.clone(),
-                kind: AdapterKind::Agent.service_name().to_owned(),
-                payload: serde_json::to_vec(&PreparedWork {
-                    command: command.clone(),
-                    permit,
-                })
-                .unwrap_or_default(),
-            },
-            command.request_id.clone(),
-        )
+        .agent
+        .invoke(OperationRequest {
+            schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+            request_id: command.request_id.clone(),
+            idempotency_key: command.idempotency_key.clone(),
+            principal: command.citizen_id.clone(),
+            payload: serde_json::to_vec(&PreparedWork {
+                command: command.clone(),
+                permit,
+            })
+            .unwrap_or_default(),
+            permit: None,
+        })
         .await;
     let _lock = StateLock::acquire(config).map_err(|error| (error, state.clone()))?;
     state = load_state(config).map_err(|error| (error, state.clone()))?;
     let result_hash = match result {
-        Ok(result) => result.result_hash,
+        Ok(result) => blake3::hash(&result.payload).to_hex().to_string(),
         Err(error) => {
             state.pending_requests.remove(&command.request_id);
             state.generation += 1;
             persist_state(config, &state).map_err(|error| (error, state.clone()))?;
-            let classification = if matches!(error, adl_runtime_kernel::IngressError::Saturated) {
-                "ingress_saturated".to_owned()
+            let classification = if matches!(error, adl_runtime_kernel::OperationError::Saturated) {
+                "agent_saturated".to_owned()
             } else {
                 services
                     .failure
