@@ -1,0 +1,13 @@
+{
+  "issue": 5358,
+  "expected_generation": 36,
+  "expected_digest": "e87221cb0cb1093c1ed5f2de59024e317dcee1ab0505f471adcc6d4c18224d70",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "reviewer": "provider:deepseek:deepseek-chat",
+  "assigned_by": "codex:issue-5358-slot-3",
+  "scope": [
+    ".github/workflows/ci.yaml",
+    "adl/tools/test_ci_path_policy.sh",
+    "adl/tools/test_ci_runtime_contracts.sh"
+  ]
+}

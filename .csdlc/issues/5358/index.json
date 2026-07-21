@@ -3,13 +3,13 @@
   "issue": 5358,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
-  "phase": "implemented",
-  "generation": 36,
-  "digest": "e87221cb0cb1093c1ed5f2de59024e317dcee1ab0505f471adcc6d4c18224d70",
+  "phase": "reviewed",
+  "generation": 38,
+  "digest": "ba3bb8d812356eb568194ac6f65208d16182247e31ef4a0faebb827d0943d61d",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
-    "generation": 36,
+    "generation": 38,
     "acquired_unix_seconds": 1784570058,
     "expires_unix_seconds": 1784656458,
     "heartbeat_unix_seconds": 1784570058,
@@ -27,8 +27,31 @@
     ],
     "purpose": "Implement and complete the full C-SDLC v2 acceptance, deployment, review, publication, merge, and terminal closeout contract for issue #5358."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "provider:deepseek:deepseek-chat",
+    "assigned_by": "codex:issue-5358-slot-3",
+    "revision": "git-blake3:2a6c3199264d0b4a5fcee98acfaf7b566b44c095:a88b44534399911371bbe28819bb4f2dd27fa3285bb658e70db23527587069d2",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "provider:deepseek:deepseek-chat",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ],
+    "reviewed_revision": "git-blake3:2a6c3199264d0b4a5fcee98acfaf7b566b44c095:a88b44534399911371bbe28819bb4f2dd27fa3285bb658e70db23527587069d2",
+    "findings": [],
+    "residual_risks": [
+      "Hosted required checks remain the final integration proof for the workflow contract."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eea033ea29036d38f23cba735c08d42f4af5fd92cdd1506417a65b8001b1bef4",
+      "values_digest": "b0d9bf427dddbb8ab5972d03e01234aab500e93ce697baca977f526576094706",
       "rendered_digest": "9f21cc4775b8bbcabe2ff712dff752b2d4c68a2d270906044955ff2f2bd2cae9",
       "ast_digest": "b15fdebd7434d7b23dce44270f6f9a775eb0f1b870ccbd2afe88f37bda75a0cd"
     },
     "stp": {
-      "values_digest": "924214d5e1bc8a020e5e3e8824fe36e7175524060139da76e9e8334d0df3cd3a",
+      "values_digest": "bdcc98d15e9179c38021f73e95a2fca55bd8a7cb99b80e106880d47f6be1285d",
       "rendered_digest": "b5143b47908a8e957062f266a604edc85d25fe22d686363fa1e7b7acec6bd2f1",
       "ast_digest": "10cfdd266214a8019fae67f221034ad7724705ecc9f0ac27108946291688295b"
     },
     "spp": {
-      "values_digest": "319c3fc2f803ec99fef31692174ebfff9ef1bcd731a2bafff4778d61f3dd5c0e",
+      "values_digest": "1932d7509389ebb1ed6c00052c8efc69a4d9da639390947fae844fd7a44d04ab",
       "rendered_digest": "0999e3f92a9ad15165802f7409a392b84aeac7e871e040721c197a0fe79b9f85",
       "ast_digest": "0f71821898d59f174e13eff6fd7cb68e552c6e5d9994d8b2b6aa513308777c95"
     },
     "vpp": {
-      "values_digest": "173418be6ebdaf98500f8b181dc8dd2996a45d32668d743f99e0e022e5f95423",
+      "values_digest": "0a16ab1eef2980de5cf586f4beb14a83d21b6c4ec70d860c8de1936fecc240a3",
       "rendered_digest": "89805e2390eca8fc218075ccb9c7005350d3fdbfb6fe35bf1ec31d58561b7e73",
       "ast_digest": "15c75fc980fb0de8c59870880af59448adde13834d81df8a00163492c0fb8d29"
     },
     "srp": {
-      "values_digest": "f4a4cd908ecb5af3c5f40ffb908b0957f4619d24d2b05c44cbfa456ebffea368",
-      "rendered_digest": "cc68cf41287008a54cba8e0506da4cba7da56607fa8ea304075df64d5d2fd828",
-      "ast_digest": "70d3a09025ab1fb66fd29ce7f78b954bd396cea9d59ecec3ac9ce91b3d9ffcd9"
+      "values_digest": "10da6058dafa9eef776015046e57037d0606ef74d6691db5463b92e32011b389",
+      "rendered_digest": "5d767a2f977d715f41c6cae9a8b78326b9ad991adc5ef62445e318514849a541",
+      "ast_digest": "25e558d3ce59f3a1405374403266b0a6e6a8ddb5427336b79493ca78584ab461"
     },
     "sor": {
-      "values_digest": "fe5c873f98bba99644962e381afa33c41c0031e745b3c212eff05560c063f54c",
+      "values_digest": "eec181ff59f265963a439ca457f7aeb5ebab880639d91762f70fd66ed6e5c581",
       "rendered_digest": "c9a0da3076b9e7de654b54c9e0f53d9e01d9d4647272a743bdf73617955c8d67",
       "ast_digest": "c86d1756828171c799cf78923ffccd18b89a14cac5435a529f7deac19633c135"
     }
@@ -157,6 +180,13 @@
       "to": "implemented",
       "actor": "codex:issue-5358-slot-3",
       "reason": "Recover exact review and publication truth after PR #5606 run 29799791075 proved the stale ci-runtime contract still required conditional installation for tools consumed by always-run tooling contracts."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Advance #5358 after exact DeepSeek review of the stale CI runtime-contract assertion repair passed with no actionable findings."
     }
   ],
   "audit": [
@@ -481,6 +511,27 @@
       "actor": "codex:issue-5358-slot-3",
       "reason": "Record focused proof for the stale CI runtime-contract assertion repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash -n adl/tools/test_ci_runtime_contracts.sh\",\"bash adl/tools/test_ci_runtime_contracts.sh\",\"bash adl/tools/test_ci_path_policy.sh\",\"bash adl/tools/test_check_coverage_impact.sh\",\"git diff --check\"],\"purpose\":\"Prove unconditional prerequisite installation and retain every neighboring path-policy and coverage-impact contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:pr-5606-run-29799791075-ci-runtime-contract-repair\"}}"
+    },
+    {
+      "sequence": 47,
+      "generation": 36,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 37,
+      "actor": "provider:deepseek:deepseek-chat",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 38,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Advance #5358 after exact DeepSeek review of the stale CI runtime-contract assertion repair passed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

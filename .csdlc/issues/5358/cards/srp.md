@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.github/workflows/ci.yaml
+adl/tools/test_ci_path_policy.sh
+adl/tools/test_ci_runtime_contracts.sh
 
 ## Prompts
 
@@ -32,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted required checks remain the final integration proof for the workflow contract.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:2a6c3199264d0b4a5fcee98acfaf7b566b44c095:a88b44534399911371bbe28819bb4f2dd27fa3285bb658e70db23527587069d2")
 
-Reviewer: None
+Reviewer: Some("provider:deepseek:deepseek-chat")
 
-Result: pre_review
+Result: pass
