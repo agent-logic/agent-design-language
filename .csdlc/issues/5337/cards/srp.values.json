@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
     "slug": "v0918-wp03-characterization-corpus-preparation",
     "version": "v0.91.8",
-    "generation": 57
+    "generation": 63
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-characterization\n.csdlc/issues/5337\n.csdlc/prepared/issues/5337\n.csdlc/evidence/5337",
-      "review_revision": "git-blake3:5f7598c562a0ae4801eeec7eafae77e2116c5ee8:2c2b8cdb28855a75bccd7cc27e7da7fcfdb372dbf5c49e25eee22c4d65a02f60",
+      "review_revision": "git-blake3:373f99bd940304734ef64dcdd511303533a00c38:5ec95b77513108a18befc289b80723b44e571cb95de72060af0dcf911d38d78f",
       "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "review_prompts": [
         "Does the crate remain independent of incumbent ADL source and accept only a caller-supplied pinned v1 binary?",

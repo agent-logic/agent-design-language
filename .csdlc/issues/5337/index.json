@@ -3,13 +3,13 @@
   "issue": 5337,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1c296c01f1a17f4f5f4fdc6770511c4214792aa51221f9b2848501f03abab11e",
-  "phase": "reviewed",
-  "generation": 57,
-  "digest": "f7b9db04c70d64bdf3580b24812bff6338a2f05f84bf1748941ad9e9e8ab848a",
+  "phase": "published",
+  "generation": 63,
+  "digest": "e3e1c1a288e44ca8d6c6d68daa62bc60c3130561527947ec5eebf0562655dfd8",
   "claim": {
     "id": "claim-5337-v0918-wp03-implementation",
     "owner": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
-    "generation": 57,
+    "generation": 63,
     "acquired_unix_seconds": 1784585647,
     "expires_unix_seconds": 1785190447,
     "heartbeat_unix_seconds": 1784585647,
@@ -26,7 +26,7 @@
   "review_assignment": {
     "reviewer": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
     "assigned_by": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
-    "revision": "git-blake3:5f7598c562a0ae4801eeec7eafae77e2116c5ee8:2c2b8cdb28855a75bccd7cc27e7da7fcfdb372dbf5c49e25eee22c4d65a02f60",
+    "revision": "git-blake3:373f99bd940304734ef64dcdd511303533a00c38:5ec95b77513108a18befc289b80723b44e571cb95de72060af0dcf911d38d78f",
     "scope": [
       "adl-characterization",
       ".csdlc/issues/5337",
@@ -42,7 +42,7 @@
       ".csdlc/prepared/issues/5337",
       ".csdlc/evidence/5337"
     ],
-    "reviewed_revision": "git-blake3:5f7598c562a0ae4801eeec7eafae77e2116c5ee8:2c2b8cdb28855a75bccd7cc27e7da7fcfdb372dbf5c49e25eee22c4d65a02f60",
+    "reviewed_revision": "git-blake3:373f99bd940304734ef64dcdd511303533a00c38:5ec95b77513108a18befc289b80723b44e571cb95de72060af0dcf911d38d78f",
     "findings": [],
     "residual_risks": [
       "Pre-tokenization stream bytes are not retained; capture hashes rely on the trusted capture implementation and exact reviewed Git revision, while portable bytes and envelopes remain offline-recomputable.",
@@ -51,7 +51,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5337,
+    "pull_request": 5607,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5607",
+    "base": "main",
+    "head": "codex/5337-v0918-wp03-preparation",
+    "revision": "git-blake3:373f99bd940304734ef64dcdd511303533a00c38:5ec95b77513108a18befc289b80723b44e571cb95de72060af0dcf911d38d78f",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e92923529c9926d3776fe44f61b04abe42383f1b7820370c6ba9993d7f00d5ce",
+      "values_digest": "10917e64820f75589712f85223663cc6861c6ecaeef664f8ea1d671d98b347d7",
       "rendered_digest": "a3e23ea6aa2fc61a99a804d8f1224bd9aa0f1c31b7d4e0d5a9f7508c80264e94",
       "ast_digest": "ed7b655823cb326d1c02f24d14cc120a818a119fc9cbe6a28d385c839b12dead"
     },
     "stp": {
-      "values_digest": "1f828fdd006bfeffde7971b9d1876fc7d2abaf091a8122f7c46326a5c4925220",
+      "values_digest": "024490845fc0c0e1aa703889f46ad4e3abe065c4e2419692f8fa8b223251b4d4",
       "rendered_digest": "4cdf1243cc2510c5fab05f620392100b36e013744d8c4bc5a8ddf93e72c48675",
       "ast_digest": "db44314a4da872b87fc4fa7bb8a45732bc6e719dcefaa5fc188ac0e2451a79b7"
     },
     "spp": {
-      "values_digest": "c8ccf8f85c2da1055d7251f846b6304f6144e593ca4a7a510a5ed22ab86b6cbe",
+      "values_digest": "7c8513ad446487191469dd6b6a4855765253b493b5bbf5a54cdd7456654e49b7",
       "rendered_digest": "40768381755cc083af2a38af30400f01206915a1d9b4322236b3607081813d63",
       "ast_digest": "b631288b2007b51ae3bf50fc78e21802b354008cc2b46f36ec28cd233fe0199a"
     },
     "vpp": {
-      "values_digest": "fee37bc3da4d228a8e409763f35091bda406c44ba3fc9ce4182bf3fae82fe062",
+      "values_digest": "a6fd8f43e20c347bda3cc128db9174c7aad285048bd2e1c4827bc12e4238f50b",
       "rendered_digest": "56ffb9fb26637127ec10296fde156dae2e324462788e426d603f04662d9a26fc",
       "ast_digest": "44d8f3ebd3229521b7ef29851f2d32592ad821cb911e551e8fc5b45c3eb76274"
     },
     "srp": {
-      "values_digest": "27af08929e6e3ecb9ad3e7af32403265144899f3c02f13988be8c5566086b155",
-      "rendered_digest": "614885c79381bcb6ca432b44fb0e4f247f6d6db3cebb76385ecda9839f104284",
-      "ast_digest": "4b8b7bc7b9f4258c84fd0555ffafefa9db05dec0c1d09a1cd7e4518619699f2b"
+      "values_digest": "5b4625a6d5e59abfae6c22563e3ff6b2cdb9f0e7190e60ca5c8742af22047b0e",
+      "rendered_digest": "de7fdb229e82bf819d54fbad4455adac3fbdc917f0b031c6b1ae8df552d2ac59",
+      "ast_digest": "a8c271a2db3e37bc3202e831005429c68793cfb62ffbb4a835a8bd058627114d"
     },
     "sor": {
-      "values_digest": "28a89006723c47e69075b7a605510edc09fa05675248b47903f0f1191eac2815",
-      "rendered_digest": "1d5212d1dd2a091e0f5138c8ce86a0c62ecec2365547ff1240bf96e85bf134c4",
-      "ast_digest": "8dc41dfb657d64b94389f1ab234aa48f7c0be1bd178c2947bbc3fd38704a014e"
+      "values_digest": "f4a63b33312a37066d5c521c4cb2ef707e7dfafe669a1e118e3aef5bf95e3d7f",
+      "rendered_digest": "502a9208878868ff5d1d8c3c7fa9982a76c790c8d95e0aec53267515036c8cdc",
+      "ast_digest": "6ce6fa1056deb6feb53b77b16c4125bd7be69a7cbdc99e887d98cb60ad14eb87"
     }
   },
   "transitions": [
@@ -158,6 +168,34 @@
       "to": "reviewed",
       "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
       "reason": "Advance the clean final integrated-head exact-revision review for typed publication."
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Recover the incomplete published projection produced while reconciling an already-ready PR so the supported draft-to-ready typed path can establish readiness truth."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Advance the clean exact review of the typed ready-projection recovery."
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -608,6 +646,55 @@
       "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
       "reason": "Advance the clean final integrated-head exact-revision review for typed publication.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 65,
+      "generation": 58,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 66,
+      "generation": 59,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Recover the incomplete published projection produced while reconciling an already-ready PR so the supported draft-to-ready typed path can establish readiness truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 59,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 60,
+      "actor": "task:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 61,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Advance the clean exact review of the typed ready-projection recovery.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 70,
+      "generation": 62,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 71,
+      "generation": 63,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
     }
   ]
 }

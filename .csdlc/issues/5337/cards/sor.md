@@ -157,11 +157,11 @@ Closed the default-execution policy bypass and retained-evidence integrity gap w
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

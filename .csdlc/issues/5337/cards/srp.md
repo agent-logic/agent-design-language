@@ -43,7 +43,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:5f7598c562a0ae4801eeec7eafae77e2116c5ee8:2c2b8cdb28855a75bccd7cc27e7da7fcfdb372dbf5c49e25eee22c4d65a02f60")
+Revision: Some("git-blake3:373f99bd940304734ef64dcdd511303533a00c38:5ec95b77513108a18befc289b80723b44e571cb95de72060af0dcf911d38d78f")
 
 Reviewer: Some("task:019f4b3e-6c61-7653-957b-7a2a6042a80d")
 
