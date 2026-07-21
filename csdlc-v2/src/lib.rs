@@ -47,7 +47,7 @@ pub use model::{
     NonSubstantiveProof, PublicationEvidence, ReadinessEvidence, ReconcileTerminalRequest,
     ReviewAssignment, ReviewEvidence, ReviewFindingEvidence, TerminalDesignRepairRequest,
     TerminalEvidence, TerminalPlanStepRepairRequest, TerminalReceipt,
-    TerminalSorArtifactRepairRequest,
+    TerminalSorArtifactRepairRequest, TerminalSorValidationRepairRequest,
 };
 pub use operator::{
     build_and_install_binaries, install_binaries, resolve_operator_generation, verify_coexistence,
