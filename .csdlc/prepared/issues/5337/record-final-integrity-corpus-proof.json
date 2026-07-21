@@ -1,0 +1,18 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 45,
+  "expected_digest": "9e3aeef61abdf36761f2020446df1c087b72cc7af05672b3bde7f854b32dea37",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record final corpus capture, integrity, and offline verification proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["adl-characterize", "verify", "--corpus", "adl-characterization/corpus/v1/corpus.yaml", "--observations", "adl-characterization/observations/v1", "--report", "adl-characterization/observations/v1/verification.json"],
+      "purpose": "Recompute corpus and observation integrity and verify all retained black-box characterization evidence offline.",
+      "outcome": "passed",
+      "evidence_ref": "Commit 13f21e6bc: 25 cases, 75 observations, 23 behaviors, two equivalence groups, one difference group, status pass; committed observations contain no /Users, /private/var, /Volumes, /tmp, or /home paths."
+    }
+  }
+}

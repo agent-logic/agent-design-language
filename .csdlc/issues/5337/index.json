@@ -3,13 +3,13 @@
   "issue": 5337,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1c296c01f1a17f4f5f4fdc6770511c4214792aa51221f9b2848501f03abab11e",
-  "phase": "bound",
-  "generation": 41,
-  "digest": "0031fc39fb0a96c6a8db86048bbed409034db2d50b5708b3401a56fbf443ab77",
+  "phase": "implemented",
+  "generation": 47,
+  "digest": "a0b25bd5b76e9abc9c43f069ace801ef1df14ecf60dc327b059346c0af91bf9a",
   "claim": {
     "id": "claim-5337-v0918-wp03-implementation",
     "owner": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
-    "generation": 41,
+    "generation": 47,
     "acquired_unix_seconds": 1784585647,
     "expires_unix_seconds": 1785190447,
     "heartbeat_unix_seconds": 1784585647,
@@ -34,39 +34,39 @@
   "design_review": {
     "approved": {
       "reviewer": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
-      "revision": "01e9dc48ac9023f6024077531c496eb99c9bde7bd68d582e6568ce51756b47bc"
+      "revision": "0169c3aa3b4753d0ecf233cfe03faf5ca4d82522bbc2b0338e7037ac1a30796a"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "85b59d544c5ecf51f199885ff288bdef6391d096f43437a1095e43e2b85b7a67",
+      "values_digest": "61aed27636a5fa8b4d168f67ecac346a3c5fb5c3830d0334b11a12bfca9ededf",
       "rendered_digest": "a3e23ea6aa2fc61a99a804d8f1224bd9aa0f1c31b7d4e0d5a9f7508c80264e94",
       "ast_digest": "ed7b655823cb326d1c02f24d14cc120a818a119fc9cbe6a28d385c839b12dead"
     },
     "stp": {
-      "values_digest": "865eba5901ef9c458458aa3507b9094b32f7859d78fded427e5130eddc225edd",
+      "values_digest": "905cad739dff466823ff33e016e36b110ea5dc07d9486897d028d5860e191f3c",
       "rendered_digest": "4cdf1243cc2510c5fab05f620392100b36e013744d8c4bc5a8ddf93e72c48675",
       "ast_digest": "db44314a4da872b87fc4fa7bb8a45732bc6e719dcefaa5fc188ac0e2451a79b7"
     },
     "spp": {
-      "values_digest": "56215e765c7664e61c219281894f0373dab77cb6b311cd79db06e6e1c6105d7f",
-      "rendered_digest": "26492c4df67844f88c6991dd2f58802611e2affabee5d85741b3d466e96991a3",
-      "ast_digest": "2dd75cfc98f1659d227cbc79653a9b5bcf569b42ae7f32919d02455aca95658d"
+      "values_digest": "ac2973f3f8b535096dfa88b926549535dfd37d1aff6a4fe3b27dbc6d18d7f38b",
+      "rendered_digest": "40768381755cc083af2a38af30400f01206915a1d9b4322236b3607081813d63",
+      "ast_digest": "b631288b2007b51ae3bf50fc78e21802b354008cc2b46f36ec28cd233fe0199a"
     },
     "vpp": {
-      "values_digest": "e9db76d52121514c45ee13677fc3d638b037b6575d80628f6c1ade7470c2b153",
+      "values_digest": "93f67cef110d66a64ce7d4fa60452c3abed6a68f22d47297bbce03e712b58e8e",
       "rendered_digest": "56ffb9fb26637127ec10296fde156dae2e324462788e426d603f04662d9a26fc",
       "ast_digest": "44d8f3ebd3229521b7ef29851f2d32592ad821cb911e551e8fc5b45c3eb76274"
     },
     "srp": {
-      "values_digest": "cbcb27684cf6fa26c34a9ac2c3423fe400c769336120932e67069f8e2ca9b0e3",
+      "values_digest": "c610222e8f3a10bf30f9adc7cb8c87b8f3b8eabcb0ff4c1b7ce55c52df375474",
       "rendered_digest": "40aec2a918815cfcc4a6cd56f13fe73a574b4e5796452214463887ccbeeba120",
       "ast_digest": "09256047411e66a567878b421f8982bd2f3016ad5b86e366693747113e20f6c7"
     },
     "sor": {
-      "values_digest": "718cd9c46b906ee474166952bd086d6860ffe23764df9fef74e0b7517154252c",
-      "rendered_digest": "9067fc5c1f3f338837d624e5db7e4f8e28ae7496a40d0fb3aefe46ce9223b393",
-      "ast_digest": "169810eaa5f2b9e83ae470c972d305abd63286585a2a08daf4e8825d2ae027aa"
+      "values_digest": "c751a99b9113232e0d9ab4321c371875cce61ec01aa6bd1b0562fbb8a0cdb8ca",
+      "rendered_digest": "2e8f368d6b7f91b0c6c5925516d3a115536d4d3a92607c13092154eaff30691f",
+      "ast_digest": "f5debd02c65657df5b98e55fec681a3ed71ec7433a5e70b9fcb1fb5cd489806d"
     }
   },
   "transitions": [
@@ -83,6 +83,13 @@
       "to": "bound",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Implementation and all local acceptance proof are complete at reviewed substantive revision 13f21e6bc; enter typed exact-revision review while publication remains gated on #5336."
     }
   ],
   "audit": [
@@ -400,6 +407,48 @@
       "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
       "reason": "Record exact pinned-binary capture, offline verification, and portable evidence proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"adl-characterize\",\"capture\",\"--binary\",\"/Volumes/FastWork/adl-5337-v1-target/debug/adl\",\"--corpus\",\"adl-characterization/corpus/v1/corpus.yaml\",\"--observations\",\"adl-characterization/observations/v1\",\"--report\",\"adl-characterization/observations/v1/verification.json\"],\"purpose\":\"Capture and then offline-verify all 25 cases and 75 executions from the exact pinned binary, atomically replace evidence, and retain only portable tokenized streams plus exact byte hashes.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-characterization/observations/v1/verification.json at commit 6652c4ab7: 25 cases, 75 observations, 23 behaviors, two equivalence groups, one difference group, status pass; no /Users or /private/var path remained.\"}}"
+    },
+    {
+      "sequence": 46,
+      "generation": 42,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 47,
+      "generation": 43,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record final remediation of the two remaining exact-review blockers at substantive commit 13f21e6bc.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the default-execution policy bypass and retained-evidence integrity gap with exact command shapes, corpus-bundle binding, portable stream digests, and recomputable observation envelopes.\",\"changes\":[\"Restrict every corpus command to an exact approved non-executing shape or the sole exact local-mock execution shape\",\"Bind each retained observation to a deterministic symlink-rejecting corpus-tree digest\",\"Retain separate exact-capture and recomputable portable stream hashes under a complete observation envelope\",\"Reject corpus, expanded-argument, captured-hash, portable-hash, and joint raw-plus-normalized tampering offline\",\"Document the exact-byte trust boundary without claiming an operating-system network sandbox\"],\"artifacts\":[\".csdlc/evidence/5337/review-13f21e6bc.md\",\"adl-characterization/src/manifest.rs\",\"adl-characterization/src/model.rs\",\"adl-characterization/src/compare.rs\",\"adl-characterization/tests/evidence.rs\",\"adl-characterization/tests/manifest.rs\"]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 44,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record the complete final-remediation test proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-characterization/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Prove exact command-shape rejection, corpus and observation integrity, every prior remediation, retained evidence, and CLI behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 13f21e6bc: 29 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target; exact re-review independently repeated 29/29 under /Volumes/FastWork/adl-5337-rereview2-target.\"}}"
+    },
+    {
+      "sequence": 49,
+      "generation": 45,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record strict lint proof for the final remediation revision.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-characterization/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove all final source, integrity checks, and adversarial tests are warning-free.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 13f21e6bc: strict all-target Clippy passed with Cargo output under /Volumes/FastWork.\"}}"
+    },
+    {
+      "sequence": 50,
+      "generation": 46,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Record final corpus capture, integrity, and offline verification proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"adl-characterize\",\"verify\",\"--corpus\",\"adl-characterization/corpus/v1/corpus.yaml\",\"--observations\",\"adl-characterization/observations/v1\",\"--report\",\"adl-characterization/observations/v1/verification.json\"],\"purpose\":\"Recompute corpus and observation integrity and verify all retained black-box characterization evidence offline.\",\"outcome\":\"passed\",\"evidence_ref\":\"Commit 13f21e6bc: 25 cases, 75 observations, 23 behaviors, two equivalence groups, one difference group, status pass; committed observations contain no /Users, /private/var, /Volumes, /tmp, or /home paths.\"}}"
+    },
+    {
+      "sequence": 51,
+      "generation": 47,
+      "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+      "reason": "Implementation and all local acceptance proof are complete at reviewed substantive revision 13f21e6bc; enter typed exact-revision review while publication remains gated on #5336.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

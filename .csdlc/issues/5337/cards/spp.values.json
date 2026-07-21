@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-03] Build normalized characterization and determinism corpus",
     "slug": "v0918-wp03-characterization-corpus-preparation",
     "version": "v0.91.8",
-    "generation": 41
+    "generation": 47
   },
   "status": "ready",
   "content": {
@@ -115,9 +115,9 @@
         "the coverage map reveals a required behavior with no executable case"
       ],
       "design_ref": ".csdlc/prepared/issues/5337/design.md",
-      "design_digest": "01e9dc48ac9023f6024077531c496eb99c9bde7bd68d582e6568ce51756b47bc",
+      "design_digest": "0169c3aa3b4753d0ecf233cfe03faf5ca4d82522bbc2b0338e7037ac1a30796a",
       "diagram_ref": ".csdlc/prepared/issues/5337/diagram.mmd",
-      "diagram_digest": "808f6c6ff3a0b68845330c2642882fd660e97c17680a5f61ca146655abe54b57"
+      "diagram_digest": "1c3aa7d5156f1711651e366995fc17e40a258f7011772abf4dacd6c2f426f2a3"
     }
   }
 }

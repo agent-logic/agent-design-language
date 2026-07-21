@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Closed all five exact-review findings with offline command-contract verification, a truthful local-only execution policy, COTS-backed timeout and atomic capture replacement, corrected schema-shape coverage, and portable hashed observations.
+Closed the default-execution policy bypass and retained-evidence integrity gap with exact command shapes, corpus-bundle binding, portable stream digests, and recomputable observation envelopes.
 
 ## Artifacts
 
@@ -28,6 +28,12 @@ Closed all five exact-review findings with offline command-contract verification
 - adl-characterization/src/runner.rs
 - adl-characterization/tests/evidence.rs
 - adl-characterization/tests/manifest.rs
+- .csdlc/evidence/5337/review-13f21e6bc.md
+- adl-characterization/src/manifest.rs
+- adl-characterization/src/model.rs
+- adl-characterization/src/compare.rs
+- adl-characterization/tests/evidence.rs
+- adl-characterization/tests/manifest.rs
 
 ## Execution
 
@@ -40,6 +46,11 @@ Closed all five exact-review findings with offline command-contract verification
 - Use wait-timeout for bounded child execution, kill and reap timeout, classify deterministically, and preserve prior complete output through staged replacement
 - Rename the false unknown-run-reference claim to the observed unsupported-run-field schema rejection
 - Retain portable ROOT/WORK-tokenized streams plus hashes of exact pre-tokenization bytes and reject machine-local retained paths
+- Restrict every corpus command to an exact approved non-executing shape or the sole exact local-mock execution shape
+- Bind each retained observation to a deterministic symlink-rejecting corpus-tree digest
+- Retain separate exact-capture and recomputable portable stream hashes under a complete observation envelope
+- Reject corpus, expanded-argument, captured-hash, portable-hash, and joint raw-plus-normalized tampering offline
+- Document the exact-byte trust boundary without claiming an operating-system network sandbox
 
 ## Validation
 
@@ -99,6 +110,48 @@ Closed all five exact-review findings with offline command-contract verification
     "purpose": "Capture and then offline-verify all 25 cases and 75 executions from the exact pinned binary, atomically replace evidence, and retain only portable tokenized streams plus exact byte hashes.",
     "outcome": "passed",
     "evidence_ref": "adl-characterization/observations/v1/verification.json at commit 6652c4ab7: 25 cases, 75 observations, 23 behaviors, two equivalence groups, one difference group, status pass; no /Users or /private/var path remained."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--all-targets"
+    ],
+    "purpose": "Prove exact command-shape rejection, corpus and observation integrity, every prior remediation, retained evidence, and CLI behavior.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 13f21e6bc: 29 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target; exact re-review independently repeated 29/29 under /Volumes/FastWork/adl-5337-rereview2-target."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-characterization/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove all final source, integrity checks, and adversarial tests are warning-free.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 13f21e6bc: strict all-target Clippy passed with Cargo output under /Volumes/FastWork."
+  },
+  {
+    "command": [
+      "adl-characterize",
+      "verify",
+      "--corpus",
+      "adl-characterization/corpus/v1/corpus.yaml",
+      "--observations",
+      "adl-characterization/observations/v1",
+      "--report",
+      "adl-characterization/observations/v1/verification.json"
+    ],
+    "purpose": "Recompute corpus and observation integrity and verify all retained black-box characterization evidence offline.",
+    "outcome": "passed",
+    "evidence_ref": "Commit 13f21e6bc: 25 cases, 75 observations, 23 behaviors, two equivalence groups, one difference group, status pass; committed observations contain no /Users, /private/var, /Volumes, /tmp, or /home paths."
   }
 ]
 
