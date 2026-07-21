@@ -1,0 +1,14 @@
+{
+  "issue": 5602,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "99e418a1d964821c688d36532459262837dea0d9f3ded92a4cffc416cb5708fc",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "The supported external-test coverage workflow and corrected lifecycle truth received an exact-head no-findings review at e85087c8e.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  },
+  "fail_after_backup": false
+}

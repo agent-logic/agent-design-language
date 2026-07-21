@@ -1,0 +1,23 @@
+{
+  "issue": 5602,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "8a7b3f83cf3de59a83f27644515efd88b53b6af0f35a6d5b0914ced9dbcbdc13",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Replace the superseded no-report execution summary with the supported external-test workflow proven at the corrected head.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Use cargo-llvm-cov clean and show-env, run partitioned cargo nextest directly with run-scoped instrumentation targets, and render one explicit combined report per workspace.",
+    "changes": [
+      "Replace the incompatible no-clean plus no-report wrapper invocation with the documented external-test workflow",
+      "Isolate CARGO_TARGET_DIR and CARGO_LLVM_COV_TARGET_DIR per coverage run",
+      "Update the authoritative and CI runtime contracts to prove show-env instrumentation is consumed"
+    ],
+    "artifacts": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/tools/test_ci_runtime_contracts.sh"
+    ]
+  }
+}

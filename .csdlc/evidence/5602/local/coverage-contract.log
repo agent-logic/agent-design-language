@@ -1,20 +1,20 @@
 {
   "candidate_files": 8788,
-  "dest_target": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/.adl/tmp/authoritative-coverage.wswF62/scratch/target",
+  "dest_target": "[REDACTED]/.adl/tmp/authoritative-coverage.ziCodO/scratch/target",
   "dry_run": false,
   "errors": 0,
   "external_packages": 433,
   "external_target_prefixes": 433,
   "linked_files": 8788,
   "linked_fingerprint_files": 2838,
-  "manifest_path": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/adl/Cargo.toml",
+  "manifest_path": "[REDACTED]/adl/Cargo.toml",
   "profile": "debug",
   "replace": true,
   "rolled_back_files": 0,
   "skipped_dep_info": 1222,
   "skipped_existing": 0,
   "skipped_unmatched": 13221,
-  "source_target": "/Users/daniel/git/agent-design-language/adl/target",
+  "source_target": "[REDACTED]/adl/target",
   "status": "ok"
 }
 Authoritative coverage mode: bounded_policy_surface_pr
@@ -25,21 +25,21 @@ Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_int
 Authoritative coverage companion: adl-runtime
 {
   "candidate_files": 8788,
-  "dest_target": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/.adl/tmp/authoritative-coverage.wswF62/scratch/target",
+  "dest_target": "[REDACTED]/.adl/tmp/authoritative-coverage.ziCodO/scratch/target",
   "dry_run": false,
   "errors": 0,
   "external_packages": 433,
   "external_target_prefixes": 433,
   "linked_files": 0,
   "linked_fingerprint_files": 2838,
-  "manifest_path": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/adl/Cargo.toml",
+  "manifest_path": "[REDACTED]/adl/Cargo.toml",
   "profile": "debug",
   "replace": true,
   "rolled_back_files": 0,
   "skipped_dep_info": 1222,
   "skipped_existing": 8788,
   "skipped_unmatched": 13221,
-  "source_target": "/Users/daniel/git/agent-design-language/adl/target",
+  "source_target": "[REDACTED]/adl/target",
   "status": "ok"
 }
 Authoritative coverage mode: bounded_policy_surface_pr
@@ -50,71 +50,71 @@ Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_int
 Authoritative coverage companion: adl-runtime
 {
   "candidate_files": 8788,
-  "dest_target": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/.adl/tmp/authoritative-coverage.wswF62/scratch/target",
+  "dest_target": "[REDACTED]/.adl/tmp/authoritative-coverage.ziCodO/scratch/target",
   "dry_run": false,
   "errors": 0,
   "external_packages": 433,
   "external_target_prefixes": 433,
   "linked_files": 0,
   "linked_fingerprint_files": 2838,
-  "manifest_path": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/adl/Cargo.toml",
+  "manifest_path": "[REDACTED]/adl/Cargo.toml",
   "profile": "debug",
   "replace": true,
   "rolled_back_files": 0,
   "skipped_dep_info": 1222,
   "skipped_existing": 8788,
   "skipped_unmatched": 13221,
-  "source_target": "/Users/daniel/git/agent-design-language/adl/target",
+  "source_target": "[REDACTED]/adl/target",
   "status": "ok"
 }
 {
   "candidate_files": 8788,
-  "dest_target": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/.adl/tmp/authoritative-coverage.wswF62/scratch/target",
+  "dest_target": "[REDACTED]/.adl/tmp/authoritative-coverage.ziCodO/scratch/target",
   "dry_run": false,
   "errors": 0,
   "external_packages": 433,
   "external_target_prefixes": 433,
   "linked_files": 0,
   "linked_fingerprint_files": 2838,
-  "manifest_path": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/adl/Cargo.toml",
+  "manifest_path": "[REDACTED]/adl/Cargo.toml",
   "profile": "debug",
   "replace": true,
   "rolled_back_files": 0,
   "skipped_dep_info": 1222,
   "skipped_existing": 8788,
   "skipped_unmatched": 13221,
-  "source_target": "/Users/daniel/git/agent-design-language/adl/target",
+  "source_target": "[REDACTED]/adl/target",
   "status": "ok"
 }
 Authoritative coverage mode: bounded_policy_surface_pr
-Features: default
-Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
-Authoritative coverage test threads: 4
-Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
 Authoritative coverage mode: bounded_policy_surface_pr
 Features: default
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
 Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
 Authoritative coverage test threads: 4
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
 Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
 Authoritative coverage companion: adl-runtime
 Authoritative coverage companion: adl-runtime
 {
   "candidate_files": 8788,
-  "dest_target": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/.adl/tmp/authoritative-coverage.wswF62/scratch/target",
+  "dest_target": "[REDACTED]/.adl/tmp/authoritative-coverage.ziCodO/scratch/target",
   "dry_run": false,
   "errors": 0,
   "external_packages": 433,
   "external_target_prefixes": 433,
   "linked_files": 0,
   "linked_fingerprint_files": 2838,
-  "manifest_path": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5602/adl/Cargo.toml",
+  "manifest_path": "[REDACTED]/adl/Cargo.toml",
   "profile": "debug",
   "replace": true,
   "rolled_back_files": 0,
   "skipped_dep_info": 1222,
   "skipped_existing": 8788,
   "skipped_unmatched": 13221,
-  "source_target": "/Users/daniel/git/agent-design-language/adl/target",
+  "source_target": "[REDACTED]/adl/target",
   "status": "ok"
 }
 Authoritative coverage mode: full_authoritative_default_features

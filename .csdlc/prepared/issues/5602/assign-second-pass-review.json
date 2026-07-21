@@ -1,0 +1,15 @@
+{
+  "issue": 5602,
+  "expected_generation": 10,
+  "expected_digest": "f93bea8f2430ac403f528b9419ef89020120b2b3ad995e8763f66200e20a991c",
+  "claim_id": "claim-5602-hosted-coverage-no-report",
+  "reviewer": "codex-task:019f81ab-eadd-7430-be8a-b92f560b7f41",
+  "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "scope": [
+    "adl/tools/run_authoritative_coverage_lane.sh",
+    "adl/tools/test_run_authoritative_coverage_lane.sh",
+    "adl/tools/test_ci_runtime_contracts.sh",
+    ".csdlc/issues/5602",
+    ".csdlc/prepared/issues/5602"
+  ]
+}
