@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "4f0d48f1f4da15b75b89c1cba890f526cfa01c17c832bb37c6d3496240a87705",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "44bfd7a674e6302d3643038f6d612f51dbee37afa577f436a68c77cf64f54e1b",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 22,
+    "generation": 24,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -27,8 +27,40 @@
     ],
     "purpose": "Implement every #5591 Runtime v3 Parity-A outcome: guardian-launched canonical secure ingress, deterministic checkpoint replay and resume, pressure serialization and shutdown, configured access, Observatory output, negative proof, and exact LoC and test budgets"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_5591_exact_head",
+    "assigned_by": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+    "revision": "git-blake3:da5a666bb2436afd45311ff8a2abcf732d4feb67:cc48b6813d8c86a3aaad5426f289caebfaf810fc4ab9cab25bedcb91242f4e04",
+    "scope": [
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime-kernel",
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh",
+      "adl/tools/report_runtime_v3_loc.sh",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/srp.values.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_5591_exact_head",
+    "scope": [
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime-kernel",
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh",
+      "adl/tools/report_runtime_v3_loc.sh",
+      ".csdlc/issues/5591/cards/sor.values.json",
+      ".csdlc/issues/5591/cards/srp.values.json"
+    ],
+    "reviewed_revision": "git-blake3:da5a666bb2436afd45311ff8a2abcf732d4feb67:cc48b6813d8c86a3aaad5426f289caebfaf810fc4ab9cab25bedcb91242f4e04",
+    "findings": [],
+    "residual_risks": [
+      "The fixed-port Horust SIGTERM process test remains ignored and was intentionally not run; dynamic-port pressure and signed terminal paths share the reviewed serialization helper and pass.",
+      "Runtime v3 is 12,683 physical source lines, an explicitly reviewed +474 exception over the pinned #5336 baseline of 12,209; exact review found the delta necessary, non-duplicative, and functionally required."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -43,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a840c28757d52621b137a1e2dd0587ced2cfb2ada557a6469d0a5045c586d35c",
+      "values_digest": "99c21658e09438ad905ac683871fe3f10d08ce5f2b7a01979868ef0c09429349",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "04a0aeddf77d99855c8f9d9b9ecdf7856a27176f7676c2ef3e489b71097e7d7b",
+      "values_digest": "93b83546b7ca396134f165c55e9a2945547d2a7a600b4a71f1749184bf7fc493",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "fc336b188a9be492387eb5039177977db9925c69bdbc6abc6c04108e3a90874c",
+      "values_digest": "c77d1436c0a540865077f0d187662f90eba2fe42d197c29374863aeec0237c19",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "88fcb67cb175a3b07c6373e5657070c8f5ae2cba88fa1ed772e9876f20788874",
+      "values_digest": "1b0dbf316386ee31b5a2d49ba9858af17fe277868f5c8b9135ba40df3588af20",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "cb934b939120c3e9e032fbb0686d612d72d9baf2d600f42c461b18301c9843bb",
-      "rendered_digest": "ad4a980a0e737e0c7f01de4ad76e7eca73b016332a9dde6a67044fa5faf86d28",
-      "ast_digest": "9ce8e5a6a15a085691d90cbc2955f381306b86c02d9ab1998f8e09b15ed60144"
+      "values_digest": "9ebe44c0a2b605b1fbbdeb863bb951cb45009eee02ef8ff8d49edd90291760ab",
+      "rendered_digest": "ed2e7034dabd5b118e1f29579d49fbfb6c523ffe36070853f76a39ce9f350f45",
+      "ast_digest": "59a20ff312b4fe6f6d179d87bafde7cc1e2862335cf3cdf873ae00b4672d9485"
     },
     "sor": {
-      "values_digest": "624f8af6ca81d4264c6bd8134b9888dd403a732faacc9595563651b962f46e5f",
+      "values_digest": "408d5cfc3653b1fee3269949107fb9a264ce78f4dee4c87ad2a26d6a5e18d13f",
       "rendered_digest": "2b5d90dac6217b24e5752a5dba1d0c76da493235ae87264ede38a464b29bc8e0",
       "ast_digest": "ca9ed55bf3b9a60a96fcaef0747c19ae6b7c160fc696278868cce621d7d77e6d"
     }
@@ -143,6 +175,13 @@
       "to": "implemented",
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Merged #5610 coverage normalization changed the exact publication revision; recover review truth for one final integrated validation and exact-head rereview while preserving the guardian correction."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Final integrated exact-head rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual."
     }
   ],
   "audit": [
@@ -355,6 +394,27 @@
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Record exact integrated Runtime v3 and shared coverage proof after terminal #5610 integration.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-focused cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test assembly --test control --test operations\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-full cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-kernel-clippy cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets --all-features -- -D warnings\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-runtime-full cargo test --locked --manifest-path adl-runtime/Cargo.toml\",\"for iteration in 1..25: CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-guardian-stress cargo test --locked --manifest-path adl-runtime/Cargo.toml guardian::tests::child_exit_terminates_descendants_and_bounds_inherited_pipe_capture -- --exact\",\"bash adl/tools/test_merge_coverage_summaries.sh\",\"cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --all -- --check\",\"bash adl/tools/report_runtime_v3_loc.sh\",\"git diff --check origin/main...HEAD\"],\"purpose\":\"Prove the one-time final integration: 34 focused and 187 complete Runtime v3 kernel tests, strict kernel lint, 127 adl-runtime tests, 25 consecutive guardian race regressions, the corrected shared coverage merger, formatting and diff hygiene, and unchanged budget truth of 12,683 lines with the reviewed +474 exception over pinned baseline 12,209.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner:019f8362-357c-7621-95b7-afb314e0c61d@7725c67db7b82f076e56e9d560e5a292a5171496:/Volumes/FastWork/adl-5591/final-*\"}}"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "subagent:/root/review_5591_exact_head",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "Final integrated exact-head rereview passed with zero findings; retain the pinned +474 budget exception and ignored fixed-port Horust SIGTERM residual.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
