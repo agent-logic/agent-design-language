@@ -1,0 +1,48 @@
+{"schema":"adl.csdlc.dependency-gate.v2","issue":5340,"dependency_issue":5338,"repository":"danielbaustin/agent-design-language","phase":"closed_out","disposition":"merged","observed_state":"merged","pull_request":5617,"merged_sha":"2c0cdd4522e6d7a062595706249894be3e16b2b3","origin_main_sha":"09c0bd1784216dbce1ad4cdebfe2d453af6e3d9d","fetched_unix_seconds":1784669521,"head_sha":"7bccfcd4daa490ec76a6c8e68bb91326ea1b2b99","typed_receipt_digest":"d8410dda41515b144fcec22a2e9af7e0fd6f029680e9659970aa5b3bf3b21bb1","typed_receipt_validation":"scratch_retain_receipt_passed","ancestry":["merge_to_origin_main","merge_to_head","origin_main_to_head"],"sole_writer":true,"outcome":"passed"}
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 7 tests
+test canonical_ready_and_dispatch_order_survives_saturation ... ok
+test event_and_turn_budgets_fail_closed_without_partial_state ... ok
+test all_at_least_and_fail_fast_joins_have_explicit_outcomes ... ok
+test plan_node_and_edge_limits_accept_below_and_at_then_reject_above ... ok
+test checkpoint_byte_limit_accepts_exact_minimum_and_rejects_one_less ... ok
+test ready_in_flight_and_attempt_limits_cover_below_at_and_above_edges ... ok
+test request_envelope_limit_is_admission_bound ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 7 tests
+test duplicate_completion_is_idempotent_but_changed_replay_is_protocol_error ... ok
+test retry_delay_and_attempt_exhaustion_are_monotonic ... ok
+test cancellation_emits_once_and_same_turn_terminal_completion_wins ... ok
+test completion_permutations_produce_identical_snapshots_and_events ... ok
+test output_limit_accepts_below_and_at_then_rejects_above_atomically ... ok
+test checkpoint_rejects_in_flight_noncanonical_truncated_and_changed_contracts ... ok
+test quiescent_resume_matches_uninterrupted_retry_execution ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"checkpoint_contract":"adl.engine-checkpoint.v1","engine_contract":"adl.engine.v1","plan_contract":"adl.execution-plan.v1","plan_source_digest":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","plan_digest":"9cc08173a1c3bb1eecff0ee3abf120e8698882331224c1d4e41480b9c5384c6d","policy_digest":"82ece7750eff7e20a9629f5705df4686ca8e1f164238e0c1eda2038d29232320","node_ids":["node-a","node-b"],"edge_ids":[],"limits":{"max_plan_nodes":32,"max_dependency_edges":64,"max_ready_nodes":32,"max_in_flight":32,"max_total_attempts":128,"max_attempts_per_node":8,"max_request_bytes":65536,"max_output_bytes":65536,"max_events":1024,"max_checkpoint_bytes":1048576,"max_logical_turns":1024},"logical_tick":5,"logical_turns":4,"attempts_consumed":3,"output_bytes":11,"event_count":9,"next_event_sequence":9,"next_request_sequence":3,"nodes":{"node-a":{"state":{"succeeded":{"output":{"media_type":"application/octet-stream","bytes":[102,105,114,115,116]}}},"attempts":2},"node-b":{"state":{"succeeded":{"output":{"media_type":"application/octet-stream","bytes":[115,101,99,111,110,100]}}},"attempts":1}},"consumed_completion_digests":{"4cd8dbad84c3b0ae44feb0819610f1b2b302bc3a621460c941595baa4aa05acf":"ebafb4cb76e37a10bcc775b20a18d1e6a4f72d5ddaed8088caef0d36667a0abf","7c58633b5d37a7241771fd5f5f1f697220c47b788f3b74c11eac81da537fcac0":"cf26b3060ab52f79ea47dc9ad589a7ed4e8d04700a39152a95269749d3b07a5b","bb24a6992f6667efe407f2a46d90cf12c16976d287e40f25708f140ac8036cb6":"c5088977c3e06b31f848d0d4182c2154c135e92cb5b451c3c0fc94e52fa29246"}}
+
+running 6 tests
+test policy_must_exactly_cover_nodes_and_only_declared_tools ... ok
+test retry_policy_and_join_thresholds_are_admission_bounded ... ok
+test completion_kind_unknown_identity_and_attempt_mismatch_fail_closed ... ok
+test pending_ready_retry_and_dispatched_cancellation_paths_are_distinct ... ok
+test provider_and_tool_effects_are_separate_stable_typed_ports ... ok
+test compiler_sequential_and_state_dependency_edges_are_both_admitted ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running unittests src/lib.rs (/Volumes/FastWork/adl-wp-5340/target/debug/deps/adl_engine-c2700b455b5b0f8a)
+     Running tests/bounded_schedule.rs (/Volumes/FastWork/adl-wp-5340/target/debug/deps/bounded_schedule-be1a4ffa13edaa91)
+     Running tests/failure_resume.rs (/Volumes/FastWork/adl-wp-5340/target/debug/deps/failure_resume-cb301f97969497ae)
+     Running tests/fresh_process_driver.rs (/Volumes/FastWork/adl-wp-5340/target/debug/deps/fresh_process_driver-1086d987c2826015)
+     Running tests/port_contracts.rs (/Volumes/FastWork/adl-wp-5340/target/debug/deps/port_contracts-bf339ca57fd209de)

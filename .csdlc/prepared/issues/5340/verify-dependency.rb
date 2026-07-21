@@ -61,6 +61,11 @@ Dir.mktmpdir("adl-wp-5340-receipt-", fastwork) do |scratch|
   abort("scratch receipt validator escaped FastWork") unless scratch.start_with?(fastwork + File::SEPARATOR)
   clone = File.join(scratch, "repo")
   capture!("git", "clone", "--shared", "--no-checkout", primary, clone)
+  capture!(
+    "git", "fetch", "--no-tags", primary,
+    "+refs/remotes/origin/main:refs/remotes/source/origin-main",
+    chdir: clone
+  )
   capture!("git", "checkout", "--detach", origin_main, chdir: clone)
 
   untrusted = JSON.parse(File.read(receipt_path))

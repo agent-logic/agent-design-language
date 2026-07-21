@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "open3"
 
 metadata_path = ARGV.fetch(0)
 metadata = JSON.parse(File.read(metadata_path))
@@ -21,6 +22,29 @@ expected = {
   "hex" => "=0.4.3"
 }.freeze
 crates_io = "registry+https://github.com/rust-lang/crates.io-index"
+lock_path = File.join(engine, "Cargo.lock")
+lock_reader = <<~'PYTHON'
+  import json
+  import sys
+  import tomllib
+
+  with open(sys.argv[1], "rb") as source:
+      lock = tomllib.load(source)
+  print(json.dumps(lock.get("package", []), sort_keys=True, separators=(",", ":")))
+PYTHON
+lock_output, lock_error, lock_status = Open3.capture3("python3", "-c", lock_reader, lock_path)
+abort("Cargo.lock TOML validation failed: #{lock_error}") unless lock_status.success?
+lock_packages = JSON.parse(lock_output)
+locked_registry = lambda do |name, version|
+  matches = lock_packages.select do |package|
+    package.fetch("name") == name && package.fetch("version") == version && package["source"] == crates_io
+  end
+  abort("#{name} #{version} has alternate or missing Cargo.lock entries") unless matches.length == 1
+  locked = matches.first
+  checksum = locked["checksum"]
+  abort("#{name} #{version} Cargo.lock checksum is absent or malformed") unless checksum.is_a?(String) && checksum.match?(/\A[0-9a-f]{64}\z/)
+  locked
+end
 dependencies = engine_package.fetch("dependencies")
 observed = dependencies.map { |dependency| dependency.fetch("name") }.sort
 abort("direct dependencies differ from exact reviewed COTS set: #{observed.join(', ')}") unless observed == expected.keys.sort
@@ -40,8 +64,7 @@ dependencies.each do |dependency|
     abort("#{name} has alternate or missing resolved versions") unless named.length == 1 && named.first.fetch("version") == version
     package = named.first
     abort("#{name} resolved from a non-crates.io source") unless package.fetch("source") == crates_io
-    checksum = package.fetch("checksum")
-    abort("#{name} registry checksum is absent or malformed") unless checksum.is_a?(String) && checksum.match?(/\A[0-9a-f]{64}\z/)
+    locked_registry.call(name, version)
   end
 end
 
@@ -53,8 +76,7 @@ packages.each do |package|
     path = File.realpath(File.dirname(package.fetch("manifest_path")))
     abort("unreviewed local package path: #{path}") unless allowed_paths.include?(path)
   elsif source == crates_io
-    checksum = package["checksum"]
-    abort("registry checksum absent: #{package.fetch('name')}") unless checksum.is_a?(String) && checksum.match?(/\A[0-9a-f]{64}\z/)
+    locked_registry.call(package.fetch("name"), package.fetch("version"))
   else
     abort("unreviewed package source: #{source}")
   end
@@ -68,7 +90,8 @@ resolved_direct = dependencies.reject { |dependency| dependency.fetch("name") ==
   name = dependency.fetch("name")
   version = expected.fetch(name).delete_prefix("=")
   package = packages.find { |item| item.fetch("name") == name && item.fetch("version") == version }
-  [name, { version: version, source: package.fetch("source"), checksum: package.fetch("checksum") }]
+  locked = locked_registry.call(name, version)
+  [name, { version: version, source: package.fetch("source"), checksum: locked.fetch("checksum") }]
 end
 puts JSON.generate(
   schema: "adl.wp06.cots-proof.v1",

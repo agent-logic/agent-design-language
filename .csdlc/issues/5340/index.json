@@ -4,25 +4,25 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8863afa2116f00a1d2454a78df6f0287e360060ac0565d961b33c1da3c447617",
   "phase": "bound",
-  "generation": 11,
-  "digest": "1a2b13640e0ad3690cf0a8f17fa9215e862d329344d5a82d0487cf45f3de4191",
+  "generation": 13,
+  "digest": "b85742d05f955a174e24394af203ee2c22c5e46a88eae00bfaa10165a3c23065",
   "claim": {
     "id": "claim-5340-v0918-wp06-owner-watch",
     "owner": "codex:5340-owner-watch",
-    "generation": 11,
+    "generation": 13,
     "acquired_unix_seconds": 1784619054,
     "expires_unix_seconds": 1785223854,
     "heartbeat_unix_seconds": 1784619054,
     "branch": "codex/5340-v0918-wp06-portable-engine",
     "worktree": ".",
     "protected_paths": [
+      ".csdlc/evidence/5340",
       ".csdlc/issues/5340",
       ".csdlc/locks/5340.lock",
       ".csdlc/prepared/issues/5340",
-      ".csdlc/evidence/5340",
       "adl-v2/crates/adl-engine"
     ],
-    "purpose": "Permanently own, prepare, and watch #5340 one dependency wave ahead; product implementation remains prohibited until #5338 is GitHub merged and retained typed closed_out with merged-SHA ancestry"
+    "purpose": "Implement, validate, exact-revision review, publish, shepherd, authorized-merge, post-merge validate, and typed-closeout #5340's portable bounded adl-engine while preserving the five disjoint protected paths and excluding Runtime v2/v3, adapters, CLI, cloud, and incumbent ADL authority"
   },
   "review_assignment": null,
   "review": null,
@@ -40,32 +40,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7739521500c3754827f457dc990d966e6b7f2072410f9325ddcafdcc41f3abac",
+      "values_digest": "281d2993514487267174b23888642e10c07ad10ae1ebf7759aa3e9d7c7a380bb",
       "rendered_digest": "89b09b0e450ddd7efb55816ac6604326382c3e8976d112bd18c9847f4c6e6309",
       "ast_digest": "f8c5fd0db072f65fa89e0d9dcc29934d6219925a15e6b0478f1ec223dbede876"
     },
     "stp": {
-      "values_digest": "e98e6e7a15057600db4134d72552cabbeee4f00d2b8fe90861a8cac2f2ed6d0b",
+      "values_digest": "d6157514a222fb8ba1091f9397e0b6565045e8cd9d0587d025909c7236967f33",
       "rendered_digest": "2d4f29e605035d0c85da7bfada7d463f3f27fe4546e38bc8dffadcc9510771fa",
       "ast_digest": "f3745e071ea9bcadd8ae499c89a7dd9e574600d035b0d6a8d092b3f26ee03c25"
     },
     "spp": {
-      "values_digest": "d14292be4d6457731f21097a8702a1e23988f655a80c45e0fffa6376108a28ee",
-      "rendered_digest": "62426157949e90e8c1c52079be951dc5fafe56b4e5ae0cd4895408e3720cf964",
-      "ast_digest": "eaf574249f0ea05ffddddbe9cc7d978bbc3a7f6f889529b006de23851d87b7da"
+      "values_digest": "f7255cba5ebf20ee32f67237cd1eaf48582606c179c81a251c36bd1ac7d2847a",
+      "rendered_digest": "2ab1cf9b9147959887b14fc30daed97b1bea81a39a5245d695f80635e8f1fe84",
+      "ast_digest": "537f87a9d7b3382f162737bf68b9dbe469f2a39131d5d08ece4a7d1a4bf85847"
     },
     "vpp": {
-      "values_digest": "8cd081e6dff8a32c68c3d84b718373c4b0b441e50a3f66bbdf6c18f917b63635",
+      "values_digest": "898cd68264da3fde603ac89a4cf8aceb95979dfa2ec84563669548cd846e6aa3",
       "rendered_digest": "6ce70a28eb85688c195502de77dbbcf7aa5f3c38897640c6275929056265c2b8",
       "ast_digest": "7ea7f4080d60b398d0b99625947ac1b191dae9f80f9b0a802f7b6339517de8d0"
     },
     "srp": {
-      "values_digest": "4c2cc2283d9b2f8e56cc0976db205798662e198b445f319f071de7124aadea34",
+      "values_digest": "05762925999dc159ee50156217444c7a0eeed85752c26be0c7ca96995146df02",
       "rendered_digest": "f188ec02b6f0f48d94a90f6a8de81540683240c249fddf7388223612b8de3066",
       "ast_digest": "025edc6b7b011924b2eb1dca82351f1e30d90bedc8ea2d6ebd5a1c69e8320d9b"
     },
     "sor": {
-      "values_digest": "a5189f687e67b6eddd79e2a900d8ff9f3a9a0ec9c1f941453fc013d3b3e8b65f",
+      "values_digest": "de0e252d8a801b318f2e8af917afeecd9a59fb0e0d3bafac6c9c8041e5723337",
       "rendered_digest": "015b08c145c5ea26b600c6b14d1a7c116584821bb0ec59af60f3c34295e38d52",
       "ast_digest": "a1cd7976173bb72ff097c275c6de639946dfe6d938abe8ce978bdfb39c8a2846"
     }
@@ -177,6 +177,27 @@
       "actor": "codex:5340-owner-watch",
       "reason": "route preparation through typed cache and proof DAG",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Run the typed preparation tool-cache and network-denied contract DAG; prove card/design integrity, exact dependency and scope gates, budgets, PVF classes, rollback, and root safety\",\"acceptance_ids\":[\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5340/validate-preparation.sh\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"engine-cache-warm\",\"proof_role\":\"Optional controlled-external setup that fetches only the exact lock closure into FastWork and is not validation proof\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\".csdlc/prepared/issues/5340/validate-engine.sh\",\"warm-cache\"],\"parallel_group\":\"engine-setup\",\"defer_reason\":\"Run only after the #5338 gate opens when the exact locked closure is not already cached; this setup is never acceptance evidence\"},{\"lane\":\"engine-focused\",\"proof_role\":\"Prove state transitions, canonical dispatch, joins, bounded retry/failure/cancellation, saturation, typed ports, and fail-closed protocol behavior\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":120,\"budget_tokens\":6500,\"argv\":[\".csdlc/prepared/issues/5340/validate-engine.sh\",\"focused\"],\"parallel_group\":\"engine-local\",\"defer_reason\":\"Execute only after #5338 is GitHub merged and retained typed closed_out with exact ancestry and the engine crate exists\"},{\"lane\":\"engine-quality\",\"proof_role\":\"Prove formatting/lint quality plus structural absence of filesystem, network, process, thread, clock, environment, async, unsafe, Runtime, and adapter authority\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3500,\"argv\":[\".csdlc/prepared/issues/5340/validate-engine.sh\",\"quality\"],\"parallel_group\":\"engine-local\",\"defer_reason\":\"Execute only after the exact #5338 dependency gate opens and implementation exists\"},{\"lane\":\"ordering-resume\",\"proof_role\":\"Prove completion permutations, saturation, cancellation, retry/join boundaries, duplicates, incompatible checkpoints, and two-process resume equivalence\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":7000,\"argv\":[\".csdlc/prepared/issues/5340/validate-engine.sh\",\"determinism\"],\"parallel_group\":\"engine-determinism\",\"defer_reason\":\"Execute only after the exact #5338 dependency gate opens and its landed fixtures are mapped\"},{\"lane\":\"engine-budgets\",\"proof_role\":\"Enforce typed receipt/ancestry/claim gates, exact scope and COTS, forbidden source/dependencies, LoC ceilings, and complete offline validation\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4500,\"argv\":[\".csdlc/prepared/issues/5340/validate-engine.sh\",\"budgets\"],\"parallel_group\":\"engine-budget\",\"defer_reason\":\"Execute at the exact implementation revision with measured dependency, COTS, scope, LoC, and hard-deadline evidence\"},{\"lane\":\"post-merge-exact\",\"proof_role\":\"After typed merged-publication observation, validate the captured current-main integration tree in a detached FastWork clone before closeout\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":12000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5340/validate-post-merge.rb\"],\"parallel_group\":\"post-merge\",\"defer_reason\":\"Execute only after authorized merge and typed reconcile-merged observation; it is mandatory before closeout\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:5340-owner-watch",
+      "reason": "The exact #5338 typed terminal, claim-release, receipt, and current-main ancestry gate passed; begin the already reviewed isolated WP-06 implementation without changing its protected paths",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/crates/adl-engine\"],\"expected_owner\":\"codex:5340-owner-watch\",\"expected_purpose\":\"Permanently own, prepare, and watch #5340 one dependency wave ahead; product implementation remains prohibited until #5338 is GitHub merged and retained typed closed_out with merged-SHA ancestry\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Permanently own, prepare, and watch #5340 one dependency wave ahead; product implementation remains prohibited until #5338 is GitHub merged and retained typed closed_out with merged-SHA ancestry\",\"purpose\":\"Implement, validate, exact-revision review, publish, shepherd, authorized-merge, post-merge validate, and typed-closeout #5340's portable bounded adl-engine while preserving the five disjoint protected paths and excluding Runtime v2/v3, adapters, CLI, cloud, and incumbent ADL authority\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:5340-owner-watch",
+      "reason": "#5338 is retained typed closed_out generation 29 with claim released; PR #5617 observed merged and both governed head and merge commit are ancestral to the fetched current-main revision integrated into #5340; the exact dependency verifier and sole-writer scope proof pass",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:5340-owner-watch",
+      "reason": "The landed compiler contract exactly matches the reviewed path and direct COTS pins; begin the isolated engine implementation and proof with no material design drift",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
     }
   ]
 }

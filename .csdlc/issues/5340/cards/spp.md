@@ -41,7 +41,7 @@ Revision 4
       "AC-9",
       "AC-10"
     ],
-    "status": "in_progress"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -53,7 +53,7 @@ Revision 4
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "in_progress"
   },
   {
     "id": "S4",
