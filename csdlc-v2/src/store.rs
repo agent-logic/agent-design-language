@@ -3571,16 +3571,18 @@ fn contains_machine_local_path(value: &str, shell_context: bool) -> bool {
         if word.starts_with("http://") || word.starts_with("https://") {
             return false;
         }
-        word.split(['=', '[', '(', '{', ',', ';']).any(|segment| {
-            let candidate = segment
-                .trim_matches(|character: char| matches!(character, '\'' | '"' | ')' | ']' | '}'));
-            candidate.starts_with('/')
-                || candidate.starts_with("~/")
-                || candidate.starts_with("~\\")
-                || candidate.starts_with("\\\\")
-                || candidate.starts_with("//")
-                || is_windows_absolute_path(candidate)
-        })
+        word.split(['=', '[', '(', '{', ',', ';', '>', '<', '|', '&'])
+            .any(|segment| {
+                let candidate = segment.trim_matches(|character: char| {
+                    matches!(character, '\'' | '"' | ')' | ']' | '}')
+                });
+                candidate.starts_with('/')
+                    || candidate.starts_with("~/")
+                    || candidate.starts_with("~\\")
+                    || candidate.starts_with("\\\\")
+                    || candidate.starts_with("//")
+                    || is_windows_absolute_path(candidate)
+            })
     })
 }
 
@@ -4073,7 +4075,15 @@ mod terminal_design_repair_tests {
             assert_eq!(error.code.to_string(), "invalid_input");
         }
 
-        for machine_local in ["proof\u{a0}/home/alice/out", "proof=[/home/alice/out]"] {
+        for machine_local in [
+            "proof\u{a0}/home/alice/out",
+            "proof=[/home/alice/out]",
+            "echo proof >/tmp/result",
+            "tool 2>/home/alice/log",
+            "cmd|/opt/local/tool",
+            r"type NUL >C:\Users\alice\proof",
+            r"proof&\\server\share\result",
+        ] {
             let result = ValidationResult {
                 command: vec!["proof".into()],
                 purpose: "proof".into(),
