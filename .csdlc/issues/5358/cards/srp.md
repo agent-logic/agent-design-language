@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+.github/workflows/ci.yaml
+adl/tools/test_ci_path_policy.sh
 
 ## Prompts
 
@@ -32,12 +33,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The existing repository-wide cargo-llvm-cov version policy is unchanged; install-action remains commit-pinned, and this repair introduces no new action or download source.
+- The provider-asserted reviewer consumed the exact scoped patch and supplied source evidence rather than direct repository filesystem access; local executable contract proof remains authoritative.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b142aa99870ecad5c304635851d6b1f516dd463d:3543c041833fb150520be97e35c347e4ca62c85858e076773f0fc1dd1d3ae32c")
 
-Reviewer: None
+Reviewer: Some("provider:deepseek:deepseek-chat")
 
-Result: pre_review
+Result: pass

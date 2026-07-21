@@ -3,13 +3,13 @@
   "issue": 5358,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "8ce2ef7e30aecbd37915fdde420df214ab979530bfab2e42f7b36e6e38e106b0",
+  "phase": "reviewed",
+  "generation": 28,
+  "digest": "c9b9ffa2ddbf6f4dcab391b2715cc92ce1e9429a862e2802cdcde1c835fe51e2",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
-    "generation": 26,
+    "generation": 28,
     "acquired_unix_seconds": 1784570058,
     "expires_unix_seconds": 1784656458,
     "heartbeat_unix_seconds": 1784570058,
@@ -26,8 +26,30 @@
     ],
     "purpose": "Implement and complete the full C-SDLC v2 acceptance, deployment, review, publication, merge, and terminal closeout contract for issue #5358."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "provider:deepseek:deepseek-chat",
+    "assigned_by": "codex:issue-5358-slot-3",
+    "revision": "git-blake3:b142aa99870ecad5c304635851d6b1f516dd463d:3543c041833fb150520be97e35c347e4ca62c85858e076773f0fc1dd1d3ae32c",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "provider:deepseek:deepseek-chat",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh"
+    ],
+    "reviewed_revision": "git-blake3:b142aa99870ecad5c304635851d6b1f516dd463d:3543c041833fb150520be97e35c347e4ca62c85858e076773f0fc1dd1d3ae32c",
+    "findings": [],
+    "residual_risks": [
+      "The existing repository-wide cargo-llvm-cov version policy is unchanged; install-action remains commit-pinned, and this repair introduces no new action or download source.",
+      "The provider-asserted reviewer consumed the exact scoped patch and supplied source evidence rather than direct repository filesystem access; local executable contract proof remains authoritative."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "238e84f14d8ada3d0ae75abedf02e6603f5071d1ca56d4358b62ca764510f205",
+      "values_digest": "8493e243f83a04d4a61a087213eb5ae398e0948489325d40d8f893be29a7f862",
       "rendered_digest": "9f21cc4775b8bbcabe2ff712dff752b2d4c68a2d270906044955ff2f2bd2cae9",
       "ast_digest": "b15fdebd7434d7b23dce44270f6f9a775eb0f1b870ccbd2afe88f37bda75a0cd"
     },
     "stp": {
-      "values_digest": "0fbb880af2e7d880bea1a9e78eb611360530fac0eca78a8657b07b260abe01f0",
+      "values_digest": "deb8a8edf2bdf0fffff9a0989c0c23285e6a89f48cb28c769417f2fd60e63e8e",
       "rendered_digest": "b5143b47908a8e957062f266a604edc85d25fe22d686363fa1e7b7acec6bd2f1",
       "ast_digest": "10cfdd266214a8019fae67f221034ad7724705ecc9f0ac27108946291688295b"
     },
     "spp": {
-      "values_digest": "0793b3bddaadb7d93a4748acb8b3a478d1ceb690e487b66d56a5ea6af01210d6",
+      "values_digest": "c4329ccdc9dbce9b86238ae158ffab0499308653926006fbe0d61af4e1075637",
       "rendered_digest": "0999e3f92a9ad15165802f7409a392b84aeac7e871e040721c197a0fe79b9f85",
       "ast_digest": "0f71821898d59f174e13eff6fd7cb68e552c6e5d9994d8b2b6aa513308777c95"
     },
     "vpp": {
-      "values_digest": "a45e6d91918331903cdf47e8497a4f029ba3f695f69a0a4a8252cea13db788ee",
+      "values_digest": "1f55070b235d791175c2574a7a1a596f31dcae1cfd371a378e88cb16ca0de772",
       "rendered_digest": "89805e2390eca8fc218075ccb9c7005350d3fdbfb6fe35bf1ec31d58561b7e73",
       "ast_digest": "15c75fc980fb0de8c59870880af59448adde13834d81df8a00163492c0fb8d29"
     },
     "srp": {
-      "values_digest": "6b902fc9decaab0707e749e06b0601219782117bd407d960e8092a5bf2746fce",
-      "rendered_digest": "cc68cf41287008a54cba8e0506da4cba7da56607fa8ea304075df64d5d2fd828",
-      "ast_digest": "70d3a09025ab1fb66fd29ce7f78b954bd396cea9d59ecec3ac9ce91b3d9ffcd9"
+      "values_digest": "18e639a07d984e173b4d377c2e85f540e663566cf9e73bca8dfaa9d9661d2bae",
+      "rendered_digest": "cb13d1c92c900ee0d5a703f6019aa8493d024d6f1d05c0ebab4d3ff95aa0408c",
+      "ast_digest": "c2a25c6ffb4b061451933f270f083eae84a543766ccb830a2c05dd6b3c2d42ee"
     },
     "sor": {
-      "values_digest": "43e8e8efa08b4d0638c05cddb801edbf97c88acf079136ac9a7a3a8c8bf8cc92",
+      "values_digest": "615bdb2f08f0d9c94ad0529ec470c8b5384850bce29137a870c567976913718e",
       "rendered_digest": "51ecaf1e4b0693ed3ab22cb33390fb15f2b12c6c36eb6c62c522bd411b905fdf",
       "ast_digest": "fee94d0ce6e7e250390ad397ac75ca955266e58595caa723bec5dda6a00a08aa"
     }
@@ -114,6 +136,13 @@
       "to": "implemented",
       "actor": "codex:issue-5358-slot-3",
       "reason": "Recover implementation and review truth after PR #5606 run 29798806089 proved the always-run coverage-impact contract skipped its required llvm-cov and nextest toolchain for C-SDLC-only changes."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Advance #5358 after exact scoped DeepSeek review of the CI toolchain repair passed with no actionable findings."
     }
   ],
   "audit": [
@@ -347,6 +376,27 @@
       "actor": "codex:issue-5358-slot-3",
       "reason": "Record focused proof for the exact CI toolchain repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash -n adl/tools/test_ci_path_policy.sh\",\"bash adl/tools/test_ci_path_policy.sh\",\"bash adl/tools/test_check_coverage_impact.sh\",\"git diff --check\"],\"purpose\":\"Prove the workflow always installs tools required by its always-run tooling contracts and preserve all existing path-policy and coverage-impact behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:pr-5606-run-29798806089-toolchain-repair\"}}"
+    },
+    {
+      "sequence": 34,
+      "generation": 26,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "provider:deepseek:deepseek-chat",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Advance #5358 after exact scoped DeepSeek review of the CI toolchain repair passed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

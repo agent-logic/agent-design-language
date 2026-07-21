@@ -7,15 +7,15 @@
     "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
     "slug": "v0-91-8-wp14-csdlc-v2-acceptance",
     "version": "v0.91.8",
-    "generation": 26
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".github/workflows/ci.yaml\nadl/tools/test_ci_path_policy.sh",
+      "review_revision": "git-blake3:b142aa99870ecad5c304635851d6b1f516dd463d:3543c041833fb150520be97e35c347e4ca62c85858e076773f0fc1dd1d3ae32c",
+      "reviewer": "provider:deepseek:deepseek-chat",
       "review_prompts": [
         "Do all six cards and the design remain preparation-only and avoid acceptance/deployment overclaim?",
         "Are #5540 and #5541 consumed only as closed evidence inputs?",
@@ -24,8 +24,11 @@
         "Are future proof lanes exact-revision-bound, deterministic where claimed, and fail-closed?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The existing repository-wide cargo-llvm-cov version policy is unchanged; install-action remains commit-pinned, and this repair introduces no new action or download source.",
+        "The provider-asserted reviewer consumed the exact scoped patch and supplied source evidence rather than direct repository filesystem access; local executable contract proof remains authoritative."
+      ],
+      "review_result": "pass"
     }
   }
 }
