@@ -3,13 +3,13 @@
   "issue": 5358,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
-  "phase": "reviewed",
-  "generation": 32,
-  "digest": "062fe2e04a31065e18da649763a40f9cde5b8e555b048334ac10ccb98824ad6d",
+  "phase": "published",
+  "generation": 33,
+  "digest": "ec50587dbde71977da2bce9bff142c2b858836b1f083024f9925b8a3013e7711",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
-    "generation": 32,
+    "generation": 33,
     "acquired_unix_seconds": 1784570058,
     "expires_unix_seconds": 1784656458,
     "heartbeat_unix_seconds": 1784570058,
@@ -49,7 +49,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5358,
+    "pull_request": 5606,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5606",
+    "base": "main",
+    "head": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+    "revision": "git-blake3:fce56833b3282f95088833f392baa5ad5c00a086:04b17db0021311e2fc1b7f6f6e1f3882c7a5c8de993187c019030167c631d919",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -63,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7737931f9d3150b2e8e9e0869d938e36f5d3cf9c6cf797c3709d3a82e22bfcb0",
+      "values_digest": "9647c368680c8726edefffc140cf1e5715247bfff5ba6be8655932dc1142abc2",
       "rendered_digest": "9f21cc4775b8bbcabe2ff712dff752b2d4c68a2d270906044955ff2f2bd2cae9",
       "ast_digest": "b15fdebd7434d7b23dce44270f6f9a775eb0f1b870ccbd2afe88f37bda75a0cd"
     },
     "stp": {
-      "values_digest": "4400ed08b8413c4aa7f69be4622ceda7149508e4ee1f5da73142074fcf06c903",
+      "values_digest": "39e9a4b7f89f96d33df27fc68b305fffe65ff9871bd55df73eb4a01279a90af6",
       "rendered_digest": "b5143b47908a8e957062f266a604edc85d25fe22d686363fa1e7b7acec6bd2f1",
       "ast_digest": "10cfdd266214a8019fae67f221034ad7724705ecc9f0ac27108946291688295b"
     },
     "spp": {
-      "values_digest": "983ef7a60a372f07cd7685458313665f0d04e4c10a8ea5562708ee517efc4f1b",
+      "values_digest": "686a42e57a2bb55ba2960325f4002e407c39e962de95c3bcdb8b852afc536f43",
       "rendered_digest": "0999e3f92a9ad15165802f7409a392b84aeac7e871e040721c197a0fe79b9f85",
       "ast_digest": "0f71821898d59f174e13eff6fd7cb68e552c6e5d9994d8b2b6aa513308777c95"
     },
     "vpp": {
-      "values_digest": "ba9189a8c4e019b16bf9e83ac8d365cc205d3c225af7d828fc34a8bc34a6356c",
+      "values_digest": "96d51c70f63498c71c92f4eff86e1fc9551225c784b2250d8dffb8f17b39f18e",
       "rendered_digest": "89805e2390eca8fc218075ccb9c7005350d3fdbfb6fe35bf1ec31d58561b7e73",
       "ast_digest": "15c75fc980fb0de8c59870880af59448adde13834d81df8a00163492c0fb8d29"
     },
     "srp": {
-      "values_digest": "b2537ada15373c6d1f091316f09ffc292423c9f013e350a3c1cf5f142b7b4ef8",
+      "values_digest": "4e63abe826049f4d49e97b0d2665f30a35c288a32c5dc593f0838ceea28b72d4",
       "rendered_digest": "ed11b2b9ec7c7cd638579ed7dfd8fdc7da9c0d4cb7f43adbf0ca0cfd95c5e38a",
       "ast_digest": "2a16f12e11ec588a19891b9998287d80d63fee12a18cecf351337406736acc07"
     },
     "sor": {
-      "values_digest": "6e81bef72fe1263133820cdee0175c1a73f4c5d130a7e6243773e7ac06b3470e",
-      "rendered_digest": "51ecaf1e4b0693ed3ab22cb33390fb15f2b12c6c36eb6c62c522bd411b905fdf",
-      "ast_digest": "fee94d0ce6e7e250390ad397ac75ca955266e58595caa723bec5dda6a00a08aa"
+      "values_digest": "c7895efb1cfe6fc0a5452eebd45662873f09a12e1f0bab4fcd0d89aadceaf187",
+      "rendered_digest": "5d2a16efdb32624dd32b01e970a718ddcd2e062a87e91c6121d3bf2c72791e05",
+      "ast_digest": "4ea10e8469a2aeecca08e2353684319ae92a28ac9e73af1f3a9c06abadca6499"
     }
   },
   "transitions": [
@@ -163,6 +173,13 @@
       "to": "reviewed",
       "actor": "codex:issue-5358-slot-3",
       "reason": "Advance #5358 after the exact post-main-integration DeepSeek review passed with no actionable findings."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -452,6 +469,13 @@
       "actor": "codex:issue-5358-slot-3",
       "reason": "Advance #5358 after the exact post-main-integration DeepSeek review passed with no actionable findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

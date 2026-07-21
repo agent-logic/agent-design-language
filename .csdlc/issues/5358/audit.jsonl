@@ -39,3 +39,4 @@
 {"sequence":39,"generation":30,"actor":"codex:issue-5358-slot-3","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":40,"generation":31,"actor":"provider:deepseek:deepseek-chat","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":41,"generation":32,"actor":"codex:issue-5358-slot-3","reason":"Advance #5358 after the exact post-main-integration DeepSeek review passed with no actionable findings.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
+{"sequence":42,"generation":33,"actor":"codex:issue-5358-slot-3","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
