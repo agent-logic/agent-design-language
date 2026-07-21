@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "812bcef468b7261d7d8cb522251cb0734425060895701091efad37a816ece601",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "a6524c4c23513d1c1f0c31c09d72187b73dae2c34bdb09a28d419fe2affae265",
+  "generation": 18,
+  "digest": "57aafc3e00d9760565e899e03f234f705ec9240b0c646d7bfcc91881b5609d50",
   "claim": {
     "id": "claim-5589-runtime-v3-parity-c-preparation",
     "owner": "codex:019f8288-9fd3-7103-a3a5-9e3fe61aad90",
-    "generation": 17,
+    "generation": 18,
     "acquired_unix_seconds": 1784601578,
     "expires_unix_seconds": 1785206378,
     "heartbeat_unix_seconds": 1784601578,
@@ -29,7 +29,7 @@
   "review_assignment": {
     "reviewer": "subagent:/root/review_5589_exact",
     "assigned_by": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
-    "revision": "git-blake3:df71546b6711bab72b7abece94d74317079bedec:1fc64a5141bff924f7b291829fde9103863493aad426fac0f7954e6b1b3d25a4",
+    "revision": "git-blake3:1103b3b784f570d651a54f5e9ced80960b978d48:4bf9e5c9c336295939b5d4199b835c97bc060503d93c801887ca1ef848270a47",
     "scope": [
       "adl-runtime-kernel/src/governed_operations.rs",
       "adl-runtime-kernel/src/bin/adl-runtime-governed-operations.rs",
@@ -49,10 +49,10 @@
       ".csdlc/issues/5589/cards/srp.values.json",
       ".csdlc/evidence/5589/implementation"
     ],
-    "reviewed_revision": "git-blake3:df71546b6711bab72b7abece94d74317079bedec:1fc64a5141bff924f7b291829fde9103863493aad426fac0f7954e6b1b3d25a4",
+    "reviewed_revision": "git-blake3:1103b3b784f570d651a54f5e9ced80960b978d48:4bf9e5c9c336295939b5d4199b835c97bc060503d93c801887ca1ef848270a47",
     "findings": [],
     "residual_risks": [
-      "The exact +1,095 source delta over the authoritative 12,683 post-#5591 baseline is accepted as functionally necessary and non-duplicative; optional classification/inventory consolidation is non-gating cleanup."
+      "The exact +1,096 source delta over the authoritative 12,683 post-#5591 baseline is accepted as functionally necessary and non-duplicative."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -71,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "346dffa53f45c9ebc0ef2e0df76cbbb1aa5668cd68f611a3796b55b4dce1d59f",
+      "values_digest": "18d0b92bcd69ddbce28df80851c10cf0115cced8aa3658cae7225e1ab01c4d92",
       "rendered_digest": "e4eb2c40819044f7cc76ce912abe672db74767294dc52d3cb4e9bc299c84521a",
       "ast_digest": "b5c2a719075cdd0116ddb7ef2ee6cfe965d29a50aa3a751399579f3d779e92ae"
     },
     "stp": {
-      "values_digest": "3190ee4f422888d0c7ebd88e43b08ef9eeed9c0b26257714ac19ee70712de02b",
+      "values_digest": "12213392b36a968e8d0181af419f48f21541b5c8999478e82f7530af226d8ef5",
       "rendered_digest": "0bb5d39c70d4b3d76bc1afaf3499fb08556b2be2fb543fa2e58eb333756d433a",
       "ast_digest": "d8a3c985226d547ba7b559e6d58576a7c43a9c621c16289a7d5e14f4cb672bcf"
     },
     "spp": {
-      "values_digest": "907f8e596385be2ba1b6bc18a7fc7b4b90083b47a400c1ea53cbf24e2fbed5c0",
+      "values_digest": "0c0084f8f1c0cfa954b1e8a9297f9d55a78b24c41bcecd658472028f28a5b28b",
       "rendered_digest": "1872da139fd6e2771f5accaaf4f7a66c4e3ef80830b8709b1600deb3bea70980",
       "ast_digest": "45a0a8b2067008300f8ad18b8e7d118cdfbed39ee9c3be63cc5098ef2f92ec7f"
     },
     "vpp": {
-      "values_digest": "fe4b6fb726bc8e78450731a5ba5bb5ab815802b1d93ff3a2d7ebf364d20bcead",
+      "values_digest": "dee325b6f556ef9c2a30c0702c8d6ec421e3206654b90390c45a5421b7efd747",
       "rendered_digest": "436e57ced1c8fce2e364b7f0c755df3c6b07585d1851c213b880e0a8de707b2e",
       "ast_digest": "9505b0680657b74adcbd6d759de219f8245f28d43aa7c1946143c4be5564fe83"
     },
     "srp": {
-      "values_digest": "cb22c89bd9a522b8cfa46fb5fb3d1afe8b00458efdb98db9e41d1bc58ffd9889",
-      "rendered_digest": "6b530591c4bc5dfdc550acb4e3ba848dace8b1e3f8516d7e1366a82ddc9a61da",
-      "ast_digest": "af965f848f2aa91f706eed958093892e46ba2b0a833bc725c9dd62deb702400f"
+      "values_digest": "0a65c81b0b5d21cb64d2df7ae7dfa6d262d8a9172f8479d0bfb111394aa5008d",
+      "rendered_digest": "fc8c17a8a6f65d93bc8d9f6885aed03da3ee4c7fc829d50083e1d70342a857bc",
+      "ast_digest": "5d1f1aad84832dd692042063a77785f2b02f1b8d2d15765862059051c871534d"
     },
     "sor": {
-      "values_digest": "4e0f9cf549d8fea06e48fbdd5a999998b99ba05880122961ff9d2d2b1a627237",
+      "values_digest": "e5afc707a3760a2f925a95563db97ddce2bbd78c4798f04d11719efea198abd9",
       "rendered_digest": "20e5f696b3126a1836b1b6979bd21d85493c201689082945b033d47ba54230ea",
       "ast_digest": "d0300808b3b10ad9aaf343222306b46996a945c9422872b52a0c516451be893c"
     }
@@ -289,6 +289,20 @@
     {
       "sequence": 24,
       "generation": 17,
+      "actor": "subagent:/root/review_5589_exact",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:019f836b-dd65-7ab1-be66-7408ee2312f6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
       "actor": "subagent:/root/review_5589_exact",
       "reason": "atomically record review evidence and SRP projection",
       "operation": "record_review"

@@ -40,11 +40,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The exact +1,095 source delta over the authoritative 12,683 post-#5591 baseline is accepted as functionally necessary and non-duplicative; optional classification/inventory consolidation is non-gating cleanup.
+- The exact +1,096 source delta over the authoritative 12,683 post-#5591 baseline is accepted as functionally necessary and non-duplicative.
 
 ## Review Result
 
-Revision: Some("git-blake3:df71546b6711bab72b7abece94d74317079bedec:1fc64a5141bff924f7b291829fde9103863493aad426fac0f7954e6b1b3d25a4")
+Revision: Some("git-blake3:1103b3b784f570d651a54f5e9ced80960b978d48:4bf9e5c9c336295939b5d4199b835c97bc060503d93c801887ca1ef848270a47")
 
 Reviewer: Some("subagent:/root/review_5589_exact")
 
