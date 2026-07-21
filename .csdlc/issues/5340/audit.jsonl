@@ -47,3 +47,4 @@
 {"sequence":47,"generation":40,"actor":"subagent:/root/review_5340_exact","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":48,"generation":41,"actor":"codex:5340-owner-watch","reason":"Fresh exact scoped review fixed all nine prior findings and approved the canonical turn-replay revision for publication.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":49,"generation":42,"actor":"codex:5340-owner-watch","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":50,"generation":43,"actor":"codex:5340-owner-watch","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
