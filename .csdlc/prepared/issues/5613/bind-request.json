@@ -6,7 +6,7 @@
   "claim": {
     "id": "claim-5613-terminal-projection-repair",
     "owner": "codex:issue-5613-owner",
-    "generation": 0,
+    "generation": 1,
     "acquired_unix_seconds": 1784664530,
     "expires_unix_seconds": 1784750930,
     "heartbeat_unix_seconds": 1784664530,

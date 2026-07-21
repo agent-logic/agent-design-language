@@ -21,11 +21,11 @@ git -C "$root" worktree add --detach "$fresh" HEAD >/dev/null
 for issue in 5337 5339 5591; do
   jq -e '.phase == "closed_out" and .claim == null' \
     "$fresh/.csdlc/issues/$issue/index.json" >/dev/null
-  "$doctor" --root "$fresh" --issue "$issue" \
+  "$doctor" --repo "$fresh" --issue "$issue" \
     | jq -e '.status == "pass" and .phase == "closed_out" and (.findings | length == 0)' >/dev/null
 done
 
-"$doctor" --root "$fresh" --issue 5613 \
+"$doctor" --repo "$fresh" --issue 5613 \
   | jq -e '.status == "pass"' >/dev/null
 
 printf 'issue 5613 fresh-worktree terminal proof: pass\n'

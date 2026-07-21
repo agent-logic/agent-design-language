@@ -3,32 +3,34 @@
   "issue": 5613,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "07b04572fcd246d29c269aaca54e7008ed6db05c08914a976a6f6a506f7fb4fc",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "15aa0835354a90b1b41eff5d70b4fb7c3320c143b1d21900621d3007d482623f",
+  "phase": "bound",
+  "generation": 2,
+  "digest": "224b8f198fc594027c046a2cac3c0f068a27797697928d9db0c65069b96a7723",
   "claim": {
     "id": "claim-5613-terminal-projection-repair",
     "owner": "codex:issue-5613-owner",
-    "generation": 0,
+    "generation": 2,
     "acquired_unix_seconds": 1784664530,
     "expires_unix_seconds": 1784750930,
     "heartbeat_unix_seconds": 1784664530,
     "branch": "codex/5613-terminal-projection-repair",
     "worktree": ".",
     "protected_paths": [
-      "csdlc-v2/src/model.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/bin/csdlc-closeout.rs",
-      "csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md",
-      "csdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs",
+      ".csdlc/evidence/5591/exact-revision/guardian-soak.json",
+      ".csdlc/evidence/5613",
       ".csdlc/issues/5337",
       ".csdlc/issues/5339",
+      ".csdlc/issues/5358",
       ".csdlc/issues/5591",
-      ".csdlc/evidence/5591/exact-revision/guardian-soak.json",
+      ".csdlc/issues/5602",
       ".csdlc/issues/5613",
       ".csdlc/prepared/issues/5613",
-      ".csdlc/evidence/5613"
+      "csdlc-v2/operator/skills/csdlc-v2-closeout/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-closeout.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate7_terminal_sor_validation_repair_5613.rs"
     ],
     "purpose": "Atomically repair terminal SOR validation evidence and materialize proven terminal projections"
   },
@@ -40,40 +42,60 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/5613/design.md",
   "diagram_path": ".csdlc/prepared/issues/5613/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019f8654-f522-7ef3-8d22-6d4b8d9a643b",
+      "revision": "b01c122e173be0d1192a373fb9c9052b07529e19950e86516cfb68f725b26362"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "cd48bf71cf2c212ea50805a523b5bea9c0e96ebcc252b90321026d97b143afae",
+      "values_digest": "d7688451383a5a569e382cc444ed495217e827c19c035b5cf9ad33f1331b46c1",
       "rendered_digest": "f8f4aa970408ca8f1fe60b054b7d34d9f88123250e16914f7e7aba78ad683dfd",
       "ast_digest": "f9a6244d35d0fb37415150cf8a36f8a70891272c91190ce4f1d01a88bcc41e9b"
     },
     "stp": {
-      "values_digest": "79308d5a6f9965456d45cc5a7517bf85b0e33891a51b6735d57ffc923ca43ef0",
-      "rendered_digest": "e7753c0606f9f22664b54b80fa2029a9484ef20f4ee665ff6ecc0a6f223ceeca",
-      "ast_digest": "51305d33a67521aa7ddd4de02196dfe4bc43b4f66cd014220c63b4f4a897becb"
+      "values_digest": "66efa37ac309fb0e82b0e5f6b044ff3b521c67ff4aa4a05a7061b4287c155eb9",
+      "rendered_digest": "593563171cc9eda4c229dbfa52ebed3fe471add8631088ff2a875d40d8a2022f",
+      "ast_digest": "e0e1a1eb32816291cae9b91c5f5b752dfbb0de0bf6a369a7d590b4d7fe036de0"
     },
     "spp": {
-      "values_digest": "3fe478e55e2cd53cd73b369b5ab8f64b5799d84af326eaf9cba09b90b4d98a4f",
-      "rendered_digest": "2c4544f82445e814bd30816e8c60a441f1b4ddc91a5e29860243048adee9e69b",
-      "ast_digest": "1ffa9b372dfb8c4eab6fa9bab97d90140dc053c794cdbea6690dca72cfd22ecf"
+      "values_digest": "d74c1a1242ccf31bca723189d15647d8f27c1ac708797aa8df5d06eb32d1ca4d",
+      "rendered_digest": "7ef6d172a897ebeb07f0157f6971e47031518ef9a151fac5572f2f4eac82801d",
+      "ast_digest": "7131b33ab141adc7e9d660bb81d1b50052389ee785172b0fb7a30841c150bd34"
     },
     "vpp": {
-      "values_digest": "39ece162274e99a67b4eda8309fc5d7230cc546c53c3b88e1cbece967a80d852",
+      "values_digest": "0ee276cf9a86f26a44944d19113189101513a3682814071ff269491082aedb7e",
       "rendered_digest": "a63e75aa9d960a9dd351b9d5fcdada6d9d8ddf1d4883d017f077210c0c97bbdd",
       "ast_digest": "512c378b68fc8a7f65a92151d6929af88481f44ee9bf1668a87418e9d77a6630"
     },
     "srp": {
-      "values_digest": "2b6e72c318d99fac67c31a1baf86beec0913c7d375deb31d1fee251b4abd4aad",
+      "values_digest": "8c06a390ecf9140e25a412d3eac5e43531f95d5233d3d4cd087b1f3a22927089",
       "rendered_digest": "3e33381a1bc4c798192c6091312ef4f2139d3649fd2e13a659575327d5d6e442",
       "ast_digest": "97b03a48315f37db7ebe914e2cce952dc01918bdcd8c2e85b4decaf8443dcf8e"
     },
     "sor": {
-      "values_digest": "de890b2c968a5aa1e40d2eb05a25fc3c175ceeaf651d1baf521c72459c871e92",
+      "values_digest": "b0bc8f4525107b937a95905bda573996b7df5393d4595ac64f8a31e71ca66785",
       "rendered_digest": "3da22254dd349d9e1205cd77dd0ee6c98c0b676bd214fa8047fbb24fca1951f3",
       "ast_digest": "a297d98bb2043f7fd321ee3af1520d79666f8c86c5f55f6a977f7ceb461d27a8"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5613-owner",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5613-owner",
+      "reason": "verified Git worktree binding"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -81,6 +103,34 @@
       "actor": "codex:issue-5613-owner",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:019f8654-f522-7ef3-8d22-6d4b8d9a643b",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-5613-owner",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-5613-owner",
+      "reason": "Include only the newly proven stale terminal projections for #5358 and #5602 in the existing atomic reconciliation batch.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5358\",\".csdlc/issues/5602\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-5613-owner",
+      "reason": "Resolve all reviewed terminal inputs to full commit identities before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Retained terminal receipts for issues 5337, 5339, 5358, 5591, and 5602\",\"Terminal commits 461713dc10d26fa5336a054c07ef1844f804ec8f, 817126889942fc57820bf9f05f5cc40e2debd683, 23ea342fd, 8cfb7b25ad246dd411a57ecc4fda8e47665912fc, and fa1b5b6f2\",\"Existing terminal transaction and receipt-refresh implementation\"]}"
     }
   ]
 }

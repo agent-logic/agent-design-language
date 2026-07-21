@@ -11,7 +11,7 @@ check_target() {
   local index="$root/.csdlc/issues/$issue/index.json"
   local receipt="$common/csdlc-v2/closeout/$issue.json"
 
-  jq -e --argjson issue "$issue" --argjson pr "$pr" --arg sha "$observed_sha" '
+  jq -e --argjson issue "$issue" --argjson pr "$pr" --arg sha "$observed_sha" --slurpfile index "$index" '
     .issue == $issue and
     .phase == "closed_out" and
     .claim == null and
@@ -30,7 +30,7 @@ check_target() {
     .record.terminal.pull_request == $pr and
     .record.terminal.disposition == "merged" and
     .record.terminal.observed_sha == $sha and
-    .record.digest == .cards.sor.issue_record_digest
+    .record.digest == $index[0].digest
   ' "$receipt" >/dev/null
 }
 
@@ -39,7 +39,9 @@ check_target 5339 5612 ba604e5f0ee16af901a4d8d7cb801c323500828d
 check_target 5591 5608 59b61985c9964e56d83272efa7035f12be462fd7
 
 if rg -n '/Volumes/FastWork|/private/tmp|/Users/[^/]+/' \
-  "$root/.csdlc/issues/5591/cards/sor.values.json"; then
+  "$root/.csdlc/issues/5591/cards/sor.values.json" \
+  "$root/.csdlc/issues/5591/cards/sor.md" \
+  "$common/csdlc-v2/closeout/5591.json"; then
   echo "issue 5591 SOR retains a machine-local path" >&2
   exit 1
 fi

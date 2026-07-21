@@ -9,6 +9,7 @@ test -f "$packet/design.md"
 test -f "$packet/diagram.mmd"
 test -f "$packet/bootstrap-request.json"
 test -f "$packet/bind-request.json"
+test -f "$packet/validate_scope.sh"
 
 jq -e '.csdlc_prompt_template_set == "1.0.3" and .generations.csdlc_v2_native.template_set == "1.0.0"' \
   "$root/docs/templates/prompts/current.json" >/dev/null
@@ -29,12 +30,14 @@ for issue in 5337 5339 5591; do
 done
 
 git -C "$root" cat-file -e 461713dc10d26fa5336a054c07ef1844f804ec8f^{commit}
-git -C "$root" cat-file -e 817126889^{commit}
-git -C "$root" cat-file -e 8cfb7b25a^{commit}
+git -C "$root" cat-file -e 817126889942fc57820bf9f05f5cc40e2debd683^{commit}
+git -C "$root" cat-file -e 8cfb7b25ad246dd411a57ecc4fda8e47665912fc^{commit}
 
 if git -C "$root" diff --name-only origin/main...HEAD | rg -q '^(adl-runtime|adl-runtime-kernel|adl-v2)/'; then
   echo "forbidden product scope in preparation branch" >&2
   exit 1
 fi
+
+bash "$packet/validate_scope.sh" "$root"
 
 printf 'issue 5613 preparation contract: pass\n'

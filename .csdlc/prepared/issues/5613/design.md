@@ -1,6 +1,6 @@
 # Issue 5613 design
 
-Status: pending bounded preparation review.
+Status: preparation review findings remediated; awaiting typed approval.
 
 ## Objective
 
@@ -54,9 +54,9 @@ The corrective branch consumes terminal state only from these exact commits
 and their existing retained shared-Git receipts:
 
 - issue 5337: `461713dc10d26fa5336a054c07ef1844f804ec8f`;
-- issue 5339: `817126889` from
+- issue 5339: `817126889942fc57820bf9f05f5cc40e2debd683` from
   `origin/codex/5339-v0918-wp04-language-core`;
-- issue 5591: `8cfb7b25a` from
+- issue 5591: `8cfb7b25ad246dd411a57ecc4fda8e47665912fc` from
   `origin/codex/5591-runtime-v3-parity-a-preparation`.
 
 Materialization uses Git commit ancestry/cherry-pick mechanics and typed repair;
@@ -76,7 +76,7 @@ filesystem primitives. Adding a crate is a stop condition.
 - implementation: at most 800 new or changed non-test Rust lines;
 - focused tests and fixtures: at most 1,000 new or changed lines;
 - focused test lane: 300 seconds;
-- strict all-target Clippy: 300 seconds;
+- strict all-target Clippy: 600 seconds;
 - complete C-SDLC v2 test lane: 600 seconds;
 - fresh-checkout projection proof: 180 seconds.
 
