@@ -3559,6 +3559,13 @@ fn validate_portable_validation_result(result: &ValidationResult) -> Result<()> 
 }
 
 fn contains_machine_local_path(value: &str) -> bool {
+    if value.contains('$')
+        || value.contains('`')
+        || value.to_ascii_lowercase().contains("file://")
+        || contains_windows_environment_expansion(value)
+    {
+        return true;
+    }
     value.split_ascii_whitespace().any(|word| {
         let candidate = word
             .trim_matches(|character: char| matches!(character, '\'' | '"' | '(' | ')' | ',' | ';'))
@@ -3571,6 +3578,23 @@ fn contains_machine_local_path(value: &str) -> bool {
             || candidate.starts_with("\\\\")
             || candidate.starts_with("//")
             || is_windows_absolute_path(candidate)
+    })
+}
+
+fn contains_windows_environment_expansion(value: &str) -> bool {
+    let bytes = value.as_bytes();
+    bytes.iter().enumerate().any(|(start, byte)| {
+        if *byte != b'%' {
+            return false;
+        }
+        let name = &bytes[start + 1..];
+        let Some(end) = name.iter().position(|candidate| *candidate == b'%') else {
+            return false;
+        };
+        end > 0
+            && name[..end]
+                .iter()
+                .all(|candidate| candidate.is_ascii_alphanumeric() || *candidate == b'_')
     })
 }
 
@@ -3998,6 +4022,13 @@ mod terminal_design_repair_tests {
             r"--out=Z:\build\target",
             r"\\server\share\checkout",
             "~/checkout",
+            "CARGO_TARGET_DIR=$HOME/build",
+            "CARGO_TARGET_DIR=${HOME}/build",
+            "sh -c 'cd ${HOME}/checkout'",
+            "$(pwd)/target",
+            "`pwd`/target",
+            "file:///home/alice/proof.json",
+            r"%USERPROFILE%\checkout",
         ] {
             let result = ValidationResult {
                 command: vec!["proof".into(), machine_local.into()],
