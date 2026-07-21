@@ -189,9 +189,18 @@ def merge(workspace_path: Path, runtime_path: Path, output_path: Path) -> None:
     files = owned_files(workspace, "workspace", "/adl/src/")
     files.extend(owned_files(runtime, "adl-runtime", "/adl-runtime/src/"))
 
-    filenames = [file_summary["filename"].replace("\\", "/") for file_summary in files]
-    if len(filenames) != len(set(filenames)):
-        raise fail("owned coverage summaries contain duplicate filenames")
+    unique_files: dict[str, dict[str, Any]] = {}
+    for file_summary in files:
+        filename = file_summary["filename"].replace("\\", "/")
+        existing = unique_files.get(filename)
+        if existing is None:
+            unique_files[filename] = file_summary
+        elif existing != file_summary:
+            raise fail(
+                "owned coverage summaries contain conflicting duplicate filename: "
+                f"{filename}"
+            )
+    files = list(unique_files.values())
 
     files.sort(key=lambda file_summary: file_summary["filename"].replace("\\", "/"))
     merged = dict(workspace)

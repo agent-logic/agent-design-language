@@ -15,6 +15,7 @@ cat > "$TMP/workspace.json" <<JSON
 {"type":"llvm.coverage.json.export","version":"2.0.1","data":[{"files":[
   {"filename":"/repo/other/src/ignored.rs","summary":$metric_summary},
   {"filename":"/repo/adl/src/z.rs","summary":$metric_summary},
+  {"filename":"/repo/adl/src/aws_remote_validation.rs","summary":$metric_summary},
   {"filename":"/repo/adl/src/bin/../aws_remote_validation.rs","summary":$metric_summary},
   {"filename":"adl/src/a.rs","summary":$metric_summary},
   {"filename":"/repo/adl-runtime/src/dependency.rs","summary":$metric_summary}
@@ -93,6 +94,15 @@ cat > "$TMP/duplicate.json" <<JSON
 ],"totals":{}}]}
 JSON
 expect_failure duplicate "$TMP/duplicate.json" "$TMP/runtime.json"
+
+cat > "$TMP/conflicting-alias.json" <<JSON
+{"data":[{"files":[
+  {"filename":"/repo/adl/src/aws_remote_validation.rs","summary":$metric_summary},
+  {"filename":"/repo/adl/src/bin/../aws_remote_validation.rs","summary":$metric_without_mcdc}
+],"totals":{}}]}
+JSON
+expect_failure conflicting-alias "$TMP/conflicting-alias.json" "$TMP/runtime.json"
+grep -F "conflicting duplicate filename: /adl/src/aws_remote_validation.rs" "$TMP/conflicting-alias.stderr"
 
 cat > "$TMP/malformed.json" <<'JSON'
 {"data":[{"files":[{"filename":"adl/src/a.rs","summary":{}}],"totals":{}}]}
