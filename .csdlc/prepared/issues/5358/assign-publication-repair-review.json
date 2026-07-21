@@ -1,0 +1,14 @@
+{
+  "issue": 5358,
+  "expected_generation": 16,
+  "expected_digest": "5c8a5b6474ab48b0d52040d5f6357a3368f9a53e5a0b4667d0b21fd50e4f8d59",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "reviewer": "subagent:019f8277-0050-7db0-a96b-05593df9c703",
+  "assigned_by": "codex:019f829f-49d4-7a61-aaf4-3b0b77d07288",
+  "scope": [
+    "csdlc-v2/src/bin/csdlc-publish.rs",
+    "csdlc-v2/src/lib.rs",
+    "csdlc-v2/src/publication.rs",
+    "csdlc-v2/tests/gate7_lifecycle.rs"
+  ]
+}

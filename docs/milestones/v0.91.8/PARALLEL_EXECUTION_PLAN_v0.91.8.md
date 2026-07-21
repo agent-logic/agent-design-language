@@ -208,16 +208,15 @@ default behavior remain in the single integration queue.
 Parity, soak, cutover, acceptance, and deletion are constrained:
 
 1. WP-11 `#5350`: exact-revision normalized shadow parity.
-2. WP-12 soak `#5344`.
-3. WP-12 reversible default switch `#5343`.
-4. Current C-SDLC and Runtime v3 acceptance closure:
-   - `#5358` C-SDLC v2 acceptance, after inventorying `#5540`, `#5541`,
-     `#5548`, and `#5558`.
-   - `#5361` Runtime v3 acceptance, consuming `#5501`.
-5. WP-13 deletion may execute in parallel only on disjoint manifests:
+2. Runtime v3 acceptance `#5361`, consuming the four parity lanes and `#5501`.
+3. WP-12 soak `#5344` after closed `#5361` acceptance.
+4. WP-12 reversible default switch `#5343` after the soak proof.
+5. C-SDLC v2 acceptance `#5358`, after inventorying `#5540`, `#5541`,
+   `#5548`, and `#5558`, must close before deletion.
+6. WP-13 deletion may execute in parallel only on disjoint manifests:
    - `#5346` final replaced ADL language compiler engine and CLI.
    - `#5347` externally owned incumbent ADL bands.
-6. WP-13 merges and post-merge validation remain serial.
+7. WP-13 merges and post-merge validation remain serial.
 
 Rationale: parity findings, rollback truth, selector state, acceptance proof,
 and deletion eligibility are coupled. Parallel deletion is allowed only for

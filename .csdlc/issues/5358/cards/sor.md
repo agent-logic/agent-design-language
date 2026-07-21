@@ -1,0 +1,129 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 5358
+
+Repository: danielbaustin/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Aligned the CI runtime contract with the always-run llvm-cov and nextest prerequisite installation behavior.
+
+## Artifacts
+
+- csdlc-v2/src/publication.rs
+- csdlc-v2/src/bin/csdlc-publish.rs
+- csdlc-v2/src/lib.rs
+- csdlc-v2/tests/gate7_lifecycle.rs
+- .github/workflows/ci.yaml
+- adl/tools/test_ci_path_policy.sh
+- adl/tools/test_ci_runtime_contracts.sh
+
+## Execution
+
+- Validate remote open/draft state and exact base/head repository, ref, and SHA before and after mark-ready.
+- Record ready state only from confirmed remote observations and support typed ready reconciliation from reviewed or governed draft state.
+- Add command-level loopback HTTP tests for success, identity drift, closed/non-draft state, remote failures, ambiguous confirmation, and CAS recovery.
+- Install cargo-llvm-cov and cargo-nextest unconditionally before the always-run tooling contracts.
+- Make the CI path-policy contract reject reintroduction of the invalid conditional tool installation.
+- Require the two tooling prerequisite install steps to have no conditional.
+- Preserve all granular path-policy conditions for contract steps that are not always run.
+
+## Validation
+
+[
+  {
+    "command": [
+      "csdlc-validate --request .csdlc/prepared/issues/5358/validation-request.json",
+      "csdlc-doctor --repo . --issue 5358",
+      "git diff --check"
+    ],
+    "purpose": "Validate the typed #5358 six-card bundle, retained design integrity, bound issue state, and issue-local patch hygiene only.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5358/preparation-validation"
+  },
+  {
+    "command": [
+      "csdlc-validate --request .csdlc/prepared/issues/5358/validation-request.json",
+      "csdlc-doctor --repo . --issue 5358",
+      "git status --short -- .csdlc/issues/5358 .csdlc/prepared/issues/5358 .csdlc/evidence/5358"
+    ],
+    "purpose": "Validate typed record/card integrity and explicitly enumerate the full untracked #5358 review scope. This replaces the earlier git diff --check evidence, which did not cover untracked artifacts.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5358/preparation-validation"
+  },
+  {
+    "command": [
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-test-target cargo test --manifest-path csdlc-v2/Cargo.toml --test gate7_lifecycle",
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-clippy-target cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings",
+      "cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check"
+    ],
+    "purpose": "Prove the ready-publication command matrix, recovery/CAS invariants, warning-free all-target compilation, and canonical formatting.",
+    "outcome": "passed",
+    "evidence_ref": "local-fastwork:gate7-21-pass-clippy-fmt"
+  },
+  {
+    "command": [
+      "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5358/csdlc-v2-test-target cargo test --locked --manifest-path csdlc-v2/Cargo.toml --all-targets"
+    ],
+    "purpose": "Prove the complete C-SDLC v2 test surface, including clean-source installer and provenance contracts, after committing the publication repair implementation.",
+    "outcome": "passed",
+    "evidence_ref": "local-fastwork:csdlc-v2-all-targets-pass-167e8b9b4"
+  },
+  {
+    "command": [
+      "csdlc-install install --repo . --destination /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2",
+      "csdlc-install verify --repo . --bin-dir /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json",
+      "csdlc-install resolve --repo . --issue 5358"
+    ],
+    "purpose": "Deploy and prove the stable v2 binary set from exact head 2059e03007f7056b96a3f12ace7e018ee2f6153a, with v1_sunset coexistence and v2 selector authority.",
+    "outcome": "passed",
+    "evidence_ref": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/install-receipt.json"
+  },
+  {
+    "command": [
+      "bash -n adl/tools/test_ci_path_policy.sh",
+      "bash adl/tools/test_ci_path_policy.sh",
+      "bash adl/tools/test_check_coverage_impact.sh",
+      "git diff --check"
+    ],
+    "purpose": "Prove the workflow always installs tools required by its always-run tooling contracts and preserve all existing path-policy and coverage-impact behavior.",
+    "outcome": "passed",
+    "evidence_ref": "local:pr-5606-run-29798806089-toolchain-repair"
+  },
+  {
+    "command": [
+      "bash -n adl/tools/test_ci_runtime_contracts.sh",
+      "bash adl/tools/test_ci_runtime_contracts.sh",
+      "bash adl/tools/test_ci_path_policy.sh",
+      "bash adl/tools/test_check_coverage_impact.sh",
+      "git diff --check"
+    ],
+    "purpose": "Prove unconditional prerequisite installation and retain every neighboring path-policy and coverage-impact contract.",
+    "outcome": "passed",
+    "evidence_ref": "local:pr-5606-run-29799791075-ci-runtime-contract-repair"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

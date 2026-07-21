@@ -1,0 +1,9 @@
+{
+  "issue": 5597,
+  "expected_initialization_digest": "0b22f57976eb8d37ecc1796ff4e3e0676d4ff92447fb1c7dff25f16853e3a3cd",
+  "expected_branch": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+  "expected_worktree": "/Users/daniel/git/agent-design-language/.worktrees/adl-wp-5358",
+  "actor": "codex:issue-5358-acceptance",
+  "reason": "Integrate the existing receipt-backed normal-merge terminal truth for issue 5597 into the issue 5358 acceptance branch.",
+  "follow_ups": []
+}

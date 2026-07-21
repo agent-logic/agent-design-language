@@ -1,0 +1,10 @@
+{
+  "issue": 5610,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "7c7195b7061672cc3c41175e0b3506eb65accaa12b138906d600ac97427d2d93",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Focused FastWork contracts and the first bounded review cycle are complete.",
+  "operation": {"operation":"update_plan_step","step_id":"S2","status":"completed"}
+}

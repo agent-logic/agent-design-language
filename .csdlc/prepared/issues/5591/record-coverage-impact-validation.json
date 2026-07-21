@@ -1,0 +1,24 @@
+{
+  "issue": 5591,
+  "card": "sor",
+  "expected_generation": 26,
+  "expected_digest": "efcb5715cd6ace7c4022d5f46c8382185b2557e95386bfaedb55bdb5defa9630",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "reason": "Record the bounded exact-head coverage-impact repair proof before rereview.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "ADL_COVERAGE_BUILD_ROOT=/Volumes/FastWork/adl-5591/ci-coverage ADL_COVERAGE_RUN_ID=local-pr-5591-final bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority pr_full_runtime --event-name pull_request",
+        "CARGO_TARGET_DIR=/Volumes/FastWork/adl-5591/final-test-target cargo test --manifest-path adl-runtime/Cargo.toml",
+        "cargo fmt --manifest-path adl-runtime/Cargo.toml -- --check",
+        "git diff --check"
+      ],
+      "purpose": "Prove deterministic fail-closed guardian configuration and missing-program handling without weakening policy. Exact PR-mode coverage exercises 530 of 639 guardian.rs lines (82.94%, above the 80% gate); the complete adl-runtime crate passes 128 tests including independence; formatting and diff hygiene pass.",
+      "outcome": "passed",
+      "evidence_ref": "owner:019f8362-357c-7621-95b7-afb314e0c61d@469a18c11a849450cacc4f69d439c0cedd09c2d7:/Volumes/FastWork/adl-5591/ci-coverage/coverage-output/local-pr-5591-final"
+    }
+  },
+  "fail_after_backup": false
+}

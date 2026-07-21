@@ -1,0 +1,16 @@
+{
+  "issue": 5358,
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "expected_owner": "codex:issue-5358-slot-3",
+  "expected_generation": 10,
+  "expected_digest": "aa764931abc9922e8d9678f034c3e24ed75f05da02303814b172c59afd5f0c95",
+  "now_unix_seconds": 1784587000,
+  "actor": "codex:issue-5358-acceptance",
+  "reason": "Transition the reviewed #5358 preparation claim into the full C-SDLC v2 acceptance implementation claim.",
+  "expected_purpose": "Prepare typed C-SDLC v2 acceptance cards, design, and readiness only under sprint #5595 slot 3",
+  "purpose": "Implement and complete the full C-SDLC v2 acceptance, deployment, review, publication, merge, and terminal closeout contract for issue #5358.",
+  "add_protected_paths": [
+    "csdlc-v2",
+    "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "issue": 5336,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "a912ee0070262e26c4b44101c5ce42d124eea9a3a99aa2cad792505da941a7e3",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Baseline, feature, and budget truth is pinned and semantically proven.",
+  "operation": {"operation": "update_plan_step", "step_id": "S1", "status": "completed"},
+  "fail_after_backup": false
+}

@@ -154,6 +154,17 @@ pub fn metadata_only_changed_paths(
 }
 
 fn validate_card_projection_commits(root: &Path, from_commit: &str, to_commit: &str) -> Result<()> {
+    let ancestry = Command::new("git")
+        .current_dir(root)
+        .args(["merge-base", "--is-ancestor", from_commit, to_commit])
+        .status()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !ancestry.success() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "metadata revision reconciliation requires forward ancestry",
+        ));
+    }
     let output = Command::new("git")
         .current_dir(root)
         .args([
@@ -171,6 +182,12 @@ fn validate_card_projection_commits(root: &Path, from_commit: &str, to_commit: &
     }
     for commit in String::from_utf8_lossy(&output.stdout).lines() {
         let paths = commit_changed_paths(root, commit)?;
+        if paths.iter().any(|path| !safe_metadata_path(path)) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "metadata revision range contains a substantive commit",
+            ));
+        }
         for path in paths.iter().filter(|path| is_card_markdown(path)) {
             let values = format!("{}.values.json", path.trim_end_matches(".md"));
             if !paths.iter().any(|candidate| candidate == &values) {
@@ -249,7 +266,8 @@ fn safe_metadata_path(path: &str) -> bool {
                 .any(|name| *file == format!("{name}.md") || *file == format!("{name}.values.json"))
         }
         [".csdlc", "prepared", "issues", issue, file]
-            if issue_id(issue) && file.ends_with(".json") =>
+            if issue_id(issue)
+                && (file.ends_with(".json") || typed_review_evidence_markdown(file)) =>
         {
             true
         }
@@ -266,5 +284,36 @@ fn safe_metadata_path(path: &str) -> bool {
             true
         }
         _ => false,
+    }
+}
+
+fn typed_review_evidence_markdown(file: &str) -> bool {
+    ["final-head-review-", "subagent-review-"]
+        .iter()
+        .any(|prefix| {
+            file.strip_prefix(prefix)
+                .and_then(|suffix| suffix.strip_suffix(".md"))
+                .is_some_and(|ordinal| {
+                    !ordinal.is_empty() && ordinal.bytes().all(|byte| byte.is_ascii_digit())
+                })
+        })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::safe_metadata_path;
+
+    #[test]
+    fn prepared_review_evidence_is_narrowly_metadata_safe() {
+        assert!(safe_metadata_path(
+            ".csdlc/prepared/issues/5600/final-head-review-2.md"
+        ));
+        assert!(safe_metadata_path(
+            ".csdlc/prepared/issues/5600/subagent-review-1.md"
+        ));
+        assert!(!safe_metadata_path(".csdlc/prepared/issues/5600/design.md"));
+        assert!(!safe_metadata_path(
+            ".csdlc/prepared/issues/5600/final-head-review-not-a-number.md"
+        ));
     }
 }

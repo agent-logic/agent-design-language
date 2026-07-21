@@ -1,0 +1,170 @@
+{
+  "issue": 5358,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5358/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5358/diagram.mmd",
+  "design_reviewer": "operator:sprint-5595-slot-3",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+    "owner": "codex:issue-5358-slot-3",
+    "generation": 0,
+    "acquired_unix_seconds": 1784570058,
+    "expires_unix_seconds": 1784656458,
+    "heartbeat_unix_seconds": 1784570058,
+    "branch": "codex/5358-v0918-csdlc-v2-acceptance-prep",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5358",
+      ".csdlc/prepared/issues/5358",
+      ".csdlc/evidence/5358"
+    ],
+    "purpose": "Prepare typed C-SDLC v2 acceptance cards, design, and readiness only under sprint #5595 slot 3"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-14] Fully accept and deploy C-SDLC v2",
+    "slug": "v0-91-8-wp14-csdlc-v2-acceptance",
+    "version": "v0.91.8",
+    "goal": "Prepare the exact typed acceptance contract for proving C-SDLC v2 as the deployed lifecycle control plane without executing acceptance in this session.",
+    "required_outcome": "All six issue-specific cards, retained design, declared evidence and defect inputs, validation lanes, non-claims, and stop conditions are ready for a later exact-revision acceptance execution decision.",
+    "declared_scope": [
+      ".csdlc/issues/5358",
+      ".csdlc/prepared/issues/5358",
+      ".csdlc/evidence/5358",
+      "C-SDLC v2 acceptance criteria and proof topology",
+      "Read-only inventory of #5540, #5541, #5548, and #5558"
+    ],
+    "authority_boundary": [
+      "#5358 owns only its acceptance contract and future acceptance synthesis",
+      "#5540 and #5541 remain closed evidence owners",
+      "#5548 independently owns the Gate 2 non-Git fixture repair",
+      "#5558 independently owns final typed-v2 owner-guidance repair",
+      "This preparation does not authorize acceptance execution, deployment, publication, merge, or closeout"
+    ],
+    "task_boundary": "Generate and validate issue-local acceptance cards, design, diagram, and readiness only; stop before acceptance execution or implementation.",
+    "deliverables": [
+      "Typed SIP, STP, SPP, VPP, SRP, and SOR projections for #5358",
+      "Retained C-SDLC v2 acceptance design and dependency diagram",
+      "Explicit evidence and defect inventory for #5540, #5541, #5548, and #5558",
+      "Doctor and six-card validation evidence",
+      "Bounded subagent review of preparation truth"
+    ],
+    "acceptance_criteria": [
+      "AC-1: All six #5358 cards are generated from typed values and pass structure, schema, digest, and doctor checks",
+      "AC-2: The design defines exact-revision acceptance for install/selector authority, all typed lifecycle stages, claims, validation, review, publication, shepherding, and closeout",
+      "AC-3: #5540 and #5541 are declared as closed evidence inputs without reopening or absorbing their scope",
+      "AC-4: #5548 and #5558 are declared as independently owned open acceptance blockers without editing their surfaces",
+      "AC-5: Preparation makes no acceptance, deployment, implementation, publication, merge, or closeout claim",
+      "AC-6: The typed review card contains a bounded preparation-only review scope and evidence-focused prompts"
+    ],
+    "dependencies": [
+      "Sprint #5595 opening-wave slot 3 authorization",
+      "Closed recovery evidence from #5540",
+      "Closed Gate 10D2 authority evidence from #5541",
+      "Independent resolution and proof for open defect #5548 before acceptance can pass",
+      "Independent resolution and proof for open defect #5558 before acceptance can pass",
+      "Later integrated exact-revision C-SDLC v2 acceptance execution"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "docs/templates/prompts/current.json",
+      "csdlc-v2/operator/generation-selector.json",
+      "csdlc-v2/operator/skills.json",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "docs/milestones/v0.91.8/features/CSDLC_V2_ACCEPTANCE_v0.91.8.md",
+      ".csdlc/issues/5540",
+      ".csdlc/issues/5541"
+    ],
+    "non_goals": [
+      "Do not execute C-SDLC v2 acceptance or deployment",
+      "Do not change C-SDLC v2 implementation, owner binaries, templates, or owner validation lanes",
+      "Do not edit shared milestone documents",
+      "Do not absorb, repair, reopen, or close #5540, #5541, #5548, or #5558",
+      "Do not use raw gh or AWS",
+      "Do not publish a PR, merge, or close #5358 in this preparation session"
+    ],
+    "plan_summary": "Bind #5358 in its issue worktree, preserve a narrow issue-local claim, generate six typed cards and retained design, validate and doctor them, run bounded review, fix preparation-only findings, and stop at reviewed readiness.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Initialize and bind the typed #5358 record in its dedicated worktree with issue-local protected paths",
+        "acceptance_ids": ["AC-1", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Inventory #5540, #5541, #5548, and #5558 as evidence or defect inputs without scope absorption",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Validate all six cards, retained design integrity, typed issue state, and diff hygiene",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run bounded subagent review, correct preparation-only findings, and stop before acceptance execution",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "All lifecycle and card state mutations use independent typed v2 binaries",
+      "Generated Markdown remains binary-owned",
+      "Tracked work occurs only in the #5358 worktree",
+      "Protected paths remain issue-local and do not include shared milestone documents",
+      "Open defect inputs remain independently owned",
+      "Planning and readiness evidence never count as acceptance proof"
+    ],
+    "risks": [
+      "Closed recovery evidence may be historically accurate but insufficient for current exact-revision acceptance",
+      "Open #5548 or #5558 may keep future acceptance blocked",
+      "Installed binary provenance or selector truth may drift before acceptance execution",
+      "A planning-only SOR or readiness result could be misread as completed acceptance"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Any protected-path collision or inability to bind exact issue ownership",
+      "Any need to edit shared milestone documents or another issue's projection",
+      "Any request to run acceptance, deploy, publish, merge, or close the issue",
+      "Any validation requiring AWS or raw gh",
+      "Any unresolved corruption in generated card or typed issue state"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "csdlc-doctor-5358",
+        "proof_role": "Check canonical typed state, all six generated cards, digests, retained design, and readiness",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": ["csdlc-doctor", "--repo", ".", "--issue", "5358"],
+        "parallel_group": "local",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Check issue-local preparation artifacts for whitespace and patch hygiene",
+        "acceptance_ids": ["AC-1", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on card corruption, claim collision, stale authority, unresolved acceptance blockers, missing exact-revision evidence, or any preparation-to-acceptance overclaim.",
+    "review_prompts": [
+      "Do all six cards and the design remain preparation-only and avoid acceptance/deployment overclaim?",
+      "Are #5540 and #5541 consumed only as closed evidence inputs?",
+      "Are #5548 and #5558 retained as independently owned open blockers?",
+      "Are protected paths strictly issue-local with no shared milestone-document ownership?",
+      "Are future proof lanes exact-revision-bound, deterministic where claimed, and fail-closed?"
+    ]
+  }
+}

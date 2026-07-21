@@ -1,0 +1,16 @@
+flowchart TD
+    C["Runtime init file"] --> G["Guardian supervision"]
+    G --> K["Canonical Runtime v3 kernel"]
+    K --> I["Secure typed domain ingress"]
+    I --> L1["Lane A: kernel and continuity"]
+    I --> L2["Lane B: reasoning and cognition"]
+    I --> L3["Lane C: governed operations"]
+    I --> L4["Lane D: network and Observatory"]
+    L1 --> E["Retained events and checkpoints"]
+    L2 --> E
+    L3 --> E
+    L4 --> E
+    E --> P["WP-11 live parity"]
+    P --> A["Runtime v3 acceptance #5361"]
+    A --> S["WP-12 reversible cutover"]
+    S --> D["WP-13 eligible legacy deletion"]

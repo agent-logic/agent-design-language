@@ -1,0 +1,8 @@
+{
+  "issue": 5591,
+  "expected_generation": 25,
+  "expected_digest": "7e39fd20d3f2e140779956735a26efbbeaf651afd24fce17a8ce81a773fc1857",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+  "reason": "Exact-head CI exposed guardian.rs below the 80% changed-source coverage floor; recover published review truth for bounded fail-closed configuration and spawn-path tests, exact PR-mode coverage proof, and rereview."
+}

@@ -1,0 +1,20 @@
+flowchart LR
+  W["Reviewed WP-02 head 8c9a8687d"] --> P["Pinned ADL v1 revision"]
+  P --> B["Externally supplied v1 binary"]
+  M["Versioned corpus manifest"] --> R["Independent runner"]
+  B --> R
+  A["Local-only corpus policy"] --> R
+  T["Bounded child timeout"] --> R
+  M --> H["Sorted corpus-bundle digest"]
+  R --> O["Portable observations + exact and portable hashes"]
+  H --> O
+  O --> D["Recomputable evidence envelope"]
+  D --> N["Declared narrow normalizer"]
+  N --> C["Comparator"]
+  M --> C
+  C --> E["Determinism and semantic results"]
+  M --> V["Coverage-map validator"]
+  E --> G["Exact-revision proof gate"]
+  V --> G
+  X["Credentials denied; network-capable commands rejected"] --> R
+  G --> I["Publication after PR #5599 merge and main resync"]

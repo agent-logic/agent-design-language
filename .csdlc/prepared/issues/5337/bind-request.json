@@ -1,0 +1,22 @@
+{
+  "issue": 5337,
+  "base_branch": "main",
+  "branch": "codex/5337-v0918-wp03-preparation",
+  "worktree": ".worktrees/adl-wp-5337",
+  "claim": {
+    "id": "claim-5337-v0918-wp03-preparation",
+    "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "generation": 0,
+    "acquired_unix_seconds": 1784570080,
+    "expires_unix_seconds": 1785174880,
+    "heartbeat_unix_seconds": 1784570080,
+    "branch": "codex/5337-v0918-wp03-preparation",
+    "worktree": ".worktrees/adl-wp-5337",
+    "protected_paths": [
+      ".csdlc/issues/5337",
+      ".csdlc/prepared/issues/5337",
+      ".csdlc/evidence/5337"
+    ],
+    "purpose": "Prepare typed #5337 cards, design, validation, and readiness one dependency wave ahead without implementing the characterization corpus"
+  }
+}

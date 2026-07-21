@@ -1,0 +1,15 @@
+flowchart TD
+    CFG["Runtime init file"] --> G["Guardian"]
+    G --> K["Canonical adl-runtime-kernel"]
+    K --> IN["Secure typed domain ingress"]
+    IN --> A["#5591 Kernel and continuity"]
+    A --> B["#5592 Reasoning and cognition"]
+    A --> C["#5589 Governed operations"]
+    A --> D["#5590 Network and Observatory"]
+    B --> EV["Events, checkpoints, and evidence"]
+    C --> EV
+    D --> EV
+    EV --> P["WP-11 live parity"]
+    P --> AC["#5361 Runtime v3 acceptance"]
+    AC --> CUT["WP-12 reversible cutover"]
+    CUT --> DEL["WP-13 eligible legacy deletion"]

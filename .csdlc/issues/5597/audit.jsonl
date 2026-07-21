@@ -18,3 +18,8 @@
 {"sequence":18,"generation":14,"actor":"subagent:019f8057-e16d-76f1-99c1-5ef2ea96f133","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":19,"generation":15,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"Two independent exact-revision reviews passed with no findings or residual risks.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":20,"generation":16,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":21,"generation":17,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically record observed merged GitHub publication and SOR projection","operation":"record_merged_publication"}
+{"sequence":22,"generation":18,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":23,"generation":19,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"record normalized remote readiness without replacing pre-publication review","operation":"record_readiness"}
+{"sequence":24,"generation":20,"actor":"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d","reason":"atomically finalize SOR/index and release claim/protected paths","operation":"record_terminal"}
+{"sequence":25,"generation":21,"actor":"codex:issue-5358-acceptance","reason":"Integrate the existing receipt-backed normal-merge terminal truth for issue 5597 into the issue 5358 acceptance branch.","operation":"reconcile_terminal"}

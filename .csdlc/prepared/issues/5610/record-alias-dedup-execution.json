@@ -1,0 +1,22 @@
+{
+  "issue": 5610,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "19ffe7853feafd7ee15a9a5a53a5ac937a454a967c7a0d2ef80e518adc306fcf",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Record the bounded exact-head aggregate repair exposed by hosted coverage.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Coalesce canonical coverage aliases only when their complete normalized records are identical, while failing closed on conflicts.",
+    "changes": [
+      "Deduplicate identical complete records after ownership canonicalization",
+      "Reject conflicting records for the same canonical owned filename",
+      "Add exact identical-alias acceptance and conflicting-alias rejection regressions"
+    ],
+    "artifacts": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "issue": 5336,
+  "expected_generation": 36,
+  "expected_digest": "2814ec338a4f58e5e830c3e9c34f212a76f89b47eba5d338ed31dea363fca956",
+  "claim_id": "claim-5336-v0918-runtime-functional-parity-plan",
+  "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+  "reason": "Recover exact review identity for the metadata-only publication head after the substantive isolated-worker coverage review passed."
+}

@@ -1,0 +1,14 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 60,
+  "expected_digest": "fc90e9ad41b3d31b25593e78f3539ae8ab0bad5c0378fac8808c00865e57f958",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Advance the clean exact review of the typed ready-projection recovery.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  },
+  "fail_after_backup": false
+}

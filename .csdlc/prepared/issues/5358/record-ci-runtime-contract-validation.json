@@ -1,0 +1,24 @@
+{
+  "issue": 5358,
+  "card": "sor",
+  "expected_generation": 35,
+  "expected_digest": "212e22470fff4acfb07024a39d05f8912b7d68f917b2df9a0045231378d7bd9a",
+  "claim_id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
+  "actor": "codex:issue-5358-slot-3",
+  "reason": "Record focused proof for the stale CI runtime-contract assertion repair.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash -n adl/tools/test_ci_runtime_contracts.sh",
+        "bash adl/tools/test_ci_runtime_contracts.sh",
+        "bash adl/tools/test_ci_path_policy.sh",
+        "bash adl/tools/test_check_coverage_impact.sh",
+        "git diff --check"
+      ],
+      "purpose": "Prove unconditional prerequisite installation and retain every neighboring path-policy and coverage-impact contract.",
+      "outcome": "passed",
+      "evidence_ref": "local:pr-5606-run-29799791075-ci-runtime-contract-repair"
+    }
+  }
+}
