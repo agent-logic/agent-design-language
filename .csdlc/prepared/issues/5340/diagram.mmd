@@ -1,0 +1,31 @@
+flowchart LR
+  G["#5338 merged, typed receipt validated, and current-main ancestry"] --> P["Canonical inert ExecutionPlan"]
+  P --> V["Plan, EnginePolicy, and EngineLimits validation"]
+  Y["WP-06 EnginePolicy: joins, retry, failure, cancellation"] --> V
+  V --> R["Canonical ready-set and join evaluation"]
+  R --> B["Bounded dispatch by stable node identity"]
+  B --> Q["Typed provider or tool request effect"]
+  Q --> H["Runtime v3 / #5349 host adapter outside WP-06"]
+  H --> C["Typed completion input"]
+  C --> D{"Deterministic completion classification"}
+  D --> F["Stable success, failure, or cancelled terminal"]
+  D --> A["Stable retry-wait"]
+  K["Canonical cancellation intent"] --> U{"Current node state"}
+  U -->|"pending, ready, or retry-wait"| F
+  U -->|"dispatched"| N["Non-quiescent cancelling"]
+  N --> Z["One typed cancel effect for the in-flight request"]
+  Z --> H
+  F --> R
+  A --> R
+  F --> J{"Whole engine has zero dispatched or cancelling requests"}
+  A --> J
+  J --> X["Quiescent canonical checkpoint"]
+  X --> M["Strict plan, limits, budget, and sequence match"]
+  M --> R
+  S["Node, edge, ready, in-flight, attempt, byte, event, turn bounds"] --> V
+  S --> B
+  O["Typed PVF: hard process-group deadlines and FastWork-only caches"] --> V
+  W["Controlled cache warm, then offline required lanes"] --> O
+  L["Typed merged publication and governed PR head"] --> I["Captured current-main integration SHA"]
+  I --> T["Detached FastWork integration-tree PVF before closeout"]
+  E["Runtime v2/v3 source, adapters, IO, supervision, wall clock, C-SDLC"] -. "excluded" .-> NA["No WP-06 authority"]

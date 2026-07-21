@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5340,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-06] Implement portable bounded execution engine",
+    "slug": "v0918-wp06-portable-bounded-execution-engine",
+    "version": "v0.91.8",
+    "generation": 11
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5340\n.csdlc/prepared/issues/5340\n.csdlc/evidence/5340\nadl-v2/crates/adl-engine",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the engine consume only the landed inert #5338 plan and keep ADL plan-level scheduling distinct from Runtime v3 operational scheduling, supervision, recovery, and policy?",
+        "Are readiness, dispatch, joins, completions, retries, cancellation, failures, and saturation fully deterministic and bounded at every limit edge?",
+        "Can completion arrival, map order, retries, duplicate inputs, checkpoint encoding, or fresh-process resume change effects, attempts, snapshots, or final bytes?",
+        "Do provider/tool ports carry stable typed identity and idempotency while keeping production adapters, IO, credentials, policy, and Runtime source outside WP-06?",
+        "Does quiescent-only checkpoint/resume reject every plan, limit, budget, sequence, attempt, identity, state, or encoding mismatch without guessing about in-flight effects?",
+        "Are every #5338 fixture classification, protected path, COTS choice, source/test budget, PVF class, time ceiling, no-deferral acceptance row, rollback action, exact-revision review, and terminal gate explicit and executable?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
