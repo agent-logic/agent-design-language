@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5356,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "985f2d88dea5a9f7164345b6b28a387b044da7df10b101cc5fdcf659a3794886",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "0f1af2f38d8ce8be8328347c9c2fd98589b917cf5ab14422f861807a56a3cb18",
+  "claim": {
+    "id": "claim-5356-v0918-wp18-preparation",
+    "owner": "codex:5356-preparation-owner",
+    "generation": 1,
+    "acquired_unix_seconds": 1784668986,
+    "expires_unix_seconds": 1785273786,
+    "heartbeat_unix_seconds": 1784668986,
+    "branch": "codex/5356-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5356",
+      ".csdlc/locks/5356.lock",
+      ".csdlc/prepared/issues/5356",
+      ".csdlc/evidence/5356"
+    ],
+    "purpose": "Prepare and review #5356 only; claim no review-output or product path and perform no internal review until WP-17 #5360 is merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5356/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5356/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:codex-cli-5356-preparation-review",
+      "revision": "0d3b9927f587596993405ad5a14380207149769ebeb497b1acd89e63ff98e6b8"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8ad9557f57561338f784c913fc7f5065c2ccb1135645c83e7ed2cb9581fe3818",
+      "rendered_digest": "6c28ea55257d351844001997851940cd4a3be4e482ebcb9f93313a5480eeb17e",
+      "ast_digest": "3d10f2d5a80f4e4425df35b4295597f5019fc3e046e61c786488ba45580506e5"
+    },
+    "stp": {
+      "values_digest": "3d988e32e6d780ee6ed0463fda8aeb0bb703c2d48d0875e12c2da165270eab63",
+      "rendered_digest": "db7fcbce3c6f231d444dfc31580409ac6aeac20f6fed2126e7cd1970063da996",
+      "ast_digest": "0110c4c27ff5251ef6fe556b020e03990af9d9c7d5fa2f9b821e13d94b0b84db"
+    },
+    "spp": {
+      "values_digest": "69f0cb724831ac3ec00a57a40e522a69c09f106e48ff6d6e84b52a7cb4e8a350",
+      "rendered_digest": "6505062889afdd74b54bf6c4a4ff6bc2cac718eeda0a4d5c9442cf4e942c2d34",
+      "ast_digest": "ef2ec245699390d0699676f3effddad259748f054c6409335926e8c3e2186bd9"
+    },
+    "vpp": {
+      "values_digest": "47f8feaf602dd216c5c7f28b6893c7548597f7d29d648310620054c263c6f3be",
+      "rendered_digest": "b7e71038a79896ef91d5c8df32bf8192ddbfa30c98703c0a9cf4f85bf330f92c",
+      "ast_digest": "21e3f71c8a20ac2e555732a46e165e5db300b5d5a97655d6868c082cae4e175a"
+    },
+    "srp": {
+      "values_digest": "bb3c6e98010ed923eb77d7117b2536bf036583bccae555edaccc5700bbc593ed",
+      "rendered_digest": "3b6bcd865ce9748a0e9ffc5b91ffd2b0a4d8fc2a8e39de5ebb168e525bc5723b",
+      "ast_digest": "e0c861815e4eed1fb19bb464bb626b3fdbdefc45937fb3853488a55c05fb986a"
+    },
+    "sor": {
+      "values_digest": "86bf770e53ece812be050844435ad1959d7610a6b0d4372450d641d5c444ccb8",
+      "rendered_digest": "0dac083e8e61fcd3f90bc6794d9c42010905c7bf6913f8712e2e5480f4a914e7",
+      "ast_digest": "53b4a32441754c6d869d0e026a76a6d9692e7be387f125a29729bf16732c70a2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5356-preparation-owner",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5356-preparation-owner",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5356-preparation-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5356-preparation-owner",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:5356-preparation-owner",
+      "reason": "Retain the operator-selected external-volume constraint without machine-local path authority",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Read root AGENTS.md and canonical v0.91.8 planning/review handoff before preparation\",\"Typed C-SDLC v2 only; no tracked root-main work, raw gh, AWS, Runtime v2, provider credentials, or paid service\",\"Use the operator-selected external build volume for the dedicated issue worktree and generated validation output; retain only repo-relative evidence paths\",\"Render all six cards through the current native v2 registry path and validate them\",\"Require WP-17 #5360 actual merge, typed closed_out, claim release, retained terminal receipt, and ancestry before review execution\",\"Run bounded preparation review, fix every actionable finding, typed validate/bind/doctor, commit, push, and stop without publication\"]}"
+    }
+  ]
+}
