@@ -165,6 +165,69 @@ def recompute_totals(files: list[dict[str, Any]]) -> dict[str, dict[str, int | f
     return totals
 
 
+def coalesce_canonical_aliases(
+    existing: dict[str, Any], candidate: dict[str, Any]
+) -> dict[str, Any]:
+    filename = existing["filename"]
+    existing_shape = {key: value for key, value in existing.items() if key != "summary"}
+    candidate_shape = {key: value for key, value in candidate.items() if key != "summary"}
+    if existing_shape != candidate_shape:
+        raise fail(
+            "owned coverage summaries contain conflicting non-summary fields for "
+            f"canonical alias: {filename}"
+        )
+
+    existing_summary = existing["summary"]
+    candidate_summary = candidate["summary"]
+    if set(existing_summary) != set(candidate_summary):
+        raise fail(
+            "owned coverage summaries contain conflicting metric schema for "
+            f"canonical alias: {filename}"
+        )
+
+    merged_summary: dict[str, dict[str, int | float]] = {}
+    for metric_name in sorted(existing_summary):
+        existing_metric = existing_summary[metric_name]
+        candidate_metric = candidate_summary[metric_name]
+        if not isinstance(existing_metric, dict) or not isinstance(candidate_metric, dict):
+            raise fail(f"{filename} summary.{metric_name} must be an object")
+        if set(existing_metric) != set(candidate_metric):
+            raise fail(
+                "owned coverage summaries contain conflicting metric schema for "
+                f"canonical alias: {filename} summary.{metric_name}"
+            )
+        allowed_fields = {"count", "covered", "notcovered", "percent"}
+        if not set(existing_metric).issubset(allowed_fields):
+            raise fail(
+                "owned coverage summaries contain unsupported metric fields for "
+                f"canonical alias: {filename} summary.{metric_name}"
+            )
+
+        existing_count, existing_covered = validate_metric(
+            existing_metric, f"{filename} summary.{metric_name}"
+        )
+        candidate_count, candidate_covered = validate_metric(
+            candidate_metric, f"{filename} summary.{metric_name}"
+        )
+        count = max(existing_count, candidate_count)
+        covered = max(existing_covered, candidate_covered)
+        if covered > count:
+            raise fail(
+                f"{filename} summary.{metric_name} alias merge produced covered > count"
+            )
+        merged_metric: dict[str, int | float] = {
+            "count": count,
+            "covered": covered,
+            "notcovered": count - covered,
+            "percent": 0.0 if count == 0 else (covered * 100.0) / count,
+        }
+        merged_summary[metric_name] = merged_metric
+
+    merged = dict(existing)
+    merged["summary"] = merged_summary
+    return merged
+
+
 def atomic_write_json(path: Path, document: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(document, indent=2, sort_keys=True, allow_nan=False) + "\n"
@@ -195,11 +258,8 @@ def merge(workspace_path: Path, runtime_path: Path, output_path: Path) -> None:
         existing = unique_files.get(filename)
         if existing is None:
             unique_files[filename] = file_summary
-        elif existing != file_summary:
-            raise fail(
-                "owned coverage summaries contain conflicting duplicate filename: "
-                f"{filename}"
-            )
+        else:
+            unique_files[filename] = coalesce_canonical_aliases(existing, file_summary)
     files = list(unique_files.values())
 
     files.sort(key=lambda file_summary: file_summary["filename"].replace("\\", "/"))
