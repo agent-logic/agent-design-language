@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8863afa2116f00a1d2454a78df6f0287e360060ac0565d961b33c1da3c447617",
   "phase": "implemented",
-  "generation": 35,
-  "digest": "47d8f2c3b391d91c2765697fbddfdafd996fd31f2d28b0ac5cf46135bff93c84",
+  "generation": 39,
+  "digest": "92379c0c7014f9841490d5ee9562e1851daef476b622f76b590092b36cbf0665",
   "claim": {
     "id": "claim-5340-v0918-wp06-owner-watch",
     "owner": "codex:5340-owner-watch",
-    "generation": 35,
+    "generation": 39,
     "acquired_unix_seconds": 1784619054,
     "expires_unix_seconds": 1785223854,
     "heartbeat_unix_seconds": 1784619054,
@@ -148,34 +148,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f5dff71463562b8e0cac201dad751396fae6beee8df349865a3987aec478ed9f",
+      "values_digest": "cd7ecf3505f279715d46ebc0684914f4ee2152ac167090446afd913097d65688",
       "rendered_digest": "89b09b0e450ddd7efb55816ac6604326382c3e8976d112bd18c9847f4c6e6309",
       "ast_digest": "f8c5fd0db072f65fa89e0d9dcc29934d6219925a15e6b0478f1ec223dbede876"
     },
     "stp": {
-      "values_digest": "43f514ad736d970cd9a610d5cfe8df1ecebd3ac782191cd706fefeaf55ce0dfa",
+      "values_digest": "558bc0521942a0901cb6c0b4515c142056c72867acc0f6821fc75442f0caddd6",
       "rendered_digest": "2d4f29e605035d0c85da7bfada7d463f3f27fe4546e38bc8dffadcc9510771fa",
       "ast_digest": "f3745e071ea9bcadd8ae499c89a7dd9e574600d035b0d6a8d092b3f26ee03c25"
     },
     "spp": {
-      "values_digest": "d716ef40785ff37902a5bed4c74405a25400e6683b273d7c9a2010d88d6ec855",
+      "values_digest": "3161da310b150ed756eb09830965230cc161efb6eab8ec01a5bb4887e4892f0b",
       "rendered_digest": "1344077f5ac2e374781b4ebaea1b8e5eecb590ac924a671582a0c8ab578046e5",
       "ast_digest": "4d46a34ce59b99c2dcf9d0d0aa205406925d2a8b91f09e2e71634d980cc79110"
     },
     "vpp": {
-      "values_digest": "566d9917880cc542092fffaf919362be3df344552e08b85d9f6f4de3ab742ef2",
+      "values_digest": "f9bc53a6d9d04218c26769ac9278296a2932502b1defd35053d018b5823c2ec2",
       "rendered_digest": "6ce70a28eb85688c195502de77dbbcf7aa5f3c38897640c6275929056265c2b8",
       "ast_digest": "7ea7f4080d60b398d0b99625947ac1b191dae9f80f9b0a802f7b6339517de8d0"
     },
     "srp": {
-      "values_digest": "ae01211906b98e086e007bd2a955c9a4486158b373f0b86258bf4b2fa1344574",
+      "values_digest": "f0877ae76fca7fb20ecda60cf3e1e615ddddfc0d972faeb6613a9a710d5e41fb",
       "rendered_digest": "39b70af0f63517e2b08e34475fdc3207dedf1d62b961e1cca3b84ca60ac349fc",
       "ast_digest": "83d3a251c7468ff18ae719848f2722f5c9a442eff497a4c0ee96c93f7d50b0cc"
     },
     "sor": {
-      "values_digest": "e9d580ee4c51c1526377b95aabd775c524b8616c12beb054a1b2618cd793a0b7",
-      "rendered_digest": "abd383283e54ced65f8822fa984fbd50a9fdd0b297025c86ef16cfa21a7d03d6",
-      "ast_digest": "bfb3bfb050527816d85cf58960e4d4f48a944ac0c5db415e3555904a04087956"
+      "values_digest": "062801909ae316940244c54694cd711a0389934bc96eaa466abec2befb27c503",
+      "rendered_digest": "9559191ec51a6cadfffda2d664e59e8eec9577da072b21d5bff7421c07fdd599",
+      "ast_digest": "d6d8aa7bac9a25ca8c9cdef160904a9056083d7b8af934dd2508cd4b02ac0c9b"
     }
   },
   "transitions": [
@@ -488,6 +488,34 @@
       "actor": "subagent:/root/review_5340_exact",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 42,
+      "generation": 36,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Record focused proof for the canonical turn-replay remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/focused.json\"],\"purpose\":\"Prove the complete engine including canonical turn replay and forged-history rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-focused/engine-focused.log at substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75\"}}"
+    },
+    {
+      "sequence": 43,
+      "generation": 37,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Record strict quality proof for the canonical turn-replay remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/quality.json\"],\"purpose\":\"Prove formatting, strict linting, source authority, and COTS boundaries after turn replay.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-quality/engine-quality.log at substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75\"}}"
+    },
+    {
+      "sequence": 44,
+      "generation": 38,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Record deterministic canonical turn-replay proof on the exact remediation revision.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/determinism.json\"],\"purpose\":\"Prove completion-order invariance, fresh-process equivalence, canonical turn replay, exact snapshot reconstruction, contiguous attempts, and outcome-bound receipts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-determinism/engine-determinism.log at substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75\"}}"
+    },
+    {
+      "sequence": 45,
+      "generation": 39,
+      "actor": "codex:5340-owner-watch",
+      "reason": "Record final complete release-budget proof after canonical turn-replay remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--request\",\".csdlc/prepared/issues/5340/pvf/budgets.json\"],\"purpose\":\"Prove exact dependency, COTS, source authority, sole-writer scope, all tests, LoC ceilings, and validation deadlines on the final substantive revision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2928; test_fixture_lines=1946; unbudgeted_code=[]; substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75\"}}"
     }
   ]
 }

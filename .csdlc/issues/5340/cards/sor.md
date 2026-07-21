@@ -157,6 +157,46 @@ Implemented an independent portable adl-engine crate that consumes the landed in
     "purpose": "Prove exact dependency, COTS, source authority, sole-writer scope, all tests, LoC ceilings, and validation deadlines on the final substantive revision.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2905; test_fixture_lines=1878; unbudgeted_code=[]; substantive commit 0b0c0b2c2d934482b3eed7d481f1e44f2ecd28c4"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/focused.json"
+    ],
+    "purpose": "Prove the complete engine including canonical turn replay and forged-history rejection.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-focused/engine-focused.log at substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/quality.json"
+    ],
+    "purpose": "Prove formatting, strict linting, source authority, and COTS boundaries after turn replay.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-quality/engine-quality.log at substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/determinism.json"
+    ],
+    "purpose": "Prove completion-order invariance, fresh-process equivalence, canonical turn replay, exact snapshot reconstruction, contiguous attempts, and outcome-bound receipts.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-determinism/engine-determinism.log at substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--request",
+      ".csdlc/prepared/issues/5340/pvf/budgets.json"
+    ],
+    "purpose": "Prove exact dependency, COTS, source authority, sole-writer scope, all tests, LoC ceilings, and validation deadlines on the final substantive revision.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5340/engine-budgets/engine-budgets.log: implementation_lines=2928; test_fixture_lines=1946; unbudgeted_code=[]; substantive commit f89b321eac7433e9e3d9cc0cfdfc8aca6ce0ae75"
   }
 ]
 
