@@ -58,3 +58,4 @@
 {"sequence":58,"generation":52,"actor":"codex:019f8188-089f-7580-8ae8-fffef0d52539","reason":"Advance the clean post-dependency exact-revision review for typed publication.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"}
 {"sequence":59,"generation":53,"actor":"codex:019f8188-089f-7580-8ae8-fffef0d52539","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":60,"generation":54,"actor":"codex:019f8188-089f-7580-8ae8-fffef0d52539","reason":"record exact existing PR ready-for-review after remote success","operation":"record_ready_publication"}
+{"sequence":61,"generation":55,"actor":"codex:019f8188-089f-7580-8ae8-fffef0d52539","reason":"PR #5611 merged and current origin/main was integrated exactly once; recover stale publication review truth for final exact-head validation and review.","operation":"recover_review"}
