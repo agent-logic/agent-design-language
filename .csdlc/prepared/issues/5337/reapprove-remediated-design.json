@@ -1,0 +1,7 @@
+{
+  "issue": 5337,
+  "expected_generation": 36,
+  "expected_digest": "1720c8f0687dddcd042723b7ae6f3388198f8348069f25d62cccc4900e65252d",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "reviewer": "codex:019f8188-089f-7580-8ae8-fffef0d52539"
+}

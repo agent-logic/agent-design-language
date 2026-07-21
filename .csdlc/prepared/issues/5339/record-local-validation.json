@@ -1,0 +1,19 @@
+{
+  "issue": 5339,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "0b3260e36eace25834915f59d0cc3377b99a9eb0e09e08a732d2fd0197f4a0fd",
+  "claim_id": "claim-5339-v0918-wp04-preparation",
+  "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+  "reason": "Record the complete prepared local validation DAG after all four issue-specific lanes passed.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", ".csdlc/prepared/issues/5339/validate-language.sh", "focused|quality|parity|budgets"],
+      "purpose": "Prove the six-primitives language model, strict parsing and schema alignment, semantic diagnostics, canonical ordering, #5337 corpus mapping, dependency boundary, LoC budgets, and latency budget.",
+      "outcome": "passed",
+      "evidence_ref": "Focused: 9 tests passed. Quality: strict Clippy passed. Parity: 3 mapped corpus tests passed. Budgets: 637 implementation lines, 254 test lines, exact five-dependency COTS set, no forbidden dependency family, warm all-target validation 0 seconds. git diff --check passed."
+    }
+  },
+  "fail_after_backup": false
+}

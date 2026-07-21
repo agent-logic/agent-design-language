@@ -1,0 +1,23 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 20,
+  "expected_digest": "72c035a0c53749c4f8d3fc780ab3f72cbc586f8ee8c58a2d703a885e613418ad",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Fail closed on incomplete or unsafe implementation",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "the v1 binary cannot be proven to come from the pinned revision",
+      "any case requires credentials, network, remote, or AWS execution",
+      "a normalizer would need to erase semantic arrays, identifiers, errors, exits, or signature verdicts",
+      "any required behavior lacks three retained observations or coverage mapping",
+      "unexplained repeated-run divergence remains",
+      "exact-revision review has unresolved actionable findings",
+      "publication would require bypassing typed lifecycle truth"
+    ]
+  },
+  "fail_after_backup": false
+}

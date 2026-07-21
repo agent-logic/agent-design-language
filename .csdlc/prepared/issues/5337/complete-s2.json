@@ -1,0 +1,11 @@
+{
+  "issue": 5337,
+  "card": "spp",
+  "expected_generation": 29,
+  "expected_digest": "3a9e4118e58617e787944d89a730a0dac418a3c803d32f1d507cc807024af517",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "The complete positive, negative, ordering, mock, and signing corpus and exact coverage map are retained.",
+  "operation": {"operation": "update_plan_step", "step_id": "S2", "status": "completed"},
+  "fail_after_backup": false
+}

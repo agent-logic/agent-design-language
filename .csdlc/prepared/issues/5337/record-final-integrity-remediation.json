@@ -1,0 +1,28 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 42,
+  "expected_digest": "b6624ef5424a845ba5e7c3e6c928be49333b95294861242194c808c4560ff6f6",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record final remediation of the two remaining exact-review blockers at substantive commit 13f21e6bc.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Closed the default-execution policy bypass and retained-evidence integrity gap with exact command shapes, corpus-bundle binding, portable stream digests, and recomputable observation envelopes.",
+    "changes": [
+      "Restrict every corpus command to an exact approved non-executing shape or the sole exact local-mock execution shape",
+      "Bind each retained observation to a deterministic symlink-rejecting corpus-tree digest",
+      "Retain separate exact-capture and recomputable portable stream hashes under a complete observation envelope",
+      "Reject corpus, expanded-argument, captured-hash, portable-hash, and joint raw-plus-normalized tampering offline",
+      "Document the exact-byte trust boundary without claiming an operating-system network sandbox"
+    ],
+    "artifacts": [
+      ".csdlc/evidence/5337/review-13f21e6bc.md",
+      "adl-characterization/src/manifest.rs",
+      "adl-characterization/src/model.rs",
+      "adl-characterization/src/compare.rs",
+      "adl-characterization/tests/evidence.rs",
+      "adl-characterization/tests/manifest.rs"
+    ]
+  }
+}

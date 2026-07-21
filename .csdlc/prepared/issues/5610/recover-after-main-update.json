@@ -1,0 +1,8 @@
+{
+  "issue": 5610,
+  "expected_generation": 9,
+  "expected_digest": "f8ded516c9e34b787e225fe2dbfffd1cf3e2b4f6542e0cc52398faa48c223161",
+  "claim_id": "claim-5610-coverage-path-normalization",
+  "actor": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+  "reason": "Current main advanced after publication; recover stale exact-head review and publication truth before re-reviewing the merged head."
+}

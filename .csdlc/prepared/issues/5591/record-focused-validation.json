@@ -1,0 +1,29 @@
+{
+  "issue": 5591,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "6ac42c0260ecd8678cfdd6ef8a6cb83a1a0c7552dcee1c93afbda9f31f345976",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+  "reason": "Retain the exact-product rereview validation performed with FastWork build output.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--test",
+        "assembly",
+        "--test",
+        "control",
+        "--test",
+        "operations"
+      ],
+      "purpose": "Prove governed routing, terminal-pressure race safety, delayed-work checkpoint ordering, deterministic retries, and focused Runtime v3 regressions; assembly 4, control 21, operations 9, ingress atomic admission, and focused process pressure/signed shutdown yielded 36 unique passing tests",
+      "outcome": "passed",
+      "evidence_ref": "subagent:019f8277-0050-7db0-a96b-05593df9c703@6f19349e6d6227c362f5d73dce2c977aab41c1db:36-focused-tests:/Volumes/FastWork/adl-5591-rereview-target"
+    }
+  }
+}

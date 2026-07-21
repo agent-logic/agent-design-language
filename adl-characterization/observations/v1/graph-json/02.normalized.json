@@ -1,0 +1,33 @@
+{
+  "schema": "adl.characterization.normalized.v1",
+  "case_id": "graph-json",
+  "repetition": 2,
+  "incumbent_revision": "19c2b6e2ad18bddc75db9231643a54b2a446ce72",
+  "binary_sha256": "f558fa2111474e2fab540f8d0244be82cdb727ebbaa15aee758d8a7d57d0969c",
+  "commands": [
+    {
+      "step_id": "graph",
+      "declared_args": [
+        "instrument",
+        "graph",
+        "{ROOT}/fixtures/six-primitives.adl.yaml",
+        "--format",
+        "json"
+      ],
+      "expanded_args": [
+        "instrument",
+        "graph",
+        "<ROOT>/fixtures/six-primitives.adl.yaml",
+        "--format",
+        "json"
+      ],
+      "exit_code": 0,
+      "captured_stdout_sha256": "bf854a93427551d7a4530888634f881b13898571b4ee18c1342826c0c0fe439a",
+      "captured_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "portable_stdout_sha256": "bf854a93427551d7a4530888634f881b13898571b4ee18c1342826c0c0fe439a",
+      "portable_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "{\n  \"edges\": [],\n  \"nodes\": [\n    {\n      \"id\": \"summarize.topic\",\n      \"save_as\": null\n    }\n  ],\n  \"workflow_kind\": \"sequential\"\n}\n",
+      "stderr": ""
+    }
+  ]
+}

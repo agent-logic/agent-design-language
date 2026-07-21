@@ -1,0 +1,22 @@
+{
+  "issue": 5591,
+  "card": "sip",
+  "expected_generation": 0,
+  "expected_digest": "8ae3773559c6832ef609a07ca16c735c5e6fb2922eaf4f276b904dbc0773b12c",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
+  "reason": "Record operator-authorized stacked execution on exact reviewed #5336 head without weakening the merge gate",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "Use only typed C-SDLC v2 lifecycle owners; no raw gh, AWS, Runtime v2 implementation files, hard-coded IP addresses, or product edits on main",
+      "Stack #5591 on exact reviewed #5336 head 8fa1bfe66e677ed3ae160b3fee81d204d4211a37 and preserve that dependency as the implementation base",
+      "After preparation validation, amend claim scope through csdlc-bind before touching the smallest collision-free Runtime v3 product paths",
+      "Implementation may proceed on the reviewed stack, but publication, merge, integrated readiness, and final exact-revision acceptance remain blocked until #5336 is merged and #5591 is synchronized with main",
+      "Implement every AC-1 through AC-8 outcome without deferred, skipped, degraded, fixture-only, library-only, prose-only, or partial acceptance",
+      "Use /Volumes/FastWork for Rust build artifacts and maintained COTS crates where practical",
+      "Run bounded subagent review at the exact committed revision, fix every actionable finding, and publish or merge only green work"
+    ]
+  },
+  "fail_after_backup": false
+}

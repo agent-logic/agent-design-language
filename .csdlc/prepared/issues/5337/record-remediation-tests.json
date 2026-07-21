@@ -1,0 +1,19 @@
+{
+  "issue": 5337,
+  "card": "sor",
+  "expected_generation": 38,
+  "expected_digest": "cbe8780aec30dff665d4284471cd66769d0580bf3d4f474ea5e62667934ed293",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Record the expanded exact-remediation test proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "adl-characterization/Cargo.toml", "--all-targets"],
+      "purpose": "Prove all original contracts plus command-contract tamper classes, local-only policy rejection, portable path hygiene, bounded timeout, and atomic prior-capture preservation.",
+      "outcome": "passed",
+      "evidence_ref": "Commit 6652c4ab7: 23 tests passed with CARGO_TARGET_DIR=/Volumes/FastWork/adl-wp-5337-target."
+    }
+  },
+  "fail_after_backup": false
+}

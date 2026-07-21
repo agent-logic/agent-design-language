@@ -1,0 +1,21 @@
+{
+  "issue": 5337,
+  "card": "sip",
+  "expected_generation": 9,
+  "expected_digest": "47ebe13ee606a3e4c68fb7db9dfaa8b83cd3ed61533ca7e26ef2ee64fc4f7fde",
+  "claim_id": "claim-5337-v0918-wp03-implementation",
+  "actor": "codex:019f8188-089f-7580-8ae8-fffef0d52539",
+  "reason": "Replace preparation-only constraints with full implementation constraints",
+  "operation": {
+    "operation": "replace_operator_constraints",
+    "values": [
+      "Use installed typed C-SDLC v2 binaries and card-editor semantics only",
+      "Implement every acceptance criterion in this issue; do not defer product work",
+      "Do not edit incumbent adl, Runtime v2, main, sibling worktrees, or shared milestone files",
+      "Use /Volumes/FastWork for Cargo output",
+      "Do not use AWS, raw gh, credentials, or network providers",
+      "Use COTS crates for parsing, schema validation, assertions, and temporary files"
+    ]
+  },
+  "fail_after_backup": false
+}

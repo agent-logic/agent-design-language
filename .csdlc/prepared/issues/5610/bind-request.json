@@ -1,0 +1,21 @@
+{
+  "issue": 5610,
+  "base_branch": "main",
+  "branch": "codex/5610-coverage-path-normalization",
+  "worktree": ".",
+  "claim": {
+    "id": "claim-5610-coverage-path-normalization",
+    "owner": "codex:019f8380-f385-72c1-9890-33d3676eab84",
+    "generation": 0,
+    "acquired_unix_seconds": 1784618518,
+    "expires_unix_seconds": 1784704918,
+    "heartbeat_unix_seconds": 1784618518,
+    "branch": "codex/5610-coverage-path-normalization",
+    "worktree": ".",
+    "protected_paths": [
+      "adl/tools/merge_coverage_summaries.py",
+      "adl/tools/test_merge_coverage_summaries.sh"
+    ],
+    "purpose": "Normalize safe in-repo coverage paths without weakening traversal rejection"
+  }
+}

@@ -6,7 +6,8 @@ SOURCE_ROOT="${ROOT_DIR}/adl-runtime-kernel/src"
 TEST_ROOT="${ROOT_DIR}/adl-runtime-kernel/tests"
 CHALLENGE_TARGET=10000
 REVIEWED_TARGET=12000
-EXCEPTION_CEILING=20000
+PINNED_BASELINE=12209
+HARD_SAFETY_CEILING=20000
 TEST_CEILING=1000
 
 physical_lines="$({ find "${SOURCE_ROOT}" -type f -name '*.rs' -print0 | xargs -0 wc -l; } | awk 'END {print $1}')"
@@ -28,8 +29,8 @@ fi
 if (( physical_lines > REVIEWED_TARGET )); then
   disposition=reviewed_exception_required
 fi
-if (( physical_lines > EXCEPTION_CEILING )); then
-  echo "runtime_v3_loc=fail physical_lines=${physical_lines} exception_ceiling=${EXCEPTION_CEILING}" >&2
+if (( physical_lines > HARD_SAFETY_CEILING )); then
+  echo "runtime_v3_loc=fail physical_lines=${physical_lines} hard_safety_ceiling=${HARD_SAFETY_CEILING}" >&2
   exit 1
 fi
 if (( test_count >= TEST_CEILING )); then
@@ -37,7 +38,9 @@ if (( test_count >= TEST_CEILING )); then
   exit 1
 fi
 
-printf 'runtime_v3_loc=pass physical_lines=%s challenge_target=%s reviewed_target=%s exception_lines=%s exception_ceiling=%s test_count=%s test_ceiling_exclusive=%s disposition=%s\n' \
+printf 'runtime_v3_loc=pass physical_lines=%s challenge_target=%s reviewed_target=%s pinned_baseline=%s baseline_delta=%s target_delta=%s hard_safety_ceiling=%s safety_ceiling_authorizes_exception=false test_count=%s test_ceiling_exclusive=%s disposition=%s\n' \
   "${physical_lines}" "${CHALLENGE_TARGET}" "${REVIEWED_TARGET}" \
+  "${PINNED_BASELINE}" \
+  "$(( physical_lines > PINNED_BASELINE ? physical_lines - PINNED_BASELINE : 0 ))" \
   "$(( physical_lines > REVIEWED_TARGET ? physical_lines - REVIEWED_TARGET : 0 ))" \
-  "${EXCEPTION_CEILING}" "${test_count}" "${TEST_CEILING}" "${disposition}"
+  "${HARD_SAFETY_CEILING}" "${test_count}" "${TEST_CEILING}" "${disposition}"
