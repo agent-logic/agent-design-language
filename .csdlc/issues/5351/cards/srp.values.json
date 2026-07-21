@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5351,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-16] Run integrated platform quality gate",
+    "slug": "v0918-wp16-integrated-platform-quality-gate",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/5351\n.csdlc/locks/5351.lock\n.csdlc/prepared/issues/5351\n.csdlc/evidence/5351",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can a component test, fixture, screenshot, prose row, or prior-milestone artifact be mistaken for the required exact integrated quality proof?",
+        "Is #5354 merge/completion, typed closed_out, claim release, retained receipt, and ancestry gating exact and impossible to bypass?",
+        "Can any failure, missing result, deferred lane, or unsupported claim be transformed into green quality-gate truth?",
+        "Does the gate compose accepted tools without duplicating product behavior or gaining repair, deployment, review, publication, merge, or closeout authority?",
+        "Are COTS, protected paths, budgets, PVF, evidence identity, redaction, blocker routing, exact review, CI, serialized merge, post-merge proof, and WP-17 release contracts complete?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

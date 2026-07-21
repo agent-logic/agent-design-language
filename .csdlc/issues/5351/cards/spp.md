@@ -1,0 +1,121 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 5351
+
+Repository: danielbaustin/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Render and validate six current-registry cards; freeze exact #5354 terminal gating, issue-local ownership, integrated packet semantics, blocker routing, zero-new-dependency COTS posture, budgets and PVF; obtain bounded review and fix findings; typed bind and doctor; commit and push preparation only.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Complete six cards, design, diagram, exact preparation-only claim, COTS, budgets, PVF, executable gates, bounded review/fixes, typed bind/doctor, commit, and push",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "in_progress"
+  },
+  {
+    "id": "S2",
+    "action": "Wait fail-closed until #5354 is merged, typed closed_out, claim-free, retained-receipt-backed, and ancestral",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Amend exact reviewed paths and run focused and integrated platform quality gates, retaining exact evidence and routing every blocker",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run complete exact review, typed publication, green CI, authorized serialized merge, post-merge proof, typed closeout, and release WP-17",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-5",
+      "AC-6",
+      "AC-7",
+      "AC-8"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- preparation owns only four exact #5351 issue-local lifecycle and evidence paths
+- no execution or broader claim begins before the complete #5354 terminal gate
+- only pass satisfies a required quality row; missing, blocked, failed, or deferred proof cannot be promoted
+- the gate composes existing tools and never becomes another product or lifecycle authority
+- Runtime v2, credentials, host-absolute retained paths, hard-coded addresses, and secret-bearing output are forbidden
+- all applicable validation, review, CI, merge, post-merge, and closeout gates complete without deferral
+
+## Risks
+
+- a green component test could be mistaken for integrated platform proof
+- accepted revisions could drift between #5354 closeout and #5351 execution
+- a failed gate could be softened into documentation wording or a deferred item
+- quality orchestration could duplicate product behavior or expand into a second test framework
+- retained evidence could leak host paths, credentials, addresses, or stale identity
+- blocker remediation could be hidden inside #5351 instead of routed to its owner
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/5351/design.md
+
+Digest: 63519b23561e7c7877d8f905219f5fb2cf9db8375d0fedb4f915ec2cef9d3722
+
+## Diagram
+
+.csdlc/prepared/issues/5351/diagram.mmd
+
+Digest: 0b5a62ad7769a255f9cf13b01055c7dba965e7c091bb70d8e4834586ee9fb006
+
+## Stop Conditions
+
+- #5354 lacks actual merge, typed closed_out, claim release, retained merged receipt, or ancestry
+- accepted platform revisions or stable interfaces cannot be resolved exactly
+- any required result is failed, missing, stale, deferred, secret-bearing, host-bound, or unsupported
+- execution requires Runtime v2, AWS, credentials, paid services, hidden network authority, hard-coded addresses, or out-of-claim writes
+- the quality harness duplicates product/COTS behavior, adds a dependency, exceeds budget without exact review, or collides with another claim
+- WP-17 would begin before #5351 merged typed closeout
+
+## Handoff
+
+Proceed only after doctor readiness.

@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5351,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "185d0c17ef9ef231ae848b0ae2a3f027956bca5a1690d71ae37915a465534bd6",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "4f1979f18442b95291165354164022f4d8a463a905c26a2263609dd806f02a89",
+  "claim": {
+    "id": "claim-5351-v0918-wp16-quality-gate-preparation",
+    "owner": "codex:5351-preparation-owner",
+    "generation": 1,
+    "acquired_unix_seconds": 1784665489,
+    "expires_unix_seconds": 1785270289,
+    "heartbeat_unix_seconds": 1784665489,
+    "branch": "codex/5351-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5351",
+      ".csdlc/locks/5351.lock",
+      ".csdlc/prepared/issues/5351",
+      ".csdlc/evidence/5351"
+    ],
+    "purpose": "Prepare and review #5351 WP-16 integrated platform quality-gate contracts only; no execution or product work until WP-15 #5354 is merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5351/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5351/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019f8672-8b41-7220-b383-80c424c84d37",
+      "revision": "63519b23561e7c7877d8f905219f5fb2cf9db8375d0fedb4f915ec2cef9d3722"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c7ad337172bd3b6df83dd622a2b711284b38639abf4fe7220cbd567a251a654d",
+      "rendered_digest": "cd486b0ef1c9028d5bae231ed78d5f04d09f5a26f97e5b1be916da76f0b07648",
+      "ast_digest": "ec0ecc9deeaf93d925f734b00517171ced15f0af10030478079a24aa0edf9f2c"
+    },
+    "stp": {
+      "values_digest": "3874ccdaa45ff123610dd54e0a2d15d15045d74d310fd2d86c171aa0d1a6f251",
+      "rendered_digest": "26ab7a958999a675d0ae9b59e12a8fdc4afb55dae89d735e9afa173a8f5bb8b8",
+      "ast_digest": "148c31feceb93b642a2ac7e2dda7b255a01577211d9ea8da8b552e328d61379c"
+    },
+    "spp": {
+      "values_digest": "fdebfa7389d3469b0d4dffdffd3da416071cf12b3d8b9e3ae77454cea157ed21",
+      "rendered_digest": "1b0f426cbdc8444f98c7ae8e28453ae2038de612ce608db25c48049387371d1f",
+      "ast_digest": "8ccc0364c8cc5d4976d6c4c4bbfd35cf0459076381ad644e45648bf61ac926e9"
+    },
+    "vpp": {
+      "values_digest": "35d5ab579f377245dae96a595160d506fad04eacf30c69b52fcd991c643f0642",
+      "rendered_digest": "7154421ca308f11c5ed2dd2dc65c877f7c99ceaaacd9de2acad35a6df362926e",
+      "ast_digest": "bf16d1c3e1f5b00d28a226bce0818c5a41f4b3216ee3d914b44b630fd32791a6"
+    },
+    "srp": {
+      "values_digest": "fe65a87313193e8a0c5d187f22d5ac388af0e75a1e3d92404e12987bc1a0fadc",
+      "rendered_digest": "ee40b370608546998035f8609ebb375449366f60e593a30a087e2745bf4321bf",
+      "ast_digest": "2ac31a0a2b8cc667639662cba9593e956b5cd75b9972acfe2ac5ba54eec86ea9"
+    },
+    "sor": {
+      "values_digest": "b41a92c73c481dc80c7bfac98c7952294632aeec81b385900eace8ad5d5991ad",
+      "rendered_digest": "b4407b9c9c9340bc5f0a1fc1c1d33b4a2c2cc6f3159433d9dfabe78ba04ccfb3",
+      "ast_digest": "a388b8ce794e7d4c1cddf39bc39a65f355c5115dc1980ab5f9fc29bb4b56c5b8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5351-preparation-owner",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5351-preparation-owner",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:5351-preparation-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5351-preparation-owner",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "subagent:019f8672-8b41-7220-b383-80c424c84d37",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}
