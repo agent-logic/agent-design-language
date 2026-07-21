@@ -380,6 +380,11 @@ impl ParityBExecutor {
             });
 
         let mut state = self.state.lock().map_err(|_| ParityBError::StatePoisoned)?;
+        if let Some(existing) = state.completed.get(&operation.request_id) {
+            return (existing.request_hash == request_hash)
+                .then_some(existing.receipt.clone())
+                .ok_or(ParityBError::RequestConflict);
+        }
         if state.completed.len() >= MAX_RETAINED_RECEIPTS {
             return Err(ParityBError::EvidenceCapacity);
         }
@@ -453,43 +458,72 @@ impl OperationExecutor for ParityBExecutor {
 
 pub fn feature_dispositions() -> Vec<FeatureDisposition> {
     [
-        ("reasoning_graph", FeatureDispositionKind::LiveRuntimeV3),
-        ("bounded_loop", FeatureDispositionKind::LiveRuntimeV3),
+        (
+            "reasoning_graph",
+            FeatureDispositionKind::LiveRuntimeV3,
+            "signed-policy canonical-ingress graph receipt",
+        ),
+        (
+            "bounded_loop",
+            FeatureDispositionKind::LiveRuntimeV3,
+            "remaining-iteration and deadline resume checkpoint",
+        ),
         (
             "adaptive_learning",
-            FeatureDispositionKind::AcceptedBoundary,
+            FeatureDispositionKind::LiveRuntimeV3,
+            "executor-composed signed one-shot MutationGate evidence",
         ),
         (
             "affect_reasoning_control",
             FeatureDispositionKind::LiveRuntimeV3,
+            "signed bounded advisory control with forgery rejection",
         ),
-        ("governed_cognition", FeatureDispositionKind::LiveRuntimeV3),
+        (
+            "governed_cognition",
+            FeatureDispositionKind::LiveRuntimeV3,
+            "review refusal and restart-persistent shutdown",
+        ),
         (
             "curiosity_discovery",
             FeatureDispositionKind::AcceptedBoundary,
+            "bounded advisory steps only; no discovery-cycle live credit",
         ),
-        ("theory_of_mind", FeatureDispositionKind::AcceptedBoundary),
-        ("constructability", FeatureDispositionKind::AcceptedBoundary),
-        ("godel_mechanics", FeatureDispositionKind::AcceptedBoundary),
-        ("guild", FeatureDispositionKind::AcceptedBoundary),
+        (
+            "theory_of_mind",
+            FeatureDispositionKind::AcceptedBoundary,
+            "observable-interaction evidence only; no private-state authority",
+        ),
+        (
+            "constructability",
+            FeatureDispositionKind::LiveRuntimeV3,
+            "signed constructability gate can only refuse execution",
+        ),
+        (
+            "godel_mechanics",
+            FeatureDispositionKind::AcceptedBoundary,
+            "no bounded Godel experiment implemented in this executor",
+        ),
+        (
+            "guild",
+            FeatureDispositionKind::AcceptedBoundary,
+            "later governance owner; no collective authority",
+        ),
         (
             "economics_context",
             FeatureDispositionKind::AcceptedBoundary,
+            "context only; no payment or financial authority",
         ),
-        ("adl.skill.v1", FeatureDispositionKind::AcceptedBoundary),
+        (
+            "adl.skill.v1",
+            FeatureDispositionKind::AcceptedBoundary,
+            "graph-node contract owner retained; no metadata-only live credit",
+        ),
     ]
     .into_iter()
-    .map(|(feature, disposition)| FeatureDisposition {
+    .map(|(feature, disposition, evidence)| FeatureDisposition {
         feature: feature.to_owned(),
         disposition,
-        evidence: match disposition {
-            FeatureDispositionKind::LiveRuntimeV3 => {
-                "canonical-ingress exact live-kernel receipt".to_owned()
-            }
-            FeatureDispositionKind::AcceptedBoundary => {
-                "explicit non-authoritative ownership boundary".to_owned()
-            }
-        },
+        evidence: evidence.to_owned(),
     })
     .collect()
 }

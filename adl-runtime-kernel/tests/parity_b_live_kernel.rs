@@ -440,12 +440,29 @@ fn feature_dispositions_require_live_kernel_or_accepted_boundary() {
         12
     );
     for row in rows {
+        assert!(!row.evidence.trim().is_empty());
         match row.disposition {
             FeatureDispositionKind::LiveRuntimeV3 => {
-                assert!(row.evidence.contains("canonical-ingress"))
+                assert!([
+                    "reasoning_graph",
+                    "bounded_loop",
+                    "adaptive_learning",
+                    "affect_reasoning_control",
+                    "governed_cognition",
+                    "constructability",
+                ]
+                .contains(&row.feature.as_str()))
             }
             FeatureDispositionKind::AcceptedBoundary => {
-                assert!(row.evidence.contains("non-authoritative"))
+                assert!([
+                    "curiosity_discovery",
+                    "theory_of_mind",
+                    "godel_mechanics",
+                    "guild",
+                    "economics_context",
+                    "adl.skill.v1",
+                ]
+                .contains(&row.feature.as_str()))
             }
         }
     }
