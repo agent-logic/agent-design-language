@@ -3,13 +3,13 @@
   "issue": 5358,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "800a5107a77dd5cf17f163a67d60e40d344166ff1662bebfaeb29f3357f09c79",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "8ddc6c86d8b50880bd52ed574d79f82f76dbcafddb5da7d877a7a6ecaac5ae60",
+  "phase": "reviewed",
+  "generation": 32,
+  "digest": "062fe2e04a31065e18da649763a40f9cde5b8e555b048334ac10ccb98824ad6d",
   "claim": {
     "id": "claim-5358-v0918-csdlc-v2-acceptance-prep",
     "owner": "codex:issue-5358-slot-3",
-    "generation": 30,
+    "generation": 32,
     "acquired_unix_seconds": 1784570058,
     "expires_unix_seconds": 1784656458,
     "heartbeat_unix_seconds": 1784570058,
@@ -26,8 +26,29 @@
     ],
     "purpose": "Implement and complete the full C-SDLC v2 acceptance, deployment, review, publication, merge, and terminal closeout contract for issue #5358."
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "provider:deepseek:deepseek-chat",
+    "assigned_by": "codex:issue-5358-slot-3",
+    "revision": "git-blake3:b2d16654c6737e92155bc2abb3f05e0b87699e3a:a3193789149d8abd3ae1faccbd71981b085a2643d6f07c64c7323a42cb174f26",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "provider:deepseek:deepseek-chat",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh"
+    ],
+    "reviewed_revision": "git-blake3:b2d16654c6737e92155bc2abb3f05e0b87699e3a:a3193789149d8abd3ae1faccbd71981b085a2643d6f07c64c7323a42cb174f26",
+    "findings": [],
+    "residual_risks": [
+      "The review is bounded to the already identified always-run tooling-contract prerequisite repair; repository-wide CI behavior remains governed by required hosted checks."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -42,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4cb3c1cf3b0cc43afbd7a1ff68a81664613d3b611c4d70d5b636b00888da887b",
+      "values_digest": "7737931f9d3150b2e8e9e0869d938e36f5d3cf9c6cf797c3709d3a82e22bfcb0",
       "rendered_digest": "9f21cc4775b8bbcabe2ff712dff752b2d4c68a2d270906044955ff2f2bd2cae9",
       "ast_digest": "b15fdebd7434d7b23dce44270f6f9a775eb0f1b870ccbd2afe88f37bda75a0cd"
     },
     "stp": {
-      "values_digest": "8e015448e9835869660b24d5f8591a219efd8ac06823533047ae9527b4b99616",
+      "values_digest": "4400ed08b8413c4aa7f69be4622ceda7149508e4ee1f5da73142074fcf06c903",
       "rendered_digest": "b5143b47908a8e957062f266a604edc85d25fe22d686363fa1e7b7acec6bd2f1",
       "ast_digest": "10cfdd266214a8019fae67f221034ad7724705ecc9f0ac27108946291688295b"
     },
     "spp": {
-      "values_digest": "8725a10acfea2c0974843ff9d458c17045fdaa1b33d1ffabad83bf44daf88fbd",
+      "values_digest": "983ef7a60a372f07cd7685458313665f0d04e4c10a8ea5562708ee517efc4f1b",
       "rendered_digest": "0999e3f92a9ad15165802f7409a392b84aeac7e871e040721c197a0fe79b9f85",
       "ast_digest": "0f71821898d59f174e13eff6fd7cb68e552c6e5d9994d8b2b6aa513308777c95"
     },
     "vpp": {
-      "values_digest": "9e28cc457d01650d4f9bf0228b30ed97dc4d2eb0f2096aa9a86315d45e1fc0ef",
+      "values_digest": "ba9189a8c4e019b16bf9e83ac8d365cc205d3c225af7d828fc34a8bc34a6356c",
       "rendered_digest": "89805e2390eca8fc218075ccb9c7005350d3fdbfb6fe35bf1ec31d58561b7e73",
       "ast_digest": "15c75fc980fb0de8c59870880af59448adde13834d81df8a00163492c0fb8d29"
     },
     "srp": {
-      "values_digest": "d980eebc8632fe818a9aab17122e4cf19a4f0b22b608c4df92d5e6dffdb814e6",
-      "rendered_digest": "cc68cf41287008a54cba8e0506da4cba7da56607fa8ea304075df64d5d2fd828",
-      "ast_digest": "70d3a09025ab1fb66fd29ce7f78b954bd396cea9d59ecec3ac9ce91b3d9ffcd9"
+      "values_digest": "b2537ada15373c6d1f091316f09ffc292423c9f013e350a3c1cf5f142b7b4ef8",
+      "rendered_digest": "ed11b2b9ec7c7cd638579ed7dfd8fdc7da9c0d4cb7f43adbf0ca0cfd95c5e38a",
+      "ast_digest": "2a16f12e11ec588a19891b9998287d80d63fee12a18cecf351337406736acc07"
     },
     "sor": {
-      "values_digest": "204c55659e2532459a0d8b7a25b8e6a0fcf05dc6ee6acac8090c851bc550be81",
+      "values_digest": "6e81bef72fe1263133820cdee0175c1a73f4c5d130a7e6243773e7ac06b3470e",
       "rendered_digest": "51ecaf1e4b0693ed3ab22cb33390fb15f2b12c6c36eb6c62c522bd411b905fdf",
       "ast_digest": "fee94d0ce6e7e250390ad397ac75ca955266e58595caa723bec5dda6a00a08aa"
     }
@@ -135,6 +156,13 @@
       "to": "implemented",
       "actor": "codex:issue-5358-slot-3",
       "reason": "Recover exact review and publication truth after integrating current main; the two issue-scoped CI files remain byte-identical to the previously clean-reviewed repair."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Advance #5358 after the exact post-main-integration DeepSeek review passed with no actionable findings."
     }
   ],
   "audit": [
@@ -403,6 +431,27 @@
       "actor": "codex:issue-5358-slot-3",
       "reason": "Recover exact review and publication truth after integrating current main; the two issue-scoped CI files remain byte-identical to the previously clean-reviewed repair.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 30,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 31,
+      "actor": "provider:deepseek:deepseek-chat",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 32,
+      "actor": "codex:issue-5358-slot-3",
+      "reason": "Advance #5358 after the exact post-main-integration DeepSeek review passed with no actionable findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
