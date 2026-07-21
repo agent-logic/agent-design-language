@@ -173,6 +173,7 @@ else
     --no-tests pass \
     --test-threads "$TEST_THREADS")
 fi
+workspace_coverage_command=("${coverage_command[@]}")
 
 if [[ ! "$TEST_THREADS" =~ ^[1-9][0-9]*$ ]]; then
     echo "invalid coverage test thread count: $TEST_THREADS" >&2
@@ -306,8 +307,37 @@ record_report_status() {
 
 coverage_profile_namespace=workspace
 coverage_status=0
+
+# Cover the small companion before the main workspace. Hosted runners can retain
+# enough completed test processes after the large workspace run to exhaust
+# process creation during a subsequent cold companion build.
+if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
+  echo "Authoritative coverage companion: adl-runtime"
+  runtime_coverage_command=(cargo nextest run \
+    --manifest-path "$ADL_RUNTIME_MANIFEST" \
+    --no-fail-fast \
+    --no-tests pass \
+    --test-threads "$TEST_THREADS")
+  coverage_command=("${runtime_coverage_command[@]}")
+  coverage_profile_namespace=adl-runtime
+  prepare_coverage_environment "$ADL_RUNTIME_MANIFEST"
+  run_workspace_coverage_partitions || coverage_status=$?
+  cargo llvm-cov report \
+    --manifest-path "$ADL_RUNTIME_MANIFEST" \
+    --json \
+    --summary-only \
+    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || record_report_status "$?" "$ADL_RUNTIME_SUMMARY_PATH" "adl-runtime"
+fi
+
+coverage_command=("${workspace_coverage_command[@]}")
+coverage_profile_namespace=workspace
 prepare_coverage_environment
-run_workspace_coverage_partitions || coverage_status=$?
+run_workspace_coverage_partitions || {
+  workspace_status=$?
+  if [ "$coverage_status" -eq 0 ]; then
+    coverage_status="$workspace_status"
+  fi
+}
 
 cargo llvm-cov report \
   --json \
@@ -324,26 +354,6 @@ if (( post_report_cleanup_status != 0 )); then
 fi
 
 if [ -f "$ADL_RUNTIME_MANIFEST" ]; then
-  echo "Authoritative coverage companion: adl-runtime"
-  runtime_coverage_command=(cargo nextest run \
-    --manifest-path "$ADL_RUNTIME_MANIFEST" \
-    --no-fail-fast \
-    --no-tests pass \
-    --test-threads "$TEST_THREADS")
-  coverage_command=("${runtime_coverage_command[@]}")
-  coverage_profile_namespace=adl-runtime
-  prepare_coverage_environment "$ADL_RUNTIME_MANIFEST"
-  run_workspace_coverage_partitions || {
-    runtime_status=$?
-    if [ "$coverage_status" -eq 0 ]; then
-      coverage_status="$runtime_status"
-    fi
-  }
-  cargo llvm-cov report \
-    --manifest-path "$ADL_RUNTIME_MANIFEST" \
-    --json \
-    --summary-only \
-    --output-path "$ADL_RUNTIME_SUMMARY_PATH" || record_report_status "$?" "$ADL_RUNTIME_SUMMARY_PATH" "adl-runtime"
   jq -s '
     . as $docs
     |

@@ -193,6 +193,24 @@ if [ -n "${LLVM_PROFILE_FILE:-}" ]; then
   mkdir -p "$(dirname "$profile_path")"
   printf 'profile for %s\n' "${ADL_COVERAGE_RUN_ID:-unknown}" > "$profile_path"
 fi
+is_runtime_profile=0
+is_workspace_profile=0
+is_partition_1=0
+for arg in "$@"; do
+  case "$arg" in
+    */adl-runtime/Cargo.toml) is_runtime_profile=1 ;;
+  esac
+  [ "$arg" = "--workspace" ] && is_workspace_profile=1
+  [ "$arg" = "count:1/2" ] && is_partition_1=1
+done
+if [ "${ADL_FAKE_CARGO_FAIL_RUNTIME_PARTITION_1:-0}" = "1" ] &&
+   [ "$is_runtime_profile" = "1" ] && [ "$is_partition_1" = "1" ]; then
+  exit 71
+fi
+if [ "${ADL_FAKE_CARGO_FAIL_WORKSPACE_PARTITION_1:-0}" = "1" ] &&
+   [ "$is_workspace_profile" = "1" ] && [ "$is_partition_1" = "1" ]; then
+  exit 72
+fi
 if [ "${ADL_FAKE_CARGO_FAIL_PARTITION_1:-0}" = "1" ]; then
   for arg in "$@"; do
     if [ "$arg" = "count:1/2" ]; then
@@ -326,12 +344,17 @@ if grep -E '^cmd=.*--no-fail-fast.*--no-run' "$cargo_log" >/dev/null 2>&1; then
   exit 1
 fi
 workspace_prebuild_line="$(grep -nF -- "$workspace_prebuild" "$cargo_log" | cut -d: -f1)"
-workspace_partition_line="$(grep -nF -- '--partition count:1/2' "$cargo_log" | head -1 | cut -d: -f1)"
+workspace_partition_line="$(grep -nF -- '--partition count:1/2' "$cargo_log" | grep -vF -- '--manifest-path '"$ROOT_DIR"'/adl-runtime/Cargo.toml' | head -1 | cut -d: -f1)"
 runtime_prebuild_line="$(grep -nF -- "$runtime_prebuild" "$cargo_log" | cut -d: -f1)"
 runtime_partition_line="$(grep -nF -- '--manifest-path '"$ROOT_DIR"'/adl-runtime/Cargo.toml' "$cargo_log" | grep -- '--partition count:1/2' | head -1 | cut -d: -f1)"
 if [ "$workspace_prebuild_line" -ge "$workspace_partition_line" ] ||
    [ "$runtime_prebuild_line" -ge "$runtime_partition_line" ]; then
   echo "compile-only invocation must precede partition fan-out" >&2
+  cat "$cargo_log" >&2
+  exit 1
+fi
+if [ "$runtime_partition_line" -ge "$workspace_prebuild_line" ]; then
+  echo "adl-runtime companion must execute before the large workspace coverage run" >&2
   cat "$cargo_log" >&2
   exit 1
 fi
@@ -366,8 +389,8 @@ if [ "$prebuild_failure_status" -ne 66 ]; then
   cat "$prebuild_failure_log" >&2
   exit 1
 fi
-if grep -E '^cmd=nextest run .*--partition ' "$prebuild_failure_log" >/dev/null 2>&1; then
-  echo "no partitions may launch after compile-only failure" >&2
+if grep -E '^cmd=nextest run .*--partition ' "$prebuild_failure_log" | grep -vF -- '--manifest-path '"$ROOT_DIR"'/adl-runtime/Cargo.toml' >/dev/null 2>&1; then
+  echo "no workspace partitions may launch after its compile-only failure" >&2
   cat "$prebuild_failure_log" >&2
   exit 1
 fi
@@ -399,8 +422,8 @@ if [ "$combined_failure_status" -ne 66 ]; then
   cat "$combined_failure_log" >&2
   exit 1
 fi
-if grep -E '^cmd=nextest run .*--partition ' "$combined_failure_log" >/dev/null 2>&1; then
-  echo "no partitions may launch after combined compile and cleanup failure" >&2
+if grep -E '^cmd=nextest run .*--partition ' "$combined_failure_log" | grep -vF -- '--manifest-path '"$ROOT_DIR"'/adl-runtime/Cargo.toml' >/dev/null 2>&1; then
+  echo "no workspace partitions may launch after combined compile and cleanup failure" >&2
   cat "$combined_failure_log" >&2
   exit 1
 fi
@@ -455,6 +478,36 @@ if [ ! -s "$scratch_root/coverage-output/run-failing/coverage-summary.json" ]; t
   echo "expected final run-scoped summary evidence after partition failure" >&2
   exit 1
 fi
+
+for profile in runtime workspace; do
+  profile_failure_log="$temp_root/${profile}-only-failure.log"
+  run_id="run-${profile}-only-failure"
+  expected_status=71
+  failure_env="ADL_FAKE_CARGO_FAIL_RUNTIME_PARTITION_1=1"
+  if [ "$profile" = "workspace" ]; then
+    expected_status=72
+    failure_env="ADL_FAKE_CARGO_FAIL_WORKSPACE_PARTITION_1=1"
+  fi
+  set +e
+  env PATH="$bin_dir:$PATH" \
+    AUTHORITATIVE_CARGO_LOG="$profile_failure_log" \
+    ADL_COVERAGE_BUILD_ROOT="$scratch_root" \
+    ADL_COVERAGE_RUN_ID="$run_id" \
+    "$failure_env" \
+    bash "$SCRIPT" --authority pr_policy_surface_tooling_only --event-name pull_request
+  profile_failure_status=$?
+  set -e
+  if [ "$profile_failure_status" -ne "$expected_status" ]; then
+    echo "expected isolated $profile failure status $expected_status, got $profile_failure_status" >&2
+    cat "$profile_failure_log" >&2
+    exit 1
+  fi
+  if [ ! -s "$scratch_root/coverage-output/$run_id/coverage-summary.adl.json" ] ||
+     [ ! -s "$scratch_root/coverage-output/$run_id/coverage-summary.adl-runtime.json" ]; then
+    echo "isolated $profile failure must preserve both profile reports" >&2
+    exit 1
+  fi
+done
 
 distinct_failure_log="$temp_root/distinct-failure.log"
 set +e
