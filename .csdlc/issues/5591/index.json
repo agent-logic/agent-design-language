@@ -3,13 +3,13 @@
   "issue": 5591,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "15adf7b7416edeaa3d5f0271ecca522561d01dc7f7059074b47a1d556e341cf8",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "2a269227ad0689d3a71102b301b8f240236371fb6a7958f96101ab6c73697bd6",
+  "phase": "published",
+  "generation": 15,
+  "digest": "9295871c442a00ad1ecaf4b2eaea472e1404792093dbbd6e1ad363767b48ccc1",
   "claim": {
     "id": "claim-5591-runtime-v3-parity-a-preparation",
     "owner": "codex:019f8189-8205-7dd3-bbe2-f7f4dddd098a",
-    "generation": 14,
+    "generation": 15,
     "acquired_unix_seconds": 1784584932,
     "expires_unix_seconds": 1785189732,
     "heartbeat_unix_seconds": 1784584932,
@@ -77,7 +77,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5591,
+    "pull_request": 5608,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5608",
+    "base": "main",
+    "head": "codex/5591-runtime-v3-parity-a-preparation",
+    "revision": "git-blake3:71c6c35aef8dab4bea424521b49023d7c5a1a2b3:ec50f10642a475e1425bbf0ee4b0a76e45e8330b00c7328fb5e3c3a85a92e39d",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -91,34 +101,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "421158c770c8048c0b20497fe03c397c51719c36838dee6ba8df68c4b71ebf23",
+      "values_digest": "f0eb49b8b5aae9586e5cce894ad7910be4ec1ac0e54c9a090719418effc69e4f",
       "rendered_digest": "9aed3a330bad2a622b11a3bff66bbb9aa87a9dd522daa4e1f20c31ae9351797b",
       "ast_digest": "b7080536fadc62b24587634576eef15ff183a56261661f58665dad63c089fe41"
     },
     "stp": {
-      "values_digest": "bed2af563f7730cdffa782da90356fbccf5aa041eb71821ac58ffd6faf180459",
+      "values_digest": "0128856803f1cfb05cc15333220d3cb81e64644f4d272164b7b79e6628616c45",
       "rendered_digest": "ce5a1a442c29faec36740a7d68a5949d650391f19de5c7103f2d26cee0af6f0e",
       "ast_digest": "79d917926ba940eacba00258454fbf34c5b850c0cf3f7e944fef95783ef3afd8"
     },
     "spp": {
-      "values_digest": "4469c4958c545fbcdbf6b8a82643624db5bbdc10034630bd03f903704a171448",
+      "values_digest": "aa2726fa32b8a1e52830fd756cc482748f74f5ca9f86db64ef3d9b443b369eae",
       "rendered_digest": "c0389b0842ed1399d836d9a9e40ebfa94eaa11a84175362fc709480cfd868398",
       "ast_digest": "e33505d82ae92a9e2c743f6560e16fccda48e19310c716f4a75ca6c351f0a6dc"
     },
     "vpp": {
-      "values_digest": "861527df0e2fd018864f8b1d36a88699178b38d6881b3575a838dfd6c340dc73",
+      "values_digest": "6027f210cdab4b3db285556610926fe9bc3d7ac68654a97b78d38915300b74fc",
       "rendered_digest": "78bfe529b13c4b7d36967c746a3854f7c930b187d501ac407885230c43015bd0",
       "ast_digest": "b1498a69e2e424375d478f1a80460130b123d1a4884c9b3a10e22e92c2a0748c"
     },
     "srp": {
-      "values_digest": "fca26e843aed7bab5c29d681f987af2b305f21ac732fd1a860db82fd18d88e87",
+      "values_digest": "3c7298909787404f12f8febcbee06a68bf3f03bff628e8d33e8f8bdadb8bf000",
       "rendered_digest": "3051f299042636e176d4a717db8cb23c488e8d531a39c365e23ec6170c979863",
       "ast_digest": "5096ec2f1a93d7dccaf26b1b5c8043e6d049593e4466d76ca3a5b5a597f988d4"
     },
     "sor": {
-      "values_digest": "2cc5c8a3f8aa65b61e71471c90ce960b53d1fc9eb9aae22a004b94347175296e",
-      "rendered_digest": "9e89bdfd9eb18be0ec97e0050bccf43eaee749ab5f2b96e4211a9a9160842b2c",
-      "ast_digest": "ee5b01c106c81b7ad4100feafef59932c04f21ca036253261ecd6c78ae5fbec5"
+      "values_digest": "4187cae571db03777e08499c1dfaa7a04c16c9cf04616830e72f9e1fb9fa33fb",
+      "rendered_digest": "26aa461a10bc901fc11f81d5c4b3ffe5ff5c8d775e77553bd6aa8fe6b989d57f",
+      "ast_digest": "abb8d1ecacb7baa6819717d3912bcdf585983695023f24b0aa4d3649d933f60e"
     }
   },
   "transitions": [
@@ -163,6 +173,13 @@
       "to": "reviewed",
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Exact integrated-fix-head rereview passed with no findings; retain the explicit +474 reviewed exception and fixed-port SIGTERM residual."
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -312,6 +329,13 @@
       "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
       "reason": "Exact integrated-fix-head rereview passed with no findings; retain the explicit +474 reviewed exception and fixed-port SIGTERM residual.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:019f8362-357c-7621-95b7-afb314e0c61d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
