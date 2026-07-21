@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "8cb0d0afdcbaed1cf35b1b2acff6481c7e7e263056d01af50bcea90452747ec0",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "9379ccac1db15b0ad6fa67d3889f99dfcc6e081fca54bba473567ed5b0b17a91",
+  "generation": 12,
+  "digest": "27f440c34057bf6cbb3955baa503b9719a670fb07eeb65188cf05a78222ad472",
   "claim": {
     "id": "claim-5339-v0918-wp04-preparation",
     "owner": "codex:5339-preparation",
-    "generation": 11,
+    "generation": 12,
     "acquired_unix_seconds": 1784615902,
     "expires_unix_seconds": 1785220702,
     "heartbeat_unix_seconds": 1784615902,
@@ -26,7 +26,7 @@
   "review_assignment": {
     "reviewer": "subagent:/root/review_5339_impl",
     "assigned_by": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
-    "revision": "git-blake3:7edf4e67b94d9dd2efe640f78fb722754a20131c:223742b60b4a30408c1fb210bc7964ab52f730596b9402bafba98380cc9b0dc5",
+    "revision": "git-blake3:10f493ff7ca2c765b8aa0c058a3256695fd0ce7b:1c80cac1abb7ff4a1c0eea6c49100e523a5b2c971b21a082b6a349ca963354f2",
     "scope": [
       "adl-v2/crates/adl-language",
       ".csdlc/issues/5339",
@@ -49,34 +49,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2f10668a2817e19a9d758e8328d1c0c96c7488bf41ae0ecd5be84544c480d666",
+      "values_digest": "cfec5a6b4cb43bff710d473f5fd1919e3a3811f13d68c20f51440acb4aa5a67b",
       "rendered_digest": "e76d11b0e955840e18feaaa62f3bc5130f55d87cb116878f80ec2bdc5d123367",
       "ast_digest": "c91941f5e2337b1a7bc7d44bc39fc5bf9b6fc067a5e7f384fcbcc4dd889331a5"
     },
     "stp": {
-      "values_digest": "2d3e20791e897550c1b2948b72f4ee148ae540dd2d6f580611daa98aaa808eb5",
+      "values_digest": "677a96fa5d38cf18e0caf19810bd444adc2d99b470d525c64299bd7c58e58b71",
       "rendered_digest": "b3d74cec9ed77cd978da9e7967b062b250416208c08459b92722744fdd55227f",
       "ast_digest": "4642caf40e2f316ff9261a6800db70b386f5288fd4da03030424897d7eee20a0"
     },
     "spp": {
-      "values_digest": "466a030d832c22d814f41c0e2f88fbb53ba676f6bdde352a3325e8e0877065f8",
+      "values_digest": "6e9b4ed433785b83b94c1fabaf66663169516ffd966b2002bcf4b6afdd0bffea",
       "rendered_digest": "3f6112493b912cd93dd290f86e44d5b3059679d0db4097027427617860a4edda",
       "ast_digest": "b722eb06fb1c060794129d01de702eada99cd1fa2d2f530336a88b5e89d5663d"
     },
     "vpp": {
-      "values_digest": "7444b2a944298083b11dba42f7f0c94d5668eb8c8934d1cf5da10238e74a9714",
+      "values_digest": "b301d725f88a283aed628ada3d76b4ea8c468b47dfcabdd8b6cbbba7044a8f8e",
       "rendered_digest": "9b657237203f13bb4ac46f4e6ae39d763405ad069f29b9d1642b69ea260367cf",
       "ast_digest": "774200a4f8481f841f3a131f0433a69e26c1f6693877bb2eed49e80f02f385c7"
     },
     "srp": {
-      "values_digest": "f1a5f83a99e717bb80f75e454db7c0bb2b4f3ba7e7630e42e64371985fab5fae",
+      "values_digest": "77d15c2b9045408c01aa186a4bf697e31f6ca8511517eecb97b8f586ccd0742f",
       "rendered_digest": "564a8dbea9174332aaa0b66da12beeb85b43c7537c9bf4b276abd237750bda2b",
       "ast_digest": "ca3d949539458f059843ca33097d690cf10992f793e1335092e4e8b12f18e974"
     },
     "sor": {
-      "values_digest": "28feb8a73083de9885e19ecc842a263b63956427a8eb32448c15a25168f36f48",
-      "rendered_digest": "0407dfe2ed1c3657bb128e63bd443dff115190ba64e70956468d8b4f147c4a10",
-      "ast_digest": "f0dfcc1fe411b85ce83372eb96baaaa7f0311680cc28e72ba8a0606fa4b3da4a"
+      "values_digest": "1d41d8f2a2e94ff6d523746b84a34157efb0e5e774211fc2ff0f6c39c9be1716",
+      "rendered_digest": "5bb70076078af12c573800570d2d9682db309d48a7e8c6e999dc649eae2caf89",
+      "ast_digest": "66b509b44e8113f2c8d4a3b6f7d93d1a06588f10baee30a95408e4724d2a14c2"
     }
   },
   "transitions": [
@@ -200,6 +200,20 @@
       "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
       "reason": "Resolve all four bounded exact-revision review findings and rerun the typed validation DAG.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed all initial exact-review findings with complete identity/reference validation, locally expressible schema constraints, full budget-surface accounting, and EOF hygiene.\",\"changes\":[\"Validate run, inline workflow, saved-state, step, map, and every reference identity with stable invalid_identity diagnostics\",\"Constrain generated schema versions and exclusive run targets; test invalid version, run shape, nested type, and nested unknown fields against schema and parser\",\"Count src/examples and tests/schema/parity-map surfaces in the implementation and test-fixture budgets\",\"Remove trailing blank lines and retain a clean diff\"],\"artifacts\":[\"adl-v2/crates/adl-language/src/validate.rs\",\"adl-v2/crates/adl-language/src/lib.rs\",\"adl-v2/crates/adl-language/schema/adl-document.schema.json\",\"adl-v2/crates/adl-language/tests/language.rs\",\".csdlc/evidence/5339/implementation-validation\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:019f8363-51f7-7102-881c-d47e18fdfae6",
+      "reason": "Close the remaining schema parity finding for explicit null run targets and rerun the typed validation DAG.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Made each run-target schema branch require the corresponding non-null string or workflow object and added null regressions for both alternatives.\",\"changes\":[\"Add non-null workflow_ref and workflow property constraints inside the generated oneOf branches\",\"Test explicit null workflow_ref and workflow values against both JSON Schema and parser/semantic validation\"],\"artifacts\":[\"adl-v2/crates/adl-language/src/lib.rs\",\"adl-v2/crates/adl-language/schema/adl-document.schema.json\",\"adl-v2/crates/adl-language/tests/language.rs\"]}"
     }
   ]
 }

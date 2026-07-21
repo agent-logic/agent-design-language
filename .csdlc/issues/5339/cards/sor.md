@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Closed all initial exact-review findings with complete identity/reference validation, locally expressible schema constraints, full budget-surface accounting, and EOF hygiene.
+Made each run-target schema branch require the corresponding non-null string or workflow object and added null regressions for both alternatives.
 
 ## Artifacts
 
@@ -24,6 +24,9 @@ Closed all initial exact-review findings with complete identity/reference valida
 - adl-v2/crates/adl-language/schema/adl-document.schema.json
 - adl-v2/crates/adl-language/tests/language.rs
 - .csdlc/evidence/5339/implementation-validation
+- adl-v2/crates/adl-language/src/lib.rs
+- adl-v2/crates/adl-language/schema/adl-document.schema.json
+- adl-v2/crates/adl-language/tests/language.rs
 
 ## Execution
 
@@ -35,6 +38,8 @@ Closed all initial exact-review findings with complete identity/reference valida
 - Constrain generated schema versions and exclusive run targets; test invalid version, run shape, nested type, and nested unknown fields against schema and parser
 - Count src/examples and tests/schema/parity-map surfaces in the implementation and test-fixture budgets
 - Remove trailing blank lines and retain a clean diff
+- Add non-null workflow_ref and workflow property constraints inside the generated oneOf branches
+- Test explicit null workflow_ref and workflow values against both JSON Schema and parser/semantic validation
 
 ## Validation
 

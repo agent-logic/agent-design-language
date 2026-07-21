@@ -175,6 +175,8 @@ fn generated_schema_matches_parser_contract() {
     for invalid in [
         serde_json::json!({"version":"9","run":{"name":"x","workflow":{"kind":"sequential","steps":[]}}}),
         serde_json::json!({"version":"0.5","run":{"name":"x"}}),
+        serde_json::json!({"version":"0.5","run":{"name":"x","workflow_ref":null}}),
+        serde_json::json!({"version":"0.5","run":{"name":"x","workflow":null}}),
         serde_json::json!({"version":"0.5","run":{"name":"x","workflow_ref":"a","workflow":{"kind":"sequential","steps":[]}}}),
         serde_json::json!({"version":"0.5","run":{"name":"x","workflow":{"kind":"sequential","steps":[],"unknown":true}}}),
         serde_json::json!({"version":"0.5","run":{"name":7,"workflow":{"kind":"sequential","steps":[]}}}),

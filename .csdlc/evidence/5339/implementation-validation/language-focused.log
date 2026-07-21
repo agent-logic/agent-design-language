@@ -28,7 +28,7 @@ running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
      Running unittests src/lib.rs (/Volumes/FastWork/adl-wp-5339-target/debug/deps/adl_language-ab9c57bb1290eea1)
      Running tests/characterization_parity.rs (/Volumes/FastWork/adl-wp-5339-target/debug/deps/characterization_parity-9f68f465cef21acb)
      Running tests/language.rs (/Volumes/FastWork/adl-wp-5339-target/debug/deps/language-bf0e7e5c410d5a8c)
