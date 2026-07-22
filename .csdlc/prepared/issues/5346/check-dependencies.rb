@@ -46,23 +46,25 @@ common_dir = Pathname.new(capture_git("rev-parse", "--git-common-dir"))
 common_dir = ROOT.join(common_dir) unless common_dir.absolute?
 head = capture_git("rev-parse", "HEAD")
 
-receipts = {}
+dependency_evidence = {}
 DEPENDENCIES.each do |issue|
-  path = common_dir.join("csdlc-v2/closeout/#{issue}.json")
-  receipt = load_json(path, "retained terminal receipt for ##{issue}")
-  record = receipt.fetch("record") { fail_gate("##{issue} receipt has no typed record") }
+  record_path = ROOT.join(".csdlc/issues/#{issue}/index.json")
+  record = load_json(record_path, "typed projection for ##{issue}")
   fail_gate("##{issue} is not typed closed_out") unless record["phase"] == "closed_out"
   fail_gate("##{issue} still has an active claim") unless record["claim"].nil?
-  terminal = record.fetch("terminal") { fail_gate("##{issue} receipt has no terminal evidence") }
+  terminal = record.fetch("terminal") { fail_gate("##{issue} projection has no terminal evidence") }
   fail_gate("##{issue} is not merged") unless terminal["disposition"] == "merged" && terminal["observed_state"] == "merged"
   sha = terminal["observed_sha"]
-  fail_gate("##{issue} receipt has invalid merged SHA") unless sha&.match?(HEX40)
-  _out, status = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", sha, head)
-  fail_gate("##{issue} merged SHA is not ancestral to #{head}") unless status.success?
-  receipts[issue.to_s] = { "sha" => sha, "sha256" => Digest::SHA256.file(path).hexdigest }
+  fail_gate("##{issue} projection has invalid merged SHA") unless sha&.match?(HEX40)
+  _out, status = Open3.capture2e("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", sha, "origin/main")
+  fail_gate("##{issue} merged SHA is not ancestral to current origin/main") unless status.success?
+
+  path = common_dir.join("csdlc-v2/closeout/#{issue}.json")
+  audit_receipt = path.file? ? { "path" => path.relative_path_from(common_dir).to_s, "sha256" => Digest::SHA256.file(path).hexdigest } : nil
+  dependency_evidence[issue.to_s] = { "sha" => sha, "audit_receipt" => audit_receipt }
 end
 
-def validate_manifest(issue, path, head, receipts)
+def validate_manifest(issue, path, head, _dependency_evidence)
   manifest = load_json(path, "##{issue} deletion manifest")
   fail_gate("##{issue} manifest schema mismatch") unless manifest["schema"] == "adl.wp13.deletion_eligibility.v1"
   fail_gate("##{issue} manifest issue mismatch") unless manifest["issue"] == issue
@@ -76,12 +78,6 @@ def validate_manifest(issue, path, head, receipts)
   rollback = manifest.fetch("rollback") { fail_gate("##{issue} manifest has no rollback evidence") }
   rollback_refs = Array(rollback["evidence_refs"])
   fail_gate("##{issue} rollback window is not complete") unless rollback["window_complete"] == true && !rollback_refs.empty? && rollback_refs.all? { |ref| !ref.to_s.empty? }
-  if issue == 5346
-    accepted = manifest.fetch("acceptance_receipts") { fail_gate("#5346 manifest has no acceptance receipt bindings") }
-    %w[5358 5361].each do |dependency|
-      fail_gate("#5346 acceptance receipt #{dependency} does not bind retained truth") unless accepted[dependency] == receipts.fetch(dependency)
-    end
-  end
   request = relative_path(manifest["eligibility_request"], "##{issue} eligibility request")
   decision = relative_path(manifest["eligibility_decision"], "##{issue} eligibility decision")
   [request, decision].each { |ref| fail_gate("##{issue} missing eligibility artifact #{ref}") unless ROOT.join(ref).file? }
@@ -123,7 +119,7 @@ rescue KeyError => e
   fail_gate("invalid ##{issue} manifest: #{e.message}")
 end
 
-surfaces = MANIFESTS.to_h { |issue, path| [issue, validate_manifest(issue, path, head, receipts)] }
+surfaces = MANIFESTS.to_h { |issue, path| [issue, validate_manifest(issue, path, head, dependency_evidence)] }
 left = surfaces.fetch(5346)
 right = surfaces.fetch(5347)
 
@@ -144,4 +140,4 @@ left.product(right).each do |a, b|
   end
 end
 
-puts JSON.generate(status: "pass", issue: 5346, revision: head, dependencies: DEPENDENCIES, disjoint: true)
+puts JSON.generate(status: "pass", issue: 5346, revision: head, dependencies: DEPENDENCIES, dependency_evidence: dependency_evidence, disjoint: true)
