@@ -1,8 +1,8 @@
 {
   "issue": 5624,
-  "expected_generation": 13,
-  "expected_digest": "a2984e12d8d87b5adb99bafe6f10086fee3e683b58cae49ce95d3ffa1ca64bbf",
+  "expected_generation": 18,
+  "expected_digest": "254e842ab91ea5cf716a52725604f50e8e819a167df4f2515720e19f0e881997",
   "claim_id": "claim-5624-csdlc-prune-topology",
   "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
-  "reason": "Recover the published review after exact-head CI proved standalone fixture commits lacked deterministic Git author identity."
+  "reason": "Recover stale publication truth after the exact-head standalone Clippy repair."
 }
