@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5641d1b95d616b80f136aa634bd62c0690db925d85c3841f15df8b666fe5c66c",
   "phase": "bound",
-  "generation": 4,
-  "digest": "2ec9f28c69c0d126a1e81d336d58dc7e486a1b646fbfc3fd07a0ab02993d564f",
+  "generation": 8,
+  "digest": "f7067ab01b6ea0eb20737f2187998655a3f439b7ce23be84bbb58a1b60a8d175",
   "claim": {
     "id": "claim-5498-v0918-wp10a-task-context-adapter-preparation",
     "owner": "codex:issue-5498-preparation",
-    "generation": 4,
+    "generation": 8,
     "acquired_unix_seconds": 1784664000,
     "expires_unix_seconds": 1785268800,
     "heartbeat_unix_seconds": 1784664000,
@@ -32,40 +32,40 @@
   "diagram_path": ".csdlc/prepared/issues/5498/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "subagent:019f8630-93ef-7e51-8621-25fcd54d2fa4",
-      "revision": "b8cd3d3f8338ec6cc1038f96939401faccfc32e5639ec30ef48d4dfb7b7cbde7"
+      "reviewer": "codex:issue-5498-preparation-digest-sync-no-new-review",
+      "revision": "a2a956ab9bd05655312a28393c2f4b49b37f3cc3801d66acb84ee7ff9ed6a46f"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "656cbbb4fe48f2651a2f361b5842dca933b4d60297ee83c38280f0c57b848809",
-      "rendered_digest": "f692d2099dcbd33878015ac059cf7dd257735a72b72ca29456da2ee6a4c45980",
-      "ast_digest": "d09d794737e285b51cdcd371effc4edda6123799cf9964abb93757f994ad3439"
+      "values_digest": "00482cb2073465844354e72b18302c088b36dd66513efcc760bbf8c68ebaf85c",
+      "rendered_digest": "84b9472e603fcd50fa8a16349d2fcc29ec3c222d4984014d4892d4cc7615860c",
+      "ast_digest": "9baff1a2e7a8e51985a71b84bba94830a0678f76a5d2da9dc7195b7fc980bc88"
     },
     "stp": {
-      "values_digest": "5884213aa96955fe22318fce98978d7d39cef31af57ce61c1cd774c5a0494d97",
+      "values_digest": "311bb6980e7a986f9bcac29a544ed0bce446055b97345c9cb90142e1ca0829f3",
       "rendered_digest": "52e790e85a5a3cf5d652faac7dd9e013583db459437e3b189977874e6d5fa5ed",
       "ast_digest": "cba5cb2d68414f978a2a67a7fec1c2891d4be60d37ee9d68ccdd4856a06f58c7"
     },
     "spp": {
-      "values_digest": "f95d72cf2e8ba8317f5901037b022cf97195352afa1ca6ea940eeeba4eec98dc",
-      "rendered_digest": "076f99722f3f77cfb23efc34b5ef640d40729f4e720f0cfeecaf13440f875997",
-      "ast_digest": "c45f425eb61f1cc44a09d149317c62a35969df6507feac5bb81ba70cce5fe499"
+      "values_digest": "191d68e36221fc5c9c318a1678496a2492b8376ac0a93af455dfd1f53937e2df",
+      "rendered_digest": "d90089838d31073f3eb8c39cfc2a4ae27b124e0d449fd9b5a93ffad4b531fa58",
+      "ast_digest": "563daa6ce257ea1ba9cf9f835271ad7242bb0c3c8b22fa21214a205f8850a90e"
     },
     "vpp": {
-      "values_digest": "720a8268e3398a36b9937064ae3a59ad13b1d0fbc7fc17d1a8f0e095cfe7e3f1",
-      "rendered_digest": "8322b6631d6013a13aaee7544ed23ce01edf8d496492f3bba09390813919475c",
-      "ast_digest": "e054f1b98479225255990a328cc2b4deed42bf9ccf94559e1995aa7884333b65"
+      "values_digest": "1ba12ce6056f9c63926df4c000d4c63c91fb76ec53c5f07d8c95655a9e9694a0",
+      "rendered_digest": "110997c01b169e65db102ef5a504d25b9e25d7952b07a0d6d13ba467c9cb24b3",
+      "ast_digest": "38d54c82690f9bfb38f60a42d962c860fde39037eb532470cfc6301ac49681fd"
     },
     "srp": {
-      "values_digest": "48fd3759f78747fba99bb833f13d918cb9604a301704ebe0208ae8f3b8855e90",
+      "values_digest": "fb5764d4a8816ee651ff22574c4b6e5d08ae75f80af35441e78a1a03459eb433",
       "rendered_digest": "360ea2312814aad796bc6e8e757cbcf069b8671bde10d90bbcb8eb6f3bd13406",
       "ast_digest": "180986a6bbbdcd5f003b3bb17ca7c90dc735c048739f3df655b3535a1ee47e0d"
     },
     "sor": {
-      "values_digest": "a77c5380a95c727256e380df8d84b9c71f37d8128e5616fa46d82f6bd75ec4a2",
-      "rendered_digest": "47eea5768ad71cff142cae95006abc532e2211beb9922a42cd5dd5e281189595",
-      "ast_digest": "15e289a615b7ac4f01cd4f5fe9b410c34979e70c2c160ade957795ae8279f60e"
+      "values_digest": "1e77cad92ae53d9f4508e0b6862ba47fe50a400565195a8fa3c6c370139aeb4f",
+      "rendered_digest": "630ea7386d7a47de6afcc41b191e4d395f8f9049d8893e2b95056445ed3ff754",
+      "ast_digest": "f37a99cc67a69e7c174e15a49e5b2cdbca98f389146cf14d2d6b9c91a44577eb"
     }
   },
   "transitions": [
@@ -126,6 +126,34 @@
       "actor": "codex:issue-5498-preparation",
       "reason": "Record truthful preparation-only output without claiming product execution",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Prepared and independently reviewed the #5498 task/context adapter contracts only; product execution, publication, integration, and closeout remain not started and dependency-blocked.\",\"changes\":[\"Rendered all six issue-specific cards through typed C-SDLC v2\",\"Prepared reviewed design, diagram, path inventory, dependency gate, COTS budgets, and PVF contracts\",\"Retained a preparation-only claim with no product or Runtime v2 paths\",\"Deferred implementation until #5499 and #5349 are merged typed closed_out, receipt-backed, ancestral, and adjacent path reservations are confirmed\"],\"artifacts\":[\".csdlc/issues/5498\",\".csdlc/prepared/issues/5498/design.md\",\".csdlc/prepared/issues/5498/diagram.mmd\",\".csdlc/prepared/issues/5498/planned-path-sets.json\",\".csdlc/prepared/issues/5498/check-dependencies.rb\",\".csdlc/prepared/issues/5498/validate-preparation.rb\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-5498-preparation",
+      "reason": "Refresh preparation dependency truth so closeout receipts are audit-only and live merge ancestry gates execution",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Use installed typed C-SDLC v2 binaries and semantic card operations only\",\"Keep root main clean; all tracked #5498 preparation stays in the existing issue worktree\",\"Do not use raw gh, AWS, credentials, provider calls, Runtime v2, or product implementation during preparation\",\"Do not implement until #5499 and final WP-09 interface gate #5349 are live-merged into origin/main with the dependency revisions ancestral to the execution base and adjacent paths confirmed disjoint\",\"Treat retained receipts and typed closeout records as audit evidence only; they must not block execution readiness when live merge and ancestry truth is satisfied\",\"Use /Volumes/FastWork for Cargo artifacts and temporary build surfaces\",\"Run one mandatory exact-revision review immediately before PR publication; do not add extra preparation review churn\",\"Preparation may be committed and pushed, but no PR, publication, merge, or closeout may occur\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-5498-preparation",
+      "reason": "Make dependency validation use live merge and ancestry truth while retaining receipts as audit evidence",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"[release gate: required] Prove six-card, design, diagram, dependency, scope, COTS, budget, privacy, and no-product-change preparation truth\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5498/validate-preparation.rb\"],\"parallel_group\":\"local-control\",\"defer_reason\":null},{\"lane\":\"dependency-gate\",\"proof_role\":\"[release gate: optional during preparation; required before implementation] Fail closed until #5499 and final WP-09 gate #5349 are live-merged into origin/main, dependency revisions are ancestral to the execution base, and adjacent path owners confirm disjoint reservations; retained closeout receipts are audit-only\",\"acceptance_ids\":[\"AC-2\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5498/check-dependencies.rb\"],\"parallel_group\":\"local-control\",\"defer_reason\":null},{\"lane\":\"task-adapter-contract\",\"proof_role\":\"[release gate: required before publication] Run focused all-target task-adapter tests and strict Clippy from FastWork after dependency gates open\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":180,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5498/validate-task-adapter.sh\"],\"parallel_group\":\"task-adapter-local\",\"defer_reason\":\"Preparation only: do not select until #5499 and #5349 are live-merged into origin/main, dependency revisions are ancestral to the execution base, adjacent path owners confirm disjoint reservations, and the product manifest exists\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"[release gate: required] Verify the exact committed preparation patch contains only issue-local lifecycle paths\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/5498/check-preparation-diff.sh\"],\"parallel_group\":\"local-control\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-5498-preparation",
+      "reason": "Record preparation refresh without product implementation, review churn, publication, or closeout",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Refreshed #5498 preparation so executable dependency readiness uses live merge plus ancestry truth; product execution, review, publication, integration, and closeout remain not started.\",\"changes\":[\"Refreshed SIP operator constraints through typed C-SDLC v2 so retained receipts and typed closeout records are audit-only rather than readiness blockers\",\"Refreshed VPP dependency and future product lanes through typed C-SDLC v2 to require live #5499/#5349 merge ancestry and adjacent disjoint path confirmation before implementation\",\"Updated the preparation dependency gate, design, diagram, and validation manifest to evaluate live remote ancestry against origin/main\",\"Preserved the preparation-only claim with no product or Runtime v2 paths and made no PR, publication, merge, or closeout attempt\"],\"artifacts\":[\".csdlc/issues/5498\",\".csdlc/prepared/issues/5498/design.md\",\".csdlc/prepared/issues/5498/diagram.mmd\",\".csdlc/prepared/issues/5498/planned-path-sets.json\",\".csdlc/prepared/issues/5498/check-dependencies.rb\",\".csdlc/prepared/issues/5498/validate-preparation.rb\",\".csdlc/prepared/issues/5498/validate-preparation.json\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-5498-preparation-digest-sync-no-new-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

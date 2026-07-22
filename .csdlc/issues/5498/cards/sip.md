@@ -40,9 +40,10 @@ After #5499 and the WP-09 interface gate are terminal, conductor assignments can
 ## Operator Constraints
 
 - Use installed typed C-SDLC v2 binaries and semantic card operations only
-- Keep root main clean; all tracked #5498 preparation stays in the dedicated FastWork worktree
+- Keep root main clean; all tracked #5498 preparation stays in the existing issue worktree
 - Do not use raw gh, AWS, credentials, provider calls, Runtime v2, or product implementation during preparation
-- Do not implement until #5499 and final WP-09 interface gate #5349 are merged, typed closed_out, receipt-backed, and ancestral
+- Do not implement until #5499 and final WP-09 interface gate #5349 are live-merged into origin/main with the dependency revisions ancestral to the execution base and adjacent paths confirmed disjoint
+- Treat retained receipts and typed closeout records as audit evidence only; they must not block execution readiness when live merge and ancestry truth is satisfied
 - Use /Volumes/FastWork for Cargo artifacts and temporary build surfaces
-- Run bounded preparation review now and mandatory exact-revision code review before publication
+- Run one mandatory exact-revision review immediately before PR publication; do not add extra preparation review churn
 - Preparation may be committed and pushed, but no PR, publication, merge, or closeout may occur

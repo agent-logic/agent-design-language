@@ -3,9 +3,11 @@
 ## Status
 
 Preparation only. Issue #5498 must not implement product code until conductor
-#5499 and final WP-09 interface gate #5349 are merged, typed `closed_out`, have
-retained shared-Git receipts, and their merged revisions are ancestors of the
-execution base.
+#5499 and final WP-09 interface gate #5349 are live-merged into `origin/main`,
+their dependency revisions are ancestors of the execution base, and adjacent
+path owners confirm disjoint reservations. Retained receipts and typed closeout
+records are audit evidence only; they must not block execution readiness when
+live merge and ancestry truth is satisfied.
 
 ## Purpose
 
@@ -126,11 +128,12 @@ exception. The repository-wide 20K ceiling does not authorize local growth.
 
 ## Validation Plan
 
-1. Preparation validation proves six cards, reviewed design/diagram, exact
-   dependency gates, issue-local scope, COTS, budgets, privacy boundaries, and
-   no product changes.
-2. The dependency gate checks retained `closed_out` receipts, merged
-   disposition, and ancestry for #5499 and #5349.
+1. Preparation validation proves six cards, design/diagram, exact dependency
+   gates, issue-local scope, COTS, budgets, privacy boundaries, and no product
+   changes.
+2. The dependency gate checks live remote merge and ancestry for #5499 and
+   #5349 against refreshed `origin/main`, then reports retained receipts as
+   audit-only evidence.
 3. Future deterministic fixtures cover every operation, identical and
    conflicting retries, stale owner/task/revision/claim/dependency/path state,
    transcript redaction, repeated cancellation, cancellation-versus-completion,
@@ -155,7 +158,8 @@ exception. The repository-wide 20K ceiling does not authorize local growth.
 
 ## Stop Conditions
 
-- #5499 or #5349 lacks merged typed closeout and ancestry.
+- #5499 or #5349 lacks live merge into `origin/main` or ancestry to the
+  execution base.
 - Product scope overlaps another active claim.
 - An operation lacks exact authority, ownership, freshness, or output binding.
 - Duplicate or stale task state cannot be classified deterministically.

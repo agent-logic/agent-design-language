@@ -46,7 +46,7 @@ Diagram: .csdlc/prepared/issues/5498/diagram.mmd
   },
   {
     "lane": "dependency-gate",
-    "proof_role": "[release gate: optional during preparation; required before implementation] Fail closed until #5499 and final WP-09 gate #5349 have merged typed closeout receipts ancestral to HEAD and adjacent path owners confirm disjoint reservations",
+    "proof_role": "[release gate: optional during preparation; required before implementation] Fail closed until #5499 and final WP-09 gate #5349 are live-merged into origin/main, dependency revisions are ancestral to the execution base, and adjacent path owners confirm disjoint reservations; retained closeout receipts are audit-only",
     "acceptance_ids": [
       "AC-2",
       "AC-6"
@@ -83,7 +83,7 @@ Diagram: .csdlc/prepared/issues/5498/diagram.mmd
       ".csdlc/prepared/issues/5498/validate-task-adapter.sh"
     ],
     "parallel_group": "task-adapter-local",
-    "defer_reason": "Preparation only: do not select until #5499 and #5349 are merged, typed closed_out, receipt-backed, ancestral, adjacent path owners confirm disjoint reservations, and the product manifest exists"
+    "defer_reason": "Preparation only: do not select until #5499 and #5349 are live-merged into origin/main, dependency revisions are ancestral to the execution base, adjacent path owners confirm disjoint reservations, and the product manifest exists"
   },
   {
     "lane": "diff-hygiene",

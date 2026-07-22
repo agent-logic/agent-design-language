@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-10A][multi-agent] Implement bounded Codex task and context-handoff adapter",
     "slug": "v0-91-8-wp-10a-bounded-codex-task-context-handoff-adapter",
     "version": "v0.91.8",
-    "generation": 4
+    "generation": 8
   },
   "status": "ready",
   "content": {
@@ -38,7 +38,7 @@
         },
         {
           "lane": "dependency-gate",
-          "proof_role": "[release gate: optional during preparation; required before implementation] Fail closed until #5499 and final WP-09 gate #5349 have merged typed closeout receipts ancestral to HEAD and adjacent path owners confirm disjoint reservations",
+          "proof_role": "[release gate: optional during preparation; required before implementation] Fail closed until #5499 and final WP-09 gate #5349 are live-merged into origin/main, dependency revisions are ancestral to the execution base, and adjacent path owners confirm disjoint reservations; retained closeout receipts are audit-only",
           "acceptance_ids": [
             "AC-2",
             "AC-6"
@@ -75,7 +75,7 @@
             ".csdlc/prepared/issues/5498/validate-task-adapter.sh"
           ],
           "parallel_group": "task-adapter-local",
-          "defer_reason": "Preparation only: do not select until #5499 and #5349 are merged, typed closed_out, receipt-backed, ancestral, adjacent path owners confirm disjoint reservations, and the product manifest exists"
+          "defer_reason": "Preparation only: do not select until #5499 and #5349 are live-merged into origin/main, dependency revisions are ancestral to the execution base, adjacent path owners confirm disjoint reservations, and the product manifest exists"
         },
         {
           "lane": "diff-hygiene",
@@ -99,9 +99,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on missing or stale lifecycle input, unresolved dependencies, task or owner collision, ambiguous authority, transcript leakage, nondeterministic output, absent retained receipts, or budget breach; blocked preparation never becomes product authority.",
       "design_ref": ".csdlc/prepared/issues/5498/design.md",
-      "design_digest": "b8cd3d3f8338ec6cc1038f96939401faccfc32e5639ec30ef48d4dfb7b7cbde7",
+      "design_digest": "a2a956ab9bd05655312a28393c2f4b49b37f3cc3801d66acb84ee7ff9ed6a46f",
       "diagram_ref": ".csdlc/prepared/issues/5498/diagram.mmd",
-      "diagram_digest": "b053131734b4e32f3825c65853d21d5d9ce65c6fcb2061b658d8726d5bfa79b1"
+      "diagram_digest": "f4467640388701e91213a0208cb96f71e0580910601f43a09aedfbb71cd5d0e1"
     }
   }
 }

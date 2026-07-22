@@ -38,8 +38,8 @@
       },
       {
         "id": "dependency-gate",
-        "proof_role": "Terminal dependency, adjacent path confirmation, and ancestry gate",
-        "purpose": "Fail closed until #5499 and #5349 are merged typed closed_out with retained ancestral receipts and adjacent owner confirmations",
+        "proof_role": "Live merge dependency, adjacent path confirmation, and ancestry gate",
+        "purpose": "Fail closed until #5499 and #5349 are live-merged into origin/main with dependency revisions ancestral to the execution base and adjacent owner confirmations; retained receipts are audit-only",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 0},
         "credentials": [],
