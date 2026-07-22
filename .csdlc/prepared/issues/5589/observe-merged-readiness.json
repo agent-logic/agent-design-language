@@ -1,0 +1,17 @@
+{
+  "issue": 5589,
+  "expected_generation": 22,
+  "expected_digest": "0bfa7cd2694397dffef5852b8d55d46bc48f49a22447882bfa6e86ccab8a2953",
+  "claim_id": "claim-5589-runtime-v3-parity-c-preparation",
+  "actor": "codex:5595-coordinator",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5620,
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage",
+    "adl-tooling-contracts",
+    "adl-path-policy"
+  ],
+  "require_review": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

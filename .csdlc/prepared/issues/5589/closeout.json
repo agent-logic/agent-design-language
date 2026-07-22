@@ -1,0 +1,12 @@
+{
+  "issue": 5589,
+  "expected_generation": 23,
+  "expected_digest": "f8e8a168e211fe1609d86cac6685322a11587686762f002ee5dcf1032e448cd7",
+  "claim_id": "claim-5589-runtime-v3-parity-c-preparation",
+  "actor": "codex:5595-coordinator",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5620,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": "/Users/daniel/keys/github.token"
+}

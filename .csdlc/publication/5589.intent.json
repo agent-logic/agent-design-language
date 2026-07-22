@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5589,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5589-runtime-v3-parity-c",
+  "title": "[v0.91.8][runtime-v3] Add governed operations adapters",
+  "body": "Closes #5589\n\nAdds Runtime v3 Parity-C governed operations with signed Freedom Gate/AEE authority, attenuating delegation, resident Agent/Shepherd/Scheduler execution, bounded provider process I/O and process-tree cancellation, governed tool containment, identity-scoped authenticated continuity, signed appeal disposition, cross-process shutdown ordering, and bounded replay/state.\n\nValidation: 28 exact inventory-guarded Parity-C tests; full Runtime v3 all-target suite with 242 discovered tests and all non-ignored tests green; strict all-target Clippy; formatting and diff hygiene. Exact review accepted the functionally necessary, non-duplicative +1,096 source delta over the authoritative post-#5591 baseline of 12,683.",
+  "draft": false,
+  "revision": "git-blake3:0f22baf5d4b2fdef485164aa4c83002fdb520a3e:85ac8f86de30656e01a31c8afd1a4de67265b19acc8c7abd1bbf789b42ecb88f",
+  "commit_sha": "0f22baf5d4b2fdef485164aa4c83002fdb520a3e"
+}
