@@ -46,7 +46,7 @@ ISSUES.each do |issue|
   abort("##{issue} retained receipt and current typed projection differ") unless tracked == record
 
   system("git", "merge-base", "--is-ancestor", merged_sha, head)
-  abort("##{issue} merged SHA #{merged_sha} is not ancestral to HEAD #{head}") unless $CHILD_STATUS.success?
+  abort("##{issue} merged SHA #{merged_sha} is not ancestral to HEAD #{head}") unless $?.success?
 end
 
 puts JSON.generate(
