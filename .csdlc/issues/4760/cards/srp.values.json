@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 4760,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][memory-palace] Prepare #4760 Memory Palace context-problem handoff",
+    "slug": "v0918-wp14-memory-palace-context-handoff-prep-4760",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "No prep review requested; later execution review only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Later review should verify that execution remained within #4760 and did not overclaim v0.92 readiness."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

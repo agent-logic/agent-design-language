@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 4760,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "5122de3f552f7d3e67507008600e4a269906e2987e6e22a18e536921df718948",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "27556ed35012211a9ebceb98929d92b50c7b7f36bda5d88df05b2c4acbe96dea",
+  "claim": {
+    "id": "prep-4760-v0918-wp14",
+    "owner": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755804,
+    "expires_unix_seconds": 1785360604,
+    "heartbeat_unix_seconds": 1784755804,
+    "branch": "codex/4760-v0918-wp14-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/4760",
+      ".csdlc/locks/4760.lock",
+      ".csdlc/prepared/issues/4760"
+    ],
+    "purpose": "Preparation only for later execution of the WP-14 Memory Palace context-problem handoff; no implementation, PR, review, merge, or closeout."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/4760/design.md",
+  "diagram_path": ".csdlc/prepared/issues/4760/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+      "revision": "c917c9e609330ca47cf93e3043182b278c2fe1dfdad43eeda59ce7d164e7f3c2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9e3aa90458567a2f18a817044d7347705eced777d1597462392f6e17529fb361",
+      "rendered_digest": "7542064494a7e863fd694ee2d1d5e3924d8a781ac74590f415135d15d9bd5356",
+      "ast_digest": "887d3b54d44cf60ad95b588f06939cec2c6c5b273e2d966630cc33fbb747d69c"
+    },
+    "stp": {
+      "values_digest": "fb98292d1d73119ac8cc0cb73815999cbf2a265cb707262135731961b20c3a11",
+      "rendered_digest": "1fcef2d74880df2a0f0b640a78334dd2e319fa45cea6fec14bf54ea93d128cd4",
+      "ast_digest": "db6668ff7774043b40bd845e42d08010dc645619ae6825c28d326e2eee3b0a69"
+    },
+    "spp": {
+      "values_digest": "95775c1919f5037f77df5ca4fae861a16d4045b3929a4541a0e0093464c0d619",
+      "rendered_digest": "ba236bd9ae7996457a828e2f8a400e45a8b645b842b1dc579762b2f600c7c9df",
+      "ast_digest": "d3395578171210f1055b082a511c42d1846eb9746b0b970ad7aa3c9b98fb1fd4"
+    },
+    "vpp": {
+      "values_digest": "2a3974a225e97fbbbf574a6bea531530922a8c49c96f2e30bb486327f371de40",
+      "rendered_digest": "88ad3e947fea7b2754a84ef6a6bae269b9972d2c1b2df8bf75e69b793a621828",
+      "ast_digest": "c768300d59b85202de4c075bbb323a408b6bb2441468cf14b1111416e159a173"
+    },
+    "srp": {
+      "values_digest": "3530b15efb80d97f329337d0052d7999776d1495cd0283306951affe57e8d0d5",
+      "rendered_digest": "f87053bc06c94cf55be06b97e9699f2d4bf2f37fe61f3f323a61dc0d7fdba099",
+      "ast_digest": "b7d0d33be92a7cbe4842d42b9a673d404626d6a33fb07e03e694885b27a32a6c"
+    },
+    "sor": {
+      "values_digest": "0b2c8512518e707cd1b86e261d8432313e4bd4aa13d1cb81aa8ba34ca30cc16c",
+      "rendered_digest": "39266753514306aaebbd39817ebf1492b3553ba1d906e1c7b9b7f93aea1dfbbd",
+      "ast_digest": "7d9183e7b8d5306f02aa20f6a22134a366f1e40941b5b64e4b966bbc50bc5959"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}
