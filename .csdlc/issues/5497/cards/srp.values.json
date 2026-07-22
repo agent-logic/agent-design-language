@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5497,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-10A][multi-agent] Implement end-to-end distributed C-SDLC workcell",
+    "slug": "v0-91-8-wp-10a-distributed-workcell-umbrella",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review only the #5497 issue-local lifecycle packet, child ordering, authority boundaries, and completion truth; exclude all child product implementations.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the umbrella avoid duplicating child product ownership?",
+        "Is ordering based on interface readiness and live merge ancestry rather than receipts?",
+        "Can dashboard and convergence execute safely in parallel?",
+        "Does the final proof use real tasks and preserve explicit authority?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

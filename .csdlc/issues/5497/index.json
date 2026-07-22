@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5497,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "c6e620b56bb20d05e80108946e607e27a14fa96e7b1c807ead448a6f1df17803",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "cf1c2dc46cfdbc7b214dd8ba4d31cdd7fcac57962eefef53861b84387052da8f",
+  "claim": {
+    "id": "claim-5497-v0918-wp10a-umbrella-preparation",
+    "owner": "codex:wp10a-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784753408,
+    "expires_unix_seconds": 1785358208,
+    "heartbeat_unix_seconds": 1784753408,
+    "branch": "codex/5497-v0918-wp10a-umbrella",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5497",
+      ".csdlc/locks/5497.lock",
+      ".csdlc/prepared/issues/5497"
+    ],
+    "purpose": "Prepare the WP-10A coordination umbrella only; child issues own all product implementation"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5497/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5497/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:danielbaustin",
+      "revision": "a666b74f27b2a9f9399adbae21e036a8155093cfa27e53cfea93312ee65c3946"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3d36e361c1ae79c422683fafba313c38c519c73e358a160b69a22e32eb40c45c",
+      "rendered_digest": "b911bfaff60f9808ee9b10da0fb5ed545b4e36c109d9cb6213e05cae02e80901",
+      "ast_digest": "0e8599ad63d56e8022a3d5c33dba1c46c3c5e113c7a5a70ff0f4d5a5492ec0e5"
+    },
+    "stp": {
+      "values_digest": "32e13c4b512fb87a368d253ad786357b846b33edb03f33517d84137a4d62fc40",
+      "rendered_digest": "75f2f3f9dfb196a7837233a85ffdee18b670c48e1cdacf729221bbb17af42ec9",
+      "ast_digest": "bca16a80da304e2f9d533a9a13fc4c8a7b8a7da0d6bc041a90c8f3730c492056"
+    },
+    "spp": {
+      "values_digest": "25c5679811bdb0c0d6109fecb79a15b8873e9b8a452f4a4640927f7265b09f0c",
+      "rendered_digest": "0e83d457806b8d246138829cbbacb86500f4d42f42cb0df4bb2cc367bc39fc0f",
+      "ast_digest": "ae82224bb35ff99784452393b85c98d43eaaa4c5a9564cb041aeed1323e8e531"
+    },
+    "vpp": {
+      "values_digest": "a57dcf527c2e54804cddbae9a31d3a05f609bb5987276bd69897cda4d2a9fc48",
+      "rendered_digest": "3ce29e278a1b8ee0c81810abccfd44645901e4f451363865a4da52e4bdca0c13",
+      "ast_digest": "fddd8ca00722ab90afc1eeccbee6940c4260438614790c8afb531c8c7890f6c5"
+    },
+    "srp": {
+      "values_digest": "ab037ca13954db52d19068749e8a41a52b3b709f82b7818e06b3dc7b93fe462c",
+      "rendered_digest": "ea0b05584229659d58c682dfcbf62e490535d5dd2eee1e7811ae6f546e235c91",
+      "ast_digest": "fef6f7190d1ffbc7adacd258dc1c42ec39f5c443b0074c2457985e4741cdc21b"
+    },
+    "sor": {
+      "values_digest": "2bfd381c49af610cf0ec55975eaa287a71414fdf862812a7b46225b45a6dbd95",
+      "rendered_digest": "70f0da894381e8b6e1782ee72c062701e5f3b4cc9520c4695ab8c807da2a9407",
+      "ast_digest": "f1d5467b71a8cf0afda8a7d217e9da37c3222ad1f2dc7dc15fc11ade5736fd0b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:wp10a-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:wp10a-preparation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:wp10a-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:wp10a-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
