@@ -9,6 +9,7 @@ ISSUE = 5341
 BASE = Pathname(".csdlc/prepared/issues/#{ISSUE}")
 MANIFEST = "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml"
 TARGET_ROOT = "/Volumes/FastWork/adl-5341/target"
+CARGO_HOME = "/Volumes/FastWork/adl-cargo-home"
 
 def run!(environment, *argv)
   stdout, stderr, status = Open3.capture3(environment, *argv)
@@ -23,7 +24,7 @@ lane = ARGV.fetch(0) do
 end
 
 FileUtils.mkdir_p(TARGET_ROOT)
-environment = { "CARGO_TARGET_DIR" => TARGET_ROOT }
+environment = { "CARGO_HOME" => CARGO_HOME, "CARGO_TARGET_DIR" => TARGET_ROOT }
 
 case lane
 when "dependency-gate"
