@@ -5,7 +5,7 @@
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
   "phase": "implemented",
   "generation": 12,
-  "digest": "39f9fe1b9ee33aaecd0e2382c775e14dc3b1b4f3057cd5b7953ac37c28398200",
+  "digest": "4132aedbcfe7a7c18941cccffdb0163aca7edf5d03369e202b93745db59aadb8",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
@@ -47,43 +47,18 @@
   "review_assignment": {
     "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
     "assigned_by": "codex:5590-sole-writer-takeover",
-    "revision": "git-blake3:60da76bcee609930a34c1f409be7131aef75e13d:48ee173827b26195151190f46876d1f72b3a4f5b9edc0a0fe9b21ead0b507f94",
+    "revision": "git-blake3:c74af8bb1928075f2cb9580ffaf906f7d49c509f:175fa7171c0a07f55b9a1de2d6688cb5edb2d0d6812a380568e1dfdecf6a6221",
     "scope": [
       ".csdlc/issues/5590/audit.jsonl",
       ".csdlc/issues/5590/index.json",
-      ".csdlc/prepared/issues/5590/recover-after-coverage-impact-failure.json",
-      ".csdlc/prepared/issues/5590/transition-coverage-impact-claim.json",
+      ".csdlc/prepared/issues/5590/amend-guardian-cli-coverage-claim.json",
+      ".csdlc/prepared/issues/5590/record-coverage-impact-rereview-finding.json",
+      "adl-runtime/tests/guardian_cli.rs",
       "adl/tools/check_coverage_impact.sh",
       "adl/tools/test_check_coverage_impact.sh"
     ]
   },
-  "review": {
-    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
-    "scope": [
-      ".csdlc/issues/5590/audit.jsonl",
-      ".csdlc/issues/5590/index.json",
-      ".csdlc/prepared/issues/5590/recover-after-coverage-impact-failure.json",
-      ".csdlc/prepared/issues/5590/transition-coverage-impact-claim.json",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/test_check_coverage_impact.sh"
-    ],
-    "reviewed_revision": "git-blake3:60da76bcee609930a34c1f409be7131aef75e13d:48ee173827b26195151190f46876d1f72b3a4f5b9edc0a0fe9b21ead0b507f94",
-    "findings": [
-      {
-        "id": "guardian-binary-coverage-selection",
-        "severity": "p1",
-        "summary": "The guardian binary path maps only to guardian library tests; it omits the binary unit test, leaving adl-runtime-guardian.rs at 0/135 under focused llvm-cov.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -118,9 +93,9 @@
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "63cda5cdb570ffc11a9e8ec99baec8b18df94e65eec2ebd84d82f02d4e5a9825",
-      "rendered_digest": "91f9cb57c8cc570ad456af8dcd94dc50f94f100a491968fd68a9f85c6d379437",
-      "ast_digest": "15316b60c07021ba4584f90c6da73608b3250ca57d7869dd48c008396337c99b"
+      "values_digest": "b5bf9c92edf24638dcfcdbba12f9769b921b2424b777440bd7e2b75e9e7a6d60",
+      "rendered_digest": "48d41b5b84ca36e36264e8bd7a56b09c49b39eb7d60ada7b2af85c5e22fa4a8c",
+      "ast_digest": "0ced4ac047b1870d748519adaa2b9c1e65cb1356c857107ab7fd7c874015e8c5"
     },
     "sor": {
       "values_digest": "048c11edee384b0f3177e36379c2f5340f14a7bfa903f6e77e0230b58a92770f",
@@ -347,6 +322,13 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "Add one black-box guardian CLI integration test required to lift the newly mapped guardian binary above the changed-source coverage threshold after exact review found it at 0/135 and focused proof reached only 87/135.",
       "operation": "{\"add_protected_paths\":[\"adl-runtime/tests/guardian_cli.rs\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 12,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

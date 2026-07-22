@@ -23,3 +23,4 @@
 {"sequence":23,"generation":11,"actor":"codex:5590-sole-writer-takeover","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":12,"actor":"subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a","reason":"atomically record review evidence and SRP projection","operation":"record_review"}
 {"sequence":25,"generation":12,"actor":"codex:5590-sole-writer-takeover","reason":"Add one black-box guardian CLI integration test required to lift the newly mapped guardian binary above the changed-source coverage threshold after exact review found it at 0/135 and focused proof reached only 87/135.","operation":"{\"add_protected_paths\":[\"adl-runtime/tests/guardian_cli.rs\"],\"operation\":\"amend_claim_scope\"}"}
+{"sequence":26,"generation":12,"actor":"codex:5590-sole-writer-takeover","reason":"assign bounded exact-revision review","operation":"assign_review"}
