@@ -88,4 +88,3 @@ puts JSON.pretty_generate(
   "errors" => errors
 )
 exit(errors.empty? ? 0 : 1)
-
