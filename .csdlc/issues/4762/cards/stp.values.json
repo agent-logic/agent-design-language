@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 4762,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
+    "slug": "v0918-wp14-birth-witnesses-receipt-prep-4762",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Preparation only: seed v2 cards, concise design and diagram, then run focused doctor.",
+      "deliverables": [
+        "Minimal six-card v2 packet for #4762.",
+        "Concise design and Mermaid diagram.",
+        "Focused csdlc-doctor result."
+      ],
+      "acceptance_criteria": [
+        "AC1: All six v2 cards exist for #4762.",
+        "AC2: Design and diagram identify the later execution boundary without implementation.",
+        "AC3: Focused v2 doctor is run and recorded in the handoff report."
+      ],
+      "dependencies": [
+        "Existing .adl/v0.91.7 task bundle for #4762.",
+        "origin/main at 79c7dccf12540863f6c038e1fd7ef45e2357a55e."
+      ],
+      "repo_inputs": [
+        ".adl/v0.91.7/tasks/issue-4762__v0-91-7-wp-14-birth-witnesses-create-birth-witnesses-and-receipt-package/stp.md",
+        "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+        "docs/milestones/v0.91.7/WBS_v0.91.7.md",
+        "docs/milestones/v0.91.7/README.md"
+      ],
+      "non_goals": [
+        "Do not create witness or receipt content in this prep issue.",
+        "Do not start v0.92 implementation.",
+        "Do not claim birthday readiness without retained integrated evidence."
+      ]
+    }
+  }
+}

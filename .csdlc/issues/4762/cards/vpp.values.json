@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 4762,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][birth-witnesses] Prepare #4762 birth witnesses and receipt package",
+    "slug": "v0918-wp14-birth-witnesses-receipt-prep-4762",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "prep-doctor",
+          "proof_role": "Focused v2 state integrity check only.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--issue",
+            "4762"
+          ],
+          "parallel_group": "prep",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed and report the exact v2 doctor or init error; do not repair outside the prep boundary.",
+      "design_ref": ".csdlc/prepared/issues/4762/design.md",
+      "design_digest": "446028e1ad05a64a2f18d5fd768d39c563c62338f98f1c37c66365a71e464294",
+      "diagram_ref": ".csdlc/prepared/issues/4762/diagram.mmd",
+      "diagram_digest": "47fb2949faaf149c4aac48549b977b8c9d384fbf9d4c8cdeeb1c3948d4807859"
+    }
+  }
+}

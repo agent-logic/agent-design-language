@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 4762,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "a5fe0b1e9eec7136904a3d1d13c8f0df266a9db06f660c4b1d17db3909a15828",
+  "phase": "initialized",
+  "generation": 0,
+  "digest": "4435d51381e1f66de5751755dab86562f05ed9ac36417e0a335c63062fbc4d84",
+  "claim": {
+    "id": "prep-4762-v0918-wp14",
+    "owner": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755804,
+    "expires_unix_seconds": 1785360604,
+    "heartbeat_unix_seconds": 1784755804,
+    "branch": "codex/4762-v0918-wp14-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/4762",
+      ".csdlc/locks/4762.lock",
+      ".csdlc/prepared/issues/4762"
+    ],
+    "purpose": "Preparation only for later execution of the WP-14 birth witnesses and receipt package; no implementation, PR, review, merge, or closeout."
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/4762/design.md",
+  "diagram_path": ".csdlc/prepared/issues/4762/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+      "revision": "446028e1ad05a64a2f18d5fd768d39c563c62338f98f1c37c66365a71e464294"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "88d5e69663ca5ae668b2baf7d4a097a043f437bd5d3d49aab8d2ad46ddeb8d3d",
+      "rendered_digest": "f818ceb917fe514fb7bc8adab5f06c8d133c4f26521137519cd463b4554fa67f",
+      "ast_digest": "75aab1d5659b654c5dfb2a8268b11398e682e69efa501d030f5981815e7ede70"
+    },
+    "stp": {
+      "values_digest": "f3120cc76cd61fe63fd4cfae44ea1978c94a279ae95b0befd9cf87d0346c0680",
+      "rendered_digest": "cd84c714cc60529a52c59f9c9300bb1e30ce46c9ae321d568f94052242f25a18",
+      "ast_digest": "b71f58b3cddb07d73d8b133aa0a619dc114b32dcf9ac2a7c96b1d2073fa21521"
+    },
+    "spp": {
+      "values_digest": "e5f790bcec6fa36082c05ee68aa077de7ee7e6faf1fed0b901be36f536cf1e01",
+      "rendered_digest": "36711040b877d69d8d45d5bbf91c90745bd3389111b0288f8345bc4bb67040a5",
+      "ast_digest": "560f1fc138ff9e790cf0a17b0e7898ba4696c36bbaee4a22cd4fe03fdd6bf0cb"
+    },
+    "vpp": {
+      "values_digest": "53006a115bfee72b2f825d511ccb3c10ecbc480bfdd1d74054b4362ef6e7018b",
+      "rendered_digest": "e5cd551967ef3fc1ebe9ab15feb3571c570277cfa114fd3b27ce14fbcdcc6035",
+      "ast_digest": "6f2f95d0dc080a93277379d804983a14d3af0ce10cfafdde850e16d6ecfea597"
+    },
+    "srp": {
+      "values_digest": "475eb7646aee21710f44c9f03120dd7419592c1208a4c6419ad5f6dfff5abe46",
+      "rendered_digest": "3b1302859e7430ec521ac36270661c82b034134246002a44c1f456ba67754753",
+      "ast_digest": "85be40ee45931d8b4cfe1cbbc6374caf48953b3efdb60e662ad2a0a71aa3c6c4"
+    },
+    "sor": {
+      "values_digest": "425fa0c8ddb33ab6b148ff8c862b247303ee93f6b7deeec731a6e31dc5d070fe",
+      "rendered_digest": "e75fcd57d5d4c1849f8d3d21958b691b2ba7fb8be6c5498991a4e8f65346256f",
+      "ast_digest": "3ba9728ecb4c5344ce6b8da1b7ac48bfb71c98508c495551c80039adce6f3291"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8bb9-beb6-7ad1-b40b-b9f8b1597a11",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    }
+  ]
+}
