@@ -333,6 +333,21 @@ fn validate_paths(issues: &BTreeMap<u64, IssueSnapshot>) -> Result<(), Conductor
     let mut owned = Vec::new();
     for (issue_id, issue) in issues {
         let claim = issue.claim.as_ref().expect("claim validated");
+        for write_path in &issue.write_paths {
+            if !claim
+                .protected_paths
+                .iter()
+                .any(|protected_path| path_contains(protected_path, write_path))
+            {
+                return Err(ConductorRefusal::for_issue(
+                    RefusalCode::AmbiguousAuthority,
+                    *issue_id,
+                    format!("issues.{issue_id}.write_paths"),
+                    format!("write path `{write_path}` is outside the active claim"),
+                    &issue.source_revision,
+                ));
+            }
+        }
         for path in claim.protected_paths.iter().chain(issue.write_paths.iter()) {
             owned.push((*issue_id, path));
         }
@@ -352,6 +367,12 @@ fn validate_paths(issues: &BTreeMap<u64, IssueSnapshot>) -> Result<(), Conductor
         }
     }
     Ok(())
+}
+
+fn path_contains(parent: &str, child: &str) -> bool {
+    let parent: Vec<_> = parent.split('/').collect();
+    let child: Vec<_> = child.split('/').collect();
+    child.starts_with(&parent)
 }
 
 fn paths_overlap(left: &str, right: &str) -> bool {

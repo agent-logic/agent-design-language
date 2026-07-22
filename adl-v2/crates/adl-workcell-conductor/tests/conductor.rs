@@ -183,6 +183,15 @@ fn rejects_exact_and_segment_prefix_path_collisions() {
 }
 
 #[test]
+fn rejects_write_paths_outside_the_active_claim() {
+    let mut escaped = issue(1, vec![9], "crates/owned");
+    escaped.write_paths = vec![String::from("crates/unclaimed/src")];
+    let refusal = plan(input(vec![escaped])).unwrap_err();
+    assert_eq!(refusal.code, RefusalCode::AmbiguousAuthority);
+    assert!(refusal.message.contains("outside the active claim"));
+}
+
+#[test]
 fn rejects_absolute_parent_and_dot_paths() {
     for path in ["/absolute", "../escape", "crates/../escape", "./crates"] {
         let refusal = plan(input(vec![issue(1, vec![9], path)])).unwrap_err();

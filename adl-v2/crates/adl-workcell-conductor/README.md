@@ -6,4 +6,3 @@ assignments or a fail-closed refusal.
 
 It does not create tasks, access the network or filesystem, mutate GitHub, run
 a scheduler, or own review, publication, merge, validation, or closeout.
-
