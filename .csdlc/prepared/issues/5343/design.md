@@ -5,9 +5,11 @@
 This packet prepares issue #5343 only. It does not execute a selector
 transaction, change any default, install a binary, open a pull request, publish,
 delete legacy code, use AWS, or edit Runtime v2. Execution remains fail-closed
-until parent #5344 is GitHub merged, typed `closed_out`, claim-free, backed by a
-retained merged terminal receipt, ancestral to the exact #5343 execution
-revision, and accompanied by accepted exact-revision soak and rollback evidence.
+until parent #5344 and selector/installer parent #5345 have live merged landing
+commits ancestral to the exact #5343 execution revision, and #5344 is
+accompanied by accepted exact-revision soak and rollback evidence. Typed
+closeout and retained receipts are audit-only observations and never substitute
+for live merge plus ancestry.
 
 ## Objective
 
@@ -38,14 +40,11 @@ not be edited, copied, imported, linked, or deleted.
 Before any cutover command, installation, selector mutation, or product-path
 edit, the gate must prove all of the following at the exact execution revision:
 
-1. GitHub issue #5344 is closed as completed and its implementation PR is
-   merged.
-2. Typed `csdlc-doctor` reports #5344 at `closed_out` with no findings and no
-   active claim.
-3. The shared Git common directory contains
-   `csdlc-v2/closeout/5344.json`.
-4. The retained receipt records merged disposition and an exact observed merge
-   SHA that is an ancestor of the #5343 execution revision.
+1. #5344 and #5345 each have a live merged landing commit on `origin/main`.
+2. Each landing commit remains ancestral to current `origin/main`.
+3. Each landing commit is an ancestor of the #5343 execution revision.
+4. Typed `csdlc-doctor` and retained receipts are recorded only as audit-only
+   observations.
 5. The #5344 handoff binds a reviewed soak manifest, rollback proof, exact prior
    and restored selector digests, fresh-install receipt, accepted residual-risk
    disposition, and a declared rollback-window duration.

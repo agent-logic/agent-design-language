@@ -7,49 +7,62 @@ require "pathname"
 
 ROOT = Pathname.new(__dir__).join("../../../..").expand_path
 DEPENDENCIES = %w[5344 5345].freeze
+BRANCHES = {
+  "5344" => "origin/codex/5344-v0918-wp12-soak-rollback",
+  "5345" => "origin/codex/5345-v0918-wp10-thin-cli-selector"
+}.freeze
 
 def fail_closed(message)
   warn(message)
   exit 2
 end
 
-common_dir, status = Open3.capture2("git", "-C", ROOT.to_s, "rev-parse", "--git-common-dir")
-fail_closed("cannot resolve shared Git directory") unless status.success?
-common = Pathname.new(common_dir.strip)
-common = ROOT.join(common).cleanpath unless common.absolute?
-
-def terminal_dependency(issue, common)
-  receipt_path = common.join("csdlc-v2/closeout/#{issue}.json")
-  fail_closed("##{issue} retained closeout receipt is absent") unless receipt_path.file?
-
-  receipt = JSON.parse(receipt_path.read)
-  record = receipt["record"] || receipt
-  terminal = record["terminal"] || {}
-  merge_sha = terminal["observed_sha"] || record["observed_sha"] || record["merge_sha"]
-
-  fail_closed("##{issue} receipt is not closed_out") unless record["phase"] == "closed_out"
-  fail_closed("##{issue} receipt retained an active claim") unless record["claim"].nil?
-  fail_closed("##{issue} receipt is not merged") unless terminal["disposition"] == "merged"
-  fail_closed("##{issue} receipt omits observed merge SHA") unless merge_sha.is_a?(String) && merge_sha.match?(/\A[0-9a-f]{40}\z/)
-
-  ancestral = system(
-    "git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", merge_sha, "HEAD",
-    out: File::NULL, err: File::NULL
-  )
-  fail_closed("##{issue} merge SHA is not ancestral to #5343") unless ancestral
-
-  index_path = ROOT.join(".csdlc/issues/#{issue}/index.json")
-  fail_closed("##{issue} typed projection is absent") unless index_path.file?
-  index = JSON.parse(index_path.read)
-  fail_closed("##{issue} typed projection is not closed_out") unless index["phase"] == "closed_out"
-  fail_closed("##{issue} claim remains active") unless index["claim"].nil?
-
-  { issue: issue.to_i, receipt: receipt_path, merge_sha: merge_sha }
-rescue JSON::ParserError => e
-  fail_closed("##{issue} terminal evidence is malformed: #{e.message}")
+def git(*args)
+  out, err, status = Open3.capture3("git", *args, chdir: ROOT.to_s)
+  [out.strip, err.strip, status]
 end
 
-dependencies = DEPENDENCIES.map { |issue| terminal_dependency(issue, common) }
+head, _, head_status = git("rev-parse", "HEAD")
+fail_closed("cannot resolve exact #5343 execution revision") unless head_status.success? && head.match?(/\A[0-9a-f]{40}\z/)
+
+origin_main, _, origin_status = git("rev-parse", "origin/main")
+fail_closed("origin/main is not available; fetch before evaluating live merge") unless origin_status.success?
+
+common_dir, common_err, common_status = git("rev-parse", "--git-common-dir")
+fail_closed("cannot resolve shared Git directory: #{common_err}") unless common_status.success?
+common = Pathname.new(common_dir)
+common = ROOT.join(common).cleanpath unless common.absolute?
+
+def dependency_observation(issue, common, head, origin_main)
+  branch = BRANCHES.fetch(issue)
+  branch_head, branch_err, branch_status = git("rev-parse", branch)
+  fail_closed("##{issue} branch #{branch} is unavailable: #{branch_err}") unless branch_status.success?
+
+  landing, _, landing_status = git("log", "-1", "--format=%H", "--grep=##{issue}", "origin/main")
+  fail_closed("##{issue} has no live merged landing commit on origin/main") unless landing_status.success? && landing.match?(/\A[0-9a-f]{40}\z/)
+
+  _, _, origin_ancestor = git("merge-base", "--is-ancestor", landing, origin_main)
+  fail_closed("##{issue} landing #{landing} is not ancestral to current origin/main #{origin_main}") unless origin_ancestor.success?
+
+  _, _, execution_ancestor = git("merge-base", "--is-ancestor", landing, head)
+  fail_closed("##{issue} landing #{landing} is not ancestral to #5343 execution revision #{head}") unless execution_ancestor.success?
+
+  receipt_path = common.join("csdlc-v2/closeout/#{issue}.json")
+  receipt_audit = if receipt_path.file?
+    receipt = JSON.parse(receipt_path.read)
+    record = receipt["record"] || receipt
+    terminal = record["terminal"] || {}
+    { present: true, phase: record["phase"], disposition: terminal["disposition"] }
+  else
+    { present: false }
+  end
+
+  { issue: issue.to_i, branch: branch, branch_head: branch_head, landing: landing, receipt_audit: receipt_audit }
+rescue JSON::ParserError => e
+  fail_closed("##{issue} audit receipt is malformed: #{e.message}")
+end
+
+dependencies = DEPENDENCIES.map { |issue| dependency_observation(issue, common, head, origin_main) }
 
 handoff_candidates = [
   ROOT.join("docs/milestones/v0.91.8/evidence/wp12/cutover-handoff-5344.v1.json"),
@@ -68,11 +81,14 @@ fail_closed("#5344 handoff contains unresolved rows") unless Array(handoff["unre
 
 puts JSON.pretty_generate(
   status: "pass",
+  gate: "live_merge_plus_ancestry",
   dependencies: dependencies.map do |dependency|
     {
       issue: dependency.fetch(:issue),
-      receipt: dependency.fetch(:receipt).relative_path_from(ROOT).to_s,
-      merge_sha: dependency.fetch(:merge_sha)
+      branch: dependency.fetch(:branch),
+      branch_head: dependency.fetch(:branch_head),
+      landing: dependency.fetch(:landing),
+      receipt_audit: dependency.fetch(:receipt_audit)
     }
   end,
   handoff: handoff_path.relative_path_from(ROOT).to_s

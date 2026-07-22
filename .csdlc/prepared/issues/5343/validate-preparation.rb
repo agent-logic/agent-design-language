@@ -26,7 +26,7 @@ end
 
 text = cards.map { |card| BASE.join("cards/#{card}.md").read }.join("\n")
 required_terms = [
-  "#5344", "closed_out", "retained", "receipt", "ancestr", "fresh-install",
+  "#5344", "live merged", "audit-only", "receipt", "ancestr", "fresh-install",
   "explicit v1", "rollback window", "compare-and-swap", "Runtime v2", "COTS",
   "PVF", "no deferred", "500", "800", "1200"
 ]
@@ -36,7 +36,7 @@ end
 
 design = PREP.join("design.md").read
 diagram = PREP.join("diagram.mmd").read
-%w[#5344 closed_out receipt ancestry fresh-install explicit\ v1 rollback\ window compare-and-swap WP-13 Runtime\ v2].each do |term|
+%w[#5344 live\ merge audit-only receipt ancestry fresh-install explicit\ v1 rollback\ window compare-and-swap WP-13 Runtime\ v2].each do |term|
   require_truth(design.downcase.include?(term.gsub("\\ ", " ").downcase), "design omits #{term}")
 end
 require_truth(diagram.include?("flowchart TD"), "diagram is not a Mermaid flowchart")
@@ -77,5 +77,5 @@ puts JSON.pretty_generate(
   generation: index["generation"],
   cards: cards.length,
   protected_paths: paths.length,
-  dependency_gate: "blocked_until_5344_and_5345_closed_out"
+  dependency_gate: "blocked_until_5344_and_5345_live_merged_and_ancestral"
 )
