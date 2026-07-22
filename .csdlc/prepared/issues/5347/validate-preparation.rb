@@ -47,7 +47,7 @@ text = JSON.generate(initial) + design
 end
 
 [
-  "closed_out", "retained merged receipt", "ancestral", "claim",
+  "closed_out", "audit receipt", "ancestral", "claim",
   "dependency cycle", "zero canonical path overlap", "authority-rooted",
   "delete_external", "retain_owned", "retain_evidence", "handoff_to_5346",
   "Runtime v2", "net source change is negative", "no deferred acceptance"
