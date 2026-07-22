@@ -4,6 +4,7 @@
 require "fileutils"
 require "json"
 require "open3"
+require "rbconfig"
 
 ISSUE = "5349"
 BASE = ".csdlc/prepared/issues/#{ISSUE}"
@@ -26,6 +27,10 @@ FileUtils.mkdir_p(TARGET_ROOT)
 environment = { "CARGO_TARGET_DIR" => File.join(TARGET_ROOT, lane) }
 
 case lane
+when "all"
+  %w[dependency mock https governed-tool compatibility negative-authority complete strict-quality inventory].each do |required_lane|
+    run!({}, RbConfig.ruby, __FILE__, required_lane)
+  end
 when "dependency"
   exec("ruby", "#{BASE}/dependency_gate.rb")
 when "mock"
