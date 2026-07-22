@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5627,
+  "repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5627-csdlc-four-command-lifecycle",
+  "title": "fix(csdlc-v2): collapse routine lifecycle into four commands",
+  "body": "Closes #5627\n\nCollapses the normal post-implementation lifecycle into finalize, review, publish, and closeout while preserving atomic validation, exact scoped review, governed publication identity, and terminal receipt integrity. One-shot request payloads now live in overwriteable shared Git state.",
+  "draft": false,
+  "revision": "git-blake3:e18a969bcbfc013b122fc65acb4f4387cacea0e2:6b52d9d22e27db35f8c0a05d9665c8cee0eb44394a0e4f660fa3bf28a9f9bba5",
+  "commit_sha": "e18a969bcbfc013b122fc65acb4f4387cacea0e2"
+}
