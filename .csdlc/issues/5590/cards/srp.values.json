@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/5590/audit.jsonl\n.csdlc/issues/5590/index.json\n.csdlc/prepared/issues/5590/recover-after-coverage-impact-failure.json\n.csdlc/prepared/issues/5590/transition-coverage-impact-claim.json\nadl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

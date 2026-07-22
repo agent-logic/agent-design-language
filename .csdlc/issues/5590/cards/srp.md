@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/5590/audit.jsonl
+.csdlc/issues/5590/index.json
+.csdlc/prepared/issues/5590/recover-after-coverage-impact-failure.json
+.csdlc/prepared/issues/5590/transition-coverage-impact-claim.json
+adl/tools/check_coverage_impact.sh
+adl/tools/test_check_coverage_impact.sh
 
 ## Prompts
 

@@ -5,7 +5,7 @@
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
   "phase": "implemented",
   "generation": 11,
-  "digest": "ddb1f2d533292828f012950341af5d0e0f545c09e9dda120154b9c8a5a1833cd",
+  "digest": "7f35f42586ca8798ff4a072d160055489d5080931324a41137a856f7149325e7",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
@@ -43,7 +43,19 @@
     ],
     "purpose": "Implement every #5590 Runtime v3 Parity-D outcome: secure configured HTTPS and WebSocket access, live Observatory consumption, external guardian recovery, Vector telemetry boundary, operational Runtime v3 rollback, and exact positive and negative proof"
   },
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+    "assigned_by": "codex:5590-sole-writer-takeover",
+    "revision": "git-blake3:60da76bcee609930a34c1f409be7131aef75e13d:48ee173827b26195151190f46876d1f72b3a4f5b9edc0a0fe9b21ead0b507f94",
+    "scope": [
+      ".csdlc/issues/5590/audit.jsonl",
+      ".csdlc/issues/5590/index.json",
+      ".csdlc/prepared/issues/5590/recover-after-coverage-impact-failure.json",
+      ".csdlc/prepared/issues/5590/transition-coverage-impact-claim.json",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -79,9 +91,9 @@
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "a7b8609d3c291981015ce28e3f54fd47f09e626eceee61c300ccdc384df617c6",
-      "rendered_digest": "abb1436d0c50a481fab83abf003008d0f3e3c4a0be2451cecdaee152853a0fed",
-      "ast_digest": "011b78944dafe9593635fd6c90830d4fea86cd9c00830db9b9418736472e8db7"
+      "values_digest": "446ea16b32251367354b40f42e148063b4e018cae3e02fa1c61b5d2430eb8a4d",
+      "rendered_digest": "10e79b075c3343807d07895b90ffdd12848872b468332f9bd69f698b7e365390",
+      "ast_digest": "458c011f5cebad7ecd15c62b5ba8f9ed376cf1be7a21d79b7008069e18f419fb"
     },
     "sor": {
       "values_digest": "318085736a3cd936cc82294a9c1481a893049f4e19824fb1ea8562fd0d296697",
@@ -287,6 +299,13 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "Add the exact PR-fast coverage mapping and regression required for the new external Runtime v3 guardian binary after hosted CI failed closed on the unmapped source path",
       "operation": "{\"add_protected_paths\":[\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 11,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
