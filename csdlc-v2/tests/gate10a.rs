@@ -1,9 +1,11 @@
+use csdlc_v2::operator::validate_external_cargo_target;
 use csdlc_v2::{
     build_and_install_binaries, edit_issue, install_binaries, resolve_operator_generation,
     verify_coexistence, BootstrapRequest, CardKind, Claim, CoexistenceInventory, EditRequest,
     Generation, LifecyclePhase, SemanticOperation, SkillManifest, Store,
 };
 use std::fs;
+use std::path::Path;
 use std::process::Command;
 
 #[test]
@@ -124,6 +126,30 @@ fn installer_records_provenance_without_replacing_other_files() {
         fs::remove_file(destination.join("install-receipt.json")).unwrap();
         symlink("/bin/true", destination.join("install-receipt.json")).unwrap();
         assert!(verify_coexistence(&repo, &destination, &inventory).is_err());
+    }
+}
+
+#[test]
+fn external_cargo_target_is_exact_existing_and_outside_checkout() {
+    let repo = tempfile::tempdir().unwrap();
+    let external = tempfile::tempdir().unwrap();
+    let external = std::fs::canonicalize(external.path()).unwrap();
+    assert_eq!(
+        validate_external_cargo_target(repo.path(), &external).unwrap(),
+        external
+    );
+
+    assert!(validate_external_cargo_target(repo.path(), Path::new("relative-target")).is_err());
+    assert!(validate_external_cargo_target(repo.path(), &repo.path().join("missing")).is_err());
+    std::fs::create_dir(repo.path().join("inside")).unwrap();
+    assert!(validate_external_cargo_target(repo.path(), &repo.path().join("inside")).is_err());
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let alias = repo.path().join("external-alias");
+        symlink(&external, &alias).unwrap();
+        assert!(validate_external_cargo_target(repo.path(), &alias).is_err());
     }
 }
 

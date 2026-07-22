@@ -418,8 +418,24 @@ bash "$SCRIPT" --changed-files "$native_gws_demo_bins_changed" --print-risk-filt
 grep -Fx "demo_adl_gws_context_mirror" "$native_gws_demo_bins_filters" >/dev/null
 grep -Fx "demo_adl_gws_native_drive_sync" "$native_gws_demo_bins_filters" >/dev/null
 native_gws_demo_bins_expression="$(bash "$SCRIPT" --changed-files "$native_gws_demo_bins_changed" --print-risk-nextest-expression)"
-grep -F "binary_id(adl::bin/demo-adl-gws-context-mirror) and test(/^tests::/)" <<<"$native_gws_demo_bins_expression" >/dev/null
+grep -F "binary_id(adl::bin/adl-gws-context-mirror) and test(/^tests::/)" <<<"$native_gws_demo_bins_expression" >/dev/null
 grep -F "binary_id(adl::bin/demo-adl-gws-native-drive-sync) and test(/^tests::/)" <<<"$native_gws_demo_bins_expression" >/dev/null
+
+native_gws_library_surfaces_changed="$TMP/native-gws-library-surfaces-changed.txt"
+cat >"$native_gws_library_surfaces_changed" <<'EOF'
+M	adl/src/adl_gws_context_mirror.rs
+M	adl/src/adl_gws_drive_sync.rs
+M	adl/src/adl_gws_native.rs
+EOF
+native_gws_library_surfaces_filters="$TMP/native-gws-library-surfaces-filters.txt"
+bash "$SCRIPT" --changed-files "$native_gws_library_surfaces_changed" --print-risk-filters >"$native_gws_library_surfaces_filters"
+grep -Fx "adl_gws_context_mirror" "$native_gws_library_surfaces_filters" >/dev/null
+grep -Fx "adl_gws_drive_sync" "$native_gws_library_surfaces_filters" >/dev/null
+grep -Fx "adl_gws_native" "$native_gws_library_surfaces_filters" >/dev/null
+native_gws_library_surfaces_expression="$(bash "$SCRIPT" --changed-files "$native_gws_library_surfaces_changed" --print-risk-nextest-expression)"
+grep -F "test(adl_gws_context_mirror)" <<<"$native_gws_library_surfaces_expression" >/dev/null
+grep -F "test(adl_gws_drive_sync)" <<<"$native_gws_library_surfaces_expression" >/dev/null
+grep -F "test(adl_gws_native)" <<<"$native_gws_library_surfaces_expression" >/dev/null
 
 aws_remote_validation_bin_changed="$TMP/aws-remote-validation-bin-changed.txt"
 printf 'M\tadl/src/bin/adl_aws_remote_validation.rs\n' >"$aws_remote_validation_bin_changed"
