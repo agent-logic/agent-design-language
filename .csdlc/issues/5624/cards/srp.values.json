@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5624,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][csdlc-v2][prune] Resolve issue-local terminal worktree topology safely",
+    "slug": "csdlc-prune-topology",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/readiness.rs\ncsdlc-v2/tests/gate7.rs\ncsdlc-v2/tests/gate7_lifecycle.rs\n.csdlc/issues/5624\n.csdlc/prepared/issues/5624",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can `.` validate any checkout other than the exact current terminal branch worktree?",
+        "Can two repositories with the same relative worktree suffix collide?",
+        "Do malformed, missing, wrong, and dirty candidates fail with unsafe_checkout?",
+        "Can validation alter the terminal record or retained receipt?",
+        "Does command-level proof exercise the same path as issue 5340?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

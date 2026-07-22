@@ -1,0 +1,113 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5624,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "304bc75a127522c6590ce93430b3be8b667c66b0bf3e3655403207b67290c8f5",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "ee1ef175533942f001e78dac44782bb685bb0c08db903b08dd33f801136260d4",
+  "claim": {
+    "id": "claim-5624-csdlc-prune-topology",
+    "owner": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+    "generation": 1,
+    "acquired_unix_seconds": 1784728873,
+    "expires_unix_seconds": 1784815273,
+    "heartbeat_unix_seconds": 1784728873,
+    "branch": "codex/5624-csdlc-prune-topology",
+    "worktree": ".",
+    "protected_paths": [
+      "csdlc-v2/src/readiness.rs",
+      "csdlc-v2/tests/gate7.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs",
+      ".csdlc/issues/5624",
+      ".csdlc/prepared/issues/5624",
+      ".csdlc/evidence/5624"
+    ],
+    "purpose": "Repair guarded prune topology resolution without changing terminal evidence"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5624/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5624/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:019f8a27-d67e-7fe2-9f95-ce25aae9dac6",
+      "revision": "cff74b3020ec2e81e97296726d4d6333b471397c999d18f596682865d33435ff"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a9c45a837fad623a3bbd7e4227fd52fd39f4920d830884e9f5a3369b842cef60",
+      "rendered_digest": "06e5ab1be8cc7d5816ec72758e04559f7684d528bd7b46c0647bede733c57a22",
+      "ast_digest": "094674ef061582ab0bcf312f027c55d3877cfc2fc61d0952750ecb201e691d86"
+    },
+    "stp": {
+      "values_digest": "7cb2f3564ef9bb3a93ae1bf67428a4e2857d39171a9baa4fc5c0c19c514cdaeb",
+      "rendered_digest": "eebaf5f062ae8503f17e787a5637e20cd0437a0d319929cce3f45871fff97f0f",
+      "ast_digest": "1230e46e7ca236a55a6d951e35884fd82b312507f9cf49b1090f995fa3faecba"
+    },
+    "spp": {
+      "values_digest": "e5bc9cf1d92827c8450e3f0ebd5baca9c8bcafce8cc08a886da4570ac15cd7e0",
+      "rendered_digest": "02a13340e8e4f6f2ea9374b9dd5f07ecc531f7ae16d32fe3f1a47dd9f72ad379",
+      "ast_digest": "df1bdf54aeec330351e91915758d99b1c3f77841dda23f7cc50e5cc8773a4182"
+    },
+    "vpp": {
+      "values_digest": "959d65d9088831fca2033a993877fbbf1a98362e189a411a83184bd5ea276f50",
+      "rendered_digest": "45f9cff3c88464d4edeff0d54ffd43a4fa96ec78056407d165d40cf98daab741",
+      "ast_digest": "859e4740d233dfd2bf86a0cbc3cd81d5d4a158bc4754f3cf37587c79f646519e"
+    },
+    "srp": {
+      "values_digest": "da4e7a895de55b28372ec6b432ca320555e6f33ff596dd4cc6d1f3cb61440b6b",
+      "rendered_digest": "57e7c0a4871aab898e83d21c87aa5863ed74e02866bc8a823f6d48f93b57190d",
+      "ast_digest": "f5f8f59a251478c300f4b52a30e386190d56cf7d5abd07209fe3f2b986edba05"
+    },
+    "sor": {
+      "values_digest": "e7577dc7fc88f05490870bcaeae42805d1a18c37d7f61c4e10a67c0a7c83f8ee",
+      "rendered_digest": "865513bb6895e778c528f6c93380bb676dc056c163d99380fd9b7a14ab8b72c5",
+      "ast_digest": "165eecf6d8ce9e1acd7e425b88d11ef128399905e38c5f791a97f2a4aca80be1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "subagent:019f8a27-d67e-7fe2-9f95-ce25aae9dac6",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
