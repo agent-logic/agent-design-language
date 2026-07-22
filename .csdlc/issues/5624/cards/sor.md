@@ -39,6 +39,15 @@ Resolve terminal worktree identity canonically while preserving exact branch, to
     "purpose": "Prove canonical prune topology, receipt immutability, the command-level issue-local worktree path, all C-SDLC v2 targets, formatting, and strict Clippy.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5624/validation-380a9eab1.json"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5624/run_focused_validation.sh"
+    ],
+    "purpose": "Prove the external Cargo target contract, Gate 10A provenance, guarded prune behavior, complete C-SDLC v2 suite, formatting, and strict Clippy in one FastWork run.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5624/validation-a2c79708e.json"
   }
 ]
 

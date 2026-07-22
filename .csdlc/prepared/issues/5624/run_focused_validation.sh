@@ -11,4 +11,5 @@ bash adl/tools/test_run_cargo_validation.sh
 cargo test --locked --manifest-path csdlc-v2/Cargo.toml --target-dir "$target_root" --test gate10a
 cargo test --locked --manifest-path csdlc-v2/Cargo.toml --target-dir "$target_root" --test gate7 prune_guard
 cargo test --locked --manifest-path csdlc-v2/Cargo.toml --target-dir "$target_root" --test gate7_lifecycle prune
+cargo test --locked --manifest-path csdlc-v2/Cargo.toml --target-dir "$target_root" --all-targets
 cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --target-dir "$target_root" --all-targets -- -D warnings
