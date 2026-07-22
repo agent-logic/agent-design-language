@@ -5,7 +5,7 @@
   "initialization_digest": "157c42fee68c23e91d25009889f22dbb4d9dc9ca1f51c0b97d05f2855352d57d",
   "phase": "bound",
   "generation": 3,
-  "digest": "3f524e10096b566f7b3d5541b9d859a6a6b0ee21cd8c65d5b4eb2c6045e8c585",
+  "digest": "a5809abae987206266b168c968a6646c3cc95f7e4df88e04dae012513c048afa",
   "claim": {
     "id": "claim-5345-v0918-wp10-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
@@ -23,9 +23,12 @@
       "adl-v2/Cargo.lock",
       "adl-v2/Cargo.toml",
       "adl-v2/crates/adl-cli",
+      "adl-v2/crates/adl-cli/src",
+      "adl-v2/crates/adl-cli/tests",
+      "adl-v2/tools",
       "adl-v2/tools/install-adl-v2.sh"
     ],
-    "purpose": "Prepare #5345 WP-10 completely in its dedicated worktree; product implementation remains prohibited until WP-04 through WP-09 are merged, typed closed_out, receipt-backed, and ancestral"
+    "purpose": "Implement WP-10 thin CLI and authoritative selector in the dedicated worktree; retain dependency state as observational evidence only."
   },
   "review_assignment": null,
   "review": null,
@@ -131,6 +134,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Mark durable preparation complete after design approval, bind, scope amendment, executable validation repair, and clean bounded re-review.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Operator authorized implementation after removing closeout receipts and merged-SHA ancestry from the WP-10 execution blocker.",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/crates/adl-cli/src\",\"adl-v2/crates/adl-cli/tests\",\"adl-v2/tools\"],\"expected_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"expected_purpose\":\"Prepare #5345 WP-10 completely in its dedicated worktree; product implementation remains prohibited until WP-04 through WP-09 are merged, typed closed_out, receipt-backed, and ancestral\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare #5345 WP-10 completely in its dedicated worktree; product implementation remains prohibited until WP-04 through WP-09 are merged, typed closed_out, receipt-backed, and ancestral\",\"purpose\":\"Implement WP-10 thin CLI and authoritative selector in the dedicated worktree; retain dependency state as observational evidence only.\"}"
     }
   ]
 }
