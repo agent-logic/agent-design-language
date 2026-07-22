@@ -1,0 +1,5 @@
+flowchart TD
+  issue["#5332 Unity ILPP loop"] --> prep["typed preparation only"]
+  occupied["#4739/#4741 occupied dirty worktrees"] --> block["source implementation blocked"]
+  prep --> future["future execution after ownership recheck"]
+  block --> future

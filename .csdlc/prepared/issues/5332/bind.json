@@ -1,0 +1,22 @@
+{
+  "issue": 5332,
+  "base_branch": "main",
+  "branch": "codex/5332-v0918-unity-ilpp-getdomainname-loop",
+  "worktree": ".",
+  "claim": {
+    "id": "claim-5332-v0918-unity-ilpp-getdomainname-loop-prep",
+    "owner": "codex:issue-5332-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755781,
+    "expires_unix_seconds": 1785360581,
+    "heartbeat_unix_seconds": 1784755781,
+    "branch": "codex/5332-v0918-unity-ilpp-getdomainname-loop",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5332",
+      ".csdlc/locks/5332.lock",
+      ".csdlc/prepared/issues/5332"
+    ],
+    "purpose": "Prepare issue #5332 Unity ILPP GetDomainName loop follow-up without touching occupied Unity sidecar worktrees"
+  }
+}

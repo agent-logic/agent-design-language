@@ -1,0 +1,124 @@
+{
+  "issue": 5332,
+  "repository": "danielbaustin/agent-design-language",
+  "design_path": ".csdlc/prepared/issues/5332/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5332/diagram.mmd",
+  "design_reviewer": "operator:issue-5332-preparation-boundary",
+  "design_approved": true,
+  "claim": {
+    "id": "claim-5332-v0918-unity-ilpp-getdomainname-loop-prep",
+    "owner": "codex:issue-5332-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755781,
+    "expires_unix_seconds": 1785360581,
+    "heartbeat_unix_seconds": 1784755781,
+    "branch": "codex/5332-v0918-unity-ilpp-getdomainname-loop",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5332",
+      ".csdlc/locks/5332.lock",
+      ".csdlc/prepared/issues/5332"
+    ],
+    "purpose": "Prepare issue #5332 Unity ILPP GetDomainName loop follow-up without touching occupied Unity sidecar worktrees"
+  },
+  "initial": {
+    "title": "[v0.91.8][WP-14][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
+    "slug": "v0918-unity-ilpp-getdomainname-loop",
+    "version": "v0.91.8",
+    "goal": "Prepare the Unity Observatory ILPP GetDomainName loop follow-up for later execution while preserving occupied #4739 and #4741 worktrees.",
+    "required_outcome": "A typed issue-local preparation packet exists for #5332 and truthfully records that source implementation is blocked until Unity sidecar ownership is reconciled.",
+    "declared_scope": [
+      "Issue-local C-SDLC v2 preparation record for #5332",
+      "Unity ILPP GetDomainName loop problem statement and future validation boundary",
+      "Preservation blocker for occupied #4739 and #4741 sidecar worktrees"
+    ],
+    "authority_boundary": [
+      "Preparation only in this session",
+      "No implementation, PR, review, broad tests, raw gh, AWS, or root-main writes",
+      "Do not modify, stage, commit, reset, or replace #4739 or #4741 worktrees",
+      "Future source edits require fresh ownership and dirty-worktree reconciliation"
+    ],
+    "task_boundary": "Create only the #5332 issue-bound FastWork worktree and minimal typed preparation packet.",
+    "deliverables": [
+      "Issue-local design note",
+      "Issue-local diagram",
+      "Native C-SDLC v2 six-card/index preparation record",
+      "Readiness status that preserves the occupied sidecar blocker"
+    ],
+    "acceptance_criteria": [
+      "AC-1: #5332 has one /Volumes/FastWork issue-bound worktree on its preparation branch",
+      "AC-2: C-SDLC v2 issue-local preparation files exist and validate mechanically",
+      "AC-3: no source, Unity, proof, planning, #4739, or #4741 worktree files are changed",
+      "AC-4: source implementation remains blocked while #4739/#4741 are occupied",
+      "AC-5: #5107 readiness is read-only and does not mutate the stale branch"
+    ],
+    "dependencies": [
+      "Occupied #4739 Unity-MCP live project and port proof worktree",
+      "Occupied #4741 Unity editor liveness and batch proof worktree",
+      "v0.91.8 WP-14A sidecar disposition plan"
+    ],
+    "repo_inputs": [
+      "GitHub issue #5332 local inventory snapshot",
+      "docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml",
+      "adl/tools/test_v0916_unity_observatory_local_runtime_consumption.sh",
+      "demos/v0.91.6/unity-observatory/PROOF_PACKET.md"
+    ],
+    "non_goals": [
+      "No Unity execution",
+      "No wrapper or Unity asset edits",
+      "No broad validation",
+      "No PR publication or review",
+      "No GitHub, AWS, credential, or provider operation"
+    ],
+    "plan_summary": "Prepare #5332 locally, preserve occupied sidecars, and stop before implementation until ownership is clear.",
+    "steps": [
+      {"id":"S1","action":"Create the issue-bound FastWork worktree and typed preparation packet","status":"pending","acceptance_ids":["AC-1","AC-2","AC-3"]},
+      {"id":"S2","action":"Report #4739/#4741 as occupied and #5107 as read-only readiness unavailable if no native v2 packet exists","status":"pending","acceptance_ids":["AC-3","AC-4","AC-5"]},
+      {"id":"S3","action":"Stop before source implementation until the Unity sidecar blocker is cleared","status":"pending","acceptance_ids":["AC-4"]}
+    ],
+    "risks": [
+      "Unity wrapper paths overlap existing dirty #4739/#4741 work",
+      "A stale #5107 branch could be mistaken for execution readiness",
+      "Unity ILPP retry logs can look alive while no batch proof progress occurs"
+    ],
+    "invariants": [
+      "Occupied worktrees are evidence and must not be reset or overwritten",
+      "Preparation records are not implementation authority",
+      "Future Unity source edits require fresh ownership checks",
+      "Receipts are non-blocking audit evidence only"
+    ],
+    "stop_conditions": [
+      "Any need to modify #4739 or #4741",
+      "Any request to run Unity, broad tests, PR publication, raw gh, AWS, or root-main mutation",
+      "Any protected-path collision with unresolved occupied Unity work",
+      "Any attempt to treat #5107 legacy cards as native v2 readiness"
+    ],
+    "review_prompts": [
+      "Does #5332 avoid touching occupied Unity sidecar work?",
+      "Is the future implementation gate explicit enough to prevent ownership loss?",
+      "Does the packet distinguish preparation from execution authority?"
+    ],
+    "operator_constraints": [
+      "Typed C-SDLC v2 only",
+      "Work only in /Volumes/FastWork/adl-wp-5332 on codex/5332-v0918-unity-ilpp-getdomainname-loop",
+      "No implementation, PR, review, broad tests, raw gh, AWS, root-main writes, or #4739/#4741 mutation",
+      "Commit/push only safe new preparation"
+    ],
+    "review_scope": ".csdlc/issues/5332\n.csdlc/prepared/issues/5332",
+    "planning_profile": "small",
+    "validation_lanes": [
+      {
+        "lane": "unity-ilpp-prep-shape",
+        "proof_role": "Confirm issue-local preparation packet shape without Unity execution or source changes",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "unity-ilpp-prep",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["true"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+      }
+    ],
+    "failure_policy": "Fail closed on occupied sidecar mutation, missing native v2 issue record, stale branch confusion, Unity execution requirement, or source implementation during preparation."
+  }
+}

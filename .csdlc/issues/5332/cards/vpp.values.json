@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5332,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
+    "slug": "v0918-unity-ilpp-getdomainname-loop",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "unity-ilpp-prep-shape",
+          "proof_role": "Confirm issue-local preparation packet shape without Unity execution or source changes",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "true"
+          ],
+          "parallel_group": "unity-ilpp-prep",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on occupied sidecar mutation, missing native v2 issue record, stale branch confusion, Unity execution requirement, or source implementation during preparation.",
+      "design_ref": ".csdlc/prepared/issues/5332/design.md",
+      "design_digest": "39897ccf95980609a53a8b7daa3b637fb352d09ec8a9e52a814dc99cdc5be85d",
+      "diagram_ref": ".csdlc/prepared/issues/5332/diagram.mmd",
+      "diagram_digest": "c0cfeb60103906050c1cd3aac70cace452ca023c9496f3e79c34de04414df712"
+    }
+  }
+}

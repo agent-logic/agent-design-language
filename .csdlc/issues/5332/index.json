@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5332,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "ab9d1a0c58a341328cdd93b7559424f8ae13f733fb2f5d7a3996f1924d8aa443",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "2e29154a3ef610c63009d6f1938fdf97fdb804e729a4a0a8002d350e65b41666",
+  "claim": {
+    "id": "claim-5332-v0918-unity-ilpp-getdomainname-loop-prep",
+    "owner": "codex:issue-5332-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755781,
+    "expires_unix_seconds": 1785360581,
+    "heartbeat_unix_seconds": 1784755781,
+    "branch": "codex/5332-v0918-unity-ilpp-getdomainname-loop",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5332",
+      ".csdlc/locks/5332.lock",
+      ".csdlc/prepared/issues/5332"
+    ],
+    "purpose": "Prepare issue #5332 Unity ILPP GetDomainName loop follow-up without touching occupied Unity sidecar worktrees"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5332/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5332/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5332-preparation-boundary",
+      "revision": "39897ccf95980609a53a8b7daa3b637fb352d09ec8a9e52a814dc99cdc5be85d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6ae76fb90f0e86f48295420261c5f5c003f1c2096f9a3e7b62802a8b086211db",
+      "rendered_digest": "e5e00529f35a9cc3620d6c5d3432718863458927ce1edabee96e2a170a79df33",
+      "ast_digest": "023ff968c9b867bfc4cbceab6f3e895d8a8ebcd702e3e2c0621024f551b54d05"
+    },
+    "stp": {
+      "values_digest": "c30da584d2cd11d4f6ceaee6113c98963a48d25b2a47a6cd149f9bcb1dd612a0",
+      "rendered_digest": "0aef6d5143e6f9813f7e538e234bc628c4e8c27ba7b5fe766f5fb8f36b19920c",
+      "ast_digest": "64f8e626b8f66deed39485dd32cc618af537df1ccfbce791551f085ba9ad6bb7"
+    },
+    "spp": {
+      "values_digest": "2ce062418a86625dc4ad0b9f55ee7b470b93dfbd1b20a2b92a0c40e755bd1978",
+      "rendered_digest": "5e11b34ea980ab0de9604ab9787a4187abd96176230e25baffc71b5a9554441b",
+      "ast_digest": "53d478deadb1a6fc220ec6a8c571ba9036fdb58dad10e1e8288f516046edfd6d"
+    },
+    "vpp": {
+      "values_digest": "7ab8582f95c137d507346ea756548687c4a3c79e1f2e66b719cd4430f6365875",
+      "rendered_digest": "41482d60bc9f3db745cc521d746f2027d92863f6d736e63cd1e8435a4492fe69",
+      "ast_digest": "fdc0e42f2742e282b8977b3828074371d6d155d172e4d0badb6b952599d4b8a8"
+    },
+    "srp": {
+      "values_digest": "ae51be91dc4923a93ad5cc0648db6ad7e177be8b7838d571ce005e284f09cd75",
+      "rendered_digest": "7317ab748c8231f10117cd7d7f66c916392806d113a9cd68fec3a5de069e3ffa",
+      "ast_digest": "242c376180bd5b456a6eb32ed80ce050eae41d0830f251d386f5ac48a9bdc8fb"
+    },
+    "sor": {
+      "values_digest": "b09e460e563d6b156710c742f3b8647c60c7c8eee49618e73360ce8c09fbacb1",
+      "rendered_digest": "39bb9e68fde1a63baa69fa85f6a8811745d59518139a74937f589b1b76c7ea83",
+      "ast_digest": "8fc96b6e7ec2f858eed84f0befb296fd74d642a005a120ea9cd99335834a89eb"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5332-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5332-preparation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5332-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5332-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}

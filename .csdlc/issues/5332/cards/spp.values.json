@@ -1,0 +1,78 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5332,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
+    "slug": "v0918-unity-ilpp-getdomainname-loop",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Prepare #5332 locally, preserve occupied sidecars, and stop before implementation until ownership is clear.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Create the issue-bound FastWork worktree and typed preparation packet",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Report #4739/#4741 as occupied and #5107 as read-only readiness unavailable if no native v2 packet exists",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Stop before source implementation until the Unity sidecar blocker is cleared",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [],
+      "invariants": [
+        "Occupied worktrees are evidence and must not be reset or overwritten",
+        "Preparation records are not implementation authority",
+        "Future Unity source edits require fresh ownership checks",
+        "Receipts are non-blocking audit evidence only"
+      ],
+      "risks": [
+        "Unity wrapper paths overlap existing dirty #4739/#4741 work",
+        "A stale #5107 branch could be mistaken for execution readiness",
+        "Unity ILPP retry logs can look alive while no batch proof progress occurs"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Any need to modify #4739 or #4741",
+        "Any request to run Unity, broad tests, PR publication, raw gh, AWS, or root-main mutation",
+        "Any protected-path collision with unresolved occupied Unity work",
+        "Any attempt to treat #5107 legacy cards as native v2 readiness"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5332/design.md",
+      "design_digest": "39897ccf95980609a53a8b7daa3b637fb352d09ec8a9e52a814dc99cdc5be85d",
+      "diagram_ref": ".csdlc/prepared/issues/5332/diagram.mmd",
+      "diagram_digest": "c0cfeb60103906050c1cd3aac70cace452ca023c9496f3e79c34de04414df712"
+    }
+  }
+}

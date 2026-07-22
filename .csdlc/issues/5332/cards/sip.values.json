@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5332,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][unity][tooling] Classify and fix Unity ILPP GetDomainName loop in observatory batch proof",
+    "slug": "v0918-unity-ilpp-getdomainname-loop",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prepare the Unity Observatory ILPP GetDomainName loop follow-up for later execution while preserving occupied #4739 and #4741 worktrees.",
+      "required_outcome": "A typed issue-local preparation packet exists for #5332 and truthfully records that source implementation is blocked until Unity sidecar ownership is reconciled.",
+      "declared_scope": [
+        "Issue-local C-SDLC v2 preparation record for #5332",
+        "Unity ILPP GetDomainName loop problem statement and future validation boundary",
+        "Preservation blocker for occupied #4739 and #4741 sidecar worktrees"
+      ],
+      "authority_boundary": [
+        "Preparation only in this session",
+        "No implementation, PR, review, broad tests, raw gh, AWS, or root-main writes",
+        "Do not modify, stage, commit, reset, or replace #4739 or #4741 worktrees",
+        "Future source edits require fresh ownership and dirty-worktree reconciliation"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Typed C-SDLC v2 only",
+        "Work only in /Volumes/FastWork/adl-wp-5332 on codex/5332-v0918-unity-ilpp-getdomainname-loop",
+        "No implementation, PR, review, broad tests, raw gh, AWS, root-main writes, or #4739/#4741 mutation",
+        "Commit/push only safe new preparation"
+      ]
+    }
+  }
+}
