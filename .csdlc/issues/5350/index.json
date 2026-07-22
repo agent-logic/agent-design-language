@@ -5,7 +5,7 @@
   "initialization_digest": "b074920ed80645449927fbe79ead7b0121e5a676d7cb37acfe270a3419c11f44",
   "phase": "bound",
   "generation": 3,
-  "digest": "196d72d49475d1cc3bf42ff0ac373e254c474c863f39d8d4f5c9493c78aa6283",
+  "digest": "7c263bd7769d0ca5179da3119cf783068e1f58039d9f6796d3f64dffb6c2b817",
   "claim": {
     "id": "claim-5350-v0918-wp11-shadow-parity-preparation",
     "owner": "codex:5350-preparation-owner",
@@ -20,7 +20,7 @@
       ".csdlc/locks/5350.lock",
       ".csdlc/prepared/issues/5350"
     ],
-    "purpose": "Prepare complete #5350 exact-revision shadow-parity cards and design; execution remains prohibited until WP-10, WP-10A live proof, and all Runtime parity inputs are terminal"
+    "purpose": "Prepare complete #5350 exact-revision shadow-parity cards and design; execution remains prohibited until every direct predecessor has a live merged landing commit ancestral to the comparison revision; receipts and typed closeout are audit observations only"
   },
   "review_assignment": null,
   "review": null,
@@ -119,6 +119,13 @@
       "actor": "subagent:codex-read-only-5350-final-review",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:5350-preparation-owner",
+      "reason": "Refresh execution dependency gate wording so live merge plus ancestry is blocking and receipts/typed closeout are audit observations.",
+      "operation": "{\"add_protected_paths\":[\".csdlc/issues/5350\"],\"expected_owner\":\"codex:5350-preparation-owner\",\"expected_purpose\":\"Prepare complete #5350 exact-revision shadow-parity cards and design; execution remains prohibited until WP-10, WP-10A live proof, and all Runtime parity inputs are terminal\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare complete #5350 exact-revision shadow-parity cards and design; execution remains prohibited until WP-10, WP-10A live proof, and all Runtime parity inputs are terminal\",\"purpose\":\"Prepare complete #5350 exact-revision shadow-parity cards and design; execution remains prohibited until every direct predecessor has a live merged landing commit ancestral to the comparison revision; receipts and typed closeout are audit observations only\"}"
     }
   ]
 }
