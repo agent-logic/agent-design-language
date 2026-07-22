@@ -3,13 +3,13 @@
   "issue": 5624,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "304bc75a127522c6590ce93430b3be8b667c66b0bf3e3655403207b67290c8f5",
-  "phase": "reviewed",
-  "generation": 17,
-  "digest": "5f4172c86d81956c638f83cafa849937104bdbf4203d7a71bec7e2be1d3b7093",
+  "phase": "published",
+  "generation": 18,
+  "digest": "254e842ab91ea5cf716a52725604f50e8e819a167df4f2515720e19f0e881997",
   "claim": {
     "id": "claim-5624-csdlc-prune-topology",
     "owner": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
-    "generation": 17,
+    "generation": 18,
     "acquired_unix_seconds": 1784728873,
     "expires_unix_seconds": 1784815273,
     "heartbeat_unix_seconds": 1784728873,
@@ -69,7 +69,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5624,
+    "pull_request": 5625,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5625",
+    "base": "main",
+    "head": "codex/5624-csdlc-prune-topology",
+    "revision": "git-blake3:6344fca3037b63e27e7c6687dcb5cde3ba871993:79a0ecc0a8fa0e80547e0cf797b4b1335e4e30d724c3f961922c92750b7b8f7b",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -83,34 +93,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6425772c7451646d59a4f1d638224fa8a0dc548eed60fb686da65c86b012d51b",
+      "values_digest": "c5956f65164a4fe5b62a8e2248fa3b27951430be02babf957620c8d27247d59d",
       "rendered_digest": "06e5ab1be8cc7d5816ec72758e04559f7684d528bd7b46c0647bede733c57a22",
       "ast_digest": "094674ef061582ab0bcf312f027c55d3877cfc2fc61d0952750ecb201e691d86"
     },
     "stp": {
-      "values_digest": "2120c166a2182edcf68c3eb55fcc05a1e95fb5f0e3494751e8863a062ecd0594",
+      "values_digest": "661736ab18d178de3a15a78811e4ecdff55fe335e9faa2b1246bc1676a1848b2",
       "rendered_digest": "eebaf5f062ae8503f17e787a5637e20cd0437a0d319929cce3f45871fff97f0f",
       "ast_digest": "1230e46e7ca236a55a6d951e35884fd82b312507f9cf49b1090f995fa3faecba"
     },
     "spp": {
-      "values_digest": "0123dab706ca1c52450582fbd8c1ba63c0142c4a71a1feda1a0a4430d51731e1",
+      "values_digest": "c3217174ce921fc2e8dbdaf96fa9a25bdafbfd134e14e922e2345e4b9512e7ec",
       "rendered_digest": "02a13340e8e4f6f2ea9374b9dd5f07ecc531f7ae16d32fe3f1a47dd9f72ad379",
       "ast_digest": "df1bdf54aeec330351e91915758d99b1c3f77841dda23f7cc50e5cc8773a4182"
     },
     "vpp": {
-      "values_digest": "3a24c1bc4ea39445b21d7ae15ca81351a173de8b21e0762c3deca30580d0c8d7",
+      "values_digest": "7a30ce57f76c460f4673afa61585c558a12b7711f49921419cb732815f06cc93",
       "rendered_digest": "45f9cff3c88464d4edeff0d54ffd43a4fa96ec78056407d165d40cf98daab741",
       "ast_digest": "859e4740d233dfd2bf86a0cbc3cd81d5d4a158bc4754f3cf37587c79f646519e"
     },
     "srp": {
-      "values_digest": "8bec4b0533ed0d2a2f7487ca6d1c0e67dea54418556a89f52255b2cbf00cbc68",
+      "values_digest": "843a1616bdb3a7b361d9f9a91a1cda8c1e3aaaaba359c15d30fb443b615b5204",
       "rendered_digest": "90f56110a9b8974566288983b1cc4a11b33c3cabac9119a6efc149054517e977",
       "ast_digest": "a8b4551b90c4195158cb1a253e1fc631028e9f7109c32ab73ecd43b55499c824"
     },
     "sor": {
-      "values_digest": "3def318c3b30a1fbb91954ad1c18f8d33d6f1849647aa1c32a21d050992586dd",
-      "rendered_digest": "577fb35e9e0df28476db187040bb7747550e4839eac8a3be005f5af7bc3b93f2",
-      "ast_digest": "22a5ecd9bcf2aee741c771ec98b99f9e86bd0e548fac8bf72f7f4e58f22a26c0"
+      "values_digest": "e57450d0e0bcc4fca7daf945758cf89b9f8bcc0f7aa53348b0d479e19b29ca3b",
+      "rendered_digest": "1dd11670c785159cff67ef8de2b54883f58390a0082bf2f0def6f22760f07f1d",
+      "ast_digest": "b4fc58d05ce1364a3635066c0660a087bde91d99db7212af06aa872ed6e756c8"
     }
   },
   "transitions": [
@@ -183,6 +193,13 @@
       "to": "reviewed",
       "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
       "reason": "The final exact-revision hosted-CI repair review completed with zero findings and zero blockers."
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -346,6 +363,13 @@
       "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
       "reason": "The final exact-revision hosted-CI repair review completed with zero findings and zero blockers.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

@@ -1357,7 +1357,7 @@ impl Store {
         };
         let local_cards = match self.load_cards(request.issue) {
             Ok(cards) => Some(cards),
-            Err(error) if !issue_dir.exists() => None,
+            Err(_) if !issue_dir.exists() => None,
             Err(error) => return Err(error),
         };
         let local_integrity = (|| -> Result<bool> {

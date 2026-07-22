@@ -71,11 +71,11 @@ Resolve terminal worktree identity canonically while preserving exact branch, to
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
