@@ -5,8 +5,8 @@
   "base": "main",
   "head": "codex/5627-csdlc-four-command-lifecycle",
   "title": "fix(csdlc-v2): collapse routine lifecycle into four commands",
-  "body": "Closes #5627\n\nCollapses the normal post-implementation lifecycle into finalize, review, publish, and closeout. CI no longer nests owner-binary Cargo builds: Gate 10A reuses Cargo-built artifacts, while explicit installation reuses a verified current installation and otherwise performs one locked build.",
+  "body": "Closes #5627. Collapses the routine C-SDLC v2 path into validate, review, publish, and closeout while retaining exact evidence and terminal receipts. Removes nested Cargo builds from the installer CI proof and reuses a verified current installation when possible.",
   "draft": false,
-  "revision": "git-blake3:57a678e81bdbccc583c2187afb287718771ceb53:704549bb8147499baa97f56a25c0fde5c1a4f79c2647583aa8a0401df5b0de55",
-  "commit_sha": "57a678e81bdbccc583c2187afb287718771ceb53"
+  "revision": "git-blake3:654c46804b01d29011fb96f64ccf60b6275cb8f0:8a9fbbd2b118148d6a9cc71d083d2dc7366e3d6e96c0b8ee5019454c12c7341d",
+  "commit_sha": "654c46804b01d29011fb96f64ccf60b6275cb8f0"
 }
