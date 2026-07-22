@@ -109,11 +109,11 @@ Implemented the thin deterministic ADL v2 to Runtime v3 adapter with signed-reco
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

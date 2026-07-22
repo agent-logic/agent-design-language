@@ -3,13 +3,13 @@
   "issue": 5341,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c2abc3f4639db9f22c08b1794d2639a7cc3316e6b33452400ea9fcdfb5dc4c9a",
-  "phase": "reviewed",
-  "generation": 4,
-  "digest": "63b6a71f82247ee03eb777270c08c51d6dd88397a694e262e3aa5df4065870d7",
+  "phase": "published",
+  "generation": 5,
+  "digest": "c30aa415b3f5658f365bc037023f8a25aa2c5e7240e8f081b3900083c3fcd6ae",
   "claim": {
     "id": "claim-5341-v0918-runtime-v3-adapter",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 4,
+    "generation": 5,
     "acquired_unix_seconds": 1784748073,
     "expires_unix_seconds": 1785352873,
     "heartbeat_unix_seconds": 1784748073,
@@ -82,7 +82,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5341,
+    "pull_request": 5635,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5635",
+    "base": "main",
+    "head": "codex/5341-v0918-runtime-v3-adapter",
+    "revision": "git-blake3:1e76adc88fb73f8dd663f4d0194fa00338f4d348:702340dc908b7c72ea39cfccd3d682a54d6b3c90bd244515f3da4c248aa50aa9",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -96,34 +106,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1b96f5f47219a1a1a63e0e476b7174549fe692fbe0c590604364cce32a5b5c0b",
+      "values_digest": "c7ec7425bcf589ddb136186fa11a7125495054d9602079edd83495590d8ac387",
       "rendered_digest": "eca055a7389419550ca925adbe2396ad480f130f88452ab0aa1a36de72d59869",
       "ast_digest": "5a51d8348637384618858b238c992646a85b3d2f5ddaaebab000c54f1241f57a"
     },
     "stp": {
-      "values_digest": "15de9ea891c56ca3c4de55bb6f3e9cd6f496772cf89fa3dc673d05a5812931a2",
+      "values_digest": "59eee2500d0a1fe616c26c457ff478158d9d37cf6f94f2679c80153294fcf827",
       "rendered_digest": "706bc6f267353a1313e56edf08a2a0aeb8d2f881d27443a92cee2deb7f390e8e",
       "ast_digest": "a8ca7aec0fdee0c4c9e6cded597197df33a1383fe8b2f18eddc30a0d17113351"
     },
     "spp": {
-      "values_digest": "596f308414ff3f169dcd684e697188fb6c614c819ed42fc3ee1fd44cc42e3b42",
+      "values_digest": "abdf09477f5c76aa7ea8154e6caa22bceaae703a5b93093c2891d143e6e9e66e",
       "rendered_digest": "099624597330089a289ad0f6068c264d4076566bafb7a07da18911e6497fd3d7",
       "ast_digest": "404d61fa4797aeb2af8910bb4af94a8825a1223c73a27e17e1fa113c90593c42"
     },
     "vpp": {
-      "values_digest": "82262f864e026cc74aa3dc956c95b77d533427d058d76e215b736d5705207bdb",
+      "values_digest": "87089ad5b4079c81884fc57b09ff112f5a7ff5f213f2e0bc110eb5c4de79e2e9",
       "rendered_digest": "857d0e8bc6975491a574af8e9ec2421ef055b825c0da9fdc521472d999dd5742",
       "ast_digest": "5fb4c57c4af3af38ce65e4303cec9d326b42cdd7b117bfd61b126779a40469b1"
     },
     "srp": {
-      "values_digest": "0ddef0dd84765d3dd6a53f0866ac0fb5d91906b39d2a99f62abcd4d282db84dc",
+      "values_digest": "ace5196dfd0fe76ac7fe29e3154d4eb592ea47298f7fa5bc65da7069f4dee630",
       "rendered_digest": "3b98e0bb0c6ab039656615de434beb21a44c20a163994a8da2c9848c7bda5cba",
       "ast_digest": "e08c555da59bac8be6518742a504057a422a7384dfdebccfaabfccde1f5b377c"
     },
     "sor": {
-      "values_digest": "2fd07e7a1a8f18c4f5d21b5cf7851dbbf32fe2753723cd616ffbf7e0dbe33dca",
-      "rendered_digest": "aadb5acc3f278bd14e9a206260dbf80836b62e555622958823fb51410dffc080",
-      "ast_digest": "906f8279b734afbfc6434d5db9dcca3596846420ce88bc92ce60f4157323fd49"
+      "values_digest": "d83778efb09e12590154e856dd2ba4c9e3f6f52348a1d292209ea6d9e4d8e0c7",
+      "rendered_digest": "67f190329f107158d58022e2e4f7eab9e94cdb4f7739b84bfe80abe88f9c2385",
+      "ast_digest": "c4f795ae6f610e9660557a3668e3e455153b78692967c3f7b827785c8a44702d"
     }
   },
   "transitions": [
@@ -154,6 +164,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance after the single GPT-5.5 review cycle verified both actionable fixes and reported zero remaining blockers."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -219,6 +236,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Advance after the single GPT-5.5 review cycle verified both actionable fixes and reported zero remaining blockers.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
