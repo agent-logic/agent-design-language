@@ -42,8 +42,11 @@ expected = [
   ".csdlc/prepared/issues/5345",
   ".csdlc/evidence/5345",
   "adl-v2/crates/adl-cli",
+  "adl-v2/crates/adl-cli/src",
+  "adl-v2/crates/adl-cli/tests",
   "adl-v2/Cargo.toml",
   "adl-v2/Cargo.lock",
+  "adl-v2/tools",
   "adl-v2/tools/install-adl-v2.sh"
 ]
 actual = claim["protected_paths"] || []
@@ -107,7 +110,7 @@ if File.file?(baseline_path)
     failures << "missing COTS evidence lock #{relative}" unless File.file?(path)
     failures << "COTS evidence digest drift for #{relative}" if File.file?(path) && Digest::SHA256.file(path).hexdigest != expected_digest
   end
-  expected_pins = {"clap"=>"4.6.1", "serde"=>"1.0.228", "serde_json"=>"1.0.150", "tempfile"=>"3.27.0", "fs2"=>"0.4.3", "sha2"=>"0.10.9"}
+  expected_pins = {"clap"=>"4.6.4", "serde"=>"1.0.229", "serde_json"=>"1.0.151", "tempfile"=>"3.27.0", "fs2"=>"0.4.3", "sha2"=>"0.10.9"}
   observed_pins = baseline.fetch("packages", {}).transform_values { |entry| entry["version"] }
   failures << "COTS pin baseline differs: #{observed_pins.inspect}" unless observed_pins == expected_pins
 end

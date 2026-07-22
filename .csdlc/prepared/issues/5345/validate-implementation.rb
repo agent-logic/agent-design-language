@@ -8,7 +8,7 @@ require "timeout"
 ROOT = File.expand_path("../../../..", __dir__)
 CRATE = File.join(ROOT, "adl-v2", "crates", "adl-cli")
 MANIFEST = File.join(CRATE, "Cargo.toml")
-PINS = {"clap"=>"4.6.1", "serde"=>"1.0.228", "serde_json"=>"1.0.150", "tempfile"=>"3.27.0", "fs2"=>"0.4.3", "sha2"=>"0.10.9"}.freeze
+PINS = {"clap"=>"4.6.4", "serde"=>"1.0.229", "serde_json"=>"1.0.151", "tempfile"=>"3.27.0", "fs2"=>"0.4.3", "sha2"=>"0.10.9"}.freeze
 FORBIDDEN = /\A(?:aws-|reqwest|hyper|tokio|sqlx|rusqlite|ratatui|crossterm|libloading|adl-runtime|adl-runtime-kernel|csdlc-v2)\z/
 
 def capture!(seconds, *argv)
