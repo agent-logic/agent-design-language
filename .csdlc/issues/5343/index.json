@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "7ae22a9c8742977941bf696bfe2123d8d59ab3b7711264cfe5220a16802c44e6",
   "phase": "bound",
-  "generation": 1,
-  "digest": "e410506b63d58337909aebd026d341e079f8f73f871f4f6a1344cee745677ff6",
+  "generation": 2,
+  "digest": "f2ca577d2376266de1721fe2622cba6a6581b4cbc8a11c20c9f2c9d7f014c3d6",
   "claim": {
     "id": "claim-5343-v0918-wp12-reversible-default-switch-preparation",
     "owner": "codex:5343-preparation-owner",
-    "generation": 1,
+    "generation": 2,
     "acquired_unix_seconds": 1784661008,
     "expires_unix_seconds": 1785265808,
     "heartbeat_unix_seconds": 1784661008,
@@ -35,37 +35,37 @@
   "design_review": {
     "approved": {
       "reviewer": "external:deepseek:deepseek-chat",
-      "revision": "c3f3c434b119ebc89ffffb8bc5f343d3a9df97d4ba7e8d32678028e28fd9af83"
+      "revision": "255caed6a569e0f57e67a5d01757bd2fb3cfa284543209fed4229244e608435d"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "7437436740fc9b77312319aa5265f66993af8ef7355a03b329b32d8c45b16e00",
+      "values_digest": "b9f522a18b489c6df952bac4e6bfbceea0eb521418d36a16d45e26159eed29c3",
       "rendered_digest": "56e9f6179e9157659276d6bcf35efb8f016bba7c7822b2b0d797679cd31adf6b",
       "ast_digest": "4bed42107b13c69d3d7d4cb8f18e052c2f7c26199f6173d1dc3260de1fe9a993"
     },
     "stp": {
-      "values_digest": "cc9b40917bbdfb991b2eff4964e5c1f126177f0f924779ba6620c0fb6ad362b3",
+      "values_digest": "eee58f67b5206cc9a42fbe59a282dc57018c412609649cb5255bb80fe79a18cf",
       "rendered_digest": "2603a355245577778350785ca55e828e84a8d35adeb0eb9f05104b02c8c6526c",
       "ast_digest": "af5271338c52d97d190cb14ef68d417dc5c34afcf8b72c635a7f9459680efb65"
     },
     "spp": {
-      "values_digest": "30a598a831c6b7f4c599207028e002f6e61fb313d652681be4ed5434e4efec52",
-      "rendered_digest": "2e204fe39458d542b47650dd55911782ef612c0302bf1423d484871d6477ae8e",
-      "ast_digest": "374c21848278c23d31cbdf29d0e3c3878a82f7305a0169618c822295620dce40"
+      "values_digest": "20e62ec1d5107403b92d997029ae34aacae1471ce172fbdf47d43d5c31380de7",
+      "rendered_digest": "d2526cfffbc69debdb19eb1a5b420f93517e3b38fa216c8ac1845617e2555f85",
+      "ast_digest": "802063e268ccf1cd8a59c6d4e9c88d96e596d94e4743728fc47a5203db7aa243"
     },
     "vpp": {
-      "values_digest": "99b018e7af30742c6e12f284b9b6a174291c2bf6071ae08e5b661a8b0d156392",
+      "values_digest": "5fe7a36298301ef10902b56641c907433dc6f5c84582d7c491f47d77371215eb",
       "rendered_digest": "fce8305ab1090841e17e497762748258f6161061e41dcaaea2cf51fa8305a404",
       "ast_digest": "37eb53d9ee8c01020aee78e6453d0a09e2372697646dc623e5dd5c339ed913f0"
     },
     "srp": {
-      "values_digest": "2d3566ab7d8d1f71c381e0d656300d14db14c26a17f36928936dc9b1fb5d823e",
+      "values_digest": "911a7a382e88ce523e9b67496697aee9d0ed46ee09cbccbacbb1fc5385272318",
       "rendered_digest": "f4731a595f0ea709411ae2a767f16132b61ed257458d981bdf08189045ea5f01",
       "ast_digest": "9159372c6f4b2a7bea8ec696ce1ccec0a6ab2c276b740e65603dff8585d11472"
     },
     "sor": {
-      "values_digest": "57b81acfe48e1d8a791f6bb4a0e850cae75e20490e1742ac8826744dbe09a58d",
+      "values_digest": "7b71b36b77c4c046f1c20add05eb38b9a23543137ab6ea41378f2afffbd3ad14",
       "rendered_digest": "69db27ce1aefed9fd2e870c57fc5b3a1c8774407e607f668343698a4e632d107",
       "ast_digest": "7c9edd7d19be81fc09e9373523b99e7387931ab7021ec4b9404269bc5cd98cf6"
     }
@@ -114,6 +114,13 @@
       "actor": "codex:5343-preparation-owner",
       "reason": "Refresh execution dependency gate wording so live merge plus ancestry is blocking and receipts/typed closeout are audit observations.",
       "operation": "{\"add_protected_paths\":[\".csdlc/issues/5343\"],\"expected_owner\":\"codex:5343-preparation-owner\",\"expected_purpose\":\"Prepare and review #5343 reversible default-switch contracts only; no selector transaction or implementation until #5344 is merged, typed closed_out, receipt-backed, claim-free, ancestral, and accepted\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review #5343 reversible default-switch contracts only; no selector transaction or implementation until #5344 is merged, typed closed_out, receipt-backed, claim-free, ancestral, and accepted\",\"purpose\":\"Prepare and review #5343 reversible default-switch contracts only; no selector transaction or implementation until #5344 and #5345 each have a live merged landing commit ancestral to the exact execution revision; receipts and typed closeout are audit observations only\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "external:deepseek:deepseek-chat",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
