@@ -8,4 +8,5 @@ members = [
   "crates/adl-records",
   "crates/adl-runtime-v3-adapter",
   "crates/adl-cli",
+  "crates/adl-workcell-conductor",
 ]
