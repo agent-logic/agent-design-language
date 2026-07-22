@@ -5,7 +5,7 @@
   "initialization_digest": "316fcd95ede2f0eb1272cb321481d3b3a4fee04f249b216c1c2d80d694dfb98f",
   "phase": "bound",
   "generation": 10,
-  "digest": "580a1c475ac07ed188b154548eee35e291a6b225bf6b45ac172fbcf85ce66c32",
+  "digest": "ba530fce5b669c585f2e0702948df9cfc7ef6d50bb5702f2b51ca2996c0e4b28",
   "claim": {
     "id": "claim-5499-v0918-wp10a-conductor-preparation",
     "owner": "codex:issue-5499-preparation",
@@ -18,9 +18,10 @@
     "protected_paths": [
       ".csdlc/issues/5499",
       ".csdlc/locks/5499.lock",
-      ".csdlc/prepared/issues/5499"
+      ".csdlc/prepared/issues/5499",
+      "adl-v2/crates/adl-workcell-conductor"
     ],
-    "purpose": "Prepare and review WP-10A conductor contracts only; product implementation remains blocked on merged typed closeout for #5349 and direct dependencies"
+    "purpose": "Implement, validate, review, publish, merge, and close issue #5499 within the isolated pure conductor crate boundary."
   },
   "review_assignment": null,
   "review": null,
@@ -168,6 +169,20 @@
       "actor": "codex:issue-5499-preparation",
       "reason": "reapprove changed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "All live merge and ancestry dependencies pass; activate the reviewed isolated conductor product boundary for issue #5499 execution.",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/crates/adl-workcell-conductor\"],\"operation\":\"amend_claim_scope\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Activate issue #5499 after the live merge and ancestry dependency gate passed for #5340, #5341, #5342, and #5349.",
+      "operation": "{\"add_protected_paths\":[\"adl-v2/crates/adl-workcell-conductor\"],\"expected_owner\":\"codex:issue-5499-preparation\",\"expected_purpose\":\"Prepare and review WP-10A conductor contracts only; product implementation remains blocked on merged typed closeout for #5349 and direct dependencies\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review WP-10A conductor contracts only; product implementation remains blocked on merged typed closeout for #5349 and direct dependencies\",\"purpose\":\"Implement, validate, review, publish, merge, and close issue #5499 within the isolated pure conductor crate boundary.\"}"
     }
   ]
 }
