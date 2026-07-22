@@ -1,0 +1,122 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5526,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "aa79cce1287aca59dd56189550419dcb23f760e748a577a219b017f0e3012566",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "695ea56ccbcd8571dd19e78e94474ac34084852f9060c62c83d67e822e620a52",
+  "claim": {
+    "id": "claim-5526-v0918-provider-expansion-preparation",
+    "owner": "codex:issue-5526-preparation",
+    "generation": 1,
+    "acquired_unix_seconds": 1784755008,
+    "expires_unix_seconds": 1785359808,
+    "heartbeat_unix_seconds": 1784755008,
+    "branch": "codex/5526-v0918-provider-expansion",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/5526",
+      ".csdlc/locks/5526.lock",
+      ".csdlc/prepared/issues/5526",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_adapter_cli.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/provider",
+      "adl/src/model_identity.rs",
+      "adl/src/cli/provider_cmd.rs",
+      "adl/tests/provider_tests.rs",
+      "adl/tests/provider_tests",
+      "adl/tests/mock_provider_tests.rs",
+      "adl/tests/local_ollama_provider_tests.rs",
+      "adl/tests/remote_ollama_provider_tests.rs"
+    ],
+    "purpose": "Prepare issue #5526 provider/model expansion for later execution without product implementation"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5526/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5526/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:issue-5526",
+      "revision": "f45c0aac551edc5b0e065f9d923f3425bc74ef7368bb9b0015cc7c1bd765a30b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2ff79177d19aea4e315c8b32ef3033d29eee8dd9e5c75a6088c3c3bb9214946a",
+      "rendered_digest": "1213092da816153169db6e4d2aff6b6d46221fe900ff59a7574a063ad482ce4b",
+      "ast_digest": "7519a32389dc5c87c915d7d0ff85ce7bd1d486bfa9219391081934a11a831971"
+    },
+    "stp": {
+      "values_digest": "a0b7e8e25752993e1d3cf3b7ee29205d57647b753b07f3e1e4e34e61c3198f2a",
+      "rendered_digest": "86472053f63307ddac09bdac4bdaaa4d2f4feee9f5d8eabad2e39bd4124c10a7",
+      "ast_digest": "a2bf0fbb42c293aac03e58ac1c66e4c2aa869f904bb955447f9aaf884fd87cfb"
+    },
+    "spp": {
+      "values_digest": "941216e7e300a9a817a3400f79786b77e9e0b2f6a7d698d89d3d184162dbfaeb",
+      "rendered_digest": "176f8e29bf09fe3f53485305e07b8004e034410a43dbf9478889e975c4c8a873",
+      "ast_digest": "c0b763057f0f79ef17f86469bd795047ebe8f7e385c2d8e7d95c23cccbe4227b"
+    },
+    "vpp": {
+      "values_digest": "b504b0e3981c060315cec79336e6d55c1ad9fbfd0d6351d6e4d9c87b470b498b",
+      "rendered_digest": "c75a2a3735faf3a04baa93afab9540a742db00055e57b62ff08e38c6038b3667",
+      "ast_digest": "4237a1ccf4f678cf64705be40b5b98bad86b7da1517a9a089a96793456e4d759"
+    },
+    "srp": {
+      "values_digest": "84d9be176ba4f1b03e8bd5739d70268f5cf35084f5970eb98cfdb8808f4add6a",
+      "rendered_digest": "d578c896f1d97989099cdde0eb117d225e93a0195d08e8a81064730b8f246f9d",
+      "ast_digest": "37a7c5b39e3c7a97a84cd099b3145db6aeae44b7503a5cd106db6e1cf2fc8898"
+    },
+    "sor": {
+      "values_digest": "8fd5256fecea8b7e20f0beb54042dd2fe53ca580fdf6a0de39c09ad5b8ef138f",
+      "rendered_digest": "fc79ef2c4c1375481eaa2d87f95721278913c9b023b3c238a63e1f1b97e238ff",
+      "ast_digest": "d79dad30691aa2bc5c87c8762f6e1661765d42bc74c6181968215d1cad308002"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-5526-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-5526-preparation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-5526-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-5526-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "operator:issue-5526",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

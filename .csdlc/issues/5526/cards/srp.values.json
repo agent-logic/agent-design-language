@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5526,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-09][provider] Add Kimi and current agentic model providers",
+    "slug": "v0918-provider-expansion",
+    "version": "v0.91.8",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review only #5526 provider/model expansion implementation paths, deterministic fixtures, issue-local records, validation evidence, and authority boundaries. Exclude AWS, Bedrock, Runtime v3 parity implementation outside provider consumption, WP-10A product implementation, and lifecycle closeout authority.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are vendor identities distinct even when wire protocol is shared?",
+        "Can any secret, provider credential, or unredacted provider output enter retained evidence?",
+        "Can an alias silently change execution identity after a run is recorded?",
+        "Is discovery bounded and snapshot-backed rather than required for replay?",
+        "Are direct-provider proofs separated from OpenRouter and local-model proofs?",
+        "Does scheduler/model-role selection remain advisory rather than workflow authority?",
+        "Is execution gated by live WP-09 merge plus ancestry rather than receipts?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
