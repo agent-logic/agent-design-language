@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Refreshed #5498 preparation so executable dependency readiness uses live merge plus ancestry truth; product execution, review, publication, integration, and closeout remain not started.
+Implemented the bounded async workcell task adapter and resolved all review findings with task-level serialization, terminal cancel replay, sanitized bounded evidence references, and terminal observation caching.
 
 ## Artifacts
 
@@ -29,6 +29,9 @@ Refreshed #5498 preparation so executable dependency readiness uses live merge p
 - .csdlc/prepared/issues/5498/check-dependencies.rb
 - .csdlc/prepared/issues/5498/validate-preparation.rb
 - .csdlc/prepared/issues/5498/validate-preparation.json
+- adl-v2/crates/adl-workcell-task-adapter
+- adl-v2/Cargo.toml
+- adl-v2/Cargo.lock
 
 ## Execution
 
@@ -40,6 +43,10 @@ Refreshed #5498 preparation so executable dependency readiness uses live merge p
 - Refreshed VPP dependency and future product lanes through typed C-SDLC v2 to require live #5499/#5349 merge ancestry and adjacent disjoint path confirmation before implementation
 - Updated the preparation dependency gate, design, diagram, and validation manifest to evaluate live remote ancestry against origin/main
 - Preserved the preparation-only claim with no product or Runtime v2 paths and made no PR, publication, merge, or closeout attempt
+- Added typed create, attach, message, handoff, inspect, cancel, and escalate request and receipt contracts
+- Bound dispatch to verified live authority, normalized claim-contained paths, context digests, deadlines, and idempotency keys
+- Serialized operations per task so cancellation and terminal observation cannot race later messages or handoffs
+- Replayed repeated terminal cancellation without transport redispatch and rejected unsafe evidence references
 
 ## Validation
 

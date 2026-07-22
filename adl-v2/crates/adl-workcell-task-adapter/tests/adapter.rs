@@ -142,16 +142,34 @@ fn harness_with_evidence(
     Arc<Verifier>,
     TaskAdapter<Transport, Verifier>,
 ) {
-    let transport = Arc::new(Transport {
-        execute_calls: AtomicUsize::new(0),
-        observe_calls: AtomicUsize::new(0),
+    harness_with_receipt(
+        allow,
         delay_ms,
-        receipt: TransportReceipt {
+        status,
+        TransportReceipt {
             task: Some(task()),
             outcome: TaskOutcome::Created,
             transport_timestamp_ms: 42,
             evidence_refs,
         },
+    )
+}
+
+fn harness_with_receipt(
+    allow: bool,
+    delay_ms: u64,
+    status: TaskStatus,
+    receipt: TransportReceipt,
+) -> (
+    Arc<Transport>,
+    Arc<Verifier>,
+    TaskAdapter<Transport, Verifier>,
+) {
+    let transport = Arc::new(Transport {
+        execute_calls: AtomicUsize::new(0),
+        observe_calls: AtomicUsize::new(0),
+        delay_ms,
+        receipt,
         observation: TaskObservation {
             task: task(),
             status,
@@ -332,6 +350,40 @@ async fn terminal_observation_blocks_later_message_and_handoff() {
     handoff.idempotency_key = "operation-3".into();
     assert_eq!(
         adapter.execute(handoff).await.unwrap_err().code,
+        TaskTransportErrorCode::TerminalTask
+    );
+    assert_eq!(transport.execute_calls.load(Ordering::SeqCst), 1);
+}
+
+#[tokio::test]
+async fn observed_terminal_task_is_cached_without_duplicate_top_level_task() {
+    let observation = TaskObservation {
+        task: task(),
+        status: TaskStatus::Completed,
+        sequence: 8,
+        evidence_refs: vec!["proof:observed".into()],
+    };
+    let (transport, _, adapter) = harness_with_receipt(
+        true,
+        0,
+        TaskStatus::Running,
+        TransportReceipt {
+            task: None,
+            outcome: TaskOutcome::Observed(observation),
+            transport_timestamp_ms: 43,
+            evidence_refs: vec!["proof:observed".into()],
+        },
+    );
+    let receipt = adapter
+        .observe(request(TaskOperation::Inspect { task: task() }))
+        .await
+        .unwrap();
+    assert_eq!(receipt.task, Some(task()));
+
+    let mut message = request(TaskOperation::Message { task: task() });
+    message.idempotency_key = "operation-2".into();
+    assert_eq!(
+        adapter.execute(message).await.unwrap_err().code,
         TaskTransportErrorCode::TerminalTask
     );
     assert_eq!(transport.execute_calls.load(Ordering::SeqCst), 1);

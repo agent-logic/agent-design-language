@@ -161,6 +161,11 @@ where
             transport.task = Some(observation.task.clone());
             transport.outcome = cancel_outcome(&observation.status);
         }
+        if transport.task.is_none() {
+            if let TaskOutcome::Observed(observation) = &transport.outcome {
+                transport.task = Some(observation.task.clone());
+            }
+        }
 
         let receipt = TaskReceipt {
             contract: TASK_ADAPTER_CONTRACT_VERSION.into(),
