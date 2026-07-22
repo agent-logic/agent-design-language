@@ -3,13 +3,13 @@
   "issue": 5615,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "36d04edef06074ba46ddc14aab9493fc35023e2395b1fac82d2c714b0cde44e0",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "022ab4dc19b44a280e38c481484c27d3bd176b8e288d1f26c8fa5562fcf65cbd",
+  "phase": "published",
+  "generation": 19,
+  "digest": "a27a1596b831e66eb9b41d510b2e966b70a6e90f8d5205698e964b20084e9d0e",
   "claim": {
     "id": "claim-5615-csdlc-ci-fastwork-routing",
     "owner": "codex:5615-owner",
-    "generation": 18,
+    "generation": 19,
     "acquired_unix_seconds": 1784669026,
     "expires_unix_seconds": 1784755426,
     "heartbeat_unix_seconds": 1784669026,
@@ -53,7 +53,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5615,
+    "pull_request": 5622,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5622",
+    "base": "main",
+    "head": "codex/5615-csdlc-ci-fastwork-routing",
+    "revision": "git-blake3:da307af85f38284d8b3f4ace9104734645558e53:a7521f24f0aee64481be66bb56d243f3bb3f7c70db05e1fe563776641c5e7dc9",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -67,34 +77,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dd705613e4243b825dffe07a7054db35e5b44b4d90ddce4d63446c899228c2c2",
+      "values_digest": "b2ad2f1d27e4186d11652e0b30a02ee0fa7bdbccd5dd6946392f821d980a317a",
       "rendered_digest": "be640d024da16ba461e342ca879bd18ccb5a94d3e2e30929a32e8cd5c5f934e8",
       "ast_digest": "bc5391a707067b1bbc3d2de5e4c96dc08f93b1432936430e49ca9d1b800dff97"
     },
     "stp": {
-      "values_digest": "8bd148ddde51cfd8e31fe074dd51db855c82bfcbfae5fca9668e4a65c9f45cb8",
+      "values_digest": "cab91af539215fd1aff1228393e5ae652dc58fe13bf159de3b1acb641e4550cc",
       "rendered_digest": "f7a191e9d029748eb3099859f1538f9aad0d923ec8b93be1fe014c1e81608ca8",
       "ast_digest": "b64629174c1fb8dd2121ab2ca4b014eaca6d4249bd88572a9bada856f3b1fe15"
     },
     "spp": {
-      "values_digest": "39ac2423e860f9a82e5d47971174ef42fc6928ac8c6e970a5a2266b79344a115",
+      "values_digest": "548392df641fadb68a8f2f1228127b75b61f807694fca40a268a3246ffc54d68",
       "rendered_digest": "973dd60787d6042b0950e1a9a8c8fc276f57b00b6dfaca30337d1111749b7fce",
       "ast_digest": "396c5db84e434ad1a9493920bf66c41387cb028376e4d47a8a7c7115f5721fc9"
     },
     "vpp": {
-      "values_digest": "2cb17c24adc3a2fb6f9a10bddb74aa15395ff48208de431b3a4766e03bdb23ce",
+      "values_digest": "0b5b211a86cacbc00bb670f1884b334911b1cb309de3137b0b664c8c3c05b755",
       "rendered_digest": "1a0def1323d9b5974aa111585d67017f3dd9ae217d48107f0f33f6ba0ac54929",
       "ast_digest": "0924498c22b4cdffb38c7c2b3a69f979a971b4f52b1111cbde5322bbc0237bc7"
     },
     "srp": {
-      "values_digest": "9a46f8367d1905e9c28ec80bb34dd20f15ac977d446360e5580556a54f5712c3",
+      "values_digest": "0bd5edbe4f7f2046ba872df5c25863b474a5e8ee8cbc45343172510c07dac79d",
       "rendered_digest": "ac75da82076ea873b4d1b08d11dc8b89c4649b1ccefd948d21ec6d7a673f46da",
       "ast_digest": "eba3f7bb9cff55f78554c6d2c4b60bc7189595ac767ef99b6ec3b866daf87e69"
     },
     "sor": {
-      "values_digest": "d5aee51b95c5e8b5aa2c2d757751ce1383a8ad54d8b3e06d2f90283cc326b6c4",
-      "rendered_digest": "874c5f08fb9d686c6d0cbf366802c1eccc4fb3f985114367e355a295188b035b",
-      "ast_digest": "c1a98697e552cd950019c2a1ff362315ffd9086c7bd55541cae0a25cb0c47de7"
+      "values_digest": "fedce61d22a30f2bb979974b637f9110459350df9310656a3ed9d10831744afe",
+      "rendered_digest": "72a643ec019d0d4aeb9386ddd02b1af2c3835d58b2c2853c96534d8b48903261",
+      "ast_digest": "310bf4b4d47bc5cb59e41a27e2a7682722e4d3b50a77ab31846c4cd9b28ff2c2"
     }
   },
   "transitions": [
@@ -146,6 +156,13 @@
       "to": "reviewed",
       "actor": "codex:5615-owner",
       "reason": "Exact workflow-expression repair review passed with zero findings."
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5615-owner",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -330,6 +347,13 @@
       "actor": "codex:5615-owner",
       "reason": "Exact workflow-expression repair review passed with zero findings.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:5615-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

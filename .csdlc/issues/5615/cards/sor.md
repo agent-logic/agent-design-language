@@ -115,11 +115,11 @@ Initialize the standalone C-SDLC v2 external Cargo root inside a run step using 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
