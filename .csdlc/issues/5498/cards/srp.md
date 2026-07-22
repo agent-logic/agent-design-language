@@ -37,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The adapter intentionally returns an indeterminate cached result after transport timeout because transport completion cannot be inferred safely.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:2613fc998ee928a32befc2df2f11481c4949c838:5995b6a72fcba51e064870e592b9a8f72f4b0a917e6775de1904ffaf00f4682e")
 
-Reviewer: None
+Reviewer: Some("subagent:019f8c25-5bb5-7db2-965d-f9ccaa25f006")
 
-Result: pre_review
+Result: pass
