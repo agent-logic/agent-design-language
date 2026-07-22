@@ -1,0 +1,105 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 4759,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "e14ee014a589057a3380656a449efc0a5ced9da2586edaf061a224c68f935c76",
+  "phase": "bound",
+  "generation": 0,
+  "digest": "30288df2ae84ee231850107c1074bb1f5b8acca7db34e01ee083e67d3cf7b341",
+  "claim": {
+    "id": "claim-4759-v0918-preparation",
+    "owner": "codex:issue-4759-preparation",
+    "generation": 0,
+    "acquired_unix_seconds": 1784755996,
+    "expires_unix_seconds": 1785360796,
+    "heartbeat_unix_seconds": 1784755996,
+    "branch": "codex/4759-v0918-preparation",
+    "worktree": ".",
+    "protected_paths": [
+      ".csdlc/issues/4759",
+      ".csdlc/locks/4759.lock",
+      ".csdlc/prepared/issues/4759",
+      ".csdlc/evidence/4759",
+      "docs/milestones/v0.91.8/handoff/issue-4759-activation-map.md"
+    ],
+    "purpose": "Prepare issue #4759 activation map for later execution without implementation"
+  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/4759/design.md",
+  "diagram_path": ".csdlc/prepared/issues/4759/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:wp14-preparation",
+      "revision": "0301800d9f120cd84ac46ae920c0e1102779abf79d4869117b0ab0daaad8ffca"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b4dcebbda22b67ed4800ae601c814be082708c7d85615c3f300f33265a811621",
+      "rendered_digest": "60eeac938bc428d89bfa7e993d9abe51d0c085a8a538a8ce4df9fc50954f1485",
+      "ast_digest": "1a787d43896190266bd6824e1e0e64ec7a8c82a5dcd3ddf9c9379f29b4c150e0"
+    },
+    "stp": {
+      "values_digest": "08bea4cc90e8e321cfc11b6b12e6ed27cf875c09d9b43f1c474de10a5b58e6aa",
+      "rendered_digest": "da5e3807a6a4cc215750809d515d84c221dc0ed92b4ea66c83295f7144d6db0d",
+      "ast_digest": "2612d343752df16705146f16b96a5320ea18b97c055cf9e6c6a4e6c8fea6c1f3"
+    },
+    "spp": {
+      "values_digest": "7be507d4eb326397837e90398a1e81054f3d096a1918144aba87f240911f5c18",
+      "rendered_digest": "913107f14f75594e3666484489bc9963b434655d953b15c7d698270feb6d90e1",
+      "ast_digest": "afd400921a2cf3fab7325622a7b9c0b64e1134c8b2fdc3baa9ae04749cd947c8"
+    },
+    "vpp": {
+      "values_digest": "d079362126a71464d0f5317a14829e5457e2c13bb11669a3bbfa3723870a52f5",
+      "rendered_digest": "a0b8e23cc80e00272df8d33e386d9c5d44aab382c5fac2e888bd956ceace4517",
+      "ast_digest": "e793a3597ceda08b341245921fe025da6561ef380feba785a40844eb6446116b"
+    },
+    "srp": {
+      "values_digest": "0d6a2ce588a9d9fe42c6422ff8cf1cd4b83bae9d0c382210850b935f4bb71c14",
+      "rendered_digest": "9325801b2531163b31e44f27f7b5ede235b4760d49a526a3ced4d30b1c8107a5",
+      "ast_digest": "227d268461ecf86ead05f29186c1644d43510ef0492b16d318ba47dce92a66de"
+    },
+    "sor": {
+      "values_digest": "e3c4240899121388000778e94f72d413c5fdf830e17349d4ca2519c9c35b5649",
+      "rendered_digest": "3e3e6bcf4daef58163f6796b199b983516c907be841cc110030363785340d4d5",
+      "ast_digest": "a3d284d4a603b12fdd45e9bb0c60a00f34a52d193a7f64330a667d1300edf479"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-4759-preparation",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:issue-4759-preparation",
+      "reason": "verified Git worktree binding"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-4759-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:issue-4759-preparation",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    }
+  ]
+}
