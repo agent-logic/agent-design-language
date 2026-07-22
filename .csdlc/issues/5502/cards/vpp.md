@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5502/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove six-card, design, diagram, dependency, scope, COTS, budget, PVF, and no-product-change preparation truth",
+    "proof_role": "Prove six-card, design, diagram, live dependency rule, scope, COTS, budget, PVF, and no-product-change preparation truth",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
@@ -43,8 +43,8 @@ Diagram: .csdlc/prepared/issues/5502/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "dependency-terminal-gate",
-    "proof_role": "Fail closed until #5499 and #5498 have merged typed closeout receipts, released claims, and ancestry",
+    "lane": "dependency-live-merge-ancestry",
+    "proof_role": "Fail closed until #5499 and #5498 have live GitHub merged revisions that are ancestors of the #5502 execution base; typed closeout, receipts, and claim release are audit-only",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
@@ -58,7 +58,7 @@ Diagram: .csdlc/prepared/issues/5502/diagram.mmd
       ".csdlc/prepared/issues/5502/check-dependencies.rb"
     ],
     "parallel_group": "execution-gate",
-    "defer_reason": "Run only when implementation is requested; it must fail closed until both dependencies are terminal"
+    "defer_reason": "Run when implementation is requested; it must fail closed until both dependencies are live merged and ancestral"
   },
   {
     "lane": "convergence-contract",
@@ -80,7 +80,7 @@ Diagram: .csdlc/prepared/issues/5502/diagram.mmd
       "convergence-contract"
     ],
     "parallel_group": "implementation",
-    "defer_reason": "Mandatory after terminal dependencies and implementation; not selected during preparation"
+    "defer_reason": "Mandatory after live merged ancestral dependencies and implementation; not selected during preparation"
   },
   {
     "lane": "post-merge-exact",

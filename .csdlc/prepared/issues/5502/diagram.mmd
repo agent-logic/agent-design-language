@@ -13,8 +13,9 @@ flowchart TD
     D --> L["#5501 live distributed workcell proof"]
     L --> U["#5497 umbrella convergence"]
 
-    D5499["#5499 merged + typed closed_out"] --> Gate["Execution dependency gate"]
-    D5498["#5498 merged + typed closed_out"] --> Gate
+    D5499["#5499 live merged + ancestral"] --> Gate["Execution dependency gate"]
+    D5498["#5498 live merged + ancestral"] --> Gate
+    Audit["typed closeout + receipts audit-only"] -. observe .-> Gate
     Gate --> G
 
     G -. "never owns" .-> N["Task creation / GitHub mutation / review / merge / closeout"]

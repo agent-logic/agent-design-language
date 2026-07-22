@@ -3,9 +3,10 @@
 ## Status
 
 Preparation only. Product implementation is forbidden until both #5499 and
-#5498 are GitHub merged, typed `closed_out`, claim-free, backed by retained
-merged receipts, and their merge revisions are ancestors of the execution
-base.
+#5498 have live GitHub merged revisions and those revisions are ancestors of
+the #5502 execution base. Typed `closed_out`, retained receipts, and claim
+release are audit-only signals; they must not block readiness once live
+merge and ancestry are true.
 
 ## Purpose
 
@@ -93,8 +94,9 @@ required.
 
 1. Preparation proof checks all six cards, design/diagram, exact dependencies,
    preparation-only paths, COTS, budgets, PVF, and no-product-change truth.
-2. The dependency gate proves #5499 and #5498 terminal receipts, claim release,
-   merged disposition, and ancestry.
+2. The dependency gate proves #5499 and #5498 live merged revisions and
+   ancestry. Typed closeout receipts and claim release are reported only as
+   audit observations.
 3. Future property/fixture tests cover stale or forged outputs, path overlap,
    partial success, changed assumptions, deterministic order and ids, replan
    convergence, and serialized review/closeout authority.
@@ -112,8 +114,8 @@ required.
 
 ## Stop Conditions
 
-- #5499 or #5498 lacks merged typed closeout, receipt, claim release, or
-  ancestry.
+- #5499 or #5498 lacks a live GitHub merged revision ancestral to the #5502
+  execution base.
 - A future product path overlaps another active typed claim.
 - The design requires hidden mutation, a second state store, scheduler, or
   lifecycle authority.

@@ -5,7 +5,7 @@
       {
         "id": "preparation-contract",
         "proof_role": "six_card_design_scope_dependency_and_budget_integrity",
-        "purpose": "Verify all six cards, approved design/diagram, exact #5499/#5498 gates, bounded authority, protected paths, COTS, budgets, PVF, and no-product-change truth.",
+        "purpose": "Verify all six cards, design/diagram, exact #5499/#5498 live merge and ancestry gates, bounded authority, protected paths, COTS, budgets, PVF, and no-product-change truth.",
         "determinism": "deterministic",
         "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 2500},
         "credentials": [],

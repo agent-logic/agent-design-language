@@ -12,28 +12,28 @@ Status: ready
 
 ## Summary
 
-Render and validate six cards; freeze the pure convergence boundary, exact #5499/#5498 terminal gates, preparation-only ownership, COTS, budgets, PVF, deterministic security invariants, and future validation; obtain bounded review and fix findings; commit and push preparation only.
+Render and validate six cards; freeze the pure convergence boundary, exact #5499/#5498 live merge plus ancestry gates, preparation-only ownership, COTS, budgets, PVF, deterministic security invariants, and future validation; commit and push preparation only without adding preparation review churn.
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Complete six cards, design, diagram, dependency and preparation validators, exact protected paths, COTS, budgets, PVF, bounded review/fixes, commit, and push without product work",
+    "action": "Complete six cards, design, diagram, dependency and preparation validators, exact protected paths, COTS, budgets, PVF, focused preparation validation, commit, and push without product work or preparation review churn",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
       "AC-5"
     ],
-    "status": "in_progress"
+    "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Wait fail-closed for #5499 and #5498 merged typed closeout, claim release, retained receipts, and ancestry",
+    "action": "Wait fail-closed for #5499 and #5498 live GitHub merged revisions to become ancestors of the #5502 execution base; keep typed closeout, receipts, and claim release audit-only",
     "acceptance_ids": [
       "AC-1",
       "AC-2"
@@ -54,7 +54,7 @@ Revision 1
   },
   {
     "id": "S4",
-    "action": "Run full proof, exact-revision review, typed publication, serialized merge, post-merge validation, closeout, and #5501 handoff",
+    "action": "Run full proof, exact-revision pre-PR review, typed publication, serialized merge, post-merge validation, closeout, and #5501 handoff",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -97,17 +97,17 @@ Revision 1
 
 .csdlc/prepared/issues/5502/design.md
 
-Digest: 972c110f05121be3929448f1ae979e262118fb7dd8c3388a502d64dba817d737
+Digest: ffbac550ad54511cc08e7ed520ad15ae3e9f96e607656a7621163e364698ae09
 
 ## Diagram
 
 .csdlc/prepared/issues/5502/diagram.mmd
 
-Digest: 4a2f2dabcf64a6dfaf6ef6bc3f0905fb43e1344c0adba5dc1e1abb16301114fe
+Digest: c325ba1c7d2cb4f6230cd3b3da135d46799189b3c2d6ca48021dea774d8cf985
 
 ## Stop Conditions
 
-- #5499 or #5498 lacks merged typed closeout, receipt, claim release, or ancestry
+- #5499 or #5498 lacks a live GitHub merged revision ancestral to the #5502 execution base
 - an intended product path overlaps an active typed claim
 - output identity, authority, or ordering cannot be proven deterministically
 - implementation requires hidden mutation, a state store, scheduler, network, credentials, AWS, or Runtime v2

@@ -18,6 +18,6 @@
       ".csdlc/prepared/issues/5502",
       ".csdlc/evidence/5502"
     ],
-    "purpose": "Prepare and review #5502 output convergence and deterministic replanning contracts only; no product implementation until #5499 and #5498 are merged, typed closed_out, receipt-backed, claim-free, and ancestral"
+    "purpose": "Prepare #5502 output convergence and deterministic replanning contracts only; no product implementation until #5499 and #5498 are live GitHub merged and ancestral. Typed closeout, receipts, and claim release are audit-only readiness signals."
   }
 }

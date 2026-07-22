@@ -42,6 +42,6 @@ After #5499 and #5498 are terminal, exact assignment-bound outputs can be conver
 - Use installed typed C-SDLC v2 binaries and current-registry semantic card operations only
 - Keep root main untouched; all tracked #5502 work stays in /Volumes/FastWork/adl-wp-5502
 - Preparation only: no product implementation, PR, publication, merge, Runtime v2, AWS, raw gh, credentials, provider calls, or network execution
-- Do not implement until #5499 and #5498 are merged, typed closed_out, receipt-backed, claim-free, and ancestral
+- Do not implement until #5499 and #5498 are live GitHub merged and their merge revisions are ancestors of the #5502 execution base; typed closeout, receipts, and claim release are audit-only signals and MUST NOT block execution readiness
 - Use /Volumes/FastWork for generated validation output
-- Run bounded preparation review, fix every actionable finding, commit and push preparation only
+- Do not add preparation review churn; the required review gate is immediately before PR publication

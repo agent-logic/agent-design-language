@@ -8,5 +8,5 @@ allowed = %w[convergence-contract property-matrix budgets post-merge-exact]
 abort("unsupported lane: #{lane}") unless allowed.include?(lane)
 
 warn("#{lane} is execution-gated and has no implementation in the preparation-only packet")
-puts JSON.pretty_generate(status: "blocked", lane: lane, reason: "#5499 and #5498 must be merged and typed closed_out")
+puts JSON.pretty_generate(status: "blocked", lane: lane, reason: "#5499 and #5498 must be live merged and ancestral before implementation")
 exit 2

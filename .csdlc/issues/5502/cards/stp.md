@@ -17,11 +17,11 @@ Prepare all six cards, design, diagram, exact gates, COTS, budgets, PVF, and rev
 ## Deliverables
 
 - all six issue-specific current-registry typed cards
-- reviewed convergence/replanning design and Mermaid diagram
+- convergence/replanning design and Mermaid diagram
 - exact preparation-only protected paths
-- executable dependency, preparation, and future validation contracts
+- executable live merge/ancestry dependency, preparation, and future validation contracts
 - COTS, LoC/module/test/time budgets and PVF classification
-- bounded preparation review with all findings fixed
+- preparation evidence without adding a second review before the required pre-PR review gate
 
 ## Acceptance
 
@@ -34,8 +34,9 @@ Prepare all six cards, design, diagram, exact gates, COTS, budgets, PVF, and rev
 ## Dependencies
 
 - parent WP-10A umbrella #5497
-- issue-graph-to-live-task conductor #5499 merged and typed closed_out
-- bounded Codex task/context adapter #5498 merged and typed closed_out
+- issue-graph-to-live-task conductor #5499 live GitHub merged and merge revision ancestral to #5502 execution base
+- bounded Codex task/context adapter #5498 live GitHub merged and merge revision ancestral to #5502 execution base
+- typed closeout receipts and claim release for #5499 and #5498 remain audit-only signals and MUST NOT block execution readiness
 - live proof #5501 consumes the completed #5502 decision contract
 
 ## Inputs
@@ -47,7 +48,7 @@ Prepare all six cards, design, diagram, exact gates, COTS, budgets, PVF, and rev
 - docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md
 - docs/milestones/v0.91.8/WBS_v0.91.8.md
 - docs/milestones/v0.91.8/WP_EXECUTION_READINESS_v0.91.8.md
-- future terminal #5499 and #5498 receipts and public contracts
+- future #5499 and #5498 public contracts plus audit-only closeout receipts when present
 
 ## Non Goals
 

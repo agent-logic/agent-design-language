@@ -26,13 +26,13 @@ cards.each do |card|
 end
 
 text = cards.map { |card| BASE.join("cards/#{card}.md").read }.join("\n")
-%w[#5499 #5498 closed_out receipt ancestry stale forged overlap replan COTS PVF 2,500 600].each do |term|
+%w[#5499 #5498 live merged ancestry audit-only stale forged overlap replan COTS PVF 2,500 600].each do |term|
   require_truth(text.downcase.include?(term.downcase), "cards omit #{term}")
 end
 
 design = PREP.join("design.md").read
 diagram = PREP.join("diagram.mmd").read
-%w[#5499 #5498 closed_out convergence replan serde serde_json blake3 thiserror serialized].each do |term|
+%w[#5499 #5498 live merged audit-only convergence replan serde serde_json blake3 thiserror serialized].each do |term|
   require_truth(design.downcase.include?(term.downcase), "design omits #{term}")
 end
 require_truth(diagram.include?("flowchart TD"), "diagram is not a Mermaid flowchart")
