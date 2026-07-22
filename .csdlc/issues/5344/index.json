@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "66ca07a93211819a28e37fd038d53818e7eca16b781de972f9f43a2aa696c1b1",
   "phase": "bound",
-  "generation": 1,
-  "digest": "f7c88d0cc84e3ee7a8c9bf76c265336850061dfa02345a1a1ba9a0b61d82bdb6",
+  "generation": 2,
+  "digest": "58319f575ad388fa481046c195d54f5807f1b743e72bc16e83a593b6d5f382c8",
   "claim": {
     "id": "claim-5344-v0918-wp12-soak-rollback-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 1,
+    "generation": 2,
     "acquired_unix_seconds": 1784660034,
     "expires_unix_seconds": 1785264834,
     "heartbeat_unix_seconds": 1784660034,
@@ -37,37 +37,37 @@
   "design_review": {
     "approved": {
       "reviewer": "subagent:019f861f-f629-7e71-8596-060ac0f87665",
-      "revision": "04927a9d137aa6d1efe880cf75488e52a151df243ad35c6963070c07e1a6ef76"
+      "revision": "ba41275d1864a94d21f41ff3a4d28f1c4880a26c5d0b314ff92adbbf4ae890e8"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "73d3add233b23025bda22545dbcbc1a59c97d496d361d0615a726fe60475f1d6",
+      "values_digest": "c19c4ac37ce8e3468c783cc5ee274a999698249e44904313d00c2317b1f9e2f1",
       "rendered_digest": "eb6bc52716006833c336c99f9e71a6c423c1f5eba8efe5356e220b90141275a4",
       "ast_digest": "40cf8b0f39973d5ce4a1a399de4e978d8ca8645a97007c7cc5318dd17b752abf"
     },
     "stp": {
-      "values_digest": "e245f84199c29160e644aeb9c85a46e8896515728d263639853fe252c5cd97a1",
+      "values_digest": "52ff727d9494c641f6fa4d3e1a1a321de130e444807b2133ceb59265b112fc41",
       "rendered_digest": "ff4da6104a31c44392780e4f376b676dc6417fe19ec73dffd66b42a7f138b791",
       "ast_digest": "7e55fbe8b49c71c24d80f98ed73bfe1970fbe30a19325a9a93bf55d984a1ad40"
     },
     "spp": {
-      "values_digest": "fe6f0ffa5fda7fce785b23ce8e8756a5291925b3bbb2bbcf26d3dc0e47c18235",
-      "rendered_digest": "2a5b9bc127df88c4fdc9312a0c1d7a29eed6b8c084ded9eedfcbf1e011f3b05e",
-      "ast_digest": "c9014541be77b6f35597405e95df8c98b695564819dae23b396015dc67479e62"
+      "values_digest": "5bec26a35c3e31ae19b6bdbbe5568b80f1a9ad4f27cb935acd0992629be9fe3c",
+      "rendered_digest": "c9a3886083b149ca4d1fa1931feae21720aed925d66efb6515d3e45aaffdd0d4",
+      "ast_digest": "47f59cad33b18bd737c1349899ecb5a362e939b6eba2da7e46902137203c67d9"
     },
     "vpp": {
-      "values_digest": "299d8a8d4224e01aae0a7baadb22bb5d6c8d59c45e44adbf6c4f8b2ada4d670d",
+      "values_digest": "b02480b25a9a328dfdda81c23b559e195750fc57cb966d2aa95a6763188bc0ff",
       "rendered_digest": "76c784a0757fe2bbd06e4a5a6798a515e0d07c81eaa4805fb3df37648cd38309",
       "ast_digest": "fd1fa56f93714151f5b61fff0b90acbf6eb18017171e9f2e254636997cbaca01"
     },
     "srp": {
-      "values_digest": "bdd756c7d281b939acb6868264fb9049202b546b4718f86711e181287531c9a6",
+      "values_digest": "394e243ee89bad58260b2c776ea0fbb379afc386b2421429aba81cd940bf9e0d",
       "rendered_digest": "9f92a47cf8c396424894eb687f685a7b05e9826822323ccd0e72e298cfd238bc",
       "ast_digest": "afe0ee04ae0ebbf9ae96de2e4d490233804e754faedd38bdc4b4bff6bb393522"
     },
     "sor": {
-      "values_digest": "7901ddeb999f7c85cb2fd7858fee0f39ac32caebcf129a4eef02dd0e124cf8d2",
+      "values_digest": "2a4a664376760bb1ae2b4ffc60d517f44738f561499f14fdeaec8ec9d637e8c5",
       "rendered_digest": "b988f6b885b4030524cd50c9207db8c4ec3352b5b54a3389e385aad84385aaf1",
       "ast_digest": "0f1489fbe677a573c797292e700f987461f4de1e467add1682b6a066cc48d387"
     }
@@ -116,6 +116,13 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Refresh execution dependency gate wording so live merge plus ancestry is blocking and receipts/typed closeout are audit observations.",
       "operation": "{\"add_protected_paths\":[\".csdlc/issues/5344\"],\"expected_owner\":\"codex:019f4b3e-6c61-7653-957b-7a2a6042a80d\",\"expected_purpose\":\"Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 are merged, typed closed_out, receipt-backed, and ancestral\",\"operation\":\"transition_active_claim\",\"previous_purpose\":\"Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 are merged, typed closed_out, receipt-backed, and ancestral\",\"purpose\":\"Prepare and review WP-12 soak and rollback contracts only; execution remains prohibited until #5350 and #5361 each have a live merged landing commit ancestral to the exact execution revision; receipts and typed closeout are audit observations only\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "subagent:019f861f-f629-7e71-8596-060ac0f87665",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }
