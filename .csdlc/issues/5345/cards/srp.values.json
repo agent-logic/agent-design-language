@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-10] Implement thin ADL CLI and authoritative selector",
     "slug": "v0918-wp10-thin-adl-cli-authoritative-selector",
     "version": "v0.91.8",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-v2/crates/adl-cli\nadl-v2/tools/install-adl-v2.sh\n.csdlc/prepared/issues/5345",
-      "review_revision": "git-blake3:a6cd915b7ff71c2ba158833f0fc52a24217c5c47:c958da011d58ab0e69b83163d1bf02d26a1a944d59b14dd6cbb6636a5263e401",
+      "review_revision": "git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8",
       "reviewer": "subagent:019f8611-2d02-7492-9c03-7af0fcf6662e",
       "review_prompts": [
         "Does every command remain a typed adapter over exactly one reviewed WP-04 through WP-09 boundary without duplicate domain logic?",
@@ -30,8 +30,8 @@
           "summary": "Sign and verify remain digest placeholders instead of WP-07 adapters.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8",
           "route": null
         },
         {
@@ -40,8 +40,8 @@
           "summary": "Installer and selector integration/concurrency proof remains limited.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8",
           "route": null
         },
         {
@@ -55,10 +55,8 @@
           "route": "operator-directed policy"
         }
       ],
-      "residual_risk": [
-        "Sign/verify adapter wiring and expanded selector integration proof remain before publication."
-      ],
-      "review_result": "changes_required"
+      "residual_risk": [],
+      "review_result": "pass"
     }
   }
 }

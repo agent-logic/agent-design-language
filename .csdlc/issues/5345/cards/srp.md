@@ -33,8 +33,8 @@ adl-v2/tools/install-adl-v2.sh
     "summary": "Sign and verify remain digest placeholders instead of WP-07 adapters.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8",
     "route": null
   },
   {
@@ -43,8 +43,8 @@ adl-v2/tools/install-adl-v2.sh
     "summary": "Installer and selector integration/concurrency proof remains limited.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8",
     "route": null
   },
   {
@@ -65,12 +65,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Sign/verify adapter wiring and expanded selector integration proof remain before publication.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:a6cd915b7ff71c2ba158833f0fc52a24217c5c47:c958da011d58ab0e69b83163d1bf02d26a1a944d59b14dd6cbb6636a5263e401")
+Revision: Some("git-blake3:7c832595ff338800ea8b065c2e6c1f2a0da45919:be4429fa4c0e5c84cbe4afdcb2ef2cd76c3b0153523f6537112314d81524bbe8")
 
 Reviewer: Some("subagent:019f8611-2d02-7492-9c03-7af0fcf6662e")
 
-Result: changes_required
+Result: pass
