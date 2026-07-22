@@ -1,0 +1,13 @@
+{
+  "issue": 5624,
+  "card": "sor",
+  "expected_generation": 16,
+  "expected_digest": "b193a003292c725782962d7600fdc1895c911b209a101379d2a42501e9c38272",
+  "claim_id": "claim-5624-csdlc-prune-topology",
+  "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+  "reason": "The final exact-revision hosted-CI repair review completed with zero findings and zero blockers.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  }
+}
