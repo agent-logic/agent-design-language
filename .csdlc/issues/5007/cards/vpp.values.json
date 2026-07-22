@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5007,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][ADR] Prepare #5007 Memory Palace ADR acceptance",
+    "slug": "v0918-wp14-memory-palace-adr-acceptance-prep-5007",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "prep-doctor",
+          "proof_role": "Focused v2 state integrity check only.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-doctor",
+            "--issue",
+            "5007"
+          ],
+          "parallel_group": "prep",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed and report the exact v2 doctor or init error; do not repair outside the prep boundary.",
+      "design_ref": ".csdlc/prepared/issues/5007/design.md",
+      "design_digest": "40f57f95bf151bf2e7820542a678a7d6bc8485091e71b674758921c9b4feb710",
+      "diagram_ref": ".csdlc/prepared/issues/5007/diagram.mmd",
+      "diagram_digest": "92d473fdcd212812af73e6d47d1b007f53a2bb8b5d8b42dbcc64b5bc7a1011f8"
+    }
+  }
+}

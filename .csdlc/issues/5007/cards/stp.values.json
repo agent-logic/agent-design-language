@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5007,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "[v0.91.8][WP-14][ADR] Prepare #5007 Memory Palace ADR acceptance",
+    "slug": "v0918-wp14-memory-palace-adr-acceptance-prep-5007",
+    "version": "v0.91.8",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Preparation only: seed v2 cards, concise design and diagram, then run focused doctor.",
+      "deliverables": [
+        "Minimal six-card v2 packet for #5007.",
+        "Concise design and Mermaid diagram.",
+        "Focused csdlc-doctor result."
+      ],
+      "acceptance_criteria": [
+        "AC1: All six v2 cards exist for #5007.",
+        "AC2: Design and diagram identify the later execution boundary and #4760 proof dependency without implementation.",
+        "AC3: Focused v2 doctor is run and recorded in the handoff report."
+      ],
+      "dependencies": [
+        "#4760 complete Memory Palace implementation proof.",
+        "ADR 0051 deferred disposition.",
+        "Chronosense implementation sprint #4765 and Memory Palace temporal index proof #4768.",
+        "Long-running context continuity proof #4771.",
+        "Existing .adl/v0.91.7 task bundle for #5007.",
+        "origin/main at 79c7dccf12540863f6c038e1fd7ef45e2357a55e."
+      ],
+      "repo_inputs": [
+        ".adl/v0.91.7/tasks/issue-5007__v0-91-7-wp-14-adr-accept-memory-palace-architecture-after-complete-implementation-proof/stp.md",
+        "docs/adr/0051-chronosense-and-memory-palace-adr-disposition.md",
+        "docs/milestones/v0.91.7/WBS_v0.91.7.md",
+        "docs/milestones/v0.91.7/WP_ISSUE_WAVE_v0.91.7.yaml",
+        "docs/milestones/v0.91.7/V092_HANDOFF_v0.91.7.md"
+      ],
+      "non_goals": [
+        "Do not write an accepted ADR from planning intent alone.",
+        "Do not implement Memory Palace in this ADR issue.",
+        "Do not expand v0.92 claims beyond retained proof."
+      ]
+    }
+  }
+}

@@ -1,0 +1,6 @@
+flowchart LR
+  A["ADR 0051 deferred obligation"] --> B["#5007 ADR acceptance"]
+  C["#4760 complete proof"] --> B
+  D["Chronosense / ObsMem / runtime handoff evidence"] --> B
+  B --> E["Accepted ADR or approved blocker"]
+  E --> F["v0.92 architecture handoff"]
