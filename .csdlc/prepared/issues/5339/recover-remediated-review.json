@@ -1,0 +1,3 @@
+{
+  "issue":5339,"expected_generation":11,"expected_digest":"9379ccac1db15b0ad6fa67d3889f99dfcc6e081fca54bba473567ed5b0b17a91","claim_id":"claim-5339-v0918-wp04-preparation","actor":"codex:019f8363-51f7-7102-881c-d47e18fdfae6","reason":"Recover the stale 7edf4e67b review assignment after all findings were remediated and committed at 10f493ff7."
+}
