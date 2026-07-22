@@ -1,9 +1,15 @@
 use adl_compiler::compile;
 use adl_language::{json_schema, parse_and_validate_json, parse_and_validate_yaml};
+use adl_records::{
+    decode_envelope, sign_record, verify_envelope, InMemoryReplayGuard, Limits, Record, TrustEntry,
+    TrustPolicy,
+};
 use clap::{Parser, Subcommand};
+use ed25519_dalek::{SigningKey, VerifyingKey};
 use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File};
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
@@ -42,9 +48,17 @@ enum Command {
     },
     Sign {
         input: PathBuf,
+        #[arg(long)]
+        key_id: String,
+        #[arg(long, env = "ADL_SIGNING_KEY_HEX")]
+        key_hex: String,
     },
     Verify {
         input: PathBuf,
+        #[arg(long, env = "ADL_VERIFY_KEY_HEX")]
+        public_key_hex: String,
+        #[arg(long, default_value_t = 0)]
+        logical_time: u64,
     },
     Select {
         generation: String,
@@ -143,16 +157,76 @@ fn dispatch(command: Command) -> Result<(), String> {
             ok: true,
             result: load_selector(root.as_deref())?,
         }),
-        Command::Sign { input } => print_json(&Envelope {
-            schema: "adl.sign.v1",
-            ok: true,
-            result: digest_file(&input)?,
-        }),
-        Command::Verify { input } => print_json(&Envelope {
-            schema: "adl.verify.v1",
-            ok: true,
-            result: digest_file(&input)?,
-        }),
+        Command::Sign {
+            input,
+            key_id,
+            key_hex,
+        } => {
+            let record: Record =
+                serde_json::from_slice(&fs::read(&input).map_err(|_| "read record failed")?)
+                    .map_err(|_| "record JSON rejected")?;
+            let key_bytes = hex::decode(key_hex).map_err(|_| "signing key encoding rejected")?;
+            let key_array: [u8; 32] = key_bytes
+                .try_into()
+                .map_err(|_| "signing key length rejected")?;
+            let envelope = sign_record(
+                record,
+                &key_id,
+                &SigningKey::from_bytes(&key_array),
+                &Limits::default(),
+            )
+            .map_err(|error| error.to_string())?;
+            print_json(&Envelope {
+                schema: "adl.sign.v1",
+                ok: true,
+                result: envelope,
+            })
+        }
+        Command::Verify {
+            input,
+            public_key_hex,
+            logical_time,
+        } => {
+            let bytes = fs::read(&input).map_err(|_| "read envelope failed")?;
+            let envelope =
+                decode_envelope(&bytes, &Limits::default()).map_err(|error| error.to_string())?;
+            let key_bytes =
+                hex::decode(public_key_hex).map_err(|_| "verification key encoding rejected")?;
+            let key_array: [u8; 32] = key_bytes
+                .try_into()
+                .map_err(|_| "verification key length rejected")?;
+            let mut allowed_kinds = BTreeSet::new();
+            allowed_kinds.insert(envelope.record_kind);
+            let mut entries = BTreeMap::new();
+            entries.insert(
+                envelope.key_id.clone(),
+                TrustEntry {
+                    verifying_key: VerifyingKey::from_bytes(&key_array)
+                        .map_err(|_| "verification key rejected")?,
+                    profile_version: envelope.profile_version,
+                    allowed_kinds,
+                    not_before: 0,
+                    not_after: u64::MAX,
+                    revoked: false,
+                },
+            );
+            let policy =
+                TrustPolicy::new(entries, &Limits::default()).map_err(|error| error.to_string())?;
+            let mut guard = InMemoryReplayGuard::new(&Limits::default());
+            let record = verify_envelope(
+                &envelope,
+                &policy,
+                &mut guard,
+                logical_time,
+                &Limits::default(),
+            )
+            .map_err(|error| error.to_string())?;
+            print_json(&Envelope {
+                schema: "adl.verify.v1",
+                ok: true,
+                result: serde_json::json!({"record_kind": record.kind(), "payload_digest": envelope.payload_digest}),
+            })
+        }
         Command::Select {
             generation,
             expected_current_digest,

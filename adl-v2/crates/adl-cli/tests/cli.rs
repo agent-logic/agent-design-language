@@ -105,3 +105,50 @@ fn selector_rejects_stale_cas_and_unsupported_schema() {
         "adl.error.v1"
     );
 }
+
+#[test]
+fn sign_and_verify_delegate_to_records_contract() {
+    use ed25519_dalek::SigningKey;
+    let root = tempfile::tempdir().expect("records root");
+    let record = root.path().join("record.json");
+    fs::write(
+        &record,
+        r#"{"kind":"event","record":{"header":{"contract_version":"adl.records.v1","record_id":"r1","subject_id":"s1","sequence":1,"logical_timestamp":1,"metadata":{}},"name":"test","detail":"ok"}}"#,
+    )
+    .expect("record");
+    let key = SigningKey::from_bytes(&[7u8; 32]);
+    let key_hex = hex::encode([7u8; 32]);
+    let signed = cli()
+        .args([
+            "sign",
+            record.to_str().unwrap(),
+            "--key-id",
+            "test-key",
+            "--key-hex",
+            &key_hex,
+        ])
+        .output()
+        .expect("sign");
+    assert!(signed.status.success());
+    let envelope =
+        serde_json::from_slice::<serde_json::Value>(&signed.stdout).expect("signed JSON");
+    let envelope_path = root.path().join("envelope.json");
+    fs::write(
+        &envelope_path,
+        serde_json::to_vec(&envelope["result"]).unwrap(),
+    )
+    .expect("envelope");
+    let verified = cli()
+        .args([
+            "verify",
+            envelope_path.to_str().unwrap(),
+            "--public-key-hex",
+            &hex::encode(key.verifying_key().to_bytes()),
+        ])
+        .output()
+        .expect("verify");
+    assert!(verified.status.success());
+    let result =
+        serde_json::from_slice::<serde_json::Value>(&verified.stdout).expect("verified JSON");
+    assert_eq!(result["schema"], "adl.verify.v1");
+}
