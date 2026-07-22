@@ -3,13 +3,13 @@
   "issue": 5341,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "c2abc3f4639db9f22c08b1794d2639a7cc3316e6b33452400ea9fcdfb5dc4c9a",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "4c9e5e9aa295226604a7305d505fa7d34ac0c7cad800b075da0135247d3a9933",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "63b6a71f82247ee03eb777270c08c51d6dd88397a694e262e3aa5df4065870d7",
   "claim": {
     "id": "claim-5341-v0918-runtime-v3-adapter",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 2,
+    "generation": 4,
     "acquired_unix_seconds": 1784748073,
     "expires_unix_seconds": 1785352873,
     "heartbeat_unix_seconds": 1784748073,
@@ -27,7 +27,7 @@
   "review_assignment": {
     "reviewer": "subagent:019f8b6b-26c2-7a12-800e-e93282e34d9b",
     "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "revision": "git-blake3:78e27219f56568ff89b8dc624e55dc246d7174d8:4ae8fae1093c68b20a2e6b796b2c8fa4f907b27e7722e024b2b2030f356dbf27",
+    "revision": "git-blake3:59e7c88fbc27d309d57be735c24db16425b335dc:fa76a592896f8b867a82a605f57e6fa8bc7b43978a518a54b7b83057c76a68d4",
     "scope": [
       "adl-v2/crates/adl-runtime-v3-adapter",
       ".csdlc/issues/5341",
@@ -43,7 +43,7 @@
       ".csdlc/evidence/5341",
       ".csdlc/prepared/issues/5341"
     ],
-    "reviewed_revision": "git-blake3:78e27219f56568ff89b8dc624e55dc246d7174d8:4ae8fae1093c68b20a2e6b796b2c8fa4f907b27e7722e024b2b2030f356dbf27",
+    "reviewed_revision": "git-blake3:59e7c88fbc27d309d57be735c24db16425b335dc:fa76a592896f8b867a82a605f57e6fa8bc7b43978a518a54b7b83057c76a68d4",
     "findings": [
       {
         "id": "R-5341-01",
@@ -61,8 +61,8 @@
         "summary": "Exact-revision evidence retained pre-finalize bound state instead of current implemented state.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:59e7c88fbc27d309d57be735c24db16425b335dc:fa76a592896f8b867a82a605f57e6fa8bc7b43978a518a54b7b83057c76a68d4",
         "route": null
       },
       {
@@ -71,8 +71,8 @@
         "summary": "Conflict, saturation, and execution-failed Runtime outcome mappings lacked focused tests.",
         "actionable": true,
         "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:59e7c88fbc27d309d57be735c24db16425b335dc:fa76a592896f8b867a82a605f57e6fa8bc7b43978a518a54b7b83057c76a68d4",
         "route": null
       }
     ],
@@ -96,32 +96,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1e1338550cebb96fd725209f040a4db7da9c007a66c948086927d141f045a2a",
+      "values_digest": "1b96f5f47219a1a1a63e0e476b7174549fe692fbe0c590604364cce32a5b5c0b",
       "rendered_digest": "eca055a7389419550ca925adbe2396ad480f130f88452ab0aa1a36de72d59869",
       "ast_digest": "5a51d8348637384618858b238c992646a85b3d2f5ddaaebab000c54f1241f57a"
     },
     "stp": {
-      "values_digest": "c7b8a348584952ac154830aebf298daf56a453865b9254e433964945414c7a8c",
+      "values_digest": "15de9ea891c56ca3c4de55bb6f3e9cd6f496772cf89fa3dc673d05a5812931a2",
       "rendered_digest": "706bc6f267353a1313e56edf08a2a0aeb8d2f881d27443a92cee2deb7f390e8e",
       "ast_digest": "a8ca7aec0fdee0c4c9e6cded597197df33a1383fe8b2f18eddc30a0d17113351"
     },
     "spp": {
-      "values_digest": "e59e555759e8acf6dae620c98d6eb7d2f1f9a4b4503fd1c3ad50fa67d361c455",
+      "values_digest": "596f308414ff3f169dcd684e697188fb6c614c819ed42fc3ee1fd44cc42e3b42",
       "rendered_digest": "099624597330089a289ad0f6068c264d4076566bafb7a07da18911e6497fd3d7",
       "ast_digest": "404d61fa4797aeb2af8910bb4af94a8825a1223c73a27e17e1fa113c90593c42"
     },
     "vpp": {
-      "values_digest": "31481f12bfc9b877647ae784e810c28466aca4931ab8aee547a06beeeb04ae56",
+      "values_digest": "82262f864e026cc74aa3dc956c95b77d533427d058d76e215b736d5705207bdb",
       "rendered_digest": "857d0e8bc6975491a574af8e9ec2421ef055b825c0da9fdc521472d999dd5742",
       "ast_digest": "5fb4c57c4af3af38ce65e4303cec9d326b42cdd7b117bfd61b126779a40469b1"
     },
     "srp": {
-      "values_digest": "a76b53591c8f19a177d4c341cbecf7db0faa013abecdcd3d495c6a586f39774e",
-      "rendered_digest": "9884bc5c7e59fa3db944ee874d7da66ee1666afe48a85a62f844a9834688a590",
-      "ast_digest": "1dffaec70a98510b49979f35b95bb586ca0e74b8aedd6a8519e1abee9068f0f6"
+      "values_digest": "0ddef0dd84765d3dd6a53f0866ac0fb5d91906b39d2a99f62abcd4d282db84dc",
+      "rendered_digest": "3b98e0bb0c6ab039656615de434beb21a44c20a163994a8da2c9848c7bda5cba",
+      "ast_digest": "e08c555da59bac8be6518742a504057a422a7384dfdebccfaabfccde1f5b377c"
     },
     "sor": {
-      "values_digest": "35fa21a501d7cd3dd4c7034388bbc68cd0be3959103762cf76c60144a0046409",
+      "values_digest": "2fd07e7a1a8f18c4f5d21b5cf7851dbbf32fe2753723cd616ffbf7e0dbe33dca",
       "rendered_digest": "aadb5acc3f278bd14e9a206260dbf80836b62e555622958823fb51410dffc080",
       "ast_digest": "906f8279b734afbfc6434d5db9dcca3596846420ce88bc92ce60f4157323fd49"
     }
@@ -147,6 +147,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the single GPT-5.5 review cycle verified both actionable fixes and reported zero remaining blockers."
     }
   ],
   "audit": [
@@ -191,6 +198,27 @@
       "actor": "subagent:019f8b6b-26c2-7a12-800e-e93282e34d9b",
       "reason": "atomically record assigned review evidence and SRP projection",
       "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 2,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 3,
+      "actor": "subagent:019f8b6b-26c2-7a12-800e-e93282e34d9b",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Advance after the single GPT-5.5 review cycle verified both actionable fixes and reported zero remaining blockers.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

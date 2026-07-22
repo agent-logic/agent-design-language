@@ -47,8 +47,8 @@ adl-v2/crates/adl-runtime-v3-adapter
     "summary": "Exact-revision evidence retained pre-finalize bound state instead of current implemented state.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:59e7c88fbc27d309d57be735c24db16425b335dc:fa76a592896f8b867a82a605f57e6fa8bc7b43978a518a54b7b83057c76a68d4",
     "route": null
   },
   {
@@ -57,8 +57,8 @@ adl-v2/crates/adl-runtime-v3-adapter
     "summary": "Conflict, saturation, and execution-failed Runtime outcome mappings lacked focused tests.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:59e7c88fbc27d309d57be735c24db16425b335dc:fa76a592896f8b867a82a605f57e6fa8bc7b43978a518a54b7b83057c76a68d4",
     "route": null
   }
 ]
@@ -73,8 +73,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:78e27219f56568ff89b8dc624e55dc246d7174d8:4ae8fae1093c68b20a2e6b796b2c8fa4f907b27e7722e024b2b2030f356dbf27")
+Revision: Some("git-blake3:59e7c88fbc27d309d57be735c24db16425b335dc:fa76a592896f8b867a82a605f57e6fa8bc7b43978a518a54b7b83057c76a68d4")
 
 Reviewer: Some("subagent:019f8b6b-26c2-7a12-800e-e93282e34d9b")
 
-Result: changes_required
+Result: pass
