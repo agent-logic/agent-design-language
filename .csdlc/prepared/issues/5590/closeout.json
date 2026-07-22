@@ -1,0 +1,12 @@
+{
+  "issue": 5590,
+  "expected_generation": 19,
+  "expected_digest": "d40ce78d08dd6bef6f6c81ff4511576b8869715dc2b819dd15ed22ecf0a23676",
+  "claim_id": "claim-5590-runtime-v3-parity-d-preparation",
+  "actor": "codex:5590-sole-writer-takeover",
+  "repository": "danielbaustin/agent-design-language",
+  "pull_request": 5621,
+  "disposition": "merged",
+  "approved_no_pr_reason": null,
+  "token_file": "/Users/daniel/keys/github.token"
+}

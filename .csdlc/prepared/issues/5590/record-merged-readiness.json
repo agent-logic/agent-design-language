@@ -1,0 +1,32 @@
+{
+  "schema": "csdlc.readiness_request.v1",
+  "issue": 5590,
+  "expected_generation": 18,
+  "expected_digest": "7f2b4ff1c85938e62806565e7435666994d1d0d128d8ae931a4fec934d0fa744",
+  "claim_id": "claim-5590-runtime-v3-parity-d-preparation",
+  "actor": "codex:5590-sole-writer-takeover",
+  "pull_request": 5621,
+  "head_sha": "a79ab1b395b7331e4b6288d19effdb5fc392e39a",
+  "required_checks": [
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "require_review": false,
+  "checks": [
+    {
+      "name": "adl-ci",
+      "requirement": "required",
+      "conclusion": "success",
+      "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29928454100/job/88954866001"
+    },
+    {
+      "name": "adl-coverage",
+      "requirement": "required",
+      "conclusion": "success",
+      "details_url": "https://github.com/danielbaustin/agent-design-language/actions/runs/29928454100/job/88951814339"
+    }
+  ],
+  "review_state": "not_required",
+  "conflict_state": "clean",
+  "post_publication_findings": []
+}

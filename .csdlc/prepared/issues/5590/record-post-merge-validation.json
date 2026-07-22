@@ -1,0 +1,21 @@
+{
+  "issue": 5590,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "75b7f7014df003b0e7664e0e3acaa62e96b833f6888edd52ea006d640a13c752",
+  "claim_id": "claim-5590-runtime-v3-parity-d-preparation",
+  "actor": "codex:5590-sole-writer-takeover",
+  "reason": "Record the single required post-merge Runtime v3 operational proof at merge commit 8ba224027a7ebd410aa4596c9edce571758f8a0a.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "ADL_RUNTIME_V3_PROOF_ROOT=/Volumes/FastWork/adl-5590 CARGO_HOME=/Volumes/FastWork/adl-5590/cargo-home CARGO_TARGET_DIR=/Volumes/FastWork/adl-5590/runtime-target bash adl/tools/run_runtime_v3_operational_proof.sh"
+      ],
+      "purpose": "Prove the landed Runtime v3 Parity-D path through an external guardian, HTTPS bearer authorization, WSS discovery, operational rollback restoration, and cryptographically restored candidate and prior continuity.",
+      "outcome": "passed",
+      "evidence_ref": "merge:8ba224027a7ebd410aa4596c9edce571758f8a0a:/Volumes/FastWork/adl-5590/operational-proof.*; runtime_v3_operational_proof=pass"
+    }
+  },
+  "fail_after_backup": false
+}
