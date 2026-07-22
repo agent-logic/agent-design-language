@@ -12,11 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/5349
-.csdlc/locks/5349.lock
-.csdlc/prepared/issues/5349
-.csdlc/evidence/5349
 adl-v2/crates/adl-adapters
+.csdlc/prepared/issues/5349
 
 ## Prompts
 
@@ -30,7 +27,18 @@ adl-v2/crates/adl-adapters
 
 ## Findings
 
-[]
+[
+  {
+    "id": "WP09-R1",
+    "severity": "p1",
+    "summary": "The SOR named an aggregate validation lane that the runner did not yet expose",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:706ef96511fbdeba8f57cae096c41d0551d070fc:50404c66b91a5924a065f7c2401dbddee58c04c87c9a9fbf5b75b77acaa14ff5",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -38,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Preparation-era receipt wording remains immutable historical text but is explicitly superseded by current typed SOR, AC-1, AC-10, planning cards, design, and executable dependency gate; receipts cannot block execution, publication, or integration
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:706ef96511fbdeba8f57cae096c41d0551d070fc:50404c66b91a5924a065f7c2401dbddee58c04c87c9a9fbf5b75b77acaa14ff5")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/wp09_review")
 
-Result: pre_review
+Result: pass

@@ -3,13 +3,13 @@
   "issue": 5349,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4e26eb217e43960d3dbad13db595449f162a84223564e3cf1152670c4e4aed55",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "609c956ab8fd5f65a7f157392925512f68d76d379bcd9477814800f34a08f8d3",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "f699d5e69a7d308d1ab6682b46cfca295366fef03405eb6db49068252f102ff3",
   "claim": {
     "id": "claim-5349-v0918-wp09-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 22,
+    "generation": 24,
     "acquired_unix_seconds": 1784659955,
     "expires_unix_seconds": 1785264755,
     "heartbeat_unix_seconds": 1784659955,
@@ -24,8 +24,40 @@
     ],
     "purpose": "Prepare, review, bind, commit, and push #5349 without product implementation; product authority remains prohibited until #5340 and #5341 are merged, typed closed_out, receipt-retained, and ancestral to current origin/main"
   },
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/wp09_review",
+    "assigned_by": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+    "revision": "git-blake3:706ef96511fbdeba8f57cae096c41d0551d070fc:50404c66b91a5924a065f7c2401dbddee58c04c87c9a9fbf5b75b77acaa14ff5",
+    "scope": [
+      "adl-v2/crates/adl-adapters",
+      ".csdlc/prepared/issues/5349"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/wp09_review",
+    "scope": [
+      "adl-v2/crates/adl-adapters",
+      ".csdlc/prepared/issues/5349"
+    ],
+    "reviewed_revision": "git-blake3:706ef96511fbdeba8f57cae096c41d0551d070fc:50404c66b91a5924a065f7c2401dbddee58c04c87c9a9fbf5b75b77acaa14ff5",
+    "findings": [
+      {
+        "id": "WP09-R1",
+        "severity": "p1",
+        "summary": "The SOR named an aggregate validation lane that the runner did not yet expose",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:706ef96511fbdeba8f57cae096c41d0551d070fc:50404c66b91a5924a065f7c2401dbddee58c04c87c9a9fbf5b75b77acaa14ff5",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Preparation-era receipt wording remains immutable historical text but is explicitly superseded by current typed SOR, AC-1, AC-10, planning cards, design, and executable dependency gate; receipts cannot block execution, publication, or integration"
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6857254375bc0ace2e43ec9b37955a14ad7dd4447a573a07955639eeb8f68da4",
+      "values_digest": "0841ce192f37fea2f06d631c4593535029d5c207610cef3ec17e9baba1605ff5",
       "rendered_digest": "84b9af7794b74997fda046bf46c6a6823aa62b5b64853d951f10715f9ed751f8",
       "ast_digest": "3b9de39c3d13f80d3d05790ab24dbfa32a9339e7b417b7bc17592e90d12b486e"
     },
     "stp": {
-      "values_digest": "1b5dd9ea7f0a380f5719c26875c2d8647f7d1d64c548a34961b9b38c01e28a10",
+      "values_digest": "44005d1f024ff9fbe74245c9955045b00df537d0cddfb03152905652d9151a74",
       "rendered_digest": "0e82b33096022635ed0ffdec1a48da887db5c843de6053747cbe3b2e7e74ec40",
       "ast_digest": "261eba2941b2d1ad5c00d71e2328b43e470728c6de4d6444806209b89d4a8ce4"
     },
     "spp": {
-      "values_digest": "c3d7a8d52816b4591b2a4f0dc890fd97ae8b4c1f5b616ca25d9af99f28bf8e08",
+      "values_digest": "3368874b28888df2344600d223086c9956ba132b5c212592cbdbd152ff67499e",
       "rendered_digest": "07ec1ddb479031f4067ec770bd8027d4b440499aae10bffb902e386486c858f7",
       "ast_digest": "0217675abdf49917b5d96ed37b2f76847b8b3783b34d6de58970114134f71ded"
     },
     "vpp": {
-      "values_digest": "7d04b1dedc7ead19b614522d767a0c81dee5b1f9f8b408383262cc4920247d69",
+      "values_digest": "98944adf4e4f1df22dfd818e1482df0c04f2f3124a2591728d818abeb64d99cc",
       "rendered_digest": "1ede1d4ef9f69a1bea7df063a0677de0a35738011523e94f3e2c14dc68d4c36f",
       "ast_digest": "3683c28b26832974587cd6a631bd681c461cae355a1f8cba0918894fc08cb60f"
     },
     "srp": {
-      "values_digest": "dfd4a7c544140f89b5603bd402cf115098997a6cbebc305d2025b3e6356d4fe8",
-      "rendered_digest": "9c94a40b39f7b79bacbdf66a246895bbb228302a3d783d64078e7b7ba3c0634f",
-      "ast_digest": "7f340ec15e6f89c466813f6e43f4465814e0e6725b1a6e61902f00d7520d6e36"
+      "values_digest": "e74c4aecc2bd69b80c9abbfd3fdc9a96bf71fc6242cd5ee0908a630226002689",
+      "rendered_digest": "75adfc12fdc9b67b6433c01770a7014540d3be84b7ac776e3b81e5879d7a711c",
+      "ast_digest": "a985e7aec791b6221a0e3e676504b4db6b596da0d64256867ad7f6134baf1c9b"
     },
     "sor": {
-      "values_digest": "19254db5ee66dd63b9eafa503bccfd0463d9859ef961b50a0a2b4db044d39ca1",
+      "values_digest": "cdfee6a99c67810b93b4b25601591dac8ee41b995a119629c8c8c68bb7300833",
       "rendered_digest": "9f8618a965e6513fe5da65b961ed4d710345bd48ccaecf9164900eeda131acc4",
       "ast_digest": "5882621039f40cf47ecb2b0e02147224313ea057cc27cd449dc8831c9ee7ecde"
     }
@@ -91,6 +123,13 @@
       "to": "implemented",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Implementation and focused validation complete"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact review complete with all actionable findings fixed"
     }
   ],
   "audit": [
@@ -268,6 +307,27 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "Implementation and focused validation complete",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record assigned review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Exact review complete with all actionable findings fixed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }
