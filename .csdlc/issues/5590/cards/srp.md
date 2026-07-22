@@ -31,7 +31,18 @@ adl/tools/test_check_coverage_impact.sh
 
 ## Findings
 
-[]
+[
+  {
+    "id": "guardian-binary-coverage-selection",
+    "severity": "p1",
+    "summary": "The guardian binary path maps only to guardian library tests; it omits the binary unit test, leaving adl-runtime-guardian.rs at 0/135 under focused llvm-cov.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -43,8 +54,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:60da76bcee609930a34c1f409be7131aef75e13d:48ee173827b26195151190f46876d1f72b3a4f5b9edc0a0fe9b21ead0b507f94")
 
-Reviewer: None
+Reviewer: Some("subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a")
 
-Result: pre_review
+Result: changes_required

@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "7f35f42586ca8798ff4a072d160055489d5080931324a41137a856f7149325e7",
+  "generation": 12,
+  "digest": "39f9fe1b9ee33aaecd0e2382c775e14dc3b1b4f3057cd5b7953ac37c28398200",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 11,
+    "generation": 12,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -32,6 +32,7 @@
       "adl-runtime-kernel/tests/telemetry.rs",
       "adl-runtime/src/bin/adl-runtime-guardian.rs",
       "adl-runtime/src/guardian.rs",
+      "adl-runtime/tests/guardian_cli.rs",
       "adl/tools/check_coverage_impact.sh",
       "adl/tools/run_runtime_v3_guardian_soak.sh",
       "adl/tools/run_runtime_v3_operational_proof.sh",
@@ -56,7 +57,33 @@
       "adl/tools/test_check_coverage_impact.sh"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+    "scope": [
+      ".csdlc/issues/5590/audit.jsonl",
+      ".csdlc/issues/5590/index.json",
+      ".csdlc/prepared/issues/5590/recover-after-coverage-impact-failure.json",
+      ".csdlc/prepared/issues/5590/transition-coverage-impact-claim.json",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "reviewed_revision": "git-blake3:60da76bcee609930a34c1f409be7131aef75e13d:48ee173827b26195151190f46876d1f72b3a4f5b9edc0a0fe9b21ead0b507f94",
+    "findings": [
+      {
+        "id": "guardian-binary-coverage-selection",
+        "severity": "p1",
+        "summary": "The guardian binary path maps only to guardian library tests; it omits the binary unit test, leaving adl-runtime-guardian.rs at 0/135 under focused llvm-cov.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -71,32 +98,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "37f170d811ed6af26beba3c41a60273ebf530f7f8f8a391545528ee0654cfa89",
+      "values_digest": "6741f535d5b39ac61246c64c5f8ecdb856329941f1d2fbfba342d05ee8c34ccb",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "d27ccf6ca953399e138d25eab7d83f71c7d1c28fd405ecf16c5df169fd48012a",
+      "values_digest": "4b7d6825200abbfc951e828f633146cf6f62cadc7cce21205613eaa7c3a023de",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "a75694e6b9a87b4586bd9be7e7a46f8e4bef2ab67564700c28509545bead2d0e",
+      "values_digest": "70073f6051ec46b67d1560ab87e820e4f03e344ce00de1e433e8b4aec2d6d91a",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "9c75e2a86abc916c556efc8007d6f0b6fcc92160adfb55b894915afe38906f60",
+      "values_digest": "98a565ee9c9421df9d83c08e53d11d2e5578b414977648ff9c11833b32801ea8",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "446ea16b32251367354b40f42e148063b4e018cae3e02fa1c61b5d2430eb8a4d",
-      "rendered_digest": "10e79b075c3343807d07895b90ffdd12848872b468332f9bd69f698b7e365390",
-      "ast_digest": "458c011f5cebad7ecd15c62b5ba8f9ed376cf1be7a21d79b7008069e18f419fb"
+      "values_digest": "63cda5cdb570ffc11a9e8ec99baec8b18df94e65eec2ebd84d82f02d4e5a9825",
+      "rendered_digest": "91f9cb57c8cc570ad456af8dcd94dc50f94f100a491968fd68a9f85c6d379437",
+      "ast_digest": "15316b60c07021ba4584f90c6da73608b3250ca57d7869dd48c008396337c99b"
     },
     "sor": {
-      "values_digest": "318085736a3cd936cc82294a9c1481a893049f4e19824fb1ea8562fd0d296697",
+      "values_digest": "048c11edee384b0f3177e36379c2f5340f14a7bfa903f6e77e0230b58a92770f",
       "rendered_digest": "a7bd74bc5e0b931a51cedb15bedde9ea8bdae3f2a0672153fe8091cccdc27ab6",
       "ast_digest": "1ec5b5726d1a697d3cfa738ccdb3693d7b7641732bc310c62dd59ad1b1274686"
     }
@@ -306,6 +333,20 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 12,
+      "actor": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 12,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "Add one black-box guardian CLI integration test required to lift the newly mapped guardian binary above the changed-source coverage threshold after exact review found it at 0/135 and focused proof reached only 87/135.",
+      "operation": "{\"add_protected_paths\":[\"adl-runtime/tests/guardian_cli.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }
