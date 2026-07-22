@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-07] Implement portable records signing and trust contracts",
     "slug": "v0918-wp07-portable-records-signing-trust",
     "version": "v0.91.8",
-    "generation": 11
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
@@ -47,8 +47,8 @@
           "evidence_ref": "Exact head 081d52bdd0c073801503f2b6f0f4f9e0d4f2432e: 1039 implementation LoC; 878 test/fixture LoC; 10 records tests and 5 tamper/channel tests; schema diff, all-target tests, repeated tamper target, fmt, strict Clippy, exact COTS, dependency receipts/ancestry, scope, and claim collision checks passed on /Volumes/FastWork in 2 seconds."
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

@@ -54,11 +54,11 @@ Implemented bounded ADL v2 stable record contracts, exact canonical bytes, real 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

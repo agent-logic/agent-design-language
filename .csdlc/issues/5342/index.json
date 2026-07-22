@@ -3,13 +3,13 @@
   "issue": 5342,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "212fb29ba4dd1b21f17aa90ad19bd87f2497143204cb620d0f5699c00b26a631",
-  "phase": "reviewed",
-  "generation": 11,
-  "digest": "09cb16adb35f686a096016eeaf9b3bf25c5eec841a88ce6fdab43433f19421dd",
+  "phase": "published",
+  "generation": 12,
+  "digest": "539802dbc2166548da02f997785cfe659afcc77ef541f0e7d2d6afa30db329f2",
   "claim": {
     "id": "claim-5342-v0918-wp07-records-signing",
     "owner": "codex:5342-owner",
-    "generation": 11,
+    "generation": 12,
     "acquired_unix_seconds": 1784727950,
     "expires_unix_seconds": 1785332750,
     "heartbeat_unix_seconds": 1784727950,
@@ -47,7 +47,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5342,
+    "pull_request": 5628,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5628",
+    "base": "main",
+    "head": "codex/5342-v0918-wp07-records-signing",
+    "revision": "git-blake3:bb34c22f21b570910f9c4b1190163716df224cc3:d4d00ba5327f0ce1b81077ef8a2a81e2bfbb5df6ef46770f4419fcd36a0de6d7",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +71,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "10869cbbdf1f04181d1812f013f35f01db149ca373cf18a7090ef636d201b763",
+      "values_digest": "aa4c9484bb63cabcdf1319a3e46a90ba3e5af281544b40c808cbe8ea5deae7f0",
       "rendered_digest": "9cac2b2b36d4769996d01344b1691c33cd490ec594bd001acfaabb6dd0413867",
       "ast_digest": "24b239d8057c1a540715ead5ddcdac68ff6d3e7903d37c2301a3a3b72534ec85"
     },
     "stp": {
-      "values_digest": "cd8e2fcb4170de22eda4beb4a0214984ab1fcd9aaa48ecfd29b55beb4e3413ce",
+      "values_digest": "a9d2f35f93bce48755ed556ba1f1da212947cd921aa14d8b4fa10eb374c2999c",
       "rendered_digest": "b7982a51a91a37f3d8ccebc96e88109dda2c7019f3d3ee68340a185291cab2e0",
       "ast_digest": "ea671c1c132ac2a76f5d16832b4186506aaafb8e2501b6d6eede2955a586c375"
     },
     "spp": {
-      "values_digest": "84bfec500096e102b2ccf7ece0023bdb2a444332067890e6fcd6ad86ad0f6747",
+      "values_digest": "a532e8f255560e84bbc1ef519a268508fee7e2c7c833ec4c74b8ab07bc7f3523",
       "rendered_digest": "44cf6967639dcba61a699361dbd3fbdb6f4ac4a07d3c5a858afc18211174f006",
       "ast_digest": "85658cb208a91abab18134859a54bd6ec2b52f65a7591b1ef30e40a76d87d25d"
     },
     "vpp": {
-      "values_digest": "c36e8cbe94bd6beffb8ce7ce3f5cab977f0317f13be55604fc4dfa24a362c316",
+      "values_digest": "aa3d51c72c75a6e1d4d8553f3e1884d819748a4c632331ecb16bace98e5fe7f8",
       "rendered_digest": "14e26a30034d1b2841a6fa4253451b48c3b17fa48d08fbd76268aa8114888bef",
       "ast_digest": "357b8bcb38ab9f55561748977b3b78f4526a8a4ee4b06958760435182a7d213f"
     },
     "srp": {
-      "values_digest": "8d618451b0acc49f4f2f2881e349843b1d268bb91d5d257d3ffe65a3cc21916c",
+      "values_digest": "708aa0309ed2e1eb02ae3d030d424b2e86dab0baa9243d58067875ddeac60747",
       "rendered_digest": "62dfedf8dfe0ea45263d573b60955d1da9a42ab087ff1a282d0fa1a3ddad16db",
       "ast_digest": "bc10e132ff754546b53ff13219b1262f12c95bdbdfc0090161656405e889cbe9"
     },
     "sor": {
-      "values_digest": "26af1540e23f6f6e2b01f1be278e890ed7026216151ba0102c56a29cc38adadc",
-      "rendered_digest": "2cfddb32ac5030c96aca01474f7a60d77722b8ba4517ed4ea42d3ceb9145f172",
-      "ast_digest": "310316d183d83afc7b3420ad73e7b545906774c34fd5267b3aed850deed105b5"
+      "values_digest": "11d9016ec8617bea3b615a346c388e76905239dceb623c1c23177d9fd89fef10",
+      "rendered_digest": "3ffd2dc829f51315fae83114d3bcf69a80ff13855408018322cd561ed5fdf2e2",
+      "ast_digest": "7a5f991972b80a42d82b648c4676695fd3399fc48ac58892c08a01f5f90a59ed"
     }
   },
   "transitions": [
@@ -119,6 +129,13 @@
       "to": "reviewed",
       "actor": "codex:5342-owner",
       "reason": "The bounded exact-revision gpt-5.5 review completed with zero findings and zero blockers."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5342-owner",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -212,6 +229,13 @@
       "actor": "codex:5342-owner",
       "reason": "The bounded exact-revision gpt-5.5 review completed with zero findings and zero blockers.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:5342-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
