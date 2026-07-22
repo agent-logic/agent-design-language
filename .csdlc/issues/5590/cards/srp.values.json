@@ -7,14 +7,14 @@
     "title": "[v0.91.8][WP-14][runtime-v3][parity-d] Prove secure access, Observatory, guardian, and rollback",
     "slug": "v0-91-8-runtime-v3-parity-d-secure-operations",
     "version": "v0.91.8",
-    "generation": 13
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/5590/audit.jsonl\n.csdlc/issues/5590/index.json\n.csdlc/prepared/issues/5590/record-guardian-coverage-portability-finding.json\nadl-runtime/tests/guardian_cli.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh",
-      "review_revision": "git-blake3:c74af8bb1928075f2cb9580ffaf906f7d49c509f:175fa7171c0a07f55b9a1de2d6688cb5edb2d0d6812a380568e1dfdecf6a6221",
+      "review_revision": "git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424",
       "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
       "review_prompts": [
         "Does one init model and one Axum/rustls router truthfully cover local and remote access without hard-coded addresses or HTTP?",
@@ -27,20 +27,30 @@
       ],
       "findings": [
         {
-          "id": "guardian-cli-portability",
-          "severity": "p2",
-          "summary": "The black-box success and invalid-input cases hard-code /usr/bin/true, making the required coverage regression Unix-specific despite a cross-platform guardian.",
+          "id": "guardian-binary-coverage-selection",
+          "severity": "p1",
+          "summary": "The mapping now selects guardian library tests, the exact binary unit test, and all guardian CLI integration tests; focused llvm-cov reports 125/135 binary lines covered.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424",
+          "route": null
+        },
+        {
+          "id": "guardian-cli-portability",
+          "severity": "p2",
+          "summary": "The positive black-box proof builds and supervises a native temporary Rust executable using PATH-resolved rustc and the platform executable suffix; no Unix executable path remains.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424",
           "route": null
         }
       ],
       "residual_risk": [
         "Whole-crate all-target Clippy still reports two pre-existing cav.rs lib-test warnings outside the #5590 protected paths; focused guardian_cli Clippy passes."
       ],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }

@@ -3,13 +3,13 @@
   "issue": 5590,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "23af54704a287240d22af7ec75e979b61e6577225862d85aa2bc509d532b60b1",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "59e840eb48ef187fd63dd55770cee6c84e0623c2d97ae12a02d1553f11f6488f",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "599e2c5cda94549b52320c88fa625973d13c47ae328b2c457bac0cbab7bfd2a2",
   "claim": {
     "id": "claim-5590-runtime-v3-parity-d-preparation",
     "owner": "codex:019f828e-8480-7242-a054-1b9df00f2f17",
-    "generation": 13,
+    "generation": 15,
     "acquired_unix_seconds": 1784601952,
     "expires_unix_seconds": 1785206752,
     "heartbeat_unix_seconds": 1784601952,
@@ -57,7 +57,45 @@
       "adl/tools/test_check_coverage_impact.sh"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+    "scope": [
+      ".csdlc/issues/5590/audit.jsonl",
+      ".csdlc/issues/5590/index.json",
+      ".csdlc/prepared/issues/5590/record-guardian-coverage-portability-finding.json",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "reviewed_revision": "git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424",
+    "findings": [
+      {
+        "id": "guardian-binary-coverage-selection",
+        "severity": "p1",
+        "summary": "The mapping now selects guardian library tests, the exact binary unit test, and all guardian CLI integration tests; focused llvm-cov reports 125/135 binary lines covered.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424",
+        "route": null
+      },
+      {
+        "id": "guardian-cli-portability",
+        "severity": "p2",
+        "summary": "The positive black-box proof builds and supervises a native temporary Rust executable using PATH-resolved rustc and the platform executable suffix; no Unix executable path remains.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Whole-crate all-target Clippy still reports two pre-existing cav.rs lib-test warnings outside the #5590 protected paths; focused guardian_cli Clippy passes."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -72,32 +110,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a59ad6ca582231ed20559c8b6d446f24284352411bc0c61ea7c2596d76c4b88a",
+      "values_digest": "d455219085586c90a7ecca207c3f0edd71a5e507f6cb8a186db9cfdb6b414eef",
       "rendered_digest": "e88f17d82847eda7ebf748e6c5c0db98b6dcb4035390cd6e8e990e7d271cf925",
       "ast_digest": "cafd78c5558bddede73d9c794101793129f298be4d15bfa1dc68b8e94b94104f"
     },
     "stp": {
-      "values_digest": "bbc47453eff7081bf7a62da283feb52f83909796b9bf35bd4a13568dceef666f",
+      "values_digest": "e1c77440c9eadbdc4f65dfa747ec8a4b13bb0896684f65d8ca3f0b8eca499ce3",
       "rendered_digest": "3ce05fb3e369f9f1b6d6456f7340b025e10df76e891e73a2ba55828aa33f4a36",
       "ast_digest": "062ccdf6b207cd880685dabf22082d9d1d3b5644eb0a931e8b041091b225099e"
     },
     "spp": {
-      "values_digest": "8f2eb9d71caeddc691d7941b01d45349b2c69ac7cda9fd6dd714ce651fbd76fa",
+      "values_digest": "194ec4a08073cf100f84ba69902527de980246bb582760ac110e6d5b4bad95ab",
       "rendered_digest": "99669c02524aa94692d53473e4a79cb2efa7f8b4c28e037150268db97b2546cd",
       "ast_digest": "eca6800a4ab66571e1763a76ef7d1ad673b08d4effedb0bc3bacb21155117849"
     },
     "vpp": {
-      "values_digest": "9a191adf56596264ab6d0726392e7b407c627561ba76b223e7fa9c673906cd84",
+      "values_digest": "8948ce4f034f16903240bf2d30bb3007abd6db4021cd2c50072b40d05438973d",
       "rendered_digest": "cf314ec09a7efd878b8586f1629211c9c42136f40fe5625bdc193e099e569755",
       "ast_digest": "88550d94d71abf970d92338718154e89d69115e0e48ca926f3927d92ed06b1a7"
     },
     "srp": {
-      "values_digest": "ece5f7284da33dc54ba8a8805d62f8158ddd34fdadd53fdd984be8f6633d9fed",
-      "rendered_digest": "0ef3e2ea5ef99ec95100e9c8fc70d2212de58cc683468da7d69d8d16990d9344",
-      "ast_digest": "244c9afc69773a249951cf6af857de37fde8dacea41f50e65bab7bac276b34e6"
+      "values_digest": "fddfdf138719f69dbb3adbcc793bf9a6cf38ffcceda82b94b402f90c0391191d",
+      "rendered_digest": "e995801391e090de93127d2a29deccbeffdbd45767eff28b5c82d3d210009f6d",
+      "ast_digest": "95a05e45a4938782d79ec2ed4105045b4aefc1005d542ea2a841b94191e54e2d"
     },
     "sor": {
-      "values_digest": "9d84ec1a78b2e2ca1bf5b64745cb950ce47f197e5f63d7b559d870c69cec6d27",
+      "values_digest": "c9558e23555b7d728a7df95a39612fd296871b980b374d43db1ff73088669b7a",
       "rendered_digest": "a7bd74bc5e0b931a51cedb15bedde9ea8bdae3f2a0672153fe8091cccdc27ab6",
       "ast_digest": "1ec5b5726d1a697d3cfa738ccdb3693d7b7641732bc310c62dd59ad1b1274686"
     }
@@ -144,6 +182,13 @@
       "to": "implemented",
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "Exact-head hosted CI failed closed because the new external Runtime v3 guardian binary lacks an explicit PR-fast coverage mapping; recover review and publication truth for the bounded mapping correction."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "Exact guardian coverage remediation rereview passed with the P1 and P2 fixed and zero actionable blockers."
     }
   ],
   "audit": [
@@ -342,6 +387,20 @@
       "actor": "codex:5590-sole-writer-takeover",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 14,
+      "actor": "subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a",
+      "reason": "atomically record review evidence and SRP projection",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 15,
+      "actor": "codex:5590-sole-writer-takeover",
+      "reason": "Exact guardian coverage remediation rereview passed with the P1 and P2 fixed and zero actionable blockers.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
     }
   ]
 }

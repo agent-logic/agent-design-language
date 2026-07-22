@@ -33,13 +33,23 @@ adl/tools/test_check_coverage_impact.sh
 
 [
   {
-    "id": "guardian-cli-portability",
-    "severity": "p2",
-    "summary": "The black-box success and invalid-input cases hard-code /usr/bin/true, making the required coverage regression Unix-specific despite a cross-platform guardian.",
+    "id": "guardian-binary-coverage-selection",
+    "severity": "p1",
+    "summary": "The mapping now selects guardian library tests, the exact binary unit test, and all guardian CLI integration tests; focused llvm-cov reports 125/135 binary lines covered.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424",
+    "route": null
+  },
+  {
+    "id": "guardian-cli-portability",
+    "severity": "p2",
+    "summary": "The positive black-box proof builds and supervises a native temporary Rust executable using PATH-resolved rustc and the platform executable suffix; no Unix executable path remains.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424",
     "route": null
   }
 ]
@@ -54,8 +64,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:c74af8bb1928075f2cb9580ffaf906f7d49c509f:175fa7171c0a07f55b9a1de2d6688cb5edb2d0d6812a380568e1dfdecf6a6221")
+Revision: Some("git-blake3:1e24b7dd7131cda8fc92ca51e96084f1a723a3e1:7aa622c6bf751f95de6f80fffc44ee827f9cb45d2f2b59e129263048440d1424")
 
 Reviewer: Some("subagent:019f8692-79df-7fe0-98bd-8d42df9b5f1a")
 
-Result: changes_required
+Result: pass
