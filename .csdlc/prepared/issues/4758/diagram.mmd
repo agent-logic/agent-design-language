@@ -1,0 +1,7 @@
+flowchart TD
+  I4758["#4758 launch readiness"] --> Gate["Live #5384 merge + ancestry gate"]
+  P5335["#5335 routing context"] -. "audit only" .-> Gate
+  Gate --> Artifact["Integrated launch readiness artifact"]
+  Artifact --> Path["v0.91.8 pre-v0.92 consumption path"]
+  Receipts["Closeout receipts"] -. "audit only; non-blocking" .-> Artifact
+  Artifact -. "non-goal" .-> V092["No v0.92 implementation"]
