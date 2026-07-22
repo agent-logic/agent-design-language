@@ -4,12 +4,12 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "212fb29ba4dd1b21f17aa90ad19bd87f2497143204cb620d0f5699c00b26a631",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "f7810e8ed4ccac067b854f18b7a05cec9cc8b565dd7b48ba751727ba8d77d09f",
+  "generation": 8,
+  "digest": "d3aa31c42ed90290d70751bb03b188019af43b211629d293cb52ebc392d6766a",
   "claim": {
     "id": "claim-5342-v0918-wp07-records-signing",
     "owner": "codex:5342-owner",
-    "generation": 7,
+    "generation": 8,
     "acquired_unix_seconds": 1784727950,
     "expires_unix_seconds": 1785332750,
     "heartbeat_unix_seconds": 1784727950,
@@ -34,38 +34,38 @@
   "diagram_path": ".csdlc/prepared/issues/5342/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "subagent:codex-exec-5342-preparation",
-      "revision": "0e79cefbf643d851f720685937d03c53b09659d7b59c3716e1919a8158de89c4"
+      "reviewer": "subagent:019f8a51-f6d9-7620-beff-9c2249046612",
+      "revision": "f2ce9e258fabe98c251157f822d8da4157205ba68ede8e59e76e3e6a7706da4c"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "29117991353ab82edfb079441ed2f9b067aaaa3d32476c6abdc72d6345c0acfc",
+      "values_digest": "522ddf3f2dd4448616e2169dae9c063f385b81e3695043e4a9e222d2ac5d084a",
       "rendered_digest": "9cac2b2b36d4769996d01344b1691c33cd490ec594bd001acfaabb6dd0413867",
       "ast_digest": "24b239d8057c1a540715ead5ddcdac68ff6d3e7903d37c2301a3a3b72534ec85"
     },
     "stp": {
-      "values_digest": "0f16bf06fe898a21732b2651db59ecd7f87a46fd9eb8348d0be36834fcf5047c",
+      "values_digest": "ae1a6da450f876e9ddf1e314d60fc5303dd12fcd729c9001b4976cb17acde3bd",
       "rendered_digest": "b7982a51a91a37f3d8ccebc96e88109dda2c7019f3d3ee68340a185291cab2e0",
       "ast_digest": "ea671c1c132ac2a76f5d16832b4186506aaafb8e2501b6d6eede2955a586c375"
     },
     "spp": {
-      "values_digest": "a7d526584efd188b4143299be88e8b9f3338a6552004ed510b8b93d9f5269341",
-      "rendered_digest": "cbdfe8a6c465ee64f8545e85177dfd8cb91cc449102994628c84da0f7c510b29",
-      "ast_digest": "0f45c4df7a346d33ddb51197c827e2bbd304f979c1d144b50795b7b53c0aea20"
+      "values_digest": "e99415e3f80580a167db7d28b6111ee0de140714c55897d02a3bd3ae45e401b4",
+      "rendered_digest": "44cf6967639dcba61a699361dbd3fbdb6f4ac4a07d3c5a858afc18211174f006",
+      "ast_digest": "85658cb208a91abab18134859a54bd6ec2b52f65a7591b1ef30e40a76d87d25d"
     },
     "vpp": {
-      "values_digest": "8912b85cc8a1b9ca85d97e885510a092965d2bdbbd82c7a846a9c5333b92faf2",
+      "values_digest": "933cd3056621988d8bb340131fb31a07678006f3bb19ac4ec8d1e7964d32688e",
       "rendered_digest": "14e26a30034d1b2841a6fa4253451b48c3b17fa48d08fbd76268aa8114888bef",
       "ast_digest": "357b8bcb38ab9f55561748977b3b78f4526a8a4ee4b06958760435182a7d213f"
     },
     "srp": {
-      "values_digest": "0eaa601eedab90f224bbea634f359e659a623c66d612f06921775b08939e60a2",
+      "values_digest": "6a22ac3ce51fd65117152b34922e8af74f7fb7a81968c57347be293989503d96",
       "rendered_digest": "65464b34dcd7d09e423455cf1cd4fa83046aa20d54bbbef276dc44d3f4824a0d",
       "ast_digest": "405501ab81ff51bd2030b551cd0dd10a7bc1e70b61a005484e9f2e6fd051d2f1"
     },
     "sor": {
-      "values_digest": "3e9694f1ac6b2c8e7616f68d4838b1c029e465a0913c5b526386f9d82389457b",
+      "values_digest": "afd02ac288d13cdc21452658ed700136aaae002513617ead83f900d568c33f3c",
       "rendered_digest": "749effb775836e4b416eec245f129998ed5dc9874142a06b6fb6cb6bae2ea838",
       "ast_digest": "eb371a4cf874537425128cd2f365bd920b09df63853f330e62788ce95e4921ae"
     }
@@ -149,6 +149,13 @@
       "actor": "codex:5342-owner",
       "reason": "Complete implementation and exact FastWork proof are recorded; enter mandatory exact-revision review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "subagent:019f8a51-f6d9-7620-beff-9c2249046612",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

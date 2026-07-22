@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-07] Implement portable records signing and trust contracts",
     "slug": "v0918-wp07-portable-records-signing-trust",
     "version": "v0.91.8",
-    "generation": 7
+    "generation": 8
   },
   "status": "ready",
   "content": {
@@ -148,9 +148,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed without publication on invalid dependency/ancestry, path collision, noncanonical bytes, signature or trust bypass, schema drift, incomplete tamper/bounds/channel proof, forbidden authority, CI failure, or unsupported budget variance.",
       "design_ref": ".csdlc/prepared/issues/5342/design.md",
-      "design_digest": "0e79cefbf643d851f720685937d03c53b09659d7b59c3716e1919a8158de89c4",
+      "design_digest": "f2ce9e258fabe98c251157f822d8da4157205ba68ede8e59e76e3e6a7706da4c",
       "diagram_ref": ".csdlc/prepared/issues/5342/diagram.mmd",
-      "diagram_digest": "d30b97e26d669b0a222bdb3b75837e13a095466ede2cea15f8a4767f5603f96d"
+      "diagram_digest": "3c1ad26bfbef6eb6573b846f00ca1bd175158961cde74787d0dc4c0a0c2ca3ef"
     }
   }
 }
