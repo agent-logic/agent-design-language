@@ -15,7 +15,9 @@ use crate::publication::{
     MergedPublicationReconciliationRequest, PublicationIntent, PublicationRequest,
     ReadyPublicationReconciliationRequest, ReadyPublicationRequest, RemotePullRequest,
 };
-use crate::pvf::{ExecutionReport, ExecutionRequest, PvfManifest, ScheduleReport, ShepherdReport};
+use crate::pvf::{
+    ExecutionReport, ExecutionRequest, FinalizeRequest, PvfManifest, ScheduleReport, ShepherdReport,
+};
 use crate::readiness::{ReadinessReport, ReadinessRequest, TerminalObservation};
 use crate::review::{
     PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest, ReviewRecoveryRequest,
@@ -47,6 +49,7 @@ pub fn public_schema_bundle() -> Value {
         "doctor_report": schemars::schema_for!(DoctorReport),
         "pvf_manifest": schemars::schema_for!(PvfManifest),
         "pvf_execution_request": schemars::schema_for!(ExecutionRequest),
+        "finalize_request": schemars::schema_for!(FinalizeRequest),
         "pvf_execution_report": schemars::schema_for!(ExecutionReport),
         "scheduler_report": schemars::schema_for!(ScheduleReport),
         "shepherd_report": schemars::schema_for!(ShepherdReport),

@@ -3,7 +3,7 @@ use csdlc_v2::cards::{
     StepStatus, ValidationLane, ValidationResult,
 };
 use csdlc_v2::{
-    assign_review, closeout_issue, edit_issue, prepare_ready_publication,
+    assign_review, closeout_issue, edit_issue, prepare_publication, prepare_ready_publication,
     prepare_ready_reconciliation, record_merged_publication, record_publication, record_readiness,
     record_ready_publication, record_review, validate_ready_reconciliation_state,
     validate_ready_remote, BootstrapRequest, CardKind, Claim, ConflictState, EditRequest,
@@ -40,6 +40,63 @@ fn install_native_authority(root: &std::path::Path) {
         include_bytes!("../operator/native-card-shape.json"),
     )
     .unwrap();
+}
+
+#[test]
+fn routine_publication_prepares_and_records_ready_pr_directly() {
+    let (_temp, store, reviewed, sha) = fixture_with_validation_history_and_publication(
+        5627,
+        "Four command publication fixture",
+        "four-command-publication",
+        vec![],
+        false,
+    );
+    let request = PublicationRequest {
+        schema: "csdlc.publication_request.v1".into(),
+        issue: 5627,
+        expected_generation: reviewed.generation,
+        expected_digest: reviewed.digest,
+        claim_id: "claim".into(),
+        actor: "publisher".into(),
+        repository: "example/repo".into(),
+        base: "main".into(),
+        head: "issue-7".into(),
+        title: "Four command fixture".into(),
+        body: "Closes #5627".into(),
+        draft: false,
+        remote: "origin".into(),
+        token_file: None,
+    };
+    let intent = prepare_publication(&store, &request).expect("ready intent");
+    assert!(!intent.draft);
+    let published = record_publication(
+        &store,
+        &request,
+        &intent,
+        RemotePullRequest {
+            number: 5627,
+            url: "https://example.invalid/5627".into(),
+            repository: "example/repo".into(),
+            base: "main".into(),
+            head: "issue-7".into(),
+            title: "Four command fixture".into(),
+            body: "Closes #5627".into(),
+            draft: false,
+            state: "open".into(),
+            head_sha: sha,
+        },
+    )
+    .expect("record ready publication");
+    assert_eq!(published.phase, LifecyclePhase::Published);
+    assert!(!published.publication.as_ref().expect("publication").draft);
+    let cards = store.load_cards(5627).expect("cards");
+    let CardContent::Sor(sor) = &cards[&CardKind::Sor].content else {
+        panic!("SOR")
+    };
+    assert_eq!(
+        sor.publication_state,
+        csdlc_v2::cards::PublicationState::Ready
+    );
 }
 
 fn bootstrap_issue(

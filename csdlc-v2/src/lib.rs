@@ -33,6 +33,7 @@ pub use eligibility::{
     DeletionEligibilityRequest, DeletionEntry, DeletionManifest, DeletionReason, EntryDisposition,
 };
 pub use error::{ErrorCode, Result, V2Error};
+pub use git::shared_request_path;
 pub use lifecycle::{
     amend_claim_scope, bind_issue, heartbeat_claim, initialize_native_json, recover_claim,
     release_closed_claim, transition_active_claim, AmendClaimScopeRequest, BindRequest, BindResult,
@@ -63,8 +64,8 @@ pub use publication::{
     RemotePullRequest,
 };
 pub use pvf::{
-    classify_schedule, classify_shepherd, execute, select, ExecutionRequest, PvfManifest,
-    ScheduleInput, ShepherdInput,
+    classify_schedule, classify_shepherd, execute, finalize, select, ExecutionRequest,
+    FinalizeRequest, PvfManifest, ScheduleInput, ShepherdInput,
 };
 pub use readiness::{
     classify_readiness, closeout_issue, record_readiness, CheckConclusion, CheckObservation,

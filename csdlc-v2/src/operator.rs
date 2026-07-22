@@ -318,9 +318,21 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
             "refusing to stamp owner binaries from dirty csdlc-v2 sources",
         ));
     }
+    if destination.is_dir() {
+        let inventory = CoexistenceInventory::load()?;
+        if verify_coexistence(repo, destination, &inventory)
+            .map(|report| report.pass)
+            .unwrap_or(false)
+        {
+            return serde_json::from_slice(
+                &fs::read(destination.join("install-receipt.json")).map_err(io_error)?,
+            )
+            .map_err(Into::into);
+        }
+    }
     let target = external_cargo_target(repo)?;
     let status = std::process::Command::new("cargo")
-        .args(["build", "--manifest-path"])
+        .args(["build", "--locked", "--manifest-path"])
         .arg(&manifest_path)
         .arg("--bins")
         .env("CARGO_TARGET_DIR", &target)
