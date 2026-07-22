@@ -74,3 +74,22 @@ fn selector_select_inspect_and_rollback_are_transactional() {
         serde_json::from_slice(&rolled_back.stdout).expect("rollback error");
     assert_eq!(error["schema"], "adl.error.v1");
 }
+
+#[test]
+fn selector_rejects_stale_cas_and_unsupported_schema() {
+    let root = tempfile::tempdir().expect("selector root");
+    fs::write(
+        root.path().join("selector.json"),
+        r#"{"schema":"adl.selector.v0","current":null,"previous":null}"#,
+    )
+    .expect("selector");
+    let inspected = cli()
+        .args(["inspect", "--root", root.path().to_str().unwrap()])
+        .output()
+        .expect("inspect");
+    assert!(!inspected.status.success());
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(&inspected.stdout).unwrap()["schema"],
+        "adl.error.v1"
+    );
+}
