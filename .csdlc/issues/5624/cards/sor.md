@@ -12,19 +12,35 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Resolve terminal worktree identity canonically while preserving exact branch, topology, cleanliness, and receipt invariants.
 
 ## Artifacts
 
-- none
+- csdlc-v2/src/readiness.rs
+- csdlc-v2/tests/gate7.rs
+- csdlc-v2/tests/gate7_lifecycle.rs
+- .csdlc/evidence/5624/validation-380a9eab1.json
 
 ## Execution
 
-- none
+- Resolve literal dot to the canonical current issue worktree
+- Resolve clean repository-relative and absolute terminal worktree paths exactly
+- Reject malformed, missing, suffix-collision, wrong-checkout, wrong-branch, and dirty targets
+- Preserve terminal receipt bytes during validation
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5624/run_focused_validation.sh"
+    ],
+    "purpose": "Prove canonical prune topology, receipt immutability, the command-level issue-local worktree path, all C-SDLC v2 targets, formatting, and strict Clippy.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5624/validation-380a9eab1.json"
+  }
+]
 
 ## Integration
 
