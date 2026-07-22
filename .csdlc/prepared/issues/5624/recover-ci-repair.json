@@ -1,0 +1,8 @@
+{
+  "issue": 5624,
+  "expected_generation": 8,
+  "expected_digest": "9f6dc18ce2f09e05841a937e554b9aff6279ae0bb47b9b50917f3a66c83096d1",
+  "claim_id": "claim-5624-csdlc-prune-topology",
+  "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+  "reason": "Recover the published review after exact-head CI proved the checkout target symlink violates Gate 10A clean-source provenance."
+}

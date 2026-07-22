@@ -3,68 +3,36 @@
   "issue": 5624,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "304bc75a127522c6590ce93430b3be8b667c66b0bf3e3655403207b67290c8f5",
-  "phase": "published",
-  "generation": 8,
-  "digest": "9f6dc18ce2f09e05841a937e554b9aff6279ae0bb47b9b50917f3a66c83096d1",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "3a21bdb80ff2bc211322f05eb6b7b3eeaaeb2964f83194e60a2a2ef1d0171f4e",
   "claim": {
     "id": "claim-5624-csdlc-prune-topology",
     "owner": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
-    "generation": 8,
+    "generation": 9,
     "acquired_unix_seconds": 1784728873,
     "expires_unix_seconds": 1784815273,
     "heartbeat_unix_seconds": 1784728873,
     "branch": "codex/5624-csdlc-prune-topology",
     "worktree": ".",
     "protected_paths": [
-      "csdlc-v2/src/readiness.rs",
-      "csdlc-v2/tests/gate7.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
+      ".csdlc/evidence/5624",
       ".csdlc/issues/5624",
       ".csdlc/prepared/issues/5624",
-      ".csdlc/evidence/5624"
+      "adl/tools/run_cargo_validation.sh",
+      "adl/tools/test_run_cargo_validation.sh",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/proof.rs",
+      "csdlc-v2/src/readiness.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate7.rs",
+      "csdlc-v2/tests/gate7_lifecycle.rs"
     ],
     "purpose": "Repair guarded prune topology resolution without changing terminal evidence"
   },
-  "review_assignment": {
-    "reviewer": "subagent:codex-5624-exact-review",
-    "assigned_by": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
-    "revision": "git-blake3:e970ffa2eaa4ece145af4960bd82250fb181901e:3ce7f05bc4c2508c984fdbefa80727d2c69375f85829978105afb53c111433f4",
-    "scope": [
-      "csdlc-v2/src/readiness.rs",
-      "csdlc-v2/tests/gate7.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      ".csdlc/issues/5624",
-      ".csdlc/prepared/issues/5624",
-      ".csdlc/evidence/5624"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:codex-5624-exact-review",
-    "scope": [
-      "csdlc-v2/src/readiness.rs",
-      "csdlc-v2/tests/gate7.rs",
-      "csdlc-v2/tests/gate7_lifecycle.rs",
-      ".csdlc/issues/5624",
-      ".csdlc/prepared/issues/5624",
-      ".csdlc/evidence/5624"
-    ],
-    "reviewed_revision": "git-blake3:e970ffa2eaa4ece145af4960bd82250fb181901e:3ce7f05bc4c2508c984fdbefa80727d2c69375f85829978105afb53c111433f4",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "danielbaustin/agent-design-language",
-    "issue": 5624,
-    "pull_request": 5625,
-    "url": "https://github.com/danielbaustin/agent-design-language/pull/5625",
-    "base": "main",
-    "head": "codex/5624-csdlc-prune-topology",
-    "revision": "git-blake3:855b84dce36d4c90a763061462232d55a23b927b:d734ebb52a1fc41a7654678926a542c9bf099fc82ef5046d90932a88a1f61458",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -78,34 +46,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7296185c5363972053da45ce69ddfa86fbb122a3d2459e3ea34402046fa96ba0",
+      "values_digest": "903daff841a879da246f00df4d05688e1e5cf7718a85b4bf5f86d17848c8b81c",
       "rendered_digest": "06e5ab1be8cc7d5816ec72758e04559f7684d528bd7b46c0647bede733c57a22",
       "ast_digest": "094674ef061582ab0bcf312f027c55d3877cfc2fc61d0952750ecb201e691d86"
     },
     "stp": {
-      "values_digest": "fb9da4b866632dbb7e5ac390a161ee26e6f62f97923dffd183f78337d7178849",
+      "values_digest": "a9f8d1cb560338784e7a1bc2301175ca8602c7b99e09e8ad2a3e5bfd9d829351",
       "rendered_digest": "eebaf5f062ae8503f17e787a5637e20cd0437a0d319929cce3f45871fff97f0f",
       "ast_digest": "1230e46e7ca236a55a6d951e35884fd82b312507f9cf49b1090f995fa3faecba"
     },
     "spp": {
-      "values_digest": "44156cee065159281dac035620ceb6445e0a8405e4b1b25ae6d1cdf5f64d32ba",
+      "values_digest": "3897986d7554db53a6aa16ae27f5ec91338d8f15e92328fe83a7988682f6d17f",
       "rendered_digest": "02a13340e8e4f6f2ea9374b9dd5f07ecc531f7ae16d32fe3f1a47dd9f72ad379",
       "ast_digest": "df1bdf54aeec330351e91915758d99b1c3f77841dda23f7cc50e5cc8773a4182"
     },
     "vpp": {
-      "values_digest": "b5ca5cae7511183ba678fd78d048b16854d5d7f3e2362d391b0b378890d5cee1",
+      "values_digest": "a5da098d2e728284bf75b0720bb11c8af4325534e22c9ab27f9002f2f96296f1",
       "rendered_digest": "45f9cff3c88464d4edeff0d54ffd43a4fa96ec78056407d165d40cf98daab741",
       "ast_digest": "859e4740d233dfd2bf86a0cbc3cd81d5d4a158bc4754f3cf37587c79f646519e"
     },
     "srp": {
-      "values_digest": "1d51479095e208451f0b7bc3cabea8d3f5c98a69bff253c08faed8ee07e8da96",
-      "rendered_digest": "5f9298185eb683b53311e7d1ea1468dede5799849082e2502173070440a3790c",
-      "ast_digest": "a636a09755a9328b632226a838642a83f106db4b1b1dfda0d7d5eeb9bb7311b6"
+      "values_digest": "456322c2a7f623c8b3c691f0a922556a57ed4d0e087c2f23f14a678324000909",
+      "rendered_digest": "a5a78a470a414120d9decf81bcce8bac7da4ff8ae1700bf58af278b18c9309e0",
+      "ast_digest": "0db995696113421ef2853a2dc7f24fa4493f5011b324c8af4e15867a608372de"
     },
     "sor": {
-      "values_digest": "7b87ec6adfcb327478d31b39ec9e70d66034dee7e9f5b3f7809602295147282b",
-      "rendered_digest": "f5182d41433e3ac73fef2e0b0e0b275a4de4d84a682c86080e486f6bfb99250e",
-      "ast_digest": "780ea0296bb885db8dbb2be249bd5ff18c842d9886a62e6cfb1837b9eff8ef69"
+      "values_digest": "157aff9c4a8d523b9887f2a93fffb544748d4af1614630c7e42fdf0da42d7979",
+      "rendered_digest": "3bb91ffbc153978f174d147086430c5f7b9f7e7a0ced249b514a9dbc81c6ee45",
+      "ast_digest": "fc1d2c391f3ba21f8574ba30131a97b9727595b67b48819905be38fc731ddc05"
     }
   },
   "transitions": [
@@ -143,6 +111,13 @@
       "to": "published",
       "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "Recover the published review after exact-head CI proved the checkout target symlink violates Gate 10A clean-source provenance."
     }
   ],
   "audit": [
@@ -222,6 +197,20 @@
       "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
       "reason": "record exact existing PR ready-for-review after remote success",
       "operation": "record_ready_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "Recover the published review after exact-head CI proved the checkout target symlink violates Gate 10A clean-source provenance.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+      "reason": "Operator-authorized exact causal CI repair: remove checkout target symlink and validate external installer target provenance directly.",
+      "operation": "{\"add_protected_paths\":[\"adl/tools/run_cargo_validation.sh\",\"adl/tools/test_run_cargo_validation.sh\",\"csdlc-v2/src/proof.rs\",\"csdlc-v2/src/operator.rs\",\"csdlc-v2/tests/gate10a.rs\"],\"operation\":\"amend_claim_scope\"}"
     }
   ]
 }

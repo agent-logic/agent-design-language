@@ -27,11 +27,9 @@ output="$(ADL_FASTWORK_ROOT="$fallback" bash "$WRAPPER" "$fake")"
 grep -Fx "$fallback/cargo-home" <<<"$output" >/dev/null
 grep -Fx "$fallback/cargo-target" <<<"$output" >/dev/null
 
-rm -f "$ROOT_DIR/csdlc-v2/target"
 ADL_CARGO_BUILD_ROOT="$explicit" bash "$WRAPPER" "$fake" --manifest-path csdlc-v2/Cargo.toml >/dev/null
-[[ -L "$ROOT_DIR/csdlc-v2/target" ]]
-[[ "$(cd "$ROOT_DIR/csdlc-v2/target" && pwd -P)" == "$explicit/cargo-target" ]]
-rm -f "$ROOT_DIR/csdlc-v2/target"
+[[ ! -e "$ROOT_DIR/csdlc-v2/target" ]]
+[[ ! -L "$ROOT_DIR/csdlc-v2/target" ]]
 
 if ADL_CARGO_BUILD_ROOT="$ROOT_DIR" bash "$WRAPPER" "$fake" >/dev/null 2>&1; then
   echo "repo-local build root was accepted" >&2

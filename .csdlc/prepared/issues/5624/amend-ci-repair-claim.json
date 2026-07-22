@@ -1,0 +1,16 @@
+{
+  "issue": 5624,
+  "claim_id": "claim-5624-csdlc-prune-topology",
+  "expected_generation": 9,
+  "expected_digest": "6618a736f481d6d136139a333177591e301113a3f525f5cf11bef792df954fd6",
+  "now_unix_seconds": 1784730848,
+  "actor": "codex:019f8a1b-1c34-7960-8535-6624e0be29f6",
+  "reason": "Operator-authorized exact causal CI repair: remove checkout target symlink and validate external installer target provenance directly.",
+  "add_protected_paths": [
+    "adl/tools/run_cargo_validation.sh",
+    "adl/tools/test_run_cargo_validation.sh",
+    "csdlc-v2/src/proof.rs",
+    "csdlc-v2/src/operator.rs",
+    "csdlc-v2/tests/gate10a.rs"
+  ]
+}
