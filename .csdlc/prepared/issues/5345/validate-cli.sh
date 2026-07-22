@@ -35,7 +35,7 @@ case "$mode" in
     ;;
   install-selector)
     bash "$root/adl-v2/tools/install-adl-v2.sh" --test-root "$target/install-root"
-    cargo test --locked --manifest-path "$manifest" --test selector_transaction
+    cargo test --locked --manifest-path "$manifest" --test cli selector_select_inspect_and_rollback_are_transactional
     ;;
   *)
     printf 'usage: %s focused|quality|budgets|install-selector|post-merge\n' "$0" >&2
