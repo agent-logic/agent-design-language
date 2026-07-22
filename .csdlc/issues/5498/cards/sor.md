@@ -64,11 +64,11 @@ Implemented the bounded async workcell task adapter and resolved all review find
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

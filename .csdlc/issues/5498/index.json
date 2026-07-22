@@ -3,13 +3,13 @@
   "issue": 5498,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "5641d1b95d616b80f136aa634bd62c0690db925d85c3841f15df8b666fe5c66c",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "214dac410ebd04ddc66f01ee6a24687b79e6b5e60cbf3c67b7b8f3b6547983ea",
+  "phase": "published",
+  "generation": 15,
+  "digest": "a5aa1fb30e5eec263ac58c8a3e13780256d25edf627cd3523d91e49bf3f2f41a",
   "claim": {
     "id": "claim-5498-v0918-wp10a-task-context-adapter-preparation",
     "owner": "codex:issue-5498-preparation",
-    "generation": 13,
+    "generation": 15,
     "acquired_unix_seconds": 1784664000,
     "expires_unix_seconds": 1785268800,
     "heartbeat_unix_seconds": 1784664000,
@@ -54,7 +54,17 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "danielbaustin/agent-design-language",
+    "issue": 5498,
+    "pull_request": 5639,
+    "url": "https://github.com/danielbaustin/agent-design-language/pull/5639",
+    "base": "main",
+    "head": "codex/5498-v0918-wp10a-task-context-adapter",
+    "revision": "git-blake3:8116d35879ea3f16b703a9276de5e997dac90d04:9356f4f060638d7c0ed5ba0afb7d69ae1915868b241ddc23b415c1b026af5f5c",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +78,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5bb822583ad3e903929390eaa5dd57949ffe6ddda5f616d2a57f87ce08d9b22a",
+      "values_digest": "9da44c9db28816dc304aae5bdaa8230ff54305bc55f1d1dca325f066176269d4",
       "rendered_digest": "84b9472e603fcd50fa8a16349d2fcc29ec3c222d4984014d4892d4cc7615860c",
       "ast_digest": "9baff1a2e7a8e51985a71b84bba94830a0678f76a5d2da9dc7195b7fc980bc88"
     },
     "stp": {
-      "values_digest": "2cd5ece336535e947f94c8863eb19d2202ae9c08c974c7dd9e765119f94e12bd",
+      "values_digest": "aa39dc0745a4658ca5750bc9b1b28cf8e9e9c309192095aa464b753714620458",
       "rendered_digest": "52e790e85a5a3cf5d652faac7dd9e013583db459437e3b189977874e6d5fa5ed",
       "ast_digest": "cba5cb2d68414f978a2a67a7fec1c2891d4be60d37ee9d68ccdd4856a06f58c7"
     },
     "spp": {
-      "values_digest": "0091014c608230169e59ffc7666291c76a3dbf3ec27f688772e36d6a778380e3",
+      "values_digest": "6b30a4ced3965341021f9aa98c2ea5dfc174b48e6c1cacd81c12350263055ebc",
       "rendered_digest": "d90089838d31073f3eb8c39cfc2a4ae27b124e0d449fd9b5a93ffad4b531fa58",
       "ast_digest": "563daa6ce257ea1ba9cf9f835271ad7242bb0c3c8b22fa21214a205f8850a90e"
     },
     "vpp": {
-      "values_digest": "1862f1f971e1851452c14d5a5954e383f098bccf553b565b40e3ea9e02dec685",
+      "values_digest": "73032869516271ca151a27d0f4bf510406fd69df56bf4a71cdf14c19a1f4bf07",
       "rendered_digest": "110997c01b169e65db102ef5a504d25b9e25d7952b07a0d6d13ba467c9cb24b3",
       "ast_digest": "38d54c82690f9bfb38f60a42d962c860fde39037eb532470cfc6301ac49681fd"
     },
     "srp": {
-      "values_digest": "e23a5038a817dfc4fdb48e86e681e4872e2ff7a60732d920bae5d408d47e88a7",
+      "values_digest": "12f2e21a4055a7c3738fdd29f05c1d4af486ab18e396601f4da7d022c1a4c9e0",
       "rendered_digest": "e5a65fc6f60df3ab55401a1fa53626c62a47e24e00ffe11598db73c59d6bd578",
       "ast_digest": "fe82ec0bc51585cd06d1a3108b9226add2e596036752944615321ec31c340ee5"
     },
     "sor": {
-      "values_digest": "5dd1c52a4173daedb46d8fc83c1ec50168224985384f23402e1019231952fae3",
-      "rendered_digest": "6d131a25725199c4587674861d6ac93fdc123b96c6574a95fc61c9e23115b0a2",
-      "ast_digest": "0fa8c29942fbc2552454b425cafbd350b69d24d620ecb651e0c198002eea825a"
+      "values_digest": "4a59e6098da20a85fcc870630df92196ec6e84289d187aa96ea555dc11cc7f0a",
+      "rendered_digest": "6c459654d3c6edbd39f0381b1c5ab4eb853ee2fc1e59dc85b6c3bc06c7acd1bc",
+      "ast_digest": "616c060f6f9b2c360999c292251ce4bc61280d6cd923614e99708b4d13f3d99d"
     }
   },
   "transitions": [
@@ -126,6 +136,13 @@
       "to": "reviewed",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The single bounded pre-PR review cycle is complete with zero actionable findings at the exact final product and validation revision."
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -275,6 +292,20 @@
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "The single bounded pre-PR review cycle is complete with zero actionable findings at the exact final product and validation revision.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"reviewed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "record exact existing PR ready-for-review after remote success",
+      "operation": "record_ready_publication"
     }
   ]
 }
