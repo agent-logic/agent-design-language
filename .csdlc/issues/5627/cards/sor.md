@@ -66,6 +66,20 @@ Implemented the four-command C-SDLC v2 routine lifecycle: atomic validation fina
     "purpose": "Run strict all-target Clippy with warnings denied.",
     "outcome": "passed",
     "evidence_ref": "csdlc-v2-strict-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate10a"
+    ],
+    "purpose": "Prove installer provenance, tamper rejection, stable binary execution, and that CI tests reuse prebuilt artifacts without nested Cargo builds.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5627/ci-repair.json"
   }
 ]
 
