@@ -220,7 +220,6 @@ fn untracked_build_input_is_rejected_before_cargo_runs() {
 
 #[test]
 fn freshly_installed_stable_edit_binary_is_executable() {
-    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
     let parent = tempfile::tempdir().unwrap();
     let destination = parent.path().join("csdlc-v2");
     install_binaries(prebuilt_binaries(), &destination).unwrap();
@@ -518,10 +517,16 @@ fn prebuilt_binaries() -> &'static std::path::Path {
 }
 
 fn stamp_current_revision(repo: &std::path::Path, bins: &std::path::Path) {
-    let revision = git(repo, &["rev-parse", "HEAD"]);
+    let output = Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .current_dir(repo)
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    let revision = String::from_utf8(output.stdout).unwrap();
     let receipt_path = bins.join("install-receipt.json");
     let mut receipt: serde_json::Value =
         serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
-    receipt["source_revision"] = serde_json::Value::String(format!("git:{revision}"));
+    receipt["source_revision"] = serde_json::Value::String(format!("git:{}", revision.trim()));
     fs::write(receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
 }
