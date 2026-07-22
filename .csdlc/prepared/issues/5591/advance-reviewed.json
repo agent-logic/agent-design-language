@@ -1,0 +1,14 @@
+{
+  "issue": 5591,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "9629fc3ed72f01f7f4367dec155b708967f594f7d49b7b89b038e54dbf120b7b",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+  "reason": "Independent exact-product rereview passed with no findings; retain the fixed-port SIGTERM test limitation as residual risk.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "reviewed"
+  },
+  "fail_after_backup": false
+}

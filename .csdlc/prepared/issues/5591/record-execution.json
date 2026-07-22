@@ -1,0 +1,29 @@
+{
+  "issue": 5591,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "28fc81b10ca7ed6df449e2e58eb6c5b7030c87820dd9d9e347a741b78c5243b3",
+  "claim_id": "claim-5591-runtime-v3-parity-a-preparation",
+  "actor": "codex:019f82b8-b56d-7b31-ada3-cefa7eebf057",
+  "reason": "Record the completed bounded Parity-A implementation before exact-revision review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented canonical Runtime v3 ingress, deterministic execution and replay continuity, and graceful terminal serialization without Runtime v2 or AWS.",
+    "changes": [
+      "Route signed Execute capability through bounded canonical Runtime v3 components and deterministic results",
+      "Persist signed checkpoints and restore fresh-runtime sequence and duplicate-safe replay continuity",
+      "Close admission and drain accepted work before terminal checkpoint serialization",
+      "Keep governed provider and cloud-bridge operations behind permit-authoritative operational APIs",
+      "Prevent pressure recovery from reopening admission after a signed terminal action is reserved",
+      "Keep unsupported and failed dispatch retries deterministic without advancing accepted state"
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs"
+    ]
+  }
+}
