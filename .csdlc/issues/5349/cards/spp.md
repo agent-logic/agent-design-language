@@ -28,7 +28,7 @@ Revision 7
       "AC-1",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -40,7 +40,7 @@ Revision 7
       "AC-11",
       "AC-12"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -52,7 +52,7 @@ Revision 7
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -64,7 +64,7 @@ Revision 7
       "AC-8",
       "AC-12"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",
@@ -81,7 +81,7 @@ Revision 7
       "AC-11",
       "AC-12"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S6",

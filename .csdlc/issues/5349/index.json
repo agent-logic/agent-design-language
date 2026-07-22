@@ -3,13 +3,13 @@
   "issue": 5349,
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "4e26eb217e43960d3dbad13db595449f162a84223564e3cf1152670c4e4aed55",
-  "phase": "bound",
-  "generation": 14,
-  "digest": "c62d1ef9620cd5bb309b6bc527e7bf9e283b54e783db620395f28726ba93623e",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "609c956ab8fd5f65a7f157392925512f68d76d379bcd9477814800f34a08f8d3",
   "claim": {
     "id": "claim-5349-v0918-wp09-preparation",
     "owner": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
-    "generation": 14,
+    "generation": 22,
     "acquired_unix_seconds": 1784659955,
     "expires_unix_seconds": 1785264755,
     "heartbeat_unix_seconds": 1784659955,
@@ -40,34 +40,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0c8b526dd90668be54e6597e5ee424435d71aa210309371e2b6de071477d9e3e",
+      "values_digest": "6857254375bc0ace2e43ec9b37955a14ad7dd4447a573a07955639eeb8f68da4",
       "rendered_digest": "84b9af7794b74997fda046bf46c6a6823aa62b5b64853d951f10715f9ed751f8",
       "ast_digest": "3b9de39c3d13f80d3d05790ab24dbfa32a9339e7b417b7bc17592e90d12b486e"
     },
     "stp": {
-      "values_digest": "c4e3e17d406aee352b56fc11fd32342639fcff7ce5f4d02ea628f15b442dc95b",
+      "values_digest": "1b5dd9ea7f0a380f5719c26875c2d8647f7d1d64c548a34961b9b38c01e28a10",
       "rendered_digest": "0e82b33096022635ed0ffdec1a48da887db5c843de6053747cbe3b2e7e74ec40",
       "ast_digest": "261eba2941b2d1ad5c00d71e2328b43e470728c6de4d6444806209b89d4a8ce4"
     },
     "spp": {
-      "values_digest": "d7e2fb73c6ffab37483292505369440475d30eb151d0d9579a0dc0e8f38a3f8d",
-      "rendered_digest": "5b9a0062badb777a0463af8b20d505dc7bf09f8d270ef123d82c3ff2d9306282",
-      "ast_digest": "f92dd85cdf414c46b68c6362916c38aee2f2d4a932c67a8b46f00187a4b5979e"
+      "values_digest": "c3d7a8d52816b4591b2a4f0dc890fd97ae8b4c1f5b616ca25d9af99f28bf8e08",
+      "rendered_digest": "07ec1ddb479031f4067ec770bd8027d4b440499aae10bffb902e386486c858f7",
+      "ast_digest": "0217675abdf49917b5d96ed37b2f76847b8b3783b34d6de58970114134f71ded"
     },
     "vpp": {
-      "values_digest": "92dd472affe101322c427a5b3f0769468c8c2b637123a69f55d3ce67b1f5b470",
+      "values_digest": "7d04b1dedc7ead19b614522d767a0c81dee5b1f9f8b408383262cc4920247d69",
       "rendered_digest": "1ede1d4ef9f69a1bea7df063a0677de0a35738011523e94f3e2c14dc68d4c36f",
       "ast_digest": "3683c28b26832974587cd6a631bd681c461cae355a1f8cba0918894fc08cb60f"
     },
     "srp": {
-      "values_digest": "873be8096195688932f5024ad4b5ff5a69361af95bb7f1af455c28b381eb1e53",
+      "values_digest": "dfd4a7c544140f89b5603bd402cf115098997a6cbebc305d2025b3e6356d4fe8",
       "rendered_digest": "9c94a40b39f7b79bacbdf66a246895bbb228302a3d783d64078e7b7ba3c0634f",
       "ast_digest": "7f340ec15e6f89c466813f6e43f4465814e0e6725b1a6e61902f00d7520d6e36"
     },
     "sor": {
-      "values_digest": "d3cda55a6a038386a66e3058937db128ba3cded584520a4de2aa47e334087420",
-      "rendered_digest": "0f38c06865bd544de3b7c1655c606cb40f74c8e6d623a3ade7c989754f1fbac0",
-      "ast_digest": "55faf5377f0e1c551a48ab959d193ae1d739d0b42dcd01d1a0d5e8955f7a5c27"
+      "values_digest": "19254db5ee66dd63b9eafa503bccfd0463d9859ef961b50a0a2b4db044d39ca1",
+      "rendered_digest": "9f8618a965e6513fe5da65b961ed4d710345bd48ccaecf9164900eeda131acc4",
+      "ast_digest": "5882621039f40cf47ecb2b0e02147224313ea057cc27cd449dc8831c9ee7ecde"
     }
   },
   "transitions": [
@@ -84,6 +84,13 @@
       "to": "bound",
       "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
       "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Implementation and focused validation complete"
     }
   ],
   "audit": [
@@ -205,6 +212,62 @@
       "actor": "codex:019f5fb7-49dd-7c20-a4c2-bfc357306061",
       "reason": "Replace stale receipt-blocking invariants with source-interface and non-blocking audit truth.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"product code and product-path claims require the WP-06 engine and WP-07 record source interfaces plus typed claim scope; receipts never block execution\",\"root main remains clean/read-only and every #5349 mutation stays in the dedicated FastWork worktree\",\"one admitted invocation yields one bounded adapter outcome with no adapter-owned retry, scheduling, policy, signing, supervision, or lifecycle action\",\"identical canonical mock input and observed HTTP/tool response yield identical normalized records and error classifications\",\"authorization can only be preserved or reduced; adapters cannot mint, widen, or infer authority\",\"secrets are never serializable, printable, retained, or used as request identity\",\"no Runtime v2, incumbent source, AWS, provider SDK, shell, dynamic loading, database, alternate TLS/HTTP stack, shared manifest, or sibling-owner path\",\"no credentialed/live-provider claim belongs to parent deterministic acceptance\",\"every acceptance claim is exact-revision, locally FastWork-proven, reviewed, CI-green, integrated, and post-merge-validated; receipts remain non-blocking audit evidence\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Complete verified WP-09 plan step S1",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Complete verified WP-09 plan step S2",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Complete verified WP-09 plan step S3",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Complete verified WP-09 plan step S4",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Complete verified WP-09 plan step S5",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record bounded WP-09 implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented deterministic provider and governed-tool adapters; receipts are non-blocking audit evidence and never an execution gate.\",\"changes\":[\"Added deterministic scripted mock adapter\",\"Added bounded permit-authorized HTTPS adapter\",\"Added verified governed-tool adapter\",\"Added explicit lossless compatibility adapter\",\"Added focused dependency, security, budget, and exact-behavior proof\"],\"artifacts\":[\"adl-v2/crates/adl-adapters\",\".csdlc/prepared/issues/5349\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Record complete WP-09 validation matrix",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5349/run_validation_lane.rb\",\"all\"],\"purpose\":\"Prove dependency/source readiness, all adapter behavior, secret and authority boundaries, strict quality, and inventory at the implementation revision without consulting receipts\",\"outcome\":\"passed\",\"evidence_ref\":\"local FastWork matrix: 54 tests; source_lines=555; test_lines=761; largest_module=285; all required lanes passed\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex:019f4b3e-6c61-7653-957b-7a2a6042a80d",
+      "reason": "Implementation and focused validation complete",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
