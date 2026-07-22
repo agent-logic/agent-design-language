@@ -50,7 +50,17 @@ Implemented the bounded async workcell task adapter and resolved all review find
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/5498/validate-task-adapter.sh"
+    ],
+    "purpose": "Prove authority confinement, idempotency, task-level cancellation serialization, terminal replay and caching, bounded secret-safe evidence, timeout ambiguity, dependency readiness, formatting, and budget compliance.",
+    "outcome": "passed",
+    "evidence_ref": "FastWork: 15/15 focused tests passed; strict all-target Clippy, cargo fmt --check, dependency gate, and git diff --check passed; implementation and tests remain below 2,500 LoC each."
+  }
+]
 
 ## Integration
 

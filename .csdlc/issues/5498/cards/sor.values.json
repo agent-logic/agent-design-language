@@ -7,7 +7,7 @@
     "title": "[v0.91.8][WP-10A][multi-agent] Implement bounded Codex task and context-handoff adapter",
     "slug": "v0-91-8-wp-10a-bounded-codex-task-context-handoff-adapter",
     "version": "v0.91.8",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
@@ -46,7 +46,17 @@
         "adl-v2/Cargo.toml",
         "adl-v2/Cargo.lock"
       ],
-      "actual_validation": [],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/5498/validate-task-adapter.sh"
+          ],
+          "purpose": "Prove authority confinement, idempotency, task-level cancellation serialization, terminal replay and caching, bounded secret-safe evidence, timeout ambiguity, dependency readiness, formatting, and budget compliance.",
+          "outcome": "passed",
+          "evidence_ref": "FastWork: 15/15 focused tests passed; strict all-target Clippy, cargo fmt --check, dependency gate, and git diff --check passed; implementation and tests remain below 2,500 LoC each."
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
